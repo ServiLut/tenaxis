@@ -1,0 +1,1447 @@
+generator client {
+  provider        = "prisma-client"
+  output          = "../src/generated/client"
+  previewFeatures = ["multiSchema"]
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+// ============================================================================
+// CAPA GLOBAL: Autenticación y Usuarios
+// ============================================================================
+
+model User {
+  id        String   @id @default(uuid()) @db.Uuid
+  email     String   @unique
+  password  String
+  nombre    String
+  apellido  String
+  telefono  String?
+
+  tipoDocumento    String?
+  numeroDocumento  String?  @unique
+
+  isActive  Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Relaciones globales
+  memberships        TenantMembership[]
+  sessions           AuthSession[]
+  resetTokens        PasswordResetToken[]
+
+  @@map("users")
+}
+
+// ============================================================================
+// CAPA TENANT: Organización Principal (Cliente del SaaS)
+// ============================================================================
+
+model Tenant {
+  id        String   @id @default(uuid()) @db.Uuid
+  nombre    String
+  slug      String   @unique
+
+  correo    String?
+  nit       String?
+  numero    String?
+  pagina    String?
+
+  isActive  Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Relaciones de tenant
+  memberships         TenantMembership[]
+  subscription        Subscription?
+  empresas            Empresa[]
+
+  // Aislamiento Multitenant: Relaciones explícitas para validación y RLS
+  empresaMemberships  EmpresaMembership[]
+  orgNodes            OrganizationNode[]
+  commissions         CommissionRecord[]
+  clientes            Cliente[]
+  vehiculos           Vehiculo[]
+  direcciones         Direccion[]
+  servicios           Servicio[]
+  ordenesServicio     OrdenServicio[]
+  geolocalizaciones   Geolocalizacion[]
+  nominas             Nomina[]
+  nominaDetalles      NominaDetalle[]
+  citasPsicologos     CitasPsicologos[]
+  consultorios        Consultorio[]
+  terapiasPsicologos  TerapiasPsicologos[]
+  paquetesAdquiridos  PaqueteAdquirido[]
+  turnos              Turno[]
+  cuentasCobro        CuentaCobro[]
+  declaraciones       DeclaracionEfectivo[]
+  consignaciones      ConsignacionEfectivo[]
+  consignacionOrdenes ConsignacionOrden[]
+  anticipos           Anticipos[]
+  productosSolicitados ProductoSolicitado[]
+  permisos            Permiso[]
+  configuracionPagos  ConfiguracionPagos[]
+  cuentasPago         CuentasPago[]
+  egresos             Egresos[]
+  referidos           Referidos[]
+  sesionesActividad   SesionActividad[]
+  auditorias          Auditoria[]
+  logsEvento          LogEvento[]
+
+  // Configuración de tenant
+  zonas               Zona[]
+  metodosPago         MetodoPago[]
+  estadosServicio     EstadoServicio[]
+  tiposServicio       TipoServicio[]
+  picoPlaca           PicoPlaca[]
+  proveedores         Proveedores[]
+  productos           Producto[]
+
+  @@map("tenants")
+}
+
+// ============================================================================
+// PLANES Y SUSCRIPCIONES
+// ============================================================================
+
+model Plan {
+  id              String   @id @default(uuid()) @db.Uuid
+  nombre          String
+  descripcion     String?
+  durationDays    Int
+  maxUsers        Int
+  maxOperators    Int
+  maxEmpresas     Int
+  price           Decimal  @db.Decimal(12,2)
+  isActive        Boolean  @default(true)
+
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  subscriptions   Subscription[]
+
+  @@map("plans")
+}
+
+model Subscription {
+  id         String  @id @default(uuid()) @db.Uuid
+  tenantId   String  @unique @db.Uuid
+  planId     String  @db.Uuid
+
+  startDate  DateTime
+  endDate    DateTime
+  graceUntil DateTime?
+
+  status     SubscriptionStatus @default(ACTIVE)
+  blocked    Boolean  @default(false)
+
+  autoRenew  Boolean  @default(false)
+  lastPaymentDate    DateTime?
+  nextReminderDate   DateTime?
+
+  tenant Tenant @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  plan   Plan   @relation(fields: [planId], references: [id])
+
+  @@index([tenantId])
+  @@index([status])
+  @@index([endDate])
+  @@map("subscriptions")
+}
+
+// ============================================================================
+// MEMBRESÍA: Vincula User Global con Tenant
+// ============================================================================
+
+model TenantMembership {
+  id        String   @id @default(uuid()) @db.Uuid
+  userId    String   @db.Uuid
+  tenantId  String   @db.Uuid
+
+  role      Role
+  status    MembershipStatus @default(ACTIVE)
+
+  username           String?
+  activo             Boolean  @default(true)
+  aprobado           Boolean  @default(false)
+  numberId           String?
+  whatsappGroupId    String?
+  pushToken          String?
+
+  placa              String?
+  moto               Boolean?
+  codigoReferido     String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  tenant Tenant @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+
+  empresaMemberships EmpresaMembership[]
+
+  anticipos                      Anticipos[]
+  citasComoCreador               CitasPsicologos[]              @relation("CitasCreadoPor")
+  citasComoPsicologo             CitasPsicologos[]              @relation("CitasPsicologo")
+  configuracionPagos             ConfiguracionPagos[]
+  consignacionesCreadas          ConsignacionEfectivo[]         @relation("ConsignacionCreador")
+  consignacionesTecnico          ConsignacionEfectivo[]         @relation("ConsignacionTecnico")
+  cuentasCobro                   CuentaCobro[]
+  cuentasPago                    CuentasPago[]
+  declaracionesEfectivo          DeclaracionEfectivo[]
+  egresos                        Egresos[]
+  geolocalizaciones              Geolocalizacion[]
+  nominas                        Nomina[]
+  serviciosCreados               OrdenServicio[]                @relation("ServiciosCreados")
+  serviciosAsignados             OrdenServicio[]                @relation("ServiciosAsignados")
+  paquetesAdquiridos             PaqueteAdquirido[]
+  permisosAprobados              Permiso[]                      @relation("PermisosAprobados")
+  permisosSolicitados            Permiso[]                      @relation("PermisosSolicitados")
+  productosSolicitados           ProductoSolicitado[]
+  referidos                      Referidos[]
+  sesionesActividad              SesionActividad[]
+  turnos                         Turno[]
+  clientesCreados                Cliente[]
+  auditorias                     Auditoria[]
+
+  @@unique([userId, tenantId])
+  @@index([tenantId])
+  @@index([role])
+  @@map("tenant_memberships")
+}
+
+// ============================================================================
+// EMPRESAS: Múltiples empresas por Tenant
+// ============================================================================
+
+model Empresa {
+  id        String   @id @default(uuid()) @db.Uuid
+  tenantId  String   @db.Uuid
+  nombre    String
+  estado    Boolean  @default(true)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  tenant Tenant @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+
+  memberships         EmpresaMembership[]
+  orgNodes            OrganizationNode[]
+  commissions         CommissionRecord[]
+  clientes            Cliente[]
+  vehiculos           Vehiculo[]
+  direcciones         Direccion[]
+  servicios           Servicio[]
+  ordenesServicio     OrdenServicio[]
+  citasPsicologos     CitasPsicologos[]
+  consultorios        Consultorio[]
+  terapiasPsicologos  TerapiasPsicologos[]
+  paquetesAdquiridos  PaqueteAdquirido[]
+  nominas             Nomina[]
+  nominaDetalles      NominaDetalle[]
+  geolocalizaciones   Geolocalizacion[]
+  turnos              Turno[]
+  cuentasCobro        CuentaCobro[]
+  declaraciones       DeclaracionEfectivo[]
+  consignaciones      ConsignacionEfectivo[]
+  consignacionOrdenes ConsignacionOrden[]
+  anticipos           Anticipos[]
+  productosSolicitados ProductoSolicitado[]
+  permisos            Permiso[]
+  configuracionPagos  ConfiguracionPagos[]
+  cuentasPago         CuentasPago[]
+  egresos             Egresos[]
+  referidos           Referidos[]
+  sesionesActividad   SesionActividad[]
+  logsEvento          LogEvento[]
+
+  @@index([tenantId])
+  @@map("empresas")
+}
+
+// ============================================================================
+// MEMBRESÍA EN EMPRESA
+// ============================================================================
+
+model EmpresaMembership {
+  id                String   @id @default(uuid()) @db.Uuid
+  tenantId          String   @db.Uuid
+  membershipId      String   @db.Uuid
+  empresaId         String   @db.Uuid
+
+  isActive          Boolean  @default(true)
+
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+
+  tenant     Tenant           @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  membership TenantMembership @relation(fields: [membershipId], references: [id], onDelete: Cascade)
+  empresa    Empresa          @relation(fields: [empresaId], references: [id], onDelete: Cascade)
+
+  orgNode    OrganizationNode?
+
+  @@unique([membershipId, empresaId])
+  @@index([tenantId])
+  @@index([empresaId])
+  @@map("empresa_memberships")
+}
+
+// ============================================================================
+// JERARQUÍA ORGANIZACIONAL
+// ============================================================================
+
+model OrganizationNode {
+  id                     String  @id @default(uuid()) @db.Uuid
+  tenantId               String  @db.Uuid
+  empresaId              String  @db.Uuid
+  empresaMembershipId    String  @unique @db.Uuid
+
+  parentId               String? @db.Uuid
+  nivel                  Int     @default(0)
+
+  puedeTenerSubordinados Boolean @default(false)
+  porcentajeComision     Decimal? @db.Decimal(5,2)
+
+  createdAt              DateTime @default(now())
+  updatedAt              DateTime @updatedAt
+
+  tenant           Tenant            @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  empresa          Empresa           @relation(fields: [empresaId], references: [id], onDelete: Cascade)
+  empresaMembership EmpresaMembership @relation(fields: [empresaMembershipId], references: [id], onDelete: Cascade)
+
+  parent   OrganizationNode?  @relation("OrgHierarchy", fields: [parentId], references: [id])
+  children OrganizationNode[] @relation("OrgHierarchy")
+
+  commissions CommissionRecord[]
+
+  @@index([tenantId])
+  @@index([empresaId])
+  @@index([tenantId, empresaId])
+  @@index([parentId])
+  @@map("organization_nodes")
+}
+
+// ============================================================================
+// COMISIONES
+// ============================================================================
+
+model CommissionRecord {
+  id                 String   @id @default(uuid()) @db.Uuid
+  tenantId           String   @db.Uuid
+  empresaId          String   @db.Uuid
+  organizationNodeId String   @db.Uuid
+
+  ordenServicioId    String?  @db.Uuid
+  citaPsicologoId    String?  @db.Uuid
+
+  porcentaje         Decimal  @db.Decimal(5,2)
+  valorBase          Decimal  @db.Decimal(12,2)
+  valorComision      Decimal  @db.Decimal(12,2)
+
+  concepto           String?
+  estadoPago         EstadoPagoComision @default(PENDIENTE)
+  fechaPago          DateTime?
+
+  createdAt          DateTime @default(now())
+
+  tenant           Tenant           @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  empresa          Empresa          @relation(fields: [empresaId], references: [id], onDelete: Cascade)
+  organizationNode OrganizationNode @relation(fields: [organizationNodeId], references: [id], onDelete: Cascade)
+
+  @@index([tenantId])
+  @@index([empresaId])
+  @@index([tenantId, empresaId])
+  @@index([organizationNodeId])
+  @@index([estadoPago])
+  @@index([createdAt])
+  @@map("commission_records")
+}
+
+// ============================================================================
+// CLIENTES
+// ============================================================================
+
+model Cliente {
+  id                String    @id @default(uuid()) @db.Uuid
+  tenantId          String    @db.Uuid
+  empresaId         String    @db.Uuid
+  nombre            String?
+  apellido          String?
+  telefono          String
+  telefono2         String?
+  correo            String?
+
+  numeroDocumento   String?
+  tipoDocumento     String?
+  registroDocumento String?
+  documentoPath     String?
+
+  creadoPorId       String?   @db.Uuid
+
+  createdAt         DateTime  @default(now())
+  deletedAt         DateTime?
+
+  tenant             Tenant               @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  empresa            Empresa              @relation(fields: [empresaId], references: [id])
+  creadoPor          TenantMembership?    @relation(fields: [creadoPorId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+
+  direcciones        Direccion[]
+  vehiculos          Vehiculo[]
+  ordenesServicio    OrdenServicio[]
+  citasPsicologos    CitasPsicologos[]
+  paquetesAdquiridos PaqueteAdquirido[]
+
+  @@index([tenantId])
+  @@index([empresaId])
+  @@index([tenantId, empresaId])
+  @@index([numeroDocumento])
+  @@index([nombre, apellido])
+  @@map("clientes")
+}
+
+model Vehiculo {
+  id              String   @id @default(uuid()) @db.Uuid
+  tenantId        String   @db.Uuid
+  empresaId       String   @db.Uuid
+  clienteId       String   @db.Uuid
+  placa           String
+  marca           String?
+  modelo          String?
+  color           String?
+  tipo            String?
+
+  createdAt       DateTime @default(now())
+
+  tenant          Tenant          @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  empresa         Empresa         @relation(fields: [empresaId], references: [id])
+  cliente         Cliente         @relation(fields: [clienteId], references: [id])
+  ordenesServicio OrdenServicio[]
+
+  @@index([tenantId])
+  @@index([empresaId])
+  @@index([tenantId, empresaId])
+  @@map("vehiculos")
+}
+
+model Direccion {
+  id              String   @id @default(uuid()) @db.Uuid
+  tenantId        String   @db.Uuid
+  empresaId       String   @db.Uuid
+  clienteId       String   @db.Uuid
+  direccion       String
+  piso            String?
+  bloque          String?
+  unidad          String?
+  barrio          String?
+  municipio       String?
+  linkMaps        String?
+
+  createdAt       DateTime @default(now())
+
+  tenant          Tenant          @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  empresa         Empresa         @relation(fields: [empresaId], references: [id])
+  cliente         Cliente         @relation(fields: [clienteId], references: [id])
+  ordenesServicio OrdenServicio[]
+
+  @@index([tenantId])
+  @@index([empresaId])
+  @@index([tenantId, empresaId])
+  @@map("direcciones")
+}
+
+// ============================================================================
+// ZONAS, SERVICIOS Y TIPOS DE SERVICIO
+// ============================================================================
+
+model Zona {
+  id        String    @id @default(uuid()) @db.Uuid
+  tenantId  String    @db.Uuid
+  nombre    String
+  estado    Boolean   @default(true)
+  deletedAt DateTime?
+
+  createdAt DateTime  @default(now())
+
+  tenant  Tenant          @relation(fields: [tenantId], references: [id])
+  ordenes OrdenServicio[]
+
+  @@index([tenantId])
+  @@map("zonas")
+}
+
+model Servicio {
+  id        String    @id @default(uuid()) @db.Uuid
+  tenantId  String    @db.Uuid
+  empresaId String    @db.Uuid
+  nombre    String
+  activo    Boolean   @default(true)
+  deleteAt  DateTime?
+
+  createdAt DateTime  @default(now())
+
+  tenant                 Tenant            @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  empresa                Empresa           @relation(fields: [empresaId], references: [id])
+  ordenes                OrdenServicio[]
+  citasComoServicio      CitasPsicologos[] @relation("CitasServicio")
+  citasComoTipoServicio  CitasPsicologos[] @relation("CitasTipoServicio")
+
+  @@index([tenantId])
+  @@index([empresaId])
+  @@index([tenantId, empresaId])
+  @@map("servicios")
+}
+
+model TipoServicio {
+  id        String   @id @default(uuid()) @db.Uuid
+  tenantId  String   @db.Uuid
+  nombre    String
+  activo    Boolean  @default(true)
+
+  createdAt DateTime @default(now())
+
+  tenant  Tenant          @relation(fields: [tenantId], references: [id])
+  ordenes OrdenServicio[]
+
+  @@index([tenantId])
+  @@map("tipos_servicio")
+}
+
+model MetodoPago {
+  id        String    @id @default(uuid()) @db.Uuid
+  tenantId  String    @db.Uuid
+  nombre    String
+  activo    Boolean   @default(true)
+
+  createdAt DateTime  @default(now())
+
+  tenant  Tenant          @relation(fields: [tenantId], references: [id])
+  ordenes OrdenServicio[]
+
+  @@index([tenantId])
+  @@map("metodos_pago")
+}
+
+model EstadoServicio {
+  id        String   @id @default(uuid()) @db.Uuid
+  tenantId  String   @db.Uuid
+  nombre    String
+  activo    Boolean
+
+  createdAt DateTime @default(now())
+
+  tenant  Tenant          @relation(fields: [tenantId], references: [id])
+  ordenes OrdenServicio[]
+
+  @@index([tenantId])
+  @@map("estados_servicio")
+}
+
+// ============================================================================
+// ÓRDENES DE SERVICIO
+// ============================================================================
+
+model OrdenServicio {
+  id                    String   @id @default(uuid()) @db.Uuid
+  tenantId              String   @db.Uuid
+  empresaId             String   @db.Uuid
+  clienteId             String   @db.Uuid
+  servicioId            String   @db.Uuid
+  creadoPorId           String?  @db.Uuid
+  tecnicoId             String?  @db.Uuid
+  direccionId           String?  @db.Uuid
+
+  direccionTexto        String
+  piso                  String?
+  bloque                String?
+  unidad                String?
+  barrio                String?
+  municipio             String?
+  departamento          String?
+  linkMaps              String?
+
+  tipoServicioId        String?  @db.Uuid
+  zonaId                String?  @db.Uuid
+  vehiculoId            String?  @db.Uuid
+  metodoPagoId          String?  @db.Uuid
+  estadoServicioId      String   @db.Uuid
+
+  numeroOrden           String?
+  fechaVisita           DateTime?
+  horaInicio            DateTime?
+  horaFin               DateTime?
+
+  observacion           String?
+  observacionFinal      String?
+  nivelInfestacion      String?
+  condicionesHigiene    String?
+  condicionesLocal      String?
+
+  valorCotizado         Decimal? @db.Decimal(12,2)
+  valorPagado           Decimal? @db.Decimal(12,2)
+  valorRepuestos        Decimal? @default(0) @db.Decimal(12,2)
+  valorRepuestosTecnico Decimal? @default(0) @db.Decimal(12,2)
+
+  facturaPath           String?
+  facturaElectronica    String?
+  comprobantePago       String?
+  evidenciaPath         String?
+
+  estadoPago            EstadoPagoOrden @default(PENDIENTE)
+  seguimientoRevisado   Boolean? @default(false)
+
+  ordenPadreId          String?  @db.Uuid
+
+  createdAt             DateTime @default(now())
+  updatedAt             DateTime @updatedAt
+
+  tenant          Tenant            @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  empresa         Empresa           @relation(fields: [empresaId], references: [id])
+  cliente         Cliente           @relation(fields: [clienteId], references: [id])
+  servicio        Servicio          @relation(fields: [servicioId], references: [id])
+  creadoPor       TenantMembership? @relation("ServiciosCreados", fields: [creadoPorId], references: [id])
+  tecnico         TenantMembership? @relation("ServiciosAsignados", fields: [tecnicoId], references: [id])
+  direccion       Direccion?        @relation(fields: [direccionId], references: [id])
+  tipoServicio    TipoServicio?     @relation(fields: [tipoServicioId], references: [id])
+  zona            Zona?             @relation(fields: [zonaId], references: [id])
+  vehiculo        Vehiculo?         @relation(fields: [vehiculoId], references: [id])
+  metodoPago      MetodoPago?       @relation(fields: [metodoPagoId], references: [id])
+  estadoServicio  EstadoServicio    @relation(fields: [estadoServicioId], references: [id])
+
+  ordenPadre      OrdenServicio?    @relation("OrdenRefuerzo", fields: [ordenPadreId], references: [id])
+  ordenesHijas    OrdenServicio[]   @relation("OrdenRefuerzo")
+
+  consignacionOrden   ConsignacionOrden?
+  declaracionEfectivo DeclaracionEfectivo?
+  geolocalizaciones   Geolocalizacion[]
+  nominaDetalles      NominaDetalle[]
+
+  @@index([tenantId])
+  @@index([empresaId])
+  @@index([tenantId, empresaId])
+  @@index([clienteId])
+  @@index([tecnicoId])
+  @@index([estadoServicioId])
+  @@index([numeroOrden])
+  @@index([fechaVisita])
+  @@map("ordenes_servicio")
+}
+
+// ============================================================================
+// GEOLOCALIZACIÓN
+// ============================================================================
+
+model Geolocalizacion {
+  id           String    @id @default(uuid()) @db.Uuid
+  tenantId     String    @db.Uuid
+  empresaId    String    @db.Uuid
+  membershipId String    @db.Uuid
+  ordenId      String    @db.Uuid
+
+  latitud     Decimal?  @db.Decimal(10,8)
+  longitud    Decimal?  @db.Decimal(11,8)
+
+  llegada     DateTime
+  salida      DateTime?
+
+  fotoLlegada String?
+  fotoSalida  String?
+  linkMaps    String?
+
+  createdAt   DateTime  @default(now())
+
+  tenant     Tenant           @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  empresa    Empresa          @relation(fields: [empresaId], references: [id])
+  membership TenantMembership @relation(fields: [membershipId], references: [id])
+  orden      OrdenServicio    @relation(fields: [ordenId], references: [id])
+
+  @@index([tenantId])
+  @@index([empresaId])
+  @@index([tenantId, empresaId])
+  @@index([membershipId])
+  @@index([ordenId])
+  @@map("geolocalizaciones")
+}
+
+// ============================================================================
+// NÓMINAS
+// ============================================================================
+
+model Nomina {
+  id                 String   @id @default(uuid()) @db.Uuid
+  tenantId           String   @db.Uuid
+  empresaId          String   @db.Uuid
+  membershipId       String   @db.Uuid
+
+  fechaInicio        DateTime
+  fechaFin           DateTime
+  fechaGeneracion    DateTime @default(now())
+
+  totalServicios     Int
+  totalValorPagado   Decimal  @db.Decimal(12,2)
+  totalRepuestos     Decimal  @db.Decimal(12,2)
+  totalIva           Decimal  @default(0) @db.Decimal(12,2)
+  baseComisionable   Decimal  @db.Decimal(12,2)
+
+  porcentajeAplicado Decimal? @db.Decimal(5,2)
+  salarioFijo        Decimal? @db.Decimal(12,2)
+
+  totalComisiones    Decimal  @default(0) @db.Decimal(12,2)
+
+  totalPagar         Decimal  @db.Decimal(12,2)
+  estado             EstadoNomina @default(BORRADOR)
+  observaciones      String?
+
+  tenant     Tenant           @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  empresa    Empresa          @relation(fields: [empresaId], references: [id])
+  membership TenantMembership @relation(fields: [membershipId], references: [id])
+  detalles   NominaDetalle[]
+
+  @@index([tenantId])
+  @@index([empresaId])
+  @@index([tenantId, empresaId])
+  @@index([membershipId])
+  @@index([estado])
+  @@map("nominas")
+}
+
+model NominaDetalle {
+  id            String   @id @default(uuid()) @db.Uuid
+  tenantId      String   @db.Uuid
+  empresaId     String   @db.Uuid
+  nominaId      String   @db.Uuid
+  ordenId       String?  @db.Uuid
+  citaId        String?  @db.Uuid
+
+  valorServicio Decimal  @db.Decimal(12,2)
+  concepto      String?
+
+  tenant Tenant           @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  empresa Empresa          @relation(fields: [empresaId], references: [id])
+  nomina Nomina           @relation(fields: [nominaId], references: [id])
+  orden  OrdenServicio?   @relation(fields: [ordenId], references: [id])
+  cita   CitasPsicologos? @relation(fields: [citaId], references: [id])
+
+  @@index([tenantId])
+  @@index([empresaId])
+  @@index([tenantId, empresaId])
+  @@index([nominaId])
+  @@map("nomina_detalles")
+}
+
+// ============================================================================
+// CITAS PSICÓLOGOS
+// ============================================================================
+
+model CitasPsicologos {
+  id              String   @id @default(uuid()) @db.Uuid
+  tenantId        String   @db.Uuid
+  empresaId       String   @db.Uuid
+  pacienteId      String   @db.Uuid
+  servicioId      String?  @db.Uuid
+  creadoPorId     String?  @db.Uuid
+  psicologoId     String?  @db.Uuid
+  tipoServicio    String?  @db.Uuid
+  consultorioId   String?  @db.Uuid
+  paqueteId       String?  @db.Uuid
+
+  fechaCita       DateTime?
+  horaInicio      DateTime?
+  horaFin         DateTime?
+
+  valor           Decimal?  @db.Decimal(12,2)
+  metodoPago      String?
+  comprobantePath String?
+  observacion     String?
+
+  realizada       Boolean   @default(false)
+  estadoPago      EstadoPagoOrden? @default(PENDIENTE)
+
+  createdAt       DateTime  @default(now())
+
+  tenant       Tenant             @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  empresa      Empresa            @relation(fields: [empresaId], references: [id])
+  paciente     Cliente            @relation(fields: [pacienteId], references: [id])
+  servicio     Servicio?          @relation("CitasServicio", fields: [servicioId], references: [id])
+  creadoPor    TenantMembership?  @relation("CitasCreadoPor", fields: [creadoPorId], references: [id])
+  psicologo    TenantMembership?  @relation("CitasPsicologo", fields: [psicologoId], references: [id])
+  tipoServicioRel Servicio?       @relation("CitasTipoServicio", fields: [tipoServicio], references: [id])
+  consultorio  Consultorio?       @relation(fields: [consultorioId], references: [id])
+  paquete      PaqueteAdquirido?  @relation(fields: [paqueteId], references: [id])
+
+  nominaDetalles NominaDetalle[]
+
+  @@index([tenantId])
+  @@index([empresaId])
+  @@index([tenantId, empresaId])
+  @@index([pacienteId])
+  @@index([psicologoId])
+  @@map("citas_psicologos")
+}
+
+model Consultorio {
+  id        String   @id @default(uuid()) @db.Uuid
+  tenantId  String   @db.Uuid
+  empresaId String   @db.Uuid
+  nombre    String
+
+  createdAt DateTime @default(now())
+
+  tenant  Tenant            @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  empresa Empresa           @relation(fields: [empresaId], references: [id])
+  citas   CitasPsicologos[]
+
+  @@index([tenantId])
+  @@index([empresaId])
+  @@index([tenantId, empresaId])
+  @@map("consultorios")
+}
+
+model TerapiasPsicologos {
+  id               String   @id @default(uuid()) @db.Uuid
+  tenantId         String   @db.Uuid
+  empresaId        String   @db.Uuid
+  nombre           String
+  descripcion      String?
+  categoria        String?
+  cantidadSesiones Int      @default(1)
+  precioBase       Decimal  @db.Decimal(12,2)
+  activo           Boolean  @default(true)
+
+  createdAt        DateTime @default(now())
+
+  tenant           Tenant             @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  empresa          Empresa            @relation(fields: [empresaId], references: [id])
+  paquetesAdquiridos PaqueteAdquirido[]
+
+  @@index([tenantId])
+  @@index([empresaId])
+  @@index([tenantId, empresaId])
+  @@map("terapias_psicologos")
+}
+
+model PaqueteAdquirido {
+  id                 String   @id @default(uuid()) @db.Uuid
+  tenantId           String   @db.Uuid
+  empresaId          String   @db.Uuid
+  clienteId          String   @db.Uuid
+  catalogoId         String   @db.Uuid
+  membershipId       String?  @db.Uuid
+
+  sesionesTotales    Int
+  sesionesConsumidas Int      @default(0)
+  saldoRestante      Int
+
+  fechaCompra        DateTime @default(now())
+  fechaVencimiento   DateTime?
+  precioPagado       Decimal  @db.Decimal(12,2)
+
+  estado             EstadoPaquete @default(ACTIVO)
+
+  tenant     Tenant              @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  empresa    Empresa             @relation(fields: [empresaId], references: [id])
+  cliente    Cliente             @relation(fields: [clienteId], references: [id])
+  catalogo   TerapiasPsicologos  @relation(fields: [catalogoId], references: [id])
+  membership TenantMembership?   @relation(fields: [membershipId], references: [id])
+
+  citas      CitasPsicologos[]
+
+  @@index([tenantId])
+  @@index([empresaId])
+  @@index([tenantId, empresaId])
+  @@index([clienteId])
+  @@index([estado])
+  @@map("paquetes_adquiridos")
+}
+
+// ============================================================================
+// TURNOS Y CUENTAS DE COBRO
+// ============================================================================
+
+model Turno {
+  id             String   @id @default(uuid()) @db.Uuid
+  tenantId       String   @db.Uuid
+  empresaId      String   @db.Uuid
+  membershipId   String   @db.Uuid
+  cuentaCobroId  String?  @db.Uuid
+
+  fecha          DateTime
+  horaEntrada    DateTime
+  horaSalida     DateTime
+  tiempoDescanso Int
+
+  valorTotal     Decimal? @db.Decimal(12,2)
+  observaciones  String?
+
+  fotoEntrada    String?
+  fotoSalida     String?
+
+  createdAt      DateTime @default(now())
+
+  tenant      Tenant           @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  empresa     Empresa          @relation(fields: [empresaId], references: [id])
+  membership  TenantMembership @relation(fields: [membershipId], references: [id])
+  cuentaCobro CuentaCobro?     @relation(fields: [cuentaCobroId], references: [id])
+
+  @@index([tenantId])
+  @@index([empresaId])
+  @@index([tenantId, empresaId])
+  @@index([membershipId])
+  @@map("turnos")
+}
+
+model CuentaCobro {
+  id           String   @id @default(uuid()) @db.Uuid
+  tenantId     String   @db.Uuid
+  empresaId    String   @db.Uuid
+  membershipId String   @db.Uuid
+
+  fechaInicio DateTime
+  fechaFin    DateTime
+  valorTotal  Decimal  @db.Decimal(12,2)
+
+  estado      EstadoCuentaCobro @default(GENERADA)
+
+  createdAt   DateTime @default(now())
+
+  tenant     Tenant           @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  empresa    Empresa          @relation(fields: [empresaId], references: [id])
+  membership TenantMembership @relation(fields: [membershipId], references: [id])
+  turnos     Turno[]
+
+  @@index([tenantId])
+  @@index([empresaId])
+  @@index([tenantId, empresaId])
+  @@index([membershipId])
+  @@map("cuentas_cobro")
+}
+
+// ============================================================================
+// DECLARACIONES Y CONSIGNACIONES DE EFECTIVO
+// ============================================================================
+
+model DeclaracionEfectivo {
+  id               String   @id @default(uuid()) @db.Uuid
+  tenantId         String   @db.Uuid
+  empresaId        String   @db.Uuid
+  ordenId          String   @unique @db.Uuid
+  tecnicoId        String   @db.Uuid
+
+  valorDeclarado   Decimal  @db.Decimal(12,2)
+  evidenciaPath    String
+  observacion      String?
+  consignado       Boolean  @default(false)
+
+  fechaDeclaracion DateTime @default(now())
+
+  tenant  Tenant           @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  empresa Empresa          @relation(fields: [empresaId], references: [id])
+  orden   OrdenServicio    @relation(fields: [ordenId], references: [id])
+  tecnico TenantMembership @relation(fields: [tecnicoId], references: [id])
+
+  @@index([tenantId])
+  @@index([empresaId])
+  @@index([tenantId, empresaId])
+  @@index([tecnicoId])
+  @@index([consignado])
+  @@map("declaraciones_efectivo")
+}
+
+model ConsignacionEfectivo {
+  id                String   @id @default(uuid()) @db.Uuid
+  tenantId          String   @db.Uuid
+  empresaId         String   @db.Uuid
+  tecnicoId         String   @db.Uuid
+  creadoPorId       String   @db.Uuid
+
+  fechaConsignacion DateTime
+  valorConsignado   Decimal  @db.Decimal(12,2)
+  referenciaBanco   String
+  comprobantePath   String
+
+  estado            EstadoConsignacion @default(PENDIENTE)
+  diferencia        Decimal?           @db.Decimal(12,2)
+  observacion       String?
+
+  createdAt         DateTime @default(now())
+
+  tenant    Tenant                 @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  empresa   Empresa                @relation(fields: [empresaId], references: [id])
+  tecnico   TenantMembership       @relation("ConsignacionTecnico", fields: [tecnicoId], references: [id])
+  creadoPor TenantMembership       @relation("ConsignacionCreador", fields: [creadoPorId], references: [id])
+
+  anticipos Anticipos[]
+  ordenes   ConsignacionOrden[]
+
+  @@index([tenantId])
+  @@index([empresaId])
+  @@index([tenantId, empresaId])
+  @@index([tecnicoId])
+  @@index([estado])
+  @@map("consignaciones_efectivo")
+}
+
+model ConsignacionOrden {
+  id             String @id @default(uuid()) @db.Uuid
+  tenantId       String @db.Uuid
+  empresaId      String @db.Uuid
+  consignacionId String @db.Uuid
+  ordenId        String @unique @db.Uuid
+
+  tenant       Tenant               @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  empresa      Empresa              @relation(fields: [empresaId], references: [id])
+  consignacion ConsignacionEfectivo @relation(fields: [consignacionId], references: [id])
+  orden        OrdenServicio        @relation(fields: [ordenId], references: [id])
+
+  @@index([tenantId])
+  @@index([empresaId])
+  @@index([tenantId, empresaId])
+  @@map("consignacion_ordenes")
+}
+
+model Anticipos {
+  id             String   @id @default(uuid()) @db.Uuid
+  tenantId       String   @db.Uuid
+  empresaId      String   @db.Uuid
+  membershipId   String   @db.Uuid
+  consignacionId String?  @db.Uuid
+
+  monto          Decimal  @db.Decimal(12,2)
+  razon          String?
+
+  createdAt      DateTime @default(now())
+
+  tenant       Tenant                @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  empresa      Empresa               @relation(fields: [empresaId], references: [id])
+  membership   TenantMembership      @relation(fields: [membershipId], references: [id])
+  consignacion ConsignacionEfectivo? @relation(fields: [consignacionId], references: [id])
+
+  @@index([tenantId])
+  @@index([empresaId])
+  @@index([tenantId, empresaId])
+  @@index([membershipId])
+  @@map("anticipos")
+}
+
+// ============================================================================
+// PRODUCTOS Y PROVEEDORES
+// ============================================================================
+
+model Producto {
+  id               String   @id @default(uuid()) @db.Uuid
+  tenantId         String   @db.Uuid
+  proveedorId      String?  @db.Uuid
+
+  categoria        String?
+  nombre           String
+  descripcion      String?
+  unidadMedida     String?
+  precio           Decimal? @db.Decimal(12,2)
+  moneda           String?
+
+  stockActual      Int?
+  stockMinimo      Int?
+  tiempoReposicion Int?
+
+  activo           Boolean  @default(true)
+  createdAt        DateTime @default(now())
+
+  tenant    Tenant                           @relation(fields: [tenantId], references: [id])
+  proveedor Proveedores?                     @relation(fields: [proveedorId], references: [id])
+
+  solicitudes ProductoSolicitado[]
+
+  @@index([tenantId])
+  @@map("productos")
+}
+
+model ProductoSolicitado {
+  id           String   @id @default(uuid()) @db.Uuid
+  tenantId     String   @db.Uuid
+  empresaId    String   @db.Uuid
+  membershipId String   @db.Uuid
+  productoId   String   @db.Uuid
+
+  cantidad     String
+  unidadMedida String?
+  estado       EstadoSolicitudProductos @default(PENDIENTE)
+
+  createdAt    DateTime @default(now())
+
+  tenant     Tenant              @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  empresa    Empresa             @relation(fields: [empresaId], references: [id])
+  membership TenantMembership    @relation(fields: [membershipId], references: [id])
+  producto   Producto @relation(fields: [productoId], references: [id])
+
+  @@index([tenantId])
+  @@index([empresaId])
+  @@index([tenantId, empresaId])
+  @@index([membershipId])
+  @@map("productos_solicitados")
+}
+
+model Proveedores {
+  id           String   @id @default(uuid()) @db.Uuid
+  tenantId     String   @db.Uuid
+
+  nombre       String
+  nit          String?
+  pais         String?
+  departamento String?
+  ciudad       String?
+  direccion    String?
+  telefono     String?
+  email        String?
+
+  activo       Boolean  @default(true)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  tenant    Tenant                @relation(fields: [tenantId], references: [id])
+  productos Producto[]
+
+  @@index([tenantId])
+  @@map("proveedores")
+}
+
+// ============================================================================
+// PERMISOS Y CONFIGURACIÓN
+// ============================================================================
+
+model Permiso {
+  id              String   @id @default(uuid()) @db.Uuid
+  tenantId        String   @db.Uuid
+  empresaId       String   @db.Uuid
+  membershipId    String   @db.Uuid
+  adminId         String?  @db.Uuid
+
+  tipo            TipoPermiso
+  entidadId       String?
+  motivo          String?
+
+  estado          EstadoPermiso @default(PENDIENTE)
+  fechaSolicitud  DateTime      @default(now())
+  fechaAprobacion DateTime?
+  fechaExpiracion DateTime?
+
+  tenant     Tenant            @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  empresa    Empresa           @relation(fields: [empresaId], references: [id])
+  membership TenantMembership  @relation("PermisosSolicitados", fields: [membershipId], references: [id])
+  admin      TenantMembership? @relation("PermisosAprobados", fields: [adminId], references: [id])
+
+  @@index([tenantId])
+  @@index([empresaId])
+  @@index([tenantId, empresaId])
+  @@index([membershipId])
+  @@index([estado])
+  @@map("permisos")
+}
+
+model ConfiguracionPagos {
+  id                 String   @id @default(uuid()) @db.Uuid
+  tenantId           String   @db.Uuid
+  empresaId          String   @db.Uuid
+  membershipId       String   @db.Uuid
+
+  tipo               TipoPago?
+  valorParticipacion Decimal? @db.Decimal(12,2)
+  salarioBase        Decimal? @db.Decimal(12,2)
+
+  createdAt          DateTime @default(now())
+
+  tenant     Tenant           @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  empresa    Empresa          @relation(fields: [empresaId], references: [id])
+  membership TenantMembership @relation(fields: [membershipId], references: [id])
+
+  @@index([tenantId])
+  @@index([empresaId])
+  @@index([tenantId, empresaId])
+  @@index([membershipId])
+  @@map("configuracion_pagos")
+}
+
+model CuentasPago {
+  id           String   @id @default(uuid()) @db.Uuid
+  tenantId     String   @db.Uuid
+  empresaId    String   @db.Uuid
+  membershipId String   @db.Uuid
+
+  banco        String
+  tipoCuenta   String
+  numeroCuenta String
+  valorHora    Decimal? @db.Decimal(12,2)
+
+  createdAt    DateTime @default(now())
+
+  tenant     Tenant           @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  empresa    Empresa          @relation(fields: [empresaId], references: [id])
+  membership TenantMembership @relation(fields: [membershipId], references: [id])
+
+  @@index([tenantId])
+  @@index([empresaId])
+  @@index([tenantId, empresaId])
+  @@index([membershipId])
+  @@map("cuentas_pago")
+}
+
+model Egresos {
+  id           String   @id @default(uuid()) @db.Uuid
+  tenantId     String   @db.Uuid
+  empresaId    String   @db.Uuid
+  membershipId String   @db.Uuid
+
+  titulo       String
+  monto        Decimal  @db.Decimal(12,2)
+  razon        String?
+
+  createdAt    DateTime @default(now())
+
+  tenant     Tenant           @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  empresa    Empresa          @relation(fields: [empresaId], references: [id])
+  membership TenantMembership @relation(fields: [membershipId], references: [id])
+
+  @@index([tenantId])
+  @@index([empresaId])
+  @@index([tenantId, empresaId])
+  @@index([membershipId])
+  @@map("egresos")
+}
+
+model PicoPlaca {
+  id        String   @id @default(uuid()) @db.Uuid
+  tenantId  String   @db.Uuid
+
+  dia       String
+  numeroUno Int
+  numeroDos Int
+  activo    Boolean  @default(true)
+
+  createdAt DateTime @default(now())
+
+  tenant Tenant @relation(fields: [tenantId], references: [id])
+
+  @@index([tenantId])
+  @@map("pico_placa")
+}
+
+model Referidos {
+  id            String   @id @default(uuid()) @db.Uuid
+  tenantId      String   @db.Uuid
+  empresaId     String   @db.Uuid
+  membershipId  String   @db.Uuid
+
+  nombre        String?
+  apellido      String?
+  telefono      String?
+  codigo        String?
+
+  createdAt     DateTime @default(now())
+
+  tenant     Tenant           @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  empresa    Empresa          @relation(fields: [empresaId], references: [id])
+  membership TenantMembership @relation(fields: [membershipId], references: [id])
+
+  @@index([tenantId])
+  @@index([empresaId])
+  @@index([tenantId, empresaId])
+  @@index([membershipId])
+  @@map("referidos")
+}
+
+// ============================================================================
+// AUDITORÍA Y ACTIVIDAD
+// ============================================================================
+
+model Auditoria {
+  id           String   @id @default(uuid()) @db.Uuid
+  tenantId     String   @db.Uuid
+  membershipId String?  @db.Uuid
+
+  accion       String
+  entidad      String
+  entidadId    String
+  detalles     Json?
+  metadata     Json?
+
+  createdAt    DateTime @default(now())
+
+  tenant     Tenant            @relation(fields: [tenantId], references: [id])
+  membership TenantMembership? @relation(fields: [membershipId], references: [id])
+
+  @@index([tenantId])
+  @@index([createdAt])
+  @@index([entidad, entidadId])
+  @@map("auditorias")
+}
+
+model SesionActividad {
+  id             String   @id @default(uuid()) @db.Uuid
+  tenantId       String   @db.Uuid
+  empresaId      String   @db.Uuid
+  membershipId   String   @db.Uuid
+
+  fechaInicio    DateTime @default(now())
+  fechaFin       DateTime?
+  duracionMin    Int?
+  tiempoInactivo Int      @default(0)
+
+  dispositivo    String?
+  ip             String?
+
+  tenant     Tenant           @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  empresa    Empresa          @relation(fields: [empresaId], references: [id])
+  membership TenantMembership @relation(fields: [membershipId], references: [id])
+  logs       LogEvento[]
+
+  @@index([tenantId])
+  @@index([empresaId])
+  @@index([tenantId, empresaId])
+  @@index([membershipId])
+  @@index([fechaInicio])
+  @@map("sesiones_actividad")
+}
+
+model LogEvento {
+  id          String   @id @default(uuid()) @db.Uuid
+  tenantId    String   @db.Uuid
+  empresaId   String   @db.Uuid
+  sesionId    String   @db.Uuid
+
+  tipo        String
+  descripcion String?
+  ruta        String?
+
+  createdAt   DateTime @default(now())
+
+  tenant  Tenant          @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  empresa Empresa         @relation(fields: [empresaId], references: [id])
+  sesion  SesionActividad @relation(fields: [sesionId], references: [id])
+
+  @@index([tenantId])
+  @@index([empresaId])
+  @@index([tenantId, empresaId])
+  @@index([sesionId])
+  @@map("logs_evento")
+}
+
+// ============================================================================
+// AUTENTICACIÓN
+// ============================================================================
+
+model AuthSession {
+  id               String   @id @default(uuid()) @db.Uuid
+  userId           String   @db.Uuid
+  refreshTokenHash String
+  revoked          Boolean  @default(false)
+
+  createdAt        DateTime @default(now())
+  expiresAt        DateTime
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([expiresAt])
+  @@map("auth_sessions")
+}
+
+model PasswordResetToken {
+  id        String   @id @default(uuid()) @db.Uuid
+  userId    String   @db.Uuid
+  tokenHash String
+
+  expiresAt DateTime
+  usedAt    DateTime?
+  createdAt DateTime  @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([expiresAt])
+  @@map("password_reset_tokens")
+}
+
+// ============================================================================
+// ENUMS
+// ============================================================================
+
+enum Role {
+  SU_ADMIN
+  ADMIN
+  COORDINADOR
+  ASESOR
+  OPERADOR
+}
+
+enum MembershipStatus {
+  ACTIVE
+  INVITED
+  SUSPENDED
+}
+
+enum SubscriptionStatus {
+  ACTIVE
+  EXPIRED
+  SUSPENDED
+}
+
+enum TipoPago {
+  PORCENTAJE
+  SALARIO_FIJO
+}
+
+enum EstadoNomina {
+  BORRADOR
+  PAGADO
+  ANULADO
+}
+
+enum EstadoPaquete {
+  ACTIVO
+  FINALIZADO
+  CANCELADO
+  VENCIDO
+}
+
+enum EstadoCuentaCobro {
+  PAGADA
+  PENDIENTE
+  RECHAZADA
+  GENERADA
+}
+
+enum EstadoSolicitudProductos {
+  PENDIENTE
+  RECHAZADA
+  ACEPTADA
+}
+
+enum TipoPermiso {
+  EDITAR_VALOR_COTIZADO
+  EDITAR_TIPO_SERVICIO
+  DESCARGAR_EXCEL
+}
+
+enum EstadoPermiso {
+  PENDIENTE
+  APROBADO
+  RECHAZADO
+  EXPIRADO
+}
+
+enum EstadoPagoOrden {
+  PENDIENTE
+  EFECTIVO_DECLARADO
+  CONSIGNADO
+  CONCILIADO
+}
+
+enum EstadoConsignacion {
+  PENDIENTE
+  VALIDADA
+  OBSERVADA
+}
+
+enum EstadoPagoComision {
+  PENDIENTE
+  PAGADA
+  ANULADA
+}
