@@ -116,11 +116,14 @@ export type TransactionIsolationLevel = (typeof TransactionIsolationLevel)[keyof
 
 export const UserScalarFieldEnum = {
   id: 'id',
+  tenantId: 'tenantId',
+  empresaId: 'empresaId',
   email: 'email',
   password: 'password',
   nombre: 'nombre',
   apellido: 'apellido',
   telefono: 'telefono',
+  role: 'role',
   tipoDocumento: 'tipoDocumento',
   numeroDocumento: 'numeroDocumento',
   isActive: 'isActive',
@@ -149,6 +152,8 @@ export type TenantScalarFieldEnum = (typeof TenantScalarFieldEnum)[keyof typeof 
 
 export const PlanScalarFieldEnum = {
   id: 'id',
+  tenantId: 'tenantId',
+  empresaId: 'empresaId',
   nombre: 'nombre',
   descripcion: 'descripcion',
   durationDays: 'durationDays',
@@ -167,6 +172,7 @@ export type PlanScalarFieldEnum = (typeof PlanScalarFieldEnum)[keyof typeof Plan
 export const SubscriptionScalarFieldEnum = {
   id: 'id',
   tenantId: 'tenantId',
+  empresaId: 'empresaId',
   planId: 'planId',
   startDate: 'startDate',
   endDate: 'endDate',
@@ -185,6 +191,8 @@ export const TenantMembershipScalarFieldEnum = {
   id: 'id',
   userId: 'userId',
   tenantId: 'tenantId',
+  empresaId: 'empresaId',
+  zonaId: 'zonaId',
   role: 'role',
   status: 'status',
   username: 'username',
@@ -220,6 +228,7 @@ export const EmpresaMembershipScalarFieldEnum = {
   tenantId: 'tenantId',
   membershipId: 'membershipId',
   empresaId: 'empresaId',
+  zonaId: 'zonaId',
   isActive: 'isActive',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
@@ -321,6 +330,7 @@ export type DireccionScalarFieldEnum = (typeof DireccionScalarFieldEnum)[keyof t
 export const ZonaScalarFieldEnum = {
   id: 'id',
   tenantId: 'tenantId',
+  empresaId: 'empresaId',
   nombre: 'nombre',
   estado: 'estado',
   deletedAt: 'deletedAt',
@@ -346,6 +356,7 @@ export type ServicioScalarFieldEnum = (typeof ServicioScalarFieldEnum)[keyof typ
 export const TipoServicioScalarFieldEnum = {
   id: 'id',
   tenantId: 'tenantId',
+  empresaId: 'empresaId',
   nombre: 'nombre',
   activo: 'activo',
   createdAt: 'createdAt'
@@ -357,6 +368,7 @@ export type TipoServicioScalarFieldEnum = (typeof TipoServicioScalarFieldEnum)[k
 export const MetodoPagoScalarFieldEnum = {
   id: 'id',
   tenantId: 'tenantId',
+  empresaId: 'empresaId',
   nombre: 'nombre',
   activo: 'activo',
   createdAt: 'createdAt'
@@ -368,6 +380,7 @@ export type MetodoPagoScalarFieldEnum = (typeof MetodoPagoScalarFieldEnum)[keyof
 export const EstadoServicioScalarFieldEnum = {
   id: 'id',
   tenantId: 'tenantId',
+  empresaId: 'empresaId',
   nombre: 'nombre',
   activo: 'activo',
   createdAt: 'createdAt'
@@ -652,6 +665,7 @@ export type AnticiposScalarFieldEnum = (typeof AnticiposScalarFieldEnum)[keyof t
 export const ProductoScalarFieldEnum = {
   id: 'id',
   tenantId: 'tenantId',
+  empresaId: 'empresaId',
   proveedorId: 'proveedorId',
   categoria: 'categoria',
   nombre: 'nombre',
@@ -687,6 +701,7 @@ export type ProductoSolicitadoScalarFieldEnum = (typeof ProductoSolicitadoScalar
 export const ProveedoresScalarFieldEnum = {
   id: 'id',
   tenantId: 'tenantId',
+  empresaId: 'empresaId',
   nombre: 'nombre',
   nit: 'nit',
   pais: 'pais',
@@ -767,6 +782,7 @@ export type EgresosScalarFieldEnum = (typeof EgresosScalarFieldEnum)[keyof typeo
 export const PicoPlacaScalarFieldEnum = {
   id: 'id',
   tenantId: 'tenantId',
+  empresaId: 'empresaId',
   dia: 'dia',
   numeroUno: 'numeroUno',
   numeroDos: 'numeroDos',
@@ -795,6 +811,7 @@ export type ReferidosScalarFieldEnum = (typeof ReferidosScalarFieldEnum)[keyof t
 export const AuditoriaScalarFieldEnum = {
   id: 'id',
   tenantId: 'tenantId',
+  empresaId: 'empresaId',
   membershipId: 'membershipId',
   accion: 'accion',
   entidad: 'entidad',
@@ -840,6 +857,8 @@ export type LogEventoScalarFieldEnum = (typeof LogEventoScalarFieldEnum)[keyof t
 export const AuthSessionScalarFieldEnum = {
   id: 'id',
   userId: 'userId',
+  tenantId: 'tenantId',
+  empresaId: 'empresaId',
   refreshTokenHash: 'refreshTokenHash',
   revoked: 'revoked',
   createdAt: 'createdAt',
@@ -852,6 +871,8 @@ export type AuthSessionScalarFieldEnum = (typeof AuthSessionScalarFieldEnum)[key
 export const PasswordResetTokenScalarFieldEnum = {
   id: 'id',
   userId: 'userId',
+  tenantId: 'tenantId',
+  empresaId: 'empresaId',
   tokenHash: 'tokenHash',
   expiresAt: 'expiresAt',
   usedAt: 'usedAt',

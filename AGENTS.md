@@ -32,10 +32,18 @@ Cualquier tecnología fuera de esta lista requiere aprobación explícita del hu
 
 ### 2. Aislamiento Multitenant (Single Database, Shared Schema)
 - **Regla Absoluta:** TODA tabla operativa (`clientes`, `servicios`, `citas`, `egresos`, `nomina`, etc.) en `schema.prisma` **DEBE** incluir una columna obligatoria `tenant_id` (String/UUID).
+- **Estructura de Poder y Jerarquía:**
+  - **Tenant (Conglomerado):** Es la entidad raíz. Un Conglomerado puede tener múltiples Empresas.
+  - **Roles y Alcance:**
+    - **SU_ADMIN (Dueño del Conglomerado):** Acceso total a todas las empresas y configuraciones de su Tenant.
+    - **ADMIN (Administrador de Empresa):** Administra las empresas asignadas dentro del Tenant.
+    - **COORDINADOR:** Puede administrar todas las empresas del Tenant o una específica, restringido opcionalmente a una **Zona** específica de la ciudad.
+    - **ASESOR:** Administra una empresa específica o una zona específica.
+    - **OPERADOR:** Nivel operativo vinculado estrictamente a una sola empresa.
 - **Aislamiento "Cero Confianza":** 
   - 🚫 NUNCA confíes en que el cliente frontend envíe el `tenant_id` en el body o query param. 
   - El `tenant_id` SIEMPRE debe extraerse del token JWT validado en NestJS (usando Guards/Middlewares) e inyectarse en el contexto de la petición (ej. `nestjs-cls`).
-- **Filtro Obligatorio:** Toda consulta a Prisma (find, update, delete) dentro de NestJS DEBE filtrar por el `tenant_id` del contexto actual para evitar fuga de datos entre empresas.
+- **Filtro Obligatorio:** Toda consulta a Prisma (find, update, delete) dentro de NestJS DEBE filtrar por el `tenant_id` del contexto actual para evitar fuga de datos entre empresas. Los roles COORDINADOR y ASESOR deben además filtrar por `empresa_id` y/o `zona_id` según su restricción.
 
 ### 3. Flujo de Archivos e Imágenes (Supabase Storage)
 - 🚫 **PROHIBIDO** enviar archivos pesados (multipart/form-data, base64) desde Next.js hacia NestJS. NestJS no debe gastar memoria RAM procesando binarios.

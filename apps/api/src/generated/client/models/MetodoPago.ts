@@ -27,6 +27,7 @@ export type AggregateMetodoPago = {
 export type MetodoPagoMinAggregateOutputType = {
   id: string | null
   tenantId: string | null
+  empresaId: string | null
   nombre: string | null
   activo: boolean | null
   createdAt: Date | null
@@ -35,6 +36,7 @@ export type MetodoPagoMinAggregateOutputType = {
 export type MetodoPagoMaxAggregateOutputType = {
   id: string | null
   tenantId: string | null
+  empresaId: string | null
   nombre: string | null
   activo: boolean | null
   createdAt: Date | null
@@ -43,6 +45,7 @@ export type MetodoPagoMaxAggregateOutputType = {
 export type MetodoPagoCountAggregateOutputType = {
   id: number
   tenantId: number
+  empresaId: number
   nombre: number
   activo: number
   createdAt: number
@@ -53,6 +56,7 @@ export type MetodoPagoCountAggregateOutputType = {
 export type MetodoPagoMinAggregateInputType = {
   id?: true
   tenantId?: true
+  empresaId?: true
   nombre?: true
   activo?: true
   createdAt?: true
@@ -61,6 +65,7 @@ export type MetodoPagoMinAggregateInputType = {
 export type MetodoPagoMaxAggregateInputType = {
   id?: true
   tenantId?: true
+  empresaId?: true
   nombre?: true
   activo?: true
   createdAt?: true
@@ -69,6 +74,7 @@ export type MetodoPagoMaxAggregateInputType = {
 export type MetodoPagoCountAggregateInputType = {
   id?: true
   tenantId?: true
+  empresaId?: true
   nombre?: true
   activo?: true
   createdAt?: true
@@ -150,6 +156,7 @@ export type MetodoPagoGroupByArgs<ExtArgs extends runtime.Types.Extensions.Inter
 export type MetodoPagoGroupByOutputType = {
   id: string
   tenantId: string
+  empresaId: string
   nombre: string
   activo: boolean
   createdAt: Date
@@ -179,20 +186,24 @@ export type MetodoPagoWhereInput = {
   NOT?: Prisma.MetodoPagoWhereInput | Prisma.MetodoPagoWhereInput[]
   id?: Prisma.UuidFilter<"MetodoPago"> | string
   tenantId?: Prisma.UuidFilter<"MetodoPago"> | string
+  empresaId?: Prisma.UuidFilter<"MetodoPago"> | string
   nombre?: Prisma.StringFilter<"MetodoPago"> | string
   activo?: Prisma.BoolFilter<"MetodoPago"> | boolean
   createdAt?: Prisma.DateTimeFilter<"MetodoPago"> | Date | string
   tenant?: Prisma.XOR<Prisma.TenantScalarRelationFilter, Prisma.TenantWhereInput>
+  empresa?: Prisma.XOR<Prisma.EmpresaScalarRelationFilter, Prisma.EmpresaWhereInput>
   ordenes?: Prisma.OrdenServicioListRelationFilter
 }
 
 export type MetodoPagoOrderByWithRelationInput = {
   id?: Prisma.SortOrder
   tenantId?: Prisma.SortOrder
+  empresaId?: Prisma.SortOrder
   nombre?: Prisma.SortOrder
   activo?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   tenant?: Prisma.TenantOrderByWithRelationInput
+  empresa?: Prisma.EmpresaOrderByWithRelationInput
   ordenes?: Prisma.OrdenServicioOrderByRelationAggregateInput
 }
 
@@ -202,16 +213,19 @@ export type MetodoPagoWhereUniqueInput = Prisma.AtLeast<{
   OR?: Prisma.MetodoPagoWhereInput[]
   NOT?: Prisma.MetodoPagoWhereInput | Prisma.MetodoPagoWhereInput[]
   tenantId?: Prisma.UuidFilter<"MetodoPago"> | string
+  empresaId?: Prisma.UuidFilter<"MetodoPago"> | string
   nombre?: Prisma.StringFilter<"MetodoPago"> | string
   activo?: Prisma.BoolFilter<"MetodoPago"> | boolean
   createdAt?: Prisma.DateTimeFilter<"MetodoPago"> | Date | string
   tenant?: Prisma.XOR<Prisma.TenantScalarRelationFilter, Prisma.TenantWhereInput>
+  empresa?: Prisma.XOR<Prisma.EmpresaScalarRelationFilter, Prisma.EmpresaWhereInput>
   ordenes?: Prisma.OrdenServicioListRelationFilter
 }, "id">
 
 export type MetodoPagoOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
   tenantId?: Prisma.SortOrder
+  empresaId?: Prisma.SortOrder
   nombre?: Prisma.SortOrder
   activo?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -226,6 +240,7 @@ export type MetodoPagoScalarWhereWithAggregatesInput = {
   NOT?: Prisma.MetodoPagoScalarWhereWithAggregatesInput | Prisma.MetodoPagoScalarWhereWithAggregatesInput[]
   id?: Prisma.UuidWithAggregatesFilter<"MetodoPago"> | string
   tenantId?: Prisma.UuidWithAggregatesFilter<"MetodoPago"> | string
+  empresaId?: Prisma.UuidWithAggregatesFilter<"MetodoPago"> | string
   nombre?: Prisma.StringWithAggregatesFilter<"MetodoPago"> | string
   activo?: Prisma.BoolWithAggregatesFilter<"MetodoPago"> | boolean
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"MetodoPago"> | Date | string
@@ -237,12 +252,14 @@ export type MetodoPagoCreateInput = {
   activo?: boolean
   createdAt?: Date | string
   tenant: Prisma.TenantCreateNestedOneWithoutMetodosPagoInput
+  empresa: Prisma.EmpresaCreateNestedOneWithoutMetodosPagoInput
   ordenes?: Prisma.OrdenServicioCreateNestedManyWithoutMetodoPagoInput
 }
 
 export type MetodoPagoUncheckedCreateInput = {
   id?: string
   tenantId: string
+  empresaId: string
   nombre: string
   activo?: boolean
   createdAt?: Date | string
@@ -255,12 +272,14 @@ export type MetodoPagoUpdateInput = {
   activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   tenant?: Prisma.TenantUpdateOneRequiredWithoutMetodosPagoNestedInput
+  empresa?: Prisma.EmpresaUpdateOneRequiredWithoutMetodosPagoNestedInput
   ordenes?: Prisma.OrdenServicioUpdateManyWithoutMetodoPagoNestedInput
 }
 
 export type MetodoPagoUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   tenantId?: Prisma.StringFieldUpdateOperationsInput | string
+  empresaId?: Prisma.StringFieldUpdateOperationsInput | string
   nombre?: Prisma.StringFieldUpdateOperationsInput | string
   activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -270,6 +289,7 @@ export type MetodoPagoUncheckedUpdateInput = {
 export type MetodoPagoCreateManyInput = {
   id?: string
   tenantId: string
+  empresaId: string
   nombre: string
   activo?: boolean
   createdAt?: Date | string
@@ -285,6 +305,7 @@ export type MetodoPagoUpdateManyMutationInput = {
 export type MetodoPagoUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   tenantId?: Prisma.StringFieldUpdateOperationsInput | string
+  empresaId?: Prisma.StringFieldUpdateOperationsInput | string
   nombre?: Prisma.StringFieldUpdateOperationsInput | string
   activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -303,6 +324,7 @@ export type MetodoPagoOrderByRelationAggregateInput = {
 export type MetodoPagoCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   tenantId?: Prisma.SortOrder
+  empresaId?: Prisma.SortOrder
   nombre?: Prisma.SortOrder
   activo?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -311,6 +333,7 @@ export type MetodoPagoCountOrderByAggregateInput = {
 export type MetodoPagoMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
   tenantId?: Prisma.SortOrder
+  empresaId?: Prisma.SortOrder
   nombre?: Prisma.SortOrder
   activo?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -319,6 +342,7 @@ export type MetodoPagoMaxOrderByAggregateInput = {
 export type MetodoPagoMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
   tenantId?: Prisma.SortOrder
+  empresaId?: Prisma.SortOrder
   nombre?: Prisma.SortOrder
   activo?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -371,6 +395,48 @@ export type MetodoPagoUncheckedUpdateManyWithoutTenantNestedInput = {
   deleteMany?: Prisma.MetodoPagoScalarWhereInput | Prisma.MetodoPagoScalarWhereInput[]
 }
 
+export type MetodoPagoCreateNestedManyWithoutEmpresaInput = {
+  create?: Prisma.XOR<Prisma.MetodoPagoCreateWithoutEmpresaInput, Prisma.MetodoPagoUncheckedCreateWithoutEmpresaInput> | Prisma.MetodoPagoCreateWithoutEmpresaInput[] | Prisma.MetodoPagoUncheckedCreateWithoutEmpresaInput[]
+  connectOrCreate?: Prisma.MetodoPagoCreateOrConnectWithoutEmpresaInput | Prisma.MetodoPagoCreateOrConnectWithoutEmpresaInput[]
+  createMany?: Prisma.MetodoPagoCreateManyEmpresaInputEnvelope
+  connect?: Prisma.MetodoPagoWhereUniqueInput | Prisma.MetodoPagoWhereUniqueInput[]
+}
+
+export type MetodoPagoUncheckedCreateNestedManyWithoutEmpresaInput = {
+  create?: Prisma.XOR<Prisma.MetodoPagoCreateWithoutEmpresaInput, Prisma.MetodoPagoUncheckedCreateWithoutEmpresaInput> | Prisma.MetodoPagoCreateWithoutEmpresaInput[] | Prisma.MetodoPagoUncheckedCreateWithoutEmpresaInput[]
+  connectOrCreate?: Prisma.MetodoPagoCreateOrConnectWithoutEmpresaInput | Prisma.MetodoPagoCreateOrConnectWithoutEmpresaInput[]
+  createMany?: Prisma.MetodoPagoCreateManyEmpresaInputEnvelope
+  connect?: Prisma.MetodoPagoWhereUniqueInput | Prisma.MetodoPagoWhereUniqueInput[]
+}
+
+export type MetodoPagoUpdateManyWithoutEmpresaNestedInput = {
+  create?: Prisma.XOR<Prisma.MetodoPagoCreateWithoutEmpresaInput, Prisma.MetodoPagoUncheckedCreateWithoutEmpresaInput> | Prisma.MetodoPagoCreateWithoutEmpresaInput[] | Prisma.MetodoPagoUncheckedCreateWithoutEmpresaInput[]
+  connectOrCreate?: Prisma.MetodoPagoCreateOrConnectWithoutEmpresaInput | Prisma.MetodoPagoCreateOrConnectWithoutEmpresaInput[]
+  upsert?: Prisma.MetodoPagoUpsertWithWhereUniqueWithoutEmpresaInput | Prisma.MetodoPagoUpsertWithWhereUniqueWithoutEmpresaInput[]
+  createMany?: Prisma.MetodoPagoCreateManyEmpresaInputEnvelope
+  set?: Prisma.MetodoPagoWhereUniqueInput | Prisma.MetodoPagoWhereUniqueInput[]
+  disconnect?: Prisma.MetodoPagoWhereUniqueInput | Prisma.MetodoPagoWhereUniqueInput[]
+  delete?: Prisma.MetodoPagoWhereUniqueInput | Prisma.MetodoPagoWhereUniqueInput[]
+  connect?: Prisma.MetodoPagoWhereUniqueInput | Prisma.MetodoPagoWhereUniqueInput[]
+  update?: Prisma.MetodoPagoUpdateWithWhereUniqueWithoutEmpresaInput | Prisma.MetodoPagoUpdateWithWhereUniqueWithoutEmpresaInput[]
+  updateMany?: Prisma.MetodoPagoUpdateManyWithWhereWithoutEmpresaInput | Prisma.MetodoPagoUpdateManyWithWhereWithoutEmpresaInput[]
+  deleteMany?: Prisma.MetodoPagoScalarWhereInput | Prisma.MetodoPagoScalarWhereInput[]
+}
+
+export type MetodoPagoUncheckedUpdateManyWithoutEmpresaNestedInput = {
+  create?: Prisma.XOR<Prisma.MetodoPagoCreateWithoutEmpresaInput, Prisma.MetodoPagoUncheckedCreateWithoutEmpresaInput> | Prisma.MetodoPagoCreateWithoutEmpresaInput[] | Prisma.MetodoPagoUncheckedCreateWithoutEmpresaInput[]
+  connectOrCreate?: Prisma.MetodoPagoCreateOrConnectWithoutEmpresaInput | Prisma.MetodoPagoCreateOrConnectWithoutEmpresaInput[]
+  upsert?: Prisma.MetodoPagoUpsertWithWhereUniqueWithoutEmpresaInput | Prisma.MetodoPagoUpsertWithWhereUniqueWithoutEmpresaInput[]
+  createMany?: Prisma.MetodoPagoCreateManyEmpresaInputEnvelope
+  set?: Prisma.MetodoPagoWhereUniqueInput | Prisma.MetodoPagoWhereUniqueInput[]
+  disconnect?: Prisma.MetodoPagoWhereUniqueInput | Prisma.MetodoPagoWhereUniqueInput[]
+  delete?: Prisma.MetodoPagoWhereUniqueInput | Prisma.MetodoPagoWhereUniqueInput[]
+  connect?: Prisma.MetodoPagoWhereUniqueInput | Prisma.MetodoPagoWhereUniqueInput[]
+  update?: Prisma.MetodoPagoUpdateWithWhereUniqueWithoutEmpresaInput | Prisma.MetodoPagoUpdateWithWhereUniqueWithoutEmpresaInput[]
+  updateMany?: Prisma.MetodoPagoUpdateManyWithWhereWithoutEmpresaInput | Prisma.MetodoPagoUpdateManyWithWhereWithoutEmpresaInput[]
+  deleteMany?: Prisma.MetodoPagoScalarWhereInput | Prisma.MetodoPagoScalarWhereInput[]
+}
+
 export type MetodoPagoCreateNestedOneWithoutOrdenesInput = {
   create?: Prisma.XOR<Prisma.MetodoPagoCreateWithoutOrdenesInput, Prisma.MetodoPagoUncheckedCreateWithoutOrdenesInput>
   connectOrCreate?: Prisma.MetodoPagoCreateOrConnectWithoutOrdenesInput
@@ -392,11 +458,13 @@ export type MetodoPagoCreateWithoutTenantInput = {
   nombre: string
   activo?: boolean
   createdAt?: Date | string
+  empresa: Prisma.EmpresaCreateNestedOneWithoutMetodosPagoInput
   ordenes?: Prisma.OrdenServicioCreateNestedManyWithoutMetodoPagoInput
 }
 
 export type MetodoPagoUncheckedCreateWithoutTenantInput = {
   id?: string
+  empresaId: string
   nombre: string
   activo?: boolean
   createdAt?: Date | string
@@ -435,9 +503,54 @@ export type MetodoPagoScalarWhereInput = {
   NOT?: Prisma.MetodoPagoScalarWhereInput | Prisma.MetodoPagoScalarWhereInput[]
   id?: Prisma.UuidFilter<"MetodoPago"> | string
   tenantId?: Prisma.UuidFilter<"MetodoPago"> | string
+  empresaId?: Prisma.UuidFilter<"MetodoPago"> | string
   nombre?: Prisma.StringFilter<"MetodoPago"> | string
   activo?: Prisma.BoolFilter<"MetodoPago"> | boolean
   createdAt?: Prisma.DateTimeFilter<"MetodoPago"> | Date | string
+}
+
+export type MetodoPagoCreateWithoutEmpresaInput = {
+  id?: string
+  nombre: string
+  activo?: boolean
+  createdAt?: Date | string
+  tenant: Prisma.TenantCreateNestedOneWithoutMetodosPagoInput
+  ordenes?: Prisma.OrdenServicioCreateNestedManyWithoutMetodoPagoInput
+}
+
+export type MetodoPagoUncheckedCreateWithoutEmpresaInput = {
+  id?: string
+  tenantId: string
+  nombre: string
+  activo?: boolean
+  createdAt?: Date | string
+  ordenes?: Prisma.OrdenServicioUncheckedCreateNestedManyWithoutMetodoPagoInput
+}
+
+export type MetodoPagoCreateOrConnectWithoutEmpresaInput = {
+  where: Prisma.MetodoPagoWhereUniqueInput
+  create: Prisma.XOR<Prisma.MetodoPagoCreateWithoutEmpresaInput, Prisma.MetodoPagoUncheckedCreateWithoutEmpresaInput>
+}
+
+export type MetodoPagoCreateManyEmpresaInputEnvelope = {
+  data: Prisma.MetodoPagoCreateManyEmpresaInput | Prisma.MetodoPagoCreateManyEmpresaInput[]
+  skipDuplicates?: boolean
+}
+
+export type MetodoPagoUpsertWithWhereUniqueWithoutEmpresaInput = {
+  where: Prisma.MetodoPagoWhereUniqueInput
+  update: Prisma.XOR<Prisma.MetodoPagoUpdateWithoutEmpresaInput, Prisma.MetodoPagoUncheckedUpdateWithoutEmpresaInput>
+  create: Prisma.XOR<Prisma.MetodoPagoCreateWithoutEmpresaInput, Prisma.MetodoPagoUncheckedCreateWithoutEmpresaInput>
+}
+
+export type MetodoPagoUpdateWithWhereUniqueWithoutEmpresaInput = {
+  where: Prisma.MetodoPagoWhereUniqueInput
+  data: Prisma.XOR<Prisma.MetodoPagoUpdateWithoutEmpresaInput, Prisma.MetodoPagoUncheckedUpdateWithoutEmpresaInput>
+}
+
+export type MetodoPagoUpdateManyWithWhereWithoutEmpresaInput = {
+  where: Prisma.MetodoPagoScalarWhereInput
+  data: Prisma.XOR<Prisma.MetodoPagoUpdateManyMutationInput, Prisma.MetodoPagoUncheckedUpdateManyWithoutEmpresaInput>
 }
 
 export type MetodoPagoCreateWithoutOrdenesInput = {
@@ -446,11 +559,13 @@ export type MetodoPagoCreateWithoutOrdenesInput = {
   activo?: boolean
   createdAt?: Date | string
   tenant: Prisma.TenantCreateNestedOneWithoutMetodosPagoInput
+  empresa: Prisma.EmpresaCreateNestedOneWithoutMetodosPagoInput
 }
 
 export type MetodoPagoUncheckedCreateWithoutOrdenesInput = {
   id?: string
   tenantId: string
+  empresaId: string
   nombre: string
   activo?: boolean
   createdAt?: Date | string
@@ -478,11 +593,13 @@ export type MetodoPagoUpdateWithoutOrdenesInput = {
   activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   tenant?: Prisma.TenantUpdateOneRequiredWithoutMetodosPagoNestedInput
+  empresa?: Prisma.EmpresaUpdateOneRequiredWithoutMetodosPagoNestedInput
 }
 
 export type MetodoPagoUncheckedUpdateWithoutOrdenesInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   tenantId?: Prisma.StringFieldUpdateOperationsInput | string
+  empresaId?: Prisma.StringFieldUpdateOperationsInput | string
   nombre?: Prisma.StringFieldUpdateOperationsInput | string
   activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -490,6 +607,7 @@ export type MetodoPagoUncheckedUpdateWithoutOrdenesInput = {
 
 export type MetodoPagoCreateManyTenantInput = {
   id?: string
+  empresaId: string
   nombre: string
   activo?: boolean
   createdAt?: Date | string
@@ -500,11 +618,13 @@ export type MetodoPagoUpdateWithoutTenantInput = {
   nombre?: Prisma.StringFieldUpdateOperationsInput | string
   activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  empresa?: Prisma.EmpresaUpdateOneRequiredWithoutMetodosPagoNestedInput
   ordenes?: Prisma.OrdenServicioUpdateManyWithoutMetodoPagoNestedInput
 }
 
 export type MetodoPagoUncheckedUpdateWithoutTenantInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  empresaId?: Prisma.StringFieldUpdateOperationsInput | string
   nombre?: Prisma.StringFieldUpdateOperationsInput | string
   activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -513,6 +633,41 @@ export type MetodoPagoUncheckedUpdateWithoutTenantInput = {
 
 export type MetodoPagoUncheckedUpdateManyWithoutTenantInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  empresaId?: Prisma.StringFieldUpdateOperationsInput | string
+  nombre?: Prisma.StringFieldUpdateOperationsInput | string
+  activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+}
+
+export type MetodoPagoCreateManyEmpresaInput = {
+  id?: string
+  tenantId: string
+  nombre: string
+  activo?: boolean
+  createdAt?: Date | string
+}
+
+export type MetodoPagoUpdateWithoutEmpresaInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  nombre?: Prisma.StringFieldUpdateOperationsInput | string
+  activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  tenant?: Prisma.TenantUpdateOneRequiredWithoutMetodosPagoNestedInput
+  ordenes?: Prisma.OrdenServicioUpdateManyWithoutMetodoPagoNestedInput
+}
+
+export type MetodoPagoUncheckedUpdateWithoutEmpresaInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenantId?: Prisma.StringFieldUpdateOperationsInput | string
+  nombre?: Prisma.StringFieldUpdateOperationsInput | string
+  activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  ordenes?: Prisma.OrdenServicioUncheckedUpdateManyWithoutMetodoPagoNestedInput
+}
+
+export type MetodoPagoUncheckedUpdateManyWithoutEmpresaInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenantId?: Prisma.StringFieldUpdateOperationsInput | string
   nombre?: Prisma.StringFieldUpdateOperationsInput | string
   activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -552,10 +707,12 @@ export type MetodoPagoCountOutputTypeCountOrdenesArgs<ExtArgs extends runtime.Ty
 export type MetodoPagoSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   tenantId?: boolean
+  empresaId?: boolean
   nombre?: boolean
   activo?: boolean
   createdAt?: boolean
   tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
+  empresa?: boolean | Prisma.EmpresaDefaultArgs<ExtArgs>
   ordenes?: boolean | Prisma.MetodoPago$ordenesArgs<ExtArgs>
   _count?: boolean | Prisma.MetodoPagoCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["metodoPago"]>
@@ -563,51 +720,61 @@ export type MetodoPagoSelect<ExtArgs extends runtime.Types.Extensions.InternalAr
 export type MetodoPagoSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   tenantId?: boolean
+  empresaId?: boolean
   nombre?: boolean
   activo?: boolean
   createdAt?: boolean
   tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
+  empresa?: boolean | Prisma.EmpresaDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["metodoPago"]>
 
 export type MetodoPagoSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   tenantId?: boolean
+  empresaId?: boolean
   nombre?: boolean
   activo?: boolean
   createdAt?: boolean
   tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
+  empresa?: boolean | Prisma.EmpresaDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["metodoPago"]>
 
 export type MetodoPagoSelectScalar = {
   id?: boolean
   tenantId?: boolean
+  empresaId?: boolean
   nombre?: boolean
   activo?: boolean
   createdAt?: boolean
 }
 
-export type MetodoPagoOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "tenantId" | "nombre" | "activo" | "createdAt", ExtArgs["result"]["metodoPago"]>
+export type MetodoPagoOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "tenantId" | "empresaId" | "nombre" | "activo" | "createdAt", ExtArgs["result"]["metodoPago"]>
 export type MetodoPagoInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
+  empresa?: boolean | Prisma.EmpresaDefaultArgs<ExtArgs>
   ordenes?: boolean | Prisma.MetodoPago$ordenesArgs<ExtArgs>
   _count?: boolean | Prisma.MetodoPagoCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type MetodoPagoIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
+  empresa?: boolean | Prisma.EmpresaDefaultArgs<ExtArgs>
 }
 export type MetodoPagoIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
+  empresa?: boolean | Prisma.EmpresaDefaultArgs<ExtArgs>
 }
 
 export type $MetodoPagoPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "MetodoPago"
   objects: {
     tenant: Prisma.$TenantPayload<ExtArgs>
+    empresa: Prisma.$EmpresaPayload<ExtArgs>
     ordenes: Prisma.$OrdenServicioPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
     tenantId: string
+    empresaId: string
     nombre: string
     activo: boolean
     createdAt: Date
@@ -1006,6 +1173,7 @@ readonly fields: MetodoPagoFieldRefs;
 export interface Prisma__MetodoPagoClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
   tenant<T extends Prisma.TenantDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.TenantDefaultArgs<ExtArgs>>): Prisma.Prisma__TenantClient<runtime.Types.Result.GetResult<Prisma.$TenantPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  empresa<T extends Prisma.EmpresaDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.EmpresaDefaultArgs<ExtArgs>>): Prisma.Prisma__EmpresaClient<runtime.Types.Result.GetResult<Prisma.$EmpresaPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   ordenes<T extends Prisma.MetodoPago$ordenesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.MetodoPago$ordenesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$OrdenServicioPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -1038,6 +1206,7 @@ export interface Prisma__MetodoPagoClient<T, Null = never, ExtArgs extends runti
 export interface MetodoPagoFieldRefs {
   readonly id: Prisma.FieldRef<"MetodoPago", 'String'>
   readonly tenantId: Prisma.FieldRef<"MetodoPago", 'String'>
+  readonly empresaId: Prisma.FieldRef<"MetodoPago", 'String'>
   readonly nombre: Prisma.FieldRef<"MetodoPago", 'String'>
   readonly activo: Prisma.FieldRef<"MetodoPago", 'Boolean'>
   readonly createdAt: Prisma.FieldRef<"MetodoPago", 'DateTime'>

@@ -27,6 +27,7 @@ export type AggregateZona = {
 export type ZonaMinAggregateOutputType = {
   id: string | null
   tenantId: string | null
+  empresaId: string | null
   nombre: string | null
   estado: boolean | null
   deletedAt: Date | null
@@ -36,6 +37,7 @@ export type ZonaMinAggregateOutputType = {
 export type ZonaMaxAggregateOutputType = {
   id: string | null
   tenantId: string | null
+  empresaId: string | null
   nombre: string | null
   estado: boolean | null
   deletedAt: Date | null
@@ -45,6 +47,7 @@ export type ZonaMaxAggregateOutputType = {
 export type ZonaCountAggregateOutputType = {
   id: number
   tenantId: number
+  empresaId: number
   nombre: number
   estado: number
   deletedAt: number
@@ -56,6 +59,7 @@ export type ZonaCountAggregateOutputType = {
 export type ZonaMinAggregateInputType = {
   id?: true
   tenantId?: true
+  empresaId?: true
   nombre?: true
   estado?: true
   deletedAt?: true
@@ -65,6 +69,7 @@ export type ZonaMinAggregateInputType = {
 export type ZonaMaxAggregateInputType = {
   id?: true
   tenantId?: true
+  empresaId?: true
   nombre?: true
   estado?: true
   deletedAt?: true
@@ -74,6 +79,7 @@ export type ZonaMaxAggregateInputType = {
 export type ZonaCountAggregateInputType = {
   id?: true
   tenantId?: true
+  empresaId?: true
   nombre?: true
   estado?: true
   deletedAt?: true
@@ -156,6 +162,7 @@ export type ZonaGroupByArgs<ExtArgs extends runtime.Types.Extensions.InternalArg
 export type ZonaGroupByOutputType = {
   id: string
   tenantId: string
+  empresaId: string
   nombre: string
   estado: boolean
   deletedAt: Date | null
@@ -186,23 +193,31 @@ export type ZonaWhereInput = {
   NOT?: Prisma.ZonaWhereInput | Prisma.ZonaWhereInput[]
   id?: Prisma.UuidFilter<"Zona"> | string
   tenantId?: Prisma.UuidFilter<"Zona"> | string
+  empresaId?: Prisma.UuidFilter<"Zona"> | string
   nombre?: Prisma.StringFilter<"Zona"> | string
   estado?: Prisma.BoolFilter<"Zona"> | boolean
   deletedAt?: Prisma.DateTimeNullableFilter<"Zona"> | Date | string | null
   createdAt?: Prisma.DateTimeFilter<"Zona"> | Date | string
   tenant?: Prisma.XOR<Prisma.TenantScalarRelationFilter, Prisma.TenantWhereInput>
+  empresa?: Prisma.XOR<Prisma.EmpresaScalarRelationFilter, Prisma.EmpresaWhereInput>
   ordenes?: Prisma.OrdenServicioListRelationFilter
+  tenantMemberships?: Prisma.TenantMembershipListRelationFilter
+  empresaMemberships?: Prisma.EmpresaMembershipListRelationFilter
 }
 
 export type ZonaOrderByWithRelationInput = {
   id?: Prisma.SortOrder
   tenantId?: Prisma.SortOrder
+  empresaId?: Prisma.SortOrder
   nombre?: Prisma.SortOrder
   estado?: Prisma.SortOrder
   deletedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   tenant?: Prisma.TenantOrderByWithRelationInput
+  empresa?: Prisma.EmpresaOrderByWithRelationInput
   ordenes?: Prisma.OrdenServicioOrderByRelationAggregateInput
+  tenantMemberships?: Prisma.TenantMembershipOrderByRelationAggregateInput
+  empresaMemberships?: Prisma.EmpresaMembershipOrderByRelationAggregateInput
 }
 
 export type ZonaWhereUniqueInput = Prisma.AtLeast<{
@@ -211,17 +226,22 @@ export type ZonaWhereUniqueInput = Prisma.AtLeast<{
   OR?: Prisma.ZonaWhereInput[]
   NOT?: Prisma.ZonaWhereInput | Prisma.ZonaWhereInput[]
   tenantId?: Prisma.UuidFilter<"Zona"> | string
+  empresaId?: Prisma.UuidFilter<"Zona"> | string
   nombre?: Prisma.StringFilter<"Zona"> | string
   estado?: Prisma.BoolFilter<"Zona"> | boolean
   deletedAt?: Prisma.DateTimeNullableFilter<"Zona"> | Date | string | null
   createdAt?: Prisma.DateTimeFilter<"Zona"> | Date | string
   tenant?: Prisma.XOR<Prisma.TenantScalarRelationFilter, Prisma.TenantWhereInput>
+  empresa?: Prisma.XOR<Prisma.EmpresaScalarRelationFilter, Prisma.EmpresaWhereInput>
   ordenes?: Prisma.OrdenServicioListRelationFilter
+  tenantMemberships?: Prisma.TenantMembershipListRelationFilter
+  empresaMemberships?: Prisma.EmpresaMembershipListRelationFilter
 }, "id">
 
 export type ZonaOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
   tenantId?: Prisma.SortOrder
+  empresaId?: Prisma.SortOrder
   nombre?: Prisma.SortOrder
   estado?: Prisma.SortOrder
   deletedAt?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -237,6 +257,7 @@ export type ZonaScalarWhereWithAggregatesInput = {
   NOT?: Prisma.ZonaScalarWhereWithAggregatesInput | Prisma.ZonaScalarWhereWithAggregatesInput[]
   id?: Prisma.UuidWithAggregatesFilter<"Zona"> | string
   tenantId?: Prisma.UuidWithAggregatesFilter<"Zona"> | string
+  empresaId?: Prisma.UuidWithAggregatesFilter<"Zona"> | string
   nombre?: Prisma.StringWithAggregatesFilter<"Zona"> | string
   estado?: Prisma.BoolWithAggregatesFilter<"Zona"> | boolean
   deletedAt?: Prisma.DateTimeNullableWithAggregatesFilter<"Zona"> | Date | string | null
@@ -250,17 +271,23 @@ export type ZonaCreateInput = {
   deletedAt?: Date | string | null
   createdAt?: Date | string
   tenant: Prisma.TenantCreateNestedOneWithoutZonasInput
+  empresa: Prisma.EmpresaCreateNestedOneWithoutZonasInput
   ordenes?: Prisma.OrdenServicioCreateNestedManyWithoutZonaInput
+  tenantMemberships?: Prisma.TenantMembershipCreateNestedManyWithoutZonaInput
+  empresaMemberships?: Prisma.EmpresaMembershipCreateNestedManyWithoutZonaInput
 }
 
 export type ZonaUncheckedCreateInput = {
   id?: string
   tenantId: string
+  empresaId: string
   nombre: string
   estado?: boolean
   deletedAt?: Date | string | null
   createdAt?: Date | string
   ordenes?: Prisma.OrdenServicioUncheckedCreateNestedManyWithoutZonaInput
+  tenantMemberships?: Prisma.TenantMembershipUncheckedCreateNestedManyWithoutZonaInput
+  empresaMemberships?: Prisma.EmpresaMembershipUncheckedCreateNestedManyWithoutZonaInput
 }
 
 export type ZonaUpdateInput = {
@@ -270,22 +297,29 @@ export type ZonaUpdateInput = {
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   tenant?: Prisma.TenantUpdateOneRequiredWithoutZonasNestedInput
+  empresa?: Prisma.EmpresaUpdateOneRequiredWithoutZonasNestedInput
   ordenes?: Prisma.OrdenServicioUpdateManyWithoutZonaNestedInput
+  tenantMemberships?: Prisma.TenantMembershipUpdateManyWithoutZonaNestedInput
+  empresaMemberships?: Prisma.EmpresaMembershipUpdateManyWithoutZonaNestedInput
 }
 
 export type ZonaUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   tenantId?: Prisma.StringFieldUpdateOperationsInput | string
+  empresaId?: Prisma.StringFieldUpdateOperationsInput | string
   nombre?: Prisma.StringFieldUpdateOperationsInput | string
   estado?: Prisma.BoolFieldUpdateOperationsInput | boolean
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   ordenes?: Prisma.OrdenServicioUncheckedUpdateManyWithoutZonaNestedInput
+  tenantMemberships?: Prisma.TenantMembershipUncheckedUpdateManyWithoutZonaNestedInput
+  empresaMemberships?: Prisma.EmpresaMembershipUncheckedUpdateManyWithoutZonaNestedInput
 }
 
 export type ZonaCreateManyInput = {
   id?: string
   tenantId: string
+  empresaId: string
   nombre: string
   estado?: boolean
   deletedAt?: Date | string | null
@@ -303,6 +337,7 @@ export type ZonaUpdateManyMutationInput = {
 export type ZonaUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   tenantId?: Prisma.StringFieldUpdateOperationsInput | string
+  empresaId?: Prisma.StringFieldUpdateOperationsInput | string
   nombre?: Prisma.StringFieldUpdateOperationsInput | string
   estado?: Prisma.BoolFieldUpdateOperationsInput | boolean
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -319,9 +354,15 @@ export type ZonaOrderByRelationAggregateInput = {
   _count?: Prisma.SortOrder
 }
 
+export type ZonaNullableScalarRelationFilter = {
+  is?: Prisma.ZonaWhereInput | null
+  isNot?: Prisma.ZonaWhereInput | null
+}
+
 export type ZonaCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   tenantId?: Prisma.SortOrder
+  empresaId?: Prisma.SortOrder
   nombre?: Prisma.SortOrder
   estado?: Prisma.SortOrder
   deletedAt?: Prisma.SortOrder
@@ -331,6 +372,7 @@ export type ZonaCountOrderByAggregateInput = {
 export type ZonaMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
   tenantId?: Prisma.SortOrder
+  empresaId?: Prisma.SortOrder
   nombre?: Prisma.SortOrder
   estado?: Prisma.SortOrder
   deletedAt?: Prisma.SortOrder
@@ -340,15 +382,11 @@ export type ZonaMaxOrderByAggregateInput = {
 export type ZonaMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
   tenantId?: Prisma.SortOrder
+  empresaId?: Prisma.SortOrder
   nombre?: Prisma.SortOrder
   estado?: Prisma.SortOrder
   deletedAt?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
-}
-
-export type ZonaNullableScalarRelationFilter = {
-  is?: Prisma.ZonaWhereInput | null
-  isNot?: Prisma.ZonaWhereInput | null
 }
 
 export type ZonaCreateNestedManyWithoutTenantInput = {
@@ -393,6 +431,80 @@ export type ZonaUncheckedUpdateManyWithoutTenantNestedInput = {
   deleteMany?: Prisma.ZonaScalarWhereInput | Prisma.ZonaScalarWhereInput[]
 }
 
+export type ZonaCreateNestedOneWithoutTenantMembershipsInput = {
+  create?: Prisma.XOR<Prisma.ZonaCreateWithoutTenantMembershipsInput, Prisma.ZonaUncheckedCreateWithoutTenantMembershipsInput>
+  connectOrCreate?: Prisma.ZonaCreateOrConnectWithoutTenantMembershipsInput
+  connect?: Prisma.ZonaWhereUniqueInput
+}
+
+export type ZonaUpdateOneWithoutTenantMembershipsNestedInput = {
+  create?: Prisma.XOR<Prisma.ZonaCreateWithoutTenantMembershipsInput, Prisma.ZonaUncheckedCreateWithoutTenantMembershipsInput>
+  connectOrCreate?: Prisma.ZonaCreateOrConnectWithoutTenantMembershipsInput
+  upsert?: Prisma.ZonaUpsertWithoutTenantMembershipsInput
+  disconnect?: Prisma.ZonaWhereInput | boolean
+  delete?: Prisma.ZonaWhereInput | boolean
+  connect?: Prisma.ZonaWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.ZonaUpdateToOneWithWhereWithoutTenantMembershipsInput, Prisma.ZonaUpdateWithoutTenantMembershipsInput>, Prisma.ZonaUncheckedUpdateWithoutTenantMembershipsInput>
+}
+
+export type ZonaCreateNestedManyWithoutEmpresaInput = {
+  create?: Prisma.XOR<Prisma.ZonaCreateWithoutEmpresaInput, Prisma.ZonaUncheckedCreateWithoutEmpresaInput> | Prisma.ZonaCreateWithoutEmpresaInput[] | Prisma.ZonaUncheckedCreateWithoutEmpresaInput[]
+  connectOrCreate?: Prisma.ZonaCreateOrConnectWithoutEmpresaInput | Prisma.ZonaCreateOrConnectWithoutEmpresaInput[]
+  createMany?: Prisma.ZonaCreateManyEmpresaInputEnvelope
+  connect?: Prisma.ZonaWhereUniqueInput | Prisma.ZonaWhereUniqueInput[]
+}
+
+export type ZonaUncheckedCreateNestedManyWithoutEmpresaInput = {
+  create?: Prisma.XOR<Prisma.ZonaCreateWithoutEmpresaInput, Prisma.ZonaUncheckedCreateWithoutEmpresaInput> | Prisma.ZonaCreateWithoutEmpresaInput[] | Prisma.ZonaUncheckedCreateWithoutEmpresaInput[]
+  connectOrCreate?: Prisma.ZonaCreateOrConnectWithoutEmpresaInput | Prisma.ZonaCreateOrConnectWithoutEmpresaInput[]
+  createMany?: Prisma.ZonaCreateManyEmpresaInputEnvelope
+  connect?: Prisma.ZonaWhereUniqueInput | Prisma.ZonaWhereUniqueInput[]
+}
+
+export type ZonaUpdateManyWithoutEmpresaNestedInput = {
+  create?: Prisma.XOR<Prisma.ZonaCreateWithoutEmpresaInput, Prisma.ZonaUncheckedCreateWithoutEmpresaInput> | Prisma.ZonaCreateWithoutEmpresaInput[] | Prisma.ZonaUncheckedCreateWithoutEmpresaInput[]
+  connectOrCreate?: Prisma.ZonaCreateOrConnectWithoutEmpresaInput | Prisma.ZonaCreateOrConnectWithoutEmpresaInput[]
+  upsert?: Prisma.ZonaUpsertWithWhereUniqueWithoutEmpresaInput | Prisma.ZonaUpsertWithWhereUniqueWithoutEmpresaInput[]
+  createMany?: Prisma.ZonaCreateManyEmpresaInputEnvelope
+  set?: Prisma.ZonaWhereUniqueInput | Prisma.ZonaWhereUniqueInput[]
+  disconnect?: Prisma.ZonaWhereUniqueInput | Prisma.ZonaWhereUniqueInput[]
+  delete?: Prisma.ZonaWhereUniqueInput | Prisma.ZonaWhereUniqueInput[]
+  connect?: Prisma.ZonaWhereUniqueInput | Prisma.ZonaWhereUniqueInput[]
+  update?: Prisma.ZonaUpdateWithWhereUniqueWithoutEmpresaInput | Prisma.ZonaUpdateWithWhereUniqueWithoutEmpresaInput[]
+  updateMany?: Prisma.ZonaUpdateManyWithWhereWithoutEmpresaInput | Prisma.ZonaUpdateManyWithWhereWithoutEmpresaInput[]
+  deleteMany?: Prisma.ZonaScalarWhereInput | Prisma.ZonaScalarWhereInput[]
+}
+
+export type ZonaUncheckedUpdateManyWithoutEmpresaNestedInput = {
+  create?: Prisma.XOR<Prisma.ZonaCreateWithoutEmpresaInput, Prisma.ZonaUncheckedCreateWithoutEmpresaInput> | Prisma.ZonaCreateWithoutEmpresaInput[] | Prisma.ZonaUncheckedCreateWithoutEmpresaInput[]
+  connectOrCreate?: Prisma.ZonaCreateOrConnectWithoutEmpresaInput | Prisma.ZonaCreateOrConnectWithoutEmpresaInput[]
+  upsert?: Prisma.ZonaUpsertWithWhereUniqueWithoutEmpresaInput | Prisma.ZonaUpsertWithWhereUniqueWithoutEmpresaInput[]
+  createMany?: Prisma.ZonaCreateManyEmpresaInputEnvelope
+  set?: Prisma.ZonaWhereUniqueInput | Prisma.ZonaWhereUniqueInput[]
+  disconnect?: Prisma.ZonaWhereUniqueInput | Prisma.ZonaWhereUniqueInput[]
+  delete?: Prisma.ZonaWhereUniqueInput | Prisma.ZonaWhereUniqueInput[]
+  connect?: Prisma.ZonaWhereUniqueInput | Prisma.ZonaWhereUniqueInput[]
+  update?: Prisma.ZonaUpdateWithWhereUniqueWithoutEmpresaInput | Prisma.ZonaUpdateWithWhereUniqueWithoutEmpresaInput[]
+  updateMany?: Prisma.ZonaUpdateManyWithWhereWithoutEmpresaInput | Prisma.ZonaUpdateManyWithWhereWithoutEmpresaInput[]
+  deleteMany?: Prisma.ZonaScalarWhereInput | Prisma.ZonaScalarWhereInput[]
+}
+
+export type ZonaCreateNestedOneWithoutEmpresaMembershipsInput = {
+  create?: Prisma.XOR<Prisma.ZonaCreateWithoutEmpresaMembershipsInput, Prisma.ZonaUncheckedCreateWithoutEmpresaMembershipsInput>
+  connectOrCreate?: Prisma.ZonaCreateOrConnectWithoutEmpresaMembershipsInput
+  connect?: Prisma.ZonaWhereUniqueInput
+}
+
+export type ZonaUpdateOneWithoutEmpresaMembershipsNestedInput = {
+  create?: Prisma.XOR<Prisma.ZonaCreateWithoutEmpresaMembershipsInput, Prisma.ZonaUncheckedCreateWithoutEmpresaMembershipsInput>
+  connectOrCreate?: Prisma.ZonaCreateOrConnectWithoutEmpresaMembershipsInput
+  upsert?: Prisma.ZonaUpsertWithoutEmpresaMembershipsInput
+  disconnect?: Prisma.ZonaWhereInput | boolean
+  delete?: Prisma.ZonaWhereInput | boolean
+  connect?: Prisma.ZonaWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.ZonaUpdateToOneWithWhereWithoutEmpresaMembershipsInput, Prisma.ZonaUpdateWithoutEmpresaMembershipsInput>, Prisma.ZonaUncheckedUpdateWithoutEmpresaMembershipsInput>
+}
+
 export type ZonaCreateNestedOneWithoutOrdenesInput = {
   create?: Prisma.XOR<Prisma.ZonaCreateWithoutOrdenesInput, Prisma.ZonaUncheckedCreateWithoutOrdenesInput>
   connectOrCreate?: Prisma.ZonaCreateOrConnectWithoutOrdenesInput
@@ -415,16 +527,22 @@ export type ZonaCreateWithoutTenantInput = {
   estado?: boolean
   deletedAt?: Date | string | null
   createdAt?: Date | string
+  empresa: Prisma.EmpresaCreateNestedOneWithoutZonasInput
   ordenes?: Prisma.OrdenServicioCreateNestedManyWithoutZonaInput
+  tenantMemberships?: Prisma.TenantMembershipCreateNestedManyWithoutZonaInput
+  empresaMemberships?: Prisma.EmpresaMembershipCreateNestedManyWithoutZonaInput
 }
 
 export type ZonaUncheckedCreateWithoutTenantInput = {
   id?: string
+  empresaId: string
   nombre: string
   estado?: boolean
   deletedAt?: Date | string | null
   createdAt?: Date | string
   ordenes?: Prisma.OrdenServicioUncheckedCreateNestedManyWithoutZonaInput
+  tenantMemberships?: Prisma.TenantMembershipUncheckedCreateNestedManyWithoutZonaInput
+  empresaMemberships?: Prisma.EmpresaMembershipUncheckedCreateNestedManyWithoutZonaInput
 }
 
 export type ZonaCreateOrConnectWithoutTenantInput = {
@@ -459,10 +577,189 @@ export type ZonaScalarWhereInput = {
   NOT?: Prisma.ZonaScalarWhereInput | Prisma.ZonaScalarWhereInput[]
   id?: Prisma.UuidFilter<"Zona"> | string
   tenantId?: Prisma.UuidFilter<"Zona"> | string
+  empresaId?: Prisma.UuidFilter<"Zona"> | string
   nombre?: Prisma.StringFilter<"Zona"> | string
   estado?: Prisma.BoolFilter<"Zona"> | boolean
   deletedAt?: Prisma.DateTimeNullableFilter<"Zona"> | Date | string | null
   createdAt?: Prisma.DateTimeFilter<"Zona"> | Date | string
+}
+
+export type ZonaCreateWithoutTenantMembershipsInput = {
+  id?: string
+  nombre: string
+  estado?: boolean
+  deletedAt?: Date | string | null
+  createdAt?: Date | string
+  tenant: Prisma.TenantCreateNestedOneWithoutZonasInput
+  empresa: Prisma.EmpresaCreateNestedOneWithoutZonasInput
+  ordenes?: Prisma.OrdenServicioCreateNestedManyWithoutZonaInput
+  empresaMemberships?: Prisma.EmpresaMembershipCreateNestedManyWithoutZonaInput
+}
+
+export type ZonaUncheckedCreateWithoutTenantMembershipsInput = {
+  id?: string
+  tenantId: string
+  empresaId: string
+  nombre: string
+  estado?: boolean
+  deletedAt?: Date | string | null
+  createdAt?: Date | string
+  ordenes?: Prisma.OrdenServicioUncheckedCreateNestedManyWithoutZonaInput
+  empresaMemberships?: Prisma.EmpresaMembershipUncheckedCreateNestedManyWithoutZonaInput
+}
+
+export type ZonaCreateOrConnectWithoutTenantMembershipsInput = {
+  where: Prisma.ZonaWhereUniqueInput
+  create: Prisma.XOR<Prisma.ZonaCreateWithoutTenantMembershipsInput, Prisma.ZonaUncheckedCreateWithoutTenantMembershipsInput>
+}
+
+export type ZonaUpsertWithoutTenantMembershipsInput = {
+  update: Prisma.XOR<Prisma.ZonaUpdateWithoutTenantMembershipsInput, Prisma.ZonaUncheckedUpdateWithoutTenantMembershipsInput>
+  create: Prisma.XOR<Prisma.ZonaCreateWithoutTenantMembershipsInput, Prisma.ZonaUncheckedCreateWithoutTenantMembershipsInput>
+  where?: Prisma.ZonaWhereInput
+}
+
+export type ZonaUpdateToOneWithWhereWithoutTenantMembershipsInput = {
+  where?: Prisma.ZonaWhereInput
+  data: Prisma.XOR<Prisma.ZonaUpdateWithoutTenantMembershipsInput, Prisma.ZonaUncheckedUpdateWithoutTenantMembershipsInput>
+}
+
+export type ZonaUpdateWithoutTenantMembershipsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  nombre?: Prisma.StringFieldUpdateOperationsInput | string
+  estado?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  tenant?: Prisma.TenantUpdateOneRequiredWithoutZonasNestedInput
+  empresa?: Prisma.EmpresaUpdateOneRequiredWithoutZonasNestedInput
+  ordenes?: Prisma.OrdenServicioUpdateManyWithoutZonaNestedInput
+  empresaMemberships?: Prisma.EmpresaMembershipUpdateManyWithoutZonaNestedInput
+}
+
+export type ZonaUncheckedUpdateWithoutTenantMembershipsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenantId?: Prisma.StringFieldUpdateOperationsInput | string
+  empresaId?: Prisma.StringFieldUpdateOperationsInput | string
+  nombre?: Prisma.StringFieldUpdateOperationsInput | string
+  estado?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  ordenes?: Prisma.OrdenServicioUncheckedUpdateManyWithoutZonaNestedInput
+  empresaMemberships?: Prisma.EmpresaMembershipUncheckedUpdateManyWithoutZonaNestedInput
+}
+
+export type ZonaCreateWithoutEmpresaInput = {
+  id?: string
+  nombre: string
+  estado?: boolean
+  deletedAt?: Date | string | null
+  createdAt?: Date | string
+  tenant: Prisma.TenantCreateNestedOneWithoutZonasInput
+  ordenes?: Prisma.OrdenServicioCreateNestedManyWithoutZonaInput
+  tenantMemberships?: Prisma.TenantMembershipCreateNestedManyWithoutZonaInput
+  empresaMemberships?: Prisma.EmpresaMembershipCreateNestedManyWithoutZonaInput
+}
+
+export type ZonaUncheckedCreateWithoutEmpresaInput = {
+  id?: string
+  tenantId: string
+  nombre: string
+  estado?: boolean
+  deletedAt?: Date | string | null
+  createdAt?: Date | string
+  ordenes?: Prisma.OrdenServicioUncheckedCreateNestedManyWithoutZonaInput
+  tenantMemberships?: Prisma.TenantMembershipUncheckedCreateNestedManyWithoutZonaInput
+  empresaMemberships?: Prisma.EmpresaMembershipUncheckedCreateNestedManyWithoutZonaInput
+}
+
+export type ZonaCreateOrConnectWithoutEmpresaInput = {
+  where: Prisma.ZonaWhereUniqueInput
+  create: Prisma.XOR<Prisma.ZonaCreateWithoutEmpresaInput, Prisma.ZonaUncheckedCreateWithoutEmpresaInput>
+}
+
+export type ZonaCreateManyEmpresaInputEnvelope = {
+  data: Prisma.ZonaCreateManyEmpresaInput | Prisma.ZonaCreateManyEmpresaInput[]
+  skipDuplicates?: boolean
+}
+
+export type ZonaUpsertWithWhereUniqueWithoutEmpresaInput = {
+  where: Prisma.ZonaWhereUniqueInput
+  update: Prisma.XOR<Prisma.ZonaUpdateWithoutEmpresaInput, Prisma.ZonaUncheckedUpdateWithoutEmpresaInput>
+  create: Prisma.XOR<Prisma.ZonaCreateWithoutEmpresaInput, Prisma.ZonaUncheckedCreateWithoutEmpresaInput>
+}
+
+export type ZonaUpdateWithWhereUniqueWithoutEmpresaInput = {
+  where: Prisma.ZonaWhereUniqueInput
+  data: Prisma.XOR<Prisma.ZonaUpdateWithoutEmpresaInput, Prisma.ZonaUncheckedUpdateWithoutEmpresaInput>
+}
+
+export type ZonaUpdateManyWithWhereWithoutEmpresaInput = {
+  where: Prisma.ZonaScalarWhereInput
+  data: Prisma.XOR<Prisma.ZonaUpdateManyMutationInput, Prisma.ZonaUncheckedUpdateManyWithoutEmpresaInput>
+}
+
+export type ZonaCreateWithoutEmpresaMembershipsInput = {
+  id?: string
+  nombre: string
+  estado?: boolean
+  deletedAt?: Date | string | null
+  createdAt?: Date | string
+  tenant: Prisma.TenantCreateNestedOneWithoutZonasInput
+  empresa: Prisma.EmpresaCreateNestedOneWithoutZonasInput
+  ordenes?: Prisma.OrdenServicioCreateNestedManyWithoutZonaInput
+  tenantMemberships?: Prisma.TenantMembershipCreateNestedManyWithoutZonaInput
+}
+
+export type ZonaUncheckedCreateWithoutEmpresaMembershipsInput = {
+  id?: string
+  tenantId: string
+  empresaId: string
+  nombre: string
+  estado?: boolean
+  deletedAt?: Date | string | null
+  createdAt?: Date | string
+  ordenes?: Prisma.OrdenServicioUncheckedCreateNestedManyWithoutZonaInput
+  tenantMemberships?: Prisma.TenantMembershipUncheckedCreateNestedManyWithoutZonaInput
+}
+
+export type ZonaCreateOrConnectWithoutEmpresaMembershipsInput = {
+  where: Prisma.ZonaWhereUniqueInput
+  create: Prisma.XOR<Prisma.ZonaCreateWithoutEmpresaMembershipsInput, Prisma.ZonaUncheckedCreateWithoutEmpresaMembershipsInput>
+}
+
+export type ZonaUpsertWithoutEmpresaMembershipsInput = {
+  update: Prisma.XOR<Prisma.ZonaUpdateWithoutEmpresaMembershipsInput, Prisma.ZonaUncheckedUpdateWithoutEmpresaMembershipsInput>
+  create: Prisma.XOR<Prisma.ZonaCreateWithoutEmpresaMembershipsInput, Prisma.ZonaUncheckedCreateWithoutEmpresaMembershipsInput>
+  where?: Prisma.ZonaWhereInput
+}
+
+export type ZonaUpdateToOneWithWhereWithoutEmpresaMembershipsInput = {
+  where?: Prisma.ZonaWhereInput
+  data: Prisma.XOR<Prisma.ZonaUpdateWithoutEmpresaMembershipsInput, Prisma.ZonaUncheckedUpdateWithoutEmpresaMembershipsInput>
+}
+
+export type ZonaUpdateWithoutEmpresaMembershipsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  nombre?: Prisma.StringFieldUpdateOperationsInput | string
+  estado?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  tenant?: Prisma.TenantUpdateOneRequiredWithoutZonasNestedInput
+  empresa?: Prisma.EmpresaUpdateOneRequiredWithoutZonasNestedInput
+  ordenes?: Prisma.OrdenServicioUpdateManyWithoutZonaNestedInput
+  tenantMemberships?: Prisma.TenantMembershipUpdateManyWithoutZonaNestedInput
+}
+
+export type ZonaUncheckedUpdateWithoutEmpresaMembershipsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenantId?: Prisma.StringFieldUpdateOperationsInput | string
+  empresaId?: Prisma.StringFieldUpdateOperationsInput | string
+  nombre?: Prisma.StringFieldUpdateOperationsInput | string
+  estado?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  ordenes?: Prisma.OrdenServicioUncheckedUpdateManyWithoutZonaNestedInput
+  tenantMemberships?: Prisma.TenantMembershipUncheckedUpdateManyWithoutZonaNestedInput
 }
 
 export type ZonaCreateWithoutOrdenesInput = {
@@ -472,15 +769,21 @@ export type ZonaCreateWithoutOrdenesInput = {
   deletedAt?: Date | string | null
   createdAt?: Date | string
   tenant: Prisma.TenantCreateNestedOneWithoutZonasInput
+  empresa: Prisma.EmpresaCreateNestedOneWithoutZonasInput
+  tenantMemberships?: Prisma.TenantMembershipCreateNestedManyWithoutZonaInput
+  empresaMemberships?: Prisma.EmpresaMembershipCreateNestedManyWithoutZonaInput
 }
 
 export type ZonaUncheckedCreateWithoutOrdenesInput = {
   id?: string
   tenantId: string
+  empresaId: string
   nombre: string
   estado?: boolean
   deletedAt?: Date | string | null
   createdAt?: Date | string
+  tenantMemberships?: Prisma.TenantMembershipUncheckedCreateNestedManyWithoutZonaInput
+  empresaMemberships?: Prisma.EmpresaMembershipUncheckedCreateNestedManyWithoutZonaInput
 }
 
 export type ZonaCreateOrConnectWithoutOrdenesInput = {
@@ -506,19 +809,26 @@ export type ZonaUpdateWithoutOrdenesInput = {
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   tenant?: Prisma.TenantUpdateOneRequiredWithoutZonasNestedInput
+  empresa?: Prisma.EmpresaUpdateOneRequiredWithoutZonasNestedInput
+  tenantMemberships?: Prisma.TenantMembershipUpdateManyWithoutZonaNestedInput
+  empresaMemberships?: Prisma.EmpresaMembershipUpdateManyWithoutZonaNestedInput
 }
 
 export type ZonaUncheckedUpdateWithoutOrdenesInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   tenantId?: Prisma.StringFieldUpdateOperationsInput | string
+  empresaId?: Prisma.StringFieldUpdateOperationsInput | string
   nombre?: Prisma.StringFieldUpdateOperationsInput | string
   estado?: Prisma.BoolFieldUpdateOperationsInput | boolean
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  tenantMemberships?: Prisma.TenantMembershipUncheckedUpdateManyWithoutZonaNestedInput
+  empresaMemberships?: Prisma.EmpresaMembershipUncheckedUpdateManyWithoutZonaNestedInput
 }
 
 export type ZonaCreateManyTenantInput = {
   id?: string
+  empresaId: string
   nombre: string
   estado?: boolean
   deletedAt?: Date | string | null
@@ -531,20 +841,69 @@ export type ZonaUpdateWithoutTenantInput = {
   estado?: Prisma.BoolFieldUpdateOperationsInput | boolean
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  empresa?: Prisma.EmpresaUpdateOneRequiredWithoutZonasNestedInput
   ordenes?: Prisma.OrdenServicioUpdateManyWithoutZonaNestedInput
+  tenantMemberships?: Prisma.TenantMembershipUpdateManyWithoutZonaNestedInput
+  empresaMemberships?: Prisma.EmpresaMembershipUpdateManyWithoutZonaNestedInput
 }
 
 export type ZonaUncheckedUpdateWithoutTenantInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  empresaId?: Prisma.StringFieldUpdateOperationsInput | string
   nombre?: Prisma.StringFieldUpdateOperationsInput | string
   estado?: Prisma.BoolFieldUpdateOperationsInput | boolean
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   ordenes?: Prisma.OrdenServicioUncheckedUpdateManyWithoutZonaNestedInput
+  tenantMemberships?: Prisma.TenantMembershipUncheckedUpdateManyWithoutZonaNestedInput
+  empresaMemberships?: Prisma.EmpresaMembershipUncheckedUpdateManyWithoutZonaNestedInput
 }
 
 export type ZonaUncheckedUpdateManyWithoutTenantInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  empresaId?: Prisma.StringFieldUpdateOperationsInput | string
+  nombre?: Prisma.StringFieldUpdateOperationsInput | string
+  estado?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+}
+
+export type ZonaCreateManyEmpresaInput = {
+  id?: string
+  tenantId: string
+  nombre: string
+  estado?: boolean
+  deletedAt?: Date | string | null
+  createdAt?: Date | string
+}
+
+export type ZonaUpdateWithoutEmpresaInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  nombre?: Prisma.StringFieldUpdateOperationsInput | string
+  estado?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  tenant?: Prisma.TenantUpdateOneRequiredWithoutZonasNestedInput
+  ordenes?: Prisma.OrdenServicioUpdateManyWithoutZonaNestedInput
+  tenantMemberships?: Prisma.TenantMembershipUpdateManyWithoutZonaNestedInput
+  empresaMemberships?: Prisma.EmpresaMembershipUpdateManyWithoutZonaNestedInput
+}
+
+export type ZonaUncheckedUpdateWithoutEmpresaInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenantId?: Prisma.StringFieldUpdateOperationsInput | string
+  nombre?: Prisma.StringFieldUpdateOperationsInput | string
+  estado?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  ordenes?: Prisma.OrdenServicioUncheckedUpdateManyWithoutZonaNestedInput
+  tenantMemberships?: Prisma.TenantMembershipUncheckedUpdateManyWithoutZonaNestedInput
+  empresaMemberships?: Prisma.EmpresaMembershipUncheckedUpdateManyWithoutZonaNestedInput
+}
+
+export type ZonaUncheckedUpdateManyWithoutEmpresaInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenantId?: Prisma.StringFieldUpdateOperationsInput | string
   nombre?: Prisma.StringFieldUpdateOperationsInput | string
   estado?: Prisma.BoolFieldUpdateOperationsInput | boolean
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -558,10 +917,14 @@ export type ZonaUncheckedUpdateManyWithoutTenantInput = {
 
 export type ZonaCountOutputType = {
   ordenes: number
+  tenantMemberships: number
+  empresaMemberships: number
 }
 
 export type ZonaCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   ordenes?: boolean | ZonaCountOutputTypeCountOrdenesArgs
+  tenantMemberships?: boolean | ZonaCountOutputTypeCountTenantMembershipsArgs
+  empresaMemberships?: boolean | ZonaCountOutputTypeCountEmpresaMembershipsArgs
 }
 
 /**
@@ -581,70 +944,102 @@ export type ZonaCountOutputTypeCountOrdenesArgs<ExtArgs extends runtime.Types.Ex
   where?: Prisma.OrdenServicioWhereInput
 }
 
+/**
+ * ZonaCountOutputType without action
+ */
+export type ZonaCountOutputTypeCountTenantMembershipsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.TenantMembershipWhereInput
+}
+
+/**
+ * ZonaCountOutputType without action
+ */
+export type ZonaCountOutputTypeCountEmpresaMembershipsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.EmpresaMembershipWhereInput
+}
+
 
 export type ZonaSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   tenantId?: boolean
+  empresaId?: boolean
   nombre?: boolean
   estado?: boolean
   deletedAt?: boolean
   createdAt?: boolean
   tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
+  empresa?: boolean | Prisma.EmpresaDefaultArgs<ExtArgs>
   ordenes?: boolean | Prisma.Zona$ordenesArgs<ExtArgs>
+  tenantMemberships?: boolean | Prisma.Zona$tenantMembershipsArgs<ExtArgs>
+  empresaMemberships?: boolean | Prisma.Zona$empresaMembershipsArgs<ExtArgs>
   _count?: boolean | Prisma.ZonaCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["zona"]>
 
 export type ZonaSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   tenantId?: boolean
+  empresaId?: boolean
   nombre?: boolean
   estado?: boolean
   deletedAt?: boolean
   createdAt?: boolean
   tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
+  empresa?: boolean | Prisma.EmpresaDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["zona"]>
 
 export type ZonaSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   tenantId?: boolean
+  empresaId?: boolean
   nombre?: boolean
   estado?: boolean
   deletedAt?: boolean
   createdAt?: boolean
   tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
+  empresa?: boolean | Prisma.EmpresaDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["zona"]>
 
 export type ZonaSelectScalar = {
   id?: boolean
   tenantId?: boolean
+  empresaId?: boolean
   nombre?: boolean
   estado?: boolean
   deletedAt?: boolean
   createdAt?: boolean
 }
 
-export type ZonaOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "tenantId" | "nombre" | "estado" | "deletedAt" | "createdAt", ExtArgs["result"]["zona"]>
+export type ZonaOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "tenantId" | "empresaId" | "nombre" | "estado" | "deletedAt" | "createdAt", ExtArgs["result"]["zona"]>
 export type ZonaInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
+  empresa?: boolean | Prisma.EmpresaDefaultArgs<ExtArgs>
   ordenes?: boolean | Prisma.Zona$ordenesArgs<ExtArgs>
+  tenantMemberships?: boolean | Prisma.Zona$tenantMembershipsArgs<ExtArgs>
+  empresaMemberships?: boolean | Prisma.Zona$empresaMembershipsArgs<ExtArgs>
   _count?: boolean | Prisma.ZonaCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type ZonaIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
+  empresa?: boolean | Prisma.EmpresaDefaultArgs<ExtArgs>
 }
 export type ZonaIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
+  empresa?: boolean | Prisma.EmpresaDefaultArgs<ExtArgs>
 }
 
 export type $ZonaPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "Zona"
   objects: {
     tenant: Prisma.$TenantPayload<ExtArgs>
+    empresa: Prisma.$EmpresaPayload<ExtArgs>
     ordenes: Prisma.$OrdenServicioPayload<ExtArgs>[]
+    tenantMemberships: Prisma.$TenantMembershipPayload<ExtArgs>[]
+    empresaMemberships: Prisma.$EmpresaMembershipPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
     tenantId: string
+    empresaId: string
     nombre: string
     estado: boolean
     deletedAt: Date | null
@@ -1044,7 +1439,10 @@ readonly fields: ZonaFieldRefs;
 export interface Prisma__ZonaClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
   tenant<T extends Prisma.TenantDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.TenantDefaultArgs<ExtArgs>>): Prisma.Prisma__TenantClient<runtime.Types.Result.GetResult<Prisma.$TenantPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  empresa<T extends Prisma.EmpresaDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.EmpresaDefaultArgs<ExtArgs>>): Prisma.Prisma__EmpresaClient<runtime.Types.Result.GetResult<Prisma.$EmpresaPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   ordenes<T extends Prisma.Zona$ordenesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Zona$ordenesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$OrdenServicioPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  tenantMemberships<T extends Prisma.Zona$tenantMembershipsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Zona$tenantMembershipsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$TenantMembershipPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  empresaMemberships<T extends Prisma.Zona$empresaMembershipsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Zona$empresaMembershipsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$EmpresaMembershipPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1076,6 +1474,7 @@ export interface Prisma__ZonaClient<T, Null = never, ExtArgs extends runtime.Typ
 export interface ZonaFieldRefs {
   readonly id: Prisma.FieldRef<"Zona", 'String'>
   readonly tenantId: Prisma.FieldRef<"Zona", 'String'>
+  readonly empresaId: Prisma.FieldRef<"Zona", 'String'>
   readonly nombre: Prisma.FieldRef<"Zona", 'String'>
   readonly estado: Prisma.FieldRef<"Zona", 'Boolean'>
   readonly deletedAt: Prisma.FieldRef<"Zona", 'DateTime'>
@@ -1497,6 +1896,54 @@ export type Zona$ordenesArgs<ExtArgs extends runtime.Types.Extensions.InternalAr
   take?: number
   skip?: number
   distinct?: Prisma.OrdenServicioScalarFieldEnum | Prisma.OrdenServicioScalarFieldEnum[]
+}
+
+/**
+ * Zona.tenantMemberships
+ */
+export type Zona$tenantMembershipsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the TenantMembership
+   */
+  select?: Prisma.TenantMembershipSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the TenantMembership
+   */
+  omit?: Prisma.TenantMembershipOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.TenantMembershipInclude<ExtArgs> | null
+  where?: Prisma.TenantMembershipWhereInput
+  orderBy?: Prisma.TenantMembershipOrderByWithRelationInput | Prisma.TenantMembershipOrderByWithRelationInput[]
+  cursor?: Prisma.TenantMembershipWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.TenantMembershipScalarFieldEnum | Prisma.TenantMembershipScalarFieldEnum[]
+}
+
+/**
+ * Zona.empresaMemberships
+ */
+export type Zona$empresaMembershipsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the EmpresaMembership
+   */
+  select?: Prisma.EmpresaMembershipSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the EmpresaMembership
+   */
+  omit?: Prisma.EmpresaMembershipOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.EmpresaMembershipInclude<ExtArgs> | null
+  where?: Prisma.EmpresaMembershipWhereInput
+  orderBy?: Prisma.EmpresaMembershipOrderByWithRelationInput | Prisma.EmpresaMembershipOrderByWithRelationInput[]
+  cursor?: Prisma.EmpresaMembershipWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.EmpresaMembershipScalarFieldEnum | Prisma.EmpresaMembershipScalarFieldEnum[]
 }
 
 /**

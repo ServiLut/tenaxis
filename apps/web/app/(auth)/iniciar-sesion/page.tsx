@@ -3,7 +3,7 @@
 import React, { useState } from "react";
 import Link from "next/link";
 import { Button, Input, Label } from "@/components/ui";
-import { LogIn, Mail, Lock, Sparkles, Loader2, ArrowRight } from "lucide-react";
+import { LogIn, Mail, Lock, Sparkles, Loader2 } from "lucide-react";
 
 export default function LoginPage() {
   const [formData, setFormData] = useState({
@@ -32,9 +32,25 @@ export default function LoginPage() {
         body: JSON.stringify(formData),
       });
 
+      const result = await response.json();
+
       if (!response.ok) {
-        const data = await response.json();
-        throw new Error(data.message || "Error al iniciar sesión");
+        throw new Error(result.message || "Error al iniciar sesión");
+      }
+
+      // Extraer datos del objeto anidado si existe (debido al TransformInterceptor)
+      const data = result.data || result;
+
+      if (!data.access_token) {
+        throw new Error("No se recibió un token de acceso válido");
+      }
+
+      // Guardar el token en una cookie para el proxy y futuras peticiones
+      document.cookie = `access_token=${data.access_token}; path=/; max-age=86400; SameSite=Lax`;
+      
+      // Guardar datos del usuario para uso en el cliente
+      if (data.user) {
+        localStorage.setItem("user", JSON.stringify(data.user));
       }
 
       window.location.href = "/dashboard";
@@ -152,7 +168,7 @@ export default function LoginPage() {
                     Password
                   </Label>
                   <Link
-                    href="/recuperar-password"
+                    href="/olvide-mi-contraseña"
                     title="Recuperar contraseña"
                     className="text-[10px] font-black uppercase tracking-widest text-zinc-300 hover:text-zinc-900 dark:hover:text-zinc-100 transition-colors"
                   >

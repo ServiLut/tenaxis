@@ -27,6 +27,7 @@ export type AggregateAuditoria = {
 export type AuditoriaMinAggregateOutputType = {
   id: string | null
   tenantId: string | null
+  empresaId: string | null
   membershipId: string | null
   accion: string | null
   entidad: string | null
@@ -37,6 +38,7 @@ export type AuditoriaMinAggregateOutputType = {
 export type AuditoriaMaxAggregateOutputType = {
   id: string | null
   tenantId: string | null
+  empresaId: string | null
   membershipId: string | null
   accion: string | null
   entidad: string | null
@@ -47,6 +49,7 @@ export type AuditoriaMaxAggregateOutputType = {
 export type AuditoriaCountAggregateOutputType = {
   id: number
   tenantId: number
+  empresaId: number
   membershipId: number
   accion: number
   entidad: number
@@ -61,6 +64,7 @@ export type AuditoriaCountAggregateOutputType = {
 export type AuditoriaMinAggregateInputType = {
   id?: true
   tenantId?: true
+  empresaId?: true
   membershipId?: true
   accion?: true
   entidad?: true
@@ -71,6 +75,7 @@ export type AuditoriaMinAggregateInputType = {
 export type AuditoriaMaxAggregateInputType = {
   id?: true
   tenantId?: true
+  empresaId?: true
   membershipId?: true
   accion?: true
   entidad?: true
@@ -81,6 +86,7 @@ export type AuditoriaMaxAggregateInputType = {
 export type AuditoriaCountAggregateInputType = {
   id?: true
   tenantId?: true
+  empresaId?: true
   membershipId?: true
   accion?: true
   entidad?: true
@@ -166,6 +172,7 @@ export type AuditoriaGroupByArgs<ExtArgs extends runtime.Types.Extensions.Intern
 export type AuditoriaGroupByOutputType = {
   id: string
   tenantId: string
+  empresaId: string | null
   membershipId: string | null
   accion: string
   entidad: string
@@ -199,6 +206,7 @@ export type AuditoriaWhereInput = {
   NOT?: Prisma.AuditoriaWhereInput | Prisma.AuditoriaWhereInput[]
   id?: Prisma.UuidFilter<"Auditoria"> | string
   tenantId?: Prisma.UuidFilter<"Auditoria"> | string
+  empresaId?: Prisma.UuidNullableFilter<"Auditoria"> | string | null
   membershipId?: Prisma.UuidNullableFilter<"Auditoria"> | string | null
   accion?: Prisma.StringFilter<"Auditoria"> | string
   entidad?: Prisma.StringFilter<"Auditoria"> | string
@@ -207,12 +215,14 @@ export type AuditoriaWhereInput = {
   metadata?: Prisma.JsonNullableFilter<"Auditoria">
   createdAt?: Prisma.DateTimeFilter<"Auditoria"> | Date | string
   tenant?: Prisma.XOR<Prisma.TenantScalarRelationFilter, Prisma.TenantWhereInput>
+  empresa?: Prisma.XOR<Prisma.EmpresaNullableScalarRelationFilter, Prisma.EmpresaWhereInput> | null
   membership?: Prisma.XOR<Prisma.TenantMembershipNullableScalarRelationFilter, Prisma.TenantMembershipWhereInput> | null
 }
 
 export type AuditoriaOrderByWithRelationInput = {
   id?: Prisma.SortOrder
   tenantId?: Prisma.SortOrder
+  empresaId?: Prisma.SortOrderInput | Prisma.SortOrder
   membershipId?: Prisma.SortOrderInput | Prisma.SortOrder
   accion?: Prisma.SortOrder
   entidad?: Prisma.SortOrder
@@ -221,6 +231,7 @@ export type AuditoriaOrderByWithRelationInput = {
   metadata?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   tenant?: Prisma.TenantOrderByWithRelationInput
+  empresa?: Prisma.EmpresaOrderByWithRelationInput
   membership?: Prisma.TenantMembershipOrderByWithRelationInput
 }
 
@@ -230,6 +241,7 @@ export type AuditoriaWhereUniqueInput = Prisma.AtLeast<{
   OR?: Prisma.AuditoriaWhereInput[]
   NOT?: Prisma.AuditoriaWhereInput | Prisma.AuditoriaWhereInput[]
   tenantId?: Prisma.UuidFilter<"Auditoria"> | string
+  empresaId?: Prisma.UuidNullableFilter<"Auditoria"> | string | null
   membershipId?: Prisma.UuidNullableFilter<"Auditoria"> | string | null
   accion?: Prisma.StringFilter<"Auditoria"> | string
   entidad?: Prisma.StringFilter<"Auditoria"> | string
@@ -238,12 +250,14 @@ export type AuditoriaWhereUniqueInput = Prisma.AtLeast<{
   metadata?: Prisma.JsonNullableFilter<"Auditoria">
   createdAt?: Prisma.DateTimeFilter<"Auditoria"> | Date | string
   tenant?: Prisma.XOR<Prisma.TenantScalarRelationFilter, Prisma.TenantWhereInput>
+  empresa?: Prisma.XOR<Prisma.EmpresaNullableScalarRelationFilter, Prisma.EmpresaWhereInput> | null
   membership?: Prisma.XOR<Prisma.TenantMembershipNullableScalarRelationFilter, Prisma.TenantMembershipWhereInput> | null
 }, "id">
 
 export type AuditoriaOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
   tenantId?: Prisma.SortOrder
+  empresaId?: Prisma.SortOrderInput | Prisma.SortOrder
   membershipId?: Prisma.SortOrderInput | Prisma.SortOrder
   accion?: Prisma.SortOrder
   entidad?: Prisma.SortOrder
@@ -262,6 +276,7 @@ export type AuditoriaScalarWhereWithAggregatesInput = {
   NOT?: Prisma.AuditoriaScalarWhereWithAggregatesInput | Prisma.AuditoriaScalarWhereWithAggregatesInput[]
   id?: Prisma.UuidWithAggregatesFilter<"Auditoria"> | string
   tenantId?: Prisma.UuidWithAggregatesFilter<"Auditoria"> | string
+  empresaId?: Prisma.UuidNullableWithAggregatesFilter<"Auditoria"> | string | null
   membershipId?: Prisma.UuidNullableWithAggregatesFilter<"Auditoria"> | string | null
   accion?: Prisma.StringWithAggregatesFilter<"Auditoria"> | string
   entidad?: Prisma.StringWithAggregatesFilter<"Auditoria"> | string
@@ -280,12 +295,14 @@ export type AuditoriaCreateInput = {
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
   tenant: Prisma.TenantCreateNestedOneWithoutAuditoriasInput
+  empresa?: Prisma.EmpresaCreateNestedOneWithoutAuditoriasInput
   membership?: Prisma.TenantMembershipCreateNestedOneWithoutAuditoriasInput
 }
 
 export type AuditoriaUncheckedCreateInput = {
   id?: string
   tenantId: string
+  empresaId?: string | null
   membershipId?: string | null
   accion: string
   entidad: string
@@ -304,12 +321,14 @@ export type AuditoriaUpdateInput = {
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   tenant?: Prisma.TenantUpdateOneRequiredWithoutAuditoriasNestedInput
+  empresa?: Prisma.EmpresaUpdateOneWithoutAuditoriasNestedInput
   membership?: Prisma.TenantMembershipUpdateOneWithoutAuditoriasNestedInput
 }
 
 export type AuditoriaUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   tenantId?: Prisma.StringFieldUpdateOperationsInput | string
+  empresaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   membershipId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   accion?: Prisma.StringFieldUpdateOperationsInput | string
   entidad?: Prisma.StringFieldUpdateOperationsInput | string
@@ -322,6 +341,7 @@ export type AuditoriaUncheckedUpdateInput = {
 export type AuditoriaCreateManyInput = {
   id?: string
   tenantId: string
+  empresaId?: string | null
   membershipId?: string | null
   accion: string
   entidad: string
@@ -344,6 +364,7 @@ export type AuditoriaUpdateManyMutationInput = {
 export type AuditoriaUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   tenantId?: Prisma.StringFieldUpdateOperationsInput | string
+  empresaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   membershipId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   accion?: Prisma.StringFieldUpdateOperationsInput | string
   entidad?: Prisma.StringFieldUpdateOperationsInput | string
@@ -366,6 +387,7 @@ export type AuditoriaOrderByRelationAggregateInput = {
 export type AuditoriaCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   tenantId?: Prisma.SortOrder
+  empresaId?: Prisma.SortOrder
   membershipId?: Prisma.SortOrder
   accion?: Prisma.SortOrder
   entidad?: Prisma.SortOrder
@@ -378,6 +400,7 @@ export type AuditoriaCountOrderByAggregateInput = {
 export type AuditoriaMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
   tenantId?: Prisma.SortOrder
+  empresaId?: Prisma.SortOrder
   membershipId?: Prisma.SortOrder
   accion?: Prisma.SortOrder
   entidad?: Prisma.SortOrder
@@ -388,6 +411,7 @@ export type AuditoriaMaxOrderByAggregateInput = {
 export type AuditoriaMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
   tenantId?: Prisma.SortOrder
+  empresaId?: Prisma.SortOrder
   membershipId?: Prisma.SortOrder
   accion?: Prisma.SortOrder
   entidad?: Prisma.SortOrder
@@ -479,6 +503,48 @@ export type AuditoriaUncheckedUpdateManyWithoutMembershipNestedInput = {
   deleteMany?: Prisma.AuditoriaScalarWhereInput | Prisma.AuditoriaScalarWhereInput[]
 }
 
+export type AuditoriaCreateNestedManyWithoutEmpresaInput = {
+  create?: Prisma.XOR<Prisma.AuditoriaCreateWithoutEmpresaInput, Prisma.AuditoriaUncheckedCreateWithoutEmpresaInput> | Prisma.AuditoriaCreateWithoutEmpresaInput[] | Prisma.AuditoriaUncheckedCreateWithoutEmpresaInput[]
+  connectOrCreate?: Prisma.AuditoriaCreateOrConnectWithoutEmpresaInput | Prisma.AuditoriaCreateOrConnectWithoutEmpresaInput[]
+  createMany?: Prisma.AuditoriaCreateManyEmpresaInputEnvelope
+  connect?: Prisma.AuditoriaWhereUniqueInput | Prisma.AuditoriaWhereUniqueInput[]
+}
+
+export type AuditoriaUncheckedCreateNestedManyWithoutEmpresaInput = {
+  create?: Prisma.XOR<Prisma.AuditoriaCreateWithoutEmpresaInput, Prisma.AuditoriaUncheckedCreateWithoutEmpresaInput> | Prisma.AuditoriaCreateWithoutEmpresaInput[] | Prisma.AuditoriaUncheckedCreateWithoutEmpresaInput[]
+  connectOrCreate?: Prisma.AuditoriaCreateOrConnectWithoutEmpresaInput | Prisma.AuditoriaCreateOrConnectWithoutEmpresaInput[]
+  createMany?: Prisma.AuditoriaCreateManyEmpresaInputEnvelope
+  connect?: Prisma.AuditoriaWhereUniqueInput | Prisma.AuditoriaWhereUniqueInput[]
+}
+
+export type AuditoriaUpdateManyWithoutEmpresaNestedInput = {
+  create?: Prisma.XOR<Prisma.AuditoriaCreateWithoutEmpresaInput, Prisma.AuditoriaUncheckedCreateWithoutEmpresaInput> | Prisma.AuditoriaCreateWithoutEmpresaInput[] | Prisma.AuditoriaUncheckedCreateWithoutEmpresaInput[]
+  connectOrCreate?: Prisma.AuditoriaCreateOrConnectWithoutEmpresaInput | Prisma.AuditoriaCreateOrConnectWithoutEmpresaInput[]
+  upsert?: Prisma.AuditoriaUpsertWithWhereUniqueWithoutEmpresaInput | Prisma.AuditoriaUpsertWithWhereUniqueWithoutEmpresaInput[]
+  createMany?: Prisma.AuditoriaCreateManyEmpresaInputEnvelope
+  set?: Prisma.AuditoriaWhereUniqueInput | Prisma.AuditoriaWhereUniqueInput[]
+  disconnect?: Prisma.AuditoriaWhereUniqueInput | Prisma.AuditoriaWhereUniqueInput[]
+  delete?: Prisma.AuditoriaWhereUniqueInput | Prisma.AuditoriaWhereUniqueInput[]
+  connect?: Prisma.AuditoriaWhereUniqueInput | Prisma.AuditoriaWhereUniqueInput[]
+  update?: Prisma.AuditoriaUpdateWithWhereUniqueWithoutEmpresaInput | Prisma.AuditoriaUpdateWithWhereUniqueWithoutEmpresaInput[]
+  updateMany?: Prisma.AuditoriaUpdateManyWithWhereWithoutEmpresaInput | Prisma.AuditoriaUpdateManyWithWhereWithoutEmpresaInput[]
+  deleteMany?: Prisma.AuditoriaScalarWhereInput | Prisma.AuditoriaScalarWhereInput[]
+}
+
+export type AuditoriaUncheckedUpdateManyWithoutEmpresaNestedInput = {
+  create?: Prisma.XOR<Prisma.AuditoriaCreateWithoutEmpresaInput, Prisma.AuditoriaUncheckedCreateWithoutEmpresaInput> | Prisma.AuditoriaCreateWithoutEmpresaInput[] | Prisma.AuditoriaUncheckedCreateWithoutEmpresaInput[]
+  connectOrCreate?: Prisma.AuditoriaCreateOrConnectWithoutEmpresaInput | Prisma.AuditoriaCreateOrConnectWithoutEmpresaInput[]
+  upsert?: Prisma.AuditoriaUpsertWithWhereUniqueWithoutEmpresaInput | Prisma.AuditoriaUpsertWithWhereUniqueWithoutEmpresaInput[]
+  createMany?: Prisma.AuditoriaCreateManyEmpresaInputEnvelope
+  set?: Prisma.AuditoriaWhereUniqueInput | Prisma.AuditoriaWhereUniqueInput[]
+  disconnect?: Prisma.AuditoriaWhereUniqueInput | Prisma.AuditoriaWhereUniqueInput[]
+  delete?: Prisma.AuditoriaWhereUniqueInput | Prisma.AuditoriaWhereUniqueInput[]
+  connect?: Prisma.AuditoriaWhereUniqueInput | Prisma.AuditoriaWhereUniqueInput[]
+  update?: Prisma.AuditoriaUpdateWithWhereUniqueWithoutEmpresaInput | Prisma.AuditoriaUpdateWithWhereUniqueWithoutEmpresaInput[]
+  updateMany?: Prisma.AuditoriaUpdateManyWithWhereWithoutEmpresaInput | Prisma.AuditoriaUpdateManyWithWhereWithoutEmpresaInput[]
+  deleteMany?: Prisma.AuditoriaScalarWhereInput | Prisma.AuditoriaScalarWhereInput[]
+}
+
 export type AuditoriaCreateWithoutTenantInput = {
   id?: string
   accion: string
@@ -487,11 +553,13 @@ export type AuditoriaCreateWithoutTenantInput = {
   detalles?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
+  empresa?: Prisma.EmpresaCreateNestedOneWithoutAuditoriasInput
   membership?: Prisma.TenantMembershipCreateNestedOneWithoutAuditoriasInput
 }
 
 export type AuditoriaUncheckedCreateWithoutTenantInput = {
   id?: string
+  empresaId?: string | null
   membershipId?: string | null
   accion: string
   entidad: string
@@ -533,6 +601,7 @@ export type AuditoriaScalarWhereInput = {
   NOT?: Prisma.AuditoriaScalarWhereInput | Prisma.AuditoriaScalarWhereInput[]
   id?: Prisma.UuidFilter<"Auditoria"> | string
   tenantId?: Prisma.UuidFilter<"Auditoria"> | string
+  empresaId?: Prisma.UuidNullableFilter<"Auditoria"> | string | null
   membershipId?: Prisma.UuidNullableFilter<"Auditoria"> | string | null
   accion?: Prisma.StringFilter<"Auditoria"> | string
   entidad?: Prisma.StringFilter<"Auditoria"> | string
@@ -551,11 +620,13 @@ export type AuditoriaCreateWithoutMembershipInput = {
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
   tenant: Prisma.TenantCreateNestedOneWithoutAuditoriasInput
+  empresa?: Prisma.EmpresaCreateNestedOneWithoutAuditoriasInput
 }
 
 export type AuditoriaUncheckedCreateWithoutMembershipInput = {
   id?: string
   tenantId: string
+  empresaId?: string | null
   accion: string
   entidad: string
   entidadId: string
@@ -590,8 +661,59 @@ export type AuditoriaUpdateManyWithWhereWithoutMembershipInput = {
   data: Prisma.XOR<Prisma.AuditoriaUpdateManyMutationInput, Prisma.AuditoriaUncheckedUpdateManyWithoutMembershipInput>
 }
 
+export type AuditoriaCreateWithoutEmpresaInput = {
+  id?: string
+  accion: string
+  entidad: string
+  entidadId: string
+  detalles?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  createdAt?: Date | string
+  tenant: Prisma.TenantCreateNestedOneWithoutAuditoriasInput
+  membership?: Prisma.TenantMembershipCreateNestedOneWithoutAuditoriasInput
+}
+
+export type AuditoriaUncheckedCreateWithoutEmpresaInput = {
+  id?: string
+  tenantId: string
+  membershipId?: string | null
+  accion: string
+  entidad: string
+  entidadId: string
+  detalles?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  createdAt?: Date | string
+}
+
+export type AuditoriaCreateOrConnectWithoutEmpresaInput = {
+  where: Prisma.AuditoriaWhereUniqueInput
+  create: Prisma.XOR<Prisma.AuditoriaCreateWithoutEmpresaInput, Prisma.AuditoriaUncheckedCreateWithoutEmpresaInput>
+}
+
+export type AuditoriaCreateManyEmpresaInputEnvelope = {
+  data: Prisma.AuditoriaCreateManyEmpresaInput | Prisma.AuditoriaCreateManyEmpresaInput[]
+  skipDuplicates?: boolean
+}
+
+export type AuditoriaUpsertWithWhereUniqueWithoutEmpresaInput = {
+  where: Prisma.AuditoriaWhereUniqueInput
+  update: Prisma.XOR<Prisma.AuditoriaUpdateWithoutEmpresaInput, Prisma.AuditoriaUncheckedUpdateWithoutEmpresaInput>
+  create: Prisma.XOR<Prisma.AuditoriaCreateWithoutEmpresaInput, Prisma.AuditoriaUncheckedCreateWithoutEmpresaInput>
+}
+
+export type AuditoriaUpdateWithWhereUniqueWithoutEmpresaInput = {
+  where: Prisma.AuditoriaWhereUniqueInput
+  data: Prisma.XOR<Prisma.AuditoriaUpdateWithoutEmpresaInput, Prisma.AuditoriaUncheckedUpdateWithoutEmpresaInput>
+}
+
+export type AuditoriaUpdateManyWithWhereWithoutEmpresaInput = {
+  where: Prisma.AuditoriaScalarWhereInput
+  data: Prisma.XOR<Prisma.AuditoriaUpdateManyMutationInput, Prisma.AuditoriaUncheckedUpdateManyWithoutEmpresaInput>
+}
+
 export type AuditoriaCreateManyTenantInput = {
   id?: string
+  empresaId?: string | null
   membershipId?: string | null
   accion: string
   entidad: string
@@ -609,11 +731,13 @@ export type AuditoriaUpdateWithoutTenantInput = {
   detalles?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  empresa?: Prisma.EmpresaUpdateOneWithoutAuditoriasNestedInput
   membership?: Prisma.TenantMembershipUpdateOneWithoutAuditoriasNestedInput
 }
 
 export type AuditoriaUncheckedUpdateWithoutTenantInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  empresaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   membershipId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   accion?: Prisma.StringFieldUpdateOperationsInput | string
   entidad?: Prisma.StringFieldUpdateOperationsInput | string
@@ -625,6 +749,7 @@ export type AuditoriaUncheckedUpdateWithoutTenantInput = {
 
 export type AuditoriaUncheckedUpdateManyWithoutTenantInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  empresaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   membershipId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   accion?: Prisma.StringFieldUpdateOperationsInput | string
   entidad?: Prisma.StringFieldUpdateOperationsInput | string
@@ -637,6 +762,7 @@ export type AuditoriaUncheckedUpdateManyWithoutTenantInput = {
 export type AuditoriaCreateManyMembershipInput = {
   id?: string
   tenantId: string
+  empresaId?: string | null
   accion: string
   entidad: string
   entidadId: string
@@ -654,11 +780,13 @@ export type AuditoriaUpdateWithoutMembershipInput = {
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   tenant?: Prisma.TenantUpdateOneRequiredWithoutAuditoriasNestedInput
+  empresa?: Prisma.EmpresaUpdateOneWithoutAuditoriasNestedInput
 }
 
 export type AuditoriaUncheckedUpdateWithoutMembershipInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   tenantId?: Prisma.StringFieldUpdateOperationsInput | string
+  empresaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   accion?: Prisma.StringFieldUpdateOperationsInput | string
   entidad?: Prisma.StringFieldUpdateOperationsInput | string
   entidadId?: Prisma.StringFieldUpdateOperationsInput | string
@@ -670,6 +798,55 @@ export type AuditoriaUncheckedUpdateWithoutMembershipInput = {
 export type AuditoriaUncheckedUpdateManyWithoutMembershipInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   tenantId?: Prisma.StringFieldUpdateOperationsInput | string
+  empresaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  accion?: Prisma.StringFieldUpdateOperationsInput | string
+  entidad?: Prisma.StringFieldUpdateOperationsInput | string
+  entidadId?: Prisma.StringFieldUpdateOperationsInput | string
+  detalles?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+}
+
+export type AuditoriaCreateManyEmpresaInput = {
+  id?: string
+  tenantId: string
+  membershipId?: string | null
+  accion: string
+  entidad: string
+  entidadId: string
+  detalles?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  createdAt?: Date | string
+}
+
+export type AuditoriaUpdateWithoutEmpresaInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  accion?: Prisma.StringFieldUpdateOperationsInput | string
+  entidad?: Prisma.StringFieldUpdateOperationsInput | string
+  entidadId?: Prisma.StringFieldUpdateOperationsInput | string
+  detalles?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  tenant?: Prisma.TenantUpdateOneRequiredWithoutAuditoriasNestedInput
+  membership?: Prisma.TenantMembershipUpdateOneWithoutAuditoriasNestedInput
+}
+
+export type AuditoriaUncheckedUpdateWithoutEmpresaInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenantId?: Prisma.StringFieldUpdateOperationsInput | string
+  membershipId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  accion?: Prisma.StringFieldUpdateOperationsInput | string
+  entidad?: Prisma.StringFieldUpdateOperationsInput | string
+  entidadId?: Prisma.StringFieldUpdateOperationsInput | string
+  detalles?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+}
+
+export type AuditoriaUncheckedUpdateManyWithoutEmpresaInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenantId?: Prisma.StringFieldUpdateOperationsInput | string
+  membershipId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   accion?: Prisma.StringFieldUpdateOperationsInput | string
   entidad?: Prisma.StringFieldUpdateOperationsInput | string
   entidadId?: Prisma.StringFieldUpdateOperationsInput | string
@@ -683,6 +860,7 @@ export type AuditoriaUncheckedUpdateManyWithoutMembershipInput = {
 export type AuditoriaSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   tenantId?: boolean
+  empresaId?: boolean
   membershipId?: boolean
   accion?: boolean
   entidad?: boolean
@@ -691,12 +869,14 @@ export type AuditoriaSelect<ExtArgs extends runtime.Types.Extensions.InternalArg
   metadata?: boolean
   createdAt?: boolean
   tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
+  empresa?: boolean | Prisma.Auditoria$empresaArgs<ExtArgs>
   membership?: boolean | Prisma.Auditoria$membershipArgs<ExtArgs>
 }, ExtArgs["result"]["auditoria"]>
 
 export type AuditoriaSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   tenantId?: boolean
+  empresaId?: boolean
   membershipId?: boolean
   accion?: boolean
   entidad?: boolean
@@ -705,12 +885,14 @@ export type AuditoriaSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Ext
   metadata?: boolean
   createdAt?: boolean
   tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
+  empresa?: boolean | Prisma.Auditoria$empresaArgs<ExtArgs>
   membership?: boolean | Prisma.Auditoria$membershipArgs<ExtArgs>
 }, ExtArgs["result"]["auditoria"]>
 
 export type AuditoriaSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   tenantId?: boolean
+  empresaId?: boolean
   membershipId?: boolean
   accion?: boolean
   entidad?: boolean
@@ -719,12 +901,14 @@ export type AuditoriaSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Ext
   metadata?: boolean
   createdAt?: boolean
   tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
+  empresa?: boolean | Prisma.Auditoria$empresaArgs<ExtArgs>
   membership?: boolean | Prisma.Auditoria$membershipArgs<ExtArgs>
 }, ExtArgs["result"]["auditoria"]>
 
 export type AuditoriaSelectScalar = {
   id?: boolean
   tenantId?: boolean
+  empresaId?: boolean
   membershipId?: boolean
   accion?: boolean
   entidad?: boolean
@@ -734,17 +918,20 @@ export type AuditoriaSelectScalar = {
   createdAt?: boolean
 }
 
-export type AuditoriaOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "tenantId" | "membershipId" | "accion" | "entidad" | "entidadId" | "detalles" | "metadata" | "createdAt", ExtArgs["result"]["auditoria"]>
+export type AuditoriaOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "tenantId" | "empresaId" | "membershipId" | "accion" | "entidad" | "entidadId" | "detalles" | "metadata" | "createdAt", ExtArgs["result"]["auditoria"]>
 export type AuditoriaInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
+  empresa?: boolean | Prisma.Auditoria$empresaArgs<ExtArgs>
   membership?: boolean | Prisma.Auditoria$membershipArgs<ExtArgs>
 }
 export type AuditoriaIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
+  empresa?: boolean | Prisma.Auditoria$empresaArgs<ExtArgs>
   membership?: boolean | Prisma.Auditoria$membershipArgs<ExtArgs>
 }
 export type AuditoriaIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
+  empresa?: boolean | Prisma.Auditoria$empresaArgs<ExtArgs>
   membership?: boolean | Prisma.Auditoria$membershipArgs<ExtArgs>
 }
 
@@ -752,11 +939,13 @@ export type $AuditoriaPayload<ExtArgs extends runtime.Types.Extensions.InternalA
   name: "Auditoria"
   objects: {
     tenant: Prisma.$TenantPayload<ExtArgs>
+    empresa: Prisma.$EmpresaPayload<ExtArgs> | null
     membership: Prisma.$TenantMembershipPayload<ExtArgs> | null
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
     tenantId: string
+    empresaId: string | null
     membershipId: string | null
     accion: string
     entidad: string
@@ -1159,6 +1348,7 @@ readonly fields: AuditoriaFieldRefs;
 export interface Prisma__AuditoriaClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
   tenant<T extends Prisma.TenantDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.TenantDefaultArgs<ExtArgs>>): Prisma.Prisma__TenantClient<runtime.Types.Result.GetResult<Prisma.$TenantPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  empresa<T extends Prisma.Auditoria$empresaArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Auditoria$empresaArgs<ExtArgs>>): Prisma.Prisma__EmpresaClient<runtime.Types.Result.GetResult<Prisma.$EmpresaPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   membership<T extends Prisma.Auditoria$membershipArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Auditoria$membershipArgs<ExtArgs>>): Prisma.Prisma__TenantMembershipClient<runtime.Types.Result.GetResult<Prisma.$TenantMembershipPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -1191,6 +1381,7 @@ export interface Prisma__AuditoriaClient<T, Null = never, ExtArgs extends runtim
 export interface AuditoriaFieldRefs {
   readonly id: Prisma.FieldRef<"Auditoria", 'String'>
   readonly tenantId: Prisma.FieldRef<"Auditoria", 'String'>
+  readonly empresaId: Prisma.FieldRef<"Auditoria", 'String'>
   readonly membershipId: Prisma.FieldRef<"Auditoria", 'String'>
   readonly accion: Prisma.FieldRef<"Auditoria", 'String'>
   readonly entidad: Prisma.FieldRef<"Auditoria", 'String'>
@@ -1591,6 +1782,25 @@ export type AuditoriaDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.Int
    * Limit how many Auditorias to delete.
    */
   limit?: number
+}
+
+/**
+ * Auditoria.empresa
+ */
+export type Auditoria$empresaArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Empresa
+   */
+  select?: Prisma.EmpresaSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Empresa
+   */
+  omit?: Prisma.EmpresaOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.EmpresaInclude<ExtArgs> | null
+  where?: Prisma.EmpresaWhereInput
 }
 
 /**

@@ -27,6 +27,8 @@ export type AggregateAuthSession = {
 export type AuthSessionMinAggregateOutputType = {
   id: string | null
   userId: string | null
+  tenantId: string | null
+  empresaId: string | null
   refreshTokenHash: string | null
   revoked: boolean | null
   createdAt: Date | null
@@ -36,6 +38,8 @@ export type AuthSessionMinAggregateOutputType = {
 export type AuthSessionMaxAggregateOutputType = {
   id: string | null
   userId: string | null
+  tenantId: string | null
+  empresaId: string | null
   refreshTokenHash: string | null
   revoked: boolean | null
   createdAt: Date | null
@@ -45,6 +49,8 @@ export type AuthSessionMaxAggregateOutputType = {
 export type AuthSessionCountAggregateOutputType = {
   id: number
   userId: number
+  tenantId: number
+  empresaId: number
   refreshTokenHash: number
   revoked: number
   createdAt: number
@@ -56,6 +62,8 @@ export type AuthSessionCountAggregateOutputType = {
 export type AuthSessionMinAggregateInputType = {
   id?: true
   userId?: true
+  tenantId?: true
+  empresaId?: true
   refreshTokenHash?: true
   revoked?: true
   createdAt?: true
@@ -65,6 +73,8 @@ export type AuthSessionMinAggregateInputType = {
 export type AuthSessionMaxAggregateInputType = {
   id?: true
   userId?: true
+  tenantId?: true
+  empresaId?: true
   refreshTokenHash?: true
   revoked?: true
   createdAt?: true
@@ -74,6 +84,8 @@ export type AuthSessionMaxAggregateInputType = {
 export type AuthSessionCountAggregateInputType = {
   id?: true
   userId?: true
+  tenantId?: true
+  empresaId?: true
   refreshTokenHash?: true
   revoked?: true
   createdAt?: true
@@ -156,6 +168,8 @@ export type AuthSessionGroupByArgs<ExtArgs extends runtime.Types.Extensions.Inte
 export type AuthSessionGroupByOutputType = {
   id: string
   userId: string
+  tenantId: string | null
+  empresaId: string | null
   refreshTokenHash: string
   revoked: boolean
   createdAt: Date
@@ -186,21 +200,29 @@ export type AuthSessionWhereInput = {
   NOT?: Prisma.AuthSessionWhereInput | Prisma.AuthSessionWhereInput[]
   id?: Prisma.UuidFilter<"AuthSession"> | string
   userId?: Prisma.UuidFilter<"AuthSession"> | string
+  tenantId?: Prisma.UuidNullableFilter<"AuthSession"> | string | null
+  empresaId?: Prisma.UuidNullableFilter<"AuthSession"> | string | null
   refreshTokenHash?: Prisma.StringFilter<"AuthSession"> | string
   revoked?: Prisma.BoolFilter<"AuthSession"> | boolean
   createdAt?: Prisma.DateTimeFilter<"AuthSession"> | Date | string
   expiresAt?: Prisma.DateTimeFilter<"AuthSession"> | Date | string
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
+  tenant?: Prisma.XOR<Prisma.TenantNullableScalarRelationFilter, Prisma.TenantWhereInput> | null
+  empresa?: Prisma.XOR<Prisma.EmpresaNullableScalarRelationFilter, Prisma.EmpresaWhereInput> | null
 }
 
 export type AuthSessionOrderByWithRelationInput = {
   id?: Prisma.SortOrder
   userId?: Prisma.SortOrder
+  tenantId?: Prisma.SortOrderInput | Prisma.SortOrder
+  empresaId?: Prisma.SortOrderInput | Prisma.SortOrder
   refreshTokenHash?: Prisma.SortOrder
   revoked?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   expiresAt?: Prisma.SortOrder
   user?: Prisma.UserOrderByWithRelationInput
+  tenant?: Prisma.TenantOrderByWithRelationInput
+  empresa?: Prisma.EmpresaOrderByWithRelationInput
 }
 
 export type AuthSessionWhereUniqueInput = Prisma.AtLeast<{
@@ -209,16 +231,22 @@ export type AuthSessionWhereUniqueInput = Prisma.AtLeast<{
   OR?: Prisma.AuthSessionWhereInput[]
   NOT?: Prisma.AuthSessionWhereInput | Prisma.AuthSessionWhereInput[]
   userId?: Prisma.UuidFilter<"AuthSession"> | string
+  tenantId?: Prisma.UuidNullableFilter<"AuthSession"> | string | null
+  empresaId?: Prisma.UuidNullableFilter<"AuthSession"> | string | null
   refreshTokenHash?: Prisma.StringFilter<"AuthSession"> | string
   revoked?: Prisma.BoolFilter<"AuthSession"> | boolean
   createdAt?: Prisma.DateTimeFilter<"AuthSession"> | Date | string
   expiresAt?: Prisma.DateTimeFilter<"AuthSession"> | Date | string
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
+  tenant?: Prisma.XOR<Prisma.TenantNullableScalarRelationFilter, Prisma.TenantWhereInput> | null
+  empresa?: Prisma.XOR<Prisma.EmpresaNullableScalarRelationFilter, Prisma.EmpresaWhereInput> | null
 }, "id">
 
 export type AuthSessionOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
   userId?: Prisma.SortOrder
+  tenantId?: Prisma.SortOrderInput | Prisma.SortOrder
+  empresaId?: Prisma.SortOrderInput | Prisma.SortOrder
   refreshTokenHash?: Prisma.SortOrder
   revoked?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -234,6 +262,8 @@ export type AuthSessionScalarWhereWithAggregatesInput = {
   NOT?: Prisma.AuthSessionScalarWhereWithAggregatesInput | Prisma.AuthSessionScalarWhereWithAggregatesInput[]
   id?: Prisma.UuidWithAggregatesFilter<"AuthSession"> | string
   userId?: Prisma.UuidWithAggregatesFilter<"AuthSession"> | string
+  tenantId?: Prisma.UuidNullableWithAggregatesFilter<"AuthSession"> | string | null
+  empresaId?: Prisma.UuidNullableWithAggregatesFilter<"AuthSession"> | string | null
   refreshTokenHash?: Prisma.StringWithAggregatesFilter<"AuthSession"> | string
   revoked?: Prisma.BoolWithAggregatesFilter<"AuthSession"> | boolean
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"AuthSession"> | Date | string
@@ -247,11 +277,15 @@ export type AuthSessionCreateInput = {
   createdAt?: Date | string
   expiresAt: Date | string
   user: Prisma.UserCreateNestedOneWithoutSessionsInput
+  tenant?: Prisma.TenantCreateNestedOneWithoutAuthSessionsInput
+  empresa?: Prisma.EmpresaCreateNestedOneWithoutAuthSessionsInput
 }
 
 export type AuthSessionUncheckedCreateInput = {
   id?: string
   userId: string
+  tenantId?: string | null
+  empresaId?: string | null
   refreshTokenHash: string
   revoked?: boolean
   createdAt?: Date | string
@@ -265,11 +299,15 @@ export type AuthSessionUpdateInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   expiresAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   user?: Prisma.UserUpdateOneRequiredWithoutSessionsNestedInput
+  tenant?: Prisma.TenantUpdateOneWithoutAuthSessionsNestedInput
+  empresa?: Prisma.EmpresaUpdateOneWithoutAuthSessionsNestedInput
 }
 
 export type AuthSessionUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   userId?: Prisma.StringFieldUpdateOperationsInput | string
+  tenantId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  empresaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   refreshTokenHash?: Prisma.StringFieldUpdateOperationsInput | string
   revoked?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -279,6 +317,8 @@ export type AuthSessionUncheckedUpdateInput = {
 export type AuthSessionCreateManyInput = {
   id?: string
   userId: string
+  tenantId?: string | null
+  empresaId?: string | null
   refreshTokenHash: string
   revoked?: boolean
   createdAt?: Date | string
@@ -296,6 +336,8 @@ export type AuthSessionUpdateManyMutationInput = {
 export type AuthSessionUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   userId?: Prisma.StringFieldUpdateOperationsInput | string
+  tenantId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  empresaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   refreshTokenHash?: Prisma.StringFieldUpdateOperationsInput | string
   revoked?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -315,6 +357,8 @@ export type AuthSessionOrderByRelationAggregateInput = {
 export type AuthSessionCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   userId?: Prisma.SortOrder
+  tenantId?: Prisma.SortOrder
+  empresaId?: Prisma.SortOrder
   refreshTokenHash?: Prisma.SortOrder
   revoked?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -324,6 +368,8 @@ export type AuthSessionCountOrderByAggregateInput = {
 export type AuthSessionMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
   userId?: Prisma.SortOrder
+  tenantId?: Prisma.SortOrder
+  empresaId?: Prisma.SortOrder
   refreshTokenHash?: Prisma.SortOrder
   revoked?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -333,6 +379,8 @@ export type AuthSessionMaxOrderByAggregateInput = {
 export type AuthSessionMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
   userId?: Prisma.SortOrder
+  tenantId?: Prisma.SortOrder
+  empresaId?: Prisma.SortOrder
   refreshTokenHash?: Prisma.SortOrder
   revoked?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -381,16 +429,104 @@ export type AuthSessionUncheckedUpdateManyWithoutUserNestedInput = {
   deleteMany?: Prisma.AuthSessionScalarWhereInput | Prisma.AuthSessionScalarWhereInput[]
 }
 
+export type AuthSessionCreateNestedManyWithoutTenantInput = {
+  create?: Prisma.XOR<Prisma.AuthSessionCreateWithoutTenantInput, Prisma.AuthSessionUncheckedCreateWithoutTenantInput> | Prisma.AuthSessionCreateWithoutTenantInput[] | Prisma.AuthSessionUncheckedCreateWithoutTenantInput[]
+  connectOrCreate?: Prisma.AuthSessionCreateOrConnectWithoutTenantInput | Prisma.AuthSessionCreateOrConnectWithoutTenantInput[]
+  createMany?: Prisma.AuthSessionCreateManyTenantInputEnvelope
+  connect?: Prisma.AuthSessionWhereUniqueInput | Prisma.AuthSessionWhereUniqueInput[]
+}
+
+export type AuthSessionUncheckedCreateNestedManyWithoutTenantInput = {
+  create?: Prisma.XOR<Prisma.AuthSessionCreateWithoutTenantInput, Prisma.AuthSessionUncheckedCreateWithoutTenantInput> | Prisma.AuthSessionCreateWithoutTenantInput[] | Prisma.AuthSessionUncheckedCreateWithoutTenantInput[]
+  connectOrCreate?: Prisma.AuthSessionCreateOrConnectWithoutTenantInput | Prisma.AuthSessionCreateOrConnectWithoutTenantInput[]
+  createMany?: Prisma.AuthSessionCreateManyTenantInputEnvelope
+  connect?: Prisma.AuthSessionWhereUniqueInput | Prisma.AuthSessionWhereUniqueInput[]
+}
+
+export type AuthSessionUpdateManyWithoutTenantNestedInput = {
+  create?: Prisma.XOR<Prisma.AuthSessionCreateWithoutTenantInput, Prisma.AuthSessionUncheckedCreateWithoutTenantInput> | Prisma.AuthSessionCreateWithoutTenantInput[] | Prisma.AuthSessionUncheckedCreateWithoutTenantInput[]
+  connectOrCreate?: Prisma.AuthSessionCreateOrConnectWithoutTenantInput | Prisma.AuthSessionCreateOrConnectWithoutTenantInput[]
+  upsert?: Prisma.AuthSessionUpsertWithWhereUniqueWithoutTenantInput | Prisma.AuthSessionUpsertWithWhereUniqueWithoutTenantInput[]
+  createMany?: Prisma.AuthSessionCreateManyTenantInputEnvelope
+  set?: Prisma.AuthSessionWhereUniqueInput | Prisma.AuthSessionWhereUniqueInput[]
+  disconnect?: Prisma.AuthSessionWhereUniqueInput | Prisma.AuthSessionWhereUniqueInput[]
+  delete?: Prisma.AuthSessionWhereUniqueInput | Prisma.AuthSessionWhereUniqueInput[]
+  connect?: Prisma.AuthSessionWhereUniqueInput | Prisma.AuthSessionWhereUniqueInput[]
+  update?: Prisma.AuthSessionUpdateWithWhereUniqueWithoutTenantInput | Prisma.AuthSessionUpdateWithWhereUniqueWithoutTenantInput[]
+  updateMany?: Prisma.AuthSessionUpdateManyWithWhereWithoutTenantInput | Prisma.AuthSessionUpdateManyWithWhereWithoutTenantInput[]
+  deleteMany?: Prisma.AuthSessionScalarWhereInput | Prisma.AuthSessionScalarWhereInput[]
+}
+
+export type AuthSessionUncheckedUpdateManyWithoutTenantNestedInput = {
+  create?: Prisma.XOR<Prisma.AuthSessionCreateWithoutTenantInput, Prisma.AuthSessionUncheckedCreateWithoutTenantInput> | Prisma.AuthSessionCreateWithoutTenantInput[] | Prisma.AuthSessionUncheckedCreateWithoutTenantInput[]
+  connectOrCreate?: Prisma.AuthSessionCreateOrConnectWithoutTenantInput | Prisma.AuthSessionCreateOrConnectWithoutTenantInput[]
+  upsert?: Prisma.AuthSessionUpsertWithWhereUniqueWithoutTenantInput | Prisma.AuthSessionUpsertWithWhereUniqueWithoutTenantInput[]
+  createMany?: Prisma.AuthSessionCreateManyTenantInputEnvelope
+  set?: Prisma.AuthSessionWhereUniqueInput | Prisma.AuthSessionWhereUniqueInput[]
+  disconnect?: Prisma.AuthSessionWhereUniqueInput | Prisma.AuthSessionWhereUniqueInput[]
+  delete?: Prisma.AuthSessionWhereUniqueInput | Prisma.AuthSessionWhereUniqueInput[]
+  connect?: Prisma.AuthSessionWhereUniqueInput | Prisma.AuthSessionWhereUniqueInput[]
+  update?: Prisma.AuthSessionUpdateWithWhereUniqueWithoutTenantInput | Prisma.AuthSessionUpdateWithWhereUniqueWithoutTenantInput[]
+  updateMany?: Prisma.AuthSessionUpdateManyWithWhereWithoutTenantInput | Prisma.AuthSessionUpdateManyWithWhereWithoutTenantInput[]
+  deleteMany?: Prisma.AuthSessionScalarWhereInput | Prisma.AuthSessionScalarWhereInput[]
+}
+
+export type AuthSessionCreateNestedManyWithoutEmpresaInput = {
+  create?: Prisma.XOR<Prisma.AuthSessionCreateWithoutEmpresaInput, Prisma.AuthSessionUncheckedCreateWithoutEmpresaInput> | Prisma.AuthSessionCreateWithoutEmpresaInput[] | Prisma.AuthSessionUncheckedCreateWithoutEmpresaInput[]
+  connectOrCreate?: Prisma.AuthSessionCreateOrConnectWithoutEmpresaInput | Prisma.AuthSessionCreateOrConnectWithoutEmpresaInput[]
+  createMany?: Prisma.AuthSessionCreateManyEmpresaInputEnvelope
+  connect?: Prisma.AuthSessionWhereUniqueInput | Prisma.AuthSessionWhereUniqueInput[]
+}
+
+export type AuthSessionUncheckedCreateNestedManyWithoutEmpresaInput = {
+  create?: Prisma.XOR<Prisma.AuthSessionCreateWithoutEmpresaInput, Prisma.AuthSessionUncheckedCreateWithoutEmpresaInput> | Prisma.AuthSessionCreateWithoutEmpresaInput[] | Prisma.AuthSessionUncheckedCreateWithoutEmpresaInput[]
+  connectOrCreate?: Prisma.AuthSessionCreateOrConnectWithoutEmpresaInput | Prisma.AuthSessionCreateOrConnectWithoutEmpresaInput[]
+  createMany?: Prisma.AuthSessionCreateManyEmpresaInputEnvelope
+  connect?: Prisma.AuthSessionWhereUniqueInput | Prisma.AuthSessionWhereUniqueInput[]
+}
+
+export type AuthSessionUpdateManyWithoutEmpresaNestedInput = {
+  create?: Prisma.XOR<Prisma.AuthSessionCreateWithoutEmpresaInput, Prisma.AuthSessionUncheckedCreateWithoutEmpresaInput> | Prisma.AuthSessionCreateWithoutEmpresaInput[] | Prisma.AuthSessionUncheckedCreateWithoutEmpresaInput[]
+  connectOrCreate?: Prisma.AuthSessionCreateOrConnectWithoutEmpresaInput | Prisma.AuthSessionCreateOrConnectWithoutEmpresaInput[]
+  upsert?: Prisma.AuthSessionUpsertWithWhereUniqueWithoutEmpresaInput | Prisma.AuthSessionUpsertWithWhereUniqueWithoutEmpresaInput[]
+  createMany?: Prisma.AuthSessionCreateManyEmpresaInputEnvelope
+  set?: Prisma.AuthSessionWhereUniqueInput | Prisma.AuthSessionWhereUniqueInput[]
+  disconnect?: Prisma.AuthSessionWhereUniqueInput | Prisma.AuthSessionWhereUniqueInput[]
+  delete?: Prisma.AuthSessionWhereUniqueInput | Prisma.AuthSessionWhereUniqueInput[]
+  connect?: Prisma.AuthSessionWhereUniqueInput | Prisma.AuthSessionWhereUniqueInput[]
+  update?: Prisma.AuthSessionUpdateWithWhereUniqueWithoutEmpresaInput | Prisma.AuthSessionUpdateWithWhereUniqueWithoutEmpresaInput[]
+  updateMany?: Prisma.AuthSessionUpdateManyWithWhereWithoutEmpresaInput | Prisma.AuthSessionUpdateManyWithWhereWithoutEmpresaInput[]
+  deleteMany?: Prisma.AuthSessionScalarWhereInput | Prisma.AuthSessionScalarWhereInput[]
+}
+
+export type AuthSessionUncheckedUpdateManyWithoutEmpresaNestedInput = {
+  create?: Prisma.XOR<Prisma.AuthSessionCreateWithoutEmpresaInput, Prisma.AuthSessionUncheckedCreateWithoutEmpresaInput> | Prisma.AuthSessionCreateWithoutEmpresaInput[] | Prisma.AuthSessionUncheckedCreateWithoutEmpresaInput[]
+  connectOrCreate?: Prisma.AuthSessionCreateOrConnectWithoutEmpresaInput | Prisma.AuthSessionCreateOrConnectWithoutEmpresaInput[]
+  upsert?: Prisma.AuthSessionUpsertWithWhereUniqueWithoutEmpresaInput | Prisma.AuthSessionUpsertWithWhereUniqueWithoutEmpresaInput[]
+  createMany?: Prisma.AuthSessionCreateManyEmpresaInputEnvelope
+  set?: Prisma.AuthSessionWhereUniqueInput | Prisma.AuthSessionWhereUniqueInput[]
+  disconnect?: Prisma.AuthSessionWhereUniqueInput | Prisma.AuthSessionWhereUniqueInput[]
+  delete?: Prisma.AuthSessionWhereUniqueInput | Prisma.AuthSessionWhereUniqueInput[]
+  connect?: Prisma.AuthSessionWhereUniqueInput | Prisma.AuthSessionWhereUniqueInput[]
+  update?: Prisma.AuthSessionUpdateWithWhereUniqueWithoutEmpresaInput | Prisma.AuthSessionUpdateWithWhereUniqueWithoutEmpresaInput[]
+  updateMany?: Prisma.AuthSessionUpdateManyWithWhereWithoutEmpresaInput | Prisma.AuthSessionUpdateManyWithWhereWithoutEmpresaInput[]
+  deleteMany?: Prisma.AuthSessionScalarWhereInput | Prisma.AuthSessionScalarWhereInput[]
+}
+
 export type AuthSessionCreateWithoutUserInput = {
   id?: string
   refreshTokenHash: string
   revoked?: boolean
   createdAt?: Date | string
   expiresAt: Date | string
+  tenant?: Prisma.TenantCreateNestedOneWithoutAuthSessionsInput
+  empresa?: Prisma.EmpresaCreateNestedOneWithoutAuthSessionsInput
 }
 
 export type AuthSessionUncheckedCreateWithoutUserInput = {
   id?: string
+  tenantId?: string | null
+  empresaId?: string | null
   refreshTokenHash: string
   revoked?: boolean
   createdAt?: Date | string
@@ -429,14 +565,110 @@ export type AuthSessionScalarWhereInput = {
   NOT?: Prisma.AuthSessionScalarWhereInput | Prisma.AuthSessionScalarWhereInput[]
   id?: Prisma.UuidFilter<"AuthSession"> | string
   userId?: Prisma.UuidFilter<"AuthSession"> | string
+  tenantId?: Prisma.UuidNullableFilter<"AuthSession"> | string | null
+  empresaId?: Prisma.UuidNullableFilter<"AuthSession"> | string | null
   refreshTokenHash?: Prisma.StringFilter<"AuthSession"> | string
   revoked?: Prisma.BoolFilter<"AuthSession"> | boolean
   createdAt?: Prisma.DateTimeFilter<"AuthSession"> | Date | string
   expiresAt?: Prisma.DateTimeFilter<"AuthSession"> | Date | string
 }
 
+export type AuthSessionCreateWithoutTenantInput = {
+  id?: string
+  refreshTokenHash: string
+  revoked?: boolean
+  createdAt?: Date | string
+  expiresAt: Date | string
+  user: Prisma.UserCreateNestedOneWithoutSessionsInput
+  empresa?: Prisma.EmpresaCreateNestedOneWithoutAuthSessionsInput
+}
+
+export type AuthSessionUncheckedCreateWithoutTenantInput = {
+  id?: string
+  userId: string
+  empresaId?: string | null
+  refreshTokenHash: string
+  revoked?: boolean
+  createdAt?: Date | string
+  expiresAt: Date | string
+}
+
+export type AuthSessionCreateOrConnectWithoutTenantInput = {
+  where: Prisma.AuthSessionWhereUniqueInput
+  create: Prisma.XOR<Prisma.AuthSessionCreateWithoutTenantInput, Prisma.AuthSessionUncheckedCreateWithoutTenantInput>
+}
+
+export type AuthSessionCreateManyTenantInputEnvelope = {
+  data: Prisma.AuthSessionCreateManyTenantInput | Prisma.AuthSessionCreateManyTenantInput[]
+  skipDuplicates?: boolean
+}
+
+export type AuthSessionUpsertWithWhereUniqueWithoutTenantInput = {
+  where: Prisma.AuthSessionWhereUniqueInput
+  update: Prisma.XOR<Prisma.AuthSessionUpdateWithoutTenantInput, Prisma.AuthSessionUncheckedUpdateWithoutTenantInput>
+  create: Prisma.XOR<Prisma.AuthSessionCreateWithoutTenantInput, Prisma.AuthSessionUncheckedCreateWithoutTenantInput>
+}
+
+export type AuthSessionUpdateWithWhereUniqueWithoutTenantInput = {
+  where: Prisma.AuthSessionWhereUniqueInput
+  data: Prisma.XOR<Prisma.AuthSessionUpdateWithoutTenantInput, Prisma.AuthSessionUncheckedUpdateWithoutTenantInput>
+}
+
+export type AuthSessionUpdateManyWithWhereWithoutTenantInput = {
+  where: Prisma.AuthSessionScalarWhereInput
+  data: Prisma.XOR<Prisma.AuthSessionUpdateManyMutationInput, Prisma.AuthSessionUncheckedUpdateManyWithoutTenantInput>
+}
+
+export type AuthSessionCreateWithoutEmpresaInput = {
+  id?: string
+  refreshTokenHash: string
+  revoked?: boolean
+  createdAt?: Date | string
+  expiresAt: Date | string
+  user: Prisma.UserCreateNestedOneWithoutSessionsInput
+  tenant?: Prisma.TenantCreateNestedOneWithoutAuthSessionsInput
+}
+
+export type AuthSessionUncheckedCreateWithoutEmpresaInput = {
+  id?: string
+  userId: string
+  tenantId?: string | null
+  refreshTokenHash: string
+  revoked?: boolean
+  createdAt?: Date | string
+  expiresAt: Date | string
+}
+
+export type AuthSessionCreateOrConnectWithoutEmpresaInput = {
+  where: Prisma.AuthSessionWhereUniqueInput
+  create: Prisma.XOR<Prisma.AuthSessionCreateWithoutEmpresaInput, Prisma.AuthSessionUncheckedCreateWithoutEmpresaInput>
+}
+
+export type AuthSessionCreateManyEmpresaInputEnvelope = {
+  data: Prisma.AuthSessionCreateManyEmpresaInput | Prisma.AuthSessionCreateManyEmpresaInput[]
+  skipDuplicates?: boolean
+}
+
+export type AuthSessionUpsertWithWhereUniqueWithoutEmpresaInput = {
+  where: Prisma.AuthSessionWhereUniqueInput
+  update: Prisma.XOR<Prisma.AuthSessionUpdateWithoutEmpresaInput, Prisma.AuthSessionUncheckedUpdateWithoutEmpresaInput>
+  create: Prisma.XOR<Prisma.AuthSessionCreateWithoutEmpresaInput, Prisma.AuthSessionUncheckedCreateWithoutEmpresaInput>
+}
+
+export type AuthSessionUpdateWithWhereUniqueWithoutEmpresaInput = {
+  where: Prisma.AuthSessionWhereUniqueInput
+  data: Prisma.XOR<Prisma.AuthSessionUpdateWithoutEmpresaInput, Prisma.AuthSessionUncheckedUpdateWithoutEmpresaInput>
+}
+
+export type AuthSessionUpdateManyWithWhereWithoutEmpresaInput = {
+  where: Prisma.AuthSessionScalarWhereInput
+  data: Prisma.XOR<Prisma.AuthSessionUpdateManyMutationInput, Prisma.AuthSessionUncheckedUpdateManyWithoutEmpresaInput>
+}
+
 export type AuthSessionCreateManyUserInput = {
   id?: string
+  tenantId?: string | null
+  empresaId?: string | null
   refreshTokenHash: string
   revoked?: boolean
   createdAt?: Date | string
@@ -449,10 +681,14 @@ export type AuthSessionUpdateWithoutUserInput = {
   revoked?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   expiresAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  tenant?: Prisma.TenantUpdateOneWithoutAuthSessionsNestedInput
+  empresa?: Prisma.EmpresaUpdateOneWithoutAuthSessionsNestedInput
 }
 
 export type AuthSessionUncheckedUpdateWithoutUserInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenantId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  empresaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   refreshTokenHash?: Prisma.StringFieldUpdateOperationsInput | string
   revoked?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -461,6 +697,88 @@ export type AuthSessionUncheckedUpdateWithoutUserInput = {
 
 export type AuthSessionUncheckedUpdateManyWithoutUserInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenantId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  empresaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  refreshTokenHash?: Prisma.StringFieldUpdateOperationsInput | string
+  revoked?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  expiresAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+}
+
+export type AuthSessionCreateManyTenantInput = {
+  id?: string
+  userId: string
+  empresaId?: string | null
+  refreshTokenHash: string
+  revoked?: boolean
+  createdAt?: Date | string
+  expiresAt: Date | string
+}
+
+export type AuthSessionUpdateWithoutTenantInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  refreshTokenHash?: Prisma.StringFieldUpdateOperationsInput | string
+  revoked?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  expiresAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  user?: Prisma.UserUpdateOneRequiredWithoutSessionsNestedInput
+  empresa?: Prisma.EmpresaUpdateOneWithoutAuthSessionsNestedInput
+}
+
+export type AuthSessionUncheckedUpdateWithoutTenantInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  userId?: Prisma.StringFieldUpdateOperationsInput | string
+  empresaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  refreshTokenHash?: Prisma.StringFieldUpdateOperationsInput | string
+  revoked?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  expiresAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+}
+
+export type AuthSessionUncheckedUpdateManyWithoutTenantInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  userId?: Prisma.StringFieldUpdateOperationsInput | string
+  empresaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  refreshTokenHash?: Prisma.StringFieldUpdateOperationsInput | string
+  revoked?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  expiresAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+}
+
+export type AuthSessionCreateManyEmpresaInput = {
+  id?: string
+  userId: string
+  tenantId?: string | null
+  refreshTokenHash: string
+  revoked?: boolean
+  createdAt?: Date | string
+  expiresAt: Date | string
+}
+
+export type AuthSessionUpdateWithoutEmpresaInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  refreshTokenHash?: Prisma.StringFieldUpdateOperationsInput | string
+  revoked?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  expiresAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  user?: Prisma.UserUpdateOneRequiredWithoutSessionsNestedInput
+  tenant?: Prisma.TenantUpdateOneWithoutAuthSessionsNestedInput
+}
+
+export type AuthSessionUncheckedUpdateWithoutEmpresaInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  userId?: Prisma.StringFieldUpdateOperationsInput | string
+  tenantId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  refreshTokenHash?: Prisma.StringFieldUpdateOperationsInput | string
+  revoked?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  expiresAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+}
+
+export type AuthSessionUncheckedUpdateManyWithoutEmpresaInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  userId?: Prisma.StringFieldUpdateOperationsInput | string
+  tenantId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   refreshTokenHash?: Prisma.StringFieldUpdateOperationsInput | string
   revoked?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -472,61 +790,85 @@ export type AuthSessionUncheckedUpdateManyWithoutUserInput = {
 export type AuthSessionSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   userId?: boolean
+  tenantId?: boolean
+  empresaId?: boolean
   refreshTokenHash?: boolean
   revoked?: boolean
   createdAt?: boolean
   expiresAt?: boolean
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+  tenant?: boolean | Prisma.AuthSession$tenantArgs<ExtArgs>
+  empresa?: boolean | Prisma.AuthSession$empresaArgs<ExtArgs>
 }, ExtArgs["result"]["authSession"]>
 
 export type AuthSessionSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   userId?: boolean
+  tenantId?: boolean
+  empresaId?: boolean
   refreshTokenHash?: boolean
   revoked?: boolean
   createdAt?: boolean
   expiresAt?: boolean
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+  tenant?: boolean | Prisma.AuthSession$tenantArgs<ExtArgs>
+  empresa?: boolean | Prisma.AuthSession$empresaArgs<ExtArgs>
 }, ExtArgs["result"]["authSession"]>
 
 export type AuthSessionSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   userId?: boolean
+  tenantId?: boolean
+  empresaId?: boolean
   refreshTokenHash?: boolean
   revoked?: boolean
   createdAt?: boolean
   expiresAt?: boolean
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+  tenant?: boolean | Prisma.AuthSession$tenantArgs<ExtArgs>
+  empresa?: boolean | Prisma.AuthSession$empresaArgs<ExtArgs>
 }, ExtArgs["result"]["authSession"]>
 
 export type AuthSessionSelectScalar = {
   id?: boolean
   userId?: boolean
+  tenantId?: boolean
+  empresaId?: boolean
   refreshTokenHash?: boolean
   revoked?: boolean
   createdAt?: boolean
   expiresAt?: boolean
 }
 
-export type AuthSessionOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "refreshTokenHash" | "revoked" | "createdAt" | "expiresAt", ExtArgs["result"]["authSession"]>
+export type AuthSessionOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "tenantId" | "empresaId" | "refreshTokenHash" | "revoked" | "createdAt" | "expiresAt", ExtArgs["result"]["authSession"]>
 export type AuthSessionInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+  tenant?: boolean | Prisma.AuthSession$tenantArgs<ExtArgs>
+  empresa?: boolean | Prisma.AuthSession$empresaArgs<ExtArgs>
 }
 export type AuthSessionIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+  tenant?: boolean | Prisma.AuthSession$tenantArgs<ExtArgs>
+  empresa?: boolean | Prisma.AuthSession$empresaArgs<ExtArgs>
 }
 export type AuthSessionIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+  tenant?: boolean | Prisma.AuthSession$tenantArgs<ExtArgs>
+  empresa?: boolean | Prisma.AuthSession$empresaArgs<ExtArgs>
 }
 
 export type $AuthSessionPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "AuthSession"
   objects: {
     user: Prisma.$UserPayload<ExtArgs>
+    tenant: Prisma.$TenantPayload<ExtArgs> | null
+    empresa: Prisma.$EmpresaPayload<ExtArgs> | null
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
     userId: string
+    tenantId: string | null
+    empresaId: string | null
     refreshTokenHash: string
     revoked: boolean
     createdAt: Date
@@ -926,6 +1268,8 @@ readonly fields: AuthSessionFieldRefs;
 export interface Prisma__AuthSessionClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
   user<T extends Prisma.UserDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.UserDefaultArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  tenant<T extends Prisma.AuthSession$tenantArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.AuthSession$tenantArgs<ExtArgs>>): Prisma.Prisma__TenantClient<runtime.Types.Result.GetResult<Prisma.$TenantPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  empresa<T extends Prisma.AuthSession$empresaArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.AuthSession$empresaArgs<ExtArgs>>): Prisma.Prisma__EmpresaClient<runtime.Types.Result.GetResult<Prisma.$EmpresaPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -957,6 +1301,8 @@ export interface Prisma__AuthSessionClient<T, Null = never, ExtArgs extends runt
 export interface AuthSessionFieldRefs {
   readonly id: Prisma.FieldRef<"AuthSession", 'String'>
   readonly userId: Prisma.FieldRef<"AuthSession", 'String'>
+  readonly tenantId: Prisma.FieldRef<"AuthSession", 'String'>
+  readonly empresaId: Prisma.FieldRef<"AuthSession", 'String'>
   readonly refreshTokenHash: Prisma.FieldRef<"AuthSession", 'String'>
   readonly revoked: Prisma.FieldRef<"AuthSession", 'Boolean'>
   readonly createdAt: Prisma.FieldRef<"AuthSession", 'DateTime'>
@@ -1354,6 +1700,44 @@ export type AuthSessionDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.I
    * Limit how many AuthSessions to delete.
    */
   limit?: number
+}
+
+/**
+ * AuthSession.tenant
+ */
+export type AuthSession$tenantArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Tenant
+   */
+  select?: Prisma.TenantSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Tenant
+   */
+  omit?: Prisma.TenantOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.TenantInclude<ExtArgs> | null
+  where?: Prisma.TenantWhereInput
+}
+
+/**
+ * AuthSession.empresa
+ */
+export type AuthSession$empresaArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Empresa
+   */
+  select?: Prisma.EmpresaSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Empresa
+   */
+  omit?: Prisma.EmpresaOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.EmpresaInclude<ExtArgs> | null
+  where?: Prisma.EmpresaWhereInput
 }
 
 /**

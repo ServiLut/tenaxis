@@ -39,6 +39,7 @@ export type PicoPlacaSumAggregateOutputType = {
 export type PicoPlacaMinAggregateOutputType = {
   id: string | null
   tenantId: string | null
+  empresaId: string | null
   dia: string | null
   numeroUno: number | null
   numeroDos: number | null
@@ -49,6 +50,7 @@ export type PicoPlacaMinAggregateOutputType = {
 export type PicoPlacaMaxAggregateOutputType = {
   id: string | null
   tenantId: string | null
+  empresaId: string | null
   dia: string | null
   numeroUno: number | null
   numeroDos: number | null
@@ -59,6 +61,7 @@ export type PicoPlacaMaxAggregateOutputType = {
 export type PicoPlacaCountAggregateOutputType = {
   id: number
   tenantId: number
+  empresaId: number
   dia: number
   numeroUno: number
   numeroDos: number
@@ -81,6 +84,7 @@ export type PicoPlacaSumAggregateInputType = {
 export type PicoPlacaMinAggregateInputType = {
   id?: true
   tenantId?: true
+  empresaId?: true
   dia?: true
   numeroUno?: true
   numeroDos?: true
@@ -91,6 +95,7 @@ export type PicoPlacaMinAggregateInputType = {
 export type PicoPlacaMaxAggregateInputType = {
   id?: true
   tenantId?: true
+  empresaId?: true
   dia?: true
   numeroUno?: true
   numeroDos?: true
@@ -101,6 +106,7 @@ export type PicoPlacaMaxAggregateInputType = {
 export type PicoPlacaCountAggregateInputType = {
   id?: true
   tenantId?: true
+  empresaId?: true
   dia?: true
   numeroUno?: true
   numeroDos?: true
@@ -198,6 +204,7 @@ export type PicoPlacaGroupByArgs<ExtArgs extends runtime.Types.Extensions.Intern
 export type PicoPlacaGroupByOutputType = {
   id: string
   tenantId: string
+  empresaId: string
   dia: string
   numeroUno: number
   numeroDos: number
@@ -231,23 +238,27 @@ export type PicoPlacaWhereInput = {
   NOT?: Prisma.PicoPlacaWhereInput | Prisma.PicoPlacaWhereInput[]
   id?: Prisma.UuidFilter<"PicoPlaca"> | string
   tenantId?: Prisma.UuidFilter<"PicoPlaca"> | string
+  empresaId?: Prisma.UuidFilter<"PicoPlaca"> | string
   dia?: Prisma.StringFilter<"PicoPlaca"> | string
   numeroUno?: Prisma.IntFilter<"PicoPlaca"> | number
   numeroDos?: Prisma.IntFilter<"PicoPlaca"> | number
   activo?: Prisma.BoolFilter<"PicoPlaca"> | boolean
   createdAt?: Prisma.DateTimeFilter<"PicoPlaca"> | Date | string
   tenant?: Prisma.XOR<Prisma.TenantScalarRelationFilter, Prisma.TenantWhereInput>
+  empresa?: Prisma.XOR<Prisma.EmpresaScalarRelationFilter, Prisma.EmpresaWhereInput>
 }
 
 export type PicoPlacaOrderByWithRelationInput = {
   id?: Prisma.SortOrder
   tenantId?: Prisma.SortOrder
+  empresaId?: Prisma.SortOrder
   dia?: Prisma.SortOrder
   numeroUno?: Prisma.SortOrder
   numeroDos?: Prisma.SortOrder
   activo?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   tenant?: Prisma.TenantOrderByWithRelationInput
+  empresa?: Prisma.EmpresaOrderByWithRelationInput
 }
 
 export type PicoPlacaWhereUniqueInput = Prisma.AtLeast<{
@@ -256,17 +267,20 @@ export type PicoPlacaWhereUniqueInput = Prisma.AtLeast<{
   OR?: Prisma.PicoPlacaWhereInput[]
   NOT?: Prisma.PicoPlacaWhereInput | Prisma.PicoPlacaWhereInput[]
   tenantId?: Prisma.UuidFilter<"PicoPlaca"> | string
+  empresaId?: Prisma.UuidFilter<"PicoPlaca"> | string
   dia?: Prisma.StringFilter<"PicoPlaca"> | string
   numeroUno?: Prisma.IntFilter<"PicoPlaca"> | number
   numeroDos?: Prisma.IntFilter<"PicoPlaca"> | number
   activo?: Prisma.BoolFilter<"PicoPlaca"> | boolean
   createdAt?: Prisma.DateTimeFilter<"PicoPlaca"> | Date | string
   tenant?: Prisma.XOR<Prisma.TenantScalarRelationFilter, Prisma.TenantWhereInput>
+  empresa?: Prisma.XOR<Prisma.EmpresaScalarRelationFilter, Prisma.EmpresaWhereInput>
 }, "id">
 
 export type PicoPlacaOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
   tenantId?: Prisma.SortOrder
+  empresaId?: Prisma.SortOrder
   dia?: Prisma.SortOrder
   numeroUno?: Prisma.SortOrder
   numeroDos?: Prisma.SortOrder
@@ -285,6 +299,7 @@ export type PicoPlacaScalarWhereWithAggregatesInput = {
   NOT?: Prisma.PicoPlacaScalarWhereWithAggregatesInput | Prisma.PicoPlacaScalarWhereWithAggregatesInput[]
   id?: Prisma.UuidWithAggregatesFilter<"PicoPlaca"> | string
   tenantId?: Prisma.UuidWithAggregatesFilter<"PicoPlaca"> | string
+  empresaId?: Prisma.UuidWithAggregatesFilter<"PicoPlaca"> | string
   dia?: Prisma.StringWithAggregatesFilter<"PicoPlaca"> | string
   numeroUno?: Prisma.IntWithAggregatesFilter<"PicoPlaca"> | number
   numeroDos?: Prisma.IntWithAggregatesFilter<"PicoPlaca"> | number
@@ -300,11 +315,13 @@ export type PicoPlacaCreateInput = {
   activo?: boolean
   createdAt?: Date | string
   tenant: Prisma.TenantCreateNestedOneWithoutPicoPlacaInput
+  empresa: Prisma.EmpresaCreateNestedOneWithoutPicoPlacaInput
 }
 
 export type PicoPlacaUncheckedCreateInput = {
   id?: string
   tenantId: string
+  empresaId: string
   dia: string
   numeroUno: number
   numeroDos: number
@@ -320,11 +337,13 @@ export type PicoPlacaUpdateInput = {
   activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   tenant?: Prisma.TenantUpdateOneRequiredWithoutPicoPlacaNestedInput
+  empresa?: Prisma.EmpresaUpdateOneRequiredWithoutPicoPlacaNestedInput
 }
 
 export type PicoPlacaUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   tenantId?: Prisma.StringFieldUpdateOperationsInput | string
+  empresaId?: Prisma.StringFieldUpdateOperationsInput | string
   dia?: Prisma.StringFieldUpdateOperationsInput | string
   numeroUno?: Prisma.IntFieldUpdateOperationsInput | number
   numeroDos?: Prisma.IntFieldUpdateOperationsInput | number
@@ -335,6 +354,7 @@ export type PicoPlacaUncheckedUpdateInput = {
 export type PicoPlacaCreateManyInput = {
   id?: string
   tenantId: string
+  empresaId: string
   dia: string
   numeroUno: number
   numeroDos: number
@@ -354,6 +374,7 @@ export type PicoPlacaUpdateManyMutationInput = {
 export type PicoPlacaUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   tenantId?: Prisma.StringFieldUpdateOperationsInput | string
+  empresaId?: Prisma.StringFieldUpdateOperationsInput | string
   dia?: Prisma.StringFieldUpdateOperationsInput | string
   numeroUno?: Prisma.IntFieldUpdateOperationsInput | number
   numeroDos?: Prisma.IntFieldUpdateOperationsInput | number
@@ -374,6 +395,7 @@ export type PicoPlacaOrderByRelationAggregateInput = {
 export type PicoPlacaCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   tenantId?: Prisma.SortOrder
+  empresaId?: Prisma.SortOrder
   dia?: Prisma.SortOrder
   numeroUno?: Prisma.SortOrder
   numeroDos?: Prisma.SortOrder
@@ -389,6 +411,7 @@ export type PicoPlacaAvgOrderByAggregateInput = {
 export type PicoPlacaMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
   tenantId?: Prisma.SortOrder
+  empresaId?: Prisma.SortOrder
   dia?: Prisma.SortOrder
   numeroUno?: Prisma.SortOrder
   numeroDos?: Prisma.SortOrder
@@ -399,6 +422,7 @@ export type PicoPlacaMaxOrderByAggregateInput = {
 export type PicoPlacaMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
   tenantId?: Prisma.SortOrder
+  empresaId?: Prisma.SortOrder
   dia?: Prisma.SortOrder
   numeroUno?: Prisma.SortOrder
   numeroDos?: Prisma.SortOrder
@@ -453,6 +477,48 @@ export type PicoPlacaUncheckedUpdateManyWithoutTenantNestedInput = {
   deleteMany?: Prisma.PicoPlacaScalarWhereInput | Prisma.PicoPlacaScalarWhereInput[]
 }
 
+export type PicoPlacaCreateNestedManyWithoutEmpresaInput = {
+  create?: Prisma.XOR<Prisma.PicoPlacaCreateWithoutEmpresaInput, Prisma.PicoPlacaUncheckedCreateWithoutEmpresaInput> | Prisma.PicoPlacaCreateWithoutEmpresaInput[] | Prisma.PicoPlacaUncheckedCreateWithoutEmpresaInput[]
+  connectOrCreate?: Prisma.PicoPlacaCreateOrConnectWithoutEmpresaInput | Prisma.PicoPlacaCreateOrConnectWithoutEmpresaInput[]
+  createMany?: Prisma.PicoPlacaCreateManyEmpresaInputEnvelope
+  connect?: Prisma.PicoPlacaWhereUniqueInput | Prisma.PicoPlacaWhereUniqueInput[]
+}
+
+export type PicoPlacaUncheckedCreateNestedManyWithoutEmpresaInput = {
+  create?: Prisma.XOR<Prisma.PicoPlacaCreateWithoutEmpresaInput, Prisma.PicoPlacaUncheckedCreateWithoutEmpresaInput> | Prisma.PicoPlacaCreateWithoutEmpresaInput[] | Prisma.PicoPlacaUncheckedCreateWithoutEmpresaInput[]
+  connectOrCreate?: Prisma.PicoPlacaCreateOrConnectWithoutEmpresaInput | Prisma.PicoPlacaCreateOrConnectWithoutEmpresaInput[]
+  createMany?: Prisma.PicoPlacaCreateManyEmpresaInputEnvelope
+  connect?: Prisma.PicoPlacaWhereUniqueInput | Prisma.PicoPlacaWhereUniqueInput[]
+}
+
+export type PicoPlacaUpdateManyWithoutEmpresaNestedInput = {
+  create?: Prisma.XOR<Prisma.PicoPlacaCreateWithoutEmpresaInput, Prisma.PicoPlacaUncheckedCreateWithoutEmpresaInput> | Prisma.PicoPlacaCreateWithoutEmpresaInput[] | Prisma.PicoPlacaUncheckedCreateWithoutEmpresaInput[]
+  connectOrCreate?: Prisma.PicoPlacaCreateOrConnectWithoutEmpresaInput | Prisma.PicoPlacaCreateOrConnectWithoutEmpresaInput[]
+  upsert?: Prisma.PicoPlacaUpsertWithWhereUniqueWithoutEmpresaInput | Prisma.PicoPlacaUpsertWithWhereUniqueWithoutEmpresaInput[]
+  createMany?: Prisma.PicoPlacaCreateManyEmpresaInputEnvelope
+  set?: Prisma.PicoPlacaWhereUniqueInput | Prisma.PicoPlacaWhereUniqueInput[]
+  disconnect?: Prisma.PicoPlacaWhereUniqueInput | Prisma.PicoPlacaWhereUniqueInput[]
+  delete?: Prisma.PicoPlacaWhereUniqueInput | Prisma.PicoPlacaWhereUniqueInput[]
+  connect?: Prisma.PicoPlacaWhereUniqueInput | Prisma.PicoPlacaWhereUniqueInput[]
+  update?: Prisma.PicoPlacaUpdateWithWhereUniqueWithoutEmpresaInput | Prisma.PicoPlacaUpdateWithWhereUniqueWithoutEmpresaInput[]
+  updateMany?: Prisma.PicoPlacaUpdateManyWithWhereWithoutEmpresaInput | Prisma.PicoPlacaUpdateManyWithWhereWithoutEmpresaInput[]
+  deleteMany?: Prisma.PicoPlacaScalarWhereInput | Prisma.PicoPlacaScalarWhereInput[]
+}
+
+export type PicoPlacaUncheckedUpdateManyWithoutEmpresaNestedInput = {
+  create?: Prisma.XOR<Prisma.PicoPlacaCreateWithoutEmpresaInput, Prisma.PicoPlacaUncheckedCreateWithoutEmpresaInput> | Prisma.PicoPlacaCreateWithoutEmpresaInput[] | Prisma.PicoPlacaUncheckedCreateWithoutEmpresaInput[]
+  connectOrCreate?: Prisma.PicoPlacaCreateOrConnectWithoutEmpresaInput | Prisma.PicoPlacaCreateOrConnectWithoutEmpresaInput[]
+  upsert?: Prisma.PicoPlacaUpsertWithWhereUniqueWithoutEmpresaInput | Prisma.PicoPlacaUpsertWithWhereUniqueWithoutEmpresaInput[]
+  createMany?: Prisma.PicoPlacaCreateManyEmpresaInputEnvelope
+  set?: Prisma.PicoPlacaWhereUniqueInput | Prisma.PicoPlacaWhereUniqueInput[]
+  disconnect?: Prisma.PicoPlacaWhereUniqueInput | Prisma.PicoPlacaWhereUniqueInput[]
+  delete?: Prisma.PicoPlacaWhereUniqueInput | Prisma.PicoPlacaWhereUniqueInput[]
+  connect?: Prisma.PicoPlacaWhereUniqueInput | Prisma.PicoPlacaWhereUniqueInput[]
+  update?: Prisma.PicoPlacaUpdateWithWhereUniqueWithoutEmpresaInput | Prisma.PicoPlacaUpdateWithWhereUniqueWithoutEmpresaInput[]
+  updateMany?: Prisma.PicoPlacaUpdateManyWithWhereWithoutEmpresaInput | Prisma.PicoPlacaUpdateManyWithWhereWithoutEmpresaInput[]
+  deleteMany?: Prisma.PicoPlacaScalarWhereInput | Prisma.PicoPlacaScalarWhereInput[]
+}
+
 export type PicoPlacaCreateWithoutTenantInput = {
   id?: string
   dia: string
@@ -460,10 +526,12 @@ export type PicoPlacaCreateWithoutTenantInput = {
   numeroDos: number
   activo?: boolean
   createdAt?: Date | string
+  empresa: Prisma.EmpresaCreateNestedOneWithoutPicoPlacaInput
 }
 
 export type PicoPlacaUncheckedCreateWithoutTenantInput = {
   id?: string
+  empresaId: string
   dia: string
   numeroUno: number
   numeroDos: number
@@ -503,6 +571,7 @@ export type PicoPlacaScalarWhereInput = {
   NOT?: Prisma.PicoPlacaScalarWhereInput | Prisma.PicoPlacaScalarWhereInput[]
   id?: Prisma.UuidFilter<"PicoPlaca"> | string
   tenantId?: Prisma.UuidFilter<"PicoPlaca"> | string
+  empresaId?: Prisma.UuidFilter<"PicoPlaca"> | string
   dia?: Prisma.StringFilter<"PicoPlaca"> | string
   numeroUno?: Prisma.IntFilter<"PicoPlaca"> | number
   numeroDos?: Prisma.IntFilter<"PicoPlaca"> | number
@@ -510,8 +579,55 @@ export type PicoPlacaScalarWhereInput = {
   createdAt?: Prisma.DateTimeFilter<"PicoPlaca"> | Date | string
 }
 
+export type PicoPlacaCreateWithoutEmpresaInput = {
+  id?: string
+  dia: string
+  numeroUno: number
+  numeroDos: number
+  activo?: boolean
+  createdAt?: Date | string
+  tenant: Prisma.TenantCreateNestedOneWithoutPicoPlacaInput
+}
+
+export type PicoPlacaUncheckedCreateWithoutEmpresaInput = {
+  id?: string
+  tenantId: string
+  dia: string
+  numeroUno: number
+  numeroDos: number
+  activo?: boolean
+  createdAt?: Date | string
+}
+
+export type PicoPlacaCreateOrConnectWithoutEmpresaInput = {
+  where: Prisma.PicoPlacaWhereUniqueInput
+  create: Prisma.XOR<Prisma.PicoPlacaCreateWithoutEmpresaInput, Prisma.PicoPlacaUncheckedCreateWithoutEmpresaInput>
+}
+
+export type PicoPlacaCreateManyEmpresaInputEnvelope = {
+  data: Prisma.PicoPlacaCreateManyEmpresaInput | Prisma.PicoPlacaCreateManyEmpresaInput[]
+  skipDuplicates?: boolean
+}
+
+export type PicoPlacaUpsertWithWhereUniqueWithoutEmpresaInput = {
+  where: Prisma.PicoPlacaWhereUniqueInput
+  update: Prisma.XOR<Prisma.PicoPlacaUpdateWithoutEmpresaInput, Prisma.PicoPlacaUncheckedUpdateWithoutEmpresaInput>
+  create: Prisma.XOR<Prisma.PicoPlacaCreateWithoutEmpresaInput, Prisma.PicoPlacaUncheckedCreateWithoutEmpresaInput>
+}
+
+export type PicoPlacaUpdateWithWhereUniqueWithoutEmpresaInput = {
+  where: Prisma.PicoPlacaWhereUniqueInput
+  data: Prisma.XOR<Prisma.PicoPlacaUpdateWithoutEmpresaInput, Prisma.PicoPlacaUncheckedUpdateWithoutEmpresaInput>
+}
+
+export type PicoPlacaUpdateManyWithWhereWithoutEmpresaInput = {
+  where: Prisma.PicoPlacaScalarWhereInput
+  data: Prisma.XOR<Prisma.PicoPlacaUpdateManyMutationInput, Prisma.PicoPlacaUncheckedUpdateManyWithoutEmpresaInput>
+}
+
 export type PicoPlacaCreateManyTenantInput = {
   id?: string
+  empresaId: string
   dia: string
   numeroUno: number
   numeroDos: number
@@ -526,10 +642,12 @@ export type PicoPlacaUpdateWithoutTenantInput = {
   numeroDos?: Prisma.IntFieldUpdateOperationsInput | number
   activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  empresa?: Prisma.EmpresaUpdateOneRequiredWithoutPicoPlacaNestedInput
 }
 
 export type PicoPlacaUncheckedUpdateWithoutTenantInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  empresaId?: Prisma.StringFieldUpdateOperationsInput | string
   dia?: Prisma.StringFieldUpdateOperationsInput | string
   numeroUno?: Prisma.IntFieldUpdateOperationsInput | number
   numeroDos?: Prisma.IntFieldUpdateOperationsInput | number
@@ -539,6 +657,47 @@ export type PicoPlacaUncheckedUpdateWithoutTenantInput = {
 
 export type PicoPlacaUncheckedUpdateManyWithoutTenantInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  empresaId?: Prisma.StringFieldUpdateOperationsInput | string
+  dia?: Prisma.StringFieldUpdateOperationsInput | string
+  numeroUno?: Prisma.IntFieldUpdateOperationsInput | number
+  numeroDos?: Prisma.IntFieldUpdateOperationsInput | number
+  activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+}
+
+export type PicoPlacaCreateManyEmpresaInput = {
+  id?: string
+  tenantId: string
+  dia: string
+  numeroUno: number
+  numeroDos: number
+  activo?: boolean
+  createdAt?: Date | string
+}
+
+export type PicoPlacaUpdateWithoutEmpresaInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  dia?: Prisma.StringFieldUpdateOperationsInput | string
+  numeroUno?: Prisma.IntFieldUpdateOperationsInput | number
+  numeroDos?: Prisma.IntFieldUpdateOperationsInput | number
+  activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  tenant?: Prisma.TenantUpdateOneRequiredWithoutPicoPlacaNestedInput
+}
+
+export type PicoPlacaUncheckedUpdateWithoutEmpresaInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenantId?: Prisma.StringFieldUpdateOperationsInput | string
+  dia?: Prisma.StringFieldUpdateOperationsInput | string
+  numeroUno?: Prisma.IntFieldUpdateOperationsInput | number
+  numeroDos?: Prisma.IntFieldUpdateOperationsInput | number
+  activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+}
+
+export type PicoPlacaUncheckedUpdateManyWithoutEmpresaInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenantId?: Prisma.StringFieldUpdateOperationsInput | string
   dia?: Prisma.StringFieldUpdateOperationsInput | string
   numeroUno?: Prisma.IntFieldUpdateOperationsInput | number
   numeroDos?: Prisma.IntFieldUpdateOperationsInput | number
@@ -551,39 +710,46 @@ export type PicoPlacaUncheckedUpdateManyWithoutTenantInput = {
 export type PicoPlacaSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   tenantId?: boolean
+  empresaId?: boolean
   dia?: boolean
   numeroUno?: boolean
   numeroDos?: boolean
   activo?: boolean
   createdAt?: boolean
   tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
+  empresa?: boolean | Prisma.EmpresaDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["picoPlaca"]>
 
 export type PicoPlacaSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   tenantId?: boolean
+  empresaId?: boolean
   dia?: boolean
   numeroUno?: boolean
   numeroDos?: boolean
   activo?: boolean
   createdAt?: boolean
   tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
+  empresa?: boolean | Prisma.EmpresaDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["picoPlaca"]>
 
 export type PicoPlacaSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   tenantId?: boolean
+  empresaId?: boolean
   dia?: boolean
   numeroUno?: boolean
   numeroDos?: boolean
   activo?: boolean
   createdAt?: boolean
   tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
+  empresa?: boolean | Prisma.EmpresaDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["picoPlaca"]>
 
 export type PicoPlacaSelectScalar = {
   id?: boolean
   tenantId?: boolean
+  empresaId?: boolean
   dia?: boolean
   numeroUno?: boolean
   numeroDos?: boolean
@@ -591,25 +757,30 @@ export type PicoPlacaSelectScalar = {
   createdAt?: boolean
 }
 
-export type PicoPlacaOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "tenantId" | "dia" | "numeroUno" | "numeroDos" | "activo" | "createdAt", ExtArgs["result"]["picoPlaca"]>
+export type PicoPlacaOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "tenantId" | "empresaId" | "dia" | "numeroUno" | "numeroDos" | "activo" | "createdAt", ExtArgs["result"]["picoPlaca"]>
 export type PicoPlacaInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
+  empresa?: boolean | Prisma.EmpresaDefaultArgs<ExtArgs>
 }
 export type PicoPlacaIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
+  empresa?: boolean | Prisma.EmpresaDefaultArgs<ExtArgs>
 }
 export type PicoPlacaIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
+  empresa?: boolean | Prisma.EmpresaDefaultArgs<ExtArgs>
 }
 
 export type $PicoPlacaPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "PicoPlaca"
   objects: {
     tenant: Prisma.$TenantPayload<ExtArgs>
+    empresa: Prisma.$EmpresaPayload<ExtArgs>
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
     tenantId: string
+    empresaId: string
     dia: string
     numeroUno: number
     numeroDos: number
@@ -1010,6 +1181,7 @@ readonly fields: PicoPlacaFieldRefs;
 export interface Prisma__PicoPlacaClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
   tenant<T extends Prisma.TenantDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.TenantDefaultArgs<ExtArgs>>): Prisma.Prisma__TenantClient<runtime.Types.Result.GetResult<Prisma.$TenantPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  empresa<T extends Prisma.EmpresaDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.EmpresaDefaultArgs<ExtArgs>>): Prisma.Prisma__EmpresaClient<runtime.Types.Result.GetResult<Prisma.$EmpresaPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1041,6 +1213,7 @@ export interface Prisma__PicoPlacaClient<T, Null = never, ExtArgs extends runtim
 export interface PicoPlacaFieldRefs {
   readonly id: Prisma.FieldRef<"PicoPlaca", 'String'>
   readonly tenantId: Prisma.FieldRef<"PicoPlaca", 'String'>
+  readonly empresaId: Prisma.FieldRef<"PicoPlaca", 'String'>
   readonly dia: Prisma.FieldRef<"PicoPlaca", 'String'>
   readonly numeroUno: Prisma.FieldRef<"PicoPlaca", 'Int'>
   readonly numeroDos: Prisma.FieldRef<"PicoPlaca", 'Int'>

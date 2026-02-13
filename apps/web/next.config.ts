@@ -5,10 +5,11 @@ const nextConfig: NextConfig = {
   transpilePackages: ["@tenaxis/ui"],
   output: 'standalone',
   async rewrites() {
+    const apiUrl = process.env.NESTJS_API_URL || 'http://localhost:4000';
     return [
       {
         source: '/api/:path*',
-        destination: 'http://localhost:4000/:path*',
+        destination: `${apiUrl}/:path*`,
       },
     ];
   },

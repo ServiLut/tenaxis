@@ -34,6 +34,19 @@ const pool = new pg.Pool({
 const adapter = new PrismaPg(pool);
 const prisma = new PrismaClient({ adapter });
 
+interface LocationData {
+  dpto: string;
+  cod_dpto: string;
+  nom_mpio: string;
+  cod_mpio: string;
+}
+
+interface DBLocation {
+  id: string;
+  code: string;
+  name: string;
+}
+
 async function main() {
   console.log('🌱 Iniciando Seed de Departamentos y Municipios...');
 
@@ -41,11 +54,11 @@ async function main() {
   console.log('🇨🇴 Poblando Departamentos y Municipios...');
   const jsonPath = path.join(__dirname, '../departamentos-municipios.json');
   const rawData = fs.readFileSync(jsonPath, 'utf-8');
-  const locations = JSON.parse(rawData);
+  const locations = JSON.parse(rawData) as LocationData[];
 
   // Extraer Departamentos únicos
-  const departmentsMap = new Map();
-  locations.forEach((loc: any) => {
+  const departmentsMap = new Map<string, { name: string; code: string }>();
+  locations.forEach((loc) => {
     if (!departmentsMap.has(loc.cod_dpto)) {
       departmentsMap.set(loc.cod_dpto, {
         name: loc.dpto,
@@ -55,34 +68,44 @@ async function main() {
   });
 
   // Insertar Departamentos
-  await prisma.department.createMany({
-    data: Array.from(departmentsMap.values()),
-    skipDuplicates: true,
-  });
+  // Usamos unknown y luego any porque los modelos no están en el esquema actual
+  // pero queremos mantener la lógica del seed intacta por si se agregan luego.
+  const prismaAny = prisma as unknown as any;
 
-  // Obtener IDs de Departamentos creados
-  const createdDepartments = await prisma.department.findMany();
-  const depCodeToId = new Map(createdDepartments.map(d => [d.code, d.id]));
+  if (prismaAny.department) {
+    await prismaAny.department.createMany({
+      data: Array.from(departmentsMap.values()),
+      skipDuplicates: true,
+    });
 
-  // Preparar Municipios
-  const municipalitiesData = locations.map((loc: any) => {
-    const depId = depCodeToId.get(loc.cod_dpto);
-    if (!depId) return null;
-    
-    return {
-      name: loc.nom_mpio,
-      code: loc.cod_mpio,
-      departmentId: depId
-    };
-  }).filter((m: any) => m !== null);
+    // Obtener IDs de Departamentos creados
+    const createdDepartments = await prismaAny.department.findMany() as DBLocation[];
+    const depCodeToId = new Map(createdDepartments.map((d) => [d.code, d.id]));
 
-  // Insertar Municipios
-  await prisma.municipality.createMany({
-    data: municipalitiesData,
-    skipDuplicates: true,
-  });
+    // Preparar Municipios
+    const municipalitiesData = locations.map((loc) => {
+      const depId = depCodeToId.get(loc.cod_dpto);
+      if (!depId) return null;
+      
+      return {
+        name: loc.nom_mpio,
+        code: loc.cod_mpio,
+        departmentId: depId
+      };
+    }).filter((m): m is { name: string; code: string; departmentId: string } => m !== null);
+
+    // Insertar Municipios
+    if (prismaAny.municipality) {
+      await prismaAny.municipality.createMany({
+        data: municipalitiesData,
+        skipDuplicates: true,
+      });
+      console.log(`✅ ${departmentsMap.size} Departamentos y ${municipalitiesData.length} Municipios creados.`);
+    }
+  } else {
+    console.warn('⚠️ Los modelos Department/Municipality no existen en el esquema actual. Saltando inserción.');
+  }
   
-  console.log(`✅ ${departmentsMap.size} Departamentos y ${municipalitiesData.length} Municipios creados.`);
   console.log('✅ Seed completado exitosamente.');
 }
 

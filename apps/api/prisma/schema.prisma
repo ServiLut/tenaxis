@@ -14,11 +14,15 @@ datasource db {
 
 model User {
   id        String   @id @default(uuid()) @db.Uuid
+  tenantId  String?  @db.Uuid
+  empresaId String?  @db.Uuid
   email     String   @unique
   password  String
   nombre    String
   apellido  String
   telefono  String?
+
+  role      Role     @default(OPERADOR)
 
   tipoDocumento    String?
   numeroDocumento  String?  @unique
@@ -27,11 +31,17 @@ model User {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
+  // Relaciones multitenant
+  tenant    Tenant?  @relation(fields: [tenantId], references: [id])
+  empresa   Empresa? @relation(fields: [empresaId], references: [id])
+
   // Relaciones globales
   memberships        TenantMembership[]
   sessions           AuthSession[]
   resetTokens        PasswordResetToken[]
 
+  @@index([tenantId])
+  @@index([empresaId])
   @@map("users")
 }
 
@@ -54,6 +64,8 @@ model Tenant {
   updatedAt DateTime @updatedAt
 
   // Relaciones de tenant
+  users               User[]
+  plans               Plan[]
   memberships         TenantMembership[]
   subscription        Subscription?
   empresas            Empresa[]
@@ -89,6 +101,8 @@ model Tenant {
   sesionesActividad   SesionActividad[]
   auditorias          Auditoria[]
   logsEvento          LogEvento[]
+  authSessions        AuthSession[]
+  resetTokens         PasswordResetToken[]
 
   // Configuración de tenant
   zonas               Zona[]
@@ -108,6 +122,8 @@ model Tenant {
 
 model Plan {
   id              String   @id @default(uuid()) @db.Uuid
+  tenantId        String?  @db.Uuid
+  empresaId       String?  @db.Uuid
   nombre          String
   descripcion     String?
   durationDays    Int
@@ -120,14 +136,19 @@ model Plan {
   createdAt       DateTime @default(now())
   updatedAt       DateTime @updatedAt
 
+  tenant          Tenant?  @relation(fields: [tenantId], references: [id])
+  empresa         Empresa? @relation(fields: [empresaId], references: [id])
   subscriptions   Subscription[]
 
+  @@index([tenantId])
+  @@index([empresaId])
   @@map("plans")
 }
 
 model Subscription {
   id         String  @id @default(uuid()) @db.Uuid
   tenantId   String  @unique @db.Uuid
+  empresaId  String? @db.Uuid
   planId     String  @db.Uuid
 
   startDate  DateTime
@@ -141,10 +162,12 @@ model Subscription {
   lastPaymentDate    DateTime?
   nextReminderDate   DateTime?
 
-  tenant Tenant @relation(fields: [tenantId], references: [id], onDelete: Cascade)
-  plan   Plan   @relation(fields: [planId], references: [id])
+  tenant  Tenant  @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  empresa Empresa? @relation(fields: [empresaId], references: [id])
+  plan    Plan    @relation(fields: [planId], references: [id])
 
   @@index([tenantId])
+  @@index([empresaId])
   @@index([status])
   @@index([endDate])
   @@map("subscriptions")
@@ -158,6 +181,8 @@ model TenantMembership {
   id        String   @id @default(uuid()) @db.Uuid
   userId    String   @db.Uuid
   tenantId  String   @db.Uuid
+  empresaId String?  @db.Uuid
+  zonaId    String?  @db.Uuid
 
   role      Role
   status    MembershipStatus @default(ACTIVE)
@@ -176,8 +201,10 @@ model TenantMembership {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
-  tenant Tenant @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  user    User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  tenant  Tenant  @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  empresa Empresa? @relation(fields: [empresaId], references: [id])
+  zona    Zona?    @relation(fields: [zonaId], references: [id])
 
   empresaMemberships EmpresaMembership[]
 
@@ -207,6 +234,7 @@ model TenantMembership {
 
   @@unique([userId, tenantId])
   @@index([tenantId])
+  @@index([empresaId])
   @@index([role])
   @@map("tenant_memberships")
 }
@@ -226,6 +254,10 @@ model Empresa {
 
   tenant Tenant @relation(fields: [tenantId], references: [id], onDelete: Cascade)
 
+  users               User[]
+  plans               Plan[]
+  subscriptions       Subscription[]
+  tenantMemberships   TenantMembership[]
   memberships         EmpresaMembership[]
   orgNodes            OrganizationNode[]
   commissions         CommissionRecord[]
@@ -255,6 +287,16 @@ model Empresa {
   referidos           Referidos[]
   sesionesActividad   SesionActividad[]
   logsEvento          LogEvento[]
+  zonas               Zona[]
+  tiposServicio       TipoServicio[]
+  metodosPago         MetodoPago[]
+  estadosServicio     EstadoServicio[]
+  productos           Producto[]
+  proveedores         Proveedores[]
+  picoPlaca           PicoPlaca[]
+  auditorias          Auditoria[]
+  authSessions        AuthSession[]
+  resetTokens         PasswordResetToken[]
 
   @@index([tenantId])
   @@map("empresas")
@@ -269,6 +311,7 @@ model EmpresaMembership {
   tenantId          String   @db.Uuid
   membershipId      String   @db.Uuid
   empresaId         String   @db.Uuid
+  zonaId            String?  @db.Uuid
 
   isActive          Boolean  @default(true)
 
@@ -278,6 +321,7 @@ model EmpresaMembership {
   tenant     Tenant           @relation(fields: [tenantId], references: [id], onDelete: Cascade)
   membership TenantMembership @relation(fields: [membershipId], references: [id], onDelete: Cascade)
   empresa    Empresa          @relation(fields: [empresaId], references: [id], onDelete: Cascade)
+  zona       Zona?            @relation(fields: [zonaId], references: [id])
 
   orgNode    OrganizationNode?
 
@@ -457,6 +501,7 @@ model Direccion {
 model Zona {
   id        String    @id @default(uuid()) @db.Uuid
   tenantId  String    @db.Uuid
+  empresaId String    @db.Uuid
   nombre    String
   estado    Boolean   @default(true)
   deletedAt DateTime?
@@ -464,9 +509,14 @@ model Zona {
   createdAt DateTime  @default(now())
 
   tenant  Tenant          @relation(fields: [tenantId], references: [id])
+  empresa Empresa         @relation(fields: [empresaId], references: [id])
   ordenes OrdenServicio[]
 
+  tenantMemberships  TenantMembership[]
+  empresaMemberships EmpresaMembership[]
+
   @@index([tenantId])
+  @@index([empresaId])
   @@map("zonas")
 }
 
@@ -495,45 +545,54 @@ model Servicio {
 model TipoServicio {
   id        String   @id @default(uuid()) @db.Uuid
   tenantId  String   @db.Uuid
+  empresaId String   @db.Uuid
   nombre    String
   activo    Boolean  @default(true)
 
   createdAt DateTime @default(now())
 
   tenant  Tenant          @relation(fields: [tenantId], references: [id])
+  empresa Empresa         @relation(fields: [empresaId], references: [id])
   ordenes OrdenServicio[]
 
   @@index([tenantId])
+  @@index([empresaId])
   @@map("tipos_servicio")
 }
 
 model MetodoPago {
   id        String    @id @default(uuid()) @db.Uuid
   tenantId  String    @db.Uuid
+  empresaId String    @db.Uuid
   nombre    String
   activo    Boolean   @default(true)
 
   createdAt DateTime  @default(now())
 
   tenant  Tenant          @relation(fields: [tenantId], references: [id])
+  empresa Empresa         @relation(fields: [empresaId], references: [id])
   ordenes OrdenServicio[]
 
   @@index([tenantId])
+  @@index([empresaId])
   @@map("metodos_pago")
 }
 
 model EstadoServicio {
   id        String   @id @default(uuid()) @db.Uuid
   tenantId  String   @db.Uuid
+  empresaId String   @db.Uuid
   nombre    String
   activo    Boolean
 
   createdAt DateTime @default(now())
 
   tenant  Tenant          @relation(fields: [tenantId], references: [id])
+  empresa Empresa         @relation(fields: [empresaId], references: [id])
   ordenes OrdenServicio[]
 
   @@index([tenantId])
+  @@index([empresaId])
   @@map("estados_servicio")
 }
 
@@ -1030,6 +1089,7 @@ model Anticipos {
 model Producto {
   id               String   @id @default(uuid()) @db.Uuid
   tenantId         String   @db.Uuid
+  empresaId        String   @db.Uuid
   proveedorId      String?  @db.Uuid
 
   categoria        String?
@@ -1047,11 +1107,13 @@ model Producto {
   createdAt        DateTime @default(now())
 
   tenant    Tenant                           @relation(fields: [tenantId], references: [id])
+  empresa   Empresa                          @relation(fields: [empresaId], references: [id])
   proveedor Proveedores?                     @relation(fields: [proveedorId], references: [id])
 
   solicitudes ProductoSolicitado[]
 
   @@index([tenantId])
+  @@index([empresaId])
   @@map("productos")
 }
 
@@ -1083,6 +1145,7 @@ model ProductoSolicitado {
 model Proveedores {
   id           String   @id @default(uuid()) @db.Uuid
   tenantId     String   @db.Uuid
+  empresaId    String   @db.Uuid
 
   nombre       String
   nit          String?
@@ -1098,9 +1161,11 @@ model Proveedores {
   updatedAt    DateTime @updatedAt
 
   tenant    Tenant                @relation(fields: [tenantId], references: [id])
+  empresa   Empresa               @relation(fields: [empresaId], references: [id])
   productos Producto[]
 
   @@index([tenantId])
+  @@index([empresaId])
   @@map("proveedores")
 }
 
@@ -1210,6 +1275,7 @@ model Egresos {
 model PicoPlaca {
   id        String   @id @default(uuid()) @db.Uuid
   tenantId  String   @db.Uuid
+  empresaId String   @db.Uuid
 
   dia       String
   numeroUno Int
@@ -1218,9 +1284,11 @@ model PicoPlaca {
 
   createdAt DateTime @default(now())
 
-  tenant Tenant @relation(fields: [tenantId], references: [id])
+  tenant  Tenant  @relation(fields: [tenantId], references: [id])
+  empresa Empresa @relation(fields: [empresaId], references: [id])
 
   @@index([tenantId])
+  @@index([empresaId])
   @@map("pico_placa")
 }
 
@@ -1255,6 +1323,7 @@ model Referidos {
 model Auditoria {
   id           String   @id @default(uuid()) @db.Uuid
   tenantId     String   @db.Uuid
+  empresaId    String?  @db.Uuid
   membershipId String?  @db.Uuid
 
   accion       String
@@ -1266,9 +1335,11 @@ model Auditoria {
   createdAt    DateTime @default(now())
 
   tenant     Tenant            @relation(fields: [tenantId], references: [id])
+  empresa    Empresa?          @relation(fields: [empresaId], references: [id])
   membership TenantMembership? @relation(fields: [membershipId], references: [id])
 
   @@index([tenantId])
+  @@index([empresaId])
   @@index([createdAt])
   @@index([entidad, entidadId])
   @@map("auditorias")
@@ -1331,15 +1402,21 @@ model LogEvento {
 model AuthSession {
   id               String   @id @default(uuid()) @db.Uuid
   userId           String   @db.Uuid
+  tenantId         String?  @db.Uuid
+  empresaId        String?  @db.Uuid
   refreshTokenHash String
   revoked          Boolean  @default(false)
 
   createdAt        DateTime @default(now())
   expiresAt        DateTime
 
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user    User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  tenant  Tenant?  @relation(fields: [tenantId], references: [id])
+  empresa Empresa? @relation(fields: [empresaId], references: [id])
 
   @@index([userId])
+  @@index([tenantId])
+  @@index([empresaId])
   @@index([expiresAt])
   @@map("auth_sessions")
 }
@@ -1347,14 +1424,20 @@ model AuthSession {
 model PasswordResetToken {
   id        String   @id @default(uuid()) @db.Uuid
   userId    String   @db.Uuid
+  tenantId  String?  @db.Uuid
+  empresaId String?  @db.Uuid
   tokenHash String
 
   expiresAt DateTime
   usedAt    DateTime?
   createdAt DateTime  @default(now())
 
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user    User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  tenant  Tenant?  @relation(fields: [tenantId], references: [id])
+  empresa Empresa? @relation(fields: [empresaId], references: [id])
 
+  @@index([tenantId])
+  @@index([empresaId])
   @@index([expiresAt])
   @@map("password_reset_tokens")
 }
