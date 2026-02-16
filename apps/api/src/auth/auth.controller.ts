@@ -1,7 +1,15 @@
-import { Body, Controller, Post, Get, Request, UnauthorizedException } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Post,
+  Get,
+  Request as NestRequest,
+  UnauthorizedException,
+} from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { RegisterDto } from './dto/register.dto';
 import { LoginDto } from './dto/login.dto';
+import { Request } from 'express';
 
 @Controller('auth')
 export class AuthController {
@@ -18,12 +26,15 @@ export class AuthController {
   }
 
   @Get('profile')
-  async getProfile(@Request() req) {
+  async getProfile(@NestRequest() req: Request) {
     const authHeader = req.headers.authorization;
     if (!authHeader) {
       throw new UnauthorizedException();
     }
     const token = authHeader.split(' ')[1];
+    if (!token) {
+      throw new UnauthorizedException();
+    }
     return this.authService.getProfile(token);
   }
 }

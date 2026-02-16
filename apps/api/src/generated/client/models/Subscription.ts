@@ -27,7 +27,6 @@ export type AggregateSubscription = {
 export type SubscriptionMinAggregateOutputType = {
   id: string | null
   tenantId: string | null
-  empresaId: string | null
   planId: string | null
   startDate: Date | null
   endDate: Date | null
@@ -42,7 +41,6 @@ export type SubscriptionMinAggregateOutputType = {
 export type SubscriptionMaxAggregateOutputType = {
   id: string | null
   tenantId: string | null
-  empresaId: string | null
   planId: string | null
   startDate: Date | null
   endDate: Date | null
@@ -57,7 +55,6 @@ export type SubscriptionMaxAggregateOutputType = {
 export type SubscriptionCountAggregateOutputType = {
   id: number
   tenantId: number
-  empresaId: number
   planId: number
   startDate: number
   endDate: number
@@ -74,7 +71,6 @@ export type SubscriptionCountAggregateOutputType = {
 export type SubscriptionMinAggregateInputType = {
   id?: true
   tenantId?: true
-  empresaId?: true
   planId?: true
   startDate?: true
   endDate?: true
@@ -89,7 +85,6 @@ export type SubscriptionMinAggregateInputType = {
 export type SubscriptionMaxAggregateInputType = {
   id?: true
   tenantId?: true
-  empresaId?: true
   planId?: true
   startDate?: true
   endDate?: true
@@ -104,7 +99,6 @@ export type SubscriptionMaxAggregateInputType = {
 export type SubscriptionCountAggregateInputType = {
   id?: true
   tenantId?: true
-  empresaId?: true
   planId?: true
   startDate?: true
   endDate?: true
@@ -192,7 +186,6 @@ export type SubscriptionGroupByArgs<ExtArgs extends runtime.Types.Extensions.Int
 export type SubscriptionGroupByOutputType = {
   id: string
   tenantId: string
-  empresaId: string | null
   planId: string
   startDate: Date
   endDate: Date
@@ -228,7 +221,6 @@ export type SubscriptionWhereInput = {
   NOT?: Prisma.SubscriptionWhereInput | Prisma.SubscriptionWhereInput[]
   id?: Prisma.UuidFilter<"Subscription"> | string
   tenantId?: Prisma.UuidFilter<"Subscription"> | string
-  empresaId?: Prisma.UuidNullableFilter<"Subscription"> | string | null
   planId?: Prisma.UuidFilter<"Subscription"> | string
   startDate?: Prisma.DateTimeFilter<"Subscription"> | Date | string
   endDate?: Prisma.DateTimeFilter<"Subscription"> | Date | string
@@ -239,14 +231,12 @@ export type SubscriptionWhereInput = {
   lastPaymentDate?: Prisma.DateTimeNullableFilter<"Subscription"> | Date | string | null
   nextReminderDate?: Prisma.DateTimeNullableFilter<"Subscription"> | Date | string | null
   tenant?: Prisma.XOR<Prisma.TenantScalarRelationFilter, Prisma.TenantWhereInput>
-  empresa?: Prisma.XOR<Prisma.EmpresaNullableScalarRelationFilter, Prisma.EmpresaWhereInput> | null
   plan?: Prisma.XOR<Prisma.PlanScalarRelationFilter, Prisma.PlanWhereInput>
 }
 
 export type SubscriptionOrderByWithRelationInput = {
   id?: Prisma.SortOrder
   tenantId?: Prisma.SortOrder
-  empresaId?: Prisma.SortOrderInput | Prisma.SortOrder
   planId?: Prisma.SortOrder
   startDate?: Prisma.SortOrder
   endDate?: Prisma.SortOrder
@@ -257,7 +247,6 @@ export type SubscriptionOrderByWithRelationInput = {
   lastPaymentDate?: Prisma.SortOrderInput | Prisma.SortOrder
   nextReminderDate?: Prisma.SortOrderInput | Prisma.SortOrder
   tenant?: Prisma.TenantOrderByWithRelationInput
-  empresa?: Prisma.EmpresaOrderByWithRelationInput
   plan?: Prisma.PlanOrderByWithRelationInput
 }
 
@@ -267,7 +256,6 @@ export type SubscriptionWhereUniqueInput = Prisma.AtLeast<{
   AND?: Prisma.SubscriptionWhereInput | Prisma.SubscriptionWhereInput[]
   OR?: Prisma.SubscriptionWhereInput[]
   NOT?: Prisma.SubscriptionWhereInput | Prisma.SubscriptionWhereInput[]
-  empresaId?: Prisma.UuidNullableFilter<"Subscription"> | string | null
   planId?: Prisma.UuidFilter<"Subscription"> | string
   startDate?: Prisma.DateTimeFilter<"Subscription"> | Date | string
   endDate?: Prisma.DateTimeFilter<"Subscription"> | Date | string
@@ -278,14 +266,12 @@ export type SubscriptionWhereUniqueInput = Prisma.AtLeast<{
   lastPaymentDate?: Prisma.DateTimeNullableFilter<"Subscription"> | Date | string | null
   nextReminderDate?: Prisma.DateTimeNullableFilter<"Subscription"> | Date | string | null
   tenant?: Prisma.XOR<Prisma.TenantScalarRelationFilter, Prisma.TenantWhereInput>
-  empresa?: Prisma.XOR<Prisma.EmpresaNullableScalarRelationFilter, Prisma.EmpresaWhereInput> | null
   plan?: Prisma.XOR<Prisma.PlanScalarRelationFilter, Prisma.PlanWhereInput>
 }, "id" | "tenantId">
 
 export type SubscriptionOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
   tenantId?: Prisma.SortOrder
-  empresaId?: Prisma.SortOrderInput | Prisma.SortOrder
   planId?: Prisma.SortOrder
   startDate?: Prisma.SortOrder
   endDate?: Prisma.SortOrder
@@ -306,7 +292,6 @@ export type SubscriptionScalarWhereWithAggregatesInput = {
   NOT?: Prisma.SubscriptionScalarWhereWithAggregatesInput | Prisma.SubscriptionScalarWhereWithAggregatesInput[]
   id?: Prisma.UuidWithAggregatesFilter<"Subscription"> | string
   tenantId?: Prisma.UuidWithAggregatesFilter<"Subscription"> | string
-  empresaId?: Prisma.UuidNullableWithAggregatesFilter<"Subscription"> | string | null
   planId?: Prisma.UuidWithAggregatesFilter<"Subscription"> | string
   startDate?: Prisma.DateTimeWithAggregatesFilter<"Subscription"> | Date | string
   endDate?: Prisma.DateTimeWithAggregatesFilter<"Subscription"> | Date | string
@@ -329,14 +314,12 @@ export type SubscriptionCreateInput = {
   lastPaymentDate?: Date | string | null
   nextReminderDate?: Date | string | null
   tenant: Prisma.TenantCreateNestedOneWithoutSubscriptionInput
-  empresa?: Prisma.EmpresaCreateNestedOneWithoutSubscriptionsInput
   plan: Prisma.PlanCreateNestedOneWithoutSubscriptionsInput
 }
 
 export type SubscriptionUncheckedCreateInput = {
   id?: string
   tenantId: string
-  empresaId?: string | null
   planId: string
   startDate: Date | string
   endDate: Date | string
@@ -359,14 +342,12 @@ export type SubscriptionUpdateInput = {
   lastPaymentDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   nextReminderDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   tenant?: Prisma.TenantUpdateOneRequiredWithoutSubscriptionNestedInput
-  empresa?: Prisma.EmpresaUpdateOneWithoutSubscriptionsNestedInput
   plan?: Prisma.PlanUpdateOneRequiredWithoutSubscriptionsNestedInput
 }
 
 export type SubscriptionUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   tenantId?: Prisma.StringFieldUpdateOperationsInput | string
-  empresaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   planId?: Prisma.StringFieldUpdateOperationsInput | string
   startDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   endDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -381,7 +362,6 @@ export type SubscriptionUncheckedUpdateInput = {
 export type SubscriptionCreateManyInput = {
   id?: string
   tenantId: string
-  empresaId?: string | null
   planId: string
   startDate: Date | string
   endDate: Date | string
@@ -408,7 +388,6 @@ export type SubscriptionUpdateManyMutationInput = {
 export type SubscriptionUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   tenantId?: Prisma.StringFieldUpdateOperationsInput | string
-  empresaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   planId?: Prisma.StringFieldUpdateOperationsInput | string
   startDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   endDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -438,7 +417,6 @@ export type SubscriptionOrderByRelationAggregateInput = {
 export type SubscriptionCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   tenantId?: Prisma.SortOrder
-  empresaId?: Prisma.SortOrder
   planId?: Prisma.SortOrder
   startDate?: Prisma.SortOrder
   endDate?: Prisma.SortOrder
@@ -453,7 +431,6 @@ export type SubscriptionCountOrderByAggregateInput = {
 export type SubscriptionMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
   tenantId?: Prisma.SortOrder
-  empresaId?: Prisma.SortOrder
   planId?: Prisma.SortOrder
   startDate?: Prisma.SortOrder
   endDate?: Prisma.SortOrder
@@ -468,7 +445,6 @@ export type SubscriptionMaxOrderByAggregateInput = {
 export type SubscriptionMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
   tenantId?: Prisma.SortOrder
-  empresaId?: Prisma.SortOrder
   planId?: Prisma.SortOrder
   startDate?: Prisma.SortOrder
   endDate?: Prisma.SortOrder
@@ -562,48 +538,6 @@ export type EnumSubscriptionStatusFieldUpdateOperationsInput = {
   set?: $Enums.SubscriptionStatus
 }
 
-export type SubscriptionCreateNestedManyWithoutEmpresaInput = {
-  create?: Prisma.XOR<Prisma.SubscriptionCreateWithoutEmpresaInput, Prisma.SubscriptionUncheckedCreateWithoutEmpresaInput> | Prisma.SubscriptionCreateWithoutEmpresaInput[] | Prisma.SubscriptionUncheckedCreateWithoutEmpresaInput[]
-  connectOrCreate?: Prisma.SubscriptionCreateOrConnectWithoutEmpresaInput | Prisma.SubscriptionCreateOrConnectWithoutEmpresaInput[]
-  createMany?: Prisma.SubscriptionCreateManyEmpresaInputEnvelope
-  connect?: Prisma.SubscriptionWhereUniqueInput | Prisma.SubscriptionWhereUniqueInput[]
-}
-
-export type SubscriptionUncheckedCreateNestedManyWithoutEmpresaInput = {
-  create?: Prisma.XOR<Prisma.SubscriptionCreateWithoutEmpresaInput, Prisma.SubscriptionUncheckedCreateWithoutEmpresaInput> | Prisma.SubscriptionCreateWithoutEmpresaInput[] | Prisma.SubscriptionUncheckedCreateWithoutEmpresaInput[]
-  connectOrCreate?: Prisma.SubscriptionCreateOrConnectWithoutEmpresaInput | Prisma.SubscriptionCreateOrConnectWithoutEmpresaInput[]
-  createMany?: Prisma.SubscriptionCreateManyEmpresaInputEnvelope
-  connect?: Prisma.SubscriptionWhereUniqueInput | Prisma.SubscriptionWhereUniqueInput[]
-}
-
-export type SubscriptionUpdateManyWithoutEmpresaNestedInput = {
-  create?: Prisma.XOR<Prisma.SubscriptionCreateWithoutEmpresaInput, Prisma.SubscriptionUncheckedCreateWithoutEmpresaInput> | Prisma.SubscriptionCreateWithoutEmpresaInput[] | Prisma.SubscriptionUncheckedCreateWithoutEmpresaInput[]
-  connectOrCreate?: Prisma.SubscriptionCreateOrConnectWithoutEmpresaInput | Prisma.SubscriptionCreateOrConnectWithoutEmpresaInput[]
-  upsert?: Prisma.SubscriptionUpsertWithWhereUniqueWithoutEmpresaInput | Prisma.SubscriptionUpsertWithWhereUniqueWithoutEmpresaInput[]
-  createMany?: Prisma.SubscriptionCreateManyEmpresaInputEnvelope
-  set?: Prisma.SubscriptionWhereUniqueInput | Prisma.SubscriptionWhereUniqueInput[]
-  disconnect?: Prisma.SubscriptionWhereUniqueInput | Prisma.SubscriptionWhereUniqueInput[]
-  delete?: Prisma.SubscriptionWhereUniqueInput | Prisma.SubscriptionWhereUniqueInput[]
-  connect?: Prisma.SubscriptionWhereUniqueInput | Prisma.SubscriptionWhereUniqueInput[]
-  update?: Prisma.SubscriptionUpdateWithWhereUniqueWithoutEmpresaInput | Prisma.SubscriptionUpdateWithWhereUniqueWithoutEmpresaInput[]
-  updateMany?: Prisma.SubscriptionUpdateManyWithWhereWithoutEmpresaInput | Prisma.SubscriptionUpdateManyWithWhereWithoutEmpresaInput[]
-  deleteMany?: Prisma.SubscriptionScalarWhereInput | Prisma.SubscriptionScalarWhereInput[]
-}
-
-export type SubscriptionUncheckedUpdateManyWithoutEmpresaNestedInput = {
-  create?: Prisma.XOR<Prisma.SubscriptionCreateWithoutEmpresaInput, Prisma.SubscriptionUncheckedCreateWithoutEmpresaInput> | Prisma.SubscriptionCreateWithoutEmpresaInput[] | Prisma.SubscriptionUncheckedCreateWithoutEmpresaInput[]
-  connectOrCreate?: Prisma.SubscriptionCreateOrConnectWithoutEmpresaInput | Prisma.SubscriptionCreateOrConnectWithoutEmpresaInput[]
-  upsert?: Prisma.SubscriptionUpsertWithWhereUniqueWithoutEmpresaInput | Prisma.SubscriptionUpsertWithWhereUniqueWithoutEmpresaInput[]
-  createMany?: Prisma.SubscriptionCreateManyEmpresaInputEnvelope
-  set?: Prisma.SubscriptionWhereUniqueInput | Prisma.SubscriptionWhereUniqueInput[]
-  disconnect?: Prisma.SubscriptionWhereUniqueInput | Prisma.SubscriptionWhereUniqueInput[]
-  delete?: Prisma.SubscriptionWhereUniqueInput | Prisma.SubscriptionWhereUniqueInput[]
-  connect?: Prisma.SubscriptionWhereUniqueInput | Prisma.SubscriptionWhereUniqueInput[]
-  update?: Prisma.SubscriptionUpdateWithWhereUniqueWithoutEmpresaInput | Prisma.SubscriptionUpdateWithWhereUniqueWithoutEmpresaInput[]
-  updateMany?: Prisma.SubscriptionUpdateManyWithWhereWithoutEmpresaInput | Prisma.SubscriptionUpdateManyWithWhereWithoutEmpresaInput[]
-  deleteMany?: Prisma.SubscriptionScalarWhereInput | Prisma.SubscriptionScalarWhereInput[]
-}
-
 export type SubscriptionCreateWithoutTenantInput = {
   id?: string
   startDate: Date | string
@@ -614,13 +548,11 @@ export type SubscriptionCreateWithoutTenantInput = {
   autoRenew?: boolean
   lastPaymentDate?: Date | string | null
   nextReminderDate?: Date | string | null
-  empresa?: Prisma.EmpresaCreateNestedOneWithoutSubscriptionsInput
   plan: Prisma.PlanCreateNestedOneWithoutSubscriptionsInput
 }
 
 export type SubscriptionUncheckedCreateWithoutTenantInput = {
   id?: string
-  empresaId?: string | null
   planId: string
   startDate: Date | string
   endDate: Date | string
@@ -658,13 +590,11 @@ export type SubscriptionUpdateWithoutTenantInput = {
   autoRenew?: Prisma.BoolFieldUpdateOperationsInput | boolean
   lastPaymentDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   nextReminderDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  empresa?: Prisma.EmpresaUpdateOneWithoutSubscriptionsNestedInput
   plan?: Prisma.PlanUpdateOneRequiredWithoutSubscriptionsNestedInput
 }
 
 export type SubscriptionUncheckedUpdateWithoutTenantInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  empresaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   planId?: Prisma.StringFieldUpdateOperationsInput | string
   startDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   endDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -687,13 +617,11 @@ export type SubscriptionCreateWithoutPlanInput = {
   lastPaymentDate?: Date | string | null
   nextReminderDate?: Date | string | null
   tenant: Prisma.TenantCreateNestedOneWithoutSubscriptionInput
-  empresa?: Prisma.EmpresaCreateNestedOneWithoutSubscriptionsInput
 }
 
 export type SubscriptionUncheckedCreateWithoutPlanInput = {
   id?: string
   tenantId: string
-  empresaId?: string | null
   startDate: Date | string
   endDate: Date | string
   graceUntil?: Date | string | null
@@ -736,7 +664,6 @@ export type SubscriptionScalarWhereInput = {
   NOT?: Prisma.SubscriptionScalarWhereInput | Prisma.SubscriptionScalarWhereInput[]
   id?: Prisma.UuidFilter<"Subscription"> | string
   tenantId?: Prisma.UuidFilter<"Subscription"> | string
-  empresaId?: Prisma.UuidNullableFilter<"Subscription"> | string | null
   planId?: Prisma.UuidFilter<"Subscription"> | string
   startDate?: Prisma.DateTimeFilter<"Subscription"> | Date | string
   endDate?: Prisma.DateTimeFilter<"Subscription"> | Date | string
@@ -748,64 +675,9 @@ export type SubscriptionScalarWhereInput = {
   nextReminderDate?: Prisma.DateTimeNullableFilter<"Subscription"> | Date | string | null
 }
 
-export type SubscriptionCreateWithoutEmpresaInput = {
-  id?: string
-  startDate: Date | string
-  endDate: Date | string
-  graceUntil?: Date | string | null
-  status?: $Enums.SubscriptionStatus
-  blocked?: boolean
-  autoRenew?: boolean
-  lastPaymentDate?: Date | string | null
-  nextReminderDate?: Date | string | null
-  tenant: Prisma.TenantCreateNestedOneWithoutSubscriptionInput
-  plan: Prisma.PlanCreateNestedOneWithoutSubscriptionsInput
-}
-
-export type SubscriptionUncheckedCreateWithoutEmpresaInput = {
-  id?: string
-  tenantId: string
-  planId: string
-  startDate: Date | string
-  endDate: Date | string
-  graceUntil?: Date | string | null
-  status?: $Enums.SubscriptionStatus
-  blocked?: boolean
-  autoRenew?: boolean
-  lastPaymentDate?: Date | string | null
-  nextReminderDate?: Date | string | null
-}
-
-export type SubscriptionCreateOrConnectWithoutEmpresaInput = {
-  where: Prisma.SubscriptionWhereUniqueInput
-  create: Prisma.XOR<Prisma.SubscriptionCreateWithoutEmpresaInput, Prisma.SubscriptionUncheckedCreateWithoutEmpresaInput>
-}
-
-export type SubscriptionCreateManyEmpresaInputEnvelope = {
-  data: Prisma.SubscriptionCreateManyEmpresaInput | Prisma.SubscriptionCreateManyEmpresaInput[]
-  skipDuplicates?: boolean
-}
-
-export type SubscriptionUpsertWithWhereUniqueWithoutEmpresaInput = {
-  where: Prisma.SubscriptionWhereUniqueInput
-  update: Prisma.XOR<Prisma.SubscriptionUpdateWithoutEmpresaInput, Prisma.SubscriptionUncheckedUpdateWithoutEmpresaInput>
-  create: Prisma.XOR<Prisma.SubscriptionCreateWithoutEmpresaInput, Prisma.SubscriptionUncheckedCreateWithoutEmpresaInput>
-}
-
-export type SubscriptionUpdateWithWhereUniqueWithoutEmpresaInput = {
-  where: Prisma.SubscriptionWhereUniqueInput
-  data: Prisma.XOR<Prisma.SubscriptionUpdateWithoutEmpresaInput, Prisma.SubscriptionUncheckedUpdateWithoutEmpresaInput>
-}
-
-export type SubscriptionUpdateManyWithWhereWithoutEmpresaInput = {
-  where: Prisma.SubscriptionScalarWhereInput
-  data: Prisma.XOR<Prisma.SubscriptionUpdateManyMutationInput, Prisma.SubscriptionUncheckedUpdateManyWithoutEmpresaInput>
-}
-
 export type SubscriptionCreateManyPlanInput = {
   id?: string
   tenantId: string
-  empresaId?: string | null
   startDate: Date | string
   endDate: Date | string
   graceUntil?: Date | string | null
@@ -827,13 +699,11 @@ export type SubscriptionUpdateWithoutPlanInput = {
   lastPaymentDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   nextReminderDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   tenant?: Prisma.TenantUpdateOneRequiredWithoutSubscriptionNestedInput
-  empresa?: Prisma.EmpresaUpdateOneWithoutSubscriptionsNestedInput
 }
 
 export type SubscriptionUncheckedUpdateWithoutPlanInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   tenantId?: Prisma.StringFieldUpdateOperationsInput | string
-  empresaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   startDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   endDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   graceUntil?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -847,63 +717,6 @@ export type SubscriptionUncheckedUpdateWithoutPlanInput = {
 export type SubscriptionUncheckedUpdateManyWithoutPlanInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   tenantId?: Prisma.StringFieldUpdateOperationsInput | string
-  empresaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  startDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  endDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  graceUntil?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  status?: Prisma.EnumSubscriptionStatusFieldUpdateOperationsInput | $Enums.SubscriptionStatus
-  blocked?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  autoRenew?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  lastPaymentDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  nextReminderDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-}
-
-export type SubscriptionCreateManyEmpresaInput = {
-  id?: string
-  tenantId: string
-  planId: string
-  startDate: Date | string
-  endDate: Date | string
-  graceUntil?: Date | string | null
-  status?: $Enums.SubscriptionStatus
-  blocked?: boolean
-  autoRenew?: boolean
-  lastPaymentDate?: Date | string | null
-  nextReminderDate?: Date | string | null
-}
-
-export type SubscriptionUpdateWithoutEmpresaInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  startDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  endDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  graceUntil?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  status?: Prisma.EnumSubscriptionStatusFieldUpdateOperationsInput | $Enums.SubscriptionStatus
-  blocked?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  autoRenew?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  lastPaymentDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  nextReminderDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  tenant?: Prisma.TenantUpdateOneRequiredWithoutSubscriptionNestedInput
-  plan?: Prisma.PlanUpdateOneRequiredWithoutSubscriptionsNestedInput
-}
-
-export type SubscriptionUncheckedUpdateWithoutEmpresaInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  tenantId?: Prisma.StringFieldUpdateOperationsInput | string
-  planId?: Prisma.StringFieldUpdateOperationsInput | string
-  startDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  endDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  graceUntil?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  status?: Prisma.EnumSubscriptionStatusFieldUpdateOperationsInput | $Enums.SubscriptionStatus
-  blocked?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  autoRenew?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  lastPaymentDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  nextReminderDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-}
-
-export type SubscriptionUncheckedUpdateManyWithoutEmpresaInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  tenantId?: Prisma.StringFieldUpdateOperationsInput | string
-  planId?: Prisma.StringFieldUpdateOperationsInput | string
   startDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   endDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   graceUntil?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -919,7 +732,6 @@ export type SubscriptionUncheckedUpdateManyWithoutEmpresaInput = {
 export type SubscriptionSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   tenantId?: boolean
-  empresaId?: boolean
   planId?: boolean
   startDate?: boolean
   endDate?: boolean
@@ -930,14 +742,12 @@ export type SubscriptionSelect<ExtArgs extends runtime.Types.Extensions.Internal
   lastPaymentDate?: boolean
   nextReminderDate?: boolean
   tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
-  empresa?: boolean | Prisma.Subscription$empresaArgs<ExtArgs>
   plan?: boolean | Prisma.PlanDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["subscription"]>
 
 export type SubscriptionSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   tenantId?: boolean
-  empresaId?: boolean
   planId?: boolean
   startDate?: boolean
   endDate?: boolean
@@ -948,14 +758,12 @@ export type SubscriptionSelectCreateManyAndReturn<ExtArgs extends runtime.Types.
   lastPaymentDate?: boolean
   nextReminderDate?: boolean
   tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
-  empresa?: boolean | Prisma.Subscription$empresaArgs<ExtArgs>
   plan?: boolean | Prisma.PlanDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["subscription"]>
 
 export type SubscriptionSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   tenantId?: boolean
-  empresaId?: boolean
   planId?: boolean
   startDate?: boolean
   endDate?: boolean
@@ -966,14 +774,12 @@ export type SubscriptionSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.
   lastPaymentDate?: boolean
   nextReminderDate?: boolean
   tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
-  empresa?: boolean | Prisma.Subscription$empresaArgs<ExtArgs>
   plan?: boolean | Prisma.PlanDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["subscription"]>
 
 export type SubscriptionSelectScalar = {
   id?: boolean
   tenantId?: boolean
-  empresaId?: boolean
   planId?: boolean
   startDate?: boolean
   endDate?: boolean
@@ -985,20 +791,17 @@ export type SubscriptionSelectScalar = {
   nextReminderDate?: boolean
 }
 
-export type SubscriptionOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "tenantId" | "empresaId" | "planId" | "startDate" | "endDate" | "graceUntil" | "status" | "blocked" | "autoRenew" | "lastPaymentDate" | "nextReminderDate", ExtArgs["result"]["subscription"]>
+export type SubscriptionOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "tenantId" | "planId" | "startDate" | "endDate" | "graceUntil" | "status" | "blocked" | "autoRenew" | "lastPaymentDate" | "nextReminderDate", ExtArgs["result"]["subscription"]>
 export type SubscriptionInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
-  empresa?: boolean | Prisma.Subscription$empresaArgs<ExtArgs>
   plan?: boolean | Prisma.PlanDefaultArgs<ExtArgs>
 }
 export type SubscriptionIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
-  empresa?: boolean | Prisma.Subscription$empresaArgs<ExtArgs>
   plan?: boolean | Prisma.PlanDefaultArgs<ExtArgs>
 }
 export type SubscriptionIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
-  empresa?: boolean | Prisma.Subscription$empresaArgs<ExtArgs>
   plan?: boolean | Prisma.PlanDefaultArgs<ExtArgs>
 }
 
@@ -1006,13 +809,11 @@ export type $SubscriptionPayload<ExtArgs extends runtime.Types.Extensions.Intern
   name: "Subscription"
   objects: {
     tenant: Prisma.$TenantPayload<ExtArgs>
-    empresa: Prisma.$EmpresaPayload<ExtArgs> | null
     plan: Prisma.$PlanPayload<ExtArgs>
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
     tenantId: string
-    empresaId: string | null
     planId: string
     startDate: Date
     endDate: Date
@@ -1417,7 +1218,6 @@ readonly fields: SubscriptionFieldRefs;
 export interface Prisma__SubscriptionClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
   tenant<T extends Prisma.TenantDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.TenantDefaultArgs<ExtArgs>>): Prisma.Prisma__TenantClient<runtime.Types.Result.GetResult<Prisma.$TenantPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
-  empresa<T extends Prisma.Subscription$empresaArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Subscription$empresaArgs<ExtArgs>>): Prisma.Prisma__EmpresaClient<runtime.Types.Result.GetResult<Prisma.$EmpresaPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   plan<T extends Prisma.PlanDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.PlanDefaultArgs<ExtArgs>>): Prisma.Prisma__PlanClient<runtime.Types.Result.GetResult<Prisma.$PlanPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -1450,7 +1250,6 @@ export interface Prisma__SubscriptionClient<T, Null = never, ExtArgs extends run
 export interface SubscriptionFieldRefs {
   readonly id: Prisma.FieldRef<"Subscription", 'String'>
   readonly tenantId: Prisma.FieldRef<"Subscription", 'String'>
-  readonly empresaId: Prisma.FieldRef<"Subscription", 'String'>
   readonly planId: Prisma.FieldRef<"Subscription", 'String'>
   readonly startDate: Prisma.FieldRef<"Subscription", 'DateTime'>
   readonly endDate: Prisma.FieldRef<"Subscription", 'DateTime'>
@@ -1853,25 +1652,6 @@ export type SubscriptionDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.
    * Limit how many Subscriptions to delete.
    */
   limit?: number
-}
-
-/**
- * Subscription.empresa
- */
-export type Subscription$empresaArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the Empresa
-   */
-  select?: Prisma.EmpresaSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the Empresa
-   */
-  omit?: Prisma.EmpresaOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.EmpresaInclude<ExtArgs> | null
-  where?: Prisma.EmpresaWhereInput
 }
 
 /**

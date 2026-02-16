@@ -83,6 +83,31 @@ export type OrganizationNode = Prisma.OrganizationNodeModel
  */
 export type CommissionRecord = Prisma.CommissionRecordModel
 /**
+ * Model SegmentoNegocio
+ * 
+ */
+export type SegmentoNegocio = Prisma.SegmentoNegocioModel
+/**
+ * Model NivelRiesgoOperativo
+ * 
+ */
+export type NivelRiesgoOperativo = Prisma.NivelRiesgoOperativoModel
+/**
+ * Model TipoInteres
+ * 
+ */
+export type TipoInteres = Prisma.TipoInteresModel
+/**
+ * Model Department
+ * 
+ */
+export type Department = Prisma.DepartmentModel
+/**
+ * Model Municipality
+ * 
+ */
+export type Municipality = Prisma.MunicipalityModel
+/**
  * Model Cliente
  * 
  */

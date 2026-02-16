@@ -1,0 +1,25 @@
+meta {
+  name: Create Tenant
+  type: http
+  seq: 1
+}
+
+post {
+  url: {{local}}/tenants
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+body:json {
+  {
+    "nombre": "Nuevo Tenant",
+    "slug": "nuevo-tenant",
+    "ownerEmail": "admin@nuevo-tenant.com",
+    "planId": "id-del-plan",
+    "nit": "900.000.000-1"
+  }
+}

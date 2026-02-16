@@ -14,15 +14,11 @@ datasource db {
 
 model User {
   id        String   @id @default(uuid()) @db.Uuid
-  tenantId  String?  @db.Uuid
-  empresaId String?  @db.Uuid
   email     String   @unique
   password  String
   nombre    String
   apellido  String
   telefono  String?
-
-  role      Role     @default(OPERADOR)
 
   tipoDocumento    String?
   numeroDocumento  String?  @unique
@@ -31,17 +27,11 @@ model User {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  // Relaciones multitenant
-  tenant    Tenant?  @relation(fields: [tenantId], references: [id])
-  empresa   Empresa? @relation(fields: [empresaId], references: [id])
-
   // Relaciones globales
   memberships        TenantMembership[]
   sessions           AuthSession[]
   resetTokens        PasswordResetToken[]
 
-  @@index([tenantId])
-  @@index([empresaId])
   @@map("users")
 }
 
@@ -64,8 +54,6 @@ model Tenant {
   updatedAt DateTime @updatedAt
 
   // Relaciones de tenant
-  users               User[]
-  plans               Plan[]
   memberships         TenantMembership[]
   subscription        Subscription?
   empresas            Empresa[]
@@ -104,6 +92,11 @@ model Tenant {
   authSessions        AuthSession[]
   resetTokens         PasswordResetToken[]
 
+  // Configuración dinámica
+  segmentos           SegmentoNegocio[]
+  nivelesRiesgo       NivelRiesgoOperativo[]
+  tiposInteres        TipoInteres[]
+
   // Configuración de tenant
   zonas               Zona[]
   metodosPago         MetodoPago[]
@@ -122,8 +115,6 @@ model Tenant {
 
 model Plan {
   id              String   @id @default(uuid()) @db.Uuid
-  tenantId        String?  @db.Uuid
-  empresaId       String?  @db.Uuid
   nombre          String
   descripcion     String?
   durationDays    Int
@@ -136,19 +127,14 @@ model Plan {
   createdAt       DateTime @default(now())
   updatedAt       DateTime @updatedAt
 
-  tenant          Tenant?  @relation(fields: [tenantId], references: [id])
-  empresa         Empresa? @relation(fields: [empresaId], references: [id])
   subscriptions   Subscription[]
 
-  @@index([tenantId])
-  @@index([empresaId])
   @@map("plans")
 }
 
 model Subscription {
   id         String  @id @default(uuid()) @db.Uuid
   tenantId   String  @unique @db.Uuid
-  empresaId  String? @db.Uuid
   planId     String  @db.Uuid
 
   startDate  DateTime
@@ -163,11 +149,9 @@ model Subscription {
   nextReminderDate   DateTime?
 
   tenant  Tenant  @relation(fields: [tenantId], references: [id], onDelete: Cascade)
-  empresa Empresa? @relation(fields: [empresaId], references: [id])
   plan    Plan    @relation(fields: [planId], references: [id])
 
   @@index([tenantId])
-  @@index([empresaId])
   @@index([status])
   @@index([endDate])
   @@map("subscriptions")
@@ -181,8 +165,6 @@ model TenantMembership {
   id        String   @id @default(uuid()) @db.Uuid
   userId    String   @db.Uuid
   tenantId  String   @db.Uuid
-  empresaId String?  @db.Uuid
-  zonaId    String?  @db.Uuid
 
   role      Role
   status    MembershipStatus @default(ACTIVE)
@@ -203,8 +185,6 @@ model TenantMembership {
 
   user    User    @relation(fields: [userId], references: [id], onDelete: Cascade)
   tenant  Tenant  @relation(fields: [tenantId], references: [id], onDelete: Cascade)
-  empresa Empresa? @relation(fields: [empresaId], references: [id])
-  zona    Zona?    @relation(fields: [zonaId], references: [id])
 
   empresaMemberships EmpresaMembership[]
 
@@ -234,7 +214,6 @@ model TenantMembership {
 
   @@unique([userId, tenantId])
   @@index([tenantId])
-  @@index([empresaId])
   @@index([role])
   @@map("tenant_memberships")
 }
@@ -254,10 +233,6 @@ model Empresa {
 
   tenant Tenant @relation(fields: [tenantId], references: [id], onDelete: Cascade)
 
-  users               User[]
-  plans               Plan[]
-  subscriptions       Subscription[]
-  tenantMemberships   TenantMembership[]
   memberships         EmpresaMembership[]
   orgNodes            OrganizationNode[]
   commissions         CommissionRecord[]
@@ -313,6 +288,7 @@ model EmpresaMembership {
   empresaId         String   @db.Uuid
   zonaId            String?  @db.Uuid
 
+  role              Role?    @default(OPERADOR)
   isActive          Boolean  @default(true)
 
   createdAt         DateTime @default(now())
@@ -403,6 +379,91 @@ model CommissionRecord {
 }
 
 // ============================================================================
+// CONFIGURACIÓN DINÁMICA DE CLIENTES
+// ============================================================================
+
+model SegmentoNegocio {
+  id          String   @id @default(uuid()) @db.Uuid
+  tenantId    String   @db.Uuid
+  nombre      String
+  descripcion String?
+  frecuenciaSugerida Int?      @default(30)
+  riesgoSugerido     String?   @default("BAJO")
+  activo      Boolean  @default(true)
+
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  tenant      Tenant    @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  clientes    Cliente[]
+
+  @@index([tenantId])
+  @@map("segmentos_negocio")
+}
+
+model NivelRiesgoOperativo {
+  id          String   @id @default(uuid()) @db.Uuid
+  tenantId    String   @db.Uuid
+  nombre      String   // Ej: Bajo, Medio, Alto, Crítico
+  color       String?  // Ej: #hex o nombre de clase tailwind
+  valor       Int      @default(0) // Para lógica de scoring
+  activo      Boolean  @default(true)
+
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  tenant      Tenant    @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  clientes    Cliente[]
+
+  @@index([tenantId])
+  @@map("niveles_riesgo_operativo")
+}
+
+model TipoInteres {
+  id          String   @id @default(uuid()) @db.Uuid
+  tenantId    String   @db.Uuid
+  nombre      String
+  descripcion String?
+  frecuenciaSugerida Int?      @default(30)
+  riesgoSugerido     String?   @default("BAJO")
+  activo      Boolean  @default(true)
+
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  tenant      Tenant    @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  clientes    Cliente[]
+
+  @@index([tenantId])
+  @@map("tipos_interes")
+}
+
+// ============================================================================
+// CAPA GEOGRÁFICA: Divisiones Administrativas
+// ============================================================================
+
+model Department {
+  id             String   @id @default(uuid()) @db.Uuid
+  name           String
+  code           String   @unique
+  municipalities Municipality[]
+  direcciones    Direccion[]
+
+  @@map("departments")
+}
+
+model Municipality {
+  id            String   @id @default(uuid()) @db.Uuid
+  name          String
+  code          String   @unique
+  departmentId  String   @db.Uuid
+  department    Department @relation(fields: [departmentId], references: [id])
+  direcciones   Direccion[]
+
+  @@map("municipalities")
+}
+
+// ============================================================================
 // CLIENTES
 // ============================================================================
 
@@ -410,8 +471,17 @@ model Cliente {
   id                String    @id @default(uuid()) @db.Uuid
   tenantId          String    @db.Uuid
   empresaId         String    @db.Uuid
+  
+  tipoCliente       TipoCliente @default(PERSONA)
+  
+  // Datos Persona/Empresa
   nombre            String?
   apellido          String?
+  razonSocial       String?
+  nit               String?
+  representanteLegal String?
+  cargoContacto     String?
+
   telefono          String
   telefono2         String?
   correo            String?
@@ -421,14 +491,44 @@ model Cliente {
   registroDocumento String?
   documentoPath     String?
 
+  // Inteligencia Comercial y ROI
+  origenCliente     String?   // Google Ads, Referido, etc.
+  tipoInteresId     String?   @db.Uuid
+  actividadEconomica String?
+  metrajeTotal      Decimal?  @db.Decimal(12,2)
+
+  // Clasificación Estratégica (Relaciones Dinámicas)
+  segmentoId        String?   @db.Uuid
+  riesgoId          String?   @db.Uuid
+  
+  subsegmento       String?
+  score             Int?      @default(0)
+  clasificacion     ClasificacionCliente? @default(BRONCE)
+  
+  // Métricas (Automáticas)
+  ticketPromedio    Decimal?  @db.Decimal(12,2)
+  frecuenciaServicio Int?     // Días promedio entre servicios
+  ultimaVisita      DateTime?
+  proximaVisita     DateTime?
+  planActual        String?   // Essential / Pro / Elite
+
+  // Marketing y Legal
+  aceptaMarketing   Boolean   @default(false)
+  fechaConsentimiento DateTime?
+
   creadoPorId       String?   @db.Uuid
 
   createdAt         DateTime  @default(now())
+  updatedAt         DateTime  @updatedAt
   deletedAt         DateTime?
 
   tenant             Tenant               @relation(fields: [tenantId], references: [id], onDelete: Cascade)
   empresa            Empresa              @relation(fields: [empresaId], references: [id])
   creadoPor          TenantMembership?    @relation(fields: [creadoPorId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  
+  segmento           SegmentoNegocio?     @relation(fields: [segmentoId], references: [id])
+  riesgo             NivelRiesgoOperativo? @relation(fields: [riesgoId], references: [id])
+  tipoInteres        TipoInteres?         @relation(fields: [tipoInteresId], references: [id])
 
   direcciones        Direccion[]
   vehiculos          Vehiculo[]
@@ -473,19 +573,50 @@ model Direccion {
   tenantId        String   @db.Uuid
   empresaId       String   @db.Uuid
   clienteId       String   @db.Uuid
+  
+  nombreSede      String?  // Ej: Sede Norte, Bodega 5
   direccion       String
   piso            String?
   bloque          String?
   unidad          String?
   barrio          String?
   municipio       String?
+  municipioId     String?  @db.Uuid
+  departmentId    String?  @db.Uuid
+  
+  tipoUbicacion      String?  // Residencial, Comercial, etc.
+  clasificacionPunto String?  // Cocina, Área carga, etc.
+
+  // Logística y Acceso
+  horarioInicio      String?  // HH:mm
+  horarioFin         String?  // HH:mm
+  restricciones      String?
+
+  // Georreferenciación Técnica
+  latitud         Decimal? @db.Decimal(10,8)
+  longitud        Decimal? @db.Decimal(11,8)
+  precisionGPS    Decimal? @db.Decimal(10,2)
+  validadoPorSistema Boolean @default(false)
   linkMaps        String?
 
+  // Contacto específico de la sede
+  nombreContacto  String?
+  telefonoContacto String?
+  cargoContacto   String?
+
+  // Estado Operativo
+  activa          Boolean  @default(true)
+  bloqueada       Boolean  @default(false)
+  motivoBloqueo   String?
+
   createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
 
   tenant          Tenant          @relation(fields: [tenantId], references: [id], onDelete: Cascade)
   empresa         Empresa         @relation(fields: [empresaId], references: [id])
   cliente         Cliente         @relation(fields: [clienteId], references: [id])
+  municipioRel    Municipality?   @relation(fields: [municipioId], references: [id])
+  departmentRel   Department?     @relation(fields: [departmentId], references: [id])
   ordenesServicio OrdenServicio[]
 
   @@index([tenantId])
@@ -512,7 +643,6 @@ model Zona {
   empresa Empresa         @relation(fields: [empresaId], references: [id])
   ordenes OrdenServicio[]
 
-  tenantMemberships  TenantMembership[]
   empresaMemberships EmpresaMembership[]
 
   @@index([tenantId])
@@ -1527,4 +1657,23 @@ enum EstadoPagoComision {
   PENDIENTE
   PAGADA
   ANULADA
+}
+
+enum TipoCliente {
+  PERSONA
+  EMPRESA
+}
+
+enum NivelRiesgo {
+  BAJO
+  MEDIO
+  ALTO
+  CRITICO
+}
+
+enum ClasificacionCliente {
+  ORO
+  PLATA
+  BRONCE
+  RIESGO
 }

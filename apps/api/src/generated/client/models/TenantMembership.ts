@@ -28,8 +28,6 @@ export type TenantMembershipMinAggregateOutputType = {
   id: string | null
   userId: string | null
   tenantId: string | null
-  empresaId: string | null
-  zonaId: string | null
   role: $Enums.Role | null
   status: $Enums.MembershipStatus | null
   username: string | null
@@ -49,8 +47,6 @@ export type TenantMembershipMaxAggregateOutputType = {
   id: string | null
   userId: string | null
   tenantId: string | null
-  empresaId: string | null
-  zonaId: string | null
   role: $Enums.Role | null
   status: $Enums.MembershipStatus | null
   username: string | null
@@ -70,8 +66,6 @@ export type TenantMembershipCountAggregateOutputType = {
   id: number
   userId: number
   tenantId: number
-  empresaId: number
-  zonaId: number
   role: number
   status: number
   username: number
@@ -93,8 +87,6 @@ export type TenantMembershipMinAggregateInputType = {
   id?: true
   userId?: true
   tenantId?: true
-  empresaId?: true
-  zonaId?: true
   role?: true
   status?: true
   username?: true
@@ -114,8 +106,6 @@ export type TenantMembershipMaxAggregateInputType = {
   id?: true
   userId?: true
   tenantId?: true
-  empresaId?: true
-  zonaId?: true
   role?: true
   status?: true
   username?: true
@@ -135,8 +125,6 @@ export type TenantMembershipCountAggregateInputType = {
   id?: true
   userId?: true
   tenantId?: true
-  empresaId?: true
-  zonaId?: true
   role?: true
   status?: true
   username?: true
@@ -229,8 +217,6 @@ export type TenantMembershipGroupByOutputType = {
   id: string
   userId: string
   tenantId: string
-  empresaId: string | null
-  zonaId: string | null
   role: $Enums.Role
   status: $Enums.MembershipStatus
   username: string | null
@@ -271,8 +257,6 @@ export type TenantMembershipWhereInput = {
   id?: Prisma.UuidFilter<"TenantMembership"> | string
   userId?: Prisma.UuidFilter<"TenantMembership"> | string
   tenantId?: Prisma.UuidFilter<"TenantMembership"> | string
-  empresaId?: Prisma.UuidNullableFilter<"TenantMembership"> | string | null
-  zonaId?: Prisma.UuidNullableFilter<"TenantMembership"> | string | null
   role?: Prisma.EnumRoleFilter<"TenantMembership"> | $Enums.Role
   status?: Prisma.EnumMembershipStatusFilter<"TenantMembership"> | $Enums.MembershipStatus
   username?: Prisma.StringNullableFilter<"TenantMembership"> | string | null
@@ -288,8 +272,6 @@ export type TenantMembershipWhereInput = {
   updatedAt?: Prisma.DateTimeFilter<"TenantMembership"> | Date | string
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
   tenant?: Prisma.XOR<Prisma.TenantScalarRelationFilter, Prisma.TenantWhereInput>
-  empresa?: Prisma.XOR<Prisma.EmpresaNullableScalarRelationFilter, Prisma.EmpresaWhereInput> | null
-  zona?: Prisma.XOR<Prisma.ZonaNullableScalarRelationFilter, Prisma.ZonaWhereInput> | null
   empresaMemberships?: Prisma.EmpresaMembershipListRelationFilter
   anticipos?: Prisma.AnticiposListRelationFilter
   citasComoCreador?: Prisma.CitasPsicologosListRelationFilter
@@ -320,8 +302,6 @@ export type TenantMembershipOrderByWithRelationInput = {
   id?: Prisma.SortOrder
   userId?: Prisma.SortOrder
   tenantId?: Prisma.SortOrder
-  empresaId?: Prisma.SortOrderInput | Prisma.SortOrder
-  zonaId?: Prisma.SortOrderInput | Prisma.SortOrder
   role?: Prisma.SortOrder
   status?: Prisma.SortOrder
   username?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -337,8 +317,6 @@ export type TenantMembershipOrderByWithRelationInput = {
   updatedAt?: Prisma.SortOrder
   user?: Prisma.UserOrderByWithRelationInput
   tenant?: Prisma.TenantOrderByWithRelationInput
-  empresa?: Prisma.EmpresaOrderByWithRelationInput
-  zona?: Prisma.ZonaOrderByWithRelationInput
   empresaMemberships?: Prisma.EmpresaMembershipOrderByRelationAggregateInput
   anticipos?: Prisma.AnticiposOrderByRelationAggregateInput
   citasComoCreador?: Prisma.CitasPsicologosOrderByRelationAggregateInput
@@ -373,8 +351,6 @@ export type TenantMembershipWhereUniqueInput = Prisma.AtLeast<{
   NOT?: Prisma.TenantMembershipWhereInput | Prisma.TenantMembershipWhereInput[]
   userId?: Prisma.UuidFilter<"TenantMembership"> | string
   tenantId?: Prisma.UuidFilter<"TenantMembership"> | string
-  empresaId?: Prisma.UuidNullableFilter<"TenantMembership"> | string | null
-  zonaId?: Prisma.UuidNullableFilter<"TenantMembership"> | string | null
   role?: Prisma.EnumRoleFilter<"TenantMembership"> | $Enums.Role
   status?: Prisma.EnumMembershipStatusFilter<"TenantMembership"> | $Enums.MembershipStatus
   username?: Prisma.StringNullableFilter<"TenantMembership"> | string | null
@@ -390,8 +366,6 @@ export type TenantMembershipWhereUniqueInput = Prisma.AtLeast<{
   updatedAt?: Prisma.DateTimeFilter<"TenantMembership"> | Date | string
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
   tenant?: Prisma.XOR<Prisma.TenantScalarRelationFilter, Prisma.TenantWhereInput>
-  empresa?: Prisma.XOR<Prisma.EmpresaNullableScalarRelationFilter, Prisma.EmpresaWhereInput> | null
-  zona?: Prisma.XOR<Prisma.ZonaNullableScalarRelationFilter, Prisma.ZonaWhereInput> | null
   empresaMemberships?: Prisma.EmpresaMembershipListRelationFilter
   anticipos?: Prisma.AnticiposListRelationFilter
   citasComoCreador?: Prisma.CitasPsicologosListRelationFilter
@@ -422,8 +396,6 @@ export type TenantMembershipOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
   userId?: Prisma.SortOrder
   tenantId?: Prisma.SortOrder
-  empresaId?: Prisma.SortOrderInput | Prisma.SortOrder
-  zonaId?: Prisma.SortOrderInput | Prisma.SortOrder
   role?: Prisma.SortOrder
   status?: Prisma.SortOrder
   username?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -449,8 +421,6 @@ export type TenantMembershipScalarWhereWithAggregatesInput = {
   id?: Prisma.UuidWithAggregatesFilter<"TenantMembership"> | string
   userId?: Prisma.UuidWithAggregatesFilter<"TenantMembership"> | string
   tenantId?: Prisma.UuidWithAggregatesFilter<"TenantMembership"> | string
-  empresaId?: Prisma.UuidNullableWithAggregatesFilter<"TenantMembership"> | string | null
-  zonaId?: Prisma.UuidNullableWithAggregatesFilter<"TenantMembership"> | string | null
   role?: Prisma.EnumRoleWithAggregatesFilter<"TenantMembership"> | $Enums.Role
   status?: Prisma.EnumMembershipStatusWithAggregatesFilter<"TenantMembership"> | $Enums.MembershipStatus
   username?: Prisma.StringNullableWithAggregatesFilter<"TenantMembership"> | string | null
@@ -483,8 +453,6 @@ export type TenantMembershipCreateInput = {
   updatedAt?: Date | string
   user: Prisma.UserCreateNestedOneWithoutMembershipsInput
   tenant: Prisma.TenantCreateNestedOneWithoutMembershipsInput
-  empresa?: Prisma.EmpresaCreateNestedOneWithoutTenantMembershipsInput
-  zona?: Prisma.ZonaCreateNestedOneWithoutTenantMembershipsInput
   empresaMemberships?: Prisma.EmpresaMembershipCreateNestedManyWithoutMembershipInput
   anticipos?: Prisma.AnticiposCreateNestedManyWithoutMembershipInput
   citasComoCreador?: Prisma.CitasPsicologosCreateNestedManyWithoutCreadoPorInput
@@ -515,8 +483,6 @@ export type TenantMembershipUncheckedCreateInput = {
   id?: string
   userId: string
   tenantId: string
-  empresaId?: string | null
-  zonaId?: string | null
   role: $Enums.Role
   status?: $Enums.MembershipStatus
   username?: string | null
@@ -573,8 +539,6 @@ export type TenantMembershipUpdateInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   user?: Prisma.UserUpdateOneRequiredWithoutMembershipsNestedInput
   tenant?: Prisma.TenantUpdateOneRequiredWithoutMembershipsNestedInput
-  empresa?: Prisma.EmpresaUpdateOneWithoutTenantMembershipsNestedInput
-  zona?: Prisma.ZonaUpdateOneWithoutTenantMembershipsNestedInput
   empresaMemberships?: Prisma.EmpresaMembershipUpdateManyWithoutMembershipNestedInput
   anticipos?: Prisma.AnticiposUpdateManyWithoutMembershipNestedInput
   citasComoCreador?: Prisma.CitasPsicologosUpdateManyWithoutCreadoPorNestedInput
@@ -605,8 +569,6 @@ export type TenantMembershipUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   tenantId?: Prisma.StringFieldUpdateOperationsInput | string
-  empresaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  zonaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   status?: Prisma.EnumMembershipStatusFieldUpdateOperationsInput | $Enums.MembershipStatus
   username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -650,8 +612,6 @@ export type TenantMembershipCreateManyInput = {
   id?: string
   userId: string
   tenantId: string
-  empresaId?: string | null
-  zonaId?: string | null
   role: $Enums.Role
   status?: $Enums.MembershipStatus
   username?: string | null
@@ -688,8 +648,6 @@ export type TenantMembershipUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   tenantId?: Prisma.StringFieldUpdateOperationsInput | string
-  empresaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  zonaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   status?: Prisma.EnumMembershipStatusFieldUpdateOperationsInput | $Enums.MembershipStatus
   username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -724,8 +682,6 @@ export type TenantMembershipCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   userId?: Prisma.SortOrder
   tenantId?: Prisma.SortOrder
-  empresaId?: Prisma.SortOrder
-  zonaId?: Prisma.SortOrder
   role?: Prisma.SortOrder
   status?: Prisma.SortOrder
   username?: Prisma.SortOrder
@@ -745,8 +701,6 @@ export type TenantMembershipMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
   userId?: Prisma.SortOrder
   tenantId?: Prisma.SortOrder
-  empresaId?: Prisma.SortOrder
-  zonaId?: Prisma.SortOrder
   role?: Prisma.SortOrder
   status?: Prisma.SortOrder
   username?: Prisma.SortOrder
@@ -766,8 +720,6 @@ export type TenantMembershipMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
   userId?: Prisma.SortOrder
   tenantId?: Prisma.SortOrder
-  empresaId?: Prisma.SortOrder
-  zonaId?: Prisma.SortOrder
   role?: Prisma.SortOrder
   status?: Prisma.SortOrder
   username?: Prisma.SortOrder
@@ -877,54 +829,16 @@ export type TenantMembershipUncheckedUpdateManyWithoutTenantNestedInput = {
   deleteMany?: Prisma.TenantMembershipScalarWhereInput | Prisma.TenantMembershipScalarWhereInput[]
 }
 
+export type EnumRoleFieldUpdateOperationsInput = {
+  set?: $Enums.Role
+}
+
 export type EnumMembershipStatusFieldUpdateOperationsInput = {
   set?: $Enums.MembershipStatus
 }
 
 export type NullableBoolFieldUpdateOperationsInput = {
   set?: boolean | null
-}
-
-export type TenantMembershipCreateNestedManyWithoutEmpresaInput = {
-  create?: Prisma.XOR<Prisma.TenantMembershipCreateWithoutEmpresaInput, Prisma.TenantMembershipUncheckedCreateWithoutEmpresaInput> | Prisma.TenantMembershipCreateWithoutEmpresaInput[] | Prisma.TenantMembershipUncheckedCreateWithoutEmpresaInput[]
-  connectOrCreate?: Prisma.TenantMembershipCreateOrConnectWithoutEmpresaInput | Prisma.TenantMembershipCreateOrConnectWithoutEmpresaInput[]
-  createMany?: Prisma.TenantMembershipCreateManyEmpresaInputEnvelope
-  connect?: Prisma.TenantMembershipWhereUniqueInput | Prisma.TenantMembershipWhereUniqueInput[]
-}
-
-export type TenantMembershipUncheckedCreateNestedManyWithoutEmpresaInput = {
-  create?: Prisma.XOR<Prisma.TenantMembershipCreateWithoutEmpresaInput, Prisma.TenantMembershipUncheckedCreateWithoutEmpresaInput> | Prisma.TenantMembershipCreateWithoutEmpresaInput[] | Prisma.TenantMembershipUncheckedCreateWithoutEmpresaInput[]
-  connectOrCreate?: Prisma.TenantMembershipCreateOrConnectWithoutEmpresaInput | Prisma.TenantMembershipCreateOrConnectWithoutEmpresaInput[]
-  createMany?: Prisma.TenantMembershipCreateManyEmpresaInputEnvelope
-  connect?: Prisma.TenantMembershipWhereUniqueInput | Prisma.TenantMembershipWhereUniqueInput[]
-}
-
-export type TenantMembershipUpdateManyWithoutEmpresaNestedInput = {
-  create?: Prisma.XOR<Prisma.TenantMembershipCreateWithoutEmpresaInput, Prisma.TenantMembershipUncheckedCreateWithoutEmpresaInput> | Prisma.TenantMembershipCreateWithoutEmpresaInput[] | Prisma.TenantMembershipUncheckedCreateWithoutEmpresaInput[]
-  connectOrCreate?: Prisma.TenantMembershipCreateOrConnectWithoutEmpresaInput | Prisma.TenantMembershipCreateOrConnectWithoutEmpresaInput[]
-  upsert?: Prisma.TenantMembershipUpsertWithWhereUniqueWithoutEmpresaInput | Prisma.TenantMembershipUpsertWithWhereUniqueWithoutEmpresaInput[]
-  createMany?: Prisma.TenantMembershipCreateManyEmpresaInputEnvelope
-  set?: Prisma.TenantMembershipWhereUniqueInput | Prisma.TenantMembershipWhereUniqueInput[]
-  disconnect?: Prisma.TenantMembershipWhereUniqueInput | Prisma.TenantMembershipWhereUniqueInput[]
-  delete?: Prisma.TenantMembershipWhereUniqueInput | Prisma.TenantMembershipWhereUniqueInput[]
-  connect?: Prisma.TenantMembershipWhereUniqueInput | Prisma.TenantMembershipWhereUniqueInput[]
-  update?: Prisma.TenantMembershipUpdateWithWhereUniqueWithoutEmpresaInput | Prisma.TenantMembershipUpdateWithWhereUniqueWithoutEmpresaInput[]
-  updateMany?: Prisma.TenantMembershipUpdateManyWithWhereWithoutEmpresaInput | Prisma.TenantMembershipUpdateManyWithWhereWithoutEmpresaInput[]
-  deleteMany?: Prisma.TenantMembershipScalarWhereInput | Prisma.TenantMembershipScalarWhereInput[]
-}
-
-export type TenantMembershipUncheckedUpdateManyWithoutEmpresaNestedInput = {
-  create?: Prisma.XOR<Prisma.TenantMembershipCreateWithoutEmpresaInput, Prisma.TenantMembershipUncheckedCreateWithoutEmpresaInput> | Prisma.TenantMembershipCreateWithoutEmpresaInput[] | Prisma.TenantMembershipUncheckedCreateWithoutEmpresaInput[]
-  connectOrCreate?: Prisma.TenantMembershipCreateOrConnectWithoutEmpresaInput | Prisma.TenantMembershipCreateOrConnectWithoutEmpresaInput[]
-  upsert?: Prisma.TenantMembershipUpsertWithWhereUniqueWithoutEmpresaInput | Prisma.TenantMembershipUpsertWithWhereUniqueWithoutEmpresaInput[]
-  createMany?: Prisma.TenantMembershipCreateManyEmpresaInputEnvelope
-  set?: Prisma.TenantMembershipWhereUniqueInput | Prisma.TenantMembershipWhereUniqueInput[]
-  disconnect?: Prisma.TenantMembershipWhereUniqueInput | Prisma.TenantMembershipWhereUniqueInput[]
-  delete?: Prisma.TenantMembershipWhereUniqueInput | Prisma.TenantMembershipWhereUniqueInput[]
-  connect?: Prisma.TenantMembershipWhereUniqueInput | Prisma.TenantMembershipWhereUniqueInput[]
-  update?: Prisma.TenantMembershipUpdateWithWhereUniqueWithoutEmpresaInput | Prisma.TenantMembershipUpdateWithWhereUniqueWithoutEmpresaInput[]
-  updateMany?: Prisma.TenantMembershipUpdateManyWithWhereWithoutEmpresaInput | Prisma.TenantMembershipUpdateManyWithWhereWithoutEmpresaInput[]
-  deleteMany?: Prisma.TenantMembershipScalarWhereInput | Prisma.TenantMembershipScalarWhereInput[]
 }
 
 export type TenantMembershipCreateNestedOneWithoutEmpresaMembershipsInput = {
@@ -955,48 +869,6 @@ export type TenantMembershipUpdateOneWithoutClientesCreadosNestedInput = {
   delete?: Prisma.TenantMembershipWhereInput | boolean
   connect?: Prisma.TenantMembershipWhereUniqueInput
   update?: Prisma.XOR<Prisma.XOR<Prisma.TenantMembershipUpdateToOneWithWhereWithoutClientesCreadosInput, Prisma.TenantMembershipUpdateWithoutClientesCreadosInput>, Prisma.TenantMembershipUncheckedUpdateWithoutClientesCreadosInput>
-}
-
-export type TenantMembershipCreateNestedManyWithoutZonaInput = {
-  create?: Prisma.XOR<Prisma.TenantMembershipCreateWithoutZonaInput, Prisma.TenantMembershipUncheckedCreateWithoutZonaInput> | Prisma.TenantMembershipCreateWithoutZonaInput[] | Prisma.TenantMembershipUncheckedCreateWithoutZonaInput[]
-  connectOrCreate?: Prisma.TenantMembershipCreateOrConnectWithoutZonaInput | Prisma.TenantMembershipCreateOrConnectWithoutZonaInput[]
-  createMany?: Prisma.TenantMembershipCreateManyZonaInputEnvelope
-  connect?: Prisma.TenantMembershipWhereUniqueInput | Prisma.TenantMembershipWhereUniqueInput[]
-}
-
-export type TenantMembershipUncheckedCreateNestedManyWithoutZonaInput = {
-  create?: Prisma.XOR<Prisma.TenantMembershipCreateWithoutZonaInput, Prisma.TenantMembershipUncheckedCreateWithoutZonaInput> | Prisma.TenantMembershipCreateWithoutZonaInput[] | Prisma.TenantMembershipUncheckedCreateWithoutZonaInput[]
-  connectOrCreate?: Prisma.TenantMembershipCreateOrConnectWithoutZonaInput | Prisma.TenantMembershipCreateOrConnectWithoutZonaInput[]
-  createMany?: Prisma.TenantMembershipCreateManyZonaInputEnvelope
-  connect?: Prisma.TenantMembershipWhereUniqueInput | Prisma.TenantMembershipWhereUniqueInput[]
-}
-
-export type TenantMembershipUpdateManyWithoutZonaNestedInput = {
-  create?: Prisma.XOR<Prisma.TenantMembershipCreateWithoutZonaInput, Prisma.TenantMembershipUncheckedCreateWithoutZonaInput> | Prisma.TenantMembershipCreateWithoutZonaInput[] | Prisma.TenantMembershipUncheckedCreateWithoutZonaInput[]
-  connectOrCreate?: Prisma.TenantMembershipCreateOrConnectWithoutZonaInput | Prisma.TenantMembershipCreateOrConnectWithoutZonaInput[]
-  upsert?: Prisma.TenantMembershipUpsertWithWhereUniqueWithoutZonaInput | Prisma.TenantMembershipUpsertWithWhereUniqueWithoutZonaInput[]
-  createMany?: Prisma.TenantMembershipCreateManyZonaInputEnvelope
-  set?: Prisma.TenantMembershipWhereUniqueInput | Prisma.TenantMembershipWhereUniqueInput[]
-  disconnect?: Prisma.TenantMembershipWhereUniqueInput | Prisma.TenantMembershipWhereUniqueInput[]
-  delete?: Prisma.TenantMembershipWhereUniqueInput | Prisma.TenantMembershipWhereUniqueInput[]
-  connect?: Prisma.TenantMembershipWhereUniqueInput | Prisma.TenantMembershipWhereUniqueInput[]
-  update?: Prisma.TenantMembershipUpdateWithWhereUniqueWithoutZonaInput | Prisma.TenantMembershipUpdateWithWhereUniqueWithoutZonaInput[]
-  updateMany?: Prisma.TenantMembershipUpdateManyWithWhereWithoutZonaInput | Prisma.TenantMembershipUpdateManyWithWhereWithoutZonaInput[]
-  deleteMany?: Prisma.TenantMembershipScalarWhereInput | Prisma.TenantMembershipScalarWhereInput[]
-}
-
-export type TenantMembershipUncheckedUpdateManyWithoutZonaNestedInput = {
-  create?: Prisma.XOR<Prisma.TenantMembershipCreateWithoutZonaInput, Prisma.TenantMembershipUncheckedCreateWithoutZonaInput> | Prisma.TenantMembershipCreateWithoutZonaInput[] | Prisma.TenantMembershipUncheckedCreateWithoutZonaInput[]
-  connectOrCreate?: Prisma.TenantMembershipCreateOrConnectWithoutZonaInput | Prisma.TenantMembershipCreateOrConnectWithoutZonaInput[]
-  upsert?: Prisma.TenantMembershipUpsertWithWhereUniqueWithoutZonaInput | Prisma.TenantMembershipUpsertWithWhereUniqueWithoutZonaInput[]
-  createMany?: Prisma.TenantMembershipCreateManyZonaInputEnvelope
-  set?: Prisma.TenantMembershipWhereUniqueInput | Prisma.TenantMembershipWhereUniqueInput[]
-  disconnect?: Prisma.TenantMembershipWhereUniqueInput | Prisma.TenantMembershipWhereUniqueInput[]
-  delete?: Prisma.TenantMembershipWhereUniqueInput | Prisma.TenantMembershipWhereUniqueInput[]
-  connect?: Prisma.TenantMembershipWhereUniqueInput | Prisma.TenantMembershipWhereUniqueInput[]
-  update?: Prisma.TenantMembershipUpdateWithWhereUniqueWithoutZonaInput | Prisma.TenantMembershipUpdateWithWhereUniqueWithoutZonaInput[]
-  updateMany?: Prisma.TenantMembershipUpdateManyWithWhereWithoutZonaInput | Prisma.TenantMembershipUpdateManyWithWhereWithoutZonaInput[]
-  deleteMany?: Prisma.TenantMembershipScalarWhereInput | Prisma.TenantMembershipScalarWhereInput[]
 }
 
 export type TenantMembershipCreateNestedOneWithoutServiciosCreadosInput = {
@@ -1337,8 +1209,6 @@ export type TenantMembershipCreateWithoutUserInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   tenant: Prisma.TenantCreateNestedOneWithoutMembershipsInput
-  empresa?: Prisma.EmpresaCreateNestedOneWithoutTenantMembershipsInput
-  zona?: Prisma.ZonaCreateNestedOneWithoutTenantMembershipsInput
   empresaMemberships?: Prisma.EmpresaMembershipCreateNestedManyWithoutMembershipInput
   anticipos?: Prisma.AnticiposCreateNestedManyWithoutMembershipInput
   citasComoCreador?: Prisma.CitasPsicologosCreateNestedManyWithoutCreadoPorInput
@@ -1368,8 +1238,6 @@ export type TenantMembershipCreateWithoutUserInput = {
 export type TenantMembershipUncheckedCreateWithoutUserInput = {
   id?: string
   tenantId: string
-  empresaId?: string | null
-  zonaId?: string | null
   role: $Enums.Role
   status?: $Enums.MembershipStatus
   username?: string | null
@@ -1442,8 +1310,6 @@ export type TenantMembershipScalarWhereInput = {
   id?: Prisma.UuidFilter<"TenantMembership"> | string
   userId?: Prisma.UuidFilter<"TenantMembership"> | string
   tenantId?: Prisma.UuidFilter<"TenantMembership"> | string
-  empresaId?: Prisma.UuidNullableFilter<"TenantMembership"> | string | null
-  zonaId?: Prisma.UuidNullableFilter<"TenantMembership"> | string | null
   role?: Prisma.EnumRoleFilter<"TenantMembership"> | $Enums.Role
   status?: Prisma.EnumMembershipStatusFilter<"TenantMembership"> | $Enums.MembershipStatus
   username?: Prisma.StringNullableFilter<"TenantMembership"> | string | null
@@ -1475,8 +1341,6 @@ export type TenantMembershipCreateWithoutTenantInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   user: Prisma.UserCreateNestedOneWithoutMembershipsInput
-  empresa?: Prisma.EmpresaCreateNestedOneWithoutTenantMembershipsInput
-  zona?: Prisma.ZonaCreateNestedOneWithoutTenantMembershipsInput
   empresaMemberships?: Prisma.EmpresaMembershipCreateNestedManyWithoutMembershipInput
   anticipos?: Prisma.AnticiposCreateNestedManyWithoutMembershipInput
   citasComoCreador?: Prisma.CitasPsicologosCreateNestedManyWithoutCreadoPorInput
@@ -1506,8 +1370,6 @@ export type TenantMembershipCreateWithoutTenantInput = {
 export type TenantMembershipUncheckedCreateWithoutTenantInput = {
   id?: string
   userId: string
-  empresaId?: string | null
-  zonaId?: string | null
   role: $Enums.Role
   status?: $Enums.MembershipStatus
   username?: string | null
@@ -1573,120 +1435,6 @@ export type TenantMembershipUpdateManyWithWhereWithoutTenantInput = {
   data: Prisma.XOR<Prisma.TenantMembershipUpdateManyMutationInput, Prisma.TenantMembershipUncheckedUpdateManyWithoutTenantInput>
 }
 
-export type TenantMembershipCreateWithoutEmpresaInput = {
-  id?: string
-  role: $Enums.Role
-  status?: $Enums.MembershipStatus
-  username?: string | null
-  activo?: boolean
-  aprobado?: boolean
-  numberId?: string | null
-  whatsappGroupId?: string | null
-  pushToken?: string | null
-  placa?: string | null
-  moto?: boolean | null
-  codigoReferido?: string | null
-  createdAt?: Date | string
-  updatedAt?: Date | string
-  user: Prisma.UserCreateNestedOneWithoutMembershipsInput
-  tenant: Prisma.TenantCreateNestedOneWithoutMembershipsInput
-  zona?: Prisma.ZonaCreateNestedOneWithoutTenantMembershipsInput
-  empresaMemberships?: Prisma.EmpresaMembershipCreateNestedManyWithoutMembershipInput
-  anticipos?: Prisma.AnticiposCreateNestedManyWithoutMembershipInput
-  citasComoCreador?: Prisma.CitasPsicologosCreateNestedManyWithoutCreadoPorInput
-  citasComoPsicologo?: Prisma.CitasPsicologosCreateNestedManyWithoutPsicologoInput
-  configuracionPagos?: Prisma.ConfiguracionPagosCreateNestedManyWithoutMembershipInput
-  consignacionesCreadas?: Prisma.ConsignacionEfectivoCreateNestedManyWithoutCreadoPorInput
-  consignacionesTecnico?: Prisma.ConsignacionEfectivoCreateNestedManyWithoutTecnicoInput
-  cuentasCobro?: Prisma.CuentaCobroCreateNestedManyWithoutMembershipInput
-  cuentasPago?: Prisma.CuentasPagoCreateNestedManyWithoutMembershipInput
-  declaracionesEfectivo?: Prisma.DeclaracionEfectivoCreateNestedManyWithoutTecnicoInput
-  egresos?: Prisma.EgresosCreateNestedManyWithoutMembershipInput
-  geolocalizaciones?: Prisma.GeolocalizacionCreateNestedManyWithoutMembershipInput
-  nominas?: Prisma.NominaCreateNestedManyWithoutMembershipInput
-  serviciosCreados?: Prisma.OrdenServicioCreateNestedManyWithoutCreadoPorInput
-  serviciosAsignados?: Prisma.OrdenServicioCreateNestedManyWithoutTecnicoInput
-  paquetesAdquiridos?: Prisma.PaqueteAdquiridoCreateNestedManyWithoutMembershipInput
-  permisosAprobados?: Prisma.PermisoCreateNestedManyWithoutAdminInput
-  permisosSolicitados?: Prisma.PermisoCreateNestedManyWithoutMembershipInput
-  productosSolicitados?: Prisma.ProductoSolicitadoCreateNestedManyWithoutMembershipInput
-  referidos?: Prisma.ReferidosCreateNestedManyWithoutMembershipInput
-  sesionesActividad?: Prisma.SesionActividadCreateNestedManyWithoutMembershipInput
-  turnos?: Prisma.TurnoCreateNestedManyWithoutMembershipInput
-  clientesCreados?: Prisma.ClienteCreateNestedManyWithoutCreadoPorInput
-  auditorias?: Prisma.AuditoriaCreateNestedManyWithoutMembershipInput
-}
-
-export type TenantMembershipUncheckedCreateWithoutEmpresaInput = {
-  id?: string
-  userId: string
-  tenantId: string
-  zonaId?: string | null
-  role: $Enums.Role
-  status?: $Enums.MembershipStatus
-  username?: string | null
-  activo?: boolean
-  aprobado?: boolean
-  numberId?: string | null
-  whatsappGroupId?: string | null
-  pushToken?: string | null
-  placa?: string | null
-  moto?: boolean | null
-  codigoReferido?: string | null
-  createdAt?: Date | string
-  updatedAt?: Date | string
-  empresaMemberships?: Prisma.EmpresaMembershipUncheckedCreateNestedManyWithoutMembershipInput
-  anticipos?: Prisma.AnticiposUncheckedCreateNestedManyWithoutMembershipInput
-  citasComoCreador?: Prisma.CitasPsicologosUncheckedCreateNestedManyWithoutCreadoPorInput
-  citasComoPsicologo?: Prisma.CitasPsicologosUncheckedCreateNestedManyWithoutPsicologoInput
-  configuracionPagos?: Prisma.ConfiguracionPagosUncheckedCreateNestedManyWithoutMembershipInput
-  consignacionesCreadas?: Prisma.ConsignacionEfectivoUncheckedCreateNestedManyWithoutCreadoPorInput
-  consignacionesTecnico?: Prisma.ConsignacionEfectivoUncheckedCreateNestedManyWithoutTecnicoInput
-  cuentasCobro?: Prisma.CuentaCobroUncheckedCreateNestedManyWithoutMembershipInput
-  cuentasPago?: Prisma.CuentasPagoUncheckedCreateNestedManyWithoutMembershipInput
-  declaracionesEfectivo?: Prisma.DeclaracionEfectivoUncheckedCreateNestedManyWithoutTecnicoInput
-  egresos?: Prisma.EgresosUncheckedCreateNestedManyWithoutMembershipInput
-  geolocalizaciones?: Prisma.GeolocalizacionUncheckedCreateNestedManyWithoutMembershipInput
-  nominas?: Prisma.NominaUncheckedCreateNestedManyWithoutMembershipInput
-  serviciosCreados?: Prisma.OrdenServicioUncheckedCreateNestedManyWithoutCreadoPorInput
-  serviciosAsignados?: Prisma.OrdenServicioUncheckedCreateNestedManyWithoutTecnicoInput
-  paquetesAdquiridos?: Prisma.PaqueteAdquiridoUncheckedCreateNestedManyWithoutMembershipInput
-  permisosAprobados?: Prisma.PermisoUncheckedCreateNestedManyWithoutAdminInput
-  permisosSolicitados?: Prisma.PermisoUncheckedCreateNestedManyWithoutMembershipInput
-  productosSolicitados?: Prisma.ProductoSolicitadoUncheckedCreateNestedManyWithoutMembershipInput
-  referidos?: Prisma.ReferidosUncheckedCreateNestedManyWithoutMembershipInput
-  sesionesActividad?: Prisma.SesionActividadUncheckedCreateNestedManyWithoutMembershipInput
-  turnos?: Prisma.TurnoUncheckedCreateNestedManyWithoutMembershipInput
-  clientesCreados?: Prisma.ClienteUncheckedCreateNestedManyWithoutCreadoPorInput
-  auditorias?: Prisma.AuditoriaUncheckedCreateNestedManyWithoutMembershipInput
-}
-
-export type TenantMembershipCreateOrConnectWithoutEmpresaInput = {
-  where: Prisma.TenantMembershipWhereUniqueInput
-  create: Prisma.XOR<Prisma.TenantMembershipCreateWithoutEmpresaInput, Prisma.TenantMembershipUncheckedCreateWithoutEmpresaInput>
-}
-
-export type TenantMembershipCreateManyEmpresaInputEnvelope = {
-  data: Prisma.TenantMembershipCreateManyEmpresaInput | Prisma.TenantMembershipCreateManyEmpresaInput[]
-  skipDuplicates?: boolean
-}
-
-export type TenantMembershipUpsertWithWhereUniqueWithoutEmpresaInput = {
-  where: Prisma.TenantMembershipWhereUniqueInput
-  update: Prisma.XOR<Prisma.TenantMembershipUpdateWithoutEmpresaInput, Prisma.TenantMembershipUncheckedUpdateWithoutEmpresaInput>
-  create: Prisma.XOR<Prisma.TenantMembershipCreateWithoutEmpresaInput, Prisma.TenantMembershipUncheckedCreateWithoutEmpresaInput>
-}
-
-export type TenantMembershipUpdateWithWhereUniqueWithoutEmpresaInput = {
-  where: Prisma.TenantMembershipWhereUniqueInput
-  data: Prisma.XOR<Prisma.TenantMembershipUpdateWithoutEmpresaInput, Prisma.TenantMembershipUncheckedUpdateWithoutEmpresaInput>
-}
-
-export type TenantMembershipUpdateManyWithWhereWithoutEmpresaInput = {
-  where: Prisma.TenantMembershipScalarWhereInput
-  data: Prisma.XOR<Prisma.TenantMembershipUpdateManyMutationInput, Prisma.TenantMembershipUncheckedUpdateManyWithoutEmpresaInput>
-}
-
 export type TenantMembershipCreateWithoutEmpresaMembershipsInput = {
   id?: string
   role: $Enums.Role
@@ -1704,8 +1452,6 @@ export type TenantMembershipCreateWithoutEmpresaMembershipsInput = {
   updatedAt?: Date | string
   user: Prisma.UserCreateNestedOneWithoutMembershipsInput
   tenant: Prisma.TenantCreateNestedOneWithoutMembershipsInput
-  empresa?: Prisma.EmpresaCreateNestedOneWithoutTenantMembershipsInput
-  zona?: Prisma.ZonaCreateNestedOneWithoutTenantMembershipsInput
   anticipos?: Prisma.AnticiposCreateNestedManyWithoutMembershipInput
   citasComoCreador?: Prisma.CitasPsicologosCreateNestedManyWithoutCreadoPorInput
   citasComoPsicologo?: Prisma.CitasPsicologosCreateNestedManyWithoutPsicologoInput
@@ -1735,8 +1481,6 @@ export type TenantMembershipUncheckedCreateWithoutEmpresaMembershipsInput = {
   id?: string
   userId: string
   tenantId: string
-  empresaId?: string | null
-  zonaId?: string | null
   role: $Enums.Role
   status?: $Enums.MembershipStatus
   username?: string | null
@@ -1808,8 +1552,6 @@ export type TenantMembershipUpdateWithoutEmpresaMembershipsInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   user?: Prisma.UserUpdateOneRequiredWithoutMembershipsNestedInput
   tenant?: Prisma.TenantUpdateOneRequiredWithoutMembershipsNestedInput
-  empresa?: Prisma.EmpresaUpdateOneWithoutTenantMembershipsNestedInput
-  zona?: Prisma.ZonaUpdateOneWithoutTenantMembershipsNestedInput
   anticipos?: Prisma.AnticiposUpdateManyWithoutMembershipNestedInput
   citasComoCreador?: Prisma.CitasPsicologosUpdateManyWithoutCreadoPorNestedInput
   citasComoPsicologo?: Prisma.CitasPsicologosUpdateManyWithoutPsicologoNestedInput
@@ -1839,8 +1581,6 @@ export type TenantMembershipUncheckedUpdateWithoutEmpresaMembershipsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   tenantId?: Prisma.StringFieldUpdateOperationsInput | string
-  empresaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  zonaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   status?: Prisma.EnumMembershipStatusFieldUpdateOperationsInput | $Enums.MembershipStatus
   username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1896,8 +1636,6 @@ export type TenantMembershipCreateWithoutClientesCreadosInput = {
   updatedAt?: Date | string
   user: Prisma.UserCreateNestedOneWithoutMembershipsInput
   tenant: Prisma.TenantCreateNestedOneWithoutMembershipsInput
-  empresa?: Prisma.EmpresaCreateNestedOneWithoutTenantMembershipsInput
-  zona?: Prisma.ZonaCreateNestedOneWithoutTenantMembershipsInput
   empresaMemberships?: Prisma.EmpresaMembershipCreateNestedManyWithoutMembershipInput
   anticipos?: Prisma.AnticiposCreateNestedManyWithoutMembershipInput
   citasComoCreador?: Prisma.CitasPsicologosCreateNestedManyWithoutCreadoPorInput
@@ -1927,8 +1665,6 @@ export type TenantMembershipUncheckedCreateWithoutClientesCreadosInput = {
   id?: string
   userId: string
   tenantId: string
-  empresaId?: string | null
-  zonaId?: string | null
   role: $Enums.Role
   status?: $Enums.MembershipStatus
   username?: string | null
@@ -2000,8 +1736,6 @@ export type TenantMembershipUpdateWithoutClientesCreadosInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   user?: Prisma.UserUpdateOneRequiredWithoutMembershipsNestedInput
   tenant?: Prisma.TenantUpdateOneRequiredWithoutMembershipsNestedInput
-  empresa?: Prisma.EmpresaUpdateOneWithoutTenantMembershipsNestedInput
-  zona?: Prisma.ZonaUpdateOneWithoutTenantMembershipsNestedInput
   empresaMemberships?: Prisma.EmpresaMembershipUpdateManyWithoutMembershipNestedInput
   anticipos?: Prisma.AnticiposUpdateManyWithoutMembershipNestedInput
   citasComoCreador?: Prisma.CitasPsicologosUpdateManyWithoutCreadoPorNestedInput
@@ -2031,8 +1765,6 @@ export type TenantMembershipUncheckedUpdateWithoutClientesCreadosInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   tenantId?: Prisma.StringFieldUpdateOperationsInput | string
-  empresaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  zonaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   status?: Prisma.EnumMembershipStatusFieldUpdateOperationsInput | $Enums.MembershipStatus
   username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -2071,120 +1803,6 @@ export type TenantMembershipUncheckedUpdateWithoutClientesCreadosInput = {
   auditorias?: Prisma.AuditoriaUncheckedUpdateManyWithoutMembershipNestedInput
 }
 
-export type TenantMembershipCreateWithoutZonaInput = {
-  id?: string
-  role: $Enums.Role
-  status?: $Enums.MembershipStatus
-  username?: string | null
-  activo?: boolean
-  aprobado?: boolean
-  numberId?: string | null
-  whatsappGroupId?: string | null
-  pushToken?: string | null
-  placa?: string | null
-  moto?: boolean | null
-  codigoReferido?: string | null
-  createdAt?: Date | string
-  updatedAt?: Date | string
-  user: Prisma.UserCreateNestedOneWithoutMembershipsInput
-  tenant: Prisma.TenantCreateNestedOneWithoutMembershipsInput
-  empresa?: Prisma.EmpresaCreateNestedOneWithoutTenantMembershipsInput
-  empresaMemberships?: Prisma.EmpresaMembershipCreateNestedManyWithoutMembershipInput
-  anticipos?: Prisma.AnticiposCreateNestedManyWithoutMembershipInput
-  citasComoCreador?: Prisma.CitasPsicologosCreateNestedManyWithoutCreadoPorInput
-  citasComoPsicologo?: Prisma.CitasPsicologosCreateNestedManyWithoutPsicologoInput
-  configuracionPagos?: Prisma.ConfiguracionPagosCreateNestedManyWithoutMembershipInput
-  consignacionesCreadas?: Prisma.ConsignacionEfectivoCreateNestedManyWithoutCreadoPorInput
-  consignacionesTecnico?: Prisma.ConsignacionEfectivoCreateNestedManyWithoutTecnicoInput
-  cuentasCobro?: Prisma.CuentaCobroCreateNestedManyWithoutMembershipInput
-  cuentasPago?: Prisma.CuentasPagoCreateNestedManyWithoutMembershipInput
-  declaracionesEfectivo?: Prisma.DeclaracionEfectivoCreateNestedManyWithoutTecnicoInput
-  egresos?: Prisma.EgresosCreateNestedManyWithoutMembershipInput
-  geolocalizaciones?: Prisma.GeolocalizacionCreateNestedManyWithoutMembershipInput
-  nominas?: Prisma.NominaCreateNestedManyWithoutMembershipInput
-  serviciosCreados?: Prisma.OrdenServicioCreateNestedManyWithoutCreadoPorInput
-  serviciosAsignados?: Prisma.OrdenServicioCreateNestedManyWithoutTecnicoInput
-  paquetesAdquiridos?: Prisma.PaqueteAdquiridoCreateNestedManyWithoutMembershipInput
-  permisosAprobados?: Prisma.PermisoCreateNestedManyWithoutAdminInput
-  permisosSolicitados?: Prisma.PermisoCreateNestedManyWithoutMembershipInput
-  productosSolicitados?: Prisma.ProductoSolicitadoCreateNestedManyWithoutMembershipInput
-  referidos?: Prisma.ReferidosCreateNestedManyWithoutMembershipInput
-  sesionesActividad?: Prisma.SesionActividadCreateNestedManyWithoutMembershipInput
-  turnos?: Prisma.TurnoCreateNestedManyWithoutMembershipInput
-  clientesCreados?: Prisma.ClienteCreateNestedManyWithoutCreadoPorInput
-  auditorias?: Prisma.AuditoriaCreateNestedManyWithoutMembershipInput
-}
-
-export type TenantMembershipUncheckedCreateWithoutZonaInput = {
-  id?: string
-  userId: string
-  tenantId: string
-  empresaId?: string | null
-  role: $Enums.Role
-  status?: $Enums.MembershipStatus
-  username?: string | null
-  activo?: boolean
-  aprobado?: boolean
-  numberId?: string | null
-  whatsappGroupId?: string | null
-  pushToken?: string | null
-  placa?: string | null
-  moto?: boolean | null
-  codigoReferido?: string | null
-  createdAt?: Date | string
-  updatedAt?: Date | string
-  empresaMemberships?: Prisma.EmpresaMembershipUncheckedCreateNestedManyWithoutMembershipInput
-  anticipos?: Prisma.AnticiposUncheckedCreateNestedManyWithoutMembershipInput
-  citasComoCreador?: Prisma.CitasPsicologosUncheckedCreateNestedManyWithoutCreadoPorInput
-  citasComoPsicologo?: Prisma.CitasPsicologosUncheckedCreateNestedManyWithoutPsicologoInput
-  configuracionPagos?: Prisma.ConfiguracionPagosUncheckedCreateNestedManyWithoutMembershipInput
-  consignacionesCreadas?: Prisma.ConsignacionEfectivoUncheckedCreateNestedManyWithoutCreadoPorInput
-  consignacionesTecnico?: Prisma.ConsignacionEfectivoUncheckedCreateNestedManyWithoutTecnicoInput
-  cuentasCobro?: Prisma.CuentaCobroUncheckedCreateNestedManyWithoutMembershipInput
-  cuentasPago?: Prisma.CuentasPagoUncheckedCreateNestedManyWithoutMembershipInput
-  declaracionesEfectivo?: Prisma.DeclaracionEfectivoUncheckedCreateNestedManyWithoutTecnicoInput
-  egresos?: Prisma.EgresosUncheckedCreateNestedManyWithoutMembershipInput
-  geolocalizaciones?: Prisma.GeolocalizacionUncheckedCreateNestedManyWithoutMembershipInput
-  nominas?: Prisma.NominaUncheckedCreateNestedManyWithoutMembershipInput
-  serviciosCreados?: Prisma.OrdenServicioUncheckedCreateNestedManyWithoutCreadoPorInput
-  serviciosAsignados?: Prisma.OrdenServicioUncheckedCreateNestedManyWithoutTecnicoInput
-  paquetesAdquiridos?: Prisma.PaqueteAdquiridoUncheckedCreateNestedManyWithoutMembershipInput
-  permisosAprobados?: Prisma.PermisoUncheckedCreateNestedManyWithoutAdminInput
-  permisosSolicitados?: Prisma.PermisoUncheckedCreateNestedManyWithoutMembershipInput
-  productosSolicitados?: Prisma.ProductoSolicitadoUncheckedCreateNestedManyWithoutMembershipInput
-  referidos?: Prisma.ReferidosUncheckedCreateNestedManyWithoutMembershipInput
-  sesionesActividad?: Prisma.SesionActividadUncheckedCreateNestedManyWithoutMembershipInput
-  turnos?: Prisma.TurnoUncheckedCreateNestedManyWithoutMembershipInput
-  clientesCreados?: Prisma.ClienteUncheckedCreateNestedManyWithoutCreadoPorInput
-  auditorias?: Prisma.AuditoriaUncheckedCreateNestedManyWithoutMembershipInput
-}
-
-export type TenantMembershipCreateOrConnectWithoutZonaInput = {
-  where: Prisma.TenantMembershipWhereUniqueInput
-  create: Prisma.XOR<Prisma.TenantMembershipCreateWithoutZonaInput, Prisma.TenantMembershipUncheckedCreateWithoutZonaInput>
-}
-
-export type TenantMembershipCreateManyZonaInputEnvelope = {
-  data: Prisma.TenantMembershipCreateManyZonaInput | Prisma.TenantMembershipCreateManyZonaInput[]
-  skipDuplicates?: boolean
-}
-
-export type TenantMembershipUpsertWithWhereUniqueWithoutZonaInput = {
-  where: Prisma.TenantMembershipWhereUniqueInput
-  update: Prisma.XOR<Prisma.TenantMembershipUpdateWithoutZonaInput, Prisma.TenantMembershipUncheckedUpdateWithoutZonaInput>
-  create: Prisma.XOR<Prisma.TenantMembershipCreateWithoutZonaInput, Prisma.TenantMembershipUncheckedCreateWithoutZonaInput>
-}
-
-export type TenantMembershipUpdateWithWhereUniqueWithoutZonaInput = {
-  where: Prisma.TenantMembershipWhereUniqueInput
-  data: Prisma.XOR<Prisma.TenantMembershipUpdateWithoutZonaInput, Prisma.TenantMembershipUncheckedUpdateWithoutZonaInput>
-}
-
-export type TenantMembershipUpdateManyWithWhereWithoutZonaInput = {
-  where: Prisma.TenantMembershipScalarWhereInput
-  data: Prisma.XOR<Prisma.TenantMembershipUpdateManyMutationInput, Prisma.TenantMembershipUncheckedUpdateManyWithoutZonaInput>
-}
-
 export type TenantMembershipCreateWithoutServiciosCreadosInput = {
   id?: string
   role: $Enums.Role
@@ -2202,8 +1820,6 @@ export type TenantMembershipCreateWithoutServiciosCreadosInput = {
   updatedAt?: Date | string
   user: Prisma.UserCreateNestedOneWithoutMembershipsInput
   tenant: Prisma.TenantCreateNestedOneWithoutMembershipsInput
-  empresa?: Prisma.EmpresaCreateNestedOneWithoutTenantMembershipsInput
-  zona?: Prisma.ZonaCreateNestedOneWithoutTenantMembershipsInput
   empresaMemberships?: Prisma.EmpresaMembershipCreateNestedManyWithoutMembershipInput
   anticipos?: Prisma.AnticiposCreateNestedManyWithoutMembershipInput
   citasComoCreador?: Prisma.CitasPsicologosCreateNestedManyWithoutCreadoPorInput
@@ -2233,8 +1849,6 @@ export type TenantMembershipUncheckedCreateWithoutServiciosCreadosInput = {
   id?: string
   userId: string
   tenantId: string
-  empresaId?: string | null
-  zonaId?: string | null
   role: $Enums.Role
   status?: $Enums.MembershipStatus
   username?: string | null
@@ -2295,8 +1909,6 @@ export type TenantMembershipCreateWithoutServiciosAsignadosInput = {
   updatedAt?: Date | string
   user: Prisma.UserCreateNestedOneWithoutMembershipsInput
   tenant: Prisma.TenantCreateNestedOneWithoutMembershipsInput
-  empresa?: Prisma.EmpresaCreateNestedOneWithoutTenantMembershipsInput
-  zona?: Prisma.ZonaCreateNestedOneWithoutTenantMembershipsInput
   empresaMemberships?: Prisma.EmpresaMembershipCreateNestedManyWithoutMembershipInput
   anticipos?: Prisma.AnticiposCreateNestedManyWithoutMembershipInput
   citasComoCreador?: Prisma.CitasPsicologosCreateNestedManyWithoutCreadoPorInput
@@ -2326,8 +1938,6 @@ export type TenantMembershipUncheckedCreateWithoutServiciosAsignadosInput = {
   id?: string
   userId: string
   tenantId: string
-  empresaId?: string | null
-  zonaId?: string | null
   role: $Enums.Role
   status?: $Enums.MembershipStatus
   username?: string | null
@@ -2399,8 +2009,6 @@ export type TenantMembershipUpdateWithoutServiciosCreadosInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   user?: Prisma.UserUpdateOneRequiredWithoutMembershipsNestedInput
   tenant?: Prisma.TenantUpdateOneRequiredWithoutMembershipsNestedInput
-  empresa?: Prisma.EmpresaUpdateOneWithoutTenantMembershipsNestedInput
-  zona?: Prisma.ZonaUpdateOneWithoutTenantMembershipsNestedInput
   empresaMemberships?: Prisma.EmpresaMembershipUpdateManyWithoutMembershipNestedInput
   anticipos?: Prisma.AnticiposUpdateManyWithoutMembershipNestedInput
   citasComoCreador?: Prisma.CitasPsicologosUpdateManyWithoutCreadoPorNestedInput
@@ -2430,8 +2038,6 @@ export type TenantMembershipUncheckedUpdateWithoutServiciosCreadosInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   tenantId?: Prisma.StringFieldUpdateOperationsInput | string
-  empresaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  zonaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   status?: Prisma.EnumMembershipStatusFieldUpdateOperationsInput | $Enums.MembershipStatus
   username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -2498,8 +2104,6 @@ export type TenantMembershipUpdateWithoutServiciosAsignadosInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   user?: Prisma.UserUpdateOneRequiredWithoutMembershipsNestedInput
   tenant?: Prisma.TenantUpdateOneRequiredWithoutMembershipsNestedInput
-  empresa?: Prisma.EmpresaUpdateOneWithoutTenantMembershipsNestedInput
-  zona?: Prisma.ZonaUpdateOneWithoutTenantMembershipsNestedInput
   empresaMemberships?: Prisma.EmpresaMembershipUpdateManyWithoutMembershipNestedInput
   anticipos?: Prisma.AnticiposUpdateManyWithoutMembershipNestedInput
   citasComoCreador?: Prisma.CitasPsicologosUpdateManyWithoutCreadoPorNestedInput
@@ -2529,8 +2133,6 @@ export type TenantMembershipUncheckedUpdateWithoutServiciosAsignadosInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   tenantId?: Prisma.StringFieldUpdateOperationsInput | string
-  empresaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  zonaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   status?: Prisma.EnumMembershipStatusFieldUpdateOperationsInput | $Enums.MembershipStatus
   username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -2586,8 +2188,6 @@ export type TenantMembershipCreateWithoutGeolocalizacionesInput = {
   updatedAt?: Date | string
   user: Prisma.UserCreateNestedOneWithoutMembershipsInput
   tenant: Prisma.TenantCreateNestedOneWithoutMembershipsInput
-  empresa?: Prisma.EmpresaCreateNestedOneWithoutTenantMembershipsInput
-  zona?: Prisma.ZonaCreateNestedOneWithoutTenantMembershipsInput
   empresaMemberships?: Prisma.EmpresaMembershipCreateNestedManyWithoutMembershipInput
   anticipos?: Prisma.AnticiposCreateNestedManyWithoutMembershipInput
   citasComoCreador?: Prisma.CitasPsicologosCreateNestedManyWithoutCreadoPorInput
@@ -2617,8 +2217,6 @@ export type TenantMembershipUncheckedCreateWithoutGeolocalizacionesInput = {
   id?: string
   userId: string
   tenantId: string
-  empresaId?: string | null
-  zonaId?: string | null
   role: $Enums.Role
   status?: $Enums.MembershipStatus
   username?: string | null
@@ -2690,8 +2288,6 @@ export type TenantMembershipUpdateWithoutGeolocalizacionesInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   user?: Prisma.UserUpdateOneRequiredWithoutMembershipsNestedInput
   tenant?: Prisma.TenantUpdateOneRequiredWithoutMembershipsNestedInput
-  empresa?: Prisma.EmpresaUpdateOneWithoutTenantMembershipsNestedInput
-  zona?: Prisma.ZonaUpdateOneWithoutTenantMembershipsNestedInput
   empresaMemberships?: Prisma.EmpresaMembershipUpdateManyWithoutMembershipNestedInput
   anticipos?: Prisma.AnticiposUpdateManyWithoutMembershipNestedInput
   citasComoCreador?: Prisma.CitasPsicologosUpdateManyWithoutCreadoPorNestedInput
@@ -2721,8 +2317,6 @@ export type TenantMembershipUncheckedUpdateWithoutGeolocalizacionesInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   tenantId?: Prisma.StringFieldUpdateOperationsInput | string
-  empresaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  zonaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   status?: Prisma.EnumMembershipStatusFieldUpdateOperationsInput | $Enums.MembershipStatus
   username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -2778,8 +2372,6 @@ export type TenantMembershipCreateWithoutNominasInput = {
   updatedAt?: Date | string
   user: Prisma.UserCreateNestedOneWithoutMembershipsInput
   tenant: Prisma.TenantCreateNestedOneWithoutMembershipsInput
-  empresa?: Prisma.EmpresaCreateNestedOneWithoutTenantMembershipsInput
-  zona?: Prisma.ZonaCreateNestedOneWithoutTenantMembershipsInput
   empresaMemberships?: Prisma.EmpresaMembershipCreateNestedManyWithoutMembershipInput
   anticipos?: Prisma.AnticiposCreateNestedManyWithoutMembershipInput
   citasComoCreador?: Prisma.CitasPsicologosCreateNestedManyWithoutCreadoPorInput
@@ -2809,8 +2401,6 @@ export type TenantMembershipUncheckedCreateWithoutNominasInput = {
   id?: string
   userId: string
   tenantId: string
-  empresaId?: string | null
-  zonaId?: string | null
   role: $Enums.Role
   status?: $Enums.MembershipStatus
   username?: string | null
@@ -2882,8 +2472,6 @@ export type TenantMembershipUpdateWithoutNominasInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   user?: Prisma.UserUpdateOneRequiredWithoutMembershipsNestedInput
   tenant?: Prisma.TenantUpdateOneRequiredWithoutMembershipsNestedInput
-  empresa?: Prisma.EmpresaUpdateOneWithoutTenantMembershipsNestedInput
-  zona?: Prisma.ZonaUpdateOneWithoutTenantMembershipsNestedInput
   empresaMemberships?: Prisma.EmpresaMembershipUpdateManyWithoutMembershipNestedInput
   anticipos?: Prisma.AnticiposUpdateManyWithoutMembershipNestedInput
   citasComoCreador?: Prisma.CitasPsicologosUpdateManyWithoutCreadoPorNestedInput
@@ -2913,8 +2501,6 @@ export type TenantMembershipUncheckedUpdateWithoutNominasInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   tenantId?: Prisma.StringFieldUpdateOperationsInput | string
-  empresaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  zonaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   status?: Prisma.EnumMembershipStatusFieldUpdateOperationsInput | $Enums.MembershipStatus
   username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -2970,8 +2556,6 @@ export type TenantMembershipCreateWithoutCitasComoCreadorInput = {
   updatedAt?: Date | string
   user: Prisma.UserCreateNestedOneWithoutMembershipsInput
   tenant: Prisma.TenantCreateNestedOneWithoutMembershipsInput
-  empresa?: Prisma.EmpresaCreateNestedOneWithoutTenantMembershipsInput
-  zona?: Prisma.ZonaCreateNestedOneWithoutTenantMembershipsInput
   empresaMemberships?: Prisma.EmpresaMembershipCreateNestedManyWithoutMembershipInput
   anticipos?: Prisma.AnticiposCreateNestedManyWithoutMembershipInput
   citasComoPsicologo?: Prisma.CitasPsicologosCreateNestedManyWithoutPsicologoInput
@@ -3001,8 +2585,6 @@ export type TenantMembershipUncheckedCreateWithoutCitasComoCreadorInput = {
   id?: string
   userId: string
   tenantId: string
-  empresaId?: string | null
-  zonaId?: string | null
   role: $Enums.Role
   status?: $Enums.MembershipStatus
   username?: string | null
@@ -3063,8 +2645,6 @@ export type TenantMembershipCreateWithoutCitasComoPsicologoInput = {
   updatedAt?: Date | string
   user: Prisma.UserCreateNestedOneWithoutMembershipsInput
   tenant: Prisma.TenantCreateNestedOneWithoutMembershipsInput
-  empresa?: Prisma.EmpresaCreateNestedOneWithoutTenantMembershipsInput
-  zona?: Prisma.ZonaCreateNestedOneWithoutTenantMembershipsInput
   empresaMemberships?: Prisma.EmpresaMembershipCreateNestedManyWithoutMembershipInput
   anticipos?: Prisma.AnticiposCreateNestedManyWithoutMembershipInput
   citasComoCreador?: Prisma.CitasPsicologosCreateNestedManyWithoutCreadoPorInput
@@ -3094,8 +2674,6 @@ export type TenantMembershipUncheckedCreateWithoutCitasComoPsicologoInput = {
   id?: string
   userId: string
   tenantId: string
-  empresaId?: string | null
-  zonaId?: string | null
   role: $Enums.Role
   status?: $Enums.MembershipStatus
   username?: string | null
@@ -3167,8 +2745,6 @@ export type TenantMembershipUpdateWithoutCitasComoCreadorInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   user?: Prisma.UserUpdateOneRequiredWithoutMembershipsNestedInput
   tenant?: Prisma.TenantUpdateOneRequiredWithoutMembershipsNestedInput
-  empresa?: Prisma.EmpresaUpdateOneWithoutTenantMembershipsNestedInput
-  zona?: Prisma.ZonaUpdateOneWithoutTenantMembershipsNestedInput
   empresaMemberships?: Prisma.EmpresaMembershipUpdateManyWithoutMembershipNestedInput
   anticipos?: Prisma.AnticiposUpdateManyWithoutMembershipNestedInput
   citasComoPsicologo?: Prisma.CitasPsicologosUpdateManyWithoutPsicologoNestedInput
@@ -3198,8 +2774,6 @@ export type TenantMembershipUncheckedUpdateWithoutCitasComoCreadorInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   tenantId?: Prisma.StringFieldUpdateOperationsInput | string
-  empresaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  zonaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   status?: Prisma.EnumMembershipStatusFieldUpdateOperationsInput | $Enums.MembershipStatus
   username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -3266,8 +2840,6 @@ export type TenantMembershipUpdateWithoutCitasComoPsicologoInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   user?: Prisma.UserUpdateOneRequiredWithoutMembershipsNestedInput
   tenant?: Prisma.TenantUpdateOneRequiredWithoutMembershipsNestedInput
-  empresa?: Prisma.EmpresaUpdateOneWithoutTenantMembershipsNestedInput
-  zona?: Prisma.ZonaUpdateOneWithoutTenantMembershipsNestedInput
   empresaMemberships?: Prisma.EmpresaMembershipUpdateManyWithoutMembershipNestedInput
   anticipos?: Prisma.AnticiposUpdateManyWithoutMembershipNestedInput
   citasComoCreador?: Prisma.CitasPsicologosUpdateManyWithoutCreadoPorNestedInput
@@ -3297,8 +2869,6 @@ export type TenantMembershipUncheckedUpdateWithoutCitasComoPsicologoInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   tenantId?: Prisma.StringFieldUpdateOperationsInput | string
-  empresaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  zonaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   status?: Prisma.EnumMembershipStatusFieldUpdateOperationsInput | $Enums.MembershipStatus
   username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -3354,8 +2924,6 @@ export type TenantMembershipCreateWithoutPaquetesAdquiridosInput = {
   updatedAt?: Date | string
   user: Prisma.UserCreateNestedOneWithoutMembershipsInput
   tenant: Prisma.TenantCreateNestedOneWithoutMembershipsInput
-  empresa?: Prisma.EmpresaCreateNestedOneWithoutTenantMembershipsInput
-  zona?: Prisma.ZonaCreateNestedOneWithoutTenantMembershipsInput
   empresaMemberships?: Prisma.EmpresaMembershipCreateNestedManyWithoutMembershipInput
   anticipos?: Prisma.AnticiposCreateNestedManyWithoutMembershipInput
   citasComoCreador?: Prisma.CitasPsicologosCreateNestedManyWithoutCreadoPorInput
@@ -3385,8 +2953,6 @@ export type TenantMembershipUncheckedCreateWithoutPaquetesAdquiridosInput = {
   id?: string
   userId: string
   tenantId: string
-  empresaId?: string | null
-  zonaId?: string | null
   role: $Enums.Role
   status?: $Enums.MembershipStatus
   username?: string | null
@@ -3458,8 +3024,6 @@ export type TenantMembershipUpdateWithoutPaquetesAdquiridosInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   user?: Prisma.UserUpdateOneRequiredWithoutMembershipsNestedInput
   tenant?: Prisma.TenantUpdateOneRequiredWithoutMembershipsNestedInput
-  empresa?: Prisma.EmpresaUpdateOneWithoutTenantMembershipsNestedInput
-  zona?: Prisma.ZonaUpdateOneWithoutTenantMembershipsNestedInput
   empresaMemberships?: Prisma.EmpresaMembershipUpdateManyWithoutMembershipNestedInput
   anticipos?: Prisma.AnticiposUpdateManyWithoutMembershipNestedInput
   citasComoCreador?: Prisma.CitasPsicologosUpdateManyWithoutCreadoPorNestedInput
@@ -3489,8 +3053,6 @@ export type TenantMembershipUncheckedUpdateWithoutPaquetesAdquiridosInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   tenantId?: Prisma.StringFieldUpdateOperationsInput | string
-  empresaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  zonaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   status?: Prisma.EnumMembershipStatusFieldUpdateOperationsInput | $Enums.MembershipStatus
   username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -3546,8 +3108,6 @@ export type TenantMembershipCreateWithoutTurnosInput = {
   updatedAt?: Date | string
   user: Prisma.UserCreateNestedOneWithoutMembershipsInput
   tenant: Prisma.TenantCreateNestedOneWithoutMembershipsInput
-  empresa?: Prisma.EmpresaCreateNestedOneWithoutTenantMembershipsInput
-  zona?: Prisma.ZonaCreateNestedOneWithoutTenantMembershipsInput
   empresaMemberships?: Prisma.EmpresaMembershipCreateNestedManyWithoutMembershipInput
   anticipos?: Prisma.AnticiposCreateNestedManyWithoutMembershipInput
   citasComoCreador?: Prisma.CitasPsicologosCreateNestedManyWithoutCreadoPorInput
@@ -3577,8 +3137,6 @@ export type TenantMembershipUncheckedCreateWithoutTurnosInput = {
   id?: string
   userId: string
   tenantId: string
-  empresaId?: string | null
-  zonaId?: string | null
   role: $Enums.Role
   status?: $Enums.MembershipStatus
   username?: string | null
@@ -3650,8 +3208,6 @@ export type TenantMembershipUpdateWithoutTurnosInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   user?: Prisma.UserUpdateOneRequiredWithoutMembershipsNestedInput
   tenant?: Prisma.TenantUpdateOneRequiredWithoutMembershipsNestedInput
-  empresa?: Prisma.EmpresaUpdateOneWithoutTenantMembershipsNestedInput
-  zona?: Prisma.ZonaUpdateOneWithoutTenantMembershipsNestedInput
   empresaMemberships?: Prisma.EmpresaMembershipUpdateManyWithoutMembershipNestedInput
   anticipos?: Prisma.AnticiposUpdateManyWithoutMembershipNestedInput
   citasComoCreador?: Prisma.CitasPsicologosUpdateManyWithoutCreadoPorNestedInput
@@ -3681,8 +3237,6 @@ export type TenantMembershipUncheckedUpdateWithoutTurnosInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   tenantId?: Prisma.StringFieldUpdateOperationsInput | string
-  empresaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  zonaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   status?: Prisma.EnumMembershipStatusFieldUpdateOperationsInput | $Enums.MembershipStatus
   username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -3738,8 +3292,6 @@ export type TenantMembershipCreateWithoutCuentasCobroInput = {
   updatedAt?: Date | string
   user: Prisma.UserCreateNestedOneWithoutMembershipsInput
   tenant: Prisma.TenantCreateNestedOneWithoutMembershipsInput
-  empresa?: Prisma.EmpresaCreateNestedOneWithoutTenantMembershipsInput
-  zona?: Prisma.ZonaCreateNestedOneWithoutTenantMembershipsInput
   empresaMemberships?: Prisma.EmpresaMembershipCreateNestedManyWithoutMembershipInput
   anticipos?: Prisma.AnticiposCreateNestedManyWithoutMembershipInput
   citasComoCreador?: Prisma.CitasPsicologosCreateNestedManyWithoutCreadoPorInput
@@ -3769,8 +3321,6 @@ export type TenantMembershipUncheckedCreateWithoutCuentasCobroInput = {
   id?: string
   userId: string
   tenantId: string
-  empresaId?: string | null
-  zonaId?: string | null
   role: $Enums.Role
   status?: $Enums.MembershipStatus
   username?: string | null
@@ -3842,8 +3392,6 @@ export type TenantMembershipUpdateWithoutCuentasCobroInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   user?: Prisma.UserUpdateOneRequiredWithoutMembershipsNestedInput
   tenant?: Prisma.TenantUpdateOneRequiredWithoutMembershipsNestedInput
-  empresa?: Prisma.EmpresaUpdateOneWithoutTenantMembershipsNestedInput
-  zona?: Prisma.ZonaUpdateOneWithoutTenantMembershipsNestedInput
   empresaMemberships?: Prisma.EmpresaMembershipUpdateManyWithoutMembershipNestedInput
   anticipos?: Prisma.AnticiposUpdateManyWithoutMembershipNestedInput
   citasComoCreador?: Prisma.CitasPsicologosUpdateManyWithoutCreadoPorNestedInput
@@ -3873,8 +3421,6 @@ export type TenantMembershipUncheckedUpdateWithoutCuentasCobroInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   tenantId?: Prisma.StringFieldUpdateOperationsInput | string
-  empresaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  zonaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   status?: Prisma.EnumMembershipStatusFieldUpdateOperationsInput | $Enums.MembershipStatus
   username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -3930,8 +3476,6 @@ export type TenantMembershipCreateWithoutDeclaracionesEfectivoInput = {
   updatedAt?: Date | string
   user: Prisma.UserCreateNestedOneWithoutMembershipsInput
   tenant: Prisma.TenantCreateNestedOneWithoutMembershipsInput
-  empresa?: Prisma.EmpresaCreateNestedOneWithoutTenantMembershipsInput
-  zona?: Prisma.ZonaCreateNestedOneWithoutTenantMembershipsInput
   empresaMemberships?: Prisma.EmpresaMembershipCreateNestedManyWithoutMembershipInput
   anticipos?: Prisma.AnticiposCreateNestedManyWithoutMembershipInput
   citasComoCreador?: Prisma.CitasPsicologosCreateNestedManyWithoutCreadoPorInput
@@ -3961,8 +3505,6 @@ export type TenantMembershipUncheckedCreateWithoutDeclaracionesEfectivoInput = {
   id?: string
   userId: string
   tenantId: string
-  empresaId?: string | null
-  zonaId?: string | null
   role: $Enums.Role
   status?: $Enums.MembershipStatus
   username?: string | null
@@ -4034,8 +3576,6 @@ export type TenantMembershipUpdateWithoutDeclaracionesEfectivoInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   user?: Prisma.UserUpdateOneRequiredWithoutMembershipsNestedInput
   tenant?: Prisma.TenantUpdateOneRequiredWithoutMembershipsNestedInput
-  empresa?: Prisma.EmpresaUpdateOneWithoutTenantMembershipsNestedInput
-  zona?: Prisma.ZonaUpdateOneWithoutTenantMembershipsNestedInput
   empresaMemberships?: Prisma.EmpresaMembershipUpdateManyWithoutMembershipNestedInput
   anticipos?: Prisma.AnticiposUpdateManyWithoutMembershipNestedInput
   citasComoCreador?: Prisma.CitasPsicologosUpdateManyWithoutCreadoPorNestedInput
@@ -4065,8 +3605,6 @@ export type TenantMembershipUncheckedUpdateWithoutDeclaracionesEfectivoInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   tenantId?: Prisma.StringFieldUpdateOperationsInput | string
-  empresaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  zonaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   status?: Prisma.EnumMembershipStatusFieldUpdateOperationsInput | $Enums.MembershipStatus
   username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -4122,8 +3660,6 @@ export type TenantMembershipCreateWithoutConsignacionesTecnicoInput = {
   updatedAt?: Date | string
   user: Prisma.UserCreateNestedOneWithoutMembershipsInput
   tenant: Prisma.TenantCreateNestedOneWithoutMembershipsInput
-  empresa?: Prisma.EmpresaCreateNestedOneWithoutTenantMembershipsInput
-  zona?: Prisma.ZonaCreateNestedOneWithoutTenantMembershipsInput
   empresaMemberships?: Prisma.EmpresaMembershipCreateNestedManyWithoutMembershipInput
   anticipos?: Prisma.AnticiposCreateNestedManyWithoutMembershipInput
   citasComoCreador?: Prisma.CitasPsicologosCreateNestedManyWithoutCreadoPorInput
@@ -4153,8 +3689,6 @@ export type TenantMembershipUncheckedCreateWithoutConsignacionesTecnicoInput = {
   id?: string
   userId: string
   tenantId: string
-  empresaId?: string | null
-  zonaId?: string | null
   role: $Enums.Role
   status?: $Enums.MembershipStatus
   username?: string | null
@@ -4215,8 +3749,6 @@ export type TenantMembershipCreateWithoutConsignacionesCreadasInput = {
   updatedAt?: Date | string
   user: Prisma.UserCreateNestedOneWithoutMembershipsInput
   tenant: Prisma.TenantCreateNestedOneWithoutMembershipsInput
-  empresa?: Prisma.EmpresaCreateNestedOneWithoutTenantMembershipsInput
-  zona?: Prisma.ZonaCreateNestedOneWithoutTenantMembershipsInput
   empresaMemberships?: Prisma.EmpresaMembershipCreateNestedManyWithoutMembershipInput
   anticipos?: Prisma.AnticiposCreateNestedManyWithoutMembershipInput
   citasComoCreador?: Prisma.CitasPsicologosCreateNestedManyWithoutCreadoPorInput
@@ -4246,8 +3778,6 @@ export type TenantMembershipUncheckedCreateWithoutConsignacionesCreadasInput = {
   id?: string
   userId: string
   tenantId: string
-  empresaId?: string | null
-  zonaId?: string | null
   role: $Enums.Role
   status?: $Enums.MembershipStatus
   username?: string | null
@@ -4319,8 +3849,6 @@ export type TenantMembershipUpdateWithoutConsignacionesTecnicoInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   user?: Prisma.UserUpdateOneRequiredWithoutMembershipsNestedInput
   tenant?: Prisma.TenantUpdateOneRequiredWithoutMembershipsNestedInput
-  empresa?: Prisma.EmpresaUpdateOneWithoutTenantMembershipsNestedInput
-  zona?: Prisma.ZonaUpdateOneWithoutTenantMembershipsNestedInput
   empresaMemberships?: Prisma.EmpresaMembershipUpdateManyWithoutMembershipNestedInput
   anticipos?: Prisma.AnticiposUpdateManyWithoutMembershipNestedInput
   citasComoCreador?: Prisma.CitasPsicologosUpdateManyWithoutCreadoPorNestedInput
@@ -4350,8 +3878,6 @@ export type TenantMembershipUncheckedUpdateWithoutConsignacionesTecnicoInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   tenantId?: Prisma.StringFieldUpdateOperationsInput | string
-  empresaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  zonaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   status?: Prisma.EnumMembershipStatusFieldUpdateOperationsInput | $Enums.MembershipStatus
   username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -4418,8 +3944,6 @@ export type TenantMembershipUpdateWithoutConsignacionesCreadasInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   user?: Prisma.UserUpdateOneRequiredWithoutMembershipsNestedInput
   tenant?: Prisma.TenantUpdateOneRequiredWithoutMembershipsNestedInput
-  empresa?: Prisma.EmpresaUpdateOneWithoutTenantMembershipsNestedInput
-  zona?: Prisma.ZonaUpdateOneWithoutTenantMembershipsNestedInput
   empresaMemberships?: Prisma.EmpresaMembershipUpdateManyWithoutMembershipNestedInput
   anticipos?: Prisma.AnticiposUpdateManyWithoutMembershipNestedInput
   citasComoCreador?: Prisma.CitasPsicologosUpdateManyWithoutCreadoPorNestedInput
@@ -4449,8 +3973,6 @@ export type TenantMembershipUncheckedUpdateWithoutConsignacionesCreadasInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   tenantId?: Prisma.StringFieldUpdateOperationsInput | string
-  empresaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  zonaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   status?: Prisma.EnumMembershipStatusFieldUpdateOperationsInput | $Enums.MembershipStatus
   username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -4506,8 +4028,6 @@ export type TenantMembershipCreateWithoutAnticiposInput = {
   updatedAt?: Date | string
   user: Prisma.UserCreateNestedOneWithoutMembershipsInput
   tenant: Prisma.TenantCreateNestedOneWithoutMembershipsInput
-  empresa?: Prisma.EmpresaCreateNestedOneWithoutTenantMembershipsInput
-  zona?: Prisma.ZonaCreateNestedOneWithoutTenantMembershipsInput
   empresaMemberships?: Prisma.EmpresaMembershipCreateNestedManyWithoutMembershipInput
   citasComoCreador?: Prisma.CitasPsicologosCreateNestedManyWithoutCreadoPorInput
   citasComoPsicologo?: Prisma.CitasPsicologosCreateNestedManyWithoutPsicologoInput
@@ -4537,8 +4057,6 @@ export type TenantMembershipUncheckedCreateWithoutAnticiposInput = {
   id?: string
   userId: string
   tenantId: string
-  empresaId?: string | null
-  zonaId?: string | null
   role: $Enums.Role
   status?: $Enums.MembershipStatus
   username?: string | null
@@ -4610,8 +4128,6 @@ export type TenantMembershipUpdateWithoutAnticiposInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   user?: Prisma.UserUpdateOneRequiredWithoutMembershipsNestedInput
   tenant?: Prisma.TenantUpdateOneRequiredWithoutMembershipsNestedInput
-  empresa?: Prisma.EmpresaUpdateOneWithoutTenantMembershipsNestedInput
-  zona?: Prisma.ZonaUpdateOneWithoutTenantMembershipsNestedInput
   empresaMemberships?: Prisma.EmpresaMembershipUpdateManyWithoutMembershipNestedInput
   citasComoCreador?: Prisma.CitasPsicologosUpdateManyWithoutCreadoPorNestedInput
   citasComoPsicologo?: Prisma.CitasPsicologosUpdateManyWithoutPsicologoNestedInput
@@ -4641,8 +4157,6 @@ export type TenantMembershipUncheckedUpdateWithoutAnticiposInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   tenantId?: Prisma.StringFieldUpdateOperationsInput | string
-  empresaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  zonaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   status?: Prisma.EnumMembershipStatusFieldUpdateOperationsInput | $Enums.MembershipStatus
   username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -4698,8 +4212,6 @@ export type TenantMembershipCreateWithoutProductosSolicitadosInput = {
   updatedAt?: Date | string
   user: Prisma.UserCreateNestedOneWithoutMembershipsInput
   tenant: Prisma.TenantCreateNestedOneWithoutMembershipsInput
-  empresa?: Prisma.EmpresaCreateNestedOneWithoutTenantMembershipsInput
-  zona?: Prisma.ZonaCreateNestedOneWithoutTenantMembershipsInput
   empresaMemberships?: Prisma.EmpresaMembershipCreateNestedManyWithoutMembershipInput
   anticipos?: Prisma.AnticiposCreateNestedManyWithoutMembershipInput
   citasComoCreador?: Prisma.CitasPsicologosCreateNestedManyWithoutCreadoPorInput
@@ -4729,8 +4241,6 @@ export type TenantMembershipUncheckedCreateWithoutProductosSolicitadosInput = {
   id?: string
   userId: string
   tenantId: string
-  empresaId?: string | null
-  zonaId?: string | null
   role: $Enums.Role
   status?: $Enums.MembershipStatus
   username?: string | null
@@ -4802,8 +4312,6 @@ export type TenantMembershipUpdateWithoutProductosSolicitadosInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   user?: Prisma.UserUpdateOneRequiredWithoutMembershipsNestedInput
   tenant?: Prisma.TenantUpdateOneRequiredWithoutMembershipsNestedInput
-  empresa?: Prisma.EmpresaUpdateOneWithoutTenantMembershipsNestedInput
-  zona?: Prisma.ZonaUpdateOneWithoutTenantMembershipsNestedInput
   empresaMemberships?: Prisma.EmpresaMembershipUpdateManyWithoutMembershipNestedInput
   anticipos?: Prisma.AnticiposUpdateManyWithoutMembershipNestedInput
   citasComoCreador?: Prisma.CitasPsicologosUpdateManyWithoutCreadoPorNestedInput
@@ -4833,8 +4341,6 @@ export type TenantMembershipUncheckedUpdateWithoutProductosSolicitadosInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   tenantId?: Prisma.StringFieldUpdateOperationsInput | string
-  empresaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  zonaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   status?: Prisma.EnumMembershipStatusFieldUpdateOperationsInput | $Enums.MembershipStatus
   username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -4890,8 +4396,6 @@ export type TenantMembershipCreateWithoutPermisosSolicitadosInput = {
   updatedAt?: Date | string
   user: Prisma.UserCreateNestedOneWithoutMembershipsInput
   tenant: Prisma.TenantCreateNestedOneWithoutMembershipsInput
-  empresa?: Prisma.EmpresaCreateNestedOneWithoutTenantMembershipsInput
-  zona?: Prisma.ZonaCreateNestedOneWithoutTenantMembershipsInput
   empresaMemberships?: Prisma.EmpresaMembershipCreateNestedManyWithoutMembershipInput
   anticipos?: Prisma.AnticiposCreateNestedManyWithoutMembershipInput
   citasComoCreador?: Prisma.CitasPsicologosCreateNestedManyWithoutCreadoPorInput
@@ -4921,8 +4425,6 @@ export type TenantMembershipUncheckedCreateWithoutPermisosSolicitadosInput = {
   id?: string
   userId: string
   tenantId: string
-  empresaId?: string | null
-  zonaId?: string | null
   role: $Enums.Role
   status?: $Enums.MembershipStatus
   username?: string | null
@@ -4983,8 +4485,6 @@ export type TenantMembershipCreateWithoutPermisosAprobadosInput = {
   updatedAt?: Date | string
   user: Prisma.UserCreateNestedOneWithoutMembershipsInput
   tenant: Prisma.TenantCreateNestedOneWithoutMembershipsInput
-  empresa?: Prisma.EmpresaCreateNestedOneWithoutTenantMembershipsInput
-  zona?: Prisma.ZonaCreateNestedOneWithoutTenantMembershipsInput
   empresaMemberships?: Prisma.EmpresaMembershipCreateNestedManyWithoutMembershipInput
   anticipos?: Prisma.AnticiposCreateNestedManyWithoutMembershipInput
   citasComoCreador?: Prisma.CitasPsicologosCreateNestedManyWithoutCreadoPorInput
@@ -5014,8 +4514,6 @@ export type TenantMembershipUncheckedCreateWithoutPermisosAprobadosInput = {
   id?: string
   userId: string
   tenantId: string
-  empresaId?: string | null
-  zonaId?: string | null
   role: $Enums.Role
   status?: $Enums.MembershipStatus
   username?: string | null
@@ -5087,8 +4585,6 @@ export type TenantMembershipUpdateWithoutPermisosSolicitadosInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   user?: Prisma.UserUpdateOneRequiredWithoutMembershipsNestedInput
   tenant?: Prisma.TenantUpdateOneRequiredWithoutMembershipsNestedInput
-  empresa?: Prisma.EmpresaUpdateOneWithoutTenantMembershipsNestedInput
-  zona?: Prisma.ZonaUpdateOneWithoutTenantMembershipsNestedInput
   empresaMemberships?: Prisma.EmpresaMembershipUpdateManyWithoutMembershipNestedInput
   anticipos?: Prisma.AnticiposUpdateManyWithoutMembershipNestedInput
   citasComoCreador?: Prisma.CitasPsicologosUpdateManyWithoutCreadoPorNestedInput
@@ -5118,8 +4614,6 @@ export type TenantMembershipUncheckedUpdateWithoutPermisosSolicitadosInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   tenantId?: Prisma.StringFieldUpdateOperationsInput | string
-  empresaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  zonaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   status?: Prisma.EnumMembershipStatusFieldUpdateOperationsInput | $Enums.MembershipStatus
   username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -5186,8 +4680,6 @@ export type TenantMembershipUpdateWithoutPermisosAprobadosInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   user?: Prisma.UserUpdateOneRequiredWithoutMembershipsNestedInput
   tenant?: Prisma.TenantUpdateOneRequiredWithoutMembershipsNestedInput
-  empresa?: Prisma.EmpresaUpdateOneWithoutTenantMembershipsNestedInput
-  zona?: Prisma.ZonaUpdateOneWithoutTenantMembershipsNestedInput
   empresaMemberships?: Prisma.EmpresaMembershipUpdateManyWithoutMembershipNestedInput
   anticipos?: Prisma.AnticiposUpdateManyWithoutMembershipNestedInput
   citasComoCreador?: Prisma.CitasPsicologosUpdateManyWithoutCreadoPorNestedInput
@@ -5217,8 +4709,6 @@ export type TenantMembershipUncheckedUpdateWithoutPermisosAprobadosInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   tenantId?: Prisma.StringFieldUpdateOperationsInput | string
-  empresaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  zonaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   status?: Prisma.EnumMembershipStatusFieldUpdateOperationsInput | $Enums.MembershipStatus
   username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -5274,8 +4764,6 @@ export type TenantMembershipCreateWithoutConfiguracionPagosInput = {
   updatedAt?: Date | string
   user: Prisma.UserCreateNestedOneWithoutMembershipsInput
   tenant: Prisma.TenantCreateNestedOneWithoutMembershipsInput
-  empresa?: Prisma.EmpresaCreateNestedOneWithoutTenantMembershipsInput
-  zona?: Prisma.ZonaCreateNestedOneWithoutTenantMembershipsInput
   empresaMemberships?: Prisma.EmpresaMembershipCreateNestedManyWithoutMembershipInput
   anticipos?: Prisma.AnticiposCreateNestedManyWithoutMembershipInput
   citasComoCreador?: Prisma.CitasPsicologosCreateNestedManyWithoutCreadoPorInput
@@ -5305,8 +4793,6 @@ export type TenantMembershipUncheckedCreateWithoutConfiguracionPagosInput = {
   id?: string
   userId: string
   tenantId: string
-  empresaId?: string | null
-  zonaId?: string | null
   role: $Enums.Role
   status?: $Enums.MembershipStatus
   username?: string | null
@@ -5378,8 +4864,6 @@ export type TenantMembershipUpdateWithoutConfiguracionPagosInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   user?: Prisma.UserUpdateOneRequiredWithoutMembershipsNestedInput
   tenant?: Prisma.TenantUpdateOneRequiredWithoutMembershipsNestedInput
-  empresa?: Prisma.EmpresaUpdateOneWithoutTenantMembershipsNestedInput
-  zona?: Prisma.ZonaUpdateOneWithoutTenantMembershipsNestedInput
   empresaMemberships?: Prisma.EmpresaMembershipUpdateManyWithoutMembershipNestedInput
   anticipos?: Prisma.AnticiposUpdateManyWithoutMembershipNestedInput
   citasComoCreador?: Prisma.CitasPsicologosUpdateManyWithoutCreadoPorNestedInput
@@ -5409,8 +4893,6 @@ export type TenantMembershipUncheckedUpdateWithoutConfiguracionPagosInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   tenantId?: Prisma.StringFieldUpdateOperationsInput | string
-  empresaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  zonaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   status?: Prisma.EnumMembershipStatusFieldUpdateOperationsInput | $Enums.MembershipStatus
   username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -5466,8 +4948,6 @@ export type TenantMembershipCreateWithoutCuentasPagoInput = {
   updatedAt?: Date | string
   user: Prisma.UserCreateNestedOneWithoutMembershipsInput
   tenant: Prisma.TenantCreateNestedOneWithoutMembershipsInput
-  empresa?: Prisma.EmpresaCreateNestedOneWithoutTenantMembershipsInput
-  zona?: Prisma.ZonaCreateNestedOneWithoutTenantMembershipsInput
   empresaMemberships?: Prisma.EmpresaMembershipCreateNestedManyWithoutMembershipInput
   anticipos?: Prisma.AnticiposCreateNestedManyWithoutMembershipInput
   citasComoCreador?: Prisma.CitasPsicologosCreateNestedManyWithoutCreadoPorInput
@@ -5497,8 +4977,6 @@ export type TenantMembershipUncheckedCreateWithoutCuentasPagoInput = {
   id?: string
   userId: string
   tenantId: string
-  empresaId?: string | null
-  zonaId?: string | null
   role: $Enums.Role
   status?: $Enums.MembershipStatus
   username?: string | null
@@ -5570,8 +5048,6 @@ export type TenantMembershipUpdateWithoutCuentasPagoInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   user?: Prisma.UserUpdateOneRequiredWithoutMembershipsNestedInput
   tenant?: Prisma.TenantUpdateOneRequiredWithoutMembershipsNestedInput
-  empresa?: Prisma.EmpresaUpdateOneWithoutTenantMembershipsNestedInput
-  zona?: Prisma.ZonaUpdateOneWithoutTenantMembershipsNestedInput
   empresaMemberships?: Prisma.EmpresaMembershipUpdateManyWithoutMembershipNestedInput
   anticipos?: Prisma.AnticiposUpdateManyWithoutMembershipNestedInput
   citasComoCreador?: Prisma.CitasPsicologosUpdateManyWithoutCreadoPorNestedInput
@@ -5601,8 +5077,6 @@ export type TenantMembershipUncheckedUpdateWithoutCuentasPagoInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   tenantId?: Prisma.StringFieldUpdateOperationsInput | string
-  empresaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  zonaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   status?: Prisma.EnumMembershipStatusFieldUpdateOperationsInput | $Enums.MembershipStatus
   username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -5658,8 +5132,6 @@ export type TenantMembershipCreateWithoutEgresosInput = {
   updatedAt?: Date | string
   user: Prisma.UserCreateNestedOneWithoutMembershipsInput
   tenant: Prisma.TenantCreateNestedOneWithoutMembershipsInput
-  empresa?: Prisma.EmpresaCreateNestedOneWithoutTenantMembershipsInput
-  zona?: Prisma.ZonaCreateNestedOneWithoutTenantMembershipsInput
   empresaMemberships?: Prisma.EmpresaMembershipCreateNestedManyWithoutMembershipInput
   anticipos?: Prisma.AnticiposCreateNestedManyWithoutMembershipInput
   citasComoCreador?: Prisma.CitasPsicologosCreateNestedManyWithoutCreadoPorInput
@@ -5689,8 +5161,6 @@ export type TenantMembershipUncheckedCreateWithoutEgresosInput = {
   id?: string
   userId: string
   tenantId: string
-  empresaId?: string | null
-  zonaId?: string | null
   role: $Enums.Role
   status?: $Enums.MembershipStatus
   username?: string | null
@@ -5762,8 +5232,6 @@ export type TenantMembershipUpdateWithoutEgresosInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   user?: Prisma.UserUpdateOneRequiredWithoutMembershipsNestedInput
   tenant?: Prisma.TenantUpdateOneRequiredWithoutMembershipsNestedInput
-  empresa?: Prisma.EmpresaUpdateOneWithoutTenantMembershipsNestedInput
-  zona?: Prisma.ZonaUpdateOneWithoutTenantMembershipsNestedInput
   empresaMemberships?: Prisma.EmpresaMembershipUpdateManyWithoutMembershipNestedInput
   anticipos?: Prisma.AnticiposUpdateManyWithoutMembershipNestedInput
   citasComoCreador?: Prisma.CitasPsicologosUpdateManyWithoutCreadoPorNestedInput
@@ -5793,8 +5261,6 @@ export type TenantMembershipUncheckedUpdateWithoutEgresosInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   tenantId?: Prisma.StringFieldUpdateOperationsInput | string
-  empresaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  zonaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   status?: Prisma.EnumMembershipStatusFieldUpdateOperationsInput | $Enums.MembershipStatus
   username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -5850,8 +5316,6 @@ export type TenantMembershipCreateWithoutReferidosInput = {
   updatedAt?: Date | string
   user: Prisma.UserCreateNestedOneWithoutMembershipsInput
   tenant: Prisma.TenantCreateNestedOneWithoutMembershipsInput
-  empresa?: Prisma.EmpresaCreateNestedOneWithoutTenantMembershipsInput
-  zona?: Prisma.ZonaCreateNestedOneWithoutTenantMembershipsInput
   empresaMemberships?: Prisma.EmpresaMembershipCreateNestedManyWithoutMembershipInput
   anticipos?: Prisma.AnticiposCreateNestedManyWithoutMembershipInput
   citasComoCreador?: Prisma.CitasPsicologosCreateNestedManyWithoutCreadoPorInput
@@ -5881,8 +5345,6 @@ export type TenantMembershipUncheckedCreateWithoutReferidosInput = {
   id?: string
   userId: string
   tenantId: string
-  empresaId?: string | null
-  zonaId?: string | null
   role: $Enums.Role
   status?: $Enums.MembershipStatus
   username?: string | null
@@ -5954,8 +5416,6 @@ export type TenantMembershipUpdateWithoutReferidosInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   user?: Prisma.UserUpdateOneRequiredWithoutMembershipsNestedInput
   tenant?: Prisma.TenantUpdateOneRequiredWithoutMembershipsNestedInput
-  empresa?: Prisma.EmpresaUpdateOneWithoutTenantMembershipsNestedInput
-  zona?: Prisma.ZonaUpdateOneWithoutTenantMembershipsNestedInput
   empresaMemberships?: Prisma.EmpresaMembershipUpdateManyWithoutMembershipNestedInput
   anticipos?: Prisma.AnticiposUpdateManyWithoutMembershipNestedInput
   citasComoCreador?: Prisma.CitasPsicologosUpdateManyWithoutCreadoPorNestedInput
@@ -5985,8 +5445,6 @@ export type TenantMembershipUncheckedUpdateWithoutReferidosInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   tenantId?: Prisma.StringFieldUpdateOperationsInput | string
-  empresaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  zonaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   status?: Prisma.EnumMembershipStatusFieldUpdateOperationsInput | $Enums.MembershipStatus
   username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -6042,8 +5500,6 @@ export type TenantMembershipCreateWithoutAuditoriasInput = {
   updatedAt?: Date | string
   user: Prisma.UserCreateNestedOneWithoutMembershipsInput
   tenant: Prisma.TenantCreateNestedOneWithoutMembershipsInput
-  empresa?: Prisma.EmpresaCreateNestedOneWithoutTenantMembershipsInput
-  zona?: Prisma.ZonaCreateNestedOneWithoutTenantMembershipsInput
   empresaMemberships?: Prisma.EmpresaMembershipCreateNestedManyWithoutMembershipInput
   anticipos?: Prisma.AnticiposCreateNestedManyWithoutMembershipInput
   citasComoCreador?: Prisma.CitasPsicologosCreateNestedManyWithoutCreadoPorInput
@@ -6073,8 +5529,6 @@ export type TenantMembershipUncheckedCreateWithoutAuditoriasInput = {
   id?: string
   userId: string
   tenantId: string
-  empresaId?: string | null
-  zonaId?: string | null
   role: $Enums.Role
   status?: $Enums.MembershipStatus
   username?: string | null
@@ -6146,8 +5600,6 @@ export type TenantMembershipUpdateWithoutAuditoriasInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   user?: Prisma.UserUpdateOneRequiredWithoutMembershipsNestedInput
   tenant?: Prisma.TenantUpdateOneRequiredWithoutMembershipsNestedInput
-  empresa?: Prisma.EmpresaUpdateOneWithoutTenantMembershipsNestedInput
-  zona?: Prisma.ZonaUpdateOneWithoutTenantMembershipsNestedInput
   empresaMemberships?: Prisma.EmpresaMembershipUpdateManyWithoutMembershipNestedInput
   anticipos?: Prisma.AnticiposUpdateManyWithoutMembershipNestedInput
   citasComoCreador?: Prisma.CitasPsicologosUpdateManyWithoutCreadoPorNestedInput
@@ -6177,8 +5629,6 @@ export type TenantMembershipUncheckedUpdateWithoutAuditoriasInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   tenantId?: Prisma.StringFieldUpdateOperationsInput | string
-  empresaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  zonaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   status?: Prisma.EnumMembershipStatusFieldUpdateOperationsInput | $Enums.MembershipStatus
   username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -6234,8 +5684,6 @@ export type TenantMembershipCreateWithoutSesionesActividadInput = {
   updatedAt?: Date | string
   user: Prisma.UserCreateNestedOneWithoutMembershipsInput
   tenant: Prisma.TenantCreateNestedOneWithoutMembershipsInput
-  empresa?: Prisma.EmpresaCreateNestedOneWithoutTenantMembershipsInput
-  zona?: Prisma.ZonaCreateNestedOneWithoutTenantMembershipsInput
   empresaMemberships?: Prisma.EmpresaMembershipCreateNestedManyWithoutMembershipInput
   anticipos?: Prisma.AnticiposCreateNestedManyWithoutMembershipInput
   citasComoCreador?: Prisma.CitasPsicologosCreateNestedManyWithoutCreadoPorInput
@@ -6265,8 +5713,6 @@ export type TenantMembershipUncheckedCreateWithoutSesionesActividadInput = {
   id?: string
   userId: string
   tenantId: string
-  empresaId?: string | null
-  zonaId?: string | null
   role: $Enums.Role
   status?: $Enums.MembershipStatus
   username?: string | null
@@ -6338,8 +5784,6 @@ export type TenantMembershipUpdateWithoutSesionesActividadInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   user?: Prisma.UserUpdateOneRequiredWithoutMembershipsNestedInput
   tenant?: Prisma.TenantUpdateOneRequiredWithoutMembershipsNestedInput
-  empresa?: Prisma.EmpresaUpdateOneWithoutTenantMembershipsNestedInput
-  zona?: Prisma.ZonaUpdateOneWithoutTenantMembershipsNestedInput
   empresaMemberships?: Prisma.EmpresaMembershipUpdateManyWithoutMembershipNestedInput
   anticipos?: Prisma.AnticiposUpdateManyWithoutMembershipNestedInput
   citasComoCreador?: Prisma.CitasPsicologosUpdateManyWithoutCreadoPorNestedInput
@@ -6369,8 +5813,6 @@ export type TenantMembershipUncheckedUpdateWithoutSesionesActividadInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   tenantId?: Prisma.StringFieldUpdateOperationsInput | string
-  empresaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  zonaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   status?: Prisma.EnumMembershipStatusFieldUpdateOperationsInput | $Enums.MembershipStatus
   username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -6412,8 +5854,6 @@ export type TenantMembershipUncheckedUpdateWithoutSesionesActividadInput = {
 export type TenantMembershipCreateManyUserInput = {
   id?: string
   tenantId: string
-  empresaId?: string | null
-  zonaId?: string | null
   role: $Enums.Role
   status?: $Enums.MembershipStatus
   username?: string | null
@@ -6445,8 +5885,6 @@ export type TenantMembershipUpdateWithoutUserInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   tenant?: Prisma.TenantUpdateOneRequiredWithoutMembershipsNestedInput
-  empresa?: Prisma.EmpresaUpdateOneWithoutTenantMembershipsNestedInput
-  zona?: Prisma.ZonaUpdateOneWithoutTenantMembershipsNestedInput
   empresaMemberships?: Prisma.EmpresaMembershipUpdateManyWithoutMembershipNestedInput
   anticipos?: Prisma.AnticiposUpdateManyWithoutMembershipNestedInput
   citasComoCreador?: Prisma.CitasPsicologosUpdateManyWithoutCreadoPorNestedInput
@@ -6476,8 +5914,6 @@ export type TenantMembershipUpdateWithoutUserInput = {
 export type TenantMembershipUncheckedUpdateWithoutUserInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   tenantId?: Prisma.StringFieldUpdateOperationsInput | string
-  empresaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  zonaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   status?: Prisma.EnumMembershipStatusFieldUpdateOperationsInput | $Enums.MembershipStatus
   username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -6520,8 +5956,6 @@ export type TenantMembershipUncheckedUpdateWithoutUserInput = {
 export type TenantMembershipUncheckedUpdateManyWithoutUserInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   tenantId?: Prisma.StringFieldUpdateOperationsInput | string
-  empresaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  zonaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   status?: Prisma.EnumMembershipStatusFieldUpdateOperationsInput | $Enums.MembershipStatus
   username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -6540,8 +5974,6 @@ export type TenantMembershipUncheckedUpdateManyWithoutUserInput = {
 export type TenantMembershipCreateManyTenantInput = {
   id?: string
   userId: string
-  empresaId?: string | null
-  zonaId?: string | null
   role: $Enums.Role
   status?: $Enums.MembershipStatus
   username?: string | null
@@ -6573,8 +6005,6 @@ export type TenantMembershipUpdateWithoutTenantInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   user?: Prisma.UserUpdateOneRequiredWithoutMembershipsNestedInput
-  empresa?: Prisma.EmpresaUpdateOneWithoutTenantMembershipsNestedInput
-  zona?: Prisma.ZonaUpdateOneWithoutTenantMembershipsNestedInput
   empresaMemberships?: Prisma.EmpresaMembershipUpdateManyWithoutMembershipNestedInput
   anticipos?: Prisma.AnticiposUpdateManyWithoutMembershipNestedInput
   citasComoCreador?: Prisma.CitasPsicologosUpdateManyWithoutCreadoPorNestedInput
@@ -6604,8 +6034,6 @@ export type TenantMembershipUpdateWithoutTenantInput = {
 export type TenantMembershipUncheckedUpdateWithoutTenantInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   userId?: Prisma.StringFieldUpdateOperationsInput | string
-  empresaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  zonaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   status?: Prisma.EnumMembershipStatusFieldUpdateOperationsInput | $Enums.MembershipStatus
   username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -6648,264 +6076,6 @@ export type TenantMembershipUncheckedUpdateWithoutTenantInput = {
 export type TenantMembershipUncheckedUpdateManyWithoutTenantInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   userId?: Prisma.StringFieldUpdateOperationsInput | string
-  empresaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  zonaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
-  status?: Prisma.EnumMembershipStatusFieldUpdateOperationsInput | $Enums.MembershipStatus
-  username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  aprobado?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  numberId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  whatsappGroupId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  pushToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  placa?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  moto?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  codigoReferido?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-}
-
-export type TenantMembershipCreateManyEmpresaInput = {
-  id?: string
-  userId: string
-  tenantId: string
-  zonaId?: string | null
-  role: $Enums.Role
-  status?: $Enums.MembershipStatus
-  username?: string | null
-  activo?: boolean
-  aprobado?: boolean
-  numberId?: string | null
-  whatsappGroupId?: string | null
-  pushToken?: string | null
-  placa?: string | null
-  moto?: boolean | null
-  codigoReferido?: string | null
-  createdAt?: Date | string
-  updatedAt?: Date | string
-}
-
-export type TenantMembershipUpdateWithoutEmpresaInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
-  status?: Prisma.EnumMembershipStatusFieldUpdateOperationsInput | $Enums.MembershipStatus
-  username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  aprobado?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  numberId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  whatsappGroupId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  pushToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  placa?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  moto?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  codigoReferido?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  user?: Prisma.UserUpdateOneRequiredWithoutMembershipsNestedInput
-  tenant?: Prisma.TenantUpdateOneRequiredWithoutMembershipsNestedInput
-  zona?: Prisma.ZonaUpdateOneWithoutTenantMembershipsNestedInput
-  empresaMemberships?: Prisma.EmpresaMembershipUpdateManyWithoutMembershipNestedInput
-  anticipos?: Prisma.AnticiposUpdateManyWithoutMembershipNestedInput
-  citasComoCreador?: Prisma.CitasPsicologosUpdateManyWithoutCreadoPorNestedInput
-  citasComoPsicologo?: Prisma.CitasPsicologosUpdateManyWithoutPsicologoNestedInput
-  configuracionPagos?: Prisma.ConfiguracionPagosUpdateManyWithoutMembershipNestedInput
-  consignacionesCreadas?: Prisma.ConsignacionEfectivoUpdateManyWithoutCreadoPorNestedInput
-  consignacionesTecnico?: Prisma.ConsignacionEfectivoUpdateManyWithoutTecnicoNestedInput
-  cuentasCobro?: Prisma.CuentaCobroUpdateManyWithoutMembershipNestedInput
-  cuentasPago?: Prisma.CuentasPagoUpdateManyWithoutMembershipNestedInput
-  declaracionesEfectivo?: Prisma.DeclaracionEfectivoUpdateManyWithoutTecnicoNestedInput
-  egresos?: Prisma.EgresosUpdateManyWithoutMembershipNestedInput
-  geolocalizaciones?: Prisma.GeolocalizacionUpdateManyWithoutMembershipNestedInput
-  nominas?: Prisma.NominaUpdateManyWithoutMembershipNestedInput
-  serviciosCreados?: Prisma.OrdenServicioUpdateManyWithoutCreadoPorNestedInput
-  serviciosAsignados?: Prisma.OrdenServicioUpdateManyWithoutTecnicoNestedInput
-  paquetesAdquiridos?: Prisma.PaqueteAdquiridoUpdateManyWithoutMembershipNestedInput
-  permisosAprobados?: Prisma.PermisoUpdateManyWithoutAdminNestedInput
-  permisosSolicitados?: Prisma.PermisoUpdateManyWithoutMembershipNestedInput
-  productosSolicitados?: Prisma.ProductoSolicitadoUpdateManyWithoutMembershipNestedInput
-  referidos?: Prisma.ReferidosUpdateManyWithoutMembershipNestedInput
-  sesionesActividad?: Prisma.SesionActividadUpdateManyWithoutMembershipNestedInput
-  turnos?: Prisma.TurnoUpdateManyWithoutMembershipNestedInput
-  clientesCreados?: Prisma.ClienteUpdateManyWithoutCreadoPorNestedInput
-  auditorias?: Prisma.AuditoriaUpdateManyWithoutMembershipNestedInput
-}
-
-export type TenantMembershipUncheckedUpdateWithoutEmpresaInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  userId?: Prisma.StringFieldUpdateOperationsInput | string
-  tenantId?: Prisma.StringFieldUpdateOperationsInput | string
-  zonaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
-  status?: Prisma.EnumMembershipStatusFieldUpdateOperationsInput | $Enums.MembershipStatus
-  username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  aprobado?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  numberId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  whatsappGroupId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  pushToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  placa?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  moto?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  codigoReferido?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  empresaMemberships?: Prisma.EmpresaMembershipUncheckedUpdateManyWithoutMembershipNestedInput
-  anticipos?: Prisma.AnticiposUncheckedUpdateManyWithoutMembershipNestedInput
-  citasComoCreador?: Prisma.CitasPsicologosUncheckedUpdateManyWithoutCreadoPorNestedInput
-  citasComoPsicologo?: Prisma.CitasPsicologosUncheckedUpdateManyWithoutPsicologoNestedInput
-  configuracionPagos?: Prisma.ConfiguracionPagosUncheckedUpdateManyWithoutMembershipNestedInput
-  consignacionesCreadas?: Prisma.ConsignacionEfectivoUncheckedUpdateManyWithoutCreadoPorNestedInput
-  consignacionesTecnico?: Prisma.ConsignacionEfectivoUncheckedUpdateManyWithoutTecnicoNestedInput
-  cuentasCobro?: Prisma.CuentaCobroUncheckedUpdateManyWithoutMembershipNestedInput
-  cuentasPago?: Prisma.CuentasPagoUncheckedUpdateManyWithoutMembershipNestedInput
-  declaracionesEfectivo?: Prisma.DeclaracionEfectivoUncheckedUpdateManyWithoutTecnicoNestedInput
-  egresos?: Prisma.EgresosUncheckedUpdateManyWithoutMembershipNestedInput
-  geolocalizaciones?: Prisma.GeolocalizacionUncheckedUpdateManyWithoutMembershipNestedInput
-  nominas?: Prisma.NominaUncheckedUpdateManyWithoutMembershipNestedInput
-  serviciosCreados?: Prisma.OrdenServicioUncheckedUpdateManyWithoutCreadoPorNestedInput
-  serviciosAsignados?: Prisma.OrdenServicioUncheckedUpdateManyWithoutTecnicoNestedInput
-  paquetesAdquiridos?: Prisma.PaqueteAdquiridoUncheckedUpdateManyWithoutMembershipNestedInput
-  permisosAprobados?: Prisma.PermisoUncheckedUpdateManyWithoutAdminNestedInput
-  permisosSolicitados?: Prisma.PermisoUncheckedUpdateManyWithoutMembershipNestedInput
-  productosSolicitados?: Prisma.ProductoSolicitadoUncheckedUpdateManyWithoutMembershipNestedInput
-  referidos?: Prisma.ReferidosUncheckedUpdateManyWithoutMembershipNestedInput
-  sesionesActividad?: Prisma.SesionActividadUncheckedUpdateManyWithoutMembershipNestedInput
-  turnos?: Prisma.TurnoUncheckedUpdateManyWithoutMembershipNestedInput
-  clientesCreados?: Prisma.ClienteUncheckedUpdateManyWithoutCreadoPorNestedInput
-  auditorias?: Prisma.AuditoriaUncheckedUpdateManyWithoutMembershipNestedInput
-}
-
-export type TenantMembershipUncheckedUpdateManyWithoutEmpresaInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  userId?: Prisma.StringFieldUpdateOperationsInput | string
-  tenantId?: Prisma.StringFieldUpdateOperationsInput | string
-  zonaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
-  status?: Prisma.EnumMembershipStatusFieldUpdateOperationsInput | $Enums.MembershipStatus
-  username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  aprobado?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  numberId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  whatsappGroupId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  pushToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  placa?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  moto?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  codigoReferido?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-}
-
-export type TenantMembershipCreateManyZonaInput = {
-  id?: string
-  userId: string
-  tenantId: string
-  empresaId?: string | null
-  role: $Enums.Role
-  status?: $Enums.MembershipStatus
-  username?: string | null
-  activo?: boolean
-  aprobado?: boolean
-  numberId?: string | null
-  whatsappGroupId?: string | null
-  pushToken?: string | null
-  placa?: string | null
-  moto?: boolean | null
-  codigoReferido?: string | null
-  createdAt?: Date | string
-  updatedAt?: Date | string
-}
-
-export type TenantMembershipUpdateWithoutZonaInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
-  status?: Prisma.EnumMembershipStatusFieldUpdateOperationsInput | $Enums.MembershipStatus
-  username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  aprobado?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  numberId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  whatsappGroupId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  pushToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  placa?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  moto?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  codigoReferido?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  user?: Prisma.UserUpdateOneRequiredWithoutMembershipsNestedInput
-  tenant?: Prisma.TenantUpdateOneRequiredWithoutMembershipsNestedInput
-  empresa?: Prisma.EmpresaUpdateOneWithoutTenantMembershipsNestedInput
-  empresaMemberships?: Prisma.EmpresaMembershipUpdateManyWithoutMembershipNestedInput
-  anticipos?: Prisma.AnticiposUpdateManyWithoutMembershipNestedInput
-  citasComoCreador?: Prisma.CitasPsicologosUpdateManyWithoutCreadoPorNestedInput
-  citasComoPsicologo?: Prisma.CitasPsicologosUpdateManyWithoutPsicologoNestedInput
-  configuracionPagos?: Prisma.ConfiguracionPagosUpdateManyWithoutMembershipNestedInput
-  consignacionesCreadas?: Prisma.ConsignacionEfectivoUpdateManyWithoutCreadoPorNestedInput
-  consignacionesTecnico?: Prisma.ConsignacionEfectivoUpdateManyWithoutTecnicoNestedInput
-  cuentasCobro?: Prisma.CuentaCobroUpdateManyWithoutMembershipNestedInput
-  cuentasPago?: Prisma.CuentasPagoUpdateManyWithoutMembershipNestedInput
-  declaracionesEfectivo?: Prisma.DeclaracionEfectivoUpdateManyWithoutTecnicoNestedInput
-  egresos?: Prisma.EgresosUpdateManyWithoutMembershipNestedInput
-  geolocalizaciones?: Prisma.GeolocalizacionUpdateManyWithoutMembershipNestedInput
-  nominas?: Prisma.NominaUpdateManyWithoutMembershipNestedInput
-  serviciosCreados?: Prisma.OrdenServicioUpdateManyWithoutCreadoPorNestedInput
-  serviciosAsignados?: Prisma.OrdenServicioUpdateManyWithoutTecnicoNestedInput
-  paquetesAdquiridos?: Prisma.PaqueteAdquiridoUpdateManyWithoutMembershipNestedInput
-  permisosAprobados?: Prisma.PermisoUpdateManyWithoutAdminNestedInput
-  permisosSolicitados?: Prisma.PermisoUpdateManyWithoutMembershipNestedInput
-  productosSolicitados?: Prisma.ProductoSolicitadoUpdateManyWithoutMembershipNestedInput
-  referidos?: Prisma.ReferidosUpdateManyWithoutMembershipNestedInput
-  sesionesActividad?: Prisma.SesionActividadUpdateManyWithoutMembershipNestedInput
-  turnos?: Prisma.TurnoUpdateManyWithoutMembershipNestedInput
-  clientesCreados?: Prisma.ClienteUpdateManyWithoutCreadoPorNestedInput
-  auditorias?: Prisma.AuditoriaUpdateManyWithoutMembershipNestedInput
-}
-
-export type TenantMembershipUncheckedUpdateWithoutZonaInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  userId?: Prisma.StringFieldUpdateOperationsInput | string
-  tenantId?: Prisma.StringFieldUpdateOperationsInput | string
-  empresaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
-  status?: Prisma.EnumMembershipStatusFieldUpdateOperationsInput | $Enums.MembershipStatus
-  username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  aprobado?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  numberId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  whatsappGroupId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  pushToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  placa?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  moto?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  codigoReferido?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  empresaMemberships?: Prisma.EmpresaMembershipUncheckedUpdateManyWithoutMembershipNestedInput
-  anticipos?: Prisma.AnticiposUncheckedUpdateManyWithoutMembershipNestedInput
-  citasComoCreador?: Prisma.CitasPsicologosUncheckedUpdateManyWithoutCreadoPorNestedInput
-  citasComoPsicologo?: Prisma.CitasPsicologosUncheckedUpdateManyWithoutPsicologoNestedInput
-  configuracionPagos?: Prisma.ConfiguracionPagosUncheckedUpdateManyWithoutMembershipNestedInput
-  consignacionesCreadas?: Prisma.ConsignacionEfectivoUncheckedUpdateManyWithoutCreadoPorNestedInput
-  consignacionesTecnico?: Prisma.ConsignacionEfectivoUncheckedUpdateManyWithoutTecnicoNestedInput
-  cuentasCobro?: Prisma.CuentaCobroUncheckedUpdateManyWithoutMembershipNestedInput
-  cuentasPago?: Prisma.CuentasPagoUncheckedUpdateManyWithoutMembershipNestedInput
-  declaracionesEfectivo?: Prisma.DeclaracionEfectivoUncheckedUpdateManyWithoutTecnicoNestedInput
-  egresos?: Prisma.EgresosUncheckedUpdateManyWithoutMembershipNestedInput
-  geolocalizaciones?: Prisma.GeolocalizacionUncheckedUpdateManyWithoutMembershipNestedInput
-  nominas?: Prisma.NominaUncheckedUpdateManyWithoutMembershipNestedInput
-  serviciosCreados?: Prisma.OrdenServicioUncheckedUpdateManyWithoutCreadoPorNestedInput
-  serviciosAsignados?: Prisma.OrdenServicioUncheckedUpdateManyWithoutTecnicoNestedInput
-  paquetesAdquiridos?: Prisma.PaqueteAdquiridoUncheckedUpdateManyWithoutMembershipNestedInput
-  permisosAprobados?: Prisma.PermisoUncheckedUpdateManyWithoutAdminNestedInput
-  permisosSolicitados?: Prisma.PermisoUncheckedUpdateManyWithoutMembershipNestedInput
-  productosSolicitados?: Prisma.ProductoSolicitadoUncheckedUpdateManyWithoutMembershipNestedInput
-  referidos?: Prisma.ReferidosUncheckedUpdateManyWithoutMembershipNestedInput
-  sesionesActividad?: Prisma.SesionActividadUncheckedUpdateManyWithoutMembershipNestedInput
-  turnos?: Prisma.TurnoUncheckedUpdateManyWithoutMembershipNestedInput
-  clientesCreados?: Prisma.ClienteUncheckedUpdateManyWithoutCreadoPorNestedInput
-  auditorias?: Prisma.AuditoriaUncheckedUpdateManyWithoutMembershipNestedInput
-}
-
-export type TenantMembershipUncheckedUpdateManyWithoutZonaInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  userId?: Prisma.StringFieldUpdateOperationsInput | string
-  tenantId?: Prisma.StringFieldUpdateOperationsInput | string
-  empresaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   status?: Prisma.EnumMembershipStatusFieldUpdateOperationsInput | $Enums.MembershipStatus
   username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -7163,8 +6333,6 @@ export type TenantMembershipSelect<ExtArgs extends runtime.Types.Extensions.Inte
   id?: boolean
   userId?: boolean
   tenantId?: boolean
-  empresaId?: boolean
-  zonaId?: boolean
   role?: boolean
   status?: boolean
   username?: boolean
@@ -7180,8 +6348,6 @@ export type TenantMembershipSelect<ExtArgs extends runtime.Types.Extensions.Inte
   updatedAt?: boolean
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
-  empresa?: boolean | Prisma.TenantMembership$empresaArgs<ExtArgs>
-  zona?: boolean | Prisma.TenantMembership$zonaArgs<ExtArgs>
   empresaMemberships?: boolean | Prisma.TenantMembership$empresaMembershipsArgs<ExtArgs>
   anticipos?: boolean | Prisma.TenantMembership$anticiposArgs<ExtArgs>
   citasComoCreador?: boolean | Prisma.TenantMembership$citasComoCreadorArgs<ExtArgs>
@@ -7213,8 +6379,6 @@ export type TenantMembershipSelectCreateManyAndReturn<ExtArgs extends runtime.Ty
   id?: boolean
   userId?: boolean
   tenantId?: boolean
-  empresaId?: boolean
-  zonaId?: boolean
   role?: boolean
   status?: boolean
   username?: boolean
@@ -7230,16 +6394,12 @@ export type TenantMembershipSelectCreateManyAndReturn<ExtArgs extends runtime.Ty
   updatedAt?: boolean
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
-  empresa?: boolean | Prisma.TenantMembership$empresaArgs<ExtArgs>
-  zona?: boolean | Prisma.TenantMembership$zonaArgs<ExtArgs>
 }, ExtArgs["result"]["tenantMembership"]>
 
 export type TenantMembershipSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   userId?: boolean
   tenantId?: boolean
-  empresaId?: boolean
-  zonaId?: boolean
   role?: boolean
   status?: boolean
   username?: boolean
@@ -7255,16 +6415,12 @@ export type TenantMembershipSelectUpdateManyAndReturn<ExtArgs extends runtime.Ty
   updatedAt?: boolean
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
-  empresa?: boolean | Prisma.TenantMembership$empresaArgs<ExtArgs>
-  zona?: boolean | Prisma.TenantMembership$zonaArgs<ExtArgs>
 }, ExtArgs["result"]["tenantMembership"]>
 
 export type TenantMembershipSelectScalar = {
   id?: boolean
   userId?: boolean
   tenantId?: boolean
-  empresaId?: boolean
-  zonaId?: boolean
   role?: boolean
   status?: boolean
   username?: boolean
@@ -7280,12 +6436,10 @@ export type TenantMembershipSelectScalar = {
   updatedAt?: boolean
 }
 
-export type TenantMembershipOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "tenantId" | "empresaId" | "zonaId" | "role" | "status" | "username" | "activo" | "aprobado" | "numberId" | "whatsappGroupId" | "pushToken" | "placa" | "moto" | "codigoReferido" | "createdAt" | "updatedAt", ExtArgs["result"]["tenantMembership"]>
+export type TenantMembershipOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "tenantId" | "role" | "status" | "username" | "activo" | "aprobado" | "numberId" | "whatsappGroupId" | "pushToken" | "placa" | "moto" | "codigoReferido" | "createdAt" | "updatedAt", ExtArgs["result"]["tenantMembership"]>
 export type TenantMembershipInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
-  empresa?: boolean | Prisma.TenantMembership$empresaArgs<ExtArgs>
-  zona?: boolean | Prisma.TenantMembership$zonaArgs<ExtArgs>
   empresaMemberships?: boolean | Prisma.TenantMembership$empresaMembershipsArgs<ExtArgs>
   anticipos?: boolean | Prisma.TenantMembership$anticiposArgs<ExtArgs>
   citasComoCreador?: boolean | Prisma.TenantMembership$citasComoCreadorArgs<ExtArgs>
@@ -7315,14 +6469,10 @@ export type TenantMembershipInclude<ExtArgs extends runtime.Types.Extensions.Int
 export type TenantMembershipIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
-  empresa?: boolean | Prisma.TenantMembership$empresaArgs<ExtArgs>
-  zona?: boolean | Prisma.TenantMembership$zonaArgs<ExtArgs>
 }
 export type TenantMembershipIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
-  empresa?: boolean | Prisma.TenantMembership$empresaArgs<ExtArgs>
-  zona?: boolean | Prisma.TenantMembership$zonaArgs<ExtArgs>
 }
 
 export type $TenantMembershipPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -7330,8 +6480,6 @@ export type $TenantMembershipPayload<ExtArgs extends runtime.Types.Extensions.In
   objects: {
     user: Prisma.$UserPayload<ExtArgs>
     tenant: Prisma.$TenantPayload<ExtArgs>
-    empresa: Prisma.$EmpresaPayload<ExtArgs> | null
-    zona: Prisma.$ZonaPayload<ExtArgs> | null
     empresaMemberships: Prisma.$EmpresaMembershipPayload<ExtArgs>[]
     anticipos: Prisma.$AnticiposPayload<ExtArgs>[]
     citasComoCreador: Prisma.$CitasPsicologosPayload<ExtArgs>[]
@@ -7361,8 +6509,6 @@ export type $TenantMembershipPayload<ExtArgs extends runtime.Types.Extensions.In
     id: string
     userId: string
     tenantId: string
-    empresaId: string | null
-    zonaId: string | null
     role: $Enums.Role
     status: $Enums.MembershipStatus
     username: string | null
@@ -7772,8 +6918,6 @@ export interface Prisma__TenantMembershipClient<T, Null = never, ExtArgs extends
   readonly [Symbol.toStringTag]: "PrismaPromise"
   user<T extends Prisma.UserDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.UserDefaultArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   tenant<T extends Prisma.TenantDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.TenantDefaultArgs<ExtArgs>>): Prisma.Prisma__TenantClient<runtime.Types.Result.GetResult<Prisma.$TenantPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
-  empresa<T extends Prisma.TenantMembership$empresaArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.TenantMembership$empresaArgs<ExtArgs>>): Prisma.Prisma__EmpresaClient<runtime.Types.Result.GetResult<Prisma.$EmpresaPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
-  zona<T extends Prisma.TenantMembership$zonaArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.TenantMembership$zonaArgs<ExtArgs>>): Prisma.Prisma__ZonaClient<runtime.Types.Result.GetResult<Prisma.$ZonaPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   empresaMemberships<T extends Prisma.TenantMembership$empresaMembershipsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.TenantMembership$empresaMembershipsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$EmpresaMembershipPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   anticipos<T extends Prisma.TenantMembership$anticiposArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.TenantMembership$anticiposArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$AnticiposPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   citasComoCreador<T extends Prisma.TenantMembership$citasComoCreadorArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.TenantMembership$citasComoCreadorArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$CitasPsicologosPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
@@ -7830,8 +6974,6 @@ export interface TenantMembershipFieldRefs {
   readonly id: Prisma.FieldRef<"TenantMembership", 'String'>
   readonly userId: Prisma.FieldRef<"TenantMembership", 'String'>
   readonly tenantId: Prisma.FieldRef<"TenantMembership", 'String'>
-  readonly empresaId: Prisma.FieldRef<"TenantMembership", 'String'>
-  readonly zonaId: Prisma.FieldRef<"TenantMembership", 'String'>
   readonly role: Prisma.FieldRef<"TenantMembership", 'Role'>
   readonly status: Prisma.FieldRef<"TenantMembership", 'MembershipStatus'>
   readonly username: Prisma.FieldRef<"TenantMembership", 'String'>
@@ -8238,44 +7380,6 @@ export type TenantMembershipDeleteManyArgs<ExtArgs extends runtime.Types.Extensi
    * Limit how many TenantMemberships to delete.
    */
   limit?: number
-}
-
-/**
- * TenantMembership.empresa
- */
-export type TenantMembership$empresaArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the Empresa
-   */
-  select?: Prisma.EmpresaSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the Empresa
-   */
-  omit?: Prisma.EmpresaOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.EmpresaInclude<ExtArgs> | null
-  where?: Prisma.EmpresaWhereInput
-}
-
-/**
- * TenantMembership.zona
- */
-export type TenantMembership$zonaArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the Zona
-   */
-  select?: Prisma.ZonaSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the Zona
-   */
-  omit?: Prisma.ZonaOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.ZonaInclude<ExtArgs> | null
-  where?: Prisma.ZonaWhereInput
 }
 
 /**

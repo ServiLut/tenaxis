@@ -1,6 +1,6 @@
 import React from "react";
 import { DashboardLayout } from "@/components/dashboard";
-import { isTenantAdminAction, getTenantsAction } from "../actions";
+import { isTenantAdminAction, getTenantsAction, getPlansAction } from "../actions";
 import { redirect } from "next/navigation";
 import { TenantList } from "./tenant-list";
 
@@ -11,7 +11,10 @@ export default async function TenantsPage() {
     redirect("/dashboard");
   }
 
-  const tenants = await getTenantsAction();
+  const [tenants, plans] = await Promise.all([
+    getTenantsAction(),
+    getPlansAction(),
+  ]);
 
   return (
     <DashboardLayout>
@@ -27,7 +30,7 @@ export default async function TenantsPage() {
           </div>
         </div>
 
-        <TenantList initialTenants={tenants} />
+        <TenantList initialTenants={tenants} availablePlans={plans} />
       </div>
     </DashboardLayout>
   );

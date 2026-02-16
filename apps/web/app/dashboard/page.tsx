@@ -1,19 +1,29 @@
 "use client";
 
-import React from "react";
-import { DashboardLayout } from "@/components/dashboard";
+import React, { useEffect, useState } from "react";
+import { DashboardLayout, JoinOrganization } from "@/components/dashboard";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { cn } from "@/components/ui/utils";
 import {
   Users,
   Briefcase,
   TrendingUp,
-  AlertCircle,
+  AlertTriangle,
   ArrowUpRight,
   ArrowDownRight,
+  LucideIcon,
 } from "lucide-react";
 
-const stats = [
+type StatItem = {
+  title: string;
+  value: string;
+  change: string;
+  trend: "up" | "down";
+  icon: LucideIcon;
+  color: string;
+};
+
+const stats: StatItem[] = [
   {
     title: "Clientes Totales",
     value: "1,248",
@@ -43,7 +53,7 @@ const stats = [
     value: "3",
     change: "-2",
     trend: "down",
-    icon: AlertCircle,
+    icon: AlertTriangle,
     color: "amber",
   },
 ];
@@ -56,6 +66,38 @@ const colorVariants: Record<string, string> = {
 };
 
 export default function DashboardPage() {
+  const [hasTenant, setHasTenant] = useState<boolean | null>(null);
+
+  useEffect(() => {
+    const userData = localStorage.getItem("user");
+    let tenantExists = false;
+
+    if (userData && userData !== "undefined") {
+      try {
+        const user = JSON.parse(userData);
+        tenantExists = !!user.tenantId;
+      } catch {
+        tenantExists = false;
+      }
+    }
+
+    const frameId = requestAnimationFrame(() => {
+      setHasTenant(tenantExists);
+    });
+
+    return () => cancelAnimationFrame(frameId);
+  }, []);
+
+  if (hasTenant === null) return null;
+
+  if (!hasTenant) {
+    return (
+      <DashboardLayout>
+        <JoinOrganization />
+      </DashboardLayout>
+    );
+  }
+
   return (
     <DashboardLayout>
       <div className="space-y-10">

@@ -60,6 +60,11 @@ export const ModelName = {
   EmpresaMembership: 'EmpresaMembership',
   OrganizationNode: 'OrganizationNode',
   CommissionRecord: 'CommissionRecord',
+  SegmentoNegocio: 'SegmentoNegocio',
+  NivelRiesgoOperativo: 'NivelRiesgoOperativo',
+  TipoInteres: 'TipoInteres',
+  Department: 'Department',
+  Municipality: 'Municipality',
   Cliente: 'Cliente',
   Vehiculo: 'Vehiculo',
   Direccion: 'Direccion',
@@ -116,14 +121,11 @@ export type TransactionIsolationLevel = (typeof TransactionIsolationLevel)[keyof
 
 export const UserScalarFieldEnum = {
   id: 'id',
-  tenantId: 'tenantId',
-  empresaId: 'empresaId',
   email: 'email',
   password: 'password',
   nombre: 'nombre',
   apellido: 'apellido',
   telefono: 'telefono',
-  role: 'role',
   tipoDocumento: 'tipoDocumento',
   numeroDocumento: 'numeroDocumento',
   isActive: 'isActive',
@@ -152,8 +154,6 @@ export type TenantScalarFieldEnum = (typeof TenantScalarFieldEnum)[keyof typeof 
 
 export const PlanScalarFieldEnum = {
   id: 'id',
-  tenantId: 'tenantId',
-  empresaId: 'empresaId',
   nombre: 'nombre',
   descripcion: 'descripcion',
   durationDays: 'durationDays',
@@ -172,7 +172,6 @@ export type PlanScalarFieldEnum = (typeof PlanScalarFieldEnum)[keyof typeof Plan
 export const SubscriptionScalarFieldEnum = {
   id: 'id',
   tenantId: 'tenantId',
-  empresaId: 'empresaId',
   planId: 'planId',
   startDate: 'startDate',
   endDate: 'endDate',
@@ -191,8 +190,6 @@ export const TenantMembershipScalarFieldEnum = {
   id: 'id',
   userId: 'userId',
   tenantId: 'tenantId',
-  empresaId: 'empresaId',
-  zonaId: 'zonaId',
   role: 'role',
   status: 'status',
   username: 'username',
@@ -229,6 +226,7 @@ export const EmpresaMembershipScalarFieldEnum = {
   membershipId: 'membershipId',
   empresaId: 'empresaId',
   zonaId: 'zonaId',
+  role: 'role',
   isActive: 'isActive',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
@@ -272,12 +270,78 @@ export const CommissionRecordScalarFieldEnum = {
 export type CommissionRecordScalarFieldEnum = (typeof CommissionRecordScalarFieldEnum)[keyof typeof CommissionRecordScalarFieldEnum]
 
 
+export const SegmentoNegocioScalarFieldEnum = {
+  id: 'id',
+  tenantId: 'tenantId',
+  nombre: 'nombre',
+  descripcion: 'descripcion',
+  frecuenciaSugerida: 'frecuenciaSugerida',
+  riesgoSugerido: 'riesgoSugerido',
+  activo: 'activo',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type SegmentoNegocioScalarFieldEnum = (typeof SegmentoNegocioScalarFieldEnum)[keyof typeof SegmentoNegocioScalarFieldEnum]
+
+
+export const NivelRiesgoOperativoScalarFieldEnum = {
+  id: 'id',
+  tenantId: 'tenantId',
+  nombre: 'nombre',
+  color: 'color',
+  valor: 'valor',
+  activo: 'activo',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type NivelRiesgoOperativoScalarFieldEnum = (typeof NivelRiesgoOperativoScalarFieldEnum)[keyof typeof NivelRiesgoOperativoScalarFieldEnum]
+
+
+export const TipoInteresScalarFieldEnum = {
+  id: 'id',
+  tenantId: 'tenantId',
+  nombre: 'nombre',
+  descripcion: 'descripcion',
+  activo: 'activo',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type TipoInteresScalarFieldEnum = (typeof TipoInteresScalarFieldEnum)[keyof typeof TipoInteresScalarFieldEnum]
+
+
+export const DepartmentScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  code: 'code'
+} as const
+
+export type DepartmentScalarFieldEnum = (typeof DepartmentScalarFieldEnum)[keyof typeof DepartmentScalarFieldEnum]
+
+
+export const MunicipalityScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  code: 'code',
+  departmentId: 'departmentId'
+} as const
+
+export type MunicipalityScalarFieldEnum = (typeof MunicipalityScalarFieldEnum)[keyof typeof MunicipalityScalarFieldEnum]
+
+
 export const ClienteScalarFieldEnum = {
   id: 'id',
   tenantId: 'tenantId',
   empresaId: 'empresaId',
+  tipoCliente: 'tipoCliente',
   nombre: 'nombre',
   apellido: 'apellido',
+  razonSocial: 'razonSocial',
+  nit: 'nit',
+  representanteLegal: 'representanteLegal',
+  cargoContacto: 'cargoContacto',
   telefono: 'telefono',
   telefono2: 'telefono2',
   correo: 'correo',
@@ -285,8 +349,25 @@ export const ClienteScalarFieldEnum = {
   tipoDocumento: 'tipoDocumento',
   registroDocumento: 'registroDocumento',
   documentoPath: 'documentoPath',
+  origenCliente: 'origenCliente',
+  tipoInteresId: 'tipoInteresId',
+  actividadEconomica: 'actividadEconomica',
+  metrajeTotal: 'metrajeTotal',
+  segmentoId: 'segmentoId',
+  riesgoId: 'riesgoId',
+  subsegmento: 'subsegmento',
+  score: 'score',
+  clasificacion: 'clasificacion',
+  ticketPromedio: 'ticketPromedio',
+  frecuenciaServicio: 'frecuenciaServicio',
+  ultimaVisita: 'ultimaVisita',
+  proximaVisita: 'proximaVisita',
+  planActual: 'planActual',
+  aceptaMarketing: 'aceptaMarketing',
+  fechaConsentimiento: 'fechaConsentimiento',
   creadoPorId: 'creadoPorId',
   createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
   deletedAt: 'deletedAt'
 } as const
 
@@ -314,14 +395,33 @@ export const DireccionScalarFieldEnum = {
   tenantId: 'tenantId',
   empresaId: 'empresaId',
   clienteId: 'clienteId',
+  nombreSede: 'nombreSede',
   direccion: 'direccion',
   piso: 'piso',
   bloque: 'bloque',
   unidad: 'unidad',
   barrio: 'barrio',
   municipio: 'municipio',
+  municipioId: 'municipioId',
+  departmentId: 'departmentId',
+  tipoUbicacion: 'tipoUbicacion',
+  clasificacionPunto: 'clasificacionPunto',
+  horarioInicio: 'horarioInicio',
+  horarioFin: 'horarioFin',
+  restricciones: 'restricciones',
+  latitud: 'latitud',
+  longitud: 'longitud',
+  precisionGPS: 'precisionGPS',
+  validadoPorSistema: 'validadoPorSistema',
   linkMaps: 'linkMaps',
-  createdAt: 'createdAt'
+  nombreContacto: 'nombreContacto',
+  telefonoContacto: 'telefonoContacto',
+  cargoContacto: 'cargoContacto',
+  activa: 'activa',
+  bloqueada: 'bloqueada',
+  motivoBloqueo: 'motivoBloqueo',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
 } as const
 
 export type DireccionScalarFieldEnum = (typeof DireccionScalarFieldEnum)[keyof typeof DireccionScalarFieldEnum]

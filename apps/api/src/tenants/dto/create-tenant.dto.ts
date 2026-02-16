@@ -51,4 +51,13 @@ export class CreateTenantDto {
   @IsString()
   @IsOptional()
   ownerApellido?: string;
+
+  @ApiProperty({ description: 'ID del plan a asignar' })
+  @IsString()
+  @IsNotEmpty()
+  planId: string;
+
+  @ApiProperty({ description: 'Duración en días de la suscripción inicial' })
+  @IsOptional()
+  durationDays?: number;
 }

@@ -129,3 +129,31 @@ export const EstadoPagoComision = {
 } as const
 
 export type EstadoPagoComision = (typeof EstadoPagoComision)[keyof typeof EstadoPagoComision]
+
+
+export const TipoCliente = {
+  PERSONA: 'PERSONA',
+  EMPRESA: 'EMPRESA'
+} as const
+
+export type TipoCliente = (typeof TipoCliente)[keyof typeof TipoCliente]
+
+
+export const NivelRiesgo = {
+  BAJO: 'BAJO',
+  MEDIO: 'MEDIO',
+  ALTO: 'ALTO',
+  CRITICO: 'CRITICO'
+} as const
+
+export type NivelRiesgo = (typeof NivelRiesgo)[keyof typeof NivelRiesgo]
+
+
+export const ClasificacionCliente = {
+  ORO: 'ORO',
+  PLATA: 'PLATA',
+  BRONCE: 'BRONCE',
+  RIESGO: 'RIESGO'
+} as const
+
+export type ClasificacionCliente = (typeof ClasificacionCliente)[keyof typeof ClasificacionCliente]

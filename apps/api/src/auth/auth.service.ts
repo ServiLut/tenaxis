@@ -11,6 +11,13 @@ import * as bcrypt from 'bcrypt';
 import { Role } from '../generated/client/client';
 import { JwtService } from '@nestjs/jwt';
 
+export interface JwtPayload {
+  sub: string;
+  email: string;
+  role: Role;
+  tenantId?: string;
+}
+
 @Injectable()
 export class AuthService {
   constructor(
@@ -36,11 +43,16 @@ export class AuthService {
       throw new UnauthorizedException('Credenciales inválidas');
     }
 
-    const payload = {
+    // Priorizar membresías aprobadas
+    const approvedMembership = user.memberships.find(m => m.aprobado);
+    const pendingMembership = user.memberships.find(m => !m.aprobado);
+    const activeMembership = approvedMembership || pendingMembership;
+
+    const payload: JwtPayload = {
       sub: user.id,
       email: user.email,
-      role: user.memberships[0]?.role || Role.OPERADOR,
-      tenantId: user.memberships[0]?.tenantId,
+      role: approvedMembership?.role || Role.OPERADOR,
+      tenantId: approvedMembership?.tenantId,
     };
 
     const accessToken = await this.jwtService.signAsync(payload);
@@ -52,25 +64,28 @@ export class AuthService {
         email: user.email,
         nombre: user.nombre,
         apellido: user.apellido,
+        role: approvedMembership?.role,
+        tenantId: approvedMembership?.tenantId,
+        hasPendingRequest: !!pendingMembership && !approvedMembership,
       },
     };
   }
 
   async getProfile(token: string) {
     try {
-      const payload = await this.jwtService.verifyAsync(token);
+      const payload = await this.jwtService.verifyAsync<JwtPayload>(token);
       const allowedUuids = (process.env.ALLOWED_TENANT_ADMINS || '')
         .split(',')
         .map((id) => id.trim())
         .filter((id) => id.length > 0);
-      
+
       const isTenantAdmin = allowedUuids.includes(payload.sub);
 
       return {
         ...payload,
         isTenantAdmin,
       };
-    } catch (error) {
+    } catch {
       throw new UnauthorizedException();
     }
   }
@@ -107,99 +122,23 @@ export class AuthService {
     const hashedPassword = await bcrypt.hash(password, 10);
 
     try {
-      return await this.prisma.$transaction(async (tx) => {
-        // 1. Crear el Usuario
-        const user = await tx.user.create({
-          data: {
-            email,
-            password: hashedPassword,
-            nombre,
-            apellido,
-            telefono,
-            tipoDocumento,
-            numeroDocumento,
-          },
-        });
-
-        // 2. Crear el Tenant
-        const tenantName = `${nombre} ${apellido}`;
-        const slug = `${nombre.toLowerCase()}-${apellido.toLowerCase()}-${Date.now()}`;
-
-        const tenant = await tx.tenant.create({
-          data: {
-            nombre: tenantName,
-            slug,
-          },
-        });
-
-        // 3. Crear Empresa por defecto
-        const empresa = await tx.empresa.create({
-          data: {
-            nombre: 'Sede Principal',
-            tenantId: tenant.id,
-          },
-        });
-
-        // 4. Crear Membresía como ADMIN
-        await tx.tenantMembership.create({
-          data: {
-            userId: user.id,
-            tenantId: tenant.id,
-            role: Role.ADMIN,
-            activo: true,
-            aprobado: true,
-          },
-        });
-
-        // 5. Vincular Membresía con Empresa
-        const membership = await tx.tenantMembership.findFirst({
-          where: { userId: user.id, tenantId: tenant.id },
-        });
-
-        if (membership) {
-          await tx.empresaMembership.create({
-            data: {
-              tenantId: tenant.id,
-              membershipId: membership.id,
-              empresaId: empresa.id,
-            },
-          });
-        }
-
-        // Para el registro inicial, no creamos suscripción todavía si no hay planes definidos,
-        // o podríamos crear un plan 'FREE' básico.
-        // Dado que Subscription.planId es obligatorio, buscaremos un plan o crearemos uno temporal.
-
-        let plan = await tx.plan.findFirst();
-        if (!plan) {
-          plan = await tx.plan.create({
-            data: {
-              nombre: 'Plan Inicial',
-              durationDays: 30,
-              maxUsers: 5,
-              maxOperators: 10,
-              maxEmpresas: 1,
-              price: 0,
-            },
-          });
-        }
-
-        await tx.subscription.create({
-          data: {
-            tenantId: tenant.id,
-            planId: plan.id,
-            startDate: new Date(),
-            endDate: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000), // 30 días
-            status: 'ACTIVE',
-          },
-        });
-
-        return {
-          message: 'Usuario registrado exitosamente',
-          userId: user.id,
-          tenantId: tenant.id,
-        };
+      const user = await this.prisma.user.create({
+        data: {
+          email,
+          password: hashedPassword,
+          nombre,
+          apellido,
+          telefono,
+          tipoDocumento,
+          numeroDocumento,
+        },
       });
+
+      return {
+        message:
+          'Usuario registrado exitosamente. Ahora puedes unirte a una organización.',
+        userId: user.id,
+      };
     } catch (error) {
       console.error('Error in registration:', error);
       throw new InternalServerErrorException('Error al registrar el usuario');

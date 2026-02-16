@@ -11,6 +11,13 @@
   --color-accent: var(--color-accent);
   --color-theme: var(--color-border);
   --color-surface: var(--color-white);
+
+  /* Nueva Paleta de Colores */
+  --color-azul-1: var(--color-azul-1);
+  --color-vivido-purpura-2: var(--color-vivido-purpura-2);
+  --color-oscuro-verde-azulado-3: var(--color-oscuro-verde-azulado-3);
+  --color-claro-azul-4: var(--color-claro-azul-4);
+  --color-violeta-5: var(--color-violeta-5);
 }
 
 :root {
@@ -23,6 +30,13 @@
   --color-text-secondary: #444444;
   --color-border: #D1D5DB;    /* Cambiado a un gris stone/luz más suave (zinc-300 aprox) */
   --color-white: #FFFFFF;
+
+  /* Nueva Paleta de Colores */
+  --color-azul-1: #2b50c5;
+  --color-vivido-purpura-2: #a009e1;
+  --color-oscuro-verde-azulado-3: #1e9965;
+  --color-claro-azul-4: #a6b4ed;
+  --color-violeta-5: #af8ed2;
 }
 
 @media (prefers-color-scheme: dark) {

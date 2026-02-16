@@ -6,6 +6,12 @@ import {
 } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { ConfigService } from '@nestjs/config';
+import { Request } from 'express';
+import { JwtPayload } from '../auth.service';
+
+interface RequestWithUser extends Request {
+  user?: JwtPayload;
+}
 
 @Injectable()
 export class SuAdminGuard implements CanActivate {
@@ -15,7 +21,7 @@ export class SuAdminGuard implements CanActivate {
   ) {}
 
   async canActivate(context: ExecutionContext): Promise<boolean> {
-    const request = context.switchToHttp().getRequest();
+    const request = context.switchToHttp().getRequest<RequestWithUser>();
     const authHeader = request.headers.authorization;
 
     if (!authHeader) {
@@ -28,8 +34,10 @@ export class SuAdminGuard implements CanActivate {
     }
 
     try {
-      const payload = await this.jwtService.verifyAsync(token);
-      const allowedUuids = (this.configService.get<string>('ALLOWED_TENANT_ADMINS') || '')
+      const payload = await this.jwtService.verifyAsync<JwtPayload>(token);
+      const allowedUuids = (
+        this.configService.get<string>('ALLOWED_TENANT_ADMINS') || ''
+      )
         .split(',')
         .map((id) => id.trim())
         .filter((id) => id.length > 0);
@@ -40,10 +48,12 @@ export class SuAdminGuard implements CanActivate {
         throw new UnauthorizedException('User is not a Super Admin');
       }
 
-      request['user'] = payload;
+      request.user = payload;
       return true;
-    } catch (error) {
-      throw new UnauthorizedException('Invalid token or insufficient permissions');
+    } catch {
+      throw new UnauthorizedException(
+        'Invalid token or insufficient permissions',
+      );
     }
   }
 }
