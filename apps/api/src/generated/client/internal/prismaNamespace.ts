@@ -4298,11 +4298,11 @@ export const EmpresaMembershipScalarFieldEnum = {
   tenantId: 'tenantId',
   membershipId: 'membershipId',
   empresaId: 'empresaId',
-  zonaId: 'zonaId',
-  role: 'role',
   isActive: 'isActive',
   createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
+  updatedAt: 'updatedAt',
+  role: 'role',
+  zonaId: 'zonaId'
 } as const
 
 export type EmpresaMembershipScalarFieldEnum = (typeof EmpresaMembershipScalarFieldEnum)[keyof typeof EmpresaMembershipScalarFieldEnum]
@@ -4410,13 +4410,8 @@ export const ClienteScalarFieldEnum = {
   id: 'id',
   tenantId: 'tenantId',
   empresaId: 'empresaId',
-  tipoCliente: 'tipoCliente',
   nombre: 'nombre',
   apellido: 'apellido',
-  razonSocial: 'razonSocial',
-  nit: 'nit',
-  representanteLegal: 'representanteLegal',
-  cargoContacto: 'cargoContacto',
   telefono: 'telefono',
   telefono2: 'telefono2',
   correo: 'correo',
@@ -4424,26 +4419,31 @@ export const ClienteScalarFieldEnum = {
   tipoDocumento: 'tipoDocumento',
   registroDocumento: 'registroDocumento',
   documentoPath: 'documentoPath',
-  origenCliente: 'origenCliente',
-  tipoInteresId: 'tipoInteresId',
-  actividadEconomica: 'actividadEconomica',
-  metrajeTotal: 'metrajeTotal',
-  segmentoId: 'segmentoId',
-  riesgoId: 'riesgoId',
-  subsegmento: 'subsegmento',
-  score: 'score',
-  clasificacion: 'clasificacion',
-  ticketPromedio: 'ticketPromedio',
-  frecuenciaServicio: 'frecuenciaServicio',
-  ultimaVisita: 'ultimaVisita',
-  proximaVisita: 'proximaVisita',
-  planActual: 'planActual',
-  aceptaMarketing: 'aceptaMarketing',
-  fechaConsentimiento: 'fechaConsentimiento',
   creadoPorId: 'creadoPorId',
   createdAt: 'createdAt',
-  updatedAt: 'updatedAt',
-  deletedAt: 'deletedAt'
+  deletedAt: 'deletedAt',
+  aceptaMarketing: 'aceptaMarketing',
+  actividadEconomica: 'actividadEconomica',
+  cargoContacto: 'cargoContacto',
+  clasificacion: 'clasificacion',
+  fechaConsentimiento: 'fechaConsentimiento',
+  frecuenciaServicio: 'frecuenciaServicio',
+  metrajeTotal: 'metrajeTotal',
+  nit: 'nit',
+  origenCliente: 'origenCliente',
+  planActual: 'planActual',
+  proximaVisita: 'proximaVisita',
+  razonSocial: 'razonSocial',
+  representanteLegal: 'representanteLegal',
+  riesgoId: 'riesgoId',
+  score: 'score',
+  segmentoId: 'segmentoId',
+  subsegmento: 'subsegmento',
+  ticketPromedio: 'ticketPromedio',
+  tipoCliente: 'tipoCliente',
+  tipoInteresId: 'tipoInteresId',
+  ultimaVisita: 'ultimaVisita',
+  updatedAt: 'updatedAt'
 } as const
 
 export type ClienteScalarFieldEnum = (typeof ClienteScalarFieldEnum)[keyof typeof ClienteScalarFieldEnum]
@@ -4470,33 +4470,33 @@ export const DireccionScalarFieldEnum = {
   tenantId: 'tenantId',
   empresaId: 'empresaId',
   clienteId: 'clienteId',
-  nombreSede: 'nombreSede',
   direccion: 'direccion',
   piso: 'piso',
   bloque: 'bloque',
   unidad: 'unidad',
   barrio: 'barrio',
   municipio: 'municipio',
-  municipioId: 'municipioId',
-  departmentId: 'departmentId',
-  tipoUbicacion: 'tipoUbicacion',
-  clasificacionPunto: 'clasificacionPunto',
-  horarioInicio: 'horarioInicio',
-  horarioFin: 'horarioFin',
-  restricciones: 'restricciones',
-  latitud: 'latitud',
-  longitud: 'longitud',
-  precisionGPS: 'precisionGPS',
-  validadoPorSistema: 'validadoPorSistema',
   linkMaps: 'linkMaps',
-  nombreContacto: 'nombreContacto',
-  telefonoContacto: 'telefonoContacto',
-  cargoContacto: 'cargoContacto',
+  createdAt: 'createdAt',
   activa: 'activa',
   bloqueada: 'bloqueada',
+  cargoContacto: 'cargoContacto',
+  clasificacionPunto: 'clasificacionPunto',
+  departmentId: 'departmentId',
+  horarioFin: 'horarioFin',
+  horarioInicio: 'horarioInicio',
+  latitud: 'latitud',
+  longitud: 'longitud',
   motivoBloqueo: 'motivoBloqueo',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
+  municipioId: 'municipioId',
+  nombreContacto: 'nombreContacto',
+  nombreSede: 'nombreSede',
+  precisionGPS: 'precisionGPS',
+  restricciones: 'restricciones',
+  telefonoContacto: 'telefonoContacto',
+  tipoUbicacion: 'tipoUbicacion',
+  updatedAt: 'updatedAt',
+  validadoPorSistema: 'validadoPorSistema'
 } as const
 
 export type DireccionScalarFieldEnum = (typeof DireccionScalarFieldEnum)[keyof typeof DireccionScalarFieldEnum]
@@ -4505,11 +4505,11 @@ export type DireccionScalarFieldEnum = (typeof DireccionScalarFieldEnum)[keyof t
 export const ZonaScalarFieldEnum = {
   id: 'id',
   tenantId: 'tenantId',
-  empresaId: 'empresaId',
   nombre: 'nombre',
   estado: 'estado',
   deletedAt: 'deletedAt',
-  createdAt: 'createdAt'
+  createdAt: 'createdAt',
+  empresaId: 'empresaId'
 } as const
 
 export type ZonaScalarFieldEnum = (typeof ZonaScalarFieldEnum)[keyof typeof ZonaScalarFieldEnum]
@@ -4531,10 +4531,10 @@ export type ServicioScalarFieldEnum = (typeof ServicioScalarFieldEnum)[keyof typ
 export const TipoServicioScalarFieldEnum = {
   id: 'id',
   tenantId: 'tenantId',
-  empresaId: 'empresaId',
   nombre: 'nombre',
   activo: 'activo',
-  createdAt: 'createdAt'
+  createdAt: 'createdAt',
+  empresaId: 'empresaId'
 } as const
 
 export type TipoServicioScalarFieldEnum = (typeof TipoServicioScalarFieldEnum)[keyof typeof TipoServicioScalarFieldEnum]
@@ -4543,10 +4543,10 @@ export type TipoServicioScalarFieldEnum = (typeof TipoServicioScalarFieldEnum)[k
 export const MetodoPagoScalarFieldEnum = {
   id: 'id',
   tenantId: 'tenantId',
-  empresaId: 'empresaId',
   nombre: 'nombre',
   activo: 'activo',
-  createdAt: 'createdAt'
+  createdAt: 'createdAt',
+  empresaId: 'empresaId'
 } as const
 
 export type MetodoPagoScalarFieldEnum = (typeof MetodoPagoScalarFieldEnum)[keyof typeof MetodoPagoScalarFieldEnum]
@@ -4555,10 +4555,10 @@ export type MetodoPagoScalarFieldEnum = (typeof MetodoPagoScalarFieldEnum)[keyof
 export const EstadoServicioScalarFieldEnum = {
   id: 'id',
   tenantId: 'tenantId',
-  empresaId: 'empresaId',
   nombre: 'nombre',
   activo: 'activo',
-  createdAt: 'createdAt'
+  createdAt: 'createdAt',
+  empresaId: 'empresaId'
 } as const
 
 export type EstadoServicioScalarFieldEnum = (typeof EstadoServicioScalarFieldEnum)[keyof typeof EstadoServicioScalarFieldEnum]
@@ -4840,7 +4840,6 @@ export type AnticiposScalarFieldEnum = (typeof AnticiposScalarFieldEnum)[keyof t
 export const ProductoScalarFieldEnum = {
   id: 'id',
   tenantId: 'tenantId',
-  empresaId: 'empresaId',
   proveedorId: 'proveedorId',
   categoria: 'categoria',
   nombre: 'nombre',
@@ -4852,7 +4851,8 @@ export const ProductoScalarFieldEnum = {
   stockMinimo: 'stockMinimo',
   tiempoReposicion: 'tiempoReposicion',
   activo: 'activo',
-  createdAt: 'createdAt'
+  createdAt: 'createdAt',
+  empresaId: 'empresaId'
 } as const
 
 export type ProductoScalarFieldEnum = (typeof ProductoScalarFieldEnum)[keyof typeof ProductoScalarFieldEnum]
@@ -4876,7 +4876,6 @@ export type ProductoSolicitadoScalarFieldEnum = (typeof ProductoSolicitadoScalar
 export const ProveedoresScalarFieldEnum = {
   id: 'id',
   tenantId: 'tenantId',
-  empresaId: 'empresaId',
   nombre: 'nombre',
   nit: 'nit',
   pais: 'pais',
@@ -4887,7 +4886,8 @@ export const ProveedoresScalarFieldEnum = {
   email: 'email',
   activo: 'activo',
   createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
+  updatedAt: 'updatedAt',
+  empresaId: 'empresaId'
 } as const
 
 export type ProveedoresScalarFieldEnum = (typeof ProveedoresScalarFieldEnum)[keyof typeof ProveedoresScalarFieldEnum]
@@ -4957,12 +4957,12 @@ export type EgresosScalarFieldEnum = (typeof EgresosScalarFieldEnum)[keyof typeo
 export const PicoPlacaScalarFieldEnum = {
   id: 'id',
   tenantId: 'tenantId',
-  empresaId: 'empresaId',
   dia: 'dia',
   numeroUno: 'numeroUno',
   numeroDos: 'numeroDos',
   activo: 'activo',
-  createdAt: 'createdAt'
+  createdAt: 'createdAt',
+  empresaId: 'empresaId'
 } as const
 
 export type PicoPlacaScalarFieldEnum = (typeof PicoPlacaScalarFieldEnum)[keyof typeof PicoPlacaScalarFieldEnum]
@@ -4986,14 +4986,14 @@ export type ReferidosScalarFieldEnum = (typeof ReferidosScalarFieldEnum)[keyof t
 export const AuditoriaScalarFieldEnum = {
   id: 'id',
   tenantId: 'tenantId',
-  empresaId: 'empresaId',
   membershipId: 'membershipId',
   accion: 'accion',
   entidad: 'entidad',
   entidadId: 'entidadId',
   detalles: 'detalles',
   metadata: 'metadata',
-  createdAt: 'createdAt'
+  createdAt: 'createdAt',
+  empresaId: 'empresaId'
 } as const
 
 export type AuditoriaScalarFieldEnum = (typeof AuditoriaScalarFieldEnum)[keyof typeof AuditoriaScalarFieldEnum]
@@ -5032,12 +5032,12 @@ export type LogEventoScalarFieldEnum = (typeof LogEventoScalarFieldEnum)[keyof t
 export const AuthSessionScalarFieldEnum = {
   id: 'id',
   userId: 'userId',
-  tenantId: 'tenantId',
-  empresaId: 'empresaId',
   refreshTokenHash: 'refreshTokenHash',
   revoked: 'revoked',
   createdAt: 'createdAt',
-  expiresAt: 'expiresAt'
+  expiresAt: 'expiresAt',
+  empresaId: 'empresaId',
+  tenantId: 'tenantId'
 } as const
 
 export type AuthSessionScalarFieldEnum = (typeof AuthSessionScalarFieldEnum)[keyof typeof AuthSessionScalarFieldEnum]
@@ -5046,12 +5046,12 @@ export type AuthSessionScalarFieldEnum = (typeof AuthSessionScalarFieldEnum)[key
 export const PasswordResetTokenScalarFieldEnum = {
   id: 'id',
   userId: 'userId',
-  tenantId: 'tenantId',
-  empresaId: 'empresaId',
   tokenHash: 'tokenHash',
   expiresAt: 'expiresAt',
   usedAt: 'usedAt',
-  createdAt: 'createdAt'
+  createdAt: 'createdAt',
+  empresaId: 'empresaId',
+  tenantId: 'tenantId'
 } as const
 
 export type PasswordResetTokenScalarFieldEnum = (typeof PasswordResetTokenScalarFieldEnum)[keyof typeof PasswordResetTokenScalarFieldEnum]
@@ -5224,20 +5224,6 @@ export type ListEnumEstadoPagoComisionFieldRefInput<$PrismaModel> = FieldRefInpu
 
 
 /**
- * Reference to a field of type 'TipoCliente'
- */
-export type EnumTipoClienteFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'TipoCliente'>
-    
-
-
-/**
- * Reference to a field of type 'TipoCliente[]'
- */
-export type ListEnumTipoClienteFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'TipoCliente[]'>
-    
-
-
-/**
  * Reference to a field of type 'ClasificacionCliente'
  */
 export type EnumClasificacionClienteFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ClasificacionCliente'>
@@ -5248,6 +5234,20 @@ export type EnumClasificacionClienteFieldRefInput<$PrismaModel> = FieldRefInputT
  * Reference to a field of type 'ClasificacionCliente[]'
  */
 export type ListEnumClasificacionClienteFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ClasificacionCliente[]'>
+    
+
+
+/**
+ * Reference to a field of type 'TipoCliente'
+ */
+export type EnumTipoClienteFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'TipoCliente'>
+    
+
+
+/**
+ * Reference to a field of type 'TipoCliente[]'
+ */
+export type ListEnumTipoClienteFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'TipoCliente[]'>
     
 
 

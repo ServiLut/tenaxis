@@ -292,10 +292,10 @@ export type TurnoWhereInput = {
   fotoEntrada?: Prisma.StringNullableFilter<"Turno"> | string | null
   fotoSalida?: Prisma.StringNullableFilter<"Turno"> | string | null
   createdAt?: Prisma.DateTimeFilter<"Turno"> | Date | string
-  tenant?: Prisma.XOR<Prisma.TenantScalarRelationFilter, Prisma.TenantWhereInput>
+  cuentaCobro?: Prisma.XOR<Prisma.CuentaCobroNullableScalarRelationFilter, Prisma.CuentaCobroWhereInput> | null
   empresa?: Prisma.XOR<Prisma.EmpresaScalarRelationFilter, Prisma.EmpresaWhereInput>
   membership?: Prisma.XOR<Prisma.TenantMembershipScalarRelationFilter, Prisma.TenantMembershipWhereInput>
-  cuentaCobro?: Prisma.XOR<Prisma.CuentaCobroNullableScalarRelationFilter, Prisma.CuentaCobroWhereInput> | null
+  tenant?: Prisma.XOR<Prisma.TenantScalarRelationFilter, Prisma.TenantWhereInput>
 }
 
 export type TurnoOrderByWithRelationInput = {
@@ -313,10 +313,10 @@ export type TurnoOrderByWithRelationInput = {
   fotoEntrada?: Prisma.SortOrderInput | Prisma.SortOrder
   fotoSalida?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
-  tenant?: Prisma.TenantOrderByWithRelationInput
+  cuentaCobro?: Prisma.CuentaCobroOrderByWithRelationInput
   empresa?: Prisma.EmpresaOrderByWithRelationInput
   membership?: Prisma.TenantMembershipOrderByWithRelationInput
-  cuentaCobro?: Prisma.CuentaCobroOrderByWithRelationInput
+  tenant?: Prisma.TenantOrderByWithRelationInput
 }
 
 export type TurnoWhereUniqueInput = Prisma.AtLeast<{
@@ -337,10 +337,10 @@ export type TurnoWhereUniqueInput = Prisma.AtLeast<{
   fotoEntrada?: Prisma.StringNullableFilter<"Turno"> | string | null
   fotoSalida?: Prisma.StringNullableFilter<"Turno"> | string | null
   createdAt?: Prisma.DateTimeFilter<"Turno"> | Date | string
-  tenant?: Prisma.XOR<Prisma.TenantScalarRelationFilter, Prisma.TenantWhereInput>
+  cuentaCobro?: Prisma.XOR<Prisma.CuentaCobroNullableScalarRelationFilter, Prisma.CuentaCobroWhereInput> | null
   empresa?: Prisma.XOR<Prisma.EmpresaScalarRelationFilter, Prisma.EmpresaWhereInput>
   membership?: Prisma.XOR<Prisma.TenantMembershipScalarRelationFilter, Prisma.TenantMembershipWhereInput>
-  cuentaCobro?: Prisma.XOR<Prisma.CuentaCobroNullableScalarRelationFilter, Prisma.CuentaCobroWhereInput> | null
+  tenant?: Prisma.XOR<Prisma.TenantScalarRelationFilter, Prisma.TenantWhereInput>
 }, "id">
 
 export type TurnoOrderByWithAggregationInput = {
@@ -396,10 +396,10 @@ export type TurnoCreateInput = {
   fotoEntrada?: string | null
   fotoSalida?: string | null
   createdAt?: Date | string
-  tenant: Prisma.TenantCreateNestedOneWithoutTurnosInput
+  cuentaCobro?: Prisma.CuentaCobroCreateNestedOneWithoutTurnosInput
   empresa: Prisma.EmpresaCreateNestedOneWithoutTurnosInput
   membership: Prisma.TenantMembershipCreateNestedOneWithoutTurnosInput
-  cuentaCobro?: Prisma.CuentaCobroCreateNestedOneWithoutTurnosInput
+  tenant: Prisma.TenantCreateNestedOneWithoutTurnosInput
 }
 
 export type TurnoUncheckedCreateInput = {
@@ -430,10 +430,10 @@ export type TurnoUpdateInput = {
   fotoEntrada?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   fotoSalida?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  tenant?: Prisma.TenantUpdateOneRequiredWithoutTurnosNestedInput
+  cuentaCobro?: Prisma.CuentaCobroUpdateOneWithoutTurnosNestedInput
   empresa?: Prisma.EmpresaUpdateOneRequiredWithoutTurnosNestedInput
   membership?: Prisma.TenantMembershipUpdateOneRequiredWithoutTurnosNestedInput
-  cuentaCobro?: Prisma.CuentaCobroUpdateOneWithoutTurnosNestedInput
+  tenant?: Prisma.TenantUpdateOneRequiredWithoutTurnosNestedInput
 }
 
 export type TurnoUncheckedUpdateInput = {
@@ -750,9 +750,9 @@ export type TurnoCreateWithoutTenantInput = {
   fotoEntrada?: string | null
   fotoSalida?: string | null
   createdAt?: Date | string
+  cuentaCobro?: Prisma.CuentaCobroCreateNestedOneWithoutTurnosInput
   empresa: Prisma.EmpresaCreateNestedOneWithoutTurnosInput
   membership: Prisma.TenantMembershipCreateNestedOneWithoutTurnosInput
-  cuentaCobro?: Prisma.CuentaCobroCreateNestedOneWithoutTurnosInput
 }
 
 export type TurnoUncheckedCreateWithoutTenantInput = {
@@ -828,9 +828,9 @@ export type TurnoCreateWithoutMembershipInput = {
   fotoEntrada?: string | null
   fotoSalida?: string | null
   createdAt?: Date | string
-  tenant: Prisma.TenantCreateNestedOneWithoutTurnosInput
-  empresa: Prisma.EmpresaCreateNestedOneWithoutTurnosInput
   cuentaCobro?: Prisma.CuentaCobroCreateNestedOneWithoutTurnosInput
+  empresa: Prisma.EmpresaCreateNestedOneWithoutTurnosInput
+  tenant: Prisma.TenantCreateNestedOneWithoutTurnosInput
 }
 
 export type TurnoUncheckedCreateWithoutMembershipInput = {
@@ -886,9 +886,9 @@ export type TurnoCreateWithoutEmpresaInput = {
   fotoEntrada?: string | null
   fotoSalida?: string | null
   createdAt?: Date | string
-  tenant: Prisma.TenantCreateNestedOneWithoutTurnosInput
-  membership: Prisma.TenantMembershipCreateNestedOneWithoutTurnosInput
   cuentaCobro?: Prisma.CuentaCobroCreateNestedOneWithoutTurnosInput
+  membership: Prisma.TenantMembershipCreateNestedOneWithoutTurnosInput
+  tenant: Prisma.TenantCreateNestedOneWithoutTurnosInput
 }
 
 export type TurnoUncheckedCreateWithoutEmpresaInput = {
@@ -944,9 +944,9 @@ export type TurnoCreateWithoutCuentaCobroInput = {
   fotoEntrada?: string | null
   fotoSalida?: string | null
   createdAt?: Date | string
-  tenant: Prisma.TenantCreateNestedOneWithoutTurnosInput
   empresa: Prisma.EmpresaCreateNestedOneWithoutTurnosInput
   membership: Prisma.TenantMembershipCreateNestedOneWithoutTurnosInput
+  tenant: Prisma.TenantCreateNestedOneWithoutTurnosInput
 }
 
 export type TurnoUncheckedCreateWithoutCuentaCobroInput = {
@@ -1018,9 +1018,9 @@ export type TurnoUpdateWithoutTenantInput = {
   fotoEntrada?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   fotoSalida?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  cuentaCobro?: Prisma.CuentaCobroUpdateOneWithoutTurnosNestedInput
   empresa?: Prisma.EmpresaUpdateOneRequiredWithoutTurnosNestedInput
   membership?: Prisma.TenantMembershipUpdateOneRequiredWithoutTurnosNestedInput
-  cuentaCobro?: Prisma.CuentaCobroUpdateOneWithoutTurnosNestedInput
 }
 
 export type TurnoUncheckedUpdateWithoutTenantInput = {
@@ -1082,9 +1082,9 @@ export type TurnoUpdateWithoutMembershipInput = {
   fotoEntrada?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   fotoSalida?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  tenant?: Prisma.TenantUpdateOneRequiredWithoutTurnosNestedInput
-  empresa?: Prisma.EmpresaUpdateOneRequiredWithoutTurnosNestedInput
   cuentaCobro?: Prisma.CuentaCobroUpdateOneWithoutTurnosNestedInput
+  empresa?: Prisma.EmpresaUpdateOneRequiredWithoutTurnosNestedInput
+  tenant?: Prisma.TenantUpdateOneRequiredWithoutTurnosNestedInput
 }
 
 export type TurnoUncheckedUpdateWithoutMembershipInput = {
@@ -1146,9 +1146,9 @@ export type TurnoUpdateWithoutEmpresaInput = {
   fotoEntrada?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   fotoSalida?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  tenant?: Prisma.TenantUpdateOneRequiredWithoutTurnosNestedInput
-  membership?: Prisma.TenantMembershipUpdateOneRequiredWithoutTurnosNestedInput
   cuentaCobro?: Prisma.CuentaCobroUpdateOneWithoutTurnosNestedInput
+  membership?: Prisma.TenantMembershipUpdateOneRequiredWithoutTurnosNestedInput
+  tenant?: Prisma.TenantUpdateOneRequiredWithoutTurnosNestedInput
 }
 
 export type TurnoUncheckedUpdateWithoutEmpresaInput = {
@@ -1210,9 +1210,9 @@ export type TurnoUpdateWithoutCuentaCobroInput = {
   fotoEntrada?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   fotoSalida?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  tenant?: Prisma.TenantUpdateOneRequiredWithoutTurnosNestedInput
   empresa?: Prisma.EmpresaUpdateOneRequiredWithoutTurnosNestedInput
   membership?: Prisma.TenantMembershipUpdateOneRequiredWithoutTurnosNestedInput
+  tenant?: Prisma.TenantUpdateOneRequiredWithoutTurnosNestedInput
 }
 
 export type TurnoUncheckedUpdateWithoutCuentaCobroInput = {
@@ -1264,10 +1264,10 @@ export type TurnoSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
   fotoEntrada?: boolean
   fotoSalida?: boolean
   createdAt?: boolean
-  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
+  cuentaCobro?: boolean | Prisma.Turno$cuentaCobroArgs<ExtArgs>
   empresa?: boolean | Prisma.EmpresaDefaultArgs<ExtArgs>
   membership?: boolean | Prisma.TenantMembershipDefaultArgs<ExtArgs>
-  cuentaCobro?: boolean | Prisma.Turno$cuentaCobroArgs<ExtArgs>
+  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["turno"]>
 
 export type TurnoSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -1285,10 +1285,10 @@ export type TurnoSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensi
   fotoEntrada?: boolean
   fotoSalida?: boolean
   createdAt?: boolean
-  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
+  cuentaCobro?: boolean | Prisma.Turno$cuentaCobroArgs<ExtArgs>
   empresa?: boolean | Prisma.EmpresaDefaultArgs<ExtArgs>
   membership?: boolean | Prisma.TenantMembershipDefaultArgs<ExtArgs>
-  cuentaCobro?: boolean | Prisma.Turno$cuentaCobroArgs<ExtArgs>
+  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["turno"]>
 
 export type TurnoSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -1306,10 +1306,10 @@ export type TurnoSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensi
   fotoEntrada?: boolean
   fotoSalida?: boolean
   createdAt?: boolean
-  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
+  cuentaCobro?: boolean | Prisma.Turno$cuentaCobroArgs<ExtArgs>
   empresa?: boolean | Prisma.EmpresaDefaultArgs<ExtArgs>
   membership?: boolean | Prisma.TenantMembershipDefaultArgs<ExtArgs>
-  cuentaCobro?: boolean | Prisma.Turno$cuentaCobroArgs<ExtArgs>
+  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["turno"]>
 
 export type TurnoSelectScalar = {
@@ -1331,31 +1331,31 @@ export type TurnoSelectScalar = {
 
 export type TurnoOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "tenantId" | "empresaId" | "membershipId" | "cuentaCobroId" | "fecha" | "horaEntrada" | "horaSalida" | "tiempoDescanso" | "valorTotal" | "observaciones" | "fotoEntrada" | "fotoSalida" | "createdAt", ExtArgs["result"]["turno"]>
 export type TurnoInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
+  cuentaCobro?: boolean | Prisma.Turno$cuentaCobroArgs<ExtArgs>
   empresa?: boolean | Prisma.EmpresaDefaultArgs<ExtArgs>
   membership?: boolean | Prisma.TenantMembershipDefaultArgs<ExtArgs>
-  cuentaCobro?: boolean | Prisma.Turno$cuentaCobroArgs<ExtArgs>
+  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
 }
 export type TurnoIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
+  cuentaCobro?: boolean | Prisma.Turno$cuentaCobroArgs<ExtArgs>
   empresa?: boolean | Prisma.EmpresaDefaultArgs<ExtArgs>
   membership?: boolean | Prisma.TenantMembershipDefaultArgs<ExtArgs>
-  cuentaCobro?: boolean | Prisma.Turno$cuentaCobroArgs<ExtArgs>
+  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
 }
 export type TurnoIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
+  cuentaCobro?: boolean | Prisma.Turno$cuentaCobroArgs<ExtArgs>
   empresa?: boolean | Prisma.EmpresaDefaultArgs<ExtArgs>
   membership?: boolean | Prisma.TenantMembershipDefaultArgs<ExtArgs>
-  cuentaCobro?: boolean | Prisma.Turno$cuentaCobroArgs<ExtArgs>
+  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
 }
 
 export type $TurnoPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "Turno"
   objects: {
-    tenant: Prisma.$TenantPayload<ExtArgs>
+    cuentaCobro: Prisma.$CuentaCobroPayload<ExtArgs> | null
     empresa: Prisma.$EmpresaPayload<ExtArgs>
     membership: Prisma.$TenantMembershipPayload<ExtArgs>
-    cuentaCobro: Prisma.$CuentaCobroPayload<ExtArgs> | null
+    tenant: Prisma.$TenantPayload<ExtArgs>
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -1766,10 +1766,10 @@ readonly fields: TurnoFieldRefs;
  */
 export interface Prisma__TurnoClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
-  tenant<T extends Prisma.TenantDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.TenantDefaultArgs<ExtArgs>>): Prisma.Prisma__TenantClient<runtime.Types.Result.GetResult<Prisma.$TenantPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  cuentaCobro<T extends Prisma.Turno$cuentaCobroArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Turno$cuentaCobroArgs<ExtArgs>>): Prisma.Prisma__CuentaCobroClient<runtime.Types.Result.GetResult<Prisma.$CuentaCobroPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   empresa<T extends Prisma.EmpresaDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.EmpresaDefaultArgs<ExtArgs>>): Prisma.Prisma__EmpresaClient<runtime.Types.Result.GetResult<Prisma.$EmpresaPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   membership<T extends Prisma.TenantMembershipDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.TenantMembershipDefaultArgs<ExtArgs>>): Prisma.Prisma__TenantMembershipClient<runtime.Types.Result.GetResult<Prisma.$TenantMembershipPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
-  cuentaCobro<T extends Prisma.Turno$cuentaCobroArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Turno$cuentaCobroArgs<ExtArgs>>): Prisma.Prisma__CuentaCobroClient<runtime.Types.Result.GetResult<Prisma.$CuentaCobroPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  tenant<T extends Prisma.TenantDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.TenantDefaultArgs<ExtArgs>>): Prisma.Prisma__TenantClient<runtime.Types.Result.GetResult<Prisma.$TenantPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.

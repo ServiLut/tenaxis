@@ -240,11 +240,11 @@ export type NominaDetalleWhereInput = {
   citaId?: Prisma.UuidNullableFilter<"NominaDetalle"> | string | null
   valorServicio?: Prisma.DecimalFilter<"NominaDetalle"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   concepto?: Prisma.StringNullableFilter<"NominaDetalle"> | string | null
-  tenant?: Prisma.XOR<Prisma.TenantScalarRelationFilter, Prisma.TenantWhereInput>
+  cita?: Prisma.XOR<Prisma.CitasPsicologosNullableScalarRelationFilter, Prisma.CitasPsicologosWhereInput> | null
   empresa?: Prisma.XOR<Prisma.EmpresaScalarRelationFilter, Prisma.EmpresaWhereInput>
   nomina?: Prisma.XOR<Prisma.NominaScalarRelationFilter, Prisma.NominaWhereInput>
   orden?: Prisma.XOR<Prisma.OrdenServicioNullableScalarRelationFilter, Prisma.OrdenServicioWhereInput> | null
-  cita?: Prisma.XOR<Prisma.CitasPsicologosNullableScalarRelationFilter, Prisma.CitasPsicologosWhereInput> | null
+  tenant?: Prisma.XOR<Prisma.TenantScalarRelationFilter, Prisma.TenantWhereInput>
 }
 
 export type NominaDetalleOrderByWithRelationInput = {
@@ -256,11 +256,11 @@ export type NominaDetalleOrderByWithRelationInput = {
   citaId?: Prisma.SortOrderInput | Prisma.SortOrder
   valorServicio?: Prisma.SortOrder
   concepto?: Prisma.SortOrderInput | Prisma.SortOrder
-  tenant?: Prisma.TenantOrderByWithRelationInput
+  cita?: Prisma.CitasPsicologosOrderByWithRelationInput
   empresa?: Prisma.EmpresaOrderByWithRelationInput
   nomina?: Prisma.NominaOrderByWithRelationInput
   orden?: Prisma.OrdenServicioOrderByWithRelationInput
-  cita?: Prisma.CitasPsicologosOrderByWithRelationInput
+  tenant?: Prisma.TenantOrderByWithRelationInput
 }
 
 export type NominaDetalleWhereUniqueInput = Prisma.AtLeast<{
@@ -275,11 +275,11 @@ export type NominaDetalleWhereUniqueInput = Prisma.AtLeast<{
   citaId?: Prisma.UuidNullableFilter<"NominaDetalle"> | string | null
   valorServicio?: Prisma.DecimalFilter<"NominaDetalle"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   concepto?: Prisma.StringNullableFilter<"NominaDetalle"> | string | null
-  tenant?: Prisma.XOR<Prisma.TenantScalarRelationFilter, Prisma.TenantWhereInput>
+  cita?: Prisma.XOR<Prisma.CitasPsicologosNullableScalarRelationFilter, Prisma.CitasPsicologosWhereInput> | null
   empresa?: Prisma.XOR<Prisma.EmpresaScalarRelationFilter, Prisma.EmpresaWhereInput>
   nomina?: Prisma.XOR<Prisma.NominaScalarRelationFilter, Prisma.NominaWhereInput>
   orden?: Prisma.XOR<Prisma.OrdenServicioNullableScalarRelationFilter, Prisma.OrdenServicioWhereInput> | null
-  cita?: Prisma.XOR<Prisma.CitasPsicologosNullableScalarRelationFilter, Prisma.CitasPsicologosWhereInput> | null
+  tenant?: Prisma.XOR<Prisma.TenantScalarRelationFilter, Prisma.TenantWhereInput>
 }, "id">
 
 export type NominaDetalleOrderByWithAggregationInput = {
@@ -316,11 +316,11 @@ export type NominaDetalleCreateInput = {
   id?: string
   valorServicio: runtime.Decimal | runtime.DecimalJsLike | number | string
   concepto?: string | null
-  tenant: Prisma.TenantCreateNestedOneWithoutNominaDetallesInput
+  cita?: Prisma.CitasPsicologosCreateNestedOneWithoutNominaDetallesInput
   empresa: Prisma.EmpresaCreateNestedOneWithoutNominaDetallesInput
   nomina: Prisma.NominaCreateNestedOneWithoutDetallesInput
   orden?: Prisma.OrdenServicioCreateNestedOneWithoutNominaDetallesInput
-  cita?: Prisma.CitasPsicologosCreateNestedOneWithoutNominaDetallesInput
+  tenant: Prisma.TenantCreateNestedOneWithoutNominaDetallesInput
 }
 
 export type NominaDetalleUncheckedCreateInput = {
@@ -338,11 +338,11 @@ export type NominaDetalleUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   valorServicio?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   concepto?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  tenant?: Prisma.TenantUpdateOneRequiredWithoutNominaDetallesNestedInput
+  cita?: Prisma.CitasPsicologosUpdateOneWithoutNominaDetallesNestedInput
   empresa?: Prisma.EmpresaUpdateOneRequiredWithoutNominaDetallesNestedInput
   nomina?: Prisma.NominaUpdateOneRequiredWithoutDetallesNestedInput
   orden?: Prisma.OrdenServicioUpdateOneWithoutNominaDetallesNestedInput
-  cita?: Prisma.CitasPsicologosUpdateOneWithoutNominaDetallesNestedInput
+  tenant?: Prisma.TenantUpdateOneRequiredWithoutNominaDetallesNestedInput
 }
 
 export type NominaDetalleUncheckedUpdateInput = {
@@ -649,10 +649,10 @@ export type NominaDetalleCreateWithoutTenantInput = {
   id?: string
   valorServicio: runtime.Decimal | runtime.DecimalJsLike | number | string
   concepto?: string | null
+  cita?: Prisma.CitasPsicologosCreateNestedOneWithoutNominaDetallesInput
   empresa: Prisma.EmpresaCreateNestedOneWithoutNominaDetallesInput
   nomina: Prisma.NominaCreateNestedOneWithoutDetallesInput
   orden?: Prisma.OrdenServicioCreateNestedOneWithoutNominaDetallesInput
-  cita?: Prisma.CitasPsicologosCreateNestedOneWithoutNominaDetallesInput
 }
 
 export type NominaDetalleUncheckedCreateWithoutTenantInput = {
@@ -709,10 +709,10 @@ export type NominaDetalleCreateWithoutEmpresaInput = {
   id?: string
   valorServicio: runtime.Decimal | runtime.DecimalJsLike | number | string
   concepto?: string | null
-  tenant: Prisma.TenantCreateNestedOneWithoutNominaDetallesInput
+  cita?: Prisma.CitasPsicologosCreateNestedOneWithoutNominaDetallesInput
   nomina: Prisma.NominaCreateNestedOneWithoutDetallesInput
   orden?: Prisma.OrdenServicioCreateNestedOneWithoutNominaDetallesInput
-  cita?: Prisma.CitasPsicologosCreateNestedOneWithoutNominaDetallesInput
+  tenant: Prisma.TenantCreateNestedOneWithoutNominaDetallesInput
 }
 
 export type NominaDetalleUncheckedCreateWithoutEmpresaInput = {
@@ -755,10 +755,10 @@ export type NominaDetalleCreateWithoutOrdenInput = {
   id?: string
   valorServicio: runtime.Decimal | runtime.DecimalJsLike | number | string
   concepto?: string | null
-  tenant: Prisma.TenantCreateNestedOneWithoutNominaDetallesInput
+  cita?: Prisma.CitasPsicologosCreateNestedOneWithoutNominaDetallesInput
   empresa: Prisma.EmpresaCreateNestedOneWithoutNominaDetallesInput
   nomina: Prisma.NominaCreateNestedOneWithoutDetallesInput
-  cita?: Prisma.CitasPsicologosCreateNestedOneWithoutNominaDetallesInput
+  tenant: Prisma.TenantCreateNestedOneWithoutNominaDetallesInput
 }
 
 export type NominaDetalleUncheckedCreateWithoutOrdenInput = {
@@ -801,10 +801,10 @@ export type NominaDetalleCreateWithoutNominaInput = {
   id?: string
   valorServicio: runtime.Decimal | runtime.DecimalJsLike | number | string
   concepto?: string | null
-  tenant: Prisma.TenantCreateNestedOneWithoutNominaDetallesInput
+  cita?: Prisma.CitasPsicologosCreateNestedOneWithoutNominaDetallesInput
   empresa: Prisma.EmpresaCreateNestedOneWithoutNominaDetallesInput
   orden?: Prisma.OrdenServicioCreateNestedOneWithoutNominaDetallesInput
-  cita?: Prisma.CitasPsicologosCreateNestedOneWithoutNominaDetallesInput
+  tenant: Prisma.TenantCreateNestedOneWithoutNominaDetallesInput
 }
 
 export type NominaDetalleUncheckedCreateWithoutNominaInput = {
@@ -847,10 +847,10 @@ export type NominaDetalleCreateWithoutCitaInput = {
   id?: string
   valorServicio: runtime.Decimal | runtime.DecimalJsLike | number | string
   concepto?: string | null
-  tenant: Prisma.TenantCreateNestedOneWithoutNominaDetallesInput
   empresa: Prisma.EmpresaCreateNestedOneWithoutNominaDetallesInput
   nomina: Prisma.NominaCreateNestedOneWithoutDetallesInput
   orden?: Prisma.OrdenServicioCreateNestedOneWithoutNominaDetallesInput
+  tenant: Prisma.TenantCreateNestedOneWithoutNominaDetallesInput
 }
 
 export type NominaDetalleUncheckedCreateWithoutCitaInput = {
@@ -903,10 +903,10 @@ export type NominaDetalleUpdateWithoutTenantInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   valorServicio?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   concepto?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  cita?: Prisma.CitasPsicologosUpdateOneWithoutNominaDetallesNestedInput
   empresa?: Prisma.EmpresaUpdateOneRequiredWithoutNominaDetallesNestedInput
   nomina?: Prisma.NominaUpdateOneRequiredWithoutDetallesNestedInput
   orden?: Prisma.OrdenServicioUpdateOneWithoutNominaDetallesNestedInput
-  cita?: Prisma.CitasPsicologosUpdateOneWithoutNominaDetallesNestedInput
 }
 
 export type NominaDetalleUncheckedUpdateWithoutTenantInput = {
@@ -943,10 +943,10 @@ export type NominaDetalleUpdateWithoutEmpresaInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   valorServicio?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   concepto?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  tenant?: Prisma.TenantUpdateOneRequiredWithoutNominaDetallesNestedInput
+  cita?: Prisma.CitasPsicologosUpdateOneWithoutNominaDetallesNestedInput
   nomina?: Prisma.NominaUpdateOneRequiredWithoutDetallesNestedInput
   orden?: Prisma.OrdenServicioUpdateOneWithoutNominaDetallesNestedInput
-  cita?: Prisma.CitasPsicologosUpdateOneWithoutNominaDetallesNestedInput
+  tenant?: Prisma.TenantUpdateOneRequiredWithoutNominaDetallesNestedInput
 }
 
 export type NominaDetalleUncheckedUpdateWithoutEmpresaInput = {
@@ -983,10 +983,10 @@ export type NominaDetalleUpdateWithoutOrdenInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   valorServicio?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   concepto?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  tenant?: Prisma.TenantUpdateOneRequiredWithoutNominaDetallesNestedInput
+  cita?: Prisma.CitasPsicologosUpdateOneWithoutNominaDetallesNestedInput
   empresa?: Prisma.EmpresaUpdateOneRequiredWithoutNominaDetallesNestedInput
   nomina?: Prisma.NominaUpdateOneRequiredWithoutDetallesNestedInput
-  cita?: Prisma.CitasPsicologosUpdateOneWithoutNominaDetallesNestedInput
+  tenant?: Prisma.TenantUpdateOneRequiredWithoutNominaDetallesNestedInput
 }
 
 export type NominaDetalleUncheckedUpdateWithoutOrdenInput = {
@@ -1023,10 +1023,10 @@ export type NominaDetalleUpdateWithoutNominaInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   valorServicio?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   concepto?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  tenant?: Prisma.TenantUpdateOneRequiredWithoutNominaDetallesNestedInput
+  cita?: Prisma.CitasPsicologosUpdateOneWithoutNominaDetallesNestedInput
   empresa?: Prisma.EmpresaUpdateOneRequiredWithoutNominaDetallesNestedInput
   orden?: Prisma.OrdenServicioUpdateOneWithoutNominaDetallesNestedInput
-  cita?: Prisma.CitasPsicologosUpdateOneWithoutNominaDetallesNestedInput
+  tenant?: Prisma.TenantUpdateOneRequiredWithoutNominaDetallesNestedInput
 }
 
 export type NominaDetalleUncheckedUpdateWithoutNominaInput = {
@@ -1063,10 +1063,10 @@ export type NominaDetalleUpdateWithoutCitaInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   valorServicio?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   concepto?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  tenant?: Prisma.TenantUpdateOneRequiredWithoutNominaDetallesNestedInput
   empresa?: Prisma.EmpresaUpdateOneRequiredWithoutNominaDetallesNestedInput
   nomina?: Prisma.NominaUpdateOneRequiredWithoutDetallesNestedInput
   orden?: Prisma.OrdenServicioUpdateOneWithoutNominaDetallesNestedInput
+  tenant?: Prisma.TenantUpdateOneRequiredWithoutNominaDetallesNestedInput
 }
 
 export type NominaDetalleUncheckedUpdateWithoutCitaInput = {
@@ -1100,11 +1100,11 @@ export type NominaDetalleSelect<ExtArgs extends runtime.Types.Extensions.Interna
   citaId?: boolean
   valorServicio?: boolean
   concepto?: boolean
-  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
+  cita?: boolean | Prisma.NominaDetalle$citaArgs<ExtArgs>
   empresa?: boolean | Prisma.EmpresaDefaultArgs<ExtArgs>
   nomina?: boolean | Prisma.NominaDefaultArgs<ExtArgs>
   orden?: boolean | Prisma.NominaDetalle$ordenArgs<ExtArgs>
-  cita?: boolean | Prisma.NominaDetalle$citaArgs<ExtArgs>
+  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["nominaDetalle"]>
 
 export type NominaDetalleSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -1116,11 +1116,11 @@ export type NominaDetalleSelectCreateManyAndReturn<ExtArgs extends runtime.Types
   citaId?: boolean
   valorServicio?: boolean
   concepto?: boolean
-  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
+  cita?: boolean | Prisma.NominaDetalle$citaArgs<ExtArgs>
   empresa?: boolean | Prisma.EmpresaDefaultArgs<ExtArgs>
   nomina?: boolean | Prisma.NominaDefaultArgs<ExtArgs>
   orden?: boolean | Prisma.NominaDetalle$ordenArgs<ExtArgs>
-  cita?: boolean | Prisma.NominaDetalle$citaArgs<ExtArgs>
+  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["nominaDetalle"]>
 
 export type NominaDetalleSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -1132,11 +1132,11 @@ export type NominaDetalleSelectUpdateManyAndReturn<ExtArgs extends runtime.Types
   citaId?: boolean
   valorServicio?: boolean
   concepto?: boolean
-  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
+  cita?: boolean | Prisma.NominaDetalle$citaArgs<ExtArgs>
   empresa?: boolean | Prisma.EmpresaDefaultArgs<ExtArgs>
   nomina?: boolean | Prisma.NominaDefaultArgs<ExtArgs>
   orden?: boolean | Prisma.NominaDetalle$ordenArgs<ExtArgs>
-  cita?: boolean | Prisma.NominaDetalle$citaArgs<ExtArgs>
+  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["nominaDetalle"]>
 
 export type NominaDetalleSelectScalar = {
@@ -1152,35 +1152,35 @@ export type NominaDetalleSelectScalar = {
 
 export type NominaDetalleOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "tenantId" | "empresaId" | "nominaId" | "ordenId" | "citaId" | "valorServicio" | "concepto", ExtArgs["result"]["nominaDetalle"]>
 export type NominaDetalleInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
+  cita?: boolean | Prisma.NominaDetalle$citaArgs<ExtArgs>
   empresa?: boolean | Prisma.EmpresaDefaultArgs<ExtArgs>
   nomina?: boolean | Prisma.NominaDefaultArgs<ExtArgs>
   orden?: boolean | Prisma.NominaDetalle$ordenArgs<ExtArgs>
-  cita?: boolean | Prisma.NominaDetalle$citaArgs<ExtArgs>
+  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
 }
 export type NominaDetalleIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
+  cita?: boolean | Prisma.NominaDetalle$citaArgs<ExtArgs>
   empresa?: boolean | Prisma.EmpresaDefaultArgs<ExtArgs>
   nomina?: boolean | Prisma.NominaDefaultArgs<ExtArgs>
   orden?: boolean | Prisma.NominaDetalle$ordenArgs<ExtArgs>
-  cita?: boolean | Prisma.NominaDetalle$citaArgs<ExtArgs>
+  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
 }
 export type NominaDetalleIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
+  cita?: boolean | Prisma.NominaDetalle$citaArgs<ExtArgs>
   empresa?: boolean | Prisma.EmpresaDefaultArgs<ExtArgs>
   nomina?: boolean | Prisma.NominaDefaultArgs<ExtArgs>
   orden?: boolean | Prisma.NominaDetalle$ordenArgs<ExtArgs>
-  cita?: boolean | Prisma.NominaDetalle$citaArgs<ExtArgs>
+  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
 }
 
 export type $NominaDetallePayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "NominaDetalle"
   objects: {
-    tenant: Prisma.$TenantPayload<ExtArgs>
+    cita: Prisma.$CitasPsicologosPayload<ExtArgs> | null
     empresa: Prisma.$EmpresaPayload<ExtArgs>
     nomina: Prisma.$NominaPayload<ExtArgs>
     orden: Prisma.$OrdenServicioPayload<ExtArgs> | null
-    cita: Prisma.$CitasPsicologosPayload<ExtArgs> | null
+    tenant: Prisma.$TenantPayload<ExtArgs>
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -1585,11 +1585,11 @@ readonly fields: NominaDetalleFieldRefs;
  */
 export interface Prisma__NominaDetalleClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
-  tenant<T extends Prisma.TenantDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.TenantDefaultArgs<ExtArgs>>): Prisma.Prisma__TenantClient<runtime.Types.Result.GetResult<Prisma.$TenantPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  cita<T extends Prisma.NominaDetalle$citaArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.NominaDetalle$citaArgs<ExtArgs>>): Prisma.Prisma__CitasPsicologosClient<runtime.Types.Result.GetResult<Prisma.$CitasPsicologosPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   empresa<T extends Prisma.EmpresaDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.EmpresaDefaultArgs<ExtArgs>>): Prisma.Prisma__EmpresaClient<runtime.Types.Result.GetResult<Prisma.$EmpresaPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   nomina<T extends Prisma.NominaDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.NominaDefaultArgs<ExtArgs>>): Prisma.Prisma__NominaClient<runtime.Types.Result.GetResult<Prisma.$NominaPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   orden<T extends Prisma.NominaDetalle$ordenArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.NominaDetalle$ordenArgs<ExtArgs>>): Prisma.Prisma__OrdenServicioClient<runtime.Types.Result.GetResult<Prisma.$OrdenServicioPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
-  cita<T extends Prisma.NominaDetalle$citaArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.NominaDetalle$citaArgs<ExtArgs>>): Prisma.Prisma__CitasPsicologosClient<runtime.Types.Result.GetResult<Prisma.$CitasPsicologosPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  tenant<T extends Prisma.TenantDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.TenantDefaultArgs<ExtArgs>>): Prisma.Prisma__TenantClient<runtime.Types.Result.GetResult<Prisma.$TenantPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -2023,25 +2023,6 @@ export type NominaDetalleDeleteManyArgs<ExtArgs extends runtime.Types.Extensions
 }
 
 /**
- * NominaDetalle.orden
- */
-export type NominaDetalle$ordenArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the OrdenServicio
-   */
-  select?: Prisma.OrdenServicioSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the OrdenServicio
-   */
-  omit?: Prisma.OrdenServicioOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.OrdenServicioInclude<ExtArgs> | null
-  where?: Prisma.OrdenServicioWhereInput
-}
-
-/**
  * NominaDetalle.cita
  */
 export type NominaDetalle$citaArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -2058,6 +2039,25 @@ export type NominaDetalle$citaArgs<ExtArgs extends runtime.Types.Extensions.Inte
    */
   include?: Prisma.CitasPsicologosInclude<ExtArgs> | null
   where?: Prisma.CitasPsicologosWhereInput
+}
+
+/**
+ * NominaDetalle.orden
+ */
+export type NominaDetalle$ordenArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the OrdenServicio
+   */
+  select?: Prisma.OrdenServicioSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the OrdenServicio
+   */
+  omit?: Prisma.OrdenServicioOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.OrdenServicioInclude<ExtArgs> | null
+  where?: Prisma.OrdenServicioWhereInput
 }
 
 /**

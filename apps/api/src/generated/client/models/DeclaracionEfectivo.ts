@@ -256,10 +256,10 @@ export type DeclaracionEfectivoWhereInput = {
   observacion?: Prisma.StringNullableFilter<"DeclaracionEfectivo"> | string | null
   consignado?: Prisma.BoolFilter<"DeclaracionEfectivo"> | boolean
   fechaDeclaracion?: Prisma.DateTimeFilter<"DeclaracionEfectivo"> | Date | string
-  tenant?: Prisma.XOR<Prisma.TenantScalarRelationFilter, Prisma.TenantWhereInput>
   empresa?: Prisma.XOR<Prisma.EmpresaScalarRelationFilter, Prisma.EmpresaWhereInput>
   orden?: Prisma.XOR<Prisma.OrdenServicioScalarRelationFilter, Prisma.OrdenServicioWhereInput>
   tecnico?: Prisma.XOR<Prisma.TenantMembershipScalarRelationFilter, Prisma.TenantMembershipWhereInput>
+  tenant?: Prisma.XOR<Prisma.TenantScalarRelationFilter, Prisma.TenantWhereInput>
 }
 
 export type DeclaracionEfectivoOrderByWithRelationInput = {
@@ -273,10 +273,10 @@ export type DeclaracionEfectivoOrderByWithRelationInput = {
   observacion?: Prisma.SortOrderInput | Prisma.SortOrder
   consignado?: Prisma.SortOrder
   fechaDeclaracion?: Prisma.SortOrder
-  tenant?: Prisma.TenantOrderByWithRelationInput
   empresa?: Prisma.EmpresaOrderByWithRelationInput
   orden?: Prisma.OrdenServicioOrderByWithRelationInput
   tecnico?: Prisma.TenantMembershipOrderByWithRelationInput
+  tenant?: Prisma.TenantOrderByWithRelationInput
 }
 
 export type DeclaracionEfectivoWhereUniqueInput = Prisma.AtLeast<{
@@ -293,10 +293,10 @@ export type DeclaracionEfectivoWhereUniqueInput = Prisma.AtLeast<{
   observacion?: Prisma.StringNullableFilter<"DeclaracionEfectivo"> | string | null
   consignado?: Prisma.BoolFilter<"DeclaracionEfectivo"> | boolean
   fechaDeclaracion?: Prisma.DateTimeFilter<"DeclaracionEfectivo"> | Date | string
-  tenant?: Prisma.XOR<Prisma.TenantScalarRelationFilter, Prisma.TenantWhereInput>
   empresa?: Prisma.XOR<Prisma.EmpresaScalarRelationFilter, Prisma.EmpresaWhereInput>
   orden?: Prisma.XOR<Prisma.OrdenServicioScalarRelationFilter, Prisma.OrdenServicioWhereInput>
   tecnico?: Prisma.XOR<Prisma.TenantMembershipScalarRelationFilter, Prisma.TenantMembershipWhereInput>
+  tenant?: Prisma.XOR<Prisma.TenantScalarRelationFilter, Prisma.TenantWhereInput>
 }, "id" | "ordenId">
 
 export type DeclaracionEfectivoOrderByWithAggregationInput = {
@@ -340,10 +340,10 @@ export type DeclaracionEfectivoCreateInput = {
   observacion?: string | null
   consignado?: boolean
   fechaDeclaracion?: Date | string
-  tenant: Prisma.TenantCreateNestedOneWithoutDeclaracionesInput
   empresa: Prisma.EmpresaCreateNestedOneWithoutDeclaracionesInput
   orden: Prisma.OrdenServicioCreateNestedOneWithoutDeclaracionEfectivoInput
   tecnico: Prisma.TenantMembershipCreateNestedOneWithoutDeclaracionesEfectivoInput
+  tenant: Prisma.TenantCreateNestedOneWithoutDeclaracionesInput
 }
 
 export type DeclaracionEfectivoUncheckedCreateInput = {
@@ -366,10 +366,10 @@ export type DeclaracionEfectivoUpdateInput = {
   observacion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   consignado?: Prisma.BoolFieldUpdateOperationsInput | boolean
   fechaDeclaracion?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  tenant?: Prisma.TenantUpdateOneRequiredWithoutDeclaracionesNestedInput
   empresa?: Prisma.EmpresaUpdateOneRequiredWithoutDeclaracionesNestedInput
   orden?: Prisma.OrdenServicioUpdateOneRequiredWithoutDeclaracionEfectivoNestedInput
   tecnico?: Prisma.TenantMembershipUpdateOneRequiredWithoutDeclaracionesEfectivoNestedInput
+  tenant?: Prisma.TenantUpdateOneRequiredWithoutDeclaracionesNestedInput
 }
 
 export type DeclaracionEfectivoUncheckedUpdateInput = {
@@ -713,9 +713,9 @@ export type DeclaracionEfectivoCreateWithoutTecnicoInput = {
   observacion?: string | null
   consignado?: boolean
   fechaDeclaracion?: Date | string
-  tenant: Prisma.TenantCreateNestedOneWithoutDeclaracionesInput
   empresa: Prisma.EmpresaCreateNestedOneWithoutDeclaracionesInput
   orden: Prisma.OrdenServicioCreateNestedOneWithoutDeclaracionEfectivoInput
+  tenant: Prisma.TenantCreateNestedOneWithoutDeclaracionesInput
 }
 
 export type DeclaracionEfectivoUncheckedCreateWithoutTecnicoInput = {
@@ -763,9 +763,9 @@ export type DeclaracionEfectivoCreateWithoutEmpresaInput = {
   observacion?: string | null
   consignado?: boolean
   fechaDeclaracion?: Date | string
-  tenant: Prisma.TenantCreateNestedOneWithoutDeclaracionesInput
   orden: Prisma.OrdenServicioCreateNestedOneWithoutDeclaracionEfectivoInput
   tecnico: Prisma.TenantMembershipCreateNestedOneWithoutDeclaracionesEfectivoInput
+  tenant: Prisma.TenantCreateNestedOneWithoutDeclaracionesInput
 }
 
 export type DeclaracionEfectivoUncheckedCreateWithoutEmpresaInput = {
@@ -813,9 +813,9 @@ export type DeclaracionEfectivoCreateWithoutOrdenInput = {
   observacion?: string | null
   consignado?: boolean
   fechaDeclaracion?: Date | string
-  tenant: Prisma.TenantCreateNestedOneWithoutDeclaracionesInput
   empresa: Prisma.EmpresaCreateNestedOneWithoutDeclaracionesInput
   tecnico: Prisma.TenantMembershipCreateNestedOneWithoutDeclaracionesEfectivoInput
+  tenant: Prisma.TenantCreateNestedOneWithoutDeclaracionesInput
 }
 
 export type DeclaracionEfectivoUncheckedCreateWithoutOrdenInput = {
@@ -853,9 +853,9 @@ export type DeclaracionEfectivoUpdateWithoutOrdenInput = {
   observacion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   consignado?: Prisma.BoolFieldUpdateOperationsInput | boolean
   fechaDeclaracion?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  tenant?: Prisma.TenantUpdateOneRequiredWithoutDeclaracionesNestedInput
   empresa?: Prisma.EmpresaUpdateOneRequiredWithoutDeclaracionesNestedInput
   tecnico?: Prisma.TenantMembershipUpdateOneRequiredWithoutDeclaracionesEfectivoNestedInput
+  tenant?: Prisma.TenantUpdateOneRequiredWithoutDeclaracionesNestedInput
 }
 
 export type DeclaracionEfectivoUncheckedUpdateWithoutOrdenInput = {
@@ -937,9 +937,9 @@ export type DeclaracionEfectivoUpdateWithoutTecnicoInput = {
   observacion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   consignado?: Prisma.BoolFieldUpdateOperationsInput | boolean
   fechaDeclaracion?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  tenant?: Prisma.TenantUpdateOneRequiredWithoutDeclaracionesNestedInput
   empresa?: Prisma.EmpresaUpdateOneRequiredWithoutDeclaracionesNestedInput
   orden?: Prisma.OrdenServicioUpdateOneRequiredWithoutDeclaracionEfectivoNestedInput
+  tenant?: Prisma.TenantUpdateOneRequiredWithoutDeclaracionesNestedInput
 }
 
 export type DeclaracionEfectivoUncheckedUpdateWithoutTecnicoInput = {
@@ -985,9 +985,9 @@ export type DeclaracionEfectivoUpdateWithoutEmpresaInput = {
   observacion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   consignado?: Prisma.BoolFieldUpdateOperationsInput | boolean
   fechaDeclaracion?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  tenant?: Prisma.TenantUpdateOneRequiredWithoutDeclaracionesNestedInput
   orden?: Prisma.OrdenServicioUpdateOneRequiredWithoutDeclaracionEfectivoNestedInput
   tecnico?: Prisma.TenantMembershipUpdateOneRequiredWithoutDeclaracionesEfectivoNestedInput
+  tenant?: Prisma.TenantUpdateOneRequiredWithoutDeclaracionesNestedInput
 }
 
 export type DeclaracionEfectivoUncheckedUpdateWithoutEmpresaInput = {
@@ -1027,10 +1027,10 @@ export type DeclaracionEfectivoSelect<ExtArgs extends runtime.Types.Extensions.I
   observacion?: boolean
   consignado?: boolean
   fechaDeclaracion?: boolean
-  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
   empresa?: boolean | Prisma.EmpresaDefaultArgs<ExtArgs>
   orden?: boolean | Prisma.OrdenServicioDefaultArgs<ExtArgs>
   tecnico?: boolean | Prisma.TenantMembershipDefaultArgs<ExtArgs>
+  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["declaracionEfectivo"]>
 
 export type DeclaracionEfectivoSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -1044,10 +1044,10 @@ export type DeclaracionEfectivoSelectCreateManyAndReturn<ExtArgs extends runtime
   observacion?: boolean
   consignado?: boolean
   fechaDeclaracion?: boolean
-  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
   empresa?: boolean | Prisma.EmpresaDefaultArgs<ExtArgs>
   orden?: boolean | Prisma.OrdenServicioDefaultArgs<ExtArgs>
   tecnico?: boolean | Prisma.TenantMembershipDefaultArgs<ExtArgs>
+  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["declaracionEfectivo"]>
 
 export type DeclaracionEfectivoSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -1061,10 +1061,10 @@ export type DeclaracionEfectivoSelectUpdateManyAndReturn<ExtArgs extends runtime
   observacion?: boolean
   consignado?: boolean
   fechaDeclaracion?: boolean
-  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
   empresa?: boolean | Prisma.EmpresaDefaultArgs<ExtArgs>
   orden?: boolean | Prisma.OrdenServicioDefaultArgs<ExtArgs>
   tecnico?: boolean | Prisma.TenantMembershipDefaultArgs<ExtArgs>
+  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["declaracionEfectivo"]>
 
 export type DeclaracionEfectivoSelectScalar = {
@@ -1082,31 +1082,31 @@ export type DeclaracionEfectivoSelectScalar = {
 
 export type DeclaracionEfectivoOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "tenantId" | "empresaId" | "ordenId" | "tecnicoId" | "valorDeclarado" | "evidenciaPath" | "observacion" | "consignado" | "fechaDeclaracion", ExtArgs["result"]["declaracionEfectivo"]>
 export type DeclaracionEfectivoInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
   empresa?: boolean | Prisma.EmpresaDefaultArgs<ExtArgs>
   orden?: boolean | Prisma.OrdenServicioDefaultArgs<ExtArgs>
   tecnico?: boolean | Prisma.TenantMembershipDefaultArgs<ExtArgs>
+  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
 }
 export type DeclaracionEfectivoIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
   empresa?: boolean | Prisma.EmpresaDefaultArgs<ExtArgs>
   orden?: boolean | Prisma.OrdenServicioDefaultArgs<ExtArgs>
   tecnico?: boolean | Prisma.TenantMembershipDefaultArgs<ExtArgs>
+  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
 }
 export type DeclaracionEfectivoIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
   empresa?: boolean | Prisma.EmpresaDefaultArgs<ExtArgs>
   orden?: boolean | Prisma.OrdenServicioDefaultArgs<ExtArgs>
   tecnico?: boolean | Prisma.TenantMembershipDefaultArgs<ExtArgs>
+  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
 }
 
 export type $DeclaracionEfectivoPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "DeclaracionEfectivo"
   objects: {
-    tenant: Prisma.$TenantPayload<ExtArgs>
     empresa: Prisma.$EmpresaPayload<ExtArgs>
     orden: Prisma.$OrdenServicioPayload<ExtArgs>
     tecnico: Prisma.$TenantMembershipPayload<ExtArgs>
+    tenant: Prisma.$TenantPayload<ExtArgs>
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -1513,10 +1513,10 @@ readonly fields: DeclaracionEfectivoFieldRefs;
  */
 export interface Prisma__DeclaracionEfectivoClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
-  tenant<T extends Prisma.TenantDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.TenantDefaultArgs<ExtArgs>>): Prisma.Prisma__TenantClient<runtime.Types.Result.GetResult<Prisma.$TenantPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   empresa<T extends Prisma.EmpresaDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.EmpresaDefaultArgs<ExtArgs>>): Prisma.Prisma__EmpresaClient<runtime.Types.Result.GetResult<Prisma.$EmpresaPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   orden<T extends Prisma.OrdenServicioDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.OrdenServicioDefaultArgs<ExtArgs>>): Prisma.Prisma__OrdenServicioClient<runtime.Types.Result.GetResult<Prisma.$OrdenServicioPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   tecnico<T extends Prisma.TenantMembershipDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.TenantMembershipDefaultArgs<ExtArgs>>): Prisma.Prisma__TenantMembershipClient<runtime.Types.Result.GetResult<Prisma.$TenantMembershipPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  tenant<T extends Prisma.TenantDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.TenantDefaultArgs<ExtArgs>>): Prisma.Prisma__TenantClient<runtime.Types.Result.GetResult<Prisma.$TenantPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
