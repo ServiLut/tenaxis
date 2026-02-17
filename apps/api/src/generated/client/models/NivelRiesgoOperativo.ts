@@ -240,8 +240,8 @@ export type NivelRiesgoOperativoWhereInput = {
   activo?: Prisma.BoolFilter<"NivelRiesgoOperativo"> | boolean
   createdAt?: Prisma.DateTimeFilter<"NivelRiesgoOperativo"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"NivelRiesgoOperativo"> | Date | string
-  tenant?: Prisma.XOR<Prisma.TenantScalarRelationFilter, Prisma.TenantWhereInput>
   clientes?: Prisma.ClienteListRelationFilter
+  tenant?: Prisma.XOR<Prisma.TenantScalarRelationFilter, Prisma.TenantWhereInput>
 }
 
 export type NivelRiesgoOperativoOrderByWithRelationInput = {
@@ -253,8 +253,8 @@ export type NivelRiesgoOperativoOrderByWithRelationInput = {
   activo?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
-  tenant?: Prisma.TenantOrderByWithRelationInput
   clientes?: Prisma.ClienteOrderByRelationAggregateInput
+  tenant?: Prisma.TenantOrderByWithRelationInput
 }
 
 export type NivelRiesgoOperativoWhereUniqueInput = Prisma.AtLeast<{
@@ -269,8 +269,8 @@ export type NivelRiesgoOperativoWhereUniqueInput = Prisma.AtLeast<{
   activo?: Prisma.BoolFilter<"NivelRiesgoOperativo"> | boolean
   createdAt?: Prisma.DateTimeFilter<"NivelRiesgoOperativo"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"NivelRiesgoOperativo"> | Date | string
-  tenant?: Prisma.XOR<Prisma.TenantScalarRelationFilter, Prisma.TenantWhereInput>
   clientes?: Prisma.ClienteListRelationFilter
+  tenant?: Prisma.XOR<Prisma.TenantScalarRelationFilter, Prisma.TenantWhereInput>
 }, "id">
 
 export type NivelRiesgoOperativoOrderByWithAggregationInput = {
@@ -311,8 +311,8 @@ export type NivelRiesgoOperativoCreateInput = {
   activo?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
-  tenant: Prisma.TenantCreateNestedOneWithoutNivelesRiesgoInput
   clientes?: Prisma.ClienteCreateNestedManyWithoutRiesgoInput
+  tenant: Prisma.TenantCreateNestedOneWithoutNivelesRiesgoInput
 }
 
 export type NivelRiesgoOperativoUncheckedCreateInput = {
@@ -335,8 +335,8 @@ export type NivelRiesgoOperativoUpdateInput = {
   activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  tenant?: Prisma.TenantUpdateOneRequiredWithoutNivelesRiesgoNestedInput
   clientes?: Prisma.ClienteUpdateManyWithoutRiesgoNestedInput
+  tenant?: Prisma.TenantUpdateOneRequiredWithoutNivelesRiesgoNestedInput
 }
 
 export type NivelRiesgoOperativoUncheckedUpdateInput = {
@@ -701,8 +701,8 @@ export type NivelRiesgoOperativoSelect<ExtArgs extends runtime.Types.Extensions.
   activo?: boolean
   createdAt?: boolean
   updatedAt?: boolean
-  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
   clientes?: boolean | Prisma.NivelRiesgoOperativo$clientesArgs<ExtArgs>
+  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
   _count?: boolean | Prisma.NivelRiesgoOperativoCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["nivelRiesgoOperativo"]>
 
@@ -743,8 +743,8 @@ export type NivelRiesgoOperativoSelectScalar = {
 
 export type NivelRiesgoOperativoOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "tenantId" | "nombre" | "color" | "valor" | "activo" | "createdAt" | "updatedAt", ExtArgs["result"]["nivelRiesgoOperativo"]>
 export type NivelRiesgoOperativoInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
   clientes?: boolean | Prisma.NivelRiesgoOperativo$clientesArgs<ExtArgs>
+  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
   _count?: boolean | Prisma.NivelRiesgoOperativoCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type NivelRiesgoOperativoIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -757,8 +757,8 @@ export type NivelRiesgoOperativoIncludeUpdateManyAndReturn<ExtArgs extends runti
 export type $NivelRiesgoOperativoPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "NivelRiesgoOperativo"
   objects: {
-    tenant: Prisma.$TenantPayload<ExtArgs>
     clientes: Prisma.$ClientePayload<ExtArgs>[]
+    tenant: Prisma.$TenantPayload<ExtArgs>
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -1163,8 +1163,8 @@ readonly fields: NivelRiesgoOperativoFieldRefs;
  */
 export interface Prisma__NivelRiesgoOperativoClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
-  tenant<T extends Prisma.TenantDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.TenantDefaultArgs<ExtArgs>>): Prisma.Prisma__TenantClient<runtime.Types.Result.GetResult<Prisma.$TenantPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   clientes<T extends Prisma.NivelRiesgoOperativo$clientesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.NivelRiesgoOperativo$clientesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ClientePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  tenant<T extends Prisma.TenantDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.TenantDefaultArgs<ExtArgs>>): Prisma.Prisma__TenantClient<runtime.Types.Result.GetResult<Prisma.$TenantPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.

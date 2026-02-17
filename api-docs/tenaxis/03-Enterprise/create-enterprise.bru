@@ -1,0 +1,25 @@
+meta {
+  name: Create Enterprise
+  type: http
+  seq: 1
+}
+
+post {
+  url: {{local}}/enterprise
+  body: json
+  auth: bearer
+}
+
+headers {
+  x-tenant-id: 
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+body:json {
+  {
+    "nombre": "My New Enterprise"
+  }
+}

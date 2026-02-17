@@ -166,16 +166,16 @@ export type DepartmentWhereInput = {
   id?: Prisma.UuidFilter<"Department"> | string
   name?: Prisma.StringFilter<"Department"> | string
   code?: Prisma.StringFilter<"Department"> | string
-  municipalities?: Prisma.MunicipalityListRelationFilter
   direcciones?: Prisma.DireccionListRelationFilter
+  municipalities?: Prisma.MunicipalityListRelationFilter
 }
 
 export type DepartmentOrderByWithRelationInput = {
   id?: Prisma.SortOrder
   name?: Prisma.SortOrder
   code?: Prisma.SortOrder
-  municipalities?: Prisma.MunicipalityOrderByRelationAggregateInput
   direcciones?: Prisma.DireccionOrderByRelationAggregateInput
+  municipalities?: Prisma.MunicipalityOrderByRelationAggregateInput
 }
 
 export type DepartmentWhereUniqueInput = Prisma.AtLeast<{
@@ -185,8 +185,8 @@ export type DepartmentWhereUniqueInput = Prisma.AtLeast<{
   OR?: Prisma.DepartmentWhereInput[]
   NOT?: Prisma.DepartmentWhereInput | Prisma.DepartmentWhereInput[]
   name?: Prisma.StringFilter<"Department"> | string
-  municipalities?: Prisma.MunicipalityListRelationFilter
   direcciones?: Prisma.DireccionListRelationFilter
+  municipalities?: Prisma.MunicipalityListRelationFilter
 }, "id" | "code">
 
 export type DepartmentOrderByWithAggregationInput = {
@@ -211,32 +211,32 @@ export type DepartmentCreateInput = {
   id?: string
   name: string
   code: string
-  municipalities?: Prisma.MunicipalityCreateNestedManyWithoutDepartmentInput
   direcciones?: Prisma.DireccionCreateNestedManyWithoutDepartmentRelInput
+  municipalities?: Prisma.MunicipalityCreateNestedManyWithoutDepartmentInput
 }
 
 export type DepartmentUncheckedCreateInput = {
   id?: string
   name: string
   code: string
-  municipalities?: Prisma.MunicipalityUncheckedCreateNestedManyWithoutDepartmentInput
   direcciones?: Prisma.DireccionUncheckedCreateNestedManyWithoutDepartmentRelInput
+  municipalities?: Prisma.MunicipalityUncheckedCreateNestedManyWithoutDepartmentInput
 }
 
 export type DepartmentUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   code?: Prisma.StringFieldUpdateOperationsInput | string
-  municipalities?: Prisma.MunicipalityUpdateManyWithoutDepartmentNestedInput
   direcciones?: Prisma.DireccionUpdateManyWithoutDepartmentRelNestedInput
+  municipalities?: Prisma.MunicipalityUpdateManyWithoutDepartmentNestedInput
 }
 
 export type DepartmentUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   code?: Prisma.StringFieldUpdateOperationsInput | string
-  municipalities?: Prisma.MunicipalityUncheckedUpdateManyWithoutDepartmentNestedInput
   direcciones?: Prisma.DireccionUncheckedUpdateManyWithoutDepartmentRelNestedInput
+  municipalities?: Prisma.MunicipalityUncheckedUpdateManyWithoutDepartmentNestedInput
 }
 
 export type DepartmentCreateManyInput = {
@@ -409,13 +409,13 @@ export type DepartmentUncheckedUpdateWithoutDireccionesInput = {
  */
 
 export type DepartmentCountOutputType = {
-  municipalities: number
   direcciones: number
+  municipalities: number
 }
 
 export type DepartmentCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  municipalities?: boolean | DepartmentCountOutputTypeCountMunicipalitiesArgs
   direcciones?: boolean | DepartmentCountOutputTypeCountDireccionesArgs
+  municipalities?: boolean | DepartmentCountOutputTypeCountMunicipalitiesArgs
 }
 
 /**
@@ -431,15 +431,15 @@ export type DepartmentCountOutputTypeDefaultArgs<ExtArgs extends runtime.Types.E
 /**
  * DepartmentCountOutputType without action
  */
-export type DepartmentCountOutputTypeCountMunicipalitiesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.MunicipalityWhereInput
+export type DepartmentCountOutputTypeCountDireccionesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.DireccionWhereInput
 }
 
 /**
  * DepartmentCountOutputType without action
  */
-export type DepartmentCountOutputTypeCountDireccionesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.DireccionWhereInput
+export type DepartmentCountOutputTypeCountMunicipalitiesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.MunicipalityWhereInput
 }
 
 
@@ -447,8 +447,8 @@ export type DepartmentSelect<ExtArgs extends runtime.Types.Extensions.InternalAr
   id?: boolean
   name?: boolean
   code?: boolean
-  municipalities?: boolean | Prisma.Department$municipalitiesArgs<ExtArgs>
   direcciones?: boolean | Prisma.Department$direccionesArgs<ExtArgs>
+  municipalities?: boolean | Prisma.Department$municipalitiesArgs<ExtArgs>
   _count?: boolean | Prisma.DepartmentCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["department"]>
 
@@ -472,8 +472,8 @@ export type DepartmentSelectScalar = {
 
 export type DepartmentOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "code", ExtArgs["result"]["department"]>
 export type DepartmentInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  municipalities?: boolean | Prisma.Department$municipalitiesArgs<ExtArgs>
   direcciones?: boolean | Prisma.Department$direccionesArgs<ExtArgs>
+  municipalities?: boolean | Prisma.Department$municipalitiesArgs<ExtArgs>
   _count?: boolean | Prisma.DepartmentCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type DepartmentIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
@@ -482,8 +482,8 @@ export type DepartmentIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.E
 export type $DepartmentPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "Department"
   objects: {
-    municipalities: Prisma.$MunicipalityPayload<ExtArgs>[]
     direcciones: Prisma.$DireccionPayload<ExtArgs>[]
+    municipalities: Prisma.$MunicipalityPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -883,8 +883,8 @@ readonly fields: DepartmentFieldRefs;
  */
 export interface Prisma__DepartmentClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
-  municipalities<T extends Prisma.Department$municipalitiesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Department$municipalitiesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$MunicipalityPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   direcciones<T extends Prisma.Department$direccionesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Department$direccionesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$DireccionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  municipalities<T extends Prisma.Department$municipalitiesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Department$municipalitiesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$MunicipalityPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1305,30 +1305,6 @@ export type DepartmentDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.In
 }
 
 /**
- * Department.municipalities
- */
-export type Department$municipalitiesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the Municipality
-   */
-  select?: Prisma.MunicipalitySelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the Municipality
-   */
-  omit?: Prisma.MunicipalityOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.MunicipalityInclude<ExtArgs> | null
-  where?: Prisma.MunicipalityWhereInput
-  orderBy?: Prisma.MunicipalityOrderByWithRelationInput | Prisma.MunicipalityOrderByWithRelationInput[]
-  cursor?: Prisma.MunicipalityWhereUniqueInput
-  take?: number
-  skip?: number
-  distinct?: Prisma.MunicipalityScalarFieldEnum | Prisma.MunicipalityScalarFieldEnum[]
-}
-
-/**
  * Department.direcciones
  */
 export type Department$direccionesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1350,6 +1326,30 @@ export type Department$direccionesArgs<ExtArgs extends runtime.Types.Extensions.
   take?: number
   skip?: number
   distinct?: Prisma.DireccionScalarFieldEnum | Prisma.DireccionScalarFieldEnum[]
+}
+
+/**
+ * Department.municipalities
+ */
+export type Department$municipalitiesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Municipality
+   */
+  select?: Prisma.MunicipalitySelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Municipality
+   */
+  omit?: Prisma.MunicipalityOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.MunicipalityInclude<ExtArgs> | null
+  where?: Prisma.MunicipalityWhereInput
+  orderBy?: Prisma.MunicipalityOrderByWithRelationInput | Prisma.MunicipalityOrderByWithRelationInput[]
+  cursor?: Prisma.MunicipalityWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.MunicipalityScalarFieldEnum | Prisma.MunicipalityScalarFieldEnum[]
 }
 
 /**

@@ -9,6 +9,7 @@ import { PlansModule } from './plans/plans.module';
 import { ClientesModule } from './clientes/clientes.module';
 import { ConfigClientesModule } from './config-clientes/config-clientes.module';
 import { GeoModule } from './geo/geo.module';
+import { EnterpriseModule } from './enterprise/enterprise.module';
 
 @Module({
   imports: [
@@ -20,6 +21,7 @@ import { GeoModule } from './geo/geo.module';
     ClientesModule,
     ConfigClientesModule,
     GeoModule,
+    EnterpriseModule,
   ],
   controllers: [AppController],
   providers: [AppService],

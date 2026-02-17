@@ -248,9 +248,9 @@ export type CuentasPagoWhereInput = {
   numeroCuenta?: Prisma.StringFilter<"CuentasPago"> | string
   valorHora?: Prisma.DecimalNullableFilter<"CuentasPago"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   createdAt?: Prisma.DateTimeFilter<"CuentasPago"> | Date | string
-  tenant?: Prisma.XOR<Prisma.TenantScalarRelationFilter, Prisma.TenantWhereInput>
   empresa?: Prisma.XOR<Prisma.EmpresaScalarRelationFilter, Prisma.EmpresaWhereInput>
   membership?: Prisma.XOR<Prisma.TenantMembershipScalarRelationFilter, Prisma.TenantMembershipWhereInput>
+  tenant?: Prisma.XOR<Prisma.TenantScalarRelationFilter, Prisma.TenantWhereInput>
 }
 
 export type CuentasPagoOrderByWithRelationInput = {
@@ -263,9 +263,9 @@ export type CuentasPagoOrderByWithRelationInput = {
   numeroCuenta?: Prisma.SortOrder
   valorHora?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
-  tenant?: Prisma.TenantOrderByWithRelationInput
   empresa?: Prisma.EmpresaOrderByWithRelationInput
   membership?: Prisma.TenantMembershipOrderByWithRelationInput
+  tenant?: Prisma.TenantOrderByWithRelationInput
 }
 
 export type CuentasPagoWhereUniqueInput = Prisma.AtLeast<{
@@ -281,9 +281,9 @@ export type CuentasPagoWhereUniqueInput = Prisma.AtLeast<{
   numeroCuenta?: Prisma.StringFilter<"CuentasPago"> | string
   valorHora?: Prisma.DecimalNullableFilter<"CuentasPago"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   createdAt?: Prisma.DateTimeFilter<"CuentasPago"> | Date | string
-  tenant?: Prisma.XOR<Prisma.TenantScalarRelationFilter, Prisma.TenantWhereInput>
   empresa?: Prisma.XOR<Prisma.EmpresaScalarRelationFilter, Prisma.EmpresaWhereInput>
   membership?: Prisma.XOR<Prisma.TenantMembershipScalarRelationFilter, Prisma.TenantMembershipWhereInput>
+  tenant?: Prisma.XOR<Prisma.TenantScalarRelationFilter, Prisma.TenantWhereInput>
 }, "id">
 
 export type CuentasPagoOrderByWithAggregationInput = {
@@ -325,9 +325,9 @@ export type CuentasPagoCreateInput = {
   numeroCuenta: string
   valorHora?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   createdAt?: Date | string
-  tenant: Prisma.TenantCreateNestedOneWithoutCuentasPagoInput
   empresa: Prisma.EmpresaCreateNestedOneWithoutCuentasPagoInput
   membership: Prisma.TenantMembershipCreateNestedOneWithoutCuentasPagoInput
+  tenant: Prisma.TenantCreateNestedOneWithoutCuentasPagoInput
 }
 
 export type CuentasPagoUncheckedCreateInput = {
@@ -349,9 +349,9 @@ export type CuentasPagoUpdateInput = {
   numeroCuenta?: Prisma.StringFieldUpdateOperationsInput | string
   valorHora?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  tenant?: Prisma.TenantUpdateOneRequiredWithoutCuentasPagoNestedInput
   empresa?: Prisma.EmpresaUpdateOneRequiredWithoutCuentasPagoNestedInput
   membership?: Prisma.TenantMembershipUpdateOneRequiredWithoutCuentasPagoNestedInput
+  tenant?: Prisma.TenantUpdateOneRequiredWithoutCuentasPagoNestedInput
 }
 
 export type CuentasPagoUncheckedUpdateInput = {
@@ -649,8 +649,8 @@ export type CuentasPagoCreateWithoutMembershipInput = {
   numeroCuenta: string
   valorHora?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   createdAt?: Date | string
-  tenant: Prisma.TenantCreateNestedOneWithoutCuentasPagoInput
   empresa: Prisma.EmpresaCreateNestedOneWithoutCuentasPagoInput
+  tenant: Prisma.TenantCreateNestedOneWithoutCuentasPagoInput
 }
 
 export type CuentasPagoUncheckedCreateWithoutMembershipInput = {
@@ -697,8 +697,8 @@ export type CuentasPagoCreateWithoutEmpresaInput = {
   numeroCuenta: string
   valorHora?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   createdAt?: Date | string
-  tenant: Prisma.TenantCreateNestedOneWithoutCuentasPagoInput
   membership: Prisma.TenantMembershipCreateNestedOneWithoutCuentasPagoInput
+  tenant: Prisma.TenantCreateNestedOneWithoutCuentasPagoInput
 }
 
 export type CuentasPagoUncheckedCreateWithoutEmpresaInput = {
@@ -800,8 +800,8 @@ export type CuentasPagoUpdateWithoutMembershipInput = {
   numeroCuenta?: Prisma.StringFieldUpdateOperationsInput | string
   valorHora?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  tenant?: Prisma.TenantUpdateOneRequiredWithoutCuentasPagoNestedInput
   empresa?: Prisma.EmpresaUpdateOneRequiredWithoutCuentasPagoNestedInput
+  tenant?: Prisma.TenantUpdateOneRequiredWithoutCuentasPagoNestedInput
 }
 
 export type CuentasPagoUncheckedUpdateWithoutMembershipInput = {
@@ -844,8 +844,8 @@ export type CuentasPagoUpdateWithoutEmpresaInput = {
   numeroCuenta?: Prisma.StringFieldUpdateOperationsInput | string
   valorHora?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  tenant?: Prisma.TenantUpdateOneRequiredWithoutCuentasPagoNestedInput
   membership?: Prisma.TenantMembershipUpdateOneRequiredWithoutCuentasPagoNestedInput
+  tenant?: Prisma.TenantUpdateOneRequiredWithoutCuentasPagoNestedInput
 }
 
 export type CuentasPagoUncheckedUpdateWithoutEmpresaInput = {
@@ -882,9 +882,9 @@ export type CuentasPagoSelect<ExtArgs extends runtime.Types.Extensions.InternalA
   numeroCuenta?: boolean
   valorHora?: boolean
   createdAt?: boolean
-  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
   empresa?: boolean | Prisma.EmpresaDefaultArgs<ExtArgs>
   membership?: boolean | Prisma.TenantMembershipDefaultArgs<ExtArgs>
+  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["cuentasPago"]>
 
 export type CuentasPagoSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -897,9 +897,9 @@ export type CuentasPagoSelectCreateManyAndReturn<ExtArgs extends runtime.Types.E
   numeroCuenta?: boolean
   valorHora?: boolean
   createdAt?: boolean
-  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
   empresa?: boolean | Prisma.EmpresaDefaultArgs<ExtArgs>
   membership?: boolean | Prisma.TenantMembershipDefaultArgs<ExtArgs>
+  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["cuentasPago"]>
 
 export type CuentasPagoSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -912,9 +912,9 @@ export type CuentasPagoSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.E
   numeroCuenta?: boolean
   valorHora?: boolean
   createdAt?: boolean
-  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
   empresa?: boolean | Prisma.EmpresaDefaultArgs<ExtArgs>
   membership?: boolean | Prisma.TenantMembershipDefaultArgs<ExtArgs>
+  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["cuentasPago"]>
 
 export type CuentasPagoSelectScalar = {
@@ -931,27 +931,27 @@ export type CuentasPagoSelectScalar = {
 
 export type CuentasPagoOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "tenantId" | "empresaId" | "membershipId" | "banco" | "tipoCuenta" | "numeroCuenta" | "valorHora" | "createdAt", ExtArgs["result"]["cuentasPago"]>
 export type CuentasPagoInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
   empresa?: boolean | Prisma.EmpresaDefaultArgs<ExtArgs>
   membership?: boolean | Prisma.TenantMembershipDefaultArgs<ExtArgs>
+  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
 }
 export type CuentasPagoIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
   empresa?: boolean | Prisma.EmpresaDefaultArgs<ExtArgs>
   membership?: boolean | Prisma.TenantMembershipDefaultArgs<ExtArgs>
+  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
 }
 export type CuentasPagoIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
   empresa?: boolean | Prisma.EmpresaDefaultArgs<ExtArgs>
   membership?: boolean | Prisma.TenantMembershipDefaultArgs<ExtArgs>
+  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
 }
 
 export type $CuentasPagoPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "CuentasPago"
   objects: {
-    tenant: Prisma.$TenantPayload<ExtArgs>
     empresa: Prisma.$EmpresaPayload<ExtArgs>
     membership: Prisma.$TenantMembershipPayload<ExtArgs>
+    tenant: Prisma.$TenantPayload<ExtArgs>
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -1357,9 +1357,9 @@ readonly fields: CuentasPagoFieldRefs;
  */
 export interface Prisma__CuentasPagoClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
-  tenant<T extends Prisma.TenantDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.TenantDefaultArgs<ExtArgs>>): Prisma.Prisma__TenantClient<runtime.Types.Result.GetResult<Prisma.$TenantPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   empresa<T extends Prisma.EmpresaDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.EmpresaDefaultArgs<ExtArgs>>): Prisma.Prisma__EmpresaClient<runtime.Types.Result.GetResult<Prisma.$EmpresaPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   membership<T extends Prisma.TenantMembershipDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.TenantMembershipDefaultArgs<ExtArgs>>): Prisma.Prisma__TenantMembershipClient<runtime.Types.Result.GetResult<Prisma.$TenantMembershipPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  tenant<T extends Prisma.TenantDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.TenantDefaultArgs<ExtArgs>>): Prisma.Prisma__TenantClient<runtime.Types.Result.GetResult<Prisma.$TenantPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.

@@ -260,10 +260,10 @@ export type SesionActividadWhereInput = {
   tiempoInactivo?: Prisma.IntFilter<"SesionActividad"> | number
   dispositivo?: Prisma.StringNullableFilter<"SesionActividad"> | string | null
   ip?: Prisma.StringNullableFilter<"SesionActividad"> | string | null
-  tenant?: Prisma.XOR<Prisma.TenantScalarRelationFilter, Prisma.TenantWhereInput>
+  logs?: Prisma.LogEventoListRelationFilter
   empresa?: Prisma.XOR<Prisma.EmpresaScalarRelationFilter, Prisma.EmpresaWhereInput>
   membership?: Prisma.XOR<Prisma.TenantMembershipScalarRelationFilter, Prisma.TenantMembershipWhereInput>
-  logs?: Prisma.LogEventoListRelationFilter
+  tenant?: Prisma.XOR<Prisma.TenantScalarRelationFilter, Prisma.TenantWhereInput>
 }
 
 export type SesionActividadOrderByWithRelationInput = {
@@ -277,10 +277,10 @@ export type SesionActividadOrderByWithRelationInput = {
   tiempoInactivo?: Prisma.SortOrder
   dispositivo?: Prisma.SortOrderInput | Prisma.SortOrder
   ip?: Prisma.SortOrderInput | Prisma.SortOrder
-  tenant?: Prisma.TenantOrderByWithRelationInput
+  logs?: Prisma.LogEventoOrderByRelationAggregateInput
   empresa?: Prisma.EmpresaOrderByWithRelationInput
   membership?: Prisma.TenantMembershipOrderByWithRelationInput
-  logs?: Prisma.LogEventoOrderByRelationAggregateInput
+  tenant?: Prisma.TenantOrderByWithRelationInput
 }
 
 export type SesionActividadWhereUniqueInput = Prisma.AtLeast<{
@@ -297,10 +297,10 @@ export type SesionActividadWhereUniqueInput = Prisma.AtLeast<{
   tiempoInactivo?: Prisma.IntFilter<"SesionActividad"> | number
   dispositivo?: Prisma.StringNullableFilter<"SesionActividad"> | string | null
   ip?: Prisma.StringNullableFilter<"SesionActividad"> | string | null
-  tenant?: Prisma.XOR<Prisma.TenantScalarRelationFilter, Prisma.TenantWhereInput>
+  logs?: Prisma.LogEventoListRelationFilter
   empresa?: Prisma.XOR<Prisma.EmpresaScalarRelationFilter, Prisma.EmpresaWhereInput>
   membership?: Prisma.XOR<Prisma.TenantMembershipScalarRelationFilter, Prisma.TenantMembershipWhereInput>
-  logs?: Prisma.LogEventoListRelationFilter
+  tenant?: Prisma.XOR<Prisma.TenantScalarRelationFilter, Prisma.TenantWhereInput>
 }, "id">
 
 export type SesionActividadOrderByWithAggregationInput = {
@@ -345,10 +345,10 @@ export type SesionActividadCreateInput = {
   tiempoInactivo?: number
   dispositivo?: string | null
   ip?: string | null
-  tenant: Prisma.TenantCreateNestedOneWithoutSesionesActividadInput
+  logs?: Prisma.LogEventoCreateNestedManyWithoutSesionInput
   empresa: Prisma.EmpresaCreateNestedOneWithoutSesionesActividadInput
   membership: Prisma.TenantMembershipCreateNestedOneWithoutSesionesActividadInput
-  logs?: Prisma.LogEventoCreateNestedManyWithoutSesionInput
+  tenant: Prisma.TenantCreateNestedOneWithoutSesionesActividadInput
 }
 
 export type SesionActividadUncheckedCreateInput = {
@@ -373,10 +373,10 @@ export type SesionActividadUpdateInput = {
   tiempoInactivo?: Prisma.IntFieldUpdateOperationsInput | number
   dispositivo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   ip?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  tenant?: Prisma.TenantUpdateOneRequiredWithoutSesionesActividadNestedInput
+  logs?: Prisma.LogEventoUpdateManyWithoutSesionNestedInput
   empresa?: Prisma.EmpresaUpdateOneRequiredWithoutSesionesActividadNestedInput
   membership?: Prisma.TenantMembershipUpdateOneRequiredWithoutSesionesActividadNestedInput
-  logs?: Prisma.LogEventoUpdateManyWithoutSesionNestedInput
+  tenant?: Prisma.TenantUpdateOneRequiredWithoutSesionesActividadNestedInput
 }
 
 export type SesionActividadUncheckedUpdateInput = {
@@ -641,9 +641,9 @@ export type SesionActividadCreateWithoutTenantInput = {
   tiempoInactivo?: number
   dispositivo?: string | null
   ip?: string | null
+  logs?: Prisma.LogEventoCreateNestedManyWithoutSesionInput
   empresa: Prisma.EmpresaCreateNestedOneWithoutSesionesActividadInput
   membership: Prisma.TenantMembershipCreateNestedOneWithoutSesionesActividadInput
-  logs?: Prisma.LogEventoCreateNestedManyWithoutSesionInput
 }
 
 export type SesionActividadUncheckedCreateWithoutTenantInput = {
@@ -709,9 +709,9 @@ export type SesionActividadCreateWithoutMembershipInput = {
   tiempoInactivo?: number
   dispositivo?: string | null
   ip?: string | null
-  tenant: Prisma.TenantCreateNestedOneWithoutSesionesActividadInput
-  empresa: Prisma.EmpresaCreateNestedOneWithoutSesionesActividadInput
   logs?: Prisma.LogEventoCreateNestedManyWithoutSesionInput
+  empresa: Prisma.EmpresaCreateNestedOneWithoutSesionesActividadInput
+  tenant: Prisma.TenantCreateNestedOneWithoutSesionesActividadInput
 }
 
 export type SesionActividadUncheckedCreateWithoutMembershipInput = {
@@ -761,9 +761,9 @@ export type SesionActividadCreateWithoutEmpresaInput = {
   tiempoInactivo?: number
   dispositivo?: string | null
   ip?: string | null
-  tenant: Prisma.TenantCreateNestedOneWithoutSesionesActividadInput
-  membership: Prisma.TenantMembershipCreateNestedOneWithoutSesionesActividadInput
   logs?: Prisma.LogEventoCreateNestedManyWithoutSesionInput
+  membership: Prisma.TenantMembershipCreateNestedOneWithoutSesionesActividadInput
+  tenant: Prisma.TenantCreateNestedOneWithoutSesionesActividadInput
 }
 
 export type SesionActividadUncheckedCreateWithoutEmpresaInput = {
@@ -813,9 +813,9 @@ export type SesionActividadCreateWithoutLogsInput = {
   tiempoInactivo?: number
   dispositivo?: string | null
   ip?: string | null
-  tenant: Prisma.TenantCreateNestedOneWithoutSesionesActividadInput
   empresa: Prisma.EmpresaCreateNestedOneWithoutSesionesActividadInput
   membership: Prisma.TenantMembershipCreateNestedOneWithoutSesionesActividadInput
+  tenant: Prisma.TenantCreateNestedOneWithoutSesionesActividadInput
 }
 
 export type SesionActividadUncheckedCreateWithoutLogsInput = {
@@ -855,9 +855,9 @@ export type SesionActividadUpdateWithoutLogsInput = {
   tiempoInactivo?: Prisma.IntFieldUpdateOperationsInput | number
   dispositivo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   ip?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  tenant?: Prisma.TenantUpdateOneRequiredWithoutSesionesActividadNestedInput
   empresa?: Prisma.EmpresaUpdateOneRequiredWithoutSesionesActividadNestedInput
   membership?: Prisma.TenantMembershipUpdateOneRequiredWithoutSesionesActividadNestedInput
+  tenant?: Prisma.TenantUpdateOneRequiredWithoutSesionesActividadNestedInput
 }
 
 export type SesionActividadUncheckedUpdateWithoutLogsInput = {
@@ -893,9 +893,9 @@ export type SesionActividadUpdateWithoutTenantInput = {
   tiempoInactivo?: Prisma.IntFieldUpdateOperationsInput | number
   dispositivo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   ip?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  logs?: Prisma.LogEventoUpdateManyWithoutSesionNestedInput
   empresa?: Prisma.EmpresaUpdateOneRequiredWithoutSesionesActividadNestedInput
   membership?: Prisma.TenantMembershipUpdateOneRequiredWithoutSesionesActividadNestedInput
-  logs?: Prisma.LogEventoUpdateManyWithoutSesionNestedInput
 }
 
 export type SesionActividadUncheckedUpdateWithoutTenantInput = {
@@ -943,9 +943,9 @@ export type SesionActividadUpdateWithoutMembershipInput = {
   tiempoInactivo?: Prisma.IntFieldUpdateOperationsInput | number
   dispositivo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   ip?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  tenant?: Prisma.TenantUpdateOneRequiredWithoutSesionesActividadNestedInput
-  empresa?: Prisma.EmpresaUpdateOneRequiredWithoutSesionesActividadNestedInput
   logs?: Prisma.LogEventoUpdateManyWithoutSesionNestedInput
+  empresa?: Prisma.EmpresaUpdateOneRequiredWithoutSesionesActividadNestedInput
+  tenant?: Prisma.TenantUpdateOneRequiredWithoutSesionesActividadNestedInput
 }
 
 export type SesionActividadUncheckedUpdateWithoutMembershipInput = {
@@ -993,9 +993,9 @@ export type SesionActividadUpdateWithoutEmpresaInput = {
   tiempoInactivo?: Prisma.IntFieldUpdateOperationsInput | number
   dispositivo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   ip?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  tenant?: Prisma.TenantUpdateOneRequiredWithoutSesionesActividadNestedInput
-  membership?: Prisma.TenantMembershipUpdateOneRequiredWithoutSesionesActividadNestedInput
   logs?: Prisma.LogEventoUpdateManyWithoutSesionNestedInput
+  membership?: Prisma.TenantMembershipUpdateOneRequiredWithoutSesionesActividadNestedInput
+  tenant?: Prisma.TenantUpdateOneRequiredWithoutSesionesActividadNestedInput
 }
 
 export type SesionActividadUncheckedUpdateWithoutEmpresaInput = {
@@ -1065,10 +1065,10 @@ export type SesionActividadSelect<ExtArgs extends runtime.Types.Extensions.Inter
   tiempoInactivo?: boolean
   dispositivo?: boolean
   ip?: boolean
-  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
+  logs?: boolean | Prisma.SesionActividad$logsArgs<ExtArgs>
   empresa?: boolean | Prisma.EmpresaDefaultArgs<ExtArgs>
   membership?: boolean | Prisma.TenantMembershipDefaultArgs<ExtArgs>
-  logs?: boolean | Prisma.SesionActividad$logsArgs<ExtArgs>
+  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
   _count?: boolean | Prisma.SesionActividadCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["sesionActividad"]>
 
@@ -1083,9 +1083,9 @@ export type SesionActividadSelectCreateManyAndReturn<ExtArgs extends runtime.Typ
   tiempoInactivo?: boolean
   dispositivo?: boolean
   ip?: boolean
-  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
   empresa?: boolean | Prisma.EmpresaDefaultArgs<ExtArgs>
   membership?: boolean | Prisma.TenantMembershipDefaultArgs<ExtArgs>
+  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["sesionActividad"]>
 
 export type SesionActividadSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -1099,9 +1099,9 @@ export type SesionActividadSelectUpdateManyAndReturn<ExtArgs extends runtime.Typ
   tiempoInactivo?: boolean
   dispositivo?: boolean
   ip?: boolean
-  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
   empresa?: boolean | Prisma.EmpresaDefaultArgs<ExtArgs>
   membership?: boolean | Prisma.TenantMembershipDefaultArgs<ExtArgs>
+  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["sesionActividad"]>
 
 export type SesionActividadSelectScalar = {
@@ -1119,30 +1119,30 @@ export type SesionActividadSelectScalar = {
 
 export type SesionActividadOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "tenantId" | "empresaId" | "membershipId" | "fechaInicio" | "fechaFin" | "duracionMin" | "tiempoInactivo" | "dispositivo" | "ip", ExtArgs["result"]["sesionActividad"]>
 export type SesionActividadInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
+  logs?: boolean | Prisma.SesionActividad$logsArgs<ExtArgs>
   empresa?: boolean | Prisma.EmpresaDefaultArgs<ExtArgs>
   membership?: boolean | Prisma.TenantMembershipDefaultArgs<ExtArgs>
-  logs?: boolean | Prisma.SesionActividad$logsArgs<ExtArgs>
+  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
   _count?: boolean | Prisma.SesionActividadCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type SesionActividadIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
   empresa?: boolean | Prisma.EmpresaDefaultArgs<ExtArgs>
   membership?: boolean | Prisma.TenantMembershipDefaultArgs<ExtArgs>
+  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
 }
 export type SesionActividadIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
   empresa?: boolean | Prisma.EmpresaDefaultArgs<ExtArgs>
   membership?: boolean | Prisma.TenantMembershipDefaultArgs<ExtArgs>
+  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
 }
 
 export type $SesionActividadPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "SesionActividad"
   objects: {
-    tenant: Prisma.$TenantPayload<ExtArgs>
+    logs: Prisma.$LogEventoPayload<ExtArgs>[]
     empresa: Prisma.$EmpresaPayload<ExtArgs>
     membership: Prisma.$TenantMembershipPayload<ExtArgs>
-    logs: Prisma.$LogEventoPayload<ExtArgs>[]
+    tenant: Prisma.$TenantPayload<ExtArgs>
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -1549,10 +1549,10 @@ readonly fields: SesionActividadFieldRefs;
  */
 export interface Prisma__SesionActividadClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
-  tenant<T extends Prisma.TenantDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.TenantDefaultArgs<ExtArgs>>): Prisma.Prisma__TenantClient<runtime.Types.Result.GetResult<Prisma.$TenantPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  logs<T extends Prisma.SesionActividad$logsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.SesionActividad$logsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$LogEventoPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   empresa<T extends Prisma.EmpresaDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.EmpresaDefaultArgs<ExtArgs>>): Prisma.Prisma__EmpresaClient<runtime.Types.Result.GetResult<Prisma.$EmpresaPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   membership<T extends Prisma.TenantMembershipDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.TenantMembershipDefaultArgs<ExtArgs>>): Prisma.Prisma__TenantMembershipClient<runtime.Types.Result.GetResult<Prisma.$TenantMembershipPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
-  logs<T extends Prisma.SesionActividad$logsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.SesionActividad$logsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$LogEventoPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  tenant<T extends Prisma.TenantDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.TenantDefaultArgs<ExtArgs>>): Prisma.Prisma__TenantClient<runtime.Types.Result.GetResult<Prisma.$TenantPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.

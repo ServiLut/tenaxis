@@ -240,9 +240,9 @@ export type EgresosWhereInput = {
   monto?: Prisma.DecimalFilter<"Egresos"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   razon?: Prisma.StringNullableFilter<"Egresos"> | string | null
   createdAt?: Prisma.DateTimeFilter<"Egresos"> | Date | string
-  tenant?: Prisma.XOR<Prisma.TenantScalarRelationFilter, Prisma.TenantWhereInput>
   empresa?: Prisma.XOR<Prisma.EmpresaScalarRelationFilter, Prisma.EmpresaWhereInput>
   membership?: Prisma.XOR<Prisma.TenantMembershipScalarRelationFilter, Prisma.TenantMembershipWhereInput>
+  tenant?: Prisma.XOR<Prisma.TenantScalarRelationFilter, Prisma.TenantWhereInput>
 }
 
 export type EgresosOrderByWithRelationInput = {
@@ -254,9 +254,9 @@ export type EgresosOrderByWithRelationInput = {
   monto?: Prisma.SortOrder
   razon?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
-  tenant?: Prisma.TenantOrderByWithRelationInput
   empresa?: Prisma.EmpresaOrderByWithRelationInput
   membership?: Prisma.TenantMembershipOrderByWithRelationInput
+  tenant?: Prisma.TenantOrderByWithRelationInput
 }
 
 export type EgresosWhereUniqueInput = Prisma.AtLeast<{
@@ -271,9 +271,9 @@ export type EgresosWhereUniqueInput = Prisma.AtLeast<{
   monto?: Prisma.DecimalFilter<"Egresos"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   razon?: Prisma.StringNullableFilter<"Egresos"> | string | null
   createdAt?: Prisma.DateTimeFilter<"Egresos"> | Date | string
-  tenant?: Prisma.XOR<Prisma.TenantScalarRelationFilter, Prisma.TenantWhereInput>
   empresa?: Prisma.XOR<Prisma.EmpresaScalarRelationFilter, Prisma.EmpresaWhereInput>
   membership?: Prisma.XOR<Prisma.TenantMembershipScalarRelationFilter, Prisma.TenantMembershipWhereInput>
+  tenant?: Prisma.XOR<Prisma.TenantScalarRelationFilter, Prisma.TenantWhereInput>
 }, "id">
 
 export type EgresosOrderByWithAggregationInput = {
@@ -312,9 +312,9 @@ export type EgresosCreateInput = {
   monto: runtime.Decimal | runtime.DecimalJsLike | number | string
   razon?: string | null
   createdAt?: Date | string
-  tenant: Prisma.TenantCreateNestedOneWithoutEgresosInput
   empresa: Prisma.EmpresaCreateNestedOneWithoutEgresosInput
   membership: Prisma.TenantMembershipCreateNestedOneWithoutEgresosInput
+  tenant: Prisma.TenantCreateNestedOneWithoutEgresosInput
 }
 
 export type EgresosUncheckedCreateInput = {
@@ -334,9 +334,9 @@ export type EgresosUpdateInput = {
   monto?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   razon?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  tenant?: Prisma.TenantUpdateOneRequiredWithoutEgresosNestedInput
   empresa?: Prisma.EmpresaUpdateOneRequiredWithoutEgresosNestedInput
   membership?: Prisma.TenantMembershipUpdateOneRequiredWithoutEgresosNestedInput
+  tenant?: Prisma.TenantUpdateOneRequiredWithoutEgresosNestedInput
 }
 
 export type EgresosUncheckedUpdateInput = {
@@ -623,8 +623,8 @@ export type EgresosCreateWithoutMembershipInput = {
   monto: runtime.Decimal | runtime.DecimalJsLike | number | string
   razon?: string | null
   createdAt?: Date | string
-  tenant: Prisma.TenantCreateNestedOneWithoutEgresosInput
   empresa: Prisma.EmpresaCreateNestedOneWithoutEgresosInput
+  tenant: Prisma.TenantCreateNestedOneWithoutEgresosInput
 }
 
 export type EgresosUncheckedCreateWithoutMembershipInput = {
@@ -669,8 +669,8 @@ export type EgresosCreateWithoutEmpresaInput = {
   monto: runtime.Decimal | runtime.DecimalJsLike | number | string
   razon?: string | null
   createdAt?: Date | string
-  tenant: Prisma.TenantCreateNestedOneWithoutEgresosInput
   membership: Prisma.TenantMembershipCreateNestedOneWithoutEgresosInput
+  tenant: Prisma.TenantCreateNestedOneWithoutEgresosInput
 }
 
 export type EgresosUncheckedCreateWithoutEmpresaInput = {
@@ -765,8 +765,8 @@ export type EgresosUpdateWithoutMembershipInput = {
   monto?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   razon?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  tenant?: Prisma.TenantUpdateOneRequiredWithoutEgresosNestedInput
   empresa?: Prisma.EmpresaUpdateOneRequiredWithoutEgresosNestedInput
+  tenant?: Prisma.TenantUpdateOneRequiredWithoutEgresosNestedInput
 }
 
 export type EgresosUncheckedUpdateWithoutMembershipInput = {
@@ -805,8 +805,8 @@ export type EgresosUpdateWithoutEmpresaInput = {
   monto?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   razon?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  tenant?: Prisma.TenantUpdateOneRequiredWithoutEgresosNestedInput
   membership?: Prisma.TenantMembershipUpdateOneRequiredWithoutEgresosNestedInput
+  tenant?: Prisma.TenantUpdateOneRequiredWithoutEgresosNestedInput
 }
 
 export type EgresosUncheckedUpdateWithoutEmpresaInput = {
@@ -840,9 +840,9 @@ export type EgresosSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs 
   monto?: boolean
   razon?: boolean
   createdAt?: boolean
-  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
   empresa?: boolean | Prisma.EmpresaDefaultArgs<ExtArgs>
   membership?: boolean | Prisma.TenantMembershipDefaultArgs<ExtArgs>
+  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["egresos"]>
 
 export type EgresosSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -854,9 +854,9 @@ export type EgresosSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Exten
   monto?: boolean
   razon?: boolean
   createdAt?: boolean
-  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
   empresa?: boolean | Prisma.EmpresaDefaultArgs<ExtArgs>
   membership?: boolean | Prisma.TenantMembershipDefaultArgs<ExtArgs>
+  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["egresos"]>
 
 export type EgresosSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -868,9 +868,9 @@ export type EgresosSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Exten
   monto?: boolean
   razon?: boolean
   createdAt?: boolean
-  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
   empresa?: boolean | Prisma.EmpresaDefaultArgs<ExtArgs>
   membership?: boolean | Prisma.TenantMembershipDefaultArgs<ExtArgs>
+  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["egresos"]>
 
 export type EgresosSelectScalar = {
@@ -886,27 +886,27 @@ export type EgresosSelectScalar = {
 
 export type EgresosOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "tenantId" | "empresaId" | "membershipId" | "titulo" | "monto" | "razon" | "createdAt", ExtArgs["result"]["egresos"]>
 export type EgresosInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
   empresa?: boolean | Prisma.EmpresaDefaultArgs<ExtArgs>
   membership?: boolean | Prisma.TenantMembershipDefaultArgs<ExtArgs>
+  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
 }
 export type EgresosIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
   empresa?: boolean | Prisma.EmpresaDefaultArgs<ExtArgs>
   membership?: boolean | Prisma.TenantMembershipDefaultArgs<ExtArgs>
+  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
 }
 export type EgresosIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
   empresa?: boolean | Prisma.EmpresaDefaultArgs<ExtArgs>
   membership?: boolean | Prisma.TenantMembershipDefaultArgs<ExtArgs>
+  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
 }
 
 export type $EgresosPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "Egresos"
   objects: {
-    tenant: Prisma.$TenantPayload<ExtArgs>
     empresa: Prisma.$EmpresaPayload<ExtArgs>
     membership: Prisma.$TenantMembershipPayload<ExtArgs>
+    tenant: Prisma.$TenantPayload<ExtArgs>
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -1311,9 +1311,9 @@ readonly fields: EgresosFieldRefs;
  */
 export interface Prisma__EgresosClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
-  tenant<T extends Prisma.TenantDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.TenantDefaultArgs<ExtArgs>>): Prisma.Prisma__TenantClient<runtime.Types.Result.GetResult<Prisma.$TenantPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   empresa<T extends Prisma.EmpresaDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.EmpresaDefaultArgs<ExtArgs>>): Prisma.Prisma__EmpresaClient<runtime.Types.Result.GetResult<Prisma.$EmpresaPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   membership<T extends Prisma.TenantMembershipDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.TenantMembershipDefaultArgs<ExtArgs>>): Prisma.Prisma__TenantMembershipClient<runtime.Types.Result.GetResult<Prisma.$TenantMembershipPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  tenant<T extends Prisma.TenantDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.TenantDefaultArgs<ExtArgs>>): Prisma.Prisma__TenantClient<runtime.Types.Result.GetResult<Prisma.$TenantPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.

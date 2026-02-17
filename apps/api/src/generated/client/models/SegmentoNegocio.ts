@@ -248,8 +248,8 @@ export type SegmentoNegocioWhereInput = {
   activo?: Prisma.BoolFilter<"SegmentoNegocio"> | boolean
   createdAt?: Prisma.DateTimeFilter<"SegmentoNegocio"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"SegmentoNegocio"> | Date | string
-  tenant?: Prisma.XOR<Prisma.TenantScalarRelationFilter, Prisma.TenantWhereInput>
   clientes?: Prisma.ClienteListRelationFilter
+  tenant?: Prisma.XOR<Prisma.TenantScalarRelationFilter, Prisma.TenantWhereInput>
 }
 
 export type SegmentoNegocioOrderByWithRelationInput = {
@@ -262,8 +262,8 @@ export type SegmentoNegocioOrderByWithRelationInput = {
   activo?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
-  tenant?: Prisma.TenantOrderByWithRelationInput
   clientes?: Prisma.ClienteOrderByRelationAggregateInput
+  tenant?: Prisma.TenantOrderByWithRelationInput
 }
 
 export type SegmentoNegocioWhereUniqueInput = Prisma.AtLeast<{
@@ -279,8 +279,8 @@ export type SegmentoNegocioWhereUniqueInput = Prisma.AtLeast<{
   activo?: Prisma.BoolFilter<"SegmentoNegocio"> | boolean
   createdAt?: Prisma.DateTimeFilter<"SegmentoNegocio"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"SegmentoNegocio"> | Date | string
-  tenant?: Prisma.XOR<Prisma.TenantScalarRelationFilter, Prisma.TenantWhereInput>
   clientes?: Prisma.ClienteListRelationFilter
+  tenant?: Prisma.XOR<Prisma.TenantScalarRelationFilter, Prisma.TenantWhereInput>
 }, "id">
 
 export type SegmentoNegocioOrderByWithAggregationInput = {
@@ -324,8 +324,8 @@ export type SegmentoNegocioCreateInput = {
   activo?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
-  tenant: Prisma.TenantCreateNestedOneWithoutSegmentosInput
   clientes?: Prisma.ClienteCreateNestedManyWithoutSegmentoInput
+  tenant: Prisma.TenantCreateNestedOneWithoutSegmentosInput
 }
 
 export type SegmentoNegocioUncheckedCreateInput = {
@@ -350,8 +350,8 @@ export type SegmentoNegocioUpdateInput = {
   activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  tenant?: Prisma.TenantUpdateOneRequiredWithoutSegmentosNestedInput
   clientes?: Prisma.ClienteUpdateManyWithoutSegmentoNestedInput
+  tenant?: Prisma.TenantUpdateOneRequiredWithoutSegmentosNestedInput
 }
 
 export type SegmentoNegocioUncheckedUpdateInput = {
@@ -743,8 +743,8 @@ export type SegmentoNegocioSelect<ExtArgs extends runtime.Types.Extensions.Inter
   activo?: boolean
   createdAt?: boolean
   updatedAt?: boolean
-  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
   clientes?: boolean | Prisma.SegmentoNegocio$clientesArgs<ExtArgs>
+  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
   _count?: boolean | Prisma.SegmentoNegocioCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["segmentoNegocio"]>
 
@@ -788,8 +788,8 @@ export type SegmentoNegocioSelectScalar = {
 
 export type SegmentoNegocioOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "tenantId" | "nombre" | "descripcion" | "frecuenciaSugerida" | "riesgoSugerido" | "activo" | "createdAt" | "updatedAt", ExtArgs["result"]["segmentoNegocio"]>
 export type SegmentoNegocioInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
   clientes?: boolean | Prisma.SegmentoNegocio$clientesArgs<ExtArgs>
+  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
   _count?: boolean | Prisma.SegmentoNegocioCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type SegmentoNegocioIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -802,8 +802,8 @@ export type SegmentoNegocioIncludeUpdateManyAndReturn<ExtArgs extends runtime.Ty
 export type $SegmentoNegocioPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "SegmentoNegocio"
   objects: {
-    tenant: Prisma.$TenantPayload<ExtArgs>
     clientes: Prisma.$ClientePayload<ExtArgs>[]
+    tenant: Prisma.$TenantPayload<ExtArgs>
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -1209,8 +1209,8 @@ readonly fields: SegmentoNegocioFieldRefs;
  */
 export interface Prisma__SegmentoNegocioClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
-  tenant<T extends Prisma.TenantDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.TenantDefaultArgs<ExtArgs>>): Prisma.Prisma__TenantClient<runtime.Types.Result.GetResult<Prisma.$TenantPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   clientes<T extends Prisma.SegmentoNegocio$clientesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.SegmentoNegocio$clientesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ClientePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  tenant<T extends Prisma.TenantDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.TenantDefaultArgs<ExtArgs>>): Prisma.Prisma__TenantClient<runtime.Types.Result.GetResult<Prisma.$TenantPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.

@@ -222,10 +222,10 @@ export type VehiculoWhereInput = {
   color?: Prisma.StringNullableFilter<"Vehiculo"> | string | null
   tipo?: Prisma.StringNullableFilter<"Vehiculo"> | string | null
   createdAt?: Prisma.DateTimeFilter<"Vehiculo"> | Date | string
-  tenant?: Prisma.XOR<Prisma.TenantScalarRelationFilter, Prisma.TenantWhereInput>
-  empresa?: Prisma.XOR<Prisma.EmpresaScalarRelationFilter, Prisma.EmpresaWhereInput>
-  cliente?: Prisma.XOR<Prisma.ClienteScalarRelationFilter, Prisma.ClienteWhereInput>
   ordenesServicio?: Prisma.OrdenServicioListRelationFilter
+  cliente?: Prisma.XOR<Prisma.ClienteScalarRelationFilter, Prisma.ClienteWhereInput>
+  empresa?: Prisma.XOR<Prisma.EmpresaScalarRelationFilter, Prisma.EmpresaWhereInput>
+  tenant?: Prisma.XOR<Prisma.TenantScalarRelationFilter, Prisma.TenantWhereInput>
 }
 
 export type VehiculoOrderByWithRelationInput = {
@@ -239,10 +239,10 @@ export type VehiculoOrderByWithRelationInput = {
   color?: Prisma.SortOrderInput | Prisma.SortOrder
   tipo?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
-  tenant?: Prisma.TenantOrderByWithRelationInput
-  empresa?: Prisma.EmpresaOrderByWithRelationInput
-  cliente?: Prisma.ClienteOrderByWithRelationInput
   ordenesServicio?: Prisma.OrdenServicioOrderByRelationAggregateInput
+  cliente?: Prisma.ClienteOrderByWithRelationInput
+  empresa?: Prisma.EmpresaOrderByWithRelationInput
+  tenant?: Prisma.TenantOrderByWithRelationInput
 }
 
 export type VehiculoWhereUniqueInput = Prisma.AtLeast<{
@@ -259,10 +259,10 @@ export type VehiculoWhereUniqueInput = Prisma.AtLeast<{
   color?: Prisma.StringNullableFilter<"Vehiculo"> | string | null
   tipo?: Prisma.StringNullableFilter<"Vehiculo"> | string | null
   createdAt?: Prisma.DateTimeFilter<"Vehiculo"> | Date | string
-  tenant?: Prisma.XOR<Prisma.TenantScalarRelationFilter, Prisma.TenantWhereInput>
-  empresa?: Prisma.XOR<Prisma.EmpresaScalarRelationFilter, Prisma.EmpresaWhereInput>
-  cliente?: Prisma.XOR<Prisma.ClienteScalarRelationFilter, Prisma.ClienteWhereInput>
   ordenesServicio?: Prisma.OrdenServicioListRelationFilter
+  cliente?: Prisma.XOR<Prisma.ClienteScalarRelationFilter, Prisma.ClienteWhereInput>
+  empresa?: Prisma.XOR<Prisma.EmpresaScalarRelationFilter, Prisma.EmpresaWhereInput>
+  tenant?: Prisma.XOR<Prisma.TenantScalarRelationFilter, Prisma.TenantWhereInput>
 }, "id">
 
 export type VehiculoOrderByWithAggregationInput = {
@@ -305,10 +305,10 @@ export type VehiculoCreateInput = {
   color?: string | null
   tipo?: string | null
   createdAt?: Date | string
-  tenant: Prisma.TenantCreateNestedOneWithoutVehiculosInput
-  empresa: Prisma.EmpresaCreateNestedOneWithoutVehiculosInput
-  cliente: Prisma.ClienteCreateNestedOneWithoutVehiculosInput
   ordenesServicio?: Prisma.OrdenServicioCreateNestedManyWithoutVehiculoInput
+  cliente: Prisma.ClienteCreateNestedOneWithoutVehiculosInput
+  empresa: Prisma.EmpresaCreateNestedOneWithoutVehiculosInput
+  tenant: Prisma.TenantCreateNestedOneWithoutVehiculosInput
 }
 
 export type VehiculoUncheckedCreateInput = {
@@ -333,10 +333,10 @@ export type VehiculoUpdateInput = {
   color?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tipo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  tenant?: Prisma.TenantUpdateOneRequiredWithoutVehiculosNestedInput
-  empresa?: Prisma.EmpresaUpdateOneRequiredWithoutVehiculosNestedInput
-  cliente?: Prisma.ClienteUpdateOneRequiredWithoutVehiculosNestedInput
   ordenesServicio?: Prisma.OrdenServicioUpdateManyWithoutVehiculoNestedInput
+  cliente?: Prisma.ClienteUpdateOneRequiredWithoutVehiculosNestedInput
+  empresa?: Prisma.EmpresaUpdateOneRequiredWithoutVehiculosNestedInput
+  tenant?: Prisma.TenantUpdateOneRequiredWithoutVehiculosNestedInput
 }
 
 export type VehiculoUncheckedUpdateInput = {
@@ -593,9 +593,9 @@ export type VehiculoCreateWithoutTenantInput = {
   color?: string | null
   tipo?: string | null
   createdAt?: Date | string
-  empresa: Prisma.EmpresaCreateNestedOneWithoutVehiculosInput
-  cliente: Prisma.ClienteCreateNestedOneWithoutVehiculosInput
   ordenesServicio?: Prisma.OrdenServicioCreateNestedManyWithoutVehiculoInput
+  cliente: Prisma.ClienteCreateNestedOneWithoutVehiculosInput
+  empresa: Prisma.EmpresaCreateNestedOneWithoutVehiculosInput
 }
 
 export type VehiculoUncheckedCreateWithoutTenantInput = {
@@ -661,9 +661,9 @@ export type VehiculoCreateWithoutEmpresaInput = {
   color?: string | null
   tipo?: string | null
   createdAt?: Date | string
-  tenant: Prisma.TenantCreateNestedOneWithoutVehiculosInput
-  cliente: Prisma.ClienteCreateNestedOneWithoutVehiculosInput
   ordenesServicio?: Prisma.OrdenServicioCreateNestedManyWithoutVehiculoInput
+  cliente: Prisma.ClienteCreateNestedOneWithoutVehiculosInput
+  tenant: Prisma.TenantCreateNestedOneWithoutVehiculosInput
 }
 
 export type VehiculoUncheckedCreateWithoutEmpresaInput = {
@@ -713,9 +713,9 @@ export type VehiculoCreateWithoutClienteInput = {
   color?: string | null
   tipo?: string | null
   createdAt?: Date | string
-  tenant: Prisma.TenantCreateNestedOneWithoutVehiculosInput
-  empresa: Prisma.EmpresaCreateNestedOneWithoutVehiculosInput
   ordenesServicio?: Prisma.OrdenServicioCreateNestedManyWithoutVehiculoInput
+  empresa: Prisma.EmpresaCreateNestedOneWithoutVehiculosInput
+  tenant: Prisma.TenantCreateNestedOneWithoutVehiculosInput
 }
 
 export type VehiculoUncheckedCreateWithoutClienteInput = {
@@ -765,9 +765,9 @@ export type VehiculoCreateWithoutOrdenesServicioInput = {
   color?: string | null
   tipo?: string | null
   createdAt?: Date | string
-  tenant: Prisma.TenantCreateNestedOneWithoutVehiculosInput
-  empresa: Prisma.EmpresaCreateNestedOneWithoutVehiculosInput
   cliente: Prisma.ClienteCreateNestedOneWithoutVehiculosInput
+  empresa: Prisma.EmpresaCreateNestedOneWithoutVehiculosInput
+  tenant: Prisma.TenantCreateNestedOneWithoutVehiculosInput
 }
 
 export type VehiculoUncheckedCreateWithoutOrdenesServicioInput = {
@@ -807,9 +807,9 @@ export type VehiculoUpdateWithoutOrdenesServicioInput = {
   color?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tipo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  tenant?: Prisma.TenantUpdateOneRequiredWithoutVehiculosNestedInput
-  empresa?: Prisma.EmpresaUpdateOneRequiredWithoutVehiculosNestedInput
   cliente?: Prisma.ClienteUpdateOneRequiredWithoutVehiculosNestedInput
+  empresa?: Prisma.EmpresaUpdateOneRequiredWithoutVehiculosNestedInput
+  tenant?: Prisma.TenantUpdateOneRequiredWithoutVehiculosNestedInput
 }
 
 export type VehiculoUncheckedUpdateWithoutOrdenesServicioInput = {
@@ -845,9 +845,9 @@ export type VehiculoUpdateWithoutTenantInput = {
   color?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tipo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  empresa?: Prisma.EmpresaUpdateOneRequiredWithoutVehiculosNestedInput
-  cliente?: Prisma.ClienteUpdateOneRequiredWithoutVehiculosNestedInput
   ordenesServicio?: Prisma.OrdenServicioUpdateManyWithoutVehiculoNestedInput
+  cliente?: Prisma.ClienteUpdateOneRequiredWithoutVehiculosNestedInput
+  empresa?: Prisma.EmpresaUpdateOneRequiredWithoutVehiculosNestedInput
 }
 
 export type VehiculoUncheckedUpdateWithoutTenantInput = {
@@ -895,9 +895,9 @@ export type VehiculoUpdateWithoutEmpresaInput = {
   color?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tipo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  tenant?: Prisma.TenantUpdateOneRequiredWithoutVehiculosNestedInput
-  cliente?: Prisma.ClienteUpdateOneRequiredWithoutVehiculosNestedInput
   ordenesServicio?: Prisma.OrdenServicioUpdateManyWithoutVehiculoNestedInput
+  cliente?: Prisma.ClienteUpdateOneRequiredWithoutVehiculosNestedInput
+  tenant?: Prisma.TenantUpdateOneRequiredWithoutVehiculosNestedInput
 }
 
 export type VehiculoUncheckedUpdateWithoutEmpresaInput = {
@@ -945,9 +945,9 @@ export type VehiculoUpdateWithoutClienteInput = {
   color?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tipo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  tenant?: Prisma.TenantUpdateOneRequiredWithoutVehiculosNestedInput
-  empresa?: Prisma.EmpresaUpdateOneRequiredWithoutVehiculosNestedInput
   ordenesServicio?: Prisma.OrdenServicioUpdateManyWithoutVehiculoNestedInput
+  empresa?: Prisma.EmpresaUpdateOneRequiredWithoutVehiculosNestedInput
+  tenant?: Prisma.TenantUpdateOneRequiredWithoutVehiculosNestedInput
 }
 
 export type VehiculoUncheckedUpdateWithoutClienteInput = {
@@ -1017,10 +1017,10 @@ export type VehiculoSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs
   color?: boolean
   tipo?: boolean
   createdAt?: boolean
-  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
-  empresa?: boolean | Prisma.EmpresaDefaultArgs<ExtArgs>
-  cliente?: boolean | Prisma.ClienteDefaultArgs<ExtArgs>
   ordenesServicio?: boolean | Prisma.Vehiculo$ordenesServicioArgs<ExtArgs>
+  cliente?: boolean | Prisma.ClienteDefaultArgs<ExtArgs>
+  empresa?: boolean | Prisma.EmpresaDefaultArgs<ExtArgs>
+  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
   _count?: boolean | Prisma.VehiculoCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["vehiculo"]>
 
@@ -1035,9 +1035,9 @@ export type VehiculoSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Exte
   color?: boolean
   tipo?: boolean
   createdAt?: boolean
-  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
-  empresa?: boolean | Prisma.EmpresaDefaultArgs<ExtArgs>
   cliente?: boolean | Prisma.ClienteDefaultArgs<ExtArgs>
+  empresa?: boolean | Prisma.EmpresaDefaultArgs<ExtArgs>
+  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["vehiculo"]>
 
 export type VehiculoSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -1051,9 +1051,9 @@ export type VehiculoSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Exte
   color?: boolean
   tipo?: boolean
   createdAt?: boolean
-  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
-  empresa?: boolean | Prisma.EmpresaDefaultArgs<ExtArgs>
   cliente?: boolean | Prisma.ClienteDefaultArgs<ExtArgs>
+  empresa?: boolean | Prisma.EmpresaDefaultArgs<ExtArgs>
+  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["vehiculo"]>
 
 export type VehiculoSelectScalar = {
@@ -1071,30 +1071,30 @@ export type VehiculoSelectScalar = {
 
 export type VehiculoOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "tenantId" | "empresaId" | "clienteId" | "placa" | "marca" | "modelo" | "color" | "tipo" | "createdAt", ExtArgs["result"]["vehiculo"]>
 export type VehiculoInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
-  empresa?: boolean | Prisma.EmpresaDefaultArgs<ExtArgs>
-  cliente?: boolean | Prisma.ClienteDefaultArgs<ExtArgs>
   ordenesServicio?: boolean | Prisma.Vehiculo$ordenesServicioArgs<ExtArgs>
+  cliente?: boolean | Prisma.ClienteDefaultArgs<ExtArgs>
+  empresa?: boolean | Prisma.EmpresaDefaultArgs<ExtArgs>
+  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
   _count?: boolean | Prisma.VehiculoCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type VehiculoIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
-  empresa?: boolean | Prisma.EmpresaDefaultArgs<ExtArgs>
   cliente?: boolean | Prisma.ClienteDefaultArgs<ExtArgs>
+  empresa?: boolean | Prisma.EmpresaDefaultArgs<ExtArgs>
+  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
 }
 export type VehiculoIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
-  empresa?: boolean | Prisma.EmpresaDefaultArgs<ExtArgs>
   cliente?: boolean | Prisma.ClienteDefaultArgs<ExtArgs>
+  empresa?: boolean | Prisma.EmpresaDefaultArgs<ExtArgs>
+  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
 }
 
 export type $VehiculoPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "Vehiculo"
   objects: {
-    tenant: Prisma.$TenantPayload<ExtArgs>
-    empresa: Prisma.$EmpresaPayload<ExtArgs>
-    cliente: Prisma.$ClientePayload<ExtArgs>
     ordenesServicio: Prisma.$OrdenServicioPayload<ExtArgs>[]
+    cliente: Prisma.$ClientePayload<ExtArgs>
+    empresa: Prisma.$EmpresaPayload<ExtArgs>
+    tenant: Prisma.$TenantPayload<ExtArgs>
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -1501,10 +1501,10 @@ readonly fields: VehiculoFieldRefs;
  */
 export interface Prisma__VehiculoClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
-  tenant<T extends Prisma.TenantDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.TenantDefaultArgs<ExtArgs>>): Prisma.Prisma__TenantClient<runtime.Types.Result.GetResult<Prisma.$TenantPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
-  empresa<T extends Prisma.EmpresaDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.EmpresaDefaultArgs<ExtArgs>>): Prisma.Prisma__EmpresaClient<runtime.Types.Result.GetResult<Prisma.$EmpresaPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
-  cliente<T extends Prisma.ClienteDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.ClienteDefaultArgs<ExtArgs>>): Prisma.Prisma__ClienteClient<runtime.Types.Result.GetResult<Prisma.$ClientePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   ordenesServicio<T extends Prisma.Vehiculo$ordenesServicioArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Vehiculo$ordenesServicioArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$OrdenServicioPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  cliente<T extends Prisma.ClienteDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.ClienteDefaultArgs<ExtArgs>>): Prisma.Prisma__ClienteClient<runtime.Types.Result.GetResult<Prisma.$ClientePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  empresa<T extends Prisma.EmpresaDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.EmpresaDefaultArgs<ExtArgs>>): Prisma.Prisma__EmpresaClient<runtime.Types.Result.GetResult<Prisma.$EmpresaPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  tenant<T extends Prisma.TenantDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.TenantDefaultArgs<ExtArgs>>): Prisma.Prisma__TenantClient<runtime.Types.Result.GetResult<Prisma.$TenantPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.

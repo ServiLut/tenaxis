@@ -27,30 +27,25 @@ export type AggregateCliente = {
 }
 
 export type ClienteAvgAggregateOutputType = {
+  frecuenciaServicio: number | null
   metrajeTotal: runtime.Decimal | null
   score: number | null
   ticketPromedio: runtime.Decimal | null
-  frecuenciaServicio: number | null
 }
 
 export type ClienteSumAggregateOutputType = {
+  frecuenciaServicio: number | null
   metrajeTotal: runtime.Decimal | null
   score: number | null
   ticketPromedio: runtime.Decimal | null
-  frecuenciaServicio: number | null
 }
 
 export type ClienteMinAggregateOutputType = {
   id: string | null
   tenantId: string | null
   empresaId: string | null
-  tipoCliente: $Enums.TipoCliente | null
   nombre: string | null
   apellido: string | null
-  razonSocial: string | null
-  nit: string | null
-  representanteLegal: string | null
-  cargoContacto: string | null
   telefono: string | null
   telefono2: string | null
   correo: string | null
@@ -58,39 +53,39 @@ export type ClienteMinAggregateOutputType = {
   tipoDocumento: string | null
   registroDocumento: string | null
   documentoPath: string | null
-  origenCliente: string | null
-  tipoInteresId: string | null
-  actividadEconomica: string | null
-  metrajeTotal: runtime.Decimal | null
-  segmentoId: string | null
-  riesgoId: string | null
-  subsegmento: string | null
-  score: number | null
-  clasificacion: $Enums.ClasificacionCliente | null
-  ticketPromedio: runtime.Decimal | null
-  frecuenciaServicio: number | null
-  ultimaVisita: Date | null
-  proximaVisita: Date | null
-  planActual: string | null
-  aceptaMarketing: boolean | null
-  fechaConsentimiento: Date | null
   creadoPorId: string | null
   createdAt: Date | null
-  updatedAt: Date | null
   deletedAt: Date | null
+  aceptaMarketing: boolean | null
+  actividadEconomica: string | null
+  cargoContacto: string | null
+  clasificacion: $Enums.ClasificacionCliente | null
+  fechaConsentimiento: Date | null
+  frecuenciaServicio: number | null
+  metrajeTotal: runtime.Decimal | null
+  nit: string | null
+  origenCliente: string | null
+  planActual: string | null
+  proximaVisita: Date | null
+  razonSocial: string | null
+  representanteLegal: string | null
+  riesgoId: string | null
+  score: number | null
+  segmentoId: string | null
+  subsegmento: string | null
+  ticketPromedio: runtime.Decimal | null
+  tipoCliente: $Enums.TipoCliente | null
+  tipoInteresId: string | null
+  ultimaVisita: Date | null
+  updatedAt: Date | null
 }
 
 export type ClienteMaxAggregateOutputType = {
   id: string | null
   tenantId: string | null
   empresaId: string | null
-  tipoCliente: $Enums.TipoCliente | null
   nombre: string | null
   apellido: string | null
-  razonSocial: string | null
-  nit: string | null
-  representanteLegal: string | null
-  cargoContacto: string | null
   telefono: string | null
   telefono2: string | null
   correo: string | null
@@ -98,39 +93,39 @@ export type ClienteMaxAggregateOutputType = {
   tipoDocumento: string | null
   registroDocumento: string | null
   documentoPath: string | null
-  origenCliente: string | null
-  tipoInteresId: string | null
-  actividadEconomica: string | null
-  metrajeTotal: runtime.Decimal | null
-  segmentoId: string | null
-  riesgoId: string | null
-  subsegmento: string | null
-  score: number | null
-  clasificacion: $Enums.ClasificacionCliente | null
-  ticketPromedio: runtime.Decimal | null
-  frecuenciaServicio: number | null
-  ultimaVisita: Date | null
-  proximaVisita: Date | null
-  planActual: string | null
-  aceptaMarketing: boolean | null
-  fechaConsentimiento: Date | null
   creadoPorId: string | null
   createdAt: Date | null
-  updatedAt: Date | null
   deletedAt: Date | null
+  aceptaMarketing: boolean | null
+  actividadEconomica: string | null
+  cargoContacto: string | null
+  clasificacion: $Enums.ClasificacionCliente | null
+  fechaConsentimiento: Date | null
+  frecuenciaServicio: number | null
+  metrajeTotal: runtime.Decimal | null
+  nit: string | null
+  origenCliente: string | null
+  planActual: string | null
+  proximaVisita: Date | null
+  razonSocial: string | null
+  representanteLegal: string | null
+  riesgoId: string | null
+  score: number | null
+  segmentoId: string | null
+  subsegmento: string | null
+  ticketPromedio: runtime.Decimal | null
+  tipoCliente: $Enums.TipoCliente | null
+  tipoInteresId: string | null
+  ultimaVisita: Date | null
+  updatedAt: Date | null
 }
 
 export type ClienteCountAggregateOutputType = {
   id: number
   tenantId: number
   empresaId: number
-  tipoCliente: number
   nombre: number
   apellido: number
-  razonSocial: number
-  nit: number
-  representanteLegal: number
-  cargoContacto: number
   telefono: number
   telefono2: number
   correo: number
@@ -138,55 +133,55 @@ export type ClienteCountAggregateOutputType = {
   tipoDocumento: number
   registroDocumento: number
   documentoPath: number
-  origenCliente: number
-  tipoInteresId: number
-  actividadEconomica: number
-  metrajeTotal: number
-  segmentoId: number
-  riesgoId: number
-  subsegmento: number
-  score: number
-  clasificacion: number
-  ticketPromedio: number
-  frecuenciaServicio: number
-  ultimaVisita: number
-  proximaVisita: number
-  planActual: number
-  aceptaMarketing: number
-  fechaConsentimiento: number
   creadoPorId: number
   createdAt: number
-  updatedAt: number
   deletedAt: number
+  aceptaMarketing: number
+  actividadEconomica: number
+  cargoContacto: number
+  clasificacion: number
+  fechaConsentimiento: number
+  frecuenciaServicio: number
+  metrajeTotal: number
+  nit: number
+  origenCliente: number
+  planActual: number
+  proximaVisita: number
+  razonSocial: number
+  representanteLegal: number
+  riesgoId: number
+  score: number
+  segmentoId: number
+  subsegmento: number
+  ticketPromedio: number
+  tipoCliente: number
+  tipoInteresId: number
+  ultimaVisita: number
+  updatedAt: number
   _all: number
 }
 
 
 export type ClienteAvgAggregateInputType = {
+  frecuenciaServicio?: true
   metrajeTotal?: true
   score?: true
   ticketPromedio?: true
-  frecuenciaServicio?: true
 }
 
 export type ClienteSumAggregateInputType = {
+  frecuenciaServicio?: true
   metrajeTotal?: true
   score?: true
   ticketPromedio?: true
-  frecuenciaServicio?: true
 }
 
 export type ClienteMinAggregateInputType = {
   id?: true
   tenantId?: true
   empresaId?: true
-  tipoCliente?: true
   nombre?: true
   apellido?: true
-  razonSocial?: true
-  nit?: true
-  representanteLegal?: true
-  cargoContacto?: true
   telefono?: true
   telefono2?: true
   correo?: true
@@ -194,39 +189,39 @@ export type ClienteMinAggregateInputType = {
   tipoDocumento?: true
   registroDocumento?: true
   documentoPath?: true
-  origenCliente?: true
-  tipoInteresId?: true
-  actividadEconomica?: true
-  metrajeTotal?: true
-  segmentoId?: true
-  riesgoId?: true
-  subsegmento?: true
-  score?: true
-  clasificacion?: true
-  ticketPromedio?: true
-  frecuenciaServicio?: true
-  ultimaVisita?: true
-  proximaVisita?: true
-  planActual?: true
-  aceptaMarketing?: true
-  fechaConsentimiento?: true
   creadoPorId?: true
   createdAt?: true
-  updatedAt?: true
   deletedAt?: true
+  aceptaMarketing?: true
+  actividadEconomica?: true
+  cargoContacto?: true
+  clasificacion?: true
+  fechaConsentimiento?: true
+  frecuenciaServicio?: true
+  metrajeTotal?: true
+  nit?: true
+  origenCliente?: true
+  planActual?: true
+  proximaVisita?: true
+  razonSocial?: true
+  representanteLegal?: true
+  riesgoId?: true
+  score?: true
+  segmentoId?: true
+  subsegmento?: true
+  ticketPromedio?: true
+  tipoCliente?: true
+  tipoInteresId?: true
+  ultimaVisita?: true
+  updatedAt?: true
 }
 
 export type ClienteMaxAggregateInputType = {
   id?: true
   tenantId?: true
   empresaId?: true
-  tipoCliente?: true
   nombre?: true
   apellido?: true
-  razonSocial?: true
-  nit?: true
-  representanteLegal?: true
-  cargoContacto?: true
   telefono?: true
   telefono2?: true
   correo?: true
@@ -234,39 +229,39 @@ export type ClienteMaxAggregateInputType = {
   tipoDocumento?: true
   registroDocumento?: true
   documentoPath?: true
-  origenCliente?: true
-  tipoInteresId?: true
-  actividadEconomica?: true
-  metrajeTotal?: true
-  segmentoId?: true
-  riesgoId?: true
-  subsegmento?: true
-  score?: true
-  clasificacion?: true
-  ticketPromedio?: true
-  frecuenciaServicio?: true
-  ultimaVisita?: true
-  proximaVisita?: true
-  planActual?: true
-  aceptaMarketing?: true
-  fechaConsentimiento?: true
   creadoPorId?: true
   createdAt?: true
-  updatedAt?: true
   deletedAt?: true
+  aceptaMarketing?: true
+  actividadEconomica?: true
+  cargoContacto?: true
+  clasificacion?: true
+  fechaConsentimiento?: true
+  frecuenciaServicio?: true
+  metrajeTotal?: true
+  nit?: true
+  origenCliente?: true
+  planActual?: true
+  proximaVisita?: true
+  razonSocial?: true
+  representanteLegal?: true
+  riesgoId?: true
+  score?: true
+  segmentoId?: true
+  subsegmento?: true
+  ticketPromedio?: true
+  tipoCliente?: true
+  tipoInteresId?: true
+  ultimaVisita?: true
+  updatedAt?: true
 }
 
 export type ClienteCountAggregateInputType = {
   id?: true
   tenantId?: true
   empresaId?: true
-  tipoCliente?: true
   nombre?: true
   apellido?: true
-  razonSocial?: true
-  nit?: true
-  representanteLegal?: true
-  cargoContacto?: true
   telefono?: true
   telefono2?: true
   correo?: true
@@ -274,26 +269,31 @@ export type ClienteCountAggregateInputType = {
   tipoDocumento?: true
   registroDocumento?: true
   documentoPath?: true
-  origenCliente?: true
-  tipoInteresId?: true
-  actividadEconomica?: true
-  metrajeTotal?: true
-  segmentoId?: true
-  riesgoId?: true
-  subsegmento?: true
-  score?: true
-  clasificacion?: true
-  ticketPromedio?: true
-  frecuenciaServicio?: true
-  ultimaVisita?: true
-  proximaVisita?: true
-  planActual?: true
-  aceptaMarketing?: true
-  fechaConsentimiento?: true
   creadoPorId?: true
   createdAt?: true
-  updatedAt?: true
   deletedAt?: true
+  aceptaMarketing?: true
+  actividadEconomica?: true
+  cargoContacto?: true
+  clasificacion?: true
+  fechaConsentimiento?: true
+  frecuenciaServicio?: true
+  metrajeTotal?: true
+  nit?: true
+  origenCliente?: true
+  planActual?: true
+  proximaVisita?: true
+  razonSocial?: true
+  representanteLegal?: true
+  riesgoId?: true
+  score?: true
+  segmentoId?: true
+  subsegmento?: true
+  ticketPromedio?: true
+  tipoCliente?: true
+  tipoInteresId?: true
+  ultimaVisita?: true
+  updatedAt?: true
   _all?: true
 }
 
@@ -387,13 +387,8 @@ export type ClienteGroupByOutputType = {
   id: string
   tenantId: string
   empresaId: string
-  tipoCliente: $Enums.TipoCliente
   nombre: string | null
   apellido: string | null
-  razonSocial: string | null
-  nit: string | null
-  representanteLegal: string | null
-  cargoContacto: string | null
   telefono: string
   telefono2: string | null
   correo: string | null
@@ -401,26 +396,31 @@ export type ClienteGroupByOutputType = {
   tipoDocumento: string | null
   registroDocumento: string | null
   documentoPath: string | null
-  origenCliente: string | null
-  tipoInteresId: string | null
-  actividadEconomica: string | null
-  metrajeTotal: runtime.Decimal | null
-  segmentoId: string | null
-  riesgoId: string | null
-  subsegmento: string | null
-  score: number | null
-  clasificacion: $Enums.ClasificacionCliente | null
-  ticketPromedio: runtime.Decimal | null
-  frecuenciaServicio: number | null
-  ultimaVisita: Date | null
-  proximaVisita: Date | null
-  planActual: string | null
-  aceptaMarketing: boolean
-  fechaConsentimiento: Date | null
   creadoPorId: string | null
   createdAt: Date
-  updatedAt: Date
   deletedAt: Date | null
+  aceptaMarketing: boolean
+  actividadEconomica: string | null
+  cargoContacto: string | null
+  clasificacion: $Enums.ClasificacionCliente | null
+  fechaConsentimiento: Date | null
+  frecuenciaServicio: number | null
+  metrajeTotal: runtime.Decimal | null
+  nit: string | null
+  origenCliente: string | null
+  planActual: string | null
+  proximaVisita: Date | null
+  razonSocial: string | null
+  representanteLegal: string | null
+  riesgoId: string | null
+  score: number | null
+  segmentoId: string | null
+  subsegmento: string | null
+  ticketPromedio: runtime.Decimal | null
+  tipoCliente: $Enums.TipoCliente
+  tipoInteresId: string | null
+  ultimaVisita: Date | null
+  updatedAt: Date
   _count: ClienteCountAggregateOutputType | null
   _avg: ClienteAvgAggregateOutputType | null
   _sum: ClienteSumAggregateOutputType | null
@@ -450,13 +450,8 @@ export type ClienteWhereInput = {
   id?: Prisma.UuidFilter<"Cliente"> | string
   tenantId?: Prisma.UuidFilter<"Cliente"> | string
   empresaId?: Prisma.UuidFilter<"Cliente"> | string
-  tipoCliente?: Prisma.EnumTipoClienteFilter<"Cliente"> | $Enums.TipoCliente
   nombre?: Prisma.StringNullableFilter<"Cliente"> | string | null
   apellido?: Prisma.StringNullableFilter<"Cliente"> | string | null
-  razonSocial?: Prisma.StringNullableFilter<"Cliente"> | string | null
-  nit?: Prisma.StringNullableFilter<"Cliente"> | string | null
-  representanteLegal?: Prisma.StringNullableFilter<"Cliente"> | string | null
-  cargoContacto?: Prisma.StringNullableFilter<"Cliente"> | string | null
   telefono?: Prisma.StringFilter<"Cliente"> | string
   telefono2?: Prisma.StringNullableFilter<"Cliente"> | string | null
   correo?: Prisma.StringNullableFilter<"Cliente"> | string | null
@@ -464,50 +459,50 @@ export type ClienteWhereInput = {
   tipoDocumento?: Prisma.StringNullableFilter<"Cliente"> | string | null
   registroDocumento?: Prisma.StringNullableFilter<"Cliente"> | string | null
   documentoPath?: Prisma.StringNullableFilter<"Cliente"> | string | null
-  origenCliente?: Prisma.StringNullableFilter<"Cliente"> | string | null
-  tipoInteresId?: Prisma.UuidNullableFilter<"Cliente"> | string | null
-  actividadEconomica?: Prisma.StringNullableFilter<"Cliente"> | string | null
-  metrajeTotal?: Prisma.DecimalNullableFilter<"Cliente"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  segmentoId?: Prisma.UuidNullableFilter<"Cliente"> | string | null
-  riesgoId?: Prisma.UuidNullableFilter<"Cliente"> | string | null
-  subsegmento?: Prisma.StringNullableFilter<"Cliente"> | string | null
-  score?: Prisma.IntNullableFilter<"Cliente"> | number | null
-  clasificacion?: Prisma.EnumClasificacionClienteNullableFilter<"Cliente"> | $Enums.ClasificacionCliente | null
-  ticketPromedio?: Prisma.DecimalNullableFilter<"Cliente"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  frecuenciaServicio?: Prisma.IntNullableFilter<"Cliente"> | number | null
-  ultimaVisita?: Prisma.DateTimeNullableFilter<"Cliente"> | Date | string | null
-  proximaVisita?: Prisma.DateTimeNullableFilter<"Cliente"> | Date | string | null
-  planActual?: Prisma.StringNullableFilter<"Cliente"> | string | null
-  aceptaMarketing?: Prisma.BoolFilter<"Cliente"> | boolean
-  fechaConsentimiento?: Prisma.DateTimeNullableFilter<"Cliente"> | Date | string | null
   creadoPorId?: Prisma.UuidNullableFilter<"Cliente"> | string | null
   createdAt?: Prisma.DateTimeFilter<"Cliente"> | Date | string
-  updatedAt?: Prisma.DateTimeFilter<"Cliente"> | Date | string
   deletedAt?: Prisma.DateTimeNullableFilter<"Cliente"> | Date | string | null
-  tenant?: Prisma.XOR<Prisma.TenantScalarRelationFilter, Prisma.TenantWhereInput>
-  empresa?: Prisma.XOR<Prisma.EmpresaScalarRelationFilter, Prisma.EmpresaWhereInput>
+  aceptaMarketing?: Prisma.BoolFilter<"Cliente"> | boolean
+  actividadEconomica?: Prisma.StringNullableFilter<"Cliente"> | string | null
+  cargoContacto?: Prisma.StringNullableFilter<"Cliente"> | string | null
+  clasificacion?: Prisma.EnumClasificacionClienteNullableFilter<"Cliente"> | $Enums.ClasificacionCliente | null
+  fechaConsentimiento?: Prisma.DateTimeNullableFilter<"Cliente"> | Date | string | null
+  frecuenciaServicio?: Prisma.IntNullableFilter<"Cliente"> | number | null
+  metrajeTotal?: Prisma.DecimalNullableFilter<"Cliente"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  nit?: Prisma.StringNullableFilter<"Cliente"> | string | null
+  origenCliente?: Prisma.StringNullableFilter<"Cliente"> | string | null
+  planActual?: Prisma.StringNullableFilter<"Cliente"> | string | null
+  proximaVisita?: Prisma.DateTimeNullableFilter<"Cliente"> | Date | string | null
+  razonSocial?: Prisma.StringNullableFilter<"Cliente"> | string | null
+  representanteLegal?: Prisma.StringNullableFilter<"Cliente"> | string | null
+  riesgoId?: Prisma.UuidNullableFilter<"Cliente"> | string | null
+  score?: Prisma.IntNullableFilter<"Cliente"> | number | null
+  segmentoId?: Prisma.UuidNullableFilter<"Cliente"> | string | null
+  subsegmento?: Prisma.StringNullableFilter<"Cliente"> | string | null
+  ticketPromedio?: Prisma.DecimalNullableFilter<"Cliente"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  tipoCliente?: Prisma.EnumTipoClienteFilter<"Cliente"> | $Enums.TipoCliente
+  tipoInteresId?: Prisma.UuidNullableFilter<"Cliente"> | string | null
+  ultimaVisita?: Prisma.DateTimeNullableFilter<"Cliente"> | Date | string | null
+  updatedAt?: Prisma.DateTimeFilter<"Cliente"> | Date | string
+  citasPsicologos?: Prisma.CitasPsicologosListRelationFilter
   creadoPor?: Prisma.XOR<Prisma.TenantMembershipNullableScalarRelationFilter, Prisma.TenantMembershipWhereInput> | null
-  segmento?: Prisma.XOR<Prisma.SegmentoNegocioNullableScalarRelationFilter, Prisma.SegmentoNegocioWhereInput> | null
+  empresa?: Prisma.XOR<Prisma.EmpresaScalarRelationFilter, Prisma.EmpresaWhereInput>
   riesgo?: Prisma.XOR<Prisma.NivelRiesgoOperativoNullableScalarRelationFilter, Prisma.NivelRiesgoOperativoWhereInput> | null
+  segmento?: Prisma.XOR<Prisma.SegmentoNegocioNullableScalarRelationFilter, Prisma.SegmentoNegocioWhereInput> | null
+  tenant?: Prisma.XOR<Prisma.TenantScalarRelationFilter, Prisma.TenantWhereInput>
   tipoInteres?: Prisma.XOR<Prisma.TipoInteresNullableScalarRelationFilter, Prisma.TipoInteresWhereInput> | null
   direcciones?: Prisma.DireccionListRelationFilter
-  vehiculos?: Prisma.VehiculoListRelationFilter
   ordenesServicio?: Prisma.OrdenServicioListRelationFilter
-  citasPsicologos?: Prisma.CitasPsicologosListRelationFilter
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoListRelationFilter
+  vehiculos?: Prisma.VehiculoListRelationFilter
 }
 
 export type ClienteOrderByWithRelationInput = {
   id?: Prisma.SortOrder
   tenantId?: Prisma.SortOrder
   empresaId?: Prisma.SortOrder
-  tipoCliente?: Prisma.SortOrder
   nombre?: Prisma.SortOrderInput | Prisma.SortOrder
   apellido?: Prisma.SortOrderInput | Prisma.SortOrder
-  razonSocial?: Prisma.SortOrderInput | Prisma.SortOrder
-  nit?: Prisma.SortOrderInput | Prisma.SortOrder
-  representanteLegal?: Prisma.SortOrderInput | Prisma.SortOrder
-  cargoContacto?: Prisma.SortOrderInput | Prisma.SortOrder
   telefono?: Prisma.SortOrder
   telefono2?: Prisma.SortOrderInput | Prisma.SortOrder
   correo?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -515,37 +510,42 @@ export type ClienteOrderByWithRelationInput = {
   tipoDocumento?: Prisma.SortOrderInput | Prisma.SortOrder
   registroDocumento?: Prisma.SortOrderInput | Prisma.SortOrder
   documentoPath?: Prisma.SortOrderInput | Prisma.SortOrder
-  origenCliente?: Prisma.SortOrderInput | Prisma.SortOrder
-  tipoInteresId?: Prisma.SortOrderInput | Prisma.SortOrder
-  actividadEconomica?: Prisma.SortOrderInput | Prisma.SortOrder
-  metrajeTotal?: Prisma.SortOrderInput | Prisma.SortOrder
-  segmentoId?: Prisma.SortOrderInput | Prisma.SortOrder
-  riesgoId?: Prisma.SortOrderInput | Prisma.SortOrder
-  subsegmento?: Prisma.SortOrderInput | Prisma.SortOrder
-  score?: Prisma.SortOrderInput | Prisma.SortOrder
-  clasificacion?: Prisma.SortOrderInput | Prisma.SortOrder
-  ticketPromedio?: Prisma.SortOrderInput | Prisma.SortOrder
-  frecuenciaServicio?: Prisma.SortOrderInput | Prisma.SortOrder
-  ultimaVisita?: Prisma.SortOrderInput | Prisma.SortOrder
-  proximaVisita?: Prisma.SortOrderInput | Prisma.SortOrder
-  planActual?: Prisma.SortOrderInput | Prisma.SortOrder
-  aceptaMarketing?: Prisma.SortOrder
-  fechaConsentimiento?: Prisma.SortOrderInput | Prisma.SortOrder
   creadoPorId?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
-  updatedAt?: Prisma.SortOrder
   deletedAt?: Prisma.SortOrderInput | Prisma.SortOrder
-  tenant?: Prisma.TenantOrderByWithRelationInput
-  empresa?: Prisma.EmpresaOrderByWithRelationInput
+  aceptaMarketing?: Prisma.SortOrder
+  actividadEconomica?: Prisma.SortOrderInput | Prisma.SortOrder
+  cargoContacto?: Prisma.SortOrderInput | Prisma.SortOrder
+  clasificacion?: Prisma.SortOrderInput | Prisma.SortOrder
+  fechaConsentimiento?: Prisma.SortOrderInput | Prisma.SortOrder
+  frecuenciaServicio?: Prisma.SortOrderInput | Prisma.SortOrder
+  metrajeTotal?: Prisma.SortOrderInput | Prisma.SortOrder
+  nit?: Prisma.SortOrderInput | Prisma.SortOrder
+  origenCliente?: Prisma.SortOrderInput | Prisma.SortOrder
+  planActual?: Prisma.SortOrderInput | Prisma.SortOrder
+  proximaVisita?: Prisma.SortOrderInput | Prisma.SortOrder
+  razonSocial?: Prisma.SortOrderInput | Prisma.SortOrder
+  representanteLegal?: Prisma.SortOrderInput | Prisma.SortOrder
+  riesgoId?: Prisma.SortOrderInput | Prisma.SortOrder
+  score?: Prisma.SortOrderInput | Prisma.SortOrder
+  segmentoId?: Prisma.SortOrderInput | Prisma.SortOrder
+  subsegmento?: Prisma.SortOrderInput | Prisma.SortOrder
+  ticketPromedio?: Prisma.SortOrderInput | Prisma.SortOrder
+  tipoCliente?: Prisma.SortOrder
+  tipoInteresId?: Prisma.SortOrderInput | Prisma.SortOrder
+  ultimaVisita?: Prisma.SortOrderInput | Prisma.SortOrder
+  updatedAt?: Prisma.SortOrder
+  citasPsicologos?: Prisma.CitasPsicologosOrderByRelationAggregateInput
   creadoPor?: Prisma.TenantMembershipOrderByWithRelationInput
-  segmento?: Prisma.SegmentoNegocioOrderByWithRelationInput
+  empresa?: Prisma.EmpresaOrderByWithRelationInput
   riesgo?: Prisma.NivelRiesgoOperativoOrderByWithRelationInput
+  segmento?: Prisma.SegmentoNegocioOrderByWithRelationInput
+  tenant?: Prisma.TenantOrderByWithRelationInput
   tipoInteres?: Prisma.TipoInteresOrderByWithRelationInput
   direcciones?: Prisma.DireccionOrderByRelationAggregateInput
-  vehiculos?: Prisma.VehiculoOrderByRelationAggregateInput
   ordenesServicio?: Prisma.OrdenServicioOrderByRelationAggregateInput
-  citasPsicologos?: Prisma.CitasPsicologosOrderByRelationAggregateInput
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoOrderByRelationAggregateInput
+  vehiculos?: Prisma.VehiculoOrderByRelationAggregateInput
 }
 
 export type ClienteWhereUniqueInput = Prisma.AtLeast<{
@@ -555,13 +555,8 @@ export type ClienteWhereUniqueInput = Prisma.AtLeast<{
   NOT?: Prisma.ClienteWhereInput | Prisma.ClienteWhereInput[]
   tenantId?: Prisma.UuidFilter<"Cliente"> | string
   empresaId?: Prisma.UuidFilter<"Cliente"> | string
-  tipoCliente?: Prisma.EnumTipoClienteFilter<"Cliente"> | $Enums.TipoCliente
   nombre?: Prisma.StringNullableFilter<"Cliente"> | string | null
   apellido?: Prisma.StringNullableFilter<"Cliente"> | string | null
-  razonSocial?: Prisma.StringNullableFilter<"Cliente"> | string | null
-  nit?: Prisma.StringNullableFilter<"Cliente"> | string | null
-  representanteLegal?: Prisma.StringNullableFilter<"Cliente"> | string | null
-  cargoContacto?: Prisma.StringNullableFilter<"Cliente"> | string | null
   telefono?: Prisma.StringFilter<"Cliente"> | string
   telefono2?: Prisma.StringNullableFilter<"Cliente"> | string | null
   correo?: Prisma.StringNullableFilter<"Cliente"> | string | null
@@ -569,50 +564,50 @@ export type ClienteWhereUniqueInput = Prisma.AtLeast<{
   tipoDocumento?: Prisma.StringNullableFilter<"Cliente"> | string | null
   registroDocumento?: Prisma.StringNullableFilter<"Cliente"> | string | null
   documentoPath?: Prisma.StringNullableFilter<"Cliente"> | string | null
-  origenCliente?: Prisma.StringNullableFilter<"Cliente"> | string | null
-  tipoInteresId?: Prisma.UuidNullableFilter<"Cliente"> | string | null
-  actividadEconomica?: Prisma.StringNullableFilter<"Cliente"> | string | null
-  metrajeTotal?: Prisma.DecimalNullableFilter<"Cliente"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  segmentoId?: Prisma.UuidNullableFilter<"Cliente"> | string | null
-  riesgoId?: Prisma.UuidNullableFilter<"Cliente"> | string | null
-  subsegmento?: Prisma.StringNullableFilter<"Cliente"> | string | null
-  score?: Prisma.IntNullableFilter<"Cliente"> | number | null
-  clasificacion?: Prisma.EnumClasificacionClienteNullableFilter<"Cliente"> | $Enums.ClasificacionCliente | null
-  ticketPromedio?: Prisma.DecimalNullableFilter<"Cliente"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  frecuenciaServicio?: Prisma.IntNullableFilter<"Cliente"> | number | null
-  ultimaVisita?: Prisma.DateTimeNullableFilter<"Cliente"> | Date | string | null
-  proximaVisita?: Prisma.DateTimeNullableFilter<"Cliente"> | Date | string | null
-  planActual?: Prisma.StringNullableFilter<"Cliente"> | string | null
-  aceptaMarketing?: Prisma.BoolFilter<"Cliente"> | boolean
-  fechaConsentimiento?: Prisma.DateTimeNullableFilter<"Cliente"> | Date | string | null
   creadoPorId?: Prisma.UuidNullableFilter<"Cliente"> | string | null
   createdAt?: Prisma.DateTimeFilter<"Cliente"> | Date | string
-  updatedAt?: Prisma.DateTimeFilter<"Cliente"> | Date | string
   deletedAt?: Prisma.DateTimeNullableFilter<"Cliente"> | Date | string | null
-  tenant?: Prisma.XOR<Prisma.TenantScalarRelationFilter, Prisma.TenantWhereInput>
-  empresa?: Prisma.XOR<Prisma.EmpresaScalarRelationFilter, Prisma.EmpresaWhereInput>
+  aceptaMarketing?: Prisma.BoolFilter<"Cliente"> | boolean
+  actividadEconomica?: Prisma.StringNullableFilter<"Cliente"> | string | null
+  cargoContacto?: Prisma.StringNullableFilter<"Cliente"> | string | null
+  clasificacion?: Prisma.EnumClasificacionClienteNullableFilter<"Cliente"> | $Enums.ClasificacionCliente | null
+  fechaConsentimiento?: Prisma.DateTimeNullableFilter<"Cliente"> | Date | string | null
+  frecuenciaServicio?: Prisma.IntNullableFilter<"Cliente"> | number | null
+  metrajeTotal?: Prisma.DecimalNullableFilter<"Cliente"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  nit?: Prisma.StringNullableFilter<"Cliente"> | string | null
+  origenCliente?: Prisma.StringNullableFilter<"Cliente"> | string | null
+  planActual?: Prisma.StringNullableFilter<"Cliente"> | string | null
+  proximaVisita?: Prisma.DateTimeNullableFilter<"Cliente"> | Date | string | null
+  razonSocial?: Prisma.StringNullableFilter<"Cliente"> | string | null
+  representanteLegal?: Prisma.StringNullableFilter<"Cliente"> | string | null
+  riesgoId?: Prisma.UuidNullableFilter<"Cliente"> | string | null
+  score?: Prisma.IntNullableFilter<"Cliente"> | number | null
+  segmentoId?: Prisma.UuidNullableFilter<"Cliente"> | string | null
+  subsegmento?: Prisma.StringNullableFilter<"Cliente"> | string | null
+  ticketPromedio?: Prisma.DecimalNullableFilter<"Cliente"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  tipoCliente?: Prisma.EnumTipoClienteFilter<"Cliente"> | $Enums.TipoCliente
+  tipoInteresId?: Prisma.UuidNullableFilter<"Cliente"> | string | null
+  ultimaVisita?: Prisma.DateTimeNullableFilter<"Cliente"> | Date | string | null
+  updatedAt?: Prisma.DateTimeFilter<"Cliente"> | Date | string
+  citasPsicologos?: Prisma.CitasPsicologosListRelationFilter
   creadoPor?: Prisma.XOR<Prisma.TenantMembershipNullableScalarRelationFilter, Prisma.TenantMembershipWhereInput> | null
-  segmento?: Prisma.XOR<Prisma.SegmentoNegocioNullableScalarRelationFilter, Prisma.SegmentoNegocioWhereInput> | null
+  empresa?: Prisma.XOR<Prisma.EmpresaScalarRelationFilter, Prisma.EmpresaWhereInput>
   riesgo?: Prisma.XOR<Prisma.NivelRiesgoOperativoNullableScalarRelationFilter, Prisma.NivelRiesgoOperativoWhereInput> | null
+  segmento?: Prisma.XOR<Prisma.SegmentoNegocioNullableScalarRelationFilter, Prisma.SegmentoNegocioWhereInput> | null
+  tenant?: Prisma.XOR<Prisma.TenantScalarRelationFilter, Prisma.TenantWhereInput>
   tipoInteres?: Prisma.XOR<Prisma.TipoInteresNullableScalarRelationFilter, Prisma.TipoInteresWhereInput> | null
   direcciones?: Prisma.DireccionListRelationFilter
-  vehiculos?: Prisma.VehiculoListRelationFilter
   ordenesServicio?: Prisma.OrdenServicioListRelationFilter
-  citasPsicologos?: Prisma.CitasPsicologosListRelationFilter
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoListRelationFilter
+  vehiculos?: Prisma.VehiculoListRelationFilter
 }, "id">
 
 export type ClienteOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
   tenantId?: Prisma.SortOrder
   empresaId?: Prisma.SortOrder
-  tipoCliente?: Prisma.SortOrder
   nombre?: Prisma.SortOrderInput | Prisma.SortOrder
   apellido?: Prisma.SortOrderInput | Prisma.SortOrder
-  razonSocial?: Prisma.SortOrderInput | Prisma.SortOrder
-  nit?: Prisma.SortOrderInput | Prisma.SortOrder
-  representanteLegal?: Prisma.SortOrderInput | Prisma.SortOrder
-  cargoContacto?: Prisma.SortOrderInput | Prisma.SortOrder
   telefono?: Prisma.SortOrder
   telefono2?: Prisma.SortOrderInput | Prisma.SortOrder
   correo?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -620,26 +615,31 @@ export type ClienteOrderByWithAggregationInput = {
   tipoDocumento?: Prisma.SortOrderInput | Prisma.SortOrder
   registroDocumento?: Prisma.SortOrderInput | Prisma.SortOrder
   documentoPath?: Prisma.SortOrderInput | Prisma.SortOrder
-  origenCliente?: Prisma.SortOrderInput | Prisma.SortOrder
-  tipoInteresId?: Prisma.SortOrderInput | Prisma.SortOrder
-  actividadEconomica?: Prisma.SortOrderInput | Prisma.SortOrder
-  metrajeTotal?: Prisma.SortOrderInput | Prisma.SortOrder
-  segmentoId?: Prisma.SortOrderInput | Prisma.SortOrder
-  riesgoId?: Prisma.SortOrderInput | Prisma.SortOrder
-  subsegmento?: Prisma.SortOrderInput | Prisma.SortOrder
-  score?: Prisma.SortOrderInput | Prisma.SortOrder
-  clasificacion?: Prisma.SortOrderInput | Prisma.SortOrder
-  ticketPromedio?: Prisma.SortOrderInput | Prisma.SortOrder
-  frecuenciaServicio?: Prisma.SortOrderInput | Prisma.SortOrder
-  ultimaVisita?: Prisma.SortOrderInput | Prisma.SortOrder
-  proximaVisita?: Prisma.SortOrderInput | Prisma.SortOrder
-  planActual?: Prisma.SortOrderInput | Prisma.SortOrder
-  aceptaMarketing?: Prisma.SortOrder
-  fechaConsentimiento?: Prisma.SortOrderInput | Prisma.SortOrder
   creadoPorId?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
-  updatedAt?: Prisma.SortOrder
   deletedAt?: Prisma.SortOrderInput | Prisma.SortOrder
+  aceptaMarketing?: Prisma.SortOrder
+  actividadEconomica?: Prisma.SortOrderInput | Prisma.SortOrder
+  cargoContacto?: Prisma.SortOrderInput | Prisma.SortOrder
+  clasificacion?: Prisma.SortOrderInput | Prisma.SortOrder
+  fechaConsentimiento?: Prisma.SortOrderInput | Prisma.SortOrder
+  frecuenciaServicio?: Prisma.SortOrderInput | Prisma.SortOrder
+  metrajeTotal?: Prisma.SortOrderInput | Prisma.SortOrder
+  nit?: Prisma.SortOrderInput | Prisma.SortOrder
+  origenCliente?: Prisma.SortOrderInput | Prisma.SortOrder
+  planActual?: Prisma.SortOrderInput | Prisma.SortOrder
+  proximaVisita?: Prisma.SortOrderInput | Prisma.SortOrder
+  razonSocial?: Prisma.SortOrderInput | Prisma.SortOrder
+  representanteLegal?: Prisma.SortOrderInput | Prisma.SortOrder
+  riesgoId?: Prisma.SortOrderInput | Prisma.SortOrder
+  score?: Prisma.SortOrderInput | Prisma.SortOrder
+  segmentoId?: Prisma.SortOrderInput | Prisma.SortOrder
+  subsegmento?: Prisma.SortOrderInput | Prisma.SortOrder
+  ticketPromedio?: Prisma.SortOrderInput | Prisma.SortOrder
+  tipoCliente?: Prisma.SortOrder
+  tipoInteresId?: Prisma.SortOrderInput | Prisma.SortOrder
+  ultimaVisita?: Prisma.SortOrderInput | Prisma.SortOrder
+  updatedAt?: Prisma.SortOrder
   _count?: Prisma.ClienteCountOrderByAggregateInput
   _avg?: Prisma.ClienteAvgOrderByAggregateInput
   _max?: Prisma.ClienteMaxOrderByAggregateInput
@@ -654,13 +654,8 @@ export type ClienteScalarWhereWithAggregatesInput = {
   id?: Prisma.UuidWithAggregatesFilter<"Cliente"> | string
   tenantId?: Prisma.UuidWithAggregatesFilter<"Cliente"> | string
   empresaId?: Prisma.UuidWithAggregatesFilter<"Cliente"> | string
-  tipoCliente?: Prisma.EnumTipoClienteWithAggregatesFilter<"Cliente"> | $Enums.TipoCliente
   nombre?: Prisma.StringNullableWithAggregatesFilter<"Cliente"> | string | null
   apellido?: Prisma.StringNullableWithAggregatesFilter<"Cliente"> | string | null
-  razonSocial?: Prisma.StringNullableWithAggregatesFilter<"Cliente"> | string | null
-  nit?: Prisma.StringNullableWithAggregatesFilter<"Cliente"> | string | null
-  representanteLegal?: Prisma.StringNullableWithAggregatesFilter<"Cliente"> | string | null
-  cargoContacto?: Prisma.StringNullableWithAggregatesFilter<"Cliente"> | string | null
   telefono?: Prisma.StringWithAggregatesFilter<"Cliente"> | string
   telefono2?: Prisma.StringNullableWithAggregatesFilter<"Cliente"> | string | null
   correo?: Prisma.StringNullableWithAggregatesFilter<"Cliente"> | string | null
@@ -668,37 +663,37 @@ export type ClienteScalarWhereWithAggregatesInput = {
   tipoDocumento?: Prisma.StringNullableWithAggregatesFilter<"Cliente"> | string | null
   registroDocumento?: Prisma.StringNullableWithAggregatesFilter<"Cliente"> | string | null
   documentoPath?: Prisma.StringNullableWithAggregatesFilter<"Cliente"> | string | null
-  origenCliente?: Prisma.StringNullableWithAggregatesFilter<"Cliente"> | string | null
-  tipoInteresId?: Prisma.UuidNullableWithAggregatesFilter<"Cliente"> | string | null
-  actividadEconomica?: Prisma.StringNullableWithAggregatesFilter<"Cliente"> | string | null
-  metrajeTotal?: Prisma.DecimalNullableWithAggregatesFilter<"Cliente"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  segmentoId?: Prisma.UuidNullableWithAggregatesFilter<"Cliente"> | string | null
-  riesgoId?: Prisma.UuidNullableWithAggregatesFilter<"Cliente"> | string | null
-  subsegmento?: Prisma.StringNullableWithAggregatesFilter<"Cliente"> | string | null
-  score?: Prisma.IntNullableWithAggregatesFilter<"Cliente"> | number | null
-  clasificacion?: Prisma.EnumClasificacionClienteNullableWithAggregatesFilter<"Cliente"> | $Enums.ClasificacionCliente | null
-  ticketPromedio?: Prisma.DecimalNullableWithAggregatesFilter<"Cliente"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  frecuenciaServicio?: Prisma.IntNullableWithAggregatesFilter<"Cliente"> | number | null
-  ultimaVisita?: Prisma.DateTimeNullableWithAggregatesFilter<"Cliente"> | Date | string | null
-  proximaVisita?: Prisma.DateTimeNullableWithAggregatesFilter<"Cliente"> | Date | string | null
-  planActual?: Prisma.StringNullableWithAggregatesFilter<"Cliente"> | string | null
-  aceptaMarketing?: Prisma.BoolWithAggregatesFilter<"Cliente"> | boolean
-  fechaConsentimiento?: Prisma.DateTimeNullableWithAggregatesFilter<"Cliente"> | Date | string | null
   creadoPorId?: Prisma.UuidNullableWithAggregatesFilter<"Cliente"> | string | null
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Cliente"> | Date | string
-  updatedAt?: Prisma.DateTimeWithAggregatesFilter<"Cliente"> | Date | string
   deletedAt?: Prisma.DateTimeNullableWithAggregatesFilter<"Cliente"> | Date | string | null
+  aceptaMarketing?: Prisma.BoolWithAggregatesFilter<"Cliente"> | boolean
+  actividadEconomica?: Prisma.StringNullableWithAggregatesFilter<"Cliente"> | string | null
+  cargoContacto?: Prisma.StringNullableWithAggregatesFilter<"Cliente"> | string | null
+  clasificacion?: Prisma.EnumClasificacionClienteNullableWithAggregatesFilter<"Cliente"> | $Enums.ClasificacionCliente | null
+  fechaConsentimiento?: Prisma.DateTimeNullableWithAggregatesFilter<"Cliente"> | Date | string | null
+  frecuenciaServicio?: Prisma.IntNullableWithAggregatesFilter<"Cliente"> | number | null
+  metrajeTotal?: Prisma.DecimalNullableWithAggregatesFilter<"Cliente"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  nit?: Prisma.StringNullableWithAggregatesFilter<"Cliente"> | string | null
+  origenCliente?: Prisma.StringNullableWithAggregatesFilter<"Cliente"> | string | null
+  planActual?: Prisma.StringNullableWithAggregatesFilter<"Cliente"> | string | null
+  proximaVisita?: Prisma.DateTimeNullableWithAggregatesFilter<"Cliente"> | Date | string | null
+  razonSocial?: Prisma.StringNullableWithAggregatesFilter<"Cliente"> | string | null
+  representanteLegal?: Prisma.StringNullableWithAggregatesFilter<"Cliente"> | string | null
+  riesgoId?: Prisma.UuidNullableWithAggregatesFilter<"Cliente"> | string | null
+  score?: Prisma.IntNullableWithAggregatesFilter<"Cliente"> | number | null
+  segmentoId?: Prisma.UuidNullableWithAggregatesFilter<"Cliente"> | string | null
+  subsegmento?: Prisma.StringNullableWithAggregatesFilter<"Cliente"> | string | null
+  ticketPromedio?: Prisma.DecimalNullableWithAggregatesFilter<"Cliente"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  tipoCliente?: Prisma.EnumTipoClienteWithAggregatesFilter<"Cliente"> | $Enums.TipoCliente
+  tipoInteresId?: Prisma.UuidNullableWithAggregatesFilter<"Cliente"> | string | null
+  ultimaVisita?: Prisma.DateTimeNullableWithAggregatesFilter<"Cliente"> | Date | string | null
+  updatedAt?: Prisma.DateTimeWithAggregatesFilter<"Cliente"> | Date | string
 }
 
 export type ClienteCreateInput = {
   id?: string
-  tipoCliente?: $Enums.TipoCliente
   nombre?: string | null
   apellido?: string | null
-  razonSocial?: string | null
-  nit?: string | null
-  representanteLegal?: string | null
-  cargoContacto?: string | null
   telefono: string
   telefono2?: string | null
   correo?: string | null
@@ -706,46 +701,46 @@ export type ClienteCreateInput = {
   tipoDocumento?: string | null
   registroDocumento?: string | null
   documentoPath?: string | null
-  origenCliente?: string | null
-  actividadEconomica?: string | null
-  metrajeTotal?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  subsegmento?: string | null
-  score?: number | null
-  clasificacion?: $Enums.ClasificacionCliente | null
-  ticketPromedio?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  frecuenciaServicio?: number | null
-  ultimaVisita?: Date | string | null
-  proximaVisita?: Date | string | null
-  planActual?: string | null
-  aceptaMarketing?: boolean
-  fechaConsentimiento?: Date | string | null
   createdAt?: Date | string
-  updatedAt?: Date | string
   deletedAt?: Date | string | null
-  tenant: Prisma.TenantCreateNestedOneWithoutClientesInput
-  empresa: Prisma.EmpresaCreateNestedOneWithoutClientesInput
+  aceptaMarketing?: boolean
+  actividadEconomica?: string | null
+  cargoContacto?: string | null
+  clasificacion?: $Enums.ClasificacionCliente | null
+  fechaConsentimiento?: Date | string | null
+  frecuenciaServicio?: number | null
+  metrajeTotal?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  nit?: string | null
+  origenCliente?: string | null
+  planActual?: string | null
+  proximaVisita?: Date | string | null
+  razonSocial?: string | null
+  representanteLegal?: string | null
+  score?: number | null
+  subsegmento?: string | null
+  ticketPromedio?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  tipoCliente?: $Enums.TipoCliente
+  ultimaVisita?: Date | string | null
+  updatedAt?: Date | string
+  citasPsicologos?: Prisma.CitasPsicologosCreateNestedManyWithoutPacienteInput
   creadoPor?: Prisma.TenantMembershipCreateNestedOneWithoutClientesCreadosInput
-  segmento?: Prisma.SegmentoNegocioCreateNestedOneWithoutClientesInput
+  empresa: Prisma.EmpresaCreateNestedOneWithoutClientesInput
   riesgo?: Prisma.NivelRiesgoOperativoCreateNestedOneWithoutClientesInput
+  segmento?: Prisma.SegmentoNegocioCreateNestedOneWithoutClientesInput
+  tenant: Prisma.TenantCreateNestedOneWithoutClientesInput
   tipoInteres?: Prisma.TipoInteresCreateNestedOneWithoutClientesInput
   direcciones?: Prisma.DireccionCreateNestedManyWithoutClienteInput
-  vehiculos?: Prisma.VehiculoCreateNestedManyWithoutClienteInput
   ordenesServicio?: Prisma.OrdenServicioCreateNestedManyWithoutClienteInput
-  citasPsicologos?: Prisma.CitasPsicologosCreateNestedManyWithoutPacienteInput
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoCreateNestedManyWithoutClienteInput
+  vehiculos?: Prisma.VehiculoCreateNestedManyWithoutClienteInput
 }
 
 export type ClienteUncheckedCreateInput = {
   id?: string
   tenantId: string
   empresaId: string
-  tipoCliente?: $Enums.TipoCliente
   nombre?: string | null
   apellido?: string | null
-  razonSocial?: string | null
-  nit?: string | null
-  representanteLegal?: string | null
-  cargoContacto?: string | null
   telefono: string
   telefono2?: string | null
   correo?: string | null
@@ -753,42 +748,42 @@ export type ClienteUncheckedCreateInput = {
   tipoDocumento?: string | null
   registroDocumento?: string | null
   documentoPath?: string | null
-  origenCliente?: string | null
-  tipoInteresId?: string | null
-  actividadEconomica?: string | null
-  metrajeTotal?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  segmentoId?: string | null
-  riesgoId?: string | null
-  subsegmento?: string | null
-  score?: number | null
-  clasificacion?: $Enums.ClasificacionCliente | null
-  ticketPromedio?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  frecuenciaServicio?: number | null
-  ultimaVisita?: Date | string | null
-  proximaVisita?: Date | string | null
-  planActual?: string | null
-  aceptaMarketing?: boolean
-  fechaConsentimiento?: Date | string | null
   creadoPorId?: string | null
   createdAt?: Date | string
-  updatedAt?: Date | string
   deletedAt?: Date | string | null
-  direcciones?: Prisma.DireccionUncheckedCreateNestedManyWithoutClienteInput
-  vehiculos?: Prisma.VehiculoUncheckedCreateNestedManyWithoutClienteInput
-  ordenesServicio?: Prisma.OrdenServicioUncheckedCreateNestedManyWithoutClienteInput
+  aceptaMarketing?: boolean
+  actividadEconomica?: string | null
+  cargoContacto?: string | null
+  clasificacion?: $Enums.ClasificacionCliente | null
+  fechaConsentimiento?: Date | string | null
+  frecuenciaServicio?: number | null
+  metrajeTotal?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  nit?: string | null
+  origenCliente?: string | null
+  planActual?: string | null
+  proximaVisita?: Date | string | null
+  razonSocial?: string | null
+  representanteLegal?: string | null
+  riesgoId?: string | null
+  score?: number | null
+  segmentoId?: string | null
+  subsegmento?: string | null
+  ticketPromedio?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  tipoCliente?: $Enums.TipoCliente
+  tipoInteresId?: string | null
+  ultimaVisita?: Date | string | null
+  updatedAt?: Date | string
   citasPsicologos?: Prisma.CitasPsicologosUncheckedCreateNestedManyWithoutPacienteInput
+  direcciones?: Prisma.DireccionUncheckedCreateNestedManyWithoutClienteInput
+  ordenesServicio?: Prisma.OrdenServicioUncheckedCreateNestedManyWithoutClienteInput
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoUncheckedCreateNestedManyWithoutClienteInput
+  vehiculos?: Prisma.VehiculoUncheckedCreateNestedManyWithoutClienteInput
 }
 
 export type ClienteUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  tipoCliente?: Prisma.EnumTipoClienteFieldUpdateOperationsInput | $Enums.TipoCliente
   nombre?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   apellido?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  razonSocial?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  nit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  representanteLegal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  cargoContacto?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   telefono?: Prisma.StringFieldUpdateOperationsInput | string
   telefono2?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   correo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -796,46 +791,46 @@ export type ClienteUpdateInput = {
   tipoDocumento?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   registroDocumento?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   documentoPath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  origenCliente?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  actividadEconomica?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  metrajeTotal?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  subsegmento?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  score?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  clasificacion?: Prisma.NullableEnumClasificacionClienteFieldUpdateOperationsInput | $Enums.ClasificacionCliente | null
-  ticketPromedio?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  frecuenciaServicio?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  ultimaVisita?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  proximaVisita?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  planActual?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  aceptaMarketing?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  fechaConsentimiento?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  tenant?: Prisma.TenantUpdateOneRequiredWithoutClientesNestedInput
-  empresa?: Prisma.EmpresaUpdateOneRequiredWithoutClientesNestedInput
+  aceptaMarketing?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  actividadEconomica?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  cargoContacto?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  clasificacion?: Prisma.NullableEnumClasificacionClienteFieldUpdateOperationsInput | $Enums.ClasificacionCliente | null
+  fechaConsentimiento?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  frecuenciaServicio?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  metrajeTotal?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  nit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  origenCliente?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  planActual?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  proximaVisita?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  razonSocial?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  representanteLegal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  score?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  subsegmento?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  ticketPromedio?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  tipoCliente?: Prisma.EnumTipoClienteFieldUpdateOperationsInput | $Enums.TipoCliente
+  ultimaVisita?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  citasPsicologos?: Prisma.CitasPsicologosUpdateManyWithoutPacienteNestedInput
   creadoPor?: Prisma.TenantMembershipUpdateOneWithoutClientesCreadosNestedInput
-  segmento?: Prisma.SegmentoNegocioUpdateOneWithoutClientesNestedInput
+  empresa?: Prisma.EmpresaUpdateOneRequiredWithoutClientesNestedInput
   riesgo?: Prisma.NivelRiesgoOperativoUpdateOneWithoutClientesNestedInput
+  segmento?: Prisma.SegmentoNegocioUpdateOneWithoutClientesNestedInput
+  tenant?: Prisma.TenantUpdateOneRequiredWithoutClientesNestedInput
   tipoInteres?: Prisma.TipoInteresUpdateOneWithoutClientesNestedInput
   direcciones?: Prisma.DireccionUpdateManyWithoutClienteNestedInput
-  vehiculos?: Prisma.VehiculoUpdateManyWithoutClienteNestedInput
   ordenesServicio?: Prisma.OrdenServicioUpdateManyWithoutClienteNestedInput
-  citasPsicologos?: Prisma.CitasPsicologosUpdateManyWithoutPacienteNestedInput
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoUpdateManyWithoutClienteNestedInput
+  vehiculos?: Prisma.VehiculoUpdateManyWithoutClienteNestedInput
 }
 
 export type ClienteUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   tenantId?: Prisma.StringFieldUpdateOperationsInput | string
   empresaId?: Prisma.StringFieldUpdateOperationsInput | string
-  tipoCliente?: Prisma.EnumTipoClienteFieldUpdateOperationsInput | $Enums.TipoCliente
   nombre?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   apellido?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  razonSocial?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  nit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  representanteLegal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  cargoContacto?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   telefono?: Prisma.StringFieldUpdateOperationsInput | string
   telefono2?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   correo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -843,44 +838,44 @@ export type ClienteUncheckedUpdateInput = {
   tipoDocumento?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   registroDocumento?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   documentoPath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  origenCliente?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  tipoInteresId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  actividadEconomica?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  metrajeTotal?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  segmentoId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  riesgoId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  subsegmento?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  score?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  clasificacion?: Prisma.NullableEnumClasificacionClienteFieldUpdateOperationsInput | $Enums.ClasificacionCliente | null
-  ticketPromedio?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  frecuenciaServicio?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  ultimaVisita?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  proximaVisita?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  planActual?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  aceptaMarketing?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  fechaConsentimiento?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   creadoPorId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  direcciones?: Prisma.DireccionUncheckedUpdateManyWithoutClienteNestedInput
-  vehiculos?: Prisma.VehiculoUncheckedUpdateManyWithoutClienteNestedInput
-  ordenesServicio?: Prisma.OrdenServicioUncheckedUpdateManyWithoutClienteNestedInput
+  aceptaMarketing?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  actividadEconomica?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  cargoContacto?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  clasificacion?: Prisma.NullableEnumClasificacionClienteFieldUpdateOperationsInput | $Enums.ClasificacionCliente | null
+  fechaConsentimiento?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  frecuenciaServicio?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  metrajeTotal?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  nit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  origenCliente?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  planActual?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  proximaVisita?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  razonSocial?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  representanteLegal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  riesgoId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  score?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  segmentoId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  subsegmento?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  ticketPromedio?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  tipoCliente?: Prisma.EnumTipoClienteFieldUpdateOperationsInput | $Enums.TipoCliente
+  tipoInteresId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  ultimaVisita?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   citasPsicologos?: Prisma.CitasPsicologosUncheckedUpdateManyWithoutPacienteNestedInput
+  direcciones?: Prisma.DireccionUncheckedUpdateManyWithoutClienteNestedInput
+  ordenesServicio?: Prisma.OrdenServicioUncheckedUpdateManyWithoutClienteNestedInput
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoUncheckedUpdateManyWithoutClienteNestedInput
+  vehiculos?: Prisma.VehiculoUncheckedUpdateManyWithoutClienteNestedInput
 }
 
 export type ClienteCreateManyInput = {
   id?: string
   tenantId: string
   empresaId: string
-  tipoCliente?: $Enums.TipoCliente
   nombre?: string | null
   apellido?: string | null
-  razonSocial?: string | null
-  nit?: string | null
-  representanteLegal?: string | null
-  cargoContacto?: string | null
   telefono: string
   telefono2?: string | null
   correo?: string | null
@@ -888,37 +883,37 @@ export type ClienteCreateManyInput = {
   tipoDocumento?: string | null
   registroDocumento?: string | null
   documentoPath?: string | null
-  origenCliente?: string | null
-  tipoInteresId?: string | null
-  actividadEconomica?: string | null
-  metrajeTotal?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  segmentoId?: string | null
-  riesgoId?: string | null
-  subsegmento?: string | null
-  score?: number | null
-  clasificacion?: $Enums.ClasificacionCliente | null
-  ticketPromedio?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  frecuenciaServicio?: number | null
-  ultimaVisita?: Date | string | null
-  proximaVisita?: Date | string | null
-  planActual?: string | null
-  aceptaMarketing?: boolean
-  fechaConsentimiento?: Date | string | null
   creadoPorId?: string | null
   createdAt?: Date | string
-  updatedAt?: Date | string
   deletedAt?: Date | string | null
+  aceptaMarketing?: boolean
+  actividadEconomica?: string | null
+  cargoContacto?: string | null
+  clasificacion?: $Enums.ClasificacionCliente | null
+  fechaConsentimiento?: Date | string | null
+  frecuenciaServicio?: number | null
+  metrajeTotal?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  nit?: string | null
+  origenCliente?: string | null
+  planActual?: string | null
+  proximaVisita?: Date | string | null
+  razonSocial?: string | null
+  representanteLegal?: string | null
+  riesgoId?: string | null
+  score?: number | null
+  segmentoId?: string | null
+  subsegmento?: string | null
+  ticketPromedio?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  tipoCliente?: $Enums.TipoCliente
+  tipoInteresId?: string | null
+  ultimaVisita?: Date | string | null
+  updatedAt?: Date | string
 }
 
 export type ClienteUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  tipoCliente?: Prisma.EnumTipoClienteFieldUpdateOperationsInput | $Enums.TipoCliente
   nombre?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   apellido?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  razonSocial?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  nit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  representanteLegal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  cargoContacto?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   telefono?: Prisma.StringFieldUpdateOperationsInput | string
   telefono2?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   correo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -926,35 +921,35 @@ export type ClienteUpdateManyMutationInput = {
   tipoDocumento?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   registroDocumento?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   documentoPath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  origenCliente?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  actividadEconomica?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  metrajeTotal?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  subsegmento?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  score?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  clasificacion?: Prisma.NullableEnumClasificacionClienteFieldUpdateOperationsInput | $Enums.ClasificacionCliente | null
-  ticketPromedio?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  frecuenciaServicio?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  ultimaVisita?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  proximaVisita?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  planActual?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  aceptaMarketing?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  fechaConsentimiento?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  aceptaMarketing?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  actividadEconomica?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  cargoContacto?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  clasificacion?: Prisma.NullableEnumClasificacionClienteFieldUpdateOperationsInput | $Enums.ClasificacionCliente | null
+  fechaConsentimiento?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  frecuenciaServicio?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  metrajeTotal?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  nit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  origenCliente?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  planActual?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  proximaVisita?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  razonSocial?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  representanteLegal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  score?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  subsegmento?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  ticketPromedio?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  tipoCliente?: Prisma.EnumTipoClienteFieldUpdateOperationsInput | $Enums.TipoCliente
+  ultimaVisita?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type ClienteUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   tenantId?: Prisma.StringFieldUpdateOperationsInput | string
   empresaId?: Prisma.StringFieldUpdateOperationsInput | string
-  tipoCliente?: Prisma.EnumTipoClienteFieldUpdateOperationsInput | $Enums.TipoCliente
   nombre?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   apellido?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  razonSocial?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  nit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  representanteLegal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  cargoContacto?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   telefono?: Prisma.StringFieldUpdateOperationsInput | string
   telefono2?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   correo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -962,26 +957,31 @@ export type ClienteUncheckedUpdateManyInput = {
   tipoDocumento?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   registroDocumento?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   documentoPath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  origenCliente?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  tipoInteresId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  actividadEconomica?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  metrajeTotal?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  segmentoId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  riesgoId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  subsegmento?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  score?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  clasificacion?: Prisma.NullableEnumClasificacionClienteFieldUpdateOperationsInput | $Enums.ClasificacionCliente | null
-  ticketPromedio?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  frecuenciaServicio?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  ultimaVisita?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  proximaVisita?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  planActual?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  aceptaMarketing?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  fechaConsentimiento?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   creadoPorId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  aceptaMarketing?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  actividadEconomica?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  cargoContacto?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  clasificacion?: Prisma.NullableEnumClasificacionClienteFieldUpdateOperationsInput | $Enums.ClasificacionCliente | null
+  fechaConsentimiento?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  frecuenciaServicio?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  metrajeTotal?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  nit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  origenCliente?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  planActual?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  proximaVisita?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  razonSocial?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  representanteLegal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  riesgoId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  score?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  segmentoId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  subsegmento?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  ticketPromedio?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  tipoCliente?: Prisma.EnumTipoClienteFieldUpdateOperationsInput | $Enums.TipoCliente
+  tipoInteresId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  ultimaVisita?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type ClienteListRelationFilter = {
@@ -998,13 +998,8 @@ export type ClienteCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   tenantId?: Prisma.SortOrder
   empresaId?: Prisma.SortOrder
-  tipoCliente?: Prisma.SortOrder
   nombre?: Prisma.SortOrder
   apellido?: Prisma.SortOrder
-  razonSocial?: Prisma.SortOrder
-  nit?: Prisma.SortOrder
-  representanteLegal?: Prisma.SortOrder
-  cargoContacto?: Prisma.SortOrder
   telefono?: Prisma.SortOrder
   telefono2?: Prisma.SortOrder
   correo?: Prisma.SortOrder
@@ -1012,46 +1007,46 @@ export type ClienteCountOrderByAggregateInput = {
   tipoDocumento?: Prisma.SortOrder
   registroDocumento?: Prisma.SortOrder
   documentoPath?: Prisma.SortOrder
-  origenCliente?: Prisma.SortOrder
-  tipoInteresId?: Prisma.SortOrder
-  actividadEconomica?: Prisma.SortOrder
-  metrajeTotal?: Prisma.SortOrder
-  segmentoId?: Prisma.SortOrder
-  riesgoId?: Prisma.SortOrder
-  subsegmento?: Prisma.SortOrder
-  score?: Prisma.SortOrder
-  clasificacion?: Prisma.SortOrder
-  ticketPromedio?: Prisma.SortOrder
-  frecuenciaServicio?: Prisma.SortOrder
-  ultimaVisita?: Prisma.SortOrder
-  proximaVisita?: Prisma.SortOrder
-  planActual?: Prisma.SortOrder
-  aceptaMarketing?: Prisma.SortOrder
-  fechaConsentimiento?: Prisma.SortOrder
   creadoPorId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
-  updatedAt?: Prisma.SortOrder
   deletedAt?: Prisma.SortOrder
+  aceptaMarketing?: Prisma.SortOrder
+  actividadEconomica?: Prisma.SortOrder
+  cargoContacto?: Prisma.SortOrder
+  clasificacion?: Prisma.SortOrder
+  fechaConsentimiento?: Prisma.SortOrder
+  frecuenciaServicio?: Prisma.SortOrder
+  metrajeTotal?: Prisma.SortOrder
+  nit?: Prisma.SortOrder
+  origenCliente?: Prisma.SortOrder
+  planActual?: Prisma.SortOrder
+  proximaVisita?: Prisma.SortOrder
+  razonSocial?: Prisma.SortOrder
+  representanteLegal?: Prisma.SortOrder
+  riesgoId?: Prisma.SortOrder
+  score?: Prisma.SortOrder
+  segmentoId?: Prisma.SortOrder
+  subsegmento?: Prisma.SortOrder
+  ticketPromedio?: Prisma.SortOrder
+  tipoCliente?: Prisma.SortOrder
+  tipoInteresId?: Prisma.SortOrder
+  ultimaVisita?: Prisma.SortOrder
+  updatedAt?: Prisma.SortOrder
 }
 
 export type ClienteAvgOrderByAggregateInput = {
+  frecuenciaServicio?: Prisma.SortOrder
   metrajeTotal?: Prisma.SortOrder
   score?: Prisma.SortOrder
   ticketPromedio?: Prisma.SortOrder
-  frecuenciaServicio?: Prisma.SortOrder
 }
 
 export type ClienteMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
   tenantId?: Prisma.SortOrder
   empresaId?: Prisma.SortOrder
-  tipoCliente?: Prisma.SortOrder
   nombre?: Prisma.SortOrder
   apellido?: Prisma.SortOrder
-  razonSocial?: Prisma.SortOrder
-  nit?: Prisma.SortOrder
-  representanteLegal?: Prisma.SortOrder
-  cargoContacto?: Prisma.SortOrder
   telefono?: Prisma.SortOrder
   telefono2?: Prisma.SortOrder
   correo?: Prisma.SortOrder
@@ -1059,39 +1054,39 @@ export type ClienteMaxOrderByAggregateInput = {
   tipoDocumento?: Prisma.SortOrder
   registroDocumento?: Prisma.SortOrder
   documentoPath?: Prisma.SortOrder
-  origenCliente?: Prisma.SortOrder
-  tipoInteresId?: Prisma.SortOrder
-  actividadEconomica?: Prisma.SortOrder
-  metrajeTotal?: Prisma.SortOrder
-  segmentoId?: Prisma.SortOrder
-  riesgoId?: Prisma.SortOrder
-  subsegmento?: Prisma.SortOrder
-  score?: Prisma.SortOrder
-  clasificacion?: Prisma.SortOrder
-  ticketPromedio?: Prisma.SortOrder
-  frecuenciaServicio?: Prisma.SortOrder
-  ultimaVisita?: Prisma.SortOrder
-  proximaVisita?: Prisma.SortOrder
-  planActual?: Prisma.SortOrder
-  aceptaMarketing?: Prisma.SortOrder
-  fechaConsentimiento?: Prisma.SortOrder
   creadoPorId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
-  updatedAt?: Prisma.SortOrder
   deletedAt?: Prisma.SortOrder
+  aceptaMarketing?: Prisma.SortOrder
+  actividadEconomica?: Prisma.SortOrder
+  cargoContacto?: Prisma.SortOrder
+  clasificacion?: Prisma.SortOrder
+  fechaConsentimiento?: Prisma.SortOrder
+  frecuenciaServicio?: Prisma.SortOrder
+  metrajeTotal?: Prisma.SortOrder
+  nit?: Prisma.SortOrder
+  origenCliente?: Prisma.SortOrder
+  planActual?: Prisma.SortOrder
+  proximaVisita?: Prisma.SortOrder
+  razonSocial?: Prisma.SortOrder
+  representanteLegal?: Prisma.SortOrder
+  riesgoId?: Prisma.SortOrder
+  score?: Prisma.SortOrder
+  segmentoId?: Prisma.SortOrder
+  subsegmento?: Prisma.SortOrder
+  ticketPromedio?: Prisma.SortOrder
+  tipoCliente?: Prisma.SortOrder
+  tipoInteresId?: Prisma.SortOrder
+  ultimaVisita?: Prisma.SortOrder
+  updatedAt?: Prisma.SortOrder
 }
 
 export type ClienteMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
   tenantId?: Prisma.SortOrder
   empresaId?: Prisma.SortOrder
-  tipoCliente?: Prisma.SortOrder
   nombre?: Prisma.SortOrder
   apellido?: Prisma.SortOrder
-  razonSocial?: Prisma.SortOrder
-  nit?: Prisma.SortOrder
-  representanteLegal?: Prisma.SortOrder
-  cargoContacto?: Prisma.SortOrder
   telefono?: Prisma.SortOrder
   telefono2?: Prisma.SortOrder
   correo?: Prisma.SortOrder
@@ -1099,33 +1094,38 @@ export type ClienteMinOrderByAggregateInput = {
   tipoDocumento?: Prisma.SortOrder
   registroDocumento?: Prisma.SortOrder
   documentoPath?: Prisma.SortOrder
-  origenCliente?: Prisma.SortOrder
-  tipoInteresId?: Prisma.SortOrder
-  actividadEconomica?: Prisma.SortOrder
-  metrajeTotal?: Prisma.SortOrder
-  segmentoId?: Prisma.SortOrder
-  riesgoId?: Prisma.SortOrder
-  subsegmento?: Prisma.SortOrder
-  score?: Prisma.SortOrder
-  clasificacion?: Prisma.SortOrder
-  ticketPromedio?: Prisma.SortOrder
-  frecuenciaServicio?: Prisma.SortOrder
-  ultimaVisita?: Prisma.SortOrder
-  proximaVisita?: Prisma.SortOrder
-  planActual?: Prisma.SortOrder
-  aceptaMarketing?: Prisma.SortOrder
-  fechaConsentimiento?: Prisma.SortOrder
   creadoPorId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
-  updatedAt?: Prisma.SortOrder
   deletedAt?: Prisma.SortOrder
+  aceptaMarketing?: Prisma.SortOrder
+  actividadEconomica?: Prisma.SortOrder
+  cargoContacto?: Prisma.SortOrder
+  clasificacion?: Prisma.SortOrder
+  fechaConsentimiento?: Prisma.SortOrder
+  frecuenciaServicio?: Prisma.SortOrder
+  metrajeTotal?: Prisma.SortOrder
+  nit?: Prisma.SortOrder
+  origenCliente?: Prisma.SortOrder
+  planActual?: Prisma.SortOrder
+  proximaVisita?: Prisma.SortOrder
+  razonSocial?: Prisma.SortOrder
+  representanteLegal?: Prisma.SortOrder
+  riesgoId?: Prisma.SortOrder
+  score?: Prisma.SortOrder
+  segmentoId?: Prisma.SortOrder
+  subsegmento?: Prisma.SortOrder
+  ticketPromedio?: Prisma.SortOrder
+  tipoCliente?: Prisma.SortOrder
+  tipoInteresId?: Prisma.SortOrder
+  ultimaVisita?: Prisma.SortOrder
+  updatedAt?: Prisma.SortOrder
 }
 
 export type ClienteSumOrderByAggregateInput = {
+  frecuenciaServicio?: Prisma.SortOrder
   metrajeTotal?: Prisma.SortOrder
   score?: Prisma.SortOrder
   ticketPromedio?: Prisma.SortOrder
-  frecuenciaServicio?: Prisma.SortOrder
 }
 
 export type ClienteScalarRelationFilter = {
@@ -1385,12 +1385,12 @@ export type ClienteUncheckedUpdateManyWithoutTipoInteresNestedInput = {
   deleteMany?: Prisma.ClienteScalarWhereInput | Prisma.ClienteScalarWhereInput[]
 }
 
-export type EnumTipoClienteFieldUpdateOperationsInput = {
-  set?: $Enums.TipoCliente
-}
-
 export type NullableEnumClasificacionClienteFieldUpdateOperationsInput = {
   set?: $Enums.ClasificacionCliente | null
+}
+
+export type EnumTipoClienteFieldUpdateOperationsInput = {
+  set?: $Enums.TipoCliente
 }
 
 export type ClienteCreateNestedOneWithoutVehiculosInput = {
@@ -1465,13 +1465,8 @@ export type ClienteUpdateOneRequiredWithoutPaquetesAdquiridosNestedInput = {
 
 export type ClienteCreateWithoutTenantInput = {
   id?: string
-  tipoCliente?: $Enums.TipoCliente
   nombre?: string | null
   apellido?: string | null
-  razonSocial?: string | null
-  nit?: string | null
-  representanteLegal?: string | null
-  cargoContacto?: string | null
   telefono: string
   telefono2?: string | null
   correo?: string | null
@@ -1479,44 +1474,44 @@ export type ClienteCreateWithoutTenantInput = {
   tipoDocumento?: string | null
   registroDocumento?: string | null
   documentoPath?: string | null
-  origenCliente?: string | null
-  actividadEconomica?: string | null
-  metrajeTotal?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  subsegmento?: string | null
-  score?: number | null
-  clasificacion?: $Enums.ClasificacionCliente | null
-  ticketPromedio?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  frecuenciaServicio?: number | null
-  ultimaVisita?: Date | string | null
-  proximaVisita?: Date | string | null
-  planActual?: string | null
-  aceptaMarketing?: boolean
-  fechaConsentimiento?: Date | string | null
   createdAt?: Date | string
-  updatedAt?: Date | string
   deletedAt?: Date | string | null
-  empresa: Prisma.EmpresaCreateNestedOneWithoutClientesInput
+  aceptaMarketing?: boolean
+  actividadEconomica?: string | null
+  cargoContacto?: string | null
+  clasificacion?: $Enums.ClasificacionCliente | null
+  fechaConsentimiento?: Date | string | null
+  frecuenciaServicio?: number | null
+  metrajeTotal?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  nit?: string | null
+  origenCliente?: string | null
+  planActual?: string | null
+  proximaVisita?: Date | string | null
+  razonSocial?: string | null
+  representanteLegal?: string | null
+  score?: number | null
+  subsegmento?: string | null
+  ticketPromedio?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  tipoCliente?: $Enums.TipoCliente
+  ultimaVisita?: Date | string | null
+  updatedAt?: Date | string
+  citasPsicologos?: Prisma.CitasPsicologosCreateNestedManyWithoutPacienteInput
   creadoPor?: Prisma.TenantMembershipCreateNestedOneWithoutClientesCreadosInput
-  segmento?: Prisma.SegmentoNegocioCreateNestedOneWithoutClientesInput
+  empresa: Prisma.EmpresaCreateNestedOneWithoutClientesInput
   riesgo?: Prisma.NivelRiesgoOperativoCreateNestedOneWithoutClientesInput
+  segmento?: Prisma.SegmentoNegocioCreateNestedOneWithoutClientesInput
   tipoInteres?: Prisma.TipoInteresCreateNestedOneWithoutClientesInput
   direcciones?: Prisma.DireccionCreateNestedManyWithoutClienteInput
-  vehiculos?: Prisma.VehiculoCreateNestedManyWithoutClienteInput
   ordenesServicio?: Prisma.OrdenServicioCreateNestedManyWithoutClienteInput
-  citasPsicologos?: Prisma.CitasPsicologosCreateNestedManyWithoutPacienteInput
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoCreateNestedManyWithoutClienteInput
+  vehiculos?: Prisma.VehiculoCreateNestedManyWithoutClienteInput
 }
 
 export type ClienteUncheckedCreateWithoutTenantInput = {
   id?: string
   empresaId: string
-  tipoCliente?: $Enums.TipoCliente
   nombre?: string | null
   apellido?: string | null
-  razonSocial?: string | null
-  nit?: string | null
-  representanteLegal?: string | null
-  cargoContacto?: string | null
   telefono: string
   telefono2?: string | null
   correo?: string | null
@@ -1524,31 +1519,36 @@ export type ClienteUncheckedCreateWithoutTenantInput = {
   tipoDocumento?: string | null
   registroDocumento?: string | null
   documentoPath?: string | null
-  origenCliente?: string | null
-  tipoInteresId?: string | null
-  actividadEconomica?: string | null
-  metrajeTotal?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  segmentoId?: string | null
-  riesgoId?: string | null
-  subsegmento?: string | null
-  score?: number | null
-  clasificacion?: $Enums.ClasificacionCliente | null
-  ticketPromedio?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  frecuenciaServicio?: number | null
-  ultimaVisita?: Date | string | null
-  proximaVisita?: Date | string | null
-  planActual?: string | null
-  aceptaMarketing?: boolean
-  fechaConsentimiento?: Date | string | null
   creadoPorId?: string | null
   createdAt?: Date | string
-  updatedAt?: Date | string
   deletedAt?: Date | string | null
-  direcciones?: Prisma.DireccionUncheckedCreateNestedManyWithoutClienteInput
-  vehiculos?: Prisma.VehiculoUncheckedCreateNestedManyWithoutClienteInput
-  ordenesServicio?: Prisma.OrdenServicioUncheckedCreateNestedManyWithoutClienteInput
+  aceptaMarketing?: boolean
+  actividadEconomica?: string | null
+  cargoContacto?: string | null
+  clasificacion?: $Enums.ClasificacionCliente | null
+  fechaConsentimiento?: Date | string | null
+  frecuenciaServicio?: number | null
+  metrajeTotal?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  nit?: string | null
+  origenCliente?: string | null
+  planActual?: string | null
+  proximaVisita?: Date | string | null
+  razonSocial?: string | null
+  representanteLegal?: string | null
+  riesgoId?: string | null
+  score?: number | null
+  segmentoId?: string | null
+  subsegmento?: string | null
+  ticketPromedio?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  tipoCliente?: $Enums.TipoCliente
+  tipoInteresId?: string | null
+  ultimaVisita?: Date | string | null
+  updatedAt?: Date | string
   citasPsicologos?: Prisma.CitasPsicologosUncheckedCreateNestedManyWithoutPacienteInput
+  direcciones?: Prisma.DireccionUncheckedCreateNestedManyWithoutClienteInput
+  ordenesServicio?: Prisma.OrdenServicioUncheckedCreateNestedManyWithoutClienteInput
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoUncheckedCreateNestedManyWithoutClienteInput
+  vehiculos?: Prisma.VehiculoUncheckedCreateNestedManyWithoutClienteInput
 }
 
 export type ClienteCreateOrConnectWithoutTenantInput = {
@@ -1584,13 +1584,8 @@ export type ClienteScalarWhereInput = {
   id?: Prisma.UuidFilter<"Cliente"> | string
   tenantId?: Prisma.UuidFilter<"Cliente"> | string
   empresaId?: Prisma.UuidFilter<"Cliente"> | string
-  tipoCliente?: Prisma.EnumTipoClienteFilter<"Cliente"> | $Enums.TipoCliente
   nombre?: Prisma.StringNullableFilter<"Cliente"> | string | null
   apellido?: Prisma.StringNullableFilter<"Cliente"> | string | null
-  razonSocial?: Prisma.StringNullableFilter<"Cliente"> | string | null
-  nit?: Prisma.StringNullableFilter<"Cliente"> | string | null
-  representanteLegal?: Prisma.StringNullableFilter<"Cliente"> | string | null
-  cargoContacto?: Prisma.StringNullableFilter<"Cliente"> | string | null
   telefono?: Prisma.StringFilter<"Cliente"> | string
   telefono2?: Prisma.StringNullableFilter<"Cliente"> | string | null
   correo?: Prisma.StringNullableFilter<"Cliente"> | string | null
@@ -1598,37 +1593,37 @@ export type ClienteScalarWhereInput = {
   tipoDocumento?: Prisma.StringNullableFilter<"Cliente"> | string | null
   registroDocumento?: Prisma.StringNullableFilter<"Cliente"> | string | null
   documentoPath?: Prisma.StringNullableFilter<"Cliente"> | string | null
-  origenCliente?: Prisma.StringNullableFilter<"Cliente"> | string | null
-  tipoInteresId?: Prisma.UuidNullableFilter<"Cliente"> | string | null
-  actividadEconomica?: Prisma.StringNullableFilter<"Cliente"> | string | null
-  metrajeTotal?: Prisma.DecimalNullableFilter<"Cliente"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  segmentoId?: Prisma.UuidNullableFilter<"Cliente"> | string | null
-  riesgoId?: Prisma.UuidNullableFilter<"Cliente"> | string | null
-  subsegmento?: Prisma.StringNullableFilter<"Cliente"> | string | null
-  score?: Prisma.IntNullableFilter<"Cliente"> | number | null
-  clasificacion?: Prisma.EnumClasificacionClienteNullableFilter<"Cliente"> | $Enums.ClasificacionCliente | null
-  ticketPromedio?: Prisma.DecimalNullableFilter<"Cliente"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  frecuenciaServicio?: Prisma.IntNullableFilter<"Cliente"> | number | null
-  ultimaVisita?: Prisma.DateTimeNullableFilter<"Cliente"> | Date | string | null
-  proximaVisita?: Prisma.DateTimeNullableFilter<"Cliente"> | Date | string | null
-  planActual?: Prisma.StringNullableFilter<"Cliente"> | string | null
-  aceptaMarketing?: Prisma.BoolFilter<"Cliente"> | boolean
-  fechaConsentimiento?: Prisma.DateTimeNullableFilter<"Cliente"> | Date | string | null
   creadoPorId?: Prisma.UuidNullableFilter<"Cliente"> | string | null
   createdAt?: Prisma.DateTimeFilter<"Cliente"> | Date | string
-  updatedAt?: Prisma.DateTimeFilter<"Cliente"> | Date | string
   deletedAt?: Prisma.DateTimeNullableFilter<"Cliente"> | Date | string | null
+  aceptaMarketing?: Prisma.BoolFilter<"Cliente"> | boolean
+  actividadEconomica?: Prisma.StringNullableFilter<"Cliente"> | string | null
+  cargoContacto?: Prisma.StringNullableFilter<"Cliente"> | string | null
+  clasificacion?: Prisma.EnumClasificacionClienteNullableFilter<"Cliente"> | $Enums.ClasificacionCliente | null
+  fechaConsentimiento?: Prisma.DateTimeNullableFilter<"Cliente"> | Date | string | null
+  frecuenciaServicio?: Prisma.IntNullableFilter<"Cliente"> | number | null
+  metrajeTotal?: Prisma.DecimalNullableFilter<"Cliente"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  nit?: Prisma.StringNullableFilter<"Cliente"> | string | null
+  origenCliente?: Prisma.StringNullableFilter<"Cliente"> | string | null
+  planActual?: Prisma.StringNullableFilter<"Cliente"> | string | null
+  proximaVisita?: Prisma.DateTimeNullableFilter<"Cliente"> | Date | string | null
+  razonSocial?: Prisma.StringNullableFilter<"Cliente"> | string | null
+  representanteLegal?: Prisma.StringNullableFilter<"Cliente"> | string | null
+  riesgoId?: Prisma.UuidNullableFilter<"Cliente"> | string | null
+  score?: Prisma.IntNullableFilter<"Cliente"> | number | null
+  segmentoId?: Prisma.UuidNullableFilter<"Cliente"> | string | null
+  subsegmento?: Prisma.StringNullableFilter<"Cliente"> | string | null
+  ticketPromedio?: Prisma.DecimalNullableFilter<"Cliente"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  tipoCliente?: Prisma.EnumTipoClienteFilter<"Cliente"> | $Enums.TipoCliente
+  tipoInteresId?: Prisma.UuidNullableFilter<"Cliente"> | string | null
+  ultimaVisita?: Prisma.DateTimeNullableFilter<"Cliente"> | Date | string | null
+  updatedAt?: Prisma.DateTimeFilter<"Cliente"> | Date | string
 }
 
 export type ClienteCreateWithoutCreadoPorInput = {
   id?: string
-  tipoCliente?: $Enums.TipoCliente
   nombre?: string | null
   apellido?: string | null
-  razonSocial?: string | null
-  nit?: string | null
-  representanteLegal?: string | null
-  cargoContacto?: string | null
   telefono: string
   telefono2?: string | null
   correo?: string | null
@@ -1636,45 +1631,45 @@ export type ClienteCreateWithoutCreadoPorInput = {
   tipoDocumento?: string | null
   registroDocumento?: string | null
   documentoPath?: string | null
-  origenCliente?: string | null
-  actividadEconomica?: string | null
-  metrajeTotal?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  subsegmento?: string | null
-  score?: number | null
-  clasificacion?: $Enums.ClasificacionCliente | null
-  ticketPromedio?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  frecuenciaServicio?: number | null
-  ultimaVisita?: Date | string | null
-  proximaVisita?: Date | string | null
-  planActual?: string | null
-  aceptaMarketing?: boolean
-  fechaConsentimiento?: Date | string | null
   createdAt?: Date | string
-  updatedAt?: Date | string
   deletedAt?: Date | string | null
-  tenant: Prisma.TenantCreateNestedOneWithoutClientesInput
+  aceptaMarketing?: boolean
+  actividadEconomica?: string | null
+  cargoContacto?: string | null
+  clasificacion?: $Enums.ClasificacionCliente | null
+  fechaConsentimiento?: Date | string | null
+  frecuenciaServicio?: number | null
+  metrajeTotal?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  nit?: string | null
+  origenCliente?: string | null
+  planActual?: string | null
+  proximaVisita?: Date | string | null
+  razonSocial?: string | null
+  representanteLegal?: string | null
+  score?: number | null
+  subsegmento?: string | null
+  ticketPromedio?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  tipoCliente?: $Enums.TipoCliente
+  ultimaVisita?: Date | string | null
+  updatedAt?: Date | string
+  citasPsicologos?: Prisma.CitasPsicologosCreateNestedManyWithoutPacienteInput
   empresa: Prisma.EmpresaCreateNestedOneWithoutClientesInput
-  segmento?: Prisma.SegmentoNegocioCreateNestedOneWithoutClientesInput
   riesgo?: Prisma.NivelRiesgoOperativoCreateNestedOneWithoutClientesInput
+  segmento?: Prisma.SegmentoNegocioCreateNestedOneWithoutClientesInput
+  tenant: Prisma.TenantCreateNestedOneWithoutClientesInput
   tipoInteres?: Prisma.TipoInteresCreateNestedOneWithoutClientesInput
   direcciones?: Prisma.DireccionCreateNestedManyWithoutClienteInput
-  vehiculos?: Prisma.VehiculoCreateNestedManyWithoutClienteInput
   ordenesServicio?: Prisma.OrdenServicioCreateNestedManyWithoutClienteInput
-  citasPsicologos?: Prisma.CitasPsicologosCreateNestedManyWithoutPacienteInput
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoCreateNestedManyWithoutClienteInput
+  vehiculos?: Prisma.VehiculoCreateNestedManyWithoutClienteInput
 }
 
 export type ClienteUncheckedCreateWithoutCreadoPorInput = {
   id?: string
   tenantId: string
   empresaId: string
-  tipoCliente?: $Enums.TipoCliente
   nombre?: string | null
   apellido?: string | null
-  razonSocial?: string | null
-  nit?: string | null
-  representanteLegal?: string | null
-  cargoContacto?: string | null
   telefono: string
   telefono2?: string | null
   correo?: string | null
@@ -1682,30 +1677,35 @@ export type ClienteUncheckedCreateWithoutCreadoPorInput = {
   tipoDocumento?: string | null
   registroDocumento?: string | null
   documentoPath?: string | null
-  origenCliente?: string | null
-  tipoInteresId?: string | null
-  actividadEconomica?: string | null
-  metrajeTotal?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  segmentoId?: string | null
-  riesgoId?: string | null
-  subsegmento?: string | null
-  score?: number | null
-  clasificacion?: $Enums.ClasificacionCliente | null
-  ticketPromedio?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  frecuenciaServicio?: number | null
-  ultimaVisita?: Date | string | null
-  proximaVisita?: Date | string | null
-  planActual?: string | null
-  aceptaMarketing?: boolean
-  fechaConsentimiento?: Date | string | null
   createdAt?: Date | string
-  updatedAt?: Date | string
   deletedAt?: Date | string | null
-  direcciones?: Prisma.DireccionUncheckedCreateNestedManyWithoutClienteInput
-  vehiculos?: Prisma.VehiculoUncheckedCreateNestedManyWithoutClienteInput
-  ordenesServicio?: Prisma.OrdenServicioUncheckedCreateNestedManyWithoutClienteInput
+  aceptaMarketing?: boolean
+  actividadEconomica?: string | null
+  cargoContacto?: string | null
+  clasificacion?: $Enums.ClasificacionCliente | null
+  fechaConsentimiento?: Date | string | null
+  frecuenciaServicio?: number | null
+  metrajeTotal?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  nit?: string | null
+  origenCliente?: string | null
+  planActual?: string | null
+  proximaVisita?: Date | string | null
+  razonSocial?: string | null
+  representanteLegal?: string | null
+  riesgoId?: string | null
+  score?: number | null
+  segmentoId?: string | null
+  subsegmento?: string | null
+  ticketPromedio?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  tipoCliente?: $Enums.TipoCliente
+  tipoInteresId?: string | null
+  ultimaVisita?: Date | string | null
+  updatedAt?: Date | string
   citasPsicologos?: Prisma.CitasPsicologosUncheckedCreateNestedManyWithoutPacienteInput
+  direcciones?: Prisma.DireccionUncheckedCreateNestedManyWithoutClienteInput
+  ordenesServicio?: Prisma.OrdenServicioUncheckedCreateNestedManyWithoutClienteInput
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoUncheckedCreateNestedManyWithoutClienteInput
+  vehiculos?: Prisma.VehiculoUncheckedCreateNestedManyWithoutClienteInput
 }
 
 export type ClienteCreateOrConnectWithoutCreadoPorInput = {
@@ -1736,13 +1736,8 @@ export type ClienteUpdateManyWithWhereWithoutCreadoPorInput = {
 
 export type ClienteCreateWithoutEmpresaInput = {
   id?: string
-  tipoCliente?: $Enums.TipoCliente
   nombre?: string | null
   apellido?: string | null
-  razonSocial?: string | null
-  nit?: string | null
-  representanteLegal?: string | null
-  cargoContacto?: string | null
   telefono: string
   telefono2?: string | null
   correo?: string | null
@@ -1750,44 +1745,44 @@ export type ClienteCreateWithoutEmpresaInput = {
   tipoDocumento?: string | null
   registroDocumento?: string | null
   documentoPath?: string | null
-  origenCliente?: string | null
-  actividadEconomica?: string | null
-  metrajeTotal?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  subsegmento?: string | null
-  score?: number | null
-  clasificacion?: $Enums.ClasificacionCliente | null
-  ticketPromedio?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  frecuenciaServicio?: number | null
-  ultimaVisita?: Date | string | null
-  proximaVisita?: Date | string | null
-  planActual?: string | null
-  aceptaMarketing?: boolean
-  fechaConsentimiento?: Date | string | null
   createdAt?: Date | string
-  updatedAt?: Date | string
   deletedAt?: Date | string | null
-  tenant: Prisma.TenantCreateNestedOneWithoutClientesInput
+  aceptaMarketing?: boolean
+  actividadEconomica?: string | null
+  cargoContacto?: string | null
+  clasificacion?: $Enums.ClasificacionCliente | null
+  fechaConsentimiento?: Date | string | null
+  frecuenciaServicio?: number | null
+  metrajeTotal?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  nit?: string | null
+  origenCliente?: string | null
+  planActual?: string | null
+  proximaVisita?: Date | string | null
+  razonSocial?: string | null
+  representanteLegal?: string | null
+  score?: number | null
+  subsegmento?: string | null
+  ticketPromedio?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  tipoCliente?: $Enums.TipoCliente
+  ultimaVisita?: Date | string | null
+  updatedAt?: Date | string
+  citasPsicologos?: Prisma.CitasPsicologosCreateNestedManyWithoutPacienteInput
   creadoPor?: Prisma.TenantMembershipCreateNestedOneWithoutClientesCreadosInput
-  segmento?: Prisma.SegmentoNegocioCreateNestedOneWithoutClientesInput
   riesgo?: Prisma.NivelRiesgoOperativoCreateNestedOneWithoutClientesInput
+  segmento?: Prisma.SegmentoNegocioCreateNestedOneWithoutClientesInput
+  tenant: Prisma.TenantCreateNestedOneWithoutClientesInput
   tipoInteres?: Prisma.TipoInteresCreateNestedOneWithoutClientesInput
   direcciones?: Prisma.DireccionCreateNestedManyWithoutClienteInput
-  vehiculos?: Prisma.VehiculoCreateNestedManyWithoutClienteInput
   ordenesServicio?: Prisma.OrdenServicioCreateNestedManyWithoutClienteInput
-  citasPsicologos?: Prisma.CitasPsicologosCreateNestedManyWithoutPacienteInput
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoCreateNestedManyWithoutClienteInput
+  vehiculos?: Prisma.VehiculoCreateNestedManyWithoutClienteInput
 }
 
 export type ClienteUncheckedCreateWithoutEmpresaInput = {
   id?: string
   tenantId: string
-  tipoCliente?: $Enums.TipoCliente
   nombre?: string | null
   apellido?: string | null
-  razonSocial?: string | null
-  nit?: string | null
-  representanteLegal?: string | null
-  cargoContacto?: string | null
   telefono: string
   telefono2?: string | null
   correo?: string | null
@@ -1795,31 +1790,36 @@ export type ClienteUncheckedCreateWithoutEmpresaInput = {
   tipoDocumento?: string | null
   registroDocumento?: string | null
   documentoPath?: string | null
-  origenCliente?: string | null
-  tipoInteresId?: string | null
-  actividadEconomica?: string | null
-  metrajeTotal?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  segmentoId?: string | null
-  riesgoId?: string | null
-  subsegmento?: string | null
-  score?: number | null
-  clasificacion?: $Enums.ClasificacionCliente | null
-  ticketPromedio?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  frecuenciaServicio?: number | null
-  ultimaVisita?: Date | string | null
-  proximaVisita?: Date | string | null
-  planActual?: string | null
-  aceptaMarketing?: boolean
-  fechaConsentimiento?: Date | string | null
   creadoPorId?: string | null
   createdAt?: Date | string
-  updatedAt?: Date | string
   deletedAt?: Date | string | null
-  direcciones?: Prisma.DireccionUncheckedCreateNestedManyWithoutClienteInput
-  vehiculos?: Prisma.VehiculoUncheckedCreateNestedManyWithoutClienteInput
-  ordenesServicio?: Prisma.OrdenServicioUncheckedCreateNestedManyWithoutClienteInput
+  aceptaMarketing?: boolean
+  actividadEconomica?: string | null
+  cargoContacto?: string | null
+  clasificacion?: $Enums.ClasificacionCliente | null
+  fechaConsentimiento?: Date | string | null
+  frecuenciaServicio?: number | null
+  metrajeTotal?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  nit?: string | null
+  origenCliente?: string | null
+  planActual?: string | null
+  proximaVisita?: Date | string | null
+  razonSocial?: string | null
+  representanteLegal?: string | null
+  riesgoId?: string | null
+  score?: number | null
+  segmentoId?: string | null
+  subsegmento?: string | null
+  ticketPromedio?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  tipoCliente?: $Enums.TipoCliente
+  tipoInteresId?: string | null
+  ultimaVisita?: Date | string | null
+  updatedAt?: Date | string
   citasPsicologos?: Prisma.CitasPsicologosUncheckedCreateNestedManyWithoutPacienteInput
+  direcciones?: Prisma.DireccionUncheckedCreateNestedManyWithoutClienteInput
+  ordenesServicio?: Prisma.OrdenServicioUncheckedCreateNestedManyWithoutClienteInput
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoUncheckedCreateNestedManyWithoutClienteInput
+  vehiculos?: Prisma.VehiculoUncheckedCreateNestedManyWithoutClienteInput
 }
 
 export type ClienteCreateOrConnectWithoutEmpresaInput = {
@@ -1850,13 +1850,8 @@ export type ClienteUpdateManyWithWhereWithoutEmpresaInput = {
 
 export type ClienteCreateWithoutSegmentoInput = {
   id?: string
-  tipoCliente?: $Enums.TipoCliente
   nombre?: string | null
   apellido?: string | null
-  razonSocial?: string | null
-  nit?: string | null
-  representanteLegal?: string | null
-  cargoContacto?: string | null
   telefono: string
   telefono2?: string | null
   correo?: string | null
@@ -1864,45 +1859,45 @@ export type ClienteCreateWithoutSegmentoInput = {
   tipoDocumento?: string | null
   registroDocumento?: string | null
   documentoPath?: string | null
-  origenCliente?: string | null
-  actividadEconomica?: string | null
-  metrajeTotal?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  subsegmento?: string | null
-  score?: number | null
-  clasificacion?: $Enums.ClasificacionCliente | null
-  ticketPromedio?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  frecuenciaServicio?: number | null
-  ultimaVisita?: Date | string | null
-  proximaVisita?: Date | string | null
-  planActual?: string | null
-  aceptaMarketing?: boolean
-  fechaConsentimiento?: Date | string | null
   createdAt?: Date | string
-  updatedAt?: Date | string
   deletedAt?: Date | string | null
-  tenant: Prisma.TenantCreateNestedOneWithoutClientesInput
-  empresa: Prisma.EmpresaCreateNestedOneWithoutClientesInput
+  aceptaMarketing?: boolean
+  actividadEconomica?: string | null
+  cargoContacto?: string | null
+  clasificacion?: $Enums.ClasificacionCliente | null
+  fechaConsentimiento?: Date | string | null
+  frecuenciaServicio?: number | null
+  metrajeTotal?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  nit?: string | null
+  origenCliente?: string | null
+  planActual?: string | null
+  proximaVisita?: Date | string | null
+  razonSocial?: string | null
+  representanteLegal?: string | null
+  score?: number | null
+  subsegmento?: string | null
+  ticketPromedio?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  tipoCliente?: $Enums.TipoCliente
+  ultimaVisita?: Date | string | null
+  updatedAt?: Date | string
+  citasPsicologos?: Prisma.CitasPsicologosCreateNestedManyWithoutPacienteInput
   creadoPor?: Prisma.TenantMembershipCreateNestedOneWithoutClientesCreadosInput
+  empresa: Prisma.EmpresaCreateNestedOneWithoutClientesInput
   riesgo?: Prisma.NivelRiesgoOperativoCreateNestedOneWithoutClientesInput
+  tenant: Prisma.TenantCreateNestedOneWithoutClientesInput
   tipoInteres?: Prisma.TipoInteresCreateNestedOneWithoutClientesInput
   direcciones?: Prisma.DireccionCreateNestedManyWithoutClienteInput
-  vehiculos?: Prisma.VehiculoCreateNestedManyWithoutClienteInput
   ordenesServicio?: Prisma.OrdenServicioCreateNestedManyWithoutClienteInput
-  citasPsicologos?: Prisma.CitasPsicologosCreateNestedManyWithoutPacienteInput
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoCreateNestedManyWithoutClienteInput
+  vehiculos?: Prisma.VehiculoCreateNestedManyWithoutClienteInput
 }
 
 export type ClienteUncheckedCreateWithoutSegmentoInput = {
   id?: string
   tenantId: string
   empresaId: string
-  tipoCliente?: $Enums.TipoCliente
   nombre?: string | null
   apellido?: string | null
-  razonSocial?: string | null
-  nit?: string | null
-  representanteLegal?: string | null
-  cargoContacto?: string | null
   telefono: string
   telefono2?: string | null
   correo?: string | null
@@ -1910,30 +1905,35 @@ export type ClienteUncheckedCreateWithoutSegmentoInput = {
   tipoDocumento?: string | null
   registroDocumento?: string | null
   documentoPath?: string | null
-  origenCliente?: string | null
-  tipoInteresId?: string | null
-  actividadEconomica?: string | null
-  metrajeTotal?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  riesgoId?: string | null
-  subsegmento?: string | null
-  score?: number | null
-  clasificacion?: $Enums.ClasificacionCliente | null
-  ticketPromedio?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  frecuenciaServicio?: number | null
-  ultimaVisita?: Date | string | null
-  proximaVisita?: Date | string | null
-  planActual?: string | null
-  aceptaMarketing?: boolean
-  fechaConsentimiento?: Date | string | null
   creadoPorId?: string | null
   createdAt?: Date | string
-  updatedAt?: Date | string
   deletedAt?: Date | string | null
-  direcciones?: Prisma.DireccionUncheckedCreateNestedManyWithoutClienteInput
-  vehiculos?: Prisma.VehiculoUncheckedCreateNestedManyWithoutClienteInput
-  ordenesServicio?: Prisma.OrdenServicioUncheckedCreateNestedManyWithoutClienteInput
+  aceptaMarketing?: boolean
+  actividadEconomica?: string | null
+  cargoContacto?: string | null
+  clasificacion?: $Enums.ClasificacionCliente | null
+  fechaConsentimiento?: Date | string | null
+  frecuenciaServicio?: number | null
+  metrajeTotal?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  nit?: string | null
+  origenCliente?: string | null
+  planActual?: string | null
+  proximaVisita?: Date | string | null
+  razonSocial?: string | null
+  representanteLegal?: string | null
+  riesgoId?: string | null
+  score?: number | null
+  subsegmento?: string | null
+  ticketPromedio?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  tipoCliente?: $Enums.TipoCliente
+  tipoInteresId?: string | null
+  ultimaVisita?: Date | string | null
+  updatedAt?: Date | string
   citasPsicologos?: Prisma.CitasPsicologosUncheckedCreateNestedManyWithoutPacienteInput
+  direcciones?: Prisma.DireccionUncheckedCreateNestedManyWithoutClienteInput
+  ordenesServicio?: Prisma.OrdenServicioUncheckedCreateNestedManyWithoutClienteInput
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoUncheckedCreateNestedManyWithoutClienteInput
+  vehiculos?: Prisma.VehiculoUncheckedCreateNestedManyWithoutClienteInput
 }
 
 export type ClienteCreateOrConnectWithoutSegmentoInput = {
@@ -1964,13 +1964,8 @@ export type ClienteUpdateManyWithWhereWithoutSegmentoInput = {
 
 export type ClienteCreateWithoutRiesgoInput = {
   id?: string
-  tipoCliente?: $Enums.TipoCliente
   nombre?: string | null
   apellido?: string | null
-  razonSocial?: string | null
-  nit?: string | null
-  representanteLegal?: string | null
-  cargoContacto?: string | null
   telefono: string
   telefono2?: string | null
   correo?: string | null
@@ -1978,45 +1973,45 @@ export type ClienteCreateWithoutRiesgoInput = {
   tipoDocumento?: string | null
   registroDocumento?: string | null
   documentoPath?: string | null
-  origenCliente?: string | null
-  actividadEconomica?: string | null
-  metrajeTotal?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  subsegmento?: string | null
-  score?: number | null
-  clasificacion?: $Enums.ClasificacionCliente | null
-  ticketPromedio?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  frecuenciaServicio?: number | null
-  ultimaVisita?: Date | string | null
-  proximaVisita?: Date | string | null
-  planActual?: string | null
-  aceptaMarketing?: boolean
-  fechaConsentimiento?: Date | string | null
   createdAt?: Date | string
-  updatedAt?: Date | string
   deletedAt?: Date | string | null
-  tenant: Prisma.TenantCreateNestedOneWithoutClientesInput
-  empresa: Prisma.EmpresaCreateNestedOneWithoutClientesInput
+  aceptaMarketing?: boolean
+  actividadEconomica?: string | null
+  cargoContacto?: string | null
+  clasificacion?: $Enums.ClasificacionCliente | null
+  fechaConsentimiento?: Date | string | null
+  frecuenciaServicio?: number | null
+  metrajeTotal?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  nit?: string | null
+  origenCliente?: string | null
+  planActual?: string | null
+  proximaVisita?: Date | string | null
+  razonSocial?: string | null
+  representanteLegal?: string | null
+  score?: number | null
+  subsegmento?: string | null
+  ticketPromedio?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  tipoCliente?: $Enums.TipoCliente
+  ultimaVisita?: Date | string | null
+  updatedAt?: Date | string
+  citasPsicologos?: Prisma.CitasPsicologosCreateNestedManyWithoutPacienteInput
   creadoPor?: Prisma.TenantMembershipCreateNestedOneWithoutClientesCreadosInput
+  empresa: Prisma.EmpresaCreateNestedOneWithoutClientesInput
   segmento?: Prisma.SegmentoNegocioCreateNestedOneWithoutClientesInput
+  tenant: Prisma.TenantCreateNestedOneWithoutClientesInput
   tipoInteres?: Prisma.TipoInteresCreateNestedOneWithoutClientesInput
   direcciones?: Prisma.DireccionCreateNestedManyWithoutClienteInput
-  vehiculos?: Prisma.VehiculoCreateNestedManyWithoutClienteInput
   ordenesServicio?: Prisma.OrdenServicioCreateNestedManyWithoutClienteInput
-  citasPsicologos?: Prisma.CitasPsicologosCreateNestedManyWithoutPacienteInput
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoCreateNestedManyWithoutClienteInput
+  vehiculos?: Prisma.VehiculoCreateNestedManyWithoutClienteInput
 }
 
 export type ClienteUncheckedCreateWithoutRiesgoInput = {
   id?: string
   tenantId: string
   empresaId: string
-  tipoCliente?: $Enums.TipoCliente
   nombre?: string | null
   apellido?: string | null
-  razonSocial?: string | null
-  nit?: string | null
-  representanteLegal?: string | null
-  cargoContacto?: string | null
   telefono: string
   telefono2?: string | null
   correo?: string | null
@@ -2024,30 +2019,35 @@ export type ClienteUncheckedCreateWithoutRiesgoInput = {
   tipoDocumento?: string | null
   registroDocumento?: string | null
   documentoPath?: string | null
-  origenCliente?: string | null
-  tipoInteresId?: string | null
-  actividadEconomica?: string | null
-  metrajeTotal?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  segmentoId?: string | null
-  subsegmento?: string | null
-  score?: number | null
-  clasificacion?: $Enums.ClasificacionCliente | null
-  ticketPromedio?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  frecuenciaServicio?: number | null
-  ultimaVisita?: Date | string | null
-  proximaVisita?: Date | string | null
-  planActual?: string | null
-  aceptaMarketing?: boolean
-  fechaConsentimiento?: Date | string | null
   creadoPorId?: string | null
   createdAt?: Date | string
-  updatedAt?: Date | string
   deletedAt?: Date | string | null
-  direcciones?: Prisma.DireccionUncheckedCreateNestedManyWithoutClienteInput
-  vehiculos?: Prisma.VehiculoUncheckedCreateNestedManyWithoutClienteInput
-  ordenesServicio?: Prisma.OrdenServicioUncheckedCreateNestedManyWithoutClienteInput
+  aceptaMarketing?: boolean
+  actividadEconomica?: string | null
+  cargoContacto?: string | null
+  clasificacion?: $Enums.ClasificacionCliente | null
+  fechaConsentimiento?: Date | string | null
+  frecuenciaServicio?: number | null
+  metrajeTotal?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  nit?: string | null
+  origenCliente?: string | null
+  planActual?: string | null
+  proximaVisita?: Date | string | null
+  razonSocial?: string | null
+  representanteLegal?: string | null
+  score?: number | null
+  segmentoId?: string | null
+  subsegmento?: string | null
+  ticketPromedio?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  tipoCliente?: $Enums.TipoCliente
+  tipoInteresId?: string | null
+  ultimaVisita?: Date | string | null
+  updatedAt?: Date | string
   citasPsicologos?: Prisma.CitasPsicologosUncheckedCreateNestedManyWithoutPacienteInput
+  direcciones?: Prisma.DireccionUncheckedCreateNestedManyWithoutClienteInput
+  ordenesServicio?: Prisma.OrdenServicioUncheckedCreateNestedManyWithoutClienteInput
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoUncheckedCreateNestedManyWithoutClienteInput
+  vehiculos?: Prisma.VehiculoUncheckedCreateNestedManyWithoutClienteInput
 }
 
 export type ClienteCreateOrConnectWithoutRiesgoInput = {
@@ -2078,13 +2078,8 @@ export type ClienteUpdateManyWithWhereWithoutRiesgoInput = {
 
 export type ClienteCreateWithoutTipoInteresInput = {
   id?: string
-  tipoCliente?: $Enums.TipoCliente
   nombre?: string | null
   apellido?: string | null
-  razonSocial?: string | null
-  nit?: string | null
-  representanteLegal?: string | null
-  cargoContacto?: string | null
   telefono: string
   telefono2?: string | null
   correo?: string | null
@@ -2092,45 +2087,45 @@ export type ClienteCreateWithoutTipoInteresInput = {
   tipoDocumento?: string | null
   registroDocumento?: string | null
   documentoPath?: string | null
-  origenCliente?: string | null
-  actividadEconomica?: string | null
-  metrajeTotal?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  subsegmento?: string | null
-  score?: number | null
-  clasificacion?: $Enums.ClasificacionCliente | null
-  ticketPromedio?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  frecuenciaServicio?: number | null
-  ultimaVisita?: Date | string | null
-  proximaVisita?: Date | string | null
-  planActual?: string | null
-  aceptaMarketing?: boolean
-  fechaConsentimiento?: Date | string | null
   createdAt?: Date | string
-  updatedAt?: Date | string
   deletedAt?: Date | string | null
-  tenant: Prisma.TenantCreateNestedOneWithoutClientesInput
-  empresa: Prisma.EmpresaCreateNestedOneWithoutClientesInput
-  creadoPor?: Prisma.TenantMembershipCreateNestedOneWithoutClientesCreadosInput
-  segmento?: Prisma.SegmentoNegocioCreateNestedOneWithoutClientesInput
-  riesgo?: Prisma.NivelRiesgoOperativoCreateNestedOneWithoutClientesInput
-  direcciones?: Prisma.DireccionCreateNestedManyWithoutClienteInput
-  vehiculos?: Prisma.VehiculoCreateNestedManyWithoutClienteInput
-  ordenesServicio?: Prisma.OrdenServicioCreateNestedManyWithoutClienteInput
+  aceptaMarketing?: boolean
+  actividadEconomica?: string | null
+  cargoContacto?: string | null
+  clasificacion?: $Enums.ClasificacionCliente | null
+  fechaConsentimiento?: Date | string | null
+  frecuenciaServicio?: number | null
+  metrajeTotal?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  nit?: string | null
+  origenCliente?: string | null
+  planActual?: string | null
+  proximaVisita?: Date | string | null
+  razonSocial?: string | null
+  representanteLegal?: string | null
+  score?: number | null
+  subsegmento?: string | null
+  ticketPromedio?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  tipoCliente?: $Enums.TipoCliente
+  ultimaVisita?: Date | string | null
+  updatedAt?: Date | string
   citasPsicologos?: Prisma.CitasPsicologosCreateNestedManyWithoutPacienteInput
+  creadoPor?: Prisma.TenantMembershipCreateNestedOneWithoutClientesCreadosInput
+  empresa: Prisma.EmpresaCreateNestedOneWithoutClientesInput
+  riesgo?: Prisma.NivelRiesgoOperativoCreateNestedOneWithoutClientesInput
+  segmento?: Prisma.SegmentoNegocioCreateNestedOneWithoutClientesInput
+  tenant: Prisma.TenantCreateNestedOneWithoutClientesInput
+  direcciones?: Prisma.DireccionCreateNestedManyWithoutClienteInput
+  ordenesServicio?: Prisma.OrdenServicioCreateNestedManyWithoutClienteInput
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoCreateNestedManyWithoutClienteInput
+  vehiculos?: Prisma.VehiculoCreateNestedManyWithoutClienteInput
 }
 
 export type ClienteUncheckedCreateWithoutTipoInteresInput = {
   id?: string
   tenantId: string
   empresaId: string
-  tipoCliente?: $Enums.TipoCliente
   nombre?: string | null
   apellido?: string | null
-  razonSocial?: string | null
-  nit?: string | null
-  representanteLegal?: string | null
-  cargoContacto?: string | null
   telefono: string
   telefono2?: string | null
   correo?: string | null
@@ -2138,30 +2133,35 @@ export type ClienteUncheckedCreateWithoutTipoInteresInput = {
   tipoDocumento?: string | null
   registroDocumento?: string | null
   documentoPath?: string | null
-  origenCliente?: string | null
-  actividadEconomica?: string | null
-  metrajeTotal?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  segmentoId?: string | null
-  riesgoId?: string | null
-  subsegmento?: string | null
-  score?: number | null
-  clasificacion?: $Enums.ClasificacionCliente | null
-  ticketPromedio?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  frecuenciaServicio?: number | null
-  ultimaVisita?: Date | string | null
-  proximaVisita?: Date | string | null
-  planActual?: string | null
-  aceptaMarketing?: boolean
-  fechaConsentimiento?: Date | string | null
   creadoPorId?: string | null
   createdAt?: Date | string
-  updatedAt?: Date | string
   deletedAt?: Date | string | null
-  direcciones?: Prisma.DireccionUncheckedCreateNestedManyWithoutClienteInput
-  vehiculos?: Prisma.VehiculoUncheckedCreateNestedManyWithoutClienteInput
-  ordenesServicio?: Prisma.OrdenServicioUncheckedCreateNestedManyWithoutClienteInput
+  aceptaMarketing?: boolean
+  actividadEconomica?: string | null
+  cargoContacto?: string | null
+  clasificacion?: $Enums.ClasificacionCliente | null
+  fechaConsentimiento?: Date | string | null
+  frecuenciaServicio?: number | null
+  metrajeTotal?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  nit?: string | null
+  origenCliente?: string | null
+  planActual?: string | null
+  proximaVisita?: Date | string | null
+  razonSocial?: string | null
+  representanteLegal?: string | null
+  riesgoId?: string | null
+  score?: number | null
+  segmentoId?: string | null
+  subsegmento?: string | null
+  ticketPromedio?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  tipoCliente?: $Enums.TipoCliente
+  ultimaVisita?: Date | string | null
+  updatedAt?: Date | string
   citasPsicologos?: Prisma.CitasPsicologosUncheckedCreateNestedManyWithoutPacienteInput
+  direcciones?: Prisma.DireccionUncheckedCreateNestedManyWithoutClienteInput
+  ordenesServicio?: Prisma.OrdenServicioUncheckedCreateNestedManyWithoutClienteInput
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoUncheckedCreateNestedManyWithoutClienteInput
+  vehiculos?: Prisma.VehiculoUncheckedCreateNestedManyWithoutClienteInput
 }
 
 export type ClienteCreateOrConnectWithoutTipoInteresInput = {
@@ -2192,13 +2192,8 @@ export type ClienteUpdateManyWithWhereWithoutTipoInteresInput = {
 
 export type ClienteCreateWithoutVehiculosInput = {
   id?: string
-  tipoCliente?: $Enums.TipoCliente
   nombre?: string | null
   apellido?: string | null
-  razonSocial?: string | null
-  nit?: string | null
-  representanteLegal?: string | null
-  cargoContacto?: string | null
   telefono: string
   telefono2?: string | null
   correo?: string | null
@@ -2206,31 +2201,36 @@ export type ClienteCreateWithoutVehiculosInput = {
   tipoDocumento?: string | null
   registroDocumento?: string | null
   documentoPath?: string | null
-  origenCliente?: string | null
-  actividadEconomica?: string | null
-  metrajeTotal?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  subsegmento?: string | null
-  score?: number | null
-  clasificacion?: $Enums.ClasificacionCliente | null
-  ticketPromedio?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  frecuenciaServicio?: number | null
-  ultimaVisita?: Date | string | null
-  proximaVisita?: Date | string | null
-  planActual?: string | null
-  aceptaMarketing?: boolean
-  fechaConsentimiento?: Date | string | null
   createdAt?: Date | string
-  updatedAt?: Date | string
   deletedAt?: Date | string | null
-  tenant: Prisma.TenantCreateNestedOneWithoutClientesInput
-  empresa: Prisma.EmpresaCreateNestedOneWithoutClientesInput
+  aceptaMarketing?: boolean
+  actividadEconomica?: string | null
+  cargoContacto?: string | null
+  clasificacion?: $Enums.ClasificacionCliente | null
+  fechaConsentimiento?: Date | string | null
+  frecuenciaServicio?: number | null
+  metrajeTotal?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  nit?: string | null
+  origenCliente?: string | null
+  planActual?: string | null
+  proximaVisita?: Date | string | null
+  razonSocial?: string | null
+  representanteLegal?: string | null
+  score?: number | null
+  subsegmento?: string | null
+  ticketPromedio?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  tipoCliente?: $Enums.TipoCliente
+  ultimaVisita?: Date | string | null
+  updatedAt?: Date | string
+  citasPsicologos?: Prisma.CitasPsicologosCreateNestedManyWithoutPacienteInput
   creadoPor?: Prisma.TenantMembershipCreateNestedOneWithoutClientesCreadosInput
-  segmento?: Prisma.SegmentoNegocioCreateNestedOneWithoutClientesInput
+  empresa: Prisma.EmpresaCreateNestedOneWithoutClientesInput
   riesgo?: Prisma.NivelRiesgoOperativoCreateNestedOneWithoutClientesInput
+  segmento?: Prisma.SegmentoNegocioCreateNestedOneWithoutClientesInput
+  tenant: Prisma.TenantCreateNestedOneWithoutClientesInput
   tipoInteres?: Prisma.TipoInteresCreateNestedOneWithoutClientesInput
   direcciones?: Prisma.DireccionCreateNestedManyWithoutClienteInput
   ordenesServicio?: Prisma.OrdenServicioCreateNestedManyWithoutClienteInput
-  citasPsicologos?: Prisma.CitasPsicologosCreateNestedManyWithoutPacienteInput
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoCreateNestedManyWithoutClienteInput
 }
 
@@ -2238,13 +2238,8 @@ export type ClienteUncheckedCreateWithoutVehiculosInput = {
   id?: string
   tenantId: string
   empresaId: string
-  tipoCliente?: $Enums.TipoCliente
   nombre?: string | null
   apellido?: string | null
-  razonSocial?: string | null
-  nit?: string | null
-  representanteLegal?: string | null
-  cargoContacto?: string | null
   telefono: string
   telefono2?: string | null
   correo?: string | null
@@ -2252,29 +2247,34 @@ export type ClienteUncheckedCreateWithoutVehiculosInput = {
   tipoDocumento?: string | null
   registroDocumento?: string | null
   documentoPath?: string | null
-  origenCliente?: string | null
-  tipoInteresId?: string | null
-  actividadEconomica?: string | null
-  metrajeTotal?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  segmentoId?: string | null
-  riesgoId?: string | null
-  subsegmento?: string | null
-  score?: number | null
-  clasificacion?: $Enums.ClasificacionCliente | null
-  ticketPromedio?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  frecuenciaServicio?: number | null
-  ultimaVisita?: Date | string | null
-  proximaVisita?: Date | string | null
-  planActual?: string | null
-  aceptaMarketing?: boolean
-  fechaConsentimiento?: Date | string | null
   creadoPorId?: string | null
   createdAt?: Date | string
-  updatedAt?: Date | string
   deletedAt?: Date | string | null
+  aceptaMarketing?: boolean
+  actividadEconomica?: string | null
+  cargoContacto?: string | null
+  clasificacion?: $Enums.ClasificacionCliente | null
+  fechaConsentimiento?: Date | string | null
+  frecuenciaServicio?: number | null
+  metrajeTotal?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  nit?: string | null
+  origenCliente?: string | null
+  planActual?: string | null
+  proximaVisita?: Date | string | null
+  razonSocial?: string | null
+  representanteLegal?: string | null
+  riesgoId?: string | null
+  score?: number | null
+  segmentoId?: string | null
+  subsegmento?: string | null
+  ticketPromedio?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  tipoCliente?: $Enums.TipoCliente
+  tipoInteresId?: string | null
+  ultimaVisita?: Date | string | null
+  updatedAt?: Date | string
+  citasPsicologos?: Prisma.CitasPsicologosUncheckedCreateNestedManyWithoutPacienteInput
   direcciones?: Prisma.DireccionUncheckedCreateNestedManyWithoutClienteInput
   ordenesServicio?: Prisma.OrdenServicioUncheckedCreateNestedManyWithoutClienteInput
-  citasPsicologos?: Prisma.CitasPsicologosUncheckedCreateNestedManyWithoutPacienteInput
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoUncheckedCreateNestedManyWithoutClienteInput
 }
 
@@ -2296,13 +2296,8 @@ export type ClienteUpdateToOneWithWhereWithoutVehiculosInput = {
 
 export type ClienteUpdateWithoutVehiculosInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  tipoCliente?: Prisma.EnumTipoClienteFieldUpdateOperationsInput | $Enums.TipoCliente
   nombre?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   apellido?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  razonSocial?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  nit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  representanteLegal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  cargoContacto?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   telefono?: Prisma.StringFieldUpdateOperationsInput | string
   telefono2?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   correo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -2310,31 +2305,36 @@ export type ClienteUpdateWithoutVehiculosInput = {
   tipoDocumento?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   registroDocumento?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   documentoPath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  origenCliente?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  actividadEconomica?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  metrajeTotal?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  subsegmento?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  score?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  clasificacion?: Prisma.NullableEnumClasificacionClienteFieldUpdateOperationsInput | $Enums.ClasificacionCliente | null
-  ticketPromedio?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  frecuenciaServicio?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  ultimaVisita?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  proximaVisita?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  planActual?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  aceptaMarketing?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  fechaConsentimiento?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  tenant?: Prisma.TenantUpdateOneRequiredWithoutClientesNestedInput
-  empresa?: Prisma.EmpresaUpdateOneRequiredWithoutClientesNestedInput
+  aceptaMarketing?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  actividadEconomica?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  cargoContacto?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  clasificacion?: Prisma.NullableEnumClasificacionClienteFieldUpdateOperationsInput | $Enums.ClasificacionCliente | null
+  fechaConsentimiento?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  frecuenciaServicio?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  metrajeTotal?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  nit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  origenCliente?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  planActual?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  proximaVisita?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  razonSocial?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  representanteLegal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  score?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  subsegmento?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  ticketPromedio?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  tipoCliente?: Prisma.EnumTipoClienteFieldUpdateOperationsInput | $Enums.TipoCliente
+  ultimaVisita?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  citasPsicologos?: Prisma.CitasPsicologosUpdateManyWithoutPacienteNestedInput
   creadoPor?: Prisma.TenantMembershipUpdateOneWithoutClientesCreadosNestedInput
-  segmento?: Prisma.SegmentoNegocioUpdateOneWithoutClientesNestedInput
+  empresa?: Prisma.EmpresaUpdateOneRequiredWithoutClientesNestedInput
   riesgo?: Prisma.NivelRiesgoOperativoUpdateOneWithoutClientesNestedInput
+  segmento?: Prisma.SegmentoNegocioUpdateOneWithoutClientesNestedInput
+  tenant?: Prisma.TenantUpdateOneRequiredWithoutClientesNestedInput
   tipoInteres?: Prisma.TipoInteresUpdateOneWithoutClientesNestedInput
   direcciones?: Prisma.DireccionUpdateManyWithoutClienteNestedInput
   ordenesServicio?: Prisma.OrdenServicioUpdateManyWithoutClienteNestedInput
-  citasPsicologos?: Prisma.CitasPsicologosUpdateManyWithoutPacienteNestedInput
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoUpdateManyWithoutClienteNestedInput
 }
 
@@ -2342,13 +2342,8 @@ export type ClienteUncheckedUpdateWithoutVehiculosInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   tenantId?: Prisma.StringFieldUpdateOperationsInput | string
   empresaId?: Prisma.StringFieldUpdateOperationsInput | string
-  tipoCliente?: Prisma.EnumTipoClienteFieldUpdateOperationsInput | $Enums.TipoCliente
   nombre?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   apellido?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  razonSocial?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  nit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  representanteLegal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  cargoContacto?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   telefono?: Prisma.StringFieldUpdateOperationsInput | string
   telefono2?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   correo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -2356,41 +2351,41 @@ export type ClienteUncheckedUpdateWithoutVehiculosInput = {
   tipoDocumento?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   registroDocumento?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   documentoPath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  origenCliente?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  tipoInteresId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  actividadEconomica?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  metrajeTotal?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  segmentoId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  riesgoId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  subsegmento?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  score?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  clasificacion?: Prisma.NullableEnumClasificacionClienteFieldUpdateOperationsInput | $Enums.ClasificacionCliente | null
-  ticketPromedio?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  frecuenciaServicio?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  ultimaVisita?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  proximaVisita?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  planActual?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  aceptaMarketing?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  fechaConsentimiento?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   creadoPorId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  aceptaMarketing?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  actividadEconomica?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  cargoContacto?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  clasificacion?: Prisma.NullableEnumClasificacionClienteFieldUpdateOperationsInput | $Enums.ClasificacionCliente | null
+  fechaConsentimiento?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  frecuenciaServicio?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  metrajeTotal?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  nit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  origenCliente?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  planActual?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  proximaVisita?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  razonSocial?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  representanteLegal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  riesgoId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  score?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  segmentoId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  subsegmento?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  ticketPromedio?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  tipoCliente?: Prisma.EnumTipoClienteFieldUpdateOperationsInput | $Enums.TipoCliente
+  tipoInteresId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  ultimaVisita?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  citasPsicologos?: Prisma.CitasPsicologosUncheckedUpdateManyWithoutPacienteNestedInput
   direcciones?: Prisma.DireccionUncheckedUpdateManyWithoutClienteNestedInput
   ordenesServicio?: Prisma.OrdenServicioUncheckedUpdateManyWithoutClienteNestedInput
-  citasPsicologos?: Prisma.CitasPsicologosUncheckedUpdateManyWithoutPacienteNestedInput
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoUncheckedUpdateManyWithoutClienteNestedInput
 }
 
 export type ClienteCreateWithoutDireccionesInput = {
   id?: string
-  tipoCliente?: $Enums.TipoCliente
   nombre?: string | null
   apellido?: string | null
-  razonSocial?: string | null
-  nit?: string | null
-  representanteLegal?: string | null
-  cargoContacto?: string | null
   telefono: string
   telefono2?: string | null
   correo?: string | null
@@ -2398,45 +2393,45 @@ export type ClienteCreateWithoutDireccionesInput = {
   tipoDocumento?: string | null
   registroDocumento?: string | null
   documentoPath?: string | null
-  origenCliente?: string | null
-  actividadEconomica?: string | null
-  metrajeTotal?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  subsegmento?: string | null
-  score?: number | null
-  clasificacion?: $Enums.ClasificacionCliente | null
-  ticketPromedio?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  frecuenciaServicio?: number | null
-  ultimaVisita?: Date | string | null
-  proximaVisita?: Date | string | null
-  planActual?: string | null
-  aceptaMarketing?: boolean
-  fechaConsentimiento?: Date | string | null
   createdAt?: Date | string
-  updatedAt?: Date | string
   deletedAt?: Date | string | null
-  tenant: Prisma.TenantCreateNestedOneWithoutClientesInput
-  empresa: Prisma.EmpresaCreateNestedOneWithoutClientesInput
-  creadoPor?: Prisma.TenantMembershipCreateNestedOneWithoutClientesCreadosInput
-  segmento?: Prisma.SegmentoNegocioCreateNestedOneWithoutClientesInput
-  riesgo?: Prisma.NivelRiesgoOperativoCreateNestedOneWithoutClientesInput
-  tipoInteres?: Prisma.TipoInteresCreateNestedOneWithoutClientesInput
-  vehiculos?: Prisma.VehiculoCreateNestedManyWithoutClienteInput
-  ordenesServicio?: Prisma.OrdenServicioCreateNestedManyWithoutClienteInput
+  aceptaMarketing?: boolean
+  actividadEconomica?: string | null
+  cargoContacto?: string | null
+  clasificacion?: $Enums.ClasificacionCliente | null
+  fechaConsentimiento?: Date | string | null
+  frecuenciaServicio?: number | null
+  metrajeTotal?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  nit?: string | null
+  origenCliente?: string | null
+  planActual?: string | null
+  proximaVisita?: Date | string | null
+  razonSocial?: string | null
+  representanteLegal?: string | null
+  score?: number | null
+  subsegmento?: string | null
+  ticketPromedio?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  tipoCliente?: $Enums.TipoCliente
+  ultimaVisita?: Date | string | null
+  updatedAt?: Date | string
   citasPsicologos?: Prisma.CitasPsicologosCreateNestedManyWithoutPacienteInput
+  creadoPor?: Prisma.TenantMembershipCreateNestedOneWithoutClientesCreadosInput
+  empresa: Prisma.EmpresaCreateNestedOneWithoutClientesInput
+  riesgo?: Prisma.NivelRiesgoOperativoCreateNestedOneWithoutClientesInput
+  segmento?: Prisma.SegmentoNegocioCreateNestedOneWithoutClientesInput
+  tenant: Prisma.TenantCreateNestedOneWithoutClientesInput
+  tipoInteres?: Prisma.TipoInteresCreateNestedOneWithoutClientesInput
+  ordenesServicio?: Prisma.OrdenServicioCreateNestedManyWithoutClienteInput
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoCreateNestedManyWithoutClienteInput
+  vehiculos?: Prisma.VehiculoCreateNestedManyWithoutClienteInput
 }
 
 export type ClienteUncheckedCreateWithoutDireccionesInput = {
   id?: string
   tenantId: string
   empresaId: string
-  tipoCliente?: $Enums.TipoCliente
   nombre?: string | null
   apellido?: string | null
-  razonSocial?: string | null
-  nit?: string | null
-  representanteLegal?: string | null
-  cargoContacto?: string | null
   telefono: string
   telefono2?: string | null
   correo?: string | null
@@ -2444,30 +2439,35 @@ export type ClienteUncheckedCreateWithoutDireccionesInput = {
   tipoDocumento?: string | null
   registroDocumento?: string | null
   documentoPath?: string | null
-  origenCliente?: string | null
-  tipoInteresId?: string | null
-  actividadEconomica?: string | null
-  metrajeTotal?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  segmentoId?: string | null
-  riesgoId?: string | null
-  subsegmento?: string | null
-  score?: number | null
-  clasificacion?: $Enums.ClasificacionCliente | null
-  ticketPromedio?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  frecuenciaServicio?: number | null
-  ultimaVisita?: Date | string | null
-  proximaVisita?: Date | string | null
-  planActual?: string | null
-  aceptaMarketing?: boolean
-  fechaConsentimiento?: Date | string | null
   creadoPorId?: string | null
   createdAt?: Date | string
-  updatedAt?: Date | string
   deletedAt?: Date | string | null
-  vehiculos?: Prisma.VehiculoUncheckedCreateNestedManyWithoutClienteInput
-  ordenesServicio?: Prisma.OrdenServicioUncheckedCreateNestedManyWithoutClienteInput
+  aceptaMarketing?: boolean
+  actividadEconomica?: string | null
+  cargoContacto?: string | null
+  clasificacion?: $Enums.ClasificacionCliente | null
+  fechaConsentimiento?: Date | string | null
+  frecuenciaServicio?: number | null
+  metrajeTotal?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  nit?: string | null
+  origenCliente?: string | null
+  planActual?: string | null
+  proximaVisita?: Date | string | null
+  razonSocial?: string | null
+  representanteLegal?: string | null
+  riesgoId?: string | null
+  score?: number | null
+  segmentoId?: string | null
+  subsegmento?: string | null
+  ticketPromedio?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  tipoCliente?: $Enums.TipoCliente
+  tipoInteresId?: string | null
+  ultimaVisita?: Date | string | null
+  updatedAt?: Date | string
   citasPsicologos?: Prisma.CitasPsicologosUncheckedCreateNestedManyWithoutPacienteInput
+  ordenesServicio?: Prisma.OrdenServicioUncheckedCreateNestedManyWithoutClienteInput
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoUncheckedCreateNestedManyWithoutClienteInput
+  vehiculos?: Prisma.VehiculoUncheckedCreateNestedManyWithoutClienteInput
 }
 
 export type ClienteCreateOrConnectWithoutDireccionesInput = {
@@ -2488,13 +2488,8 @@ export type ClienteUpdateToOneWithWhereWithoutDireccionesInput = {
 
 export type ClienteUpdateWithoutDireccionesInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  tipoCliente?: Prisma.EnumTipoClienteFieldUpdateOperationsInput | $Enums.TipoCliente
   nombre?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   apellido?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  razonSocial?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  nit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  representanteLegal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  cargoContacto?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   telefono?: Prisma.StringFieldUpdateOperationsInput | string
   telefono2?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   correo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -2502,45 +2497,45 @@ export type ClienteUpdateWithoutDireccionesInput = {
   tipoDocumento?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   registroDocumento?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   documentoPath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  origenCliente?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  actividadEconomica?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  metrajeTotal?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  subsegmento?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  score?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  clasificacion?: Prisma.NullableEnumClasificacionClienteFieldUpdateOperationsInput | $Enums.ClasificacionCliente | null
-  ticketPromedio?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  frecuenciaServicio?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  ultimaVisita?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  proximaVisita?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  planActual?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  aceptaMarketing?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  fechaConsentimiento?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  tenant?: Prisma.TenantUpdateOneRequiredWithoutClientesNestedInput
-  empresa?: Prisma.EmpresaUpdateOneRequiredWithoutClientesNestedInput
-  creadoPor?: Prisma.TenantMembershipUpdateOneWithoutClientesCreadosNestedInput
-  segmento?: Prisma.SegmentoNegocioUpdateOneWithoutClientesNestedInput
-  riesgo?: Prisma.NivelRiesgoOperativoUpdateOneWithoutClientesNestedInput
-  tipoInteres?: Prisma.TipoInteresUpdateOneWithoutClientesNestedInput
-  vehiculos?: Prisma.VehiculoUpdateManyWithoutClienteNestedInput
-  ordenesServicio?: Prisma.OrdenServicioUpdateManyWithoutClienteNestedInput
+  aceptaMarketing?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  actividadEconomica?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  cargoContacto?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  clasificacion?: Prisma.NullableEnumClasificacionClienteFieldUpdateOperationsInput | $Enums.ClasificacionCliente | null
+  fechaConsentimiento?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  frecuenciaServicio?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  metrajeTotal?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  nit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  origenCliente?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  planActual?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  proximaVisita?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  razonSocial?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  representanteLegal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  score?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  subsegmento?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  ticketPromedio?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  tipoCliente?: Prisma.EnumTipoClienteFieldUpdateOperationsInput | $Enums.TipoCliente
+  ultimaVisita?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   citasPsicologos?: Prisma.CitasPsicologosUpdateManyWithoutPacienteNestedInput
+  creadoPor?: Prisma.TenantMembershipUpdateOneWithoutClientesCreadosNestedInput
+  empresa?: Prisma.EmpresaUpdateOneRequiredWithoutClientesNestedInput
+  riesgo?: Prisma.NivelRiesgoOperativoUpdateOneWithoutClientesNestedInput
+  segmento?: Prisma.SegmentoNegocioUpdateOneWithoutClientesNestedInput
+  tenant?: Prisma.TenantUpdateOneRequiredWithoutClientesNestedInput
+  tipoInteres?: Prisma.TipoInteresUpdateOneWithoutClientesNestedInput
+  ordenesServicio?: Prisma.OrdenServicioUpdateManyWithoutClienteNestedInput
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoUpdateManyWithoutClienteNestedInput
+  vehiculos?: Prisma.VehiculoUpdateManyWithoutClienteNestedInput
 }
 
 export type ClienteUncheckedUpdateWithoutDireccionesInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   tenantId?: Prisma.StringFieldUpdateOperationsInput | string
   empresaId?: Prisma.StringFieldUpdateOperationsInput | string
-  tipoCliente?: Prisma.EnumTipoClienteFieldUpdateOperationsInput | $Enums.TipoCliente
   nombre?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   apellido?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  razonSocial?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  nit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  representanteLegal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  cargoContacto?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   telefono?: Prisma.StringFieldUpdateOperationsInput | string
   telefono2?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   correo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -2548,41 +2543,41 @@ export type ClienteUncheckedUpdateWithoutDireccionesInput = {
   tipoDocumento?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   registroDocumento?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   documentoPath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  origenCliente?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  tipoInteresId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  actividadEconomica?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  metrajeTotal?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  segmentoId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  riesgoId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  subsegmento?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  score?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  clasificacion?: Prisma.NullableEnumClasificacionClienteFieldUpdateOperationsInput | $Enums.ClasificacionCliente | null
-  ticketPromedio?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  frecuenciaServicio?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  ultimaVisita?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  proximaVisita?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  planActual?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  aceptaMarketing?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  fechaConsentimiento?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   creadoPorId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  vehiculos?: Prisma.VehiculoUncheckedUpdateManyWithoutClienteNestedInput
-  ordenesServicio?: Prisma.OrdenServicioUncheckedUpdateManyWithoutClienteNestedInput
+  aceptaMarketing?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  actividadEconomica?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  cargoContacto?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  clasificacion?: Prisma.NullableEnumClasificacionClienteFieldUpdateOperationsInput | $Enums.ClasificacionCliente | null
+  fechaConsentimiento?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  frecuenciaServicio?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  metrajeTotal?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  nit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  origenCliente?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  planActual?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  proximaVisita?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  razonSocial?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  representanteLegal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  riesgoId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  score?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  segmentoId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  subsegmento?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  ticketPromedio?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  tipoCliente?: Prisma.EnumTipoClienteFieldUpdateOperationsInput | $Enums.TipoCliente
+  tipoInteresId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  ultimaVisita?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   citasPsicologos?: Prisma.CitasPsicologosUncheckedUpdateManyWithoutPacienteNestedInput
+  ordenesServicio?: Prisma.OrdenServicioUncheckedUpdateManyWithoutClienteNestedInput
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoUncheckedUpdateManyWithoutClienteNestedInput
+  vehiculos?: Prisma.VehiculoUncheckedUpdateManyWithoutClienteNestedInput
 }
 
 export type ClienteCreateWithoutOrdenesServicioInput = {
   id?: string
-  tipoCliente?: $Enums.TipoCliente
   nombre?: string | null
   apellido?: string | null
-  razonSocial?: string | null
-  nit?: string | null
-  representanteLegal?: string | null
-  cargoContacto?: string | null
   telefono: string
   telefono2?: string | null
   correo?: string | null
@@ -2590,45 +2585,45 @@ export type ClienteCreateWithoutOrdenesServicioInput = {
   tipoDocumento?: string | null
   registroDocumento?: string | null
   documentoPath?: string | null
-  origenCliente?: string | null
-  actividadEconomica?: string | null
-  metrajeTotal?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  subsegmento?: string | null
-  score?: number | null
-  clasificacion?: $Enums.ClasificacionCliente | null
-  ticketPromedio?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  frecuenciaServicio?: number | null
-  ultimaVisita?: Date | string | null
-  proximaVisita?: Date | string | null
-  planActual?: string | null
-  aceptaMarketing?: boolean
-  fechaConsentimiento?: Date | string | null
   createdAt?: Date | string
-  updatedAt?: Date | string
   deletedAt?: Date | string | null
-  tenant: Prisma.TenantCreateNestedOneWithoutClientesInput
-  empresa: Prisma.EmpresaCreateNestedOneWithoutClientesInput
+  aceptaMarketing?: boolean
+  actividadEconomica?: string | null
+  cargoContacto?: string | null
+  clasificacion?: $Enums.ClasificacionCliente | null
+  fechaConsentimiento?: Date | string | null
+  frecuenciaServicio?: number | null
+  metrajeTotal?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  nit?: string | null
+  origenCliente?: string | null
+  planActual?: string | null
+  proximaVisita?: Date | string | null
+  razonSocial?: string | null
+  representanteLegal?: string | null
+  score?: number | null
+  subsegmento?: string | null
+  ticketPromedio?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  tipoCliente?: $Enums.TipoCliente
+  ultimaVisita?: Date | string | null
+  updatedAt?: Date | string
+  citasPsicologos?: Prisma.CitasPsicologosCreateNestedManyWithoutPacienteInput
   creadoPor?: Prisma.TenantMembershipCreateNestedOneWithoutClientesCreadosInput
-  segmento?: Prisma.SegmentoNegocioCreateNestedOneWithoutClientesInput
+  empresa: Prisma.EmpresaCreateNestedOneWithoutClientesInput
   riesgo?: Prisma.NivelRiesgoOperativoCreateNestedOneWithoutClientesInput
+  segmento?: Prisma.SegmentoNegocioCreateNestedOneWithoutClientesInput
+  tenant: Prisma.TenantCreateNestedOneWithoutClientesInput
   tipoInteres?: Prisma.TipoInteresCreateNestedOneWithoutClientesInput
   direcciones?: Prisma.DireccionCreateNestedManyWithoutClienteInput
-  vehiculos?: Prisma.VehiculoCreateNestedManyWithoutClienteInput
-  citasPsicologos?: Prisma.CitasPsicologosCreateNestedManyWithoutPacienteInput
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoCreateNestedManyWithoutClienteInput
+  vehiculos?: Prisma.VehiculoCreateNestedManyWithoutClienteInput
 }
 
 export type ClienteUncheckedCreateWithoutOrdenesServicioInput = {
   id?: string
   tenantId: string
   empresaId: string
-  tipoCliente?: $Enums.TipoCliente
   nombre?: string | null
   apellido?: string | null
-  razonSocial?: string | null
-  nit?: string | null
-  representanteLegal?: string | null
-  cargoContacto?: string | null
   telefono: string
   telefono2?: string | null
   correo?: string | null
@@ -2636,30 +2631,35 @@ export type ClienteUncheckedCreateWithoutOrdenesServicioInput = {
   tipoDocumento?: string | null
   registroDocumento?: string | null
   documentoPath?: string | null
-  origenCliente?: string | null
-  tipoInteresId?: string | null
-  actividadEconomica?: string | null
-  metrajeTotal?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  segmentoId?: string | null
-  riesgoId?: string | null
-  subsegmento?: string | null
-  score?: number | null
-  clasificacion?: $Enums.ClasificacionCliente | null
-  ticketPromedio?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  frecuenciaServicio?: number | null
-  ultimaVisita?: Date | string | null
-  proximaVisita?: Date | string | null
-  planActual?: string | null
-  aceptaMarketing?: boolean
-  fechaConsentimiento?: Date | string | null
   creadoPorId?: string | null
   createdAt?: Date | string
-  updatedAt?: Date | string
   deletedAt?: Date | string | null
-  direcciones?: Prisma.DireccionUncheckedCreateNestedManyWithoutClienteInput
-  vehiculos?: Prisma.VehiculoUncheckedCreateNestedManyWithoutClienteInput
+  aceptaMarketing?: boolean
+  actividadEconomica?: string | null
+  cargoContacto?: string | null
+  clasificacion?: $Enums.ClasificacionCliente | null
+  fechaConsentimiento?: Date | string | null
+  frecuenciaServicio?: number | null
+  metrajeTotal?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  nit?: string | null
+  origenCliente?: string | null
+  planActual?: string | null
+  proximaVisita?: Date | string | null
+  razonSocial?: string | null
+  representanteLegal?: string | null
+  riesgoId?: string | null
+  score?: number | null
+  segmentoId?: string | null
+  subsegmento?: string | null
+  ticketPromedio?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  tipoCliente?: $Enums.TipoCliente
+  tipoInteresId?: string | null
+  ultimaVisita?: Date | string | null
+  updatedAt?: Date | string
   citasPsicologos?: Prisma.CitasPsicologosUncheckedCreateNestedManyWithoutPacienteInput
+  direcciones?: Prisma.DireccionUncheckedCreateNestedManyWithoutClienteInput
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoUncheckedCreateNestedManyWithoutClienteInput
+  vehiculos?: Prisma.VehiculoUncheckedCreateNestedManyWithoutClienteInput
 }
 
 export type ClienteCreateOrConnectWithoutOrdenesServicioInput = {
@@ -2680,13 +2680,8 @@ export type ClienteUpdateToOneWithWhereWithoutOrdenesServicioInput = {
 
 export type ClienteUpdateWithoutOrdenesServicioInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  tipoCliente?: Prisma.EnumTipoClienteFieldUpdateOperationsInput | $Enums.TipoCliente
   nombre?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   apellido?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  razonSocial?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  nit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  representanteLegal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  cargoContacto?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   telefono?: Prisma.StringFieldUpdateOperationsInput | string
   telefono2?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   correo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -2694,45 +2689,45 @@ export type ClienteUpdateWithoutOrdenesServicioInput = {
   tipoDocumento?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   registroDocumento?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   documentoPath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  origenCliente?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  actividadEconomica?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  metrajeTotal?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  subsegmento?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  score?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  clasificacion?: Prisma.NullableEnumClasificacionClienteFieldUpdateOperationsInput | $Enums.ClasificacionCliente | null
-  ticketPromedio?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  frecuenciaServicio?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  ultimaVisita?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  proximaVisita?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  planActual?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  aceptaMarketing?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  fechaConsentimiento?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  tenant?: Prisma.TenantUpdateOneRequiredWithoutClientesNestedInput
-  empresa?: Prisma.EmpresaUpdateOneRequiredWithoutClientesNestedInput
+  aceptaMarketing?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  actividadEconomica?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  cargoContacto?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  clasificacion?: Prisma.NullableEnumClasificacionClienteFieldUpdateOperationsInput | $Enums.ClasificacionCliente | null
+  fechaConsentimiento?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  frecuenciaServicio?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  metrajeTotal?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  nit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  origenCliente?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  planActual?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  proximaVisita?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  razonSocial?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  representanteLegal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  score?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  subsegmento?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  ticketPromedio?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  tipoCliente?: Prisma.EnumTipoClienteFieldUpdateOperationsInput | $Enums.TipoCliente
+  ultimaVisita?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  citasPsicologos?: Prisma.CitasPsicologosUpdateManyWithoutPacienteNestedInput
   creadoPor?: Prisma.TenantMembershipUpdateOneWithoutClientesCreadosNestedInput
-  segmento?: Prisma.SegmentoNegocioUpdateOneWithoutClientesNestedInput
+  empresa?: Prisma.EmpresaUpdateOneRequiredWithoutClientesNestedInput
   riesgo?: Prisma.NivelRiesgoOperativoUpdateOneWithoutClientesNestedInput
+  segmento?: Prisma.SegmentoNegocioUpdateOneWithoutClientesNestedInput
+  tenant?: Prisma.TenantUpdateOneRequiredWithoutClientesNestedInput
   tipoInteres?: Prisma.TipoInteresUpdateOneWithoutClientesNestedInput
   direcciones?: Prisma.DireccionUpdateManyWithoutClienteNestedInput
-  vehiculos?: Prisma.VehiculoUpdateManyWithoutClienteNestedInput
-  citasPsicologos?: Prisma.CitasPsicologosUpdateManyWithoutPacienteNestedInput
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoUpdateManyWithoutClienteNestedInput
+  vehiculos?: Prisma.VehiculoUpdateManyWithoutClienteNestedInput
 }
 
 export type ClienteUncheckedUpdateWithoutOrdenesServicioInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   tenantId?: Prisma.StringFieldUpdateOperationsInput | string
   empresaId?: Prisma.StringFieldUpdateOperationsInput | string
-  tipoCliente?: Prisma.EnumTipoClienteFieldUpdateOperationsInput | $Enums.TipoCliente
   nombre?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   apellido?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  razonSocial?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  nit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  representanteLegal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  cargoContacto?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   telefono?: Prisma.StringFieldUpdateOperationsInput | string
   telefono2?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   correo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -2740,41 +2735,41 @@ export type ClienteUncheckedUpdateWithoutOrdenesServicioInput = {
   tipoDocumento?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   registroDocumento?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   documentoPath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  origenCliente?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  tipoInteresId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  actividadEconomica?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  metrajeTotal?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  segmentoId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  riesgoId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  subsegmento?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  score?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  clasificacion?: Prisma.NullableEnumClasificacionClienteFieldUpdateOperationsInput | $Enums.ClasificacionCliente | null
-  ticketPromedio?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  frecuenciaServicio?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  ultimaVisita?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  proximaVisita?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  planActual?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  aceptaMarketing?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  fechaConsentimiento?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   creadoPorId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  direcciones?: Prisma.DireccionUncheckedUpdateManyWithoutClienteNestedInput
-  vehiculos?: Prisma.VehiculoUncheckedUpdateManyWithoutClienteNestedInput
+  aceptaMarketing?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  actividadEconomica?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  cargoContacto?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  clasificacion?: Prisma.NullableEnumClasificacionClienteFieldUpdateOperationsInput | $Enums.ClasificacionCliente | null
+  fechaConsentimiento?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  frecuenciaServicio?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  metrajeTotal?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  nit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  origenCliente?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  planActual?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  proximaVisita?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  razonSocial?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  representanteLegal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  riesgoId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  score?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  segmentoId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  subsegmento?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  ticketPromedio?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  tipoCliente?: Prisma.EnumTipoClienteFieldUpdateOperationsInput | $Enums.TipoCliente
+  tipoInteresId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  ultimaVisita?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   citasPsicologos?: Prisma.CitasPsicologosUncheckedUpdateManyWithoutPacienteNestedInput
+  direcciones?: Prisma.DireccionUncheckedUpdateManyWithoutClienteNestedInput
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoUncheckedUpdateManyWithoutClienteNestedInput
+  vehiculos?: Prisma.VehiculoUncheckedUpdateManyWithoutClienteNestedInput
 }
 
 export type ClienteCreateWithoutCitasPsicologosInput = {
   id?: string
-  tipoCliente?: $Enums.TipoCliente
   nombre?: string | null
   apellido?: string | null
-  razonSocial?: string | null
-  nit?: string | null
-  representanteLegal?: string | null
-  cargoContacto?: string | null
   telefono: string
   telefono2?: string | null
   correo?: string | null
@@ -2782,45 +2777,45 @@ export type ClienteCreateWithoutCitasPsicologosInput = {
   tipoDocumento?: string | null
   registroDocumento?: string | null
   documentoPath?: string | null
-  origenCliente?: string | null
-  actividadEconomica?: string | null
-  metrajeTotal?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  subsegmento?: string | null
-  score?: number | null
-  clasificacion?: $Enums.ClasificacionCliente | null
-  ticketPromedio?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  frecuenciaServicio?: number | null
-  ultimaVisita?: Date | string | null
-  proximaVisita?: Date | string | null
-  planActual?: string | null
-  aceptaMarketing?: boolean
-  fechaConsentimiento?: Date | string | null
   createdAt?: Date | string
-  updatedAt?: Date | string
   deletedAt?: Date | string | null
-  tenant: Prisma.TenantCreateNestedOneWithoutClientesInput
-  empresa: Prisma.EmpresaCreateNestedOneWithoutClientesInput
+  aceptaMarketing?: boolean
+  actividadEconomica?: string | null
+  cargoContacto?: string | null
+  clasificacion?: $Enums.ClasificacionCliente | null
+  fechaConsentimiento?: Date | string | null
+  frecuenciaServicio?: number | null
+  metrajeTotal?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  nit?: string | null
+  origenCliente?: string | null
+  planActual?: string | null
+  proximaVisita?: Date | string | null
+  razonSocial?: string | null
+  representanteLegal?: string | null
+  score?: number | null
+  subsegmento?: string | null
+  ticketPromedio?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  tipoCliente?: $Enums.TipoCliente
+  ultimaVisita?: Date | string | null
+  updatedAt?: Date | string
   creadoPor?: Prisma.TenantMembershipCreateNestedOneWithoutClientesCreadosInput
-  segmento?: Prisma.SegmentoNegocioCreateNestedOneWithoutClientesInput
+  empresa: Prisma.EmpresaCreateNestedOneWithoutClientesInput
   riesgo?: Prisma.NivelRiesgoOperativoCreateNestedOneWithoutClientesInput
+  segmento?: Prisma.SegmentoNegocioCreateNestedOneWithoutClientesInput
+  tenant: Prisma.TenantCreateNestedOneWithoutClientesInput
   tipoInteres?: Prisma.TipoInteresCreateNestedOneWithoutClientesInput
   direcciones?: Prisma.DireccionCreateNestedManyWithoutClienteInput
-  vehiculos?: Prisma.VehiculoCreateNestedManyWithoutClienteInput
   ordenesServicio?: Prisma.OrdenServicioCreateNestedManyWithoutClienteInput
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoCreateNestedManyWithoutClienteInput
+  vehiculos?: Prisma.VehiculoCreateNestedManyWithoutClienteInput
 }
 
 export type ClienteUncheckedCreateWithoutCitasPsicologosInput = {
   id?: string
   tenantId: string
   empresaId: string
-  tipoCliente?: $Enums.TipoCliente
   nombre?: string | null
   apellido?: string | null
-  razonSocial?: string | null
-  nit?: string | null
-  representanteLegal?: string | null
-  cargoContacto?: string | null
   telefono: string
   telefono2?: string | null
   correo?: string | null
@@ -2828,30 +2823,35 @@ export type ClienteUncheckedCreateWithoutCitasPsicologosInput = {
   tipoDocumento?: string | null
   registroDocumento?: string | null
   documentoPath?: string | null
-  origenCliente?: string | null
-  tipoInteresId?: string | null
-  actividadEconomica?: string | null
-  metrajeTotal?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  segmentoId?: string | null
-  riesgoId?: string | null
-  subsegmento?: string | null
-  score?: number | null
-  clasificacion?: $Enums.ClasificacionCliente | null
-  ticketPromedio?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  frecuenciaServicio?: number | null
-  ultimaVisita?: Date | string | null
-  proximaVisita?: Date | string | null
-  planActual?: string | null
-  aceptaMarketing?: boolean
-  fechaConsentimiento?: Date | string | null
   creadoPorId?: string | null
   createdAt?: Date | string
-  updatedAt?: Date | string
   deletedAt?: Date | string | null
+  aceptaMarketing?: boolean
+  actividadEconomica?: string | null
+  cargoContacto?: string | null
+  clasificacion?: $Enums.ClasificacionCliente | null
+  fechaConsentimiento?: Date | string | null
+  frecuenciaServicio?: number | null
+  metrajeTotal?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  nit?: string | null
+  origenCliente?: string | null
+  planActual?: string | null
+  proximaVisita?: Date | string | null
+  razonSocial?: string | null
+  representanteLegal?: string | null
+  riesgoId?: string | null
+  score?: number | null
+  segmentoId?: string | null
+  subsegmento?: string | null
+  ticketPromedio?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  tipoCliente?: $Enums.TipoCliente
+  tipoInteresId?: string | null
+  ultimaVisita?: Date | string | null
+  updatedAt?: Date | string
   direcciones?: Prisma.DireccionUncheckedCreateNestedManyWithoutClienteInput
-  vehiculos?: Prisma.VehiculoUncheckedCreateNestedManyWithoutClienteInput
   ordenesServicio?: Prisma.OrdenServicioUncheckedCreateNestedManyWithoutClienteInput
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoUncheckedCreateNestedManyWithoutClienteInput
+  vehiculos?: Prisma.VehiculoUncheckedCreateNestedManyWithoutClienteInput
 }
 
 export type ClienteCreateOrConnectWithoutCitasPsicologosInput = {
@@ -2872,13 +2872,8 @@ export type ClienteUpdateToOneWithWhereWithoutCitasPsicologosInput = {
 
 export type ClienteUpdateWithoutCitasPsicologosInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  tipoCliente?: Prisma.EnumTipoClienteFieldUpdateOperationsInput | $Enums.TipoCliente
   nombre?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   apellido?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  razonSocial?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  nit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  representanteLegal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  cargoContacto?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   telefono?: Prisma.StringFieldUpdateOperationsInput | string
   telefono2?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   correo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -2886,45 +2881,45 @@ export type ClienteUpdateWithoutCitasPsicologosInput = {
   tipoDocumento?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   registroDocumento?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   documentoPath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  origenCliente?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  actividadEconomica?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  metrajeTotal?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  subsegmento?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  score?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  clasificacion?: Prisma.NullableEnumClasificacionClienteFieldUpdateOperationsInput | $Enums.ClasificacionCliente | null
-  ticketPromedio?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  frecuenciaServicio?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  ultimaVisita?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  proximaVisita?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  planActual?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  aceptaMarketing?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  fechaConsentimiento?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  tenant?: Prisma.TenantUpdateOneRequiredWithoutClientesNestedInput
-  empresa?: Prisma.EmpresaUpdateOneRequiredWithoutClientesNestedInput
+  aceptaMarketing?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  actividadEconomica?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  cargoContacto?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  clasificacion?: Prisma.NullableEnumClasificacionClienteFieldUpdateOperationsInput | $Enums.ClasificacionCliente | null
+  fechaConsentimiento?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  frecuenciaServicio?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  metrajeTotal?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  nit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  origenCliente?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  planActual?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  proximaVisita?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  razonSocial?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  representanteLegal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  score?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  subsegmento?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  ticketPromedio?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  tipoCliente?: Prisma.EnumTipoClienteFieldUpdateOperationsInput | $Enums.TipoCliente
+  ultimaVisita?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   creadoPor?: Prisma.TenantMembershipUpdateOneWithoutClientesCreadosNestedInput
-  segmento?: Prisma.SegmentoNegocioUpdateOneWithoutClientesNestedInput
+  empresa?: Prisma.EmpresaUpdateOneRequiredWithoutClientesNestedInput
   riesgo?: Prisma.NivelRiesgoOperativoUpdateOneWithoutClientesNestedInput
+  segmento?: Prisma.SegmentoNegocioUpdateOneWithoutClientesNestedInput
+  tenant?: Prisma.TenantUpdateOneRequiredWithoutClientesNestedInput
   tipoInteres?: Prisma.TipoInteresUpdateOneWithoutClientesNestedInput
   direcciones?: Prisma.DireccionUpdateManyWithoutClienteNestedInput
-  vehiculos?: Prisma.VehiculoUpdateManyWithoutClienteNestedInput
   ordenesServicio?: Prisma.OrdenServicioUpdateManyWithoutClienteNestedInput
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoUpdateManyWithoutClienteNestedInput
+  vehiculos?: Prisma.VehiculoUpdateManyWithoutClienteNestedInput
 }
 
 export type ClienteUncheckedUpdateWithoutCitasPsicologosInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   tenantId?: Prisma.StringFieldUpdateOperationsInput | string
   empresaId?: Prisma.StringFieldUpdateOperationsInput | string
-  tipoCliente?: Prisma.EnumTipoClienteFieldUpdateOperationsInput | $Enums.TipoCliente
   nombre?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   apellido?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  razonSocial?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  nit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  representanteLegal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  cargoContacto?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   telefono?: Prisma.StringFieldUpdateOperationsInput | string
   telefono2?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   correo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -2932,41 +2927,41 @@ export type ClienteUncheckedUpdateWithoutCitasPsicologosInput = {
   tipoDocumento?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   registroDocumento?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   documentoPath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  origenCliente?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  tipoInteresId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  actividadEconomica?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  metrajeTotal?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  segmentoId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  riesgoId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  subsegmento?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  score?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  clasificacion?: Prisma.NullableEnumClasificacionClienteFieldUpdateOperationsInput | $Enums.ClasificacionCliente | null
-  ticketPromedio?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  frecuenciaServicio?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  ultimaVisita?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  proximaVisita?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  planActual?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  aceptaMarketing?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  fechaConsentimiento?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   creadoPorId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  aceptaMarketing?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  actividadEconomica?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  cargoContacto?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  clasificacion?: Prisma.NullableEnumClasificacionClienteFieldUpdateOperationsInput | $Enums.ClasificacionCliente | null
+  fechaConsentimiento?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  frecuenciaServicio?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  metrajeTotal?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  nit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  origenCliente?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  planActual?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  proximaVisita?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  razonSocial?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  representanteLegal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  riesgoId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  score?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  segmentoId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  subsegmento?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  ticketPromedio?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  tipoCliente?: Prisma.EnumTipoClienteFieldUpdateOperationsInput | $Enums.TipoCliente
+  tipoInteresId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  ultimaVisita?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   direcciones?: Prisma.DireccionUncheckedUpdateManyWithoutClienteNestedInput
-  vehiculos?: Prisma.VehiculoUncheckedUpdateManyWithoutClienteNestedInput
   ordenesServicio?: Prisma.OrdenServicioUncheckedUpdateManyWithoutClienteNestedInput
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoUncheckedUpdateManyWithoutClienteNestedInput
+  vehiculos?: Prisma.VehiculoUncheckedUpdateManyWithoutClienteNestedInput
 }
 
 export type ClienteCreateWithoutPaquetesAdquiridosInput = {
   id?: string
-  tipoCliente?: $Enums.TipoCliente
   nombre?: string | null
   apellido?: string | null
-  razonSocial?: string | null
-  nit?: string | null
-  representanteLegal?: string | null
-  cargoContacto?: string | null
   telefono: string
   telefono2?: string | null
   correo?: string | null
@@ -2974,45 +2969,45 @@ export type ClienteCreateWithoutPaquetesAdquiridosInput = {
   tipoDocumento?: string | null
   registroDocumento?: string | null
   documentoPath?: string | null
-  origenCliente?: string | null
-  actividadEconomica?: string | null
-  metrajeTotal?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  subsegmento?: string | null
-  score?: number | null
-  clasificacion?: $Enums.ClasificacionCliente | null
-  ticketPromedio?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  frecuenciaServicio?: number | null
-  ultimaVisita?: Date | string | null
-  proximaVisita?: Date | string | null
-  planActual?: string | null
-  aceptaMarketing?: boolean
-  fechaConsentimiento?: Date | string | null
   createdAt?: Date | string
-  updatedAt?: Date | string
   deletedAt?: Date | string | null
-  tenant: Prisma.TenantCreateNestedOneWithoutClientesInput
-  empresa: Prisma.EmpresaCreateNestedOneWithoutClientesInput
+  aceptaMarketing?: boolean
+  actividadEconomica?: string | null
+  cargoContacto?: string | null
+  clasificacion?: $Enums.ClasificacionCliente | null
+  fechaConsentimiento?: Date | string | null
+  frecuenciaServicio?: number | null
+  metrajeTotal?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  nit?: string | null
+  origenCliente?: string | null
+  planActual?: string | null
+  proximaVisita?: Date | string | null
+  razonSocial?: string | null
+  representanteLegal?: string | null
+  score?: number | null
+  subsegmento?: string | null
+  ticketPromedio?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  tipoCliente?: $Enums.TipoCliente
+  ultimaVisita?: Date | string | null
+  updatedAt?: Date | string
+  citasPsicologos?: Prisma.CitasPsicologosCreateNestedManyWithoutPacienteInput
   creadoPor?: Prisma.TenantMembershipCreateNestedOneWithoutClientesCreadosInput
-  segmento?: Prisma.SegmentoNegocioCreateNestedOneWithoutClientesInput
+  empresa: Prisma.EmpresaCreateNestedOneWithoutClientesInput
   riesgo?: Prisma.NivelRiesgoOperativoCreateNestedOneWithoutClientesInput
+  segmento?: Prisma.SegmentoNegocioCreateNestedOneWithoutClientesInput
+  tenant: Prisma.TenantCreateNestedOneWithoutClientesInput
   tipoInteres?: Prisma.TipoInteresCreateNestedOneWithoutClientesInput
   direcciones?: Prisma.DireccionCreateNestedManyWithoutClienteInput
-  vehiculos?: Prisma.VehiculoCreateNestedManyWithoutClienteInput
   ordenesServicio?: Prisma.OrdenServicioCreateNestedManyWithoutClienteInput
-  citasPsicologos?: Prisma.CitasPsicologosCreateNestedManyWithoutPacienteInput
+  vehiculos?: Prisma.VehiculoCreateNestedManyWithoutClienteInput
 }
 
 export type ClienteUncheckedCreateWithoutPaquetesAdquiridosInput = {
   id?: string
   tenantId: string
   empresaId: string
-  tipoCliente?: $Enums.TipoCliente
   nombre?: string | null
   apellido?: string | null
-  razonSocial?: string | null
-  nit?: string | null
-  representanteLegal?: string | null
-  cargoContacto?: string | null
   telefono: string
   telefono2?: string | null
   correo?: string | null
@@ -3020,30 +3015,35 @@ export type ClienteUncheckedCreateWithoutPaquetesAdquiridosInput = {
   tipoDocumento?: string | null
   registroDocumento?: string | null
   documentoPath?: string | null
-  origenCliente?: string | null
-  tipoInteresId?: string | null
-  actividadEconomica?: string | null
-  metrajeTotal?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  segmentoId?: string | null
-  riesgoId?: string | null
-  subsegmento?: string | null
-  score?: number | null
-  clasificacion?: $Enums.ClasificacionCliente | null
-  ticketPromedio?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  frecuenciaServicio?: number | null
-  ultimaVisita?: Date | string | null
-  proximaVisita?: Date | string | null
-  planActual?: string | null
-  aceptaMarketing?: boolean
-  fechaConsentimiento?: Date | string | null
   creadoPorId?: string | null
   createdAt?: Date | string
-  updatedAt?: Date | string
   deletedAt?: Date | string | null
-  direcciones?: Prisma.DireccionUncheckedCreateNestedManyWithoutClienteInput
-  vehiculos?: Prisma.VehiculoUncheckedCreateNestedManyWithoutClienteInput
-  ordenesServicio?: Prisma.OrdenServicioUncheckedCreateNestedManyWithoutClienteInput
+  aceptaMarketing?: boolean
+  actividadEconomica?: string | null
+  cargoContacto?: string | null
+  clasificacion?: $Enums.ClasificacionCliente | null
+  fechaConsentimiento?: Date | string | null
+  frecuenciaServicio?: number | null
+  metrajeTotal?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  nit?: string | null
+  origenCliente?: string | null
+  planActual?: string | null
+  proximaVisita?: Date | string | null
+  razonSocial?: string | null
+  representanteLegal?: string | null
+  riesgoId?: string | null
+  score?: number | null
+  segmentoId?: string | null
+  subsegmento?: string | null
+  ticketPromedio?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  tipoCliente?: $Enums.TipoCliente
+  tipoInteresId?: string | null
+  ultimaVisita?: Date | string | null
+  updatedAt?: Date | string
   citasPsicologos?: Prisma.CitasPsicologosUncheckedCreateNestedManyWithoutPacienteInput
+  direcciones?: Prisma.DireccionUncheckedCreateNestedManyWithoutClienteInput
+  ordenesServicio?: Prisma.OrdenServicioUncheckedCreateNestedManyWithoutClienteInput
+  vehiculos?: Prisma.VehiculoUncheckedCreateNestedManyWithoutClienteInput
 }
 
 export type ClienteCreateOrConnectWithoutPaquetesAdquiridosInput = {
@@ -3064,13 +3064,8 @@ export type ClienteUpdateToOneWithWhereWithoutPaquetesAdquiridosInput = {
 
 export type ClienteUpdateWithoutPaquetesAdquiridosInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  tipoCliente?: Prisma.EnumTipoClienteFieldUpdateOperationsInput | $Enums.TipoCliente
   nombre?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   apellido?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  razonSocial?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  nit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  representanteLegal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  cargoContacto?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   telefono?: Prisma.StringFieldUpdateOperationsInput | string
   telefono2?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   correo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -3078,45 +3073,45 @@ export type ClienteUpdateWithoutPaquetesAdquiridosInput = {
   tipoDocumento?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   registroDocumento?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   documentoPath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  origenCliente?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  actividadEconomica?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  metrajeTotal?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  subsegmento?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  score?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  clasificacion?: Prisma.NullableEnumClasificacionClienteFieldUpdateOperationsInput | $Enums.ClasificacionCliente | null
-  ticketPromedio?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  frecuenciaServicio?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  ultimaVisita?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  proximaVisita?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  planActual?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  aceptaMarketing?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  fechaConsentimiento?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  tenant?: Prisma.TenantUpdateOneRequiredWithoutClientesNestedInput
-  empresa?: Prisma.EmpresaUpdateOneRequiredWithoutClientesNestedInput
+  aceptaMarketing?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  actividadEconomica?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  cargoContacto?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  clasificacion?: Prisma.NullableEnumClasificacionClienteFieldUpdateOperationsInput | $Enums.ClasificacionCliente | null
+  fechaConsentimiento?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  frecuenciaServicio?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  metrajeTotal?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  nit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  origenCliente?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  planActual?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  proximaVisita?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  razonSocial?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  representanteLegal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  score?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  subsegmento?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  ticketPromedio?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  tipoCliente?: Prisma.EnumTipoClienteFieldUpdateOperationsInput | $Enums.TipoCliente
+  ultimaVisita?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  citasPsicologos?: Prisma.CitasPsicologosUpdateManyWithoutPacienteNestedInput
   creadoPor?: Prisma.TenantMembershipUpdateOneWithoutClientesCreadosNestedInput
-  segmento?: Prisma.SegmentoNegocioUpdateOneWithoutClientesNestedInput
+  empresa?: Prisma.EmpresaUpdateOneRequiredWithoutClientesNestedInput
   riesgo?: Prisma.NivelRiesgoOperativoUpdateOneWithoutClientesNestedInput
+  segmento?: Prisma.SegmentoNegocioUpdateOneWithoutClientesNestedInput
+  tenant?: Prisma.TenantUpdateOneRequiredWithoutClientesNestedInput
   tipoInteres?: Prisma.TipoInteresUpdateOneWithoutClientesNestedInput
   direcciones?: Prisma.DireccionUpdateManyWithoutClienteNestedInput
-  vehiculos?: Prisma.VehiculoUpdateManyWithoutClienteNestedInput
   ordenesServicio?: Prisma.OrdenServicioUpdateManyWithoutClienteNestedInput
-  citasPsicologos?: Prisma.CitasPsicologosUpdateManyWithoutPacienteNestedInput
+  vehiculos?: Prisma.VehiculoUpdateManyWithoutClienteNestedInput
 }
 
 export type ClienteUncheckedUpdateWithoutPaquetesAdquiridosInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   tenantId?: Prisma.StringFieldUpdateOperationsInput | string
   empresaId?: Prisma.StringFieldUpdateOperationsInput | string
-  tipoCliente?: Prisma.EnumTipoClienteFieldUpdateOperationsInput | $Enums.TipoCliente
   nombre?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   apellido?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  razonSocial?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  nit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  representanteLegal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  cargoContacto?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   telefono?: Prisma.StringFieldUpdateOperationsInput | string
   telefono2?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   correo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -3124,42 +3119,42 @@ export type ClienteUncheckedUpdateWithoutPaquetesAdquiridosInput = {
   tipoDocumento?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   registroDocumento?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   documentoPath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  origenCliente?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  tipoInteresId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  actividadEconomica?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  metrajeTotal?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  segmentoId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  riesgoId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  subsegmento?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  score?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  clasificacion?: Prisma.NullableEnumClasificacionClienteFieldUpdateOperationsInput | $Enums.ClasificacionCliente | null
-  ticketPromedio?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  frecuenciaServicio?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  ultimaVisita?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  proximaVisita?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  planActual?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  aceptaMarketing?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  fechaConsentimiento?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   creadoPorId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  direcciones?: Prisma.DireccionUncheckedUpdateManyWithoutClienteNestedInput
-  vehiculos?: Prisma.VehiculoUncheckedUpdateManyWithoutClienteNestedInput
-  ordenesServicio?: Prisma.OrdenServicioUncheckedUpdateManyWithoutClienteNestedInput
+  aceptaMarketing?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  actividadEconomica?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  cargoContacto?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  clasificacion?: Prisma.NullableEnumClasificacionClienteFieldUpdateOperationsInput | $Enums.ClasificacionCliente | null
+  fechaConsentimiento?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  frecuenciaServicio?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  metrajeTotal?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  nit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  origenCliente?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  planActual?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  proximaVisita?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  razonSocial?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  representanteLegal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  riesgoId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  score?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  segmentoId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  subsegmento?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  ticketPromedio?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  tipoCliente?: Prisma.EnumTipoClienteFieldUpdateOperationsInput | $Enums.TipoCliente
+  tipoInteresId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  ultimaVisita?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   citasPsicologos?: Prisma.CitasPsicologosUncheckedUpdateManyWithoutPacienteNestedInput
+  direcciones?: Prisma.DireccionUncheckedUpdateManyWithoutClienteNestedInput
+  ordenesServicio?: Prisma.OrdenServicioUncheckedUpdateManyWithoutClienteNestedInput
+  vehiculos?: Prisma.VehiculoUncheckedUpdateManyWithoutClienteNestedInput
 }
 
 export type ClienteCreateManyTenantInput = {
   id?: string
   empresaId: string
-  tipoCliente?: $Enums.TipoCliente
   nombre?: string | null
   apellido?: string | null
-  razonSocial?: string | null
-  nit?: string | null
-  representanteLegal?: string | null
-  cargoContacto?: string | null
   telefono: string
   telefono2?: string | null
   correo?: string | null
@@ -3167,37 +3162,37 @@ export type ClienteCreateManyTenantInput = {
   tipoDocumento?: string | null
   registroDocumento?: string | null
   documentoPath?: string | null
-  origenCliente?: string | null
-  tipoInteresId?: string | null
-  actividadEconomica?: string | null
-  metrajeTotal?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  segmentoId?: string | null
-  riesgoId?: string | null
-  subsegmento?: string | null
-  score?: number | null
-  clasificacion?: $Enums.ClasificacionCliente | null
-  ticketPromedio?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  frecuenciaServicio?: number | null
-  ultimaVisita?: Date | string | null
-  proximaVisita?: Date | string | null
-  planActual?: string | null
-  aceptaMarketing?: boolean
-  fechaConsentimiento?: Date | string | null
   creadoPorId?: string | null
   createdAt?: Date | string
-  updatedAt?: Date | string
   deletedAt?: Date | string | null
+  aceptaMarketing?: boolean
+  actividadEconomica?: string | null
+  cargoContacto?: string | null
+  clasificacion?: $Enums.ClasificacionCliente | null
+  fechaConsentimiento?: Date | string | null
+  frecuenciaServicio?: number | null
+  metrajeTotal?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  nit?: string | null
+  origenCliente?: string | null
+  planActual?: string | null
+  proximaVisita?: Date | string | null
+  razonSocial?: string | null
+  representanteLegal?: string | null
+  riesgoId?: string | null
+  score?: number | null
+  segmentoId?: string | null
+  subsegmento?: string | null
+  ticketPromedio?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  tipoCliente?: $Enums.TipoCliente
+  tipoInteresId?: string | null
+  ultimaVisita?: Date | string | null
+  updatedAt?: Date | string
 }
 
 export type ClienteUpdateWithoutTenantInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  tipoCliente?: Prisma.EnumTipoClienteFieldUpdateOperationsInput | $Enums.TipoCliente
   nombre?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   apellido?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  razonSocial?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  nit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  representanteLegal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  cargoContacto?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   telefono?: Prisma.StringFieldUpdateOperationsInput | string
   telefono2?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   correo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -3205,44 +3200,44 @@ export type ClienteUpdateWithoutTenantInput = {
   tipoDocumento?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   registroDocumento?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   documentoPath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  origenCliente?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  actividadEconomica?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  metrajeTotal?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  subsegmento?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  score?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  clasificacion?: Prisma.NullableEnumClasificacionClienteFieldUpdateOperationsInput | $Enums.ClasificacionCliente | null
-  ticketPromedio?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  frecuenciaServicio?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  ultimaVisita?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  proximaVisita?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  planActual?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  aceptaMarketing?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  fechaConsentimiento?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  empresa?: Prisma.EmpresaUpdateOneRequiredWithoutClientesNestedInput
+  aceptaMarketing?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  actividadEconomica?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  cargoContacto?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  clasificacion?: Prisma.NullableEnumClasificacionClienteFieldUpdateOperationsInput | $Enums.ClasificacionCliente | null
+  fechaConsentimiento?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  frecuenciaServicio?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  metrajeTotal?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  nit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  origenCliente?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  planActual?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  proximaVisita?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  razonSocial?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  representanteLegal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  score?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  subsegmento?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  ticketPromedio?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  tipoCliente?: Prisma.EnumTipoClienteFieldUpdateOperationsInput | $Enums.TipoCliente
+  ultimaVisita?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  citasPsicologos?: Prisma.CitasPsicologosUpdateManyWithoutPacienteNestedInput
   creadoPor?: Prisma.TenantMembershipUpdateOneWithoutClientesCreadosNestedInput
-  segmento?: Prisma.SegmentoNegocioUpdateOneWithoutClientesNestedInput
+  empresa?: Prisma.EmpresaUpdateOneRequiredWithoutClientesNestedInput
   riesgo?: Prisma.NivelRiesgoOperativoUpdateOneWithoutClientesNestedInput
+  segmento?: Prisma.SegmentoNegocioUpdateOneWithoutClientesNestedInput
   tipoInteres?: Prisma.TipoInteresUpdateOneWithoutClientesNestedInput
   direcciones?: Prisma.DireccionUpdateManyWithoutClienteNestedInput
-  vehiculos?: Prisma.VehiculoUpdateManyWithoutClienteNestedInput
   ordenesServicio?: Prisma.OrdenServicioUpdateManyWithoutClienteNestedInput
-  citasPsicologos?: Prisma.CitasPsicologosUpdateManyWithoutPacienteNestedInput
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoUpdateManyWithoutClienteNestedInput
+  vehiculos?: Prisma.VehiculoUpdateManyWithoutClienteNestedInput
 }
 
 export type ClienteUncheckedUpdateWithoutTenantInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   empresaId?: Prisma.StringFieldUpdateOperationsInput | string
-  tipoCliente?: Prisma.EnumTipoClienteFieldUpdateOperationsInput | $Enums.TipoCliente
   nombre?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   apellido?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  razonSocial?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  nit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  representanteLegal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  cargoContacto?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   telefono?: Prisma.StringFieldUpdateOperationsInput | string
   telefono2?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   correo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -3250,43 +3245,43 @@ export type ClienteUncheckedUpdateWithoutTenantInput = {
   tipoDocumento?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   registroDocumento?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   documentoPath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  origenCliente?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  tipoInteresId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  actividadEconomica?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  metrajeTotal?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  segmentoId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  riesgoId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  subsegmento?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  score?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  clasificacion?: Prisma.NullableEnumClasificacionClienteFieldUpdateOperationsInput | $Enums.ClasificacionCliente | null
-  ticketPromedio?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  frecuenciaServicio?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  ultimaVisita?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  proximaVisita?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  planActual?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  aceptaMarketing?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  fechaConsentimiento?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   creadoPorId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  direcciones?: Prisma.DireccionUncheckedUpdateManyWithoutClienteNestedInput
-  vehiculos?: Prisma.VehiculoUncheckedUpdateManyWithoutClienteNestedInput
-  ordenesServicio?: Prisma.OrdenServicioUncheckedUpdateManyWithoutClienteNestedInput
+  aceptaMarketing?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  actividadEconomica?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  cargoContacto?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  clasificacion?: Prisma.NullableEnumClasificacionClienteFieldUpdateOperationsInput | $Enums.ClasificacionCliente | null
+  fechaConsentimiento?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  frecuenciaServicio?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  metrajeTotal?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  nit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  origenCliente?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  planActual?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  proximaVisita?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  razonSocial?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  representanteLegal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  riesgoId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  score?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  segmentoId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  subsegmento?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  ticketPromedio?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  tipoCliente?: Prisma.EnumTipoClienteFieldUpdateOperationsInput | $Enums.TipoCliente
+  tipoInteresId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  ultimaVisita?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   citasPsicologos?: Prisma.CitasPsicologosUncheckedUpdateManyWithoutPacienteNestedInput
+  direcciones?: Prisma.DireccionUncheckedUpdateManyWithoutClienteNestedInput
+  ordenesServicio?: Prisma.OrdenServicioUncheckedUpdateManyWithoutClienteNestedInput
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoUncheckedUpdateManyWithoutClienteNestedInput
+  vehiculos?: Prisma.VehiculoUncheckedUpdateManyWithoutClienteNestedInput
 }
 
 export type ClienteUncheckedUpdateManyWithoutTenantInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   empresaId?: Prisma.StringFieldUpdateOperationsInput | string
-  tipoCliente?: Prisma.EnumTipoClienteFieldUpdateOperationsInput | $Enums.TipoCliente
   nombre?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   apellido?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  razonSocial?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  nit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  representanteLegal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  cargoContacto?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   telefono?: Prisma.StringFieldUpdateOperationsInput | string
   telefono2?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   correo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -3294,39 +3289,39 @@ export type ClienteUncheckedUpdateManyWithoutTenantInput = {
   tipoDocumento?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   registroDocumento?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   documentoPath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  origenCliente?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  tipoInteresId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  actividadEconomica?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  metrajeTotal?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  segmentoId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  riesgoId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  subsegmento?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  score?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  clasificacion?: Prisma.NullableEnumClasificacionClienteFieldUpdateOperationsInput | $Enums.ClasificacionCliente | null
-  ticketPromedio?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  frecuenciaServicio?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  ultimaVisita?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  proximaVisita?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  planActual?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  aceptaMarketing?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  fechaConsentimiento?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   creadoPorId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  aceptaMarketing?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  actividadEconomica?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  cargoContacto?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  clasificacion?: Prisma.NullableEnumClasificacionClienteFieldUpdateOperationsInput | $Enums.ClasificacionCliente | null
+  fechaConsentimiento?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  frecuenciaServicio?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  metrajeTotal?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  nit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  origenCliente?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  planActual?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  proximaVisita?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  razonSocial?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  representanteLegal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  riesgoId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  score?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  segmentoId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  subsegmento?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  ticketPromedio?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  tipoCliente?: Prisma.EnumTipoClienteFieldUpdateOperationsInput | $Enums.TipoCliente
+  tipoInteresId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  ultimaVisita?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type ClienteCreateManyCreadoPorInput = {
   id?: string
   tenantId: string
   empresaId: string
-  tipoCliente?: $Enums.TipoCliente
   nombre?: string | null
   apellido?: string | null
-  razonSocial?: string | null
-  nit?: string | null
-  representanteLegal?: string | null
-  cargoContacto?: string | null
   telefono: string
   telefono2?: string | null
   correo?: string | null
@@ -3334,36 +3329,36 @@ export type ClienteCreateManyCreadoPorInput = {
   tipoDocumento?: string | null
   registroDocumento?: string | null
   documentoPath?: string | null
-  origenCliente?: string | null
-  tipoInteresId?: string | null
-  actividadEconomica?: string | null
-  metrajeTotal?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  segmentoId?: string | null
-  riesgoId?: string | null
-  subsegmento?: string | null
-  score?: number | null
-  clasificacion?: $Enums.ClasificacionCliente | null
-  ticketPromedio?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  frecuenciaServicio?: number | null
-  ultimaVisita?: Date | string | null
-  proximaVisita?: Date | string | null
-  planActual?: string | null
-  aceptaMarketing?: boolean
-  fechaConsentimiento?: Date | string | null
   createdAt?: Date | string
-  updatedAt?: Date | string
   deletedAt?: Date | string | null
+  aceptaMarketing?: boolean
+  actividadEconomica?: string | null
+  cargoContacto?: string | null
+  clasificacion?: $Enums.ClasificacionCliente | null
+  fechaConsentimiento?: Date | string | null
+  frecuenciaServicio?: number | null
+  metrajeTotal?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  nit?: string | null
+  origenCliente?: string | null
+  planActual?: string | null
+  proximaVisita?: Date | string | null
+  razonSocial?: string | null
+  representanteLegal?: string | null
+  riesgoId?: string | null
+  score?: number | null
+  segmentoId?: string | null
+  subsegmento?: string | null
+  ticketPromedio?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  tipoCliente?: $Enums.TipoCliente
+  tipoInteresId?: string | null
+  ultimaVisita?: Date | string | null
+  updatedAt?: Date | string
 }
 
 export type ClienteUpdateWithoutCreadoPorInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  tipoCliente?: Prisma.EnumTipoClienteFieldUpdateOperationsInput | $Enums.TipoCliente
   nombre?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   apellido?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  razonSocial?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  nit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  representanteLegal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  cargoContacto?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   telefono?: Prisma.StringFieldUpdateOperationsInput | string
   telefono2?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   correo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -3371,45 +3366,45 @@ export type ClienteUpdateWithoutCreadoPorInput = {
   tipoDocumento?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   registroDocumento?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   documentoPath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  origenCliente?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  actividadEconomica?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  metrajeTotal?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  subsegmento?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  score?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  clasificacion?: Prisma.NullableEnumClasificacionClienteFieldUpdateOperationsInput | $Enums.ClasificacionCliente | null
-  ticketPromedio?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  frecuenciaServicio?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  ultimaVisita?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  proximaVisita?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  planActual?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  aceptaMarketing?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  fechaConsentimiento?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  tenant?: Prisma.TenantUpdateOneRequiredWithoutClientesNestedInput
+  aceptaMarketing?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  actividadEconomica?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  cargoContacto?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  clasificacion?: Prisma.NullableEnumClasificacionClienteFieldUpdateOperationsInput | $Enums.ClasificacionCliente | null
+  fechaConsentimiento?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  frecuenciaServicio?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  metrajeTotal?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  nit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  origenCliente?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  planActual?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  proximaVisita?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  razonSocial?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  representanteLegal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  score?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  subsegmento?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  ticketPromedio?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  tipoCliente?: Prisma.EnumTipoClienteFieldUpdateOperationsInput | $Enums.TipoCliente
+  ultimaVisita?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  citasPsicologos?: Prisma.CitasPsicologosUpdateManyWithoutPacienteNestedInput
   empresa?: Prisma.EmpresaUpdateOneRequiredWithoutClientesNestedInput
-  segmento?: Prisma.SegmentoNegocioUpdateOneWithoutClientesNestedInput
   riesgo?: Prisma.NivelRiesgoOperativoUpdateOneWithoutClientesNestedInput
+  segmento?: Prisma.SegmentoNegocioUpdateOneWithoutClientesNestedInput
+  tenant?: Prisma.TenantUpdateOneRequiredWithoutClientesNestedInput
   tipoInteres?: Prisma.TipoInteresUpdateOneWithoutClientesNestedInput
   direcciones?: Prisma.DireccionUpdateManyWithoutClienteNestedInput
-  vehiculos?: Prisma.VehiculoUpdateManyWithoutClienteNestedInput
   ordenesServicio?: Prisma.OrdenServicioUpdateManyWithoutClienteNestedInput
-  citasPsicologos?: Prisma.CitasPsicologosUpdateManyWithoutPacienteNestedInput
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoUpdateManyWithoutClienteNestedInput
+  vehiculos?: Prisma.VehiculoUpdateManyWithoutClienteNestedInput
 }
 
 export type ClienteUncheckedUpdateWithoutCreadoPorInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   tenantId?: Prisma.StringFieldUpdateOperationsInput | string
   empresaId?: Prisma.StringFieldUpdateOperationsInput | string
-  tipoCliente?: Prisma.EnumTipoClienteFieldUpdateOperationsInput | $Enums.TipoCliente
   nombre?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   apellido?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  razonSocial?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  nit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  representanteLegal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  cargoContacto?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   telefono?: Prisma.StringFieldUpdateOperationsInput | string
   telefono2?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   correo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -3417,43 +3412,43 @@ export type ClienteUncheckedUpdateWithoutCreadoPorInput = {
   tipoDocumento?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   registroDocumento?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   documentoPath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  origenCliente?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  tipoInteresId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  actividadEconomica?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  metrajeTotal?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  segmentoId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  riesgoId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  subsegmento?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  score?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  clasificacion?: Prisma.NullableEnumClasificacionClienteFieldUpdateOperationsInput | $Enums.ClasificacionCliente | null
-  ticketPromedio?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  frecuenciaServicio?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  ultimaVisita?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  proximaVisita?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  planActual?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  aceptaMarketing?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  fechaConsentimiento?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  direcciones?: Prisma.DireccionUncheckedUpdateManyWithoutClienteNestedInput
-  vehiculos?: Prisma.VehiculoUncheckedUpdateManyWithoutClienteNestedInput
-  ordenesServicio?: Prisma.OrdenServicioUncheckedUpdateManyWithoutClienteNestedInput
+  aceptaMarketing?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  actividadEconomica?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  cargoContacto?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  clasificacion?: Prisma.NullableEnumClasificacionClienteFieldUpdateOperationsInput | $Enums.ClasificacionCliente | null
+  fechaConsentimiento?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  frecuenciaServicio?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  metrajeTotal?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  nit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  origenCliente?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  planActual?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  proximaVisita?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  razonSocial?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  representanteLegal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  riesgoId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  score?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  segmentoId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  subsegmento?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  ticketPromedio?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  tipoCliente?: Prisma.EnumTipoClienteFieldUpdateOperationsInput | $Enums.TipoCliente
+  tipoInteresId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  ultimaVisita?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   citasPsicologos?: Prisma.CitasPsicologosUncheckedUpdateManyWithoutPacienteNestedInput
+  direcciones?: Prisma.DireccionUncheckedUpdateManyWithoutClienteNestedInput
+  ordenesServicio?: Prisma.OrdenServicioUncheckedUpdateManyWithoutClienteNestedInput
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoUncheckedUpdateManyWithoutClienteNestedInput
+  vehiculos?: Prisma.VehiculoUncheckedUpdateManyWithoutClienteNestedInput
 }
 
 export type ClienteUncheckedUpdateManyWithoutCreadoPorInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   tenantId?: Prisma.StringFieldUpdateOperationsInput | string
   empresaId?: Prisma.StringFieldUpdateOperationsInput | string
-  tipoCliente?: Prisma.EnumTipoClienteFieldUpdateOperationsInput | $Enums.TipoCliente
   nombre?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   apellido?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  razonSocial?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  nit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  representanteLegal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  cargoContacto?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   telefono?: Prisma.StringFieldUpdateOperationsInput | string
   telefono2?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   correo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -3461,37 +3456,37 @@ export type ClienteUncheckedUpdateManyWithoutCreadoPorInput = {
   tipoDocumento?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   registroDocumento?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   documentoPath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  origenCliente?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  tipoInteresId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  actividadEconomica?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  metrajeTotal?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  segmentoId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  riesgoId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  subsegmento?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  score?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  clasificacion?: Prisma.NullableEnumClasificacionClienteFieldUpdateOperationsInput | $Enums.ClasificacionCliente | null
-  ticketPromedio?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  frecuenciaServicio?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  ultimaVisita?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  proximaVisita?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  planActual?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  aceptaMarketing?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  fechaConsentimiento?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  aceptaMarketing?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  actividadEconomica?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  cargoContacto?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  clasificacion?: Prisma.NullableEnumClasificacionClienteFieldUpdateOperationsInput | $Enums.ClasificacionCliente | null
+  fechaConsentimiento?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  frecuenciaServicio?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  metrajeTotal?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  nit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  origenCliente?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  planActual?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  proximaVisita?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  razonSocial?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  representanteLegal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  riesgoId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  score?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  segmentoId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  subsegmento?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  ticketPromedio?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  tipoCliente?: Prisma.EnumTipoClienteFieldUpdateOperationsInput | $Enums.TipoCliente
+  tipoInteresId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  ultimaVisita?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type ClienteCreateManyEmpresaInput = {
   id?: string
   tenantId: string
-  tipoCliente?: $Enums.TipoCliente
   nombre?: string | null
   apellido?: string | null
-  razonSocial?: string | null
-  nit?: string | null
-  representanteLegal?: string | null
-  cargoContacto?: string | null
   telefono: string
   telefono2?: string | null
   correo?: string | null
@@ -3499,37 +3494,37 @@ export type ClienteCreateManyEmpresaInput = {
   tipoDocumento?: string | null
   registroDocumento?: string | null
   documentoPath?: string | null
-  origenCliente?: string | null
-  tipoInteresId?: string | null
-  actividadEconomica?: string | null
-  metrajeTotal?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  segmentoId?: string | null
-  riesgoId?: string | null
-  subsegmento?: string | null
-  score?: number | null
-  clasificacion?: $Enums.ClasificacionCliente | null
-  ticketPromedio?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  frecuenciaServicio?: number | null
-  ultimaVisita?: Date | string | null
-  proximaVisita?: Date | string | null
-  planActual?: string | null
-  aceptaMarketing?: boolean
-  fechaConsentimiento?: Date | string | null
   creadoPorId?: string | null
   createdAt?: Date | string
-  updatedAt?: Date | string
   deletedAt?: Date | string | null
+  aceptaMarketing?: boolean
+  actividadEconomica?: string | null
+  cargoContacto?: string | null
+  clasificacion?: $Enums.ClasificacionCliente | null
+  fechaConsentimiento?: Date | string | null
+  frecuenciaServicio?: number | null
+  metrajeTotal?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  nit?: string | null
+  origenCliente?: string | null
+  planActual?: string | null
+  proximaVisita?: Date | string | null
+  razonSocial?: string | null
+  representanteLegal?: string | null
+  riesgoId?: string | null
+  score?: number | null
+  segmentoId?: string | null
+  subsegmento?: string | null
+  ticketPromedio?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  tipoCliente?: $Enums.TipoCliente
+  tipoInteresId?: string | null
+  ultimaVisita?: Date | string | null
+  updatedAt?: Date | string
 }
 
 export type ClienteUpdateWithoutEmpresaInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  tipoCliente?: Prisma.EnumTipoClienteFieldUpdateOperationsInput | $Enums.TipoCliente
   nombre?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   apellido?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  razonSocial?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  nit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  representanteLegal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  cargoContacto?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   telefono?: Prisma.StringFieldUpdateOperationsInput | string
   telefono2?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   correo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -3537,44 +3532,44 @@ export type ClienteUpdateWithoutEmpresaInput = {
   tipoDocumento?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   registroDocumento?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   documentoPath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  origenCliente?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  actividadEconomica?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  metrajeTotal?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  subsegmento?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  score?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  clasificacion?: Prisma.NullableEnumClasificacionClienteFieldUpdateOperationsInput | $Enums.ClasificacionCliente | null
-  ticketPromedio?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  frecuenciaServicio?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  ultimaVisita?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  proximaVisita?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  planActual?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  aceptaMarketing?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  fechaConsentimiento?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  tenant?: Prisma.TenantUpdateOneRequiredWithoutClientesNestedInput
+  aceptaMarketing?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  actividadEconomica?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  cargoContacto?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  clasificacion?: Prisma.NullableEnumClasificacionClienteFieldUpdateOperationsInput | $Enums.ClasificacionCliente | null
+  fechaConsentimiento?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  frecuenciaServicio?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  metrajeTotal?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  nit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  origenCliente?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  planActual?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  proximaVisita?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  razonSocial?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  representanteLegal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  score?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  subsegmento?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  ticketPromedio?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  tipoCliente?: Prisma.EnumTipoClienteFieldUpdateOperationsInput | $Enums.TipoCliente
+  ultimaVisita?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  citasPsicologos?: Prisma.CitasPsicologosUpdateManyWithoutPacienteNestedInput
   creadoPor?: Prisma.TenantMembershipUpdateOneWithoutClientesCreadosNestedInput
-  segmento?: Prisma.SegmentoNegocioUpdateOneWithoutClientesNestedInput
   riesgo?: Prisma.NivelRiesgoOperativoUpdateOneWithoutClientesNestedInput
+  segmento?: Prisma.SegmentoNegocioUpdateOneWithoutClientesNestedInput
+  tenant?: Prisma.TenantUpdateOneRequiredWithoutClientesNestedInput
   tipoInteres?: Prisma.TipoInteresUpdateOneWithoutClientesNestedInput
   direcciones?: Prisma.DireccionUpdateManyWithoutClienteNestedInput
-  vehiculos?: Prisma.VehiculoUpdateManyWithoutClienteNestedInput
   ordenesServicio?: Prisma.OrdenServicioUpdateManyWithoutClienteNestedInput
-  citasPsicologos?: Prisma.CitasPsicologosUpdateManyWithoutPacienteNestedInput
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoUpdateManyWithoutClienteNestedInput
+  vehiculos?: Prisma.VehiculoUpdateManyWithoutClienteNestedInput
 }
 
 export type ClienteUncheckedUpdateWithoutEmpresaInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   tenantId?: Prisma.StringFieldUpdateOperationsInput | string
-  tipoCliente?: Prisma.EnumTipoClienteFieldUpdateOperationsInput | $Enums.TipoCliente
   nombre?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   apellido?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  razonSocial?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  nit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  representanteLegal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  cargoContacto?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   telefono?: Prisma.StringFieldUpdateOperationsInput | string
   telefono2?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   correo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -3582,43 +3577,43 @@ export type ClienteUncheckedUpdateWithoutEmpresaInput = {
   tipoDocumento?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   registroDocumento?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   documentoPath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  origenCliente?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  tipoInteresId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  actividadEconomica?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  metrajeTotal?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  segmentoId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  riesgoId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  subsegmento?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  score?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  clasificacion?: Prisma.NullableEnumClasificacionClienteFieldUpdateOperationsInput | $Enums.ClasificacionCliente | null
-  ticketPromedio?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  frecuenciaServicio?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  ultimaVisita?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  proximaVisita?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  planActual?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  aceptaMarketing?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  fechaConsentimiento?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   creadoPorId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  direcciones?: Prisma.DireccionUncheckedUpdateManyWithoutClienteNestedInput
-  vehiculos?: Prisma.VehiculoUncheckedUpdateManyWithoutClienteNestedInput
-  ordenesServicio?: Prisma.OrdenServicioUncheckedUpdateManyWithoutClienteNestedInput
+  aceptaMarketing?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  actividadEconomica?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  cargoContacto?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  clasificacion?: Prisma.NullableEnumClasificacionClienteFieldUpdateOperationsInput | $Enums.ClasificacionCliente | null
+  fechaConsentimiento?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  frecuenciaServicio?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  metrajeTotal?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  nit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  origenCliente?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  planActual?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  proximaVisita?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  razonSocial?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  representanteLegal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  riesgoId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  score?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  segmentoId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  subsegmento?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  ticketPromedio?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  tipoCliente?: Prisma.EnumTipoClienteFieldUpdateOperationsInput | $Enums.TipoCliente
+  tipoInteresId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  ultimaVisita?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   citasPsicologos?: Prisma.CitasPsicologosUncheckedUpdateManyWithoutPacienteNestedInput
+  direcciones?: Prisma.DireccionUncheckedUpdateManyWithoutClienteNestedInput
+  ordenesServicio?: Prisma.OrdenServicioUncheckedUpdateManyWithoutClienteNestedInput
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoUncheckedUpdateManyWithoutClienteNestedInput
+  vehiculos?: Prisma.VehiculoUncheckedUpdateManyWithoutClienteNestedInput
 }
 
 export type ClienteUncheckedUpdateManyWithoutEmpresaInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   tenantId?: Prisma.StringFieldUpdateOperationsInput | string
-  tipoCliente?: Prisma.EnumTipoClienteFieldUpdateOperationsInput | $Enums.TipoCliente
   nombre?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   apellido?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  razonSocial?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  nit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  representanteLegal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  cargoContacto?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   telefono?: Prisma.StringFieldUpdateOperationsInput | string
   telefono2?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   correo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -3626,39 +3621,39 @@ export type ClienteUncheckedUpdateManyWithoutEmpresaInput = {
   tipoDocumento?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   registroDocumento?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   documentoPath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  origenCliente?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  tipoInteresId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  actividadEconomica?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  metrajeTotal?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  segmentoId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  riesgoId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  subsegmento?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  score?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  clasificacion?: Prisma.NullableEnumClasificacionClienteFieldUpdateOperationsInput | $Enums.ClasificacionCliente | null
-  ticketPromedio?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  frecuenciaServicio?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  ultimaVisita?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  proximaVisita?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  planActual?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  aceptaMarketing?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  fechaConsentimiento?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   creadoPorId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  aceptaMarketing?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  actividadEconomica?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  cargoContacto?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  clasificacion?: Prisma.NullableEnumClasificacionClienteFieldUpdateOperationsInput | $Enums.ClasificacionCliente | null
+  fechaConsentimiento?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  frecuenciaServicio?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  metrajeTotal?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  nit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  origenCliente?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  planActual?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  proximaVisita?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  razonSocial?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  representanteLegal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  riesgoId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  score?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  segmentoId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  subsegmento?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  ticketPromedio?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  tipoCliente?: Prisma.EnumTipoClienteFieldUpdateOperationsInput | $Enums.TipoCliente
+  tipoInteresId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  ultimaVisita?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type ClienteCreateManySegmentoInput = {
   id?: string
   tenantId: string
   empresaId: string
-  tipoCliente?: $Enums.TipoCliente
   nombre?: string | null
   apellido?: string | null
-  razonSocial?: string | null
-  nit?: string | null
-  representanteLegal?: string | null
-  cargoContacto?: string | null
   telefono: string
   telefono2?: string | null
   correo?: string | null
@@ -3666,36 +3661,36 @@ export type ClienteCreateManySegmentoInput = {
   tipoDocumento?: string | null
   registroDocumento?: string | null
   documentoPath?: string | null
-  origenCliente?: string | null
-  tipoInteresId?: string | null
-  actividadEconomica?: string | null
-  metrajeTotal?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  riesgoId?: string | null
-  subsegmento?: string | null
-  score?: number | null
-  clasificacion?: $Enums.ClasificacionCliente | null
-  ticketPromedio?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  frecuenciaServicio?: number | null
-  ultimaVisita?: Date | string | null
-  proximaVisita?: Date | string | null
-  planActual?: string | null
-  aceptaMarketing?: boolean
-  fechaConsentimiento?: Date | string | null
   creadoPorId?: string | null
   createdAt?: Date | string
-  updatedAt?: Date | string
   deletedAt?: Date | string | null
+  aceptaMarketing?: boolean
+  actividadEconomica?: string | null
+  cargoContacto?: string | null
+  clasificacion?: $Enums.ClasificacionCliente | null
+  fechaConsentimiento?: Date | string | null
+  frecuenciaServicio?: number | null
+  metrajeTotal?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  nit?: string | null
+  origenCliente?: string | null
+  planActual?: string | null
+  proximaVisita?: Date | string | null
+  razonSocial?: string | null
+  representanteLegal?: string | null
+  riesgoId?: string | null
+  score?: number | null
+  subsegmento?: string | null
+  ticketPromedio?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  tipoCliente?: $Enums.TipoCliente
+  tipoInteresId?: string | null
+  ultimaVisita?: Date | string | null
+  updatedAt?: Date | string
 }
 
 export type ClienteUpdateWithoutSegmentoInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  tipoCliente?: Prisma.EnumTipoClienteFieldUpdateOperationsInput | $Enums.TipoCliente
   nombre?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   apellido?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  razonSocial?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  nit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  representanteLegal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  cargoContacto?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   telefono?: Prisma.StringFieldUpdateOperationsInput | string
   telefono2?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   correo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -3703,45 +3698,45 @@ export type ClienteUpdateWithoutSegmentoInput = {
   tipoDocumento?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   registroDocumento?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   documentoPath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  origenCliente?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  actividadEconomica?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  metrajeTotal?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  subsegmento?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  score?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  clasificacion?: Prisma.NullableEnumClasificacionClienteFieldUpdateOperationsInput | $Enums.ClasificacionCliente | null
-  ticketPromedio?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  frecuenciaServicio?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  ultimaVisita?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  proximaVisita?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  planActual?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  aceptaMarketing?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  fechaConsentimiento?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  tenant?: Prisma.TenantUpdateOneRequiredWithoutClientesNestedInput
-  empresa?: Prisma.EmpresaUpdateOneRequiredWithoutClientesNestedInput
+  aceptaMarketing?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  actividadEconomica?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  cargoContacto?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  clasificacion?: Prisma.NullableEnumClasificacionClienteFieldUpdateOperationsInput | $Enums.ClasificacionCliente | null
+  fechaConsentimiento?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  frecuenciaServicio?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  metrajeTotal?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  nit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  origenCliente?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  planActual?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  proximaVisita?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  razonSocial?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  representanteLegal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  score?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  subsegmento?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  ticketPromedio?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  tipoCliente?: Prisma.EnumTipoClienteFieldUpdateOperationsInput | $Enums.TipoCliente
+  ultimaVisita?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  citasPsicologos?: Prisma.CitasPsicologosUpdateManyWithoutPacienteNestedInput
   creadoPor?: Prisma.TenantMembershipUpdateOneWithoutClientesCreadosNestedInput
+  empresa?: Prisma.EmpresaUpdateOneRequiredWithoutClientesNestedInput
   riesgo?: Prisma.NivelRiesgoOperativoUpdateOneWithoutClientesNestedInput
+  tenant?: Prisma.TenantUpdateOneRequiredWithoutClientesNestedInput
   tipoInteres?: Prisma.TipoInteresUpdateOneWithoutClientesNestedInput
   direcciones?: Prisma.DireccionUpdateManyWithoutClienteNestedInput
-  vehiculos?: Prisma.VehiculoUpdateManyWithoutClienteNestedInput
   ordenesServicio?: Prisma.OrdenServicioUpdateManyWithoutClienteNestedInput
-  citasPsicologos?: Prisma.CitasPsicologosUpdateManyWithoutPacienteNestedInput
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoUpdateManyWithoutClienteNestedInput
+  vehiculos?: Prisma.VehiculoUpdateManyWithoutClienteNestedInput
 }
 
 export type ClienteUncheckedUpdateWithoutSegmentoInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   tenantId?: Prisma.StringFieldUpdateOperationsInput | string
   empresaId?: Prisma.StringFieldUpdateOperationsInput | string
-  tipoCliente?: Prisma.EnumTipoClienteFieldUpdateOperationsInput | $Enums.TipoCliente
   nombre?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   apellido?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  razonSocial?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  nit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  representanteLegal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  cargoContacto?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   telefono?: Prisma.StringFieldUpdateOperationsInput | string
   telefono2?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   correo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -3749,43 +3744,43 @@ export type ClienteUncheckedUpdateWithoutSegmentoInput = {
   tipoDocumento?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   registroDocumento?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   documentoPath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  origenCliente?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  tipoInteresId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  actividadEconomica?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  metrajeTotal?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  riesgoId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  subsegmento?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  score?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  clasificacion?: Prisma.NullableEnumClasificacionClienteFieldUpdateOperationsInput | $Enums.ClasificacionCliente | null
-  ticketPromedio?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  frecuenciaServicio?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  ultimaVisita?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  proximaVisita?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  planActual?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  aceptaMarketing?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  fechaConsentimiento?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   creadoPorId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  direcciones?: Prisma.DireccionUncheckedUpdateManyWithoutClienteNestedInput
-  vehiculos?: Prisma.VehiculoUncheckedUpdateManyWithoutClienteNestedInput
-  ordenesServicio?: Prisma.OrdenServicioUncheckedUpdateManyWithoutClienteNestedInput
+  aceptaMarketing?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  actividadEconomica?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  cargoContacto?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  clasificacion?: Prisma.NullableEnumClasificacionClienteFieldUpdateOperationsInput | $Enums.ClasificacionCliente | null
+  fechaConsentimiento?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  frecuenciaServicio?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  metrajeTotal?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  nit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  origenCliente?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  planActual?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  proximaVisita?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  razonSocial?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  representanteLegal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  riesgoId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  score?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  subsegmento?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  ticketPromedio?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  tipoCliente?: Prisma.EnumTipoClienteFieldUpdateOperationsInput | $Enums.TipoCliente
+  tipoInteresId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  ultimaVisita?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   citasPsicologos?: Prisma.CitasPsicologosUncheckedUpdateManyWithoutPacienteNestedInput
+  direcciones?: Prisma.DireccionUncheckedUpdateManyWithoutClienteNestedInput
+  ordenesServicio?: Prisma.OrdenServicioUncheckedUpdateManyWithoutClienteNestedInput
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoUncheckedUpdateManyWithoutClienteNestedInput
+  vehiculos?: Prisma.VehiculoUncheckedUpdateManyWithoutClienteNestedInput
 }
 
 export type ClienteUncheckedUpdateManyWithoutSegmentoInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   tenantId?: Prisma.StringFieldUpdateOperationsInput | string
   empresaId?: Prisma.StringFieldUpdateOperationsInput | string
-  tipoCliente?: Prisma.EnumTipoClienteFieldUpdateOperationsInput | $Enums.TipoCliente
   nombre?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   apellido?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  razonSocial?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  nit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  representanteLegal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  cargoContacto?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   telefono?: Prisma.StringFieldUpdateOperationsInput | string
   telefono2?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   correo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -3793,38 +3788,38 @@ export type ClienteUncheckedUpdateManyWithoutSegmentoInput = {
   tipoDocumento?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   registroDocumento?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   documentoPath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  origenCliente?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  tipoInteresId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  actividadEconomica?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  metrajeTotal?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  riesgoId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  subsegmento?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  score?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  clasificacion?: Prisma.NullableEnumClasificacionClienteFieldUpdateOperationsInput | $Enums.ClasificacionCliente | null
-  ticketPromedio?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  frecuenciaServicio?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  ultimaVisita?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  proximaVisita?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  planActual?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  aceptaMarketing?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  fechaConsentimiento?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   creadoPorId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  aceptaMarketing?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  actividadEconomica?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  cargoContacto?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  clasificacion?: Prisma.NullableEnumClasificacionClienteFieldUpdateOperationsInput | $Enums.ClasificacionCliente | null
+  fechaConsentimiento?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  frecuenciaServicio?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  metrajeTotal?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  nit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  origenCliente?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  planActual?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  proximaVisita?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  razonSocial?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  representanteLegal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  riesgoId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  score?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  subsegmento?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  ticketPromedio?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  tipoCliente?: Prisma.EnumTipoClienteFieldUpdateOperationsInput | $Enums.TipoCliente
+  tipoInteresId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  ultimaVisita?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type ClienteCreateManyRiesgoInput = {
   id?: string
   tenantId: string
   empresaId: string
-  tipoCliente?: $Enums.TipoCliente
   nombre?: string | null
   apellido?: string | null
-  razonSocial?: string | null
-  nit?: string | null
-  representanteLegal?: string | null
-  cargoContacto?: string | null
   telefono: string
   telefono2?: string | null
   correo?: string | null
@@ -3832,36 +3827,36 @@ export type ClienteCreateManyRiesgoInput = {
   tipoDocumento?: string | null
   registroDocumento?: string | null
   documentoPath?: string | null
-  origenCliente?: string | null
-  tipoInteresId?: string | null
-  actividadEconomica?: string | null
-  metrajeTotal?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  segmentoId?: string | null
-  subsegmento?: string | null
-  score?: number | null
-  clasificacion?: $Enums.ClasificacionCliente | null
-  ticketPromedio?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  frecuenciaServicio?: number | null
-  ultimaVisita?: Date | string | null
-  proximaVisita?: Date | string | null
-  planActual?: string | null
-  aceptaMarketing?: boolean
-  fechaConsentimiento?: Date | string | null
   creadoPorId?: string | null
   createdAt?: Date | string
-  updatedAt?: Date | string
   deletedAt?: Date | string | null
+  aceptaMarketing?: boolean
+  actividadEconomica?: string | null
+  cargoContacto?: string | null
+  clasificacion?: $Enums.ClasificacionCliente | null
+  fechaConsentimiento?: Date | string | null
+  frecuenciaServicio?: number | null
+  metrajeTotal?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  nit?: string | null
+  origenCliente?: string | null
+  planActual?: string | null
+  proximaVisita?: Date | string | null
+  razonSocial?: string | null
+  representanteLegal?: string | null
+  score?: number | null
+  segmentoId?: string | null
+  subsegmento?: string | null
+  ticketPromedio?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  tipoCliente?: $Enums.TipoCliente
+  tipoInteresId?: string | null
+  ultimaVisita?: Date | string | null
+  updatedAt?: Date | string
 }
 
 export type ClienteUpdateWithoutRiesgoInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  tipoCliente?: Prisma.EnumTipoClienteFieldUpdateOperationsInput | $Enums.TipoCliente
   nombre?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   apellido?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  razonSocial?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  nit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  representanteLegal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  cargoContacto?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   telefono?: Prisma.StringFieldUpdateOperationsInput | string
   telefono2?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   correo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -3869,45 +3864,45 @@ export type ClienteUpdateWithoutRiesgoInput = {
   tipoDocumento?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   registroDocumento?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   documentoPath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  origenCliente?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  actividadEconomica?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  metrajeTotal?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  subsegmento?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  score?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  clasificacion?: Prisma.NullableEnumClasificacionClienteFieldUpdateOperationsInput | $Enums.ClasificacionCliente | null
-  ticketPromedio?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  frecuenciaServicio?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  ultimaVisita?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  proximaVisita?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  planActual?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  aceptaMarketing?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  fechaConsentimiento?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  tenant?: Prisma.TenantUpdateOneRequiredWithoutClientesNestedInput
-  empresa?: Prisma.EmpresaUpdateOneRequiredWithoutClientesNestedInput
+  aceptaMarketing?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  actividadEconomica?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  cargoContacto?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  clasificacion?: Prisma.NullableEnumClasificacionClienteFieldUpdateOperationsInput | $Enums.ClasificacionCliente | null
+  fechaConsentimiento?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  frecuenciaServicio?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  metrajeTotal?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  nit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  origenCliente?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  planActual?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  proximaVisita?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  razonSocial?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  representanteLegal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  score?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  subsegmento?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  ticketPromedio?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  tipoCliente?: Prisma.EnumTipoClienteFieldUpdateOperationsInput | $Enums.TipoCliente
+  ultimaVisita?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  citasPsicologos?: Prisma.CitasPsicologosUpdateManyWithoutPacienteNestedInput
   creadoPor?: Prisma.TenantMembershipUpdateOneWithoutClientesCreadosNestedInput
+  empresa?: Prisma.EmpresaUpdateOneRequiredWithoutClientesNestedInput
   segmento?: Prisma.SegmentoNegocioUpdateOneWithoutClientesNestedInput
+  tenant?: Prisma.TenantUpdateOneRequiredWithoutClientesNestedInput
   tipoInteres?: Prisma.TipoInteresUpdateOneWithoutClientesNestedInput
   direcciones?: Prisma.DireccionUpdateManyWithoutClienteNestedInput
-  vehiculos?: Prisma.VehiculoUpdateManyWithoutClienteNestedInput
   ordenesServicio?: Prisma.OrdenServicioUpdateManyWithoutClienteNestedInput
-  citasPsicologos?: Prisma.CitasPsicologosUpdateManyWithoutPacienteNestedInput
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoUpdateManyWithoutClienteNestedInput
+  vehiculos?: Prisma.VehiculoUpdateManyWithoutClienteNestedInput
 }
 
 export type ClienteUncheckedUpdateWithoutRiesgoInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   tenantId?: Prisma.StringFieldUpdateOperationsInput | string
   empresaId?: Prisma.StringFieldUpdateOperationsInput | string
-  tipoCliente?: Prisma.EnumTipoClienteFieldUpdateOperationsInput | $Enums.TipoCliente
   nombre?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   apellido?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  razonSocial?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  nit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  representanteLegal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  cargoContacto?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   telefono?: Prisma.StringFieldUpdateOperationsInput | string
   telefono2?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   correo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -3915,43 +3910,43 @@ export type ClienteUncheckedUpdateWithoutRiesgoInput = {
   tipoDocumento?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   registroDocumento?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   documentoPath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  origenCliente?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  tipoInteresId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  actividadEconomica?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  metrajeTotal?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  segmentoId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  subsegmento?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  score?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  clasificacion?: Prisma.NullableEnumClasificacionClienteFieldUpdateOperationsInput | $Enums.ClasificacionCliente | null
-  ticketPromedio?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  frecuenciaServicio?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  ultimaVisita?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  proximaVisita?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  planActual?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  aceptaMarketing?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  fechaConsentimiento?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   creadoPorId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  direcciones?: Prisma.DireccionUncheckedUpdateManyWithoutClienteNestedInput
-  vehiculos?: Prisma.VehiculoUncheckedUpdateManyWithoutClienteNestedInput
-  ordenesServicio?: Prisma.OrdenServicioUncheckedUpdateManyWithoutClienteNestedInput
+  aceptaMarketing?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  actividadEconomica?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  cargoContacto?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  clasificacion?: Prisma.NullableEnumClasificacionClienteFieldUpdateOperationsInput | $Enums.ClasificacionCliente | null
+  fechaConsentimiento?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  frecuenciaServicio?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  metrajeTotal?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  nit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  origenCliente?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  planActual?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  proximaVisita?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  razonSocial?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  representanteLegal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  score?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  segmentoId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  subsegmento?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  ticketPromedio?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  tipoCliente?: Prisma.EnumTipoClienteFieldUpdateOperationsInput | $Enums.TipoCliente
+  tipoInteresId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  ultimaVisita?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   citasPsicologos?: Prisma.CitasPsicologosUncheckedUpdateManyWithoutPacienteNestedInput
+  direcciones?: Prisma.DireccionUncheckedUpdateManyWithoutClienteNestedInput
+  ordenesServicio?: Prisma.OrdenServicioUncheckedUpdateManyWithoutClienteNestedInput
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoUncheckedUpdateManyWithoutClienteNestedInput
+  vehiculos?: Prisma.VehiculoUncheckedUpdateManyWithoutClienteNestedInput
 }
 
 export type ClienteUncheckedUpdateManyWithoutRiesgoInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   tenantId?: Prisma.StringFieldUpdateOperationsInput | string
   empresaId?: Prisma.StringFieldUpdateOperationsInput | string
-  tipoCliente?: Prisma.EnumTipoClienteFieldUpdateOperationsInput | $Enums.TipoCliente
   nombre?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   apellido?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  razonSocial?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  nit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  representanteLegal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  cargoContacto?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   telefono?: Prisma.StringFieldUpdateOperationsInput | string
   telefono2?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   correo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -3959,38 +3954,38 @@ export type ClienteUncheckedUpdateManyWithoutRiesgoInput = {
   tipoDocumento?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   registroDocumento?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   documentoPath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  origenCliente?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  tipoInteresId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  actividadEconomica?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  metrajeTotal?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  segmentoId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  subsegmento?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  score?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  clasificacion?: Prisma.NullableEnumClasificacionClienteFieldUpdateOperationsInput | $Enums.ClasificacionCliente | null
-  ticketPromedio?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  frecuenciaServicio?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  ultimaVisita?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  proximaVisita?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  planActual?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  aceptaMarketing?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  fechaConsentimiento?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   creadoPorId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  aceptaMarketing?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  actividadEconomica?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  cargoContacto?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  clasificacion?: Prisma.NullableEnumClasificacionClienteFieldUpdateOperationsInput | $Enums.ClasificacionCliente | null
+  fechaConsentimiento?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  frecuenciaServicio?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  metrajeTotal?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  nit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  origenCliente?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  planActual?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  proximaVisita?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  razonSocial?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  representanteLegal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  score?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  segmentoId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  subsegmento?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  ticketPromedio?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  tipoCliente?: Prisma.EnumTipoClienteFieldUpdateOperationsInput | $Enums.TipoCliente
+  tipoInteresId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  ultimaVisita?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type ClienteCreateManyTipoInteresInput = {
   id?: string
   tenantId: string
   empresaId: string
-  tipoCliente?: $Enums.TipoCliente
   nombre?: string | null
   apellido?: string | null
-  razonSocial?: string | null
-  nit?: string | null
-  representanteLegal?: string | null
-  cargoContacto?: string | null
   telefono: string
   telefono2?: string | null
   correo?: string | null
@@ -3998,36 +3993,36 @@ export type ClienteCreateManyTipoInteresInput = {
   tipoDocumento?: string | null
   registroDocumento?: string | null
   documentoPath?: string | null
-  origenCliente?: string | null
-  actividadEconomica?: string | null
-  metrajeTotal?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  segmentoId?: string | null
-  riesgoId?: string | null
-  subsegmento?: string | null
-  score?: number | null
-  clasificacion?: $Enums.ClasificacionCliente | null
-  ticketPromedio?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  frecuenciaServicio?: number | null
-  ultimaVisita?: Date | string | null
-  proximaVisita?: Date | string | null
-  planActual?: string | null
-  aceptaMarketing?: boolean
-  fechaConsentimiento?: Date | string | null
   creadoPorId?: string | null
   createdAt?: Date | string
-  updatedAt?: Date | string
   deletedAt?: Date | string | null
+  aceptaMarketing?: boolean
+  actividadEconomica?: string | null
+  cargoContacto?: string | null
+  clasificacion?: $Enums.ClasificacionCliente | null
+  fechaConsentimiento?: Date | string | null
+  frecuenciaServicio?: number | null
+  metrajeTotal?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  nit?: string | null
+  origenCliente?: string | null
+  planActual?: string | null
+  proximaVisita?: Date | string | null
+  razonSocial?: string | null
+  representanteLegal?: string | null
+  riesgoId?: string | null
+  score?: number | null
+  segmentoId?: string | null
+  subsegmento?: string | null
+  ticketPromedio?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  tipoCliente?: $Enums.TipoCliente
+  ultimaVisita?: Date | string | null
+  updatedAt?: Date | string
 }
 
 export type ClienteUpdateWithoutTipoInteresInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  tipoCliente?: Prisma.EnumTipoClienteFieldUpdateOperationsInput | $Enums.TipoCliente
   nombre?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   apellido?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  razonSocial?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  nit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  representanteLegal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  cargoContacto?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   telefono?: Prisma.StringFieldUpdateOperationsInput | string
   telefono2?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   correo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -4035,45 +4030,45 @@ export type ClienteUpdateWithoutTipoInteresInput = {
   tipoDocumento?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   registroDocumento?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   documentoPath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  origenCliente?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  actividadEconomica?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  metrajeTotal?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  subsegmento?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  score?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  clasificacion?: Prisma.NullableEnumClasificacionClienteFieldUpdateOperationsInput | $Enums.ClasificacionCliente | null
-  ticketPromedio?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  frecuenciaServicio?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  ultimaVisita?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  proximaVisita?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  planActual?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  aceptaMarketing?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  fechaConsentimiento?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  tenant?: Prisma.TenantUpdateOneRequiredWithoutClientesNestedInput
-  empresa?: Prisma.EmpresaUpdateOneRequiredWithoutClientesNestedInput
-  creadoPor?: Prisma.TenantMembershipUpdateOneWithoutClientesCreadosNestedInput
-  segmento?: Prisma.SegmentoNegocioUpdateOneWithoutClientesNestedInput
-  riesgo?: Prisma.NivelRiesgoOperativoUpdateOneWithoutClientesNestedInput
-  direcciones?: Prisma.DireccionUpdateManyWithoutClienteNestedInput
-  vehiculos?: Prisma.VehiculoUpdateManyWithoutClienteNestedInput
-  ordenesServicio?: Prisma.OrdenServicioUpdateManyWithoutClienteNestedInput
+  aceptaMarketing?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  actividadEconomica?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  cargoContacto?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  clasificacion?: Prisma.NullableEnumClasificacionClienteFieldUpdateOperationsInput | $Enums.ClasificacionCliente | null
+  fechaConsentimiento?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  frecuenciaServicio?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  metrajeTotal?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  nit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  origenCliente?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  planActual?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  proximaVisita?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  razonSocial?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  representanteLegal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  score?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  subsegmento?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  ticketPromedio?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  tipoCliente?: Prisma.EnumTipoClienteFieldUpdateOperationsInput | $Enums.TipoCliente
+  ultimaVisita?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   citasPsicologos?: Prisma.CitasPsicologosUpdateManyWithoutPacienteNestedInput
+  creadoPor?: Prisma.TenantMembershipUpdateOneWithoutClientesCreadosNestedInput
+  empresa?: Prisma.EmpresaUpdateOneRequiredWithoutClientesNestedInput
+  riesgo?: Prisma.NivelRiesgoOperativoUpdateOneWithoutClientesNestedInput
+  segmento?: Prisma.SegmentoNegocioUpdateOneWithoutClientesNestedInput
+  tenant?: Prisma.TenantUpdateOneRequiredWithoutClientesNestedInput
+  direcciones?: Prisma.DireccionUpdateManyWithoutClienteNestedInput
+  ordenesServicio?: Prisma.OrdenServicioUpdateManyWithoutClienteNestedInput
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoUpdateManyWithoutClienteNestedInput
+  vehiculos?: Prisma.VehiculoUpdateManyWithoutClienteNestedInput
 }
 
 export type ClienteUncheckedUpdateWithoutTipoInteresInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   tenantId?: Prisma.StringFieldUpdateOperationsInput | string
   empresaId?: Prisma.StringFieldUpdateOperationsInput | string
-  tipoCliente?: Prisma.EnumTipoClienteFieldUpdateOperationsInput | $Enums.TipoCliente
   nombre?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   apellido?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  razonSocial?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  nit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  representanteLegal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  cargoContacto?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   telefono?: Prisma.StringFieldUpdateOperationsInput | string
   telefono2?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   correo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -4081,43 +4076,43 @@ export type ClienteUncheckedUpdateWithoutTipoInteresInput = {
   tipoDocumento?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   registroDocumento?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   documentoPath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  origenCliente?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  actividadEconomica?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  metrajeTotal?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  segmentoId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  riesgoId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  subsegmento?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  score?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  clasificacion?: Prisma.NullableEnumClasificacionClienteFieldUpdateOperationsInput | $Enums.ClasificacionCliente | null
-  ticketPromedio?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  frecuenciaServicio?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  ultimaVisita?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  proximaVisita?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  planActual?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  aceptaMarketing?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  fechaConsentimiento?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   creadoPorId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  direcciones?: Prisma.DireccionUncheckedUpdateManyWithoutClienteNestedInput
-  vehiculos?: Prisma.VehiculoUncheckedUpdateManyWithoutClienteNestedInput
-  ordenesServicio?: Prisma.OrdenServicioUncheckedUpdateManyWithoutClienteNestedInput
+  aceptaMarketing?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  actividadEconomica?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  cargoContacto?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  clasificacion?: Prisma.NullableEnumClasificacionClienteFieldUpdateOperationsInput | $Enums.ClasificacionCliente | null
+  fechaConsentimiento?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  frecuenciaServicio?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  metrajeTotal?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  nit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  origenCliente?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  planActual?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  proximaVisita?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  razonSocial?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  representanteLegal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  riesgoId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  score?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  segmentoId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  subsegmento?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  ticketPromedio?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  tipoCliente?: Prisma.EnumTipoClienteFieldUpdateOperationsInput | $Enums.TipoCliente
+  ultimaVisita?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   citasPsicologos?: Prisma.CitasPsicologosUncheckedUpdateManyWithoutPacienteNestedInput
+  direcciones?: Prisma.DireccionUncheckedUpdateManyWithoutClienteNestedInput
+  ordenesServicio?: Prisma.OrdenServicioUncheckedUpdateManyWithoutClienteNestedInput
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoUncheckedUpdateManyWithoutClienteNestedInput
+  vehiculos?: Prisma.VehiculoUncheckedUpdateManyWithoutClienteNestedInput
 }
 
 export type ClienteUncheckedUpdateManyWithoutTipoInteresInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   tenantId?: Prisma.StringFieldUpdateOperationsInput | string
   empresaId?: Prisma.StringFieldUpdateOperationsInput | string
-  tipoCliente?: Prisma.EnumTipoClienteFieldUpdateOperationsInput | $Enums.TipoCliente
   nombre?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   apellido?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  razonSocial?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  nit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  representanteLegal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  cargoContacto?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   telefono?: Prisma.StringFieldUpdateOperationsInput | string
   telefono2?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   correo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -4125,25 +4120,30 @@ export type ClienteUncheckedUpdateManyWithoutTipoInteresInput = {
   tipoDocumento?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   registroDocumento?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   documentoPath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  origenCliente?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  actividadEconomica?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  metrajeTotal?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  segmentoId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  riesgoId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  subsegmento?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  score?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  clasificacion?: Prisma.NullableEnumClasificacionClienteFieldUpdateOperationsInput | $Enums.ClasificacionCliente | null
-  ticketPromedio?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  frecuenciaServicio?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  ultimaVisita?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  proximaVisita?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  planActual?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  aceptaMarketing?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  fechaConsentimiento?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   creadoPorId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  aceptaMarketing?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  actividadEconomica?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  cargoContacto?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  clasificacion?: Prisma.NullableEnumClasificacionClienteFieldUpdateOperationsInput | $Enums.ClasificacionCliente | null
+  fechaConsentimiento?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  frecuenciaServicio?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  metrajeTotal?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  nit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  origenCliente?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  planActual?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  proximaVisita?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  razonSocial?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  representanteLegal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  riesgoId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  score?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  segmentoId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  subsegmento?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  ticketPromedio?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  tipoCliente?: Prisma.EnumTipoClienteFieldUpdateOperationsInput | $Enums.TipoCliente
+  ultimaVisita?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 
@@ -4152,19 +4152,19 @@ export type ClienteUncheckedUpdateManyWithoutTipoInteresInput = {
  */
 
 export type ClienteCountOutputType = {
-  direcciones: number
-  vehiculos: number
-  ordenesServicio: number
   citasPsicologos: number
+  direcciones: number
+  ordenesServicio: number
   paquetesAdquiridos: number
+  vehiculos: number
 }
 
 export type ClienteCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  direcciones?: boolean | ClienteCountOutputTypeCountDireccionesArgs
-  vehiculos?: boolean | ClienteCountOutputTypeCountVehiculosArgs
-  ordenesServicio?: boolean | ClienteCountOutputTypeCountOrdenesServicioArgs
   citasPsicologos?: boolean | ClienteCountOutputTypeCountCitasPsicologosArgs
+  direcciones?: boolean | ClienteCountOutputTypeCountDireccionesArgs
+  ordenesServicio?: boolean | ClienteCountOutputTypeCountOrdenesServicioArgs
   paquetesAdquiridos?: boolean | ClienteCountOutputTypeCountPaquetesAdquiridosArgs
+  vehiculos?: boolean | ClienteCountOutputTypeCountVehiculosArgs
 }
 
 /**
@@ -4180,15 +4180,15 @@ export type ClienteCountOutputTypeDefaultArgs<ExtArgs extends runtime.Types.Exte
 /**
  * ClienteCountOutputType without action
  */
-export type ClienteCountOutputTypeCountDireccionesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.DireccionWhereInput
+export type ClienteCountOutputTypeCountCitasPsicologosArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.CitasPsicologosWhereInput
 }
 
 /**
  * ClienteCountOutputType without action
  */
-export type ClienteCountOutputTypeCountVehiculosArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.VehiculoWhereInput
+export type ClienteCountOutputTypeCountDireccionesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.DireccionWhereInput
 }
 
 /**
@@ -4201,15 +4201,15 @@ export type ClienteCountOutputTypeCountOrdenesServicioArgs<ExtArgs extends runti
 /**
  * ClienteCountOutputType without action
  */
-export type ClienteCountOutputTypeCountCitasPsicologosArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.CitasPsicologosWhereInput
+export type ClienteCountOutputTypeCountPaquetesAdquiridosArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.PaqueteAdquiridoWhereInput
 }
 
 /**
  * ClienteCountOutputType without action
  */
-export type ClienteCountOutputTypeCountPaquetesAdquiridosArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.PaqueteAdquiridoWhereInput
+export type ClienteCountOutputTypeCountVehiculosArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.VehiculoWhereInput
 }
 
 
@@ -4217,13 +4217,8 @@ export type ClienteSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs 
   id?: boolean
   tenantId?: boolean
   empresaId?: boolean
-  tipoCliente?: boolean
   nombre?: boolean
   apellido?: boolean
-  razonSocial?: boolean
-  nit?: boolean
-  representanteLegal?: boolean
-  cargoContacto?: boolean
   telefono?: boolean
   telefono2?: boolean
   correo?: boolean
@@ -4231,37 +4226,42 @@ export type ClienteSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs 
   tipoDocumento?: boolean
   registroDocumento?: boolean
   documentoPath?: boolean
-  origenCliente?: boolean
-  tipoInteresId?: boolean
-  actividadEconomica?: boolean
-  metrajeTotal?: boolean
-  segmentoId?: boolean
-  riesgoId?: boolean
-  subsegmento?: boolean
-  score?: boolean
-  clasificacion?: boolean
-  ticketPromedio?: boolean
-  frecuenciaServicio?: boolean
-  ultimaVisita?: boolean
-  proximaVisita?: boolean
-  planActual?: boolean
-  aceptaMarketing?: boolean
-  fechaConsentimiento?: boolean
   creadoPorId?: boolean
   createdAt?: boolean
-  updatedAt?: boolean
   deletedAt?: boolean
-  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
-  empresa?: boolean | Prisma.EmpresaDefaultArgs<ExtArgs>
+  aceptaMarketing?: boolean
+  actividadEconomica?: boolean
+  cargoContacto?: boolean
+  clasificacion?: boolean
+  fechaConsentimiento?: boolean
+  frecuenciaServicio?: boolean
+  metrajeTotal?: boolean
+  nit?: boolean
+  origenCliente?: boolean
+  planActual?: boolean
+  proximaVisita?: boolean
+  razonSocial?: boolean
+  representanteLegal?: boolean
+  riesgoId?: boolean
+  score?: boolean
+  segmentoId?: boolean
+  subsegmento?: boolean
+  ticketPromedio?: boolean
+  tipoCliente?: boolean
+  tipoInteresId?: boolean
+  ultimaVisita?: boolean
+  updatedAt?: boolean
+  citasPsicologos?: boolean | Prisma.Cliente$citasPsicologosArgs<ExtArgs>
   creadoPor?: boolean | Prisma.Cliente$creadoPorArgs<ExtArgs>
-  segmento?: boolean | Prisma.Cliente$segmentoArgs<ExtArgs>
+  empresa?: boolean | Prisma.EmpresaDefaultArgs<ExtArgs>
   riesgo?: boolean | Prisma.Cliente$riesgoArgs<ExtArgs>
+  segmento?: boolean | Prisma.Cliente$segmentoArgs<ExtArgs>
+  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
   tipoInteres?: boolean | Prisma.Cliente$tipoInteresArgs<ExtArgs>
   direcciones?: boolean | Prisma.Cliente$direccionesArgs<ExtArgs>
-  vehiculos?: boolean | Prisma.Cliente$vehiculosArgs<ExtArgs>
   ordenesServicio?: boolean | Prisma.Cliente$ordenesServicioArgs<ExtArgs>
-  citasPsicologos?: boolean | Prisma.Cliente$citasPsicologosArgs<ExtArgs>
   paquetesAdquiridos?: boolean | Prisma.Cliente$paquetesAdquiridosArgs<ExtArgs>
+  vehiculos?: boolean | Prisma.Cliente$vehiculosArgs<ExtArgs>
   _count?: boolean | Prisma.ClienteCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["cliente"]>
 
@@ -4269,13 +4269,8 @@ export type ClienteSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Exten
   id?: boolean
   tenantId?: boolean
   empresaId?: boolean
-  tipoCliente?: boolean
   nombre?: boolean
   apellido?: boolean
-  razonSocial?: boolean
-  nit?: boolean
-  representanteLegal?: boolean
-  cargoContacto?: boolean
   telefono?: boolean
   telefono2?: boolean
   correo?: boolean
@@ -4283,31 +4278,36 @@ export type ClienteSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Exten
   tipoDocumento?: boolean
   registroDocumento?: boolean
   documentoPath?: boolean
-  origenCliente?: boolean
-  tipoInteresId?: boolean
-  actividadEconomica?: boolean
-  metrajeTotal?: boolean
-  segmentoId?: boolean
-  riesgoId?: boolean
-  subsegmento?: boolean
-  score?: boolean
-  clasificacion?: boolean
-  ticketPromedio?: boolean
-  frecuenciaServicio?: boolean
-  ultimaVisita?: boolean
-  proximaVisita?: boolean
-  planActual?: boolean
-  aceptaMarketing?: boolean
-  fechaConsentimiento?: boolean
   creadoPorId?: boolean
   createdAt?: boolean
-  updatedAt?: boolean
   deletedAt?: boolean
-  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
-  empresa?: boolean | Prisma.EmpresaDefaultArgs<ExtArgs>
+  aceptaMarketing?: boolean
+  actividadEconomica?: boolean
+  cargoContacto?: boolean
+  clasificacion?: boolean
+  fechaConsentimiento?: boolean
+  frecuenciaServicio?: boolean
+  metrajeTotal?: boolean
+  nit?: boolean
+  origenCliente?: boolean
+  planActual?: boolean
+  proximaVisita?: boolean
+  razonSocial?: boolean
+  representanteLegal?: boolean
+  riesgoId?: boolean
+  score?: boolean
+  segmentoId?: boolean
+  subsegmento?: boolean
+  ticketPromedio?: boolean
+  tipoCliente?: boolean
+  tipoInteresId?: boolean
+  ultimaVisita?: boolean
+  updatedAt?: boolean
   creadoPor?: boolean | Prisma.Cliente$creadoPorArgs<ExtArgs>
-  segmento?: boolean | Prisma.Cliente$segmentoArgs<ExtArgs>
+  empresa?: boolean | Prisma.EmpresaDefaultArgs<ExtArgs>
   riesgo?: boolean | Prisma.Cliente$riesgoArgs<ExtArgs>
+  segmento?: boolean | Prisma.Cliente$segmentoArgs<ExtArgs>
+  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
   tipoInteres?: boolean | Prisma.Cliente$tipoInteresArgs<ExtArgs>
 }, ExtArgs["result"]["cliente"]>
 
@@ -4315,13 +4315,8 @@ export type ClienteSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Exten
   id?: boolean
   tenantId?: boolean
   empresaId?: boolean
-  tipoCliente?: boolean
   nombre?: boolean
   apellido?: boolean
-  razonSocial?: boolean
-  nit?: boolean
-  representanteLegal?: boolean
-  cargoContacto?: boolean
   telefono?: boolean
   telefono2?: boolean
   correo?: boolean
@@ -4329,31 +4324,36 @@ export type ClienteSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Exten
   tipoDocumento?: boolean
   registroDocumento?: boolean
   documentoPath?: boolean
-  origenCliente?: boolean
-  tipoInteresId?: boolean
-  actividadEconomica?: boolean
-  metrajeTotal?: boolean
-  segmentoId?: boolean
-  riesgoId?: boolean
-  subsegmento?: boolean
-  score?: boolean
-  clasificacion?: boolean
-  ticketPromedio?: boolean
-  frecuenciaServicio?: boolean
-  ultimaVisita?: boolean
-  proximaVisita?: boolean
-  planActual?: boolean
-  aceptaMarketing?: boolean
-  fechaConsentimiento?: boolean
   creadoPorId?: boolean
   createdAt?: boolean
-  updatedAt?: boolean
   deletedAt?: boolean
-  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
-  empresa?: boolean | Prisma.EmpresaDefaultArgs<ExtArgs>
+  aceptaMarketing?: boolean
+  actividadEconomica?: boolean
+  cargoContacto?: boolean
+  clasificacion?: boolean
+  fechaConsentimiento?: boolean
+  frecuenciaServicio?: boolean
+  metrajeTotal?: boolean
+  nit?: boolean
+  origenCliente?: boolean
+  planActual?: boolean
+  proximaVisita?: boolean
+  razonSocial?: boolean
+  representanteLegal?: boolean
+  riesgoId?: boolean
+  score?: boolean
+  segmentoId?: boolean
+  subsegmento?: boolean
+  ticketPromedio?: boolean
+  tipoCliente?: boolean
+  tipoInteresId?: boolean
+  ultimaVisita?: boolean
+  updatedAt?: boolean
   creadoPor?: boolean | Prisma.Cliente$creadoPorArgs<ExtArgs>
-  segmento?: boolean | Prisma.Cliente$segmentoArgs<ExtArgs>
+  empresa?: boolean | Prisma.EmpresaDefaultArgs<ExtArgs>
   riesgo?: boolean | Prisma.Cliente$riesgoArgs<ExtArgs>
+  segmento?: boolean | Prisma.Cliente$segmentoArgs<ExtArgs>
+  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
   tipoInteres?: boolean | Prisma.Cliente$tipoInteresArgs<ExtArgs>
 }, ExtArgs["result"]["cliente"]>
 
@@ -4361,13 +4361,8 @@ export type ClienteSelectScalar = {
   id?: boolean
   tenantId?: boolean
   empresaId?: boolean
-  tipoCliente?: boolean
   nombre?: boolean
   apellido?: boolean
-  razonSocial?: boolean
-  nit?: boolean
-  representanteLegal?: boolean
-  cargoContacto?: boolean
   telefono?: boolean
   telefono2?: boolean
   correo?: boolean
@@ -4375,86 +4370,86 @@ export type ClienteSelectScalar = {
   tipoDocumento?: boolean
   registroDocumento?: boolean
   documentoPath?: boolean
-  origenCliente?: boolean
-  tipoInteresId?: boolean
-  actividadEconomica?: boolean
-  metrajeTotal?: boolean
-  segmentoId?: boolean
-  riesgoId?: boolean
-  subsegmento?: boolean
-  score?: boolean
-  clasificacion?: boolean
-  ticketPromedio?: boolean
-  frecuenciaServicio?: boolean
-  ultimaVisita?: boolean
-  proximaVisita?: boolean
-  planActual?: boolean
-  aceptaMarketing?: boolean
-  fechaConsentimiento?: boolean
   creadoPorId?: boolean
   createdAt?: boolean
-  updatedAt?: boolean
   deletedAt?: boolean
+  aceptaMarketing?: boolean
+  actividadEconomica?: boolean
+  cargoContacto?: boolean
+  clasificacion?: boolean
+  fechaConsentimiento?: boolean
+  frecuenciaServicio?: boolean
+  metrajeTotal?: boolean
+  nit?: boolean
+  origenCliente?: boolean
+  planActual?: boolean
+  proximaVisita?: boolean
+  razonSocial?: boolean
+  representanteLegal?: boolean
+  riesgoId?: boolean
+  score?: boolean
+  segmentoId?: boolean
+  subsegmento?: boolean
+  ticketPromedio?: boolean
+  tipoCliente?: boolean
+  tipoInteresId?: boolean
+  ultimaVisita?: boolean
+  updatedAt?: boolean
 }
 
-export type ClienteOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "tenantId" | "empresaId" | "tipoCliente" | "nombre" | "apellido" | "razonSocial" | "nit" | "representanteLegal" | "cargoContacto" | "telefono" | "telefono2" | "correo" | "numeroDocumento" | "tipoDocumento" | "registroDocumento" | "documentoPath" | "origenCliente" | "tipoInteresId" | "actividadEconomica" | "metrajeTotal" | "segmentoId" | "riesgoId" | "subsegmento" | "score" | "clasificacion" | "ticketPromedio" | "frecuenciaServicio" | "ultimaVisita" | "proximaVisita" | "planActual" | "aceptaMarketing" | "fechaConsentimiento" | "creadoPorId" | "createdAt" | "updatedAt" | "deletedAt", ExtArgs["result"]["cliente"]>
+export type ClienteOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "tenantId" | "empresaId" | "nombre" | "apellido" | "telefono" | "telefono2" | "correo" | "numeroDocumento" | "tipoDocumento" | "registroDocumento" | "documentoPath" | "creadoPorId" | "createdAt" | "deletedAt" | "aceptaMarketing" | "actividadEconomica" | "cargoContacto" | "clasificacion" | "fechaConsentimiento" | "frecuenciaServicio" | "metrajeTotal" | "nit" | "origenCliente" | "planActual" | "proximaVisita" | "razonSocial" | "representanteLegal" | "riesgoId" | "score" | "segmentoId" | "subsegmento" | "ticketPromedio" | "tipoCliente" | "tipoInteresId" | "ultimaVisita" | "updatedAt", ExtArgs["result"]["cliente"]>
 export type ClienteInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
-  empresa?: boolean | Prisma.EmpresaDefaultArgs<ExtArgs>
+  citasPsicologos?: boolean | Prisma.Cliente$citasPsicologosArgs<ExtArgs>
   creadoPor?: boolean | Prisma.Cliente$creadoPorArgs<ExtArgs>
-  segmento?: boolean | Prisma.Cliente$segmentoArgs<ExtArgs>
+  empresa?: boolean | Prisma.EmpresaDefaultArgs<ExtArgs>
   riesgo?: boolean | Prisma.Cliente$riesgoArgs<ExtArgs>
+  segmento?: boolean | Prisma.Cliente$segmentoArgs<ExtArgs>
+  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
   tipoInteres?: boolean | Prisma.Cliente$tipoInteresArgs<ExtArgs>
   direcciones?: boolean | Prisma.Cliente$direccionesArgs<ExtArgs>
-  vehiculos?: boolean | Prisma.Cliente$vehiculosArgs<ExtArgs>
   ordenesServicio?: boolean | Prisma.Cliente$ordenesServicioArgs<ExtArgs>
-  citasPsicologos?: boolean | Prisma.Cliente$citasPsicologosArgs<ExtArgs>
   paquetesAdquiridos?: boolean | Prisma.Cliente$paquetesAdquiridosArgs<ExtArgs>
+  vehiculos?: boolean | Prisma.Cliente$vehiculosArgs<ExtArgs>
   _count?: boolean | Prisma.ClienteCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type ClienteIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
-  empresa?: boolean | Prisma.EmpresaDefaultArgs<ExtArgs>
   creadoPor?: boolean | Prisma.Cliente$creadoPorArgs<ExtArgs>
-  segmento?: boolean | Prisma.Cliente$segmentoArgs<ExtArgs>
+  empresa?: boolean | Prisma.EmpresaDefaultArgs<ExtArgs>
   riesgo?: boolean | Prisma.Cliente$riesgoArgs<ExtArgs>
+  segmento?: boolean | Prisma.Cliente$segmentoArgs<ExtArgs>
+  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
   tipoInteres?: boolean | Prisma.Cliente$tipoInteresArgs<ExtArgs>
 }
 export type ClienteIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
-  empresa?: boolean | Prisma.EmpresaDefaultArgs<ExtArgs>
   creadoPor?: boolean | Prisma.Cliente$creadoPorArgs<ExtArgs>
-  segmento?: boolean | Prisma.Cliente$segmentoArgs<ExtArgs>
+  empresa?: boolean | Prisma.EmpresaDefaultArgs<ExtArgs>
   riesgo?: boolean | Prisma.Cliente$riesgoArgs<ExtArgs>
+  segmento?: boolean | Prisma.Cliente$segmentoArgs<ExtArgs>
+  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
   tipoInteres?: boolean | Prisma.Cliente$tipoInteresArgs<ExtArgs>
 }
 
 export type $ClientePayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "Cliente"
   objects: {
-    tenant: Prisma.$TenantPayload<ExtArgs>
-    empresa: Prisma.$EmpresaPayload<ExtArgs>
+    citasPsicologos: Prisma.$CitasPsicologosPayload<ExtArgs>[]
     creadoPor: Prisma.$TenantMembershipPayload<ExtArgs> | null
-    segmento: Prisma.$SegmentoNegocioPayload<ExtArgs> | null
+    empresa: Prisma.$EmpresaPayload<ExtArgs>
     riesgo: Prisma.$NivelRiesgoOperativoPayload<ExtArgs> | null
+    segmento: Prisma.$SegmentoNegocioPayload<ExtArgs> | null
+    tenant: Prisma.$TenantPayload<ExtArgs>
     tipoInteres: Prisma.$TipoInteresPayload<ExtArgs> | null
     direcciones: Prisma.$DireccionPayload<ExtArgs>[]
-    vehiculos: Prisma.$VehiculoPayload<ExtArgs>[]
     ordenesServicio: Prisma.$OrdenServicioPayload<ExtArgs>[]
-    citasPsicologos: Prisma.$CitasPsicologosPayload<ExtArgs>[]
     paquetesAdquiridos: Prisma.$PaqueteAdquiridoPayload<ExtArgs>[]
+    vehiculos: Prisma.$VehiculoPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
     tenantId: string
     empresaId: string
-    tipoCliente: $Enums.TipoCliente
     nombre: string | null
     apellido: string | null
-    razonSocial: string | null
-    nit: string | null
-    representanteLegal: string | null
-    cargoContacto: string | null
     telefono: string
     telefono2: string | null
     correo: string | null
@@ -4462,26 +4457,31 @@ export type $ClientePayload<ExtArgs extends runtime.Types.Extensions.InternalArg
     tipoDocumento: string | null
     registroDocumento: string | null
     documentoPath: string | null
-    origenCliente: string | null
-    tipoInteresId: string | null
-    actividadEconomica: string | null
-    metrajeTotal: runtime.Decimal | null
-    segmentoId: string | null
-    riesgoId: string | null
-    subsegmento: string | null
-    score: number | null
-    clasificacion: $Enums.ClasificacionCliente | null
-    ticketPromedio: runtime.Decimal | null
-    frecuenciaServicio: number | null
-    ultimaVisita: Date | null
-    proximaVisita: Date | null
-    planActual: string | null
-    aceptaMarketing: boolean
-    fechaConsentimiento: Date | null
     creadoPorId: string | null
     createdAt: Date
-    updatedAt: Date
     deletedAt: Date | null
+    aceptaMarketing: boolean
+    actividadEconomica: string | null
+    cargoContacto: string | null
+    clasificacion: $Enums.ClasificacionCliente | null
+    fechaConsentimiento: Date | null
+    frecuenciaServicio: number | null
+    metrajeTotal: runtime.Decimal | null
+    nit: string | null
+    origenCliente: string | null
+    planActual: string | null
+    proximaVisita: Date | null
+    razonSocial: string | null
+    representanteLegal: string | null
+    riesgoId: string | null
+    score: number | null
+    segmentoId: string | null
+    subsegmento: string | null
+    ticketPromedio: runtime.Decimal | null
+    tipoCliente: $Enums.TipoCliente
+    tipoInteresId: string | null
+    ultimaVisita: Date | null
+    updatedAt: Date
   }, ExtArgs["result"]["cliente"]>
   composites: {}
 }
@@ -4876,17 +4876,17 @@ readonly fields: ClienteFieldRefs;
  */
 export interface Prisma__ClienteClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
-  tenant<T extends Prisma.TenantDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.TenantDefaultArgs<ExtArgs>>): Prisma.Prisma__TenantClient<runtime.Types.Result.GetResult<Prisma.$TenantPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
-  empresa<T extends Prisma.EmpresaDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.EmpresaDefaultArgs<ExtArgs>>): Prisma.Prisma__EmpresaClient<runtime.Types.Result.GetResult<Prisma.$EmpresaPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  citasPsicologos<T extends Prisma.Cliente$citasPsicologosArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Cliente$citasPsicologosArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$CitasPsicologosPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   creadoPor<T extends Prisma.Cliente$creadoPorArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Cliente$creadoPorArgs<ExtArgs>>): Prisma.Prisma__TenantMembershipClient<runtime.Types.Result.GetResult<Prisma.$TenantMembershipPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
-  segmento<T extends Prisma.Cliente$segmentoArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Cliente$segmentoArgs<ExtArgs>>): Prisma.Prisma__SegmentoNegocioClient<runtime.Types.Result.GetResult<Prisma.$SegmentoNegocioPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  empresa<T extends Prisma.EmpresaDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.EmpresaDefaultArgs<ExtArgs>>): Prisma.Prisma__EmpresaClient<runtime.Types.Result.GetResult<Prisma.$EmpresaPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   riesgo<T extends Prisma.Cliente$riesgoArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Cliente$riesgoArgs<ExtArgs>>): Prisma.Prisma__NivelRiesgoOperativoClient<runtime.Types.Result.GetResult<Prisma.$NivelRiesgoOperativoPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  segmento<T extends Prisma.Cliente$segmentoArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Cliente$segmentoArgs<ExtArgs>>): Prisma.Prisma__SegmentoNegocioClient<runtime.Types.Result.GetResult<Prisma.$SegmentoNegocioPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  tenant<T extends Prisma.TenantDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.TenantDefaultArgs<ExtArgs>>): Prisma.Prisma__TenantClient<runtime.Types.Result.GetResult<Prisma.$TenantPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   tipoInteres<T extends Prisma.Cliente$tipoInteresArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Cliente$tipoInteresArgs<ExtArgs>>): Prisma.Prisma__TipoInteresClient<runtime.Types.Result.GetResult<Prisma.$TipoInteresPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   direcciones<T extends Prisma.Cliente$direccionesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Cliente$direccionesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$DireccionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  vehiculos<T extends Prisma.Cliente$vehiculosArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Cliente$vehiculosArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$VehiculoPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   ordenesServicio<T extends Prisma.Cliente$ordenesServicioArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Cliente$ordenesServicioArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$OrdenServicioPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  citasPsicologos<T extends Prisma.Cliente$citasPsicologosArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Cliente$citasPsicologosArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$CitasPsicologosPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   paquetesAdquiridos<T extends Prisma.Cliente$paquetesAdquiridosArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Cliente$paquetesAdquiridosArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$PaqueteAdquiridoPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  vehiculos<T extends Prisma.Cliente$vehiculosArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Cliente$vehiculosArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$VehiculoPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -4919,13 +4919,8 @@ export interface ClienteFieldRefs {
   readonly id: Prisma.FieldRef<"Cliente", 'String'>
   readonly tenantId: Prisma.FieldRef<"Cliente", 'String'>
   readonly empresaId: Prisma.FieldRef<"Cliente", 'String'>
-  readonly tipoCliente: Prisma.FieldRef<"Cliente", 'TipoCliente'>
   readonly nombre: Prisma.FieldRef<"Cliente", 'String'>
   readonly apellido: Prisma.FieldRef<"Cliente", 'String'>
-  readonly razonSocial: Prisma.FieldRef<"Cliente", 'String'>
-  readonly nit: Prisma.FieldRef<"Cliente", 'String'>
-  readonly representanteLegal: Prisma.FieldRef<"Cliente", 'String'>
-  readonly cargoContacto: Prisma.FieldRef<"Cliente", 'String'>
   readonly telefono: Prisma.FieldRef<"Cliente", 'String'>
   readonly telefono2: Prisma.FieldRef<"Cliente", 'String'>
   readonly correo: Prisma.FieldRef<"Cliente", 'String'>
@@ -4933,26 +4928,31 @@ export interface ClienteFieldRefs {
   readonly tipoDocumento: Prisma.FieldRef<"Cliente", 'String'>
   readonly registroDocumento: Prisma.FieldRef<"Cliente", 'String'>
   readonly documentoPath: Prisma.FieldRef<"Cliente", 'String'>
-  readonly origenCliente: Prisma.FieldRef<"Cliente", 'String'>
-  readonly tipoInteresId: Prisma.FieldRef<"Cliente", 'String'>
-  readonly actividadEconomica: Prisma.FieldRef<"Cliente", 'String'>
-  readonly metrajeTotal: Prisma.FieldRef<"Cliente", 'Decimal'>
-  readonly segmentoId: Prisma.FieldRef<"Cliente", 'String'>
-  readonly riesgoId: Prisma.FieldRef<"Cliente", 'String'>
-  readonly subsegmento: Prisma.FieldRef<"Cliente", 'String'>
-  readonly score: Prisma.FieldRef<"Cliente", 'Int'>
-  readonly clasificacion: Prisma.FieldRef<"Cliente", 'ClasificacionCliente'>
-  readonly ticketPromedio: Prisma.FieldRef<"Cliente", 'Decimal'>
-  readonly frecuenciaServicio: Prisma.FieldRef<"Cliente", 'Int'>
-  readonly ultimaVisita: Prisma.FieldRef<"Cliente", 'DateTime'>
-  readonly proximaVisita: Prisma.FieldRef<"Cliente", 'DateTime'>
-  readonly planActual: Prisma.FieldRef<"Cliente", 'String'>
-  readonly aceptaMarketing: Prisma.FieldRef<"Cliente", 'Boolean'>
-  readonly fechaConsentimiento: Prisma.FieldRef<"Cliente", 'DateTime'>
   readonly creadoPorId: Prisma.FieldRef<"Cliente", 'String'>
   readonly createdAt: Prisma.FieldRef<"Cliente", 'DateTime'>
-  readonly updatedAt: Prisma.FieldRef<"Cliente", 'DateTime'>
   readonly deletedAt: Prisma.FieldRef<"Cliente", 'DateTime'>
+  readonly aceptaMarketing: Prisma.FieldRef<"Cliente", 'Boolean'>
+  readonly actividadEconomica: Prisma.FieldRef<"Cliente", 'String'>
+  readonly cargoContacto: Prisma.FieldRef<"Cliente", 'String'>
+  readonly clasificacion: Prisma.FieldRef<"Cliente", 'ClasificacionCliente'>
+  readonly fechaConsentimiento: Prisma.FieldRef<"Cliente", 'DateTime'>
+  readonly frecuenciaServicio: Prisma.FieldRef<"Cliente", 'Int'>
+  readonly metrajeTotal: Prisma.FieldRef<"Cliente", 'Decimal'>
+  readonly nit: Prisma.FieldRef<"Cliente", 'String'>
+  readonly origenCliente: Prisma.FieldRef<"Cliente", 'String'>
+  readonly planActual: Prisma.FieldRef<"Cliente", 'String'>
+  readonly proximaVisita: Prisma.FieldRef<"Cliente", 'DateTime'>
+  readonly razonSocial: Prisma.FieldRef<"Cliente", 'String'>
+  readonly representanteLegal: Prisma.FieldRef<"Cliente", 'String'>
+  readonly riesgoId: Prisma.FieldRef<"Cliente", 'String'>
+  readonly score: Prisma.FieldRef<"Cliente", 'Int'>
+  readonly segmentoId: Prisma.FieldRef<"Cliente", 'String'>
+  readonly subsegmento: Prisma.FieldRef<"Cliente", 'String'>
+  readonly ticketPromedio: Prisma.FieldRef<"Cliente", 'Decimal'>
+  readonly tipoCliente: Prisma.FieldRef<"Cliente", 'TipoCliente'>
+  readonly tipoInteresId: Prisma.FieldRef<"Cliente", 'String'>
+  readonly ultimaVisita: Prisma.FieldRef<"Cliente", 'DateTime'>
+  readonly updatedAt: Prisma.FieldRef<"Cliente", 'DateTime'>
 }
     
 
@@ -5349,6 +5349,30 @@ export type ClienteDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.Inter
 }
 
 /**
+ * Cliente.citasPsicologos
+ */
+export type Cliente$citasPsicologosArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the CitasPsicologos
+   */
+  select?: Prisma.CitasPsicologosSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the CitasPsicologos
+   */
+  omit?: Prisma.CitasPsicologosOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.CitasPsicologosInclude<ExtArgs> | null
+  where?: Prisma.CitasPsicologosWhereInput
+  orderBy?: Prisma.CitasPsicologosOrderByWithRelationInput | Prisma.CitasPsicologosOrderByWithRelationInput[]
+  cursor?: Prisma.CitasPsicologosWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.CitasPsicologosScalarFieldEnum | Prisma.CitasPsicologosScalarFieldEnum[]
+}
+
+/**
  * Cliente.creadoPor
  */
 export type Cliente$creadoPorArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -5368,25 +5392,6 @@ export type Cliente$creadoPorArgs<ExtArgs extends runtime.Types.Extensions.Inter
 }
 
 /**
- * Cliente.segmento
- */
-export type Cliente$segmentoArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the SegmentoNegocio
-   */
-  select?: Prisma.SegmentoNegocioSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the SegmentoNegocio
-   */
-  omit?: Prisma.SegmentoNegocioOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.SegmentoNegocioInclude<ExtArgs> | null
-  where?: Prisma.SegmentoNegocioWhereInput
-}
-
-/**
  * Cliente.riesgo
  */
 export type Cliente$riesgoArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -5403,6 +5408,25 @@ export type Cliente$riesgoArgs<ExtArgs extends runtime.Types.Extensions.Internal
    */
   include?: Prisma.NivelRiesgoOperativoInclude<ExtArgs> | null
   where?: Prisma.NivelRiesgoOperativoWhereInput
+}
+
+/**
+ * Cliente.segmento
+ */
+export type Cliente$segmentoArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the SegmentoNegocio
+   */
+  select?: Prisma.SegmentoNegocioSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the SegmentoNegocio
+   */
+  omit?: Prisma.SegmentoNegocioOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.SegmentoNegocioInclude<ExtArgs> | null
+  where?: Prisma.SegmentoNegocioWhereInput
 }
 
 /**
@@ -5449,30 +5473,6 @@ export type Cliente$direccionesArgs<ExtArgs extends runtime.Types.Extensions.Int
 }
 
 /**
- * Cliente.vehiculos
- */
-export type Cliente$vehiculosArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the Vehiculo
-   */
-  select?: Prisma.VehiculoSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the Vehiculo
-   */
-  omit?: Prisma.VehiculoOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.VehiculoInclude<ExtArgs> | null
-  where?: Prisma.VehiculoWhereInput
-  orderBy?: Prisma.VehiculoOrderByWithRelationInput | Prisma.VehiculoOrderByWithRelationInput[]
-  cursor?: Prisma.VehiculoWhereUniqueInput
-  take?: number
-  skip?: number
-  distinct?: Prisma.VehiculoScalarFieldEnum | Prisma.VehiculoScalarFieldEnum[]
-}
-
-/**
  * Cliente.ordenesServicio
  */
 export type Cliente$ordenesServicioArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -5497,30 +5497,6 @@ export type Cliente$ordenesServicioArgs<ExtArgs extends runtime.Types.Extensions
 }
 
 /**
- * Cliente.citasPsicologos
- */
-export type Cliente$citasPsicologosArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the CitasPsicologos
-   */
-  select?: Prisma.CitasPsicologosSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the CitasPsicologos
-   */
-  omit?: Prisma.CitasPsicologosOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.CitasPsicologosInclude<ExtArgs> | null
-  where?: Prisma.CitasPsicologosWhereInput
-  orderBy?: Prisma.CitasPsicologosOrderByWithRelationInput | Prisma.CitasPsicologosOrderByWithRelationInput[]
-  cursor?: Prisma.CitasPsicologosWhereUniqueInput
-  take?: number
-  skip?: number
-  distinct?: Prisma.CitasPsicologosScalarFieldEnum | Prisma.CitasPsicologosScalarFieldEnum[]
-}
-
-/**
  * Cliente.paquetesAdquiridos
  */
 export type Cliente$paquetesAdquiridosArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -5542,6 +5518,30 @@ export type Cliente$paquetesAdquiridosArgs<ExtArgs extends runtime.Types.Extensi
   take?: number
   skip?: number
   distinct?: Prisma.PaqueteAdquiridoScalarFieldEnum | Prisma.PaqueteAdquiridoScalarFieldEnum[]
+}
+
+/**
+ * Cliente.vehiculos
+ */
+export type Cliente$vehiculosArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Vehiculo
+   */
+  select?: Prisma.VehiculoSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Vehiculo
+   */
+  omit?: Prisma.VehiculoOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.VehiculoInclude<ExtArgs> | null
+  where?: Prisma.VehiculoWhereInput
+  orderBy?: Prisma.VehiculoOrderByWithRelationInput | Prisma.VehiculoOrderByWithRelationInput[]
+  cursor?: Prisma.VehiculoWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.VehiculoScalarFieldEnum | Prisma.VehiculoScalarFieldEnum[]
 }
 
 /**

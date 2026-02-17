@@ -288,9 +288,9 @@ export type CommissionRecordWhereInput = {
   estadoPago?: Prisma.EnumEstadoPagoComisionFilter<"CommissionRecord"> | $Enums.EstadoPagoComision
   fechaPago?: Prisma.DateTimeNullableFilter<"CommissionRecord"> | Date | string | null
   createdAt?: Prisma.DateTimeFilter<"CommissionRecord"> | Date | string
-  tenant?: Prisma.XOR<Prisma.TenantScalarRelationFilter, Prisma.TenantWhereInput>
   empresa?: Prisma.XOR<Prisma.EmpresaScalarRelationFilter, Prisma.EmpresaWhereInput>
   organizationNode?: Prisma.XOR<Prisma.OrganizationNodeScalarRelationFilter, Prisma.OrganizationNodeWhereInput>
+  tenant?: Prisma.XOR<Prisma.TenantScalarRelationFilter, Prisma.TenantWhereInput>
 }
 
 export type CommissionRecordOrderByWithRelationInput = {
@@ -307,9 +307,9 @@ export type CommissionRecordOrderByWithRelationInput = {
   estadoPago?: Prisma.SortOrder
   fechaPago?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
-  tenant?: Prisma.TenantOrderByWithRelationInput
   empresa?: Prisma.EmpresaOrderByWithRelationInput
   organizationNode?: Prisma.OrganizationNodeOrderByWithRelationInput
+  tenant?: Prisma.TenantOrderByWithRelationInput
 }
 
 export type CommissionRecordWhereUniqueInput = Prisma.AtLeast<{
@@ -329,9 +329,9 @@ export type CommissionRecordWhereUniqueInput = Prisma.AtLeast<{
   estadoPago?: Prisma.EnumEstadoPagoComisionFilter<"CommissionRecord"> | $Enums.EstadoPagoComision
   fechaPago?: Prisma.DateTimeNullableFilter<"CommissionRecord"> | Date | string | null
   createdAt?: Prisma.DateTimeFilter<"CommissionRecord"> | Date | string
-  tenant?: Prisma.XOR<Prisma.TenantScalarRelationFilter, Prisma.TenantWhereInput>
   empresa?: Prisma.XOR<Prisma.EmpresaScalarRelationFilter, Prisma.EmpresaWhereInput>
   organizationNode?: Prisma.XOR<Prisma.OrganizationNodeScalarRelationFilter, Prisma.OrganizationNodeWhereInput>
+  tenant?: Prisma.XOR<Prisma.TenantScalarRelationFilter, Prisma.TenantWhereInput>
 }, "id">
 
 export type CommissionRecordOrderByWithAggregationInput = {
@@ -385,9 +385,9 @@ export type CommissionRecordCreateInput = {
   estadoPago?: $Enums.EstadoPagoComision
   fechaPago?: Date | string | null
   createdAt?: Date | string
-  tenant: Prisma.TenantCreateNestedOneWithoutCommissionsInput
   empresa: Prisma.EmpresaCreateNestedOneWithoutCommissionsInput
   organizationNode: Prisma.OrganizationNodeCreateNestedOneWithoutCommissionsInput
+  tenant: Prisma.TenantCreateNestedOneWithoutCommissionsInput
 }
 
 export type CommissionRecordUncheckedCreateInput = {
@@ -417,9 +417,9 @@ export type CommissionRecordUpdateInput = {
   estadoPago?: Prisma.EnumEstadoPagoComisionFieldUpdateOperationsInput | $Enums.EstadoPagoComision
   fechaPago?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  tenant?: Prisma.TenantUpdateOneRequiredWithoutCommissionsNestedInput
   empresa?: Prisma.EmpresaUpdateOneRequiredWithoutCommissionsNestedInput
   organizationNode?: Prisma.OrganizationNodeUpdateOneRequiredWithoutCommissionsNestedInput
+  tenant?: Prisma.TenantUpdateOneRequiredWithoutCommissionsNestedInput
 }
 
 export type CommissionRecordUncheckedUpdateInput = {
@@ -769,8 +769,8 @@ export type CommissionRecordCreateWithoutEmpresaInput = {
   estadoPago?: $Enums.EstadoPagoComision
   fechaPago?: Date | string | null
   createdAt?: Date | string
-  tenant: Prisma.TenantCreateNestedOneWithoutCommissionsInput
   organizationNode: Prisma.OrganizationNodeCreateNestedOneWithoutCommissionsInput
+  tenant: Prisma.TenantCreateNestedOneWithoutCommissionsInput
 }
 
 export type CommissionRecordUncheckedCreateWithoutEmpresaInput = {
@@ -825,8 +825,8 @@ export type CommissionRecordCreateWithoutOrganizationNodeInput = {
   estadoPago?: $Enums.EstadoPagoComision
   fechaPago?: Date | string | null
   createdAt?: Date | string
-  tenant: Prisma.TenantCreateNestedOneWithoutCommissionsInput
   empresa: Prisma.EmpresaCreateNestedOneWithoutCommissionsInput
+  tenant: Prisma.TenantCreateNestedOneWithoutCommissionsInput
 }
 
 export type CommissionRecordUncheckedCreateWithoutOrganizationNodeInput = {
@@ -956,8 +956,8 @@ export type CommissionRecordUpdateWithoutEmpresaInput = {
   estadoPago?: Prisma.EnumEstadoPagoComisionFieldUpdateOperationsInput | $Enums.EstadoPagoComision
   fechaPago?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  tenant?: Prisma.TenantUpdateOneRequiredWithoutCommissionsNestedInput
   organizationNode?: Prisma.OrganizationNodeUpdateOneRequiredWithoutCommissionsNestedInput
+  tenant?: Prisma.TenantUpdateOneRequiredWithoutCommissionsNestedInput
 }
 
 export type CommissionRecordUncheckedUpdateWithoutEmpresaInput = {
@@ -1016,8 +1016,8 @@ export type CommissionRecordUpdateWithoutOrganizationNodeInput = {
   estadoPago?: Prisma.EnumEstadoPagoComisionFieldUpdateOperationsInput | $Enums.EstadoPagoComision
   fechaPago?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  tenant?: Prisma.TenantUpdateOneRequiredWithoutCommissionsNestedInput
   empresa?: Prisma.EmpresaUpdateOneRequiredWithoutCommissionsNestedInput
+  tenant?: Prisma.TenantUpdateOneRequiredWithoutCommissionsNestedInput
 }
 
 export type CommissionRecordUncheckedUpdateWithoutOrganizationNodeInput = {
@@ -1066,9 +1066,9 @@ export type CommissionRecordSelect<ExtArgs extends runtime.Types.Extensions.Inte
   estadoPago?: boolean
   fechaPago?: boolean
   createdAt?: boolean
-  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
   empresa?: boolean | Prisma.EmpresaDefaultArgs<ExtArgs>
   organizationNode?: boolean | Prisma.OrganizationNodeDefaultArgs<ExtArgs>
+  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["commissionRecord"]>
 
 export type CommissionRecordSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -1085,9 +1085,9 @@ export type CommissionRecordSelectCreateManyAndReturn<ExtArgs extends runtime.Ty
   estadoPago?: boolean
   fechaPago?: boolean
   createdAt?: boolean
-  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
   empresa?: boolean | Prisma.EmpresaDefaultArgs<ExtArgs>
   organizationNode?: boolean | Prisma.OrganizationNodeDefaultArgs<ExtArgs>
+  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["commissionRecord"]>
 
 export type CommissionRecordSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -1104,9 +1104,9 @@ export type CommissionRecordSelectUpdateManyAndReturn<ExtArgs extends runtime.Ty
   estadoPago?: boolean
   fechaPago?: boolean
   createdAt?: boolean
-  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
   empresa?: boolean | Prisma.EmpresaDefaultArgs<ExtArgs>
   organizationNode?: boolean | Prisma.OrganizationNodeDefaultArgs<ExtArgs>
+  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["commissionRecord"]>
 
 export type CommissionRecordSelectScalar = {
@@ -1127,27 +1127,27 @@ export type CommissionRecordSelectScalar = {
 
 export type CommissionRecordOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "tenantId" | "empresaId" | "organizationNodeId" | "ordenServicioId" | "citaPsicologoId" | "porcentaje" | "valorBase" | "valorComision" | "concepto" | "estadoPago" | "fechaPago" | "createdAt", ExtArgs["result"]["commissionRecord"]>
 export type CommissionRecordInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
   empresa?: boolean | Prisma.EmpresaDefaultArgs<ExtArgs>
   organizationNode?: boolean | Prisma.OrganizationNodeDefaultArgs<ExtArgs>
+  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
 }
 export type CommissionRecordIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
   empresa?: boolean | Prisma.EmpresaDefaultArgs<ExtArgs>
   organizationNode?: boolean | Prisma.OrganizationNodeDefaultArgs<ExtArgs>
+  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
 }
 export type CommissionRecordIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
   empresa?: boolean | Prisma.EmpresaDefaultArgs<ExtArgs>
   organizationNode?: boolean | Prisma.OrganizationNodeDefaultArgs<ExtArgs>
+  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
 }
 
 export type $CommissionRecordPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "CommissionRecord"
   objects: {
-    tenant: Prisma.$TenantPayload<ExtArgs>
     empresa: Prisma.$EmpresaPayload<ExtArgs>
     organizationNode: Prisma.$OrganizationNodePayload<ExtArgs>
+    tenant: Prisma.$TenantPayload<ExtArgs>
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -1557,9 +1557,9 @@ readonly fields: CommissionRecordFieldRefs;
  */
 export interface Prisma__CommissionRecordClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
-  tenant<T extends Prisma.TenantDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.TenantDefaultArgs<ExtArgs>>): Prisma.Prisma__TenantClient<runtime.Types.Result.GetResult<Prisma.$TenantPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   empresa<T extends Prisma.EmpresaDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.EmpresaDefaultArgs<ExtArgs>>): Prisma.Prisma__EmpresaClient<runtime.Types.Result.GetResult<Prisma.$EmpresaPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   organizationNode<T extends Prisma.OrganizationNodeDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.OrganizationNodeDefaultArgs<ExtArgs>>): Prisma.Prisma__OrganizationNodeClient<runtime.Types.Result.GetResult<Prisma.$OrganizationNodePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  tenant<T extends Prisma.TenantDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.TenantDefaultArgs<ExtArgs>>): Prisma.Prisma__TenantClient<runtime.Types.Result.GetResult<Prisma.$TenantPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.

@@ -182,9 +182,9 @@ export type ConsultorioWhereInput = {
   empresaId?: Prisma.UuidFilter<"Consultorio"> | string
   nombre?: Prisma.StringFilter<"Consultorio"> | string
   createdAt?: Prisma.DateTimeFilter<"Consultorio"> | Date | string
-  tenant?: Prisma.XOR<Prisma.TenantScalarRelationFilter, Prisma.TenantWhereInput>
-  empresa?: Prisma.XOR<Prisma.EmpresaScalarRelationFilter, Prisma.EmpresaWhereInput>
   citas?: Prisma.CitasPsicologosListRelationFilter
+  empresa?: Prisma.XOR<Prisma.EmpresaScalarRelationFilter, Prisma.EmpresaWhereInput>
+  tenant?: Prisma.XOR<Prisma.TenantScalarRelationFilter, Prisma.TenantWhereInput>
 }
 
 export type ConsultorioOrderByWithRelationInput = {
@@ -193,9 +193,9 @@ export type ConsultorioOrderByWithRelationInput = {
   empresaId?: Prisma.SortOrder
   nombre?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
-  tenant?: Prisma.TenantOrderByWithRelationInput
-  empresa?: Prisma.EmpresaOrderByWithRelationInput
   citas?: Prisma.CitasPsicologosOrderByRelationAggregateInput
+  empresa?: Prisma.EmpresaOrderByWithRelationInput
+  tenant?: Prisma.TenantOrderByWithRelationInput
 }
 
 export type ConsultorioWhereUniqueInput = Prisma.AtLeast<{
@@ -207,9 +207,9 @@ export type ConsultorioWhereUniqueInput = Prisma.AtLeast<{
   empresaId?: Prisma.UuidFilter<"Consultorio"> | string
   nombre?: Prisma.StringFilter<"Consultorio"> | string
   createdAt?: Prisma.DateTimeFilter<"Consultorio"> | Date | string
-  tenant?: Prisma.XOR<Prisma.TenantScalarRelationFilter, Prisma.TenantWhereInput>
-  empresa?: Prisma.XOR<Prisma.EmpresaScalarRelationFilter, Prisma.EmpresaWhereInput>
   citas?: Prisma.CitasPsicologosListRelationFilter
+  empresa?: Prisma.XOR<Prisma.EmpresaScalarRelationFilter, Prisma.EmpresaWhereInput>
+  tenant?: Prisma.XOR<Prisma.TenantScalarRelationFilter, Prisma.TenantWhereInput>
 }, "id">
 
 export type ConsultorioOrderByWithAggregationInput = {
@@ -238,9 +238,9 @@ export type ConsultorioCreateInput = {
   id?: string
   nombre: string
   createdAt?: Date | string
-  tenant: Prisma.TenantCreateNestedOneWithoutConsultoriosInput
-  empresa: Prisma.EmpresaCreateNestedOneWithoutConsultoriosInput
   citas?: Prisma.CitasPsicologosCreateNestedManyWithoutConsultorioInput
+  empresa: Prisma.EmpresaCreateNestedOneWithoutConsultoriosInput
+  tenant: Prisma.TenantCreateNestedOneWithoutConsultoriosInput
 }
 
 export type ConsultorioUncheckedCreateInput = {
@@ -256,9 +256,9 @@ export type ConsultorioUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   nombre?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  tenant?: Prisma.TenantUpdateOneRequiredWithoutConsultoriosNestedInput
-  empresa?: Prisma.EmpresaUpdateOneRequiredWithoutConsultoriosNestedInput
   citas?: Prisma.CitasPsicologosUpdateManyWithoutConsultorioNestedInput
+  empresa?: Prisma.EmpresaUpdateOneRequiredWithoutConsultoriosNestedInput
+  tenant?: Prisma.TenantUpdateOneRequiredWithoutConsultoriosNestedInput
 }
 
 export type ConsultorioUncheckedUpdateInput = {
@@ -435,8 +435,8 @@ export type ConsultorioCreateWithoutTenantInput = {
   id?: string
   nombre: string
   createdAt?: Date | string
-  empresa: Prisma.EmpresaCreateNestedOneWithoutConsultoriosInput
   citas?: Prisma.CitasPsicologosCreateNestedManyWithoutConsultorioInput
+  empresa: Prisma.EmpresaCreateNestedOneWithoutConsultoriosInput
 }
 
 export type ConsultorioUncheckedCreateWithoutTenantInput = {
@@ -488,8 +488,8 @@ export type ConsultorioCreateWithoutEmpresaInput = {
   id?: string
   nombre: string
   createdAt?: Date | string
-  tenant: Prisma.TenantCreateNestedOneWithoutConsultoriosInput
   citas?: Prisma.CitasPsicologosCreateNestedManyWithoutConsultorioInput
+  tenant: Prisma.TenantCreateNestedOneWithoutConsultoriosInput
 }
 
 export type ConsultorioUncheckedCreateWithoutEmpresaInput = {
@@ -530,8 +530,8 @@ export type ConsultorioCreateWithoutCitasInput = {
   id?: string
   nombre: string
   createdAt?: Date | string
-  tenant: Prisma.TenantCreateNestedOneWithoutConsultoriosInput
   empresa: Prisma.EmpresaCreateNestedOneWithoutConsultoriosInput
+  tenant: Prisma.TenantCreateNestedOneWithoutConsultoriosInput
 }
 
 export type ConsultorioUncheckedCreateWithoutCitasInput = {
@@ -562,8 +562,8 @@ export type ConsultorioUpdateWithoutCitasInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   nombre?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  tenant?: Prisma.TenantUpdateOneRequiredWithoutConsultoriosNestedInput
   empresa?: Prisma.EmpresaUpdateOneRequiredWithoutConsultoriosNestedInput
+  tenant?: Prisma.TenantUpdateOneRequiredWithoutConsultoriosNestedInput
 }
 
 export type ConsultorioUncheckedUpdateWithoutCitasInput = {
@@ -585,8 +585,8 @@ export type ConsultorioUpdateWithoutTenantInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   nombre?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  empresa?: Prisma.EmpresaUpdateOneRequiredWithoutConsultoriosNestedInput
   citas?: Prisma.CitasPsicologosUpdateManyWithoutConsultorioNestedInput
+  empresa?: Prisma.EmpresaUpdateOneRequiredWithoutConsultoriosNestedInput
 }
 
 export type ConsultorioUncheckedUpdateWithoutTenantInput = {
@@ -615,8 +615,8 @@ export type ConsultorioUpdateWithoutEmpresaInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   nombre?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  tenant?: Prisma.TenantUpdateOneRequiredWithoutConsultoriosNestedInput
   citas?: Prisma.CitasPsicologosUpdateManyWithoutConsultorioNestedInput
+  tenant?: Prisma.TenantUpdateOneRequiredWithoutConsultoriosNestedInput
 }
 
 export type ConsultorioUncheckedUpdateWithoutEmpresaInput = {
@@ -671,9 +671,9 @@ export type ConsultorioSelect<ExtArgs extends runtime.Types.Extensions.InternalA
   empresaId?: boolean
   nombre?: boolean
   createdAt?: boolean
-  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
-  empresa?: boolean | Prisma.EmpresaDefaultArgs<ExtArgs>
   citas?: boolean | Prisma.Consultorio$citasArgs<ExtArgs>
+  empresa?: boolean | Prisma.EmpresaDefaultArgs<ExtArgs>
+  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
   _count?: boolean | Prisma.ConsultorioCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["consultorio"]>
 
@@ -683,8 +683,8 @@ export type ConsultorioSelectCreateManyAndReturn<ExtArgs extends runtime.Types.E
   empresaId?: boolean
   nombre?: boolean
   createdAt?: boolean
-  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
   empresa?: boolean | Prisma.EmpresaDefaultArgs<ExtArgs>
+  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["consultorio"]>
 
 export type ConsultorioSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -693,8 +693,8 @@ export type ConsultorioSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.E
   empresaId?: boolean
   nombre?: boolean
   createdAt?: boolean
-  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
   empresa?: boolean | Prisma.EmpresaDefaultArgs<ExtArgs>
+  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["consultorio"]>
 
 export type ConsultorioSelectScalar = {
@@ -707,26 +707,26 @@ export type ConsultorioSelectScalar = {
 
 export type ConsultorioOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "tenantId" | "empresaId" | "nombre" | "createdAt", ExtArgs["result"]["consultorio"]>
 export type ConsultorioInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
-  empresa?: boolean | Prisma.EmpresaDefaultArgs<ExtArgs>
   citas?: boolean | Prisma.Consultorio$citasArgs<ExtArgs>
+  empresa?: boolean | Prisma.EmpresaDefaultArgs<ExtArgs>
+  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
   _count?: boolean | Prisma.ConsultorioCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type ConsultorioIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
   empresa?: boolean | Prisma.EmpresaDefaultArgs<ExtArgs>
+  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
 }
 export type ConsultorioIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
   empresa?: boolean | Prisma.EmpresaDefaultArgs<ExtArgs>
+  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
 }
 
 export type $ConsultorioPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "Consultorio"
   objects: {
-    tenant: Prisma.$TenantPayload<ExtArgs>
-    empresa: Prisma.$EmpresaPayload<ExtArgs>
     citas: Prisma.$CitasPsicologosPayload<ExtArgs>[]
+    empresa: Prisma.$EmpresaPayload<ExtArgs>
+    tenant: Prisma.$TenantPayload<ExtArgs>
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -1128,9 +1128,9 @@ readonly fields: ConsultorioFieldRefs;
  */
 export interface Prisma__ConsultorioClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
-  tenant<T extends Prisma.TenantDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.TenantDefaultArgs<ExtArgs>>): Prisma.Prisma__TenantClient<runtime.Types.Result.GetResult<Prisma.$TenantPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
-  empresa<T extends Prisma.EmpresaDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.EmpresaDefaultArgs<ExtArgs>>): Prisma.Prisma__EmpresaClient<runtime.Types.Result.GetResult<Prisma.$EmpresaPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   citas<T extends Prisma.Consultorio$citasArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Consultorio$citasArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$CitasPsicologosPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  empresa<T extends Prisma.EmpresaDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.EmpresaDefaultArgs<ExtArgs>>): Prisma.Prisma__EmpresaClient<runtime.Types.Result.GetResult<Prisma.$EmpresaPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  tenant<T extends Prisma.TenantDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.TenantDefaultArgs<ExtArgs>>): Prisma.Prisma__TenantClient<runtime.Types.Result.GetResult<Prisma.$TenantPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.

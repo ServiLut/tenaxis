@@ -248,8 +248,8 @@ export type TipoInteresWhereInput = {
   activo?: Prisma.BoolFilter<"TipoInteres"> | boolean
   createdAt?: Prisma.DateTimeFilter<"TipoInteres"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"TipoInteres"> | Date | string
-  tenant?: Prisma.XOR<Prisma.TenantScalarRelationFilter, Prisma.TenantWhereInput>
   clientes?: Prisma.ClienteListRelationFilter
+  tenant?: Prisma.XOR<Prisma.TenantScalarRelationFilter, Prisma.TenantWhereInput>
 }
 
 export type TipoInteresOrderByWithRelationInput = {
@@ -262,8 +262,8 @@ export type TipoInteresOrderByWithRelationInput = {
   activo?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
-  tenant?: Prisma.TenantOrderByWithRelationInput
   clientes?: Prisma.ClienteOrderByRelationAggregateInput
+  tenant?: Prisma.TenantOrderByWithRelationInput
 }
 
 export type TipoInteresWhereUniqueInput = Prisma.AtLeast<{
@@ -279,8 +279,8 @@ export type TipoInteresWhereUniqueInput = Prisma.AtLeast<{
   activo?: Prisma.BoolFilter<"TipoInteres"> | boolean
   createdAt?: Prisma.DateTimeFilter<"TipoInteres"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"TipoInteres"> | Date | string
-  tenant?: Prisma.XOR<Prisma.TenantScalarRelationFilter, Prisma.TenantWhereInput>
   clientes?: Prisma.ClienteListRelationFilter
+  tenant?: Prisma.XOR<Prisma.TenantScalarRelationFilter, Prisma.TenantWhereInput>
 }, "id">
 
 export type TipoInteresOrderByWithAggregationInput = {
@@ -324,8 +324,8 @@ export type TipoInteresCreateInput = {
   activo?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
-  tenant: Prisma.TenantCreateNestedOneWithoutTiposInteresInput
   clientes?: Prisma.ClienteCreateNestedManyWithoutTipoInteresInput
+  tenant: Prisma.TenantCreateNestedOneWithoutTiposInteresInput
 }
 
 export type TipoInteresUncheckedCreateInput = {
@@ -350,8 +350,8 @@ export type TipoInteresUpdateInput = {
   activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  tenant?: Prisma.TenantUpdateOneRequiredWithoutTiposInteresNestedInput
   clientes?: Prisma.ClienteUpdateManyWithoutTipoInteresNestedInput
+  tenant?: Prisma.TenantUpdateOneRequiredWithoutTiposInteresNestedInput
 }
 
 export type TipoInteresUncheckedUpdateInput = {
@@ -735,8 +735,8 @@ export type TipoInteresSelect<ExtArgs extends runtime.Types.Extensions.InternalA
   activo?: boolean
   createdAt?: boolean
   updatedAt?: boolean
-  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
   clientes?: boolean | Prisma.TipoInteres$clientesArgs<ExtArgs>
+  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
   _count?: boolean | Prisma.TipoInteresCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["tipoInteres"]>
 
@@ -780,8 +780,8 @@ export type TipoInteresSelectScalar = {
 
 export type TipoInteresOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "tenantId" | "nombre" | "descripcion" | "frecuenciaSugerida" | "riesgoSugerido" | "activo" | "createdAt" | "updatedAt", ExtArgs["result"]["tipoInteres"]>
 export type TipoInteresInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
   clientes?: boolean | Prisma.TipoInteres$clientesArgs<ExtArgs>
+  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
   _count?: boolean | Prisma.TipoInteresCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type TipoInteresIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -794,8 +794,8 @@ export type TipoInteresIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.
 export type $TipoInteresPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "TipoInteres"
   objects: {
-    tenant: Prisma.$TenantPayload<ExtArgs>
     clientes: Prisma.$ClientePayload<ExtArgs>[]
+    tenant: Prisma.$TenantPayload<ExtArgs>
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -1201,8 +1201,8 @@ readonly fields: TipoInteresFieldRefs;
  */
 export interface Prisma__TipoInteresClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
-  tenant<T extends Prisma.TenantDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.TenantDefaultArgs<ExtArgs>>): Prisma.Prisma__TenantClient<runtime.Types.Result.GetResult<Prisma.$TenantPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   clientes<T extends Prisma.TipoInteres$clientesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.TipoInteres$clientesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ClientePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  tenant<T extends Prisma.TenantDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.TenantDefaultArgs<ExtArgs>>): Prisma.Prisma__TenantClient<runtime.Types.Result.GetResult<Prisma.$TenantPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.

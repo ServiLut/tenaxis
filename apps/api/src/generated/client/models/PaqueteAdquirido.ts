@@ -292,12 +292,12 @@ export type PaqueteAdquiridoWhereInput = {
   fechaVencimiento?: Prisma.DateTimeNullableFilter<"PaqueteAdquirido"> | Date | string | null
   precioPagado?: Prisma.DecimalFilter<"PaqueteAdquirido"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   estado?: Prisma.EnumEstadoPaqueteFilter<"PaqueteAdquirido"> | $Enums.EstadoPaquete
-  tenant?: Prisma.XOR<Prisma.TenantScalarRelationFilter, Prisma.TenantWhereInput>
-  empresa?: Prisma.XOR<Prisma.EmpresaScalarRelationFilter, Prisma.EmpresaWhereInput>
-  cliente?: Prisma.XOR<Prisma.ClienteScalarRelationFilter, Prisma.ClienteWhereInput>
-  catalogo?: Prisma.XOR<Prisma.TerapiasPsicologosScalarRelationFilter, Prisma.TerapiasPsicologosWhereInput>
-  membership?: Prisma.XOR<Prisma.TenantMembershipNullableScalarRelationFilter, Prisma.TenantMembershipWhereInput> | null
   citas?: Prisma.CitasPsicologosListRelationFilter
+  catalogo?: Prisma.XOR<Prisma.TerapiasPsicologosScalarRelationFilter, Prisma.TerapiasPsicologosWhereInput>
+  cliente?: Prisma.XOR<Prisma.ClienteScalarRelationFilter, Prisma.ClienteWhereInput>
+  empresa?: Prisma.XOR<Prisma.EmpresaScalarRelationFilter, Prisma.EmpresaWhereInput>
+  membership?: Prisma.XOR<Prisma.TenantMembershipNullableScalarRelationFilter, Prisma.TenantMembershipWhereInput> | null
+  tenant?: Prisma.XOR<Prisma.TenantScalarRelationFilter, Prisma.TenantWhereInput>
 }
 
 export type PaqueteAdquiridoOrderByWithRelationInput = {
@@ -314,12 +314,12 @@ export type PaqueteAdquiridoOrderByWithRelationInput = {
   fechaVencimiento?: Prisma.SortOrderInput | Prisma.SortOrder
   precioPagado?: Prisma.SortOrder
   estado?: Prisma.SortOrder
-  tenant?: Prisma.TenantOrderByWithRelationInput
-  empresa?: Prisma.EmpresaOrderByWithRelationInput
-  cliente?: Prisma.ClienteOrderByWithRelationInput
-  catalogo?: Prisma.TerapiasPsicologosOrderByWithRelationInput
-  membership?: Prisma.TenantMembershipOrderByWithRelationInput
   citas?: Prisma.CitasPsicologosOrderByRelationAggregateInput
+  catalogo?: Prisma.TerapiasPsicologosOrderByWithRelationInput
+  cliente?: Prisma.ClienteOrderByWithRelationInput
+  empresa?: Prisma.EmpresaOrderByWithRelationInput
+  membership?: Prisma.TenantMembershipOrderByWithRelationInput
+  tenant?: Prisma.TenantOrderByWithRelationInput
 }
 
 export type PaqueteAdquiridoWhereUniqueInput = Prisma.AtLeast<{
@@ -339,12 +339,12 @@ export type PaqueteAdquiridoWhereUniqueInput = Prisma.AtLeast<{
   fechaVencimiento?: Prisma.DateTimeNullableFilter<"PaqueteAdquirido"> | Date | string | null
   precioPagado?: Prisma.DecimalFilter<"PaqueteAdquirido"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   estado?: Prisma.EnumEstadoPaqueteFilter<"PaqueteAdquirido"> | $Enums.EstadoPaquete
-  tenant?: Prisma.XOR<Prisma.TenantScalarRelationFilter, Prisma.TenantWhereInput>
-  empresa?: Prisma.XOR<Prisma.EmpresaScalarRelationFilter, Prisma.EmpresaWhereInput>
-  cliente?: Prisma.XOR<Prisma.ClienteScalarRelationFilter, Prisma.ClienteWhereInput>
-  catalogo?: Prisma.XOR<Prisma.TerapiasPsicologosScalarRelationFilter, Prisma.TerapiasPsicologosWhereInput>
-  membership?: Prisma.XOR<Prisma.TenantMembershipNullableScalarRelationFilter, Prisma.TenantMembershipWhereInput> | null
   citas?: Prisma.CitasPsicologosListRelationFilter
+  catalogo?: Prisma.XOR<Prisma.TerapiasPsicologosScalarRelationFilter, Prisma.TerapiasPsicologosWhereInput>
+  cliente?: Prisma.XOR<Prisma.ClienteScalarRelationFilter, Prisma.ClienteWhereInput>
+  empresa?: Prisma.XOR<Prisma.EmpresaScalarRelationFilter, Prisma.EmpresaWhereInput>
+  membership?: Prisma.XOR<Prisma.TenantMembershipNullableScalarRelationFilter, Prisma.TenantMembershipWhereInput> | null
+  tenant?: Prisma.XOR<Prisma.TenantScalarRelationFilter, Prisma.TenantWhereInput>
 }, "id">
 
 export type PaqueteAdquiridoOrderByWithAggregationInput = {
@@ -396,12 +396,12 @@ export type PaqueteAdquiridoCreateInput = {
   fechaVencimiento?: Date | string | null
   precioPagado: runtime.Decimal | runtime.DecimalJsLike | number | string
   estado?: $Enums.EstadoPaquete
-  tenant: Prisma.TenantCreateNestedOneWithoutPaquetesAdquiridosInput
-  empresa: Prisma.EmpresaCreateNestedOneWithoutPaquetesAdquiridosInput
-  cliente: Prisma.ClienteCreateNestedOneWithoutPaquetesAdquiridosInput
-  catalogo: Prisma.TerapiasPsicologosCreateNestedOneWithoutPaquetesAdquiridosInput
-  membership?: Prisma.TenantMembershipCreateNestedOneWithoutPaquetesAdquiridosInput
   citas?: Prisma.CitasPsicologosCreateNestedManyWithoutPaqueteInput
+  catalogo: Prisma.TerapiasPsicologosCreateNestedOneWithoutPaquetesAdquiridosInput
+  cliente: Prisma.ClienteCreateNestedOneWithoutPaquetesAdquiridosInput
+  empresa: Prisma.EmpresaCreateNestedOneWithoutPaquetesAdquiridosInput
+  membership?: Prisma.TenantMembershipCreateNestedOneWithoutPaquetesAdquiridosInput
+  tenant: Prisma.TenantCreateNestedOneWithoutPaquetesAdquiridosInput
 }
 
 export type PaqueteAdquiridoUncheckedCreateInput = {
@@ -430,12 +430,12 @@ export type PaqueteAdquiridoUpdateInput = {
   fechaVencimiento?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   precioPagado?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   estado?: Prisma.EnumEstadoPaqueteFieldUpdateOperationsInput | $Enums.EstadoPaquete
-  tenant?: Prisma.TenantUpdateOneRequiredWithoutPaquetesAdquiridosNestedInput
-  empresa?: Prisma.EmpresaUpdateOneRequiredWithoutPaquetesAdquiridosNestedInput
-  cliente?: Prisma.ClienteUpdateOneRequiredWithoutPaquetesAdquiridosNestedInput
-  catalogo?: Prisma.TerapiasPsicologosUpdateOneRequiredWithoutPaquetesAdquiridosNestedInput
-  membership?: Prisma.TenantMembershipUpdateOneWithoutPaquetesAdquiridosNestedInput
   citas?: Prisma.CitasPsicologosUpdateManyWithoutPaqueteNestedInput
+  catalogo?: Prisma.TerapiasPsicologosUpdateOneRequiredWithoutPaquetesAdquiridosNestedInput
+  cliente?: Prisma.ClienteUpdateOneRequiredWithoutPaquetesAdquiridosNestedInput
+  empresa?: Prisma.EmpresaUpdateOneRequiredWithoutPaquetesAdquiridosNestedInput
+  membership?: Prisma.TenantMembershipUpdateOneWithoutPaquetesAdquiridosNestedInput
+  tenant?: Prisma.TenantUpdateOneRequiredWithoutPaquetesAdquiridosNestedInput
 }
 
 export type PaqueteAdquiridoUncheckedUpdateInput = {
@@ -814,11 +814,11 @@ export type PaqueteAdquiridoCreateWithoutTenantInput = {
   fechaVencimiento?: Date | string | null
   precioPagado: runtime.Decimal | runtime.DecimalJsLike | number | string
   estado?: $Enums.EstadoPaquete
-  empresa: Prisma.EmpresaCreateNestedOneWithoutPaquetesAdquiridosInput
-  cliente: Prisma.ClienteCreateNestedOneWithoutPaquetesAdquiridosInput
-  catalogo: Prisma.TerapiasPsicologosCreateNestedOneWithoutPaquetesAdquiridosInput
-  membership?: Prisma.TenantMembershipCreateNestedOneWithoutPaquetesAdquiridosInput
   citas?: Prisma.CitasPsicologosCreateNestedManyWithoutPaqueteInput
+  catalogo: Prisma.TerapiasPsicologosCreateNestedOneWithoutPaquetesAdquiridosInput
+  cliente: Prisma.ClienteCreateNestedOneWithoutPaquetesAdquiridosInput
+  empresa: Prisma.EmpresaCreateNestedOneWithoutPaquetesAdquiridosInput
+  membership?: Prisma.TenantMembershipCreateNestedOneWithoutPaquetesAdquiridosInput
 }
 
 export type PaqueteAdquiridoUncheckedCreateWithoutTenantInput = {
@@ -891,11 +891,11 @@ export type PaqueteAdquiridoCreateWithoutMembershipInput = {
   fechaVencimiento?: Date | string | null
   precioPagado: runtime.Decimal | runtime.DecimalJsLike | number | string
   estado?: $Enums.EstadoPaquete
-  tenant: Prisma.TenantCreateNestedOneWithoutPaquetesAdquiridosInput
-  empresa: Prisma.EmpresaCreateNestedOneWithoutPaquetesAdquiridosInput
-  cliente: Prisma.ClienteCreateNestedOneWithoutPaquetesAdquiridosInput
-  catalogo: Prisma.TerapiasPsicologosCreateNestedOneWithoutPaquetesAdquiridosInput
   citas?: Prisma.CitasPsicologosCreateNestedManyWithoutPaqueteInput
+  catalogo: Prisma.TerapiasPsicologosCreateNestedOneWithoutPaquetesAdquiridosInput
+  cliente: Prisma.ClienteCreateNestedOneWithoutPaquetesAdquiridosInput
+  empresa: Prisma.EmpresaCreateNestedOneWithoutPaquetesAdquiridosInput
+  tenant: Prisma.TenantCreateNestedOneWithoutPaquetesAdquiridosInput
 }
 
 export type PaqueteAdquiridoUncheckedCreateWithoutMembershipInput = {
@@ -949,11 +949,11 @@ export type PaqueteAdquiridoCreateWithoutEmpresaInput = {
   fechaVencimiento?: Date | string | null
   precioPagado: runtime.Decimal | runtime.DecimalJsLike | number | string
   estado?: $Enums.EstadoPaquete
-  tenant: Prisma.TenantCreateNestedOneWithoutPaquetesAdquiridosInput
-  cliente: Prisma.ClienteCreateNestedOneWithoutPaquetesAdquiridosInput
-  catalogo: Prisma.TerapiasPsicologosCreateNestedOneWithoutPaquetesAdquiridosInput
-  membership?: Prisma.TenantMembershipCreateNestedOneWithoutPaquetesAdquiridosInput
   citas?: Prisma.CitasPsicologosCreateNestedManyWithoutPaqueteInput
+  catalogo: Prisma.TerapiasPsicologosCreateNestedOneWithoutPaquetesAdquiridosInput
+  cliente: Prisma.ClienteCreateNestedOneWithoutPaquetesAdquiridosInput
+  membership?: Prisma.TenantMembershipCreateNestedOneWithoutPaquetesAdquiridosInput
+  tenant: Prisma.TenantCreateNestedOneWithoutPaquetesAdquiridosInput
 }
 
 export type PaqueteAdquiridoUncheckedCreateWithoutEmpresaInput = {
@@ -1007,11 +1007,11 @@ export type PaqueteAdquiridoCreateWithoutClienteInput = {
   fechaVencimiento?: Date | string | null
   precioPagado: runtime.Decimal | runtime.DecimalJsLike | number | string
   estado?: $Enums.EstadoPaquete
-  tenant: Prisma.TenantCreateNestedOneWithoutPaquetesAdquiridosInput
-  empresa: Prisma.EmpresaCreateNestedOneWithoutPaquetesAdquiridosInput
-  catalogo: Prisma.TerapiasPsicologosCreateNestedOneWithoutPaquetesAdquiridosInput
-  membership?: Prisma.TenantMembershipCreateNestedOneWithoutPaquetesAdquiridosInput
   citas?: Prisma.CitasPsicologosCreateNestedManyWithoutPaqueteInput
+  catalogo: Prisma.TerapiasPsicologosCreateNestedOneWithoutPaquetesAdquiridosInput
+  empresa: Prisma.EmpresaCreateNestedOneWithoutPaquetesAdquiridosInput
+  membership?: Prisma.TenantMembershipCreateNestedOneWithoutPaquetesAdquiridosInput
+  tenant: Prisma.TenantCreateNestedOneWithoutPaquetesAdquiridosInput
 }
 
 export type PaqueteAdquiridoUncheckedCreateWithoutClienteInput = {
@@ -1065,11 +1065,11 @@ export type PaqueteAdquiridoCreateWithoutCitasInput = {
   fechaVencimiento?: Date | string | null
   precioPagado: runtime.Decimal | runtime.DecimalJsLike | number | string
   estado?: $Enums.EstadoPaquete
-  tenant: Prisma.TenantCreateNestedOneWithoutPaquetesAdquiridosInput
-  empresa: Prisma.EmpresaCreateNestedOneWithoutPaquetesAdquiridosInput
-  cliente: Prisma.ClienteCreateNestedOneWithoutPaquetesAdquiridosInput
   catalogo: Prisma.TerapiasPsicologosCreateNestedOneWithoutPaquetesAdquiridosInput
+  cliente: Prisma.ClienteCreateNestedOneWithoutPaquetesAdquiridosInput
+  empresa: Prisma.EmpresaCreateNestedOneWithoutPaquetesAdquiridosInput
   membership?: Prisma.TenantMembershipCreateNestedOneWithoutPaquetesAdquiridosInput
+  tenant: Prisma.TenantCreateNestedOneWithoutPaquetesAdquiridosInput
 }
 
 export type PaqueteAdquiridoUncheckedCreateWithoutCitasInput = {
@@ -1113,11 +1113,11 @@ export type PaqueteAdquiridoUpdateWithoutCitasInput = {
   fechaVencimiento?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   precioPagado?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   estado?: Prisma.EnumEstadoPaqueteFieldUpdateOperationsInput | $Enums.EstadoPaquete
-  tenant?: Prisma.TenantUpdateOneRequiredWithoutPaquetesAdquiridosNestedInput
-  empresa?: Prisma.EmpresaUpdateOneRequiredWithoutPaquetesAdquiridosNestedInput
-  cliente?: Prisma.ClienteUpdateOneRequiredWithoutPaquetesAdquiridosNestedInput
   catalogo?: Prisma.TerapiasPsicologosUpdateOneRequiredWithoutPaquetesAdquiridosNestedInput
+  cliente?: Prisma.ClienteUpdateOneRequiredWithoutPaquetesAdquiridosNestedInput
+  empresa?: Prisma.EmpresaUpdateOneRequiredWithoutPaquetesAdquiridosNestedInput
   membership?: Prisma.TenantMembershipUpdateOneWithoutPaquetesAdquiridosNestedInput
+  tenant?: Prisma.TenantUpdateOneRequiredWithoutPaquetesAdquiridosNestedInput
 }
 
 export type PaqueteAdquiridoUncheckedUpdateWithoutCitasInput = {
@@ -1145,11 +1145,11 @@ export type PaqueteAdquiridoCreateWithoutCatalogoInput = {
   fechaVencimiento?: Date | string | null
   precioPagado: runtime.Decimal | runtime.DecimalJsLike | number | string
   estado?: $Enums.EstadoPaquete
-  tenant: Prisma.TenantCreateNestedOneWithoutPaquetesAdquiridosInput
-  empresa: Prisma.EmpresaCreateNestedOneWithoutPaquetesAdquiridosInput
-  cliente: Prisma.ClienteCreateNestedOneWithoutPaquetesAdquiridosInput
-  membership?: Prisma.TenantMembershipCreateNestedOneWithoutPaquetesAdquiridosInput
   citas?: Prisma.CitasPsicologosCreateNestedManyWithoutPaqueteInput
+  cliente: Prisma.ClienteCreateNestedOneWithoutPaquetesAdquiridosInput
+  empresa: Prisma.EmpresaCreateNestedOneWithoutPaquetesAdquiridosInput
+  membership?: Prisma.TenantMembershipCreateNestedOneWithoutPaquetesAdquiridosInput
+  tenant: Prisma.TenantCreateNestedOneWithoutPaquetesAdquiridosInput
 }
 
 export type PaqueteAdquiridoUncheckedCreateWithoutCatalogoInput = {
@@ -1218,11 +1218,11 @@ export type PaqueteAdquiridoUpdateWithoutTenantInput = {
   fechaVencimiento?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   precioPagado?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   estado?: Prisma.EnumEstadoPaqueteFieldUpdateOperationsInput | $Enums.EstadoPaquete
-  empresa?: Prisma.EmpresaUpdateOneRequiredWithoutPaquetesAdquiridosNestedInput
-  cliente?: Prisma.ClienteUpdateOneRequiredWithoutPaquetesAdquiridosNestedInput
-  catalogo?: Prisma.TerapiasPsicologosUpdateOneRequiredWithoutPaquetesAdquiridosNestedInput
-  membership?: Prisma.TenantMembershipUpdateOneWithoutPaquetesAdquiridosNestedInput
   citas?: Prisma.CitasPsicologosUpdateManyWithoutPaqueteNestedInput
+  catalogo?: Prisma.TerapiasPsicologosUpdateOneRequiredWithoutPaquetesAdquiridosNestedInput
+  cliente?: Prisma.ClienteUpdateOneRequiredWithoutPaquetesAdquiridosNestedInput
+  empresa?: Prisma.EmpresaUpdateOneRequiredWithoutPaquetesAdquiridosNestedInput
+  membership?: Prisma.TenantMembershipUpdateOneWithoutPaquetesAdquiridosNestedInput
 }
 
 export type PaqueteAdquiridoUncheckedUpdateWithoutTenantInput = {
@@ -1280,11 +1280,11 @@ export type PaqueteAdquiridoUpdateWithoutMembershipInput = {
   fechaVencimiento?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   precioPagado?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   estado?: Prisma.EnumEstadoPaqueteFieldUpdateOperationsInput | $Enums.EstadoPaquete
-  tenant?: Prisma.TenantUpdateOneRequiredWithoutPaquetesAdquiridosNestedInput
-  empresa?: Prisma.EmpresaUpdateOneRequiredWithoutPaquetesAdquiridosNestedInput
-  cliente?: Prisma.ClienteUpdateOneRequiredWithoutPaquetesAdquiridosNestedInput
-  catalogo?: Prisma.TerapiasPsicologosUpdateOneRequiredWithoutPaquetesAdquiridosNestedInput
   citas?: Prisma.CitasPsicologosUpdateManyWithoutPaqueteNestedInput
+  catalogo?: Prisma.TerapiasPsicologosUpdateOneRequiredWithoutPaquetesAdquiridosNestedInput
+  cliente?: Prisma.ClienteUpdateOneRequiredWithoutPaquetesAdquiridosNestedInput
+  empresa?: Prisma.EmpresaUpdateOneRequiredWithoutPaquetesAdquiridosNestedInput
+  tenant?: Prisma.TenantUpdateOneRequiredWithoutPaquetesAdquiridosNestedInput
 }
 
 export type PaqueteAdquiridoUncheckedUpdateWithoutMembershipInput = {
@@ -1342,11 +1342,11 @@ export type PaqueteAdquiridoUpdateWithoutEmpresaInput = {
   fechaVencimiento?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   precioPagado?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   estado?: Prisma.EnumEstadoPaqueteFieldUpdateOperationsInput | $Enums.EstadoPaquete
-  tenant?: Prisma.TenantUpdateOneRequiredWithoutPaquetesAdquiridosNestedInput
-  cliente?: Prisma.ClienteUpdateOneRequiredWithoutPaquetesAdquiridosNestedInput
-  catalogo?: Prisma.TerapiasPsicologosUpdateOneRequiredWithoutPaquetesAdquiridosNestedInput
-  membership?: Prisma.TenantMembershipUpdateOneWithoutPaquetesAdquiridosNestedInput
   citas?: Prisma.CitasPsicologosUpdateManyWithoutPaqueteNestedInput
+  catalogo?: Prisma.TerapiasPsicologosUpdateOneRequiredWithoutPaquetesAdquiridosNestedInput
+  cliente?: Prisma.ClienteUpdateOneRequiredWithoutPaquetesAdquiridosNestedInput
+  membership?: Prisma.TenantMembershipUpdateOneWithoutPaquetesAdquiridosNestedInput
+  tenant?: Prisma.TenantUpdateOneRequiredWithoutPaquetesAdquiridosNestedInput
 }
 
 export type PaqueteAdquiridoUncheckedUpdateWithoutEmpresaInput = {
@@ -1404,11 +1404,11 @@ export type PaqueteAdquiridoUpdateWithoutClienteInput = {
   fechaVencimiento?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   precioPagado?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   estado?: Prisma.EnumEstadoPaqueteFieldUpdateOperationsInput | $Enums.EstadoPaquete
-  tenant?: Prisma.TenantUpdateOneRequiredWithoutPaquetesAdquiridosNestedInput
-  empresa?: Prisma.EmpresaUpdateOneRequiredWithoutPaquetesAdquiridosNestedInput
-  catalogo?: Prisma.TerapiasPsicologosUpdateOneRequiredWithoutPaquetesAdquiridosNestedInput
-  membership?: Prisma.TenantMembershipUpdateOneWithoutPaquetesAdquiridosNestedInput
   citas?: Prisma.CitasPsicologosUpdateManyWithoutPaqueteNestedInput
+  catalogo?: Prisma.TerapiasPsicologosUpdateOneRequiredWithoutPaquetesAdquiridosNestedInput
+  empresa?: Prisma.EmpresaUpdateOneRequiredWithoutPaquetesAdquiridosNestedInput
+  membership?: Prisma.TenantMembershipUpdateOneWithoutPaquetesAdquiridosNestedInput
+  tenant?: Prisma.TenantUpdateOneRequiredWithoutPaquetesAdquiridosNestedInput
 }
 
 export type PaqueteAdquiridoUncheckedUpdateWithoutClienteInput = {
@@ -1466,11 +1466,11 @@ export type PaqueteAdquiridoUpdateWithoutCatalogoInput = {
   fechaVencimiento?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   precioPagado?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   estado?: Prisma.EnumEstadoPaqueteFieldUpdateOperationsInput | $Enums.EstadoPaquete
-  tenant?: Prisma.TenantUpdateOneRequiredWithoutPaquetesAdquiridosNestedInput
-  empresa?: Prisma.EmpresaUpdateOneRequiredWithoutPaquetesAdquiridosNestedInput
-  cliente?: Prisma.ClienteUpdateOneRequiredWithoutPaquetesAdquiridosNestedInput
-  membership?: Prisma.TenantMembershipUpdateOneWithoutPaquetesAdquiridosNestedInput
   citas?: Prisma.CitasPsicologosUpdateManyWithoutPaqueteNestedInput
+  cliente?: Prisma.ClienteUpdateOneRequiredWithoutPaquetesAdquiridosNestedInput
+  empresa?: Prisma.EmpresaUpdateOneRequiredWithoutPaquetesAdquiridosNestedInput
+  membership?: Prisma.TenantMembershipUpdateOneWithoutPaquetesAdquiridosNestedInput
+  tenant?: Prisma.TenantUpdateOneRequiredWithoutPaquetesAdquiridosNestedInput
 }
 
 export type PaqueteAdquiridoUncheckedUpdateWithoutCatalogoInput = {
@@ -1549,12 +1549,12 @@ export type PaqueteAdquiridoSelect<ExtArgs extends runtime.Types.Extensions.Inte
   fechaVencimiento?: boolean
   precioPagado?: boolean
   estado?: boolean
-  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
-  empresa?: boolean | Prisma.EmpresaDefaultArgs<ExtArgs>
-  cliente?: boolean | Prisma.ClienteDefaultArgs<ExtArgs>
-  catalogo?: boolean | Prisma.TerapiasPsicologosDefaultArgs<ExtArgs>
-  membership?: boolean | Prisma.PaqueteAdquirido$membershipArgs<ExtArgs>
   citas?: boolean | Prisma.PaqueteAdquirido$citasArgs<ExtArgs>
+  catalogo?: boolean | Prisma.TerapiasPsicologosDefaultArgs<ExtArgs>
+  cliente?: boolean | Prisma.ClienteDefaultArgs<ExtArgs>
+  empresa?: boolean | Prisma.EmpresaDefaultArgs<ExtArgs>
+  membership?: boolean | Prisma.PaqueteAdquirido$membershipArgs<ExtArgs>
+  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
   _count?: boolean | Prisma.PaqueteAdquiridoCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["paqueteAdquirido"]>
 
@@ -1572,11 +1572,11 @@ export type PaqueteAdquiridoSelectCreateManyAndReturn<ExtArgs extends runtime.Ty
   fechaVencimiento?: boolean
   precioPagado?: boolean
   estado?: boolean
-  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
-  empresa?: boolean | Prisma.EmpresaDefaultArgs<ExtArgs>
-  cliente?: boolean | Prisma.ClienteDefaultArgs<ExtArgs>
   catalogo?: boolean | Prisma.TerapiasPsicologosDefaultArgs<ExtArgs>
+  cliente?: boolean | Prisma.ClienteDefaultArgs<ExtArgs>
+  empresa?: boolean | Prisma.EmpresaDefaultArgs<ExtArgs>
   membership?: boolean | Prisma.PaqueteAdquirido$membershipArgs<ExtArgs>
+  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["paqueteAdquirido"]>
 
 export type PaqueteAdquiridoSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -1593,11 +1593,11 @@ export type PaqueteAdquiridoSelectUpdateManyAndReturn<ExtArgs extends runtime.Ty
   fechaVencimiento?: boolean
   precioPagado?: boolean
   estado?: boolean
-  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
-  empresa?: boolean | Prisma.EmpresaDefaultArgs<ExtArgs>
-  cliente?: boolean | Prisma.ClienteDefaultArgs<ExtArgs>
   catalogo?: boolean | Prisma.TerapiasPsicologosDefaultArgs<ExtArgs>
+  cliente?: boolean | Prisma.ClienteDefaultArgs<ExtArgs>
+  empresa?: boolean | Prisma.EmpresaDefaultArgs<ExtArgs>
   membership?: boolean | Prisma.PaqueteAdquirido$membershipArgs<ExtArgs>
+  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["paqueteAdquirido"]>
 
 export type PaqueteAdquiridoSelectScalar = {
@@ -1618,38 +1618,38 @@ export type PaqueteAdquiridoSelectScalar = {
 
 export type PaqueteAdquiridoOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "tenantId" | "empresaId" | "clienteId" | "catalogoId" | "membershipId" | "sesionesTotales" | "sesionesConsumidas" | "saldoRestante" | "fechaCompra" | "fechaVencimiento" | "precioPagado" | "estado", ExtArgs["result"]["paqueteAdquirido"]>
 export type PaqueteAdquiridoInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
-  empresa?: boolean | Prisma.EmpresaDefaultArgs<ExtArgs>
-  cliente?: boolean | Prisma.ClienteDefaultArgs<ExtArgs>
-  catalogo?: boolean | Prisma.TerapiasPsicologosDefaultArgs<ExtArgs>
-  membership?: boolean | Prisma.PaqueteAdquirido$membershipArgs<ExtArgs>
   citas?: boolean | Prisma.PaqueteAdquirido$citasArgs<ExtArgs>
+  catalogo?: boolean | Prisma.TerapiasPsicologosDefaultArgs<ExtArgs>
+  cliente?: boolean | Prisma.ClienteDefaultArgs<ExtArgs>
+  empresa?: boolean | Prisma.EmpresaDefaultArgs<ExtArgs>
+  membership?: boolean | Prisma.PaqueteAdquirido$membershipArgs<ExtArgs>
+  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
   _count?: boolean | Prisma.PaqueteAdquiridoCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type PaqueteAdquiridoIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
-  empresa?: boolean | Prisma.EmpresaDefaultArgs<ExtArgs>
-  cliente?: boolean | Prisma.ClienteDefaultArgs<ExtArgs>
   catalogo?: boolean | Prisma.TerapiasPsicologosDefaultArgs<ExtArgs>
+  cliente?: boolean | Prisma.ClienteDefaultArgs<ExtArgs>
+  empresa?: boolean | Prisma.EmpresaDefaultArgs<ExtArgs>
   membership?: boolean | Prisma.PaqueteAdquirido$membershipArgs<ExtArgs>
+  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
 }
 export type PaqueteAdquiridoIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
-  empresa?: boolean | Prisma.EmpresaDefaultArgs<ExtArgs>
-  cliente?: boolean | Prisma.ClienteDefaultArgs<ExtArgs>
   catalogo?: boolean | Prisma.TerapiasPsicologosDefaultArgs<ExtArgs>
+  cliente?: boolean | Prisma.ClienteDefaultArgs<ExtArgs>
+  empresa?: boolean | Prisma.EmpresaDefaultArgs<ExtArgs>
   membership?: boolean | Prisma.PaqueteAdquirido$membershipArgs<ExtArgs>
+  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
 }
 
 export type $PaqueteAdquiridoPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "PaqueteAdquirido"
   objects: {
-    tenant: Prisma.$TenantPayload<ExtArgs>
-    empresa: Prisma.$EmpresaPayload<ExtArgs>
-    cliente: Prisma.$ClientePayload<ExtArgs>
-    catalogo: Prisma.$TerapiasPsicologosPayload<ExtArgs>
-    membership: Prisma.$TenantMembershipPayload<ExtArgs> | null
     citas: Prisma.$CitasPsicologosPayload<ExtArgs>[]
+    catalogo: Prisma.$TerapiasPsicologosPayload<ExtArgs>
+    cliente: Prisma.$ClientePayload<ExtArgs>
+    empresa: Prisma.$EmpresaPayload<ExtArgs>
+    membership: Prisma.$TenantMembershipPayload<ExtArgs> | null
+    tenant: Prisma.$TenantPayload<ExtArgs>
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -2059,12 +2059,12 @@ readonly fields: PaqueteAdquiridoFieldRefs;
  */
 export interface Prisma__PaqueteAdquiridoClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
-  tenant<T extends Prisma.TenantDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.TenantDefaultArgs<ExtArgs>>): Prisma.Prisma__TenantClient<runtime.Types.Result.GetResult<Prisma.$TenantPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
-  empresa<T extends Prisma.EmpresaDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.EmpresaDefaultArgs<ExtArgs>>): Prisma.Prisma__EmpresaClient<runtime.Types.Result.GetResult<Prisma.$EmpresaPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
-  cliente<T extends Prisma.ClienteDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.ClienteDefaultArgs<ExtArgs>>): Prisma.Prisma__ClienteClient<runtime.Types.Result.GetResult<Prisma.$ClientePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
-  catalogo<T extends Prisma.TerapiasPsicologosDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.TerapiasPsicologosDefaultArgs<ExtArgs>>): Prisma.Prisma__TerapiasPsicologosClient<runtime.Types.Result.GetResult<Prisma.$TerapiasPsicologosPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
-  membership<T extends Prisma.PaqueteAdquirido$membershipArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.PaqueteAdquirido$membershipArgs<ExtArgs>>): Prisma.Prisma__TenantMembershipClient<runtime.Types.Result.GetResult<Prisma.$TenantMembershipPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   citas<T extends Prisma.PaqueteAdquirido$citasArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.PaqueteAdquirido$citasArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$CitasPsicologosPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  catalogo<T extends Prisma.TerapiasPsicologosDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.TerapiasPsicologosDefaultArgs<ExtArgs>>): Prisma.Prisma__TerapiasPsicologosClient<runtime.Types.Result.GetResult<Prisma.$TerapiasPsicologosPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  cliente<T extends Prisma.ClienteDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.ClienteDefaultArgs<ExtArgs>>): Prisma.Prisma__ClienteClient<runtime.Types.Result.GetResult<Prisma.$ClientePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  empresa<T extends Prisma.EmpresaDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.EmpresaDefaultArgs<ExtArgs>>): Prisma.Prisma__EmpresaClient<runtime.Types.Result.GetResult<Prisma.$EmpresaPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  membership<T extends Prisma.PaqueteAdquirido$membershipArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.PaqueteAdquirido$membershipArgs<ExtArgs>>): Prisma.Prisma__TenantMembershipClient<runtime.Types.Result.GetResult<Prisma.$TenantMembershipPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  tenant<T extends Prisma.TenantDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.TenantDefaultArgs<ExtArgs>>): Prisma.Prisma__TenantClient<runtime.Types.Result.GetResult<Prisma.$TenantPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -2503,25 +2503,6 @@ export type PaqueteAdquiridoDeleteManyArgs<ExtArgs extends runtime.Types.Extensi
 }
 
 /**
- * PaqueteAdquirido.membership
- */
-export type PaqueteAdquirido$membershipArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the TenantMembership
-   */
-  select?: Prisma.TenantMembershipSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the TenantMembership
-   */
-  omit?: Prisma.TenantMembershipOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.TenantMembershipInclude<ExtArgs> | null
-  where?: Prisma.TenantMembershipWhereInput
-}
-
-/**
  * PaqueteAdquirido.citas
  */
 export type PaqueteAdquirido$citasArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -2543,6 +2524,25 @@ export type PaqueteAdquirido$citasArgs<ExtArgs extends runtime.Types.Extensions.
   take?: number
   skip?: number
   distinct?: Prisma.CitasPsicologosScalarFieldEnum | Prisma.CitasPsicologosScalarFieldEnum[]
+}
+
+/**
+ * PaqueteAdquirido.membership
+ */
+export type PaqueteAdquirido$membershipArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the TenantMembership
+   */
+  select?: Prisma.TenantMembershipSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the TenantMembership
+   */
+  omit?: Prisma.TenantMembershipOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.TenantMembershipInclude<ExtArgs> | null
+  where?: Prisma.TenantMembershipWhereInput
 }
 
 /**

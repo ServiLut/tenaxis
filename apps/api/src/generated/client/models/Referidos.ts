@@ -214,9 +214,9 @@ export type ReferidosWhereInput = {
   telefono?: Prisma.StringNullableFilter<"Referidos"> | string | null
   codigo?: Prisma.StringNullableFilter<"Referidos"> | string | null
   createdAt?: Prisma.DateTimeFilter<"Referidos"> | Date | string
-  tenant?: Prisma.XOR<Prisma.TenantScalarRelationFilter, Prisma.TenantWhereInput>
   empresa?: Prisma.XOR<Prisma.EmpresaScalarRelationFilter, Prisma.EmpresaWhereInput>
   membership?: Prisma.XOR<Prisma.TenantMembershipScalarRelationFilter, Prisma.TenantMembershipWhereInput>
+  tenant?: Prisma.XOR<Prisma.TenantScalarRelationFilter, Prisma.TenantWhereInput>
 }
 
 export type ReferidosOrderByWithRelationInput = {
@@ -229,9 +229,9 @@ export type ReferidosOrderByWithRelationInput = {
   telefono?: Prisma.SortOrderInput | Prisma.SortOrder
   codigo?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
-  tenant?: Prisma.TenantOrderByWithRelationInput
   empresa?: Prisma.EmpresaOrderByWithRelationInput
   membership?: Prisma.TenantMembershipOrderByWithRelationInput
+  tenant?: Prisma.TenantOrderByWithRelationInput
 }
 
 export type ReferidosWhereUniqueInput = Prisma.AtLeast<{
@@ -247,9 +247,9 @@ export type ReferidosWhereUniqueInput = Prisma.AtLeast<{
   telefono?: Prisma.StringNullableFilter<"Referidos"> | string | null
   codigo?: Prisma.StringNullableFilter<"Referidos"> | string | null
   createdAt?: Prisma.DateTimeFilter<"Referidos"> | Date | string
-  tenant?: Prisma.XOR<Prisma.TenantScalarRelationFilter, Prisma.TenantWhereInput>
   empresa?: Prisma.XOR<Prisma.EmpresaScalarRelationFilter, Prisma.EmpresaWhereInput>
   membership?: Prisma.XOR<Prisma.TenantMembershipScalarRelationFilter, Prisma.TenantMembershipWhereInput>
+  tenant?: Prisma.XOR<Prisma.TenantScalarRelationFilter, Prisma.TenantWhereInput>
 }, "id">
 
 export type ReferidosOrderByWithAggregationInput = {
@@ -289,9 +289,9 @@ export type ReferidosCreateInput = {
   telefono?: string | null
   codigo?: string | null
   createdAt?: Date | string
-  tenant: Prisma.TenantCreateNestedOneWithoutReferidosInput
   empresa: Prisma.EmpresaCreateNestedOneWithoutReferidosInput
   membership: Prisma.TenantMembershipCreateNestedOneWithoutReferidosInput
+  tenant: Prisma.TenantCreateNestedOneWithoutReferidosInput
 }
 
 export type ReferidosUncheckedCreateInput = {
@@ -313,9 +313,9 @@ export type ReferidosUpdateInput = {
   telefono?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   codigo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  tenant?: Prisma.TenantUpdateOneRequiredWithoutReferidosNestedInput
   empresa?: Prisma.EmpresaUpdateOneRequiredWithoutReferidosNestedInput
   membership?: Prisma.TenantMembershipUpdateOneRequiredWithoutReferidosNestedInput
+  tenant?: Prisma.TenantUpdateOneRequiredWithoutReferidosNestedInput
 }
 
 export type ReferidosUncheckedUpdateInput = {
@@ -605,8 +605,8 @@ export type ReferidosCreateWithoutMembershipInput = {
   telefono?: string | null
   codigo?: string | null
   createdAt?: Date | string
-  tenant: Prisma.TenantCreateNestedOneWithoutReferidosInput
   empresa: Prisma.EmpresaCreateNestedOneWithoutReferidosInput
+  tenant: Prisma.TenantCreateNestedOneWithoutReferidosInput
 }
 
 export type ReferidosUncheckedCreateWithoutMembershipInput = {
@@ -653,8 +653,8 @@ export type ReferidosCreateWithoutEmpresaInput = {
   telefono?: string | null
   codigo?: string | null
   createdAt?: Date | string
-  tenant: Prisma.TenantCreateNestedOneWithoutReferidosInput
   membership: Prisma.TenantMembershipCreateNestedOneWithoutReferidosInput
+  tenant: Prisma.TenantCreateNestedOneWithoutReferidosInput
 }
 
 export type ReferidosUncheckedCreateWithoutEmpresaInput = {
@@ -756,8 +756,8 @@ export type ReferidosUpdateWithoutMembershipInput = {
   telefono?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   codigo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  tenant?: Prisma.TenantUpdateOneRequiredWithoutReferidosNestedInput
   empresa?: Prisma.EmpresaUpdateOneRequiredWithoutReferidosNestedInput
+  tenant?: Prisma.TenantUpdateOneRequiredWithoutReferidosNestedInput
 }
 
 export type ReferidosUncheckedUpdateWithoutMembershipInput = {
@@ -800,8 +800,8 @@ export type ReferidosUpdateWithoutEmpresaInput = {
   telefono?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   codigo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  tenant?: Prisma.TenantUpdateOneRequiredWithoutReferidosNestedInput
   membership?: Prisma.TenantMembershipUpdateOneRequiredWithoutReferidosNestedInput
+  tenant?: Prisma.TenantUpdateOneRequiredWithoutReferidosNestedInput
 }
 
 export type ReferidosUncheckedUpdateWithoutEmpresaInput = {
@@ -838,9 +838,9 @@ export type ReferidosSelect<ExtArgs extends runtime.Types.Extensions.InternalArg
   telefono?: boolean
   codigo?: boolean
   createdAt?: boolean
-  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
   empresa?: boolean | Prisma.EmpresaDefaultArgs<ExtArgs>
   membership?: boolean | Prisma.TenantMembershipDefaultArgs<ExtArgs>
+  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["referidos"]>
 
 export type ReferidosSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -853,9 +853,9 @@ export type ReferidosSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Ext
   telefono?: boolean
   codigo?: boolean
   createdAt?: boolean
-  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
   empresa?: boolean | Prisma.EmpresaDefaultArgs<ExtArgs>
   membership?: boolean | Prisma.TenantMembershipDefaultArgs<ExtArgs>
+  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["referidos"]>
 
 export type ReferidosSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -868,9 +868,9 @@ export type ReferidosSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Ext
   telefono?: boolean
   codigo?: boolean
   createdAt?: boolean
-  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
   empresa?: boolean | Prisma.EmpresaDefaultArgs<ExtArgs>
   membership?: boolean | Prisma.TenantMembershipDefaultArgs<ExtArgs>
+  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["referidos"]>
 
 export type ReferidosSelectScalar = {
@@ -887,27 +887,27 @@ export type ReferidosSelectScalar = {
 
 export type ReferidosOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "tenantId" | "empresaId" | "membershipId" | "nombre" | "apellido" | "telefono" | "codigo" | "createdAt", ExtArgs["result"]["referidos"]>
 export type ReferidosInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
   empresa?: boolean | Prisma.EmpresaDefaultArgs<ExtArgs>
   membership?: boolean | Prisma.TenantMembershipDefaultArgs<ExtArgs>
+  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
 }
 export type ReferidosIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
   empresa?: boolean | Prisma.EmpresaDefaultArgs<ExtArgs>
   membership?: boolean | Prisma.TenantMembershipDefaultArgs<ExtArgs>
+  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
 }
 export type ReferidosIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
   empresa?: boolean | Prisma.EmpresaDefaultArgs<ExtArgs>
   membership?: boolean | Prisma.TenantMembershipDefaultArgs<ExtArgs>
+  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
 }
 
 export type $ReferidosPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "Referidos"
   objects: {
-    tenant: Prisma.$TenantPayload<ExtArgs>
     empresa: Prisma.$EmpresaPayload<ExtArgs>
     membership: Prisma.$TenantMembershipPayload<ExtArgs>
+    tenant: Prisma.$TenantPayload<ExtArgs>
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -1313,9 +1313,9 @@ readonly fields: ReferidosFieldRefs;
  */
 export interface Prisma__ReferidosClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
-  tenant<T extends Prisma.TenantDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.TenantDefaultArgs<ExtArgs>>): Prisma.Prisma__TenantClient<runtime.Types.Result.GetResult<Prisma.$TenantPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   empresa<T extends Prisma.EmpresaDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.EmpresaDefaultArgs<ExtArgs>>): Prisma.Prisma__EmpresaClient<runtime.Types.Result.GetResult<Prisma.$EmpresaPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   membership<T extends Prisma.TenantMembershipDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.TenantMembershipDefaultArgs<ExtArgs>>): Prisma.Prisma__TenantMembershipClient<runtime.Types.Result.GetResult<Prisma.$TenantMembershipPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  tenant<T extends Prisma.TenantDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.TenantDefaultArgs<ExtArgs>>): Prisma.Prisma__TenantClient<runtime.Types.Result.GetResult<Prisma.$TenantPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
