@@ -4377,6 +4377,8 @@ export const TipoInteresScalarFieldEnum = {
   tenantId: 'tenantId',
   nombre: 'nombre',
   descripcion: 'descripcion',
+  frecuenciaSugerida: 'frecuenciaSugerida',
+  riesgoSugerido: 'riesgoSugerido',
   activo: 'activo',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
