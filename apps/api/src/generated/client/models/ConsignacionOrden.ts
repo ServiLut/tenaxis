@@ -182,10 +182,10 @@ export type ConsignacionOrdenWhereInput = {
   empresaId?: Prisma.UuidFilter<"ConsignacionOrden"> | string
   consignacionId?: Prisma.UuidFilter<"ConsignacionOrden"> | string
   ordenId?: Prisma.UuidFilter<"ConsignacionOrden"> | string
-  tenant?: Prisma.XOR<Prisma.TenantScalarRelationFilter, Prisma.TenantWhereInput>
-  empresa?: Prisma.XOR<Prisma.EmpresaScalarRelationFilter, Prisma.EmpresaWhereInput>
   consignacion?: Prisma.XOR<Prisma.ConsignacionEfectivoScalarRelationFilter, Prisma.ConsignacionEfectivoWhereInput>
+  empresa?: Prisma.XOR<Prisma.EmpresaScalarRelationFilter, Prisma.EmpresaWhereInput>
   orden?: Prisma.XOR<Prisma.OrdenServicioScalarRelationFilter, Prisma.OrdenServicioWhereInput>
+  tenant?: Prisma.XOR<Prisma.TenantScalarRelationFilter, Prisma.TenantWhereInput>
 }
 
 export type ConsignacionOrdenOrderByWithRelationInput = {
@@ -194,10 +194,10 @@ export type ConsignacionOrdenOrderByWithRelationInput = {
   empresaId?: Prisma.SortOrder
   consignacionId?: Prisma.SortOrder
   ordenId?: Prisma.SortOrder
-  tenant?: Prisma.TenantOrderByWithRelationInput
-  empresa?: Prisma.EmpresaOrderByWithRelationInput
   consignacion?: Prisma.ConsignacionEfectivoOrderByWithRelationInput
+  empresa?: Prisma.EmpresaOrderByWithRelationInput
   orden?: Prisma.OrdenServicioOrderByWithRelationInput
+  tenant?: Prisma.TenantOrderByWithRelationInput
 }
 
 export type ConsignacionOrdenWhereUniqueInput = Prisma.AtLeast<{
@@ -209,10 +209,10 @@ export type ConsignacionOrdenWhereUniqueInput = Prisma.AtLeast<{
   tenantId?: Prisma.UuidFilter<"ConsignacionOrden"> | string
   empresaId?: Prisma.UuidFilter<"ConsignacionOrden"> | string
   consignacionId?: Prisma.UuidFilter<"ConsignacionOrden"> | string
-  tenant?: Prisma.XOR<Prisma.TenantScalarRelationFilter, Prisma.TenantWhereInput>
-  empresa?: Prisma.XOR<Prisma.EmpresaScalarRelationFilter, Prisma.EmpresaWhereInput>
   consignacion?: Prisma.XOR<Prisma.ConsignacionEfectivoScalarRelationFilter, Prisma.ConsignacionEfectivoWhereInput>
+  empresa?: Prisma.XOR<Prisma.EmpresaScalarRelationFilter, Prisma.EmpresaWhereInput>
   orden?: Prisma.XOR<Prisma.OrdenServicioScalarRelationFilter, Prisma.OrdenServicioWhereInput>
+  tenant?: Prisma.XOR<Prisma.TenantScalarRelationFilter, Prisma.TenantWhereInput>
 }, "id" | "ordenId">
 
 export type ConsignacionOrdenOrderByWithAggregationInput = {
@@ -239,10 +239,10 @@ export type ConsignacionOrdenScalarWhereWithAggregatesInput = {
 
 export type ConsignacionOrdenCreateInput = {
   id?: string
-  tenant: Prisma.TenantCreateNestedOneWithoutConsignacionOrdenesInput
-  empresa: Prisma.EmpresaCreateNestedOneWithoutConsignacionOrdenesInput
   consignacion: Prisma.ConsignacionEfectivoCreateNestedOneWithoutOrdenesInput
+  empresa: Prisma.EmpresaCreateNestedOneWithoutConsignacionOrdenesInput
   orden: Prisma.OrdenServicioCreateNestedOneWithoutConsignacionOrdenInput
+  tenant: Prisma.TenantCreateNestedOneWithoutConsignacionOrdenesInput
 }
 
 export type ConsignacionOrdenUncheckedCreateInput = {
@@ -255,10 +255,10 @@ export type ConsignacionOrdenUncheckedCreateInput = {
 
 export type ConsignacionOrdenUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  tenant?: Prisma.TenantUpdateOneRequiredWithoutConsignacionOrdenesNestedInput
-  empresa?: Prisma.EmpresaUpdateOneRequiredWithoutConsignacionOrdenesNestedInput
   consignacion?: Prisma.ConsignacionEfectivoUpdateOneRequiredWithoutOrdenesNestedInput
+  empresa?: Prisma.EmpresaUpdateOneRequiredWithoutConsignacionOrdenesNestedInput
   orden?: Prisma.OrdenServicioUpdateOneRequiredWithoutConsignacionOrdenNestedInput
+  tenant?: Prisma.TenantUpdateOneRequiredWithoutConsignacionOrdenesNestedInput
 }
 
 export type ConsignacionOrdenUncheckedUpdateInput = {
@@ -488,8 +488,8 @@ export type ConsignacionOrdenUncheckedUpdateManyWithoutConsignacionNestedInput =
 
 export type ConsignacionOrdenCreateWithoutTenantInput = {
   id?: string
-  empresa: Prisma.EmpresaCreateNestedOneWithoutConsignacionOrdenesInput
   consignacion: Prisma.ConsignacionEfectivoCreateNestedOneWithoutOrdenesInput
+  empresa: Prisma.EmpresaCreateNestedOneWithoutConsignacionOrdenesInput
   orden: Prisma.OrdenServicioCreateNestedOneWithoutConsignacionOrdenInput
 }
 
@@ -539,9 +539,9 @@ export type ConsignacionOrdenScalarWhereInput = {
 
 export type ConsignacionOrdenCreateWithoutEmpresaInput = {
   id?: string
-  tenant: Prisma.TenantCreateNestedOneWithoutConsignacionOrdenesInput
   consignacion: Prisma.ConsignacionEfectivoCreateNestedOneWithoutOrdenesInput
   orden: Prisma.OrdenServicioCreateNestedOneWithoutConsignacionOrdenInput
+  tenant: Prisma.TenantCreateNestedOneWithoutConsignacionOrdenesInput
 }
 
 export type ConsignacionOrdenUncheckedCreateWithoutEmpresaInput = {
@@ -579,9 +579,9 @@ export type ConsignacionOrdenUpdateManyWithWhereWithoutEmpresaInput = {
 
 export type ConsignacionOrdenCreateWithoutOrdenInput = {
   id?: string
-  tenant: Prisma.TenantCreateNestedOneWithoutConsignacionOrdenesInput
-  empresa: Prisma.EmpresaCreateNestedOneWithoutConsignacionOrdenesInput
   consignacion: Prisma.ConsignacionEfectivoCreateNestedOneWithoutOrdenesInput
+  empresa: Prisma.EmpresaCreateNestedOneWithoutConsignacionOrdenesInput
+  tenant: Prisma.TenantCreateNestedOneWithoutConsignacionOrdenesInput
 }
 
 export type ConsignacionOrdenUncheckedCreateWithoutOrdenInput = {
@@ -609,9 +609,9 @@ export type ConsignacionOrdenUpdateToOneWithWhereWithoutOrdenInput = {
 
 export type ConsignacionOrdenUpdateWithoutOrdenInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  tenant?: Prisma.TenantUpdateOneRequiredWithoutConsignacionOrdenesNestedInput
-  empresa?: Prisma.EmpresaUpdateOneRequiredWithoutConsignacionOrdenesNestedInput
   consignacion?: Prisma.ConsignacionEfectivoUpdateOneRequiredWithoutOrdenesNestedInput
+  empresa?: Prisma.EmpresaUpdateOneRequiredWithoutConsignacionOrdenesNestedInput
+  tenant?: Prisma.TenantUpdateOneRequiredWithoutConsignacionOrdenesNestedInput
 }
 
 export type ConsignacionOrdenUncheckedUpdateWithoutOrdenInput = {
@@ -623,9 +623,9 @@ export type ConsignacionOrdenUncheckedUpdateWithoutOrdenInput = {
 
 export type ConsignacionOrdenCreateWithoutConsignacionInput = {
   id?: string
-  tenant: Prisma.TenantCreateNestedOneWithoutConsignacionOrdenesInput
   empresa: Prisma.EmpresaCreateNestedOneWithoutConsignacionOrdenesInput
   orden: Prisma.OrdenServicioCreateNestedOneWithoutConsignacionOrdenInput
+  tenant: Prisma.TenantCreateNestedOneWithoutConsignacionOrdenesInput
 }
 
 export type ConsignacionOrdenUncheckedCreateWithoutConsignacionInput = {
@@ -670,8 +670,8 @@ export type ConsignacionOrdenCreateManyTenantInput = {
 
 export type ConsignacionOrdenUpdateWithoutTenantInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  empresa?: Prisma.EmpresaUpdateOneRequiredWithoutConsignacionOrdenesNestedInput
   consignacion?: Prisma.ConsignacionEfectivoUpdateOneRequiredWithoutOrdenesNestedInput
+  empresa?: Prisma.EmpresaUpdateOneRequiredWithoutConsignacionOrdenesNestedInput
   orden?: Prisma.OrdenServicioUpdateOneRequiredWithoutConsignacionOrdenNestedInput
 }
 
@@ -698,9 +698,9 @@ export type ConsignacionOrdenCreateManyEmpresaInput = {
 
 export type ConsignacionOrdenUpdateWithoutEmpresaInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  tenant?: Prisma.TenantUpdateOneRequiredWithoutConsignacionOrdenesNestedInput
   consignacion?: Prisma.ConsignacionEfectivoUpdateOneRequiredWithoutOrdenesNestedInput
   orden?: Prisma.OrdenServicioUpdateOneRequiredWithoutConsignacionOrdenNestedInput
+  tenant?: Prisma.TenantUpdateOneRequiredWithoutConsignacionOrdenesNestedInput
 }
 
 export type ConsignacionOrdenUncheckedUpdateWithoutEmpresaInput = {
@@ -726,9 +726,9 @@ export type ConsignacionOrdenCreateManyConsignacionInput = {
 
 export type ConsignacionOrdenUpdateWithoutConsignacionInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  tenant?: Prisma.TenantUpdateOneRequiredWithoutConsignacionOrdenesNestedInput
   empresa?: Prisma.EmpresaUpdateOneRequiredWithoutConsignacionOrdenesNestedInput
   orden?: Prisma.OrdenServicioUpdateOneRequiredWithoutConsignacionOrdenNestedInput
+  tenant?: Prisma.TenantUpdateOneRequiredWithoutConsignacionOrdenesNestedInput
 }
 
 export type ConsignacionOrdenUncheckedUpdateWithoutConsignacionInput = {
@@ -753,10 +753,10 @@ export type ConsignacionOrdenSelect<ExtArgs extends runtime.Types.Extensions.Int
   empresaId?: boolean
   consignacionId?: boolean
   ordenId?: boolean
-  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
-  empresa?: boolean | Prisma.EmpresaDefaultArgs<ExtArgs>
   consignacion?: boolean | Prisma.ConsignacionEfectivoDefaultArgs<ExtArgs>
+  empresa?: boolean | Prisma.EmpresaDefaultArgs<ExtArgs>
   orden?: boolean | Prisma.OrdenServicioDefaultArgs<ExtArgs>
+  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["consignacionOrden"]>
 
 export type ConsignacionOrdenSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -765,10 +765,10 @@ export type ConsignacionOrdenSelectCreateManyAndReturn<ExtArgs extends runtime.T
   empresaId?: boolean
   consignacionId?: boolean
   ordenId?: boolean
-  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
-  empresa?: boolean | Prisma.EmpresaDefaultArgs<ExtArgs>
   consignacion?: boolean | Prisma.ConsignacionEfectivoDefaultArgs<ExtArgs>
+  empresa?: boolean | Prisma.EmpresaDefaultArgs<ExtArgs>
   orden?: boolean | Prisma.OrdenServicioDefaultArgs<ExtArgs>
+  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["consignacionOrden"]>
 
 export type ConsignacionOrdenSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -777,10 +777,10 @@ export type ConsignacionOrdenSelectUpdateManyAndReturn<ExtArgs extends runtime.T
   empresaId?: boolean
   consignacionId?: boolean
   ordenId?: boolean
-  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
-  empresa?: boolean | Prisma.EmpresaDefaultArgs<ExtArgs>
   consignacion?: boolean | Prisma.ConsignacionEfectivoDefaultArgs<ExtArgs>
+  empresa?: boolean | Prisma.EmpresaDefaultArgs<ExtArgs>
   orden?: boolean | Prisma.OrdenServicioDefaultArgs<ExtArgs>
+  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["consignacionOrden"]>
 
 export type ConsignacionOrdenSelectScalar = {
@@ -793,31 +793,31 @@ export type ConsignacionOrdenSelectScalar = {
 
 export type ConsignacionOrdenOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "tenantId" | "empresaId" | "consignacionId" | "ordenId", ExtArgs["result"]["consignacionOrden"]>
 export type ConsignacionOrdenInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
-  empresa?: boolean | Prisma.EmpresaDefaultArgs<ExtArgs>
   consignacion?: boolean | Prisma.ConsignacionEfectivoDefaultArgs<ExtArgs>
+  empresa?: boolean | Prisma.EmpresaDefaultArgs<ExtArgs>
   orden?: boolean | Prisma.OrdenServicioDefaultArgs<ExtArgs>
+  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
 }
 export type ConsignacionOrdenIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
-  empresa?: boolean | Prisma.EmpresaDefaultArgs<ExtArgs>
   consignacion?: boolean | Prisma.ConsignacionEfectivoDefaultArgs<ExtArgs>
+  empresa?: boolean | Prisma.EmpresaDefaultArgs<ExtArgs>
   orden?: boolean | Prisma.OrdenServicioDefaultArgs<ExtArgs>
+  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
 }
 export type ConsignacionOrdenIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
-  empresa?: boolean | Prisma.EmpresaDefaultArgs<ExtArgs>
   consignacion?: boolean | Prisma.ConsignacionEfectivoDefaultArgs<ExtArgs>
+  empresa?: boolean | Prisma.EmpresaDefaultArgs<ExtArgs>
   orden?: boolean | Prisma.OrdenServicioDefaultArgs<ExtArgs>
+  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
 }
 
 export type $ConsignacionOrdenPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "ConsignacionOrden"
   objects: {
-    tenant: Prisma.$TenantPayload<ExtArgs>
-    empresa: Prisma.$EmpresaPayload<ExtArgs>
     consignacion: Prisma.$ConsignacionEfectivoPayload<ExtArgs>
+    empresa: Prisma.$EmpresaPayload<ExtArgs>
     orden: Prisma.$OrdenServicioPayload<ExtArgs>
+    tenant: Prisma.$TenantPayload<ExtArgs>
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -1219,10 +1219,10 @@ readonly fields: ConsignacionOrdenFieldRefs;
  */
 export interface Prisma__ConsignacionOrdenClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
-  tenant<T extends Prisma.TenantDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.TenantDefaultArgs<ExtArgs>>): Prisma.Prisma__TenantClient<runtime.Types.Result.GetResult<Prisma.$TenantPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
-  empresa<T extends Prisma.EmpresaDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.EmpresaDefaultArgs<ExtArgs>>): Prisma.Prisma__EmpresaClient<runtime.Types.Result.GetResult<Prisma.$EmpresaPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   consignacion<T extends Prisma.ConsignacionEfectivoDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.ConsignacionEfectivoDefaultArgs<ExtArgs>>): Prisma.Prisma__ConsignacionEfectivoClient<runtime.Types.Result.GetResult<Prisma.$ConsignacionEfectivoPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  empresa<T extends Prisma.EmpresaDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.EmpresaDefaultArgs<ExtArgs>>): Prisma.Prisma__EmpresaClient<runtime.Types.Result.GetResult<Prisma.$EmpresaPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   orden<T extends Prisma.OrdenServicioDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.OrdenServicioDefaultArgs<ExtArgs>>): Prisma.Prisma__OrdenServicioClient<runtime.Types.Result.GetResult<Prisma.$OrdenServicioPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  tenant<T extends Prisma.TenantDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.TenantDefaultArgs<ExtArgs>>): Prisma.Prisma__TenantClient<runtime.Types.Result.GetResult<Prisma.$TenantPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.

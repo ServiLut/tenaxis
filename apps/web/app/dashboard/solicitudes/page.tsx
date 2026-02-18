@@ -38,7 +38,7 @@ export default function SolicitudesPage() {
       if (response.ok) {
         setRequests(result.data || result);
       }
-    } catch (error) {
+    } catch (_error) {
       toast.error("Error al cargar solicitudes");
     } finally {
       setLoading(false);
@@ -57,7 +57,7 @@ export default function SolicitudesPage() {
       } else {
         throw new Error("Error al aprobar");
       }
-    } catch (error) {
+    } catch (_error) {
       toast.error("Error al procesar aprobación");
     } finally {
       setProcessingId(null);
@@ -76,7 +76,7 @@ export default function SolicitudesPage() {
       } else {
         throw new Error("Error al rechazar");
       }
-    } catch (error) {
+    } catch (_error) {
       toast.error("Error al procesar rechazo");
     } finally {
       setProcessingId(null);

@@ -240,10 +240,10 @@ export type AnticiposWhereInput = {
   monto?: Prisma.DecimalFilter<"Anticipos"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   razon?: Prisma.StringNullableFilter<"Anticipos"> | string | null
   createdAt?: Prisma.DateTimeFilter<"Anticipos"> | Date | string
-  tenant?: Prisma.XOR<Prisma.TenantScalarRelationFilter, Prisma.TenantWhereInput>
+  consignacion?: Prisma.XOR<Prisma.ConsignacionEfectivoNullableScalarRelationFilter, Prisma.ConsignacionEfectivoWhereInput> | null
   empresa?: Prisma.XOR<Prisma.EmpresaScalarRelationFilter, Prisma.EmpresaWhereInput>
   membership?: Prisma.XOR<Prisma.TenantMembershipScalarRelationFilter, Prisma.TenantMembershipWhereInput>
-  consignacion?: Prisma.XOR<Prisma.ConsignacionEfectivoNullableScalarRelationFilter, Prisma.ConsignacionEfectivoWhereInput> | null
+  tenant?: Prisma.XOR<Prisma.TenantScalarRelationFilter, Prisma.TenantWhereInput>
 }
 
 export type AnticiposOrderByWithRelationInput = {
@@ -255,10 +255,10 @@ export type AnticiposOrderByWithRelationInput = {
   monto?: Prisma.SortOrder
   razon?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
-  tenant?: Prisma.TenantOrderByWithRelationInput
+  consignacion?: Prisma.ConsignacionEfectivoOrderByWithRelationInput
   empresa?: Prisma.EmpresaOrderByWithRelationInput
   membership?: Prisma.TenantMembershipOrderByWithRelationInput
-  consignacion?: Prisma.ConsignacionEfectivoOrderByWithRelationInput
+  tenant?: Prisma.TenantOrderByWithRelationInput
 }
 
 export type AnticiposWhereUniqueInput = Prisma.AtLeast<{
@@ -273,10 +273,10 @@ export type AnticiposWhereUniqueInput = Prisma.AtLeast<{
   monto?: Prisma.DecimalFilter<"Anticipos"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   razon?: Prisma.StringNullableFilter<"Anticipos"> | string | null
   createdAt?: Prisma.DateTimeFilter<"Anticipos"> | Date | string
-  tenant?: Prisma.XOR<Prisma.TenantScalarRelationFilter, Prisma.TenantWhereInput>
+  consignacion?: Prisma.XOR<Prisma.ConsignacionEfectivoNullableScalarRelationFilter, Prisma.ConsignacionEfectivoWhereInput> | null
   empresa?: Prisma.XOR<Prisma.EmpresaScalarRelationFilter, Prisma.EmpresaWhereInput>
   membership?: Prisma.XOR<Prisma.TenantMembershipScalarRelationFilter, Prisma.TenantMembershipWhereInput>
-  consignacion?: Prisma.XOR<Prisma.ConsignacionEfectivoNullableScalarRelationFilter, Prisma.ConsignacionEfectivoWhereInput> | null
+  tenant?: Prisma.XOR<Prisma.TenantScalarRelationFilter, Prisma.TenantWhereInput>
 }, "id">
 
 export type AnticiposOrderByWithAggregationInput = {
@@ -314,10 +314,10 @@ export type AnticiposCreateInput = {
   monto: runtime.Decimal | runtime.DecimalJsLike | number | string
   razon?: string | null
   createdAt?: Date | string
-  tenant: Prisma.TenantCreateNestedOneWithoutAnticiposInput
+  consignacion?: Prisma.ConsignacionEfectivoCreateNestedOneWithoutAnticiposInput
   empresa: Prisma.EmpresaCreateNestedOneWithoutAnticiposInput
   membership: Prisma.TenantMembershipCreateNestedOneWithoutAnticiposInput
-  consignacion?: Prisma.ConsignacionEfectivoCreateNestedOneWithoutAnticiposInput
+  tenant: Prisma.TenantCreateNestedOneWithoutAnticiposInput
 }
 
 export type AnticiposUncheckedCreateInput = {
@@ -336,10 +336,10 @@ export type AnticiposUpdateInput = {
   monto?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   razon?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  tenant?: Prisma.TenantUpdateOneRequiredWithoutAnticiposNestedInput
+  consignacion?: Prisma.ConsignacionEfectivoUpdateOneWithoutAnticiposNestedInput
   empresa?: Prisma.EmpresaUpdateOneRequiredWithoutAnticiposNestedInput
   membership?: Prisma.TenantMembershipUpdateOneRequiredWithoutAnticiposNestedInput
-  consignacion?: Prisma.ConsignacionEfectivoUpdateOneWithoutAnticiposNestedInput
+  tenant?: Prisma.TenantUpdateOneRequiredWithoutAnticiposNestedInput
 }
 
 export type AnticiposUncheckedUpdateInput = {
@@ -606,9 +606,9 @@ export type AnticiposCreateWithoutTenantInput = {
   monto: runtime.Decimal | runtime.DecimalJsLike | number | string
   razon?: string | null
   createdAt?: Date | string
+  consignacion?: Prisma.ConsignacionEfectivoCreateNestedOneWithoutAnticiposInput
   empresa: Prisma.EmpresaCreateNestedOneWithoutAnticiposInput
   membership: Prisma.TenantMembershipCreateNestedOneWithoutAnticiposInput
-  consignacion?: Prisma.ConsignacionEfectivoCreateNestedOneWithoutAnticiposInput
 }
 
 export type AnticiposUncheckedCreateWithoutTenantInput = {
@@ -666,9 +666,9 @@ export type AnticiposCreateWithoutMembershipInput = {
   monto: runtime.Decimal | runtime.DecimalJsLike | number | string
   razon?: string | null
   createdAt?: Date | string
-  tenant: Prisma.TenantCreateNestedOneWithoutAnticiposInput
-  empresa: Prisma.EmpresaCreateNestedOneWithoutAnticiposInput
   consignacion?: Prisma.ConsignacionEfectivoCreateNestedOneWithoutAnticiposInput
+  empresa: Prisma.EmpresaCreateNestedOneWithoutAnticiposInput
+  tenant: Prisma.TenantCreateNestedOneWithoutAnticiposInput
 }
 
 export type AnticiposUncheckedCreateWithoutMembershipInput = {
@@ -712,9 +712,9 @@ export type AnticiposCreateWithoutEmpresaInput = {
   monto: runtime.Decimal | runtime.DecimalJsLike | number | string
   razon?: string | null
   createdAt?: Date | string
-  tenant: Prisma.TenantCreateNestedOneWithoutAnticiposInput
-  membership: Prisma.TenantMembershipCreateNestedOneWithoutAnticiposInput
   consignacion?: Prisma.ConsignacionEfectivoCreateNestedOneWithoutAnticiposInput
+  membership: Prisma.TenantMembershipCreateNestedOneWithoutAnticiposInput
+  tenant: Prisma.TenantCreateNestedOneWithoutAnticiposInput
 }
 
 export type AnticiposUncheckedCreateWithoutEmpresaInput = {
@@ -758,9 +758,9 @@ export type AnticiposCreateWithoutConsignacionInput = {
   monto: runtime.Decimal | runtime.DecimalJsLike | number | string
   razon?: string | null
   createdAt?: Date | string
-  tenant: Prisma.TenantCreateNestedOneWithoutAnticiposInput
   empresa: Prisma.EmpresaCreateNestedOneWithoutAnticiposInput
   membership: Prisma.TenantMembershipCreateNestedOneWithoutAnticiposInput
+  tenant: Prisma.TenantCreateNestedOneWithoutAnticiposInput
 }
 
 export type AnticiposUncheckedCreateWithoutConsignacionInput = {
@@ -814,9 +814,9 @@ export type AnticiposUpdateWithoutTenantInput = {
   monto?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   razon?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  consignacion?: Prisma.ConsignacionEfectivoUpdateOneWithoutAnticiposNestedInput
   empresa?: Prisma.EmpresaUpdateOneRequiredWithoutAnticiposNestedInput
   membership?: Prisma.TenantMembershipUpdateOneRequiredWithoutAnticiposNestedInput
-  consignacion?: Prisma.ConsignacionEfectivoUpdateOneWithoutAnticiposNestedInput
 }
 
 export type AnticiposUncheckedUpdateWithoutTenantInput = {
@@ -854,9 +854,9 @@ export type AnticiposUpdateWithoutMembershipInput = {
   monto?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   razon?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  tenant?: Prisma.TenantUpdateOneRequiredWithoutAnticiposNestedInput
-  empresa?: Prisma.EmpresaUpdateOneRequiredWithoutAnticiposNestedInput
   consignacion?: Prisma.ConsignacionEfectivoUpdateOneWithoutAnticiposNestedInput
+  empresa?: Prisma.EmpresaUpdateOneRequiredWithoutAnticiposNestedInput
+  tenant?: Prisma.TenantUpdateOneRequiredWithoutAnticiposNestedInput
 }
 
 export type AnticiposUncheckedUpdateWithoutMembershipInput = {
@@ -894,9 +894,9 @@ export type AnticiposUpdateWithoutEmpresaInput = {
   monto?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   razon?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  tenant?: Prisma.TenantUpdateOneRequiredWithoutAnticiposNestedInput
-  membership?: Prisma.TenantMembershipUpdateOneRequiredWithoutAnticiposNestedInput
   consignacion?: Prisma.ConsignacionEfectivoUpdateOneWithoutAnticiposNestedInput
+  membership?: Prisma.TenantMembershipUpdateOneRequiredWithoutAnticiposNestedInput
+  tenant?: Prisma.TenantUpdateOneRequiredWithoutAnticiposNestedInput
 }
 
 export type AnticiposUncheckedUpdateWithoutEmpresaInput = {
@@ -934,9 +934,9 @@ export type AnticiposUpdateWithoutConsignacionInput = {
   monto?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   razon?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  tenant?: Prisma.TenantUpdateOneRequiredWithoutAnticiposNestedInput
   empresa?: Prisma.EmpresaUpdateOneRequiredWithoutAnticiposNestedInput
   membership?: Prisma.TenantMembershipUpdateOneRequiredWithoutAnticiposNestedInput
+  tenant?: Prisma.TenantUpdateOneRequiredWithoutAnticiposNestedInput
 }
 
 export type AnticiposUncheckedUpdateWithoutConsignacionInput = {
@@ -970,10 +970,10 @@ export type AnticiposSelect<ExtArgs extends runtime.Types.Extensions.InternalArg
   monto?: boolean
   razon?: boolean
   createdAt?: boolean
-  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
+  consignacion?: boolean | Prisma.Anticipos$consignacionArgs<ExtArgs>
   empresa?: boolean | Prisma.EmpresaDefaultArgs<ExtArgs>
   membership?: boolean | Prisma.TenantMembershipDefaultArgs<ExtArgs>
-  consignacion?: boolean | Prisma.Anticipos$consignacionArgs<ExtArgs>
+  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["anticipos"]>
 
 export type AnticiposSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -985,10 +985,10 @@ export type AnticiposSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Ext
   monto?: boolean
   razon?: boolean
   createdAt?: boolean
-  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
+  consignacion?: boolean | Prisma.Anticipos$consignacionArgs<ExtArgs>
   empresa?: boolean | Prisma.EmpresaDefaultArgs<ExtArgs>
   membership?: boolean | Prisma.TenantMembershipDefaultArgs<ExtArgs>
-  consignacion?: boolean | Prisma.Anticipos$consignacionArgs<ExtArgs>
+  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["anticipos"]>
 
 export type AnticiposSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -1000,10 +1000,10 @@ export type AnticiposSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Ext
   monto?: boolean
   razon?: boolean
   createdAt?: boolean
-  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
+  consignacion?: boolean | Prisma.Anticipos$consignacionArgs<ExtArgs>
   empresa?: boolean | Prisma.EmpresaDefaultArgs<ExtArgs>
   membership?: boolean | Prisma.TenantMembershipDefaultArgs<ExtArgs>
-  consignacion?: boolean | Prisma.Anticipos$consignacionArgs<ExtArgs>
+  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["anticipos"]>
 
 export type AnticiposSelectScalar = {
@@ -1019,31 +1019,31 @@ export type AnticiposSelectScalar = {
 
 export type AnticiposOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "tenantId" | "empresaId" | "membershipId" | "consignacionId" | "monto" | "razon" | "createdAt", ExtArgs["result"]["anticipos"]>
 export type AnticiposInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
+  consignacion?: boolean | Prisma.Anticipos$consignacionArgs<ExtArgs>
   empresa?: boolean | Prisma.EmpresaDefaultArgs<ExtArgs>
   membership?: boolean | Prisma.TenantMembershipDefaultArgs<ExtArgs>
-  consignacion?: boolean | Prisma.Anticipos$consignacionArgs<ExtArgs>
+  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
 }
 export type AnticiposIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
+  consignacion?: boolean | Prisma.Anticipos$consignacionArgs<ExtArgs>
   empresa?: boolean | Prisma.EmpresaDefaultArgs<ExtArgs>
   membership?: boolean | Prisma.TenantMembershipDefaultArgs<ExtArgs>
-  consignacion?: boolean | Prisma.Anticipos$consignacionArgs<ExtArgs>
+  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
 }
 export type AnticiposIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
+  consignacion?: boolean | Prisma.Anticipos$consignacionArgs<ExtArgs>
   empresa?: boolean | Prisma.EmpresaDefaultArgs<ExtArgs>
   membership?: boolean | Prisma.TenantMembershipDefaultArgs<ExtArgs>
-  consignacion?: boolean | Prisma.Anticipos$consignacionArgs<ExtArgs>
+  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
 }
 
 export type $AnticiposPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "Anticipos"
   objects: {
-    tenant: Prisma.$TenantPayload<ExtArgs>
+    consignacion: Prisma.$ConsignacionEfectivoPayload<ExtArgs> | null
     empresa: Prisma.$EmpresaPayload<ExtArgs>
     membership: Prisma.$TenantMembershipPayload<ExtArgs>
-    consignacion: Prisma.$ConsignacionEfectivoPayload<ExtArgs> | null
+    tenant: Prisma.$TenantPayload<ExtArgs>
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -1448,10 +1448,10 @@ readonly fields: AnticiposFieldRefs;
  */
 export interface Prisma__AnticiposClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
-  tenant<T extends Prisma.TenantDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.TenantDefaultArgs<ExtArgs>>): Prisma.Prisma__TenantClient<runtime.Types.Result.GetResult<Prisma.$TenantPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  consignacion<T extends Prisma.Anticipos$consignacionArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Anticipos$consignacionArgs<ExtArgs>>): Prisma.Prisma__ConsignacionEfectivoClient<runtime.Types.Result.GetResult<Prisma.$ConsignacionEfectivoPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   empresa<T extends Prisma.EmpresaDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.EmpresaDefaultArgs<ExtArgs>>): Prisma.Prisma__EmpresaClient<runtime.Types.Result.GetResult<Prisma.$EmpresaPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   membership<T extends Prisma.TenantMembershipDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.TenantMembershipDefaultArgs<ExtArgs>>): Prisma.Prisma__TenantMembershipClient<runtime.Types.Result.GetResult<Prisma.$TenantMembershipPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
-  consignacion<T extends Prisma.Anticipos$consignacionArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Anticipos$consignacionArgs<ExtArgs>>): Prisma.Prisma__ConsignacionEfectivoClient<runtime.Types.Result.GetResult<Prisma.$ConsignacionEfectivoPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  tenant<T extends Prisma.TenantDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.TenantDefaultArgs<ExtArgs>>): Prisma.Prisma__TenantClient<runtime.Types.Result.GetResult<Prisma.$TenantPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.

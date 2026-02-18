@@ -26,10 +26,8 @@ import {
   Zap, 
   Plus, 
   Pencil, 
-  Trash2, 
   Save, 
   X,
-  Palette,
   Hash,
   Clock,
   AlertTriangle,
@@ -61,6 +59,8 @@ type TipoInteres = {
   id: string;
   nombre: string;
   descripcion: string | null;
+  frecuenciaSugerida?: number;
+  riesgoSugerido?: string;
   activo: boolean;
 };
 
@@ -73,7 +73,7 @@ export default function ConfiguracionPage() {
   const [intereses, setIntereses] = useState<TipoInteres[]>([]);
 
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [editingItem, setEditingItem] = useState<any>(null);
+  const [editingItem, setEditingItem] = useState<Segmento | Riesgo | TipoInteres | null>(null);
 
   useEffect(() => {
     loadData();
@@ -98,7 +98,7 @@ export default function ConfiguracionPage() {
     }
   }
 
-  const handleOpenModal = (item: any = null) => {
+  const handleOpenModal = (item: Segmento | Riesgo | TipoInteres | null = null) => {
     setEditingItem(item);
     setIsModalOpen(true);
   };
@@ -111,15 +111,19 @@ export default function ConfiguracionPage() {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
-    const data: any = Object.fromEntries(formData.entries());
+    const entries = Object.fromEntries(formData.entries());
     
-    // Convert numeric values
-    if (data.valor) data.valor = parseInt(data.valor);
-    if (data.frecuenciaSugerida) data.frecuenciaSugerida = parseInt(data.frecuenciaSugerida);
-
+    // Logic to convert and cast data based on active tab
     try {
       if (activeTab === "segmentos") {
-        if (editingItem) {
+        const data = {
+          nombre: entries.nombre as string,
+          descripcion: entries.descripcion as string || null,
+          frecuenciaSugerida: parseInt(entries.frecuenciaSugerida as string) || 30,
+          riesgoSugerido: entries.riesgoSugerido as string || "BAJO",
+        };
+
+        if (editingItem && 'frecuenciaSugerida' in editingItem) {
           await updateSegmentoAction(editingItem.id, data);
           toast.success("Segmento actualizado");
         } else {
@@ -127,7 +131,13 @@ export default function ConfiguracionPage() {
           toast.success("Segmento creado");
         }
       } else if (activeTab === "riesgos") {
-        if (editingItem) {
+        const data = {
+          nombre: entries.nombre as string,
+          color: entries.color as string || null,
+          valor: parseInt(entries.valor as string) || 0,
+        };
+
+        if (editingItem && 'valor' in editingItem) {
           await updateRiesgoAction(editingItem.id, data);
           toast.success("Nivel de riesgo actualizado");
         } else {
@@ -135,9 +145,22 @@ export default function ConfiguracionPage() {
           toast.success("Nivel de riesgo creado");
         }
       } else if (activeTab === "intereses") {
-        if (editingItem) {
+        const data = {
+          nombre: entries.nombre as string,
+          descripcion: entries.descripcion as string || null,
+          frecuenciaSugerida: parseInt(entries.frecuenciaSugerida as string) || 30,
+          riesgoSugerido: entries.riesgoSugerido as string || "BAJO",
+        };
+
+        if (editingItem && 'id' in editingItem && !('valor' in editingItem) && !('frecuenciaSugerida' in editingItem)) {
+          // This is a bit tricky since TipoInteres might not have frequency in its type definition but it does in DTO
+          // Let's adjust TipoInteres type at the top
           await updateTipoInteresAction(editingItem.id, data);
           toast.success("Tipo de interés actualizado");
+        } else if (editingItem && 'id' in editingItem && !('valor' in editingItem)) {
+           // Fallback for interests if they have same structure as segments
+           await updateTipoInteresAction(editingItem.id, data);
+           toast.success("Tipo de interés actualizado");
         } else {
           await createTipoInteresAction(data);
           toast.success("Tipo de interés creado");
@@ -145,8 +168,9 @@ export default function ConfiguracionPage() {
       }
       loadData();
       handleCloseModal();
-    } catch (error: any) {
-      toast.error(error.message || "Error al guardar");
+    } catch (error: unknown) {
+      const message = error instanceof Error ? error.message : "Error al guardar";
+      toast.error(message);
     }
   };
 
@@ -377,16 +401,16 @@ export default function ConfiguracionPage() {
                   <>
                     <div className="space-y-2">
                       <Label className="text-xs font-bold text-zinc-500 uppercase tracking-widest">Descripción corta</Label>
-                      <Input name="descripcion" defaultValue={editingItem?.descripcion} placeholder="Breve detalle del segmento" className="h-12 rounded-xl" />
+                      <Input name="descripcion" defaultValue={(editingItem && 'descripcion' in editingItem) ? (editingItem.descripcion ?? '') : ''} placeholder="Breve detalle del segmento" className="h-12 rounded-xl" />
                     </div>
                     <div className="grid grid-cols-2 gap-4">
                       <div className="space-y-2">
                         <Label className="text-xs font-bold text-zinc-500 uppercase tracking-widest">Frecuencia Ideal (Días)</Label>
-                        <Input type="number" name="frecuenciaSugerida" defaultValue={editingItem?.frecuenciaSugerida || 30} className="h-12 rounded-xl" />
+                        <Input type="number" name="frecuenciaSugerida" defaultValue={(editingItem && 'frecuenciaSugerida' in editingItem) ? (editingItem.frecuenciaSugerida ?? 30) : 30} className="h-12 rounded-xl" />
                       </div>
                       <div className="space-y-2">
                         <Label className="text-xs font-bold text-zinc-500 uppercase tracking-widest">Riesgo por Defecto</Label>
-                        <Select name="riesgoSugerido" defaultValue={editingItem?.riesgoSugerido || 'BAJO'} className="h-12 rounded-xl">
+                        <Select name="riesgoSugerido" defaultValue={(editingItem && 'riesgoSugerido' in editingItem) ? (editingItem.riesgoSugerido || 'BAJO') : 'BAJO'} className="h-12 rounded-xl">
                           <option value="BAJO">BAJO</option>
                           <option value="MEDIO">MEDIO</option>
                           <option value="ALTO">ALTO</option>
@@ -401,11 +425,11 @@ export default function ConfiguracionPage() {
                   <div className="grid grid-cols-2 gap-4">
                     <div className="space-y-2">
                       <Label className="text-xs font-bold text-zinc-500 uppercase tracking-widest">Valor Scoring</Label>
-                      <Input type="number" name="valor" defaultValue={editingItem?.valor || 0} className="h-12 rounded-xl" />
+                      <Input type="number" name="valor" defaultValue={(editingItem && 'valor' in editingItem) ? (editingItem.valor || 0) : 0} className="h-12 rounded-xl" />
                     </div>
                     <div className="space-y-2">
                       <Label className="text-xs font-bold text-zinc-500 uppercase tracking-widest">Identificador Visual (Color)</Label>
-                      <Select name="color" defaultValue={editingItem?.color || 'emerald'} className="h-12 rounded-xl">
+                      <Select name="color" defaultValue={(editingItem && 'color' in editingItem) ? (editingItem.color || 'emerald') : 'emerald'} className="h-12 rounded-xl">
                         <option value="emerald">Esmeralda (Seguro)</option>
                         <option value="amber">Ámbar (Precaución)</option>
                         <option value="orange">Naranja (Alerta)</option>
@@ -419,16 +443,16 @@ export default function ConfiguracionPage() {
                   <>
                     <div className="space-y-2">
                       <Label className="text-xs font-bold text-zinc-500 uppercase tracking-widest">Descripción</Label>
-                      <Input name="descripcion" defaultValue={editingItem?.descripcion} placeholder="Detalle del servicio de interés" className="h-12 rounded-xl" />
+                      <Input name="descripcion" defaultValue={(editingItem && 'descripcion' in editingItem) ? (editingItem.descripcion ?? '') : ''} placeholder="Detalle del servicio de interés" className="h-12 rounded-xl" />
                     </div>
                     <div className="grid grid-cols-2 gap-4">
                       <div className="space-y-2">
                         <Label className="text-xs font-bold text-zinc-500 uppercase tracking-widest">Frecuencia Sugerida (Días)</Label>
-                        <Input type="number" name="frecuenciaSugerida" defaultValue={editingItem?.frecuenciaSugerida || 30} className="h-12 rounded-xl" />
+                        <Input type="number" name="frecuenciaSugerida" defaultValue={(editingItem && 'frecuenciaSugerida' in editingItem) ? (editingItem.frecuenciaSugerida ?? 30) : 30} className="h-12 rounded-xl" />
                       </div>
                       <div className="space-y-2">
                         <Label className="text-xs font-bold text-zinc-500 uppercase tracking-widest">Riesgo Sugerido</Label>
-                        <Select name="riesgoSugerido" defaultValue={editingItem?.riesgoSugerido || 'BAJO'} className="h-12 rounded-xl">
+                        <Select name="riesgoSugerido" defaultValue={(editingItem && 'riesgoSugerido' in editingItem) ? (editingItem.riesgoSugerido || 'BAJO') : 'BAJO'} className="h-12 rounded-xl">
                           <option value="BAJO">BAJO</option>
                           <option value="MEDIO">MEDIO</option>
                           <option value="ALTO">ALTO</option>

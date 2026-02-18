@@ -70,8 +70,8 @@ export function TenantList({ initialTenants, availablePlans }: TenantListProps) 
       const detail = await getTenantDetailAction(tenantId);
       setSelectedTenantDetail(detail);
       setIsViewModalOpen(true);
-    } catch (error) {
-      toast.error("No se pudo cargar la información del tenant");
+    } catch (_error) {
+      toast.error("No se pudo cargar la información del sistema");
     } finally {
       setLoadingDetail(false);
     }
@@ -98,14 +98,14 @@ export function TenantList({ initialTenants, availablePlans }: TenantListProps) 
       setTenants([newTenant, ...tenants]);
       setIsModalOpen(false);
       setSlugTouched(false);
-      setFormData({ 
-        nombre: "", 
-        slug: "", 
-        ownerEmail: "", 
-        ownerPassword: "", 
-        ownerNombre: "", 
-        ownerApellido: "", 
-        nit: "", 
+      setFormData({
+        nombre: "",
+        slug: "",
+        ownerEmail: "",
+        ownerPassword: "",
+        ownerNombre: "",
+        ownerApellido: "",
+        nit: "",
         correo: "",
         planId: availablePlans[0]?.id || "",
         durationDays: 30
@@ -121,14 +121,14 @@ export function TenantList({ initialTenants, availablePlans }: TenantListProps) 
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
-    
+
     if (name === "slug") {
       setSlugTouched(true);
     }
 
     setFormData((prev) => {
       const newFormData = { ...prev, [name]: name === "durationDays" ? parseInt(value) : value };
-      
+
       if (name === "nombre" && !slugTouched) {
         newFormData.slug = value
           .toLowerCase()
@@ -137,7 +137,7 @@ export function TenantList({ initialTenants, availablePlans }: TenantListProps) 
           .replace(/\s+/g, "-")
           .replace(/[^a-z0-9-]/g, "");
       }
-      
+
       return newFormData;
     });
   };
@@ -180,14 +180,14 @@ export function TenantList({ initialTenants, availablePlans }: TenantListProps) 
                 </div>
                 <span className={cn(
                   "rounded-xl px-4 py-2 text-[10px] font-black uppercase tracking-widest shadow-sm",
-                  tenant.isActive 
-                    ? "bg-oscuro-verde-azulado-3 text-white" 
+                  tenant.isActive
+                    ? "bg-oscuro-verde-azulado-3 text-white"
                     : "bg-zinc-100 text-zinc-400"
                 )}>
                   {tenant.isActive ? "Activo" : "Inactivo"}
                 </span>
               </CardHeader>
-              
+
               <CardContent className="pt-6 px-10 pb-10 relative z-10">
                 <CardTitle className="text-3xl font-black tracking-tighter mb-1 leading-none">{tenant.nombre}</CardTitle>
                 <div className="inline-flex items-center gap-2 mt-2 mb-8">
@@ -207,7 +207,7 @@ export function TenantList({ initialTenants, availablePlans }: TenantListProps) 
                     <span className="text-[10px] font-black text-zinc-400 uppercase tracking-widest">Sedes</span>
                   </div>
                 </div>
-                
+
                 {tenant.correo && (
                   <div className="mt-6 flex items-center gap-3 px-4 py-3 rounded-xl bg-zinc-50 border border-zinc-100">
                     <Mail className="h-4 w-4 text-zinc-400" />
@@ -216,7 +216,7 @@ export function TenantList({ initialTenants, availablePlans }: TenantListProps) 
                 )}
 
                 <div className="mt-10 flex items-center gap-4 pt-6 border-t border-zinc-100">
-                  <button 
+                  <button
                     onClick={() => handleViewTenant(tenant.id)}
                     disabled={loadingDetail}
                     className="flex items-center gap-2 text-xs font-black uppercase tracking-widest text-zinc-400 hover:text-azul-1 transition-colors disabled:opacity-50"
@@ -287,8 +287,8 @@ export function TenantList({ initialTenants, availablePlans }: TenantListProps) 
                       </span>
                     </div>
                     <div className="space-y-4">
-                      {selectedTenantDetail.memberships.map((membership, idx) => (
-                        <div key={idx} className="flex items-center justify-between p-4 rounded-2xl bg-white border border-zinc-100 shadow-sm">
+                      {selectedTenantDetail.memberships.map((membership, _idx) => (
+                        <div key={_idx} className="flex items-center justify-between p-4 rounded-2xl bg-white border border-zinc-100 shadow-sm">
                           <div className="flex items-center gap-3">
                             <div className="h-10 w-10 rounded-xl bg-zinc-900 flex items-center justify-center text-white font-black text-xs">
                               {membership.user.nombre[0]}{membership.user.apellido[0]}

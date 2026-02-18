@@ -352,10 +352,10 @@ export type NominaWhereInput = {
   totalPagar?: Prisma.DecimalFilter<"Nomina"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   estado?: Prisma.EnumEstadoNominaFilter<"Nomina"> | $Enums.EstadoNomina
   observaciones?: Prisma.StringNullableFilter<"Nomina"> | string | null
-  tenant?: Prisma.XOR<Prisma.TenantScalarRelationFilter, Prisma.TenantWhereInput>
+  detalles?: Prisma.NominaDetalleListRelationFilter
   empresa?: Prisma.XOR<Prisma.EmpresaScalarRelationFilter, Prisma.EmpresaWhereInput>
   membership?: Prisma.XOR<Prisma.TenantMembershipScalarRelationFilter, Prisma.TenantMembershipWhereInput>
-  detalles?: Prisma.NominaDetalleListRelationFilter
+  tenant?: Prisma.XOR<Prisma.TenantScalarRelationFilter, Prisma.TenantWhereInput>
 }
 
 export type NominaOrderByWithRelationInput = {
@@ -377,10 +377,10 @@ export type NominaOrderByWithRelationInput = {
   totalPagar?: Prisma.SortOrder
   estado?: Prisma.SortOrder
   observaciones?: Prisma.SortOrderInput | Prisma.SortOrder
-  tenant?: Prisma.TenantOrderByWithRelationInput
+  detalles?: Prisma.NominaDetalleOrderByRelationAggregateInput
   empresa?: Prisma.EmpresaOrderByWithRelationInput
   membership?: Prisma.TenantMembershipOrderByWithRelationInput
-  detalles?: Prisma.NominaDetalleOrderByRelationAggregateInput
+  tenant?: Prisma.TenantOrderByWithRelationInput
 }
 
 export type NominaWhereUniqueInput = Prisma.AtLeast<{
@@ -405,10 +405,10 @@ export type NominaWhereUniqueInput = Prisma.AtLeast<{
   totalPagar?: Prisma.DecimalFilter<"Nomina"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   estado?: Prisma.EnumEstadoNominaFilter<"Nomina"> | $Enums.EstadoNomina
   observaciones?: Prisma.StringNullableFilter<"Nomina"> | string | null
-  tenant?: Prisma.XOR<Prisma.TenantScalarRelationFilter, Prisma.TenantWhereInput>
+  detalles?: Prisma.NominaDetalleListRelationFilter
   empresa?: Prisma.XOR<Prisma.EmpresaScalarRelationFilter, Prisma.EmpresaWhereInput>
   membership?: Prisma.XOR<Prisma.TenantMembershipScalarRelationFilter, Prisma.TenantMembershipWhereInput>
-  detalles?: Prisma.NominaDetalleListRelationFilter
+  tenant?: Prisma.XOR<Prisma.TenantScalarRelationFilter, Prisma.TenantWhereInput>
 }, "id">
 
 export type NominaOrderByWithAggregationInput = {
@@ -477,10 +477,10 @@ export type NominaCreateInput = {
   totalPagar: runtime.Decimal | runtime.DecimalJsLike | number | string
   estado?: $Enums.EstadoNomina
   observaciones?: string | null
-  tenant: Prisma.TenantCreateNestedOneWithoutNominasInput
+  detalles?: Prisma.NominaDetalleCreateNestedManyWithoutNominaInput
   empresa: Prisma.EmpresaCreateNestedOneWithoutNominasInput
   membership: Prisma.TenantMembershipCreateNestedOneWithoutNominasInput
-  detalles?: Prisma.NominaDetalleCreateNestedManyWithoutNominaInput
+  tenant: Prisma.TenantCreateNestedOneWithoutNominasInput
 }
 
 export type NominaUncheckedCreateInput = {
@@ -521,10 +521,10 @@ export type NominaUpdateInput = {
   totalPagar?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   estado?: Prisma.EnumEstadoNominaFieldUpdateOperationsInput | $Enums.EstadoNomina
   observaciones?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  tenant?: Prisma.TenantUpdateOneRequiredWithoutNominasNestedInput
+  detalles?: Prisma.NominaDetalleUpdateManyWithoutNominaNestedInput
   empresa?: Prisma.EmpresaUpdateOneRequiredWithoutNominasNestedInput
   membership?: Prisma.TenantMembershipUpdateOneRequiredWithoutNominasNestedInput
-  detalles?: Prisma.NominaDetalleUpdateManyWithoutNominaNestedInput
+  tenant?: Prisma.TenantUpdateOneRequiredWithoutNominasNestedInput
 }
 
 export type NominaUncheckedUpdateInput = {
@@ -871,9 +871,9 @@ export type NominaCreateWithoutTenantInput = {
   totalPagar: runtime.Decimal | runtime.DecimalJsLike | number | string
   estado?: $Enums.EstadoNomina
   observaciones?: string | null
+  detalles?: Prisma.NominaDetalleCreateNestedManyWithoutNominaInput
   empresa: Prisma.EmpresaCreateNestedOneWithoutNominasInput
   membership: Prisma.TenantMembershipCreateNestedOneWithoutNominasInput
-  detalles?: Prisma.NominaDetalleCreateNestedManyWithoutNominaInput
 }
 
 export type NominaUncheckedCreateWithoutTenantInput = {
@@ -963,9 +963,9 @@ export type NominaCreateWithoutMembershipInput = {
   totalPagar: runtime.Decimal | runtime.DecimalJsLike | number | string
   estado?: $Enums.EstadoNomina
   observaciones?: string | null
-  tenant: Prisma.TenantCreateNestedOneWithoutNominasInput
-  empresa: Prisma.EmpresaCreateNestedOneWithoutNominasInput
   detalles?: Prisma.NominaDetalleCreateNestedManyWithoutNominaInput
+  empresa: Prisma.EmpresaCreateNestedOneWithoutNominasInput
+  tenant: Prisma.TenantCreateNestedOneWithoutNominasInput
 }
 
 export type NominaUncheckedCreateWithoutMembershipInput = {
@@ -1031,9 +1031,9 @@ export type NominaCreateWithoutEmpresaInput = {
   totalPagar: runtime.Decimal | runtime.DecimalJsLike | number | string
   estado?: $Enums.EstadoNomina
   observaciones?: string | null
-  tenant: Prisma.TenantCreateNestedOneWithoutNominasInput
-  membership: Prisma.TenantMembershipCreateNestedOneWithoutNominasInput
   detalles?: Prisma.NominaDetalleCreateNestedManyWithoutNominaInput
+  membership: Prisma.TenantMembershipCreateNestedOneWithoutNominasInput
+  tenant: Prisma.TenantCreateNestedOneWithoutNominasInput
 }
 
 export type NominaUncheckedCreateWithoutEmpresaInput = {
@@ -1099,9 +1099,9 @@ export type NominaCreateWithoutDetallesInput = {
   totalPagar: runtime.Decimal | runtime.DecimalJsLike | number | string
   estado?: $Enums.EstadoNomina
   observaciones?: string | null
-  tenant: Prisma.TenantCreateNestedOneWithoutNominasInput
   empresa: Prisma.EmpresaCreateNestedOneWithoutNominasInput
   membership: Prisma.TenantMembershipCreateNestedOneWithoutNominasInput
+  tenant: Prisma.TenantCreateNestedOneWithoutNominasInput
 }
 
 export type NominaUncheckedCreateWithoutDetallesInput = {
@@ -1157,9 +1157,9 @@ export type NominaUpdateWithoutDetallesInput = {
   totalPagar?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   estado?: Prisma.EnumEstadoNominaFieldUpdateOperationsInput | $Enums.EstadoNomina
   observaciones?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  tenant?: Prisma.TenantUpdateOneRequiredWithoutNominasNestedInput
   empresa?: Prisma.EmpresaUpdateOneRequiredWithoutNominasNestedInput
   membership?: Prisma.TenantMembershipUpdateOneRequiredWithoutNominasNestedInput
+  tenant?: Prisma.TenantUpdateOneRequiredWithoutNominasNestedInput
 }
 
 export type NominaUncheckedUpdateWithoutDetallesInput = {
@@ -1219,9 +1219,9 @@ export type NominaUpdateWithoutTenantInput = {
   totalPagar?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   estado?: Prisma.EnumEstadoNominaFieldUpdateOperationsInput | $Enums.EstadoNomina
   observaciones?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  detalles?: Prisma.NominaDetalleUpdateManyWithoutNominaNestedInput
   empresa?: Prisma.EmpresaUpdateOneRequiredWithoutNominasNestedInput
   membership?: Prisma.TenantMembershipUpdateOneRequiredWithoutNominasNestedInput
-  detalles?: Prisma.NominaDetalleUpdateManyWithoutNominaNestedInput
 }
 
 export type NominaUncheckedUpdateWithoutTenantInput = {
@@ -1301,9 +1301,9 @@ export type NominaUpdateWithoutMembershipInput = {
   totalPagar?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   estado?: Prisma.EnumEstadoNominaFieldUpdateOperationsInput | $Enums.EstadoNomina
   observaciones?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  tenant?: Prisma.TenantUpdateOneRequiredWithoutNominasNestedInput
-  empresa?: Prisma.EmpresaUpdateOneRequiredWithoutNominasNestedInput
   detalles?: Prisma.NominaDetalleUpdateManyWithoutNominaNestedInput
+  empresa?: Prisma.EmpresaUpdateOneRequiredWithoutNominasNestedInput
+  tenant?: Prisma.TenantUpdateOneRequiredWithoutNominasNestedInput
 }
 
 export type NominaUncheckedUpdateWithoutMembershipInput = {
@@ -1383,9 +1383,9 @@ export type NominaUpdateWithoutEmpresaInput = {
   totalPagar?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   estado?: Prisma.EnumEstadoNominaFieldUpdateOperationsInput | $Enums.EstadoNomina
   observaciones?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  tenant?: Prisma.TenantUpdateOneRequiredWithoutNominasNestedInput
-  membership?: Prisma.TenantMembershipUpdateOneRequiredWithoutNominasNestedInput
   detalles?: Prisma.NominaDetalleUpdateManyWithoutNominaNestedInput
+  membership?: Prisma.TenantMembershipUpdateOneRequiredWithoutNominasNestedInput
+  tenant?: Prisma.TenantUpdateOneRequiredWithoutNominasNestedInput
 }
 
 export type NominaUncheckedUpdateWithoutEmpresaInput = {
@@ -1479,10 +1479,10 @@ export type NominaSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs =
   totalPagar?: boolean
   estado?: boolean
   observaciones?: boolean
-  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
+  detalles?: boolean | Prisma.Nomina$detallesArgs<ExtArgs>
   empresa?: boolean | Prisma.EmpresaDefaultArgs<ExtArgs>
   membership?: boolean | Prisma.TenantMembershipDefaultArgs<ExtArgs>
-  detalles?: boolean | Prisma.Nomina$detallesArgs<ExtArgs>
+  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
   _count?: boolean | Prisma.NominaCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["nomina"]>
 
@@ -1505,9 +1505,9 @@ export type NominaSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extens
   totalPagar?: boolean
   estado?: boolean
   observaciones?: boolean
-  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
   empresa?: boolean | Prisma.EmpresaDefaultArgs<ExtArgs>
   membership?: boolean | Prisma.TenantMembershipDefaultArgs<ExtArgs>
+  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["nomina"]>
 
 export type NominaSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -1529,9 +1529,9 @@ export type NominaSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extens
   totalPagar?: boolean
   estado?: boolean
   observaciones?: boolean
-  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
   empresa?: boolean | Prisma.EmpresaDefaultArgs<ExtArgs>
   membership?: boolean | Prisma.TenantMembershipDefaultArgs<ExtArgs>
+  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["nomina"]>
 
 export type NominaSelectScalar = {
@@ -1557,30 +1557,30 @@ export type NominaSelectScalar = {
 
 export type NominaOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "tenantId" | "empresaId" | "membershipId" | "fechaInicio" | "fechaFin" | "fechaGeneracion" | "totalServicios" | "totalValorPagado" | "totalRepuestos" | "totalIva" | "baseComisionable" | "porcentajeAplicado" | "salarioFijo" | "totalComisiones" | "totalPagar" | "estado" | "observaciones", ExtArgs["result"]["nomina"]>
 export type NominaInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
+  detalles?: boolean | Prisma.Nomina$detallesArgs<ExtArgs>
   empresa?: boolean | Prisma.EmpresaDefaultArgs<ExtArgs>
   membership?: boolean | Prisma.TenantMembershipDefaultArgs<ExtArgs>
-  detalles?: boolean | Prisma.Nomina$detallesArgs<ExtArgs>
+  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
   _count?: boolean | Prisma.NominaCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type NominaIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
   empresa?: boolean | Prisma.EmpresaDefaultArgs<ExtArgs>
   membership?: boolean | Prisma.TenantMembershipDefaultArgs<ExtArgs>
+  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
 }
 export type NominaIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
   empresa?: boolean | Prisma.EmpresaDefaultArgs<ExtArgs>
   membership?: boolean | Prisma.TenantMembershipDefaultArgs<ExtArgs>
+  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
 }
 
 export type $NominaPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "Nomina"
   objects: {
-    tenant: Prisma.$TenantPayload<ExtArgs>
+    detalles: Prisma.$NominaDetallePayload<ExtArgs>[]
     empresa: Prisma.$EmpresaPayload<ExtArgs>
     membership: Prisma.$TenantMembershipPayload<ExtArgs>
-    detalles: Prisma.$NominaDetallePayload<ExtArgs>[]
+    tenant: Prisma.$TenantPayload<ExtArgs>
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -1995,10 +1995,10 @@ readonly fields: NominaFieldRefs;
  */
 export interface Prisma__NominaClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
-  tenant<T extends Prisma.TenantDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.TenantDefaultArgs<ExtArgs>>): Prisma.Prisma__TenantClient<runtime.Types.Result.GetResult<Prisma.$TenantPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  detalles<T extends Prisma.Nomina$detallesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Nomina$detallesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$NominaDetallePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   empresa<T extends Prisma.EmpresaDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.EmpresaDefaultArgs<ExtArgs>>): Prisma.Prisma__EmpresaClient<runtime.Types.Result.GetResult<Prisma.$EmpresaPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   membership<T extends Prisma.TenantMembershipDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.TenantMembershipDefaultArgs<ExtArgs>>): Prisma.Prisma__TenantMembershipClient<runtime.Types.Result.GetResult<Prisma.$TenantMembershipPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
-  detalles<T extends Prisma.Nomina$detallesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Nomina$detallesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$NominaDetallePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  tenant<T extends Prisma.TenantDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.TenantDefaultArgs<ExtArgs>>): Prisma.Prisma__TenantClient<runtime.Types.Result.GetResult<Prisma.$TenantPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.

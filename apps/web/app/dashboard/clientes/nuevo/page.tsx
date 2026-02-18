@@ -8,6 +8,7 @@ import {
   getSegmentosAction,
   getRiesgosAction,
   getTiposInteresAction,
+  type ClienteDTO,
 } from "../../actions";
 import {
   getDepartments,
@@ -19,19 +20,13 @@ import { Label } from "@/components/ui/label";
 import { Combobox } from "@/components/ui/combobox";
 import { Select } from "@/components/ui/select";
 import {
-  Car,
-  User,
-  Phone,
   ArrowLeft,
   Save,
   MapPin,
   Plus,
   Trash2,
-  Info,
   Clock,
-  ShieldAlert,
   Contact2,
-  Navigation,
   CheckCircle2,
   Building2,
   UserCircle2,
@@ -45,21 +40,48 @@ import {
 } from "lucide-react";
 import { useUserRole } from "@/hooks/use-user-role";
 import { DashboardLayout } from "@/components/dashboard";
-
+// owo
 // --- Constantes Estratégicas ---
 const ORIGENES_CLIENTE = ["Google Ads", "Referido", "Orgánico", "Recurrente", "Campaña", "WhatsApp directo"];
 const CLASIFICACIONES_PUNTO = ["Cocina", "Área almacenamiento", "Zona residuos", "Zona carga", "Zona comedor", "Oficina administrativa"];
 
+interface Direccion {
+  id: number;
+  direccion: string;
+  linkMaps: string;
+  departmentId: string;
+  municipioId: string;
+  municipio: string;
+  barrio: string;
+  piso: string;
+  bloque: string;
+  unidad: string;
+  tipoUbicacion: string;
+  clasificacionPunto: string;
+  horarioInicio: string;
+  horarioFin: string;
+  restriccionesAcceso: string;
+  nombreContacto: string;
+  telefonoContacto: string;
+  cargoContacto: string;
+  activa: boolean;
+  bloqueada: boolean;
+  motivoBloqueo: string;
+  latitud: string;
+  longitud: string;
+  precisionGPS: string;
+  validadoPorSistema: boolean;
+}
+
 function NuevoClienteContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const fixClientId = searchParams.get("fixClientId");
-  const migrateClientId = searchParams.get("migrateClientId");
+  const _fixClientId = searchParams.get("fixClientId");
+  const _migrateClientId = searchParams.get("migrateClientId");
 
-  const { tenantId } = useUserRole();
+  useUserRole();
   const [loading, setLoading] = useState(false);
-  const [isFetching, setIsFetching] = useState(!!fixClientId || !!migrateClientId);
-  
+
   // --- Datos Dinámicos ---
   const [departamentos, setDepartments] = useState<{id: string, name: string}[]>([]);
   const [municipios, setMunicipalities] = useState<{id: string, name: string, departmentId: string}[]>([]);
@@ -83,8 +105,8 @@ function NuevoClienteContent() {
         setSegmentosDb(segs);
         setRiesgosDb(ries);
         setTiposInteresDb(ints);
-        if (segs.length > 0) setSegmento(segs[0].id);
-        if (ints.length > 0) setInteres(ints[0].id);
+        if (segs.length > 0) setSegmento(segs[0]?.id || "");
+        if (ints.length > 0) setInteres(ints[0]?.id || "");
       } catch (e) {
         console.error("Error loading initial data", e);
         toast.error("Error al cargar datos de configuración");
@@ -102,14 +124,14 @@ function NuevoClienteContent() {
   const sugerencias = useMemo(() => {
     const seg = segmentosDb.find(s => s.id === segmento);
     const int = tiposInteresDb.find(i => i.id === interes);
-    
+
     // Lógica inteligente: tomar el riesgo más alto y la frecuencia más corta
     const riesgosMap: Record<string, number> = { "BAJO": 1, "MEDIO": 2, "ALTO": 3, "CRITICO": 4 };
     const riesgoSeg = seg?.riesgoSugerido || "BAJO";
     const riesgoInt = int?.riesgoSugerido || "BAJO";
-    
-    const riesgoFinal = riesgosMap[riesgoSeg]! >= riesgosMap[riesgoInt]! ? riesgoSeg : riesgoInt;
-    
+
+    const riesgoFinal = (riesgosMap[riesgoSeg] ?? 1) >= (riesgosMap[riesgoInt] ?? 1) ? riesgoSeg : riesgoInt;
+
     const freqSeg = seg?.frecuenciaSugerida || 30;
     const freqInt = int?.frecuenciaSugerida || 30;
     const freqFinal = Math.min(freqSeg === 0 ? 999 : freqSeg, freqInt === 0 ? 999 : freqInt);
@@ -128,13 +150,13 @@ function NuevoClienteContent() {
     return () => { document.body.style.overflow = originalStyle; };
   }, []);
 
-  const [direcciones, setDirecciones] = useState([{
+  const [direcciones, setDirecciones] = useState<Direccion[]>([{
     id: Date.now(),
     direccion: "",
     linkMaps: "",
     departmentId: "",
     municipioId: "",
-    municipio: "", 
+    municipio: "",
     barrio: "",
     piso: "",
     bloque: "",
@@ -156,7 +178,7 @@ function NuevoClienteContent() {
     validadoPorSistema: false,
   }]);
 
-  const handleDireccionChange = (id: number, field: string, value: any) => {
+  const handleDireccionChange = <K extends keyof Direccion>(id: number, field: K, value: Direccion[K]) => {
     setDirecciones(direcciones.map((d) => {
       if (d.id === id) {
         const update = { ...d, [field]: value };
@@ -189,30 +211,32 @@ function NuevoClienteContent() {
     event.preventDefault();
     setLoading(true);
     const formData = new FormData(event.currentTarget);
-    
-    const cleanedDirecciones = direcciones.map(({ id, departmentId, validadoPorSistema, municipio, ...rest }) => ({
+
+    const cleanedDirecciones = direcciones.map(({ 
+      id: _id, 
+      departmentId: _departmentId, 
+      validadoPorSistema: _validadoPorSistema, 
+      municipio: _municipio, 
+      restriccionesAcceso,
+      ...rest 
+    }) => ({
       ...rest,
-      restricciones: rest.restriccionesAcceso,
-      latitud: rest.latitud ? parseFloat(rest.latitud as string) : null,
-      longitud: rest.longitud ? parseFloat(rest.longitud as string) : null,
-      precisionGPS: rest.precisionGPS ? parseFloat(rest.precisionGPS as string) : null,
+      restricciones: restriccionesAcceso,
+      latitud: rest.latitud ? parseFloat(rest.latitud) : null,
+      longitud: rest.longitud ? parseFloat(rest.longitud) : null,
+      precisionGPS: rest.precisionGPS ? parseFloat(rest.precisionGPS) : null,
     }));
 
-    // Remove the temporary property from the cleaned object
-    cleanedDirecciones.forEach((d: any) => {
-      delete d.restriccionesAcceso;
-    });
-
-    const payload = {
-      tipoCliente: tipoCliente === "NATURAL" ? "PERSONA" : "EMPRESA",
-      nombre: formData.get("nombre"),
-      apellido: formData.get("apellido"),
-      telefono: formData.get("telefono"),
-      origenCliente: formData.get("origen"),
-      tipoInteresId: formData.get("interes"),
-      razonSocial: formData.get("razonSocial"),
-      nit: formData.get("nit"),
-      actividadEconomica: formData.get("actividad"),
+    const payload: ClienteDTO = {
+      tipoCliente: (tipoCliente === "NATURAL" ? "PERSONA" : "EMPRESA") as "PERSONA" | "EMPRESA",
+      nombre: formData.get("nombre") as string,
+      apellido: formData.get("apellido") as string,
+      telefono: formData.get("telefono") as string,
+      origenCliente: formData.get("origen") as string,
+      tipoInteresId: formData.get("interes") as string,
+      razonSocial: formData.get("razonSocial") as string,
+      nit: formData.get("nit") as string,
+      actividadEconomica: formData.get("actividad") as string,
       metrajeTotal: metraje ? parseFloat(metraje.toString()) : null,
       segmentoId: segmento || null,
       riesgoId: riesgoOverride || riesgosDb.find(r => r.nombre === sugerencias.riesgo)?.id || null,
@@ -223,8 +247,9 @@ function NuevoClienteContent() {
       await createClienteAction(payload);
       toast.success("Cliente registrado con éxito");
       router.push("/dashboard/clientes");
-    } catch (error: any) {
-      toast.error(error.message || "Error al crear cliente");
+    } catch (error: unknown) {
+      const message = error instanceof Error ? error.message : "Error al crear cliente";
+      toast.error(message);
     } finally {
       setLoading(false);
     }
@@ -237,7 +262,7 @@ function NuevoClienteContent() {
       linkMaps: "",
       departmentId: "",
       municipioId: "",
-      municipio: "", 
+      municipio: "",
       barrio: "",
       piso: "",
       bloque: "",
@@ -277,7 +302,7 @@ function NuevoClienteContent() {
   return (
     <div className="max-w-5xl mx-auto w-full h-[calc(100vh-12rem)] flex flex-col min-h-0">
       <div className="flex-1 flex flex-col bg-white dark:bg-zinc-950 rounded-2xl shadow-sm border border-zinc-200 dark:border-zinc-800 overflow-hidden min-h-0">
-        
+
         <div className="flex-none bg-white dark:bg-zinc-950 border-b border-zinc-100 dark:border-zinc-800 px-8 py-6 flex items-center justify-between">
           <div className="flex items-center gap-5">
             <Button variant="ghost" size="icon" onClick={() => router.push("/dashboard/clientes")} className="h-10 w-10 rounded-full border border-zinc-100 dark:border-zinc-800 hover:bg-zinc-50"><ArrowLeft className="h-4 w-4" /></Button>
@@ -298,7 +323,7 @@ function NuevoClienteContent() {
 
         <div className="flex-1 overflow-y-auto p-10 custom-scrollbar bg-white dark:bg-zinc-950">
           <form id="cliente-form" onSubmit={handleSubmit} className="space-y-12 max-w-4xl mx-auto pb-12">
-            
+
             <section className="space-y-8">
               <div className="flex items-center gap-3 border-b border-zinc-100 dark:border-zinc-800 pb-3">
                 <div className="p-2 rounded-lg bg-zinc-50 dark:bg-zinc-900 border border-zinc-100 dark:border-zinc-800 text-zinc-400"><Target className="h-5 w-5" /></div>
@@ -320,7 +345,7 @@ function NuevoClienteContent() {
 
                 <div className="space-y-2"><Label className="text-xs font-bold text-zinc-500 uppercase tracking-wider">Teléfono de Contacto <span className="text-red-500">*</span></Label><Input name="telefono" required className="h-11 border-zinc-200" placeholder="300 000 0000" /></div>
                 <div className="space-y-2"><Label className="text-xs font-bold text-zinc-500 uppercase tracking-wider">Segmento del Negocio</Label><Select name="segmento" value={segmento} onChange={(e) => setSegmento(e.target.value)} className="h-11">{segmentosDb.map(s => <option key={s.id} value={s.id}>{s.nombre}</option>)}</Select></div>
-                
+
                 <div className="space-y-2">
                   <Label className="text-xs font-bold text-zinc-500 uppercase tracking-wider">Nivel de Riesgo Operativo</Label>
                   <Select value={riesgoOverride || riesgosDb.find(r => r.nombre === sugerencias.riesgo)?.id || ""} onChange={(e) => setRiesgoOverride(e.target.value)} className="h-11">
@@ -374,11 +399,11 @@ function NuevoClienteContent() {
               </div>
 
               <div className="space-y-10">
-                {direcciones.map((dir, idx) => (
+                {direcciones.map((dir) => (
                   <div key={dir.id} className="relative bg-white dark:bg-zinc-900/50 rounded-2xl border border-zinc-200 dark:border-zinc-800 p-8 space-y-10 transition-all hover:shadow-md">
                     {direcciones.length > 1 && (
-                      <button 
-                        type="button" 
+                      <button
+                        type="button"
                         onClick={() => removeDireccion(dir.id)}
                         className="absolute top-4 right-4 p-2 text-zinc-400 hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-950/30 rounded-full transition-colors"
                       >
@@ -393,26 +418,26 @@ function NuevoClienteContent() {
                           <Button type="button" onClick={() => validarDireccion(dir.id)} variant="outline" className="h-12 px-6 gap-2 border-[var(--color-azul-1)] text-[var(--color-azul-1)] hover:bg-[var(--color-azul-1)]/5 transition-all font-bold text-xs"><Search className="h-4 w-4" /> VALIDAR</Button>
                         </div>
                       </div>
-                      
+
                       <div className="space-y-2"><Label className="text-xs font-bold text-zinc-500 uppercase tracking-wider">Referencia Maps</Label><Input value={dir.linkMaps} onChange={(e) => handleDireccionChange(dir.id, "linkMaps", e.target.value)} className="h-11 border-zinc-200" placeholder="Enlace de ubicación" /></div>
                       <div className="grid grid-cols-2 gap-4">
                         <div className="space-y-2">
                           <Label className="text-xs font-bold text-zinc-500 uppercase tracking-wider">Departamento</Label>
-                          <Combobox 
-                            options={Array.isArray(departamentos) ? departamentos.map(d => ({ value: d.id, label: d.name })) : []} 
-                            value={dir.departmentId || ""} 
-                            onChange={(v) => handleDireccionChange(dir.id, "departmentId", v)} 
-                            placeholder={departamentos.length > 0 ? "Seleccionar..." : "Cargando..."} 
+                          <Combobox
+                            options={Array.isArray(departamentos) ? departamentos.map(d => ({ value: d.id, label: d.name })) : []}
+                            value={dir.departmentId || ""}
+                            onChange={(v) => handleDireccionChange(dir.id, "departmentId", v)}
+                            placeholder={departamentos.length > 0 ? "Seleccionar..." : "Cargando..."}
                           />
                         </div>
                         <div className="space-y-2">
                           <Label className="text-xs font-bold text-zinc-500 uppercase tracking-wider">Municipio</Label>
-                          <Combobox 
-                            options={getMunicipiosOptions(dir.departmentId || "")} 
-                            value={dir.municipioId || ""} 
-                            onChange={(v) => handleDireccionChange(dir.id, "municipioId", v)} 
-                            placeholder={dir.departmentId ? "Seleccionar..." : "Elija departamento"} 
-                            disabled={!dir.departmentId} 
+                          <Combobox
+                            options={getMunicipiosOptions(dir.departmentId || "")}
+                            value={dir.municipioId || ""}
+                            onChange={(v) => handleDireccionChange(dir.id, "municipioId", v)}
+                            placeholder={dir.departmentId ? "Seleccionar..." : "Elija departamento"}
+                            disabled={!dir.departmentId}
                           />
                         </div>
                       </div>
@@ -470,10 +495,10 @@ function NuevoClienteContent() {
           </div>
           <div className="flex items-center gap-4">
             <Button variant="ghost" onClick={() => router.push("/dashboard/clientes")} className="h-12 px-8 text-xs font-bold uppercase tracking-widest text-zinc-500 hover:bg-zinc-200">Descartar</Button>
-            <Button 
-              type="submit" 
-              form="cliente-form" 
-              disabled={loading} 
+            <Button
+              type="submit"
+              form="cliente-form"
+              disabled={loading}
               className="h-12 px-12 bg-vivido-purpura-2 text-white hover:opacity-90 shadow-xl shadow-vivido-purpura-2/20 transition-all gap-3 border-none rounded-xl"
             >
               {loading ? <div className="h-5 w-5 border-2 border-current border-t-transparent rounded-full animate-spin" /> : <Save className="h-4 w-4" />}

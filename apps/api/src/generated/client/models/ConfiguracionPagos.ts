@@ -244,9 +244,9 @@ export type ConfiguracionPagosWhereInput = {
   valorParticipacion?: Prisma.DecimalNullableFilter<"ConfiguracionPagos"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   salarioBase?: Prisma.DecimalNullableFilter<"ConfiguracionPagos"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   createdAt?: Prisma.DateTimeFilter<"ConfiguracionPagos"> | Date | string
-  tenant?: Prisma.XOR<Prisma.TenantScalarRelationFilter, Prisma.TenantWhereInput>
   empresa?: Prisma.XOR<Prisma.EmpresaScalarRelationFilter, Prisma.EmpresaWhereInput>
   membership?: Prisma.XOR<Prisma.TenantMembershipScalarRelationFilter, Prisma.TenantMembershipWhereInput>
+  tenant?: Prisma.XOR<Prisma.TenantScalarRelationFilter, Prisma.TenantWhereInput>
 }
 
 export type ConfiguracionPagosOrderByWithRelationInput = {
@@ -258,9 +258,9 @@ export type ConfiguracionPagosOrderByWithRelationInput = {
   valorParticipacion?: Prisma.SortOrderInput | Prisma.SortOrder
   salarioBase?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
-  tenant?: Prisma.TenantOrderByWithRelationInput
   empresa?: Prisma.EmpresaOrderByWithRelationInput
   membership?: Prisma.TenantMembershipOrderByWithRelationInput
+  tenant?: Prisma.TenantOrderByWithRelationInput
 }
 
 export type ConfiguracionPagosWhereUniqueInput = Prisma.AtLeast<{
@@ -275,9 +275,9 @@ export type ConfiguracionPagosWhereUniqueInput = Prisma.AtLeast<{
   valorParticipacion?: Prisma.DecimalNullableFilter<"ConfiguracionPagos"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   salarioBase?: Prisma.DecimalNullableFilter<"ConfiguracionPagos"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   createdAt?: Prisma.DateTimeFilter<"ConfiguracionPagos"> | Date | string
-  tenant?: Prisma.XOR<Prisma.TenantScalarRelationFilter, Prisma.TenantWhereInput>
   empresa?: Prisma.XOR<Prisma.EmpresaScalarRelationFilter, Prisma.EmpresaWhereInput>
   membership?: Prisma.XOR<Prisma.TenantMembershipScalarRelationFilter, Prisma.TenantMembershipWhereInput>
+  tenant?: Prisma.XOR<Prisma.TenantScalarRelationFilter, Prisma.TenantWhereInput>
 }, "id">
 
 export type ConfiguracionPagosOrderByWithAggregationInput = {
@@ -316,9 +316,9 @@ export type ConfiguracionPagosCreateInput = {
   valorParticipacion?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   salarioBase?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   createdAt?: Date | string
-  tenant: Prisma.TenantCreateNestedOneWithoutConfiguracionPagosInput
   empresa: Prisma.EmpresaCreateNestedOneWithoutConfiguracionPagosInput
   membership: Prisma.TenantMembershipCreateNestedOneWithoutConfiguracionPagosInput
+  tenant: Prisma.TenantCreateNestedOneWithoutConfiguracionPagosInput
 }
 
 export type ConfiguracionPagosUncheckedCreateInput = {
@@ -338,9 +338,9 @@ export type ConfiguracionPagosUpdateInput = {
   valorParticipacion?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   salarioBase?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  tenant?: Prisma.TenantUpdateOneRequiredWithoutConfiguracionPagosNestedInput
   empresa?: Prisma.EmpresaUpdateOneRequiredWithoutConfiguracionPagosNestedInput
   membership?: Prisma.TenantMembershipUpdateOneRequiredWithoutConfiguracionPagosNestedInput
+  tenant?: Prisma.TenantUpdateOneRequiredWithoutConfiguracionPagosNestedInput
 }
 
 export type ConfiguracionPagosUncheckedUpdateInput = {
@@ -633,8 +633,8 @@ export type ConfiguracionPagosCreateWithoutMembershipInput = {
   valorParticipacion?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   salarioBase?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   createdAt?: Date | string
-  tenant: Prisma.TenantCreateNestedOneWithoutConfiguracionPagosInput
   empresa: Prisma.EmpresaCreateNestedOneWithoutConfiguracionPagosInput
+  tenant: Prisma.TenantCreateNestedOneWithoutConfiguracionPagosInput
 }
 
 export type ConfiguracionPagosUncheckedCreateWithoutMembershipInput = {
@@ -679,8 +679,8 @@ export type ConfiguracionPagosCreateWithoutEmpresaInput = {
   valorParticipacion?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   salarioBase?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   createdAt?: Date | string
-  tenant: Prisma.TenantCreateNestedOneWithoutConfiguracionPagosInput
   membership: Prisma.TenantMembershipCreateNestedOneWithoutConfiguracionPagosInput
+  tenant: Prisma.TenantCreateNestedOneWithoutConfiguracionPagosInput
 }
 
 export type ConfiguracionPagosUncheckedCreateWithoutEmpresaInput = {
@@ -775,8 +775,8 @@ export type ConfiguracionPagosUpdateWithoutMembershipInput = {
   valorParticipacion?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   salarioBase?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  tenant?: Prisma.TenantUpdateOneRequiredWithoutConfiguracionPagosNestedInput
   empresa?: Prisma.EmpresaUpdateOneRequiredWithoutConfiguracionPagosNestedInput
+  tenant?: Prisma.TenantUpdateOneRequiredWithoutConfiguracionPagosNestedInput
 }
 
 export type ConfiguracionPagosUncheckedUpdateWithoutMembershipInput = {
@@ -815,8 +815,8 @@ export type ConfiguracionPagosUpdateWithoutEmpresaInput = {
   valorParticipacion?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   salarioBase?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  tenant?: Prisma.TenantUpdateOneRequiredWithoutConfiguracionPagosNestedInput
   membership?: Prisma.TenantMembershipUpdateOneRequiredWithoutConfiguracionPagosNestedInput
+  tenant?: Prisma.TenantUpdateOneRequiredWithoutConfiguracionPagosNestedInput
 }
 
 export type ConfiguracionPagosUncheckedUpdateWithoutEmpresaInput = {
@@ -850,9 +850,9 @@ export type ConfiguracionPagosSelect<ExtArgs extends runtime.Types.Extensions.In
   valorParticipacion?: boolean
   salarioBase?: boolean
   createdAt?: boolean
-  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
   empresa?: boolean | Prisma.EmpresaDefaultArgs<ExtArgs>
   membership?: boolean | Prisma.TenantMembershipDefaultArgs<ExtArgs>
+  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["configuracionPagos"]>
 
 export type ConfiguracionPagosSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -864,9 +864,9 @@ export type ConfiguracionPagosSelectCreateManyAndReturn<ExtArgs extends runtime.
   valorParticipacion?: boolean
   salarioBase?: boolean
   createdAt?: boolean
-  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
   empresa?: boolean | Prisma.EmpresaDefaultArgs<ExtArgs>
   membership?: boolean | Prisma.TenantMembershipDefaultArgs<ExtArgs>
+  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["configuracionPagos"]>
 
 export type ConfiguracionPagosSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -878,9 +878,9 @@ export type ConfiguracionPagosSelectUpdateManyAndReturn<ExtArgs extends runtime.
   valorParticipacion?: boolean
   salarioBase?: boolean
   createdAt?: boolean
-  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
   empresa?: boolean | Prisma.EmpresaDefaultArgs<ExtArgs>
   membership?: boolean | Prisma.TenantMembershipDefaultArgs<ExtArgs>
+  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["configuracionPagos"]>
 
 export type ConfiguracionPagosSelectScalar = {
@@ -896,27 +896,27 @@ export type ConfiguracionPagosSelectScalar = {
 
 export type ConfiguracionPagosOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "tenantId" | "empresaId" | "membershipId" | "tipo" | "valorParticipacion" | "salarioBase" | "createdAt", ExtArgs["result"]["configuracionPagos"]>
 export type ConfiguracionPagosInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
   empresa?: boolean | Prisma.EmpresaDefaultArgs<ExtArgs>
   membership?: boolean | Prisma.TenantMembershipDefaultArgs<ExtArgs>
+  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
 }
 export type ConfiguracionPagosIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
   empresa?: boolean | Prisma.EmpresaDefaultArgs<ExtArgs>
   membership?: boolean | Prisma.TenantMembershipDefaultArgs<ExtArgs>
+  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
 }
 export type ConfiguracionPagosIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
   empresa?: boolean | Prisma.EmpresaDefaultArgs<ExtArgs>
   membership?: boolean | Prisma.TenantMembershipDefaultArgs<ExtArgs>
+  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
 }
 
 export type $ConfiguracionPagosPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "ConfiguracionPagos"
   objects: {
-    tenant: Prisma.$TenantPayload<ExtArgs>
     empresa: Prisma.$EmpresaPayload<ExtArgs>
     membership: Prisma.$TenantMembershipPayload<ExtArgs>
+    tenant: Prisma.$TenantPayload<ExtArgs>
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -1321,9 +1321,9 @@ readonly fields: ConfiguracionPagosFieldRefs;
  */
 export interface Prisma__ConfiguracionPagosClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
-  tenant<T extends Prisma.TenantDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.TenantDefaultArgs<ExtArgs>>): Prisma.Prisma__TenantClient<runtime.Types.Result.GetResult<Prisma.$TenantPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   empresa<T extends Prisma.EmpresaDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.EmpresaDefaultArgs<ExtArgs>>): Prisma.Prisma__EmpresaClient<runtime.Types.Result.GetResult<Prisma.$EmpresaPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   membership<T extends Prisma.TenantMembershipDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.TenantMembershipDefaultArgs<ExtArgs>>): Prisma.Prisma__TenantMembershipClient<runtime.Types.Result.GetResult<Prisma.$TenantMembershipPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  tenant<T extends Prisma.TenantDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.TenantDefaultArgs<ExtArgs>>): Prisma.Prisma__TenantClient<runtime.Types.Result.GetResult<Prisma.$TenantPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.

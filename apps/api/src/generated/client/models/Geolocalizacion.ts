@@ -284,10 +284,10 @@ export type GeolocalizacionWhereInput = {
   fotoSalida?: Prisma.StringNullableFilter<"Geolocalizacion"> | string | null
   linkMaps?: Prisma.StringNullableFilter<"Geolocalizacion"> | string | null
   createdAt?: Prisma.DateTimeFilter<"Geolocalizacion"> | Date | string
-  tenant?: Prisma.XOR<Prisma.TenantScalarRelationFilter, Prisma.TenantWhereInput>
   empresa?: Prisma.XOR<Prisma.EmpresaScalarRelationFilter, Prisma.EmpresaWhereInput>
   membership?: Prisma.XOR<Prisma.TenantMembershipScalarRelationFilter, Prisma.TenantMembershipWhereInput>
   orden?: Prisma.XOR<Prisma.OrdenServicioScalarRelationFilter, Prisma.OrdenServicioWhereInput>
+  tenant?: Prisma.XOR<Prisma.TenantScalarRelationFilter, Prisma.TenantWhereInput>
 }
 
 export type GeolocalizacionOrderByWithRelationInput = {
@@ -304,10 +304,10 @@ export type GeolocalizacionOrderByWithRelationInput = {
   fotoSalida?: Prisma.SortOrderInput | Prisma.SortOrder
   linkMaps?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
-  tenant?: Prisma.TenantOrderByWithRelationInput
   empresa?: Prisma.EmpresaOrderByWithRelationInput
   membership?: Prisma.TenantMembershipOrderByWithRelationInput
   orden?: Prisma.OrdenServicioOrderByWithRelationInput
+  tenant?: Prisma.TenantOrderByWithRelationInput
 }
 
 export type GeolocalizacionWhereUniqueInput = Prisma.AtLeast<{
@@ -327,10 +327,10 @@ export type GeolocalizacionWhereUniqueInput = Prisma.AtLeast<{
   fotoSalida?: Prisma.StringNullableFilter<"Geolocalizacion"> | string | null
   linkMaps?: Prisma.StringNullableFilter<"Geolocalizacion"> | string | null
   createdAt?: Prisma.DateTimeFilter<"Geolocalizacion"> | Date | string
-  tenant?: Prisma.XOR<Prisma.TenantScalarRelationFilter, Prisma.TenantWhereInput>
   empresa?: Prisma.XOR<Prisma.EmpresaScalarRelationFilter, Prisma.EmpresaWhereInput>
   membership?: Prisma.XOR<Prisma.TenantMembershipScalarRelationFilter, Prisma.TenantMembershipWhereInput>
   orden?: Prisma.XOR<Prisma.OrdenServicioScalarRelationFilter, Prisma.OrdenServicioWhereInput>
+  tenant?: Prisma.XOR<Prisma.TenantScalarRelationFilter, Prisma.TenantWhereInput>
 }, "id">
 
 export type GeolocalizacionOrderByWithAggregationInput = {
@@ -383,10 +383,10 @@ export type GeolocalizacionCreateInput = {
   fotoSalida?: string | null
   linkMaps?: string | null
   createdAt?: Date | string
-  tenant: Prisma.TenantCreateNestedOneWithoutGeolocalizacionesInput
   empresa: Prisma.EmpresaCreateNestedOneWithoutGeolocalizacionesInput
   membership: Prisma.TenantMembershipCreateNestedOneWithoutGeolocalizacionesInput
   orden: Prisma.OrdenServicioCreateNestedOneWithoutGeolocalizacionesInput
+  tenant: Prisma.TenantCreateNestedOneWithoutGeolocalizacionesInput
 }
 
 export type GeolocalizacionUncheckedCreateInput = {
@@ -415,10 +415,10 @@ export type GeolocalizacionUpdateInput = {
   fotoSalida?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   linkMaps?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  tenant?: Prisma.TenantUpdateOneRequiredWithoutGeolocalizacionesNestedInput
   empresa?: Prisma.EmpresaUpdateOneRequiredWithoutGeolocalizacionesNestedInput
   membership?: Prisma.TenantMembershipUpdateOneRequiredWithoutGeolocalizacionesNestedInput
   orden?: Prisma.OrdenServicioUpdateOneRequiredWithoutGeolocalizacionesNestedInput
+  tenant?: Prisma.TenantUpdateOneRequiredWithoutGeolocalizacionesNestedInput
 }
 
 export type GeolocalizacionUncheckedUpdateInput = {
@@ -802,9 +802,9 @@ export type GeolocalizacionCreateWithoutMembershipInput = {
   fotoSalida?: string | null
   linkMaps?: string | null
   createdAt?: Date | string
-  tenant: Prisma.TenantCreateNestedOneWithoutGeolocalizacionesInput
   empresa: Prisma.EmpresaCreateNestedOneWithoutGeolocalizacionesInput
   orden: Prisma.OrdenServicioCreateNestedOneWithoutGeolocalizacionesInput
+  tenant: Prisma.TenantCreateNestedOneWithoutGeolocalizacionesInput
 }
 
 export type GeolocalizacionUncheckedCreateWithoutMembershipInput = {
@@ -858,9 +858,9 @@ export type GeolocalizacionCreateWithoutEmpresaInput = {
   fotoSalida?: string | null
   linkMaps?: string | null
   createdAt?: Date | string
-  tenant: Prisma.TenantCreateNestedOneWithoutGeolocalizacionesInput
   membership: Prisma.TenantMembershipCreateNestedOneWithoutGeolocalizacionesInput
   orden: Prisma.OrdenServicioCreateNestedOneWithoutGeolocalizacionesInput
+  tenant: Prisma.TenantCreateNestedOneWithoutGeolocalizacionesInput
 }
 
 export type GeolocalizacionUncheckedCreateWithoutEmpresaInput = {
@@ -914,9 +914,9 @@ export type GeolocalizacionCreateWithoutOrdenInput = {
   fotoSalida?: string | null
   linkMaps?: string | null
   createdAt?: Date | string
-  tenant: Prisma.TenantCreateNestedOneWithoutGeolocalizacionesInput
   empresa: Prisma.EmpresaCreateNestedOneWithoutGeolocalizacionesInput
   membership: Prisma.TenantMembershipCreateNestedOneWithoutGeolocalizacionesInput
+  tenant: Prisma.TenantCreateNestedOneWithoutGeolocalizacionesInput
 }
 
 export type GeolocalizacionUncheckedCreateWithoutOrdenInput = {
@@ -1045,9 +1045,9 @@ export type GeolocalizacionUpdateWithoutMembershipInput = {
   fotoSalida?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   linkMaps?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  tenant?: Prisma.TenantUpdateOneRequiredWithoutGeolocalizacionesNestedInput
   empresa?: Prisma.EmpresaUpdateOneRequiredWithoutGeolocalizacionesNestedInput
   orden?: Prisma.OrdenServicioUpdateOneRequiredWithoutGeolocalizacionesNestedInput
+  tenant?: Prisma.TenantUpdateOneRequiredWithoutGeolocalizacionesNestedInput
 }
 
 export type GeolocalizacionUncheckedUpdateWithoutMembershipInput = {
@@ -1105,9 +1105,9 @@ export type GeolocalizacionUpdateWithoutEmpresaInput = {
   fotoSalida?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   linkMaps?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  tenant?: Prisma.TenantUpdateOneRequiredWithoutGeolocalizacionesNestedInput
   membership?: Prisma.TenantMembershipUpdateOneRequiredWithoutGeolocalizacionesNestedInput
   orden?: Prisma.OrdenServicioUpdateOneRequiredWithoutGeolocalizacionesNestedInput
+  tenant?: Prisma.TenantUpdateOneRequiredWithoutGeolocalizacionesNestedInput
 }
 
 export type GeolocalizacionUncheckedUpdateWithoutEmpresaInput = {
@@ -1165,9 +1165,9 @@ export type GeolocalizacionUpdateWithoutOrdenInput = {
   fotoSalida?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   linkMaps?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  tenant?: Prisma.TenantUpdateOneRequiredWithoutGeolocalizacionesNestedInput
   empresa?: Prisma.EmpresaUpdateOneRequiredWithoutGeolocalizacionesNestedInput
   membership?: Prisma.TenantMembershipUpdateOneRequiredWithoutGeolocalizacionesNestedInput
+  tenant?: Prisma.TenantUpdateOneRequiredWithoutGeolocalizacionesNestedInput
 }
 
 export type GeolocalizacionUncheckedUpdateWithoutOrdenInput = {
@@ -1216,10 +1216,10 @@ export type GeolocalizacionSelect<ExtArgs extends runtime.Types.Extensions.Inter
   fotoSalida?: boolean
   linkMaps?: boolean
   createdAt?: boolean
-  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
   empresa?: boolean | Prisma.EmpresaDefaultArgs<ExtArgs>
   membership?: boolean | Prisma.TenantMembershipDefaultArgs<ExtArgs>
   orden?: boolean | Prisma.OrdenServicioDefaultArgs<ExtArgs>
+  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["geolocalizacion"]>
 
 export type GeolocalizacionSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -1236,10 +1236,10 @@ export type GeolocalizacionSelectCreateManyAndReturn<ExtArgs extends runtime.Typ
   fotoSalida?: boolean
   linkMaps?: boolean
   createdAt?: boolean
-  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
   empresa?: boolean | Prisma.EmpresaDefaultArgs<ExtArgs>
   membership?: boolean | Prisma.TenantMembershipDefaultArgs<ExtArgs>
   orden?: boolean | Prisma.OrdenServicioDefaultArgs<ExtArgs>
+  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["geolocalizacion"]>
 
 export type GeolocalizacionSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -1256,10 +1256,10 @@ export type GeolocalizacionSelectUpdateManyAndReturn<ExtArgs extends runtime.Typ
   fotoSalida?: boolean
   linkMaps?: boolean
   createdAt?: boolean
-  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
   empresa?: boolean | Prisma.EmpresaDefaultArgs<ExtArgs>
   membership?: boolean | Prisma.TenantMembershipDefaultArgs<ExtArgs>
   orden?: boolean | Prisma.OrdenServicioDefaultArgs<ExtArgs>
+  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["geolocalizacion"]>
 
 export type GeolocalizacionSelectScalar = {
@@ -1280,31 +1280,31 @@ export type GeolocalizacionSelectScalar = {
 
 export type GeolocalizacionOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "tenantId" | "empresaId" | "membershipId" | "ordenId" | "latitud" | "longitud" | "llegada" | "salida" | "fotoLlegada" | "fotoSalida" | "linkMaps" | "createdAt", ExtArgs["result"]["geolocalizacion"]>
 export type GeolocalizacionInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
   empresa?: boolean | Prisma.EmpresaDefaultArgs<ExtArgs>
   membership?: boolean | Prisma.TenantMembershipDefaultArgs<ExtArgs>
   orden?: boolean | Prisma.OrdenServicioDefaultArgs<ExtArgs>
+  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
 }
 export type GeolocalizacionIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
   empresa?: boolean | Prisma.EmpresaDefaultArgs<ExtArgs>
   membership?: boolean | Prisma.TenantMembershipDefaultArgs<ExtArgs>
   orden?: boolean | Prisma.OrdenServicioDefaultArgs<ExtArgs>
+  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
 }
 export type GeolocalizacionIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
   empresa?: boolean | Prisma.EmpresaDefaultArgs<ExtArgs>
   membership?: boolean | Prisma.TenantMembershipDefaultArgs<ExtArgs>
   orden?: boolean | Prisma.OrdenServicioDefaultArgs<ExtArgs>
+  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
 }
 
 export type $GeolocalizacionPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "Geolocalizacion"
   objects: {
-    tenant: Prisma.$TenantPayload<ExtArgs>
     empresa: Prisma.$EmpresaPayload<ExtArgs>
     membership: Prisma.$TenantMembershipPayload<ExtArgs>
     orden: Prisma.$OrdenServicioPayload<ExtArgs>
+    tenant: Prisma.$TenantPayload<ExtArgs>
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -1714,10 +1714,10 @@ readonly fields: GeolocalizacionFieldRefs;
  */
 export interface Prisma__GeolocalizacionClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
-  tenant<T extends Prisma.TenantDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.TenantDefaultArgs<ExtArgs>>): Prisma.Prisma__TenantClient<runtime.Types.Result.GetResult<Prisma.$TenantPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   empresa<T extends Prisma.EmpresaDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.EmpresaDefaultArgs<ExtArgs>>): Prisma.Prisma__EmpresaClient<runtime.Types.Result.GetResult<Prisma.$EmpresaPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   membership<T extends Prisma.TenantMembershipDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.TenantMembershipDefaultArgs<ExtArgs>>): Prisma.Prisma__TenantMembershipClient<runtime.Types.Result.GetResult<Prisma.$TenantMembershipPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   orden<T extends Prisma.OrdenServicioDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.OrdenServicioDefaultArgs<ExtArgs>>): Prisma.Prisma__OrdenServicioClient<runtime.Types.Result.GetResult<Prisma.$OrdenServicioPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  tenant<T extends Prisma.TenantDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.TenantDefaultArgs<ExtArgs>>): Prisma.Prisma__TenantClient<runtime.Types.Result.GetResult<Prisma.$TenantPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.

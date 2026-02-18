@@ -206,9 +206,9 @@ export type LogEventoWhereInput = {
   descripcion?: Prisma.StringNullableFilter<"LogEvento"> | string | null
   ruta?: Prisma.StringNullableFilter<"LogEvento"> | string | null
   createdAt?: Prisma.DateTimeFilter<"LogEvento"> | Date | string
-  tenant?: Prisma.XOR<Prisma.TenantScalarRelationFilter, Prisma.TenantWhereInput>
   empresa?: Prisma.XOR<Prisma.EmpresaScalarRelationFilter, Prisma.EmpresaWhereInput>
   sesion?: Prisma.XOR<Prisma.SesionActividadScalarRelationFilter, Prisma.SesionActividadWhereInput>
+  tenant?: Prisma.XOR<Prisma.TenantScalarRelationFilter, Prisma.TenantWhereInput>
 }
 
 export type LogEventoOrderByWithRelationInput = {
@@ -220,9 +220,9 @@ export type LogEventoOrderByWithRelationInput = {
   descripcion?: Prisma.SortOrderInput | Prisma.SortOrder
   ruta?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
-  tenant?: Prisma.TenantOrderByWithRelationInput
   empresa?: Prisma.EmpresaOrderByWithRelationInput
   sesion?: Prisma.SesionActividadOrderByWithRelationInput
+  tenant?: Prisma.TenantOrderByWithRelationInput
 }
 
 export type LogEventoWhereUniqueInput = Prisma.AtLeast<{
@@ -237,9 +237,9 @@ export type LogEventoWhereUniqueInput = Prisma.AtLeast<{
   descripcion?: Prisma.StringNullableFilter<"LogEvento"> | string | null
   ruta?: Prisma.StringNullableFilter<"LogEvento"> | string | null
   createdAt?: Prisma.DateTimeFilter<"LogEvento"> | Date | string
-  tenant?: Prisma.XOR<Prisma.TenantScalarRelationFilter, Prisma.TenantWhereInput>
   empresa?: Prisma.XOR<Prisma.EmpresaScalarRelationFilter, Prisma.EmpresaWhereInput>
   sesion?: Prisma.XOR<Prisma.SesionActividadScalarRelationFilter, Prisma.SesionActividadWhereInput>
+  tenant?: Prisma.XOR<Prisma.TenantScalarRelationFilter, Prisma.TenantWhereInput>
 }, "id">
 
 export type LogEventoOrderByWithAggregationInput = {
@@ -276,9 +276,9 @@ export type LogEventoCreateInput = {
   descripcion?: string | null
   ruta?: string | null
   createdAt?: Date | string
-  tenant: Prisma.TenantCreateNestedOneWithoutLogsEventoInput
   empresa: Prisma.EmpresaCreateNestedOneWithoutLogsEventoInput
   sesion: Prisma.SesionActividadCreateNestedOneWithoutLogsInput
+  tenant: Prisma.TenantCreateNestedOneWithoutLogsEventoInput
 }
 
 export type LogEventoUncheckedCreateInput = {
@@ -298,9 +298,9 @@ export type LogEventoUpdateInput = {
   descripcion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   ruta?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  tenant?: Prisma.TenantUpdateOneRequiredWithoutLogsEventoNestedInput
   empresa?: Prisma.EmpresaUpdateOneRequiredWithoutLogsEventoNestedInput
   sesion?: Prisma.SesionActividadUpdateOneRequiredWithoutLogsNestedInput
+  tenant?: Prisma.TenantUpdateOneRequiredWithoutLogsEventoNestedInput
 }
 
 export type LogEventoUncheckedUpdateInput = {
@@ -579,8 +579,8 @@ export type LogEventoCreateWithoutEmpresaInput = {
   descripcion?: string | null
   ruta?: string | null
   createdAt?: Date | string
-  tenant: Prisma.TenantCreateNestedOneWithoutLogsEventoInput
   sesion: Prisma.SesionActividadCreateNestedOneWithoutLogsInput
+  tenant: Prisma.TenantCreateNestedOneWithoutLogsEventoInput
 }
 
 export type LogEventoUncheckedCreateWithoutEmpresaInput = {
@@ -625,8 +625,8 @@ export type LogEventoCreateWithoutSesionInput = {
   descripcion?: string | null
   ruta?: string | null
   createdAt?: Date | string
-  tenant: Prisma.TenantCreateNestedOneWithoutLogsEventoInput
   empresa: Prisma.EmpresaCreateNestedOneWithoutLogsEventoInput
+  tenant: Prisma.TenantCreateNestedOneWithoutLogsEventoInput
 }
 
 export type LogEventoUncheckedCreateWithoutSesionInput = {
@@ -721,8 +721,8 @@ export type LogEventoUpdateWithoutEmpresaInput = {
   descripcion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   ruta?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  tenant?: Prisma.TenantUpdateOneRequiredWithoutLogsEventoNestedInput
   sesion?: Prisma.SesionActividadUpdateOneRequiredWithoutLogsNestedInput
+  tenant?: Prisma.TenantUpdateOneRequiredWithoutLogsEventoNestedInput
 }
 
 export type LogEventoUncheckedUpdateWithoutEmpresaInput = {
@@ -761,8 +761,8 @@ export type LogEventoUpdateWithoutSesionInput = {
   descripcion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   ruta?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  tenant?: Prisma.TenantUpdateOneRequiredWithoutLogsEventoNestedInput
   empresa?: Prisma.EmpresaUpdateOneRequiredWithoutLogsEventoNestedInput
+  tenant?: Prisma.TenantUpdateOneRequiredWithoutLogsEventoNestedInput
 }
 
 export type LogEventoUncheckedUpdateWithoutSesionInput = {
@@ -796,9 +796,9 @@ export type LogEventoSelect<ExtArgs extends runtime.Types.Extensions.InternalArg
   descripcion?: boolean
   ruta?: boolean
   createdAt?: boolean
-  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
   empresa?: boolean | Prisma.EmpresaDefaultArgs<ExtArgs>
   sesion?: boolean | Prisma.SesionActividadDefaultArgs<ExtArgs>
+  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["logEvento"]>
 
 export type LogEventoSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -810,9 +810,9 @@ export type LogEventoSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Ext
   descripcion?: boolean
   ruta?: boolean
   createdAt?: boolean
-  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
   empresa?: boolean | Prisma.EmpresaDefaultArgs<ExtArgs>
   sesion?: boolean | Prisma.SesionActividadDefaultArgs<ExtArgs>
+  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["logEvento"]>
 
 export type LogEventoSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -824,9 +824,9 @@ export type LogEventoSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Ext
   descripcion?: boolean
   ruta?: boolean
   createdAt?: boolean
-  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
   empresa?: boolean | Prisma.EmpresaDefaultArgs<ExtArgs>
   sesion?: boolean | Prisma.SesionActividadDefaultArgs<ExtArgs>
+  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["logEvento"]>
 
 export type LogEventoSelectScalar = {
@@ -842,27 +842,27 @@ export type LogEventoSelectScalar = {
 
 export type LogEventoOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "tenantId" | "empresaId" | "sesionId" | "tipo" | "descripcion" | "ruta" | "createdAt", ExtArgs["result"]["logEvento"]>
 export type LogEventoInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
   empresa?: boolean | Prisma.EmpresaDefaultArgs<ExtArgs>
   sesion?: boolean | Prisma.SesionActividadDefaultArgs<ExtArgs>
+  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
 }
 export type LogEventoIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
   empresa?: boolean | Prisma.EmpresaDefaultArgs<ExtArgs>
   sesion?: boolean | Prisma.SesionActividadDefaultArgs<ExtArgs>
+  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
 }
 export type LogEventoIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
   empresa?: boolean | Prisma.EmpresaDefaultArgs<ExtArgs>
   sesion?: boolean | Prisma.SesionActividadDefaultArgs<ExtArgs>
+  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
 }
 
 export type $LogEventoPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "LogEvento"
   objects: {
-    tenant: Prisma.$TenantPayload<ExtArgs>
     empresa: Prisma.$EmpresaPayload<ExtArgs>
     sesion: Prisma.$SesionActividadPayload<ExtArgs>
+    tenant: Prisma.$TenantPayload<ExtArgs>
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -1267,9 +1267,9 @@ readonly fields: LogEventoFieldRefs;
  */
 export interface Prisma__LogEventoClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
-  tenant<T extends Prisma.TenantDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.TenantDefaultArgs<ExtArgs>>): Prisma.Prisma__TenantClient<runtime.Types.Result.GetResult<Prisma.$TenantPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   empresa<T extends Prisma.EmpresaDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.EmpresaDefaultArgs<ExtArgs>>): Prisma.Prisma__EmpresaClient<runtime.Types.Result.GetResult<Prisma.$EmpresaPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   sesion<T extends Prisma.SesionActividadDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.SesionActividadDefaultArgs<ExtArgs>>): Prisma.Prisma__SesionActividadClient<runtime.Types.Result.GetResult<Prisma.$SesionActividadPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  tenant<T extends Prisma.TenantDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.TenantDefaultArgs<ExtArgs>>): Prisma.Prisma__TenantClient<runtime.Types.Result.GetResult<Prisma.$TenantPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.

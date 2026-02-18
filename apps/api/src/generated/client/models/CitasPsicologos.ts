@@ -336,15 +336,15 @@ export type CitasPsicologosWhereInput = {
   realizada?: Prisma.BoolFilter<"CitasPsicologos"> | boolean
   estadoPago?: Prisma.EnumEstadoPagoOrdenNullableFilter<"CitasPsicologos"> | $Enums.EstadoPagoOrden | null
   createdAt?: Prisma.DateTimeFilter<"CitasPsicologos"> | Date | string
-  tenant?: Prisma.XOR<Prisma.TenantScalarRelationFilter, Prisma.TenantWhereInput>
+  consultorio?: Prisma.XOR<Prisma.ConsultorioNullableScalarRelationFilter, Prisma.ConsultorioWhereInput> | null
+  creadoPor?: Prisma.XOR<Prisma.TenantMembershipNullableScalarRelationFilter, Prisma.TenantMembershipWhereInput> | null
   empresa?: Prisma.XOR<Prisma.EmpresaScalarRelationFilter, Prisma.EmpresaWhereInput>
   paciente?: Prisma.XOR<Prisma.ClienteScalarRelationFilter, Prisma.ClienteWhereInput>
-  servicio?: Prisma.XOR<Prisma.ServicioNullableScalarRelationFilter, Prisma.ServicioWhereInput> | null
-  creadoPor?: Prisma.XOR<Prisma.TenantMembershipNullableScalarRelationFilter, Prisma.TenantMembershipWhereInput> | null
-  psicologo?: Prisma.XOR<Prisma.TenantMembershipNullableScalarRelationFilter, Prisma.TenantMembershipWhereInput> | null
-  tipoServicioRel?: Prisma.XOR<Prisma.ServicioNullableScalarRelationFilter, Prisma.ServicioWhereInput> | null
-  consultorio?: Prisma.XOR<Prisma.ConsultorioNullableScalarRelationFilter, Prisma.ConsultorioWhereInput> | null
   paquete?: Prisma.XOR<Prisma.PaqueteAdquiridoNullableScalarRelationFilter, Prisma.PaqueteAdquiridoWhereInput> | null
+  psicologo?: Prisma.XOR<Prisma.TenantMembershipNullableScalarRelationFilter, Prisma.TenantMembershipWhereInput> | null
+  servicio?: Prisma.XOR<Prisma.ServicioNullableScalarRelationFilter, Prisma.ServicioWhereInput> | null
+  tenant?: Prisma.XOR<Prisma.TenantScalarRelationFilter, Prisma.TenantWhereInput>
+  tipoServicioRel?: Prisma.XOR<Prisma.ServicioNullableScalarRelationFilter, Prisma.ServicioWhereInput> | null
   nominaDetalles?: Prisma.NominaDetalleListRelationFilter
 }
 
@@ -369,15 +369,15 @@ export type CitasPsicologosOrderByWithRelationInput = {
   realizada?: Prisma.SortOrder
   estadoPago?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
-  tenant?: Prisma.TenantOrderByWithRelationInput
+  consultorio?: Prisma.ConsultorioOrderByWithRelationInput
+  creadoPor?: Prisma.TenantMembershipOrderByWithRelationInput
   empresa?: Prisma.EmpresaOrderByWithRelationInput
   paciente?: Prisma.ClienteOrderByWithRelationInput
-  servicio?: Prisma.ServicioOrderByWithRelationInput
-  creadoPor?: Prisma.TenantMembershipOrderByWithRelationInput
-  psicologo?: Prisma.TenantMembershipOrderByWithRelationInput
-  tipoServicioRel?: Prisma.ServicioOrderByWithRelationInput
-  consultorio?: Prisma.ConsultorioOrderByWithRelationInput
   paquete?: Prisma.PaqueteAdquiridoOrderByWithRelationInput
+  psicologo?: Prisma.TenantMembershipOrderByWithRelationInput
+  servicio?: Prisma.ServicioOrderByWithRelationInput
+  tenant?: Prisma.TenantOrderByWithRelationInput
+  tipoServicioRel?: Prisma.ServicioOrderByWithRelationInput
   nominaDetalles?: Prisma.NominaDetalleOrderByRelationAggregateInput
 }
 
@@ -405,15 +405,15 @@ export type CitasPsicologosWhereUniqueInput = Prisma.AtLeast<{
   realizada?: Prisma.BoolFilter<"CitasPsicologos"> | boolean
   estadoPago?: Prisma.EnumEstadoPagoOrdenNullableFilter<"CitasPsicologos"> | $Enums.EstadoPagoOrden | null
   createdAt?: Prisma.DateTimeFilter<"CitasPsicologos"> | Date | string
-  tenant?: Prisma.XOR<Prisma.TenantScalarRelationFilter, Prisma.TenantWhereInput>
+  consultorio?: Prisma.XOR<Prisma.ConsultorioNullableScalarRelationFilter, Prisma.ConsultorioWhereInput> | null
+  creadoPor?: Prisma.XOR<Prisma.TenantMembershipNullableScalarRelationFilter, Prisma.TenantMembershipWhereInput> | null
   empresa?: Prisma.XOR<Prisma.EmpresaScalarRelationFilter, Prisma.EmpresaWhereInput>
   paciente?: Prisma.XOR<Prisma.ClienteScalarRelationFilter, Prisma.ClienteWhereInput>
-  servicio?: Prisma.XOR<Prisma.ServicioNullableScalarRelationFilter, Prisma.ServicioWhereInput> | null
-  creadoPor?: Prisma.XOR<Prisma.TenantMembershipNullableScalarRelationFilter, Prisma.TenantMembershipWhereInput> | null
-  psicologo?: Prisma.XOR<Prisma.TenantMembershipNullableScalarRelationFilter, Prisma.TenantMembershipWhereInput> | null
-  tipoServicioRel?: Prisma.XOR<Prisma.ServicioNullableScalarRelationFilter, Prisma.ServicioWhereInput> | null
-  consultorio?: Prisma.XOR<Prisma.ConsultorioNullableScalarRelationFilter, Prisma.ConsultorioWhereInput> | null
   paquete?: Prisma.XOR<Prisma.PaqueteAdquiridoNullableScalarRelationFilter, Prisma.PaqueteAdquiridoWhereInput> | null
+  psicologo?: Prisma.XOR<Prisma.TenantMembershipNullableScalarRelationFilter, Prisma.TenantMembershipWhereInput> | null
+  servicio?: Prisma.XOR<Prisma.ServicioNullableScalarRelationFilter, Prisma.ServicioWhereInput> | null
+  tenant?: Prisma.XOR<Prisma.TenantScalarRelationFilter, Prisma.TenantWhereInput>
+  tipoServicioRel?: Prisma.XOR<Prisma.ServicioNullableScalarRelationFilter, Prisma.ServicioWhereInput> | null
   nominaDetalles?: Prisma.NominaDetalleListRelationFilter
 }, "id">
 
@@ -483,15 +483,15 @@ export type CitasPsicologosCreateInput = {
   realizada?: boolean
   estadoPago?: $Enums.EstadoPagoOrden | null
   createdAt?: Date | string
-  tenant: Prisma.TenantCreateNestedOneWithoutCitasPsicologosInput
+  consultorio?: Prisma.ConsultorioCreateNestedOneWithoutCitasInput
+  creadoPor?: Prisma.TenantMembershipCreateNestedOneWithoutCitasComoCreadorInput
   empresa: Prisma.EmpresaCreateNestedOneWithoutCitasPsicologosInput
   paciente: Prisma.ClienteCreateNestedOneWithoutCitasPsicologosInput
-  servicio?: Prisma.ServicioCreateNestedOneWithoutCitasComoServicioInput
-  creadoPor?: Prisma.TenantMembershipCreateNestedOneWithoutCitasComoCreadorInput
-  psicologo?: Prisma.TenantMembershipCreateNestedOneWithoutCitasComoPsicologoInput
-  tipoServicioRel?: Prisma.ServicioCreateNestedOneWithoutCitasComoTipoServicioInput
-  consultorio?: Prisma.ConsultorioCreateNestedOneWithoutCitasInput
   paquete?: Prisma.PaqueteAdquiridoCreateNestedOneWithoutCitasInput
+  psicologo?: Prisma.TenantMembershipCreateNestedOneWithoutCitasComoPsicologoInput
+  servicio?: Prisma.ServicioCreateNestedOneWithoutCitasComoServicioInput
+  tenant: Prisma.TenantCreateNestedOneWithoutCitasPsicologosInput
+  tipoServicioRel?: Prisma.ServicioCreateNestedOneWithoutCitasComoTipoServicioInput
   nominaDetalles?: Prisma.NominaDetalleCreateNestedManyWithoutCitaInput
 }
 
@@ -531,15 +531,15 @@ export type CitasPsicologosUpdateInput = {
   realizada?: Prisma.BoolFieldUpdateOperationsInput | boolean
   estadoPago?: Prisma.NullableEnumEstadoPagoOrdenFieldUpdateOperationsInput | $Enums.EstadoPagoOrden | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  tenant?: Prisma.TenantUpdateOneRequiredWithoutCitasPsicologosNestedInput
+  consultorio?: Prisma.ConsultorioUpdateOneWithoutCitasNestedInput
+  creadoPor?: Prisma.TenantMembershipUpdateOneWithoutCitasComoCreadorNestedInput
   empresa?: Prisma.EmpresaUpdateOneRequiredWithoutCitasPsicologosNestedInput
   paciente?: Prisma.ClienteUpdateOneRequiredWithoutCitasPsicologosNestedInput
-  servicio?: Prisma.ServicioUpdateOneWithoutCitasComoServicioNestedInput
-  creadoPor?: Prisma.TenantMembershipUpdateOneWithoutCitasComoCreadorNestedInput
-  psicologo?: Prisma.TenantMembershipUpdateOneWithoutCitasComoPsicologoNestedInput
-  tipoServicioRel?: Prisma.ServicioUpdateOneWithoutCitasComoTipoServicioNestedInput
-  consultorio?: Prisma.ConsultorioUpdateOneWithoutCitasNestedInput
   paquete?: Prisma.PaqueteAdquiridoUpdateOneWithoutCitasNestedInput
+  psicologo?: Prisma.TenantMembershipUpdateOneWithoutCitasComoPsicologoNestedInput
+  servicio?: Prisma.ServicioUpdateOneWithoutCitasComoServicioNestedInput
+  tenant?: Prisma.TenantUpdateOneRequiredWithoutCitasPsicologosNestedInput
+  tipoServicioRel?: Prisma.ServicioUpdateOneWithoutCitasComoTipoServicioNestedInput
   nominaDetalles?: Prisma.NominaDetalleUpdateManyWithoutCitaNestedInput
 }
 
@@ -1129,14 +1129,14 @@ export type CitasPsicologosCreateWithoutTenantInput = {
   realizada?: boolean
   estadoPago?: $Enums.EstadoPagoOrden | null
   createdAt?: Date | string
+  consultorio?: Prisma.ConsultorioCreateNestedOneWithoutCitasInput
+  creadoPor?: Prisma.TenantMembershipCreateNestedOneWithoutCitasComoCreadorInput
   empresa: Prisma.EmpresaCreateNestedOneWithoutCitasPsicologosInput
   paciente: Prisma.ClienteCreateNestedOneWithoutCitasPsicologosInput
-  servicio?: Prisma.ServicioCreateNestedOneWithoutCitasComoServicioInput
-  creadoPor?: Prisma.TenantMembershipCreateNestedOneWithoutCitasComoCreadorInput
-  psicologo?: Prisma.TenantMembershipCreateNestedOneWithoutCitasComoPsicologoInput
-  tipoServicioRel?: Prisma.ServicioCreateNestedOneWithoutCitasComoTipoServicioInput
-  consultorio?: Prisma.ConsultorioCreateNestedOneWithoutCitasInput
   paquete?: Prisma.PaqueteAdquiridoCreateNestedOneWithoutCitasInput
+  psicologo?: Prisma.TenantMembershipCreateNestedOneWithoutCitasComoPsicologoInput
+  servicio?: Prisma.ServicioCreateNestedOneWithoutCitasComoServicioInput
+  tipoServicioRel?: Prisma.ServicioCreateNestedOneWithoutCitasComoTipoServicioInput
   nominaDetalles?: Prisma.NominaDetalleCreateNestedManyWithoutCitaInput
 }
 
@@ -1227,14 +1227,14 @@ export type CitasPsicologosCreateWithoutCreadoPorInput = {
   realizada?: boolean
   estadoPago?: $Enums.EstadoPagoOrden | null
   createdAt?: Date | string
-  tenant: Prisma.TenantCreateNestedOneWithoutCitasPsicologosInput
+  consultorio?: Prisma.ConsultorioCreateNestedOneWithoutCitasInput
   empresa: Prisma.EmpresaCreateNestedOneWithoutCitasPsicologosInput
   paciente: Prisma.ClienteCreateNestedOneWithoutCitasPsicologosInput
-  servicio?: Prisma.ServicioCreateNestedOneWithoutCitasComoServicioInput
-  psicologo?: Prisma.TenantMembershipCreateNestedOneWithoutCitasComoPsicologoInput
-  tipoServicioRel?: Prisma.ServicioCreateNestedOneWithoutCitasComoTipoServicioInput
-  consultorio?: Prisma.ConsultorioCreateNestedOneWithoutCitasInput
   paquete?: Prisma.PaqueteAdquiridoCreateNestedOneWithoutCitasInput
+  psicologo?: Prisma.TenantMembershipCreateNestedOneWithoutCitasComoPsicologoInput
+  servicio?: Prisma.ServicioCreateNestedOneWithoutCitasComoServicioInput
+  tenant: Prisma.TenantCreateNestedOneWithoutCitasPsicologosInput
+  tipoServicioRel?: Prisma.ServicioCreateNestedOneWithoutCitasComoTipoServicioInput
   nominaDetalles?: Prisma.NominaDetalleCreateNestedManyWithoutCitaInput
 }
 
@@ -1283,14 +1283,14 @@ export type CitasPsicologosCreateWithoutPsicologoInput = {
   realizada?: boolean
   estadoPago?: $Enums.EstadoPagoOrden | null
   createdAt?: Date | string
-  tenant: Prisma.TenantCreateNestedOneWithoutCitasPsicologosInput
+  consultorio?: Prisma.ConsultorioCreateNestedOneWithoutCitasInput
+  creadoPor?: Prisma.TenantMembershipCreateNestedOneWithoutCitasComoCreadorInput
   empresa: Prisma.EmpresaCreateNestedOneWithoutCitasPsicologosInput
   paciente: Prisma.ClienteCreateNestedOneWithoutCitasPsicologosInput
-  servicio?: Prisma.ServicioCreateNestedOneWithoutCitasComoServicioInput
-  creadoPor?: Prisma.TenantMembershipCreateNestedOneWithoutCitasComoCreadorInput
-  tipoServicioRel?: Prisma.ServicioCreateNestedOneWithoutCitasComoTipoServicioInput
-  consultorio?: Prisma.ConsultorioCreateNestedOneWithoutCitasInput
   paquete?: Prisma.PaqueteAdquiridoCreateNestedOneWithoutCitasInput
+  servicio?: Prisma.ServicioCreateNestedOneWithoutCitasComoServicioInput
+  tenant: Prisma.TenantCreateNestedOneWithoutCitasPsicologosInput
+  tipoServicioRel?: Prisma.ServicioCreateNestedOneWithoutCitasComoTipoServicioInput
   nominaDetalles?: Prisma.NominaDetalleCreateNestedManyWithoutCitaInput
 }
 
@@ -1371,14 +1371,14 @@ export type CitasPsicologosCreateWithoutEmpresaInput = {
   realizada?: boolean
   estadoPago?: $Enums.EstadoPagoOrden | null
   createdAt?: Date | string
-  tenant: Prisma.TenantCreateNestedOneWithoutCitasPsicologosInput
-  paciente: Prisma.ClienteCreateNestedOneWithoutCitasPsicologosInput
-  servicio?: Prisma.ServicioCreateNestedOneWithoutCitasComoServicioInput
-  creadoPor?: Prisma.TenantMembershipCreateNestedOneWithoutCitasComoCreadorInput
-  psicologo?: Prisma.TenantMembershipCreateNestedOneWithoutCitasComoPsicologoInput
-  tipoServicioRel?: Prisma.ServicioCreateNestedOneWithoutCitasComoTipoServicioInput
   consultorio?: Prisma.ConsultorioCreateNestedOneWithoutCitasInput
+  creadoPor?: Prisma.TenantMembershipCreateNestedOneWithoutCitasComoCreadorInput
+  paciente: Prisma.ClienteCreateNestedOneWithoutCitasPsicologosInput
   paquete?: Prisma.PaqueteAdquiridoCreateNestedOneWithoutCitasInput
+  psicologo?: Prisma.TenantMembershipCreateNestedOneWithoutCitasComoPsicologoInput
+  servicio?: Prisma.ServicioCreateNestedOneWithoutCitasComoServicioInput
+  tenant: Prisma.TenantCreateNestedOneWithoutCitasPsicologosInput
+  tipoServicioRel?: Prisma.ServicioCreateNestedOneWithoutCitasComoTipoServicioInput
   nominaDetalles?: Prisma.NominaDetalleCreateNestedManyWithoutCitaInput
 }
 
@@ -1443,14 +1443,14 @@ export type CitasPsicologosCreateWithoutPacienteInput = {
   realizada?: boolean
   estadoPago?: $Enums.EstadoPagoOrden | null
   createdAt?: Date | string
-  tenant: Prisma.TenantCreateNestedOneWithoutCitasPsicologosInput
-  empresa: Prisma.EmpresaCreateNestedOneWithoutCitasPsicologosInput
-  servicio?: Prisma.ServicioCreateNestedOneWithoutCitasComoServicioInput
-  creadoPor?: Prisma.TenantMembershipCreateNestedOneWithoutCitasComoCreadorInput
-  psicologo?: Prisma.TenantMembershipCreateNestedOneWithoutCitasComoPsicologoInput
-  tipoServicioRel?: Prisma.ServicioCreateNestedOneWithoutCitasComoTipoServicioInput
   consultorio?: Prisma.ConsultorioCreateNestedOneWithoutCitasInput
+  creadoPor?: Prisma.TenantMembershipCreateNestedOneWithoutCitasComoCreadorInput
+  empresa: Prisma.EmpresaCreateNestedOneWithoutCitasPsicologosInput
   paquete?: Prisma.PaqueteAdquiridoCreateNestedOneWithoutCitasInput
+  psicologo?: Prisma.TenantMembershipCreateNestedOneWithoutCitasComoPsicologoInput
+  servicio?: Prisma.ServicioCreateNestedOneWithoutCitasComoServicioInput
+  tenant: Prisma.TenantCreateNestedOneWithoutCitasPsicologosInput
+  tipoServicioRel?: Prisma.ServicioCreateNestedOneWithoutCitasComoTipoServicioInput
   nominaDetalles?: Prisma.NominaDetalleCreateNestedManyWithoutCitaInput
 }
 
@@ -1515,14 +1515,14 @@ export type CitasPsicologosCreateWithoutServicioInput = {
   realizada?: boolean
   estadoPago?: $Enums.EstadoPagoOrden | null
   createdAt?: Date | string
-  tenant: Prisma.TenantCreateNestedOneWithoutCitasPsicologosInput
+  consultorio?: Prisma.ConsultorioCreateNestedOneWithoutCitasInput
+  creadoPor?: Prisma.TenantMembershipCreateNestedOneWithoutCitasComoCreadorInput
   empresa: Prisma.EmpresaCreateNestedOneWithoutCitasPsicologosInput
   paciente: Prisma.ClienteCreateNestedOneWithoutCitasPsicologosInput
-  creadoPor?: Prisma.TenantMembershipCreateNestedOneWithoutCitasComoCreadorInput
-  psicologo?: Prisma.TenantMembershipCreateNestedOneWithoutCitasComoPsicologoInput
-  tipoServicioRel?: Prisma.ServicioCreateNestedOneWithoutCitasComoTipoServicioInput
-  consultorio?: Prisma.ConsultorioCreateNestedOneWithoutCitasInput
   paquete?: Prisma.PaqueteAdquiridoCreateNestedOneWithoutCitasInput
+  psicologo?: Prisma.TenantMembershipCreateNestedOneWithoutCitasComoPsicologoInput
+  tenant: Prisma.TenantCreateNestedOneWithoutCitasPsicologosInput
+  tipoServicioRel?: Prisma.ServicioCreateNestedOneWithoutCitasComoTipoServicioInput
   nominaDetalles?: Prisma.NominaDetalleCreateNestedManyWithoutCitaInput
 }
 
@@ -1571,14 +1571,14 @@ export type CitasPsicologosCreateWithoutTipoServicioRelInput = {
   realizada?: boolean
   estadoPago?: $Enums.EstadoPagoOrden | null
   createdAt?: Date | string
-  tenant: Prisma.TenantCreateNestedOneWithoutCitasPsicologosInput
+  consultorio?: Prisma.ConsultorioCreateNestedOneWithoutCitasInput
+  creadoPor?: Prisma.TenantMembershipCreateNestedOneWithoutCitasComoCreadorInput
   empresa: Prisma.EmpresaCreateNestedOneWithoutCitasPsicologosInput
   paciente: Prisma.ClienteCreateNestedOneWithoutCitasPsicologosInput
-  servicio?: Prisma.ServicioCreateNestedOneWithoutCitasComoServicioInput
-  creadoPor?: Prisma.TenantMembershipCreateNestedOneWithoutCitasComoCreadorInput
-  psicologo?: Prisma.TenantMembershipCreateNestedOneWithoutCitasComoPsicologoInput
-  consultorio?: Prisma.ConsultorioCreateNestedOneWithoutCitasInput
   paquete?: Prisma.PaqueteAdquiridoCreateNestedOneWithoutCitasInput
+  psicologo?: Prisma.TenantMembershipCreateNestedOneWithoutCitasComoPsicologoInput
+  servicio?: Prisma.ServicioCreateNestedOneWithoutCitasComoServicioInput
+  tenant: Prisma.TenantCreateNestedOneWithoutCitasPsicologosInput
   nominaDetalles?: Prisma.NominaDetalleCreateNestedManyWithoutCitaInput
 }
 
@@ -1659,15 +1659,15 @@ export type CitasPsicologosCreateWithoutNominaDetallesInput = {
   realizada?: boolean
   estadoPago?: $Enums.EstadoPagoOrden | null
   createdAt?: Date | string
-  tenant: Prisma.TenantCreateNestedOneWithoutCitasPsicologosInput
+  consultorio?: Prisma.ConsultorioCreateNestedOneWithoutCitasInput
+  creadoPor?: Prisma.TenantMembershipCreateNestedOneWithoutCitasComoCreadorInput
   empresa: Prisma.EmpresaCreateNestedOneWithoutCitasPsicologosInput
   paciente: Prisma.ClienteCreateNestedOneWithoutCitasPsicologosInput
-  servicio?: Prisma.ServicioCreateNestedOneWithoutCitasComoServicioInput
-  creadoPor?: Prisma.TenantMembershipCreateNestedOneWithoutCitasComoCreadorInput
-  psicologo?: Prisma.TenantMembershipCreateNestedOneWithoutCitasComoPsicologoInput
-  tipoServicioRel?: Prisma.ServicioCreateNestedOneWithoutCitasComoTipoServicioInput
-  consultorio?: Prisma.ConsultorioCreateNestedOneWithoutCitasInput
   paquete?: Prisma.PaqueteAdquiridoCreateNestedOneWithoutCitasInput
+  psicologo?: Prisma.TenantMembershipCreateNestedOneWithoutCitasComoPsicologoInput
+  servicio?: Prisma.ServicioCreateNestedOneWithoutCitasComoServicioInput
+  tenant: Prisma.TenantCreateNestedOneWithoutCitasPsicologosInput
+  tipoServicioRel?: Prisma.ServicioCreateNestedOneWithoutCitasComoTipoServicioInput
 }
 
 export type CitasPsicologosUncheckedCreateWithoutNominaDetallesInput = {
@@ -1721,15 +1721,15 @@ export type CitasPsicologosUpdateWithoutNominaDetallesInput = {
   realizada?: Prisma.BoolFieldUpdateOperationsInput | boolean
   estadoPago?: Prisma.NullableEnumEstadoPagoOrdenFieldUpdateOperationsInput | $Enums.EstadoPagoOrden | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  tenant?: Prisma.TenantUpdateOneRequiredWithoutCitasPsicologosNestedInput
+  consultorio?: Prisma.ConsultorioUpdateOneWithoutCitasNestedInput
+  creadoPor?: Prisma.TenantMembershipUpdateOneWithoutCitasComoCreadorNestedInput
   empresa?: Prisma.EmpresaUpdateOneRequiredWithoutCitasPsicologosNestedInput
   paciente?: Prisma.ClienteUpdateOneRequiredWithoutCitasPsicologosNestedInput
-  servicio?: Prisma.ServicioUpdateOneWithoutCitasComoServicioNestedInput
-  creadoPor?: Prisma.TenantMembershipUpdateOneWithoutCitasComoCreadorNestedInput
-  psicologo?: Prisma.TenantMembershipUpdateOneWithoutCitasComoPsicologoNestedInput
-  tipoServicioRel?: Prisma.ServicioUpdateOneWithoutCitasComoTipoServicioNestedInput
-  consultorio?: Prisma.ConsultorioUpdateOneWithoutCitasNestedInput
   paquete?: Prisma.PaqueteAdquiridoUpdateOneWithoutCitasNestedInput
+  psicologo?: Prisma.TenantMembershipUpdateOneWithoutCitasComoPsicologoNestedInput
+  servicio?: Prisma.ServicioUpdateOneWithoutCitasComoServicioNestedInput
+  tenant?: Prisma.TenantUpdateOneRequiredWithoutCitasPsicologosNestedInput
+  tipoServicioRel?: Prisma.ServicioUpdateOneWithoutCitasComoTipoServicioNestedInput
 }
 
 export type CitasPsicologosUncheckedUpdateWithoutNominaDetallesInput = {
@@ -1767,14 +1767,14 @@ export type CitasPsicologosCreateWithoutConsultorioInput = {
   realizada?: boolean
   estadoPago?: $Enums.EstadoPagoOrden | null
   createdAt?: Date | string
-  tenant: Prisma.TenantCreateNestedOneWithoutCitasPsicologosInput
+  creadoPor?: Prisma.TenantMembershipCreateNestedOneWithoutCitasComoCreadorInput
   empresa: Prisma.EmpresaCreateNestedOneWithoutCitasPsicologosInput
   paciente: Prisma.ClienteCreateNestedOneWithoutCitasPsicologosInput
-  servicio?: Prisma.ServicioCreateNestedOneWithoutCitasComoServicioInput
-  creadoPor?: Prisma.TenantMembershipCreateNestedOneWithoutCitasComoCreadorInput
-  psicologo?: Prisma.TenantMembershipCreateNestedOneWithoutCitasComoPsicologoInput
-  tipoServicioRel?: Prisma.ServicioCreateNestedOneWithoutCitasComoTipoServicioInput
   paquete?: Prisma.PaqueteAdquiridoCreateNestedOneWithoutCitasInput
+  psicologo?: Prisma.TenantMembershipCreateNestedOneWithoutCitasComoPsicologoInput
+  servicio?: Prisma.ServicioCreateNestedOneWithoutCitasComoServicioInput
+  tenant: Prisma.TenantCreateNestedOneWithoutCitasPsicologosInput
+  tipoServicioRel?: Prisma.ServicioCreateNestedOneWithoutCitasComoTipoServicioInput
   nominaDetalles?: Prisma.NominaDetalleCreateNestedManyWithoutCitaInput
 }
 
@@ -1839,14 +1839,14 @@ export type CitasPsicologosCreateWithoutPaqueteInput = {
   realizada?: boolean
   estadoPago?: $Enums.EstadoPagoOrden | null
   createdAt?: Date | string
-  tenant: Prisma.TenantCreateNestedOneWithoutCitasPsicologosInput
+  consultorio?: Prisma.ConsultorioCreateNestedOneWithoutCitasInput
+  creadoPor?: Prisma.TenantMembershipCreateNestedOneWithoutCitasComoCreadorInput
   empresa: Prisma.EmpresaCreateNestedOneWithoutCitasPsicologosInput
   paciente: Prisma.ClienteCreateNestedOneWithoutCitasPsicologosInput
-  servicio?: Prisma.ServicioCreateNestedOneWithoutCitasComoServicioInput
-  creadoPor?: Prisma.TenantMembershipCreateNestedOneWithoutCitasComoCreadorInput
   psicologo?: Prisma.TenantMembershipCreateNestedOneWithoutCitasComoPsicologoInput
+  servicio?: Prisma.ServicioCreateNestedOneWithoutCitasComoServicioInput
+  tenant: Prisma.TenantCreateNestedOneWithoutCitasPsicologosInput
   tipoServicioRel?: Prisma.ServicioCreateNestedOneWithoutCitasComoTipoServicioInput
-  consultorio?: Prisma.ConsultorioCreateNestedOneWithoutCitasInput
   nominaDetalles?: Prisma.NominaDetalleCreateNestedManyWithoutCitaInput
 }
 
@@ -1933,14 +1933,14 @@ export type CitasPsicologosUpdateWithoutTenantInput = {
   realizada?: Prisma.BoolFieldUpdateOperationsInput | boolean
   estadoPago?: Prisma.NullableEnumEstadoPagoOrdenFieldUpdateOperationsInput | $Enums.EstadoPagoOrden | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  consultorio?: Prisma.ConsultorioUpdateOneWithoutCitasNestedInput
+  creadoPor?: Prisma.TenantMembershipUpdateOneWithoutCitasComoCreadorNestedInput
   empresa?: Prisma.EmpresaUpdateOneRequiredWithoutCitasPsicologosNestedInput
   paciente?: Prisma.ClienteUpdateOneRequiredWithoutCitasPsicologosNestedInput
-  servicio?: Prisma.ServicioUpdateOneWithoutCitasComoServicioNestedInput
-  creadoPor?: Prisma.TenantMembershipUpdateOneWithoutCitasComoCreadorNestedInput
-  psicologo?: Prisma.TenantMembershipUpdateOneWithoutCitasComoPsicologoNestedInput
-  tipoServicioRel?: Prisma.ServicioUpdateOneWithoutCitasComoTipoServicioNestedInput
-  consultorio?: Prisma.ConsultorioUpdateOneWithoutCitasNestedInput
   paquete?: Prisma.PaqueteAdquiridoUpdateOneWithoutCitasNestedInput
+  psicologo?: Prisma.TenantMembershipUpdateOneWithoutCitasComoPsicologoNestedInput
+  servicio?: Prisma.ServicioUpdateOneWithoutCitasComoServicioNestedInput
+  tipoServicioRel?: Prisma.ServicioUpdateOneWithoutCitasComoTipoServicioNestedInput
   nominaDetalles?: Prisma.NominaDetalleUpdateManyWithoutCitaNestedInput
 }
 
@@ -2045,14 +2045,14 @@ export type CitasPsicologosUpdateWithoutCreadoPorInput = {
   realizada?: Prisma.BoolFieldUpdateOperationsInput | boolean
   estadoPago?: Prisma.NullableEnumEstadoPagoOrdenFieldUpdateOperationsInput | $Enums.EstadoPagoOrden | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  tenant?: Prisma.TenantUpdateOneRequiredWithoutCitasPsicologosNestedInput
+  consultorio?: Prisma.ConsultorioUpdateOneWithoutCitasNestedInput
   empresa?: Prisma.EmpresaUpdateOneRequiredWithoutCitasPsicologosNestedInput
   paciente?: Prisma.ClienteUpdateOneRequiredWithoutCitasPsicologosNestedInput
-  servicio?: Prisma.ServicioUpdateOneWithoutCitasComoServicioNestedInput
-  psicologo?: Prisma.TenantMembershipUpdateOneWithoutCitasComoPsicologoNestedInput
-  tipoServicioRel?: Prisma.ServicioUpdateOneWithoutCitasComoTipoServicioNestedInput
-  consultorio?: Prisma.ConsultorioUpdateOneWithoutCitasNestedInput
   paquete?: Prisma.PaqueteAdquiridoUpdateOneWithoutCitasNestedInput
+  psicologo?: Prisma.TenantMembershipUpdateOneWithoutCitasComoPsicologoNestedInput
+  servicio?: Prisma.ServicioUpdateOneWithoutCitasComoServicioNestedInput
+  tenant?: Prisma.TenantUpdateOneRequiredWithoutCitasPsicologosNestedInput
+  tipoServicioRel?: Prisma.ServicioUpdateOneWithoutCitasComoTipoServicioNestedInput
   nominaDetalles?: Prisma.NominaDetalleUpdateManyWithoutCitaNestedInput
 }
 
@@ -2113,14 +2113,14 @@ export type CitasPsicologosUpdateWithoutPsicologoInput = {
   realizada?: Prisma.BoolFieldUpdateOperationsInput | boolean
   estadoPago?: Prisma.NullableEnumEstadoPagoOrdenFieldUpdateOperationsInput | $Enums.EstadoPagoOrden | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  tenant?: Prisma.TenantUpdateOneRequiredWithoutCitasPsicologosNestedInput
+  consultorio?: Prisma.ConsultorioUpdateOneWithoutCitasNestedInput
+  creadoPor?: Prisma.TenantMembershipUpdateOneWithoutCitasComoCreadorNestedInput
   empresa?: Prisma.EmpresaUpdateOneRequiredWithoutCitasPsicologosNestedInput
   paciente?: Prisma.ClienteUpdateOneRequiredWithoutCitasPsicologosNestedInput
-  servicio?: Prisma.ServicioUpdateOneWithoutCitasComoServicioNestedInput
-  creadoPor?: Prisma.TenantMembershipUpdateOneWithoutCitasComoCreadorNestedInput
-  tipoServicioRel?: Prisma.ServicioUpdateOneWithoutCitasComoTipoServicioNestedInput
-  consultorio?: Prisma.ConsultorioUpdateOneWithoutCitasNestedInput
   paquete?: Prisma.PaqueteAdquiridoUpdateOneWithoutCitasNestedInput
+  servicio?: Prisma.ServicioUpdateOneWithoutCitasComoServicioNestedInput
+  tenant?: Prisma.TenantUpdateOneRequiredWithoutCitasPsicologosNestedInput
+  tipoServicioRel?: Prisma.ServicioUpdateOneWithoutCitasComoTipoServicioNestedInput
   nominaDetalles?: Prisma.NominaDetalleUpdateManyWithoutCitaNestedInput
 }
 
@@ -2203,14 +2203,14 @@ export type CitasPsicologosUpdateWithoutEmpresaInput = {
   realizada?: Prisma.BoolFieldUpdateOperationsInput | boolean
   estadoPago?: Prisma.NullableEnumEstadoPagoOrdenFieldUpdateOperationsInput | $Enums.EstadoPagoOrden | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  tenant?: Prisma.TenantUpdateOneRequiredWithoutCitasPsicologosNestedInput
-  paciente?: Prisma.ClienteUpdateOneRequiredWithoutCitasPsicologosNestedInput
-  servicio?: Prisma.ServicioUpdateOneWithoutCitasComoServicioNestedInput
-  creadoPor?: Prisma.TenantMembershipUpdateOneWithoutCitasComoCreadorNestedInput
-  psicologo?: Prisma.TenantMembershipUpdateOneWithoutCitasComoPsicologoNestedInput
-  tipoServicioRel?: Prisma.ServicioUpdateOneWithoutCitasComoTipoServicioNestedInput
   consultorio?: Prisma.ConsultorioUpdateOneWithoutCitasNestedInput
+  creadoPor?: Prisma.TenantMembershipUpdateOneWithoutCitasComoCreadorNestedInput
+  paciente?: Prisma.ClienteUpdateOneRequiredWithoutCitasPsicologosNestedInput
   paquete?: Prisma.PaqueteAdquiridoUpdateOneWithoutCitasNestedInput
+  psicologo?: Prisma.TenantMembershipUpdateOneWithoutCitasComoPsicologoNestedInput
+  servicio?: Prisma.ServicioUpdateOneWithoutCitasComoServicioNestedInput
+  tenant?: Prisma.TenantUpdateOneRequiredWithoutCitasPsicologosNestedInput
+  tipoServicioRel?: Prisma.ServicioUpdateOneWithoutCitasComoTipoServicioNestedInput
   nominaDetalles?: Prisma.NominaDetalleUpdateManyWithoutCitaNestedInput
 }
 
@@ -2293,14 +2293,14 @@ export type CitasPsicologosUpdateWithoutPacienteInput = {
   realizada?: Prisma.BoolFieldUpdateOperationsInput | boolean
   estadoPago?: Prisma.NullableEnumEstadoPagoOrdenFieldUpdateOperationsInput | $Enums.EstadoPagoOrden | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  tenant?: Prisma.TenantUpdateOneRequiredWithoutCitasPsicologosNestedInput
-  empresa?: Prisma.EmpresaUpdateOneRequiredWithoutCitasPsicologosNestedInput
-  servicio?: Prisma.ServicioUpdateOneWithoutCitasComoServicioNestedInput
-  creadoPor?: Prisma.TenantMembershipUpdateOneWithoutCitasComoCreadorNestedInput
-  psicologo?: Prisma.TenantMembershipUpdateOneWithoutCitasComoPsicologoNestedInput
-  tipoServicioRel?: Prisma.ServicioUpdateOneWithoutCitasComoTipoServicioNestedInput
   consultorio?: Prisma.ConsultorioUpdateOneWithoutCitasNestedInput
+  creadoPor?: Prisma.TenantMembershipUpdateOneWithoutCitasComoCreadorNestedInput
+  empresa?: Prisma.EmpresaUpdateOneRequiredWithoutCitasPsicologosNestedInput
   paquete?: Prisma.PaqueteAdquiridoUpdateOneWithoutCitasNestedInput
+  psicologo?: Prisma.TenantMembershipUpdateOneWithoutCitasComoPsicologoNestedInput
+  servicio?: Prisma.ServicioUpdateOneWithoutCitasComoServicioNestedInput
+  tenant?: Prisma.TenantUpdateOneRequiredWithoutCitasPsicologosNestedInput
+  tipoServicioRel?: Prisma.ServicioUpdateOneWithoutCitasComoTipoServicioNestedInput
   nominaDetalles?: Prisma.NominaDetalleUpdateManyWithoutCitaNestedInput
 }
 
@@ -2405,14 +2405,14 @@ export type CitasPsicologosUpdateWithoutServicioInput = {
   realizada?: Prisma.BoolFieldUpdateOperationsInput | boolean
   estadoPago?: Prisma.NullableEnumEstadoPagoOrdenFieldUpdateOperationsInput | $Enums.EstadoPagoOrden | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  tenant?: Prisma.TenantUpdateOneRequiredWithoutCitasPsicologosNestedInput
+  consultorio?: Prisma.ConsultorioUpdateOneWithoutCitasNestedInput
+  creadoPor?: Prisma.TenantMembershipUpdateOneWithoutCitasComoCreadorNestedInput
   empresa?: Prisma.EmpresaUpdateOneRequiredWithoutCitasPsicologosNestedInput
   paciente?: Prisma.ClienteUpdateOneRequiredWithoutCitasPsicologosNestedInput
-  creadoPor?: Prisma.TenantMembershipUpdateOneWithoutCitasComoCreadorNestedInput
-  psicologo?: Prisma.TenantMembershipUpdateOneWithoutCitasComoPsicologoNestedInput
-  tipoServicioRel?: Prisma.ServicioUpdateOneWithoutCitasComoTipoServicioNestedInput
-  consultorio?: Prisma.ConsultorioUpdateOneWithoutCitasNestedInput
   paquete?: Prisma.PaqueteAdquiridoUpdateOneWithoutCitasNestedInput
+  psicologo?: Prisma.TenantMembershipUpdateOneWithoutCitasComoPsicologoNestedInput
+  tenant?: Prisma.TenantUpdateOneRequiredWithoutCitasPsicologosNestedInput
+  tipoServicioRel?: Prisma.ServicioUpdateOneWithoutCitasComoTipoServicioNestedInput
   nominaDetalles?: Prisma.NominaDetalleUpdateManyWithoutCitaNestedInput
 }
 
@@ -2473,14 +2473,14 @@ export type CitasPsicologosUpdateWithoutTipoServicioRelInput = {
   realizada?: Prisma.BoolFieldUpdateOperationsInput | boolean
   estadoPago?: Prisma.NullableEnumEstadoPagoOrdenFieldUpdateOperationsInput | $Enums.EstadoPagoOrden | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  tenant?: Prisma.TenantUpdateOneRequiredWithoutCitasPsicologosNestedInput
+  consultorio?: Prisma.ConsultorioUpdateOneWithoutCitasNestedInput
+  creadoPor?: Prisma.TenantMembershipUpdateOneWithoutCitasComoCreadorNestedInput
   empresa?: Prisma.EmpresaUpdateOneRequiredWithoutCitasPsicologosNestedInput
   paciente?: Prisma.ClienteUpdateOneRequiredWithoutCitasPsicologosNestedInput
-  servicio?: Prisma.ServicioUpdateOneWithoutCitasComoServicioNestedInput
-  creadoPor?: Prisma.TenantMembershipUpdateOneWithoutCitasComoCreadorNestedInput
-  psicologo?: Prisma.TenantMembershipUpdateOneWithoutCitasComoPsicologoNestedInput
-  consultorio?: Prisma.ConsultorioUpdateOneWithoutCitasNestedInput
   paquete?: Prisma.PaqueteAdquiridoUpdateOneWithoutCitasNestedInput
+  psicologo?: Prisma.TenantMembershipUpdateOneWithoutCitasComoPsicologoNestedInput
+  servicio?: Prisma.ServicioUpdateOneWithoutCitasComoServicioNestedInput
+  tenant?: Prisma.TenantUpdateOneRequiredWithoutCitasPsicologosNestedInput
   nominaDetalles?: Prisma.NominaDetalleUpdateManyWithoutCitaNestedInput
 }
 
@@ -2563,14 +2563,14 @@ export type CitasPsicologosUpdateWithoutConsultorioInput = {
   realizada?: Prisma.BoolFieldUpdateOperationsInput | boolean
   estadoPago?: Prisma.NullableEnumEstadoPagoOrdenFieldUpdateOperationsInput | $Enums.EstadoPagoOrden | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  tenant?: Prisma.TenantUpdateOneRequiredWithoutCitasPsicologosNestedInput
+  creadoPor?: Prisma.TenantMembershipUpdateOneWithoutCitasComoCreadorNestedInput
   empresa?: Prisma.EmpresaUpdateOneRequiredWithoutCitasPsicologosNestedInput
   paciente?: Prisma.ClienteUpdateOneRequiredWithoutCitasPsicologosNestedInput
-  servicio?: Prisma.ServicioUpdateOneWithoutCitasComoServicioNestedInput
-  creadoPor?: Prisma.TenantMembershipUpdateOneWithoutCitasComoCreadorNestedInput
-  psicologo?: Prisma.TenantMembershipUpdateOneWithoutCitasComoPsicologoNestedInput
-  tipoServicioRel?: Prisma.ServicioUpdateOneWithoutCitasComoTipoServicioNestedInput
   paquete?: Prisma.PaqueteAdquiridoUpdateOneWithoutCitasNestedInput
+  psicologo?: Prisma.TenantMembershipUpdateOneWithoutCitasComoPsicologoNestedInput
+  servicio?: Prisma.ServicioUpdateOneWithoutCitasComoServicioNestedInput
+  tenant?: Prisma.TenantUpdateOneRequiredWithoutCitasPsicologosNestedInput
+  tipoServicioRel?: Prisma.ServicioUpdateOneWithoutCitasComoTipoServicioNestedInput
   nominaDetalles?: Prisma.NominaDetalleUpdateManyWithoutCitaNestedInput
 }
 
@@ -2653,14 +2653,14 @@ export type CitasPsicologosUpdateWithoutPaqueteInput = {
   realizada?: Prisma.BoolFieldUpdateOperationsInput | boolean
   estadoPago?: Prisma.NullableEnumEstadoPagoOrdenFieldUpdateOperationsInput | $Enums.EstadoPagoOrden | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  tenant?: Prisma.TenantUpdateOneRequiredWithoutCitasPsicologosNestedInput
+  consultorio?: Prisma.ConsultorioUpdateOneWithoutCitasNestedInput
+  creadoPor?: Prisma.TenantMembershipUpdateOneWithoutCitasComoCreadorNestedInput
   empresa?: Prisma.EmpresaUpdateOneRequiredWithoutCitasPsicologosNestedInput
   paciente?: Prisma.ClienteUpdateOneRequiredWithoutCitasPsicologosNestedInput
-  servicio?: Prisma.ServicioUpdateOneWithoutCitasComoServicioNestedInput
-  creadoPor?: Prisma.TenantMembershipUpdateOneWithoutCitasComoCreadorNestedInput
   psicologo?: Prisma.TenantMembershipUpdateOneWithoutCitasComoPsicologoNestedInput
+  servicio?: Prisma.ServicioUpdateOneWithoutCitasComoServicioNestedInput
+  tenant?: Prisma.TenantUpdateOneRequiredWithoutCitasPsicologosNestedInput
   tipoServicioRel?: Prisma.ServicioUpdateOneWithoutCitasComoTipoServicioNestedInput
-  consultorio?: Prisma.ConsultorioUpdateOneWithoutCitasNestedInput
   nominaDetalles?: Prisma.NominaDetalleUpdateManyWithoutCitaNestedInput
 }
 
@@ -2761,15 +2761,15 @@ export type CitasPsicologosSelect<ExtArgs extends runtime.Types.Extensions.Inter
   realizada?: boolean
   estadoPago?: boolean
   createdAt?: boolean
-  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
+  consultorio?: boolean | Prisma.CitasPsicologos$consultorioArgs<ExtArgs>
+  creadoPor?: boolean | Prisma.CitasPsicologos$creadoPorArgs<ExtArgs>
   empresa?: boolean | Prisma.EmpresaDefaultArgs<ExtArgs>
   paciente?: boolean | Prisma.ClienteDefaultArgs<ExtArgs>
-  servicio?: boolean | Prisma.CitasPsicologos$servicioArgs<ExtArgs>
-  creadoPor?: boolean | Prisma.CitasPsicologos$creadoPorArgs<ExtArgs>
-  psicologo?: boolean | Prisma.CitasPsicologos$psicologoArgs<ExtArgs>
-  tipoServicioRel?: boolean | Prisma.CitasPsicologos$tipoServicioRelArgs<ExtArgs>
-  consultorio?: boolean | Prisma.CitasPsicologos$consultorioArgs<ExtArgs>
   paquete?: boolean | Prisma.CitasPsicologos$paqueteArgs<ExtArgs>
+  psicologo?: boolean | Prisma.CitasPsicologos$psicologoArgs<ExtArgs>
+  servicio?: boolean | Prisma.CitasPsicologos$servicioArgs<ExtArgs>
+  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
+  tipoServicioRel?: boolean | Prisma.CitasPsicologos$tipoServicioRelArgs<ExtArgs>
   nominaDetalles?: boolean | Prisma.CitasPsicologos$nominaDetallesArgs<ExtArgs>
   _count?: boolean | Prisma.CitasPsicologosCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["citasPsicologos"]>
@@ -2795,15 +2795,15 @@ export type CitasPsicologosSelectCreateManyAndReturn<ExtArgs extends runtime.Typ
   realizada?: boolean
   estadoPago?: boolean
   createdAt?: boolean
-  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
+  consultorio?: boolean | Prisma.CitasPsicologos$consultorioArgs<ExtArgs>
+  creadoPor?: boolean | Prisma.CitasPsicologos$creadoPorArgs<ExtArgs>
   empresa?: boolean | Prisma.EmpresaDefaultArgs<ExtArgs>
   paciente?: boolean | Prisma.ClienteDefaultArgs<ExtArgs>
-  servicio?: boolean | Prisma.CitasPsicologos$servicioArgs<ExtArgs>
-  creadoPor?: boolean | Prisma.CitasPsicologos$creadoPorArgs<ExtArgs>
-  psicologo?: boolean | Prisma.CitasPsicologos$psicologoArgs<ExtArgs>
-  tipoServicioRel?: boolean | Prisma.CitasPsicologos$tipoServicioRelArgs<ExtArgs>
-  consultorio?: boolean | Prisma.CitasPsicologos$consultorioArgs<ExtArgs>
   paquete?: boolean | Prisma.CitasPsicologos$paqueteArgs<ExtArgs>
+  psicologo?: boolean | Prisma.CitasPsicologos$psicologoArgs<ExtArgs>
+  servicio?: boolean | Prisma.CitasPsicologos$servicioArgs<ExtArgs>
+  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
+  tipoServicioRel?: boolean | Prisma.CitasPsicologos$tipoServicioRelArgs<ExtArgs>
 }, ExtArgs["result"]["citasPsicologos"]>
 
 export type CitasPsicologosSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -2827,15 +2827,15 @@ export type CitasPsicologosSelectUpdateManyAndReturn<ExtArgs extends runtime.Typ
   realizada?: boolean
   estadoPago?: boolean
   createdAt?: boolean
-  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
+  consultorio?: boolean | Prisma.CitasPsicologos$consultorioArgs<ExtArgs>
+  creadoPor?: boolean | Prisma.CitasPsicologos$creadoPorArgs<ExtArgs>
   empresa?: boolean | Prisma.EmpresaDefaultArgs<ExtArgs>
   paciente?: boolean | Prisma.ClienteDefaultArgs<ExtArgs>
-  servicio?: boolean | Prisma.CitasPsicologos$servicioArgs<ExtArgs>
-  creadoPor?: boolean | Prisma.CitasPsicologos$creadoPorArgs<ExtArgs>
-  psicologo?: boolean | Prisma.CitasPsicologos$psicologoArgs<ExtArgs>
-  tipoServicioRel?: boolean | Prisma.CitasPsicologos$tipoServicioRelArgs<ExtArgs>
-  consultorio?: boolean | Prisma.CitasPsicologos$consultorioArgs<ExtArgs>
   paquete?: boolean | Prisma.CitasPsicologos$paqueteArgs<ExtArgs>
+  psicologo?: boolean | Prisma.CitasPsicologos$psicologoArgs<ExtArgs>
+  servicio?: boolean | Prisma.CitasPsicologos$servicioArgs<ExtArgs>
+  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
+  tipoServicioRel?: boolean | Prisma.CitasPsicologos$tipoServicioRelArgs<ExtArgs>
 }, ExtArgs["result"]["citasPsicologos"]>
 
 export type CitasPsicologosSelectScalar = {
@@ -2863,53 +2863,53 @@ export type CitasPsicologosSelectScalar = {
 
 export type CitasPsicologosOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "tenantId" | "empresaId" | "pacienteId" | "servicioId" | "creadoPorId" | "psicologoId" | "tipoServicio" | "consultorioId" | "paqueteId" | "fechaCita" | "horaInicio" | "horaFin" | "valor" | "metodoPago" | "comprobantePath" | "observacion" | "realizada" | "estadoPago" | "createdAt", ExtArgs["result"]["citasPsicologos"]>
 export type CitasPsicologosInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
+  consultorio?: boolean | Prisma.CitasPsicologos$consultorioArgs<ExtArgs>
+  creadoPor?: boolean | Prisma.CitasPsicologos$creadoPorArgs<ExtArgs>
   empresa?: boolean | Prisma.EmpresaDefaultArgs<ExtArgs>
   paciente?: boolean | Prisma.ClienteDefaultArgs<ExtArgs>
-  servicio?: boolean | Prisma.CitasPsicologos$servicioArgs<ExtArgs>
-  creadoPor?: boolean | Prisma.CitasPsicologos$creadoPorArgs<ExtArgs>
-  psicologo?: boolean | Prisma.CitasPsicologos$psicologoArgs<ExtArgs>
-  tipoServicioRel?: boolean | Prisma.CitasPsicologos$tipoServicioRelArgs<ExtArgs>
-  consultorio?: boolean | Prisma.CitasPsicologos$consultorioArgs<ExtArgs>
   paquete?: boolean | Prisma.CitasPsicologos$paqueteArgs<ExtArgs>
+  psicologo?: boolean | Prisma.CitasPsicologos$psicologoArgs<ExtArgs>
+  servicio?: boolean | Prisma.CitasPsicologos$servicioArgs<ExtArgs>
+  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
+  tipoServicioRel?: boolean | Prisma.CitasPsicologos$tipoServicioRelArgs<ExtArgs>
   nominaDetalles?: boolean | Prisma.CitasPsicologos$nominaDetallesArgs<ExtArgs>
   _count?: boolean | Prisma.CitasPsicologosCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type CitasPsicologosIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
+  consultorio?: boolean | Prisma.CitasPsicologos$consultorioArgs<ExtArgs>
+  creadoPor?: boolean | Prisma.CitasPsicologos$creadoPorArgs<ExtArgs>
   empresa?: boolean | Prisma.EmpresaDefaultArgs<ExtArgs>
   paciente?: boolean | Prisma.ClienteDefaultArgs<ExtArgs>
-  servicio?: boolean | Prisma.CitasPsicologos$servicioArgs<ExtArgs>
-  creadoPor?: boolean | Prisma.CitasPsicologos$creadoPorArgs<ExtArgs>
-  psicologo?: boolean | Prisma.CitasPsicologos$psicologoArgs<ExtArgs>
-  tipoServicioRel?: boolean | Prisma.CitasPsicologos$tipoServicioRelArgs<ExtArgs>
-  consultorio?: boolean | Prisma.CitasPsicologos$consultorioArgs<ExtArgs>
   paquete?: boolean | Prisma.CitasPsicologos$paqueteArgs<ExtArgs>
+  psicologo?: boolean | Prisma.CitasPsicologos$psicologoArgs<ExtArgs>
+  servicio?: boolean | Prisma.CitasPsicologos$servicioArgs<ExtArgs>
+  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
+  tipoServicioRel?: boolean | Prisma.CitasPsicologos$tipoServicioRelArgs<ExtArgs>
 }
 export type CitasPsicologosIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
+  consultorio?: boolean | Prisma.CitasPsicologos$consultorioArgs<ExtArgs>
+  creadoPor?: boolean | Prisma.CitasPsicologos$creadoPorArgs<ExtArgs>
   empresa?: boolean | Prisma.EmpresaDefaultArgs<ExtArgs>
   paciente?: boolean | Prisma.ClienteDefaultArgs<ExtArgs>
-  servicio?: boolean | Prisma.CitasPsicologos$servicioArgs<ExtArgs>
-  creadoPor?: boolean | Prisma.CitasPsicologos$creadoPorArgs<ExtArgs>
-  psicologo?: boolean | Prisma.CitasPsicologos$psicologoArgs<ExtArgs>
-  tipoServicioRel?: boolean | Prisma.CitasPsicologos$tipoServicioRelArgs<ExtArgs>
-  consultorio?: boolean | Prisma.CitasPsicologos$consultorioArgs<ExtArgs>
   paquete?: boolean | Prisma.CitasPsicologos$paqueteArgs<ExtArgs>
+  psicologo?: boolean | Prisma.CitasPsicologos$psicologoArgs<ExtArgs>
+  servicio?: boolean | Prisma.CitasPsicologos$servicioArgs<ExtArgs>
+  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
+  tipoServicioRel?: boolean | Prisma.CitasPsicologos$tipoServicioRelArgs<ExtArgs>
 }
 
 export type $CitasPsicologosPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "CitasPsicologos"
   objects: {
-    tenant: Prisma.$TenantPayload<ExtArgs>
+    consultorio: Prisma.$ConsultorioPayload<ExtArgs> | null
+    creadoPor: Prisma.$TenantMembershipPayload<ExtArgs> | null
     empresa: Prisma.$EmpresaPayload<ExtArgs>
     paciente: Prisma.$ClientePayload<ExtArgs>
-    servicio: Prisma.$ServicioPayload<ExtArgs> | null
-    creadoPor: Prisma.$TenantMembershipPayload<ExtArgs> | null
-    psicologo: Prisma.$TenantMembershipPayload<ExtArgs> | null
-    tipoServicioRel: Prisma.$ServicioPayload<ExtArgs> | null
-    consultorio: Prisma.$ConsultorioPayload<ExtArgs> | null
     paquete: Prisma.$PaqueteAdquiridoPayload<ExtArgs> | null
+    psicologo: Prisma.$TenantMembershipPayload<ExtArgs> | null
+    servicio: Prisma.$ServicioPayload<ExtArgs> | null
+    tenant: Prisma.$TenantPayload<ExtArgs>
+    tipoServicioRel: Prisma.$ServicioPayload<ExtArgs> | null
     nominaDetalles: Prisma.$NominaDetallePayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
@@ -3327,15 +3327,15 @@ readonly fields: CitasPsicologosFieldRefs;
  */
 export interface Prisma__CitasPsicologosClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
-  tenant<T extends Prisma.TenantDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.TenantDefaultArgs<ExtArgs>>): Prisma.Prisma__TenantClient<runtime.Types.Result.GetResult<Prisma.$TenantPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  consultorio<T extends Prisma.CitasPsicologos$consultorioArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.CitasPsicologos$consultorioArgs<ExtArgs>>): Prisma.Prisma__ConsultorioClient<runtime.Types.Result.GetResult<Prisma.$ConsultorioPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  creadoPor<T extends Prisma.CitasPsicologos$creadoPorArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.CitasPsicologos$creadoPorArgs<ExtArgs>>): Prisma.Prisma__TenantMembershipClient<runtime.Types.Result.GetResult<Prisma.$TenantMembershipPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   empresa<T extends Prisma.EmpresaDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.EmpresaDefaultArgs<ExtArgs>>): Prisma.Prisma__EmpresaClient<runtime.Types.Result.GetResult<Prisma.$EmpresaPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   paciente<T extends Prisma.ClienteDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.ClienteDefaultArgs<ExtArgs>>): Prisma.Prisma__ClienteClient<runtime.Types.Result.GetResult<Prisma.$ClientePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
-  servicio<T extends Prisma.CitasPsicologos$servicioArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.CitasPsicologos$servicioArgs<ExtArgs>>): Prisma.Prisma__ServicioClient<runtime.Types.Result.GetResult<Prisma.$ServicioPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
-  creadoPor<T extends Prisma.CitasPsicologos$creadoPorArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.CitasPsicologos$creadoPorArgs<ExtArgs>>): Prisma.Prisma__TenantMembershipClient<runtime.Types.Result.GetResult<Prisma.$TenantMembershipPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
-  psicologo<T extends Prisma.CitasPsicologos$psicologoArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.CitasPsicologos$psicologoArgs<ExtArgs>>): Prisma.Prisma__TenantMembershipClient<runtime.Types.Result.GetResult<Prisma.$TenantMembershipPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
-  tipoServicioRel<T extends Prisma.CitasPsicologos$tipoServicioRelArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.CitasPsicologos$tipoServicioRelArgs<ExtArgs>>): Prisma.Prisma__ServicioClient<runtime.Types.Result.GetResult<Prisma.$ServicioPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
-  consultorio<T extends Prisma.CitasPsicologos$consultorioArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.CitasPsicologos$consultorioArgs<ExtArgs>>): Prisma.Prisma__ConsultorioClient<runtime.Types.Result.GetResult<Prisma.$ConsultorioPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   paquete<T extends Prisma.CitasPsicologos$paqueteArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.CitasPsicologos$paqueteArgs<ExtArgs>>): Prisma.Prisma__PaqueteAdquiridoClient<runtime.Types.Result.GetResult<Prisma.$PaqueteAdquiridoPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  psicologo<T extends Prisma.CitasPsicologos$psicologoArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.CitasPsicologos$psicologoArgs<ExtArgs>>): Prisma.Prisma__TenantMembershipClient<runtime.Types.Result.GetResult<Prisma.$TenantMembershipPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  servicio<T extends Prisma.CitasPsicologos$servicioArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.CitasPsicologos$servicioArgs<ExtArgs>>): Prisma.Prisma__ServicioClient<runtime.Types.Result.GetResult<Prisma.$ServicioPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  tenant<T extends Prisma.TenantDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.TenantDefaultArgs<ExtArgs>>): Prisma.Prisma__TenantClient<runtime.Types.Result.GetResult<Prisma.$TenantPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  tipoServicioRel<T extends Prisma.CitasPsicologos$tipoServicioRelArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.CitasPsicologos$tipoServicioRelArgs<ExtArgs>>): Prisma.Prisma__ServicioClient<runtime.Types.Result.GetResult<Prisma.$ServicioPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   nominaDetalles<T extends Prisma.CitasPsicologos$nominaDetallesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.CitasPsicologos$nominaDetallesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$NominaDetallePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -3782,22 +3782,22 @@ export type CitasPsicologosDeleteManyArgs<ExtArgs extends runtime.Types.Extensio
 }
 
 /**
- * CitasPsicologos.servicio
+ * CitasPsicologos.consultorio
  */
-export type CitasPsicologos$servicioArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+export type CitasPsicologos$consultorioArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   /**
-   * Select specific fields to fetch from the Servicio
+   * Select specific fields to fetch from the Consultorio
    */
-  select?: Prisma.ServicioSelect<ExtArgs> | null
+  select?: Prisma.ConsultorioSelect<ExtArgs> | null
   /**
-   * Omit specific fields from the Servicio
+   * Omit specific fields from the Consultorio
    */
-  omit?: Prisma.ServicioOmit<ExtArgs> | null
+  omit?: Prisma.ConsultorioOmit<ExtArgs> | null
   /**
    * Choose, which related nodes to fetch as well
    */
-  include?: Prisma.ServicioInclude<ExtArgs> | null
-  where?: Prisma.ServicioWhereInput
+  include?: Prisma.ConsultorioInclude<ExtArgs> | null
+  where?: Prisma.ConsultorioWhereInput
 }
 
 /**
@@ -3820,6 +3820,25 @@ export type CitasPsicologos$creadoPorArgs<ExtArgs extends runtime.Types.Extensio
 }
 
 /**
+ * CitasPsicologos.paquete
+ */
+export type CitasPsicologos$paqueteArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the PaqueteAdquirido
+   */
+  select?: Prisma.PaqueteAdquiridoSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the PaqueteAdquirido
+   */
+  omit?: Prisma.PaqueteAdquiridoOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.PaqueteAdquiridoInclude<ExtArgs> | null
+  where?: Prisma.PaqueteAdquiridoWhereInput
+}
+
+/**
  * CitasPsicologos.psicologo
  */
 export type CitasPsicologos$psicologoArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -3839,9 +3858,9 @@ export type CitasPsicologos$psicologoArgs<ExtArgs extends runtime.Types.Extensio
 }
 
 /**
- * CitasPsicologos.tipoServicioRel
+ * CitasPsicologos.servicio
  */
-export type CitasPsicologos$tipoServicioRelArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+export type CitasPsicologos$servicioArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   /**
    * Select specific fields to fetch from the Servicio
    */
@@ -3858,41 +3877,22 @@ export type CitasPsicologos$tipoServicioRelArgs<ExtArgs extends runtime.Types.Ex
 }
 
 /**
- * CitasPsicologos.consultorio
+ * CitasPsicologos.tipoServicioRel
  */
-export type CitasPsicologos$consultorioArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+export type CitasPsicologos$tipoServicioRelArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   /**
-   * Select specific fields to fetch from the Consultorio
+   * Select specific fields to fetch from the Servicio
    */
-  select?: Prisma.ConsultorioSelect<ExtArgs> | null
+  select?: Prisma.ServicioSelect<ExtArgs> | null
   /**
-   * Omit specific fields from the Consultorio
+   * Omit specific fields from the Servicio
    */
-  omit?: Prisma.ConsultorioOmit<ExtArgs> | null
+  omit?: Prisma.ServicioOmit<ExtArgs> | null
   /**
    * Choose, which related nodes to fetch as well
    */
-  include?: Prisma.ConsultorioInclude<ExtArgs> | null
-  where?: Prisma.ConsultorioWhereInput
-}
-
-/**
- * CitasPsicologos.paquete
- */
-export type CitasPsicologos$paqueteArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the PaqueteAdquirido
-   */
-  select?: Prisma.PaqueteAdquiridoSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the PaqueteAdquirido
-   */
-  omit?: Prisma.PaqueteAdquiridoOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.PaqueteAdquiridoInclude<ExtArgs> | null
-  where?: Prisma.PaqueteAdquiridoWhereInput
+  include?: Prisma.ServicioInclude<ExtArgs> | null
+  where?: Prisma.ServicioWhereInput
 }
 
 /**

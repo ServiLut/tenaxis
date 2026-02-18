@@ -238,10 +238,10 @@ export type PermisoWhereInput = {
   fechaSolicitud?: Prisma.DateTimeFilter<"Permiso"> | Date | string
   fechaAprobacion?: Prisma.DateTimeNullableFilter<"Permiso"> | Date | string | null
   fechaExpiracion?: Prisma.DateTimeNullableFilter<"Permiso"> | Date | string | null
-  tenant?: Prisma.XOR<Prisma.TenantScalarRelationFilter, Prisma.TenantWhereInput>
+  admin?: Prisma.XOR<Prisma.TenantMembershipNullableScalarRelationFilter, Prisma.TenantMembershipWhereInput> | null
   empresa?: Prisma.XOR<Prisma.EmpresaScalarRelationFilter, Prisma.EmpresaWhereInput>
   membership?: Prisma.XOR<Prisma.TenantMembershipScalarRelationFilter, Prisma.TenantMembershipWhereInput>
-  admin?: Prisma.XOR<Prisma.TenantMembershipNullableScalarRelationFilter, Prisma.TenantMembershipWhereInput> | null
+  tenant?: Prisma.XOR<Prisma.TenantScalarRelationFilter, Prisma.TenantWhereInput>
 }
 
 export type PermisoOrderByWithRelationInput = {
@@ -257,10 +257,10 @@ export type PermisoOrderByWithRelationInput = {
   fechaSolicitud?: Prisma.SortOrder
   fechaAprobacion?: Prisma.SortOrderInput | Prisma.SortOrder
   fechaExpiracion?: Prisma.SortOrderInput | Prisma.SortOrder
-  tenant?: Prisma.TenantOrderByWithRelationInput
+  admin?: Prisma.TenantMembershipOrderByWithRelationInput
   empresa?: Prisma.EmpresaOrderByWithRelationInput
   membership?: Prisma.TenantMembershipOrderByWithRelationInput
-  admin?: Prisma.TenantMembershipOrderByWithRelationInput
+  tenant?: Prisma.TenantOrderByWithRelationInput
 }
 
 export type PermisoWhereUniqueInput = Prisma.AtLeast<{
@@ -279,10 +279,10 @@ export type PermisoWhereUniqueInput = Prisma.AtLeast<{
   fechaSolicitud?: Prisma.DateTimeFilter<"Permiso"> | Date | string
   fechaAprobacion?: Prisma.DateTimeNullableFilter<"Permiso"> | Date | string | null
   fechaExpiracion?: Prisma.DateTimeNullableFilter<"Permiso"> | Date | string | null
-  tenant?: Prisma.XOR<Prisma.TenantScalarRelationFilter, Prisma.TenantWhereInput>
+  admin?: Prisma.XOR<Prisma.TenantMembershipNullableScalarRelationFilter, Prisma.TenantMembershipWhereInput> | null
   empresa?: Prisma.XOR<Prisma.EmpresaScalarRelationFilter, Prisma.EmpresaWhereInput>
   membership?: Prisma.XOR<Prisma.TenantMembershipScalarRelationFilter, Prisma.TenantMembershipWhereInput>
-  admin?: Prisma.XOR<Prisma.TenantMembershipNullableScalarRelationFilter, Prisma.TenantMembershipWhereInput> | null
+  tenant?: Prisma.XOR<Prisma.TenantScalarRelationFilter, Prisma.TenantWhereInput>
 }, "id">
 
 export type PermisoOrderByWithAggregationInput = {
@@ -330,10 +330,10 @@ export type PermisoCreateInput = {
   fechaSolicitud?: Date | string
   fechaAprobacion?: Date | string | null
   fechaExpiracion?: Date | string | null
-  tenant: Prisma.TenantCreateNestedOneWithoutPermisosInput
+  admin?: Prisma.TenantMembershipCreateNestedOneWithoutPermisosAprobadosInput
   empresa: Prisma.EmpresaCreateNestedOneWithoutPermisosInput
   membership: Prisma.TenantMembershipCreateNestedOneWithoutPermisosSolicitadosInput
-  admin?: Prisma.TenantMembershipCreateNestedOneWithoutPermisosAprobadosInput
+  tenant: Prisma.TenantCreateNestedOneWithoutPermisosInput
 }
 
 export type PermisoUncheckedCreateInput = {
@@ -360,10 +360,10 @@ export type PermisoUpdateInput = {
   fechaSolicitud?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   fechaAprobacion?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   fechaExpiracion?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  tenant?: Prisma.TenantUpdateOneRequiredWithoutPermisosNestedInput
+  admin?: Prisma.TenantMembershipUpdateOneWithoutPermisosAprobadosNestedInput
   empresa?: Prisma.EmpresaUpdateOneRequiredWithoutPermisosNestedInput
   membership?: Prisma.TenantMembershipUpdateOneRequiredWithoutPermisosSolicitadosNestedInput
-  admin?: Prisma.TenantMembershipUpdateOneWithoutPermisosAprobadosNestedInput
+  tenant?: Prisma.TenantUpdateOneRequiredWithoutPermisosNestedInput
 }
 
 export type PermisoUncheckedUpdateInput = {
@@ -662,9 +662,9 @@ export type PermisoCreateWithoutTenantInput = {
   fechaSolicitud?: Date | string
   fechaAprobacion?: Date | string | null
   fechaExpiracion?: Date | string | null
+  admin?: Prisma.TenantMembershipCreateNestedOneWithoutPermisosAprobadosInput
   empresa: Prisma.EmpresaCreateNestedOneWithoutPermisosInput
   membership: Prisma.TenantMembershipCreateNestedOneWithoutPermisosSolicitadosInput
-  admin?: Prisma.TenantMembershipCreateNestedOneWithoutPermisosAprobadosInput
 }
 
 export type PermisoUncheckedCreateWithoutTenantInput = {
@@ -734,9 +734,9 @@ export type PermisoCreateWithoutAdminInput = {
   fechaSolicitud?: Date | string
   fechaAprobacion?: Date | string | null
   fechaExpiracion?: Date | string | null
-  tenant: Prisma.TenantCreateNestedOneWithoutPermisosInput
   empresa: Prisma.EmpresaCreateNestedOneWithoutPermisosInput
   membership: Prisma.TenantMembershipCreateNestedOneWithoutPermisosSolicitadosInput
+  tenant: Prisma.TenantCreateNestedOneWithoutPermisosInput
 }
 
 export type PermisoUncheckedCreateWithoutAdminInput = {
@@ -772,9 +772,9 @@ export type PermisoCreateWithoutMembershipInput = {
   fechaSolicitud?: Date | string
   fechaAprobacion?: Date | string | null
   fechaExpiracion?: Date | string | null
-  tenant: Prisma.TenantCreateNestedOneWithoutPermisosInput
-  empresa: Prisma.EmpresaCreateNestedOneWithoutPermisosInput
   admin?: Prisma.TenantMembershipCreateNestedOneWithoutPermisosAprobadosInput
+  empresa: Prisma.EmpresaCreateNestedOneWithoutPermisosInput
+  tenant: Prisma.TenantCreateNestedOneWithoutPermisosInput
 }
 
 export type PermisoUncheckedCreateWithoutMembershipInput = {
@@ -842,9 +842,9 @@ export type PermisoCreateWithoutEmpresaInput = {
   fechaSolicitud?: Date | string
   fechaAprobacion?: Date | string | null
   fechaExpiracion?: Date | string | null
-  tenant: Prisma.TenantCreateNestedOneWithoutPermisosInput
-  membership: Prisma.TenantMembershipCreateNestedOneWithoutPermisosSolicitadosInput
   admin?: Prisma.TenantMembershipCreateNestedOneWithoutPermisosAprobadosInput
+  membership: Prisma.TenantMembershipCreateNestedOneWithoutPermisosSolicitadosInput
+  tenant: Prisma.TenantCreateNestedOneWithoutPermisosInput
 }
 
 export type PermisoUncheckedCreateWithoutEmpresaInput = {
@@ -910,9 +910,9 @@ export type PermisoUpdateWithoutTenantInput = {
   fechaSolicitud?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   fechaAprobacion?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   fechaExpiracion?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  admin?: Prisma.TenantMembershipUpdateOneWithoutPermisosAprobadosNestedInput
   empresa?: Prisma.EmpresaUpdateOneRequiredWithoutPermisosNestedInput
   membership?: Prisma.TenantMembershipUpdateOneRequiredWithoutPermisosSolicitadosNestedInput
-  admin?: Prisma.TenantMembershipUpdateOneWithoutPermisosAprobadosNestedInput
 }
 
 export type PermisoUncheckedUpdateWithoutTenantInput = {
@@ -980,9 +980,9 @@ export type PermisoUpdateWithoutAdminInput = {
   fechaSolicitud?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   fechaAprobacion?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   fechaExpiracion?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  tenant?: Prisma.TenantUpdateOneRequiredWithoutPermisosNestedInput
   empresa?: Prisma.EmpresaUpdateOneRequiredWithoutPermisosNestedInput
   membership?: Prisma.TenantMembershipUpdateOneRequiredWithoutPermisosSolicitadosNestedInput
+  tenant?: Prisma.TenantUpdateOneRequiredWithoutPermisosNestedInput
 }
 
 export type PermisoUncheckedUpdateWithoutAdminInput = {
@@ -1022,9 +1022,9 @@ export type PermisoUpdateWithoutMembershipInput = {
   fechaSolicitud?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   fechaAprobacion?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   fechaExpiracion?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  tenant?: Prisma.TenantUpdateOneRequiredWithoutPermisosNestedInput
-  empresa?: Prisma.EmpresaUpdateOneRequiredWithoutPermisosNestedInput
   admin?: Prisma.TenantMembershipUpdateOneWithoutPermisosAprobadosNestedInput
+  empresa?: Prisma.EmpresaUpdateOneRequiredWithoutPermisosNestedInput
+  tenant?: Prisma.TenantUpdateOneRequiredWithoutPermisosNestedInput
 }
 
 export type PermisoUncheckedUpdateWithoutMembershipInput = {
@@ -1078,9 +1078,9 @@ export type PermisoUpdateWithoutEmpresaInput = {
   fechaSolicitud?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   fechaAprobacion?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   fechaExpiracion?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  tenant?: Prisma.TenantUpdateOneRequiredWithoutPermisosNestedInput
-  membership?: Prisma.TenantMembershipUpdateOneRequiredWithoutPermisosSolicitadosNestedInput
   admin?: Prisma.TenantMembershipUpdateOneWithoutPermisosAprobadosNestedInput
+  membership?: Prisma.TenantMembershipUpdateOneRequiredWithoutPermisosSolicitadosNestedInput
+  tenant?: Prisma.TenantUpdateOneRequiredWithoutPermisosNestedInput
 }
 
 export type PermisoUncheckedUpdateWithoutEmpresaInput = {
@@ -1126,10 +1126,10 @@ export type PermisoSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs 
   fechaSolicitud?: boolean
   fechaAprobacion?: boolean
   fechaExpiracion?: boolean
-  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
+  admin?: boolean | Prisma.Permiso$adminArgs<ExtArgs>
   empresa?: boolean | Prisma.EmpresaDefaultArgs<ExtArgs>
   membership?: boolean | Prisma.TenantMembershipDefaultArgs<ExtArgs>
-  admin?: boolean | Prisma.Permiso$adminArgs<ExtArgs>
+  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["permiso"]>
 
 export type PermisoSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -1145,10 +1145,10 @@ export type PermisoSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Exten
   fechaSolicitud?: boolean
   fechaAprobacion?: boolean
   fechaExpiracion?: boolean
-  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
+  admin?: boolean | Prisma.Permiso$adminArgs<ExtArgs>
   empresa?: boolean | Prisma.EmpresaDefaultArgs<ExtArgs>
   membership?: boolean | Prisma.TenantMembershipDefaultArgs<ExtArgs>
-  admin?: boolean | Prisma.Permiso$adminArgs<ExtArgs>
+  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["permiso"]>
 
 export type PermisoSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -1164,10 +1164,10 @@ export type PermisoSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Exten
   fechaSolicitud?: boolean
   fechaAprobacion?: boolean
   fechaExpiracion?: boolean
-  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
+  admin?: boolean | Prisma.Permiso$adminArgs<ExtArgs>
   empresa?: boolean | Prisma.EmpresaDefaultArgs<ExtArgs>
   membership?: boolean | Prisma.TenantMembershipDefaultArgs<ExtArgs>
-  admin?: boolean | Prisma.Permiso$adminArgs<ExtArgs>
+  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["permiso"]>
 
 export type PermisoSelectScalar = {
@@ -1187,31 +1187,31 @@ export type PermisoSelectScalar = {
 
 export type PermisoOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "tenantId" | "empresaId" | "membershipId" | "adminId" | "tipo" | "entidadId" | "motivo" | "estado" | "fechaSolicitud" | "fechaAprobacion" | "fechaExpiracion", ExtArgs["result"]["permiso"]>
 export type PermisoInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
+  admin?: boolean | Prisma.Permiso$adminArgs<ExtArgs>
   empresa?: boolean | Prisma.EmpresaDefaultArgs<ExtArgs>
   membership?: boolean | Prisma.TenantMembershipDefaultArgs<ExtArgs>
-  admin?: boolean | Prisma.Permiso$adminArgs<ExtArgs>
+  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
 }
 export type PermisoIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
+  admin?: boolean | Prisma.Permiso$adminArgs<ExtArgs>
   empresa?: boolean | Prisma.EmpresaDefaultArgs<ExtArgs>
   membership?: boolean | Prisma.TenantMembershipDefaultArgs<ExtArgs>
-  admin?: boolean | Prisma.Permiso$adminArgs<ExtArgs>
+  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
 }
 export type PermisoIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
+  admin?: boolean | Prisma.Permiso$adminArgs<ExtArgs>
   empresa?: boolean | Prisma.EmpresaDefaultArgs<ExtArgs>
   membership?: boolean | Prisma.TenantMembershipDefaultArgs<ExtArgs>
-  admin?: boolean | Prisma.Permiso$adminArgs<ExtArgs>
+  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
 }
 
 export type $PermisoPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "Permiso"
   objects: {
-    tenant: Prisma.$TenantPayload<ExtArgs>
+    admin: Prisma.$TenantMembershipPayload<ExtArgs> | null
     empresa: Prisma.$EmpresaPayload<ExtArgs>
     membership: Prisma.$TenantMembershipPayload<ExtArgs>
-    admin: Prisma.$TenantMembershipPayload<ExtArgs> | null
+    tenant: Prisma.$TenantPayload<ExtArgs>
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -1620,10 +1620,10 @@ readonly fields: PermisoFieldRefs;
  */
 export interface Prisma__PermisoClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
-  tenant<T extends Prisma.TenantDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.TenantDefaultArgs<ExtArgs>>): Prisma.Prisma__TenantClient<runtime.Types.Result.GetResult<Prisma.$TenantPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  admin<T extends Prisma.Permiso$adminArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Permiso$adminArgs<ExtArgs>>): Prisma.Prisma__TenantMembershipClient<runtime.Types.Result.GetResult<Prisma.$TenantMembershipPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   empresa<T extends Prisma.EmpresaDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.EmpresaDefaultArgs<ExtArgs>>): Prisma.Prisma__EmpresaClient<runtime.Types.Result.GetResult<Prisma.$EmpresaPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   membership<T extends Prisma.TenantMembershipDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.TenantMembershipDefaultArgs<ExtArgs>>): Prisma.Prisma__TenantMembershipClient<runtime.Types.Result.GetResult<Prisma.$TenantMembershipPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
-  admin<T extends Prisma.Permiso$adminArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Permiso$adminArgs<ExtArgs>>): Prisma.Prisma__TenantMembershipClient<runtime.Types.Result.GetResult<Prisma.$TenantMembershipPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  tenant<T extends Prisma.TenantDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.TenantDefaultArgs<ExtArgs>>): Prisma.Prisma__TenantClient<runtime.Types.Result.GetResult<Prisma.$TenantPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.

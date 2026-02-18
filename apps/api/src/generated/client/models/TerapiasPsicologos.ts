@@ -260,9 +260,9 @@ export type TerapiasPsicologosWhereInput = {
   precioBase?: Prisma.DecimalFilter<"TerapiasPsicologos"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   activo?: Prisma.BoolFilter<"TerapiasPsicologos"> | boolean
   createdAt?: Prisma.DateTimeFilter<"TerapiasPsicologos"> | Date | string
-  tenant?: Prisma.XOR<Prisma.TenantScalarRelationFilter, Prisma.TenantWhereInput>
-  empresa?: Prisma.XOR<Prisma.EmpresaScalarRelationFilter, Prisma.EmpresaWhereInput>
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoListRelationFilter
+  empresa?: Prisma.XOR<Prisma.EmpresaScalarRelationFilter, Prisma.EmpresaWhereInput>
+  tenant?: Prisma.XOR<Prisma.TenantScalarRelationFilter, Prisma.TenantWhereInput>
 }
 
 export type TerapiasPsicologosOrderByWithRelationInput = {
@@ -276,9 +276,9 @@ export type TerapiasPsicologosOrderByWithRelationInput = {
   precioBase?: Prisma.SortOrder
   activo?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
-  tenant?: Prisma.TenantOrderByWithRelationInput
-  empresa?: Prisma.EmpresaOrderByWithRelationInput
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoOrderByRelationAggregateInput
+  empresa?: Prisma.EmpresaOrderByWithRelationInput
+  tenant?: Prisma.TenantOrderByWithRelationInput
 }
 
 export type TerapiasPsicologosWhereUniqueInput = Prisma.AtLeast<{
@@ -295,9 +295,9 @@ export type TerapiasPsicologosWhereUniqueInput = Prisma.AtLeast<{
   precioBase?: Prisma.DecimalFilter<"TerapiasPsicologos"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   activo?: Prisma.BoolFilter<"TerapiasPsicologos"> | boolean
   createdAt?: Prisma.DateTimeFilter<"TerapiasPsicologos"> | Date | string
-  tenant?: Prisma.XOR<Prisma.TenantScalarRelationFilter, Prisma.TenantWhereInput>
-  empresa?: Prisma.XOR<Prisma.EmpresaScalarRelationFilter, Prisma.EmpresaWhereInput>
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoListRelationFilter
+  empresa?: Prisma.XOR<Prisma.EmpresaScalarRelationFilter, Prisma.EmpresaWhereInput>
+  tenant?: Prisma.XOR<Prisma.TenantScalarRelationFilter, Prisma.TenantWhereInput>
 }, "id">
 
 export type TerapiasPsicologosOrderByWithAggregationInput = {
@@ -343,9 +343,9 @@ export type TerapiasPsicologosCreateInput = {
   precioBase: runtime.Decimal | runtime.DecimalJsLike | number | string
   activo?: boolean
   createdAt?: Date | string
-  tenant: Prisma.TenantCreateNestedOneWithoutTerapiasPsicologosInput
-  empresa: Prisma.EmpresaCreateNestedOneWithoutTerapiasPsicologosInput
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoCreateNestedManyWithoutCatalogoInput
+  empresa: Prisma.EmpresaCreateNestedOneWithoutTerapiasPsicologosInput
+  tenant: Prisma.TenantCreateNestedOneWithoutTerapiasPsicologosInput
 }
 
 export type TerapiasPsicologosUncheckedCreateInput = {
@@ -371,9 +371,9 @@ export type TerapiasPsicologosUpdateInput = {
   precioBase?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  tenant?: Prisma.TenantUpdateOneRequiredWithoutTerapiasPsicologosNestedInput
-  empresa?: Prisma.EmpresaUpdateOneRequiredWithoutTerapiasPsicologosNestedInput
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoUpdateManyWithoutCatalogoNestedInput
+  empresa?: Prisma.EmpresaUpdateOneRequiredWithoutTerapiasPsicologosNestedInput
+  tenant?: Prisma.TenantUpdateOneRequiredWithoutTerapiasPsicologosNestedInput
 }
 
 export type TerapiasPsicologosUncheckedUpdateInput = {
@@ -598,8 +598,8 @@ export type TerapiasPsicologosCreateWithoutTenantInput = {
   precioBase: runtime.Decimal | runtime.DecimalJsLike | number | string
   activo?: boolean
   createdAt?: Date | string
-  empresa: Prisma.EmpresaCreateNestedOneWithoutTerapiasPsicologosInput
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoCreateNestedManyWithoutCatalogoInput
+  empresa: Prisma.EmpresaCreateNestedOneWithoutTerapiasPsicologosInput
 }
 
 export type TerapiasPsicologosUncheckedCreateWithoutTenantInput = {
@@ -666,8 +666,8 @@ export type TerapiasPsicologosCreateWithoutEmpresaInput = {
   precioBase: runtime.Decimal | runtime.DecimalJsLike | number | string
   activo?: boolean
   createdAt?: Date | string
-  tenant: Prisma.TenantCreateNestedOneWithoutTerapiasPsicologosInput
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoCreateNestedManyWithoutCatalogoInput
+  tenant: Prisma.TenantCreateNestedOneWithoutTerapiasPsicologosInput
 }
 
 export type TerapiasPsicologosUncheckedCreateWithoutEmpresaInput = {
@@ -718,8 +718,8 @@ export type TerapiasPsicologosCreateWithoutPaquetesAdquiridosInput = {
   precioBase: runtime.Decimal | runtime.DecimalJsLike | number | string
   activo?: boolean
   createdAt?: Date | string
-  tenant: Prisma.TenantCreateNestedOneWithoutTerapiasPsicologosInput
   empresa: Prisma.EmpresaCreateNestedOneWithoutTerapiasPsicologosInput
+  tenant: Prisma.TenantCreateNestedOneWithoutTerapiasPsicologosInput
 }
 
 export type TerapiasPsicologosUncheckedCreateWithoutPaquetesAdquiridosInput = {
@@ -760,8 +760,8 @@ export type TerapiasPsicologosUpdateWithoutPaquetesAdquiridosInput = {
   precioBase?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  tenant?: Prisma.TenantUpdateOneRequiredWithoutTerapiasPsicologosNestedInput
   empresa?: Prisma.EmpresaUpdateOneRequiredWithoutTerapiasPsicologosNestedInput
+  tenant?: Prisma.TenantUpdateOneRequiredWithoutTerapiasPsicologosNestedInput
 }
 
 export type TerapiasPsicologosUncheckedUpdateWithoutPaquetesAdquiridosInput = {
@@ -798,8 +798,8 @@ export type TerapiasPsicologosUpdateWithoutTenantInput = {
   precioBase?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  empresa?: Prisma.EmpresaUpdateOneRequiredWithoutTerapiasPsicologosNestedInput
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoUpdateManyWithoutCatalogoNestedInput
+  empresa?: Prisma.EmpresaUpdateOneRequiredWithoutTerapiasPsicologosNestedInput
 }
 
 export type TerapiasPsicologosUncheckedUpdateWithoutTenantInput = {
@@ -848,8 +848,8 @@ export type TerapiasPsicologosUpdateWithoutEmpresaInput = {
   precioBase?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  tenant?: Prisma.TenantUpdateOneRequiredWithoutTerapiasPsicologosNestedInput
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoUpdateManyWithoutCatalogoNestedInput
+  tenant?: Prisma.TenantUpdateOneRequiredWithoutTerapiasPsicologosNestedInput
 }
 
 export type TerapiasPsicologosUncheckedUpdateWithoutEmpresaInput = {
@@ -919,9 +919,9 @@ export type TerapiasPsicologosSelect<ExtArgs extends runtime.Types.Extensions.In
   precioBase?: boolean
   activo?: boolean
   createdAt?: boolean
-  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
-  empresa?: boolean | Prisma.EmpresaDefaultArgs<ExtArgs>
   paquetesAdquiridos?: boolean | Prisma.TerapiasPsicologos$paquetesAdquiridosArgs<ExtArgs>
+  empresa?: boolean | Prisma.EmpresaDefaultArgs<ExtArgs>
+  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
   _count?: boolean | Prisma.TerapiasPsicologosCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["terapiasPsicologos"]>
 
@@ -936,8 +936,8 @@ export type TerapiasPsicologosSelectCreateManyAndReturn<ExtArgs extends runtime.
   precioBase?: boolean
   activo?: boolean
   createdAt?: boolean
-  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
   empresa?: boolean | Prisma.EmpresaDefaultArgs<ExtArgs>
+  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["terapiasPsicologos"]>
 
 export type TerapiasPsicologosSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -951,8 +951,8 @@ export type TerapiasPsicologosSelectUpdateManyAndReturn<ExtArgs extends runtime.
   precioBase?: boolean
   activo?: boolean
   createdAt?: boolean
-  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
   empresa?: boolean | Prisma.EmpresaDefaultArgs<ExtArgs>
+  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["terapiasPsicologos"]>
 
 export type TerapiasPsicologosSelectScalar = {
@@ -970,26 +970,26 @@ export type TerapiasPsicologosSelectScalar = {
 
 export type TerapiasPsicologosOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "tenantId" | "empresaId" | "nombre" | "descripcion" | "categoria" | "cantidadSesiones" | "precioBase" | "activo" | "createdAt", ExtArgs["result"]["terapiasPsicologos"]>
 export type TerapiasPsicologosInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
-  empresa?: boolean | Prisma.EmpresaDefaultArgs<ExtArgs>
   paquetesAdquiridos?: boolean | Prisma.TerapiasPsicologos$paquetesAdquiridosArgs<ExtArgs>
+  empresa?: boolean | Prisma.EmpresaDefaultArgs<ExtArgs>
+  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
   _count?: boolean | Prisma.TerapiasPsicologosCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type TerapiasPsicologosIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
   empresa?: boolean | Prisma.EmpresaDefaultArgs<ExtArgs>
+  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
 }
 export type TerapiasPsicologosIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
   empresa?: boolean | Prisma.EmpresaDefaultArgs<ExtArgs>
+  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
 }
 
 export type $TerapiasPsicologosPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "TerapiasPsicologos"
   objects: {
-    tenant: Prisma.$TenantPayload<ExtArgs>
-    empresa: Prisma.$EmpresaPayload<ExtArgs>
     paquetesAdquiridos: Prisma.$PaqueteAdquiridoPayload<ExtArgs>[]
+    empresa: Prisma.$EmpresaPayload<ExtArgs>
+    tenant: Prisma.$TenantPayload<ExtArgs>
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -1396,9 +1396,9 @@ readonly fields: TerapiasPsicologosFieldRefs;
  */
 export interface Prisma__TerapiasPsicologosClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
-  tenant<T extends Prisma.TenantDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.TenantDefaultArgs<ExtArgs>>): Prisma.Prisma__TenantClient<runtime.Types.Result.GetResult<Prisma.$TenantPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
-  empresa<T extends Prisma.EmpresaDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.EmpresaDefaultArgs<ExtArgs>>): Prisma.Prisma__EmpresaClient<runtime.Types.Result.GetResult<Prisma.$EmpresaPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   paquetesAdquiridos<T extends Prisma.TerapiasPsicologos$paquetesAdquiridosArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.TerapiasPsicologos$paquetesAdquiridosArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$PaqueteAdquiridoPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  empresa<T extends Prisma.EmpresaDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.EmpresaDefaultArgs<ExtArgs>>): Prisma.Prisma__EmpresaClient<runtime.Types.Result.GetResult<Prisma.$EmpresaPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  tenant<T extends Prisma.TenantDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.TenantDefaultArgs<ExtArgs>>): Prisma.Prisma__TenantClient<runtime.Types.Result.GetResult<Prisma.$TenantPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.

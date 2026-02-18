@@ -27,7 +27,6 @@ export type AggregateProveedores = {
 export type ProveedoresMinAggregateOutputType = {
   id: string | null
   tenantId: string | null
-  empresaId: string | null
   nombre: string | null
   nit: string | null
   pais: string | null
@@ -39,12 +38,12 @@ export type ProveedoresMinAggregateOutputType = {
   activo: boolean | null
   createdAt: Date | null
   updatedAt: Date | null
+  empresaId: string | null
 }
 
 export type ProveedoresMaxAggregateOutputType = {
   id: string | null
   tenantId: string | null
-  empresaId: string | null
   nombre: string | null
   nit: string | null
   pais: string | null
@@ -56,12 +55,12 @@ export type ProveedoresMaxAggregateOutputType = {
   activo: boolean | null
   createdAt: Date | null
   updatedAt: Date | null
+  empresaId: string | null
 }
 
 export type ProveedoresCountAggregateOutputType = {
   id: number
   tenantId: number
-  empresaId: number
   nombre: number
   nit: number
   pais: number
@@ -73,6 +72,7 @@ export type ProveedoresCountAggregateOutputType = {
   activo: number
   createdAt: number
   updatedAt: number
+  empresaId: number
   _all: number
 }
 
@@ -80,7 +80,6 @@ export type ProveedoresCountAggregateOutputType = {
 export type ProveedoresMinAggregateInputType = {
   id?: true
   tenantId?: true
-  empresaId?: true
   nombre?: true
   nit?: true
   pais?: true
@@ -92,12 +91,12 @@ export type ProveedoresMinAggregateInputType = {
   activo?: true
   createdAt?: true
   updatedAt?: true
+  empresaId?: true
 }
 
 export type ProveedoresMaxAggregateInputType = {
   id?: true
   tenantId?: true
-  empresaId?: true
   nombre?: true
   nit?: true
   pais?: true
@@ -109,12 +108,12 @@ export type ProveedoresMaxAggregateInputType = {
   activo?: true
   createdAt?: true
   updatedAt?: true
+  empresaId?: true
 }
 
 export type ProveedoresCountAggregateInputType = {
   id?: true
   tenantId?: true
-  empresaId?: true
   nombre?: true
   nit?: true
   pais?: true
@@ -126,6 +125,7 @@ export type ProveedoresCountAggregateInputType = {
   activo?: true
   createdAt?: true
   updatedAt?: true
+  empresaId?: true
   _all?: true
 }
 
@@ -204,7 +204,6 @@ export type ProveedoresGroupByArgs<ExtArgs extends runtime.Types.Extensions.Inte
 export type ProveedoresGroupByOutputType = {
   id: string
   tenantId: string
-  empresaId: string
   nombre: string
   nit: string | null
   pais: string | null
@@ -216,6 +215,7 @@ export type ProveedoresGroupByOutputType = {
   activo: boolean
   createdAt: Date
   updatedAt: Date
+  empresaId: string
   _count: ProveedoresCountAggregateOutputType | null
   _min: ProveedoresMinAggregateOutputType | null
   _max: ProveedoresMaxAggregateOutputType | null
@@ -242,7 +242,6 @@ export type ProveedoresWhereInput = {
   NOT?: Prisma.ProveedoresWhereInput | Prisma.ProveedoresWhereInput[]
   id?: Prisma.UuidFilter<"Proveedores"> | string
   tenantId?: Prisma.UuidFilter<"Proveedores"> | string
-  empresaId?: Prisma.UuidFilter<"Proveedores"> | string
   nombre?: Prisma.StringFilter<"Proveedores"> | string
   nit?: Prisma.StringNullableFilter<"Proveedores"> | string | null
   pais?: Prisma.StringNullableFilter<"Proveedores"> | string | null
@@ -254,15 +253,15 @@ export type ProveedoresWhereInput = {
   activo?: Prisma.BoolFilter<"Proveedores"> | boolean
   createdAt?: Prisma.DateTimeFilter<"Proveedores"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Proveedores"> | Date | string
-  tenant?: Prisma.XOR<Prisma.TenantScalarRelationFilter, Prisma.TenantWhereInput>
-  empresa?: Prisma.XOR<Prisma.EmpresaScalarRelationFilter, Prisma.EmpresaWhereInput>
+  empresaId?: Prisma.UuidFilter<"Proveedores"> | string
   productos?: Prisma.ProductoListRelationFilter
+  empresa?: Prisma.XOR<Prisma.EmpresaScalarRelationFilter, Prisma.EmpresaWhereInput>
+  tenant?: Prisma.XOR<Prisma.TenantScalarRelationFilter, Prisma.TenantWhereInput>
 }
 
 export type ProveedoresOrderByWithRelationInput = {
   id?: Prisma.SortOrder
   tenantId?: Prisma.SortOrder
-  empresaId?: Prisma.SortOrder
   nombre?: Prisma.SortOrder
   nit?: Prisma.SortOrderInput | Prisma.SortOrder
   pais?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -274,9 +273,10 @@ export type ProveedoresOrderByWithRelationInput = {
   activo?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
-  tenant?: Prisma.TenantOrderByWithRelationInput
-  empresa?: Prisma.EmpresaOrderByWithRelationInput
+  empresaId?: Prisma.SortOrder
   productos?: Prisma.ProductoOrderByRelationAggregateInput
+  empresa?: Prisma.EmpresaOrderByWithRelationInput
+  tenant?: Prisma.TenantOrderByWithRelationInput
 }
 
 export type ProveedoresWhereUniqueInput = Prisma.AtLeast<{
@@ -285,7 +285,6 @@ export type ProveedoresWhereUniqueInput = Prisma.AtLeast<{
   OR?: Prisma.ProveedoresWhereInput[]
   NOT?: Prisma.ProveedoresWhereInput | Prisma.ProveedoresWhereInput[]
   tenantId?: Prisma.UuidFilter<"Proveedores"> | string
-  empresaId?: Prisma.UuidFilter<"Proveedores"> | string
   nombre?: Prisma.StringFilter<"Proveedores"> | string
   nit?: Prisma.StringNullableFilter<"Proveedores"> | string | null
   pais?: Prisma.StringNullableFilter<"Proveedores"> | string | null
@@ -297,15 +296,15 @@ export type ProveedoresWhereUniqueInput = Prisma.AtLeast<{
   activo?: Prisma.BoolFilter<"Proveedores"> | boolean
   createdAt?: Prisma.DateTimeFilter<"Proveedores"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Proveedores"> | Date | string
-  tenant?: Prisma.XOR<Prisma.TenantScalarRelationFilter, Prisma.TenantWhereInput>
-  empresa?: Prisma.XOR<Prisma.EmpresaScalarRelationFilter, Prisma.EmpresaWhereInput>
+  empresaId?: Prisma.UuidFilter<"Proveedores"> | string
   productos?: Prisma.ProductoListRelationFilter
+  empresa?: Prisma.XOR<Prisma.EmpresaScalarRelationFilter, Prisma.EmpresaWhereInput>
+  tenant?: Prisma.XOR<Prisma.TenantScalarRelationFilter, Prisma.TenantWhereInput>
 }, "id">
 
 export type ProveedoresOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
   tenantId?: Prisma.SortOrder
-  empresaId?: Prisma.SortOrder
   nombre?: Prisma.SortOrder
   nit?: Prisma.SortOrderInput | Prisma.SortOrder
   pais?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -317,6 +316,7 @@ export type ProveedoresOrderByWithAggregationInput = {
   activo?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  empresaId?: Prisma.SortOrder
   _count?: Prisma.ProveedoresCountOrderByAggregateInput
   _max?: Prisma.ProveedoresMaxOrderByAggregateInput
   _min?: Prisma.ProveedoresMinOrderByAggregateInput
@@ -328,7 +328,6 @@ export type ProveedoresScalarWhereWithAggregatesInput = {
   NOT?: Prisma.ProveedoresScalarWhereWithAggregatesInput | Prisma.ProveedoresScalarWhereWithAggregatesInput[]
   id?: Prisma.UuidWithAggregatesFilter<"Proveedores"> | string
   tenantId?: Prisma.UuidWithAggregatesFilter<"Proveedores"> | string
-  empresaId?: Prisma.UuidWithAggregatesFilter<"Proveedores"> | string
   nombre?: Prisma.StringWithAggregatesFilter<"Proveedores"> | string
   nit?: Prisma.StringNullableWithAggregatesFilter<"Proveedores"> | string | null
   pais?: Prisma.StringNullableWithAggregatesFilter<"Proveedores"> | string | null
@@ -340,6 +339,7 @@ export type ProveedoresScalarWhereWithAggregatesInput = {
   activo?: Prisma.BoolWithAggregatesFilter<"Proveedores"> | boolean
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Proveedores"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"Proveedores"> | Date | string
+  empresaId?: Prisma.UuidWithAggregatesFilter<"Proveedores"> | string
 }
 
 export type ProveedoresCreateInput = {
@@ -355,15 +355,14 @@ export type ProveedoresCreateInput = {
   activo?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
-  tenant: Prisma.TenantCreateNestedOneWithoutProveedoresInput
-  empresa: Prisma.EmpresaCreateNestedOneWithoutProveedoresInput
   productos?: Prisma.ProductoCreateNestedManyWithoutProveedorInput
+  empresa: Prisma.EmpresaCreateNestedOneWithoutProveedoresInput
+  tenant: Prisma.TenantCreateNestedOneWithoutProveedoresInput
 }
 
 export type ProveedoresUncheckedCreateInput = {
   id?: string
   tenantId: string
-  empresaId: string
   nombre: string
   nit?: string | null
   pais?: string | null
@@ -375,6 +374,7 @@ export type ProveedoresUncheckedCreateInput = {
   activo?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  empresaId: string
   productos?: Prisma.ProductoUncheckedCreateNestedManyWithoutProveedorInput
 }
 
@@ -391,15 +391,14 @@ export type ProveedoresUpdateInput = {
   activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  tenant?: Prisma.TenantUpdateOneRequiredWithoutProveedoresNestedInput
-  empresa?: Prisma.EmpresaUpdateOneRequiredWithoutProveedoresNestedInput
   productos?: Prisma.ProductoUpdateManyWithoutProveedorNestedInput
+  empresa?: Prisma.EmpresaUpdateOneRequiredWithoutProveedoresNestedInput
+  tenant?: Prisma.TenantUpdateOneRequiredWithoutProveedoresNestedInput
 }
 
 export type ProveedoresUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   tenantId?: Prisma.StringFieldUpdateOperationsInput | string
-  empresaId?: Prisma.StringFieldUpdateOperationsInput | string
   nombre?: Prisma.StringFieldUpdateOperationsInput | string
   nit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   pais?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -411,13 +410,13 @@ export type ProveedoresUncheckedUpdateInput = {
   activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  empresaId?: Prisma.StringFieldUpdateOperationsInput | string
   productos?: Prisma.ProductoUncheckedUpdateManyWithoutProveedorNestedInput
 }
 
 export type ProveedoresCreateManyInput = {
   id?: string
   tenantId: string
-  empresaId: string
   nombre: string
   nit?: string | null
   pais?: string | null
@@ -429,6 +428,7 @@ export type ProveedoresCreateManyInput = {
   activo?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  empresaId: string
 }
 
 export type ProveedoresUpdateManyMutationInput = {
@@ -449,7 +449,6 @@ export type ProveedoresUpdateManyMutationInput = {
 export type ProveedoresUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   tenantId?: Prisma.StringFieldUpdateOperationsInput | string
-  empresaId?: Prisma.StringFieldUpdateOperationsInput | string
   nombre?: Prisma.StringFieldUpdateOperationsInput | string
   nit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   pais?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -461,6 +460,7 @@ export type ProveedoresUncheckedUpdateManyInput = {
   activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  empresaId?: Prisma.StringFieldUpdateOperationsInput | string
 }
 
 export type ProveedoresListRelationFilter = {
@@ -481,7 +481,6 @@ export type ProveedoresNullableScalarRelationFilter = {
 export type ProveedoresCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   tenantId?: Prisma.SortOrder
-  empresaId?: Prisma.SortOrder
   nombre?: Prisma.SortOrder
   nit?: Prisma.SortOrder
   pais?: Prisma.SortOrder
@@ -493,12 +492,12 @@ export type ProveedoresCountOrderByAggregateInput = {
   activo?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  empresaId?: Prisma.SortOrder
 }
 
 export type ProveedoresMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
   tenantId?: Prisma.SortOrder
-  empresaId?: Prisma.SortOrder
   nombre?: Prisma.SortOrder
   nit?: Prisma.SortOrder
   pais?: Prisma.SortOrder
@@ -510,12 +509,12 @@ export type ProveedoresMaxOrderByAggregateInput = {
   activo?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  empresaId?: Prisma.SortOrder
 }
 
 export type ProveedoresMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
   tenantId?: Prisma.SortOrder
-  empresaId?: Prisma.SortOrder
   nombre?: Prisma.SortOrder
   nit?: Prisma.SortOrder
   pais?: Prisma.SortOrder
@@ -527,6 +526,7 @@ export type ProveedoresMinOrderByAggregateInput = {
   activo?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  empresaId?: Prisma.SortOrder
 }
 
 export type ProveedoresCreateNestedManyWithoutTenantInput = {
@@ -642,13 +642,12 @@ export type ProveedoresCreateWithoutTenantInput = {
   activo?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
-  empresa: Prisma.EmpresaCreateNestedOneWithoutProveedoresInput
   productos?: Prisma.ProductoCreateNestedManyWithoutProveedorInput
+  empresa: Prisma.EmpresaCreateNestedOneWithoutProveedoresInput
 }
 
 export type ProveedoresUncheckedCreateWithoutTenantInput = {
   id?: string
-  empresaId: string
   nombre: string
   nit?: string | null
   pais?: string | null
@@ -660,6 +659,7 @@ export type ProveedoresUncheckedCreateWithoutTenantInput = {
   activo?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  empresaId: string
   productos?: Prisma.ProductoUncheckedCreateNestedManyWithoutProveedorInput
 }
 
@@ -695,7 +695,6 @@ export type ProveedoresScalarWhereInput = {
   NOT?: Prisma.ProveedoresScalarWhereInput | Prisma.ProveedoresScalarWhereInput[]
   id?: Prisma.UuidFilter<"Proveedores"> | string
   tenantId?: Prisma.UuidFilter<"Proveedores"> | string
-  empresaId?: Prisma.UuidFilter<"Proveedores"> | string
   nombre?: Prisma.StringFilter<"Proveedores"> | string
   nit?: Prisma.StringNullableFilter<"Proveedores"> | string | null
   pais?: Prisma.StringNullableFilter<"Proveedores"> | string | null
@@ -707,6 +706,7 @@ export type ProveedoresScalarWhereInput = {
   activo?: Prisma.BoolFilter<"Proveedores"> | boolean
   createdAt?: Prisma.DateTimeFilter<"Proveedores"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Proveedores"> | Date | string
+  empresaId?: Prisma.UuidFilter<"Proveedores"> | string
 }
 
 export type ProveedoresCreateWithoutEmpresaInput = {
@@ -722,8 +722,8 @@ export type ProveedoresCreateWithoutEmpresaInput = {
   activo?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
-  tenant: Prisma.TenantCreateNestedOneWithoutProveedoresInput
   productos?: Prisma.ProductoCreateNestedManyWithoutProveedorInput
+  tenant: Prisma.TenantCreateNestedOneWithoutProveedoresInput
 }
 
 export type ProveedoresUncheckedCreateWithoutEmpresaInput = {
@@ -782,14 +782,13 @@ export type ProveedoresCreateWithoutProductosInput = {
   activo?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
-  tenant: Prisma.TenantCreateNestedOneWithoutProveedoresInput
   empresa: Prisma.EmpresaCreateNestedOneWithoutProveedoresInput
+  tenant: Prisma.TenantCreateNestedOneWithoutProveedoresInput
 }
 
 export type ProveedoresUncheckedCreateWithoutProductosInput = {
   id?: string
   tenantId: string
-  empresaId: string
   nombre: string
   nit?: string | null
   pais?: string | null
@@ -801,6 +800,7 @@ export type ProveedoresUncheckedCreateWithoutProductosInput = {
   activo?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  empresaId: string
 }
 
 export type ProveedoresCreateOrConnectWithoutProductosInput = {
@@ -832,14 +832,13 @@ export type ProveedoresUpdateWithoutProductosInput = {
   activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  tenant?: Prisma.TenantUpdateOneRequiredWithoutProveedoresNestedInput
   empresa?: Prisma.EmpresaUpdateOneRequiredWithoutProveedoresNestedInput
+  tenant?: Prisma.TenantUpdateOneRequiredWithoutProveedoresNestedInput
 }
 
 export type ProveedoresUncheckedUpdateWithoutProductosInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   tenantId?: Prisma.StringFieldUpdateOperationsInput | string
-  empresaId?: Prisma.StringFieldUpdateOperationsInput | string
   nombre?: Prisma.StringFieldUpdateOperationsInput | string
   nit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   pais?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -851,11 +850,11 @@ export type ProveedoresUncheckedUpdateWithoutProductosInput = {
   activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  empresaId?: Prisma.StringFieldUpdateOperationsInput | string
 }
 
 export type ProveedoresCreateManyTenantInput = {
   id?: string
-  empresaId: string
   nombre: string
   nit?: string | null
   pais?: string | null
@@ -867,6 +866,7 @@ export type ProveedoresCreateManyTenantInput = {
   activo?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  empresaId: string
 }
 
 export type ProveedoresUpdateWithoutTenantInput = {
@@ -882,13 +882,12 @@ export type ProveedoresUpdateWithoutTenantInput = {
   activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  empresa?: Prisma.EmpresaUpdateOneRequiredWithoutProveedoresNestedInput
   productos?: Prisma.ProductoUpdateManyWithoutProveedorNestedInput
+  empresa?: Prisma.EmpresaUpdateOneRequiredWithoutProveedoresNestedInput
 }
 
 export type ProveedoresUncheckedUpdateWithoutTenantInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  empresaId?: Prisma.StringFieldUpdateOperationsInput | string
   nombre?: Prisma.StringFieldUpdateOperationsInput | string
   nit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   pais?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -900,12 +899,12 @@ export type ProveedoresUncheckedUpdateWithoutTenantInput = {
   activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  empresaId?: Prisma.StringFieldUpdateOperationsInput | string
   productos?: Prisma.ProductoUncheckedUpdateManyWithoutProveedorNestedInput
 }
 
 export type ProveedoresUncheckedUpdateManyWithoutTenantInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  empresaId?: Prisma.StringFieldUpdateOperationsInput | string
   nombre?: Prisma.StringFieldUpdateOperationsInput | string
   nit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   pais?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -917,6 +916,7 @@ export type ProveedoresUncheckedUpdateManyWithoutTenantInput = {
   activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  empresaId?: Prisma.StringFieldUpdateOperationsInput | string
 }
 
 export type ProveedoresCreateManyEmpresaInput = {
@@ -948,8 +948,8 @@ export type ProveedoresUpdateWithoutEmpresaInput = {
   activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  tenant?: Prisma.TenantUpdateOneRequiredWithoutProveedoresNestedInput
   productos?: Prisma.ProductoUpdateManyWithoutProveedorNestedInput
+  tenant?: Prisma.TenantUpdateOneRequiredWithoutProveedoresNestedInput
 }
 
 export type ProveedoresUncheckedUpdateWithoutEmpresaInput = {
@@ -1019,7 +1019,6 @@ export type ProveedoresCountOutputTypeCountProductosArgs<ExtArgs extends runtime
 export type ProveedoresSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   tenantId?: boolean
-  empresaId?: boolean
   nombre?: boolean
   nit?: boolean
   pais?: boolean
@@ -1031,16 +1030,16 @@ export type ProveedoresSelect<ExtArgs extends runtime.Types.Extensions.InternalA
   activo?: boolean
   createdAt?: boolean
   updatedAt?: boolean
-  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
-  empresa?: boolean | Prisma.EmpresaDefaultArgs<ExtArgs>
+  empresaId?: boolean
   productos?: boolean | Prisma.Proveedores$productosArgs<ExtArgs>
+  empresa?: boolean | Prisma.EmpresaDefaultArgs<ExtArgs>
+  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
   _count?: boolean | Prisma.ProveedoresCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["proveedores"]>
 
 export type ProveedoresSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   tenantId?: boolean
-  empresaId?: boolean
   nombre?: boolean
   nit?: boolean
   pais?: boolean
@@ -1052,14 +1051,14 @@ export type ProveedoresSelectCreateManyAndReturn<ExtArgs extends runtime.Types.E
   activo?: boolean
   createdAt?: boolean
   updatedAt?: boolean
-  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
+  empresaId?: boolean
   empresa?: boolean | Prisma.EmpresaDefaultArgs<ExtArgs>
+  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["proveedores"]>
 
 export type ProveedoresSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   tenantId?: boolean
-  empresaId?: boolean
   nombre?: boolean
   nit?: boolean
   pais?: boolean
@@ -1071,14 +1070,14 @@ export type ProveedoresSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.E
   activo?: boolean
   createdAt?: boolean
   updatedAt?: boolean
-  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
+  empresaId?: boolean
   empresa?: boolean | Prisma.EmpresaDefaultArgs<ExtArgs>
+  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["proveedores"]>
 
 export type ProveedoresSelectScalar = {
   id?: boolean
   tenantId?: boolean
-  empresaId?: boolean
   nombre?: boolean
   nit?: boolean
   pais?: boolean
@@ -1090,35 +1089,35 @@ export type ProveedoresSelectScalar = {
   activo?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  empresaId?: boolean
 }
 
-export type ProveedoresOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "tenantId" | "empresaId" | "nombre" | "nit" | "pais" | "departamento" | "ciudad" | "direccion" | "telefono" | "email" | "activo" | "createdAt" | "updatedAt", ExtArgs["result"]["proveedores"]>
+export type ProveedoresOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "tenantId" | "nombre" | "nit" | "pais" | "departamento" | "ciudad" | "direccion" | "telefono" | "email" | "activo" | "createdAt" | "updatedAt" | "empresaId", ExtArgs["result"]["proveedores"]>
 export type ProveedoresInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
-  empresa?: boolean | Prisma.EmpresaDefaultArgs<ExtArgs>
   productos?: boolean | Prisma.Proveedores$productosArgs<ExtArgs>
+  empresa?: boolean | Prisma.EmpresaDefaultArgs<ExtArgs>
+  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
   _count?: boolean | Prisma.ProveedoresCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type ProveedoresIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
   empresa?: boolean | Prisma.EmpresaDefaultArgs<ExtArgs>
+  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
 }
 export type ProveedoresIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
   empresa?: boolean | Prisma.EmpresaDefaultArgs<ExtArgs>
+  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
 }
 
 export type $ProveedoresPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "Proveedores"
   objects: {
-    tenant: Prisma.$TenantPayload<ExtArgs>
-    empresa: Prisma.$EmpresaPayload<ExtArgs>
     productos: Prisma.$ProductoPayload<ExtArgs>[]
+    empresa: Prisma.$EmpresaPayload<ExtArgs>
+    tenant: Prisma.$TenantPayload<ExtArgs>
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
     tenantId: string
-    empresaId: string
     nombre: string
     nit: string | null
     pais: string | null
@@ -1130,6 +1129,7 @@ export type $ProveedoresPayload<ExtArgs extends runtime.Types.Extensions.Interna
     activo: boolean
     createdAt: Date
     updatedAt: Date
+    empresaId: string
   }, ExtArgs["result"]["proveedores"]>
   composites: {}
 }
@@ -1524,9 +1524,9 @@ readonly fields: ProveedoresFieldRefs;
  */
 export interface Prisma__ProveedoresClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
-  tenant<T extends Prisma.TenantDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.TenantDefaultArgs<ExtArgs>>): Prisma.Prisma__TenantClient<runtime.Types.Result.GetResult<Prisma.$TenantPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
-  empresa<T extends Prisma.EmpresaDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.EmpresaDefaultArgs<ExtArgs>>): Prisma.Prisma__EmpresaClient<runtime.Types.Result.GetResult<Prisma.$EmpresaPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   productos<T extends Prisma.Proveedores$productosArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Proveedores$productosArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ProductoPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  empresa<T extends Prisma.EmpresaDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.EmpresaDefaultArgs<ExtArgs>>): Prisma.Prisma__EmpresaClient<runtime.Types.Result.GetResult<Prisma.$EmpresaPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  tenant<T extends Prisma.TenantDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.TenantDefaultArgs<ExtArgs>>): Prisma.Prisma__TenantClient<runtime.Types.Result.GetResult<Prisma.$TenantPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1558,7 +1558,6 @@ export interface Prisma__ProveedoresClient<T, Null = never, ExtArgs extends runt
 export interface ProveedoresFieldRefs {
   readonly id: Prisma.FieldRef<"Proveedores", 'String'>
   readonly tenantId: Prisma.FieldRef<"Proveedores", 'String'>
-  readonly empresaId: Prisma.FieldRef<"Proveedores", 'String'>
   readonly nombre: Prisma.FieldRef<"Proveedores", 'String'>
   readonly nit: Prisma.FieldRef<"Proveedores", 'String'>
   readonly pais: Prisma.FieldRef<"Proveedores", 'String'>
@@ -1570,6 +1569,7 @@ export interface ProveedoresFieldRefs {
   readonly activo: Prisma.FieldRef<"Proveedores", 'Boolean'>
   readonly createdAt: Prisma.FieldRef<"Proveedores", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"Proveedores", 'DateTime'>
+  readonly empresaId: Prisma.FieldRef<"Proveedores", 'String'>
 }
     
 

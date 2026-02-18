@@ -214,10 +214,10 @@ export type ProductoSolicitadoWhereInput = {
   unidadMedida?: Prisma.StringNullableFilter<"ProductoSolicitado"> | string | null
   estado?: Prisma.EnumEstadoSolicitudProductosFilter<"ProductoSolicitado"> | $Enums.EstadoSolicitudProductos
   createdAt?: Prisma.DateTimeFilter<"ProductoSolicitado"> | Date | string
-  tenant?: Prisma.XOR<Prisma.TenantScalarRelationFilter, Prisma.TenantWhereInput>
   empresa?: Prisma.XOR<Prisma.EmpresaScalarRelationFilter, Prisma.EmpresaWhereInput>
   membership?: Prisma.XOR<Prisma.TenantMembershipScalarRelationFilter, Prisma.TenantMembershipWhereInput>
   producto?: Prisma.XOR<Prisma.ProductoScalarRelationFilter, Prisma.ProductoWhereInput>
+  tenant?: Prisma.XOR<Prisma.TenantScalarRelationFilter, Prisma.TenantWhereInput>
 }
 
 export type ProductoSolicitadoOrderByWithRelationInput = {
@@ -230,10 +230,10 @@ export type ProductoSolicitadoOrderByWithRelationInput = {
   unidadMedida?: Prisma.SortOrderInput | Prisma.SortOrder
   estado?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
-  tenant?: Prisma.TenantOrderByWithRelationInput
   empresa?: Prisma.EmpresaOrderByWithRelationInput
   membership?: Prisma.TenantMembershipOrderByWithRelationInput
   producto?: Prisma.ProductoOrderByWithRelationInput
+  tenant?: Prisma.TenantOrderByWithRelationInput
 }
 
 export type ProductoSolicitadoWhereUniqueInput = Prisma.AtLeast<{
@@ -249,10 +249,10 @@ export type ProductoSolicitadoWhereUniqueInput = Prisma.AtLeast<{
   unidadMedida?: Prisma.StringNullableFilter<"ProductoSolicitado"> | string | null
   estado?: Prisma.EnumEstadoSolicitudProductosFilter<"ProductoSolicitado"> | $Enums.EstadoSolicitudProductos
   createdAt?: Prisma.DateTimeFilter<"ProductoSolicitado"> | Date | string
-  tenant?: Prisma.XOR<Prisma.TenantScalarRelationFilter, Prisma.TenantWhereInput>
   empresa?: Prisma.XOR<Prisma.EmpresaScalarRelationFilter, Prisma.EmpresaWhereInput>
   membership?: Prisma.XOR<Prisma.TenantMembershipScalarRelationFilter, Prisma.TenantMembershipWhereInput>
   producto?: Prisma.XOR<Prisma.ProductoScalarRelationFilter, Prisma.ProductoWhereInput>
+  tenant?: Prisma.XOR<Prisma.TenantScalarRelationFilter, Prisma.TenantWhereInput>
 }, "id">
 
 export type ProductoSolicitadoOrderByWithAggregationInput = {
@@ -291,10 +291,10 @@ export type ProductoSolicitadoCreateInput = {
   unidadMedida?: string | null
   estado?: $Enums.EstadoSolicitudProductos
   createdAt?: Date | string
-  tenant: Prisma.TenantCreateNestedOneWithoutProductosSolicitadosInput
   empresa: Prisma.EmpresaCreateNestedOneWithoutProductosSolicitadosInput
   membership: Prisma.TenantMembershipCreateNestedOneWithoutProductosSolicitadosInput
   producto: Prisma.ProductoCreateNestedOneWithoutSolicitudesInput
+  tenant: Prisma.TenantCreateNestedOneWithoutProductosSolicitadosInput
 }
 
 export type ProductoSolicitadoUncheckedCreateInput = {
@@ -315,10 +315,10 @@ export type ProductoSolicitadoUpdateInput = {
   unidadMedida?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   estado?: Prisma.EnumEstadoSolicitudProductosFieldUpdateOperationsInput | $Enums.EstadoSolicitudProductos
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  tenant?: Prisma.TenantUpdateOneRequiredWithoutProductosSolicitadosNestedInput
   empresa?: Prisma.EmpresaUpdateOneRequiredWithoutProductosSolicitadosNestedInput
   membership?: Prisma.TenantMembershipUpdateOneRequiredWithoutProductosSolicitadosNestedInput
   producto?: Prisma.ProductoUpdateOneRequiredWithoutSolicitudesNestedInput
+  tenant?: Prisma.TenantUpdateOneRequiredWithoutProductosSolicitadosNestedInput
 }
 
 export type ProductoSolicitadoUncheckedUpdateInput = {
@@ -652,9 +652,9 @@ export type ProductoSolicitadoCreateWithoutMembershipInput = {
   unidadMedida?: string | null
   estado?: $Enums.EstadoSolicitudProductos
   createdAt?: Date | string
-  tenant: Prisma.TenantCreateNestedOneWithoutProductosSolicitadosInput
   empresa: Prisma.EmpresaCreateNestedOneWithoutProductosSolicitadosInput
   producto: Prisma.ProductoCreateNestedOneWithoutSolicitudesInput
+  tenant: Prisma.TenantCreateNestedOneWithoutProductosSolicitadosInput
 }
 
 export type ProductoSolicitadoUncheckedCreateWithoutMembershipInput = {
@@ -700,9 +700,9 @@ export type ProductoSolicitadoCreateWithoutEmpresaInput = {
   unidadMedida?: string | null
   estado?: $Enums.EstadoSolicitudProductos
   createdAt?: Date | string
-  tenant: Prisma.TenantCreateNestedOneWithoutProductosSolicitadosInput
   membership: Prisma.TenantMembershipCreateNestedOneWithoutProductosSolicitadosInput
   producto: Prisma.ProductoCreateNestedOneWithoutSolicitudesInput
+  tenant: Prisma.TenantCreateNestedOneWithoutProductosSolicitadosInput
 }
 
 export type ProductoSolicitadoUncheckedCreateWithoutEmpresaInput = {
@@ -748,9 +748,9 @@ export type ProductoSolicitadoCreateWithoutProductoInput = {
   unidadMedida?: string | null
   estado?: $Enums.EstadoSolicitudProductos
   createdAt?: Date | string
-  tenant: Prisma.TenantCreateNestedOneWithoutProductosSolicitadosInput
   empresa: Prisma.EmpresaCreateNestedOneWithoutProductosSolicitadosInput
   membership: Prisma.TenantMembershipCreateNestedOneWithoutProductosSolicitadosInput
+  tenant: Prisma.TenantCreateNestedOneWithoutProductosSolicitadosInput
 }
 
 export type ProductoSolicitadoUncheckedCreateWithoutProductoInput = {
@@ -851,9 +851,9 @@ export type ProductoSolicitadoUpdateWithoutMembershipInput = {
   unidadMedida?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   estado?: Prisma.EnumEstadoSolicitudProductosFieldUpdateOperationsInput | $Enums.EstadoSolicitudProductos
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  tenant?: Prisma.TenantUpdateOneRequiredWithoutProductosSolicitadosNestedInput
   empresa?: Prisma.EmpresaUpdateOneRequiredWithoutProductosSolicitadosNestedInput
   producto?: Prisma.ProductoUpdateOneRequiredWithoutSolicitudesNestedInput
+  tenant?: Prisma.TenantUpdateOneRequiredWithoutProductosSolicitadosNestedInput
 }
 
 export type ProductoSolicitadoUncheckedUpdateWithoutMembershipInput = {
@@ -895,9 +895,9 @@ export type ProductoSolicitadoUpdateWithoutEmpresaInput = {
   unidadMedida?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   estado?: Prisma.EnumEstadoSolicitudProductosFieldUpdateOperationsInput | $Enums.EstadoSolicitudProductos
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  tenant?: Prisma.TenantUpdateOneRequiredWithoutProductosSolicitadosNestedInput
   membership?: Prisma.TenantMembershipUpdateOneRequiredWithoutProductosSolicitadosNestedInput
   producto?: Prisma.ProductoUpdateOneRequiredWithoutSolicitudesNestedInput
+  tenant?: Prisma.TenantUpdateOneRequiredWithoutProductosSolicitadosNestedInput
 }
 
 export type ProductoSolicitadoUncheckedUpdateWithoutEmpresaInput = {
@@ -939,9 +939,9 @@ export type ProductoSolicitadoUpdateWithoutProductoInput = {
   unidadMedida?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   estado?: Prisma.EnumEstadoSolicitudProductosFieldUpdateOperationsInput | $Enums.EstadoSolicitudProductos
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  tenant?: Prisma.TenantUpdateOneRequiredWithoutProductosSolicitadosNestedInput
   empresa?: Prisma.EmpresaUpdateOneRequiredWithoutProductosSolicitadosNestedInput
   membership?: Prisma.TenantMembershipUpdateOneRequiredWithoutProductosSolicitadosNestedInput
+  tenant?: Prisma.TenantUpdateOneRequiredWithoutProductosSolicitadosNestedInput
 }
 
 export type ProductoSolicitadoUncheckedUpdateWithoutProductoInput = {
@@ -978,10 +978,10 @@ export type ProductoSolicitadoSelect<ExtArgs extends runtime.Types.Extensions.In
   unidadMedida?: boolean
   estado?: boolean
   createdAt?: boolean
-  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
   empresa?: boolean | Prisma.EmpresaDefaultArgs<ExtArgs>
   membership?: boolean | Prisma.TenantMembershipDefaultArgs<ExtArgs>
   producto?: boolean | Prisma.ProductoDefaultArgs<ExtArgs>
+  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["productoSolicitado"]>
 
 export type ProductoSolicitadoSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -994,10 +994,10 @@ export type ProductoSolicitadoSelectCreateManyAndReturn<ExtArgs extends runtime.
   unidadMedida?: boolean
   estado?: boolean
   createdAt?: boolean
-  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
   empresa?: boolean | Prisma.EmpresaDefaultArgs<ExtArgs>
   membership?: boolean | Prisma.TenantMembershipDefaultArgs<ExtArgs>
   producto?: boolean | Prisma.ProductoDefaultArgs<ExtArgs>
+  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["productoSolicitado"]>
 
 export type ProductoSolicitadoSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -1010,10 +1010,10 @@ export type ProductoSolicitadoSelectUpdateManyAndReturn<ExtArgs extends runtime.
   unidadMedida?: boolean
   estado?: boolean
   createdAt?: boolean
-  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
   empresa?: boolean | Prisma.EmpresaDefaultArgs<ExtArgs>
   membership?: boolean | Prisma.TenantMembershipDefaultArgs<ExtArgs>
   producto?: boolean | Prisma.ProductoDefaultArgs<ExtArgs>
+  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["productoSolicitado"]>
 
 export type ProductoSolicitadoSelectScalar = {
@@ -1030,31 +1030,31 @@ export type ProductoSolicitadoSelectScalar = {
 
 export type ProductoSolicitadoOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "tenantId" | "empresaId" | "membershipId" | "productoId" | "cantidad" | "unidadMedida" | "estado" | "createdAt", ExtArgs["result"]["productoSolicitado"]>
 export type ProductoSolicitadoInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
   empresa?: boolean | Prisma.EmpresaDefaultArgs<ExtArgs>
   membership?: boolean | Prisma.TenantMembershipDefaultArgs<ExtArgs>
   producto?: boolean | Prisma.ProductoDefaultArgs<ExtArgs>
+  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
 }
 export type ProductoSolicitadoIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
   empresa?: boolean | Prisma.EmpresaDefaultArgs<ExtArgs>
   membership?: boolean | Prisma.TenantMembershipDefaultArgs<ExtArgs>
   producto?: boolean | Prisma.ProductoDefaultArgs<ExtArgs>
+  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
 }
 export type ProductoSolicitadoIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
   empresa?: boolean | Prisma.EmpresaDefaultArgs<ExtArgs>
   membership?: boolean | Prisma.TenantMembershipDefaultArgs<ExtArgs>
   producto?: boolean | Prisma.ProductoDefaultArgs<ExtArgs>
+  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
 }
 
 export type $ProductoSolicitadoPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "ProductoSolicitado"
   objects: {
-    tenant: Prisma.$TenantPayload<ExtArgs>
     empresa: Prisma.$EmpresaPayload<ExtArgs>
     membership: Prisma.$TenantMembershipPayload<ExtArgs>
     producto: Prisma.$ProductoPayload<ExtArgs>
+    tenant: Prisma.$TenantPayload<ExtArgs>
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -1460,10 +1460,10 @@ readonly fields: ProductoSolicitadoFieldRefs;
  */
 export interface Prisma__ProductoSolicitadoClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
-  tenant<T extends Prisma.TenantDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.TenantDefaultArgs<ExtArgs>>): Prisma.Prisma__TenantClient<runtime.Types.Result.GetResult<Prisma.$TenantPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   empresa<T extends Prisma.EmpresaDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.EmpresaDefaultArgs<ExtArgs>>): Prisma.Prisma__EmpresaClient<runtime.Types.Result.GetResult<Prisma.$EmpresaPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   membership<T extends Prisma.TenantMembershipDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.TenantMembershipDefaultArgs<ExtArgs>>): Prisma.Prisma__TenantMembershipClient<runtime.Types.Result.GetResult<Prisma.$TenantMembershipPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   producto<T extends Prisma.ProductoDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.ProductoDefaultArgs<ExtArgs>>): Prisma.Prisma__ProductoClient<runtime.Types.Result.GetResult<Prisma.$ProductoPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  tenant<T extends Prisma.TenantDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.TenantDefaultArgs<ExtArgs>>): Prisma.Prisma__TenantClient<runtime.Types.Result.GetResult<Prisma.$TenantPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
