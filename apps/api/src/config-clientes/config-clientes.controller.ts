@@ -1,4 +1,13 @@
-import { Body, Controller, Get, Param, Patch, Post, Request, UseGuards } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Param,
+  Patch,
+  Post,
+  Request,
+  UseGuards,
+} from '@nestjs/common';
 import { ConfigClientesService } from './config-clientes.service';
 import { CreateSegmentoDto, UpdateSegmentoDto } from './dto/segmento.dto';
 import { CreateRiesgoDto, UpdateRiesgoDto } from './dto/riesgo.dto';
@@ -23,12 +32,18 @@ export class ConfigClientesController {
   }
 
   @Post('segmentos')
-  async createSegmento(@Request() req: RequestWithUser, @Body() dto: CreateSegmentoDto) {
+  async createSegmento(
+    @Request() req: RequestWithUser,
+    @Body() dto: CreateSegmentoDto,
+  ) {
     return this.configService.createSegmento(req.user.tenantId || '', dto);
   }
 
   @Patch('segmentos/:id')
-  async updateSegmento(@Param('id') id: string, @Body() dto: UpdateSegmentoDto) {
+  async updateSegmento(
+    @Param('id') id: string,
+    @Body() dto: UpdateSegmentoDto,
+  ) {
     return this.configService.updateSegmento(id, dto);
   }
 
@@ -39,7 +54,10 @@ export class ConfigClientesController {
   }
 
   @Post('riesgos')
-  async createRiesgo(@Request() req: RequestWithUser, @Body() dto: CreateRiesgoDto) {
+  async createRiesgo(
+    @Request() req: RequestWithUser,
+    @Body() dto: CreateRiesgoDto,
+  ) {
     return this.configService.createRiesgo(req.user.tenantId || '', dto);
   }
 
@@ -55,12 +73,18 @@ export class ConfigClientesController {
   }
 
   @Post('intereses')
-  async createTipoInteres(@Request() req: RequestWithUser, @Body() dto: CreateTipoInteresDto) {
+  async createTipoInteres(
+    @Request() req: RequestWithUser,
+    @Body() dto: CreateTipoInteresDto,
+  ) {
     return this.configService.createTipoInteres(req.user.tenantId || '', dto);
   }
 
   @Patch('intereses/:id')
-  async updateTipoInteres(@Param('id') id: string, @Body() dto: UpdateTipoInteresDto) {
+  async updateTipoInteres(
+    @Param('id') id: string,
+    @Body() dto: UpdateTipoInteresDto,
+  ) {
     return this.configService.updateTipoInteres(id, dto);
   }
 }

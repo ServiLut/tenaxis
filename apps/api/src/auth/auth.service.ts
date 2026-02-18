@@ -44,8 +44,8 @@ export class AuthService {
     }
 
     // Priorizar membresías aprobadas
-    const approvedMembership = user.memberships.find(m => m.aprobado);
-    const pendingMembership = user.memberships.find(m => !m.aprobado);
+    const approvedMembership = user.memberships.find((m) => m.aprobado);
+    const pendingMembership = user.memberships.find((m) => !m.aprobado);
     const activeMembership = approvedMembership || pendingMembership;
 
     const payload: JwtPayload = {

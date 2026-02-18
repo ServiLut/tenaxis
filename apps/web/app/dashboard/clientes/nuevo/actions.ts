@@ -42,10 +42,10 @@ export async function getMunicipalities() {
   }
 }
 
-export async function getClientForMigration(token: string, id: number) {
+export async function getClientForMigration(_token: string, _id: number) {
   return null;
 }
 
-export async function getServilutionClientForMigration(token: string, id: number) {
+export async function getServilutionClientForMigration(_token: string, _id: number) {
   return null;
 }

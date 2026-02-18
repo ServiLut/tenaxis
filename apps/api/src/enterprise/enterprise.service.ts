@@ -30,7 +30,9 @@ export class EnterpriseService {
     });
 
     if (!membership || membership.status !== 'ACTIVE') {
-      throw new ForbiddenException('User is not an active member of this tenant.');
+      throw new ForbiddenException(
+        'User is not an active member of this tenant.',
+      );
     }
 
     const { id: membershipId, role } = membership;

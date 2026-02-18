@@ -218,6 +218,15 @@ export default function RegisterPage() {
           </div>
 
           <form onSubmit={handleSubmit} className="space-y-6">
+            {(error || stepError) && (
+              <div className="p-4 rounded-2xl bg-red-50 border-2 border-red-100 text-red-600 text-[10px] font-black uppercase tracking-widest flex items-center gap-3 animate-in fade-in slide-in-from-top-2 duration-300">
+                <div className="flex h-6 w-6 shrink-0 items-center justify-center rounded-lg bg-red-600 text-white shadow-lg">
+                  !
+                </div>
+                <span>{error || stepError}</span>
+              </div>
+            )}
+
             <div className="space-y-3">
               <div className="flex items-center justify-between text-[10px] font-black uppercase tracking-[0.35em] text-azul-1">
                 <span>Paso {step} de 2</span>
