@@ -125,10 +125,27 @@ export class EnterpriseService {
       throw new ForbiddenException('User is not an active member of this tenant.');
     }
 
-    return this.prisma.empresa.findMany({
+    const enterprises = await this.prisma.empresa.findMany({
       where: {
         tenantId: tenantId,
       },
     });
+
+    const tenant = await this.prisma.tenant.findUnique({
+      where: { id: tenantId },
+      include: {
+        subscription: {
+          include: {
+            plan: true,
+          },
+        },
+      },
+    });
+
+    return {
+      items: enterprises,
+      maxEmpresas: tenant?.subscription?.plan?.maxEmpresas || 0,
+      count: enterprises.length,
+    };
   }
 }

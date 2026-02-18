@@ -38,7 +38,7 @@ import {
   Building
 } from "lucide-react";
 import { cn } from "@/components/ui/utils";
-import EmpresasPage from "./empresas/page";
+import { ConfigEmpresas } from "@/components/dashboard/ConfigEmpresas";
 
 type Segmento = {
   id: string;
@@ -236,7 +236,7 @@ export default function ConfiguracionPage() {
 
         {/* Main Content */}
         {activeTab === 'empresas' ? (
-          <EmpresasPage />
+          <ConfigEmpresas />
         ) : (
           <Card className="border-none shadow-xl shadow-zinc-200/50">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-8">
