@@ -70,7 +70,7 @@ export function TenantList({ initialTenants, availablePlans }: TenantListProps) 
       const detail = await getTenantDetailAction(tenantId);
       setSelectedTenantDetail(detail);
       setIsViewModalOpen(true);
-    } catch (error) {
+    } catch (_error) {
       toast.error("No se pudo cargar la información del sistema");
     } finally {
       setLoadingDetail(false);
@@ -287,8 +287,8 @@ export function TenantList({ initialTenants, availablePlans }: TenantListProps) 
                       </span>
                     </div>
                     <div className="space-y-4">
-                      {selectedTenantDetail.memberships.map((membership, idx) => (
-                        <div key={idx} className="flex items-center justify-between p-4 rounded-2xl bg-white border border-zinc-100 shadow-sm">
+                      {selectedTenantDetail.memberships.map((membership, _idx) => (
+                        <div key={_idx} className="flex items-center justify-between p-4 rounded-2xl bg-white border border-zinc-100 shadow-sm">
                           <div className="flex items-center gap-3">
                             <div className="h-10 w-10 rounded-xl bg-zinc-900 flex items-center justify-center text-white font-black text-xs">
                               {membership.user.nombre[0]}{membership.user.apellido[0]}

@@ -86,7 +86,9 @@ export function Sidebar() {
     if (userData && userData !== "undefined") {
       try {
         const user = JSON.parse(userData);
-        setUserRole(user.role);
+        setTimeout(() => {
+          setUserRole(user.role);
+        }, 0);
       } catch {
         // ignore
       }

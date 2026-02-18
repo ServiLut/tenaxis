@@ -8,6 +8,7 @@ import {
   getSegmentosAction,
   getRiesgosAction,
   getTiposInteresAction,
+  type ClienteDTO,
 } from "../../actions";
 import {
   getDepartments,
@@ -75,8 +76,8 @@ interface Direccion {
 function NuevoClienteContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const fixClientId = searchParams.get("fixClientId");
-  const migrateClientId = searchParams.get("migrateClientId");
+  const _fixClientId = searchParams.get("fixClientId");
+  const _migrateClientId = searchParams.get("migrateClientId");
 
   useUserRole();
   const [loading, setLoading] = useState(false);
@@ -226,16 +227,16 @@ function NuevoClienteContent() {
       precisionGPS: rest.precisionGPS ? parseFloat(rest.precisionGPS) : null,
     }));
 
-    const payload = {
-      tipoCliente: tipoCliente === "NATURAL" ? "PERSONA" : "EMPRESA",
-      nombre: formData.get("nombre"),
-      apellido: formData.get("apellido"),
-      telefono: formData.get("telefono"),
-      origenCliente: formData.get("origen"),
-      tipoInteresId: formData.get("interes"),
-      razonSocial: formData.get("razonSocial"),
-      nit: formData.get("nit"),
-      actividadEconomica: formData.get("actividad"),
+    const payload: ClienteDTO = {
+      tipoCliente: (tipoCliente === "NATURAL" ? "PERSONA" : "EMPRESA") as "PERSONA" | "EMPRESA",
+      nombre: formData.get("nombre") as string,
+      apellido: formData.get("apellido") as string,
+      telefono: formData.get("telefono") as string,
+      origenCliente: formData.get("origen") as string,
+      tipoInteresId: formData.get("interes") as string,
+      razonSocial: formData.get("razonSocial") as string,
+      nit: formData.get("nit") as string,
+      actividadEconomica: formData.get("actividad") as string,
       metrajeTotal: metraje ? parseFloat(metraje.toString()) : null,
       segmentoId: segmento || null,
       riesgoId: riesgoOverride || riesgosDb.find(r => r.nombre === sugerencias.riesgo)?.id || null,

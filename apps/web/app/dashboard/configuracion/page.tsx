@@ -26,10 +26,8 @@ import {
   Zap, 
   Plus, 
   Pencil, 
-  Trash2, 
   Save, 
   X,
-  Palette,
   Hash,
   Clock,
   AlertTriangle,
@@ -403,16 +401,16 @@ export default function ConfiguracionPage() {
                   <>
                     <div className="space-y-2">
                       <Label className="text-xs font-bold text-zinc-500 uppercase tracking-widest">Descripción corta</Label>
-                      <Input name="descripcion" defaultValue={editingItem?.descripcion} placeholder="Breve detalle del segmento" className="h-12 rounded-xl" />
+                      <Input name="descripcion" defaultValue={(editingItem && 'descripcion' in editingItem) ? (editingItem.descripcion ?? '') : ''} placeholder="Breve detalle del segmento" className="h-12 rounded-xl" />
                     </div>
                     <div className="grid grid-cols-2 gap-4">
                       <div className="space-y-2">
                         <Label className="text-xs font-bold text-zinc-500 uppercase tracking-widest">Frecuencia Ideal (Días)</Label>
-                        <Input type="number" name="frecuenciaSugerida" defaultValue={editingItem?.frecuenciaSugerida || 30} className="h-12 rounded-xl" />
+                        <Input type="number" name="frecuenciaSugerida" defaultValue={(editingItem && 'frecuenciaSugerida' in editingItem) ? (editingItem.frecuenciaSugerida ?? 30) : 30} className="h-12 rounded-xl" />
                       </div>
                       <div className="space-y-2">
                         <Label className="text-xs font-bold text-zinc-500 uppercase tracking-widest">Riesgo por Defecto</Label>
-                        <Select name="riesgoSugerido" defaultValue={editingItem?.riesgoSugerido || 'BAJO'} className="h-12 rounded-xl">
+                        <Select name="riesgoSugerido" defaultValue={(editingItem && 'riesgoSugerido' in editingItem) ? (editingItem.riesgoSugerido || 'BAJO') : 'BAJO'} className="h-12 rounded-xl">
                           <option value="BAJO">BAJO</option>
                           <option value="MEDIO">MEDIO</option>
                           <option value="ALTO">ALTO</option>
@@ -427,11 +425,11 @@ export default function ConfiguracionPage() {
                   <div className="grid grid-cols-2 gap-4">
                     <div className="space-y-2">
                       <Label className="text-xs font-bold text-zinc-500 uppercase tracking-widest">Valor Scoring</Label>
-                      <Input type="number" name="valor" defaultValue={editingItem?.valor || 0} className="h-12 rounded-xl" />
+                      <Input type="number" name="valor" defaultValue={(editingItem && 'valor' in editingItem) ? (editingItem.valor || 0) : 0} className="h-12 rounded-xl" />
                     </div>
                     <div className="space-y-2">
                       <Label className="text-xs font-bold text-zinc-500 uppercase tracking-widest">Identificador Visual (Color)</Label>
-                      <Select name="color" defaultValue={editingItem?.color || 'emerald'} className="h-12 rounded-xl">
+                      <Select name="color" defaultValue={(editingItem && 'color' in editingItem) ? (editingItem.color || 'emerald') : 'emerald'} className="h-12 rounded-xl">
                         <option value="emerald">Esmeralda (Seguro)</option>
                         <option value="amber">Ámbar (Precaución)</option>
                         <option value="orange">Naranja (Alerta)</option>
@@ -445,16 +443,16 @@ export default function ConfiguracionPage() {
                   <>
                     <div className="space-y-2">
                       <Label className="text-xs font-bold text-zinc-500 uppercase tracking-widest">Descripción</Label>
-                      <Input name="descripcion" defaultValue={editingItem?.descripcion} placeholder="Detalle del servicio de interés" className="h-12 rounded-xl" />
+                      <Input name="descripcion" defaultValue={(editingItem && 'descripcion' in editingItem) ? (editingItem.descripcion ?? '') : ''} placeholder="Detalle del servicio de interés" className="h-12 rounded-xl" />
                     </div>
                     <div className="grid grid-cols-2 gap-4">
                       <div className="space-y-2">
                         <Label className="text-xs font-bold text-zinc-500 uppercase tracking-widest">Frecuencia Sugerida (Días)</Label>
-                        <Input type="number" name="frecuenciaSugerida" defaultValue={editingItem?.frecuenciaSugerida || 30} className="h-12 rounded-xl" />
+                        <Input type="number" name="frecuenciaSugerida" defaultValue={(editingItem && 'frecuenciaSugerida' in editingItem) ? (editingItem.frecuenciaSugerida ?? 30) : 30} className="h-12 rounded-xl" />
                       </div>
                       <div className="space-y-2">
                         <Label className="text-xs font-bold text-zinc-500 uppercase tracking-widest">Riesgo Sugerido</Label>
-                        <Select name="riesgoSugerido" defaultValue={editingItem?.riesgoSugerido || 'BAJO'} className="h-12 rounded-xl">
+                        <Select name="riesgoSugerido" defaultValue={(editingItem && 'riesgoSugerido' in editingItem) ? (editingItem.riesgoSugerido || 'BAJO') : 'BAJO'} className="h-12 rounded-xl">
                           <option value="BAJO">BAJO</option>
                           <option value="MEDIO">MEDIO</option>
                           <option value="ALTO">ALTO</option>

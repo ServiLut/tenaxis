@@ -7,7 +7,6 @@ import {
   IsBoolean,
   IsArray,
   ValidateNested,
-  IsNumber,
 } from 'class-validator';
 import { Type } from 'class-transformer';
 import { TipoCliente } from '../../generated/client/enums';
