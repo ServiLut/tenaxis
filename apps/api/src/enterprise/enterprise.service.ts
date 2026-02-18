@@ -2,10 +2,12 @@ import {
   BadRequestException,
   ForbiddenException,
   Injectable,
+  NotFoundException,
   UnprocessableEntityException,
 } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 import { CreateEnterpriseDto } from './dto/create-enterprise.dto';
+import { UpdateEnterpriseDto } from './dto/update-enterprise.dto';
 
 @Injectable()
 export class EnterpriseService {
@@ -127,9 +129,73 @@ export class EnterpriseService {
       );
     }
 
-    return this.prisma.empresa.findMany({
+    const { role } = membership;
+
+    if (role === 'SU_ADMIN') {
+      return this.prisma.empresa.findMany();
+    }
+
+    if (role === 'ADMIN') {
+      return this.prisma.empresa.findMany({
+        where: {
+          tenantId: tenantId,
+        },
+      });
+    }
+
+    throw new ForbiddenException(
+      'User does not have sufficient privileges to view enterprises.',
+    );
+  }
+
+  async update(
+    enterpriseId: string,
+    updateEnterpriseDto: UpdateEnterpriseDto,
+    userId: string,
+    tenantId: string,
+  ) {
+    if (!tenantId) {
+      throw new BadRequestException('x-tenant-id header is required.');
+    }
+
+    const membership = await this.prisma.tenantMembership.findUnique({
       where: {
+        userId_tenantId: {
+          userId: userId,
+          tenantId: tenantId,
+        },
+      },
+    });
+
+    if (!membership || membership.status !== 'ACTIVE') {
+      throw new ForbiddenException(
+        'User is not an active member of this tenant.',
+      );
+    }
+
+    if (membership.role !== 'SU_ADMIN') {
+      throw new ForbiddenException('Only admins can update enterprises.');
+    }
+
+    const enterprise = await this.prisma.empresa.findFirst({
+      where: {
+        id: enterpriseId,
         tenantId: tenantId,
+      },
+    });
+
+    if (!enterprise) {
+      throw new NotFoundException(
+        'Enterprise not found or does not belong to this tenant.',
+      );
+    }
+
+    return this.prisma.empresa.update({
+      where: {
+        id: enterpriseId,
+      },
+      data: {
+        ...updateEnterpriseDto,
       },
     });
   }
