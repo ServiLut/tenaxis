@@ -1,4 +1,4 @@
 
-> api@0.0.1 lint C:\Users\Usuario\Desktop\tenaxis-saas\apps\api
-> eslint "{src,apps,libs,test}/**/*.ts" --fix
+> api@0.0.1 lint C:\Users\PC\Desktop\Daniela\tenaxis\apps\api
+> eslint "{src,apps,libs,test}/**/*.ts" --fix "--fix"
 
