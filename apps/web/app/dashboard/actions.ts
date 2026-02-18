@@ -369,38 +369,37 @@ export async function createClienteAction(payload: ClienteDTO) {
 export async function createEnterpriseAction(data: { nombre: string }) {
   const cookieStore = await cookies();
   const token = cookieStore.get("access_token")?.value;
-  const tenantId = cookieStore.get("tenant-id")?.value;
 
   if (!token) throw new Error("No session found");
-  if (!tenantId) throw new Error("No tenant found");
 
   const apiUrl = process.env.NESTJS_API_URL || "http://127.0.0.1:4000";
-  const response = await fetch(`${apiUrl}/enterprise`, {
+  const response = await fetch(`${apiUrl}/enterprise/create`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
       Authorization: `Bearer ${token}`,
-      "x-tenant-id": tenantId,
     },
     body: JSON.stringify(data),
   });
-  return response.json();
+  
+  const result = await response.json();
+  if (!response.ok) {
+    throw new Error(result.message || "Error al crear la empresa");
+  }
+  return result;
 }
 
 export async function getEnterprisesAction() {
   const cookieStore = await cookies();
   const token = cookieStore.get("access_token")?.value;
-  const tenantId = cookieStore.get("tenant-id")?.value;
 
   if (!token) return [];
-  if (!tenantId) return [];
 
   try {
     const apiUrl = process.env.NESTJS_API_URL || "http://127.0.0.1:4000";
     const response = await fetch(`${apiUrl}/enterprise`, {
       headers: {
         Authorization: `Bearer ${token}`,
-        "x-tenant-id": tenantId,
       },
     });
     if (!response.ok) return [];

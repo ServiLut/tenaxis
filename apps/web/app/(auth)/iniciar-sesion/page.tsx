@@ -46,6 +46,10 @@ export default function LoginPage() {
 
       document.cookie = `access_token=${data.access_token}; path=/; max-age=86400; SameSite=Lax`;
       
+      if (data.user?.tenantId) {
+        document.cookie = `tenant-id=${data.user.tenantId}; path=/; max-age=86400; SameSite=Lax`;
+      }
+      
       if (data.user) {
         localStorage.setItem("user", JSON.stringify(data.user));
       }
