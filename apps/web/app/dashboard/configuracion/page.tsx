@@ -38,7 +38,7 @@ import {
   Building
 } from "lucide-react";
 import { cn } from "@/components/ui/utils";
-import EmpresasPage from "./empresas/page";
+import { ConfigEmpresas } from "@/components/dashboard/ConfigEmpresas";
 
 type Segmento = {
   id: string;
@@ -236,7 +236,7 @@ export default function ConfiguracionPage() {
 
         {/* Main Content */}
         {activeTab === 'empresas' ? (
-          <EmpresasPage />
+          <ConfigEmpresas />
         ) : (
           <Card className="border-none shadow-xl shadow-zinc-200/50">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-8">
@@ -248,11 +248,9 @@ export default function ConfiguracionPage() {
                   {activeTab === "segmentos" ? "Define cómo clasificas a tus clientes por industria" : activeTab === "riesgos" ? "Gestiona los niveles de riesgo para priorizar servicios" : "Administra las opciones de servicio que interesan a tus clientes"}
                 </CardDescription>
               </div>
-              {activeTab !== 'empresas' && (
-                <Button onClick={() => handleOpenModal()} className="bg-azul-1 hover:bg-azul-1/90 text-white font-bold rounded-xl gap-2 h-11 px-6">
-                  <Plus className="h-4 w-4" /> AGREGAR NUEVO
-                </Button>
-              )}
+              <Button onClick={() => handleOpenModal()} className="bg-azul-1 hover:bg-azul-1/90 text-white font-bold rounded-xl gap-2 h-11 px-6">
+                <Plus className="h-4 w-4" /> AGREGAR NUEVO
+              </Button>
             </CardHeader>
             <CardContent>
               {loading ? (

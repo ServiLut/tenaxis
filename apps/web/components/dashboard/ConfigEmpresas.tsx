@@ -5,24 +5,26 @@ import { toast } from "sonner";
 import {
   createEnterpriseAction,
   getEnterprisesAction,
-} from "../../actions";
+} from "@/app/dashboard/actions";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Plus, Pencil, Save, X, Building } from "lucide-react";
-import { cn } from "@/components/ui/utils";
+import { Plus, Pencil, Save, X, Building, AlertTriangle } from "lucide-react";
 
 type Enterprise = {
   id: string;
   nombre: string;
 };
 
-export default function EmpresasPage() {
+export function ConfigEmpresas() {
   const [loading, setLoading] = useState(true);
   const [enterprises, setEnterprises] = useState<Enterprise[]>([]);
+  const [maxEmpresas, setMaxEmpresas] = useState(0);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingItem, setEditingItem] = useState<Enterprise | null>(null);
+
+  const limitReached = enterprises.length >= maxEmpresas && maxEmpresas > 0;
 
   useEffect(() => {
     loadData();
@@ -31,8 +33,14 @@ export default function EmpresasPage() {
   async function loadData() {
     setLoading(true);
     try {
-      const ents = await getEnterprisesAction();
-      setEnterprises(ents);
+      const result = await getEnterprisesAction();
+      // Si el backend devuelve el nuevo formato con items
+      if (result && result.items) {
+        setEnterprises(result.items);
+        setMaxEmpresas(result.maxEmpresas);
+      } else {
+        setEnterprises(Array.isArray(result) ? result : []);
+      }
     } catch (error) {
       console.error("Error loading enterprises:", error);
       toast.error("Error al cargar las empresas");
@@ -42,6 +50,10 @@ export default function EmpresasPage() {
   }
 
   const handleOpenModal = (item: Enterprise | null = null) => {
+    if (!item && limitReached) {
+        toast.error("Has alcanzado el límite de empresas de tu plan");
+        return;
+    }
     setEditingItem(item);
     setIsModalOpen(true);
   };
@@ -68,8 +80,9 @@ export default function EmpresasPage() {
       }
       loadData();
       handleCloseModal();
-    } catch (error: any) {
-      toast.error(error.message || "Error al guardar la empresa");
+    } catch (error: unknown) {
+      const message = error instanceof Error ? error.message : "Error al guardar la empresa";
+      toast.error(message);
     }
   };
 
@@ -84,9 +97,21 @@ export default function EmpresasPage() {
             Gestiona las empresas de tu tenant
           </CardDescription>
         </div>
-        <Button onClick={() => handleOpenModal()} className="bg-azul-1 hover:bg-azul-1/90 text-white font-bold rounded-xl gap-2 h-11 px-6">
-          <Plus className="h-4 w-4" /> AGREGAR NUEVA
-        </Button>
+        <div className="flex items-center gap-4">
+          {limitReached && (
+            <div className="flex items-center gap-2 px-4 py-2 bg-amber-50 border border-amber-200 rounded-xl text-amber-700 text-xs font-bold">
+              <AlertTriangle className="h-4 w-4" />
+              LÍMITE ALCANZADO ({enterprises.length}/{maxEmpresas})
+            </div>
+          )}
+          <Button 
+            onClick={() => handleOpenModal()} 
+            disabled={limitReached}
+            className="bg-azul-1 hover:bg-azul-1/90 text-white font-bold rounded-xl gap-2 h-11 px-6 disabled:opacity-50 disabled:cursor-not-allowed"
+          >
+            <Plus className="h-4 w-4" /> AGREGAR NUEVA
+          </Button>
+        </div>
       </CardHeader>
       <CardContent>
         {loading ? (

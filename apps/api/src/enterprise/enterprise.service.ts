@@ -131,21 +131,38 @@ export class EnterpriseService {
 
     const { role } = membership;
 
-    if (role === 'SU_ADMIN') {
-      return this.prisma.empresa.findMany();
-    }
+    const tenant = await this.prisma.tenant.findUnique({
+      where: { id: tenantId },
+      include: {
+        subscription: {
+          include: {
+            plan: true,
+          },
+        },
+      },
+    });
 
-    if (role === 'ADMIN') {
-      return this.prisma.empresa.findMany({
+    let enterprises;
+
+    if (role === 'SU_ADMIN') {
+      enterprises = await this.prisma.empresa.findMany();
+    } else if (role === 'ADMIN') {
+      enterprises = await this.prisma.empresa.findMany({
         where: {
           tenantId: tenantId,
         },
       });
+    } else {
+      throw new ForbiddenException(
+        'User does not have sufficient privileges to view enterprises.',
+      );
     }
 
-    throw new ForbiddenException(
-      'User does not have sufficient privileges to view enterprises.',
-    );
+    return {
+      items: enterprises,
+      maxEmpresas: tenant?.subscription?.plan?.maxEmpresas || 0,
+      count: enterprises.length,
+    };
   }
 
   async update(
