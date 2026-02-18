@@ -5,35 +5,39 @@ import {
   Headers,
   Post,
   Request,
+  UnauthorizedException,
   UseGuards,
 } from '@nestjs/common';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { CreateEnterpriseDto } from './dto/create-enterprise.dto';
 import { EnterpriseService } from './enterprise.service';
+import { JwtPayload } from '../auth/auth.service';
 
 @UseGuards(JwtAuthGuard)
 @Controller('enterprise')
 export class EnterpriseController {
   constructor(private readonly enterpriseService: EnterpriseService) {}
 
-  @Post()
+  @Post('create')
   create(
-    @Headers('x-tenant-id') tenantId: string,
     @Body() createEnterpriseDto: CreateEnterpriseDto,
-    @Request() req: { user: { sub: string } },
+    @Request() req: { user: JwtPayload },
   ) {
+    if (!req.user.tenantId) {
+      throw new UnauthorizedException('Usuario no tiene un tenant asignado');
+    }
     return this.enterpriseService.create(
       createEnterpriseDto,
       req.user.sub,
-      tenantId,
+      req.user.tenantId,
     );
   }
 
   @Get()
-  findAll(
-    @Headers('x-tenant-id') tenantId: string,
-    @Request() req: { user: { sub: string } },
-  ) {
-    return this.enterpriseService.findAll(req.user.sub, tenantId);
+  findAll(@Request() req: { user: JwtPayload }) {
+    if (!req.user.tenantId) {
+      throw new UnauthorizedException('Usuario no tiene un tenant asignado');
+    }
+    return this.enterpriseService.findAll(req.user.sub, req.user.tenantId);
   }
 }

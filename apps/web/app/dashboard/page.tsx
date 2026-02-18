@@ -76,6 +76,14 @@ export default function DashboardPage() {
       try {
         const user = JSON.parse(userData);
         tenantExists = !!user.tenantId;
+        
+        // Sync cookie if missing
+        if (user.tenantId) {
+          const hasTenantCookie = document.cookie.split('; ').some(row => row.startsWith('tenant-id='));
+          if (!hasTenantCookie) {
+            document.cookie = `tenant-id=${user.tenantId}; path=/; max-age=86400; SameSite=Lax`;
+          }
+        }
       } catch {
         tenantExists = false;
       }

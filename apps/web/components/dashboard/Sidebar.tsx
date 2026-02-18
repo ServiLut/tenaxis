@@ -97,6 +97,7 @@ export function Sidebar() {
 
   const handleLogout = () => {
     document.cookie = "access_token=; path=/; expires=Thu, 01 Jan 1970 00:00:01 GMT;";
+    document.cookie = "tenant-id=; path=/; expires=Thu, 01 Jan 1970 00:00:01 GMT;";
     localStorage.removeItem("user");
     window.location.href = "/iniciar-sesion";
   };
