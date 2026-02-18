@@ -341,15 +341,23 @@ export async function createClienteAction(payload: ClienteDTO) {
 
   if (!token) throw new Error("No session found");
 
+  // Sanitize UUID fields: convert empty strings to null to avoid Prisma validation errors
+  const sanitizedPayload = {
+    ...payload,
+    tipoInteresId: payload.tipoInteresId || null,
+    segmentoId: payload.segmentoId || null,
+    riesgoId: payload.riesgoId || null,
+  };
+
   try {
     const apiUrl = process.env.NESTJS_API_URL || "http://127.0.0.1:4000";
-    const response = await fetch(`${apiUrl}/clientes`, {
+    const response = await fetch(`${apiUrl}/clientes/create`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
       },
-      body: JSON.stringify(payload),
+      body: JSON.stringify(sanitizedPayload),
     });
 
     const result = await response.json();
