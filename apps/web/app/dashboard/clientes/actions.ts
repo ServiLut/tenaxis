@@ -25,8 +25,8 @@ export async function createCliente(formData: FormData) {
   const direccionesStr = formData.get("direcciones") as string;
   const vehiculosStr = formData.get("vehiculos") as string;
   
-  let direcciones = [];
-  let vehiculos = [];
+  let direcciones: ({ id: number | string } & Record<string, unknown>)[] = [];
+  let vehiculos: ({ id: number | string } & Record<string, unknown>)[] = [];
   
   try {
     if (direccionesStr) direcciones = JSON.parse(direccionesStr);
@@ -36,8 +36,8 @@ export async function createCliente(formData: FormData) {
   }
 
   // Clean data to match DTO (remove temporary IDs used in the UI)
-  const cleanedDirecciones = direcciones.map(({ id, ...rest }: any) => rest);
-  const cleanedVehiculos = vehiculos.map(({ id, ...rest }: any) => rest);
+  const cleanedDirecciones = direcciones.map(({ id: _id, ...rest }) => rest);
+  const cleanedVehiculos = vehiculos.map(({ id: _id, ...rest }) => rest);
 
   const payload = {
     tipoCliente: "PERSONA",
@@ -72,12 +72,12 @@ export async function createCliente(formData: FormData) {
       message: "Cliente creado exitosamente", 
       clienteId: result.data?.id || result.id 
     };
-  } catch (error) {
+  } catch (_error) {
     return { error: "Ocurrió un error inesperado" };
   }
 }
 
-export async function updateCliente(id: number, formData: FormData) {
+export async function updateCliente(_id: number, _formData: FormData) {
   // Similarly update updateCliente if implemented
   return { error: "Actualización no implementada aún" };
 }

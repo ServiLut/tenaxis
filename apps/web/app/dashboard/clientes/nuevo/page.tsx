@@ -8,6 +8,7 @@ import {
   getSegmentosAction,
   getRiesgosAction,
   getTiposInteresAction,
+  type ClienteDTO,
 } from "../../actions";
 import {
   getDepartments,
@@ -19,19 +20,13 @@ import { Label } from "@/components/ui/label";
 import { Combobox } from "@/components/ui/combobox";
 import { Select } from "@/components/ui/select";
 import {
-  Car,
-  User,
-  Phone,
   ArrowLeft,
   Save,
   MapPin,
   Plus,
   Trash2,
-  Info,
   Clock,
-  ShieldAlert,
   Contact2,
-  Navigation,
   CheckCircle2,
   Building2,
   UserCircle2,
@@ -50,15 +45,42 @@ import { DashboardLayout } from "@/components/dashboard";
 const ORIGENES_CLIENTE = ["Google Ads", "Referido", "Orgánico", "Recurrente", "Campaña", "WhatsApp directo"];
 const CLASIFICACIONES_PUNTO = ["Cocina", "Área almacenamiento", "Zona residuos", "Zona carga", "Zona comedor", "Oficina administrativa"];
 
+interface Direccion {
+  id: number;
+  direccion: string;
+  linkMaps: string;
+  departmentId: string;
+  municipioId: string;
+  municipio: string;
+  barrio: string;
+  piso: string;
+  bloque: string;
+  unidad: string;
+  tipoUbicacion: string;
+  clasificacionPunto: string;
+  horarioInicio: string;
+  horarioFin: string;
+  restriccionesAcceso: string;
+  nombreContacto: string;
+  telefonoContacto: string;
+  cargoContacto: string;
+  activa: boolean;
+  bloqueada: boolean;
+  motivoBloqueo: string;
+  latitud: string;
+  longitud: string;
+  precisionGPS: string;
+  validadoPorSistema: boolean;
+}
+
 function NuevoClienteContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const fixClientId = searchParams.get("fixClientId");
-  const migrateClientId = searchParams.get("migrateClientId");
+  const _fixClientId = searchParams.get("fixClientId");
+  const _migrateClientId = searchParams.get("migrateClientId");
 
-  const { tenantId } = useUserRole();
+  useUserRole();
   const [loading, setLoading] = useState(false);
-  const [isFetching, setIsFetching] = useState(!!fixClientId || !!migrateClientId);
 
   // --- Datos Dinámicos ---
   const [departamentos, setDepartments] = useState<{id: string, name: string}[]>([]);
@@ -83,8 +105,8 @@ function NuevoClienteContent() {
         setSegmentosDb(segs);
         setRiesgosDb(ries);
         setTiposInteresDb(ints);
-        if (segs.length > 0) setSegmento(segs[0].id);
-        if (ints.length > 0) setInteres(ints[0].id);
+        if (segs.length > 0) setSegmento(segs[0]?.id || "");
+        if (ints.length > 0) setInteres(ints[0]?.id || "");
       } catch (e) {
         console.error("Error loading initial data", e);
         toast.error("Error al cargar datos de configuración");
@@ -108,7 +130,7 @@ function NuevoClienteContent() {
     const riesgoSeg = seg?.riesgoSugerido || "BAJO";
     const riesgoInt = int?.riesgoSugerido || "BAJO";
 
-    const riesgoFinal = riesgosMap[riesgoSeg]! >= riesgosMap[riesgoInt]! ? riesgoSeg : riesgoInt;
+    const riesgoFinal = (riesgosMap[riesgoSeg] ?? 1) >= (riesgosMap[riesgoInt] ?? 1) ? riesgoSeg : riesgoInt;
 
     const freqSeg = seg?.frecuenciaSugerida || 30;
     const freqInt = int?.frecuenciaSugerida || 30;
@@ -128,7 +150,7 @@ function NuevoClienteContent() {
     return () => { document.body.style.overflow = originalStyle; };
   }, []);
 
-  const [direcciones, setDirecciones] = useState([{
+  const [direcciones, setDirecciones] = useState<Direccion[]>([{
     id: Date.now(),
     direccion: "",
     linkMaps: "",
@@ -156,7 +178,7 @@ function NuevoClienteContent() {
     validadoPorSistema: false,
   }]);
 
-  const handleDireccionChange = (id: number, field: string, value: any) => {
+  const handleDireccionChange = <K extends keyof Direccion>(id: number, field: K, value: Direccion[K]) => {
     setDirecciones(direcciones.map((d) => {
       if (d.id === id) {
         const update = { ...d, [field]: value };
@@ -190,29 +212,31 @@ function NuevoClienteContent() {
     setLoading(true);
     const formData = new FormData(event.currentTarget);
 
-    const cleanedDirecciones = direcciones.map(({ id, departmentId, validadoPorSistema, municipio, ...rest }) => ({
+    const cleanedDirecciones = direcciones.map(({ 
+      id: _id, 
+      departmentId: _departmentId, 
+      validadoPorSistema: _validadoPorSistema, 
+      municipio: _municipio, 
+      restriccionesAcceso,
+      ...rest 
+    }) => ({
       ...rest,
-      restricciones: rest.restriccionesAcceso,
-      latitud: rest.latitud ? parseFloat(rest.latitud as string) : null,
-      longitud: rest.longitud ? parseFloat(rest.longitud as string) : null,
-      precisionGPS: rest.precisionGPS ? parseFloat(rest.precisionGPS as string) : null,
+      restricciones: restriccionesAcceso,
+      latitud: rest.latitud ? parseFloat(rest.latitud) : null,
+      longitud: rest.longitud ? parseFloat(rest.longitud) : null,
+      precisionGPS: rest.precisionGPS ? parseFloat(rest.precisionGPS) : null,
     }));
 
-    // Remove the temporary property from the cleaned object
-    cleanedDirecciones.forEach((d: any) => {
-      delete d.restriccionesAcceso;
-    });
-
-    const payload = {
-      tipoCliente: tipoCliente === "NATURAL" ? "PERSONA" : "EMPRESA",
-      nombre: formData.get("nombre"),
-      apellido: formData.get("apellido"),
-      telefono: formData.get("telefono"),
-      origenCliente: formData.get("origen"),
-      tipoInteresId: formData.get("interes"),
-      razonSocial: formData.get("razonSocial"),
-      nit: formData.get("nit"),
-      actividadEconomica: formData.get("actividad"),
+    const payload: ClienteDTO = {
+      tipoCliente: (tipoCliente === "NATURAL" ? "PERSONA" : "EMPRESA") as "PERSONA" | "EMPRESA",
+      nombre: formData.get("nombre") as string,
+      apellido: formData.get("apellido") as string,
+      telefono: formData.get("telefono") as string,
+      origenCliente: formData.get("origen") as string,
+      tipoInteresId: formData.get("interes") as string,
+      razonSocial: formData.get("razonSocial") as string,
+      nit: formData.get("nit") as string,
+      actividadEconomica: formData.get("actividad") as string,
       metrajeTotal: metraje ? parseFloat(metraje.toString()) : null,
       segmentoId: segmento || null,
       riesgoId: riesgoOverride || riesgosDb.find(r => r.nombre === sugerencias.riesgo)?.id || null,
@@ -223,8 +247,9 @@ function NuevoClienteContent() {
       await createClienteAction(payload);
       toast.success("Cliente registrado con éxito");
       router.push("/dashboard/clientes");
-    } catch (error: any) {
-      toast.error(error.message || "Error al crear cliente");
+    } catch (error: unknown) {
+      const message = error instanceof Error ? error.message : "Error al crear cliente";
+      toast.error(message);
     } finally {
       setLoading(false);
     }
@@ -374,7 +399,7 @@ function NuevoClienteContent() {
               </div>
 
               <div className="space-y-10">
-                {direcciones.map((dir, idx) => (
+                {direcciones.map((dir) => (
                   <div key={dir.id} className="relative bg-white dark:bg-zinc-900/50 rounded-2xl border border-zinc-200 dark:border-zinc-800 p-8 space-y-10 transition-all hover:shadow-md">
                     {direcciones.length > 1 && (
                       <button

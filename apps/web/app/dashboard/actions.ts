@@ -186,7 +186,72 @@ export async function getTiposInteresAction() {
   }
 }
 
-export async function createSegmentoAction(data: any) {
+export interface SegmentoNegocioDTO {
+  nombre: string;
+  descripcion?: string | null;
+  frecuenciaSugerida?: number | null;
+  riesgoSugerido?: string | null;
+  activo?: boolean;
+}
+
+export interface NivelRiesgoOperativoDTO {
+  nombre: string;
+  color?: string | null;
+  valor?: number;
+  activo?: boolean;
+}
+
+export interface TipoInteresDTO {
+  nombre: string;
+  descripcion?: string | null;
+  frecuenciaSugerida?: number | null;
+  riesgoSugerido?: string | null;
+  activo?: boolean;
+}
+
+export interface DireccionDTO {
+  direccion: string;
+  piso?: string | null;
+  bloque?: string | null;
+  unidad?: string | null;
+  barrio?: string | null;
+  municipio?: string | null;
+  linkMaps?: string | null;
+  cargoContacto?: string | null;
+  clasificacionPunto?: string | null;
+  departmentId?: string | null;
+  horarioFin?: string | null;
+  horarioInicio?: string | null;
+  latitud?: number | null;
+  longitud?: number | null;
+  motivoBloqueo?: string | null;
+  municipioId?: string | null;
+  nombreContacto?: string | null;
+  nombreSede?: string | null;
+  precisionGPS?: number | null;
+  restricciones?: string | null;
+  telefonoContacto?: string | null;
+  tipoUbicacion?: string | null;
+  validadoPorSistema?: boolean;
+}
+
+export interface ClienteDTO {
+  tipoCliente: "PERSONA" | "EMPRESA";
+  nombre?: string | null;
+  apellido?: string | null;
+  telefono: string;
+  origenCliente?: string | null;
+  tipoInteresId?: string | null;
+  razonSocial?: string | null;
+  nit?: string | null;
+  actividadEconomica?: string | null;
+  metrajeTotal?: number | null;
+  segmentoId?: string | null;
+  riesgoId?: string | null;
+  direcciones?: DireccionDTO[];
+}
+
+export async function createSegmentoAction(data: SegmentoNegocioDTO) {
   const cookieStore = await cookies();
   const token = cookieStore.get("access_token")?.value;
   if (!token) throw new Error("No session found");
@@ -200,7 +265,7 @@ export async function createSegmentoAction(data: any) {
   return response.json();
 }
 
-export async function updateSegmentoAction(id: string, data: any) {
+export async function updateSegmentoAction(id: string, data: Partial<SegmentoNegocioDTO>) {
   const cookieStore = await cookies();
   const token = cookieStore.get("access_token")?.value;
   if (!token) throw new Error("No session found");
@@ -214,7 +279,7 @@ export async function updateSegmentoAction(id: string, data: any) {
   return response.json();
 }
 
-export async function createRiesgoAction(data: any) {
+export async function createRiesgoAction(data: NivelRiesgoOperativoDTO) {
   const cookieStore = await cookies();
   const token = cookieStore.get("access_token")?.value;
   if (!token) throw new Error("No session found");
@@ -228,7 +293,7 @@ export async function createRiesgoAction(data: any) {
   return response.json();
 }
 
-export async function updateRiesgoAction(id: string, data: any) {
+export async function updateRiesgoAction(id: string, data: Partial<NivelRiesgoOperativoDTO>) {
   const cookieStore = await cookies();
   const token = cookieStore.get("access_token")?.value;
   if (!token) throw new Error("No session found");
@@ -242,7 +307,7 @@ export async function updateRiesgoAction(id: string, data: any) {
   return response.json();
 }
 
-export async function createTipoInteresAction(data: any) {
+export async function createTipoInteresAction(data: TipoInteresDTO) {
   const cookieStore = await cookies();
   const token = cookieStore.get("access_token")?.value;
   if (!token) throw new Error("No session found");
@@ -256,7 +321,7 @@ export async function createTipoInteresAction(data: any) {
   return response.json();
 }
 
-export async function updateTipoInteresAction(id: string, data: any) {
+export async function updateTipoInteresAction(id: string, data: Partial<TipoInteresDTO>) {
   const cookieStore = await cookies();
   const token = cookieStore.get("access_token")?.value;
   if (!token) throw new Error("No session found");
@@ -270,7 +335,7 @@ export async function updateTipoInteresAction(id: string, data: any) {
   return response.json();
 }
 
-export async function createClienteAction(formData: any) {
+export async function createClienteAction(payload: ClienteDTO) {
   const cookieStore = await cookies();
   const token = cookieStore.get("access_token")?.value;
 
@@ -284,7 +349,7 @@ export async function createClienteAction(formData: any) {
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
       },
-      body: JSON.stringify(formData),
+      body: JSON.stringify(payload),
     });
 
     const result = await response.json();

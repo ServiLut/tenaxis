@@ -12,28 +12,23 @@ export class ClientesService {
       orderBy: { createdAt: 'desc' },
       include: {
         direcciones: {
-          include: { municipioRel: true }
+          include: { municipioRel: true },
         },
         vehiculos: true,
         segmento: true,
         riesgo: true,
         tipoInteres: true,
-      }
+      },
     });
   }
 
   async create(tenantId: string, userId: string, dto: CreateClienteDto) {
-    const { 
-      direcciones, 
-      vehiculos,
-      segmentoId, 
-      riesgoId,
-      ...clienteData 
-    } = dto;
+    const { direcciones, vehiculos, segmentoId, riesgoId, ...clienteData } =
+      dto;
 
     const membership = await this.prisma.tenantMembership.findUnique({
       where: { userId_tenantId: { userId, tenantId } },
-      include: { empresaMemberships: true }
+      include: { empresaMemberships: true },
     });
 
     const empresaId = membership?.empresaMemberships[0]?.empresaId;
@@ -51,7 +46,7 @@ export class ClientesService {
         riesgoId,
         creadoPorId: membership.id,
         direcciones: {
-          create: direcciones?.map(d => ({
+          create: direcciones?.map((d) => ({
             ...d,
             tenantId,
             empresaId,
@@ -62,12 +57,12 @@ export class ClientesService {
           })),
         },
         vehiculos: {
-          create: vehiculos?.map(v => ({
+          create: vehiculos?.map((v) => ({
             ...v,
             tenantId,
             empresaId,
           })),
-        }
+        },
       },
       include: {
         direcciones: true,

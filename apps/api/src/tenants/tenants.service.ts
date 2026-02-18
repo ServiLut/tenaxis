@@ -162,13 +162,55 @@ export class TenantsService {
       // 9. Seed de Configuración Dinámica (Segmentos y Riesgos por defecto)
       await tx.segmentoNegocio.createMany({
         data: [
-          { tenantId: tenant.id, nombre: 'Restaurante', descripcion: 'Establecimientos de comida y bebida', frecuenciaSugerida: 15, riesgoSugerido: 'ALTO' },
-          { tenantId: tenant.id, nombre: 'IPS / Salud', descripcion: 'Clínicas, hospitales y consultorios', frecuenciaSugerida: 30, riesgoSugerido: 'ALTO' },
-          { tenantId: tenant.id, nombre: 'Panadería', descripcion: 'Producción y venta de panadería', frecuenciaSugerida: 15, riesgoSugerido: 'ALTO' },
-          { tenantId: tenant.id, nombre: 'Colegio', descripcion: 'Instituciones educativas', frecuenciaSugerida: 60, riesgoSugerido: 'MEDIO' },
-          { tenantId: tenant.id, nombre: 'PH / Residencial', descripcion: 'Propiedad horizontal y edificios', frecuenciaSugerida: 90, riesgoSugerido: 'BAJO' },
-          { tenantId: tenant.id, nombre: 'Bodega', descripcion: 'Almacenamiento y logística', frecuenciaSugerida: 30, riesgoSugerido: 'MEDIO' },
-          { tenantId: tenant.id, nombre: 'Industria Alimentos', descripcion: 'Plantas de procesamiento', frecuenciaSugerida: 15, riesgoSugerido: 'CRITICO' },
+          {
+            tenantId: tenant.id,
+            nombre: 'Restaurante',
+            descripcion: 'Establecimientos de comida y bebida',
+            frecuenciaSugerida: 15,
+            riesgoSugerido: 'ALTO',
+          },
+          {
+            tenantId: tenant.id,
+            nombre: 'IPS / Salud',
+            descripcion: 'Clínicas, hospitales y consultorios',
+            frecuenciaSugerida: 30,
+            riesgoSugerido: 'ALTO',
+          },
+          {
+            tenantId: tenant.id,
+            nombre: 'Panadería',
+            descripcion: 'Producción y venta de panadería',
+            frecuenciaSugerida: 15,
+            riesgoSugerido: 'ALTO',
+          },
+          {
+            tenantId: tenant.id,
+            nombre: 'Colegio',
+            descripcion: 'Instituciones educativas',
+            frecuenciaSugerida: 60,
+            riesgoSugerido: 'MEDIO',
+          },
+          {
+            tenantId: tenant.id,
+            nombre: 'PH / Residencial',
+            descripcion: 'Propiedad horizontal y edificios',
+            frecuenciaSugerida: 90,
+            riesgoSugerido: 'BAJO',
+          },
+          {
+            tenantId: tenant.id,
+            nombre: 'Bodega',
+            descripcion: 'Almacenamiento y logística',
+            frecuenciaSugerida: 30,
+            riesgoSugerido: 'MEDIO',
+          },
+          {
+            tenantId: tenant.id,
+            nombre: 'Industria Alimentos',
+            descripcion: 'Plantas de procesamiento',
+            frecuenciaSugerida: 15,
+            riesgoSugerido: 'CRITICO',
+          },
         ],
       });
 
@@ -183,11 +225,41 @@ export class TenantsService {
 
       await tx.tipoInteres.createMany({
         data: [
-          { tenantId: tenant.id, nombre: 'Fumigación PUNTUAL', descripcion: 'Servicio único de control de plagas', frecuenciaSugerida: 0, riesgoSugerido: 'BAJO' },
-          { tenantId: tenant.id, nombre: 'Contrato MENSUAL', descripcion: 'Control preventivo recurrente', frecuenciaSugerida: 30, riesgoSugerido: 'MEDIO' },
-          { tenantId: tenant.id, nombre: 'Diagnóstico Técnico', descripcion: 'Inspección inicial y levantamiento', frecuenciaSugerida: 0, riesgoSugerido: 'BAJO' },
-          { tenantId: tenant.id, nombre: 'Auditoría INVIMA/Salud', descripcion: 'Preparación para entes de control', frecuenciaSugerida: 15, riesgoSugerido: 'ALTO' },
-          { tenantId: tenant.id, nombre: 'Control Roedores', descripcion: 'Especializado en ratas y ratones', frecuenciaSugerida: 15, riesgoSugerido: 'ALTO' },
+          {
+            tenantId: tenant.id,
+            nombre: 'Fumigación PUNTUAL',
+            descripcion: 'Servicio único de control de plagas',
+            frecuenciaSugerida: 0,
+            riesgoSugerido: 'BAJO',
+          },
+          {
+            tenantId: tenant.id,
+            nombre: 'Contrato MENSUAL',
+            descripcion: 'Control preventivo recurrente',
+            frecuenciaSugerida: 30,
+            riesgoSugerido: 'MEDIO',
+          },
+          {
+            tenantId: tenant.id,
+            nombre: 'Diagnóstico Técnico',
+            descripcion: 'Inspección inicial y levantamiento',
+            frecuenciaSugerida: 0,
+            riesgoSugerido: 'BAJO',
+          },
+          {
+            tenantId: tenant.id,
+            nombre: 'Auditoría INVIMA/Salud',
+            descripcion: 'Preparación para entes de control',
+            frecuenciaSugerida: 15,
+            riesgoSugerido: 'ALTO',
+          },
+          {
+            tenantId: tenant.id,
+            nombre: 'Control Roedores',
+            descripcion: 'Especializado en ratas y ratones',
+            frecuenciaSugerida: 15,
+            riesgoSugerido: 'ALTO',
+          },
         ],
       });
 

@@ -10,9 +10,13 @@ export function useUserRole() {
     if (data) {
       try {
         const parsed = JSON.parse(data);
-        setUserData({ tenantId: parsed.tenantId ? Number(parsed.tenantId) : null });
+        setTimeout(() => {
+          setUserData({ tenantId: parsed.tenantId ? Number(parsed.tenantId) : null });
+        }, 0);
       } catch {
-        setUserData({ tenantId: null });
+        setTimeout(() => {
+          setUserData({ tenantId: null });
+        }, 0);
       }
     }
   }, []);
