@@ -104,4 +104,29 @@ export class EnterpriseService {
       return empresa;
     });
   }
+
+  async findAll(userId: string, tenantId: string) {
+    if (!tenantId) {
+      throw new BadRequestException('x-tenant-id header is required.');
+    }
+
+    const membership = await this.prisma.tenantMembership.findUnique({
+      where: {
+        userId_tenantId: {
+          userId: userId,
+          tenantId: tenantId,
+        },
+      },
+    });
+
+    if (!membership || membership.status !== 'ACTIVE') {
+      throw new ForbiddenException('User is not an active member of this tenant.');
+    }
+
+    return this.prisma.empresa.findMany({
+      where: {
+        tenantId: tenantId,
+      },
+    });
+  }
 }

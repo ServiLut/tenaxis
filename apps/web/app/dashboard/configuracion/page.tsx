@@ -36,9 +36,11 @@ import {
   Info,
   Lightbulb,
   CheckCircle2,
-  ListChecks
+  ListChecks,
+  Building
 } from "lucide-react";
 import { cn } from "@/components/ui/utils";
+import EmpresasPage from "./empresas/page";
 
 type Segmento = {
   id: string;
@@ -65,7 +67,7 @@ type TipoInteres = {
 };
 
 export default function ConfiguracionPage() {
-  const [activeTab, setActiveTab] = useState<"segmentos" | "riesgos" | "intereses">("segmentos");
+  const [activeTab, setActiveTab] = useState<"segmentos" | "riesgos" | "intereses" | "empresas">("segmentos");
   const [loading, setLoading] = useState(true);
   
   const [segmentos, setSegmentos] = useState<Segmento[]>([]);
@@ -76,8 +78,10 @@ export default function ConfiguracionPage() {
   const [editingItem, setEditingItem] = useState<any>(null);
 
   useEffect(() => {
-    loadData();
-  }, []);
+    if (activeTab !== 'empresas') {
+      loadData();
+    }
+  }, [activeTab]);
 
   async function loadData() {
     setLoading(true);
@@ -195,104 +199,119 @@ export default function ConfiguracionPage() {
           >
             <Zap className="h-4 w-4" /> Tipos de Interés
           </button>
+          <button 
+            onClick={() => setActiveTab("empresas")}
+            className={cn(
+              "flex items-center gap-2 px-6 py-3 rounded-xl text-sm font-bold transition-all",
+              activeTab === "empresas" ? "bg-white dark:bg-zinc-800 text-azul-1 shadow-sm" : "text-zinc-500 hover:text-zinc-700"
+            )}
+          >
+            <Building className="h-4 w-4" /> Empresas
+          </button>
         </div>
 
         {/* Main Content */}
-        <Card className="border-none shadow-xl shadow-zinc-200/50">
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-8">
-            <div>
-              <CardTitle className="text-xl font-black">
-                {activeTab === "segmentos" ? "Segmentos de Negocio" : activeTab === "riesgos" ? "Niveles de Riesgo" : "Tipos de Interés de Servicio"}
-              </CardTitle>
-              <CardDescription className="font-bold text-[10px] uppercase tracking-widest mt-1">
-                {activeTab === "segmentos" ? "Define cómo clasificas a tus clientes por industria" : activeTab === "riesgos" ? "Gestiona los niveles de riesgo para priorizar servicios" : "Administra las opciones de servicio que interesan a tus clientes"}
-              </CardDescription>
-            </div>
-            <Button onClick={() => handleOpenModal()} className="bg-azul-1 hover:bg-azul-1/90 text-white font-bold rounded-xl gap-2 h-11 px-6">
-              <Plus className="h-4 w-4" /> AGREGAR NUEVO
-            </Button>
-          </CardHeader>
-          <CardContent>
-            {loading ? (
-              <div className="flex h-40 items-center justify-center text-zinc-400 font-bold uppercase tracking-widest animate-pulse">Cargando parámetros...</div>
-            ) : (
-              <div className="grid gap-4">
-                {activeTab === "segmentos" && segmentos.map((item) => (
-                  <div key={item.id} className="flex items-center justify-between p-6 bg-zinc-50 dark:bg-zinc-900 rounded-2xl border border-zinc-100 dark:border-zinc-800 hover:border-azul-1/20 transition-colors">
-                    <div className="flex gap-4 items-center">
-                      <div className="h-12 w-12 rounded-xl bg-white dark:bg-zinc-800 flex items-center justify-center border border-zinc-200 dark:border-zinc-700 shadow-sm">
-                        <Target className="h-6 w-6 text-azul-1" />
-                      </div>
-                      <div>
-                        <h4 className="font-black text-zinc-900 dark:text-white">{item.nombre}</h4>
-                        <p className="text-xs text-zinc-500 font-medium">{item.descripcion || "Sin descripción"}</p>
-                        <div className="flex gap-3 mt-2">
-                          <span className="text-[10px] font-black uppercase tracking-tighter bg-azul-1/10 text-azul-1 px-2 py-0.5 rounded-md flex items-center gap-1">
-                            <Clock className="h-3 w-3" /> Freq: {item.frecuenciaSugerida} días
-                          </span>
-                          <span className="text-[10px] font-black uppercase tracking-tighter bg-amber-100 text-amber-700 px-2 py-0.5 rounded-md flex items-center gap-1">
-                            <AlertTriangle className="h-3 w-3" /> Riesgo: {item.riesgoSugerido}
-                          </span>
+        {activeTab === 'empresas' ? (
+          <EmpresasPage />
+        ) : (
+          <Card className="border-none shadow-xl shadow-zinc-200/50">
+            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-8">
+              <div>
+                <CardTitle className="text-xl font-black">
+                  {activeTab === "segmentos" ? "Segmentos de Negocio" : activeTab === "riesgos" ? "Niveles de Riesgo" : "Tipos de Interés de Servicio"}
+                </CardTitle>
+                <CardDescription className="font-bold text-[10px] uppercase tracking-widest mt-1">
+                  {activeTab === "segmentos" ? "Define cómo clasificas a tus clientes por industria" : activeTab === "riesgos" ? "Gestiona los niveles de riesgo para priorizar servicios" : "Administra las opciones de servicio que interesan a tus clientes"}
+                </CardDescription>
+              </div>
+              {activeTab !== 'empresas' && (
+                <Button onClick={() => handleOpenModal()} className="bg-azul-1 hover:bg-azul-1/90 text-white font-bold rounded-xl gap-2 h-11 px-6">
+                  <Plus className="h-4 w-4" /> AGREGAR NUEVO
+                </Button>
+              )}
+            </CardHeader>
+            <CardContent>
+              {loading ? (
+                <div className="flex h-40 items-center justify-center text-zinc-400 font-bold uppercase tracking-widest animate-pulse">Cargando parámetros...</div>
+              ) : (
+                <div className="grid gap-4">
+                  {activeTab === "segmentos" && segmentos.map((item) => (
+                    <div key={item.id} className="flex items-center justify-between p-6 bg-zinc-50 dark:bg-zinc-900 rounded-2xl border border-zinc-100 dark:border-zinc-800 hover:border-azul-1/20 transition-colors">
+                      <div className="flex gap-4 items-center">
+                        <div className="h-12 w-12 rounded-xl bg-white dark:bg-zinc-800 flex items-center justify-center border border-zinc-200 dark:border-zinc-700 shadow-sm">
+                          <Target className="h-6 w-6 text-azul-1" />
+                        </div>
+                        <div>
+                          <h4 className="font-black text-zinc-900 dark:text-white">{item.nombre}</h4>
+                          <p className="text-xs text-zinc-500 font-medium">{item.descripcion || "Sin descripción"}</p>
+                          <div className="flex gap-3 mt-2">
+                            <span className="text-[10px] font-black uppercase tracking-tighter bg-azul-1/10 text-azul-1 px-2 py-0.5 rounded-md flex items-center gap-1">
+                              <Clock className="h-3 w-3" /> Freq: {item.frecuenciaSugerida} días
+                            </span>
+                            <span className="text-[10px] font-black uppercase tracking-tighter bg-amber-100 text-amber-700 px-2 py-0.5 rounded-md flex items-center gap-1">
+                              <AlertTriangle className="h-3 w-3" /> Riesgo: {item.riesgoSugerido}
+                            </span>
+                          </div>
                         </div>
                       </div>
+                      <Button variant="ghost" size="icon" onClick={() => handleOpenModal(item)} className="h-10 w-10 rounded-full hover:bg-white hover:text-azul-1 shadow-sm border border-transparent hover:border-zinc-200">
+                        <Pencil className="h-4 w-4" />
+                      </Button>
                     </div>
-                    <Button variant="ghost" size="icon" onClick={() => handleOpenModal(item)} className="h-10 w-10 rounded-full hover:bg-white hover:text-azul-1 shadow-sm border border-transparent hover:border-zinc-200">
-                      <Pencil className="h-4 w-4" />
-                    </Button>
-                  </div>
-                ))}
+                  ))}
 
-                {activeTab === "riesgos" && riesgos.map((item) => (
-                  <div key={item.id} className="flex items-center justify-between p-6 bg-zinc-50 dark:bg-zinc-900 rounded-2xl border border-zinc-100 dark:border-zinc-800 hover:border-azul-1/20 transition-colors">
-                    <div className="flex gap-4 items-center">
-                      <div className={cn("h-12 w-12 rounded-xl flex items-center justify-center border shadow-sm", 
-                        item.color === 'emerald' ? 'bg-emerald-50 border-emerald-200 text-emerald-600' :
-                        item.color === 'amber' ? 'bg-amber-50 border-amber-200 text-amber-600' :
-                        item.color === 'orange' ? 'bg-orange-50 border-orange-200 text-orange-600' :
-                        'bg-red-50 border-red-200 text-red-600'
-                      )}>
-                        <ShieldAlert className="h-6 w-6" />
+                  {activeTab === "riesgos" && riesgos.map((item) => (
+                    <div key={item.id} className="flex items-center justify-between p-6 bg-zinc-50 dark:bg-zinc-900 rounded-2xl border border-zinc-100 dark:border-zinc-800 hover:border-azul-1/20 transition-colors">
+                      <div className="flex gap-4 items-center">
+                        <div className={cn("h-12 w-12 rounded-xl flex items-center justify-center border shadow-sm", 
+                          item.color === 'emerald' ? 'bg-emerald-50 border-emerald-200 text-emerald-600' :
+                          item.color === 'amber' ? 'bg-amber-50 border-amber-200 text-amber-600' :
+                          item.color === 'orange' ? 'bg-orange-50 border-orange-200 text-orange-600' :
+                          'bg-red-50 border-red-200 text-red-600'
+                        )}>
+                          <ShieldAlert className="h-6 w-6" />
+                        </div>
+                        <div>
+                          <h4 className="font-black text-zinc-900 dark:text-white">{item.nombre}</h4>
+                          <p className="text-xs text-zinc-500 font-black uppercase tracking-widest flex items-center gap-2">
+                            <Hash className="h-3 w-3" /> Valor de Scoring: {item.valor}
+                          </p>
+                        </div>
                       </div>
-                      <div>
-                        <h4 className="font-black text-zinc-900 dark:text-white">{item.nombre}</h4>
-                        <p className="text-xs text-zinc-500 font-black uppercase tracking-widest flex items-center gap-2">
-                          <Hash className="h-3 w-3" /> Valor de Scoring: {item.valor}
-                        </p>
-                      </div>
+                      <Button variant="ghost" size="icon" onClick={() => handleOpenModal(item)} className="h-10 w-10 rounded-full hover:bg-white hover:text-azul-1 shadow-sm border border-transparent hover:border-zinc-200">
+                        <Pencil className="h-4 w-4" />
+                      </Button>
                     </div>
-                    <Button variant="ghost" size="icon" onClick={() => handleOpenModal(item)} className="h-10 w-10 rounded-full hover:bg-white hover:text-azul-1 shadow-sm border border-transparent hover:border-zinc-200">
-                      <Pencil className="h-4 w-4" />
-                    </Button>
-                  </div>
-                ))}
+                  ))}
 
-                {activeTab === "intereses" && intereses.map((item) => (
-                  <div key={item.id} className="flex items-center justify-between p-6 bg-zinc-50 dark:bg-zinc-900 rounded-2xl border border-zinc-100 dark:border-zinc-800 hover:border-azul-1/20 transition-colors">
-                    <div className="flex gap-4 items-center">
-                      <div className="h-12 w-12 rounded-xl bg-white dark:bg-zinc-800 flex items-center justify-center border border-zinc-200 dark:border-zinc-700 shadow-sm">
-                        <Zap className="h-6 w-6 text-azul-1" />
+                  {activeTab === "intereses" && intereses.map((item) => (
+                    <div key={item.id} className="flex items-center justify-between p-6 bg-zinc-50 dark:bg-zinc-900 rounded-2xl border border-zinc-100 dark:border-zinc-800 hover:border-azul-1/20 transition-colors">
+                      <div className="flex gap-4 items-center">
+                        <div className="h-12 w-12 rounded-xl bg-white dark:bg-zinc-800 flex items-center justify-center border border-zinc-200 dark:border-zinc-700 shadow-sm">
+                          <Zap className="h-6 w-6 text-azul-1" />
+                        </div>
+                        <div>
+                          <h4 className="font-black text-zinc-900 dark:text-white">{item.nombre}</h4>
+                          <p className="text-xs text-zinc-500 font-medium">{item.descripcion || "Sin descripción"}</p>
+                        </div>
                       </div>
-                      <div>
-                        <h4 className="font-black text-zinc-900 dark:text-white">{item.nombre}</h4>
-                        <p className="text-xs text-zinc-500 font-medium">{item.descripcion || "Sin descripción"}</p>
-                      </div>
+                      <Button variant="ghost" size="icon" onClick={() => handleOpenModal(item)} className="h-10 w-10 rounded-full hover:bg-white hover:text-azul-1 shadow-sm border border-transparent hover:border-zinc-200">
+                        <Pencil className="h-4 w-4" />
+                      </Button>
                     </div>
-                    <Button variant="ghost" size="icon" onClick={() => handleOpenModal(item)} className="h-10 w-10 rounded-full hover:bg-white hover:text-azul-1 shadow-sm border border-transparent hover:border-zinc-200">
-                      <Pencil className="h-4 w-4" />
-                    </Button>
-                  </div>
-                ))}
+                  ))}
 
-                {!loading && ((activeTab === "segmentos" && segmentos.length === 0) || (activeTab === "riesgos" && riesgos.length === 0) || (activeTab === "intereses" && intereses.length === 0)) && (
-                  <div className="flex flex-col items-center justify-center py-20 text-zinc-400">
-                    <Settings className="h-12 w-12 mb-4 opacity-20" />
-                    <p className="font-bold uppercase tracking-widest text-xs">No hay elementos configurados</p>
-                  </div>
-                )}
-              </div>
-            )}
-          </CardContent>
-        </Card>
+                  {!loading && ((activeTab === "segmentos" && segmentos.length === 0) || (activeTab === "riesgos" && riesgos.length === 0) || (activeTab === "intereses" && intereses.length === 0)) && (
+                    <div className="flex flex-col items-center justify-center py-20 text-zinc-400">
+                      <Settings className="h-12 w-12 mb-4 opacity-20" />
+                      <p className="font-bold uppercase tracking-widest text-xs">No hay elementos configurados</p>
+                    </div>
+                  )}
+                </div>
+              )}
+            </CardContent>
+          </Card>
+        )}
       </div>
 
       {/* Modal */}
