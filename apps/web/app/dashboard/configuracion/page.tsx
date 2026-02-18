@@ -248,11 +248,9 @@ export default function ConfiguracionPage() {
                   {activeTab === "segmentos" ? "Define cómo clasificas a tus clientes por industria" : activeTab === "riesgos" ? "Gestiona los niveles de riesgo para priorizar servicios" : "Administra las opciones de servicio que interesan a tus clientes"}
                 </CardDescription>
               </div>
-              {activeTab !== 'empresas' && (
-                <Button onClick={() => handleOpenModal()} className="bg-azul-1 hover:bg-azul-1/90 text-white font-bold rounded-xl gap-2 h-11 px-6">
-                  <Plus className="h-4 w-4" /> AGREGAR NUEVO
-                </Button>
-              )}
+              <Button onClick={() => handleOpenModal()} className="bg-azul-1 hover:bg-azul-1/90 text-white font-bold rounded-xl gap-2 h-11 px-6">
+                <Plus className="h-4 w-4" /> AGREGAR NUEVO
+              </Button>
             </CardHeader>
             <CardContent>
               {loading ? (

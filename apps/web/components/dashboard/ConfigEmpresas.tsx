@@ -80,8 +80,9 @@ export function ConfigEmpresas() {
       }
       loadData();
       handleCloseModal();
-    } catch (error: any) {
-      toast.error(error.message || "Error al guardar la empresa");
+    } catch (error: unknown) {
+      const message = error instanceof Error ? error.message : "Error al guardar la empresa";
+      toast.error(message);
     }
   };
 
