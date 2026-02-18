@@ -20,8 +20,18 @@ export type TipoInteresModel = runtime.Types.Result.DefaultSelection<Prisma.$Tip
 
 export type AggregateTipoInteres = {
   _count: TipoInteresCountAggregateOutputType | null
+  _avg: TipoInteresAvgAggregateOutputType | null
+  _sum: TipoInteresSumAggregateOutputType | null
   _min: TipoInteresMinAggregateOutputType | null
   _max: TipoInteresMaxAggregateOutputType | null
+}
+
+export type TipoInteresAvgAggregateOutputType = {
+  frecuenciaSugerida: number | null
+}
+
+export type TipoInteresSumAggregateOutputType = {
+  frecuenciaSugerida: number | null
 }
 
 export type TipoInteresMinAggregateOutputType = {
@@ -29,6 +39,8 @@ export type TipoInteresMinAggregateOutputType = {
   tenantId: string | null
   nombre: string | null
   descripcion: string | null
+  frecuenciaSugerida: number | null
+  riesgoSugerido: string | null
   activo: boolean | null
   createdAt: Date | null
   updatedAt: Date | null
@@ -39,6 +51,8 @@ export type TipoInteresMaxAggregateOutputType = {
   tenantId: string | null
   nombre: string | null
   descripcion: string | null
+  frecuenciaSugerida: number | null
+  riesgoSugerido: string | null
   activo: boolean | null
   createdAt: Date | null
   updatedAt: Date | null
@@ -49,6 +63,8 @@ export type TipoInteresCountAggregateOutputType = {
   tenantId: number
   nombre: number
   descripcion: number
+  frecuenciaSugerida: number
+  riesgoSugerido: number
   activo: number
   createdAt: number
   updatedAt: number
@@ -56,11 +72,21 @@ export type TipoInteresCountAggregateOutputType = {
 }
 
 
+export type TipoInteresAvgAggregateInputType = {
+  frecuenciaSugerida?: true
+}
+
+export type TipoInteresSumAggregateInputType = {
+  frecuenciaSugerida?: true
+}
+
 export type TipoInteresMinAggregateInputType = {
   id?: true
   tenantId?: true
   nombre?: true
   descripcion?: true
+  frecuenciaSugerida?: true
+  riesgoSugerido?: true
   activo?: true
   createdAt?: true
   updatedAt?: true
@@ -71,6 +97,8 @@ export type TipoInteresMaxAggregateInputType = {
   tenantId?: true
   nombre?: true
   descripcion?: true
+  frecuenciaSugerida?: true
+  riesgoSugerido?: true
   activo?: true
   createdAt?: true
   updatedAt?: true
@@ -81,6 +109,8 @@ export type TipoInteresCountAggregateInputType = {
   tenantId?: true
   nombre?: true
   descripcion?: true
+  frecuenciaSugerida?: true
+  riesgoSugerido?: true
   activo?: true
   createdAt?: true
   updatedAt?: true
@@ -125,6 +155,18 @@ export type TipoInteresAggregateArgs<ExtArgs extends runtime.Types.Extensions.In
   /**
    * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
    * 
+   * Select which fields to average
+  **/
+  _avg?: TipoInteresAvgAggregateInputType
+  /**
+   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+   * 
+   * Select which fields to sum
+  **/
+  _sum?: TipoInteresSumAggregateInputType
+  /**
+   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+   * 
    * Select which fields to find the minimum value
   **/
   _min?: TipoInteresMinAggregateInputType
@@ -155,6 +197,8 @@ export type TipoInteresGroupByArgs<ExtArgs extends runtime.Types.Extensions.Inte
   take?: number
   skip?: number
   _count?: TipoInteresCountAggregateInputType | true
+  _avg?: TipoInteresAvgAggregateInputType
+  _sum?: TipoInteresSumAggregateInputType
   _min?: TipoInteresMinAggregateInputType
   _max?: TipoInteresMaxAggregateInputType
 }
@@ -164,10 +208,14 @@ export type TipoInteresGroupByOutputType = {
   tenantId: string
   nombre: string
   descripcion: string | null
+  frecuenciaSugerida: number | null
+  riesgoSugerido: string | null
   activo: boolean
   createdAt: Date
   updatedAt: Date
   _count: TipoInteresCountAggregateOutputType | null
+  _avg: TipoInteresAvgAggregateOutputType | null
+  _sum: TipoInteresSumAggregateOutputType | null
   _min: TipoInteresMinAggregateOutputType | null
   _max: TipoInteresMaxAggregateOutputType | null
 }
@@ -195,6 +243,8 @@ export type TipoInteresWhereInput = {
   tenantId?: Prisma.UuidFilter<"TipoInteres"> | string
   nombre?: Prisma.StringFilter<"TipoInteres"> | string
   descripcion?: Prisma.StringNullableFilter<"TipoInteres"> | string | null
+  frecuenciaSugerida?: Prisma.IntNullableFilter<"TipoInteres"> | number | null
+  riesgoSugerido?: Prisma.StringNullableFilter<"TipoInteres"> | string | null
   activo?: Prisma.BoolFilter<"TipoInteres"> | boolean
   createdAt?: Prisma.DateTimeFilter<"TipoInteres"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"TipoInteres"> | Date | string
@@ -207,6 +257,8 @@ export type TipoInteresOrderByWithRelationInput = {
   tenantId?: Prisma.SortOrder
   nombre?: Prisma.SortOrder
   descripcion?: Prisma.SortOrderInput | Prisma.SortOrder
+  frecuenciaSugerida?: Prisma.SortOrderInput | Prisma.SortOrder
+  riesgoSugerido?: Prisma.SortOrderInput | Prisma.SortOrder
   activo?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -222,6 +274,8 @@ export type TipoInteresWhereUniqueInput = Prisma.AtLeast<{
   tenantId?: Prisma.UuidFilter<"TipoInteres"> | string
   nombre?: Prisma.StringFilter<"TipoInteres"> | string
   descripcion?: Prisma.StringNullableFilter<"TipoInteres"> | string | null
+  frecuenciaSugerida?: Prisma.IntNullableFilter<"TipoInteres"> | number | null
+  riesgoSugerido?: Prisma.StringNullableFilter<"TipoInteres"> | string | null
   activo?: Prisma.BoolFilter<"TipoInteres"> | boolean
   createdAt?: Prisma.DateTimeFilter<"TipoInteres"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"TipoInteres"> | Date | string
@@ -234,12 +288,16 @@ export type TipoInteresOrderByWithAggregationInput = {
   tenantId?: Prisma.SortOrder
   nombre?: Prisma.SortOrder
   descripcion?: Prisma.SortOrderInput | Prisma.SortOrder
+  frecuenciaSugerida?: Prisma.SortOrderInput | Prisma.SortOrder
+  riesgoSugerido?: Prisma.SortOrderInput | Prisma.SortOrder
   activo?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   _count?: Prisma.TipoInteresCountOrderByAggregateInput
+  _avg?: Prisma.TipoInteresAvgOrderByAggregateInput
   _max?: Prisma.TipoInteresMaxOrderByAggregateInput
   _min?: Prisma.TipoInteresMinOrderByAggregateInput
+  _sum?: Prisma.TipoInteresSumOrderByAggregateInput
 }
 
 export type TipoInteresScalarWhereWithAggregatesInput = {
@@ -250,6 +308,8 @@ export type TipoInteresScalarWhereWithAggregatesInput = {
   tenantId?: Prisma.UuidWithAggregatesFilter<"TipoInteres"> | string
   nombre?: Prisma.StringWithAggregatesFilter<"TipoInteres"> | string
   descripcion?: Prisma.StringNullableWithAggregatesFilter<"TipoInteres"> | string | null
+  frecuenciaSugerida?: Prisma.IntNullableWithAggregatesFilter<"TipoInteres"> | number | null
+  riesgoSugerido?: Prisma.StringNullableWithAggregatesFilter<"TipoInteres"> | string | null
   activo?: Prisma.BoolWithAggregatesFilter<"TipoInteres"> | boolean
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"TipoInteres"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"TipoInteres"> | Date | string
@@ -259,6 +319,8 @@ export type TipoInteresCreateInput = {
   id?: string
   nombre: string
   descripcion?: string | null
+  frecuenciaSugerida?: number | null
+  riesgoSugerido?: string | null
   activo?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -271,6 +333,8 @@ export type TipoInteresUncheckedCreateInput = {
   tenantId: string
   nombre: string
   descripcion?: string | null
+  frecuenciaSugerida?: number | null
+  riesgoSugerido?: string | null
   activo?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -281,6 +345,8 @@ export type TipoInteresUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   nombre?: Prisma.StringFieldUpdateOperationsInput | string
   descripcion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  frecuenciaSugerida?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  riesgoSugerido?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -293,6 +359,8 @@ export type TipoInteresUncheckedUpdateInput = {
   tenantId?: Prisma.StringFieldUpdateOperationsInput | string
   nombre?: Prisma.StringFieldUpdateOperationsInput | string
   descripcion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  frecuenciaSugerida?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  riesgoSugerido?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -304,6 +372,8 @@ export type TipoInteresCreateManyInput = {
   tenantId: string
   nombre: string
   descripcion?: string | null
+  frecuenciaSugerida?: number | null
+  riesgoSugerido?: string | null
   activo?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -313,6 +383,8 @@ export type TipoInteresUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   nombre?: Prisma.StringFieldUpdateOperationsInput | string
   descripcion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  frecuenciaSugerida?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  riesgoSugerido?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -323,6 +395,8 @@ export type TipoInteresUncheckedUpdateManyInput = {
   tenantId?: Prisma.StringFieldUpdateOperationsInput | string
   nombre?: Prisma.StringFieldUpdateOperationsInput | string
   descripcion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  frecuenciaSugerida?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  riesgoSugerido?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -343,9 +417,15 @@ export type TipoInteresCountOrderByAggregateInput = {
   tenantId?: Prisma.SortOrder
   nombre?: Prisma.SortOrder
   descripcion?: Prisma.SortOrder
+  frecuenciaSugerida?: Prisma.SortOrder
+  riesgoSugerido?: Prisma.SortOrder
   activo?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+}
+
+export type TipoInteresAvgOrderByAggregateInput = {
+  frecuenciaSugerida?: Prisma.SortOrder
 }
 
 export type TipoInteresMaxOrderByAggregateInput = {
@@ -353,6 +433,8 @@ export type TipoInteresMaxOrderByAggregateInput = {
   tenantId?: Prisma.SortOrder
   nombre?: Prisma.SortOrder
   descripcion?: Prisma.SortOrder
+  frecuenciaSugerida?: Prisma.SortOrder
+  riesgoSugerido?: Prisma.SortOrder
   activo?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -363,9 +445,15 @@ export type TipoInteresMinOrderByAggregateInput = {
   tenantId?: Prisma.SortOrder
   nombre?: Prisma.SortOrder
   descripcion?: Prisma.SortOrder
+  frecuenciaSugerida?: Prisma.SortOrder
+  riesgoSugerido?: Prisma.SortOrder
   activo?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+}
+
+export type TipoInteresSumOrderByAggregateInput = {
+  frecuenciaSugerida?: Prisma.SortOrder
 }
 
 export type TipoInteresNullableScalarRelationFilter = {
@@ -435,6 +523,8 @@ export type TipoInteresCreateWithoutTenantInput = {
   id?: string
   nombre: string
   descripcion?: string | null
+  frecuenciaSugerida?: number | null
+  riesgoSugerido?: string | null
   activo?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -445,6 +535,8 @@ export type TipoInteresUncheckedCreateWithoutTenantInput = {
   id?: string
   nombre: string
   descripcion?: string | null
+  frecuenciaSugerida?: number | null
+  riesgoSugerido?: string | null
   activo?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -485,6 +577,8 @@ export type TipoInteresScalarWhereInput = {
   tenantId?: Prisma.UuidFilter<"TipoInteres"> | string
   nombre?: Prisma.StringFilter<"TipoInteres"> | string
   descripcion?: Prisma.StringNullableFilter<"TipoInteres"> | string | null
+  frecuenciaSugerida?: Prisma.IntNullableFilter<"TipoInteres"> | number | null
+  riesgoSugerido?: Prisma.StringNullableFilter<"TipoInteres"> | string | null
   activo?: Prisma.BoolFilter<"TipoInteres"> | boolean
   createdAt?: Prisma.DateTimeFilter<"TipoInteres"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"TipoInteres"> | Date | string
@@ -494,6 +588,8 @@ export type TipoInteresCreateWithoutClientesInput = {
   id?: string
   nombre: string
   descripcion?: string | null
+  frecuenciaSugerida?: number | null
+  riesgoSugerido?: string | null
   activo?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -505,6 +601,8 @@ export type TipoInteresUncheckedCreateWithoutClientesInput = {
   tenantId: string
   nombre: string
   descripcion?: string | null
+  frecuenciaSugerida?: number | null
+  riesgoSugerido?: string | null
   activo?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -530,6 +628,8 @@ export type TipoInteresUpdateWithoutClientesInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   nombre?: Prisma.StringFieldUpdateOperationsInput | string
   descripcion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  frecuenciaSugerida?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  riesgoSugerido?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -541,6 +641,8 @@ export type TipoInteresUncheckedUpdateWithoutClientesInput = {
   tenantId?: Prisma.StringFieldUpdateOperationsInput | string
   nombre?: Prisma.StringFieldUpdateOperationsInput | string
   descripcion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  frecuenciaSugerida?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  riesgoSugerido?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -550,6 +652,8 @@ export type TipoInteresCreateManyTenantInput = {
   id?: string
   nombre: string
   descripcion?: string | null
+  frecuenciaSugerida?: number | null
+  riesgoSugerido?: string | null
   activo?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -559,6 +663,8 @@ export type TipoInteresUpdateWithoutTenantInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   nombre?: Prisma.StringFieldUpdateOperationsInput | string
   descripcion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  frecuenciaSugerida?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  riesgoSugerido?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -569,6 +675,8 @@ export type TipoInteresUncheckedUpdateWithoutTenantInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   nombre?: Prisma.StringFieldUpdateOperationsInput | string
   descripcion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  frecuenciaSugerida?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  riesgoSugerido?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -579,6 +687,8 @@ export type TipoInteresUncheckedUpdateManyWithoutTenantInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   nombre?: Prisma.StringFieldUpdateOperationsInput | string
   descripcion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  frecuenciaSugerida?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  riesgoSugerido?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -620,6 +730,8 @@ export type TipoInteresSelect<ExtArgs extends runtime.Types.Extensions.InternalA
   tenantId?: boolean
   nombre?: boolean
   descripcion?: boolean
+  frecuenciaSugerida?: boolean
+  riesgoSugerido?: boolean
   activo?: boolean
   createdAt?: boolean
   updatedAt?: boolean
@@ -633,6 +745,8 @@ export type TipoInteresSelectCreateManyAndReturn<ExtArgs extends runtime.Types.E
   tenantId?: boolean
   nombre?: boolean
   descripcion?: boolean
+  frecuenciaSugerida?: boolean
+  riesgoSugerido?: boolean
   activo?: boolean
   createdAt?: boolean
   updatedAt?: boolean
@@ -644,6 +758,8 @@ export type TipoInteresSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.E
   tenantId?: boolean
   nombre?: boolean
   descripcion?: boolean
+  frecuenciaSugerida?: boolean
+  riesgoSugerido?: boolean
   activo?: boolean
   createdAt?: boolean
   updatedAt?: boolean
@@ -655,12 +771,14 @@ export type TipoInteresSelectScalar = {
   tenantId?: boolean
   nombre?: boolean
   descripcion?: boolean
+  frecuenciaSugerida?: boolean
+  riesgoSugerido?: boolean
   activo?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }
 
-export type TipoInteresOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "tenantId" | "nombre" | "descripcion" | "activo" | "createdAt" | "updatedAt", ExtArgs["result"]["tipoInteres"]>
+export type TipoInteresOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "tenantId" | "nombre" | "descripcion" | "frecuenciaSugerida" | "riesgoSugerido" | "activo" | "createdAt" | "updatedAt", ExtArgs["result"]["tipoInteres"]>
 export type TipoInteresInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
   clientes?: boolean | Prisma.TipoInteres$clientesArgs<ExtArgs>
@@ -684,6 +802,8 @@ export type $TipoInteresPayload<ExtArgs extends runtime.Types.Extensions.Interna
     tenantId: string
     nombre: string
     descripcion: string | null
+    frecuenciaSugerida: number | null
+    riesgoSugerido: string | null
     activo: boolean
     createdAt: Date
     updatedAt: Date
@@ -1116,6 +1236,8 @@ export interface TipoInteresFieldRefs {
   readonly tenantId: Prisma.FieldRef<"TipoInteres", 'String'>
   readonly nombre: Prisma.FieldRef<"TipoInteres", 'String'>
   readonly descripcion: Prisma.FieldRef<"TipoInteres", 'String'>
+  readonly frecuenciaSugerida: Prisma.FieldRef<"TipoInteres", 'Int'>
+  readonly riesgoSugerido: Prisma.FieldRef<"TipoInteres", 'String'>
   readonly activo: Prisma.FieldRef<"TipoInteres", 'Boolean'>
   readonly createdAt: Prisma.FieldRef<"TipoInteres", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"TipoInteres", 'DateTime'>
