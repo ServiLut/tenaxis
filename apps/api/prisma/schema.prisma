@@ -375,7 +375,7 @@ model Municipality {
 model Cliente {
   id                  String                @id @default(uuid()) @db.Uuid
   tenantId            String                @db.Uuid
-  empresaId           String                @db.Uuid
+  empresaId           String?               @db.Uuid
   nombre              String?
   apellido            String?
   telefono            String
@@ -412,7 +412,7 @@ model Cliente {
   updatedAt           DateTime              @updatedAt
   citasPsicologos     CitasPsicologos[]
   creadoPor           TenantMembership?     @relation(fields: [creadoPorId], references: [id], onDelete: NoAction, onUpdate: NoAction)
-  empresa             Empresa               @relation(fields: [empresaId], references: [id])
+  empresa             Empresa?              @relation(fields: [empresaId], references: [id])
   riesgo              NivelRiesgoOperativo? @relation(fields: [riesgoId], references: [id])
   segmento            SegmentoNegocio?      @relation(fields: [segmentoId], references: [id])
   tenant              Tenant                @relation(fields: [tenantId], references: [id], onDelete: Cascade)
@@ -433,7 +433,7 @@ model Cliente {
 model Vehiculo {
   id              String          @id @default(uuid()) @db.Uuid
   tenantId        String          @db.Uuid
-  empresaId       String          @db.Uuid
+  empresaId       String?         @db.Uuid
   clienteId       String          @db.Uuid
   placa           String
   marca           String?
@@ -443,7 +443,7 @@ model Vehiculo {
   createdAt       DateTime        @default(now())
   ordenesServicio OrdenServicio[]
   cliente         Cliente         @relation(fields: [clienteId], references: [id])
-  empresa         Empresa         @relation(fields: [empresaId], references: [id])
+  empresa         Empresa?        @relation(fields: [empresaId], references: [id])
   tenant          Tenant          @relation(fields: [tenantId], references: [id], onDelete: Cascade)
 
   @@index([tenantId])
@@ -455,7 +455,7 @@ model Vehiculo {
 model Direccion {
   id                 String          @id @default(uuid()) @db.Uuid
   tenantId           String          @db.Uuid
-  empresaId          String          @db.Uuid
+  empresaId          String?         @db.Uuid
   clienteId          String          @db.Uuid
   direccion          String
   piso               String?
@@ -486,7 +486,7 @@ model Direccion {
   validadoPorSistema Boolean         @default(false)
   cliente            Cliente         @relation(fields: [clienteId], references: [id])
   departmentRel      Department?     @relation(fields: [departmentId], references: [id])
-  empresa            Empresa         @relation(fields: [empresaId], references: [id])
+  empresa            Empresa?        @relation(fields: [empresaId], references: [id])
   municipioRel       Municipality?   @relation(fields: [municipioId], references: [id])
   tenant             Tenant          @relation(fields: [tenantId], references: [id], onDelete: Cascade)
   ordenesServicio    OrdenServicio[]

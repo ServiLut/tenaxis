@@ -1,0 +1,43 @@
+meta {
+  name: Create Cliente
+  type: http
+  seq: 2
+}
+
+post {
+  url: {{local}}/clientes/create
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+body:json {
+  {
+    "tipoCliente": "PERSONA",
+    "nombre": "Juan",
+    "apellido": "Perez",
+    "telefono": "1234567890",
+    "correo": "juan.perez@example.com",
+    "direcciones": [
+      {
+        "direccion": "Calle Falsa 123",
+        "municipio": "Medellín",
+        "municipioId": "a2561362-ce4b-4fce-9503-f613fe372047",
+        "latitud": "4.7110",
+        "longitud": "-74.0721"
+      }
+    ],
+    "vehiculos": [
+      {
+        "placa": "ABC123",
+        "marca": "Toyota",
+        "modelo": "Corolla"
+      }
+    ],
+    "segmentoId": "e7184713-5ae2-498f-b80d-2ca648554436",
+    "riesgoId": "c61edeec-f158-4211-885c-a9ee2e263833"
+  }
+}

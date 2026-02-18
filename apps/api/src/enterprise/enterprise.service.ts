@@ -142,21 +142,20 @@ export class EnterpriseService {
       },
     });
 
-    let enterprises;
-
-    if (role === 'SU_ADMIN') {
-      enterprises = await this.prisma.empresa.findMany();
-    } else if (role === 'ADMIN') {
-      enterprises = await this.prisma.empresa.findMany({
-        where: {
-          tenantId: tenantId,
-        },
-      });
-    } else {
+    if (role !== 'SU_ADMIN' && role !== 'ADMIN') {
       throw new ForbiddenException(
         'User does not have sufficient privileges to view enterprises.',
       );
     }
+
+    const enterprises =
+      role === 'SU_ADMIN'
+        ? await this.prisma.empresa.findMany()
+        : await this.prisma.empresa.findMany({
+            where: {
+              tenantId: tenantId,
+            },
+          });
 
     return {
       items: enterprises,

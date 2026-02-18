@@ -711,10 +711,12 @@ export type EmpresaCreateNestedOneWithoutClientesInput = {
   connect?: Prisma.EmpresaWhereUniqueInput
 }
 
-export type EmpresaUpdateOneRequiredWithoutClientesNestedInput = {
+export type EmpresaUpdateOneWithoutClientesNestedInput = {
   create?: Prisma.XOR<Prisma.EmpresaCreateWithoutClientesInput, Prisma.EmpresaUncheckedCreateWithoutClientesInput>
   connectOrCreate?: Prisma.EmpresaCreateOrConnectWithoutClientesInput
   upsert?: Prisma.EmpresaUpsertWithoutClientesInput
+  disconnect?: Prisma.EmpresaWhereInput | boolean
+  delete?: Prisma.EmpresaWhereInput | boolean
   connect?: Prisma.EmpresaWhereUniqueInput
   update?: Prisma.XOR<Prisma.XOR<Prisma.EmpresaUpdateToOneWithWhereWithoutClientesInput, Prisma.EmpresaUpdateWithoutClientesInput>, Prisma.EmpresaUncheckedUpdateWithoutClientesInput>
 }
@@ -725,10 +727,12 @@ export type EmpresaCreateNestedOneWithoutVehiculosInput = {
   connect?: Prisma.EmpresaWhereUniqueInput
 }
 
-export type EmpresaUpdateOneRequiredWithoutVehiculosNestedInput = {
+export type EmpresaUpdateOneWithoutVehiculosNestedInput = {
   create?: Prisma.XOR<Prisma.EmpresaCreateWithoutVehiculosInput, Prisma.EmpresaUncheckedCreateWithoutVehiculosInput>
   connectOrCreate?: Prisma.EmpresaCreateOrConnectWithoutVehiculosInput
   upsert?: Prisma.EmpresaUpsertWithoutVehiculosInput
+  disconnect?: Prisma.EmpresaWhereInput | boolean
+  delete?: Prisma.EmpresaWhereInput | boolean
   connect?: Prisma.EmpresaWhereUniqueInput
   update?: Prisma.XOR<Prisma.XOR<Prisma.EmpresaUpdateToOneWithWhereWithoutVehiculosInput, Prisma.EmpresaUpdateWithoutVehiculosInput>, Prisma.EmpresaUncheckedUpdateWithoutVehiculosInput>
 }
@@ -739,10 +743,12 @@ export type EmpresaCreateNestedOneWithoutDireccionesInput = {
   connect?: Prisma.EmpresaWhereUniqueInput
 }
 
-export type EmpresaUpdateOneRequiredWithoutDireccionesNestedInput = {
+export type EmpresaUpdateOneWithoutDireccionesNestedInput = {
   create?: Prisma.XOR<Prisma.EmpresaCreateWithoutDireccionesInput, Prisma.EmpresaUncheckedCreateWithoutDireccionesInput>
   connectOrCreate?: Prisma.EmpresaCreateOrConnectWithoutDireccionesInput
   upsert?: Prisma.EmpresaUpsertWithoutDireccionesInput
+  disconnect?: Prisma.EmpresaWhereInput | boolean
+  delete?: Prisma.EmpresaWhereInput | boolean
   connect?: Prisma.EmpresaWhereUniqueInput
   update?: Prisma.XOR<Prisma.XOR<Prisma.EmpresaUpdateToOneWithWhereWithoutDireccionesInput, Prisma.EmpresaUpdateWithoutDireccionesInput>, Prisma.EmpresaUncheckedUpdateWithoutDireccionesInput>
 }

@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 import { CreateClienteDto } from './dto/create-cliente.dto';
 
@@ -31,17 +31,18 @@ export class ClientesService {
       include: { empresaMemberships: true },
     });
 
-    const empresaId = membership?.empresaMemberships[0]?.empresaId;
-
-    if (!empresaId) {
-      throw new Error('El usuario no tiene una empresa asignada');
+    if (!membership) {
+      throw new UnauthorizedException(
+        'No eres miembro de este tenant. No puedes crear clientes.',
+      );
     }
+    const empresaId = membership?.empresaMemberships[0]?.empresaId;
 
     return this.prisma.cliente.create({
       data: {
         ...clienteData,
         tenantId,
-        empresaId,
+        ...(empresaId && { empresaId }),
         segmentoId,
         riesgoId,
         creadoPorId: membership.id,
@@ -49,7 +50,7 @@ export class ClientesService {
           create: direcciones?.map((d) => ({
             ...d,
             tenantId,
-            empresaId,
+            ...(empresaId && { empresaId }),
             // Asegurar que las coordenadas se traten como Decimal si vienen como string/number
             latitud: d.latitud ? String(d.latitud) : null,
             longitud: d.longitud ? String(d.longitud) : null,
@@ -60,7 +61,7 @@ export class ClientesService {
           create: vehiculos?.map((v) => ({
             ...v,
             tenantId,
-            empresaId,
+            ...(empresaId && { empresaId }),
           })),
         },
       },

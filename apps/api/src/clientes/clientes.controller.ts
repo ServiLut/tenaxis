@@ -26,7 +26,7 @@ export class ClientesController {
     return this.clientesService.findAll(req.user.tenantId || '');
   }
 
-  @Post()
+  @Post('create')
   async create(@Request() req: RequestWithUser, @Body() dto: CreateClienteDto) {
     const tenantId = req.user.tenantId || '';
     const userId = req.user.sub;
