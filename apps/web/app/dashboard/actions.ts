@@ -240,10 +240,14 @@ export interface ClienteDTO {
   nombre?: string | null;
   apellido?: string | null;
   telefono: string;
+  telefono2?: string | null;
+  correo?: string | null;
   origenCliente?: string | null;
   tipoInteresId?: string | null;
   razonSocial?: string | null;
   nit?: string | null;
+  numeroDocumento?: string | null;
+  tipoDocumento?: string | null;
   actividadEconomica?: string | null;
   metrajeTotal?: number | null;
   segmentoId?: string | null;

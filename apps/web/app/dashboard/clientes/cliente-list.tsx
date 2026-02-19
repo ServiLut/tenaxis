@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 import Link from "next/link";
-import { Input, Card, CardHeader, CardTitle, CardContent } from "@/components/ui";
+import { Input } from "@/components/ui";
 import { 
   Plus, 
   Search, 
@@ -10,8 +10,13 @@ import {
   User, 
   Trophy, 
   Phone, 
-  Mail, 
   ChevronRight, 
+  ChevronLeft,
+  MoreHorizontal,
+  Eye,
+  Settings,
+  Pencil,
+  Trash2,
 } from "lucide-react";
 import { cn } from "@/components/ui/utils";
 
@@ -26,7 +31,15 @@ interface Cliente {
   clasificacion?: "ORO" | "PLATA" | "BRONCE" | "RIESGO";
   score: number;
   telefono: string;
+  telefono2?: string;
   correo?: string;
+  numeroDocumento?: string;
+  nit?: string;
+  direcciones?: {
+    direccion: string;
+    municipio?: string;
+    barrio?: string;
+  }[];
 }
 
 interface ClienteListProps {
@@ -50,93 +63,251 @@ const RIESGO_LABELS = {
 export function ClienteList({ initialClientes }: ClienteListProps) {
   const [clientes] = useState<Cliente[]>(initialClientes);
   const [search, setSearch] = useState("");
+  const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 10;
 
   const filteredClientes = clientes.filter(c => 
     (c.nombre?.toLowerCase().includes(search.toLowerCase()) || 
      c.apellido?.toLowerCase().includes(search.toLowerCase()) ||
-     c.razonSocial?.toLowerCase().includes(search.toLowerCase()))
+     c.razonSocial?.toLowerCase().includes(search.toLowerCase()) ||
+     c.nit?.toLowerCase().includes(search.toLowerCase()) ||
+     c.numeroDocumento?.toLowerCase().includes(search.toLowerCase()))
   );
 
+  const totalPages = Math.ceil(filteredClientes.length / itemsPerPage);
+  const paginatedClientes = filteredClientes.slice(
+    (currentPage - 1) * itemsPerPage,
+    currentPage * itemsPerPage
+  );
+
+  // Reset to first page when search changes
+  React.useEffect(() => {
+    setCurrentPage(1);
+  }, [search]);
+
   return (
-    <div className="space-y-8">
-      {/* Header & Search */}
-      <div className="flex flex-col gap-6 sm:flex-row sm:items-center sm:justify-between bg-white dark:bg-zinc-900 p-6 rounded-[2.5rem] shadow-2xl shadow-zinc-200/50 dark:shadow-none border border-zinc-100 dark:border-zinc-800">
+    <div className="flex flex-col h-full bg-white dark:bg-zinc-900 rounded-xl border border-zinc-200/60 dark:border-zinc-800/50 shadow-xl shadow-zinc-200/20 dark:shadow-none overflow-hidden">
+      {/* Barra de Filtros Unificada */}
+      <div className="px-8 py-6 border-b border-zinc-100 dark:border-zinc-800/50 flex flex-col gap-6 sm:flex-row sm:items-center sm:justify-between bg-white dark:bg-zinc-900 shrink-0">
         <div className="relative flex-1 max-w-md">
           <Search className="absolute left-4 top-1/2 h-5 w-5 -translate-y-1/2 text-zinc-400" />
           <Input 
-            placeholder="Buscar por nombre, empresa o NIT..." 
-            className="h-12 pl-12 rounded-2xl border-none bg-zinc-50 dark:bg-zinc-800"
+            placeholder="Buscar por nombre, documento o NIT..." 
+            className="h-12 pl-12 rounded-lg border-zinc-200 dark:border-zinc-800 bg-zinc-50 dark:bg-zinc-800/50 transition-all"
             value={search}
             onChange={(e) => setSearch(e.target.value)}
           />
         </div>
         <Link href="/dashboard/clientes/nuevo">
-          <div className="flex items-center h-12 px-8 rounded-2xl bg-zinc-900 text-white hover:bg-zinc-800 dark:bg-white dark:text-black dark:hover:bg-zinc-100 gap-2 shadow-xl transition-all cursor-pointer">
+          <div className="flex items-center h-12 px-8 rounded-lg bg-zinc-900 text-white hover:bg-zinc-800 dark:bg-white dark:text-black dark:hover:bg-zinc-100 gap-3 shadow-lg shadow-zinc-900/10 transition-all cursor-pointer">
             <Plus className="h-5 w-5" />
-            <span className="font-black uppercase tracking-widest text-xs">Nuevo Cliente</span>
+            <span className="font-bold uppercase tracking-wider text-[11px]">Nuevo Registro</span>
           </div>
         </Link>
       </div>
 
-      {/* Grid de Clientes */}
-      <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
-        {filteredClientes.map((cliente) => (
-          <Card key={cliente.id} className="group overflow-hidden border-none shadow-2xl shadow-zinc-200/50 dark:shadow-none bg-white dark:bg-zinc-900 transition-all hover:scale-[1.02] rounded-[2.5rem]">
-            <CardHeader className="flex flex-row items-center justify-between pb-2 pt-8 px-8">
-              <div className={cn(
-                "flex h-14 w-14 items-center justify-center rounded-[1.25rem] shadow-lg",
-                cliente.tipoCliente === "EMPRESA" ? "bg-zinc-900 text-white dark:bg-white dark:text-black" : "bg-blue-50 text-blue-600 dark:bg-blue-500/10 dark:text-blue-400"
-              )}>
-                {cliente.tipoCliente === "EMPRESA" ? <Building2 className="h-7 w-7" /> : <User className="h-7 w-7" />}
-              </div>
-              <div className={cn(
-                "flex items-center gap-2 px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-widest",
-                SCORE_COLORS[cliente.clasificacion || "BRONCE"]
-              )}>
-                <Trophy className="h-3 w-3" />
-                {cliente.clasificacion || "BRONCE"}
-              </div>
-            </CardHeader>
-            
-            <CardContent className="pt-4 px-8 pb-8">
-              <CardTitle className="text-2xl font-black tracking-tighter mb-1 line-clamp-1">
-                {cliente.tipoCliente === "EMPRESA" ? cliente.razonSocial : `${cliente.nombre} ${cliente.apellido}`}
-              </CardTitle>
-              <p className="text-[10px] font-bold text-zinc-400 uppercase tracking-[0.2em] mb-6">
-                {cliente.segmentoNegocio || "Sin Segmento"}
-              </p>
-
-              <div className="space-y-4">
-                <div className="flex items-center gap-3 text-sm text-zinc-500 font-medium">
-                  <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-zinc-50 dark:bg-zinc-800">
-                    <Phone className="h-4 w-4" />
-                  </div>
-                  {cliente.telefono}
-                </div>
-                {cliente.correo && (
-                  <div className="flex items-center gap-3 text-sm text-zinc-500 font-medium">
-                    <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-zinc-50 dark:bg-zinc-800">
-                      <Mail className="h-4 w-4" />
+      {/* Tabla de Clientes con Scroll Interno */}
+      <div className="flex-1 min-h-0 overflow-hidden">
+        <div 
+          className="h-full overflow-y-auto overflow-x-hidden scrollbar-thin scrollbar-thumb-zinc-200 dark:scrollbar-thumb-zinc-800"
+          onClick={() => setActiveDropdown(null)}
+        >
+          <table className="w-full text-left border-collapse">
+            <thead className="sticky top-0 bg-white/95 dark:bg-zinc-900/95 backdrop-blur-sm z-10">
+              <tr className="border-b border-zinc-100 dark:border-zinc-800/50">
+                <th className="w-[22%] px-4 py-5 text-[10px] font-black uppercase tracking-[0.2em] text-zinc-400">Cliente</th>
+                <th className="w-[12%] px-3 py-5 text-[10px] font-black uppercase tracking-[0.2em] text-zinc-400">Documento</th>
+                <th className="w-[10%] px-3 py-5 text-[10px] font-black uppercase tracking-[0.2em] text-zinc-400 text-center">Clasificación</th>
+                <th className="w-[10%] px-3 py-5 text-[10px] font-black uppercase tracking-[0.2em] text-zinc-400 text-center">Segmento</th>
+                <th className="w-[10%] px-3 py-5 text-[10px] font-black uppercase tracking-[0.2em] text-zinc-400 text-center">Riesgo</th>
+                <th className="w-[12%] px-3 py-5 text-[10px] font-black uppercase tracking-[0.2em] text-zinc-400">Teléfonos</th>
+                <th className="w-[16%] px-3 py-5 text-[10px] font-black uppercase tracking-[0.2em] text-zinc-400">Ubicación</th>
+                <th className="w-[8%] px-4 py-5 text-right text-[10px] font-black uppercase tracking-[0.2em] text-zinc-400">Acciones</th>
+              </tr>
+            </thead>
+            <tbody className="divide-y divide-zinc-50 dark:divide-zinc-800/50">
+              {paginatedClientes.map((cliente) => (
+                <tr key={cliente.id} className="group hover:bg-zinc-50/50 dark:hover:bg-zinc-800/30 transition-all">
+                  <td className="px-4 py-6 overflow-hidden">
+                    <div className="flex items-center gap-4">
+                      <div className={cn(
+                        "flex h-10 w-10 shrink-0 items-center justify-center rounded-xl shadow-md",
+                        cliente.tipoCliente === "EMPRESA" ? "bg-zinc-900 text-white dark:bg-white dark:text-black" : "bg-blue-50 text-blue-600 dark:bg-blue-500/10 dark:text-blue-400"
+                      )}>
+                        {cliente.tipoCliente === "EMPRESA" ? <Building2 className="h-5 w-5" /> : <User className="h-5 w-5" />}
+                      </div>
+                      <div className="flex flex-col min-w-0 overflow-hidden">
+                        <span className="text-sm font-black tracking-tight text-zinc-900 dark:text-zinc-100 truncate">
+                          {cliente.tipoCliente === "EMPRESA" ? cliente.razonSocial : `${cliente.nombre} ${cliente.apellido}`}
+                        </span>
+                        <span className="text-[9px] font-bold text-zinc-400 uppercase tracking-widest truncate">
+                          {cliente.tipoCliente === "EMPRESA" ? "Empresa" : "Persona Natural"}
+                        </span>
+                      </div>
                     </div>
-                    <span className="truncate">{cliente.correo}</span>
-                  </div>
-                )}
-              </div>
+                  </td>
 
-              <div className="mt-8 pt-6 border-t border-zinc-50 dark:border-zinc-800 flex items-center justify-between">
-                <div className={cn(
-                  "px-3 py-1 rounded-lg text-[10px] font-black uppercase tracking-widest",
-                  RIESGO_LABELS[cliente.nivelRiesgo || "BAJO"].color
-                )}>
-                  {RIESGO_LABELS[cliente.nivelRiesgo || "BAJO"].label}
-                </div>
-                <button className="flex h-10 w-10 items-center justify-center rounded-xl bg-zinc-50 hover:bg-zinc-100 text-zinc-400 hover:text-zinc-900 transition-all dark:bg-zinc-800 dark:hover:bg-zinc-700">
-                  <ChevronRight className="h-5 w-5" />
-                </button>
-              </div>
-            </CardContent>
-          </Card>
-        ))}
+                  <td className="px-3 py-6 overflow-hidden">
+                    <div className="flex flex-col min-w-0 overflow-hidden">
+                      <span className="text-xs font-black text-zinc-700 dark:text-zinc-300 truncate">
+                        {cliente.tipoCliente === "EMPRESA" ? (cliente.nit || "Sin NIT") : (cliente.numeroDocumento || "Sin Doc")}
+                      </span>
+                      <span className="text-[9px] font-bold text-zinc-400 uppercase truncate">
+                        {cliente.tipoCliente === "EMPRESA" ? "NIT" : "Documento"}
+                      </span>
+                    </div>
+                  </td>
+                  
+                  <td className="px-3 py-6 text-center overflow-hidden">
+                    <div className={cn(
+                      "inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full text-[9px] font-black uppercase tracking-widest shadow-sm",
+                      SCORE_COLORS[cliente.clasificacion || "BRONCE"]
+                    )}>
+                      <Trophy className="h-2.5 w-2.5" />
+                      {cliente.clasificacion || "BRONCE"}
+                    </div>
+                  </td>
+
+                  <td className="px-3 py-6 text-center overflow-hidden">
+                    <span className="text-[11px] font-bold text-zinc-600 dark:text-zinc-400 truncate block">
+                      {cliente.segmentoNegocio || "N/A"}
+                    </span>
+                  </td>
+
+                  <td className="px-3 py-6 text-center overflow-hidden">
+                    <div className={cn(
+                      "inline-block px-2 py-0.5 rounded-md text-[9px] font-black uppercase tracking-widest",
+                      RIESGO_LABELS[cliente.nivelRiesgo || "BAJO"].color
+                    )}>
+                      {RIESGO_LABELS[cliente.nivelRiesgo || "BAJO"].label}
+                    </div>
+                  </td>
+
+                  <td className="px-3 py-6 overflow-hidden">
+                    <div className="flex flex-col gap-0.5 min-w-0 overflow-hidden">
+                      <div className="flex items-center gap-1.5 text-[11px] font-bold text-zinc-700 dark:text-zinc-300 truncate">
+                        <Phone className="h-3 w-3 text-zinc-400 shrink-0" />
+                        {cliente.telefono}
+                      </div>
+                      {cliente.telefono2 && (
+                        <div className="flex items-center gap-1.5 text-[10px] font-medium text-zinc-500 dark:text-zinc-400 truncate opacity-70">
+                          <Phone className="h-3 w-3 text-zinc-400 shrink-0" />
+                          {cliente.telefono2}
+                        </div>
+                      )}
+                    </div>
+                  </td>
+
+                  <td className="px-3 py-6 overflow-hidden">
+                    <div className="flex flex-col min-w-0 overflow-hidden">
+                      <span className="text-[11px] font-bold text-zinc-700 dark:text-zinc-300 truncate">
+                        {cliente.direcciones?.[0]?.direccion || "N/A"}
+                      </span>
+                      <span className="text-[9px] font-medium text-zinc-400 truncate uppercase">
+                        {cliente.direcciones?.[0]?.municipio || "S/M"}
+                      </span>
+                    </div>
+                  </td>
+
+                  <td className="px-4 py-6 text-right relative">
+                    <button 
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        setActiveDropdown(activeDropdown === cliente.id ? null : cliente.id);
+                      }}
+                      className={cn(
+                        "inline-flex h-8 w-8 items-center justify-center rounded-lg transition-all",
+                        activeDropdown === cliente.id 
+                          ? "bg-zinc-900 text-white dark:bg-white dark:text-black" 
+                          : "bg-zinc-50 hover:bg-zinc-900 hover:text-white text-zinc-400 dark:bg-zinc-800/50 dark:hover:bg-white dark:hover:text-black"
+                      )}
+                    >
+                      <MoreHorizontal className="h-4 w-4" />
+                    </button>
+
+                    {activeDropdown === cliente.id && (
+                      <div 
+                        className="absolute right-8 top-12 w-48 bg-white dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 rounded-xl shadow-2xl z-50 overflow-hidden"
+                        onClick={(e) => e.stopPropagation()}
+                      >
+                        <div className="py-1">
+                          <button className="w-full flex items-center gap-3 px-4 py-2.5 text-[11px] font-bold text-zinc-700 dark:text-zinc-300 hover:bg-zinc-50 dark:hover:bg-zinc-700/50 transition-colors">
+                            <Eye className="h-4 w-4 text-zinc-400" />
+                            VER DETALLES
+                          </button>
+                          <button className="w-full flex items-center gap-3 px-4 py-2.5 text-[11px] font-bold text-zinc-700 dark:text-zinc-300 hover:bg-zinc-50 dark:hover:bg-zinc-700/50 transition-colors">
+                            <Settings className="h-4 w-4 text-zinc-400" />
+                            SERVICIOS
+                          </button>
+                          <button className="w-full flex items-center gap-3 px-4 py-2.5 text-[11px] font-bold text-zinc-700 dark:text-zinc-300 hover:bg-zinc-50 dark:hover:bg-zinc-700/50 transition-colors">
+                            <Pencil className="h-4 w-4 text-zinc-400" />
+                            EDITAR
+                          </button>
+                          <div className="h-px bg-zinc-100 dark:bg-zinc-700 my-1" />
+                          <button className="w-full flex items-center gap-3 px-4 py-2.5 text-[11px] font-bold text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors">
+                            <Trash2 className="h-4 w-4" />
+                            ELIMINAR
+                          </button>
+                        </div>
+                      </div>
+                    )}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+          {filteredClientes.length === 0 && (
+            <div className="flex flex-col items-center justify-center py-20 text-zinc-400">
+              <Search className="h-12 w-12 mb-4 opacity-20" />
+              <p className="font-bold uppercase tracking-widest text-xs">No se encontraron clientes</p>
+            </div>
+          )}
+        </div>
+      </div>
+
+      {/* Paginación Estratégica */}
+      <div className="px-8 py-4 border-t border-zinc-100 dark:border-zinc-800/50 bg-zinc-50/50 dark:bg-zinc-900/50 flex items-center justify-between shrink-0">
+        <div className="flex items-center gap-4">
+          <span className="text-[10px] font-black uppercase tracking-widest text-zinc-400">
+            Mostrando {Math.min(filteredClientes.length, (currentPage - 1) * itemsPerPage + 1)}-{Math.min(filteredClientes.length, currentPage * itemsPerPage)} de {filteredClientes.length}
+          </span>
+        </div>
+
+        <div className="flex items-center gap-2">
+          <button
+            onClick={() => setCurrentPage(prev => Math.max(1, prev - 1))}
+            disabled={currentPage === 1}
+            className="flex h-10 w-10 items-center justify-center rounded-xl bg-white dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 text-zinc-500 disabled:opacity-30 disabled:cursor-not-allowed hover:bg-zinc-50 dark:hover:bg-zinc-700 transition-all shadow-sm"
+          >
+            <ChevronLeft className="h-5 w-5" />
+          </button>
+          
+          <div className="flex items-center gap-1">
+            {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
+              <button
+                key={page}
+                onClick={() => setCurrentPage(page)}
+                className={cn(
+                  "flex h-10 w-10 items-center justify-center rounded-xl text-[11px] font-black transition-all shadow-sm",
+                  currentPage === page
+                    ? "bg-zinc-900 text-white dark:bg-white dark:text-black"
+                    : "bg-white dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 text-zinc-500 hover:bg-zinc-50 dark:hover:bg-zinc-700"
+                )}
+              >
+                {page}
+              </button>
+            ))}
+          </div>
+
+          <button
+            onClick={() => setCurrentPage(prev => Math.min(totalPages, prev + 1))}
+            disabled={currentPage === totalPages || totalPages === 0}
+            className="flex h-10 w-10 items-center justify-center rounded-xl bg-white dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 text-zinc-500 disabled:opacity-30 disabled:cursor-not-allowed hover:bg-zinc-50 dark:hover:bg-zinc-700 transition-all shadow-sm"
+          >
+            <ChevronRight className="h-5 w-5" />
+          </button>
+        </div>
       </div>
     </div>
   );

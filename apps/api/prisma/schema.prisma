@@ -472,8 +472,8 @@ model Direccion {
   departmentId       String?         @db.Uuid
   horarioFin         String?
   horarioInicio      String?
-  latitud            Decimal?        @db.Decimal(10, 8)
-  longitud           Decimal?        @db.Decimal(11, 8)
+  latitud            Float?
+  longitud           Float?
   motivoBloqueo      String?
   municipioId        String?         @db.Uuid
   nombreContacto     String?
@@ -663,8 +663,8 @@ model Geolocalizacion {
   empresaId    String           @db.Uuid
   membershipId String           @db.Uuid
   ordenId      String           @db.Uuid
-  latitud      Decimal?         @db.Decimal(10, 8)
-  longitud     Decimal?         @db.Decimal(11, 8)
+  latitud      Float?
+  longitud     Float?
   llegada      DateTime
   salida       DateTime?
   fotoLlegada  String?

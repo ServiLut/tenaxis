@@ -27,13 +27,13 @@ export type AggregateGeolocalizacion = {
 }
 
 export type GeolocalizacionAvgAggregateOutputType = {
-  latitud: runtime.Decimal | null
-  longitud: runtime.Decimal | null
+  latitud: number | null
+  longitud: number | null
 }
 
 export type GeolocalizacionSumAggregateOutputType = {
-  latitud: runtime.Decimal | null
-  longitud: runtime.Decimal | null
+  latitud: number | null
+  longitud: number | null
 }
 
 export type GeolocalizacionMinAggregateOutputType = {
@@ -42,8 +42,8 @@ export type GeolocalizacionMinAggregateOutputType = {
   empresaId: string | null
   membershipId: string | null
   ordenId: string | null
-  latitud: runtime.Decimal | null
-  longitud: runtime.Decimal | null
+  latitud: number | null
+  longitud: number | null
   llegada: Date | null
   salida: Date | null
   fotoLlegada: string | null
@@ -58,8 +58,8 @@ export type GeolocalizacionMaxAggregateOutputType = {
   empresaId: string | null
   membershipId: string | null
   ordenId: string | null
-  latitud: runtime.Decimal | null
-  longitud: runtime.Decimal | null
+  latitud: number | null
+  longitud: number | null
   llegada: Date | null
   salida: Date | null
   fotoLlegada: string | null
@@ -237,8 +237,8 @@ export type GeolocalizacionGroupByOutputType = {
   empresaId: string
   membershipId: string
   ordenId: string
-  latitud: runtime.Decimal | null
-  longitud: runtime.Decimal | null
+  latitud: number | null
+  longitud: number | null
   llegada: Date
   salida: Date | null
   fotoLlegada: string | null
@@ -276,8 +276,8 @@ export type GeolocalizacionWhereInput = {
   empresaId?: Prisma.UuidFilter<"Geolocalizacion"> | string
   membershipId?: Prisma.UuidFilter<"Geolocalizacion"> | string
   ordenId?: Prisma.UuidFilter<"Geolocalizacion"> | string
-  latitud?: Prisma.DecimalNullableFilter<"Geolocalizacion"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  longitud?: Prisma.DecimalNullableFilter<"Geolocalizacion"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  latitud?: Prisma.FloatNullableFilter<"Geolocalizacion"> | number | null
+  longitud?: Prisma.FloatNullableFilter<"Geolocalizacion"> | number | null
   llegada?: Prisma.DateTimeFilter<"Geolocalizacion"> | Date | string
   salida?: Prisma.DateTimeNullableFilter<"Geolocalizacion"> | Date | string | null
   fotoLlegada?: Prisma.StringNullableFilter<"Geolocalizacion"> | string | null
@@ -319,8 +319,8 @@ export type GeolocalizacionWhereUniqueInput = Prisma.AtLeast<{
   empresaId?: Prisma.UuidFilter<"Geolocalizacion"> | string
   membershipId?: Prisma.UuidFilter<"Geolocalizacion"> | string
   ordenId?: Prisma.UuidFilter<"Geolocalizacion"> | string
-  latitud?: Prisma.DecimalNullableFilter<"Geolocalizacion"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  longitud?: Prisma.DecimalNullableFilter<"Geolocalizacion"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  latitud?: Prisma.FloatNullableFilter<"Geolocalizacion"> | number | null
+  longitud?: Prisma.FloatNullableFilter<"Geolocalizacion"> | number | null
   llegada?: Prisma.DateTimeFilter<"Geolocalizacion"> | Date | string
   salida?: Prisma.DateTimeNullableFilter<"Geolocalizacion"> | Date | string | null
   fotoLlegada?: Prisma.StringNullableFilter<"Geolocalizacion"> | string | null
@@ -363,8 +363,8 @@ export type GeolocalizacionScalarWhereWithAggregatesInput = {
   empresaId?: Prisma.UuidWithAggregatesFilter<"Geolocalizacion"> | string
   membershipId?: Prisma.UuidWithAggregatesFilter<"Geolocalizacion"> | string
   ordenId?: Prisma.UuidWithAggregatesFilter<"Geolocalizacion"> | string
-  latitud?: Prisma.DecimalNullableWithAggregatesFilter<"Geolocalizacion"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  longitud?: Prisma.DecimalNullableWithAggregatesFilter<"Geolocalizacion"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  latitud?: Prisma.FloatNullableWithAggregatesFilter<"Geolocalizacion"> | number | null
+  longitud?: Prisma.FloatNullableWithAggregatesFilter<"Geolocalizacion"> | number | null
   llegada?: Prisma.DateTimeWithAggregatesFilter<"Geolocalizacion"> | Date | string
   salida?: Prisma.DateTimeNullableWithAggregatesFilter<"Geolocalizacion"> | Date | string | null
   fotoLlegada?: Prisma.StringNullableWithAggregatesFilter<"Geolocalizacion"> | string | null
@@ -375,8 +375,8 @@ export type GeolocalizacionScalarWhereWithAggregatesInput = {
 
 export type GeolocalizacionCreateInput = {
   id?: string
-  latitud?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  longitud?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  latitud?: number | null
+  longitud?: number | null
   llegada: Date | string
   salida?: Date | string | null
   fotoLlegada?: string | null
@@ -395,8 +395,8 @@ export type GeolocalizacionUncheckedCreateInput = {
   empresaId: string
   membershipId: string
   ordenId: string
-  latitud?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  longitud?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  latitud?: number | null
+  longitud?: number | null
   llegada: Date | string
   salida?: Date | string | null
   fotoLlegada?: string | null
@@ -407,8 +407,8 @@ export type GeolocalizacionUncheckedCreateInput = {
 
 export type GeolocalizacionUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  latitud?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  longitud?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  latitud?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  longitud?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   llegada?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   salida?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   fotoLlegada?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -427,8 +427,8 @@ export type GeolocalizacionUncheckedUpdateInput = {
   empresaId?: Prisma.StringFieldUpdateOperationsInput | string
   membershipId?: Prisma.StringFieldUpdateOperationsInput | string
   ordenId?: Prisma.StringFieldUpdateOperationsInput | string
-  latitud?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  longitud?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  latitud?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  longitud?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   llegada?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   salida?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   fotoLlegada?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -443,8 +443,8 @@ export type GeolocalizacionCreateManyInput = {
   empresaId: string
   membershipId: string
   ordenId: string
-  latitud?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  longitud?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  latitud?: number | null
+  longitud?: number | null
   llegada: Date | string
   salida?: Date | string | null
   fotoLlegada?: string | null
@@ -455,8 +455,8 @@ export type GeolocalizacionCreateManyInput = {
 
 export type GeolocalizacionUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  latitud?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  longitud?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  latitud?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  longitud?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   llegada?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   salida?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   fotoLlegada?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -471,8 +471,8 @@ export type GeolocalizacionUncheckedUpdateManyInput = {
   empresaId?: Prisma.StringFieldUpdateOperationsInput | string
   membershipId?: Prisma.StringFieldUpdateOperationsInput | string
   ordenId?: Prisma.StringFieldUpdateOperationsInput | string
-  latitud?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  longitud?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  latitud?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  longitud?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   llegada?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   salida?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   fotoLlegada?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -719,8 +719,8 @@ export type GeolocalizacionUncheckedUpdateManyWithoutOrdenNestedInput = {
 
 export type GeolocalizacionCreateWithoutTenantInput = {
   id?: string
-  latitud?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  longitud?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  latitud?: number | null
+  longitud?: number | null
   llegada: Date | string
   salida?: Date | string | null
   fotoLlegada?: string | null
@@ -737,8 +737,8 @@ export type GeolocalizacionUncheckedCreateWithoutTenantInput = {
   empresaId: string
   membershipId: string
   ordenId: string
-  latitud?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  longitud?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  latitud?: number | null
+  longitud?: number | null
   llegada: Date | string
   salida?: Date | string | null
   fotoLlegada?: string | null
@@ -782,8 +782,8 @@ export type GeolocalizacionScalarWhereInput = {
   empresaId?: Prisma.UuidFilter<"Geolocalizacion"> | string
   membershipId?: Prisma.UuidFilter<"Geolocalizacion"> | string
   ordenId?: Prisma.UuidFilter<"Geolocalizacion"> | string
-  latitud?: Prisma.DecimalNullableFilter<"Geolocalizacion"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  longitud?: Prisma.DecimalNullableFilter<"Geolocalizacion"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  latitud?: Prisma.FloatNullableFilter<"Geolocalizacion"> | number | null
+  longitud?: Prisma.FloatNullableFilter<"Geolocalizacion"> | number | null
   llegada?: Prisma.DateTimeFilter<"Geolocalizacion"> | Date | string
   salida?: Prisma.DateTimeNullableFilter<"Geolocalizacion"> | Date | string | null
   fotoLlegada?: Prisma.StringNullableFilter<"Geolocalizacion"> | string | null
@@ -794,8 +794,8 @@ export type GeolocalizacionScalarWhereInput = {
 
 export type GeolocalizacionCreateWithoutMembershipInput = {
   id?: string
-  latitud?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  longitud?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  latitud?: number | null
+  longitud?: number | null
   llegada: Date | string
   salida?: Date | string | null
   fotoLlegada?: string | null
@@ -812,8 +812,8 @@ export type GeolocalizacionUncheckedCreateWithoutMembershipInput = {
   tenantId: string
   empresaId: string
   ordenId: string
-  latitud?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  longitud?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  latitud?: number | null
+  longitud?: number | null
   llegada: Date | string
   salida?: Date | string | null
   fotoLlegada?: string | null
@@ -850,8 +850,8 @@ export type GeolocalizacionUpdateManyWithWhereWithoutMembershipInput = {
 
 export type GeolocalizacionCreateWithoutEmpresaInput = {
   id?: string
-  latitud?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  longitud?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  latitud?: number | null
+  longitud?: number | null
   llegada: Date | string
   salida?: Date | string | null
   fotoLlegada?: string | null
@@ -868,8 +868,8 @@ export type GeolocalizacionUncheckedCreateWithoutEmpresaInput = {
   tenantId: string
   membershipId: string
   ordenId: string
-  latitud?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  longitud?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  latitud?: number | null
+  longitud?: number | null
   llegada: Date | string
   salida?: Date | string | null
   fotoLlegada?: string | null
@@ -906,8 +906,8 @@ export type GeolocalizacionUpdateManyWithWhereWithoutEmpresaInput = {
 
 export type GeolocalizacionCreateWithoutOrdenInput = {
   id?: string
-  latitud?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  longitud?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  latitud?: number | null
+  longitud?: number | null
   llegada: Date | string
   salida?: Date | string | null
   fotoLlegada?: string | null
@@ -924,8 +924,8 @@ export type GeolocalizacionUncheckedCreateWithoutOrdenInput = {
   tenantId: string
   empresaId: string
   membershipId: string
-  latitud?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  longitud?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  latitud?: number | null
+  longitud?: number | null
   llegada: Date | string
   salida?: Date | string | null
   fotoLlegada?: string | null
@@ -965,8 +965,8 @@ export type GeolocalizacionCreateManyTenantInput = {
   empresaId: string
   membershipId: string
   ordenId: string
-  latitud?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  longitud?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  latitud?: number | null
+  longitud?: number | null
   llegada: Date | string
   salida?: Date | string | null
   fotoLlegada?: string | null
@@ -977,8 +977,8 @@ export type GeolocalizacionCreateManyTenantInput = {
 
 export type GeolocalizacionUpdateWithoutTenantInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  latitud?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  longitud?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  latitud?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  longitud?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   llegada?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   salida?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   fotoLlegada?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -995,8 +995,8 @@ export type GeolocalizacionUncheckedUpdateWithoutTenantInput = {
   empresaId?: Prisma.StringFieldUpdateOperationsInput | string
   membershipId?: Prisma.StringFieldUpdateOperationsInput | string
   ordenId?: Prisma.StringFieldUpdateOperationsInput | string
-  latitud?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  longitud?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  latitud?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  longitud?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   llegada?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   salida?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   fotoLlegada?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1010,8 +1010,8 @@ export type GeolocalizacionUncheckedUpdateManyWithoutTenantInput = {
   empresaId?: Prisma.StringFieldUpdateOperationsInput | string
   membershipId?: Prisma.StringFieldUpdateOperationsInput | string
   ordenId?: Prisma.StringFieldUpdateOperationsInput | string
-  latitud?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  longitud?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  latitud?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  longitud?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   llegada?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   salida?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   fotoLlegada?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1025,8 +1025,8 @@ export type GeolocalizacionCreateManyMembershipInput = {
   tenantId: string
   empresaId: string
   ordenId: string
-  latitud?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  longitud?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  latitud?: number | null
+  longitud?: number | null
   llegada: Date | string
   salida?: Date | string | null
   fotoLlegada?: string | null
@@ -1037,8 +1037,8 @@ export type GeolocalizacionCreateManyMembershipInput = {
 
 export type GeolocalizacionUpdateWithoutMembershipInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  latitud?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  longitud?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  latitud?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  longitud?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   llegada?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   salida?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   fotoLlegada?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1055,8 +1055,8 @@ export type GeolocalizacionUncheckedUpdateWithoutMembershipInput = {
   tenantId?: Prisma.StringFieldUpdateOperationsInput | string
   empresaId?: Prisma.StringFieldUpdateOperationsInput | string
   ordenId?: Prisma.StringFieldUpdateOperationsInput | string
-  latitud?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  longitud?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  latitud?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  longitud?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   llegada?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   salida?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   fotoLlegada?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1070,8 +1070,8 @@ export type GeolocalizacionUncheckedUpdateManyWithoutMembershipInput = {
   tenantId?: Prisma.StringFieldUpdateOperationsInput | string
   empresaId?: Prisma.StringFieldUpdateOperationsInput | string
   ordenId?: Prisma.StringFieldUpdateOperationsInput | string
-  latitud?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  longitud?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  latitud?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  longitud?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   llegada?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   salida?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   fotoLlegada?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1085,8 +1085,8 @@ export type GeolocalizacionCreateManyEmpresaInput = {
   tenantId: string
   membershipId: string
   ordenId: string
-  latitud?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  longitud?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  latitud?: number | null
+  longitud?: number | null
   llegada: Date | string
   salida?: Date | string | null
   fotoLlegada?: string | null
@@ -1097,8 +1097,8 @@ export type GeolocalizacionCreateManyEmpresaInput = {
 
 export type GeolocalizacionUpdateWithoutEmpresaInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  latitud?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  longitud?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  latitud?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  longitud?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   llegada?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   salida?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   fotoLlegada?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1115,8 +1115,8 @@ export type GeolocalizacionUncheckedUpdateWithoutEmpresaInput = {
   tenantId?: Prisma.StringFieldUpdateOperationsInput | string
   membershipId?: Prisma.StringFieldUpdateOperationsInput | string
   ordenId?: Prisma.StringFieldUpdateOperationsInput | string
-  latitud?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  longitud?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  latitud?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  longitud?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   llegada?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   salida?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   fotoLlegada?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1130,8 +1130,8 @@ export type GeolocalizacionUncheckedUpdateManyWithoutEmpresaInput = {
   tenantId?: Prisma.StringFieldUpdateOperationsInput | string
   membershipId?: Prisma.StringFieldUpdateOperationsInput | string
   ordenId?: Prisma.StringFieldUpdateOperationsInput | string
-  latitud?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  longitud?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  latitud?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  longitud?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   llegada?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   salida?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   fotoLlegada?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1145,8 +1145,8 @@ export type GeolocalizacionCreateManyOrdenInput = {
   tenantId: string
   empresaId: string
   membershipId: string
-  latitud?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  longitud?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  latitud?: number | null
+  longitud?: number | null
   llegada: Date | string
   salida?: Date | string | null
   fotoLlegada?: string | null
@@ -1157,8 +1157,8 @@ export type GeolocalizacionCreateManyOrdenInput = {
 
 export type GeolocalizacionUpdateWithoutOrdenInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  latitud?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  longitud?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  latitud?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  longitud?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   llegada?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   salida?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   fotoLlegada?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1175,8 +1175,8 @@ export type GeolocalizacionUncheckedUpdateWithoutOrdenInput = {
   tenantId?: Prisma.StringFieldUpdateOperationsInput | string
   empresaId?: Prisma.StringFieldUpdateOperationsInput | string
   membershipId?: Prisma.StringFieldUpdateOperationsInput | string
-  latitud?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  longitud?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  latitud?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  longitud?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   llegada?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   salida?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   fotoLlegada?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1190,8 +1190,8 @@ export type GeolocalizacionUncheckedUpdateManyWithoutOrdenInput = {
   tenantId?: Prisma.StringFieldUpdateOperationsInput | string
   empresaId?: Prisma.StringFieldUpdateOperationsInput | string
   membershipId?: Prisma.StringFieldUpdateOperationsInput | string
-  latitud?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  longitud?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  latitud?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  longitud?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   llegada?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   salida?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   fotoLlegada?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1312,8 +1312,8 @@ export type $GeolocalizacionPayload<ExtArgs extends runtime.Types.Extensions.Int
     empresaId: string
     membershipId: string
     ordenId: string
-    latitud: runtime.Decimal | null
-    longitud: runtime.Decimal | null
+    latitud: number | null
+    longitud: number | null
     llegada: Date
     salida: Date | null
     fotoLlegada: string | null
@@ -1752,8 +1752,8 @@ export interface GeolocalizacionFieldRefs {
   readonly empresaId: Prisma.FieldRef<"Geolocalizacion", 'String'>
   readonly membershipId: Prisma.FieldRef<"Geolocalizacion", 'String'>
   readonly ordenId: Prisma.FieldRef<"Geolocalizacion", 'String'>
-  readonly latitud: Prisma.FieldRef<"Geolocalizacion", 'Decimal'>
-  readonly longitud: Prisma.FieldRef<"Geolocalizacion", 'Decimal'>
+  readonly latitud: Prisma.FieldRef<"Geolocalizacion", 'Float'>
+  readonly longitud: Prisma.FieldRef<"Geolocalizacion", 'Float'>
   readonly llegada: Prisma.FieldRef<"Geolocalizacion", 'DateTime'>
   readonly salida: Prisma.FieldRef<"Geolocalizacion", 'DateTime'>
   readonly fotoLlegada: Prisma.FieldRef<"Geolocalizacion", 'String'>

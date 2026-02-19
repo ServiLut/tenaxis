@@ -43,6 +43,7 @@ import { DashboardLayout } from "@/components/dashboard";
 // owo
 // --- Constantes Estratégicas ---
 const ORIGENES_CLIENTE = ["Google Ads", "Referido", "Orgánico", "Recurrente", "Campaña", "WhatsApp directo"];
+const TIPOS_DOCUMENTO = ["Cédula de Ciudadanía", "Cédula de Extranjería", "Pasaporte", "Permiso Especial", "NIT"];
 const CLASIFICACIONES_PUNTO = ["Cocina", "Área almacenamiento", "Zona residuos", "Zona carga", "Zona comedor", "Oficina administrativa"];
 
 interface Direccion {
@@ -232,7 +233,11 @@ function NuevoClienteContent() {
       tipoCliente: (tipoCliente === "NATURAL" ? "PERSONA" : "EMPRESA") as "PERSONA" | "EMPRESA",
       nombre: (formData.get("nombre") as string) || null,
       apellido: (formData.get("apellido") as string) || null,
+      tipoDocumento: (formData.get("tipoDocumento") as string) || null,
+      numeroDocumento: (formData.get("numeroDocumento") as string) || null,
       telefono: (formData.get("telefono") as string),
+      telefono2: (formData.get("telefono2") as string) || null,
+      correo: (formData.get("correo") as string) || null,
       origenCliente: (formData.get("origen") as string) || null,
       tipoInteresId: (formData.get("interes") as string) || null,
       razonSocial: (formData.get("razonSocial") as string) || null,
@@ -336,15 +341,20 @@ function NuevoClienteContent() {
                   <>
                     <div className="space-y-2"><Label className="text-xs font-bold text-zinc-500 uppercase tracking-wider">Nombre(s) <span className="text-red-500">*</span></Label><Input name="nombre" required className="h-11 border-zinc-200" placeholder="Ej: Juan" /></div>
                     <div className="space-y-2"><Label className="text-xs font-bold text-zinc-500 uppercase tracking-wider">Apellido(s) <span className="text-red-500">*</span></Label><Input name="apellido" required className="h-11 border-zinc-200" placeholder="Ej: Valdés" /></div>
+                    <div className="space-y-2"><Label className="text-xs font-bold text-zinc-500 uppercase tracking-wider">Tipo de Documento <span className="text-red-500">*</span></Label><Select name="tipoDocumento" required className="h-11 border-zinc-200">{TIPOS_DOCUMENTO.map(t => <option key={t} value={t}>{t}</option>)}</Select></div>
+                    <div className="space-y-2"><Label className="text-xs font-bold text-zinc-500 uppercase tracking-wider">Número de Documento <span className="text-red-500">*</span></Label><Input name="numeroDocumento" required className="h-11 border-zinc-200 font-mono" placeholder="12345678" /></div>
                   </>
                 ) : (
                   <>
-                    <div className="space-y-2"><Label className="text-xs font-bold text-zinc-500 uppercase tracking-wider">Razón Social <span className="text-red-500">*</span></Label><Input name="razonSocial" required className="h-11 border-[var(--color-azul-1)]/20" /></div>
+                    <div className="space-y-2 md:col-span-2"><Label className="text-xs font-bold text-zinc-500 uppercase tracking-wider">Razón Social <span className="text-red-500">*</span></Label><Input name="razonSocial" required className="h-11 border-[var(--color-azul-1)]/20" /></div>
+                    <input type="hidden" name="tipoDocumento" value="NIT" />
                     <div className="space-y-2"><Label className="text-xs font-bold text-zinc-500 uppercase tracking-wider">NIT / Identificación <span className="text-red-500">*</span></Label><Input name="nit" required className="h-11 font-mono" /></div>
                   </>
                 )}
 
-                <div className="space-y-2"><Label className="text-xs font-bold text-zinc-500 uppercase tracking-wider">Teléfono de Contacto <span className="text-red-500">*</span></Label><Input name="telefono" required className="h-11 border-zinc-200" placeholder="300 000 0000" /></div>
+                <div className="space-y-2"><Label className="text-xs font-bold text-zinc-500 uppercase tracking-wider">Teléfono Principal <span className="text-red-500">*</span></Label><Input name="telefono" required className="h-11 border-zinc-200" placeholder="300 000 0000" /></div>
+                <div className="space-y-2"><Label className="text-xs font-bold text-zinc-500 uppercase tracking-wider">Teléfono Secundario (Opcional)</Label><Input name="telefono2" className="h-11 border-zinc-200 opacity-80" placeholder="311 111 1111" /></div>
+                
                 <div className="space-y-2"><Label className="text-xs font-bold text-zinc-500 uppercase tracking-wider">Segmento del Negocio</Label><Select name="segmento" value={segmento} onChange={(e) => setSegmento(e.target.value)} className="h-11">{segmentosDb.map(s => <option key={s.id} value={s.id}>{s.nombre}</option>)}</Select></div>
 
                 <div className="space-y-2">
@@ -356,6 +366,8 @@ function NuevoClienteContent() {
                 </div>
 
                 <div className="space-y-2"><Label className="text-xs font-bold text-zinc-500 uppercase tracking-wider">Canal de Captación</Label><Select name="origen" className="h-11 border-zinc-200">{ORIGENES_CLIENTE.map(o => <option key={o} value={o}>{o}</option>)}</Select></div>
+                <div className="space-y-2"><Label className="text-xs font-bold text-zinc-500 uppercase tracking-wider">Correo Electrónico (Opcional)</Label><Input name="correo" type="email" className="h-11 border-zinc-200" placeholder="usuario@ejemplo.com" /></div>
+                
                 <div className="space-y-2"><Label className="text-xs font-bold text-zinc-500 uppercase tracking-wider">Tipo de Servicio Interés</Label><Select name="interes" value={interes} onChange={(e) => setInteres(e.target.value)} className="h-11 border-zinc-200">{tiposInteresDb.map(s => <option key={s.id} value={s.id}>{s.nombre}</option>)}</Select></div>
 
                 {tipoCliente === "EMPRESA" && (

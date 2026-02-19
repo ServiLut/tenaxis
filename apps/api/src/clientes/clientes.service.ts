@@ -63,10 +63,9 @@ export class ClientesService {
           ...d,
           tenantId,
           ...(empresaId && { empresaId }),
-          // Asegurar que las coordenadas se traten como Decimal si vienen como string/number
-          // y evitar overflow de campos numéricos en PostgreSQL
-          latitud: toDecimal(d.latitud, 8),
-          longitud: toDecimal(d.longitud, 8),
+          // Asegurar que las coordenadas se traten como números para el tipo Float
+          latitud: d.latitud ? Number(d.latitud) : null,
+          longitud: d.longitud ? Number(d.longitud) : null,
           precisionGPS: toDecimal(d.precisionGPS, 2),
         })),
       },
