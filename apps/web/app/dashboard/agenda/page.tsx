@@ -4,25 +4,19 @@ import React, { useState, useEffect, Suspense } from "react";
 import { DashboardLayout } from "@/components/dashboard";
 import { 
   Card, 
-  CardHeader, 
-  CardTitle, 
   CardContent, 
   Button, 
   Select,
   Input 
 } from "@/components/ui";
 import { 
-  Calendar as CalendarIcon, 
   ChevronLeft, 
   ChevronRight, 
   Filter, 
-  Briefcase,
   Clock,
   User,
   MapPin,
   Search,
-  LayoutGrid,
-  Rows,
   CalendarDays
 } from "lucide-react";
 import { cn } from "@/components/ui/utils";
@@ -64,10 +58,15 @@ const MOCK_AGENDA_SERVICES = [
 
 type ViewType = "DIA" | "SEMANA" | "MES" | "AÑO";
 
+interface TipoInteres {
+  id: string;
+  nombre: string;
+}
+
 function AgendaContent() {
   const [view, setView] = useState<ViewType>("MES");
   const [currentDate, setCurrentDate] = useState(new Date());
-  const [tiposServicio, setTiposServicio] = useState<any[]>([]);
+  const [tiposServicio, setTiposServicio] = useState<TipoInteres[]>([]);
   const [selectedTipo, setSelectedTipo] = useState("TODOS");
   const [search, setSearch] = useState("");
 

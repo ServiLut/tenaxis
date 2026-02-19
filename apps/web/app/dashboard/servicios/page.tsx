@@ -7,7 +7,6 @@ import { Input, Card, CardContent, Button } from "@/components/ui";
 import { 
   Plus, 
   Search, 
-  Briefcase, 
   Calendar, 
   Clock, 
   User, 

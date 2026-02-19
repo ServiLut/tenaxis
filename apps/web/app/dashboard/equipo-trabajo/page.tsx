@@ -12,17 +12,13 @@ import { useUserRole } from "@/hooks/use-user-role";
 import {
   Trophy,
   Users,
-  Briefcase,
   Star,
-  ChevronRight,
-  TrendingUp,
   Award,
   Plus,
   Search,
   Mail,
   Phone,
   Calendar,
-  MapPin,
   X,
   Eye,
   Pencil,
@@ -43,6 +39,21 @@ type UserMember = {
   joinDate: string;
   role: string;
 };
+
+interface Membership {
+  id: string;
+  user: {
+    nombre: string;
+    apellido: string;
+    email: string;
+    telefono?: string | null;
+  };
+  _count?: {
+    serviciosAsignados: number;
+  };
+  createdAt: string | Date;
+  role: string;
+}
 
 const COLORS = [
   "bg-blue-500",
@@ -90,7 +101,7 @@ export default function EquipoTrabajoPage() {
       const result = await response.json();
       const data = result.data || result;
       
-      const mappedUsers: UserMember[] = (Array.isArray(data) ? data : []).map((m: any, index: number) => ({
+      const mappedUsers: UserMember[] = (Array.isArray(data) ? data : []).map((m: Membership, index: number) => ({
         id: m.id,
         name: `${m.user.nombre} ${m.user.apellido}`,
         services: m._count?.serviciosAsignados || 0,
@@ -108,8 +119,9 @@ export default function EquipoTrabajoPage() {
       }));
 
       setUsers(mappedUsers);
-    } catch (err: any) {
-      setError(err.message);
+    } catch (err: unknown) {
+      const errorMessage = err instanceof Error ? err.message : "Error desconocido";
+      setError(errorMessage);
     } finally {
       setLoading(false);
     }
