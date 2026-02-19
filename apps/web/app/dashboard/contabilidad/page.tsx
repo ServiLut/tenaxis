@@ -23,9 +23,14 @@ import {
   TrendingDown,
   TrendingUp,
   ChevronRight,
-  DollarSign
+  DollarSign,
+  Download,
+  FileSpreadsheet,
+  FileText,
+  File as FileIcon
 } from "lucide-react";
 import { cn } from "@/components/ui/utils";
+import { toast } from "sonner";
 
 type AccountingTab = "recaudo" | "nomina" | "anticipos" | "egresos" | "balance";
 
@@ -117,9 +122,57 @@ export default function ContabilidadPage() {
   );
 }
 
+import { exportToExcel, exportToPDF, exportToWord } from "@/lib/utils/export-helper";
+
+// ... (previous interfaces and Page logic)
+
 // --- sub-views ---
 
 function StandardTableView({ title, description }: { title: string, description: string }) {
+  const [showExportMenu, setShowExportMenu] = useState(false);
+
+  // Example mock data for export (since we don't have real data state here yet)
+  const mockData = [1, 2, 3, 4, 5].map(i => ({
+    fecha: "19/02/2026",
+    descripcion: `Ejemplo de transacción #${i}04`,
+    categoria: "Operativo",
+    monto: 1250000,
+    estado: "Completado"
+  }));
+
+  const handleExport = async (format: 'pdf' | 'excel' | 'word') => {
+    const headers = ["Fecha", "Descripción", "Categoría", "Monto", "Estado"];
+    const data = mockData.map(d => [
+      d.fecha,
+      d.descripcion,
+      d.categoria,
+      `$ ${d.monto.toLocaleString()}`,
+      d.estado
+    ]);
+
+    const exportParams = {
+      headers,
+      data,
+      filename: `contabilidad_${title.toLowerCase().replace(/\s+/g, '_')}_${new Date().getTime()}`,
+      title: `REPORTE FINANCIERO: ${title.toUpperCase()}`
+    };
+
+    toast.info(`Generando reporte de ${title} en formato ${format.toUpperCase()}...`);
+    
+    try {
+      if (format === 'excel') exportToExcel(exportParams);
+      else if (format === 'pdf') exportToPDF(exportParams);
+      else if (format === 'word') await exportToWord(exportParams);
+
+      toast.success(`${format.toUpperCase()} generado exitosamente`);
+    } catch (error) {
+      console.error("Export error:", error);
+      toast.error(`Error al generar el reporte ${format.toUpperCase()}`);
+    } finally {
+      setShowExportMenu(false);
+    }
+  };
+
   return (
     <div className="space-y-6">
       <div className="flex flex-col gap-6 sm:flex-row sm:items-center sm:justify-between">
@@ -127,7 +180,47 @@ function StandardTableView({ title, description }: { title: string, description:
           <h2 className="text-2xl font-black tracking-tight">{title}</h2>
           <p className="text-sm text-zinc-500 font-medium">{description}</p>
         </div>
-        <div className="flex gap-3">
+        <div className="flex items-center gap-3">
+          {/* Botón de Exportación */}
+          <div className="relative">
+            <button 
+              onClick={() => setShowExportMenu(!showExportMenu)}
+              className="flex items-center h-11 px-5 rounded-xl bg-zinc-100 dark:bg-zinc-800 text-zinc-700 dark:text-zinc-300 hover:bg-zinc-200 dark:hover:bg-zinc-700 gap-3 transition-all font-bold text-[10px] uppercase tracking-widest border border-transparent shadow-sm"
+            >
+              <Download className="h-4 w-4" />
+              <span>Exportar</span>
+            </button>
+
+            {showExportMenu && (
+              <div className="absolute right-0 mt-2 w-56 bg-white dark:bg-zinc-900 border border-zinc-100 dark:border-zinc-800 rounded-xl shadow-[0_20px_50px_rgba(0,0,0,0.15)] z-50 overflow-hidden py-2 animate-in fade-in slide-in-from-top-2 duration-200">
+                <div className="px-4 py-2 mb-1 border-b border-zinc-50 dark:border-zinc-800">
+                  <p className="text-[9px] font-black text-zinc-400 uppercase tracking-widest">Informes Financieros</p>
+                </div>
+                <button 
+                  onClick={() => handleExport('excel')}
+                  className="w-full flex items-center gap-3 px-4 py-3 text-[11px] font-bold text-zinc-700 dark:text-zinc-300 hover:bg-emerald-50 dark:hover:bg-emerald-900/20 hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors text-left"
+                >
+                  <FileSpreadsheet className="h-4 w-4" />
+                  MICROSOFT EXCEL (.XLSX)
+                </button>
+                <button 
+                  onClick={() => handleExport('pdf')}
+                  className="w-full flex items-center gap-3 px-4 py-3 text-[11px] font-bold text-zinc-700 dark:text-zinc-300 hover:bg-red-50 dark:hover:bg-red-900/20 hover:text-red-600 dark:hover:text-red-400 transition-colors text-left"
+                >
+                  <FileText className="h-4 w-4" />
+                  DOCUMENTO PDF (.PDF)
+                </button>
+                <button 
+                  onClick={() => handleExport('word')}
+                  className="w-full flex items-center gap-3 px-4 py-3 text-[11px] font-bold text-zinc-700 dark:text-zinc-300 hover:bg-blue-50 dark:hover:bg-blue-900/20 hover:text-blue-600 dark:hover:text-blue-400 transition-colors text-left"
+                >
+                  <FileIcon className="h-4 w-4" />
+                  MICROSOFT WORD (.DOCX)
+                </button>
+              </div>
+            )}
+          </div>
+
           <Button variant="outline" className="h-11 rounded-xl gap-2 font-bold text-xs uppercase tracking-widest">
             <Filter className="h-4 w-4" /> Filtrar
           </Button>

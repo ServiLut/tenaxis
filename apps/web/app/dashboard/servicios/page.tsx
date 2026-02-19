@@ -19,75 +19,69 @@ import {
   Pencil,
   FileText,
   CalendarClock,
-  Trash2
+  Trash2,
+  Download,
+  FileSpreadsheet,
+  File as FileIcon
 } from "lucide-react";
 import { cn } from "@/components/ui/utils";
+import { toast } from "sonner";
 
-// Mock data for initial view
-// ...
-// (rest of the code below will be replaced in the next step to ensure accuracy)
+// ... (MOCK_SERVICIOS, ESTADO_STYLING, URGENCIA_STYLING remain the same)
 
-// Mock data for initial view
-const MOCK_SERVICIOS = [
-  {
-    id: "SRV-001",
-    cliente: "Restaurante El Gourmet",
-    tipoServicio: "Control de Plagas",
-    servicioEspecifico: "Desinsectación General",
-    fecha: "2026-02-20",
-    hora: "09:00",
-    estado: "PROGRAMADO",
-    urgencia: "ALTA",
-    tecnico: "Carlos Ruiz"
-  },
-  {
-    id: "SRV-002",
-    cliente: "Juan Pérez",
-    tipoServicio: "Desinfección",
-    servicioEspecifico: "Nebulización COVID",
-    fecha: "2026-02-20",
-    hora: "14:30",
-    estado: "EN_RUTA",
-    urgencia: "MEDIA",
-    tecnico: "Ana María López"
-  },
-  {
-    id: "SRV-003",
-    cliente: "Corporativo Alpha",
-    tipoServicio: "Mantenimiento",
-    servicioEspecifico: "Limpieza de Tanques",
-    fecha: "2026-02-21",
-    hora: "08:00",
-    estado: "EJECUTADO",
-    urgencia: "BAJA",
-    tecnico: "Carlos Ruiz"
-  }
-];
+import { exportToExcel, exportToPDF, exportToWord } from "@/lib/utils/export-helper";
 
-const ESTADO_STYLING: Record<string, string> = {
-  PROGRAMADO: "bg-blue-50 text-blue-600 border-blue-100 dark:bg-blue-500/10 dark:text-blue-400 dark:border-blue-500/20",
-  EN_RUTA: "bg-amber-50 text-amber-600 border-amber-100 dark:bg-amber-500/10 dark:text-amber-400 dark:border-amber-500/20",
-  EJECUTADO: "bg-emerald-50 text-emerald-600 border-emerald-100 dark:bg-emerald-500/10 dark:text-emerald-400 dark:border-emerald-500/20",
-  CANCELADO: "bg-red-50 text-red-600 border-red-100 dark:bg-red-500/10 dark:text-red-400 dark:border-red-500/20",
-};
-
-const URGENCIA_STYLING: Record<string, string> = {
-  CRITICA: "text-red-600 bg-red-50 dark:bg-red-500/10",
-  ALTA: "text-orange-600 bg-orange-50 dark:bg-orange-500/10",
-  MEDIA: "text-blue-600 bg-blue-50 dark:bg-blue-500/10",
-  BAJA: "text-zinc-500 bg-zinc-50 dark:bg-zinc-500/10",
-};
+// ... (previous interfaces and mock data)
 
 export default function ServiciosPage() {
   const [search, setSearch] = useState("");
   const [servicios] = useState(MOCK_SERVICIOS);
   const [openMenuId, setOpenMenuId] = useState<string | null>(null);
+  const [showExportMenu, setShowExportMenu] = useState(false);
 
   const filteredServicios = servicios.filter(s => 
     s.cliente.toLowerCase().includes(search.toLowerCase()) ||
     s.servicioEspecifico.toLowerCase().includes(search.toLowerCase()) ||
     s.id.toLowerCase().includes(search.toLowerCase())
   );
+
+  const handleExport = async (format: 'pdf' | 'excel' | 'word') => {
+    const headers = ["ID Orden", "Cliente", "Servicio", "Fecha", "Hora", "Técnico", "Estado", "Urgencia"];
+    const data = filteredServicios.map(s => [
+      s.id,
+      s.cliente,
+      s.servicioEspecifico,
+      s.fecha,
+      s.hora,
+      s.tecnico,
+      s.estado,
+      s.urgencia
+    ]);
+
+    const exportParams = {
+      headers,
+      data,
+      filename: `servicios_tenaxis_${new Date().getTime()}`,
+      title: "REPORTE OPERATIVO DE ÓRDENES DE SERVICIO"
+    };
+
+    toast.info(`Generando archivo ${format.toUpperCase()}...`, {
+      description: `Se exportarán ${filteredServicios.length} órdenes de servicio.`,
+    });
+    
+    try {
+      if (format === 'excel') exportToExcel(exportParams);
+      else if (format === 'pdf') exportToPDF(exportParams);
+      else if (format === 'word') await exportToWord(exportParams);
+
+      toast.success(`${format.toUpperCase()} generado exitosamente`);
+    } catch (error) {
+      console.error("Export error:", error);
+      toast.error(`Error al generar el archivo ${format.toUpperCase()}`);
+    } finally {
+      setShowExportMenu(false);
+    }
+  };
 
   return (
     <DashboardLayout>
@@ -115,9 +109,49 @@ export default function ServiciosPage() {
               onChange={(e) => setSearch(e.target.value)}
             />
           </div>
-          <div className="flex gap-3">
+          <div className="flex items-center gap-3">
+            {/* Botón de Exportación */}
+            <div className="relative">
+              <button 
+                onClick={(e) => { e.stopPropagation(); setShowExportMenu(!showExportMenu); }}
+                className="flex items-center h-12 px-6 rounded-2xl bg-zinc-100 dark:bg-zinc-800 text-zinc-700 dark:text-zinc-300 hover:bg-zinc-200 dark:hover:bg-zinc-700 gap-3 transition-all font-bold text-xs uppercase tracking-widest"
+              >
+                <Download className="h-4 w-4" />
+                <span>Exportar</span>
+              </button>
+
+              {showExportMenu && (
+                <div className="absolute right-0 mt-2 w-56 bg-white dark:bg-zinc-900 border border-zinc-100 dark:border-zinc-800 rounded-2xl shadow-[0_20px_50px_rgba(0,0,0,0.15)] z-50 overflow-hidden py-2 animate-in fade-in slide-in-from-top-2 duration-200">
+                  <div className="px-4 py-2 mb-1 border-b border-zinc-50 dark:border-zinc-800">
+                    <p className="text-[9px] font-black text-zinc-400 uppercase tracking-widest">Reportes Operativos</p>
+                  </div>
+                  <button 
+                    onClick={() => handleExport('excel')}
+                    className="w-full flex items-center gap-3 px-4 py-3 text-[11px] font-bold text-zinc-700 dark:text-zinc-300 hover:bg-emerald-50 dark:hover:bg-emerald-900/20 hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors"
+                  >
+                    <FileSpreadsheet className="h-4 w-4" />
+                    MICROSOFT EXCEL (.XLSX)
+                  </button>
+                  <button 
+                    onClick={() => handleExport('pdf')}
+                    className="w-full flex items-center gap-3 px-4 py-3 text-[11px] font-bold text-zinc-700 dark:text-zinc-300 hover:bg-red-50 dark:hover:bg-red-900/20 hover:text-red-600 dark:hover:text-red-400 transition-colors"
+                  >
+                    <FileText className="h-4 w-4" />
+                    DOCUMENTO PDF (.PDF)
+                  </button>
+                  <button 
+                    onClick={() => handleExport('word')}
+                    className="w-full flex items-center gap-3 px-4 py-3 text-[11px] font-bold text-zinc-700 dark:text-zinc-300 hover:bg-blue-50 dark:hover:bg-blue-900/20 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
+                  >
+                    <FileIcon className="h-4 w-4" />
+                    MICROSOFT WORD (.DOCX)
+                  </button>
+                </div>
+              )}
+            </div>
+
             <Button variant="outline" className="h-12 px-6 rounded-2xl gap-2 border-zinc-200 font-bold text-xs uppercase tracking-widest">
-              <Filter className="h-4 w-4" /> Filtros Avanzados
+              <Filter className="h-4 w-4" /> Filtros
             </Button>
             <Link href="/dashboard/servicios/nuevo">
               <div className="flex items-center h-12 px-8 rounded-2xl bg-zinc-900 text-white hover:bg-zinc-800 dark:bg-white dark:text-black dark:hover:bg-zinc-100 gap-2 shadow-xl transition-all cursor-pointer">
