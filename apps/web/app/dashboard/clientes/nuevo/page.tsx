@@ -221,7 +221,8 @@ function NuevoClienteContent() {
       ...rest 
     }) => ({
       ...rest,
-      restricciones: restriccionesAcceso,
+      municipioId: rest.municipioId || null,
+      restricciones: restriccionesAcceso || null,
       latitud: rest.latitud ? parseFloat(rest.latitud) : null,
       longitud: rest.longitud ? parseFloat(rest.longitud) : null,
       precisionGPS: rest.precisionGPS ? parseFloat(rest.precisionGPS) : null,
@@ -229,14 +230,14 @@ function NuevoClienteContent() {
 
     const payload: ClienteDTO = {
       tipoCliente: (tipoCliente === "NATURAL" ? "PERSONA" : "EMPRESA") as "PERSONA" | "EMPRESA",
-      nombre: formData.get("nombre") as string,
-      apellido: formData.get("apellido") as string,
-      telefono: formData.get("telefono") as string,
-      origenCliente: formData.get("origen") as string,
-      tipoInteresId: formData.get("interes") as string,
-      razonSocial: formData.get("razonSocial") as string,
-      nit: formData.get("nit") as string,
-      actividadEconomica: formData.get("actividad") as string,
+      nombre: (formData.get("nombre") as string) || null,
+      apellido: (formData.get("apellido") as string) || null,
+      telefono: (formData.get("telefono") as string),
+      origenCliente: (formData.get("origen") as string) || null,
+      tipoInteresId: (formData.get("interes") as string) || null,
+      razonSocial: (formData.get("razonSocial") as string) || null,
+      nit: (formData.get("nit") as string) || null,
+      actividadEconomica: (formData.get("actividad") as string) || null,
       metrajeTotal: metraje ? parseFloat(metraje.toString()) : null,
       segmentoId: segmento || null,
       riesgoId: riesgoOverride || riesgosDb.find(r => r.nombre === sugerencias.riesgo)?.id || null,

@@ -18,7 +18,7 @@ const ROLE_LABELS: Record<string, string> = {
   OPERADOR: "Operador",
 };
 
-export function Header() {
+export function Header({ onMenuClick }: { onMenuClick?: () => void }) {
   const [userName, setUserName] = useState<string>("");
   const [userRole, setUserRole] = useState<string>("Invitado");
 
@@ -44,42 +44,43 @@ export function Header() {
   }, []);
 
   return (
-    <header className="sticky top-0 z-30 flex h-24 w-full items-center justify-between px-10 border-b border-zinc-200/60 bg-white shadow-sm">
-      <div className="flex items-center gap-6 flex-1 max-w-2xl">
+    <header className="sticky top-0 z-30 flex h-20 lg:h-24 w-full items-center justify-between px-6 lg:px-10 border-b border-zinc-200/60 bg-white shadow-sm">
+      <div className="flex items-center gap-4 lg:gap-6 flex-1 max-w-2xl">
         {/* Mobile menu toggle */}
         <button 
+          onClick={onMenuClick}
           aria-label="Abrir menú"
-          className="flex h-12 w-12 items-center justify-center rounded-xl bg-zinc-50 text-zinc-900 transition-colors hover:bg-zinc-100 lg:hidden dark:bg-zinc-900 shadow-inner border border-zinc-200"
+          className="flex h-10 w-10 lg:hidden items-center justify-center rounded-xl bg-zinc-50 text-zinc-900 transition-colors hover:bg-zinc-100 dark:bg-zinc-900 shadow-inner border border-zinc-200"
         >
-          <Menu className="h-6 w-6" />
+          <Menu className="h-5 w-5" />
         </button>
 
-        <div className="relative w-full group">
+        <div className="relative w-full group hidden sm:block">
           <Search className="absolute left-4 top-1/2 h-5 w-5 -translate-y-1/2 text-zinc-400 group-focus-within:text-azul-1 transition-colors" />
           <Input
             type="search"
             name="search"
             placeholder="Escribe para buscar en Tenaxis…"
-            className="h-14 w-full border-2 border-zinc-100 bg-zinc-50 pl-12 pr-4 rounded-2xl focus:border-azul-1 focus:bg-white focus:ring-4 focus:ring-azul-1/5 transition-all text-sm font-medium"
+            className="h-12 lg:h-14 w-full border-2 border-zinc-100 bg-zinc-50 pl-12 pr-4 rounded-2xl focus:border-azul-1 focus:bg-white focus:ring-4 focus:ring-azul-1/5 transition-all text-sm font-medium"
             autoComplete="off"
           />
         </div>
       </div>
 
-      <div className="flex items-center gap-8 pl-8 border-l border-zinc-100 ml-8">
+      <div className="flex items-center gap-4 lg:gap-8 pl-4 lg:pl-8 border-l border-zinc-100 ml-4 lg:ml-8">
         <div className="flex items-center gap-3">
           <button 
             aria-label="Ver notificaciones"
-            className="relative flex h-12 w-12 items-center justify-center rounded-xl bg-zinc-50 text-zinc-400 transition-all hover:bg-azul-1 hover:text-white hover:shadow-lg hover:shadow-azul-1/20 border border-zinc-100"
+            className="relative flex h-10 w-10 lg:h-12 lg:w-12 items-center justify-center rounded-xl bg-zinc-50 text-zinc-400 transition-all hover:bg-azul-1 hover:text-white hover:shadow-lg hover:shadow-azul-1/20 border border-zinc-100"
           >
-            <Bell className="h-5 w-5" />
-            <span className="absolute right-3 top-3 h-2.5 w-2.5 rounded-full bg-vivido-purpura-2 ring-2 ring-white" />
+            <Bell className="h-4 w-4 lg:h-5 lg:w-5" />
+            <span className="absolute right-2.5 top-2.5 lg:right-3 lg:top-3 h-2 w-2 lg:h-2.5 lg:w-2.5 rounded-full bg-vivido-purpura-2 ring-2 ring-white" />
           </button>
         </div>
 
-        <div className="flex items-center gap-4 py-2 px-3 rounded-2xl bg-zinc-50 border border-zinc-100 hover:bg-zinc-100/50 transition-colors cursor-pointer">
-          <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-azul-1 text-white shadow-md">
-            <User className="h-5 w-5" />
+        <div className="flex items-center gap-2 lg:gap-4 py-1.5 lg:py-2 px-2 lg:px-3 rounded-2xl bg-zinc-50 border border-zinc-100 hover:bg-zinc-100/50 transition-colors cursor-pointer">
+          <div className="flex h-8 w-8 lg:h-10 lg:w-10 items-center justify-center rounded-xl bg-azul-1 text-white shadow-md">
+            <User className="h-4 w-4 lg:h-5 lg:w-5" />
           </div>
           <div className="hidden text-left lg:block pr-2">
             <p className="text-[13px] font-black text-zinc-900 leading-tight">
