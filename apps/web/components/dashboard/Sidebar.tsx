@@ -18,6 +18,7 @@ import {
   Bell,
   Building2,
   LucideIcon,
+  Contact,
 } from "lucide-react";
 import { isTenantAdminAction } from "@/app/dashboard/actions";
 
@@ -35,8 +36,13 @@ const menuItems: { title: string; icon: LucideIcon; href: string; role?: string 
   },
   {
     title: "Clientes",
-    icon: Users,
+    icon: Contact,
     href: "/dashboard/clientes",
+  },
+  {
+    title: "Equipo de Trabajo",
+    icon: Users,
+    href: "/dashboard/equipo-trabajo",
   },
   {
     title: "Servicios",
