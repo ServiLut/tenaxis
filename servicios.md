@@ -19,7 +19,7 @@
 Campos mínimos:
 
 - Tipo de interés
-- Plaga principal
+- servicio a realizar
 - Nivel de infestación (0–3)
 - Urgencia
 
@@ -142,7 +142,7 @@ Permite:
 
 # 5️⃣ ASIGNACIÓN MULTINIVEL
 
-Si el operador pertenece a un coordinador:
+Si el asesor pertenece a un coordinador:
 
 - Registrar comisión automática
 - Vincular al árbol jerárquico
@@ -174,41 +174,10 @@ Cliente
 → Dirección  
 → Orden  
 → Operador  
-→ Zona  
 → SLA  
 → Pago  
 → Cierre  
-→ Comisión  
+ Comisión  →
 → Dashboard Ejecutivo
-
----
-
-# 8️⃣ REGLAS ESTRATÉGICAS A DEFINIR
-
-## ¿Puede el asesor cambiar el operador sugerido?
-
-Opciones:
-
-A) Sí, libremente  
-B) Solo coordinador o gerente  
-
-Recomendación estratégica:
-
-- Asesor puede sugerir.
-- Coordinador valida.
-- Cambio queda auditado.
-
----
-
-# 🎯 RESULTADO
-
-Con esta arquitectura:
-
-- Se reducen errores.
-- Se reducen tiempos muertos.
-- Se optimiza ruta.
-- Se automatizan comisiones.
-- Se activa disciplina sin microgestión.
-- Se eleva estándar operativo.
 
 ---
