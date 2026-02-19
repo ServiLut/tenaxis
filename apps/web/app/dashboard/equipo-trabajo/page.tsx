@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import Link from "next/link";
 import { DashboardLayout } from "@/components/dashboard";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -8,6 +8,7 @@ import { Select } from "@/components/ui/select";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { cn } from "@/components/ui/utils";
+import { useUserRole } from "@/hooks/use-user-role";
 import {
   Trophy,
   Users,
@@ -27,33 +28,105 @@ import {
   Pencil,
   Trash2,
   Save,
+  Loader2,
 } from "lucide-react";
 
-const INITIAL_USERS = [
-  { id: 1, name: "Carlos Ruiz", services: 145, rating: 4.9, avatar: "CR", color: "bg-blue-500", email: "carlos.ruiz@tenaxis.com", phone: "+1 (555) 123-4567", joinDate: "12 Ene 2024", role: "Técnico Especialista" },
-  { id: 2, name: "Ana Beltrán", services: 132, rating: 4.8, avatar: "AB", color: "bg-emerald-500", email: "ana.beltran@tenaxis.com", phone: "+1 (555) 234-5678", joinDate: "05 Feb 2024", role: "Técnico Senior" },
-  { id: 3, name: "David López", services: 128, rating: 4.7, avatar: "DL", color: "bg-indigo-500", email: "david.lopez@tenaxis.com", phone: "+1 (555) 345-6789", joinDate: "20 Mar 2024", role: "Instalador" },
-  { id: 4, name: "Elena Gómez", services: 115, rating: 4.9, avatar: "EG", color: "bg-amber-500", email: "elena.gomez@tenaxis.com", phone: "+1 (555) 456-7890", joinDate: "15 Abr 2024", role: "Técnico Junior" },
-  { id: 5, name: "Mario Soto", services: 98, rating: 4.6, avatar: "MS", color: "bg-rose-500", email: "mario.soto@tenaxis.com", phone: "+1 (555) 567-8901", joinDate: "01 May 2024", role: "Supervisor" },
+type UserMember = {
+  id: string;
+  name: string;
+  services: number;
+  rating: number;
+  avatar: string;
+  color: string;
+  email: string;
+  phone: string;
+  joinDate: string;
+  role: string;
+};
+
+const COLORS = [
+  "bg-blue-500",
+  "bg-emerald-500",
+  "bg-indigo-500",
+  "bg-amber-500",
+  "bg-rose-500",
+  "bg-violet-500",
+  "bg-cyan-500",
 ];
 
 export default function EquipoTrabajoPage() {
+  const { tenantId } = useUserRole();
   const [activeTab, setActiveTab] = useState<"ranking" | "usuarios">("ranking");
-  const [users, setUsers] = useState(INITIAL_USERS);
+  const [users, setUsers] = useState<UserMember[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  
   const [nameQuery, setNameQuery] = useState("");
   const [roleQuery, setRoleQuery] = useState("");
-  const [selectedUser, setSelectedUser] = useState<typeof INITIAL_USERS[0] | null>(null);
+  const [selectedUser, setSelectedUser] = useState<UserMember | null>(null);
   const [isEditing, setIsEditing] = useState(false);
-  const [editForm, setEditForm] = useState<typeof INITIAL_USERS[0] | null>(null);
+  const [editForm, setEditForm] = useState<UserMember | null>(null);
 
-  const allRoles = Array.from(new Set(INITIAL_USERS.map(u => u.role)));
+  const getCookie = (name: string) => {
+    const value = `; ${document.cookie}`;
+    const parts = value.split(`; ${name}=`);
+    if (parts.length === 2) return parts.pop()?.split(";").shift();
+  };
 
-  const filteredUsers = users.filter(user => 
+  const fetchTeam = useCallback(async () => {
+    if (!tenantId) return;
+
+    try {
+      setLoading(true);
+      const token = getCookie("access_token");
+      const response = await fetch(`/api/tenants/${tenantId}/memberships`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      if (!response.ok) throw new Error("Error al cargar el equipo");
+
+      const result = await response.json();
+      const data = result.data || result;
+      
+      const mappedUsers: UserMember[] = (Array.isArray(data) ? data : []).map((m: any, index: number) => ({
+        id: m.id,
+        name: `${m.user.nombre} ${m.user.apellido}`,
+        services: m._count?.serviciosAsignados || 0,
+        rating: 4.5, // Placeholder por ahora
+        avatar: `${m.user.nombre[0]}${m.user.apellido[0]}`,
+        color: COLORS[index % COLORS.length] || "bg-zinc-500",
+        email: m.user.email,
+        phone: m.user.telefono || "Sin teléfono",
+        joinDate: new Date(m.createdAt).toLocaleDateString("es-ES", {
+          day: "2-digit",
+          month: "short",
+          year: "numeric",
+        }),
+        role: m.role,
+      }));
+
+      setUsers(mappedUsers);
+    } catch (err: any) {
+      setError(err.message);
+    } finally {
+      setLoading(false);
+    }
+  }, [tenantId]);
+
+  useEffect(() => {
+    fetchTeam();
+  }, [fetchTeam]);
+
+  const allRoles = Array.from(new Set(users.map((u) => u.role)));
+
+  const filteredUsers = users.filter((user) =>
     user.name.toLowerCase().includes(nameQuery.toLowerCase()) &&
     (roleQuery === "" || user.role === roleQuery)
   );
 
-  const handleEditClick = (user: typeof INITIAL_USERS[0]) => {
+  const handleEditClick = (user: UserMember) => {
     setSelectedUser(user);
     setEditForm({ ...user });
     setIsEditing(true);
@@ -61,22 +134,50 @@ export default function EquipoTrabajoPage() {
 
   const handleSave = () => {
     if (editForm) {
-      setUsers(prev => prev.map(u => u.id === editForm.id ? editForm : u));
+      setUsers((prev) =>
+        prev.map((u) => (u.id === editForm.id ? editForm : u))
+      );
       setSelectedUser(editForm);
       setIsEditing(false);
       setEditForm(null);
     }
   };
 
-  const handleDelete = (id: number) => {
+  const handleDelete = (id: string) => {
     if (confirm("¿Estás seguro de que deseas eliminar a este usuario?")) {
-      setUsers(prev => prev.filter(u => u.id !== id));
+      setUsers((prev) => prev.filter((u) => u.id !== id));
       if (selectedUser?.id === id) {
         setSelectedUser(null);
         setIsEditing(false);
       }
     }
   };
+
+  if (loading && users.length === 0) {
+    return (
+      <DashboardLayout>
+        <div className="flex h-[70vh] items-center justify-center">
+          <Loader2 className="h-10 w-10 animate-spin text-azul-1" />
+        </div>
+      </DashboardLayout>
+    );
+  }
+
+  if (error) {
+    return (
+      <DashboardLayout>
+        <div className="flex h-[70vh] flex-col items-center justify-center gap-4">
+          <p className="text-red-500 font-bold">{error}</p>
+          <button 
+            onClick={() => fetchTeam()}
+            className="px-4 py-2 bg-azul-1 text-white rounded-xl font-bold"
+          >
+            Reintentar
+          </button>
+        </div>
+      </DashboardLayout>
+    );
+  }
 
   return (
     <DashboardLayout>

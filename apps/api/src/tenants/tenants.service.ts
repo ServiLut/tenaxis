@@ -341,4 +341,35 @@ export class TenantsService {
 
     return tenant;
   }
+
+  async findAllMemberships(tenantId: string) {
+    return this.prisma.tenantMembership.findMany({
+      where: {
+        tenantId,
+        aprobado: true,
+        activo: true,
+      },
+      include: {
+        user: {
+          select: {
+            id: true,
+            nombre: true,
+            apellido: true,
+            email: true,
+            telefono: true,
+          },
+        },
+        _count: {
+          select: {
+            serviciosAsignados: true,
+          },
+        },
+      },
+      orderBy: {
+        user: {
+          nombre: 'asc',
+        },
+      },
+    });
+  }
 }
