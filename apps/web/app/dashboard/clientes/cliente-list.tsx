@@ -17,8 +17,13 @@ import {
   Settings,
   Pencil,
   Trash2,
+  Download,
+  FileText,
+  FileSpreadsheet,
+  File as FileIcon,
 } from "lucide-react";
 import { cn } from "@/components/ui/utils";
+import { toast } from "sonner";
 
 interface Cliente {
   id: string;
@@ -60,10 +65,15 @@ const RIESGO_LABELS = {
   CRITICO: { label: "Crítico", color: "text-red-600 bg-red-50" },
 };
 
+import { exportToExcel, exportToPDF, exportToWord } from "@/lib/utils/export-helper";
+
+// ... (previous interface and constants)
+
 export function ClienteList({ initialClientes }: ClienteListProps) {
   const [clientes] = useState<Cliente[]>(initialClientes);
   const [search, setSearch] = useState("");
   const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
+  const [showExportMenu, setShowExportMenu] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 10;
 
@@ -74,6 +84,44 @@ export function ClienteList({ initialClientes }: ClienteListProps) {
      c.nit?.toLowerCase().includes(search.toLowerCase()) ||
      c.numeroDocumento?.toLowerCase().includes(search.toLowerCase()))
   );
+
+  const handleExport = async (format: 'pdf' | 'excel' | 'word') => {
+    const headers = ["Cliente", "Tipo", "Documento/NIT", "Clasificación", "Segmento", "Riesgo", "Teléfono", "Ubicación"];
+    const data = filteredClientes.map(c => [
+      c.tipoCliente === "EMPRESA" ? c.razonSocial : `${c.nombre} ${c.apellido}`,
+      c.tipoCliente,
+      c.tipoCliente === "EMPRESA" ? c.nit : c.numeroDocumento,
+      c.clasificacion || "BRONCE",
+      c.segmentoNegocio || "N/A",
+      c.nivelRiesgo || "BAJO",
+      c.telefono,
+      c.direcciones?.[0]?.direccion || "N/A"
+    ]);
+
+    const exportParams = {
+      headers,
+      data,
+      filename: `clientes_tenaxis_${new Date().getTime()}`,
+      title: "REPORTE ESTRATÉGICO DE CARTERA DE CLIENTES"
+    };
+
+    toast.info(`Generando archivo ${format.toUpperCase()}...`, {
+      description: `Se exportarán ${filteredClientes.length} registros con el diseño corporativo de Tenaxis.`,
+    });
+    
+    try {
+      if (format === 'excel') exportToExcel(exportParams);
+      else if (format === 'pdf') exportToPDF(exportParams);
+      else if (format === 'word') await exportToWord(exportParams);
+
+      toast.success(`${format.toUpperCase()} generado exitosamente`);
+    } catch (error) {
+      console.error("Export error:", error);
+      toast.error(`Error al generar el archivo ${format.toUpperCase()}`);
+    } finally {
+      setShowExportMenu(false);
+    }
+  };
 
   const totalPages = Math.ceil(filteredClientes.length / itemsPerPage);
   const paginatedClientes = filteredClientes.slice(
@@ -99,12 +147,55 @@ export function ClienteList({ initialClientes }: ClienteListProps) {
             onChange={(e) => setSearch(e.target.value)}
           />
         </div>
-        <Link href="/dashboard/clientes/nuevo">
-          <div className="flex items-center h-12 px-8 rounded-lg bg-zinc-900 text-white hover:bg-zinc-800 dark:bg-white dark:text-black dark:hover:bg-zinc-100 gap-3 shadow-lg shadow-zinc-900/10 transition-all cursor-pointer">
-            <Plus className="h-5 w-5" />
-            <span className="font-bold uppercase tracking-wider text-[11px]">Nuevo Registro</span>
+        
+        <div className="flex items-center gap-3">
+          {/* Botón de Exportación */}
+          <div className="relative">
+            <button 
+              onClick={() => setShowExportMenu(!showExportMenu)}
+              className="flex items-center h-12 px-6 rounded-lg bg-zinc-100 dark:bg-zinc-800 text-zinc-700 dark:text-zinc-300 hover:bg-zinc-200 dark:hover:bg-zinc-700 gap-3 transition-all font-bold text-[11px] uppercase tracking-wider"
+            >
+              <Download className="h-4 w-4" />
+              <span>Exportar</span>
+            </button>
+
+            {showExportMenu && (
+              <div className="absolute right-0 mt-2 w-56 bg-white dark:bg-zinc-900 border border-zinc-100 dark:border-zinc-800 rounded-xl shadow-[0_20px_50px_rgba(0,0,0,0.15)] z-50 overflow-hidden py-2 animate-in fade-in slide-in-from-top-2 duration-200">
+                <div className="px-4 py-2 mb-1 border-b border-zinc-50 dark:border-zinc-800">
+                  <p className="text-[9px] font-black text-zinc-400 uppercase tracking-widest">Formatos Corporativos</p>
+                </div>
+                <button 
+                  onClick={() => handleExport('excel')}
+                  className="w-full flex items-center gap-3 px-4 py-3 text-[11px] font-bold text-zinc-700 dark:text-zinc-300 hover:bg-emerald-50 dark:hover:bg-emerald-900/20 hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors"
+                >
+                  <FileSpreadsheet className="h-4 w-4" />
+                  MICROSOFT EXCEL (.XLSX)
+                </button>
+                <button 
+                  onClick={() => handleExport('pdf')}
+                  className="w-full flex items-center gap-3 px-4 py-3 text-[11px] font-bold text-zinc-700 dark:text-zinc-300 hover:bg-red-50 dark:hover:bg-red-900/20 hover:text-red-600 dark:hover:text-red-400 transition-colors"
+                >
+                  <FileText className="h-4 w-4" />
+                  DOCUMENTO PDF (.PDF)
+                </button>
+                <button 
+                  onClick={() => handleExport('word')}
+                  className="w-full flex items-center gap-3 px-4 py-3 text-[11px] font-bold text-zinc-700 dark:text-zinc-300 hover:bg-blue-50 dark:hover:bg-blue-900/20 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
+                >
+                  <FileIcon className="h-4 w-4" />
+                  MICROSOFT WORD (.DOCX)
+                </button>
+              </div>
+            )}
           </div>
-        </Link>
+
+          <Link href="/dashboard/clientes/nuevo">
+            <div className="flex items-center h-12 px-8 rounded-lg bg-zinc-900 text-white hover:bg-zinc-800 dark:bg-white dark:text-black dark:hover:bg-zinc-100 gap-3 shadow-lg shadow-zinc-900/10 transition-all cursor-pointer">
+              <Plus className="h-5 w-5" />
+              <span className="font-bold uppercase tracking-wider text-[11px]">Nuevo Registro</span>
+            </div>
+          </Link>
+        </div>
       </div>
 
       {/* Tabla de Clientes con Scroll Interno */}
