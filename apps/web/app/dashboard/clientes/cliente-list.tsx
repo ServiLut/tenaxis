@@ -86,31 +86,56 @@ export function ClienteList({ initialClientes }: ClienteListProps) {
   );
 
   const handleExport = async (format: 'pdf' | 'excel' | 'word') => {
-    const headers = ["Cliente", "Tipo", "Documento/NIT", "Clasificación", "Segmento", "Riesgo", "Teléfono", "Ubicación"];
-    const data = filteredClientes.map(c => [
-      c.tipoCliente === "EMPRESA" ? c.razonSocial : `${c.nombre} ${c.apellido}`,
-      c.tipoCliente,
-      c.tipoCliente === "EMPRESA" ? c.nit : c.numeroDocumento,
-      c.clasificacion || "BRONCE",
-      c.segmentoNegocio || "N/A",
-      c.nivelRiesgo || "BAJO",
-      c.telefono,
-      c.direcciones?.[0]?.direccion || "N/A"
-    ]);
+    let headers: string[];
+    let data: any[][];
+
+    if (format === 'pdf') {
+      // PDF headers slightly reduced for portrait fit
+      headers = ["Cliente", "Identificación", "Tipo", "Celular", "Segmento", "Clasif.", "Riesgo"];
+      data = filteredClientes.map(c => [
+        c.tipoCliente === "EMPRESA" ? (c.razonSocial || "N/A") : `${c.nombre || ''} ${c.apellido || ''}`.trim(),
+        c.tipoCliente === "EMPRESA" ? (c.nit || "N/A") : (c.numeroDocumento || "N/A"),
+        c.tipoCliente,
+        c.telefono,
+        c.segmentoNegocio || "N/A",
+        c.clasificacion || "BRONCE",
+        c.nivelRiesgo || "BAJO"
+      ]);
+    } else {
+      // Excel/Word headers (Full data)
+      headers = [
+        "ID", "Tipo", "Nombre / Razón Social", "Identificación / NIT", "Correo", "Teléfono 1", "Teléfono 2",
+        "Clasificación", "Segmento", "Riesgo", "Puntos", "Origen", "Act. Económica", "Metraje", "Frecuencia",
+        "Ticket Prom.", "Última Visita", "Próxima Visita", "Fecha Registro"
+      ];
+      data = filteredClientes.map(c => [
+        c.id, c.tipoCliente,
+        c.tipoCliente === "EMPRESA" ? (c.razonSocial || "N/A") : `${c.nombre || ''} ${c.apellido || ''}`.trim(),
+        c.tipoCliente === "EMPRESA" ? (c.nit || "N/A") : (c.numeroDocumento || "N/A"),
+        c.correo || "N/A", c.telefono, c.telefono2 || "N/A",
+        c.clasificacion || "BRONCE", c.segmentoNegocio || "N/A", c.nivelRiesgo || "BAJO", c.score || 0,
+        (c as any).origenCliente || "N/A", (c as any).actividadEconomica || "N/A",
+        (c as any).metrajeTotal ? `${(c as any).metrajeTotal}` : "0", (c as any).frecuenciaServicio || "N/A",
+        (c as any).ticketPromedio ? `$ ${(c as any).ticketPromedio}` : "$ 0",
+        (c as any).ultimaVisita ? new Date((c as any).ultimaVisita).toLocaleDateString() : "N/A",
+        (c as any).proximaVisita ? new Date((c as any).proximaVisita).toLocaleDateString() : "N/A",
+        new Date((c as any).createdAt).toLocaleDateString()
+      ]);
+    }
 
     const exportParams = {
       headers,
       data,
-      filename: `clientes_tenaxis_${new Date().getTime()}`,
+      filename: `cartera_clientes_tenaxis_${new Date().toISOString().split('T')[0]}`,
       title: "REPORTE ESTRATÉGICO DE CARTERA DE CLIENTES"
     };
 
     toast.info(`Generando archivo ${format.toUpperCase()}...`, {
-      description: `Se exportarán ${filteredClientes.length} registros con el diseño corporativo de Tenaxis.`,
+      description: `Se exportarán ${filteredClientes.length} registros con el diseño corporativo.`,
     });
     
     try {
-      if (format === 'excel') exportToExcel(exportParams);
+      if (format === 'excel') await exportToExcel(exportParams);
       else if (format === 'pdf') exportToPDF(exportParams);
       else if (format === 'word') await exportToWord(exportParams);
 
