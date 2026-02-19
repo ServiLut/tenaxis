@@ -49,9 +49,9 @@ const menuItems: { title: string; icon: LucideIcon; href: string; role?: string 
     href: "/dashboard/agenda",
   },
   {
-    title: "Pagos",
+    title: "Contabilidad",
     icon: CreditCard,
-    href: "/dashboard/pagos",
+    href: "/dashboard/contabilidad",
   },
 ];
 
