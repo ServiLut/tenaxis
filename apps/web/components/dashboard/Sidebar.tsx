@@ -19,6 +19,7 @@ import {
   Building2,
   LucideIcon,
   Contact,
+  Package,
 } from "lucide-react";
 import { isTenantAdminAction } from "@/app/dashboard/actions";
 
@@ -53,6 +54,11 @@ const menuItems: { title: string; icon: LucideIcon; href: string; role?: string 
     title: "Agenda",
     icon: Calendar,
     href: "/dashboard/agenda",
+  },
+  {
+    title: "Insumos",
+    icon: Package,
+    href: "/dashboard/insumos",
   },
   {
     title: "Pagos",
