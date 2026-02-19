@@ -26,12 +26,64 @@ import {
 } from "lucide-react";
 import { cn } from "@/components/ui/utils";
 import { toast } from "sonner";
-
-// ... (MOCK_SERVICIOS, ESTADO_STYLING, URGENCIA_STYLING remain the same)
-
 import { exportToExcel, exportToPDF, exportToWord } from "@/lib/utils/export-helper";
 
-// ... (previous interfaces and mock data)
+interface Servicio {
+  id: string;
+  cliente: string;
+  servicioEspecifico: string;
+  fecha: string;
+  hora: string;
+  tecnico: string;
+  estado: string;
+  urgencia: string;
+}
+
+const MOCK_SERVICIOS: Servicio[] = [
+  {
+    id: "OS-2024-001",
+    cliente: "Corporativo Industrial S.A.",
+    servicioEspecifico: "Mantenimiento Preventivo Chiller",
+    fecha: "2024-05-20",
+    hora: "09:00 AM",
+    tecnico: "Carlos Ruiz",
+    estado: "Programado",
+    urgencia: "Alta",
+  },
+  {
+    id: "OS-2024-002",
+    cliente: "Residencial Las Palmas",
+    servicioEspecifico: "Reparación Split 12000 BTU",
+    fecha: "2024-05-21",
+    hora: "02:30 PM",
+    tecnico: "Ana Beltrán",
+    estado: "En Proceso",
+    urgencia: "Media",
+  },
+  {
+    id: "OS-2024-003",
+    cliente: "Centro Comercial Multiplaza",
+    servicioEspecifico: "Instalación Ductería Nivel 2",
+    fecha: "2024-05-22",
+    hora: "10:00 AM",
+    tecnico: "David López",
+    estado: "Completado",
+    urgencia: "Baja",
+  },
+];
+
+const ESTADO_STYLING: Record<string, string> = {
+  "Programado": "bg-blue-50 text-blue-600 border-blue-100 dark:bg-blue-900/20 dark:text-blue-400 dark:border-blue-800/50",
+  "En Proceso": "bg-amber-50 text-amber-600 border-amber-100 dark:bg-amber-900/20 dark:text-amber-400 dark:border-amber-800/50",
+  "Completado": "bg-emerald-50 text-emerald-600 border-emerald-100 dark:bg-emerald-900/20 dark:text-emerald-400 dark:border-emerald-800/50",
+  "Cancelado": "bg-red-50 text-red-600 border-red-100 dark:bg-red-900/20 dark:text-red-400 dark:border-red-800/50",
+};
+
+const URGENCIA_STYLING: Record<string, string> = {
+  "Alta": "bg-red-500 text-white",
+  "Media": "bg-amber-500 text-white",
+  "Baja": "bg-emerald-500 text-white",
+};
 
 export default function ServiciosPage() {
   const [search, setSearch] = useState("");
@@ -39,7 +91,7 @@ export default function ServiciosPage() {
   const [openMenuId, setOpenMenuId] = useState<string | null>(null);
   const [showExportMenu, setShowExportMenu] = useState(false);
 
-  const filteredServicios = servicios.filter(s => 
+  const filteredServicios = servicios.filter((s: Servicio) => 
     s.cliente.toLowerCase().includes(search.toLowerCase()) ||
     s.servicioEspecifico.toLowerCase().includes(search.toLowerCase()) ||
     s.id.toLowerCase().includes(search.toLowerCase())
@@ -47,7 +99,7 @@ export default function ServiciosPage() {
 
   const handleExport = async (format: 'pdf' | 'excel' | 'word') => {
     const headers = ["ID Orden", "Cliente", "Servicio", "Fecha", "Hora", "Técnico", "Estado", "Urgencia"];
-    const data = filteredServicios.map(s => [
+    const data = filteredServicios.map((s: Servicio) => [
       s.id,
       s.cliente,
       s.servicioEspecifico,
@@ -178,7 +230,7 @@ export default function ServiciosPage() {
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-zinc-100 dark:divide-zinc-800">
-                  {filteredServicios.map((servicio) => (
+                  {filteredServicios.map((servicio: Servicio) => (
                     <tr key={servicio.id} className="group hover:bg-zinc-50/50 dark:hover:bg-zinc-800/30 transition-colors">
                       <td className="px-8 py-6">
                         <span className="font-mono text-xs font-black text-[var(--color-azul-1)] bg-blue-50 dark:bg-blue-500/10 px-3 py-1.5 rounded-lg border border-blue-100 dark:border-blue-500/20">

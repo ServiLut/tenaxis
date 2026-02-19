@@ -28,7 +28,7 @@ export const exportToExcel = ({ headers, data, filename }: ExportData) => {
 };
 
 export const exportToPDF = ({ headers, data, filename, title }: ExportData) => {
-  const doc = jsPDF();
+  const doc = new jsPDF();
   
   // Header Corporativo
   doc.setFontSize(20);
