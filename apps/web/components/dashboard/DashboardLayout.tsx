@@ -15,7 +15,7 @@ export function DashboardLayout({
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
   return (
-    <div className="h-screen bg-[#F5F1EB] dark:bg-zinc-950 overflow-hidden">
+    <div className="h-screen bg-[#F5F1EB] dark:bg-zinc-950">
       <Sidebar isOpen={isSidebarOpen} onClose={() => setIsSidebarOpen(false)} />
       <div className="lg:pl-72 h-full flex flex-col transition-all duration-300">
         <Header onMenuClick={() => setIsSidebarOpen(true)} />

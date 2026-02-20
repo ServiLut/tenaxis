@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Button, Input, Label, Card, CardHeader, CardTitle, CardContent, Select } from "@/components/ui";
 import { Building2, Plus, Users, Mail, Loader2, X, ShieldCheck, CreditCard, UserPlus, Eye, Pencil } from "lucide-react";
 import { cn } from "@/components/ui/utils";
@@ -63,6 +63,18 @@ export function TenantList({ initialTenants, availablePlans }: TenantListProps) 
   const [loadingDetail, setLoadingDetail] = useState(false);
   const [slugTouched, setSlugTouched] = useState(false);
   const router = useRouter();
+
+  useEffect(() => {
+    const handleEsc = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        setIsModalOpen(false);
+        setIsViewModalOpen(false);
+        setSlugTouched(false);
+      }
+    };
+    window.addEventListener("keydown", handleEsc);
+    return () => window.removeEventListener("keydown", handleEsc);
+  }, []);
 
   const handleViewTenant = async (tenantId: string) => {
     setLoadingDetail(true);
@@ -238,9 +250,14 @@ export function TenantList({ initialTenants, availablePlans }: TenantListProps) 
 
       {/* Modal Visualizar Tenant */}
       {isViewModalOpen && selectedTenantDetail && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-zinc-900/80 backdrop-blur-md animate-in fade-in duration-300">
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-zinc-900/80 backdrop-blur-md animate-in fade-in duration-300"
+          onClick={(e) => {
+            if (e.target === e.currentTarget) setIsViewModalOpen(false);
+          }}
+        >
           <div className="w-full max-w-4xl overflow-hidden rounded-[3rem] bg-white shadow-2xl animate-in zoom-in-95 duration-300 border-none">
-            <div className="relative max-h-[90vh] overflow-y-auto">
+            <div className="relative max-h-[90vh]">
               {/* Header Modal */}
               <div className="sticky top-0 z-10 flex items-center justify-between bg-white/90 p-8 pb-4 backdrop-blur-md border-b border-zinc-50">
                 <div className="flex items-center gap-4">
@@ -286,7 +303,7 @@ export function TenantList({ initialTenants, availablePlans }: TenantListProps) 
                         {selectedTenantDetail.memberships.length}
                       </span>
                     </div>
-                    <div className="space-y-4">
+                    <div className="max-h-[300px] overflow-y-auto pr-2 space-y-4">
                       {selectedTenantDetail.memberships.map((membership, _idx) => (
                         <div key={_idx} className="flex items-center justify-between p-4 rounded-2xl bg-white border border-zinc-100 shadow-sm">
                           <div className="flex items-center gap-3">
@@ -315,7 +332,7 @@ export function TenantList({ initialTenants, availablePlans }: TenantListProps) 
                         {selectedTenantDetail.empresas.length}
                       </span>
                     </div>
-                    <div className="space-y-4">
+                    <div className="max-h-[300px] overflow-y-auto pr-2 space-y-4">
                       {selectedTenantDetail.empresas.map((empresa, idx) => (
                         <div key={idx} className="flex items-center justify-between p-4 rounded-2xl bg-white border border-zinc-100 shadow-sm">
                           <div className="flex items-center gap-3">
@@ -349,7 +366,12 @@ export function TenantList({ initialTenants, availablePlans }: TenantListProps) 
 
       {/* Modal Optimizado */}
       {isModalOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-zinc-900/80 backdrop-blur-md animate-in fade-in duration-300">
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-zinc-900/80 backdrop-blur-md animate-in fade-in duration-300"
+          onClick={(e) => {
+            if (e.target === e.currentTarget) handleCloseModal();
+          }}
+        >
           <div className="w-full max-w-2xl overflow-hidden rounded-[3rem] bg-white shadow-[0_0_100px_-12px_rgba(0,0,0,0.3)] dark:bg-zinc-950 animate-in zoom-in-95 duration-300 border border-zinc-100 dark:border-zinc-800">
             <div className="relative max-h-[90vh] overflow-y-auto">
               {/* Header Modal */}
