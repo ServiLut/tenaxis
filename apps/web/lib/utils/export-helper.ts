@@ -6,7 +6,7 @@ import { saveAs } from 'file-saver';
 
 export interface ExportData {
   headers: string[];
-  data: any[][];
+  data: (string | number | boolean | null | undefined)[][];
   filename: string;
   title: string;
 }
@@ -102,7 +102,7 @@ export const exportToPDF = ({ headers, data, filename, title }: ExportData) => {
   
   autoTable(doc, {
     head: [headers],
-    body: data,
+    body: data.map(row => row.map(cell => cell === undefined ? null : cell)),
     startY: 45,
     styles: {
       fontSize: 8,

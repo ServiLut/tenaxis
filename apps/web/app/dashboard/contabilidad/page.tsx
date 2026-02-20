@@ -7,8 +7,7 @@ import {
   CardHeader, 
   CardTitle, 
   CardContent, 
-  Button,
-  Input
+  Button
 } from "@/components/ui";
 import { 
   Wallet, 
@@ -16,13 +15,10 @@ import {
   Coins, 
   ArrowUpCircle, 
   Scale, 
-  Search, 
   Plus, 
   Filter,
-  ArrowUpRight,
   TrendingDown,
   TrendingUp,
-  ChevronRight,
   DollarSign,
   Download,
   FileSpreadsheet,
@@ -37,7 +33,7 @@ type AccountingTab = "recaudo" | "nomina" | "anticipos" | "egresos" | "balance";
 export default function ContabilidadPage() {
   const [activeTab, setActiveTab] = useState<AccountingTab>("balance");
 
-  // Sync tab with URL Hash
+  // Sync tab with URL Hash (Read)
   useEffect(() => {
     const handleHashChange = () => {
       const hash = window.location.hash.replace("#", "") as AccountingTab;
@@ -51,9 +47,15 @@ export default function ContabilidadPage() {
     return () => window.removeEventListener("hashchange", handleHashChange);
   }, []);
 
+  // Sync state to URL Hash (Write)
+  useEffect(() => {
+    if (window.location.hash.replace("#", "") !== activeTab) {
+      window.location.hash = activeTab;
+    }
+  }, [activeTab]);
+
   const handleTabChange = (tabId: AccountingTab) => {
     setActiveTab(tabId);
-    window.location.hash = tabId;
   };
 
   const tabs = [

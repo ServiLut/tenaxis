@@ -17,11 +17,8 @@ import {
   ArrowLeft,
   User,
   Calendar,
-  Clock,
   CreditCard,
   Briefcase,
-  AlertTriangle,
-  ChevronRight,
   Info,
   Save,
   GanttChart
@@ -43,18 +40,44 @@ const METODOS_PAGO = [
   { value: "CONTRATO", label: "Contrato Mensual" },
 ];
 
+interface Direccion {
+  id: string;
+  direccion: string;
+  nombreSede?: string | null;
+  barrio?: string | null;
+}
+
+interface Cliente {
+  id: string;
+  tipoCliente: "PERSONA" | "EMPRESA";
+  nombre?: string | null;
+  apellido?: string | null;
+  razonSocial?: string | null;
+  direcciones?: Direccion[];
+}
+
+interface TipoInteres {
+  id: string;
+  nombre: string;
+}
+
+interface Empresa {
+  id: string;
+  nombre: string;
+}
+
 function NuevoServicioContent() {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
-  const [clientes, setClientes] = useState<any[]>([]);
-  const [tiposInteres, setTiposInteres] = useState<any[]>([]);
-  const [empresas, setEmpresas] = useState<any[]>([]);
+  const [clientes, setClientes] = useState<Cliente[]>([]);
+  const [tiposInteres, setTiposInteres] = useState<TipoInteres[]>([]);
+  const [empresas, setEmpresas] = useState<Empresa[]>([]);
   
   // Form State
   const [selectedCliente, setSelectedCliente] = useState("");
   const [selectedDireccion, setSelectedDireccion] = useState("");
   const [selectedEmpresa, setSelectedEmpresa] = useState("");
-  const [direccionesCliente, setDireccionesCliente] = useState<any[]>([]);
+  const [direccionesCliente, setDireccionesCliente] = useState<Direccion[]>([]);
 
   useEffect(() => {
     const originalStyle = window.getComputedStyle(document.body).overflow;
@@ -81,25 +104,29 @@ function NuevoServicioContent() {
     loadData();
   }, []);
 
-  useEffect(() => {
-    if (selectedCliente) {
-      const cliente = (clientes || []).find(c => c.id === selectedCliente);
-      setDireccionesCliente(cliente?.direcciones || []);
-      if (cliente?.direcciones?.length > 0) {
-        setSelectedDireccion(cliente.direcciones[0].id);
+  const handleClienteChange = (clientId: string) => {
+    setSelectedCliente(clientId);
+    if (clientId) {
+      const cliente = (clientes || []).find(c => c.id === clientId);
+      const dirs = cliente?.direcciones || [];
+      setDireccionesCliente(dirs);
+      if (dirs.length > 0) {
+        setSelectedDireccion(dirs[0].id);
+      } else {
+        setSelectedDireccion("");
       }
     } else {
       setDireccionesCliente([]);
       setSelectedDireccion("");
     }
-  }, [selectedCliente, clientes]);
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
 
     toast.promise(
-      new Promise((resolve, reject) => {
+      new Promise<{ message: string }>((resolve, reject) => {
         // Simular creación por ahora
         setTimeout(() => {
           const success = true; // Simulación de éxito/fallo
@@ -114,7 +141,7 @@ function NuevoServicioContent() {
       }),
       {
         loading: 'Generando orden técnica y vinculando disponibilidad...',
-        success: (data: any) => data.message,
+        success: (data) => data.message,
         error: (err) => err.message,
       }
     );
@@ -159,10 +186,12 @@ function NuevoServicioContent() {
                   <Combobox
                     options={(Array.isArray(clientes) ? clientes : []).map(c => ({ 
                       value: c.id, 
-                      label: c.tipoCliente === "EMPRESA" ? c.razonSocial : `${c.nombre} ${c.apellido}` 
+                      label: c.tipoCliente === "EMPRESA" 
+                        ? (c.razonSocial || "Empresa sin nombre") 
+                        : `${c.nombre || ""} ${c.apellido || ""}`.trim() || "Cliente sin nombre"
                     }))}
                     value={selectedCliente}
-                    onChange={(v) => setSelectedCliente(v)}
+                    onChange={handleClienteChange}
                     placeholder="Buscar por nombre o razón social..."
                   />
                   <div className="flex justify-start px-1">
