@@ -1,6 +1,7 @@
 import {
   Body,
   Controller,
+  Delete,
   Get,
   Param,
   Patch,
@@ -58,5 +59,13 @@ export class EnterpriseController {
       req.user.sub,
       req.user.tenantId,
     );
+  }
+
+  @Delete(':id')
+  remove(@Param('id') id: string, @Request() req: { user: JwtPayload }) {
+    if (!req.user.tenantId) {
+      throw new UnauthorizedException('Usuario no tiene un tenant asignado');
+    }
+    return this.enterpriseService.remove(id, req.user.sub, req.user.tenantId);
   }
 }

@@ -179,9 +179,10 @@ model Empresa {
   id                   String                 @id @default(uuid()) @db.Uuid
   tenantId             String                 @db.Uuid
   nombre               String
-  estado               Boolean                @default(true)
+  activo               Boolean                @default(true)
   createdAt            DateTime               @default(now())
   updatedAt            DateTime               @updatedAt
+  deletedAt            DateTime?
   anticipos            Anticipos[]
   auditorias           Auditoria[]
   authSessions         AuthSession[]
@@ -232,9 +233,10 @@ model EmpresaMembership {
   tenantId     String            @db.Uuid
   membershipId String            @db.Uuid
   empresaId    String            @db.Uuid
-  isActive     Boolean           @default(true)
+  activo       Boolean           @default(true)
   createdAt    DateTime          @default(now())
   updatedAt    DateTime          @updatedAt
+  deletedAt    DateTime?
   role         Role?             @default(OPERADOR)
   zonaId       String?           @db.Uuid
   empresa      Empresa           @relation(fields: [empresaId], references: [id], onDelete: Cascade)

@@ -101,7 +101,7 @@ export class EnterpriseService {
           empresa: { connect: { id: empresa.id } },
           membership: { connect: { id: membershipId } },
           role: 'SU_ADMIN',
-          isActive: true,
+          activo: true,
         },
       });
 
@@ -150,10 +150,15 @@ export class EnterpriseService {
 
     const enterprises =
       role === 'SU_ADMIN'
-        ? await this.prisma.empresa.findMany()
+        ? await this.prisma.empresa.findMany({
+            where: {
+              deletedAt: null,
+            },
+          })
         : await this.prisma.empresa.findMany({
             where: {
               tenantId: tenantId,
+              deletedAt: null,
             },
           });
 
@@ -197,6 +202,7 @@ export class EnterpriseService {
       where: {
         id: enterpriseId,
         tenantId: tenantId,
+        deletedAt: null,
       },
     });
 
@@ -212,6 +218,55 @@ export class EnterpriseService {
       },
       data: {
         ...updateEnterpriseDto,
+      },
+    });
+  }
+
+  async remove(enterpriseId: string, userId: string, tenantId: string) {
+    if (!tenantId) {
+      throw new BadRequestException('x-tenant-id header is required.');
+    }
+
+    const membership = await this.prisma.tenantMembership.findUnique({
+      where: {
+        userId_tenantId: {
+          userId: userId,
+          tenantId: tenantId,
+        },
+      },
+    });
+
+    if (!membership || membership.status !== 'ACTIVE') {
+      throw new ForbiddenException(
+        'User is not an active member of this tenant.',
+      );
+    }
+
+    if (membership.role !== 'SU_ADMIN') {
+      throw new ForbiddenException('Only admins can delete enterprises.');
+    }
+
+    const enterprise = await this.prisma.empresa.findFirst({
+      where: {
+        id: enterpriseId,
+        tenantId: tenantId,
+        deletedAt: null,
+      },
+    });
+
+    if (!enterprise) {
+      throw new NotFoundException(
+        'Enterprise not found or does not belong to this tenant.',
+      );
+    }
+
+    return this.prisma.empresa.update({
+      where: {
+        id: enterpriseId,
+      },
+      data: {
+        deletedAt: new Date(),
+        activo: false,
       },
     });
   }
