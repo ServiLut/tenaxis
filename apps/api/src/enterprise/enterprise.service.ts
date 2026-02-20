@@ -51,11 +51,6 @@ export class EnterpriseService {
             plan: true,
           },
         },
-        _count: {
-          select: {
-            empresas: true,
-          },
-        },
       },
     });
 
@@ -77,7 +72,12 @@ export class EnterpriseService {
     }
 
     const maxEmpresas = tenant.subscription.plan.maxEmpresas;
-    const currentEmpresas = tenant._count.empresas;
+    const currentEmpresas = await this.prisma.empresa.count({
+      where: {
+        tenantId,
+        deletedAt: null,
+      },
+    });
 
     if (currentEmpresas >= maxEmpresas) {
       throw new UnprocessableEntityException(
@@ -89,6 +89,7 @@ export class EnterpriseService {
       const empresa = await tx.empresa.create({
         data: {
           nombre: createEnterpriseDto.nombre,
+          activo: createEnterpriseDto.activo ?? true,
           tenant: {
             connect: { id: tenantId },
           },
