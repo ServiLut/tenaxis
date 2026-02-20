@@ -392,7 +392,7 @@ export function ClienteList({ initialClientes }: ClienteListProps) {
           </DropdownMenu>
 
           <Link href="/dashboard/clientes/nuevo">
-            <div className="flex items-center h-12 px-8 rounded-lg bg-zinc-900 text-white gap-3 shadow-lg cursor-pointer">
+            <div className="flex items-center h-12 px-8 rounded-lg bg-azul-1 text-zinc-50 gap-3 shadow-lg shadow-azul-1/20 transition-all hover:bg-blue-700 dark:hover:bg-blue-600 cursor-pointer">
               <Plus className="h-5 w-5" />
               <span className="font-bold uppercase tracking-wider text-[11px]">Nuevo Registro</span>
             </div>
@@ -406,14 +406,14 @@ export function ClienteList({ initialClientes }: ClienteListProps) {
           <table className="w-full text-left border-collapse">
             <thead className="sticky top-0 bg-white/95 dark:bg-zinc-900/95 backdrop-blur-sm z-20">
               <tr className="border-b border-zinc-100 dark:border-zinc-800/50">
-                <th className="px-4 py-5 text-[10px] font-black uppercase tracking-[0.2em] text-zinc-400">Cliente</th>
-                <th className="px-3 py-5 text-[10px] font-black uppercase tracking-[0.2em] text-zinc-400">Documento</th>
-                <th className="px-3 py-5 text-[10px] font-black uppercase tracking-[0.2em] text-zinc-400 text-center">Clasificación</th>
-                <th className="px-3 py-5 text-[10px] font-black uppercase tracking-[0.2em] text-zinc-400 text-center">Segmento</th>
-                <th className="px-3 py-5 text-[10px] font-black uppercase tracking-[0.2em] text-zinc-400 text-center">Riesgo</th>
-                <th className="px-3 py-5 text-[10px] font-black uppercase tracking-[0.2em] text-zinc-400">Teléfonos</th>
-                <th className="px-3 py-5 text-[10px] font-black uppercase tracking-[0.2em] text-zinc-400">Ubicación</th>
-                <th className="px-4 py-5 text-right text-[10px] font-black uppercase tracking-[0.2em] text-zinc-400">Acciones</th>
+                <th className="px-4 py-5 text-[10px] font-black uppercase tracking-[0.2em] text-zinc-400 dark:text-zinc-300">Cliente</th>
+                <th className="px-3 py-5 text-[10px] font-black uppercase tracking-[0.2em] text-zinc-400 dark:text-zinc-300">Documento</th>
+                <th className="px-3 py-5 text-[10px] font-black uppercase tracking-[0.2em] text-zinc-400 dark:text-zinc-300 text-center">Clasificación</th>
+                <th className="px-3 py-5 text-[10px] font-black uppercase tracking-[0.2em] text-zinc-400 dark:text-zinc-300 text-center">Segmento</th>
+                <th className="px-3 py-5 text-[10px] font-black uppercase tracking-[0.2em] text-zinc-400 dark:text-zinc-300 text-center">Riesgo</th>
+                <th className="px-3 py-5 text-[10px] font-black uppercase tracking-[0.2em] text-zinc-400 dark:text-zinc-300">Teléfonos</th>
+                <th className="px-3 py-5 text-[10px] font-black uppercase tracking-[0.2em] text-zinc-400 dark:text-zinc-300">Ubicación</th>
+                <th className="px-4 py-5 text-right text-[10px] font-black uppercase tracking-[0.2em] text-zinc-400 dark:text-zinc-300">Acciones</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-zinc-50 dark:divide-zinc-800/50">
@@ -538,7 +538,7 @@ export function ClienteList({ initialClientes }: ClienteListProps) {
       {/* Paginación */}
       <div className="px-8 py-4 border-t border-zinc-100 dark:border-zinc-800/50 bg-zinc-50/50 dark:bg-zinc-900/50 flex items-center justify-between shrink-0">
         <div className="flex items-center gap-4">
-          <span className="text-[10px] font-black uppercase tracking-widest text-zinc-400">
+          <span className="text-[10px] font-black uppercase tracking-widest text-zinc-400 dark:text-zinc-300">
             Mostrando {Math.min(filteredClientes.length, (currentPage - 1) * itemsPerPage + 1)}-{Math.min(filteredClientes.length, currentPage * itemsPerPage)} de {filteredClientes.length}
           </span>
         </div>
@@ -547,7 +547,7 @@ export function ClienteList({ initialClientes }: ClienteListProps) {
           <button
             onClick={() => setCurrentPage(prev => Math.max(1, prev - 1))}
             disabled={currentPage === 1}
-            className="flex h-10 w-10 items-center justify-center rounded-xl bg-white dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 text-zinc-500 disabled:opacity-30 hover:bg-zinc-50 transition-all"
+            className="flex h-10 w-10 items-center justify-center rounded-xl bg-white dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 text-zinc-500 dark:text-zinc-300 disabled:opacity-30 hover:bg-zinc-50 dark:hover:bg-zinc-700 transition-all"
           >
             <ChevronLeft className="h-5 w-5" />
           </button>
@@ -560,8 +560,8 @@ export function ClienteList({ initialClientes }: ClienteListProps) {
                 className={cn(
                   "flex h-10 w-10 items-center justify-center rounded-xl text-[11px] font-black transition-all",
                   currentPage === page
-                    ? "bg-zinc-900 text-white dark:bg-white dark:text-black"
-                    : "bg-white dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 text-zinc-500 hover:bg-zinc-50"
+                    ? "bg-azul-1 text-zinc-50 shadow-lg shadow-azul-1/20"
+                    : "bg-white dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 text-zinc-500 dark:text-zinc-300 hover:bg-zinc-50 dark:hover:bg-zinc-700"
                 )}
               >
                 {page}
@@ -572,7 +572,7 @@ export function ClienteList({ initialClientes }: ClienteListProps) {
           <button
             onClick={() => setCurrentPage(prev => Math.min(totalPages, prev + 1))}
             disabled={currentPage === totalPages || totalPages === 0}
-            className="flex h-10 w-10 items-center justify-center rounded-xl bg-white dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 text-zinc-500 disabled:opacity-30 hover:bg-zinc-50 transition-all"
+            className="flex h-10 w-10 items-center justify-center rounded-xl bg-white dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 text-zinc-500 dark:text-zinc-300 disabled:opacity-30 hover:bg-zinc-50 dark:hover:bg-zinc-700 transition-all"
           >
             <ChevronRight className="h-5 w-5" />
           </button>
