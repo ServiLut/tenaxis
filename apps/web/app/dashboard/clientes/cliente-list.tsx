@@ -24,6 +24,7 @@ import {
 } from "lucide-react";
 import { cn } from "@/components/ui/utils";
 import { toast } from "sonner";
+import { exportToExcel, exportToPDF, exportToWord } from "@/lib/utils/export-helper";
 
 interface Cliente {
   id: string;
@@ -65,10 +66,6 @@ const RIESGO_LABELS = {
   CRITICO: { label: "Crítico", color: "text-red-600 bg-red-50" },
 };
 
-import { exportToExcel, exportToPDF, exportToWord } from "@/lib/utils/export-helper";
-
-// ... (previous interface and constants)
-
 export function ClienteList({ initialClientes }: ClienteListProps) {
   const [clientes] = useState<Cliente[]>(initialClientes);
   const [search, setSearch] = useState("");
@@ -90,7 +87,6 @@ export function ClienteList({ initialClientes }: ClienteListProps) {
     let data: any[][];
 
     if (format === 'pdf') {
-      // PDF headers slightly reduced for portrait fit
       headers = ["Cliente", "Identificación", "Tipo", "Celular", "Segmento", "Clasif.", "Riesgo"];
       data = filteredClientes.map(c => [
         c.tipoCliente === "EMPRESA" ? (c.razonSocial || "N/A") : `${c.nombre || ''} ${c.apellido || ''}`.trim(),
@@ -102,7 +98,6 @@ export function ClienteList({ initialClientes }: ClienteListProps) {
         c.nivelRiesgo || "BAJO"
       ]);
     } else {
-      // Excel/Word headers (Full data)
       headers = [
         "ID", "Tipo", "Nombre / Razón Social", "Identificación / NIT", "Correo", "Teléfono 1", "Teléfono 2",
         "Clasificación", "Segmento", "Riesgo", "Puntos", "Origen", "Act. Económica", "Metraje", "Frecuencia",
@@ -130,19 +125,16 @@ export function ClienteList({ initialClientes }: ClienteListProps) {
       title: "REPORTE ESTRATÉGICO DE CARTERA DE CLIENTES"
     };
 
-    toast.info(`Generando archivo ${format.toUpperCase()}...`, {
-      description: `Se exportarán ${filteredClientes.length} registros con el diseño corporativo.`,
-    });
+    toast.info(`Generando archivo ${format.toUpperCase()}...`);
     
     try {
       if (format === 'excel') await exportToExcel(exportParams);
       else if (format === 'pdf') exportToPDF(exportParams);
       else if (format === 'word') await exportToWord(exportParams);
-
-      toast.success(`${format.toUpperCase()} generado exitosamente`);
+      toast.success(`${format.toUpperCase()} generado`);
     } catch (error) {
       console.error("Export error:", error);
-      toast.error(`Error al generar el archivo ${format.toUpperCase()}`);
+      toast.error(`Error al generar el archivo`);
     } finally {
       setShowExportMenu(false);
     }
@@ -154,68 +146,45 @@ export function ClienteList({ initialClientes }: ClienteListProps) {
     currentPage * itemsPerPage
   );
 
-  // Reset to first page when search changes
   React.useEffect(() => {
     setCurrentPage(1);
   }, [search]);
 
   return (
-    <div className="flex flex-col h-full bg-white dark:bg-zinc-900 rounded-xl border border-zinc-200/60 dark:border-zinc-800/50 shadow-xl shadow-zinc-200/20 dark:shadow-none overflow-hidden">
-      {/* Barra de Filtros Unificada */}
-      <div className="px-8 py-6 border-b border-zinc-100 dark:border-zinc-800/50 flex flex-col gap-6 sm:flex-row sm:items-center sm:justify-between bg-white dark:bg-zinc-900 shrink-0">
+    <div className="flex flex-col h-full bg-white dark:bg-zinc-900 rounded-xl border border-zinc-200/60 dark:border-zinc-800/50 shadow-xl overflow-visible">
+      {/* Filtros */}
+      <div className="px-8 py-6 border-b border-zinc-100 dark:border-zinc-800/50 flex flex-col gap-6 sm:flex-row sm:items-center sm:justify-between bg-white dark:bg-zinc-900 shrink-0 rounded-t-xl overflow-visible relative z-50">
         <div className="relative flex-1 max-w-md">
           <Search className="absolute left-4 top-1/2 h-5 w-5 -translate-y-1/2 text-zinc-400" />
           <Input 
-            placeholder="Buscar por nombre, documento o NIT..." 
-            className="h-12 pl-12 rounded-lg border-zinc-200 dark:border-zinc-800 bg-zinc-50 dark:bg-zinc-800/50 transition-all"
+            placeholder="Buscar..." 
+            className="h-12 pl-12 rounded-lg border-zinc-200"
             value={search}
             onChange={(e) => setSearch(e.target.value)}
           />
         </div>
         
-        <div className="flex items-center gap-3">
-          {/* Botón de Exportación */}
+        <div className="flex items-center gap-3 relative overflow-visible">
           <div className="relative">
             <button 
-              onClick={() => setShowExportMenu(!showExportMenu)}
-              className="flex items-center h-12 px-6 rounded-lg bg-zinc-100 dark:bg-zinc-800 text-zinc-700 dark:text-zinc-300 hover:bg-zinc-200 dark:hover:bg-zinc-700 gap-3 transition-all font-bold text-[11px] uppercase tracking-wider"
+              onClick={(e) => { e.stopPropagation(); setShowExportMenu(!showExportMenu); }}
+              className="flex items-center h-12 px-6 rounded-lg bg-zinc-100 dark:bg-zinc-800 text-zinc-700 dark:text-zinc-300 font-bold text-[11px] uppercase tracking-wider"
             >
-              <Download className="h-4 w-4" />
-              <span>Exportar</span>
+              <Download className="h-4 w-4 mr-2" />
+              Exportar
             </button>
 
             {showExportMenu && (
-              <div className="absolute right-0 mt-2 w-56 bg-white dark:bg-zinc-900 border border-zinc-100 dark:border-zinc-800 rounded-xl shadow-[0_20px_50px_rgba(0,0,0,0.15)] z-50 overflow-hidden py-2 animate-in fade-in slide-in-from-top-2 duration-200">
-                <div className="px-4 py-2 mb-1 border-b border-zinc-50 dark:border-zinc-800">
-                  <p className="text-[9px] font-black text-zinc-400 uppercase tracking-widest">Formatos Corporativos</p>
-                </div>
-                <button 
-                  onClick={() => handleExport('excel')}
-                  className="w-full flex items-center gap-3 px-4 py-3 text-[11px] font-bold text-zinc-700 dark:text-zinc-300 hover:bg-emerald-50 dark:hover:bg-emerald-900/20 hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors"
-                >
-                  <FileSpreadsheet className="h-4 w-4" />
-                  MICROSOFT EXCEL (.XLSX)
-                </button>
-                <button 
-                  onClick={() => handleExport('pdf')}
-                  className="w-full flex items-center gap-3 px-4 py-3 text-[11px] font-bold text-zinc-700 dark:text-zinc-300 hover:bg-red-50 dark:hover:bg-red-900/20 hover:text-red-600 dark:hover:text-red-400 transition-colors"
-                >
-                  <FileText className="h-4 w-4" />
-                  DOCUMENTO PDF (.PDF)
-                </button>
-                <button 
-                  onClick={() => handleExport('word')}
-                  className="w-full flex items-center gap-3 px-4 py-3 text-[11px] font-bold text-zinc-700 dark:text-zinc-300 hover:bg-blue-50 dark:hover:bg-blue-900/20 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
-                >
-                  <FileIcon className="h-4 w-4" />
-                  MICROSOFT WORD (.DOCX)
-                </button>
+              <div className="absolute right-0 mt-2 w-56 bg-white dark:bg-zinc-900 border border-zinc-100 dark:border-zinc-800 rounded-xl shadow-2xl z-[100] py-2 animate-in fade-in slide-in-from-top-2 duration-200">
+                <button onClick={() => handleExport('excel')} className="w-full flex items-center gap-3 px-4 py-3 text-[11px] font-bold hover:bg-zinc-50 dark:hover:bg-zinc-800 transition-colors"><FileSpreadsheet className="h-4 w-4" /> EXCEL (.XLSX)</button>
+                <button onClick={() => handleExport('pdf')} className="w-full flex items-center gap-3 px-4 py-3 text-[11px] font-bold hover:bg-zinc-50 dark:hover:bg-zinc-800 transition-colors"><FileText className="h-4 w-4" /> PDF (.PDF)</button>
+                <button onClick={() => handleExport('word')} className="w-full flex items-center gap-3 px-4 py-3 text-[11px] font-bold hover:bg-zinc-50 dark:hover:bg-zinc-800 transition-colors"><FileIcon className="h-4 w-4" /> WORD (.DOCX)</button>
               </div>
             )}
           </div>
 
           <Link href="/dashboard/clientes/nuevo">
-            <div className="flex items-center h-12 px-8 rounded-lg bg-zinc-900 text-white hover:bg-zinc-800 dark:bg-white dark:text-black dark:hover:bg-zinc-100 gap-3 shadow-lg shadow-zinc-900/10 transition-all cursor-pointer">
+            <div className="flex items-center h-12 px-8 rounded-lg bg-zinc-900 text-white gap-3 shadow-lg cursor-pointer">
               <Plus className="h-5 w-5" />
               <span className="font-bold uppercase tracking-wider text-[11px]">Nuevo Registro</span>
             </div>
@@ -223,14 +192,14 @@ export function ClienteList({ initialClientes }: ClienteListProps) {
         </div>
       </div>
 
-      {/* Tabla de Clientes con Scroll Interno */}
+      {/* Tabla con Scroll Interno */}
       <div className="flex-1 min-h-0 overflow-hidden">
         <div 
           className="h-full overflow-y-auto overflow-x-hidden scrollbar-thin scrollbar-thumb-zinc-200 dark:scrollbar-thumb-zinc-800"
           onClick={() => setActiveDropdown(null)}
         >
           <table className="w-full text-left border-collapse">
-            <thead className="sticky top-0 bg-white/95 dark:bg-zinc-900/95 backdrop-blur-sm z-10">
+            <thead className="sticky top-0 bg-white/95 dark:bg-zinc-900/95 backdrop-blur-sm z-20">
               <tr className="border-b border-zinc-100 dark:border-zinc-800/50">
                 <th className="w-[22%] px-4 py-5 text-[10px] font-black uppercase tracking-[0.2em] text-zinc-400">Cliente</th>
                 <th className="w-[12%] px-3 py-5 text-[10px] font-black uppercase tracking-[0.2em] text-zinc-400">Documento</th>
@@ -244,7 +213,13 @@ export function ClienteList({ initialClientes }: ClienteListProps) {
             </thead>
             <tbody className="divide-y divide-zinc-50 dark:divide-zinc-800/50">
               {paginatedClientes.map((cliente) => (
-                <tr key={cliente.id} className="group hover:bg-zinc-50/50 dark:hover:bg-zinc-800/30 transition-all">
+                <tr 
+                  key={cliente.id} 
+                  className={cn(
+                    "group hover:bg-zinc-50/50 dark:hover:bg-zinc-800/30 transition-all",
+                    activeDropdown === cliente.id && "relative z-50 bg-white dark:bg-zinc-900 shadow-lg"
+                  )}
+                >
                   <td className="px-4 py-6 overflow-hidden">
                     <div className="flex items-center gap-4">
                       <div className={cn(
@@ -326,7 +301,7 @@ export function ClienteList({ initialClientes }: ClienteListProps) {
                     </div>
                   </td>
 
-                  <td className="px-4 py-6 text-right relative">
+                  <td className="px-4 py-6 text-right relative overflow-visible">
                     <button 
                       onClick={(e) => {
                         e.stopPropagation();
@@ -344,7 +319,7 @@ export function ClienteList({ initialClientes }: ClienteListProps) {
 
                     {activeDropdown === cliente.id && (
                       <div 
-                        className="absolute right-8 top-12 w-48 bg-white dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 rounded-xl shadow-2xl z-50 overflow-hidden"
+                        className="absolute right-0 bottom-full mb-2 w-48 bg-white dark:bg-zinc-900 border border-zinc-100 dark:border-zinc-800 rounded-xl shadow-2xl z-100 py-1 animate-in fade-in slide-in-from-bottom-2 duration-200"
                         onClick={(e) => e.stopPropagation()}
                       >
                         <div className="py-1">
@@ -383,7 +358,7 @@ export function ClienteList({ initialClientes }: ClienteListProps) {
       </div>
 
       {/* Paginación Estratégica */}
-      <div className="px-8 py-4 border-t border-zinc-100 dark:border-zinc-800/50 bg-zinc-50/50 dark:bg-zinc-900/50 flex items-center justify-between shrink-0">
+      <div className="px-8 py-4 border-t border-zinc-100 dark:border-zinc-800/50 bg-zinc-50/50 dark:bg-zinc-900/50 flex items-center justify-between shrink-0 rounded-b-xl">
         <div className="flex items-center gap-4">
           <span className="text-[10px] font-black uppercase tracking-widest text-zinc-400">
             Mostrando {Math.min(filteredClientes.length, (currentPage - 1) * itemsPerPage + 1)}-{Math.min(filteredClientes.length, currentPage * itemsPerPage)} de {filteredClientes.length}
