@@ -90,7 +90,7 @@ export default function SolicitudesPage() {
           <h1 className="text-4xl font-black tracking-tighter text-zinc-900 dark:text-zinc-50">
             Solicitudes de Unión
           </h1>
-          <p className="text-zinc-500 font-medium">
+          <p className="text-zinc-500 dark:text-zinc-400 font-medium">
             Gestiona quién puede entrar a tu conglomerado.
           </p>
         </div>
@@ -100,37 +100,37 @@ export default function SolicitudesPage() {
             <Loader2 className="h-8 w-8 animate-spin text-zinc-400" />
           </div>
         ) : requests.length === 0 ? (
-          <Card className="border-none shadow-2xl shadow-zinc-200/50 dark:shadow-none bg-white dark:bg-zinc-900 overflow-hidden rounded-[2.5rem] p-20 text-center">
+          <Card className="border-none shadow-2xl shadow-zinc-200/50 dark:shadow-none bg-white dark:bg-zinc-900 overflow-hidden rounded-[2.5rem] p-20 text-center ring-1 ring-zinc-200/50 dark:ring-zinc-800">
             <div className="mx-auto flex h-20 w-20 items-center justify-center rounded-[2rem] bg-zinc-50 dark:bg-zinc-800">
-              <Users className="h-10 w-10 text-zinc-300" />
+              <Users className="h-10 w-10 text-zinc-300 dark:text-zinc-600" />
             </div>
             <h2 className="mt-8 text-2xl font-black tracking-tight text-zinc-900 dark:text-zinc-50">Sin solicitudes pendientes</h2>
-            <p className="mt-2 text-zinc-500">No hay usuarios esperando aprobación en este momento.</p>
+            <p className="mt-2 text-zinc-500 dark:text-zinc-400">No hay usuarios esperando aprobación en este momento.</p>
           </Card>
         ) : (
           <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
             {requests.map((request) => (
-              <Card key={request.id} className="group overflow-hidden border-none shadow-2xl shadow-zinc-200/50 dark:shadow-none bg-white dark:bg-zinc-900 transition-all hover:scale-[1.02] rounded-[2rem]">
+              <Card key={request.id} className="group overflow-hidden border-none shadow-2xl shadow-zinc-200/50 dark:shadow-none bg-white dark:bg-zinc-900 transition-all hover:scale-[1.02] rounded-[2rem] ring-1 ring-zinc-200/50 dark:ring-zinc-800">
                 <CardHeader className="pb-2">
                   <div className="flex items-center justify-between">
-                    <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-indigo-50 text-indigo-600 dark:bg-indigo-500/10 dark:text-indigo-400">
+                    <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-indigo-50 text-indigo-600 dark:bg-indigo-500/15 dark:text-indigo-300">
                       <Users className="h-6 w-6" />
                     </div>
-                    <div className="flex items-center gap-1.5 text-[10px] font-black uppercase tracking-widest text-zinc-400">
+                    <div className="flex items-center gap-1.5 text-[10px] font-black uppercase tracking-widest text-zinc-400 dark:text-zinc-300">
                       <Clock className="h-3 w-3" />
                       {new Date(request.createdAt).toLocaleDateString()}
                     </div>
                   </div>
                 </CardHeader>
                 <CardContent className="pt-4">
-                  <CardTitle className="text-xl font-black tracking-tight">{request.user.nombre} {request.user.apellido}</CardTitle>
-                  <p className="text-sm text-zinc-500 font-medium truncate mb-8">{request.user.email}</p>
+                  <CardTitle className="text-xl font-black tracking-tight text-zinc-900 dark:text-zinc-50">{request.user.nombre} {request.user.apellido}</CardTitle>
+                  <p className="text-sm text-zinc-500 dark:text-zinc-300 font-medium truncate mb-8">{request.user.email}</p>
 
                   <div className="flex gap-3">
                     <Button 
                       onClick={() => handleApprove(request.id)}
                       disabled={processingId === request.id}
-                      className="flex-1 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl h-12 gap-2"
+                      className="flex-1 bg-emerald-600 hover:bg-emerald-700 text-zinc-50 dark:bg-emerald-500 dark:hover:bg-emerald-600 dark:text-zinc-50 rounded-xl h-12 gap-2 shadow-lg shadow-emerald-200/50 dark:shadow-none"
                     >
                       {processingId === request.id ? <Loader2 className="h-4 w-4 animate-spin" /> : <Check className="h-4 w-4" />}
                       Aprobar
