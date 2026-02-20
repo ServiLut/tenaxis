@@ -143,25 +143,34 @@ export class EnterpriseService {
       },
     });
 
-    if (role !== 'SU_ADMIN' && role !== 'ADMIN') {
-      throw new ForbiddenException(
-        'User does not have sufficient privileges to view enterprises.',
-      );
-    }
+    let enterprises = [];
 
-    const enterprises =
-      role === 'SU_ADMIN'
-        ? await this.prisma.empresa.findMany({
-            where: {
-              deletedAt: null,
-            },
-          })
-        : await this.prisma.empresa.findMany({
-            where: {
-              tenantId: tenantId,
-              deletedAt: null,
-            },
-          });
+    if (role === 'SU_ADMIN') {
+      enterprises = await this.prisma.empresa.findMany({
+        where: {
+          deletedAt: null,
+        },
+      });
+    } else if (role === 'ADMIN') {
+      enterprises = await this.prisma.empresa.findMany({
+        where: {
+          tenantId: tenantId,
+          deletedAt: null,
+        },
+      });
+    } else {
+      // COORDINADOR, ASESOR, etc.
+      const memberships = await this.prisma.empresaMembership.findMany({
+        where: {
+          membershipId: membership.id,
+          deletedAt: null,
+        },
+        include: {
+          empresa: true,
+        },
+      });
+      enterprises = memberships.map((m) => m.empresa);
+    }
 
     return {
       items: enterprises,

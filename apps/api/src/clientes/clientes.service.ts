@@ -6,10 +6,14 @@ import { CreateClienteDto } from './dto/create-cliente.dto';
 export class ClientesService {
   constructor(private prisma: PrismaService) {}
 
-  async findAll(tenantId: string) {
+  async findAll(tenantId: string, empresaId?: string) {
     return this.prisma.cliente.findMany({
-      where: { tenantId, deletedAt: null },
-      orderBy: { createdAt: 'desc' },
+      where: {
+        tenantId,
+        ...(empresaId && { empresaId }),
+        deletedAt: null,
+      },
+      orderBy: { createdAt: "desc" },
       include: {
         direcciones: {
           include: { municipioRel: true },

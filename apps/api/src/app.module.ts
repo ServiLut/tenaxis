@@ -10,6 +10,8 @@ import { ClientesModule } from './clientes/clientes.module';
 import { ConfigClientesModule } from './config-clientes/config-clientes.module';
 import { GeoModule } from './geo/geo.module';
 import { EnterpriseModule } from './enterprise/enterprise.module';
+import { APP_INTERCEPTOR } from '@nestjs/core';
+import { EnterpriseInterceptor } from './common/interceptors/enterprise.interceptor';
 
 @Module({
   imports: [
@@ -24,6 +26,12 @@ import { EnterpriseModule } from './enterprise/enterprise.module';
     EnterpriseModule,
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [
+    AppService,
+    {
+      provide: APP_INTERCEPTOR,
+      useClass: EnterpriseInterceptor,
+    },
+  ],
 })
 export class AppModule {}

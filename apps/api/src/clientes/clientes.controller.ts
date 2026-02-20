@@ -23,7 +23,9 @@ export class ClientesController {
 
   @Get()
   async findAll(@Request() req: RequestWithUser) {
-    return this.clientesService.findAll(req.user.tenantId || '');
+    const tenantId = req.user.tenantId || "";
+    const empresaId = req.user.empresaId;
+    return this.clientesService.findAll(tenantId, empresaId);
   }
 
   @Post('create')

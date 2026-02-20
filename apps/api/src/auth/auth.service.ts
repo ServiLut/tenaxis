@@ -16,6 +16,7 @@ export interface JwtPayload {
   email: string;
   role: Role;
   tenantId?: string;
+  empresaId?: string;
 }
 
 @Injectable()

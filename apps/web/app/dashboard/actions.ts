@@ -2,6 +2,31 @@
 
 import { cookies } from "next/headers";
 
+async function getHeaders() {
+  const cookieStore = await cookies();
+  const token = cookieStore.get("access_token")?.value;
+  const enterpriseId = cookieStore.get("x-enterprise-id")?.value;
+  const testRole = cookieStore.get("x-test-role")?.value;
+
+  const headers: Record<string, string> = {
+    "Content-Type": "application/json",
+  };
+
+  if (token) {
+    headers["Authorization"] = `Bearer ${token}`;
+  }
+
+  if (enterpriseId) {
+    headers["x-enterprise-id"] = enterpriseId;
+  }
+
+  if (testRole) {
+    headers["x-test-role"] = testRole;
+  }
+
+  return headers;
+}
+
 export async function isTenantAdminAction() {
   const cookieStore = await cookies();
   const token = cookieStore.get("access_token")?.value;
@@ -12,10 +37,9 @@ export async function isTenantAdminAction() {
 
   try {
     const apiUrl = process.env.NESTJS_API_URL || "http://localhost:4000";
+    const headers = await getHeaders();
     const response = await fetch(`${apiUrl}/auth/profile`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
+      headers,
     });
 
     if (!response.ok) return false;
@@ -106,17 +130,11 @@ export async function getPlansAction() {
 }
 
 export async function getClientesAction() {
-  const cookieStore = await cookies();
-  const token = cookieStore.get("access_token")?.value;
-
-  if (!token) return [];
-
   try {
     const apiUrl = process.env.NESTJS_API_URL || "http://127.0.0.1:4000";
+    const headers = await getHeaders();
     const response = await fetch(`${apiUrl}/clientes`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
+      headers,
     });
 
     if (!response.ok) return [];

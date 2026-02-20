@@ -22,6 +22,7 @@ import {
   Package,
 } from "lucide-react";
 import { isTenantAdminAction } from "@/app/dashboard/actions";
+import { EmpresaSelector } from "./EmpresaSelector";
 
 const menuItems: { title: string; icon: LucideIcon; href: string; role?: string }[] = [
   {
@@ -115,7 +116,9 @@ export function Sidebar({ isOpen, onClose }: SidebarProps) {
   const handleLogout = () => {
     document.cookie = "access_token=; path=/; expires=Thu, 01 Jan 1970 00:00:01 GMT;";
     document.cookie = "tenant-id=; path=/; expires=Thu, 01 Jan 1970 00:00:01 GMT;";
+    document.cookie = "x-enterprise-id=; path=/; expires=Thu, 01 Jan 1970 00:00:01 GMT;";
     localStorage.removeItem("user");
+    localStorage.removeItem("current-enterprise-id");
     window.location.href = "/iniciar-sesion";
   };
 
@@ -157,6 +160,9 @@ export function Sidebar({ isOpen, onClose }: SidebarProps) {
                 <ChevronRight className="h-5 w-5 rotate-180" />
               </button>
             </div>
+
+            {/* Empresa Selector */}
+            <EmpresaSelector />
 
             {/* Navigation */}
             <nav className="space-y-8 overflow-y-auto max-h-[calc(100vh-320px)] custom-scrollbar">

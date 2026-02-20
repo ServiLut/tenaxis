@@ -3,6 +3,7 @@
 import React, { useEffect, useState } from "react";
 import { Search, Bell, User, Menu } from "lucide-react";
 import { Input } from "@/components/ui/input";
+import { RoleSwitcher } from "./RoleSwitcher";
 
 type UserProfile = {
   nombre: string;
@@ -68,6 +69,7 @@ export function Header({ onMenuClick }: { onMenuClick?: () => void }) {
       </div>
 
       <div className="flex items-center gap-4 lg:gap-8 pl-4 lg:pl-8 border-l border-zinc-100 ml-4 lg:ml-8">
+        <RoleSwitcher />
         <div className="flex items-center gap-3">
           <button 
             aria-label="Ver notificaciones"
