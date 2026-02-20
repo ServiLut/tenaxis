@@ -401,6 +401,50 @@ export async function createEnterpriseAction(data: { nombre: string }) {
   return result;
 }
 
+export async function updateEnterpriseAction(id: string, data: { nombre?: string; activo?: boolean }) {
+  const cookieStore = await cookies();
+  const token = cookieStore.get("access_token")?.value;
+
+  if (!token) throw new Error("No session found");
+
+  const apiUrl = process.env.NESTJS_API_URL || "http://127.0.0.1:4000";
+  const response = await fetch(`${apiUrl}/enterprise/${id}`, {
+    method: "PATCH",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify(data),
+  });
+  
+  const result = await response.json();
+  if (!response.ok) {
+    throw new Error(result.message || "Error al actualizar la empresa");
+  }
+  return result;
+}
+
+export async function deleteEnterpriseAction(id: string) {
+  const cookieStore = await cookies();
+  const token = cookieStore.get("access_token")?.value;
+
+  if (!token) throw new Error("No session found");
+
+  const apiUrl = process.env.NESTJS_API_URL || "http://127.0.0.1:4000";
+  const response = await fetch(`${apiUrl}/enterprise/${id}`, {
+    method: "DELETE",
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+  
+  const result = await response.json();
+  if (!response.ok) {
+    throw new Error(result.message || "Error al eliminar la empresa");
+  }
+  return result;
+}
+
 export async function getEnterprisesAction() {
   const cookieStore = await cookies();
   const token = cookieStore.get("access_token")?.value;
