@@ -212,9 +212,10 @@ export const EmpresaScalarFieldEnum = {
   id: 'id',
   tenantId: 'tenantId',
   nombre: 'nombre',
-  estado: 'estado',
   createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
+  updatedAt: 'updatedAt',
+  activo: 'activo',
+  deletedAt: 'deletedAt'
 } as const
 
 export type EmpresaScalarFieldEnum = (typeof EmpresaScalarFieldEnum)[keyof typeof EmpresaScalarFieldEnum]
@@ -225,11 +226,12 @@ export const EmpresaMembershipScalarFieldEnum = {
   tenantId: 'tenantId',
   membershipId: 'membershipId',
   empresaId: 'empresaId',
-  isActive: 'isActive',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
   role: 'role',
-  zonaId: 'zonaId'
+  zonaId: 'zonaId',
+  activo: 'activo',
+  deletedAt: 'deletedAt'
 } as const
 
 export type EmpresaMembershipScalarFieldEnum = (typeof EmpresaMembershipScalarFieldEnum)[keyof typeof EmpresaMembershipScalarFieldEnum]
