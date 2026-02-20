@@ -1289,9 +1289,9 @@ model PasswordResetToken {
 }
 
 enum Role {
-  SU_ADMIN
-  ADMIN
-  COORDINADOR
+  SU_ADMIN // todo
+  ADMIN // solo su tenant
+  COORDINADOR // solo empresa seleccionada
   ASESOR
   OPERADOR
 }
