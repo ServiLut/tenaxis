@@ -1,5 +1,5 @@
 import ExcelJS from 'exceljs';
-import jsPDF from 'jspdf';
+import { jsPDF } from 'jspdf';
 import autoTable from 'jspdf-autotable';
 import { Document, Packer, Paragraph, Table, TableCell, TableRow, WidthType, AlignmentType, TextRun, HeadingLevel, BorderStyle } from 'docx';
 import { saveAs } from 'file-saver';
@@ -86,7 +86,7 @@ export const exportToExcel = async ({ headers, data, filename, title }: ExportDa
 };
 
 export const exportToPDF = ({ headers, data, filename, title }: ExportData) => {
-  const doc = jsPDF();
+  const doc = new jsPDF();
   
   // Header Corporativo
   doc.setFontSize(20);
@@ -143,7 +143,7 @@ export const exportToWord = async ({ headers, data, filename, title }: ExportDat
             alignment: AlignmentType.LEFT,
             spacing: { before: 80, after: 80 }
           })],
-          border: {
+          borders: {
             top: { style: BorderStyle.SINGLE, size: 1, color: "E4E4E7" },
             bottom: { style: BorderStyle.SINGLE, size: 1, color: "E4E4E7" },
             left: { style: BorderStyle.SINGLE, size: 1, color: "E4E4E7" },
@@ -172,7 +172,7 @@ export const exportToWord = async ({ headers, data, filename, title }: ExportDat
           spacing: { after: 100 },
         }),
         new Paragraph({
-          children: [new TextRun({ text: `Fecha: ${new Date().toLocaleString()}`, italic: true, size: 20, color: "A1A1AA" })],
+          children: [new TextRun({ text: `Fecha: ${new Date().toLocaleString()}`, italics: true, size: 20, color: "A1A1AA" })],
           spacing: { after: 400 },
         }),
         table,

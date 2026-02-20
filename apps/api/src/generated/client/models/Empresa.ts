@@ -28,9 +28,9 @@ export type EmpresaMinAggregateOutputType = {
   id: string | null
   tenantId: string | null
   nombre: string | null
-  activo: boolean | null
   createdAt: Date | null
   updatedAt: Date | null
+  activo: boolean | null
   deletedAt: Date | null
 }
 
@@ -38,9 +38,9 @@ export type EmpresaMaxAggregateOutputType = {
   id: string | null
   tenantId: string | null
   nombre: string | null
-  activo: boolean | null
   createdAt: Date | null
   updatedAt: Date | null
+  activo: boolean | null
   deletedAt: Date | null
 }
 
@@ -48,9 +48,9 @@ export type EmpresaCountAggregateOutputType = {
   id: number
   tenantId: number
   nombre: number
-  activo: number
   createdAt: number
   updatedAt: number
+  activo: number
   deletedAt: number
   _all: number
 }
@@ -60,9 +60,9 @@ export type EmpresaMinAggregateInputType = {
   id?: true
   tenantId?: true
   nombre?: true
-  activo?: true
   createdAt?: true
   updatedAt?: true
+  activo?: true
   deletedAt?: true
 }
 
@@ -70,9 +70,9 @@ export type EmpresaMaxAggregateInputType = {
   id?: true
   tenantId?: true
   nombre?: true
-  activo?: true
   createdAt?: true
   updatedAt?: true
+  activo?: true
   deletedAt?: true
 }
 
@@ -80,9 +80,9 @@ export type EmpresaCountAggregateInputType = {
   id?: true
   tenantId?: true
   nombre?: true
-  activo?: true
   createdAt?: true
   updatedAt?: true
+  activo?: true
   deletedAt?: true
   _all?: true
 }
@@ -163,9 +163,9 @@ export type EmpresaGroupByOutputType = {
   id: string
   tenantId: string
   nombre: string
-  activo: boolean
   createdAt: Date
   updatedAt: Date
+  activo: boolean
   deletedAt: Date | null
   _count: EmpresaCountAggregateOutputType | null
   _min: EmpresaMinAggregateOutputType | null
@@ -194,9 +194,9 @@ export type EmpresaWhereInput = {
   id?: Prisma.UuidFilter<"Empresa"> | string
   tenantId?: Prisma.UuidFilter<"Empresa"> | string
   nombre?: Prisma.StringFilter<"Empresa"> | string
-  activo?: Prisma.BoolFilter<"Empresa"> | boolean
   createdAt?: Prisma.DateTimeFilter<"Empresa"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Empresa"> | Date | string
+  activo?: Prisma.BoolFilter<"Empresa"> | boolean
   deletedAt?: Prisma.DateTimeNullableFilter<"Empresa"> | Date | string | null
   anticipos?: Prisma.AnticiposListRelationFilter
   auditorias?: Prisma.AuditoriaListRelationFilter
@@ -244,9 +244,9 @@ export type EmpresaOrderByWithRelationInput = {
   id?: Prisma.SortOrder
   tenantId?: Prisma.SortOrder
   nombre?: Prisma.SortOrder
-  activo?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  activo?: Prisma.SortOrder
   deletedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   anticipos?: Prisma.AnticiposOrderByRelationAggregateInput
   auditorias?: Prisma.AuditoriaOrderByRelationAggregateInput
@@ -297,9 +297,9 @@ export type EmpresaWhereUniqueInput = Prisma.AtLeast<{
   NOT?: Prisma.EmpresaWhereInput | Prisma.EmpresaWhereInput[]
   tenantId?: Prisma.UuidFilter<"Empresa"> | string
   nombre?: Prisma.StringFilter<"Empresa"> | string
-  activo?: Prisma.BoolFilter<"Empresa"> | boolean
   createdAt?: Prisma.DateTimeFilter<"Empresa"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Empresa"> | Date | string
+  activo?: Prisma.BoolFilter<"Empresa"> | boolean
   deletedAt?: Prisma.DateTimeNullableFilter<"Empresa"> | Date | string | null
   anticipos?: Prisma.AnticiposListRelationFilter
   auditorias?: Prisma.AuditoriaListRelationFilter
@@ -347,9 +347,9 @@ export type EmpresaOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
   tenantId?: Prisma.SortOrder
   nombre?: Prisma.SortOrder
-  activo?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  activo?: Prisma.SortOrder
   deletedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.EmpresaCountOrderByAggregateInput
   _max?: Prisma.EmpresaMaxOrderByAggregateInput
@@ -363,18 +363,18 @@ export type EmpresaScalarWhereWithAggregatesInput = {
   id?: Prisma.UuidWithAggregatesFilter<"Empresa"> | string
   tenantId?: Prisma.UuidWithAggregatesFilter<"Empresa"> | string
   nombre?: Prisma.StringWithAggregatesFilter<"Empresa"> | string
-  activo?: Prisma.BoolWithAggregatesFilter<"Empresa"> | boolean
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Empresa"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"Empresa"> | Date | string
+  activo?: Prisma.BoolWithAggregatesFilter<"Empresa"> | boolean
   deletedAt?: Prisma.DateTimeNullableWithAggregatesFilter<"Empresa"> | Date | string | null
 }
 
 export type EmpresaCreateInput = {
   id?: string
   nombre: string
-  activo?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  activo?: boolean
   deletedAt?: Date | string | null
   anticipos?: Prisma.AnticiposCreateNestedManyWithoutEmpresaInput
   auditorias?: Prisma.AuditoriaCreateNestedManyWithoutEmpresaInput
@@ -422,9 +422,9 @@ export type EmpresaUncheckedCreateInput = {
   id?: string
   tenantId: string
   nombre: string
-  activo?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  activo?: boolean
   deletedAt?: Date | string | null
   anticipos?: Prisma.AnticiposUncheckedCreateNestedManyWithoutEmpresaInput
   auditorias?: Prisma.AuditoriaUncheckedCreateNestedManyWithoutEmpresaInput
@@ -470,9 +470,9 @@ export type EmpresaUncheckedCreateInput = {
 export type EmpresaUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   nombre?: Prisma.StringFieldUpdateOperationsInput | string
-  activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   anticipos?: Prisma.AnticiposUpdateManyWithoutEmpresaNestedInput
   auditorias?: Prisma.AuditoriaUpdateManyWithoutEmpresaNestedInput
@@ -520,9 +520,9 @@ export type EmpresaUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   tenantId?: Prisma.StringFieldUpdateOperationsInput | string
   nombre?: Prisma.StringFieldUpdateOperationsInput | string
-  activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   anticipos?: Prisma.AnticiposUncheckedUpdateManyWithoutEmpresaNestedInput
   auditorias?: Prisma.AuditoriaUncheckedUpdateManyWithoutEmpresaNestedInput
@@ -569,18 +569,18 @@ export type EmpresaCreateManyInput = {
   id?: string
   tenantId: string
   nombre: string
-  activo?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  activo?: boolean
   deletedAt?: Date | string | null
 }
 
 export type EmpresaUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   nombre?: Prisma.StringFieldUpdateOperationsInput | string
-  activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
@@ -588,9 +588,9 @@ export type EmpresaUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   tenantId?: Prisma.StringFieldUpdateOperationsInput | string
   nombre?: Prisma.StringFieldUpdateOperationsInput | string
-  activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
@@ -608,9 +608,9 @@ export type EmpresaCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   tenantId?: Prisma.SortOrder
   nombre?: Prisma.SortOrder
-  activo?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  activo?: Prisma.SortOrder
   deletedAt?: Prisma.SortOrder
 }
 
@@ -618,9 +618,9 @@ export type EmpresaMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
   tenantId?: Prisma.SortOrder
   nombre?: Prisma.SortOrder
-  activo?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  activo?: Prisma.SortOrder
   deletedAt?: Prisma.SortOrder
 }
 
@@ -628,9 +628,9 @@ export type EmpresaMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
   tenantId?: Prisma.SortOrder
   nombre?: Prisma.SortOrder
-  activo?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  activo?: Prisma.SortOrder
   deletedAt?: Prisma.SortOrder
 }
 
@@ -1247,9 +1247,9 @@ export type EmpresaUpdateOneWithoutResetTokensNestedInput = {
 export type EmpresaCreateWithoutTenantInput = {
   id?: string
   nombre: string
-  activo?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  activo?: boolean
   deletedAt?: Date | string | null
   anticipos?: Prisma.AnticiposCreateNestedManyWithoutEmpresaInput
   auditorias?: Prisma.AuditoriaCreateNestedManyWithoutEmpresaInput
@@ -1295,9 +1295,9 @@ export type EmpresaCreateWithoutTenantInput = {
 export type EmpresaUncheckedCreateWithoutTenantInput = {
   id?: string
   nombre: string
-  activo?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  activo?: boolean
   deletedAt?: Date | string | null
   anticipos?: Prisma.AnticiposUncheckedCreateNestedManyWithoutEmpresaInput
   auditorias?: Prisma.AuditoriaUncheckedCreateNestedManyWithoutEmpresaInput
@@ -1373,18 +1373,18 @@ export type EmpresaScalarWhereInput = {
   id?: Prisma.UuidFilter<"Empresa"> | string
   tenantId?: Prisma.UuidFilter<"Empresa"> | string
   nombre?: Prisma.StringFilter<"Empresa"> | string
-  activo?: Prisma.BoolFilter<"Empresa"> | boolean
   createdAt?: Prisma.DateTimeFilter<"Empresa"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Empresa"> | Date | string
+  activo?: Prisma.BoolFilter<"Empresa"> | boolean
   deletedAt?: Prisma.DateTimeNullableFilter<"Empresa"> | Date | string | null
 }
 
 export type EmpresaCreateWithoutMembershipsInput = {
   id?: string
   nombre: string
-  activo?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  activo?: boolean
   deletedAt?: Date | string | null
   anticipos?: Prisma.AnticiposCreateNestedManyWithoutEmpresaInput
   auditorias?: Prisma.AuditoriaCreateNestedManyWithoutEmpresaInput
@@ -1431,9 +1431,9 @@ export type EmpresaUncheckedCreateWithoutMembershipsInput = {
   id?: string
   tenantId: string
   nombre: string
-  activo?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  activo?: boolean
   deletedAt?: Date | string | null
   anticipos?: Prisma.AnticiposUncheckedCreateNestedManyWithoutEmpresaInput
   auditorias?: Prisma.AuditoriaUncheckedCreateNestedManyWithoutEmpresaInput
@@ -1494,9 +1494,9 @@ export type EmpresaUpdateToOneWithWhereWithoutMembershipsInput = {
 export type EmpresaUpdateWithoutMembershipsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   nombre?: Prisma.StringFieldUpdateOperationsInput | string
-  activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   anticipos?: Prisma.AnticiposUpdateManyWithoutEmpresaNestedInput
   auditorias?: Prisma.AuditoriaUpdateManyWithoutEmpresaNestedInput
@@ -1543,9 +1543,9 @@ export type EmpresaUncheckedUpdateWithoutMembershipsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   tenantId?: Prisma.StringFieldUpdateOperationsInput | string
   nombre?: Prisma.StringFieldUpdateOperationsInput | string
-  activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   anticipos?: Prisma.AnticiposUncheckedUpdateManyWithoutEmpresaNestedInput
   auditorias?: Prisma.AuditoriaUncheckedUpdateManyWithoutEmpresaNestedInput
@@ -1590,9 +1590,9 @@ export type EmpresaUncheckedUpdateWithoutMembershipsInput = {
 export type EmpresaCreateWithoutOrgNodesInput = {
   id?: string
   nombre: string
-  activo?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  activo?: boolean
   deletedAt?: Date | string | null
   anticipos?: Prisma.AnticiposCreateNestedManyWithoutEmpresaInput
   auditorias?: Prisma.AuditoriaCreateNestedManyWithoutEmpresaInput
@@ -1639,9 +1639,9 @@ export type EmpresaUncheckedCreateWithoutOrgNodesInput = {
   id?: string
   tenantId: string
   nombre: string
-  activo?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  activo?: boolean
   deletedAt?: Date | string | null
   anticipos?: Prisma.AnticiposUncheckedCreateNestedManyWithoutEmpresaInput
   auditorias?: Prisma.AuditoriaUncheckedCreateNestedManyWithoutEmpresaInput
@@ -1702,9 +1702,9 @@ export type EmpresaUpdateToOneWithWhereWithoutOrgNodesInput = {
 export type EmpresaUpdateWithoutOrgNodesInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   nombre?: Prisma.StringFieldUpdateOperationsInput | string
-  activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   anticipos?: Prisma.AnticiposUpdateManyWithoutEmpresaNestedInput
   auditorias?: Prisma.AuditoriaUpdateManyWithoutEmpresaNestedInput
@@ -1751,9 +1751,9 @@ export type EmpresaUncheckedUpdateWithoutOrgNodesInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   tenantId?: Prisma.StringFieldUpdateOperationsInput | string
   nombre?: Prisma.StringFieldUpdateOperationsInput | string
-  activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   anticipos?: Prisma.AnticiposUncheckedUpdateManyWithoutEmpresaNestedInput
   auditorias?: Prisma.AuditoriaUncheckedUpdateManyWithoutEmpresaNestedInput
@@ -1798,9 +1798,9 @@ export type EmpresaUncheckedUpdateWithoutOrgNodesInput = {
 export type EmpresaCreateWithoutCommissionsInput = {
   id?: string
   nombre: string
-  activo?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  activo?: boolean
   deletedAt?: Date | string | null
   anticipos?: Prisma.AnticiposCreateNestedManyWithoutEmpresaInput
   auditorias?: Prisma.AuditoriaCreateNestedManyWithoutEmpresaInput
@@ -1847,9 +1847,9 @@ export type EmpresaUncheckedCreateWithoutCommissionsInput = {
   id?: string
   tenantId: string
   nombre: string
-  activo?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  activo?: boolean
   deletedAt?: Date | string | null
   anticipos?: Prisma.AnticiposUncheckedCreateNestedManyWithoutEmpresaInput
   auditorias?: Prisma.AuditoriaUncheckedCreateNestedManyWithoutEmpresaInput
@@ -1910,9 +1910,9 @@ export type EmpresaUpdateToOneWithWhereWithoutCommissionsInput = {
 export type EmpresaUpdateWithoutCommissionsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   nombre?: Prisma.StringFieldUpdateOperationsInput | string
-  activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   anticipos?: Prisma.AnticiposUpdateManyWithoutEmpresaNestedInput
   auditorias?: Prisma.AuditoriaUpdateManyWithoutEmpresaNestedInput
@@ -1959,9 +1959,9 @@ export type EmpresaUncheckedUpdateWithoutCommissionsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   tenantId?: Prisma.StringFieldUpdateOperationsInput | string
   nombre?: Prisma.StringFieldUpdateOperationsInput | string
-  activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   anticipos?: Prisma.AnticiposUncheckedUpdateManyWithoutEmpresaNestedInput
   auditorias?: Prisma.AuditoriaUncheckedUpdateManyWithoutEmpresaNestedInput
@@ -2006,9 +2006,9 @@ export type EmpresaUncheckedUpdateWithoutCommissionsInput = {
 export type EmpresaCreateWithoutClientesInput = {
   id?: string
   nombre: string
-  activo?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  activo?: boolean
   deletedAt?: Date | string | null
   anticipos?: Prisma.AnticiposCreateNestedManyWithoutEmpresaInput
   auditorias?: Prisma.AuditoriaCreateNestedManyWithoutEmpresaInput
@@ -2055,9 +2055,9 @@ export type EmpresaUncheckedCreateWithoutClientesInput = {
   id?: string
   tenantId: string
   nombre: string
-  activo?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  activo?: boolean
   deletedAt?: Date | string | null
   anticipos?: Prisma.AnticiposUncheckedCreateNestedManyWithoutEmpresaInput
   auditorias?: Prisma.AuditoriaUncheckedCreateNestedManyWithoutEmpresaInput
@@ -2118,9 +2118,9 @@ export type EmpresaUpdateToOneWithWhereWithoutClientesInput = {
 export type EmpresaUpdateWithoutClientesInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   nombre?: Prisma.StringFieldUpdateOperationsInput | string
-  activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   anticipos?: Prisma.AnticiposUpdateManyWithoutEmpresaNestedInput
   auditorias?: Prisma.AuditoriaUpdateManyWithoutEmpresaNestedInput
@@ -2167,9 +2167,9 @@ export type EmpresaUncheckedUpdateWithoutClientesInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   tenantId?: Prisma.StringFieldUpdateOperationsInput | string
   nombre?: Prisma.StringFieldUpdateOperationsInput | string
-  activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   anticipos?: Prisma.AnticiposUncheckedUpdateManyWithoutEmpresaNestedInput
   auditorias?: Prisma.AuditoriaUncheckedUpdateManyWithoutEmpresaNestedInput
@@ -2214,9 +2214,9 @@ export type EmpresaUncheckedUpdateWithoutClientesInput = {
 export type EmpresaCreateWithoutVehiculosInput = {
   id?: string
   nombre: string
-  activo?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  activo?: boolean
   deletedAt?: Date | string | null
   anticipos?: Prisma.AnticiposCreateNestedManyWithoutEmpresaInput
   auditorias?: Prisma.AuditoriaCreateNestedManyWithoutEmpresaInput
@@ -2263,9 +2263,9 @@ export type EmpresaUncheckedCreateWithoutVehiculosInput = {
   id?: string
   tenantId: string
   nombre: string
-  activo?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  activo?: boolean
   deletedAt?: Date | string | null
   anticipos?: Prisma.AnticiposUncheckedCreateNestedManyWithoutEmpresaInput
   auditorias?: Prisma.AuditoriaUncheckedCreateNestedManyWithoutEmpresaInput
@@ -2326,9 +2326,9 @@ export type EmpresaUpdateToOneWithWhereWithoutVehiculosInput = {
 export type EmpresaUpdateWithoutVehiculosInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   nombre?: Prisma.StringFieldUpdateOperationsInput | string
-  activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   anticipos?: Prisma.AnticiposUpdateManyWithoutEmpresaNestedInput
   auditorias?: Prisma.AuditoriaUpdateManyWithoutEmpresaNestedInput
@@ -2375,9 +2375,9 @@ export type EmpresaUncheckedUpdateWithoutVehiculosInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   tenantId?: Prisma.StringFieldUpdateOperationsInput | string
   nombre?: Prisma.StringFieldUpdateOperationsInput | string
-  activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   anticipos?: Prisma.AnticiposUncheckedUpdateManyWithoutEmpresaNestedInput
   auditorias?: Prisma.AuditoriaUncheckedUpdateManyWithoutEmpresaNestedInput
@@ -2422,9 +2422,9 @@ export type EmpresaUncheckedUpdateWithoutVehiculosInput = {
 export type EmpresaCreateWithoutDireccionesInput = {
   id?: string
   nombre: string
-  activo?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  activo?: boolean
   deletedAt?: Date | string | null
   anticipos?: Prisma.AnticiposCreateNestedManyWithoutEmpresaInput
   auditorias?: Prisma.AuditoriaCreateNestedManyWithoutEmpresaInput
@@ -2471,9 +2471,9 @@ export type EmpresaUncheckedCreateWithoutDireccionesInput = {
   id?: string
   tenantId: string
   nombre: string
-  activo?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  activo?: boolean
   deletedAt?: Date | string | null
   anticipos?: Prisma.AnticiposUncheckedCreateNestedManyWithoutEmpresaInput
   auditorias?: Prisma.AuditoriaUncheckedCreateNestedManyWithoutEmpresaInput
@@ -2534,9 +2534,9 @@ export type EmpresaUpdateToOneWithWhereWithoutDireccionesInput = {
 export type EmpresaUpdateWithoutDireccionesInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   nombre?: Prisma.StringFieldUpdateOperationsInput | string
-  activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   anticipos?: Prisma.AnticiposUpdateManyWithoutEmpresaNestedInput
   auditorias?: Prisma.AuditoriaUpdateManyWithoutEmpresaNestedInput
@@ -2583,9 +2583,9 @@ export type EmpresaUncheckedUpdateWithoutDireccionesInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   tenantId?: Prisma.StringFieldUpdateOperationsInput | string
   nombre?: Prisma.StringFieldUpdateOperationsInput | string
-  activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   anticipos?: Prisma.AnticiposUncheckedUpdateManyWithoutEmpresaNestedInput
   auditorias?: Prisma.AuditoriaUncheckedUpdateManyWithoutEmpresaNestedInput
@@ -2630,9 +2630,9 @@ export type EmpresaUncheckedUpdateWithoutDireccionesInput = {
 export type EmpresaCreateWithoutZonasInput = {
   id?: string
   nombre: string
-  activo?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  activo?: boolean
   deletedAt?: Date | string | null
   anticipos?: Prisma.AnticiposCreateNestedManyWithoutEmpresaInput
   auditorias?: Prisma.AuditoriaCreateNestedManyWithoutEmpresaInput
@@ -2679,9 +2679,9 @@ export type EmpresaUncheckedCreateWithoutZonasInput = {
   id?: string
   tenantId: string
   nombre: string
-  activo?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  activo?: boolean
   deletedAt?: Date | string | null
   anticipos?: Prisma.AnticiposUncheckedCreateNestedManyWithoutEmpresaInput
   auditorias?: Prisma.AuditoriaUncheckedCreateNestedManyWithoutEmpresaInput
@@ -2742,9 +2742,9 @@ export type EmpresaUpdateToOneWithWhereWithoutZonasInput = {
 export type EmpresaUpdateWithoutZonasInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   nombre?: Prisma.StringFieldUpdateOperationsInput | string
-  activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   anticipos?: Prisma.AnticiposUpdateManyWithoutEmpresaNestedInput
   auditorias?: Prisma.AuditoriaUpdateManyWithoutEmpresaNestedInput
@@ -2791,9 +2791,9 @@ export type EmpresaUncheckedUpdateWithoutZonasInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   tenantId?: Prisma.StringFieldUpdateOperationsInput | string
   nombre?: Prisma.StringFieldUpdateOperationsInput | string
-  activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   anticipos?: Prisma.AnticiposUncheckedUpdateManyWithoutEmpresaNestedInput
   auditorias?: Prisma.AuditoriaUncheckedUpdateManyWithoutEmpresaNestedInput
@@ -2838,9 +2838,9 @@ export type EmpresaUncheckedUpdateWithoutZonasInput = {
 export type EmpresaCreateWithoutServiciosInput = {
   id?: string
   nombre: string
-  activo?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  activo?: boolean
   deletedAt?: Date | string | null
   anticipos?: Prisma.AnticiposCreateNestedManyWithoutEmpresaInput
   auditorias?: Prisma.AuditoriaCreateNestedManyWithoutEmpresaInput
@@ -2887,9 +2887,9 @@ export type EmpresaUncheckedCreateWithoutServiciosInput = {
   id?: string
   tenantId: string
   nombre: string
-  activo?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  activo?: boolean
   deletedAt?: Date | string | null
   anticipos?: Prisma.AnticiposUncheckedCreateNestedManyWithoutEmpresaInput
   auditorias?: Prisma.AuditoriaUncheckedCreateNestedManyWithoutEmpresaInput
@@ -2950,9 +2950,9 @@ export type EmpresaUpdateToOneWithWhereWithoutServiciosInput = {
 export type EmpresaUpdateWithoutServiciosInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   nombre?: Prisma.StringFieldUpdateOperationsInput | string
-  activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   anticipos?: Prisma.AnticiposUpdateManyWithoutEmpresaNestedInput
   auditorias?: Prisma.AuditoriaUpdateManyWithoutEmpresaNestedInput
@@ -2999,9 +2999,9 @@ export type EmpresaUncheckedUpdateWithoutServiciosInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   tenantId?: Prisma.StringFieldUpdateOperationsInput | string
   nombre?: Prisma.StringFieldUpdateOperationsInput | string
-  activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   anticipos?: Prisma.AnticiposUncheckedUpdateManyWithoutEmpresaNestedInput
   auditorias?: Prisma.AuditoriaUncheckedUpdateManyWithoutEmpresaNestedInput
@@ -3046,9 +3046,9 @@ export type EmpresaUncheckedUpdateWithoutServiciosInput = {
 export type EmpresaCreateWithoutTiposServicioInput = {
   id?: string
   nombre: string
-  activo?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  activo?: boolean
   deletedAt?: Date | string | null
   anticipos?: Prisma.AnticiposCreateNestedManyWithoutEmpresaInput
   auditorias?: Prisma.AuditoriaCreateNestedManyWithoutEmpresaInput
@@ -3095,9 +3095,9 @@ export type EmpresaUncheckedCreateWithoutTiposServicioInput = {
   id?: string
   tenantId: string
   nombre: string
-  activo?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  activo?: boolean
   deletedAt?: Date | string | null
   anticipos?: Prisma.AnticiposUncheckedCreateNestedManyWithoutEmpresaInput
   auditorias?: Prisma.AuditoriaUncheckedCreateNestedManyWithoutEmpresaInput
@@ -3158,9 +3158,9 @@ export type EmpresaUpdateToOneWithWhereWithoutTiposServicioInput = {
 export type EmpresaUpdateWithoutTiposServicioInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   nombre?: Prisma.StringFieldUpdateOperationsInput | string
-  activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   anticipos?: Prisma.AnticiposUpdateManyWithoutEmpresaNestedInput
   auditorias?: Prisma.AuditoriaUpdateManyWithoutEmpresaNestedInput
@@ -3207,9 +3207,9 @@ export type EmpresaUncheckedUpdateWithoutTiposServicioInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   tenantId?: Prisma.StringFieldUpdateOperationsInput | string
   nombre?: Prisma.StringFieldUpdateOperationsInput | string
-  activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   anticipos?: Prisma.AnticiposUncheckedUpdateManyWithoutEmpresaNestedInput
   auditorias?: Prisma.AuditoriaUncheckedUpdateManyWithoutEmpresaNestedInput
@@ -3254,9 +3254,9 @@ export type EmpresaUncheckedUpdateWithoutTiposServicioInput = {
 export type EmpresaCreateWithoutMetodosPagoInput = {
   id?: string
   nombre: string
-  activo?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  activo?: boolean
   deletedAt?: Date | string | null
   anticipos?: Prisma.AnticiposCreateNestedManyWithoutEmpresaInput
   auditorias?: Prisma.AuditoriaCreateNestedManyWithoutEmpresaInput
@@ -3303,9 +3303,9 @@ export type EmpresaUncheckedCreateWithoutMetodosPagoInput = {
   id?: string
   tenantId: string
   nombre: string
-  activo?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  activo?: boolean
   deletedAt?: Date | string | null
   anticipos?: Prisma.AnticiposUncheckedCreateNestedManyWithoutEmpresaInput
   auditorias?: Prisma.AuditoriaUncheckedCreateNestedManyWithoutEmpresaInput
@@ -3366,9 +3366,9 @@ export type EmpresaUpdateToOneWithWhereWithoutMetodosPagoInput = {
 export type EmpresaUpdateWithoutMetodosPagoInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   nombre?: Prisma.StringFieldUpdateOperationsInput | string
-  activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   anticipos?: Prisma.AnticiposUpdateManyWithoutEmpresaNestedInput
   auditorias?: Prisma.AuditoriaUpdateManyWithoutEmpresaNestedInput
@@ -3415,9 +3415,9 @@ export type EmpresaUncheckedUpdateWithoutMetodosPagoInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   tenantId?: Prisma.StringFieldUpdateOperationsInput | string
   nombre?: Prisma.StringFieldUpdateOperationsInput | string
-  activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   anticipos?: Prisma.AnticiposUncheckedUpdateManyWithoutEmpresaNestedInput
   auditorias?: Prisma.AuditoriaUncheckedUpdateManyWithoutEmpresaNestedInput
@@ -3462,9 +3462,9 @@ export type EmpresaUncheckedUpdateWithoutMetodosPagoInput = {
 export type EmpresaCreateWithoutEstadosServicioInput = {
   id?: string
   nombre: string
-  activo?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  activo?: boolean
   deletedAt?: Date | string | null
   anticipos?: Prisma.AnticiposCreateNestedManyWithoutEmpresaInput
   auditorias?: Prisma.AuditoriaCreateNestedManyWithoutEmpresaInput
@@ -3511,9 +3511,9 @@ export type EmpresaUncheckedCreateWithoutEstadosServicioInput = {
   id?: string
   tenantId: string
   nombre: string
-  activo?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  activo?: boolean
   deletedAt?: Date | string | null
   anticipos?: Prisma.AnticiposUncheckedCreateNestedManyWithoutEmpresaInput
   auditorias?: Prisma.AuditoriaUncheckedCreateNestedManyWithoutEmpresaInput
@@ -3574,9 +3574,9 @@ export type EmpresaUpdateToOneWithWhereWithoutEstadosServicioInput = {
 export type EmpresaUpdateWithoutEstadosServicioInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   nombre?: Prisma.StringFieldUpdateOperationsInput | string
-  activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   anticipos?: Prisma.AnticiposUpdateManyWithoutEmpresaNestedInput
   auditorias?: Prisma.AuditoriaUpdateManyWithoutEmpresaNestedInput
@@ -3623,9 +3623,9 @@ export type EmpresaUncheckedUpdateWithoutEstadosServicioInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   tenantId?: Prisma.StringFieldUpdateOperationsInput | string
   nombre?: Prisma.StringFieldUpdateOperationsInput | string
-  activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   anticipos?: Prisma.AnticiposUncheckedUpdateManyWithoutEmpresaNestedInput
   auditorias?: Prisma.AuditoriaUncheckedUpdateManyWithoutEmpresaNestedInput
@@ -3670,9 +3670,9 @@ export type EmpresaUncheckedUpdateWithoutEstadosServicioInput = {
 export type EmpresaCreateWithoutOrdenesServicioInput = {
   id?: string
   nombre: string
-  activo?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  activo?: boolean
   deletedAt?: Date | string | null
   anticipos?: Prisma.AnticiposCreateNestedManyWithoutEmpresaInput
   auditorias?: Prisma.AuditoriaCreateNestedManyWithoutEmpresaInput
@@ -3719,9 +3719,9 @@ export type EmpresaUncheckedCreateWithoutOrdenesServicioInput = {
   id?: string
   tenantId: string
   nombre: string
-  activo?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  activo?: boolean
   deletedAt?: Date | string | null
   anticipos?: Prisma.AnticiposUncheckedCreateNestedManyWithoutEmpresaInput
   auditorias?: Prisma.AuditoriaUncheckedCreateNestedManyWithoutEmpresaInput
@@ -3782,9 +3782,9 @@ export type EmpresaUpdateToOneWithWhereWithoutOrdenesServicioInput = {
 export type EmpresaUpdateWithoutOrdenesServicioInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   nombre?: Prisma.StringFieldUpdateOperationsInput | string
-  activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   anticipos?: Prisma.AnticiposUpdateManyWithoutEmpresaNestedInput
   auditorias?: Prisma.AuditoriaUpdateManyWithoutEmpresaNestedInput
@@ -3831,9 +3831,9 @@ export type EmpresaUncheckedUpdateWithoutOrdenesServicioInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   tenantId?: Prisma.StringFieldUpdateOperationsInput | string
   nombre?: Prisma.StringFieldUpdateOperationsInput | string
-  activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   anticipos?: Prisma.AnticiposUncheckedUpdateManyWithoutEmpresaNestedInput
   auditorias?: Prisma.AuditoriaUncheckedUpdateManyWithoutEmpresaNestedInput
@@ -3878,9 +3878,9 @@ export type EmpresaUncheckedUpdateWithoutOrdenesServicioInput = {
 export type EmpresaCreateWithoutGeolocalizacionesInput = {
   id?: string
   nombre: string
-  activo?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  activo?: boolean
   deletedAt?: Date | string | null
   anticipos?: Prisma.AnticiposCreateNestedManyWithoutEmpresaInput
   auditorias?: Prisma.AuditoriaCreateNestedManyWithoutEmpresaInput
@@ -3927,9 +3927,9 @@ export type EmpresaUncheckedCreateWithoutGeolocalizacionesInput = {
   id?: string
   tenantId: string
   nombre: string
-  activo?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  activo?: boolean
   deletedAt?: Date | string | null
   anticipos?: Prisma.AnticiposUncheckedCreateNestedManyWithoutEmpresaInput
   auditorias?: Prisma.AuditoriaUncheckedCreateNestedManyWithoutEmpresaInput
@@ -3990,9 +3990,9 @@ export type EmpresaUpdateToOneWithWhereWithoutGeolocalizacionesInput = {
 export type EmpresaUpdateWithoutGeolocalizacionesInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   nombre?: Prisma.StringFieldUpdateOperationsInput | string
-  activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   anticipos?: Prisma.AnticiposUpdateManyWithoutEmpresaNestedInput
   auditorias?: Prisma.AuditoriaUpdateManyWithoutEmpresaNestedInput
@@ -4039,9 +4039,9 @@ export type EmpresaUncheckedUpdateWithoutGeolocalizacionesInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   tenantId?: Prisma.StringFieldUpdateOperationsInput | string
   nombre?: Prisma.StringFieldUpdateOperationsInput | string
-  activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   anticipos?: Prisma.AnticiposUncheckedUpdateManyWithoutEmpresaNestedInput
   auditorias?: Prisma.AuditoriaUncheckedUpdateManyWithoutEmpresaNestedInput
@@ -4086,9 +4086,9 @@ export type EmpresaUncheckedUpdateWithoutGeolocalizacionesInput = {
 export type EmpresaCreateWithoutNominasInput = {
   id?: string
   nombre: string
-  activo?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  activo?: boolean
   deletedAt?: Date | string | null
   anticipos?: Prisma.AnticiposCreateNestedManyWithoutEmpresaInput
   auditorias?: Prisma.AuditoriaCreateNestedManyWithoutEmpresaInput
@@ -4135,9 +4135,9 @@ export type EmpresaUncheckedCreateWithoutNominasInput = {
   id?: string
   tenantId: string
   nombre: string
-  activo?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  activo?: boolean
   deletedAt?: Date | string | null
   anticipos?: Prisma.AnticiposUncheckedCreateNestedManyWithoutEmpresaInput
   auditorias?: Prisma.AuditoriaUncheckedCreateNestedManyWithoutEmpresaInput
@@ -4198,9 +4198,9 @@ export type EmpresaUpdateToOneWithWhereWithoutNominasInput = {
 export type EmpresaUpdateWithoutNominasInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   nombre?: Prisma.StringFieldUpdateOperationsInput | string
-  activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   anticipos?: Prisma.AnticiposUpdateManyWithoutEmpresaNestedInput
   auditorias?: Prisma.AuditoriaUpdateManyWithoutEmpresaNestedInput
@@ -4247,9 +4247,9 @@ export type EmpresaUncheckedUpdateWithoutNominasInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   tenantId?: Prisma.StringFieldUpdateOperationsInput | string
   nombre?: Prisma.StringFieldUpdateOperationsInput | string
-  activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   anticipos?: Prisma.AnticiposUncheckedUpdateManyWithoutEmpresaNestedInput
   auditorias?: Prisma.AuditoriaUncheckedUpdateManyWithoutEmpresaNestedInput
@@ -4294,9 +4294,9 @@ export type EmpresaUncheckedUpdateWithoutNominasInput = {
 export type EmpresaCreateWithoutNominaDetallesInput = {
   id?: string
   nombre: string
-  activo?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  activo?: boolean
   deletedAt?: Date | string | null
   anticipos?: Prisma.AnticiposCreateNestedManyWithoutEmpresaInput
   auditorias?: Prisma.AuditoriaCreateNestedManyWithoutEmpresaInput
@@ -4343,9 +4343,9 @@ export type EmpresaUncheckedCreateWithoutNominaDetallesInput = {
   id?: string
   tenantId: string
   nombre: string
-  activo?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  activo?: boolean
   deletedAt?: Date | string | null
   anticipos?: Prisma.AnticiposUncheckedCreateNestedManyWithoutEmpresaInput
   auditorias?: Prisma.AuditoriaUncheckedCreateNestedManyWithoutEmpresaInput
@@ -4406,9 +4406,9 @@ export type EmpresaUpdateToOneWithWhereWithoutNominaDetallesInput = {
 export type EmpresaUpdateWithoutNominaDetallesInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   nombre?: Prisma.StringFieldUpdateOperationsInput | string
-  activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   anticipos?: Prisma.AnticiposUpdateManyWithoutEmpresaNestedInput
   auditorias?: Prisma.AuditoriaUpdateManyWithoutEmpresaNestedInput
@@ -4455,9 +4455,9 @@ export type EmpresaUncheckedUpdateWithoutNominaDetallesInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   tenantId?: Prisma.StringFieldUpdateOperationsInput | string
   nombre?: Prisma.StringFieldUpdateOperationsInput | string
-  activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   anticipos?: Prisma.AnticiposUncheckedUpdateManyWithoutEmpresaNestedInput
   auditorias?: Prisma.AuditoriaUncheckedUpdateManyWithoutEmpresaNestedInput
@@ -4502,9 +4502,9 @@ export type EmpresaUncheckedUpdateWithoutNominaDetallesInput = {
 export type EmpresaCreateWithoutCitasPsicologosInput = {
   id?: string
   nombre: string
-  activo?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  activo?: boolean
   deletedAt?: Date | string | null
   anticipos?: Prisma.AnticiposCreateNestedManyWithoutEmpresaInput
   auditorias?: Prisma.AuditoriaCreateNestedManyWithoutEmpresaInput
@@ -4551,9 +4551,9 @@ export type EmpresaUncheckedCreateWithoutCitasPsicologosInput = {
   id?: string
   tenantId: string
   nombre: string
-  activo?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  activo?: boolean
   deletedAt?: Date | string | null
   anticipos?: Prisma.AnticiposUncheckedCreateNestedManyWithoutEmpresaInput
   auditorias?: Prisma.AuditoriaUncheckedCreateNestedManyWithoutEmpresaInput
@@ -4614,9 +4614,9 @@ export type EmpresaUpdateToOneWithWhereWithoutCitasPsicologosInput = {
 export type EmpresaUpdateWithoutCitasPsicologosInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   nombre?: Prisma.StringFieldUpdateOperationsInput | string
-  activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   anticipos?: Prisma.AnticiposUpdateManyWithoutEmpresaNestedInput
   auditorias?: Prisma.AuditoriaUpdateManyWithoutEmpresaNestedInput
@@ -4663,9 +4663,9 @@ export type EmpresaUncheckedUpdateWithoutCitasPsicologosInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   tenantId?: Prisma.StringFieldUpdateOperationsInput | string
   nombre?: Prisma.StringFieldUpdateOperationsInput | string
-  activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   anticipos?: Prisma.AnticiposUncheckedUpdateManyWithoutEmpresaNestedInput
   auditorias?: Prisma.AuditoriaUncheckedUpdateManyWithoutEmpresaNestedInput
@@ -4710,9 +4710,9 @@ export type EmpresaUncheckedUpdateWithoutCitasPsicologosInput = {
 export type EmpresaCreateWithoutConsultoriosInput = {
   id?: string
   nombre: string
-  activo?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  activo?: boolean
   deletedAt?: Date | string | null
   anticipos?: Prisma.AnticiposCreateNestedManyWithoutEmpresaInput
   auditorias?: Prisma.AuditoriaCreateNestedManyWithoutEmpresaInput
@@ -4759,9 +4759,9 @@ export type EmpresaUncheckedCreateWithoutConsultoriosInput = {
   id?: string
   tenantId: string
   nombre: string
-  activo?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  activo?: boolean
   deletedAt?: Date | string | null
   anticipos?: Prisma.AnticiposUncheckedCreateNestedManyWithoutEmpresaInput
   auditorias?: Prisma.AuditoriaUncheckedCreateNestedManyWithoutEmpresaInput
@@ -4822,9 +4822,9 @@ export type EmpresaUpdateToOneWithWhereWithoutConsultoriosInput = {
 export type EmpresaUpdateWithoutConsultoriosInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   nombre?: Prisma.StringFieldUpdateOperationsInput | string
-  activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   anticipos?: Prisma.AnticiposUpdateManyWithoutEmpresaNestedInput
   auditorias?: Prisma.AuditoriaUpdateManyWithoutEmpresaNestedInput
@@ -4871,9 +4871,9 @@ export type EmpresaUncheckedUpdateWithoutConsultoriosInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   tenantId?: Prisma.StringFieldUpdateOperationsInput | string
   nombre?: Prisma.StringFieldUpdateOperationsInput | string
-  activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   anticipos?: Prisma.AnticiposUncheckedUpdateManyWithoutEmpresaNestedInput
   auditorias?: Prisma.AuditoriaUncheckedUpdateManyWithoutEmpresaNestedInput
@@ -4918,9 +4918,9 @@ export type EmpresaUncheckedUpdateWithoutConsultoriosInput = {
 export type EmpresaCreateWithoutTerapiasPsicologosInput = {
   id?: string
   nombre: string
-  activo?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  activo?: boolean
   deletedAt?: Date | string | null
   anticipos?: Prisma.AnticiposCreateNestedManyWithoutEmpresaInput
   auditorias?: Prisma.AuditoriaCreateNestedManyWithoutEmpresaInput
@@ -4967,9 +4967,9 @@ export type EmpresaUncheckedCreateWithoutTerapiasPsicologosInput = {
   id?: string
   tenantId: string
   nombre: string
-  activo?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  activo?: boolean
   deletedAt?: Date | string | null
   anticipos?: Prisma.AnticiposUncheckedCreateNestedManyWithoutEmpresaInput
   auditorias?: Prisma.AuditoriaUncheckedCreateNestedManyWithoutEmpresaInput
@@ -5030,9 +5030,9 @@ export type EmpresaUpdateToOneWithWhereWithoutTerapiasPsicologosInput = {
 export type EmpresaUpdateWithoutTerapiasPsicologosInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   nombre?: Prisma.StringFieldUpdateOperationsInput | string
-  activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   anticipos?: Prisma.AnticiposUpdateManyWithoutEmpresaNestedInput
   auditorias?: Prisma.AuditoriaUpdateManyWithoutEmpresaNestedInput
@@ -5079,9 +5079,9 @@ export type EmpresaUncheckedUpdateWithoutTerapiasPsicologosInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   tenantId?: Prisma.StringFieldUpdateOperationsInput | string
   nombre?: Prisma.StringFieldUpdateOperationsInput | string
-  activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   anticipos?: Prisma.AnticiposUncheckedUpdateManyWithoutEmpresaNestedInput
   auditorias?: Prisma.AuditoriaUncheckedUpdateManyWithoutEmpresaNestedInput
@@ -5126,9 +5126,9 @@ export type EmpresaUncheckedUpdateWithoutTerapiasPsicologosInput = {
 export type EmpresaCreateWithoutPaquetesAdquiridosInput = {
   id?: string
   nombre: string
-  activo?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  activo?: boolean
   deletedAt?: Date | string | null
   anticipos?: Prisma.AnticiposCreateNestedManyWithoutEmpresaInput
   auditorias?: Prisma.AuditoriaCreateNestedManyWithoutEmpresaInput
@@ -5175,9 +5175,9 @@ export type EmpresaUncheckedCreateWithoutPaquetesAdquiridosInput = {
   id?: string
   tenantId: string
   nombre: string
-  activo?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  activo?: boolean
   deletedAt?: Date | string | null
   anticipos?: Prisma.AnticiposUncheckedCreateNestedManyWithoutEmpresaInput
   auditorias?: Prisma.AuditoriaUncheckedCreateNestedManyWithoutEmpresaInput
@@ -5238,9 +5238,9 @@ export type EmpresaUpdateToOneWithWhereWithoutPaquetesAdquiridosInput = {
 export type EmpresaUpdateWithoutPaquetesAdquiridosInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   nombre?: Prisma.StringFieldUpdateOperationsInput | string
-  activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   anticipos?: Prisma.AnticiposUpdateManyWithoutEmpresaNestedInput
   auditorias?: Prisma.AuditoriaUpdateManyWithoutEmpresaNestedInput
@@ -5287,9 +5287,9 @@ export type EmpresaUncheckedUpdateWithoutPaquetesAdquiridosInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   tenantId?: Prisma.StringFieldUpdateOperationsInput | string
   nombre?: Prisma.StringFieldUpdateOperationsInput | string
-  activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   anticipos?: Prisma.AnticiposUncheckedUpdateManyWithoutEmpresaNestedInput
   auditorias?: Prisma.AuditoriaUncheckedUpdateManyWithoutEmpresaNestedInput
@@ -5334,9 +5334,9 @@ export type EmpresaUncheckedUpdateWithoutPaquetesAdquiridosInput = {
 export type EmpresaCreateWithoutTurnosInput = {
   id?: string
   nombre: string
-  activo?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  activo?: boolean
   deletedAt?: Date | string | null
   anticipos?: Prisma.AnticiposCreateNestedManyWithoutEmpresaInput
   auditorias?: Prisma.AuditoriaCreateNestedManyWithoutEmpresaInput
@@ -5383,9 +5383,9 @@ export type EmpresaUncheckedCreateWithoutTurnosInput = {
   id?: string
   tenantId: string
   nombre: string
-  activo?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  activo?: boolean
   deletedAt?: Date | string | null
   anticipos?: Prisma.AnticiposUncheckedCreateNestedManyWithoutEmpresaInput
   auditorias?: Prisma.AuditoriaUncheckedCreateNestedManyWithoutEmpresaInput
@@ -5446,9 +5446,9 @@ export type EmpresaUpdateToOneWithWhereWithoutTurnosInput = {
 export type EmpresaUpdateWithoutTurnosInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   nombre?: Prisma.StringFieldUpdateOperationsInput | string
-  activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   anticipos?: Prisma.AnticiposUpdateManyWithoutEmpresaNestedInput
   auditorias?: Prisma.AuditoriaUpdateManyWithoutEmpresaNestedInput
@@ -5495,9 +5495,9 @@ export type EmpresaUncheckedUpdateWithoutTurnosInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   tenantId?: Prisma.StringFieldUpdateOperationsInput | string
   nombre?: Prisma.StringFieldUpdateOperationsInput | string
-  activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   anticipos?: Prisma.AnticiposUncheckedUpdateManyWithoutEmpresaNestedInput
   auditorias?: Prisma.AuditoriaUncheckedUpdateManyWithoutEmpresaNestedInput
@@ -5542,9 +5542,9 @@ export type EmpresaUncheckedUpdateWithoutTurnosInput = {
 export type EmpresaCreateWithoutCuentasCobroInput = {
   id?: string
   nombre: string
-  activo?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  activo?: boolean
   deletedAt?: Date | string | null
   anticipos?: Prisma.AnticiposCreateNestedManyWithoutEmpresaInput
   auditorias?: Prisma.AuditoriaCreateNestedManyWithoutEmpresaInput
@@ -5591,9 +5591,9 @@ export type EmpresaUncheckedCreateWithoutCuentasCobroInput = {
   id?: string
   tenantId: string
   nombre: string
-  activo?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  activo?: boolean
   deletedAt?: Date | string | null
   anticipos?: Prisma.AnticiposUncheckedCreateNestedManyWithoutEmpresaInput
   auditorias?: Prisma.AuditoriaUncheckedCreateNestedManyWithoutEmpresaInput
@@ -5654,9 +5654,9 @@ export type EmpresaUpdateToOneWithWhereWithoutCuentasCobroInput = {
 export type EmpresaUpdateWithoutCuentasCobroInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   nombre?: Prisma.StringFieldUpdateOperationsInput | string
-  activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   anticipos?: Prisma.AnticiposUpdateManyWithoutEmpresaNestedInput
   auditorias?: Prisma.AuditoriaUpdateManyWithoutEmpresaNestedInput
@@ -5703,9 +5703,9 @@ export type EmpresaUncheckedUpdateWithoutCuentasCobroInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   tenantId?: Prisma.StringFieldUpdateOperationsInput | string
   nombre?: Prisma.StringFieldUpdateOperationsInput | string
-  activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   anticipos?: Prisma.AnticiposUncheckedUpdateManyWithoutEmpresaNestedInput
   auditorias?: Prisma.AuditoriaUncheckedUpdateManyWithoutEmpresaNestedInput
@@ -5750,9 +5750,9 @@ export type EmpresaUncheckedUpdateWithoutCuentasCobroInput = {
 export type EmpresaCreateWithoutDeclaracionesInput = {
   id?: string
   nombre: string
-  activo?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  activo?: boolean
   deletedAt?: Date | string | null
   anticipos?: Prisma.AnticiposCreateNestedManyWithoutEmpresaInput
   auditorias?: Prisma.AuditoriaCreateNestedManyWithoutEmpresaInput
@@ -5799,9 +5799,9 @@ export type EmpresaUncheckedCreateWithoutDeclaracionesInput = {
   id?: string
   tenantId: string
   nombre: string
-  activo?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  activo?: boolean
   deletedAt?: Date | string | null
   anticipos?: Prisma.AnticiposUncheckedCreateNestedManyWithoutEmpresaInput
   auditorias?: Prisma.AuditoriaUncheckedCreateNestedManyWithoutEmpresaInput
@@ -5862,9 +5862,9 @@ export type EmpresaUpdateToOneWithWhereWithoutDeclaracionesInput = {
 export type EmpresaUpdateWithoutDeclaracionesInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   nombre?: Prisma.StringFieldUpdateOperationsInput | string
-  activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   anticipos?: Prisma.AnticiposUpdateManyWithoutEmpresaNestedInput
   auditorias?: Prisma.AuditoriaUpdateManyWithoutEmpresaNestedInput
@@ -5911,9 +5911,9 @@ export type EmpresaUncheckedUpdateWithoutDeclaracionesInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   tenantId?: Prisma.StringFieldUpdateOperationsInput | string
   nombre?: Prisma.StringFieldUpdateOperationsInput | string
-  activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   anticipos?: Prisma.AnticiposUncheckedUpdateManyWithoutEmpresaNestedInput
   auditorias?: Prisma.AuditoriaUncheckedUpdateManyWithoutEmpresaNestedInput
@@ -5958,9 +5958,9 @@ export type EmpresaUncheckedUpdateWithoutDeclaracionesInput = {
 export type EmpresaCreateWithoutConsignacionesInput = {
   id?: string
   nombre: string
-  activo?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  activo?: boolean
   deletedAt?: Date | string | null
   anticipos?: Prisma.AnticiposCreateNestedManyWithoutEmpresaInput
   auditorias?: Prisma.AuditoriaCreateNestedManyWithoutEmpresaInput
@@ -6007,9 +6007,9 @@ export type EmpresaUncheckedCreateWithoutConsignacionesInput = {
   id?: string
   tenantId: string
   nombre: string
-  activo?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  activo?: boolean
   deletedAt?: Date | string | null
   anticipos?: Prisma.AnticiposUncheckedCreateNestedManyWithoutEmpresaInput
   auditorias?: Prisma.AuditoriaUncheckedCreateNestedManyWithoutEmpresaInput
@@ -6070,9 +6070,9 @@ export type EmpresaUpdateToOneWithWhereWithoutConsignacionesInput = {
 export type EmpresaUpdateWithoutConsignacionesInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   nombre?: Prisma.StringFieldUpdateOperationsInput | string
-  activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   anticipos?: Prisma.AnticiposUpdateManyWithoutEmpresaNestedInput
   auditorias?: Prisma.AuditoriaUpdateManyWithoutEmpresaNestedInput
@@ -6119,9 +6119,9 @@ export type EmpresaUncheckedUpdateWithoutConsignacionesInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   tenantId?: Prisma.StringFieldUpdateOperationsInput | string
   nombre?: Prisma.StringFieldUpdateOperationsInput | string
-  activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   anticipos?: Prisma.AnticiposUncheckedUpdateManyWithoutEmpresaNestedInput
   auditorias?: Prisma.AuditoriaUncheckedUpdateManyWithoutEmpresaNestedInput
@@ -6166,9 +6166,9 @@ export type EmpresaUncheckedUpdateWithoutConsignacionesInput = {
 export type EmpresaCreateWithoutConsignacionOrdenesInput = {
   id?: string
   nombre: string
-  activo?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  activo?: boolean
   deletedAt?: Date | string | null
   anticipos?: Prisma.AnticiposCreateNestedManyWithoutEmpresaInput
   auditorias?: Prisma.AuditoriaCreateNestedManyWithoutEmpresaInput
@@ -6215,9 +6215,9 @@ export type EmpresaUncheckedCreateWithoutConsignacionOrdenesInput = {
   id?: string
   tenantId: string
   nombre: string
-  activo?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  activo?: boolean
   deletedAt?: Date | string | null
   anticipos?: Prisma.AnticiposUncheckedCreateNestedManyWithoutEmpresaInput
   auditorias?: Prisma.AuditoriaUncheckedCreateNestedManyWithoutEmpresaInput
@@ -6278,9 +6278,9 @@ export type EmpresaUpdateToOneWithWhereWithoutConsignacionOrdenesInput = {
 export type EmpresaUpdateWithoutConsignacionOrdenesInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   nombre?: Prisma.StringFieldUpdateOperationsInput | string
-  activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   anticipos?: Prisma.AnticiposUpdateManyWithoutEmpresaNestedInput
   auditorias?: Prisma.AuditoriaUpdateManyWithoutEmpresaNestedInput
@@ -6327,9 +6327,9 @@ export type EmpresaUncheckedUpdateWithoutConsignacionOrdenesInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   tenantId?: Prisma.StringFieldUpdateOperationsInput | string
   nombre?: Prisma.StringFieldUpdateOperationsInput | string
-  activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   anticipos?: Prisma.AnticiposUncheckedUpdateManyWithoutEmpresaNestedInput
   auditorias?: Prisma.AuditoriaUncheckedUpdateManyWithoutEmpresaNestedInput
@@ -6374,9 +6374,9 @@ export type EmpresaUncheckedUpdateWithoutConsignacionOrdenesInput = {
 export type EmpresaCreateWithoutAnticiposInput = {
   id?: string
   nombre: string
-  activo?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  activo?: boolean
   deletedAt?: Date | string | null
   auditorias?: Prisma.AuditoriaCreateNestedManyWithoutEmpresaInput
   authSessions?: Prisma.AuthSessionCreateNestedManyWithoutEmpresaInput
@@ -6423,9 +6423,9 @@ export type EmpresaUncheckedCreateWithoutAnticiposInput = {
   id?: string
   tenantId: string
   nombre: string
-  activo?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  activo?: boolean
   deletedAt?: Date | string | null
   auditorias?: Prisma.AuditoriaUncheckedCreateNestedManyWithoutEmpresaInput
   authSessions?: Prisma.AuthSessionUncheckedCreateNestedManyWithoutEmpresaInput
@@ -6486,9 +6486,9 @@ export type EmpresaUpdateToOneWithWhereWithoutAnticiposInput = {
 export type EmpresaUpdateWithoutAnticiposInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   nombre?: Prisma.StringFieldUpdateOperationsInput | string
-  activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   auditorias?: Prisma.AuditoriaUpdateManyWithoutEmpresaNestedInput
   authSessions?: Prisma.AuthSessionUpdateManyWithoutEmpresaNestedInput
@@ -6535,9 +6535,9 @@ export type EmpresaUncheckedUpdateWithoutAnticiposInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   tenantId?: Prisma.StringFieldUpdateOperationsInput | string
   nombre?: Prisma.StringFieldUpdateOperationsInput | string
-  activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   auditorias?: Prisma.AuditoriaUncheckedUpdateManyWithoutEmpresaNestedInput
   authSessions?: Prisma.AuthSessionUncheckedUpdateManyWithoutEmpresaNestedInput
@@ -6582,9 +6582,9 @@ export type EmpresaUncheckedUpdateWithoutAnticiposInput = {
 export type EmpresaCreateWithoutProductosInput = {
   id?: string
   nombre: string
-  activo?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  activo?: boolean
   deletedAt?: Date | string | null
   anticipos?: Prisma.AnticiposCreateNestedManyWithoutEmpresaInput
   auditorias?: Prisma.AuditoriaCreateNestedManyWithoutEmpresaInput
@@ -6631,9 +6631,9 @@ export type EmpresaUncheckedCreateWithoutProductosInput = {
   id?: string
   tenantId: string
   nombre: string
-  activo?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  activo?: boolean
   deletedAt?: Date | string | null
   anticipos?: Prisma.AnticiposUncheckedCreateNestedManyWithoutEmpresaInput
   auditorias?: Prisma.AuditoriaUncheckedCreateNestedManyWithoutEmpresaInput
@@ -6694,9 +6694,9 @@ export type EmpresaUpdateToOneWithWhereWithoutProductosInput = {
 export type EmpresaUpdateWithoutProductosInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   nombre?: Prisma.StringFieldUpdateOperationsInput | string
-  activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   anticipos?: Prisma.AnticiposUpdateManyWithoutEmpresaNestedInput
   auditorias?: Prisma.AuditoriaUpdateManyWithoutEmpresaNestedInput
@@ -6743,9 +6743,9 @@ export type EmpresaUncheckedUpdateWithoutProductosInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   tenantId?: Prisma.StringFieldUpdateOperationsInput | string
   nombre?: Prisma.StringFieldUpdateOperationsInput | string
-  activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   anticipos?: Prisma.AnticiposUncheckedUpdateManyWithoutEmpresaNestedInput
   auditorias?: Prisma.AuditoriaUncheckedUpdateManyWithoutEmpresaNestedInput
@@ -6790,9 +6790,9 @@ export type EmpresaUncheckedUpdateWithoutProductosInput = {
 export type EmpresaCreateWithoutProductosSolicitadosInput = {
   id?: string
   nombre: string
-  activo?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  activo?: boolean
   deletedAt?: Date | string | null
   anticipos?: Prisma.AnticiposCreateNestedManyWithoutEmpresaInput
   auditorias?: Prisma.AuditoriaCreateNestedManyWithoutEmpresaInput
@@ -6839,9 +6839,9 @@ export type EmpresaUncheckedCreateWithoutProductosSolicitadosInput = {
   id?: string
   tenantId: string
   nombre: string
-  activo?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  activo?: boolean
   deletedAt?: Date | string | null
   anticipos?: Prisma.AnticiposUncheckedCreateNestedManyWithoutEmpresaInput
   auditorias?: Prisma.AuditoriaUncheckedCreateNestedManyWithoutEmpresaInput
@@ -6902,9 +6902,9 @@ export type EmpresaUpdateToOneWithWhereWithoutProductosSolicitadosInput = {
 export type EmpresaUpdateWithoutProductosSolicitadosInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   nombre?: Prisma.StringFieldUpdateOperationsInput | string
-  activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   anticipos?: Prisma.AnticiposUpdateManyWithoutEmpresaNestedInput
   auditorias?: Prisma.AuditoriaUpdateManyWithoutEmpresaNestedInput
@@ -6951,9 +6951,9 @@ export type EmpresaUncheckedUpdateWithoutProductosSolicitadosInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   tenantId?: Prisma.StringFieldUpdateOperationsInput | string
   nombre?: Prisma.StringFieldUpdateOperationsInput | string
-  activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   anticipos?: Prisma.AnticiposUncheckedUpdateManyWithoutEmpresaNestedInput
   auditorias?: Prisma.AuditoriaUncheckedUpdateManyWithoutEmpresaNestedInput
@@ -6998,9 +6998,9 @@ export type EmpresaUncheckedUpdateWithoutProductosSolicitadosInput = {
 export type EmpresaCreateWithoutProveedoresInput = {
   id?: string
   nombre: string
-  activo?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  activo?: boolean
   deletedAt?: Date | string | null
   anticipos?: Prisma.AnticiposCreateNestedManyWithoutEmpresaInput
   auditorias?: Prisma.AuditoriaCreateNestedManyWithoutEmpresaInput
@@ -7047,9 +7047,9 @@ export type EmpresaUncheckedCreateWithoutProveedoresInput = {
   id?: string
   tenantId: string
   nombre: string
-  activo?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  activo?: boolean
   deletedAt?: Date | string | null
   anticipos?: Prisma.AnticiposUncheckedCreateNestedManyWithoutEmpresaInput
   auditorias?: Prisma.AuditoriaUncheckedCreateNestedManyWithoutEmpresaInput
@@ -7110,9 +7110,9 @@ export type EmpresaUpdateToOneWithWhereWithoutProveedoresInput = {
 export type EmpresaUpdateWithoutProveedoresInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   nombre?: Prisma.StringFieldUpdateOperationsInput | string
-  activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   anticipos?: Prisma.AnticiposUpdateManyWithoutEmpresaNestedInput
   auditorias?: Prisma.AuditoriaUpdateManyWithoutEmpresaNestedInput
@@ -7159,9 +7159,9 @@ export type EmpresaUncheckedUpdateWithoutProveedoresInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   tenantId?: Prisma.StringFieldUpdateOperationsInput | string
   nombre?: Prisma.StringFieldUpdateOperationsInput | string
-  activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   anticipos?: Prisma.AnticiposUncheckedUpdateManyWithoutEmpresaNestedInput
   auditorias?: Prisma.AuditoriaUncheckedUpdateManyWithoutEmpresaNestedInput
@@ -7206,9 +7206,9 @@ export type EmpresaUncheckedUpdateWithoutProveedoresInput = {
 export type EmpresaCreateWithoutPermisosInput = {
   id?: string
   nombre: string
-  activo?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  activo?: boolean
   deletedAt?: Date | string | null
   anticipos?: Prisma.AnticiposCreateNestedManyWithoutEmpresaInput
   auditorias?: Prisma.AuditoriaCreateNestedManyWithoutEmpresaInput
@@ -7255,9 +7255,9 @@ export type EmpresaUncheckedCreateWithoutPermisosInput = {
   id?: string
   tenantId: string
   nombre: string
-  activo?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  activo?: boolean
   deletedAt?: Date | string | null
   anticipos?: Prisma.AnticiposUncheckedCreateNestedManyWithoutEmpresaInput
   auditorias?: Prisma.AuditoriaUncheckedCreateNestedManyWithoutEmpresaInput
@@ -7318,9 +7318,9 @@ export type EmpresaUpdateToOneWithWhereWithoutPermisosInput = {
 export type EmpresaUpdateWithoutPermisosInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   nombre?: Prisma.StringFieldUpdateOperationsInput | string
-  activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   anticipos?: Prisma.AnticiposUpdateManyWithoutEmpresaNestedInput
   auditorias?: Prisma.AuditoriaUpdateManyWithoutEmpresaNestedInput
@@ -7367,9 +7367,9 @@ export type EmpresaUncheckedUpdateWithoutPermisosInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   tenantId?: Prisma.StringFieldUpdateOperationsInput | string
   nombre?: Prisma.StringFieldUpdateOperationsInput | string
-  activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   anticipos?: Prisma.AnticiposUncheckedUpdateManyWithoutEmpresaNestedInput
   auditorias?: Prisma.AuditoriaUncheckedUpdateManyWithoutEmpresaNestedInput
@@ -7414,9 +7414,9 @@ export type EmpresaUncheckedUpdateWithoutPermisosInput = {
 export type EmpresaCreateWithoutConfiguracionPagosInput = {
   id?: string
   nombre: string
-  activo?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  activo?: boolean
   deletedAt?: Date | string | null
   anticipos?: Prisma.AnticiposCreateNestedManyWithoutEmpresaInput
   auditorias?: Prisma.AuditoriaCreateNestedManyWithoutEmpresaInput
@@ -7463,9 +7463,9 @@ export type EmpresaUncheckedCreateWithoutConfiguracionPagosInput = {
   id?: string
   tenantId: string
   nombre: string
-  activo?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  activo?: boolean
   deletedAt?: Date | string | null
   anticipos?: Prisma.AnticiposUncheckedCreateNestedManyWithoutEmpresaInput
   auditorias?: Prisma.AuditoriaUncheckedCreateNestedManyWithoutEmpresaInput
@@ -7526,9 +7526,9 @@ export type EmpresaUpdateToOneWithWhereWithoutConfiguracionPagosInput = {
 export type EmpresaUpdateWithoutConfiguracionPagosInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   nombre?: Prisma.StringFieldUpdateOperationsInput | string
-  activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   anticipos?: Prisma.AnticiposUpdateManyWithoutEmpresaNestedInput
   auditorias?: Prisma.AuditoriaUpdateManyWithoutEmpresaNestedInput
@@ -7575,9 +7575,9 @@ export type EmpresaUncheckedUpdateWithoutConfiguracionPagosInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   tenantId?: Prisma.StringFieldUpdateOperationsInput | string
   nombre?: Prisma.StringFieldUpdateOperationsInput | string
-  activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   anticipos?: Prisma.AnticiposUncheckedUpdateManyWithoutEmpresaNestedInput
   auditorias?: Prisma.AuditoriaUncheckedUpdateManyWithoutEmpresaNestedInput
@@ -7622,9 +7622,9 @@ export type EmpresaUncheckedUpdateWithoutConfiguracionPagosInput = {
 export type EmpresaCreateWithoutCuentasPagoInput = {
   id?: string
   nombre: string
-  activo?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  activo?: boolean
   deletedAt?: Date | string | null
   anticipos?: Prisma.AnticiposCreateNestedManyWithoutEmpresaInput
   auditorias?: Prisma.AuditoriaCreateNestedManyWithoutEmpresaInput
@@ -7671,9 +7671,9 @@ export type EmpresaUncheckedCreateWithoutCuentasPagoInput = {
   id?: string
   tenantId: string
   nombre: string
-  activo?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  activo?: boolean
   deletedAt?: Date | string | null
   anticipos?: Prisma.AnticiposUncheckedCreateNestedManyWithoutEmpresaInput
   auditorias?: Prisma.AuditoriaUncheckedCreateNestedManyWithoutEmpresaInput
@@ -7734,9 +7734,9 @@ export type EmpresaUpdateToOneWithWhereWithoutCuentasPagoInput = {
 export type EmpresaUpdateWithoutCuentasPagoInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   nombre?: Prisma.StringFieldUpdateOperationsInput | string
-  activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   anticipos?: Prisma.AnticiposUpdateManyWithoutEmpresaNestedInput
   auditorias?: Prisma.AuditoriaUpdateManyWithoutEmpresaNestedInput
@@ -7783,9 +7783,9 @@ export type EmpresaUncheckedUpdateWithoutCuentasPagoInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   tenantId?: Prisma.StringFieldUpdateOperationsInput | string
   nombre?: Prisma.StringFieldUpdateOperationsInput | string
-  activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   anticipos?: Prisma.AnticiposUncheckedUpdateManyWithoutEmpresaNestedInput
   auditorias?: Prisma.AuditoriaUncheckedUpdateManyWithoutEmpresaNestedInput
@@ -7830,9 +7830,9 @@ export type EmpresaUncheckedUpdateWithoutCuentasPagoInput = {
 export type EmpresaCreateWithoutEgresosInput = {
   id?: string
   nombre: string
-  activo?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  activo?: boolean
   deletedAt?: Date | string | null
   anticipos?: Prisma.AnticiposCreateNestedManyWithoutEmpresaInput
   auditorias?: Prisma.AuditoriaCreateNestedManyWithoutEmpresaInput
@@ -7879,9 +7879,9 @@ export type EmpresaUncheckedCreateWithoutEgresosInput = {
   id?: string
   tenantId: string
   nombre: string
-  activo?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  activo?: boolean
   deletedAt?: Date | string | null
   anticipos?: Prisma.AnticiposUncheckedCreateNestedManyWithoutEmpresaInput
   auditorias?: Prisma.AuditoriaUncheckedCreateNestedManyWithoutEmpresaInput
@@ -7942,9 +7942,9 @@ export type EmpresaUpdateToOneWithWhereWithoutEgresosInput = {
 export type EmpresaUpdateWithoutEgresosInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   nombre?: Prisma.StringFieldUpdateOperationsInput | string
-  activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   anticipos?: Prisma.AnticiposUpdateManyWithoutEmpresaNestedInput
   auditorias?: Prisma.AuditoriaUpdateManyWithoutEmpresaNestedInput
@@ -7991,9 +7991,9 @@ export type EmpresaUncheckedUpdateWithoutEgresosInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   tenantId?: Prisma.StringFieldUpdateOperationsInput | string
   nombre?: Prisma.StringFieldUpdateOperationsInput | string
-  activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   anticipos?: Prisma.AnticiposUncheckedUpdateManyWithoutEmpresaNestedInput
   auditorias?: Prisma.AuditoriaUncheckedUpdateManyWithoutEmpresaNestedInput
@@ -8038,9 +8038,9 @@ export type EmpresaUncheckedUpdateWithoutEgresosInput = {
 export type EmpresaCreateWithoutPicoPlacaInput = {
   id?: string
   nombre: string
-  activo?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  activo?: boolean
   deletedAt?: Date | string | null
   anticipos?: Prisma.AnticiposCreateNestedManyWithoutEmpresaInput
   auditorias?: Prisma.AuditoriaCreateNestedManyWithoutEmpresaInput
@@ -8087,9 +8087,9 @@ export type EmpresaUncheckedCreateWithoutPicoPlacaInput = {
   id?: string
   tenantId: string
   nombre: string
-  activo?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  activo?: boolean
   deletedAt?: Date | string | null
   anticipos?: Prisma.AnticiposUncheckedCreateNestedManyWithoutEmpresaInput
   auditorias?: Prisma.AuditoriaUncheckedCreateNestedManyWithoutEmpresaInput
@@ -8150,9 +8150,9 @@ export type EmpresaUpdateToOneWithWhereWithoutPicoPlacaInput = {
 export type EmpresaUpdateWithoutPicoPlacaInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   nombre?: Prisma.StringFieldUpdateOperationsInput | string
-  activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   anticipos?: Prisma.AnticiposUpdateManyWithoutEmpresaNestedInput
   auditorias?: Prisma.AuditoriaUpdateManyWithoutEmpresaNestedInput
@@ -8199,9 +8199,9 @@ export type EmpresaUncheckedUpdateWithoutPicoPlacaInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   tenantId?: Prisma.StringFieldUpdateOperationsInput | string
   nombre?: Prisma.StringFieldUpdateOperationsInput | string
-  activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   anticipos?: Prisma.AnticiposUncheckedUpdateManyWithoutEmpresaNestedInput
   auditorias?: Prisma.AuditoriaUncheckedUpdateManyWithoutEmpresaNestedInput
@@ -8246,9 +8246,9 @@ export type EmpresaUncheckedUpdateWithoutPicoPlacaInput = {
 export type EmpresaCreateWithoutReferidosInput = {
   id?: string
   nombre: string
-  activo?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  activo?: boolean
   deletedAt?: Date | string | null
   anticipos?: Prisma.AnticiposCreateNestedManyWithoutEmpresaInput
   auditorias?: Prisma.AuditoriaCreateNestedManyWithoutEmpresaInput
@@ -8295,9 +8295,9 @@ export type EmpresaUncheckedCreateWithoutReferidosInput = {
   id?: string
   tenantId: string
   nombre: string
-  activo?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  activo?: boolean
   deletedAt?: Date | string | null
   anticipos?: Prisma.AnticiposUncheckedCreateNestedManyWithoutEmpresaInput
   auditorias?: Prisma.AuditoriaUncheckedCreateNestedManyWithoutEmpresaInput
@@ -8358,9 +8358,9 @@ export type EmpresaUpdateToOneWithWhereWithoutReferidosInput = {
 export type EmpresaUpdateWithoutReferidosInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   nombre?: Prisma.StringFieldUpdateOperationsInput | string
-  activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   anticipos?: Prisma.AnticiposUpdateManyWithoutEmpresaNestedInput
   auditorias?: Prisma.AuditoriaUpdateManyWithoutEmpresaNestedInput
@@ -8407,9 +8407,9 @@ export type EmpresaUncheckedUpdateWithoutReferidosInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   tenantId?: Prisma.StringFieldUpdateOperationsInput | string
   nombre?: Prisma.StringFieldUpdateOperationsInput | string
-  activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   anticipos?: Prisma.AnticiposUncheckedUpdateManyWithoutEmpresaNestedInput
   auditorias?: Prisma.AuditoriaUncheckedUpdateManyWithoutEmpresaNestedInput
@@ -8454,9 +8454,9 @@ export type EmpresaUncheckedUpdateWithoutReferidosInput = {
 export type EmpresaCreateWithoutAuditoriasInput = {
   id?: string
   nombre: string
-  activo?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  activo?: boolean
   deletedAt?: Date | string | null
   anticipos?: Prisma.AnticiposCreateNestedManyWithoutEmpresaInput
   authSessions?: Prisma.AuthSessionCreateNestedManyWithoutEmpresaInput
@@ -8503,9 +8503,9 @@ export type EmpresaUncheckedCreateWithoutAuditoriasInput = {
   id?: string
   tenantId: string
   nombre: string
-  activo?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  activo?: boolean
   deletedAt?: Date | string | null
   anticipos?: Prisma.AnticiposUncheckedCreateNestedManyWithoutEmpresaInput
   authSessions?: Prisma.AuthSessionUncheckedCreateNestedManyWithoutEmpresaInput
@@ -8566,9 +8566,9 @@ export type EmpresaUpdateToOneWithWhereWithoutAuditoriasInput = {
 export type EmpresaUpdateWithoutAuditoriasInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   nombre?: Prisma.StringFieldUpdateOperationsInput | string
-  activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   anticipos?: Prisma.AnticiposUpdateManyWithoutEmpresaNestedInput
   authSessions?: Prisma.AuthSessionUpdateManyWithoutEmpresaNestedInput
@@ -8615,9 +8615,9 @@ export type EmpresaUncheckedUpdateWithoutAuditoriasInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   tenantId?: Prisma.StringFieldUpdateOperationsInput | string
   nombre?: Prisma.StringFieldUpdateOperationsInput | string
-  activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   anticipos?: Prisma.AnticiposUncheckedUpdateManyWithoutEmpresaNestedInput
   authSessions?: Prisma.AuthSessionUncheckedUpdateManyWithoutEmpresaNestedInput
@@ -8662,9 +8662,9 @@ export type EmpresaUncheckedUpdateWithoutAuditoriasInput = {
 export type EmpresaCreateWithoutSesionesActividadInput = {
   id?: string
   nombre: string
-  activo?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  activo?: boolean
   deletedAt?: Date | string | null
   anticipos?: Prisma.AnticiposCreateNestedManyWithoutEmpresaInput
   auditorias?: Prisma.AuditoriaCreateNestedManyWithoutEmpresaInput
@@ -8711,9 +8711,9 @@ export type EmpresaUncheckedCreateWithoutSesionesActividadInput = {
   id?: string
   tenantId: string
   nombre: string
-  activo?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  activo?: boolean
   deletedAt?: Date | string | null
   anticipos?: Prisma.AnticiposUncheckedCreateNestedManyWithoutEmpresaInput
   auditorias?: Prisma.AuditoriaUncheckedCreateNestedManyWithoutEmpresaInput
@@ -8774,9 +8774,9 @@ export type EmpresaUpdateToOneWithWhereWithoutSesionesActividadInput = {
 export type EmpresaUpdateWithoutSesionesActividadInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   nombre?: Prisma.StringFieldUpdateOperationsInput | string
-  activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   anticipos?: Prisma.AnticiposUpdateManyWithoutEmpresaNestedInput
   auditorias?: Prisma.AuditoriaUpdateManyWithoutEmpresaNestedInput
@@ -8823,9 +8823,9 @@ export type EmpresaUncheckedUpdateWithoutSesionesActividadInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   tenantId?: Prisma.StringFieldUpdateOperationsInput | string
   nombre?: Prisma.StringFieldUpdateOperationsInput | string
-  activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   anticipos?: Prisma.AnticiposUncheckedUpdateManyWithoutEmpresaNestedInput
   auditorias?: Prisma.AuditoriaUncheckedUpdateManyWithoutEmpresaNestedInput
@@ -8870,9 +8870,9 @@ export type EmpresaUncheckedUpdateWithoutSesionesActividadInput = {
 export type EmpresaCreateWithoutLogsEventoInput = {
   id?: string
   nombre: string
-  activo?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  activo?: boolean
   deletedAt?: Date | string | null
   anticipos?: Prisma.AnticiposCreateNestedManyWithoutEmpresaInput
   auditorias?: Prisma.AuditoriaCreateNestedManyWithoutEmpresaInput
@@ -8919,9 +8919,9 @@ export type EmpresaUncheckedCreateWithoutLogsEventoInput = {
   id?: string
   tenantId: string
   nombre: string
-  activo?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  activo?: boolean
   deletedAt?: Date | string | null
   anticipos?: Prisma.AnticiposUncheckedCreateNestedManyWithoutEmpresaInput
   auditorias?: Prisma.AuditoriaUncheckedCreateNestedManyWithoutEmpresaInput
@@ -8982,9 +8982,9 @@ export type EmpresaUpdateToOneWithWhereWithoutLogsEventoInput = {
 export type EmpresaUpdateWithoutLogsEventoInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   nombre?: Prisma.StringFieldUpdateOperationsInput | string
-  activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   anticipos?: Prisma.AnticiposUpdateManyWithoutEmpresaNestedInput
   auditorias?: Prisma.AuditoriaUpdateManyWithoutEmpresaNestedInput
@@ -9031,9 +9031,9 @@ export type EmpresaUncheckedUpdateWithoutLogsEventoInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   tenantId?: Prisma.StringFieldUpdateOperationsInput | string
   nombre?: Prisma.StringFieldUpdateOperationsInput | string
-  activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   anticipos?: Prisma.AnticiposUncheckedUpdateManyWithoutEmpresaNestedInput
   auditorias?: Prisma.AuditoriaUncheckedUpdateManyWithoutEmpresaNestedInput
@@ -9078,9 +9078,9 @@ export type EmpresaUncheckedUpdateWithoutLogsEventoInput = {
 export type EmpresaCreateWithoutAuthSessionsInput = {
   id?: string
   nombre: string
-  activo?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  activo?: boolean
   deletedAt?: Date | string | null
   anticipos?: Prisma.AnticiposCreateNestedManyWithoutEmpresaInput
   auditorias?: Prisma.AuditoriaCreateNestedManyWithoutEmpresaInput
@@ -9127,9 +9127,9 @@ export type EmpresaUncheckedCreateWithoutAuthSessionsInput = {
   id?: string
   tenantId: string
   nombre: string
-  activo?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  activo?: boolean
   deletedAt?: Date | string | null
   anticipos?: Prisma.AnticiposUncheckedCreateNestedManyWithoutEmpresaInput
   auditorias?: Prisma.AuditoriaUncheckedCreateNestedManyWithoutEmpresaInput
@@ -9190,9 +9190,9 @@ export type EmpresaUpdateToOneWithWhereWithoutAuthSessionsInput = {
 export type EmpresaUpdateWithoutAuthSessionsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   nombre?: Prisma.StringFieldUpdateOperationsInput | string
-  activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   anticipos?: Prisma.AnticiposUpdateManyWithoutEmpresaNestedInput
   auditorias?: Prisma.AuditoriaUpdateManyWithoutEmpresaNestedInput
@@ -9239,9 +9239,9 @@ export type EmpresaUncheckedUpdateWithoutAuthSessionsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   tenantId?: Prisma.StringFieldUpdateOperationsInput | string
   nombre?: Prisma.StringFieldUpdateOperationsInput | string
-  activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   anticipos?: Prisma.AnticiposUncheckedUpdateManyWithoutEmpresaNestedInput
   auditorias?: Prisma.AuditoriaUncheckedUpdateManyWithoutEmpresaNestedInput
@@ -9286,9 +9286,9 @@ export type EmpresaUncheckedUpdateWithoutAuthSessionsInput = {
 export type EmpresaCreateWithoutResetTokensInput = {
   id?: string
   nombre: string
-  activo?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  activo?: boolean
   deletedAt?: Date | string | null
   anticipos?: Prisma.AnticiposCreateNestedManyWithoutEmpresaInput
   auditorias?: Prisma.AuditoriaCreateNestedManyWithoutEmpresaInput
@@ -9335,9 +9335,9 @@ export type EmpresaUncheckedCreateWithoutResetTokensInput = {
   id?: string
   tenantId: string
   nombre: string
-  activo?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  activo?: boolean
   deletedAt?: Date | string | null
   anticipos?: Prisma.AnticiposUncheckedCreateNestedManyWithoutEmpresaInput
   auditorias?: Prisma.AuditoriaUncheckedCreateNestedManyWithoutEmpresaInput
@@ -9398,9 +9398,9 @@ export type EmpresaUpdateToOneWithWhereWithoutResetTokensInput = {
 export type EmpresaUpdateWithoutResetTokensInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   nombre?: Prisma.StringFieldUpdateOperationsInput | string
-  activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   anticipos?: Prisma.AnticiposUpdateManyWithoutEmpresaNestedInput
   auditorias?: Prisma.AuditoriaUpdateManyWithoutEmpresaNestedInput
@@ -9447,9 +9447,9 @@ export type EmpresaUncheckedUpdateWithoutResetTokensInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   tenantId?: Prisma.StringFieldUpdateOperationsInput | string
   nombre?: Prisma.StringFieldUpdateOperationsInput | string
-  activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   anticipos?: Prisma.AnticiposUncheckedUpdateManyWithoutEmpresaNestedInput
   auditorias?: Prisma.AuditoriaUncheckedUpdateManyWithoutEmpresaNestedInput
@@ -9494,18 +9494,18 @@ export type EmpresaUncheckedUpdateWithoutResetTokensInput = {
 export type EmpresaCreateManyTenantInput = {
   id?: string
   nombre: string
-  activo?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  activo?: boolean
   deletedAt?: Date | string | null
 }
 
 export type EmpresaUpdateWithoutTenantInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   nombre?: Prisma.StringFieldUpdateOperationsInput | string
-  activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   anticipos?: Prisma.AnticiposUpdateManyWithoutEmpresaNestedInput
   auditorias?: Prisma.AuditoriaUpdateManyWithoutEmpresaNestedInput
@@ -9551,9 +9551,9 @@ export type EmpresaUpdateWithoutTenantInput = {
 export type EmpresaUncheckedUpdateWithoutTenantInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   nombre?: Prisma.StringFieldUpdateOperationsInput | string
-  activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   anticipos?: Prisma.AnticiposUncheckedUpdateManyWithoutEmpresaNestedInput
   auditorias?: Prisma.AuditoriaUncheckedUpdateManyWithoutEmpresaNestedInput
@@ -9599,9 +9599,9 @@ export type EmpresaUncheckedUpdateWithoutTenantInput = {
 export type EmpresaUncheckedUpdateManyWithoutTenantInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   nombre?: Prisma.StringFieldUpdateOperationsInput | string
-  activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
@@ -9982,9 +9982,9 @@ export type EmpresaSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs 
   id?: boolean
   tenantId?: boolean
   nombre?: boolean
-  activo?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  activo?: boolean
   deletedAt?: boolean
   anticipos?: boolean | Prisma.Empresa$anticiposArgs<ExtArgs>
   auditorias?: boolean | Prisma.Empresa$auditoriasArgs<ExtArgs>
@@ -10033,9 +10033,9 @@ export type EmpresaSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Exten
   id?: boolean
   tenantId?: boolean
   nombre?: boolean
-  activo?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  activo?: boolean
   deletedAt?: boolean
   tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["empresa"]>
@@ -10044,9 +10044,9 @@ export type EmpresaSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Exten
   id?: boolean
   tenantId?: boolean
   nombre?: boolean
-  activo?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  activo?: boolean
   deletedAt?: boolean
   tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["empresa"]>
@@ -10055,13 +10055,13 @@ export type EmpresaSelectScalar = {
   id?: boolean
   tenantId?: boolean
   nombre?: boolean
-  activo?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  activo?: boolean
   deletedAt?: boolean
 }
 
-export type EmpresaOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "tenantId" | "nombre" | "activo" | "createdAt" | "updatedAt" | "deletedAt", ExtArgs["result"]["empresa"]>
+export type EmpresaOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "tenantId" | "nombre" | "createdAt" | "updatedAt" | "activo" | "deletedAt", ExtArgs["result"]["empresa"]>
 export type EmpresaInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   anticipos?: boolean | Prisma.Empresa$anticiposArgs<ExtArgs>
   auditorias?: boolean | Prisma.Empresa$auditoriasArgs<ExtArgs>
@@ -10160,9 +10160,9 @@ export type $EmpresaPayload<ExtArgs extends runtime.Types.Extensions.InternalArg
     id: string
     tenantId: string
     nombre: string
-    activo: boolean
     createdAt: Date
     updatedAt: Date
+    activo: boolean
     deletedAt: Date | null
   }, ExtArgs["result"]["empresa"]>
   composites: {}
@@ -10630,9 +10630,9 @@ export interface EmpresaFieldRefs {
   readonly id: Prisma.FieldRef<"Empresa", 'String'>
   readonly tenantId: Prisma.FieldRef<"Empresa", 'String'>
   readonly nombre: Prisma.FieldRef<"Empresa", 'String'>
-  readonly activo: Prisma.FieldRef<"Empresa", 'Boolean'>
   readonly createdAt: Prisma.FieldRef<"Empresa", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"Empresa", 'DateTime'>
+  readonly activo: Prisma.FieldRef<"Empresa", 'Boolean'>
   readonly deletedAt: Prisma.FieldRef<"Empresa", 'DateTime'>
 }
     
