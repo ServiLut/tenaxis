@@ -12,7 +12,10 @@ import { PrismaService } from '../../prisma/prisma.service';
 export class EnterpriseInterceptor implements NestInterceptor {
   constructor(private prisma: PrismaService) {}
 
-  async intercept(context: ExecutionContext, next: CallHandler): Promise<Observable<any>> {
+  async intercept(
+    context: ExecutionContext,
+    next: CallHandler,
+  ): Promise<Observable<any>> {
     const request = context.switchToHttp().getRequest();
     const user = request.user;
     const enterpriseId = request.headers['x-enterprise-id'];
@@ -48,14 +51,18 @@ export class EnterpriseInterceptor implements NestInterceptor {
       // Si es SU_ADMIN o ADMIN del tenant, puede ver cualquier empresa de su tenant
       // Si es otro rol, debe tener el membership específico
       const isAdmin = user.role === 'SU_ADMIN' || user.role === 'ADMIN';
-      const hasMembership = membership?.empresaMemberships && membership.empresaMemberships.length > 0;
+      const hasMembership =
+        membership?.empresaMemberships &&
+        membership.empresaMemberships.length > 0;
 
       if (isAdmin || hasMembership) {
         // Inyectar la empresa validada en el objeto user
         request.user.empresaId = enterpriseId;
       } else {
         // Si intenta acceder a una empresa sin permiso
-        console.warn(`User ${userId} attempted unauthorized access to enterprise ${enterpriseId}`);
+        console.warn(
+          `User ${userId} attempted unauthorized access to enterprise ${enterpriseId}`,
+        );
       }
     }
 

@@ -1,4 +1,8 @@
-import { Injectable, UnauthorizedException, ConflictException } from '@nestjs/common';
+import {
+  Injectable,
+  UnauthorizedException,
+  ConflictException,
+} from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 import { CreateClienteDto } from './dto/create-cliente.dto';
 
@@ -6,14 +10,59 @@ import { CreateClienteDto } from './dto/create-cliente.dto';
 export class ClientesService {
   constructor(private prisma: PrismaService) {}
 
-  async findAll(tenantId: string, empresaId?: string) {
+  async findAll(tenantId: string, empresaId?: string, userRole?: string) {
+    if (userRole === 'SU_ADMIN') {
+      return this.prisma.cliente.findMany({
+        where: {
+          deletedAt: null,
+        },
+        orderBy: { createdAt: 'desc' },
+        include: {
+          direcciones: {
+            include: { municipioRel: true },
+          },
+          vehiculos: true,
+          segmento: true,
+          riesgo: true,
+          tipoInteres: true,
+          tenant: true,
+          empresa: true,
+        },
+      });
+    }
+
+    if (userRole === 'ADMIN') {
+      return this.prisma.cliente.findMany({
+        where: {
+          tenantId,
+          deletedAt: null,
+        },
+        orderBy: { createdAt: 'desc' },
+        include: {
+          direcciones: {
+            include: { municipioRel: true },
+          },
+          vehiculos: true,
+          segmento: true,
+          riesgo: true,
+          tipoInteres: true,
+          empresa: true,
+        },
+      });
+    }
+
+    // For COORDINADOR, ASESOR, and OPERADOR roles
+    if (!empresaId) {
+      return [];
+    }
+
     return this.prisma.cliente.findMany({
       where: {
         tenantId,
-        ...(empresaId && { empresaId }),
+        empresaId,
         deletedAt: null,
       },
-      orderBy: { createdAt: "desc" },
+      orderBy: { createdAt: 'desc' },
       include: {
         direcciones: {
           include: { municipioRel: true },
@@ -22,11 +71,17 @@ export class ClientesService {
         segmento: true,
         riesgo: true,
         tipoInteres: true,
+        empresa: true,
       },
     });
   }
 
-  async create(tenantId: string, userId: string, dto: CreateClienteDto, reqEmpresaId?: string) {
+  async create(
+    tenantId: string,
+    userId: string,
+    dto: CreateClienteDto,
+    reqEmpresaId?: string,
+  ) {
     const {
       direcciones,
       vehiculos,
@@ -46,7 +101,8 @@ export class ClientesService {
         'No eres miembro de este tenant. No puedes crear clientes.',
       );
     }
-    const empresaId = reqEmpresaId || membership?.empresaMemberships[0]?.empresaId;
+    const empresaId =
+      reqEmpresaId || membership?.empresaMemberships[0]?.empresaId;
 
     const toDecimal = (val: any, decimals: number = 2) => {
       if (val === null || val === undefined || val === '') return null;
@@ -55,7 +111,10 @@ export class ClientesService {
     };
 
     const orConditions: any[] = [];
-    if (clienteData.numeroDocumento && clienteData.numeroDocumento !== 'No Concretado') {
+    if (
+      clienteData.numeroDocumento &&
+      clienteData.numeroDocumento !== 'No Concretado'
+    ) {
       orConditions.push({ numeroDocumento: clienteData.numeroDocumento });
     }
     if (clienteData.nit && clienteData.nit !== 'No Concretado') {
@@ -76,7 +135,7 @@ export class ClientesService {
 
       if (existingClient) {
         throw new ConflictException(
-          'Ya existe un cliente con este número de documento, NIT o teléfono en el sistema.'
+          'Ya existe un cliente con este número de documento, NIT o teléfono en el sistema.',
         );
       }
     }
@@ -146,7 +205,14 @@ export class ClientesService {
   }
 
   async update(id: string, tenantId: string, userId: string, dto: any) {
-    const { direcciones, vehiculos, segmentoId, riesgoId, metrajeTotal, ...clienteData } = dto;
+    const {
+      direcciones,
+      vehiculos,
+      segmentoId,
+      riesgoId,
+      metrajeTotal,
+      ...clienteData
+    } = dto;
 
     const toDecimal = (val: any, decimals: number = 2) => {
       if (val === null || val === undefined || val === '') return null;

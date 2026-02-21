@@ -39,7 +39,7 @@ export class EnterpriseService {
 
     const { id: membershipId, role } = membership;
 
-    if (role !== 'SU_ADMIN') {
+    if (role !== 'SU_ADMIN' && role !== 'ADMIN') {
       throw new ForbiddenException('Only admins can create new enterprises.');
     }
 
@@ -143,7 +143,8 @@ export class EnterpriseService {
       },
     });
 
-    let enterprises: Awaited<ReturnType<typeof this.prisma.empresa.findMany>> = [];
+    let enterprises: Awaited<ReturnType<typeof this.prisma.empresa.findMany>> =
+      [];
 
     if (role === 'SU_ADMIN') {
       enterprises = await this.prisma.empresa.findMany({

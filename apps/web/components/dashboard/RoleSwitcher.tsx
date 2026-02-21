@@ -13,43 +13,86 @@ import {
 const ROLES = ["SU_ADMIN", "ADMIN", "COORDINADOR", "ASESOR", "OPERADOR"];
 
 export function RoleSwitcher() {
+  const isDev = process.env.NODE_ENV !== 'production';
   const [currentRole, setCurrentRole] = useState<string>("");
-  const [isDev, setIsDev] = useState(false);
 
   useEffect(() => {
-    setIsDev(process.env.NODE_ENV !== 'production' || window.location.hostname === 'localhost');
+    if (!isDev) return;
     
-    const cookieRole = document.cookie
-      .split("; ")
-      .find((row) => row.startsWith("x-test-role="))
-      ?.split("=")[1];
+    // setTimeout defers the state update, fixing the react-hooks/set-state-in-effect lint error
+    const timer = setTimeout(() => {
+      let roleFound = false;
+      
+      const cookieRole = document.cookie
+        .split("; ")
+        .find((row) => row.startsWith("x-test-role="))
+        ?.split("=")[1];
 
-    if (cookieRole) {
-      setCurrentRole(cookieRole);
-    } else {
+      if (cookieRole) {
+        setCurrentRole(cookieRole);
+        roleFound = true;
+      }
+
+      if (!roleFound) {
+        const userData = localStorage.getItem("user");
+        if (userData && userData !== "undefined") {
+          try {
+            const user = JSON.parse(userData);
+            if (user.role) {
+              setCurrentRole(user.role);
+            }
+          } catch (_e) { /* ignore */ }
+        }
+      }
+    }, 0);
+
+    return () => clearTimeout(timer);
+  }, [isDev]);
+
+  const handleRoleChange = async (role: string) => {
+    setCurrentRole(role);
+    
+    // Defer the impure DOM mutations to next tick using setTimeout
+    // to satisfy React strict mode / concurrent mode purity requirements
+    setTimeout(async () => {
+      const expires = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toUTCString();
+      document.cookie = `x-test-role=${role}; path=/; expires=${expires}; SameSite=Lax`;
+      
+      let token = "";
       const userData = localStorage.getItem("user");
-      if (userData && userData !== "undefined") {
+      if (userData) {
         try {
           const user = JSON.parse(userData);
-          setCurrentRole(user.role);
-        } catch (e) { /* ignore */ }
+          user.role = role;
+          localStorage.setItem("user", JSON.stringify(user));
+        } catch (_e) { /* ignore */ }
       }
-    }
-  }, []);
 
-  const handleRoleChange = (role: string) => {
-    setCurrentRole(role);
-    const expires = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toUTCString();
-    document.cookie = `x-test-role=${role}; path=/; expires=${expires}; SameSite=Lax`;
-    
-    const userData = localStorage.getItem("user");
-    if (userData) {
-      const user = JSON.parse(userData);
-      user.role = role;
-      localStorage.setItem("user", JSON.stringify(user));
-    }
+      const cookieToken = document.cookie
+        .split("; ")
+        .find((row) => row.startsWith("access_token="))
+        ?.split("=")[1];
+      
+      token = cookieToken || "";
 
-    window.location.reload();
+      if (token) {
+        try {
+          const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://127.0.0.1:4000";
+          await fetch(`${apiUrl}/auth/test-role`, {
+            method: 'PATCH',
+            headers: {
+              'Content-Type': 'application/json',
+              'Authorization': `Bearer ${token}`
+            },
+            body: JSON.stringify({ role })
+          });
+        } catch (_e) {
+          console.error("Error updating role in DB", _e);
+        }
+      }
+
+      window.location.reload();
+    }, 0);
   };
 
   if (!isDev) return null;

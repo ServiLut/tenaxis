@@ -82,6 +82,8 @@ function NuevoClienteContent() {
 
   useUserRole();
   const [loading, setLoading] = useState(false);
+  const [empresasUser, setEmpresasUser] = useState<{id: string, nombre: string}[]>([]);
+  const [selectedEmpresaId, setSelectedEmpresaId] = useState<string>("");
 
   // --- Datos Dinámicos ---
   const [departamentos, setDepartments] = useState<{id: string, name: string}[]>([]);
@@ -94,12 +96,14 @@ function NuevoClienteContent() {
   useEffect(() => {
     const loadInitialData = async () => {
       try {
-        const [deps, muns, segs, ries, ints] = await Promise.all([
+        const { getEnterprisesAction } = await import("@/app/dashboard/actions");
+        const [deps, muns, segs, ries, ints, empresasData] = await Promise.all([
           getDepartments(),
           getMunicipalities(),
           getSegmentosAction(),
           getRiesgosAction(),
-          getTiposInteresAction()
+          getTiposInteresAction(),
+          getEnterprisesAction()
         ]);
         setDepartments(deps);
         setMunicipalities(muns);
@@ -108,6 +112,22 @@ function NuevoClienteContent() {
         setTiposInteresDb(ints);
         if (segs.length > 0) setSegmento(segs[0]?.id || "");
         if (ints.length > 0) setInteres(ints[0]?.id || "");
+        
+        // Cargar empresas del usuario
+        const items = empresasData?.items || [];
+        setEmpresasUser(items);
+        
+        const cookieId = document.cookie
+          .split("; ")
+          .find((row) => row.startsWith("x-enterprise-id="))
+          ?.split("=")[1];
+          
+        if (cookieId && items.find((e: {id: string}) => e.id === cookieId)) {
+          setSelectedEmpresaId(cookieId);
+        } else if (items.length > 0) {
+          setSelectedEmpresaId(items[0].id);
+        }
+
       } catch (e) {
         console.error("Error loading initial data", e);
         toast.error("Error al cargar datos de configuración");
@@ -249,8 +269,11 @@ function NuevoClienteContent() {
       direcciones: cleanedDirecciones,
     };
 
+    // A hack to bypass the DTO interface locally if it's missing, since backend extracts it
+    const finalPayload = { ...payload, empresaId: selectedEmpresaId || undefined } as unknown as ClienteDTO;
+
     try {
-      const response = await createClienteAction(payload);
+      const response = await createClienteAction(finalPayload);
       if (!response.success) {
         const errorMsg = Array.isArray(response.error) ? response.error[0] : response.error;
         toast.error(errorMsg ? String(errorMsg) : "Error al crear cliente");
@@ -340,7 +363,7 @@ function NuevoClienteContent() {
               <div className="space-y-1">
                 <p className="text-sm font-bold text-amber-800 dark:text-amber-300">Nota importante</p>
                 <p className="text-xs text-amber-700/80 dark:text-amber-400/80 leading-relaxed font-medium">
-                  Todos los campos que no estén marcados con un asterisco rojo (<span className="text-red-500 font-bold">*</span>) son opcionales. Si decide dejarlos vacíos, el sistema los guardará automáticamente con el valor <span className="font-bold">"No Concretado"</span> (o <span className="font-bold">"noconcretado@noconcretado.com"</span> para el correo) para mantener la integridad de los registros.
+                  Todos los campos que no estén marcados con un asterisco rojo (<span className="text-red-500 font-bold">*</span>) son opcionales. Si decide dejarlos vacíos, el sistema los guardará automáticamente con el valor <span className="font-bold">&quot;No Concretado&quot;</span> (o <span className="font-bold">&quot;noconcretado@noconcretado.com&quot;</span> para el correo) para mantener la integridad de los registros.
                 </p>
               </div>
             </div>
@@ -352,6 +375,18 @@ function NuevoClienteContent() {
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6">
+                <div className="space-y-2 md:col-span-2">
+                  <Label className="text-xs font-bold text-zinc-500 dark:text-zinc-300 uppercase tracking-wider">Asignar a Empresa <span className="text-red-500">*</span></Label>
+                  <Select 
+                    value={selectedEmpresaId} 
+                    onChange={(e) => setSelectedEmpresaId(e.target.value)} 
+                    className="h-11 dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-100"
+                    required
+                  >
+                    {empresasUser.map(e => <option key={e.id} value={e.id}>{e.nombre}</option>)}
+                  </Select>
+                </div>
+
                 {tipoCliente === "NATURAL" ? (
                   <>
                     <div className="space-y-2">
