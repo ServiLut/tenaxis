@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, Suspense, useMemo } from "react";
+import { useState, useEffect, Suspense, useMemo, useCallback } from "react";
 import { useRouter, useParams } from "next/navigation";
 import { toast } from "sonner";
 import {
@@ -28,16 +28,11 @@ import {
   Trash2,
   Clock,
   Contact2,
-  CheckCircle2,
   Building2,
   UserCircle2,
   Target,
-  Zap,
-  CalendarClock,
   Search,
-  AlertCircle,
   GanttChart,
-  Lightbulb
 } from "lucide-react";
 import { useUserRole } from "@/hooks/use-user-role";
 import { DashboardLayout } from "@/components/dashboard";
@@ -164,25 +159,25 @@ function EditarClienteContent() {
         setMetraje(client.metrajeTotal ? Number(client.metrajeTotal) : 0);
         
         if (client.direcciones && client.direcciones.length > 0) {
-          setDirecciones(client.direcciones.map((d: any) => ({
-            id: d.id,
-            direccion: d.direccion || "",
-            linkMaps: d.linkMaps || "",
-            departmentId: d.departmentId || "",
-            municipioId: d.municipioId || "",
-            municipio: d.municipioRel?.name || d.municipio || "",
-            barrio: d.barrio || "",
-            piso: d.piso || "",
-            bloque: d.bloque || "",
-            unidad: d.unidad || "",
-            tipoUbicacion: d.tipoUbicacion || "Residencial",
-            clasificacionPunto: d.clasificacionPunto || "Oficina administrativa",
-            horarioInicio: d.horarioInicio || "08:00",
-            horarioFin: d.horarioFin || "18:00",
-            restriccionesAcceso: d.restricciones || "",
-            nombreContacto: d.nombreContacto || "",
-            telefonoContacto: d.telefonoContacto || "",
-            cargoContacto: d.cargoContacto || "",
+          setDirecciones(client.direcciones.map((d: Record<string, unknown>) => ({
+            id: Number(d.id) || Date.now() + Math.random(),
+            direccion: (d.direccion as string) || "",
+            linkMaps: (d.linkMaps as string) || "",
+            departmentId: (d.departmentId as string) || "",
+            municipioId: (d.municipioId as string) || "",
+            municipio: ((d.municipioRel as { name?: string })?.name) || (d.municipio as string) || "",
+            barrio: (d.barrio as string) || "",
+            piso: (d.piso as string) || "",
+            bloque: (d.bloque as string) || "",
+            unidad: (d.unidad as string) || "",
+            tipoUbicacion: (d.tipoUbicacion as string) || "Residencial",
+            clasificacionPunto: (d.clasificacionPunto as string) || "Oficina administrativa",
+            horarioInicio: (d.horarioInicio as string) || "08:00",
+            horarioFin: (d.horarioFin as string) || "18:00",
+            restriccionesAcceso: (d.restricciones as string) || "",
+            nombreContacto: (d.nombreContacto as string) || "",
+            telefonoContacto: (d.telefonoContacto as string) || "",
+            cargoContacto: (d.cargoContacto as string) || "",
             activa: d.activa ?? true,
             bloqueada: d.bloqueada ?? false,
             motivoBloqueo: d.motivoBloqueo || "",
@@ -203,7 +198,7 @@ function EditarClienteContent() {
       }
     };
     loadClientData();
-  }, [id]);
+  }, [id, router, addDireccion]);
 
   const sugerencias = useMemo(() => {
     const seg = segmentosDb.find(s => s.id === segmento);
@@ -299,7 +294,7 @@ function EditarClienteContent() {
       metrajeTotal: metraje ? parseFloat(metraje.toString()) : null,
       segmentoId: segmento || null,
       riesgoId: riesgoOverride || riesgosDb.find(r => r.nombre === sugerencias.riesgo)?.id || null,
-      direcciones: cleanedDirecciones as any[],
+      direcciones: cleanedDirecciones as unknown as NonNullable<ClienteDTO["direcciones"]>,
     };
 
     try {
@@ -310,15 +305,16 @@ function EditarClienteContent() {
       }
       toast.success("Cliente actualizado con éxito");
       router.push("/dashboard/clientes");
-    } catch (error: any) {
-      toast.error(error.message || "Error al actualizar cliente");
+    } catch (error: unknown) {
+      const msg = error instanceof Error ? error.message : "Error al actualizar cliente";
+      toast.error(msg);
     } finally {
       setLoading(false);
     }
   }
 
-  const addDireccion = () => {
-    setDirecciones([...direcciones, {
+  const addDireccion = useCallback(() => {
+    setDirecciones(prev => [...prev, {
       id: Date.now(),
       direccion: "",
       linkMaps: "",
@@ -345,7 +341,7 @@ function EditarClienteContent() {
       precisionGPS: "",
       validadoPorSistema: false,
     }]);
-  };
+  }, []);
 
   const removeDireccion = (dirId: number) => {
     if (direcciones.length > 1) {
