@@ -143,7 +143,7 @@ export class EnterpriseService {
       },
     });
 
-    let enterprises = [];
+    let enterprises: Awaited<ReturnType<typeof this.prisma.empresa.findMany>> = [];
 
     if (role === 'SU_ADMIN') {
       enterprises = await this.prisma.empresa.findMany({

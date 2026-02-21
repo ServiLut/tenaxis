@@ -1,6 +1,7 @@
 "use server";
 
 import { cookies } from "next/headers";
+import { revalidatePath } from "next/cache";
 
 async function getHeaders() {
   const cookieStore = await cookies();
@@ -133,11 +134,16 @@ export async function getClientesAction() {
   try {
     const apiUrl = process.env.NESTJS_API_URL || "http://127.0.0.1:4000";
     const headers = await getHeaders();
-    const response = await fetch(`${apiUrl}/clientes`, {
+    console.log("FETCHING CLIENTES FROM /list WITH HEADERS", headers);
+    const response = await fetch(`${apiUrl}/clientes/list`, {
       headers,
+      cache: "no-store",
     });
 
-    if (!response.ok) return [];
+    if (!response.ok) {
+      console.error("getClientesAction: response not ok", response.status);
+      return [];
+    }
 
     const result = await response.json();
     return result.data || result;
@@ -361,7 +367,7 @@ export async function createClienteAction(payload: ClienteDTO) {
   const cookieStore = await cookies();
   const token = cookieStore.get("access_token")?.value;
 
-  if (!token) throw new Error("No session found");
+  if (!token) return { success: false, error: "No session found" };
 
   // Sanitize UUID fields: convert empty strings to null to avoid Prisma validation errors
   const sanitizedPayload = {
@@ -385,13 +391,99 @@ export async function createClienteAction(payload: ClienteDTO) {
     const result = await response.json();
 
     if (!response.ok) {
-      throw new Error(result.message || "Error al crear el cliente");
+      return { success: false, error: result.message || "Error al crear el cliente" };
     }
 
+    revalidatePath("/dashboard/clientes");
+    return { success: true, data: result.data || result };
+  } catch (error) {
+    if (error instanceof Error) return { success: false, error: error.message };
+    return { success: false, error: "Ocurrió un error inesperado" };
+  }
+}
+
+export async function getClienteByIdAction(id: string) {
+  try {
+    const apiUrl = process.env.NESTJS_API_URL || "http://127.0.0.1:4000";
+    const headers = await getHeaders();
+    const response = await fetch(`${apiUrl}/clientes/${id}`, {
+      headers,
+      cache: "no-store",
+    });
+
+    if (!response.ok) return null;
+
+    const result = await response.json();
     return result.data || result;
   } catch (error) {
-    if (error instanceof Error) throw error;
-    throw new Error("Ocurrió un error inesperado");
+    console.error("Error fetching client by id:", error);
+    return null;
+  }
+}
+
+export async function updateClienteAction(id: string, payload: Partial<ClienteDTO>) {
+  const cookieStore = await cookies();
+  const token = cookieStore.get("access_token")?.value;
+
+  if (!token) return { success: false, error: "No session found" };
+
+  const sanitizedPayload = {
+    ...payload,
+    tipoInteresId: payload.tipoInteresId || null,
+    segmentoId: payload.segmentoId || null,
+    riesgoId: payload.riesgoId || null,
+  };
+
+  try {
+    const apiUrl = process.env.NESTJS_API_URL || "http://127.0.0.1:4000";
+    const response = await fetch(`${apiUrl}/clientes/${id}`, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify(sanitizedPayload),
+    });
+
+    const result = await response.json();
+
+    if (!response.ok) {
+      return { success: false, error: result.message || "Error al actualizar el cliente" };
+    }
+
+    revalidatePath("/dashboard/clientes");
+    return { success: true, data: result.data || result };
+  } catch (error) {
+    if (error instanceof Error) return { success: false, error: error.message };
+    return { success: false, error: "Ocurrió un error inesperado" };
+  }
+}
+
+export async function deleteClienteAction(id: string) {
+  const cookieStore = await cookies();
+  const token = cookieStore.get("access_token")?.value;
+
+  if (!token) return { success: false, error: "No session found" };
+
+  try {
+    const apiUrl = process.env.NESTJS_API_URL || "http://127.0.0.1:4000";
+    const response = await fetch(`${apiUrl}/clientes/${id}`, {
+      method: "DELETE",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    if (!response.ok) {
+      const result = await response.json();
+      return { success: false, error: result.message || "Error al eliminar el cliente" };
+    }
+
+    revalidatePath("/dashboard/clientes");
+    return { success: true };
+  } catch (error) {
+    if (error instanceof Error) return { success: false, error: error.message };
+    return { success: false, error: "Ocurrió un error inesperado" };
   }
 }
 
