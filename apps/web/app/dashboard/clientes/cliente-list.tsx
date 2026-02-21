@@ -28,8 +28,6 @@ import {
   MapPin,
   Fingerprint,
   Calendar,
-  X,
-  ExternalLink,
   Filter,
   RotateCcw,
   Zap,
@@ -167,7 +165,7 @@ const RIESGO_LABELS = {
 export function ClienteList({ initialClientes }: ClienteListProps) {
   const router = useRouter();
   const [mounted, setMounted] = useState(false);
-  const clientes = initialClientes || [];
+  const clientes = useMemo(() => initialClientes || [], [initialClientes]);
   const [search, setSearch] = useState("");
   const [empresaSearch, setEmpresaSearch] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
@@ -261,7 +259,7 @@ export function ClienteList({ initialClientes }: ClienteListProps) {
 
   const handleExport = async (format: 'pdf' | 'excel' | 'word') => {
     let headers: string[];
-    let data: any[][];
+    let data: (string | number | boolean)[][];
 
     if (format === 'pdf') {
       headers = ["Cliente", "Identificación", "Tipo", "Celular", "Segmento", "Clasif.", "Riesgo"];
