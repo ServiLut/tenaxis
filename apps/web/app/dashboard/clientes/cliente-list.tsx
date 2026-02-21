@@ -33,6 +33,7 @@ import {
   Filter,
   RotateCcw,
   Zap,
+  Check,
 } from "lucide-react";
 import {
   DropdownMenu,
@@ -105,6 +106,10 @@ interface Cliente {
     id: string;
     nombre: string;
   };
+  empresa?: {
+    id: string;
+    nombre: string;
+  };
   creadoPor?: {
     user: {
       nombre: string;
@@ -164,8 +169,10 @@ export function ClienteList({ initialClientes }: ClienteListProps) {
   const [mounted, setMounted] = useState(false);
   const clientes = initialClientes || [];
   const [search, setSearch] = useState("");
+  const [empresaSearch, setEmpresaSearch] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const [selectedCliente, setSelectedCliente] = useState<Cliente | null>(null);
+  const [userRole, setUserRole] = useState<string | null>(null);
 
   const handleDelete = async (id: string) => {
     if (!confirm("¿Estás seguro de que deseas eliminar este cliente?")) return;
@@ -182,6 +189,7 @@ export function ClienteList({ initialClientes }: ClienteListProps) {
 
   // Estados de Filtros
   const [filters, setFilters] = useState({
+    empresas: [] as string[],
     municipio: "all",
     barrio: "",
     clasificacion: "all",
@@ -195,17 +203,31 @@ export function ClienteList({ initialClientes }: ClienteListProps) {
 
   React.useEffect(() => {
     setMounted(true);
+    const userData = localStorage.getItem("user");
+    if (userData && userData !== "undefined") {
+      try {
+        const user = JSON.parse(userData);
+        setUserRole(user.role);
+      } catch (_e) { /* ignore */ }
+    }
   }, []);
 
   // Valores únicos para los filtros
   const filterOptions = useMemo(() => {
-    if (!mounted) return { municipios: [], segmentos: [], clasificaciones: [], riesgos: [] };
+    if (!mounted) return { municipios: [], segmentos: [], clasificaciones: [], riesgos: [], empresas: [] };
     const municipios = Array.from(new Set(clientes.flatMap(c => c.direcciones?.map(d => d.municipio).filter((m): m is string => !!m) || []))).sort();
     const segmentos = Array.from(new Set(clientes.map(c => c.segmento?.nombre || c.segmentoNegocio).filter((s): s is string => !!s))).sort();
     const clasificaciones = ["ORO", "PLATA", "BRONCE", "RIESGO"];
     const riesgos = Array.from(new Set(clientes.map(c => c.riesgo?.nombre || c.nivelRiesgo).filter((r): r is string => !!r))).sort();
+    const empresas = Array.from(
+      new Map(
+        clientes
+          .filter(c => c.empresa)
+          .map(c => [c.empresa!.id, { id: c.empresa!.id, nombre: c.empresa!.nombre }])
+      ).values()
+    ).sort((a, b) => a.nombre.localeCompare(b.nombre));
 
-    return { municipios, segmentos, clasificaciones, riesgos };
+    return { municipios, segmentos, clasificaciones, riesgos, empresas };
   }, [clientes, mounted]);
 
   const filteredClientes = useMemo(() => {
@@ -222,6 +244,7 @@ export function ClienteList({ initialClientes }: ClienteListProps) {
       );
 
       // Filtros específicos
+      const matchesEmpresas = filters.empresas.length === 0 || (c.empresa?.id && filters.empresas.includes(c.empresa.id));
       const matchesMunicipio = filters.municipio === "all" || c.direcciones?.some(d => d.municipio === filters.municipio);
       const matchesBarrio = !filters.barrio || c.direcciones?.some(d => d.barrio?.toLowerCase().includes(filters.barrio.toLowerCase()));
       const matchesClasificacion = filters.clasificacion === "all" || c.clasificacion === filters.clasificacion;
@@ -232,7 +255,7 @@ export function ClienteList({ initialClientes }: ClienteListProps) {
       const matchesFechaDesde = !filters.fechaDesde || (clientDate && clientDate >= new Date(filters.fechaDesde));
       const matchesFechaHasta = !filters.fechaHasta || (clientDate && clientDate <= new Date(filters.fechaHasta + "T23:59:59"));
 
-      return matchesSearch && matchesMunicipio && matchesBarrio && matchesClasificacion && matchesSegmento && matchesRiesgo && matchesFechaDesde && matchesFechaHasta;
+      return matchesSearch && matchesEmpresas && matchesMunicipio && matchesBarrio && matchesClasificacion && matchesSegmento && matchesRiesgo && matchesFechaDesde && matchesFechaHasta;
     });
   }, [clientes, search, filters, mounted]);
 
@@ -294,12 +317,14 @@ export function ClienteList({ initialClientes }: ClienteListProps) {
   );
 
   const activeFiltersCount = Object.entries(filters).filter(([key, value]) => {
+    if (key === "empresas") return (value as string[]).length > 0;
     if (key === "municipio" || key === "clasificacion" || key === "segmento" || key === "riesgo") return value !== "all";
     return !!value;
   }).length;
 
   const resetFilters = () => {
     setFilters({
+      empresas: [],
       municipio: "all",
       barrio: "",
       clasificacion: "all",
@@ -370,6 +395,48 @@ export function ClienteList({ initialClientes }: ClienteListProps) {
                 </div>
 
                 <div className="grid gap-4">
+                  {/* Empresa (Solo Admins) */}
+                  {(userRole === "SU_ADMIN" || userRole === "ADMIN") && filterOptions.empresas.length > 0 && (
+                    <div className="space-y-2">
+                      <Label className="text-[10px] font-black uppercase tracking-widest text-zinc-400">Filtrar por Empresas</Label>
+                      <Input
+                        placeholder="Buscar empresa..."
+                        value={empresaSearch}
+                        onChange={(e) => setEmpresaSearch(e.target.value)}
+                        className="h-9 text-xs mb-2"
+                      />
+                      <div className="flex flex-col gap-2 max-h-32 overflow-y-auto custom-scrollbar p-3 bg-zinc-50 dark:bg-zinc-800/30 rounded-xl border border-zinc-100 dark:border-zinc-800">
+                        {filterOptions.empresas
+                          .filter(emp => emp.nombre.toLowerCase().includes(empresaSearch.toLowerCase()))
+                          .map((emp: { id: string, nombre: string }) => (
+                          <label key={emp.id} className="flex items-center gap-3 text-xs font-bold text-zinc-700 dark:text-zinc-300 cursor-pointer group">
+                            <div className={cn(
+                              "flex h-4 w-4 shrink-0 items-center justify-center rounded-md border border-zinc-300 dark:border-zinc-600 transition-colors",
+                              filters.empresas.includes(emp.id) ? "bg-azul-1 border-azul-1" : "bg-white dark:bg-zinc-900 group-hover:border-azul-1"
+                            )}>
+                              {filters.empresas.includes(emp.id) && <Check className="h-3 w-3 text-white" />}
+                            </div>
+                            <input
+                              type="checkbox"
+                              className="hidden"
+                              checked={filters.empresas.includes(emp.id)}
+                              onChange={(e) => {
+                                const checked = e.target.checked;
+                                setFilters(prev => ({
+                                  ...prev,
+                                  empresas: checked 
+                                    ? [...prev.empresas, emp.id] 
+                                    : prev.empresas.filter(id => id !== emp.id)
+                                }));
+                              }}
+                            />
+                            <span className="truncate flex-1" title={emp.nombre}>{emp.nombre}</span>
+                          </label>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+
                   {/* Municipio */}
                   <div className="space-y-2">
                     <Label className="text-[10px] font-black uppercase tracking-widest text-zinc-400">Municipio</Label>
