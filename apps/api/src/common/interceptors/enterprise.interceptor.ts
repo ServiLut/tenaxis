@@ -3,10 +3,16 @@ import {
   NestInterceptor,
   ExecutionContext,
   CallHandler,
-  UnauthorizedException,
 } from '@nestjs/common';
 import { Observable } from 'rxjs';
 import { PrismaService } from '../../prisma/prisma.service';
+import { Request } from 'express';
+import { JwtPayload } from '../../auth/auth.service';
+import { Role } from '../../generated/client/client';
+
+interface RequestWithUser extends Request {
+  user?: JwtPayload;
+}
 
 @Injectable()
 export class EnterpriseInterceptor implements NestInterceptor {
@@ -15,18 +21,20 @@ export class EnterpriseInterceptor implements NestInterceptor {
   async intercept(
     context: ExecutionContext,
     next: CallHandler,
-  ): Promise<Observable<any>> {
-    const request = context.switchToHttp().getRequest();
+  ): Promise<Observable<unknown>> {
+    const request = context.switchToHttp().getRequest<RequestWithUser>();
     const user = request.user;
-    const enterpriseId = request.headers['x-enterprise-id'];
-    const testRole = request.headers['x-test-role'];
+    const enterpriseId = request.headers['x-enterprise-id'] as
+      | string
+      | undefined;
+    const testRole = request.headers['x-test-role'] as string | undefined;
 
     // Modo desarrollo: Permitir sobreescribir el rol para pruebas
     if (user && testRole && process.env.NODE_ENV !== 'production') {
-      user.role = testRole;
+      user.role = testRole as Role;
     }
 
-    if (user && enterpriseId) {
+    if (user && enterpriseId && user.tenantId) {
       const tenantId = user.tenantId;
       const userId = user.sub;
 
@@ -41,7 +49,7 @@ export class EnterpriseInterceptor implements NestInterceptor {
         include: {
           empresaMemberships: {
             where: {
-              empresaId: enterpriseId as string,
+              empresaId: enterpriseId,
               deletedAt: null,
             },
           },
@@ -57,7 +65,9 @@ export class EnterpriseInterceptor implements NestInterceptor {
 
       if (isAdmin || hasMembership) {
         // Inyectar la empresa validada en el objeto user
-        request.user.empresaId = enterpriseId;
+        if (request.user) {
+          request.user.empresaId = enterpriseId;
+        }
       } else {
         // Si intenta acceder a una empresa sin permiso
         console.warn(

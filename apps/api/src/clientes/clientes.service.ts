@@ -204,7 +204,12 @@ export class ClientesService {
     });
   }
 
-  async update(id: string, tenantId: string, userId: string, dto: any) {
+  async update(
+    id: string,
+    tenantId: string,
+    userId: string,
+    dto: Partial<CreateClienteDto>,
+  ) {
     const {
       direcciones,
       vehiculos,
@@ -214,7 +219,7 @@ export class ClientesService {
       ...clienteData
     } = dto;
 
-    const toDecimal = (val: any, decimals: number = 2) => {
+    const toDecimal = (val: unknown, decimals: number = 2) => {
       if (val === null || val === undefined || val === '') return null;
       const num = Number(val);
       return isNaN(num) ? null : num.toFixed(decimals);
@@ -233,7 +238,7 @@ export class ClientesService {
         riesgoId,
         metrajeTotal: toDecimal(metrajeTotal, 2),
         direcciones: {
-          create: direcciones?.map((d: any) => ({
+          create: direcciones?.map((d) => ({
             ...d,
             tenantId,
             latitud: d.latitud ? Number(d.latitud) : null,
@@ -242,7 +247,7 @@ export class ClientesService {
           })),
         },
         vehiculos: {
-          create: vehiculos?.map((v: any) => ({
+          create: vehiculos?.map((v) => ({
             ...v,
             tenantId,
           })),

@@ -105,6 +105,36 @@ function EditarClienteContent() {
   const [metraje, setMetraje] = useState<number>(0);
   const [direcciones, setDirecciones] = useState<Direccion[]>([]);
 
+  const addDireccion = useCallback(() => {
+    setDirecciones(prev => [...prev, {
+      id: Date.now(),
+      direccion: "",
+      linkMaps: "",
+      departmentId: "",
+      municipioId: "",
+      municipio: "",
+      barrio: "",
+      piso: "",
+      bloque: "",
+      unidad: "",
+      tipoUbicacion: "Residencial",
+      clasificacionPunto: "Oficina administrativa",
+      horarioInicio: "08:00",
+      horarioFin: "18:00",
+      restriccionesAcceso: "",
+      nombreContacto: "",
+      telefonoContacto: "",
+      cargoContacto: "",
+      activa: true,
+      bloqueada: false,
+      motivoBloqueo: "",
+      latitud: "",
+      longitud: "",
+      precisionGPS: "",
+      validadoPorSistema: false,
+    }]);
+  }, []);
+
   // 1. Cargar Datos Geográficos y Configuración
   useEffect(() => {
     const loadInitialData = async () => {
@@ -312,36 +342,6 @@ function EditarClienteContent() {
       setLoading(false);
     }
   }
-
-  const addDireccion = useCallback(() => {
-    setDirecciones(prev => [...prev, {
-      id: Date.now(),
-      direccion: "",
-      linkMaps: "",
-      departmentId: "",
-      municipioId: "",
-      municipio: "",
-      barrio: "",
-      piso: "",
-      bloque: "",
-      unidad: "",
-      tipoUbicacion: "Residencial",
-      clasificacionPunto: "Oficina administrativa",
-      horarioInicio: "08:00",
-      horarioFin: "18:00",
-      restriccionesAcceso: "",
-      nombreContacto: "",
-      telefonoContacto: "",
-      cargoContacto: "",
-      activa: true,
-      bloqueada: false,
-      motivoBloqueo: "",
-      latitud: "",
-      longitud: "",
-      precisionGPS: "",
-      validadoPorSistema: false,
-    }]);
-  }, []);
 
   const removeDireccion = (dirId: number) => {
     if (direcciones.length > 1) {

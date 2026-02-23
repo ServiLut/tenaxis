@@ -54,7 +54,7 @@ export class ClientesController {
   async update(
     @Request() req: RequestWithUser,
     @Param('id') id: string,
-    @Body() dto: any,
+    @Body() dto: Partial<CreateClienteDto>,
   ) {
     const tenantId = req.user.tenantId || '';
     const userId = req.user.sub;
