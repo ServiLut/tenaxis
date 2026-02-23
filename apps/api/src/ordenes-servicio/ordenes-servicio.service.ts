@@ -71,13 +71,15 @@ export class OrdenesServicioService {
     }
 
     // 4. Crear la orden
+    const tecnicoId = createDto.tecnicoId || await this.autoAssignTechnician(tenantId, createDto, horaInicioDate, horaFinDate);
+
     return this.prisma.ordenServicio.create({
       data: {
         tenantId,
         empresaId: createDto.empresaId,
         clienteId: createDto.clienteId,
         servicioId: servicio.id,
-        tecnicoId: createDto.tecnicoId,
+        tecnicoId,
         direccionId: createDto.direccionId,
         direccionTexto,
         estadoServicioId: estadoDefault.id,
@@ -98,8 +100,93 @@ export class OrdenesServicioService {
         cliente: true,
         estadoServicio: true,
         servicio: true,
+        tecnico: {
+          include: { user: true }
+        }
       }
     });
+  }
+
+  private async autoAssignTechnician(tenantId: string, dto: CreateOrdenServicioDto, inicio: Date | null, fin: Date | null): Promise<string | null> {
+    if (!inicio || !fin) return null;
+
+    // 1. Obtener la zona de la dirección
+    const direccion = await this.prisma.direccion.findUnique({
+      where: { id: dto.direccionId },
+      select: { zonaId: true }
+    });
+
+    if (!direccion || !direccion.zonaId) return null;
+
+    const zonaId = direccion.zonaId;
+
+    // 2. Obtener operadores de esa zona con su vehículo
+    const candidatos = await this.prisma.empresaMembership.findMany({
+      where: {
+        empresaId: dto.empresaId,
+        zonaId: zonaId,
+        activo: true,
+        membership: { role: 'OPERADOR', activo: true }
+      },
+      include: {
+        membership: true
+      }
+    });
+
+    const dias = ['DOMINGO', 'LUNES', 'MARTES', 'MIERCOLES', 'JUEVES', 'VIERNES', 'SABADO'];
+    const diaSemana = dias[inicio.getDay()] as any; // Cast to DiaSemana enum
+    
+    // Obtener reglas de Pico y Placa para hoy
+    const reglasPicoPlaca = await this.prisma.picoPlaca.findFirst({
+      where: { empresaId: dto.empresaId, dia: diaSemana, activo: true }
+    });
+
+    const viables = [];
+
+    for (const c of candidatos) {
+      const placa = c.membership.placa;
+      const esMoto = c.membership.moto;
+
+      // 3. Validar Pico y Placa
+      if (reglasPicoPlaca && placa) {
+        const digitoInteres = esMoto ? placa.charAt(0) : placa.slice(-1);
+        const numDigito = parseInt(digitoInteres);
+        
+        if (numDigito === reglasPicoPlaca.numeroUno || numDigito === reglasPicoPlaca.numeroDos) {
+          continue; // Tiene restricción, saltar
+        }
+      }
+
+      // 4. Validar Disponibilidad (Traslapes)
+      const traslapes = await this.prisma.ordenServicio.count({
+        where: {
+          tecnicoId: c.membershipId,
+          fechaVisita: dto.fechaVisita ? new Date(dto.fechaVisita) : undefined,
+          OR: [
+            { horaInicio: { lte: inicio }, horaFin: { gte: inicio } },
+            { horaInicio: { lte: fin }, horaFin: { gte: fin } },
+            { horaInicio: { gte: inicio }, horaFin: { lte: fin } }
+          ]
+        }
+      });
+
+      if (traslapes === 0) {
+        viables.push(c.membershipId);
+      }
+    }
+
+    if (viables.length === 0) return null;
+
+    // 5. Balanceo de carga: Elegir al que menos órdenes tenga hoy
+    const conteos = await Promise.all(viables.map(async (id) => {
+      const count = await this.prisma.ordenServicio.count({
+        where: { tecnicoId: id, fechaVisita: dto.fechaVisita ? new Date(dto.fechaVisita) : undefined }
+      });
+      return { id, count };
+    }));
+
+    conteos.sort((a, b) => a.count - b.count);
+    return conteos[0]?.id || null;
   }
 
   async findAll(tenantId: string, empresaId?: string) {

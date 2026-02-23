@@ -4270,9 +4270,11 @@ export const TenantMembershipScalarFieldEnum = {
   activo: 'activo',
   aprobado: 'aprobado',
   codigoReferido: 'codigoReferido',
-  moto: 'moto',
   numberId: 'numberId',
   placa: 'placa',
+  moto: 'moto',
+  direccion: 'direccion',
+  municipioId: 'municipioId',
   pushToken: 'pushToken',
   username: 'username',
   whatsappGroupId: 'whatsappGroupId'
@@ -4498,7 +4500,8 @@ export const DireccionScalarFieldEnum = {
   telefonoContacto: 'telefonoContacto',
   tipoUbicacion: 'tipoUbicacion',
   validadoPorSistema: 'validadoPorSistema',
-  departmentId: 'departmentId'
+  departmentId: 'departmentId',
+  zonaId: 'zonaId'
 } as const
 
 export type DireccionScalarFieldEnum = (typeof DireccionScalarFieldEnum)[keyof typeof DireccionScalarFieldEnum]
@@ -5449,6 +5452,20 @@ export type EnumTipoPagoFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaM
  * Reference to a field of type 'TipoPago[]'
  */
 export type ListEnumTipoPagoFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'TipoPago[]'>
+    
+
+
+/**
+ * Reference to a field of type 'DiaSemana'
+ */
+export type EnumDiaSemanaFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DiaSemana'>
+    
+
+
+/**
+ * Reference to a field of type 'DiaSemana[]'
+ */
+export type ListEnumDiaSemanaFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DiaSemana[]'>
     
 
 

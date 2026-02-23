@@ -197,9 +197,11 @@ export const TenantMembershipScalarFieldEnum = {
   activo: 'activo',
   aprobado: 'aprobado',
   codigoReferido: 'codigoReferido',
-  moto: 'moto',
   numberId: 'numberId',
   placa: 'placa',
+  moto: 'moto',
+  direccion: 'direccion',
+  municipioId: 'municipioId',
   pushToken: 'pushToken',
   username: 'username',
   whatsappGroupId: 'whatsappGroupId'
@@ -425,7 +427,8 @@ export const DireccionScalarFieldEnum = {
   telefonoContacto: 'telefonoContacto',
   tipoUbicacion: 'tipoUbicacion',
   validadoPorSistema: 'validadoPorSistema',
-  departmentId: 'departmentId'
+  departmentId: 'departmentId',
+  zonaId: 'zonaId'
 } as const
 
 export type DireccionScalarFieldEnum = (typeof DireccionScalarFieldEnum)[keyof typeof DireccionScalarFieldEnum]

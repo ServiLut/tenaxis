@@ -83,4 +83,13 @@ export class TenantsController {
   async rejectMembership(@Param('membershipId') membershipId: string) {
     return this.tenantsService.rejectMembership(membershipId);
   }
+
+  @Patch('memberships/:membershipId')
+  @UseGuards(JwtAuthGuard)
+  async updateMembership(
+    @Param('membershipId') membershipId: string,
+    @Body() data: any,
+  ) {
+    return this.tenantsService.updateMembership(membershipId, data);
+  }
 }

@@ -299,6 +299,20 @@ export class TenantsService {
     });
   }
 
+  async updateMembership(membershipId: string, data: any) {
+    return this.prisma.tenantMembership.update({
+      where: { id: membershipId },
+      data: {
+        placa: data.placa,
+        moto: data.moto,
+        direccion: data.direccion,
+        municipioId: data.municipioId,
+        role: data.role,
+        activo: data.activo,
+      },
+    });
+  }
+
   async findAll() {
     return this.prisma.tenant.findMany({
       orderBy: { createdAt: 'desc' },
@@ -359,6 +373,7 @@ export class TenantsService {
             telefono: true,
           },
         },
+        municipio: true,
         _count: {
           select: {
             serviciosAsignados: true,

@@ -9,6 +9,19 @@
 * 🟢 You can import this file directly.
 */
 
+export const DiaSemana = {
+  LUNES: 'LUNES',
+  MARTES: 'MARTES',
+  MIERCOLES: 'MIERCOLES',
+  JUEVES: 'JUEVES',
+  VIERNES: 'VIERNES',
+  SABADO: 'SABADO',
+  DOMINGO: 'DOMINGO'
+} as const
+
+export type DiaSemana = (typeof DiaSemana)[keyof typeof DiaSemana]
+
+
 export const Role = {
   SU_ADMIN: 'SU_ADMIN',
   ADMIN: 'ADMIN',
