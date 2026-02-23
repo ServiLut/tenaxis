@@ -1,7 +1,10 @@
 import {
   Body,
   Controller,
+  Delete,
   Get,
+  Param,
+  Patch,
   Post,
   Request,
   UseGuards,
@@ -21,17 +24,46 @@ interface RequestWithUser extends ExpressRequest {
 export class ClientesController {
   constructor(private readonly clientesService: ClientesService) {}
 
-  @Get()
+  @Get('list')
   async findAll(@Request() req: RequestWithUser) {
-    const tenantId = req.user.tenantId || "";
+    const tenantId = req.user.tenantId || '';
     const empresaId = req.user.empresaId;
-    return this.clientesService.findAll(tenantId, empresaId);
+    const role = req.user.role;
+    return this.clientesService.findAll(tenantId, empresaId, role);
+  }
+
+  @Get(':id')
+  async findOne(@Request() req: RequestWithUser, @Param('id') id: string) {
+    const tenantId = req.user.tenantId || '';
+    return this.clientesService.findOne(id, tenantId);
   }
 
   @Post('create')
-  async create(@Request() req: RequestWithUser, @Body() dto: CreateClienteDto) {
+  async create(
+    @Request() req: RequestWithUser,
+    @Body() dto: CreateClienteDto & { empresaId?: string },
+  ) {
     const tenantId = req.user.tenantId || '';
     const userId = req.user.sub;
-    return this.clientesService.create(tenantId, userId, dto);
+    // allow the frontend to specify the target empresaId, fallback to the request context
+    const empresaId = dto.empresaId || req.user.empresaId;
+    return this.clientesService.create(tenantId, userId, dto, empresaId);
+  }
+
+  @Patch(':id')
+  async update(
+    @Request() req: RequestWithUser,
+    @Param('id') id: string,
+    @Body() dto: Partial<CreateClienteDto>,
+  ) {
+    const tenantId = req.user.tenantId || '';
+    const userId = req.user.sub;
+    return this.clientesService.update(id, tenantId, userId, dto);
+  }
+
+  @Delete(':id')
+  async remove(@Request() req: RequestWithUser, @Param('id') id: string) {
+    const tenantId = req.user.tenantId || '';
+    return this.clientesService.remove(id, tenantId);
   }
 }

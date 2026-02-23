@@ -1,19 +1,20 @@
 "use client";
 
-import { useState, useEffect, Suspense, useMemo } from "react";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useState, useEffect, Suspense, useMemo, useCallback } from "react";
+import { useRouter, useParams } from "next/navigation";
 import { toast } from "sonner";
 import {
-  createClienteAction,
+  getClienteByIdAction,
+  updateClienteAction,
   getSegmentosAction,
   getRiesgosAction,
   getTiposInteresAction,
   type ClienteDTO,
-} from "../../actions";
+} from "../../../actions";
 import {
   getDepartments,
   getMunicipalities,
-} from "./actions";
+} from "../../nuevo/actions";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -27,20 +28,15 @@ import {
   Trash2,
   Clock,
   Contact2,
-  CheckCircle2,
   Building2,
   UserCircle2,
   Target,
-  Zap,
-  CalendarClock,
   Search,
-  AlertCircle,
   GanttChart,
-  Lightbulb
 } from "lucide-react";
 import { useUserRole } from "@/hooks/use-user-role";
 import { DashboardLayout } from "@/components/dashboard";
-// owo
+
 // --- Constantes Estratégicas ---
 const ORIGENES_CLIENTE = ["Google Ads", "Referido", "Orgánico", "Recurrente", "Campaña", "WhatsApp directo"];
 const TIPOS_DOCUMENTO = ["Cédula de Ciudadanía", "Cédula de Extranjería", "Pasaporte", "Permiso Especial", "NIT"];
@@ -74,16 +70,14 @@ interface Direccion {
   validadoPorSistema: boolean;
 }
 
-function NuevoClienteContent() {
+function EditarClienteContent() {
   const router = useRouter();
-  const searchParams = useSearchParams();
-  const _fixClientId = searchParams.get("fixClientId");
-  const _migrateClientId = searchParams.get("migrateClientId");
+  const params = useParams();
+  const id = params.id as string;
 
   useUserRole();
   const [loading, setLoading] = useState(false);
-  const [empresasUser, setEmpresasUser] = useState<{id: string, nombre: string}[]>([]);
-  const [selectedEmpresaId, setSelectedEmpresaId] = useState<string>("");
+  const [loadingClient, setLoadingClient] = useState(true);
 
   // --- Datos Dinámicos ---
   const [departamentos, setDepartments] = useState<{id: string, name: string}[]>([]);
@@ -92,205 +86,27 @@ function NuevoClienteContent() {
   const [riesgosDb, setRiesgosDb] = useState<{id: string, nombre: string}[]>([]);
   const [tiposInteresDb, setTiposInteresDb] = useState<{id: string, nombre: string, frecuenciaSugerida: number, riesgoSugerido: string}[]>([]);
 
-  // 1. Cargar Datos Geográficos y Configuración al iniciar
-  useEffect(() => {
-    const loadInitialData = async () => {
-      try {
-        const { getEnterprisesAction } = await import("@/app/dashboard/actions");
-        const [deps, muns, segs, ries, ints, empresasData] = await Promise.all([
-          getDepartments(),
-          getMunicipalities(),
-          getSegmentosAction(),
-          getRiesgosAction(),
-          getTiposInteresAction(),
-          getEnterprisesAction()
-        ]);
-        setDepartments(deps);
-        setMunicipalities(muns);
-        setSegmentosDb(segs);
-        setRiesgosDb(ries);
-        setTiposInteresDb(ints);
-        if (segs.length > 0) setSegmento(segs[0]?.id || "");
-        if (ints.length > 0) setInteres(ints[0]?.id || "");
-        
-        // Cargar empresas del usuario
-        const items = empresasData?.items || [];
-        setEmpresasUser(items);
-        
-        const cookieId = document.cookie
-          .split("; ")
-          .find((row) => row.startsWith("x-enterprise-id="))
-          ?.split("=")[1];
-          
-        if (cookieId && items.find((e: {id: string}) => e.id === cookieId)) {
-          setSelectedEmpresaId(cookieId);
-        } else if (items.length > 0) {
-          setSelectedEmpresaId(items[0].id);
-        }
-
-      } catch (e) {
-        console.error("Error loading initial data", e);
-        toast.error("Error al cargar datos de configuración");
-      }
-    };
-    loadInitialData();
-  }, []);
-
+  // Estados del Formulario
   const [tipoCliente, setTipoCliente] = useState<"NATURAL" | "EMPRESA">("NATURAL");
+  const [nombre, setNombre] = useState("");
+  const [apellido, setApellido] = useState("");
+  const [tipoDocumento, setTipoDocumento] = useState("");
+  const [numeroDocumento, setNumeroDocumento] = useState("");
+  const [telefono, setTelefono] = useState("");
+  const [telefono2, setTelefono2] = useState("");
+  const [correo, setCorreo] = useState("");
+  const [origen, setOrigen] = useState("");
+  const [razonSocial, setRazonSocial] = useState("");
+  const [nit, setNit] = useState("");
+  const [actividad, setActividad] = useState("");
   const [segmento, setSegmento] = useState("");
   const [interes, setInteres] = useState("");
   const [riesgoOverride, setRiesgoOverride] = useState<string | null>(null);
   const [metraje, setMetraje] = useState<number>(0);
+  const [direcciones, setDirecciones] = useState<Direccion[]>([]);
 
-  const sugerencias = useMemo(() => {
-    const seg = segmentosDb.find(s => s.id === segmento);
-    const int = tiposInteresDb.find(i => i.id === interes);
-
-    // Lógica inteligente: tomar el riesgo más alto y la frecuencia más corta
-    const riesgosMap: Record<string, number> = { "BAJO": 1, "MEDIO": 2, "ALTO": 3, "CRITICO": 4 };
-    const riesgoSeg = seg?.riesgoSugerido || "BAJO";
-    const riesgoInt = int?.riesgoSugerido || "BAJO";
-
-    const riesgoFinal = (riesgosMap[riesgoSeg] ?? 1) >= (riesgosMap[riesgoInt] ?? 1) ? riesgoSeg : riesgoInt;
-
-    const freqSeg = seg?.frecuenciaSugerida || 30;
-    const freqInt = int?.frecuenciaSugerida || 30;
-    const freqFinal = Math.min(freqSeg === 0 ? 999 : freqSeg, freqInt === 0 ? 999 : freqInt);
-
-    return {
-      riesgo: riesgoOverride || riesgoFinal,
-      frecuencia: freqFinal === 999 ? "Puntual" : String(freqFinal),
-      precioSugerido: metraje > 0 ? metraje * 1500 : 0,
-      tiempoEstimado: metraje > 0 ? Math.ceil(metraje / 100) * 30 : 0,
-    };
-  }, [segmento, interes, riesgoOverride, metraje, segmentosDb, tiposInteresDb]);
-
-  useEffect(() => {
-    const originalStyle = window.getComputedStyle(document.body).overflow;
-    document.body.style.overflow = "hidden";
-    return () => { document.body.style.overflow = originalStyle; };
-  }, []);
-
-  const [direcciones, setDirecciones] = useState<Direccion[]>([{
-    id: Date.now(),
-    direccion: "",
-    linkMaps: "",
-    departmentId: "",
-    municipioId: "",
-    municipio: "",
-    barrio: "",
-    piso: "",
-    bloque: "",
-    unidad: "",
-    tipoUbicacion: "Residencial",
-    clasificacionPunto: "Oficina administrativa",
-    horarioInicio: "08:00",
-    horarioFin: "18:00",
-    restriccionesAcceso: "",
-    nombreContacto: "",
-    telefonoContacto: "",
-    cargoContacto: "",
-    activa: true,
-    bloqueada: false,
-    motivoBloqueo: "",
-    latitud: "",
-    longitud: "",
-    precisionGPS: "",
-    validadoPorSistema: false,
-  }]);
-
-  const handleDireccionChange = <K extends keyof Direccion>(id: number, field: K, value: Direccion[K]) => {
-    setDirecciones(direcciones.map((d) => {
-      if (d.id === id) {
-        const update = { ...d, [field]: value };
-        if (field === "departmentId") {
-          update.municipioId = "";
-          update.municipio = "";
-        }
-        if (field === "municipioId") {
-          const mun = municipios.find(m => m.id === value);
-          update.municipio = mun?.name || "";
-        }
-        return update;
-      }
-      return d;
-    }));
-  };
-
-  const validarDireccion = async (id: number) => {
-    toast.promise(new Promise(resolve => setTimeout(resolve, 1500)), {
-      loading: 'Georreferenciando dirección...',
-      success: 'Coordenadas validadas correctamente',
-      error: 'Error al validar ubicación',
-    });
-    handleDireccionChange(id, "latitud", "6.2442");
-    handleDireccionChange(id, "longitud", "-75.5812");
-    handleDireccionChange(id, "validadoPorSistema", true);
-  };
-
-  async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
-    event.preventDefault();
-    setLoading(true);
-    const formData = new FormData(event.currentTarget);
-
-    const cleanedDirecciones = direcciones.map(({
-      id: _id,
-      departmentId: _departmentId,
-      validadoPorSistema: _validadoPorSistema,
-      municipio: _municipio,
-      restriccionesAcceso,
-      ...rest
-    }) => ({
-      ...rest,
-      municipioId: rest.municipioId || null,
-      restricciones: restriccionesAcceso || null,
-      latitud: rest.latitud ? parseFloat(rest.latitud) : null,
-      longitud: rest.longitud ? parseFloat(rest.longitud) : null,
-      precisionGPS: rest.precisionGPS ? parseFloat(rest.precisionGPS) : null,
-    }));
-
-    const payload: ClienteDTO = {
-      tipoCliente: (tipoCliente === "NATURAL" ? "PERSONA" : "EMPRESA") as "PERSONA" | "EMPRESA",
-      nombre: (formData.get("nombre") as string) || "No Concretado",
-      apellido: (formData.get("apellido") as string) || "No Concretado",
-      tipoDocumento: (formData.get("tipoDocumento") as string) || "No Concretado",
-      numeroDocumento: (formData.get("numeroDocumento") as string) || "No Concretado",
-      telefono: (formData.get("telefono") as string),
-      telefono2: (formData.get("telefono2") as string) || "No Concretado",
-      correo: (formData.get("correo") as string) || "noconcretado@noconcretado.com",
-      origenCliente: (formData.get("origen") as string) || "No Concretado",
-      tipoInteresId: (formData.get("interes") as string) || null,
-      razonSocial: (formData.get("razonSocial") as string) || "No Concretado",
-      nit: (formData.get("nit") as string) || "No Concretado",
-      actividadEconomica: (formData.get("actividad") as string) || "No Concretado",
-      metrajeTotal: metraje ? parseFloat(metraje.toString()) : null,
-      segmentoId: segmento || null,
-      riesgoId: riesgoOverride || riesgosDb.find(r => r.nombre === sugerencias.riesgo)?.id || null,
-      direcciones: cleanedDirecciones,
-    };
-
-    // A hack to bypass the DTO interface locally if it's missing, since backend extracts it
-    const finalPayload = { ...payload, empresaId: selectedEmpresaId || undefined } as unknown as ClienteDTO;
-
-    try {
-      const response = await createClienteAction(finalPayload);
-      if (!response.success) {
-        const errorMsg = Array.isArray(response.error) ? response.error[0] : response.error;
-        toast.error(errorMsg ? String(errorMsg) : "Error al crear cliente");
-        return;
-      }
-      toast.success("Cliente registrado con éxito");
-      router.push("/dashboard/clientes");
-    } catch (error: unknown) {
-      const message = error instanceof Error ? error.message : "Error al crear cliente";
-      toast.error(message);
-    } finally {
-      setLoading(false);
-    }
-  }
-
-  const addDireccion = () => {
-    setDirecciones([...direcciones, {
+  const addDireccion = useCallback(() => {
+    setDirecciones(prev => [...prev, {
       id: Date.now(),
       direccion: "",
       linkMaps: "",
@@ -317,11 +133,219 @@ function NuevoClienteContent() {
       precisionGPS: "",
       validadoPorSistema: false,
     }]);
+  }, []);
+
+  // 1. Cargar Datos Geográficos y Configuración
+  useEffect(() => {
+    const loadInitialData = async () => {
+      try {
+        const [deps, muns, segs, ries, ints] = await Promise.all([
+          getDepartments(),
+          getMunicipalities(),
+          getSegmentosAction(),
+          getRiesgosAction(),
+          getTiposInteresAction()
+        ]);
+        setDepartments(deps);
+        setMunicipalities(muns);
+        setSegmentosDb(segs);
+        setRiesgosDb(ries);
+        setTiposInteresDb(ints);
+      } catch (e) {
+        console.error("Error loading initial data", e);
+        toast.error("Error al cargar datos de configuración");
+      }
+    };
+    loadInitialData();
+  }, []);
+
+  // 2. Cargar Datos del Cliente
+  useEffect(() => {
+    const loadClientData = async () => {
+      if (!id) return;
+      try {
+        const client = await getClienteByIdAction(id);
+        if (!client) {
+          toast.error("No se encontró el cliente");
+          router.push("/dashboard/clientes");
+          return;
+        }
+
+        setTipoCliente(client.tipoCliente === "PERSONA" ? "NATURAL" : "EMPRESA");
+        setNombre(client.nombre || "");
+        setApellido(client.apellido || "");
+        setTipoDocumento(client.tipoDocumento || "");
+        setNumeroDocumento(client.numeroDocumento || "");
+        setTelefono(client.telefono || "");
+        setTelefono2(client.telefono2 || "");
+        setCorreo(client.correo || "");
+        setOrigen(client.origenCliente || "");
+        setRazonSocial(client.razonSocial || "");
+        setNit(client.nit || "");
+        setActividad(client.actividadEconomica || "");
+        setSegmento(client.segmentoId || "");
+        setInteres(client.tipoInteresId || "");
+        setRiesgoOverride(client.riesgoId || null);
+        setMetraje(client.metrajeTotal ? Number(client.metrajeTotal) : 0);
+        
+        if (client.direcciones && client.direcciones.length > 0) {
+          setDirecciones(client.direcciones.map((d: Record<string, unknown>) => ({
+            id: Number(d.id) || Date.now() + Math.random(),
+            direccion: (d.direccion as string) || "",
+            linkMaps: (d.linkMaps as string) || "",
+            departmentId: (d.departmentId as string) || "",
+            municipioId: (d.municipioId as string) || "",
+            municipio: ((d.municipioRel as { name?: string })?.name) || (d.municipio as string) || "",
+            barrio: (d.barrio as string) || "",
+            piso: (d.piso as string) || "",
+            bloque: (d.bloque as string) || "",
+            unidad: (d.unidad as string) || "",
+            tipoUbicacion: (d.tipoUbicacion as string) || "Residencial",
+            clasificacionPunto: (d.clasificacionPunto as string) || "Oficina administrativa",
+            horarioInicio: (d.horarioInicio as string) || "08:00",
+            horarioFin: (d.horarioFin as string) || "18:00",
+            restriccionesAcceso: (d.restricciones as string) || "",
+            nombreContacto: (d.nombreContacto as string) || "",
+            telefonoContacto: (d.telefonoContacto as string) || "",
+            cargoContacto: (d.cargoContacto as string) || "",
+            activa: d.activa ?? true,
+            bloqueada: d.bloqueada ?? false,
+            motivoBloqueo: d.motivoBloqueo || "",
+            latitud: d.latitud ? String(d.latitud) : "",
+            longitud: d.longitud ? String(d.longitud) : "",
+            precisionGPS: d.precisionGPS ? String(d.precisionGPS) : "",
+            validadoPorSistema: d.validadoPorSistema ?? false,
+          })));
+        } else {
+          addDireccion();
+        }
+
+        setLoadingClient(false);
+      } catch (e) {
+        console.error("Error loading client data", e);
+        toast.error("Error al cargar los datos del cliente");
+        setLoadingClient(false);
+      }
+    };
+    loadClientData();
+  }, [id, router, addDireccion]);
+
+  const sugerencias = useMemo(() => {
+    const seg = segmentosDb.find(s => s.id === segmento);
+    const int = tiposInteresDb.find(i => i.id === interes);
+
+    const riesgosMap: Record<string, number> = { "BAJO": 1, "MEDIO": 2, "ALTO": 3, "CRITICO": 4 };
+    const riesgoSeg = seg?.riesgoSugerido || "BAJO";
+    const riesgoInt = int?.riesgoSugerido || "BAJO";
+
+    const riesgoFinal = (riesgosMap[riesgoSeg] ?? 1) >= (riesgosMap[riesgoInt] ?? 1) ? riesgoSeg : riesgoInt;
+
+    const freqSeg = seg?.frecuenciaSugerida || 30;
+    const freqInt = int?.frecuenciaSugerida || 30;
+    const freqFinal = Math.min(freqSeg === 0 ? 999 : freqSeg, freqInt === 0 ? 999 : freqInt);
+
+    return {
+      riesgo: riesgoFinal,
+      frecuencia: freqFinal === 999 ? "Puntual" : String(freqFinal),
+      precioSugerido: metraje > 0 ? metraje * 1500 : 0,
+      tiempoEstimado: metraje > 0 ? Math.ceil(metraje / 100) * 30 : 0,
+    };
+  }, [segmento, interes, metraje, segmentosDb, tiposInteresDb]);
+
+  useEffect(() => {
+    const originalStyle = window.getComputedStyle(document.body).overflow;
+    document.body.style.overflow = "hidden";
+    return () => { document.body.style.overflow = originalStyle; };
+  }, []);
+
+  const handleDireccionChange = <K extends keyof Direccion>(id: number, field: K, value: Direccion[K]) => {
+    setDirecciones(prev => prev.map((d) => {
+      if (d.id === id || (typeof d.id === 'string' && d.id === String(id))) {
+        const update = { ...d, [field]: value };
+        if (field === "departmentId") {
+          update.municipioId = "";
+          update.municipio = "";
+        }
+        if (field === "municipioId") {
+          const mun = municipios.find(m => m.id === value);
+          update.municipio = mun?.name || "";
+        }
+        return update;
+      }
+      return d;
+    }));
   };
 
-  const removeDireccion = (id: number) => {
+  const validarDireccion = async (dirId: number) => {
+    toast.promise(new Promise(resolve => setTimeout(resolve, 1500)), {
+      loading: 'Georreferenciando dirección...',
+      success: 'Coordenadas validadas correctamente',
+      error: 'Error al validar ubicación',
+    });
+    handleDireccionChange(dirId, "latitud", "6.2442");
+    handleDireccionChange(dirId, "longitud", "-75.5812");
+    handleDireccionChange(dirId, "validadoPorSistema", true);
+  };
+
+  async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    setLoading(true);
+
+    const cleanedDirecciones = direcciones.map(({
+      id: _id,
+      departmentId: _departmentId,
+      validadoPorSistema: _validadoPorSistema,
+      municipio: _municipio,
+      restriccionesAcceso,
+      ...rest
+    }) => ({
+      ...rest,
+      municipioId: rest.municipioId || null,
+      restricciones: restriccionesAcceso || null,
+      latitud: rest.latitud ? parseFloat(rest.latitud) : null,
+      longitud: rest.longitud ? parseFloat(rest.longitud) : null,
+      precisionGPS: rest.precisionGPS ? parseFloat(rest.precisionGPS) : null,
+    }));
+
+    const payload: Partial<ClienteDTO> = {
+      tipoCliente: (tipoCliente === "NATURAL" ? "PERSONA" : "EMPRESA") as "PERSONA" | "EMPRESA",
+      nombre: nombre || "No Concretado",
+      apellido: apellido || "No Concretado",
+      tipoDocumento: tipoDocumento || "No Concretado",
+      numeroDocumento: numeroDocumento || "No Concretado",
+      telefono: telefono,
+      telefono2: telefono2 || "No Concretado",
+      correo: correo || "noconcretado@noconcretado.com",
+      origenCliente: origen || "No Concretado",
+      tipoInteresId: interes || null,
+      razonSocial: razonSocial || "No Concretado",
+      nit: nit || "No Concretado",
+      actividadEconomica: actividad || "No Concretado",
+      metrajeTotal: metraje ? parseFloat(metraje.toString()) : null,
+      segmentoId: segmento || null,
+      riesgoId: riesgoOverride || riesgosDb.find(r => r.nombre === sugerencias.riesgo)?.id || null,
+      direcciones: cleanedDirecciones as unknown as NonNullable<ClienteDTO["direcciones"]>,
+    };
+
+    try {
+      const response = await updateClienteAction(id, payload);
+      if (!response.success) {
+        toast.error(response.error || "Error al actualizar cliente");
+        return;
+      }
+      toast.success("Cliente actualizado con éxito");
+      router.push("/dashboard/clientes");
+    } catch (error: unknown) {
+      const msg = error instanceof Error ? error.message : "Error al actualizar cliente";
+      toast.error(msg);
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  const removeDireccion = (dirId: number) => {
     if (direcciones.length > 1) {
-      setDirecciones(direcciones.filter(d => d.id !== id));
+      setDirecciones(direcciones.filter(d => d.id !== dirId));
     } else {
       toast.error("Debe haber al menos una dirección");
     }
@@ -333,6 +357,14 @@ function NuevoClienteContent() {
       .map(m => ({ value: m.id, label: m.name }));
   };
 
+  if (loadingClient) {
+    return (
+      <div className="flex h-[80vh] items-center justify-center text-sm text-zinc-500 animate-pulse font-bold uppercase tracking-widest">
+        Recuperando expediente del cliente...
+      </div>
+    );
+  }
+
   return (
     <div className="max-w-5xl mx-auto w-full h-[calc(100vh-12rem)] flex flex-col min-h-0">
       <div className="flex-1 flex flex-col bg-white dark:bg-zinc-950 rounded-2xl shadow-sm border border-zinc-200 dark:border-zinc-800 overflow-hidden min-h-0">
@@ -341,32 +373,22 @@ function NuevoClienteContent() {
           <div className="flex items-center gap-5">
             <Button variant="ghost" size="icon" onClick={() => router.push("/dashboard/clientes")} className="h-10 w-10 rounded-full border border-zinc-100 dark:border-zinc-800 hover:bg-zinc-50"><ArrowLeft className="h-4 w-4" /></Button>
             <div>
-              <h1 className="text-xl font-bold text-zinc-900 dark:text-zinc-50 tracking-tight">Registro de Clientes</h1>
+              <h1 className="text-xl font-bold text-zinc-900 dark:text-zinc-50 tracking-tight">Editar Cliente</h1>
               <div className="flex items-center gap-2 mt-0.5">
-                <span className="flex h-1.5 w-1.5 rounded-full bg-[var(--color-azul-1)]"></span>
-                <p className="text-[10px] text-zinc-400 font-bold uppercase tracking-[0.1em]">Pipeline Comercial & Operativo</p>
+                <span className="flex h-1.5 w-1.5 rounded-full bg-azul-1"></span>
+                <p className="text-[10px] text-zinc-400 font-bold uppercase tracking-[0.1em]">Expediente: {id.slice(0,8)}</p>
               </div>
             </div>
           </div>
 
           <div className="flex bg-zinc-50 dark:bg-zinc-900 p-1 rounded-xl border border-zinc-200 dark:border-zinc-800 shadow-inner">
-            <button onClick={() => setTipoCliente("NATURAL")} className={`flex items-center gap-2 px-6 py-2.5 rounded-lg text-xs font-bold transition-all ${tipoCliente === "NATURAL" ? "bg-white dark:bg-zinc-800 text-[var(--color-azul-1)] shadow-sm border border-zinc-200/50" : "text-zinc-400 hover:text-zinc-600"}`}><UserCircle2 className="h-4 w-4" /> PERSONA NATURAL</button>
-            <button onClick={() => setTipoCliente("EMPRESA")} className={`flex items-center gap-2 px-6 py-2.5 rounded-lg text-xs font-bold transition-all ${tipoCliente === "EMPRESA" ? "bg-white dark:bg-zinc-800 text-[var(--color-azul-1)] shadow-sm border border-zinc-200/50" : "text-zinc-400 hover:text-zinc-600"}`}><Building2 className="h-4 w-4" /> CORPORATIVO / EMPRESA</button>
+            <button type="button" onClick={() => setTipoCliente("NATURAL")} className={`flex items-center gap-2 px-6 py-2.5 rounded-lg text-xs font-bold transition-all ${tipoCliente === "NATURAL" ? "bg-white dark:bg-zinc-800 text-azul-1 shadow-sm border border-zinc-200/50" : "text-zinc-400 hover:text-zinc-600"}`}><UserCircle2 className="h-4 w-4" /> PERSONA NATURAL</button>
+            <button type="button" onClick={() => setTipoCliente("EMPRESA")} className={`flex items-center gap-2 px-6 py-2.5 rounded-lg text-xs font-bold transition-all ${tipoCliente === "EMPRESA" ? "bg-white dark:bg-zinc-800 text-azul-1 shadow-sm border border-zinc-200/50" : "text-zinc-400 hover:text-zinc-600"}`}><Building2 className="h-4 w-4" /> CORPORATIVO / EMPRESA</button>
           </div>
         </div>
 
         <div className="flex-1 overflow-y-auto p-10 custom-scrollbar bg-white dark:bg-zinc-950">
           <form id="cliente-form" onSubmit={handleSubmit} className="space-y-12 max-w-4xl mx-auto pb-12">
-
-            <div className="p-5 bg-amber-50 dark:bg-amber-500/10 border border-amber-200 dark:border-amber-500/20 rounded-2xl flex gap-4 items-start">
-              <AlertCircle className="h-5 w-5 text-amber-600 dark:text-amber-400 mt-0.5 shrink-0" />
-              <div className="space-y-1">
-                <p className="text-sm font-bold text-amber-800 dark:text-amber-300">Nota importante</p>
-                <p className="text-xs text-amber-700/80 dark:text-amber-400/80 leading-relaxed font-medium">
-                  Todos los campos que no estén marcados con un asterisco rojo (<span className="text-red-500 font-bold">*</span>) son opcionales. Si decide dejarlos vacíos, el sistema los guardará automáticamente con el valor <span className="font-bold">&quot;No Concretado&quot;</span> (o <span className="font-bold">&quot;noconcretado@noconcretado.com&quot;</span> para el correo) para mantener la integridad de los registros.
-                </p>
-              </div>
-            </div>
 
             <section className="space-y-8">
               <div className="flex items-center gap-3 border-b border-zinc-100 dark:border-zinc-800 pb-3">
@@ -375,66 +397,54 @@ function NuevoClienteContent() {
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6">
-                <div className="space-y-2 md:col-span-2">
-                  <Label className="text-xs font-bold text-zinc-500 dark:text-zinc-300 uppercase tracking-wider">Asignar a Empresa <span className="text-red-500">*</span></Label>
-                  <Select 
-                    value={selectedEmpresaId} 
-                    onChange={(e) => setSelectedEmpresaId(e.target.value)} 
-                    className="h-11 dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-100"
-                    required
-                  >
-                    {empresasUser.map(e => <option key={e.id} value={e.id}>{e.nombre}</option>)}
-                  </Select>
-                </div>
-
                 {tipoCliente === "NATURAL" ? (
                   <>
                     <div className="space-y-2">
                       <Label className="text-xs font-bold text-zinc-500 dark:text-zinc-300 uppercase tracking-wider">Nombre(s)</Label>
-                      <Input name="nombre" className="h-11 border-zinc-200 dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-100 dark:placeholder:text-zinc-500" placeholder="Ej: Juan" />
+                      <Input value={nombre} onChange={(e) => setNombre(e.target.value)} className="h-11 border-zinc-200 dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-100" placeholder="Ej: Juan" />
                     </div>
                     <div className="space-y-2">
                       <Label className="text-xs font-bold text-zinc-500 dark:text-zinc-300 uppercase tracking-wider">Apellido(s)</Label>
-                      <Input name="apellido" className="h-11 border-zinc-200 dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-100 dark:placeholder:text-zinc-500" placeholder="Ej: Valdés" />
+                      <Input value={apellido} onChange={(e) => setApellido(e.target.value)} className="h-11 border-zinc-200 dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-100" placeholder="Ej: Valdés" />
                     </div>
                     <div className="space-y-2">
                       <Label className="text-xs font-bold text-zinc-500 dark:text-zinc-300 uppercase tracking-wider">Tipo de Documento</Label>
-                      <Select name="tipoDocumento" className="h-11 border-zinc-200 dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-50">
+                      <Select value={tipoDocumento} onChange={(e) => setTipoDocumento(e.target.value)} className="h-11 border-zinc-200 dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-50">
                         <option value="">No especificado</option>
                         {TIPOS_DOCUMENTO.map(t => <option key={t} value={t}>{t}</option>)}
                       </Select>
                     </div>
                     <div className="space-y-2">
                       <Label className="text-xs font-bold text-zinc-500 dark:text-zinc-300 uppercase tracking-wider">Número de Documento</Label>
-                      <Input name="numeroDocumento" className="h-11 border-zinc-200 dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-100 dark:placeholder:text-zinc-500 font-mono" placeholder="12345678" onInput={(e) => { e.currentTarget.value = e.currentTarget.value.replace(/[^0-9.\-]/g, ''); }} />
+                      <Input value={numeroDocumento} onChange={(e) => setNumeroDocumento(e.target.value)} className="h-11 border-zinc-200 dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-100 font-mono" placeholder="12345678" />
                     </div>
                   </>
                 ) : (
                   <>
                     <div className="space-y-2 md:col-span-2">
                       <Label className="text-xs font-bold text-zinc-500 dark:text-zinc-300 uppercase tracking-wider">Razón Social</Label>
-                      <Input name="razonSocial" className="h-11 border-[var(--color-azul-1)]/20 dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-100" />
+                      <Input value={razonSocial} onChange={(e) => setRazonSocial(e.target.value)} className="h-11 border-azul-1/20 dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-100" />
                     </div>
-                    <input type="hidden" name="tipoDocumento" value="NIT" />
                     <div className="space-y-2">
                       <Label className="text-xs font-bold text-zinc-500 dark:text-zinc-300 uppercase tracking-wider">NIT / Identificación</Label>
-                      <Input name="nit" className="h-11 font-mono dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-100" onInput={(e) => { e.currentTarget.value = e.currentTarget.value.replace(/[^0-9.\-]/g, ''); }} />
+                      <Input value={nit} onChange={(e) => setNit(e.target.value)} className="h-11 font-mono dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-100" />
                     </div>
                   </>
                 )}
 
                 <div className="space-y-2">
                   <Label className="text-xs font-bold text-zinc-500 dark:text-zinc-300 uppercase tracking-wider">Teléfono Principal <span className="text-red-500">*</span></Label>
-                  <Input name="telefono" required className="h-11 border-zinc-200 dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-100 dark:placeholder:text-zinc-500" placeholder="3000000000" onInput={(e) => { e.currentTarget.value = e.currentTarget.value.replace(/[^0-9.\-]/g, ''); }} />
+                  <Input value={telefono} onChange={(e) => setTelefono(e.target.value)} required className="h-11 border-zinc-200 dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-100" placeholder="3000000000" />
                 </div>
                 <div className="space-y-2">
                   <Label className="text-xs font-bold text-zinc-500 dark:text-zinc-300 uppercase tracking-wider">Teléfono Secundario (Opcional)</Label>
-                  <Input name="telefono2" className="h-11 border-zinc-200 dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-100 dark:placeholder:text-zinc-500 opacity-80" placeholder="3111111111" onInput={(e) => { e.currentTarget.value = e.currentTarget.value.replace(/[^0-9.\-]/g, ''); }} />
+                  <Input value={telefono2} onChange={(e) => setTelefono2(e.target.value)} className="h-11 border-zinc-200 dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-100 opacity-80" placeholder="3111111111" />
                 </div>
 
                 <div className="space-y-2">
                   <Label className="text-xs font-bold text-zinc-500 dark:text-zinc-300 uppercase tracking-wider">Segmento del Negocio</Label>
-                  <Select name="segmento" value={segmento} onChange={(e) => setSegmento(e.target.value)} className="h-11 dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-100">
+                  <Select value={segmento} onChange={(e) => setSegmento(e.target.value)} className="h-11 dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-100">
+                    <option value="">Seleccionar...</option>
                     {segmentosDb.map(s => <option key={s.id} value={s.id}>{s.nombre}</option>)}
                   </Select>
                 </div>
@@ -449,18 +459,20 @@ function NuevoClienteContent() {
 
                 <div className="space-y-2">
                   <Label className="text-xs font-bold text-zinc-500 dark:text-zinc-300 uppercase tracking-wider">Canal de Captación</Label>
-                  <Select name="origen" className="h-11 border-zinc-200 dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-100">
+                  <Select value={origen} onChange={(e) => setOrigen(e.target.value)} className="h-11 border-zinc-200 dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-100">
+                    <option value="">Seleccionar...</option>
                     {ORIGENES_CLIENTE.map(o => <option key={o} value={o}>{o}</option>)}
                   </Select>
                 </div>
                 <div className="space-y-2">
                   <Label className="text-xs font-bold text-zinc-500 dark:text-zinc-300 uppercase tracking-wider">Correo Electrónico (Opcional)</Label>
-                  <Input name="correo" type="email" pattern="^[a-zA-Z0-9._%+\-]+@[a-zA-Z0-9.\-]+\.[a-zA-Z]{2,}$" title="Debe incluir un '@' y un '.'" className="h-11 border-zinc-200 dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-100 dark:placeholder:text-zinc-500" placeholder="usuario@ejemplo.com" />
+                  <Input value={correo} onChange={(e) => setCorreo(e.target.value)} type="email" className="h-11 border-zinc-200 dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-100" placeholder="usuario@ejemplo.com" />
                 </div>
 
                 <div className="space-y-2">
                   <Label className="text-xs font-bold text-zinc-500 dark:text-zinc-300 uppercase tracking-wider">Tipo de Servicio Interés</Label>
-                  <Select name="interes" value={interes} onChange={(e) => setInteres(e.target.value)} className="h-11 border-zinc-200 dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-100">
+                  <Select value={interes} onChange={(e) => setInteres(e.target.value)} className="h-11 border-zinc-200 dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-100">
+                    <option value="">Seleccionar...</option>
                     {tiposInteresDb.map(s => <option key={s.id} value={s.id}>{s.nombre}</option>)}
                   </Select>
                 </div>
@@ -469,36 +481,15 @@ function NuevoClienteContent() {
                   <>
                     <div className="space-y-2">
                       <Label className="text-xs font-bold text-zinc-500 dark:text-zinc-300 uppercase tracking-wider">Actividad Económica</Label>
-                      <Input name="actividad" className="h-11 dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-100 dark:placeholder:text-zinc-500" placeholder="Ej: Venta de alimentos" />
+                      <Input value={actividad} onChange={(e) => setActividad(e.target.value)} className="h-11 dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-100" placeholder="Ej: Venta de alimentos" />
                     </div>
                     <div className="space-y-2">
                       <Label className="text-xs font-bold text-zinc-500 dark:text-zinc-300 uppercase tracking-wider">Área Instalaciones (m²)</Label>
-                      <Input type="number" name="metraje" value={metraje} onChange={(e) => setMetraje(Number(e.target.value))} className="h-11 dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-100" />
+                      <Input type="number" value={metraje} onChange={(e) => setMetraje(Number(e.target.value))} className="h-11 dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-100" />
                     </div>
                   </>
                 )}
               </div>
-
-              {(segmento || interes) && (
-                <div className="p-6 bg-azul-1/5 dark:bg-azul-1/10 border border-azul-1/20 rounded-2xl space-y-4">
-                  <div className="flex items-center gap-2 text-azul-1">
-                    <Lightbulb className="h-5 w-5" />
-                    <span className="text-sm font-black uppercase tracking-wider">Recomendación Estratégica</span>
-                  </div>
-                  <p className="text-xs text-zinc-600 dark:text-zinc-400 font-medium leading-relaxed">
-                    Basado en el segmento <span className="font-bold text-zinc-900 dark:text-zinc-100">{segmentosDb.find(s => s.id === segmento)?.nombre}</span> y el interés <span className="font-bold text-zinc-900 dark:text-zinc-100">{tiposInteresDb.find(i => i.id === interes)?.nombre}</span>, el sistema sugiere un riesgo <span className="font-bold text-azul-1">{sugerencias.riesgo}</span> con una frecuencia <span className="font-bold text-azul-1">{sugerencias.frecuencia === "Puntual" ? "Única" : `cada ${sugerencias.frecuencia} días`}</span>.
-                  </p>
-                </div>
-              )}
-
-              {tipoCliente === "EMPRESA" && segmento && (
-                <div className="grid grid-cols-2 md:grid-cols-4 gap-6 p-6 bg-zinc-50/50 dark:bg-zinc-900 border border-zinc-100 dark:border-zinc-800 rounded-2xl">
-                  <div className="space-y-1.5"><p className="text-[9px] font-black text-zinc-400 uppercase tracking-[0.15em]">Frecuencia Ideal</p><div className="flex items-center gap-2 font-bold text-zinc-700 dark:text-zinc-300 text-sm"><CalendarClock className="h-3.5 w-3.5 text-[var(--color-claro-azul-4)]" /> {sugerencias.frecuencia} días</div></div>
-                  <div className="space-y-1.5"><p className="text-[9px] font-black text-zinc-400 uppercase tracking-[0.15em]">Tiempo de Labor</p><div className="flex items-center gap-2 font-bold text-zinc-700 dark:text-zinc-300 text-sm"><Clock className="h-3.5 w-3.5 text-[var(--color-claro-azul-4)]" /> {sugerencias.tiempoEstimado} min</div></div>
-                  <div className="space-y-1.5"><p className="text-[9px] font-black text-zinc-400 uppercase tracking-[0.15em]">Tarifa Sugerida</p><div className="flex items-center gap-2 font-bold text-[var(--color-oscuro-verde-azulado-3)] text-sm">$ {sugerencias.precioSugerido.toLocaleString()}</div></div>
-                  <div className="space-y-1.5"><p className="text-[9px] font-black text-zinc-400 uppercase tracking-[0.15em]">Estatus de Cuenta</p><div className="flex items-center gap-2 font-bold text-amber-600 text-sm"><Zap className="h-3.5 w-3.5 fill-amber-600" /> POTENCIAL</div></div>
-                </div>
-              )}
             </section>
 
             <section className="space-y-8">
@@ -507,7 +498,7 @@ function NuevoClienteContent() {
                   <div className="p-2 rounded-lg bg-zinc-50 dark:bg-zinc-900 border border-zinc-100 dark:border-zinc-800 text-zinc-400"><MapPin className="h-5 w-5" /></div>
                   <h2 className="text-lg font-bold text-zinc-900 dark:text-zinc-50">{tipoCliente === "NATURAL" ? "Información de Residencia" : "Sedes Operativas"}</h2>
                 </div>
-                <Button type="button" variant="outline" size="sm" onClick={addDireccion} className="gap-2 h-9 text-[var(--color-azul-1)] border-zinc-200 hover:bg-zinc-50 font-bold text-[10px] tracking-wider uppercase">
+                <Button type="button" variant="outline" size="sm" onClick={addDireccion} className="gap-2 h-9 text-azul-1 border-zinc-200 hover:bg-zinc-50 font-bold text-[10px] tracking-wider uppercase">
                   <Plus className="h-3.5 w-3.5" /> {tipoCliente === "NATURAL" ? "AGREGAR OTRA DIRECCIÓN" : "AGREGAR OTRA SEDE"}
                 </Button>
               </div>
@@ -529,7 +520,7 @@ function NuevoClienteContent() {
                         <Label className="text-xs font-bold text-zinc-500 dark:text-zinc-300 uppercase tracking-wider">Dirección Principal <span className="text-red-500">*</span></Label>
                         <div className="flex gap-3">
                           <Input value={dir.direccion} onChange={(e) => handleDireccionChange(dir.id, "direccion", e.target.value)} required className="h-12 border-zinc-200 dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-100 text-base" placeholder="Calle 123 # 45 - 67" />
-                          <Button type="button" onClick={() => validarDireccion(dir.id)} variant="outline" className="h-12 px-6 gap-2 border-[var(--color-azul-1)] text-[var(--color-azul-1)] dark:text-claro-azul-4 dark:border-claro-azul-4/50 hover:bg-[var(--color-azul-1)]/5 transition-all font-bold text-xs"><Search className="h-4 w-4" /> VALIDAR</Button>
+                          <Button type="button" onClick={() => validarDireccion(dir.id)} variant="outline" className="h-12 px-6 gap-2 border-azul-1 text-azul-1 dark:text-claro-azul-4 dark:border-claro-azul-4/50 hover:bg-azul-1/5 transition-all font-bold text-xs"><Search className="h-4 w-4" /> VALIDAR</Button>
                         </div>
                       </div>
 
@@ -593,18 +584,10 @@ function NuevoClienteContent() {
                         <Label className="text-xs font-bold text-zinc-500 dark:text-zinc-300 uppercase tracking-wider">Barrio / Sector</Label>
                         <Input value={dir.barrio} onChange={(e) => handleDireccionChange(dir.id, "barrio", e.target.value)} className="h-11 bg-white dark:bg-zinc-900 dark:border-zinc-700 dark:text-zinc-100" placeholder="Ej: El Poblado" />
                       </div>
-                      {tipoCliente === "NATURAL" && (
-                        <div className="space-y-2">
-                          <Label className="text-xs font-bold text-zinc-500 dark:text-zinc-300 uppercase tracking-wider">Indicaciones Opcionales</Label>
-                          <Input value={dir.restriccionesAcceso} onChange={(e) => handleDireccionChange(dir.id, "restriccionesAcceso", e.target.value)} className="h-11 bg-white dark:bg-zinc-900 dark:border-zinc-700 dark:text-zinc-100" placeholder="Ej: Portón café, cerca al parque" />
-                        </div>
-                      )}
-                    </div>
-
-                    <div className="flex flex-col md:flex-row items-center gap-6 p-6 rounded-2xl bg-zinc-50/50 dark:bg-zinc-900 border border-zinc-100 dark:border-zinc-800">
-                      <div className="flex-1 w-full space-y-1.5"><Label className="text-[10px] font-black text-[var(--color-azul-1)] dark:text-claro-azul-4 uppercase tracking-[0.15em]">Latitud Geográfica</Label><Input value={dir.latitud} onChange={(e) => handleDireccionChange(dir.id, "latitud", e.target.value.replace(/[^0-9.-]/g, ''))} pattern="^[-+]?([1-8]?\d(\.\d+)?|90(\.0+)?)$" title="Latitud válida entre -90 y 90" className="h-10 bg-white dark:bg-zinc-800 dark:text-zinc-100 font-mono text-sm border-zinc-200 dark:border-zinc-700" placeholder="0.0000" /></div>
-                      <div className="flex-1 w-full space-y-1.5"><Label className="text-[10px] font-black text-[var(--color-azul-1)] dark:text-claro-azul-4 uppercase tracking-[0.15em]">Longitud Geográfica</Label><Input value={dir.longitud} onChange={(e) => handleDireccionChange(dir.id, "longitud", e.target.value.replace(/[^0-9.-]/g, ''))} pattern="^[-+]?(180(\.0+)?|((1[0-7]\d)|([1-9]?\d))(\.\d+)?)$" title="Longitud válida entre -180 y 180" className="h-10 bg-white dark:bg-zinc-800 dark:text-zinc-100 font-mono text-sm border-zinc-200 dark:border-zinc-700" placeholder="0.0000" /></div>
-                      <div className={`flex items-center gap-2 px-5 py-2.5 rounded-xl border font-bold text-[10px] uppercase tracking-wider transition-all ${dir.validadoPorSistema ? "bg-green-50 text-green-700 border-green-200 dark:bg-green-500/10 dark:text-green-400 dark:border-green-500/20" : "bg-zinc-100 text-zinc-400 border-zinc-200 dark:bg-zinc-800 dark:text-zinc-500 dark:border-zinc-700"}`}>{dir.validadoPorSistema ? <CheckCircle2 className="h-3.5 w-3.5" /> : <AlertCircle className="h-3.5 w-3.5" />} {dir.validadoPorSistema ? "SISTEMA: GEORREFERENCIADO" : "SISTEMA: PENDIENTE"}</div>
+                      <div className="space-y-2">
+                        <Label className="text-xs font-bold text-zinc-500 dark:text-zinc-300 uppercase tracking-wider">Indicaciones Opcionales</Label>
+                        <Input value={dir.restriccionesAcceso} onChange={(e) => handleDireccionChange(dir.id, "restriccionesAcceso", e.target.value)} className="h-11 bg-white dark:bg-zinc-900 dark:border-zinc-700 dark:text-zinc-100" placeholder="Ej: Portón café, cerca al parque" />
+                      </div>
                     </div>
 
                     {tipoCliente === "EMPRESA" && (
@@ -628,11 +611,11 @@ function NuevoClienteContent() {
 
         <div className="flex-none bg-zinc-50 dark:bg-zinc-900/50 border-t border-zinc-200 dark:border-zinc-800 px-10 py-5 flex items-center justify-between">
           <div className="hidden lg:flex items-center gap-3 text-zinc-400">
-            <GanttChart className="h-5 w-5 text-[var(--color-claro-azul-4)]" />
-            <p className="text-[11px] font-medium max-w-xs leading-relaxed">El registro habilita automáticamente el módulo de planificación de servicios recurrentes.</p>
+            <GanttChart className="h-5 w-5 text-claro-azul-4" />
+            <p className="text-[11px] font-medium max-w-xs leading-relaxed">Actualizando expediente estratégico del cliente en el sistema.</p>
           </div>
           <div className="flex items-center gap-4">
-            <Button variant="ghost" onClick={() => router.push("/dashboard/clientes")} className="h-12 px-8 text-xs font-bold uppercase tracking-widest text-zinc-500 hover:bg-zinc-200">Descartar</Button>
+            <Button variant="ghost" onClick={() => router.push("/dashboard/clientes")} className="h-12 px-8 text-xs font-bold uppercase tracking-widest text-zinc-500 hover:bg-zinc-200">Cancelar</Button>
             <Button
               type="submit"
               form="cliente-form"
@@ -640,7 +623,7 @@ function NuevoClienteContent() {
               className="h-12 px-12 bg-vivido-purpura-2 text-white hover:opacity-90 shadow-xl shadow-vivido-purpura-2/20 transition-all gap-3 border-none rounded-xl"
             >
               {loading ? <div className="h-5 w-5 border-2 border-current border-t-transparent rounded-full animate-spin" /> : <Save className="h-4 w-4" />}
-              <span className="font-bold text-xs tracking-[0.1em] uppercase text-white">Completar Registro</span>
+              <span className="font-bold text-xs tracking-[0.1em] uppercase text-white">Guardar Cambios</span>
             </Button>
           </div>
         </div>
@@ -649,11 +632,11 @@ function NuevoClienteContent() {
   );
 }
 
-export default function NuevoClientePage() {
+export default function EditarClientePage() {
   return (
     <DashboardLayout>
-      <Suspense fallback={<div className="flex h-[80vh] items-center justify-center text-sm text-zinc-500 animate-pulse font-bold uppercase tracking-widest">Iniciando protocolo de registro...</div>}>
-        <NuevoClienteContent />
+      <Suspense fallback={<div className="flex h-[80vh] items-center justify-center text-sm text-zinc-500 animate-pulse font-bold uppercase tracking-widest">Cargando protocolo de edición...</div>}>
+        <EditarClienteContent />
       </Suspense>
     </DashboardLayout>
   );
