@@ -77,7 +77,7 @@ async function main() {
       id: EMPRESA_ID,
       tenantId: TENANT_ID,
       nombre: 'Empresa Principal',
-      estado: true,
+      activo: true,
     },
   });
   console.log(`✅ Empresa asegurada: ${empresa.nombre} (${EMPRESA_ID})`);
@@ -148,14 +148,14 @@ async function main() {
         update: {
           tenantId: TENANT_ID,
           role: role as any,
-          isActive: true,
+          activo: true,
         },
         create: {
           tenantId: TENANT_ID,
           membershipId: membership.id,
           empresaId: EMPRESA_ID,
           role: role as any,
-          isActive: true,
+          activo: true,
         },
       });
       console.log(`   🏢 Membresía Empresa: ${empMembership.id}`);
