@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 
 export function useUserRole() {
-  const [userData, setUserData] = useState<{ tenantId: number | null } | null>(null);
+  const [userData, setUserData] = useState<{ tenantId: string | null } | null>(null);
 
   useEffect(() => {
     const data = localStorage.getItem("user");
@@ -11,7 +11,7 @@ export function useUserRole() {
       try {
         const parsed = JSON.parse(data);
         setTimeout(() => {
-          setUserData({ tenantId: parsed.tenantId ? Number(parsed.tenantId) : null });
+          setUserData({ tenantId: parsed.tenantId || null });
         }, 0);
       } catch {
         setTimeout(() => {

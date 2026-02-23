@@ -2,10 +2,12 @@ import {
   BadRequestException,
   ForbiddenException,
   Injectable,
+  NotFoundException,
   UnprocessableEntityException,
 } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 import { CreateEnterpriseDto } from './dto/create-enterprise.dto';
+import { UpdateEnterpriseDto } from './dto/update-enterprise.dto';
 
 @Injectable()
 export class EnterpriseService {
@@ -37,7 +39,7 @@ export class EnterpriseService {
 
     const { id: membershipId, role } = membership;
 
-    if (role !== 'SU_ADMIN') {
+    if (role !== 'SU_ADMIN' && role !== 'ADMIN') {
       throw new ForbiddenException('Only admins can create new enterprises.');
     }
 
@@ -47,11 +49,6 @@ export class EnterpriseService {
         subscription: {
           include: {
             plan: true,
-          },
-        },
-        _count: {
-          select: {
-            empresas: true,
           },
         },
       },
@@ -75,7 +72,12 @@ export class EnterpriseService {
     }
 
     const maxEmpresas = tenant.subscription.plan.maxEmpresas;
-    const currentEmpresas = tenant._count.empresas;
+    const currentEmpresas = await this.prisma.empresa.count({
+      where: {
+        tenantId,
+        deletedAt: null,
+      },
+    });
 
     if (currentEmpresas >= maxEmpresas) {
       throw new UnprocessableEntityException(
@@ -87,6 +89,7 @@ export class EnterpriseService {
       const empresa = await tx.empresa.create({
         data: {
           nombre: createEnterpriseDto.nombre,
+          activo: createEnterpriseDto.activo ?? true,
           tenant: {
             connect: { id: tenantId },
           },
@@ -99,11 +102,183 @@ export class EnterpriseService {
           empresa: { connect: { id: empresa.id } },
           membership: { connect: { id: membershipId } },
           role: 'SU_ADMIN',
-          isActive: true,
+          activo: true,
         },
       });
 
       return empresa;
+    });
+  }
+
+  async findAll(userId: string, tenantId: string) {
+    if (!tenantId) {
+      throw new BadRequestException('x-tenant-id header is required.');
+    }
+
+    const membership = await this.prisma.tenantMembership.findUnique({
+      where: {
+        userId_tenantId: {
+          userId: userId,
+          tenantId: tenantId,
+        },
+      },
+    });
+
+    if (!membership || membership.status !== 'ACTIVE') {
+      throw new ForbiddenException(
+        'User is not an active member of this tenant.',
+      );
+    }
+
+    const { role } = membership;
+
+    const tenant = await this.prisma.tenant.findUnique({
+      where: { id: tenantId },
+      include: {
+        subscription: {
+          include: {
+            plan: true,
+          },
+        },
+      },
+    });
+
+    let enterprises: Awaited<ReturnType<typeof this.prisma.empresa.findMany>> =
+      [];
+
+    if (role === 'SU_ADMIN') {
+      enterprises = await this.prisma.empresa.findMany({
+        where: {
+          deletedAt: null,
+        },
+      });
+    } else if (role === 'ADMIN') {
+      enterprises = await this.prisma.empresa.findMany({
+        where: {
+          tenantId: tenantId,
+          deletedAt: null,
+        },
+      });
+    } else {
+      // COORDINADOR, ASESOR, etc.
+      const memberships = await this.prisma.empresaMembership.findMany({
+        where: {
+          membershipId: membership.id,
+          deletedAt: null,
+        },
+        include: {
+          empresa: true,
+        },
+      });
+      enterprises = memberships.map((m) => m.empresa);
+    }
+
+    return {
+      items: enterprises,
+      maxEmpresas: tenant?.subscription?.plan?.maxEmpresas || 0,
+      count: enterprises.length,
+    };
+  }
+
+  async update(
+    enterpriseId: string,
+    updateEnterpriseDto: UpdateEnterpriseDto,
+    userId: string,
+    tenantId: string,
+  ) {
+    if (!tenantId) {
+      throw new BadRequestException('x-tenant-id header is required.');
+    }
+
+    const membership = await this.prisma.tenantMembership.findUnique({
+      where: {
+        userId_tenantId: {
+          userId: userId,
+          tenantId: tenantId,
+        },
+      },
+    });
+
+    if (!membership || membership.status !== 'ACTIVE') {
+      throw new ForbiddenException(
+        'User is not an active member of this tenant.',
+      );
+    }
+
+    if (membership.role !== 'SU_ADMIN') {
+      throw new ForbiddenException('Only admins can update enterprises.');
+    }
+
+    const enterprise = await this.prisma.empresa.findFirst({
+      where: {
+        id: enterpriseId,
+        tenantId: tenantId,
+        deletedAt: null,
+      },
+    });
+
+    if (!enterprise) {
+      throw new NotFoundException(
+        'Enterprise not found or does not belong to this tenant.',
+      );
+    }
+
+    return this.prisma.empresa.update({
+      where: {
+        id: enterpriseId,
+      },
+      data: {
+        ...updateEnterpriseDto,
+      },
+    });
+  }
+
+  async remove(enterpriseId: string, userId: string, tenantId: string) {
+    if (!tenantId) {
+      throw new BadRequestException('x-tenant-id header is required.');
+    }
+
+    const membership = await this.prisma.tenantMembership.findUnique({
+      where: {
+        userId_tenantId: {
+          userId: userId,
+          tenantId: tenantId,
+        },
+      },
+    });
+
+    if (!membership || membership.status !== 'ACTIVE') {
+      throw new ForbiddenException(
+        'User is not an active member of this tenant.',
+      );
+    }
+
+    if (membership.role !== 'SU_ADMIN') {
+      throw new ForbiddenException('Only admins can delete enterprises.');
+    }
+
+    const enterprise = await this.prisma.empresa.findFirst({
+      where: {
+        id: enterpriseId,
+        tenantId: tenantId,
+        deletedAt: null,
+      },
+    });
+
+    if (!enterprise) {
+      throw new NotFoundException(
+        'Enterprise not found or does not belong to this tenant.',
+      );
+    }
+
+    return this.prisma.empresa.update({
+      where: {
+        id: enterpriseId,
+      },
+      data: {
+        deletedAt: new Date(),
+        activo: false,
+      },
     });
   }
 }

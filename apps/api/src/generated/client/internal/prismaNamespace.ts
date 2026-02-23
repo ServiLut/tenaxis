@@ -4285,9 +4285,10 @@ export const EmpresaScalarFieldEnum = {
   id: 'id',
   tenantId: 'tenantId',
   nombre: 'nombre',
-  estado: 'estado',
   createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
+  updatedAt: 'updatedAt',
+  activo: 'activo',
+  deletedAt: 'deletedAt'
 } as const
 
 export type EmpresaScalarFieldEnum = (typeof EmpresaScalarFieldEnum)[keyof typeof EmpresaScalarFieldEnum]
@@ -4298,11 +4299,12 @@ export const EmpresaMembershipScalarFieldEnum = {
   tenantId: 'tenantId',
   membershipId: 'membershipId',
   empresaId: 'empresaId',
-  isActive: 'isActive',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
+  deletedAt: 'deletedAt',
   role: 'role',
-  zonaId: 'zonaId'
+  zonaId: 'zonaId',
+  activo: 'activo'
 } as const
 
 export type EmpresaMembershipScalarFieldEnum = (typeof EmpresaMembershipScalarFieldEnum)[keyof typeof EmpresaMembershipScalarFieldEnum]
@@ -5252,6 +5254,20 @@ export type ListEnumTipoClienteFieldRefInput<$PrismaModel> = FieldRefInputType<$
 
 
 /**
+ * Reference to a field of type 'Float'
+ */
+export type FloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float'>
+    
+
+
+/**
+ * Reference to a field of type 'Float[]'
+ */
+export type ListFloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float[]'>
+    
+
+
+/**
  * Reference to a field of type 'EstadoPagoOrden'
  */
 export type EnumEstadoPagoOrdenFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'EstadoPagoOrden'>
@@ -5388,20 +5404,6 @@ export type JsonFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'J
  * Reference to a field of type 'QueryMode'
  */
 export type EnumQueryModeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'QueryMode'>
-    
-
-
-/**
- * Reference to a field of type 'Float'
- */
-export type FloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float'>
-    
-
-
-/**
- * Reference to a field of type 'Float[]'
- */
-export type ListFloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float[]'>
     
 
 /**

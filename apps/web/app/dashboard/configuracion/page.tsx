@@ -34,9 +34,11 @@ import {
   Info,
   Lightbulb,
   CheckCircle2,
-  ListChecks
+  ListChecks,
+  Building
 } from "lucide-react";
 import { cn } from "@/components/ui/utils";
+import { ConfigEmpresas } from "@/components/dashboard/ConfigEmpresas";
 
 type Segmento = {
   id: string;
@@ -65,7 +67,7 @@ type TipoInteres = {
 };
 
 export default function ConfiguracionPage() {
-  const [activeTab, setActiveTab] = useState<"segmentos" | "riesgos" | "intereses">("segmentos");
+  const [activeTab, setActiveTab] = useState<"segmentos" | "riesgos" | "intereses" | "empresas">("segmentos");
   const [loading, setLoading] = useState(true);
   
   const [segmentos, setSegmentos] = useState<Segmento[]>([]);
@@ -76,8 +78,30 @@ export default function ConfiguracionPage() {
   const [editingItem, setEditingItem] = useState<Segmento | Riesgo | TipoInteres | null>(null);
 
   useEffect(() => {
-    loadData();
+    // Sync activeTab with URL hash on mount and hash change
+    const handleHashChange = () => {
+      const hash = window.location.hash.replace('#', '');
+      const validTabs = ["segmentos", "riesgos", "intereses", "empresas"];
+      if (hash && validTabs.includes(hash)) {
+        setActiveTab(hash as "segmentos" | "riesgos" | "intereses" | "empresas");
+      }
+    };
+
+    handleHashChange();
+    window.addEventListener('hashchange', handleHashChange);
+    return () => window.removeEventListener('hashchange', handleHashChange);
   }, []);
+
+  useEffect(() => {
+    if (activeTab !== 'empresas') {
+      loadData();
+    }
+  }, [activeTab]);
+
+  const handleTabChange = (tab: "segmentos" | "riesgos" | "intereses" | "empresas") => {
+    setActiveTab(tab);
+    window.location.hash = tab;
+  };
 
   async function loadData() {
     setLoading(true);
@@ -175,148 +199,177 @@ export default function ConfiguracionPage() {
   };
 
   return (
-    <DashboardLayout>
-      <div className="space-y-8">
-        {/* Header */}
-        <div className="flex flex-col gap-2">
-          <div className="flex items-center gap-3">
-            <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-azul-1/10 text-azul-1">
-              <Settings className="h-6 w-6" />
+    <DashboardLayout overflowHidden>
+      <div className="flex flex-col h-full">
+        {/* Sub-Header Estratégico */}
+        <div className="shrink-0 py-10 px-6 lg:px-10 border-b border-zinc-200/60 dark:border-zinc-800/50 bg-gray-50/50 dark:bg-zinc-900/20">
+          <div className="max-w-[1600px] mx-auto w-full space-y-8">
+            <div className="flex flex-col md:flex-row md:items-center gap-6">
+              <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-azul-1 text-white shadow-xl shadow-azul-1/20">
+                <Settings className="h-5 w-5" />
+              </div>
+              <div>
+                <h1 className="text-2xl lg:text-3xl font-black tracking-tight text-zinc-900 dark:text-white leading-tight">
+                  Configuración del <span className="text-azul-1">Negocio</span>
+                </h1>
+                <p className="text-xs font-bold text-zinc-500 uppercase tracking-[0.2em] mt-1">Personaliza los parámetros operativos de tu empresa</p>
+              </div>
             </div>
-            <div>
-              <h1 className="text-3xl font-black tracking-tight text-zinc-900 dark:text-white">Configuración del Negocio</h1>
-              <p className="text-sm font-bold text-zinc-500 uppercase tracking-wider">Personaliza los parámetros operativos de tu empresa</p>
+
+            {/* Tabs */}
+            <div className="flex gap-2 p-1 bg-zinc-200/50 dark:bg-zinc-800/50 rounded-2xl w-fit border border-zinc-200/50 dark:border-zinc-700/50">
+              <button 
+                onClick={() => handleTabChange("segmentos")}
+                className={cn(
+                  "flex items-center gap-2 px-6 py-2.5 rounded-xl text-xs font-black uppercase tracking-widest transition-all",
+                  activeTab === "segmentos" ? "bg-white dark:bg-zinc-800 text-azul-1 shadow-md" : "text-zinc-500 hover:text-zinc-700 dark:hover:text-zinc-300"
+                )}
+              >
+                <Target className="h-3.5 w-3.5" /> Segmentos
+              </button>
+              <button 
+                onClick={() => handleTabChange("riesgos")}
+                className={cn(
+                  "flex items-center gap-2 px-6 py-2.5 rounded-xl text-xs font-black uppercase tracking-widest transition-all",
+                  activeTab === "riesgos" ? "bg-white dark:bg-zinc-800 text-azul-1 shadow-md" : "text-zinc-500 hover:text-zinc-700 dark:hover:text-zinc-300"
+                )}
+              >
+                <ShieldAlert className="h-3.5 w-3.5" /> Riesgos
+              </button>
+              <button 
+                onClick={() => handleTabChange("intereses")}
+                className={cn(
+                  "flex items-center gap-2 px-6 py-2.5 rounded-xl text-xs font-black uppercase tracking-widest transition-all",
+                  activeTab === "intereses" ? "bg-white dark:bg-zinc-800 text-azul-1 shadow-md" : "text-zinc-500 hover:text-zinc-700 dark:hover:text-zinc-300"
+                )}
+              >
+                <Zap className="h-3.5 w-3.5" /> Intereses
+              </button>
+              <button 
+                onClick={() => handleTabChange("empresas")}
+                className={cn(
+                  "flex items-center gap-2 px-6 py-2.5 rounded-xl text-xs font-black uppercase tracking-widest transition-all",
+                  activeTab === "empresas" ? "bg-white dark:bg-zinc-800 text-azul-1 shadow-md" : "text-zinc-500 hover:text-zinc-700 dark:hover:text-zinc-300"
+                )}
+              >
+                <Building className="h-3.5 w-3.5" /> Empresas
+              </button>
             </div>
           </div>
         </div>
 
-        {/* Tabs */}
-        <div className="flex gap-2 p-1 bg-zinc-100 dark:bg-zinc-900 rounded-2xl w-fit">
-          <button 
-            onClick={() => setActiveTab("segmentos")}
-            className={cn(
-              "flex items-center gap-2 px-6 py-3 rounded-xl text-sm font-bold transition-all",
-              activeTab === "segmentos" ? "bg-white dark:bg-zinc-800 text-azul-1 shadow-sm" : "text-zinc-500 hover:text-zinc-700"
-            )}
-          >
-            <Target className="h-4 w-4" /> Segmentos
-          </button>
-          <button 
-            onClick={() => setActiveTab("riesgos")}
-            className={cn(
-              "flex items-center gap-2 px-6 py-3 rounded-xl text-sm font-bold transition-all",
-              activeTab === "riesgos" ? "bg-white dark:bg-zinc-800 text-azul-1 shadow-sm" : "text-zinc-500 hover:text-zinc-700"
-            )}
-          >
-            <ShieldAlert className="h-4 w-4" /> Riesgos Operativos
-          </button>
-          <button 
-            onClick={() => setActiveTab("intereses")}
-            className={cn(
-              "flex items-center gap-2 px-6 py-3 rounded-xl text-sm font-bold transition-all",
-              activeTab === "intereses" ? "bg-white dark:bg-zinc-800 text-azul-1 shadow-sm" : "text-zinc-500 hover:text-zinc-700"
-            )}
-          >
-            <Zap className="h-4 w-4" /> Tipos de Interés
-          </button>
-        </div>
-
-        {/* Main Content */}
-        <Card className="border-none shadow-xl shadow-zinc-200/50">
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-8">
-            <div>
-              <CardTitle className="text-xl font-black">
-                {activeTab === "segmentos" ? "Segmentos de Negocio" : activeTab === "riesgos" ? "Niveles de Riesgo" : "Tipos de Interés de Servicio"}
-              </CardTitle>
-              <CardDescription className="font-bold text-[10px] uppercase tracking-widest mt-1">
-                {activeTab === "segmentos" ? "Define cómo clasificas a tus clientes por industria" : activeTab === "riesgos" ? "Gestiona los niveles de riesgo para priorizar servicios" : "Administra las opciones de servicio que interesan a tus clientes"}
-              </CardDescription>
-            </div>
-            <Button onClick={() => handleOpenModal()} className="bg-azul-1 hover:bg-azul-1/90 text-white font-bold rounded-xl gap-2 h-11 px-6">
-              <Plus className="h-4 w-4" /> AGREGAR NUEVO
-            </Button>
-          </CardHeader>
-          <CardContent>
-            {loading ? (
-              <div className="flex h-40 items-center justify-center text-zinc-400 font-bold uppercase tracking-widest animate-pulse">Cargando parámetros...</div>
+        {/* Contenedor Principal de Datos (Scrollable) */}
+        <div className="flex-1 min-h-0 overflow-y-auto px-4 sm:px-6 lg:px-10 py-8 sm:py-10">
+          <div className="max-w-[1600px] mx-auto w-full">
+            {activeTab === 'empresas' ? (
+              <ConfigEmpresas />
             ) : (
-              <div className="grid gap-4">
-                {activeTab === "segmentos" && segmentos.map((item) => (
-                  <div key={item.id} className="flex items-center justify-between p-6 bg-zinc-50 dark:bg-zinc-900 rounded-2xl border border-zinc-100 dark:border-zinc-800 hover:border-azul-1/20 transition-colors">
-                    <div className="flex gap-4 items-center">
-                      <div className="h-12 w-12 rounded-xl bg-white dark:bg-zinc-800 flex items-center justify-center border border-zinc-200 dark:border-zinc-700 shadow-sm">
-                        <Target className="h-6 w-6 text-azul-1" />
+              <Card className="border-none shadow-xl shadow-zinc-200/50 dark:shadow-none dark:bg-zinc-900/40 rounded-3xl overflow-hidden">
+                <CardHeader className="flex flex-row items-center justify-between space-y-0 p-8 sm:p-10 border-b border-zinc-100 dark:border-zinc-800 bg-white/50 dark:bg-transparent">
+                  <div>
+                    <CardTitle className="text-xl font-black tracking-tight">
+                      {activeTab === "segmentos" ? "Segmentos de Negocio" : activeTab === "riesgos" ? "Niveles de Riesgo" : "Tipos de Interés"}
+                    </CardTitle>
+                    <CardDescription className="font-bold text-[10px] uppercase tracking-[0.2em] mt-1.5 text-zinc-400">
+                      {activeTab === "segmentos" ? "Define cómo clasificas a tus clientes por industria" : activeTab === "riesgos" ? "Gestiona los niveles de riesgo para priorizar servicios" : "Administra las opciones de servicio que interesan a tus clientes"}
+                    </CardDescription>
+                  </div>
+                  <Button onClick={() => handleOpenModal()} className="bg-azul-1 hover:bg-azul-1/90 text-white font-black uppercase tracking-widest text-[10px] rounded-xl gap-2 h-11 px-6 shadow-lg shadow-azul-1/20 transition-all hover:scale-105 active:scale-95">
+                    <Plus className="h-4 w-4" /> AGREGAR NUEVO
+                  </Button>
+                </CardHeader>
+                <CardContent className="p-8 sm:p-10">
+                  {loading ? (
+                    <div className="flex h-60 items-center justify-center">
+                      <div className="flex flex-col items-center gap-4">
+                        <div className="h-10 w-10 border-4 border-azul-1/20 border-t-azul-1 rounded-full animate-spin" />
+                        <span className="text-[10px] font-black uppercase tracking-[0.3em] text-zinc-400 animate-pulse">Cargando parámetros...</span>
                       </div>
-                      <div>
-                        <h4 className="font-black text-zinc-900 dark:text-white">{item.nombre}</h4>
-                        <p className="text-xs text-zinc-500 font-medium">{item.descripcion || "Sin descripción"}</p>
-                        <div className="flex gap-3 mt-2">
-                          <span className="text-[10px] font-black uppercase tracking-tighter bg-azul-1/10 text-azul-1 px-2 py-0.5 rounded-md flex items-center gap-1">
-                            <Clock className="h-3 w-3" /> Freq: {item.frecuenciaSugerida} días
-                          </span>
-                          <span className="text-[10px] font-black uppercase tracking-tighter bg-amber-100 text-amber-700 px-2 py-0.5 rounded-md flex items-center gap-1">
-                            <AlertTriangle className="h-3 w-3" /> Riesgo: {item.riesgoSugerido}
-                          </span>
+                    </div>
+                  ) : (
+                    <div className="grid gap-4">
+                      {activeTab === "segmentos" && segmentos.map((item) => (
+                        <div key={item.id} className="flex items-center justify-between p-6 bg-zinc-50 dark:bg-zinc-900/50 rounded-2xl border border-zinc-100 dark:border-zinc-800 hover:border-azul-1/20 transition-all group">
+                          <div className="flex gap-4 items-center">
+                            <div className="h-12 w-12 rounded-xl bg-white dark:bg-zinc-800 flex items-center justify-center border border-zinc-200 dark:border-zinc-700 shadow-sm group-hover:scale-110 transition-transform">
+                              <Target className="h-6 w-6 text-azul-1" />
+                            </div>
+                            <div>
+                              <h4 className="font-black text-zinc-900 dark:text-white">{item.nombre}</h4>
+                              <p className="text-xs text-zinc-500 font-medium mt-0.5">{item.descripcion || "Sin descripción"}</p>
+                              <div className="flex gap-3 mt-3">
+                                <span className="text-[10px] font-black uppercase tracking-tighter bg-azul-1/10 text-azul-1 px-2.5 py-1 rounded-md flex items-center gap-1.5 border border-azul-1/10">
+                                  <Clock className="h-3 w-3" /> Freq: {item.frecuenciaSugerida} días
+                                </span>
+                                <span className="text-[10px] font-black uppercase tracking-tighter bg-amber-50 text-amber-700 px-2.5 py-1 rounded-md flex items-center gap-1.5 border border-amber-100">
+                                  <AlertTriangle className="h-3 w-3" /> Riesgo: {item.riesgoSugerido}
+                                </span>
+                              </div>
+                            </div>
+                          </div>
+                          <Button variant="ghost" size="icon" onClick={() => handleOpenModal(item)} className="h-11 w-11 rounded-xl hover:bg-white dark:hover:bg-zinc-800 hover:text-azul-1 shadow-sm border border-transparent hover:border-zinc-200 dark:hover:border-zinc-700 transition-all">
+                            <Pencil className="h-4 w-4" />
+                          </Button>
                         </div>
-                      </div>
-                    </div>
-                    <Button variant="ghost" size="icon" onClick={() => handleOpenModal(item)} className="h-10 w-10 rounded-full hover:bg-white hover:text-azul-1 shadow-sm border border-transparent hover:border-zinc-200">
-                      <Pencil className="h-4 w-4" />
-                    </Button>
-                  </div>
-                ))}
+                      ))}
 
-                {activeTab === "riesgos" && riesgos.map((item) => (
-                  <div key={item.id} className="flex items-center justify-between p-6 bg-zinc-50 dark:bg-zinc-900 rounded-2xl border border-zinc-100 dark:border-zinc-800 hover:border-azul-1/20 transition-colors">
-                    <div className="flex gap-4 items-center">
-                      <div className={cn("h-12 w-12 rounded-xl flex items-center justify-center border shadow-sm", 
-                        item.color === 'emerald' ? 'bg-emerald-50 border-emerald-200 text-emerald-600' :
-                        item.color === 'amber' ? 'bg-amber-50 border-amber-200 text-amber-600' :
-                        item.color === 'orange' ? 'bg-orange-50 border-orange-200 text-orange-600' :
-                        'bg-red-50 border-red-200 text-red-600'
-                      )}>
-                        <ShieldAlert className="h-6 w-6" />
-                      </div>
-                      <div>
-                        <h4 className="font-black text-zinc-900 dark:text-white">{item.nombre}</h4>
-                        <p className="text-xs text-zinc-500 font-black uppercase tracking-widest flex items-center gap-2">
-                          <Hash className="h-3 w-3" /> Valor de Scoring: {item.valor}
-                        </p>
-                      </div>
-                    </div>
-                    <Button variant="ghost" size="icon" onClick={() => handleOpenModal(item)} className="h-10 w-10 rounded-full hover:bg-white hover:text-azul-1 shadow-sm border border-transparent hover:border-zinc-200">
-                      <Pencil className="h-4 w-4" />
-                    </Button>
-                  </div>
-                ))}
+                      {activeTab === "riesgos" && riesgos.map((item) => (
+                        <div key={item.id} className="flex items-center justify-between p-6 bg-zinc-50 dark:bg-zinc-900/50 rounded-2xl border border-zinc-100 dark:border-zinc-800 hover:border-azul-1/20 transition-all group">
+                          <div className="flex gap-4 items-center">
+                            <div className={cn("h-12 w-12 rounded-xl flex items-center justify-center border shadow-sm group-hover:scale-110 transition-transform", 
+                              item.color === 'emerald' ? 'bg-emerald-50 border-emerald-200 text-emerald-600' :
+                              item.color === 'amber' ? 'bg-amber-50 border-amber-200 text-amber-600' :
+                              item.color === 'orange' ? 'bg-orange-50 border-orange-200 text-orange-600' :
+                              'bg-red-50 border-red-200 text-red-600'
+                            )}>
+                              <ShieldAlert className="h-6 w-6" />
+                            </div>
+                            <div>
+                              <h4 className="font-black text-zinc-900 dark:text-white">{item.nombre}</h4>
+                              <p className="text-[10px] text-zinc-400 font-black uppercase tracking-[0.2em] flex items-center gap-2 mt-1">
+                                <Hash className="h-3 w-3 text-zinc-300" /> Valor de Scoring: {item.valor}
+                              </p>
+                            </div>
+                          </div>
+                          <Button variant="ghost" size="icon" onClick={() => handleOpenModal(item)} className="h-11 w-11 rounded-xl hover:bg-white dark:hover:bg-zinc-800 hover:text-azul-1 shadow-sm border border-transparent hover:border-zinc-200 dark:hover:border-zinc-700 transition-all">
+                            <Pencil className="h-4 w-4" />
+                          </Button>
+                        </div>
+                      ))}
 
-                {activeTab === "intereses" && intereses.map((item) => (
-                  <div key={item.id} className="flex items-center justify-between p-6 bg-zinc-50 dark:bg-zinc-900 rounded-2xl border border-zinc-100 dark:border-zinc-800 hover:border-azul-1/20 transition-colors">
-                    <div className="flex gap-4 items-center">
-                      <div className="h-12 w-12 rounded-xl bg-white dark:bg-zinc-800 flex items-center justify-center border border-zinc-200 dark:border-zinc-700 shadow-sm">
-                        <Zap className="h-6 w-6 text-azul-1" />
-                      </div>
-                      <div>
-                        <h4 className="font-black text-zinc-900 dark:text-white">{item.nombre}</h4>
-                        <p className="text-xs text-zinc-500 font-medium">{item.descripcion || "Sin descripción"}</p>
-                      </div>
-                    </div>
-                    <Button variant="ghost" size="icon" onClick={() => handleOpenModal(item)} className="h-10 w-10 rounded-full hover:bg-white hover:text-azul-1 shadow-sm border border-transparent hover:border-zinc-200">
-                      <Pencil className="h-4 w-4" />
-                    </Button>
-                  </div>
-                ))}
+                      {activeTab === "intereses" && intereses.map((item) => (
+                        <div key={item.id} className="flex items-center justify-between p-6 bg-zinc-50 dark:bg-zinc-900/50 rounded-2xl border border-zinc-100 dark:border-zinc-800 hover:border-azul-1/20 transition-all group">
+                          <div className="flex gap-4 items-center">
+                            <div className="h-12 w-12 rounded-xl bg-white dark:bg-zinc-800 flex items-center justify-center border border-zinc-200 dark:border-zinc-700 shadow-sm group-hover:scale-110 transition-transform">
+                              <Zap className="h-6 w-6 text-azul-1" />
+                            </div>
+                            <div>
+                              <h4 className="font-black text-zinc-900 dark:text-white">{item.nombre}</h4>
+                              <p className="text-xs text-zinc-500 font-medium mt-0.5">{item.descripcion || "Sin descripción"}</p>
+                            </div>
+                          </div>
+                          <Button variant="ghost" size="icon" onClick={() => handleOpenModal(item)} className="h-11 w-11 rounded-xl hover:bg-white dark:hover:bg-zinc-800 hover:text-azul-1 shadow-sm border border-transparent hover:border-zinc-200 dark:hover:border-zinc-700 transition-all">
+                            <Pencil className="h-4 w-4" />
+                          </Button>
+                        </div>
+                      ))}
 
-                {!loading && ((activeTab === "segmentos" && segmentos.length === 0) || (activeTab === "riesgos" && riesgos.length === 0) || (activeTab === "intereses" && intereses.length === 0)) && (
-                  <div className="flex flex-col items-center justify-center py-20 text-zinc-400">
-                    <Settings className="h-12 w-12 mb-4 opacity-20" />
-                    <p className="font-bold uppercase tracking-widest text-xs">No hay elementos configurados</p>
-                  </div>
-                )}
-              </div>
+                      {!loading && ((activeTab === "segmentos" && segmentos.length === 0) || (activeTab === "riesgos" && riesgos.length === 0) || (activeTab === "intereses" && intereses.length === 0)) && (
+                        <div className="flex flex-col items-center justify-center py-20 text-zinc-400">
+                          <div className="h-20 w-20 rounded-[2rem] bg-zinc-50 dark:bg-zinc-900 flex items-center justify-center mb-6">
+                            <Settings className="h-10 w-10 opacity-10" />
+                          </div>
+                          <p className="font-black uppercase tracking-[0.3em] text-[10px]">No hay elementos configurados</p>
+                          <Button variant="link" onClick={() => handleOpenModal()} className="text-azul-1 font-bold text-xs mt-2 uppercase tracking-widest">Crear el primero</Button>
+                        </div>
+                      )}
+                    </div>
+                  )}
+                </CardContent>
+              </Card>
             )}
-          </CardContent>
-        </Card>
+          </div>
+        </div>
       </div>
 
       {/* Modal */}

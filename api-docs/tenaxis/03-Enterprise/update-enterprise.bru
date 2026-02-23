@@ -1,0 +1,25 @@
+meta {
+  name: Update Enterprise
+  type: http
+  seq: 2
+}
+
+patch {
+  url: {{local}}/enterprise/{{enterpriseId}}
+  body: json
+  auth: bearer
+}
+
+headers {
+  x-tenant-id: 0d003940-5049-4ebe-86f8-d62605e26a93
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+body:json {
+  {
+    "nombre": "nombre actualizado"
+  }
+}
