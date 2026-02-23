@@ -1,4 +1,8 @@
-import { Injectable, UnauthorizedException } from '@nestjs/common';
+import {
+  Injectable,
+  UnauthorizedException,
+  ConflictException,
+} from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 import { CreateClienteDto } from './dto/create-cliente.dto';
 
@@ -6,14 +10,59 @@ import { CreateClienteDto } from './dto/create-cliente.dto';
 export class ClientesService {
   constructor(private prisma: PrismaService) {}
 
-  async findAll(tenantId: string, empresaId?: string) {
+  async findAll(tenantId: string, empresaId?: string, userRole?: string) {
+    if (userRole === 'SU_ADMIN') {
+      return this.prisma.cliente.findMany({
+        where: {
+          deletedAt: null,
+        },
+        orderBy: { createdAt: 'desc' },
+        include: {
+          direcciones: {
+            include: { municipioRel: true },
+          },
+          vehiculos: true,
+          segmento: true,
+          riesgo: true,
+          tipoInteres: true,
+          tenant: true,
+          empresa: true,
+        },
+      });
+    }
+
+    if (userRole === 'ADMIN') {
+      return this.prisma.cliente.findMany({
+        where: {
+          tenantId,
+          deletedAt: null,
+        },
+        orderBy: { createdAt: 'desc' },
+        include: {
+          direcciones: {
+            include: { municipioRel: true },
+          },
+          vehiculos: true,
+          segmento: true,
+          riesgo: true,
+          tipoInteres: true,
+          empresa: true,
+        },
+      });
+    }
+
+    // For COORDINADOR, ASESOR, and OPERADOR roles
+    if (!empresaId) {
+      return [];
+    }
+
     return this.prisma.cliente.findMany({
       where: {
         tenantId,
-        ...(empresaId && { empresaId }),
+        empresaId,
         deletedAt: null,
       },
-      orderBy: { createdAt: "desc" },
+      orderBy: { createdAt: 'desc' },
       include: {
         direcciones: {
           include: { municipioRel: true },
@@ -22,11 +71,17 @@ export class ClientesService {
         segmento: true,
         riesgo: true,
         tipoInteres: true,
+        empresa: true,
       },
     });
   }
 
-  async create(tenantId: string, userId: string, dto: CreateClienteDto) {
+  async create(
+    tenantId: string,
+    userId: string,
+    dto: CreateClienteDto,
+    reqEmpresaId?: string,
+  ) {
     const {
       direcciones,
       vehiculos,
@@ -46,13 +101,44 @@ export class ClientesService {
         'No eres miembro de este tenant. No puedes crear clientes.',
       );
     }
-    const empresaId = membership?.empresaMemberships[0]?.empresaId;
+    const empresaId =
+      reqEmpresaId || membership?.empresaMemberships[0]?.empresaId;
 
     const toDecimal = (val: any, decimals: number = 2) => {
       if (val === null || val === undefined || val === '') return null;
       const num = Number(val);
       return isNaN(num) ? null : num.toFixed(decimals);
     };
+
+    const orConditions: any[] = [];
+    if (
+      clienteData.numeroDocumento &&
+      clienteData.numeroDocumento !== 'No Concretado'
+    ) {
+      orConditions.push({ numeroDocumento: clienteData.numeroDocumento });
+    }
+    if (clienteData.nit && clienteData.nit !== 'No Concretado') {
+      orConditions.push({ nit: clienteData.nit });
+    }
+    if (clienteData.telefono && clienteData.telefono !== 'No Concretado') {
+      orConditions.push({ telefono: clienteData.telefono });
+    }
+
+    if (orConditions.length > 0) {
+      const existingClient = await this.prisma.cliente.findFirst({
+        where: {
+          tenantId,
+          OR: orConditions,
+          deletedAt: null,
+        },
+      });
+
+      if (existingClient) {
+        throw new ConflictException(
+          'Ya existe un cliente con este número de documento, NIT o teléfono en el sistema.',
+        );
+      }
+    }
 
     const data = {
       ...clienteData,
@@ -101,5 +187,86 @@ export class ClientesService {
       console.error('Prisma Error:', error);
       throw error;
     }
+  }
+
+  async findOne(id: string, tenantId: string) {
+    return this.prisma.cliente.findFirst({
+      where: { id, tenantId, deletedAt: null },
+      include: {
+        direcciones: {
+          include: { municipioRel: true },
+        },
+        vehiculos: true,
+        segmento: true,
+        riesgo: true,
+        tipoInteres: true,
+      },
+    });
+  }
+
+  async update(
+    id: string,
+    tenantId: string,
+    userId: string,
+    dto: Partial<CreateClienteDto>,
+  ) {
+    const {
+      direcciones,
+      vehiculos,
+      segmentoId,
+      riesgoId,
+      metrajeTotal,
+      ...clienteData
+    } = dto;
+
+    const toDecimal = (val: unknown, decimals: number = 2) => {
+      if (val === null || val === undefined || val === '') return null;
+      const num = Number(val);
+      return isNaN(num) ? null : num.toFixed(decimals);
+    };
+
+    // For simplicity in this update, we delete and recreate direcciones and vehiculos
+    // A more advanced version would use upsert or nested updates
+    await this.prisma.direccion.deleteMany({ where: { clienteId: id } });
+    await this.prisma.vehiculo.deleteMany({ where: { clienteId: id } });
+
+    return this.prisma.cliente.update({
+      where: { id },
+      data: {
+        ...clienteData,
+        segmentoId,
+        riesgoId,
+        metrajeTotal: toDecimal(metrajeTotal, 2),
+        direcciones: {
+          create: direcciones?.map((d) => ({
+            ...d,
+            tenantId,
+            latitud: d.latitud ? Number(d.latitud) : null,
+            longitud: d.longitud ? Number(d.longitud) : null,
+            precisionGPS: toDecimal(d.precisionGPS, 2),
+          })),
+        },
+        vehiculos: {
+          create: vehiculos?.map((v) => ({
+            ...v,
+            tenantId,
+          })),
+        },
+      },
+      include: {
+        direcciones: true,
+        vehiculos: true,
+        segmento: true,
+        riesgo: true,
+        tipoInteres: true,
+      },
+    });
+  }
+
+  async remove(id: string, tenantId: string) {
+    return this.prisma.cliente.update({
+      where: { id, tenantId },
+      data: { deletedAt: new Date() },
+    });
   }
 }

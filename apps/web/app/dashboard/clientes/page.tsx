@@ -4,6 +4,8 @@ import { getClientesAction } from "../actions";
 import { ClienteList } from "./cliente-list";
 import { Contact } from "lucide-react";
 
+export const dynamic = "force-dynamic";
+
 export default async function ClientesPage() {
   const clientes = await getClientesAction();
 

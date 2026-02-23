@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import { Building2, ChevronsUpDown, Loader2, Check } from "lucide-react";
+import { Building2, ChevronsUpDown, Check } from "lucide-react";
 import { getEnterprisesAction } from "@/app/dashboard/actions";
 import { cn } from "@/components/ui/utils";
 import {

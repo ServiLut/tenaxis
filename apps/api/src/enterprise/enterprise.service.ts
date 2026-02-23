@@ -40,7 +40,7 @@ export class EnterpriseService {
 
     const { id: membershipId, role } = membership;
 
-    if (role !== 'SU_ADMIN') {
+    if (role !== 'SU_ADMIN' && role !== 'ADMIN') {
       throw new ForbiddenException('Only admins can create new enterprises.');
     }
 
