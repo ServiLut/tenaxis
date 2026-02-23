@@ -28,42 +28,42 @@ export type UserMinAggregateOutputType = {
   id: string | null
   email: string | null
   password: string | null
-  nombre: string | null
-  apellido: string | null
-  telefono: string | null
-  tipoDocumento: string | null
-  numeroDocumento: string | null
   isActive: boolean | null
   createdAt: Date | null
   updatedAt: Date | null
+  apellido: string | null
+  nombre: string | null
+  numeroDocumento: string | null
+  telefono: string | null
+  tipoDocumento: string | null
 }
 
 export type UserMaxAggregateOutputType = {
   id: string | null
   email: string | null
   password: string | null
-  nombre: string | null
-  apellido: string | null
-  telefono: string | null
-  tipoDocumento: string | null
-  numeroDocumento: string | null
   isActive: boolean | null
   createdAt: Date | null
   updatedAt: Date | null
+  apellido: string | null
+  nombre: string | null
+  numeroDocumento: string | null
+  telefono: string | null
+  tipoDocumento: string | null
 }
 
 export type UserCountAggregateOutputType = {
   id: number
   email: number
   password: number
-  nombre: number
-  apellido: number
-  telefono: number
-  tipoDocumento: number
-  numeroDocumento: number
   isActive: number
   createdAt: number
   updatedAt: number
+  apellido: number
+  nombre: number
+  numeroDocumento: number
+  telefono: number
+  tipoDocumento: number
   _all: number
 }
 
@@ -72,42 +72,42 @@ export type UserMinAggregateInputType = {
   id?: true
   email?: true
   password?: true
-  nombre?: true
-  apellido?: true
-  telefono?: true
-  tipoDocumento?: true
-  numeroDocumento?: true
   isActive?: true
   createdAt?: true
   updatedAt?: true
+  apellido?: true
+  nombre?: true
+  numeroDocumento?: true
+  telefono?: true
+  tipoDocumento?: true
 }
 
 export type UserMaxAggregateInputType = {
   id?: true
   email?: true
   password?: true
-  nombre?: true
-  apellido?: true
-  telefono?: true
-  tipoDocumento?: true
-  numeroDocumento?: true
   isActive?: true
   createdAt?: true
   updatedAt?: true
+  apellido?: true
+  nombre?: true
+  numeroDocumento?: true
+  telefono?: true
+  tipoDocumento?: true
 }
 
 export type UserCountAggregateInputType = {
   id?: true
   email?: true
   password?: true
-  nombre?: true
-  apellido?: true
-  telefono?: true
-  tipoDocumento?: true
-  numeroDocumento?: true
   isActive?: true
   createdAt?: true
   updatedAt?: true
+  apellido?: true
+  nombre?: true
+  numeroDocumento?: true
+  telefono?: true
+  tipoDocumento?: true
   _all?: true
 }
 
@@ -187,14 +187,14 @@ export type UserGroupByOutputType = {
   id: string
   email: string
   password: string
-  nombre: string
-  apellido: string
-  telefono: string | null
-  tipoDocumento: string | null
-  numeroDocumento: string | null
   isActive: boolean
   createdAt: Date
   updatedAt: Date
+  apellido: string
+  nombre: string
+  numeroDocumento: string | null
+  telefono: string | null
+  tipoDocumento: string | null
   _count: UserCountAggregateOutputType | null
   _min: UserMinAggregateOutputType | null
   _max: UserMaxAggregateOutputType | null
@@ -222,14 +222,14 @@ export type UserWhereInput = {
   id?: Prisma.UuidFilter<"User"> | string
   email?: Prisma.StringFilter<"User"> | string
   password?: Prisma.StringFilter<"User"> | string
-  nombre?: Prisma.StringFilter<"User"> | string
-  apellido?: Prisma.StringFilter<"User"> | string
-  telefono?: Prisma.StringNullableFilter<"User"> | string | null
-  tipoDocumento?: Prisma.StringNullableFilter<"User"> | string | null
-  numeroDocumento?: Prisma.StringNullableFilter<"User"> | string | null
   isActive?: Prisma.BoolFilter<"User"> | boolean
   createdAt?: Prisma.DateTimeFilter<"User"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"User"> | Date | string
+  apellido?: Prisma.StringFilter<"User"> | string
+  nombre?: Prisma.StringFilter<"User"> | string
+  numeroDocumento?: Prisma.StringNullableFilter<"User"> | string | null
+  telefono?: Prisma.StringNullableFilter<"User"> | string | null
+  tipoDocumento?: Prisma.StringNullableFilter<"User"> | string | null
   sessions?: Prisma.AuthSessionListRelationFilter
   resetTokens?: Prisma.PasswordResetTokenListRelationFilter
   memberships?: Prisma.TenantMembershipListRelationFilter
@@ -239,14 +239,14 @@ export type UserOrderByWithRelationInput = {
   id?: Prisma.SortOrder
   email?: Prisma.SortOrder
   password?: Prisma.SortOrder
-  nombre?: Prisma.SortOrder
-  apellido?: Prisma.SortOrder
-  telefono?: Prisma.SortOrderInput | Prisma.SortOrder
-  tipoDocumento?: Prisma.SortOrderInput | Prisma.SortOrder
-  numeroDocumento?: Prisma.SortOrderInput | Prisma.SortOrder
   isActive?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  apellido?: Prisma.SortOrder
+  nombre?: Prisma.SortOrder
+  numeroDocumento?: Prisma.SortOrderInput | Prisma.SortOrder
+  telefono?: Prisma.SortOrderInput | Prisma.SortOrder
+  tipoDocumento?: Prisma.SortOrderInput | Prisma.SortOrder
   sessions?: Prisma.AuthSessionOrderByRelationAggregateInput
   resetTokens?: Prisma.PasswordResetTokenOrderByRelationAggregateInput
   memberships?: Prisma.TenantMembershipOrderByRelationAggregateInput
@@ -260,13 +260,13 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   OR?: Prisma.UserWhereInput[]
   NOT?: Prisma.UserWhereInput | Prisma.UserWhereInput[]
   password?: Prisma.StringFilter<"User"> | string
-  nombre?: Prisma.StringFilter<"User"> | string
-  apellido?: Prisma.StringFilter<"User"> | string
-  telefono?: Prisma.StringNullableFilter<"User"> | string | null
-  tipoDocumento?: Prisma.StringNullableFilter<"User"> | string | null
   isActive?: Prisma.BoolFilter<"User"> | boolean
   createdAt?: Prisma.DateTimeFilter<"User"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"User"> | Date | string
+  apellido?: Prisma.StringFilter<"User"> | string
+  nombre?: Prisma.StringFilter<"User"> | string
+  telefono?: Prisma.StringNullableFilter<"User"> | string | null
+  tipoDocumento?: Prisma.StringNullableFilter<"User"> | string | null
   sessions?: Prisma.AuthSessionListRelationFilter
   resetTokens?: Prisma.PasswordResetTokenListRelationFilter
   memberships?: Prisma.TenantMembershipListRelationFilter
@@ -276,14 +276,14 @@ export type UserOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
   email?: Prisma.SortOrder
   password?: Prisma.SortOrder
-  nombre?: Prisma.SortOrder
-  apellido?: Prisma.SortOrder
-  telefono?: Prisma.SortOrderInput | Prisma.SortOrder
-  tipoDocumento?: Prisma.SortOrderInput | Prisma.SortOrder
-  numeroDocumento?: Prisma.SortOrderInput | Prisma.SortOrder
   isActive?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  apellido?: Prisma.SortOrder
+  nombre?: Prisma.SortOrder
+  numeroDocumento?: Prisma.SortOrderInput | Prisma.SortOrder
+  telefono?: Prisma.SortOrderInput | Prisma.SortOrder
+  tipoDocumento?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.UserCountOrderByAggregateInput
   _max?: Prisma.UserMaxOrderByAggregateInput
   _min?: Prisma.UserMinOrderByAggregateInput
@@ -296,28 +296,28 @@ export type UserScalarWhereWithAggregatesInput = {
   id?: Prisma.UuidWithAggregatesFilter<"User"> | string
   email?: Prisma.StringWithAggregatesFilter<"User"> | string
   password?: Prisma.StringWithAggregatesFilter<"User"> | string
-  nombre?: Prisma.StringWithAggregatesFilter<"User"> | string
-  apellido?: Prisma.StringWithAggregatesFilter<"User"> | string
-  telefono?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
-  tipoDocumento?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
-  numeroDocumento?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
   isActive?: Prisma.BoolWithAggregatesFilter<"User"> | boolean
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"User"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"User"> | Date | string
+  apellido?: Prisma.StringWithAggregatesFilter<"User"> | string
+  nombre?: Prisma.StringWithAggregatesFilter<"User"> | string
+  numeroDocumento?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
+  telefono?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
+  tipoDocumento?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
 }
 
 export type UserCreateInput = {
   id?: string
   email: string
   password: string
-  nombre: string
-  apellido: string
-  telefono?: string | null
-  tipoDocumento?: string | null
-  numeroDocumento?: string | null
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  apellido: string
+  nombre: string
+  numeroDocumento?: string | null
+  telefono?: string | null
+  tipoDocumento?: string | null
   sessions?: Prisma.AuthSessionCreateNestedManyWithoutUserInput
   resetTokens?: Prisma.PasswordResetTokenCreateNestedManyWithoutUserInput
   memberships?: Prisma.TenantMembershipCreateNestedManyWithoutUserInput
@@ -327,14 +327,14 @@ export type UserUncheckedCreateInput = {
   id?: string
   email: string
   password: string
-  nombre: string
-  apellido: string
-  telefono?: string | null
-  tipoDocumento?: string | null
-  numeroDocumento?: string | null
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  apellido: string
+  nombre: string
+  numeroDocumento?: string | null
+  telefono?: string | null
+  tipoDocumento?: string | null
   sessions?: Prisma.AuthSessionUncheckedCreateNestedManyWithoutUserInput
   resetTokens?: Prisma.PasswordResetTokenUncheckedCreateNestedManyWithoutUserInput
   memberships?: Prisma.TenantMembershipUncheckedCreateNestedManyWithoutUserInput
@@ -344,14 +344,14 @@ export type UserUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
-  nombre?: Prisma.StringFieldUpdateOperationsInput | string
-  apellido?: Prisma.StringFieldUpdateOperationsInput | string
-  telefono?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  tipoDocumento?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  numeroDocumento?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  apellido?: Prisma.StringFieldUpdateOperationsInput | string
+  nombre?: Prisma.StringFieldUpdateOperationsInput | string
+  numeroDocumento?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  telefono?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tipoDocumento?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   sessions?: Prisma.AuthSessionUpdateManyWithoutUserNestedInput
   resetTokens?: Prisma.PasswordResetTokenUpdateManyWithoutUserNestedInput
   memberships?: Prisma.TenantMembershipUpdateManyWithoutUserNestedInput
@@ -361,14 +361,14 @@ export type UserUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
-  nombre?: Prisma.StringFieldUpdateOperationsInput | string
-  apellido?: Prisma.StringFieldUpdateOperationsInput | string
-  telefono?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  tipoDocumento?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  numeroDocumento?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  apellido?: Prisma.StringFieldUpdateOperationsInput | string
+  nombre?: Prisma.StringFieldUpdateOperationsInput | string
+  numeroDocumento?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  telefono?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tipoDocumento?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   sessions?: Prisma.AuthSessionUncheckedUpdateManyWithoutUserNestedInput
   resetTokens?: Prisma.PasswordResetTokenUncheckedUpdateManyWithoutUserNestedInput
   memberships?: Prisma.TenantMembershipUncheckedUpdateManyWithoutUserNestedInput
@@ -378,84 +378,84 @@ export type UserCreateManyInput = {
   id?: string
   email: string
   password: string
-  nombre: string
-  apellido: string
-  telefono?: string | null
-  tipoDocumento?: string | null
-  numeroDocumento?: string | null
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  apellido: string
+  nombre: string
+  numeroDocumento?: string | null
+  telefono?: string | null
+  tipoDocumento?: string | null
 }
 
 export type UserUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
-  nombre?: Prisma.StringFieldUpdateOperationsInput | string
-  apellido?: Prisma.StringFieldUpdateOperationsInput | string
-  telefono?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  tipoDocumento?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  numeroDocumento?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  apellido?: Prisma.StringFieldUpdateOperationsInput | string
+  nombre?: Prisma.StringFieldUpdateOperationsInput | string
+  numeroDocumento?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  telefono?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tipoDocumento?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type UserUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
-  nombre?: Prisma.StringFieldUpdateOperationsInput | string
-  apellido?: Prisma.StringFieldUpdateOperationsInput | string
-  telefono?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  tipoDocumento?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  numeroDocumento?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  apellido?: Prisma.StringFieldUpdateOperationsInput | string
+  nombre?: Prisma.StringFieldUpdateOperationsInput | string
+  numeroDocumento?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  telefono?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tipoDocumento?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type UserCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   email?: Prisma.SortOrder
   password?: Prisma.SortOrder
-  nombre?: Prisma.SortOrder
-  apellido?: Prisma.SortOrder
-  telefono?: Prisma.SortOrder
-  tipoDocumento?: Prisma.SortOrder
-  numeroDocumento?: Prisma.SortOrder
   isActive?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  apellido?: Prisma.SortOrder
+  nombre?: Prisma.SortOrder
+  numeroDocumento?: Prisma.SortOrder
+  telefono?: Prisma.SortOrder
+  tipoDocumento?: Prisma.SortOrder
 }
 
 export type UserMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
   email?: Prisma.SortOrder
   password?: Prisma.SortOrder
-  nombre?: Prisma.SortOrder
-  apellido?: Prisma.SortOrder
-  telefono?: Prisma.SortOrder
-  tipoDocumento?: Prisma.SortOrder
-  numeroDocumento?: Prisma.SortOrder
   isActive?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  apellido?: Prisma.SortOrder
+  nombre?: Prisma.SortOrder
+  numeroDocumento?: Prisma.SortOrder
+  telefono?: Prisma.SortOrder
+  tipoDocumento?: Prisma.SortOrder
 }
 
 export type UserMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
   email?: Prisma.SortOrder
   password?: Prisma.SortOrder
-  nombre?: Prisma.SortOrder
-  apellido?: Prisma.SortOrder
-  telefono?: Prisma.SortOrder
-  tipoDocumento?: Prisma.SortOrder
-  numeroDocumento?: Prisma.SortOrder
   isActive?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  apellido?: Prisma.SortOrder
+  nombre?: Prisma.SortOrder
+  numeroDocumento?: Prisma.SortOrder
+  telefono?: Prisma.SortOrder
+  tipoDocumento?: Prisma.SortOrder
 }
 
 export type UserScalarRelationFilter = {
@@ -467,16 +467,16 @@ export type StringFieldUpdateOperationsInput = {
   set?: string
 }
 
-export type NullableStringFieldUpdateOperationsInput = {
-  set?: string | null
-}
-
 export type BoolFieldUpdateOperationsInput = {
   set?: boolean
 }
 
 export type DateTimeFieldUpdateOperationsInput = {
   set?: Date | string
+}
+
+export type NullableStringFieldUpdateOperationsInput = {
+  set?: string | null
 }
 
 export type UserCreateNestedOneWithoutMembershipsInput = {
@@ -525,14 +525,14 @@ export type UserCreateWithoutMembershipsInput = {
   id?: string
   email: string
   password: string
-  nombre: string
-  apellido: string
-  telefono?: string | null
-  tipoDocumento?: string | null
-  numeroDocumento?: string | null
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  apellido: string
+  nombre: string
+  numeroDocumento?: string | null
+  telefono?: string | null
+  tipoDocumento?: string | null
   sessions?: Prisma.AuthSessionCreateNestedManyWithoutUserInput
   resetTokens?: Prisma.PasswordResetTokenCreateNestedManyWithoutUserInput
 }
@@ -541,14 +541,14 @@ export type UserUncheckedCreateWithoutMembershipsInput = {
   id?: string
   email: string
   password: string
-  nombre: string
-  apellido: string
-  telefono?: string | null
-  tipoDocumento?: string | null
-  numeroDocumento?: string | null
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  apellido: string
+  nombre: string
+  numeroDocumento?: string | null
+  telefono?: string | null
+  tipoDocumento?: string | null
   sessions?: Prisma.AuthSessionUncheckedCreateNestedManyWithoutUserInput
   resetTokens?: Prisma.PasswordResetTokenUncheckedCreateNestedManyWithoutUserInput
 }
@@ -573,14 +573,14 @@ export type UserUpdateWithoutMembershipsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
-  nombre?: Prisma.StringFieldUpdateOperationsInput | string
-  apellido?: Prisma.StringFieldUpdateOperationsInput | string
-  telefono?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  tipoDocumento?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  numeroDocumento?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  apellido?: Prisma.StringFieldUpdateOperationsInput | string
+  nombre?: Prisma.StringFieldUpdateOperationsInput | string
+  numeroDocumento?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  telefono?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tipoDocumento?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   sessions?: Prisma.AuthSessionUpdateManyWithoutUserNestedInput
   resetTokens?: Prisma.PasswordResetTokenUpdateManyWithoutUserNestedInput
 }
@@ -589,14 +589,14 @@ export type UserUncheckedUpdateWithoutMembershipsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
-  nombre?: Prisma.StringFieldUpdateOperationsInput | string
-  apellido?: Prisma.StringFieldUpdateOperationsInput | string
-  telefono?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  tipoDocumento?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  numeroDocumento?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  apellido?: Prisma.StringFieldUpdateOperationsInput | string
+  nombre?: Prisma.StringFieldUpdateOperationsInput | string
+  numeroDocumento?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  telefono?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tipoDocumento?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   sessions?: Prisma.AuthSessionUncheckedUpdateManyWithoutUserNestedInput
   resetTokens?: Prisma.PasswordResetTokenUncheckedUpdateManyWithoutUserNestedInput
 }
@@ -605,14 +605,14 @@ export type UserCreateWithoutSessionsInput = {
   id?: string
   email: string
   password: string
-  nombre: string
-  apellido: string
-  telefono?: string | null
-  tipoDocumento?: string | null
-  numeroDocumento?: string | null
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  apellido: string
+  nombre: string
+  numeroDocumento?: string | null
+  telefono?: string | null
+  tipoDocumento?: string | null
   resetTokens?: Prisma.PasswordResetTokenCreateNestedManyWithoutUserInput
   memberships?: Prisma.TenantMembershipCreateNestedManyWithoutUserInput
 }
@@ -621,14 +621,14 @@ export type UserUncheckedCreateWithoutSessionsInput = {
   id?: string
   email: string
   password: string
-  nombre: string
-  apellido: string
-  telefono?: string | null
-  tipoDocumento?: string | null
-  numeroDocumento?: string | null
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  apellido: string
+  nombre: string
+  numeroDocumento?: string | null
+  telefono?: string | null
+  tipoDocumento?: string | null
   resetTokens?: Prisma.PasswordResetTokenUncheckedCreateNestedManyWithoutUserInput
   memberships?: Prisma.TenantMembershipUncheckedCreateNestedManyWithoutUserInput
 }
@@ -653,14 +653,14 @@ export type UserUpdateWithoutSessionsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
-  nombre?: Prisma.StringFieldUpdateOperationsInput | string
-  apellido?: Prisma.StringFieldUpdateOperationsInput | string
-  telefono?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  tipoDocumento?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  numeroDocumento?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  apellido?: Prisma.StringFieldUpdateOperationsInput | string
+  nombre?: Prisma.StringFieldUpdateOperationsInput | string
+  numeroDocumento?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  telefono?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tipoDocumento?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   resetTokens?: Prisma.PasswordResetTokenUpdateManyWithoutUserNestedInput
   memberships?: Prisma.TenantMembershipUpdateManyWithoutUserNestedInput
 }
@@ -669,14 +669,14 @@ export type UserUncheckedUpdateWithoutSessionsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
-  nombre?: Prisma.StringFieldUpdateOperationsInput | string
-  apellido?: Prisma.StringFieldUpdateOperationsInput | string
-  telefono?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  tipoDocumento?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  numeroDocumento?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  apellido?: Prisma.StringFieldUpdateOperationsInput | string
+  nombre?: Prisma.StringFieldUpdateOperationsInput | string
+  numeroDocumento?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  telefono?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tipoDocumento?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   resetTokens?: Prisma.PasswordResetTokenUncheckedUpdateManyWithoutUserNestedInput
   memberships?: Prisma.TenantMembershipUncheckedUpdateManyWithoutUserNestedInput
 }
@@ -685,14 +685,14 @@ export type UserCreateWithoutResetTokensInput = {
   id?: string
   email: string
   password: string
-  nombre: string
-  apellido: string
-  telefono?: string | null
-  tipoDocumento?: string | null
-  numeroDocumento?: string | null
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  apellido: string
+  nombre: string
+  numeroDocumento?: string | null
+  telefono?: string | null
+  tipoDocumento?: string | null
   sessions?: Prisma.AuthSessionCreateNestedManyWithoutUserInput
   memberships?: Prisma.TenantMembershipCreateNestedManyWithoutUserInput
 }
@@ -701,14 +701,14 @@ export type UserUncheckedCreateWithoutResetTokensInput = {
   id?: string
   email: string
   password: string
-  nombre: string
-  apellido: string
-  telefono?: string | null
-  tipoDocumento?: string | null
-  numeroDocumento?: string | null
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  apellido: string
+  nombre: string
+  numeroDocumento?: string | null
+  telefono?: string | null
+  tipoDocumento?: string | null
   sessions?: Prisma.AuthSessionUncheckedCreateNestedManyWithoutUserInput
   memberships?: Prisma.TenantMembershipUncheckedCreateNestedManyWithoutUserInput
 }
@@ -733,14 +733,14 @@ export type UserUpdateWithoutResetTokensInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
-  nombre?: Prisma.StringFieldUpdateOperationsInput | string
-  apellido?: Prisma.StringFieldUpdateOperationsInput | string
-  telefono?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  tipoDocumento?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  numeroDocumento?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  apellido?: Prisma.StringFieldUpdateOperationsInput | string
+  nombre?: Prisma.StringFieldUpdateOperationsInput | string
+  numeroDocumento?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  telefono?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tipoDocumento?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   sessions?: Prisma.AuthSessionUpdateManyWithoutUserNestedInput
   memberships?: Prisma.TenantMembershipUpdateManyWithoutUserNestedInput
 }
@@ -749,14 +749,14 @@ export type UserUncheckedUpdateWithoutResetTokensInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
-  nombre?: Prisma.StringFieldUpdateOperationsInput | string
-  apellido?: Prisma.StringFieldUpdateOperationsInput | string
-  telefono?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  tipoDocumento?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  numeroDocumento?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  apellido?: Prisma.StringFieldUpdateOperationsInput | string
+  nombre?: Prisma.StringFieldUpdateOperationsInput | string
+  numeroDocumento?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  telefono?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tipoDocumento?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   sessions?: Prisma.AuthSessionUncheckedUpdateManyWithoutUserNestedInput
   memberships?: Prisma.TenantMembershipUncheckedUpdateManyWithoutUserNestedInput
 }
@@ -814,14 +814,14 @@ export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   id?: boolean
   email?: boolean
   password?: boolean
-  nombre?: boolean
-  apellido?: boolean
-  telefono?: boolean
-  tipoDocumento?: boolean
-  numeroDocumento?: boolean
   isActive?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  apellido?: boolean
+  nombre?: boolean
+  numeroDocumento?: boolean
+  telefono?: boolean
+  tipoDocumento?: boolean
   sessions?: boolean | Prisma.User$sessionsArgs<ExtArgs>
   resetTokens?: boolean | Prisma.User$resetTokensArgs<ExtArgs>
   memberships?: boolean | Prisma.User$membershipsArgs<ExtArgs>
@@ -832,45 +832,45 @@ export type UserSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   id?: boolean
   email?: boolean
   password?: boolean
-  nombre?: boolean
-  apellido?: boolean
-  telefono?: boolean
-  tipoDocumento?: boolean
-  numeroDocumento?: boolean
   isActive?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  apellido?: boolean
+  nombre?: boolean
+  numeroDocumento?: boolean
+  telefono?: boolean
+  tipoDocumento?: boolean
 }, ExtArgs["result"]["user"]>
 
 export type UserSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   email?: boolean
   password?: boolean
-  nombre?: boolean
-  apellido?: boolean
-  telefono?: boolean
-  tipoDocumento?: boolean
-  numeroDocumento?: boolean
   isActive?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  apellido?: boolean
+  nombre?: boolean
+  numeroDocumento?: boolean
+  telefono?: boolean
+  tipoDocumento?: boolean
 }, ExtArgs["result"]["user"]>
 
 export type UserSelectScalar = {
   id?: boolean
   email?: boolean
   password?: boolean
-  nombre?: boolean
-  apellido?: boolean
-  telefono?: boolean
-  tipoDocumento?: boolean
-  numeroDocumento?: boolean
   isActive?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  apellido?: boolean
+  nombre?: boolean
+  numeroDocumento?: boolean
+  telefono?: boolean
+  tipoDocumento?: boolean
 }
 
-export type UserOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "email" | "password" | "nombre" | "apellido" | "telefono" | "tipoDocumento" | "numeroDocumento" | "isActive" | "createdAt" | "updatedAt", ExtArgs["result"]["user"]>
+export type UserOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "email" | "password" | "isActive" | "createdAt" | "updatedAt" | "apellido" | "nombre" | "numeroDocumento" | "telefono" | "tipoDocumento", ExtArgs["result"]["user"]>
 export type UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   sessions?: boolean | Prisma.User$sessionsArgs<ExtArgs>
   resetTokens?: boolean | Prisma.User$resetTokensArgs<ExtArgs>
@@ -891,14 +891,14 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     id: string
     email: string
     password: string
-    nombre: string
-    apellido: string
-    telefono: string | null
-    tipoDocumento: string | null
-    numeroDocumento: string | null
     isActive: boolean
     createdAt: Date
     updatedAt: Date
+    apellido: string
+    nombre: string
+    numeroDocumento: string | null
+    telefono: string | null
+    tipoDocumento: string | null
   }, ExtArgs["result"]["user"]>
   composites: {}
 }
@@ -1328,14 +1328,14 @@ export interface UserFieldRefs {
   readonly id: Prisma.FieldRef<"User", 'String'>
   readonly email: Prisma.FieldRef<"User", 'String'>
   readonly password: Prisma.FieldRef<"User", 'String'>
-  readonly nombre: Prisma.FieldRef<"User", 'String'>
-  readonly apellido: Prisma.FieldRef<"User", 'String'>
-  readonly telefono: Prisma.FieldRef<"User", 'String'>
-  readonly tipoDocumento: Prisma.FieldRef<"User", 'String'>
-  readonly numeroDocumento: Prisma.FieldRef<"User", 'String'>
   readonly isActive: Prisma.FieldRef<"User", 'Boolean'>
   readonly createdAt: Prisma.FieldRef<"User", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"User", 'DateTime'>
+  readonly apellido: Prisma.FieldRef<"User", 'String'>
+  readonly nombre: Prisma.FieldRef<"User", 'String'>
+  readonly numeroDocumento: Prisma.FieldRef<"User", 'String'>
+  readonly telefono: Prisma.FieldRef<"User", 'String'>
+  readonly tipoDocumento: Prisma.FieldRef<"User", 'String'>
 }
     
 

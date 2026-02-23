@@ -39,11 +39,11 @@ export type SegmentoNegocioMinAggregateOutputType = {
   tenantId: string | null
   nombre: string | null
   descripcion: string | null
-  frecuenciaSugerida: number | null
-  riesgoSugerido: string | null
   activo: boolean | null
   createdAt: Date | null
   updatedAt: Date | null
+  frecuenciaSugerida: number | null
+  riesgoSugerido: string | null
 }
 
 export type SegmentoNegocioMaxAggregateOutputType = {
@@ -51,11 +51,11 @@ export type SegmentoNegocioMaxAggregateOutputType = {
   tenantId: string | null
   nombre: string | null
   descripcion: string | null
-  frecuenciaSugerida: number | null
-  riesgoSugerido: string | null
   activo: boolean | null
   createdAt: Date | null
   updatedAt: Date | null
+  frecuenciaSugerida: number | null
+  riesgoSugerido: string | null
 }
 
 export type SegmentoNegocioCountAggregateOutputType = {
@@ -63,11 +63,11 @@ export type SegmentoNegocioCountAggregateOutputType = {
   tenantId: number
   nombre: number
   descripcion: number
-  frecuenciaSugerida: number
-  riesgoSugerido: number
   activo: number
   createdAt: number
   updatedAt: number
+  frecuenciaSugerida: number
+  riesgoSugerido: number
   _all: number
 }
 
@@ -85,11 +85,11 @@ export type SegmentoNegocioMinAggregateInputType = {
   tenantId?: true
   nombre?: true
   descripcion?: true
-  frecuenciaSugerida?: true
-  riesgoSugerido?: true
   activo?: true
   createdAt?: true
   updatedAt?: true
+  frecuenciaSugerida?: true
+  riesgoSugerido?: true
 }
 
 export type SegmentoNegocioMaxAggregateInputType = {
@@ -97,11 +97,11 @@ export type SegmentoNegocioMaxAggregateInputType = {
   tenantId?: true
   nombre?: true
   descripcion?: true
-  frecuenciaSugerida?: true
-  riesgoSugerido?: true
   activo?: true
   createdAt?: true
   updatedAt?: true
+  frecuenciaSugerida?: true
+  riesgoSugerido?: true
 }
 
 export type SegmentoNegocioCountAggregateInputType = {
@@ -109,11 +109,11 @@ export type SegmentoNegocioCountAggregateInputType = {
   tenantId?: true
   nombre?: true
   descripcion?: true
-  frecuenciaSugerida?: true
-  riesgoSugerido?: true
   activo?: true
   createdAt?: true
   updatedAt?: true
+  frecuenciaSugerida?: true
+  riesgoSugerido?: true
   _all?: true
 }
 
@@ -208,11 +208,11 @@ export type SegmentoNegocioGroupByOutputType = {
   tenantId: string
   nombre: string
   descripcion: string | null
-  frecuenciaSugerida: number | null
-  riesgoSugerido: string | null
   activo: boolean
   createdAt: Date
   updatedAt: Date
+  frecuenciaSugerida: number | null
+  riesgoSugerido: string | null
   _count: SegmentoNegocioCountAggregateOutputType | null
   _avg: SegmentoNegocioAvgAggregateOutputType | null
   _sum: SegmentoNegocioSumAggregateOutputType | null
@@ -243,11 +243,11 @@ export type SegmentoNegocioWhereInput = {
   tenantId?: Prisma.UuidFilter<"SegmentoNegocio"> | string
   nombre?: Prisma.StringFilter<"SegmentoNegocio"> | string
   descripcion?: Prisma.StringNullableFilter<"SegmentoNegocio"> | string | null
-  frecuenciaSugerida?: Prisma.IntNullableFilter<"SegmentoNegocio"> | number | null
-  riesgoSugerido?: Prisma.StringNullableFilter<"SegmentoNegocio"> | string | null
   activo?: Prisma.BoolFilter<"SegmentoNegocio"> | boolean
   createdAt?: Prisma.DateTimeFilter<"SegmentoNegocio"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"SegmentoNegocio"> | Date | string
+  frecuenciaSugerida?: Prisma.IntNullableFilter<"SegmentoNegocio"> | number | null
+  riesgoSugerido?: Prisma.StringNullableFilter<"SegmentoNegocio"> | string | null
   clientes?: Prisma.ClienteListRelationFilter
   tenant?: Prisma.XOR<Prisma.TenantScalarRelationFilter, Prisma.TenantWhereInput>
 }
@@ -257,11 +257,11 @@ export type SegmentoNegocioOrderByWithRelationInput = {
   tenantId?: Prisma.SortOrder
   nombre?: Prisma.SortOrder
   descripcion?: Prisma.SortOrderInput | Prisma.SortOrder
-  frecuenciaSugerida?: Prisma.SortOrderInput | Prisma.SortOrder
-  riesgoSugerido?: Prisma.SortOrderInput | Prisma.SortOrder
   activo?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  frecuenciaSugerida?: Prisma.SortOrderInput | Prisma.SortOrder
+  riesgoSugerido?: Prisma.SortOrderInput | Prisma.SortOrder
   clientes?: Prisma.ClienteOrderByRelationAggregateInput
   tenant?: Prisma.TenantOrderByWithRelationInput
 }
@@ -274,11 +274,11 @@ export type SegmentoNegocioWhereUniqueInput = Prisma.AtLeast<{
   tenantId?: Prisma.UuidFilter<"SegmentoNegocio"> | string
   nombre?: Prisma.StringFilter<"SegmentoNegocio"> | string
   descripcion?: Prisma.StringNullableFilter<"SegmentoNegocio"> | string | null
-  frecuenciaSugerida?: Prisma.IntNullableFilter<"SegmentoNegocio"> | number | null
-  riesgoSugerido?: Prisma.StringNullableFilter<"SegmentoNegocio"> | string | null
   activo?: Prisma.BoolFilter<"SegmentoNegocio"> | boolean
   createdAt?: Prisma.DateTimeFilter<"SegmentoNegocio"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"SegmentoNegocio"> | Date | string
+  frecuenciaSugerida?: Prisma.IntNullableFilter<"SegmentoNegocio"> | number | null
+  riesgoSugerido?: Prisma.StringNullableFilter<"SegmentoNegocio"> | string | null
   clientes?: Prisma.ClienteListRelationFilter
   tenant?: Prisma.XOR<Prisma.TenantScalarRelationFilter, Prisma.TenantWhereInput>
 }, "id">
@@ -288,11 +288,11 @@ export type SegmentoNegocioOrderByWithAggregationInput = {
   tenantId?: Prisma.SortOrder
   nombre?: Prisma.SortOrder
   descripcion?: Prisma.SortOrderInput | Prisma.SortOrder
-  frecuenciaSugerida?: Prisma.SortOrderInput | Prisma.SortOrder
-  riesgoSugerido?: Prisma.SortOrderInput | Prisma.SortOrder
   activo?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  frecuenciaSugerida?: Prisma.SortOrderInput | Prisma.SortOrder
+  riesgoSugerido?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.SegmentoNegocioCountOrderByAggregateInput
   _avg?: Prisma.SegmentoNegocioAvgOrderByAggregateInput
   _max?: Prisma.SegmentoNegocioMaxOrderByAggregateInput
@@ -308,22 +308,22 @@ export type SegmentoNegocioScalarWhereWithAggregatesInput = {
   tenantId?: Prisma.UuidWithAggregatesFilter<"SegmentoNegocio"> | string
   nombre?: Prisma.StringWithAggregatesFilter<"SegmentoNegocio"> | string
   descripcion?: Prisma.StringNullableWithAggregatesFilter<"SegmentoNegocio"> | string | null
-  frecuenciaSugerida?: Prisma.IntNullableWithAggregatesFilter<"SegmentoNegocio"> | number | null
-  riesgoSugerido?: Prisma.StringNullableWithAggregatesFilter<"SegmentoNegocio"> | string | null
   activo?: Prisma.BoolWithAggregatesFilter<"SegmentoNegocio"> | boolean
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"SegmentoNegocio"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"SegmentoNegocio"> | Date | string
+  frecuenciaSugerida?: Prisma.IntNullableWithAggregatesFilter<"SegmentoNegocio"> | number | null
+  riesgoSugerido?: Prisma.StringNullableWithAggregatesFilter<"SegmentoNegocio"> | string | null
 }
 
 export type SegmentoNegocioCreateInput = {
   id?: string
   nombre: string
   descripcion?: string | null
-  frecuenciaSugerida?: number | null
-  riesgoSugerido?: string | null
   activo?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  frecuenciaSugerida?: number | null
+  riesgoSugerido?: string | null
   clientes?: Prisma.ClienteCreateNestedManyWithoutSegmentoInput
   tenant: Prisma.TenantCreateNestedOneWithoutSegmentosInput
 }
@@ -333,11 +333,11 @@ export type SegmentoNegocioUncheckedCreateInput = {
   tenantId: string
   nombre: string
   descripcion?: string | null
-  frecuenciaSugerida?: number | null
-  riesgoSugerido?: string | null
   activo?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  frecuenciaSugerida?: number | null
+  riesgoSugerido?: string | null
   clientes?: Prisma.ClienteUncheckedCreateNestedManyWithoutSegmentoInput
 }
 
@@ -345,11 +345,11 @@ export type SegmentoNegocioUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   nombre?: Prisma.StringFieldUpdateOperationsInput | string
   descripcion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  frecuenciaSugerida?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  riesgoSugerido?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  frecuenciaSugerida?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  riesgoSugerido?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   clientes?: Prisma.ClienteUpdateManyWithoutSegmentoNestedInput
   tenant?: Prisma.TenantUpdateOneRequiredWithoutSegmentosNestedInput
 }
@@ -359,11 +359,11 @@ export type SegmentoNegocioUncheckedUpdateInput = {
   tenantId?: Prisma.StringFieldUpdateOperationsInput | string
   nombre?: Prisma.StringFieldUpdateOperationsInput | string
   descripcion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  frecuenciaSugerida?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  riesgoSugerido?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  frecuenciaSugerida?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  riesgoSugerido?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   clientes?: Prisma.ClienteUncheckedUpdateManyWithoutSegmentoNestedInput
 }
 
@@ -372,22 +372,22 @@ export type SegmentoNegocioCreateManyInput = {
   tenantId: string
   nombre: string
   descripcion?: string | null
-  frecuenciaSugerida?: number | null
-  riesgoSugerido?: string | null
   activo?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  frecuenciaSugerida?: number | null
+  riesgoSugerido?: string | null
 }
 
 export type SegmentoNegocioUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   nombre?: Prisma.StringFieldUpdateOperationsInput | string
   descripcion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  frecuenciaSugerida?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  riesgoSugerido?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  frecuenciaSugerida?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  riesgoSugerido?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type SegmentoNegocioUncheckedUpdateManyInput = {
@@ -395,11 +395,11 @@ export type SegmentoNegocioUncheckedUpdateManyInput = {
   tenantId?: Prisma.StringFieldUpdateOperationsInput | string
   nombre?: Prisma.StringFieldUpdateOperationsInput | string
   descripcion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  frecuenciaSugerida?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  riesgoSugerido?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  frecuenciaSugerida?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  riesgoSugerido?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type SegmentoNegocioListRelationFilter = {
@@ -417,11 +417,11 @@ export type SegmentoNegocioCountOrderByAggregateInput = {
   tenantId?: Prisma.SortOrder
   nombre?: Prisma.SortOrder
   descripcion?: Prisma.SortOrder
-  frecuenciaSugerida?: Prisma.SortOrder
-  riesgoSugerido?: Prisma.SortOrder
   activo?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  frecuenciaSugerida?: Prisma.SortOrder
+  riesgoSugerido?: Prisma.SortOrder
 }
 
 export type SegmentoNegocioAvgOrderByAggregateInput = {
@@ -433,11 +433,11 @@ export type SegmentoNegocioMaxOrderByAggregateInput = {
   tenantId?: Prisma.SortOrder
   nombre?: Prisma.SortOrder
   descripcion?: Prisma.SortOrder
-  frecuenciaSugerida?: Prisma.SortOrder
-  riesgoSugerido?: Prisma.SortOrder
   activo?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  frecuenciaSugerida?: Prisma.SortOrder
+  riesgoSugerido?: Prisma.SortOrder
 }
 
 export type SegmentoNegocioMinOrderByAggregateInput = {
@@ -445,11 +445,11 @@ export type SegmentoNegocioMinOrderByAggregateInput = {
   tenantId?: Prisma.SortOrder
   nombre?: Prisma.SortOrder
   descripcion?: Prisma.SortOrder
-  frecuenciaSugerida?: Prisma.SortOrder
-  riesgoSugerido?: Prisma.SortOrder
   activo?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  frecuenciaSugerida?: Prisma.SortOrder
+  riesgoSugerido?: Prisma.SortOrder
 }
 
 export type SegmentoNegocioSumOrderByAggregateInput = {
@@ -531,11 +531,11 @@ export type SegmentoNegocioCreateWithoutTenantInput = {
   id?: string
   nombre: string
   descripcion?: string | null
-  frecuenciaSugerida?: number | null
-  riesgoSugerido?: string | null
   activo?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  frecuenciaSugerida?: number | null
+  riesgoSugerido?: string | null
   clientes?: Prisma.ClienteCreateNestedManyWithoutSegmentoInput
 }
 
@@ -543,11 +543,11 @@ export type SegmentoNegocioUncheckedCreateWithoutTenantInput = {
   id?: string
   nombre: string
   descripcion?: string | null
-  frecuenciaSugerida?: number | null
-  riesgoSugerido?: string | null
   activo?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  frecuenciaSugerida?: number | null
+  riesgoSugerido?: string | null
   clientes?: Prisma.ClienteUncheckedCreateNestedManyWithoutSegmentoInput
 }
 
@@ -585,22 +585,22 @@ export type SegmentoNegocioScalarWhereInput = {
   tenantId?: Prisma.UuidFilter<"SegmentoNegocio"> | string
   nombre?: Prisma.StringFilter<"SegmentoNegocio"> | string
   descripcion?: Prisma.StringNullableFilter<"SegmentoNegocio"> | string | null
-  frecuenciaSugerida?: Prisma.IntNullableFilter<"SegmentoNegocio"> | number | null
-  riesgoSugerido?: Prisma.StringNullableFilter<"SegmentoNegocio"> | string | null
   activo?: Prisma.BoolFilter<"SegmentoNegocio"> | boolean
   createdAt?: Prisma.DateTimeFilter<"SegmentoNegocio"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"SegmentoNegocio"> | Date | string
+  frecuenciaSugerida?: Prisma.IntNullableFilter<"SegmentoNegocio"> | number | null
+  riesgoSugerido?: Prisma.StringNullableFilter<"SegmentoNegocio"> | string | null
 }
 
 export type SegmentoNegocioCreateWithoutClientesInput = {
   id?: string
   nombre: string
   descripcion?: string | null
-  frecuenciaSugerida?: number | null
-  riesgoSugerido?: string | null
   activo?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  frecuenciaSugerida?: number | null
+  riesgoSugerido?: string | null
   tenant: Prisma.TenantCreateNestedOneWithoutSegmentosInput
 }
 
@@ -609,11 +609,11 @@ export type SegmentoNegocioUncheckedCreateWithoutClientesInput = {
   tenantId: string
   nombre: string
   descripcion?: string | null
-  frecuenciaSugerida?: number | null
-  riesgoSugerido?: string | null
   activo?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  frecuenciaSugerida?: number | null
+  riesgoSugerido?: string | null
 }
 
 export type SegmentoNegocioCreateOrConnectWithoutClientesInput = {
@@ -636,11 +636,11 @@ export type SegmentoNegocioUpdateWithoutClientesInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   nombre?: Prisma.StringFieldUpdateOperationsInput | string
   descripcion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  frecuenciaSugerida?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  riesgoSugerido?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  frecuenciaSugerida?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  riesgoSugerido?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tenant?: Prisma.TenantUpdateOneRequiredWithoutSegmentosNestedInput
 }
 
@@ -649,33 +649,33 @@ export type SegmentoNegocioUncheckedUpdateWithoutClientesInput = {
   tenantId?: Prisma.StringFieldUpdateOperationsInput | string
   nombre?: Prisma.StringFieldUpdateOperationsInput | string
   descripcion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  frecuenciaSugerida?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  riesgoSugerido?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  frecuenciaSugerida?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  riesgoSugerido?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type SegmentoNegocioCreateManyTenantInput = {
   id?: string
   nombre: string
   descripcion?: string | null
-  frecuenciaSugerida?: number | null
-  riesgoSugerido?: string | null
   activo?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  frecuenciaSugerida?: number | null
+  riesgoSugerido?: string | null
 }
 
 export type SegmentoNegocioUpdateWithoutTenantInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   nombre?: Prisma.StringFieldUpdateOperationsInput | string
   descripcion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  frecuenciaSugerida?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  riesgoSugerido?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  frecuenciaSugerida?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  riesgoSugerido?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   clientes?: Prisma.ClienteUpdateManyWithoutSegmentoNestedInput
 }
 
@@ -683,11 +683,11 @@ export type SegmentoNegocioUncheckedUpdateWithoutTenantInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   nombre?: Prisma.StringFieldUpdateOperationsInput | string
   descripcion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  frecuenciaSugerida?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  riesgoSugerido?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  frecuenciaSugerida?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  riesgoSugerido?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   clientes?: Prisma.ClienteUncheckedUpdateManyWithoutSegmentoNestedInput
 }
 
@@ -695,11 +695,11 @@ export type SegmentoNegocioUncheckedUpdateManyWithoutTenantInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   nombre?: Prisma.StringFieldUpdateOperationsInput | string
   descripcion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  frecuenciaSugerida?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  riesgoSugerido?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  frecuenciaSugerida?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  riesgoSugerido?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 
@@ -738,11 +738,11 @@ export type SegmentoNegocioSelect<ExtArgs extends runtime.Types.Extensions.Inter
   tenantId?: boolean
   nombre?: boolean
   descripcion?: boolean
-  frecuenciaSugerida?: boolean
-  riesgoSugerido?: boolean
   activo?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  frecuenciaSugerida?: boolean
+  riesgoSugerido?: boolean
   clientes?: boolean | Prisma.SegmentoNegocio$clientesArgs<ExtArgs>
   tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
   _count?: boolean | Prisma.SegmentoNegocioCountOutputTypeDefaultArgs<ExtArgs>
@@ -753,11 +753,11 @@ export type SegmentoNegocioSelectCreateManyAndReturn<ExtArgs extends runtime.Typ
   tenantId?: boolean
   nombre?: boolean
   descripcion?: boolean
-  frecuenciaSugerida?: boolean
-  riesgoSugerido?: boolean
   activo?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  frecuenciaSugerida?: boolean
+  riesgoSugerido?: boolean
   tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["segmentoNegocio"]>
 
@@ -766,11 +766,11 @@ export type SegmentoNegocioSelectUpdateManyAndReturn<ExtArgs extends runtime.Typ
   tenantId?: boolean
   nombre?: boolean
   descripcion?: boolean
-  frecuenciaSugerida?: boolean
-  riesgoSugerido?: boolean
   activo?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  frecuenciaSugerida?: boolean
+  riesgoSugerido?: boolean
   tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["segmentoNegocio"]>
 
@@ -779,14 +779,14 @@ export type SegmentoNegocioSelectScalar = {
   tenantId?: boolean
   nombre?: boolean
   descripcion?: boolean
-  frecuenciaSugerida?: boolean
-  riesgoSugerido?: boolean
   activo?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  frecuenciaSugerida?: boolean
+  riesgoSugerido?: boolean
 }
 
-export type SegmentoNegocioOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "tenantId" | "nombre" | "descripcion" | "frecuenciaSugerida" | "riesgoSugerido" | "activo" | "createdAt" | "updatedAt", ExtArgs["result"]["segmentoNegocio"]>
+export type SegmentoNegocioOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "tenantId" | "nombre" | "descripcion" | "activo" | "createdAt" | "updatedAt" | "frecuenciaSugerida" | "riesgoSugerido", ExtArgs["result"]["segmentoNegocio"]>
 export type SegmentoNegocioInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   clientes?: boolean | Prisma.SegmentoNegocio$clientesArgs<ExtArgs>
   tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
@@ -810,11 +810,11 @@ export type $SegmentoNegocioPayload<ExtArgs extends runtime.Types.Extensions.Int
     tenantId: string
     nombre: string
     descripcion: string | null
-    frecuenciaSugerida: number | null
-    riesgoSugerido: string | null
     activo: boolean
     createdAt: Date
     updatedAt: Date
+    frecuenciaSugerida: number | null
+    riesgoSugerido: string | null
   }, ExtArgs["result"]["segmentoNegocio"]>
   composites: {}
 }
@@ -1244,11 +1244,11 @@ export interface SegmentoNegocioFieldRefs {
   readonly tenantId: Prisma.FieldRef<"SegmentoNegocio", 'String'>
   readonly nombre: Prisma.FieldRef<"SegmentoNegocio", 'String'>
   readonly descripcion: Prisma.FieldRef<"SegmentoNegocio", 'String'>
-  readonly frecuenciaSugerida: Prisma.FieldRef<"SegmentoNegocio", 'Int'>
-  readonly riesgoSugerido: Prisma.FieldRef<"SegmentoNegocio", 'String'>
   readonly activo: Prisma.FieldRef<"SegmentoNegocio", 'Boolean'>
   readonly createdAt: Prisma.FieldRef<"SegmentoNegocio", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"SegmentoNegocio", 'DateTime'>
+  readonly frecuenciaSugerida: Prisma.FieldRef<"SegmentoNegocio", 'Int'>
+  readonly riesgoSugerido: Prisma.FieldRef<"SegmentoNegocio", 'String'>
 }
     
 

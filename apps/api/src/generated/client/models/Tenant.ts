@@ -26,82 +26,82 @@ export type AggregateTenant = {
 
 export type TenantMinAggregateOutputType = {
   id: string | null
-  nombre: string | null
   slug: string | null
-  correo: string | null
-  nit: string | null
-  numero: string | null
-  pagina: string | null
   isActive: boolean | null
   createdAt: Date | null
   updatedAt: Date | null
+  correo: string | null
+  nit: string | null
+  nombre: string | null
+  numero: string | null
+  pagina: string | null
 }
 
 export type TenantMaxAggregateOutputType = {
   id: string | null
-  nombre: string | null
   slug: string | null
-  correo: string | null
-  nit: string | null
-  numero: string | null
-  pagina: string | null
   isActive: boolean | null
   createdAt: Date | null
   updatedAt: Date | null
+  correo: string | null
+  nit: string | null
+  nombre: string | null
+  numero: string | null
+  pagina: string | null
 }
 
 export type TenantCountAggregateOutputType = {
   id: number
-  nombre: number
   slug: number
-  correo: number
-  nit: number
-  numero: number
-  pagina: number
   isActive: number
   createdAt: number
   updatedAt: number
+  correo: number
+  nit: number
+  nombre: number
+  numero: number
+  pagina: number
   _all: number
 }
 
 
 export type TenantMinAggregateInputType = {
   id?: true
-  nombre?: true
   slug?: true
-  correo?: true
-  nit?: true
-  numero?: true
-  pagina?: true
   isActive?: true
   createdAt?: true
   updatedAt?: true
+  correo?: true
+  nit?: true
+  nombre?: true
+  numero?: true
+  pagina?: true
 }
 
 export type TenantMaxAggregateInputType = {
   id?: true
-  nombre?: true
   slug?: true
-  correo?: true
-  nit?: true
-  numero?: true
-  pagina?: true
   isActive?: true
   createdAt?: true
   updatedAt?: true
+  correo?: true
+  nit?: true
+  nombre?: true
+  numero?: true
+  pagina?: true
 }
 
 export type TenantCountAggregateInputType = {
   id?: true
-  nombre?: true
   slug?: true
-  correo?: true
-  nit?: true
-  numero?: true
-  pagina?: true
   isActive?: true
   createdAt?: true
   updatedAt?: true
+  correo?: true
+  nit?: true
+  nombre?: true
+  numero?: true
+  pagina?: true
   _all?: true
 }
 
@@ -179,15 +179,15 @@ export type TenantGroupByArgs<ExtArgs extends runtime.Types.Extensions.InternalA
 
 export type TenantGroupByOutputType = {
   id: string
-  nombre: string
   slug: string
-  correo: string | null
-  nit: string | null
-  numero: string | null
-  pagina: string | null
   isActive: boolean
   createdAt: Date
   updatedAt: Date
+  correo: string | null
+  nit: string | null
+  nombre: string
+  numero: string | null
+  pagina: string | null
   _count: TenantCountAggregateOutputType | null
   _min: TenantMinAggregateOutputType | null
   _max: TenantMaxAggregateOutputType | null
@@ -213,15 +213,15 @@ export type TenantWhereInput = {
   OR?: Prisma.TenantWhereInput[]
   NOT?: Prisma.TenantWhereInput | Prisma.TenantWhereInput[]
   id?: Prisma.UuidFilter<"Tenant"> | string
-  nombre?: Prisma.StringFilter<"Tenant"> | string
   slug?: Prisma.StringFilter<"Tenant"> | string
-  correo?: Prisma.StringNullableFilter<"Tenant"> | string | null
-  nit?: Prisma.StringNullableFilter<"Tenant"> | string | null
-  numero?: Prisma.StringNullableFilter<"Tenant"> | string | null
-  pagina?: Prisma.StringNullableFilter<"Tenant"> | string | null
   isActive?: Prisma.BoolFilter<"Tenant"> | boolean
   createdAt?: Prisma.DateTimeFilter<"Tenant"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Tenant"> | Date | string
+  correo?: Prisma.StringNullableFilter<"Tenant"> | string | null
+  nit?: Prisma.StringNullableFilter<"Tenant"> | string | null
+  nombre?: Prisma.StringFilter<"Tenant"> | string
+  numero?: Prisma.StringNullableFilter<"Tenant"> | string | null
+  pagina?: Prisma.StringNullableFilter<"Tenant"> | string | null
   anticipos?: Prisma.AnticiposListRelationFilter
   auditorias?: Prisma.AuditoriaListRelationFilter
   authSessions?: Prisma.AuthSessionListRelationFilter
@@ -271,15 +271,15 @@ export type TenantWhereInput = {
 
 export type TenantOrderByWithRelationInput = {
   id?: Prisma.SortOrder
-  nombre?: Prisma.SortOrder
   slug?: Prisma.SortOrder
-  correo?: Prisma.SortOrderInput | Prisma.SortOrder
-  nit?: Prisma.SortOrderInput | Prisma.SortOrder
-  numero?: Prisma.SortOrderInput | Prisma.SortOrder
-  pagina?: Prisma.SortOrderInput | Prisma.SortOrder
   isActive?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  correo?: Prisma.SortOrderInput | Prisma.SortOrder
+  nit?: Prisma.SortOrderInput | Prisma.SortOrder
+  nombre?: Prisma.SortOrder
+  numero?: Prisma.SortOrderInput | Prisma.SortOrder
+  pagina?: Prisma.SortOrderInput | Prisma.SortOrder
   anticipos?: Prisma.AnticiposOrderByRelationAggregateInput
   auditorias?: Prisma.AuditoriaOrderByRelationAggregateInput
   authSessions?: Prisma.AuthSessionOrderByRelationAggregateInput
@@ -333,14 +333,14 @@ export type TenantWhereUniqueInput = Prisma.AtLeast<{
   AND?: Prisma.TenantWhereInput | Prisma.TenantWhereInput[]
   OR?: Prisma.TenantWhereInput[]
   NOT?: Prisma.TenantWhereInput | Prisma.TenantWhereInput[]
-  nombre?: Prisma.StringFilter<"Tenant"> | string
-  correo?: Prisma.StringNullableFilter<"Tenant"> | string | null
-  nit?: Prisma.StringNullableFilter<"Tenant"> | string | null
-  numero?: Prisma.StringNullableFilter<"Tenant"> | string | null
-  pagina?: Prisma.StringNullableFilter<"Tenant"> | string | null
   isActive?: Prisma.BoolFilter<"Tenant"> | boolean
   createdAt?: Prisma.DateTimeFilter<"Tenant"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Tenant"> | Date | string
+  correo?: Prisma.StringNullableFilter<"Tenant"> | string | null
+  nit?: Prisma.StringNullableFilter<"Tenant"> | string | null
+  nombre?: Prisma.StringFilter<"Tenant"> | string
+  numero?: Prisma.StringNullableFilter<"Tenant"> | string | null
+  pagina?: Prisma.StringNullableFilter<"Tenant"> | string | null
   anticipos?: Prisma.AnticiposListRelationFilter
   auditorias?: Prisma.AuditoriaListRelationFilter
   authSessions?: Prisma.AuthSessionListRelationFilter
@@ -390,15 +390,15 @@ export type TenantWhereUniqueInput = Prisma.AtLeast<{
 
 export type TenantOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
-  nombre?: Prisma.SortOrder
   slug?: Prisma.SortOrder
-  correo?: Prisma.SortOrderInput | Prisma.SortOrder
-  nit?: Prisma.SortOrderInput | Prisma.SortOrder
-  numero?: Prisma.SortOrderInput | Prisma.SortOrder
-  pagina?: Prisma.SortOrderInput | Prisma.SortOrder
   isActive?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  correo?: Prisma.SortOrderInput | Prisma.SortOrder
+  nit?: Prisma.SortOrderInput | Prisma.SortOrder
+  nombre?: Prisma.SortOrder
+  numero?: Prisma.SortOrderInput | Prisma.SortOrder
+  pagina?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.TenantCountOrderByAggregateInput
   _max?: Prisma.TenantMaxOrderByAggregateInput
   _min?: Prisma.TenantMinOrderByAggregateInput
@@ -409,28 +409,28 @@ export type TenantScalarWhereWithAggregatesInput = {
   OR?: Prisma.TenantScalarWhereWithAggregatesInput[]
   NOT?: Prisma.TenantScalarWhereWithAggregatesInput | Prisma.TenantScalarWhereWithAggregatesInput[]
   id?: Prisma.UuidWithAggregatesFilter<"Tenant"> | string
-  nombre?: Prisma.StringWithAggregatesFilter<"Tenant"> | string
   slug?: Prisma.StringWithAggregatesFilter<"Tenant"> | string
-  correo?: Prisma.StringNullableWithAggregatesFilter<"Tenant"> | string | null
-  nit?: Prisma.StringNullableWithAggregatesFilter<"Tenant"> | string | null
-  numero?: Prisma.StringNullableWithAggregatesFilter<"Tenant"> | string | null
-  pagina?: Prisma.StringNullableWithAggregatesFilter<"Tenant"> | string | null
   isActive?: Prisma.BoolWithAggregatesFilter<"Tenant"> | boolean
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Tenant"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"Tenant"> | Date | string
+  correo?: Prisma.StringNullableWithAggregatesFilter<"Tenant"> | string | null
+  nit?: Prisma.StringNullableWithAggregatesFilter<"Tenant"> | string | null
+  nombre?: Prisma.StringWithAggregatesFilter<"Tenant"> | string
+  numero?: Prisma.StringNullableWithAggregatesFilter<"Tenant"> | string | null
+  pagina?: Prisma.StringNullableWithAggregatesFilter<"Tenant"> | string | null
 }
 
 export type TenantCreateInput = {
   id?: string
-  nombre: string
   slug: string
-  correo?: string | null
-  nit?: string | null
-  numero?: string | null
-  pagina?: string | null
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  correo?: string | null
+  nit?: string | null
+  nombre: string
+  numero?: string | null
+  pagina?: string | null
   anticipos?: Prisma.AnticiposCreateNestedManyWithoutTenantInput
   auditorias?: Prisma.AuditoriaCreateNestedManyWithoutTenantInput
   authSessions?: Prisma.AuthSessionCreateNestedManyWithoutTenantInput
@@ -480,15 +480,15 @@ export type TenantCreateInput = {
 
 export type TenantUncheckedCreateInput = {
   id?: string
-  nombre: string
   slug: string
-  correo?: string | null
-  nit?: string | null
-  numero?: string | null
-  pagina?: string | null
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  correo?: string | null
+  nit?: string | null
+  nombre: string
+  numero?: string | null
+  pagina?: string | null
   anticipos?: Prisma.AnticiposUncheckedCreateNestedManyWithoutTenantInput
   auditorias?: Prisma.AuditoriaUncheckedCreateNestedManyWithoutTenantInput
   authSessions?: Prisma.AuthSessionUncheckedCreateNestedManyWithoutTenantInput
@@ -538,15 +538,15 @@ export type TenantUncheckedCreateInput = {
 
 export type TenantUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  nombre?: Prisma.StringFieldUpdateOperationsInput | string
   slug?: Prisma.StringFieldUpdateOperationsInput | string
-  correo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  nit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  numero?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  pagina?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  correo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  nit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  nombre?: Prisma.StringFieldUpdateOperationsInput | string
+  numero?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pagina?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   anticipos?: Prisma.AnticiposUpdateManyWithoutTenantNestedInput
   auditorias?: Prisma.AuditoriaUpdateManyWithoutTenantNestedInput
   authSessions?: Prisma.AuthSessionUpdateManyWithoutTenantNestedInput
@@ -596,15 +596,15 @@ export type TenantUpdateInput = {
 
 export type TenantUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  nombre?: Prisma.StringFieldUpdateOperationsInput | string
   slug?: Prisma.StringFieldUpdateOperationsInput | string
-  correo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  nit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  numero?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  pagina?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  correo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  nit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  nombre?: Prisma.StringFieldUpdateOperationsInput | string
+  numero?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pagina?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   anticipos?: Prisma.AnticiposUncheckedUpdateManyWithoutTenantNestedInput
   auditorias?: Prisma.AuditoriaUncheckedUpdateManyWithoutTenantNestedInput
   authSessions?: Prisma.AuthSessionUncheckedUpdateManyWithoutTenantNestedInput
@@ -654,80 +654,80 @@ export type TenantUncheckedUpdateInput = {
 
 export type TenantCreateManyInput = {
   id?: string
-  nombre: string
   slug: string
-  correo?: string | null
-  nit?: string | null
-  numero?: string | null
-  pagina?: string | null
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  correo?: string | null
+  nit?: string | null
+  nombre: string
+  numero?: string | null
+  pagina?: string | null
 }
 
 export type TenantUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  nombre?: Prisma.StringFieldUpdateOperationsInput | string
   slug?: Prisma.StringFieldUpdateOperationsInput | string
-  correo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  nit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  numero?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  pagina?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  correo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  nit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  nombre?: Prisma.StringFieldUpdateOperationsInput | string
+  numero?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pagina?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type TenantUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  nombre?: Prisma.StringFieldUpdateOperationsInput | string
   slug?: Prisma.StringFieldUpdateOperationsInput | string
-  correo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  nit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  numero?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  pagina?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  correo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  nit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  nombre?: Prisma.StringFieldUpdateOperationsInput | string
+  numero?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pagina?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type TenantCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
-  nombre?: Prisma.SortOrder
   slug?: Prisma.SortOrder
-  correo?: Prisma.SortOrder
-  nit?: Prisma.SortOrder
-  numero?: Prisma.SortOrder
-  pagina?: Prisma.SortOrder
   isActive?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  correo?: Prisma.SortOrder
+  nit?: Prisma.SortOrder
+  nombre?: Prisma.SortOrder
+  numero?: Prisma.SortOrder
+  pagina?: Prisma.SortOrder
 }
 
 export type TenantMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
-  nombre?: Prisma.SortOrder
   slug?: Prisma.SortOrder
-  correo?: Prisma.SortOrder
-  nit?: Prisma.SortOrder
-  numero?: Prisma.SortOrder
-  pagina?: Prisma.SortOrder
   isActive?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  correo?: Prisma.SortOrder
+  nit?: Prisma.SortOrder
+  nombre?: Prisma.SortOrder
+  numero?: Prisma.SortOrder
+  pagina?: Prisma.SortOrder
 }
 
 export type TenantMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
-  nombre?: Prisma.SortOrder
   slug?: Prisma.SortOrder
-  correo?: Prisma.SortOrder
-  nit?: Prisma.SortOrder
-  numero?: Prisma.SortOrder
-  pagina?: Prisma.SortOrder
   isActive?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  correo?: Prisma.SortOrder
+  nit?: Prisma.SortOrder
+  nombre?: Prisma.SortOrder
+  numero?: Prisma.SortOrder
+  pagina?: Prisma.SortOrder
 }
 
 export type TenantScalarRelationFilter = {
@@ -1376,15 +1376,15 @@ export type TenantUpdateOneWithoutResetTokensNestedInput = {
 
 export type TenantCreateWithoutSubscriptionInput = {
   id?: string
-  nombre: string
   slug: string
-  correo?: string | null
-  nit?: string | null
-  numero?: string | null
-  pagina?: string | null
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  correo?: string | null
+  nit?: string | null
+  nombre: string
+  numero?: string | null
+  pagina?: string | null
   anticipos?: Prisma.AnticiposCreateNestedManyWithoutTenantInput
   auditorias?: Prisma.AuditoriaCreateNestedManyWithoutTenantInput
   authSessions?: Prisma.AuthSessionCreateNestedManyWithoutTenantInput
@@ -1433,15 +1433,15 @@ export type TenantCreateWithoutSubscriptionInput = {
 
 export type TenantUncheckedCreateWithoutSubscriptionInput = {
   id?: string
-  nombre: string
   slug: string
-  correo?: string | null
-  nit?: string | null
-  numero?: string | null
-  pagina?: string | null
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  correo?: string | null
+  nit?: string | null
+  nombre: string
+  numero?: string | null
+  pagina?: string | null
   anticipos?: Prisma.AnticiposUncheckedCreateNestedManyWithoutTenantInput
   auditorias?: Prisma.AuditoriaUncheckedCreateNestedManyWithoutTenantInput
   authSessions?: Prisma.AuthSessionUncheckedCreateNestedManyWithoutTenantInput
@@ -1506,15 +1506,15 @@ export type TenantUpdateToOneWithWhereWithoutSubscriptionInput = {
 
 export type TenantUpdateWithoutSubscriptionInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  nombre?: Prisma.StringFieldUpdateOperationsInput | string
   slug?: Prisma.StringFieldUpdateOperationsInput | string
-  correo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  nit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  numero?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  pagina?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  correo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  nit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  nombre?: Prisma.StringFieldUpdateOperationsInput | string
+  numero?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pagina?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   anticipos?: Prisma.AnticiposUpdateManyWithoutTenantNestedInput
   auditorias?: Prisma.AuditoriaUpdateManyWithoutTenantNestedInput
   authSessions?: Prisma.AuthSessionUpdateManyWithoutTenantNestedInput
@@ -1563,15 +1563,15 @@ export type TenantUpdateWithoutSubscriptionInput = {
 
 export type TenantUncheckedUpdateWithoutSubscriptionInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  nombre?: Prisma.StringFieldUpdateOperationsInput | string
   slug?: Prisma.StringFieldUpdateOperationsInput | string
-  correo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  nit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  numero?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  pagina?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  correo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  nit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  nombre?: Prisma.StringFieldUpdateOperationsInput | string
+  numero?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pagina?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   anticipos?: Prisma.AnticiposUncheckedUpdateManyWithoutTenantNestedInput
   auditorias?: Prisma.AuditoriaUncheckedUpdateManyWithoutTenantNestedInput
   authSessions?: Prisma.AuthSessionUncheckedUpdateManyWithoutTenantNestedInput
@@ -1620,15 +1620,15 @@ export type TenantUncheckedUpdateWithoutSubscriptionInput = {
 
 export type TenantCreateWithoutMembershipsInput = {
   id?: string
-  nombre: string
   slug: string
-  correo?: string | null
-  nit?: string | null
-  numero?: string | null
-  pagina?: string | null
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  correo?: string | null
+  nit?: string | null
+  nombre: string
+  numero?: string | null
+  pagina?: string | null
   anticipos?: Prisma.AnticiposCreateNestedManyWithoutTenantInput
   auditorias?: Prisma.AuditoriaCreateNestedManyWithoutTenantInput
   authSessions?: Prisma.AuthSessionCreateNestedManyWithoutTenantInput
@@ -1677,15 +1677,15 @@ export type TenantCreateWithoutMembershipsInput = {
 
 export type TenantUncheckedCreateWithoutMembershipsInput = {
   id?: string
-  nombre: string
   slug: string
-  correo?: string | null
-  nit?: string | null
-  numero?: string | null
-  pagina?: string | null
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  correo?: string | null
+  nit?: string | null
+  nombre: string
+  numero?: string | null
+  pagina?: string | null
   anticipos?: Prisma.AnticiposUncheckedCreateNestedManyWithoutTenantInput
   auditorias?: Prisma.AuditoriaUncheckedCreateNestedManyWithoutTenantInput
   authSessions?: Prisma.AuthSessionUncheckedCreateNestedManyWithoutTenantInput
@@ -1750,15 +1750,15 @@ export type TenantUpdateToOneWithWhereWithoutMembershipsInput = {
 
 export type TenantUpdateWithoutMembershipsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  nombre?: Prisma.StringFieldUpdateOperationsInput | string
   slug?: Prisma.StringFieldUpdateOperationsInput | string
-  correo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  nit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  numero?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  pagina?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  correo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  nit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  nombre?: Prisma.StringFieldUpdateOperationsInput | string
+  numero?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pagina?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   anticipos?: Prisma.AnticiposUpdateManyWithoutTenantNestedInput
   auditorias?: Prisma.AuditoriaUpdateManyWithoutTenantNestedInput
   authSessions?: Prisma.AuthSessionUpdateManyWithoutTenantNestedInput
@@ -1807,15 +1807,15 @@ export type TenantUpdateWithoutMembershipsInput = {
 
 export type TenantUncheckedUpdateWithoutMembershipsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  nombre?: Prisma.StringFieldUpdateOperationsInput | string
   slug?: Prisma.StringFieldUpdateOperationsInput | string
-  correo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  nit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  numero?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  pagina?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  correo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  nit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  nombre?: Prisma.StringFieldUpdateOperationsInput | string
+  numero?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pagina?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   anticipos?: Prisma.AnticiposUncheckedUpdateManyWithoutTenantNestedInput
   auditorias?: Prisma.AuditoriaUncheckedUpdateManyWithoutTenantNestedInput
   authSessions?: Prisma.AuthSessionUncheckedUpdateManyWithoutTenantNestedInput
@@ -1864,15 +1864,15 @@ export type TenantUncheckedUpdateWithoutMembershipsInput = {
 
 export type TenantCreateWithoutEmpresasInput = {
   id?: string
-  nombre: string
   slug: string
-  correo?: string | null
-  nit?: string | null
-  numero?: string | null
-  pagina?: string | null
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  correo?: string | null
+  nit?: string | null
+  nombre: string
+  numero?: string | null
+  pagina?: string | null
   anticipos?: Prisma.AnticiposCreateNestedManyWithoutTenantInput
   auditorias?: Prisma.AuditoriaCreateNestedManyWithoutTenantInput
   authSessions?: Prisma.AuthSessionCreateNestedManyWithoutTenantInput
@@ -1921,15 +1921,15 @@ export type TenantCreateWithoutEmpresasInput = {
 
 export type TenantUncheckedCreateWithoutEmpresasInput = {
   id?: string
-  nombre: string
   slug: string
-  correo?: string | null
-  nit?: string | null
-  numero?: string | null
-  pagina?: string | null
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  correo?: string | null
+  nit?: string | null
+  nombre: string
+  numero?: string | null
+  pagina?: string | null
   anticipos?: Prisma.AnticiposUncheckedCreateNestedManyWithoutTenantInput
   auditorias?: Prisma.AuditoriaUncheckedCreateNestedManyWithoutTenantInput
   authSessions?: Prisma.AuthSessionUncheckedCreateNestedManyWithoutTenantInput
@@ -1994,15 +1994,15 @@ export type TenantUpdateToOneWithWhereWithoutEmpresasInput = {
 
 export type TenantUpdateWithoutEmpresasInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  nombre?: Prisma.StringFieldUpdateOperationsInput | string
   slug?: Prisma.StringFieldUpdateOperationsInput | string
-  correo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  nit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  numero?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  pagina?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  correo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  nit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  nombre?: Prisma.StringFieldUpdateOperationsInput | string
+  numero?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pagina?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   anticipos?: Prisma.AnticiposUpdateManyWithoutTenantNestedInput
   auditorias?: Prisma.AuditoriaUpdateManyWithoutTenantNestedInput
   authSessions?: Prisma.AuthSessionUpdateManyWithoutTenantNestedInput
@@ -2051,15 +2051,15 @@ export type TenantUpdateWithoutEmpresasInput = {
 
 export type TenantUncheckedUpdateWithoutEmpresasInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  nombre?: Prisma.StringFieldUpdateOperationsInput | string
   slug?: Prisma.StringFieldUpdateOperationsInput | string
-  correo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  nit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  numero?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  pagina?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  correo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  nit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  nombre?: Prisma.StringFieldUpdateOperationsInput | string
+  numero?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pagina?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   anticipos?: Prisma.AnticiposUncheckedUpdateManyWithoutTenantNestedInput
   auditorias?: Prisma.AuditoriaUncheckedUpdateManyWithoutTenantNestedInput
   authSessions?: Prisma.AuthSessionUncheckedUpdateManyWithoutTenantNestedInput
@@ -2108,15 +2108,15 @@ export type TenantUncheckedUpdateWithoutEmpresasInput = {
 
 export type TenantCreateWithoutEmpresaMembershipsInput = {
   id?: string
-  nombre: string
   slug: string
-  correo?: string | null
-  nit?: string | null
-  numero?: string | null
-  pagina?: string | null
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  correo?: string | null
+  nit?: string | null
+  nombre: string
+  numero?: string | null
+  pagina?: string | null
   anticipos?: Prisma.AnticiposCreateNestedManyWithoutTenantInput
   auditorias?: Prisma.AuditoriaCreateNestedManyWithoutTenantInput
   authSessions?: Prisma.AuthSessionCreateNestedManyWithoutTenantInput
@@ -2165,15 +2165,15 @@ export type TenantCreateWithoutEmpresaMembershipsInput = {
 
 export type TenantUncheckedCreateWithoutEmpresaMembershipsInput = {
   id?: string
-  nombre: string
   slug: string
-  correo?: string | null
-  nit?: string | null
-  numero?: string | null
-  pagina?: string | null
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  correo?: string | null
+  nit?: string | null
+  nombre: string
+  numero?: string | null
+  pagina?: string | null
   anticipos?: Prisma.AnticiposUncheckedCreateNestedManyWithoutTenantInput
   auditorias?: Prisma.AuditoriaUncheckedCreateNestedManyWithoutTenantInput
   authSessions?: Prisma.AuthSessionUncheckedCreateNestedManyWithoutTenantInput
@@ -2238,15 +2238,15 @@ export type TenantUpdateToOneWithWhereWithoutEmpresaMembershipsInput = {
 
 export type TenantUpdateWithoutEmpresaMembershipsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  nombre?: Prisma.StringFieldUpdateOperationsInput | string
   slug?: Prisma.StringFieldUpdateOperationsInput | string
-  correo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  nit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  numero?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  pagina?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  correo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  nit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  nombre?: Prisma.StringFieldUpdateOperationsInput | string
+  numero?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pagina?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   anticipos?: Prisma.AnticiposUpdateManyWithoutTenantNestedInput
   auditorias?: Prisma.AuditoriaUpdateManyWithoutTenantNestedInput
   authSessions?: Prisma.AuthSessionUpdateManyWithoutTenantNestedInput
@@ -2295,15 +2295,15 @@ export type TenantUpdateWithoutEmpresaMembershipsInput = {
 
 export type TenantUncheckedUpdateWithoutEmpresaMembershipsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  nombre?: Prisma.StringFieldUpdateOperationsInput | string
   slug?: Prisma.StringFieldUpdateOperationsInput | string
-  correo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  nit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  numero?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  pagina?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  correo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  nit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  nombre?: Prisma.StringFieldUpdateOperationsInput | string
+  numero?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pagina?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   anticipos?: Prisma.AnticiposUncheckedUpdateManyWithoutTenantNestedInput
   auditorias?: Prisma.AuditoriaUncheckedUpdateManyWithoutTenantNestedInput
   authSessions?: Prisma.AuthSessionUncheckedUpdateManyWithoutTenantNestedInput
@@ -2352,15 +2352,15 @@ export type TenantUncheckedUpdateWithoutEmpresaMembershipsInput = {
 
 export type TenantCreateWithoutOrgNodesInput = {
   id?: string
-  nombre: string
   slug: string
-  correo?: string | null
-  nit?: string | null
-  numero?: string | null
-  pagina?: string | null
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  correo?: string | null
+  nit?: string | null
+  nombre: string
+  numero?: string | null
+  pagina?: string | null
   anticipos?: Prisma.AnticiposCreateNestedManyWithoutTenantInput
   auditorias?: Prisma.AuditoriaCreateNestedManyWithoutTenantInput
   authSessions?: Prisma.AuthSessionCreateNestedManyWithoutTenantInput
@@ -2409,15 +2409,15 @@ export type TenantCreateWithoutOrgNodesInput = {
 
 export type TenantUncheckedCreateWithoutOrgNodesInput = {
   id?: string
-  nombre: string
   slug: string
-  correo?: string | null
-  nit?: string | null
-  numero?: string | null
-  pagina?: string | null
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  correo?: string | null
+  nit?: string | null
+  nombre: string
+  numero?: string | null
+  pagina?: string | null
   anticipos?: Prisma.AnticiposUncheckedCreateNestedManyWithoutTenantInput
   auditorias?: Prisma.AuditoriaUncheckedCreateNestedManyWithoutTenantInput
   authSessions?: Prisma.AuthSessionUncheckedCreateNestedManyWithoutTenantInput
@@ -2482,15 +2482,15 @@ export type TenantUpdateToOneWithWhereWithoutOrgNodesInput = {
 
 export type TenantUpdateWithoutOrgNodesInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  nombre?: Prisma.StringFieldUpdateOperationsInput | string
   slug?: Prisma.StringFieldUpdateOperationsInput | string
-  correo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  nit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  numero?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  pagina?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  correo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  nit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  nombre?: Prisma.StringFieldUpdateOperationsInput | string
+  numero?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pagina?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   anticipos?: Prisma.AnticiposUpdateManyWithoutTenantNestedInput
   auditorias?: Prisma.AuditoriaUpdateManyWithoutTenantNestedInput
   authSessions?: Prisma.AuthSessionUpdateManyWithoutTenantNestedInput
@@ -2539,15 +2539,15 @@ export type TenantUpdateWithoutOrgNodesInput = {
 
 export type TenantUncheckedUpdateWithoutOrgNodesInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  nombre?: Prisma.StringFieldUpdateOperationsInput | string
   slug?: Prisma.StringFieldUpdateOperationsInput | string
-  correo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  nit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  numero?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  pagina?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  correo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  nit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  nombre?: Prisma.StringFieldUpdateOperationsInput | string
+  numero?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pagina?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   anticipos?: Prisma.AnticiposUncheckedUpdateManyWithoutTenantNestedInput
   auditorias?: Prisma.AuditoriaUncheckedUpdateManyWithoutTenantNestedInput
   authSessions?: Prisma.AuthSessionUncheckedUpdateManyWithoutTenantNestedInput
@@ -2596,15 +2596,15 @@ export type TenantUncheckedUpdateWithoutOrgNodesInput = {
 
 export type TenantCreateWithoutCommissionsInput = {
   id?: string
-  nombre: string
   slug: string
-  correo?: string | null
-  nit?: string | null
-  numero?: string | null
-  pagina?: string | null
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  correo?: string | null
+  nit?: string | null
+  nombre: string
+  numero?: string | null
+  pagina?: string | null
   anticipos?: Prisma.AnticiposCreateNestedManyWithoutTenantInput
   auditorias?: Prisma.AuditoriaCreateNestedManyWithoutTenantInput
   authSessions?: Prisma.AuthSessionCreateNestedManyWithoutTenantInput
@@ -2653,15 +2653,15 @@ export type TenantCreateWithoutCommissionsInput = {
 
 export type TenantUncheckedCreateWithoutCommissionsInput = {
   id?: string
-  nombre: string
   slug: string
-  correo?: string | null
-  nit?: string | null
-  numero?: string | null
-  pagina?: string | null
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  correo?: string | null
+  nit?: string | null
+  nombre: string
+  numero?: string | null
+  pagina?: string | null
   anticipos?: Prisma.AnticiposUncheckedCreateNestedManyWithoutTenantInput
   auditorias?: Prisma.AuditoriaUncheckedCreateNestedManyWithoutTenantInput
   authSessions?: Prisma.AuthSessionUncheckedCreateNestedManyWithoutTenantInput
@@ -2726,15 +2726,15 @@ export type TenantUpdateToOneWithWhereWithoutCommissionsInput = {
 
 export type TenantUpdateWithoutCommissionsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  nombre?: Prisma.StringFieldUpdateOperationsInput | string
   slug?: Prisma.StringFieldUpdateOperationsInput | string
-  correo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  nit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  numero?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  pagina?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  correo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  nit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  nombre?: Prisma.StringFieldUpdateOperationsInput | string
+  numero?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pagina?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   anticipos?: Prisma.AnticiposUpdateManyWithoutTenantNestedInput
   auditorias?: Prisma.AuditoriaUpdateManyWithoutTenantNestedInput
   authSessions?: Prisma.AuthSessionUpdateManyWithoutTenantNestedInput
@@ -2783,15 +2783,15 @@ export type TenantUpdateWithoutCommissionsInput = {
 
 export type TenantUncheckedUpdateWithoutCommissionsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  nombre?: Prisma.StringFieldUpdateOperationsInput | string
   slug?: Prisma.StringFieldUpdateOperationsInput | string
-  correo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  nit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  numero?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  pagina?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  correo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  nit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  nombre?: Prisma.StringFieldUpdateOperationsInput | string
+  numero?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pagina?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   anticipos?: Prisma.AnticiposUncheckedUpdateManyWithoutTenantNestedInput
   auditorias?: Prisma.AuditoriaUncheckedUpdateManyWithoutTenantNestedInput
   authSessions?: Prisma.AuthSessionUncheckedUpdateManyWithoutTenantNestedInput
@@ -2840,15 +2840,15 @@ export type TenantUncheckedUpdateWithoutCommissionsInput = {
 
 export type TenantCreateWithoutSegmentosInput = {
   id?: string
-  nombre: string
   slug: string
-  correo?: string | null
-  nit?: string | null
-  numero?: string | null
-  pagina?: string | null
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  correo?: string | null
+  nit?: string | null
+  nombre: string
+  numero?: string | null
+  pagina?: string | null
   anticipos?: Prisma.AnticiposCreateNestedManyWithoutTenantInput
   auditorias?: Prisma.AuditoriaCreateNestedManyWithoutTenantInput
   authSessions?: Prisma.AuthSessionCreateNestedManyWithoutTenantInput
@@ -2897,15 +2897,15 @@ export type TenantCreateWithoutSegmentosInput = {
 
 export type TenantUncheckedCreateWithoutSegmentosInput = {
   id?: string
-  nombre: string
   slug: string
-  correo?: string | null
-  nit?: string | null
-  numero?: string | null
-  pagina?: string | null
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  correo?: string | null
+  nit?: string | null
+  nombre: string
+  numero?: string | null
+  pagina?: string | null
   anticipos?: Prisma.AnticiposUncheckedCreateNestedManyWithoutTenantInput
   auditorias?: Prisma.AuditoriaUncheckedCreateNestedManyWithoutTenantInput
   authSessions?: Prisma.AuthSessionUncheckedCreateNestedManyWithoutTenantInput
@@ -2970,15 +2970,15 @@ export type TenantUpdateToOneWithWhereWithoutSegmentosInput = {
 
 export type TenantUpdateWithoutSegmentosInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  nombre?: Prisma.StringFieldUpdateOperationsInput | string
   slug?: Prisma.StringFieldUpdateOperationsInput | string
-  correo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  nit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  numero?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  pagina?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  correo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  nit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  nombre?: Prisma.StringFieldUpdateOperationsInput | string
+  numero?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pagina?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   anticipos?: Prisma.AnticiposUpdateManyWithoutTenantNestedInput
   auditorias?: Prisma.AuditoriaUpdateManyWithoutTenantNestedInput
   authSessions?: Prisma.AuthSessionUpdateManyWithoutTenantNestedInput
@@ -3027,15 +3027,15 @@ export type TenantUpdateWithoutSegmentosInput = {
 
 export type TenantUncheckedUpdateWithoutSegmentosInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  nombre?: Prisma.StringFieldUpdateOperationsInput | string
   slug?: Prisma.StringFieldUpdateOperationsInput | string
-  correo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  nit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  numero?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  pagina?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  correo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  nit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  nombre?: Prisma.StringFieldUpdateOperationsInput | string
+  numero?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pagina?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   anticipos?: Prisma.AnticiposUncheckedUpdateManyWithoutTenantNestedInput
   auditorias?: Prisma.AuditoriaUncheckedUpdateManyWithoutTenantNestedInput
   authSessions?: Prisma.AuthSessionUncheckedUpdateManyWithoutTenantNestedInput
@@ -3084,15 +3084,15 @@ export type TenantUncheckedUpdateWithoutSegmentosInput = {
 
 export type TenantCreateWithoutNivelesRiesgoInput = {
   id?: string
-  nombre: string
   slug: string
-  correo?: string | null
-  nit?: string | null
-  numero?: string | null
-  pagina?: string | null
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  correo?: string | null
+  nit?: string | null
+  nombre: string
+  numero?: string | null
+  pagina?: string | null
   anticipos?: Prisma.AnticiposCreateNestedManyWithoutTenantInput
   auditorias?: Prisma.AuditoriaCreateNestedManyWithoutTenantInput
   authSessions?: Prisma.AuthSessionCreateNestedManyWithoutTenantInput
@@ -3141,15 +3141,15 @@ export type TenantCreateWithoutNivelesRiesgoInput = {
 
 export type TenantUncheckedCreateWithoutNivelesRiesgoInput = {
   id?: string
-  nombre: string
   slug: string
-  correo?: string | null
-  nit?: string | null
-  numero?: string | null
-  pagina?: string | null
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  correo?: string | null
+  nit?: string | null
+  nombre: string
+  numero?: string | null
+  pagina?: string | null
   anticipos?: Prisma.AnticiposUncheckedCreateNestedManyWithoutTenantInput
   auditorias?: Prisma.AuditoriaUncheckedCreateNestedManyWithoutTenantInput
   authSessions?: Prisma.AuthSessionUncheckedCreateNestedManyWithoutTenantInput
@@ -3214,15 +3214,15 @@ export type TenantUpdateToOneWithWhereWithoutNivelesRiesgoInput = {
 
 export type TenantUpdateWithoutNivelesRiesgoInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  nombre?: Prisma.StringFieldUpdateOperationsInput | string
   slug?: Prisma.StringFieldUpdateOperationsInput | string
-  correo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  nit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  numero?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  pagina?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  correo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  nit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  nombre?: Prisma.StringFieldUpdateOperationsInput | string
+  numero?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pagina?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   anticipos?: Prisma.AnticiposUpdateManyWithoutTenantNestedInput
   auditorias?: Prisma.AuditoriaUpdateManyWithoutTenantNestedInput
   authSessions?: Prisma.AuthSessionUpdateManyWithoutTenantNestedInput
@@ -3271,15 +3271,15 @@ export type TenantUpdateWithoutNivelesRiesgoInput = {
 
 export type TenantUncheckedUpdateWithoutNivelesRiesgoInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  nombre?: Prisma.StringFieldUpdateOperationsInput | string
   slug?: Prisma.StringFieldUpdateOperationsInput | string
-  correo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  nit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  numero?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  pagina?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  correo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  nit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  nombre?: Prisma.StringFieldUpdateOperationsInput | string
+  numero?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pagina?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   anticipos?: Prisma.AnticiposUncheckedUpdateManyWithoutTenantNestedInput
   auditorias?: Prisma.AuditoriaUncheckedUpdateManyWithoutTenantNestedInput
   authSessions?: Prisma.AuthSessionUncheckedUpdateManyWithoutTenantNestedInput
@@ -3328,15 +3328,15 @@ export type TenantUncheckedUpdateWithoutNivelesRiesgoInput = {
 
 export type TenantCreateWithoutTiposInteresInput = {
   id?: string
-  nombre: string
   slug: string
-  correo?: string | null
-  nit?: string | null
-  numero?: string | null
-  pagina?: string | null
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  correo?: string | null
+  nit?: string | null
+  nombre: string
+  numero?: string | null
+  pagina?: string | null
   anticipos?: Prisma.AnticiposCreateNestedManyWithoutTenantInput
   auditorias?: Prisma.AuditoriaCreateNestedManyWithoutTenantInput
   authSessions?: Prisma.AuthSessionCreateNestedManyWithoutTenantInput
@@ -3385,15 +3385,15 @@ export type TenantCreateWithoutTiposInteresInput = {
 
 export type TenantUncheckedCreateWithoutTiposInteresInput = {
   id?: string
-  nombre: string
   slug: string
-  correo?: string | null
-  nit?: string | null
-  numero?: string | null
-  pagina?: string | null
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  correo?: string | null
+  nit?: string | null
+  nombre: string
+  numero?: string | null
+  pagina?: string | null
   anticipos?: Prisma.AnticiposUncheckedCreateNestedManyWithoutTenantInput
   auditorias?: Prisma.AuditoriaUncheckedCreateNestedManyWithoutTenantInput
   authSessions?: Prisma.AuthSessionUncheckedCreateNestedManyWithoutTenantInput
@@ -3458,15 +3458,15 @@ export type TenantUpdateToOneWithWhereWithoutTiposInteresInput = {
 
 export type TenantUpdateWithoutTiposInteresInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  nombre?: Prisma.StringFieldUpdateOperationsInput | string
   slug?: Prisma.StringFieldUpdateOperationsInput | string
-  correo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  nit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  numero?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  pagina?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  correo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  nit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  nombre?: Prisma.StringFieldUpdateOperationsInput | string
+  numero?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pagina?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   anticipos?: Prisma.AnticiposUpdateManyWithoutTenantNestedInput
   auditorias?: Prisma.AuditoriaUpdateManyWithoutTenantNestedInput
   authSessions?: Prisma.AuthSessionUpdateManyWithoutTenantNestedInput
@@ -3515,15 +3515,15 @@ export type TenantUpdateWithoutTiposInteresInput = {
 
 export type TenantUncheckedUpdateWithoutTiposInteresInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  nombre?: Prisma.StringFieldUpdateOperationsInput | string
   slug?: Prisma.StringFieldUpdateOperationsInput | string
-  correo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  nit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  numero?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  pagina?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  correo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  nit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  nombre?: Prisma.StringFieldUpdateOperationsInput | string
+  numero?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pagina?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   anticipos?: Prisma.AnticiposUncheckedUpdateManyWithoutTenantNestedInput
   auditorias?: Prisma.AuditoriaUncheckedUpdateManyWithoutTenantNestedInput
   authSessions?: Prisma.AuthSessionUncheckedUpdateManyWithoutTenantNestedInput
@@ -3572,15 +3572,15 @@ export type TenantUncheckedUpdateWithoutTiposInteresInput = {
 
 export type TenantCreateWithoutClientesInput = {
   id?: string
-  nombre: string
   slug: string
-  correo?: string | null
-  nit?: string | null
-  numero?: string | null
-  pagina?: string | null
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  correo?: string | null
+  nit?: string | null
+  nombre: string
+  numero?: string | null
+  pagina?: string | null
   anticipos?: Prisma.AnticiposCreateNestedManyWithoutTenantInput
   auditorias?: Prisma.AuditoriaCreateNestedManyWithoutTenantInput
   authSessions?: Prisma.AuthSessionCreateNestedManyWithoutTenantInput
@@ -3629,15 +3629,15 @@ export type TenantCreateWithoutClientesInput = {
 
 export type TenantUncheckedCreateWithoutClientesInput = {
   id?: string
-  nombre: string
   slug: string
-  correo?: string | null
-  nit?: string | null
-  numero?: string | null
-  pagina?: string | null
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  correo?: string | null
+  nit?: string | null
+  nombre: string
+  numero?: string | null
+  pagina?: string | null
   anticipos?: Prisma.AnticiposUncheckedCreateNestedManyWithoutTenantInput
   auditorias?: Prisma.AuditoriaUncheckedCreateNestedManyWithoutTenantInput
   authSessions?: Prisma.AuthSessionUncheckedCreateNestedManyWithoutTenantInput
@@ -3702,15 +3702,15 @@ export type TenantUpdateToOneWithWhereWithoutClientesInput = {
 
 export type TenantUpdateWithoutClientesInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  nombre?: Prisma.StringFieldUpdateOperationsInput | string
   slug?: Prisma.StringFieldUpdateOperationsInput | string
-  correo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  nit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  numero?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  pagina?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  correo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  nit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  nombre?: Prisma.StringFieldUpdateOperationsInput | string
+  numero?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pagina?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   anticipos?: Prisma.AnticiposUpdateManyWithoutTenantNestedInput
   auditorias?: Prisma.AuditoriaUpdateManyWithoutTenantNestedInput
   authSessions?: Prisma.AuthSessionUpdateManyWithoutTenantNestedInput
@@ -3759,15 +3759,15 @@ export type TenantUpdateWithoutClientesInput = {
 
 export type TenantUncheckedUpdateWithoutClientesInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  nombre?: Prisma.StringFieldUpdateOperationsInput | string
   slug?: Prisma.StringFieldUpdateOperationsInput | string
-  correo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  nit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  numero?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  pagina?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  correo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  nit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  nombre?: Prisma.StringFieldUpdateOperationsInput | string
+  numero?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pagina?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   anticipos?: Prisma.AnticiposUncheckedUpdateManyWithoutTenantNestedInput
   auditorias?: Prisma.AuditoriaUncheckedUpdateManyWithoutTenantNestedInput
   authSessions?: Prisma.AuthSessionUncheckedUpdateManyWithoutTenantNestedInput
@@ -3816,15 +3816,15 @@ export type TenantUncheckedUpdateWithoutClientesInput = {
 
 export type TenantCreateWithoutVehiculosInput = {
   id?: string
-  nombre: string
   slug: string
-  correo?: string | null
-  nit?: string | null
-  numero?: string | null
-  pagina?: string | null
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  correo?: string | null
+  nit?: string | null
+  nombre: string
+  numero?: string | null
+  pagina?: string | null
   anticipos?: Prisma.AnticiposCreateNestedManyWithoutTenantInput
   auditorias?: Prisma.AuditoriaCreateNestedManyWithoutTenantInput
   authSessions?: Prisma.AuthSessionCreateNestedManyWithoutTenantInput
@@ -3873,15 +3873,15 @@ export type TenantCreateWithoutVehiculosInput = {
 
 export type TenantUncheckedCreateWithoutVehiculosInput = {
   id?: string
-  nombre: string
   slug: string
-  correo?: string | null
-  nit?: string | null
-  numero?: string | null
-  pagina?: string | null
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  correo?: string | null
+  nit?: string | null
+  nombre: string
+  numero?: string | null
+  pagina?: string | null
   anticipos?: Prisma.AnticiposUncheckedCreateNestedManyWithoutTenantInput
   auditorias?: Prisma.AuditoriaUncheckedCreateNestedManyWithoutTenantInput
   authSessions?: Prisma.AuthSessionUncheckedCreateNestedManyWithoutTenantInput
@@ -3946,15 +3946,15 @@ export type TenantUpdateToOneWithWhereWithoutVehiculosInput = {
 
 export type TenantUpdateWithoutVehiculosInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  nombre?: Prisma.StringFieldUpdateOperationsInput | string
   slug?: Prisma.StringFieldUpdateOperationsInput | string
-  correo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  nit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  numero?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  pagina?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  correo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  nit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  nombre?: Prisma.StringFieldUpdateOperationsInput | string
+  numero?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pagina?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   anticipos?: Prisma.AnticiposUpdateManyWithoutTenantNestedInput
   auditorias?: Prisma.AuditoriaUpdateManyWithoutTenantNestedInput
   authSessions?: Prisma.AuthSessionUpdateManyWithoutTenantNestedInput
@@ -4003,15 +4003,15 @@ export type TenantUpdateWithoutVehiculosInput = {
 
 export type TenantUncheckedUpdateWithoutVehiculosInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  nombre?: Prisma.StringFieldUpdateOperationsInput | string
   slug?: Prisma.StringFieldUpdateOperationsInput | string
-  correo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  nit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  numero?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  pagina?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  correo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  nit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  nombre?: Prisma.StringFieldUpdateOperationsInput | string
+  numero?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pagina?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   anticipos?: Prisma.AnticiposUncheckedUpdateManyWithoutTenantNestedInput
   auditorias?: Prisma.AuditoriaUncheckedUpdateManyWithoutTenantNestedInput
   authSessions?: Prisma.AuthSessionUncheckedUpdateManyWithoutTenantNestedInput
@@ -4060,15 +4060,15 @@ export type TenantUncheckedUpdateWithoutVehiculosInput = {
 
 export type TenantCreateWithoutDireccionesInput = {
   id?: string
-  nombre: string
   slug: string
-  correo?: string | null
-  nit?: string | null
-  numero?: string | null
-  pagina?: string | null
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  correo?: string | null
+  nit?: string | null
+  nombre: string
+  numero?: string | null
+  pagina?: string | null
   anticipos?: Prisma.AnticiposCreateNestedManyWithoutTenantInput
   auditorias?: Prisma.AuditoriaCreateNestedManyWithoutTenantInput
   authSessions?: Prisma.AuthSessionCreateNestedManyWithoutTenantInput
@@ -4117,15 +4117,15 @@ export type TenantCreateWithoutDireccionesInput = {
 
 export type TenantUncheckedCreateWithoutDireccionesInput = {
   id?: string
-  nombre: string
   slug: string
-  correo?: string | null
-  nit?: string | null
-  numero?: string | null
-  pagina?: string | null
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  correo?: string | null
+  nit?: string | null
+  nombre: string
+  numero?: string | null
+  pagina?: string | null
   anticipos?: Prisma.AnticiposUncheckedCreateNestedManyWithoutTenantInput
   auditorias?: Prisma.AuditoriaUncheckedCreateNestedManyWithoutTenantInput
   authSessions?: Prisma.AuthSessionUncheckedCreateNestedManyWithoutTenantInput
@@ -4190,15 +4190,15 @@ export type TenantUpdateToOneWithWhereWithoutDireccionesInput = {
 
 export type TenantUpdateWithoutDireccionesInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  nombre?: Prisma.StringFieldUpdateOperationsInput | string
   slug?: Prisma.StringFieldUpdateOperationsInput | string
-  correo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  nit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  numero?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  pagina?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  correo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  nit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  nombre?: Prisma.StringFieldUpdateOperationsInput | string
+  numero?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pagina?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   anticipos?: Prisma.AnticiposUpdateManyWithoutTenantNestedInput
   auditorias?: Prisma.AuditoriaUpdateManyWithoutTenantNestedInput
   authSessions?: Prisma.AuthSessionUpdateManyWithoutTenantNestedInput
@@ -4247,15 +4247,15 @@ export type TenantUpdateWithoutDireccionesInput = {
 
 export type TenantUncheckedUpdateWithoutDireccionesInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  nombre?: Prisma.StringFieldUpdateOperationsInput | string
   slug?: Prisma.StringFieldUpdateOperationsInput | string
-  correo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  nit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  numero?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  pagina?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  correo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  nit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  nombre?: Prisma.StringFieldUpdateOperationsInput | string
+  numero?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pagina?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   anticipos?: Prisma.AnticiposUncheckedUpdateManyWithoutTenantNestedInput
   auditorias?: Prisma.AuditoriaUncheckedUpdateManyWithoutTenantNestedInput
   authSessions?: Prisma.AuthSessionUncheckedUpdateManyWithoutTenantNestedInput
@@ -4304,15 +4304,15 @@ export type TenantUncheckedUpdateWithoutDireccionesInput = {
 
 export type TenantCreateWithoutZonasInput = {
   id?: string
-  nombre: string
   slug: string
-  correo?: string | null
-  nit?: string | null
-  numero?: string | null
-  pagina?: string | null
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  correo?: string | null
+  nit?: string | null
+  nombre: string
+  numero?: string | null
+  pagina?: string | null
   anticipos?: Prisma.AnticiposCreateNestedManyWithoutTenantInput
   auditorias?: Prisma.AuditoriaCreateNestedManyWithoutTenantInput
   authSessions?: Prisma.AuthSessionCreateNestedManyWithoutTenantInput
@@ -4361,15 +4361,15 @@ export type TenantCreateWithoutZonasInput = {
 
 export type TenantUncheckedCreateWithoutZonasInput = {
   id?: string
-  nombre: string
   slug: string
-  correo?: string | null
-  nit?: string | null
-  numero?: string | null
-  pagina?: string | null
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  correo?: string | null
+  nit?: string | null
+  nombre: string
+  numero?: string | null
+  pagina?: string | null
   anticipos?: Prisma.AnticiposUncheckedCreateNestedManyWithoutTenantInput
   auditorias?: Prisma.AuditoriaUncheckedCreateNestedManyWithoutTenantInput
   authSessions?: Prisma.AuthSessionUncheckedCreateNestedManyWithoutTenantInput
@@ -4434,15 +4434,15 @@ export type TenantUpdateToOneWithWhereWithoutZonasInput = {
 
 export type TenantUpdateWithoutZonasInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  nombre?: Prisma.StringFieldUpdateOperationsInput | string
   slug?: Prisma.StringFieldUpdateOperationsInput | string
-  correo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  nit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  numero?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  pagina?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  correo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  nit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  nombre?: Prisma.StringFieldUpdateOperationsInput | string
+  numero?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pagina?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   anticipos?: Prisma.AnticiposUpdateManyWithoutTenantNestedInput
   auditorias?: Prisma.AuditoriaUpdateManyWithoutTenantNestedInput
   authSessions?: Prisma.AuthSessionUpdateManyWithoutTenantNestedInput
@@ -4491,15 +4491,15 @@ export type TenantUpdateWithoutZonasInput = {
 
 export type TenantUncheckedUpdateWithoutZonasInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  nombre?: Prisma.StringFieldUpdateOperationsInput | string
   slug?: Prisma.StringFieldUpdateOperationsInput | string
-  correo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  nit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  numero?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  pagina?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  correo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  nit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  nombre?: Prisma.StringFieldUpdateOperationsInput | string
+  numero?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pagina?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   anticipos?: Prisma.AnticiposUncheckedUpdateManyWithoutTenantNestedInput
   auditorias?: Prisma.AuditoriaUncheckedUpdateManyWithoutTenantNestedInput
   authSessions?: Prisma.AuthSessionUncheckedUpdateManyWithoutTenantNestedInput
@@ -4548,15 +4548,15 @@ export type TenantUncheckedUpdateWithoutZonasInput = {
 
 export type TenantCreateWithoutServiciosInput = {
   id?: string
-  nombre: string
   slug: string
-  correo?: string | null
-  nit?: string | null
-  numero?: string | null
-  pagina?: string | null
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  correo?: string | null
+  nit?: string | null
+  nombre: string
+  numero?: string | null
+  pagina?: string | null
   anticipos?: Prisma.AnticiposCreateNestedManyWithoutTenantInput
   auditorias?: Prisma.AuditoriaCreateNestedManyWithoutTenantInput
   authSessions?: Prisma.AuthSessionCreateNestedManyWithoutTenantInput
@@ -4605,15 +4605,15 @@ export type TenantCreateWithoutServiciosInput = {
 
 export type TenantUncheckedCreateWithoutServiciosInput = {
   id?: string
-  nombre: string
   slug: string
-  correo?: string | null
-  nit?: string | null
-  numero?: string | null
-  pagina?: string | null
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  correo?: string | null
+  nit?: string | null
+  nombre: string
+  numero?: string | null
+  pagina?: string | null
   anticipos?: Prisma.AnticiposUncheckedCreateNestedManyWithoutTenantInput
   auditorias?: Prisma.AuditoriaUncheckedCreateNestedManyWithoutTenantInput
   authSessions?: Prisma.AuthSessionUncheckedCreateNestedManyWithoutTenantInput
@@ -4678,15 +4678,15 @@ export type TenantUpdateToOneWithWhereWithoutServiciosInput = {
 
 export type TenantUpdateWithoutServiciosInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  nombre?: Prisma.StringFieldUpdateOperationsInput | string
   slug?: Prisma.StringFieldUpdateOperationsInput | string
-  correo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  nit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  numero?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  pagina?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  correo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  nit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  nombre?: Prisma.StringFieldUpdateOperationsInput | string
+  numero?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pagina?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   anticipos?: Prisma.AnticiposUpdateManyWithoutTenantNestedInput
   auditorias?: Prisma.AuditoriaUpdateManyWithoutTenantNestedInput
   authSessions?: Prisma.AuthSessionUpdateManyWithoutTenantNestedInput
@@ -4735,15 +4735,15 @@ export type TenantUpdateWithoutServiciosInput = {
 
 export type TenantUncheckedUpdateWithoutServiciosInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  nombre?: Prisma.StringFieldUpdateOperationsInput | string
   slug?: Prisma.StringFieldUpdateOperationsInput | string
-  correo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  nit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  numero?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  pagina?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  correo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  nit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  nombre?: Prisma.StringFieldUpdateOperationsInput | string
+  numero?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pagina?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   anticipos?: Prisma.AnticiposUncheckedUpdateManyWithoutTenantNestedInput
   auditorias?: Prisma.AuditoriaUncheckedUpdateManyWithoutTenantNestedInput
   authSessions?: Prisma.AuthSessionUncheckedUpdateManyWithoutTenantNestedInput
@@ -4792,15 +4792,15 @@ export type TenantUncheckedUpdateWithoutServiciosInput = {
 
 export type TenantCreateWithoutTiposServicioInput = {
   id?: string
-  nombre: string
   slug: string
-  correo?: string | null
-  nit?: string | null
-  numero?: string | null
-  pagina?: string | null
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  correo?: string | null
+  nit?: string | null
+  nombre: string
+  numero?: string | null
+  pagina?: string | null
   anticipos?: Prisma.AnticiposCreateNestedManyWithoutTenantInput
   auditorias?: Prisma.AuditoriaCreateNestedManyWithoutTenantInput
   authSessions?: Prisma.AuthSessionCreateNestedManyWithoutTenantInput
@@ -4849,15 +4849,15 @@ export type TenantCreateWithoutTiposServicioInput = {
 
 export type TenantUncheckedCreateWithoutTiposServicioInput = {
   id?: string
-  nombre: string
   slug: string
-  correo?: string | null
-  nit?: string | null
-  numero?: string | null
-  pagina?: string | null
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  correo?: string | null
+  nit?: string | null
+  nombre: string
+  numero?: string | null
+  pagina?: string | null
   anticipos?: Prisma.AnticiposUncheckedCreateNestedManyWithoutTenantInput
   auditorias?: Prisma.AuditoriaUncheckedCreateNestedManyWithoutTenantInput
   authSessions?: Prisma.AuthSessionUncheckedCreateNestedManyWithoutTenantInput
@@ -4922,15 +4922,15 @@ export type TenantUpdateToOneWithWhereWithoutTiposServicioInput = {
 
 export type TenantUpdateWithoutTiposServicioInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  nombre?: Prisma.StringFieldUpdateOperationsInput | string
   slug?: Prisma.StringFieldUpdateOperationsInput | string
-  correo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  nit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  numero?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  pagina?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  correo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  nit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  nombre?: Prisma.StringFieldUpdateOperationsInput | string
+  numero?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pagina?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   anticipos?: Prisma.AnticiposUpdateManyWithoutTenantNestedInput
   auditorias?: Prisma.AuditoriaUpdateManyWithoutTenantNestedInput
   authSessions?: Prisma.AuthSessionUpdateManyWithoutTenantNestedInput
@@ -4979,15 +4979,15 @@ export type TenantUpdateWithoutTiposServicioInput = {
 
 export type TenantUncheckedUpdateWithoutTiposServicioInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  nombre?: Prisma.StringFieldUpdateOperationsInput | string
   slug?: Prisma.StringFieldUpdateOperationsInput | string
-  correo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  nit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  numero?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  pagina?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  correo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  nit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  nombre?: Prisma.StringFieldUpdateOperationsInput | string
+  numero?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pagina?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   anticipos?: Prisma.AnticiposUncheckedUpdateManyWithoutTenantNestedInput
   auditorias?: Prisma.AuditoriaUncheckedUpdateManyWithoutTenantNestedInput
   authSessions?: Prisma.AuthSessionUncheckedUpdateManyWithoutTenantNestedInput
@@ -5036,15 +5036,15 @@ export type TenantUncheckedUpdateWithoutTiposServicioInput = {
 
 export type TenantCreateWithoutMetodosPagoInput = {
   id?: string
-  nombre: string
   slug: string
-  correo?: string | null
-  nit?: string | null
-  numero?: string | null
-  pagina?: string | null
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  correo?: string | null
+  nit?: string | null
+  nombre: string
+  numero?: string | null
+  pagina?: string | null
   anticipos?: Prisma.AnticiposCreateNestedManyWithoutTenantInput
   auditorias?: Prisma.AuditoriaCreateNestedManyWithoutTenantInput
   authSessions?: Prisma.AuthSessionCreateNestedManyWithoutTenantInput
@@ -5093,15 +5093,15 @@ export type TenantCreateWithoutMetodosPagoInput = {
 
 export type TenantUncheckedCreateWithoutMetodosPagoInput = {
   id?: string
-  nombre: string
   slug: string
-  correo?: string | null
-  nit?: string | null
-  numero?: string | null
-  pagina?: string | null
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  correo?: string | null
+  nit?: string | null
+  nombre: string
+  numero?: string | null
+  pagina?: string | null
   anticipos?: Prisma.AnticiposUncheckedCreateNestedManyWithoutTenantInput
   auditorias?: Prisma.AuditoriaUncheckedCreateNestedManyWithoutTenantInput
   authSessions?: Prisma.AuthSessionUncheckedCreateNestedManyWithoutTenantInput
@@ -5166,15 +5166,15 @@ export type TenantUpdateToOneWithWhereWithoutMetodosPagoInput = {
 
 export type TenantUpdateWithoutMetodosPagoInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  nombre?: Prisma.StringFieldUpdateOperationsInput | string
   slug?: Prisma.StringFieldUpdateOperationsInput | string
-  correo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  nit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  numero?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  pagina?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  correo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  nit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  nombre?: Prisma.StringFieldUpdateOperationsInput | string
+  numero?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pagina?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   anticipos?: Prisma.AnticiposUpdateManyWithoutTenantNestedInput
   auditorias?: Prisma.AuditoriaUpdateManyWithoutTenantNestedInput
   authSessions?: Prisma.AuthSessionUpdateManyWithoutTenantNestedInput
@@ -5223,15 +5223,15 @@ export type TenantUpdateWithoutMetodosPagoInput = {
 
 export type TenantUncheckedUpdateWithoutMetodosPagoInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  nombre?: Prisma.StringFieldUpdateOperationsInput | string
   slug?: Prisma.StringFieldUpdateOperationsInput | string
-  correo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  nit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  numero?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  pagina?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  correo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  nit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  nombre?: Prisma.StringFieldUpdateOperationsInput | string
+  numero?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pagina?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   anticipos?: Prisma.AnticiposUncheckedUpdateManyWithoutTenantNestedInput
   auditorias?: Prisma.AuditoriaUncheckedUpdateManyWithoutTenantNestedInput
   authSessions?: Prisma.AuthSessionUncheckedUpdateManyWithoutTenantNestedInput
@@ -5280,15 +5280,15 @@ export type TenantUncheckedUpdateWithoutMetodosPagoInput = {
 
 export type TenantCreateWithoutEstadosServicioInput = {
   id?: string
-  nombre: string
   slug: string
-  correo?: string | null
-  nit?: string | null
-  numero?: string | null
-  pagina?: string | null
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  correo?: string | null
+  nit?: string | null
+  nombre: string
+  numero?: string | null
+  pagina?: string | null
   anticipos?: Prisma.AnticiposCreateNestedManyWithoutTenantInput
   auditorias?: Prisma.AuditoriaCreateNestedManyWithoutTenantInput
   authSessions?: Prisma.AuthSessionCreateNestedManyWithoutTenantInput
@@ -5337,15 +5337,15 @@ export type TenantCreateWithoutEstadosServicioInput = {
 
 export type TenantUncheckedCreateWithoutEstadosServicioInput = {
   id?: string
-  nombre: string
   slug: string
-  correo?: string | null
-  nit?: string | null
-  numero?: string | null
-  pagina?: string | null
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  correo?: string | null
+  nit?: string | null
+  nombre: string
+  numero?: string | null
+  pagina?: string | null
   anticipos?: Prisma.AnticiposUncheckedCreateNestedManyWithoutTenantInput
   auditorias?: Prisma.AuditoriaUncheckedCreateNestedManyWithoutTenantInput
   authSessions?: Prisma.AuthSessionUncheckedCreateNestedManyWithoutTenantInput
@@ -5410,15 +5410,15 @@ export type TenantUpdateToOneWithWhereWithoutEstadosServicioInput = {
 
 export type TenantUpdateWithoutEstadosServicioInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  nombre?: Prisma.StringFieldUpdateOperationsInput | string
   slug?: Prisma.StringFieldUpdateOperationsInput | string
-  correo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  nit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  numero?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  pagina?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  correo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  nit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  nombre?: Prisma.StringFieldUpdateOperationsInput | string
+  numero?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pagina?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   anticipos?: Prisma.AnticiposUpdateManyWithoutTenantNestedInput
   auditorias?: Prisma.AuditoriaUpdateManyWithoutTenantNestedInput
   authSessions?: Prisma.AuthSessionUpdateManyWithoutTenantNestedInput
@@ -5467,15 +5467,15 @@ export type TenantUpdateWithoutEstadosServicioInput = {
 
 export type TenantUncheckedUpdateWithoutEstadosServicioInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  nombre?: Prisma.StringFieldUpdateOperationsInput | string
   slug?: Prisma.StringFieldUpdateOperationsInput | string
-  correo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  nit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  numero?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  pagina?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  correo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  nit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  nombre?: Prisma.StringFieldUpdateOperationsInput | string
+  numero?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pagina?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   anticipos?: Prisma.AnticiposUncheckedUpdateManyWithoutTenantNestedInput
   auditorias?: Prisma.AuditoriaUncheckedUpdateManyWithoutTenantNestedInput
   authSessions?: Prisma.AuthSessionUncheckedUpdateManyWithoutTenantNestedInput
@@ -5524,15 +5524,15 @@ export type TenantUncheckedUpdateWithoutEstadosServicioInput = {
 
 export type TenantCreateWithoutOrdenesServicioInput = {
   id?: string
-  nombre: string
   slug: string
-  correo?: string | null
-  nit?: string | null
-  numero?: string | null
-  pagina?: string | null
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  correo?: string | null
+  nit?: string | null
+  nombre: string
+  numero?: string | null
+  pagina?: string | null
   anticipos?: Prisma.AnticiposCreateNestedManyWithoutTenantInput
   auditorias?: Prisma.AuditoriaCreateNestedManyWithoutTenantInput
   authSessions?: Prisma.AuthSessionCreateNestedManyWithoutTenantInput
@@ -5581,15 +5581,15 @@ export type TenantCreateWithoutOrdenesServicioInput = {
 
 export type TenantUncheckedCreateWithoutOrdenesServicioInput = {
   id?: string
-  nombre: string
   slug: string
-  correo?: string | null
-  nit?: string | null
-  numero?: string | null
-  pagina?: string | null
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  correo?: string | null
+  nit?: string | null
+  nombre: string
+  numero?: string | null
+  pagina?: string | null
   anticipos?: Prisma.AnticiposUncheckedCreateNestedManyWithoutTenantInput
   auditorias?: Prisma.AuditoriaUncheckedCreateNestedManyWithoutTenantInput
   authSessions?: Prisma.AuthSessionUncheckedCreateNestedManyWithoutTenantInput
@@ -5654,15 +5654,15 @@ export type TenantUpdateToOneWithWhereWithoutOrdenesServicioInput = {
 
 export type TenantUpdateWithoutOrdenesServicioInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  nombre?: Prisma.StringFieldUpdateOperationsInput | string
   slug?: Prisma.StringFieldUpdateOperationsInput | string
-  correo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  nit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  numero?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  pagina?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  correo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  nit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  nombre?: Prisma.StringFieldUpdateOperationsInput | string
+  numero?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pagina?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   anticipos?: Prisma.AnticiposUpdateManyWithoutTenantNestedInput
   auditorias?: Prisma.AuditoriaUpdateManyWithoutTenantNestedInput
   authSessions?: Prisma.AuthSessionUpdateManyWithoutTenantNestedInput
@@ -5711,15 +5711,15 @@ export type TenantUpdateWithoutOrdenesServicioInput = {
 
 export type TenantUncheckedUpdateWithoutOrdenesServicioInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  nombre?: Prisma.StringFieldUpdateOperationsInput | string
   slug?: Prisma.StringFieldUpdateOperationsInput | string
-  correo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  nit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  numero?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  pagina?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  correo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  nit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  nombre?: Prisma.StringFieldUpdateOperationsInput | string
+  numero?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pagina?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   anticipos?: Prisma.AnticiposUncheckedUpdateManyWithoutTenantNestedInput
   auditorias?: Prisma.AuditoriaUncheckedUpdateManyWithoutTenantNestedInput
   authSessions?: Prisma.AuthSessionUncheckedUpdateManyWithoutTenantNestedInput
@@ -5768,15 +5768,15 @@ export type TenantUncheckedUpdateWithoutOrdenesServicioInput = {
 
 export type TenantCreateWithoutGeolocalizacionesInput = {
   id?: string
-  nombre: string
   slug: string
-  correo?: string | null
-  nit?: string | null
-  numero?: string | null
-  pagina?: string | null
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  correo?: string | null
+  nit?: string | null
+  nombre: string
+  numero?: string | null
+  pagina?: string | null
   anticipos?: Prisma.AnticiposCreateNestedManyWithoutTenantInput
   auditorias?: Prisma.AuditoriaCreateNestedManyWithoutTenantInput
   authSessions?: Prisma.AuthSessionCreateNestedManyWithoutTenantInput
@@ -5825,15 +5825,15 @@ export type TenantCreateWithoutGeolocalizacionesInput = {
 
 export type TenantUncheckedCreateWithoutGeolocalizacionesInput = {
   id?: string
-  nombre: string
   slug: string
-  correo?: string | null
-  nit?: string | null
-  numero?: string | null
-  pagina?: string | null
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  correo?: string | null
+  nit?: string | null
+  nombre: string
+  numero?: string | null
+  pagina?: string | null
   anticipos?: Prisma.AnticiposUncheckedCreateNestedManyWithoutTenantInput
   auditorias?: Prisma.AuditoriaUncheckedCreateNestedManyWithoutTenantInput
   authSessions?: Prisma.AuthSessionUncheckedCreateNestedManyWithoutTenantInput
@@ -5898,15 +5898,15 @@ export type TenantUpdateToOneWithWhereWithoutGeolocalizacionesInput = {
 
 export type TenantUpdateWithoutGeolocalizacionesInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  nombre?: Prisma.StringFieldUpdateOperationsInput | string
   slug?: Prisma.StringFieldUpdateOperationsInput | string
-  correo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  nit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  numero?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  pagina?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  correo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  nit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  nombre?: Prisma.StringFieldUpdateOperationsInput | string
+  numero?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pagina?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   anticipos?: Prisma.AnticiposUpdateManyWithoutTenantNestedInput
   auditorias?: Prisma.AuditoriaUpdateManyWithoutTenantNestedInput
   authSessions?: Prisma.AuthSessionUpdateManyWithoutTenantNestedInput
@@ -5955,15 +5955,15 @@ export type TenantUpdateWithoutGeolocalizacionesInput = {
 
 export type TenantUncheckedUpdateWithoutGeolocalizacionesInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  nombre?: Prisma.StringFieldUpdateOperationsInput | string
   slug?: Prisma.StringFieldUpdateOperationsInput | string
-  correo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  nit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  numero?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  pagina?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  correo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  nit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  nombre?: Prisma.StringFieldUpdateOperationsInput | string
+  numero?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pagina?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   anticipos?: Prisma.AnticiposUncheckedUpdateManyWithoutTenantNestedInput
   auditorias?: Prisma.AuditoriaUncheckedUpdateManyWithoutTenantNestedInput
   authSessions?: Prisma.AuthSessionUncheckedUpdateManyWithoutTenantNestedInput
@@ -6012,15 +6012,15 @@ export type TenantUncheckedUpdateWithoutGeolocalizacionesInput = {
 
 export type TenantCreateWithoutNominasInput = {
   id?: string
-  nombre: string
   slug: string
-  correo?: string | null
-  nit?: string | null
-  numero?: string | null
-  pagina?: string | null
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  correo?: string | null
+  nit?: string | null
+  nombre: string
+  numero?: string | null
+  pagina?: string | null
   anticipos?: Prisma.AnticiposCreateNestedManyWithoutTenantInput
   auditorias?: Prisma.AuditoriaCreateNestedManyWithoutTenantInput
   authSessions?: Prisma.AuthSessionCreateNestedManyWithoutTenantInput
@@ -6069,15 +6069,15 @@ export type TenantCreateWithoutNominasInput = {
 
 export type TenantUncheckedCreateWithoutNominasInput = {
   id?: string
-  nombre: string
   slug: string
-  correo?: string | null
-  nit?: string | null
-  numero?: string | null
-  pagina?: string | null
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  correo?: string | null
+  nit?: string | null
+  nombre: string
+  numero?: string | null
+  pagina?: string | null
   anticipos?: Prisma.AnticiposUncheckedCreateNestedManyWithoutTenantInput
   auditorias?: Prisma.AuditoriaUncheckedCreateNestedManyWithoutTenantInput
   authSessions?: Prisma.AuthSessionUncheckedCreateNestedManyWithoutTenantInput
@@ -6142,15 +6142,15 @@ export type TenantUpdateToOneWithWhereWithoutNominasInput = {
 
 export type TenantUpdateWithoutNominasInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  nombre?: Prisma.StringFieldUpdateOperationsInput | string
   slug?: Prisma.StringFieldUpdateOperationsInput | string
-  correo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  nit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  numero?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  pagina?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  correo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  nit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  nombre?: Prisma.StringFieldUpdateOperationsInput | string
+  numero?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pagina?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   anticipos?: Prisma.AnticiposUpdateManyWithoutTenantNestedInput
   auditorias?: Prisma.AuditoriaUpdateManyWithoutTenantNestedInput
   authSessions?: Prisma.AuthSessionUpdateManyWithoutTenantNestedInput
@@ -6199,15 +6199,15 @@ export type TenantUpdateWithoutNominasInput = {
 
 export type TenantUncheckedUpdateWithoutNominasInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  nombre?: Prisma.StringFieldUpdateOperationsInput | string
   slug?: Prisma.StringFieldUpdateOperationsInput | string
-  correo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  nit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  numero?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  pagina?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  correo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  nit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  nombre?: Prisma.StringFieldUpdateOperationsInput | string
+  numero?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pagina?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   anticipos?: Prisma.AnticiposUncheckedUpdateManyWithoutTenantNestedInput
   auditorias?: Prisma.AuditoriaUncheckedUpdateManyWithoutTenantNestedInput
   authSessions?: Prisma.AuthSessionUncheckedUpdateManyWithoutTenantNestedInput
@@ -6256,15 +6256,15 @@ export type TenantUncheckedUpdateWithoutNominasInput = {
 
 export type TenantCreateWithoutNominaDetallesInput = {
   id?: string
-  nombre: string
   slug: string
-  correo?: string | null
-  nit?: string | null
-  numero?: string | null
-  pagina?: string | null
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  correo?: string | null
+  nit?: string | null
+  nombre: string
+  numero?: string | null
+  pagina?: string | null
   anticipos?: Prisma.AnticiposCreateNestedManyWithoutTenantInput
   auditorias?: Prisma.AuditoriaCreateNestedManyWithoutTenantInput
   authSessions?: Prisma.AuthSessionCreateNestedManyWithoutTenantInput
@@ -6313,15 +6313,15 @@ export type TenantCreateWithoutNominaDetallesInput = {
 
 export type TenantUncheckedCreateWithoutNominaDetallesInput = {
   id?: string
-  nombre: string
   slug: string
-  correo?: string | null
-  nit?: string | null
-  numero?: string | null
-  pagina?: string | null
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  correo?: string | null
+  nit?: string | null
+  nombre: string
+  numero?: string | null
+  pagina?: string | null
   anticipos?: Prisma.AnticiposUncheckedCreateNestedManyWithoutTenantInput
   auditorias?: Prisma.AuditoriaUncheckedCreateNestedManyWithoutTenantInput
   authSessions?: Prisma.AuthSessionUncheckedCreateNestedManyWithoutTenantInput
@@ -6386,15 +6386,15 @@ export type TenantUpdateToOneWithWhereWithoutNominaDetallesInput = {
 
 export type TenantUpdateWithoutNominaDetallesInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  nombre?: Prisma.StringFieldUpdateOperationsInput | string
   slug?: Prisma.StringFieldUpdateOperationsInput | string
-  correo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  nit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  numero?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  pagina?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  correo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  nit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  nombre?: Prisma.StringFieldUpdateOperationsInput | string
+  numero?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pagina?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   anticipos?: Prisma.AnticiposUpdateManyWithoutTenantNestedInput
   auditorias?: Prisma.AuditoriaUpdateManyWithoutTenantNestedInput
   authSessions?: Prisma.AuthSessionUpdateManyWithoutTenantNestedInput
@@ -6443,15 +6443,15 @@ export type TenantUpdateWithoutNominaDetallesInput = {
 
 export type TenantUncheckedUpdateWithoutNominaDetallesInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  nombre?: Prisma.StringFieldUpdateOperationsInput | string
   slug?: Prisma.StringFieldUpdateOperationsInput | string
-  correo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  nit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  numero?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  pagina?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  correo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  nit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  nombre?: Prisma.StringFieldUpdateOperationsInput | string
+  numero?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pagina?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   anticipos?: Prisma.AnticiposUncheckedUpdateManyWithoutTenantNestedInput
   auditorias?: Prisma.AuditoriaUncheckedUpdateManyWithoutTenantNestedInput
   authSessions?: Prisma.AuthSessionUncheckedUpdateManyWithoutTenantNestedInput
@@ -6500,15 +6500,15 @@ export type TenantUncheckedUpdateWithoutNominaDetallesInput = {
 
 export type TenantCreateWithoutCitasPsicologosInput = {
   id?: string
-  nombre: string
   slug: string
-  correo?: string | null
-  nit?: string | null
-  numero?: string | null
-  pagina?: string | null
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  correo?: string | null
+  nit?: string | null
+  nombre: string
+  numero?: string | null
+  pagina?: string | null
   anticipos?: Prisma.AnticiposCreateNestedManyWithoutTenantInput
   auditorias?: Prisma.AuditoriaCreateNestedManyWithoutTenantInput
   authSessions?: Prisma.AuthSessionCreateNestedManyWithoutTenantInput
@@ -6557,15 +6557,15 @@ export type TenantCreateWithoutCitasPsicologosInput = {
 
 export type TenantUncheckedCreateWithoutCitasPsicologosInput = {
   id?: string
-  nombre: string
   slug: string
-  correo?: string | null
-  nit?: string | null
-  numero?: string | null
-  pagina?: string | null
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  correo?: string | null
+  nit?: string | null
+  nombre: string
+  numero?: string | null
+  pagina?: string | null
   anticipos?: Prisma.AnticiposUncheckedCreateNestedManyWithoutTenantInput
   auditorias?: Prisma.AuditoriaUncheckedCreateNestedManyWithoutTenantInput
   authSessions?: Prisma.AuthSessionUncheckedCreateNestedManyWithoutTenantInput
@@ -6630,15 +6630,15 @@ export type TenantUpdateToOneWithWhereWithoutCitasPsicologosInput = {
 
 export type TenantUpdateWithoutCitasPsicologosInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  nombre?: Prisma.StringFieldUpdateOperationsInput | string
   slug?: Prisma.StringFieldUpdateOperationsInput | string
-  correo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  nit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  numero?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  pagina?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  correo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  nit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  nombre?: Prisma.StringFieldUpdateOperationsInput | string
+  numero?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pagina?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   anticipos?: Prisma.AnticiposUpdateManyWithoutTenantNestedInput
   auditorias?: Prisma.AuditoriaUpdateManyWithoutTenantNestedInput
   authSessions?: Prisma.AuthSessionUpdateManyWithoutTenantNestedInput
@@ -6687,15 +6687,15 @@ export type TenantUpdateWithoutCitasPsicologosInput = {
 
 export type TenantUncheckedUpdateWithoutCitasPsicologosInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  nombre?: Prisma.StringFieldUpdateOperationsInput | string
   slug?: Prisma.StringFieldUpdateOperationsInput | string
-  correo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  nit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  numero?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  pagina?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  correo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  nit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  nombre?: Prisma.StringFieldUpdateOperationsInput | string
+  numero?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pagina?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   anticipos?: Prisma.AnticiposUncheckedUpdateManyWithoutTenantNestedInput
   auditorias?: Prisma.AuditoriaUncheckedUpdateManyWithoutTenantNestedInput
   authSessions?: Prisma.AuthSessionUncheckedUpdateManyWithoutTenantNestedInput
@@ -6744,15 +6744,15 @@ export type TenantUncheckedUpdateWithoutCitasPsicologosInput = {
 
 export type TenantCreateWithoutConsultoriosInput = {
   id?: string
-  nombre: string
   slug: string
-  correo?: string | null
-  nit?: string | null
-  numero?: string | null
-  pagina?: string | null
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  correo?: string | null
+  nit?: string | null
+  nombre: string
+  numero?: string | null
+  pagina?: string | null
   anticipos?: Prisma.AnticiposCreateNestedManyWithoutTenantInput
   auditorias?: Prisma.AuditoriaCreateNestedManyWithoutTenantInput
   authSessions?: Prisma.AuthSessionCreateNestedManyWithoutTenantInput
@@ -6801,15 +6801,15 @@ export type TenantCreateWithoutConsultoriosInput = {
 
 export type TenantUncheckedCreateWithoutConsultoriosInput = {
   id?: string
-  nombre: string
   slug: string
-  correo?: string | null
-  nit?: string | null
-  numero?: string | null
-  pagina?: string | null
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  correo?: string | null
+  nit?: string | null
+  nombre: string
+  numero?: string | null
+  pagina?: string | null
   anticipos?: Prisma.AnticiposUncheckedCreateNestedManyWithoutTenantInput
   auditorias?: Prisma.AuditoriaUncheckedCreateNestedManyWithoutTenantInput
   authSessions?: Prisma.AuthSessionUncheckedCreateNestedManyWithoutTenantInput
@@ -6874,15 +6874,15 @@ export type TenantUpdateToOneWithWhereWithoutConsultoriosInput = {
 
 export type TenantUpdateWithoutConsultoriosInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  nombre?: Prisma.StringFieldUpdateOperationsInput | string
   slug?: Prisma.StringFieldUpdateOperationsInput | string
-  correo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  nit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  numero?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  pagina?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  correo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  nit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  nombre?: Prisma.StringFieldUpdateOperationsInput | string
+  numero?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pagina?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   anticipos?: Prisma.AnticiposUpdateManyWithoutTenantNestedInput
   auditorias?: Prisma.AuditoriaUpdateManyWithoutTenantNestedInput
   authSessions?: Prisma.AuthSessionUpdateManyWithoutTenantNestedInput
@@ -6931,15 +6931,15 @@ export type TenantUpdateWithoutConsultoriosInput = {
 
 export type TenantUncheckedUpdateWithoutConsultoriosInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  nombre?: Prisma.StringFieldUpdateOperationsInput | string
   slug?: Prisma.StringFieldUpdateOperationsInput | string
-  correo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  nit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  numero?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  pagina?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  correo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  nit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  nombre?: Prisma.StringFieldUpdateOperationsInput | string
+  numero?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pagina?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   anticipos?: Prisma.AnticiposUncheckedUpdateManyWithoutTenantNestedInput
   auditorias?: Prisma.AuditoriaUncheckedUpdateManyWithoutTenantNestedInput
   authSessions?: Prisma.AuthSessionUncheckedUpdateManyWithoutTenantNestedInput
@@ -6988,15 +6988,15 @@ export type TenantUncheckedUpdateWithoutConsultoriosInput = {
 
 export type TenantCreateWithoutTerapiasPsicologosInput = {
   id?: string
-  nombre: string
   slug: string
-  correo?: string | null
-  nit?: string | null
-  numero?: string | null
-  pagina?: string | null
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  correo?: string | null
+  nit?: string | null
+  nombre: string
+  numero?: string | null
+  pagina?: string | null
   anticipos?: Prisma.AnticiposCreateNestedManyWithoutTenantInput
   auditorias?: Prisma.AuditoriaCreateNestedManyWithoutTenantInput
   authSessions?: Prisma.AuthSessionCreateNestedManyWithoutTenantInput
@@ -7045,15 +7045,15 @@ export type TenantCreateWithoutTerapiasPsicologosInput = {
 
 export type TenantUncheckedCreateWithoutTerapiasPsicologosInput = {
   id?: string
-  nombre: string
   slug: string
-  correo?: string | null
-  nit?: string | null
-  numero?: string | null
-  pagina?: string | null
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  correo?: string | null
+  nit?: string | null
+  nombre: string
+  numero?: string | null
+  pagina?: string | null
   anticipos?: Prisma.AnticiposUncheckedCreateNestedManyWithoutTenantInput
   auditorias?: Prisma.AuditoriaUncheckedCreateNestedManyWithoutTenantInput
   authSessions?: Prisma.AuthSessionUncheckedCreateNestedManyWithoutTenantInput
@@ -7118,15 +7118,15 @@ export type TenantUpdateToOneWithWhereWithoutTerapiasPsicologosInput = {
 
 export type TenantUpdateWithoutTerapiasPsicologosInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  nombre?: Prisma.StringFieldUpdateOperationsInput | string
   slug?: Prisma.StringFieldUpdateOperationsInput | string
-  correo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  nit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  numero?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  pagina?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  correo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  nit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  nombre?: Prisma.StringFieldUpdateOperationsInput | string
+  numero?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pagina?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   anticipos?: Prisma.AnticiposUpdateManyWithoutTenantNestedInput
   auditorias?: Prisma.AuditoriaUpdateManyWithoutTenantNestedInput
   authSessions?: Prisma.AuthSessionUpdateManyWithoutTenantNestedInput
@@ -7175,15 +7175,15 @@ export type TenantUpdateWithoutTerapiasPsicologosInput = {
 
 export type TenantUncheckedUpdateWithoutTerapiasPsicologosInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  nombre?: Prisma.StringFieldUpdateOperationsInput | string
   slug?: Prisma.StringFieldUpdateOperationsInput | string
-  correo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  nit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  numero?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  pagina?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  correo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  nit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  nombre?: Prisma.StringFieldUpdateOperationsInput | string
+  numero?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pagina?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   anticipos?: Prisma.AnticiposUncheckedUpdateManyWithoutTenantNestedInput
   auditorias?: Prisma.AuditoriaUncheckedUpdateManyWithoutTenantNestedInput
   authSessions?: Prisma.AuthSessionUncheckedUpdateManyWithoutTenantNestedInput
@@ -7232,15 +7232,15 @@ export type TenantUncheckedUpdateWithoutTerapiasPsicologosInput = {
 
 export type TenantCreateWithoutPaquetesAdquiridosInput = {
   id?: string
-  nombre: string
   slug: string
-  correo?: string | null
-  nit?: string | null
-  numero?: string | null
-  pagina?: string | null
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  correo?: string | null
+  nit?: string | null
+  nombre: string
+  numero?: string | null
+  pagina?: string | null
   anticipos?: Prisma.AnticiposCreateNestedManyWithoutTenantInput
   auditorias?: Prisma.AuditoriaCreateNestedManyWithoutTenantInput
   authSessions?: Prisma.AuthSessionCreateNestedManyWithoutTenantInput
@@ -7289,15 +7289,15 @@ export type TenantCreateWithoutPaquetesAdquiridosInput = {
 
 export type TenantUncheckedCreateWithoutPaquetesAdquiridosInput = {
   id?: string
-  nombre: string
   slug: string
-  correo?: string | null
-  nit?: string | null
-  numero?: string | null
-  pagina?: string | null
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  correo?: string | null
+  nit?: string | null
+  nombre: string
+  numero?: string | null
+  pagina?: string | null
   anticipos?: Prisma.AnticiposUncheckedCreateNestedManyWithoutTenantInput
   auditorias?: Prisma.AuditoriaUncheckedCreateNestedManyWithoutTenantInput
   authSessions?: Prisma.AuthSessionUncheckedCreateNestedManyWithoutTenantInput
@@ -7362,15 +7362,15 @@ export type TenantUpdateToOneWithWhereWithoutPaquetesAdquiridosInput = {
 
 export type TenantUpdateWithoutPaquetesAdquiridosInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  nombre?: Prisma.StringFieldUpdateOperationsInput | string
   slug?: Prisma.StringFieldUpdateOperationsInput | string
-  correo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  nit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  numero?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  pagina?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  correo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  nit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  nombre?: Prisma.StringFieldUpdateOperationsInput | string
+  numero?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pagina?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   anticipos?: Prisma.AnticiposUpdateManyWithoutTenantNestedInput
   auditorias?: Prisma.AuditoriaUpdateManyWithoutTenantNestedInput
   authSessions?: Prisma.AuthSessionUpdateManyWithoutTenantNestedInput
@@ -7419,15 +7419,15 @@ export type TenantUpdateWithoutPaquetesAdquiridosInput = {
 
 export type TenantUncheckedUpdateWithoutPaquetesAdquiridosInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  nombre?: Prisma.StringFieldUpdateOperationsInput | string
   slug?: Prisma.StringFieldUpdateOperationsInput | string
-  correo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  nit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  numero?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  pagina?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  correo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  nit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  nombre?: Prisma.StringFieldUpdateOperationsInput | string
+  numero?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pagina?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   anticipos?: Prisma.AnticiposUncheckedUpdateManyWithoutTenantNestedInput
   auditorias?: Prisma.AuditoriaUncheckedUpdateManyWithoutTenantNestedInput
   authSessions?: Prisma.AuthSessionUncheckedUpdateManyWithoutTenantNestedInput
@@ -7476,15 +7476,15 @@ export type TenantUncheckedUpdateWithoutPaquetesAdquiridosInput = {
 
 export type TenantCreateWithoutTurnosInput = {
   id?: string
-  nombre: string
   slug: string
-  correo?: string | null
-  nit?: string | null
-  numero?: string | null
-  pagina?: string | null
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  correo?: string | null
+  nit?: string | null
+  nombre: string
+  numero?: string | null
+  pagina?: string | null
   anticipos?: Prisma.AnticiposCreateNestedManyWithoutTenantInput
   auditorias?: Prisma.AuditoriaCreateNestedManyWithoutTenantInput
   authSessions?: Prisma.AuthSessionCreateNestedManyWithoutTenantInput
@@ -7533,15 +7533,15 @@ export type TenantCreateWithoutTurnosInput = {
 
 export type TenantUncheckedCreateWithoutTurnosInput = {
   id?: string
-  nombre: string
   slug: string
-  correo?: string | null
-  nit?: string | null
-  numero?: string | null
-  pagina?: string | null
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  correo?: string | null
+  nit?: string | null
+  nombre: string
+  numero?: string | null
+  pagina?: string | null
   anticipos?: Prisma.AnticiposUncheckedCreateNestedManyWithoutTenantInput
   auditorias?: Prisma.AuditoriaUncheckedCreateNestedManyWithoutTenantInput
   authSessions?: Prisma.AuthSessionUncheckedCreateNestedManyWithoutTenantInput
@@ -7606,15 +7606,15 @@ export type TenantUpdateToOneWithWhereWithoutTurnosInput = {
 
 export type TenantUpdateWithoutTurnosInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  nombre?: Prisma.StringFieldUpdateOperationsInput | string
   slug?: Prisma.StringFieldUpdateOperationsInput | string
-  correo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  nit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  numero?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  pagina?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  correo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  nit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  nombre?: Prisma.StringFieldUpdateOperationsInput | string
+  numero?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pagina?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   anticipos?: Prisma.AnticiposUpdateManyWithoutTenantNestedInput
   auditorias?: Prisma.AuditoriaUpdateManyWithoutTenantNestedInput
   authSessions?: Prisma.AuthSessionUpdateManyWithoutTenantNestedInput
@@ -7663,15 +7663,15 @@ export type TenantUpdateWithoutTurnosInput = {
 
 export type TenantUncheckedUpdateWithoutTurnosInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  nombre?: Prisma.StringFieldUpdateOperationsInput | string
   slug?: Prisma.StringFieldUpdateOperationsInput | string
-  correo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  nit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  numero?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  pagina?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  correo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  nit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  nombre?: Prisma.StringFieldUpdateOperationsInput | string
+  numero?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pagina?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   anticipos?: Prisma.AnticiposUncheckedUpdateManyWithoutTenantNestedInput
   auditorias?: Prisma.AuditoriaUncheckedUpdateManyWithoutTenantNestedInput
   authSessions?: Prisma.AuthSessionUncheckedUpdateManyWithoutTenantNestedInput
@@ -7720,15 +7720,15 @@ export type TenantUncheckedUpdateWithoutTurnosInput = {
 
 export type TenantCreateWithoutCuentasCobroInput = {
   id?: string
-  nombre: string
   slug: string
-  correo?: string | null
-  nit?: string | null
-  numero?: string | null
-  pagina?: string | null
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  correo?: string | null
+  nit?: string | null
+  nombre: string
+  numero?: string | null
+  pagina?: string | null
   anticipos?: Prisma.AnticiposCreateNestedManyWithoutTenantInput
   auditorias?: Prisma.AuditoriaCreateNestedManyWithoutTenantInput
   authSessions?: Prisma.AuthSessionCreateNestedManyWithoutTenantInput
@@ -7777,15 +7777,15 @@ export type TenantCreateWithoutCuentasCobroInput = {
 
 export type TenantUncheckedCreateWithoutCuentasCobroInput = {
   id?: string
-  nombre: string
   slug: string
-  correo?: string | null
-  nit?: string | null
-  numero?: string | null
-  pagina?: string | null
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  correo?: string | null
+  nit?: string | null
+  nombre: string
+  numero?: string | null
+  pagina?: string | null
   anticipos?: Prisma.AnticiposUncheckedCreateNestedManyWithoutTenantInput
   auditorias?: Prisma.AuditoriaUncheckedCreateNestedManyWithoutTenantInput
   authSessions?: Prisma.AuthSessionUncheckedCreateNestedManyWithoutTenantInput
@@ -7850,15 +7850,15 @@ export type TenantUpdateToOneWithWhereWithoutCuentasCobroInput = {
 
 export type TenantUpdateWithoutCuentasCobroInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  nombre?: Prisma.StringFieldUpdateOperationsInput | string
   slug?: Prisma.StringFieldUpdateOperationsInput | string
-  correo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  nit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  numero?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  pagina?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  correo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  nit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  nombre?: Prisma.StringFieldUpdateOperationsInput | string
+  numero?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pagina?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   anticipos?: Prisma.AnticiposUpdateManyWithoutTenantNestedInput
   auditorias?: Prisma.AuditoriaUpdateManyWithoutTenantNestedInput
   authSessions?: Prisma.AuthSessionUpdateManyWithoutTenantNestedInput
@@ -7907,15 +7907,15 @@ export type TenantUpdateWithoutCuentasCobroInput = {
 
 export type TenantUncheckedUpdateWithoutCuentasCobroInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  nombre?: Prisma.StringFieldUpdateOperationsInput | string
   slug?: Prisma.StringFieldUpdateOperationsInput | string
-  correo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  nit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  numero?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  pagina?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  correo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  nit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  nombre?: Prisma.StringFieldUpdateOperationsInput | string
+  numero?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pagina?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   anticipos?: Prisma.AnticiposUncheckedUpdateManyWithoutTenantNestedInput
   auditorias?: Prisma.AuditoriaUncheckedUpdateManyWithoutTenantNestedInput
   authSessions?: Prisma.AuthSessionUncheckedUpdateManyWithoutTenantNestedInput
@@ -7964,15 +7964,15 @@ export type TenantUncheckedUpdateWithoutCuentasCobroInput = {
 
 export type TenantCreateWithoutDeclaracionesInput = {
   id?: string
-  nombre: string
   slug: string
-  correo?: string | null
-  nit?: string | null
-  numero?: string | null
-  pagina?: string | null
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  correo?: string | null
+  nit?: string | null
+  nombre: string
+  numero?: string | null
+  pagina?: string | null
   anticipos?: Prisma.AnticiposCreateNestedManyWithoutTenantInput
   auditorias?: Prisma.AuditoriaCreateNestedManyWithoutTenantInput
   authSessions?: Prisma.AuthSessionCreateNestedManyWithoutTenantInput
@@ -8021,15 +8021,15 @@ export type TenantCreateWithoutDeclaracionesInput = {
 
 export type TenantUncheckedCreateWithoutDeclaracionesInput = {
   id?: string
-  nombre: string
   slug: string
-  correo?: string | null
-  nit?: string | null
-  numero?: string | null
-  pagina?: string | null
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  correo?: string | null
+  nit?: string | null
+  nombre: string
+  numero?: string | null
+  pagina?: string | null
   anticipos?: Prisma.AnticiposUncheckedCreateNestedManyWithoutTenantInput
   auditorias?: Prisma.AuditoriaUncheckedCreateNestedManyWithoutTenantInput
   authSessions?: Prisma.AuthSessionUncheckedCreateNestedManyWithoutTenantInput
@@ -8094,15 +8094,15 @@ export type TenantUpdateToOneWithWhereWithoutDeclaracionesInput = {
 
 export type TenantUpdateWithoutDeclaracionesInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  nombre?: Prisma.StringFieldUpdateOperationsInput | string
   slug?: Prisma.StringFieldUpdateOperationsInput | string
-  correo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  nit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  numero?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  pagina?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  correo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  nit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  nombre?: Prisma.StringFieldUpdateOperationsInput | string
+  numero?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pagina?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   anticipos?: Prisma.AnticiposUpdateManyWithoutTenantNestedInput
   auditorias?: Prisma.AuditoriaUpdateManyWithoutTenantNestedInput
   authSessions?: Prisma.AuthSessionUpdateManyWithoutTenantNestedInput
@@ -8151,15 +8151,15 @@ export type TenantUpdateWithoutDeclaracionesInput = {
 
 export type TenantUncheckedUpdateWithoutDeclaracionesInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  nombre?: Prisma.StringFieldUpdateOperationsInput | string
   slug?: Prisma.StringFieldUpdateOperationsInput | string
-  correo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  nit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  numero?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  pagina?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  correo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  nit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  nombre?: Prisma.StringFieldUpdateOperationsInput | string
+  numero?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pagina?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   anticipos?: Prisma.AnticiposUncheckedUpdateManyWithoutTenantNestedInput
   auditorias?: Prisma.AuditoriaUncheckedUpdateManyWithoutTenantNestedInput
   authSessions?: Prisma.AuthSessionUncheckedUpdateManyWithoutTenantNestedInput
@@ -8208,15 +8208,15 @@ export type TenantUncheckedUpdateWithoutDeclaracionesInput = {
 
 export type TenantCreateWithoutConsignacionesInput = {
   id?: string
-  nombre: string
   slug: string
-  correo?: string | null
-  nit?: string | null
-  numero?: string | null
-  pagina?: string | null
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  correo?: string | null
+  nit?: string | null
+  nombre: string
+  numero?: string | null
+  pagina?: string | null
   anticipos?: Prisma.AnticiposCreateNestedManyWithoutTenantInput
   auditorias?: Prisma.AuditoriaCreateNestedManyWithoutTenantInput
   authSessions?: Prisma.AuthSessionCreateNestedManyWithoutTenantInput
@@ -8265,15 +8265,15 @@ export type TenantCreateWithoutConsignacionesInput = {
 
 export type TenantUncheckedCreateWithoutConsignacionesInput = {
   id?: string
-  nombre: string
   slug: string
-  correo?: string | null
-  nit?: string | null
-  numero?: string | null
-  pagina?: string | null
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  correo?: string | null
+  nit?: string | null
+  nombre: string
+  numero?: string | null
+  pagina?: string | null
   anticipos?: Prisma.AnticiposUncheckedCreateNestedManyWithoutTenantInput
   auditorias?: Prisma.AuditoriaUncheckedCreateNestedManyWithoutTenantInput
   authSessions?: Prisma.AuthSessionUncheckedCreateNestedManyWithoutTenantInput
@@ -8338,15 +8338,15 @@ export type TenantUpdateToOneWithWhereWithoutConsignacionesInput = {
 
 export type TenantUpdateWithoutConsignacionesInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  nombre?: Prisma.StringFieldUpdateOperationsInput | string
   slug?: Prisma.StringFieldUpdateOperationsInput | string
-  correo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  nit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  numero?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  pagina?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  correo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  nit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  nombre?: Prisma.StringFieldUpdateOperationsInput | string
+  numero?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pagina?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   anticipos?: Prisma.AnticiposUpdateManyWithoutTenantNestedInput
   auditorias?: Prisma.AuditoriaUpdateManyWithoutTenantNestedInput
   authSessions?: Prisma.AuthSessionUpdateManyWithoutTenantNestedInput
@@ -8395,15 +8395,15 @@ export type TenantUpdateWithoutConsignacionesInput = {
 
 export type TenantUncheckedUpdateWithoutConsignacionesInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  nombre?: Prisma.StringFieldUpdateOperationsInput | string
   slug?: Prisma.StringFieldUpdateOperationsInput | string
-  correo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  nit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  numero?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  pagina?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  correo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  nit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  nombre?: Prisma.StringFieldUpdateOperationsInput | string
+  numero?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pagina?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   anticipos?: Prisma.AnticiposUncheckedUpdateManyWithoutTenantNestedInput
   auditorias?: Prisma.AuditoriaUncheckedUpdateManyWithoutTenantNestedInput
   authSessions?: Prisma.AuthSessionUncheckedUpdateManyWithoutTenantNestedInput
@@ -8452,15 +8452,15 @@ export type TenantUncheckedUpdateWithoutConsignacionesInput = {
 
 export type TenantCreateWithoutConsignacionOrdenesInput = {
   id?: string
-  nombre: string
   slug: string
-  correo?: string | null
-  nit?: string | null
-  numero?: string | null
-  pagina?: string | null
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  correo?: string | null
+  nit?: string | null
+  nombre: string
+  numero?: string | null
+  pagina?: string | null
   anticipos?: Prisma.AnticiposCreateNestedManyWithoutTenantInput
   auditorias?: Prisma.AuditoriaCreateNestedManyWithoutTenantInput
   authSessions?: Prisma.AuthSessionCreateNestedManyWithoutTenantInput
@@ -8509,15 +8509,15 @@ export type TenantCreateWithoutConsignacionOrdenesInput = {
 
 export type TenantUncheckedCreateWithoutConsignacionOrdenesInput = {
   id?: string
-  nombre: string
   slug: string
-  correo?: string | null
-  nit?: string | null
-  numero?: string | null
-  pagina?: string | null
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  correo?: string | null
+  nit?: string | null
+  nombre: string
+  numero?: string | null
+  pagina?: string | null
   anticipos?: Prisma.AnticiposUncheckedCreateNestedManyWithoutTenantInput
   auditorias?: Prisma.AuditoriaUncheckedCreateNestedManyWithoutTenantInput
   authSessions?: Prisma.AuthSessionUncheckedCreateNestedManyWithoutTenantInput
@@ -8582,15 +8582,15 @@ export type TenantUpdateToOneWithWhereWithoutConsignacionOrdenesInput = {
 
 export type TenantUpdateWithoutConsignacionOrdenesInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  nombre?: Prisma.StringFieldUpdateOperationsInput | string
   slug?: Prisma.StringFieldUpdateOperationsInput | string
-  correo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  nit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  numero?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  pagina?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  correo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  nit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  nombre?: Prisma.StringFieldUpdateOperationsInput | string
+  numero?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pagina?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   anticipos?: Prisma.AnticiposUpdateManyWithoutTenantNestedInput
   auditorias?: Prisma.AuditoriaUpdateManyWithoutTenantNestedInput
   authSessions?: Prisma.AuthSessionUpdateManyWithoutTenantNestedInput
@@ -8639,15 +8639,15 @@ export type TenantUpdateWithoutConsignacionOrdenesInput = {
 
 export type TenantUncheckedUpdateWithoutConsignacionOrdenesInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  nombre?: Prisma.StringFieldUpdateOperationsInput | string
   slug?: Prisma.StringFieldUpdateOperationsInput | string
-  correo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  nit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  numero?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  pagina?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  correo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  nit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  nombre?: Prisma.StringFieldUpdateOperationsInput | string
+  numero?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pagina?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   anticipos?: Prisma.AnticiposUncheckedUpdateManyWithoutTenantNestedInput
   auditorias?: Prisma.AuditoriaUncheckedUpdateManyWithoutTenantNestedInput
   authSessions?: Prisma.AuthSessionUncheckedUpdateManyWithoutTenantNestedInput
@@ -8696,15 +8696,15 @@ export type TenantUncheckedUpdateWithoutConsignacionOrdenesInput = {
 
 export type TenantCreateWithoutAnticiposInput = {
   id?: string
-  nombre: string
   slug: string
-  correo?: string | null
-  nit?: string | null
-  numero?: string | null
-  pagina?: string | null
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  correo?: string | null
+  nit?: string | null
+  nombre: string
+  numero?: string | null
+  pagina?: string | null
   auditorias?: Prisma.AuditoriaCreateNestedManyWithoutTenantInput
   authSessions?: Prisma.AuthSessionCreateNestedManyWithoutTenantInput
   citasPsicologos?: Prisma.CitasPsicologosCreateNestedManyWithoutTenantInput
@@ -8753,15 +8753,15 @@ export type TenantCreateWithoutAnticiposInput = {
 
 export type TenantUncheckedCreateWithoutAnticiposInput = {
   id?: string
-  nombre: string
   slug: string
-  correo?: string | null
-  nit?: string | null
-  numero?: string | null
-  pagina?: string | null
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  correo?: string | null
+  nit?: string | null
+  nombre: string
+  numero?: string | null
+  pagina?: string | null
   auditorias?: Prisma.AuditoriaUncheckedCreateNestedManyWithoutTenantInput
   authSessions?: Prisma.AuthSessionUncheckedCreateNestedManyWithoutTenantInput
   citasPsicologos?: Prisma.CitasPsicologosUncheckedCreateNestedManyWithoutTenantInput
@@ -8826,15 +8826,15 @@ export type TenantUpdateToOneWithWhereWithoutAnticiposInput = {
 
 export type TenantUpdateWithoutAnticiposInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  nombre?: Prisma.StringFieldUpdateOperationsInput | string
   slug?: Prisma.StringFieldUpdateOperationsInput | string
-  correo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  nit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  numero?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  pagina?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  correo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  nit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  nombre?: Prisma.StringFieldUpdateOperationsInput | string
+  numero?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pagina?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   auditorias?: Prisma.AuditoriaUpdateManyWithoutTenantNestedInput
   authSessions?: Prisma.AuthSessionUpdateManyWithoutTenantNestedInput
   citasPsicologos?: Prisma.CitasPsicologosUpdateManyWithoutTenantNestedInput
@@ -8883,15 +8883,15 @@ export type TenantUpdateWithoutAnticiposInput = {
 
 export type TenantUncheckedUpdateWithoutAnticiposInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  nombre?: Prisma.StringFieldUpdateOperationsInput | string
   slug?: Prisma.StringFieldUpdateOperationsInput | string
-  correo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  nit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  numero?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  pagina?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  correo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  nit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  nombre?: Prisma.StringFieldUpdateOperationsInput | string
+  numero?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pagina?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   auditorias?: Prisma.AuditoriaUncheckedUpdateManyWithoutTenantNestedInput
   authSessions?: Prisma.AuthSessionUncheckedUpdateManyWithoutTenantNestedInput
   citasPsicologos?: Prisma.CitasPsicologosUncheckedUpdateManyWithoutTenantNestedInput
@@ -8940,15 +8940,15 @@ export type TenantUncheckedUpdateWithoutAnticiposInput = {
 
 export type TenantCreateWithoutProductosInput = {
   id?: string
-  nombre: string
   slug: string
-  correo?: string | null
-  nit?: string | null
-  numero?: string | null
-  pagina?: string | null
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  correo?: string | null
+  nit?: string | null
+  nombre: string
+  numero?: string | null
+  pagina?: string | null
   anticipos?: Prisma.AnticiposCreateNestedManyWithoutTenantInput
   auditorias?: Prisma.AuditoriaCreateNestedManyWithoutTenantInput
   authSessions?: Prisma.AuthSessionCreateNestedManyWithoutTenantInput
@@ -8997,15 +8997,15 @@ export type TenantCreateWithoutProductosInput = {
 
 export type TenantUncheckedCreateWithoutProductosInput = {
   id?: string
-  nombre: string
   slug: string
-  correo?: string | null
-  nit?: string | null
-  numero?: string | null
-  pagina?: string | null
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  correo?: string | null
+  nit?: string | null
+  nombre: string
+  numero?: string | null
+  pagina?: string | null
   anticipos?: Prisma.AnticiposUncheckedCreateNestedManyWithoutTenantInput
   auditorias?: Prisma.AuditoriaUncheckedCreateNestedManyWithoutTenantInput
   authSessions?: Prisma.AuthSessionUncheckedCreateNestedManyWithoutTenantInput
@@ -9070,15 +9070,15 @@ export type TenantUpdateToOneWithWhereWithoutProductosInput = {
 
 export type TenantUpdateWithoutProductosInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  nombre?: Prisma.StringFieldUpdateOperationsInput | string
   slug?: Prisma.StringFieldUpdateOperationsInput | string
-  correo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  nit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  numero?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  pagina?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  correo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  nit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  nombre?: Prisma.StringFieldUpdateOperationsInput | string
+  numero?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pagina?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   anticipos?: Prisma.AnticiposUpdateManyWithoutTenantNestedInput
   auditorias?: Prisma.AuditoriaUpdateManyWithoutTenantNestedInput
   authSessions?: Prisma.AuthSessionUpdateManyWithoutTenantNestedInput
@@ -9127,15 +9127,15 @@ export type TenantUpdateWithoutProductosInput = {
 
 export type TenantUncheckedUpdateWithoutProductosInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  nombre?: Prisma.StringFieldUpdateOperationsInput | string
   slug?: Prisma.StringFieldUpdateOperationsInput | string
-  correo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  nit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  numero?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  pagina?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  correo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  nit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  nombre?: Prisma.StringFieldUpdateOperationsInput | string
+  numero?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pagina?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   anticipos?: Prisma.AnticiposUncheckedUpdateManyWithoutTenantNestedInput
   auditorias?: Prisma.AuditoriaUncheckedUpdateManyWithoutTenantNestedInput
   authSessions?: Prisma.AuthSessionUncheckedUpdateManyWithoutTenantNestedInput
@@ -9184,15 +9184,15 @@ export type TenantUncheckedUpdateWithoutProductosInput = {
 
 export type TenantCreateWithoutProductosSolicitadosInput = {
   id?: string
-  nombre: string
   slug: string
-  correo?: string | null
-  nit?: string | null
-  numero?: string | null
-  pagina?: string | null
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  correo?: string | null
+  nit?: string | null
+  nombre: string
+  numero?: string | null
+  pagina?: string | null
   anticipos?: Prisma.AnticiposCreateNestedManyWithoutTenantInput
   auditorias?: Prisma.AuditoriaCreateNestedManyWithoutTenantInput
   authSessions?: Prisma.AuthSessionCreateNestedManyWithoutTenantInput
@@ -9241,15 +9241,15 @@ export type TenantCreateWithoutProductosSolicitadosInput = {
 
 export type TenantUncheckedCreateWithoutProductosSolicitadosInput = {
   id?: string
-  nombre: string
   slug: string
-  correo?: string | null
-  nit?: string | null
-  numero?: string | null
-  pagina?: string | null
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  correo?: string | null
+  nit?: string | null
+  nombre: string
+  numero?: string | null
+  pagina?: string | null
   anticipos?: Prisma.AnticiposUncheckedCreateNestedManyWithoutTenantInput
   auditorias?: Prisma.AuditoriaUncheckedCreateNestedManyWithoutTenantInput
   authSessions?: Prisma.AuthSessionUncheckedCreateNestedManyWithoutTenantInput
@@ -9314,15 +9314,15 @@ export type TenantUpdateToOneWithWhereWithoutProductosSolicitadosInput = {
 
 export type TenantUpdateWithoutProductosSolicitadosInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  nombre?: Prisma.StringFieldUpdateOperationsInput | string
   slug?: Prisma.StringFieldUpdateOperationsInput | string
-  correo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  nit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  numero?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  pagina?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  correo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  nit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  nombre?: Prisma.StringFieldUpdateOperationsInput | string
+  numero?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pagina?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   anticipos?: Prisma.AnticiposUpdateManyWithoutTenantNestedInput
   auditorias?: Prisma.AuditoriaUpdateManyWithoutTenantNestedInput
   authSessions?: Prisma.AuthSessionUpdateManyWithoutTenantNestedInput
@@ -9371,15 +9371,15 @@ export type TenantUpdateWithoutProductosSolicitadosInput = {
 
 export type TenantUncheckedUpdateWithoutProductosSolicitadosInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  nombre?: Prisma.StringFieldUpdateOperationsInput | string
   slug?: Prisma.StringFieldUpdateOperationsInput | string
-  correo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  nit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  numero?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  pagina?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  correo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  nit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  nombre?: Prisma.StringFieldUpdateOperationsInput | string
+  numero?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pagina?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   anticipos?: Prisma.AnticiposUncheckedUpdateManyWithoutTenantNestedInput
   auditorias?: Prisma.AuditoriaUncheckedUpdateManyWithoutTenantNestedInput
   authSessions?: Prisma.AuthSessionUncheckedUpdateManyWithoutTenantNestedInput
@@ -9428,15 +9428,15 @@ export type TenantUncheckedUpdateWithoutProductosSolicitadosInput = {
 
 export type TenantCreateWithoutProveedoresInput = {
   id?: string
-  nombre: string
   slug: string
-  correo?: string | null
-  nit?: string | null
-  numero?: string | null
-  pagina?: string | null
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  correo?: string | null
+  nit?: string | null
+  nombre: string
+  numero?: string | null
+  pagina?: string | null
   anticipos?: Prisma.AnticiposCreateNestedManyWithoutTenantInput
   auditorias?: Prisma.AuditoriaCreateNestedManyWithoutTenantInput
   authSessions?: Prisma.AuthSessionCreateNestedManyWithoutTenantInput
@@ -9485,15 +9485,15 @@ export type TenantCreateWithoutProveedoresInput = {
 
 export type TenantUncheckedCreateWithoutProveedoresInput = {
   id?: string
-  nombre: string
   slug: string
-  correo?: string | null
-  nit?: string | null
-  numero?: string | null
-  pagina?: string | null
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  correo?: string | null
+  nit?: string | null
+  nombre: string
+  numero?: string | null
+  pagina?: string | null
   anticipos?: Prisma.AnticiposUncheckedCreateNestedManyWithoutTenantInput
   auditorias?: Prisma.AuditoriaUncheckedCreateNestedManyWithoutTenantInput
   authSessions?: Prisma.AuthSessionUncheckedCreateNestedManyWithoutTenantInput
@@ -9558,15 +9558,15 @@ export type TenantUpdateToOneWithWhereWithoutProveedoresInput = {
 
 export type TenantUpdateWithoutProveedoresInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  nombre?: Prisma.StringFieldUpdateOperationsInput | string
   slug?: Prisma.StringFieldUpdateOperationsInput | string
-  correo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  nit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  numero?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  pagina?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  correo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  nit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  nombre?: Prisma.StringFieldUpdateOperationsInput | string
+  numero?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pagina?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   anticipos?: Prisma.AnticiposUpdateManyWithoutTenantNestedInput
   auditorias?: Prisma.AuditoriaUpdateManyWithoutTenantNestedInput
   authSessions?: Prisma.AuthSessionUpdateManyWithoutTenantNestedInput
@@ -9615,15 +9615,15 @@ export type TenantUpdateWithoutProveedoresInput = {
 
 export type TenantUncheckedUpdateWithoutProveedoresInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  nombre?: Prisma.StringFieldUpdateOperationsInput | string
   slug?: Prisma.StringFieldUpdateOperationsInput | string
-  correo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  nit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  numero?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  pagina?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  correo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  nit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  nombre?: Prisma.StringFieldUpdateOperationsInput | string
+  numero?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pagina?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   anticipos?: Prisma.AnticiposUncheckedUpdateManyWithoutTenantNestedInput
   auditorias?: Prisma.AuditoriaUncheckedUpdateManyWithoutTenantNestedInput
   authSessions?: Prisma.AuthSessionUncheckedUpdateManyWithoutTenantNestedInput
@@ -9672,15 +9672,15 @@ export type TenantUncheckedUpdateWithoutProveedoresInput = {
 
 export type TenantCreateWithoutPermisosInput = {
   id?: string
-  nombre: string
   slug: string
-  correo?: string | null
-  nit?: string | null
-  numero?: string | null
-  pagina?: string | null
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  correo?: string | null
+  nit?: string | null
+  nombre: string
+  numero?: string | null
+  pagina?: string | null
   anticipos?: Prisma.AnticiposCreateNestedManyWithoutTenantInput
   auditorias?: Prisma.AuditoriaCreateNestedManyWithoutTenantInput
   authSessions?: Prisma.AuthSessionCreateNestedManyWithoutTenantInput
@@ -9729,15 +9729,15 @@ export type TenantCreateWithoutPermisosInput = {
 
 export type TenantUncheckedCreateWithoutPermisosInput = {
   id?: string
-  nombre: string
   slug: string
-  correo?: string | null
-  nit?: string | null
-  numero?: string | null
-  pagina?: string | null
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  correo?: string | null
+  nit?: string | null
+  nombre: string
+  numero?: string | null
+  pagina?: string | null
   anticipos?: Prisma.AnticiposUncheckedCreateNestedManyWithoutTenantInput
   auditorias?: Prisma.AuditoriaUncheckedCreateNestedManyWithoutTenantInput
   authSessions?: Prisma.AuthSessionUncheckedCreateNestedManyWithoutTenantInput
@@ -9802,15 +9802,15 @@ export type TenantUpdateToOneWithWhereWithoutPermisosInput = {
 
 export type TenantUpdateWithoutPermisosInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  nombre?: Prisma.StringFieldUpdateOperationsInput | string
   slug?: Prisma.StringFieldUpdateOperationsInput | string
-  correo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  nit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  numero?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  pagina?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  correo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  nit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  nombre?: Prisma.StringFieldUpdateOperationsInput | string
+  numero?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pagina?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   anticipos?: Prisma.AnticiposUpdateManyWithoutTenantNestedInput
   auditorias?: Prisma.AuditoriaUpdateManyWithoutTenantNestedInput
   authSessions?: Prisma.AuthSessionUpdateManyWithoutTenantNestedInput
@@ -9859,15 +9859,15 @@ export type TenantUpdateWithoutPermisosInput = {
 
 export type TenantUncheckedUpdateWithoutPermisosInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  nombre?: Prisma.StringFieldUpdateOperationsInput | string
   slug?: Prisma.StringFieldUpdateOperationsInput | string
-  correo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  nit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  numero?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  pagina?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  correo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  nit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  nombre?: Prisma.StringFieldUpdateOperationsInput | string
+  numero?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pagina?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   anticipos?: Prisma.AnticiposUncheckedUpdateManyWithoutTenantNestedInput
   auditorias?: Prisma.AuditoriaUncheckedUpdateManyWithoutTenantNestedInput
   authSessions?: Prisma.AuthSessionUncheckedUpdateManyWithoutTenantNestedInput
@@ -9916,15 +9916,15 @@ export type TenantUncheckedUpdateWithoutPermisosInput = {
 
 export type TenantCreateWithoutConfiguracionPagosInput = {
   id?: string
-  nombre: string
   slug: string
-  correo?: string | null
-  nit?: string | null
-  numero?: string | null
-  pagina?: string | null
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  correo?: string | null
+  nit?: string | null
+  nombre: string
+  numero?: string | null
+  pagina?: string | null
   anticipos?: Prisma.AnticiposCreateNestedManyWithoutTenantInput
   auditorias?: Prisma.AuditoriaCreateNestedManyWithoutTenantInput
   authSessions?: Prisma.AuthSessionCreateNestedManyWithoutTenantInput
@@ -9973,15 +9973,15 @@ export type TenantCreateWithoutConfiguracionPagosInput = {
 
 export type TenantUncheckedCreateWithoutConfiguracionPagosInput = {
   id?: string
-  nombre: string
   slug: string
-  correo?: string | null
-  nit?: string | null
-  numero?: string | null
-  pagina?: string | null
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  correo?: string | null
+  nit?: string | null
+  nombre: string
+  numero?: string | null
+  pagina?: string | null
   anticipos?: Prisma.AnticiposUncheckedCreateNestedManyWithoutTenantInput
   auditorias?: Prisma.AuditoriaUncheckedCreateNestedManyWithoutTenantInput
   authSessions?: Prisma.AuthSessionUncheckedCreateNestedManyWithoutTenantInput
@@ -10046,15 +10046,15 @@ export type TenantUpdateToOneWithWhereWithoutConfiguracionPagosInput = {
 
 export type TenantUpdateWithoutConfiguracionPagosInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  nombre?: Prisma.StringFieldUpdateOperationsInput | string
   slug?: Prisma.StringFieldUpdateOperationsInput | string
-  correo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  nit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  numero?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  pagina?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  correo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  nit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  nombre?: Prisma.StringFieldUpdateOperationsInput | string
+  numero?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pagina?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   anticipos?: Prisma.AnticiposUpdateManyWithoutTenantNestedInput
   auditorias?: Prisma.AuditoriaUpdateManyWithoutTenantNestedInput
   authSessions?: Prisma.AuthSessionUpdateManyWithoutTenantNestedInput
@@ -10103,15 +10103,15 @@ export type TenantUpdateWithoutConfiguracionPagosInput = {
 
 export type TenantUncheckedUpdateWithoutConfiguracionPagosInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  nombre?: Prisma.StringFieldUpdateOperationsInput | string
   slug?: Prisma.StringFieldUpdateOperationsInput | string
-  correo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  nit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  numero?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  pagina?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  correo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  nit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  nombre?: Prisma.StringFieldUpdateOperationsInput | string
+  numero?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pagina?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   anticipos?: Prisma.AnticiposUncheckedUpdateManyWithoutTenantNestedInput
   auditorias?: Prisma.AuditoriaUncheckedUpdateManyWithoutTenantNestedInput
   authSessions?: Prisma.AuthSessionUncheckedUpdateManyWithoutTenantNestedInput
@@ -10160,15 +10160,15 @@ export type TenantUncheckedUpdateWithoutConfiguracionPagosInput = {
 
 export type TenantCreateWithoutCuentasPagoInput = {
   id?: string
-  nombre: string
   slug: string
-  correo?: string | null
-  nit?: string | null
-  numero?: string | null
-  pagina?: string | null
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  correo?: string | null
+  nit?: string | null
+  nombre: string
+  numero?: string | null
+  pagina?: string | null
   anticipos?: Prisma.AnticiposCreateNestedManyWithoutTenantInput
   auditorias?: Prisma.AuditoriaCreateNestedManyWithoutTenantInput
   authSessions?: Prisma.AuthSessionCreateNestedManyWithoutTenantInput
@@ -10217,15 +10217,15 @@ export type TenantCreateWithoutCuentasPagoInput = {
 
 export type TenantUncheckedCreateWithoutCuentasPagoInput = {
   id?: string
-  nombre: string
   slug: string
-  correo?: string | null
-  nit?: string | null
-  numero?: string | null
-  pagina?: string | null
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  correo?: string | null
+  nit?: string | null
+  nombre: string
+  numero?: string | null
+  pagina?: string | null
   anticipos?: Prisma.AnticiposUncheckedCreateNestedManyWithoutTenantInput
   auditorias?: Prisma.AuditoriaUncheckedCreateNestedManyWithoutTenantInput
   authSessions?: Prisma.AuthSessionUncheckedCreateNestedManyWithoutTenantInput
@@ -10290,15 +10290,15 @@ export type TenantUpdateToOneWithWhereWithoutCuentasPagoInput = {
 
 export type TenantUpdateWithoutCuentasPagoInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  nombre?: Prisma.StringFieldUpdateOperationsInput | string
   slug?: Prisma.StringFieldUpdateOperationsInput | string
-  correo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  nit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  numero?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  pagina?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  correo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  nit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  nombre?: Prisma.StringFieldUpdateOperationsInput | string
+  numero?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pagina?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   anticipos?: Prisma.AnticiposUpdateManyWithoutTenantNestedInput
   auditorias?: Prisma.AuditoriaUpdateManyWithoutTenantNestedInput
   authSessions?: Prisma.AuthSessionUpdateManyWithoutTenantNestedInput
@@ -10347,15 +10347,15 @@ export type TenantUpdateWithoutCuentasPagoInput = {
 
 export type TenantUncheckedUpdateWithoutCuentasPagoInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  nombre?: Prisma.StringFieldUpdateOperationsInput | string
   slug?: Prisma.StringFieldUpdateOperationsInput | string
-  correo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  nit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  numero?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  pagina?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  correo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  nit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  nombre?: Prisma.StringFieldUpdateOperationsInput | string
+  numero?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pagina?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   anticipos?: Prisma.AnticiposUncheckedUpdateManyWithoutTenantNestedInput
   auditorias?: Prisma.AuditoriaUncheckedUpdateManyWithoutTenantNestedInput
   authSessions?: Prisma.AuthSessionUncheckedUpdateManyWithoutTenantNestedInput
@@ -10404,15 +10404,15 @@ export type TenantUncheckedUpdateWithoutCuentasPagoInput = {
 
 export type TenantCreateWithoutEgresosInput = {
   id?: string
-  nombre: string
   slug: string
-  correo?: string | null
-  nit?: string | null
-  numero?: string | null
-  pagina?: string | null
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  correo?: string | null
+  nit?: string | null
+  nombre: string
+  numero?: string | null
+  pagina?: string | null
   anticipos?: Prisma.AnticiposCreateNestedManyWithoutTenantInput
   auditorias?: Prisma.AuditoriaCreateNestedManyWithoutTenantInput
   authSessions?: Prisma.AuthSessionCreateNestedManyWithoutTenantInput
@@ -10461,15 +10461,15 @@ export type TenantCreateWithoutEgresosInput = {
 
 export type TenantUncheckedCreateWithoutEgresosInput = {
   id?: string
-  nombre: string
   slug: string
-  correo?: string | null
-  nit?: string | null
-  numero?: string | null
-  pagina?: string | null
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  correo?: string | null
+  nit?: string | null
+  nombre: string
+  numero?: string | null
+  pagina?: string | null
   anticipos?: Prisma.AnticiposUncheckedCreateNestedManyWithoutTenantInput
   auditorias?: Prisma.AuditoriaUncheckedCreateNestedManyWithoutTenantInput
   authSessions?: Prisma.AuthSessionUncheckedCreateNestedManyWithoutTenantInput
@@ -10534,15 +10534,15 @@ export type TenantUpdateToOneWithWhereWithoutEgresosInput = {
 
 export type TenantUpdateWithoutEgresosInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  nombre?: Prisma.StringFieldUpdateOperationsInput | string
   slug?: Prisma.StringFieldUpdateOperationsInput | string
-  correo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  nit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  numero?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  pagina?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  correo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  nit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  nombre?: Prisma.StringFieldUpdateOperationsInput | string
+  numero?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pagina?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   anticipos?: Prisma.AnticiposUpdateManyWithoutTenantNestedInput
   auditorias?: Prisma.AuditoriaUpdateManyWithoutTenantNestedInput
   authSessions?: Prisma.AuthSessionUpdateManyWithoutTenantNestedInput
@@ -10591,15 +10591,15 @@ export type TenantUpdateWithoutEgresosInput = {
 
 export type TenantUncheckedUpdateWithoutEgresosInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  nombre?: Prisma.StringFieldUpdateOperationsInput | string
   slug?: Prisma.StringFieldUpdateOperationsInput | string
-  correo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  nit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  numero?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  pagina?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  correo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  nit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  nombre?: Prisma.StringFieldUpdateOperationsInput | string
+  numero?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pagina?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   anticipos?: Prisma.AnticiposUncheckedUpdateManyWithoutTenantNestedInput
   auditorias?: Prisma.AuditoriaUncheckedUpdateManyWithoutTenantNestedInput
   authSessions?: Prisma.AuthSessionUncheckedUpdateManyWithoutTenantNestedInput
@@ -10648,15 +10648,15 @@ export type TenantUncheckedUpdateWithoutEgresosInput = {
 
 export type TenantCreateWithoutPicoPlacaInput = {
   id?: string
-  nombre: string
   slug: string
-  correo?: string | null
-  nit?: string | null
-  numero?: string | null
-  pagina?: string | null
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  correo?: string | null
+  nit?: string | null
+  nombre: string
+  numero?: string | null
+  pagina?: string | null
   anticipos?: Prisma.AnticiposCreateNestedManyWithoutTenantInput
   auditorias?: Prisma.AuditoriaCreateNestedManyWithoutTenantInput
   authSessions?: Prisma.AuthSessionCreateNestedManyWithoutTenantInput
@@ -10705,15 +10705,15 @@ export type TenantCreateWithoutPicoPlacaInput = {
 
 export type TenantUncheckedCreateWithoutPicoPlacaInput = {
   id?: string
-  nombre: string
   slug: string
-  correo?: string | null
-  nit?: string | null
-  numero?: string | null
-  pagina?: string | null
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  correo?: string | null
+  nit?: string | null
+  nombre: string
+  numero?: string | null
+  pagina?: string | null
   anticipos?: Prisma.AnticiposUncheckedCreateNestedManyWithoutTenantInput
   auditorias?: Prisma.AuditoriaUncheckedCreateNestedManyWithoutTenantInput
   authSessions?: Prisma.AuthSessionUncheckedCreateNestedManyWithoutTenantInput
@@ -10778,15 +10778,15 @@ export type TenantUpdateToOneWithWhereWithoutPicoPlacaInput = {
 
 export type TenantUpdateWithoutPicoPlacaInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  nombre?: Prisma.StringFieldUpdateOperationsInput | string
   slug?: Prisma.StringFieldUpdateOperationsInput | string
-  correo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  nit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  numero?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  pagina?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  correo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  nit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  nombre?: Prisma.StringFieldUpdateOperationsInput | string
+  numero?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pagina?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   anticipos?: Prisma.AnticiposUpdateManyWithoutTenantNestedInput
   auditorias?: Prisma.AuditoriaUpdateManyWithoutTenantNestedInput
   authSessions?: Prisma.AuthSessionUpdateManyWithoutTenantNestedInput
@@ -10835,15 +10835,15 @@ export type TenantUpdateWithoutPicoPlacaInput = {
 
 export type TenantUncheckedUpdateWithoutPicoPlacaInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  nombre?: Prisma.StringFieldUpdateOperationsInput | string
   slug?: Prisma.StringFieldUpdateOperationsInput | string
-  correo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  nit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  numero?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  pagina?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  correo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  nit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  nombre?: Prisma.StringFieldUpdateOperationsInput | string
+  numero?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pagina?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   anticipos?: Prisma.AnticiposUncheckedUpdateManyWithoutTenantNestedInput
   auditorias?: Prisma.AuditoriaUncheckedUpdateManyWithoutTenantNestedInput
   authSessions?: Prisma.AuthSessionUncheckedUpdateManyWithoutTenantNestedInput
@@ -10892,15 +10892,15 @@ export type TenantUncheckedUpdateWithoutPicoPlacaInput = {
 
 export type TenantCreateWithoutReferidosInput = {
   id?: string
-  nombre: string
   slug: string
-  correo?: string | null
-  nit?: string | null
-  numero?: string | null
-  pagina?: string | null
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  correo?: string | null
+  nit?: string | null
+  nombre: string
+  numero?: string | null
+  pagina?: string | null
   anticipos?: Prisma.AnticiposCreateNestedManyWithoutTenantInput
   auditorias?: Prisma.AuditoriaCreateNestedManyWithoutTenantInput
   authSessions?: Prisma.AuthSessionCreateNestedManyWithoutTenantInput
@@ -10949,15 +10949,15 @@ export type TenantCreateWithoutReferidosInput = {
 
 export type TenantUncheckedCreateWithoutReferidosInput = {
   id?: string
-  nombre: string
   slug: string
-  correo?: string | null
-  nit?: string | null
-  numero?: string | null
-  pagina?: string | null
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  correo?: string | null
+  nit?: string | null
+  nombre: string
+  numero?: string | null
+  pagina?: string | null
   anticipos?: Prisma.AnticiposUncheckedCreateNestedManyWithoutTenantInput
   auditorias?: Prisma.AuditoriaUncheckedCreateNestedManyWithoutTenantInput
   authSessions?: Prisma.AuthSessionUncheckedCreateNestedManyWithoutTenantInput
@@ -11022,15 +11022,15 @@ export type TenantUpdateToOneWithWhereWithoutReferidosInput = {
 
 export type TenantUpdateWithoutReferidosInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  nombre?: Prisma.StringFieldUpdateOperationsInput | string
   slug?: Prisma.StringFieldUpdateOperationsInput | string
-  correo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  nit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  numero?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  pagina?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  correo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  nit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  nombre?: Prisma.StringFieldUpdateOperationsInput | string
+  numero?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pagina?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   anticipos?: Prisma.AnticiposUpdateManyWithoutTenantNestedInput
   auditorias?: Prisma.AuditoriaUpdateManyWithoutTenantNestedInput
   authSessions?: Prisma.AuthSessionUpdateManyWithoutTenantNestedInput
@@ -11079,15 +11079,15 @@ export type TenantUpdateWithoutReferidosInput = {
 
 export type TenantUncheckedUpdateWithoutReferidosInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  nombre?: Prisma.StringFieldUpdateOperationsInput | string
   slug?: Prisma.StringFieldUpdateOperationsInput | string
-  correo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  nit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  numero?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  pagina?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  correo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  nit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  nombre?: Prisma.StringFieldUpdateOperationsInput | string
+  numero?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pagina?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   anticipos?: Prisma.AnticiposUncheckedUpdateManyWithoutTenantNestedInput
   auditorias?: Prisma.AuditoriaUncheckedUpdateManyWithoutTenantNestedInput
   authSessions?: Prisma.AuthSessionUncheckedUpdateManyWithoutTenantNestedInput
@@ -11136,15 +11136,15 @@ export type TenantUncheckedUpdateWithoutReferidosInput = {
 
 export type TenantCreateWithoutAuditoriasInput = {
   id?: string
-  nombre: string
   slug: string
-  correo?: string | null
-  nit?: string | null
-  numero?: string | null
-  pagina?: string | null
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  correo?: string | null
+  nit?: string | null
+  nombre: string
+  numero?: string | null
+  pagina?: string | null
   anticipos?: Prisma.AnticiposCreateNestedManyWithoutTenantInput
   authSessions?: Prisma.AuthSessionCreateNestedManyWithoutTenantInput
   citasPsicologos?: Prisma.CitasPsicologosCreateNestedManyWithoutTenantInput
@@ -11193,15 +11193,15 @@ export type TenantCreateWithoutAuditoriasInput = {
 
 export type TenantUncheckedCreateWithoutAuditoriasInput = {
   id?: string
-  nombre: string
   slug: string
-  correo?: string | null
-  nit?: string | null
-  numero?: string | null
-  pagina?: string | null
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  correo?: string | null
+  nit?: string | null
+  nombre: string
+  numero?: string | null
+  pagina?: string | null
   anticipos?: Prisma.AnticiposUncheckedCreateNestedManyWithoutTenantInput
   authSessions?: Prisma.AuthSessionUncheckedCreateNestedManyWithoutTenantInput
   citasPsicologos?: Prisma.CitasPsicologosUncheckedCreateNestedManyWithoutTenantInput
@@ -11266,15 +11266,15 @@ export type TenantUpdateToOneWithWhereWithoutAuditoriasInput = {
 
 export type TenantUpdateWithoutAuditoriasInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  nombre?: Prisma.StringFieldUpdateOperationsInput | string
   slug?: Prisma.StringFieldUpdateOperationsInput | string
-  correo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  nit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  numero?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  pagina?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  correo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  nit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  nombre?: Prisma.StringFieldUpdateOperationsInput | string
+  numero?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pagina?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   anticipos?: Prisma.AnticiposUpdateManyWithoutTenantNestedInput
   authSessions?: Prisma.AuthSessionUpdateManyWithoutTenantNestedInput
   citasPsicologos?: Prisma.CitasPsicologosUpdateManyWithoutTenantNestedInput
@@ -11323,15 +11323,15 @@ export type TenantUpdateWithoutAuditoriasInput = {
 
 export type TenantUncheckedUpdateWithoutAuditoriasInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  nombre?: Prisma.StringFieldUpdateOperationsInput | string
   slug?: Prisma.StringFieldUpdateOperationsInput | string
-  correo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  nit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  numero?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  pagina?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  correo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  nit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  nombre?: Prisma.StringFieldUpdateOperationsInput | string
+  numero?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pagina?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   anticipos?: Prisma.AnticiposUncheckedUpdateManyWithoutTenantNestedInput
   authSessions?: Prisma.AuthSessionUncheckedUpdateManyWithoutTenantNestedInput
   citasPsicologos?: Prisma.CitasPsicologosUncheckedUpdateManyWithoutTenantNestedInput
@@ -11380,15 +11380,15 @@ export type TenantUncheckedUpdateWithoutAuditoriasInput = {
 
 export type TenantCreateWithoutSesionesActividadInput = {
   id?: string
-  nombre: string
   slug: string
-  correo?: string | null
-  nit?: string | null
-  numero?: string | null
-  pagina?: string | null
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  correo?: string | null
+  nit?: string | null
+  nombre: string
+  numero?: string | null
+  pagina?: string | null
   anticipos?: Prisma.AnticiposCreateNestedManyWithoutTenantInput
   auditorias?: Prisma.AuditoriaCreateNestedManyWithoutTenantInput
   authSessions?: Prisma.AuthSessionCreateNestedManyWithoutTenantInput
@@ -11437,15 +11437,15 @@ export type TenantCreateWithoutSesionesActividadInput = {
 
 export type TenantUncheckedCreateWithoutSesionesActividadInput = {
   id?: string
-  nombre: string
   slug: string
-  correo?: string | null
-  nit?: string | null
-  numero?: string | null
-  pagina?: string | null
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  correo?: string | null
+  nit?: string | null
+  nombre: string
+  numero?: string | null
+  pagina?: string | null
   anticipos?: Prisma.AnticiposUncheckedCreateNestedManyWithoutTenantInput
   auditorias?: Prisma.AuditoriaUncheckedCreateNestedManyWithoutTenantInput
   authSessions?: Prisma.AuthSessionUncheckedCreateNestedManyWithoutTenantInput
@@ -11510,15 +11510,15 @@ export type TenantUpdateToOneWithWhereWithoutSesionesActividadInput = {
 
 export type TenantUpdateWithoutSesionesActividadInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  nombre?: Prisma.StringFieldUpdateOperationsInput | string
   slug?: Prisma.StringFieldUpdateOperationsInput | string
-  correo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  nit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  numero?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  pagina?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  correo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  nit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  nombre?: Prisma.StringFieldUpdateOperationsInput | string
+  numero?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pagina?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   anticipos?: Prisma.AnticiposUpdateManyWithoutTenantNestedInput
   auditorias?: Prisma.AuditoriaUpdateManyWithoutTenantNestedInput
   authSessions?: Prisma.AuthSessionUpdateManyWithoutTenantNestedInput
@@ -11567,15 +11567,15 @@ export type TenantUpdateWithoutSesionesActividadInput = {
 
 export type TenantUncheckedUpdateWithoutSesionesActividadInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  nombre?: Prisma.StringFieldUpdateOperationsInput | string
   slug?: Prisma.StringFieldUpdateOperationsInput | string
-  correo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  nit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  numero?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  pagina?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  correo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  nit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  nombre?: Prisma.StringFieldUpdateOperationsInput | string
+  numero?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pagina?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   anticipos?: Prisma.AnticiposUncheckedUpdateManyWithoutTenantNestedInput
   auditorias?: Prisma.AuditoriaUncheckedUpdateManyWithoutTenantNestedInput
   authSessions?: Prisma.AuthSessionUncheckedUpdateManyWithoutTenantNestedInput
@@ -11624,15 +11624,15 @@ export type TenantUncheckedUpdateWithoutSesionesActividadInput = {
 
 export type TenantCreateWithoutLogsEventoInput = {
   id?: string
-  nombre: string
   slug: string
-  correo?: string | null
-  nit?: string | null
-  numero?: string | null
-  pagina?: string | null
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  correo?: string | null
+  nit?: string | null
+  nombre: string
+  numero?: string | null
+  pagina?: string | null
   anticipos?: Prisma.AnticiposCreateNestedManyWithoutTenantInput
   auditorias?: Prisma.AuditoriaCreateNestedManyWithoutTenantInput
   authSessions?: Prisma.AuthSessionCreateNestedManyWithoutTenantInput
@@ -11681,15 +11681,15 @@ export type TenantCreateWithoutLogsEventoInput = {
 
 export type TenantUncheckedCreateWithoutLogsEventoInput = {
   id?: string
-  nombre: string
   slug: string
-  correo?: string | null
-  nit?: string | null
-  numero?: string | null
-  pagina?: string | null
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  correo?: string | null
+  nit?: string | null
+  nombre: string
+  numero?: string | null
+  pagina?: string | null
   anticipos?: Prisma.AnticiposUncheckedCreateNestedManyWithoutTenantInput
   auditorias?: Prisma.AuditoriaUncheckedCreateNestedManyWithoutTenantInput
   authSessions?: Prisma.AuthSessionUncheckedCreateNestedManyWithoutTenantInput
@@ -11754,15 +11754,15 @@ export type TenantUpdateToOneWithWhereWithoutLogsEventoInput = {
 
 export type TenantUpdateWithoutLogsEventoInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  nombre?: Prisma.StringFieldUpdateOperationsInput | string
   slug?: Prisma.StringFieldUpdateOperationsInput | string
-  correo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  nit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  numero?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  pagina?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  correo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  nit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  nombre?: Prisma.StringFieldUpdateOperationsInput | string
+  numero?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pagina?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   anticipos?: Prisma.AnticiposUpdateManyWithoutTenantNestedInput
   auditorias?: Prisma.AuditoriaUpdateManyWithoutTenantNestedInput
   authSessions?: Prisma.AuthSessionUpdateManyWithoutTenantNestedInput
@@ -11811,15 +11811,15 @@ export type TenantUpdateWithoutLogsEventoInput = {
 
 export type TenantUncheckedUpdateWithoutLogsEventoInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  nombre?: Prisma.StringFieldUpdateOperationsInput | string
   slug?: Prisma.StringFieldUpdateOperationsInput | string
-  correo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  nit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  numero?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  pagina?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  correo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  nit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  nombre?: Prisma.StringFieldUpdateOperationsInput | string
+  numero?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pagina?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   anticipos?: Prisma.AnticiposUncheckedUpdateManyWithoutTenantNestedInput
   auditorias?: Prisma.AuditoriaUncheckedUpdateManyWithoutTenantNestedInput
   authSessions?: Prisma.AuthSessionUncheckedUpdateManyWithoutTenantNestedInput
@@ -11868,15 +11868,15 @@ export type TenantUncheckedUpdateWithoutLogsEventoInput = {
 
 export type TenantCreateWithoutAuthSessionsInput = {
   id?: string
-  nombre: string
   slug: string
-  correo?: string | null
-  nit?: string | null
-  numero?: string | null
-  pagina?: string | null
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  correo?: string | null
+  nit?: string | null
+  nombre: string
+  numero?: string | null
+  pagina?: string | null
   anticipos?: Prisma.AnticiposCreateNestedManyWithoutTenantInput
   auditorias?: Prisma.AuditoriaCreateNestedManyWithoutTenantInput
   citasPsicologos?: Prisma.CitasPsicologosCreateNestedManyWithoutTenantInput
@@ -11925,15 +11925,15 @@ export type TenantCreateWithoutAuthSessionsInput = {
 
 export type TenantUncheckedCreateWithoutAuthSessionsInput = {
   id?: string
-  nombre: string
   slug: string
-  correo?: string | null
-  nit?: string | null
-  numero?: string | null
-  pagina?: string | null
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  correo?: string | null
+  nit?: string | null
+  nombre: string
+  numero?: string | null
+  pagina?: string | null
   anticipos?: Prisma.AnticiposUncheckedCreateNestedManyWithoutTenantInput
   auditorias?: Prisma.AuditoriaUncheckedCreateNestedManyWithoutTenantInput
   citasPsicologos?: Prisma.CitasPsicologosUncheckedCreateNestedManyWithoutTenantInput
@@ -11998,15 +11998,15 @@ export type TenantUpdateToOneWithWhereWithoutAuthSessionsInput = {
 
 export type TenantUpdateWithoutAuthSessionsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  nombre?: Prisma.StringFieldUpdateOperationsInput | string
   slug?: Prisma.StringFieldUpdateOperationsInput | string
-  correo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  nit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  numero?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  pagina?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  correo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  nit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  nombre?: Prisma.StringFieldUpdateOperationsInput | string
+  numero?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pagina?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   anticipos?: Prisma.AnticiposUpdateManyWithoutTenantNestedInput
   auditorias?: Prisma.AuditoriaUpdateManyWithoutTenantNestedInput
   citasPsicologos?: Prisma.CitasPsicologosUpdateManyWithoutTenantNestedInput
@@ -12055,15 +12055,15 @@ export type TenantUpdateWithoutAuthSessionsInput = {
 
 export type TenantUncheckedUpdateWithoutAuthSessionsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  nombre?: Prisma.StringFieldUpdateOperationsInput | string
   slug?: Prisma.StringFieldUpdateOperationsInput | string
-  correo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  nit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  numero?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  pagina?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  correo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  nit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  nombre?: Prisma.StringFieldUpdateOperationsInput | string
+  numero?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pagina?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   anticipos?: Prisma.AnticiposUncheckedUpdateManyWithoutTenantNestedInput
   auditorias?: Prisma.AuditoriaUncheckedUpdateManyWithoutTenantNestedInput
   citasPsicologos?: Prisma.CitasPsicologosUncheckedUpdateManyWithoutTenantNestedInput
@@ -12112,15 +12112,15 @@ export type TenantUncheckedUpdateWithoutAuthSessionsInput = {
 
 export type TenantCreateWithoutResetTokensInput = {
   id?: string
-  nombre: string
   slug: string
-  correo?: string | null
-  nit?: string | null
-  numero?: string | null
-  pagina?: string | null
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  correo?: string | null
+  nit?: string | null
+  nombre: string
+  numero?: string | null
+  pagina?: string | null
   anticipos?: Prisma.AnticiposCreateNestedManyWithoutTenantInput
   auditorias?: Prisma.AuditoriaCreateNestedManyWithoutTenantInput
   authSessions?: Prisma.AuthSessionCreateNestedManyWithoutTenantInput
@@ -12169,15 +12169,15 @@ export type TenantCreateWithoutResetTokensInput = {
 
 export type TenantUncheckedCreateWithoutResetTokensInput = {
   id?: string
-  nombre: string
   slug: string
-  correo?: string | null
-  nit?: string | null
-  numero?: string | null
-  pagina?: string | null
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  correo?: string | null
+  nit?: string | null
+  nombre: string
+  numero?: string | null
+  pagina?: string | null
   anticipos?: Prisma.AnticiposUncheckedCreateNestedManyWithoutTenantInput
   auditorias?: Prisma.AuditoriaUncheckedCreateNestedManyWithoutTenantInput
   authSessions?: Prisma.AuthSessionUncheckedCreateNestedManyWithoutTenantInput
@@ -12242,15 +12242,15 @@ export type TenantUpdateToOneWithWhereWithoutResetTokensInput = {
 
 export type TenantUpdateWithoutResetTokensInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  nombre?: Prisma.StringFieldUpdateOperationsInput | string
   slug?: Prisma.StringFieldUpdateOperationsInput | string
-  correo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  nit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  numero?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  pagina?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  correo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  nit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  nombre?: Prisma.StringFieldUpdateOperationsInput | string
+  numero?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pagina?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   anticipos?: Prisma.AnticiposUpdateManyWithoutTenantNestedInput
   auditorias?: Prisma.AuditoriaUpdateManyWithoutTenantNestedInput
   authSessions?: Prisma.AuthSessionUpdateManyWithoutTenantNestedInput
@@ -12299,15 +12299,15 @@ export type TenantUpdateWithoutResetTokensInput = {
 
 export type TenantUncheckedUpdateWithoutResetTokensInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  nombre?: Prisma.StringFieldUpdateOperationsInput | string
   slug?: Prisma.StringFieldUpdateOperationsInput | string
-  correo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  nit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  numero?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  pagina?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  correo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  nit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  nombre?: Prisma.StringFieldUpdateOperationsInput | string
+  numero?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pagina?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   anticipos?: Prisma.AnticiposUncheckedUpdateManyWithoutTenantNestedInput
   auditorias?: Prisma.AuditoriaUncheckedUpdateManyWithoutTenantNestedInput
   authSessions?: Prisma.AuthSessionUncheckedUpdateManyWithoutTenantNestedInput
@@ -12774,15 +12774,15 @@ export type TenantCountOutputTypeCountZonasArgs<ExtArgs extends runtime.Types.Ex
 
 export type TenantSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
-  nombre?: boolean
   slug?: boolean
-  correo?: boolean
-  nit?: boolean
-  numero?: boolean
-  pagina?: boolean
   isActive?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  correo?: boolean
+  nit?: boolean
+  nombre?: boolean
+  numero?: boolean
+  pagina?: boolean
   anticipos?: boolean | Prisma.Tenant$anticiposArgs<ExtArgs>
   auditorias?: boolean | Prisma.Tenant$auditoriasArgs<ExtArgs>
   authSessions?: boolean | Prisma.Tenant$authSessionsArgs<ExtArgs>
@@ -12833,44 +12833,44 @@ export type TenantSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs =
 
 export type TenantSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
-  nombre?: boolean
   slug?: boolean
-  correo?: boolean
-  nit?: boolean
-  numero?: boolean
-  pagina?: boolean
   isActive?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  correo?: boolean
+  nit?: boolean
+  nombre?: boolean
+  numero?: boolean
+  pagina?: boolean
 }, ExtArgs["result"]["tenant"]>
 
 export type TenantSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
-  nombre?: boolean
   slug?: boolean
-  correo?: boolean
-  nit?: boolean
-  numero?: boolean
-  pagina?: boolean
   isActive?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  correo?: boolean
+  nit?: boolean
+  nombre?: boolean
+  numero?: boolean
+  pagina?: boolean
 }, ExtArgs["result"]["tenant"]>
 
 export type TenantSelectScalar = {
   id?: boolean
-  nombre?: boolean
   slug?: boolean
-  correo?: boolean
-  nit?: boolean
-  numero?: boolean
-  pagina?: boolean
   isActive?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  correo?: boolean
+  nit?: boolean
+  nombre?: boolean
+  numero?: boolean
+  pagina?: boolean
 }
 
-export type TenantOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "nombre" | "slug" | "correo" | "nit" | "numero" | "pagina" | "isActive" | "createdAt" | "updatedAt", ExtArgs["result"]["tenant"]>
+export type TenantOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "slug" | "isActive" | "createdAt" | "updatedAt" | "correo" | "nit" | "nombre" | "numero" | "pagina", ExtArgs["result"]["tenant"]>
 export type TenantInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   anticipos?: boolean | Prisma.Tenant$anticiposArgs<ExtArgs>
   auditorias?: boolean | Prisma.Tenant$auditoriasArgs<ExtArgs>
@@ -12973,15 +12973,15 @@ export type $TenantPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
-    nombre: string
     slug: string
-    correo: string | null
-    nit: string | null
-    numero: string | null
-    pagina: string | null
     isActive: boolean
     createdAt: Date
     updatedAt: Date
+    correo: string | null
+    nit: string | null
+    nombre: string
+    numero: string | null
+    pagina: string | null
   }, ExtArgs["result"]["tenant"]>
   composites: {}
 }
@@ -13451,15 +13451,15 @@ export interface Prisma__TenantClient<T, Null = never, ExtArgs extends runtime.T
  */
 export interface TenantFieldRefs {
   readonly id: Prisma.FieldRef<"Tenant", 'String'>
-  readonly nombre: Prisma.FieldRef<"Tenant", 'String'>
   readonly slug: Prisma.FieldRef<"Tenant", 'String'>
-  readonly correo: Prisma.FieldRef<"Tenant", 'String'>
-  readonly nit: Prisma.FieldRef<"Tenant", 'String'>
-  readonly numero: Prisma.FieldRef<"Tenant", 'String'>
-  readonly pagina: Prisma.FieldRef<"Tenant", 'String'>
   readonly isActive: Prisma.FieldRef<"Tenant", 'Boolean'>
   readonly createdAt: Prisma.FieldRef<"Tenant", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"Tenant", 'DateTime'>
+  readonly correo: Prisma.FieldRef<"Tenant", 'String'>
+  readonly nit: Prisma.FieldRef<"Tenant", 'String'>
+  readonly nombre: Prisma.FieldRef<"Tenant", 'String'>
+  readonly numero: Prisma.FieldRef<"Tenant", 'String'>
+  readonly pagina: Prisma.FieldRef<"Tenant", 'String'>
 }
     
 

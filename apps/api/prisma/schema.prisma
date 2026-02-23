@@ -12,14 +12,14 @@ model User {
   id              String               @id @default(uuid()) @db.Uuid
   email           String               @unique
   password        String
-  nombre          String
-  apellido        String
-  telefono        String?
-  tipoDocumento   String?
-  numeroDocumento String?              @unique
   isActive        Boolean              @default(true)
   createdAt       DateTime             @default(now())
   updatedAt       DateTime             @updatedAt
+  apellido        String
+  nombre          String
+  numeroDocumento String?              @unique
+  telefono        String?
+  tipoDocumento   String?
   sessions        AuthSession[]
   resetTokens     PasswordResetToken[]
   memberships     TenantMembership[]
@@ -29,15 +29,15 @@ model User {
 
 model Tenant {
   id                   String                 @id @default(uuid()) @db.Uuid
-  nombre               String
   slug                 String                 @unique
-  correo               String?
-  nit                  String?
-  numero               String?
-  pagina               String?
   isActive             Boolean                @default(true)
   createdAt            DateTime               @default(now())
   updatedAt            DateTime               @updatedAt
+  correo               String?
+  nit                  String?
+  nombre               String
+  numero               String?
+  pagina               String?
   anticipos            Anticipos[]
   auditorias           Auditoria[]
   authSessions         AuthSession[]
@@ -89,15 +89,15 @@ model Tenant {
 
 model Plan {
   id            String         @id @default(uuid()) @db.Uuid
-  nombre        String
-  descripcion   String?
   durationDays  Int
   maxUsers      Int
   maxOperators  Int
-  maxEmpresas   Int
   price         Decimal        @db.Decimal(12, 2)
   isActive      Boolean        @default(true)
   createdAt     DateTime       @default(now())
+  descripcion   String?
+  maxEmpresas   Int
+  nombre        String
   updatedAt     DateTime       @updatedAt
   subscriptions Subscription[]
 
@@ -131,17 +131,17 @@ model TenantMembership {
   tenantId              String                 @db.Uuid
   role                  Role
   status                MembershipStatus       @default(ACTIVE)
-  username              String?
-  activo                Boolean                @default(true)
-  aprobado              Boolean                @default(false)
-  numberId              String?
-  whatsappGroupId       String?
-  pushToken             String?
-  placa                 String?
-  moto                  Boolean?
-  codigoReferido        String?
   createdAt             DateTime               @default(now())
   updatedAt             DateTime               @updatedAt
+  activo                Boolean                @default(true)
+  aprobado              Boolean                @default(false)
+  codigoReferido        String?
+  moto                  Boolean?
+  numberId              String?
+  placa                 String?
+  pushToken             String?
+  username              String?
+  whatsappGroupId       String?
   anticipos             Anticipos[]
   auditorias            Auditoria[]
   citasComoCreador      CitasPsicologos[]      @relation("CitasCreadoPor")
@@ -235,10 +235,10 @@ model EmpresaMembership {
   empresaId    String            @db.Uuid
   createdAt    DateTime          @default(now())
   updatedAt    DateTime          @updatedAt
-  deletedAt    DateTime?
-  role         Role?             @default(OPERADOR)
   zonaId       String?           @db.Uuid
+  role         Role?             @default(OPERADOR)
   activo       Boolean           @default(true)
+  deletedAt    DateTime?
   empresa      Empresa           @relation(fields: [empresaId], references: [id], onDelete: Cascade)
   membership   TenantMembership  @relation(fields: [membershipId], references: [id], onDelete: Cascade)
   tenant       Tenant            @relation(fields: [tenantId], references: [id], onDelete: Cascade)
@@ -254,13 +254,13 @@ model EmpresaMembership {
 model OrganizationNode {
   id                     String             @id @default(uuid()) @db.Uuid
   tenantId               String             @db.Uuid
-  empresaId              String             @db.Uuid
-  empresaMembershipId    String             @unique @db.Uuid
   parentId               String?            @db.Uuid
   nivel                  Int                @default(0)
   puedeTenerSubordinados Boolean            @default(false)
   porcentajeComision     Decimal?           @db.Decimal(5, 2)
   createdAt              DateTime           @default(now())
+  empresaId              String             @db.Uuid
+  empresaMembershipId    String             @unique @db.Uuid
   updatedAt              DateTime           @updatedAt
   commissions            CommissionRecord[]
   empresa                Empresa            @relation(fields: [empresaId], references: [id], onDelete: Cascade)
@@ -279,17 +279,17 @@ model OrganizationNode {
 model CommissionRecord {
   id                 String             @id @default(uuid()) @db.Uuid
   tenantId           String             @db.Uuid
-  empresaId          String             @db.Uuid
   organizationNodeId String             @db.Uuid
-  ordenServicioId    String?            @db.Uuid
-  citaPsicologoId    String?            @db.Uuid
   porcentaje         Decimal            @db.Decimal(5, 2)
   valorBase          Decimal            @db.Decimal(12, 2)
   valorComision      Decimal            @db.Decimal(12, 2)
+  createdAt          DateTime           @default(now())
+  citaPsicologoId    String?            @db.Uuid
   concepto           String?
+  empresaId          String             @db.Uuid
   estadoPago         EstadoPagoComision @default(PENDIENTE)
   fechaPago          DateTime?
-  createdAt          DateTime           @default(now())
+  ordenServicioId    String?            @db.Uuid
   empresa            Empresa            @relation(fields: [empresaId], references: [id], onDelete: Cascade)
   organizationNode   OrganizationNode   @relation(fields: [organizationNodeId], references: [id], onDelete: Cascade)
   tenant             Tenant             @relation(fields: [tenantId], references: [id], onDelete: Cascade)
@@ -308,11 +308,11 @@ model SegmentoNegocio {
   tenantId           String    @db.Uuid
   nombre             String
   descripcion        String?
-  frecuenciaSugerida Int?      @default(30)
-  riesgoSugerido     String?   @default("BAJO")
   activo             Boolean   @default(true)
   createdAt          DateTime  @default(now())
   updatedAt          DateTime  @updatedAt
+  frecuenciaSugerida Int?      @default(30)
+  riesgoSugerido     String?   @default("BAJO")
   clientes           Cliente[]
   tenant             Tenant    @relation(fields: [tenantId], references: [id], onDelete: Cascade)
 
@@ -341,11 +341,11 @@ model TipoInteres {
   tenantId           String    @db.Uuid
   nombre             String
   descripcion        String?
-  frecuenciaSugerida Int?      @default(30)
-  riesgoSugerido     String?   @default("BAJO")
   activo             Boolean   @default(true)
   createdAt          DateTime  @default(now())
   updatedAt          DateTime  @updatedAt
+  frecuenciaSugerida Int?      @default(30)
+  riesgoSugerido     String?   @default("BAJO")
   clientes           Cliente[]
   tenant             Tenant    @relation(fields: [tenantId], references: [id], onDelete: Cascade)
 
@@ -391,27 +391,27 @@ model Cliente {
   createdAt           DateTime              @default(now())
   deletedAt           DateTime?
   aceptaMarketing     Boolean               @default(false)
-  actividadEconomica  String?
   cargoContacto       String?
   clasificacion       ClasificacionCliente? @default(BRONCE)
   fechaConsentimiento DateTime?
   frecuenciaServicio  Int?
-  metrajeTotal        Decimal?              @db.Decimal(12, 2)
   nit                 String?
-  origenCliente       String?
   planActual          String?
   proximaVisita       DateTime?
   razonSocial         String?
   representanteLegal  String?
-  riesgoId            String?               @db.Uuid
   score               Int?                  @default(0)
-  segmentoId          String?               @db.Uuid
   subsegmento         String?
   ticketPromedio      Decimal?              @db.Decimal(12, 2)
   tipoCliente         TipoCliente           @default(PERSONA)
-  tipoInteresId       String?               @db.Uuid
   ultimaVisita        DateTime?
   updatedAt           DateTime              @updatedAt
+  riesgoId            String?               @db.Uuid
+  segmentoId          String?               @db.Uuid
+  actividadEconomica  String?
+  metrajeTotal        Decimal?              @db.Decimal(12, 2)
+  origenCliente       String?
+  tipoInteresId       String?               @db.Uuid
   citasPsicologos     CitasPsicologos[]
   creadoPor           TenantMembership?     @relation(fields: [creadoPorId], references: [id], onDelete: NoAction, onUpdate: NoAction)
   empresa             Empresa?              @relation(fields: [empresaId], references: [id])
@@ -467,25 +467,25 @@ model Direccion {
   municipio          String?
   linkMaps           String?
   createdAt          DateTime        @default(now())
+  latitud            Float?
+  longitud           Float?
+  nombreSede         String?
+  updatedAt          DateTime        @updatedAt
   activa             Boolean         @default(true)
   bloqueada          Boolean         @default(false)
   cargoContacto      String?
   clasificacionPunto String?
-  departmentId       String?         @db.Uuid
   horarioFin         String?
   horarioInicio      String?
-  latitud            Float?
-  longitud           Float?
   motivoBloqueo      String?
   municipioId        String?         @db.Uuid
   nombreContacto     String?
-  nombreSede         String?
   precisionGPS       Decimal?        @db.Decimal(10, 2)
   restricciones      String?
   telefonoContacto   String?
   tipoUbicacion      String?
-  updatedAt          DateTime        @updatedAt
   validadoPorSistema Boolean         @default(false)
+  departmentId       String?         @db.Uuid
   cliente            Cliente         @relation(fields: [clienteId], references: [id])
   departmentRel      Department?     @relation(fields: [departmentId], references: [id])
   empresa            Empresa?        @relation(fields: [empresaId], references: [id])
@@ -1290,9 +1290,9 @@ model PasswordResetToken {
 }
 
 enum Role {
-  SU_ADMIN // todo
-  ADMIN // solo su tenant
-  COORDINADOR // solo empresa seleccionada
+  SU_ADMIN
+  ADMIN
+  COORDINADOR
   ASESOR
   OPERADOR
 }
