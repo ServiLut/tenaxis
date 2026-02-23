@@ -1,18 +1,19 @@
 
-> web@0.1.0 build C:\Users\user\Desktop\deybis\tenaxis\apps\web
+> web@0.1.0 build C:\Users\Usuario\Desktop\tenaxis-saas\apps\web
 > next build
 
 ▲ Next.js 16.1.6 (Turbopack)
+- Environments: .env
 
   Creating an optimized production build ...
-✓ Compiled successfully in 14.1s
+✓ Compiled successfully in 18.1s
   Running TypeScript ...
   Collecting page data using 7 workers ...
-  Generating static pages using 7 workers (0/19) ...
-  Generating static pages using 7 workers (4/19) 
-  Generating static pages using 7 workers (9/19) 
-  Generating static pages using 7 workers (14/19) 
-✓ Generating static pages using 7 workers (19/19) in 1614.8ms
+  Generating static pages using 7 workers (0/18) ...
+  Generating static pages using 7 workers (4/18) 
+  Generating static pages using 7 workers (8/18) 
+  Generating static pages using 7 workers (13/18) 
+✓ Generating static pages using 7 workers (18/18) in 2.0s
   Finalizing page optimization ...
 
 Route (app)
@@ -20,6 +21,7 @@ Route (app)
 ├ ○ /dashboard
 ├ ○ /dashboard/agenda
 ├ ƒ /dashboard/clientes
+├ ƒ /dashboard/clientes/[id]/editar
 ├ ○ /dashboard/clientes/nuevo
 ├ ○ /dashboard/configuracion
 ├ ○ /dashboard/contabilidad

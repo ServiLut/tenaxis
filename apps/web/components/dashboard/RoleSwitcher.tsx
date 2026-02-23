@@ -15,8 +15,10 @@ const ROLES = ["SU_ADMIN", "ADMIN", "COORDINADOR", "ASESOR", "OPERADOR"];
 export function RoleSwitcher() {
   const isDev = process.env.NODE_ENV !== 'production';
   const [currentRole, setCurrentRole] = useState<string>("");
+  const [isMounted, setIsMounted] = useState(false);
 
   useEffect(() => {
+    setIsMounted(true);
     if (!isDev) return;
     
     // setTimeout defers the state update, fixing the react-hooks/set-state-in-effect lint error
@@ -95,7 +97,7 @@ export function RoleSwitcher() {
     }, 0);
   };
 
-  if (!isDev) return null;
+  if (!isMounted || !isDev) return <div className="hidden" aria-hidden="true" />;
 
   return (
     <div className="flex items-center gap-3 border-l border-zinc-200 dark:border-zinc-800 pl-4 ml-2">
