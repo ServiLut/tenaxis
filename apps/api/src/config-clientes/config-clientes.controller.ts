@@ -5,6 +5,7 @@ import {
   Param,
   Patch,
   Post,
+  Query,
   Request,
   UseGuards,
 } from '@nestjs/common';
@@ -86,5 +87,23 @@ export class ConfigClientesController {
     @Body() dto: UpdateTipoInteresDto,
   ) {
     return this.configService.updateTipoInteres(id, dto);
+  }
+
+  // --- Tipos de Servicio ---
+  @Get('tipos-servicio')
+  async findAllTiposServicio(
+    @Request() req: RequestWithUser,
+    @Query('empresaId') empresaId: string,
+  ) {
+    return this.configService.findAllTiposServicio(req.user.tenantId || '', empresaId);
+  }
+
+  // --- Métodos de Pago ---
+  @Get('metodos-pago')
+  async findAllMetodosPago(
+    @Request() req: RequestWithUser,
+    @Query('empresaId') empresaId: string,
+  ) {
+    return this.configService.findAllMetodosPago(req.user.tenantId || '', empresaId);
   }
 }

@@ -544,7 +544,6 @@ model TipoServicio {
   activo    Boolean         @default(true)
   createdAt DateTime        @default(now())
   empresaId String          @db.Uuid
-  ordenes   OrdenServicio[]
   empresa   Empresa         @relation(fields: [empresaId], references: [id])
   tenant    Tenant          @relation(fields: [tenantId], references: [id])
 
@@ -602,7 +601,6 @@ model OrdenServicio {
   municipio             String?
   departamento          String?
   linkMaps              String?
-  tipoServicioId        String?              @db.Uuid
   zonaId                String?              @db.Uuid
   vehiculoId            String?              @db.Uuid
   metodoPagoId          String?              @db.Uuid
@@ -613,7 +611,11 @@ model OrdenServicio {
   horaFin               DateTime?
   observacion           String?
   observacionFinal      String?
-  nivelInfestacion      String?
+  nivelInfestacion      NivelInfestacion?
+  urgencia              UrgenciaOrden?
+  tipoVisita            TipoVisita?
+  frecuenciaSugerida    Int?
+  tipoFacturacion       TipoFacturacion?
   condicionesHigiene    String?
   condicionesLocal      String?
   valorCotizado         Decimal?             @db.Decimal(12, 2)
@@ -644,7 +646,6 @@ model OrdenServicio {
   servicio              Servicio             @relation(fields: [servicioId], references: [id])
   tecnico               TenantMembership?    @relation("ServiciosAsignados", fields: [tecnicoId], references: [id])
   tenant                Tenant               @relation(fields: [tenantId], references: [id], onDelete: Cascade)
-  tipoServicio          TipoServicio?        @relation(fields: [tipoServicioId], references: [id])
   vehiculo              Vehiculo?            @relation(fields: [vehiculoId], references: [id])
   zona                  Zona?                @relation(fields: [zonaId], references: [id])
 
@@ -1354,9 +1355,43 @@ enum EstadoPermiso {
 
 enum EstadoPagoOrden {
   PENDIENTE
+  ANTICIPO
+  PAGADO
+  CREDITO
   EFECTIVO_DECLARADO
   CONSIGNADO
   CONCILIADO
+}
+
+enum NivelInfestacion {
+  BAJO
+  MEDIO
+  ALTO
+  CRITICO
+  PREVENTIVO
+}
+
+enum UrgenciaOrden {
+  BAJA
+  MEDIA
+  ALTA
+  CRITICA
+}
+
+enum TipoVisita {
+  DIAGNOSTICO
+  PREVENTIVO
+  CORRECTIVO
+  SEGUIMIENTO
+  REINCIDENCIA
+}
+
+enum TipoFacturacion {
+  UNICO
+  CONTRATO_MENSUAL
+  PLAN_TRIMESTRAL
+  PLAN_SEMESTRAL
+  PLAN_ANUAL
 }
 
 enum EstadoConsignacion {

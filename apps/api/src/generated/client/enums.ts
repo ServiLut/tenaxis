@@ -105,12 +105,58 @@ export type EstadoPermiso = (typeof EstadoPermiso)[keyof typeof EstadoPermiso]
 
 export const EstadoPagoOrden = {
   PENDIENTE: 'PENDIENTE',
+  ANTICIPO: 'ANTICIPO',
+  PAGADO: 'PAGADO',
+  CREDITO: 'CREDITO',
   EFECTIVO_DECLARADO: 'EFECTIVO_DECLARADO',
   CONSIGNADO: 'CONSIGNADO',
   CONCILIADO: 'CONCILIADO'
 } as const
 
 export type EstadoPagoOrden = (typeof EstadoPagoOrden)[keyof typeof EstadoPagoOrden]
+
+
+export const NivelInfestacion = {
+  BAJO: 'BAJO',
+  MEDIO: 'MEDIO',
+  ALTO: 'ALTO',
+  CRITICO: 'CRITICO',
+  PREVENTIVO: 'PREVENTIVO'
+} as const
+
+export type NivelInfestacion = (typeof NivelInfestacion)[keyof typeof NivelInfestacion]
+
+
+export const UrgenciaOrden = {
+  BAJA: 'BAJA',
+  MEDIA: 'MEDIA',
+  ALTA: 'ALTA',
+  CRITICA: 'CRITICA'
+} as const
+
+export type UrgenciaOrden = (typeof UrgenciaOrden)[keyof typeof UrgenciaOrden]
+
+
+export const TipoVisita = {
+  DIAGNOSTICO: 'DIAGNOSTICO',
+  PREVENTIVO: 'PREVENTIVO',
+  CORRECTIVO: 'CORRECTIVO',
+  SEGUIMIENTO: 'SEGUIMIENTO',
+  REINCIDENCIA: 'REINCIDENCIA'
+} as const
+
+export type TipoVisita = (typeof TipoVisita)[keyof typeof TipoVisita]
+
+
+export const TipoFacturacion = {
+  UNICO: 'UNICO',
+  CONTRATO_MENSUAL: 'CONTRATO_MENSUAL',
+  PLAN_TRIMESTRAL: 'PLAN_TRIMESTRAL',
+  PLAN_SEMESTRAL: 'PLAN_SEMESTRAL',
+  PLAN_ANUAL: 'PLAN_ANUAL'
+} as const
+
+export type TipoFacturacion = (typeof TipoFacturacion)[keyof typeof TipoFacturacion]
 
 
 export const EstadoConsignacion = {

@@ -1,4 +1,4 @@
-"use server";
+﻿"use server";
 
 import { cookies } from "next/headers";
 import { revalidatePath } from "next/cache";
@@ -210,6 +210,66 @@ export async function getTiposInteresAction() {
   }
 }
 
+export async function getTiposServicioAction() {
+  const cookieStore = await cookies();
+  const token = cookieStore.get("access_token")?.value;
+  const empresaId = cookieStore.get("x-enterprise-id")?.value;
+  if (!token || !empresaId) return [];
+
+  try {
+    const apiUrl = process.env.NESTJS_API_URL || "http://127.0.0.1:4000";
+    const response = await fetch(`${apiUrl}/config-clientes/tipos-servicio?empresaId=${empresaId}`, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+    if (!response.ok) return [];
+    const result = await response.json();
+    return result.data || result;
+  } catch (error) {
+    console.error("Error fetching service types:", error);
+    return [];
+  }
+}
+
+export async function getMetodosPagoAction(empresaId?: string) {
+  const cookieStore = await cookies();
+  const token = cookieStore.get("access_token")?.value;
+  const targetEmpresaId = empresaId || cookieStore.get("x-enterprise-id")?.value;
+  
+  if (!token || !targetEmpresaId) return [];
+
+  try {
+    const apiUrl = process.env.NESTJS_API_URL || "http://127.0.0.1:4000";
+    const response = await fetch(`${apiUrl}/config-clientes/metodos-pago?empresaId=${targetEmpresaId}`, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+    if (!response.ok) return [];
+    const result = await response.json();
+    return result.data || result;
+  } catch (error) {
+    console.error("Error fetching payment methods:", error);
+    return [];
+  }
+}
+
+export async function getOperatorsAction(empresaId: string) {
+  const cookieStore = await cookies();
+  const token = cookieStore.get("access_token")?.value;
+  if (!token || !empresaId) return [];
+
+  try {
+    const apiUrl = process.env.NESTJS_API_URL || "http://127.0.0.1:4000";
+    const response = await fetch(`${apiUrl}/enterprise/${empresaId}/operators`, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+    if (!response.ok) return [];
+    const result = await response.json();
+    return result.data || result;
+  } catch (error) {
+    console.error("Error fetching operators:", error);
+    return [];
+  }
+}
+
 export interface SegmentoNegocioDTO {
   nombre: string;
   descripcion?: string | null;
@@ -398,7 +458,7 @@ export async function createClienteAction(payload: ClienteDTO) {
     return { success: true, data: result.data || result };
   } catch (error) {
     if (error instanceof Error) return { success: false, error: error.message };
-    return { success: false, error: "Ocurrió un error inesperado" };
+    return { success: false, error: "OcurriÃ³ un error inesperado" };
   }
 }
 
@@ -455,7 +515,7 @@ export async function updateClienteAction(id: string, payload: Partial<ClienteDT
     return { success: true, data: result.data || result };
   } catch (error) {
     if (error instanceof Error) return { success: false, error: error.message };
-    return { success: false, error: "Ocurrió un error inesperado" };
+    return { success: false, error: "OcurriÃ³ un error inesperado" };
   }
 }
 
@@ -483,7 +543,7 @@ export async function deleteClienteAction(id: string) {
     return { success: true };
   } catch (error) {
     if (error instanceof Error) return { success: false, error: error.message };
-    return { success: false, error: "Ocurrió un error inesperado" };
+    return { success: false, error: "OcurriÃ³ un error inesperado" };
   }
 }
 
@@ -612,6 +672,62 @@ export async function createTenantAction(formData: {
     return result.data || result;
   } catch (error) {
     if (error instanceof Error) throw error;
-    throw new Error("Ocurrió un error inesperado");
+    throw new Error("OcurriÃ³ un error inesperado");
   }
 }
+
+export async function getOrdenesServicioAction(empresaId?: string) {
+  try {
+    const apiUrl = process.env.NESTJS_API_URL || "http://127.0.0.1:4000";
+    const headers = await getHeaders();
+    const url = empresaId 
+      ? `${apiUrl}/ordenes-servicio?empresaId=${empresaId}`
+      : `${apiUrl}/ordenes-servicio`;
+      
+    const response = await fetch(url, {
+      headers,
+      cache: "no-store",
+    });
+
+    if (!response.ok) return [];
+
+    const result = await response.json();
+    return result.data || result;
+  } catch (error) {
+    console.error("Error fetching service orders:", error);
+    return [];
+  }
+}
+
+export async function createOrdenServicioAction(payload: any) {
+  const cookieStore = await cookies();
+  const token = cookieStore.get('access_token')?.value;
+
+  if (!token) return { success: false, error: 'No session found' };
+
+  try {
+    const apiUrl = process.env.NESTJS_API_URL || 'http://127.0.0.1:4000';
+    const response = await fetch(`${apiUrl}/ordenes-servicio`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify(payload),
+    });
+
+    const result = await response.json();
+
+    if (!response.ok) {
+      return { success: false, error: result.message || 'Error al crear la orden de servicio' };
+    }
+
+    revalidatePath('/dashboard/servicios');
+    return { success: true, data: result.data || result };
+  } catch (error) {
+    if (error instanceof Error) return { success: false, error: error.message };
+    return { success: false, error: 'Ocurrió un error inesperado' };
+  }
+}
+
+

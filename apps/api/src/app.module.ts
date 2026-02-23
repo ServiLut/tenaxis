@@ -12,6 +12,7 @@ import { GeoModule } from './geo/geo.module';
 import { EnterpriseModule } from './enterprise/enterprise.module';
 import { APP_INTERCEPTOR } from '@nestjs/core';
 import { EnterpriseInterceptor } from './common/interceptors/enterprise.interceptor';
+import { OrdenesServicioModule } from './ordenes-servicio/ordenes-servicio.module';
 
 @Module({
   imports: [
@@ -24,6 +25,7 @@ import { EnterpriseInterceptor } from './common/interceptors/enterprise.intercep
     ConfigClientesModule,
     GeoModule,
     EnterpriseModule,
+    OrdenesServicioModule,
   ],
   controllers: [AppController],
   providers: [
