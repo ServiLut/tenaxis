@@ -1,12 +1,14 @@
 "use client";
 
-import { useState, useEffect, Suspense } from "react";
+import { useState, useEffect, Suspense, useCallback } from "react";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import {
   getClientesAction,
-  getTiposInteresAction,
+  getMetodosPagoAction,
   getEnterprisesAction,
+  getOperatorsAction,
+  createOrdenServicioAction,
 } from "../../actions";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -32,12 +34,35 @@ const URGENCIAS = [
   { value: "CRITICA", label: "Crítica (SLA Inmediato)" },
 ];
 
-const METODOS_PAGO = [
-  { value: "EFECTIVO", label: "Efectivo" },
-  { value: "TRANSFERENCIA", label: "Transferencia" },
-  { value: "QR", label: "QR / Link de Pago" },
-  { value: "CREDITO", label: "Crédito (Empresas)" },
-  { value: "CONTRATO", label: "Contrato Mensual" },
+const NIVELES_INFESTACION = [
+  { value: "BAJO", label: "Bajo - Presencia ocasional" },
+  { value: "MEDIO", label: "Medio - Avistamientos regulares" },
+  { value: "ALTO", label: "Alto - Foco establecido" },
+  { value: "CRITICO", label: "Crítico - Plaga fuera de control" },
+  { value: "PREVENTIVO", label: "Preventivo - Sin presencia" },
+];
+
+const TIPOS_VISITA = [
+  { value: "DIAGNOSTICO", label: "Diagnóstico inicial" },
+  { value: "PREVENTIVO", label: "Servicio Preventivo" },
+  { value: "CORRECTIVO", label: "Servicio Correctivo" },
+  { value: "SEGUIMIENTO", label: "Seguimiento/Monitoreo" },
+  { value: "REINCIDENCIA", label: "Atención por Reincidencia (Garantía)" },
+];
+
+const ESTADOS_PAGO = [
+  { value: "PENDIENTE", label: "Pendiente de cobro" },
+  { value: "ANTICIPO", label: "Anticipo recibido" },
+  { value: "PAGADO", label: "Pagado en su totalidad" },
+  { value: "CREDITO", label: "A crédito (Cuenta corriente)" },
+];
+
+const TIPOS_FACTURACION = [
+  { value: "UNICO", label: "Servicio único / Eventual" },
+  { value: "CONTRATO_MENSUAL", label: "Parte de contrato mensual" },
+  { value: "PLAN_TRIMESTRAL", label: "Parte de plan trimestral" },
+  { value: "PLAN_SEMESTRAL", label: "Parte de plan semestral" },
+  { value: "PLAN_ANUAL", label: "Parte de plan anual" },
 ];
 
 interface Direccion {
@@ -56,7 +81,12 @@ interface Cliente {
   direcciones?: Direccion[];
 }
 
-interface TipoInteres {
+interface MetodoPago {
+  id: string;
+  nombre: string;
+}
+
+interface Operador {
   id: string;
   nombre: string;
 }
@@ -70,39 +100,146 @@ function NuevoServicioContent() {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
   const [clientes, setClientes] = useState<Cliente[]>([]);
-  const [tiposInteres, setTiposInteres] = useState<TipoInteres[]>([]);
+  const [metodosPago, setMetodosPago] = useState<MetodoPago[]>([]);
+  const [operadores, setOperadores] = useState<Operador[]>([]);
   const [empresas, setEmpresas] = useState<Empresa[]>([]);
-  
+
   // Form State
   const [selectedCliente, setSelectedCliente] = useState("");
   const [selectedDireccion, setSelectedDireccion] = useState("");
   const [selectedEmpresa, setSelectedEmpresa] = useState("");
+  const [selectedOperador, setSelectedOperador] = useState("");
   const [direccionesCliente, setDireccionesCliente] = useState<Direccion[]>([]);
+  const [userRole, setUserRole] = useState<string | null>(null);
+
+  // Custom logic states
+  const [nivelInfestacion, setNivelInfestacion] = useState("");
+  const [frecuenciaRecomendada, setFrecuenciaRecomendada] = useState<number | "">("");
+
+  // Form Fields
+  const [servicioEspecifico, setServicioEspecifico] = useState("");
+  const [tipoVisita, setTipoVisita] = useState("");
+  const [urgencia, setUrgencia] = useState("");
+  const [observacion, setObservacion] = useState("");
+  const [fechaVisita, setFechaVisita] = useState("");
+  const [horaInicio, setHoraInicio] = useState("");
+  const [duracionMinutos, setDuracionMinutos] = useState("60");
+  const [valorCotizado, setValorCotizado] = useState("");
+  const [metodoPagoId, setMetodoPagoId] = useState("");
+  const [estadoPago, setEstadoPago] = useState("");
+  const [tipoFacturacion, setTipoFacturacion] = useState("");
+
+  const handleNivelInfestacionChange = (val: string) => {
+    setNivelInfestacion(val);
+
+    if (!val) {
+      setFrecuenciaRecomendada("");
+      return;
+    }
+
+    let suggestedDays = 30; // Default monthly
+    switch (val) {
+      case "CRITICO": suggestedDays = 7; break; // Weekly
+      case "ALTO": suggestedDays = 15; break; // Bi-weekly
+      case "MEDIO": suggestedDays = 30; break; // Monthly
+      case "BAJO": suggestedDays = 60; break; // Bi-monthly
+      case "PREVENTIVO": suggestedDays = 90; break; // Quarterly
+    }
+
+    setFrecuenciaRecomendada(suggestedDays);
+  };
+
+  // Carga de métodos de pago cuando cambia la empresa seleccionada
+  const fetchMetodosPago = useCallback(async (empId: string) => {
+    if (!empId) return;
+    try {
+      const mps = await getMetodosPagoAction(empId);
+      setMetodosPago(Array.isArray(mps) ? mps : mps?.data || []);
+    } catch (e) {
+      console.error("Error loading payment methods", e);
+    }
+  }, []);
+
+  // Carga de operadores cuando cambia la empresa
+  const fetchOperadores = useCallback(async (empId: string) => {
+    if (!empId) return;
+    try {
+      const ops = await getOperatorsAction(empId);
+      setOperadores(Array.isArray(ops) ? ops : ops?.data || []);
+    } catch (e) {
+      console.error("Error loading operators", e);
+    }
+  }, []);
 
   useEffect(() => {
     const originalStyle = window.getComputedStyle(document.body).overflow;
     document.body.style.overflow = "hidden";
-    return () => { document.body.style.overflow = originalStyle; };
-  }, []);
 
-  useEffect(() => {
     const loadData = async () => {
+      const userData = localStorage.getItem("user");
+      // Obtener empresa seleccionada actualmente en el selector de la barra lateral
+      const currentEmpresaId = localStorage.getItem("current-enterprise-id") ||
+                              document.cookie.split("; ").find(row => row.startsWith("x-enterprise-id="))?.split("=")[1];
+
+      let uRole = null;
+
+      if (userData && userData !== "undefined") {
+        try {
+          const user = JSON.parse(userData);
+          uRole = user.role;
+          setUserRole(uRole);
+        } catch (_e) { /* ignore */ }
+      }
+
       try {
-        const [cls, ints, emps] = await Promise.all([
+        const [cls, emps] = await Promise.all([
           getClientesAction(),
-          getTiposInteresAction(),
           getEnterprisesAction(),
         ]);
+
+        // Clientes usually returns an array or { data: [] }
         setClientes(Array.isArray(cls) ? cls : cls?.data || []);
-        setTiposInteres(Array.isArray(ints) ? ints : ints?.data || []);
-        setEmpresas(Array.isArray(emps) ? emps : emps?.data || []);
+
+        // Enterprises returns { items: [], count: X, maxEmpresas: Y }
+        const loadedEmpresas = Array.isArray(emps)
+          ? emps
+          : (emps?.items || emps?.data || []);
+
+        setEmpresas(loadedEmpresas);
+
+        // LÓGICA DE PRE-SELECCIÓN DE EMPRESA
+        let targetEmpresaId = "";
+
+        // 1. Priorizar la empresa seleccionada actualmente en el sistema
+        if (currentEmpresaId && loadedEmpresas.some(e => e.id === currentEmpresaId)) {
+          targetEmpresaId = currentEmpresaId;
+        }
+        // 2. Si no hay selección actual, pero solo hay una empresa disponible
+        else if (loadedEmpresas.length === 1) {
+          targetEmpresaId = loadedEmpresas[0].id;
+        }
+
+        if (targetEmpresaId) {
+          setSelectedEmpresa(targetEmpresaId);
+          fetchMetodosPago(targetEmpresaId);
+          fetchOperadores(targetEmpresaId);
+        }
       } catch (e) {
-        console.error("Error loading service data", e);
+        console.error("Error loading initial data", e);
         toast.error("Error al cargar datos básicos");
       }
     };
+
     loadData();
-  }, []);
+
+    return () => { document.body.style.overflow = originalStyle; };
+  }, [fetchMetodosPago, fetchOperadores]);
+
+  const handleEmpresaChange = (val: string) => {
+    setSelectedEmpresa(val);
+    fetchMetodosPago(val);
+    fetchOperadores(val);
+  };
 
   const handleClienteChange = (clientId: string) => {
     setSelectedCliente(clientId);
@@ -125,32 +262,57 @@ function NuevoServicioContent() {
     e.preventDefault();
     setLoading(true);
 
+    if (!selectedCliente || !selectedEmpresa || !servicioEspecifico) {
+      toast.error("Por favor complete los campos obligatorios");
+      setLoading(false);
+      return;
+    }
+
+    const payload = {
+      clienteId: selectedCliente,
+      empresaId: selectedEmpresa,
+      tecnicoId: selectedOperador || undefined,
+      direccionId: selectedDireccion || undefined,
+      servicioEspecifico,
+      urgencia: urgencia || undefined,
+      observacion: observacion || undefined,
+      nivelInfestacion: nivelInfestacion || undefined,
+      tipoVisita: tipoVisita || undefined,
+      frecuenciaSugerida: frecuenciaRecomendada ? Number(frecuenciaRecomendada) : undefined,
+      tipoFacturacion: tipoFacturacion || undefined,
+      valorCotizado: valorCotizado ? Number(valorCotizado) : undefined,
+      metodoPagoId: metodoPagoId || undefined,
+      estadoPago: estadoPago || undefined,
+      fechaVisita: fechaVisita ? new Date(fechaVisita).toISOString() : undefined,
+      horaInicio: (fechaVisita && horaInicio) ? new Date(`${fechaVisita}T${horaInicio}:00`).toISOString() : undefined,
+      duracionMinutos: Number(duracionMinutos),
+    };
+
     toast.promise(
-      new Promise<{ message: string }>((resolve, reject) => {
-        // Simular creación por ahora
-        setTimeout(() => {
-          const success = true; // Simulación de éxito/fallo
-          if (success) {
-            resolve({ message: "Orden de servicio generada correctamente" });
-            router.push("/dashboard/servicios");
-          } else {
-            reject(new Error("Error al procesar la orden técnica"));
-            setLoading(false);
-          }
-        }, 2000);
+      createOrdenServicioAction(payload).then((res) => {
+        if (!res.success) throw new Error(res.error);
+        return res;
       }),
       {
         loading: 'Generando orden técnica y vinculando disponibilidad...',
-        success: (data) => data.message,
-        error: (err) => err.message,
+        success: () => {
+          router.push("/dashboard/servicios");
+          return "Orden de servicio generada correctamente";
+        },
+        error: (err) => {
+          setLoading(false);
+          return err.message;
+        },
       }
     );
   };
 
+  const isEmpresaLocked = userRole === "COORDINADOR" || userRole === "ASESOR";
+
   return (
     <div className="max-w-5xl mx-auto w-full h-[calc(100vh-12rem)] flex flex-col min-h-0">
       <div className="flex-1 flex flex-col bg-white dark:bg-zinc-950 rounded-2xl shadow-sm border border-zinc-200 dark:border-zinc-800 overflow-hidden min-h-0">
-        
+
         {/* Header Fijo */}
         <div className="flex-none bg-white dark:bg-zinc-950 border-b border-zinc-100 dark:border-zinc-800 px-8 py-6 flex items-center justify-between">
           <div className="flex items-center gap-5">
@@ -170,7 +332,7 @@ function NuevoServicioContent() {
         {/* Contenido Scrollable */}
         <div className="flex-1 overflow-y-auto p-10 custom-scrollbar scroll-smooth bg-white dark:bg-zinc-950">
           <form id="servicio-form" onSubmit={handleSubmit} className="space-y-12 max-w-4xl mx-auto pb-12">
-            
+
             {/* SECCIÓN 1: IDENTIFICACIÓN DEL CLIENTE */}
             <section className="space-y-8">
               <div className="flex items-center gap-3 border-b border-zinc-100 dark:border-zinc-800 pb-3">
@@ -184,10 +346,10 @@ function NuevoServicioContent() {
                 <div className="space-y-2">
                   <Label className="text-xs font-bold text-zinc-500 uppercase tracking-wider">Cliente Solicitante <span className="text-red-500">*</span></Label>
                   <Combobox
-                    options={(Array.isArray(clientes) ? clientes : []).map(c => ({ 
-                      value: c.id, 
-                      label: c.tipoCliente === "EMPRESA" 
-                        ? (c.razonSocial || "Empresa sin nombre") 
+                    options={(Array.isArray(clientes) ? clientes : []).map(c => ({
+                      value: c.id,
+                      label: c.tipoCliente === "EMPRESA"
+                        ? (c.razonSocial || "Empresa sin nombre")
                         : `${c.nombre || ""} ${c.apellido || ""}`.trim() || "Cliente sin nombre"
                     }))}
                     value={selectedCliente}
@@ -228,32 +390,66 @@ function NuevoServicioContent() {
               <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6">
                 <div className="space-y-2">
                   <Label className="text-xs font-bold text-zinc-500 uppercase tracking-wider">Empresa Asociada <span className="text-red-500">*</span></Label>
-                  <Select value={selectedEmpresa} onChange={(e) => setSelectedEmpresa(e.target.value)} required className="h-11 border-zinc-200">
+                  <Select
+                    value={selectedEmpresa}
+                    onChange={(e) => handleEmpresaChange(e.target.value)}
+                    required
+                    disabled={isEmpresaLocked}
+                    className="h-11 border-zinc-200 disabled:opacity-50 disabled:bg-zinc-50 dark:disabled:bg-zinc-900"
+                  >
                     <option value="">Seleccionar empresa...</option>
                     {(Array.isArray(empresas) ? empresas : []).map(e => (
                       <option key={e.id} value={e.id}>{e.nombre}</option>
                     ))}
                   </Select>
+                  {isEmpresaLocked && (
+                    <p className="text-[9px] font-bold text-azul-1 uppercase tracking-widest ml-1">Pre-asignada por coordinación</p>
+                  )}
                 </div>
 
                 <div className="space-y-2">
-                  <Label className="text-xs font-bold text-zinc-500 uppercase tracking-wider">Tipo de Servicio <span className="text-red-500">*</span></Label>
-                  <Select required className="h-11 border-zinc-200">
-                    <option value="">Seleccionar tipo...</option>
-                    {(Array.isArray(tiposInteres) ? tiposInteres : []).map(t => (
-                      <option key={t.id} value={t.id}>{t.nombre}</option>
+                  <Label className="text-xs font-bold text-zinc-500 uppercase tracking-wider">Servicio Específico <span className="text-red-500">*</span></Label>
+                  <Input value={servicioEspecifico} onChange={(e) => setServicioEspecifico(e.target.value)} placeholder="Ej: Control de Roedores" required className="h-11 border-zinc-200" />
+                </div>
+
+                <div className="space-y-2">
+                  <Label className="text-xs font-bold text-zinc-500 uppercase tracking-wider">Tipo de Visita <span className="text-red-500">*</span></Label>
+                  <Select value={tipoVisita} onChange={(e) => setTipoVisita(e.target.value)} required className="h-11 border-zinc-200">
+                    <option value="">Seleccionar visita...</option>
+                    {TIPOS_VISITA.map(t => (
+                      <option key={t.value} value={t.value}>{t.label}</option>
                     ))}
                   </Select>
                 </div>
 
                 <div className="space-y-2">
-                  <Label className="text-xs font-bold text-zinc-500 uppercase tracking-wider">Servicio Específico <span className="text-red-500">*</span></Label>
-                  <Input placeholder="Ej: Control de Roedores" required className="h-11 border-zinc-200" />
+                  <Label className="text-xs font-bold text-zinc-500 uppercase tracking-wider">Nivel de Infestación <span className="text-red-500">*</span></Label>
+                  <Select value={nivelInfestacion} onChange={(e) => handleNivelInfestacionChange(e.target.value)} required className="h-11 border-zinc-200">
+                    <option value="">Seleccionar nivel...</option>
+                    {NIVELES_INFESTACION.map(n => (
+                      <option key={n.value} value={n.value}>{n.label}</option>
+                    ))}
+                  </Select>
+                </div>
+
+                <div className="space-y-2">
+                  <Label className="text-xs font-bold text-zinc-500 uppercase tracking-wider">Frecuencia Sugerida (Días)</Label>
+                  <Input
+                    type="number"
+                    value={frecuenciaRecomendada}
+                    onChange={(e) => setFrecuenciaRecomendada(e.target.value ? Number(e.target.value) : "")}
+                    placeholder="Días"
+                    className="h-11 border-zinc-200"
+                  />
+                  {nivelInfestacion && (
+                     <p className="text-[9px] font-bold text-zinc-400 mt-1 uppercase tracking-widest">Calculado por nivel de infestación</p>
+                  )}
                 </div>
 
                 <div className="space-y-2">
                   <Label className="text-xs font-bold text-zinc-500 uppercase tracking-wider">Urgencia <span className="text-red-500">*</span></Label>
-                  <Select required className="h-11 border-zinc-200">
+                  <Select value={urgencia} onChange={(e) => setUrgencia(e.target.value)} required className="h-11 border-zinc-200">
+                    <option value="">Seleccionar urgencia...</option>
                     {URGENCIAS.map(u => (
                       <option key={u.value} value={u.value}>{u.label}</option>
                     ))}
@@ -262,7 +458,9 @@ function NuevoServicioContent() {
 
                 <div className="space-y-2 md:col-span-2">
                   <Label className="text-xs font-bold text-zinc-500 uppercase tracking-wider">Observaciones</Label>
-                  <textarea 
+                  <textarea
+                    value={observacion}
+                    onChange={(e) => setObservacion(e.target.value)}
                     className="w-full bg-white dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl p-4 text-sm font-medium resize-none min-h-[100px] focus:ring-[var(--color-azul-1)] focus:border-[var(--color-azul-1)] outline-none"
                     placeholder="Detalles adicionales, requerimientos específicos o notas importantes..."
                   ></textarea>
@@ -279,24 +477,34 @@ function NuevoServicioContent() {
                 <h2 className="text-lg font-bold text-zinc-900 dark:text-zinc-50">Agenda Operativa</h2>
               </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-x-8 gap-y-6">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-x-8 gap-y-6">
                 <div className="space-y-2">
                   <Label className="text-xs font-bold text-zinc-500 uppercase tracking-wider">Fecha de Ejecución <span className="text-red-500">*</span></Label>
-                  <Input type="date" required className="h-11 border-zinc-200" />
+                  <Input type="date" value={fechaVisita} onChange={(e) => setFechaVisita(e.target.value)} required className="h-11 border-zinc-200" />
                 </div>
 
                 <div className="space-y-2">
                   <Label className="text-xs font-bold text-zinc-500 uppercase tracking-wider">Hora de Inicio <span className="text-red-500">*</span></Label>
-                  <Input type="time" required className="h-11 border-zinc-200" />
+                  <Input type="time" value={horaInicio} onChange={(e) => setHoraInicio(e.target.value)} required className="h-11 border-zinc-200" />
                 </div>
 
                 <div className="space-y-2">
                   <Label className="text-xs font-bold text-zinc-500 uppercase tracking-wider">Duración Labor <span className="text-red-500">*</span></Label>
-                  <Select required className="h-11 border-zinc-200">
+                  <Select value={duracionMinutos} onChange={(e) => setDuracionMinutos(e.target.value)} required className="h-11 border-zinc-200">
                     <option value="60">60 Minutos</option>
                     <option value="90">90 Minutos</option>
                     <option value="120">120 Minutos</option>
                     <option value="180">180 Minutos</option>
+                  </Select>
+                </div>
+
+                <div className="space-y-2">
+                  <Label className="text-xs font-bold text-zinc-500 uppercase tracking-wider">Operador</Label>
+                  <Select value={selectedOperador} onChange={(e) => setSelectedOperador(e.target.value)} className="h-11 border-zinc-200">
+                    <option value="">Por asignar / Automático</option>
+                    {(Array.isArray(operadores) ? operadores : []).map(o => (
+                      <option key={o.id} value={o.id}>{o.nombre}</option>
+                    ))}
                   </Select>
                 </div>
               </div>
@@ -324,14 +532,35 @@ function NuevoServicioContent() {
                   <Label className="text-xs font-bold text-zinc-500 uppercase tracking-wider">Tarifa del Servicio (COP) <span className="text-red-500">*</span></Label>
                   <div className="relative">
                     <span className="absolute left-4 top-1/2 -translate-y-1/2 text-zinc-400 font-bold">$</span>
-                    <Input type="number" placeholder="0.00" required className="h-11 border-zinc-200 pl-8 font-bold" />
+                    <Input type="number" value={valorCotizado} onChange={(e) => setValorCotizado(e.target.value)} placeholder="0.00" required className="h-11 border-zinc-200 pl-8 font-bold" />
                   </div>
                 </div>
 
                 <div className="space-y-2">
-                  <Label className="text-xs font-bold text-zinc-500 uppercase tracking-wider">Método de Recaudo <span className="text-red-500">*</span></Label>
-                  <Select required className="h-11 border-zinc-200">
-                    {METODOS_PAGO.map(m => (
+                  <Label className="text-xs font-bold text-zinc-500 uppercase tracking-wider">Método de Recaudo</Label>
+                  <Select value={metodoPagoId} onChange={(e) => setMetodoPagoId(e.target.value)} className="h-11 border-zinc-200">
+                    <option value="">No definido aún</option>
+                    {(Array.isArray(metodosPago) ? metodosPago : []).map(m => (
+                      <option key={m.id} value={m.id}>{m.nombre}</option>
+                    ))}
+                  </Select>
+                </div>
+
+                <div className="space-y-2">
+                  <Label className="text-xs font-bold text-zinc-500 uppercase tracking-wider">Estado del Pago <span className="text-red-500">*</span></Label>
+                  <Select value={estadoPago} onChange={(e) => setEstadoPago(e.target.value)} required className="h-11 border-zinc-200">
+                    <option value="">Seleccionar estado...</option>
+                    {ESTADOS_PAGO.map(m => (
+                      <option key={m.value} value={m.value}>{m.label}</option>
+                    ))}
+                  </Select>
+                </div>
+
+                <div className="space-y-2">
+                  <Label className="text-xs font-bold text-zinc-500 uppercase tracking-wider">Tipo de Facturación <span className="text-red-500">*</span></Label>
+                  <Select value={tipoFacturacion} onChange={(e) => setTipoFacturacion(e.target.value)} required className="h-11 border-zinc-200">
+                    <option value="">Seleccionar facturación...</option>
+                    {TIPOS_FACTURACION.map(m => (
                       <option key={m.value} value={m.value}>{m.label}</option>
                     ))}
                   </Select>
@@ -348,7 +577,7 @@ function NuevoServicioContent() {
             <p className="text-[11px] font-medium max-w-xs leading-relaxed">Se generará una orden de trabajo automática para el técnico asignado.</p>
           </div>
           <div className="flex items-center gap-4">
-            <Button variant="ghost" onClick={() => router.push("/dashboard/servicios")} className="h-12 px-8 text-xs font-bold uppercase tracking-widest text-zinc-500 hover:bg-zinc-200">Descartar</Button>
+            <Button variant="ghost" onClick={() => router.back()} className="h-12 px-8 text-xs font-bold uppercase tracking-widest text-zinc-500 hover:bg-zinc-200">Descartar</Button>
             <Button
               type="submit"
               form="servicio-form"

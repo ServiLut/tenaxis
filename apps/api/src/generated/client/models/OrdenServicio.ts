@@ -27,6 +27,7 @@ export type AggregateOrdenServicio = {
 }
 
 export type OrdenServicioAvgAggregateOutputType = {
+  frecuenciaSugerida: number | null
   valorCotizado: runtime.Decimal | null
   valorPagado: runtime.Decimal | null
   valorRepuestos: runtime.Decimal | null
@@ -34,6 +35,7 @@ export type OrdenServicioAvgAggregateOutputType = {
 }
 
 export type OrdenServicioSumAggregateOutputType = {
+  frecuenciaSugerida: number | null
   valorCotizado: runtime.Decimal | null
   valorPagado: runtime.Decimal | null
   valorRepuestos: runtime.Decimal | null
@@ -57,7 +59,6 @@ export type OrdenServicioMinAggregateOutputType = {
   municipio: string | null
   departamento: string | null
   linkMaps: string | null
-  tipoServicioId: string | null
   zonaId: string | null
   vehiculoId: string | null
   metodoPagoId: string | null
@@ -68,7 +69,11 @@ export type OrdenServicioMinAggregateOutputType = {
   horaFin: Date | null
   observacion: string | null
   observacionFinal: string | null
-  nivelInfestacion: string | null
+  nivelInfestacion: $Enums.NivelInfestacion | null
+  urgencia: $Enums.UrgenciaOrden | null
+  tipoVisita: $Enums.TipoVisita | null
+  frecuenciaSugerida: number | null
+  tipoFacturacion: $Enums.TipoFacturacion | null
   condicionesHigiene: string | null
   condicionesLocal: string | null
   valorCotizado: runtime.Decimal | null
@@ -103,7 +108,6 @@ export type OrdenServicioMaxAggregateOutputType = {
   municipio: string | null
   departamento: string | null
   linkMaps: string | null
-  tipoServicioId: string | null
   zonaId: string | null
   vehiculoId: string | null
   metodoPagoId: string | null
@@ -114,7 +118,11 @@ export type OrdenServicioMaxAggregateOutputType = {
   horaFin: Date | null
   observacion: string | null
   observacionFinal: string | null
-  nivelInfestacion: string | null
+  nivelInfestacion: $Enums.NivelInfestacion | null
+  urgencia: $Enums.UrgenciaOrden | null
+  tipoVisita: $Enums.TipoVisita | null
+  frecuenciaSugerida: number | null
+  tipoFacturacion: $Enums.TipoFacturacion | null
   condicionesHigiene: string | null
   condicionesLocal: string | null
   valorCotizado: runtime.Decimal | null
@@ -149,7 +157,6 @@ export type OrdenServicioCountAggregateOutputType = {
   municipio: number
   departamento: number
   linkMaps: number
-  tipoServicioId: number
   zonaId: number
   vehiculoId: number
   metodoPagoId: number
@@ -161,6 +168,10 @@ export type OrdenServicioCountAggregateOutputType = {
   observacion: number
   observacionFinal: number
   nivelInfestacion: number
+  urgencia: number
+  tipoVisita: number
+  frecuenciaSugerida: number
+  tipoFacturacion: number
   condicionesHigiene: number
   condicionesLocal: number
   valorCotizado: number
@@ -181,6 +192,7 @@ export type OrdenServicioCountAggregateOutputType = {
 
 
 export type OrdenServicioAvgAggregateInputType = {
+  frecuenciaSugerida?: true
   valorCotizado?: true
   valorPagado?: true
   valorRepuestos?: true
@@ -188,6 +200,7 @@ export type OrdenServicioAvgAggregateInputType = {
 }
 
 export type OrdenServicioSumAggregateInputType = {
+  frecuenciaSugerida?: true
   valorCotizado?: true
   valorPagado?: true
   valorRepuestos?: true
@@ -211,7 +224,6 @@ export type OrdenServicioMinAggregateInputType = {
   municipio?: true
   departamento?: true
   linkMaps?: true
-  tipoServicioId?: true
   zonaId?: true
   vehiculoId?: true
   metodoPagoId?: true
@@ -223,6 +235,10 @@ export type OrdenServicioMinAggregateInputType = {
   observacion?: true
   observacionFinal?: true
   nivelInfestacion?: true
+  urgencia?: true
+  tipoVisita?: true
+  frecuenciaSugerida?: true
+  tipoFacturacion?: true
   condicionesHigiene?: true
   condicionesLocal?: true
   valorCotizado?: true
@@ -257,7 +273,6 @@ export type OrdenServicioMaxAggregateInputType = {
   municipio?: true
   departamento?: true
   linkMaps?: true
-  tipoServicioId?: true
   zonaId?: true
   vehiculoId?: true
   metodoPagoId?: true
@@ -269,6 +284,10 @@ export type OrdenServicioMaxAggregateInputType = {
   observacion?: true
   observacionFinal?: true
   nivelInfestacion?: true
+  urgencia?: true
+  tipoVisita?: true
+  frecuenciaSugerida?: true
+  tipoFacturacion?: true
   condicionesHigiene?: true
   condicionesLocal?: true
   valorCotizado?: true
@@ -303,7 +322,6 @@ export type OrdenServicioCountAggregateInputType = {
   municipio?: true
   departamento?: true
   linkMaps?: true
-  tipoServicioId?: true
   zonaId?: true
   vehiculoId?: true
   metodoPagoId?: true
@@ -315,6 +333,10 @@ export type OrdenServicioCountAggregateInputType = {
   observacion?: true
   observacionFinal?: true
   nivelInfestacion?: true
+  urgencia?: true
+  tipoVisita?: true
+  frecuenciaSugerida?: true
+  tipoFacturacion?: true
   condicionesHigiene?: true
   condicionesLocal?: true
   valorCotizado?: true
@@ -436,7 +458,6 @@ export type OrdenServicioGroupByOutputType = {
   municipio: string | null
   departamento: string | null
   linkMaps: string | null
-  tipoServicioId: string | null
   zonaId: string | null
   vehiculoId: string | null
   metodoPagoId: string | null
@@ -447,7 +468,11 @@ export type OrdenServicioGroupByOutputType = {
   horaFin: Date | null
   observacion: string | null
   observacionFinal: string | null
-  nivelInfestacion: string | null
+  nivelInfestacion: $Enums.NivelInfestacion | null
+  urgencia: $Enums.UrgenciaOrden | null
+  tipoVisita: $Enums.TipoVisita | null
+  frecuenciaSugerida: number | null
+  tipoFacturacion: $Enums.TipoFacturacion | null
   condicionesHigiene: string | null
   condicionesLocal: string | null
   valorCotizado: runtime.Decimal | null
@@ -505,7 +530,6 @@ export type OrdenServicioWhereInput = {
   municipio?: Prisma.StringNullableFilter<"OrdenServicio"> | string | null
   departamento?: Prisma.StringNullableFilter<"OrdenServicio"> | string | null
   linkMaps?: Prisma.StringNullableFilter<"OrdenServicio"> | string | null
-  tipoServicioId?: Prisma.UuidNullableFilter<"OrdenServicio"> | string | null
   zonaId?: Prisma.UuidNullableFilter<"OrdenServicio"> | string | null
   vehiculoId?: Prisma.UuidNullableFilter<"OrdenServicio"> | string | null
   metodoPagoId?: Prisma.UuidNullableFilter<"OrdenServicio"> | string | null
@@ -516,7 +540,11 @@ export type OrdenServicioWhereInput = {
   horaFin?: Prisma.DateTimeNullableFilter<"OrdenServicio"> | Date | string | null
   observacion?: Prisma.StringNullableFilter<"OrdenServicio"> | string | null
   observacionFinal?: Prisma.StringNullableFilter<"OrdenServicio"> | string | null
-  nivelInfestacion?: Prisma.StringNullableFilter<"OrdenServicio"> | string | null
+  nivelInfestacion?: Prisma.EnumNivelInfestacionNullableFilter<"OrdenServicio"> | $Enums.NivelInfestacion | null
+  urgencia?: Prisma.EnumUrgenciaOrdenNullableFilter<"OrdenServicio"> | $Enums.UrgenciaOrden | null
+  tipoVisita?: Prisma.EnumTipoVisitaNullableFilter<"OrdenServicio"> | $Enums.TipoVisita | null
+  frecuenciaSugerida?: Prisma.IntNullableFilter<"OrdenServicio"> | number | null
+  tipoFacturacion?: Prisma.EnumTipoFacturacionNullableFilter<"OrdenServicio"> | $Enums.TipoFacturacion | null
   condicionesHigiene?: Prisma.StringNullableFilter<"OrdenServicio"> | string | null
   condicionesLocal?: Prisma.StringNullableFilter<"OrdenServicio"> | string | null
   valorCotizado?: Prisma.DecimalNullableFilter<"OrdenServicio"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -547,7 +575,6 @@ export type OrdenServicioWhereInput = {
   servicio?: Prisma.XOR<Prisma.ServicioScalarRelationFilter, Prisma.ServicioWhereInput>
   tecnico?: Prisma.XOR<Prisma.TenantMembershipNullableScalarRelationFilter, Prisma.TenantMembershipWhereInput> | null
   tenant?: Prisma.XOR<Prisma.TenantScalarRelationFilter, Prisma.TenantWhereInput>
-  tipoServicio?: Prisma.XOR<Prisma.TipoServicioNullableScalarRelationFilter, Prisma.TipoServicioWhereInput> | null
   vehiculo?: Prisma.XOR<Prisma.VehiculoNullableScalarRelationFilter, Prisma.VehiculoWhereInput> | null
   zona?: Prisma.XOR<Prisma.ZonaNullableScalarRelationFilter, Prisma.ZonaWhereInput> | null
 }
@@ -569,7 +596,6 @@ export type OrdenServicioOrderByWithRelationInput = {
   municipio?: Prisma.SortOrderInput | Prisma.SortOrder
   departamento?: Prisma.SortOrderInput | Prisma.SortOrder
   linkMaps?: Prisma.SortOrderInput | Prisma.SortOrder
-  tipoServicioId?: Prisma.SortOrderInput | Prisma.SortOrder
   zonaId?: Prisma.SortOrderInput | Prisma.SortOrder
   vehiculoId?: Prisma.SortOrderInput | Prisma.SortOrder
   metodoPagoId?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -581,6 +607,10 @@ export type OrdenServicioOrderByWithRelationInput = {
   observacion?: Prisma.SortOrderInput | Prisma.SortOrder
   observacionFinal?: Prisma.SortOrderInput | Prisma.SortOrder
   nivelInfestacion?: Prisma.SortOrderInput | Prisma.SortOrder
+  urgencia?: Prisma.SortOrderInput | Prisma.SortOrder
+  tipoVisita?: Prisma.SortOrderInput | Prisma.SortOrder
+  frecuenciaSugerida?: Prisma.SortOrderInput | Prisma.SortOrder
+  tipoFacturacion?: Prisma.SortOrderInput | Prisma.SortOrder
   condicionesHigiene?: Prisma.SortOrderInput | Prisma.SortOrder
   condicionesLocal?: Prisma.SortOrderInput | Prisma.SortOrder
   valorCotizado?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -611,7 +641,6 @@ export type OrdenServicioOrderByWithRelationInput = {
   servicio?: Prisma.ServicioOrderByWithRelationInput
   tecnico?: Prisma.TenantMembershipOrderByWithRelationInput
   tenant?: Prisma.TenantOrderByWithRelationInput
-  tipoServicio?: Prisma.TipoServicioOrderByWithRelationInput
   vehiculo?: Prisma.VehiculoOrderByWithRelationInput
   zona?: Prisma.ZonaOrderByWithRelationInput
 }
@@ -636,7 +665,6 @@ export type OrdenServicioWhereUniqueInput = Prisma.AtLeast<{
   municipio?: Prisma.StringNullableFilter<"OrdenServicio"> | string | null
   departamento?: Prisma.StringNullableFilter<"OrdenServicio"> | string | null
   linkMaps?: Prisma.StringNullableFilter<"OrdenServicio"> | string | null
-  tipoServicioId?: Prisma.UuidNullableFilter<"OrdenServicio"> | string | null
   zonaId?: Prisma.UuidNullableFilter<"OrdenServicio"> | string | null
   vehiculoId?: Prisma.UuidNullableFilter<"OrdenServicio"> | string | null
   metodoPagoId?: Prisma.UuidNullableFilter<"OrdenServicio"> | string | null
@@ -647,7 +675,11 @@ export type OrdenServicioWhereUniqueInput = Prisma.AtLeast<{
   horaFin?: Prisma.DateTimeNullableFilter<"OrdenServicio"> | Date | string | null
   observacion?: Prisma.StringNullableFilter<"OrdenServicio"> | string | null
   observacionFinal?: Prisma.StringNullableFilter<"OrdenServicio"> | string | null
-  nivelInfestacion?: Prisma.StringNullableFilter<"OrdenServicio"> | string | null
+  nivelInfestacion?: Prisma.EnumNivelInfestacionNullableFilter<"OrdenServicio"> | $Enums.NivelInfestacion | null
+  urgencia?: Prisma.EnumUrgenciaOrdenNullableFilter<"OrdenServicio"> | $Enums.UrgenciaOrden | null
+  tipoVisita?: Prisma.EnumTipoVisitaNullableFilter<"OrdenServicio"> | $Enums.TipoVisita | null
+  frecuenciaSugerida?: Prisma.IntNullableFilter<"OrdenServicio"> | number | null
+  tipoFacturacion?: Prisma.EnumTipoFacturacionNullableFilter<"OrdenServicio"> | $Enums.TipoFacturacion | null
   condicionesHigiene?: Prisma.StringNullableFilter<"OrdenServicio"> | string | null
   condicionesLocal?: Prisma.StringNullableFilter<"OrdenServicio"> | string | null
   valorCotizado?: Prisma.DecimalNullableFilter<"OrdenServicio"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -678,7 +710,6 @@ export type OrdenServicioWhereUniqueInput = Prisma.AtLeast<{
   servicio?: Prisma.XOR<Prisma.ServicioScalarRelationFilter, Prisma.ServicioWhereInput>
   tecnico?: Prisma.XOR<Prisma.TenantMembershipNullableScalarRelationFilter, Prisma.TenantMembershipWhereInput> | null
   tenant?: Prisma.XOR<Prisma.TenantScalarRelationFilter, Prisma.TenantWhereInput>
-  tipoServicio?: Prisma.XOR<Prisma.TipoServicioNullableScalarRelationFilter, Prisma.TipoServicioWhereInput> | null
   vehiculo?: Prisma.XOR<Prisma.VehiculoNullableScalarRelationFilter, Prisma.VehiculoWhereInput> | null
   zona?: Prisma.XOR<Prisma.ZonaNullableScalarRelationFilter, Prisma.ZonaWhereInput> | null
 }, "id">
@@ -700,7 +731,6 @@ export type OrdenServicioOrderByWithAggregationInput = {
   municipio?: Prisma.SortOrderInput | Prisma.SortOrder
   departamento?: Prisma.SortOrderInput | Prisma.SortOrder
   linkMaps?: Prisma.SortOrderInput | Prisma.SortOrder
-  tipoServicioId?: Prisma.SortOrderInput | Prisma.SortOrder
   zonaId?: Prisma.SortOrderInput | Prisma.SortOrder
   vehiculoId?: Prisma.SortOrderInput | Prisma.SortOrder
   metodoPagoId?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -712,6 +742,10 @@ export type OrdenServicioOrderByWithAggregationInput = {
   observacion?: Prisma.SortOrderInput | Prisma.SortOrder
   observacionFinal?: Prisma.SortOrderInput | Prisma.SortOrder
   nivelInfestacion?: Prisma.SortOrderInput | Prisma.SortOrder
+  urgencia?: Prisma.SortOrderInput | Prisma.SortOrder
+  tipoVisita?: Prisma.SortOrderInput | Prisma.SortOrder
+  frecuenciaSugerida?: Prisma.SortOrderInput | Prisma.SortOrder
+  tipoFacturacion?: Prisma.SortOrderInput | Prisma.SortOrder
   condicionesHigiene?: Prisma.SortOrderInput | Prisma.SortOrder
   condicionesLocal?: Prisma.SortOrderInput | Prisma.SortOrder
   valorCotizado?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -754,7 +788,6 @@ export type OrdenServicioScalarWhereWithAggregatesInput = {
   municipio?: Prisma.StringNullableWithAggregatesFilter<"OrdenServicio"> | string | null
   departamento?: Prisma.StringNullableWithAggregatesFilter<"OrdenServicio"> | string | null
   linkMaps?: Prisma.StringNullableWithAggregatesFilter<"OrdenServicio"> | string | null
-  tipoServicioId?: Prisma.UuidNullableWithAggregatesFilter<"OrdenServicio"> | string | null
   zonaId?: Prisma.UuidNullableWithAggregatesFilter<"OrdenServicio"> | string | null
   vehiculoId?: Prisma.UuidNullableWithAggregatesFilter<"OrdenServicio"> | string | null
   metodoPagoId?: Prisma.UuidNullableWithAggregatesFilter<"OrdenServicio"> | string | null
@@ -765,7 +798,11 @@ export type OrdenServicioScalarWhereWithAggregatesInput = {
   horaFin?: Prisma.DateTimeNullableWithAggregatesFilter<"OrdenServicio"> | Date | string | null
   observacion?: Prisma.StringNullableWithAggregatesFilter<"OrdenServicio"> | string | null
   observacionFinal?: Prisma.StringNullableWithAggregatesFilter<"OrdenServicio"> | string | null
-  nivelInfestacion?: Prisma.StringNullableWithAggregatesFilter<"OrdenServicio"> | string | null
+  nivelInfestacion?: Prisma.EnumNivelInfestacionNullableWithAggregatesFilter<"OrdenServicio"> | $Enums.NivelInfestacion | null
+  urgencia?: Prisma.EnumUrgenciaOrdenNullableWithAggregatesFilter<"OrdenServicio"> | $Enums.UrgenciaOrden | null
+  tipoVisita?: Prisma.EnumTipoVisitaNullableWithAggregatesFilter<"OrdenServicio"> | $Enums.TipoVisita | null
+  frecuenciaSugerida?: Prisma.IntNullableWithAggregatesFilter<"OrdenServicio"> | number | null
+  tipoFacturacion?: Prisma.EnumTipoFacturacionNullableWithAggregatesFilter<"OrdenServicio"> | $Enums.TipoFacturacion | null
   condicionesHigiene?: Prisma.StringNullableWithAggregatesFilter<"OrdenServicio"> | string | null
   condicionesLocal?: Prisma.StringNullableWithAggregatesFilter<"OrdenServicio"> | string | null
   valorCotizado?: Prisma.DecimalNullableWithAggregatesFilter<"OrdenServicio"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -799,7 +836,11 @@ export type OrdenServicioCreateInput = {
   horaFin?: Date | string | null
   observacion?: string | null
   observacionFinal?: string | null
-  nivelInfestacion?: string | null
+  nivelInfestacion?: $Enums.NivelInfestacion | null
+  urgencia?: $Enums.UrgenciaOrden | null
+  tipoVisita?: $Enums.TipoVisita | null
+  frecuenciaSugerida?: number | null
+  tipoFacturacion?: $Enums.TipoFacturacion | null
   condicionesHigiene?: string | null
   condicionesLocal?: string | null
   valorCotizado?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -829,7 +870,6 @@ export type OrdenServicioCreateInput = {
   servicio: Prisma.ServicioCreateNestedOneWithoutOrdenesInput
   tecnico?: Prisma.TenantMembershipCreateNestedOneWithoutServiciosAsignadosInput
   tenant: Prisma.TenantCreateNestedOneWithoutOrdenesServicioInput
-  tipoServicio?: Prisma.TipoServicioCreateNestedOneWithoutOrdenesInput
   vehiculo?: Prisma.VehiculoCreateNestedOneWithoutOrdenesServicioInput
   zona?: Prisma.ZonaCreateNestedOneWithoutOrdenesInput
 }
@@ -851,7 +891,6 @@ export type OrdenServicioUncheckedCreateInput = {
   municipio?: string | null
   departamento?: string | null
   linkMaps?: string | null
-  tipoServicioId?: string | null
   zonaId?: string | null
   vehiculoId?: string | null
   metodoPagoId?: string | null
@@ -862,7 +901,11 @@ export type OrdenServicioUncheckedCreateInput = {
   horaFin?: Date | string | null
   observacion?: string | null
   observacionFinal?: string | null
-  nivelInfestacion?: string | null
+  nivelInfestacion?: $Enums.NivelInfestacion | null
+  urgencia?: $Enums.UrgenciaOrden | null
+  tipoVisita?: $Enums.TipoVisita | null
+  frecuenciaSugerida?: number | null
+  tipoFacturacion?: $Enums.TipoFacturacion | null
   condicionesHigiene?: string | null
   condicionesLocal?: string | null
   valorCotizado?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -901,7 +944,11 @@ export type OrdenServicioUpdateInput = {
   horaFin?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   observacion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   observacionFinal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  nivelInfestacion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  nivelInfestacion?: Prisma.NullableEnumNivelInfestacionFieldUpdateOperationsInput | $Enums.NivelInfestacion | null
+  urgencia?: Prisma.NullableEnumUrgenciaOrdenFieldUpdateOperationsInput | $Enums.UrgenciaOrden | null
+  tipoVisita?: Prisma.NullableEnumTipoVisitaFieldUpdateOperationsInput | $Enums.TipoVisita | null
+  frecuenciaSugerida?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  tipoFacturacion?: Prisma.NullableEnumTipoFacturacionFieldUpdateOperationsInput | $Enums.TipoFacturacion | null
   condicionesHigiene?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   condicionesLocal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   valorCotizado?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -931,7 +978,6 @@ export type OrdenServicioUpdateInput = {
   servicio?: Prisma.ServicioUpdateOneRequiredWithoutOrdenesNestedInput
   tecnico?: Prisma.TenantMembershipUpdateOneWithoutServiciosAsignadosNestedInput
   tenant?: Prisma.TenantUpdateOneRequiredWithoutOrdenesServicioNestedInput
-  tipoServicio?: Prisma.TipoServicioUpdateOneWithoutOrdenesNestedInput
   vehiculo?: Prisma.VehiculoUpdateOneWithoutOrdenesServicioNestedInput
   zona?: Prisma.ZonaUpdateOneWithoutOrdenesNestedInput
 }
@@ -953,7 +999,6 @@ export type OrdenServicioUncheckedUpdateInput = {
   municipio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   departamento?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   linkMaps?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  tipoServicioId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   zonaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   vehiculoId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   metodoPagoId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -964,7 +1009,11 @@ export type OrdenServicioUncheckedUpdateInput = {
   horaFin?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   observacion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   observacionFinal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  nivelInfestacion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  nivelInfestacion?: Prisma.NullableEnumNivelInfestacionFieldUpdateOperationsInput | $Enums.NivelInfestacion | null
+  urgencia?: Prisma.NullableEnumUrgenciaOrdenFieldUpdateOperationsInput | $Enums.UrgenciaOrden | null
+  tipoVisita?: Prisma.NullableEnumTipoVisitaFieldUpdateOperationsInput | $Enums.TipoVisita | null
+  frecuenciaSugerida?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  tipoFacturacion?: Prisma.NullableEnumTipoFacturacionFieldUpdateOperationsInput | $Enums.TipoFacturacion | null
   condicionesHigiene?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   condicionesLocal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   valorCotizado?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -1004,7 +1053,6 @@ export type OrdenServicioCreateManyInput = {
   municipio?: string | null
   departamento?: string | null
   linkMaps?: string | null
-  tipoServicioId?: string | null
   zonaId?: string | null
   vehiculoId?: string | null
   metodoPagoId?: string | null
@@ -1015,7 +1063,11 @@ export type OrdenServicioCreateManyInput = {
   horaFin?: Date | string | null
   observacion?: string | null
   observacionFinal?: string | null
-  nivelInfestacion?: string | null
+  nivelInfestacion?: $Enums.NivelInfestacion | null
+  urgencia?: $Enums.UrgenciaOrden | null
+  tipoVisita?: $Enums.TipoVisita | null
+  frecuenciaSugerida?: number | null
+  tipoFacturacion?: $Enums.TipoFacturacion | null
   condicionesHigiene?: string | null
   condicionesLocal?: string | null
   valorCotizado?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -1049,7 +1101,11 @@ export type OrdenServicioUpdateManyMutationInput = {
   horaFin?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   observacion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   observacionFinal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  nivelInfestacion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  nivelInfestacion?: Prisma.NullableEnumNivelInfestacionFieldUpdateOperationsInput | $Enums.NivelInfestacion | null
+  urgencia?: Prisma.NullableEnumUrgenciaOrdenFieldUpdateOperationsInput | $Enums.UrgenciaOrden | null
+  tipoVisita?: Prisma.NullableEnumTipoVisitaFieldUpdateOperationsInput | $Enums.TipoVisita | null
+  frecuenciaSugerida?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  tipoFacturacion?: Prisma.NullableEnumTipoFacturacionFieldUpdateOperationsInput | $Enums.TipoFacturacion | null
   condicionesHigiene?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   condicionesLocal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   valorCotizado?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -1083,7 +1139,6 @@ export type OrdenServicioUncheckedUpdateManyInput = {
   municipio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   departamento?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   linkMaps?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  tipoServicioId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   zonaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   vehiculoId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   metodoPagoId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1094,7 +1149,11 @@ export type OrdenServicioUncheckedUpdateManyInput = {
   horaFin?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   observacion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   observacionFinal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  nivelInfestacion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  nivelInfestacion?: Prisma.NullableEnumNivelInfestacionFieldUpdateOperationsInput | $Enums.NivelInfestacion | null
+  urgencia?: Prisma.NullableEnumUrgenciaOrdenFieldUpdateOperationsInput | $Enums.UrgenciaOrden | null
+  tipoVisita?: Prisma.NullableEnumTipoVisitaFieldUpdateOperationsInput | $Enums.TipoVisita | null
+  frecuenciaSugerida?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  tipoFacturacion?: Prisma.NullableEnumTipoFacturacionFieldUpdateOperationsInput | $Enums.TipoFacturacion | null
   condicionesHigiene?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   condicionesLocal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   valorCotizado?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -1144,7 +1203,6 @@ export type OrdenServicioCountOrderByAggregateInput = {
   municipio?: Prisma.SortOrder
   departamento?: Prisma.SortOrder
   linkMaps?: Prisma.SortOrder
-  tipoServicioId?: Prisma.SortOrder
   zonaId?: Prisma.SortOrder
   vehiculoId?: Prisma.SortOrder
   metodoPagoId?: Prisma.SortOrder
@@ -1156,6 +1214,10 @@ export type OrdenServicioCountOrderByAggregateInput = {
   observacion?: Prisma.SortOrder
   observacionFinal?: Prisma.SortOrder
   nivelInfestacion?: Prisma.SortOrder
+  urgencia?: Prisma.SortOrder
+  tipoVisita?: Prisma.SortOrder
+  frecuenciaSugerida?: Prisma.SortOrder
+  tipoFacturacion?: Prisma.SortOrder
   condicionesHigiene?: Prisma.SortOrder
   condicionesLocal?: Prisma.SortOrder
   valorCotizado?: Prisma.SortOrder
@@ -1174,6 +1236,7 @@ export type OrdenServicioCountOrderByAggregateInput = {
 }
 
 export type OrdenServicioAvgOrderByAggregateInput = {
+  frecuenciaSugerida?: Prisma.SortOrder
   valorCotizado?: Prisma.SortOrder
   valorPagado?: Prisma.SortOrder
   valorRepuestos?: Prisma.SortOrder
@@ -1197,7 +1260,6 @@ export type OrdenServicioMaxOrderByAggregateInput = {
   municipio?: Prisma.SortOrder
   departamento?: Prisma.SortOrder
   linkMaps?: Prisma.SortOrder
-  tipoServicioId?: Prisma.SortOrder
   zonaId?: Prisma.SortOrder
   vehiculoId?: Prisma.SortOrder
   metodoPagoId?: Prisma.SortOrder
@@ -1209,6 +1271,10 @@ export type OrdenServicioMaxOrderByAggregateInput = {
   observacion?: Prisma.SortOrder
   observacionFinal?: Prisma.SortOrder
   nivelInfestacion?: Prisma.SortOrder
+  urgencia?: Prisma.SortOrder
+  tipoVisita?: Prisma.SortOrder
+  frecuenciaSugerida?: Prisma.SortOrder
+  tipoFacturacion?: Prisma.SortOrder
   condicionesHigiene?: Prisma.SortOrder
   condicionesLocal?: Prisma.SortOrder
   valorCotizado?: Prisma.SortOrder
@@ -1243,7 +1309,6 @@ export type OrdenServicioMinOrderByAggregateInput = {
   municipio?: Prisma.SortOrder
   departamento?: Prisma.SortOrder
   linkMaps?: Prisma.SortOrder
-  tipoServicioId?: Prisma.SortOrder
   zonaId?: Prisma.SortOrder
   vehiculoId?: Prisma.SortOrder
   metodoPagoId?: Prisma.SortOrder
@@ -1255,6 +1320,10 @@ export type OrdenServicioMinOrderByAggregateInput = {
   observacion?: Prisma.SortOrder
   observacionFinal?: Prisma.SortOrder
   nivelInfestacion?: Prisma.SortOrder
+  urgencia?: Prisma.SortOrder
+  tipoVisita?: Prisma.SortOrder
+  frecuenciaSugerida?: Prisma.SortOrder
+  tipoFacturacion?: Prisma.SortOrder
   condicionesHigiene?: Prisma.SortOrder
   condicionesLocal?: Prisma.SortOrder
   valorCotizado?: Prisma.SortOrder
@@ -1273,6 +1342,7 @@ export type OrdenServicioMinOrderByAggregateInput = {
 }
 
 export type OrdenServicioSumOrderByAggregateInput = {
+  frecuenciaSugerida?: Prisma.SortOrder
   valorCotizado?: Prisma.SortOrder
   valorPagado?: Prisma.SortOrder
   valorRepuestos?: Prisma.SortOrder
@@ -1662,48 +1732,6 @@ export type OrdenServicioUncheckedUpdateManyWithoutServicioNestedInput = {
   deleteMany?: Prisma.OrdenServicioScalarWhereInput | Prisma.OrdenServicioScalarWhereInput[]
 }
 
-export type OrdenServicioCreateNestedManyWithoutTipoServicioInput = {
-  create?: Prisma.XOR<Prisma.OrdenServicioCreateWithoutTipoServicioInput, Prisma.OrdenServicioUncheckedCreateWithoutTipoServicioInput> | Prisma.OrdenServicioCreateWithoutTipoServicioInput[] | Prisma.OrdenServicioUncheckedCreateWithoutTipoServicioInput[]
-  connectOrCreate?: Prisma.OrdenServicioCreateOrConnectWithoutTipoServicioInput | Prisma.OrdenServicioCreateOrConnectWithoutTipoServicioInput[]
-  createMany?: Prisma.OrdenServicioCreateManyTipoServicioInputEnvelope
-  connect?: Prisma.OrdenServicioWhereUniqueInput | Prisma.OrdenServicioWhereUniqueInput[]
-}
-
-export type OrdenServicioUncheckedCreateNestedManyWithoutTipoServicioInput = {
-  create?: Prisma.XOR<Prisma.OrdenServicioCreateWithoutTipoServicioInput, Prisma.OrdenServicioUncheckedCreateWithoutTipoServicioInput> | Prisma.OrdenServicioCreateWithoutTipoServicioInput[] | Prisma.OrdenServicioUncheckedCreateWithoutTipoServicioInput[]
-  connectOrCreate?: Prisma.OrdenServicioCreateOrConnectWithoutTipoServicioInput | Prisma.OrdenServicioCreateOrConnectWithoutTipoServicioInput[]
-  createMany?: Prisma.OrdenServicioCreateManyTipoServicioInputEnvelope
-  connect?: Prisma.OrdenServicioWhereUniqueInput | Prisma.OrdenServicioWhereUniqueInput[]
-}
-
-export type OrdenServicioUpdateManyWithoutTipoServicioNestedInput = {
-  create?: Prisma.XOR<Prisma.OrdenServicioCreateWithoutTipoServicioInput, Prisma.OrdenServicioUncheckedCreateWithoutTipoServicioInput> | Prisma.OrdenServicioCreateWithoutTipoServicioInput[] | Prisma.OrdenServicioUncheckedCreateWithoutTipoServicioInput[]
-  connectOrCreate?: Prisma.OrdenServicioCreateOrConnectWithoutTipoServicioInput | Prisma.OrdenServicioCreateOrConnectWithoutTipoServicioInput[]
-  upsert?: Prisma.OrdenServicioUpsertWithWhereUniqueWithoutTipoServicioInput | Prisma.OrdenServicioUpsertWithWhereUniqueWithoutTipoServicioInput[]
-  createMany?: Prisma.OrdenServicioCreateManyTipoServicioInputEnvelope
-  set?: Prisma.OrdenServicioWhereUniqueInput | Prisma.OrdenServicioWhereUniqueInput[]
-  disconnect?: Prisma.OrdenServicioWhereUniqueInput | Prisma.OrdenServicioWhereUniqueInput[]
-  delete?: Prisma.OrdenServicioWhereUniqueInput | Prisma.OrdenServicioWhereUniqueInput[]
-  connect?: Prisma.OrdenServicioWhereUniqueInput | Prisma.OrdenServicioWhereUniqueInput[]
-  update?: Prisma.OrdenServicioUpdateWithWhereUniqueWithoutTipoServicioInput | Prisma.OrdenServicioUpdateWithWhereUniqueWithoutTipoServicioInput[]
-  updateMany?: Prisma.OrdenServicioUpdateManyWithWhereWithoutTipoServicioInput | Prisma.OrdenServicioUpdateManyWithWhereWithoutTipoServicioInput[]
-  deleteMany?: Prisma.OrdenServicioScalarWhereInput | Prisma.OrdenServicioScalarWhereInput[]
-}
-
-export type OrdenServicioUncheckedUpdateManyWithoutTipoServicioNestedInput = {
-  create?: Prisma.XOR<Prisma.OrdenServicioCreateWithoutTipoServicioInput, Prisma.OrdenServicioUncheckedCreateWithoutTipoServicioInput> | Prisma.OrdenServicioCreateWithoutTipoServicioInput[] | Prisma.OrdenServicioUncheckedCreateWithoutTipoServicioInput[]
-  connectOrCreate?: Prisma.OrdenServicioCreateOrConnectWithoutTipoServicioInput | Prisma.OrdenServicioCreateOrConnectWithoutTipoServicioInput[]
-  upsert?: Prisma.OrdenServicioUpsertWithWhereUniqueWithoutTipoServicioInput | Prisma.OrdenServicioUpsertWithWhereUniqueWithoutTipoServicioInput[]
-  createMany?: Prisma.OrdenServicioCreateManyTipoServicioInputEnvelope
-  set?: Prisma.OrdenServicioWhereUniqueInput | Prisma.OrdenServicioWhereUniqueInput[]
-  disconnect?: Prisma.OrdenServicioWhereUniqueInput | Prisma.OrdenServicioWhereUniqueInput[]
-  delete?: Prisma.OrdenServicioWhereUniqueInput | Prisma.OrdenServicioWhereUniqueInput[]
-  connect?: Prisma.OrdenServicioWhereUniqueInput | Prisma.OrdenServicioWhereUniqueInput[]
-  update?: Prisma.OrdenServicioUpdateWithWhereUniqueWithoutTipoServicioInput | Prisma.OrdenServicioUpdateWithWhereUniqueWithoutTipoServicioInput[]
-  updateMany?: Prisma.OrdenServicioUpdateManyWithWhereWithoutTipoServicioInput | Prisma.OrdenServicioUpdateManyWithWhereWithoutTipoServicioInput[]
-  deleteMany?: Prisma.OrdenServicioScalarWhereInput | Prisma.OrdenServicioScalarWhereInput[]
-}
-
 export type OrdenServicioCreateNestedManyWithoutMetodoPagoInput = {
   create?: Prisma.XOR<Prisma.OrdenServicioCreateWithoutMetodoPagoInput, Prisma.OrdenServicioUncheckedCreateWithoutMetodoPagoInput> | Prisma.OrdenServicioCreateWithoutMetodoPagoInput[] | Prisma.OrdenServicioUncheckedCreateWithoutMetodoPagoInput[]
   connectOrCreate?: Prisma.OrdenServicioCreateOrConnectWithoutMetodoPagoInput | Prisma.OrdenServicioCreateOrConnectWithoutMetodoPagoInput[]
@@ -1806,6 +1834,22 @@ export type OrdenServicioUncheckedCreateNestedManyWithoutOrdenPadreInput = {
   connectOrCreate?: Prisma.OrdenServicioCreateOrConnectWithoutOrdenPadreInput | Prisma.OrdenServicioCreateOrConnectWithoutOrdenPadreInput[]
   createMany?: Prisma.OrdenServicioCreateManyOrdenPadreInputEnvelope
   connect?: Prisma.OrdenServicioWhereUniqueInput | Prisma.OrdenServicioWhereUniqueInput[]
+}
+
+export type NullableEnumNivelInfestacionFieldUpdateOperationsInput = {
+  set?: $Enums.NivelInfestacion | null
+}
+
+export type NullableEnumUrgenciaOrdenFieldUpdateOperationsInput = {
+  set?: $Enums.UrgenciaOrden | null
+}
+
+export type NullableEnumTipoVisitaFieldUpdateOperationsInput = {
+  set?: $Enums.TipoVisita | null
+}
+
+export type NullableEnumTipoFacturacionFieldUpdateOperationsInput = {
+  set?: $Enums.TipoFacturacion | null
 }
 
 export type EnumEstadoPagoOrdenFieldUpdateOperationsInput = {
@@ -1924,7 +1968,11 @@ export type OrdenServicioCreateWithoutTenantInput = {
   horaFin?: Date | string | null
   observacion?: string | null
   observacionFinal?: string | null
-  nivelInfestacion?: string | null
+  nivelInfestacion?: $Enums.NivelInfestacion | null
+  urgencia?: $Enums.UrgenciaOrden | null
+  tipoVisita?: $Enums.TipoVisita | null
+  frecuenciaSugerida?: number | null
+  tipoFacturacion?: $Enums.TipoFacturacion | null
   condicionesHigiene?: string | null
   condicionesLocal?: string | null
   valorCotizado?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -1953,7 +2001,6 @@ export type OrdenServicioCreateWithoutTenantInput = {
   ordenesHijas?: Prisma.OrdenServicioCreateNestedManyWithoutOrdenPadreInput
   servicio: Prisma.ServicioCreateNestedOneWithoutOrdenesInput
   tecnico?: Prisma.TenantMembershipCreateNestedOneWithoutServiciosAsignadosInput
-  tipoServicio?: Prisma.TipoServicioCreateNestedOneWithoutOrdenesInput
   vehiculo?: Prisma.VehiculoCreateNestedOneWithoutOrdenesServicioInput
   zona?: Prisma.ZonaCreateNestedOneWithoutOrdenesInput
 }
@@ -1974,7 +2021,6 @@ export type OrdenServicioUncheckedCreateWithoutTenantInput = {
   municipio?: string | null
   departamento?: string | null
   linkMaps?: string | null
-  tipoServicioId?: string | null
   zonaId?: string | null
   vehiculoId?: string | null
   metodoPagoId?: string | null
@@ -1985,7 +2031,11 @@ export type OrdenServicioUncheckedCreateWithoutTenantInput = {
   horaFin?: Date | string | null
   observacion?: string | null
   observacionFinal?: string | null
-  nivelInfestacion?: string | null
+  nivelInfestacion?: $Enums.NivelInfestacion | null
+  urgencia?: $Enums.UrgenciaOrden | null
+  tipoVisita?: $Enums.TipoVisita | null
+  frecuenciaSugerida?: number | null
+  tipoFacturacion?: $Enums.TipoFacturacion | null
   condicionesHigiene?: string | null
   condicionesLocal?: string | null
   valorCotizado?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -2054,7 +2104,6 @@ export type OrdenServicioScalarWhereInput = {
   municipio?: Prisma.StringNullableFilter<"OrdenServicio"> | string | null
   departamento?: Prisma.StringNullableFilter<"OrdenServicio"> | string | null
   linkMaps?: Prisma.StringNullableFilter<"OrdenServicio"> | string | null
-  tipoServicioId?: Prisma.UuidNullableFilter<"OrdenServicio"> | string | null
   zonaId?: Prisma.UuidNullableFilter<"OrdenServicio"> | string | null
   vehiculoId?: Prisma.UuidNullableFilter<"OrdenServicio"> | string | null
   metodoPagoId?: Prisma.UuidNullableFilter<"OrdenServicio"> | string | null
@@ -2065,7 +2114,11 @@ export type OrdenServicioScalarWhereInput = {
   horaFin?: Prisma.DateTimeNullableFilter<"OrdenServicio"> | Date | string | null
   observacion?: Prisma.StringNullableFilter<"OrdenServicio"> | string | null
   observacionFinal?: Prisma.StringNullableFilter<"OrdenServicio"> | string | null
-  nivelInfestacion?: Prisma.StringNullableFilter<"OrdenServicio"> | string | null
+  nivelInfestacion?: Prisma.EnumNivelInfestacionNullableFilter<"OrdenServicio"> | $Enums.NivelInfestacion | null
+  urgencia?: Prisma.EnumUrgenciaOrdenNullableFilter<"OrdenServicio"> | $Enums.UrgenciaOrden | null
+  tipoVisita?: Prisma.EnumTipoVisitaNullableFilter<"OrdenServicio"> | $Enums.TipoVisita | null
+  frecuenciaSugerida?: Prisma.IntNullableFilter<"OrdenServicio"> | number | null
+  tipoFacturacion?: Prisma.EnumTipoFacturacionNullableFilter<"OrdenServicio"> | $Enums.TipoFacturacion | null
   condicionesHigiene?: Prisma.StringNullableFilter<"OrdenServicio"> | string | null
   condicionesLocal?: Prisma.StringNullableFilter<"OrdenServicio"> | string | null
   valorCotizado?: Prisma.DecimalNullableFilter<"OrdenServicio"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -2099,7 +2152,11 @@ export type OrdenServicioCreateWithoutCreadoPorInput = {
   horaFin?: Date | string | null
   observacion?: string | null
   observacionFinal?: string | null
-  nivelInfestacion?: string | null
+  nivelInfestacion?: $Enums.NivelInfestacion | null
+  urgencia?: $Enums.UrgenciaOrden | null
+  tipoVisita?: $Enums.TipoVisita | null
+  frecuenciaSugerida?: number | null
+  tipoFacturacion?: $Enums.TipoFacturacion | null
   condicionesHigiene?: string | null
   condicionesLocal?: string | null
   valorCotizado?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -2128,7 +2185,6 @@ export type OrdenServicioCreateWithoutCreadoPorInput = {
   servicio: Prisma.ServicioCreateNestedOneWithoutOrdenesInput
   tecnico?: Prisma.TenantMembershipCreateNestedOneWithoutServiciosAsignadosInput
   tenant: Prisma.TenantCreateNestedOneWithoutOrdenesServicioInput
-  tipoServicio?: Prisma.TipoServicioCreateNestedOneWithoutOrdenesInput
   vehiculo?: Prisma.VehiculoCreateNestedOneWithoutOrdenesServicioInput
   zona?: Prisma.ZonaCreateNestedOneWithoutOrdenesInput
 }
@@ -2149,7 +2205,6 @@ export type OrdenServicioUncheckedCreateWithoutCreadoPorInput = {
   municipio?: string | null
   departamento?: string | null
   linkMaps?: string | null
-  tipoServicioId?: string | null
   zonaId?: string | null
   vehiculoId?: string | null
   metodoPagoId?: string | null
@@ -2160,7 +2215,11 @@ export type OrdenServicioUncheckedCreateWithoutCreadoPorInput = {
   horaFin?: Date | string | null
   observacion?: string | null
   observacionFinal?: string | null
-  nivelInfestacion?: string | null
+  nivelInfestacion?: $Enums.NivelInfestacion | null
+  urgencia?: $Enums.UrgenciaOrden | null
+  tipoVisita?: $Enums.TipoVisita | null
+  frecuenciaSugerida?: number | null
+  tipoFacturacion?: $Enums.TipoFacturacion | null
   condicionesHigiene?: string | null
   condicionesLocal?: string | null
   valorCotizado?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -2209,7 +2268,11 @@ export type OrdenServicioCreateWithoutTecnicoInput = {
   horaFin?: Date | string | null
   observacion?: string | null
   observacionFinal?: string | null
-  nivelInfestacion?: string | null
+  nivelInfestacion?: $Enums.NivelInfestacion | null
+  urgencia?: $Enums.UrgenciaOrden | null
+  tipoVisita?: $Enums.TipoVisita | null
+  frecuenciaSugerida?: number | null
+  tipoFacturacion?: $Enums.TipoFacturacion | null
   condicionesHigiene?: string | null
   condicionesLocal?: string | null
   valorCotizado?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -2238,7 +2301,6 @@ export type OrdenServicioCreateWithoutTecnicoInput = {
   ordenesHijas?: Prisma.OrdenServicioCreateNestedManyWithoutOrdenPadreInput
   servicio: Prisma.ServicioCreateNestedOneWithoutOrdenesInput
   tenant: Prisma.TenantCreateNestedOneWithoutOrdenesServicioInput
-  tipoServicio?: Prisma.TipoServicioCreateNestedOneWithoutOrdenesInput
   vehiculo?: Prisma.VehiculoCreateNestedOneWithoutOrdenesServicioInput
   zona?: Prisma.ZonaCreateNestedOneWithoutOrdenesInput
 }
@@ -2259,7 +2321,6 @@ export type OrdenServicioUncheckedCreateWithoutTecnicoInput = {
   municipio?: string | null
   departamento?: string | null
   linkMaps?: string | null
-  tipoServicioId?: string | null
   zonaId?: string | null
   vehiculoId?: string | null
   metodoPagoId?: string | null
@@ -2270,7 +2331,11 @@ export type OrdenServicioUncheckedCreateWithoutTecnicoInput = {
   horaFin?: Date | string | null
   observacion?: string | null
   observacionFinal?: string | null
-  nivelInfestacion?: string | null
+  nivelInfestacion?: $Enums.NivelInfestacion | null
+  urgencia?: $Enums.UrgenciaOrden | null
+  tipoVisita?: $Enums.TipoVisita | null
+  frecuenciaSugerida?: number | null
+  tipoFacturacion?: $Enums.TipoFacturacion | null
   condicionesHigiene?: string | null
   condicionesLocal?: string | null
   valorCotizado?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -2351,7 +2416,11 @@ export type OrdenServicioCreateWithoutEmpresaInput = {
   horaFin?: Date | string | null
   observacion?: string | null
   observacionFinal?: string | null
-  nivelInfestacion?: string | null
+  nivelInfestacion?: $Enums.NivelInfestacion | null
+  urgencia?: $Enums.UrgenciaOrden | null
+  tipoVisita?: $Enums.TipoVisita | null
+  frecuenciaSugerida?: number | null
+  tipoFacturacion?: $Enums.TipoFacturacion | null
   condicionesHigiene?: string | null
   condicionesLocal?: string | null
   valorCotizado?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -2380,7 +2449,6 @@ export type OrdenServicioCreateWithoutEmpresaInput = {
   servicio: Prisma.ServicioCreateNestedOneWithoutOrdenesInput
   tecnico?: Prisma.TenantMembershipCreateNestedOneWithoutServiciosAsignadosInput
   tenant: Prisma.TenantCreateNestedOneWithoutOrdenesServicioInput
-  tipoServicio?: Prisma.TipoServicioCreateNestedOneWithoutOrdenesInput
   vehiculo?: Prisma.VehiculoCreateNestedOneWithoutOrdenesServicioInput
   zona?: Prisma.ZonaCreateNestedOneWithoutOrdenesInput
 }
@@ -2401,7 +2469,6 @@ export type OrdenServicioUncheckedCreateWithoutEmpresaInput = {
   municipio?: string | null
   departamento?: string | null
   linkMaps?: string | null
-  tipoServicioId?: string | null
   zonaId?: string | null
   vehiculoId?: string | null
   metodoPagoId?: string | null
@@ -2412,7 +2479,11 @@ export type OrdenServicioUncheckedCreateWithoutEmpresaInput = {
   horaFin?: Date | string | null
   observacion?: string | null
   observacionFinal?: string | null
-  nivelInfestacion?: string | null
+  nivelInfestacion?: $Enums.NivelInfestacion | null
+  urgencia?: $Enums.UrgenciaOrden | null
+  tipoVisita?: $Enums.TipoVisita | null
+  frecuenciaSugerida?: number | null
+  tipoFacturacion?: $Enums.TipoFacturacion | null
   condicionesHigiene?: string | null
   condicionesLocal?: string | null
   valorCotizado?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -2477,7 +2548,11 @@ export type OrdenServicioCreateWithoutClienteInput = {
   horaFin?: Date | string | null
   observacion?: string | null
   observacionFinal?: string | null
-  nivelInfestacion?: string | null
+  nivelInfestacion?: $Enums.NivelInfestacion | null
+  urgencia?: $Enums.UrgenciaOrden | null
+  tipoVisita?: $Enums.TipoVisita | null
+  frecuenciaSugerida?: number | null
+  tipoFacturacion?: $Enums.TipoFacturacion | null
   condicionesHigiene?: string | null
   condicionesLocal?: string | null
   valorCotizado?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -2506,7 +2581,6 @@ export type OrdenServicioCreateWithoutClienteInput = {
   servicio: Prisma.ServicioCreateNestedOneWithoutOrdenesInput
   tecnico?: Prisma.TenantMembershipCreateNestedOneWithoutServiciosAsignadosInput
   tenant: Prisma.TenantCreateNestedOneWithoutOrdenesServicioInput
-  tipoServicio?: Prisma.TipoServicioCreateNestedOneWithoutOrdenesInput
   vehiculo?: Prisma.VehiculoCreateNestedOneWithoutOrdenesServicioInput
   zona?: Prisma.ZonaCreateNestedOneWithoutOrdenesInput
 }
@@ -2527,7 +2601,6 @@ export type OrdenServicioUncheckedCreateWithoutClienteInput = {
   municipio?: string | null
   departamento?: string | null
   linkMaps?: string | null
-  tipoServicioId?: string | null
   zonaId?: string | null
   vehiculoId?: string | null
   metodoPagoId?: string | null
@@ -2538,7 +2611,11 @@ export type OrdenServicioUncheckedCreateWithoutClienteInput = {
   horaFin?: Date | string | null
   observacion?: string | null
   observacionFinal?: string | null
-  nivelInfestacion?: string | null
+  nivelInfestacion?: $Enums.NivelInfestacion | null
+  urgencia?: $Enums.UrgenciaOrden | null
+  tipoVisita?: $Enums.TipoVisita | null
+  frecuenciaSugerida?: number | null
+  tipoFacturacion?: $Enums.TipoFacturacion | null
   condicionesHigiene?: string | null
   condicionesLocal?: string | null
   valorCotizado?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -2603,7 +2680,11 @@ export type OrdenServicioCreateWithoutVehiculoInput = {
   horaFin?: Date | string | null
   observacion?: string | null
   observacionFinal?: string | null
-  nivelInfestacion?: string | null
+  nivelInfestacion?: $Enums.NivelInfestacion | null
+  urgencia?: $Enums.UrgenciaOrden | null
+  tipoVisita?: $Enums.TipoVisita | null
+  frecuenciaSugerida?: number | null
+  tipoFacturacion?: $Enums.TipoFacturacion | null
   condicionesHigiene?: string | null
   condicionesLocal?: string | null
   valorCotizado?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -2633,7 +2714,6 @@ export type OrdenServicioCreateWithoutVehiculoInput = {
   servicio: Prisma.ServicioCreateNestedOneWithoutOrdenesInput
   tecnico?: Prisma.TenantMembershipCreateNestedOneWithoutServiciosAsignadosInput
   tenant: Prisma.TenantCreateNestedOneWithoutOrdenesServicioInput
-  tipoServicio?: Prisma.TipoServicioCreateNestedOneWithoutOrdenesInput
   zona?: Prisma.ZonaCreateNestedOneWithoutOrdenesInput
 }
 
@@ -2654,7 +2734,6 @@ export type OrdenServicioUncheckedCreateWithoutVehiculoInput = {
   municipio?: string | null
   departamento?: string | null
   linkMaps?: string | null
-  tipoServicioId?: string | null
   zonaId?: string | null
   metodoPagoId?: string | null
   estadoServicioId: string
@@ -2664,7 +2743,11 @@ export type OrdenServicioUncheckedCreateWithoutVehiculoInput = {
   horaFin?: Date | string | null
   observacion?: string | null
   observacionFinal?: string | null
-  nivelInfestacion?: string | null
+  nivelInfestacion?: $Enums.NivelInfestacion | null
+  urgencia?: $Enums.UrgenciaOrden | null
+  tipoVisita?: $Enums.TipoVisita | null
+  frecuenciaSugerida?: number | null
+  tipoFacturacion?: $Enums.TipoFacturacion | null
   condicionesHigiene?: string | null
   condicionesLocal?: string | null
   valorCotizado?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -2729,7 +2812,11 @@ export type OrdenServicioCreateWithoutDireccionInput = {
   horaFin?: Date | string | null
   observacion?: string | null
   observacionFinal?: string | null
-  nivelInfestacion?: string | null
+  nivelInfestacion?: $Enums.NivelInfestacion | null
+  urgencia?: $Enums.UrgenciaOrden | null
+  tipoVisita?: $Enums.TipoVisita | null
+  frecuenciaSugerida?: number | null
+  tipoFacturacion?: $Enums.TipoFacturacion | null
   condicionesHigiene?: string | null
   condicionesLocal?: string | null
   valorCotizado?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -2758,7 +2845,6 @@ export type OrdenServicioCreateWithoutDireccionInput = {
   servicio: Prisma.ServicioCreateNestedOneWithoutOrdenesInput
   tecnico?: Prisma.TenantMembershipCreateNestedOneWithoutServiciosAsignadosInput
   tenant: Prisma.TenantCreateNestedOneWithoutOrdenesServicioInput
-  tipoServicio?: Prisma.TipoServicioCreateNestedOneWithoutOrdenesInput
   vehiculo?: Prisma.VehiculoCreateNestedOneWithoutOrdenesServicioInput
   zona?: Prisma.ZonaCreateNestedOneWithoutOrdenesInput
 }
@@ -2779,7 +2865,6 @@ export type OrdenServicioUncheckedCreateWithoutDireccionInput = {
   municipio?: string | null
   departamento?: string | null
   linkMaps?: string | null
-  tipoServicioId?: string | null
   zonaId?: string | null
   vehiculoId?: string | null
   metodoPagoId?: string | null
@@ -2790,7 +2875,11 @@ export type OrdenServicioUncheckedCreateWithoutDireccionInput = {
   horaFin?: Date | string | null
   observacion?: string | null
   observacionFinal?: string | null
-  nivelInfestacion?: string | null
+  nivelInfestacion?: $Enums.NivelInfestacion | null
+  urgencia?: $Enums.UrgenciaOrden | null
+  tipoVisita?: $Enums.TipoVisita | null
+  frecuenciaSugerida?: number | null
+  tipoFacturacion?: $Enums.TipoFacturacion | null
   condicionesHigiene?: string | null
   condicionesLocal?: string | null
   valorCotizado?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -2855,7 +2944,11 @@ export type OrdenServicioCreateWithoutZonaInput = {
   horaFin?: Date | string | null
   observacion?: string | null
   observacionFinal?: string | null
-  nivelInfestacion?: string | null
+  nivelInfestacion?: $Enums.NivelInfestacion | null
+  urgencia?: $Enums.UrgenciaOrden | null
+  tipoVisita?: $Enums.TipoVisita | null
+  frecuenciaSugerida?: number | null
+  tipoFacturacion?: $Enums.TipoFacturacion | null
   condicionesHigiene?: string | null
   condicionesLocal?: string | null
   valorCotizado?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -2885,7 +2978,6 @@ export type OrdenServicioCreateWithoutZonaInput = {
   servicio: Prisma.ServicioCreateNestedOneWithoutOrdenesInput
   tecnico?: Prisma.TenantMembershipCreateNestedOneWithoutServiciosAsignadosInput
   tenant: Prisma.TenantCreateNestedOneWithoutOrdenesServicioInput
-  tipoServicio?: Prisma.TipoServicioCreateNestedOneWithoutOrdenesInput
   vehiculo?: Prisma.VehiculoCreateNestedOneWithoutOrdenesServicioInput
 }
 
@@ -2906,7 +2998,6 @@ export type OrdenServicioUncheckedCreateWithoutZonaInput = {
   municipio?: string | null
   departamento?: string | null
   linkMaps?: string | null
-  tipoServicioId?: string | null
   vehiculoId?: string | null
   metodoPagoId?: string | null
   estadoServicioId: string
@@ -2916,7 +3007,11 @@ export type OrdenServicioUncheckedCreateWithoutZonaInput = {
   horaFin?: Date | string | null
   observacion?: string | null
   observacionFinal?: string | null
-  nivelInfestacion?: string | null
+  nivelInfestacion?: $Enums.NivelInfestacion | null
+  urgencia?: $Enums.UrgenciaOrden | null
+  tipoVisita?: $Enums.TipoVisita | null
+  frecuenciaSugerida?: number | null
+  tipoFacturacion?: $Enums.TipoFacturacion | null
   condicionesHigiene?: string | null
   condicionesLocal?: string | null
   valorCotizado?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -2981,7 +3076,11 @@ export type OrdenServicioCreateWithoutServicioInput = {
   horaFin?: Date | string | null
   observacion?: string | null
   observacionFinal?: string | null
-  nivelInfestacion?: string | null
+  nivelInfestacion?: $Enums.NivelInfestacion | null
+  urgencia?: $Enums.UrgenciaOrden | null
+  tipoVisita?: $Enums.TipoVisita | null
+  frecuenciaSugerida?: number | null
+  tipoFacturacion?: $Enums.TipoFacturacion | null
   condicionesHigiene?: string | null
   condicionesLocal?: string | null
   valorCotizado?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -3010,7 +3109,6 @@ export type OrdenServicioCreateWithoutServicioInput = {
   ordenesHijas?: Prisma.OrdenServicioCreateNestedManyWithoutOrdenPadreInput
   tecnico?: Prisma.TenantMembershipCreateNestedOneWithoutServiciosAsignadosInput
   tenant: Prisma.TenantCreateNestedOneWithoutOrdenesServicioInput
-  tipoServicio?: Prisma.TipoServicioCreateNestedOneWithoutOrdenesInput
   vehiculo?: Prisma.VehiculoCreateNestedOneWithoutOrdenesServicioInput
   zona?: Prisma.ZonaCreateNestedOneWithoutOrdenesInput
 }
@@ -3031,7 +3129,6 @@ export type OrdenServicioUncheckedCreateWithoutServicioInput = {
   municipio?: string | null
   departamento?: string | null
   linkMaps?: string | null
-  tipoServicioId?: string | null
   zonaId?: string | null
   vehiculoId?: string | null
   metodoPagoId?: string | null
@@ -3042,7 +3139,11 @@ export type OrdenServicioUncheckedCreateWithoutServicioInput = {
   horaFin?: Date | string | null
   observacion?: string | null
   observacionFinal?: string | null
-  nivelInfestacion?: string | null
+  nivelInfestacion?: $Enums.NivelInfestacion | null
+  urgencia?: $Enums.UrgenciaOrden | null
+  tipoVisita?: $Enums.TipoVisita | null
+  frecuenciaSugerida?: number | null
+  tipoFacturacion?: $Enums.TipoFacturacion | null
   condicionesHigiene?: string | null
   condicionesLocal?: string | null
   valorCotizado?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -3091,132 +3192,6 @@ export type OrdenServicioUpdateManyWithWhereWithoutServicioInput = {
   data: Prisma.XOR<Prisma.OrdenServicioUpdateManyMutationInput, Prisma.OrdenServicioUncheckedUpdateManyWithoutServicioInput>
 }
 
-export type OrdenServicioCreateWithoutTipoServicioInput = {
-  id?: string
-  direccionTexto: string
-  piso?: string | null
-  bloque?: string | null
-  unidad?: string | null
-  barrio?: string | null
-  municipio?: string | null
-  departamento?: string | null
-  linkMaps?: string | null
-  numeroOrden?: string | null
-  fechaVisita?: Date | string | null
-  horaInicio?: Date | string | null
-  horaFin?: Date | string | null
-  observacion?: string | null
-  observacionFinal?: string | null
-  nivelInfestacion?: string | null
-  condicionesHigiene?: string | null
-  condicionesLocal?: string | null
-  valorCotizado?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  valorPagado?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  valorRepuestos?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  valorRepuestosTecnico?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  facturaPath?: string | null
-  facturaElectronica?: string | null
-  comprobantePago?: string | null
-  evidenciaPath?: string | null
-  estadoPago?: $Enums.EstadoPagoOrden
-  seguimientoRevisado?: boolean | null
-  createdAt?: Date | string
-  updatedAt?: Date | string
-  consignacionOrden?: Prisma.ConsignacionOrdenCreateNestedOneWithoutOrdenInput
-  declaracionEfectivo?: Prisma.DeclaracionEfectivoCreateNestedOneWithoutOrdenInput
-  geolocalizaciones?: Prisma.GeolocalizacionCreateNestedManyWithoutOrdenInput
-  nominaDetalles?: Prisma.NominaDetalleCreateNestedManyWithoutOrdenInput
-  cliente: Prisma.ClienteCreateNestedOneWithoutOrdenesServicioInput
-  creadoPor?: Prisma.TenantMembershipCreateNestedOneWithoutServiciosCreadosInput
-  direccion?: Prisma.DireccionCreateNestedOneWithoutOrdenesServicioInput
-  empresa: Prisma.EmpresaCreateNestedOneWithoutOrdenesServicioInput
-  estadoServicio: Prisma.EstadoServicioCreateNestedOneWithoutOrdenesInput
-  metodoPago?: Prisma.MetodoPagoCreateNestedOneWithoutOrdenesInput
-  ordenPadre?: Prisma.OrdenServicioCreateNestedOneWithoutOrdenesHijasInput
-  ordenesHijas?: Prisma.OrdenServicioCreateNestedManyWithoutOrdenPadreInput
-  servicio: Prisma.ServicioCreateNestedOneWithoutOrdenesInput
-  tecnico?: Prisma.TenantMembershipCreateNestedOneWithoutServiciosAsignadosInput
-  tenant: Prisma.TenantCreateNestedOneWithoutOrdenesServicioInput
-  vehiculo?: Prisma.VehiculoCreateNestedOneWithoutOrdenesServicioInput
-  zona?: Prisma.ZonaCreateNestedOneWithoutOrdenesInput
-}
-
-export type OrdenServicioUncheckedCreateWithoutTipoServicioInput = {
-  id?: string
-  tenantId: string
-  empresaId: string
-  clienteId: string
-  servicioId: string
-  creadoPorId?: string | null
-  tecnicoId?: string | null
-  direccionId?: string | null
-  direccionTexto: string
-  piso?: string | null
-  bloque?: string | null
-  unidad?: string | null
-  barrio?: string | null
-  municipio?: string | null
-  departamento?: string | null
-  linkMaps?: string | null
-  zonaId?: string | null
-  vehiculoId?: string | null
-  metodoPagoId?: string | null
-  estadoServicioId: string
-  numeroOrden?: string | null
-  fechaVisita?: Date | string | null
-  horaInicio?: Date | string | null
-  horaFin?: Date | string | null
-  observacion?: string | null
-  observacionFinal?: string | null
-  nivelInfestacion?: string | null
-  condicionesHigiene?: string | null
-  condicionesLocal?: string | null
-  valorCotizado?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  valorPagado?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  valorRepuestos?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  valorRepuestosTecnico?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  facturaPath?: string | null
-  facturaElectronica?: string | null
-  comprobantePago?: string | null
-  evidenciaPath?: string | null
-  estadoPago?: $Enums.EstadoPagoOrden
-  seguimientoRevisado?: boolean | null
-  ordenPadreId?: string | null
-  createdAt?: Date | string
-  updatedAt?: Date | string
-  consignacionOrden?: Prisma.ConsignacionOrdenUncheckedCreateNestedOneWithoutOrdenInput
-  declaracionEfectivo?: Prisma.DeclaracionEfectivoUncheckedCreateNestedOneWithoutOrdenInput
-  geolocalizaciones?: Prisma.GeolocalizacionUncheckedCreateNestedManyWithoutOrdenInput
-  nominaDetalles?: Prisma.NominaDetalleUncheckedCreateNestedManyWithoutOrdenInput
-  ordenesHijas?: Prisma.OrdenServicioUncheckedCreateNestedManyWithoutOrdenPadreInput
-}
-
-export type OrdenServicioCreateOrConnectWithoutTipoServicioInput = {
-  where: Prisma.OrdenServicioWhereUniqueInput
-  create: Prisma.XOR<Prisma.OrdenServicioCreateWithoutTipoServicioInput, Prisma.OrdenServicioUncheckedCreateWithoutTipoServicioInput>
-}
-
-export type OrdenServicioCreateManyTipoServicioInputEnvelope = {
-  data: Prisma.OrdenServicioCreateManyTipoServicioInput | Prisma.OrdenServicioCreateManyTipoServicioInput[]
-  skipDuplicates?: boolean
-}
-
-export type OrdenServicioUpsertWithWhereUniqueWithoutTipoServicioInput = {
-  where: Prisma.OrdenServicioWhereUniqueInput
-  update: Prisma.XOR<Prisma.OrdenServicioUpdateWithoutTipoServicioInput, Prisma.OrdenServicioUncheckedUpdateWithoutTipoServicioInput>
-  create: Prisma.XOR<Prisma.OrdenServicioCreateWithoutTipoServicioInput, Prisma.OrdenServicioUncheckedCreateWithoutTipoServicioInput>
-}
-
-export type OrdenServicioUpdateWithWhereUniqueWithoutTipoServicioInput = {
-  where: Prisma.OrdenServicioWhereUniqueInput
-  data: Prisma.XOR<Prisma.OrdenServicioUpdateWithoutTipoServicioInput, Prisma.OrdenServicioUncheckedUpdateWithoutTipoServicioInput>
-}
-
-export type OrdenServicioUpdateManyWithWhereWithoutTipoServicioInput = {
-  where: Prisma.OrdenServicioScalarWhereInput
-  data: Prisma.XOR<Prisma.OrdenServicioUpdateManyMutationInput, Prisma.OrdenServicioUncheckedUpdateManyWithoutTipoServicioInput>
-}
-
 export type OrdenServicioCreateWithoutMetodoPagoInput = {
   id?: string
   direccionTexto: string
@@ -3233,7 +3208,11 @@ export type OrdenServicioCreateWithoutMetodoPagoInput = {
   horaFin?: Date | string | null
   observacion?: string | null
   observacionFinal?: string | null
-  nivelInfestacion?: string | null
+  nivelInfestacion?: $Enums.NivelInfestacion | null
+  urgencia?: $Enums.UrgenciaOrden | null
+  tipoVisita?: $Enums.TipoVisita | null
+  frecuenciaSugerida?: number | null
+  tipoFacturacion?: $Enums.TipoFacturacion | null
   condicionesHigiene?: string | null
   condicionesLocal?: string | null
   valorCotizado?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -3262,7 +3241,6 @@ export type OrdenServicioCreateWithoutMetodoPagoInput = {
   servicio: Prisma.ServicioCreateNestedOneWithoutOrdenesInput
   tecnico?: Prisma.TenantMembershipCreateNestedOneWithoutServiciosAsignadosInput
   tenant: Prisma.TenantCreateNestedOneWithoutOrdenesServicioInput
-  tipoServicio?: Prisma.TipoServicioCreateNestedOneWithoutOrdenesInput
   vehiculo?: Prisma.VehiculoCreateNestedOneWithoutOrdenesServicioInput
   zona?: Prisma.ZonaCreateNestedOneWithoutOrdenesInput
 }
@@ -3284,7 +3262,6 @@ export type OrdenServicioUncheckedCreateWithoutMetodoPagoInput = {
   municipio?: string | null
   departamento?: string | null
   linkMaps?: string | null
-  tipoServicioId?: string | null
   zonaId?: string | null
   vehiculoId?: string | null
   estadoServicioId: string
@@ -3294,7 +3271,11 @@ export type OrdenServicioUncheckedCreateWithoutMetodoPagoInput = {
   horaFin?: Date | string | null
   observacion?: string | null
   observacionFinal?: string | null
-  nivelInfestacion?: string | null
+  nivelInfestacion?: $Enums.NivelInfestacion | null
+  urgencia?: $Enums.UrgenciaOrden | null
+  tipoVisita?: $Enums.TipoVisita | null
+  frecuenciaSugerida?: number | null
+  tipoFacturacion?: $Enums.TipoFacturacion | null
   condicionesHigiene?: string | null
   condicionesLocal?: string | null
   valorCotizado?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -3359,7 +3340,11 @@ export type OrdenServicioCreateWithoutEstadoServicioInput = {
   horaFin?: Date | string | null
   observacion?: string | null
   observacionFinal?: string | null
-  nivelInfestacion?: string | null
+  nivelInfestacion?: $Enums.NivelInfestacion | null
+  urgencia?: $Enums.UrgenciaOrden | null
+  tipoVisita?: $Enums.TipoVisita | null
+  frecuenciaSugerida?: number | null
+  tipoFacturacion?: $Enums.TipoFacturacion | null
   condicionesHigiene?: string | null
   condicionesLocal?: string | null
   valorCotizado?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -3388,7 +3373,6 @@ export type OrdenServicioCreateWithoutEstadoServicioInput = {
   servicio: Prisma.ServicioCreateNestedOneWithoutOrdenesInput
   tecnico?: Prisma.TenantMembershipCreateNestedOneWithoutServiciosAsignadosInput
   tenant: Prisma.TenantCreateNestedOneWithoutOrdenesServicioInput
-  tipoServicio?: Prisma.TipoServicioCreateNestedOneWithoutOrdenesInput
   vehiculo?: Prisma.VehiculoCreateNestedOneWithoutOrdenesServicioInput
   zona?: Prisma.ZonaCreateNestedOneWithoutOrdenesInput
 }
@@ -3410,7 +3394,6 @@ export type OrdenServicioUncheckedCreateWithoutEstadoServicioInput = {
   municipio?: string | null
   departamento?: string | null
   linkMaps?: string | null
-  tipoServicioId?: string | null
   zonaId?: string | null
   vehiculoId?: string | null
   metodoPagoId?: string | null
@@ -3420,7 +3403,11 @@ export type OrdenServicioUncheckedCreateWithoutEstadoServicioInput = {
   horaFin?: Date | string | null
   observacion?: string | null
   observacionFinal?: string | null
-  nivelInfestacion?: string | null
+  nivelInfestacion?: $Enums.NivelInfestacion | null
+  urgencia?: $Enums.UrgenciaOrden | null
+  tipoVisita?: $Enums.TipoVisita | null
+  frecuenciaSugerida?: number | null
+  tipoFacturacion?: $Enums.TipoFacturacion | null
   condicionesHigiene?: string | null
   condicionesLocal?: string | null
   valorCotizado?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -3485,7 +3472,11 @@ export type OrdenServicioCreateWithoutOrdenesHijasInput = {
   horaFin?: Date | string | null
   observacion?: string | null
   observacionFinal?: string | null
-  nivelInfestacion?: string | null
+  nivelInfestacion?: $Enums.NivelInfestacion | null
+  urgencia?: $Enums.UrgenciaOrden | null
+  tipoVisita?: $Enums.TipoVisita | null
+  frecuenciaSugerida?: number | null
+  tipoFacturacion?: $Enums.TipoFacturacion | null
   condicionesHigiene?: string | null
   condicionesLocal?: string | null
   valorCotizado?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -3514,7 +3505,6 @@ export type OrdenServicioCreateWithoutOrdenesHijasInput = {
   servicio: Prisma.ServicioCreateNestedOneWithoutOrdenesInput
   tecnico?: Prisma.TenantMembershipCreateNestedOneWithoutServiciosAsignadosInput
   tenant: Prisma.TenantCreateNestedOneWithoutOrdenesServicioInput
-  tipoServicio?: Prisma.TipoServicioCreateNestedOneWithoutOrdenesInput
   vehiculo?: Prisma.VehiculoCreateNestedOneWithoutOrdenesServicioInput
   zona?: Prisma.ZonaCreateNestedOneWithoutOrdenesInput
 }
@@ -3536,7 +3526,6 @@ export type OrdenServicioUncheckedCreateWithoutOrdenesHijasInput = {
   municipio?: string | null
   departamento?: string | null
   linkMaps?: string | null
-  tipoServicioId?: string | null
   zonaId?: string | null
   vehiculoId?: string | null
   metodoPagoId?: string | null
@@ -3547,7 +3536,11 @@ export type OrdenServicioUncheckedCreateWithoutOrdenesHijasInput = {
   horaFin?: Date | string | null
   observacion?: string | null
   observacionFinal?: string | null
-  nivelInfestacion?: string | null
+  nivelInfestacion?: $Enums.NivelInfestacion | null
+  urgencia?: $Enums.UrgenciaOrden | null
+  tipoVisita?: $Enums.TipoVisita | null
+  frecuenciaSugerida?: number | null
+  tipoFacturacion?: $Enums.TipoFacturacion | null
   condicionesHigiene?: string | null
   condicionesLocal?: string | null
   valorCotizado?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -3590,7 +3583,11 @@ export type OrdenServicioCreateWithoutOrdenPadreInput = {
   horaFin?: Date | string | null
   observacion?: string | null
   observacionFinal?: string | null
-  nivelInfestacion?: string | null
+  nivelInfestacion?: $Enums.NivelInfestacion | null
+  urgencia?: $Enums.UrgenciaOrden | null
+  tipoVisita?: $Enums.TipoVisita | null
+  frecuenciaSugerida?: number | null
+  tipoFacturacion?: $Enums.TipoFacturacion | null
   condicionesHigiene?: string | null
   condicionesLocal?: string | null
   valorCotizado?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -3619,7 +3616,6 @@ export type OrdenServicioCreateWithoutOrdenPadreInput = {
   servicio: Prisma.ServicioCreateNestedOneWithoutOrdenesInput
   tecnico?: Prisma.TenantMembershipCreateNestedOneWithoutServiciosAsignadosInput
   tenant: Prisma.TenantCreateNestedOneWithoutOrdenesServicioInput
-  tipoServicio?: Prisma.TipoServicioCreateNestedOneWithoutOrdenesInput
   vehiculo?: Prisma.VehiculoCreateNestedOneWithoutOrdenesServicioInput
   zona?: Prisma.ZonaCreateNestedOneWithoutOrdenesInput
 }
@@ -3641,7 +3637,6 @@ export type OrdenServicioUncheckedCreateWithoutOrdenPadreInput = {
   municipio?: string | null
   departamento?: string | null
   linkMaps?: string | null
-  tipoServicioId?: string | null
   zonaId?: string | null
   vehiculoId?: string | null
   metodoPagoId?: string | null
@@ -3652,7 +3647,11 @@ export type OrdenServicioUncheckedCreateWithoutOrdenPadreInput = {
   horaFin?: Date | string | null
   observacion?: string | null
   observacionFinal?: string | null
-  nivelInfestacion?: string | null
+  nivelInfestacion?: $Enums.NivelInfestacion | null
+  urgencia?: $Enums.UrgenciaOrden | null
+  tipoVisita?: $Enums.TipoVisita | null
+  frecuenciaSugerida?: number | null
+  tipoFacturacion?: $Enums.TipoFacturacion | null
   condicionesHigiene?: string | null
   condicionesLocal?: string | null
   valorCotizado?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -3711,7 +3710,11 @@ export type OrdenServicioUpdateWithoutOrdenesHijasInput = {
   horaFin?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   observacion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   observacionFinal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  nivelInfestacion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  nivelInfestacion?: Prisma.NullableEnumNivelInfestacionFieldUpdateOperationsInput | $Enums.NivelInfestacion | null
+  urgencia?: Prisma.NullableEnumUrgenciaOrdenFieldUpdateOperationsInput | $Enums.UrgenciaOrden | null
+  tipoVisita?: Prisma.NullableEnumTipoVisitaFieldUpdateOperationsInput | $Enums.TipoVisita | null
+  frecuenciaSugerida?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  tipoFacturacion?: Prisma.NullableEnumTipoFacturacionFieldUpdateOperationsInput | $Enums.TipoFacturacion | null
   condicionesHigiene?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   condicionesLocal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   valorCotizado?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -3740,7 +3743,6 @@ export type OrdenServicioUpdateWithoutOrdenesHijasInput = {
   servicio?: Prisma.ServicioUpdateOneRequiredWithoutOrdenesNestedInput
   tecnico?: Prisma.TenantMembershipUpdateOneWithoutServiciosAsignadosNestedInput
   tenant?: Prisma.TenantUpdateOneRequiredWithoutOrdenesServicioNestedInput
-  tipoServicio?: Prisma.TipoServicioUpdateOneWithoutOrdenesNestedInput
   vehiculo?: Prisma.VehiculoUpdateOneWithoutOrdenesServicioNestedInput
   zona?: Prisma.ZonaUpdateOneWithoutOrdenesNestedInput
 }
@@ -3762,7 +3764,6 @@ export type OrdenServicioUncheckedUpdateWithoutOrdenesHijasInput = {
   municipio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   departamento?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   linkMaps?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  tipoServicioId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   zonaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   vehiculoId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   metodoPagoId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -3773,7 +3774,11 @@ export type OrdenServicioUncheckedUpdateWithoutOrdenesHijasInput = {
   horaFin?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   observacion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   observacionFinal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  nivelInfestacion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  nivelInfestacion?: Prisma.NullableEnumNivelInfestacionFieldUpdateOperationsInput | $Enums.NivelInfestacion | null
+  urgencia?: Prisma.NullableEnumUrgenciaOrdenFieldUpdateOperationsInput | $Enums.UrgenciaOrden | null
+  tipoVisita?: Prisma.NullableEnumTipoVisitaFieldUpdateOperationsInput | $Enums.TipoVisita | null
+  frecuenciaSugerida?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  tipoFacturacion?: Prisma.NullableEnumTipoFacturacionFieldUpdateOperationsInput | $Enums.TipoFacturacion | null
   condicionesHigiene?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   condicionesLocal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   valorCotizado?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -3827,7 +3832,11 @@ export type OrdenServicioCreateWithoutGeolocalizacionesInput = {
   horaFin?: Date | string | null
   observacion?: string | null
   observacionFinal?: string | null
-  nivelInfestacion?: string | null
+  nivelInfestacion?: $Enums.NivelInfestacion | null
+  urgencia?: $Enums.UrgenciaOrden | null
+  tipoVisita?: $Enums.TipoVisita | null
+  frecuenciaSugerida?: number | null
+  tipoFacturacion?: $Enums.TipoFacturacion | null
   condicionesHigiene?: string | null
   condicionesLocal?: string | null
   valorCotizado?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -3856,7 +3865,6 @@ export type OrdenServicioCreateWithoutGeolocalizacionesInput = {
   servicio: Prisma.ServicioCreateNestedOneWithoutOrdenesInput
   tecnico?: Prisma.TenantMembershipCreateNestedOneWithoutServiciosAsignadosInput
   tenant: Prisma.TenantCreateNestedOneWithoutOrdenesServicioInput
-  tipoServicio?: Prisma.TipoServicioCreateNestedOneWithoutOrdenesInput
   vehiculo?: Prisma.VehiculoCreateNestedOneWithoutOrdenesServicioInput
   zona?: Prisma.ZonaCreateNestedOneWithoutOrdenesInput
 }
@@ -3878,7 +3886,6 @@ export type OrdenServicioUncheckedCreateWithoutGeolocalizacionesInput = {
   municipio?: string | null
   departamento?: string | null
   linkMaps?: string | null
-  tipoServicioId?: string | null
   zonaId?: string | null
   vehiculoId?: string | null
   metodoPagoId?: string | null
@@ -3889,7 +3896,11 @@ export type OrdenServicioUncheckedCreateWithoutGeolocalizacionesInput = {
   horaFin?: Date | string | null
   observacion?: string | null
   observacionFinal?: string | null
-  nivelInfestacion?: string | null
+  nivelInfestacion?: $Enums.NivelInfestacion | null
+  urgencia?: $Enums.UrgenciaOrden | null
+  tipoVisita?: $Enums.TipoVisita | null
+  frecuenciaSugerida?: number | null
+  tipoFacturacion?: $Enums.TipoFacturacion | null
   condicionesHigiene?: string | null
   condicionesLocal?: string | null
   valorCotizado?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -3943,7 +3954,11 @@ export type OrdenServicioUpdateWithoutGeolocalizacionesInput = {
   horaFin?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   observacion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   observacionFinal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  nivelInfestacion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  nivelInfestacion?: Prisma.NullableEnumNivelInfestacionFieldUpdateOperationsInput | $Enums.NivelInfestacion | null
+  urgencia?: Prisma.NullableEnumUrgenciaOrdenFieldUpdateOperationsInput | $Enums.UrgenciaOrden | null
+  tipoVisita?: Prisma.NullableEnumTipoVisitaFieldUpdateOperationsInput | $Enums.TipoVisita | null
+  frecuenciaSugerida?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  tipoFacturacion?: Prisma.NullableEnumTipoFacturacionFieldUpdateOperationsInput | $Enums.TipoFacturacion | null
   condicionesHigiene?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   condicionesLocal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   valorCotizado?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -3972,7 +3987,6 @@ export type OrdenServicioUpdateWithoutGeolocalizacionesInput = {
   servicio?: Prisma.ServicioUpdateOneRequiredWithoutOrdenesNestedInput
   tecnico?: Prisma.TenantMembershipUpdateOneWithoutServiciosAsignadosNestedInput
   tenant?: Prisma.TenantUpdateOneRequiredWithoutOrdenesServicioNestedInput
-  tipoServicio?: Prisma.TipoServicioUpdateOneWithoutOrdenesNestedInput
   vehiculo?: Prisma.VehiculoUpdateOneWithoutOrdenesServicioNestedInput
   zona?: Prisma.ZonaUpdateOneWithoutOrdenesNestedInput
 }
@@ -3994,7 +4008,6 @@ export type OrdenServicioUncheckedUpdateWithoutGeolocalizacionesInput = {
   municipio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   departamento?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   linkMaps?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  tipoServicioId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   zonaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   vehiculoId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   metodoPagoId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -4005,7 +4018,11 @@ export type OrdenServicioUncheckedUpdateWithoutGeolocalizacionesInput = {
   horaFin?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   observacion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   observacionFinal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  nivelInfestacion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  nivelInfestacion?: Prisma.NullableEnumNivelInfestacionFieldUpdateOperationsInput | $Enums.NivelInfestacion | null
+  urgencia?: Prisma.NullableEnumUrgenciaOrdenFieldUpdateOperationsInput | $Enums.UrgenciaOrden | null
+  tipoVisita?: Prisma.NullableEnumTipoVisitaFieldUpdateOperationsInput | $Enums.TipoVisita | null
+  frecuenciaSugerida?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  tipoFacturacion?: Prisma.NullableEnumTipoFacturacionFieldUpdateOperationsInput | $Enums.TipoFacturacion | null
   condicionesHigiene?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   condicionesLocal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   valorCotizado?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -4043,7 +4060,11 @@ export type OrdenServicioCreateWithoutNominaDetallesInput = {
   horaFin?: Date | string | null
   observacion?: string | null
   observacionFinal?: string | null
-  nivelInfestacion?: string | null
+  nivelInfestacion?: $Enums.NivelInfestacion | null
+  urgencia?: $Enums.UrgenciaOrden | null
+  tipoVisita?: $Enums.TipoVisita | null
+  frecuenciaSugerida?: number | null
+  tipoFacturacion?: $Enums.TipoFacturacion | null
   condicionesHigiene?: string | null
   condicionesLocal?: string | null
   valorCotizado?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -4072,7 +4093,6 @@ export type OrdenServicioCreateWithoutNominaDetallesInput = {
   servicio: Prisma.ServicioCreateNestedOneWithoutOrdenesInput
   tecnico?: Prisma.TenantMembershipCreateNestedOneWithoutServiciosAsignadosInput
   tenant: Prisma.TenantCreateNestedOneWithoutOrdenesServicioInput
-  tipoServicio?: Prisma.TipoServicioCreateNestedOneWithoutOrdenesInput
   vehiculo?: Prisma.VehiculoCreateNestedOneWithoutOrdenesServicioInput
   zona?: Prisma.ZonaCreateNestedOneWithoutOrdenesInput
 }
@@ -4094,7 +4114,6 @@ export type OrdenServicioUncheckedCreateWithoutNominaDetallesInput = {
   municipio?: string | null
   departamento?: string | null
   linkMaps?: string | null
-  tipoServicioId?: string | null
   zonaId?: string | null
   vehiculoId?: string | null
   metodoPagoId?: string | null
@@ -4105,7 +4124,11 @@ export type OrdenServicioUncheckedCreateWithoutNominaDetallesInput = {
   horaFin?: Date | string | null
   observacion?: string | null
   observacionFinal?: string | null
-  nivelInfestacion?: string | null
+  nivelInfestacion?: $Enums.NivelInfestacion | null
+  urgencia?: $Enums.UrgenciaOrden | null
+  tipoVisita?: $Enums.TipoVisita | null
+  frecuenciaSugerida?: number | null
+  tipoFacturacion?: $Enums.TipoFacturacion | null
   condicionesHigiene?: string | null
   condicionesLocal?: string | null
   valorCotizado?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -4159,7 +4182,11 @@ export type OrdenServicioUpdateWithoutNominaDetallesInput = {
   horaFin?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   observacion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   observacionFinal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  nivelInfestacion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  nivelInfestacion?: Prisma.NullableEnumNivelInfestacionFieldUpdateOperationsInput | $Enums.NivelInfestacion | null
+  urgencia?: Prisma.NullableEnumUrgenciaOrdenFieldUpdateOperationsInput | $Enums.UrgenciaOrden | null
+  tipoVisita?: Prisma.NullableEnumTipoVisitaFieldUpdateOperationsInput | $Enums.TipoVisita | null
+  frecuenciaSugerida?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  tipoFacturacion?: Prisma.NullableEnumTipoFacturacionFieldUpdateOperationsInput | $Enums.TipoFacturacion | null
   condicionesHigiene?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   condicionesLocal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   valorCotizado?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -4188,7 +4215,6 @@ export type OrdenServicioUpdateWithoutNominaDetallesInput = {
   servicio?: Prisma.ServicioUpdateOneRequiredWithoutOrdenesNestedInput
   tecnico?: Prisma.TenantMembershipUpdateOneWithoutServiciosAsignadosNestedInput
   tenant?: Prisma.TenantUpdateOneRequiredWithoutOrdenesServicioNestedInput
-  tipoServicio?: Prisma.TipoServicioUpdateOneWithoutOrdenesNestedInput
   vehiculo?: Prisma.VehiculoUpdateOneWithoutOrdenesServicioNestedInput
   zona?: Prisma.ZonaUpdateOneWithoutOrdenesNestedInput
 }
@@ -4210,7 +4236,6 @@ export type OrdenServicioUncheckedUpdateWithoutNominaDetallesInput = {
   municipio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   departamento?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   linkMaps?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  tipoServicioId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   zonaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   vehiculoId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   metodoPagoId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -4221,7 +4246,11 @@ export type OrdenServicioUncheckedUpdateWithoutNominaDetallesInput = {
   horaFin?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   observacion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   observacionFinal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  nivelInfestacion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  nivelInfestacion?: Prisma.NullableEnumNivelInfestacionFieldUpdateOperationsInput | $Enums.NivelInfestacion | null
+  urgencia?: Prisma.NullableEnumUrgenciaOrdenFieldUpdateOperationsInput | $Enums.UrgenciaOrden | null
+  tipoVisita?: Prisma.NullableEnumTipoVisitaFieldUpdateOperationsInput | $Enums.TipoVisita | null
+  frecuenciaSugerida?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  tipoFacturacion?: Prisma.NullableEnumTipoFacturacionFieldUpdateOperationsInput | $Enums.TipoFacturacion | null
   condicionesHigiene?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   condicionesLocal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   valorCotizado?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -4259,7 +4288,11 @@ export type OrdenServicioCreateWithoutDeclaracionEfectivoInput = {
   horaFin?: Date | string | null
   observacion?: string | null
   observacionFinal?: string | null
-  nivelInfestacion?: string | null
+  nivelInfestacion?: $Enums.NivelInfestacion | null
+  urgencia?: $Enums.UrgenciaOrden | null
+  tipoVisita?: $Enums.TipoVisita | null
+  frecuenciaSugerida?: number | null
+  tipoFacturacion?: $Enums.TipoFacturacion | null
   condicionesHigiene?: string | null
   condicionesLocal?: string | null
   valorCotizado?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -4288,7 +4321,6 @@ export type OrdenServicioCreateWithoutDeclaracionEfectivoInput = {
   servicio: Prisma.ServicioCreateNestedOneWithoutOrdenesInput
   tecnico?: Prisma.TenantMembershipCreateNestedOneWithoutServiciosAsignadosInput
   tenant: Prisma.TenantCreateNestedOneWithoutOrdenesServicioInput
-  tipoServicio?: Prisma.TipoServicioCreateNestedOneWithoutOrdenesInput
   vehiculo?: Prisma.VehiculoCreateNestedOneWithoutOrdenesServicioInput
   zona?: Prisma.ZonaCreateNestedOneWithoutOrdenesInput
 }
@@ -4310,7 +4342,6 @@ export type OrdenServicioUncheckedCreateWithoutDeclaracionEfectivoInput = {
   municipio?: string | null
   departamento?: string | null
   linkMaps?: string | null
-  tipoServicioId?: string | null
   zonaId?: string | null
   vehiculoId?: string | null
   metodoPagoId?: string | null
@@ -4321,7 +4352,11 @@ export type OrdenServicioUncheckedCreateWithoutDeclaracionEfectivoInput = {
   horaFin?: Date | string | null
   observacion?: string | null
   observacionFinal?: string | null
-  nivelInfestacion?: string | null
+  nivelInfestacion?: $Enums.NivelInfestacion | null
+  urgencia?: $Enums.UrgenciaOrden | null
+  tipoVisita?: $Enums.TipoVisita | null
+  frecuenciaSugerida?: number | null
+  tipoFacturacion?: $Enums.TipoFacturacion | null
   condicionesHigiene?: string | null
   condicionesLocal?: string | null
   valorCotizado?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -4375,7 +4410,11 @@ export type OrdenServicioUpdateWithoutDeclaracionEfectivoInput = {
   horaFin?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   observacion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   observacionFinal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  nivelInfestacion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  nivelInfestacion?: Prisma.NullableEnumNivelInfestacionFieldUpdateOperationsInput | $Enums.NivelInfestacion | null
+  urgencia?: Prisma.NullableEnumUrgenciaOrdenFieldUpdateOperationsInput | $Enums.UrgenciaOrden | null
+  tipoVisita?: Prisma.NullableEnumTipoVisitaFieldUpdateOperationsInput | $Enums.TipoVisita | null
+  frecuenciaSugerida?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  tipoFacturacion?: Prisma.NullableEnumTipoFacturacionFieldUpdateOperationsInput | $Enums.TipoFacturacion | null
   condicionesHigiene?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   condicionesLocal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   valorCotizado?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -4404,7 +4443,6 @@ export type OrdenServicioUpdateWithoutDeclaracionEfectivoInput = {
   servicio?: Prisma.ServicioUpdateOneRequiredWithoutOrdenesNestedInput
   tecnico?: Prisma.TenantMembershipUpdateOneWithoutServiciosAsignadosNestedInput
   tenant?: Prisma.TenantUpdateOneRequiredWithoutOrdenesServicioNestedInput
-  tipoServicio?: Prisma.TipoServicioUpdateOneWithoutOrdenesNestedInput
   vehiculo?: Prisma.VehiculoUpdateOneWithoutOrdenesServicioNestedInput
   zona?: Prisma.ZonaUpdateOneWithoutOrdenesNestedInput
 }
@@ -4426,7 +4464,6 @@ export type OrdenServicioUncheckedUpdateWithoutDeclaracionEfectivoInput = {
   municipio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   departamento?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   linkMaps?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  tipoServicioId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   zonaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   vehiculoId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   metodoPagoId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -4437,7 +4474,11 @@ export type OrdenServicioUncheckedUpdateWithoutDeclaracionEfectivoInput = {
   horaFin?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   observacion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   observacionFinal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  nivelInfestacion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  nivelInfestacion?: Prisma.NullableEnumNivelInfestacionFieldUpdateOperationsInput | $Enums.NivelInfestacion | null
+  urgencia?: Prisma.NullableEnumUrgenciaOrdenFieldUpdateOperationsInput | $Enums.UrgenciaOrden | null
+  tipoVisita?: Prisma.NullableEnumTipoVisitaFieldUpdateOperationsInput | $Enums.TipoVisita | null
+  frecuenciaSugerida?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  tipoFacturacion?: Prisma.NullableEnumTipoFacturacionFieldUpdateOperationsInput | $Enums.TipoFacturacion | null
   condicionesHigiene?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   condicionesLocal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   valorCotizado?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -4475,7 +4516,11 @@ export type OrdenServicioCreateWithoutConsignacionOrdenInput = {
   horaFin?: Date | string | null
   observacion?: string | null
   observacionFinal?: string | null
-  nivelInfestacion?: string | null
+  nivelInfestacion?: $Enums.NivelInfestacion | null
+  urgencia?: $Enums.UrgenciaOrden | null
+  tipoVisita?: $Enums.TipoVisita | null
+  frecuenciaSugerida?: number | null
+  tipoFacturacion?: $Enums.TipoFacturacion | null
   condicionesHigiene?: string | null
   condicionesLocal?: string | null
   valorCotizado?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -4504,7 +4549,6 @@ export type OrdenServicioCreateWithoutConsignacionOrdenInput = {
   servicio: Prisma.ServicioCreateNestedOneWithoutOrdenesInput
   tecnico?: Prisma.TenantMembershipCreateNestedOneWithoutServiciosAsignadosInput
   tenant: Prisma.TenantCreateNestedOneWithoutOrdenesServicioInput
-  tipoServicio?: Prisma.TipoServicioCreateNestedOneWithoutOrdenesInput
   vehiculo?: Prisma.VehiculoCreateNestedOneWithoutOrdenesServicioInput
   zona?: Prisma.ZonaCreateNestedOneWithoutOrdenesInput
 }
@@ -4526,7 +4570,6 @@ export type OrdenServicioUncheckedCreateWithoutConsignacionOrdenInput = {
   municipio?: string | null
   departamento?: string | null
   linkMaps?: string | null
-  tipoServicioId?: string | null
   zonaId?: string | null
   vehiculoId?: string | null
   metodoPagoId?: string | null
@@ -4537,7 +4580,11 @@ export type OrdenServicioUncheckedCreateWithoutConsignacionOrdenInput = {
   horaFin?: Date | string | null
   observacion?: string | null
   observacionFinal?: string | null
-  nivelInfestacion?: string | null
+  nivelInfestacion?: $Enums.NivelInfestacion | null
+  urgencia?: $Enums.UrgenciaOrden | null
+  tipoVisita?: $Enums.TipoVisita | null
+  frecuenciaSugerida?: number | null
+  tipoFacturacion?: $Enums.TipoFacturacion | null
   condicionesHigiene?: string | null
   condicionesLocal?: string | null
   valorCotizado?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -4591,7 +4638,11 @@ export type OrdenServicioUpdateWithoutConsignacionOrdenInput = {
   horaFin?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   observacion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   observacionFinal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  nivelInfestacion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  nivelInfestacion?: Prisma.NullableEnumNivelInfestacionFieldUpdateOperationsInput | $Enums.NivelInfestacion | null
+  urgencia?: Prisma.NullableEnumUrgenciaOrdenFieldUpdateOperationsInput | $Enums.UrgenciaOrden | null
+  tipoVisita?: Prisma.NullableEnumTipoVisitaFieldUpdateOperationsInput | $Enums.TipoVisita | null
+  frecuenciaSugerida?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  tipoFacturacion?: Prisma.NullableEnumTipoFacturacionFieldUpdateOperationsInput | $Enums.TipoFacturacion | null
   condicionesHigiene?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   condicionesLocal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   valorCotizado?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -4620,7 +4671,6 @@ export type OrdenServicioUpdateWithoutConsignacionOrdenInput = {
   servicio?: Prisma.ServicioUpdateOneRequiredWithoutOrdenesNestedInput
   tecnico?: Prisma.TenantMembershipUpdateOneWithoutServiciosAsignadosNestedInput
   tenant?: Prisma.TenantUpdateOneRequiredWithoutOrdenesServicioNestedInput
-  tipoServicio?: Prisma.TipoServicioUpdateOneWithoutOrdenesNestedInput
   vehiculo?: Prisma.VehiculoUpdateOneWithoutOrdenesServicioNestedInput
   zona?: Prisma.ZonaUpdateOneWithoutOrdenesNestedInput
 }
@@ -4642,7 +4692,6 @@ export type OrdenServicioUncheckedUpdateWithoutConsignacionOrdenInput = {
   municipio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   departamento?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   linkMaps?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  tipoServicioId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   zonaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   vehiculoId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   metodoPagoId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -4653,7 +4702,11 @@ export type OrdenServicioUncheckedUpdateWithoutConsignacionOrdenInput = {
   horaFin?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   observacion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   observacionFinal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  nivelInfestacion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  nivelInfestacion?: Prisma.NullableEnumNivelInfestacionFieldUpdateOperationsInput | $Enums.NivelInfestacion | null
+  urgencia?: Prisma.NullableEnumUrgenciaOrdenFieldUpdateOperationsInput | $Enums.UrgenciaOrden | null
+  tipoVisita?: Prisma.NullableEnumTipoVisitaFieldUpdateOperationsInput | $Enums.TipoVisita | null
+  frecuenciaSugerida?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  tipoFacturacion?: Prisma.NullableEnumTipoFacturacionFieldUpdateOperationsInput | $Enums.TipoFacturacion | null
   condicionesHigiene?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   condicionesLocal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   valorCotizado?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -4691,7 +4744,6 @@ export type OrdenServicioCreateManyTenantInput = {
   municipio?: string | null
   departamento?: string | null
   linkMaps?: string | null
-  tipoServicioId?: string | null
   zonaId?: string | null
   vehiculoId?: string | null
   metodoPagoId?: string | null
@@ -4702,7 +4754,11 @@ export type OrdenServicioCreateManyTenantInput = {
   horaFin?: Date | string | null
   observacion?: string | null
   observacionFinal?: string | null
-  nivelInfestacion?: string | null
+  nivelInfestacion?: $Enums.NivelInfestacion | null
+  urgencia?: $Enums.UrgenciaOrden | null
+  tipoVisita?: $Enums.TipoVisita | null
+  frecuenciaSugerida?: number | null
+  tipoFacturacion?: $Enums.TipoFacturacion | null
   condicionesHigiene?: string | null
   condicionesLocal?: string | null
   valorCotizado?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -4736,7 +4792,11 @@ export type OrdenServicioUpdateWithoutTenantInput = {
   horaFin?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   observacion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   observacionFinal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  nivelInfestacion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  nivelInfestacion?: Prisma.NullableEnumNivelInfestacionFieldUpdateOperationsInput | $Enums.NivelInfestacion | null
+  urgencia?: Prisma.NullableEnumUrgenciaOrdenFieldUpdateOperationsInput | $Enums.UrgenciaOrden | null
+  tipoVisita?: Prisma.NullableEnumTipoVisitaFieldUpdateOperationsInput | $Enums.TipoVisita | null
+  frecuenciaSugerida?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  tipoFacturacion?: Prisma.NullableEnumTipoFacturacionFieldUpdateOperationsInput | $Enums.TipoFacturacion | null
   condicionesHigiene?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   condicionesLocal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   valorCotizado?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -4765,7 +4825,6 @@ export type OrdenServicioUpdateWithoutTenantInput = {
   ordenesHijas?: Prisma.OrdenServicioUpdateManyWithoutOrdenPadreNestedInput
   servicio?: Prisma.ServicioUpdateOneRequiredWithoutOrdenesNestedInput
   tecnico?: Prisma.TenantMembershipUpdateOneWithoutServiciosAsignadosNestedInput
-  tipoServicio?: Prisma.TipoServicioUpdateOneWithoutOrdenesNestedInput
   vehiculo?: Prisma.VehiculoUpdateOneWithoutOrdenesServicioNestedInput
   zona?: Prisma.ZonaUpdateOneWithoutOrdenesNestedInput
 }
@@ -4786,7 +4845,6 @@ export type OrdenServicioUncheckedUpdateWithoutTenantInput = {
   municipio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   departamento?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   linkMaps?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  tipoServicioId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   zonaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   vehiculoId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   metodoPagoId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -4797,7 +4855,11 @@ export type OrdenServicioUncheckedUpdateWithoutTenantInput = {
   horaFin?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   observacion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   observacionFinal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  nivelInfestacion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  nivelInfestacion?: Prisma.NullableEnumNivelInfestacionFieldUpdateOperationsInput | $Enums.NivelInfestacion | null
+  urgencia?: Prisma.NullableEnumUrgenciaOrdenFieldUpdateOperationsInput | $Enums.UrgenciaOrden | null
+  tipoVisita?: Prisma.NullableEnumTipoVisitaFieldUpdateOperationsInput | $Enums.TipoVisita | null
+  frecuenciaSugerida?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  tipoFacturacion?: Prisma.NullableEnumTipoFacturacionFieldUpdateOperationsInput | $Enums.TipoFacturacion | null
   condicionesHigiene?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   condicionesLocal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   valorCotizado?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -4836,7 +4898,6 @@ export type OrdenServicioUncheckedUpdateManyWithoutTenantInput = {
   municipio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   departamento?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   linkMaps?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  tipoServicioId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   zonaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   vehiculoId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   metodoPagoId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -4847,7 +4908,11 @@ export type OrdenServicioUncheckedUpdateManyWithoutTenantInput = {
   horaFin?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   observacion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   observacionFinal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  nivelInfestacion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  nivelInfestacion?: Prisma.NullableEnumNivelInfestacionFieldUpdateOperationsInput | $Enums.NivelInfestacion | null
+  urgencia?: Prisma.NullableEnumUrgenciaOrdenFieldUpdateOperationsInput | $Enums.UrgenciaOrden | null
+  tipoVisita?: Prisma.NullableEnumTipoVisitaFieldUpdateOperationsInput | $Enums.TipoVisita | null
+  frecuenciaSugerida?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  tipoFacturacion?: Prisma.NullableEnumTipoFacturacionFieldUpdateOperationsInput | $Enums.TipoFacturacion | null
   condicionesHigiene?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   condicionesLocal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   valorCotizado?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -4881,7 +4946,6 @@ export type OrdenServicioCreateManyCreadoPorInput = {
   municipio?: string | null
   departamento?: string | null
   linkMaps?: string | null
-  tipoServicioId?: string | null
   zonaId?: string | null
   vehiculoId?: string | null
   metodoPagoId?: string | null
@@ -4892,7 +4956,11 @@ export type OrdenServicioCreateManyCreadoPorInput = {
   horaFin?: Date | string | null
   observacion?: string | null
   observacionFinal?: string | null
-  nivelInfestacion?: string | null
+  nivelInfestacion?: $Enums.NivelInfestacion | null
+  urgencia?: $Enums.UrgenciaOrden | null
+  tipoVisita?: $Enums.TipoVisita | null
+  frecuenciaSugerida?: number | null
+  tipoFacturacion?: $Enums.TipoFacturacion | null
   condicionesHigiene?: string | null
   condicionesLocal?: string | null
   valorCotizado?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -4926,7 +4994,6 @@ export type OrdenServicioCreateManyTecnicoInput = {
   municipio?: string | null
   departamento?: string | null
   linkMaps?: string | null
-  tipoServicioId?: string | null
   zonaId?: string | null
   vehiculoId?: string | null
   metodoPagoId?: string | null
@@ -4937,7 +5004,11 @@ export type OrdenServicioCreateManyTecnicoInput = {
   horaFin?: Date | string | null
   observacion?: string | null
   observacionFinal?: string | null
-  nivelInfestacion?: string | null
+  nivelInfestacion?: $Enums.NivelInfestacion | null
+  urgencia?: $Enums.UrgenciaOrden | null
+  tipoVisita?: $Enums.TipoVisita | null
+  frecuenciaSugerida?: number | null
+  tipoFacturacion?: $Enums.TipoFacturacion | null
   condicionesHigiene?: string | null
   condicionesLocal?: string | null
   valorCotizado?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -4971,7 +5042,11 @@ export type OrdenServicioUpdateWithoutCreadoPorInput = {
   horaFin?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   observacion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   observacionFinal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  nivelInfestacion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  nivelInfestacion?: Prisma.NullableEnumNivelInfestacionFieldUpdateOperationsInput | $Enums.NivelInfestacion | null
+  urgencia?: Prisma.NullableEnumUrgenciaOrdenFieldUpdateOperationsInput | $Enums.UrgenciaOrden | null
+  tipoVisita?: Prisma.NullableEnumTipoVisitaFieldUpdateOperationsInput | $Enums.TipoVisita | null
+  frecuenciaSugerida?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  tipoFacturacion?: Prisma.NullableEnumTipoFacturacionFieldUpdateOperationsInput | $Enums.TipoFacturacion | null
   condicionesHigiene?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   condicionesLocal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   valorCotizado?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -5000,7 +5075,6 @@ export type OrdenServicioUpdateWithoutCreadoPorInput = {
   servicio?: Prisma.ServicioUpdateOneRequiredWithoutOrdenesNestedInput
   tecnico?: Prisma.TenantMembershipUpdateOneWithoutServiciosAsignadosNestedInput
   tenant?: Prisma.TenantUpdateOneRequiredWithoutOrdenesServicioNestedInput
-  tipoServicio?: Prisma.TipoServicioUpdateOneWithoutOrdenesNestedInput
   vehiculo?: Prisma.VehiculoUpdateOneWithoutOrdenesServicioNestedInput
   zona?: Prisma.ZonaUpdateOneWithoutOrdenesNestedInput
 }
@@ -5021,7 +5095,6 @@ export type OrdenServicioUncheckedUpdateWithoutCreadoPorInput = {
   municipio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   departamento?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   linkMaps?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  tipoServicioId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   zonaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   vehiculoId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   metodoPagoId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -5032,7 +5105,11 @@ export type OrdenServicioUncheckedUpdateWithoutCreadoPorInput = {
   horaFin?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   observacion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   observacionFinal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  nivelInfestacion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  nivelInfestacion?: Prisma.NullableEnumNivelInfestacionFieldUpdateOperationsInput | $Enums.NivelInfestacion | null
+  urgencia?: Prisma.NullableEnumUrgenciaOrdenFieldUpdateOperationsInput | $Enums.UrgenciaOrden | null
+  tipoVisita?: Prisma.NullableEnumTipoVisitaFieldUpdateOperationsInput | $Enums.TipoVisita | null
+  frecuenciaSugerida?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  tipoFacturacion?: Prisma.NullableEnumTipoFacturacionFieldUpdateOperationsInput | $Enums.TipoFacturacion | null
   condicionesHigiene?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   condicionesLocal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   valorCotizado?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -5071,7 +5148,6 @@ export type OrdenServicioUncheckedUpdateManyWithoutCreadoPorInput = {
   municipio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   departamento?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   linkMaps?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  tipoServicioId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   zonaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   vehiculoId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   metodoPagoId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -5082,7 +5158,11 @@ export type OrdenServicioUncheckedUpdateManyWithoutCreadoPorInput = {
   horaFin?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   observacion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   observacionFinal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  nivelInfestacion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  nivelInfestacion?: Prisma.NullableEnumNivelInfestacionFieldUpdateOperationsInput | $Enums.NivelInfestacion | null
+  urgencia?: Prisma.NullableEnumUrgenciaOrdenFieldUpdateOperationsInput | $Enums.UrgenciaOrden | null
+  tipoVisita?: Prisma.NullableEnumTipoVisitaFieldUpdateOperationsInput | $Enums.TipoVisita | null
+  frecuenciaSugerida?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  tipoFacturacion?: Prisma.NullableEnumTipoFacturacionFieldUpdateOperationsInput | $Enums.TipoFacturacion | null
   condicionesHigiene?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   condicionesLocal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   valorCotizado?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -5116,7 +5196,11 @@ export type OrdenServicioUpdateWithoutTecnicoInput = {
   horaFin?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   observacion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   observacionFinal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  nivelInfestacion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  nivelInfestacion?: Prisma.NullableEnumNivelInfestacionFieldUpdateOperationsInput | $Enums.NivelInfestacion | null
+  urgencia?: Prisma.NullableEnumUrgenciaOrdenFieldUpdateOperationsInput | $Enums.UrgenciaOrden | null
+  tipoVisita?: Prisma.NullableEnumTipoVisitaFieldUpdateOperationsInput | $Enums.TipoVisita | null
+  frecuenciaSugerida?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  tipoFacturacion?: Prisma.NullableEnumTipoFacturacionFieldUpdateOperationsInput | $Enums.TipoFacturacion | null
   condicionesHigiene?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   condicionesLocal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   valorCotizado?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -5145,7 +5229,6 @@ export type OrdenServicioUpdateWithoutTecnicoInput = {
   ordenesHijas?: Prisma.OrdenServicioUpdateManyWithoutOrdenPadreNestedInput
   servicio?: Prisma.ServicioUpdateOneRequiredWithoutOrdenesNestedInput
   tenant?: Prisma.TenantUpdateOneRequiredWithoutOrdenesServicioNestedInput
-  tipoServicio?: Prisma.TipoServicioUpdateOneWithoutOrdenesNestedInput
   vehiculo?: Prisma.VehiculoUpdateOneWithoutOrdenesServicioNestedInput
   zona?: Prisma.ZonaUpdateOneWithoutOrdenesNestedInput
 }
@@ -5166,7 +5249,6 @@ export type OrdenServicioUncheckedUpdateWithoutTecnicoInput = {
   municipio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   departamento?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   linkMaps?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  tipoServicioId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   zonaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   vehiculoId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   metodoPagoId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -5177,7 +5259,11 @@ export type OrdenServicioUncheckedUpdateWithoutTecnicoInput = {
   horaFin?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   observacion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   observacionFinal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  nivelInfestacion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  nivelInfestacion?: Prisma.NullableEnumNivelInfestacionFieldUpdateOperationsInput | $Enums.NivelInfestacion | null
+  urgencia?: Prisma.NullableEnumUrgenciaOrdenFieldUpdateOperationsInput | $Enums.UrgenciaOrden | null
+  tipoVisita?: Prisma.NullableEnumTipoVisitaFieldUpdateOperationsInput | $Enums.TipoVisita | null
+  frecuenciaSugerida?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  tipoFacturacion?: Prisma.NullableEnumTipoFacturacionFieldUpdateOperationsInput | $Enums.TipoFacturacion | null
   condicionesHigiene?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   condicionesLocal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   valorCotizado?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -5216,7 +5302,6 @@ export type OrdenServicioUncheckedUpdateManyWithoutTecnicoInput = {
   municipio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   departamento?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   linkMaps?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  tipoServicioId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   zonaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   vehiculoId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   metodoPagoId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -5227,7 +5312,11 @@ export type OrdenServicioUncheckedUpdateManyWithoutTecnicoInput = {
   horaFin?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   observacion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   observacionFinal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  nivelInfestacion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  nivelInfestacion?: Prisma.NullableEnumNivelInfestacionFieldUpdateOperationsInput | $Enums.NivelInfestacion | null
+  urgencia?: Prisma.NullableEnumUrgenciaOrdenFieldUpdateOperationsInput | $Enums.UrgenciaOrden | null
+  tipoVisita?: Prisma.NullableEnumTipoVisitaFieldUpdateOperationsInput | $Enums.TipoVisita | null
+  frecuenciaSugerida?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  tipoFacturacion?: Prisma.NullableEnumTipoFacturacionFieldUpdateOperationsInput | $Enums.TipoFacturacion | null
   condicionesHigiene?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   condicionesLocal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   valorCotizado?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -5261,7 +5350,6 @@ export type OrdenServicioCreateManyEmpresaInput = {
   municipio?: string | null
   departamento?: string | null
   linkMaps?: string | null
-  tipoServicioId?: string | null
   zonaId?: string | null
   vehiculoId?: string | null
   metodoPagoId?: string | null
@@ -5272,7 +5360,11 @@ export type OrdenServicioCreateManyEmpresaInput = {
   horaFin?: Date | string | null
   observacion?: string | null
   observacionFinal?: string | null
-  nivelInfestacion?: string | null
+  nivelInfestacion?: $Enums.NivelInfestacion | null
+  urgencia?: $Enums.UrgenciaOrden | null
+  tipoVisita?: $Enums.TipoVisita | null
+  frecuenciaSugerida?: number | null
+  tipoFacturacion?: $Enums.TipoFacturacion | null
   condicionesHigiene?: string | null
   condicionesLocal?: string | null
   valorCotizado?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -5306,7 +5398,11 @@ export type OrdenServicioUpdateWithoutEmpresaInput = {
   horaFin?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   observacion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   observacionFinal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  nivelInfestacion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  nivelInfestacion?: Prisma.NullableEnumNivelInfestacionFieldUpdateOperationsInput | $Enums.NivelInfestacion | null
+  urgencia?: Prisma.NullableEnumUrgenciaOrdenFieldUpdateOperationsInput | $Enums.UrgenciaOrden | null
+  tipoVisita?: Prisma.NullableEnumTipoVisitaFieldUpdateOperationsInput | $Enums.TipoVisita | null
+  frecuenciaSugerida?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  tipoFacturacion?: Prisma.NullableEnumTipoFacturacionFieldUpdateOperationsInput | $Enums.TipoFacturacion | null
   condicionesHigiene?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   condicionesLocal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   valorCotizado?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -5335,7 +5431,6 @@ export type OrdenServicioUpdateWithoutEmpresaInput = {
   servicio?: Prisma.ServicioUpdateOneRequiredWithoutOrdenesNestedInput
   tecnico?: Prisma.TenantMembershipUpdateOneWithoutServiciosAsignadosNestedInput
   tenant?: Prisma.TenantUpdateOneRequiredWithoutOrdenesServicioNestedInput
-  tipoServicio?: Prisma.TipoServicioUpdateOneWithoutOrdenesNestedInput
   vehiculo?: Prisma.VehiculoUpdateOneWithoutOrdenesServicioNestedInput
   zona?: Prisma.ZonaUpdateOneWithoutOrdenesNestedInput
 }
@@ -5356,7 +5451,6 @@ export type OrdenServicioUncheckedUpdateWithoutEmpresaInput = {
   municipio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   departamento?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   linkMaps?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  tipoServicioId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   zonaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   vehiculoId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   metodoPagoId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -5367,7 +5461,11 @@ export type OrdenServicioUncheckedUpdateWithoutEmpresaInput = {
   horaFin?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   observacion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   observacionFinal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  nivelInfestacion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  nivelInfestacion?: Prisma.NullableEnumNivelInfestacionFieldUpdateOperationsInput | $Enums.NivelInfestacion | null
+  urgencia?: Prisma.NullableEnumUrgenciaOrdenFieldUpdateOperationsInput | $Enums.UrgenciaOrden | null
+  tipoVisita?: Prisma.NullableEnumTipoVisitaFieldUpdateOperationsInput | $Enums.TipoVisita | null
+  frecuenciaSugerida?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  tipoFacturacion?: Prisma.NullableEnumTipoFacturacionFieldUpdateOperationsInput | $Enums.TipoFacturacion | null
   condicionesHigiene?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   condicionesLocal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   valorCotizado?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -5406,7 +5504,6 @@ export type OrdenServicioUncheckedUpdateManyWithoutEmpresaInput = {
   municipio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   departamento?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   linkMaps?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  tipoServicioId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   zonaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   vehiculoId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   metodoPagoId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -5417,7 +5514,11 @@ export type OrdenServicioUncheckedUpdateManyWithoutEmpresaInput = {
   horaFin?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   observacion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   observacionFinal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  nivelInfestacion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  nivelInfestacion?: Prisma.NullableEnumNivelInfestacionFieldUpdateOperationsInput | $Enums.NivelInfestacion | null
+  urgencia?: Prisma.NullableEnumUrgenciaOrdenFieldUpdateOperationsInput | $Enums.UrgenciaOrden | null
+  tipoVisita?: Prisma.NullableEnumTipoVisitaFieldUpdateOperationsInput | $Enums.TipoVisita | null
+  frecuenciaSugerida?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  tipoFacturacion?: Prisma.NullableEnumTipoFacturacionFieldUpdateOperationsInput | $Enums.TipoFacturacion | null
   condicionesHigiene?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   condicionesLocal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   valorCotizado?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -5451,7 +5552,6 @@ export type OrdenServicioCreateManyClienteInput = {
   municipio?: string | null
   departamento?: string | null
   linkMaps?: string | null
-  tipoServicioId?: string | null
   zonaId?: string | null
   vehiculoId?: string | null
   metodoPagoId?: string | null
@@ -5462,7 +5562,11 @@ export type OrdenServicioCreateManyClienteInput = {
   horaFin?: Date | string | null
   observacion?: string | null
   observacionFinal?: string | null
-  nivelInfestacion?: string | null
+  nivelInfestacion?: $Enums.NivelInfestacion | null
+  urgencia?: $Enums.UrgenciaOrden | null
+  tipoVisita?: $Enums.TipoVisita | null
+  frecuenciaSugerida?: number | null
+  tipoFacturacion?: $Enums.TipoFacturacion | null
   condicionesHigiene?: string | null
   condicionesLocal?: string | null
   valorCotizado?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -5496,7 +5600,11 @@ export type OrdenServicioUpdateWithoutClienteInput = {
   horaFin?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   observacion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   observacionFinal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  nivelInfestacion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  nivelInfestacion?: Prisma.NullableEnumNivelInfestacionFieldUpdateOperationsInput | $Enums.NivelInfestacion | null
+  urgencia?: Prisma.NullableEnumUrgenciaOrdenFieldUpdateOperationsInput | $Enums.UrgenciaOrden | null
+  tipoVisita?: Prisma.NullableEnumTipoVisitaFieldUpdateOperationsInput | $Enums.TipoVisita | null
+  frecuenciaSugerida?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  tipoFacturacion?: Prisma.NullableEnumTipoFacturacionFieldUpdateOperationsInput | $Enums.TipoFacturacion | null
   condicionesHigiene?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   condicionesLocal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   valorCotizado?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -5525,7 +5633,6 @@ export type OrdenServicioUpdateWithoutClienteInput = {
   servicio?: Prisma.ServicioUpdateOneRequiredWithoutOrdenesNestedInput
   tecnico?: Prisma.TenantMembershipUpdateOneWithoutServiciosAsignadosNestedInput
   tenant?: Prisma.TenantUpdateOneRequiredWithoutOrdenesServicioNestedInput
-  tipoServicio?: Prisma.TipoServicioUpdateOneWithoutOrdenesNestedInput
   vehiculo?: Prisma.VehiculoUpdateOneWithoutOrdenesServicioNestedInput
   zona?: Prisma.ZonaUpdateOneWithoutOrdenesNestedInput
 }
@@ -5546,7 +5653,6 @@ export type OrdenServicioUncheckedUpdateWithoutClienteInput = {
   municipio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   departamento?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   linkMaps?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  tipoServicioId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   zonaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   vehiculoId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   metodoPagoId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -5557,7 +5663,11 @@ export type OrdenServicioUncheckedUpdateWithoutClienteInput = {
   horaFin?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   observacion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   observacionFinal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  nivelInfestacion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  nivelInfestacion?: Prisma.NullableEnumNivelInfestacionFieldUpdateOperationsInput | $Enums.NivelInfestacion | null
+  urgencia?: Prisma.NullableEnumUrgenciaOrdenFieldUpdateOperationsInput | $Enums.UrgenciaOrden | null
+  tipoVisita?: Prisma.NullableEnumTipoVisitaFieldUpdateOperationsInput | $Enums.TipoVisita | null
+  frecuenciaSugerida?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  tipoFacturacion?: Prisma.NullableEnumTipoFacturacionFieldUpdateOperationsInput | $Enums.TipoFacturacion | null
   condicionesHigiene?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   condicionesLocal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   valorCotizado?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -5596,7 +5706,6 @@ export type OrdenServicioUncheckedUpdateManyWithoutClienteInput = {
   municipio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   departamento?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   linkMaps?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  tipoServicioId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   zonaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   vehiculoId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   metodoPagoId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -5607,7 +5716,11 @@ export type OrdenServicioUncheckedUpdateManyWithoutClienteInput = {
   horaFin?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   observacion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   observacionFinal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  nivelInfestacion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  nivelInfestacion?: Prisma.NullableEnumNivelInfestacionFieldUpdateOperationsInput | $Enums.NivelInfestacion | null
+  urgencia?: Prisma.NullableEnumUrgenciaOrdenFieldUpdateOperationsInput | $Enums.UrgenciaOrden | null
+  tipoVisita?: Prisma.NullableEnumTipoVisitaFieldUpdateOperationsInput | $Enums.TipoVisita | null
+  frecuenciaSugerida?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  tipoFacturacion?: Prisma.NullableEnumTipoFacturacionFieldUpdateOperationsInput | $Enums.TipoFacturacion | null
   condicionesHigiene?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   condicionesLocal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   valorCotizado?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -5642,7 +5755,6 @@ export type OrdenServicioCreateManyVehiculoInput = {
   municipio?: string | null
   departamento?: string | null
   linkMaps?: string | null
-  tipoServicioId?: string | null
   zonaId?: string | null
   metodoPagoId?: string | null
   estadoServicioId: string
@@ -5652,7 +5764,11 @@ export type OrdenServicioCreateManyVehiculoInput = {
   horaFin?: Date | string | null
   observacion?: string | null
   observacionFinal?: string | null
-  nivelInfestacion?: string | null
+  nivelInfestacion?: $Enums.NivelInfestacion | null
+  urgencia?: $Enums.UrgenciaOrden | null
+  tipoVisita?: $Enums.TipoVisita | null
+  frecuenciaSugerida?: number | null
+  tipoFacturacion?: $Enums.TipoFacturacion | null
   condicionesHigiene?: string | null
   condicionesLocal?: string | null
   valorCotizado?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -5686,7 +5802,11 @@ export type OrdenServicioUpdateWithoutVehiculoInput = {
   horaFin?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   observacion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   observacionFinal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  nivelInfestacion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  nivelInfestacion?: Prisma.NullableEnumNivelInfestacionFieldUpdateOperationsInput | $Enums.NivelInfestacion | null
+  urgencia?: Prisma.NullableEnumUrgenciaOrdenFieldUpdateOperationsInput | $Enums.UrgenciaOrden | null
+  tipoVisita?: Prisma.NullableEnumTipoVisitaFieldUpdateOperationsInput | $Enums.TipoVisita | null
+  frecuenciaSugerida?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  tipoFacturacion?: Prisma.NullableEnumTipoFacturacionFieldUpdateOperationsInput | $Enums.TipoFacturacion | null
   condicionesHigiene?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   condicionesLocal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   valorCotizado?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -5716,7 +5836,6 @@ export type OrdenServicioUpdateWithoutVehiculoInput = {
   servicio?: Prisma.ServicioUpdateOneRequiredWithoutOrdenesNestedInput
   tecnico?: Prisma.TenantMembershipUpdateOneWithoutServiciosAsignadosNestedInput
   tenant?: Prisma.TenantUpdateOneRequiredWithoutOrdenesServicioNestedInput
-  tipoServicio?: Prisma.TipoServicioUpdateOneWithoutOrdenesNestedInput
   zona?: Prisma.ZonaUpdateOneWithoutOrdenesNestedInput
 }
 
@@ -5737,7 +5856,6 @@ export type OrdenServicioUncheckedUpdateWithoutVehiculoInput = {
   municipio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   departamento?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   linkMaps?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  tipoServicioId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   zonaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   metodoPagoId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   estadoServicioId?: Prisma.StringFieldUpdateOperationsInput | string
@@ -5747,7 +5865,11 @@ export type OrdenServicioUncheckedUpdateWithoutVehiculoInput = {
   horaFin?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   observacion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   observacionFinal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  nivelInfestacion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  nivelInfestacion?: Prisma.NullableEnumNivelInfestacionFieldUpdateOperationsInput | $Enums.NivelInfestacion | null
+  urgencia?: Prisma.NullableEnumUrgenciaOrdenFieldUpdateOperationsInput | $Enums.UrgenciaOrden | null
+  tipoVisita?: Prisma.NullableEnumTipoVisitaFieldUpdateOperationsInput | $Enums.TipoVisita | null
+  frecuenciaSugerida?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  tipoFacturacion?: Prisma.NullableEnumTipoFacturacionFieldUpdateOperationsInput | $Enums.TipoFacturacion | null
   condicionesHigiene?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   condicionesLocal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   valorCotizado?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -5787,7 +5909,6 @@ export type OrdenServicioUncheckedUpdateManyWithoutVehiculoInput = {
   municipio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   departamento?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   linkMaps?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  tipoServicioId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   zonaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   metodoPagoId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   estadoServicioId?: Prisma.StringFieldUpdateOperationsInput | string
@@ -5797,7 +5918,11 @@ export type OrdenServicioUncheckedUpdateManyWithoutVehiculoInput = {
   horaFin?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   observacion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   observacionFinal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  nivelInfestacion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  nivelInfestacion?: Prisma.NullableEnumNivelInfestacionFieldUpdateOperationsInput | $Enums.NivelInfestacion | null
+  urgencia?: Prisma.NullableEnumUrgenciaOrdenFieldUpdateOperationsInput | $Enums.UrgenciaOrden | null
+  tipoVisita?: Prisma.NullableEnumTipoVisitaFieldUpdateOperationsInput | $Enums.TipoVisita | null
+  frecuenciaSugerida?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  tipoFacturacion?: Prisma.NullableEnumTipoFacturacionFieldUpdateOperationsInput | $Enums.TipoFacturacion | null
   condicionesHigiene?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   condicionesLocal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   valorCotizado?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -5831,7 +5956,6 @@ export type OrdenServicioCreateManyDireccionInput = {
   municipio?: string | null
   departamento?: string | null
   linkMaps?: string | null
-  tipoServicioId?: string | null
   zonaId?: string | null
   vehiculoId?: string | null
   metodoPagoId?: string | null
@@ -5842,7 +5966,11 @@ export type OrdenServicioCreateManyDireccionInput = {
   horaFin?: Date | string | null
   observacion?: string | null
   observacionFinal?: string | null
-  nivelInfestacion?: string | null
+  nivelInfestacion?: $Enums.NivelInfestacion | null
+  urgencia?: $Enums.UrgenciaOrden | null
+  tipoVisita?: $Enums.TipoVisita | null
+  frecuenciaSugerida?: number | null
+  tipoFacturacion?: $Enums.TipoFacturacion | null
   condicionesHigiene?: string | null
   condicionesLocal?: string | null
   valorCotizado?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -5876,7 +6004,11 @@ export type OrdenServicioUpdateWithoutDireccionInput = {
   horaFin?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   observacion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   observacionFinal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  nivelInfestacion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  nivelInfestacion?: Prisma.NullableEnumNivelInfestacionFieldUpdateOperationsInput | $Enums.NivelInfestacion | null
+  urgencia?: Prisma.NullableEnumUrgenciaOrdenFieldUpdateOperationsInput | $Enums.UrgenciaOrden | null
+  tipoVisita?: Prisma.NullableEnumTipoVisitaFieldUpdateOperationsInput | $Enums.TipoVisita | null
+  frecuenciaSugerida?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  tipoFacturacion?: Prisma.NullableEnumTipoFacturacionFieldUpdateOperationsInput | $Enums.TipoFacturacion | null
   condicionesHigiene?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   condicionesLocal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   valorCotizado?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -5905,7 +6037,6 @@ export type OrdenServicioUpdateWithoutDireccionInput = {
   servicio?: Prisma.ServicioUpdateOneRequiredWithoutOrdenesNestedInput
   tecnico?: Prisma.TenantMembershipUpdateOneWithoutServiciosAsignadosNestedInput
   tenant?: Prisma.TenantUpdateOneRequiredWithoutOrdenesServicioNestedInput
-  tipoServicio?: Prisma.TipoServicioUpdateOneWithoutOrdenesNestedInput
   vehiculo?: Prisma.VehiculoUpdateOneWithoutOrdenesServicioNestedInput
   zona?: Prisma.ZonaUpdateOneWithoutOrdenesNestedInput
 }
@@ -5926,7 +6057,6 @@ export type OrdenServicioUncheckedUpdateWithoutDireccionInput = {
   municipio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   departamento?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   linkMaps?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  tipoServicioId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   zonaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   vehiculoId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   metodoPagoId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -5937,7 +6067,11 @@ export type OrdenServicioUncheckedUpdateWithoutDireccionInput = {
   horaFin?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   observacion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   observacionFinal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  nivelInfestacion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  nivelInfestacion?: Prisma.NullableEnumNivelInfestacionFieldUpdateOperationsInput | $Enums.NivelInfestacion | null
+  urgencia?: Prisma.NullableEnumUrgenciaOrdenFieldUpdateOperationsInput | $Enums.UrgenciaOrden | null
+  tipoVisita?: Prisma.NullableEnumTipoVisitaFieldUpdateOperationsInput | $Enums.TipoVisita | null
+  frecuenciaSugerida?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  tipoFacturacion?: Prisma.NullableEnumTipoFacturacionFieldUpdateOperationsInput | $Enums.TipoFacturacion | null
   condicionesHigiene?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   condicionesLocal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   valorCotizado?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -5976,7 +6110,6 @@ export type OrdenServicioUncheckedUpdateManyWithoutDireccionInput = {
   municipio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   departamento?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   linkMaps?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  tipoServicioId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   zonaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   vehiculoId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   metodoPagoId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -5987,7 +6120,11 @@ export type OrdenServicioUncheckedUpdateManyWithoutDireccionInput = {
   horaFin?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   observacion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   observacionFinal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  nivelInfestacion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  nivelInfestacion?: Prisma.NullableEnumNivelInfestacionFieldUpdateOperationsInput | $Enums.NivelInfestacion | null
+  urgencia?: Prisma.NullableEnumUrgenciaOrdenFieldUpdateOperationsInput | $Enums.UrgenciaOrden | null
+  tipoVisita?: Prisma.NullableEnumTipoVisitaFieldUpdateOperationsInput | $Enums.TipoVisita | null
+  frecuenciaSugerida?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  tipoFacturacion?: Prisma.NullableEnumTipoFacturacionFieldUpdateOperationsInput | $Enums.TipoFacturacion | null
   condicionesHigiene?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   condicionesLocal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   valorCotizado?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -6022,7 +6159,6 @@ export type OrdenServicioCreateManyZonaInput = {
   municipio?: string | null
   departamento?: string | null
   linkMaps?: string | null
-  tipoServicioId?: string | null
   vehiculoId?: string | null
   metodoPagoId?: string | null
   estadoServicioId: string
@@ -6032,7 +6168,11 @@ export type OrdenServicioCreateManyZonaInput = {
   horaFin?: Date | string | null
   observacion?: string | null
   observacionFinal?: string | null
-  nivelInfestacion?: string | null
+  nivelInfestacion?: $Enums.NivelInfestacion | null
+  urgencia?: $Enums.UrgenciaOrden | null
+  tipoVisita?: $Enums.TipoVisita | null
+  frecuenciaSugerida?: number | null
+  tipoFacturacion?: $Enums.TipoFacturacion | null
   condicionesHigiene?: string | null
   condicionesLocal?: string | null
   valorCotizado?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -6066,7 +6206,11 @@ export type OrdenServicioUpdateWithoutZonaInput = {
   horaFin?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   observacion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   observacionFinal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  nivelInfestacion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  nivelInfestacion?: Prisma.NullableEnumNivelInfestacionFieldUpdateOperationsInput | $Enums.NivelInfestacion | null
+  urgencia?: Prisma.NullableEnumUrgenciaOrdenFieldUpdateOperationsInput | $Enums.UrgenciaOrden | null
+  tipoVisita?: Prisma.NullableEnumTipoVisitaFieldUpdateOperationsInput | $Enums.TipoVisita | null
+  frecuenciaSugerida?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  tipoFacturacion?: Prisma.NullableEnumTipoFacturacionFieldUpdateOperationsInput | $Enums.TipoFacturacion | null
   condicionesHigiene?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   condicionesLocal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   valorCotizado?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -6096,7 +6240,6 @@ export type OrdenServicioUpdateWithoutZonaInput = {
   servicio?: Prisma.ServicioUpdateOneRequiredWithoutOrdenesNestedInput
   tecnico?: Prisma.TenantMembershipUpdateOneWithoutServiciosAsignadosNestedInput
   tenant?: Prisma.TenantUpdateOneRequiredWithoutOrdenesServicioNestedInput
-  tipoServicio?: Prisma.TipoServicioUpdateOneWithoutOrdenesNestedInput
   vehiculo?: Prisma.VehiculoUpdateOneWithoutOrdenesServicioNestedInput
 }
 
@@ -6117,7 +6260,6 @@ export type OrdenServicioUncheckedUpdateWithoutZonaInput = {
   municipio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   departamento?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   linkMaps?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  tipoServicioId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   vehiculoId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   metodoPagoId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   estadoServicioId?: Prisma.StringFieldUpdateOperationsInput | string
@@ -6127,7 +6269,11 @@ export type OrdenServicioUncheckedUpdateWithoutZonaInput = {
   horaFin?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   observacion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   observacionFinal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  nivelInfestacion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  nivelInfestacion?: Prisma.NullableEnumNivelInfestacionFieldUpdateOperationsInput | $Enums.NivelInfestacion | null
+  urgencia?: Prisma.NullableEnumUrgenciaOrdenFieldUpdateOperationsInput | $Enums.UrgenciaOrden | null
+  tipoVisita?: Prisma.NullableEnumTipoVisitaFieldUpdateOperationsInput | $Enums.TipoVisita | null
+  frecuenciaSugerida?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  tipoFacturacion?: Prisma.NullableEnumTipoFacturacionFieldUpdateOperationsInput | $Enums.TipoFacturacion | null
   condicionesHigiene?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   condicionesLocal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   valorCotizado?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -6167,7 +6313,6 @@ export type OrdenServicioUncheckedUpdateManyWithoutZonaInput = {
   municipio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   departamento?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   linkMaps?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  tipoServicioId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   vehiculoId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   metodoPagoId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   estadoServicioId?: Prisma.StringFieldUpdateOperationsInput | string
@@ -6177,7 +6322,11 @@ export type OrdenServicioUncheckedUpdateManyWithoutZonaInput = {
   horaFin?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   observacion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   observacionFinal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  nivelInfestacion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  nivelInfestacion?: Prisma.NullableEnumNivelInfestacionFieldUpdateOperationsInput | $Enums.NivelInfestacion | null
+  urgencia?: Prisma.NullableEnumUrgenciaOrdenFieldUpdateOperationsInput | $Enums.UrgenciaOrden | null
+  tipoVisita?: Prisma.NullableEnumTipoVisitaFieldUpdateOperationsInput | $Enums.TipoVisita | null
+  frecuenciaSugerida?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  tipoFacturacion?: Prisma.NullableEnumTipoFacturacionFieldUpdateOperationsInput | $Enums.TipoFacturacion | null
   condicionesHigiene?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   condicionesLocal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   valorCotizado?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -6211,7 +6360,6 @@ export type OrdenServicioCreateManyServicioInput = {
   municipio?: string | null
   departamento?: string | null
   linkMaps?: string | null
-  tipoServicioId?: string | null
   zonaId?: string | null
   vehiculoId?: string | null
   metodoPagoId?: string | null
@@ -6222,7 +6370,11 @@ export type OrdenServicioCreateManyServicioInput = {
   horaFin?: Date | string | null
   observacion?: string | null
   observacionFinal?: string | null
-  nivelInfestacion?: string | null
+  nivelInfestacion?: $Enums.NivelInfestacion | null
+  urgencia?: $Enums.UrgenciaOrden | null
+  tipoVisita?: $Enums.TipoVisita | null
+  frecuenciaSugerida?: number | null
+  tipoFacturacion?: $Enums.TipoFacturacion | null
   condicionesHigiene?: string | null
   condicionesLocal?: string | null
   valorCotizado?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -6256,7 +6408,11 @@ export type OrdenServicioUpdateWithoutServicioInput = {
   horaFin?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   observacion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   observacionFinal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  nivelInfestacion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  nivelInfestacion?: Prisma.NullableEnumNivelInfestacionFieldUpdateOperationsInput | $Enums.NivelInfestacion | null
+  urgencia?: Prisma.NullableEnumUrgenciaOrdenFieldUpdateOperationsInput | $Enums.UrgenciaOrden | null
+  tipoVisita?: Prisma.NullableEnumTipoVisitaFieldUpdateOperationsInput | $Enums.TipoVisita | null
+  frecuenciaSugerida?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  tipoFacturacion?: Prisma.NullableEnumTipoFacturacionFieldUpdateOperationsInput | $Enums.TipoFacturacion | null
   condicionesHigiene?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   condicionesLocal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   valorCotizado?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -6285,7 +6441,6 @@ export type OrdenServicioUpdateWithoutServicioInput = {
   ordenesHijas?: Prisma.OrdenServicioUpdateManyWithoutOrdenPadreNestedInput
   tecnico?: Prisma.TenantMembershipUpdateOneWithoutServiciosAsignadosNestedInput
   tenant?: Prisma.TenantUpdateOneRequiredWithoutOrdenesServicioNestedInput
-  tipoServicio?: Prisma.TipoServicioUpdateOneWithoutOrdenesNestedInput
   vehiculo?: Prisma.VehiculoUpdateOneWithoutOrdenesServicioNestedInput
   zona?: Prisma.ZonaUpdateOneWithoutOrdenesNestedInput
 }
@@ -6306,7 +6461,6 @@ export type OrdenServicioUncheckedUpdateWithoutServicioInput = {
   municipio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   departamento?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   linkMaps?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  tipoServicioId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   zonaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   vehiculoId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   metodoPagoId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -6317,7 +6471,11 @@ export type OrdenServicioUncheckedUpdateWithoutServicioInput = {
   horaFin?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   observacion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   observacionFinal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  nivelInfestacion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  nivelInfestacion?: Prisma.NullableEnumNivelInfestacionFieldUpdateOperationsInput | $Enums.NivelInfestacion | null
+  urgencia?: Prisma.NullableEnumUrgenciaOrdenFieldUpdateOperationsInput | $Enums.UrgenciaOrden | null
+  tipoVisita?: Prisma.NullableEnumTipoVisitaFieldUpdateOperationsInput | $Enums.TipoVisita | null
+  frecuenciaSugerida?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  tipoFacturacion?: Prisma.NullableEnumTipoFacturacionFieldUpdateOperationsInput | $Enums.TipoFacturacion | null
   condicionesHigiene?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   condicionesLocal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   valorCotizado?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -6356,7 +6514,6 @@ export type OrdenServicioUncheckedUpdateManyWithoutServicioInput = {
   municipio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   departamento?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   linkMaps?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  tipoServicioId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   zonaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   vehiculoId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   metodoPagoId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -6367,197 +6524,11 @@ export type OrdenServicioUncheckedUpdateManyWithoutServicioInput = {
   horaFin?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   observacion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   observacionFinal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  nivelInfestacion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  condicionesHigiene?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  condicionesLocal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  valorCotizado?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  valorPagado?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  valorRepuestos?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  valorRepuestosTecnico?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  facturaPath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  facturaElectronica?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  comprobantePago?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  evidenciaPath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  estadoPago?: Prisma.EnumEstadoPagoOrdenFieldUpdateOperationsInput | $Enums.EstadoPagoOrden
-  seguimientoRevisado?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  ordenPadreId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-}
-
-export type OrdenServicioCreateManyTipoServicioInput = {
-  id?: string
-  tenantId: string
-  empresaId: string
-  clienteId: string
-  servicioId: string
-  creadoPorId?: string | null
-  tecnicoId?: string | null
-  direccionId?: string | null
-  direccionTexto: string
-  piso?: string | null
-  bloque?: string | null
-  unidad?: string | null
-  barrio?: string | null
-  municipio?: string | null
-  departamento?: string | null
-  linkMaps?: string | null
-  zonaId?: string | null
-  vehiculoId?: string | null
-  metodoPagoId?: string | null
-  estadoServicioId: string
-  numeroOrden?: string | null
-  fechaVisita?: Date | string | null
-  horaInicio?: Date | string | null
-  horaFin?: Date | string | null
-  observacion?: string | null
-  observacionFinal?: string | null
-  nivelInfestacion?: string | null
-  condicionesHigiene?: string | null
-  condicionesLocal?: string | null
-  valorCotizado?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  valorPagado?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  valorRepuestos?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  valorRepuestosTecnico?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  facturaPath?: string | null
-  facturaElectronica?: string | null
-  comprobantePago?: string | null
-  evidenciaPath?: string | null
-  estadoPago?: $Enums.EstadoPagoOrden
-  seguimientoRevisado?: boolean | null
-  ordenPadreId?: string | null
-  createdAt?: Date | string
-  updatedAt?: Date | string
-}
-
-export type OrdenServicioUpdateWithoutTipoServicioInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  direccionTexto?: Prisma.StringFieldUpdateOperationsInput | string
-  piso?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  bloque?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  unidad?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  barrio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  municipio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  departamento?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  linkMaps?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  numeroOrden?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  fechaVisita?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  horaInicio?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  horaFin?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  observacion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  observacionFinal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  nivelInfestacion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  condicionesHigiene?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  condicionesLocal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  valorCotizado?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  valorPagado?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  valorRepuestos?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  valorRepuestosTecnico?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  facturaPath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  facturaElectronica?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  comprobantePago?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  evidenciaPath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  estadoPago?: Prisma.EnumEstadoPagoOrdenFieldUpdateOperationsInput | $Enums.EstadoPagoOrden
-  seguimientoRevisado?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  consignacionOrden?: Prisma.ConsignacionOrdenUpdateOneWithoutOrdenNestedInput
-  declaracionEfectivo?: Prisma.DeclaracionEfectivoUpdateOneWithoutOrdenNestedInput
-  geolocalizaciones?: Prisma.GeolocalizacionUpdateManyWithoutOrdenNestedInput
-  nominaDetalles?: Prisma.NominaDetalleUpdateManyWithoutOrdenNestedInput
-  cliente?: Prisma.ClienteUpdateOneRequiredWithoutOrdenesServicioNestedInput
-  creadoPor?: Prisma.TenantMembershipUpdateOneWithoutServiciosCreadosNestedInput
-  direccion?: Prisma.DireccionUpdateOneWithoutOrdenesServicioNestedInput
-  empresa?: Prisma.EmpresaUpdateOneRequiredWithoutOrdenesServicioNestedInput
-  estadoServicio?: Prisma.EstadoServicioUpdateOneRequiredWithoutOrdenesNestedInput
-  metodoPago?: Prisma.MetodoPagoUpdateOneWithoutOrdenesNestedInput
-  ordenPadre?: Prisma.OrdenServicioUpdateOneWithoutOrdenesHijasNestedInput
-  ordenesHijas?: Prisma.OrdenServicioUpdateManyWithoutOrdenPadreNestedInput
-  servicio?: Prisma.ServicioUpdateOneRequiredWithoutOrdenesNestedInput
-  tecnico?: Prisma.TenantMembershipUpdateOneWithoutServiciosAsignadosNestedInput
-  tenant?: Prisma.TenantUpdateOneRequiredWithoutOrdenesServicioNestedInput
-  vehiculo?: Prisma.VehiculoUpdateOneWithoutOrdenesServicioNestedInput
-  zona?: Prisma.ZonaUpdateOneWithoutOrdenesNestedInput
-}
-
-export type OrdenServicioUncheckedUpdateWithoutTipoServicioInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  tenantId?: Prisma.StringFieldUpdateOperationsInput | string
-  empresaId?: Prisma.StringFieldUpdateOperationsInput | string
-  clienteId?: Prisma.StringFieldUpdateOperationsInput | string
-  servicioId?: Prisma.StringFieldUpdateOperationsInput | string
-  creadoPorId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  tecnicoId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  direccionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  direccionTexto?: Prisma.StringFieldUpdateOperationsInput | string
-  piso?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  bloque?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  unidad?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  barrio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  municipio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  departamento?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  linkMaps?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  zonaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  vehiculoId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  metodoPagoId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  estadoServicioId?: Prisma.StringFieldUpdateOperationsInput | string
-  numeroOrden?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  fechaVisita?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  horaInicio?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  horaFin?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  observacion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  observacionFinal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  nivelInfestacion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  condicionesHigiene?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  condicionesLocal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  valorCotizado?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  valorPagado?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  valorRepuestos?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  valorRepuestosTecnico?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  facturaPath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  facturaElectronica?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  comprobantePago?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  evidenciaPath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  estadoPago?: Prisma.EnumEstadoPagoOrdenFieldUpdateOperationsInput | $Enums.EstadoPagoOrden
-  seguimientoRevisado?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  ordenPadreId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  consignacionOrden?: Prisma.ConsignacionOrdenUncheckedUpdateOneWithoutOrdenNestedInput
-  declaracionEfectivo?: Prisma.DeclaracionEfectivoUncheckedUpdateOneWithoutOrdenNestedInput
-  geolocalizaciones?: Prisma.GeolocalizacionUncheckedUpdateManyWithoutOrdenNestedInput
-  nominaDetalles?: Prisma.NominaDetalleUncheckedUpdateManyWithoutOrdenNestedInput
-  ordenesHijas?: Prisma.OrdenServicioUncheckedUpdateManyWithoutOrdenPadreNestedInput
-}
-
-export type OrdenServicioUncheckedUpdateManyWithoutTipoServicioInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  tenantId?: Prisma.StringFieldUpdateOperationsInput | string
-  empresaId?: Prisma.StringFieldUpdateOperationsInput | string
-  clienteId?: Prisma.StringFieldUpdateOperationsInput | string
-  servicioId?: Prisma.StringFieldUpdateOperationsInput | string
-  creadoPorId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  tecnicoId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  direccionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  direccionTexto?: Prisma.StringFieldUpdateOperationsInput | string
-  piso?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  bloque?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  unidad?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  barrio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  municipio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  departamento?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  linkMaps?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  zonaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  vehiculoId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  metodoPagoId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  estadoServicioId?: Prisma.StringFieldUpdateOperationsInput | string
-  numeroOrden?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  fechaVisita?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  horaInicio?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  horaFin?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  observacion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  observacionFinal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  nivelInfestacion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  nivelInfestacion?: Prisma.NullableEnumNivelInfestacionFieldUpdateOperationsInput | $Enums.NivelInfestacion | null
+  urgencia?: Prisma.NullableEnumUrgenciaOrdenFieldUpdateOperationsInput | $Enums.UrgenciaOrden | null
+  tipoVisita?: Prisma.NullableEnumTipoVisitaFieldUpdateOperationsInput | $Enums.TipoVisita | null
+  frecuenciaSugerida?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  tipoFacturacion?: Prisma.NullableEnumTipoFacturacionFieldUpdateOperationsInput | $Enums.TipoFacturacion | null
   condicionesHigiene?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   condicionesLocal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   valorCotizado?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -6592,7 +6563,6 @@ export type OrdenServicioCreateManyMetodoPagoInput = {
   municipio?: string | null
   departamento?: string | null
   linkMaps?: string | null
-  tipoServicioId?: string | null
   zonaId?: string | null
   vehiculoId?: string | null
   estadoServicioId: string
@@ -6602,7 +6572,11 @@ export type OrdenServicioCreateManyMetodoPagoInput = {
   horaFin?: Date | string | null
   observacion?: string | null
   observacionFinal?: string | null
-  nivelInfestacion?: string | null
+  nivelInfestacion?: $Enums.NivelInfestacion | null
+  urgencia?: $Enums.UrgenciaOrden | null
+  tipoVisita?: $Enums.TipoVisita | null
+  frecuenciaSugerida?: number | null
+  tipoFacturacion?: $Enums.TipoFacturacion | null
   condicionesHigiene?: string | null
   condicionesLocal?: string | null
   valorCotizado?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -6636,7 +6610,11 @@ export type OrdenServicioUpdateWithoutMetodoPagoInput = {
   horaFin?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   observacion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   observacionFinal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  nivelInfestacion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  nivelInfestacion?: Prisma.NullableEnumNivelInfestacionFieldUpdateOperationsInput | $Enums.NivelInfestacion | null
+  urgencia?: Prisma.NullableEnumUrgenciaOrdenFieldUpdateOperationsInput | $Enums.UrgenciaOrden | null
+  tipoVisita?: Prisma.NullableEnumTipoVisitaFieldUpdateOperationsInput | $Enums.TipoVisita | null
+  frecuenciaSugerida?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  tipoFacturacion?: Prisma.NullableEnumTipoFacturacionFieldUpdateOperationsInput | $Enums.TipoFacturacion | null
   condicionesHigiene?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   condicionesLocal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   valorCotizado?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -6665,7 +6643,6 @@ export type OrdenServicioUpdateWithoutMetodoPagoInput = {
   servicio?: Prisma.ServicioUpdateOneRequiredWithoutOrdenesNestedInput
   tecnico?: Prisma.TenantMembershipUpdateOneWithoutServiciosAsignadosNestedInput
   tenant?: Prisma.TenantUpdateOneRequiredWithoutOrdenesServicioNestedInput
-  tipoServicio?: Prisma.TipoServicioUpdateOneWithoutOrdenesNestedInput
   vehiculo?: Prisma.VehiculoUpdateOneWithoutOrdenesServicioNestedInput
   zona?: Prisma.ZonaUpdateOneWithoutOrdenesNestedInput
 }
@@ -6687,7 +6664,6 @@ export type OrdenServicioUncheckedUpdateWithoutMetodoPagoInput = {
   municipio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   departamento?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   linkMaps?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  tipoServicioId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   zonaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   vehiculoId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   estadoServicioId?: Prisma.StringFieldUpdateOperationsInput | string
@@ -6697,7 +6673,11 @@ export type OrdenServicioUncheckedUpdateWithoutMetodoPagoInput = {
   horaFin?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   observacion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   observacionFinal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  nivelInfestacion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  nivelInfestacion?: Prisma.NullableEnumNivelInfestacionFieldUpdateOperationsInput | $Enums.NivelInfestacion | null
+  urgencia?: Prisma.NullableEnumUrgenciaOrdenFieldUpdateOperationsInput | $Enums.UrgenciaOrden | null
+  tipoVisita?: Prisma.NullableEnumTipoVisitaFieldUpdateOperationsInput | $Enums.TipoVisita | null
+  frecuenciaSugerida?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  tipoFacturacion?: Prisma.NullableEnumTipoFacturacionFieldUpdateOperationsInput | $Enums.TipoFacturacion | null
   condicionesHigiene?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   condicionesLocal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   valorCotizado?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -6737,7 +6717,6 @@ export type OrdenServicioUncheckedUpdateManyWithoutMetodoPagoInput = {
   municipio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   departamento?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   linkMaps?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  tipoServicioId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   zonaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   vehiculoId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   estadoServicioId?: Prisma.StringFieldUpdateOperationsInput | string
@@ -6747,7 +6726,11 @@ export type OrdenServicioUncheckedUpdateManyWithoutMetodoPagoInput = {
   horaFin?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   observacion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   observacionFinal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  nivelInfestacion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  nivelInfestacion?: Prisma.NullableEnumNivelInfestacionFieldUpdateOperationsInput | $Enums.NivelInfestacion | null
+  urgencia?: Prisma.NullableEnumUrgenciaOrdenFieldUpdateOperationsInput | $Enums.UrgenciaOrden | null
+  tipoVisita?: Prisma.NullableEnumTipoVisitaFieldUpdateOperationsInput | $Enums.TipoVisita | null
+  frecuenciaSugerida?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  tipoFacturacion?: Prisma.NullableEnumTipoFacturacionFieldUpdateOperationsInput | $Enums.TipoFacturacion | null
   condicionesHigiene?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   condicionesLocal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   valorCotizado?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -6782,7 +6765,6 @@ export type OrdenServicioCreateManyEstadoServicioInput = {
   municipio?: string | null
   departamento?: string | null
   linkMaps?: string | null
-  tipoServicioId?: string | null
   zonaId?: string | null
   vehiculoId?: string | null
   metodoPagoId?: string | null
@@ -6792,7 +6774,11 @@ export type OrdenServicioCreateManyEstadoServicioInput = {
   horaFin?: Date | string | null
   observacion?: string | null
   observacionFinal?: string | null
-  nivelInfestacion?: string | null
+  nivelInfestacion?: $Enums.NivelInfestacion | null
+  urgencia?: $Enums.UrgenciaOrden | null
+  tipoVisita?: $Enums.TipoVisita | null
+  frecuenciaSugerida?: number | null
+  tipoFacturacion?: $Enums.TipoFacturacion | null
   condicionesHigiene?: string | null
   condicionesLocal?: string | null
   valorCotizado?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -6826,7 +6812,11 @@ export type OrdenServicioUpdateWithoutEstadoServicioInput = {
   horaFin?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   observacion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   observacionFinal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  nivelInfestacion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  nivelInfestacion?: Prisma.NullableEnumNivelInfestacionFieldUpdateOperationsInput | $Enums.NivelInfestacion | null
+  urgencia?: Prisma.NullableEnumUrgenciaOrdenFieldUpdateOperationsInput | $Enums.UrgenciaOrden | null
+  tipoVisita?: Prisma.NullableEnumTipoVisitaFieldUpdateOperationsInput | $Enums.TipoVisita | null
+  frecuenciaSugerida?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  tipoFacturacion?: Prisma.NullableEnumTipoFacturacionFieldUpdateOperationsInput | $Enums.TipoFacturacion | null
   condicionesHigiene?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   condicionesLocal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   valorCotizado?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -6855,7 +6845,6 @@ export type OrdenServicioUpdateWithoutEstadoServicioInput = {
   servicio?: Prisma.ServicioUpdateOneRequiredWithoutOrdenesNestedInput
   tecnico?: Prisma.TenantMembershipUpdateOneWithoutServiciosAsignadosNestedInput
   tenant?: Prisma.TenantUpdateOneRequiredWithoutOrdenesServicioNestedInput
-  tipoServicio?: Prisma.TipoServicioUpdateOneWithoutOrdenesNestedInput
   vehiculo?: Prisma.VehiculoUpdateOneWithoutOrdenesServicioNestedInput
   zona?: Prisma.ZonaUpdateOneWithoutOrdenesNestedInput
 }
@@ -6877,7 +6866,6 @@ export type OrdenServicioUncheckedUpdateWithoutEstadoServicioInput = {
   municipio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   departamento?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   linkMaps?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  tipoServicioId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   zonaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   vehiculoId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   metodoPagoId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -6887,7 +6875,11 @@ export type OrdenServicioUncheckedUpdateWithoutEstadoServicioInput = {
   horaFin?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   observacion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   observacionFinal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  nivelInfestacion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  nivelInfestacion?: Prisma.NullableEnumNivelInfestacionFieldUpdateOperationsInput | $Enums.NivelInfestacion | null
+  urgencia?: Prisma.NullableEnumUrgenciaOrdenFieldUpdateOperationsInput | $Enums.UrgenciaOrden | null
+  tipoVisita?: Prisma.NullableEnumTipoVisitaFieldUpdateOperationsInput | $Enums.TipoVisita | null
+  frecuenciaSugerida?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  tipoFacturacion?: Prisma.NullableEnumTipoFacturacionFieldUpdateOperationsInput | $Enums.TipoFacturacion | null
   condicionesHigiene?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   condicionesLocal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   valorCotizado?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -6927,7 +6919,6 @@ export type OrdenServicioUncheckedUpdateManyWithoutEstadoServicioInput = {
   municipio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   departamento?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   linkMaps?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  tipoServicioId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   zonaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   vehiculoId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   metodoPagoId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -6937,7 +6928,11 @@ export type OrdenServicioUncheckedUpdateManyWithoutEstadoServicioInput = {
   horaFin?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   observacion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   observacionFinal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  nivelInfestacion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  nivelInfestacion?: Prisma.NullableEnumNivelInfestacionFieldUpdateOperationsInput | $Enums.NivelInfestacion | null
+  urgencia?: Prisma.NullableEnumUrgenciaOrdenFieldUpdateOperationsInput | $Enums.UrgenciaOrden | null
+  tipoVisita?: Prisma.NullableEnumTipoVisitaFieldUpdateOperationsInput | $Enums.TipoVisita | null
+  frecuenciaSugerida?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  tipoFacturacion?: Prisma.NullableEnumTipoFacturacionFieldUpdateOperationsInput | $Enums.TipoFacturacion | null
   condicionesHigiene?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   condicionesLocal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   valorCotizado?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -6972,7 +6967,6 @@ export type OrdenServicioCreateManyOrdenPadreInput = {
   municipio?: string | null
   departamento?: string | null
   linkMaps?: string | null
-  tipoServicioId?: string | null
   zonaId?: string | null
   vehiculoId?: string | null
   metodoPagoId?: string | null
@@ -6983,7 +6977,11 @@ export type OrdenServicioCreateManyOrdenPadreInput = {
   horaFin?: Date | string | null
   observacion?: string | null
   observacionFinal?: string | null
-  nivelInfestacion?: string | null
+  nivelInfestacion?: $Enums.NivelInfestacion | null
+  urgencia?: $Enums.UrgenciaOrden | null
+  tipoVisita?: $Enums.TipoVisita | null
+  frecuenciaSugerida?: number | null
+  tipoFacturacion?: $Enums.TipoFacturacion | null
   condicionesHigiene?: string | null
   condicionesLocal?: string | null
   valorCotizado?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -7016,7 +7014,11 @@ export type OrdenServicioUpdateWithoutOrdenPadreInput = {
   horaFin?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   observacion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   observacionFinal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  nivelInfestacion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  nivelInfestacion?: Prisma.NullableEnumNivelInfestacionFieldUpdateOperationsInput | $Enums.NivelInfestacion | null
+  urgencia?: Prisma.NullableEnumUrgenciaOrdenFieldUpdateOperationsInput | $Enums.UrgenciaOrden | null
+  tipoVisita?: Prisma.NullableEnumTipoVisitaFieldUpdateOperationsInput | $Enums.TipoVisita | null
+  frecuenciaSugerida?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  tipoFacturacion?: Prisma.NullableEnumTipoFacturacionFieldUpdateOperationsInput | $Enums.TipoFacturacion | null
   condicionesHigiene?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   condicionesLocal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   valorCotizado?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -7045,7 +7047,6 @@ export type OrdenServicioUpdateWithoutOrdenPadreInput = {
   servicio?: Prisma.ServicioUpdateOneRequiredWithoutOrdenesNestedInput
   tecnico?: Prisma.TenantMembershipUpdateOneWithoutServiciosAsignadosNestedInput
   tenant?: Prisma.TenantUpdateOneRequiredWithoutOrdenesServicioNestedInput
-  tipoServicio?: Prisma.TipoServicioUpdateOneWithoutOrdenesNestedInput
   vehiculo?: Prisma.VehiculoUpdateOneWithoutOrdenesServicioNestedInput
   zona?: Prisma.ZonaUpdateOneWithoutOrdenesNestedInput
 }
@@ -7067,7 +7068,6 @@ export type OrdenServicioUncheckedUpdateWithoutOrdenPadreInput = {
   municipio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   departamento?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   linkMaps?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  tipoServicioId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   zonaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   vehiculoId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   metodoPagoId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -7078,7 +7078,11 @@ export type OrdenServicioUncheckedUpdateWithoutOrdenPadreInput = {
   horaFin?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   observacion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   observacionFinal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  nivelInfestacion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  nivelInfestacion?: Prisma.NullableEnumNivelInfestacionFieldUpdateOperationsInput | $Enums.NivelInfestacion | null
+  urgencia?: Prisma.NullableEnumUrgenciaOrdenFieldUpdateOperationsInput | $Enums.UrgenciaOrden | null
+  tipoVisita?: Prisma.NullableEnumTipoVisitaFieldUpdateOperationsInput | $Enums.TipoVisita | null
+  frecuenciaSugerida?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  tipoFacturacion?: Prisma.NullableEnumTipoFacturacionFieldUpdateOperationsInput | $Enums.TipoFacturacion | null
   condicionesHigiene?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   condicionesLocal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   valorCotizado?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -7117,7 +7121,6 @@ export type OrdenServicioUncheckedUpdateManyWithoutOrdenPadreInput = {
   municipio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   departamento?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   linkMaps?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  tipoServicioId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   zonaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   vehiculoId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   metodoPagoId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -7128,7 +7131,11 @@ export type OrdenServicioUncheckedUpdateManyWithoutOrdenPadreInput = {
   horaFin?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   observacion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   observacionFinal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  nivelInfestacion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  nivelInfestacion?: Prisma.NullableEnumNivelInfestacionFieldUpdateOperationsInput | $Enums.NivelInfestacion | null
+  urgencia?: Prisma.NullableEnumUrgenciaOrdenFieldUpdateOperationsInput | $Enums.UrgenciaOrden | null
+  tipoVisita?: Prisma.NullableEnumTipoVisitaFieldUpdateOperationsInput | $Enums.TipoVisita | null
+  frecuenciaSugerida?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  tipoFacturacion?: Prisma.NullableEnumTipoFacturacionFieldUpdateOperationsInput | $Enums.TipoFacturacion | null
   condicionesHigiene?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   condicionesLocal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   valorCotizado?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -7211,7 +7218,6 @@ export type OrdenServicioSelect<ExtArgs extends runtime.Types.Extensions.Interna
   municipio?: boolean
   departamento?: boolean
   linkMaps?: boolean
-  tipoServicioId?: boolean
   zonaId?: boolean
   vehiculoId?: boolean
   metodoPagoId?: boolean
@@ -7223,6 +7229,10 @@ export type OrdenServicioSelect<ExtArgs extends runtime.Types.Extensions.Interna
   observacion?: boolean
   observacionFinal?: boolean
   nivelInfestacion?: boolean
+  urgencia?: boolean
+  tipoVisita?: boolean
+  frecuenciaSugerida?: boolean
+  tipoFacturacion?: boolean
   condicionesHigiene?: boolean
   condicionesLocal?: boolean
   valorCotizado?: boolean
@@ -7253,7 +7263,6 @@ export type OrdenServicioSelect<ExtArgs extends runtime.Types.Extensions.Interna
   servicio?: boolean | Prisma.ServicioDefaultArgs<ExtArgs>
   tecnico?: boolean | Prisma.OrdenServicio$tecnicoArgs<ExtArgs>
   tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
-  tipoServicio?: boolean | Prisma.OrdenServicio$tipoServicioArgs<ExtArgs>
   vehiculo?: boolean | Prisma.OrdenServicio$vehiculoArgs<ExtArgs>
   zona?: boolean | Prisma.OrdenServicio$zonaArgs<ExtArgs>
   _count?: boolean | Prisma.OrdenServicioCountOutputTypeDefaultArgs<ExtArgs>
@@ -7276,7 +7285,6 @@ export type OrdenServicioSelectCreateManyAndReturn<ExtArgs extends runtime.Types
   municipio?: boolean
   departamento?: boolean
   linkMaps?: boolean
-  tipoServicioId?: boolean
   zonaId?: boolean
   vehiculoId?: boolean
   metodoPagoId?: boolean
@@ -7288,6 +7296,10 @@ export type OrdenServicioSelectCreateManyAndReturn<ExtArgs extends runtime.Types
   observacion?: boolean
   observacionFinal?: boolean
   nivelInfestacion?: boolean
+  urgencia?: boolean
+  tipoVisita?: boolean
+  frecuenciaSugerida?: boolean
+  tipoFacturacion?: boolean
   condicionesHigiene?: boolean
   condicionesLocal?: boolean
   valorCotizado?: boolean
@@ -7313,7 +7325,6 @@ export type OrdenServicioSelectCreateManyAndReturn<ExtArgs extends runtime.Types
   servicio?: boolean | Prisma.ServicioDefaultArgs<ExtArgs>
   tecnico?: boolean | Prisma.OrdenServicio$tecnicoArgs<ExtArgs>
   tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
-  tipoServicio?: boolean | Prisma.OrdenServicio$tipoServicioArgs<ExtArgs>
   vehiculo?: boolean | Prisma.OrdenServicio$vehiculoArgs<ExtArgs>
   zona?: boolean | Prisma.OrdenServicio$zonaArgs<ExtArgs>
 }, ExtArgs["result"]["ordenServicio"]>
@@ -7335,7 +7346,6 @@ export type OrdenServicioSelectUpdateManyAndReturn<ExtArgs extends runtime.Types
   municipio?: boolean
   departamento?: boolean
   linkMaps?: boolean
-  tipoServicioId?: boolean
   zonaId?: boolean
   vehiculoId?: boolean
   metodoPagoId?: boolean
@@ -7347,6 +7357,10 @@ export type OrdenServicioSelectUpdateManyAndReturn<ExtArgs extends runtime.Types
   observacion?: boolean
   observacionFinal?: boolean
   nivelInfestacion?: boolean
+  urgencia?: boolean
+  tipoVisita?: boolean
+  frecuenciaSugerida?: boolean
+  tipoFacturacion?: boolean
   condicionesHigiene?: boolean
   condicionesLocal?: boolean
   valorCotizado?: boolean
@@ -7372,7 +7386,6 @@ export type OrdenServicioSelectUpdateManyAndReturn<ExtArgs extends runtime.Types
   servicio?: boolean | Prisma.ServicioDefaultArgs<ExtArgs>
   tecnico?: boolean | Prisma.OrdenServicio$tecnicoArgs<ExtArgs>
   tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
-  tipoServicio?: boolean | Prisma.OrdenServicio$tipoServicioArgs<ExtArgs>
   vehiculo?: boolean | Prisma.OrdenServicio$vehiculoArgs<ExtArgs>
   zona?: boolean | Prisma.OrdenServicio$zonaArgs<ExtArgs>
 }, ExtArgs["result"]["ordenServicio"]>
@@ -7394,7 +7407,6 @@ export type OrdenServicioSelectScalar = {
   municipio?: boolean
   departamento?: boolean
   linkMaps?: boolean
-  tipoServicioId?: boolean
   zonaId?: boolean
   vehiculoId?: boolean
   metodoPagoId?: boolean
@@ -7406,6 +7418,10 @@ export type OrdenServicioSelectScalar = {
   observacion?: boolean
   observacionFinal?: boolean
   nivelInfestacion?: boolean
+  urgencia?: boolean
+  tipoVisita?: boolean
+  frecuenciaSugerida?: boolean
+  tipoFacturacion?: boolean
   condicionesHigiene?: boolean
   condicionesLocal?: boolean
   valorCotizado?: boolean
@@ -7423,7 +7439,7 @@ export type OrdenServicioSelectScalar = {
   updatedAt?: boolean
 }
 
-export type OrdenServicioOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "tenantId" | "empresaId" | "clienteId" | "servicioId" | "creadoPorId" | "tecnicoId" | "direccionId" | "direccionTexto" | "piso" | "bloque" | "unidad" | "barrio" | "municipio" | "departamento" | "linkMaps" | "tipoServicioId" | "zonaId" | "vehiculoId" | "metodoPagoId" | "estadoServicioId" | "numeroOrden" | "fechaVisita" | "horaInicio" | "horaFin" | "observacion" | "observacionFinal" | "nivelInfestacion" | "condicionesHigiene" | "condicionesLocal" | "valorCotizado" | "valorPagado" | "valorRepuestos" | "valorRepuestosTecnico" | "facturaPath" | "facturaElectronica" | "comprobantePago" | "evidenciaPath" | "estadoPago" | "seguimientoRevisado" | "ordenPadreId" | "createdAt" | "updatedAt", ExtArgs["result"]["ordenServicio"]>
+export type OrdenServicioOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "tenantId" | "empresaId" | "clienteId" | "servicioId" | "creadoPorId" | "tecnicoId" | "direccionId" | "direccionTexto" | "piso" | "bloque" | "unidad" | "barrio" | "municipio" | "departamento" | "linkMaps" | "zonaId" | "vehiculoId" | "metodoPagoId" | "estadoServicioId" | "numeroOrden" | "fechaVisita" | "horaInicio" | "horaFin" | "observacion" | "observacionFinal" | "nivelInfestacion" | "urgencia" | "tipoVisita" | "frecuenciaSugerida" | "tipoFacturacion" | "condicionesHigiene" | "condicionesLocal" | "valorCotizado" | "valorPagado" | "valorRepuestos" | "valorRepuestosTecnico" | "facturaPath" | "facturaElectronica" | "comprobantePago" | "evidenciaPath" | "estadoPago" | "seguimientoRevisado" | "ordenPadreId" | "createdAt" | "updatedAt", ExtArgs["result"]["ordenServicio"]>
 export type OrdenServicioInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   consignacionOrden?: boolean | Prisma.OrdenServicio$consignacionOrdenArgs<ExtArgs>
   declaracionEfectivo?: boolean | Prisma.OrdenServicio$declaracionEfectivoArgs<ExtArgs>
@@ -7440,7 +7456,6 @@ export type OrdenServicioInclude<ExtArgs extends runtime.Types.Extensions.Intern
   servicio?: boolean | Prisma.ServicioDefaultArgs<ExtArgs>
   tecnico?: boolean | Prisma.OrdenServicio$tecnicoArgs<ExtArgs>
   tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
-  tipoServicio?: boolean | Prisma.OrdenServicio$tipoServicioArgs<ExtArgs>
   vehiculo?: boolean | Prisma.OrdenServicio$vehiculoArgs<ExtArgs>
   zona?: boolean | Prisma.OrdenServicio$zonaArgs<ExtArgs>
   _count?: boolean | Prisma.OrdenServicioCountOutputTypeDefaultArgs<ExtArgs>
@@ -7456,7 +7471,6 @@ export type OrdenServicioIncludeCreateManyAndReturn<ExtArgs extends runtime.Type
   servicio?: boolean | Prisma.ServicioDefaultArgs<ExtArgs>
   tecnico?: boolean | Prisma.OrdenServicio$tecnicoArgs<ExtArgs>
   tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
-  tipoServicio?: boolean | Prisma.OrdenServicio$tipoServicioArgs<ExtArgs>
   vehiculo?: boolean | Prisma.OrdenServicio$vehiculoArgs<ExtArgs>
   zona?: boolean | Prisma.OrdenServicio$zonaArgs<ExtArgs>
 }
@@ -7471,7 +7485,6 @@ export type OrdenServicioIncludeUpdateManyAndReturn<ExtArgs extends runtime.Type
   servicio?: boolean | Prisma.ServicioDefaultArgs<ExtArgs>
   tecnico?: boolean | Prisma.OrdenServicio$tecnicoArgs<ExtArgs>
   tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
-  tipoServicio?: boolean | Prisma.OrdenServicio$tipoServicioArgs<ExtArgs>
   vehiculo?: boolean | Prisma.OrdenServicio$vehiculoArgs<ExtArgs>
   zona?: boolean | Prisma.OrdenServicio$zonaArgs<ExtArgs>
 }
@@ -7494,7 +7507,6 @@ export type $OrdenServicioPayload<ExtArgs extends runtime.Types.Extensions.Inter
     servicio: Prisma.$ServicioPayload<ExtArgs>
     tecnico: Prisma.$TenantMembershipPayload<ExtArgs> | null
     tenant: Prisma.$TenantPayload<ExtArgs>
-    tipoServicio: Prisma.$TipoServicioPayload<ExtArgs> | null
     vehiculo: Prisma.$VehiculoPayload<ExtArgs> | null
     zona: Prisma.$ZonaPayload<ExtArgs> | null
   }
@@ -7515,7 +7527,6 @@ export type $OrdenServicioPayload<ExtArgs extends runtime.Types.Extensions.Inter
     municipio: string | null
     departamento: string | null
     linkMaps: string | null
-    tipoServicioId: string | null
     zonaId: string | null
     vehiculoId: string | null
     metodoPagoId: string | null
@@ -7526,7 +7537,11 @@ export type $OrdenServicioPayload<ExtArgs extends runtime.Types.Extensions.Inter
     horaFin: Date | null
     observacion: string | null
     observacionFinal: string | null
-    nivelInfestacion: string | null
+    nivelInfestacion: $Enums.NivelInfestacion | null
+    urgencia: $Enums.UrgenciaOrden | null
+    tipoVisita: $Enums.TipoVisita | null
+    frecuenciaSugerida: number | null
+    tipoFacturacion: $Enums.TipoFacturacion | null
     condicionesHigiene: string | null
     condicionesLocal: string | null
     valorCotizado: runtime.Decimal | null
@@ -7951,7 +7966,6 @@ export interface Prisma__OrdenServicioClient<T, Null = never, ExtArgs extends ru
   servicio<T extends Prisma.ServicioDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.ServicioDefaultArgs<ExtArgs>>): Prisma.Prisma__ServicioClient<runtime.Types.Result.GetResult<Prisma.$ServicioPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   tecnico<T extends Prisma.OrdenServicio$tecnicoArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.OrdenServicio$tecnicoArgs<ExtArgs>>): Prisma.Prisma__TenantMembershipClient<runtime.Types.Result.GetResult<Prisma.$TenantMembershipPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   tenant<T extends Prisma.TenantDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.TenantDefaultArgs<ExtArgs>>): Prisma.Prisma__TenantClient<runtime.Types.Result.GetResult<Prisma.$TenantPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
-  tipoServicio<T extends Prisma.OrdenServicio$tipoServicioArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.OrdenServicio$tipoServicioArgs<ExtArgs>>): Prisma.Prisma__TipoServicioClient<runtime.Types.Result.GetResult<Prisma.$TipoServicioPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   vehiculo<T extends Prisma.OrdenServicio$vehiculoArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.OrdenServicio$vehiculoArgs<ExtArgs>>): Prisma.Prisma__VehiculoClient<runtime.Types.Result.GetResult<Prisma.$VehiculoPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   zona<T extends Prisma.OrdenServicio$zonaArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.OrdenServicio$zonaArgs<ExtArgs>>): Prisma.Prisma__ZonaClient<runtime.Types.Result.GetResult<Prisma.$ZonaPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   /**
@@ -7999,7 +8013,6 @@ export interface OrdenServicioFieldRefs {
   readonly municipio: Prisma.FieldRef<"OrdenServicio", 'String'>
   readonly departamento: Prisma.FieldRef<"OrdenServicio", 'String'>
   readonly linkMaps: Prisma.FieldRef<"OrdenServicio", 'String'>
-  readonly tipoServicioId: Prisma.FieldRef<"OrdenServicio", 'String'>
   readonly zonaId: Prisma.FieldRef<"OrdenServicio", 'String'>
   readonly vehiculoId: Prisma.FieldRef<"OrdenServicio", 'String'>
   readonly metodoPagoId: Prisma.FieldRef<"OrdenServicio", 'String'>
@@ -8010,7 +8023,11 @@ export interface OrdenServicioFieldRefs {
   readonly horaFin: Prisma.FieldRef<"OrdenServicio", 'DateTime'>
   readonly observacion: Prisma.FieldRef<"OrdenServicio", 'String'>
   readonly observacionFinal: Prisma.FieldRef<"OrdenServicio", 'String'>
-  readonly nivelInfestacion: Prisma.FieldRef<"OrdenServicio", 'String'>
+  readonly nivelInfestacion: Prisma.FieldRef<"OrdenServicio", 'NivelInfestacion'>
+  readonly urgencia: Prisma.FieldRef<"OrdenServicio", 'UrgenciaOrden'>
+  readonly tipoVisita: Prisma.FieldRef<"OrdenServicio", 'TipoVisita'>
+  readonly frecuenciaSugerida: Prisma.FieldRef<"OrdenServicio", 'Int'>
+  readonly tipoFacturacion: Prisma.FieldRef<"OrdenServicio", 'TipoFacturacion'>
   readonly condicionesHigiene: Prisma.FieldRef<"OrdenServicio", 'String'>
   readonly condicionesLocal: Prisma.FieldRef<"OrdenServicio", 'String'>
   readonly valorCotizado: Prisma.FieldRef<"OrdenServicio", 'Decimal'>
@@ -8624,25 +8641,6 @@ export type OrdenServicio$tecnicoArgs<ExtArgs extends runtime.Types.Extensions.I
    */
   include?: Prisma.TenantMembershipInclude<ExtArgs> | null
   where?: Prisma.TenantMembershipWhereInput
-}
-
-/**
- * OrdenServicio.tipoServicio
- */
-export type OrdenServicio$tipoServicioArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the TipoServicio
-   */
-  select?: Prisma.TipoServicioSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the TipoServicio
-   */
-  omit?: Prisma.TipoServicioOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.TipoServicioInclude<ExtArgs> | null
-  where?: Prisma.TipoServicioWhereInput
 }
 
 /**

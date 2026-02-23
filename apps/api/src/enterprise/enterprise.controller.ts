@@ -38,10 +38,25 @@ export class EnterpriseController {
 
   @Get()
   findAll(@Request() req: { user: JwtPayload }) {
+    if (!req.user.tenantId && req.user.role !== 'SU_ADMIN') {
+      throw new UnauthorizedException('Usuario no tiene un tenant asignado');
+    }
+    return this.enterpriseService.findAll(
+      req.user.sub,
+      req.user.tenantId || '',
+      req.user.role,
+    );
+  }
+
+  @Get(':id/operators')
+  findOperators(
+    @Param('id') id: string,
+    @Request() req: { user: JwtPayload },
+  ) {
     if (!req.user.tenantId) {
       throw new UnauthorizedException('Usuario no tiene un tenant asignado');
     }
-    return this.enterpriseService.findAll(req.user.sub, req.user.tenantId);
+    return this.enterpriseService.findOperators(req.user.tenantId, id);
   }
 
   @Patch(':id')

@@ -106,78 +106,114 @@ export class EnterpriseService {
         },
       });
 
+      // Seed estados de servicio base
+      const defaultStatuses = ['PROGRAMADO', 'EN PROCESO', 'FINALIZADO', 'CANCELADO'];
+      await tx.estadoServicio.createMany({
+        data: defaultStatuses.map(nombre => ({
+          nombre,
+          tenantId,
+          empresaId: empresa.id,
+          activo: true,
+        }))
+      });
+
+      // Seed métodos de pago base
+      const defaultPayments = ['EFECTIVO', 'TRANSFERENCIA', 'QR', 'TARJETA'];
+      await tx.metodoPago.createMany({
+        data: defaultPayments.map(nombre => ({
+          nombre,
+          tenantId,
+          empresaId: empresa.id,
+          activo: true,
+        }))
+      });
+
       return empresa;
     });
   }
 
-  async findAll(userId: string, tenantId: string) {
-    if (!tenantId) {
-      throw new BadRequestException('x-tenant-id header is required.');
+  async findAll(userId: string, tenantId: string, role?: string) {
+    let enterprises: Awaited<ReturnType<typeof this.prisma.empresa.findMany>> = [];
+    let maxEmpresas = 0;
+
+    if (role === 'SU_ADMIN') {
+      enterprises = await this.prisma.empresa.findMany({
+        where: { deletedAt: null },
+        include: { tenant: true },
+      });
+    } else {
+      if (!tenantId) {
+        throw new BadRequestException('Tenant ID is required for this role.');
+      }
+
+      const membership = await this.prisma.tenantMembership.findUnique({
+        where: { userId_tenantId: { userId, tenantId } },
+      });
+
+      if (!membership || membership.status !== 'ACTIVE') {
+        throw new ForbiddenException('User is not an active member of this tenant.');
+      }
+
+      const tenant = await this.prisma.tenant.findUnique({
+        where: { id: tenantId },
+        include: { subscription: { include: { plan: true } } },
+      });
+      maxEmpresas = tenant?.subscription?.plan?.maxEmpresas || 0;
+
+      if (role === 'ADMIN') {
+        enterprises = await this.prisma.empresa.findMany({
+          where: { tenantId, deletedAt: null },
+        });
+      } else {
+        // COORDINADOR, ASESOR, etc.
+        const memberships = await this.prisma.empresaMembership.findMany({
+          where: { membershipId: membership.id, deletedAt: null },
+          include: { empresa: true },
+        });
+        enterprises = memberships.map((m) => m.empresa);
+      }
     }
 
-    const membership = await this.prisma.tenantMembership.findUnique({
+    return {
+      items: enterprises,
+      maxEmpresas,
+      count: enterprises.length,
+    };
+  }
+
+  async findOperators(tenantId: string, empresaId: string) {
+    const operators = await this.prisma.empresaMembership.findMany({
       where: {
-        userId_tenantId: {
-          userId: userId,
-          tenantId: tenantId,
+        tenantId,
+        empresaId,
+        activo: true,
+        deletedAt: null,
+        membership: {
+          role: 'OPERADOR',
+          activo: true,
         },
       },
-    });
-
-    if (!membership || membership.status !== 'ACTIVE') {
-      throw new ForbiddenException(
-        'User is not an active member of this tenant.',
-      );
-    }
-
-    const { role } = membership;
-
-    const tenant = await this.prisma.tenant.findUnique({
-      where: { id: tenantId },
       include: {
-        subscription: {
+        membership: {
           include: {
-            plan: true,
+            user: {
+              select: {
+                id: true,
+                nombre: true,
+                apellido: true,
+                email: true,
+              },
+            },
           },
         },
       },
     });
 
-    let enterprises: Awaited<ReturnType<typeof this.prisma.empresa.findMany>> =
-      [];
-
-    if (role === 'SU_ADMIN') {
-      enterprises = await this.prisma.empresa.findMany({
-        where: {
-          deletedAt: null,
-        },
-      });
-    } else if (role === 'ADMIN') {
-      enterprises = await this.prisma.empresa.findMany({
-        where: {
-          tenantId: tenantId,
-          deletedAt: null,
-        },
-      });
-    } else {
-      // COORDINADOR, ASESOR, etc.
-      const memberships = await this.prisma.empresaMembership.findMany({
-        where: {
-          membershipId: membership.id,
-          deletedAt: null,
-        },
-        include: {
-          empresa: true,
-        },
-      });
-      enterprises = memberships.map((m) => m.empresa);
-    }
-
-    return {
-      items: enterprises,
-      maxEmpresas: tenant?.subscription?.plan?.maxEmpresas || 0,
-      count: enterprises.length,
-    };
+    return operators.map((om) => ({
+      id: om.membership.id, // El ID de la membresía es el que se usa como tecnicoId
+      nombre: `${om.membership.user.nombre} ${om.membership.user.apellido}`,
+      email: om.membership.user.email,
+    }));
   }
 
   async update(

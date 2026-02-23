@@ -469,11 +469,79 @@ export type FloatNullableWithAggregatesFilter<$PrismaModel = never> = {
   _max?: Prisma.NestedFloatNullableFilter<$PrismaModel>
 }
 
+export type EnumNivelInfestacionNullableFilter<$PrismaModel = never> = {
+  equals?: $Enums.NivelInfestacion | Prisma.EnumNivelInfestacionFieldRefInput<$PrismaModel> | null
+  in?: $Enums.NivelInfestacion[] | Prisma.ListEnumNivelInfestacionFieldRefInput<$PrismaModel> | null
+  notIn?: $Enums.NivelInfestacion[] | Prisma.ListEnumNivelInfestacionFieldRefInput<$PrismaModel> | null
+  not?: Prisma.NestedEnumNivelInfestacionNullableFilter<$PrismaModel> | $Enums.NivelInfestacion | null
+}
+
+export type EnumUrgenciaOrdenNullableFilter<$PrismaModel = never> = {
+  equals?: $Enums.UrgenciaOrden | Prisma.EnumUrgenciaOrdenFieldRefInput<$PrismaModel> | null
+  in?: $Enums.UrgenciaOrden[] | Prisma.ListEnumUrgenciaOrdenFieldRefInput<$PrismaModel> | null
+  notIn?: $Enums.UrgenciaOrden[] | Prisma.ListEnumUrgenciaOrdenFieldRefInput<$PrismaModel> | null
+  not?: Prisma.NestedEnumUrgenciaOrdenNullableFilter<$PrismaModel> | $Enums.UrgenciaOrden | null
+}
+
+export type EnumTipoVisitaNullableFilter<$PrismaModel = never> = {
+  equals?: $Enums.TipoVisita | Prisma.EnumTipoVisitaFieldRefInput<$PrismaModel> | null
+  in?: $Enums.TipoVisita[] | Prisma.ListEnumTipoVisitaFieldRefInput<$PrismaModel> | null
+  notIn?: $Enums.TipoVisita[] | Prisma.ListEnumTipoVisitaFieldRefInput<$PrismaModel> | null
+  not?: Prisma.NestedEnumTipoVisitaNullableFilter<$PrismaModel> | $Enums.TipoVisita | null
+}
+
+export type EnumTipoFacturacionNullableFilter<$PrismaModel = never> = {
+  equals?: $Enums.TipoFacturacion | Prisma.EnumTipoFacturacionFieldRefInput<$PrismaModel> | null
+  in?: $Enums.TipoFacturacion[] | Prisma.ListEnumTipoFacturacionFieldRefInput<$PrismaModel> | null
+  notIn?: $Enums.TipoFacturacion[] | Prisma.ListEnumTipoFacturacionFieldRefInput<$PrismaModel> | null
+  not?: Prisma.NestedEnumTipoFacturacionNullableFilter<$PrismaModel> | $Enums.TipoFacturacion | null
+}
+
 export type EnumEstadoPagoOrdenFilter<$PrismaModel = never> = {
   equals?: $Enums.EstadoPagoOrden | Prisma.EnumEstadoPagoOrdenFieldRefInput<$PrismaModel>
   in?: $Enums.EstadoPagoOrden[] | Prisma.ListEnumEstadoPagoOrdenFieldRefInput<$PrismaModel>
   notIn?: $Enums.EstadoPagoOrden[] | Prisma.ListEnumEstadoPagoOrdenFieldRefInput<$PrismaModel>
   not?: Prisma.NestedEnumEstadoPagoOrdenFilter<$PrismaModel> | $Enums.EstadoPagoOrden
+}
+
+export type EnumNivelInfestacionNullableWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.NivelInfestacion | Prisma.EnumNivelInfestacionFieldRefInput<$PrismaModel> | null
+  in?: $Enums.NivelInfestacion[] | Prisma.ListEnumNivelInfestacionFieldRefInput<$PrismaModel> | null
+  notIn?: $Enums.NivelInfestacion[] | Prisma.ListEnumNivelInfestacionFieldRefInput<$PrismaModel> | null
+  not?: Prisma.NestedEnumNivelInfestacionNullableWithAggregatesFilter<$PrismaModel> | $Enums.NivelInfestacion | null
+  _count?: Prisma.NestedIntNullableFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumNivelInfestacionNullableFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumNivelInfestacionNullableFilter<$PrismaModel>
+}
+
+export type EnumUrgenciaOrdenNullableWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.UrgenciaOrden | Prisma.EnumUrgenciaOrdenFieldRefInput<$PrismaModel> | null
+  in?: $Enums.UrgenciaOrden[] | Prisma.ListEnumUrgenciaOrdenFieldRefInput<$PrismaModel> | null
+  notIn?: $Enums.UrgenciaOrden[] | Prisma.ListEnumUrgenciaOrdenFieldRefInput<$PrismaModel> | null
+  not?: Prisma.NestedEnumUrgenciaOrdenNullableWithAggregatesFilter<$PrismaModel> | $Enums.UrgenciaOrden | null
+  _count?: Prisma.NestedIntNullableFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumUrgenciaOrdenNullableFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumUrgenciaOrdenNullableFilter<$PrismaModel>
+}
+
+export type EnumTipoVisitaNullableWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.TipoVisita | Prisma.EnumTipoVisitaFieldRefInput<$PrismaModel> | null
+  in?: $Enums.TipoVisita[] | Prisma.ListEnumTipoVisitaFieldRefInput<$PrismaModel> | null
+  notIn?: $Enums.TipoVisita[] | Prisma.ListEnumTipoVisitaFieldRefInput<$PrismaModel> | null
+  not?: Prisma.NestedEnumTipoVisitaNullableWithAggregatesFilter<$PrismaModel> | $Enums.TipoVisita | null
+  _count?: Prisma.NestedIntNullableFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumTipoVisitaNullableFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumTipoVisitaNullableFilter<$PrismaModel>
+}
+
+export type EnumTipoFacturacionNullableWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.TipoFacturacion | Prisma.EnumTipoFacturacionFieldRefInput<$PrismaModel> | null
+  in?: $Enums.TipoFacturacion[] | Prisma.ListEnumTipoFacturacionFieldRefInput<$PrismaModel> | null
+  notIn?: $Enums.TipoFacturacion[] | Prisma.ListEnumTipoFacturacionFieldRefInput<$PrismaModel> | null
+  not?: Prisma.NestedEnumTipoFacturacionNullableWithAggregatesFilter<$PrismaModel> | $Enums.TipoFacturacion | null
+  _count?: Prisma.NestedIntNullableFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumTipoFacturacionNullableFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumTipoFacturacionNullableFilter<$PrismaModel>
 }
 
 export type EnumEstadoPagoOrdenWithAggregatesFilter<$PrismaModel = never> = {
@@ -1143,11 +1211,79 @@ export type NestedFloatNullableWithAggregatesFilter<$PrismaModel = never> = {
   _max?: Prisma.NestedFloatNullableFilter<$PrismaModel>
 }
 
+export type NestedEnumNivelInfestacionNullableFilter<$PrismaModel = never> = {
+  equals?: $Enums.NivelInfestacion | Prisma.EnumNivelInfestacionFieldRefInput<$PrismaModel> | null
+  in?: $Enums.NivelInfestacion[] | Prisma.ListEnumNivelInfestacionFieldRefInput<$PrismaModel> | null
+  notIn?: $Enums.NivelInfestacion[] | Prisma.ListEnumNivelInfestacionFieldRefInput<$PrismaModel> | null
+  not?: Prisma.NestedEnumNivelInfestacionNullableFilter<$PrismaModel> | $Enums.NivelInfestacion | null
+}
+
+export type NestedEnumUrgenciaOrdenNullableFilter<$PrismaModel = never> = {
+  equals?: $Enums.UrgenciaOrden | Prisma.EnumUrgenciaOrdenFieldRefInput<$PrismaModel> | null
+  in?: $Enums.UrgenciaOrden[] | Prisma.ListEnumUrgenciaOrdenFieldRefInput<$PrismaModel> | null
+  notIn?: $Enums.UrgenciaOrden[] | Prisma.ListEnumUrgenciaOrdenFieldRefInput<$PrismaModel> | null
+  not?: Prisma.NestedEnumUrgenciaOrdenNullableFilter<$PrismaModel> | $Enums.UrgenciaOrden | null
+}
+
+export type NestedEnumTipoVisitaNullableFilter<$PrismaModel = never> = {
+  equals?: $Enums.TipoVisita | Prisma.EnumTipoVisitaFieldRefInput<$PrismaModel> | null
+  in?: $Enums.TipoVisita[] | Prisma.ListEnumTipoVisitaFieldRefInput<$PrismaModel> | null
+  notIn?: $Enums.TipoVisita[] | Prisma.ListEnumTipoVisitaFieldRefInput<$PrismaModel> | null
+  not?: Prisma.NestedEnumTipoVisitaNullableFilter<$PrismaModel> | $Enums.TipoVisita | null
+}
+
+export type NestedEnumTipoFacturacionNullableFilter<$PrismaModel = never> = {
+  equals?: $Enums.TipoFacturacion | Prisma.EnumTipoFacturacionFieldRefInput<$PrismaModel> | null
+  in?: $Enums.TipoFacturacion[] | Prisma.ListEnumTipoFacturacionFieldRefInput<$PrismaModel> | null
+  notIn?: $Enums.TipoFacturacion[] | Prisma.ListEnumTipoFacturacionFieldRefInput<$PrismaModel> | null
+  not?: Prisma.NestedEnumTipoFacturacionNullableFilter<$PrismaModel> | $Enums.TipoFacturacion | null
+}
+
 export type NestedEnumEstadoPagoOrdenFilter<$PrismaModel = never> = {
   equals?: $Enums.EstadoPagoOrden | Prisma.EnumEstadoPagoOrdenFieldRefInput<$PrismaModel>
   in?: $Enums.EstadoPagoOrden[] | Prisma.ListEnumEstadoPagoOrdenFieldRefInput<$PrismaModel>
   notIn?: $Enums.EstadoPagoOrden[] | Prisma.ListEnumEstadoPagoOrdenFieldRefInput<$PrismaModel>
   not?: Prisma.NestedEnumEstadoPagoOrdenFilter<$PrismaModel> | $Enums.EstadoPagoOrden
+}
+
+export type NestedEnumNivelInfestacionNullableWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.NivelInfestacion | Prisma.EnumNivelInfestacionFieldRefInput<$PrismaModel> | null
+  in?: $Enums.NivelInfestacion[] | Prisma.ListEnumNivelInfestacionFieldRefInput<$PrismaModel> | null
+  notIn?: $Enums.NivelInfestacion[] | Prisma.ListEnumNivelInfestacionFieldRefInput<$PrismaModel> | null
+  not?: Prisma.NestedEnumNivelInfestacionNullableWithAggregatesFilter<$PrismaModel> | $Enums.NivelInfestacion | null
+  _count?: Prisma.NestedIntNullableFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumNivelInfestacionNullableFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumNivelInfestacionNullableFilter<$PrismaModel>
+}
+
+export type NestedEnumUrgenciaOrdenNullableWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.UrgenciaOrden | Prisma.EnumUrgenciaOrdenFieldRefInput<$PrismaModel> | null
+  in?: $Enums.UrgenciaOrden[] | Prisma.ListEnumUrgenciaOrdenFieldRefInput<$PrismaModel> | null
+  notIn?: $Enums.UrgenciaOrden[] | Prisma.ListEnumUrgenciaOrdenFieldRefInput<$PrismaModel> | null
+  not?: Prisma.NestedEnumUrgenciaOrdenNullableWithAggregatesFilter<$PrismaModel> | $Enums.UrgenciaOrden | null
+  _count?: Prisma.NestedIntNullableFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumUrgenciaOrdenNullableFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumUrgenciaOrdenNullableFilter<$PrismaModel>
+}
+
+export type NestedEnumTipoVisitaNullableWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.TipoVisita | Prisma.EnumTipoVisitaFieldRefInput<$PrismaModel> | null
+  in?: $Enums.TipoVisita[] | Prisma.ListEnumTipoVisitaFieldRefInput<$PrismaModel> | null
+  notIn?: $Enums.TipoVisita[] | Prisma.ListEnumTipoVisitaFieldRefInput<$PrismaModel> | null
+  not?: Prisma.NestedEnumTipoVisitaNullableWithAggregatesFilter<$PrismaModel> | $Enums.TipoVisita | null
+  _count?: Prisma.NestedIntNullableFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumTipoVisitaNullableFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumTipoVisitaNullableFilter<$PrismaModel>
+}
+
+export type NestedEnumTipoFacturacionNullableWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.TipoFacturacion | Prisma.EnumTipoFacturacionFieldRefInput<$PrismaModel> | null
+  in?: $Enums.TipoFacturacion[] | Prisma.ListEnumTipoFacturacionFieldRefInput<$PrismaModel> | null
+  notIn?: $Enums.TipoFacturacion[] | Prisma.ListEnumTipoFacturacionFieldRefInput<$PrismaModel> | null
+  not?: Prisma.NestedEnumTipoFacturacionNullableWithAggregatesFilter<$PrismaModel> | $Enums.TipoFacturacion | null
+  _count?: Prisma.NestedIntNullableFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumTipoFacturacionNullableFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumTipoFacturacionNullableFilter<$PrismaModel>
 }
 
 export type NestedEnumEstadoPagoOrdenWithAggregatesFilter<$PrismaModel = never> = {

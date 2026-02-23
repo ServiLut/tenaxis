@@ -1,9 +1,9 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import Link from "next/link";
 import { DashboardLayout } from "@/components/dashboard";
-import { Input, Card, CardContent, Button } from "@/components/ui";
+import { Input, Button, Skeleton } from "@/components/ui";
 import { 
   Plus, 
   Search, 
@@ -12,7 +12,7 @@ import {
   User, 
   Filter,
   ArrowUpRight,
-  MoreVertical,
+  MoreHorizontal,
   AlertCircle,
   Eye,
   Pencil,
@@ -23,9 +23,17 @@ import {
   FileSpreadsheet,
   File as FileIcon
 } from "lucide-react";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import { cn } from "@/components/ui/utils";
 import { toast } from "sonner";
 import { exportToExcel, exportToPDF, exportToWord } from "@/lib/utils/export-helper";
+import { getOrdenesServicioAction } from "../actions";
 
 interface Servicio {
   id: string;
@@ -38,57 +46,116 @@ interface Servicio {
   urgencia: string;
 }
 
-const MOCK_SERVICIOS: Servicio[] = [
-  {
-    id: "OS-2024-001",
-    cliente: "Corporativo Industrial S.A.",
-    servicioEspecifico: "Mantenimiento Preventivo Chiller",
-    fecha: "2024-05-20",
-    hora: "09:00 AM",
-    tecnico: "Carlos Ruiz",
-    estado: "Programado",
-    urgencia: "Alta",
-  },
-  {
-    id: "OS-2024-002",
-    cliente: "Residencial Las Palmas",
-    servicioEspecifico: "Reparación Split 12000 BTU",
-    fecha: "2024-05-21",
-    hora: "02:30 PM",
-    tecnico: "Ana Beltrán",
-    estado: "En Proceso",
-    urgencia: "Media",
-  },
-  {
-    id: "OS-2024-003",
-    cliente: "Centro Comercial Multiplaza",
-    servicioEspecifico: "Instalación Ductería Nivel 2",
-    fecha: "2024-05-22",
-    hora: "10:00 AM",
-    tecnico: "David López",
-    estado: "Completado",
-    urgencia: "Baja",
-  },
-];
-
 const ESTADO_STYLING: Record<string, string> = {
-  "Programado": "bg-blue-50 text-blue-600 border-blue-100 dark:bg-blue-900/20 dark:text-blue-400 dark:border-blue-800/50",
-  "En Proceso": "bg-amber-50 text-amber-600 border-amber-100 dark:bg-amber-900/20 dark:text-amber-400 dark:border-amber-800/50",
-  "Completado": "bg-emerald-50 text-emerald-600 border-emerald-100 dark:bg-emerald-900/20 dark:text-emerald-400 dark:border-emerald-800/50",
-  "Cancelado": "bg-red-50 text-red-600 border-red-100 dark:bg-red-900/20 dark:text-red-400 dark:border-red-800/50",
+  "PROGRAMADO": "bg-blue-50 text-blue-600 border-blue-100 dark:bg-blue-900/20 dark:text-blue-400 dark:border-blue-800/50",
+  "EN PROCESO": "bg-amber-50 text-amber-600 border-amber-100 dark:bg-amber-900/20 dark:text-amber-400 dark:border-amber-800/50",
+  "FINALIZADO": "bg-emerald-50 text-emerald-600 border-emerald-100 dark:bg-emerald-900/20 dark:text-emerald-400 dark:border-emerald-800/50",
+  "CANCELADO": "bg-red-50 text-red-600 border-red-100 dark:bg-red-900/20 dark:text-red-400 dark:border-red-800/50",
 };
 
 const URGENCIA_STYLING: Record<string, string> = {
-  "Alta": "bg-red-500 text-white",
-  "Media": "bg-amber-500 text-white",
-  "Baja": "bg-emerald-500 text-white",
+  "ALTA": "bg-red-500 text-white",
+  "MEDIA": "bg-amber-500 text-white",
+  "BAJA": "bg-emerald-500 text-white",
+  "CRITICA": "bg-red-700 text-white",
 };
+
+function ServiciosSkeleton() {
+  return (
+    <div className="flex-1 overflow-auto">
+      <table className="w-full text-left border-collapse">
+        <thead>
+          <tr className="border-b border-zinc-100 dark:border-zinc-800 bg-zinc-50/50 dark:bg-zinc-800/50">
+            <th className="px-8 py-6 text-[10px] font-black uppercase tracking-[0.2em] text-zinc-400">ID Orden</th>
+            <th className="px-8 py-6 text-[10px] font-black uppercase tracking-[0.2em] text-zinc-400">Cliente / Servicio</th>
+            <th className="px-8 py-6 text-[10px] font-black uppercase tracking-[0.2em] text-zinc-400">Programación</th>
+            <th className="px-8 py-6 text-[10px] font-black uppercase tracking-[0.2em] text-zinc-400">Técnico</th>
+            <th className="px-8 py-6 text-[10px] font-black uppercase tracking-[0.2em] text-zinc-400">Estado</th>
+            <th className="px-8 py-6 text-[10px] font-black uppercase tracking-[0.2em] text-zinc-400 text-right">Acciones</th>
+          </tr>
+        </thead>
+        <tbody className="divide-y divide-zinc-100 dark:divide-zinc-800">
+          {[...Array(5)].map((_, i) => (
+            <tr key={i} className="animate-pulse">
+              <td className="px-8 py-6">
+                <Skeleton className="h-8 w-24 rounded-lg" />
+              </td>
+              <td className="px-8 py-6">
+                <div className="space-y-2">
+                  <Skeleton className="h-4 w-48" />
+                  <Skeleton className="h-3 w-32" />
+                </div>
+              </td>
+              <td className="px-8 py-6">
+                <div className="space-y-2">
+                  <Skeleton className="h-3 w-24" />
+                  <Skeleton className="h-3 w-20" />
+                </div>
+              </td>
+              <td className="px-8 py-6">
+                <div className="flex items-center gap-3">
+                  <Skeleton className="h-8 w-8 rounded-lg" />
+                  <Skeleton className="h-4 w-32" />
+                </div>
+              </td>
+              <td className="px-8 py-6">
+                <Skeleton className="h-8 w-28 rounded-full" />
+              </td>
+              <td className="px-8 py-6 text-right">
+                <div className="flex justify-end gap-2">
+                  <Skeleton className="h-10 w-10 rounded-xl" />
+                  <Skeleton className="h-10 w-10 rounded-xl" />
+                </div>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  );
+}
 
 export default function ServiciosPage() {
   const [search, setSearch] = useState("");
-  const [servicios] = useState(MOCK_SERVICIOS);
-  const [openMenuId, setOpenMenuId] = useState<string | null>(null);
+  const [servicios, setServicios] = useState<Servicio[]>([]);
+  const [loading, setLoading] = useState(true);
   const [showExportMenu, setShowExportMenu] = useState(false);
+
+  const fetchServicios = useCallback(async () => {
+    setLoading(true);
+    try {
+      const empresaId = localStorage.getItem("current-enterprise-id") || undefined;
+      const data = await getOrdenesServicioAction(empresaId);
+      
+      const mapped: Servicio[] = (Array.isArray(data) ? data : []).map((os: any) => {
+        const clienteLabel = os.cliente.tipoCliente === "EMPRESA" 
+          ? (os.cliente.razonSocial || "Empresa") 
+          : `${os.cliente.nombre || ""} ${os.cliente.apellido || ""}`.trim();
+          
+        return {
+          id: os.numeroOrden || os.id.substring(0, 8).toUpperCase(),
+          cliente: clienteLabel,
+          servicioEspecifico: os.servicio?.nombre || "Servicio General",
+          fecha: os.fechaVisita ? new Date(os.fechaVisita).toLocaleDateString() : "Sin fecha",
+          hora: os.horaInicio ? new Date(os.horaInicio).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : "Sin hora",
+          tecnico: os.tecnico?.user ? `${os.tecnico.user.nombre} ${os.tecnico.user.apellido}` : "Sin asignar",
+          estado: os.estadoServicio?.nombre || "PROGRAMADO",
+          urgencia: os.urgencia || "BAJA",
+        };
+      });
+      
+      setServicios(mapped);
+    } catch (error) {
+      console.error("Error loading services", error);
+      toast.error("Error al cargar las órdenes de servicio");
+    } finally {
+      setLoading(false);
+    }
+  }, []);
+
+  useEffect(() => {
+    fetchServicios();
+  }, [fetchServicios]);
 
   const filteredServicios = servicios.filter((s: Servicio) => 
     s.cliente.toLowerCase().includes(search.toLowerCase()) ||
@@ -135,37 +202,47 @@ export default function ServiciosPage() {
   };
 
   return (
-    <DashboardLayout>
-      <div className="space-y-10" onClick={() => setOpenMenuId(null)}>
-        {/* Header Section */}
-        <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
-          <div className="space-y-1">
-            <h1 className="text-4xl font-black tracking-tighter text-zinc-900 dark:text-zinc-50">
-              Órdenes de Servicio
-            </h1>
-            <p className="text-zinc-500 font-medium italic">
-              Control operativo y trazabilidad de servicios técnicos.
-            </p>
+    <DashboardLayout overflowHidden>
+      <div className="flex flex-col h-full">
+        {/* Sub-Header Estratégico */}
+        <div className="shrink-0 py-10 px-6 lg:px-10 border-b border-zinc-200/60 dark:border-zinc-800/50 mb-8 bg-gray-50 dark:bg-zinc-900/50">
+          <div className="max-w-[1600px] mx-auto w-full flex flex-col md:flex-row md:items-center gap-6">
+            <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-azul-1 text-white shadow-xl shadow-azul-1/20">
+              <FileText className="h-5 w-5" />
+            </div>
+            <div>
+              <h1 className="text-2xl lg:text-3xl font-black tracking-tight text-zinc-900 dark:text-zinc-50">
+                Órdenes de <span className="text-azul-1 dark:text-claro-azul-4">Servicio</span>
+              </h1>
+              <p className="text-zinc-500 font-medium mt-1">
+                Control operativo y trazabilidad de servicios técnicos.
+              </p>
+            </div>
           </div>
         </div>
 
-        {/* Search & Actions */}
-        <div className="flex flex-col gap-6 sm:flex-row sm:items-center sm:justify-between bg-white dark:bg-zinc-900 p-6 rounded-[2.5rem] shadow-2xl shadow-zinc-200/50 dark:shadow-none border border-zinc-100 dark:border-zinc-800">
-          <div className="relative flex-1 max-w-md">
-            <Search className="absolute left-4 top-1/2 h-5 w-5 -translate-y-1/2 text-zinc-400" />
-            <Input 
-              placeholder="Buscar por ID, cliente o servicio..." 
-              className="h-12 pl-12 rounded-2xl border-none bg-zinc-50 dark:bg-zinc-800"
-              value={search}
-              onChange={(e) => setSearch(e.target.value)}
-            />
+        {/* Contenedor Principal de Datos */}
+        <div className="flex-1 min-h-0 px-4 sm:px-6 lg:px-10 pb-4 sm:pb-6 lg:pb-10">
+          <div className="max-w-[1600px] mx-auto w-full h-full flex flex-col bg-white dark:bg-zinc-900 rounded-xl border border-zinc-200/60 dark:border-zinc-800/50 shadow-xl shadow-zinc-200/20 dark:shadow-none overflow-hidden">
+            {/* Search & Actions */}
+            <div className="px-8 py-6 border-b border-zinc-100 dark:border-zinc-800/50 flex flex-col gap-6 sm:flex-row sm:items-center sm:justify-between bg-white dark:bg-zinc-900 shrink-0">
+          <div className="flex flex-1 items-center gap-3 max-w-2xl">
+            <div className="relative flex-1">
+              <Search className="absolute left-4 top-1/2 h-5 w-5 -translate-y-1/2 text-zinc-400" />
+              <Input 
+                placeholder="Buscar por ID, cliente o servicio..." 
+                className="h-12 pl-12 rounded-lg border-zinc-200 dark:border-zinc-800 bg-zinc-50 dark:bg-zinc-800/50 transition-all"
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
+              />
+            </div>
           </div>
           <div className="flex items-center gap-3">
             {/* Botón de Exportación */}
             <div className="relative">
               <button 
                 onClick={(e) => { e.stopPropagation(); setShowExportMenu(!showExportMenu); }}
-                className="flex items-center h-12 px-6 rounded-2xl bg-zinc-100 dark:bg-zinc-800 text-zinc-700 dark:text-zinc-300 hover:bg-zinc-200 dark:hover:bg-zinc-700 gap-3 transition-all font-bold text-xs uppercase tracking-widest"
+                className="flex items-center h-12 px-6 rounded-lg bg-zinc-100 dark:bg-zinc-800 text-zinc-700 dark:text-zinc-300 hover:bg-zinc-200 dark:hover:bg-zinc-700 gap-3 transition-all font-bold text-[11px] uppercase tracking-wider"
               >
                 <Download className="h-4 w-4" />
                 <span>Exportar</span>
@@ -201,140 +278,129 @@ export default function ServiciosPage() {
               )}
             </div>
 
-            <Button variant="outline" className="h-12 px-6 rounded-2xl gap-2 border-zinc-200 font-bold text-xs uppercase tracking-widest">
-              <Filter className="h-4 w-4" /> Filtros
+            <Button variant="outline" className="flex items-center h-12 px-6 rounded-lg font-bold text-[11px] uppercase tracking-wider transition-all gap-2 border bg-white dark:bg-zinc-800 text-zinc-700 dark:text-zinc-300 border-zinc-200 dark:border-zinc-700 hover:bg-zinc-50 dark:hover:bg-zinc-700">
+              <Filter className="h-4 w-4" /> <span>Filtros</span>
             </Button>
             <Link href="/dashboard/servicios/nuevo">
-              <div className="flex items-center h-12 px-8 rounded-2xl bg-zinc-900 text-white hover:bg-zinc-800 dark:bg-white dark:text-black dark:hover:bg-zinc-100 gap-2 shadow-xl transition-all cursor-pointer">
+              <div className="flex items-center h-12 px-8 rounded-lg bg-azul-1 text-zinc-50 gap-3 shadow-lg shadow-azul-1/20 transition-all hover:bg-blue-700 dark:hover:bg-blue-600 cursor-pointer">
                 <Plus className="h-5 w-5" />
-                <span className="font-black uppercase tracking-widest text-xs">Nueva Orden</span>
+                <span className="font-bold uppercase tracking-wider text-[11px]">Nueva Orden</span>
               </div>
             </Link>
           </div>
         </div>
 
-        {/* Tabla de Servicios */}
-        <Card className="border-none shadow-2xl shadow-zinc-200/50 dark:shadow-none bg-white dark:bg-zinc-900 rounded-[2.5rem] overflow-visible">
-          <CardContent className="p-0">
-            <div className="overflow-x-auto">
-              <table className="w-full text-left border-collapse">
-                <thead>
-                  <tr className="border-b border-zinc-100 dark:border-zinc-800 bg-zinc-50/50 dark:bg-zinc-800/50">
-                    <th className="px-8 py-6 text-[10px] font-black uppercase tracking-[0.2em] text-zinc-400">ID Orden</th>
-                    <th className="px-8 py-6 text-[10px] font-black uppercase tracking-[0.2em] text-zinc-400">Cliente / Servicio</th>
-                    <th className="px-8 py-6 text-[10px] font-black uppercase tracking-[0.2em] text-zinc-400">Programación</th>
-                    <th className="px-8 py-6 text-[10px] font-black uppercase tracking-[0.2em] text-zinc-400">Técnico</th>
-                    <th className="px-8 py-6 text-[10px] font-black uppercase tracking-[0.2em] text-zinc-400">Estado</th>
-                    <th className="px-8 py-6 text-[10px] font-black uppercase tracking-[0.2em] text-zinc-400 text-right">Acciones</th>
-                  </tr>
-                </thead>
-                <tbody className="divide-y divide-zinc-100 dark:divide-zinc-800">
-                  {filteredServicios.map((servicio: Servicio) => (
-                    <tr key={servicio.id} className="group hover:bg-zinc-50/50 dark:hover:bg-zinc-800/30 transition-colors">
-                      <td className="px-8 py-6">
-                        <span className="font-mono text-xs font-black text-[var(--color-azul-1)] bg-blue-50 dark:bg-blue-500/10 px-3 py-1.5 rounded-lg border border-blue-100 dark:border-blue-500/20">
-                          {servicio.id}
-                        </span>
-                      </td>
-                      <td className="px-8 py-6">
-                        <div className="space-y-1">
-                          <p className="font-black text-zinc-900 dark:text-zinc-100 tracking-tight">{servicio.cliente}</p>
-                          <div className="flex items-center gap-2">
-                            <span className="text-[10px] font-bold text-zinc-400 uppercase tracking-widest">{servicio.servicioEspecifico}</span>
-                            <span className={cn(
-                              "px-2 py-0.5 rounded-md text-[8px] font-black uppercase tracking-tighter",
-                              URGENCIA_STYLING[servicio.urgencia]
-                            )}>
-                              {servicio.urgencia}
+            {/* Tabla de Servicios con Scroll y Paginación */}
+            <div className="flex-1 min-h-0 flex flex-col overflow-hidden">
+              <div className="flex-1 overflow-auto">
+                {loading ? (
+                  <ServiciosSkeleton />
+                ) : (
+                  <table className="w-full text-left border-collapse">
+                    <thead>
+                      <tr className="border-b border-zinc-100 dark:border-zinc-800 bg-zinc-50/50 dark:bg-zinc-800/50">
+                        <th className="px-8 py-6 text-[10px] font-black uppercase tracking-[0.2em] text-zinc-400">ID Orden</th>
+                        <th className="px-8 py-6 text-[10px] font-black uppercase tracking-[0.2em] text-zinc-400">Cliente / Servicio</th>
+                        <th className="px-8 py-6 text-[10px] font-black uppercase tracking-[0.2em] text-zinc-400">Programación</th>
+                        <th className="px-8 py-6 text-[10px] font-black uppercase tracking-[0.2em] text-zinc-400">Técnico</th>
+                        <th className="px-8 py-6 text-[10px] font-black uppercase tracking-[0.2em] text-zinc-400">Estado</th>
+                        <th className="px-8 py-6 text-[10px] font-black uppercase tracking-[0.2em] text-zinc-400 text-right">Acciones</th>
+                      </tr>
+                    </thead>
+                    <tbody className="divide-y divide-zinc-100 dark:divide-zinc-800">
+                      {filteredServicios.map((servicio: Servicio) => (
+                        <tr key={servicio.id} className="group hover:bg-zinc-50/50 dark:hover:bg-zinc-800/30 transition-colors">
+                          <td className="px-8 py-6">
+                            <span className="font-mono text-xs font-black text-[var(--color-azul-1)] bg-blue-50 dark:bg-blue-500/10 px-3 py-1.5 rounded-lg border border-blue-100 dark:border-blue-500/20">
+                              {servicio.id}
                             </span>
-                          </div>
-                        </div>
-                      </td>
-                      <td className="px-8 py-6">
-                        <div className="space-y-1.5">
-                          <div className="flex items-center gap-2 text-xs font-bold text-zinc-600 dark:text-zinc-400">
-                            <Calendar className="h-3.5 w-3.5 text-zinc-400" />
-                            {servicio.fecha}
-                          </div>
-                          <div className="flex items-center gap-2 text-xs font-bold text-zinc-600 dark:text-zinc-400">
-                            <Clock className="h-3.5 w-3.5 text-zinc-400" />
-                            {servicio.hora}
-                          </div>
-                        </div>
-                      </td>
-                      <td className="px-8 py-6">
-                        <div className="flex items-center gap-3">
-                          <div className="h-8 w-8 rounded-lg bg-zinc-100 dark:bg-zinc-800 flex items-center justify-center">
-                            <User className="h-4 w-4 text-zinc-500" />
-                          </div>
-                          <span className="text-sm font-bold text-zinc-700 dark:text-zinc-300">{servicio.tecnico}</span>
-                        </div>
-                      </td>
-                      <td className="px-8 py-6">
-                        <span className={cn(
-                          "inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-[10px] font-black uppercase tracking-widest border shadow-sm",
-                          ESTADO_STYLING[servicio.estado]
-                        )}>
-                          <div className="h-1.5 w-1.5 rounded-full bg-current" />
-                          {servicio.estado}
-                        </span>
-                      </td>
-                      <td className="px-8 py-6 text-right">
-                        <div className="flex justify-end gap-2 relative">
-                          <button className="h-10 w-10 flex items-center justify-center rounded-xl bg-zinc-50 hover:bg-zinc-900 hover:text-white dark:bg-zinc-800 dark:hover:bg-zinc-700 transition-all text-zinc-400">
-                            <ArrowUpRight className="h-5 w-5" />
-                          </button>
-                          
-                          <div className="relative">
-                            <button 
-                              onClick={(e) => {
-                                e.stopPropagation();
-                                setOpenMenuId(openMenuId === servicio.id ? null : servicio.id);
-                              }}
-                              className={cn(
-                                "h-10 w-10 flex items-center justify-center rounded-xl transition-all text-zinc-400 hover:bg-zinc-100 dark:hover:bg-zinc-800",
-                                openMenuId === servicio.id && "bg-zinc-900 text-white dark:bg-zinc-50 dark:text-black shadow-lg"
-                              )}
-                            >
-                              <MoreVertical className="h-5 w-5" />
-                            </button>
-
-                            {openMenuId === servicio.id && (
-                              <div className="absolute right-0 mt-2 w-56 bg-white dark:bg-zinc-900 rounded-2xl shadow-[0_20px_50px_rgba(0,0,0,0.2)] border border-zinc-100 dark:border-zinc-800 z-50 py-2 animate-in fade-in zoom-in duration-200">
-                                <button className="w-full px-4 py-3 flex items-center gap-3 text-zinc-600 dark:text-zinc-400 hover:bg-zinc-50 dark:hover:bg-zinc-800 transition-colors">
-                                  <Eye className="h-4 w-4" />
-                                  <span className="text-[11px] font-black uppercase tracking-widest">Ver Detalles</span>
-                                </button>
-                                <button className="w-full px-4 py-3 flex items-center gap-3 text-zinc-600 dark:text-zinc-400 hover:bg-zinc-50 dark:hover:bg-zinc-800 transition-colors">
-                                  <Pencil className="h-4 w-4" />
-                                  <span className="text-[11px] font-black uppercase tracking-widest">Editar Orden</span>
-                                </button>
-                                <button className="w-full px-4 py-3 flex items-center gap-3 text-zinc-600 dark:text-zinc-400 hover:bg-zinc-50 dark:hover:bg-zinc-800 transition-colors border-t border-zinc-50 dark:border-zinc-800/50">
-                                  <FileText className="h-4 w-4 text-emerald-500" />
-                                  <span className="text-[11px] font-black uppercase tracking-widest">Certificado</span>
-                                </button>
-                                <button className="w-full px-4 py-3 flex items-center gap-3 text-zinc-600 dark:text-zinc-400 hover:bg-zinc-50 dark:hover:bg-zinc-800 transition-colors">
-                                  <CalendarClock className="h-4 w-4 text-blue-500" />
-                                  <span className="text-[11px] font-black uppercase tracking-widest">Re-programar</span>
-                                </button>
-                                <div className="mx-2 my-1 border-t border-zinc-50 dark:border-zinc-800/50" />
-                                <button className="w-full px-4 py-3 flex items-center gap-3 text-red-500 hover:bg-red-50 dark:hover:bg-red-950/20 transition-colors">
-                                  <Trash2 className="h-4 w-4" />
-                                  <span className="text-[11px] font-black uppercase tracking-widest">Cancelar</span>
-                                </button>
+                          </td>
+                          <td className="px-8 py-6">
+                            <div className="space-y-1">
+                              <p className="font-black text-zinc-900 dark:text-zinc-100 tracking-tight">{servicio.cliente}</p>
+                              <div className="flex items-center gap-2">
+                                <span className="text-[10px] font-bold text-zinc-400 uppercase tracking-widest">{servicio.servicioEspecifico}</span>
+                                <span className={cn(
+                                  "px-2 py-0.5 rounded-md text-[8px] font-black uppercase tracking-tighter",
+                                  URGENCIA_STYLING[servicio.urgencia]
+                                )}>
+                                  {servicio.urgencia}
+                                </span>
                               </div>
-                            )}
-                          </div>
-                        </div>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
+                            </div>
+                          </td>
+                          <td className="px-8 py-6">
+                            <div className="space-y-1.5">
+                              <div className="flex items-center gap-2 text-xs font-bold text-zinc-600 dark:text-zinc-400">
+                                <Calendar className="h-3.5 w-3.5 text-zinc-400" />
+                                {servicio.fecha}
+                              </div>
+                              <div className="flex items-center gap-2 text-xs font-bold text-zinc-600 dark:text-zinc-400">
+                                <Clock className="h-3.5 w-3.5 text-zinc-400" />
+                                {servicio.hora}
+                              </div>
+                            </div>
+                          </td>
+                          <td className="px-8 py-6">
+                            <div className="flex items-center gap-3">
+                              <div className="h-8 w-8 rounded-lg bg-zinc-100 dark:bg-zinc-800 flex items-center justify-center">
+                                <User className="h-4 w-4 text-zinc-500" />
+                              </div>
+                              <span className="text-sm font-bold text-zinc-700 dark:text-zinc-300">{servicio.tecnico}</span>
+                            </div>
+                          </td>
+                          <td className="px-8 py-6">
+                            <span className={cn(
+                              "inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-[10px] font-black uppercase tracking-widest border shadow-sm",
+                              ESTADO_STYLING[servicio.estado]
+                            )}>
+                              <div className="h-1.5 w-1.5 rounded-full bg-current" />
+                              {servicio.estado}
+                            </span>
+                          </td>
+                          <td className="px-8 py-6 text-right">
+                            <div className="flex justify-end gap-2">
+                              <button className="h-10 w-10 flex items-center justify-center rounded-xl bg-zinc-50 hover:bg-zinc-900 hover:text-white dark:bg-zinc-800 dark:hover:bg-zinc-700 transition-all text-zinc-400">
+                                <ArrowUpRight className="h-5 w-5" />
+                              </button>
+                              
+                              <DropdownMenu>
+                                <DropdownMenuTrigger asChild>
+                                  <button className="inline-flex h-10 w-10 items-center justify-center rounded-xl bg-zinc-50 hover:bg-zinc-900 hover:text-white text-zinc-400 dark:bg-zinc-800 dark:hover:bg-zinc-700 transition-all">
+                                    <MoreHorizontal className="h-5 w-5" />
+                                  </button>
+                                </DropdownMenuTrigger>
+                                <DropdownMenuContent align="end" className="w-56 p-2 rounded-xl">
+                                  <DropdownMenuItem className="flex items-center gap-3 py-2.5 text-[11px] font-bold cursor-pointer text-zinc-600 dark:text-zinc-400">
+                                    <Eye className="h-4 w-4" /> VER DETALLES
+                                  </DropdownMenuItem>
+                                  <DropdownMenuItem className="flex items-center gap-3 py-2.5 text-[11px] font-bold cursor-pointer text-zinc-600 dark:text-zinc-400">
+                                    <Pencil className="h-4 w-4" /> EDITAR ORDEN
+                                  </DropdownMenuItem>
+                                  <DropdownMenuSeparator />
+                                  <DropdownMenuItem className="flex items-center gap-3 py-2.5 text-[11px] font-bold cursor-pointer text-zinc-600 dark:text-zinc-400">
+                                    <FileText className="h-4 w-4 text-emerald-500" /> CERTIFICADO
+                                  </DropdownMenuItem>
+                                  <DropdownMenuItem className="flex items-center gap-3 py-2.5 text-[11px] font-bold cursor-pointer text-zinc-600 dark:text-zinc-400">
+                                    <CalendarClock className="h-4 w-4 text-blue-500" /> RE-PROGRAMAR
+                                  </DropdownMenuItem>
+                                  <DropdownMenuSeparator />
+                                  <DropdownMenuItem className="flex items-center gap-3 py-2.5 text-[11px] font-bold text-red-600 hover:text-red-600 hover:bg-red-50 cursor-pointer">
+                                    <Trash2 className="h-4 w-4" /> CANCELAR
+                                  </DropdownMenuItem>
+                                </DropdownMenuContent>
+                              </DropdownMenu>
+                            </div>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                )}
+              </div>
 
-            {filteredServicios.length === 0 && (
-              <div className="py-32 text-center">
+            {!loading && filteredServicios.length === 0 && (
+              <div className="py-32 text-center flex-1 flex flex-col justify-center">
                 <div className="mx-auto flex h-24 w-24 items-center justify-center rounded-[2.5rem] bg-zinc-50 dark:bg-zinc-800 mb-6">
                   <AlertCircle className="h-12 w-12 text-zinc-300" />
                 </div>
@@ -342,11 +408,25 @@ export default function ServiciosPage() {
                 <p className="text-zinc-500 mt-2 font-medium">No se encontraron órdenes que coincidan con su búsqueda.</p>
               </div>
             )}
-          </CardContent>
-        </Card>
+
+            {/* Paginación */}
+            <div className="px-8 py-4 border-t border-zinc-100 dark:border-zinc-800/50 bg-zinc-50/50 dark:bg-zinc-900/50 flex items-center justify-between shrink-0">
+              <span className="text-[10px] font-black uppercase tracking-widest text-zinc-400 dark:text-zinc-300">
+                Mostrando <span className="text-zinc-900 dark:text-zinc-100">{filteredServicios.length}</span> resultados
+              </span>
+              <div className="flex items-center gap-2">
+                <Button variant="outline" size="sm" className="h-8 rounded-xl text-xs font-bold" disabled>
+                  Anterior
+                </Button>
+                <Button variant="outline" size="sm" className="h-8 rounded-xl text-xs font-bold" disabled>
+                  Siguiente
+                </Button>
+              </div>
+            </div>
+            </div>
+          </div>
+        </div>
       </div>
     </DashboardLayout>
   );
 }
-
-// owo

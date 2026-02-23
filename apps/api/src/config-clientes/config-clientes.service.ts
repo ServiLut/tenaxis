@@ -70,4 +70,20 @@ export class ConfigClientesService {
       data: dto,
     });
   }
+
+  // --- Tipos de Servicio ---
+  async findAllTiposServicio(tenantId: string, empresaId: string) {
+    return this.prisma.tipoServicio.findMany({
+      where: { tenantId, empresaId, activo: true },
+      orderBy: { nombre: 'asc' },
+    });
+  }
+
+  // --- Métodos de Pago ---
+  async findAllMetodosPago(tenantId: string, empresaId: string) {
+    return this.prisma.metodoPago.findMany({
+      where: { tenantId, empresaId, activo: true },
+      orderBy: { nombre: 'asc' },
+    });
+  }
 }
