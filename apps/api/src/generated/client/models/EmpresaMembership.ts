@@ -31,10 +31,10 @@ export type EmpresaMembershipMinAggregateOutputType = {
   empresaId: string | null
   createdAt: Date | null
   updatedAt: Date | null
-  deletedAt: Date | null
-  role: $Enums.Role | null
   zonaId: string | null
+  role: $Enums.Role | null
   activo: boolean | null
+  deletedAt: Date | null
 }
 
 export type EmpresaMembershipMaxAggregateOutputType = {
@@ -44,10 +44,10 @@ export type EmpresaMembershipMaxAggregateOutputType = {
   empresaId: string | null
   createdAt: Date | null
   updatedAt: Date | null
-  deletedAt: Date | null
-  role: $Enums.Role | null
   zonaId: string | null
+  role: $Enums.Role | null
   activo: boolean | null
+  deletedAt: Date | null
 }
 
 export type EmpresaMembershipCountAggregateOutputType = {
@@ -57,10 +57,10 @@ export type EmpresaMembershipCountAggregateOutputType = {
   empresaId: number
   createdAt: number
   updatedAt: number
-  deletedAt: number
-  role: number
   zonaId: number
+  role: number
   activo: number
+  deletedAt: number
   _all: number
 }
 
@@ -72,10 +72,10 @@ export type EmpresaMembershipMinAggregateInputType = {
   empresaId?: true
   createdAt?: true
   updatedAt?: true
-  deletedAt?: true
-  role?: true
   zonaId?: true
+  role?: true
   activo?: true
+  deletedAt?: true
 }
 
 export type EmpresaMembershipMaxAggregateInputType = {
@@ -85,10 +85,10 @@ export type EmpresaMembershipMaxAggregateInputType = {
   empresaId?: true
   createdAt?: true
   updatedAt?: true
-  deletedAt?: true
-  role?: true
   zonaId?: true
+  role?: true
   activo?: true
+  deletedAt?: true
 }
 
 export type EmpresaMembershipCountAggregateInputType = {
@@ -98,10 +98,10 @@ export type EmpresaMembershipCountAggregateInputType = {
   empresaId?: true
   createdAt?: true
   updatedAt?: true
-  deletedAt?: true
-  role?: true
   zonaId?: true
+  role?: true
   activo?: true
+  deletedAt?: true
   _all?: true
 }
 
@@ -184,10 +184,10 @@ export type EmpresaMembershipGroupByOutputType = {
   empresaId: string
   createdAt: Date
   updatedAt: Date
-  deletedAt: Date | null
-  role: $Enums.Role | null
   zonaId: string | null
+  role: $Enums.Role | null
   activo: boolean
+  deletedAt: Date | null
   _count: EmpresaMembershipCountAggregateOutputType | null
   _min: EmpresaMembershipMinAggregateOutputType | null
   _max: EmpresaMembershipMaxAggregateOutputType | null
@@ -218,10 +218,10 @@ export type EmpresaMembershipWhereInput = {
   empresaId?: Prisma.UuidFilter<"EmpresaMembership"> | string
   createdAt?: Prisma.DateTimeFilter<"EmpresaMembership"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"EmpresaMembership"> | Date | string
-  deletedAt?: Prisma.DateTimeNullableFilter<"EmpresaMembership"> | Date | string | null
-  role?: Prisma.EnumRoleNullableFilter<"EmpresaMembership"> | $Enums.Role | null
   zonaId?: Prisma.UuidNullableFilter<"EmpresaMembership"> | string | null
+  role?: Prisma.EnumRoleNullableFilter<"EmpresaMembership"> | $Enums.Role | null
   activo?: Prisma.BoolFilter<"EmpresaMembership"> | boolean
+  deletedAt?: Prisma.DateTimeNullableFilter<"EmpresaMembership"> | Date | string | null
   empresa?: Prisma.XOR<Prisma.EmpresaScalarRelationFilter, Prisma.EmpresaWhereInput>
   membership?: Prisma.XOR<Prisma.TenantMembershipScalarRelationFilter, Prisma.TenantMembershipWhereInput>
   tenant?: Prisma.XOR<Prisma.TenantScalarRelationFilter, Prisma.TenantWhereInput>
@@ -236,10 +236,10 @@ export type EmpresaMembershipOrderByWithRelationInput = {
   empresaId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
-  deletedAt?: Prisma.SortOrderInput | Prisma.SortOrder
-  role?: Prisma.SortOrderInput | Prisma.SortOrder
   zonaId?: Prisma.SortOrderInput | Prisma.SortOrder
+  role?: Prisma.SortOrderInput | Prisma.SortOrder
   activo?: Prisma.SortOrder
+  deletedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   empresa?: Prisma.EmpresaOrderByWithRelationInput
   membership?: Prisma.TenantMembershipOrderByWithRelationInput
   tenant?: Prisma.TenantOrderByWithRelationInput
@@ -258,10 +258,10 @@ export type EmpresaMembershipWhereUniqueInput = Prisma.AtLeast<{
   empresaId?: Prisma.UuidFilter<"EmpresaMembership"> | string
   createdAt?: Prisma.DateTimeFilter<"EmpresaMembership"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"EmpresaMembership"> | Date | string
-  deletedAt?: Prisma.DateTimeNullableFilter<"EmpresaMembership"> | Date | string | null
-  role?: Prisma.EnumRoleNullableFilter<"EmpresaMembership"> | $Enums.Role | null
   zonaId?: Prisma.UuidNullableFilter<"EmpresaMembership"> | string | null
+  role?: Prisma.EnumRoleNullableFilter<"EmpresaMembership"> | $Enums.Role | null
   activo?: Prisma.BoolFilter<"EmpresaMembership"> | boolean
+  deletedAt?: Prisma.DateTimeNullableFilter<"EmpresaMembership"> | Date | string | null
   empresa?: Prisma.XOR<Prisma.EmpresaScalarRelationFilter, Prisma.EmpresaWhereInput>
   membership?: Prisma.XOR<Prisma.TenantMembershipScalarRelationFilter, Prisma.TenantMembershipWhereInput>
   tenant?: Prisma.XOR<Prisma.TenantScalarRelationFilter, Prisma.TenantWhereInput>
@@ -276,10 +276,10 @@ export type EmpresaMembershipOrderByWithAggregationInput = {
   empresaId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
-  deletedAt?: Prisma.SortOrderInput | Prisma.SortOrder
-  role?: Prisma.SortOrderInput | Prisma.SortOrder
   zonaId?: Prisma.SortOrderInput | Prisma.SortOrder
+  role?: Prisma.SortOrderInput | Prisma.SortOrder
   activo?: Prisma.SortOrder
+  deletedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.EmpresaMembershipCountOrderByAggregateInput
   _max?: Prisma.EmpresaMembershipMaxOrderByAggregateInput
   _min?: Prisma.EmpresaMembershipMinOrderByAggregateInput
@@ -295,19 +295,19 @@ export type EmpresaMembershipScalarWhereWithAggregatesInput = {
   empresaId?: Prisma.UuidWithAggregatesFilter<"EmpresaMembership"> | string
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"EmpresaMembership"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"EmpresaMembership"> | Date | string
-  deletedAt?: Prisma.DateTimeNullableWithAggregatesFilter<"EmpresaMembership"> | Date | string | null
-  role?: Prisma.EnumRoleNullableWithAggregatesFilter<"EmpresaMembership"> | $Enums.Role | null
   zonaId?: Prisma.UuidNullableWithAggregatesFilter<"EmpresaMembership"> | string | null
+  role?: Prisma.EnumRoleNullableWithAggregatesFilter<"EmpresaMembership"> | $Enums.Role | null
   activo?: Prisma.BoolWithAggregatesFilter<"EmpresaMembership"> | boolean
+  deletedAt?: Prisma.DateTimeNullableWithAggregatesFilter<"EmpresaMembership"> | Date | string | null
 }
 
 export type EmpresaMembershipCreateInput = {
   id?: string
   createdAt?: Date | string
   updatedAt?: Date | string
-  deletedAt?: Date | string | null
   role?: $Enums.Role | null
   activo?: boolean
+  deletedAt?: Date | string | null
   empresa: Prisma.EmpresaCreateNestedOneWithoutMembershipsInput
   membership: Prisma.TenantMembershipCreateNestedOneWithoutEmpresaMembershipsInput
   tenant: Prisma.TenantCreateNestedOneWithoutEmpresaMembershipsInput
@@ -322,10 +322,10 @@ export type EmpresaMembershipUncheckedCreateInput = {
   empresaId: string
   createdAt?: Date | string
   updatedAt?: Date | string
-  deletedAt?: Date | string | null
-  role?: $Enums.Role | null
   zonaId?: string | null
+  role?: $Enums.Role | null
   activo?: boolean
+  deletedAt?: Date | string | null
   orgNode?: Prisma.OrganizationNodeUncheckedCreateNestedOneWithoutEmpresaMembershipInput
 }
 
@@ -333,9 +333,9 @@ export type EmpresaMembershipUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   role?: Prisma.NullableEnumRoleFieldUpdateOperationsInput | $Enums.Role | null
   activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   empresa?: Prisma.EmpresaUpdateOneRequiredWithoutMembershipsNestedInput
   membership?: Prisma.TenantMembershipUpdateOneRequiredWithoutEmpresaMembershipsNestedInput
   tenant?: Prisma.TenantUpdateOneRequiredWithoutEmpresaMembershipsNestedInput
@@ -350,10 +350,10 @@ export type EmpresaMembershipUncheckedUpdateInput = {
   empresaId?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  role?: Prisma.NullableEnumRoleFieldUpdateOperationsInput | $Enums.Role | null
   zonaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.NullableEnumRoleFieldUpdateOperationsInput | $Enums.Role | null
   activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   orgNode?: Prisma.OrganizationNodeUncheckedUpdateOneWithoutEmpresaMembershipNestedInput
 }
 
@@ -364,19 +364,19 @@ export type EmpresaMembershipCreateManyInput = {
   empresaId: string
   createdAt?: Date | string
   updatedAt?: Date | string
-  deletedAt?: Date | string | null
-  role?: $Enums.Role | null
   zonaId?: string | null
+  role?: $Enums.Role | null
   activo?: boolean
+  deletedAt?: Date | string | null
 }
 
 export type EmpresaMembershipUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   role?: Prisma.NullableEnumRoleFieldUpdateOperationsInput | $Enums.Role | null
   activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 export type EmpresaMembershipUncheckedUpdateManyInput = {
@@ -386,10 +386,10 @@ export type EmpresaMembershipUncheckedUpdateManyInput = {
   empresaId?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  role?: Prisma.NullableEnumRoleFieldUpdateOperationsInput | $Enums.Role | null
   zonaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.NullableEnumRoleFieldUpdateOperationsInput | $Enums.Role | null
   activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 export type EmpresaMembershipListRelationFilter = {
@@ -414,10 +414,10 @@ export type EmpresaMembershipCountOrderByAggregateInput = {
   empresaId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
-  deletedAt?: Prisma.SortOrder
-  role?: Prisma.SortOrder
   zonaId?: Prisma.SortOrder
+  role?: Prisma.SortOrder
   activo?: Prisma.SortOrder
+  deletedAt?: Prisma.SortOrder
 }
 
 export type EmpresaMembershipMaxOrderByAggregateInput = {
@@ -427,10 +427,10 @@ export type EmpresaMembershipMaxOrderByAggregateInput = {
   empresaId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
-  deletedAt?: Prisma.SortOrder
-  role?: Prisma.SortOrder
   zonaId?: Prisma.SortOrder
+  role?: Prisma.SortOrder
   activo?: Prisma.SortOrder
+  deletedAt?: Prisma.SortOrder
 }
 
 export type EmpresaMembershipMinOrderByAggregateInput = {
@@ -440,10 +440,10 @@ export type EmpresaMembershipMinOrderByAggregateInput = {
   empresaId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
-  deletedAt?: Prisma.SortOrder
-  role?: Prisma.SortOrder
   zonaId?: Prisma.SortOrder
+  role?: Prisma.SortOrder
   activo?: Prisma.SortOrder
+  deletedAt?: Prisma.SortOrder
 }
 
 export type EmpresaMembershipScalarRelationFilter = {
@@ -641,9 +641,9 @@ export type EmpresaMembershipCreateWithoutTenantInput = {
   id?: string
   createdAt?: Date | string
   updatedAt?: Date | string
-  deletedAt?: Date | string | null
   role?: $Enums.Role | null
   activo?: boolean
+  deletedAt?: Date | string | null
   empresa: Prisma.EmpresaCreateNestedOneWithoutMembershipsInput
   membership: Prisma.TenantMembershipCreateNestedOneWithoutEmpresaMembershipsInput
   zona?: Prisma.ZonaCreateNestedOneWithoutEmpresaMembershipsInput
@@ -656,10 +656,10 @@ export type EmpresaMembershipUncheckedCreateWithoutTenantInput = {
   empresaId: string
   createdAt?: Date | string
   updatedAt?: Date | string
-  deletedAt?: Date | string | null
-  role?: $Enums.Role | null
   zonaId?: string | null
+  role?: $Enums.Role | null
   activo?: boolean
+  deletedAt?: Date | string | null
   orgNode?: Prisma.OrganizationNodeUncheckedCreateNestedOneWithoutEmpresaMembershipInput
 }
 
@@ -699,19 +699,19 @@ export type EmpresaMembershipScalarWhereInput = {
   empresaId?: Prisma.UuidFilter<"EmpresaMembership"> | string
   createdAt?: Prisma.DateTimeFilter<"EmpresaMembership"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"EmpresaMembership"> | Date | string
-  deletedAt?: Prisma.DateTimeNullableFilter<"EmpresaMembership"> | Date | string | null
-  role?: Prisma.EnumRoleNullableFilter<"EmpresaMembership"> | $Enums.Role | null
   zonaId?: Prisma.UuidNullableFilter<"EmpresaMembership"> | string | null
+  role?: Prisma.EnumRoleNullableFilter<"EmpresaMembership"> | $Enums.Role | null
   activo?: Prisma.BoolFilter<"EmpresaMembership"> | boolean
+  deletedAt?: Prisma.DateTimeNullableFilter<"EmpresaMembership"> | Date | string | null
 }
 
 export type EmpresaMembershipCreateWithoutMembershipInput = {
   id?: string
   createdAt?: Date | string
   updatedAt?: Date | string
-  deletedAt?: Date | string | null
   role?: $Enums.Role | null
   activo?: boolean
+  deletedAt?: Date | string | null
   empresa: Prisma.EmpresaCreateNestedOneWithoutMembershipsInput
   tenant: Prisma.TenantCreateNestedOneWithoutEmpresaMembershipsInput
   zona?: Prisma.ZonaCreateNestedOneWithoutEmpresaMembershipsInput
@@ -724,10 +724,10 @@ export type EmpresaMembershipUncheckedCreateWithoutMembershipInput = {
   empresaId: string
   createdAt?: Date | string
   updatedAt?: Date | string
-  deletedAt?: Date | string | null
-  role?: $Enums.Role | null
   zonaId?: string | null
+  role?: $Enums.Role | null
   activo?: boolean
+  deletedAt?: Date | string | null
   orgNode?: Prisma.OrganizationNodeUncheckedCreateNestedOneWithoutEmpresaMembershipInput
 }
 
@@ -761,9 +761,9 @@ export type EmpresaMembershipCreateWithoutEmpresaInput = {
   id?: string
   createdAt?: Date | string
   updatedAt?: Date | string
-  deletedAt?: Date | string | null
   role?: $Enums.Role | null
   activo?: boolean
+  deletedAt?: Date | string | null
   membership: Prisma.TenantMembershipCreateNestedOneWithoutEmpresaMembershipsInput
   tenant: Prisma.TenantCreateNestedOneWithoutEmpresaMembershipsInput
   zona?: Prisma.ZonaCreateNestedOneWithoutEmpresaMembershipsInput
@@ -776,10 +776,10 @@ export type EmpresaMembershipUncheckedCreateWithoutEmpresaInput = {
   membershipId: string
   createdAt?: Date | string
   updatedAt?: Date | string
-  deletedAt?: Date | string | null
-  role?: $Enums.Role | null
   zonaId?: string | null
+  role?: $Enums.Role | null
   activo?: boolean
+  deletedAt?: Date | string | null
   orgNode?: Prisma.OrganizationNodeUncheckedCreateNestedOneWithoutEmpresaMembershipInput
 }
 
@@ -813,9 +813,9 @@ export type EmpresaMembershipCreateWithoutOrgNodeInput = {
   id?: string
   createdAt?: Date | string
   updatedAt?: Date | string
-  deletedAt?: Date | string | null
   role?: $Enums.Role | null
   activo?: boolean
+  deletedAt?: Date | string | null
   empresa: Prisma.EmpresaCreateNestedOneWithoutMembershipsInput
   membership: Prisma.TenantMembershipCreateNestedOneWithoutEmpresaMembershipsInput
   tenant: Prisma.TenantCreateNestedOneWithoutEmpresaMembershipsInput
@@ -829,10 +829,10 @@ export type EmpresaMembershipUncheckedCreateWithoutOrgNodeInput = {
   empresaId: string
   createdAt?: Date | string
   updatedAt?: Date | string
-  deletedAt?: Date | string | null
-  role?: $Enums.Role | null
   zonaId?: string | null
+  role?: $Enums.Role | null
   activo?: boolean
+  deletedAt?: Date | string | null
 }
 
 export type EmpresaMembershipCreateOrConnectWithoutOrgNodeInput = {
@@ -855,9 +855,9 @@ export type EmpresaMembershipUpdateWithoutOrgNodeInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   role?: Prisma.NullableEnumRoleFieldUpdateOperationsInput | $Enums.Role | null
   activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   empresa?: Prisma.EmpresaUpdateOneRequiredWithoutMembershipsNestedInput
   membership?: Prisma.TenantMembershipUpdateOneRequiredWithoutEmpresaMembershipsNestedInput
   tenant?: Prisma.TenantUpdateOneRequiredWithoutEmpresaMembershipsNestedInput
@@ -871,19 +871,19 @@ export type EmpresaMembershipUncheckedUpdateWithoutOrgNodeInput = {
   empresaId?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  role?: Prisma.NullableEnumRoleFieldUpdateOperationsInput | $Enums.Role | null
   zonaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.NullableEnumRoleFieldUpdateOperationsInput | $Enums.Role | null
   activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 export type EmpresaMembershipCreateWithoutZonaInput = {
   id?: string
   createdAt?: Date | string
   updatedAt?: Date | string
-  deletedAt?: Date | string | null
   role?: $Enums.Role | null
   activo?: boolean
+  deletedAt?: Date | string | null
   empresa: Prisma.EmpresaCreateNestedOneWithoutMembershipsInput
   membership: Prisma.TenantMembershipCreateNestedOneWithoutEmpresaMembershipsInput
   tenant: Prisma.TenantCreateNestedOneWithoutEmpresaMembershipsInput
@@ -897,9 +897,9 @@ export type EmpresaMembershipUncheckedCreateWithoutZonaInput = {
   empresaId: string
   createdAt?: Date | string
   updatedAt?: Date | string
-  deletedAt?: Date | string | null
   role?: $Enums.Role | null
   activo?: boolean
+  deletedAt?: Date | string | null
   orgNode?: Prisma.OrganizationNodeUncheckedCreateNestedOneWithoutEmpresaMembershipInput
 }
 
@@ -935,19 +935,19 @@ export type EmpresaMembershipCreateManyTenantInput = {
   empresaId: string
   createdAt?: Date | string
   updatedAt?: Date | string
-  deletedAt?: Date | string | null
-  role?: $Enums.Role | null
   zonaId?: string | null
+  role?: $Enums.Role | null
   activo?: boolean
+  deletedAt?: Date | string | null
 }
 
 export type EmpresaMembershipUpdateWithoutTenantInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   role?: Prisma.NullableEnumRoleFieldUpdateOperationsInput | $Enums.Role | null
   activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   empresa?: Prisma.EmpresaUpdateOneRequiredWithoutMembershipsNestedInput
   membership?: Prisma.TenantMembershipUpdateOneRequiredWithoutEmpresaMembershipsNestedInput
   zona?: Prisma.ZonaUpdateOneWithoutEmpresaMembershipsNestedInput
@@ -960,10 +960,10 @@ export type EmpresaMembershipUncheckedUpdateWithoutTenantInput = {
   empresaId?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  role?: Prisma.NullableEnumRoleFieldUpdateOperationsInput | $Enums.Role | null
   zonaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.NullableEnumRoleFieldUpdateOperationsInput | $Enums.Role | null
   activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   orgNode?: Prisma.OrganizationNodeUncheckedUpdateOneWithoutEmpresaMembershipNestedInput
 }
 
@@ -973,10 +973,10 @@ export type EmpresaMembershipUncheckedUpdateManyWithoutTenantInput = {
   empresaId?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  role?: Prisma.NullableEnumRoleFieldUpdateOperationsInput | $Enums.Role | null
   zonaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.NullableEnumRoleFieldUpdateOperationsInput | $Enums.Role | null
   activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 export type EmpresaMembershipCreateManyMembershipInput = {
@@ -985,19 +985,19 @@ export type EmpresaMembershipCreateManyMembershipInput = {
   empresaId: string
   createdAt?: Date | string
   updatedAt?: Date | string
-  deletedAt?: Date | string | null
-  role?: $Enums.Role | null
   zonaId?: string | null
+  role?: $Enums.Role | null
   activo?: boolean
+  deletedAt?: Date | string | null
 }
 
 export type EmpresaMembershipUpdateWithoutMembershipInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   role?: Prisma.NullableEnumRoleFieldUpdateOperationsInput | $Enums.Role | null
   activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   empresa?: Prisma.EmpresaUpdateOneRequiredWithoutMembershipsNestedInput
   tenant?: Prisma.TenantUpdateOneRequiredWithoutEmpresaMembershipsNestedInput
   zona?: Prisma.ZonaUpdateOneWithoutEmpresaMembershipsNestedInput
@@ -1010,10 +1010,10 @@ export type EmpresaMembershipUncheckedUpdateWithoutMembershipInput = {
   empresaId?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  role?: Prisma.NullableEnumRoleFieldUpdateOperationsInput | $Enums.Role | null
   zonaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.NullableEnumRoleFieldUpdateOperationsInput | $Enums.Role | null
   activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   orgNode?: Prisma.OrganizationNodeUncheckedUpdateOneWithoutEmpresaMembershipNestedInput
 }
 
@@ -1023,10 +1023,10 @@ export type EmpresaMembershipUncheckedUpdateManyWithoutMembershipInput = {
   empresaId?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  role?: Prisma.NullableEnumRoleFieldUpdateOperationsInput | $Enums.Role | null
   zonaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.NullableEnumRoleFieldUpdateOperationsInput | $Enums.Role | null
   activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 export type EmpresaMembershipCreateManyEmpresaInput = {
@@ -1035,19 +1035,19 @@ export type EmpresaMembershipCreateManyEmpresaInput = {
   membershipId: string
   createdAt?: Date | string
   updatedAt?: Date | string
-  deletedAt?: Date | string | null
-  role?: $Enums.Role | null
   zonaId?: string | null
+  role?: $Enums.Role | null
   activo?: boolean
+  deletedAt?: Date | string | null
 }
 
 export type EmpresaMembershipUpdateWithoutEmpresaInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   role?: Prisma.NullableEnumRoleFieldUpdateOperationsInput | $Enums.Role | null
   activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   membership?: Prisma.TenantMembershipUpdateOneRequiredWithoutEmpresaMembershipsNestedInput
   tenant?: Prisma.TenantUpdateOneRequiredWithoutEmpresaMembershipsNestedInput
   zona?: Prisma.ZonaUpdateOneWithoutEmpresaMembershipsNestedInput
@@ -1060,10 +1060,10 @@ export type EmpresaMembershipUncheckedUpdateWithoutEmpresaInput = {
   membershipId?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  role?: Prisma.NullableEnumRoleFieldUpdateOperationsInput | $Enums.Role | null
   zonaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.NullableEnumRoleFieldUpdateOperationsInput | $Enums.Role | null
   activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   orgNode?: Prisma.OrganizationNodeUncheckedUpdateOneWithoutEmpresaMembershipNestedInput
 }
 
@@ -1073,10 +1073,10 @@ export type EmpresaMembershipUncheckedUpdateManyWithoutEmpresaInput = {
   membershipId?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  role?: Prisma.NullableEnumRoleFieldUpdateOperationsInput | $Enums.Role | null
   zonaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.NullableEnumRoleFieldUpdateOperationsInput | $Enums.Role | null
   activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 export type EmpresaMembershipCreateManyZonaInput = {
@@ -1086,18 +1086,18 @@ export type EmpresaMembershipCreateManyZonaInput = {
   empresaId: string
   createdAt?: Date | string
   updatedAt?: Date | string
-  deletedAt?: Date | string | null
   role?: $Enums.Role | null
   activo?: boolean
+  deletedAt?: Date | string | null
 }
 
 export type EmpresaMembershipUpdateWithoutZonaInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   role?: Prisma.NullableEnumRoleFieldUpdateOperationsInput | $Enums.Role | null
   activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   empresa?: Prisma.EmpresaUpdateOneRequiredWithoutMembershipsNestedInput
   membership?: Prisma.TenantMembershipUpdateOneRequiredWithoutEmpresaMembershipsNestedInput
   tenant?: Prisma.TenantUpdateOneRequiredWithoutEmpresaMembershipsNestedInput
@@ -1111,9 +1111,9 @@ export type EmpresaMembershipUncheckedUpdateWithoutZonaInput = {
   empresaId?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   role?: Prisma.NullableEnumRoleFieldUpdateOperationsInput | $Enums.Role | null
   activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   orgNode?: Prisma.OrganizationNodeUncheckedUpdateOneWithoutEmpresaMembershipNestedInput
 }
 
@@ -1124,9 +1124,9 @@ export type EmpresaMembershipUncheckedUpdateManyWithoutZonaInput = {
   empresaId?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   role?: Prisma.NullableEnumRoleFieldUpdateOperationsInput | $Enums.Role | null
   activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 
@@ -1138,10 +1138,10 @@ export type EmpresaMembershipSelect<ExtArgs extends runtime.Types.Extensions.Int
   empresaId?: boolean
   createdAt?: boolean
   updatedAt?: boolean
-  deletedAt?: boolean
-  role?: boolean
   zonaId?: boolean
+  role?: boolean
   activo?: boolean
+  deletedAt?: boolean
   empresa?: boolean | Prisma.EmpresaDefaultArgs<ExtArgs>
   membership?: boolean | Prisma.TenantMembershipDefaultArgs<ExtArgs>
   tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
@@ -1156,10 +1156,10 @@ export type EmpresaMembershipSelectCreateManyAndReturn<ExtArgs extends runtime.T
   empresaId?: boolean
   createdAt?: boolean
   updatedAt?: boolean
-  deletedAt?: boolean
-  role?: boolean
   zonaId?: boolean
+  role?: boolean
   activo?: boolean
+  deletedAt?: boolean
   empresa?: boolean | Prisma.EmpresaDefaultArgs<ExtArgs>
   membership?: boolean | Prisma.TenantMembershipDefaultArgs<ExtArgs>
   tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
@@ -1173,10 +1173,10 @@ export type EmpresaMembershipSelectUpdateManyAndReturn<ExtArgs extends runtime.T
   empresaId?: boolean
   createdAt?: boolean
   updatedAt?: boolean
-  deletedAt?: boolean
-  role?: boolean
   zonaId?: boolean
+  role?: boolean
   activo?: boolean
+  deletedAt?: boolean
   empresa?: boolean | Prisma.EmpresaDefaultArgs<ExtArgs>
   membership?: boolean | Prisma.TenantMembershipDefaultArgs<ExtArgs>
   tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
@@ -1190,13 +1190,13 @@ export type EmpresaMembershipSelectScalar = {
   empresaId?: boolean
   createdAt?: boolean
   updatedAt?: boolean
-  deletedAt?: boolean
-  role?: boolean
   zonaId?: boolean
+  role?: boolean
   activo?: boolean
+  deletedAt?: boolean
 }
 
-export type EmpresaMembershipOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "tenantId" | "membershipId" | "empresaId" | "createdAt" | "updatedAt" | "deletedAt" | "role" | "zonaId" | "activo", ExtArgs["result"]["empresaMembership"]>
+export type EmpresaMembershipOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "tenantId" | "membershipId" | "empresaId" | "createdAt" | "updatedAt" | "zonaId" | "role" | "activo" | "deletedAt", ExtArgs["result"]["empresaMembership"]>
 export type EmpresaMembershipInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   empresa?: boolean | Prisma.EmpresaDefaultArgs<ExtArgs>
   membership?: boolean | Prisma.TenantMembershipDefaultArgs<ExtArgs>
@@ -1233,10 +1233,10 @@ export type $EmpresaMembershipPayload<ExtArgs extends runtime.Types.Extensions.I
     empresaId: string
     createdAt: Date
     updatedAt: Date
-    deletedAt: Date | null
-    role: $Enums.Role | null
     zonaId: string | null
+    role: $Enums.Role | null
     activo: boolean
+    deletedAt: Date | null
   }, ExtArgs["result"]["empresaMembership"]>
   composites: {}
 }
@@ -1671,10 +1671,10 @@ export interface EmpresaMembershipFieldRefs {
   readonly empresaId: Prisma.FieldRef<"EmpresaMembership", 'String'>
   readonly createdAt: Prisma.FieldRef<"EmpresaMembership", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"EmpresaMembership", 'DateTime'>
-  readonly deletedAt: Prisma.FieldRef<"EmpresaMembership", 'DateTime'>
-  readonly role: Prisma.FieldRef<"EmpresaMembership", 'Role'>
   readonly zonaId: Prisma.FieldRef<"EmpresaMembership", 'String'>
+  readonly role: Prisma.FieldRef<"EmpresaMembership", 'Role'>
   readonly activo: Prisma.FieldRef<"EmpresaMembership", 'Boolean'>
+  readonly deletedAt: Prisma.FieldRef<"EmpresaMembership", 'DateTime'>
 }
     
 

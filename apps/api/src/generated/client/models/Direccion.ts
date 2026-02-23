@@ -51,25 +51,25 @@ export type DireccionMinAggregateOutputType = {
   municipio: string | null
   linkMaps: string | null
   createdAt: Date | null
+  latitud: number | null
+  longitud: number | null
+  nombreSede: string | null
+  updatedAt: Date | null
   activa: boolean | null
   bloqueada: boolean | null
   cargoContacto: string | null
   clasificacionPunto: string | null
-  departmentId: string | null
   horarioFin: string | null
   horarioInicio: string | null
-  latitud: number | null
-  longitud: number | null
   motivoBloqueo: string | null
   municipioId: string | null
   nombreContacto: string | null
-  nombreSede: string | null
   precisionGPS: runtime.Decimal | null
   restricciones: string | null
   telefonoContacto: string | null
   tipoUbicacion: string | null
-  updatedAt: Date | null
   validadoPorSistema: boolean | null
+  departmentId: string | null
 }
 
 export type DireccionMaxAggregateOutputType = {
@@ -85,25 +85,25 @@ export type DireccionMaxAggregateOutputType = {
   municipio: string | null
   linkMaps: string | null
   createdAt: Date | null
+  latitud: number | null
+  longitud: number | null
+  nombreSede: string | null
+  updatedAt: Date | null
   activa: boolean | null
   bloqueada: boolean | null
   cargoContacto: string | null
   clasificacionPunto: string | null
-  departmentId: string | null
   horarioFin: string | null
   horarioInicio: string | null
-  latitud: number | null
-  longitud: number | null
   motivoBloqueo: string | null
   municipioId: string | null
   nombreContacto: string | null
-  nombreSede: string | null
   precisionGPS: runtime.Decimal | null
   restricciones: string | null
   telefonoContacto: string | null
   tipoUbicacion: string | null
-  updatedAt: Date | null
   validadoPorSistema: boolean | null
+  departmentId: string | null
 }
 
 export type DireccionCountAggregateOutputType = {
@@ -119,25 +119,25 @@ export type DireccionCountAggregateOutputType = {
   municipio: number
   linkMaps: number
   createdAt: number
+  latitud: number
+  longitud: number
+  nombreSede: number
+  updatedAt: number
   activa: number
   bloqueada: number
   cargoContacto: number
   clasificacionPunto: number
-  departmentId: number
   horarioFin: number
   horarioInicio: number
-  latitud: number
-  longitud: number
   motivoBloqueo: number
   municipioId: number
   nombreContacto: number
-  nombreSede: number
   precisionGPS: number
   restricciones: number
   telefonoContacto: number
   tipoUbicacion: number
-  updatedAt: number
   validadoPorSistema: number
+  departmentId: number
   _all: number
 }
 
@@ -167,25 +167,25 @@ export type DireccionMinAggregateInputType = {
   municipio?: true
   linkMaps?: true
   createdAt?: true
+  latitud?: true
+  longitud?: true
+  nombreSede?: true
+  updatedAt?: true
   activa?: true
   bloqueada?: true
   cargoContacto?: true
   clasificacionPunto?: true
-  departmentId?: true
   horarioFin?: true
   horarioInicio?: true
-  latitud?: true
-  longitud?: true
   motivoBloqueo?: true
   municipioId?: true
   nombreContacto?: true
-  nombreSede?: true
   precisionGPS?: true
   restricciones?: true
   telefonoContacto?: true
   tipoUbicacion?: true
-  updatedAt?: true
   validadoPorSistema?: true
+  departmentId?: true
 }
 
 export type DireccionMaxAggregateInputType = {
@@ -201,25 +201,25 @@ export type DireccionMaxAggregateInputType = {
   municipio?: true
   linkMaps?: true
   createdAt?: true
+  latitud?: true
+  longitud?: true
+  nombreSede?: true
+  updatedAt?: true
   activa?: true
   bloqueada?: true
   cargoContacto?: true
   clasificacionPunto?: true
-  departmentId?: true
   horarioFin?: true
   horarioInicio?: true
-  latitud?: true
-  longitud?: true
   motivoBloqueo?: true
   municipioId?: true
   nombreContacto?: true
-  nombreSede?: true
   precisionGPS?: true
   restricciones?: true
   telefonoContacto?: true
   tipoUbicacion?: true
-  updatedAt?: true
   validadoPorSistema?: true
+  departmentId?: true
 }
 
 export type DireccionCountAggregateInputType = {
@@ -235,25 +235,25 @@ export type DireccionCountAggregateInputType = {
   municipio?: true
   linkMaps?: true
   createdAt?: true
+  latitud?: true
+  longitud?: true
+  nombreSede?: true
+  updatedAt?: true
   activa?: true
   bloqueada?: true
   cargoContacto?: true
   clasificacionPunto?: true
-  departmentId?: true
   horarioFin?: true
   horarioInicio?: true
-  latitud?: true
-  longitud?: true
   motivoBloqueo?: true
   municipioId?: true
   nombreContacto?: true
-  nombreSede?: true
   precisionGPS?: true
   restricciones?: true
   telefonoContacto?: true
   tipoUbicacion?: true
-  updatedAt?: true
   validadoPorSistema?: true
+  departmentId?: true
   _all?: true
 }
 
@@ -356,25 +356,25 @@ export type DireccionGroupByOutputType = {
   municipio: string | null
   linkMaps: string | null
   createdAt: Date
+  latitud: number | null
+  longitud: number | null
+  nombreSede: string | null
+  updatedAt: Date
   activa: boolean
   bloqueada: boolean
   cargoContacto: string | null
   clasificacionPunto: string | null
-  departmentId: string | null
   horarioFin: string | null
   horarioInicio: string | null
-  latitud: number | null
-  longitud: number | null
   motivoBloqueo: string | null
   municipioId: string | null
   nombreContacto: string | null
-  nombreSede: string | null
   precisionGPS: runtime.Decimal | null
   restricciones: string | null
   telefonoContacto: string | null
   tipoUbicacion: string | null
-  updatedAt: Date
   validadoPorSistema: boolean
+  departmentId: string | null
   _count: DireccionCountAggregateOutputType | null
   _avg: DireccionAvgAggregateOutputType | null
   _sum: DireccionSumAggregateOutputType | null
@@ -413,25 +413,25 @@ export type DireccionWhereInput = {
   municipio?: Prisma.StringNullableFilter<"Direccion"> | string | null
   linkMaps?: Prisma.StringNullableFilter<"Direccion"> | string | null
   createdAt?: Prisma.DateTimeFilter<"Direccion"> | Date | string
+  latitud?: Prisma.FloatNullableFilter<"Direccion"> | number | null
+  longitud?: Prisma.FloatNullableFilter<"Direccion"> | number | null
+  nombreSede?: Prisma.StringNullableFilter<"Direccion"> | string | null
+  updatedAt?: Prisma.DateTimeFilter<"Direccion"> | Date | string
   activa?: Prisma.BoolFilter<"Direccion"> | boolean
   bloqueada?: Prisma.BoolFilter<"Direccion"> | boolean
   cargoContacto?: Prisma.StringNullableFilter<"Direccion"> | string | null
   clasificacionPunto?: Prisma.StringNullableFilter<"Direccion"> | string | null
-  departmentId?: Prisma.UuidNullableFilter<"Direccion"> | string | null
   horarioFin?: Prisma.StringNullableFilter<"Direccion"> | string | null
   horarioInicio?: Prisma.StringNullableFilter<"Direccion"> | string | null
-  latitud?: Prisma.FloatNullableFilter<"Direccion"> | number | null
-  longitud?: Prisma.FloatNullableFilter<"Direccion"> | number | null
   motivoBloqueo?: Prisma.StringNullableFilter<"Direccion"> | string | null
   municipioId?: Prisma.UuidNullableFilter<"Direccion"> | string | null
   nombreContacto?: Prisma.StringNullableFilter<"Direccion"> | string | null
-  nombreSede?: Prisma.StringNullableFilter<"Direccion"> | string | null
   precisionGPS?: Prisma.DecimalNullableFilter<"Direccion"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   restricciones?: Prisma.StringNullableFilter<"Direccion"> | string | null
   telefonoContacto?: Prisma.StringNullableFilter<"Direccion"> | string | null
   tipoUbicacion?: Prisma.StringNullableFilter<"Direccion"> | string | null
-  updatedAt?: Prisma.DateTimeFilter<"Direccion"> | Date | string
   validadoPorSistema?: Prisma.BoolFilter<"Direccion"> | boolean
+  departmentId?: Prisma.UuidNullableFilter<"Direccion"> | string | null
   cliente?: Prisma.XOR<Prisma.ClienteScalarRelationFilter, Prisma.ClienteWhereInput>
   departmentRel?: Prisma.XOR<Prisma.DepartmentNullableScalarRelationFilter, Prisma.DepartmentWhereInput> | null
   empresa?: Prisma.XOR<Prisma.EmpresaNullableScalarRelationFilter, Prisma.EmpresaWhereInput> | null
@@ -453,25 +453,25 @@ export type DireccionOrderByWithRelationInput = {
   municipio?: Prisma.SortOrderInput | Prisma.SortOrder
   linkMaps?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
+  latitud?: Prisma.SortOrderInput | Prisma.SortOrder
+  longitud?: Prisma.SortOrderInput | Prisma.SortOrder
+  nombreSede?: Prisma.SortOrderInput | Prisma.SortOrder
+  updatedAt?: Prisma.SortOrder
   activa?: Prisma.SortOrder
   bloqueada?: Prisma.SortOrder
   cargoContacto?: Prisma.SortOrderInput | Prisma.SortOrder
   clasificacionPunto?: Prisma.SortOrderInput | Prisma.SortOrder
-  departmentId?: Prisma.SortOrderInput | Prisma.SortOrder
   horarioFin?: Prisma.SortOrderInput | Prisma.SortOrder
   horarioInicio?: Prisma.SortOrderInput | Prisma.SortOrder
-  latitud?: Prisma.SortOrderInput | Prisma.SortOrder
-  longitud?: Prisma.SortOrderInput | Prisma.SortOrder
   motivoBloqueo?: Prisma.SortOrderInput | Prisma.SortOrder
   municipioId?: Prisma.SortOrderInput | Prisma.SortOrder
   nombreContacto?: Prisma.SortOrderInput | Prisma.SortOrder
-  nombreSede?: Prisma.SortOrderInput | Prisma.SortOrder
   precisionGPS?: Prisma.SortOrderInput | Prisma.SortOrder
   restricciones?: Prisma.SortOrderInput | Prisma.SortOrder
   telefonoContacto?: Prisma.SortOrderInput | Prisma.SortOrder
   tipoUbicacion?: Prisma.SortOrderInput | Prisma.SortOrder
-  updatedAt?: Prisma.SortOrder
   validadoPorSistema?: Prisma.SortOrder
+  departmentId?: Prisma.SortOrderInput | Prisma.SortOrder
   cliente?: Prisma.ClienteOrderByWithRelationInput
   departmentRel?: Prisma.DepartmentOrderByWithRelationInput
   empresa?: Prisma.EmpresaOrderByWithRelationInput
@@ -496,25 +496,25 @@ export type DireccionWhereUniqueInput = Prisma.AtLeast<{
   municipio?: Prisma.StringNullableFilter<"Direccion"> | string | null
   linkMaps?: Prisma.StringNullableFilter<"Direccion"> | string | null
   createdAt?: Prisma.DateTimeFilter<"Direccion"> | Date | string
+  latitud?: Prisma.FloatNullableFilter<"Direccion"> | number | null
+  longitud?: Prisma.FloatNullableFilter<"Direccion"> | number | null
+  nombreSede?: Prisma.StringNullableFilter<"Direccion"> | string | null
+  updatedAt?: Prisma.DateTimeFilter<"Direccion"> | Date | string
   activa?: Prisma.BoolFilter<"Direccion"> | boolean
   bloqueada?: Prisma.BoolFilter<"Direccion"> | boolean
   cargoContacto?: Prisma.StringNullableFilter<"Direccion"> | string | null
   clasificacionPunto?: Prisma.StringNullableFilter<"Direccion"> | string | null
-  departmentId?: Prisma.UuidNullableFilter<"Direccion"> | string | null
   horarioFin?: Prisma.StringNullableFilter<"Direccion"> | string | null
   horarioInicio?: Prisma.StringNullableFilter<"Direccion"> | string | null
-  latitud?: Prisma.FloatNullableFilter<"Direccion"> | number | null
-  longitud?: Prisma.FloatNullableFilter<"Direccion"> | number | null
   motivoBloqueo?: Prisma.StringNullableFilter<"Direccion"> | string | null
   municipioId?: Prisma.UuidNullableFilter<"Direccion"> | string | null
   nombreContacto?: Prisma.StringNullableFilter<"Direccion"> | string | null
-  nombreSede?: Prisma.StringNullableFilter<"Direccion"> | string | null
   precisionGPS?: Prisma.DecimalNullableFilter<"Direccion"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   restricciones?: Prisma.StringNullableFilter<"Direccion"> | string | null
   telefonoContacto?: Prisma.StringNullableFilter<"Direccion"> | string | null
   tipoUbicacion?: Prisma.StringNullableFilter<"Direccion"> | string | null
-  updatedAt?: Prisma.DateTimeFilter<"Direccion"> | Date | string
   validadoPorSistema?: Prisma.BoolFilter<"Direccion"> | boolean
+  departmentId?: Prisma.UuidNullableFilter<"Direccion"> | string | null
   cliente?: Prisma.XOR<Prisma.ClienteScalarRelationFilter, Prisma.ClienteWhereInput>
   departmentRel?: Prisma.XOR<Prisma.DepartmentNullableScalarRelationFilter, Prisma.DepartmentWhereInput> | null
   empresa?: Prisma.XOR<Prisma.EmpresaNullableScalarRelationFilter, Prisma.EmpresaWhereInput> | null
@@ -536,25 +536,25 @@ export type DireccionOrderByWithAggregationInput = {
   municipio?: Prisma.SortOrderInput | Prisma.SortOrder
   linkMaps?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
+  latitud?: Prisma.SortOrderInput | Prisma.SortOrder
+  longitud?: Prisma.SortOrderInput | Prisma.SortOrder
+  nombreSede?: Prisma.SortOrderInput | Prisma.SortOrder
+  updatedAt?: Prisma.SortOrder
   activa?: Prisma.SortOrder
   bloqueada?: Prisma.SortOrder
   cargoContacto?: Prisma.SortOrderInput | Prisma.SortOrder
   clasificacionPunto?: Prisma.SortOrderInput | Prisma.SortOrder
-  departmentId?: Prisma.SortOrderInput | Prisma.SortOrder
   horarioFin?: Prisma.SortOrderInput | Prisma.SortOrder
   horarioInicio?: Prisma.SortOrderInput | Prisma.SortOrder
-  latitud?: Prisma.SortOrderInput | Prisma.SortOrder
-  longitud?: Prisma.SortOrderInput | Prisma.SortOrder
   motivoBloqueo?: Prisma.SortOrderInput | Prisma.SortOrder
   municipioId?: Prisma.SortOrderInput | Prisma.SortOrder
   nombreContacto?: Prisma.SortOrderInput | Prisma.SortOrder
-  nombreSede?: Prisma.SortOrderInput | Prisma.SortOrder
   precisionGPS?: Prisma.SortOrderInput | Prisma.SortOrder
   restricciones?: Prisma.SortOrderInput | Prisma.SortOrder
   telefonoContacto?: Prisma.SortOrderInput | Prisma.SortOrder
   tipoUbicacion?: Prisma.SortOrderInput | Prisma.SortOrder
-  updatedAt?: Prisma.SortOrder
   validadoPorSistema?: Prisma.SortOrder
+  departmentId?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.DireccionCountOrderByAggregateInput
   _avg?: Prisma.DireccionAvgOrderByAggregateInput
   _max?: Prisma.DireccionMaxOrderByAggregateInput
@@ -578,25 +578,25 @@ export type DireccionScalarWhereWithAggregatesInput = {
   municipio?: Prisma.StringNullableWithAggregatesFilter<"Direccion"> | string | null
   linkMaps?: Prisma.StringNullableWithAggregatesFilter<"Direccion"> | string | null
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Direccion"> | Date | string
+  latitud?: Prisma.FloatNullableWithAggregatesFilter<"Direccion"> | number | null
+  longitud?: Prisma.FloatNullableWithAggregatesFilter<"Direccion"> | number | null
+  nombreSede?: Prisma.StringNullableWithAggregatesFilter<"Direccion"> | string | null
+  updatedAt?: Prisma.DateTimeWithAggregatesFilter<"Direccion"> | Date | string
   activa?: Prisma.BoolWithAggregatesFilter<"Direccion"> | boolean
   bloqueada?: Prisma.BoolWithAggregatesFilter<"Direccion"> | boolean
   cargoContacto?: Prisma.StringNullableWithAggregatesFilter<"Direccion"> | string | null
   clasificacionPunto?: Prisma.StringNullableWithAggregatesFilter<"Direccion"> | string | null
-  departmentId?: Prisma.UuidNullableWithAggregatesFilter<"Direccion"> | string | null
   horarioFin?: Prisma.StringNullableWithAggregatesFilter<"Direccion"> | string | null
   horarioInicio?: Prisma.StringNullableWithAggregatesFilter<"Direccion"> | string | null
-  latitud?: Prisma.FloatNullableWithAggregatesFilter<"Direccion"> | number | null
-  longitud?: Prisma.FloatNullableWithAggregatesFilter<"Direccion"> | number | null
   motivoBloqueo?: Prisma.StringNullableWithAggregatesFilter<"Direccion"> | string | null
   municipioId?: Prisma.UuidNullableWithAggregatesFilter<"Direccion"> | string | null
   nombreContacto?: Prisma.StringNullableWithAggregatesFilter<"Direccion"> | string | null
-  nombreSede?: Prisma.StringNullableWithAggregatesFilter<"Direccion"> | string | null
   precisionGPS?: Prisma.DecimalNullableWithAggregatesFilter<"Direccion"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   restricciones?: Prisma.StringNullableWithAggregatesFilter<"Direccion"> | string | null
   telefonoContacto?: Prisma.StringNullableWithAggregatesFilter<"Direccion"> | string | null
   tipoUbicacion?: Prisma.StringNullableWithAggregatesFilter<"Direccion"> | string | null
-  updatedAt?: Prisma.DateTimeWithAggregatesFilter<"Direccion"> | Date | string
   validadoPorSistema?: Prisma.BoolWithAggregatesFilter<"Direccion"> | boolean
+  departmentId?: Prisma.UuidNullableWithAggregatesFilter<"Direccion"> | string | null
 }
 
 export type DireccionCreateInput = {
@@ -609,22 +609,22 @@ export type DireccionCreateInput = {
   municipio?: string | null
   linkMaps?: string | null
   createdAt?: Date | string
+  latitud?: number | null
+  longitud?: number | null
+  nombreSede?: string | null
+  updatedAt?: Date | string
   activa?: boolean
   bloqueada?: boolean
   cargoContacto?: string | null
   clasificacionPunto?: string | null
   horarioFin?: string | null
   horarioInicio?: string | null
-  latitud?: number | null
-  longitud?: number | null
   motivoBloqueo?: string | null
   nombreContacto?: string | null
-  nombreSede?: string | null
   precisionGPS?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   restricciones?: string | null
   telefonoContacto?: string | null
   tipoUbicacion?: string | null
-  updatedAt?: Date | string
   validadoPorSistema?: boolean
   cliente: Prisma.ClienteCreateNestedOneWithoutDireccionesInput
   departmentRel?: Prisma.DepartmentCreateNestedOneWithoutDireccionesInput
@@ -647,25 +647,25 @@ export type DireccionUncheckedCreateInput = {
   municipio?: string | null
   linkMaps?: string | null
   createdAt?: Date | string
+  latitud?: number | null
+  longitud?: number | null
+  nombreSede?: string | null
+  updatedAt?: Date | string
   activa?: boolean
   bloqueada?: boolean
   cargoContacto?: string | null
   clasificacionPunto?: string | null
-  departmentId?: string | null
   horarioFin?: string | null
   horarioInicio?: string | null
-  latitud?: number | null
-  longitud?: number | null
   motivoBloqueo?: string | null
   municipioId?: string | null
   nombreContacto?: string | null
-  nombreSede?: string | null
   precisionGPS?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   restricciones?: string | null
   telefonoContacto?: string | null
   tipoUbicacion?: string | null
-  updatedAt?: Date | string
   validadoPorSistema?: boolean
+  departmentId?: string | null
   ordenesServicio?: Prisma.OrdenServicioUncheckedCreateNestedManyWithoutDireccionInput
 }
 
@@ -679,22 +679,22 @@ export type DireccionUpdateInput = {
   municipio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   linkMaps?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  latitud?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  longitud?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  nombreSede?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   activa?: Prisma.BoolFieldUpdateOperationsInput | boolean
   bloqueada?: Prisma.BoolFieldUpdateOperationsInput | boolean
   cargoContacto?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   clasificacionPunto?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   horarioFin?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   horarioInicio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  latitud?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
-  longitud?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   motivoBloqueo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   nombreContacto?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  nombreSede?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   precisionGPS?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   restricciones?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   telefonoContacto?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tipoUbicacion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   validadoPorSistema?: Prisma.BoolFieldUpdateOperationsInput | boolean
   cliente?: Prisma.ClienteUpdateOneRequiredWithoutDireccionesNestedInput
   departmentRel?: Prisma.DepartmentUpdateOneWithoutDireccionesNestedInput
@@ -717,25 +717,25 @@ export type DireccionUncheckedUpdateInput = {
   municipio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   linkMaps?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  latitud?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  longitud?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  nombreSede?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   activa?: Prisma.BoolFieldUpdateOperationsInput | boolean
   bloqueada?: Prisma.BoolFieldUpdateOperationsInput | boolean
   cargoContacto?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   clasificacionPunto?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  departmentId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   horarioFin?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   horarioInicio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  latitud?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
-  longitud?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   motivoBloqueo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   municipioId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   nombreContacto?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  nombreSede?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   precisionGPS?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   restricciones?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   telefonoContacto?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tipoUbicacion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   validadoPorSistema?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  departmentId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   ordenesServicio?: Prisma.OrdenServicioUncheckedUpdateManyWithoutDireccionNestedInput
 }
 
@@ -752,25 +752,25 @@ export type DireccionCreateManyInput = {
   municipio?: string | null
   linkMaps?: string | null
   createdAt?: Date | string
+  latitud?: number | null
+  longitud?: number | null
+  nombreSede?: string | null
+  updatedAt?: Date | string
   activa?: boolean
   bloqueada?: boolean
   cargoContacto?: string | null
   clasificacionPunto?: string | null
-  departmentId?: string | null
   horarioFin?: string | null
   horarioInicio?: string | null
-  latitud?: number | null
-  longitud?: number | null
   motivoBloqueo?: string | null
   municipioId?: string | null
   nombreContacto?: string | null
-  nombreSede?: string | null
   precisionGPS?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   restricciones?: string | null
   telefonoContacto?: string | null
   tipoUbicacion?: string | null
-  updatedAt?: Date | string
   validadoPorSistema?: boolean
+  departmentId?: string | null
 }
 
 export type DireccionUpdateManyMutationInput = {
@@ -783,22 +783,22 @@ export type DireccionUpdateManyMutationInput = {
   municipio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   linkMaps?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  latitud?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  longitud?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  nombreSede?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   activa?: Prisma.BoolFieldUpdateOperationsInput | boolean
   bloqueada?: Prisma.BoolFieldUpdateOperationsInput | boolean
   cargoContacto?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   clasificacionPunto?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   horarioFin?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   horarioInicio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  latitud?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
-  longitud?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   motivoBloqueo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   nombreContacto?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  nombreSede?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   precisionGPS?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   restricciones?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   telefonoContacto?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tipoUbicacion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   validadoPorSistema?: Prisma.BoolFieldUpdateOperationsInput | boolean
 }
 
@@ -815,25 +815,25 @@ export type DireccionUncheckedUpdateManyInput = {
   municipio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   linkMaps?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  latitud?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  longitud?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  nombreSede?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   activa?: Prisma.BoolFieldUpdateOperationsInput | boolean
   bloqueada?: Prisma.BoolFieldUpdateOperationsInput | boolean
   cargoContacto?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   clasificacionPunto?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  departmentId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   horarioFin?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   horarioInicio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  latitud?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
-  longitud?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   motivoBloqueo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   municipioId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   nombreContacto?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  nombreSede?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   precisionGPS?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   restricciones?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   telefonoContacto?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tipoUbicacion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   validadoPorSistema?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  departmentId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type DireccionListRelationFilter = {
@@ -859,25 +859,25 @@ export type DireccionCountOrderByAggregateInput = {
   municipio?: Prisma.SortOrder
   linkMaps?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
+  latitud?: Prisma.SortOrder
+  longitud?: Prisma.SortOrder
+  nombreSede?: Prisma.SortOrder
+  updatedAt?: Prisma.SortOrder
   activa?: Prisma.SortOrder
   bloqueada?: Prisma.SortOrder
   cargoContacto?: Prisma.SortOrder
   clasificacionPunto?: Prisma.SortOrder
-  departmentId?: Prisma.SortOrder
   horarioFin?: Prisma.SortOrder
   horarioInicio?: Prisma.SortOrder
-  latitud?: Prisma.SortOrder
-  longitud?: Prisma.SortOrder
   motivoBloqueo?: Prisma.SortOrder
   municipioId?: Prisma.SortOrder
   nombreContacto?: Prisma.SortOrder
-  nombreSede?: Prisma.SortOrder
   precisionGPS?: Prisma.SortOrder
   restricciones?: Prisma.SortOrder
   telefonoContacto?: Prisma.SortOrder
   tipoUbicacion?: Prisma.SortOrder
-  updatedAt?: Prisma.SortOrder
   validadoPorSistema?: Prisma.SortOrder
+  departmentId?: Prisma.SortOrder
 }
 
 export type DireccionAvgOrderByAggregateInput = {
@@ -899,25 +899,25 @@ export type DireccionMaxOrderByAggregateInput = {
   municipio?: Prisma.SortOrder
   linkMaps?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
+  latitud?: Prisma.SortOrder
+  longitud?: Prisma.SortOrder
+  nombreSede?: Prisma.SortOrder
+  updatedAt?: Prisma.SortOrder
   activa?: Prisma.SortOrder
   bloqueada?: Prisma.SortOrder
   cargoContacto?: Prisma.SortOrder
   clasificacionPunto?: Prisma.SortOrder
-  departmentId?: Prisma.SortOrder
   horarioFin?: Prisma.SortOrder
   horarioInicio?: Prisma.SortOrder
-  latitud?: Prisma.SortOrder
-  longitud?: Prisma.SortOrder
   motivoBloqueo?: Prisma.SortOrder
   municipioId?: Prisma.SortOrder
   nombreContacto?: Prisma.SortOrder
-  nombreSede?: Prisma.SortOrder
   precisionGPS?: Prisma.SortOrder
   restricciones?: Prisma.SortOrder
   telefonoContacto?: Prisma.SortOrder
   tipoUbicacion?: Prisma.SortOrder
-  updatedAt?: Prisma.SortOrder
   validadoPorSistema?: Prisma.SortOrder
+  departmentId?: Prisma.SortOrder
 }
 
 export type DireccionMinOrderByAggregateInput = {
@@ -933,25 +933,25 @@ export type DireccionMinOrderByAggregateInput = {
   municipio?: Prisma.SortOrder
   linkMaps?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
+  latitud?: Prisma.SortOrder
+  longitud?: Prisma.SortOrder
+  nombreSede?: Prisma.SortOrder
+  updatedAt?: Prisma.SortOrder
   activa?: Prisma.SortOrder
   bloqueada?: Prisma.SortOrder
   cargoContacto?: Prisma.SortOrder
   clasificacionPunto?: Prisma.SortOrder
-  departmentId?: Prisma.SortOrder
   horarioFin?: Prisma.SortOrder
   horarioInicio?: Prisma.SortOrder
-  latitud?: Prisma.SortOrder
-  longitud?: Prisma.SortOrder
   motivoBloqueo?: Prisma.SortOrder
   municipioId?: Prisma.SortOrder
   nombreContacto?: Prisma.SortOrder
-  nombreSede?: Prisma.SortOrder
   precisionGPS?: Prisma.SortOrder
   restricciones?: Prisma.SortOrder
   telefonoContacto?: Prisma.SortOrder
   tipoUbicacion?: Prisma.SortOrder
-  updatedAt?: Prisma.SortOrder
   validadoPorSistema?: Prisma.SortOrder
+  departmentId?: Prisma.SortOrder
 }
 
 export type DireccionSumOrderByAggregateInput = {
@@ -1209,22 +1209,22 @@ export type DireccionCreateWithoutTenantInput = {
   municipio?: string | null
   linkMaps?: string | null
   createdAt?: Date | string
+  latitud?: number | null
+  longitud?: number | null
+  nombreSede?: string | null
+  updatedAt?: Date | string
   activa?: boolean
   bloqueada?: boolean
   cargoContacto?: string | null
   clasificacionPunto?: string | null
   horarioFin?: string | null
   horarioInicio?: string | null
-  latitud?: number | null
-  longitud?: number | null
   motivoBloqueo?: string | null
   nombreContacto?: string | null
-  nombreSede?: string | null
   precisionGPS?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   restricciones?: string | null
   telefonoContacto?: string | null
   tipoUbicacion?: string | null
-  updatedAt?: Date | string
   validadoPorSistema?: boolean
   cliente: Prisma.ClienteCreateNestedOneWithoutDireccionesInput
   departmentRel?: Prisma.DepartmentCreateNestedOneWithoutDireccionesInput
@@ -1245,25 +1245,25 @@ export type DireccionUncheckedCreateWithoutTenantInput = {
   municipio?: string | null
   linkMaps?: string | null
   createdAt?: Date | string
+  latitud?: number | null
+  longitud?: number | null
+  nombreSede?: string | null
+  updatedAt?: Date | string
   activa?: boolean
   bloqueada?: boolean
   cargoContacto?: string | null
   clasificacionPunto?: string | null
-  departmentId?: string | null
   horarioFin?: string | null
   horarioInicio?: string | null
-  latitud?: number | null
-  longitud?: number | null
   motivoBloqueo?: string | null
   municipioId?: string | null
   nombreContacto?: string | null
-  nombreSede?: string | null
   precisionGPS?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   restricciones?: string | null
   telefonoContacto?: string | null
   tipoUbicacion?: string | null
-  updatedAt?: Date | string
   validadoPorSistema?: boolean
+  departmentId?: string | null
   ordenesServicio?: Prisma.OrdenServicioUncheckedCreateNestedManyWithoutDireccionInput
 }
 
@@ -1309,25 +1309,25 @@ export type DireccionScalarWhereInput = {
   municipio?: Prisma.StringNullableFilter<"Direccion"> | string | null
   linkMaps?: Prisma.StringNullableFilter<"Direccion"> | string | null
   createdAt?: Prisma.DateTimeFilter<"Direccion"> | Date | string
+  latitud?: Prisma.FloatNullableFilter<"Direccion"> | number | null
+  longitud?: Prisma.FloatNullableFilter<"Direccion"> | number | null
+  nombreSede?: Prisma.StringNullableFilter<"Direccion"> | string | null
+  updatedAt?: Prisma.DateTimeFilter<"Direccion"> | Date | string
   activa?: Prisma.BoolFilter<"Direccion"> | boolean
   bloqueada?: Prisma.BoolFilter<"Direccion"> | boolean
   cargoContacto?: Prisma.StringNullableFilter<"Direccion"> | string | null
   clasificacionPunto?: Prisma.StringNullableFilter<"Direccion"> | string | null
-  departmentId?: Prisma.UuidNullableFilter<"Direccion"> | string | null
   horarioFin?: Prisma.StringNullableFilter<"Direccion"> | string | null
   horarioInicio?: Prisma.StringNullableFilter<"Direccion"> | string | null
-  latitud?: Prisma.FloatNullableFilter<"Direccion"> | number | null
-  longitud?: Prisma.FloatNullableFilter<"Direccion"> | number | null
   motivoBloqueo?: Prisma.StringNullableFilter<"Direccion"> | string | null
   municipioId?: Prisma.UuidNullableFilter<"Direccion"> | string | null
   nombreContacto?: Prisma.StringNullableFilter<"Direccion"> | string | null
-  nombreSede?: Prisma.StringNullableFilter<"Direccion"> | string | null
   precisionGPS?: Prisma.DecimalNullableFilter<"Direccion"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   restricciones?: Prisma.StringNullableFilter<"Direccion"> | string | null
   telefonoContacto?: Prisma.StringNullableFilter<"Direccion"> | string | null
   tipoUbicacion?: Prisma.StringNullableFilter<"Direccion"> | string | null
-  updatedAt?: Prisma.DateTimeFilter<"Direccion"> | Date | string
   validadoPorSistema?: Prisma.BoolFilter<"Direccion"> | boolean
+  departmentId?: Prisma.UuidNullableFilter<"Direccion"> | string | null
 }
 
 export type DireccionCreateWithoutEmpresaInput = {
@@ -1340,22 +1340,22 @@ export type DireccionCreateWithoutEmpresaInput = {
   municipio?: string | null
   linkMaps?: string | null
   createdAt?: Date | string
+  latitud?: number | null
+  longitud?: number | null
+  nombreSede?: string | null
+  updatedAt?: Date | string
   activa?: boolean
   bloqueada?: boolean
   cargoContacto?: string | null
   clasificacionPunto?: string | null
   horarioFin?: string | null
   horarioInicio?: string | null
-  latitud?: number | null
-  longitud?: number | null
   motivoBloqueo?: string | null
   nombreContacto?: string | null
-  nombreSede?: string | null
   precisionGPS?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   restricciones?: string | null
   telefonoContacto?: string | null
   tipoUbicacion?: string | null
-  updatedAt?: Date | string
   validadoPorSistema?: boolean
   cliente: Prisma.ClienteCreateNestedOneWithoutDireccionesInput
   departmentRel?: Prisma.DepartmentCreateNestedOneWithoutDireccionesInput
@@ -1376,25 +1376,25 @@ export type DireccionUncheckedCreateWithoutEmpresaInput = {
   municipio?: string | null
   linkMaps?: string | null
   createdAt?: Date | string
+  latitud?: number | null
+  longitud?: number | null
+  nombreSede?: string | null
+  updatedAt?: Date | string
   activa?: boolean
   bloqueada?: boolean
   cargoContacto?: string | null
   clasificacionPunto?: string | null
-  departmentId?: string | null
   horarioFin?: string | null
   horarioInicio?: string | null
-  latitud?: number | null
-  longitud?: number | null
   motivoBloqueo?: string | null
   municipioId?: string | null
   nombreContacto?: string | null
-  nombreSede?: string | null
   precisionGPS?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   restricciones?: string | null
   telefonoContacto?: string | null
   tipoUbicacion?: string | null
-  updatedAt?: Date | string
   validadoPorSistema?: boolean
+  departmentId?: string | null
   ordenesServicio?: Prisma.OrdenServicioUncheckedCreateNestedManyWithoutDireccionInput
 }
 
@@ -1434,22 +1434,22 @@ export type DireccionCreateWithoutDepartmentRelInput = {
   municipio?: string | null
   linkMaps?: string | null
   createdAt?: Date | string
+  latitud?: number | null
+  longitud?: number | null
+  nombreSede?: string | null
+  updatedAt?: Date | string
   activa?: boolean
   bloqueada?: boolean
   cargoContacto?: string | null
   clasificacionPunto?: string | null
   horarioFin?: string | null
   horarioInicio?: string | null
-  latitud?: number | null
-  longitud?: number | null
   motivoBloqueo?: string | null
   nombreContacto?: string | null
-  nombreSede?: string | null
   precisionGPS?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   restricciones?: string | null
   telefonoContacto?: string | null
   tipoUbicacion?: string | null
-  updatedAt?: Date | string
   validadoPorSistema?: boolean
   cliente: Prisma.ClienteCreateNestedOneWithoutDireccionesInput
   empresa?: Prisma.EmpresaCreateNestedOneWithoutDireccionesInput
@@ -1471,23 +1471,23 @@ export type DireccionUncheckedCreateWithoutDepartmentRelInput = {
   municipio?: string | null
   linkMaps?: string | null
   createdAt?: Date | string
+  latitud?: number | null
+  longitud?: number | null
+  nombreSede?: string | null
+  updatedAt?: Date | string
   activa?: boolean
   bloqueada?: boolean
   cargoContacto?: string | null
   clasificacionPunto?: string | null
   horarioFin?: string | null
   horarioInicio?: string | null
-  latitud?: number | null
-  longitud?: number | null
   motivoBloqueo?: string | null
   municipioId?: string | null
   nombreContacto?: string | null
-  nombreSede?: string | null
   precisionGPS?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   restricciones?: string | null
   telefonoContacto?: string | null
   tipoUbicacion?: string | null
-  updatedAt?: Date | string
   validadoPorSistema?: boolean
   ordenesServicio?: Prisma.OrdenServicioUncheckedCreateNestedManyWithoutDireccionInput
 }
@@ -1528,22 +1528,22 @@ export type DireccionCreateWithoutMunicipioRelInput = {
   municipio?: string | null
   linkMaps?: string | null
   createdAt?: Date | string
+  latitud?: number | null
+  longitud?: number | null
+  nombreSede?: string | null
+  updatedAt?: Date | string
   activa?: boolean
   bloqueada?: boolean
   cargoContacto?: string | null
   clasificacionPunto?: string | null
   horarioFin?: string | null
   horarioInicio?: string | null
-  latitud?: number | null
-  longitud?: number | null
   motivoBloqueo?: string | null
   nombreContacto?: string | null
-  nombreSede?: string | null
   precisionGPS?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   restricciones?: string | null
   telefonoContacto?: string | null
   tipoUbicacion?: string | null
-  updatedAt?: Date | string
   validadoPorSistema?: boolean
   cliente: Prisma.ClienteCreateNestedOneWithoutDireccionesInput
   departmentRel?: Prisma.DepartmentCreateNestedOneWithoutDireccionesInput
@@ -1565,24 +1565,24 @@ export type DireccionUncheckedCreateWithoutMunicipioRelInput = {
   municipio?: string | null
   linkMaps?: string | null
   createdAt?: Date | string
+  latitud?: number | null
+  longitud?: number | null
+  nombreSede?: string | null
+  updatedAt?: Date | string
   activa?: boolean
   bloqueada?: boolean
   cargoContacto?: string | null
   clasificacionPunto?: string | null
-  departmentId?: string | null
   horarioFin?: string | null
   horarioInicio?: string | null
-  latitud?: number | null
-  longitud?: number | null
   motivoBloqueo?: string | null
   nombreContacto?: string | null
-  nombreSede?: string | null
   precisionGPS?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   restricciones?: string | null
   telefonoContacto?: string | null
   tipoUbicacion?: string | null
-  updatedAt?: Date | string
   validadoPorSistema?: boolean
+  departmentId?: string | null
   ordenesServicio?: Prisma.OrdenServicioUncheckedCreateNestedManyWithoutDireccionInput
 }
 
@@ -1622,22 +1622,22 @@ export type DireccionCreateWithoutClienteInput = {
   municipio?: string | null
   linkMaps?: string | null
   createdAt?: Date | string
+  latitud?: number | null
+  longitud?: number | null
+  nombreSede?: string | null
+  updatedAt?: Date | string
   activa?: boolean
   bloqueada?: boolean
   cargoContacto?: string | null
   clasificacionPunto?: string | null
   horarioFin?: string | null
   horarioInicio?: string | null
-  latitud?: number | null
-  longitud?: number | null
   motivoBloqueo?: string | null
   nombreContacto?: string | null
-  nombreSede?: string | null
   precisionGPS?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   restricciones?: string | null
   telefonoContacto?: string | null
   tipoUbicacion?: string | null
-  updatedAt?: Date | string
   validadoPorSistema?: boolean
   departmentRel?: Prisma.DepartmentCreateNestedOneWithoutDireccionesInput
   empresa?: Prisma.EmpresaCreateNestedOneWithoutDireccionesInput
@@ -1658,25 +1658,25 @@ export type DireccionUncheckedCreateWithoutClienteInput = {
   municipio?: string | null
   linkMaps?: string | null
   createdAt?: Date | string
+  latitud?: number | null
+  longitud?: number | null
+  nombreSede?: string | null
+  updatedAt?: Date | string
   activa?: boolean
   bloqueada?: boolean
   cargoContacto?: string | null
   clasificacionPunto?: string | null
-  departmentId?: string | null
   horarioFin?: string | null
   horarioInicio?: string | null
-  latitud?: number | null
-  longitud?: number | null
   motivoBloqueo?: string | null
   municipioId?: string | null
   nombreContacto?: string | null
-  nombreSede?: string | null
   precisionGPS?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   restricciones?: string | null
   telefonoContacto?: string | null
   tipoUbicacion?: string | null
-  updatedAt?: Date | string
   validadoPorSistema?: boolean
+  departmentId?: string | null
   ordenesServicio?: Prisma.OrdenServicioUncheckedCreateNestedManyWithoutDireccionInput
 }
 
@@ -1716,22 +1716,22 @@ export type DireccionCreateWithoutOrdenesServicioInput = {
   municipio?: string | null
   linkMaps?: string | null
   createdAt?: Date | string
+  latitud?: number | null
+  longitud?: number | null
+  nombreSede?: string | null
+  updatedAt?: Date | string
   activa?: boolean
   bloqueada?: boolean
   cargoContacto?: string | null
   clasificacionPunto?: string | null
   horarioFin?: string | null
   horarioInicio?: string | null
-  latitud?: number | null
-  longitud?: number | null
   motivoBloqueo?: string | null
   nombreContacto?: string | null
-  nombreSede?: string | null
   precisionGPS?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   restricciones?: string | null
   telefonoContacto?: string | null
   tipoUbicacion?: string | null
-  updatedAt?: Date | string
   validadoPorSistema?: boolean
   cliente: Prisma.ClienteCreateNestedOneWithoutDireccionesInput
   departmentRel?: Prisma.DepartmentCreateNestedOneWithoutDireccionesInput
@@ -1753,25 +1753,25 @@ export type DireccionUncheckedCreateWithoutOrdenesServicioInput = {
   municipio?: string | null
   linkMaps?: string | null
   createdAt?: Date | string
+  latitud?: number | null
+  longitud?: number | null
+  nombreSede?: string | null
+  updatedAt?: Date | string
   activa?: boolean
   bloqueada?: boolean
   cargoContacto?: string | null
   clasificacionPunto?: string | null
-  departmentId?: string | null
   horarioFin?: string | null
   horarioInicio?: string | null
-  latitud?: number | null
-  longitud?: number | null
   motivoBloqueo?: string | null
   municipioId?: string | null
   nombreContacto?: string | null
-  nombreSede?: string | null
   precisionGPS?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   restricciones?: string | null
   telefonoContacto?: string | null
   tipoUbicacion?: string | null
-  updatedAt?: Date | string
   validadoPorSistema?: boolean
+  departmentId?: string | null
 }
 
 export type DireccionCreateOrConnectWithoutOrdenesServicioInput = {
@@ -1800,22 +1800,22 @@ export type DireccionUpdateWithoutOrdenesServicioInput = {
   municipio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   linkMaps?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  latitud?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  longitud?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  nombreSede?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   activa?: Prisma.BoolFieldUpdateOperationsInput | boolean
   bloqueada?: Prisma.BoolFieldUpdateOperationsInput | boolean
   cargoContacto?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   clasificacionPunto?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   horarioFin?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   horarioInicio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  latitud?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
-  longitud?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   motivoBloqueo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   nombreContacto?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  nombreSede?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   precisionGPS?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   restricciones?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   telefonoContacto?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tipoUbicacion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   validadoPorSistema?: Prisma.BoolFieldUpdateOperationsInput | boolean
   cliente?: Prisma.ClienteUpdateOneRequiredWithoutDireccionesNestedInput
   departmentRel?: Prisma.DepartmentUpdateOneWithoutDireccionesNestedInput
@@ -1837,25 +1837,25 @@ export type DireccionUncheckedUpdateWithoutOrdenesServicioInput = {
   municipio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   linkMaps?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  latitud?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  longitud?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  nombreSede?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   activa?: Prisma.BoolFieldUpdateOperationsInput | boolean
   bloqueada?: Prisma.BoolFieldUpdateOperationsInput | boolean
   cargoContacto?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   clasificacionPunto?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  departmentId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   horarioFin?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   horarioInicio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  latitud?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
-  longitud?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   motivoBloqueo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   municipioId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   nombreContacto?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  nombreSede?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   precisionGPS?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   restricciones?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   telefonoContacto?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tipoUbicacion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   validadoPorSistema?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  departmentId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type DireccionCreateManyTenantInput = {
@@ -1870,25 +1870,25 @@ export type DireccionCreateManyTenantInput = {
   municipio?: string | null
   linkMaps?: string | null
   createdAt?: Date | string
+  latitud?: number | null
+  longitud?: number | null
+  nombreSede?: string | null
+  updatedAt?: Date | string
   activa?: boolean
   bloqueada?: boolean
   cargoContacto?: string | null
   clasificacionPunto?: string | null
-  departmentId?: string | null
   horarioFin?: string | null
   horarioInicio?: string | null
-  latitud?: number | null
-  longitud?: number | null
   motivoBloqueo?: string | null
   municipioId?: string | null
   nombreContacto?: string | null
-  nombreSede?: string | null
   precisionGPS?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   restricciones?: string | null
   telefonoContacto?: string | null
   tipoUbicacion?: string | null
-  updatedAt?: Date | string
   validadoPorSistema?: boolean
+  departmentId?: string | null
 }
 
 export type DireccionUpdateWithoutTenantInput = {
@@ -1901,22 +1901,22 @@ export type DireccionUpdateWithoutTenantInput = {
   municipio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   linkMaps?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  latitud?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  longitud?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  nombreSede?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   activa?: Prisma.BoolFieldUpdateOperationsInput | boolean
   bloqueada?: Prisma.BoolFieldUpdateOperationsInput | boolean
   cargoContacto?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   clasificacionPunto?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   horarioFin?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   horarioInicio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  latitud?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
-  longitud?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   motivoBloqueo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   nombreContacto?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  nombreSede?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   precisionGPS?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   restricciones?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   telefonoContacto?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tipoUbicacion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   validadoPorSistema?: Prisma.BoolFieldUpdateOperationsInput | boolean
   cliente?: Prisma.ClienteUpdateOneRequiredWithoutDireccionesNestedInput
   departmentRel?: Prisma.DepartmentUpdateOneWithoutDireccionesNestedInput
@@ -1937,25 +1937,25 @@ export type DireccionUncheckedUpdateWithoutTenantInput = {
   municipio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   linkMaps?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  latitud?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  longitud?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  nombreSede?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   activa?: Prisma.BoolFieldUpdateOperationsInput | boolean
   bloqueada?: Prisma.BoolFieldUpdateOperationsInput | boolean
   cargoContacto?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   clasificacionPunto?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  departmentId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   horarioFin?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   horarioInicio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  latitud?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
-  longitud?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   motivoBloqueo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   municipioId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   nombreContacto?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  nombreSede?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   precisionGPS?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   restricciones?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   telefonoContacto?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tipoUbicacion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   validadoPorSistema?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  departmentId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   ordenesServicio?: Prisma.OrdenServicioUncheckedUpdateManyWithoutDireccionNestedInput
 }
 
@@ -1971,25 +1971,25 @@ export type DireccionUncheckedUpdateManyWithoutTenantInput = {
   municipio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   linkMaps?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  latitud?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  longitud?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  nombreSede?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   activa?: Prisma.BoolFieldUpdateOperationsInput | boolean
   bloqueada?: Prisma.BoolFieldUpdateOperationsInput | boolean
   cargoContacto?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   clasificacionPunto?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  departmentId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   horarioFin?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   horarioInicio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  latitud?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
-  longitud?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   motivoBloqueo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   municipioId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   nombreContacto?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  nombreSede?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   precisionGPS?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   restricciones?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   telefonoContacto?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tipoUbicacion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   validadoPorSistema?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  departmentId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type DireccionCreateManyEmpresaInput = {
@@ -2004,25 +2004,25 @@ export type DireccionCreateManyEmpresaInput = {
   municipio?: string | null
   linkMaps?: string | null
   createdAt?: Date | string
+  latitud?: number | null
+  longitud?: number | null
+  nombreSede?: string | null
+  updatedAt?: Date | string
   activa?: boolean
   bloqueada?: boolean
   cargoContacto?: string | null
   clasificacionPunto?: string | null
-  departmentId?: string | null
   horarioFin?: string | null
   horarioInicio?: string | null
-  latitud?: number | null
-  longitud?: number | null
   motivoBloqueo?: string | null
   municipioId?: string | null
   nombreContacto?: string | null
-  nombreSede?: string | null
   precisionGPS?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   restricciones?: string | null
   telefonoContacto?: string | null
   tipoUbicacion?: string | null
-  updatedAt?: Date | string
   validadoPorSistema?: boolean
+  departmentId?: string | null
 }
 
 export type DireccionUpdateWithoutEmpresaInput = {
@@ -2035,22 +2035,22 @@ export type DireccionUpdateWithoutEmpresaInput = {
   municipio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   linkMaps?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  latitud?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  longitud?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  nombreSede?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   activa?: Prisma.BoolFieldUpdateOperationsInput | boolean
   bloqueada?: Prisma.BoolFieldUpdateOperationsInput | boolean
   cargoContacto?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   clasificacionPunto?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   horarioFin?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   horarioInicio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  latitud?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
-  longitud?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   motivoBloqueo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   nombreContacto?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  nombreSede?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   precisionGPS?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   restricciones?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   telefonoContacto?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tipoUbicacion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   validadoPorSistema?: Prisma.BoolFieldUpdateOperationsInput | boolean
   cliente?: Prisma.ClienteUpdateOneRequiredWithoutDireccionesNestedInput
   departmentRel?: Prisma.DepartmentUpdateOneWithoutDireccionesNestedInput
@@ -2071,25 +2071,25 @@ export type DireccionUncheckedUpdateWithoutEmpresaInput = {
   municipio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   linkMaps?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  latitud?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  longitud?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  nombreSede?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   activa?: Prisma.BoolFieldUpdateOperationsInput | boolean
   bloqueada?: Prisma.BoolFieldUpdateOperationsInput | boolean
   cargoContacto?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   clasificacionPunto?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  departmentId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   horarioFin?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   horarioInicio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  latitud?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
-  longitud?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   motivoBloqueo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   municipioId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   nombreContacto?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  nombreSede?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   precisionGPS?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   restricciones?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   telefonoContacto?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tipoUbicacion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   validadoPorSistema?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  departmentId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   ordenesServicio?: Prisma.OrdenServicioUncheckedUpdateManyWithoutDireccionNestedInput
 }
 
@@ -2105,25 +2105,25 @@ export type DireccionUncheckedUpdateManyWithoutEmpresaInput = {
   municipio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   linkMaps?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  latitud?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  longitud?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  nombreSede?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   activa?: Prisma.BoolFieldUpdateOperationsInput | boolean
   bloqueada?: Prisma.BoolFieldUpdateOperationsInput | boolean
   cargoContacto?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   clasificacionPunto?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  departmentId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   horarioFin?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   horarioInicio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  latitud?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
-  longitud?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   motivoBloqueo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   municipioId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   nombreContacto?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  nombreSede?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   precisionGPS?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   restricciones?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   telefonoContacto?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tipoUbicacion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   validadoPorSistema?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  departmentId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type DireccionCreateManyDepartmentRelInput = {
@@ -2139,23 +2139,23 @@ export type DireccionCreateManyDepartmentRelInput = {
   municipio?: string | null
   linkMaps?: string | null
   createdAt?: Date | string
+  latitud?: number | null
+  longitud?: number | null
+  nombreSede?: string | null
+  updatedAt?: Date | string
   activa?: boolean
   bloqueada?: boolean
   cargoContacto?: string | null
   clasificacionPunto?: string | null
   horarioFin?: string | null
   horarioInicio?: string | null
-  latitud?: number | null
-  longitud?: number | null
   motivoBloqueo?: string | null
   municipioId?: string | null
   nombreContacto?: string | null
-  nombreSede?: string | null
   precisionGPS?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   restricciones?: string | null
   telefonoContacto?: string | null
   tipoUbicacion?: string | null
-  updatedAt?: Date | string
   validadoPorSistema?: boolean
 }
 
@@ -2169,22 +2169,22 @@ export type DireccionUpdateWithoutDepartmentRelInput = {
   municipio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   linkMaps?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  latitud?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  longitud?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  nombreSede?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   activa?: Prisma.BoolFieldUpdateOperationsInput | boolean
   bloqueada?: Prisma.BoolFieldUpdateOperationsInput | boolean
   cargoContacto?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   clasificacionPunto?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   horarioFin?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   horarioInicio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  latitud?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
-  longitud?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   motivoBloqueo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   nombreContacto?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  nombreSede?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   precisionGPS?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   restricciones?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   telefonoContacto?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tipoUbicacion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   validadoPorSistema?: Prisma.BoolFieldUpdateOperationsInput | boolean
   cliente?: Prisma.ClienteUpdateOneRequiredWithoutDireccionesNestedInput
   empresa?: Prisma.EmpresaUpdateOneWithoutDireccionesNestedInput
@@ -2206,23 +2206,23 @@ export type DireccionUncheckedUpdateWithoutDepartmentRelInput = {
   municipio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   linkMaps?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  latitud?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  longitud?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  nombreSede?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   activa?: Prisma.BoolFieldUpdateOperationsInput | boolean
   bloqueada?: Prisma.BoolFieldUpdateOperationsInput | boolean
   cargoContacto?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   clasificacionPunto?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   horarioFin?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   horarioInicio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  latitud?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
-  longitud?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   motivoBloqueo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   municipioId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   nombreContacto?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  nombreSede?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   precisionGPS?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   restricciones?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   telefonoContacto?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tipoUbicacion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   validadoPorSistema?: Prisma.BoolFieldUpdateOperationsInput | boolean
   ordenesServicio?: Prisma.OrdenServicioUncheckedUpdateManyWithoutDireccionNestedInput
 }
@@ -2240,23 +2240,23 @@ export type DireccionUncheckedUpdateManyWithoutDepartmentRelInput = {
   municipio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   linkMaps?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  latitud?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  longitud?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  nombreSede?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   activa?: Prisma.BoolFieldUpdateOperationsInput | boolean
   bloqueada?: Prisma.BoolFieldUpdateOperationsInput | boolean
   cargoContacto?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   clasificacionPunto?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   horarioFin?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   horarioInicio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  latitud?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
-  longitud?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   motivoBloqueo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   municipioId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   nombreContacto?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  nombreSede?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   precisionGPS?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   restricciones?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   telefonoContacto?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tipoUbicacion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   validadoPorSistema?: Prisma.BoolFieldUpdateOperationsInput | boolean
 }
 
@@ -2273,24 +2273,24 @@ export type DireccionCreateManyMunicipioRelInput = {
   municipio?: string | null
   linkMaps?: string | null
   createdAt?: Date | string
+  latitud?: number | null
+  longitud?: number | null
+  nombreSede?: string | null
+  updatedAt?: Date | string
   activa?: boolean
   bloqueada?: boolean
   cargoContacto?: string | null
   clasificacionPunto?: string | null
-  departmentId?: string | null
   horarioFin?: string | null
   horarioInicio?: string | null
-  latitud?: number | null
-  longitud?: number | null
   motivoBloqueo?: string | null
   nombreContacto?: string | null
-  nombreSede?: string | null
   precisionGPS?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   restricciones?: string | null
   telefonoContacto?: string | null
   tipoUbicacion?: string | null
-  updatedAt?: Date | string
   validadoPorSistema?: boolean
+  departmentId?: string | null
 }
 
 export type DireccionUpdateWithoutMunicipioRelInput = {
@@ -2303,22 +2303,22 @@ export type DireccionUpdateWithoutMunicipioRelInput = {
   municipio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   linkMaps?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  latitud?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  longitud?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  nombreSede?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   activa?: Prisma.BoolFieldUpdateOperationsInput | boolean
   bloqueada?: Prisma.BoolFieldUpdateOperationsInput | boolean
   cargoContacto?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   clasificacionPunto?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   horarioFin?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   horarioInicio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  latitud?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
-  longitud?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   motivoBloqueo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   nombreContacto?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  nombreSede?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   precisionGPS?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   restricciones?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   telefonoContacto?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tipoUbicacion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   validadoPorSistema?: Prisma.BoolFieldUpdateOperationsInput | boolean
   cliente?: Prisma.ClienteUpdateOneRequiredWithoutDireccionesNestedInput
   departmentRel?: Prisma.DepartmentUpdateOneWithoutDireccionesNestedInput
@@ -2340,24 +2340,24 @@ export type DireccionUncheckedUpdateWithoutMunicipioRelInput = {
   municipio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   linkMaps?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  latitud?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  longitud?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  nombreSede?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   activa?: Prisma.BoolFieldUpdateOperationsInput | boolean
   bloqueada?: Prisma.BoolFieldUpdateOperationsInput | boolean
   cargoContacto?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   clasificacionPunto?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  departmentId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   horarioFin?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   horarioInicio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  latitud?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
-  longitud?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   motivoBloqueo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   nombreContacto?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  nombreSede?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   precisionGPS?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   restricciones?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   telefonoContacto?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tipoUbicacion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   validadoPorSistema?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  departmentId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   ordenesServicio?: Prisma.OrdenServicioUncheckedUpdateManyWithoutDireccionNestedInput
 }
 
@@ -2374,24 +2374,24 @@ export type DireccionUncheckedUpdateManyWithoutMunicipioRelInput = {
   municipio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   linkMaps?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  latitud?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  longitud?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  nombreSede?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   activa?: Prisma.BoolFieldUpdateOperationsInput | boolean
   bloqueada?: Prisma.BoolFieldUpdateOperationsInput | boolean
   cargoContacto?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   clasificacionPunto?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  departmentId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   horarioFin?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   horarioInicio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  latitud?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
-  longitud?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   motivoBloqueo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   nombreContacto?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  nombreSede?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   precisionGPS?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   restricciones?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   telefonoContacto?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tipoUbicacion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   validadoPorSistema?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  departmentId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type DireccionCreateManyClienteInput = {
@@ -2406,25 +2406,25 @@ export type DireccionCreateManyClienteInput = {
   municipio?: string | null
   linkMaps?: string | null
   createdAt?: Date | string
+  latitud?: number | null
+  longitud?: number | null
+  nombreSede?: string | null
+  updatedAt?: Date | string
   activa?: boolean
   bloqueada?: boolean
   cargoContacto?: string | null
   clasificacionPunto?: string | null
-  departmentId?: string | null
   horarioFin?: string | null
   horarioInicio?: string | null
-  latitud?: number | null
-  longitud?: number | null
   motivoBloqueo?: string | null
   municipioId?: string | null
   nombreContacto?: string | null
-  nombreSede?: string | null
   precisionGPS?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   restricciones?: string | null
   telefonoContacto?: string | null
   tipoUbicacion?: string | null
-  updatedAt?: Date | string
   validadoPorSistema?: boolean
+  departmentId?: string | null
 }
 
 export type DireccionUpdateWithoutClienteInput = {
@@ -2437,22 +2437,22 @@ export type DireccionUpdateWithoutClienteInput = {
   municipio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   linkMaps?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  latitud?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  longitud?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  nombreSede?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   activa?: Prisma.BoolFieldUpdateOperationsInput | boolean
   bloqueada?: Prisma.BoolFieldUpdateOperationsInput | boolean
   cargoContacto?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   clasificacionPunto?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   horarioFin?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   horarioInicio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  latitud?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
-  longitud?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   motivoBloqueo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   nombreContacto?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  nombreSede?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   precisionGPS?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   restricciones?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   telefonoContacto?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tipoUbicacion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   validadoPorSistema?: Prisma.BoolFieldUpdateOperationsInput | boolean
   departmentRel?: Prisma.DepartmentUpdateOneWithoutDireccionesNestedInput
   empresa?: Prisma.EmpresaUpdateOneWithoutDireccionesNestedInput
@@ -2473,25 +2473,25 @@ export type DireccionUncheckedUpdateWithoutClienteInput = {
   municipio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   linkMaps?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  latitud?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  longitud?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  nombreSede?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   activa?: Prisma.BoolFieldUpdateOperationsInput | boolean
   bloqueada?: Prisma.BoolFieldUpdateOperationsInput | boolean
   cargoContacto?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   clasificacionPunto?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  departmentId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   horarioFin?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   horarioInicio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  latitud?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
-  longitud?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   motivoBloqueo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   municipioId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   nombreContacto?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  nombreSede?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   precisionGPS?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   restricciones?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   telefonoContacto?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tipoUbicacion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   validadoPorSistema?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  departmentId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   ordenesServicio?: Prisma.OrdenServicioUncheckedUpdateManyWithoutDireccionNestedInput
 }
 
@@ -2507,25 +2507,25 @@ export type DireccionUncheckedUpdateManyWithoutClienteInput = {
   municipio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   linkMaps?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  latitud?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  longitud?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  nombreSede?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   activa?: Prisma.BoolFieldUpdateOperationsInput | boolean
   bloqueada?: Prisma.BoolFieldUpdateOperationsInput | boolean
   cargoContacto?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   clasificacionPunto?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  departmentId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   horarioFin?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   horarioInicio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  latitud?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
-  longitud?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   motivoBloqueo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   municipioId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   nombreContacto?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  nombreSede?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   precisionGPS?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   restricciones?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   telefonoContacto?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tipoUbicacion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   validadoPorSistema?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  departmentId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 
@@ -2572,25 +2572,25 @@ export type DireccionSelect<ExtArgs extends runtime.Types.Extensions.InternalArg
   municipio?: boolean
   linkMaps?: boolean
   createdAt?: boolean
+  latitud?: boolean
+  longitud?: boolean
+  nombreSede?: boolean
+  updatedAt?: boolean
   activa?: boolean
   bloqueada?: boolean
   cargoContacto?: boolean
   clasificacionPunto?: boolean
-  departmentId?: boolean
   horarioFin?: boolean
   horarioInicio?: boolean
-  latitud?: boolean
-  longitud?: boolean
   motivoBloqueo?: boolean
   municipioId?: boolean
   nombreContacto?: boolean
-  nombreSede?: boolean
   precisionGPS?: boolean
   restricciones?: boolean
   telefonoContacto?: boolean
   tipoUbicacion?: boolean
-  updatedAt?: boolean
   validadoPorSistema?: boolean
+  departmentId?: boolean
   cliente?: boolean | Prisma.ClienteDefaultArgs<ExtArgs>
   departmentRel?: boolean | Prisma.Direccion$departmentRelArgs<ExtArgs>
   empresa?: boolean | Prisma.Direccion$empresaArgs<ExtArgs>
@@ -2613,25 +2613,25 @@ export type DireccionSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Ext
   municipio?: boolean
   linkMaps?: boolean
   createdAt?: boolean
+  latitud?: boolean
+  longitud?: boolean
+  nombreSede?: boolean
+  updatedAt?: boolean
   activa?: boolean
   bloqueada?: boolean
   cargoContacto?: boolean
   clasificacionPunto?: boolean
-  departmentId?: boolean
   horarioFin?: boolean
   horarioInicio?: boolean
-  latitud?: boolean
-  longitud?: boolean
   motivoBloqueo?: boolean
   municipioId?: boolean
   nombreContacto?: boolean
-  nombreSede?: boolean
   precisionGPS?: boolean
   restricciones?: boolean
   telefonoContacto?: boolean
   tipoUbicacion?: boolean
-  updatedAt?: boolean
   validadoPorSistema?: boolean
+  departmentId?: boolean
   cliente?: boolean | Prisma.ClienteDefaultArgs<ExtArgs>
   departmentRel?: boolean | Prisma.Direccion$departmentRelArgs<ExtArgs>
   empresa?: boolean | Prisma.Direccion$empresaArgs<ExtArgs>
@@ -2652,25 +2652,25 @@ export type DireccionSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Ext
   municipio?: boolean
   linkMaps?: boolean
   createdAt?: boolean
+  latitud?: boolean
+  longitud?: boolean
+  nombreSede?: boolean
+  updatedAt?: boolean
   activa?: boolean
   bloqueada?: boolean
   cargoContacto?: boolean
   clasificacionPunto?: boolean
-  departmentId?: boolean
   horarioFin?: boolean
   horarioInicio?: boolean
-  latitud?: boolean
-  longitud?: boolean
   motivoBloqueo?: boolean
   municipioId?: boolean
   nombreContacto?: boolean
-  nombreSede?: boolean
   precisionGPS?: boolean
   restricciones?: boolean
   telefonoContacto?: boolean
   tipoUbicacion?: boolean
-  updatedAt?: boolean
   validadoPorSistema?: boolean
+  departmentId?: boolean
   cliente?: boolean | Prisma.ClienteDefaultArgs<ExtArgs>
   departmentRel?: boolean | Prisma.Direccion$departmentRelArgs<ExtArgs>
   empresa?: boolean | Prisma.Direccion$empresaArgs<ExtArgs>
@@ -2691,28 +2691,28 @@ export type DireccionSelectScalar = {
   municipio?: boolean
   linkMaps?: boolean
   createdAt?: boolean
+  latitud?: boolean
+  longitud?: boolean
+  nombreSede?: boolean
+  updatedAt?: boolean
   activa?: boolean
   bloqueada?: boolean
   cargoContacto?: boolean
   clasificacionPunto?: boolean
-  departmentId?: boolean
   horarioFin?: boolean
   horarioInicio?: boolean
-  latitud?: boolean
-  longitud?: boolean
   motivoBloqueo?: boolean
   municipioId?: boolean
   nombreContacto?: boolean
-  nombreSede?: boolean
   precisionGPS?: boolean
   restricciones?: boolean
   telefonoContacto?: boolean
   tipoUbicacion?: boolean
-  updatedAt?: boolean
   validadoPorSistema?: boolean
+  departmentId?: boolean
 }
 
-export type DireccionOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "tenantId" | "empresaId" | "clienteId" | "direccion" | "piso" | "bloque" | "unidad" | "barrio" | "municipio" | "linkMaps" | "createdAt" | "activa" | "bloqueada" | "cargoContacto" | "clasificacionPunto" | "departmentId" | "horarioFin" | "horarioInicio" | "latitud" | "longitud" | "motivoBloqueo" | "municipioId" | "nombreContacto" | "nombreSede" | "precisionGPS" | "restricciones" | "telefonoContacto" | "tipoUbicacion" | "updatedAt" | "validadoPorSistema", ExtArgs["result"]["direccion"]>
+export type DireccionOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "tenantId" | "empresaId" | "clienteId" | "direccion" | "piso" | "bloque" | "unidad" | "barrio" | "municipio" | "linkMaps" | "createdAt" | "latitud" | "longitud" | "nombreSede" | "updatedAt" | "activa" | "bloqueada" | "cargoContacto" | "clasificacionPunto" | "horarioFin" | "horarioInicio" | "motivoBloqueo" | "municipioId" | "nombreContacto" | "precisionGPS" | "restricciones" | "telefonoContacto" | "tipoUbicacion" | "validadoPorSistema" | "departmentId", ExtArgs["result"]["direccion"]>
 export type DireccionInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   cliente?: boolean | Prisma.ClienteDefaultArgs<ExtArgs>
   departmentRel?: boolean | Prisma.Direccion$departmentRelArgs<ExtArgs>
@@ -2760,25 +2760,25 @@ export type $DireccionPayload<ExtArgs extends runtime.Types.Extensions.InternalA
     municipio: string | null
     linkMaps: string | null
     createdAt: Date
+    latitud: number | null
+    longitud: number | null
+    nombreSede: string | null
+    updatedAt: Date
     activa: boolean
     bloqueada: boolean
     cargoContacto: string | null
     clasificacionPunto: string | null
-    departmentId: string | null
     horarioFin: string | null
     horarioInicio: string | null
-    latitud: number | null
-    longitud: number | null
     motivoBloqueo: string | null
     municipioId: string | null
     nombreContacto: string | null
-    nombreSede: string | null
     precisionGPS: runtime.Decimal | null
     restricciones: string | null
     telefonoContacto: string | null
     tipoUbicacion: string | null
-    updatedAt: Date
     validadoPorSistema: boolean
+    departmentId: string | null
   }, ExtArgs["result"]["direccion"]>
   composites: {}
 }
@@ -3220,25 +3220,25 @@ export interface DireccionFieldRefs {
   readonly municipio: Prisma.FieldRef<"Direccion", 'String'>
   readonly linkMaps: Prisma.FieldRef<"Direccion", 'String'>
   readonly createdAt: Prisma.FieldRef<"Direccion", 'DateTime'>
+  readonly latitud: Prisma.FieldRef<"Direccion", 'Float'>
+  readonly longitud: Prisma.FieldRef<"Direccion", 'Float'>
+  readonly nombreSede: Prisma.FieldRef<"Direccion", 'String'>
+  readonly updatedAt: Prisma.FieldRef<"Direccion", 'DateTime'>
   readonly activa: Prisma.FieldRef<"Direccion", 'Boolean'>
   readonly bloqueada: Prisma.FieldRef<"Direccion", 'Boolean'>
   readonly cargoContacto: Prisma.FieldRef<"Direccion", 'String'>
   readonly clasificacionPunto: Prisma.FieldRef<"Direccion", 'String'>
-  readonly departmentId: Prisma.FieldRef<"Direccion", 'String'>
   readonly horarioFin: Prisma.FieldRef<"Direccion", 'String'>
   readonly horarioInicio: Prisma.FieldRef<"Direccion", 'String'>
-  readonly latitud: Prisma.FieldRef<"Direccion", 'Float'>
-  readonly longitud: Prisma.FieldRef<"Direccion", 'Float'>
   readonly motivoBloqueo: Prisma.FieldRef<"Direccion", 'String'>
   readonly municipioId: Prisma.FieldRef<"Direccion", 'String'>
   readonly nombreContacto: Prisma.FieldRef<"Direccion", 'String'>
-  readonly nombreSede: Prisma.FieldRef<"Direccion", 'String'>
   readonly precisionGPS: Prisma.FieldRef<"Direccion", 'Decimal'>
   readonly restricciones: Prisma.FieldRef<"Direccion", 'String'>
   readonly telefonoContacto: Prisma.FieldRef<"Direccion", 'String'>
   readonly tipoUbicacion: Prisma.FieldRef<"Direccion", 'String'>
-  readonly updatedAt: Prisma.FieldRef<"Direccion", 'DateTime'>
   readonly validadoPorSistema: Prisma.FieldRef<"Direccion", 'Boolean'>
+  readonly departmentId: Prisma.FieldRef<"Direccion", 'String'>
 }
     
 

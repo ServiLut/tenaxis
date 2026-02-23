@@ -30,57 +30,57 @@ export type PlanAvgAggregateOutputType = {
   durationDays: number | null
   maxUsers: number | null
   maxOperators: number | null
-  maxEmpresas: number | null
   price: runtime.Decimal | null
+  maxEmpresas: number | null
 }
 
 export type PlanSumAggregateOutputType = {
   durationDays: number | null
   maxUsers: number | null
   maxOperators: number | null
-  maxEmpresas: number | null
   price: runtime.Decimal | null
+  maxEmpresas: number | null
 }
 
 export type PlanMinAggregateOutputType = {
   id: string | null
-  nombre: string | null
-  descripcion: string | null
   durationDays: number | null
   maxUsers: number | null
   maxOperators: number | null
-  maxEmpresas: number | null
   price: runtime.Decimal | null
   isActive: boolean | null
   createdAt: Date | null
+  descripcion: string | null
+  maxEmpresas: number | null
+  nombre: string | null
   updatedAt: Date | null
 }
 
 export type PlanMaxAggregateOutputType = {
   id: string | null
-  nombre: string | null
-  descripcion: string | null
   durationDays: number | null
   maxUsers: number | null
   maxOperators: number | null
-  maxEmpresas: number | null
   price: runtime.Decimal | null
   isActive: boolean | null
   createdAt: Date | null
+  descripcion: string | null
+  maxEmpresas: number | null
+  nombre: string | null
   updatedAt: Date | null
 }
 
 export type PlanCountAggregateOutputType = {
   id: number
-  nombre: number
-  descripcion: number
   durationDays: number
   maxUsers: number
   maxOperators: number
-  maxEmpresas: number
   price: number
   isActive: number
   createdAt: number
+  descripcion: number
+  maxEmpresas: number
+  nombre: number
   updatedAt: number
   _all: number
 }
@@ -90,57 +90,57 @@ export type PlanAvgAggregateInputType = {
   durationDays?: true
   maxUsers?: true
   maxOperators?: true
-  maxEmpresas?: true
   price?: true
+  maxEmpresas?: true
 }
 
 export type PlanSumAggregateInputType = {
   durationDays?: true
   maxUsers?: true
   maxOperators?: true
-  maxEmpresas?: true
   price?: true
+  maxEmpresas?: true
 }
 
 export type PlanMinAggregateInputType = {
   id?: true
-  nombre?: true
-  descripcion?: true
   durationDays?: true
   maxUsers?: true
   maxOperators?: true
-  maxEmpresas?: true
   price?: true
   isActive?: true
   createdAt?: true
+  descripcion?: true
+  maxEmpresas?: true
+  nombre?: true
   updatedAt?: true
 }
 
 export type PlanMaxAggregateInputType = {
   id?: true
-  nombre?: true
-  descripcion?: true
   durationDays?: true
   maxUsers?: true
   maxOperators?: true
-  maxEmpresas?: true
   price?: true
   isActive?: true
   createdAt?: true
+  descripcion?: true
+  maxEmpresas?: true
+  nombre?: true
   updatedAt?: true
 }
 
 export type PlanCountAggregateInputType = {
   id?: true
-  nombre?: true
-  descripcion?: true
   durationDays?: true
   maxUsers?: true
   maxOperators?: true
-  maxEmpresas?: true
   price?: true
   isActive?: true
   createdAt?: true
+  descripcion?: true
+  maxEmpresas?: true
+  nombre?: true
   updatedAt?: true
   _all?: true
 }
@@ -233,15 +233,15 @@ export type PlanGroupByArgs<ExtArgs extends runtime.Types.Extensions.InternalArg
 
 export type PlanGroupByOutputType = {
   id: string
-  nombre: string
-  descripcion: string | null
   durationDays: number
   maxUsers: number
   maxOperators: number
-  maxEmpresas: number
   price: runtime.Decimal
   isActive: boolean
   createdAt: Date
+  descripcion: string | null
+  maxEmpresas: number
+  nombre: string
   updatedAt: Date
   _count: PlanCountAggregateOutputType | null
   _avg: PlanAvgAggregateOutputType | null
@@ -270,30 +270,30 @@ export type PlanWhereInput = {
   OR?: Prisma.PlanWhereInput[]
   NOT?: Prisma.PlanWhereInput | Prisma.PlanWhereInput[]
   id?: Prisma.UuidFilter<"Plan"> | string
-  nombre?: Prisma.StringFilter<"Plan"> | string
-  descripcion?: Prisma.StringNullableFilter<"Plan"> | string | null
   durationDays?: Prisma.IntFilter<"Plan"> | number
   maxUsers?: Prisma.IntFilter<"Plan"> | number
   maxOperators?: Prisma.IntFilter<"Plan"> | number
-  maxEmpresas?: Prisma.IntFilter<"Plan"> | number
   price?: Prisma.DecimalFilter<"Plan"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   isActive?: Prisma.BoolFilter<"Plan"> | boolean
   createdAt?: Prisma.DateTimeFilter<"Plan"> | Date | string
+  descripcion?: Prisma.StringNullableFilter<"Plan"> | string | null
+  maxEmpresas?: Prisma.IntFilter<"Plan"> | number
+  nombre?: Prisma.StringFilter<"Plan"> | string
   updatedAt?: Prisma.DateTimeFilter<"Plan"> | Date | string
   subscriptions?: Prisma.SubscriptionListRelationFilter
 }
 
 export type PlanOrderByWithRelationInput = {
   id?: Prisma.SortOrder
-  nombre?: Prisma.SortOrder
-  descripcion?: Prisma.SortOrderInput | Prisma.SortOrder
   durationDays?: Prisma.SortOrder
   maxUsers?: Prisma.SortOrder
   maxOperators?: Prisma.SortOrder
-  maxEmpresas?: Prisma.SortOrder
   price?: Prisma.SortOrder
   isActive?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
+  descripcion?: Prisma.SortOrderInput | Prisma.SortOrder
+  maxEmpresas?: Prisma.SortOrder
+  nombre?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   subscriptions?: Prisma.SubscriptionOrderByRelationAggregateInput
 }
@@ -303,30 +303,30 @@ export type PlanWhereUniqueInput = Prisma.AtLeast<{
   AND?: Prisma.PlanWhereInput | Prisma.PlanWhereInput[]
   OR?: Prisma.PlanWhereInput[]
   NOT?: Prisma.PlanWhereInput | Prisma.PlanWhereInput[]
-  nombre?: Prisma.StringFilter<"Plan"> | string
-  descripcion?: Prisma.StringNullableFilter<"Plan"> | string | null
   durationDays?: Prisma.IntFilter<"Plan"> | number
   maxUsers?: Prisma.IntFilter<"Plan"> | number
   maxOperators?: Prisma.IntFilter<"Plan"> | number
-  maxEmpresas?: Prisma.IntFilter<"Plan"> | number
   price?: Prisma.DecimalFilter<"Plan"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   isActive?: Prisma.BoolFilter<"Plan"> | boolean
   createdAt?: Prisma.DateTimeFilter<"Plan"> | Date | string
+  descripcion?: Prisma.StringNullableFilter<"Plan"> | string | null
+  maxEmpresas?: Prisma.IntFilter<"Plan"> | number
+  nombre?: Prisma.StringFilter<"Plan"> | string
   updatedAt?: Prisma.DateTimeFilter<"Plan"> | Date | string
   subscriptions?: Prisma.SubscriptionListRelationFilter
 }, "id">
 
 export type PlanOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
-  nombre?: Prisma.SortOrder
-  descripcion?: Prisma.SortOrderInput | Prisma.SortOrder
   durationDays?: Prisma.SortOrder
   maxUsers?: Prisma.SortOrder
   maxOperators?: Prisma.SortOrder
-  maxEmpresas?: Prisma.SortOrder
   price?: Prisma.SortOrder
   isActive?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
+  descripcion?: Prisma.SortOrderInput | Prisma.SortOrder
+  maxEmpresas?: Prisma.SortOrder
+  nombre?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   _count?: Prisma.PlanCountOrderByAggregateInput
   _avg?: Prisma.PlanAvgOrderByAggregateInput
@@ -340,131 +340,131 @@ export type PlanScalarWhereWithAggregatesInput = {
   OR?: Prisma.PlanScalarWhereWithAggregatesInput[]
   NOT?: Prisma.PlanScalarWhereWithAggregatesInput | Prisma.PlanScalarWhereWithAggregatesInput[]
   id?: Prisma.UuidWithAggregatesFilter<"Plan"> | string
-  nombre?: Prisma.StringWithAggregatesFilter<"Plan"> | string
-  descripcion?: Prisma.StringNullableWithAggregatesFilter<"Plan"> | string | null
   durationDays?: Prisma.IntWithAggregatesFilter<"Plan"> | number
   maxUsers?: Prisma.IntWithAggregatesFilter<"Plan"> | number
   maxOperators?: Prisma.IntWithAggregatesFilter<"Plan"> | number
-  maxEmpresas?: Prisma.IntWithAggregatesFilter<"Plan"> | number
   price?: Prisma.DecimalWithAggregatesFilter<"Plan"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   isActive?: Prisma.BoolWithAggregatesFilter<"Plan"> | boolean
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Plan"> | Date | string
+  descripcion?: Prisma.StringNullableWithAggregatesFilter<"Plan"> | string | null
+  maxEmpresas?: Prisma.IntWithAggregatesFilter<"Plan"> | number
+  nombre?: Prisma.StringWithAggregatesFilter<"Plan"> | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"Plan"> | Date | string
 }
 
 export type PlanCreateInput = {
   id?: string
-  nombre: string
-  descripcion?: string | null
   durationDays: number
   maxUsers: number
   maxOperators: number
-  maxEmpresas: number
   price: runtime.Decimal | runtime.DecimalJsLike | number | string
   isActive?: boolean
   createdAt?: Date | string
+  descripcion?: string | null
+  maxEmpresas: number
+  nombre: string
   updatedAt?: Date | string
   subscriptions?: Prisma.SubscriptionCreateNestedManyWithoutPlanInput
 }
 
 export type PlanUncheckedCreateInput = {
   id?: string
-  nombre: string
-  descripcion?: string | null
   durationDays: number
   maxUsers: number
   maxOperators: number
-  maxEmpresas: number
   price: runtime.Decimal | runtime.DecimalJsLike | number | string
   isActive?: boolean
   createdAt?: Date | string
+  descripcion?: string | null
+  maxEmpresas: number
+  nombre: string
   updatedAt?: Date | string
   subscriptions?: Prisma.SubscriptionUncheckedCreateNestedManyWithoutPlanInput
 }
 
 export type PlanUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  nombre?: Prisma.StringFieldUpdateOperationsInput | string
-  descripcion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   durationDays?: Prisma.IntFieldUpdateOperationsInput | number
   maxUsers?: Prisma.IntFieldUpdateOperationsInput | number
   maxOperators?: Prisma.IntFieldUpdateOperationsInput | number
-  maxEmpresas?: Prisma.IntFieldUpdateOperationsInput | number
   price?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  descripcion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  maxEmpresas?: Prisma.IntFieldUpdateOperationsInput | number
+  nombre?: Prisma.StringFieldUpdateOperationsInput | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   subscriptions?: Prisma.SubscriptionUpdateManyWithoutPlanNestedInput
 }
 
 export type PlanUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  nombre?: Prisma.StringFieldUpdateOperationsInput | string
-  descripcion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   durationDays?: Prisma.IntFieldUpdateOperationsInput | number
   maxUsers?: Prisma.IntFieldUpdateOperationsInput | number
   maxOperators?: Prisma.IntFieldUpdateOperationsInput | number
-  maxEmpresas?: Prisma.IntFieldUpdateOperationsInput | number
   price?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  descripcion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  maxEmpresas?: Prisma.IntFieldUpdateOperationsInput | number
+  nombre?: Prisma.StringFieldUpdateOperationsInput | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   subscriptions?: Prisma.SubscriptionUncheckedUpdateManyWithoutPlanNestedInput
 }
 
 export type PlanCreateManyInput = {
   id?: string
-  nombre: string
-  descripcion?: string | null
   durationDays: number
   maxUsers: number
   maxOperators: number
-  maxEmpresas: number
   price: runtime.Decimal | runtime.DecimalJsLike | number | string
   isActive?: boolean
   createdAt?: Date | string
+  descripcion?: string | null
+  maxEmpresas: number
+  nombre: string
   updatedAt?: Date | string
 }
 
 export type PlanUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  nombre?: Prisma.StringFieldUpdateOperationsInput | string
-  descripcion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   durationDays?: Prisma.IntFieldUpdateOperationsInput | number
   maxUsers?: Prisma.IntFieldUpdateOperationsInput | number
   maxOperators?: Prisma.IntFieldUpdateOperationsInput | number
-  maxEmpresas?: Prisma.IntFieldUpdateOperationsInput | number
   price?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  descripcion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  maxEmpresas?: Prisma.IntFieldUpdateOperationsInput | number
+  nombre?: Prisma.StringFieldUpdateOperationsInput | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type PlanUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  nombre?: Prisma.StringFieldUpdateOperationsInput | string
-  descripcion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   durationDays?: Prisma.IntFieldUpdateOperationsInput | number
   maxUsers?: Prisma.IntFieldUpdateOperationsInput | number
   maxOperators?: Prisma.IntFieldUpdateOperationsInput | number
-  maxEmpresas?: Prisma.IntFieldUpdateOperationsInput | number
   price?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  descripcion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  maxEmpresas?: Prisma.IntFieldUpdateOperationsInput | number
+  nombre?: Prisma.StringFieldUpdateOperationsInput | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type PlanCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
-  nombre?: Prisma.SortOrder
-  descripcion?: Prisma.SortOrder
   durationDays?: Prisma.SortOrder
   maxUsers?: Prisma.SortOrder
   maxOperators?: Prisma.SortOrder
-  maxEmpresas?: Prisma.SortOrder
   price?: Prisma.SortOrder
   isActive?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
+  descripcion?: Prisma.SortOrder
+  maxEmpresas?: Prisma.SortOrder
+  nombre?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
 
@@ -472,35 +472,35 @@ export type PlanAvgOrderByAggregateInput = {
   durationDays?: Prisma.SortOrder
   maxUsers?: Prisma.SortOrder
   maxOperators?: Prisma.SortOrder
-  maxEmpresas?: Prisma.SortOrder
   price?: Prisma.SortOrder
+  maxEmpresas?: Prisma.SortOrder
 }
 
 export type PlanMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
-  nombre?: Prisma.SortOrder
-  descripcion?: Prisma.SortOrder
   durationDays?: Prisma.SortOrder
   maxUsers?: Prisma.SortOrder
   maxOperators?: Prisma.SortOrder
-  maxEmpresas?: Prisma.SortOrder
   price?: Prisma.SortOrder
   isActive?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
+  descripcion?: Prisma.SortOrder
+  maxEmpresas?: Prisma.SortOrder
+  nombre?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
 
 export type PlanMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
-  nombre?: Prisma.SortOrder
-  descripcion?: Prisma.SortOrder
   durationDays?: Prisma.SortOrder
   maxUsers?: Prisma.SortOrder
   maxOperators?: Prisma.SortOrder
-  maxEmpresas?: Prisma.SortOrder
   price?: Prisma.SortOrder
   isActive?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
+  descripcion?: Prisma.SortOrder
+  maxEmpresas?: Prisma.SortOrder
+  nombre?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
 
@@ -508,8 +508,8 @@ export type PlanSumOrderByAggregateInput = {
   durationDays?: Prisma.SortOrder
   maxUsers?: Prisma.SortOrder
   maxOperators?: Prisma.SortOrder
-  maxEmpresas?: Prisma.SortOrder
   price?: Prisma.SortOrder
+  maxEmpresas?: Prisma.SortOrder
 }
 
 export type PlanScalarRelationFilter = {
@@ -549,29 +549,29 @@ export type PlanUpdateOneRequiredWithoutSubscriptionsNestedInput = {
 
 export type PlanCreateWithoutSubscriptionsInput = {
   id?: string
-  nombre: string
-  descripcion?: string | null
   durationDays: number
   maxUsers: number
   maxOperators: number
-  maxEmpresas: number
   price: runtime.Decimal | runtime.DecimalJsLike | number | string
   isActive?: boolean
   createdAt?: Date | string
+  descripcion?: string | null
+  maxEmpresas: number
+  nombre: string
   updatedAt?: Date | string
 }
 
 export type PlanUncheckedCreateWithoutSubscriptionsInput = {
   id?: string
-  nombre: string
-  descripcion?: string | null
   durationDays: number
   maxUsers: number
   maxOperators: number
-  maxEmpresas: number
   price: runtime.Decimal | runtime.DecimalJsLike | number | string
   isActive?: boolean
   createdAt?: Date | string
+  descripcion?: string | null
+  maxEmpresas: number
+  nombre: string
   updatedAt?: Date | string
 }
 
@@ -593,29 +593,29 @@ export type PlanUpdateToOneWithWhereWithoutSubscriptionsInput = {
 
 export type PlanUpdateWithoutSubscriptionsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  nombre?: Prisma.StringFieldUpdateOperationsInput | string
-  descripcion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   durationDays?: Prisma.IntFieldUpdateOperationsInput | number
   maxUsers?: Prisma.IntFieldUpdateOperationsInput | number
   maxOperators?: Prisma.IntFieldUpdateOperationsInput | number
-  maxEmpresas?: Prisma.IntFieldUpdateOperationsInput | number
   price?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  descripcion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  maxEmpresas?: Prisma.IntFieldUpdateOperationsInput | number
+  nombre?: Prisma.StringFieldUpdateOperationsInput | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type PlanUncheckedUpdateWithoutSubscriptionsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  nombre?: Prisma.StringFieldUpdateOperationsInput | string
-  descripcion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   durationDays?: Prisma.IntFieldUpdateOperationsInput | number
   maxUsers?: Prisma.IntFieldUpdateOperationsInput | number
   maxOperators?: Prisma.IntFieldUpdateOperationsInput | number
-  maxEmpresas?: Prisma.IntFieldUpdateOperationsInput | number
   price?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  descripcion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  maxEmpresas?: Prisma.IntFieldUpdateOperationsInput | number
+  nombre?: Prisma.StringFieldUpdateOperationsInput | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -652,15 +652,15 @@ export type PlanCountOutputTypeCountSubscriptionsArgs<ExtArgs extends runtime.Ty
 
 export type PlanSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
-  nombre?: boolean
-  descripcion?: boolean
   durationDays?: boolean
   maxUsers?: boolean
   maxOperators?: boolean
-  maxEmpresas?: boolean
   price?: boolean
   isActive?: boolean
   createdAt?: boolean
+  descripcion?: boolean
+  maxEmpresas?: boolean
+  nombre?: boolean
   updatedAt?: boolean
   subscriptions?: boolean | Prisma.Plan$subscriptionsArgs<ExtArgs>
   _count?: boolean | Prisma.PlanCountOutputTypeDefaultArgs<ExtArgs>
@@ -668,47 +668,47 @@ export type PlanSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
 
 export type PlanSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
-  nombre?: boolean
-  descripcion?: boolean
   durationDays?: boolean
   maxUsers?: boolean
   maxOperators?: boolean
-  maxEmpresas?: boolean
   price?: boolean
   isActive?: boolean
   createdAt?: boolean
+  descripcion?: boolean
+  maxEmpresas?: boolean
+  nombre?: boolean
   updatedAt?: boolean
 }, ExtArgs["result"]["plan"]>
 
 export type PlanSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
-  nombre?: boolean
-  descripcion?: boolean
   durationDays?: boolean
   maxUsers?: boolean
   maxOperators?: boolean
-  maxEmpresas?: boolean
   price?: boolean
   isActive?: boolean
   createdAt?: boolean
+  descripcion?: boolean
+  maxEmpresas?: boolean
+  nombre?: boolean
   updatedAt?: boolean
 }, ExtArgs["result"]["plan"]>
 
 export type PlanSelectScalar = {
   id?: boolean
-  nombre?: boolean
-  descripcion?: boolean
   durationDays?: boolean
   maxUsers?: boolean
   maxOperators?: boolean
-  maxEmpresas?: boolean
   price?: boolean
   isActive?: boolean
   createdAt?: boolean
+  descripcion?: boolean
+  maxEmpresas?: boolean
+  nombre?: boolean
   updatedAt?: boolean
 }
 
-export type PlanOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "nombre" | "descripcion" | "durationDays" | "maxUsers" | "maxOperators" | "maxEmpresas" | "price" | "isActive" | "createdAt" | "updatedAt", ExtArgs["result"]["plan"]>
+export type PlanOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "durationDays" | "maxUsers" | "maxOperators" | "price" | "isActive" | "createdAt" | "descripcion" | "maxEmpresas" | "nombre" | "updatedAt", ExtArgs["result"]["plan"]>
 export type PlanInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   subscriptions?: boolean | Prisma.Plan$subscriptionsArgs<ExtArgs>
   _count?: boolean | Prisma.PlanCountOutputTypeDefaultArgs<ExtArgs>
@@ -723,15 +723,15 @@ export type $PlanPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
-    nombre: string
-    descripcion: string | null
     durationDays: number
     maxUsers: number
     maxOperators: number
-    maxEmpresas: number
     price: runtime.Decimal
     isActive: boolean
     createdAt: Date
+    descripcion: string | null
+    maxEmpresas: number
+    nombre: string
     updatedAt: Date
   }, ExtArgs["result"]["plan"]>
   composites: {}
@@ -1158,15 +1158,15 @@ export interface Prisma__PlanClient<T, Null = never, ExtArgs extends runtime.Typ
  */
 export interface PlanFieldRefs {
   readonly id: Prisma.FieldRef<"Plan", 'String'>
-  readonly nombre: Prisma.FieldRef<"Plan", 'String'>
-  readonly descripcion: Prisma.FieldRef<"Plan", 'String'>
   readonly durationDays: Prisma.FieldRef<"Plan", 'Int'>
   readonly maxUsers: Prisma.FieldRef<"Plan", 'Int'>
   readonly maxOperators: Prisma.FieldRef<"Plan", 'Int'>
-  readonly maxEmpresas: Prisma.FieldRef<"Plan", 'Int'>
   readonly price: Prisma.FieldRef<"Plan", 'Decimal'>
   readonly isActive: Prisma.FieldRef<"Plan", 'Boolean'>
   readonly createdAt: Prisma.FieldRef<"Plan", 'DateTime'>
+  readonly descripcion: Prisma.FieldRef<"Plan", 'String'>
+  readonly maxEmpresas: Prisma.FieldRef<"Plan", 'Int'>
+  readonly nombre: Prisma.FieldRef<"Plan", 'String'>
   readonly updatedAt: Prisma.FieldRef<"Plan", 'DateTime'>
 }
     
