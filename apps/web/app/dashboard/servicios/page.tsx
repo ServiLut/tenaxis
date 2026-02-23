@@ -205,7 +205,7 @@ export default function ServiciosPage() {
               <Filter className="h-4 w-4" /> Filtros
             </Button>
             <Link href="/dashboard/servicios/nuevo">
-              <div className="flex items-center h-12 px-8 rounded-2xl bg-zinc-900 text-white hover:bg-zinc-800 dark:bg-white dark:text-black dark:hover:bg-zinc-100 gap-2 shadow-xl transition-all cursor-pointer">
+              <div className="flex items-center h-12 px-8 rounded-2xl bg-zinc-900 text-white hover:bg-zinc-800 dark:bg-zinc-800 dark:text-zinc-200 dark:hover:bg-zinc-700 gap-2 shadow-xl transition-all cursor-pointer">
                 <Plus className="h-5 w-5" />
                 <span className="font-black uppercase tracking-widest text-xs">Nueva Orden</span>
               </div>

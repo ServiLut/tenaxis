@@ -30,17 +30,17 @@ export type TenantMembershipMinAggregateOutputType = {
   tenantId: string | null
   role: $Enums.Role | null
   status: $Enums.MembershipStatus | null
-  username: string | null
-  activo: boolean | null
-  aprobado: boolean | null
-  numberId: string | null
-  whatsappGroupId: string | null
-  pushToken: string | null
-  placa: string | null
-  moto: boolean | null
-  codigoReferido: string | null
   createdAt: Date | null
   updatedAt: Date | null
+  activo: boolean | null
+  aprobado: boolean | null
+  codigoReferido: string | null
+  moto: boolean | null
+  numberId: string | null
+  placa: string | null
+  pushToken: string | null
+  username: string | null
+  whatsappGroupId: string | null
 }
 
 export type TenantMembershipMaxAggregateOutputType = {
@@ -49,17 +49,17 @@ export type TenantMembershipMaxAggregateOutputType = {
   tenantId: string | null
   role: $Enums.Role | null
   status: $Enums.MembershipStatus | null
-  username: string | null
-  activo: boolean | null
-  aprobado: boolean | null
-  numberId: string | null
-  whatsappGroupId: string | null
-  pushToken: string | null
-  placa: string | null
-  moto: boolean | null
-  codigoReferido: string | null
   createdAt: Date | null
   updatedAt: Date | null
+  activo: boolean | null
+  aprobado: boolean | null
+  codigoReferido: string | null
+  moto: boolean | null
+  numberId: string | null
+  placa: string | null
+  pushToken: string | null
+  username: string | null
+  whatsappGroupId: string | null
 }
 
 export type TenantMembershipCountAggregateOutputType = {
@@ -68,17 +68,17 @@ export type TenantMembershipCountAggregateOutputType = {
   tenantId: number
   role: number
   status: number
-  username: number
-  activo: number
-  aprobado: number
-  numberId: number
-  whatsappGroupId: number
-  pushToken: number
-  placa: number
-  moto: number
-  codigoReferido: number
   createdAt: number
   updatedAt: number
+  activo: number
+  aprobado: number
+  codigoReferido: number
+  moto: number
+  numberId: number
+  placa: number
+  pushToken: number
+  username: number
+  whatsappGroupId: number
   _all: number
 }
 
@@ -89,17 +89,17 @@ export type TenantMembershipMinAggregateInputType = {
   tenantId?: true
   role?: true
   status?: true
-  username?: true
-  activo?: true
-  aprobado?: true
-  numberId?: true
-  whatsappGroupId?: true
-  pushToken?: true
-  placa?: true
-  moto?: true
-  codigoReferido?: true
   createdAt?: true
   updatedAt?: true
+  activo?: true
+  aprobado?: true
+  codigoReferido?: true
+  moto?: true
+  numberId?: true
+  placa?: true
+  pushToken?: true
+  username?: true
+  whatsappGroupId?: true
 }
 
 export type TenantMembershipMaxAggregateInputType = {
@@ -108,17 +108,17 @@ export type TenantMembershipMaxAggregateInputType = {
   tenantId?: true
   role?: true
   status?: true
-  username?: true
-  activo?: true
-  aprobado?: true
-  numberId?: true
-  whatsappGroupId?: true
-  pushToken?: true
-  placa?: true
-  moto?: true
-  codigoReferido?: true
   createdAt?: true
   updatedAt?: true
+  activo?: true
+  aprobado?: true
+  codigoReferido?: true
+  moto?: true
+  numberId?: true
+  placa?: true
+  pushToken?: true
+  username?: true
+  whatsappGroupId?: true
 }
 
 export type TenantMembershipCountAggregateInputType = {
@@ -127,17 +127,17 @@ export type TenantMembershipCountAggregateInputType = {
   tenantId?: true
   role?: true
   status?: true
-  username?: true
-  activo?: true
-  aprobado?: true
-  numberId?: true
-  whatsappGroupId?: true
-  pushToken?: true
-  placa?: true
-  moto?: true
-  codigoReferido?: true
   createdAt?: true
   updatedAt?: true
+  activo?: true
+  aprobado?: true
+  codigoReferido?: true
+  moto?: true
+  numberId?: true
+  placa?: true
+  pushToken?: true
+  username?: true
+  whatsappGroupId?: true
   _all?: true
 }
 
@@ -219,17 +219,17 @@ export type TenantMembershipGroupByOutputType = {
   tenantId: string
   role: $Enums.Role
   status: $Enums.MembershipStatus
-  username: string | null
-  activo: boolean
-  aprobado: boolean
-  numberId: string | null
-  whatsappGroupId: string | null
-  pushToken: string | null
-  placa: string | null
-  moto: boolean | null
-  codigoReferido: string | null
   createdAt: Date
   updatedAt: Date
+  activo: boolean
+  aprobado: boolean
+  codigoReferido: string | null
+  moto: boolean | null
+  numberId: string | null
+  placa: string | null
+  pushToken: string | null
+  username: string | null
+  whatsappGroupId: string | null
   _count: TenantMembershipCountAggregateOutputType | null
   _min: TenantMembershipMinAggregateOutputType | null
   _max: TenantMembershipMaxAggregateOutputType | null
@@ -259,17 +259,17 @@ export type TenantMembershipWhereInput = {
   tenantId?: Prisma.UuidFilter<"TenantMembership"> | string
   role?: Prisma.EnumRoleFilter<"TenantMembership"> | $Enums.Role
   status?: Prisma.EnumMembershipStatusFilter<"TenantMembership"> | $Enums.MembershipStatus
-  username?: Prisma.StringNullableFilter<"TenantMembership"> | string | null
-  activo?: Prisma.BoolFilter<"TenantMembership"> | boolean
-  aprobado?: Prisma.BoolFilter<"TenantMembership"> | boolean
-  numberId?: Prisma.StringNullableFilter<"TenantMembership"> | string | null
-  whatsappGroupId?: Prisma.StringNullableFilter<"TenantMembership"> | string | null
-  pushToken?: Prisma.StringNullableFilter<"TenantMembership"> | string | null
-  placa?: Prisma.StringNullableFilter<"TenantMembership"> | string | null
-  moto?: Prisma.BoolNullableFilter<"TenantMembership"> | boolean | null
-  codigoReferido?: Prisma.StringNullableFilter<"TenantMembership"> | string | null
   createdAt?: Prisma.DateTimeFilter<"TenantMembership"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"TenantMembership"> | Date | string
+  activo?: Prisma.BoolFilter<"TenantMembership"> | boolean
+  aprobado?: Prisma.BoolFilter<"TenantMembership"> | boolean
+  codigoReferido?: Prisma.StringNullableFilter<"TenantMembership"> | string | null
+  moto?: Prisma.BoolNullableFilter<"TenantMembership"> | boolean | null
+  numberId?: Prisma.StringNullableFilter<"TenantMembership"> | string | null
+  placa?: Prisma.StringNullableFilter<"TenantMembership"> | string | null
+  pushToken?: Prisma.StringNullableFilter<"TenantMembership"> | string | null
+  username?: Prisma.StringNullableFilter<"TenantMembership"> | string | null
+  whatsappGroupId?: Prisma.StringNullableFilter<"TenantMembership"> | string | null
   anticipos?: Prisma.AnticiposListRelationFilter
   auditorias?: Prisma.AuditoriaListRelationFilter
   citasComoCreador?: Prisma.CitasPsicologosListRelationFilter
@@ -304,17 +304,17 @@ export type TenantMembershipOrderByWithRelationInput = {
   tenantId?: Prisma.SortOrder
   role?: Prisma.SortOrder
   status?: Prisma.SortOrder
-  username?: Prisma.SortOrderInput | Prisma.SortOrder
-  activo?: Prisma.SortOrder
-  aprobado?: Prisma.SortOrder
-  numberId?: Prisma.SortOrderInput | Prisma.SortOrder
-  whatsappGroupId?: Prisma.SortOrderInput | Prisma.SortOrder
-  pushToken?: Prisma.SortOrderInput | Prisma.SortOrder
-  placa?: Prisma.SortOrderInput | Prisma.SortOrder
-  moto?: Prisma.SortOrderInput | Prisma.SortOrder
-  codigoReferido?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  activo?: Prisma.SortOrder
+  aprobado?: Prisma.SortOrder
+  codigoReferido?: Prisma.SortOrderInput | Prisma.SortOrder
+  moto?: Prisma.SortOrderInput | Prisma.SortOrder
+  numberId?: Prisma.SortOrderInput | Prisma.SortOrder
+  placa?: Prisma.SortOrderInput | Prisma.SortOrder
+  pushToken?: Prisma.SortOrderInput | Prisma.SortOrder
+  username?: Prisma.SortOrderInput | Prisma.SortOrder
+  whatsappGroupId?: Prisma.SortOrderInput | Prisma.SortOrder
   anticipos?: Prisma.AnticiposOrderByRelationAggregateInput
   auditorias?: Prisma.AuditoriaOrderByRelationAggregateInput
   citasComoCreador?: Prisma.CitasPsicologosOrderByRelationAggregateInput
@@ -353,17 +353,17 @@ export type TenantMembershipWhereUniqueInput = Prisma.AtLeast<{
   tenantId?: Prisma.UuidFilter<"TenantMembership"> | string
   role?: Prisma.EnumRoleFilter<"TenantMembership"> | $Enums.Role
   status?: Prisma.EnumMembershipStatusFilter<"TenantMembership"> | $Enums.MembershipStatus
-  username?: Prisma.StringNullableFilter<"TenantMembership"> | string | null
-  activo?: Prisma.BoolFilter<"TenantMembership"> | boolean
-  aprobado?: Prisma.BoolFilter<"TenantMembership"> | boolean
-  numberId?: Prisma.StringNullableFilter<"TenantMembership"> | string | null
-  whatsappGroupId?: Prisma.StringNullableFilter<"TenantMembership"> | string | null
-  pushToken?: Prisma.StringNullableFilter<"TenantMembership"> | string | null
-  placa?: Prisma.StringNullableFilter<"TenantMembership"> | string | null
-  moto?: Prisma.BoolNullableFilter<"TenantMembership"> | boolean | null
-  codigoReferido?: Prisma.StringNullableFilter<"TenantMembership"> | string | null
   createdAt?: Prisma.DateTimeFilter<"TenantMembership"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"TenantMembership"> | Date | string
+  activo?: Prisma.BoolFilter<"TenantMembership"> | boolean
+  aprobado?: Prisma.BoolFilter<"TenantMembership"> | boolean
+  codigoReferido?: Prisma.StringNullableFilter<"TenantMembership"> | string | null
+  moto?: Prisma.BoolNullableFilter<"TenantMembership"> | boolean | null
+  numberId?: Prisma.StringNullableFilter<"TenantMembership"> | string | null
+  placa?: Prisma.StringNullableFilter<"TenantMembership"> | string | null
+  pushToken?: Prisma.StringNullableFilter<"TenantMembership"> | string | null
+  username?: Prisma.StringNullableFilter<"TenantMembership"> | string | null
+  whatsappGroupId?: Prisma.StringNullableFilter<"TenantMembership"> | string | null
   anticipos?: Prisma.AnticiposListRelationFilter
   auditorias?: Prisma.AuditoriaListRelationFilter
   citasComoCreador?: Prisma.CitasPsicologosListRelationFilter
@@ -398,17 +398,17 @@ export type TenantMembershipOrderByWithAggregationInput = {
   tenantId?: Prisma.SortOrder
   role?: Prisma.SortOrder
   status?: Prisma.SortOrder
-  username?: Prisma.SortOrderInput | Prisma.SortOrder
-  activo?: Prisma.SortOrder
-  aprobado?: Prisma.SortOrder
-  numberId?: Prisma.SortOrderInput | Prisma.SortOrder
-  whatsappGroupId?: Prisma.SortOrderInput | Prisma.SortOrder
-  pushToken?: Prisma.SortOrderInput | Prisma.SortOrder
-  placa?: Prisma.SortOrderInput | Prisma.SortOrder
-  moto?: Prisma.SortOrderInput | Prisma.SortOrder
-  codigoReferido?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  activo?: Prisma.SortOrder
+  aprobado?: Prisma.SortOrder
+  codigoReferido?: Prisma.SortOrderInput | Prisma.SortOrder
+  moto?: Prisma.SortOrderInput | Prisma.SortOrder
+  numberId?: Prisma.SortOrderInput | Prisma.SortOrder
+  placa?: Prisma.SortOrderInput | Prisma.SortOrder
+  pushToken?: Prisma.SortOrderInput | Prisma.SortOrder
+  username?: Prisma.SortOrderInput | Prisma.SortOrder
+  whatsappGroupId?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.TenantMembershipCountOrderByAggregateInput
   _max?: Prisma.TenantMembershipMaxOrderByAggregateInput
   _min?: Prisma.TenantMembershipMinOrderByAggregateInput
@@ -423,34 +423,34 @@ export type TenantMembershipScalarWhereWithAggregatesInput = {
   tenantId?: Prisma.UuidWithAggregatesFilter<"TenantMembership"> | string
   role?: Prisma.EnumRoleWithAggregatesFilter<"TenantMembership"> | $Enums.Role
   status?: Prisma.EnumMembershipStatusWithAggregatesFilter<"TenantMembership"> | $Enums.MembershipStatus
-  username?: Prisma.StringNullableWithAggregatesFilter<"TenantMembership"> | string | null
-  activo?: Prisma.BoolWithAggregatesFilter<"TenantMembership"> | boolean
-  aprobado?: Prisma.BoolWithAggregatesFilter<"TenantMembership"> | boolean
-  numberId?: Prisma.StringNullableWithAggregatesFilter<"TenantMembership"> | string | null
-  whatsappGroupId?: Prisma.StringNullableWithAggregatesFilter<"TenantMembership"> | string | null
-  pushToken?: Prisma.StringNullableWithAggregatesFilter<"TenantMembership"> | string | null
-  placa?: Prisma.StringNullableWithAggregatesFilter<"TenantMembership"> | string | null
-  moto?: Prisma.BoolNullableWithAggregatesFilter<"TenantMembership"> | boolean | null
-  codigoReferido?: Prisma.StringNullableWithAggregatesFilter<"TenantMembership"> | string | null
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"TenantMembership"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"TenantMembership"> | Date | string
+  activo?: Prisma.BoolWithAggregatesFilter<"TenantMembership"> | boolean
+  aprobado?: Prisma.BoolWithAggregatesFilter<"TenantMembership"> | boolean
+  codigoReferido?: Prisma.StringNullableWithAggregatesFilter<"TenantMembership"> | string | null
+  moto?: Prisma.BoolNullableWithAggregatesFilter<"TenantMembership"> | boolean | null
+  numberId?: Prisma.StringNullableWithAggregatesFilter<"TenantMembership"> | string | null
+  placa?: Prisma.StringNullableWithAggregatesFilter<"TenantMembership"> | string | null
+  pushToken?: Prisma.StringNullableWithAggregatesFilter<"TenantMembership"> | string | null
+  username?: Prisma.StringNullableWithAggregatesFilter<"TenantMembership"> | string | null
+  whatsappGroupId?: Prisma.StringNullableWithAggregatesFilter<"TenantMembership"> | string | null
 }
 
 export type TenantMembershipCreateInput = {
   id?: string
   role: $Enums.Role
   status?: $Enums.MembershipStatus
-  username?: string | null
-  activo?: boolean
-  aprobado?: boolean
-  numberId?: string | null
-  whatsappGroupId?: string | null
-  pushToken?: string | null
-  placa?: string | null
-  moto?: boolean | null
-  codigoReferido?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  activo?: boolean
+  aprobado?: boolean
+  codigoReferido?: string | null
+  moto?: boolean | null
+  numberId?: string | null
+  placa?: string | null
+  pushToken?: string | null
+  username?: string | null
+  whatsappGroupId?: string | null
   anticipos?: Prisma.AnticiposCreateNestedManyWithoutMembershipInput
   auditorias?: Prisma.AuditoriaCreateNestedManyWithoutMembershipInput
   citasComoCreador?: Prisma.CitasPsicologosCreateNestedManyWithoutCreadoPorInput
@@ -485,17 +485,17 @@ export type TenantMembershipUncheckedCreateInput = {
   tenantId: string
   role: $Enums.Role
   status?: $Enums.MembershipStatus
-  username?: string | null
-  activo?: boolean
-  aprobado?: boolean
-  numberId?: string | null
-  whatsappGroupId?: string | null
-  pushToken?: string | null
-  placa?: string | null
-  moto?: boolean | null
-  codigoReferido?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  activo?: boolean
+  aprobado?: boolean
+  codigoReferido?: string | null
+  moto?: boolean | null
+  numberId?: string | null
+  placa?: string | null
+  pushToken?: string | null
+  username?: string | null
+  whatsappGroupId?: string | null
   anticipos?: Prisma.AnticiposUncheckedCreateNestedManyWithoutMembershipInput
   auditorias?: Prisma.AuditoriaUncheckedCreateNestedManyWithoutMembershipInput
   citasComoCreador?: Prisma.CitasPsicologosUncheckedCreateNestedManyWithoutCreadoPorInput
@@ -526,17 +526,17 @@ export type TenantMembershipUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   status?: Prisma.EnumMembershipStatusFieldUpdateOperationsInput | $Enums.MembershipStatus
-  username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  aprobado?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  numberId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  whatsappGroupId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  pushToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  placa?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  moto?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  codigoReferido?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  aprobado?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  codigoReferido?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  moto?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  numberId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  placa?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pushToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  whatsappGroupId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   anticipos?: Prisma.AnticiposUpdateManyWithoutMembershipNestedInput
   auditorias?: Prisma.AuditoriaUpdateManyWithoutMembershipNestedInput
   citasComoCreador?: Prisma.CitasPsicologosUpdateManyWithoutCreadoPorNestedInput
@@ -571,17 +571,17 @@ export type TenantMembershipUncheckedUpdateInput = {
   tenantId?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   status?: Prisma.EnumMembershipStatusFieldUpdateOperationsInput | $Enums.MembershipStatus
-  username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  aprobado?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  numberId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  whatsappGroupId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  pushToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  placa?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  moto?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  codigoReferido?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  aprobado?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  codigoReferido?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  moto?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  numberId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  placa?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pushToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  whatsappGroupId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   anticipos?: Prisma.AnticiposUncheckedUpdateManyWithoutMembershipNestedInput
   auditorias?: Prisma.AuditoriaUncheckedUpdateManyWithoutMembershipNestedInput
   citasComoCreador?: Prisma.CitasPsicologosUncheckedUpdateManyWithoutCreadoPorNestedInput
@@ -614,34 +614,34 @@ export type TenantMembershipCreateManyInput = {
   tenantId: string
   role: $Enums.Role
   status?: $Enums.MembershipStatus
-  username?: string | null
-  activo?: boolean
-  aprobado?: boolean
-  numberId?: string | null
-  whatsappGroupId?: string | null
-  pushToken?: string | null
-  placa?: string | null
-  moto?: boolean | null
-  codigoReferido?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  activo?: boolean
+  aprobado?: boolean
+  codigoReferido?: string | null
+  moto?: boolean | null
+  numberId?: string | null
+  placa?: string | null
+  pushToken?: string | null
+  username?: string | null
+  whatsappGroupId?: string | null
 }
 
 export type TenantMembershipUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   status?: Prisma.EnumMembershipStatusFieldUpdateOperationsInput | $Enums.MembershipStatus
-  username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  aprobado?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  numberId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  whatsappGroupId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  pushToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  placa?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  moto?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  codigoReferido?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  aprobado?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  codigoReferido?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  moto?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  numberId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  placa?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pushToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  whatsappGroupId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type TenantMembershipUncheckedUpdateManyInput = {
@@ -650,17 +650,17 @@ export type TenantMembershipUncheckedUpdateManyInput = {
   tenantId?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   status?: Prisma.EnumMembershipStatusFieldUpdateOperationsInput | $Enums.MembershipStatus
-  username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  aprobado?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  numberId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  whatsappGroupId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  pushToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  placa?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  moto?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  codigoReferido?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  aprobado?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  codigoReferido?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  moto?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  numberId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  placa?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pushToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  whatsappGroupId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type TenantMembershipListRelationFilter = {
@@ -684,17 +684,17 @@ export type TenantMembershipCountOrderByAggregateInput = {
   tenantId?: Prisma.SortOrder
   role?: Prisma.SortOrder
   status?: Prisma.SortOrder
-  username?: Prisma.SortOrder
-  activo?: Prisma.SortOrder
-  aprobado?: Prisma.SortOrder
-  numberId?: Prisma.SortOrder
-  whatsappGroupId?: Prisma.SortOrder
-  pushToken?: Prisma.SortOrder
-  placa?: Prisma.SortOrder
-  moto?: Prisma.SortOrder
-  codigoReferido?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  activo?: Prisma.SortOrder
+  aprobado?: Prisma.SortOrder
+  codigoReferido?: Prisma.SortOrder
+  moto?: Prisma.SortOrder
+  numberId?: Prisma.SortOrder
+  placa?: Prisma.SortOrder
+  pushToken?: Prisma.SortOrder
+  username?: Prisma.SortOrder
+  whatsappGroupId?: Prisma.SortOrder
 }
 
 export type TenantMembershipMaxOrderByAggregateInput = {
@@ -703,17 +703,17 @@ export type TenantMembershipMaxOrderByAggregateInput = {
   tenantId?: Prisma.SortOrder
   role?: Prisma.SortOrder
   status?: Prisma.SortOrder
-  username?: Prisma.SortOrder
-  activo?: Prisma.SortOrder
-  aprobado?: Prisma.SortOrder
-  numberId?: Prisma.SortOrder
-  whatsappGroupId?: Prisma.SortOrder
-  pushToken?: Prisma.SortOrder
-  placa?: Prisma.SortOrder
-  moto?: Prisma.SortOrder
-  codigoReferido?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  activo?: Prisma.SortOrder
+  aprobado?: Prisma.SortOrder
+  codigoReferido?: Prisma.SortOrder
+  moto?: Prisma.SortOrder
+  numberId?: Prisma.SortOrder
+  placa?: Prisma.SortOrder
+  pushToken?: Prisma.SortOrder
+  username?: Prisma.SortOrder
+  whatsappGroupId?: Prisma.SortOrder
 }
 
 export type TenantMembershipMinOrderByAggregateInput = {
@@ -722,17 +722,17 @@ export type TenantMembershipMinOrderByAggregateInput = {
   tenantId?: Prisma.SortOrder
   role?: Prisma.SortOrder
   status?: Prisma.SortOrder
-  username?: Prisma.SortOrder
-  activo?: Prisma.SortOrder
-  aprobado?: Prisma.SortOrder
-  numberId?: Prisma.SortOrder
-  whatsappGroupId?: Prisma.SortOrder
-  pushToken?: Prisma.SortOrder
-  placa?: Prisma.SortOrder
-  moto?: Prisma.SortOrder
-  codigoReferido?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  activo?: Prisma.SortOrder
+  aprobado?: Prisma.SortOrder
+  codigoReferido?: Prisma.SortOrder
+  moto?: Prisma.SortOrder
+  numberId?: Prisma.SortOrder
+  placa?: Prisma.SortOrder
+  pushToken?: Prisma.SortOrder
+  username?: Prisma.SortOrder
+  whatsappGroupId?: Prisma.SortOrder
 }
 
 export type TenantMembershipScalarRelationFilter = {
@@ -1197,17 +1197,17 @@ export type TenantMembershipCreateWithoutUserInput = {
   id?: string
   role: $Enums.Role
   status?: $Enums.MembershipStatus
-  username?: string | null
-  activo?: boolean
-  aprobado?: boolean
-  numberId?: string | null
-  whatsappGroupId?: string | null
-  pushToken?: string | null
-  placa?: string | null
-  moto?: boolean | null
-  codigoReferido?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  activo?: boolean
+  aprobado?: boolean
+  codigoReferido?: string | null
+  moto?: boolean | null
+  numberId?: string | null
+  placa?: string | null
+  pushToken?: string | null
+  username?: string | null
+  whatsappGroupId?: string | null
   anticipos?: Prisma.AnticiposCreateNestedManyWithoutMembershipInput
   auditorias?: Prisma.AuditoriaCreateNestedManyWithoutMembershipInput
   citasComoCreador?: Prisma.CitasPsicologosCreateNestedManyWithoutCreadoPorInput
@@ -1240,17 +1240,17 @@ export type TenantMembershipUncheckedCreateWithoutUserInput = {
   tenantId: string
   role: $Enums.Role
   status?: $Enums.MembershipStatus
-  username?: string | null
-  activo?: boolean
-  aprobado?: boolean
-  numberId?: string | null
-  whatsappGroupId?: string | null
-  pushToken?: string | null
-  placa?: string | null
-  moto?: boolean | null
-  codigoReferido?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  activo?: boolean
+  aprobado?: boolean
+  codigoReferido?: string | null
+  moto?: boolean | null
+  numberId?: string | null
+  placa?: string | null
+  pushToken?: string | null
+  username?: string | null
+  whatsappGroupId?: string | null
   anticipos?: Prisma.AnticiposUncheckedCreateNestedManyWithoutMembershipInput
   auditorias?: Prisma.AuditoriaUncheckedCreateNestedManyWithoutMembershipInput
   citasComoCreador?: Prisma.CitasPsicologosUncheckedCreateNestedManyWithoutCreadoPorInput
@@ -1312,34 +1312,34 @@ export type TenantMembershipScalarWhereInput = {
   tenantId?: Prisma.UuidFilter<"TenantMembership"> | string
   role?: Prisma.EnumRoleFilter<"TenantMembership"> | $Enums.Role
   status?: Prisma.EnumMembershipStatusFilter<"TenantMembership"> | $Enums.MembershipStatus
-  username?: Prisma.StringNullableFilter<"TenantMembership"> | string | null
-  activo?: Prisma.BoolFilter<"TenantMembership"> | boolean
-  aprobado?: Prisma.BoolFilter<"TenantMembership"> | boolean
-  numberId?: Prisma.StringNullableFilter<"TenantMembership"> | string | null
-  whatsappGroupId?: Prisma.StringNullableFilter<"TenantMembership"> | string | null
-  pushToken?: Prisma.StringNullableFilter<"TenantMembership"> | string | null
-  placa?: Prisma.StringNullableFilter<"TenantMembership"> | string | null
-  moto?: Prisma.BoolNullableFilter<"TenantMembership"> | boolean | null
-  codigoReferido?: Prisma.StringNullableFilter<"TenantMembership"> | string | null
   createdAt?: Prisma.DateTimeFilter<"TenantMembership"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"TenantMembership"> | Date | string
+  activo?: Prisma.BoolFilter<"TenantMembership"> | boolean
+  aprobado?: Prisma.BoolFilter<"TenantMembership"> | boolean
+  codigoReferido?: Prisma.StringNullableFilter<"TenantMembership"> | string | null
+  moto?: Prisma.BoolNullableFilter<"TenantMembership"> | boolean | null
+  numberId?: Prisma.StringNullableFilter<"TenantMembership"> | string | null
+  placa?: Prisma.StringNullableFilter<"TenantMembership"> | string | null
+  pushToken?: Prisma.StringNullableFilter<"TenantMembership"> | string | null
+  username?: Prisma.StringNullableFilter<"TenantMembership"> | string | null
+  whatsappGroupId?: Prisma.StringNullableFilter<"TenantMembership"> | string | null
 }
 
 export type TenantMembershipCreateWithoutTenantInput = {
   id?: string
   role: $Enums.Role
   status?: $Enums.MembershipStatus
-  username?: string | null
-  activo?: boolean
-  aprobado?: boolean
-  numberId?: string | null
-  whatsappGroupId?: string | null
-  pushToken?: string | null
-  placa?: string | null
-  moto?: boolean | null
-  codigoReferido?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  activo?: boolean
+  aprobado?: boolean
+  codigoReferido?: string | null
+  moto?: boolean | null
+  numberId?: string | null
+  placa?: string | null
+  pushToken?: string | null
+  username?: string | null
+  whatsappGroupId?: string | null
   anticipos?: Prisma.AnticiposCreateNestedManyWithoutMembershipInput
   auditorias?: Prisma.AuditoriaCreateNestedManyWithoutMembershipInput
   citasComoCreador?: Prisma.CitasPsicologosCreateNestedManyWithoutCreadoPorInput
@@ -1372,17 +1372,17 @@ export type TenantMembershipUncheckedCreateWithoutTenantInput = {
   userId: string
   role: $Enums.Role
   status?: $Enums.MembershipStatus
-  username?: string | null
-  activo?: boolean
-  aprobado?: boolean
-  numberId?: string | null
-  whatsappGroupId?: string | null
-  pushToken?: string | null
-  placa?: string | null
-  moto?: boolean | null
-  codigoReferido?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  activo?: boolean
+  aprobado?: boolean
+  codigoReferido?: string | null
+  moto?: boolean | null
+  numberId?: string | null
+  placa?: string | null
+  pushToken?: string | null
+  username?: string | null
+  whatsappGroupId?: string | null
   anticipos?: Prisma.AnticiposUncheckedCreateNestedManyWithoutMembershipInput
   auditorias?: Prisma.AuditoriaUncheckedCreateNestedManyWithoutMembershipInput
   citasComoCreador?: Prisma.CitasPsicologosUncheckedCreateNestedManyWithoutCreadoPorInput
@@ -1439,17 +1439,17 @@ export type TenantMembershipCreateWithoutEmpresaMembershipsInput = {
   id?: string
   role: $Enums.Role
   status?: $Enums.MembershipStatus
-  username?: string | null
-  activo?: boolean
-  aprobado?: boolean
-  numberId?: string | null
-  whatsappGroupId?: string | null
-  pushToken?: string | null
-  placa?: string | null
-  moto?: boolean | null
-  codigoReferido?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  activo?: boolean
+  aprobado?: boolean
+  codigoReferido?: string | null
+  moto?: boolean | null
+  numberId?: string | null
+  placa?: string | null
+  pushToken?: string | null
+  username?: string | null
+  whatsappGroupId?: string | null
   anticipos?: Prisma.AnticiposCreateNestedManyWithoutMembershipInput
   auditorias?: Prisma.AuditoriaCreateNestedManyWithoutMembershipInput
   citasComoCreador?: Prisma.CitasPsicologosCreateNestedManyWithoutCreadoPorInput
@@ -1483,17 +1483,17 @@ export type TenantMembershipUncheckedCreateWithoutEmpresaMembershipsInput = {
   tenantId: string
   role: $Enums.Role
   status?: $Enums.MembershipStatus
-  username?: string | null
-  activo?: boolean
-  aprobado?: boolean
-  numberId?: string | null
-  whatsappGroupId?: string | null
-  pushToken?: string | null
-  placa?: string | null
-  moto?: boolean | null
-  codigoReferido?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  activo?: boolean
+  aprobado?: boolean
+  codigoReferido?: string | null
+  moto?: boolean | null
+  numberId?: string | null
+  placa?: string | null
+  pushToken?: string | null
+  username?: string | null
+  whatsappGroupId?: string | null
   anticipos?: Prisma.AnticiposUncheckedCreateNestedManyWithoutMembershipInput
   auditorias?: Prisma.AuditoriaUncheckedCreateNestedManyWithoutMembershipInput
   citasComoCreador?: Prisma.CitasPsicologosUncheckedCreateNestedManyWithoutCreadoPorInput
@@ -1539,17 +1539,17 @@ export type TenantMembershipUpdateWithoutEmpresaMembershipsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   status?: Prisma.EnumMembershipStatusFieldUpdateOperationsInput | $Enums.MembershipStatus
-  username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  aprobado?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  numberId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  whatsappGroupId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  pushToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  placa?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  moto?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  codigoReferido?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  aprobado?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  codigoReferido?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  moto?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  numberId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  placa?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pushToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  whatsappGroupId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   anticipos?: Prisma.AnticiposUpdateManyWithoutMembershipNestedInput
   auditorias?: Prisma.AuditoriaUpdateManyWithoutMembershipNestedInput
   citasComoCreador?: Prisma.CitasPsicologosUpdateManyWithoutCreadoPorNestedInput
@@ -1583,17 +1583,17 @@ export type TenantMembershipUncheckedUpdateWithoutEmpresaMembershipsInput = {
   tenantId?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   status?: Prisma.EnumMembershipStatusFieldUpdateOperationsInput | $Enums.MembershipStatus
-  username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  aprobado?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  numberId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  whatsappGroupId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  pushToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  placa?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  moto?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  codigoReferido?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  aprobado?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  codigoReferido?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  moto?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  numberId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  placa?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pushToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  whatsappGroupId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   anticipos?: Prisma.AnticiposUncheckedUpdateManyWithoutMembershipNestedInput
   auditorias?: Prisma.AuditoriaUncheckedUpdateManyWithoutMembershipNestedInput
   citasComoCreador?: Prisma.CitasPsicologosUncheckedUpdateManyWithoutCreadoPorNestedInput
@@ -1623,17 +1623,17 @@ export type TenantMembershipCreateWithoutClientesCreadosInput = {
   id?: string
   role: $Enums.Role
   status?: $Enums.MembershipStatus
-  username?: string | null
-  activo?: boolean
-  aprobado?: boolean
-  numberId?: string | null
-  whatsappGroupId?: string | null
-  pushToken?: string | null
-  placa?: string | null
-  moto?: boolean | null
-  codigoReferido?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  activo?: boolean
+  aprobado?: boolean
+  codigoReferido?: string | null
+  moto?: boolean | null
+  numberId?: string | null
+  placa?: string | null
+  pushToken?: string | null
+  username?: string | null
+  whatsappGroupId?: string | null
   anticipos?: Prisma.AnticiposCreateNestedManyWithoutMembershipInput
   auditorias?: Prisma.AuditoriaCreateNestedManyWithoutMembershipInput
   citasComoCreador?: Prisma.CitasPsicologosCreateNestedManyWithoutCreadoPorInput
@@ -1667,17 +1667,17 @@ export type TenantMembershipUncheckedCreateWithoutClientesCreadosInput = {
   tenantId: string
   role: $Enums.Role
   status?: $Enums.MembershipStatus
-  username?: string | null
-  activo?: boolean
-  aprobado?: boolean
-  numberId?: string | null
-  whatsappGroupId?: string | null
-  pushToken?: string | null
-  placa?: string | null
-  moto?: boolean | null
-  codigoReferido?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  activo?: boolean
+  aprobado?: boolean
+  codigoReferido?: string | null
+  moto?: boolean | null
+  numberId?: string | null
+  placa?: string | null
+  pushToken?: string | null
+  username?: string | null
+  whatsappGroupId?: string | null
   anticipos?: Prisma.AnticiposUncheckedCreateNestedManyWithoutMembershipInput
   auditorias?: Prisma.AuditoriaUncheckedCreateNestedManyWithoutMembershipInput
   citasComoCreador?: Prisma.CitasPsicologosUncheckedCreateNestedManyWithoutCreadoPorInput
@@ -1723,17 +1723,17 @@ export type TenantMembershipUpdateWithoutClientesCreadosInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   status?: Prisma.EnumMembershipStatusFieldUpdateOperationsInput | $Enums.MembershipStatus
-  username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  aprobado?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  numberId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  whatsappGroupId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  pushToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  placa?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  moto?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  codigoReferido?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  aprobado?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  codigoReferido?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  moto?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  numberId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  placa?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pushToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  whatsappGroupId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   anticipos?: Prisma.AnticiposUpdateManyWithoutMembershipNestedInput
   auditorias?: Prisma.AuditoriaUpdateManyWithoutMembershipNestedInput
   citasComoCreador?: Prisma.CitasPsicologosUpdateManyWithoutCreadoPorNestedInput
@@ -1767,17 +1767,17 @@ export type TenantMembershipUncheckedUpdateWithoutClientesCreadosInput = {
   tenantId?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   status?: Prisma.EnumMembershipStatusFieldUpdateOperationsInput | $Enums.MembershipStatus
-  username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  aprobado?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  numberId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  whatsappGroupId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  pushToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  placa?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  moto?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  codigoReferido?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  aprobado?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  codigoReferido?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  moto?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  numberId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  placa?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pushToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  whatsappGroupId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   anticipos?: Prisma.AnticiposUncheckedUpdateManyWithoutMembershipNestedInput
   auditorias?: Prisma.AuditoriaUncheckedUpdateManyWithoutMembershipNestedInput
   citasComoCreador?: Prisma.CitasPsicologosUncheckedUpdateManyWithoutCreadoPorNestedInput
@@ -1807,17 +1807,17 @@ export type TenantMembershipCreateWithoutServiciosCreadosInput = {
   id?: string
   role: $Enums.Role
   status?: $Enums.MembershipStatus
-  username?: string | null
-  activo?: boolean
-  aprobado?: boolean
-  numberId?: string | null
-  whatsappGroupId?: string | null
-  pushToken?: string | null
-  placa?: string | null
-  moto?: boolean | null
-  codigoReferido?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  activo?: boolean
+  aprobado?: boolean
+  codigoReferido?: string | null
+  moto?: boolean | null
+  numberId?: string | null
+  placa?: string | null
+  pushToken?: string | null
+  username?: string | null
+  whatsappGroupId?: string | null
   anticipos?: Prisma.AnticiposCreateNestedManyWithoutMembershipInput
   auditorias?: Prisma.AuditoriaCreateNestedManyWithoutMembershipInput
   citasComoCreador?: Prisma.CitasPsicologosCreateNestedManyWithoutCreadoPorInput
@@ -1851,17 +1851,17 @@ export type TenantMembershipUncheckedCreateWithoutServiciosCreadosInput = {
   tenantId: string
   role: $Enums.Role
   status?: $Enums.MembershipStatus
-  username?: string | null
-  activo?: boolean
-  aprobado?: boolean
-  numberId?: string | null
-  whatsappGroupId?: string | null
-  pushToken?: string | null
-  placa?: string | null
-  moto?: boolean | null
-  codigoReferido?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  activo?: boolean
+  aprobado?: boolean
+  codigoReferido?: string | null
+  moto?: boolean | null
+  numberId?: string | null
+  placa?: string | null
+  pushToken?: string | null
+  username?: string | null
+  whatsappGroupId?: string | null
   anticipos?: Prisma.AnticiposUncheckedCreateNestedManyWithoutMembershipInput
   auditorias?: Prisma.AuditoriaUncheckedCreateNestedManyWithoutMembershipInput
   citasComoCreador?: Prisma.CitasPsicologosUncheckedCreateNestedManyWithoutCreadoPorInput
@@ -1896,17 +1896,17 @@ export type TenantMembershipCreateWithoutServiciosAsignadosInput = {
   id?: string
   role: $Enums.Role
   status?: $Enums.MembershipStatus
-  username?: string | null
-  activo?: boolean
-  aprobado?: boolean
-  numberId?: string | null
-  whatsappGroupId?: string | null
-  pushToken?: string | null
-  placa?: string | null
-  moto?: boolean | null
-  codigoReferido?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  activo?: boolean
+  aprobado?: boolean
+  codigoReferido?: string | null
+  moto?: boolean | null
+  numberId?: string | null
+  placa?: string | null
+  pushToken?: string | null
+  username?: string | null
+  whatsappGroupId?: string | null
   anticipos?: Prisma.AnticiposCreateNestedManyWithoutMembershipInput
   auditorias?: Prisma.AuditoriaCreateNestedManyWithoutMembershipInput
   citasComoCreador?: Prisma.CitasPsicologosCreateNestedManyWithoutCreadoPorInput
@@ -1940,17 +1940,17 @@ export type TenantMembershipUncheckedCreateWithoutServiciosAsignadosInput = {
   tenantId: string
   role: $Enums.Role
   status?: $Enums.MembershipStatus
-  username?: string | null
-  activo?: boolean
-  aprobado?: boolean
-  numberId?: string | null
-  whatsappGroupId?: string | null
-  pushToken?: string | null
-  placa?: string | null
-  moto?: boolean | null
-  codigoReferido?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  activo?: boolean
+  aprobado?: boolean
+  codigoReferido?: string | null
+  moto?: boolean | null
+  numberId?: string | null
+  placa?: string | null
+  pushToken?: string | null
+  username?: string | null
+  whatsappGroupId?: string | null
   anticipos?: Prisma.AnticiposUncheckedCreateNestedManyWithoutMembershipInput
   auditorias?: Prisma.AuditoriaUncheckedCreateNestedManyWithoutMembershipInput
   citasComoCreador?: Prisma.CitasPsicologosUncheckedCreateNestedManyWithoutCreadoPorInput
@@ -1996,17 +1996,17 @@ export type TenantMembershipUpdateWithoutServiciosCreadosInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   status?: Prisma.EnumMembershipStatusFieldUpdateOperationsInput | $Enums.MembershipStatus
-  username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  aprobado?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  numberId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  whatsappGroupId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  pushToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  placa?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  moto?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  codigoReferido?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  aprobado?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  codigoReferido?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  moto?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  numberId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  placa?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pushToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  whatsappGroupId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   anticipos?: Prisma.AnticiposUpdateManyWithoutMembershipNestedInput
   auditorias?: Prisma.AuditoriaUpdateManyWithoutMembershipNestedInput
   citasComoCreador?: Prisma.CitasPsicologosUpdateManyWithoutCreadoPorNestedInput
@@ -2040,17 +2040,17 @@ export type TenantMembershipUncheckedUpdateWithoutServiciosCreadosInput = {
   tenantId?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   status?: Prisma.EnumMembershipStatusFieldUpdateOperationsInput | $Enums.MembershipStatus
-  username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  aprobado?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  numberId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  whatsappGroupId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  pushToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  placa?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  moto?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  codigoReferido?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  aprobado?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  codigoReferido?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  moto?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  numberId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  placa?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pushToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  whatsappGroupId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   anticipos?: Prisma.AnticiposUncheckedUpdateManyWithoutMembershipNestedInput
   auditorias?: Prisma.AuditoriaUncheckedUpdateManyWithoutMembershipNestedInput
   citasComoCreador?: Prisma.CitasPsicologosUncheckedUpdateManyWithoutCreadoPorNestedInput
@@ -2091,17 +2091,17 @@ export type TenantMembershipUpdateWithoutServiciosAsignadosInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   status?: Prisma.EnumMembershipStatusFieldUpdateOperationsInput | $Enums.MembershipStatus
-  username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  aprobado?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  numberId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  whatsappGroupId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  pushToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  placa?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  moto?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  codigoReferido?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  aprobado?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  codigoReferido?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  moto?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  numberId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  placa?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pushToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  whatsappGroupId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   anticipos?: Prisma.AnticiposUpdateManyWithoutMembershipNestedInput
   auditorias?: Prisma.AuditoriaUpdateManyWithoutMembershipNestedInput
   citasComoCreador?: Prisma.CitasPsicologosUpdateManyWithoutCreadoPorNestedInput
@@ -2135,17 +2135,17 @@ export type TenantMembershipUncheckedUpdateWithoutServiciosAsignadosInput = {
   tenantId?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   status?: Prisma.EnumMembershipStatusFieldUpdateOperationsInput | $Enums.MembershipStatus
-  username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  aprobado?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  numberId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  whatsappGroupId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  pushToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  placa?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  moto?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  codigoReferido?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  aprobado?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  codigoReferido?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  moto?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  numberId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  placa?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pushToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  whatsappGroupId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   anticipos?: Prisma.AnticiposUncheckedUpdateManyWithoutMembershipNestedInput
   auditorias?: Prisma.AuditoriaUncheckedUpdateManyWithoutMembershipNestedInput
   citasComoCreador?: Prisma.CitasPsicologosUncheckedUpdateManyWithoutCreadoPorNestedInput
@@ -2175,17 +2175,17 @@ export type TenantMembershipCreateWithoutGeolocalizacionesInput = {
   id?: string
   role: $Enums.Role
   status?: $Enums.MembershipStatus
-  username?: string | null
-  activo?: boolean
-  aprobado?: boolean
-  numberId?: string | null
-  whatsappGroupId?: string | null
-  pushToken?: string | null
-  placa?: string | null
-  moto?: boolean | null
-  codigoReferido?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  activo?: boolean
+  aprobado?: boolean
+  codigoReferido?: string | null
+  moto?: boolean | null
+  numberId?: string | null
+  placa?: string | null
+  pushToken?: string | null
+  username?: string | null
+  whatsappGroupId?: string | null
   anticipos?: Prisma.AnticiposCreateNestedManyWithoutMembershipInput
   auditorias?: Prisma.AuditoriaCreateNestedManyWithoutMembershipInput
   citasComoCreador?: Prisma.CitasPsicologosCreateNestedManyWithoutCreadoPorInput
@@ -2219,17 +2219,17 @@ export type TenantMembershipUncheckedCreateWithoutGeolocalizacionesInput = {
   tenantId: string
   role: $Enums.Role
   status?: $Enums.MembershipStatus
-  username?: string | null
-  activo?: boolean
-  aprobado?: boolean
-  numberId?: string | null
-  whatsappGroupId?: string | null
-  pushToken?: string | null
-  placa?: string | null
-  moto?: boolean | null
-  codigoReferido?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  activo?: boolean
+  aprobado?: boolean
+  codigoReferido?: string | null
+  moto?: boolean | null
+  numberId?: string | null
+  placa?: string | null
+  pushToken?: string | null
+  username?: string | null
+  whatsappGroupId?: string | null
   anticipos?: Prisma.AnticiposUncheckedCreateNestedManyWithoutMembershipInput
   auditorias?: Prisma.AuditoriaUncheckedCreateNestedManyWithoutMembershipInput
   citasComoCreador?: Prisma.CitasPsicologosUncheckedCreateNestedManyWithoutCreadoPorInput
@@ -2275,17 +2275,17 @@ export type TenantMembershipUpdateWithoutGeolocalizacionesInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   status?: Prisma.EnumMembershipStatusFieldUpdateOperationsInput | $Enums.MembershipStatus
-  username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  aprobado?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  numberId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  whatsappGroupId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  pushToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  placa?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  moto?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  codigoReferido?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  aprobado?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  codigoReferido?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  moto?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  numberId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  placa?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pushToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  whatsappGroupId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   anticipos?: Prisma.AnticiposUpdateManyWithoutMembershipNestedInput
   auditorias?: Prisma.AuditoriaUpdateManyWithoutMembershipNestedInput
   citasComoCreador?: Prisma.CitasPsicologosUpdateManyWithoutCreadoPorNestedInput
@@ -2319,17 +2319,17 @@ export type TenantMembershipUncheckedUpdateWithoutGeolocalizacionesInput = {
   tenantId?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   status?: Prisma.EnumMembershipStatusFieldUpdateOperationsInput | $Enums.MembershipStatus
-  username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  aprobado?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  numberId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  whatsappGroupId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  pushToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  placa?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  moto?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  codigoReferido?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  aprobado?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  codigoReferido?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  moto?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  numberId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  placa?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pushToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  whatsappGroupId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   anticipos?: Prisma.AnticiposUncheckedUpdateManyWithoutMembershipNestedInput
   auditorias?: Prisma.AuditoriaUncheckedUpdateManyWithoutMembershipNestedInput
   citasComoCreador?: Prisma.CitasPsicologosUncheckedUpdateManyWithoutCreadoPorNestedInput
@@ -2359,17 +2359,17 @@ export type TenantMembershipCreateWithoutNominasInput = {
   id?: string
   role: $Enums.Role
   status?: $Enums.MembershipStatus
-  username?: string | null
-  activo?: boolean
-  aprobado?: boolean
-  numberId?: string | null
-  whatsappGroupId?: string | null
-  pushToken?: string | null
-  placa?: string | null
-  moto?: boolean | null
-  codigoReferido?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  activo?: boolean
+  aprobado?: boolean
+  codigoReferido?: string | null
+  moto?: boolean | null
+  numberId?: string | null
+  placa?: string | null
+  pushToken?: string | null
+  username?: string | null
+  whatsappGroupId?: string | null
   anticipos?: Prisma.AnticiposCreateNestedManyWithoutMembershipInput
   auditorias?: Prisma.AuditoriaCreateNestedManyWithoutMembershipInput
   citasComoCreador?: Prisma.CitasPsicologosCreateNestedManyWithoutCreadoPorInput
@@ -2403,17 +2403,17 @@ export type TenantMembershipUncheckedCreateWithoutNominasInput = {
   tenantId: string
   role: $Enums.Role
   status?: $Enums.MembershipStatus
-  username?: string | null
-  activo?: boolean
-  aprobado?: boolean
-  numberId?: string | null
-  whatsappGroupId?: string | null
-  pushToken?: string | null
-  placa?: string | null
-  moto?: boolean | null
-  codigoReferido?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  activo?: boolean
+  aprobado?: boolean
+  codigoReferido?: string | null
+  moto?: boolean | null
+  numberId?: string | null
+  placa?: string | null
+  pushToken?: string | null
+  username?: string | null
+  whatsappGroupId?: string | null
   anticipos?: Prisma.AnticiposUncheckedCreateNestedManyWithoutMembershipInput
   auditorias?: Prisma.AuditoriaUncheckedCreateNestedManyWithoutMembershipInput
   citasComoCreador?: Prisma.CitasPsicologosUncheckedCreateNestedManyWithoutCreadoPorInput
@@ -2459,17 +2459,17 @@ export type TenantMembershipUpdateWithoutNominasInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   status?: Prisma.EnumMembershipStatusFieldUpdateOperationsInput | $Enums.MembershipStatus
-  username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  aprobado?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  numberId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  whatsappGroupId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  pushToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  placa?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  moto?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  codigoReferido?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  aprobado?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  codigoReferido?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  moto?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  numberId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  placa?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pushToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  whatsappGroupId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   anticipos?: Prisma.AnticiposUpdateManyWithoutMembershipNestedInput
   auditorias?: Prisma.AuditoriaUpdateManyWithoutMembershipNestedInput
   citasComoCreador?: Prisma.CitasPsicologosUpdateManyWithoutCreadoPorNestedInput
@@ -2503,17 +2503,17 @@ export type TenantMembershipUncheckedUpdateWithoutNominasInput = {
   tenantId?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   status?: Prisma.EnumMembershipStatusFieldUpdateOperationsInput | $Enums.MembershipStatus
-  username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  aprobado?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  numberId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  whatsappGroupId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  pushToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  placa?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  moto?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  codigoReferido?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  aprobado?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  codigoReferido?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  moto?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  numberId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  placa?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pushToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  whatsappGroupId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   anticipos?: Prisma.AnticiposUncheckedUpdateManyWithoutMembershipNestedInput
   auditorias?: Prisma.AuditoriaUncheckedUpdateManyWithoutMembershipNestedInput
   citasComoCreador?: Prisma.CitasPsicologosUncheckedUpdateManyWithoutCreadoPorNestedInput
@@ -2543,17 +2543,17 @@ export type TenantMembershipCreateWithoutCitasComoCreadorInput = {
   id?: string
   role: $Enums.Role
   status?: $Enums.MembershipStatus
-  username?: string | null
-  activo?: boolean
-  aprobado?: boolean
-  numberId?: string | null
-  whatsappGroupId?: string | null
-  pushToken?: string | null
-  placa?: string | null
-  moto?: boolean | null
-  codigoReferido?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  activo?: boolean
+  aprobado?: boolean
+  codigoReferido?: string | null
+  moto?: boolean | null
+  numberId?: string | null
+  placa?: string | null
+  pushToken?: string | null
+  username?: string | null
+  whatsappGroupId?: string | null
   anticipos?: Prisma.AnticiposCreateNestedManyWithoutMembershipInput
   auditorias?: Prisma.AuditoriaCreateNestedManyWithoutMembershipInput
   citasComoPsicologo?: Prisma.CitasPsicologosCreateNestedManyWithoutPsicologoInput
@@ -2587,17 +2587,17 @@ export type TenantMembershipUncheckedCreateWithoutCitasComoCreadorInput = {
   tenantId: string
   role: $Enums.Role
   status?: $Enums.MembershipStatus
-  username?: string | null
-  activo?: boolean
-  aprobado?: boolean
-  numberId?: string | null
-  whatsappGroupId?: string | null
-  pushToken?: string | null
-  placa?: string | null
-  moto?: boolean | null
-  codigoReferido?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  activo?: boolean
+  aprobado?: boolean
+  codigoReferido?: string | null
+  moto?: boolean | null
+  numberId?: string | null
+  placa?: string | null
+  pushToken?: string | null
+  username?: string | null
+  whatsappGroupId?: string | null
   anticipos?: Prisma.AnticiposUncheckedCreateNestedManyWithoutMembershipInput
   auditorias?: Prisma.AuditoriaUncheckedCreateNestedManyWithoutMembershipInput
   citasComoPsicologo?: Prisma.CitasPsicologosUncheckedCreateNestedManyWithoutPsicologoInput
@@ -2632,17 +2632,17 @@ export type TenantMembershipCreateWithoutCitasComoPsicologoInput = {
   id?: string
   role: $Enums.Role
   status?: $Enums.MembershipStatus
-  username?: string | null
-  activo?: boolean
-  aprobado?: boolean
-  numberId?: string | null
-  whatsappGroupId?: string | null
-  pushToken?: string | null
-  placa?: string | null
-  moto?: boolean | null
-  codigoReferido?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  activo?: boolean
+  aprobado?: boolean
+  codigoReferido?: string | null
+  moto?: boolean | null
+  numberId?: string | null
+  placa?: string | null
+  pushToken?: string | null
+  username?: string | null
+  whatsappGroupId?: string | null
   anticipos?: Prisma.AnticiposCreateNestedManyWithoutMembershipInput
   auditorias?: Prisma.AuditoriaCreateNestedManyWithoutMembershipInput
   citasComoCreador?: Prisma.CitasPsicologosCreateNestedManyWithoutCreadoPorInput
@@ -2676,17 +2676,17 @@ export type TenantMembershipUncheckedCreateWithoutCitasComoPsicologoInput = {
   tenantId: string
   role: $Enums.Role
   status?: $Enums.MembershipStatus
-  username?: string | null
-  activo?: boolean
-  aprobado?: boolean
-  numberId?: string | null
-  whatsappGroupId?: string | null
-  pushToken?: string | null
-  placa?: string | null
-  moto?: boolean | null
-  codigoReferido?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  activo?: boolean
+  aprobado?: boolean
+  codigoReferido?: string | null
+  moto?: boolean | null
+  numberId?: string | null
+  placa?: string | null
+  pushToken?: string | null
+  username?: string | null
+  whatsappGroupId?: string | null
   anticipos?: Prisma.AnticiposUncheckedCreateNestedManyWithoutMembershipInput
   auditorias?: Prisma.AuditoriaUncheckedCreateNestedManyWithoutMembershipInput
   citasComoCreador?: Prisma.CitasPsicologosUncheckedCreateNestedManyWithoutCreadoPorInput
@@ -2732,17 +2732,17 @@ export type TenantMembershipUpdateWithoutCitasComoCreadorInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   status?: Prisma.EnumMembershipStatusFieldUpdateOperationsInput | $Enums.MembershipStatus
-  username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  aprobado?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  numberId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  whatsappGroupId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  pushToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  placa?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  moto?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  codigoReferido?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  aprobado?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  codigoReferido?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  moto?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  numberId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  placa?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pushToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  whatsappGroupId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   anticipos?: Prisma.AnticiposUpdateManyWithoutMembershipNestedInput
   auditorias?: Prisma.AuditoriaUpdateManyWithoutMembershipNestedInput
   citasComoPsicologo?: Prisma.CitasPsicologosUpdateManyWithoutPsicologoNestedInput
@@ -2776,17 +2776,17 @@ export type TenantMembershipUncheckedUpdateWithoutCitasComoCreadorInput = {
   tenantId?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   status?: Prisma.EnumMembershipStatusFieldUpdateOperationsInput | $Enums.MembershipStatus
-  username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  aprobado?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  numberId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  whatsappGroupId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  pushToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  placa?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  moto?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  codigoReferido?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  aprobado?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  codigoReferido?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  moto?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  numberId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  placa?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pushToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  whatsappGroupId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   anticipos?: Prisma.AnticiposUncheckedUpdateManyWithoutMembershipNestedInput
   auditorias?: Prisma.AuditoriaUncheckedUpdateManyWithoutMembershipNestedInput
   citasComoPsicologo?: Prisma.CitasPsicologosUncheckedUpdateManyWithoutPsicologoNestedInput
@@ -2827,17 +2827,17 @@ export type TenantMembershipUpdateWithoutCitasComoPsicologoInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   status?: Prisma.EnumMembershipStatusFieldUpdateOperationsInput | $Enums.MembershipStatus
-  username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  aprobado?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  numberId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  whatsappGroupId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  pushToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  placa?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  moto?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  codigoReferido?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  aprobado?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  codigoReferido?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  moto?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  numberId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  placa?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pushToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  whatsappGroupId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   anticipos?: Prisma.AnticiposUpdateManyWithoutMembershipNestedInput
   auditorias?: Prisma.AuditoriaUpdateManyWithoutMembershipNestedInput
   citasComoCreador?: Prisma.CitasPsicologosUpdateManyWithoutCreadoPorNestedInput
@@ -2871,17 +2871,17 @@ export type TenantMembershipUncheckedUpdateWithoutCitasComoPsicologoInput = {
   tenantId?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   status?: Prisma.EnumMembershipStatusFieldUpdateOperationsInput | $Enums.MembershipStatus
-  username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  aprobado?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  numberId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  whatsappGroupId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  pushToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  placa?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  moto?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  codigoReferido?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  aprobado?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  codigoReferido?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  moto?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  numberId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  placa?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pushToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  whatsappGroupId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   anticipos?: Prisma.AnticiposUncheckedUpdateManyWithoutMembershipNestedInput
   auditorias?: Prisma.AuditoriaUncheckedUpdateManyWithoutMembershipNestedInput
   citasComoCreador?: Prisma.CitasPsicologosUncheckedUpdateManyWithoutCreadoPorNestedInput
@@ -2911,17 +2911,17 @@ export type TenantMembershipCreateWithoutPaquetesAdquiridosInput = {
   id?: string
   role: $Enums.Role
   status?: $Enums.MembershipStatus
-  username?: string | null
-  activo?: boolean
-  aprobado?: boolean
-  numberId?: string | null
-  whatsappGroupId?: string | null
-  pushToken?: string | null
-  placa?: string | null
-  moto?: boolean | null
-  codigoReferido?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  activo?: boolean
+  aprobado?: boolean
+  codigoReferido?: string | null
+  moto?: boolean | null
+  numberId?: string | null
+  placa?: string | null
+  pushToken?: string | null
+  username?: string | null
+  whatsappGroupId?: string | null
   anticipos?: Prisma.AnticiposCreateNestedManyWithoutMembershipInput
   auditorias?: Prisma.AuditoriaCreateNestedManyWithoutMembershipInput
   citasComoCreador?: Prisma.CitasPsicologosCreateNestedManyWithoutCreadoPorInput
@@ -2955,17 +2955,17 @@ export type TenantMembershipUncheckedCreateWithoutPaquetesAdquiridosInput = {
   tenantId: string
   role: $Enums.Role
   status?: $Enums.MembershipStatus
-  username?: string | null
-  activo?: boolean
-  aprobado?: boolean
-  numberId?: string | null
-  whatsappGroupId?: string | null
-  pushToken?: string | null
-  placa?: string | null
-  moto?: boolean | null
-  codigoReferido?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  activo?: boolean
+  aprobado?: boolean
+  codigoReferido?: string | null
+  moto?: boolean | null
+  numberId?: string | null
+  placa?: string | null
+  pushToken?: string | null
+  username?: string | null
+  whatsappGroupId?: string | null
   anticipos?: Prisma.AnticiposUncheckedCreateNestedManyWithoutMembershipInput
   auditorias?: Prisma.AuditoriaUncheckedCreateNestedManyWithoutMembershipInput
   citasComoCreador?: Prisma.CitasPsicologosUncheckedCreateNestedManyWithoutCreadoPorInput
@@ -3011,17 +3011,17 @@ export type TenantMembershipUpdateWithoutPaquetesAdquiridosInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   status?: Prisma.EnumMembershipStatusFieldUpdateOperationsInput | $Enums.MembershipStatus
-  username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  aprobado?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  numberId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  whatsappGroupId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  pushToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  placa?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  moto?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  codigoReferido?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  aprobado?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  codigoReferido?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  moto?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  numberId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  placa?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pushToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  whatsappGroupId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   anticipos?: Prisma.AnticiposUpdateManyWithoutMembershipNestedInput
   auditorias?: Prisma.AuditoriaUpdateManyWithoutMembershipNestedInput
   citasComoCreador?: Prisma.CitasPsicologosUpdateManyWithoutCreadoPorNestedInput
@@ -3055,17 +3055,17 @@ export type TenantMembershipUncheckedUpdateWithoutPaquetesAdquiridosInput = {
   tenantId?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   status?: Prisma.EnumMembershipStatusFieldUpdateOperationsInput | $Enums.MembershipStatus
-  username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  aprobado?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  numberId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  whatsappGroupId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  pushToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  placa?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  moto?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  codigoReferido?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  aprobado?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  codigoReferido?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  moto?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  numberId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  placa?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pushToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  whatsappGroupId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   anticipos?: Prisma.AnticiposUncheckedUpdateManyWithoutMembershipNestedInput
   auditorias?: Prisma.AuditoriaUncheckedUpdateManyWithoutMembershipNestedInput
   citasComoCreador?: Prisma.CitasPsicologosUncheckedUpdateManyWithoutCreadoPorNestedInput
@@ -3095,17 +3095,17 @@ export type TenantMembershipCreateWithoutTurnosInput = {
   id?: string
   role: $Enums.Role
   status?: $Enums.MembershipStatus
-  username?: string | null
-  activo?: boolean
-  aprobado?: boolean
-  numberId?: string | null
-  whatsappGroupId?: string | null
-  pushToken?: string | null
-  placa?: string | null
-  moto?: boolean | null
-  codigoReferido?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  activo?: boolean
+  aprobado?: boolean
+  codigoReferido?: string | null
+  moto?: boolean | null
+  numberId?: string | null
+  placa?: string | null
+  pushToken?: string | null
+  username?: string | null
+  whatsappGroupId?: string | null
   anticipos?: Prisma.AnticiposCreateNestedManyWithoutMembershipInput
   auditorias?: Prisma.AuditoriaCreateNestedManyWithoutMembershipInput
   citasComoCreador?: Prisma.CitasPsicologosCreateNestedManyWithoutCreadoPorInput
@@ -3139,17 +3139,17 @@ export type TenantMembershipUncheckedCreateWithoutTurnosInput = {
   tenantId: string
   role: $Enums.Role
   status?: $Enums.MembershipStatus
-  username?: string | null
-  activo?: boolean
-  aprobado?: boolean
-  numberId?: string | null
-  whatsappGroupId?: string | null
-  pushToken?: string | null
-  placa?: string | null
-  moto?: boolean | null
-  codigoReferido?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  activo?: boolean
+  aprobado?: boolean
+  codigoReferido?: string | null
+  moto?: boolean | null
+  numberId?: string | null
+  placa?: string | null
+  pushToken?: string | null
+  username?: string | null
+  whatsappGroupId?: string | null
   anticipos?: Prisma.AnticiposUncheckedCreateNestedManyWithoutMembershipInput
   auditorias?: Prisma.AuditoriaUncheckedCreateNestedManyWithoutMembershipInput
   citasComoCreador?: Prisma.CitasPsicologosUncheckedCreateNestedManyWithoutCreadoPorInput
@@ -3195,17 +3195,17 @@ export type TenantMembershipUpdateWithoutTurnosInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   status?: Prisma.EnumMembershipStatusFieldUpdateOperationsInput | $Enums.MembershipStatus
-  username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  aprobado?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  numberId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  whatsappGroupId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  pushToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  placa?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  moto?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  codigoReferido?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  aprobado?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  codigoReferido?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  moto?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  numberId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  placa?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pushToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  whatsappGroupId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   anticipos?: Prisma.AnticiposUpdateManyWithoutMembershipNestedInput
   auditorias?: Prisma.AuditoriaUpdateManyWithoutMembershipNestedInput
   citasComoCreador?: Prisma.CitasPsicologosUpdateManyWithoutCreadoPorNestedInput
@@ -3239,17 +3239,17 @@ export type TenantMembershipUncheckedUpdateWithoutTurnosInput = {
   tenantId?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   status?: Prisma.EnumMembershipStatusFieldUpdateOperationsInput | $Enums.MembershipStatus
-  username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  aprobado?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  numberId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  whatsappGroupId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  pushToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  placa?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  moto?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  codigoReferido?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  aprobado?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  codigoReferido?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  moto?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  numberId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  placa?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pushToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  whatsappGroupId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   anticipos?: Prisma.AnticiposUncheckedUpdateManyWithoutMembershipNestedInput
   auditorias?: Prisma.AuditoriaUncheckedUpdateManyWithoutMembershipNestedInput
   citasComoCreador?: Prisma.CitasPsicologosUncheckedUpdateManyWithoutCreadoPorNestedInput
@@ -3279,17 +3279,17 @@ export type TenantMembershipCreateWithoutCuentasCobroInput = {
   id?: string
   role: $Enums.Role
   status?: $Enums.MembershipStatus
-  username?: string | null
-  activo?: boolean
-  aprobado?: boolean
-  numberId?: string | null
-  whatsappGroupId?: string | null
-  pushToken?: string | null
-  placa?: string | null
-  moto?: boolean | null
-  codigoReferido?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  activo?: boolean
+  aprobado?: boolean
+  codigoReferido?: string | null
+  moto?: boolean | null
+  numberId?: string | null
+  placa?: string | null
+  pushToken?: string | null
+  username?: string | null
+  whatsappGroupId?: string | null
   anticipos?: Prisma.AnticiposCreateNestedManyWithoutMembershipInput
   auditorias?: Prisma.AuditoriaCreateNestedManyWithoutMembershipInput
   citasComoCreador?: Prisma.CitasPsicologosCreateNestedManyWithoutCreadoPorInput
@@ -3323,17 +3323,17 @@ export type TenantMembershipUncheckedCreateWithoutCuentasCobroInput = {
   tenantId: string
   role: $Enums.Role
   status?: $Enums.MembershipStatus
-  username?: string | null
-  activo?: boolean
-  aprobado?: boolean
-  numberId?: string | null
-  whatsappGroupId?: string | null
-  pushToken?: string | null
-  placa?: string | null
-  moto?: boolean | null
-  codigoReferido?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  activo?: boolean
+  aprobado?: boolean
+  codigoReferido?: string | null
+  moto?: boolean | null
+  numberId?: string | null
+  placa?: string | null
+  pushToken?: string | null
+  username?: string | null
+  whatsappGroupId?: string | null
   anticipos?: Prisma.AnticiposUncheckedCreateNestedManyWithoutMembershipInput
   auditorias?: Prisma.AuditoriaUncheckedCreateNestedManyWithoutMembershipInput
   citasComoCreador?: Prisma.CitasPsicologosUncheckedCreateNestedManyWithoutCreadoPorInput
@@ -3379,17 +3379,17 @@ export type TenantMembershipUpdateWithoutCuentasCobroInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   status?: Prisma.EnumMembershipStatusFieldUpdateOperationsInput | $Enums.MembershipStatus
-  username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  aprobado?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  numberId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  whatsappGroupId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  pushToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  placa?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  moto?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  codigoReferido?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  aprobado?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  codigoReferido?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  moto?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  numberId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  placa?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pushToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  whatsappGroupId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   anticipos?: Prisma.AnticiposUpdateManyWithoutMembershipNestedInput
   auditorias?: Prisma.AuditoriaUpdateManyWithoutMembershipNestedInput
   citasComoCreador?: Prisma.CitasPsicologosUpdateManyWithoutCreadoPorNestedInput
@@ -3423,17 +3423,17 @@ export type TenantMembershipUncheckedUpdateWithoutCuentasCobroInput = {
   tenantId?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   status?: Prisma.EnumMembershipStatusFieldUpdateOperationsInput | $Enums.MembershipStatus
-  username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  aprobado?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  numberId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  whatsappGroupId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  pushToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  placa?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  moto?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  codigoReferido?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  aprobado?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  codigoReferido?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  moto?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  numberId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  placa?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pushToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  whatsappGroupId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   anticipos?: Prisma.AnticiposUncheckedUpdateManyWithoutMembershipNestedInput
   auditorias?: Prisma.AuditoriaUncheckedUpdateManyWithoutMembershipNestedInput
   citasComoCreador?: Prisma.CitasPsicologosUncheckedUpdateManyWithoutCreadoPorNestedInput
@@ -3463,17 +3463,17 @@ export type TenantMembershipCreateWithoutDeclaracionesEfectivoInput = {
   id?: string
   role: $Enums.Role
   status?: $Enums.MembershipStatus
-  username?: string | null
-  activo?: boolean
-  aprobado?: boolean
-  numberId?: string | null
-  whatsappGroupId?: string | null
-  pushToken?: string | null
-  placa?: string | null
-  moto?: boolean | null
-  codigoReferido?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  activo?: boolean
+  aprobado?: boolean
+  codigoReferido?: string | null
+  moto?: boolean | null
+  numberId?: string | null
+  placa?: string | null
+  pushToken?: string | null
+  username?: string | null
+  whatsappGroupId?: string | null
   anticipos?: Prisma.AnticiposCreateNestedManyWithoutMembershipInput
   auditorias?: Prisma.AuditoriaCreateNestedManyWithoutMembershipInput
   citasComoCreador?: Prisma.CitasPsicologosCreateNestedManyWithoutCreadoPorInput
@@ -3507,17 +3507,17 @@ export type TenantMembershipUncheckedCreateWithoutDeclaracionesEfectivoInput = {
   tenantId: string
   role: $Enums.Role
   status?: $Enums.MembershipStatus
-  username?: string | null
-  activo?: boolean
-  aprobado?: boolean
-  numberId?: string | null
-  whatsappGroupId?: string | null
-  pushToken?: string | null
-  placa?: string | null
-  moto?: boolean | null
-  codigoReferido?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  activo?: boolean
+  aprobado?: boolean
+  codigoReferido?: string | null
+  moto?: boolean | null
+  numberId?: string | null
+  placa?: string | null
+  pushToken?: string | null
+  username?: string | null
+  whatsappGroupId?: string | null
   anticipos?: Prisma.AnticiposUncheckedCreateNestedManyWithoutMembershipInput
   auditorias?: Prisma.AuditoriaUncheckedCreateNestedManyWithoutMembershipInput
   citasComoCreador?: Prisma.CitasPsicologosUncheckedCreateNestedManyWithoutCreadoPorInput
@@ -3563,17 +3563,17 @@ export type TenantMembershipUpdateWithoutDeclaracionesEfectivoInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   status?: Prisma.EnumMembershipStatusFieldUpdateOperationsInput | $Enums.MembershipStatus
-  username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  aprobado?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  numberId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  whatsappGroupId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  pushToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  placa?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  moto?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  codigoReferido?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  aprobado?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  codigoReferido?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  moto?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  numberId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  placa?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pushToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  whatsappGroupId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   anticipos?: Prisma.AnticiposUpdateManyWithoutMembershipNestedInput
   auditorias?: Prisma.AuditoriaUpdateManyWithoutMembershipNestedInput
   citasComoCreador?: Prisma.CitasPsicologosUpdateManyWithoutCreadoPorNestedInput
@@ -3607,17 +3607,17 @@ export type TenantMembershipUncheckedUpdateWithoutDeclaracionesEfectivoInput = {
   tenantId?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   status?: Prisma.EnumMembershipStatusFieldUpdateOperationsInput | $Enums.MembershipStatus
-  username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  aprobado?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  numberId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  whatsappGroupId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  pushToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  placa?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  moto?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  codigoReferido?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  aprobado?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  codigoReferido?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  moto?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  numberId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  placa?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pushToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  whatsappGroupId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   anticipos?: Prisma.AnticiposUncheckedUpdateManyWithoutMembershipNestedInput
   auditorias?: Prisma.AuditoriaUncheckedUpdateManyWithoutMembershipNestedInput
   citasComoCreador?: Prisma.CitasPsicologosUncheckedUpdateManyWithoutCreadoPorNestedInput
@@ -3647,17 +3647,17 @@ export type TenantMembershipCreateWithoutConsignacionesCreadasInput = {
   id?: string
   role: $Enums.Role
   status?: $Enums.MembershipStatus
-  username?: string | null
-  activo?: boolean
-  aprobado?: boolean
-  numberId?: string | null
-  whatsappGroupId?: string | null
-  pushToken?: string | null
-  placa?: string | null
-  moto?: boolean | null
-  codigoReferido?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  activo?: boolean
+  aprobado?: boolean
+  codigoReferido?: string | null
+  moto?: boolean | null
+  numberId?: string | null
+  placa?: string | null
+  pushToken?: string | null
+  username?: string | null
+  whatsappGroupId?: string | null
   anticipos?: Prisma.AnticiposCreateNestedManyWithoutMembershipInput
   auditorias?: Prisma.AuditoriaCreateNestedManyWithoutMembershipInput
   citasComoCreador?: Prisma.CitasPsicologosCreateNestedManyWithoutCreadoPorInput
@@ -3691,17 +3691,17 @@ export type TenantMembershipUncheckedCreateWithoutConsignacionesCreadasInput = {
   tenantId: string
   role: $Enums.Role
   status?: $Enums.MembershipStatus
-  username?: string | null
-  activo?: boolean
-  aprobado?: boolean
-  numberId?: string | null
-  whatsappGroupId?: string | null
-  pushToken?: string | null
-  placa?: string | null
-  moto?: boolean | null
-  codigoReferido?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  activo?: boolean
+  aprobado?: boolean
+  codigoReferido?: string | null
+  moto?: boolean | null
+  numberId?: string | null
+  placa?: string | null
+  pushToken?: string | null
+  username?: string | null
+  whatsappGroupId?: string | null
   anticipos?: Prisma.AnticiposUncheckedCreateNestedManyWithoutMembershipInput
   auditorias?: Prisma.AuditoriaUncheckedCreateNestedManyWithoutMembershipInput
   citasComoCreador?: Prisma.CitasPsicologosUncheckedCreateNestedManyWithoutCreadoPorInput
@@ -3736,17 +3736,17 @@ export type TenantMembershipCreateWithoutConsignacionesTecnicoInput = {
   id?: string
   role: $Enums.Role
   status?: $Enums.MembershipStatus
-  username?: string | null
-  activo?: boolean
-  aprobado?: boolean
-  numberId?: string | null
-  whatsappGroupId?: string | null
-  pushToken?: string | null
-  placa?: string | null
-  moto?: boolean | null
-  codigoReferido?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  activo?: boolean
+  aprobado?: boolean
+  codigoReferido?: string | null
+  moto?: boolean | null
+  numberId?: string | null
+  placa?: string | null
+  pushToken?: string | null
+  username?: string | null
+  whatsappGroupId?: string | null
   anticipos?: Prisma.AnticiposCreateNestedManyWithoutMembershipInput
   auditorias?: Prisma.AuditoriaCreateNestedManyWithoutMembershipInput
   citasComoCreador?: Prisma.CitasPsicologosCreateNestedManyWithoutCreadoPorInput
@@ -3780,17 +3780,17 @@ export type TenantMembershipUncheckedCreateWithoutConsignacionesTecnicoInput = {
   tenantId: string
   role: $Enums.Role
   status?: $Enums.MembershipStatus
-  username?: string | null
-  activo?: boolean
-  aprobado?: boolean
-  numberId?: string | null
-  whatsappGroupId?: string | null
-  pushToken?: string | null
-  placa?: string | null
-  moto?: boolean | null
-  codigoReferido?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  activo?: boolean
+  aprobado?: boolean
+  codigoReferido?: string | null
+  moto?: boolean | null
+  numberId?: string | null
+  placa?: string | null
+  pushToken?: string | null
+  username?: string | null
+  whatsappGroupId?: string | null
   anticipos?: Prisma.AnticiposUncheckedCreateNestedManyWithoutMembershipInput
   auditorias?: Prisma.AuditoriaUncheckedCreateNestedManyWithoutMembershipInput
   citasComoCreador?: Prisma.CitasPsicologosUncheckedCreateNestedManyWithoutCreadoPorInput
@@ -3836,17 +3836,17 @@ export type TenantMembershipUpdateWithoutConsignacionesCreadasInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   status?: Prisma.EnumMembershipStatusFieldUpdateOperationsInput | $Enums.MembershipStatus
-  username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  aprobado?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  numberId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  whatsappGroupId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  pushToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  placa?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  moto?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  codigoReferido?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  aprobado?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  codigoReferido?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  moto?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  numberId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  placa?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pushToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  whatsappGroupId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   anticipos?: Prisma.AnticiposUpdateManyWithoutMembershipNestedInput
   auditorias?: Prisma.AuditoriaUpdateManyWithoutMembershipNestedInput
   citasComoCreador?: Prisma.CitasPsicologosUpdateManyWithoutCreadoPorNestedInput
@@ -3880,17 +3880,17 @@ export type TenantMembershipUncheckedUpdateWithoutConsignacionesCreadasInput = {
   tenantId?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   status?: Prisma.EnumMembershipStatusFieldUpdateOperationsInput | $Enums.MembershipStatus
-  username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  aprobado?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  numberId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  whatsappGroupId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  pushToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  placa?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  moto?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  codigoReferido?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  aprobado?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  codigoReferido?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  moto?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  numberId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  placa?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pushToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  whatsappGroupId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   anticipos?: Prisma.AnticiposUncheckedUpdateManyWithoutMembershipNestedInput
   auditorias?: Prisma.AuditoriaUncheckedUpdateManyWithoutMembershipNestedInput
   citasComoCreador?: Prisma.CitasPsicologosUncheckedUpdateManyWithoutCreadoPorNestedInput
@@ -3931,17 +3931,17 @@ export type TenantMembershipUpdateWithoutConsignacionesTecnicoInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   status?: Prisma.EnumMembershipStatusFieldUpdateOperationsInput | $Enums.MembershipStatus
-  username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  aprobado?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  numberId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  whatsappGroupId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  pushToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  placa?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  moto?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  codigoReferido?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  aprobado?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  codigoReferido?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  moto?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  numberId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  placa?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pushToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  whatsappGroupId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   anticipos?: Prisma.AnticiposUpdateManyWithoutMembershipNestedInput
   auditorias?: Prisma.AuditoriaUpdateManyWithoutMembershipNestedInput
   citasComoCreador?: Prisma.CitasPsicologosUpdateManyWithoutCreadoPorNestedInput
@@ -3975,17 +3975,17 @@ export type TenantMembershipUncheckedUpdateWithoutConsignacionesTecnicoInput = {
   tenantId?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   status?: Prisma.EnumMembershipStatusFieldUpdateOperationsInput | $Enums.MembershipStatus
-  username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  aprobado?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  numberId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  whatsappGroupId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  pushToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  placa?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  moto?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  codigoReferido?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  aprobado?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  codigoReferido?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  moto?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  numberId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  placa?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pushToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  whatsappGroupId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   anticipos?: Prisma.AnticiposUncheckedUpdateManyWithoutMembershipNestedInput
   auditorias?: Prisma.AuditoriaUncheckedUpdateManyWithoutMembershipNestedInput
   citasComoCreador?: Prisma.CitasPsicologosUncheckedUpdateManyWithoutCreadoPorNestedInput
@@ -4015,17 +4015,17 @@ export type TenantMembershipCreateWithoutAnticiposInput = {
   id?: string
   role: $Enums.Role
   status?: $Enums.MembershipStatus
-  username?: string | null
-  activo?: boolean
-  aprobado?: boolean
-  numberId?: string | null
-  whatsappGroupId?: string | null
-  pushToken?: string | null
-  placa?: string | null
-  moto?: boolean | null
-  codigoReferido?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  activo?: boolean
+  aprobado?: boolean
+  codigoReferido?: string | null
+  moto?: boolean | null
+  numberId?: string | null
+  placa?: string | null
+  pushToken?: string | null
+  username?: string | null
+  whatsappGroupId?: string | null
   auditorias?: Prisma.AuditoriaCreateNestedManyWithoutMembershipInput
   citasComoCreador?: Prisma.CitasPsicologosCreateNestedManyWithoutCreadoPorInput
   citasComoPsicologo?: Prisma.CitasPsicologosCreateNestedManyWithoutPsicologoInput
@@ -4059,17 +4059,17 @@ export type TenantMembershipUncheckedCreateWithoutAnticiposInput = {
   tenantId: string
   role: $Enums.Role
   status?: $Enums.MembershipStatus
-  username?: string | null
-  activo?: boolean
-  aprobado?: boolean
-  numberId?: string | null
-  whatsappGroupId?: string | null
-  pushToken?: string | null
-  placa?: string | null
-  moto?: boolean | null
-  codigoReferido?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  activo?: boolean
+  aprobado?: boolean
+  codigoReferido?: string | null
+  moto?: boolean | null
+  numberId?: string | null
+  placa?: string | null
+  pushToken?: string | null
+  username?: string | null
+  whatsappGroupId?: string | null
   auditorias?: Prisma.AuditoriaUncheckedCreateNestedManyWithoutMembershipInput
   citasComoCreador?: Prisma.CitasPsicologosUncheckedCreateNestedManyWithoutCreadoPorInput
   citasComoPsicologo?: Prisma.CitasPsicologosUncheckedCreateNestedManyWithoutPsicologoInput
@@ -4115,17 +4115,17 @@ export type TenantMembershipUpdateWithoutAnticiposInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   status?: Prisma.EnumMembershipStatusFieldUpdateOperationsInput | $Enums.MembershipStatus
-  username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  aprobado?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  numberId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  whatsappGroupId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  pushToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  placa?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  moto?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  codigoReferido?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  aprobado?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  codigoReferido?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  moto?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  numberId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  placa?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pushToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  whatsappGroupId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   auditorias?: Prisma.AuditoriaUpdateManyWithoutMembershipNestedInput
   citasComoCreador?: Prisma.CitasPsicologosUpdateManyWithoutCreadoPorNestedInput
   citasComoPsicologo?: Prisma.CitasPsicologosUpdateManyWithoutPsicologoNestedInput
@@ -4159,17 +4159,17 @@ export type TenantMembershipUncheckedUpdateWithoutAnticiposInput = {
   tenantId?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   status?: Prisma.EnumMembershipStatusFieldUpdateOperationsInput | $Enums.MembershipStatus
-  username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  aprobado?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  numberId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  whatsappGroupId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  pushToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  placa?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  moto?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  codigoReferido?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  aprobado?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  codigoReferido?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  moto?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  numberId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  placa?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pushToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  whatsappGroupId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   auditorias?: Prisma.AuditoriaUncheckedUpdateManyWithoutMembershipNestedInput
   citasComoCreador?: Prisma.CitasPsicologosUncheckedUpdateManyWithoutCreadoPorNestedInput
   citasComoPsicologo?: Prisma.CitasPsicologosUncheckedUpdateManyWithoutPsicologoNestedInput
@@ -4199,17 +4199,17 @@ export type TenantMembershipCreateWithoutProductosSolicitadosInput = {
   id?: string
   role: $Enums.Role
   status?: $Enums.MembershipStatus
-  username?: string | null
-  activo?: boolean
-  aprobado?: boolean
-  numberId?: string | null
-  whatsappGroupId?: string | null
-  pushToken?: string | null
-  placa?: string | null
-  moto?: boolean | null
-  codigoReferido?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  activo?: boolean
+  aprobado?: boolean
+  codigoReferido?: string | null
+  moto?: boolean | null
+  numberId?: string | null
+  placa?: string | null
+  pushToken?: string | null
+  username?: string | null
+  whatsappGroupId?: string | null
   anticipos?: Prisma.AnticiposCreateNestedManyWithoutMembershipInput
   auditorias?: Prisma.AuditoriaCreateNestedManyWithoutMembershipInput
   citasComoCreador?: Prisma.CitasPsicologosCreateNestedManyWithoutCreadoPorInput
@@ -4243,17 +4243,17 @@ export type TenantMembershipUncheckedCreateWithoutProductosSolicitadosInput = {
   tenantId: string
   role: $Enums.Role
   status?: $Enums.MembershipStatus
-  username?: string | null
-  activo?: boolean
-  aprobado?: boolean
-  numberId?: string | null
-  whatsappGroupId?: string | null
-  pushToken?: string | null
-  placa?: string | null
-  moto?: boolean | null
-  codigoReferido?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  activo?: boolean
+  aprobado?: boolean
+  codigoReferido?: string | null
+  moto?: boolean | null
+  numberId?: string | null
+  placa?: string | null
+  pushToken?: string | null
+  username?: string | null
+  whatsappGroupId?: string | null
   anticipos?: Prisma.AnticiposUncheckedCreateNestedManyWithoutMembershipInput
   auditorias?: Prisma.AuditoriaUncheckedCreateNestedManyWithoutMembershipInput
   citasComoCreador?: Prisma.CitasPsicologosUncheckedCreateNestedManyWithoutCreadoPorInput
@@ -4299,17 +4299,17 @@ export type TenantMembershipUpdateWithoutProductosSolicitadosInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   status?: Prisma.EnumMembershipStatusFieldUpdateOperationsInput | $Enums.MembershipStatus
-  username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  aprobado?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  numberId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  whatsappGroupId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  pushToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  placa?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  moto?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  codigoReferido?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  aprobado?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  codigoReferido?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  moto?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  numberId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  placa?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pushToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  whatsappGroupId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   anticipos?: Prisma.AnticiposUpdateManyWithoutMembershipNestedInput
   auditorias?: Prisma.AuditoriaUpdateManyWithoutMembershipNestedInput
   citasComoCreador?: Prisma.CitasPsicologosUpdateManyWithoutCreadoPorNestedInput
@@ -4343,17 +4343,17 @@ export type TenantMembershipUncheckedUpdateWithoutProductosSolicitadosInput = {
   tenantId?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   status?: Prisma.EnumMembershipStatusFieldUpdateOperationsInput | $Enums.MembershipStatus
-  username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  aprobado?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  numberId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  whatsappGroupId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  pushToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  placa?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  moto?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  codigoReferido?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  aprobado?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  codigoReferido?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  moto?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  numberId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  placa?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pushToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  whatsappGroupId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   anticipos?: Prisma.AnticiposUncheckedUpdateManyWithoutMembershipNestedInput
   auditorias?: Prisma.AuditoriaUncheckedUpdateManyWithoutMembershipNestedInput
   citasComoCreador?: Prisma.CitasPsicologosUncheckedUpdateManyWithoutCreadoPorNestedInput
@@ -4383,17 +4383,17 @@ export type TenantMembershipCreateWithoutPermisosAprobadosInput = {
   id?: string
   role: $Enums.Role
   status?: $Enums.MembershipStatus
-  username?: string | null
-  activo?: boolean
-  aprobado?: boolean
-  numberId?: string | null
-  whatsappGroupId?: string | null
-  pushToken?: string | null
-  placa?: string | null
-  moto?: boolean | null
-  codigoReferido?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  activo?: boolean
+  aprobado?: boolean
+  codigoReferido?: string | null
+  moto?: boolean | null
+  numberId?: string | null
+  placa?: string | null
+  pushToken?: string | null
+  username?: string | null
+  whatsappGroupId?: string | null
   anticipos?: Prisma.AnticiposCreateNestedManyWithoutMembershipInput
   auditorias?: Prisma.AuditoriaCreateNestedManyWithoutMembershipInput
   citasComoCreador?: Prisma.CitasPsicologosCreateNestedManyWithoutCreadoPorInput
@@ -4427,17 +4427,17 @@ export type TenantMembershipUncheckedCreateWithoutPermisosAprobadosInput = {
   tenantId: string
   role: $Enums.Role
   status?: $Enums.MembershipStatus
-  username?: string | null
-  activo?: boolean
-  aprobado?: boolean
-  numberId?: string | null
-  whatsappGroupId?: string | null
-  pushToken?: string | null
-  placa?: string | null
-  moto?: boolean | null
-  codigoReferido?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  activo?: boolean
+  aprobado?: boolean
+  codigoReferido?: string | null
+  moto?: boolean | null
+  numberId?: string | null
+  placa?: string | null
+  pushToken?: string | null
+  username?: string | null
+  whatsappGroupId?: string | null
   anticipos?: Prisma.AnticiposUncheckedCreateNestedManyWithoutMembershipInput
   auditorias?: Prisma.AuditoriaUncheckedCreateNestedManyWithoutMembershipInput
   citasComoCreador?: Prisma.CitasPsicologosUncheckedCreateNestedManyWithoutCreadoPorInput
@@ -4472,17 +4472,17 @@ export type TenantMembershipCreateWithoutPermisosSolicitadosInput = {
   id?: string
   role: $Enums.Role
   status?: $Enums.MembershipStatus
-  username?: string | null
-  activo?: boolean
-  aprobado?: boolean
-  numberId?: string | null
-  whatsappGroupId?: string | null
-  pushToken?: string | null
-  placa?: string | null
-  moto?: boolean | null
-  codigoReferido?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  activo?: boolean
+  aprobado?: boolean
+  codigoReferido?: string | null
+  moto?: boolean | null
+  numberId?: string | null
+  placa?: string | null
+  pushToken?: string | null
+  username?: string | null
+  whatsappGroupId?: string | null
   anticipos?: Prisma.AnticiposCreateNestedManyWithoutMembershipInput
   auditorias?: Prisma.AuditoriaCreateNestedManyWithoutMembershipInput
   citasComoCreador?: Prisma.CitasPsicologosCreateNestedManyWithoutCreadoPorInput
@@ -4516,17 +4516,17 @@ export type TenantMembershipUncheckedCreateWithoutPermisosSolicitadosInput = {
   tenantId: string
   role: $Enums.Role
   status?: $Enums.MembershipStatus
-  username?: string | null
-  activo?: boolean
-  aprobado?: boolean
-  numberId?: string | null
-  whatsappGroupId?: string | null
-  pushToken?: string | null
-  placa?: string | null
-  moto?: boolean | null
-  codigoReferido?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  activo?: boolean
+  aprobado?: boolean
+  codigoReferido?: string | null
+  moto?: boolean | null
+  numberId?: string | null
+  placa?: string | null
+  pushToken?: string | null
+  username?: string | null
+  whatsappGroupId?: string | null
   anticipos?: Prisma.AnticiposUncheckedCreateNestedManyWithoutMembershipInput
   auditorias?: Prisma.AuditoriaUncheckedCreateNestedManyWithoutMembershipInput
   citasComoCreador?: Prisma.CitasPsicologosUncheckedCreateNestedManyWithoutCreadoPorInput
@@ -4572,17 +4572,17 @@ export type TenantMembershipUpdateWithoutPermisosAprobadosInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   status?: Prisma.EnumMembershipStatusFieldUpdateOperationsInput | $Enums.MembershipStatus
-  username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  aprobado?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  numberId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  whatsappGroupId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  pushToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  placa?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  moto?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  codigoReferido?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  aprobado?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  codigoReferido?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  moto?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  numberId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  placa?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pushToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  whatsappGroupId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   anticipos?: Prisma.AnticiposUpdateManyWithoutMembershipNestedInput
   auditorias?: Prisma.AuditoriaUpdateManyWithoutMembershipNestedInput
   citasComoCreador?: Prisma.CitasPsicologosUpdateManyWithoutCreadoPorNestedInput
@@ -4616,17 +4616,17 @@ export type TenantMembershipUncheckedUpdateWithoutPermisosAprobadosInput = {
   tenantId?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   status?: Prisma.EnumMembershipStatusFieldUpdateOperationsInput | $Enums.MembershipStatus
-  username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  aprobado?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  numberId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  whatsappGroupId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  pushToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  placa?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  moto?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  codigoReferido?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  aprobado?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  codigoReferido?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  moto?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  numberId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  placa?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pushToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  whatsappGroupId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   anticipos?: Prisma.AnticiposUncheckedUpdateManyWithoutMembershipNestedInput
   auditorias?: Prisma.AuditoriaUncheckedUpdateManyWithoutMembershipNestedInput
   citasComoCreador?: Prisma.CitasPsicologosUncheckedUpdateManyWithoutCreadoPorNestedInput
@@ -4667,17 +4667,17 @@ export type TenantMembershipUpdateWithoutPermisosSolicitadosInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   status?: Prisma.EnumMembershipStatusFieldUpdateOperationsInput | $Enums.MembershipStatus
-  username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  aprobado?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  numberId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  whatsappGroupId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  pushToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  placa?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  moto?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  codigoReferido?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  aprobado?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  codigoReferido?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  moto?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  numberId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  placa?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pushToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  whatsappGroupId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   anticipos?: Prisma.AnticiposUpdateManyWithoutMembershipNestedInput
   auditorias?: Prisma.AuditoriaUpdateManyWithoutMembershipNestedInput
   citasComoCreador?: Prisma.CitasPsicologosUpdateManyWithoutCreadoPorNestedInput
@@ -4711,17 +4711,17 @@ export type TenantMembershipUncheckedUpdateWithoutPermisosSolicitadosInput = {
   tenantId?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   status?: Prisma.EnumMembershipStatusFieldUpdateOperationsInput | $Enums.MembershipStatus
-  username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  aprobado?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  numberId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  whatsappGroupId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  pushToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  placa?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  moto?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  codigoReferido?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  aprobado?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  codigoReferido?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  moto?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  numberId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  placa?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pushToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  whatsappGroupId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   anticipos?: Prisma.AnticiposUncheckedUpdateManyWithoutMembershipNestedInput
   auditorias?: Prisma.AuditoriaUncheckedUpdateManyWithoutMembershipNestedInput
   citasComoCreador?: Prisma.CitasPsicologosUncheckedUpdateManyWithoutCreadoPorNestedInput
@@ -4751,17 +4751,17 @@ export type TenantMembershipCreateWithoutConfiguracionPagosInput = {
   id?: string
   role: $Enums.Role
   status?: $Enums.MembershipStatus
-  username?: string | null
-  activo?: boolean
-  aprobado?: boolean
-  numberId?: string | null
-  whatsappGroupId?: string | null
-  pushToken?: string | null
-  placa?: string | null
-  moto?: boolean | null
-  codigoReferido?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  activo?: boolean
+  aprobado?: boolean
+  codigoReferido?: string | null
+  moto?: boolean | null
+  numberId?: string | null
+  placa?: string | null
+  pushToken?: string | null
+  username?: string | null
+  whatsappGroupId?: string | null
   anticipos?: Prisma.AnticiposCreateNestedManyWithoutMembershipInput
   auditorias?: Prisma.AuditoriaCreateNestedManyWithoutMembershipInput
   citasComoCreador?: Prisma.CitasPsicologosCreateNestedManyWithoutCreadoPorInput
@@ -4795,17 +4795,17 @@ export type TenantMembershipUncheckedCreateWithoutConfiguracionPagosInput = {
   tenantId: string
   role: $Enums.Role
   status?: $Enums.MembershipStatus
-  username?: string | null
-  activo?: boolean
-  aprobado?: boolean
-  numberId?: string | null
-  whatsappGroupId?: string | null
-  pushToken?: string | null
-  placa?: string | null
-  moto?: boolean | null
-  codigoReferido?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  activo?: boolean
+  aprobado?: boolean
+  codigoReferido?: string | null
+  moto?: boolean | null
+  numberId?: string | null
+  placa?: string | null
+  pushToken?: string | null
+  username?: string | null
+  whatsappGroupId?: string | null
   anticipos?: Prisma.AnticiposUncheckedCreateNestedManyWithoutMembershipInput
   auditorias?: Prisma.AuditoriaUncheckedCreateNestedManyWithoutMembershipInput
   citasComoCreador?: Prisma.CitasPsicologosUncheckedCreateNestedManyWithoutCreadoPorInput
@@ -4851,17 +4851,17 @@ export type TenantMembershipUpdateWithoutConfiguracionPagosInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   status?: Prisma.EnumMembershipStatusFieldUpdateOperationsInput | $Enums.MembershipStatus
-  username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  aprobado?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  numberId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  whatsappGroupId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  pushToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  placa?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  moto?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  codigoReferido?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  aprobado?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  codigoReferido?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  moto?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  numberId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  placa?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pushToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  whatsappGroupId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   anticipos?: Prisma.AnticiposUpdateManyWithoutMembershipNestedInput
   auditorias?: Prisma.AuditoriaUpdateManyWithoutMembershipNestedInput
   citasComoCreador?: Prisma.CitasPsicologosUpdateManyWithoutCreadoPorNestedInput
@@ -4895,17 +4895,17 @@ export type TenantMembershipUncheckedUpdateWithoutConfiguracionPagosInput = {
   tenantId?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   status?: Prisma.EnumMembershipStatusFieldUpdateOperationsInput | $Enums.MembershipStatus
-  username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  aprobado?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  numberId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  whatsappGroupId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  pushToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  placa?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  moto?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  codigoReferido?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  aprobado?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  codigoReferido?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  moto?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  numberId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  placa?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pushToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  whatsappGroupId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   anticipos?: Prisma.AnticiposUncheckedUpdateManyWithoutMembershipNestedInput
   auditorias?: Prisma.AuditoriaUncheckedUpdateManyWithoutMembershipNestedInput
   citasComoCreador?: Prisma.CitasPsicologosUncheckedUpdateManyWithoutCreadoPorNestedInput
@@ -4935,17 +4935,17 @@ export type TenantMembershipCreateWithoutCuentasPagoInput = {
   id?: string
   role: $Enums.Role
   status?: $Enums.MembershipStatus
-  username?: string | null
-  activo?: boolean
-  aprobado?: boolean
-  numberId?: string | null
-  whatsappGroupId?: string | null
-  pushToken?: string | null
-  placa?: string | null
-  moto?: boolean | null
-  codigoReferido?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  activo?: boolean
+  aprobado?: boolean
+  codigoReferido?: string | null
+  moto?: boolean | null
+  numberId?: string | null
+  placa?: string | null
+  pushToken?: string | null
+  username?: string | null
+  whatsappGroupId?: string | null
   anticipos?: Prisma.AnticiposCreateNestedManyWithoutMembershipInput
   auditorias?: Prisma.AuditoriaCreateNestedManyWithoutMembershipInput
   citasComoCreador?: Prisma.CitasPsicologosCreateNestedManyWithoutCreadoPorInput
@@ -4979,17 +4979,17 @@ export type TenantMembershipUncheckedCreateWithoutCuentasPagoInput = {
   tenantId: string
   role: $Enums.Role
   status?: $Enums.MembershipStatus
-  username?: string | null
-  activo?: boolean
-  aprobado?: boolean
-  numberId?: string | null
-  whatsappGroupId?: string | null
-  pushToken?: string | null
-  placa?: string | null
-  moto?: boolean | null
-  codigoReferido?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  activo?: boolean
+  aprobado?: boolean
+  codigoReferido?: string | null
+  moto?: boolean | null
+  numberId?: string | null
+  placa?: string | null
+  pushToken?: string | null
+  username?: string | null
+  whatsappGroupId?: string | null
   anticipos?: Prisma.AnticiposUncheckedCreateNestedManyWithoutMembershipInput
   auditorias?: Prisma.AuditoriaUncheckedCreateNestedManyWithoutMembershipInput
   citasComoCreador?: Prisma.CitasPsicologosUncheckedCreateNestedManyWithoutCreadoPorInput
@@ -5035,17 +5035,17 @@ export type TenantMembershipUpdateWithoutCuentasPagoInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   status?: Prisma.EnumMembershipStatusFieldUpdateOperationsInput | $Enums.MembershipStatus
-  username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  aprobado?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  numberId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  whatsappGroupId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  pushToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  placa?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  moto?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  codigoReferido?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  aprobado?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  codigoReferido?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  moto?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  numberId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  placa?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pushToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  whatsappGroupId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   anticipos?: Prisma.AnticiposUpdateManyWithoutMembershipNestedInput
   auditorias?: Prisma.AuditoriaUpdateManyWithoutMembershipNestedInput
   citasComoCreador?: Prisma.CitasPsicologosUpdateManyWithoutCreadoPorNestedInput
@@ -5079,17 +5079,17 @@ export type TenantMembershipUncheckedUpdateWithoutCuentasPagoInput = {
   tenantId?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   status?: Prisma.EnumMembershipStatusFieldUpdateOperationsInput | $Enums.MembershipStatus
-  username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  aprobado?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  numberId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  whatsappGroupId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  pushToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  placa?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  moto?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  codigoReferido?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  aprobado?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  codigoReferido?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  moto?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  numberId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  placa?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pushToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  whatsappGroupId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   anticipos?: Prisma.AnticiposUncheckedUpdateManyWithoutMembershipNestedInput
   auditorias?: Prisma.AuditoriaUncheckedUpdateManyWithoutMembershipNestedInput
   citasComoCreador?: Prisma.CitasPsicologosUncheckedUpdateManyWithoutCreadoPorNestedInput
@@ -5119,17 +5119,17 @@ export type TenantMembershipCreateWithoutEgresosInput = {
   id?: string
   role: $Enums.Role
   status?: $Enums.MembershipStatus
-  username?: string | null
-  activo?: boolean
-  aprobado?: boolean
-  numberId?: string | null
-  whatsappGroupId?: string | null
-  pushToken?: string | null
-  placa?: string | null
-  moto?: boolean | null
-  codigoReferido?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  activo?: boolean
+  aprobado?: boolean
+  codigoReferido?: string | null
+  moto?: boolean | null
+  numberId?: string | null
+  placa?: string | null
+  pushToken?: string | null
+  username?: string | null
+  whatsappGroupId?: string | null
   anticipos?: Prisma.AnticiposCreateNestedManyWithoutMembershipInput
   auditorias?: Prisma.AuditoriaCreateNestedManyWithoutMembershipInput
   citasComoCreador?: Prisma.CitasPsicologosCreateNestedManyWithoutCreadoPorInput
@@ -5163,17 +5163,17 @@ export type TenantMembershipUncheckedCreateWithoutEgresosInput = {
   tenantId: string
   role: $Enums.Role
   status?: $Enums.MembershipStatus
-  username?: string | null
-  activo?: boolean
-  aprobado?: boolean
-  numberId?: string | null
-  whatsappGroupId?: string | null
-  pushToken?: string | null
-  placa?: string | null
-  moto?: boolean | null
-  codigoReferido?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  activo?: boolean
+  aprobado?: boolean
+  codigoReferido?: string | null
+  moto?: boolean | null
+  numberId?: string | null
+  placa?: string | null
+  pushToken?: string | null
+  username?: string | null
+  whatsappGroupId?: string | null
   anticipos?: Prisma.AnticiposUncheckedCreateNestedManyWithoutMembershipInput
   auditorias?: Prisma.AuditoriaUncheckedCreateNestedManyWithoutMembershipInput
   citasComoCreador?: Prisma.CitasPsicologosUncheckedCreateNestedManyWithoutCreadoPorInput
@@ -5219,17 +5219,17 @@ export type TenantMembershipUpdateWithoutEgresosInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   status?: Prisma.EnumMembershipStatusFieldUpdateOperationsInput | $Enums.MembershipStatus
-  username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  aprobado?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  numberId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  whatsappGroupId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  pushToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  placa?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  moto?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  codigoReferido?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  aprobado?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  codigoReferido?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  moto?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  numberId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  placa?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pushToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  whatsappGroupId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   anticipos?: Prisma.AnticiposUpdateManyWithoutMembershipNestedInput
   auditorias?: Prisma.AuditoriaUpdateManyWithoutMembershipNestedInput
   citasComoCreador?: Prisma.CitasPsicologosUpdateManyWithoutCreadoPorNestedInput
@@ -5263,17 +5263,17 @@ export type TenantMembershipUncheckedUpdateWithoutEgresosInput = {
   tenantId?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   status?: Prisma.EnumMembershipStatusFieldUpdateOperationsInput | $Enums.MembershipStatus
-  username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  aprobado?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  numberId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  whatsappGroupId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  pushToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  placa?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  moto?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  codigoReferido?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  aprobado?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  codigoReferido?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  moto?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  numberId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  placa?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pushToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  whatsappGroupId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   anticipos?: Prisma.AnticiposUncheckedUpdateManyWithoutMembershipNestedInput
   auditorias?: Prisma.AuditoriaUncheckedUpdateManyWithoutMembershipNestedInput
   citasComoCreador?: Prisma.CitasPsicologosUncheckedUpdateManyWithoutCreadoPorNestedInput
@@ -5303,17 +5303,17 @@ export type TenantMembershipCreateWithoutReferidosInput = {
   id?: string
   role: $Enums.Role
   status?: $Enums.MembershipStatus
-  username?: string | null
-  activo?: boolean
-  aprobado?: boolean
-  numberId?: string | null
-  whatsappGroupId?: string | null
-  pushToken?: string | null
-  placa?: string | null
-  moto?: boolean | null
-  codigoReferido?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  activo?: boolean
+  aprobado?: boolean
+  codigoReferido?: string | null
+  moto?: boolean | null
+  numberId?: string | null
+  placa?: string | null
+  pushToken?: string | null
+  username?: string | null
+  whatsappGroupId?: string | null
   anticipos?: Prisma.AnticiposCreateNestedManyWithoutMembershipInput
   auditorias?: Prisma.AuditoriaCreateNestedManyWithoutMembershipInput
   citasComoCreador?: Prisma.CitasPsicologosCreateNestedManyWithoutCreadoPorInput
@@ -5347,17 +5347,17 @@ export type TenantMembershipUncheckedCreateWithoutReferidosInput = {
   tenantId: string
   role: $Enums.Role
   status?: $Enums.MembershipStatus
-  username?: string | null
-  activo?: boolean
-  aprobado?: boolean
-  numberId?: string | null
-  whatsappGroupId?: string | null
-  pushToken?: string | null
-  placa?: string | null
-  moto?: boolean | null
-  codigoReferido?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  activo?: boolean
+  aprobado?: boolean
+  codigoReferido?: string | null
+  moto?: boolean | null
+  numberId?: string | null
+  placa?: string | null
+  pushToken?: string | null
+  username?: string | null
+  whatsappGroupId?: string | null
   anticipos?: Prisma.AnticiposUncheckedCreateNestedManyWithoutMembershipInput
   auditorias?: Prisma.AuditoriaUncheckedCreateNestedManyWithoutMembershipInput
   citasComoCreador?: Prisma.CitasPsicologosUncheckedCreateNestedManyWithoutCreadoPorInput
@@ -5403,17 +5403,17 @@ export type TenantMembershipUpdateWithoutReferidosInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   status?: Prisma.EnumMembershipStatusFieldUpdateOperationsInput | $Enums.MembershipStatus
-  username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  aprobado?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  numberId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  whatsappGroupId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  pushToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  placa?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  moto?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  codigoReferido?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  aprobado?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  codigoReferido?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  moto?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  numberId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  placa?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pushToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  whatsappGroupId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   anticipos?: Prisma.AnticiposUpdateManyWithoutMembershipNestedInput
   auditorias?: Prisma.AuditoriaUpdateManyWithoutMembershipNestedInput
   citasComoCreador?: Prisma.CitasPsicologosUpdateManyWithoutCreadoPorNestedInput
@@ -5447,17 +5447,17 @@ export type TenantMembershipUncheckedUpdateWithoutReferidosInput = {
   tenantId?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   status?: Prisma.EnumMembershipStatusFieldUpdateOperationsInput | $Enums.MembershipStatus
-  username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  aprobado?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  numberId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  whatsappGroupId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  pushToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  placa?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  moto?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  codigoReferido?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  aprobado?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  codigoReferido?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  moto?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  numberId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  placa?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pushToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  whatsappGroupId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   anticipos?: Prisma.AnticiposUncheckedUpdateManyWithoutMembershipNestedInput
   auditorias?: Prisma.AuditoriaUncheckedUpdateManyWithoutMembershipNestedInput
   citasComoCreador?: Prisma.CitasPsicologosUncheckedUpdateManyWithoutCreadoPorNestedInput
@@ -5487,17 +5487,17 @@ export type TenantMembershipCreateWithoutAuditoriasInput = {
   id?: string
   role: $Enums.Role
   status?: $Enums.MembershipStatus
-  username?: string | null
-  activo?: boolean
-  aprobado?: boolean
-  numberId?: string | null
-  whatsappGroupId?: string | null
-  pushToken?: string | null
-  placa?: string | null
-  moto?: boolean | null
-  codigoReferido?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  activo?: boolean
+  aprobado?: boolean
+  codigoReferido?: string | null
+  moto?: boolean | null
+  numberId?: string | null
+  placa?: string | null
+  pushToken?: string | null
+  username?: string | null
+  whatsappGroupId?: string | null
   anticipos?: Prisma.AnticiposCreateNestedManyWithoutMembershipInput
   citasComoCreador?: Prisma.CitasPsicologosCreateNestedManyWithoutCreadoPorInput
   citasComoPsicologo?: Prisma.CitasPsicologosCreateNestedManyWithoutPsicologoInput
@@ -5531,17 +5531,17 @@ export type TenantMembershipUncheckedCreateWithoutAuditoriasInput = {
   tenantId: string
   role: $Enums.Role
   status?: $Enums.MembershipStatus
-  username?: string | null
-  activo?: boolean
-  aprobado?: boolean
-  numberId?: string | null
-  whatsappGroupId?: string | null
-  pushToken?: string | null
-  placa?: string | null
-  moto?: boolean | null
-  codigoReferido?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  activo?: boolean
+  aprobado?: boolean
+  codigoReferido?: string | null
+  moto?: boolean | null
+  numberId?: string | null
+  placa?: string | null
+  pushToken?: string | null
+  username?: string | null
+  whatsappGroupId?: string | null
   anticipos?: Prisma.AnticiposUncheckedCreateNestedManyWithoutMembershipInput
   citasComoCreador?: Prisma.CitasPsicologosUncheckedCreateNestedManyWithoutCreadoPorInput
   citasComoPsicologo?: Prisma.CitasPsicologosUncheckedCreateNestedManyWithoutPsicologoInput
@@ -5587,17 +5587,17 @@ export type TenantMembershipUpdateWithoutAuditoriasInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   status?: Prisma.EnumMembershipStatusFieldUpdateOperationsInput | $Enums.MembershipStatus
-  username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  aprobado?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  numberId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  whatsappGroupId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  pushToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  placa?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  moto?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  codigoReferido?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  aprobado?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  codigoReferido?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  moto?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  numberId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  placa?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pushToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  whatsappGroupId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   anticipos?: Prisma.AnticiposUpdateManyWithoutMembershipNestedInput
   citasComoCreador?: Prisma.CitasPsicologosUpdateManyWithoutCreadoPorNestedInput
   citasComoPsicologo?: Prisma.CitasPsicologosUpdateManyWithoutPsicologoNestedInput
@@ -5631,17 +5631,17 @@ export type TenantMembershipUncheckedUpdateWithoutAuditoriasInput = {
   tenantId?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   status?: Prisma.EnumMembershipStatusFieldUpdateOperationsInput | $Enums.MembershipStatus
-  username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  aprobado?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  numberId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  whatsappGroupId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  pushToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  placa?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  moto?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  codigoReferido?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  aprobado?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  codigoReferido?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  moto?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  numberId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  placa?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pushToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  whatsappGroupId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   anticipos?: Prisma.AnticiposUncheckedUpdateManyWithoutMembershipNestedInput
   citasComoCreador?: Prisma.CitasPsicologosUncheckedUpdateManyWithoutCreadoPorNestedInput
   citasComoPsicologo?: Prisma.CitasPsicologosUncheckedUpdateManyWithoutPsicologoNestedInput
@@ -5671,17 +5671,17 @@ export type TenantMembershipCreateWithoutSesionesActividadInput = {
   id?: string
   role: $Enums.Role
   status?: $Enums.MembershipStatus
-  username?: string | null
-  activo?: boolean
-  aprobado?: boolean
-  numberId?: string | null
-  whatsappGroupId?: string | null
-  pushToken?: string | null
-  placa?: string | null
-  moto?: boolean | null
-  codigoReferido?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  activo?: boolean
+  aprobado?: boolean
+  codigoReferido?: string | null
+  moto?: boolean | null
+  numberId?: string | null
+  placa?: string | null
+  pushToken?: string | null
+  username?: string | null
+  whatsappGroupId?: string | null
   anticipos?: Prisma.AnticiposCreateNestedManyWithoutMembershipInput
   auditorias?: Prisma.AuditoriaCreateNestedManyWithoutMembershipInput
   citasComoCreador?: Prisma.CitasPsicologosCreateNestedManyWithoutCreadoPorInput
@@ -5715,17 +5715,17 @@ export type TenantMembershipUncheckedCreateWithoutSesionesActividadInput = {
   tenantId: string
   role: $Enums.Role
   status?: $Enums.MembershipStatus
-  username?: string | null
-  activo?: boolean
-  aprobado?: boolean
-  numberId?: string | null
-  whatsappGroupId?: string | null
-  pushToken?: string | null
-  placa?: string | null
-  moto?: boolean | null
-  codigoReferido?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  activo?: boolean
+  aprobado?: boolean
+  codigoReferido?: string | null
+  moto?: boolean | null
+  numberId?: string | null
+  placa?: string | null
+  pushToken?: string | null
+  username?: string | null
+  whatsappGroupId?: string | null
   anticipos?: Prisma.AnticiposUncheckedCreateNestedManyWithoutMembershipInput
   auditorias?: Prisma.AuditoriaUncheckedCreateNestedManyWithoutMembershipInput
   citasComoCreador?: Prisma.CitasPsicologosUncheckedCreateNestedManyWithoutCreadoPorInput
@@ -5771,17 +5771,17 @@ export type TenantMembershipUpdateWithoutSesionesActividadInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   status?: Prisma.EnumMembershipStatusFieldUpdateOperationsInput | $Enums.MembershipStatus
-  username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  aprobado?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  numberId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  whatsappGroupId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  pushToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  placa?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  moto?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  codigoReferido?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  aprobado?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  codigoReferido?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  moto?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  numberId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  placa?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pushToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  whatsappGroupId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   anticipos?: Prisma.AnticiposUpdateManyWithoutMembershipNestedInput
   auditorias?: Prisma.AuditoriaUpdateManyWithoutMembershipNestedInput
   citasComoCreador?: Prisma.CitasPsicologosUpdateManyWithoutCreadoPorNestedInput
@@ -5815,17 +5815,17 @@ export type TenantMembershipUncheckedUpdateWithoutSesionesActividadInput = {
   tenantId?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   status?: Prisma.EnumMembershipStatusFieldUpdateOperationsInput | $Enums.MembershipStatus
-  username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  aprobado?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  numberId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  whatsappGroupId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  pushToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  placa?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  moto?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  codigoReferido?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  aprobado?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  codigoReferido?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  moto?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  numberId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  placa?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pushToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  whatsappGroupId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   anticipos?: Prisma.AnticiposUncheckedUpdateManyWithoutMembershipNestedInput
   auditorias?: Prisma.AuditoriaUncheckedUpdateManyWithoutMembershipNestedInput
   citasComoCreador?: Prisma.CitasPsicologosUncheckedUpdateManyWithoutCreadoPorNestedInput
@@ -5856,34 +5856,34 @@ export type TenantMembershipCreateManyUserInput = {
   tenantId: string
   role: $Enums.Role
   status?: $Enums.MembershipStatus
-  username?: string | null
-  activo?: boolean
-  aprobado?: boolean
-  numberId?: string | null
-  whatsappGroupId?: string | null
-  pushToken?: string | null
-  placa?: string | null
-  moto?: boolean | null
-  codigoReferido?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  activo?: boolean
+  aprobado?: boolean
+  codigoReferido?: string | null
+  moto?: boolean | null
+  numberId?: string | null
+  placa?: string | null
+  pushToken?: string | null
+  username?: string | null
+  whatsappGroupId?: string | null
 }
 
 export type TenantMembershipUpdateWithoutUserInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   status?: Prisma.EnumMembershipStatusFieldUpdateOperationsInput | $Enums.MembershipStatus
-  username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  aprobado?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  numberId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  whatsappGroupId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  pushToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  placa?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  moto?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  codigoReferido?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  aprobado?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  codigoReferido?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  moto?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  numberId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  placa?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pushToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  whatsappGroupId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   anticipos?: Prisma.AnticiposUpdateManyWithoutMembershipNestedInput
   auditorias?: Prisma.AuditoriaUpdateManyWithoutMembershipNestedInput
   citasComoCreador?: Prisma.CitasPsicologosUpdateManyWithoutCreadoPorNestedInput
@@ -5916,17 +5916,17 @@ export type TenantMembershipUncheckedUpdateWithoutUserInput = {
   tenantId?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   status?: Prisma.EnumMembershipStatusFieldUpdateOperationsInput | $Enums.MembershipStatus
-  username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  aprobado?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  numberId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  whatsappGroupId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  pushToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  placa?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  moto?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  codigoReferido?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  aprobado?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  codigoReferido?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  moto?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  numberId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  placa?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pushToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  whatsappGroupId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   anticipos?: Prisma.AnticiposUncheckedUpdateManyWithoutMembershipNestedInput
   auditorias?: Prisma.AuditoriaUncheckedUpdateManyWithoutMembershipNestedInput
   citasComoCreador?: Prisma.CitasPsicologosUncheckedUpdateManyWithoutCreadoPorNestedInput
@@ -5958,17 +5958,17 @@ export type TenantMembershipUncheckedUpdateManyWithoutUserInput = {
   tenantId?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   status?: Prisma.EnumMembershipStatusFieldUpdateOperationsInput | $Enums.MembershipStatus
-  username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  aprobado?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  numberId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  whatsappGroupId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  pushToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  placa?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  moto?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  codigoReferido?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  aprobado?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  codigoReferido?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  moto?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  numberId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  placa?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pushToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  whatsappGroupId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type TenantMembershipCreateManyTenantInput = {
@@ -5976,34 +5976,34 @@ export type TenantMembershipCreateManyTenantInput = {
   userId: string
   role: $Enums.Role
   status?: $Enums.MembershipStatus
-  username?: string | null
-  activo?: boolean
-  aprobado?: boolean
-  numberId?: string | null
-  whatsappGroupId?: string | null
-  pushToken?: string | null
-  placa?: string | null
-  moto?: boolean | null
-  codigoReferido?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  activo?: boolean
+  aprobado?: boolean
+  codigoReferido?: string | null
+  moto?: boolean | null
+  numberId?: string | null
+  placa?: string | null
+  pushToken?: string | null
+  username?: string | null
+  whatsappGroupId?: string | null
 }
 
 export type TenantMembershipUpdateWithoutTenantInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   status?: Prisma.EnumMembershipStatusFieldUpdateOperationsInput | $Enums.MembershipStatus
-  username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  aprobado?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  numberId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  whatsappGroupId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  pushToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  placa?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  moto?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  codigoReferido?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  aprobado?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  codigoReferido?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  moto?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  numberId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  placa?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pushToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  whatsappGroupId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   anticipos?: Prisma.AnticiposUpdateManyWithoutMembershipNestedInput
   auditorias?: Prisma.AuditoriaUpdateManyWithoutMembershipNestedInput
   citasComoCreador?: Prisma.CitasPsicologosUpdateManyWithoutCreadoPorNestedInput
@@ -6036,17 +6036,17 @@ export type TenantMembershipUncheckedUpdateWithoutTenantInput = {
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   status?: Prisma.EnumMembershipStatusFieldUpdateOperationsInput | $Enums.MembershipStatus
-  username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  aprobado?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  numberId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  whatsappGroupId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  pushToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  placa?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  moto?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  codigoReferido?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  aprobado?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  codigoReferido?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  moto?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  numberId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  placa?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pushToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  whatsappGroupId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   anticipos?: Prisma.AnticiposUncheckedUpdateManyWithoutMembershipNestedInput
   auditorias?: Prisma.AuditoriaUncheckedUpdateManyWithoutMembershipNestedInput
   citasComoCreador?: Prisma.CitasPsicologosUncheckedUpdateManyWithoutCreadoPorNestedInput
@@ -6078,17 +6078,17 @@ export type TenantMembershipUncheckedUpdateManyWithoutTenantInput = {
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   status?: Prisma.EnumMembershipStatusFieldUpdateOperationsInput | $Enums.MembershipStatus
-  username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  aprobado?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  numberId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  whatsappGroupId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  pushToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  placa?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  moto?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  codigoReferido?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  aprobado?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  codigoReferido?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  moto?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  numberId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  placa?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pushToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  whatsappGroupId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 
@@ -6335,17 +6335,17 @@ export type TenantMembershipSelect<ExtArgs extends runtime.Types.Extensions.Inte
   tenantId?: boolean
   role?: boolean
   status?: boolean
-  username?: boolean
-  activo?: boolean
-  aprobado?: boolean
-  numberId?: boolean
-  whatsappGroupId?: boolean
-  pushToken?: boolean
-  placa?: boolean
-  moto?: boolean
-  codigoReferido?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  activo?: boolean
+  aprobado?: boolean
+  codigoReferido?: boolean
+  moto?: boolean
+  numberId?: boolean
+  placa?: boolean
+  pushToken?: boolean
+  username?: boolean
+  whatsappGroupId?: boolean
   anticipos?: boolean | Prisma.TenantMembership$anticiposArgs<ExtArgs>
   auditorias?: boolean | Prisma.TenantMembership$auditoriasArgs<ExtArgs>
   citasComoCreador?: boolean | Prisma.TenantMembership$citasComoCreadorArgs<ExtArgs>
@@ -6381,17 +6381,17 @@ export type TenantMembershipSelectCreateManyAndReturn<ExtArgs extends runtime.Ty
   tenantId?: boolean
   role?: boolean
   status?: boolean
-  username?: boolean
-  activo?: boolean
-  aprobado?: boolean
-  numberId?: boolean
-  whatsappGroupId?: boolean
-  pushToken?: boolean
-  placa?: boolean
-  moto?: boolean
-  codigoReferido?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  activo?: boolean
+  aprobado?: boolean
+  codigoReferido?: boolean
+  moto?: boolean
+  numberId?: boolean
+  placa?: boolean
+  pushToken?: boolean
+  username?: boolean
+  whatsappGroupId?: boolean
   tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["tenantMembership"]>
@@ -6402,17 +6402,17 @@ export type TenantMembershipSelectUpdateManyAndReturn<ExtArgs extends runtime.Ty
   tenantId?: boolean
   role?: boolean
   status?: boolean
-  username?: boolean
-  activo?: boolean
-  aprobado?: boolean
-  numberId?: boolean
-  whatsappGroupId?: boolean
-  pushToken?: boolean
-  placa?: boolean
-  moto?: boolean
-  codigoReferido?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  activo?: boolean
+  aprobado?: boolean
+  codigoReferido?: boolean
+  moto?: boolean
+  numberId?: boolean
+  placa?: boolean
+  pushToken?: boolean
+  username?: boolean
+  whatsappGroupId?: boolean
   tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["tenantMembership"]>
@@ -6423,20 +6423,20 @@ export type TenantMembershipSelectScalar = {
   tenantId?: boolean
   role?: boolean
   status?: boolean
-  username?: boolean
-  activo?: boolean
-  aprobado?: boolean
-  numberId?: boolean
-  whatsappGroupId?: boolean
-  pushToken?: boolean
-  placa?: boolean
-  moto?: boolean
-  codigoReferido?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  activo?: boolean
+  aprobado?: boolean
+  codigoReferido?: boolean
+  moto?: boolean
+  numberId?: boolean
+  placa?: boolean
+  pushToken?: boolean
+  username?: boolean
+  whatsappGroupId?: boolean
 }
 
-export type TenantMembershipOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "tenantId" | "role" | "status" | "username" | "activo" | "aprobado" | "numberId" | "whatsappGroupId" | "pushToken" | "placa" | "moto" | "codigoReferido" | "createdAt" | "updatedAt", ExtArgs["result"]["tenantMembership"]>
+export type TenantMembershipOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "tenantId" | "role" | "status" | "createdAt" | "updatedAt" | "activo" | "aprobado" | "codigoReferido" | "moto" | "numberId" | "placa" | "pushToken" | "username" | "whatsappGroupId", ExtArgs["result"]["tenantMembership"]>
 export type TenantMembershipInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   anticipos?: boolean | Prisma.TenantMembership$anticiposArgs<ExtArgs>
   auditorias?: boolean | Prisma.TenantMembership$auditoriasArgs<ExtArgs>
@@ -6511,17 +6511,17 @@ export type $TenantMembershipPayload<ExtArgs extends runtime.Types.Extensions.In
     tenantId: string
     role: $Enums.Role
     status: $Enums.MembershipStatus
-    username: string | null
-    activo: boolean
-    aprobado: boolean
-    numberId: string | null
-    whatsappGroupId: string | null
-    pushToken: string | null
-    placa: string | null
-    moto: boolean | null
-    codigoReferido: string | null
     createdAt: Date
     updatedAt: Date
+    activo: boolean
+    aprobado: boolean
+    codigoReferido: string | null
+    moto: boolean | null
+    numberId: string | null
+    placa: string | null
+    pushToken: string | null
+    username: string | null
+    whatsappGroupId: string | null
   }, ExtArgs["result"]["tenantMembership"]>
   composites: {}
 }
@@ -6976,17 +6976,17 @@ export interface TenantMembershipFieldRefs {
   readonly tenantId: Prisma.FieldRef<"TenantMembership", 'String'>
   readonly role: Prisma.FieldRef<"TenantMembership", 'Role'>
   readonly status: Prisma.FieldRef<"TenantMembership", 'MembershipStatus'>
-  readonly username: Prisma.FieldRef<"TenantMembership", 'String'>
-  readonly activo: Prisma.FieldRef<"TenantMembership", 'Boolean'>
-  readonly aprobado: Prisma.FieldRef<"TenantMembership", 'Boolean'>
-  readonly numberId: Prisma.FieldRef<"TenantMembership", 'String'>
-  readonly whatsappGroupId: Prisma.FieldRef<"TenantMembership", 'String'>
-  readonly pushToken: Prisma.FieldRef<"TenantMembership", 'String'>
-  readonly placa: Prisma.FieldRef<"TenantMembership", 'String'>
-  readonly moto: Prisma.FieldRef<"TenantMembership", 'Boolean'>
-  readonly codigoReferido: Prisma.FieldRef<"TenantMembership", 'String'>
   readonly createdAt: Prisma.FieldRef<"TenantMembership", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"TenantMembership", 'DateTime'>
+  readonly activo: Prisma.FieldRef<"TenantMembership", 'Boolean'>
+  readonly aprobado: Prisma.FieldRef<"TenantMembership", 'Boolean'>
+  readonly codigoReferido: Prisma.FieldRef<"TenantMembership", 'String'>
+  readonly moto: Prisma.FieldRef<"TenantMembership", 'Boolean'>
+  readonly numberId: Prisma.FieldRef<"TenantMembership", 'String'>
+  readonly placa: Prisma.FieldRef<"TenantMembership", 'String'>
+  readonly pushToken: Prisma.FieldRef<"TenantMembership", 'String'>
+  readonly username: Prisma.FieldRef<"TenantMembership", 'String'>
+  readonly whatsappGroupId: Prisma.FieldRef<"TenantMembership", 'String'>
 }
     
 

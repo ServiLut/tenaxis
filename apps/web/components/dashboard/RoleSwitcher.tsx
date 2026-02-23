@@ -106,11 +106,11 @@ export function RoleSwitcher() {
               <ShieldAlert className="h-4 w-4" />
             </div>
             <div className="flex flex-col text-left">
-              <span className="text-[9px] font-black uppercase tracking-wider text-amber-600 dark:text-amber-400 leading-tight">
+              <span className="text-[9px] font-black uppercase tracking-wider text-amber-600 dark:text-zinc-200 leading-tight">
                 Modo Dev
               </span>
               <div className="flex items-center gap-1.5">
-                <span className="text-xs font-bold text-zinc-900 dark:text-white">
+                <span className="text-xs font-bold text-zinc-900 dark:text-zinc-200">
                   {currentRole || "Sin Rol"}
                 </span>
                 <ChevronsUpDown className="h-3 w-3 text-zinc-400" />

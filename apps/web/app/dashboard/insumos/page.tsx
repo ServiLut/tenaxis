@@ -235,14 +235,14 @@ export default function InsumosPage() {
                   <button 
                     onClick={() => setCurrentPage(prev => Math.max(1, prev - 1))}
                     disabled={currentPage === 1}
-                    className="h-10 px-4 rounded-xl border-2 border-zinc-100 bg-white text-[10px] font-black uppercase tracking-widest text-zinc-500 disabled:opacity-50 transition-all hover:bg-zinc-50 dark:border-zinc-800 dark:bg-zinc-950"
+                    className="h-10 px-4 rounded-xl border-2 border-zinc-100 bg-white text-[10px] font-black uppercase tracking-widest text-zinc-500 dark:text-zinc-200 disabled:opacity-50 transition-all hover:bg-zinc-50 dark:border-zinc-800 dark:bg-zinc-950"
                   >
                     Anterior
                   </button>
                   <button 
                     onClick={() => setCurrentPage(prev => Math.min(totalPages, prev + 1))}
                     disabled={currentPage === totalPages || totalPages === 0}
-                    className="h-10 px-4 rounded-xl bg-azul-1 text-[10px] font-black uppercase tracking-widest text-white disabled:opacity-50 transition-all hover:bg-blue-700 shadow-lg shadow-azul-1/20"
+                    className="h-10 px-4 rounded-xl bg-azul-1 text-[10px] font-black uppercase tracking-widest text-white dark:text-zinc-200 disabled:opacity-50 transition-all hover:bg-blue-700 shadow-lg shadow-azul-1/20"
                   >
                     Siguiente
                   </button>

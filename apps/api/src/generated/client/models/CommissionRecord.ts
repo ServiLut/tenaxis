@@ -41,49 +41,49 @@ export type CommissionRecordSumAggregateOutputType = {
 export type CommissionRecordMinAggregateOutputType = {
   id: string | null
   tenantId: string | null
-  empresaId: string | null
   organizationNodeId: string | null
-  ordenServicioId: string | null
-  citaPsicologoId: string | null
   porcentaje: runtime.Decimal | null
   valorBase: runtime.Decimal | null
   valorComision: runtime.Decimal | null
+  createdAt: Date | null
+  citaPsicologoId: string | null
   concepto: string | null
+  empresaId: string | null
   estadoPago: $Enums.EstadoPagoComision | null
   fechaPago: Date | null
-  createdAt: Date | null
+  ordenServicioId: string | null
 }
 
 export type CommissionRecordMaxAggregateOutputType = {
   id: string | null
   tenantId: string | null
-  empresaId: string | null
   organizationNodeId: string | null
-  ordenServicioId: string | null
-  citaPsicologoId: string | null
   porcentaje: runtime.Decimal | null
   valorBase: runtime.Decimal | null
   valorComision: runtime.Decimal | null
+  createdAt: Date | null
+  citaPsicologoId: string | null
   concepto: string | null
+  empresaId: string | null
   estadoPago: $Enums.EstadoPagoComision | null
   fechaPago: Date | null
-  createdAt: Date | null
+  ordenServicioId: string | null
 }
 
 export type CommissionRecordCountAggregateOutputType = {
   id: number
   tenantId: number
-  empresaId: number
   organizationNodeId: number
-  ordenServicioId: number
-  citaPsicologoId: number
   porcentaje: number
   valorBase: number
   valorComision: number
+  createdAt: number
+  citaPsicologoId: number
   concepto: number
+  empresaId: number
   estadoPago: number
   fechaPago: number
-  createdAt: number
+  ordenServicioId: number
   _all: number
 }
 
@@ -103,49 +103,49 @@ export type CommissionRecordSumAggregateInputType = {
 export type CommissionRecordMinAggregateInputType = {
   id?: true
   tenantId?: true
-  empresaId?: true
   organizationNodeId?: true
-  ordenServicioId?: true
-  citaPsicologoId?: true
   porcentaje?: true
   valorBase?: true
   valorComision?: true
+  createdAt?: true
+  citaPsicologoId?: true
   concepto?: true
+  empresaId?: true
   estadoPago?: true
   fechaPago?: true
-  createdAt?: true
+  ordenServicioId?: true
 }
 
 export type CommissionRecordMaxAggregateInputType = {
   id?: true
   tenantId?: true
-  empresaId?: true
   organizationNodeId?: true
-  ordenServicioId?: true
-  citaPsicologoId?: true
   porcentaje?: true
   valorBase?: true
   valorComision?: true
+  createdAt?: true
+  citaPsicologoId?: true
   concepto?: true
+  empresaId?: true
   estadoPago?: true
   fechaPago?: true
-  createdAt?: true
+  ordenServicioId?: true
 }
 
 export type CommissionRecordCountAggregateInputType = {
   id?: true
   tenantId?: true
-  empresaId?: true
   organizationNodeId?: true
-  ordenServicioId?: true
-  citaPsicologoId?: true
   porcentaje?: true
   valorBase?: true
   valorComision?: true
+  createdAt?: true
+  citaPsicologoId?: true
   concepto?: true
+  empresaId?: true
   estadoPago?: true
   fechaPago?: true
-  createdAt?: true
+  ordenServicioId?: true
   _all?: true
 }
 
@@ -238,17 +238,17 @@ export type CommissionRecordGroupByArgs<ExtArgs extends runtime.Types.Extensions
 export type CommissionRecordGroupByOutputType = {
   id: string
   tenantId: string
-  empresaId: string
   organizationNodeId: string
-  ordenServicioId: string | null
-  citaPsicologoId: string | null
   porcentaje: runtime.Decimal
   valorBase: runtime.Decimal
   valorComision: runtime.Decimal
+  createdAt: Date
+  citaPsicologoId: string | null
   concepto: string | null
+  empresaId: string
   estadoPago: $Enums.EstadoPagoComision
   fechaPago: Date | null
-  createdAt: Date
+  ordenServicioId: string | null
   _count: CommissionRecordCountAggregateOutputType | null
   _avg: CommissionRecordAvgAggregateOutputType | null
   _sum: CommissionRecordSumAggregateOutputType | null
@@ -277,17 +277,17 @@ export type CommissionRecordWhereInput = {
   NOT?: Prisma.CommissionRecordWhereInput | Prisma.CommissionRecordWhereInput[]
   id?: Prisma.UuidFilter<"CommissionRecord"> | string
   tenantId?: Prisma.UuidFilter<"CommissionRecord"> | string
-  empresaId?: Prisma.UuidFilter<"CommissionRecord"> | string
   organizationNodeId?: Prisma.UuidFilter<"CommissionRecord"> | string
-  ordenServicioId?: Prisma.UuidNullableFilter<"CommissionRecord"> | string | null
-  citaPsicologoId?: Prisma.UuidNullableFilter<"CommissionRecord"> | string | null
   porcentaje?: Prisma.DecimalFilter<"CommissionRecord"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   valorBase?: Prisma.DecimalFilter<"CommissionRecord"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   valorComision?: Prisma.DecimalFilter<"CommissionRecord"> | runtime.Decimal | runtime.DecimalJsLike | number | string
+  createdAt?: Prisma.DateTimeFilter<"CommissionRecord"> | Date | string
+  citaPsicologoId?: Prisma.UuidNullableFilter<"CommissionRecord"> | string | null
   concepto?: Prisma.StringNullableFilter<"CommissionRecord"> | string | null
+  empresaId?: Prisma.UuidFilter<"CommissionRecord"> | string
   estadoPago?: Prisma.EnumEstadoPagoComisionFilter<"CommissionRecord"> | $Enums.EstadoPagoComision
   fechaPago?: Prisma.DateTimeNullableFilter<"CommissionRecord"> | Date | string | null
-  createdAt?: Prisma.DateTimeFilter<"CommissionRecord"> | Date | string
+  ordenServicioId?: Prisma.UuidNullableFilter<"CommissionRecord"> | string | null
   empresa?: Prisma.XOR<Prisma.EmpresaScalarRelationFilter, Prisma.EmpresaWhereInput>
   organizationNode?: Prisma.XOR<Prisma.OrganizationNodeScalarRelationFilter, Prisma.OrganizationNodeWhereInput>
   tenant?: Prisma.XOR<Prisma.TenantScalarRelationFilter, Prisma.TenantWhereInput>
@@ -296,17 +296,17 @@ export type CommissionRecordWhereInput = {
 export type CommissionRecordOrderByWithRelationInput = {
   id?: Prisma.SortOrder
   tenantId?: Prisma.SortOrder
-  empresaId?: Prisma.SortOrder
   organizationNodeId?: Prisma.SortOrder
-  ordenServicioId?: Prisma.SortOrderInput | Prisma.SortOrder
-  citaPsicologoId?: Prisma.SortOrderInput | Prisma.SortOrder
   porcentaje?: Prisma.SortOrder
   valorBase?: Prisma.SortOrder
   valorComision?: Prisma.SortOrder
+  createdAt?: Prisma.SortOrder
+  citaPsicologoId?: Prisma.SortOrderInput | Prisma.SortOrder
   concepto?: Prisma.SortOrderInput | Prisma.SortOrder
+  empresaId?: Prisma.SortOrder
   estadoPago?: Prisma.SortOrder
   fechaPago?: Prisma.SortOrderInput | Prisma.SortOrder
-  createdAt?: Prisma.SortOrder
+  ordenServicioId?: Prisma.SortOrderInput | Prisma.SortOrder
   empresa?: Prisma.EmpresaOrderByWithRelationInput
   organizationNode?: Prisma.OrganizationNodeOrderByWithRelationInput
   tenant?: Prisma.TenantOrderByWithRelationInput
@@ -318,17 +318,17 @@ export type CommissionRecordWhereUniqueInput = Prisma.AtLeast<{
   OR?: Prisma.CommissionRecordWhereInput[]
   NOT?: Prisma.CommissionRecordWhereInput | Prisma.CommissionRecordWhereInput[]
   tenantId?: Prisma.UuidFilter<"CommissionRecord"> | string
-  empresaId?: Prisma.UuidFilter<"CommissionRecord"> | string
   organizationNodeId?: Prisma.UuidFilter<"CommissionRecord"> | string
-  ordenServicioId?: Prisma.UuidNullableFilter<"CommissionRecord"> | string | null
-  citaPsicologoId?: Prisma.UuidNullableFilter<"CommissionRecord"> | string | null
   porcentaje?: Prisma.DecimalFilter<"CommissionRecord"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   valorBase?: Prisma.DecimalFilter<"CommissionRecord"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   valorComision?: Prisma.DecimalFilter<"CommissionRecord"> | runtime.Decimal | runtime.DecimalJsLike | number | string
+  createdAt?: Prisma.DateTimeFilter<"CommissionRecord"> | Date | string
+  citaPsicologoId?: Prisma.UuidNullableFilter<"CommissionRecord"> | string | null
   concepto?: Prisma.StringNullableFilter<"CommissionRecord"> | string | null
+  empresaId?: Prisma.UuidFilter<"CommissionRecord"> | string
   estadoPago?: Prisma.EnumEstadoPagoComisionFilter<"CommissionRecord"> | $Enums.EstadoPagoComision
   fechaPago?: Prisma.DateTimeNullableFilter<"CommissionRecord"> | Date | string | null
-  createdAt?: Prisma.DateTimeFilter<"CommissionRecord"> | Date | string
+  ordenServicioId?: Prisma.UuidNullableFilter<"CommissionRecord"> | string | null
   empresa?: Prisma.XOR<Prisma.EmpresaScalarRelationFilter, Prisma.EmpresaWhereInput>
   organizationNode?: Prisma.XOR<Prisma.OrganizationNodeScalarRelationFilter, Prisma.OrganizationNodeWhereInput>
   tenant?: Prisma.XOR<Prisma.TenantScalarRelationFilter, Prisma.TenantWhereInput>
@@ -337,17 +337,17 @@ export type CommissionRecordWhereUniqueInput = Prisma.AtLeast<{
 export type CommissionRecordOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
   tenantId?: Prisma.SortOrder
-  empresaId?: Prisma.SortOrder
   organizationNodeId?: Prisma.SortOrder
-  ordenServicioId?: Prisma.SortOrderInput | Prisma.SortOrder
-  citaPsicologoId?: Prisma.SortOrderInput | Prisma.SortOrder
   porcentaje?: Prisma.SortOrder
   valorBase?: Prisma.SortOrder
   valorComision?: Prisma.SortOrder
+  createdAt?: Prisma.SortOrder
+  citaPsicologoId?: Prisma.SortOrderInput | Prisma.SortOrder
   concepto?: Prisma.SortOrderInput | Prisma.SortOrder
+  empresaId?: Prisma.SortOrder
   estadoPago?: Prisma.SortOrder
   fechaPago?: Prisma.SortOrderInput | Prisma.SortOrder
-  createdAt?: Prisma.SortOrder
+  ordenServicioId?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.CommissionRecordCountOrderByAggregateInput
   _avg?: Prisma.CommissionRecordAvgOrderByAggregateInput
   _max?: Prisma.CommissionRecordMaxOrderByAggregateInput
@@ -361,30 +361,30 @@ export type CommissionRecordScalarWhereWithAggregatesInput = {
   NOT?: Prisma.CommissionRecordScalarWhereWithAggregatesInput | Prisma.CommissionRecordScalarWhereWithAggregatesInput[]
   id?: Prisma.UuidWithAggregatesFilter<"CommissionRecord"> | string
   tenantId?: Prisma.UuidWithAggregatesFilter<"CommissionRecord"> | string
-  empresaId?: Prisma.UuidWithAggregatesFilter<"CommissionRecord"> | string
   organizationNodeId?: Prisma.UuidWithAggregatesFilter<"CommissionRecord"> | string
-  ordenServicioId?: Prisma.UuidNullableWithAggregatesFilter<"CommissionRecord"> | string | null
-  citaPsicologoId?: Prisma.UuidNullableWithAggregatesFilter<"CommissionRecord"> | string | null
   porcentaje?: Prisma.DecimalWithAggregatesFilter<"CommissionRecord"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   valorBase?: Prisma.DecimalWithAggregatesFilter<"CommissionRecord"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   valorComision?: Prisma.DecimalWithAggregatesFilter<"CommissionRecord"> | runtime.Decimal | runtime.DecimalJsLike | number | string
+  createdAt?: Prisma.DateTimeWithAggregatesFilter<"CommissionRecord"> | Date | string
+  citaPsicologoId?: Prisma.UuidNullableWithAggregatesFilter<"CommissionRecord"> | string | null
   concepto?: Prisma.StringNullableWithAggregatesFilter<"CommissionRecord"> | string | null
+  empresaId?: Prisma.UuidWithAggregatesFilter<"CommissionRecord"> | string
   estadoPago?: Prisma.EnumEstadoPagoComisionWithAggregatesFilter<"CommissionRecord"> | $Enums.EstadoPagoComision
   fechaPago?: Prisma.DateTimeNullableWithAggregatesFilter<"CommissionRecord"> | Date | string | null
-  createdAt?: Prisma.DateTimeWithAggregatesFilter<"CommissionRecord"> | Date | string
+  ordenServicioId?: Prisma.UuidNullableWithAggregatesFilter<"CommissionRecord"> | string | null
 }
 
 export type CommissionRecordCreateInput = {
   id?: string
-  ordenServicioId?: string | null
-  citaPsicologoId?: string | null
   porcentaje: runtime.Decimal | runtime.DecimalJsLike | number | string
   valorBase: runtime.Decimal | runtime.DecimalJsLike | number | string
   valorComision: runtime.Decimal | runtime.DecimalJsLike | number | string
+  createdAt?: Date | string
+  citaPsicologoId?: string | null
   concepto?: string | null
   estadoPago?: $Enums.EstadoPagoComision
   fechaPago?: Date | string | null
-  createdAt?: Date | string
+  ordenServicioId?: string | null
   empresa: Prisma.EmpresaCreateNestedOneWithoutCommissionsInput
   organizationNode: Prisma.OrganizationNodeCreateNestedOneWithoutCommissionsInput
   tenant: Prisma.TenantCreateNestedOneWithoutCommissionsInput
@@ -393,30 +393,30 @@ export type CommissionRecordCreateInput = {
 export type CommissionRecordUncheckedCreateInput = {
   id?: string
   tenantId: string
-  empresaId: string
   organizationNodeId: string
-  ordenServicioId?: string | null
-  citaPsicologoId?: string | null
   porcentaje: runtime.Decimal | runtime.DecimalJsLike | number | string
   valorBase: runtime.Decimal | runtime.DecimalJsLike | number | string
   valorComision: runtime.Decimal | runtime.DecimalJsLike | number | string
+  createdAt?: Date | string
+  citaPsicologoId?: string | null
   concepto?: string | null
+  empresaId: string
   estadoPago?: $Enums.EstadoPagoComision
   fechaPago?: Date | string | null
-  createdAt?: Date | string
+  ordenServicioId?: string | null
 }
 
 export type CommissionRecordUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  ordenServicioId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  citaPsicologoId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   porcentaje?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   valorBase?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   valorComision?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  citaPsicologoId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   concepto?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   estadoPago?: Prisma.EnumEstadoPagoComisionFieldUpdateOperationsInput | $Enums.EstadoPagoComision
   fechaPago?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  ordenServicioId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   empresa?: Prisma.EmpresaUpdateOneRequiredWithoutCommissionsNestedInput
   organizationNode?: Prisma.OrganizationNodeUpdateOneRequiredWithoutCommissionsNestedInput
   tenant?: Prisma.TenantUpdateOneRequiredWithoutCommissionsNestedInput
@@ -425,62 +425,62 @@ export type CommissionRecordUpdateInput = {
 export type CommissionRecordUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   tenantId?: Prisma.StringFieldUpdateOperationsInput | string
-  empresaId?: Prisma.StringFieldUpdateOperationsInput | string
   organizationNodeId?: Prisma.StringFieldUpdateOperationsInput | string
-  ordenServicioId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  citaPsicologoId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   porcentaje?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   valorBase?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   valorComision?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  citaPsicologoId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   concepto?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  empresaId?: Prisma.StringFieldUpdateOperationsInput | string
   estadoPago?: Prisma.EnumEstadoPagoComisionFieldUpdateOperationsInput | $Enums.EstadoPagoComision
   fechaPago?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  ordenServicioId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type CommissionRecordCreateManyInput = {
   id?: string
   tenantId: string
-  empresaId: string
   organizationNodeId: string
-  ordenServicioId?: string | null
-  citaPsicologoId?: string | null
   porcentaje: runtime.Decimal | runtime.DecimalJsLike | number | string
   valorBase: runtime.Decimal | runtime.DecimalJsLike | number | string
   valorComision: runtime.Decimal | runtime.DecimalJsLike | number | string
+  createdAt?: Date | string
+  citaPsicologoId?: string | null
   concepto?: string | null
+  empresaId: string
   estadoPago?: $Enums.EstadoPagoComision
   fechaPago?: Date | string | null
-  createdAt?: Date | string
+  ordenServicioId?: string | null
 }
 
 export type CommissionRecordUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  ordenServicioId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  citaPsicologoId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   porcentaje?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   valorBase?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   valorComision?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  citaPsicologoId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   concepto?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   estadoPago?: Prisma.EnumEstadoPagoComisionFieldUpdateOperationsInput | $Enums.EstadoPagoComision
   fechaPago?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  ordenServicioId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type CommissionRecordUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   tenantId?: Prisma.StringFieldUpdateOperationsInput | string
-  empresaId?: Prisma.StringFieldUpdateOperationsInput | string
   organizationNodeId?: Prisma.StringFieldUpdateOperationsInput | string
-  ordenServicioId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  citaPsicologoId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   porcentaje?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   valorBase?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   valorComision?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  citaPsicologoId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   concepto?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  empresaId?: Prisma.StringFieldUpdateOperationsInput | string
   estadoPago?: Prisma.EnumEstadoPagoComisionFieldUpdateOperationsInput | $Enums.EstadoPagoComision
   fechaPago?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  ordenServicioId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type CommissionRecordListRelationFilter = {
@@ -496,17 +496,17 @@ export type CommissionRecordOrderByRelationAggregateInput = {
 export type CommissionRecordCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   tenantId?: Prisma.SortOrder
-  empresaId?: Prisma.SortOrder
   organizationNodeId?: Prisma.SortOrder
-  ordenServicioId?: Prisma.SortOrder
-  citaPsicologoId?: Prisma.SortOrder
   porcentaje?: Prisma.SortOrder
   valorBase?: Prisma.SortOrder
   valorComision?: Prisma.SortOrder
+  createdAt?: Prisma.SortOrder
+  citaPsicologoId?: Prisma.SortOrder
   concepto?: Prisma.SortOrder
+  empresaId?: Prisma.SortOrder
   estadoPago?: Prisma.SortOrder
   fechaPago?: Prisma.SortOrder
-  createdAt?: Prisma.SortOrder
+  ordenServicioId?: Prisma.SortOrder
 }
 
 export type CommissionRecordAvgOrderByAggregateInput = {
@@ -518,33 +518,33 @@ export type CommissionRecordAvgOrderByAggregateInput = {
 export type CommissionRecordMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
   tenantId?: Prisma.SortOrder
-  empresaId?: Prisma.SortOrder
   organizationNodeId?: Prisma.SortOrder
-  ordenServicioId?: Prisma.SortOrder
-  citaPsicologoId?: Prisma.SortOrder
   porcentaje?: Prisma.SortOrder
   valorBase?: Prisma.SortOrder
   valorComision?: Prisma.SortOrder
+  createdAt?: Prisma.SortOrder
+  citaPsicologoId?: Prisma.SortOrder
   concepto?: Prisma.SortOrder
+  empresaId?: Prisma.SortOrder
   estadoPago?: Prisma.SortOrder
   fechaPago?: Prisma.SortOrder
-  createdAt?: Prisma.SortOrder
+  ordenServicioId?: Prisma.SortOrder
 }
 
 export type CommissionRecordMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
   tenantId?: Prisma.SortOrder
-  empresaId?: Prisma.SortOrder
   organizationNodeId?: Prisma.SortOrder
-  ordenServicioId?: Prisma.SortOrder
-  citaPsicologoId?: Prisma.SortOrder
   porcentaje?: Prisma.SortOrder
   valorBase?: Prisma.SortOrder
   valorComision?: Prisma.SortOrder
+  createdAt?: Prisma.SortOrder
+  citaPsicologoId?: Prisma.SortOrder
   concepto?: Prisma.SortOrder
+  empresaId?: Prisma.SortOrder
   estadoPago?: Prisma.SortOrder
   fechaPago?: Prisma.SortOrder
-  createdAt?: Prisma.SortOrder
+  ordenServicioId?: Prisma.SortOrder
 }
 
 export type CommissionRecordSumOrderByAggregateInput = {
@@ -685,32 +685,32 @@ export type EnumEstadoPagoComisionFieldUpdateOperationsInput = {
 
 export type CommissionRecordCreateWithoutTenantInput = {
   id?: string
-  ordenServicioId?: string | null
-  citaPsicologoId?: string | null
   porcentaje: runtime.Decimal | runtime.DecimalJsLike | number | string
   valorBase: runtime.Decimal | runtime.DecimalJsLike | number | string
   valorComision: runtime.Decimal | runtime.DecimalJsLike | number | string
+  createdAt?: Date | string
+  citaPsicologoId?: string | null
   concepto?: string | null
   estadoPago?: $Enums.EstadoPagoComision
   fechaPago?: Date | string | null
-  createdAt?: Date | string
+  ordenServicioId?: string | null
   empresa: Prisma.EmpresaCreateNestedOneWithoutCommissionsInput
   organizationNode: Prisma.OrganizationNodeCreateNestedOneWithoutCommissionsInput
 }
 
 export type CommissionRecordUncheckedCreateWithoutTenantInput = {
   id?: string
-  empresaId: string
   organizationNodeId: string
-  ordenServicioId?: string | null
-  citaPsicologoId?: string | null
   porcentaje: runtime.Decimal | runtime.DecimalJsLike | number | string
   valorBase: runtime.Decimal | runtime.DecimalJsLike | number | string
   valorComision: runtime.Decimal | runtime.DecimalJsLike | number | string
+  createdAt?: Date | string
+  citaPsicologoId?: string | null
   concepto?: string | null
+  empresaId: string
   estadoPago?: $Enums.EstadoPagoComision
   fechaPago?: Date | string | null
-  createdAt?: Date | string
+  ordenServicioId?: string | null
 }
 
 export type CommissionRecordCreateOrConnectWithoutTenantInput = {
@@ -745,30 +745,30 @@ export type CommissionRecordScalarWhereInput = {
   NOT?: Prisma.CommissionRecordScalarWhereInput | Prisma.CommissionRecordScalarWhereInput[]
   id?: Prisma.UuidFilter<"CommissionRecord"> | string
   tenantId?: Prisma.UuidFilter<"CommissionRecord"> | string
-  empresaId?: Prisma.UuidFilter<"CommissionRecord"> | string
   organizationNodeId?: Prisma.UuidFilter<"CommissionRecord"> | string
-  ordenServicioId?: Prisma.UuidNullableFilter<"CommissionRecord"> | string | null
-  citaPsicologoId?: Prisma.UuidNullableFilter<"CommissionRecord"> | string | null
   porcentaje?: Prisma.DecimalFilter<"CommissionRecord"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   valorBase?: Prisma.DecimalFilter<"CommissionRecord"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   valorComision?: Prisma.DecimalFilter<"CommissionRecord"> | runtime.Decimal | runtime.DecimalJsLike | number | string
+  createdAt?: Prisma.DateTimeFilter<"CommissionRecord"> | Date | string
+  citaPsicologoId?: Prisma.UuidNullableFilter<"CommissionRecord"> | string | null
   concepto?: Prisma.StringNullableFilter<"CommissionRecord"> | string | null
+  empresaId?: Prisma.UuidFilter<"CommissionRecord"> | string
   estadoPago?: Prisma.EnumEstadoPagoComisionFilter<"CommissionRecord"> | $Enums.EstadoPagoComision
   fechaPago?: Prisma.DateTimeNullableFilter<"CommissionRecord"> | Date | string | null
-  createdAt?: Prisma.DateTimeFilter<"CommissionRecord"> | Date | string
+  ordenServicioId?: Prisma.UuidNullableFilter<"CommissionRecord"> | string | null
 }
 
 export type CommissionRecordCreateWithoutEmpresaInput = {
   id?: string
-  ordenServicioId?: string | null
-  citaPsicologoId?: string | null
   porcentaje: runtime.Decimal | runtime.DecimalJsLike | number | string
   valorBase: runtime.Decimal | runtime.DecimalJsLike | number | string
   valorComision: runtime.Decimal | runtime.DecimalJsLike | number | string
+  createdAt?: Date | string
+  citaPsicologoId?: string | null
   concepto?: string | null
   estadoPago?: $Enums.EstadoPagoComision
   fechaPago?: Date | string | null
-  createdAt?: Date | string
+  ordenServicioId?: string | null
   organizationNode: Prisma.OrganizationNodeCreateNestedOneWithoutCommissionsInput
   tenant: Prisma.TenantCreateNestedOneWithoutCommissionsInput
 }
@@ -777,15 +777,15 @@ export type CommissionRecordUncheckedCreateWithoutEmpresaInput = {
   id?: string
   tenantId: string
   organizationNodeId: string
-  ordenServicioId?: string | null
-  citaPsicologoId?: string | null
   porcentaje: runtime.Decimal | runtime.DecimalJsLike | number | string
   valorBase: runtime.Decimal | runtime.DecimalJsLike | number | string
   valorComision: runtime.Decimal | runtime.DecimalJsLike | number | string
+  createdAt?: Date | string
+  citaPsicologoId?: string | null
   concepto?: string | null
   estadoPago?: $Enums.EstadoPagoComision
   fechaPago?: Date | string | null
-  createdAt?: Date | string
+  ordenServicioId?: string | null
 }
 
 export type CommissionRecordCreateOrConnectWithoutEmpresaInput = {
@@ -816,15 +816,15 @@ export type CommissionRecordUpdateManyWithWhereWithoutEmpresaInput = {
 
 export type CommissionRecordCreateWithoutOrganizationNodeInput = {
   id?: string
-  ordenServicioId?: string | null
-  citaPsicologoId?: string | null
   porcentaje: runtime.Decimal | runtime.DecimalJsLike | number | string
   valorBase: runtime.Decimal | runtime.DecimalJsLike | number | string
   valorComision: runtime.Decimal | runtime.DecimalJsLike | number | string
+  createdAt?: Date | string
+  citaPsicologoId?: string | null
   concepto?: string | null
   estadoPago?: $Enums.EstadoPagoComision
   fechaPago?: Date | string | null
-  createdAt?: Date | string
+  ordenServicioId?: string | null
   empresa: Prisma.EmpresaCreateNestedOneWithoutCommissionsInput
   tenant: Prisma.TenantCreateNestedOneWithoutCommissionsInput
 }
@@ -832,16 +832,16 @@ export type CommissionRecordCreateWithoutOrganizationNodeInput = {
 export type CommissionRecordUncheckedCreateWithoutOrganizationNodeInput = {
   id?: string
   tenantId: string
-  empresaId: string
-  ordenServicioId?: string | null
-  citaPsicologoId?: string | null
   porcentaje: runtime.Decimal | runtime.DecimalJsLike | number | string
   valorBase: runtime.Decimal | runtime.DecimalJsLike | number | string
   valorComision: runtime.Decimal | runtime.DecimalJsLike | number | string
+  createdAt?: Date | string
+  citaPsicologoId?: string | null
   concepto?: string | null
+  empresaId: string
   estadoPago?: $Enums.EstadoPagoComision
   fechaPago?: Date | string | null
-  createdAt?: Date | string
+  ordenServicioId?: string | null
 }
 
 export type CommissionRecordCreateOrConnectWithoutOrganizationNodeInput = {
@@ -872,90 +872,90 @@ export type CommissionRecordUpdateManyWithWhereWithoutOrganizationNodeInput = {
 
 export type CommissionRecordCreateManyTenantInput = {
   id?: string
-  empresaId: string
   organizationNodeId: string
-  ordenServicioId?: string | null
-  citaPsicologoId?: string | null
   porcentaje: runtime.Decimal | runtime.DecimalJsLike | number | string
   valorBase: runtime.Decimal | runtime.DecimalJsLike | number | string
   valorComision: runtime.Decimal | runtime.DecimalJsLike | number | string
+  createdAt?: Date | string
+  citaPsicologoId?: string | null
   concepto?: string | null
+  empresaId: string
   estadoPago?: $Enums.EstadoPagoComision
   fechaPago?: Date | string | null
-  createdAt?: Date | string
+  ordenServicioId?: string | null
 }
 
 export type CommissionRecordUpdateWithoutTenantInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  ordenServicioId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  citaPsicologoId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   porcentaje?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   valorBase?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   valorComision?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  citaPsicologoId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   concepto?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   estadoPago?: Prisma.EnumEstadoPagoComisionFieldUpdateOperationsInput | $Enums.EstadoPagoComision
   fechaPago?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  ordenServicioId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   empresa?: Prisma.EmpresaUpdateOneRequiredWithoutCommissionsNestedInput
   organizationNode?: Prisma.OrganizationNodeUpdateOneRequiredWithoutCommissionsNestedInput
 }
 
 export type CommissionRecordUncheckedUpdateWithoutTenantInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  empresaId?: Prisma.StringFieldUpdateOperationsInput | string
   organizationNodeId?: Prisma.StringFieldUpdateOperationsInput | string
-  ordenServicioId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  citaPsicologoId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   porcentaje?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   valorBase?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   valorComision?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  citaPsicologoId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   concepto?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  empresaId?: Prisma.StringFieldUpdateOperationsInput | string
   estadoPago?: Prisma.EnumEstadoPagoComisionFieldUpdateOperationsInput | $Enums.EstadoPagoComision
   fechaPago?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  ordenServicioId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type CommissionRecordUncheckedUpdateManyWithoutTenantInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  empresaId?: Prisma.StringFieldUpdateOperationsInput | string
   organizationNodeId?: Prisma.StringFieldUpdateOperationsInput | string
-  ordenServicioId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  citaPsicologoId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   porcentaje?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   valorBase?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   valorComision?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  citaPsicologoId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   concepto?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  empresaId?: Prisma.StringFieldUpdateOperationsInput | string
   estadoPago?: Prisma.EnumEstadoPagoComisionFieldUpdateOperationsInput | $Enums.EstadoPagoComision
   fechaPago?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  ordenServicioId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type CommissionRecordCreateManyEmpresaInput = {
   id?: string
   tenantId: string
   organizationNodeId: string
-  ordenServicioId?: string | null
-  citaPsicologoId?: string | null
   porcentaje: runtime.Decimal | runtime.DecimalJsLike | number | string
   valorBase: runtime.Decimal | runtime.DecimalJsLike | number | string
   valorComision: runtime.Decimal | runtime.DecimalJsLike | number | string
+  createdAt?: Date | string
+  citaPsicologoId?: string | null
   concepto?: string | null
   estadoPago?: $Enums.EstadoPagoComision
   fechaPago?: Date | string | null
-  createdAt?: Date | string
+  ordenServicioId?: string | null
 }
 
 export type CommissionRecordUpdateWithoutEmpresaInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  ordenServicioId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  citaPsicologoId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   porcentaje?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   valorBase?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   valorComision?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  citaPsicologoId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   concepto?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   estadoPago?: Prisma.EnumEstadoPagoComisionFieldUpdateOperationsInput | $Enums.EstadoPagoComision
   fechaPago?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  ordenServicioId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   organizationNode?: Prisma.OrganizationNodeUpdateOneRequiredWithoutCommissionsNestedInput
   tenant?: Prisma.TenantUpdateOneRequiredWithoutCommissionsNestedInput
 }
@@ -964,58 +964,58 @@ export type CommissionRecordUncheckedUpdateWithoutEmpresaInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   tenantId?: Prisma.StringFieldUpdateOperationsInput | string
   organizationNodeId?: Prisma.StringFieldUpdateOperationsInput | string
-  ordenServicioId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  citaPsicologoId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   porcentaje?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   valorBase?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   valorComision?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  citaPsicologoId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   concepto?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   estadoPago?: Prisma.EnumEstadoPagoComisionFieldUpdateOperationsInput | $Enums.EstadoPagoComision
   fechaPago?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  ordenServicioId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type CommissionRecordUncheckedUpdateManyWithoutEmpresaInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   tenantId?: Prisma.StringFieldUpdateOperationsInput | string
   organizationNodeId?: Prisma.StringFieldUpdateOperationsInput | string
-  ordenServicioId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  citaPsicologoId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   porcentaje?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   valorBase?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   valorComision?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  citaPsicologoId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   concepto?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   estadoPago?: Prisma.EnumEstadoPagoComisionFieldUpdateOperationsInput | $Enums.EstadoPagoComision
   fechaPago?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  ordenServicioId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type CommissionRecordCreateManyOrganizationNodeInput = {
   id?: string
   tenantId: string
-  empresaId: string
-  ordenServicioId?: string | null
-  citaPsicologoId?: string | null
   porcentaje: runtime.Decimal | runtime.DecimalJsLike | number | string
   valorBase: runtime.Decimal | runtime.DecimalJsLike | number | string
   valorComision: runtime.Decimal | runtime.DecimalJsLike | number | string
+  createdAt?: Date | string
+  citaPsicologoId?: string | null
   concepto?: string | null
+  empresaId: string
   estadoPago?: $Enums.EstadoPagoComision
   fechaPago?: Date | string | null
-  createdAt?: Date | string
+  ordenServicioId?: string | null
 }
 
 export type CommissionRecordUpdateWithoutOrganizationNodeInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  ordenServicioId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  citaPsicologoId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   porcentaje?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   valorBase?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   valorComision?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  citaPsicologoId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   concepto?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   estadoPago?: Prisma.EnumEstadoPagoComisionFieldUpdateOperationsInput | $Enums.EstadoPagoComision
   fechaPago?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  ordenServicioId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   empresa?: Prisma.EmpresaUpdateOneRequiredWithoutCommissionsNestedInput
   tenant?: Prisma.TenantUpdateOneRequiredWithoutCommissionsNestedInput
 }
@@ -1023,31 +1023,31 @@ export type CommissionRecordUpdateWithoutOrganizationNodeInput = {
 export type CommissionRecordUncheckedUpdateWithoutOrganizationNodeInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   tenantId?: Prisma.StringFieldUpdateOperationsInput | string
-  empresaId?: Prisma.StringFieldUpdateOperationsInput | string
-  ordenServicioId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  citaPsicologoId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   porcentaje?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   valorBase?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   valorComision?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  citaPsicologoId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   concepto?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  empresaId?: Prisma.StringFieldUpdateOperationsInput | string
   estadoPago?: Prisma.EnumEstadoPagoComisionFieldUpdateOperationsInput | $Enums.EstadoPagoComision
   fechaPago?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  ordenServicioId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type CommissionRecordUncheckedUpdateManyWithoutOrganizationNodeInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   tenantId?: Prisma.StringFieldUpdateOperationsInput | string
-  empresaId?: Prisma.StringFieldUpdateOperationsInput | string
-  ordenServicioId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  citaPsicologoId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   porcentaje?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   valorBase?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   valorComision?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  citaPsicologoId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   concepto?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  empresaId?: Prisma.StringFieldUpdateOperationsInput | string
   estadoPago?: Prisma.EnumEstadoPagoComisionFieldUpdateOperationsInput | $Enums.EstadoPagoComision
   fechaPago?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  ordenServicioId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 
@@ -1055,17 +1055,17 @@ export type CommissionRecordUncheckedUpdateManyWithoutOrganizationNodeInput = {
 export type CommissionRecordSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   tenantId?: boolean
-  empresaId?: boolean
   organizationNodeId?: boolean
-  ordenServicioId?: boolean
-  citaPsicologoId?: boolean
   porcentaje?: boolean
   valorBase?: boolean
   valorComision?: boolean
+  createdAt?: boolean
+  citaPsicologoId?: boolean
   concepto?: boolean
+  empresaId?: boolean
   estadoPago?: boolean
   fechaPago?: boolean
-  createdAt?: boolean
+  ordenServicioId?: boolean
   empresa?: boolean | Prisma.EmpresaDefaultArgs<ExtArgs>
   organizationNode?: boolean | Prisma.OrganizationNodeDefaultArgs<ExtArgs>
   tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
@@ -1074,17 +1074,17 @@ export type CommissionRecordSelect<ExtArgs extends runtime.Types.Extensions.Inte
 export type CommissionRecordSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   tenantId?: boolean
-  empresaId?: boolean
   organizationNodeId?: boolean
-  ordenServicioId?: boolean
-  citaPsicologoId?: boolean
   porcentaje?: boolean
   valorBase?: boolean
   valorComision?: boolean
+  createdAt?: boolean
+  citaPsicologoId?: boolean
   concepto?: boolean
+  empresaId?: boolean
   estadoPago?: boolean
   fechaPago?: boolean
-  createdAt?: boolean
+  ordenServicioId?: boolean
   empresa?: boolean | Prisma.EmpresaDefaultArgs<ExtArgs>
   organizationNode?: boolean | Prisma.OrganizationNodeDefaultArgs<ExtArgs>
   tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
@@ -1093,17 +1093,17 @@ export type CommissionRecordSelectCreateManyAndReturn<ExtArgs extends runtime.Ty
 export type CommissionRecordSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   tenantId?: boolean
-  empresaId?: boolean
   organizationNodeId?: boolean
-  ordenServicioId?: boolean
-  citaPsicologoId?: boolean
   porcentaje?: boolean
   valorBase?: boolean
   valorComision?: boolean
+  createdAt?: boolean
+  citaPsicologoId?: boolean
   concepto?: boolean
+  empresaId?: boolean
   estadoPago?: boolean
   fechaPago?: boolean
-  createdAt?: boolean
+  ordenServicioId?: boolean
   empresa?: boolean | Prisma.EmpresaDefaultArgs<ExtArgs>
   organizationNode?: boolean | Prisma.OrganizationNodeDefaultArgs<ExtArgs>
   tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
@@ -1112,20 +1112,20 @@ export type CommissionRecordSelectUpdateManyAndReturn<ExtArgs extends runtime.Ty
 export type CommissionRecordSelectScalar = {
   id?: boolean
   tenantId?: boolean
-  empresaId?: boolean
   organizationNodeId?: boolean
-  ordenServicioId?: boolean
-  citaPsicologoId?: boolean
   porcentaje?: boolean
   valorBase?: boolean
   valorComision?: boolean
+  createdAt?: boolean
+  citaPsicologoId?: boolean
   concepto?: boolean
+  empresaId?: boolean
   estadoPago?: boolean
   fechaPago?: boolean
-  createdAt?: boolean
+  ordenServicioId?: boolean
 }
 
-export type CommissionRecordOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "tenantId" | "empresaId" | "organizationNodeId" | "ordenServicioId" | "citaPsicologoId" | "porcentaje" | "valorBase" | "valorComision" | "concepto" | "estadoPago" | "fechaPago" | "createdAt", ExtArgs["result"]["commissionRecord"]>
+export type CommissionRecordOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "tenantId" | "organizationNodeId" | "porcentaje" | "valorBase" | "valorComision" | "createdAt" | "citaPsicologoId" | "concepto" | "empresaId" | "estadoPago" | "fechaPago" | "ordenServicioId", ExtArgs["result"]["commissionRecord"]>
 export type CommissionRecordInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   empresa?: boolean | Prisma.EmpresaDefaultArgs<ExtArgs>
   organizationNode?: boolean | Prisma.OrganizationNodeDefaultArgs<ExtArgs>
@@ -1152,17 +1152,17 @@ export type $CommissionRecordPayload<ExtArgs extends runtime.Types.Extensions.In
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
     tenantId: string
-    empresaId: string
     organizationNodeId: string
-    ordenServicioId: string | null
-    citaPsicologoId: string | null
     porcentaje: runtime.Decimal
     valorBase: runtime.Decimal
     valorComision: runtime.Decimal
+    createdAt: Date
+    citaPsicologoId: string | null
     concepto: string | null
+    empresaId: string
     estadoPago: $Enums.EstadoPagoComision
     fechaPago: Date | null
-    createdAt: Date
+    ordenServicioId: string | null
   }, ExtArgs["result"]["commissionRecord"]>
   composites: {}
 }
@@ -1591,17 +1591,17 @@ export interface Prisma__CommissionRecordClient<T, Null = never, ExtArgs extends
 export interface CommissionRecordFieldRefs {
   readonly id: Prisma.FieldRef<"CommissionRecord", 'String'>
   readonly tenantId: Prisma.FieldRef<"CommissionRecord", 'String'>
-  readonly empresaId: Prisma.FieldRef<"CommissionRecord", 'String'>
   readonly organizationNodeId: Prisma.FieldRef<"CommissionRecord", 'String'>
-  readonly ordenServicioId: Prisma.FieldRef<"CommissionRecord", 'String'>
-  readonly citaPsicologoId: Prisma.FieldRef<"CommissionRecord", 'String'>
   readonly porcentaje: Prisma.FieldRef<"CommissionRecord", 'Decimal'>
   readonly valorBase: Prisma.FieldRef<"CommissionRecord", 'Decimal'>
   readonly valorComision: Prisma.FieldRef<"CommissionRecord", 'Decimal'>
+  readonly createdAt: Prisma.FieldRef<"CommissionRecord", 'DateTime'>
+  readonly citaPsicologoId: Prisma.FieldRef<"CommissionRecord", 'String'>
   readonly concepto: Prisma.FieldRef<"CommissionRecord", 'String'>
+  readonly empresaId: Prisma.FieldRef<"CommissionRecord", 'String'>
   readonly estadoPago: Prisma.FieldRef<"CommissionRecord", 'EstadoPagoComision'>
   readonly fechaPago: Prisma.FieldRef<"CommissionRecord", 'DateTime'>
-  readonly createdAt: Prisma.FieldRef<"CommissionRecord", 'DateTime'>
+  readonly ordenServicioId: Prisma.FieldRef<"CommissionRecord", 'String'>
 }
     
 
