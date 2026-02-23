@@ -2,7 +2,7 @@
 
 import { cookies } from "next/headers";
 
-const apiUrl = process.env.API_URL || "http://127.0.0.1:4000";
+const apiUrl = process.env.NESTJS_API_URL || "http://127.0.0.1:4000";
 
 async function getAuthToken() {
   const cookieStore = await cookies();

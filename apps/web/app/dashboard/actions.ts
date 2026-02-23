@@ -1,6 +1,32 @@
 "use server";
 
 import { cookies } from "next/headers";
+import { revalidatePath } from "next/cache";
+
+async function getHeaders() {
+  const cookieStore = await cookies();
+  const token = cookieStore.get("access_token")?.value;
+  const enterpriseId = cookieStore.get("x-enterprise-id")?.value;
+  const testRole = cookieStore.get("x-test-role")?.value;
+
+  const headers: Record<string, string> = {
+    "Content-Type": "application/json",
+  };
+
+  if (token) {
+    headers["Authorization"] = `Bearer ${token}`;
+  }
+
+  if (enterpriseId) {
+    headers["x-enterprise-id"] = enterpriseId;
+  }
+
+  if (testRole) {
+    headers["x-test-role"] = testRole;
+  }
+
+  return headers;
+}
 
 export async function isTenantAdminAction() {
   const cookieStore = await cookies();
@@ -12,10 +38,9 @@ export async function isTenantAdminAction() {
 
   try {
     const apiUrl = process.env.NESTJS_API_URL || "http://localhost:4000";
+    const headers = await getHeaders();
     const response = await fetch(`${apiUrl}/auth/profile`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
+      headers,
     });
 
     if (!response.ok) return false;
@@ -106,20 +131,19 @@ export async function getPlansAction() {
 }
 
 export async function getClientesAction() {
-  const cookieStore = await cookies();
-  const token = cookieStore.get("access_token")?.value;
-
-  if (!token) return [];
-
   try {
     const apiUrl = process.env.NESTJS_API_URL || "http://127.0.0.1:4000";
-    const response = await fetch(`${apiUrl}/clientes`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
+    const headers = await getHeaders();
+    console.log("FETCHING CLIENTES FROM /list WITH HEADERS", headers);
+    const response = await fetch(`${apiUrl}/clientes/list`, {
+      headers,
+      cache: "no-store",
     });
 
-    if (!response.ok) return [];
+    if (!response.ok) {
+      console.error("getClientesAction: response not ok", response.status);
+      return [];
+    }
 
     const result = await response.json();
     return result.data || result;
@@ -240,10 +264,14 @@ export interface ClienteDTO {
   nombre?: string | null;
   apellido?: string | null;
   telefono: string;
+  telefono2?: string | null;
+  correo?: string | null;
   origenCliente?: string | null;
   tipoInteresId?: string | null;
   razonSocial?: string | null;
   nit?: string | null;
+  numeroDocumento?: string | null;
+  tipoDocumento?: string | null;
   actividadEconomica?: string | null;
   metrajeTotal?: number | null;
   segmentoId?: string | null;
@@ -339,29 +367,213 @@ export async function createClienteAction(payload: ClienteDTO) {
   const cookieStore = await cookies();
   const token = cookieStore.get("access_token")?.value;
 
-  if (!token) throw new Error("No session found");
+  if (!token) return { success: false, error: "No session found" };
+
+  // Sanitize UUID fields: convert empty strings to null to avoid Prisma validation errors
+  const sanitizedPayload = {
+    ...payload,
+    tipoInteresId: payload.tipoInteresId || null,
+    segmentoId: payload.segmentoId || null,
+    riesgoId: payload.riesgoId || null,
+  };
 
   try {
     const apiUrl = process.env.NESTJS_API_URL || "http://127.0.0.1:4000";
-    const response = await fetch(`${apiUrl}/clientes`, {
+    const response = await fetch(`${apiUrl}/clientes/create`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
       },
-      body: JSON.stringify(payload),
+      body: JSON.stringify(sanitizedPayload),
     });
 
     const result = await response.json();
 
     if (!response.ok) {
-      throw new Error(result.message || "Error al crear el cliente");
+      return { success: false, error: result.message || "Error al crear el cliente" };
     }
 
+    revalidatePath("/dashboard/clientes");
+    return { success: true, data: result.data || result };
+  } catch (error) {
+    if (error instanceof Error) return { success: false, error: error.message };
+    return { success: false, error: "Ocurrió un error inesperado" };
+  }
+}
+
+export async function getClienteByIdAction(id: string) {
+  try {
+    const apiUrl = process.env.NESTJS_API_URL || "http://127.0.0.1:4000";
+    const headers = await getHeaders();
+    const response = await fetch(`${apiUrl}/clientes/${id}`, {
+      headers,
+      cache: "no-store",
+    });
+
+    if (!response.ok) return null;
+
+    const result = await response.json();
     return result.data || result;
   } catch (error) {
-    if (error instanceof Error) throw error;
-    throw new Error("Ocurrió un error inesperado");
+    console.error("Error fetching client by id:", error);
+    return null;
+  }
+}
+
+export async function updateClienteAction(id: string, payload: Partial<ClienteDTO>) {
+  const cookieStore = await cookies();
+  const token = cookieStore.get("access_token")?.value;
+
+  if (!token) return { success: false, error: "No session found" };
+
+  const sanitizedPayload = {
+    ...payload,
+    tipoInteresId: payload.tipoInteresId || null,
+    segmentoId: payload.segmentoId || null,
+    riesgoId: payload.riesgoId || null,
+  };
+
+  try {
+    const apiUrl = process.env.NESTJS_API_URL || "http://127.0.0.1:4000";
+    const response = await fetch(`${apiUrl}/clientes/${id}`, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify(sanitizedPayload),
+    });
+
+    const result = await response.json();
+
+    if (!response.ok) {
+      return { success: false, error: result.message || "Error al actualizar el cliente" };
+    }
+
+    revalidatePath("/dashboard/clientes");
+    return { success: true, data: result.data || result };
+  } catch (error) {
+    if (error instanceof Error) return { success: false, error: error.message };
+    return { success: false, error: "Ocurrió un error inesperado" };
+  }
+}
+
+export async function deleteClienteAction(id: string) {
+  const cookieStore = await cookies();
+  const token = cookieStore.get("access_token")?.value;
+
+  if (!token) return { success: false, error: "No session found" };
+
+  try {
+    const apiUrl = process.env.NESTJS_API_URL || "http://127.0.0.1:4000";
+    const response = await fetch(`${apiUrl}/clientes/${id}`, {
+      method: "DELETE",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    if (!response.ok) {
+      const result = await response.json();
+      return { success: false, error: result.message || "Error al eliminar el cliente" };
+    }
+
+    revalidatePath("/dashboard/clientes");
+    return { success: true };
+  } catch (error) {
+    if (error instanceof Error) return { success: false, error: error.message };
+    return { success: false, error: "Ocurrió un error inesperado" };
+  }
+}
+
+
+export async function createEnterpriseAction(data: { nombre: string }) {
+  const cookieStore = await cookies();
+  const token = cookieStore.get("access_token")?.value;
+
+  if (!token) throw new Error("No session found");
+
+  const apiUrl = process.env.NESTJS_API_URL || "http://127.0.0.1:4000";
+  const response = await fetch(`${apiUrl}/enterprise/create`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify(data),
+  });
+  
+  const result = await response.json();
+  if (!response.ok) {
+    throw new Error(result.message || "Error al crear la empresa");
+  }
+  return result;
+}
+
+export async function updateEnterpriseAction(id: string, data: { nombre?: string; activo?: boolean }) {
+  const cookieStore = await cookies();
+  const token = cookieStore.get("access_token")?.value;
+
+  if (!token) throw new Error("No session found");
+
+  const apiUrl = process.env.NESTJS_API_URL || "http://127.0.0.1:4000";
+  const response = await fetch(`${apiUrl}/enterprise/${id}`, {
+    method: "PATCH",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify(data),
+  });
+  
+  const result = await response.json();
+  if (!response.ok) {
+    throw new Error(result.message || "Error al actualizar la empresa");
+  }
+  return result;
+}
+
+export async function deleteEnterpriseAction(id: string) {
+  const cookieStore = await cookies();
+  const token = cookieStore.get("access_token")?.value;
+
+  if (!token) throw new Error("No session found");
+
+  const apiUrl = process.env.NESTJS_API_URL || "http://127.0.0.1:4000";
+  const response = await fetch(`${apiUrl}/enterprise/${id}`, {
+    method: "DELETE",
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+  
+  const result = await response.json();
+  if (!response.ok) {
+    throw new Error(result.message || "Error al eliminar la empresa");
+  }
+  return result;
+}
+
+export async function getEnterprisesAction() {
+  const cookieStore = await cookies();
+  const token = cookieStore.get("access_token")?.value;
+
+  if (!token) return [];
+
+  try {
+    const apiUrl = process.env.NESTJS_API_URL || "http://127.0.0.1:4000";
+    const response = await fetch(`${apiUrl}/enterprise`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    if (!response.ok) return [];
+    const result = await response.json();
+    return result.data || result;
+  } catch (error) {
+    console.error("Error fetching enterprises:", error);
+    return [];
   }
 }
 

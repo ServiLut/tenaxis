@@ -3,6 +3,7 @@ import {
   Controller,
   Post,
   Get,
+  Patch,
   Request as NestRequest,
   UnauthorizedException,
 } from '@nestjs/common';
@@ -36,5 +37,22 @@ export class AuthController {
       throw new UnauthorizedException();
     }
     return this.authService.getProfile(token);
+  }
+
+  @Patch('test-role')
+  async updateTestRole(
+    @Body() body: { role: string },
+    @NestRequest() req: Request,
+  ) {
+    const authHeader = req.headers.authorization;
+    if (!authHeader) {
+      throw new UnauthorizedException();
+    }
+    const token = authHeader.split(' ')[1];
+    if (!token) {
+      throw new UnauthorizedException();
+    }
+    const profile = await this.authService.getProfile(token);
+    return this.authService.updateTestRole(profile.sub, body.role);
   }
 }

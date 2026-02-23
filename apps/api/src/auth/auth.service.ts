@@ -16,6 +16,7 @@ export interface JwtPayload {
   email: string;
   role: Role;
   tenantId?: string;
+  empresaId?: string;
 }
 
 @Injectable()
@@ -87,6 +88,34 @@ export class AuthService {
     } catch {
       throw new UnauthorizedException();
     }
+  }
+
+  async updateTestRole(userId: string, role: string) {
+    if (process.env.NODE_ENV === 'production') {
+      throw new UnauthorizedException('Not allowed in production');
+    }
+
+    const user = await this.prisma.user.findUnique({
+      where: { id: userId },
+      include: {
+        memberships: {
+          where: { aprobado: true },
+        },
+      },
+    });
+
+    if (!user || user.memberships.length === 0) {
+      throw new ConflictException('No active membership found');
+    }
+
+    const membership = user.memberships[0];
+
+    await this.prisma.tenantMembership.update({
+      where: { id: membership.id },
+      data: { role: role as Role },
+    });
+
+    return { success: true, role };
   }
 
   async register(dto: RegisterDto) {

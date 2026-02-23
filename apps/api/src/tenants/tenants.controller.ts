@@ -62,6 +62,16 @@ export class TenantsController {
     return this.tenantsService.getPendingMemberships(req.user.tenantId);
   }
 
+  @Get(':tenantId/memberships')
+  @UseGuards(JwtAuthGuard)
+  async findAllMemberships(@Request() req: RequestWithUser) {
+    if (!req.user.tenantId) {
+      throw new UnauthorizedException('No perteneces a ningún conglomerado');
+    }
+    // TODO: Validar que sea ADMIN o SU_ADMIN del tenant
+    return this.tenantsService.findAllMemberships(req.user.tenantId);
+  }
+
   @Post('memberships/:membershipId/approve')
   @UseGuards(JwtAuthGuard)
   async approveMembership(@Param('membershipId') membershipId: string) {

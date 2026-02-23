@@ -7,6 +7,7 @@ import {
   IsBoolean,
   IsArray,
   ValidateNested,
+  IsUUID,
 } from 'class-validator';
 import { Type } from 'class-transformer';
 import { TipoCliente } from '../../generated/client/enums';
@@ -40,7 +41,7 @@ class DireccionDto {
   @IsOptional()
   municipio?: string;
 
-  @IsString()
+  @IsUUID()
   @IsOptional()
   municipioId?: string;
 
@@ -173,7 +174,7 @@ export class CreateClienteDto {
   @IsOptional()
   origenCliente?: string;
 
-  @IsString()
+  @IsUUID()
   @IsOptional()
   tipoInteresId?: string;
 
@@ -184,7 +185,7 @@ export class CreateClienteDto {
   @IsOptional()
   metrajeTotal?: number | string;
 
-  @IsString()
+  @IsUUID()
   @IsOptional()
   segmentoId?: string;
 
@@ -192,7 +193,7 @@ export class CreateClienteDto {
   @IsOptional()
   subsegmento?: string;
 
-  @IsString()
+  @IsUUID()
   @IsOptional()
   riesgoId?: string;
 

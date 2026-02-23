@@ -1,0 +1,19 @@
+meta {
+  name: Get All Enterprises
+  type: http
+  seq: 3
+}
+
+get {
+  url: {{local}}/enterprise
+  body: none
+  auth: bearer
+}
+
+headers {
+  x-tenant-id: 0d003940-5049-4ebe-86f8-d62605e26a93
+}
+
+auth:bearer {
+  token: {{token}}
+}
