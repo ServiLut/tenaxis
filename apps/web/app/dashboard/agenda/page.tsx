@@ -188,7 +188,7 @@ function AgendaContent() {
           <Button variant="outline" className="h-11 px-5 rounded-xl gap-2 border-zinc-200 font-bold text-[10px] uppercase tracking-widest">
             <Filter className="h-3.5 w-3.5" /> Más filtros
           </Button>
-          <Button className="h-11 px-6 rounded-xl bg-zinc-900 text-white dark:bg-white dark:text-black font-black text-[10px] uppercase tracking-widest gap-2">
+          <Button className="h-11 px-6 rounded-xl bg-zinc-900 text-white dark:bg-zinc-800 dark:text-zinc-200 font-black text-[10px] uppercase tracking-widest gap-2">
             <CalendarDays className="h-3.5 w-3.5" /> Hoy
           </Button>
         </div>

@@ -123,14 +123,14 @@ export const UserScalarFieldEnum = {
   id: 'id',
   email: 'email',
   password: 'password',
-  nombre: 'nombre',
-  apellido: 'apellido',
-  telefono: 'telefono',
-  tipoDocumento: 'tipoDocumento',
-  numeroDocumento: 'numeroDocumento',
   isActive: 'isActive',
   createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
+  updatedAt: 'updatedAt',
+  apellido: 'apellido',
+  nombre: 'nombre',
+  numeroDocumento: 'numeroDocumento',
+  telefono: 'telefono',
+  tipoDocumento: 'tipoDocumento'
 } as const
 
 export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof UserScalarFieldEnum]
@@ -138,15 +138,15 @@ export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof User
 
 export const TenantScalarFieldEnum = {
   id: 'id',
-  nombre: 'nombre',
   slug: 'slug',
-  correo: 'correo',
-  nit: 'nit',
-  numero: 'numero',
-  pagina: 'pagina',
   isActive: 'isActive',
   createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
+  updatedAt: 'updatedAt',
+  correo: 'correo',
+  nit: 'nit',
+  nombre: 'nombre',
+  numero: 'numero',
+  pagina: 'pagina'
 } as const
 
 export type TenantScalarFieldEnum = (typeof TenantScalarFieldEnum)[keyof typeof TenantScalarFieldEnum]
@@ -154,15 +154,15 @@ export type TenantScalarFieldEnum = (typeof TenantScalarFieldEnum)[keyof typeof 
 
 export const PlanScalarFieldEnum = {
   id: 'id',
-  nombre: 'nombre',
-  descripcion: 'descripcion',
   durationDays: 'durationDays',
   maxUsers: 'maxUsers',
   maxOperators: 'maxOperators',
-  maxEmpresas: 'maxEmpresas',
   price: 'price',
   isActive: 'isActive',
   createdAt: 'createdAt',
+  descripcion: 'descripcion',
+  maxEmpresas: 'maxEmpresas',
+  nombre: 'nombre',
   updatedAt: 'updatedAt'
 } as const
 
@@ -192,17 +192,17 @@ export const TenantMembershipScalarFieldEnum = {
   tenantId: 'tenantId',
   role: 'role',
   status: 'status',
-  username: 'username',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
   activo: 'activo',
   aprobado: 'aprobado',
-  numberId: 'numberId',
-  whatsappGroupId: 'whatsappGroupId',
-  pushToken: 'pushToken',
-  placa: 'placa',
-  moto: 'moto',
   codigoReferido: 'codigoReferido',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
+  moto: 'moto',
+  numberId: 'numberId',
+  placa: 'placa',
+  pushToken: 'pushToken',
+  username: 'username',
+  whatsappGroupId: 'whatsappGroupId'
 } as const
 
 export type TenantMembershipScalarFieldEnum = (typeof TenantMembershipScalarFieldEnum)[keyof typeof TenantMembershipScalarFieldEnum]
@@ -228,10 +228,10 @@ export const EmpresaMembershipScalarFieldEnum = {
   empresaId: 'empresaId',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
-  deletedAt: 'deletedAt',
-  role: 'role',
   zonaId: 'zonaId',
-  activo: 'activo'
+  role: 'role',
+  activo: 'activo',
+  deletedAt: 'deletedAt'
 } as const
 
 export type EmpresaMembershipScalarFieldEnum = (typeof EmpresaMembershipScalarFieldEnum)[keyof typeof EmpresaMembershipScalarFieldEnum]
@@ -240,13 +240,13 @@ export type EmpresaMembershipScalarFieldEnum = (typeof EmpresaMembershipScalarFi
 export const OrganizationNodeScalarFieldEnum = {
   id: 'id',
   tenantId: 'tenantId',
-  empresaId: 'empresaId',
-  empresaMembershipId: 'empresaMembershipId',
   parentId: 'parentId',
   nivel: 'nivel',
   puedeTenerSubordinados: 'puedeTenerSubordinados',
   porcentajeComision: 'porcentajeComision',
   createdAt: 'createdAt',
+  empresaId: 'empresaId',
+  empresaMembershipId: 'empresaMembershipId',
   updatedAt: 'updatedAt'
 } as const
 
@@ -256,17 +256,17 @@ export type OrganizationNodeScalarFieldEnum = (typeof OrganizationNodeScalarFiel
 export const CommissionRecordScalarFieldEnum = {
   id: 'id',
   tenantId: 'tenantId',
-  empresaId: 'empresaId',
   organizationNodeId: 'organizationNodeId',
-  ordenServicioId: 'ordenServicioId',
-  citaPsicologoId: 'citaPsicologoId',
   porcentaje: 'porcentaje',
   valorBase: 'valorBase',
   valorComision: 'valorComision',
+  createdAt: 'createdAt',
+  citaPsicologoId: 'citaPsicologoId',
   concepto: 'concepto',
+  empresaId: 'empresaId',
   estadoPago: 'estadoPago',
   fechaPago: 'fechaPago',
-  createdAt: 'createdAt'
+  ordenServicioId: 'ordenServicioId'
 } as const
 
 export type CommissionRecordScalarFieldEnum = (typeof CommissionRecordScalarFieldEnum)[keyof typeof CommissionRecordScalarFieldEnum]
@@ -277,11 +277,11 @@ export const SegmentoNegocioScalarFieldEnum = {
   tenantId: 'tenantId',
   nombre: 'nombre',
   descripcion: 'descripcion',
-  frecuenciaSugerida: 'frecuenciaSugerida',
-  riesgoSugerido: 'riesgoSugerido',
   activo: 'activo',
   createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
+  updatedAt: 'updatedAt',
+  frecuenciaSugerida: 'frecuenciaSugerida',
+  riesgoSugerido: 'riesgoSugerido'
 } as const
 
 export type SegmentoNegocioScalarFieldEnum = (typeof SegmentoNegocioScalarFieldEnum)[keyof typeof SegmentoNegocioScalarFieldEnum]
@@ -306,11 +306,11 @@ export const TipoInteresScalarFieldEnum = {
   tenantId: 'tenantId',
   nombre: 'nombre',
   descripcion: 'descripcion',
-  frecuenciaSugerida: 'frecuenciaSugerida',
-  riesgoSugerido: 'riesgoSugerido',
   activo: 'activo',
   createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
+  updatedAt: 'updatedAt',
+  frecuenciaSugerida: 'frecuenciaSugerida',
+  riesgoSugerido: 'riesgoSugerido'
 } as const
 
 export type TipoInteresScalarFieldEnum = (typeof TipoInteresScalarFieldEnum)[keyof typeof TipoInteresScalarFieldEnum]
@@ -352,27 +352,27 @@ export const ClienteScalarFieldEnum = {
   createdAt: 'createdAt',
   deletedAt: 'deletedAt',
   aceptaMarketing: 'aceptaMarketing',
-  actividadEconomica: 'actividadEconomica',
   cargoContacto: 'cargoContacto',
   clasificacion: 'clasificacion',
   fechaConsentimiento: 'fechaConsentimiento',
   frecuenciaServicio: 'frecuenciaServicio',
-  metrajeTotal: 'metrajeTotal',
   nit: 'nit',
-  origenCliente: 'origenCliente',
   planActual: 'planActual',
   proximaVisita: 'proximaVisita',
   razonSocial: 'razonSocial',
   representanteLegal: 'representanteLegal',
-  riesgoId: 'riesgoId',
   score: 'score',
-  segmentoId: 'segmentoId',
   subsegmento: 'subsegmento',
   ticketPromedio: 'ticketPromedio',
   tipoCliente: 'tipoCliente',
-  tipoInteresId: 'tipoInteresId',
   ultimaVisita: 'ultimaVisita',
-  updatedAt: 'updatedAt'
+  updatedAt: 'updatedAt',
+  riesgoId: 'riesgoId',
+  segmentoId: 'segmentoId',
+  actividadEconomica: 'actividadEconomica',
+  metrajeTotal: 'metrajeTotal',
+  origenCliente: 'origenCliente',
+  tipoInteresId: 'tipoInteresId'
 } as const
 
 export type ClienteScalarFieldEnum = (typeof ClienteScalarFieldEnum)[keyof typeof ClienteScalarFieldEnum]
@@ -407,25 +407,25 @@ export const DireccionScalarFieldEnum = {
   municipio: 'municipio',
   linkMaps: 'linkMaps',
   createdAt: 'createdAt',
+  latitud: 'latitud',
+  longitud: 'longitud',
+  nombreSede: 'nombreSede',
+  updatedAt: 'updatedAt',
   activa: 'activa',
   bloqueada: 'bloqueada',
   cargoContacto: 'cargoContacto',
   clasificacionPunto: 'clasificacionPunto',
-  departmentId: 'departmentId',
   horarioFin: 'horarioFin',
   horarioInicio: 'horarioInicio',
-  latitud: 'latitud',
-  longitud: 'longitud',
   motivoBloqueo: 'motivoBloqueo',
   municipioId: 'municipioId',
   nombreContacto: 'nombreContacto',
-  nombreSede: 'nombreSede',
   precisionGPS: 'precisionGPS',
   restricciones: 'restricciones',
   telefonoContacto: 'telefonoContacto',
   tipoUbicacion: 'tipoUbicacion',
-  updatedAt: 'updatedAt',
-  validadoPorSistema: 'validadoPorSistema'
+  validadoPorSistema: 'validadoPorSistema',
+  departmentId: 'departmentId'
 } as const
 
 export type DireccionScalarFieldEnum = (typeof DireccionScalarFieldEnum)[keyof typeof DireccionScalarFieldEnum]

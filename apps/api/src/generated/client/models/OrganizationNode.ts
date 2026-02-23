@@ -39,39 +39,39 @@ export type OrganizationNodeSumAggregateOutputType = {
 export type OrganizationNodeMinAggregateOutputType = {
   id: string | null
   tenantId: string | null
-  empresaId: string | null
-  empresaMembershipId: string | null
   parentId: string | null
   nivel: number | null
   puedeTenerSubordinados: boolean | null
   porcentajeComision: runtime.Decimal | null
   createdAt: Date | null
+  empresaId: string | null
+  empresaMembershipId: string | null
   updatedAt: Date | null
 }
 
 export type OrganizationNodeMaxAggregateOutputType = {
   id: string | null
   tenantId: string | null
-  empresaId: string | null
-  empresaMembershipId: string | null
   parentId: string | null
   nivel: number | null
   puedeTenerSubordinados: boolean | null
   porcentajeComision: runtime.Decimal | null
   createdAt: Date | null
+  empresaId: string | null
+  empresaMembershipId: string | null
   updatedAt: Date | null
 }
 
 export type OrganizationNodeCountAggregateOutputType = {
   id: number
   tenantId: number
-  empresaId: number
-  empresaMembershipId: number
   parentId: number
   nivel: number
   puedeTenerSubordinados: number
   porcentajeComision: number
   createdAt: number
+  empresaId: number
+  empresaMembershipId: number
   updatedAt: number
   _all: number
 }
@@ -90,39 +90,39 @@ export type OrganizationNodeSumAggregateInputType = {
 export type OrganizationNodeMinAggregateInputType = {
   id?: true
   tenantId?: true
-  empresaId?: true
-  empresaMembershipId?: true
   parentId?: true
   nivel?: true
   puedeTenerSubordinados?: true
   porcentajeComision?: true
   createdAt?: true
+  empresaId?: true
+  empresaMembershipId?: true
   updatedAt?: true
 }
 
 export type OrganizationNodeMaxAggregateInputType = {
   id?: true
   tenantId?: true
-  empresaId?: true
-  empresaMembershipId?: true
   parentId?: true
   nivel?: true
   puedeTenerSubordinados?: true
   porcentajeComision?: true
   createdAt?: true
+  empresaId?: true
+  empresaMembershipId?: true
   updatedAt?: true
 }
 
 export type OrganizationNodeCountAggregateInputType = {
   id?: true
   tenantId?: true
-  empresaId?: true
-  empresaMembershipId?: true
   parentId?: true
   nivel?: true
   puedeTenerSubordinados?: true
   porcentajeComision?: true
   createdAt?: true
+  empresaId?: true
+  empresaMembershipId?: true
   updatedAt?: true
   _all?: true
 }
@@ -216,13 +216,13 @@ export type OrganizationNodeGroupByArgs<ExtArgs extends runtime.Types.Extensions
 export type OrganizationNodeGroupByOutputType = {
   id: string
   tenantId: string
-  empresaId: string
-  empresaMembershipId: string
   parentId: string | null
   nivel: number
   puedeTenerSubordinados: boolean
   porcentajeComision: runtime.Decimal | null
   createdAt: Date
+  empresaId: string
+  empresaMembershipId: string
   updatedAt: Date
   _count: OrganizationNodeCountAggregateOutputType | null
   _avg: OrganizationNodeAvgAggregateOutputType | null
@@ -252,13 +252,13 @@ export type OrganizationNodeWhereInput = {
   NOT?: Prisma.OrganizationNodeWhereInput | Prisma.OrganizationNodeWhereInput[]
   id?: Prisma.UuidFilter<"OrganizationNode"> | string
   tenantId?: Prisma.UuidFilter<"OrganizationNode"> | string
-  empresaId?: Prisma.UuidFilter<"OrganizationNode"> | string
-  empresaMembershipId?: Prisma.UuidFilter<"OrganizationNode"> | string
   parentId?: Prisma.UuidNullableFilter<"OrganizationNode"> | string | null
   nivel?: Prisma.IntFilter<"OrganizationNode"> | number
   puedeTenerSubordinados?: Prisma.BoolFilter<"OrganizationNode"> | boolean
   porcentajeComision?: Prisma.DecimalNullableFilter<"OrganizationNode"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   createdAt?: Prisma.DateTimeFilter<"OrganizationNode"> | Date | string
+  empresaId?: Prisma.UuidFilter<"OrganizationNode"> | string
+  empresaMembershipId?: Prisma.UuidFilter<"OrganizationNode"> | string
   updatedAt?: Prisma.DateTimeFilter<"OrganizationNode"> | Date | string
   commissions?: Prisma.CommissionRecordListRelationFilter
   empresa?: Prisma.XOR<Prisma.EmpresaScalarRelationFilter, Prisma.EmpresaWhereInput>
@@ -271,13 +271,13 @@ export type OrganizationNodeWhereInput = {
 export type OrganizationNodeOrderByWithRelationInput = {
   id?: Prisma.SortOrder
   tenantId?: Prisma.SortOrder
-  empresaId?: Prisma.SortOrder
-  empresaMembershipId?: Prisma.SortOrder
   parentId?: Prisma.SortOrderInput | Prisma.SortOrder
   nivel?: Prisma.SortOrder
   puedeTenerSubordinados?: Prisma.SortOrder
   porcentajeComision?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
+  empresaId?: Prisma.SortOrder
+  empresaMembershipId?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   commissions?: Prisma.CommissionRecordOrderByRelationAggregateInput
   empresa?: Prisma.EmpresaOrderByWithRelationInput
@@ -294,12 +294,12 @@ export type OrganizationNodeWhereUniqueInput = Prisma.AtLeast<{
   OR?: Prisma.OrganizationNodeWhereInput[]
   NOT?: Prisma.OrganizationNodeWhereInput | Prisma.OrganizationNodeWhereInput[]
   tenantId?: Prisma.UuidFilter<"OrganizationNode"> | string
-  empresaId?: Prisma.UuidFilter<"OrganizationNode"> | string
   parentId?: Prisma.UuidNullableFilter<"OrganizationNode"> | string | null
   nivel?: Prisma.IntFilter<"OrganizationNode"> | number
   puedeTenerSubordinados?: Prisma.BoolFilter<"OrganizationNode"> | boolean
   porcentajeComision?: Prisma.DecimalNullableFilter<"OrganizationNode"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   createdAt?: Prisma.DateTimeFilter<"OrganizationNode"> | Date | string
+  empresaId?: Prisma.UuidFilter<"OrganizationNode"> | string
   updatedAt?: Prisma.DateTimeFilter<"OrganizationNode"> | Date | string
   commissions?: Prisma.CommissionRecordListRelationFilter
   empresa?: Prisma.XOR<Prisma.EmpresaScalarRelationFilter, Prisma.EmpresaWhereInput>
@@ -312,13 +312,13 @@ export type OrganizationNodeWhereUniqueInput = Prisma.AtLeast<{
 export type OrganizationNodeOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
   tenantId?: Prisma.SortOrder
-  empresaId?: Prisma.SortOrder
-  empresaMembershipId?: Prisma.SortOrder
   parentId?: Prisma.SortOrderInput | Prisma.SortOrder
   nivel?: Prisma.SortOrder
   puedeTenerSubordinados?: Prisma.SortOrder
   porcentajeComision?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
+  empresaId?: Prisma.SortOrder
+  empresaMembershipId?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   _count?: Prisma.OrganizationNodeCountOrderByAggregateInput
   _avg?: Prisma.OrganizationNodeAvgOrderByAggregateInput
@@ -333,13 +333,13 @@ export type OrganizationNodeScalarWhereWithAggregatesInput = {
   NOT?: Prisma.OrganizationNodeScalarWhereWithAggregatesInput | Prisma.OrganizationNodeScalarWhereWithAggregatesInput[]
   id?: Prisma.UuidWithAggregatesFilter<"OrganizationNode"> | string
   tenantId?: Prisma.UuidWithAggregatesFilter<"OrganizationNode"> | string
-  empresaId?: Prisma.UuidWithAggregatesFilter<"OrganizationNode"> | string
-  empresaMembershipId?: Prisma.UuidWithAggregatesFilter<"OrganizationNode"> | string
   parentId?: Prisma.UuidNullableWithAggregatesFilter<"OrganizationNode"> | string | null
   nivel?: Prisma.IntWithAggregatesFilter<"OrganizationNode"> | number
   puedeTenerSubordinados?: Prisma.BoolWithAggregatesFilter<"OrganizationNode"> | boolean
   porcentajeComision?: Prisma.DecimalNullableWithAggregatesFilter<"OrganizationNode"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"OrganizationNode"> | Date | string
+  empresaId?: Prisma.UuidWithAggregatesFilter<"OrganizationNode"> | string
+  empresaMembershipId?: Prisma.UuidWithAggregatesFilter<"OrganizationNode"> | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"OrganizationNode"> | Date | string
 }
 
@@ -361,13 +361,13 @@ export type OrganizationNodeCreateInput = {
 export type OrganizationNodeUncheckedCreateInput = {
   id?: string
   tenantId: string
-  empresaId: string
-  empresaMembershipId: string
   parentId?: string | null
   nivel?: number
   puedeTenerSubordinados?: boolean
   porcentajeComision?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   createdAt?: Date | string
+  empresaId: string
+  empresaMembershipId: string
   updatedAt?: Date | string
   commissions?: Prisma.CommissionRecordUncheckedCreateNestedManyWithoutOrganizationNodeInput
   children?: Prisma.OrganizationNodeUncheckedCreateNestedManyWithoutParentInput
@@ -391,13 +391,13 @@ export type OrganizationNodeUpdateInput = {
 export type OrganizationNodeUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   tenantId?: Prisma.StringFieldUpdateOperationsInput | string
-  empresaId?: Prisma.StringFieldUpdateOperationsInput | string
-  empresaMembershipId?: Prisma.StringFieldUpdateOperationsInput | string
   parentId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   nivel?: Prisma.IntFieldUpdateOperationsInput | number
   puedeTenerSubordinados?: Prisma.BoolFieldUpdateOperationsInput | boolean
   porcentajeComision?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  empresaId?: Prisma.StringFieldUpdateOperationsInput | string
+  empresaMembershipId?: Prisma.StringFieldUpdateOperationsInput | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   commissions?: Prisma.CommissionRecordUncheckedUpdateManyWithoutOrganizationNodeNestedInput
   children?: Prisma.OrganizationNodeUncheckedUpdateManyWithoutParentNestedInput
@@ -406,13 +406,13 @@ export type OrganizationNodeUncheckedUpdateInput = {
 export type OrganizationNodeCreateManyInput = {
   id?: string
   tenantId: string
-  empresaId: string
-  empresaMembershipId: string
   parentId?: string | null
   nivel?: number
   puedeTenerSubordinados?: boolean
   porcentajeComision?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   createdAt?: Date | string
+  empresaId: string
+  empresaMembershipId: string
   updatedAt?: Date | string
 }
 
@@ -428,13 +428,13 @@ export type OrganizationNodeUpdateManyMutationInput = {
 export type OrganizationNodeUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   tenantId?: Prisma.StringFieldUpdateOperationsInput | string
-  empresaId?: Prisma.StringFieldUpdateOperationsInput | string
-  empresaMembershipId?: Prisma.StringFieldUpdateOperationsInput | string
   parentId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   nivel?: Prisma.IntFieldUpdateOperationsInput | number
   puedeTenerSubordinados?: Prisma.BoolFieldUpdateOperationsInput | boolean
   porcentajeComision?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  empresaId?: Prisma.StringFieldUpdateOperationsInput | string
+  empresaMembershipId?: Prisma.StringFieldUpdateOperationsInput | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -456,13 +456,13 @@ export type OrganizationNodeNullableScalarRelationFilter = {
 export type OrganizationNodeCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   tenantId?: Prisma.SortOrder
-  empresaId?: Prisma.SortOrder
-  empresaMembershipId?: Prisma.SortOrder
   parentId?: Prisma.SortOrder
   nivel?: Prisma.SortOrder
   puedeTenerSubordinados?: Prisma.SortOrder
   porcentajeComision?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
+  empresaId?: Prisma.SortOrder
+  empresaMembershipId?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
 
@@ -474,26 +474,26 @@ export type OrganizationNodeAvgOrderByAggregateInput = {
 export type OrganizationNodeMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
   tenantId?: Prisma.SortOrder
-  empresaId?: Prisma.SortOrder
-  empresaMembershipId?: Prisma.SortOrder
   parentId?: Prisma.SortOrder
   nivel?: Prisma.SortOrder
   puedeTenerSubordinados?: Prisma.SortOrder
   porcentajeComision?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
+  empresaId?: Prisma.SortOrder
+  empresaMembershipId?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
 
 export type OrganizationNodeMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
   tenantId?: Prisma.SortOrder
-  empresaId?: Prisma.SortOrder
-  empresaMembershipId?: Prisma.SortOrder
   parentId?: Prisma.SortOrder
   nivel?: Prisma.SortOrder
   puedeTenerSubordinados?: Prisma.SortOrder
   porcentajeComision?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
+  empresaId?: Prisma.SortOrder
+  empresaMembershipId?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
 
@@ -719,13 +719,13 @@ export type OrganizationNodeCreateWithoutTenantInput = {
 
 export type OrganizationNodeUncheckedCreateWithoutTenantInput = {
   id?: string
-  empresaId: string
-  empresaMembershipId: string
   parentId?: string | null
   nivel?: number
   puedeTenerSubordinados?: boolean
   porcentajeComision?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   createdAt?: Date | string
+  empresaId: string
+  empresaMembershipId: string
   updatedAt?: Date | string
   commissions?: Prisma.CommissionRecordUncheckedCreateNestedManyWithoutOrganizationNodeInput
   children?: Prisma.OrganizationNodeUncheckedCreateNestedManyWithoutParentInput
@@ -763,13 +763,13 @@ export type OrganizationNodeScalarWhereInput = {
   NOT?: Prisma.OrganizationNodeScalarWhereInput | Prisma.OrganizationNodeScalarWhereInput[]
   id?: Prisma.UuidFilter<"OrganizationNode"> | string
   tenantId?: Prisma.UuidFilter<"OrganizationNode"> | string
-  empresaId?: Prisma.UuidFilter<"OrganizationNode"> | string
-  empresaMembershipId?: Prisma.UuidFilter<"OrganizationNode"> | string
   parentId?: Prisma.UuidNullableFilter<"OrganizationNode"> | string | null
   nivel?: Prisma.IntFilter<"OrganizationNode"> | number
   puedeTenerSubordinados?: Prisma.BoolFilter<"OrganizationNode"> | boolean
   porcentajeComision?: Prisma.DecimalNullableFilter<"OrganizationNode"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   createdAt?: Prisma.DateTimeFilter<"OrganizationNode"> | Date | string
+  empresaId?: Prisma.UuidFilter<"OrganizationNode"> | string
+  empresaMembershipId?: Prisma.UuidFilter<"OrganizationNode"> | string
   updatedAt?: Prisma.DateTimeFilter<"OrganizationNode"> | Date | string
 }
 
@@ -790,12 +790,12 @@ export type OrganizationNodeCreateWithoutEmpresaInput = {
 export type OrganizationNodeUncheckedCreateWithoutEmpresaInput = {
   id?: string
   tenantId: string
-  empresaMembershipId: string
   parentId?: string | null
   nivel?: number
   puedeTenerSubordinados?: boolean
   porcentajeComision?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   createdAt?: Date | string
+  empresaMembershipId: string
   updatedAt?: Date | string
   commissions?: Prisma.CommissionRecordUncheckedCreateNestedManyWithoutOrganizationNodeInput
   children?: Prisma.OrganizationNodeUncheckedCreateNestedManyWithoutParentInput
@@ -844,12 +844,12 @@ export type OrganizationNodeCreateWithoutEmpresaMembershipInput = {
 export type OrganizationNodeUncheckedCreateWithoutEmpresaMembershipInput = {
   id?: string
   tenantId: string
-  empresaId: string
   parentId?: string | null
   nivel?: number
   puedeTenerSubordinados?: boolean
   porcentajeComision?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   createdAt?: Date | string
+  empresaId: string
   updatedAt?: Date | string
   commissions?: Prisma.CommissionRecordUncheckedCreateNestedManyWithoutOrganizationNodeInput
   children?: Prisma.OrganizationNodeUncheckedCreateNestedManyWithoutParentInput
@@ -888,12 +888,12 @@ export type OrganizationNodeUpdateWithoutEmpresaMembershipInput = {
 export type OrganizationNodeUncheckedUpdateWithoutEmpresaMembershipInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   tenantId?: Prisma.StringFieldUpdateOperationsInput | string
-  empresaId?: Prisma.StringFieldUpdateOperationsInput | string
   parentId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   nivel?: Prisma.IntFieldUpdateOperationsInput | number
   puedeTenerSubordinados?: Prisma.BoolFieldUpdateOperationsInput | boolean
   porcentajeComision?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  empresaId?: Prisma.StringFieldUpdateOperationsInput | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   commissions?: Prisma.CommissionRecordUncheckedUpdateManyWithoutOrganizationNodeNestedInput
   children?: Prisma.OrganizationNodeUncheckedUpdateManyWithoutParentNestedInput
@@ -916,13 +916,13 @@ export type OrganizationNodeCreateWithoutChildrenInput = {
 export type OrganizationNodeUncheckedCreateWithoutChildrenInput = {
   id?: string
   tenantId: string
-  empresaId: string
-  empresaMembershipId: string
   parentId?: string | null
   nivel?: number
   puedeTenerSubordinados?: boolean
   porcentajeComision?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   createdAt?: Date | string
+  empresaId: string
+  empresaMembershipId: string
   updatedAt?: Date | string
   commissions?: Prisma.CommissionRecordUncheckedCreateNestedManyWithoutOrganizationNodeInput
 }
@@ -949,12 +949,12 @@ export type OrganizationNodeCreateWithoutParentInput = {
 export type OrganizationNodeUncheckedCreateWithoutParentInput = {
   id?: string
   tenantId: string
-  empresaId: string
-  empresaMembershipId: string
   nivel?: number
   puedeTenerSubordinados?: boolean
   porcentajeComision?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   createdAt?: Date | string
+  empresaId: string
+  empresaMembershipId: string
   updatedAt?: Date | string
   commissions?: Prisma.CommissionRecordUncheckedCreateNestedManyWithoutOrganizationNodeInput
   children?: Prisma.OrganizationNodeUncheckedCreateNestedManyWithoutParentInput
@@ -998,13 +998,13 @@ export type OrganizationNodeUpdateWithoutChildrenInput = {
 export type OrganizationNodeUncheckedUpdateWithoutChildrenInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   tenantId?: Prisma.StringFieldUpdateOperationsInput | string
-  empresaId?: Prisma.StringFieldUpdateOperationsInput | string
-  empresaMembershipId?: Prisma.StringFieldUpdateOperationsInput | string
   parentId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   nivel?: Prisma.IntFieldUpdateOperationsInput | number
   puedeTenerSubordinados?: Prisma.BoolFieldUpdateOperationsInput | boolean
   porcentajeComision?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  empresaId?: Prisma.StringFieldUpdateOperationsInput | string
+  empresaMembershipId?: Prisma.StringFieldUpdateOperationsInput | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   commissions?: Prisma.CommissionRecordUncheckedUpdateManyWithoutOrganizationNodeNestedInput
 }
@@ -1042,13 +1042,13 @@ export type OrganizationNodeCreateWithoutCommissionsInput = {
 export type OrganizationNodeUncheckedCreateWithoutCommissionsInput = {
   id?: string
   tenantId: string
-  empresaId: string
-  empresaMembershipId: string
   parentId?: string | null
   nivel?: number
   puedeTenerSubordinados?: boolean
   porcentajeComision?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   createdAt?: Date | string
+  empresaId: string
+  empresaMembershipId: string
   updatedAt?: Date | string
   children?: Prisma.OrganizationNodeUncheckedCreateNestedManyWithoutParentInput
 }
@@ -1086,26 +1086,26 @@ export type OrganizationNodeUpdateWithoutCommissionsInput = {
 export type OrganizationNodeUncheckedUpdateWithoutCommissionsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   tenantId?: Prisma.StringFieldUpdateOperationsInput | string
-  empresaId?: Prisma.StringFieldUpdateOperationsInput | string
-  empresaMembershipId?: Prisma.StringFieldUpdateOperationsInput | string
   parentId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   nivel?: Prisma.IntFieldUpdateOperationsInput | number
   puedeTenerSubordinados?: Prisma.BoolFieldUpdateOperationsInput | boolean
   porcentajeComision?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  empresaId?: Prisma.StringFieldUpdateOperationsInput | string
+  empresaMembershipId?: Prisma.StringFieldUpdateOperationsInput | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   children?: Prisma.OrganizationNodeUncheckedUpdateManyWithoutParentNestedInput
 }
 
 export type OrganizationNodeCreateManyTenantInput = {
   id?: string
-  empresaId: string
-  empresaMembershipId: string
   parentId?: string | null
   nivel?: number
   puedeTenerSubordinados?: boolean
   porcentajeComision?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   createdAt?: Date | string
+  empresaId: string
+  empresaMembershipId: string
   updatedAt?: Date | string
 }
 
@@ -1125,13 +1125,13 @@ export type OrganizationNodeUpdateWithoutTenantInput = {
 
 export type OrganizationNodeUncheckedUpdateWithoutTenantInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  empresaId?: Prisma.StringFieldUpdateOperationsInput | string
-  empresaMembershipId?: Prisma.StringFieldUpdateOperationsInput | string
   parentId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   nivel?: Prisma.IntFieldUpdateOperationsInput | number
   puedeTenerSubordinados?: Prisma.BoolFieldUpdateOperationsInput | boolean
   porcentajeComision?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  empresaId?: Prisma.StringFieldUpdateOperationsInput | string
+  empresaMembershipId?: Prisma.StringFieldUpdateOperationsInput | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   commissions?: Prisma.CommissionRecordUncheckedUpdateManyWithoutOrganizationNodeNestedInput
   children?: Prisma.OrganizationNodeUncheckedUpdateManyWithoutParentNestedInput
@@ -1139,25 +1139,25 @@ export type OrganizationNodeUncheckedUpdateWithoutTenantInput = {
 
 export type OrganizationNodeUncheckedUpdateManyWithoutTenantInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  empresaId?: Prisma.StringFieldUpdateOperationsInput | string
-  empresaMembershipId?: Prisma.StringFieldUpdateOperationsInput | string
   parentId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   nivel?: Prisma.IntFieldUpdateOperationsInput | number
   puedeTenerSubordinados?: Prisma.BoolFieldUpdateOperationsInput | boolean
   porcentajeComision?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  empresaId?: Prisma.StringFieldUpdateOperationsInput | string
+  empresaMembershipId?: Prisma.StringFieldUpdateOperationsInput | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type OrganizationNodeCreateManyEmpresaInput = {
   id?: string
   tenantId: string
-  empresaMembershipId: string
   parentId?: string | null
   nivel?: number
   puedeTenerSubordinados?: boolean
   porcentajeComision?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   createdAt?: Date | string
+  empresaMembershipId: string
   updatedAt?: Date | string
 }
 
@@ -1178,12 +1178,12 @@ export type OrganizationNodeUpdateWithoutEmpresaInput = {
 export type OrganizationNodeUncheckedUpdateWithoutEmpresaInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   tenantId?: Prisma.StringFieldUpdateOperationsInput | string
-  empresaMembershipId?: Prisma.StringFieldUpdateOperationsInput | string
   parentId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   nivel?: Prisma.IntFieldUpdateOperationsInput | number
   puedeTenerSubordinados?: Prisma.BoolFieldUpdateOperationsInput | boolean
   porcentajeComision?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  empresaMembershipId?: Prisma.StringFieldUpdateOperationsInput | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   commissions?: Prisma.CommissionRecordUncheckedUpdateManyWithoutOrganizationNodeNestedInput
   children?: Prisma.OrganizationNodeUncheckedUpdateManyWithoutParentNestedInput
@@ -1192,24 +1192,24 @@ export type OrganizationNodeUncheckedUpdateWithoutEmpresaInput = {
 export type OrganizationNodeUncheckedUpdateManyWithoutEmpresaInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   tenantId?: Prisma.StringFieldUpdateOperationsInput | string
-  empresaMembershipId?: Prisma.StringFieldUpdateOperationsInput | string
   parentId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   nivel?: Prisma.IntFieldUpdateOperationsInput | number
   puedeTenerSubordinados?: Prisma.BoolFieldUpdateOperationsInput | boolean
   porcentajeComision?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  empresaMembershipId?: Prisma.StringFieldUpdateOperationsInput | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type OrganizationNodeCreateManyParentInput = {
   id?: string
   tenantId: string
-  empresaId: string
-  empresaMembershipId: string
   nivel?: number
   puedeTenerSubordinados?: boolean
   porcentajeComision?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   createdAt?: Date | string
+  empresaId: string
+  empresaMembershipId: string
   updatedAt?: Date | string
 }
 
@@ -1230,12 +1230,12 @@ export type OrganizationNodeUpdateWithoutParentInput = {
 export type OrganizationNodeUncheckedUpdateWithoutParentInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   tenantId?: Prisma.StringFieldUpdateOperationsInput | string
-  empresaId?: Prisma.StringFieldUpdateOperationsInput | string
-  empresaMembershipId?: Prisma.StringFieldUpdateOperationsInput | string
   nivel?: Prisma.IntFieldUpdateOperationsInput | number
   puedeTenerSubordinados?: Prisma.BoolFieldUpdateOperationsInput | boolean
   porcentajeComision?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  empresaId?: Prisma.StringFieldUpdateOperationsInput | string
+  empresaMembershipId?: Prisma.StringFieldUpdateOperationsInput | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   commissions?: Prisma.CommissionRecordUncheckedUpdateManyWithoutOrganizationNodeNestedInput
   children?: Prisma.OrganizationNodeUncheckedUpdateManyWithoutParentNestedInput
@@ -1244,12 +1244,12 @@ export type OrganizationNodeUncheckedUpdateWithoutParentInput = {
 export type OrganizationNodeUncheckedUpdateManyWithoutParentInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   tenantId?: Prisma.StringFieldUpdateOperationsInput | string
-  empresaId?: Prisma.StringFieldUpdateOperationsInput | string
-  empresaMembershipId?: Prisma.StringFieldUpdateOperationsInput | string
   nivel?: Prisma.IntFieldUpdateOperationsInput | number
   puedeTenerSubordinados?: Prisma.BoolFieldUpdateOperationsInput | boolean
   porcentajeComision?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  empresaId?: Prisma.StringFieldUpdateOperationsInput | string
+  empresaMembershipId?: Prisma.StringFieldUpdateOperationsInput | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -1296,13 +1296,13 @@ export type OrganizationNodeCountOutputTypeCountChildrenArgs<ExtArgs extends run
 export type OrganizationNodeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   tenantId?: boolean
-  empresaId?: boolean
-  empresaMembershipId?: boolean
   parentId?: boolean
   nivel?: boolean
   puedeTenerSubordinados?: boolean
   porcentajeComision?: boolean
   createdAt?: boolean
+  empresaId?: boolean
+  empresaMembershipId?: boolean
   updatedAt?: boolean
   commissions?: boolean | Prisma.OrganizationNode$commissionsArgs<ExtArgs>
   empresa?: boolean | Prisma.EmpresaDefaultArgs<ExtArgs>
@@ -1316,13 +1316,13 @@ export type OrganizationNodeSelect<ExtArgs extends runtime.Types.Extensions.Inte
 export type OrganizationNodeSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   tenantId?: boolean
-  empresaId?: boolean
-  empresaMembershipId?: boolean
   parentId?: boolean
   nivel?: boolean
   puedeTenerSubordinados?: boolean
   porcentajeComision?: boolean
   createdAt?: boolean
+  empresaId?: boolean
+  empresaMembershipId?: boolean
   updatedAt?: boolean
   empresa?: boolean | Prisma.EmpresaDefaultArgs<ExtArgs>
   empresaMembership?: boolean | Prisma.EmpresaMembershipDefaultArgs<ExtArgs>
@@ -1333,13 +1333,13 @@ export type OrganizationNodeSelectCreateManyAndReturn<ExtArgs extends runtime.Ty
 export type OrganizationNodeSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   tenantId?: boolean
-  empresaId?: boolean
-  empresaMembershipId?: boolean
   parentId?: boolean
   nivel?: boolean
   puedeTenerSubordinados?: boolean
   porcentajeComision?: boolean
   createdAt?: boolean
+  empresaId?: boolean
+  empresaMembershipId?: boolean
   updatedAt?: boolean
   empresa?: boolean | Prisma.EmpresaDefaultArgs<ExtArgs>
   empresaMembership?: boolean | Prisma.EmpresaMembershipDefaultArgs<ExtArgs>
@@ -1350,17 +1350,17 @@ export type OrganizationNodeSelectUpdateManyAndReturn<ExtArgs extends runtime.Ty
 export type OrganizationNodeSelectScalar = {
   id?: boolean
   tenantId?: boolean
-  empresaId?: boolean
-  empresaMembershipId?: boolean
   parentId?: boolean
   nivel?: boolean
   puedeTenerSubordinados?: boolean
   porcentajeComision?: boolean
   createdAt?: boolean
+  empresaId?: boolean
+  empresaMembershipId?: boolean
   updatedAt?: boolean
 }
 
-export type OrganizationNodeOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "tenantId" | "empresaId" | "empresaMembershipId" | "parentId" | "nivel" | "puedeTenerSubordinados" | "porcentajeComision" | "createdAt" | "updatedAt", ExtArgs["result"]["organizationNode"]>
+export type OrganizationNodeOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "tenantId" | "parentId" | "nivel" | "puedeTenerSubordinados" | "porcentajeComision" | "createdAt" | "empresaId" | "empresaMembershipId" | "updatedAt", ExtArgs["result"]["organizationNode"]>
 export type OrganizationNodeInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   commissions?: boolean | Prisma.OrganizationNode$commissionsArgs<ExtArgs>
   empresa?: boolean | Prisma.EmpresaDefaultArgs<ExtArgs>
@@ -1396,13 +1396,13 @@ export type $OrganizationNodePayload<ExtArgs extends runtime.Types.Extensions.In
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
     tenantId: string
-    empresaId: string
-    empresaMembershipId: string
     parentId: string | null
     nivel: number
     puedeTenerSubordinados: boolean
     porcentajeComision: runtime.Decimal | null
     createdAt: Date
+    empresaId: string
+    empresaMembershipId: string
     updatedAt: Date
   }, ExtArgs["result"]["organizationNode"]>
   composites: {}
@@ -1835,13 +1835,13 @@ export interface Prisma__OrganizationNodeClient<T, Null = never, ExtArgs extends
 export interface OrganizationNodeFieldRefs {
   readonly id: Prisma.FieldRef<"OrganizationNode", 'String'>
   readonly tenantId: Prisma.FieldRef<"OrganizationNode", 'String'>
-  readonly empresaId: Prisma.FieldRef<"OrganizationNode", 'String'>
-  readonly empresaMembershipId: Prisma.FieldRef<"OrganizationNode", 'String'>
   readonly parentId: Prisma.FieldRef<"OrganizationNode", 'String'>
   readonly nivel: Prisma.FieldRef<"OrganizationNode", 'Int'>
   readonly puedeTenerSubordinados: Prisma.FieldRef<"OrganizationNode", 'Boolean'>
   readonly porcentajeComision: Prisma.FieldRef<"OrganizationNode", 'Decimal'>
   readonly createdAt: Prisma.FieldRef<"OrganizationNode", 'DateTime'>
+  readonly empresaId: Prisma.FieldRef<"OrganizationNode", 'String'>
+  readonly empresaMembershipId: Prisma.FieldRef<"OrganizationNode", 'String'>
   readonly updatedAt: Prisma.FieldRef<"OrganizationNode", 'DateTime'>
 }
     
