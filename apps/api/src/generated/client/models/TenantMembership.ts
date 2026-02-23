@@ -35,9 +35,11 @@ export type TenantMembershipMinAggregateOutputType = {
   activo: boolean | null
   aprobado: boolean | null
   codigoReferido: string | null
-  moto: boolean | null
   numberId: string | null
   placa: string | null
+  moto: boolean | null
+  direccion: string | null
+  municipioId: string | null
   pushToken: string | null
   username: string | null
   whatsappGroupId: string | null
@@ -54,9 +56,11 @@ export type TenantMembershipMaxAggregateOutputType = {
   activo: boolean | null
   aprobado: boolean | null
   codigoReferido: string | null
-  moto: boolean | null
   numberId: string | null
   placa: string | null
+  moto: boolean | null
+  direccion: string | null
+  municipioId: string | null
   pushToken: string | null
   username: string | null
   whatsappGroupId: string | null
@@ -73,9 +77,11 @@ export type TenantMembershipCountAggregateOutputType = {
   activo: number
   aprobado: number
   codigoReferido: number
-  moto: number
   numberId: number
   placa: number
+  moto: number
+  direccion: number
+  municipioId: number
   pushToken: number
   username: number
   whatsappGroupId: number
@@ -94,9 +100,11 @@ export type TenantMembershipMinAggregateInputType = {
   activo?: true
   aprobado?: true
   codigoReferido?: true
-  moto?: true
   numberId?: true
   placa?: true
+  moto?: true
+  direccion?: true
+  municipioId?: true
   pushToken?: true
   username?: true
   whatsappGroupId?: true
@@ -113,9 +121,11 @@ export type TenantMembershipMaxAggregateInputType = {
   activo?: true
   aprobado?: true
   codigoReferido?: true
-  moto?: true
   numberId?: true
   placa?: true
+  moto?: true
+  direccion?: true
+  municipioId?: true
   pushToken?: true
   username?: true
   whatsappGroupId?: true
@@ -132,9 +142,11 @@ export type TenantMembershipCountAggregateInputType = {
   activo?: true
   aprobado?: true
   codigoReferido?: true
-  moto?: true
   numberId?: true
   placa?: true
+  moto?: true
+  direccion?: true
+  municipioId?: true
   pushToken?: true
   username?: true
   whatsappGroupId?: true
@@ -224,9 +236,11 @@ export type TenantMembershipGroupByOutputType = {
   activo: boolean
   aprobado: boolean
   codigoReferido: string | null
-  moto: boolean | null
   numberId: string | null
   placa: string | null
+  moto: boolean | null
+  direccion: string | null
+  municipioId: string | null
   pushToken: string | null
   username: string | null
   whatsappGroupId: string | null
@@ -264,9 +278,11 @@ export type TenantMembershipWhereInput = {
   activo?: Prisma.BoolFilter<"TenantMembership"> | boolean
   aprobado?: Prisma.BoolFilter<"TenantMembership"> | boolean
   codigoReferido?: Prisma.StringNullableFilter<"TenantMembership"> | string | null
-  moto?: Prisma.BoolNullableFilter<"TenantMembership"> | boolean | null
   numberId?: Prisma.StringNullableFilter<"TenantMembership"> | string | null
   placa?: Prisma.StringNullableFilter<"TenantMembership"> | string | null
+  moto?: Prisma.BoolNullableFilter<"TenantMembership"> | boolean | null
+  direccion?: Prisma.StringNullableFilter<"TenantMembership"> | string | null
+  municipioId?: Prisma.UuidNullableFilter<"TenantMembership"> | string | null
   pushToken?: Prisma.StringNullableFilter<"TenantMembership"> | string | null
   username?: Prisma.StringNullableFilter<"TenantMembership"> | string | null
   whatsappGroupId?: Prisma.StringNullableFilter<"TenantMembership"> | string | null
@@ -295,6 +311,7 @@ export type TenantMembershipWhereInput = {
   sesionesActividad?: Prisma.SesionActividadListRelationFilter
   tenant?: Prisma.XOR<Prisma.TenantScalarRelationFilter, Prisma.TenantWhereInput>
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
+  municipio?: Prisma.XOR<Prisma.MunicipalityNullableScalarRelationFilter, Prisma.MunicipalityWhereInput> | null
   turnos?: Prisma.TurnoListRelationFilter
 }
 
@@ -309,9 +326,11 @@ export type TenantMembershipOrderByWithRelationInput = {
   activo?: Prisma.SortOrder
   aprobado?: Prisma.SortOrder
   codigoReferido?: Prisma.SortOrderInput | Prisma.SortOrder
-  moto?: Prisma.SortOrderInput | Prisma.SortOrder
   numberId?: Prisma.SortOrderInput | Prisma.SortOrder
   placa?: Prisma.SortOrderInput | Prisma.SortOrder
+  moto?: Prisma.SortOrderInput | Prisma.SortOrder
+  direccion?: Prisma.SortOrderInput | Prisma.SortOrder
+  municipioId?: Prisma.SortOrderInput | Prisma.SortOrder
   pushToken?: Prisma.SortOrderInput | Prisma.SortOrder
   username?: Prisma.SortOrderInput | Prisma.SortOrder
   whatsappGroupId?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -340,6 +359,7 @@ export type TenantMembershipOrderByWithRelationInput = {
   sesionesActividad?: Prisma.SesionActividadOrderByRelationAggregateInput
   tenant?: Prisma.TenantOrderByWithRelationInput
   user?: Prisma.UserOrderByWithRelationInput
+  municipio?: Prisma.MunicipalityOrderByWithRelationInput
   turnos?: Prisma.TurnoOrderByRelationAggregateInput
 }
 
@@ -358,9 +378,11 @@ export type TenantMembershipWhereUniqueInput = Prisma.AtLeast<{
   activo?: Prisma.BoolFilter<"TenantMembership"> | boolean
   aprobado?: Prisma.BoolFilter<"TenantMembership"> | boolean
   codigoReferido?: Prisma.StringNullableFilter<"TenantMembership"> | string | null
-  moto?: Prisma.BoolNullableFilter<"TenantMembership"> | boolean | null
   numberId?: Prisma.StringNullableFilter<"TenantMembership"> | string | null
   placa?: Prisma.StringNullableFilter<"TenantMembership"> | string | null
+  moto?: Prisma.BoolNullableFilter<"TenantMembership"> | boolean | null
+  direccion?: Prisma.StringNullableFilter<"TenantMembership"> | string | null
+  municipioId?: Prisma.UuidNullableFilter<"TenantMembership"> | string | null
   pushToken?: Prisma.StringNullableFilter<"TenantMembership"> | string | null
   username?: Prisma.StringNullableFilter<"TenantMembership"> | string | null
   whatsappGroupId?: Prisma.StringNullableFilter<"TenantMembership"> | string | null
@@ -389,6 +411,7 @@ export type TenantMembershipWhereUniqueInput = Prisma.AtLeast<{
   sesionesActividad?: Prisma.SesionActividadListRelationFilter
   tenant?: Prisma.XOR<Prisma.TenantScalarRelationFilter, Prisma.TenantWhereInput>
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
+  municipio?: Prisma.XOR<Prisma.MunicipalityNullableScalarRelationFilter, Prisma.MunicipalityWhereInput> | null
   turnos?: Prisma.TurnoListRelationFilter
 }, "id" | "userId_tenantId">
 
@@ -403,9 +426,11 @@ export type TenantMembershipOrderByWithAggregationInput = {
   activo?: Prisma.SortOrder
   aprobado?: Prisma.SortOrder
   codigoReferido?: Prisma.SortOrderInput | Prisma.SortOrder
-  moto?: Prisma.SortOrderInput | Prisma.SortOrder
   numberId?: Prisma.SortOrderInput | Prisma.SortOrder
   placa?: Prisma.SortOrderInput | Prisma.SortOrder
+  moto?: Prisma.SortOrderInput | Prisma.SortOrder
+  direccion?: Prisma.SortOrderInput | Prisma.SortOrder
+  municipioId?: Prisma.SortOrderInput | Prisma.SortOrder
   pushToken?: Prisma.SortOrderInput | Prisma.SortOrder
   username?: Prisma.SortOrderInput | Prisma.SortOrder
   whatsappGroupId?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -428,9 +453,11 @@ export type TenantMembershipScalarWhereWithAggregatesInput = {
   activo?: Prisma.BoolWithAggregatesFilter<"TenantMembership"> | boolean
   aprobado?: Prisma.BoolWithAggregatesFilter<"TenantMembership"> | boolean
   codigoReferido?: Prisma.StringNullableWithAggregatesFilter<"TenantMembership"> | string | null
-  moto?: Prisma.BoolNullableWithAggregatesFilter<"TenantMembership"> | boolean | null
   numberId?: Prisma.StringNullableWithAggregatesFilter<"TenantMembership"> | string | null
   placa?: Prisma.StringNullableWithAggregatesFilter<"TenantMembership"> | string | null
+  moto?: Prisma.BoolNullableWithAggregatesFilter<"TenantMembership"> | boolean | null
+  direccion?: Prisma.StringNullableWithAggregatesFilter<"TenantMembership"> | string | null
+  municipioId?: Prisma.UuidNullableWithAggregatesFilter<"TenantMembership"> | string | null
   pushToken?: Prisma.StringNullableWithAggregatesFilter<"TenantMembership"> | string | null
   username?: Prisma.StringNullableWithAggregatesFilter<"TenantMembership"> | string | null
   whatsappGroupId?: Prisma.StringNullableWithAggregatesFilter<"TenantMembership"> | string | null
@@ -445,9 +472,10 @@ export type TenantMembershipCreateInput = {
   activo?: boolean
   aprobado?: boolean
   codigoReferido?: string | null
-  moto?: boolean | null
   numberId?: string | null
   placa?: string | null
+  moto?: boolean | null
+  direccion?: string | null
   pushToken?: string | null
   username?: string | null
   whatsappGroupId?: string | null
@@ -476,6 +504,7 @@ export type TenantMembershipCreateInput = {
   sesionesActividad?: Prisma.SesionActividadCreateNestedManyWithoutMembershipInput
   tenant: Prisma.TenantCreateNestedOneWithoutMembershipsInput
   user: Prisma.UserCreateNestedOneWithoutMembershipsInput
+  municipio?: Prisma.MunicipalityCreateNestedOneWithoutMembershipsInput
   turnos?: Prisma.TurnoCreateNestedManyWithoutMembershipInput
 }
 
@@ -490,9 +519,11 @@ export type TenantMembershipUncheckedCreateInput = {
   activo?: boolean
   aprobado?: boolean
   codigoReferido?: string | null
-  moto?: boolean | null
   numberId?: string | null
   placa?: string | null
+  moto?: boolean | null
+  direccion?: string | null
+  municipioId?: string | null
   pushToken?: string | null
   username?: string | null
   whatsappGroupId?: string | null
@@ -531,9 +562,10 @@ export type TenantMembershipUpdateInput = {
   activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
   aprobado?: Prisma.BoolFieldUpdateOperationsInput | boolean
   codigoReferido?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  moto?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   numberId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   placa?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  moto?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  direccion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   pushToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   whatsappGroupId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -562,6 +594,7 @@ export type TenantMembershipUpdateInput = {
   sesionesActividad?: Prisma.SesionActividadUpdateManyWithoutMembershipNestedInput
   tenant?: Prisma.TenantUpdateOneRequiredWithoutMembershipsNestedInput
   user?: Prisma.UserUpdateOneRequiredWithoutMembershipsNestedInput
+  municipio?: Prisma.MunicipalityUpdateOneWithoutMembershipsNestedInput
   turnos?: Prisma.TurnoUpdateManyWithoutMembershipNestedInput
 }
 
@@ -576,9 +609,11 @@ export type TenantMembershipUncheckedUpdateInput = {
   activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
   aprobado?: Prisma.BoolFieldUpdateOperationsInput | boolean
   codigoReferido?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  moto?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   numberId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   placa?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  moto?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  direccion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  municipioId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   pushToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   whatsappGroupId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -619,9 +654,11 @@ export type TenantMembershipCreateManyInput = {
   activo?: boolean
   aprobado?: boolean
   codigoReferido?: string | null
-  moto?: boolean | null
   numberId?: string | null
   placa?: string | null
+  moto?: boolean | null
+  direccion?: string | null
+  municipioId?: string | null
   pushToken?: string | null
   username?: string | null
   whatsappGroupId?: string | null
@@ -636,9 +673,10 @@ export type TenantMembershipUpdateManyMutationInput = {
   activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
   aprobado?: Prisma.BoolFieldUpdateOperationsInput | boolean
   codigoReferido?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  moto?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   numberId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   placa?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  moto?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  direccion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   pushToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   whatsappGroupId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -655,9 +693,11 @@ export type TenantMembershipUncheckedUpdateManyInput = {
   activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
   aprobado?: Prisma.BoolFieldUpdateOperationsInput | boolean
   codigoReferido?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  moto?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   numberId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   placa?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  moto?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  direccion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  municipioId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   pushToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   whatsappGroupId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -689,9 +729,11 @@ export type TenantMembershipCountOrderByAggregateInput = {
   activo?: Prisma.SortOrder
   aprobado?: Prisma.SortOrder
   codigoReferido?: Prisma.SortOrder
-  moto?: Prisma.SortOrder
   numberId?: Prisma.SortOrder
   placa?: Prisma.SortOrder
+  moto?: Prisma.SortOrder
+  direccion?: Prisma.SortOrder
+  municipioId?: Prisma.SortOrder
   pushToken?: Prisma.SortOrder
   username?: Prisma.SortOrder
   whatsappGroupId?: Prisma.SortOrder
@@ -708,9 +750,11 @@ export type TenantMembershipMaxOrderByAggregateInput = {
   activo?: Prisma.SortOrder
   aprobado?: Prisma.SortOrder
   codigoReferido?: Prisma.SortOrder
-  moto?: Prisma.SortOrder
   numberId?: Prisma.SortOrder
   placa?: Prisma.SortOrder
+  moto?: Prisma.SortOrder
+  direccion?: Prisma.SortOrder
+  municipioId?: Prisma.SortOrder
   pushToken?: Prisma.SortOrder
   username?: Prisma.SortOrder
   whatsappGroupId?: Prisma.SortOrder
@@ -727,9 +771,11 @@ export type TenantMembershipMinOrderByAggregateInput = {
   activo?: Prisma.SortOrder
   aprobado?: Prisma.SortOrder
   codigoReferido?: Prisma.SortOrder
-  moto?: Prisma.SortOrder
   numberId?: Prisma.SortOrder
   placa?: Prisma.SortOrder
+  moto?: Prisma.SortOrder
+  direccion?: Prisma.SortOrder
+  municipioId?: Prisma.SortOrder
   pushToken?: Prisma.SortOrder
   username?: Prisma.SortOrder
   whatsappGroupId?: Prisma.SortOrder
@@ -853,6 +899,48 @@ export type TenantMembershipUpdateOneRequiredWithoutEmpresaMembershipsNestedInpu
   upsert?: Prisma.TenantMembershipUpsertWithoutEmpresaMembershipsInput
   connect?: Prisma.TenantMembershipWhereUniqueInput
   update?: Prisma.XOR<Prisma.XOR<Prisma.TenantMembershipUpdateToOneWithWhereWithoutEmpresaMembershipsInput, Prisma.TenantMembershipUpdateWithoutEmpresaMembershipsInput>, Prisma.TenantMembershipUncheckedUpdateWithoutEmpresaMembershipsInput>
+}
+
+export type TenantMembershipCreateNestedManyWithoutMunicipioInput = {
+  create?: Prisma.XOR<Prisma.TenantMembershipCreateWithoutMunicipioInput, Prisma.TenantMembershipUncheckedCreateWithoutMunicipioInput> | Prisma.TenantMembershipCreateWithoutMunicipioInput[] | Prisma.TenantMembershipUncheckedCreateWithoutMunicipioInput[]
+  connectOrCreate?: Prisma.TenantMembershipCreateOrConnectWithoutMunicipioInput | Prisma.TenantMembershipCreateOrConnectWithoutMunicipioInput[]
+  createMany?: Prisma.TenantMembershipCreateManyMunicipioInputEnvelope
+  connect?: Prisma.TenantMembershipWhereUniqueInput | Prisma.TenantMembershipWhereUniqueInput[]
+}
+
+export type TenantMembershipUncheckedCreateNestedManyWithoutMunicipioInput = {
+  create?: Prisma.XOR<Prisma.TenantMembershipCreateWithoutMunicipioInput, Prisma.TenantMembershipUncheckedCreateWithoutMunicipioInput> | Prisma.TenantMembershipCreateWithoutMunicipioInput[] | Prisma.TenantMembershipUncheckedCreateWithoutMunicipioInput[]
+  connectOrCreate?: Prisma.TenantMembershipCreateOrConnectWithoutMunicipioInput | Prisma.TenantMembershipCreateOrConnectWithoutMunicipioInput[]
+  createMany?: Prisma.TenantMembershipCreateManyMunicipioInputEnvelope
+  connect?: Prisma.TenantMembershipWhereUniqueInput | Prisma.TenantMembershipWhereUniqueInput[]
+}
+
+export type TenantMembershipUpdateManyWithoutMunicipioNestedInput = {
+  create?: Prisma.XOR<Prisma.TenantMembershipCreateWithoutMunicipioInput, Prisma.TenantMembershipUncheckedCreateWithoutMunicipioInput> | Prisma.TenantMembershipCreateWithoutMunicipioInput[] | Prisma.TenantMembershipUncheckedCreateWithoutMunicipioInput[]
+  connectOrCreate?: Prisma.TenantMembershipCreateOrConnectWithoutMunicipioInput | Prisma.TenantMembershipCreateOrConnectWithoutMunicipioInput[]
+  upsert?: Prisma.TenantMembershipUpsertWithWhereUniqueWithoutMunicipioInput | Prisma.TenantMembershipUpsertWithWhereUniqueWithoutMunicipioInput[]
+  createMany?: Prisma.TenantMembershipCreateManyMunicipioInputEnvelope
+  set?: Prisma.TenantMembershipWhereUniqueInput | Prisma.TenantMembershipWhereUniqueInput[]
+  disconnect?: Prisma.TenantMembershipWhereUniqueInput | Prisma.TenantMembershipWhereUniqueInput[]
+  delete?: Prisma.TenantMembershipWhereUniqueInput | Prisma.TenantMembershipWhereUniqueInput[]
+  connect?: Prisma.TenantMembershipWhereUniqueInput | Prisma.TenantMembershipWhereUniqueInput[]
+  update?: Prisma.TenantMembershipUpdateWithWhereUniqueWithoutMunicipioInput | Prisma.TenantMembershipUpdateWithWhereUniqueWithoutMunicipioInput[]
+  updateMany?: Prisma.TenantMembershipUpdateManyWithWhereWithoutMunicipioInput | Prisma.TenantMembershipUpdateManyWithWhereWithoutMunicipioInput[]
+  deleteMany?: Prisma.TenantMembershipScalarWhereInput | Prisma.TenantMembershipScalarWhereInput[]
+}
+
+export type TenantMembershipUncheckedUpdateManyWithoutMunicipioNestedInput = {
+  create?: Prisma.XOR<Prisma.TenantMembershipCreateWithoutMunicipioInput, Prisma.TenantMembershipUncheckedCreateWithoutMunicipioInput> | Prisma.TenantMembershipCreateWithoutMunicipioInput[] | Prisma.TenantMembershipUncheckedCreateWithoutMunicipioInput[]
+  connectOrCreate?: Prisma.TenantMembershipCreateOrConnectWithoutMunicipioInput | Prisma.TenantMembershipCreateOrConnectWithoutMunicipioInput[]
+  upsert?: Prisma.TenantMembershipUpsertWithWhereUniqueWithoutMunicipioInput | Prisma.TenantMembershipUpsertWithWhereUniqueWithoutMunicipioInput[]
+  createMany?: Prisma.TenantMembershipCreateManyMunicipioInputEnvelope
+  set?: Prisma.TenantMembershipWhereUniqueInput | Prisma.TenantMembershipWhereUniqueInput[]
+  disconnect?: Prisma.TenantMembershipWhereUniqueInput | Prisma.TenantMembershipWhereUniqueInput[]
+  delete?: Prisma.TenantMembershipWhereUniqueInput | Prisma.TenantMembershipWhereUniqueInput[]
+  connect?: Prisma.TenantMembershipWhereUniqueInput | Prisma.TenantMembershipWhereUniqueInput[]
+  update?: Prisma.TenantMembershipUpdateWithWhereUniqueWithoutMunicipioInput | Prisma.TenantMembershipUpdateWithWhereUniqueWithoutMunicipioInput[]
+  updateMany?: Prisma.TenantMembershipUpdateManyWithWhereWithoutMunicipioInput | Prisma.TenantMembershipUpdateManyWithWhereWithoutMunicipioInput[]
+  deleteMany?: Prisma.TenantMembershipScalarWhereInput | Prisma.TenantMembershipScalarWhereInput[]
 }
 
 export type TenantMembershipCreateNestedOneWithoutClientesCreadosInput = {
@@ -1202,9 +1290,10 @@ export type TenantMembershipCreateWithoutUserInput = {
   activo?: boolean
   aprobado?: boolean
   codigoReferido?: string | null
-  moto?: boolean | null
   numberId?: string | null
   placa?: string | null
+  moto?: boolean | null
+  direccion?: string | null
   pushToken?: string | null
   username?: string | null
   whatsappGroupId?: string | null
@@ -1232,6 +1321,7 @@ export type TenantMembershipCreateWithoutUserInput = {
   referidos?: Prisma.ReferidosCreateNestedManyWithoutMembershipInput
   sesionesActividad?: Prisma.SesionActividadCreateNestedManyWithoutMembershipInput
   tenant: Prisma.TenantCreateNestedOneWithoutMembershipsInput
+  municipio?: Prisma.MunicipalityCreateNestedOneWithoutMembershipsInput
   turnos?: Prisma.TurnoCreateNestedManyWithoutMembershipInput
 }
 
@@ -1245,9 +1335,11 @@ export type TenantMembershipUncheckedCreateWithoutUserInput = {
   activo?: boolean
   aprobado?: boolean
   codigoReferido?: string | null
-  moto?: boolean | null
   numberId?: string | null
   placa?: string | null
+  moto?: boolean | null
+  direccion?: string | null
+  municipioId?: string | null
   pushToken?: string | null
   username?: string | null
   whatsappGroupId?: string | null
@@ -1317,9 +1409,11 @@ export type TenantMembershipScalarWhereInput = {
   activo?: Prisma.BoolFilter<"TenantMembership"> | boolean
   aprobado?: Prisma.BoolFilter<"TenantMembership"> | boolean
   codigoReferido?: Prisma.StringNullableFilter<"TenantMembership"> | string | null
-  moto?: Prisma.BoolNullableFilter<"TenantMembership"> | boolean | null
   numberId?: Prisma.StringNullableFilter<"TenantMembership"> | string | null
   placa?: Prisma.StringNullableFilter<"TenantMembership"> | string | null
+  moto?: Prisma.BoolNullableFilter<"TenantMembership"> | boolean | null
+  direccion?: Prisma.StringNullableFilter<"TenantMembership"> | string | null
+  municipioId?: Prisma.UuidNullableFilter<"TenantMembership"> | string | null
   pushToken?: Prisma.StringNullableFilter<"TenantMembership"> | string | null
   username?: Prisma.StringNullableFilter<"TenantMembership"> | string | null
   whatsappGroupId?: Prisma.StringNullableFilter<"TenantMembership"> | string | null
@@ -1334,9 +1428,10 @@ export type TenantMembershipCreateWithoutTenantInput = {
   activo?: boolean
   aprobado?: boolean
   codigoReferido?: string | null
-  moto?: boolean | null
   numberId?: string | null
   placa?: string | null
+  moto?: boolean | null
+  direccion?: string | null
   pushToken?: string | null
   username?: string | null
   whatsappGroupId?: string | null
@@ -1364,6 +1459,7 @@ export type TenantMembershipCreateWithoutTenantInput = {
   referidos?: Prisma.ReferidosCreateNestedManyWithoutMembershipInput
   sesionesActividad?: Prisma.SesionActividadCreateNestedManyWithoutMembershipInput
   user: Prisma.UserCreateNestedOneWithoutMembershipsInput
+  municipio?: Prisma.MunicipalityCreateNestedOneWithoutMembershipsInput
   turnos?: Prisma.TurnoCreateNestedManyWithoutMembershipInput
 }
 
@@ -1377,9 +1473,11 @@ export type TenantMembershipUncheckedCreateWithoutTenantInput = {
   activo?: boolean
   aprobado?: boolean
   codigoReferido?: string | null
-  moto?: boolean | null
   numberId?: string | null
   placa?: string | null
+  moto?: boolean | null
+  direccion?: string | null
+  municipioId?: string | null
   pushToken?: string | null
   username?: string | null
   whatsappGroupId?: string | null
@@ -1444,9 +1542,10 @@ export type TenantMembershipCreateWithoutEmpresaMembershipsInput = {
   activo?: boolean
   aprobado?: boolean
   codigoReferido?: string | null
-  moto?: boolean | null
   numberId?: string | null
   placa?: string | null
+  moto?: boolean | null
+  direccion?: string | null
   pushToken?: string | null
   username?: string | null
   whatsappGroupId?: string | null
@@ -1474,6 +1573,7 @@ export type TenantMembershipCreateWithoutEmpresaMembershipsInput = {
   sesionesActividad?: Prisma.SesionActividadCreateNestedManyWithoutMembershipInput
   tenant: Prisma.TenantCreateNestedOneWithoutMembershipsInput
   user: Prisma.UserCreateNestedOneWithoutMembershipsInput
+  municipio?: Prisma.MunicipalityCreateNestedOneWithoutMembershipsInput
   turnos?: Prisma.TurnoCreateNestedManyWithoutMembershipInput
 }
 
@@ -1488,9 +1588,11 @@ export type TenantMembershipUncheckedCreateWithoutEmpresaMembershipsInput = {
   activo?: boolean
   aprobado?: boolean
   codigoReferido?: string | null
-  moto?: boolean | null
   numberId?: string | null
   placa?: string | null
+  moto?: boolean | null
+  direccion?: string | null
+  municipioId?: string | null
   pushToken?: string | null
   username?: string | null
   whatsappGroupId?: string | null
@@ -1544,9 +1646,10 @@ export type TenantMembershipUpdateWithoutEmpresaMembershipsInput = {
   activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
   aprobado?: Prisma.BoolFieldUpdateOperationsInput | boolean
   codigoReferido?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  moto?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   numberId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   placa?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  moto?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  direccion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   pushToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   whatsappGroupId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1574,6 +1677,7 @@ export type TenantMembershipUpdateWithoutEmpresaMembershipsInput = {
   sesionesActividad?: Prisma.SesionActividadUpdateManyWithoutMembershipNestedInput
   tenant?: Prisma.TenantUpdateOneRequiredWithoutMembershipsNestedInput
   user?: Prisma.UserUpdateOneRequiredWithoutMembershipsNestedInput
+  municipio?: Prisma.MunicipalityUpdateOneWithoutMembershipsNestedInput
   turnos?: Prisma.TurnoUpdateManyWithoutMembershipNestedInput
 }
 
@@ -1588,9 +1692,11 @@ export type TenantMembershipUncheckedUpdateWithoutEmpresaMembershipsInput = {
   activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
   aprobado?: Prisma.BoolFieldUpdateOperationsInput | boolean
   codigoReferido?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  moto?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   numberId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   placa?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  moto?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  direccion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  municipioId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   pushToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   whatsappGroupId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1619,6 +1725,120 @@ export type TenantMembershipUncheckedUpdateWithoutEmpresaMembershipsInput = {
   turnos?: Prisma.TurnoUncheckedUpdateManyWithoutMembershipNestedInput
 }
 
+export type TenantMembershipCreateWithoutMunicipioInput = {
+  id?: string
+  role: $Enums.Role
+  status?: $Enums.MembershipStatus
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  activo?: boolean
+  aprobado?: boolean
+  codigoReferido?: string | null
+  numberId?: string | null
+  placa?: string | null
+  moto?: boolean | null
+  direccion?: string | null
+  pushToken?: string | null
+  username?: string | null
+  whatsappGroupId?: string | null
+  anticipos?: Prisma.AnticiposCreateNestedManyWithoutMembershipInput
+  auditorias?: Prisma.AuditoriaCreateNestedManyWithoutMembershipInput
+  citasComoCreador?: Prisma.CitasPsicologosCreateNestedManyWithoutCreadoPorInput
+  citasComoPsicologo?: Prisma.CitasPsicologosCreateNestedManyWithoutPsicologoInput
+  clientesCreados?: Prisma.ClienteCreateNestedManyWithoutCreadoPorInput
+  configuracionPagos?: Prisma.ConfiguracionPagosCreateNestedManyWithoutMembershipInput
+  consignacionesCreadas?: Prisma.ConsignacionEfectivoCreateNestedManyWithoutCreadoPorInput
+  consignacionesTecnico?: Prisma.ConsignacionEfectivoCreateNestedManyWithoutTecnicoInput
+  cuentasCobro?: Prisma.CuentaCobroCreateNestedManyWithoutMembershipInput
+  cuentasPago?: Prisma.CuentasPagoCreateNestedManyWithoutMembershipInput
+  declaracionesEfectivo?: Prisma.DeclaracionEfectivoCreateNestedManyWithoutTecnicoInput
+  egresos?: Prisma.EgresosCreateNestedManyWithoutMembershipInput
+  empresaMemberships?: Prisma.EmpresaMembershipCreateNestedManyWithoutMembershipInput
+  geolocalizaciones?: Prisma.GeolocalizacionCreateNestedManyWithoutMembershipInput
+  nominas?: Prisma.NominaCreateNestedManyWithoutMembershipInput
+  serviciosCreados?: Prisma.OrdenServicioCreateNestedManyWithoutCreadoPorInput
+  serviciosAsignados?: Prisma.OrdenServicioCreateNestedManyWithoutTecnicoInput
+  paquetesAdquiridos?: Prisma.PaqueteAdquiridoCreateNestedManyWithoutMembershipInput
+  permisosAprobados?: Prisma.PermisoCreateNestedManyWithoutAdminInput
+  permisosSolicitados?: Prisma.PermisoCreateNestedManyWithoutMembershipInput
+  productosSolicitados?: Prisma.ProductoSolicitadoCreateNestedManyWithoutMembershipInput
+  referidos?: Prisma.ReferidosCreateNestedManyWithoutMembershipInput
+  sesionesActividad?: Prisma.SesionActividadCreateNestedManyWithoutMembershipInput
+  tenant: Prisma.TenantCreateNestedOneWithoutMembershipsInput
+  user: Prisma.UserCreateNestedOneWithoutMembershipsInput
+  turnos?: Prisma.TurnoCreateNestedManyWithoutMembershipInput
+}
+
+export type TenantMembershipUncheckedCreateWithoutMunicipioInput = {
+  id?: string
+  userId: string
+  tenantId: string
+  role: $Enums.Role
+  status?: $Enums.MembershipStatus
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  activo?: boolean
+  aprobado?: boolean
+  codigoReferido?: string | null
+  numberId?: string | null
+  placa?: string | null
+  moto?: boolean | null
+  direccion?: string | null
+  pushToken?: string | null
+  username?: string | null
+  whatsappGroupId?: string | null
+  anticipos?: Prisma.AnticiposUncheckedCreateNestedManyWithoutMembershipInput
+  auditorias?: Prisma.AuditoriaUncheckedCreateNestedManyWithoutMembershipInput
+  citasComoCreador?: Prisma.CitasPsicologosUncheckedCreateNestedManyWithoutCreadoPorInput
+  citasComoPsicologo?: Prisma.CitasPsicologosUncheckedCreateNestedManyWithoutPsicologoInput
+  clientesCreados?: Prisma.ClienteUncheckedCreateNestedManyWithoutCreadoPorInput
+  configuracionPagos?: Prisma.ConfiguracionPagosUncheckedCreateNestedManyWithoutMembershipInput
+  consignacionesCreadas?: Prisma.ConsignacionEfectivoUncheckedCreateNestedManyWithoutCreadoPorInput
+  consignacionesTecnico?: Prisma.ConsignacionEfectivoUncheckedCreateNestedManyWithoutTecnicoInput
+  cuentasCobro?: Prisma.CuentaCobroUncheckedCreateNestedManyWithoutMembershipInput
+  cuentasPago?: Prisma.CuentasPagoUncheckedCreateNestedManyWithoutMembershipInput
+  declaracionesEfectivo?: Prisma.DeclaracionEfectivoUncheckedCreateNestedManyWithoutTecnicoInput
+  egresos?: Prisma.EgresosUncheckedCreateNestedManyWithoutMembershipInput
+  empresaMemberships?: Prisma.EmpresaMembershipUncheckedCreateNestedManyWithoutMembershipInput
+  geolocalizaciones?: Prisma.GeolocalizacionUncheckedCreateNestedManyWithoutMembershipInput
+  nominas?: Prisma.NominaUncheckedCreateNestedManyWithoutMembershipInput
+  serviciosCreados?: Prisma.OrdenServicioUncheckedCreateNestedManyWithoutCreadoPorInput
+  serviciosAsignados?: Prisma.OrdenServicioUncheckedCreateNestedManyWithoutTecnicoInput
+  paquetesAdquiridos?: Prisma.PaqueteAdquiridoUncheckedCreateNestedManyWithoutMembershipInput
+  permisosAprobados?: Prisma.PermisoUncheckedCreateNestedManyWithoutAdminInput
+  permisosSolicitados?: Prisma.PermisoUncheckedCreateNestedManyWithoutMembershipInput
+  productosSolicitados?: Prisma.ProductoSolicitadoUncheckedCreateNestedManyWithoutMembershipInput
+  referidos?: Prisma.ReferidosUncheckedCreateNestedManyWithoutMembershipInput
+  sesionesActividad?: Prisma.SesionActividadUncheckedCreateNestedManyWithoutMembershipInput
+  turnos?: Prisma.TurnoUncheckedCreateNestedManyWithoutMembershipInput
+}
+
+export type TenantMembershipCreateOrConnectWithoutMunicipioInput = {
+  where: Prisma.TenantMembershipWhereUniqueInput
+  create: Prisma.XOR<Prisma.TenantMembershipCreateWithoutMunicipioInput, Prisma.TenantMembershipUncheckedCreateWithoutMunicipioInput>
+}
+
+export type TenantMembershipCreateManyMunicipioInputEnvelope = {
+  data: Prisma.TenantMembershipCreateManyMunicipioInput | Prisma.TenantMembershipCreateManyMunicipioInput[]
+  skipDuplicates?: boolean
+}
+
+export type TenantMembershipUpsertWithWhereUniqueWithoutMunicipioInput = {
+  where: Prisma.TenantMembershipWhereUniqueInput
+  update: Prisma.XOR<Prisma.TenantMembershipUpdateWithoutMunicipioInput, Prisma.TenantMembershipUncheckedUpdateWithoutMunicipioInput>
+  create: Prisma.XOR<Prisma.TenantMembershipCreateWithoutMunicipioInput, Prisma.TenantMembershipUncheckedCreateWithoutMunicipioInput>
+}
+
+export type TenantMembershipUpdateWithWhereUniqueWithoutMunicipioInput = {
+  where: Prisma.TenantMembershipWhereUniqueInput
+  data: Prisma.XOR<Prisma.TenantMembershipUpdateWithoutMunicipioInput, Prisma.TenantMembershipUncheckedUpdateWithoutMunicipioInput>
+}
+
+export type TenantMembershipUpdateManyWithWhereWithoutMunicipioInput = {
+  where: Prisma.TenantMembershipScalarWhereInput
+  data: Prisma.XOR<Prisma.TenantMembershipUpdateManyMutationInput, Prisma.TenantMembershipUncheckedUpdateManyWithoutMunicipioInput>
+}
+
 export type TenantMembershipCreateWithoutClientesCreadosInput = {
   id?: string
   role: $Enums.Role
@@ -1628,9 +1848,10 @@ export type TenantMembershipCreateWithoutClientesCreadosInput = {
   activo?: boolean
   aprobado?: boolean
   codigoReferido?: string | null
-  moto?: boolean | null
   numberId?: string | null
   placa?: string | null
+  moto?: boolean | null
+  direccion?: string | null
   pushToken?: string | null
   username?: string | null
   whatsappGroupId?: string | null
@@ -1658,6 +1879,7 @@ export type TenantMembershipCreateWithoutClientesCreadosInput = {
   sesionesActividad?: Prisma.SesionActividadCreateNestedManyWithoutMembershipInput
   tenant: Prisma.TenantCreateNestedOneWithoutMembershipsInput
   user: Prisma.UserCreateNestedOneWithoutMembershipsInput
+  municipio?: Prisma.MunicipalityCreateNestedOneWithoutMembershipsInput
   turnos?: Prisma.TurnoCreateNestedManyWithoutMembershipInput
 }
 
@@ -1672,9 +1894,11 @@ export type TenantMembershipUncheckedCreateWithoutClientesCreadosInput = {
   activo?: boolean
   aprobado?: boolean
   codigoReferido?: string | null
-  moto?: boolean | null
   numberId?: string | null
   placa?: string | null
+  moto?: boolean | null
+  direccion?: string | null
+  municipioId?: string | null
   pushToken?: string | null
   username?: string | null
   whatsappGroupId?: string | null
@@ -1728,9 +1952,10 @@ export type TenantMembershipUpdateWithoutClientesCreadosInput = {
   activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
   aprobado?: Prisma.BoolFieldUpdateOperationsInput | boolean
   codigoReferido?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  moto?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   numberId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   placa?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  moto?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  direccion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   pushToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   whatsappGroupId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1758,6 +1983,7 @@ export type TenantMembershipUpdateWithoutClientesCreadosInput = {
   sesionesActividad?: Prisma.SesionActividadUpdateManyWithoutMembershipNestedInput
   tenant?: Prisma.TenantUpdateOneRequiredWithoutMembershipsNestedInput
   user?: Prisma.UserUpdateOneRequiredWithoutMembershipsNestedInput
+  municipio?: Prisma.MunicipalityUpdateOneWithoutMembershipsNestedInput
   turnos?: Prisma.TurnoUpdateManyWithoutMembershipNestedInput
 }
 
@@ -1772,9 +1998,11 @@ export type TenantMembershipUncheckedUpdateWithoutClientesCreadosInput = {
   activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
   aprobado?: Prisma.BoolFieldUpdateOperationsInput | boolean
   codigoReferido?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  moto?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   numberId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   placa?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  moto?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  direccion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  municipioId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   pushToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   whatsappGroupId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1812,9 +2040,10 @@ export type TenantMembershipCreateWithoutServiciosCreadosInput = {
   activo?: boolean
   aprobado?: boolean
   codigoReferido?: string | null
-  moto?: boolean | null
   numberId?: string | null
   placa?: string | null
+  moto?: boolean | null
+  direccion?: string | null
   pushToken?: string | null
   username?: string | null
   whatsappGroupId?: string | null
@@ -1842,6 +2071,7 @@ export type TenantMembershipCreateWithoutServiciosCreadosInput = {
   sesionesActividad?: Prisma.SesionActividadCreateNestedManyWithoutMembershipInput
   tenant: Prisma.TenantCreateNestedOneWithoutMembershipsInput
   user: Prisma.UserCreateNestedOneWithoutMembershipsInput
+  municipio?: Prisma.MunicipalityCreateNestedOneWithoutMembershipsInput
   turnos?: Prisma.TurnoCreateNestedManyWithoutMembershipInput
 }
 
@@ -1856,9 +2086,11 @@ export type TenantMembershipUncheckedCreateWithoutServiciosCreadosInput = {
   activo?: boolean
   aprobado?: boolean
   codigoReferido?: string | null
-  moto?: boolean | null
   numberId?: string | null
   placa?: string | null
+  moto?: boolean | null
+  direccion?: string | null
+  municipioId?: string | null
   pushToken?: string | null
   username?: string | null
   whatsappGroupId?: string | null
@@ -1901,9 +2133,10 @@ export type TenantMembershipCreateWithoutServiciosAsignadosInput = {
   activo?: boolean
   aprobado?: boolean
   codigoReferido?: string | null
-  moto?: boolean | null
   numberId?: string | null
   placa?: string | null
+  moto?: boolean | null
+  direccion?: string | null
   pushToken?: string | null
   username?: string | null
   whatsappGroupId?: string | null
@@ -1931,6 +2164,7 @@ export type TenantMembershipCreateWithoutServiciosAsignadosInput = {
   sesionesActividad?: Prisma.SesionActividadCreateNestedManyWithoutMembershipInput
   tenant: Prisma.TenantCreateNestedOneWithoutMembershipsInput
   user: Prisma.UserCreateNestedOneWithoutMembershipsInput
+  municipio?: Prisma.MunicipalityCreateNestedOneWithoutMembershipsInput
   turnos?: Prisma.TurnoCreateNestedManyWithoutMembershipInput
 }
 
@@ -1945,9 +2179,11 @@ export type TenantMembershipUncheckedCreateWithoutServiciosAsignadosInput = {
   activo?: boolean
   aprobado?: boolean
   codigoReferido?: string | null
-  moto?: boolean | null
   numberId?: string | null
   placa?: string | null
+  moto?: boolean | null
+  direccion?: string | null
+  municipioId?: string | null
   pushToken?: string | null
   username?: string | null
   whatsappGroupId?: string | null
@@ -2001,9 +2237,10 @@ export type TenantMembershipUpdateWithoutServiciosCreadosInput = {
   activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
   aprobado?: Prisma.BoolFieldUpdateOperationsInput | boolean
   codigoReferido?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  moto?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   numberId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   placa?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  moto?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  direccion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   pushToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   whatsappGroupId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -2031,6 +2268,7 @@ export type TenantMembershipUpdateWithoutServiciosCreadosInput = {
   sesionesActividad?: Prisma.SesionActividadUpdateManyWithoutMembershipNestedInput
   tenant?: Prisma.TenantUpdateOneRequiredWithoutMembershipsNestedInput
   user?: Prisma.UserUpdateOneRequiredWithoutMembershipsNestedInput
+  municipio?: Prisma.MunicipalityUpdateOneWithoutMembershipsNestedInput
   turnos?: Prisma.TurnoUpdateManyWithoutMembershipNestedInput
 }
 
@@ -2045,9 +2283,11 @@ export type TenantMembershipUncheckedUpdateWithoutServiciosCreadosInput = {
   activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
   aprobado?: Prisma.BoolFieldUpdateOperationsInput | boolean
   codigoReferido?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  moto?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   numberId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   placa?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  moto?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  direccion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  municipioId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   pushToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   whatsappGroupId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -2096,9 +2336,10 @@ export type TenantMembershipUpdateWithoutServiciosAsignadosInput = {
   activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
   aprobado?: Prisma.BoolFieldUpdateOperationsInput | boolean
   codigoReferido?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  moto?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   numberId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   placa?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  moto?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  direccion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   pushToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   whatsappGroupId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -2126,6 +2367,7 @@ export type TenantMembershipUpdateWithoutServiciosAsignadosInput = {
   sesionesActividad?: Prisma.SesionActividadUpdateManyWithoutMembershipNestedInput
   tenant?: Prisma.TenantUpdateOneRequiredWithoutMembershipsNestedInput
   user?: Prisma.UserUpdateOneRequiredWithoutMembershipsNestedInput
+  municipio?: Prisma.MunicipalityUpdateOneWithoutMembershipsNestedInput
   turnos?: Prisma.TurnoUpdateManyWithoutMembershipNestedInput
 }
 
@@ -2140,9 +2382,11 @@ export type TenantMembershipUncheckedUpdateWithoutServiciosAsignadosInput = {
   activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
   aprobado?: Prisma.BoolFieldUpdateOperationsInput | boolean
   codigoReferido?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  moto?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   numberId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   placa?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  moto?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  direccion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  municipioId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   pushToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   whatsappGroupId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -2180,9 +2424,10 @@ export type TenantMembershipCreateWithoutGeolocalizacionesInput = {
   activo?: boolean
   aprobado?: boolean
   codigoReferido?: string | null
-  moto?: boolean | null
   numberId?: string | null
   placa?: string | null
+  moto?: boolean | null
+  direccion?: string | null
   pushToken?: string | null
   username?: string | null
   whatsappGroupId?: string | null
@@ -2210,6 +2455,7 @@ export type TenantMembershipCreateWithoutGeolocalizacionesInput = {
   sesionesActividad?: Prisma.SesionActividadCreateNestedManyWithoutMembershipInput
   tenant: Prisma.TenantCreateNestedOneWithoutMembershipsInput
   user: Prisma.UserCreateNestedOneWithoutMembershipsInput
+  municipio?: Prisma.MunicipalityCreateNestedOneWithoutMembershipsInput
   turnos?: Prisma.TurnoCreateNestedManyWithoutMembershipInput
 }
 
@@ -2224,9 +2470,11 @@ export type TenantMembershipUncheckedCreateWithoutGeolocalizacionesInput = {
   activo?: boolean
   aprobado?: boolean
   codigoReferido?: string | null
-  moto?: boolean | null
   numberId?: string | null
   placa?: string | null
+  moto?: boolean | null
+  direccion?: string | null
+  municipioId?: string | null
   pushToken?: string | null
   username?: string | null
   whatsappGroupId?: string | null
@@ -2280,9 +2528,10 @@ export type TenantMembershipUpdateWithoutGeolocalizacionesInput = {
   activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
   aprobado?: Prisma.BoolFieldUpdateOperationsInput | boolean
   codigoReferido?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  moto?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   numberId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   placa?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  moto?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  direccion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   pushToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   whatsappGroupId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -2310,6 +2559,7 @@ export type TenantMembershipUpdateWithoutGeolocalizacionesInput = {
   sesionesActividad?: Prisma.SesionActividadUpdateManyWithoutMembershipNestedInput
   tenant?: Prisma.TenantUpdateOneRequiredWithoutMembershipsNestedInput
   user?: Prisma.UserUpdateOneRequiredWithoutMembershipsNestedInput
+  municipio?: Prisma.MunicipalityUpdateOneWithoutMembershipsNestedInput
   turnos?: Prisma.TurnoUpdateManyWithoutMembershipNestedInput
 }
 
@@ -2324,9 +2574,11 @@ export type TenantMembershipUncheckedUpdateWithoutGeolocalizacionesInput = {
   activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
   aprobado?: Prisma.BoolFieldUpdateOperationsInput | boolean
   codigoReferido?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  moto?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   numberId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   placa?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  moto?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  direccion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  municipioId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   pushToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   whatsappGroupId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -2364,9 +2616,10 @@ export type TenantMembershipCreateWithoutNominasInput = {
   activo?: boolean
   aprobado?: boolean
   codigoReferido?: string | null
-  moto?: boolean | null
   numberId?: string | null
   placa?: string | null
+  moto?: boolean | null
+  direccion?: string | null
   pushToken?: string | null
   username?: string | null
   whatsappGroupId?: string | null
@@ -2394,6 +2647,7 @@ export type TenantMembershipCreateWithoutNominasInput = {
   sesionesActividad?: Prisma.SesionActividadCreateNestedManyWithoutMembershipInput
   tenant: Prisma.TenantCreateNestedOneWithoutMembershipsInput
   user: Prisma.UserCreateNestedOneWithoutMembershipsInput
+  municipio?: Prisma.MunicipalityCreateNestedOneWithoutMembershipsInput
   turnos?: Prisma.TurnoCreateNestedManyWithoutMembershipInput
 }
 
@@ -2408,9 +2662,11 @@ export type TenantMembershipUncheckedCreateWithoutNominasInput = {
   activo?: boolean
   aprobado?: boolean
   codigoReferido?: string | null
-  moto?: boolean | null
   numberId?: string | null
   placa?: string | null
+  moto?: boolean | null
+  direccion?: string | null
+  municipioId?: string | null
   pushToken?: string | null
   username?: string | null
   whatsappGroupId?: string | null
@@ -2464,9 +2720,10 @@ export type TenantMembershipUpdateWithoutNominasInput = {
   activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
   aprobado?: Prisma.BoolFieldUpdateOperationsInput | boolean
   codigoReferido?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  moto?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   numberId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   placa?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  moto?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  direccion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   pushToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   whatsappGroupId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -2494,6 +2751,7 @@ export type TenantMembershipUpdateWithoutNominasInput = {
   sesionesActividad?: Prisma.SesionActividadUpdateManyWithoutMembershipNestedInput
   tenant?: Prisma.TenantUpdateOneRequiredWithoutMembershipsNestedInput
   user?: Prisma.UserUpdateOneRequiredWithoutMembershipsNestedInput
+  municipio?: Prisma.MunicipalityUpdateOneWithoutMembershipsNestedInput
   turnos?: Prisma.TurnoUpdateManyWithoutMembershipNestedInput
 }
 
@@ -2508,9 +2766,11 @@ export type TenantMembershipUncheckedUpdateWithoutNominasInput = {
   activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
   aprobado?: Prisma.BoolFieldUpdateOperationsInput | boolean
   codigoReferido?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  moto?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   numberId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   placa?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  moto?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  direccion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  municipioId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   pushToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   whatsappGroupId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -2548,9 +2808,10 @@ export type TenantMembershipCreateWithoutCitasComoCreadorInput = {
   activo?: boolean
   aprobado?: boolean
   codigoReferido?: string | null
-  moto?: boolean | null
   numberId?: string | null
   placa?: string | null
+  moto?: boolean | null
+  direccion?: string | null
   pushToken?: string | null
   username?: string | null
   whatsappGroupId?: string | null
@@ -2578,6 +2839,7 @@ export type TenantMembershipCreateWithoutCitasComoCreadorInput = {
   sesionesActividad?: Prisma.SesionActividadCreateNestedManyWithoutMembershipInput
   tenant: Prisma.TenantCreateNestedOneWithoutMembershipsInput
   user: Prisma.UserCreateNestedOneWithoutMembershipsInput
+  municipio?: Prisma.MunicipalityCreateNestedOneWithoutMembershipsInput
   turnos?: Prisma.TurnoCreateNestedManyWithoutMembershipInput
 }
 
@@ -2592,9 +2854,11 @@ export type TenantMembershipUncheckedCreateWithoutCitasComoCreadorInput = {
   activo?: boolean
   aprobado?: boolean
   codigoReferido?: string | null
-  moto?: boolean | null
   numberId?: string | null
   placa?: string | null
+  moto?: boolean | null
+  direccion?: string | null
+  municipioId?: string | null
   pushToken?: string | null
   username?: string | null
   whatsappGroupId?: string | null
@@ -2637,9 +2901,10 @@ export type TenantMembershipCreateWithoutCitasComoPsicologoInput = {
   activo?: boolean
   aprobado?: boolean
   codigoReferido?: string | null
-  moto?: boolean | null
   numberId?: string | null
   placa?: string | null
+  moto?: boolean | null
+  direccion?: string | null
   pushToken?: string | null
   username?: string | null
   whatsappGroupId?: string | null
@@ -2667,6 +2932,7 @@ export type TenantMembershipCreateWithoutCitasComoPsicologoInput = {
   sesionesActividad?: Prisma.SesionActividadCreateNestedManyWithoutMembershipInput
   tenant: Prisma.TenantCreateNestedOneWithoutMembershipsInput
   user: Prisma.UserCreateNestedOneWithoutMembershipsInput
+  municipio?: Prisma.MunicipalityCreateNestedOneWithoutMembershipsInput
   turnos?: Prisma.TurnoCreateNestedManyWithoutMembershipInput
 }
 
@@ -2681,9 +2947,11 @@ export type TenantMembershipUncheckedCreateWithoutCitasComoPsicologoInput = {
   activo?: boolean
   aprobado?: boolean
   codigoReferido?: string | null
-  moto?: boolean | null
   numberId?: string | null
   placa?: string | null
+  moto?: boolean | null
+  direccion?: string | null
+  municipioId?: string | null
   pushToken?: string | null
   username?: string | null
   whatsappGroupId?: string | null
@@ -2737,9 +3005,10 @@ export type TenantMembershipUpdateWithoutCitasComoCreadorInput = {
   activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
   aprobado?: Prisma.BoolFieldUpdateOperationsInput | boolean
   codigoReferido?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  moto?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   numberId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   placa?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  moto?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  direccion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   pushToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   whatsappGroupId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -2767,6 +3036,7 @@ export type TenantMembershipUpdateWithoutCitasComoCreadorInput = {
   sesionesActividad?: Prisma.SesionActividadUpdateManyWithoutMembershipNestedInput
   tenant?: Prisma.TenantUpdateOneRequiredWithoutMembershipsNestedInput
   user?: Prisma.UserUpdateOneRequiredWithoutMembershipsNestedInput
+  municipio?: Prisma.MunicipalityUpdateOneWithoutMembershipsNestedInput
   turnos?: Prisma.TurnoUpdateManyWithoutMembershipNestedInput
 }
 
@@ -2781,9 +3051,11 @@ export type TenantMembershipUncheckedUpdateWithoutCitasComoCreadorInput = {
   activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
   aprobado?: Prisma.BoolFieldUpdateOperationsInput | boolean
   codigoReferido?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  moto?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   numberId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   placa?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  moto?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  direccion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  municipioId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   pushToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   whatsappGroupId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -2832,9 +3104,10 @@ export type TenantMembershipUpdateWithoutCitasComoPsicologoInput = {
   activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
   aprobado?: Prisma.BoolFieldUpdateOperationsInput | boolean
   codigoReferido?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  moto?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   numberId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   placa?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  moto?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  direccion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   pushToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   whatsappGroupId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -2862,6 +3135,7 @@ export type TenantMembershipUpdateWithoutCitasComoPsicologoInput = {
   sesionesActividad?: Prisma.SesionActividadUpdateManyWithoutMembershipNestedInput
   tenant?: Prisma.TenantUpdateOneRequiredWithoutMembershipsNestedInput
   user?: Prisma.UserUpdateOneRequiredWithoutMembershipsNestedInput
+  municipio?: Prisma.MunicipalityUpdateOneWithoutMembershipsNestedInput
   turnos?: Prisma.TurnoUpdateManyWithoutMembershipNestedInput
 }
 
@@ -2876,9 +3150,11 @@ export type TenantMembershipUncheckedUpdateWithoutCitasComoPsicologoInput = {
   activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
   aprobado?: Prisma.BoolFieldUpdateOperationsInput | boolean
   codigoReferido?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  moto?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   numberId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   placa?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  moto?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  direccion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  municipioId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   pushToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   whatsappGroupId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -2916,9 +3192,10 @@ export type TenantMembershipCreateWithoutPaquetesAdquiridosInput = {
   activo?: boolean
   aprobado?: boolean
   codigoReferido?: string | null
-  moto?: boolean | null
   numberId?: string | null
   placa?: string | null
+  moto?: boolean | null
+  direccion?: string | null
   pushToken?: string | null
   username?: string | null
   whatsappGroupId?: string | null
@@ -2946,6 +3223,7 @@ export type TenantMembershipCreateWithoutPaquetesAdquiridosInput = {
   sesionesActividad?: Prisma.SesionActividadCreateNestedManyWithoutMembershipInput
   tenant: Prisma.TenantCreateNestedOneWithoutMembershipsInput
   user: Prisma.UserCreateNestedOneWithoutMembershipsInput
+  municipio?: Prisma.MunicipalityCreateNestedOneWithoutMembershipsInput
   turnos?: Prisma.TurnoCreateNestedManyWithoutMembershipInput
 }
 
@@ -2960,9 +3238,11 @@ export type TenantMembershipUncheckedCreateWithoutPaquetesAdquiridosInput = {
   activo?: boolean
   aprobado?: boolean
   codigoReferido?: string | null
-  moto?: boolean | null
   numberId?: string | null
   placa?: string | null
+  moto?: boolean | null
+  direccion?: string | null
+  municipioId?: string | null
   pushToken?: string | null
   username?: string | null
   whatsappGroupId?: string | null
@@ -3016,9 +3296,10 @@ export type TenantMembershipUpdateWithoutPaquetesAdquiridosInput = {
   activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
   aprobado?: Prisma.BoolFieldUpdateOperationsInput | boolean
   codigoReferido?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  moto?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   numberId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   placa?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  moto?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  direccion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   pushToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   whatsappGroupId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -3046,6 +3327,7 @@ export type TenantMembershipUpdateWithoutPaquetesAdquiridosInput = {
   sesionesActividad?: Prisma.SesionActividadUpdateManyWithoutMembershipNestedInput
   tenant?: Prisma.TenantUpdateOneRequiredWithoutMembershipsNestedInput
   user?: Prisma.UserUpdateOneRequiredWithoutMembershipsNestedInput
+  municipio?: Prisma.MunicipalityUpdateOneWithoutMembershipsNestedInput
   turnos?: Prisma.TurnoUpdateManyWithoutMembershipNestedInput
 }
 
@@ -3060,9 +3342,11 @@ export type TenantMembershipUncheckedUpdateWithoutPaquetesAdquiridosInput = {
   activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
   aprobado?: Prisma.BoolFieldUpdateOperationsInput | boolean
   codigoReferido?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  moto?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   numberId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   placa?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  moto?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  direccion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  municipioId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   pushToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   whatsappGroupId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -3100,9 +3384,10 @@ export type TenantMembershipCreateWithoutTurnosInput = {
   activo?: boolean
   aprobado?: boolean
   codigoReferido?: string | null
-  moto?: boolean | null
   numberId?: string | null
   placa?: string | null
+  moto?: boolean | null
+  direccion?: string | null
   pushToken?: string | null
   username?: string | null
   whatsappGroupId?: string | null
@@ -3131,6 +3416,7 @@ export type TenantMembershipCreateWithoutTurnosInput = {
   sesionesActividad?: Prisma.SesionActividadCreateNestedManyWithoutMembershipInput
   tenant: Prisma.TenantCreateNestedOneWithoutMembershipsInput
   user: Prisma.UserCreateNestedOneWithoutMembershipsInput
+  municipio?: Prisma.MunicipalityCreateNestedOneWithoutMembershipsInput
 }
 
 export type TenantMembershipUncheckedCreateWithoutTurnosInput = {
@@ -3144,9 +3430,11 @@ export type TenantMembershipUncheckedCreateWithoutTurnosInput = {
   activo?: boolean
   aprobado?: boolean
   codigoReferido?: string | null
-  moto?: boolean | null
   numberId?: string | null
   placa?: string | null
+  moto?: boolean | null
+  direccion?: string | null
+  municipioId?: string | null
   pushToken?: string | null
   username?: string | null
   whatsappGroupId?: string | null
@@ -3200,9 +3488,10 @@ export type TenantMembershipUpdateWithoutTurnosInput = {
   activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
   aprobado?: Prisma.BoolFieldUpdateOperationsInput | boolean
   codigoReferido?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  moto?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   numberId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   placa?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  moto?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  direccion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   pushToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   whatsappGroupId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -3231,6 +3520,7 @@ export type TenantMembershipUpdateWithoutTurnosInput = {
   sesionesActividad?: Prisma.SesionActividadUpdateManyWithoutMembershipNestedInput
   tenant?: Prisma.TenantUpdateOneRequiredWithoutMembershipsNestedInput
   user?: Prisma.UserUpdateOneRequiredWithoutMembershipsNestedInput
+  municipio?: Prisma.MunicipalityUpdateOneWithoutMembershipsNestedInput
 }
 
 export type TenantMembershipUncheckedUpdateWithoutTurnosInput = {
@@ -3244,9 +3534,11 @@ export type TenantMembershipUncheckedUpdateWithoutTurnosInput = {
   activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
   aprobado?: Prisma.BoolFieldUpdateOperationsInput | boolean
   codigoReferido?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  moto?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   numberId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   placa?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  moto?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  direccion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  municipioId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   pushToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   whatsappGroupId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -3284,9 +3576,10 @@ export type TenantMembershipCreateWithoutCuentasCobroInput = {
   activo?: boolean
   aprobado?: boolean
   codigoReferido?: string | null
-  moto?: boolean | null
   numberId?: string | null
   placa?: string | null
+  moto?: boolean | null
+  direccion?: string | null
   pushToken?: string | null
   username?: string | null
   whatsappGroupId?: string | null
@@ -3314,6 +3607,7 @@ export type TenantMembershipCreateWithoutCuentasCobroInput = {
   sesionesActividad?: Prisma.SesionActividadCreateNestedManyWithoutMembershipInput
   tenant: Prisma.TenantCreateNestedOneWithoutMembershipsInput
   user: Prisma.UserCreateNestedOneWithoutMembershipsInput
+  municipio?: Prisma.MunicipalityCreateNestedOneWithoutMembershipsInput
   turnos?: Prisma.TurnoCreateNestedManyWithoutMembershipInput
 }
 
@@ -3328,9 +3622,11 @@ export type TenantMembershipUncheckedCreateWithoutCuentasCobroInput = {
   activo?: boolean
   aprobado?: boolean
   codigoReferido?: string | null
-  moto?: boolean | null
   numberId?: string | null
   placa?: string | null
+  moto?: boolean | null
+  direccion?: string | null
+  municipioId?: string | null
   pushToken?: string | null
   username?: string | null
   whatsappGroupId?: string | null
@@ -3384,9 +3680,10 @@ export type TenantMembershipUpdateWithoutCuentasCobroInput = {
   activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
   aprobado?: Prisma.BoolFieldUpdateOperationsInput | boolean
   codigoReferido?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  moto?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   numberId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   placa?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  moto?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  direccion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   pushToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   whatsappGroupId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -3414,6 +3711,7 @@ export type TenantMembershipUpdateWithoutCuentasCobroInput = {
   sesionesActividad?: Prisma.SesionActividadUpdateManyWithoutMembershipNestedInput
   tenant?: Prisma.TenantUpdateOneRequiredWithoutMembershipsNestedInput
   user?: Prisma.UserUpdateOneRequiredWithoutMembershipsNestedInput
+  municipio?: Prisma.MunicipalityUpdateOneWithoutMembershipsNestedInput
   turnos?: Prisma.TurnoUpdateManyWithoutMembershipNestedInput
 }
 
@@ -3428,9 +3726,11 @@ export type TenantMembershipUncheckedUpdateWithoutCuentasCobroInput = {
   activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
   aprobado?: Prisma.BoolFieldUpdateOperationsInput | boolean
   codigoReferido?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  moto?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   numberId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   placa?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  moto?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  direccion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  municipioId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   pushToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   whatsappGroupId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -3468,9 +3768,10 @@ export type TenantMembershipCreateWithoutDeclaracionesEfectivoInput = {
   activo?: boolean
   aprobado?: boolean
   codigoReferido?: string | null
-  moto?: boolean | null
   numberId?: string | null
   placa?: string | null
+  moto?: boolean | null
+  direccion?: string | null
   pushToken?: string | null
   username?: string | null
   whatsappGroupId?: string | null
@@ -3498,6 +3799,7 @@ export type TenantMembershipCreateWithoutDeclaracionesEfectivoInput = {
   sesionesActividad?: Prisma.SesionActividadCreateNestedManyWithoutMembershipInput
   tenant: Prisma.TenantCreateNestedOneWithoutMembershipsInput
   user: Prisma.UserCreateNestedOneWithoutMembershipsInput
+  municipio?: Prisma.MunicipalityCreateNestedOneWithoutMembershipsInput
   turnos?: Prisma.TurnoCreateNestedManyWithoutMembershipInput
 }
 
@@ -3512,9 +3814,11 @@ export type TenantMembershipUncheckedCreateWithoutDeclaracionesEfectivoInput = {
   activo?: boolean
   aprobado?: boolean
   codigoReferido?: string | null
-  moto?: boolean | null
   numberId?: string | null
   placa?: string | null
+  moto?: boolean | null
+  direccion?: string | null
+  municipioId?: string | null
   pushToken?: string | null
   username?: string | null
   whatsappGroupId?: string | null
@@ -3568,9 +3872,10 @@ export type TenantMembershipUpdateWithoutDeclaracionesEfectivoInput = {
   activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
   aprobado?: Prisma.BoolFieldUpdateOperationsInput | boolean
   codigoReferido?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  moto?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   numberId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   placa?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  moto?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  direccion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   pushToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   whatsappGroupId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -3598,6 +3903,7 @@ export type TenantMembershipUpdateWithoutDeclaracionesEfectivoInput = {
   sesionesActividad?: Prisma.SesionActividadUpdateManyWithoutMembershipNestedInput
   tenant?: Prisma.TenantUpdateOneRequiredWithoutMembershipsNestedInput
   user?: Prisma.UserUpdateOneRequiredWithoutMembershipsNestedInput
+  municipio?: Prisma.MunicipalityUpdateOneWithoutMembershipsNestedInput
   turnos?: Prisma.TurnoUpdateManyWithoutMembershipNestedInput
 }
 
@@ -3612,9 +3918,11 @@ export type TenantMembershipUncheckedUpdateWithoutDeclaracionesEfectivoInput = {
   activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
   aprobado?: Prisma.BoolFieldUpdateOperationsInput | boolean
   codigoReferido?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  moto?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   numberId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   placa?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  moto?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  direccion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  municipioId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   pushToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   whatsappGroupId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -3652,9 +3960,10 @@ export type TenantMembershipCreateWithoutConsignacionesCreadasInput = {
   activo?: boolean
   aprobado?: boolean
   codigoReferido?: string | null
-  moto?: boolean | null
   numberId?: string | null
   placa?: string | null
+  moto?: boolean | null
+  direccion?: string | null
   pushToken?: string | null
   username?: string | null
   whatsappGroupId?: string | null
@@ -3682,6 +3991,7 @@ export type TenantMembershipCreateWithoutConsignacionesCreadasInput = {
   sesionesActividad?: Prisma.SesionActividadCreateNestedManyWithoutMembershipInput
   tenant: Prisma.TenantCreateNestedOneWithoutMembershipsInput
   user: Prisma.UserCreateNestedOneWithoutMembershipsInput
+  municipio?: Prisma.MunicipalityCreateNestedOneWithoutMembershipsInput
   turnos?: Prisma.TurnoCreateNestedManyWithoutMembershipInput
 }
 
@@ -3696,9 +4006,11 @@ export type TenantMembershipUncheckedCreateWithoutConsignacionesCreadasInput = {
   activo?: boolean
   aprobado?: boolean
   codigoReferido?: string | null
-  moto?: boolean | null
   numberId?: string | null
   placa?: string | null
+  moto?: boolean | null
+  direccion?: string | null
+  municipioId?: string | null
   pushToken?: string | null
   username?: string | null
   whatsappGroupId?: string | null
@@ -3741,9 +4053,10 @@ export type TenantMembershipCreateWithoutConsignacionesTecnicoInput = {
   activo?: boolean
   aprobado?: boolean
   codigoReferido?: string | null
-  moto?: boolean | null
   numberId?: string | null
   placa?: string | null
+  moto?: boolean | null
+  direccion?: string | null
   pushToken?: string | null
   username?: string | null
   whatsappGroupId?: string | null
@@ -3771,6 +4084,7 @@ export type TenantMembershipCreateWithoutConsignacionesTecnicoInput = {
   sesionesActividad?: Prisma.SesionActividadCreateNestedManyWithoutMembershipInput
   tenant: Prisma.TenantCreateNestedOneWithoutMembershipsInput
   user: Prisma.UserCreateNestedOneWithoutMembershipsInput
+  municipio?: Prisma.MunicipalityCreateNestedOneWithoutMembershipsInput
   turnos?: Prisma.TurnoCreateNestedManyWithoutMembershipInput
 }
 
@@ -3785,9 +4099,11 @@ export type TenantMembershipUncheckedCreateWithoutConsignacionesTecnicoInput = {
   activo?: boolean
   aprobado?: boolean
   codigoReferido?: string | null
-  moto?: boolean | null
   numberId?: string | null
   placa?: string | null
+  moto?: boolean | null
+  direccion?: string | null
+  municipioId?: string | null
   pushToken?: string | null
   username?: string | null
   whatsappGroupId?: string | null
@@ -3841,9 +4157,10 @@ export type TenantMembershipUpdateWithoutConsignacionesCreadasInput = {
   activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
   aprobado?: Prisma.BoolFieldUpdateOperationsInput | boolean
   codigoReferido?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  moto?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   numberId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   placa?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  moto?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  direccion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   pushToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   whatsappGroupId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -3871,6 +4188,7 @@ export type TenantMembershipUpdateWithoutConsignacionesCreadasInput = {
   sesionesActividad?: Prisma.SesionActividadUpdateManyWithoutMembershipNestedInput
   tenant?: Prisma.TenantUpdateOneRequiredWithoutMembershipsNestedInput
   user?: Prisma.UserUpdateOneRequiredWithoutMembershipsNestedInput
+  municipio?: Prisma.MunicipalityUpdateOneWithoutMembershipsNestedInput
   turnos?: Prisma.TurnoUpdateManyWithoutMembershipNestedInput
 }
 
@@ -3885,9 +4203,11 @@ export type TenantMembershipUncheckedUpdateWithoutConsignacionesCreadasInput = {
   activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
   aprobado?: Prisma.BoolFieldUpdateOperationsInput | boolean
   codigoReferido?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  moto?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   numberId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   placa?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  moto?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  direccion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  municipioId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   pushToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   whatsappGroupId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -3936,9 +4256,10 @@ export type TenantMembershipUpdateWithoutConsignacionesTecnicoInput = {
   activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
   aprobado?: Prisma.BoolFieldUpdateOperationsInput | boolean
   codigoReferido?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  moto?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   numberId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   placa?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  moto?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  direccion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   pushToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   whatsappGroupId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -3966,6 +4287,7 @@ export type TenantMembershipUpdateWithoutConsignacionesTecnicoInput = {
   sesionesActividad?: Prisma.SesionActividadUpdateManyWithoutMembershipNestedInput
   tenant?: Prisma.TenantUpdateOneRequiredWithoutMembershipsNestedInput
   user?: Prisma.UserUpdateOneRequiredWithoutMembershipsNestedInput
+  municipio?: Prisma.MunicipalityUpdateOneWithoutMembershipsNestedInput
   turnos?: Prisma.TurnoUpdateManyWithoutMembershipNestedInput
 }
 
@@ -3980,9 +4302,11 @@ export type TenantMembershipUncheckedUpdateWithoutConsignacionesTecnicoInput = {
   activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
   aprobado?: Prisma.BoolFieldUpdateOperationsInput | boolean
   codigoReferido?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  moto?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   numberId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   placa?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  moto?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  direccion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  municipioId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   pushToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   whatsappGroupId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -4020,9 +4344,10 @@ export type TenantMembershipCreateWithoutAnticiposInput = {
   activo?: boolean
   aprobado?: boolean
   codigoReferido?: string | null
-  moto?: boolean | null
   numberId?: string | null
   placa?: string | null
+  moto?: boolean | null
+  direccion?: string | null
   pushToken?: string | null
   username?: string | null
   whatsappGroupId?: string | null
@@ -4050,6 +4375,7 @@ export type TenantMembershipCreateWithoutAnticiposInput = {
   sesionesActividad?: Prisma.SesionActividadCreateNestedManyWithoutMembershipInput
   tenant: Prisma.TenantCreateNestedOneWithoutMembershipsInput
   user: Prisma.UserCreateNestedOneWithoutMembershipsInput
+  municipio?: Prisma.MunicipalityCreateNestedOneWithoutMembershipsInput
   turnos?: Prisma.TurnoCreateNestedManyWithoutMembershipInput
 }
 
@@ -4064,9 +4390,11 @@ export type TenantMembershipUncheckedCreateWithoutAnticiposInput = {
   activo?: boolean
   aprobado?: boolean
   codigoReferido?: string | null
-  moto?: boolean | null
   numberId?: string | null
   placa?: string | null
+  moto?: boolean | null
+  direccion?: string | null
+  municipioId?: string | null
   pushToken?: string | null
   username?: string | null
   whatsappGroupId?: string | null
@@ -4120,9 +4448,10 @@ export type TenantMembershipUpdateWithoutAnticiposInput = {
   activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
   aprobado?: Prisma.BoolFieldUpdateOperationsInput | boolean
   codigoReferido?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  moto?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   numberId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   placa?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  moto?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  direccion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   pushToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   whatsappGroupId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -4150,6 +4479,7 @@ export type TenantMembershipUpdateWithoutAnticiposInput = {
   sesionesActividad?: Prisma.SesionActividadUpdateManyWithoutMembershipNestedInput
   tenant?: Prisma.TenantUpdateOneRequiredWithoutMembershipsNestedInput
   user?: Prisma.UserUpdateOneRequiredWithoutMembershipsNestedInput
+  municipio?: Prisma.MunicipalityUpdateOneWithoutMembershipsNestedInput
   turnos?: Prisma.TurnoUpdateManyWithoutMembershipNestedInput
 }
 
@@ -4164,9 +4494,11 @@ export type TenantMembershipUncheckedUpdateWithoutAnticiposInput = {
   activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
   aprobado?: Prisma.BoolFieldUpdateOperationsInput | boolean
   codigoReferido?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  moto?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   numberId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   placa?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  moto?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  direccion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  municipioId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   pushToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   whatsappGroupId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -4204,9 +4536,10 @@ export type TenantMembershipCreateWithoutProductosSolicitadosInput = {
   activo?: boolean
   aprobado?: boolean
   codigoReferido?: string | null
-  moto?: boolean | null
   numberId?: string | null
   placa?: string | null
+  moto?: boolean | null
+  direccion?: string | null
   pushToken?: string | null
   username?: string | null
   whatsappGroupId?: string | null
@@ -4234,6 +4567,7 @@ export type TenantMembershipCreateWithoutProductosSolicitadosInput = {
   sesionesActividad?: Prisma.SesionActividadCreateNestedManyWithoutMembershipInput
   tenant: Prisma.TenantCreateNestedOneWithoutMembershipsInput
   user: Prisma.UserCreateNestedOneWithoutMembershipsInput
+  municipio?: Prisma.MunicipalityCreateNestedOneWithoutMembershipsInput
   turnos?: Prisma.TurnoCreateNestedManyWithoutMembershipInput
 }
 
@@ -4248,9 +4582,11 @@ export type TenantMembershipUncheckedCreateWithoutProductosSolicitadosInput = {
   activo?: boolean
   aprobado?: boolean
   codigoReferido?: string | null
-  moto?: boolean | null
   numberId?: string | null
   placa?: string | null
+  moto?: boolean | null
+  direccion?: string | null
+  municipioId?: string | null
   pushToken?: string | null
   username?: string | null
   whatsappGroupId?: string | null
@@ -4304,9 +4640,10 @@ export type TenantMembershipUpdateWithoutProductosSolicitadosInput = {
   activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
   aprobado?: Prisma.BoolFieldUpdateOperationsInput | boolean
   codigoReferido?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  moto?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   numberId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   placa?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  moto?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  direccion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   pushToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   whatsappGroupId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -4334,6 +4671,7 @@ export type TenantMembershipUpdateWithoutProductosSolicitadosInput = {
   sesionesActividad?: Prisma.SesionActividadUpdateManyWithoutMembershipNestedInput
   tenant?: Prisma.TenantUpdateOneRequiredWithoutMembershipsNestedInput
   user?: Prisma.UserUpdateOneRequiredWithoutMembershipsNestedInput
+  municipio?: Prisma.MunicipalityUpdateOneWithoutMembershipsNestedInput
   turnos?: Prisma.TurnoUpdateManyWithoutMembershipNestedInput
 }
 
@@ -4348,9 +4686,11 @@ export type TenantMembershipUncheckedUpdateWithoutProductosSolicitadosInput = {
   activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
   aprobado?: Prisma.BoolFieldUpdateOperationsInput | boolean
   codigoReferido?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  moto?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   numberId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   placa?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  moto?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  direccion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  municipioId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   pushToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   whatsappGroupId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -4388,9 +4728,10 @@ export type TenantMembershipCreateWithoutPermisosAprobadosInput = {
   activo?: boolean
   aprobado?: boolean
   codigoReferido?: string | null
-  moto?: boolean | null
   numberId?: string | null
   placa?: string | null
+  moto?: boolean | null
+  direccion?: string | null
   pushToken?: string | null
   username?: string | null
   whatsappGroupId?: string | null
@@ -4418,6 +4759,7 @@ export type TenantMembershipCreateWithoutPermisosAprobadosInput = {
   sesionesActividad?: Prisma.SesionActividadCreateNestedManyWithoutMembershipInput
   tenant: Prisma.TenantCreateNestedOneWithoutMembershipsInput
   user: Prisma.UserCreateNestedOneWithoutMembershipsInput
+  municipio?: Prisma.MunicipalityCreateNestedOneWithoutMembershipsInput
   turnos?: Prisma.TurnoCreateNestedManyWithoutMembershipInput
 }
 
@@ -4432,9 +4774,11 @@ export type TenantMembershipUncheckedCreateWithoutPermisosAprobadosInput = {
   activo?: boolean
   aprobado?: boolean
   codigoReferido?: string | null
-  moto?: boolean | null
   numberId?: string | null
   placa?: string | null
+  moto?: boolean | null
+  direccion?: string | null
+  municipioId?: string | null
   pushToken?: string | null
   username?: string | null
   whatsappGroupId?: string | null
@@ -4477,9 +4821,10 @@ export type TenantMembershipCreateWithoutPermisosSolicitadosInput = {
   activo?: boolean
   aprobado?: boolean
   codigoReferido?: string | null
-  moto?: boolean | null
   numberId?: string | null
   placa?: string | null
+  moto?: boolean | null
+  direccion?: string | null
   pushToken?: string | null
   username?: string | null
   whatsappGroupId?: string | null
@@ -4507,6 +4852,7 @@ export type TenantMembershipCreateWithoutPermisosSolicitadosInput = {
   sesionesActividad?: Prisma.SesionActividadCreateNestedManyWithoutMembershipInput
   tenant: Prisma.TenantCreateNestedOneWithoutMembershipsInput
   user: Prisma.UserCreateNestedOneWithoutMembershipsInput
+  municipio?: Prisma.MunicipalityCreateNestedOneWithoutMembershipsInput
   turnos?: Prisma.TurnoCreateNestedManyWithoutMembershipInput
 }
 
@@ -4521,9 +4867,11 @@ export type TenantMembershipUncheckedCreateWithoutPermisosSolicitadosInput = {
   activo?: boolean
   aprobado?: boolean
   codigoReferido?: string | null
-  moto?: boolean | null
   numberId?: string | null
   placa?: string | null
+  moto?: boolean | null
+  direccion?: string | null
+  municipioId?: string | null
   pushToken?: string | null
   username?: string | null
   whatsappGroupId?: string | null
@@ -4577,9 +4925,10 @@ export type TenantMembershipUpdateWithoutPermisosAprobadosInput = {
   activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
   aprobado?: Prisma.BoolFieldUpdateOperationsInput | boolean
   codigoReferido?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  moto?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   numberId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   placa?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  moto?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  direccion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   pushToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   whatsappGroupId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -4607,6 +4956,7 @@ export type TenantMembershipUpdateWithoutPermisosAprobadosInput = {
   sesionesActividad?: Prisma.SesionActividadUpdateManyWithoutMembershipNestedInput
   tenant?: Prisma.TenantUpdateOneRequiredWithoutMembershipsNestedInput
   user?: Prisma.UserUpdateOneRequiredWithoutMembershipsNestedInput
+  municipio?: Prisma.MunicipalityUpdateOneWithoutMembershipsNestedInput
   turnos?: Prisma.TurnoUpdateManyWithoutMembershipNestedInput
 }
 
@@ -4621,9 +4971,11 @@ export type TenantMembershipUncheckedUpdateWithoutPermisosAprobadosInput = {
   activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
   aprobado?: Prisma.BoolFieldUpdateOperationsInput | boolean
   codigoReferido?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  moto?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   numberId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   placa?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  moto?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  direccion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  municipioId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   pushToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   whatsappGroupId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -4672,9 +5024,10 @@ export type TenantMembershipUpdateWithoutPermisosSolicitadosInput = {
   activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
   aprobado?: Prisma.BoolFieldUpdateOperationsInput | boolean
   codigoReferido?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  moto?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   numberId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   placa?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  moto?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  direccion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   pushToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   whatsappGroupId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -4702,6 +5055,7 @@ export type TenantMembershipUpdateWithoutPermisosSolicitadosInput = {
   sesionesActividad?: Prisma.SesionActividadUpdateManyWithoutMembershipNestedInput
   tenant?: Prisma.TenantUpdateOneRequiredWithoutMembershipsNestedInput
   user?: Prisma.UserUpdateOneRequiredWithoutMembershipsNestedInput
+  municipio?: Prisma.MunicipalityUpdateOneWithoutMembershipsNestedInput
   turnos?: Prisma.TurnoUpdateManyWithoutMembershipNestedInput
 }
 
@@ -4716,9 +5070,11 @@ export type TenantMembershipUncheckedUpdateWithoutPermisosSolicitadosInput = {
   activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
   aprobado?: Prisma.BoolFieldUpdateOperationsInput | boolean
   codigoReferido?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  moto?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   numberId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   placa?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  moto?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  direccion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  municipioId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   pushToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   whatsappGroupId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -4756,9 +5112,10 @@ export type TenantMembershipCreateWithoutConfiguracionPagosInput = {
   activo?: boolean
   aprobado?: boolean
   codigoReferido?: string | null
-  moto?: boolean | null
   numberId?: string | null
   placa?: string | null
+  moto?: boolean | null
+  direccion?: string | null
   pushToken?: string | null
   username?: string | null
   whatsappGroupId?: string | null
@@ -4786,6 +5143,7 @@ export type TenantMembershipCreateWithoutConfiguracionPagosInput = {
   sesionesActividad?: Prisma.SesionActividadCreateNestedManyWithoutMembershipInput
   tenant: Prisma.TenantCreateNestedOneWithoutMembershipsInput
   user: Prisma.UserCreateNestedOneWithoutMembershipsInput
+  municipio?: Prisma.MunicipalityCreateNestedOneWithoutMembershipsInput
   turnos?: Prisma.TurnoCreateNestedManyWithoutMembershipInput
 }
 
@@ -4800,9 +5158,11 @@ export type TenantMembershipUncheckedCreateWithoutConfiguracionPagosInput = {
   activo?: boolean
   aprobado?: boolean
   codigoReferido?: string | null
-  moto?: boolean | null
   numberId?: string | null
   placa?: string | null
+  moto?: boolean | null
+  direccion?: string | null
+  municipioId?: string | null
   pushToken?: string | null
   username?: string | null
   whatsappGroupId?: string | null
@@ -4856,9 +5216,10 @@ export type TenantMembershipUpdateWithoutConfiguracionPagosInput = {
   activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
   aprobado?: Prisma.BoolFieldUpdateOperationsInput | boolean
   codigoReferido?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  moto?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   numberId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   placa?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  moto?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  direccion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   pushToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   whatsappGroupId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -4886,6 +5247,7 @@ export type TenantMembershipUpdateWithoutConfiguracionPagosInput = {
   sesionesActividad?: Prisma.SesionActividadUpdateManyWithoutMembershipNestedInput
   tenant?: Prisma.TenantUpdateOneRequiredWithoutMembershipsNestedInput
   user?: Prisma.UserUpdateOneRequiredWithoutMembershipsNestedInput
+  municipio?: Prisma.MunicipalityUpdateOneWithoutMembershipsNestedInput
   turnos?: Prisma.TurnoUpdateManyWithoutMembershipNestedInput
 }
 
@@ -4900,9 +5262,11 @@ export type TenantMembershipUncheckedUpdateWithoutConfiguracionPagosInput = {
   activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
   aprobado?: Prisma.BoolFieldUpdateOperationsInput | boolean
   codigoReferido?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  moto?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   numberId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   placa?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  moto?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  direccion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  municipioId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   pushToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   whatsappGroupId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -4940,9 +5304,10 @@ export type TenantMembershipCreateWithoutCuentasPagoInput = {
   activo?: boolean
   aprobado?: boolean
   codigoReferido?: string | null
-  moto?: boolean | null
   numberId?: string | null
   placa?: string | null
+  moto?: boolean | null
+  direccion?: string | null
   pushToken?: string | null
   username?: string | null
   whatsappGroupId?: string | null
@@ -4970,6 +5335,7 @@ export type TenantMembershipCreateWithoutCuentasPagoInput = {
   sesionesActividad?: Prisma.SesionActividadCreateNestedManyWithoutMembershipInput
   tenant: Prisma.TenantCreateNestedOneWithoutMembershipsInput
   user: Prisma.UserCreateNestedOneWithoutMembershipsInput
+  municipio?: Prisma.MunicipalityCreateNestedOneWithoutMembershipsInput
   turnos?: Prisma.TurnoCreateNestedManyWithoutMembershipInput
 }
 
@@ -4984,9 +5350,11 @@ export type TenantMembershipUncheckedCreateWithoutCuentasPagoInput = {
   activo?: boolean
   aprobado?: boolean
   codigoReferido?: string | null
-  moto?: boolean | null
   numberId?: string | null
   placa?: string | null
+  moto?: boolean | null
+  direccion?: string | null
+  municipioId?: string | null
   pushToken?: string | null
   username?: string | null
   whatsappGroupId?: string | null
@@ -5040,9 +5408,10 @@ export type TenantMembershipUpdateWithoutCuentasPagoInput = {
   activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
   aprobado?: Prisma.BoolFieldUpdateOperationsInput | boolean
   codigoReferido?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  moto?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   numberId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   placa?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  moto?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  direccion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   pushToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   whatsappGroupId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -5070,6 +5439,7 @@ export type TenantMembershipUpdateWithoutCuentasPagoInput = {
   sesionesActividad?: Prisma.SesionActividadUpdateManyWithoutMembershipNestedInput
   tenant?: Prisma.TenantUpdateOneRequiredWithoutMembershipsNestedInput
   user?: Prisma.UserUpdateOneRequiredWithoutMembershipsNestedInput
+  municipio?: Prisma.MunicipalityUpdateOneWithoutMembershipsNestedInput
   turnos?: Prisma.TurnoUpdateManyWithoutMembershipNestedInput
 }
 
@@ -5084,9 +5454,11 @@ export type TenantMembershipUncheckedUpdateWithoutCuentasPagoInput = {
   activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
   aprobado?: Prisma.BoolFieldUpdateOperationsInput | boolean
   codigoReferido?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  moto?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   numberId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   placa?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  moto?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  direccion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  municipioId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   pushToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   whatsappGroupId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -5124,9 +5496,10 @@ export type TenantMembershipCreateWithoutEgresosInput = {
   activo?: boolean
   aprobado?: boolean
   codigoReferido?: string | null
-  moto?: boolean | null
   numberId?: string | null
   placa?: string | null
+  moto?: boolean | null
+  direccion?: string | null
   pushToken?: string | null
   username?: string | null
   whatsappGroupId?: string | null
@@ -5154,6 +5527,7 @@ export type TenantMembershipCreateWithoutEgresosInput = {
   sesionesActividad?: Prisma.SesionActividadCreateNestedManyWithoutMembershipInput
   tenant: Prisma.TenantCreateNestedOneWithoutMembershipsInput
   user: Prisma.UserCreateNestedOneWithoutMembershipsInput
+  municipio?: Prisma.MunicipalityCreateNestedOneWithoutMembershipsInput
   turnos?: Prisma.TurnoCreateNestedManyWithoutMembershipInput
 }
 
@@ -5168,9 +5542,11 @@ export type TenantMembershipUncheckedCreateWithoutEgresosInput = {
   activo?: boolean
   aprobado?: boolean
   codigoReferido?: string | null
-  moto?: boolean | null
   numberId?: string | null
   placa?: string | null
+  moto?: boolean | null
+  direccion?: string | null
+  municipioId?: string | null
   pushToken?: string | null
   username?: string | null
   whatsappGroupId?: string | null
@@ -5224,9 +5600,10 @@ export type TenantMembershipUpdateWithoutEgresosInput = {
   activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
   aprobado?: Prisma.BoolFieldUpdateOperationsInput | boolean
   codigoReferido?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  moto?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   numberId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   placa?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  moto?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  direccion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   pushToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   whatsappGroupId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -5254,6 +5631,7 @@ export type TenantMembershipUpdateWithoutEgresosInput = {
   sesionesActividad?: Prisma.SesionActividadUpdateManyWithoutMembershipNestedInput
   tenant?: Prisma.TenantUpdateOneRequiredWithoutMembershipsNestedInput
   user?: Prisma.UserUpdateOneRequiredWithoutMembershipsNestedInput
+  municipio?: Prisma.MunicipalityUpdateOneWithoutMembershipsNestedInput
   turnos?: Prisma.TurnoUpdateManyWithoutMembershipNestedInput
 }
 
@@ -5268,9 +5646,11 @@ export type TenantMembershipUncheckedUpdateWithoutEgresosInput = {
   activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
   aprobado?: Prisma.BoolFieldUpdateOperationsInput | boolean
   codigoReferido?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  moto?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   numberId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   placa?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  moto?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  direccion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  municipioId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   pushToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   whatsappGroupId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -5308,9 +5688,10 @@ export type TenantMembershipCreateWithoutReferidosInput = {
   activo?: boolean
   aprobado?: boolean
   codigoReferido?: string | null
-  moto?: boolean | null
   numberId?: string | null
   placa?: string | null
+  moto?: boolean | null
+  direccion?: string | null
   pushToken?: string | null
   username?: string | null
   whatsappGroupId?: string | null
@@ -5338,6 +5719,7 @@ export type TenantMembershipCreateWithoutReferidosInput = {
   sesionesActividad?: Prisma.SesionActividadCreateNestedManyWithoutMembershipInput
   tenant: Prisma.TenantCreateNestedOneWithoutMembershipsInput
   user: Prisma.UserCreateNestedOneWithoutMembershipsInput
+  municipio?: Prisma.MunicipalityCreateNestedOneWithoutMembershipsInput
   turnos?: Prisma.TurnoCreateNestedManyWithoutMembershipInput
 }
 
@@ -5352,9 +5734,11 @@ export type TenantMembershipUncheckedCreateWithoutReferidosInput = {
   activo?: boolean
   aprobado?: boolean
   codigoReferido?: string | null
-  moto?: boolean | null
   numberId?: string | null
   placa?: string | null
+  moto?: boolean | null
+  direccion?: string | null
+  municipioId?: string | null
   pushToken?: string | null
   username?: string | null
   whatsappGroupId?: string | null
@@ -5408,9 +5792,10 @@ export type TenantMembershipUpdateWithoutReferidosInput = {
   activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
   aprobado?: Prisma.BoolFieldUpdateOperationsInput | boolean
   codigoReferido?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  moto?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   numberId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   placa?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  moto?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  direccion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   pushToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   whatsappGroupId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -5438,6 +5823,7 @@ export type TenantMembershipUpdateWithoutReferidosInput = {
   sesionesActividad?: Prisma.SesionActividadUpdateManyWithoutMembershipNestedInput
   tenant?: Prisma.TenantUpdateOneRequiredWithoutMembershipsNestedInput
   user?: Prisma.UserUpdateOneRequiredWithoutMembershipsNestedInput
+  municipio?: Prisma.MunicipalityUpdateOneWithoutMembershipsNestedInput
   turnos?: Prisma.TurnoUpdateManyWithoutMembershipNestedInput
 }
 
@@ -5452,9 +5838,11 @@ export type TenantMembershipUncheckedUpdateWithoutReferidosInput = {
   activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
   aprobado?: Prisma.BoolFieldUpdateOperationsInput | boolean
   codigoReferido?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  moto?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   numberId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   placa?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  moto?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  direccion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  municipioId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   pushToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   whatsappGroupId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -5492,9 +5880,10 @@ export type TenantMembershipCreateWithoutAuditoriasInput = {
   activo?: boolean
   aprobado?: boolean
   codigoReferido?: string | null
-  moto?: boolean | null
   numberId?: string | null
   placa?: string | null
+  moto?: boolean | null
+  direccion?: string | null
   pushToken?: string | null
   username?: string | null
   whatsappGroupId?: string | null
@@ -5522,6 +5911,7 @@ export type TenantMembershipCreateWithoutAuditoriasInput = {
   sesionesActividad?: Prisma.SesionActividadCreateNestedManyWithoutMembershipInput
   tenant: Prisma.TenantCreateNestedOneWithoutMembershipsInput
   user: Prisma.UserCreateNestedOneWithoutMembershipsInput
+  municipio?: Prisma.MunicipalityCreateNestedOneWithoutMembershipsInput
   turnos?: Prisma.TurnoCreateNestedManyWithoutMembershipInput
 }
 
@@ -5536,9 +5926,11 @@ export type TenantMembershipUncheckedCreateWithoutAuditoriasInput = {
   activo?: boolean
   aprobado?: boolean
   codigoReferido?: string | null
-  moto?: boolean | null
   numberId?: string | null
   placa?: string | null
+  moto?: boolean | null
+  direccion?: string | null
+  municipioId?: string | null
   pushToken?: string | null
   username?: string | null
   whatsappGroupId?: string | null
@@ -5592,9 +5984,10 @@ export type TenantMembershipUpdateWithoutAuditoriasInput = {
   activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
   aprobado?: Prisma.BoolFieldUpdateOperationsInput | boolean
   codigoReferido?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  moto?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   numberId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   placa?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  moto?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  direccion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   pushToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   whatsappGroupId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -5622,6 +6015,7 @@ export type TenantMembershipUpdateWithoutAuditoriasInput = {
   sesionesActividad?: Prisma.SesionActividadUpdateManyWithoutMembershipNestedInput
   tenant?: Prisma.TenantUpdateOneRequiredWithoutMembershipsNestedInput
   user?: Prisma.UserUpdateOneRequiredWithoutMembershipsNestedInput
+  municipio?: Prisma.MunicipalityUpdateOneWithoutMembershipsNestedInput
   turnos?: Prisma.TurnoUpdateManyWithoutMembershipNestedInput
 }
 
@@ -5636,9 +6030,11 @@ export type TenantMembershipUncheckedUpdateWithoutAuditoriasInput = {
   activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
   aprobado?: Prisma.BoolFieldUpdateOperationsInput | boolean
   codigoReferido?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  moto?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   numberId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   placa?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  moto?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  direccion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  municipioId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   pushToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   whatsappGroupId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -5676,9 +6072,10 @@ export type TenantMembershipCreateWithoutSesionesActividadInput = {
   activo?: boolean
   aprobado?: boolean
   codigoReferido?: string | null
-  moto?: boolean | null
   numberId?: string | null
   placa?: string | null
+  moto?: boolean | null
+  direccion?: string | null
   pushToken?: string | null
   username?: string | null
   whatsappGroupId?: string | null
@@ -5706,6 +6103,7 @@ export type TenantMembershipCreateWithoutSesionesActividadInput = {
   referidos?: Prisma.ReferidosCreateNestedManyWithoutMembershipInput
   tenant: Prisma.TenantCreateNestedOneWithoutMembershipsInput
   user: Prisma.UserCreateNestedOneWithoutMembershipsInput
+  municipio?: Prisma.MunicipalityCreateNestedOneWithoutMembershipsInput
   turnos?: Prisma.TurnoCreateNestedManyWithoutMembershipInput
 }
 
@@ -5720,9 +6118,11 @@ export type TenantMembershipUncheckedCreateWithoutSesionesActividadInput = {
   activo?: boolean
   aprobado?: boolean
   codigoReferido?: string | null
-  moto?: boolean | null
   numberId?: string | null
   placa?: string | null
+  moto?: boolean | null
+  direccion?: string | null
+  municipioId?: string | null
   pushToken?: string | null
   username?: string | null
   whatsappGroupId?: string | null
@@ -5776,9 +6176,10 @@ export type TenantMembershipUpdateWithoutSesionesActividadInput = {
   activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
   aprobado?: Prisma.BoolFieldUpdateOperationsInput | boolean
   codigoReferido?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  moto?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   numberId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   placa?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  moto?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  direccion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   pushToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   whatsappGroupId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -5806,6 +6207,7 @@ export type TenantMembershipUpdateWithoutSesionesActividadInput = {
   referidos?: Prisma.ReferidosUpdateManyWithoutMembershipNestedInput
   tenant?: Prisma.TenantUpdateOneRequiredWithoutMembershipsNestedInput
   user?: Prisma.UserUpdateOneRequiredWithoutMembershipsNestedInput
+  municipio?: Prisma.MunicipalityUpdateOneWithoutMembershipsNestedInput
   turnos?: Prisma.TurnoUpdateManyWithoutMembershipNestedInput
 }
 
@@ -5820,9 +6222,11 @@ export type TenantMembershipUncheckedUpdateWithoutSesionesActividadInput = {
   activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
   aprobado?: Prisma.BoolFieldUpdateOperationsInput | boolean
   codigoReferido?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  moto?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   numberId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   placa?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  moto?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  direccion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  municipioId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   pushToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   whatsappGroupId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -5861,9 +6265,11 @@ export type TenantMembershipCreateManyUserInput = {
   activo?: boolean
   aprobado?: boolean
   codigoReferido?: string | null
-  moto?: boolean | null
   numberId?: string | null
   placa?: string | null
+  moto?: boolean | null
+  direccion?: string | null
+  municipioId?: string | null
   pushToken?: string | null
   username?: string | null
   whatsappGroupId?: string | null
@@ -5878,9 +6284,10 @@ export type TenantMembershipUpdateWithoutUserInput = {
   activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
   aprobado?: Prisma.BoolFieldUpdateOperationsInput | boolean
   codigoReferido?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  moto?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   numberId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   placa?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  moto?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  direccion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   pushToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   whatsappGroupId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -5908,6 +6315,7 @@ export type TenantMembershipUpdateWithoutUserInput = {
   referidos?: Prisma.ReferidosUpdateManyWithoutMembershipNestedInput
   sesionesActividad?: Prisma.SesionActividadUpdateManyWithoutMembershipNestedInput
   tenant?: Prisma.TenantUpdateOneRequiredWithoutMembershipsNestedInput
+  municipio?: Prisma.MunicipalityUpdateOneWithoutMembershipsNestedInput
   turnos?: Prisma.TurnoUpdateManyWithoutMembershipNestedInput
 }
 
@@ -5921,9 +6329,11 @@ export type TenantMembershipUncheckedUpdateWithoutUserInput = {
   activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
   aprobado?: Prisma.BoolFieldUpdateOperationsInput | boolean
   codigoReferido?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  moto?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   numberId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   placa?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  moto?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  direccion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  municipioId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   pushToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   whatsappGroupId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -5963,9 +6373,11 @@ export type TenantMembershipUncheckedUpdateManyWithoutUserInput = {
   activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
   aprobado?: Prisma.BoolFieldUpdateOperationsInput | boolean
   codigoReferido?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  moto?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   numberId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   placa?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  moto?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  direccion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  municipioId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   pushToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   whatsappGroupId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -5981,9 +6393,11 @@ export type TenantMembershipCreateManyTenantInput = {
   activo?: boolean
   aprobado?: boolean
   codigoReferido?: string | null
-  moto?: boolean | null
   numberId?: string | null
   placa?: string | null
+  moto?: boolean | null
+  direccion?: string | null
+  municipioId?: string | null
   pushToken?: string | null
   username?: string | null
   whatsappGroupId?: string | null
@@ -5998,9 +6412,10 @@ export type TenantMembershipUpdateWithoutTenantInput = {
   activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
   aprobado?: Prisma.BoolFieldUpdateOperationsInput | boolean
   codigoReferido?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  moto?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   numberId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   placa?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  moto?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  direccion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   pushToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   whatsappGroupId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -6028,6 +6443,7 @@ export type TenantMembershipUpdateWithoutTenantInput = {
   referidos?: Prisma.ReferidosUpdateManyWithoutMembershipNestedInput
   sesionesActividad?: Prisma.SesionActividadUpdateManyWithoutMembershipNestedInput
   user?: Prisma.UserUpdateOneRequiredWithoutMembershipsNestedInput
+  municipio?: Prisma.MunicipalityUpdateOneWithoutMembershipsNestedInput
   turnos?: Prisma.TurnoUpdateManyWithoutMembershipNestedInput
 }
 
@@ -6041,9 +6457,11 @@ export type TenantMembershipUncheckedUpdateWithoutTenantInput = {
   activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
   aprobado?: Prisma.BoolFieldUpdateOperationsInput | boolean
   codigoReferido?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  moto?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   numberId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   placa?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  moto?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  direccion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  municipioId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   pushToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   whatsappGroupId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -6083,9 +6501,139 @@ export type TenantMembershipUncheckedUpdateManyWithoutTenantInput = {
   activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
   aprobado?: Prisma.BoolFieldUpdateOperationsInput | boolean
   codigoReferido?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  moto?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   numberId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   placa?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  moto?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  direccion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  municipioId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pushToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  whatsappGroupId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+}
+
+export type TenantMembershipCreateManyMunicipioInput = {
+  id?: string
+  userId: string
+  tenantId: string
+  role: $Enums.Role
+  status?: $Enums.MembershipStatus
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  activo?: boolean
+  aprobado?: boolean
+  codigoReferido?: string | null
+  numberId?: string | null
+  placa?: string | null
+  moto?: boolean | null
+  direccion?: string | null
+  pushToken?: string | null
+  username?: string | null
+  whatsappGroupId?: string | null
+}
+
+export type TenantMembershipUpdateWithoutMunicipioInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  status?: Prisma.EnumMembershipStatusFieldUpdateOperationsInput | $Enums.MembershipStatus
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  aprobado?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  codigoReferido?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  numberId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  placa?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  moto?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  direccion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pushToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  whatsappGroupId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  anticipos?: Prisma.AnticiposUpdateManyWithoutMembershipNestedInput
+  auditorias?: Prisma.AuditoriaUpdateManyWithoutMembershipNestedInput
+  citasComoCreador?: Prisma.CitasPsicologosUpdateManyWithoutCreadoPorNestedInput
+  citasComoPsicologo?: Prisma.CitasPsicologosUpdateManyWithoutPsicologoNestedInput
+  clientesCreados?: Prisma.ClienteUpdateManyWithoutCreadoPorNestedInput
+  configuracionPagos?: Prisma.ConfiguracionPagosUpdateManyWithoutMembershipNestedInput
+  consignacionesCreadas?: Prisma.ConsignacionEfectivoUpdateManyWithoutCreadoPorNestedInput
+  consignacionesTecnico?: Prisma.ConsignacionEfectivoUpdateManyWithoutTecnicoNestedInput
+  cuentasCobro?: Prisma.CuentaCobroUpdateManyWithoutMembershipNestedInput
+  cuentasPago?: Prisma.CuentasPagoUpdateManyWithoutMembershipNestedInput
+  declaracionesEfectivo?: Prisma.DeclaracionEfectivoUpdateManyWithoutTecnicoNestedInput
+  egresos?: Prisma.EgresosUpdateManyWithoutMembershipNestedInput
+  empresaMemberships?: Prisma.EmpresaMembershipUpdateManyWithoutMembershipNestedInput
+  geolocalizaciones?: Prisma.GeolocalizacionUpdateManyWithoutMembershipNestedInput
+  nominas?: Prisma.NominaUpdateManyWithoutMembershipNestedInput
+  serviciosCreados?: Prisma.OrdenServicioUpdateManyWithoutCreadoPorNestedInput
+  serviciosAsignados?: Prisma.OrdenServicioUpdateManyWithoutTecnicoNestedInput
+  paquetesAdquiridos?: Prisma.PaqueteAdquiridoUpdateManyWithoutMembershipNestedInput
+  permisosAprobados?: Prisma.PermisoUpdateManyWithoutAdminNestedInput
+  permisosSolicitados?: Prisma.PermisoUpdateManyWithoutMembershipNestedInput
+  productosSolicitados?: Prisma.ProductoSolicitadoUpdateManyWithoutMembershipNestedInput
+  referidos?: Prisma.ReferidosUpdateManyWithoutMembershipNestedInput
+  sesionesActividad?: Prisma.SesionActividadUpdateManyWithoutMembershipNestedInput
+  tenant?: Prisma.TenantUpdateOneRequiredWithoutMembershipsNestedInput
+  user?: Prisma.UserUpdateOneRequiredWithoutMembershipsNestedInput
+  turnos?: Prisma.TurnoUpdateManyWithoutMembershipNestedInput
+}
+
+export type TenantMembershipUncheckedUpdateWithoutMunicipioInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  userId?: Prisma.StringFieldUpdateOperationsInput | string
+  tenantId?: Prisma.StringFieldUpdateOperationsInput | string
+  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  status?: Prisma.EnumMembershipStatusFieldUpdateOperationsInput | $Enums.MembershipStatus
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  aprobado?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  codigoReferido?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  numberId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  placa?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  moto?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  direccion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pushToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  whatsappGroupId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  anticipos?: Prisma.AnticiposUncheckedUpdateManyWithoutMembershipNestedInput
+  auditorias?: Prisma.AuditoriaUncheckedUpdateManyWithoutMembershipNestedInput
+  citasComoCreador?: Prisma.CitasPsicologosUncheckedUpdateManyWithoutCreadoPorNestedInput
+  citasComoPsicologo?: Prisma.CitasPsicologosUncheckedUpdateManyWithoutPsicologoNestedInput
+  clientesCreados?: Prisma.ClienteUncheckedUpdateManyWithoutCreadoPorNestedInput
+  configuracionPagos?: Prisma.ConfiguracionPagosUncheckedUpdateManyWithoutMembershipNestedInput
+  consignacionesCreadas?: Prisma.ConsignacionEfectivoUncheckedUpdateManyWithoutCreadoPorNestedInput
+  consignacionesTecnico?: Prisma.ConsignacionEfectivoUncheckedUpdateManyWithoutTecnicoNestedInput
+  cuentasCobro?: Prisma.CuentaCobroUncheckedUpdateManyWithoutMembershipNestedInput
+  cuentasPago?: Prisma.CuentasPagoUncheckedUpdateManyWithoutMembershipNestedInput
+  declaracionesEfectivo?: Prisma.DeclaracionEfectivoUncheckedUpdateManyWithoutTecnicoNestedInput
+  egresos?: Prisma.EgresosUncheckedUpdateManyWithoutMembershipNestedInput
+  empresaMemberships?: Prisma.EmpresaMembershipUncheckedUpdateManyWithoutMembershipNestedInput
+  geolocalizaciones?: Prisma.GeolocalizacionUncheckedUpdateManyWithoutMembershipNestedInput
+  nominas?: Prisma.NominaUncheckedUpdateManyWithoutMembershipNestedInput
+  serviciosCreados?: Prisma.OrdenServicioUncheckedUpdateManyWithoutCreadoPorNestedInput
+  serviciosAsignados?: Prisma.OrdenServicioUncheckedUpdateManyWithoutTecnicoNestedInput
+  paquetesAdquiridos?: Prisma.PaqueteAdquiridoUncheckedUpdateManyWithoutMembershipNestedInput
+  permisosAprobados?: Prisma.PermisoUncheckedUpdateManyWithoutAdminNestedInput
+  permisosSolicitados?: Prisma.PermisoUncheckedUpdateManyWithoutMembershipNestedInput
+  productosSolicitados?: Prisma.ProductoSolicitadoUncheckedUpdateManyWithoutMembershipNestedInput
+  referidos?: Prisma.ReferidosUncheckedUpdateManyWithoutMembershipNestedInput
+  sesionesActividad?: Prisma.SesionActividadUncheckedUpdateManyWithoutMembershipNestedInput
+  turnos?: Prisma.TurnoUncheckedUpdateManyWithoutMembershipNestedInput
+}
+
+export type TenantMembershipUncheckedUpdateManyWithoutMunicipioInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  userId?: Prisma.StringFieldUpdateOperationsInput | string
+  tenantId?: Prisma.StringFieldUpdateOperationsInput | string
+  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  status?: Prisma.EnumMembershipStatusFieldUpdateOperationsInput | $Enums.MembershipStatus
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  aprobado?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  codigoReferido?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  numberId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  placa?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  moto?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  direccion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   pushToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   whatsappGroupId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -6340,9 +6888,11 @@ export type TenantMembershipSelect<ExtArgs extends runtime.Types.Extensions.Inte
   activo?: boolean
   aprobado?: boolean
   codigoReferido?: boolean
-  moto?: boolean
   numberId?: boolean
   placa?: boolean
+  moto?: boolean
+  direccion?: boolean
+  municipioId?: boolean
   pushToken?: boolean
   username?: boolean
   whatsappGroupId?: boolean
@@ -6371,6 +6921,7 @@ export type TenantMembershipSelect<ExtArgs extends runtime.Types.Extensions.Inte
   sesionesActividad?: boolean | Prisma.TenantMembership$sesionesActividadArgs<ExtArgs>
   tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+  municipio?: boolean | Prisma.TenantMembership$municipioArgs<ExtArgs>
   turnos?: boolean | Prisma.TenantMembership$turnosArgs<ExtArgs>
   _count?: boolean | Prisma.TenantMembershipCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["tenantMembership"]>
@@ -6386,14 +6937,17 @@ export type TenantMembershipSelectCreateManyAndReturn<ExtArgs extends runtime.Ty
   activo?: boolean
   aprobado?: boolean
   codigoReferido?: boolean
-  moto?: boolean
   numberId?: boolean
   placa?: boolean
+  moto?: boolean
+  direccion?: boolean
+  municipioId?: boolean
   pushToken?: boolean
   username?: boolean
   whatsappGroupId?: boolean
   tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+  municipio?: boolean | Prisma.TenantMembership$municipioArgs<ExtArgs>
 }, ExtArgs["result"]["tenantMembership"]>
 
 export type TenantMembershipSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -6407,14 +6961,17 @@ export type TenantMembershipSelectUpdateManyAndReturn<ExtArgs extends runtime.Ty
   activo?: boolean
   aprobado?: boolean
   codigoReferido?: boolean
-  moto?: boolean
   numberId?: boolean
   placa?: boolean
+  moto?: boolean
+  direccion?: boolean
+  municipioId?: boolean
   pushToken?: boolean
   username?: boolean
   whatsappGroupId?: boolean
   tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+  municipio?: boolean | Prisma.TenantMembership$municipioArgs<ExtArgs>
 }, ExtArgs["result"]["tenantMembership"]>
 
 export type TenantMembershipSelectScalar = {
@@ -6428,15 +6985,17 @@ export type TenantMembershipSelectScalar = {
   activo?: boolean
   aprobado?: boolean
   codigoReferido?: boolean
-  moto?: boolean
   numberId?: boolean
   placa?: boolean
+  moto?: boolean
+  direccion?: boolean
+  municipioId?: boolean
   pushToken?: boolean
   username?: boolean
   whatsappGroupId?: boolean
 }
 
-export type TenantMembershipOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "tenantId" | "role" | "status" | "createdAt" | "updatedAt" | "activo" | "aprobado" | "codigoReferido" | "moto" | "numberId" | "placa" | "pushToken" | "username" | "whatsappGroupId", ExtArgs["result"]["tenantMembership"]>
+export type TenantMembershipOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "tenantId" | "role" | "status" | "createdAt" | "updatedAt" | "activo" | "aprobado" | "codigoReferido" | "numberId" | "placa" | "moto" | "direccion" | "municipioId" | "pushToken" | "username" | "whatsappGroupId", ExtArgs["result"]["tenantMembership"]>
 export type TenantMembershipInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   anticipos?: boolean | Prisma.TenantMembership$anticiposArgs<ExtArgs>
   auditorias?: boolean | Prisma.TenantMembership$auditoriasArgs<ExtArgs>
@@ -6463,16 +7022,19 @@ export type TenantMembershipInclude<ExtArgs extends runtime.Types.Extensions.Int
   sesionesActividad?: boolean | Prisma.TenantMembership$sesionesActividadArgs<ExtArgs>
   tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+  municipio?: boolean | Prisma.TenantMembership$municipioArgs<ExtArgs>
   turnos?: boolean | Prisma.TenantMembership$turnosArgs<ExtArgs>
   _count?: boolean | Prisma.TenantMembershipCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type TenantMembershipIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+  municipio?: boolean | Prisma.TenantMembership$municipioArgs<ExtArgs>
 }
 export type TenantMembershipIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+  municipio?: boolean | Prisma.TenantMembership$municipioArgs<ExtArgs>
 }
 
 export type $TenantMembershipPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -6503,6 +7065,7 @@ export type $TenantMembershipPayload<ExtArgs extends runtime.Types.Extensions.In
     sesionesActividad: Prisma.$SesionActividadPayload<ExtArgs>[]
     tenant: Prisma.$TenantPayload<ExtArgs>
     user: Prisma.$UserPayload<ExtArgs>
+    municipio: Prisma.$MunicipalityPayload<ExtArgs> | null
     turnos: Prisma.$TurnoPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
@@ -6516,9 +7079,11 @@ export type $TenantMembershipPayload<ExtArgs extends runtime.Types.Extensions.In
     activo: boolean
     aprobado: boolean
     codigoReferido: string | null
-    moto: boolean | null
     numberId: string | null
     placa: string | null
+    moto: boolean | null
+    direccion: string | null
+    municipioId: string | null
     pushToken: string | null
     username: string | null
     whatsappGroupId: string | null
@@ -6941,6 +7506,7 @@ export interface Prisma__TenantMembershipClient<T, Null = never, ExtArgs extends
   sesionesActividad<T extends Prisma.TenantMembership$sesionesActividadArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.TenantMembership$sesionesActividadArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$SesionActividadPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   tenant<T extends Prisma.TenantDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.TenantDefaultArgs<ExtArgs>>): Prisma.Prisma__TenantClient<runtime.Types.Result.GetResult<Prisma.$TenantPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   user<T extends Prisma.UserDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.UserDefaultArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  municipio<T extends Prisma.TenantMembership$municipioArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.TenantMembership$municipioArgs<ExtArgs>>): Prisma.Prisma__MunicipalityClient<runtime.Types.Result.GetResult<Prisma.$MunicipalityPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   turnos<T extends Prisma.TenantMembership$turnosArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.TenantMembership$turnosArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$TurnoPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -6981,9 +7547,11 @@ export interface TenantMembershipFieldRefs {
   readonly activo: Prisma.FieldRef<"TenantMembership", 'Boolean'>
   readonly aprobado: Prisma.FieldRef<"TenantMembership", 'Boolean'>
   readonly codigoReferido: Prisma.FieldRef<"TenantMembership", 'String'>
-  readonly moto: Prisma.FieldRef<"TenantMembership", 'Boolean'>
   readonly numberId: Prisma.FieldRef<"TenantMembership", 'String'>
   readonly placa: Prisma.FieldRef<"TenantMembership", 'String'>
+  readonly moto: Prisma.FieldRef<"TenantMembership", 'Boolean'>
+  readonly direccion: Prisma.FieldRef<"TenantMembership", 'String'>
+  readonly municipioId: Prisma.FieldRef<"TenantMembership", 'String'>
   readonly pushToken: Prisma.FieldRef<"TenantMembership", 'String'>
   readonly username: Prisma.FieldRef<"TenantMembership", 'String'>
   readonly whatsappGroupId: Prisma.FieldRef<"TenantMembership", 'String'>
@@ -7932,6 +8500,25 @@ export type TenantMembership$sesionesActividadArgs<ExtArgs extends runtime.Types
   take?: number
   skip?: number
   distinct?: Prisma.SesionActividadScalarFieldEnum | Prisma.SesionActividadScalarFieldEnum[]
+}
+
+/**
+ * TenantMembership.municipio
+ */
+export type TenantMembership$municipioArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Municipality
+   */
+  select?: Prisma.MunicipalitySelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Municipality
+   */
+  omit?: Prisma.MunicipalityOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.MunicipalityInclude<ExtArgs> | null
+  where?: Prisma.MunicipalityWhereInput
 }
 
 /**

@@ -136,9 +136,11 @@ model TenantMembership {
   activo                Boolean                @default(true)
   aprobado              Boolean                @default(false)
   codigoReferido        String?
-  moto                  Boolean?
   numberId              String?
   placa                 String?
+  moto                  Boolean?
+  direccion             String?
+  municipioId           String?                @db.Uuid
   pushToken             String?
   username              String?
   whatsappGroupId       String?
@@ -167,6 +169,7 @@ model TenantMembership {
   sesionesActividad     SesionActividad[]
   tenant                Tenant                 @relation(fields: [tenantId], references: [id], onDelete: Cascade)
   user                  User                   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  municipio             Municipality?          @relation(fields: [municipioId], references: [id])
   turnos                Turno[]
 
   @@unique([userId, tenantId])
@@ -369,6 +372,7 @@ model Municipality {
   code         String      @unique
   departmentId String      @db.Uuid
   direcciones  Direccion[]
+  memberships  TenantMembership[]
   department   Department  @relation(fields: [departmentId], references: [id])
 
   @@map("municipalities")
@@ -486,10 +490,12 @@ model Direccion {
   tipoUbicacion      String?
   validadoPorSistema Boolean         @default(false)
   departmentId       String?         @db.Uuid
+  zonaId             String?         @db.Uuid
   cliente            Cliente         @relation(fields: [clienteId], references: [id])
   departmentRel      Department?     @relation(fields: [departmentId], references: [id])
   empresa            Empresa?        @relation(fields: [empresaId], references: [id])
   municipioRel       Municipality?   @relation(fields: [municipioId], references: [id])
+  zona               Zona?           @relation(fields: [zonaId], references: [id])
   tenant             Tenant          @relation(fields: [tenantId], references: [id], onDelete: Cascade)
   ordenesServicio    OrdenServicio[]
 
@@ -508,6 +514,7 @@ model Zona {
   createdAt          DateTime            @default(now())
   empresaId          String              @db.Uuid
   empresaMemberships EmpresaMembership[]
+  direcciones        Direccion[]
   ordenes            OrdenServicio[]
   empresa            Empresa             @relation(fields: [empresaId], references: [id])
   tenant             Tenant              @relation(fields: [tenantId], references: [id])
@@ -1147,20 +1154,30 @@ model Egresos {
 }
 
 model PicoPlaca {
-  id        String   @id @default(uuid()) @db.Uuid
-  tenantId  String   @db.Uuid
-  dia       String
+  id        String    @id @default(uuid()) @db.Uuid
+  tenantId  String    @db.Uuid
+  dia       DiaSemana
   numeroUno Int
   numeroDos Int
-  activo    Boolean  @default(true)
-  createdAt DateTime @default(now())
-  empresaId String   @db.Uuid
-  empresa   Empresa  @relation(fields: [empresaId], references: [id])
-  tenant    Tenant   @relation(fields: [tenantId], references: [id])
+  activo    Boolean   @default(true)
+  createdAt DateTime  @default(now())
+  empresaId String    @db.Uuid
+  empresa   Empresa   @relation(fields: [empresaId], references: [id])
+  tenant    Tenant    @relation(fields: [tenantId], references: [id])
 
   @@index([tenantId])
   @@index([empresaId])
   @@map("pico_placa")
+}
+
+enum DiaSemana {
+  LUNES
+  MARTES
+  MIERCOLES
+  JUEVES
+  VIERNES
+  SABADO
+  DOMINGO
 }
 
 model Referidos {
