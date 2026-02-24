@@ -198,8 +198,8 @@ export type ZonaWhereInput = {
   deletedAt?: Prisma.DateTimeNullableFilter<"Zona"> | Date | string | null
   createdAt?: Prisma.DateTimeFilter<"Zona"> | Date | string
   empresaId?: Prisma.UuidFilter<"Zona"> | string
-  empresaMemberships?: Prisma.EmpresaMembershipListRelationFilter
   direcciones?: Prisma.DireccionListRelationFilter
+  empresaMemberships?: Prisma.EmpresaMembershipListRelationFilter
   ordenes?: Prisma.OrdenServicioListRelationFilter
   empresa?: Prisma.XOR<Prisma.EmpresaScalarRelationFilter, Prisma.EmpresaWhereInput>
   tenant?: Prisma.XOR<Prisma.TenantScalarRelationFilter, Prisma.TenantWhereInput>
@@ -213,8 +213,8 @@ export type ZonaOrderByWithRelationInput = {
   deletedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   empresaId?: Prisma.SortOrder
-  empresaMemberships?: Prisma.EmpresaMembershipOrderByRelationAggregateInput
   direcciones?: Prisma.DireccionOrderByRelationAggregateInput
+  empresaMemberships?: Prisma.EmpresaMembershipOrderByRelationAggregateInput
   ordenes?: Prisma.OrdenServicioOrderByRelationAggregateInput
   empresa?: Prisma.EmpresaOrderByWithRelationInput
   tenant?: Prisma.TenantOrderByWithRelationInput
@@ -231,8 +231,8 @@ export type ZonaWhereUniqueInput = Prisma.AtLeast<{
   deletedAt?: Prisma.DateTimeNullableFilter<"Zona"> | Date | string | null
   createdAt?: Prisma.DateTimeFilter<"Zona"> | Date | string
   empresaId?: Prisma.UuidFilter<"Zona"> | string
-  empresaMemberships?: Prisma.EmpresaMembershipListRelationFilter
   direcciones?: Prisma.DireccionListRelationFilter
+  empresaMemberships?: Prisma.EmpresaMembershipListRelationFilter
   ordenes?: Prisma.OrdenServicioListRelationFilter
   empresa?: Prisma.XOR<Prisma.EmpresaScalarRelationFilter, Prisma.EmpresaWhereInput>
   tenant?: Prisma.XOR<Prisma.TenantScalarRelationFilter, Prisma.TenantWhereInput>
@@ -270,8 +270,8 @@ export type ZonaCreateInput = {
   estado?: boolean
   deletedAt?: Date | string | null
   createdAt?: Date | string
-  empresaMemberships?: Prisma.EmpresaMembershipCreateNestedManyWithoutZonaInput
   direcciones?: Prisma.DireccionCreateNestedManyWithoutZonaInput
+  empresaMemberships?: Prisma.EmpresaMembershipCreateNestedManyWithoutZonaInput
   ordenes?: Prisma.OrdenServicioCreateNestedManyWithoutZonaInput
   empresa: Prisma.EmpresaCreateNestedOneWithoutZonasInput
   tenant: Prisma.TenantCreateNestedOneWithoutZonasInput
@@ -285,8 +285,8 @@ export type ZonaUncheckedCreateInput = {
   deletedAt?: Date | string | null
   createdAt?: Date | string
   empresaId: string
-  empresaMemberships?: Prisma.EmpresaMembershipUncheckedCreateNestedManyWithoutZonaInput
   direcciones?: Prisma.DireccionUncheckedCreateNestedManyWithoutZonaInput
+  empresaMemberships?: Prisma.EmpresaMembershipUncheckedCreateNestedManyWithoutZonaInput
   ordenes?: Prisma.OrdenServicioUncheckedCreateNestedManyWithoutZonaInput
 }
 
@@ -296,8 +296,8 @@ export type ZonaUpdateInput = {
   estado?: Prisma.BoolFieldUpdateOperationsInput | boolean
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  empresaMemberships?: Prisma.EmpresaMembershipUpdateManyWithoutZonaNestedInput
   direcciones?: Prisma.DireccionUpdateManyWithoutZonaNestedInput
+  empresaMemberships?: Prisma.EmpresaMembershipUpdateManyWithoutZonaNestedInput
   ordenes?: Prisma.OrdenServicioUpdateManyWithoutZonaNestedInput
   empresa?: Prisma.EmpresaUpdateOneRequiredWithoutZonasNestedInput
   tenant?: Prisma.TenantUpdateOneRequiredWithoutZonasNestedInput
@@ -311,8 +311,8 @@ export type ZonaUncheckedUpdateInput = {
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   empresaId?: Prisma.StringFieldUpdateOperationsInput | string
-  empresaMemberships?: Prisma.EmpresaMembershipUncheckedUpdateManyWithoutZonaNestedInput
   direcciones?: Prisma.DireccionUncheckedUpdateManyWithoutZonaNestedInput
+  empresaMemberships?: Prisma.EmpresaMembershipUncheckedUpdateManyWithoutZonaNestedInput
   ordenes?: Prisma.OrdenServicioUncheckedUpdateManyWithoutZonaNestedInput
 }
 
@@ -527,8 +527,8 @@ export type ZonaCreateWithoutTenantInput = {
   estado?: boolean
   deletedAt?: Date | string | null
   createdAt?: Date | string
-  empresaMemberships?: Prisma.EmpresaMembershipCreateNestedManyWithoutZonaInput
   direcciones?: Prisma.DireccionCreateNestedManyWithoutZonaInput
+  empresaMemberships?: Prisma.EmpresaMembershipCreateNestedManyWithoutZonaInput
   ordenes?: Prisma.OrdenServicioCreateNestedManyWithoutZonaInput
   empresa: Prisma.EmpresaCreateNestedOneWithoutZonasInput
 }
@@ -540,8 +540,8 @@ export type ZonaUncheckedCreateWithoutTenantInput = {
   deletedAt?: Date | string | null
   createdAt?: Date | string
   empresaId: string
-  empresaMemberships?: Prisma.EmpresaMembershipUncheckedCreateNestedManyWithoutZonaInput
   direcciones?: Prisma.DireccionUncheckedCreateNestedManyWithoutZonaInput
+  empresaMemberships?: Prisma.EmpresaMembershipUncheckedCreateNestedManyWithoutZonaInput
   ordenes?: Prisma.OrdenServicioUncheckedCreateNestedManyWithoutZonaInput
 }
 
@@ -590,8 +590,8 @@ export type ZonaCreateWithoutEmpresaInput = {
   estado?: boolean
   deletedAt?: Date | string | null
   createdAt?: Date | string
-  empresaMemberships?: Prisma.EmpresaMembershipCreateNestedManyWithoutZonaInput
   direcciones?: Prisma.DireccionCreateNestedManyWithoutZonaInput
+  empresaMemberships?: Prisma.EmpresaMembershipCreateNestedManyWithoutZonaInput
   ordenes?: Prisma.OrdenServicioCreateNestedManyWithoutZonaInput
   tenant: Prisma.TenantCreateNestedOneWithoutZonasInput
 }
@@ -603,8 +603,8 @@ export type ZonaUncheckedCreateWithoutEmpresaInput = {
   estado?: boolean
   deletedAt?: Date | string | null
   createdAt?: Date | string
-  empresaMemberships?: Prisma.EmpresaMembershipUncheckedCreateNestedManyWithoutZonaInput
   direcciones?: Prisma.DireccionUncheckedCreateNestedManyWithoutZonaInput
+  empresaMemberships?: Prisma.EmpresaMembershipUncheckedCreateNestedManyWithoutZonaInput
   ordenes?: Prisma.OrdenServicioUncheckedCreateNestedManyWithoutZonaInput
 }
 
@@ -768,8 +768,8 @@ export type ZonaCreateWithoutOrdenesInput = {
   estado?: boolean
   deletedAt?: Date | string | null
   createdAt?: Date | string
-  empresaMemberships?: Prisma.EmpresaMembershipCreateNestedManyWithoutZonaInput
   direcciones?: Prisma.DireccionCreateNestedManyWithoutZonaInput
+  empresaMemberships?: Prisma.EmpresaMembershipCreateNestedManyWithoutZonaInput
   empresa: Prisma.EmpresaCreateNestedOneWithoutZonasInput
   tenant: Prisma.TenantCreateNestedOneWithoutZonasInput
 }
@@ -782,8 +782,8 @@ export type ZonaUncheckedCreateWithoutOrdenesInput = {
   deletedAt?: Date | string | null
   createdAt?: Date | string
   empresaId: string
-  empresaMemberships?: Prisma.EmpresaMembershipUncheckedCreateNestedManyWithoutZonaInput
   direcciones?: Prisma.DireccionUncheckedCreateNestedManyWithoutZonaInput
+  empresaMemberships?: Prisma.EmpresaMembershipUncheckedCreateNestedManyWithoutZonaInput
 }
 
 export type ZonaCreateOrConnectWithoutOrdenesInput = {
@@ -808,8 +808,8 @@ export type ZonaUpdateWithoutOrdenesInput = {
   estado?: Prisma.BoolFieldUpdateOperationsInput | boolean
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  empresaMemberships?: Prisma.EmpresaMembershipUpdateManyWithoutZonaNestedInput
   direcciones?: Prisma.DireccionUpdateManyWithoutZonaNestedInput
+  empresaMemberships?: Prisma.EmpresaMembershipUpdateManyWithoutZonaNestedInput
   empresa?: Prisma.EmpresaUpdateOneRequiredWithoutZonasNestedInput
   tenant?: Prisma.TenantUpdateOneRequiredWithoutZonasNestedInput
 }
@@ -822,8 +822,8 @@ export type ZonaUncheckedUpdateWithoutOrdenesInput = {
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   empresaId?: Prisma.StringFieldUpdateOperationsInput | string
-  empresaMemberships?: Prisma.EmpresaMembershipUncheckedUpdateManyWithoutZonaNestedInput
   direcciones?: Prisma.DireccionUncheckedUpdateManyWithoutZonaNestedInput
+  empresaMemberships?: Prisma.EmpresaMembershipUncheckedUpdateManyWithoutZonaNestedInput
 }
 
 export type ZonaCreateManyTenantInput = {
@@ -841,8 +841,8 @@ export type ZonaUpdateWithoutTenantInput = {
   estado?: Prisma.BoolFieldUpdateOperationsInput | boolean
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  empresaMemberships?: Prisma.EmpresaMembershipUpdateManyWithoutZonaNestedInput
   direcciones?: Prisma.DireccionUpdateManyWithoutZonaNestedInput
+  empresaMemberships?: Prisma.EmpresaMembershipUpdateManyWithoutZonaNestedInput
   ordenes?: Prisma.OrdenServicioUpdateManyWithoutZonaNestedInput
   empresa?: Prisma.EmpresaUpdateOneRequiredWithoutZonasNestedInput
 }
@@ -854,8 +854,8 @@ export type ZonaUncheckedUpdateWithoutTenantInput = {
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   empresaId?: Prisma.StringFieldUpdateOperationsInput | string
-  empresaMemberships?: Prisma.EmpresaMembershipUncheckedUpdateManyWithoutZonaNestedInput
   direcciones?: Prisma.DireccionUncheckedUpdateManyWithoutZonaNestedInput
+  empresaMemberships?: Prisma.EmpresaMembershipUncheckedUpdateManyWithoutZonaNestedInput
   ordenes?: Prisma.OrdenServicioUncheckedUpdateManyWithoutZonaNestedInput
 }
 
@@ -883,8 +883,8 @@ export type ZonaUpdateWithoutEmpresaInput = {
   estado?: Prisma.BoolFieldUpdateOperationsInput | boolean
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  empresaMemberships?: Prisma.EmpresaMembershipUpdateManyWithoutZonaNestedInput
   direcciones?: Prisma.DireccionUpdateManyWithoutZonaNestedInput
+  empresaMemberships?: Prisma.EmpresaMembershipUpdateManyWithoutZonaNestedInput
   ordenes?: Prisma.OrdenServicioUpdateManyWithoutZonaNestedInput
   tenant?: Prisma.TenantUpdateOneRequiredWithoutZonasNestedInput
 }
@@ -896,8 +896,8 @@ export type ZonaUncheckedUpdateWithoutEmpresaInput = {
   estado?: Prisma.BoolFieldUpdateOperationsInput | boolean
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  empresaMemberships?: Prisma.EmpresaMembershipUncheckedUpdateManyWithoutZonaNestedInput
   direcciones?: Prisma.DireccionUncheckedUpdateManyWithoutZonaNestedInput
+  empresaMemberships?: Prisma.EmpresaMembershipUncheckedUpdateManyWithoutZonaNestedInput
   ordenes?: Prisma.OrdenServicioUncheckedUpdateManyWithoutZonaNestedInput
 }
 
@@ -916,14 +916,14 @@ export type ZonaUncheckedUpdateManyWithoutEmpresaInput = {
  */
 
 export type ZonaCountOutputType = {
-  empresaMemberships: number
   direcciones: number
+  empresaMemberships: number
   ordenes: number
 }
 
 export type ZonaCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  empresaMemberships?: boolean | ZonaCountOutputTypeCountEmpresaMembershipsArgs
   direcciones?: boolean | ZonaCountOutputTypeCountDireccionesArgs
+  empresaMemberships?: boolean | ZonaCountOutputTypeCountEmpresaMembershipsArgs
   ordenes?: boolean | ZonaCountOutputTypeCountOrdenesArgs
 }
 
@@ -940,15 +940,15 @@ export type ZonaCountOutputTypeDefaultArgs<ExtArgs extends runtime.Types.Extensi
 /**
  * ZonaCountOutputType without action
  */
-export type ZonaCountOutputTypeCountEmpresaMembershipsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.EmpresaMembershipWhereInput
+export type ZonaCountOutputTypeCountDireccionesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.DireccionWhereInput
 }
 
 /**
  * ZonaCountOutputType without action
  */
-export type ZonaCountOutputTypeCountDireccionesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.DireccionWhereInput
+export type ZonaCountOutputTypeCountEmpresaMembershipsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.EmpresaMembershipWhereInput
 }
 
 /**
@@ -967,8 +967,8 @@ export type ZonaSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   deletedAt?: boolean
   createdAt?: boolean
   empresaId?: boolean
-  empresaMemberships?: boolean | Prisma.Zona$empresaMembershipsArgs<ExtArgs>
   direcciones?: boolean | Prisma.Zona$direccionesArgs<ExtArgs>
+  empresaMemberships?: boolean | Prisma.Zona$empresaMembershipsArgs<ExtArgs>
   ordenes?: boolean | Prisma.Zona$ordenesArgs<ExtArgs>
   empresa?: boolean | Prisma.EmpresaDefaultArgs<ExtArgs>
   tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
@@ -1011,8 +1011,8 @@ export type ZonaSelectScalar = {
 
 export type ZonaOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "tenantId" | "nombre" | "estado" | "deletedAt" | "createdAt" | "empresaId", ExtArgs["result"]["zona"]>
 export type ZonaInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  empresaMemberships?: boolean | Prisma.Zona$empresaMembershipsArgs<ExtArgs>
   direcciones?: boolean | Prisma.Zona$direccionesArgs<ExtArgs>
+  empresaMemberships?: boolean | Prisma.Zona$empresaMembershipsArgs<ExtArgs>
   ordenes?: boolean | Prisma.Zona$ordenesArgs<ExtArgs>
   empresa?: boolean | Prisma.EmpresaDefaultArgs<ExtArgs>
   tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
@@ -1030,8 +1030,8 @@ export type ZonaIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensi
 export type $ZonaPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "Zona"
   objects: {
-    empresaMemberships: Prisma.$EmpresaMembershipPayload<ExtArgs>[]
     direcciones: Prisma.$DireccionPayload<ExtArgs>[]
+    empresaMemberships: Prisma.$EmpresaMembershipPayload<ExtArgs>[]
     ordenes: Prisma.$OrdenServicioPayload<ExtArgs>[]
     empresa: Prisma.$EmpresaPayload<ExtArgs>
     tenant: Prisma.$TenantPayload<ExtArgs>
@@ -1438,8 +1438,8 @@ readonly fields: ZonaFieldRefs;
  */
 export interface Prisma__ZonaClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
-  empresaMemberships<T extends Prisma.Zona$empresaMembershipsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Zona$empresaMembershipsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$EmpresaMembershipPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   direcciones<T extends Prisma.Zona$direccionesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Zona$direccionesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$DireccionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  empresaMemberships<T extends Prisma.Zona$empresaMembershipsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Zona$empresaMembershipsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$EmpresaMembershipPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   ordenes<T extends Prisma.Zona$ordenesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Zona$ordenesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$OrdenServicioPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   empresa<T extends Prisma.EmpresaDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.EmpresaDefaultArgs<ExtArgs>>): Prisma.Prisma__EmpresaClient<runtime.Types.Result.GetResult<Prisma.$EmpresaPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   tenant<T extends Prisma.TenantDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.TenantDefaultArgs<ExtArgs>>): Prisma.Prisma__TenantClient<runtime.Types.Result.GetResult<Prisma.$TenantPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
@@ -1875,30 +1875,6 @@ export type ZonaDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.Internal
 }
 
 /**
- * Zona.empresaMemberships
- */
-export type Zona$empresaMembershipsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the EmpresaMembership
-   */
-  select?: Prisma.EmpresaMembershipSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the EmpresaMembership
-   */
-  omit?: Prisma.EmpresaMembershipOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.EmpresaMembershipInclude<ExtArgs> | null
-  where?: Prisma.EmpresaMembershipWhereInput
-  orderBy?: Prisma.EmpresaMembershipOrderByWithRelationInput | Prisma.EmpresaMembershipOrderByWithRelationInput[]
-  cursor?: Prisma.EmpresaMembershipWhereUniqueInput
-  take?: number
-  skip?: number
-  distinct?: Prisma.EmpresaMembershipScalarFieldEnum | Prisma.EmpresaMembershipScalarFieldEnum[]
-}
-
-/**
  * Zona.direcciones
  */
 export type Zona$direccionesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1920,6 +1896,30 @@ export type Zona$direccionesArgs<ExtArgs extends runtime.Types.Extensions.Intern
   take?: number
   skip?: number
   distinct?: Prisma.DireccionScalarFieldEnum | Prisma.DireccionScalarFieldEnum[]
+}
+
+/**
+ * Zona.empresaMemberships
+ */
+export type Zona$empresaMembershipsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the EmpresaMembership
+   */
+  select?: Prisma.EmpresaMembershipSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the EmpresaMembership
+   */
+  omit?: Prisma.EmpresaMembershipOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.EmpresaMembershipInclude<ExtArgs> | null
+  where?: Prisma.EmpresaMembershipWhereInput
+  orderBy?: Prisma.EmpresaMembershipOrderByWithRelationInput | Prisma.EmpresaMembershipOrderByWithRelationInput[]
+  cursor?: Prisma.EmpresaMembershipWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.EmpresaMembershipScalarFieldEnum | Prisma.EmpresaMembershipScalarFieldEnum[]
 }
 
 /**

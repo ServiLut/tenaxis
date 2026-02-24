@@ -4270,14 +4270,14 @@ export const TenantMembershipScalarFieldEnum = {
   activo: 'activo',
   aprobado: 'aprobado',
   codigoReferido: 'codigoReferido',
+  moto: 'moto',
   numberId: 'numberId',
   placa: 'placa',
-  moto: 'moto',
-  direccion: 'direccion',
-  municipioId: 'municipioId',
   pushToken: 'pushToken',
   username: 'username',
-  whatsappGroupId: 'whatsappGroupId'
+  whatsappGroupId: 'whatsappGroupId',
+  direccion: 'direccion',
+  municipioId: 'municipioId'
 } as const
 
 export type TenantMembershipScalarFieldEnum = (typeof TenantMembershipScalarFieldEnum)[keyof typeof TenantMembershipScalarFieldEnum]
@@ -4596,11 +4596,6 @@ export const OrdenServicioScalarFieldEnum = {
   horaFin: 'horaFin',
   observacion: 'observacion',
   observacionFinal: 'observacionFinal',
-  nivelInfestacion: 'nivelInfestacion',
-  urgencia: 'urgencia',
-  tipoVisita: 'tipoVisita',
-  frecuenciaSugerida: 'frecuenciaSugerida',
-  tipoFacturacion: 'tipoFacturacion',
   condicionesHigiene: 'condicionesHigiene',
   condicionesLocal: 'condicionesLocal',
   valorCotizado: 'valorCotizado',
@@ -4615,7 +4610,12 @@ export const OrdenServicioScalarFieldEnum = {
   seguimientoRevisado: 'seguimientoRevisado',
   ordenPadreId: 'ordenPadreId',
   createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
+  updatedAt: 'updatedAt',
+  frecuenciaSugerida: 'frecuenciaSugerida',
+  tipoFacturacion: 'tipoFacturacion',
+  tipoVisita: 'tipoVisita',
+  nivelInfestacion: 'nivelInfestacion',
+  urgencia: 'urgencia'
 } as const
 
 export type OrdenServicioScalarFieldEnum = (typeof OrdenServicioScalarFieldEnum)[keyof typeof OrdenServicioScalarFieldEnum]
@@ -4965,12 +4965,12 @@ export type EgresosScalarFieldEnum = (typeof EgresosScalarFieldEnum)[keyof typeo
 export const PicoPlacaScalarFieldEnum = {
   id: 'id',
   tenantId: 'tenantId',
-  dia: 'dia',
   numeroUno: 'numeroUno',
   numeroDos: 'numeroDos',
   activo: 'activo',
   createdAt: 'createdAt',
-  empresaId: 'empresaId'
+  empresaId: 'empresaId',
+  dia: 'dia'
 } as const
 
 export type PicoPlacaScalarFieldEnum = (typeof PicoPlacaScalarFieldEnum)[keyof typeof PicoPlacaScalarFieldEnum]
@@ -5274,6 +5274,48 @@ export type ListFloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaMode
 
 
 /**
+ * Reference to a field of type 'EstadoPagoOrden'
+ */
+export type EnumEstadoPagoOrdenFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'EstadoPagoOrden'>
+    
+
+
+/**
+ * Reference to a field of type 'EstadoPagoOrden[]'
+ */
+export type ListEnumEstadoPagoOrdenFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'EstadoPagoOrden[]'>
+    
+
+
+/**
+ * Reference to a field of type 'TipoFacturacion'
+ */
+export type EnumTipoFacturacionFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'TipoFacturacion'>
+    
+
+
+/**
+ * Reference to a field of type 'TipoFacturacion[]'
+ */
+export type ListEnumTipoFacturacionFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'TipoFacturacion[]'>
+    
+
+
+/**
+ * Reference to a field of type 'TipoVisita'
+ */
+export type EnumTipoVisitaFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'TipoVisita'>
+    
+
+
+/**
+ * Reference to a field of type 'TipoVisita[]'
+ */
+export type ListEnumTipoVisitaFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'TipoVisita[]'>
+    
+
+
+/**
  * Reference to a field of type 'NivelInfestacion'
  */
 export type EnumNivelInfestacionFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'NivelInfestacion'>
@@ -5298,48 +5340,6 @@ export type EnumUrgenciaOrdenFieldRefInput<$PrismaModel> = FieldRefInputType<$Pr
  * Reference to a field of type 'UrgenciaOrden[]'
  */
 export type ListEnumUrgenciaOrdenFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'UrgenciaOrden[]'>
-    
-
-
-/**
- * Reference to a field of type 'TipoVisita'
- */
-export type EnumTipoVisitaFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'TipoVisita'>
-    
-
-
-/**
- * Reference to a field of type 'TipoVisita[]'
- */
-export type ListEnumTipoVisitaFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'TipoVisita[]'>
-    
-
-
-/**
- * Reference to a field of type 'TipoFacturacion'
- */
-export type EnumTipoFacturacionFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'TipoFacturacion'>
-    
-
-
-/**
- * Reference to a field of type 'TipoFacturacion[]'
- */
-export type ListEnumTipoFacturacionFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'TipoFacturacion[]'>
-    
-
-
-/**
- * Reference to a field of type 'EstadoPagoOrden'
- */
-export type EnumEstadoPagoOrdenFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'EstadoPagoOrden'>
-    
-
-
-/**
- * Reference to a field of type 'EstadoPagoOrden[]'
- */
-export type ListEnumEstadoPagoOrdenFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'EstadoPagoOrden[]'>
     
 
 

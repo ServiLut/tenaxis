@@ -136,14 +136,15 @@ model TenantMembership {
   activo                Boolean                @default(true)
   aprobado              Boolean                @default(false)
   codigoReferido        String?
+  moto                  Boolean?
   numberId              String?
   placa                 String?
-  moto                  Boolean?
-  direccion             String?
-  municipioId           String?                @db.Uuid
   pushToken             String?
   username              String?
   whatsappGroupId       String?
+  direccion             String?
+  municipioId           String?                @db.Uuid
+  municipio             Municipality?          @relation(fields: [municipioId], references: [id])
   anticipos             Anticipos[]
   auditorias            Auditoria[]
   citasComoCreador      CitasPsicologos[]      @relation("CitasCreadoPor")
@@ -169,7 +170,6 @@ model TenantMembership {
   sesionesActividad     SesionActividad[]
   tenant                Tenant                 @relation(fields: [tenantId], references: [id], onDelete: Cascade)
   user                  User                   @relation(fields: [userId], references: [id], onDelete: Cascade)
-  municipio             Municipality?          @relation(fields: [municipioId], references: [id])
   turnos                Turno[]
 
   @@unique([userId, tenantId])
@@ -367,13 +367,13 @@ model Department {
 }
 
 model Municipality {
-  id           String      @id @default(uuid()) @db.Uuid
+  id           String             @id @default(uuid()) @db.Uuid
   name         String
-  code         String      @unique
-  departmentId String      @db.Uuid
+  code         String             @unique
+  departmentId String             @db.Uuid
   direcciones  Direccion[]
   memberships  TenantMembership[]
-  department   Department  @relation(fields: [departmentId], references: [id])
+  department   Department         @relation(fields: [departmentId], references: [id])
 
   @@map("municipalities")
 }
@@ -495,8 +495,8 @@ model Direccion {
   departmentRel      Department?     @relation(fields: [departmentId], references: [id])
   empresa            Empresa?        @relation(fields: [empresaId], references: [id])
   municipioRel       Municipality?   @relation(fields: [municipioId], references: [id])
-  zona               Zona?           @relation(fields: [zonaId], references: [id])
   tenant             Tenant          @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  zona               Zona?           @relation(fields: [zonaId], references: [id])
   ordenesServicio    OrdenServicio[]
 
   @@index([tenantId])
@@ -513,8 +513,8 @@ model Zona {
   deletedAt          DateTime?
   createdAt          DateTime            @default(now())
   empresaId          String              @db.Uuid
-  empresaMemberships EmpresaMembership[]
   direcciones        Direccion[]
+  empresaMemberships EmpresaMembership[]
   ordenes            OrdenServicio[]
   empresa            Empresa             @relation(fields: [empresaId], references: [id])
   tenant             Tenant              @relation(fields: [tenantId], references: [id])
@@ -545,14 +545,14 @@ model Servicio {
 }
 
 model TipoServicio {
-  id        String          @id @default(uuid()) @db.Uuid
-  tenantId  String          @db.Uuid
+  id        String   @id @default(uuid()) @db.Uuid
+  tenantId  String   @db.Uuid
   nombre    String
-  activo    Boolean         @default(true)
-  createdAt DateTime        @default(now())
-  empresaId String          @db.Uuid
-  empresa   Empresa         @relation(fields: [empresaId], references: [id])
-  tenant    Tenant          @relation(fields: [tenantId], references: [id])
+  activo    Boolean  @default(true)
+  createdAt DateTime @default(now())
+  empresaId String   @db.Uuid
+  empresa   Empresa  @relation(fields: [empresaId], references: [id])
+  tenant    Tenant   @relation(fields: [tenantId], references: [id])
 
   @@index([tenantId])
   @@index([empresaId])
@@ -618,11 +618,6 @@ model OrdenServicio {
   horaFin               DateTime?
   observacion           String?
   observacionFinal      String?
-  nivelInfestacion      NivelInfestacion?
-  urgencia              UrgenciaOrden?
-  tipoVisita            TipoVisita?
-  frecuenciaSugerida    Int?
-  tipoFacturacion       TipoFacturacion?
   condicionesHigiene    String?
   condicionesLocal      String?
   valorCotizado         Decimal?             @db.Decimal(12, 2)
@@ -638,6 +633,11 @@ model OrdenServicio {
   ordenPadreId          String?              @db.Uuid
   createdAt             DateTime             @default(now())
   updatedAt             DateTime             @updatedAt
+  frecuenciaSugerida    Int?
+  tipoFacturacion       TipoFacturacion?
+  tipoVisita            TipoVisita?
+  nivelInfestacion      NivelInfestacion?
+  urgencia              UrgenciaOrden?
   consignacionOrden     ConsignacionOrden?
   declaracionEfectivo   DeclaracionEfectivo?
   geolocalizaciones     Geolocalizacion[]
@@ -1156,28 +1156,18 @@ model Egresos {
 model PicoPlaca {
   id        String    @id @default(uuid()) @db.Uuid
   tenantId  String    @db.Uuid
-  dia       DiaSemana
   numeroUno Int
   numeroDos Int
   activo    Boolean   @default(true)
   createdAt DateTime  @default(now())
   empresaId String    @db.Uuid
+  dia       DiaSemana
   empresa   Empresa   @relation(fields: [empresaId], references: [id])
   tenant    Tenant    @relation(fields: [tenantId], references: [id])
 
   @@index([tenantId])
   @@index([empresaId])
   @@map("pico_placa")
-}
-
-enum DiaSemana {
-  LUNES
-  MARTES
-  MIERCOLES
-  JUEVES
-  VIERNES
-  SABADO
-  DOMINGO
 }
 
 model Referidos {
@@ -1306,6 +1296,16 @@ model PasswordResetToken {
   @@map("password_reset_tokens")
 }
 
+enum DiaSemana {
+  LUNES
+  MARTES
+  MIERCOLES
+  JUEVES
+  VIERNES
+  SABADO
+  DOMINGO
+}
+
 enum Role {
   SU_ADMIN
   ADMIN
@@ -1372,12 +1372,12 @@ enum EstadoPermiso {
 
 enum EstadoPagoOrden {
   PENDIENTE
-  ANTICIPO
-  PAGADO
-  CREDITO
   EFECTIVO_DECLARADO
   CONSIGNADO
   CONCILIADO
+  ANTICIPO
+  PAGADO
+  CREDITO
 }
 
 enum NivelInfestacion {

@@ -197,14 +197,14 @@ export const TenantMembershipScalarFieldEnum = {
   activo: 'activo',
   aprobado: 'aprobado',
   codigoReferido: 'codigoReferido',
+  moto: 'moto',
   numberId: 'numberId',
   placa: 'placa',
-  moto: 'moto',
-  direccion: 'direccion',
-  municipioId: 'municipioId',
   pushToken: 'pushToken',
   username: 'username',
-  whatsappGroupId: 'whatsappGroupId'
+  whatsappGroupId: 'whatsappGroupId',
+  direccion: 'direccion',
+  municipioId: 'municipioId'
 } as const
 
 export type TenantMembershipScalarFieldEnum = (typeof TenantMembershipScalarFieldEnum)[keyof typeof TenantMembershipScalarFieldEnum]
@@ -523,11 +523,6 @@ export const OrdenServicioScalarFieldEnum = {
   horaFin: 'horaFin',
   observacion: 'observacion',
   observacionFinal: 'observacionFinal',
-  nivelInfestacion: 'nivelInfestacion',
-  urgencia: 'urgencia',
-  tipoVisita: 'tipoVisita',
-  frecuenciaSugerida: 'frecuenciaSugerida',
-  tipoFacturacion: 'tipoFacturacion',
   condicionesHigiene: 'condicionesHigiene',
   condicionesLocal: 'condicionesLocal',
   valorCotizado: 'valorCotizado',
@@ -542,7 +537,12 @@ export const OrdenServicioScalarFieldEnum = {
   seguimientoRevisado: 'seguimientoRevisado',
   ordenPadreId: 'ordenPadreId',
   createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
+  updatedAt: 'updatedAt',
+  frecuenciaSugerida: 'frecuenciaSugerida',
+  tipoFacturacion: 'tipoFacturacion',
+  tipoVisita: 'tipoVisita',
+  nivelInfestacion: 'nivelInfestacion',
+  urgencia: 'urgencia'
 } as const
 
 export type OrdenServicioScalarFieldEnum = (typeof OrdenServicioScalarFieldEnum)[keyof typeof OrdenServicioScalarFieldEnum]
@@ -892,12 +892,12 @@ export type EgresosScalarFieldEnum = (typeof EgresosScalarFieldEnum)[keyof typeo
 export const PicoPlacaScalarFieldEnum = {
   id: 'id',
   tenantId: 'tenantId',
-  dia: 'dia',
   numeroUno: 'numeroUno',
   numeroDos: 'numeroDos',
   activo: 'activo',
   createdAt: 'createdAt',
-  empresaId: 'empresaId'
+  empresaId: 'empresaId',
+  dia: 'dia'
 } as const
 
 export type PicoPlacaScalarFieldEnum = (typeof PicoPlacaScalarFieldEnum)[keyof typeof PicoPlacaScalarFieldEnum]

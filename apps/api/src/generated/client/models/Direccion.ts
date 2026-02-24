@@ -444,8 +444,8 @@ export type DireccionWhereInput = {
   departmentRel?: Prisma.XOR<Prisma.DepartmentNullableScalarRelationFilter, Prisma.DepartmentWhereInput> | null
   empresa?: Prisma.XOR<Prisma.EmpresaNullableScalarRelationFilter, Prisma.EmpresaWhereInput> | null
   municipioRel?: Prisma.XOR<Prisma.MunicipalityNullableScalarRelationFilter, Prisma.MunicipalityWhereInput> | null
-  zona?: Prisma.XOR<Prisma.ZonaNullableScalarRelationFilter, Prisma.ZonaWhereInput> | null
   tenant?: Prisma.XOR<Prisma.TenantScalarRelationFilter, Prisma.TenantWhereInput>
+  zona?: Prisma.XOR<Prisma.ZonaNullableScalarRelationFilter, Prisma.ZonaWhereInput> | null
   ordenesServicio?: Prisma.OrdenServicioListRelationFilter
 }
 
@@ -486,8 +486,8 @@ export type DireccionOrderByWithRelationInput = {
   departmentRel?: Prisma.DepartmentOrderByWithRelationInput
   empresa?: Prisma.EmpresaOrderByWithRelationInput
   municipioRel?: Prisma.MunicipalityOrderByWithRelationInput
-  zona?: Prisma.ZonaOrderByWithRelationInput
   tenant?: Prisma.TenantOrderByWithRelationInput
+  zona?: Prisma.ZonaOrderByWithRelationInput
   ordenesServicio?: Prisma.OrdenServicioOrderByRelationAggregateInput
 }
 
@@ -531,8 +531,8 @@ export type DireccionWhereUniqueInput = Prisma.AtLeast<{
   departmentRel?: Prisma.XOR<Prisma.DepartmentNullableScalarRelationFilter, Prisma.DepartmentWhereInput> | null
   empresa?: Prisma.XOR<Prisma.EmpresaNullableScalarRelationFilter, Prisma.EmpresaWhereInput> | null
   municipioRel?: Prisma.XOR<Prisma.MunicipalityNullableScalarRelationFilter, Prisma.MunicipalityWhereInput> | null
-  zona?: Prisma.XOR<Prisma.ZonaNullableScalarRelationFilter, Prisma.ZonaWhereInput> | null
   tenant?: Prisma.XOR<Prisma.TenantScalarRelationFilter, Prisma.TenantWhereInput>
+  zona?: Prisma.XOR<Prisma.ZonaNullableScalarRelationFilter, Prisma.ZonaWhereInput> | null
   ordenesServicio?: Prisma.OrdenServicioListRelationFilter
 }, "id">
 
@@ -645,8 +645,8 @@ export type DireccionCreateInput = {
   departmentRel?: Prisma.DepartmentCreateNestedOneWithoutDireccionesInput
   empresa?: Prisma.EmpresaCreateNestedOneWithoutDireccionesInput
   municipioRel?: Prisma.MunicipalityCreateNestedOneWithoutDireccionesInput
-  zona?: Prisma.ZonaCreateNestedOneWithoutDireccionesInput
   tenant: Prisma.TenantCreateNestedOneWithoutDireccionesInput
+  zona?: Prisma.ZonaCreateNestedOneWithoutDireccionesInput
   ordenesServicio?: Prisma.OrdenServicioCreateNestedManyWithoutDireccionInput
 }
 
@@ -717,8 +717,8 @@ export type DireccionUpdateInput = {
   departmentRel?: Prisma.DepartmentUpdateOneWithoutDireccionesNestedInput
   empresa?: Prisma.EmpresaUpdateOneWithoutDireccionesNestedInput
   municipioRel?: Prisma.MunicipalityUpdateOneWithoutDireccionesNestedInput
-  zona?: Prisma.ZonaUpdateOneWithoutDireccionesNestedInput
   tenant?: Prisma.TenantUpdateOneRequiredWithoutDireccionesNestedInput
+  zona?: Prisma.ZonaUpdateOneWithoutDireccionesNestedInput
   ordenesServicio?: Prisma.OrdenServicioUpdateManyWithoutDireccionNestedInput
 }
 
@@ -1429,8 +1429,8 @@ export type DireccionCreateWithoutEmpresaInput = {
   cliente: Prisma.ClienteCreateNestedOneWithoutDireccionesInput
   departmentRel?: Prisma.DepartmentCreateNestedOneWithoutDireccionesInput
   municipioRel?: Prisma.MunicipalityCreateNestedOneWithoutDireccionesInput
-  zona?: Prisma.ZonaCreateNestedOneWithoutDireccionesInput
   tenant: Prisma.TenantCreateNestedOneWithoutDireccionesInput
+  zona?: Prisma.ZonaCreateNestedOneWithoutDireccionesInput
   ordenesServicio?: Prisma.OrdenServicioCreateNestedManyWithoutDireccionInput
 }
 
@@ -1525,8 +1525,8 @@ export type DireccionCreateWithoutDepartmentRelInput = {
   cliente: Prisma.ClienteCreateNestedOneWithoutDireccionesInput
   empresa?: Prisma.EmpresaCreateNestedOneWithoutDireccionesInput
   municipioRel?: Prisma.MunicipalityCreateNestedOneWithoutDireccionesInput
-  zona?: Prisma.ZonaCreateNestedOneWithoutDireccionesInput
   tenant: Prisma.TenantCreateNestedOneWithoutDireccionesInput
+  zona?: Prisma.ZonaCreateNestedOneWithoutDireccionesInput
   ordenesServicio?: Prisma.OrdenServicioCreateNestedManyWithoutDireccionInput
 }
 
@@ -1621,8 +1621,8 @@ export type DireccionCreateWithoutMunicipioRelInput = {
   cliente: Prisma.ClienteCreateNestedOneWithoutDireccionesInput
   departmentRel?: Prisma.DepartmentCreateNestedOneWithoutDireccionesInput
   empresa?: Prisma.EmpresaCreateNestedOneWithoutDireccionesInput
-  zona?: Prisma.ZonaCreateNestedOneWithoutDireccionesInput
   tenant: Prisma.TenantCreateNestedOneWithoutDireccionesInput
+  zona?: Prisma.ZonaCreateNestedOneWithoutDireccionesInput
   ordenesServicio?: Prisma.OrdenServicioCreateNestedManyWithoutDireccionInput
 }
 
@@ -1717,8 +1717,8 @@ export type DireccionCreateWithoutClienteInput = {
   departmentRel?: Prisma.DepartmentCreateNestedOneWithoutDireccionesInput
   empresa?: Prisma.EmpresaCreateNestedOneWithoutDireccionesInput
   municipioRel?: Prisma.MunicipalityCreateNestedOneWithoutDireccionesInput
-  zona?: Prisma.ZonaCreateNestedOneWithoutDireccionesInput
   tenant: Prisma.TenantCreateNestedOneWithoutDireccionesInput
+  zona?: Prisma.ZonaCreateNestedOneWithoutDireccionesInput
   ordenesServicio?: Prisma.OrdenServicioCreateNestedManyWithoutDireccionInput
 }
 
@@ -1910,8 +1910,8 @@ export type DireccionCreateWithoutOrdenesServicioInput = {
   departmentRel?: Prisma.DepartmentCreateNestedOneWithoutDireccionesInput
   empresa?: Prisma.EmpresaCreateNestedOneWithoutDireccionesInput
   municipioRel?: Prisma.MunicipalityCreateNestedOneWithoutDireccionesInput
-  zona?: Prisma.ZonaCreateNestedOneWithoutDireccionesInput
   tenant: Prisma.TenantCreateNestedOneWithoutDireccionesInput
+  zona?: Prisma.ZonaCreateNestedOneWithoutDireccionesInput
 }
 
 export type DireccionUncheckedCreateWithoutOrdenesServicioInput = {
@@ -1996,8 +1996,8 @@ export type DireccionUpdateWithoutOrdenesServicioInput = {
   departmentRel?: Prisma.DepartmentUpdateOneWithoutDireccionesNestedInput
   empresa?: Prisma.EmpresaUpdateOneWithoutDireccionesNestedInput
   municipioRel?: Prisma.MunicipalityUpdateOneWithoutDireccionesNestedInput
-  zona?: Prisma.ZonaUpdateOneWithoutDireccionesNestedInput
   tenant?: Prisma.TenantUpdateOneRequiredWithoutDireccionesNestedInput
+  zona?: Prisma.ZonaUpdateOneWithoutDireccionesNestedInput
 }
 
 export type DireccionUncheckedUpdateWithoutOrdenesServicioInput = {
@@ -2237,8 +2237,8 @@ export type DireccionUpdateWithoutEmpresaInput = {
   cliente?: Prisma.ClienteUpdateOneRequiredWithoutDireccionesNestedInput
   departmentRel?: Prisma.DepartmentUpdateOneWithoutDireccionesNestedInput
   municipioRel?: Prisma.MunicipalityUpdateOneWithoutDireccionesNestedInput
-  zona?: Prisma.ZonaUpdateOneWithoutDireccionesNestedInput
   tenant?: Prisma.TenantUpdateOneRequiredWithoutDireccionesNestedInput
+  zona?: Prisma.ZonaUpdateOneWithoutDireccionesNestedInput
   ordenesServicio?: Prisma.OrdenServicioUpdateManyWithoutDireccionNestedInput
 }
 
@@ -2375,8 +2375,8 @@ export type DireccionUpdateWithoutDepartmentRelInput = {
   cliente?: Prisma.ClienteUpdateOneRequiredWithoutDireccionesNestedInput
   empresa?: Prisma.EmpresaUpdateOneWithoutDireccionesNestedInput
   municipioRel?: Prisma.MunicipalityUpdateOneWithoutDireccionesNestedInput
-  zona?: Prisma.ZonaUpdateOneWithoutDireccionesNestedInput
   tenant?: Prisma.TenantUpdateOneRequiredWithoutDireccionesNestedInput
+  zona?: Prisma.ZonaUpdateOneWithoutDireccionesNestedInput
   ordenesServicio?: Prisma.OrdenServicioUpdateManyWithoutDireccionNestedInput
 }
 
@@ -2513,8 +2513,8 @@ export type DireccionUpdateWithoutMunicipioRelInput = {
   cliente?: Prisma.ClienteUpdateOneRequiredWithoutDireccionesNestedInput
   departmentRel?: Prisma.DepartmentUpdateOneWithoutDireccionesNestedInput
   empresa?: Prisma.EmpresaUpdateOneWithoutDireccionesNestedInput
-  zona?: Prisma.ZonaUpdateOneWithoutDireccionesNestedInput
   tenant?: Prisma.TenantUpdateOneRequiredWithoutDireccionesNestedInput
+  zona?: Prisma.ZonaUpdateOneWithoutDireccionesNestedInput
   ordenesServicio?: Prisma.OrdenServicioUpdateManyWithoutDireccionNestedInput
 }
 
@@ -2651,8 +2651,8 @@ export type DireccionUpdateWithoutClienteInput = {
   departmentRel?: Prisma.DepartmentUpdateOneWithoutDireccionesNestedInput
   empresa?: Prisma.EmpresaUpdateOneWithoutDireccionesNestedInput
   municipioRel?: Prisma.MunicipalityUpdateOneWithoutDireccionesNestedInput
-  zona?: Prisma.ZonaUpdateOneWithoutDireccionesNestedInput
   tenant?: Prisma.TenantUpdateOneRequiredWithoutDireccionesNestedInput
+  zona?: Prisma.ZonaUpdateOneWithoutDireccionesNestedInput
   ordenesServicio?: Prisma.OrdenServicioUpdateManyWithoutDireccionNestedInput
 }
 
@@ -2931,8 +2931,8 @@ export type DireccionSelect<ExtArgs extends runtime.Types.Extensions.InternalArg
   departmentRel?: boolean | Prisma.Direccion$departmentRelArgs<ExtArgs>
   empresa?: boolean | Prisma.Direccion$empresaArgs<ExtArgs>
   municipioRel?: boolean | Prisma.Direccion$municipioRelArgs<ExtArgs>
-  zona?: boolean | Prisma.Direccion$zonaArgs<ExtArgs>
   tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
+  zona?: boolean | Prisma.Direccion$zonaArgs<ExtArgs>
   ordenesServicio?: boolean | Prisma.Direccion$ordenesServicioArgs<ExtArgs>
   _count?: boolean | Prisma.DireccionCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["direccion"]>
@@ -2974,8 +2974,8 @@ export type DireccionSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Ext
   departmentRel?: boolean | Prisma.Direccion$departmentRelArgs<ExtArgs>
   empresa?: boolean | Prisma.Direccion$empresaArgs<ExtArgs>
   municipioRel?: boolean | Prisma.Direccion$municipioRelArgs<ExtArgs>
-  zona?: boolean | Prisma.Direccion$zonaArgs<ExtArgs>
   tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
+  zona?: boolean | Prisma.Direccion$zonaArgs<ExtArgs>
 }, ExtArgs["result"]["direccion"]>
 
 export type DireccionSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -3015,8 +3015,8 @@ export type DireccionSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Ext
   departmentRel?: boolean | Prisma.Direccion$departmentRelArgs<ExtArgs>
   empresa?: boolean | Prisma.Direccion$empresaArgs<ExtArgs>
   municipioRel?: boolean | Prisma.Direccion$municipioRelArgs<ExtArgs>
-  zona?: boolean | Prisma.Direccion$zonaArgs<ExtArgs>
   tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
+  zona?: boolean | Prisma.Direccion$zonaArgs<ExtArgs>
 }, ExtArgs["result"]["direccion"]>
 
 export type DireccionSelectScalar = {
@@ -3060,8 +3060,8 @@ export type DireccionInclude<ExtArgs extends runtime.Types.Extensions.InternalAr
   departmentRel?: boolean | Prisma.Direccion$departmentRelArgs<ExtArgs>
   empresa?: boolean | Prisma.Direccion$empresaArgs<ExtArgs>
   municipioRel?: boolean | Prisma.Direccion$municipioRelArgs<ExtArgs>
-  zona?: boolean | Prisma.Direccion$zonaArgs<ExtArgs>
   tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
+  zona?: boolean | Prisma.Direccion$zonaArgs<ExtArgs>
   ordenesServicio?: boolean | Prisma.Direccion$ordenesServicioArgs<ExtArgs>
   _count?: boolean | Prisma.DireccionCountOutputTypeDefaultArgs<ExtArgs>
 }
@@ -3070,16 +3070,16 @@ export type DireccionIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Ex
   departmentRel?: boolean | Prisma.Direccion$departmentRelArgs<ExtArgs>
   empresa?: boolean | Prisma.Direccion$empresaArgs<ExtArgs>
   municipioRel?: boolean | Prisma.Direccion$municipioRelArgs<ExtArgs>
-  zona?: boolean | Prisma.Direccion$zonaArgs<ExtArgs>
   tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
+  zona?: boolean | Prisma.Direccion$zonaArgs<ExtArgs>
 }
 export type DireccionIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   cliente?: boolean | Prisma.ClienteDefaultArgs<ExtArgs>
   departmentRel?: boolean | Prisma.Direccion$departmentRelArgs<ExtArgs>
   empresa?: boolean | Prisma.Direccion$empresaArgs<ExtArgs>
   municipioRel?: boolean | Prisma.Direccion$municipioRelArgs<ExtArgs>
-  zona?: boolean | Prisma.Direccion$zonaArgs<ExtArgs>
   tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
+  zona?: boolean | Prisma.Direccion$zonaArgs<ExtArgs>
 }
 
 export type $DireccionPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -3089,8 +3089,8 @@ export type $DireccionPayload<ExtArgs extends runtime.Types.Extensions.InternalA
     departmentRel: Prisma.$DepartmentPayload<ExtArgs> | null
     empresa: Prisma.$EmpresaPayload<ExtArgs> | null
     municipioRel: Prisma.$MunicipalityPayload<ExtArgs> | null
-    zona: Prisma.$ZonaPayload<ExtArgs> | null
     tenant: Prisma.$TenantPayload<ExtArgs>
+    zona: Prisma.$ZonaPayload<ExtArgs> | null
     ordenesServicio: Prisma.$OrdenServicioPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
@@ -3524,8 +3524,8 @@ export interface Prisma__DireccionClient<T, Null = never, ExtArgs extends runtim
   departmentRel<T extends Prisma.Direccion$departmentRelArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Direccion$departmentRelArgs<ExtArgs>>): Prisma.Prisma__DepartmentClient<runtime.Types.Result.GetResult<Prisma.$DepartmentPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   empresa<T extends Prisma.Direccion$empresaArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Direccion$empresaArgs<ExtArgs>>): Prisma.Prisma__EmpresaClient<runtime.Types.Result.GetResult<Prisma.$EmpresaPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   municipioRel<T extends Prisma.Direccion$municipioRelArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Direccion$municipioRelArgs<ExtArgs>>): Prisma.Prisma__MunicipalityClient<runtime.Types.Result.GetResult<Prisma.$MunicipalityPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
-  zona<T extends Prisma.Direccion$zonaArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Direccion$zonaArgs<ExtArgs>>): Prisma.Prisma__ZonaClient<runtime.Types.Result.GetResult<Prisma.$ZonaPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   tenant<T extends Prisma.TenantDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.TenantDefaultArgs<ExtArgs>>): Prisma.Prisma__TenantClient<runtime.Types.Result.GetResult<Prisma.$TenantPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  zona<T extends Prisma.Direccion$zonaArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Direccion$zonaArgs<ExtArgs>>): Prisma.Prisma__ZonaClient<runtime.Types.Result.GetResult<Prisma.$ZonaPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   ordenesServicio<T extends Prisma.Direccion$ordenesServicioArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Direccion$ordenesServicioArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$OrdenServicioPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.

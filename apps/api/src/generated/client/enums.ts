@@ -118,12 +118,12 @@ export type EstadoPermiso = (typeof EstadoPermiso)[keyof typeof EstadoPermiso]
 
 export const EstadoPagoOrden = {
   PENDIENTE: 'PENDIENTE',
-  ANTICIPO: 'ANTICIPO',
-  PAGADO: 'PAGADO',
-  CREDITO: 'CREDITO',
   EFECTIVO_DECLARADO: 'EFECTIVO_DECLARADO',
   CONSIGNADO: 'CONSIGNADO',
-  CONCILIADO: 'CONCILIADO'
+  CONCILIADO: 'CONCILIADO',
+  ANTICIPO: 'ANTICIPO',
+  PAGADO: 'PAGADO',
+  CREDITO: 'CREDITO'
 } as const
 
 export type EstadoPagoOrden = (typeof EstadoPagoOrden)[keyof typeof EstadoPagoOrden]

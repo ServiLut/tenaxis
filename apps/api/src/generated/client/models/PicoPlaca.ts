@@ -39,34 +39,34 @@ export type PicoPlacaSumAggregateOutputType = {
 export type PicoPlacaMinAggregateOutputType = {
   id: string | null
   tenantId: string | null
-  dia: $Enums.DiaSemana | null
   numeroUno: number | null
   numeroDos: number | null
   activo: boolean | null
   createdAt: Date | null
   empresaId: string | null
+  dia: $Enums.DiaSemana | null
 }
 
 export type PicoPlacaMaxAggregateOutputType = {
   id: string | null
   tenantId: string | null
-  dia: $Enums.DiaSemana | null
   numeroUno: number | null
   numeroDos: number | null
   activo: boolean | null
   createdAt: Date | null
   empresaId: string | null
+  dia: $Enums.DiaSemana | null
 }
 
 export type PicoPlacaCountAggregateOutputType = {
   id: number
   tenantId: number
-  dia: number
   numeroUno: number
   numeroDos: number
   activo: number
   createdAt: number
   empresaId: number
+  dia: number
   _all: number
 }
 
@@ -84,34 +84,34 @@ export type PicoPlacaSumAggregateInputType = {
 export type PicoPlacaMinAggregateInputType = {
   id?: true
   tenantId?: true
-  dia?: true
   numeroUno?: true
   numeroDos?: true
   activo?: true
   createdAt?: true
   empresaId?: true
+  dia?: true
 }
 
 export type PicoPlacaMaxAggregateInputType = {
   id?: true
   tenantId?: true
-  dia?: true
   numeroUno?: true
   numeroDos?: true
   activo?: true
   createdAt?: true
   empresaId?: true
+  dia?: true
 }
 
 export type PicoPlacaCountAggregateInputType = {
   id?: true
   tenantId?: true
-  dia?: true
   numeroUno?: true
   numeroDos?: true
   activo?: true
   createdAt?: true
   empresaId?: true
+  dia?: true
   _all?: true
 }
 
@@ -204,12 +204,12 @@ export type PicoPlacaGroupByArgs<ExtArgs extends runtime.Types.Extensions.Intern
 export type PicoPlacaGroupByOutputType = {
   id: string
   tenantId: string
-  dia: $Enums.DiaSemana
   numeroUno: number
   numeroDos: number
   activo: boolean
   createdAt: Date
   empresaId: string
+  dia: $Enums.DiaSemana
   _count: PicoPlacaCountAggregateOutputType | null
   _avg: PicoPlacaAvgAggregateOutputType | null
   _sum: PicoPlacaSumAggregateOutputType | null
@@ -238,12 +238,12 @@ export type PicoPlacaWhereInput = {
   NOT?: Prisma.PicoPlacaWhereInput | Prisma.PicoPlacaWhereInput[]
   id?: Prisma.UuidFilter<"PicoPlaca"> | string
   tenantId?: Prisma.UuidFilter<"PicoPlaca"> | string
-  dia?: Prisma.EnumDiaSemanaFilter<"PicoPlaca"> | $Enums.DiaSemana
   numeroUno?: Prisma.IntFilter<"PicoPlaca"> | number
   numeroDos?: Prisma.IntFilter<"PicoPlaca"> | number
   activo?: Prisma.BoolFilter<"PicoPlaca"> | boolean
   createdAt?: Prisma.DateTimeFilter<"PicoPlaca"> | Date | string
   empresaId?: Prisma.UuidFilter<"PicoPlaca"> | string
+  dia?: Prisma.EnumDiaSemanaFilter<"PicoPlaca"> | $Enums.DiaSemana
   empresa?: Prisma.XOR<Prisma.EmpresaScalarRelationFilter, Prisma.EmpresaWhereInput>
   tenant?: Prisma.XOR<Prisma.TenantScalarRelationFilter, Prisma.TenantWhereInput>
 }
@@ -251,12 +251,12 @@ export type PicoPlacaWhereInput = {
 export type PicoPlacaOrderByWithRelationInput = {
   id?: Prisma.SortOrder
   tenantId?: Prisma.SortOrder
-  dia?: Prisma.SortOrder
   numeroUno?: Prisma.SortOrder
   numeroDos?: Prisma.SortOrder
   activo?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   empresaId?: Prisma.SortOrder
+  dia?: Prisma.SortOrder
   empresa?: Prisma.EmpresaOrderByWithRelationInput
   tenant?: Prisma.TenantOrderByWithRelationInput
 }
@@ -267,12 +267,12 @@ export type PicoPlacaWhereUniqueInput = Prisma.AtLeast<{
   OR?: Prisma.PicoPlacaWhereInput[]
   NOT?: Prisma.PicoPlacaWhereInput | Prisma.PicoPlacaWhereInput[]
   tenantId?: Prisma.UuidFilter<"PicoPlaca"> | string
-  dia?: Prisma.EnumDiaSemanaFilter<"PicoPlaca"> | $Enums.DiaSemana
   numeroUno?: Prisma.IntFilter<"PicoPlaca"> | number
   numeroDos?: Prisma.IntFilter<"PicoPlaca"> | number
   activo?: Prisma.BoolFilter<"PicoPlaca"> | boolean
   createdAt?: Prisma.DateTimeFilter<"PicoPlaca"> | Date | string
   empresaId?: Prisma.UuidFilter<"PicoPlaca"> | string
+  dia?: Prisma.EnumDiaSemanaFilter<"PicoPlaca"> | $Enums.DiaSemana
   empresa?: Prisma.XOR<Prisma.EmpresaScalarRelationFilter, Prisma.EmpresaWhereInput>
   tenant?: Prisma.XOR<Prisma.TenantScalarRelationFilter, Prisma.TenantWhereInput>
 }, "id">
@@ -280,12 +280,12 @@ export type PicoPlacaWhereUniqueInput = Prisma.AtLeast<{
 export type PicoPlacaOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
   tenantId?: Prisma.SortOrder
-  dia?: Prisma.SortOrder
   numeroUno?: Prisma.SortOrder
   numeroDos?: Prisma.SortOrder
   activo?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   empresaId?: Prisma.SortOrder
+  dia?: Prisma.SortOrder
   _count?: Prisma.PicoPlacaCountOrderByAggregateInput
   _avg?: Prisma.PicoPlacaAvgOrderByAggregateInput
   _max?: Prisma.PicoPlacaMaxOrderByAggregateInput
@@ -299,21 +299,21 @@ export type PicoPlacaScalarWhereWithAggregatesInput = {
   NOT?: Prisma.PicoPlacaScalarWhereWithAggregatesInput | Prisma.PicoPlacaScalarWhereWithAggregatesInput[]
   id?: Prisma.UuidWithAggregatesFilter<"PicoPlaca"> | string
   tenantId?: Prisma.UuidWithAggregatesFilter<"PicoPlaca"> | string
-  dia?: Prisma.EnumDiaSemanaWithAggregatesFilter<"PicoPlaca"> | $Enums.DiaSemana
   numeroUno?: Prisma.IntWithAggregatesFilter<"PicoPlaca"> | number
   numeroDos?: Prisma.IntWithAggregatesFilter<"PicoPlaca"> | number
   activo?: Prisma.BoolWithAggregatesFilter<"PicoPlaca"> | boolean
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"PicoPlaca"> | Date | string
   empresaId?: Prisma.UuidWithAggregatesFilter<"PicoPlaca"> | string
+  dia?: Prisma.EnumDiaSemanaWithAggregatesFilter<"PicoPlaca"> | $Enums.DiaSemana
 }
 
 export type PicoPlacaCreateInput = {
   id?: string
-  dia: $Enums.DiaSemana
   numeroUno: number
   numeroDos: number
   activo?: boolean
   createdAt?: Date | string
+  dia: $Enums.DiaSemana
   empresa: Prisma.EmpresaCreateNestedOneWithoutPicoPlacaInput
   tenant: Prisma.TenantCreateNestedOneWithoutPicoPlacaInput
 }
@@ -321,21 +321,21 @@ export type PicoPlacaCreateInput = {
 export type PicoPlacaUncheckedCreateInput = {
   id?: string
   tenantId: string
-  dia: $Enums.DiaSemana
   numeroUno: number
   numeroDos: number
   activo?: boolean
   createdAt?: Date | string
   empresaId: string
+  dia: $Enums.DiaSemana
 }
 
 export type PicoPlacaUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  dia?: Prisma.EnumDiaSemanaFieldUpdateOperationsInput | $Enums.DiaSemana
   numeroUno?: Prisma.IntFieldUpdateOperationsInput | number
   numeroDos?: Prisma.IntFieldUpdateOperationsInput | number
   activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  dia?: Prisma.EnumDiaSemanaFieldUpdateOperationsInput | $Enums.DiaSemana
   empresa?: Prisma.EmpresaUpdateOneRequiredWithoutPicoPlacaNestedInput
   tenant?: Prisma.TenantUpdateOneRequiredWithoutPicoPlacaNestedInput
 }
@@ -343,43 +343,43 @@ export type PicoPlacaUpdateInput = {
 export type PicoPlacaUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   tenantId?: Prisma.StringFieldUpdateOperationsInput | string
-  dia?: Prisma.EnumDiaSemanaFieldUpdateOperationsInput | $Enums.DiaSemana
   numeroUno?: Prisma.IntFieldUpdateOperationsInput | number
   numeroDos?: Prisma.IntFieldUpdateOperationsInput | number
   activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   empresaId?: Prisma.StringFieldUpdateOperationsInput | string
+  dia?: Prisma.EnumDiaSemanaFieldUpdateOperationsInput | $Enums.DiaSemana
 }
 
 export type PicoPlacaCreateManyInput = {
   id?: string
   tenantId: string
-  dia: $Enums.DiaSemana
   numeroUno: number
   numeroDos: number
   activo?: boolean
   createdAt?: Date | string
   empresaId: string
+  dia: $Enums.DiaSemana
 }
 
 export type PicoPlacaUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  dia?: Prisma.EnumDiaSemanaFieldUpdateOperationsInput | $Enums.DiaSemana
   numeroUno?: Prisma.IntFieldUpdateOperationsInput | number
   numeroDos?: Prisma.IntFieldUpdateOperationsInput | number
   activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  dia?: Prisma.EnumDiaSemanaFieldUpdateOperationsInput | $Enums.DiaSemana
 }
 
 export type PicoPlacaUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   tenantId?: Prisma.StringFieldUpdateOperationsInput | string
-  dia?: Prisma.EnumDiaSemanaFieldUpdateOperationsInput | $Enums.DiaSemana
   numeroUno?: Prisma.IntFieldUpdateOperationsInput | number
   numeroDos?: Prisma.IntFieldUpdateOperationsInput | number
   activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   empresaId?: Prisma.StringFieldUpdateOperationsInput | string
+  dia?: Prisma.EnumDiaSemanaFieldUpdateOperationsInput | $Enums.DiaSemana
 }
 
 export type PicoPlacaListRelationFilter = {
@@ -395,12 +395,12 @@ export type PicoPlacaOrderByRelationAggregateInput = {
 export type PicoPlacaCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   tenantId?: Prisma.SortOrder
-  dia?: Prisma.SortOrder
   numeroUno?: Prisma.SortOrder
   numeroDos?: Prisma.SortOrder
   activo?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   empresaId?: Prisma.SortOrder
+  dia?: Prisma.SortOrder
 }
 
 export type PicoPlacaAvgOrderByAggregateInput = {
@@ -411,23 +411,23 @@ export type PicoPlacaAvgOrderByAggregateInput = {
 export type PicoPlacaMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
   tenantId?: Prisma.SortOrder
-  dia?: Prisma.SortOrder
   numeroUno?: Prisma.SortOrder
   numeroDos?: Prisma.SortOrder
   activo?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   empresaId?: Prisma.SortOrder
+  dia?: Prisma.SortOrder
 }
 
 export type PicoPlacaMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
   tenantId?: Prisma.SortOrder
-  dia?: Prisma.SortOrder
   numeroUno?: Prisma.SortOrder
   numeroDos?: Prisma.SortOrder
   activo?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   empresaId?: Prisma.SortOrder
+  dia?: Prisma.SortOrder
 }
 
 export type PicoPlacaSumOrderByAggregateInput = {
@@ -525,22 +525,22 @@ export type EnumDiaSemanaFieldUpdateOperationsInput = {
 
 export type PicoPlacaCreateWithoutTenantInput = {
   id?: string
-  dia: $Enums.DiaSemana
   numeroUno: number
   numeroDos: number
   activo?: boolean
   createdAt?: Date | string
+  dia: $Enums.DiaSemana
   empresa: Prisma.EmpresaCreateNestedOneWithoutPicoPlacaInput
 }
 
 export type PicoPlacaUncheckedCreateWithoutTenantInput = {
   id?: string
-  dia: $Enums.DiaSemana
   numeroUno: number
   numeroDos: number
   activo?: boolean
   createdAt?: Date | string
   empresaId: string
+  dia: $Enums.DiaSemana
 }
 
 export type PicoPlacaCreateOrConnectWithoutTenantInput = {
@@ -575,32 +575,32 @@ export type PicoPlacaScalarWhereInput = {
   NOT?: Prisma.PicoPlacaScalarWhereInput | Prisma.PicoPlacaScalarWhereInput[]
   id?: Prisma.UuidFilter<"PicoPlaca"> | string
   tenantId?: Prisma.UuidFilter<"PicoPlaca"> | string
-  dia?: Prisma.EnumDiaSemanaFilter<"PicoPlaca"> | $Enums.DiaSemana
   numeroUno?: Prisma.IntFilter<"PicoPlaca"> | number
   numeroDos?: Prisma.IntFilter<"PicoPlaca"> | number
   activo?: Prisma.BoolFilter<"PicoPlaca"> | boolean
   createdAt?: Prisma.DateTimeFilter<"PicoPlaca"> | Date | string
   empresaId?: Prisma.UuidFilter<"PicoPlaca"> | string
+  dia?: Prisma.EnumDiaSemanaFilter<"PicoPlaca"> | $Enums.DiaSemana
 }
 
 export type PicoPlacaCreateWithoutEmpresaInput = {
   id?: string
-  dia: $Enums.DiaSemana
   numeroUno: number
   numeroDos: number
   activo?: boolean
   createdAt?: Date | string
+  dia: $Enums.DiaSemana
   tenant: Prisma.TenantCreateNestedOneWithoutPicoPlacaInput
 }
 
 export type PicoPlacaUncheckedCreateWithoutEmpresaInput = {
   id?: string
   tenantId: string
-  dia: $Enums.DiaSemana
   numeroUno: number
   numeroDos: number
   activo?: boolean
   createdAt?: Date | string
+  dia: $Enums.DiaSemana
 }
 
 export type PicoPlacaCreateOrConnectWithoutEmpresaInput = {
@@ -631,82 +631,82 @@ export type PicoPlacaUpdateManyWithWhereWithoutEmpresaInput = {
 
 export type PicoPlacaCreateManyTenantInput = {
   id?: string
-  dia: $Enums.DiaSemana
   numeroUno: number
   numeroDos: number
   activo?: boolean
   createdAt?: Date | string
   empresaId: string
+  dia: $Enums.DiaSemana
 }
 
 export type PicoPlacaUpdateWithoutTenantInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  dia?: Prisma.EnumDiaSemanaFieldUpdateOperationsInput | $Enums.DiaSemana
   numeroUno?: Prisma.IntFieldUpdateOperationsInput | number
   numeroDos?: Prisma.IntFieldUpdateOperationsInput | number
   activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  dia?: Prisma.EnumDiaSemanaFieldUpdateOperationsInput | $Enums.DiaSemana
   empresa?: Prisma.EmpresaUpdateOneRequiredWithoutPicoPlacaNestedInput
 }
 
 export type PicoPlacaUncheckedUpdateWithoutTenantInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  dia?: Prisma.EnumDiaSemanaFieldUpdateOperationsInput | $Enums.DiaSemana
   numeroUno?: Prisma.IntFieldUpdateOperationsInput | number
   numeroDos?: Prisma.IntFieldUpdateOperationsInput | number
   activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   empresaId?: Prisma.StringFieldUpdateOperationsInput | string
+  dia?: Prisma.EnumDiaSemanaFieldUpdateOperationsInput | $Enums.DiaSemana
 }
 
 export type PicoPlacaUncheckedUpdateManyWithoutTenantInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  dia?: Prisma.EnumDiaSemanaFieldUpdateOperationsInput | $Enums.DiaSemana
   numeroUno?: Prisma.IntFieldUpdateOperationsInput | number
   numeroDos?: Prisma.IntFieldUpdateOperationsInput | number
   activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   empresaId?: Prisma.StringFieldUpdateOperationsInput | string
+  dia?: Prisma.EnumDiaSemanaFieldUpdateOperationsInput | $Enums.DiaSemana
 }
 
 export type PicoPlacaCreateManyEmpresaInput = {
   id?: string
   tenantId: string
-  dia: $Enums.DiaSemana
   numeroUno: number
   numeroDos: number
   activo?: boolean
   createdAt?: Date | string
+  dia: $Enums.DiaSemana
 }
 
 export type PicoPlacaUpdateWithoutEmpresaInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  dia?: Prisma.EnumDiaSemanaFieldUpdateOperationsInput | $Enums.DiaSemana
   numeroUno?: Prisma.IntFieldUpdateOperationsInput | number
   numeroDos?: Prisma.IntFieldUpdateOperationsInput | number
   activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  dia?: Prisma.EnumDiaSemanaFieldUpdateOperationsInput | $Enums.DiaSemana
   tenant?: Prisma.TenantUpdateOneRequiredWithoutPicoPlacaNestedInput
 }
 
 export type PicoPlacaUncheckedUpdateWithoutEmpresaInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   tenantId?: Prisma.StringFieldUpdateOperationsInput | string
-  dia?: Prisma.EnumDiaSemanaFieldUpdateOperationsInput | $Enums.DiaSemana
   numeroUno?: Prisma.IntFieldUpdateOperationsInput | number
   numeroDos?: Prisma.IntFieldUpdateOperationsInput | number
   activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  dia?: Prisma.EnumDiaSemanaFieldUpdateOperationsInput | $Enums.DiaSemana
 }
 
 export type PicoPlacaUncheckedUpdateManyWithoutEmpresaInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   tenantId?: Prisma.StringFieldUpdateOperationsInput | string
-  dia?: Prisma.EnumDiaSemanaFieldUpdateOperationsInput | $Enums.DiaSemana
   numeroUno?: Prisma.IntFieldUpdateOperationsInput | number
   numeroDos?: Prisma.IntFieldUpdateOperationsInput | number
   activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  dia?: Prisma.EnumDiaSemanaFieldUpdateOperationsInput | $Enums.DiaSemana
 }
 
 
@@ -714,12 +714,12 @@ export type PicoPlacaUncheckedUpdateManyWithoutEmpresaInput = {
 export type PicoPlacaSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   tenantId?: boolean
-  dia?: boolean
   numeroUno?: boolean
   numeroDos?: boolean
   activo?: boolean
   createdAt?: boolean
   empresaId?: boolean
+  dia?: boolean
   empresa?: boolean | Prisma.EmpresaDefaultArgs<ExtArgs>
   tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["picoPlaca"]>
@@ -727,12 +727,12 @@ export type PicoPlacaSelect<ExtArgs extends runtime.Types.Extensions.InternalArg
 export type PicoPlacaSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   tenantId?: boolean
-  dia?: boolean
   numeroUno?: boolean
   numeroDos?: boolean
   activo?: boolean
   createdAt?: boolean
   empresaId?: boolean
+  dia?: boolean
   empresa?: boolean | Prisma.EmpresaDefaultArgs<ExtArgs>
   tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["picoPlaca"]>
@@ -740,12 +740,12 @@ export type PicoPlacaSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Ext
 export type PicoPlacaSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   tenantId?: boolean
-  dia?: boolean
   numeroUno?: boolean
   numeroDos?: boolean
   activo?: boolean
   createdAt?: boolean
   empresaId?: boolean
+  dia?: boolean
   empresa?: boolean | Prisma.EmpresaDefaultArgs<ExtArgs>
   tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["picoPlaca"]>
@@ -753,15 +753,15 @@ export type PicoPlacaSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Ext
 export type PicoPlacaSelectScalar = {
   id?: boolean
   tenantId?: boolean
-  dia?: boolean
   numeroUno?: boolean
   numeroDos?: boolean
   activo?: boolean
   createdAt?: boolean
   empresaId?: boolean
+  dia?: boolean
 }
 
-export type PicoPlacaOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "tenantId" | "dia" | "numeroUno" | "numeroDos" | "activo" | "createdAt" | "empresaId", ExtArgs["result"]["picoPlaca"]>
+export type PicoPlacaOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "tenantId" | "numeroUno" | "numeroDos" | "activo" | "createdAt" | "empresaId" | "dia", ExtArgs["result"]["picoPlaca"]>
 export type PicoPlacaInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   empresa?: boolean | Prisma.EmpresaDefaultArgs<ExtArgs>
   tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
@@ -784,12 +784,12 @@ export type $PicoPlacaPayload<ExtArgs extends runtime.Types.Extensions.InternalA
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
     tenantId: string
-    dia: $Enums.DiaSemana
     numeroUno: number
     numeroDos: number
     activo: boolean
     createdAt: Date
     empresaId: string
+    dia: $Enums.DiaSemana
   }, ExtArgs["result"]["picoPlaca"]>
   composites: {}
 }
@@ -1217,12 +1217,12 @@ export interface Prisma__PicoPlacaClient<T, Null = never, ExtArgs extends runtim
 export interface PicoPlacaFieldRefs {
   readonly id: Prisma.FieldRef<"PicoPlaca", 'String'>
   readonly tenantId: Prisma.FieldRef<"PicoPlaca", 'String'>
-  readonly dia: Prisma.FieldRef<"PicoPlaca", 'DiaSemana'>
   readonly numeroUno: Prisma.FieldRef<"PicoPlaca", 'Int'>
   readonly numeroDos: Prisma.FieldRef<"PicoPlaca", 'Int'>
   readonly activo: Prisma.FieldRef<"PicoPlaca", 'Boolean'>
   readonly createdAt: Prisma.FieldRef<"PicoPlaca", 'DateTime'>
   readonly empresaId: Prisma.FieldRef<"PicoPlaca", 'String'>
+  readonly dia: Prisma.FieldRef<"PicoPlaca", 'DiaSemana'>
 }
     
 
