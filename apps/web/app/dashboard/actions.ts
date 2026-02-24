@@ -737,7 +737,29 @@ export async function getOrdenServicioByIdAction(id: string) {
   }
 }
 
-export async function createOrdenServicioAction(payload: any) {
+export interface CreateOrdenServicioDTO {
+  clienteId: string;
+  empresaId: string;
+  direccionId?: string;
+  tecnicoId?: string;
+  servicioEspecifico: string;
+  urgencia?: string;
+  observacion?: string;
+  nivelInfestacion?: string;
+  tipoVisita?: string;
+  frecuenciaSugerida?: number;
+  tipoFacturacion?: string;
+  valorCotizado?: number;
+  metodoPagoId?: string;
+  estadoPago?: string;
+  fechaVisita?: string;
+  horaInicio?: string;
+  duracionMinutos?: number;
+}
+
+export async function createOrdenServicioAction(
+  payload: CreateOrdenServicioDTO,
+) {
   const cookieStore = await cookies();
   const token = cookieStore.get('access_token')?.value;
 

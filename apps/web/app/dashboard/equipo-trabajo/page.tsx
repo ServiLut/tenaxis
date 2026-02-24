@@ -271,7 +271,7 @@ export default function EquipoTrabajoPage() {
     );
   };
 
-  const handleDelete = (id: string) => {
+  const _handleDelete = (id: string) => {
     if (confirm("¿Estás seguro de que deseas eliminar a este usuario?")) {
       setUsers((prev) => prev.filter((u) => u.id !== id));
       if (selectedUser?.id === id) {
