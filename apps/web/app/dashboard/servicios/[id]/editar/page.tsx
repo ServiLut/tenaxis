@@ -106,6 +106,7 @@ function EditarServicioContent({ id }: { id: string }) {
   const [metodosPago, setMetodosPago] = useState<MetodoPago[]>([]);
   const [operadores, setOperadores] = useState<Operador[]>([]);
   const [estados, setEstados] = useState<EstadoServicio[]>([]);
+  const [empresas, setEmpresas] = useState<any[]>([]);
 
   // Form State
   const [selectedCliente, setSelectedCliente] = useState("");
@@ -269,7 +270,7 @@ function EditarServicioContent({ id }: { id: string }) {
     const payload = {
       clienteId: selectedCliente,
       empresaId: selectedEmpresa,
-      tecnicoId: selectedOperador || null,
+      tecnicoId: selectedOperador || undefined,
       direccionId: selectedDireccion || undefined,
       servicioEspecifico,
       urgencia: urgencia || undefined,
