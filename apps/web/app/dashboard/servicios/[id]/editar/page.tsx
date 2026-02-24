@@ -6,7 +6,6 @@ import { toast } from "sonner";
 import {
   getClientesAction,
   getMetodosPagoAction,
-  getEnterprisesAction,
   getOperatorsAction,
   updateOrdenServicioAction,
   getOrdenServicioByIdAction,
@@ -166,9 +165,8 @@ function EditarServicioContent({ id }: { id: string }) {
   useEffect(() => {
     const loadData = async () => {
       try {
-        const [cls, emps, orderData] = await Promise.all([
+        const [cls, orderData] = await Promise.all([
           getClientesAction(),
-          getEnterprisesAction(),
           getOrdenServicioByIdAction(id),
         ]);
 
@@ -179,7 +177,6 @@ function EditarServicioContent({ id }: { id: string }) {
         }
 
         setClientes(Array.isArray(cls) ? cls : cls?.data || []);
-        setEmpresas(Array.isArray(emps) ? emps : (emps?.items || emps?.data || []));
 
         // Populating form with order data
         setSelectedCliente(orderData.clienteId);
