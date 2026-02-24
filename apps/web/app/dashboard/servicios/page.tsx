@@ -11,7 +11,6 @@ import {
   Clock, 
   User, 
   Filter,
-  ArrowUpRight,
   MoreHorizontal,
   AlertCircle,
   Eye,
@@ -21,7 +20,12 @@ import {
   Trash2,
   Download,
   FileSpreadsheet,
-  File as FileIcon
+  File as FileIcon,
+  Info,
+  CreditCard,
+  MapPin,
+  ExternalLink,
+  Car
 } from "lucide-react";
 import {
   DropdownMenu,
@@ -42,9 +46,6 @@ import { toast } from "sonner";
 import { exportToExcel, exportToPDF, exportToWord } from "@/lib/utils/export-helper";
 import {
   getOrdenesServicioAction,
-  updateOrdenServicioAction,
-  getOperatorsAction,
-  getEstadoServiciosAction,
   type ClienteDTO,
 } from "../actions";
 
@@ -70,23 +71,52 @@ interface OrdenServicioRaw {
   cliente: ClienteDTO;
   clienteId: string;
   empresaId: string;
+  empresa?: { id: string; nombre: string };
   servicio?: { id: string; nombre: string };
   servicioId?: string;
   tecnicoId?: string;
   estadoServicioId?: string;
   fechaVisita?: string;
   horaInicio?: string;
+  horaFin?: string;
   tecnico?: { id: string; user?: { nombre: string; apellido: string } };
+  creadoPor?: { id: string; user?: { nombre: string; apellido: string } };
   estadoServicio?: { id: string; nombre: string };
   urgencia?: string;
   observacion?: string;
+  observacionFinal?: string;
   nivelInfestacion?: string;
+  condicionesHigiene?: string;
+  condicionesLocal?: string;
   tipoVisita?: string;
   frecuenciaSugerida?: number;
   tipoFacturacion?: string;
   valorCotizado?: number;
+  valorPagado?: number;
+  valorRepuestos?: number;
   metodoPagoId?: string;
+  metodoPago?: { id: string; nombre: string };
   estadoPago?: string;
+  createdAt: string;
+  direccionTexto?: string;
+  barrio?: string;
+  municipio?: string;
+  departamento?: string;
+  piso?: string;
+  bloque?: string;
+  unidad?: string;
+  zona?: { id: string; nombre: string };
+  vehiculoId?: string;
+  vehiculo?: { 
+    placa: string; 
+    marca?: string | null; 
+    modelo?: string | null; 
+    color?: string | null; 
+    tipo?: string | null; 
+  };
+  facturaPath?: string | null;
+  facturaElectronica?: string | null;
+  linkMaps?: string | null;
 }
 
 const ESTADO_STYLING: Record<string, string> = {
@@ -156,33 +186,6 @@ function ServiciosSkeleton() {
       </table>
     </div>
   );
-}
-
-interface OrdenServicioResponse {
-  id: string;
-  numeroOrden?: string | null;
-  cliente: {
-    tipoCliente: "PERSONA" | "EMPRESA";
-    nombre?: string | null;
-    apellido?: string | null;
-    razonSocial?: string | null;
-  };
-  servicio?: {
-    nombre: string;
-  } | null;
-  fechaVisita?: string | null;
-  horaInicio?: string | null;
-  tecnico?: {
-    user: {
-      nombre: string;
-      apellido: string;
-    };
-  } | null;
-  estadoServicio?: {
-    nombre: string;
-  } | null;
-  urgencia?: string | null;
-}
 }
 
 export default function ServiciosPage() {
@@ -534,80 +537,320 @@ export default function ServiciosPage() {
       </div>
 
       <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}>
-        <DialogContent className="max-w-2xl">
+        <DialogContent className="max-w-3xl max-h-[90vh] overflow-y-auto">
           <DialogHeader>
-            <DialogTitle className="text-2xl font-black uppercase tracking-tight">Detalles del Cliente</DialogTitle>
+            <DialogTitle className="text-xl font-black uppercase tracking-tight">Detalle Completo de Orden</DialogTitle>
             <DialogDescription className="font-medium">
-              Información completa del cliente asociado a la orden <span className="text-azul-1 font-bold">#{selectedServicio?.id}</span>
+              Información detallada del servicio registrado
             </DialogDescription>
           </DialogHeader>
 
           {selectedServicio && (
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-4">
-              <div className="col-span-1 md:col-span-2 pb-4 border-b border-zinc-100 dark:border-zinc-800">
-                <h4 className="text-[10px] font-black uppercase tracking-widest text-zinc-400 mb-3">Información del Servicio</h4>
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                  <div className="bg-zinc-50 dark:bg-zinc-800/50 p-3 rounded-lg border border-zinc-100 dark:border-zinc-800">
-                    <p className="text-[9px] font-black uppercase tracking-widest text-zinc-400 mb-1">Servicio</p>
-                    <p className="text-xs font-bold text-zinc-900 dark:text-zinc-100">{selectedServicio.servicioEspecifico}</p>
-                  </div>
-                  <div className="bg-zinc-50 dark:bg-zinc-800/50 p-3 rounded-lg border border-zinc-100 dark:border-zinc-800">
-                    <p className="text-[9px] font-black uppercase tracking-widest text-zinc-400 mb-1">Fecha Programada</p>
-                    <p className="text-xs font-bold text-zinc-900 dark:text-zinc-100">{selectedServicio.fecha}</p>
-                  </div>
-                  <div className="bg-zinc-50 dark:bg-zinc-800/50 p-3 rounded-lg border border-zinc-100 dark:border-zinc-800">
-                    <p className="text-[9px] font-black uppercase tracking-widest text-zinc-400 mb-1">Hora de Inicio</p>
-                    <p className="text-xs font-bold text-zinc-900 dark:text-zinc-100">{selectedServicio.hora}</p>
-                  </div>
-                </div>
-              </div>
-
+            <div className="space-y-8 mt-2">
+              {/* 1. Información General */}
               <div className="space-y-4">
-                <div>
-                  <h4 className="text-[10px] font-black uppercase tracking-widest text-zinc-400 mb-1">Nombre / Razón Social</h4>
-                  <p className="text-sm font-bold text-zinc-900 dark:text-zinc-100">
-                    {selectedServicio.clienteFull.tipoCliente === "EMPRESA" 
-                      ? selectedServicio.clienteFull.razonSocial 
-                      : `${selectedServicio.clienteFull.nombre} ${selectedServicio.clienteFull.apellido}`}
-                  </p>
-                </div>
-                <div>
-                  <h4 className="text-[10px] font-black uppercase tracking-widest text-zinc-400 mb-1">Identificación</h4>
-                  <p className="text-sm font-bold text-zinc-900 dark:text-zinc-100">
-                    {selectedServicio.clienteFull.tipoDocumento || (selectedServicio.clienteFull.tipoCliente === "EMPRESA" ? "NIT" : "CC")}: {selectedServicio.clienteFull.nit || selectedServicio.clienteFull.numeroDocumento || "No registrado"}
-                  </p>
-                </div>
-                <div>
-                  <h4 className="text-[10px] font-black uppercase tracking-widest text-zinc-400 mb-1">Correo Electrónico</h4>
-                  <p className="text-sm font-bold text-zinc-900 dark:text-zinc-100">{selectedServicio.clienteFull.correo || "No registrado"}</p>
+                <h3 className="text-[10px] font-black text-zinc-400 uppercase tracking-[0.2em] border-b border-zinc-100 dark:border-zinc-800 pb-2 flex items-center gap-2">
+                  <Info className="h-3 w-3" /> Información General
+                </h3>
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+                  <div>
+                    <span className="text-[10px] font-bold text-zinc-500 block uppercase tracking-wider mb-1">ID Servicio</span>
+                    <span className="font-mono text-sm font-black text-azul-1">#{selectedServicio.raw.id.substring(0, 8).toUpperCase()}</span>
+                  </div>
+                  <div>
+                    <span className="text-[10px] font-bold text-zinc-500 block uppercase tracking-wider mb-1">Número Orden</span>
+                    <span className="font-black text-sm">{selectedServicio.raw.numeroOrden || "N/A"}</span>
+                  </div>
+                  <div>
+                    <span className="text-[10px] font-bold text-zinc-500 block uppercase tracking-wider mb-1">Estado Actual</span>
+                    <div className="mt-1">
+                      <span className={cn(
+                        "px-3 py-1 rounded-full text-[9px] font-black uppercase tracking-widest border shadow-sm",
+                        ESTADO_STYLING[selectedServicio.estado]
+                      )}>
+                        {selectedServicio.estado}
+                      </span>
+                    </div>
+                  </div>
+                  <div>
+                    <span className="text-[10px] font-bold text-zinc-500 block uppercase tracking-wider mb-1">Fecha Creación</span>
+                    <span className="font-bold text-sm">{new Date(selectedServicio.raw.createdAt).toLocaleDateString()}</span>
+                  </div>
+                  <div>
+                    <span className="text-[10px] font-bold text-zinc-500 block uppercase tracking-wider mb-1">Creado Por</span>
+                    <span className="font-bold text-sm">
+                      {selectedServicio.raw.creadoPor?.user 
+                        ? `${selectedServicio.raw.creadoPor.user.nombre} ${selectedServicio.raw.creadoPor.user.apellido}`
+                        : "Sistema"}
+                    </span>
+                  </div>
                 </div>
               </div>
 
+              {/* 2. Cliente y Contacto */}
               <div className="space-y-4">
-                <div>
-                  <h4 className="text-[10px] font-black uppercase tracking-widest text-zinc-400 mb-1">Teléfono Principal</h4>
-                  <p className="text-sm font-bold text-zinc-900 dark:text-zinc-100">{selectedServicio.clienteFull.telefono}</p>
-                </div>
-                <div>
-                  <h4 className="text-[10px] font-black uppercase tracking-widest text-zinc-400 mb-1">Teléfono Secundario</h4>
-                  <p className="text-sm font-bold text-zinc-900 dark:text-zinc-100">{selectedServicio.clienteFull.telefono2 || "No registrado"}</p>
-                </div>
-                <div>
-                  <h4 className="text-[10px] font-black uppercase tracking-widest text-zinc-400 mb-1">Actividad Económica</h4>
-                  <p className="text-sm font-bold text-zinc-900 dark:text-zinc-100">{selectedServicio.clienteFull.actividadEconomica || "No especificada"}</p>
+                <h3 className="text-[10px] font-black text-zinc-400 uppercase tracking-[0.2em] border-b border-zinc-100 dark:border-zinc-800 pb-2 flex items-center gap-2">
+                  <User className="h-3 w-3" /> Cliente y Contacto
+                </h3>
+                <div className="grid grid-cols-2 md:grid-cols-3 gap-6 bg-zinc-50/50 dark:bg-zinc-800/30 p-5 rounded-2xl border border-zinc-100 dark:border-zinc-800">
+                  <div className="col-span-1 md:col-span-2">
+                    <span className="text-[10px] font-bold text-zinc-500 block uppercase tracking-wider mb-1">Nombre Completo</span>
+                    <span className="font-black text-base text-zinc-900 dark:text-zinc-100 uppercase tracking-tight">
+                      {selectedServicio.cliente}
+                    </span>
+                  </div>
+                  <div>
+                    <span className="text-[10px] font-bold text-zinc-500 block uppercase tracking-wider mb-1">Documento</span>
+                    <span className="font-bold text-sm">
+                      {selectedServicio.clienteFull.tipoDocumento || (selectedServicio.clienteFull.tipoCliente === "EMPRESA" ? "NIT" : "CC")} {selectedServicio.clienteFull.nit || selectedServicio.clienteFull.numeroDocumento || "N/A"}
+                    </span>
+                  </div>
+                  <div>
+                    <span className="text-[10px] font-bold text-zinc-500 block uppercase tracking-wider mb-1">Teléfono</span>
+                    <span className="font-bold text-sm">{selectedServicio.clienteFull.telefono}</span>
+                  </div>
+                  <div className="col-span-1 md:col-span-2">
+                    <span className="text-[10px] font-bold text-zinc-500 block uppercase tracking-wider mb-1">Correo Electrónico</span>
+                    <span className="font-bold text-sm text-azul-1 dark:text-claro-azul-4 truncate">{selectedServicio.clienteFull.correo || "N/A"}</span>
+                  </div>
                 </div>
               </div>
 
-              {selectedServicio.clienteFull.direcciones && selectedServicio.clienteFull.direcciones.length > 0 && (
-                <div className="col-span-1 md:col-span-2 mt-2 pt-4 border-t border-zinc-100 dark:border-zinc-800">
-                  <h4 className="text-[10px] font-black uppercase tracking-widest text-zinc-400 mb-3">Direcciones Registradas</h4>
-                  <div className="space-y-3">
-                    {selectedServicio.clienteFull.direcciones.map((dir, idx) => (
-                      <div key={idx} className="bg-zinc-50 dark:bg-zinc-800/50 p-3 rounded-lg border border-zinc-100 dark:border-zinc-700/50">
-                        <p className="text-xs font-bold text-zinc-900 dark:text-zinc-100">{dir.nombreSede || `Sede ${idx + 1}`}</p>
-                        <p className="text-[11px] text-zinc-500 mt-0.5">{dir.direccion} - {dir.barrio}, {dir.municipio}</p>
+              {/* 3. Ubicación del Servicio */}
+              <div className="space-y-4">
+                <h3 className="text-[10px] font-black text-zinc-400 uppercase tracking-[0.2em] border-b border-zinc-100 dark:border-zinc-800 pb-2 flex items-center gap-2">
+                  <MapPin className="h-3 w-3" /> Ubicación del Servicio
+                </h3>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 bg-zinc-50/50 dark:bg-zinc-800/30 p-5 rounded-2xl border border-zinc-100 dark:border-zinc-800">
+                  <div className="md:col-span-2">
+                    <span className="text-[10px] font-bold text-zinc-500 block uppercase tracking-wider mb-1">
+                      {selectedServicio.raw.vehiculoId && !selectedServicio.raw.municipio ? "Vehículo" : "Dirección Principal"}
+                    </span>
+                    <span className="font-black text-base flex items-center gap-3 text-zinc-900 dark:text-zinc-100">
+                      {selectedServicio.raw.vehiculoId && !selectedServicio.raw.municipio ? (
+                        <Car className="h-5 w-5 text-purple-500" />
+                      ) : (
+                        <MapPin className="h-5 w-5 text-azul-1" />
+                      )}
+                      {selectedServicio.raw.direccionTexto || "No especificada"}
+                    </span>
+                    {selectedServicio.raw.linkMaps && selectedServicio.raw.linkMaps !== "No Concretado" && (
+                      <div className="mt-3">
+                        <a 
+                          href={selectedServicio.raw.linkMaps.startsWith('http') ? selectedServicio.raw.linkMaps : `https://${selectedServicio.raw.linkMaps}`} 
+                          target="_blank" 
+                          rel="noopener noreferrer"
+                          className="inline-flex items-center gap-2 text-[10px] font-black uppercase tracking-widest text-azul-1 hover:text-blue-700 transition-colors"
+                        >
+                          <ExternalLink className="h-3.5 w-3.5" />
+                          Ver en Google Maps
+                        </a>
                       </div>
-                    ))}
+                    )}
+                  </div>
+
+                  {selectedServicio.raw.municipio && (
+                    <>
+                      <div>
+                        <span className="text-[10px] font-bold text-zinc-500 block uppercase tracking-wider mb-1">Municipio / Depto</span>
+                        <span className="font-bold text-sm uppercase">
+                          {selectedServicio.raw.municipio}
+                          {selectedServicio.raw.departamento && `, ${selectedServicio.raw.departamento}`}
+                        </span>
+                      </div>
+                      <div>
+                        <span className="text-[10px] font-bold text-zinc-500 block uppercase tracking-wider mb-1">Zona / Barrio</span>
+                        <span className="font-bold text-sm uppercase">
+                          {selectedServicio.raw.zona?.nombre || "N/A"}
+                          {selectedServicio.raw.barrio && ` / ${selectedServicio.raw.barrio}`}
+                        </span>
+                      </div>
+                      <div className="md:col-span-2">
+                        <span className="text-[10px] font-bold text-zinc-500 block uppercase tracking-wider mb-1">Detalles Interior</span>
+                        <span className="font-bold text-sm uppercase tracking-tight text-zinc-700 dark:text-zinc-300">
+                          {[
+                            selectedServicio.raw.bloque && `Bloque: ${selectedServicio.raw.bloque}`,
+                            selectedServicio.raw.piso && `Piso: ${selectedServicio.raw.piso}`,
+                            selectedServicio.raw.unidad && `Unidad: ${selectedServicio.raw.unidad}`,
+                          ].filter(Boolean).join(" - ") || "Sin detalles adicionales"}
+                        </span>
+                      </div>
+                    </>
+                  )}
+
+                  {selectedServicio.raw.vehiculoId && selectedServicio.raw.vehiculo && (
+                    <div className="md:col-span-2 border-t border-zinc-200 dark:border-zinc-700 pt-4 mt-2 grid grid-cols-2 gap-6">
+                      <div>
+                        <span className="text-[10px] font-bold text-zinc-500 block uppercase tracking-wider mb-1">Placa / Marca / Modelo</span>
+                        <span className="font-black text-sm uppercase text-purple-600 dark:text-purple-400">
+                          {selectedServicio.raw.vehiculo.placa} {selectedServicio.raw.vehiculo.marca && ` - ${selectedServicio.raw.vehiculo.marca}`} {selectedServicio.raw.vehiculo.modelo && ` - ${selectedServicio.raw.vehiculo.modelo}`}
+                        </span>
+                      </div>
+                      <div>
+                        <span className="text-[10px] font-bold text-zinc-500 block uppercase tracking-wider mb-1">Color / Tipo</span>
+                        <span className="font-bold text-sm uppercase">
+                          {selectedServicio.raw.vehiculo.color || "N/A"} {selectedServicio.raw.vehiculo.tipo && ` - ${selectedServicio.raw.vehiculo.tipo}`}
+                        </span>
+                      </div>
+                    </div>
+                  )}
+                </div>
+              </div>
+
+              {/* 4. Detalle del Servicio */}
+              <div className="space-y-4">
+                <h3 className="text-[10px] font-black text-zinc-400 uppercase tracking-[0.2em] border-b border-zinc-100 dark:border-zinc-800 pb-2 flex items-center gap-2">
+                  <FileText className="h-3 w-3" /> Detalle del Servicio
+                </h3>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 bg-zinc-50/50 dark:bg-zinc-800/30 p-5 rounded-2xl border border-zinc-100 dark:border-zinc-800">
+                  <div>
+                    <span className="text-[10px] font-bold text-zinc-500 block uppercase tracking-wider mb-1">Empresa</span>
+                    <span className="font-bold text-sm uppercase">{selectedServicio.raw.empresa?.nombre || "N/A"}</span>
+                  </div>
+                  <div>
+                    <span className="text-[10px] font-bold text-zinc-500 block uppercase tracking-wider mb-1">Tipo de Servicio</span>
+                    <span className="font-bold text-sm uppercase">{selectedServicio.raw.tipoVisita || "N/A"}</span>
+                  </div>
+                  <div>
+                    <span className="text-[10px] font-bold text-zinc-500 block uppercase tracking-wider mb-1">Servicio Específico</span>
+                    <span className="font-black text-sm text-azul-1 uppercase">{selectedServicio.servicioEspecifico}</span>
+                  </div>
+                  <div>
+                    <span className="text-[10px] font-bold text-zinc-500 block uppercase tracking-wider mb-1">Técnico Asignado</span>
+                    <span className="font-bold text-sm uppercase">
+                      {selectedServicio.tecnico}
+                    </span>
+                  </div>
+                </div>
+              </div>
+
+              {/* 5. Programación */}
+              <div className="space-y-4">
+                <h3 className="text-[10px] font-black text-zinc-400 uppercase tracking-[0.2em] border-b border-zinc-100 dark:border-zinc-800 pb-2 flex items-center gap-2">
+                  <Clock className="h-3 w-3" /> Programación
+                </h3>
+                <div className="grid grid-cols-3 gap-6 bg-blue-50 dark:bg-blue-900/20 p-5 rounded-2xl border border-blue-100 dark:border-blue-800/50 shadow-sm shadow-blue-100/20">
+                  <div>
+                    <span className="text-[10px] font-bold text-blue-600/70 dark:text-blue-400/70 block uppercase tracking-wider mb-1">Fecha Visita</span>
+                    <span className="font-black text-sm text-blue-900 dark:text-blue-100 uppercase">{selectedServicio.fecha}</span>
+                  </div>
+                  <div>
+                    <span className="text-[10px] font-bold text-blue-600/70 dark:text-blue-400/70 block uppercase tracking-wider mb-1">Hora Inicio</span>
+                    <span className="font-black text-sm text-blue-900 dark:text-blue-100">{selectedServicio.hora}</span>
+                  </div>
+                  <div>
+                    <span className="text-[10px] font-bold text-blue-600/70 dark:text-blue-400/70 block uppercase tracking-wider mb-1">Hora Fin</span>
+                    <span className="font-black text-sm text-blue-900 dark:text-blue-100">
+                      {selectedServicio.raw.horaFin ? new Date(selectedServicio.raw.horaFin).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: true }) : "--:--"}
+                    </span>
+                  </div>
+                </div>
+              </div>
+
+              {/* 6. Estado y Observaciones */}
+              <div className="space-y-4">
+                <h3 className="text-[10px] font-black text-zinc-400 uppercase tracking-[0.2em] border-b border-zinc-100 dark:border-zinc-800 pb-2 flex items-center gap-2">
+                  <AlertCircle className="h-3 w-3" /> Estado y Observaciones
+                </h3>
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                  <div>
+                    <span className="text-[10px] font-bold text-zinc-500 block uppercase tracking-wider mb-1">Nivel Infestación</span>
+                    <span className="font-black text-sm uppercase">{selectedServicio.raw.nivelInfestacion || "N/A"}</span>
+                  </div>
+                  <div>
+                    <span className="text-[10px] font-bold text-zinc-500 block uppercase tracking-wider mb-1">Cond. Higiene</span>
+                    <span className="font-black text-sm uppercase">{selectedServicio.raw.condicionesHigiene || "N/A"}</span>
+                  </div>
+                  <div>
+                    <span className="text-[10px] font-bold text-zinc-500 block uppercase tracking-wider mb-1">Cond. Local</span>
+                    <span className="font-black text-sm uppercase">{selectedServicio.raw.condicionesLocal || "N/A"}</span>
+                  </div>
+                  <div className="col-span-1 md:col-span-3">
+                    <span className="text-[10px] font-bold text-zinc-500 block uppercase tracking-wider mb-2">Observaciones Generales</span>
+                    <p className="text-sm font-medium bg-zinc-50 dark:bg-zinc-800/50 p-4 rounded-2xl border border-zinc-100 dark:border-zinc-800 min-h-[80px] leading-relaxed text-zinc-600 dark:text-zinc-400">
+                      {selectedServicio.raw.observacion || "Sin observaciones registradas."}
+                    </p>
+                  </div>
+                  <div className="col-span-1 md:col-span-3">
+                    <span className="text-[10px] font-bold text-zinc-500 block uppercase tracking-wider mb-2">Observación Final</span>
+                    <p className="text-sm font-black bg-zinc-50 dark:bg-zinc-800/50 p-4 rounded-2xl border border-zinc-100 dark:border-zinc-800 min-h-[80px] leading-relaxed text-zinc-900 dark:text-zinc-100">
+                      {selectedServicio.raw.observacionFinal || "Sin observación final registrada."}
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              {/* 7. Información Financiera */}
+              <div className="space-y-4">
+                <h3 className="text-[10px] font-black text-zinc-400 uppercase tracking-[0.2em] border-b border-zinc-100 dark:border-zinc-800 pb-2 flex items-center gap-2">
+                  <CreditCard className="h-3 w-3" /> Información Financiera
+                </h3>
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+                  <div>
+                    <span className="text-[10px] font-bold text-zinc-500 block uppercase tracking-wider mb-1">Valor Cotizado</span>
+                    <span className="font-black text-lg text-zinc-900 dark:text-zinc-100">
+                      {selectedServicio.raw.valorCotizado ? new Intl.NumberFormat('es-CO', { style: 'currency', currency: 'COP' }).format(selectedServicio.raw.valorCotizado) : "$ 0"}
+                    </span>
+                  </div>
+                  <div>
+                    <span className="text-[10px] font-bold text-zinc-500 block uppercase tracking-wider mb-1">Valor Repuestos</span>
+                    <span className="font-black text-sm text-red-500">
+                      {selectedServicio.raw.valorRepuestos ? new Intl.NumberFormat('es-CO', { style: 'currency', currency: 'COP' }).format(selectedServicio.raw.valorRepuestos) : "$ 0"}
+                    </span>
+                  </div>
+                  <div>
+                    <span className="text-[10px] font-bold text-zinc-500 block uppercase tracking-wider mb-1">Valor Pagado</span>
+                    <span className="font-black text-sm text-emerald-600 dark:text-emerald-400">
+                      {selectedServicio.raw.valorPagado ? new Intl.NumberFormat('es-CO', { style: 'currency', currency: 'COP' }).format(selectedServicio.raw.valorPagado) : "$ 0"}
+                    </span>
+                  </div>
+                  <div>
+                    <span className="text-[10px] font-bold text-zinc-500 block uppercase tracking-wider mb-1">Método de Pago</span>
+                    <span className="font-black text-sm uppercase">{selectedServicio.raw.metodoPago?.nombre || selectedServicio.raw.estadoPago || "N/A"}</span>
+                  </div>
+                </div>
+              </div>
+
+              {/* 8. Factura / Evidencia */}
+              {selectedServicio.raw.facturaPath && (
+                <div className="space-y-4">
+                  <h3 className="text-[10px] font-black text-zinc-400 uppercase tracking-[0.2em] border-b border-zinc-100 dark:border-zinc-800 pb-2">Factura del Servicio</h3>
+                  <div className="rounded-2xl overflow-hidden border border-zinc-200 dark:border-zinc-800 bg-zinc-50 dark:bg-zinc-900 flex justify-center p-4">
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img
+                      src={selectedServicio.raw.facturaPath}
+                      alt="Evidencia del servicio"
+                      className="max-w-full h-auto max-h-[500px] object-contain rounded-xl shadow-lg"
+                    />
+                  </div>
+                  <div className="flex justify-end">
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      className="gap-2 font-bold text-[10px] uppercase tracking-wider h-10 px-5 rounded-xl border-zinc-200 dark:border-zinc-800"
+                      onClick={() => window.open(selectedServicio.raw.facturaPath!, "_blank")}
+                    >
+                      <Download className="h-4 w-4" />
+                      Ver Original
+                    </Button>
+                  </div>
+                </div>
+              )}
+
+              {/* 9. Factura/Orden */}
+              {selectedServicio.raw.facturaElectronica && (
+                <div className="space-y-4">
+                  <h3 className="text-[10px] font-black text-zinc-400 uppercase tracking-[0.2em] border-b border-zinc-100 dark:border-zinc-800 pb-2">Factura/Orden</h3>
+                  <div>
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      className="gap-2 text-azul-1 border-blue-200 dark:border-blue-900/50 hover:bg-blue-50 dark:hover:bg-blue-900/20 font-bold text-[10px] uppercase tracking-wider h-10 px-5 rounded-xl"
+                      onClick={() => window.open(selectedServicio.raw.facturaElectronica!, "_blank")}
+                    >
+                      <FileText className="h-4 w-4" />
+                      Ver Factura/Orden
+                    </Button>
                   </div>
                 </div>
               )}
