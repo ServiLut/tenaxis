@@ -749,7 +749,20 @@ export async function createOrdenServicioAction(payload: any) {
   }
 }
 
-export async function updateMembershipAction(membershipId: string, data: any) {
+export interface UpdateMembershipDTO {
+  placa?: string;
+  moto?: boolean;
+  direccion?: string;
+  municipioId?: string;
+  role?: string;
+  activo?: boolean;
+  empresaIds?: string[];
+}
+
+export async function updateMembershipAction(
+  membershipId: string,
+  data: UpdateMembershipDTO,
+) {
   const cookieStore = await cookies();
   const token = cookieStore.get("access_token")?.value;
   if (!token) throw new Error("No session found");

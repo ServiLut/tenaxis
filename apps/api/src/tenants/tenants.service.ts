@@ -301,18 +301,60 @@ export class TenantsService {
   }
 
   async updateMembership(membershipId: string, data: UpdateMembershipDto) {
-    console.log('UPDATING MEMBERSHIP:', membershipId, JSON.stringify(data, null, 2));
-    
-    return this.prisma.tenantMembership.update({
-      where: { id: membershipId },
-      data: {
-        placa: data.placa || null,
-        moto: data.moto,
-        direccion: data.direccion || null,
-        municipioId: data.municipioId || null,
-        role: data.role,
-        activo: data.activo,
-      },
+    console.log(
+      'UPDATING MEMBERSHIP:',
+      membershipId,
+      JSON.stringify(data, null, 2),
+    );
+
+    return this.prisma.$transaction(async (tx) => {
+      // 1. Obtener la membresía actual para saber el tenantId
+      const current = await tx.tenantMembership.findUnique({
+        where: { id: membershipId },
+      });
+
+      if (!current) {
+        throw new NotFoundException('Membresía no encontrada');
+      }
+
+      // 2. Actualizar datos base
+      const updated = await tx.tenantMembership.update({
+        where: { id: membershipId },
+        data: {
+          placa: data.placa !== undefined ? data.placa || null : undefined,
+          moto: data.moto !== undefined ? data.moto : undefined,
+          direccion:
+            data.direccion !== undefined ? data.direccion || null : undefined,
+          municipioId:
+            data.municipioId !== undefined
+              ? data.municipioId || null
+              : undefined,
+          role: data.role,
+          activo: data.activo,
+        },
+      });
+
+      // 3. Sincronizar empresas si se proporcionan
+      if (data.empresaIds) {
+        // Eliminar vinculaciones previas
+        await tx.empresaMembership.deleteMany({
+          where: { membershipId },
+        });
+
+        // Crear nuevas vinculaciones
+        if (data.empresaIds.length > 0) {
+          await tx.empresaMembership.createMany({
+            data: data.empresaIds.map((empresaId) => ({
+              tenantId: current.tenantId,
+              membershipId,
+              empresaId,
+              role: data.role || current.role, // Usar el nuevo rol o el actual
+            })),
+          });
+        }
+      }
+
+      return updated;
     });
   }
 
@@ -377,6 +419,16 @@ export class TenantsService {
           },
         },
         municipio: true,
+        empresaMemberships: {
+          select: {
+            empresaId: true,
+            empresa: {
+              select: {
+                nombre: true,
+              },
+            },
+          },
+        },
         _count: {
           select: {
             serviciosAsignados: true,
