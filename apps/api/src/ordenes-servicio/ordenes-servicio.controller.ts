@@ -3,6 +3,8 @@ import {
   Post,
   Get,
   Body,
+  Patch,
+  Param,
   Req,
   UseGuards,
   Query,
@@ -44,5 +46,27 @@ export class OrdenesServicioController {
       throw new UnauthorizedException('Tenant ID not found in token');
     }
     return this.ordenesServicioService.findAll(tenantId, empresaId);
+  }
+
+  @Get(':id')
+  findOne(@Req() req: RequestWithUser, @Param('id') id: string) {
+    const tenantId = req.user.tenantId;
+    if (!tenantId) {
+      throw new UnauthorizedException('Tenant ID not found in token');
+    }
+    return this.ordenesServicioService.findOne(tenantId, id);
+  }
+
+  @Patch(':id')
+  update(
+    @Req() req: RequestWithUser,
+    @Param('id') id: string,
+    @Body() updateDto: Partial<CreateOrdenServicioDto>,
+  ) {
+    const tenantId = req.user.tenantId;
+    if (!tenantId) {
+      throw new UnauthorizedException('Tenant ID not found in token');
+    }
+    return this.ordenesServicioService.update(tenantId, id, updateDto);
   }
 }

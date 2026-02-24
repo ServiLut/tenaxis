@@ -451,4 +451,105 @@ export class OrdenesServicioService {
       orderBy: { createdAt: 'desc' },
     });
   }
+
+  async findOne(tenantId: string, id: string) {
+    const orden = await this.prisma.ordenServicio.findFirst({
+      where: { id, tenantId },
+      include: {
+        cliente: {
+          include: {
+            direcciones: true,
+          },
+        },
+        estadoServicio: true,
+        tecnico: {
+          include: { user: true },
+        },
+        servicio: true,
+      },
+    });
+
+    if (!orden) {
+      throw new BadRequestException('La orden especificada no existe');
+    }
+
+    return orden;
+  }
+
+  async update(
+    tenantId: string,
+    id: string,
+    updateDto: Partial<CreateOrdenServicioDto>,
+  ) {
+    // Validar que la orden pertenezca al tenant
+    const orden = await this.prisma.ordenServicio.findFirst({
+      where: { id, tenantId },
+    });
+
+    if (!orden) {
+      throw new BadRequestException('La orden especificada no existe');
+    }
+
+    const data: any = {
+      tecnicoId: updateDto.tecnicoId,
+      estadoServicioId: updateDto.estadoServicioId,
+      observacion: updateDto.observacion,
+      nivelInfestacion: updateDto.nivelInfestacion,
+      urgencia: updateDto.urgencia,
+      tipoVisita: updateDto.tipoVisita,
+      frecuenciaSugerida: updateDto.frecuenciaSugerida,
+      tipoFacturacion: updateDto.tipoFacturacion,
+      valorCotizado: updateDto.valorCotizado,
+      metodoPagoId: updateDto.metodoPagoId,
+      estadoPago: updateDto.estadoPago,
+    };
+
+    if (updateDto.fechaVisita) {
+      data.fechaVisita = new Date(updateDto.fechaVisita);
+    }
+
+    if (updateDto.horaInicio) {
+      data.horaInicio = new Date(updateDto.horaInicio);
+      if (updateDto.duracionMinutos) {
+        data.horaFin = new Date(
+          data.horaInicio.getTime() + updateDto.duracionMinutos * 60000,
+        );
+      }
+    }
+
+    if (updateDto.servicioEspecifico) {
+      let servicio = await this.prisma.servicio.findFirst({
+        where: {
+          tenantId,
+          empresaId: orden.empresaId,
+          nombre: updateDto.servicioEspecifico,
+        },
+      });
+
+      if (!servicio) {
+        servicio = await this.prisma.servicio.create({
+          data: {
+            tenantId,
+            empresaId: orden.empresaId,
+            nombre: updateDto.servicioEspecifico,
+            activo: true,
+          },
+        });
+      }
+      data.servicioId = servicio.id;
+    }
+
+    return this.prisma.ordenServicio.update({
+      where: { id },
+      data,
+      include: {
+        cliente: true,
+        estadoServicio: true,
+        servicio: true,
+        tecnico: {
+          include: { user: true },
+        },
+      },
+    });
+  }
 }

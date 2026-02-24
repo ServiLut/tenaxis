@@ -30,20 +30,63 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogDescription,
+} from "@/components/ui/dialog";
 import { cn } from "@/components/ui/utils";
 import { toast } from "sonner";
 import { exportToExcel, exportToPDF, exportToWord } from "@/lib/utils/export-helper";
-import { getOrdenesServicioAction } from "../actions";
+import {
+  getOrdenesServicioAction,
+  updateOrdenServicioAction,
+  getOperatorsAction,
+  getEstadoServiciosAction,
+  type ClienteDTO,
+} from "../actions";
 
 interface Servicio {
   id: string;
   cliente: string;
+  clienteFull: ClienteDTO;
   servicioEspecifico: string;
   fecha: string;
   hora: string;
   tecnico: string;
+  tecnicoId?: string;
   estado: string;
+  estadoId?: string;
   urgencia: string;
+  empresaId: string;
+  raw: OrdenServicioRaw;
+}
+
+interface OrdenServicioRaw {
+  id: string;
+  numeroOrden?: string;
+  cliente: ClienteDTO;
+  clienteId: string;
+  empresaId: string;
+  servicio?: { id: string; nombre: string };
+  servicioId?: string;
+  tecnicoId?: string;
+  estadoServicioId?: string;
+  fechaVisita?: string;
+  horaInicio?: string;
+  tecnico?: { id: string; user?: { nombre: string; apellido: string } };
+  estadoServicio?: { id: string; nombre: string };
+  urgencia?: string;
+  observacion?: string;
+  nivelInfestacion?: string;
+  tipoVisita?: string;
+  frecuenciaSugerida?: number;
+  tipoFacturacion?: string;
+  valorCotizado?: number;
+  metodoPagoId?: string;
+  estadoPago?: string;
 }
 
 const ESTADO_STYLING: Record<string, string> = {
@@ -115,11 +158,27 @@ function ServiciosSkeleton() {
   );
 }
 
+interface Operador {
+  id: string;
+  nombre: string;
+}
+
+interface EstadoServicio {
+  id: string;
+  nombre: string;
+}
+
 export default function ServiciosPage() {
   const [search, setSearch] = useState("");
   const [servicios, setServicios] = useState<Servicio[]>([]);
   const [loading, setLoading] = useState(true);
   const [showExportMenu, setShowExportMenu] = useState(false);
+  const [selectedServicio, setSelectedServicio] = useState<Servicio | null>(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  
+  // Pagination State
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 10;
 
   const fetchServicios = useCallback(async () => {
     setLoading(true);
@@ -127,7 +186,7 @@ export default function ServiciosPage() {
       const empresaId = localStorage.getItem("current-enterprise-id") || undefined;
       const data = await getOrdenesServicioAction(empresaId);
       
-      const mapped: Servicio[] = (Array.isArray(data) ? data : []).map((os: any) => {
+      const mapped: Servicio[] = (Array.isArray(data) ? data : []).map((os: OrdenServicioRaw) => {
         const clienteLabel = os.cliente.tipoCliente === "EMPRESA" 
           ? (os.cliente.razonSocial || "Empresa") 
           : `${os.cliente.nombre || ""} ${os.cliente.apellido || ""}`.trim();
@@ -135,12 +194,17 @@ export default function ServiciosPage() {
         return {
           id: os.numeroOrden || os.id.substring(0, 8).toUpperCase(),
           cliente: clienteLabel,
+          clienteFull: os.cliente,
           servicioEspecifico: os.servicio?.nombre || "Servicio General",
           fecha: os.fechaVisita ? new Date(os.fechaVisita).toLocaleDateString() : "Sin fecha",
           hora: os.horaInicio ? new Date(os.horaInicio).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : "Sin hora",
           tecnico: os.tecnico?.user ? `${os.tecnico.user.nombre} ${os.tecnico.user.apellido}` : "Sin asignar",
+          tecnicoId: os.tecnicoId,
           estado: os.estadoServicio?.nombre || "PROGRAMADO",
+          estadoId: os.estadoServicioId,
           urgencia: os.urgencia || "BAJA",
+          empresaId: os.empresaId,
+          raw: os,
         };
       });
       
@@ -157,11 +221,19 @@ export default function ServiciosPage() {
     fetchServicios();
   }, [fetchServicios]);
 
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [search]);
+
   const filteredServicios = servicios.filter((s: Servicio) => 
     s.cliente.toLowerCase().includes(search.toLowerCase()) ||
     s.servicioEspecifico.toLowerCase().includes(search.toLowerCase()) ||
     s.id.toLowerCase().includes(search.toLowerCase())
   );
+
+  const totalPages = Math.ceil(filteredServicios.length / itemsPerPage);
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const paginatedServicios = filteredServicios.slice(startIndex, startIndex + itemsPerPage);
 
   const handleExport = async (format: 'pdf' | 'excel' | 'word') => {
     const headers = ["ID Orden", "Cliente", "Servicio", "Fecha", "Hora", "Técnico", "Estado", "Urgencia"];
@@ -308,7 +380,7 @@ export default function ServiciosPage() {
                       </tr>
                     </thead>
                     <tbody className="divide-y divide-zinc-100 dark:divide-zinc-800">
-                      {filteredServicios.map((servicio: Servicio) => (
+                      {paginatedServicios.map((servicio: Servicio) => (
                         <tr key={servicio.id} className="group hover:bg-zinc-50/50 dark:hover:bg-zinc-800/30 transition-colors">
                           <td className="px-8 py-6">
                             <span className="font-mono text-xs font-black text-[var(--color-azul-1)] bg-blue-50 dark:bg-blue-500/10 px-3 py-1.5 rounded-lg border border-blue-100 dark:border-blue-500/20">
@@ -360,10 +432,6 @@ export default function ServiciosPage() {
                           </td>
                           <td className="px-8 py-6 text-right">
                             <div className="flex justify-end gap-2">
-                              <button className="h-10 w-10 flex items-center justify-center rounded-xl bg-zinc-50 hover:bg-zinc-900 hover:text-white dark:bg-zinc-800 dark:hover:bg-zinc-700 transition-all text-zinc-400">
-                                <ArrowUpRight className="h-5 w-5" />
-                              </button>
-                              
                               <DropdownMenu>
                                 <DropdownMenuTrigger asChild>
                                   <button className="inline-flex h-10 w-10 items-center justify-center rounded-xl bg-zinc-50 hover:bg-zinc-900 hover:text-white text-zinc-400 dark:bg-zinc-800 dark:hover:bg-zinc-700 transition-all">
@@ -371,12 +439,20 @@ export default function ServiciosPage() {
                                   </button>
                                 </DropdownMenuTrigger>
                                 <DropdownMenuContent align="end" className="w-56 p-2 rounded-xl">
-                                  <DropdownMenuItem className="flex items-center gap-3 py-2.5 text-[11px] font-bold cursor-pointer text-zinc-600 dark:text-zinc-400">
+                                  <DropdownMenuItem 
+                                    onClick={() => {
+                                      setSelectedServicio(servicio);
+                                      setIsModalOpen(true);
+                                    }}
+                                    className="flex items-center gap-3 py-2.5 text-[11px] font-bold cursor-pointer text-zinc-600 dark:text-zinc-400"
+                                  >
                                     <Eye className="h-4 w-4" /> VER DETALLES
                                   </DropdownMenuItem>
-                                  <DropdownMenuItem className="flex items-center gap-3 py-2.5 text-[11px] font-bold cursor-pointer text-zinc-600 dark:text-zinc-400">
-                                    <Pencil className="h-4 w-4" /> EDITAR ORDEN
-                                  </DropdownMenuItem>
+                                  <Link href={`/dashboard/servicios/${servicio.raw.id}/editar`}>
+                                    <DropdownMenuItem className="flex items-center gap-3 py-2.5 text-[11px] font-bold cursor-pointer text-zinc-600 dark:text-zinc-400">
+                                      <Pencil className="h-4 w-4" /> EDITAR ORDEN
+                                    </DropdownMenuItem>
+                                  </Link>
                                   <DropdownMenuSeparator />
                                   <DropdownMenuItem className="flex items-center gap-3 py-2.5 text-[11px] font-bold cursor-pointer text-zinc-600 dark:text-zinc-400">
                                     <FileText className="h-4 w-4 text-emerald-500" /> CERTIFICADO
@@ -412,13 +488,25 @@ export default function ServiciosPage() {
             {/* Paginación */}
             <div className="px-8 py-4 border-t border-zinc-100 dark:border-zinc-800/50 bg-zinc-50/50 dark:bg-zinc-900/50 flex items-center justify-between shrink-0">
               <span className="text-[10px] font-black uppercase tracking-widest text-zinc-400 dark:text-zinc-300">
-                Mostrando <span className="text-zinc-900 dark:text-zinc-100">{filteredServicios.length}</span> resultados
+                Mostrando <span className="text-zinc-900 dark:text-zinc-100">{Math.min(startIndex + 1, filteredServicios.length)}</span> - <span className="text-zinc-900 dark:text-zinc-100">{Math.min(startIndex + itemsPerPage, filteredServicios.length)}</span> de <span className="text-zinc-900 dark:text-zinc-100">{filteredServicios.length}</span> resultados
               </span>
               <div className="flex items-center gap-2">
-                <Button variant="outline" size="sm" className="h-8 rounded-xl text-xs font-bold" disabled>
+                <Button 
+                  variant="outline" 
+                  size="sm" 
+                  className="h-8 rounded-xl text-xs font-bold" 
+                  disabled={currentPage === 1}
+                  onClick={() => setCurrentPage(prev => Math.max(1, prev - 1))}
+                >
                   Anterior
                 </Button>
-                <Button variant="outline" size="sm" className="h-8 rounded-xl text-xs font-bold" disabled>
+                <Button 
+                  variant="outline" 
+                  size="sm" 
+                  className="h-8 rounded-xl text-xs font-bold" 
+                  disabled={currentPage >= totalPages}
+                  onClick={() => setCurrentPage(prev => Math.min(totalPages, prev + 1))}
+                >
                   Siguiente
                 </Button>
               </div>
@@ -427,6 +515,89 @@ export default function ServiciosPage() {
           </div>
         </div>
       </div>
+
+      <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}>
+        <DialogContent className="max-w-2xl">
+          <DialogHeader>
+            <DialogTitle className="text-2xl font-black uppercase tracking-tight">Detalles del Cliente</DialogTitle>
+            <DialogDescription className="font-medium">
+              Información completa del cliente asociado a la orden <span className="text-azul-1 font-bold">#{selectedServicio?.id}</span>
+            </DialogDescription>
+          </DialogHeader>
+
+          {selectedServicio && (
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-4">
+              <div className="col-span-1 md:col-span-2 pb-4 border-b border-zinc-100 dark:border-zinc-800">
+                <h4 className="text-[10px] font-black uppercase tracking-widest text-zinc-400 mb-3">Información del Servicio</h4>
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                  <div className="bg-zinc-50 dark:bg-zinc-800/50 p-3 rounded-lg border border-zinc-100 dark:border-zinc-800">
+                    <p className="text-[9px] font-black uppercase tracking-widest text-zinc-400 mb-1">Servicio</p>
+                    <p className="text-xs font-bold text-zinc-900 dark:text-zinc-100">{selectedServicio.servicioEspecifico}</p>
+                  </div>
+                  <div className="bg-zinc-50 dark:bg-zinc-800/50 p-3 rounded-lg border border-zinc-100 dark:border-zinc-800">
+                    <p className="text-[9px] font-black uppercase tracking-widest text-zinc-400 mb-1">Fecha Programada</p>
+                    <p className="text-xs font-bold text-zinc-900 dark:text-zinc-100">{selectedServicio.fecha}</p>
+                  </div>
+                  <div className="bg-zinc-50 dark:bg-zinc-800/50 p-3 rounded-lg border border-zinc-100 dark:border-zinc-800">
+                    <p className="text-[9px] font-black uppercase tracking-widest text-zinc-400 mb-1">Hora de Inicio</p>
+                    <p className="text-xs font-bold text-zinc-900 dark:text-zinc-100">{selectedServicio.hora}</p>
+                  </div>
+                </div>
+              </div>
+
+              <div className="space-y-4">
+                <div>
+                  <h4 className="text-[10px] font-black uppercase tracking-widest text-zinc-400 mb-1">Nombre / Razón Social</h4>
+                  <p className="text-sm font-bold text-zinc-900 dark:text-zinc-100">
+                    {selectedServicio.clienteFull.tipoCliente === "EMPRESA" 
+                      ? selectedServicio.clienteFull.razonSocial 
+                      : `${selectedServicio.clienteFull.nombre} ${selectedServicio.clienteFull.apellido}`}
+                  </p>
+                </div>
+                <div>
+                  <h4 className="text-[10px] font-black uppercase tracking-widest text-zinc-400 mb-1">Identificación</h4>
+                  <p className="text-sm font-bold text-zinc-900 dark:text-zinc-100">
+                    {selectedServicio.clienteFull.tipoDocumento || (selectedServicio.clienteFull.tipoCliente === "EMPRESA" ? "NIT" : "CC")}: {selectedServicio.clienteFull.nit || selectedServicio.clienteFull.numeroDocumento || "No registrado"}
+                  </p>
+                </div>
+                <div>
+                  <h4 className="text-[10px] font-black uppercase tracking-widest text-zinc-400 mb-1">Correo Electrónico</h4>
+                  <p className="text-sm font-bold text-zinc-900 dark:text-zinc-100">{selectedServicio.clienteFull.correo || "No registrado"}</p>
+                </div>
+              </div>
+
+              <div className="space-y-4">
+                <div>
+                  <h4 className="text-[10px] font-black uppercase tracking-widest text-zinc-400 mb-1">Teléfono Principal</h4>
+                  <p className="text-sm font-bold text-zinc-900 dark:text-zinc-100">{selectedServicio.clienteFull.telefono}</p>
+                </div>
+                <div>
+                  <h4 className="text-[10px] font-black uppercase tracking-widest text-zinc-400 mb-1">Teléfono Secundario</h4>
+                  <p className="text-sm font-bold text-zinc-900 dark:text-zinc-100">{selectedServicio.clienteFull.telefono2 || "No registrado"}</p>
+                </div>
+                <div>
+                  <h4 className="text-[10px] font-black uppercase tracking-widest text-zinc-400 mb-1">Actividad Económica</h4>
+                  <p className="text-sm font-bold text-zinc-900 dark:text-zinc-100">{selectedServicio.clienteFull.actividadEconomica || "No especificada"}</p>
+                </div>
+              </div>
+
+              {selectedServicio.clienteFull.direcciones && selectedServicio.clienteFull.direcciones.length > 0 && (
+                <div className="col-span-1 md:col-span-2 mt-2 pt-4 border-t border-zinc-100 dark:border-zinc-800">
+                  <h4 className="text-[10px] font-black uppercase tracking-widest text-zinc-400 mb-3">Direcciones Registradas</h4>
+                  <div className="space-y-3">
+                    {selectedServicio.clienteFull.direcciones.map((dir, idx) => (
+                      <div key={idx} className="bg-zinc-50 dark:bg-zinc-800/50 p-3 rounded-lg border border-zinc-100 dark:border-zinc-700/50">
+                        <p className="text-xs font-bold text-zinc-900 dark:text-zinc-100">{dir.nombreSede || `Sede ${idx + 1}`}</p>
+                        <p className="text-[11px] text-zinc-500 mt-0.5">{dir.direccion} - {dir.barrio}, {dir.municipio}</p>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+            </div>
+          )}
+        </DialogContent>
+      </Dialog>
     </DashboardLayout>
   );
 }

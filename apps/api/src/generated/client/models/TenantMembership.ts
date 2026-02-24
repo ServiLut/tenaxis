@@ -286,7 +286,6 @@ export type TenantMembershipWhereInput = {
   whatsappGroupId?: Prisma.StringNullableFilter<"TenantMembership"> | string | null
   direccion?: Prisma.StringNullableFilter<"TenantMembership"> | string | null
   municipioId?: Prisma.UuidNullableFilter<"TenantMembership"> | string | null
-  municipio?: Prisma.XOR<Prisma.MunicipalityNullableScalarRelationFilter, Prisma.MunicipalityWhereInput> | null
   anticipos?: Prisma.AnticiposListRelationFilter
   auditorias?: Prisma.AuditoriaListRelationFilter
   citasComoCreador?: Prisma.CitasPsicologosListRelationFilter
@@ -310,6 +309,7 @@ export type TenantMembershipWhereInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoListRelationFilter
   referidos?: Prisma.ReferidosListRelationFilter
   sesionesActividad?: Prisma.SesionActividadListRelationFilter
+  municipio?: Prisma.XOR<Prisma.MunicipalityNullableScalarRelationFilter, Prisma.MunicipalityWhereInput> | null
   tenant?: Prisma.XOR<Prisma.TenantScalarRelationFilter, Prisma.TenantWhereInput>
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
   turnos?: Prisma.TurnoListRelationFilter
@@ -334,7 +334,6 @@ export type TenantMembershipOrderByWithRelationInput = {
   whatsappGroupId?: Prisma.SortOrderInput | Prisma.SortOrder
   direccion?: Prisma.SortOrderInput | Prisma.SortOrder
   municipioId?: Prisma.SortOrderInput | Prisma.SortOrder
-  municipio?: Prisma.MunicipalityOrderByWithRelationInput
   anticipos?: Prisma.AnticiposOrderByRelationAggregateInput
   auditorias?: Prisma.AuditoriaOrderByRelationAggregateInput
   citasComoCreador?: Prisma.CitasPsicologosOrderByRelationAggregateInput
@@ -358,6 +357,7 @@ export type TenantMembershipOrderByWithRelationInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoOrderByRelationAggregateInput
   referidos?: Prisma.ReferidosOrderByRelationAggregateInput
   sesionesActividad?: Prisma.SesionActividadOrderByRelationAggregateInput
+  municipio?: Prisma.MunicipalityOrderByWithRelationInput
   tenant?: Prisma.TenantOrderByWithRelationInput
   user?: Prisma.UserOrderByWithRelationInput
   turnos?: Prisma.TurnoOrderByRelationAggregateInput
@@ -386,7 +386,6 @@ export type TenantMembershipWhereUniqueInput = Prisma.AtLeast<{
   whatsappGroupId?: Prisma.StringNullableFilter<"TenantMembership"> | string | null
   direccion?: Prisma.StringNullableFilter<"TenantMembership"> | string | null
   municipioId?: Prisma.UuidNullableFilter<"TenantMembership"> | string | null
-  municipio?: Prisma.XOR<Prisma.MunicipalityNullableScalarRelationFilter, Prisma.MunicipalityWhereInput> | null
   anticipos?: Prisma.AnticiposListRelationFilter
   auditorias?: Prisma.AuditoriaListRelationFilter
   citasComoCreador?: Prisma.CitasPsicologosListRelationFilter
@@ -410,6 +409,7 @@ export type TenantMembershipWhereUniqueInput = Prisma.AtLeast<{
   productosSolicitados?: Prisma.ProductoSolicitadoListRelationFilter
   referidos?: Prisma.ReferidosListRelationFilter
   sesionesActividad?: Prisma.SesionActividadListRelationFilter
+  municipio?: Prisma.XOR<Prisma.MunicipalityNullableScalarRelationFilter, Prisma.MunicipalityWhereInput> | null
   tenant?: Prisma.XOR<Prisma.TenantScalarRelationFilter, Prisma.TenantWhereInput>
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
   turnos?: Prisma.TurnoListRelationFilter
@@ -479,7 +479,6 @@ export type TenantMembershipCreateInput = {
   username?: string | null
   whatsappGroupId?: string | null
   direccion?: string | null
-  municipio?: Prisma.MunicipalityCreateNestedOneWithoutMembershipsInput
   anticipos?: Prisma.AnticiposCreateNestedManyWithoutMembershipInput
   auditorias?: Prisma.AuditoriaCreateNestedManyWithoutMembershipInput
   citasComoCreador?: Prisma.CitasPsicologosCreateNestedManyWithoutCreadoPorInput
@@ -503,6 +502,7 @@ export type TenantMembershipCreateInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoCreateNestedManyWithoutMembershipInput
   referidos?: Prisma.ReferidosCreateNestedManyWithoutMembershipInput
   sesionesActividad?: Prisma.SesionActividadCreateNestedManyWithoutMembershipInput
+  municipio?: Prisma.MunicipalityCreateNestedOneWithoutMembershipsInput
   tenant: Prisma.TenantCreateNestedOneWithoutMembershipsInput
   user: Prisma.UserCreateNestedOneWithoutMembershipsInput
   turnos?: Prisma.TurnoCreateNestedManyWithoutMembershipInput
@@ -569,7 +569,6 @@ export type TenantMembershipUpdateInput = {
   username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   whatsappGroupId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   direccion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  municipio?: Prisma.MunicipalityUpdateOneWithoutMembershipsNestedInput
   anticipos?: Prisma.AnticiposUpdateManyWithoutMembershipNestedInput
   auditorias?: Prisma.AuditoriaUpdateManyWithoutMembershipNestedInput
   citasComoCreador?: Prisma.CitasPsicologosUpdateManyWithoutCreadoPorNestedInput
@@ -593,6 +592,7 @@ export type TenantMembershipUpdateInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUpdateManyWithoutMembershipNestedInput
   referidos?: Prisma.ReferidosUpdateManyWithoutMembershipNestedInput
   sesionesActividad?: Prisma.SesionActividadUpdateManyWithoutMembershipNestedInput
+  municipio?: Prisma.MunicipalityUpdateOneWithoutMembershipsNestedInput
   tenant?: Prisma.TenantUpdateOneRequiredWithoutMembershipsNestedInput
   user?: Prisma.UserUpdateOneRequiredWithoutMembershipsNestedInput
   turnos?: Prisma.TurnoUpdateManyWithoutMembershipNestedInput
@@ -1297,7 +1297,6 @@ export type TenantMembershipCreateWithoutUserInput = {
   username?: string | null
   whatsappGroupId?: string | null
   direccion?: string | null
-  municipio?: Prisma.MunicipalityCreateNestedOneWithoutMembershipsInput
   anticipos?: Prisma.AnticiposCreateNestedManyWithoutMembershipInput
   auditorias?: Prisma.AuditoriaCreateNestedManyWithoutMembershipInput
   citasComoCreador?: Prisma.CitasPsicologosCreateNestedManyWithoutCreadoPorInput
@@ -1321,6 +1320,7 @@ export type TenantMembershipCreateWithoutUserInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoCreateNestedManyWithoutMembershipInput
   referidos?: Prisma.ReferidosCreateNestedManyWithoutMembershipInput
   sesionesActividad?: Prisma.SesionActividadCreateNestedManyWithoutMembershipInput
+  municipio?: Prisma.MunicipalityCreateNestedOneWithoutMembershipsInput
   tenant: Prisma.TenantCreateNestedOneWithoutMembershipsInput
   turnos?: Prisma.TurnoCreateNestedManyWithoutMembershipInput
 }
@@ -1435,7 +1435,6 @@ export type TenantMembershipCreateWithoutTenantInput = {
   username?: string | null
   whatsappGroupId?: string | null
   direccion?: string | null
-  municipio?: Prisma.MunicipalityCreateNestedOneWithoutMembershipsInput
   anticipos?: Prisma.AnticiposCreateNestedManyWithoutMembershipInput
   auditorias?: Prisma.AuditoriaCreateNestedManyWithoutMembershipInput
   citasComoCreador?: Prisma.CitasPsicologosCreateNestedManyWithoutCreadoPorInput
@@ -1459,6 +1458,7 @@ export type TenantMembershipCreateWithoutTenantInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoCreateNestedManyWithoutMembershipInput
   referidos?: Prisma.ReferidosCreateNestedManyWithoutMembershipInput
   sesionesActividad?: Prisma.SesionActividadCreateNestedManyWithoutMembershipInput
+  municipio?: Prisma.MunicipalityCreateNestedOneWithoutMembershipsInput
   user: Prisma.UserCreateNestedOneWithoutMembershipsInput
   turnos?: Prisma.TurnoCreateNestedManyWithoutMembershipInput
 }
@@ -1549,7 +1549,6 @@ export type TenantMembershipCreateWithoutEmpresaMembershipsInput = {
   username?: string | null
   whatsappGroupId?: string | null
   direccion?: string | null
-  municipio?: Prisma.MunicipalityCreateNestedOneWithoutMembershipsInput
   anticipos?: Prisma.AnticiposCreateNestedManyWithoutMembershipInput
   auditorias?: Prisma.AuditoriaCreateNestedManyWithoutMembershipInput
   citasComoCreador?: Prisma.CitasPsicologosCreateNestedManyWithoutCreadoPorInput
@@ -1572,6 +1571,7 @@ export type TenantMembershipCreateWithoutEmpresaMembershipsInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoCreateNestedManyWithoutMembershipInput
   referidos?: Prisma.ReferidosCreateNestedManyWithoutMembershipInput
   sesionesActividad?: Prisma.SesionActividadCreateNestedManyWithoutMembershipInput
+  municipio?: Prisma.MunicipalityCreateNestedOneWithoutMembershipsInput
   tenant: Prisma.TenantCreateNestedOneWithoutMembershipsInput
   user: Prisma.UserCreateNestedOneWithoutMembershipsInput
   turnos?: Prisma.TurnoCreateNestedManyWithoutMembershipInput
@@ -1653,7 +1653,6 @@ export type TenantMembershipUpdateWithoutEmpresaMembershipsInput = {
   username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   whatsappGroupId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   direccion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  municipio?: Prisma.MunicipalityUpdateOneWithoutMembershipsNestedInput
   anticipos?: Prisma.AnticiposUpdateManyWithoutMembershipNestedInput
   auditorias?: Prisma.AuditoriaUpdateManyWithoutMembershipNestedInput
   citasComoCreador?: Prisma.CitasPsicologosUpdateManyWithoutCreadoPorNestedInput
@@ -1676,6 +1675,7 @@ export type TenantMembershipUpdateWithoutEmpresaMembershipsInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUpdateManyWithoutMembershipNestedInput
   referidos?: Prisma.ReferidosUpdateManyWithoutMembershipNestedInput
   sesionesActividad?: Prisma.SesionActividadUpdateManyWithoutMembershipNestedInput
+  municipio?: Prisma.MunicipalityUpdateOneWithoutMembershipsNestedInput
   tenant?: Prisma.TenantUpdateOneRequiredWithoutMembershipsNestedInput
   user?: Prisma.UserUpdateOneRequiredWithoutMembershipsNestedInput
   turnos?: Prisma.TurnoUpdateManyWithoutMembershipNestedInput
@@ -1855,7 +1855,6 @@ export type TenantMembershipCreateWithoutClientesCreadosInput = {
   username?: string | null
   whatsappGroupId?: string | null
   direccion?: string | null
-  municipio?: Prisma.MunicipalityCreateNestedOneWithoutMembershipsInput
   anticipos?: Prisma.AnticiposCreateNestedManyWithoutMembershipInput
   auditorias?: Prisma.AuditoriaCreateNestedManyWithoutMembershipInput
   citasComoCreador?: Prisma.CitasPsicologosCreateNestedManyWithoutCreadoPorInput
@@ -1878,6 +1877,7 @@ export type TenantMembershipCreateWithoutClientesCreadosInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoCreateNestedManyWithoutMembershipInput
   referidos?: Prisma.ReferidosCreateNestedManyWithoutMembershipInput
   sesionesActividad?: Prisma.SesionActividadCreateNestedManyWithoutMembershipInput
+  municipio?: Prisma.MunicipalityCreateNestedOneWithoutMembershipsInput
   tenant: Prisma.TenantCreateNestedOneWithoutMembershipsInput
   user: Prisma.UserCreateNestedOneWithoutMembershipsInput
   turnos?: Prisma.TurnoCreateNestedManyWithoutMembershipInput
@@ -1959,7 +1959,6 @@ export type TenantMembershipUpdateWithoutClientesCreadosInput = {
   username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   whatsappGroupId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   direccion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  municipio?: Prisma.MunicipalityUpdateOneWithoutMembershipsNestedInput
   anticipos?: Prisma.AnticiposUpdateManyWithoutMembershipNestedInput
   auditorias?: Prisma.AuditoriaUpdateManyWithoutMembershipNestedInput
   citasComoCreador?: Prisma.CitasPsicologosUpdateManyWithoutCreadoPorNestedInput
@@ -1982,6 +1981,7 @@ export type TenantMembershipUpdateWithoutClientesCreadosInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUpdateManyWithoutMembershipNestedInput
   referidos?: Prisma.ReferidosUpdateManyWithoutMembershipNestedInput
   sesionesActividad?: Prisma.SesionActividadUpdateManyWithoutMembershipNestedInput
+  municipio?: Prisma.MunicipalityUpdateOneWithoutMembershipsNestedInput
   tenant?: Prisma.TenantUpdateOneRequiredWithoutMembershipsNestedInput
   user?: Prisma.UserUpdateOneRequiredWithoutMembershipsNestedInput
   turnos?: Prisma.TurnoUpdateManyWithoutMembershipNestedInput
@@ -2047,7 +2047,6 @@ export type TenantMembershipCreateWithoutServiciosCreadosInput = {
   username?: string | null
   whatsappGroupId?: string | null
   direccion?: string | null
-  municipio?: Prisma.MunicipalityCreateNestedOneWithoutMembershipsInput
   anticipos?: Prisma.AnticiposCreateNestedManyWithoutMembershipInput
   auditorias?: Prisma.AuditoriaCreateNestedManyWithoutMembershipInput
   citasComoCreador?: Prisma.CitasPsicologosCreateNestedManyWithoutCreadoPorInput
@@ -2070,6 +2069,7 @@ export type TenantMembershipCreateWithoutServiciosCreadosInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoCreateNestedManyWithoutMembershipInput
   referidos?: Prisma.ReferidosCreateNestedManyWithoutMembershipInput
   sesionesActividad?: Prisma.SesionActividadCreateNestedManyWithoutMembershipInput
+  municipio?: Prisma.MunicipalityCreateNestedOneWithoutMembershipsInput
   tenant: Prisma.TenantCreateNestedOneWithoutMembershipsInput
   user: Prisma.UserCreateNestedOneWithoutMembershipsInput
   turnos?: Prisma.TurnoCreateNestedManyWithoutMembershipInput
@@ -2140,7 +2140,6 @@ export type TenantMembershipCreateWithoutServiciosAsignadosInput = {
   username?: string | null
   whatsappGroupId?: string | null
   direccion?: string | null
-  municipio?: Prisma.MunicipalityCreateNestedOneWithoutMembershipsInput
   anticipos?: Prisma.AnticiposCreateNestedManyWithoutMembershipInput
   auditorias?: Prisma.AuditoriaCreateNestedManyWithoutMembershipInput
   citasComoCreador?: Prisma.CitasPsicologosCreateNestedManyWithoutCreadoPorInput
@@ -2163,6 +2162,7 @@ export type TenantMembershipCreateWithoutServiciosAsignadosInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoCreateNestedManyWithoutMembershipInput
   referidos?: Prisma.ReferidosCreateNestedManyWithoutMembershipInput
   sesionesActividad?: Prisma.SesionActividadCreateNestedManyWithoutMembershipInput
+  municipio?: Prisma.MunicipalityCreateNestedOneWithoutMembershipsInput
   tenant: Prisma.TenantCreateNestedOneWithoutMembershipsInput
   user: Prisma.UserCreateNestedOneWithoutMembershipsInput
   turnos?: Prisma.TurnoCreateNestedManyWithoutMembershipInput
@@ -2244,7 +2244,6 @@ export type TenantMembershipUpdateWithoutServiciosCreadosInput = {
   username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   whatsappGroupId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   direccion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  municipio?: Prisma.MunicipalityUpdateOneWithoutMembershipsNestedInput
   anticipos?: Prisma.AnticiposUpdateManyWithoutMembershipNestedInput
   auditorias?: Prisma.AuditoriaUpdateManyWithoutMembershipNestedInput
   citasComoCreador?: Prisma.CitasPsicologosUpdateManyWithoutCreadoPorNestedInput
@@ -2267,6 +2266,7 @@ export type TenantMembershipUpdateWithoutServiciosCreadosInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUpdateManyWithoutMembershipNestedInput
   referidos?: Prisma.ReferidosUpdateManyWithoutMembershipNestedInput
   sesionesActividad?: Prisma.SesionActividadUpdateManyWithoutMembershipNestedInput
+  municipio?: Prisma.MunicipalityUpdateOneWithoutMembershipsNestedInput
   tenant?: Prisma.TenantUpdateOneRequiredWithoutMembershipsNestedInput
   user?: Prisma.UserUpdateOneRequiredWithoutMembershipsNestedInput
   turnos?: Prisma.TurnoUpdateManyWithoutMembershipNestedInput
@@ -2343,7 +2343,6 @@ export type TenantMembershipUpdateWithoutServiciosAsignadosInput = {
   username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   whatsappGroupId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   direccion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  municipio?: Prisma.MunicipalityUpdateOneWithoutMembershipsNestedInput
   anticipos?: Prisma.AnticiposUpdateManyWithoutMembershipNestedInput
   auditorias?: Prisma.AuditoriaUpdateManyWithoutMembershipNestedInput
   citasComoCreador?: Prisma.CitasPsicologosUpdateManyWithoutCreadoPorNestedInput
@@ -2366,6 +2365,7 @@ export type TenantMembershipUpdateWithoutServiciosAsignadosInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUpdateManyWithoutMembershipNestedInput
   referidos?: Prisma.ReferidosUpdateManyWithoutMembershipNestedInput
   sesionesActividad?: Prisma.SesionActividadUpdateManyWithoutMembershipNestedInput
+  municipio?: Prisma.MunicipalityUpdateOneWithoutMembershipsNestedInput
   tenant?: Prisma.TenantUpdateOneRequiredWithoutMembershipsNestedInput
   user?: Prisma.UserUpdateOneRequiredWithoutMembershipsNestedInput
   turnos?: Prisma.TurnoUpdateManyWithoutMembershipNestedInput
@@ -2431,7 +2431,6 @@ export type TenantMembershipCreateWithoutGeolocalizacionesInput = {
   username?: string | null
   whatsappGroupId?: string | null
   direccion?: string | null
-  municipio?: Prisma.MunicipalityCreateNestedOneWithoutMembershipsInput
   anticipos?: Prisma.AnticiposCreateNestedManyWithoutMembershipInput
   auditorias?: Prisma.AuditoriaCreateNestedManyWithoutMembershipInput
   citasComoCreador?: Prisma.CitasPsicologosCreateNestedManyWithoutCreadoPorInput
@@ -2454,6 +2453,7 @@ export type TenantMembershipCreateWithoutGeolocalizacionesInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoCreateNestedManyWithoutMembershipInput
   referidos?: Prisma.ReferidosCreateNestedManyWithoutMembershipInput
   sesionesActividad?: Prisma.SesionActividadCreateNestedManyWithoutMembershipInput
+  municipio?: Prisma.MunicipalityCreateNestedOneWithoutMembershipsInput
   tenant: Prisma.TenantCreateNestedOneWithoutMembershipsInput
   user: Prisma.UserCreateNestedOneWithoutMembershipsInput
   turnos?: Prisma.TurnoCreateNestedManyWithoutMembershipInput
@@ -2535,7 +2535,6 @@ export type TenantMembershipUpdateWithoutGeolocalizacionesInput = {
   username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   whatsappGroupId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   direccion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  municipio?: Prisma.MunicipalityUpdateOneWithoutMembershipsNestedInput
   anticipos?: Prisma.AnticiposUpdateManyWithoutMembershipNestedInput
   auditorias?: Prisma.AuditoriaUpdateManyWithoutMembershipNestedInput
   citasComoCreador?: Prisma.CitasPsicologosUpdateManyWithoutCreadoPorNestedInput
@@ -2558,6 +2557,7 @@ export type TenantMembershipUpdateWithoutGeolocalizacionesInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUpdateManyWithoutMembershipNestedInput
   referidos?: Prisma.ReferidosUpdateManyWithoutMembershipNestedInput
   sesionesActividad?: Prisma.SesionActividadUpdateManyWithoutMembershipNestedInput
+  municipio?: Prisma.MunicipalityUpdateOneWithoutMembershipsNestedInput
   tenant?: Prisma.TenantUpdateOneRequiredWithoutMembershipsNestedInput
   user?: Prisma.UserUpdateOneRequiredWithoutMembershipsNestedInput
   turnos?: Prisma.TurnoUpdateManyWithoutMembershipNestedInput
@@ -2623,7 +2623,6 @@ export type TenantMembershipCreateWithoutNominasInput = {
   username?: string | null
   whatsappGroupId?: string | null
   direccion?: string | null
-  municipio?: Prisma.MunicipalityCreateNestedOneWithoutMembershipsInput
   anticipos?: Prisma.AnticiposCreateNestedManyWithoutMembershipInput
   auditorias?: Prisma.AuditoriaCreateNestedManyWithoutMembershipInput
   citasComoCreador?: Prisma.CitasPsicologosCreateNestedManyWithoutCreadoPorInput
@@ -2646,6 +2645,7 @@ export type TenantMembershipCreateWithoutNominasInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoCreateNestedManyWithoutMembershipInput
   referidos?: Prisma.ReferidosCreateNestedManyWithoutMembershipInput
   sesionesActividad?: Prisma.SesionActividadCreateNestedManyWithoutMembershipInput
+  municipio?: Prisma.MunicipalityCreateNestedOneWithoutMembershipsInput
   tenant: Prisma.TenantCreateNestedOneWithoutMembershipsInput
   user: Prisma.UserCreateNestedOneWithoutMembershipsInput
   turnos?: Prisma.TurnoCreateNestedManyWithoutMembershipInput
@@ -2727,7 +2727,6 @@ export type TenantMembershipUpdateWithoutNominasInput = {
   username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   whatsappGroupId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   direccion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  municipio?: Prisma.MunicipalityUpdateOneWithoutMembershipsNestedInput
   anticipos?: Prisma.AnticiposUpdateManyWithoutMembershipNestedInput
   auditorias?: Prisma.AuditoriaUpdateManyWithoutMembershipNestedInput
   citasComoCreador?: Prisma.CitasPsicologosUpdateManyWithoutCreadoPorNestedInput
@@ -2750,6 +2749,7 @@ export type TenantMembershipUpdateWithoutNominasInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUpdateManyWithoutMembershipNestedInput
   referidos?: Prisma.ReferidosUpdateManyWithoutMembershipNestedInput
   sesionesActividad?: Prisma.SesionActividadUpdateManyWithoutMembershipNestedInput
+  municipio?: Prisma.MunicipalityUpdateOneWithoutMembershipsNestedInput
   tenant?: Prisma.TenantUpdateOneRequiredWithoutMembershipsNestedInput
   user?: Prisma.UserUpdateOneRequiredWithoutMembershipsNestedInput
   turnos?: Prisma.TurnoUpdateManyWithoutMembershipNestedInput
@@ -2815,7 +2815,6 @@ export type TenantMembershipCreateWithoutCitasComoCreadorInput = {
   username?: string | null
   whatsappGroupId?: string | null
   direccion?: string | null
-  municipio?: Prisma.MunicipalityCreateNestedOneWithoutMembershipsInput
   anticipos?: Prisma.AnticiposCreateNestedManyWithoutMembershipInput
   auditorias?: Prisma.AuditoriaCreateNestedManyWithoutMembershipInput
   citasComoPsicologo?: Prisma.CitasPsicologosCreateNestedManyWithoutPsicologoInput
@@ -2838,6 +2837,7 @@ export type TenantMembershipCreateWithoutCitasComoCreadorInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoCreateNestedManyWithoutMembershipInput
   referidos?: Prisma.ReferidosCreateNestedManyWithoutMembershipInput
   sesionesActividad?: Prisma.SesionActividadCreateNestedManyWithoutMembershipInput
+  municipio?: Prisma.MunicipalityCreateNestedOneWithoutMembershipsInput
   tenant: Prisma.TenantCreateNestedOneWithoutMembershipsInput
   user: Prisma.UserCreateNestedOneWithoutMembershipsInput
   turnos?: Prisma.TurnoCreateNestedManyWithoutMembershipInput
@@ -2908,7 +2908,6 @@ export type TenantMembershipCreateWithoutCitasComoPsicologoInput = {
   username?: string | null
   whatsappGroupId?: string | null
   direccion?: string | null
-  municipio?: Prisma.MunicipalityCreateNestedOneWithoutMembershipsInput
   anticipos?: Prisma.AnticiposCreateNestedManyWithoutMembershipInput
   auditorias?: Prisma.AuditoriaCreateNestedManyWithoutMembershipInput
   citasComoCreador?: Prisma.CitasPsicologosCreateNestedManyWithoutCreadoPorInput
@@ -2931,6 +2930,7 @@ export type TenantMembershipCreateWithoutCitasComoPsicologoInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoCreateNestedManyWithoutMembershipInput
   referidos?: Prisma.ReferidosCreateNestedManyWithoutMembershipInput
   sesionesActividad?: Prisma.SesionActividadCreateNestedManyWithoutMembershipInput
+  municipio?: Prisma.MunicipalityCreateNestedOneWithoutMembershipsInput
   tenant: Prisma.TenantCreateNestedOneWithoutMembershipsInput
   user: Prisma.UserCreateNestedOneWithoutMembershipsInput
   turnos?: Prisma.TurnoCreateNestedManyWithoutMembershipInput
@@ -3012,7 +3012,6 @@ export type TenantMembershipUpdateWithoutCitasComoCreadorInput = {
   username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   whatsappGroupId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   direccion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  municipio?: Prisma.MunicipalityUpdateOneWithoutMembershipsNestedInput
   anticipos?: Prisma.AnticiposUpdateManyWithoutMembershipNestedInput
   auditorias?: Prisma.AuditoriaUpdateManyWithoutMembershipNestedInput
   citasComoPsicologo?: Prisma.CitasPsicologosUpdateManyWithoutPsicologoNestedInput
@@ -3035,6 +3034,7 @@ export type TenantMembershipUpdateWithoutCitasComoCreadorInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUpdateManyWithoutMembershipNestedInput
   referidos?: Prisma.ReferidosUpdateManyWithoutMembershipNestedInput
   sesionesActividad?: Prisma.SesionActividadUpdateManyWithoutMembershipNestedInput
+  municipio?: Prisma.MunicipalityUpdateOneWithoutMembershipsNestedInput
   tenant?: Prisma.TenantUpdateOneRequiredWithoutMembershipsNestedInput
   user?: Prisma.UserUpdateOneRequiredWithoutMembershipsNestedInput
   turnos?: Prisma.TurnoUpdateManyWithoutMembershipNestedInput
@@ -3111,7 +3111,6 @@ export type TenantMembershipUpdateWithoutCitasComoPsicologoInput = {
   username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   whatsappGroupId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   direccion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  municipio?: Prisma.MunicipalityUpdateOneWithoutMembershipsNestedInput
   anticipos?: Prisma.AnticiposUpdateManyWithoutMembershipNestedInput
   auditorias?: Prisma.AuditoriaUpdateManyWithoutMembershipNestedInput
   citasComoCreador?: Prisma.CitasPsicologosUpdateManyWithoutCreadoPorNestedInput
@@ -3134,6 +3133,7 @@ export type TenantMembershipUpdateWithoutCitasComoPsicologoInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUpdateManyWithoutMembershipNestedInput
   referidos?: Prisma.ReferidosUpdateManyWithoutMembershipNestedInput
   sesionesActividad?: Prisma.SesionActividadUpdateManyWithoutMembershipNestedInput
+  municipio?: Prisma.MunicipalityUpdateOneWithoutMembershipsNestedInput
   tenant?: Prisma.TenantUpdateOneRequiredWithoutMembershipsNestedInput
   user?: Prisma.UserUpdateOneRequiredWithoutMembershipsNestedInput
   turnos?: Prisma.TurnoUpdateManyWithoutMembershipNestedInput
@@ -3199,7 +3199,6 @@ export type TenantMembershipCreateWithoutPaquetesAdquiridosInput = {
   username?: string | null
   whatsappGroupId?: string | null
   direccion?: string | null
-  municipio?: Prisma.MunicipalityCreateNestedOneWithoutMembershipsInput
   anticipos?: Prisma.AnticiposCreateNestedManyWithoutMembershipInput
   auditorias?: Prisma.AuditoriaCreateNestedManyWithoutMembershipInput
   citasComoCreador?: Prisma.CitasPsicologosCreateNestedManyWithoutCreadoPorInput
@@ -3222,6 +3221,7 @@ export type TenantMembershipCreateWithoutPaquetesAdquiridosInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoCreateNestedManyWithoutMembershipInput
   referidos?: Prisma.ReferidosCreateNestedManyWithoutMembershipInput
   sesionesActividad?: Prisma.SesionActividadCreateNestedManyWithoutMembershipInput
+  municipio?: Prisma.MunicipalityCreateNestedOneWithoutMembershipsInput
   tenant: Prisma.TenantCreateNestedOneWithoutMembershipsInput
   user: Prisma.UserCreateNestedOneWithoutMembershipsInput
   turnos?: Prisma.TurnoCreateNestedManyWithoutMembershipInput
@@ -3303,7 +3303,6 @@ export type TenantMembershipUpdateWithoutPaquetesAdquiridosInput = {
   username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   whatsappGroupId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   direccion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  municipio?: Prisma.MunicipalityUpdateOneWithoutMembershipsNestedInput
   anticipos?: Prisma.AnticiposUpdateManyWithoutMembershipNestedInput
   auditorias?: Prisma.AuditoriaUpdateManyWithoutMembershipNestedInput
   citasComoCreador?: Prisma.CitasPsicologosUpdateManyWithoutCreadoPorNestedInput
@@ -3326,6 +3325,7 @@ export type TenantMembershipUpdateWithoutPaquetesAdquiridosInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUpdateManyWithoutMembershipNestedInput
   referidos?: Prisma.ReferidosUpdateManyWithoutMembershipNestedInput
   sesionesActividad?: Prisma.SesionActividadUpdateManyWithoutMembershipNestedInput
+  municipio?: Prisma.MunicipalityUpdateOneWithoutMembershipsNestedInput
   tenant?: Prisma.TenantUpdateOneRequiredWithoutMembershipsNestedInput
   user?: Prisma.UserUpdateOneRequiredWithoutMembershipsNestedInput
   turnos?: Prisma.TurnoUpdateManyWithoutMembershipNestedInput
@@ -3391,7 +3391,6 @@ export type TenantMembershipCreateWithoutTurnosInput = {
   username?: string | null
   whatsappGroupId?: string | null
   direccion?: string | null
-  municipio?: Prisma.MunicipalityCreateNestedOneWithoutMembershipsInput
   anticipos?: Prisma.AnticiposCreateNestedManyWithoutMembershipInput
   auditorias?: Prisma.AuditoriaCreateNestedManyWithoutMembershipInput
   citasComoCreador?: Prisma.CitasPsicologosCreateNestedManyWithoutCreadoPorInput
@@ -3415,6 +3414,7 @@ export type TenantMembershipCreateWithoutTurnosInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoCreateNestedManyWithoutMembershipInput
   referidos?: Prisma.ReferidosCreateNestedManyWithoutMembershipInput
   sesionesActividad?: Prisma.SesionActividadCreateNestedManyWithoutMembershipInput
+  municipio?: Prisma.MunicipalityCreateNestedOneWithoutMembershipsInput
   tenant: Prisma.TenantCreateNestedOneWithoutMembershipsInput
   user: Prisma.UserCreateNestedOneWithoutMembershipsInput
 }
@@ -3495,7 +3495,6 @@ export type TenantMembershipUpdateWithoutTurnosInput = {
   username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   whatsappGroupId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   direccion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  municipio?: Prisma.MunicipalityUpdateOneWithoutMembershipsNestedInput
   anticipos?: Prisma.AnticiposUpdateManyWithoutMembershipNestedInput
   auditorias?: Prisma.AuditoriaUpdateManyWithoutMembershipNestedInput
   citasComoCreador?: Prisma.CitasPsicologosUpdateManyWithoutCreadoPorNestedInput
@@ -3519,6 +3518,7 @@ export type TenantMembershipUpdateWithoutTurnosInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUpdateManyWithoutMembershipNestedInput
   referidos?: Prisma.ReferidosUpdateManyWithoutMembershipNestedInput
   sesionesActividad?: Prisma.SesionActividadUpdateManyWithoutMembershipNestedInput
+  municipio?: Prisma.MunicipalityUpdateOneWithoutMembershipsNestedInput
   tenant?: Prisma.TenantUpdateOneRequiredWithoutMembershipsNestedInput
   user?: Prisma.UserUpdateOneRequiredWithoutMembershipsNestedInput
 }
@@ -3583,7 +3583,6 @@ export type TenantMembershipCreateWithoutCuentasCobroInput = {
   username?: string | null
   whatsappGroupId?: string | null
   direccion?: string | null
-  municipio?: Prisma.MunicipalityCreateNestedOneWithoutMembershipsInput
   anticipos?: Prisma.AnticiposCreateNestedManyWithoutMembershipInput
   auditorias?: Prisma.AuditoriaCreateNestedManyWithoutMembershipInput
   citasComoCreador?: Prisma.CitasPsicologosCreateNestedManyWithoutCreadoPorInput
@@ -3606,6 +3605,7 @@ export type TenantMembershipCreateWithoutCuentasCobroInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoCreateNestedManyWithoutMembershipInput
   referidos?: Prisma.ReferidosCreateNestedManyWithoutMembershipInput
   sesionesActividad?: Prisma.SesionActividadCreateNestedManyWithoutMembershipInput
+  municipio?: Prisma.MunicipalityCreateNestedOneWithoutMembershipsInput
   tenant: Prisma.TenantCreateNestedOneWithoutMembershipsInput
   user: Prisma.UserCreateNestedOneWithoutMembershipsInput
   turnos?: Prisma.TurnoCreateNestedManyWithoutMembershipInput
@@ -3687,7 +3687,6 @@ export type TenantMembershipUpdateWithoutCuentasCobroInput = {
   username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   whatsappGroupId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   direccion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  municipio?: Prisma.MunicipalityUpdateOneWithoutMembershipsNestedInput
   anticipos?: Prisma.AnticiposUpdateManyWithoutMembershipNestedInput
   auditorias?: Prisma.AuditoriaUpdateManyWithoutMembershipNestedInput
   citasComoCreador?: Prisma.CitasPsicologosUpdateManyWithoutCreadoPorNestedInput
@@ -3710,6 +3709,7 @@ export type TenantMembershipUpdateWithoutCuentasCobroInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUpdateManyWithoutMembershipNestedInput
   referidos?: Prisma.ReferidosUpdateManyWithoutMembershipNestedInput
   sesionesActividad?: Prisma.SesionActividadUpdateManyWithoutMembershipNestedInput
+  municipio?: Prisma.MunicipalityUpdateOneWithoutMembershipsNestedInput
   tenant?: Prisma.TenantUpdateOneRequiredWithoutMembershipsNestedInput
   user?: Prisma.UserUpdateOneRequiredWithoutMembershipsNestedInput
   turnos?: Prisma.TurnoUpdateManyWithoutMembershipNestedInput
@@ -3775,7 +3775,6 @@ export type TenantMembershipCreateWithoutDeclaracionesEfectivoInput = {
   username?: string | null
   whatsappGroupId?: string | null
   direccion?: string | null
-  municipio?: Prisma.MunicipalityCreateNestedOneWithoutMembershipsInput
   anticipos?: Prisma.AnticiposCreateNestedManyWithoutMembershipInput
   auditorias?: Prisma.AuditoriaCreateNestedManyWithoutMembershipInput
   citasComoCreador?: Prisma.CitasPsicologosCreateNestedManyWithoutCreadoPorInput
@@ -3798,6 +3797,7 @@ export type TenantMembershipCreateWithoutDeclaracionesEfectivoInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoCreateNestedManyWithoutMembershipInput
   referidos?: Prisma.ReferidosCreateNestedManyWithoutMembershipInput
   sesionesActividad?: Prisma.SesionActividadCreateNestedManyWithoutMembershipInput
+  municipio?: Prisma.MunicipalityCreateNestedOneWithoutMembershipsInput
   tenant: Prisma.TenantCreateNestedOneWithoutMembershipsInput
   user: Prisma.UserCreateNestedOneWithoutMembershipsInput
   turnos?: Prisma.TurnoCreateNestedManyWithoutMembershipInput
@@ -3879,7 +3879,6 @@ export type TenantMembershipUpdateWithoutDeclaracionesEfectivoInput = {
   username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   whatsappGroupId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   direccion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  municipio?: Prisma.MunicipalityUpdateOneWithoutMembershipsNestedInput
   anticipos?: Prisma.AnticiposUpdateManyWithoutMembershipNestedInput
   auditorias?: Prisma.AuditoriaUpdateManyWithoutMembershipNestedInput
   citasComoCreador?: Prisma.CitasPsicologosUpdateManyWithoutCreadoPorNestedInput
@@ -3902,6 +3901,7 @@ export type TenantMembershipUpdateWithoutDeclaracionesEfectivoInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUpdateManyWithoutMembershipNestedInput
   referidos?: Prisma.ReferidosUpdateManyWithoutMembershipNestedInput
   sesionesActividad?: Prisma.SesionActividadUpdateManyWithoutMembershipNestedInput
+  municipio?: Prisma.MunicipalityUpdateOneWithoutMembershipsNestedInput
   tenant?: Prisma.TenantUpdateOneRequiredWithoutMembershipsNestedInput
   user?: Prisma.UserUpdateOneRequiredWithoutMembershipsNestedInput
   turnos?: Prisma.TurnoUpdateManyWithoutMembershipNestedInput
@@ -3967,7 +3967,6 @@ export type TenantMembershipCreateWithoutConsignacionesCreadasInput = {
   username?: string | null
   whatsappGroupId?: string | null
   direccion?: string | null
-  municipio?: Prisma.MunicipalityCreateNestedOneWithoutMembershipsInput
   anticipos?: Prisma.AnticiposCreateNestedManyWithoutMembershipInput
   auditorias?: Prisma.AuditoriaCreateNestedManyWithoutMembershipInput
   citasComoCreador?: Prisma.CitasPsicologosCreateNestedManyWithoutCreadoPorInput
@@ -3990,6 +3989,7 @@ export type TenantMembershipCreateWithoutConsignacionesCreadasInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoCreateNestedManyWithoutMembershipInput
   referidos?: Prisma.ReferidosCreateNestedManyWithoutMembershipInput
   sesionesActividad?: Prisma.SesionActividadCreateNestedManyWithoutMembershipInput
+  municipio?: Prisma.MunicipalityCreateNestedOneWithoutMembershipsInput
   tenant: Prisma.TenantCreateNestedOneWithoutMembershipsInput
   user: Prisma.UserCreateNestedOneWithoutMembershipsInput
   turnos?: Prisma.TurnoCreateNestedManyWithoutMembershipInput
@@ -4060,7 +4060,6 @@ export type TenantMembershipCreateWithoutConsignacionesTecnicoInput = {
   username?: string | null
   whatsappGroupId?: string | null
   direccion?: string | null
-  municipio?: Prisma.MunicipalityCreateNestedOneWithoutMembershipsInput
   anticipos?: Prisma.AnticiposCreateNestedManyWithoutMembershipInput
   auditorias?: Prisma.AuditoriaCreateNestedManyWithoutMembershipInput
   citasComoCreador?: Prisma.CitasPsicologosCreateNestedManyWithoutCreadoPorInput
@@ -4083,6 +4082,7 @@ export type TenantMembershipCreateWithoutConsignacionesTecnicoInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoCreateNestedManyWithoutMembershipInput
   referidos?: Prisma.ReferidosCreateNestedManyWithoutMembershipInput
   sesionesActividad?: Prisma.SesionActividadCreateNestedManyWithoutMembershipInput
+  municipio?: Prisma.MunicipalityCreateNestedOneWithoutMembershipsInput
   tenant: Prisma.TenantCreateNestedOneWithoutMembershipsInput
   user: Prisma.UserCreateNestedOneWithoutMembershipsInput
   turnos?: Prisma.TurnoCreateNestedManyWithoutMembershipInput
@@ -4164,7 +4164,6 @@ export type TenantMembershipUpdateWithoutConsignacionesCreadasInput = {
   username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   whatsappGroupId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   direccion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  municipio?: Prisma.MunicipalityUpdateOneWithoutMembershipsNestedInput
   anticipos?: Prisma.AnticiposUpdateManyWithoutMembershipNestedInput
   auditorias?: Prisma.AuditoriaUpdateManyWithoutMembershipNestedInput
   citasComoCreador?: Prisma.CitasPsicologosUpdateManyWithoutCreadoPorNestedInput
@@ -4187,6 +4186,7 @@ export type TenantMembershipUpdateWithoutConsignacionesCreadasInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUpdateManyWithoutMembershipNestedInput
   referidos?: Prisma.ReferidosUpdateManyWithoutMembershipNestedInput
   sesionesActividad?: Prisma.SesionActividadUpdateManyWithoutMembershipNestedInput
+  municipio?: Prisma.MunicipalityUpdateOneWithoutMembershipsNestedInput
   tenant?: Prisma.TenantUpdateOneRequiredWithoutMembershipsNestedInput
   user?: Prisma.UserUpdateOneRequiredWithoutMembershipsNestedInput
   turnos?: Prisma.TurnoUpdateManyWithoutMembershipNestedInput
@@ -4263,7 +4263,6 @@ export type TenantMembershipUpdateWithoutConsignacionesTecnicoInput = {
   username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   whatsappGroupId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   direccion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  municipio?: Prisma.MunicipalityUpdateOneWithoutMembershipsNestedInput
   anticipos?: Prisma.AnticiposUpdateManyWithoutMembershipNestedInput
   auditorias?: Prisma.AuditoriaUpdateManyWithoutMembershipNestedInput
   citasComoCreador?: Prisma.CitasPsicologosUpdateManyWithoutCreadoPorNestedInput
@@ -4286,6 +4285,7 @@ export type TenantMembershipUpdateWithoutConsignacionesTecnicoInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUpdateManyWithoutMembershipNestedInput
   referidos?: Prisma.ReferidosUpdateManyWithoutMembershipNestedInput
   sesionesActividad?: Prisma.SesionActividadUpdateManyWithoutMembershipNestedInput
+  municipio?: Prisma.MunicipalityUpdateOneWithoutMembershipsNestedInput
   tenant?: Prisma.TenantUpdateOneRequiredWithoutMembershipsNestedInput
   user?: Prisma.UserUpdateOneRequiredWithoutMembershipsNestedInput
   turnos?: Prisma.TurnoUpdateManyWithoutMembershipNestedInput
@@ -4351,7 +4351,6 @@ export type TenantMembershipCreateWithoutAnticiposInput = {
   username?: string | null
   whatsappGroupId?: string | null
   direccion?: string | null
-  municipio?: Prisma.MunicipalityCreateNestedOneWithoutMembershipsInput
   auditorias?: Prisma.AuditoriaCreateNestedManyWithoutMembershipInput
   citasComoCreador?: Prisma.CitasPsicologosCreateNestedManyWithoutCreadoPorInput
   citasComoPsicologo?: Prisma.CitasPsicologosCreateNestedManyWithoutPsicologoInput
@@ -4374,6 +4373,7 @@ export type TenantMembershipCreateWithoutAnticiposInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoCreateNestedManyWithoutMembershipInput
   referidos?: Prisma.ReferidosCreateNestedManyWithoutMembershipInput
   sesionesActividad?: Prisma.SesionActividadCreateNestedManyWithoutMembershipInput
+  municipio?: Prisma.MunicipalityCreateNestedOneWithoutMembershipsInput
   tenant: Prisma.TenantCreateNestedOneWithoutMembershipsInput
   user: Prisma.UserCreateNestedOneWithoutMembershipsInput
   turnos?: Prisma.TurnoCreateNestedManyWithoutMembershipInput
@@ -4455,7 +4455,6 @@ export type TenantMembershipUpdateWithoutAnticiposInput = {
   username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   whatsappGroupId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   direccion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  municipio?: Prisma.MunicipalityUpdateOneWithoutMembershipsNestedInput
   auditorias?: Prisma.AuditoriaUpdateManyWithoutMembershipNestedInput
   citasComoCreador?: Prisma.CitasPsicologosUpdateManyWithoutCreadoPorNestedInput
   citasComoPsicologo?: Prisma.CitasPsicologosUpdateManyWithoutPsicologoNestedInput
@@ -4478,6 +4477,7 @@ export type TenantMembershipUpdateWithoutAnticiposInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUpdateManyWithoutMembershipNestedInput
   referidos?: Prisma.ReferidosUpdateManyWithoutMembershipNestedInput
   sesionesActividad?: Prisma.SesionActividadUpdateManyWithoutMembershipNestedInput
+  municipio?: Prisma.MunicipalityUpdateOneWithoutMembershipsNestedInput
   tenant?: Prisma.TenantUpdateOneRequiredWithoutMembershipsNestedInput
   user?: Prisma.UserUpdateOneRequiredWithoutMembershipsNestedInput
   turnos?: Prisma.TurnoUpdateManyWithoutMembershipNestedInput
@@ -4543,7 +4543,6 @@ export type TenantMembershipCreateWithoutProductosSolicitadosInput = {
   username?: string | null
   whatsappGroupId?: string | null
   direccion?: string | null
-  municipio?: Prisma.MunicipalityCreateNestedOneWithoutMembershipsInput
   anticipos?: Prisma.AnticiposCreateNestedManyWithoutMembershipInput
   auditorias?: Prisma.AuditoriaCreateNestedManyWithoutMembershipInput
   citasComoCreador?: Prisma.CitasPsicologosCreateNestedManyWithoutCreadoPorInput
@@ -4566,6 +4565,7 @@ export type TenantMembershipCreateWithoutProductosSolicitadosInput = {
   permisosSolicitados?: Prisma.PermisoCreateNestedManyWithoutMembershipInput
   referidos?: Prisma.ReferidosCreateNestedManyWithoutMembershipInput
   sesionesActividad?: Prisma.SesionActividadCreateNestedManyWithoutMembershipInput
+  municipio?: Prisma.MunicipalityCreateNestedOneWithoutMembershipsInput
   tenant: Prisma.TenantCreateNestedOneWithoutMembershipsInput
   user: Prisma.UserCreateNestedOneWithoutMembershipsInput
   turnos?: Prisma.TurnoCreateNestedManyWithoutMembershipInput
@@ -4647,7 +4647,6 @@ export type TenantMembershipUpdateWithoutProductosSolicitadosInput = {
   username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   whatsappGroupId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   direccion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  municipio?: Prisma.MunicipalityUpdateOneWithoutMembershipsNestedInput
   anticipos?: Prisma.AnticiposUpdateManyWithoutMembershipNestedInput
   auditorias?: Prisma.AuditoriaUpdateManyWithoutMembershipNestedInput
   citasComoCreador?: Prisma.CitasPsicologosUpdateManyWithoutCreadoPorNestedInput
@@ -4670,6 +4669,7 @@ export type TenantMembershipUpdateWithoutProductosSolicitadosInput = {
   permisosSolicitados?: Prisma.PermisoUpdateManyWithoutMembershipNestedInput
   referidos?: Prisma.ReferidosUpdateManyWithoutMembershipNestedInput
   sesionesActividad?: Prisma.SesionActividadUpdateManyWithoutMembershipNestedInput
+  municipio?: Prisma.MunicipalityUpdateOneWithoutMembershipsNestedInput
   tenant?: Prisma.TenantUpdateOneRequiredWithoutMembershipsNestedInput
   user?: Prisma.UserUpdateOneRequiredWithoutMembershipsNestedInput
   turnos?: Prisma.TurnoUpdateManyWithoutMembershipNestedInput
@@ -4735,7 +4735,6 @@ export type TenantMembershipCreateWithoutPermisosAprobadosInput = {
   username?: string | null
   whatsappGroupId?: string | null
   direccion?: string | null
-  municipio?: Prisma.MunicipalityCreateNestedOneWithoutMembershipsInput
   anticipos?: Prisma.AnticiposCreateNestedManyWithoutMembershipInput
   auditorias?: Prisma.AuditoriaCreateNestedManyWithoutMembershipInput
   citasComoCreador?: Prisma.CitasPsicologosCreateNestedManyWithoutCreadoPorInput
@@ -4758,6 +4757,7 @@ export type TenantMembershipCreateWithoutPermisosAprobadosInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoCreateNestedManyWithoutMembershipInput
   referidos?: Prisma.ReferidosCreateNestedManyWithoutMembershipInput
   sesionesActividad?: Prisma.SesionActividadCreateNestedManyWithoutMembershipInput
+  municipio?: Prisma.MunicipalityCreateNestedOneWithoutMembershipsInput
   tenant: Prisma.TenantCreateNestedOneWithoutMembershipsInput
   user: Prisma.UserCreateNestedOneWithoutMembershipsInput
   turnos?: Prisma.TurnoCreateNestedManyWithoutMembershipInput
@@ -4828,7 +4828,6 @@ export type TenantMembershipCreateWithoutPermisosSolicitadosInput = {
   username?: string | null
   whatsappGroupId?: string | null
   direccion?: string | null
-  municipio?: Prisma.MunicipalityCreateNestedOneWithoutMembershipsInput
   anticipos?: Prisma.AnticiposCreateNestedManyWithoutMembershipInput
   auditorias?: Prisma.AuditoriaCreateNestedManyWithoutMembershipInput
   citasComoCreador?: Prisma.CitasPsicologosCreateNestedManyWithoutCreadoPorInput
@@ -4851,6 +4850,7 @@ export type TenantMembershipCreateWithoutPermisosSolicitadosInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoCreateNestedManyWithoutMembershipInput
   referidos?: Prisma.ReferidosCreateNestedManyWithoutMembershipInput
   sesionesActividad?: Prisma.SesionActividadCreateNestedManyWithoutMembershipInput
+  municipio?: Prisma.MunicipalityCreateNestedOneWithoutMembershipsInput
   tenant: Prisma.TenantCreateNestedOneWithoutMembershipsInput
   user: Prisma.UserCreateNestedOneWithoutMembershipsInput
   turnos?: Prisma.TurnoCreateNestedManyWithoutMembershipInput
@@ -4932,7 +4932,6 @@ export type TenantMembershipUpdateWithoutPermisosAprobadosInput = {
   username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   whatsappGroupId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   direccion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  municipio?: Prisma.MunicipalityUpdateOneWithoutMembershipsNestedInput
   anticipos?: Prisma.AnticiposUpdateManyWithoutMembershipNestedInput
   auditorias?: Prisma.AuditoriaUpdateManyWithoutMembershipNestedInput
   citasComoCreador?: Prisma.CitasPsicologosUpdateManyWithoutCreadoPorNestedInput
@@ -4955,6 +4954,7 @@ export type TenantMembershipUpdateWithoutPermisosAprobadosInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUpdateManyWithoutMembershipNestedInput
   referidos?: Prisma.ReferidosUpdateManyWithoutMembershipNestedInput
   sesionesActividad?: Prisma.SesionActividadUpdateManyWithoutMembershipNestedInput
+  municipio?: Prisma.MunicipalityUpdateOneWithoutMembershipsNestedInput
   tenant?: Prisma.TenantUpdateOneRequiredWithoutMembershipsNestedInput
   user?: Prisma.UserUpdateOneRequiredWithoutMembershipsNestedInput
   turnos?: Prisma.TurnoUpdateManyWithoutMembershipNestedInput
@@ -5031,7 +5031,6 @@ export type TenantMembershipUpdateWithoutPermisosSolicitadosInput = {
   username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   whatsappGroupId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   direccion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  municipio?: Prisma.MunicipalityUpdateOneWithoutMembershipsNestedInput
   anticipos?: Prisma.AnticiposUpdateManyWithoutMembershipNestedInput
   auditorias?: Prisma.AuditoriaUpdateManyWithoutMembershipNestedInput
   citasComoCreador?: Prisma.CitasPsicologosUpdateManyWithoutCreadoPorNestedInput
@@ -5054,6 +5053,7 @@ export type TenantMembershipUpdateWithoutPermisosSolicitadosInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUpdateManyWithoutMembershipNestedInput
   referidos?: Prisma.ReferidosUpdateManyWithoutMembershipNestedInput
   sesionesActividad?: Prisma.SesionActividadUpdateManyWithoutMembershipNestedInput
+  municipio?: Prisma.MunicipalityUpdateOneWithoutMembershipsNestedInput
   tenant?: Prisma.TenantUpdateOneRequiredWithoutMembershipsNestedInput
   user?: Prisma.UserUpdateOneRequiredWithoutMembershipsNestedInput
   turnos?: Prisma.TurnoUpdateManyWithoutMembershipNestedInput
@@ -5119,7 +5119,6 @@ export type TenantMembershipCreateWithoutConfiguracionPagosInput = {
   username?: string | null
   whatsappGroupId?: string | null
   direccion?: string | null
-  municipio?: Prisma.MunicipalityCreateNestedOneWithoutMembershipsInput
   anticipos?: Prisma.AnticiposCreateNestedManyWithoutMembershipInput
   auditorias?: Prisma.AuditoriaCreateNestedManyWithoutMembershipInput
   citasComoCreador?: Prisma.CitasPsicologosCreateNestedManyWithoutCreadoPorInput
@@ -5142,6 +5141,7 @@ export type TenantMembershipCreateWithoutConfiguracionPagosInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoCreateNestedManyWithoutMembershipInput
   referidos?: Prisma.ReferidosCreateNestedManyWithoutMembershipInput
   sesionesActividad?: Prisma.SesionActividadCreateNestedManyWithoutMembershipInput
+  municipio?: Prisma.MunicipalityCreateNestedOneWithoutMembershipsInput
   tenant: Prisma.TenantCreateNestedOneWithoutMembershipsInput
   user: Prisma.UserCreateNestedOneWithoutMembershipsInput
   turnos?: Prisma.TurnoCreateNestedManyWithoutMembershipInput
@@ -5223,7 +5223,6 @@ export type TenantMembershipUpdateWithoutConfiguracionPagosInput = {
   username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   whatsappGroupId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   direccion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  municipio?: Prisma.MunicipalityUpdateOneWithoutMembershipsNestedInput
   anticipos?: Prisma.AnticiposUpdateManyWithoutMembershipNestedInput
   auditorias?: Prisma.AuditoriaUpdateManyWithoutMembershipNestedInput
   citasComoCreador?: Prisma.CitasPsicologosUpdateManyWithoutCreadoPorNestedInput
@@ -5246,6 +5245,7 @@ export type TenantMembershipUpdateWithoutConfiguracionPagosInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUpdateManyWithoutMembershipNestedInput
   referidos?: Prisma.ReferidosUpdateManyWithoutMembershipNestedInput
   sesionesActividad?: Prisma.SesionActividadUpdateManyWithoutMembershipNestedInput
+  municipio?: Prisma.MunicipalityUpdateOneWithoutMembershipsNestedInput
   tenant?: Prisma.TenantUpdateOneRequiredWithoutMembershipsNestedInput
   user?: Prisma.UserUpdateOneRequiredWithoutMembershipsNestedInput
   turnos?: Prisma.TurnoUpdateManyWithoutMembershipNestedInput
@@ -5311,7 +5311,6 @@ export type TenantMembershipCreateWithoutCuentasPagoInput = {
   username?: string | null
   whatsappGroupId?: string | null
   direccion?: string | null
-  municipio?: Prisma.MunicipalityCreateNestedOneWithoutMembershipsInput
   anticipos?: Prisma.AnticiposCreateNestedManyWithoutMembershipInput
   auditorias?: Prisma.AuditoriaCreateNestedManyWithoutMembershipInput
   citasComoCreador?: Prisma.CitasPsicologosCreateNestedManyWithoutCreadoPorInput
@@ -5334,6 +5333,7 @@ export type TenantMembershipCreateWithoutCuentasPagoInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoCreateNestedManyWithoutMembershipInput
   referidos?: Prisma.ReferidosCreateNestedManyWithoutMembershipInput
   sesionesActividad?: Prisma.SesionActividadCreateNestedManyWithoutMembershipInput
+  municipio?: Prisma.MunicipalityCreateNestedOneWithoutMembershipsInput
   tenant: Prisma.TenantCreateNestedOneWithoutMembershipsInput
   user: Prisma.UserCreateNestedOneWithoutMembershipsInput
   turnos?: Prisma.TurnoCreateNestedManyWithoutMembershipInput
@@ -5415,7 +5415,6 @@ export type TenantMembershipUpdateWithoutCuentasPagoInput = {
   username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   whatsappGroupId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   direccion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  municipio?: Prisma.MunicipalityUpdateOneWithoutMembershipsNestedInput
   anticipos?: Prisma.AnticiposUpdateManyWithoutMembershipNestedInput
   auditorias?: Prisma.AuditoriaUpdateManyWithoutMembershipNestedInput
   citasComoCreador?: Prisma.CitasPsicologosUpdateManyWithoutCreadoPorNestedInput
@@ -5438,6 +5437,7 @@ export type TenantMembershipUpdateWithoutCuentasPagoInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUpdateManyWithoutMembershipNestedInput
   referidos?: Prisma.ReferidosUpdateManyWithoutMembershipNestedInput
   sesionesActividad?: Prisma.SesionActividadUpdateManyWithoutMembershipNestedInput
+  municipio?: Prisma.MunicipalityUpdateOneWithoutMembershipsNestedInput
   tenant?: Prisma.TenantUpdateOneRequiredWithoutMembershipsNestedInput
   user?: Prisma.UserUpdateOneRequiredWithoutMembershipsNestedInput
   turnos?: Prisma.TurnoUpdateManyWithoutMembershipNestedInput
@@ -5503,7 +5503,6 @@ export type TenantMembershipCreateWithoutEgresosInput = {
   username?: string | null
   whatsappGroupId?: string | null
   direccion?: string | null
-  municipio?: Prisma.MunicipalityCreateNestedOneWithoutMembershipsInput
   anticipos?: Prisma.AnticiposCreateNestedManyWithoutMembershipInput
   auditorias?: Prisma.AuditoriaCreateNestedManyWithoutMembershipInput
   citasComoCreador?: Prisma.CitasPsicologosCreateNestedManyWithoutCreadoPorInput
@@ -5526,6 +5525,7 @@ export type TenantMembershipCreateWithoutEgresosInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoCreateNestedManyWithoutMembershipInput
   referidos?: Prisma.ReferidosCreateNestedManyWithoutMembershipInput
   sesionesActividad?: Prisma.SesionActividadCreateNestedManyWithoutMembershipInput
+  municipio?: Prisma.MunicipalityCreateNestedOneWithoutMembershipsInput
   tenant: Prisma.TenantCreateNestedOneWithoutMembershipsInput
   user: Prisma.UserCreateNestedOneWithoutMembershipsInput
   turnos?: Prisma.TurnoCreateNestedManyWithoutMembershipInput
@@ -5607,7 +5607,6 @@ export type TenantMembershipUpdateWithoutEgresosInput = {
   username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   whatsappGroupId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   direccion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  municipio?: Prisma.MunicipalityUpdateOneWithoutMembershipsNestedInput
   anticipos?: Prisma.AnticiposUpdateManyWithoutMembershipNestedInput
   auditorias?: Prisma.AuditoriaUpdateManyWithoutMembershipNestedInput
   citasComoCreador?: Prisma.CitasPsicologosUpdateManyWithoutCreadoPorNestedInput
@@ -5630,6 +5629,7 @@ export type TenantMembershipUpdateWithoutEgresosInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUpdateManyWithoutMembershipNestedInput
   referidos?: Prisma.ReferidosUpdateManyWithoutMembershipNestedInput
   sesionesActividad?: Prisma.SesionActividadUpdateManyWithoutMembershipNestedInput
+  municipio?: Prisma.MunicipalityUpdateOneWithoutMembershipsNestedInput
   tenant?: Prisma.TenantUpdateOneRequiredWithoutMembershipsNestedInput
   user?: Prisma.UserUpdateOneRequiredWithoutMembershipsNestedInput
   turnos?: Prisma.TurnoUpdateManyWithoutMembershipNestedInput
@@ -5695,7 +5695,6 @@ export type TenantMembershipCreateWithoutReferidosInput = {
   username?: string | null
   whatsappGroupId?: string | null
   direccion?: string | null
-  municipio?: Prisma.MunicipalityCreateNestedOneWithoutMembershipsInput
   anticipos?: Prisma.AnticiposCreateNestedManyWithoutMembershipInput
   auditorias?: Prisma.AuditoriaCreateNestedManyWithoutMembershipInput
   citasComoCreador?: Prisma.CitasPsicologosCreateNestedManyWithoutCreadoPorInput
@@ -5718,6 +5717,7 @@ export type TenantMembershipCreateWithoutReferidosInput = {
   permisosSolicitados?: Prisma.PermisoCreateNestedManyWithoutMembershipInput
   productosSolicitados?: Prisma.ProductoSolicitadoCreateNestedManyWithoutMembershipInput
   sesionesActividad?: Prisma.SesionActividadCreateNestedManyWithoutMembershipInput
+  municipio?: Prisma.MunicipalityCreateNestedOneWithoutMembershipsInput
   tenant: Prisma.TenantCreateNestedOneWithoutMembershipsInput
   user: Prisma.UserCreateNestedOneWithoutMembershipsInput
   turnos?: Prisma.TurnoCreateNestedManyWithoutMembershipInput
@@ -5799,7 +5799,6 @@ export type TenantMembershipUpdateWithoutReferidosInput = {
   username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   whatsappGroupId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   direccion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  municipio?: Prisma.MunicipalityUpdateOneWithoutMembershipsNestedInput
   anticipos?: Prisma.AnticiposUpdateManyWithoutMembershipNestedInput
   auditorias?: Prisma.AuditoriaUpdateManyWithoutMembershipNestedInput
   citasComoCreador?: Prisma.CitasPsicologosUpdateManyWithoutCreadoPorNestedInput
@@ -5822,6 +5821,7 @@ export type TenantMembershipUpdateWithoutReferidosInput = {
   permisosSolicitados?: Prisma.PermisoUpdateManyWithoutMembershipNestedInput
   productosSolicitados?: Prisma.ProductoSolicitadoUpdateManyWithoutMembershipNestedInput
   sesionesActividad?: Prisma.SesionActividadUpdateManyWithoutMembershipNestedInput
+  municipio?: Prisma.MunicipalityUpdateOneWithoutMembershipsNestedInput
   tenant?: Prisma.TenantUpdateOneRequiredWithoutMembershipsNestedInput
   user?: Prisma.UserUpdateOneRequiredWithoutMembershipsNestedInput
   turnos?: Prisma.TurnoUpdateManyWithoutMembershipNestedInput
@@ -5887,7 +5887,6 @@ export type TenantMembershipCreateWithoutAuditoriasInput = {
   username?: string | null
   whatsappGroupId?: string | null
   direccion?: string | null
-  municipio?: Prisma.MunicipalityCreateNestedOneWithoutMembershipsInput
   anticipos?: Prisma.AnticiposCreateNestedManyWithoutMembershipInput
   citasComoCreador?: Prisma.CitasPsicologosCreateNestedManyWithoutCreadoPorInput
   citasComoPsicologo?: Prisma.CitasPsicologosCreateNestedManyWithoutPsicologoInput
@@ -5910,6 +5909,7 @@ export type TenantMembershipCreateWithoutAuditoriasInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoCreateNestedManyWithoutMembershipInput
   referidos?: Prisma.ReferidosCreateNestedManyWithoutMembershipInput
   sesionesActividad?: Prisma.SesionActividadCreateNestedManyWithoutMembershipInput
+  municipio?: Prisma.MunicipalityCreateNestedOneWithoutMembershipsInput
   tenant: Prisma.TenantCreateNestedOneWithoutMembershipsInput
   user: Prisma.UserCreateNestedOneWithoutMembershipsInput
   turnos?: Prisma.TurnoCreateNestedManyWithoutMembershipInput
@@ -5991,7 +5991,6 @@ export type TenantMembershipUpdateWithoutAuditoriasInput = {
   username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   whatsappGroupId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   direccion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  municipio?: Prisma.MunicipalityUpdateOneWithoutMembershipsNestedInput
   anticipos?: Prisma.AnticiposUpdateManyWithoutMembershipNestedInput
   citasComoCreador?: Prisma.CitasPsicologosUpdateManyWithoutCreadoPorNestedInput
   citasComoPsicologo?: Prisma.CitasPsicologosUpdateManyWithoutPsicologoNestedInput
@@ -6014,6 +6013,7 @@ export type TenantMembershipUpdateWithoutAuditoriasInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUpdateManyWithoutMembershipNestedInput
   referidos?: Prisma.ReferidosUpdateManyWithoutMembershipNestedInput
   sesionesActividad?: Prisma.SesionActividadUpdateManyWithoutMembershipNestedInput
+  municipio?: Prisma.MunicipalityUpdateOneWithoutMembershipsNestedInput
   tenant?: Prisma.TenantUpdateOneRequiredWithoutMembershipsNestedInput
   user?: Prisma.UserUpdateOneRequiredWithoutMembershipsNestedInput
   turnos?: Prisma.TurnoUpdateManyWithoutMembershipNestedInput
@@ -6079,7 +6079,6 @@ export type TenantMembershipCreateWithoutSesionesActividadInput = {
   username?: string | null
   whatsappGroupId?: string | null
   direccion?: string | null
-  municipio?: Prisma.MunicipalityCreateNestedOneWithoutMembershipsInput
   anticipos?: Prisma.AnticiposCreateNestedManyWithoutMembershipInput
   auditorias?: Prisma.AuditoriaCreateNestedManyWithoutMembershipInput
   citasComoCreador?: Prisma.CitasPsicologosCreateNestedManyWithoutCreadoPorInput
@@ -6102,6 +6101,7 @@ export type TenantMembershipCreateWithoutSesionesActividadInput = {
   permisosSolicitados?: Prisma.PermisoCreateNestedManyWithoutMembershipInput
   productosSolicitados?: Prisma.ProductoSolicitadoCreateNestedManyWithoutMembershipInput
   referidos?: Prisma.ReferidosCreateNestedManyWithoutMembershipInput
+  municipio?: Prisma.MunicipalityCreateNestedOneWithoutMembershipsInput
   tenant: Prisma.TenantCreateNestedOneWithoutMembershipsInput
   user: Prisma.UserCreateNestedOneWithoutMembershipsInput
   turnos?: Prisma.TurnoCreateNestedManyWithoutMembershipInput
@@ -6183,7 +6183,6 @@ export type TenantMembershipUpdateWithoutSesionesActividadInput = {
   username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   whatsappGroupId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   direccion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  municipio?: Prisma.MunicipalityUpdateOneWithoutMembershipsNestedInput
   anticipos?: Prisma.AnticiposUpdateManyWithoutMembershipNestedInput
   auditorias?: Prisma.AuditoriaUpdateManyWithoutMembershipNestedInput
   citasComoCreador?: Prisma.CitasPsicologosUpdateManyWithoutCreadoPorNestedInput
@@ -6206,6 +6205,7 @@ export type TenantMembershipUpdateWithoutSesionesActividadInput = {
   permisosSolicitados?: Prisma.PermisoUpdateManyWithoutMembershipNestedInput
   productosSolicitados?: Prisma.ProductoSolicitadoUpdateManyWithoutMembershipNestedInput
   referidos?: Prisma.ReferidosUpdateManyWithoutMembershipNestedInput
+  municipio?: Prisma.MunicipalityUpdateOneWithoutMembershipsNestedInput
   tenant?: Prisma.TenantUpdateOneRequiredWithoutMembershipsNestedInput
   user?: Prisma.UserUpdateOneRequiredWithoutMembershipsNestedInput
   turnos?: Prisma.TurnoUpdateManyWithoutMembershipNestedInput
@@ -6291,7 +6291,6 @@ export type TenantMembershipUpdateWithoutUserInput = {
   username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   whatsappGroupId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   direccion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  municipio?: Prisma.MunicipalityUpdateOneWithoutMembershipsNestedInput
   anticipos?: Prisma.AnticiposUpdateManyWithoutMembershipNestedInput
   auditorias?: Prisma.AuditoriaUpdateManyWithoutMembershipNestedInput
   citasComoCreador?: Prisma.CitasPsicologosUpdateManyWithoutCreadoPorNestedInput
@@ -6315,6 +6314,7 @@ export type TenantMembershipUpdateWithoutUserInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUpdateManyWithoutMembershipNestedInput
   referidos?: Prisma.ReferidosUpdateManyWithoutMembershipNestedInput
   sesionesActividad?: Prisma.SesionActividadUpdateManyWithoutMembershipNestedInput
+  municipio?: Prisma.MunicipalityUpdateOneWithoutMembershipsNestedInput
   tenant?: Prisma.TenantUpdateOneRequiredWithoutMembershipsNestedInput
   turnos?: Prisma.TurnoUpdateManyWithoutMembershipNestedInput
 }
@@ -6419,7 +6419,6 @@ export type TenantMembershipUpdateWithoutTenantInput = {
   username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   whatsappGroupId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   direccion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  municipio?: Prisma.MunicipalityUpdateOneWithoutMembershipsNestedInput
   anticipos?: Prisma.AnticiposUpdateManyWithoutMembershipNestedInput
   auditorias?: Prisma.AuditoriaUpdateManyWithoutMembershipNestedInput
   citasComoCreador?: Prisma.CitasPsicologosUpdateManyWithoutCreadoPorNestedInput
@@ -6443,6 +6442,7 @@ export type TenantMembershipUpdateWithoutTenantInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUpdateManyWithoutMembershipNestedInput
   referidos?: Prisma.ReferidosUpdateManyWithoutMembershipNestedInput
   sesionesActividad?: Prisma.SesionActividadUpdateManyWithoutMembershipNestedInput
+  municipio?: Prisma.MunicipalityUpdateOneWithoutMembershipsNestedInput
   user?: Prisma.UserUpdateOneRequiredWithoutMembershipsNestedInput
   turnos?: Prisma.TurnoUpdateManyWithoutMembershipNestedInput
 }
@@ -6896,7 +6896,6 @@ export type TenantMembershipSelect<ExtArgs extends runtime.Types.Extensions.Inte
   whatsappGroupId?: boolean
   direccion?: boolean
   municipioId?: boolean
-  municipio?: boolean | Prisma.TenantMembership$municipioArgs<ExtArgs>
   anticipos?: boolean | Prisma.TenantMembership$anticiposArgs<ExtArgs>
   auditorias?: boolean | Prisma.TenantMembership$auditoriasArgs<ExtArgs>
   citasComoCreador?: boolean | Prisma.TenantMembership$citasComoCreadorArgs<ExtArgs>
@@ -6920,6 +6919,7 @@ export type TenantMembershipSelect<ExtArgs extends runtime.Types.Extensions.Inte
   productosSolicitados?: boolean | Prisma.TenantMembership$productosSolicitadosArgs<ExtArgs>
   referidos?: boolean | Prisma.TenantMembership$referidosArgs<ExtArgs>
   sesionesActividad?: boolean | Prisma.TenantMembership$sesionesActividadArgs<ExtArgs>
+  municipio?: boolean | Prisma.TenantMembership$municipioArgs<ExtArgs>
   tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   turnos?: boolean | Prisma.TenantMembership$turnosArgs<ExtArgs>
@@ -6997,7 +6997,6 @@ export type TenantMembershipSelectScalar = {
 
 export type TenantMembershipOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "tenantId" | "role" | "status" | "createdAt" | "updatedAt" | "activo" | "aprobado" | "codigoReferido" | "moto" | "numberId" | "placa" | "pushToken" | "username" | "whatsappGroupId" | "direccion" | "municipioId", ExtArgs["result"]["tenantMembership"]>
 export type TenantMembershipInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  municipio?: boolean | Prisma.TenantMembership$municipioArgs<ExtArgs>
   anticipos?: boolean | Prisma.TenantMembership$anticiposArgs<ExtArgs>
   auditorias?: boolean | Prisma.TenantMembership$auditoriasArgs<ExtArgs>
   citasComoCreador?: boolean | Prisma.TenantMembership$citasComoCreadorArgs<ExtArgs>
@@ -7021,6 +7020,7 @@ export type TenantMembershipInclude<ExtArgs extends runtime.Types.Extensions.Int
   productosSolicitados?: boolean | Prisma.TenantMembership$productosSolicitadosArgs<ExtArgs>
   referidos?: boolean | Prisma.TenantMembership$referidosArgs<ExtArgs>
   sesionesActividad?: boolean | Prisma.TenantMembership$sesionesActividadArgs<ExtArgs>
+  municipio?: boolean | Prisma.TenantMembership$municipioArgs<ExtArgs>
   tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   turnos?: boolean | Prisma.TenantMembership$turnosArgs<ExtArgs>
@@ -7040,7 +7040,6 @@ export type TenantMembershipIncludeUpdateManyAndReturn<ExtArgs extends runtime.T
 export type $TenantMembershipPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "TenantMembership"
   objects: {
-    municipio: Prisma.$MunicipalityPayload<ExtArgs> | null
     anticipos: Prisma.$AnticiposPayload<ExtArgs>[]
     auditorias: Prisma.$AuditoriaPayload<ExtArgs>[]
     citasComoCreador: Prisma.$CitasPsicologosPayload<ExtArgs>[]
@@ -7064,6 +7063,7 @@ export type $TenantMembershipPayload<ExtArgs extends runtime.Types.Extensions.In
     productosSolicitados: Prisma.$ProductoSolicitadoPayload<ExtArgs>[]
     referidos: Prisma.$ReferidosPayload<ExtArgs>[]
     sesionesActividad: Prisma.$SesionActividadPayload<ExtArgs>[]
+    municipio: Prisma.$MunicipalityPayload<ExtArgs> | null
     tenant: Prisma.$TenantPayload<ExtArgs>
     user: Prisma.$UserPayload<ExtArgs>
     turnos: Prisma.$TurnoPayload<ExtArgs>[]
@@ -7481,7 +7481,6 @@ readonly fields: TenantMembershipFieldRefs;
  */
 export interface Prisma__TenantMembershipClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
-  municipio<T extends Prisma.TenantMembership$municipioArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.TenantMembership$municipioArgs<ExtArgs>>): Prisma.Prisma__MunicipalityClient<runtime.Types.Result.GetResult<Prisma.$MunicipalityPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   anticipos<T extends Prisma.TenantMembership$anticiposArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.TenantMembership$anticiposArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$AnticiposPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   auditorias<T extends Prisma.TenantMembership$auditoriasArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.TenantMembership$auditoriasArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$AuditoriaPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   citasComoCreador<T extends Prisma.TenantMembership$citasComoCreadorArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.TenantMembership$citasComoCreadorArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$CitasPsicologosPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
@@ -7505,6 +7504,7 @@ export interface Prisma__TenantMembershipClient<T, Null = never, ExtArgs extends
   productosSolicitados<T extends Prisma.TenantMembership$productosSolicitadosArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.TenantMembership$productosSolicitadosArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ProductoSolicitadoPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   referidos<T extends Prisma.TenantMembership$referidosArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.TenantMembership$referidosArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ReferidosPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   sesionesActividad<T extends Prisma.TenantMembership$sesionesActividadArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.TenantMembership$sesionesActividadArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$SesionActividadPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  municipio<T extends Prisma.TenantMembership$municipioArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.TenantMembership$municipioArgs<ExtArgs>>): Prisma.Prisma__MunicipalityClient<runtime.Types.Result.GetResult<Prisma.$MunicipalityPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   tenant<T extends Prisma.TenantDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.TenantDefaultArgs<ExtArgs>>): Prisma.Prisma__TenantClient<runtime.Types.Result.GetResult<Prisma.$TenantPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   user<T extends Prisma.UserDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.UserDefaultArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   turnos<T extends Prisma.TenantMembership$turnosArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.TenantMembership$turnosArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$TurnoPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
@@ -7948,25 +7948,6 @@ export type TenantMembershipDeleteManyArgs<ExtArgs extends runtime.Types.Extensi
    * Limit how many TenantMemberships to delete.
    */
   limit?: number
-}
-
-/**
- * TenantMembership.municipio
- */
-export type TenantMembership$municipioArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the Municipality
-   */
-  select?: Prisma.MunicipalitySelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the Municipality
-   */
-  omit?: Prisma.MunicipalityOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.MunicipalityInclude<ExtArgs> | null
-  where?: Prisma.MunicipalityWhereInput
 }
 
 /**
@@ -8519,6 +8500,25 @@ export type TenantMembership$sesionesActividadArgs<ExtArgs extends runtime.Types
   take?: number
   skip?: number
   distinct?: Prisma.SesionActividadScalarFieldEnum | Prisma.SesionActividadScalarFieldEnum[]
+}
+
+/**
+ * TenantMembership.municipio
+ */
+export type TenantMembership$municipioArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Municipality
+   */
+  select?: Prisma.MunicipalitySelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Municipality
+   */
+  omit?: Prisma.MunicipalityOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.MunicipalityInclude<ExtArgs> | null
+  where?: Prisma.MunicipalityWhereInput
 }
 
 /**

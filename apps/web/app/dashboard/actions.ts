@@ -718,6 +718,25 @@ export async function getOrdenesServicioAction(empresaId?: string) {
   }
 }
 
+export async function getOrdenServicioByIdAction(id: string) {
+  try {
+    const apiUrl = process.env.NESTJS_API_URL || "http://127.0.0.1:4000";
+    const headers = await getHeaders();
+    const response = await fetch(`${apiUrl}/ordenes-servicio/${id}`, {
+      headers,
+      cache: "no-store",
+    });
+
+    if (!response.ok) return null;
+
+    const result = await response.json();
+    return result.data || result;
+  } catch (error) {
+    console.error("Error fetching order by id:", error);
+    return null;
+  }
+}
+
 export async function createOrdenServicioAction(payload: any) {
   const cookieStore = await cookies();
   const token = cookieStore.get('access_token')?.value;
@@ -746,6 +765,58 @@ export async function createOrdenServicioAction(payload: any) {
   } catch (error) {
     if (error instanceof Error) return { success: false, error: error.message };
     return { success: false, error: 'Ocurrió un error inesperado' };
+  }
+}
+
+export async function updateOrdenServicioAction(id: string, payload: any) {
+  const cookieStore = await cookies();
+  const token = cookieStore.get('access_token')?.value;
+
+  if (!token) return { success: false, error: 'No session found' };
+
+  try {
+    const apiUrl = process.env.NESTJS_API_URL || 'http://127.0.0.1:4000';
+    const response = await fetch(`${apiUrl}/ordenes-servicio/${id}`, {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify(payload),
+    });
+
+    const result = await response.json();
+
+    if (!response.ok) {
+      return { success: false, error: result.message || 'Error al actualizar la orden de servicio' };
+    }
+
+    revalidatePath('/dashboard/servicios');
+    return { success: true, data: result.data || result };
+  } catch (error) {
+    if (error instanceof Error) return { success: false, error: error.message };
+    return { success: false, error: 'Ocurrió un error inesperado' };
+  }
+}
+
+export async function getEstadoServiciosAction(empresaId?: string) {
+  const cookieStore = await cookies();
+  const token = cookieStore.get("access_token")?.value;
+  const targetEmpresaId = empresaId || cookieStore.get("x-enterprise-id")?.value;
+  
+  if (!token || !targetEmpresaId) return [];
+
+  try {
+    const apiUrl = process.env.NESTJS_API_URL || "http://127.0.0.1:4000";
+    const response = await fetch(`${apiUrl}/config-clientes/estados-servicio?empresaId=${targetEmpresaId}`, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+    if (!response.ok) return [];
+    const result = await response.json();
+    return result.data || result;
+  } catch (error) {
+    console.error("Error fetching service states:", error);
+    return [];
   }
 }
 
