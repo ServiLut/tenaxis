@@ -115,6 +115,32 @@ function ServiciosSkeleton() {
   );
 }
 
+interface OrdenServicioResponse {
+  id: string;
+  numeroOrden?: string | null;
+  cliente: {
+    tipoCliente: "PERSONA" | "EMPRESA";
+    nombre?: string | null;
+    apellido?: string | null;
+    razonSocial?: string | null;
+  };
+  servicio?: {
+    nombre: string;
+  } | null;
+  fechaVisita?: string | null;
+  horaInicio?: string | null;
+  tecnico?: {
+    user: {
+      nombre: string;
+      apellido: string;
+    };
+  } | null;
+  estadoServicio?: {
+    nombre: string;
+  } | null;
+  urgencia?: string | null;
+}
+
 export default function ServiciosPage() {
   const [search, setSearch] = useState("");
   const [servicios, setServicios] = useState<Servicio[]>([]);
@@ -127,7 +153,7 @@ export default function ServiciosPage() {
       const empresaId = localStorage.getItem("current-enterprise-id") || undefined;
       const data = await getOrdenesServicioAction(empresaId);
       
-      const mapped: Servicio[] = (Array.isArray(data) ? data : []).map((os: any) => {
+      const mapped: Servicio[] = (Array.isArray(data) ? data : []).map((os: OrdenServicioResponse) => {
         const clienteLabel = os.cliente.tipoCliente === "EMPRESA" 
           ? (os.cliente.razonSocial || "Empresa") 
           : `${os.cliente.nombre || ""} ${os.cliente.apellido || ""}`.trim();

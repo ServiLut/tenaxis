@@ -198,12 +198,15 @@ function NuevoServicioContent() {
         ]);
 
         // Clientes usually returns an array or { data: [] }
-        setClientes(Array.isArray(cls) ? cls : cls?.data || []);
+        const loadedClientes = (
+          Array.isArray(cls) ? cls : cls?.data || []
+        ) as Cliente[];
+        setClientes(loadedClientes);
 
         // Enterprises returns { items: [], count: X, maxEmpresas: Y }
-        const loadedEmpresas = Array.isArray(emps)
-          ? emps
-          : (emps?.items || emps?.data || []);
+        const loadedEmpresas = (
+          Array.isArray(emps) ? emps : emps?.items || emps?.data || []
+        ) as Empresa[];
 
         setEmpresas(loadedEmpresas);
 
