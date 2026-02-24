@@ -49,10 +49,7 @@ export class EnterpriseController {
   }
 
   @Get(':id/operators')
-  findOperators(
-    @Param('id') id: string,
-    @Request() req: { user: JwtPayload },
-  ) {
+  findOperators(@Param('id') id: string, @Request() req: { user: JwtPayload }) {
     if (!req.user.tenantId) {
       throw new UnauthorizedException('Usuario no tiene un tenant asignado');
     }

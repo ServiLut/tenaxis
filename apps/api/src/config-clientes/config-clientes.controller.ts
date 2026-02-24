@@ -95,7 +95,10 @@ export class ConfigClientesController {
     @Request() req: RequestWithUser,
     @Query('empresaId') empresaId: string,
   ) {
-    return this.configService.findAllTiposServicio(req.user.tenantId || '', empresaId);
+    return this.configService.findAllTiposServicio(
+      req.user.tenantId || '',
+      empresaId,
+    );
   }
 
   // --- Métodos de Pago ---
@@ -104,6 +107,9 @@ export class ConfigClientesController {
     @Request() req: RequestWithUser,
     @Query('empresaId') empresaId: string,
   ) {
-    return this.configService.findAllMetodosPago(req.user.tenantId || '', empresaId);
+    return this.configService.findAllMetodosPago(
+      req.user.tenantId || '',
+      empresaId,
+    );
   }
 }

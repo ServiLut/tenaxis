@@ -16,7 +16,11 @@ import { cn } from "@/components/ui/utils";
 import { useUserRole } from "@/hooks/use-user-role";
 import { toast } from "sonner";
 import { exportToExcel } from "@/lib/utils/export-helper";
-import { updateMembershipAction, getMunicipalitiesAction } from "../actions";
+import {
+  updateMembershipAction,
+  getMunicipalitiesAction,
+  getEnterprisesAction,
+} from '../actions';
 import {
   Trophy,
   Users,
@@ -34,6 +38,7 @@ import {
   Download,
   MapPin,
   Car,
+  Briefcase,
 } from "lucide-react";
 
 type UserOrder = {
@@ -61,6 +66,8 @@ type UserMember = {
   direccion?: string;
   municipioId?: string;
   municipioNombre?: string;
+  empresaIds: string[];
+  empresaNombres: string[];
   totalRecaudo: number;
   totalServicios: number;
   serviciosLiquidados: number;
@@ -86,6 +93,12 @@ interface Membership {
     id: string;
     name: string;
   } | null;
+  empresaMemberships?: {
+    empresaId: string;
+    empresa: {
+      nombre: string;
+    };
+  }[];
   _count?: {
     serviciosAsignados: number;
   };
@@ -113,9 +126,10 @@ export default function EquipoTrabajoPage() {
   const [activeTab, setActiveTab] = useState<"ranking" | "usuarios">("ranking");
   const [users, setUsers] = useState<UserMember[]>([]);
   const [municipios, setMunicipios] = useState<Municipio[]>([]);
+  const [empresas, setEmpresas] = useState<{ id: string; nombre: string }[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  
+
   const [nameQuery, setNameQuery] = useState("");
   const [roleQuery, setRoleQuery] = useState("");
   const [municipioQuery, setMunicipioQuery] = useState("");
@@ -136,12 +150,13 @@ export default function EquipoTrabajoPage() {
     try {
       setLoading(true);
       const token = getCookie("access_token");
-      
-      const [teamRes, munRes] = await Promise.all([
+
+      const [teamRes, munRes, empRes] = await Promise.all([
         fetch(`/api/tenants/${tenantId}/memberships`, {
           headers: { Authorization: `Bearer ${token}` },
         }),
-        getMunicipalitiesAction()
+        getMunicipalitiesAction(),
+        getEnterprisesAction(),
       ]);
 
       if (!teamRes.ok) throw new Error("Error al cargar el equipo");
@@ -149,41 +164,50 @@ export default function EquipoTrabajoPage() {
       const teamData = await teamRes.json();
       const teamList = teamData.data || teamData;
       setMunicipios(Array.isArray(munRes) ? munRes : munRes?.data || []);
-      
-      const mappedUsers: UserMember[] = (Array.isArray(teamList) ? teamList : []).map((m: Membership, index: number) => ({
+
+      const loadedEmpresas = Array.isArray(empRes)
+        ? empRes
+        : empRes?.items || empRes?.data || [];
+      setEmpresas(loadedEmpresas);
+
+      const mappedUsers: UserMember[] = (
+        Array.isArray(teamList) ? teamList : []
+      ).map((m: Membership, index: number) => ({
         id: m.id,
         name: `${m.user.nombre} ${m.user.apellido}`,
         services: m._count?.serviciosAsignados || 0,
         rating: 4.5,
         avatar: `${m.user.nombre[0]}${m.user.apellido[0]}`,
-        color: COLORS[index % COLORS.length] || "bg-zinc-500",
+        color: COLORS[index % COLORS.length] || 'bg-zinc-500',
         email: m.user.email,
-        phone: m.user.telefono || "Sin teléfono",
-        joinDate: new Date(m.createdAt).toLocaleDateString("es-ES", {
-          day: "2-digit",
-          month: "short",
-          year: "numeric",
+        phone: m.user.telefono || 'Sin teléfono',
+        joinDate: new Date(m.createdAt).toLocaleDateString('es-ES', {
+          day: '2-digit',
+          month: 'short',
+          year: 'numeric',
         }),
         role: m.role,
-        placa: m.placa || "",
+        placa: m.placa || '',
         moto: m.moto ?? true,
-        direccion: m.direccion || "",
-        municipioId: m.municipioId || "",
-        municipioNombre: m.municipio?.name || "",
+        direccion: m.direccion || '',
+        municipioId: m.municipioId || '',
+        municipioNombre: m.municipio?.name || '',
+        empresaIds: m.empresaMemberships?.map((em) => em.empresaId) || [],
+        empresaNombres:
+          m.empresaMemberships?.map((em) => em.empresa.nombre) || [],
         totalRecaudo: 0,
         totalServicios: m._count?.serviciosAsignados || 0,
         serviciosLiquidados: 0,
         recaudoNuevos: 0,
         recaudoRefuerzo: 0,
         efectividad: 0,
-        orders: [
-          // ... (orders remain the same)
-        ],
+        orders: [],
       }));
 
       setUsers(mappedUsers);
     } catch (err: unknown) {
-      const errorMessage = err instanceof Error ? err.message : "Error desconocido";
+      const errorMessage =
+        err instanceof Error ? err.message : 'Error desconocido';
       setError(errorMessage);
     } finally {
       setLoading(false);
@@ -218,6 +242,7 @@ export default function EquipoTrabajoPage() {
         direccion: editForm.direccion,
         municipioId: editForm.municipioId,
         role: editForm.role,
+        empresaIds: editForm.empresaIds,
       }).then((res) => {
         if (!res.success) throw new Error(res.error);
         
@@ -739,6 +764,25 @@ export default function EquipoTrabajoPage() {
                                     </div>
                                   </div>
                                   <div className="flex items-center gap-3">
+                                    <div className="h-9 w-9 shrink-0 rounded-lg bg-zinc-50 flex items-center justify-center text-zinc-400 dark:bg-zinc-800">
+                                      <Briefcase className="h-4 w-4" />
+                                    </div>
+                                    <div>
+                                      <p className="text-[9px] font-black uppercase tracking-widest text-zinc-400">Empresas</p>
+                                      <div className="flex flex-wrap gap-1 mt-0.5">
+                                        {selectedUser.empresaNombres.length > 0 ? (
+                                          selectedUser.empresaNombres.map((name, i) => (
+                                            <span key={i} className="px-1.5 py-0.5 rounded bg-blue-50 dark:bg-blue-500/10 text-blue-600 dark:text-blue-400 text-[9px] font-black uppercase">
+                                              {name}
+                                            </span>
+                                          ))
+                                        ) : (
+                                          <p className="text-xs font-bold text-zinc-900 dark:text-zinc-50">Ninguna</p>
+                                        )}
+                                      </div>
+                                    </div>
+                                  </div>
+                                  <div className="flex items-center gap-3">
                                     <div className="h-9 w-9 shrink-0 rounded-lg bg-emerald-50 flex items-center justify-center text-emerald-500 dark:bg-emerald-500/10">
                                       <Download className="h-4 w-4" />
                                     </div>
@@ -790,6 +834,34 @@ export default function EquipoTrabajoPage() {
                                       <option key={role} value={role}>{role}</option>
                                     ))}
                                   </Select>
+                                </div>
+
+                                <div className="space-y-2">
+                                  <Label className="text-[10px] font-black uppercase tracking-[0.1em] text-zinc-400 px-1">Empresas Asignadas</Label>
+                                  <div className="grid grid-cols-1 gap-2 p-3 bg-zinc-50 dark:bg-zinc-800/50 rounded-xl border border-zinc-100 dark:border-zinc-800">
+                                    {empresas.map((emp) => (
+                                      <label key={emp.id} className="flex items-center gap-3 cursor-pointer group">
+                                        <input
+                                          type="checkbox"
+                                          checked={editForm?.empresaIds.includes(emp.id)}
+                                          onChange={(e) => {
+                                            const currentIds = editForm?.empresaIds || [];
+                                            const newIds = e.target.checked
+                                              ? [...currentIds, emp.id]
+                                              : currentIds.filter(id => id !== emp.id);
+                                            setEditForm(prev => prev ? { ...prev, empresaIds: newIds } : null);
+                                          }}
+                                          className="h-4 w-4 rounded border-zinc-300 text-azul-1 focus:ring-azul-1"
+                                        />
+                                        <span className="text-xs font-bold text-zinc-700 dark:text-zinc-300 group-hover:text-azul-1 transition-colors">
+                                          {emp.nombre}
+                                        </span>
+                                      </label>
+                                    ))}
+                                    {empresas.length === 0 && (
+                                      <p className="text-[10px] text-zinc-400 italic">No hay empresas disponibles para asignar.</p>
+                                    )}
+                                  </div>
                                 </div>
 
                                 <div className="grid grid-cols-2 gap-4">
