@@ -72,6 +72,10 @@ export class CreateOrdenServicioDto {
   @IsOptional()
   metodoPagoId?: string;
 
+  @IsUUID()
+  @IsOptional()
+  estadoServicioId?: string;
+
   @IsEnum(EstadoPagoOrden)
   @IsOptional()
   estadoPago?: EstadoPagoOrden;
