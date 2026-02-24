@@ -144,7 +144,6 @@ model TenantMembership {
   whatsappGroupId       String?
   direccion             String?
   municipioId           String?                @db.Uuid
-  municipio             Municipality?          @relation(fields: [municipioId], references: [id])
   anticipos             Anticipos[]
   auditorias            Auditoria[]
   citasComoCreador      CitasPsicologos[]      @relation("CitasCreadoPor")
@@ -168,6 +167,7 @@ model TenantMembership {
   productosSolicitados  ProductoSolicitado[]
   referidos             Referidos[]
   sesionesActividad     SesionActividad[]
+  municipio             Municipality?          @relation(fields: [municipioId], references: [id])
   tenant                Tenant                 @relation(fields: [tenantId], references: [id], onDelete: Cascade)
   user                  User                   @relation(fields: [userId], references: [id], onDelete: Cascade)
   turnos                Turno[]
@@ -372,8 +372,8 @@ model Municipality {
   code         String             @unique
   departmentId String             @db.Uuid
   direcciones  Direccion[]
-  memberships  TenantMembership[]
   department   Department         @relation(fields: [departmentId], references: [id])
+  memberships  TenantMembership[]
 
   @@map("municipalities")
 }

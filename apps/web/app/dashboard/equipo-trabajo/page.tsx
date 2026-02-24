@@ -123,6 +123,7 @@ const COLORS = [
 
 export default function EquipoTrabajoPage() {
   const { tenantId } = useUserRole();
+  const managementPanelRef = React.useRef<HTMLDivElement>(null);
   const [activeTab, setActiveTab] = useState<"ranking" | "usuarios">("ranking");
   const [users, setUsers] = useState<UserMember[]>([]);
   const [municipios, setMunicipios] = useState<Municipio[]>([]);
@@ -137,6 +138,14 @@ export default function EquipoTrabajoPage() {
   const [showDetailsModal, setShowDetailsModal] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
   const [editForm, setEditForm] = useState<UserMember | null>(null);
+
+  const scrollToManagementPanel = () => {
+    setTimeout(() => {
+      if (managementPanelRef.current) {
+        managementPanelRef.current.scrollIntoView({ behavior: "smooth", block: "start" });
+      }
+    }, 100);
+  };
 
   const getCookie = (name: string) => {
     const value = `; ${document.cookie}`;
@@ -654,6 +663,7 @@ export default function EquipoTrabajoPage() {
                                       onClick={() => {
                                         setSelectedUser(user);
                                         setIsEditing(false);
+                                        scrollToManagementPanel();
                                       }}
                                       title="Ver detalles"
                                       className="flex h-9 w-9 items-center justify-center rounded-xl bg-blue-50 text-blue-600 transition-all hover:bg-blue-600 hover:text-white dark:bg-blue-500/10 dark:text-blue-400"
@@ -676,7 +686,10 @@ export default function EquipoTrabajoPage() {
                     </Card>
 
                     {/* Panel Lateral: Detalles o Edición */}
-                    <div className={cn("space-y-6", !selectedUser && "hidden lg:block")}>
+                    <div 
+                      ref={managementPanelRef}
+                      className={cn("space-y-6", !selectedUser && "hidden lg:block")}
+                    >
                       {selectedUser ? (
                         <Card className="sticky top-8 border-none shadow-2xl shadow-zinc-200/50 dark:shadow-none bg-white dark:bg-zinc-900 overflow-hidden animate-in fade-in slide-in-from-right-4 duration-300">
                           {/* Header Color con Nombre y Rol */}
