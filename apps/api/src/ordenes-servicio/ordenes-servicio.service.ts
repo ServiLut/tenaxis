@@ -141,7 +141,7 @@ export class OrdenesServicioService {
       where: { empresaId: dto.empresaId, dia: diaSemana, activo: true }
     });
 
-    const viables = [];
+    const viables: string[] = [];
 
     for (const c of candidatos) {
       const placa = c.membership.placa;
