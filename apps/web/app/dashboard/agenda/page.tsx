@@ -6,18 +6,12 @@ import {
   Card, 
   CardContent, 
   Button, 
-  Select,
-  Input 
+  Select
 } from "@/components/ui";
 import { 
   ChevronLeft, 
   ChevronRight, 
-  Filter, 
-  Clock,
-  User,
-  MapPin,
-  Search,
-  CalendarDays
+  Clock
 } from "lucide-react";
 import { cn } from "@/components/ui/utils";
 import { getTiposInteresAction, getOperatorsAction } from "../actions";
@@ -79,7 +73,6 @@ function AgendaContent() {
   const [operadores, setOperadores] = useState<Operador[]>([]);
   const [selectedTipo, setSelectedTipo] = useState("TODOS");
   const [selectedTecnico, setSelectedTecnico] = useState("TODOS");
-  const [search, setSearch] = useState("");
 
   useEffect(() => {
     const loadData = async () => {
@@ -142,21 +135,6 @@ function AgendaContent() {
   const daysInWeek = getDaysInWeek(currentDate);
   const daysToShow = view === "SEMANA" ? daysInWeek : [currentDate];
   const hours = Array.from({ length: 15 }, (_, i) => `${(i + 7).toString().padStart(2, '0')}:00`);
-
-  const handleGoToToday = () => {
-    const today = new Date();
-    setCurrentDate(today);
-    setView("DIA");
-    
-    // Pequeno delay para esperar el re-render y luego hacer scroll
-    setTimeout(() => {
-      const currentHour = new Date().getHours();
-      const hourElement = document.getElementById(`hour-${currentHour}`);
-      if (hourElement) {
-        hourElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
-      }
-    }, 100);
-  };
 
   return (
     <div className="space-y-8 pb-10">
@@ -305,11 +283,8 @@ function AgendaContent() {
                           
                           const matchesTipo = selectedTipo === "TODOS" || s.tipoServicio === selectedTipo; // Mock logic needs to be careful with IDs
                           const matchesTecnico = selectedTecnico === "TODOS" || s.tecnicoId === selectedTecnico;
-                          const matchesSearch = !search || 
-                            s.cliente.toLowerCase().includes(search.toLowerCase()) ||
-                            s.tecnico.toLowerCase().includes(search.toLowerCase());
                             
-                          return matchesTipo && matchesTecnico && matchesSearch;
+                          return matchesTipo && matchesTecnico;
                         });
 
                         return (
