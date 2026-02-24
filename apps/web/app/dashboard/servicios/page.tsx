@@ -183,7 +183,6 @@ interface OrdenServicioResponse {
   } | null;
   urgencia?: string | null;
 }
-}
 
 export default function ServiciosPage() {
   const [search, setSearch] = useState("");
@@ -367,9 +366,6 @@ export default function ServiciosPage() {
               )}
             </div>
 
-            <Button variant="outline" className="flex items-center h-12 px-6 rounded-lg font-bold text-[11px] uppercase tracking-wider transition-all gap-2 border bg-white dark:bg-zinc-800 text-zinc-700 dark:text-zinc-300 border-zinc-200 dark:border-zinc-700 hover:bg-zinc-50 dark:hover:bg-zinc-700">
-              <Filter className="h-4 w-4" /> <span>Filtros</span>
-            </Button>
             <Link href="/dashboard/servicios/nuevo">
               <div className="flex items-center h-12 px-8 rounded-lg bg-azul-1 text-zinc-50 gap-3 shadow-lg shadow-azul-1/20 transition-all hover:bg-blue-700 dark:hover:bg-blue-600 cursor-pointer">
                 <Plus className="h-5 w-5" />
