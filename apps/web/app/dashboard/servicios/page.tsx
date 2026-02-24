@@ -158,14 +158,31 @@ function ServiciosSkeleton() {
   );
 }
 
-interface Operador {
+interface OrdenServicioResponse {
   id: string;
-  nombre: string;
+  numeroOrden?: string | null;
+  cliente: {
+    tipoCliente: "PERSONA" | "EMPRESA";
+    nombre?: string | null;
+    apellido?: string | null;
+    razonSocial?: string | null;
+  };
+  servicio?: {
+    nombre: string;
+  } | null;
+  fechaVisita?: string | null;
+  horaInicio?: string | null;
+  tecnico?: {
+    user: {
+      nombre: string;
+      apellido: string;
+    };
+  } | null;
+  estadoServicio?: {
+    nombre: string;
+  } | null;
+  urgencia?: string | null;
 }
-
-interface EstadoServicio {
-  id: string;
-  nombre: string;
 }
 
 export default function ServiciosPage() {

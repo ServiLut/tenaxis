@@ -18,11 +18,12 @@ export function RoleSwitcher() {
   const [isMounted, setIsMounted] = useState(false);
 
   useEffect(() => {
-    setIsMounted(true);
-    if (!isDev) return;
-    
     // setTimeout defers the state update, fixing the react-hooks/set-state-in-effect lint error
     const timer = setTimeout(() => {
+      setIsMounted(true);
+      
+      if (!isDev) return;
+
       let roleFound = false;
       
       const cookieRole = document.cookie
