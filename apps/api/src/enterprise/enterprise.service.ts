@@ -8,7 +8,6 @@ import {
 import { PrismaService } from '../prisma/prisma.service';
 import { CreateEnterpriseDto } from './dto/create-enterprise.dto';
 import { UpdateEnterpriseDto } from './dto/update-enterprise.dto';
-import { Empresa } from '../generated/client/client';
 
 @Injectable()
 export class EnterpriseService {
@@ -108,25 +107,30 @@ export class EnterpriseService {
       });
 
       // Seed estados de servicio base
-      const defaultStatuses = ['PROGRAMADO', 'EN PROCESO', 'FINALIZADO', 'CANCELADO'];
+      const defaultStatuses = [
+        'PROGRAMADO',
+        'EN PROCESO',
+        'FINALIZADO',
+        'CANCELADO',
+      ];
       await tx.estadoServicio.createMany({
-        data: defaultStatuses.map(nombre => ({
+        data: defaultStatuses.map((nombre) => ({
           nombre,
           tenantId,
           empresaId: empresa.id,
           activo: true,
-        }))
+        })),
       });
 
       // Seed métodos de pago base
       const defaultPayments = ['EFECTIVO', 'TRANSFERENCIA', 'QR', 'TARJETA'];
       await tx.metodoPago.createMany({
-        data: defaultPayments.map(nombre => ({
+        data: defaultPayments.map((nombre) => ({
           nombre,
           tenantId,
           empresaId: empresa.id,
           activo: true,
-        }))
+        })),
       });
 
       return empresa;
@@ -134,7 +138,8 @@ export class EnterpriseService {
   }
 
   async findAll(userId: string, tenantId: string, role?: string) {
-    let enterprises: Awaited<ReturnType<typeof this.prisma.empresa.findMany>> = [];
+    let enterprises: Awaited<ReturnType<typeof this.prisma.empresa.findMany>> =
+      [];
     let maxEmpresas = 0;
 
     if (role === 'SU_ADMIN') {
@@ -152,7 +157,9 @@ export class EnterpriseService {
       });
 
       if (!membership || membership.status !== 'ACTIVE') {
-        throw new ForbiddenException('User is not an active member of this tenant.');
+        throw new ForbiddenException(
+          'User is not an active member of this tenant.',
+        );
       }
 
       const tenant = await this.prisma.tenant.findUnique({

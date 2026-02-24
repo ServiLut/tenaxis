@@ -1,4 +1,10 @@
-import { IsString, IsOptional, IsBoolean, IsEnum, IsUUID } from 'class-validator';
+import {
+  IsString,
+  IsOptional,
+  IsBoolean,
+  IsEnum,
+  IsUUID,
+} from 'class-validator';
 import { Role } from '../../generated/client/client';
 
 export class UpdateMembershipDto {
@@ -25,4 +31,8 @@ export class UpdateMembershipDto {
   @IsBoolean()
   @IsOptional()
   activo?: boolean;
+
+  @IsOptional()
+  @IsUUID('all', { each: true })
+  empresaIds?: string[];
 }

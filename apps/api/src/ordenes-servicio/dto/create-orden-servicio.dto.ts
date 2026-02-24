@@ -1,10 +1,18 @@
-import { IsString, IsNotEmpty, IsOptional, IsNumber, IsDateString, IsEnum, IsUUID } from 'class-validator';
-import { 
-  NivelInfestacion, 
-  TipoVisita, 
-  TipoFacturacion, 
+import {
+  IsString,
+  IsNotEmpty,
+  IsOptional,
+  IsNumber,
+  IsDateString,
+  IsEnum,
+  IsUUID,
+} from 'class-validator';
+import {
+  NivelInfestacion,
+  TipoVisita,
+  TipoFacturacion,
   EstadoPagoOrden,
-  UrgenciaOrden
+  UrgenciaOrden,
 } from '../../generated/client/client';
 
 export class CreateOrdenServicioDto {
