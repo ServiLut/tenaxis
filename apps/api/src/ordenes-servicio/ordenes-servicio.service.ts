@@ -320,15 +320,17 @@ export class OrdenesServicioService {
     const diaSemana = dias[inicio.getDay()] as LocalDiaSemana;
     this.logger.log(`AUTO-ASSIGN: Day of week: ${diaSemana}`);
 
-    const queryResult = (await this.prisma.picoPlaca.findFirst({
+    const delegate = this.prisma.picoPlaca as {
+      findFirst: (args: any) => Promise<unknown>;
+    };
+
+    const reglasPicoPlaca = (await delegate.findFirst({
       where: {
         empresaId: dto.empresaId,
-        dia: diaSemana as unknown as any,
+        dia: diaSemana,
         activo: true,
       },
-    })) as unknown;
-
-    const reglasPicoPlaca = queryResult as LocalPicoPlaca | null;
+    })) as LocalPicoPlaca | null;
 
     if (reglasPicoPlaca) {
       this.logger.log(
