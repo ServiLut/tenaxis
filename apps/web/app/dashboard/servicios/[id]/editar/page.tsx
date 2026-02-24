@@ -23,7 +23,6 @@ import {
   Calendar,
   CreditCard,
   Briefcase,
-  Info,
   Save,
   GanttChart,
   Loader2
@@ -94,11 +93,6 @@ interface Operador {
   nombre: string;
 }
 
-interface Empresa {
-  id: string;
-  nombre: string;
-}
-
 interface EstadoServicio {
   id: string;
   nombre: string;
@@ -111,7 +105,6 @@ function EditarServicioContent({ id }: { id: string }) {
   const [clientes, setClientes] = useState<Cliente[]>([]);
   const [metodosPago, setMetodosPago] = useState<MetodoPago[]>([]);
   const [operadores, setOperadores] = useState<Operador[]>([]);
-  const [empresas, setEmpresas] = useState<Empresa[]>([]);
   const [estados, setEstados] = useState<EstadoServicio[]>([]);
 
   // Form State
@@ -120,7 +113,6 @@ function EditarServicioContent({ id }: { id: string }) {
   const [selectedEmpresa, setSelectedEmpresa] = useState("");
   const [selectedOperador, setSelectedOperador] = useState("");
   const [direccionesCliente, setDireccionesCliente] = useState<Direccion[]>([]);
-  const [userRole, setUserRole] = useState<string | null>(null);
 
   // Custom logic states
   const [nivelInfestacion, setNivelInfestacion] = useState("");
@@ -219,7 +211,7 @@ function EditarServicioContent({ id }: { id: string }) {
         ]);
 
         // Load addresses for selected client
-        const client = (Array.isArray(cls) ? cls : cls?.data || []).find((c: any) => c.id === orderData.clienteId);
+        const client = (Array.isArray(cls) ? cls : cls?.data || []).find((c: Cliente) => c.id === orderData.clienteId);
         if (client) {
           setDireccionesCliente(client.direcciones || []);
           setSelectedDireccion(orderData.direccionId || "");
@@ -300,8 +292,9 @@ function EditarServicioContent({ id }: { id: string }) {
       if (!res.success) throw new Error(res.error);
       toast.success("Orden de servicio actualizada correctamente");
       router.push("/dashboard/servicios");
-    } catch (err: any) {
-      toast.error(err.message || "Error al actualizar la orden");
+    } catch (err: unknown) {
+      const errorMessage = err instanceof Error ? err.message : "Error al actualizar la orden";
+      toast.error(errorMessage);
       setSaving(false);
     }
   };

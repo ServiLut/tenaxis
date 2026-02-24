@@ -790,7 +790,10 @@ export async function createOrdenServicioAction(
   }
 }
 
-export async function updateOrdenServicioAction(id: string, payload: any) {
+export async function updateOrdenServicioAction(
+  id: string,
+  payload: Partial<CreateOrdenServicioDTO> & { estadoServicioId?: string },
+) {
   const cookieStore = await cookies();
   const token = cookieStore.get('access_token')?.value;
 

@@ -1,6 +1,7 @@
 import { Injectable, BadRequestException, Logger } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 import { CreateOrdenServicioDto } from './dto/create-orden-servicio.dto';
+import { OrdenServicioUpdateInput } from '../generated/client/models/OrdenServicio';
 
 type LocalDiaSemana =
   | 'LUNES'
@@ -449,6 +450,21 @@ export class OrdenesServicioService {
           },
         },
         servicio: true,
+        creadoPor: {
+          include: {
+            user: {
+              select: {
+                nombre: true,
+                apellido: true,
+              },
+            },
+          },
+        },
+        metodoPago: true,
+        empresa: true,
+        zona: true,
+        direccion: true,
+        vehiculo: true,
       },
       orderBy: { createdAt: 'desc' },
     });
@@ -492,18 +508,24 @@ export class OrdenesServicioService {
       throw new BadRequestException('La orden especificada no existe');
     }
 
-    const data: any = {
-      tecnicoId: updateDto.tecnicoId,
-      estadoServicioId: updateDto.estadoServicioId,
-      observacion: updateDto.observacion,
-      nivelInfestacion: updateDto.nivelInfestacion,
-      urgencia: updateDto.urgencia,
-      tipoVisita: updateDto.tipoVisita,
-      frecuenciaSugerida: updateDto.frecuenciaSugerida,
-      tipoFacturacion: updateDto.tipoFacturacion,
-      valorCotizado: updateDto.valorCotizado,
-      metodoPagoId: updateDto.metodoPagoId,
-      estadoPago: updateDto.estadoPago,
+    const data: OrdenServicioUpdateInput = {
+      tecnico: updateDto.tecnicoId
+        ? { connect: { id: updateDto.tecnicoId } }
+        : undefined,
+      estadoServicio: updateDto.estadoServicioId
+        ? { connect: { id: updateDto.estadoServicioId } }
+        : undefined,
+      observacion: updateDto.observacion ?? undefined,
+      nivelInfestacion: updateDto.nivelInfestacion ?? undefined,
+      urgencia: updateDto.urgencia ?? undefined,
+      tipoVisita: updateDto.tipoVisita ?? undefined,
+      frecuenciaSugerida: updateDto.frecuenciaSugerida ?? undefined,
+      tipoFacturacion: updateDto.tipoFacturacion ?? undefined,
+      valorCotizado: updateDto.valorCotizado ?? undefined,
+      metodoPago: updateDto.metodoPagoId
+        ? { connect: { id: updateDto.metodoPagoId } }
+        : undefined,
+      estadoPago: updateDto.estadoPago ?? undefined,
     };
 
     if (updateDto.fechaVisita) {
@@ -511,10 +533,11 @@ export class OrdenesServicioService {
     }
 
     if (updateDto.horaInicio) {
-      data.horaInicio = new Date(updateDto.horaInicio);
+      const horaInicio = new Date(updateDto.horaInicio);
+      data.horaInicio = horaInicio;
       if (updateDto.duracionMinutos) {
         data.horaFin = new Date(
-          data.horaInicio.getTime() + updateDto.duracionMinutos * 60000,
+          horaInicio.getTime() + updateDto.duracionMinutos * 60000,
         );
       }
     }
@@ -538,7 +561,7 @@ export class OrdenesServicioService {
           },
         });
       }
-      data.servicioId = servicio.id;
+      data.servicio = { connect: { id: servicio.id } };
     }
 
     return this.prisma.ordenServicio.update({
