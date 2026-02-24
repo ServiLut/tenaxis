@@ -6,6 +6,7 @@ import {
 import { PrismaService } from '../prisma/prisma.service';
 import { CreateTenantDto } from './dto/create-tenant.dto';
 import { JoinTenantDto } from './dto/join-tenant.dto';
+import { UpdateMembershipDto } from './dto/update-membership.dto';
 import { Role } from '../generated/client/client';
 import * as bcrypt from 'bcrypt';
 
@@ -299,14 +300,16 @@ export class TenantsService {
     });
   }
 
-  async updateMembership(membershipId: string, data: any) {
+  async updateMembership(membershipId: string, data: UpdateMembershipDto) {
+    console.log('UPDATING MEMBERSHIP:', membershipId, JSON.stringify(data, null, 2));
+    
     return this.prisma.tenantMembership.update({
       where: { id: membershipId },
       data: {
-        placa: data.placa,
+        placa: data.placa || null,
         moto: data.moto,
-        direccion: data.direccion,
-        municipioId: data.municipioId,
+        direccion: data.direccion || null,
+        municipioId: data.municipioId || null,
         role: data.role,
         activo: data.activo,
       },

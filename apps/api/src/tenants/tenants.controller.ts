@@ -6,11 +6,13 @@ import {
   Request,
   Get,
   Param,
+  Patch,
   UnauthorizedException,
 } from '@nestjs/common';
 import { TenantsService } from './tenants.service';
 import { CreateTenantDto } from './dto/create-tenant.dto';
 import { JoinTenantDto } from './dto/join-tenant.dto';
+import { UpdateMembershipDto } from './dto/update-membership.dto';
 import { SuAdminGuard } from '../auth/guards/su-admin.guard';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { JwtPayload } from '../auth/auth.service';
@@ -88,7 +90,7 @@ export class TenantsController {
   @UseGuards(JwtAuthGuard)
   async updateMembership(
     @Param('membershipId') membershipId: string,
-    @Body() data: any,
+    @Body() data: UpdateMembershipDto,
   ) {
     return this.tenantsService.updateMembership(membershipId, data);
   }
