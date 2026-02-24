@@ -11,6 +11,7 @@ import {
 import { Select } from "@/components/ui/select";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { Combobox } from "@/components/ui/combobox";
 import { cn } from "@/components/ui/utils";
 import { useUserRole } from "@/hooks/use-user-role";
 import { toast } from "sonner";
@@ -117,6 +118,7 @@ export default function EquipoTrabajoPage() {
   
   const [nameQuery, setNameQuery] = useState("");
   const [roleQuery, setRoleQuery] = useState("");
+  const [municipioQuery, setMunicipioQuery] = useState("");
   const [selectedUser, setSelectedUser] = useState<UserMember | null>(null);
   const [showDetailsModal, setShowDetailsModal] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
@@ -196,7 +198,8 @@ export default function EquipoTrabajoPage() {
 
   const filteredUsers = users.filter((user) =>
     user.name.toLowerCase().includes(nameQuery.toLowerCase()) &&
-    (roleQuery === "" || user.role === roleQuery)
+    (roleQuery === "" || user.role === roleQuery) &&
+    (municipioQuery === "" || user.municipioId === municipioQuery)
   );
 
   const handleEditClick = (user: UserMember) => {
@@ -552,6 +555,18 @@ export default function EquipoTrabajoPage() {
                           ))}
                         </Select>
                       </div>
+                      <div className="w-full sm:w-72">
+                        <Combobox
+                          options={[
+                            { value: "", label: "Todos los municipios" },
+                            ...municipios.map(m => ({ value: m.id, label: m.name }))
+                          ]}
+                          value={municipioQuery}
+                          onChange={setMunicipioQuery}
+                          placeholder="Filtrar por municipio..."
+                          className="h-12"
+                        />
+                      </div>
                     </div>
                     <Link 
                       href="/dashboard/equipo-trabajo/nuevo"
@@ -802,20 +817,15 @@ export default function EquipoTrabajoPage() {
 
                                 <div className="space-y-2">
                                   <Label className="text-[10px] font-black uppercase tracking-[0.1em] text-zinc-400 px-1">Municipio / Ciudad</Label>
-                                  <Select 
+                                  <Combobox
+                                    options={municipios.map(m => ({ value: m.id, label: m.name }))}
                                     value={editForm?.municipioId || ""}
-                                    onChange={(e) => {
-                                      const mId = e.target.value;
+                                    onChange={(mId) => {
                                       const mName = municipios.find(m => m.id === mId)?.name || "";
                                       setEditForm(prev => prev ? { ...prev, municipioId: mId, municipioNombre: mName } : null);
                                     }}
-                                    className="h-11"
-                                  >
-                                    <option value="">Seleccionar municipio...</option>
-                                    {municipios.map(m => (
-                                      <option key={m.id} value={m.id}>{m.name}</option>
-                                    ))}
-                                  </Select>
+                                    placeholder="Seleccionar municipio..."
+                                  />
                                 </div>
 
                                 <div className="space-y-2">

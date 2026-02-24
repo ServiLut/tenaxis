@@ -108,35 +108,64 @@ export class OrdenesServicioService {
   }
 
   private async autoAssignTechnician(tenantId: string, dto: CreateOrdenServicioDto, inicio: Date | null, fin: Date | null): Promise<string | null> {
-    if (!inicio || !fin) return null;
+    if (!inicio || !fin) {
+      console.log('AUTO-ASSIGN: Missing dates, skipping.');
+      return null;
+    }
 
-    // 1. Obtener la zona de la dirección
+    // 1. Obtener datos geográficos de la dirección
     const direccion = await this.prisma.direccion.findUnique({
       where: { id: dto.direccionId },
-      select: { zonaId: true }
+      select: { zonaId: true, municipioId: true }
     });
 
-    if (!direccion || !direccion.zonaId) return null;
+    if (!direccion) {
+      console.log('AUTO-ASSIGN: Address not found:', dto.direccionId);
+      return null;
+    }
 
-    const zonaId = direccion.zonaId;
+    console.log('AUTO-ASSIGN: Searching candidates for Zona:', direccion.zonaId, 'or Municipio:', direccion.municipioId);
 
-    // 2. Obtener operadores de esa zona con su vehículo
-    const candidatos = await this.prisma.empresaMembership.findMany({
-      where: {
-        empresaId: dto.empresaId,
-        zonaId: zonaId,
-        activo: true,
-        membership: { role: 'OPERADOR', activo: true }
-      },
-      include: {
-        membership: true
-      }
-    });
+    // 2. Obtener candidatos: Primero por Zona, luego por Municipio
+    let candidatos: any[] = [];
+
+    // Intento 1: Por Zona (si existe)
+    if (direccion.zonaId) {
+      candidatos = await this.prisma.empresaMembership.findMany({
+        where: {
+          empresaId: dto.empresaId,
+          zonaId: direccion.zonaId,
+          activo: true,
+          membership: { role: 'OPERADOR', activo: true }
+        },
+        include: { membership: true }
+      });
+    }
+
+    // Intento 2: Por Municipio (si no hubo por zona o no hay zona)
+    if (candidatos.length === 0 && direccion.municipioId) {
+      candidatos = await this.prisma.empresaMembership.findMany({
+        where: {
+          empresaId: dto.empresaId,
+          activo: true,
+          membership: { 
+            role: 'OPERADOR', 
+            activo: true,
+            municipioId: direccion.municipioId // Match por municipio base del técnico
+          }
+        },
+        include: { membership: true }
+      });
+    }
+
+    if (candidatos.length === 0) {
+      console.log('AUTO-ASSIGN: No candidates found in this area.');
+      return null;
+    }
 
     const dias = ['DOMINGO', 'LUNES', 'MARTES', 'MIERCOLES', 'JUEVES', 'VIERNES', 'SABADO'];
-    const diaSemana = dias[inicio.getDay()] as any; // Cast to DiaSemana enum
+    const diaSemana = dias[inicio.getDay()] as any;
     
-    // Obtener reglas de Pico y Placa para hoy
     const reglasPicoPlaca = await this.prisma.picoPlaca.findFirst({
       where: { empresaId: dto.empresaId, dia: diaSemana, activo: true }
     });
@@ -153,7 +182,8 @@ export class OrdenesServicioService {
         const numDigito = parseInt(digitoInteres);
         
         if (numDigito === reglasPicoPlaca.numeroUno || numDigito === reglasPicoPlaca.numeroDos) {
-          continue; // Tiene restricción, saltar
+          console.log(`AUTO-ASSIGN: Technician ${c.membershipId} skipped due to Pico y Placa (${placa})`);
+          continue;
         }
       }
 
@@ -172,10 +202,15 @@ export class OrdenesServicioService {
 
       if (traslapes === 0) {
         viables.push(c.membershipId);
+      } else {
+        console.log(`AUTO-ASSIGN: Technician ${c.membershipId} has ${traslapes} schedule overlaps.`);
       }
     }
 
-    if (viables.length === 0) return null;
+    if (viables.length === 0) {
+      console.log('AUTO-ASSIGN: No viable technicians available after filters.');
+      return null;
+    }
 
     // 5. Balanceo de carga: Elegir al que menos órdenes tenga hoy
     const conteos = await Promise.all(viables.map(async (id) => {
@@ -186,7 +221,9 @@ export class OrdenesServicioService {
     }));
 
     conteos.sort((a, b) => a.count - b.count);
-    return conteos[0]?.id || null;
+    const selected = conteos[0]?.id || null;
+    console.log('AUTO-ASSIGN: Selected technician:', selected);
+    return selected;
   }
 
   async findAll(tenantId: string, empresaId?: string) {
