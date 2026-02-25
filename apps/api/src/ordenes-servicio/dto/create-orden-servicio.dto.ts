@@ -13,6 +13,7 @@ import {
   TipoFacturacion,
   EstadoPagoOrden,
   UrgenciaOrden,
+  EstadoOrden,
 } from '../../generated/client/client';
 
 export class CreateOrdenServicioDto {
@@ -72,9 +73,9 @@ export class CreateOrdenServicioDto {
   @IsOptional()
   metodoPagoId?: string;
 
-  @IsUUID()
+  @IsEnum(EstadoOrden)
   @IsOptional()
-  estadoServicioId?: string;
+  estadoServicio?: EstadoOrden;
 
   @IsEnum(EstadoPagoOrden)
   @IsOptional()

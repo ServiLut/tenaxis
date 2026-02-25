@@ -4589,7 +4589,7 @@ export const OrdenServicioScalarFieldEnum = {
   zonaId: 'zonaId',
   vehiculoId: 'vehiculoId',
   metodoPagoId: 'metodoPagoId',
-  estadoServicioId: 'estadoServicioId',
+  estadoServicio: 'estadoServicio',
   numeroOrden: 'numeroOrden',
   fechaVisita: 'fechaVisita',
   horaInicio: 'horaInicio',
@@ -5270,6 +5270,20 @@ export type FloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, '
  * Reference to a field of type 'Float[]'
  */
 export type ListFloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float[]'>
+    
+
+
+/**
+ * Reference to a field of type 'EstadoOrden'
+ */
+export type EnumEstadoOrdenFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'EstadoOrden'>
+    
+
+
+/**
+ * Reference to a field of type 'EstadoOrden[]'
+ */
+export type ListEnumEstadoOrdenFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'EstadoOrden[]'>
     
 
 

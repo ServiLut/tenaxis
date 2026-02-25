@@ -216,3 +216,17 @@ export const ClasificacionCliente = {
 } as const
 
 export type ClasificacionCliente = (typeof ClasificacionCliente)[keyof typeof ClasificacionCliente]
+
+
+export const EstadoOrden = {
+  NUEVO: 'NUEVO',
+  PROCESO: 'PROCESO',
+  CANCELADO: 'CANCELADO',
+  PROGRAMADO: 'PROGRAMADO',
+  LIQUIDADO: 'LIQUIDADO',
+  TECNICO_FINALIZO: 'TECNICO_FINALIZO',
+  REPROGRAMADO: 'REPROGRAMADO',
+  SIN_CONCRETAR: 'SIN_CONCRETAR'
+} as const
+
+export type EstadoOrden = (typeof EstadoOrden)[keyof typeof EstadoOrden]

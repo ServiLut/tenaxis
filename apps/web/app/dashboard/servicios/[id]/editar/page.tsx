@@ -9,7 +9,6 @@ import {
   getOperatorsAction,
   updateOrdenServicioAction,
   getOrdenServicioByIdAction,
-  getEstadoServiciosAction,
 } from "../../../actions";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -66,6 +65,17 @@ const TIPOS_FACTURACION = [
   { value: "PLAN_ANUAL", label: "Parte de plan anual" },
 ];
 
+const ESTADOS_ORDEN = [
+  { value: "NUEVO", label: "Nuevo" },
+  { value: "PROCESO", label: "En Proceso" },
+  { value: "CANCELADO", label: "Cancelado" },
+  { value: "PROGRAMADO", label: "Programado" },
+  { value: "LIQUIDADO", label: "Liquidado" },
+  { value: "TECNICO_FINALIZO", label: "Técnico Finalizó" },
+  { value: "REPROGRAMADO", label: "Reprogramado" },
+  { value: "SIN_CONCRETAR", label: "Sin Concretar" },
+];
+
 interface Direccion {
   id: string;
   direccion: string;
@@ -92,11 +102,6 @@ interface Operador {
   nombre: string;
 }
 
-interface EstadoServicio {
-  id: string;
-  nombre: string;
-}
-
 function EditarServicioContent({ id }: { id: string }) {
   const router = useRouter();
   const [loading, setLoading] = useState(true);
@@ -104,8 +109,6 @@ function EditarServicioContent({ id }: { id: string }) {
   const [clientes, setClientes] = useState<Cliente[]>([]);
   const [metodosPago, setMetodosPago] = useState<MetodoPago[]>([]);
   const [operadores, setOperadores] = useState<Operador[]>([]);
-  const [estados, setEstados] = useState<EstadoServicio[]>([]);
-  const [empresas, setEmpresas] = useState<any[]>([]);
 
   // Form State
   const [selectedCliente, setSelectedCliente] = useState("");
@@ -130,7 +133,7 @@ function EditarServicioContent({ id }: { id: string }) {
   const [metodoPagoId, setMetodoPagoId] = useState("");
   const [estadoPago, setEstadoPago] = useState("");
   const [tipoFacturacion, setTipoFacturacion] = useState("");
-  const [estadoServicioId, setEstadoServicioId] = useState("");
+  const [estadoServicio, setEstadoServicio] = useState("");
 
   const fetchMetodosPago = useCallback(async (empId: string) => {
     if (!empId) return;
@@ -149,16 +152,6 @@ function EditarServicioContent({ id }: { id: string }) {
       setOperadores(Array.isArray(ops) ? ops : ops?.data || []);
     } catch (e) {
       console.error("Error loading operators", e);
-    }
-  }, []);
-
-  const fetchEstados = useCallback(async (empId: string) => {
-    if (!empId) return;
-    try {
-      const ests = await getEstadoServiciosAction(empId);
-      setEstados(Array.isArray(ests) ? ests : ests?.data || []);
-    } catch (e) {
-      console.error("Error loading states", e);
     }
   }, []);
 
@@ -192,7 +185,7 @@ function EditarServicioContent({ id }: { id: string }) {
         setMetodoPagoId(orderData.metodoPagoId || "");
         setEstadoPago(orderData.estadoPago || "");
         setTipoFacturacion(orderData.tipoFacturacion || "");
-        setEstadoServicioId(orderData.estadoServicioId || "");
+        setEstadoServicio(orderData.estadoServicio || "NUEVO");
         
         if (orderData.fechaVisita) {
           setFechaVisita(new Date(orderData.fechaVisita).toISOString().split('T')[0]);
@@ -205,7 +198,6 @@ function EditarServicioContent({ id }: { id: string }) {
         await Promise.all([
           fetchMetodosPago(orderData.empresaId),
           fetchOperadores(orderData.empresaId),
-          fetchEstados(orderData.empresaId)
         ]);
 
         // Load addresses for selected client
@@ -224,7 +216,7 @@ function EditarServicioContent({ id }: { id: string }) {
     };
 
     loadData();
-  }, [id, router, fetchMetodosPago, fetchOperadores, fetchEstados]);
+  }, [id, router, fetchMetodosPago, fetchOperadores]);
 
   const handleClienteChange = (clientId: string) => {
     setSelectedCliente(clientId);
@@ -279,7 +271,7 @@ function EditarServicioContent({ id }: { id: string }) {
       valorCotizado: valorCotizado ? Number(valorCotizado) : undefined,
       metodoPagoId: metodoPagoId || undefined,
       estadoPago: estadoPago || undefined,
-      estadoServicioId: estadoServicioId || undefined,
+      estadoServicio: estadoServicio || undefined,
       fechaVisita: fechaVisita ? new Date(fechaVisita).toISOString() : undefined,
       horaInicio: (fechaVisita && horaInicio) ? new Date(`${fechaVisita}T${horaInicio}:00`).toISOString() : undefined,
       duracionMinutos: Number(duracionMinutos),
@@ -380,13 +372,14 @@ function EditarServicioContent({ id }: { id: string }) {
                 <div className="space-y-2">
                   <Label className="text-xs font-bold text-zinc-500 uppercase tracking-wider">Estado del Servicio <span className="text-red-500">*</span></Label>
                   <Select
-                    value={estadoServicioId}
-                    onChange={(e) => setEstadoServicioId(e.target.value)}
+                    value={estadoServicio}
+                    onChange={(e) => setEstadoServicio(e.target.value)}
                     required
                     className="h-11 border-zinc-200"
                   >
-                    {estados.map(est => (
-                      <option key={est.id} value={est.id}>{est.nombre}</option>
+                    <option value="">Seleccionar estado...</option>
+                    {ESTADOS_ORDEN.map(est => (
+                      <option key={est.value} value={est.value}>{est.label}</option>
                     ))}
                   </Select>
                 </div>
