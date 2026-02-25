@@ -235,14 +235,12 @@ function NuevoClienteContent() {
 
     const cleanedDirecciones = direcciones.map(({
       id: _id,
-      departmentId: _departmentId,
-      validadoPorSistema: _validadoPorSistema,
-      municipio: _municipio,
       restriccionesAcceso,
       ...rest
     }) => ({
       ...rest,
       municipioId: rest.municipioId || null,
+      departmentId: rest.departmentId || null,
       restricciones: restriccionesAcceso || null,
       latitud: rest.latitud ? parseFloat(rest.latitud) : null,
       longitud: rest.longitud ? parseFloat(rest.longitud) : null,

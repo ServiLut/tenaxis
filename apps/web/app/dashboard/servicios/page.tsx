@@ -391,8 +391,8 @@ export default function ServiciosPage() {
   };
 
   const handleExport = async (format: 'pdf' | 'excel' | 'word') => {
-    const headers = ["ID Orden", "Cliente", "Servicio", "Fecha", "Hora", "Técnico", "Estado", "Urgencia"];
-    const data = filteredServicios.map((s: Servicio) => [
+    let headers = ["ID Orden", "Cliente", "Servicio", "Fecha", "Hora", "Técnico", "Estado", "Urgencia"];
+    let data = filteredServicios.map((s: Servicio) => [
       s.id,
       s.cliente,
       s.servicioEspecifico,
@@ -402,6 +402,99 @@ export default function ServiciosPage() {
       s.estadoServicio,
       s.urgencia
     ]);
+
+    // Para Excel, expandimos la información a todas las columnas relevantes
+    if (format === 'excel') {
+      headers = [
+        "ID Orden", 
+        "Número Orden",
+        "Cliente", 
+        "Documento",
+        "Teléfono",
+        "Correo",
+        "Servicio Específico", 
+        "Tipo de Visita",
+        "Fecha", 
+        "Hora Inicio", 
+        "Hora Fin",
+        "Técnico", 
+        "Estado", 
+        "Urgencia",
+        "Dirección",
+        "Municipio",
+        "Departamento",
+        "Barrio",
+        "Zona",
+        "Detalles Ubicación",
+        "Vehículo",
+        "Nivel Infestación",
+        "Cond. Higiene",
+        "Cond. Local",
+        "Observación",
+        "Observación Final",
+        "Valor Cotizado",
+        "Valor Pagado",
+        "Valor Repuestos",
+        "Método de Pago",
+        "Estado de Pago",
+        "Fecha Creación"
+      ];
+
+      data = filteredServicios.map((s: Servicio) => {
+        const os = s.raw;
+        const clienteDoc = os.cliente.tipoCliente === "EMPRESA" 
+          ? (os.cliente.nit || "N/A") 
+          : (os.cliente.numeroDocumento || "N/A");
+        
+        const ubicacionDetalle = [
+          os.bloque && `Bloque: ${os.bloque}`,
+          os.piso && `Piso: ${os.piso}`,
+          os.unidad && `Unidad: ${os.unidad}`,
+        ].filter(Boolean).join(" - ") || "N/A";
+
+        const vehiculoInfo = os.vehiculo 
+          ? `${os.vehiculo.placa}${os.vehiculo.marca ? ` - ${os.vehiculo.marca}` : ""}` 
+          : "N/A";
+
+        const formatCurrency = (val?: number) => 
+          val ? new Intl.NumberFormat('es-CO', { style: 'currency', currency: 'COP' }).format(val) : "$ 0";
+
+        return [
+          s.id,
+          os.numeroOrden || "N/A",
+          s.cliente,
+          clienteDoc,
+          os.cliente.telefono || "N/A",
+          os.cliente.correo || "N/A",
+          s.servicioEspecifico,
+          os.tipoVisita || "N/A",
+          s.fecha,
+          s.hora,
+          os.horaFin ? new Date(os.horaFin).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : "N/A",
+          s.tecnico,
+          s.estadoServicio,
+          s.urgencia,
+          os.direccionTexto || "N/A",
+          os.municipio || "N/A",
+          os.departamento || "N/A",
+          os.barrio || "N/A",
+          os.zona?.nombre || "N/A",
+          ubicacionDetalle,
+          vehiculoInfo,
+          os.nivelInfestacion || "N/A",
+          os.condicionesHigiene || "N/A",
+          os.condicionesLocal || "N/A",
+          os.observacion || "N/A",
+          os.observacionFinal || "N/A",
+          formatCurrency(os.valorCotizado),
+          formatCurrency(os.valorPagado),
+          formatCurrency(os.valorRepuestos),
+          os.metodoPago?.nombre || "N/A",
+          os.estadoPago || "N/A",
+          new Date(os.createdAt).toLocaleDateString()
+        ];
+      });
+    }
 
     const exportParams = {
       headers,
