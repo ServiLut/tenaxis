@@ -58,8 +58,7 @@ interface Servicio {
   hora: string;
   tecnico: string;
   tecnicoId?: string;
-  estado: string;
-  estadoId?: string;
+  estadoServicio: string;
   urgencia: string;
   empresaId: string;
   raw: OrdenServicioRaw;
@@ -75,13 +74,11 @@ interface OrdenServicioRaw {
   servicio?: { id: string; nombre: string };
   servicioId?: string;
   tecnicoId?: string;
-  estadoServicioId?: string;
   fechaVisita?: string;
   horaInicio?: string;
   horaFin?: string;
   tecnico?: { id: string; user?: { nombre: string; apellido: string } };
   creadoPor?: { id: string; user?: { nombre: string; apellido: string } };
-  estadoServicio?: { id: string; nombre: string };
   urgencia?: string;
   observacion?: string;
   observacionFinal?: string;
@@ -97,6 +94,7 @@ interface OrdenServicioRaw {
   metodoPagoId?: string;
   metodoPago?: { id: string; nombre: string };
   estadoPago?: string;
+  estadoServicio?: string;
   createdAt: string;
   direccionTexto?: string;
   barrio?: string;
@@ -120,10 +118,14 @@ interface OrdenServicioRaw {
 }
 
 const ESTADO_STYLING: Record<string, string> = {
-  "PROGRAMADO": "bg-blue-50 text-blue-600 border-blue-100 dark:bg-blue-900/20 dark:text-blue-400 dark:border-blue-800/50",
-  "EN PROCESO": "bg-amber-50 text-amber-600 border-amber-100 dark:bg-amber-900/20 dark:text-amber-400 dark:border-amber-800/50",
-  "FINALIZADO": "bg-emerald-50 text-emerald-600 border-emerald-100 dark:bg-emerald-900/20 dark:text-emerald-400 dark:border-emerald-800/50",
+  "NUEVO": "bg-zinc-50 text-zinc-600 border-zinc-100 dark:bg-zinc-900/20 dark:text-zinc-400 dark:border-zinc-800/50",
+  "PROCESO": "bg-amber-50 text-amber-600 border-amber-100 dark:bg-amber-900/20 dark:text-amber-400 dark:border-amber-800/50",
   "CANCELADO": "bg-red-50 text-red-600 border-red-100 dark:bg-red-900/20 dark:text-red-400 dark:border-red-800/50",
+  "PROGRAMADO": "bg-blue-50 text-blue-600 border-blue-100 dark:bg-blue-900/20 dark:text-blue-400 dark:border-blue-800/50",
+  "LIQUIDADO": "bg-emerald-50 text-emerald-600 border-emerald-100 dark:bg-emerald-900/20 dark:text-emerald-400 dark:border-emerald-800/50",
+  "TECNICO_FINALIZO": "bg-purple-50 text-purple-600 border-purple-100 dark:bg-purple-900/20 dark:text-purple-400 dark:border-purple-800/50",
+  "REPROGRAMADO": "bg-indigo-50 text-indigo-600 border-indigo-100 dark:bg-indigo-900/20 dark:text-indigo-400 dark:border-indigo-800/50",
+  "SIN_CONCRETAR": "bg-slate-50 text-slate-600 border-slate-100 dark:bg-slate-900/20 dark:text-slate-400 dark:border-slate-800/50",
 };
 
 const URGENCIA_STYLING: Record<string, string> = {
@@ -220,8 +222,7 @@ export default function ServiciosPage() {
           hora: os.horaInicio ? new Date(os.horaInicio).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : "Sin hora",
           tecnico: os.tecnico?.user ? `${os.tecnico.user.nombre} ${os.tecnico.user.apellido}` : "Sin asignar",
           tecnicoId: os.tecnicoId,
-          estado: os.estadoServicio?.nombre || "PROGRAMADO",
-          estadoId: os.estadoServicioId,
+          estadoServicio: os.estadoServicio || "NUEVO",
           urgencia: os.urgencia || "BAJA",
           empresaId: os.empresaId,
           raw: os,
@@ -441,10 +442,10 @@ export default function ServiciosPage() {
                           <td className="px-8 py-6">
                             <span className={cn(
                               "inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-[10px] font-black uppercase tracking-widest border shadow-sm",
-                              ESTADO_STYLING[servicio.estado]
+                              ESTADO_STYLING[servicio.estadoServicio]
                             )}>
                               <div className="h-1.5 w-1.5 rounded-full bg-current" />
-                              {servicio.estado}
+                              {servicio.estadoServicio}
                             </span>
                           </td>
                           <td className="px-8 py-6 text-right">
@@ -563,9 +564,9 @@ export default function ServiciosPage() {
                     <div className="mt-1">
                       <span className={cn(
                         "px-3 py-1 rounded-full text-[9px] font-black uppercase tracking-widest border shadow-sm",
-                        ESTADO_STYLING[selectedServicio.estado]
+                        ESTADO_STYLING[selectedServicio.estadoServicio]
                       )}>
-                        {selectedServicio.estado}
+                        {selectedServicio.estadoServicio}
                       </span>
                     </div>
                   </div>
