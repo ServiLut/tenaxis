@@ -20,7 +20,7 @@ const ROLE_LABELS: Record<string, string> = {
   OPERADOR: "Operador",
 };
 
-export function Header({ onMenuClick }: { onMenuClick?: () => void }) {
+export function Header({ onMenuClick, isSidebarOpen }: { onMenuClick?: () => void; isSidebarOpen?: boolean }) {
   const [userName, setUserName] = useState<string>("");
   const [userRole, setUserRole] = useState<string>("Invitado");
 
@@ -48,11 +48,11 @@ export function Header({ onMenuClick }: { onMenuClick?: () => void }) {
   return (
     <header className="sticky top-0 z-30 flex h-20 lg:h-24 w-full items-center justify-between px-6 lg:px-10 border-b border-zinc-200/60 bg-white dark:bg-zinc-950 dark:border-zinc-800 shadow-sm transition-colors">
       <div className="flex items-center gap-4 lg:gap-6 flex-1 max-w-2xl">
-        {/* Mobile menu toggle */}
+        {/* menu toggle */}
         <button 
           onClick={onMenuClick}
-          aria-label="Abrir menú"
-          className="flex h-10 w-10 lg:hidden items-center justify-center rounded-xl bg-zinc-50 text-zinc-900 transition-colors hover:bg-zinc-100 dark:bg-zinc-900 dark:text-zinc-100 dark:hover:bg-zinc-800 shadow-inner border border-zinc-200 dark:border-zinc-800"
+          aria-label={isSidebarOpen ? "Cerrar menú" : "Abrir menú"}
+          className="flex h-10 w-10 items-center justify-center rounded-xl bg-zinc-50 text-zinc-900 transition-colors hover:bg-zinc-100 dark:bg-zinc-900 dark:text-zinc-100 dark:hover:bg-zinc-800 shadow-inner border border-zinc-200 dark:border-zinc-800"
         >
           <Menu className="h-5 w-5" />
         </button>
