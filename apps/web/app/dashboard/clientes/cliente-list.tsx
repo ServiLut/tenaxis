@@ -945,7 +945,10 @@ export function ClienteList({ initialClientes }: ClienteListProps) {
                       <div className="h-8 w-8 rounded-lg bg-azul-1/10 flex items-center justify-center text-azul-1">
                         <Target className="h-4 w-4" />
                       </div>
-                      <span className="text-sm font-black text-zinc-800 dark:text-zinc-100 uppercase">
+                      <span className={cn(
+                        "text-sm font-black uppercase",
+                        (selectedCliente.segmento?.nombre || selectedCliente.segmentoNegocio) ? "text-zinc-800 dark:text-zinc-100" : "text-zinc-400 dark:text-zinc-500"
+                      )}>
                         {selectedCliente.segmento?.nombre || selectedCliente.segmentoNegocio || "No Definido"}
                       </span>
                     </div>
@@ -994,35 +997,51 @@ export function ClienteList({ initialClientes }: ClienteListProps) {
                   <div className="grid grid-cols-2 md:grid-cols-4 gap-4 bg-white dark:bg-zinc-900 p-6 rounded-3xl border border-zinc-200 dark:border-zinc-800">
                     <div className="space-y-1">
                       <p className="text-[9px] font-black text-zinc-400 uppercase">Tipo Documento</p>
-                      <p className="text-xs font-bold text-zinc-900 dark:text-zinc-100">{selectedCliente.tipoDocumento || "N/A"}</p>
+                      <p className={cn("text-xs font-bold", selectedCliente.tipoDocumento ? "text-zinc-900 dark:text-zinc-100" : "text-zinc-400 dark:text-zinc-500")}>
+                        {selectedCliente.tipoDocumento || "N/A"}
+                      </p>
                     </div>
                     <div className="space-y-1">
                       <p className="text-[9px] font-black text-zinc-400 uppercase">Número / NIT</p>
-                      <p className="text-xs font-bold text-zinc-900 dark:text-zinc-100 font-mono">{selectedCliente.nit || selectedCliente.numeroDocumento || "N/A"}</p>
+                      <p className={cn("text-xs font-bold font-mono", (selectedCliente.nit || selectedCliente.numeroDocumento) ? "text-zinc-900 dark:text-zinc-100" : "text-zinc-400 dark:text-zinc-500")}>
+                        {selectedCliente.nit || selectedCliente.numeroDocumento || "N/A"}
+                      </p>
                     </div>
                     <div className="space-y-1">
                       <p className="text-[9px] font-black text-zinc-400 uppercase">Origen Cliente</p>
-                      <p className="text-xs font-bold text-zinc-900 dark:text-zinc-100">{selectedCliente.origenCliente || "Desconocido"}</p>
+                      <p className={cn("text-xs font-bold", selectedCliente.origenCliente ? "text-zinc-900 dark:text-zinc-100" : "text-zinc-400 dark:text-zinc-500")}>
+                        {selectedCliente.origenCliente || "Desconocido"}
+                      </p>
                     </div>
                     <div className="space-y-1">
                       <p className="text-[9px] font-black text-zinc-400 uppercase">Tipo Interés</p>
-                      <p className="text-xs font-bold text-zinc-900 dark:text-zinc-100">{selectedCliente.tipoInteres?.nombre || "No definido"}</p>
+                      <p className={cn("text-xs font-bold", selectedCliente.tipoInteres?.nombre ? "text-zinc-900 dark:text-zinc-100" : "text-zinc-400 dark:text-zinc-500")}>
+                        {selectedCliente.tipoInteres?.nombre || "No definido"}
+                      </p>
                     </div>
                     <div className="space-y-1">
                       <p className="text-[9px] font-black text-zinc-400 uppercase">Subsegmento</p>
-                      <p className="text-xs font-bold text-zinc-900 dark:text-zinc-100">{selectedCliente.subsegmento || "N/A"}</p>
+                      <p className={cn("text-xs font-bold", selectedCliente.subsegmento ? "text-zinc-900 dark:text-zinc-100" : "text-zinc-400 dark:text-zinc-500")}>
+                        {selectedCliente.subsegmento || "N/A"}
+                      </p>
                     </div>
                     <div className="space-y-1">
                       <p className="text-[9px] font-black text-zinc-400 uppercase">Act. Económica</p>
-                      <p className="text-xs font-bold text-zinc-900 dark:text-zinc-100">{selectedCliente.actividadEconomica || "No Registrada"}</p>
+                      <p className={cn("text-xs font-bold", selectedCliente.actividadEconomica ? "text-zinc-900 dark:text-zinc-100" : "text-zinc-400 dark:text-zinc-500")}>
+                        {selectedCliente.actividadEconomica || "No Registrada"}
+                      </p>
                     </div>
                     <div className="space-y-1">
                       <p className="text-[9px] font-black text-zinc-400 uppercase">Metraje Total</p>
-                      <p className="text-xs font-bold text-zinc-900 dark:text-zinc-100">{selectedCliente.metrajeTotal ? `${selectedCliente.metrajeTotal} m²` : "N/A"}</p>
+                      <p className={cn("text-xs font-bold", selectedCliente.metrajeTotal ? "text-zinc-900 dark:text-zinc-100" : "text-zinc-400 dark:text-zinc-500")}>
+                        {selectedCliente.metrajeTotal ? `${selectedCliente.metrajeTotal} m²` : "N/A"}
+                      </p>
                     </div>
                     <div className="space-y-1">
                       <p className="text-[9px] font-black text-zinc-400 uppercase">Rep. Legal</p>
-                      <p className="text-xs font-bold text-zinc-900 dark:text-zinc-100">{selectedCliente.representanteLegal || "No Definido"}</p>
+                      <p className={cn("text-xs font-bold", selectedCliente.representanteLegal ? "text-zinc-900 dark:text-zinc-100" : "text-zinc-400 dark:text-zinc-500")}>
+                        {selectedCliente.representanteLegal || "No Definido"}
+                      </p>
                     </div>
                   </div>
                 </div>
@@ -1104,7 +1123,7 @@ export function ClienteList({ initialClientes }: ClienteListProps) {
                     <h3 className="text-[10px] font-black uppercase tracking-[0.3em] text-zinc-400 flex items-center gap-3">
                       <MapPin className="h-4 w-4" /> Sedes Operativas Registradas
                     </h3>
-                    <span className="text-[10px] font-black text-azul-1 bg-azul-1/10 px-3 py-1 rounded-full uppercase">
+                    <span className="text-[10px] font-black text-azul-1 dark:text-zinc-300 bg-azul-1/10 px-3 py-1 rounded-full uppercase">
                       {selectedCliente.direcciones?.length || 0} Sedes
                     </span>
                   </div>
@@ -1168,7 +1187,7 @@ export function ClienteList({ initialClientes }: ClienteListProps) {
                     <h3 className="text-[10px] font-black uppercase tracking-[0.3em] text-zinc-400 flex items-center gap-3">
                       <Settings className="h-4 w-4" /> Parque Automotor Vinculado
                     </h3>
-                    <span className="text-[10px] font-black text-zinc-900 dark:text-white bg-zinc-200 dark:bg-zinc-800 px-3 py-1 rounded-full uppercase">
+                    <span className="text-[10px] font-black text-zinc-900 dark:text-zinc-300 bg-zinc-200 dark:bg-zinc-800 px-3 py-1 rounded-full uppercase">
                       {selectedCliente.vehiculos?.length || 0} Vehículos
                     </span>
                   </div>
