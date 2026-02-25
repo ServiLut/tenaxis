@@ -202,27 +202,27 @@ export default function ConfiguracionPage() {
     <DashboardLayout overflowHidden>
       <div className="flex flex-col h-full">
         {/* Sub-Header Estratégico */}
-        <div className="shrink-0 py-10 px-6 lg:px-10 border-b border-zinc-200/60 dark:border-zinc-800/50 bg-gray-50/50 dark:bg-zinc-900/20">
+        <div className="shrink-0 py-10 px-6 lg:px-10 border-b border-zinc-200/60 dark:border-zinc-800/40 bg-gray-50/50 dark:bg-zinc-900/10">
           <div className="max-w-[1600px] mx-auto w-full space-y-8">
             <div className="flex flex-col md:flex-row md:items-center gap-6">
               <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-azul-1 text-white shadow-xl shadow-azul-1/20">
                 <Settings className="h-5 w-5" />
               </div>
               <div>
-                <h1 className="text-2xl lg:text-3xl font-black tracking-tight text-zinc-900 dark:text-white leading-tight">
+                <h1 className="text-2xl lg:text-3xl font-black tracking-tight text-zinc-900 dark:text-zinc-100 leading-tight">
                   Configuración del <span className="text-azul-1">Negocio</span>
                 </h1>
-                <p className="text-xs font-bold text-zinc-500 uppercase tracking-[0.2em] mt-1">Personaliza los parámetros operativos de tu empresa</p>
+                <p className="text-xs font-bold text-zinc-500 dark:text-zinc-500 uppercase tracking-[0.2em] mt-1">Personaliza los parámetros operativos de tu empresa</p>
               </div>
             </div>
 
             {/* Tabs */}
-            <div className="flex gap-2 p-1 bg-zinc-200/50 dark:bg-zinc-800/50 rounded-2xl w-fit border border-zinc-200/50 dark:border-zinc-700/50">
+            <div className="flex gap-2 p-1 bg-zinc-200/50 dark:bg-zinc-800/20 rounded-2xl w-fit border border-zinc-200/50 dark:border-zinc-700/30">
               <button 
                 onClick={() => handleTabChange("segmentos")}
                 className={cn(
                   "flex items-center gap-2 px-6 py-2.5 rounded-xl text-xs font-black uppercase tracking-widest transition-all",
-                  activeTab === "segmentos" ? "bg-white dark:bg-zinc-800 text-azul-1 shadow-md" : "text-zinc-500 hover:text-zinc-700 dark:hover:text-zinc-300"
+                  activeTab === "segmentos" ? "bg-white dark:bg-zinc-800 text-azul-1 shadow-md" : "text-zinc-500 hover:text-zinc-700 dark:text-zinc-500 dark:hover:text-zinc-300"
                 )}
               >
                 <Target className="h-3.5 w-3.5" /> Segmentos
@@ -231,7 +231,7 @@ export default function ConfiguracionPage() {
                 onClick={() => handleTabChange("riesgos")}
                 className={cn(
                   "flex items-center gap-2 px-6 py-2.5 rounded-xl text-xs font-black uppercase tracking-widest transition-all",
-                  activeTab === "riesgos" ? "bg-white dark:bg-zinc-800 text-azul-1 shadow-md" : "text-zinc-500 hover:text-zinc-700 dark:hover:text-zinc-300"
+                  activeTab === "riesgos" ? "bg-white dark:bg-zinc-800 text-azul-1 shadow-md" : "text-zinc-500 hover:text-zinc-700 dark:text-zinc-500 dark:hover:text-zinc-300"
                 )}
               >
                 <ShieldAlert className="h-3.5 w-3.5" /> Riesgos
@@ -240,7 +240,7 @@ export default function ConfiguracionPage() {
                 onClick={() => handleTabChange("intereses")}
                 className={cn(
                   "flex items-center gap-2 px-6 py-2.5 rounded-xl text-xs font-black uppercase tracking-widest transition-all",
-                  activeTab === "intereses" ? "bg-white dark:bg-zinc-800 text-azul-1 shadow-md" : "text-zinc-500 hover:text-zinc-700 dark:hover:text-zinc-300"
+                  activeTab === "intereses" ? "bg-white dark:bg-zinc-800 text-azul-1 shadow-md" : "text-zinc-500 hover:text-zinc-700 dark:text-zinc-500 dark:hover:text-zinc-300"
                 )}
               >
                 <Zap className="h-3.5 w-3.5" /> Intereses
@@ -249,7 +249,7 @@ export default function ConfiguracionPage() {
                 onClick={() => handleTabChange("empresas")}
                 className={cn(
                   "flex items-center gap-2 px-6 py-2.5 rounded-xl text-xs font-black uppercase tracking-widest transition-all",
-                  activeTab === "empresas" ? "bg-white dark:bg-zinc-800 text-azul-1 shadow-md" : "text-zinc-500 hover:text-zinc-700 dark:hover:text-zinc-300"
+                  activeTab === "empresas" ? "bg-white dark:bg-zinc-800 text-azul-1 shadow-md" : "text-zinc-500 hover:text-zinc-700 dark:text-zinc-500 dark:hover:text-zinc-300"
                 )}
               >
                 <Building className="h-3.5 w-3.5" /> Empresas
@@ -264,13 +264,13 @@ export default function ConfiguracionPage() {
             {activeTab === 'empresas' ? (
               <ConfigEmpresas />
             ) : (
-              <Card className="border-none shadow-xl shadow-zinc-200/50 dark:shadow-none dark:bg-zinc-900/40 rounded-3xl overflow-hidden">
-                <CardHeader className="flex flex-row items-center justify-between space-y-0 p-8 sm:p-10 border-b border-zinc-100 dark:border-zinc-800 bg-white/50 dark:bg-transparent">
+              <Card className="border-none shadow-2xl shadow-black/5 dark:shadow-none dark:bg-zinc-900/30 rounded-3xl overflow-hidden border-t border-white/50 dark:border-zinc-800/50">
+                <CardHeader className="flex flex-row items-center justify-between space-y-0 p-8 sm:p-10 border-b border-zinc-100/80 dark:border-zinc-800/50 bg-white/40 dark:bg-zinc-900/40">
                   <div>
-                    <CardTitle className="text-xl font-black tracking-tight">
+                    <CardTitle className="text-xl font-black tracking-tight dark:text-zinc-100">
                       {activeTab === "segmentos" ? "Segmentos de Negocio" : activeTab === "riesgos" ? "Niveles de Riesgo" : "Tipos de Interés"}
                     </CardTitle>
-                    <CardDescription className="font-bold text-[10px] uppercase tracking-[0.2em] mt-1.5 text-zinc-400">
+                    <CardDescription className="font-bold text-[10px] uppercase tracking-[0.2em] mt-1.5 text-zinc-400 dark:text-zinc-500">
                       {activeTab === "segmentos" ? "Define cómo clasificas a tus clientes por industria" : activeTab === "riesgos" ? "Gestiona los niveles de riesgo para priorizar servicios" : "Administra las opciones de servicio que interesan a tus clientes"}
                     </CardDescription>
                   </div>
@@ -278,30 +278,30 @@ export default function ConfiguracionPage() {
                     <Plus className="h-4 w-4" /> AGREGAR NUEVO
                   </Button>
                 </CardHeader>
-                <CardContent className="p-8 sm:p-10">
+                <CardContent className="p-8 sm:p-10 bg-white/20 dark:bg-transparent">
                   {loading ? (
                     <div className="flex h-60 items-center justify-center">
                       <div className="flex flex-col items-center gap-4">
                         <div className="h-10 w-10 border-4 border-azul-1/20 border-t-azul-1 rounded-full animate-spin" />
-                        <span className="text-[10px] font-black uppercase tracking-[0.3em] text-zinc-400 animate-pulse">Cargando parámetros...</span>
+                        <span className="text-[10px] font-black uppercase tracking-[0.3em] text-zinc-400 dark:text-zinc-500 animate-pulse">Cargando parámetros...</span>
                       </div>
                     </div>
                   ) : (
                     <div className="grid gap-4">
                       {activeTab === "segmentos" && segmentos.map((item) => (
-                        <div key={item.id} className="flex items-center justify-between p-6 bg-zinc-50 dark:bg-zinc-900/50 rounded-2xl border border-zinc-100 dark:border-zinc-800 hover:border-azul-1/20 transition-all group">
+                        <div key={item.id} className="flex items-center justify-between p-6 bg-zinc-50 dark:bg-zinc-900/40 rounded-2xl border border-zinc-100 dark:border-zinc-800 hover:border-azul-1/20 transition-all group">
                           <div className="flex gap-4 items-center">
                             <div className="h-12 w-12 rounded-xl bg-white dark:bg-zinc-800 flex items-center justify-center border border-zinc-200 dark:border-zinc-700 shadow-sm group-hover:scale-110 transition-transform">
                               <Target className="h-6 w-6 text-azul-1" />
                             </div>
                             <div>
-                              <h4 className="font-black text-zinc-900 dark:text-white">{item.nombre}</h4>
-                              <p className="text-xs text-zinc-500 font-medium mt-0.5">{item.descripcion || "Sin descripción"}</p>
+                              <h4 className="font-black text-zinc-900 dark:text-zinc-100">{item.nombre}</h4>
+                              <p className="text-xs text-zinc-500 dark:text-zinc-400 font-medium mt-0.5">{item.descripcion || "Sin descripción"}</p>
                               <div className="flex gap-3 mt-3">
-                                <span className="text-[10px] font-black uppercase tracking-tighter bg-azul-1/10 text-azul-1 px-2.5 py-1 rounded-md flex items-center gap-1.5 border border-azul-1/10">
+                                <span className="text-[10px] font-black uppercase tracking-tighter bg-azul-1/10 text-azul-1 px-2.5 py-1 rounded-md flex items-center gap-1.5 border border-azul-1/10 dark:bg-azul-500/10 dark:text-azul-400 dark:border-azul-500/20">
                                   <Clock className="h-3 w-3" /> Freq: {item.frecuenciaSugerida} días
                                 </span>
-                                <span className="text-[10px] font-black uppercase tracking-tighter bg-amber-50 text-amber-700 px-2.5 py-1 rounded-md flex items-center gap-1.5 border border-amber-100">
+                                <span className="text-[10px] font-black uppercase tracking-tighter bg-amber-50 text-amber-700 px-2.5 py-1 rounded-md flex items-center gap-1.5 border border-amber-100 dark:bg-amber-500/10 dark:text-amber-400 dark:border-amber-500/20">
                                   <AlertTriangle className="h-3 w-3" /> Riesgo: {item.riesgoSugerido}
                                 </span>
                               </div>
@@ -314,20 +314,20 @@ export default function ConfiguracionPage() {
                       ))}
 
                       {activeTab === "riesgos" && riesgos.map((item) => (
-                        <div key={item.id} className="flex items-center justify-between p-6 bg-zinc-50 dark:bg-zinc-900/50 rounded-2xl border border-zinc-100 dark:border-zinc-800 hover:border-azul-1/20 transition-all group">
+                        <div key={item.id} className="flex items-center justify-between p-6 bg-zinc-50 dark:bg-zinc-900/40 rounded-2xl border border-zinc-100 dark:border-zinc-800 hover:border-azul-1/20 transition-all group">
                           <div className="flex gap-4 items-center">
                             <div className={cn("h-12 w-12 rounded-xl flex items-center justify-center border shadow-sm group-hover:scale-110 transition-transform", 
-                              item.color === 'emerald' ? 'bg-emerald-50 border-emerald-200 text-emerald-600' :
-                              item.color === 'amber' ? 'bg-amber-50 border-amber-200 text-amber-600' :
-                              item.color === 'orange' ? 'bg-orange-50 border-orange-200 text-orange-600' :
-                              'bg-red-50 border-red-200 text-red-600'
+                              item.color === 'emerald' ? 'bg-emerald-50 border-emerald-200 text-emerald-600 dark:bg-emerald-500/10 dark:border-emerald-500/20 dark:text-emerald-400' :
+                              item.color === 'amber' ? 'bg-amber-50 border-amber-200 text-amber-600 dark:bg-amber-500/10 dark:border-amber-500/20 dark:text-amber-400' :
+                              item.color === 'orange' ? 'bg-orange-50 border-orange-200 text-orange-600 dark:bg-orange-500/10 dark:border-orange-500/20 dark:text-orange-400' :
+                              'bg-red-50 border-red-200 text-red-600 dark:bg-red-500/10 dark:border-red-500/20 dark:text-red-400'
                             )}>
                               <ShieldAlert className="h-6 w-6" />
                             </div>
                             <div>
-                              <h4 className="font-black text-zinc-900 dark:text-white">{item.nombre}</h4>
-                              <p className="text-[10px] text-zinc-400 font-black uppercase tracking-[0.2em] flex items-center gap-2 mt-1">
-                                <Hash className="h-3 w-3 text-zinc-300" /> Valor de Scoring: {item.valor}
+                              <h4 className="font-black text-zinc-900 dark:text-zinc-100">{item.nombre}</h4>
+                              <p className="text-[10px] text-zinc-400 dark:text-zinc-500 font-black uppercase tracking-[0.2em] flex items-center gap-2 mt-1">
+                                <Hash className="h-3 w-3 text-zinc-300 dark:text-zinc-600" /> Valor de Scoring: {item.valor}
                               </p>
                             </div>
                           </div>
@@ -338,14 +338,14 @@ export default function ConfiguracionPage() {
                       ))}
 
                       {activeTab === "intereses" && intereses.map((item) => (
-                        <div key={item.id} className="flex items-center justify-between p-6 bg-zinc-50 dark:bg-zinc-900/50 rounded-2xl border border-zinc-100 dark:border-zinc-800 hover:border-azul-1/20 transition-all group">
+                        <div key={item.id} className="flex items-center justify-between p-6 bg-zinc-50 dark:bg-zinc-900/40 rounded-2xl border border-zinc-100 dark:border-zinc-800 hover:border-azul-1/20 transition-all group">
                           <div className="flex gap-4 items-center">
                             <div className="h-12 w-12 rounded-xl bg-white dark:bg-zinc-800 flex items-center justify-center border border-zinc-200 dark:border-zinc-700 shadow-sm group-hover:scale-110 transition-transform">
                               <Zap className="h-6 w-6 text-azul-1" />
                             </div>
                             <div>
-                              <h4 className="font-black text-zinc-900 dark:text-white">{item.nombre}</h4>
-                              <p className="text-xs text-zinc-500 font-medium mt-0.5">{item.descripcion || "Sin descripción"}</p>
+                              <h4 className="font-black text-zinc-900 dark:text-zinc-100">{item.nombre}</h4>
+                              <p className="text-xs text-zinc-500 dark:text-zinc-400 font-medium mt-0.5">{item.descripcion || "Sin descripción"}</p>
                             </div>
                           </div>
                           <Button variant="ghost" size="icon" onClick={() => handleOpenModal(item)} className="h-11 w-11 rounded-xl hover:bg-white dark:hover:bg-zinc-800 hover:text-azul-1 shadow-sm border border-transparent hover:border-zinc-200 dark:hover:border-zinc-700 transition-all">
@@ -390,8 +390,8 @@ export default function ConfiguracionPage() {
             <form onSubmit={handleSubmit}>
               <CardContent className="space-y-6">
                 {/* Sección Informativa Dinámica */}
-                <div className="bg-zinc-50 dark:bg-zinc-900/50 rounded-2xl p-5 border border-zinc-100 dark:border-zinc-800 space-y-3">
-                  <div className="flex items-center gap-2 text-azul-1">
+                <div className="bg-zinc-50 dark:bg-zinc-900/60 rounded-2xl p-5 border border-zinc-100 dark:border-zinc-800 space-y-3">
+                  <div className="flex items-center gap-2 text-azul-1 dark:text-azul-400">
                     <Info className="h-4 w-4" />
                     <span className="text-[10px] font-black uppercase tracking-[0.15em]">¿Qué significa este parámetro?</span>
                   </div>
@@ -402,10 +402,10 @@ export default function ConfiguracionPage() {
                         El Nivel de Riesgo clasifica el impacto sanitario y operativo del cliente según su actividad. Determina la frecuencia recomendada, supervisión técnica y prioridad en el SLA.
                       </p>
                       <div className="grid grid-cols-2 gap-2">
-                        <div className="flex items-center gap-2 text-[10px] font-bold text-zinc-500">
+                        <div className="flex items-center gap-2 text-[10px] font-bold text-zinc-500 dark:text-zinc-400">
                           <CheckCircle2 className="h-3 w-3 text-emerald-500" /> Frecuencia dinámica
                         </div>
-                        <div className="flex items-center gap-2 text-[10px] font-bold text-zinc-500">
+                        <div className="flex items-center gap-2 text-[10px] font-bold text-zinc-500 dark:text-zinc-400">
                           <CheckCircle2 className="h-3 w-3 text-emerald-500" /> Prioridad de atención
                         </div>
                       </div>
@@ -418,11 +418,11 @@ export default function ConfiguracionPage() {
                         El Segmento define el tipo de actividad del cliente. Permite que el sistema sugiera protocolos técnicos, frecuencias ideales y niveles de riesgo predeterminados.
                       </p>
                       <div className="grid grid-cols-2 gap-2">
-                        <div className="flex items-center gap-2 text-[10px] font-bold text-zinc-500">
-                          <ListChecks className="h-3 w-3 text-azul-1" /> Protocolos auto
+                        <div className="flex items-center gap-2 text-[10px] font-bold text-zinc-500 dark:text-zinc-400">
+                          <ListChecks className="h-3 w-3 text-azul-1 dark:text-azul-400" /> Protocolos auto
                         </div>
-                        <div className="flex items-center gap-2 text-[10px] font-bold text-zinc-500">
-                          <ListChecks className="h-3 w-3 text-azul-1" /> Checklist específico
+                        <div className="flex items-center gap-2 text-[10px] font-bold text-zinc-500 dark:text-zinc-400">
+                          <ListChecks className="h-3 w-3 text-azul-1 dark:text-azul-400" /> Checklist específico
                         </div>
                       </div>
                     </div>
@@ -434,10 +434,10 @@ export default function ConfiguracionPage() {
                         Indica qué solución solicita el cliente. Permite priorizar la atención, activar plantillas comerciales y generar propuestas acordes a la necesidad detectada.
                       </p>
                       <div className="grid grid-cols-2 gap-2">
-                        <div className="flex items-center gap-2 text-[10px] font-bold text-zinc-500">
+                        <div className="flex items-center gap-2 text-[10px] font-bold text-zinc-500 dark:text-zinc-400">
                           <Zap className="h-3 w-3 text-amber-500" /> Lead Scoring
                         </div>
-                        <div className="flex items-center gap-2 text-[10px] font-bold text-zinc-500">
+                        <div className="flex items-center gap-2 text-[10px] font-bold text-zinc-500 dark:text-zinc-400">
                           <Zap className="h-3 w-3 text-amber-500" /> Estrategia comercial
                         </div>
                       </div>
@@ -446,23 +446,23 @@ export default function ConfiguracionPage() {
                 </div>
 
                 <div className="space-y-2">
-                  <Label className="text-xs font-bold text-zinc-500 uppercase tracking-widest">Nombre del parámetro</Label>
-                  <Input name="nombre" defaultValue={editingItem?.nombre} required placeholder="Ej: Restaurante, Crítico, Fumigación" className="h-12 rounded-xl" />
+                  <Label className="text-xs font-bold text-zinc-500 dark:text-zinc-400 uppercase tracking-widest">Nombre del parámetro</Label>
+                  <Input name="nombre" defaultValue={editingItem?.nombre} required placeholder="Ej: Restaurante, Crítico, Fumigación" className="h-12 rounded-xl dark:bg-zinc-900 dark:border-zinc-800" />
                 </div>
 
                 {activeTab === "segmentos" && (
                   <>
                     <div className="space-y-2">
-                      <Label className="text-xs font-bold text-zinc-500 uppercase tracking-widest">Descripción corta</Label>
-                      <Input name="descripcion" defaultValue={(editingItem && 'descripcion' in editingItem) ? (editingItem.descripcion ?? '') : ''} placeholder="Breve detalle del segmento" className="h-12 rounded-xl" />
+                      <Label className="text-xs font-bold text-zinc-500 dark:text-zinc-400 uppercase tracking-widest">Descripción corta</Label>
+                      <Input name="descripcion" defaultValue={(editingItem && 'descripcion' in editingItem) ? (editingItem.descripcion ?? '') : ''} placeholder="Breve detalle del segmento" className="h-12 rounded-xl dark:bg-zinc-900 dark:border-zinc-800" />
                     </div>
                     <div className="grid grid-cols-2 gap-4">
                       <div className="space-y-2">
-                        <Label className="text-xs font-bold text-zinc-500 uppercase tracking-widest">Frecuencia Ideal (Días)</Label>
-                        <Input type="number" name="frecuenciaSugerida" defaultValue={(editingItem && 'frecuenciaSugerida' in editingItem) ? (editingItem.frecuenciaSugerida ?? 30) : 30} className="h-12 rounded-xl" />
+                        <Label className="text-xs font-bold text-zinc-500 dark:text-zinc-400 uppercase tracking-widest">Frecuencia Ideal (Días)</Label>
+                        <Input type="number" name="frecuenciaSugerida" defaultValue={(editingItem && 'frecuenciaSugerida' in editingItem) ? (editingItem.frecuenciaSugerida ?? 30) : 30} className="h-12 rounded-xl dark:bg-zinc-900 dark:border-zinc-800" />
                       </div>
                       <div className="space-y-2">
-                        <Label className="text-xs font-bold text-zinc-500 uppercase tracking-widest">Riesgo por Defecto</Label>
+                        <Label className="text-xs font-bold text-zinc-500 dark:text-zinc-400 uppercase tracking-widest">Riesgo por Defecto</Label>
                         <Select name="riesgoSugerido" defaultValue={(editingItem && 'riesgoSugerido' in editingItem) ? (editingItem.riesgoSugerido || 'BAJO') : 'BAJO'} className="h-12 rounded-xl">
                           <option value="BAJO">BAJO</option>
                           <option value="MEDIO">MEDIO</option>
@@ -477,11 +477,11 @@ export default function ConfiguracionPage() {
                 {activeTab === "riesgos" && (
                   <div className="grid grid-cols-2 gap-4">
                     <div className="space-y-2">
-                      <Label className="text-xs font-bold text-zinc-500 uppercase tracking-widest">Valor Scoring</Label>
-                      <Input type="number" name="valor" defaultValue={(editingItem && 'valor' in editingItem) ? (editingItem.valor || 0) : 0} className="h-12 rounded-xl" />
+                      <Label className="text-xs font-bold text-zinc-500 dark:text-zinc-400 uppercase tracking-widest">Valor Scoring</Label>
+                      <Input type="number" name="valor" defaultValue={(editingItem && 'valor' in editingItem) ? (editingItem.valor || 0) : 0} className="h-12 rounded-xl dark:bg-zinc-900 dark:border-zinc-800" />
                     </div>
                     <div className="space-y-2">
-                      <Label className="text-xs font-bold text-zinc-500 uppercase tracking-widest">Identificador Visual (Color)</Label>
+                      <Label className="text-xs font-bold text-zinc-500 dark:text-zinc-400 uppercase tracking-widest">Identificador Visual (Color)</Label>
                       <Select name="color" defaultValue={(editingItem && 'color' in editingItem) ? (editingItem.color || 'emerald') : 'emerald'} className="h-12 rounded-xl">
                         <option value="emerald">Esmeralda (Seguro)</option>
                         <option value="amber">Ámbar (Precaución)</option>
@@ -495,16 +495,16 @@ export default function ConfiguracionPage() {
                 {activeTab === "intereses" && (
                   <>
                     <div className="space-y-2">
-                      <Label className="text-xs font-bold text-zinc-500 uppercase tracking-widest">Descripción</Label>
-                      <Input name="descripcion" defaultValue={(editingItem && 'descripcion' in editingItem) ? (editingItem.descripcion ?? '') : ''} placeholder="Detalle del servicio de interés" className="h-12 rounded-xl" />
+                      <Label className="text-xs font-bold text-zinc-500 dark:text-zinc-400 uppercase tracking-widest">Descripción</Label>
+                      <Input name="descripcion" defaultValue={(editingItem && 'descripcion' in editingItem) ? (editingItem.descripcion ?? '') : ''} placeholder="Detalle del servicio de interés" className="h-12 rounded-xl dark:bg-zinc-900 dark:border-zinc-800" />
                     </div>
                     <div className="grid grid-cols-2 gap-4">
                       <div className="space-y-2">
-                        <Label className="text-xs font-bold text-zinc-500 uppercase tracking-widest">Frecuencia Sugerida (Días)</Label>
-                        <Input type="number" name="frecuenciaSugerida" defaultValue={(editingItem && 'frecuenciaSugerida' in editingItem) ? (editingItem.frecuenciaSugerida ?? 30) : 30} className="h-12 rounded-xl" />
+                        <Label className="text-xs font-bold text-zinc-500 dark:text-zinc-400 uppercase tracking-widest">Frecuencia Sugerida (Días)</Label>
+                        <Input type="number" name="frecuenciaSugerida" defaultValue={(editingItem && 'frecuenciaSugerida' in editingItem) ? (editingItem.frecuenciaSugerida ?? 30) : 30} className="h-12 rounded-xl dark:bg-zinc-900 dark:border-zinc-800" />
                       </div>
                       <div className="space-y-2">
-                        <Label className="text-xs font-bold text-zinc-500 uppercase tracking-widest">Riesgo Sugerido</Label>
+                        <Label className="text-xs font-bold text-zinc-500 dark:text-zinc-400 uppercase tracking-widest">Riesgo Sugerido</Label>
                         <Select name="riesgoSugerido" defaultValue={(editingItem && 'riesgoSugerido' in editingItem) ? (editingItem.riesgoSugerido || 'BAJO') : 'BAJO'} className="h-12 rounded-xl">
                           <option value="BAJO">BAJO</option>
                           <option value="MEDIO">MEDIO</option>
@@ -516,8 +516,8 @@ export default function ConfiguracionPage() {
                   </>
                 )}
 
-                <div className="flex items-start gap-2 p-4 bg-amber-50 dark:bg-amber-950/20 rounded-xl border border-amber-100 dark:border-amber-900/30">
-                  <Lightbulb className="h-4 w-4 text-amber-600 mt-0.5" />
+                <div className="flex items-start gap-2 p-4 bg-amber-50 dark:bg-amber-900/20 rounded-xl border border-amber-100 dark:border-amber-900/30">
+                  <Lightbulb className="h-4 w-4 text-amber-600 dark:text-amber-400 mt-0.5" />
                   <p className="text-[10px] font-bold text-amber-800 dark:text-amber-400 leading-tight">
                     Estos parámetros permiten que el sistema automatice recomendaciones, alertas y prioridades operativas.
                   </p>

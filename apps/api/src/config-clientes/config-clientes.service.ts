@@ -3,6 +3,7 @@ import { PrismaService } from '../prisma/prisma.service';
 import { CreateSegmentoDto, UpdateSegmentoDto } from './dto/segmento.dto';
 import { CreateRiesgoDto, UpdateRiesgoDto } from './dto/riesgo.dto';
 import { CreateTipoInteresDto, UpdateTipoInteresDto } from './dto/interes.dto';
+import { CreateServicioDto, UpdateServicioDto } from './dto/servicio.dto';
 
 @Injectable()
 export class ConfigClientesService {
@@ -68,6 +69,38 @@ export class ConfigClientesService {
     return this.prisma.tipoInteres.update({
       where: { id },
       data: dto,
+    });
+  }
+
+  // --- Servicios ---
+  async findAllServicios(tenantId: string, empresaId?: string) {
+    return this.prisma.servicio.findMany({
+      where: { 
+        tenantId, 
+        ...(empresaId ? { empresaId } : {}),
+        deleteAt: null 
+      },
+      orderBy: { nombre: 'asc' },
+    });
+  }
+
+  async createServicio(tenantId: string, dto: CreateServicioDto) {
+    return this.prisma.servicio.create({
+      data: { ...dto, tenantId },
+    });
+  }
+
+  async updateServicio(id: string, dto: UpdateServicioDto) {
+    return this.prisma.servicio.update({
+      where: { id },
+      data: dto,
+    });
+  }
+
+  async deleteServicio(id: string) {
+    return this.prisma.servicio.update({
+      where: { id },
+      data: { deleteAt: new Date(), activo: false },
     });
   }
 

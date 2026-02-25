@@ -8,6 +8,7 @@ import {
   getMetodosPagoAction,
   getEnterprisesAction,
   getOperatorsAction,
+  getServiciosAction,
   createOrdenServicioAction,
 } from "../../actions";
 import { Button } from "@/components/ui/button";
@@ -107,6 +108,11 @@ interface Empresa {
   nombre: string;
 }
 
+interface Servicio {
+  id: string;
+  nombre: string;
+}
+
 function NuevoServicioContent() {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
@@ -114,6 +120,7 @@ function NuevoServicioContent() {
   const [metodosPago, setMetodosPago] = useState<MetodoPago[]>([]);
   const [operadores, setOperadores] = useState<Operador[]>([]);
   const [empresas, setEmpresas] = useState<Empresa[]>([]);
+  const [serviciosEmpresa, setServiciosEmpresa] = useState<Servicio[]>([]);
 
   // Form State
   const [selectedCliente, setSelectedCliente] = useState("");
@@ -183,6 +190,17 @@ function NuevoServicioContent() {
     }
   }, []);
 
+  // Carga de servicios cuando cambia la empresa
+  const fetchServicios = useCallback(async (empId: string) => {
+    if (!empId) return;
+    try {
+      const svs = await getServiciosAction(empId);
+      setServiciosEmpresa(Array.isArray(svs) ? svs : svs?.data || []);
+    } catch (e) {
+      console.error("Error loading services", e);
+    }
+  }, []);
+
   useEffect(() => {
     const originalStyle = window.getComputedStyle(document.body).overflow;
     document.body.style.overflow = "hidden";
@@ -238,6 +256,7 @@ function NuevoServicioContent() {
           setSelectedEmpresa(targetEmpresaId);
           fetchMetodosPago(targetEmpresaId);
           fetchOperadores(targetEmpresaId);
+          fetchServicios(targetEmpresaId);
         }
       } catch (e) {
         console.error("Error loading initial data", e);
@@ -248,12 +267,14 @@ function NuevoServicioContent() {
     loadData();
 
     return () => { document.body.style.overflow = originalStyle; };
-  }, [fetchMetodosPago, fetchOperadores]);
+  }, [fetchMetodosPago, fetchOperadores, fetchServicios]);
 
   const handleEmpresaChange = (val: string) => {
     setSelectedEmpresa(val);
     fetchMetodosPago(val);
     fetchOperadores(val);
+    fetchServicios(val);
+    setServicioEspecifico("");
   };
 
   const handleClienteChange = (clientId: string) => {
@@ -439,7 +460,21 @@ function NuevoServicioContent() {
 
                 <div className="space-y-2">
                   <Label className="text-xs font-bold text-zinc-500 uppercase tracking-wider">Servicio Específico <span className="text-red-500">*</span></Label>
-                  <Input value={servicioEspecifico} onChange={(e) => setServicioEspecifico(e.target.value)} placeholder="Ej: Control de Roedores" required className="h-11 border-zinc-200" />
+                  <Select 
+                    value={servicioEspecifico} 
+                    onChange={(e) => setServicioEspecifico(e.target.value)} 
+                    disabled={!selectedEmpresa}
+                    required 
+                    className="h-11 border-zinc-200"
+                  >
+                    <option value="">{selectedEmpresa ? "Seleccionar servicio..." : "Primero seleccione una empresa"}</option>
+                    {(Array.isArray(serviciosEmpresa) ? serviciosEmpresa : []).map(s => (
+                      <option key={s.id} value={s.nombre}>{s.nombre}</option>
+                    ))}
+                  </Select>
+                  {!selectedEmpresa && (
+                    <p className="text-[9px] font-bold text-amber-600 uppercase tracking-widest ml-1">⚠ Seleccione una empresa para cargar servicios</p>
+                  )}
                 </div>
 
                 <div className="space-y-2">

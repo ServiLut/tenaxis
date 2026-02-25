@@ -9,18 +9,28 @@ import {
   Select,
   Popover,
   PopoverTrigger,
-  PopoverContent
+  PopoverContent,
+  Combobox
 } from "@/components/ui";
 import { 
   ChevronLeft, 
   ChevronRight, 
   Clock,
   MapPin,
-  CalendarClock
+  CalendarClock,
+  Filter,
+  RotateCcw
 } from "lucide-react";
 import { cn } from "@/components/ui/utils";
 import { useRouter } from "next/navigation";
-import { getTiposServicioAction, getOperatorsAction, getOrdenesServicioAction } from "../actions";
+import { 
+  getTiposServicioAction, 
+  getOperatorsAction, 
+  getOrdenesServicioAction,
+  getDepartmentsAction,
+  getMunicipalitiesAction,
+  getZonasAction
+} from "../actions";
 
 type ViewType = "SEMANA" | "DIA";
 
@@ -36,6 +46,22 @@ interface Operador {
     nombre: string;
     apellido: string;
   };
+}
+
+interface Departamento {
+  id: string;
+  name: string;
+}
+
+interface Municipio {
+  id: string;
+  name: string;
+  departmentId: string;
+}
+
+interface Zona {
+  id: string;
+  nombre: string;
 }
 
 interface OrdenServicio {
@@ -63,6 +89,12 @@ interface OrdenServicio {
   direccionTexto: string;
   barrio?: string;
   municipio?: string;
+  departamento?: string;
+  zonaId?: string;
+  zona?: {
+    id: string;
+    nombre: string;
+  };
   numeroOrden?: string;
   estadoServicio: string;
 }
@@ -88,6 +120,14 @@ function AgendaContent() {
   const [selectedTipo, setSelectedTipo] = useState("TODOS");
   const [selectedTecnico, setSelectedTecnico] = useState("TODOS");
   const [selectedEstado, setSelectedEstado] = useState("TODOS");
+  const [selectedDepto, setSelectedDepto] = useState("TODOS");
+  const [selectedMun, setSelectedMun] = useState("TODOS");
+  const [selectedZona, setSelectedZona] = useState("TODOS");
+  
+  const [departamentos, setDeptos] = useState<Departamento[]>([]);
+  const [municipios, setMunicipios] = useState<Municipio[]>([]);
+  const [zonas, setZonas] = useState<Zona[]>([]);
+  
   const [startHour, setStartHour] = useState("00:00");
   const [endHour, setEndHour] = useState("23:00");
   const [loading, setLoading] = useState(true);
@@ -98,15 +138,21 @@ function AgendaContent() {
         setLoading(true);
         const empresaId = localStorage.getItem("current-enterprise-id");
         
-        const [servs, ops, ords] = await Promise.all([
+        const [servs, ops, ords, deps, muns, zns] = await Promise.all([
           getTiposServicioAction(),
           empresaId ? getOperatorsAction(empresaId) : Promise.resolve([]),
-          empresaId ? getOrdenesServicioAction(empresaId) : Promise.resolve([])
+          empresaId ? getOrdenesServicioAction(empresaId) : Promise.resolve([]),
+          getDepartmentsAction(),
+          getMunicipalitiesAction(),
+          empresaId ? getZonasAction(empresaId) : Promise.resolve([])
         ]);
 
         setTiposServicio(Array.isArray(servs) ? servs : servs?.data || []);
         setOperadores(Array.isArray(ops) ? ops : ops?.data || []);
         setOrdenes(Array.isArray(ords) ? ords : ords?.data || []);
+        setDeptos(Array.isArray(deps) ? deps : deps?.data || []);
+        setMunicipios(Array.isArray(muns) ? muns : muns?.data || []);
+        setZonas(Array.isArray(zns) ? zns : zns?.data || []);
       } catch (e) {
         console.error("Error loading initial data", e);
       } finally {
@@ -211,26 +257,26 @@ function AgendaContent() {
           {/* Barra de Controles (Filtros) */}
           <div className="px-8 py-6 border-b border-zinc-100 dark:border-zinc-800/50 flex flex-col gap-6 sm:flex-row sm:items-center sm:justify-between bg-white dark:bg-zinc-900 shrink-0">
             <div className="flex flex-col sm:flex-row gap-4 items-center">
-              <div className="w-full sm:w-40">
+              <div className="w-full sm:w-36">
                 <Select 
                   value={selectedTipo} 
                   onChange={(e: React.ChangeEvent<HTMLSelectElement>) => setSelectedTipo(e.target.value)}
                   className="h-11 rounded-xl bg-zinc-50 dark:bg-zinc-800 border-none text-xs font-bold"
                 >
-                  <option value="TODOS">Todos los servicios</option>
+                  <option value="TODOS">Servicio</option>
                   {tiposServicio.map(t => (
                     <option key={t.id} value={t.id}>{t.nombre}</option>
                   ))}
                 </Select>
               </div>
 
-              <div className="w-full sm:w-40">
+              <div className="w-full sm:w-36">
                 <Select 
                   value={selectedTecnico} 
                   onChange={(e: React.ChangeEvent<HTMLSelectElement>) => setSelectedTecnico(e.target.value)}
                   className="h-11 rounded-xl bg-zinc-50 dark:bg-zinc-800 border-none text-xs font-bold"
                 >
-                  <option value="TODOS">Todos los técnicos</option>
+                  <option value="TODOS">Técnicos</option>
                   {operadores.map(op => (
                     <option key={op.id} value={op.id}>
                       {op.user ? `${op.user.nombre} ${op.user.apellido}` : op.nombre}
@@ -239,18 +285,102 @@ function AgendaContent() {
                 </Select>
               </div>
 
-              <div className="w-full sm:w-40">
+              <div className="w-full sm:w-36">
                 <Select 
                   value={selectedEstado} 
                   onChange={(e: React.ChangeEvent<HTMLSelectElement>) => setSelectedEstado(e.target.value)}
                   className="h-11 rounded-xl bg-zinc-50 dark:bg-zinc-800 border-none text-xs font-bold"
                 >
-                  <option value="TODOS">Todos los estados</option>
+                  <option value="TODOS">Estados</option>
                   {Object.keys(ESTADO_STYLING).map(est => (
                     <option key={est} value={est}>{est}</option>
                   ))}
                 </Select>
               </div>
+
+              <Popover>
+                <PopoverTrigger asChild>
+                  <button className={cn(
+                    "flex items-center h-11 px-4 rounded-xl bg-zinc-50 dark:bg-zinc-800 border-none text-zinc-600 dark:text-zinc-400 hover:bg-zinc-100 dark:hover:bg-zinc-700 gap-3 transition-all font-bold text-xs relative shrink-0",
+                    (selectedDepto !== "TODOS" || selectedMun !== "TODOS" || selectedZona !== "TODOS") && "bg-azul-1/10 text-azul-1"
+                  )}>
+                    <Filter className="h-4 w-4" />
+                    <span>Geo</span>
+                    {(selectedDepto !== "TODOS" || selectedMun !== "TODOS" || selectedZona !== "TODOS") && (
+                      <span className="absolute -top-1 -right-1 flex h-4 w-4 items-center justify-center rounded-full bg-azul-1 text-[8px] font-black text-white ring-2 ring-white dark:ring-zinc-900">
+                        !
+                      </span>
+                    )}
+                  </button>
+                </PopoverTrigger>
+                <PopoverContent className="w-80 p-6 rounded-2xl shadow-2xl border-zinc-100 dark:border-zinc-800" align="start">
+                  <div className="space-y-6">
+                    <div className="flex items-center justify-between">
+                      <h4 className="font-black text-[10px] uppercase tracking-[0.2em] text-zinc-400">Filtros Geográficos</h4>
+                      <button 
+                        onClick={() => {
+                          setSelectedDepto("TODOS");
+                          setSelectedMun("TODOS");
+                          setSelectedZona("TODOS");
+                        }}
+                        className="text-[9px] font-black uppercase tracking-widest text-zinc-400 hover:text-azul-1 flex items-center gap-1 transition-colors"
+                      >
+                        <RotateCcw className="h-3 w-3" /> Reiniciar
+                      </button>
+                    </div>
+
+                    <div className="space-y-4">
+                      <div className="space-y-2">
+                        <label className="text-[10px] font-black uppercase tracking-widest text-zinc-500">Departamento</label>
+                        <Combobox 
+                          value={selectedDepto} 
+                          onChange={(val) => {
+                            setSelectedDepto(val);
+                            setSelectedMun("TODOS");
+                          }}
+                          options={[
+                            { value: "TODOS", label: "TODOS LOS DEPTOS" },
+                            ...departamentos.map(d => ({ value: d.name, label: d.name.toUpperCase() }))
+                          ]}
+                          placeholder="Buscar departamento..."
+                        />
+                      </div>
+
+                      <div className="space-y-2">
+                        <label className="text-[10px] font-black uppercase tracking-widest text-zinc-500">Municipio</label>
+                        <Combobox 
+                          value={selectedMun} 
+                          onChange={(val) => setSelectedMun(val)}
+                          options={[
+                            { value: "TODOS", label: "TODOS LOS MUNICIPIOS" },
+                            ...municipios
+                              .filter(m => {
+                                const depto = departamentos.find(d => d.name === selectedDepto);
+                                return depto ? m.departmentId === depto.id : true;
+                              })
+                              .map(m => ({ value: m.name, label: m.name.toUpperCase() }))
+                          ]}
+                          disabled={selectedDepto === "TODOS"}
+                          placeholder="Buscar municipio..."
+                        />
+                      </div>
+
+                      <div className="space-y-2">
+                        <label className="text-[10px] font-black uppercase tracking-widest text-zinc-500">Zona Operativa</label>
+                        <Combobox 
+                          value={selectedZona} 
+                          onChange={(val) => setSelectedZona(val)}
+                          options={[
+                            { value: "TODOS", label: "TODAS LAS ZONAS" },
+                            ...zonas.map(z => ({ value: z.id, label: z.nombre.toUpperCase() }))
+                          ]}
+                          placeholder="Buscar zona..."
+                        />
+                      </div>
+                    </div>
+                  </div>
+                </PopoverContent>
+              </Popover>
 
               <div className="flex items-center gap-2">
                 <div className="w-32">
@@ -384,8 +514,12 @@ function AgendaContent() {
                           const matchesTipo = selectedTipo === "TODOS" || s.servicio.id === selectedTipo;
                           const matchesTecnico = selectedTecnico === "TODOS" || s.tecnicoId === selectedTecnico;
                           const matchesEstado = selectedEstado === "TODOS" || s.estadoServicio === selectedEstado;
+                          
+                          const matchesDepto = selectedDepto === "TODOS" || s.departamento === selectedDepto;
+                          const matchesMun = selectedMun === "TODOS" || s.municipio === selectedMun;
+                          const matchesZona = selectedZona === "TODOS" || s.zonaId === selectedZona;
                             
-                          return matchesTipo && matchesTecnico && matchesEstado;
+                          return matchesTipo && matchesTecnico && matchesEstado && matchesDepto && matchesMun && matchesZona;
                         });
 
                         return (

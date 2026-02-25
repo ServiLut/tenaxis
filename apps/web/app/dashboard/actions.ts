@@ -289,6 +289,71 @@ export async function getMunicipalitiesAction() {
   }
 }
 
+export async function getDepartmentsAction() {
+  const cookieStore = await cookies();
+  const token = cookieStore.get("access_token")?.value;
+  if (!token) return [];
+
+  try {
+    const apiUrl = process.env.NESTJS_API_URL || "http://127.0.0.1:4000";
+    const response = await fetch(`${apiUrl}/geo/departments`, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+    if (!response.ok) return [];
+    const result = await response.json();
+    return result.data || result;
+  } catch (error) {
+    console.error("Error fetching departments:", error);
+    return [];
+  }
+}
+
+export async function getZonasAction(empresaId?: string) {
+  const cookieStore = await cookies();
+  const token = cookieStore.get("access_token")?.value;
+  const targetEmpresaId = empresaId || cookieStore.get("x-enterprise-id")?.value;
+  
+  if (!token || !targetEmpresaId) return [];
+
+  try {
+    const apiUrl = process.env.NESTJS_API_URL || "http://127.0.0.1:4000";
+    const response = await fetch(`${apiUrl}/config-clientes/zonas?empresaId=${targetEmpresaId}`, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+    if (!response.ok) return [];
+    const result = await response.json();
+    return result.data || result;
+  } catch (error) {
+    console.error("Error fetching zones:", error);
+    return [];
+  }
+}
+
+export async function getServiciosAction(empresaId?: string) {
+  const cookieStore = await cookies();
+  const token = cookieStore.get("access_token")?.value;
+  const targetEmpresaId = empresaId || cookieStore.get("x-enterprise-id")?.value;
+  
+  if (!token) return [];
+
+  try {
+    const apiUrl = process.env.NESTJS_API_URL || "http://127.0.0.1:4000";
+    const url = targetEmpresaId 
+      ? `${apiUrl}/config-clientes/servicios?empresaId=${targetEmpresaId}`
+      : `${apiUrl}/config-clientes/servicios`;
+      
+    const response = await fetch(url, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+    if (!response.ok) return [];
+    const result = await response.json();
+    return result.data || result;
+  } catch (error) {
+    console.error("Error fetching services:", error);
+    return [];
+  }
+}
+
 export interface SegmentoNegocioDTO {
   nombre: string;
   descripcion?: string | null;
@@ -309,6 +374,12 @@ export interface TipoInteresDTO {
   descripcion?: string | null;
   frecuenciaSugerida?: number | null;
   riesgoSugerido?: string | null;
+  activo?: boolean;
+}
+
+export interface ServicioDTO {
+  nombre: string;
+  empresaId: string;
   activo?: boolean;
 }
 
@@ -438,6 +509,47 @@ export async function updateTipoInteresAction(id: string, data: Partial<TipoInte
     method: "PATCH",
     headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
     body: JSON.stringify(data),
+  });
+  return response.json();
+}
+
+export async function createServicioAction(data: ServicioDTO) {
+  const cookieStore = await cookies();
+  const token = cookieStore.get("access_token")?.value;
+  if (!token) throw new Error("No session found");
+
+  const apiUrl = process.env.NESTJS_API_URL || "http://127.0.0.1:4000";
+  const response = await fetch(`${apiUrl}/config-clientes/servicios`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
+    body: JSON.stringify(data),
+  });
+  return response.json();
+}
+
+export async function updateServicioAction(id: string, data: Partial<ServicioDTO>) {
+  const cookieStore = await cookies();
+  const token = cookieStore.get("access_token")?.value;
+  if (!token) throw new Error("No session found");
+
+  const apiUrl = process.env.NESTJS_API_URL || "http://127.0.0.1:4000";
+  const response = await fetch(`${apiUrl}/config-clientes/servicios/${id}`, {
+    method: "PATCH",
+    headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
+    body: JSON.stringify(data),
+  });
+  return response.json();
+}
+
+export async function deleteServicioAction(id: string) {
+  const cookieStore = await cookies();
+  const token = cookieStore.get("access_token")?.value;
+  if (!token) throw new Error("No session found");
+
+  const apiUrl = process.env.NESTJS_API_URL || "http://127.0.0.1:4000";
+  const response = await fetch(`${apiUrl}/config-clientes/servicios/${id}`, {
+    method: "DELETE",
+    headers: { Authorization: `Bearer ${token}` },
   });
   return response.json();
 }
