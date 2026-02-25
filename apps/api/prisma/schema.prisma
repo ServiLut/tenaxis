@@ -576,14 +576,14 @@ model MetodoPago {
 }
 
 model EstadoServicio {
-  id        String          @id @default(uuid()) @db.Uuid
-  tenantId  String          @db.Uuid
+  id        String   @id @default(uuid()) @db.Uuid
+  tenantId  String   @db.Uuid
   nombre    String
   activo    Boolean
-  createdAt DateTime        @default(now())
-  empresaId String          @db.Uuid
-  empresa   Empresa         @relation(fields: [empresaId], references: [id])
-  tenant    Tenant          @relation(fields: [tenantId], references: [id])
+  createdAt DateTime @default(now())
+  empresaId String   @db.Uuid
+  empresa   Empresa  @relation(fields: [empresaId], references: [id])
+  tenant    Tenant   @relation(fields: [tenantId], references: [id])
 
   @@index([tenantId])
   @@index([empresaId])
@@ -610,7 +610,6 @@ model OrdenServicio {
   zonaId                String?              @db.Uuid
   vehiculoId            String?              @db.Uuid
   metodoPagoId          String?              @db.Uuid
-  estadoServicio        EstadoOrden          @default(NUEVO)
   numeroOrden           String?
   fechaVisita           DateTime?
   horaInicio            DateTime?
@@ -637,6 +636,7 @@ model OrdenServicio {
   tipoVisita            TipoVisita?
   nivelInfestacion      NivelInfestacion?
   urgencia              UrgenciaOrden?
+  estadoServicio        EstadoOrden          @default(NUEVO)
   consignacionOrden     ConsignacionOrden?
   declaracionEfectivo   DeclaracionEfectivo?
   geolocalizaciones     Geolocalizacion[]
