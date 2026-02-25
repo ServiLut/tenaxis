@@ -83,6 +83,7 @@ model Tenant {
   turnos               Turno[]
   vehiculos            Vehiculo[]
   zonas                Zona[]
+  configuracionesOperativas ClienteConfiguracionOperativa[]
 
   @@map("tenants")
 }
@@ -226,6 +227,7 @@ model Empresa {
   turnos               Turno[]
   vehiculos            Vehiculo[]
   zonas                Zona[]
+  configuracionesOperativas ClienteConfiguracionOperativa[]
 
   @@index([tenantId])
   @@map("empresas")
@@ -427,6 +429,7 @@ model Cliente {
   ordenesServicio     OrdenServicio[]
   paquetesAdquiridos  PaqueteAdquirido[]
   vehiculos           Vehiculo[]
+  configuracionesOperativas ClienteConfiguracionOperativa[]
 
   @@index([tenantId])
   @@index([empresaId])
@@ -498,6 +501,7 @@ model Direccion {
   tenant             Tenant          @relation(fields: [tenantId], references: [id], onDelete: Cascade)
   zona               Zona?           @relation(fields: [zonaId], references: [id])
   ordenesServicio    OrdenServicio[]
+  configuracionesOperativas ClienteConfiguracionOperativa[]
 
   @@index([tenantId])
   @@index([empresaId])
@@ -1292,6 +1296,33 @@ model PasswordResetToken {
   @@index([empresaId])
   @@index([expiresAt])
   @@map("password_reset_tokens")
+}
+
+model ClienteConfiguracionOperativa {
+  id                     String    @id @default(uuid()) @db.Uuid
+  clienteId              String    @db.Uuid
+  empresaId              String    @db.Uuid
+  tenantId               String    @db.Uuid
+  direccionId            String?   @db.Uuid
+  protocoloServicio      String?   @db.Text
+  observacionesFijas     String?   @db.Text
+  requiereFirmaDigital   Boolean   @default(true)
+  requiereFotosEvidencia Boolean   @default(true)
+  duracionEstimada       Int?      @default(60)
+  frecuenciaSugerida     Int?      @default(30)
+  elementosPredefinidos  Json?
+  createdAt              DateTime  @default(now())
+  updatedAt              DateTime  @updatedAt
+  cliente                Cliente   @relation(fields: [clienteId], references: [id], onDelete: Cascade)
+  direccion              Direccion? @relation(fields: [direccionId], references: [id], onDelete: SetNull)
+  empresa                Empresa   @relation(fields: [empresaId], references: [id], onDelete: Cascade)
+  tenant                 Tenant    @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+
+  @@index([clienteId])
+  @@index([empresaId])
+  @@index([direccionId])
+  @@index([tenantId])
+  @@map("cliente_configuracion_operativa")
 }
 
 enum DiaSemana {

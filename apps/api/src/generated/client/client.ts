@@ -287,3 +287,8 @@ export type AuthSession = Prisma.AuthSessionModel
  * 
  */
 export type PasswordResetToken = Prisma.PasswordResetTokenModel
+/**
+ * Model ClienteConfiguracionOperativa
+ * 
+ */
+export type ClienteConfiguracionOperativa = Prisma.ClienteConfiguracionOperativaModel

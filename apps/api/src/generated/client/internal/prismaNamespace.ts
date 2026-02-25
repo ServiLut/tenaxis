@@ -433,7 +433,8 @@ export const ModelName = {
   SesionActividad: 'SesionActividad',
   LogEvento: 'LogEvento',
   AuthSession: 'AuthSession',
-  PasswordResetToken: 'PasswordResetToken'
+  PasswordResetToken: 'PasswordResetToken',
+  ClienteConfiguracionOperativa: 'ClienteConfiguracionOperativa'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -449,7 +450,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "user" | "tenant" | "plan" | "subscription" | "tenantMembership" | "empresa" | "empresaMembership" | "organizationNode" | "commissionRecord" | "segmentoNegocio" | "nivelRiesgoOperativo" | "tipoInteres" | "department" | "municipality" | "cliente" | "vehiculo" | "direccion" | "zona" | "servicio" | "tipoServicio" | "metodoPago" | "estadoServicio" | "ordenServicio" | "geolocalizacion" | "nomina" | "nominaDetalle" | "citasPsicologos" | "consultorio" | "terapiasPsicologos" | "paqueteAdquirido" | "turno" | "cuentaCobro" | "declaracionEfectivo" | "consignacionEfectivo" | "consignacionOrden" | "anticipos" | "producto" | "productoSolicitado" | "proveedores" | "permiso" | "configuracionPagos" | "cuentasPago" | "egresos" | "picoPlaca" | "referidos" | "auditoria" | "sesionActividad" | "logEvento" | "authSession" | "passwordResetToken"
+    modelProps: "user" | "tenant" | "plan" | "subscription" | "tenantMembership" | "empresa" | "empresaMembership" | "organizationNode" | "commissionRecord" | "segmentoNegocio" | "nivelRiesgoOperativo" | "tipoInteres" | "department" | "municipality" | "cliente" | "vehiculo" | "direccion" | "zona" | "servicio" | "tipoServicio" | "metodoPago" | "estadoServicio" | "ordenServicio" | "geolocalizacion" | "nomina" | "nominaDetalle" | "citasPsicologos" | "consultorio" | "terapiasPsicologos" | "paqueteAdquirido" | "turno" | "cuentaCobro" | "declaracionEfectivo" | "consignacionEfectivo" | "consignacionOrden" | "anticipos" | "producto" | "productoSolicitado" | "proveedores" | "permiso" | "configuracionPagos" | "cuentasPago" | "egresos" | "picoPlaca" | "referidos" | "auditoria" | "sesionActividad" | "logEvento" | "authSession" | "passwordResetToken" | "clienteConfiguracionOperativa"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -4153,6 +4154,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    ClienteConfiguracionOperativa: {
+      payload: Prisma.$ClienteConfiguracionOperativaPayload<ExtArgs>
+      fields: Prisma.ClienteConfiguracionOperativaFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.ClienteConfiguracionOperativaFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ClienteConfiguracionOperativaPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.ClienteConfiguracionOperativaFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ClienteConfiguracionOperativaPayload>
+        }
+        findFirst: {
+          args: Prisma.ClienteConfiguracionOperativaFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ClienteConfiguracionOperativaPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.ClienteConfiguracionOperativaFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ClienteConfiguracionOperativaPayload>
+        }
+        findMany: {
+          args: Prisma.ClienteConfiguracionOperativaFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ClienteConfiguracionOperativaPayload>[]
+        }
+        create: {
+          args: Prisma.ClienteConfiguracionOperativaCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ClienteConfiguracionOperativaPayload>
+        }
+        createMany: {
+          args: Prisma.ClienteConfiguracionOperativaCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.ClienteConfiguracionOperativaCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ClienteConfiguracionOperativaPayload>[]
+        }
+        delete: {
+          args: Prisma.ClienteConfiguracionOperativaDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ClienteConfiguracionOperativaPayload>
+        }
+        update: {
+          args: Prisma.ClienteConfiguracionOperativaUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ClienteConfiguracionOperativaPayload>
+        }
+        deleteMany: {
+          args: Prisma.ClienteConfiguracionOperativaDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.ClienteConfiguracionOperativaUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.ClienteConfiguracionOperativaUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ClienteConfiguracionOperativaPayload>[]
+        }
+        upsert: {
+          args: Prisma.ClienteConfiguracionOperativaUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ClienteConfiguracionOperativaPayload>
+        }
+        aggregate: {
+          args: Prisma.ClienteConfiguracionOperativaAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateClienteConfiguracionOperativa>
+        }
+        groupBy: {
+          args: Prisma.ClienteConfiguracionOperativaGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.ClienteConfiguracionOperativaGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.ClienteConfiguracionOperativaCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.ClienteConfiguracionOperativaCountAggregateOutputType> | number
+        }
+      }
+    }
   }
 } & {
   other: {
@@ -5065,6 +5140,26 @@ export const PasswordResetTokenScalarFieldEnum = {
 export type PasswordResetTokenScalarFieldEnum = (typeof PasswordResetTokenScalarFieldEnum)[keyof typeof PasswordResetTokenScalarFieldEnum]
 
 
+export const ClienteConfiguracionOperativaScalarFieldEnum = {
+  id: 'id',
+  clienteId: 'clienteId',
+  empresaId: 'empresaId',
+  tenantId: 'tenantId',
+  direccionId: 'direccionId',
+  protocoloServicio: 'protocoloServicio',
+  observacionesFijas: 'observacionesFijas',
+  requiereFirmaDigital: 'requiereFirmaDigital',
+  requiereFotosEvidencia: 'requiereFotosEvidencia',
+  duracionEstimada: 'duracionEstimada',
+  frecuenciaSugerida: 'frecuenciaSugerida',
+  elementosPredefinidos: 'elementosPredefinidos',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type ClienteConfiguracionOperativaScalarFieldEnum = (typeof ClienteConfiguracionOperativaScalarFieldEnum)[keyof typeof ClienteConfiguracionOperativaScalarFieldEnum]
+
+
 export const SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -5641,6 +5736,7 @@ export type GlobalOmitConfig = {
   logEvento?: Prisma.LogEventoOmit
   authSession?: Prisma.AuthSessionOmit
   passwordResetToken?: Prisma.PasswordResetTokenOmit
+  clienteConfiguracionOperativa?: Prisma.ClienteConfiguracionOperativaOmit
 }
 
 /* Types for Logging */
