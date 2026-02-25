@@ -17,6 +17,9 @@ import {
   ChevronLeft,
   MoreHorizontal,
   Eye,
+  EyeOff,
+  BarChart3,
+  Activity,
   Settings,
   Pencil,
   Trash2,
@@ -171,6 +174,20 @@ export function ClienteList({ initialClientes }: ClienteListProps) {
   const [currentPage, setCurrentPage] = useState(1);
   const [selectedCliente, setSelectedCliente] = useState<Cliente | null>(null);
   const [userRole, setUserRole] = useState<string | null>(null);
+  const [showKPIs, setShowKPIs] = useState(false);
+
+  const stats = useMemo(() => {
+    const total = initialClientes.length;
+    const empresas = initialClientes.filter(c => c.tipoCliente === "EMPRESA").length;
+    const oro = initialClientes.filter(c => c.clasificacion === "ORO").length;
+    const riesgoCritico = initialClientes.filter(c => {
+      const r = (c.riesgo?.nombre || c.nivelRiesgo || "").toUpperCase();
+      return r === "CRITICO" || r === "ALTO";
+    }).length;
+    const avgScore = total > 0 ? Math.round(initialClientes.reduce((acc, c) => acc + (c.score || 0), 0) / total) : 0;
+
+    return { total, empresas, oro, riesgoCritico, avgScore };
+  }, [initialClientes]);
 
   const handleDelete = async (id: string) => {
     if (!confirm("¿Estás seguro de que deseas eliminar este cliente?")) return;
@@ -348,6 +365,61 @@ export function ClienteList({ initialClientes }: ClienteListProps) {
   }
   return (
     <div className="flex flex-col h-full bg-white dark:bg-zinc-900 rounded-xl border border-zinc-200/60 dark:border-zinc-800/50 shadow-xl shadow-zinc-200/20 dark:shadow-none overflow-hidden">
+      
+      {/* KPI Cards Grid */}
+      {showKPIs && (
+        <div className="px-8 pt-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 shrink-0 animate-in fade-in slide-in-from-top-4 duration-300">
+          <div className="bg-zinc-50 dark:bg-zinc-800/50 p-6 rounded-2xl border border-zinc-100 dark:border-zinc-800 flex items-center gap-4">
+            <div className="h-12 w-12 rounded-xl bg-azul-1/10 flex items-center justify-center text-azul-1">
+              <User className="h-6 w-6" />
+            </div>
+            <div>
+              <p className="text-[10px] font-black text-zinc-400 uppercase tracking-widest">Total Clientes</p>
+              <p className="text-2xl font-black text-zinc-900 dark:text-zinc-50">{stats.total}</p>
+            </div>
+          </div>
+
+          <div className="bg-zinc-50 dark:bg-zinc-800/50 p-6 rounded-2xl border border-zinc-100 dark:border-zinc-800 flex items-center gap-4">
+            <div className="h-12 w-12 rounded-xl bg-purple-500/10 flex items-center justify-center text-purple-500">
+              <Building2 className="h-6 w-6" />
+            </div>
+            <div>
+              <p className="text-[10px] font-black text-zinc-400 uppercase tracking-widest">Corporativos</p>
+              <p className="text-2xl font-black text-zinc-900 dark:text-zinc-50">{stats.empresas}</p>
+            </div>
+          </div>
+
+          <div className="bg-zinc-50 dark:bg-zinc-800/50 p-6 rounded-2xl border border-zinc-100 dark:border-zinc-800 flex items-center gap-4">
+            <div className="h-12 w-12 rounded-xl bg-amber-500/10 flex items-center justify-center text-amber-500">
+              <Trophy className="h-6 w-6" />
+            </div>
+            <div>
+              <p className="text-[10px] font-black text-zinc-400 uppercase tracking-widest">Clientes Oro</p>
+              <p className="text-2xl font-black text-zinc-900 dark:text-zinc-50">{stats.oro}</p>
+            </div>
+          </div>
+
+          <div className="bg-zinc-50 dark:bg-zinc-800/50 p-6 rounded-2xl border border-zinc-100 dark:border-zinc-800 flex items-center gap-4">
+            <div className="h-12 w-12 rounded-xl bg-red-500/10 flex items-center justify-center text-red-500">
+              <AlertCircle className="h-6 w-6" />
+            </div>
+            <div>
+              <p className="text-[10px] font-black text-zinc-400 uppercase tracking-widest">Riesgo Alto</p>
+              <p className="text-2xl font-black text-zinc-900 dark:text-zinc-50">{stats.riesgoCritico}</p>
+            </div>
+          </div>
+
+          <div className="bg-zinc-50 dark:bg-zinc-800/50 p-6 rounded-2xl border border-zinc-100 dark:border-zinc-800 flex items-center gap-4">
+            <div className="h-12 w-12 rounded-xl bg-emerald-500/10 flex items-center justify-center text-emerald-500">
+              <Activity className="h-6 w-6" />
+            </div>
+            <div>
+              <p className="text-[10px] font-black text-zinc-400 uppercase tracking-widest">Avg Score</p>
+              <p className="text-2xl font-black text-zinc-900 dark:text-zinc-50">{stats.avgScore}</p>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* Barra de Filtros Unificada */}
       <div className="px-8 py-6 border-b border-zinc-100 dark:border-zinc-800/50 flex flex-col gap-6 sm:flex-row sm:items-center sm:justify-between bg-white dark:bg-zinc-900 shrink-0">
