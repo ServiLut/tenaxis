@@ -65,6 +65,17 @@ const TIPOS_FACTURACION = [
   { value: "PLAN_ANUAL", label: "Parte de plan anual" },
 ];
 
+const ESTADOS_ORDEN = [
+  { value: "NUEVO", label: "Nuevo" },
+  { value: "PROCESO", label: "En Proceso" },
+  { value: "CANCELADO", label: "Cancelado" },
+  { value: "PROGRAMADO", label: "Programado" },
+  { value: "LIQUIDADO", label: "Liquidado" },
+  { value: "TECNICO_FINALIZO", label: "Técnico Finalizó" },
+  { value: "REPROGRAMADO", label: "Reprogramado" },
+  { value: "SIN_CONCRETAR", label: "Sin Concretar" },
+];
+
 interface Direccion {
   id: string;
   direccion: string;
@@ -128,6 +139,7 @@ function NuevoServicioContent() {
   const [metodoPagoId, setMetodoPagoId] = useState("");
   const [estadoPago, setEstadoPago] = useState("");
   const [tipoFacturacion, setTipoFacturacion] = useState("");
+  const [estadoServicio, setEstadoServicio] = useState("NUEVO");
 
   const handleNivelInfestacionChange = (val: string) => {
     setNivelInfestacion(val);
@@ -286,6 +298,7 @@ function NuevoServicioContent() {
       valorCotizado: valorCotizado ? Number(valorCotizado) : undefined,
       metodoPagoId: metodoPagoId || undefined,
       estadoPago: estadoPago || undefined,
+      estadoServicio: estadoServicio || undefined,
       fechaVisita: fechaVisita ? new Date(fechaVisita).toISOString() : undefined,
       horaInicio: (fechaVisita && horaInicio) ? new Date(`${fechaVisita}T${horaInicio}:00`).toISOString() : undefined,
       duracionMinutos: Number(duracionMinutos),
@@ -408,6 +421,20 @@ function NuevoServicioContent() {
                   {isEmpresaLocked && (
                     <p className="text-[9px] font-bold text-azul-1 uppercase tracking-widest ml-1">Pre-asignada por coordinación</p>
                   )}
+                </div>
+
+                <div className="space-y-2">
+                  <Label className="text-xs font-bold text-zinc-500 uppercase tracking-wider">Estado del Servicio <span className="text-red-500">*</span></Label>
+                  <Select
+                    value={estadoServicio}
+                    onChange={(e) => setEstadoServicio(e.target.value)}
+                    required
+                    className="h-11 border-zinc-200"
+                  >
+                    {ESTADOS_ORDEN.map(est => (
+                      <option key={est.value} value={est.value}>{est.label}</option>
+                    ))}
+                  </Select>
                 </div>
 
                 <div className="space-y-2">

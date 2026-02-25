@@ -192,7 +192,6 @@ export type EstadoServicioWhereInput = {
   empresaId?: Prisma.UuidFilter<"EstadoServicio"> | string
   empresa?: Prisma.XOR<Prisma.EmpresaScalarRelationFilter, Prisma.EmpresaWhereInput>
   tenant?: Prisma.XOR<Prisma.TenantScalarRelationFilter, Prisma.TenantWhereInput>
-  ordenes?: Prisma.OrdenServicioListRelationFilter
 }
 
 export type EstadoServicioOrderByWithRelationInput = {
@@ -204,7 +203,6 @@ export type EstadoServicioOrderByWithRelationInput = {
   empresaId?: Prisma.SortOrder
   empresa?: Prisma.EmpresaOrderByWithRelationInput
   tenant?: Prisma.TenantOrderByWithRelationInput
-  ordenes?: Prisma.OrdenServicioOrderByRelationAggregateInput
 }
 
 export type EstadoServicioWhereUniqueInput = Prisma.AtLeast<{
@@ -219,7 +217,6 @@ export type EstadoServicioWhereUniqueInput = Prisma.AtLeast<{
   empresaId?: Prisma.UuidFilter<"EstadoServicio"> | string
   empresa?: Prisma.XOR<Prisma.EmpresaScalarRelationFilter, Prisma.EmpresaWhereInput>
   tenant?: Prisma.XOR<Prisma.TenantScalarRelationFilter, Prisma.TenantWhereInput>
-  ordenes?: Prisma.OrdenServicioListRelationFilter
 }, "id">
 
 export type EstadoServicioOrderByWithAggregationInput = {
@@ -253,7 +250,6 @@ export type EstadoServicioCreateInput = {
   createdAt?: Date | string
   empresa: Prisma.EmpresaCreateNestedOneWithoutEstadosServicioInput
   tenant: Prisma.TenantCreateNestedOneWithoutEstadosServicioInput
-  ordenes?: Prisma.OrdenServicioCreateNestedManyWithoutEstadoServicioInput
 }
 
 export type EstadoServicioUncheckedCreateInput = {
@@ -263,7 +259,6 @@ export type EstadoServicioUncheckedCreateInput = {
   activo: boolean
   createdAt?: Date | string
   empresaId: string
-  ordenes?: Prisma.OrdenServicioUncheckedCreateNestedManyWithoutEstadoServicioInput
 }
 
 export type EstadoServicioUpdateInput = {
@@ -273,7 +268,6 @@ export type EstadoServicioUpdateInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   empresa?: Prisma.EmpresaUpdateOneRequiredWithoutEstadosServicioNestedInput
   tenant?: Prisma.TenantUpdateOneRequiredWithoutEstadosServicioNestedInput
-  ordenes?: Prisma.OrdenServicioUpdateManyWithoutEstadoServicioNestedInput
 }
 
 export type EstadoServicioUncheckedUpdateInput = {
@@ -283,7 +277,6 @@ export type EstadoServicioUncheckedUpdateInput = {
   activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   empresaId?: Prisma.StringFieldUpdateOperationsInput | string
-  ordenes?: Prisma.OrdenServicioUncheckedUpdateManyWithoutEstadoServicioNestedInput
 }
 
 export type EstadoServicioCreateManyInput = {
@@ -346,11 +339,6 @@ export type EstadoServicioMinOrderByAggregateInput = {
   activo?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   empresaId?: Prisma.SortOrder
-}
-
-export type EstadoServicioScalarRelationFilter = {
-  is?: Prisma.EstadoServicioWhereInput
-  isNot?: Prisma.EstadoServicioWhereInput
 }
 
 export type EstadoServicioCreateNestedManyWithoutTenantInput = {
@@ -437,27 +425,12 @@ export type EstadoServicioUncheckedUpdateManyWithoutEmpresaNestedInput = {
   deleteMany?: Prisma.EstadoServicioScalarWhereInput | Prisma.EstadoServicioScalarWhereInput[]
 }
 
-export type EstadoServicioCreateNestedOneWithoutOrdenesInput = {
-  create?: Prisma.XOR<Prisma.EstadoServicioCreateWithoutOrdenesInput, Prisma.EstadoServicioUncheckedCreateWithoutOrdenesInput>
-  connectOrCreate?: Prisma.EstadoServicioCreateOrConnectWithoutOrdenesInput
-  connect?: Prisma.EstadoServicioWhereUniqueInput
-}
-
-export type EstadoServicioUpdateOneRequiredWithoutOrdenesNestedInput = {
-  create?: Prisma.XOR<Prisma.EstadoServicioCreateWithoutOrdenesInput, Prisma.EstadoServicioUncheckedCreateWithoutOrdenesInput>
-  connectOrCreate?: Prisma.EstadoServicioCreateOrConnectWithoutOrdenesInput
-  upsert?: Prisma.EstadoServicioUpsertWithoutOrdenesInput
-  connect?: Prisma.EstadoServicioWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.EstadoServicioUpdateToOneWithWhereWithoutOrdenesInput, Prisma.EstadoServicioUpdateWithoutOrdenesInput>, Prisma.EstadoServicioUncheckedUpdateWithoutOrdenesInput>
-}
-
 export type EstadoServicioCreateWithoutTenantInput = {
   id?: string
   nombre: string
   activo: boolean
   createdAt?: Date | string
   empresa: Prisma.EmpresaCreateNestedOneWithoutEstadosServicioInput
-  ordenes?: Prisma.OrdenServicioCreateNestedManyWithoutEstadoServicioInput
 }
 
 export type EstadoServicioUncheckedCreateWithoutTenantInput = {
@@ -466,7 +439,6 @@ export type EstadoServicioUncheckedCreateWithoutTenantInput = {
   activo: boolean
   createdAt?: Date | string
   empresaId: string
-  ordenes?: Prisma.OrdenServicioUncheckedCreateNestedManyWithoutEstadoServicioInput
 }
 
 export type EstadoServicioCreateOrConnectWithoutTenantInput = {
@@ -513,7 +485,6 @@ export type EstadoServicioCreateWithoutEmpresaInput = {
   activo: boolean
   createdAt?: Date | string
   tenant: Prisma.TenantCreateNestedOneWithoutEstadosServicioInput
-  ordenes?: Prisma.OrdenServicioCreateNestedManyWithoutEstadoServicioInput
 }
 
 export type EstadoServicioUncheckedCreateWithoutEmpresaInput = {
@@ -522,7 +493,6 @@ export type EstadoServicioUncheckedCreateWithoutEmpresaInput = {
   nombre: string
   activo: boolean
   createdAt?: Date | string
-  ordenes?: Prisma.OrdenServicioUncheckedCreateNestedManyWithoutEstadoServicioInput
 }
 
 export type EstadoServicioCreateOrConnectWithoutEmpresaInput = {
@@ -551,58 +521,6 @@ export type EstadoServicioUpdateManyWithWhereWithoutEmpresaInput = {
   data: Prisma.XOR<Prisma.EstadoServicioUpdateManyMutationInput, Prisma.EstadoServicioUncheckedUpdateManyWithoutEmpresaInput>
 }
 
-export type EstadoServicioCreateWithoutOrdenesInput = {
-  id?: string
-  nombre: string
-  activo: boolean
-  createdAt?: Date | string
-  empresa: Prisma.EmpresaCreateNestedOneWithoutEstadosServicioInput
-  tenant: Prisma.TenantCreateNestedOneWithoutEstadosServicioInput
-}
-
-export type EstadoServicioUncheckedCreateWithoutOrdenesInput = {
-  id?: string
-  tenantId: string
-  nombre: string
-  activo: boolean
-  createdAt?: Date | string
-  empresaId: string
-}
-
-export type EstadoServicioCreateOrConnectWithoutOrdenesInput = {
-  where: Prisma.EstadoServicioWhereUniqueInput
-  create: Prisma.XOR<Prisma.EstadoServicioCreateWithoutOrdenesInput, Prisma.EstadoServicioUncheckedCreateWithoutOrdenesInput>
-}
-
-export type EstadoServicioUpsertWithoutOrdenesInput = {
-  update: Prisma.XOR<Prisma.EstadoServicioUpdateWithoutOrdenesInput, Prisma.EstadoServicioUncheckedUpdateWithoutOrdenesInput>
-  create: Prisma.XOR<Prisma.EstadoServicioCreateWithoutOrdenesInput, Prisma.EstadoServicioUncheckedCreateWithoutOrdenesInput>
-  where?: Prisma.EstadoServicioWhereInput
-}
-
-export type EstadoServicioUpdateToOneWithWhereWithoutOrdenesInput = {
-  where?: Prisma.EstadoServicioWhereInput
-  data: Prisma.XOR<Prisma.EstadoServicioUpdateWithoutOrdenesInput, Prisma.EstadoServicioUncheckedUpdateWithoutOrdenesInput>
-}
-
-export type EstadoServicioUpdateWithoutOrdenesInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  nombre?: Prisma.StringFieldUpdateOperationsInput | string
-  activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  empresa?: Prisma.EmpresaUpdateOneRequiredWithoutEstadosServicioNestedInput
-  tenant?: Prisma.TenantUpdateOneRequiredWithoutEstadosServicioNestedInput
-}
-
-export type EstadoServicioUncheckedUpdateWithoutOrdenesInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  tenantId?: Prisma.StringFieldUpdateOperationsInput | string
-  nombre?: Prisma.StringFieldUpdateOperationsInput | string
-  activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  empresaId?: Prisma.StringFieldUpdateOperationsInput | string
-}
-
 export type EstadoServicioCreateManyTenantInput = {
   id?: string
   nombre: string
@@ -617,7 +535,6 @@ export type EstadoServicioUpdateWithoutTenantInput = {
   activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   empresa?: Prisma.EmpresaUpdateOneRequiredWithoutEstadosServicioNestedInput
-  ordenes?: Prisma.OrdenServicioUpdateManyWithoutEstadoServicioNestedInput
 }
 
 export type EstadoServicioUncheckedUpdateWithoutTenantInput = {
@@ -626,7 +543,6 @@ export type EstadoServicioUncheckedUpdateWithoutTenantInput = {
   activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   empresaId?: Prisma.StringFieldUpdateOperationsInput | string
-  ordenes?: Prisma.OrdenServicioUncheckedUpdateManyWithoutEstadoServicioNestedInput
 }
 
 export type EstadoServicioUncheckedUpdateManyWithoutTenantInput = {
@@ -651,7 +567,6 @@ export type EstadoServicioUpdateWithoutEmpresaInput = {
   activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   tenant?: Prisma.TenantUpdateOneRequiredWithoutEstadosServicioNestedInput
-  ordenes?: Prisma.OrdenServicioUpdateManyWithoutEstadoServicioNestedInput
 }
 
 export type EstadoServicioUncheckedUpdateWithoutEmpresaInput = {
@@ -660,7 +575,6 @@ export type EstadoServicioUncheckedUpdateWithoutEmpresaInput = {
   nombre?: Prisma.StringFieldUpdateOperationsInput | string
   activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  ordenes?: Prisma.OrdenServicioUncheckedUpdateManyWithoutEstadoServicioNestedInput
 }
 
 export type EstadoServicioUncheckedUpdateManyWithoutEmpresaInput = {
@@ -672,35 +586,6 @@ export type EstadoServicioUncheckedUpdateManyWithoutEmpresaInput = {
 }
 
 
-/**
- * Count Type EstadoServicioCountOutputType
- */
-
-export type EstadoServicioCountOutputType = {
-  ordenes: number
-}
-
-export type EstadoServicioCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  ordenes?: boolean | EstadoServicioCountOutputTypeCountOrdenesArgs
-}
-
-/**
- * EstadoServicioCountOutputType without action
- */
-export type EstadoServicioCountOutputTypeDefaultArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the EstadoServicioCountOutputType
-   */
-  select?: Prisma.EstadoServicioCountOutputTypeSelect<ExtArgs> | null
-}
-
-/**
- * EstadoServicioCountOutputType without action
- */
-export type EstadoServicioCountOutputTypeCountOrdenesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.OrdenServicioWhereInput
-}
-
 
 export type EstadoServicioSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -711,8 +596,6 @@ export type EstadoServicioSelect<ExtArgs extends runtime.Types.Extensions.Intern
   empresaId?: boolean
   empresa?: boolean | Prisma.EmpresaDefaultArgs<ExtArgs>
   tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
-  ordenes?: boolean | Prisma.EstadoServicio$ordenesArgs<ExtArgs>
-  _count?: boolean | Prisma.EstadoServicioCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["estadoServicio"]>
 
 export type EstadoServicioSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -750,8 +633,6 @@ export type EstadoServicioOmit<ExtArgs extends runtime.Types.Extensions.Internal
 export type EstadoServicioInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   empresa?: boolean | Prisma.EmpresaDefaultArgs<ExtArgs>
   tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
-  ordenes?: boolean | Prisma.EstadoServicio$ordenesArgs<ExtArgs>
-  _count?: boolean | Prisma.EstadoServicioCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type EstadoServicioIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   empresa?: boolean | Prisma.EmpresaDefaultArgs<ExtArgs>
@@ -767,7 +648,6 @@ export type $EstadoServicioPayload<ExtArgs extends runtime.Types.Extensions.Inte
   objects: {
     empresa: Prisma.$EmpresaPayload<ExtArgs>
     tenant: Prisma.$TenantPayload<ExtArgs>
-    ordenes: Prisma.$OrdenServicioPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -1172,7 +1052,6 @@ export interface Prisma__EstadoServicioClient<T, Null = never, ExtArgs extends r
   readonly [Symbol.toStringTag]: "PrismaPromise"
   empresa<T extends Prisma.EmpresaDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.EmpresaDefaultArgs<ExtArgs>>): Prisma.Prisma__EmpresaClient<runtime.Types.Result.GetResult<Prisma.$EmpresaPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   tenant<T extends Prisma.TenantDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.TenantDefaultArgs<ExtArgs>>): Prisma.Prisma__TenantClient<runtime.Types.Result.GetResult<Prisma.$TenantPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
-  ordenes<T extends Prisma.EstadoServicio$ordenesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.EstadoServicio$ordenesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$OrdenServicioPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1601,30 +1480,6 @@ export type EstadoServicioDeleteManyArgs<ExtArgs extends runtime.Types.Extension
    * Limit how many EstadoServicios to delete.
    */
   limit?: number
-}
-
-/**
- * EstadoServicio.ordenes
- */
-export type EstadoServicio$ordenesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the OrdenServicio
-   */
-  select?: Prisma.OrdenServicioSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the OrdenServicio
-   */
-  omit?: Prisma.OrdenServicioOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.OrdenServicioInclude<ExtArgs> | null
-  where?: Prisma.OrdenServicioWhereInput
-  orderBy?: Prisma.OrdenServicioOrderByWithRelationInput | Prisma.OrdenServicioOrderByWithRelationInput[]
-  cursor?: Prisma.OrdenServicioWhereUniqueInput
-  take?: number
-  skip?: number
-  distinct?: Prisma.OrdenServicioScalarFieldEnum | Prisma.OrdenServicioScalarFieldEnum[]
 }
 
 /**

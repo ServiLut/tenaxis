@@ -584,7 +584,6 @@ model EstadoServicio {
   empresaId String          @db.Uuid
   empresa   Empresa         @relation(fields: [empresaId], references: [id])
   tenant    Tenant          @relation(fields: [tenantId], references: [id])
-  ordenes   OrdenServicio[]
 
   @@index([tenantId])
   @@index([empresaId])
@@ -611,7 +610,7 @@ model OrdenServicio {
   zonaId                String?              @db.Uuid
   vehiculoId            String?              @db.Uuid
   metodoPagoId          String?              @db.Uuid
-  estadoServicioId      String               @db.Uuid
+  estadoServicio        EstadoOrden          @default(NUEVO)
   numeroOrden           String?
   fechaVisita           DateTime?
   horaInicio            DateTime?
@@ -646,7 +645,6 @@ model OrdenServicio {
   creadoPor             TenantMembership?    @relation("ServiciosCreados", fields: [creadoPorId], references: [id])
   direccion             Direccion?           @relation(fields: [direccionId], references: [id])
   empresa               Empresa              @relation(fields: [empresaId], references: [id])
-  estadoServicio        EstadoServicio       @relation(fields: [estadoServicioId], references: [id])
   metodoPago            MetodoPago?          @relation(fields: [metodoPagoId], references: [id])
   ordenPadre            OrdenServicio?       @relation("OrdenRefuerzo", fields: [ordenPadreId], references: [id])
   ordenesHijas          OrdenServicio[]      @relation("OrdenRefuerzo")
@@ -661,7 +659,7 @@ model OrdenServicio {
   @@index([tenantId, empresaId])
   @@index([clienteId])
   @@index([tecnicoId])
-  @@index([estadoServicioId])
+  @@index([estadoServicio])
   @@index([numeroOrden])
   @@index([fechaVisita])
   @@map("ordenes_servicio")
@@ -1440,4 +1438,15 @@ enum ClasificacionCliente {
   PLATA
   BRONCE
   RIESGO
+}
+
+enum EstadoOrden {
+  NUEVO
+  PROCESO
+  CANCELADO
+  PROGRAMADO
+  LIQUIDADO
+  TECNICO_FINALIZO
+  REPROGRAMADO
+  SIN_CONCRETAR
 }
