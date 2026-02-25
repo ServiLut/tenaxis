@@ -434,7 +434,7 @@ export const ModelName = {
   LogEvento: 'LogEvento',
   AuthSession: 'AuthSession',
   PasswordResetToken: 'PasswordResetToken',
-  cliente_configuracion_operativa: 'cliente_configuracion_operativa'
+  ClienteConfiguracionOperativa: 'ClienteConfiguracionOperativa'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -450,7 +450,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "user" | "tenant" | "plan" | "subscription" | "tenantMembership" | "empresa" | "empresaMembership" | "organizationNode" | "commissionRecord" | "segmentoNegocio" | "nivelRiesgoOperativo" | "tipoInteres" | "department" | "municipality" | "cliente" | "vehiculo" | "direccion" | "zona" | "servicio" | "tipoServicio" | "metodoPago" | "estadoServicio" | "ordenServicio" | "geolocalizacion" | "nomina" | "nominaDetalle" | "citasPsicologos" | "consultorio" | "terapiasPsicologos" | "paqueteAdquirido" | "turno" | "cuentaCobro" | "declaracionEfectivo" | "consignacionEfectivo" | "consignacionOrden" | "anticipos" | "producto" | "productoSolicitado" | "proveedores" | "permiso" | "configuracionPagos" | "cuentasPago" | "egresos" | "picoPlaca" | "referidos" | "auditoria" | "sesionActividad" | "logEvento" | "authSession" | "passwordResetToken" | "cliente_configuracion_operativa"
+    modelProps: "user" | "tenant" | "plan" | "subscription" | "tenantMembership" | "empresa" | "empresaMembership" | "organizationNode" | "commissionRecord" | "segmentoNegocio" | "nivelRiesgoOperativo" | "tipoInteres" | "department" | "municipality" | "cliente" | "vehiculo" | "direccion" | "zona" | "servicio" | "tipoServicio" | "metodoPago" | "estadoServicio" | "ordenServicio" | "geolocalizacion" | "nomina" | "nominaDetalle" | "citasPsicologos" | "consultorio" | "terapiasPsicologos" | "paqueteAdquirido" | "turno" | "cuentaCobro" | "declaracionEfectivo" | "consignacionEfectivo" | "consignacionOrden" | "anticipos" | "producto" | "productoSolicitado" | "proveedores" | "permiso" | "configuracionPagos" | "cuentasPago" | "egresos" | "picoPlaca" | "referidos" | "auditoria" | "sesionActividad" | "logEvento" | "authSession" | "passwordResetToken" | "clienteConfiguracionOperativa"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -4154,77 +4154,77 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
-    cliente_configuracion_operativa: {
-      payload: Prisma.$cliente_configuracion_operativaPayload<ExtArgs>
-      fields: Prisma.cliente_configuracion_operativaFieldRefs
+    ClienteConfiguracionOperativa: {
+      payload: Prisma.$ClienteConfiguracionOperativaPayload<ExtArgs>
+      fields: Prisma.ClienteConfiguracionOperativaFieldRefs
       operations: {
         findUnique: {
-          args: Prisma.cliente_configuracion_operativaFindUniqueArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$cliente_configuracion_operativaPayload> | null
+          args: Prisma.ClienteConfiguracionOperativaFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ClienteConfiguracionOperativaPayload> | null
         }
         findUniqueOrThrow: {
-          args: Prisma.cliente_configuracion_operativaFindUniqueOrThrowArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$cliente_configuracion_operativaPayload>
+          args: Prisma.ClienteConfiguracionOperativaFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ClienteConfiguracionOperativaPayload>
         }
         findFirst: {
-          args: Prisma.cliente_configuracion_operativaFindFirstArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$cliente_configuracion_operativaPayload> | null
+          args: Prisma.ClienteConfiguracionOperativaFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ClienteConfiguracionOperativaPayload> | null
         }
         findFirstOrThrow: {
-          args: Prisma.cliente_configuracion_operativaFindFirstOrThrowArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$cliente_configuracion_operativaPayload>
+          args: Prisma.ClienteConfiguracionOperativaFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ClienteConfiguracionOperativaPayload>
         }
         findMany: {
-          args: Prisma.cliente_configuracion_operativaFindManyArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$cliente_configuracion_operativaPayload>[]
+          args: Prisma.ClienteConfiguracionOperativaFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ClienteConfiguracionOperativaPayload>[]
         }
         create: {
-          args: Prisma.cliente_configuracion_operativaCreateArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$cliente_configuracion_operativaPayload>
+          args: Prisma.ClienteConfiguracionOperativaCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ClienteConfiguracionOperativaPayload>
         }
         createMany: {
-          args: Prisma.cliente_configuracion_operativaCreateManyArgs<ExtArgs>
+          args: Prisma.ClienteConfiguracionOperativaCreateManyArgs<ExtArgs>
           result: BatchPayload
         }
         createManyAndReturn: {
-          args: Prisma.cliente_configuracion_operativaCreateManyAndReturnArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$cliente_configuracion_operativaPayload>[]
+          args: Prisma.ClienteConfiguracionOperativaCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ClienteConfiguracionOperativaPayload>[]
         }
         delete: {
-          args: Prisma.cliente_configuracion_operativaDeleteArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$cliente_configuracion_operativaPayload>
+          args: Prisma.ClienteConfiguracionOperativaDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ClienteConfiguracionOperativaPayload>
         }
         update: {
-          args: Prisma.cliente_configuracion_operativaUpdateArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$cliente_configuracion_operativaPayload>
+          args: Prisma.ClienteConfiguracionOperativaUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ClienteConfiguracionOperativaPayload>
         }
         deleteMany: {
-          args: Prisma.cliente_configuracion_operativaDeleteManyArgs<ExtArgs>
+          args: Prisma.ClienteConfiguracionOperativaDeleteManyArgs<ExtArgs>
           result: BatchPayload
         }
         updateMany: {
-          args: Prisma.cliente_configuracion_operativaUpdateManyArgs<ExtArgs>
+          args: Prisma.ClienteConfiguracionOperativaUpdateManyArgs<ExtArgs>
           result: BatchPayload
         }
         updateManyAndReturn: {
-          args: Prisma.cliente_configuracion_operativaUpdateManyAndReturnArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$cliente_configuracion_operativaPayload>[]
+          args: Prisma.ClienteConfiguracionOperativaUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ClienteConfiguracionOperativaPayload>[]
         }
         upsert: {
-          args: Prisma.cliente_configuracion_operativaUpsertArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$cliente_configuracion_operativaPayload>
+          args: Prisma.ClienteConfiguracionOperativaUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ClienteConfiguracionOperativaPayload>
         }
         aggregate: {
-          args: Prisma.Cliente_configuracion_operativaAggregateArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.AggregateCliente_configuracion_operativa>
+          args: Prisma.ClienteConfiguracionOperativaAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateClienteConfiguracionOperativa>
         }
         groupBy: {
-          args: Prisma.cliente_configuracion_operativaGroupByArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.Cliente_configuracion_operativaGroupByOutputType>[]
+          args: Prisma.ClienteConfiguracionOperativaGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.ClienteConfiguracionOperativaGroupByOutputType>[]
         }
         count: {
-          args: Prisma.cliente_configuracion_operativaCountArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.Cliente_configuracion_operativaCountAggregateOutputType> | number
+          args: Prisma.ClienteConfiguracionOperativaCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.ClienteConfiguracionOperativaCountAggregateOutputType> | number
         }
       }
     }
@@ -5140,7 +5140,7 @@ export const PasswordResetTokenScalarFieldEnum = {
 export type PasswordResetTokenScalarFieldEnum = (typeof PasswordResetTokenScalarFieldEnum)[keyof typeof PasswordResetTokenScalarFieldEnum]
 
 
-export const Cliente_configuracion_operativaScalarFieldEnum = {
+export const ClienteConfiguracionOperativaScalarFieldEnum = {
   id: 'id',
   clienteId: 'clienteId',
   empresaId: 'empresaId',
@@ -5157,7 +5157,7 @@ export const Cliente_configuracion_operativaScalarFieldEnum = {
   updatedAt: 'updatedAt'
 } as const
 
-export type Cliente_configuracion_operativaScalarFieldEnum = (typeof Cliente_configuracion_operativaScalarFieldEnum)[keyof typeof Cliente_configuracion_operativaScalarFieldEnum]
+export type ClienteConfiguracionOperativaScalarFieldEnum = (typeof ClienteConfiguracionOperativaScalarFieldEnum)[keyof typeof ClienteConfiguracionOperativaScalarFieldEnum]
 
 
 export const SortOrder = {
@@ -5736,7 +5736,7 @@ export type GlobalOmitConfig = {
   logEvento?: Prisma.LogEventoOmit
   authSession?: Prisma.AuthSessionOmit
   passwordResetToken?: Prisma.PasswordResetTokenOmit
-  cliente_configuracion_operativa?: Prisma.cliente_configuracion_operativaOmit
+  clienteConfiguracionOperativa?: Prisma.ClienteConfiguracionOperativaOmit
 }
 
 /* Types for Logging */

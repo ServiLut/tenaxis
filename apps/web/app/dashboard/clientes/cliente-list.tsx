@@ -35,6 +35,10 @@ import {
   RotateCcw,
   Zap,
   Check,
+  Clock,
+  ClipboardCheck,
+  ShieldCheck,
+  Box,
 } from "lucide-react";
 import {
   DropdownMenu,
@@ -147,6 +151,18 @@ interface Cliente {
     color?: string;
     tipo?: string;
   }[];
+  configuracionesOperativas?: {
+    id: string;
+    empresaId: string;
+    protocoloServicio?: string;
+    observacionesFijas?: string;
+    requiereFirmaDigital: boolean;
+    requiereFotosEvidencia: boolean;
+    duracionEstimada?: number;
+    frecuenciaSugerida?: number;
+    elementosPredefinidos?: any;
+    direccionId?: string;
+  }[];
 }
 
 interface ClienteListProps {
@@ -175,6 +191,7 @@ export function ClienteList({ initialClientes }: ClienteListProps) {
   const [empresaSearch, setEmpresaSearch] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const [selectedCliente, setSelectedCliente] = useState<Cliente | null>(null);
+  const [selectedClienteForConfig, setSelectedClienteForConfig] = useState<Cliente | null>(null);
   const [userRole, setUserRole] = useState<string | null>(null);
   const [showKPIs, setShowKPIs] = useState(false);
 
@@ -792,7 +809,10 @@ export function ClienteList({ initialClientes }: ClienteListProps) {
                         >
                           <Eye className="h-4 w-4 text-zinc-400" /> VER DETALLES
                         </DropdownMenuItem>
-                        <DropdownMenuItem className="flex items-center gap-3 py-2.5 text-[11px] font-bold cursor-pointer">
+                        <DropdownMenuItem
+                          onClick={() => setSelectedClienteForConfig(cliente)}
+                          className="flex items-center gap-3 py-2.5 text-[11px] font-bold cursor-pointer"
+                        >
                           <Settings className="h-4 w-4 text-zinc-400" /> SERVICIOS
                         </DropdownMenuItem>
                         <Link href={`/dashboard/clientes/${cliente.id}/editar`}>
@@ -1187,6 +1207,182 @@ export function ClienteList({ initialClientes }: ClienteListProps) {
                                 Cerrar
                               </button>
                             </div>            </div>
+          )}
+        </DialogContent>
+      </Dialog>
+
+      {/* MODAL DE CONFIGURACIÓN OPERATIVA - SERVICIOS */}
+      <Dialog 
+        open={!!selectedClienteForConfig} 
+        onOpenChange={(open) => !open && setSelectedClienteForConfig(null)}
+      >
+        <DialogContent className="max-w-5xl p-0 overflow-hidden border-none shadow-2xl rounded-2xl">
+          <DialogHeader className="sr-only">
+            <DialogTitle>Configuración Operativa</DialogTitle>
+          </DialogHeader>
+          {selectedClienteForConfig && (
+            <div className="flex flex-col h-[85vh] bg-white dark:bg-zinc-950">
+              {/* Header Contextual */}
+              <div className="shrink-0 p-8 border-b border-zinc-100 dark:border-zinc-800 bg-zinc-50/50 dark:bg-zinc-900/30 flex items-center justify-between">
+                <div className="flex items-center gap-5">
+                  <div className="h-14 w-14 rounded-2xl bg-azul-1 flex items-center justify-center text-white shadow-lg shadow-azul-1/20">
+                    <Settings className="h-7 w-7" />
+                  </div>
+                  <div>
+                    <h2 className="text-xl font-black text-zinc-900 dark:text-zinc-50 tracking-tight uppercase">
+                      Configuración Operativa
+                    </h2>
+                    <p className="text-xs font-bold text-zinc-400 mt-0.5 uppercase tracking-wider">
+                      {selectedClienteForConfig.tipoCliente === "EMPRESA" ? selectedClienteForConfig.razonSocial : `${selectedClienteForConfig.nombre} ${selectedClienteForConfig.apellido}`}
+                    </p>
+                  </div>
+                </div>
+                <div className="flex flex-col items-end gap-1">
+                  <span className="text-[10px] font-black text-azul-1 bg-azul-1/10 px-3 py-1 rounded-full uppercase">
+                    Módulo de Automatización
+                  </span>
+                  <span className="text-[9px] font-bold text-zinc-400 uppercase tracking-widest">
+                    ID: {selectedClienteForConfig.id.split('-')[0]}...
+                  </span>
+                </div>
+              </div>
+
+              {/* Contenido Scrollable */}
+              <div className="flex-1 overflow-y-auto p-8 space-y-8 custom-scrollbar">
+                
+                {/* Selector de Sede para Configuración Específica */}
+                <div className="p-6 rounded-3xl bg-blue-50/50 dark:bg-blue-500/5 border border-blue-100 dark:border-blue-500/10 flex flex-col md:flex-row md:items-center justify-between gap-4">
+                  <div className="flex items-center gap-4">
+                    <div className="h-10 w-10 rounded-xl bg-white dark:bg-zinc-900 flex items-center justify-center text-azul-1 shadow-sm border border-blue-100 dark:border-blue-800">
+                      <MapPin className="h-5 w-5" />
+                    </div>
+                    <div>
+                      <h4 className="text-xs font-black text-zinc-900 dark:text-zinc-50 uppercase">Ámbito de Configuración</h4>
+                      <p className="text-[10px] font-bold text-zinc-500 uppercase tracking-wide">Define si los cambios aplican a todas las sedes o una específica</p>
+                    </div>
+                  </div>
+                  <div className="w-full md:w-64">
+                    <Select defaultValue="all" className="h-11 text-xs font-bold bg-white">
+                      <option value="all">Todas las Sedes (Global)</option>
+                      {selectedClienteForConfig.direcciones?.map((dir, i) => (
+                        <option key={i} value={dir.direccion}>{dir.nombreSede || dir.direccion.substring(0, 20)}</option>
+                      ))}
+                    </Select>
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                  {/* Columna Izquierda: Protocolos y Notas */}
+                  <div className="space-y-6">
+                    <div className="space-y-3">
+                      <h3 className="text-[10px] font-black uppercase tracking-[0.2em] text-zinc-400 flex items-center gap-2">
+                        <ClipboardCheck className="h-4 w-4 text-azul-1" /> Protocolo de Servicio Estándar
+                      </h3>
+                      <textarea 
+                        className="w-full h-40 p-4 rounded-2xl bg-zinc-50 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 text-xs font-medium text-zinc-700 dark:text-zinc-300 focus:ring-2 focus:ring-azul-1/20 focus:border-azul-1 transition-all resize-none"
+                        placeholder="Escribe aquí las instrucciones fijas para el técnico (EPP requerido, químicos permitidos, restricciones de acceso...)"
+                      />
+                      <p className="text-[9px] font-bold text-zinc-400 italic">* Este texto se precargará automáticamente en todas las futuras órdenes de servicio.</p>
+                    </div>
+
+                    <div className="space-y-3">
+                      <h3 className="text-[10px] font-black uppercase tracking-[0.2em] text-zinc-400 flex items-center gap-2">
+                        <FileText className="h-4 w-4 text-amber-500" /> Observaciones Administrativas
+                      </h3>
+                      <textarea 
+                        className="w-full h-32 p-4 rounded-2xl bg-zinc-50 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 text-xs font-medium text-zinc-700 dark:text-zinc-300 focus:ring-2 focus:ring-amber-500/20 focus:border-amber-500 transition-all resize-none"
+                        placeholder="Notas internas para el personal de oficina (condiciones de pago, horarios de atención, contactos de emergencia...)"
+                      />
+                    </div>
+                  </div>
+
+                  {/* Columna Derecha: Reglas y Agendamiento */}
+                  <div className="space-y-6">
+                    <div className="space-y-3">
+                      <h3 className="text-[10px] font-black uppercase tracking-[0.2em] text-zinc-400 flex items-center gap-2">
+                        <Clock className="h-4 w-4 text-emerald-500" /> Parámetros de Agendamiento
+                      </h3>
+                      <div className="grid grid-cols-2 gap-4">
+                        <div className="p-4 rounded-2xl bg-white dark:bg-zinc-900 border border-zinc-100 dark:border-zinc-800 shadow-sm">
+                          <Label className="text-[9px] font-black uppercase tracking-widest text-zinc-400 mb-2 block">Duración Estimada</Label>
+                          <div className="flex items-center gap-2">
+                            <Input type="number" defaultValue={60} className="h-9 text-xs font-black w-20" />
+                            <span className="text-[10px] font-bold text-zinc-500 uppercase">Minutos</span>
+                          </div>
+                        </div>
+                        <div className="p-4 rounded-2xl bg-white dark:bg-zinc-900 border border-zinc-100 dark:border-zinc-800 shadow-sm">
+                          <Label className="text-[9px] font-black uppercase tracking-widest text-zinc-400 mb-2 block">Frecuencia Sugerida</Label>
+                          <div className="flex items-center gap-2">
+                            <Input type="number" defaultValue={30} className="h-9 text-xs font-black w-20" />
+                            <span className="text-[10px] font-bold text-zinc-500 uppercase">Días</span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="space-y-3">
+                      <h3 className="text-[10px] font-black uppercase tracking-[0.2em] text-zinc-400 flex items-center gap-2">
+                        <ShieldCheck className="h-4 w-4 text-purple-500" /> Reglas de Validación
+                      </h3>
+                      <div className="space-y-3 bg-zinc-50 dark:bg-zinc-900 p-6 rounded-3xl border border-zinc-100 dark:border-zinc-800">
+                        <label className="flex items-center justify-between cursor-pointer group">
+                          <div className="flex flex-col">
+                            <span className="text-xs font-black text-zinc-800 dark:text-zinc-100 uppercase tracking-tight">Firma Digital Obligatoria</span>
+                            <span className="text-[9px] font-bold text-zinc-400 uppercase">No permite finalizar sin firma del cliente</span>
+                          </div>
+                          <div className="h-6 w-11 rounded-full bg-azul-1 flex items-center px-1">
+                            <div className="h-4 w-4 rounded-full bg-white translate-x-5" />
+                          </div>
+                        </label>
+                        <div className="h-px bg-zinc-200/50 dark:bg-zinc-800" />
+                        <label className="flex items-center justify-between cursor-pointer group">
+                          <div className="flex flex-col">
+                            <span className="text-xs font-black text-zinc-800 dark:text-zinc-100 uppercase tracking-tight">Fotos de Evidencia</span>
+                            <span className="text-[9px] font-bold text-zinc-400 uppercase">Exigir fotos de antes y después del servicio</span>
+                          </div>
+                          <div className="h-6 w-11 rounded-full bg-zinc-300 dark:bg-zinc-700 flex items-center px-1">
+                            <div className="h-4 w-4 rounded-full bg-white" />
+                          </div>
+                        </label>
+                      </div>
+                    </div>
+
+                    <div className="space-y-3">
+                      <div className="flex items-center justify-between">
+                        <h3 className="text-[10px] font-black uppercase tracking-[0.2em] text-zinc-400 flex items-center gap-2">
+                          <Box className="h-4 w-4 text-blue-400" /> Activos / Elementos Predefinidos
+                        </h3>
+                        <button className="text-[9px] font-black text-azul-1 hover:underline uppercase">+ Agregar</button>
+                      </div>
+                      <div className="border-2 border-dashed border-zinc-200 dark:border-zinc-800 rounded-2xl p-6 text-center">
+                        <p className="text-[10px] font-bold text-zinc-400 uppercase tracking-widest">No hay elementos configurados</p>
+                        <p className="text-[9px] font-medium text-zinc-400 mt-1 lowercase italic">Ej: Trampas de luz, Extintores, Aires acondicionados...</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+
+              {/* Footer de Acciones */}
+              <div className="shrink-0 p-8 border-t border-zinc-100 dark:border-zinc-800 bg-white dark:bg-zinc-950 flex items-center justify-end gap-4">
+                <button 
+                  onClick={() => setSelectedClienteForConfig(null)}
+                  className="px-8 h-12 rounded-xl text-xs font-black uppercase tracking-widest text-zinc-500 hover:bg-zinc-100 dark:hover:bg-zinc-900 transition-all"
+                >
+                  Cancelar
+                </button>
+                <button 
+                  onClick={() => {
+                    toast.success("Configuración guardada correctamente");
+                    setSelectedClienteForConfig(null);
+                  }}
+                  className="px-10 h-12 rounded-xl bg-azul-1 text-xs font-black uppercase tracking-widest text-white shadow-lg shadow-azul-1/20 hover:scale-[1.02] active:scale-[0.98] transition-all"
+                >
+                  Guardar Cambios
+                </button>
+              </div>
+            </div>
           )}
         </DialogContent>
       </Dialog>
