@@ -1,6 +1,7 @@
 import {
   Body,
   Controller,
+  Delete,
   Get,
   Param,
   Patch,
@@ -13,6 +14,7 @@ import { ConfigClientesService } from './config-clientes.service';
 import { CreateSegmentoDto, UpdateSegmentoDto } from './dto/segmento.dto';
 import { CreateRiesgoDto, UpdateRiesgoDto } from './dto/riesgo.dto';
 import { CreateTipoInteresDto, UpdateTipoInteresDto } from './dto/interes.dto';
+import { CreateServicioDto, UpdateServicioDto } from './dto/servicio.dto';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { JwtPayload } from '../auth/auth.service';
 import { Request as ExpressRequest } from 'express';
@@ -87,6 +89,39 @@ export class ConfigClientesController {
     @Body() dto: UpdateTipoInteresDto,
   ) {
     return this.configService.updateTipoInteres(id, dto);
+  }
+
+  // --- Servicios ---
+  @Get('servicios')
+  async findAllServicios(
+    @Request() req: RequestWithUser,
+    @Query('empresaId') empresaId?: string,
+  ) {
+    return this.configService.findAllServicios(
+      req.user.tenantId || '',
+      empresaId,
+    );
+  }
+
+  @Post('servicios')
+  async createServicio(
+    @Request() req: RequestWithUser,
+    @Body() dto: CreateServicioDto,
+  ) {
+    return this.configService.createServicio(req.user.tenantId || '', dto);
+  }
+
+  @Patch('servicios/:id')
+  async updateServicio(
+    @Param('id') id: string,
+    @Body() dto: UpdateServicioDto,
+  ) {
+    return this.configService.updateServicio(id, dto);
+  }
+
+  @Delete('servicios/:id')
+  async deleteServicio(@Param('id') id: string) {
+    return this.configService.deleteServicio(id);
   }
 
   // --- Tipos de Servicio ---
