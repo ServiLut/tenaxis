@@ -26,9 +26,15 @@ export function DashboardLayout({
     // Set initial state
     handleResize();
 
-    // Optional: listen for resize if we want it to auto-close/open
-    // window.addEventListener('resize', handleResize);
-    // return () => window.removeEventListener('resize', handleResize);
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.ctrlKey && (e.key === 'b' || e.key === 'B')) {
+        e.preventDefault();
+        setIsSidebarOpen(prev => !prev);
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
   }, []);
 
   return (
