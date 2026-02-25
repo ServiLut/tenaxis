@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect, useCallback } from "react";
 import Link from "next/link";
+import { useSearchParams, usePathname, useRouter } from "next/navigation";
 import { DashboardLayout } from "@/components/dashboard";
 import { 
   Input, 
@@ -29,7 +30,6 @@ import {
   EyeOff,
   Pencil,
   FileText,
-  CalendarClock,
   Trash2,
   Download,
   FileSpreadsheet,
@@ -48,7 +48,6 @@ import {
   Receipt,
   Image as ImageIcon,
   Send,
-  UserPlus,
   Navigation,
   Camera
 } from "lucide-react";
@@ -262,7 +261,11 @@ function ServiciosSkeleton({ showKPIs = true }: { showKPIs?: boolean }) {
 }
 
 export default function ServiciosPage() {
-  const [search, setSearch] = useState("");
+  const searchParams = useSearchParams();
+  const pathname = usePathname();
+  const router = useRouter();
+
+  const [search, setSearch] = useState(searchParams.get("search") || "");
   const [servicios, setServicios] = useState<Servicio[]>([]);
   const [loading, setLoading] = useState(true);
   const [showExportMenu, setShowExportMenu] = useState(false);
@@ -355,6 +358,16 @@ export default function ServiciosPage() {
   }, []);
 
   useEffect(() => {
+    const params = new URLSearchParams(searchParams.toString());
+    if (search) {
+      params.set("search", search);
+    } else {
+      params.delete("search");
+    }
+    router.replace(`${pathname}?${params.toString()}`);
+  }, [search, pathname, router, searchParams]);
+
+  useEffect(() => {
     fetchServicios();
     fetchOptions();
   }, [fetchServicios, fetchOptions]);
@@ -367,7 +380,8 @@ export default function ServiciosPage() {
     const matchesSearch = 
       s.cliente.toLowerCase().includes(search.toLowerCase()) ||
       s.servicioEspecifico.toLowerCase().includes(search.toLowerCase()) ||
-      s.id.toLowerCase().includes(search.toLowerCase());
+      s.id.toLowerCase().includes(search.toLowerCase()) ||
+      s.raw.id.toLowerCase().includes(search.toLowerCase());
     
     const matchesEstado = filters.estado === "all" || s.estadoServicio === filters.estado;
     const matchesTecnico = filters.tecnico === "all" || s.tecnicoId === filters.tecnico;
@@ -1487,12 +1501,12 @@ ORDEN DE SERVICIO: #${servicio.id}
                                 </p>
                                 {geo.fotoLlegada ? (
                                   <div 
-                                    className="aspect-square rounded-xl overflow-hidden border border-zinc-200 dark:border-zinc-800 bg-zinc-100 cursor-pointer group relative"
-                                    onClick={() => window.open(geo.fotoLlegada!, '_blank')}
-                                  >
-                                    <img src={geo.fotoLlegada} alt="Llegada" className="w-full h-full object-cover transition-transform group-hover:scale-110" />
-                                    <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 flex items-center justify-center transition-opacity">
-                                      <Eye className="h-6 w-6 text-white" />
+                                                                      className="aspect-square rounded-xl overflow-hidden border border-zinc-200 dark:border-zinc-800 bg-zinc-100 cursor-pointer group relative"
+                                                                      onClick={() => window.open(geo.fotoLlegada!, '_blank')}
+                                                                    >
+                                                                      {/* eslint-disable-next-line @next/next/no-img-element */}
+                                                                      <img src={geo.fotoLlegada} alt="Llegada" className="w-full h-full object-cover transition-transform group-hover:scale-110" />
+                                                                      <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 flex items-center justify-center transition-opacity">                                      <Eye className="h-6 w-6 text-white" />
                                     </div>
                                   </div>
                                 ) : (
@@ -1509,12 +1523,12 @@ ORDEN DE SERVICIO: #${servicio.id}
                                 </p>
                                 {geo.fotoSalida ? (
                                   <div 
-                                    className="aspect-square rounded-xl overflow-hidden border border-zinc-200 dark:border-zinc-800 bg-zinc-100 cursor-pointer group relative"
-                                    onClick={() => window.open(geo.fotoSalida!, '_blank')}
-                                  >
-                                    <img src={geo.fotoSalida} alt="Salida" className="w-full h-full object-cover transition-transform group-hover:scale-110" />
-                                    <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 flex items-center justify-center transition-opacity">
-                                      <Eye className="h-6 w-6 text-white" />
+                                                                      className="aspect-square rounded-xl overflow-hidden border border-zinc-200 dark:border-zinc-800 bg-zinc-100 cursor-pointer group relative"
+                                                                      onClick={() => window.open(geo.fotoSalida!, '_blank')}
+                                                                    >
+                                                                      {/* eslint-disable-next-line @next/next/no-img-element */}
+                                                                      <img src={geo.fotoSalida} alt="Salida" className="w-full h-full object-cover transition-transform group-hover:scale-110" />
+                                                                      <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 flex items-center justify-center transition-opacity">                                      <Eye className="h-6 w-6 text-white" />
                                     </div>
                                   </div>
                                 ) : (
@@ -1565,6 +1579,7 @@ ORDEN DE SERVICIO: #${servicio.id}
                           className="max-w-xl mx-auto aspect-video rounded-2xl overflow-hidden border border-zinc-200 dark:border-zinc-800 bg-white shadow-xl cursor-pointer group relative"
                           onClick={() => window.open(selectedServicio.raw.evidenciaPath!, '_blank')}
                         >
+                          {/* eslint-disable-next-line @next/next/no-img-element */}
                           <img 
                             src={selectedServicio.raw.evidenciaPath} 
                             alt="Evidencia del Servicio" 
