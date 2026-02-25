@@ -335,7 +335,7 @@ export default function ServiciosPage() {
       s.servicioEspecifico.toLowerCase().includes(search.toLowerCase()) ||
       s.id.toLowerCase().includes(search.toLowerCase());
     
-    const matchesEstado = filters.estado === "all" || s.estadoId === filters.estado;
+    const matchesEstado = filters.estado === "all" || s.estadoServicio === filters.estado;
     const matchesTecnico = filters.tecnico === "all" || s.tecnicoId === filters.tecnico;
     const matchesUrgencia = filters.urgencia === "all" || s.urgencia === filters.urgencia;
 
@@ -348,10 +348,10 @@ export default function ServiciosPage() {
 
   const stats = {
     total: servicios.length,
-    programados: servicios.filter(s => s.estado === "PROGRAMADO").length,
-    enProceso: servicios.filter(s => s.estado === "EN PROCESO").length,
-    finalizados: servicios.filter(s => s.estado === "FINALIZADO").length,
-    noConcretados: servicios.filter(s => s.estado === "CANCELADO").length,
+    programados: servicios.filter(s => s.estadoServicio === "PROGRAMADO").length,
+    enProceso: servicios.filter(s => s.estadoServicio === "EN PROCESO").length,
+    finalizados: servicios.filter(s => s.estadoServicio === "FINALIZADO").length,
+    noConcretados: servicios.filter(s => s.estadoServicio === "CANCELADO").length,
   };
 
   const handleExport = async (format: 'pdf' | 'excel' | 'word') => {
@@ -363,7 +363,7 @@ export default function ServiciosPage() {
       s.fecha,
       s.hora,
       s.tecnico,
-      s.estado,
+      s.estadoServicio,
       s.urgencia
     ]);
 
@@ -691,10 +691,10 @@ export default function ServiciosPage() {
                                 <td className="px-8 py-6">
                                   <span className={cn(
                                     "inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-[10px] font-black uppercase tracking-widest border shadow-sm",
-                                    ESTADO_STYLING[servicio.estado]
+                                    ESTADO_STYLING[servicio.estadoServicio]
                                   )}>
                                     <div className="h-1.5 w-1.5 rounded-full bg-current" />
-                                    {servicio.estado}
+                                    {servicio.estadoServicio}
                                   </span>
                                 </td>
                                 <td className="px-8 py-6 text-right">
@@ -818,168 +818,9 @@ export default function ServiciosPage() {
             </div>
           </div>
         </div>
-<<<<<<< HEAD
-
-            {/* Tabla de Servicios con Scroll y Paginación */}
-            <div className="flex-1 min-h-0 flex flex-col overflow-hidden">
-              <div className="flex-1 overflow-auto">
-                {loading ? (
-                  <ServiciosSkeleton />
-                ) : (
-                  <table className="w-full text-left border-collapse">
-                    <thead>
-                      <tr className="border-b border-zinc-100 dark:border-zinc-800 bg-zinc-50/50 dark:bg-zinc-800/50">
-                        <th className="px-8 py-6 text-[10px] font-black uppercase tracking-[0.2em] text-zinc-400">ID Orden</th>
-                        <th className="px-8 py-6 text-[10px] font-black uppercase tracking-[0.2em] text-zinc-400">Cliente / Servicio</th>
-                        <th className="px-8 py-6 text-[10px] font-black uppercase tracking-[0.2em] text-zinc-400">Programación</th>
-                        <th className="px-8 py-6 text-[10px] font-black uppercase tracking-[0.2em] text-zinc-400">Técnico</th>
-                        <th className="px-8 py-6 text-[10px] font-black uppercase tracking-[0.2em] text-zinc-400">Estado</th>
-                        <th className="px-8 py-6 text-[10px] font-black uppercase tracking-[0.2em] text-zinc-400 text-right">Acciones</th>
-                      </tr>
-                    </thead>
-                    <tbody className="divide-y divide-zinc-100 dark:divide-zinc-800">
-                      {paginatedServicios.map((servicio: Servicio) => (
-                        <tr key={servicio.id} className="group hover:bg-zinc-50/50 dark:hover:bg-zinc-800/30 transition-colors">
-                          <td className="px-8 py-6">
-                            <span className="font-mono text-xs font-black text-[var(--color-azul-1)] bg-blue-50 dark:bg-blue-500/10 px-3 py-1.5 rounded-lg border border-blue-100 dark:border-blue-500/20">
-                              {servicio.id}
-                            </span>
-                          </td>
-                          <td className="px-8 py-6">
-                            <div className="space-y-1">
-                              <p className="font-black text-zinc-900 dark:text-zinc-100 tracking-tight">{servicio.cliente}</p>
-                              <div className="flex items-center gap-2">
-                                <span className="text-[10px] font-bold text-zinc-400 uppercase tracking-widest">{servicio.servicioEspecifico}</span>
-                                <span className={cn(
-                                  "px-2 py-0.5 rounded-md text-[8px] font-black uppercase tracking-tighter",
-                                  URGENCIA_STYLING[servicio.urgencia]
-                                )}>
-                                  {servicio.urgencia}
-                                </span>
-                              </div>
-                            </div>
-                          </td>
-                          <td className="px-8 py-6">
-                            <div className="space-y-1.5">
-                              <div className="flex items-center gap-2 text-xs font-bold text-zinc-600 dark:text-zinc-400">
-                                <Calendar className="h-3.5 w-3.5 text-zinc-400" />
-                                {servicio.fecha}
-                              </div>
-                              <div className="flex items-center gap-2 text-xs font-bold text-zinc-600 dark:text-zinc-400">
-                                <Clock className="h-3.5 w-3.5 text-zinc-400" />
-                                {servicio.hora}
-                              </div>
-                            </div>
-                          </td>
-                          <td className="px-8 py-6">
-                            <div className="flex items-center gap-3">
-                              <div className="h-8 w-8 rounded-lg bg-zinc-100 dark:bg-zinc-800 flex items-center justify-center">
-                                <User className="h-4 w-4 text-zinc-500" />
-                              </div>
-                              <span className="text-sm font-bold text-zinc-700 dark:text-zinc-300">{servicio.tecnico}</span>
-                            </div>
-                          </td>
-                          <td className="px-8 py-6">
-                            <span className={cn(
-                              "inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-[10px] font-black uppercase tracking-widest border shadow-sm",
-                              ESTADO_STYLING[servicio.estadoServicio]
-                            )}>
-                              <div className="h-1.5 w-1.5 rounded-full bg-current" />
-                              {servicio.estadoServicio}
-                            </span>
-                          </td>
-                          <td className="px-8 py-6 text-right">
-                            <div className="flex justify-end gap-2">
-                              <DropdownMenu>
-                                <DropdownMenuTrigger asChild>
-                                  <button className="inline-flex h-10 w-10 items-center justify-center rounded-xl bg-zinc-50 hover:bg-zinc-900 hover:text-white text-zinc-400 dark:bg-zinc-800 dark:hover:bg-zinc-700 transition-all">
-                                    <MoreHorizontal className="h-5 w-5" />
-                                  </button>
-                                </DropdownMenuTrigger>
-                                <DropdownMenuContent align="end" className="w-56 p-2 rounded-xl">
-                                  <DropdownMenuItem 
-                                    onClick={() => {
-                                      setSelectedServicio(servicio);
-                                      setIsModalOpen(true);
-                                    }}
-                                    className="flex items-center gap-3 py-2.5 text-[11px] font-bold cursor-pointer text-zinc-600 dark:text-zinc-400"
-                                  >
-                                    <Eye className="h-4 w-4" /> VER DETALLES
-                                  </DropdownMenuItem>
-                                  <Link href={`/dashboard/servicios/${servicio.raw.id}/editar`}>
-                                    <DropdownMenuItem className="flex items-center gap-3 py-2.5 text-[11px] font-bold cursor-pointer text-zinc-600 dark:text-zinc-400">
-                                      <Pencil className="h-4 w-4" /> EDITAR ORDEN
-                                    </DropdownMenuItem>
-                                  </Link>
-                                  <DropdownMenuSeparator />
-                                  <DropdownMenuItem className="flex items-center gap-3 py-2.5 text-[11px] font-bold cursor-pointer text-zinc-600 dark:text-zinc-400">
-                                    <FileText className="h-4 w-4 text-emerald-500" /> CERTIFICADO
-                                  </DropdownMenuItem>
-                                  <DropdownMenuItem className="flex items-center gap-3 py-2.5 text-[11px] font-bold cursor-pointer text-zinc-600 dark:text-zinc-400">
-                                    <CalendarClock className="h-4 w-4 text-blue-500" /> RE-PROGRAMAR
-                                  </DropdownMenuItem>
-                                  <DropdownMenuSeparator />
-                                  <DropdownMenuItem className="flex items-center gap-3 py-2.5 text-[11px] font-bold text-red-600 hover:text-red-600 hover:bg-red-50 cursor-pointer">
-                                    <Trash2 className="h-4 w-4" /> CANCELAR
-                                  </DropdownMenuItem>
-                                </DropdownMenuContent>
-                              </DropdownMenu>
-                            </div>
-                          </td>
-                        </tr>
-                      ))}
-                    </tbody>
-                  </table>
-                )}
-              </div>
-
-            {!loading && filteredServicios.length === 0 && (
-              <div className="py-32 text-center flex-1 flex flex-col justify-center">
-                <div className="mx-auto flex h-24 w-24 items-center justify-center rounded-[2.5rem] bg-zinc-50 dark:bg-zinc-800 mb-6">
-                  <AlertCircle className="h-12 w-12 text-zinc-300" />
-                </div>
-                <h2 className="text-2xl font-black tracking-tight text-zinc-900 dark:text-zinc-50 uppercase">Sin resultados</h2>
-                <p className="text-zinc-500 mt-2 font-medium">No se encontraron órdenes que coincidan con su búsqueda.</p>
-              </div>
-            )}
-
-            {/* Paginación */}
-            <div className="px-8 py-4 border-t border-zinc-100 dark:border-zinc-800/50 bg-zinc-50/50 dark:bg-zinc-900/50 flex items-center justify-between shrink-0">
-              <span className="text-[10px] font-black uppercase tracking-widest text-zinc-400 dark:text-zinc-300">
-                Mostrando <span className="text-zinc-900 dark:text-zinc-100">{Math.min(startIndex + 1, filteredServicios.length)}</span> - <span className="text-zinc-900 dark:text-zinc-100">{Math.min(startIndex + itemsPerPage, filteredServicios.length)}</span> de <span className="text-zinc-900 dark:text-zinc-100">{filteredServicios.length}</span> resultados
-              </span>
-              <div className="flex items-center gap-2">
-                <Button 
-                  variant="outline" 
-                  size="sm" 
-                  className="h-8 rounded-xl text-xs font-bold" 
-                  disabled={currentPage === 1}
-                  onClick={() => setCurrentPage(prev => Math.max(1, prev - 1))}
-                >
-                  Anterior
-                </Button>
-                <Button 
-                  variant="outline" 
-                  size="sm" 
-                  className="h-8 rounded-xl text-xs font-bold" 
-                  disabled={currentPage >= totalPages}
-                  onClick={() => setCurrentPage(prev => Math.min(totalPages, prev + 1))}
-                >
-                  Siguiente
-                </Button>
-              </div>
-            </div>
-            </div>
-          </div>
-        </div>
-      </div>
 
       <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}>
         <DialogContent className="max-w-3xl max-h-[90vh] overflow-y-auto">
-=======
-  
-        <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}>        <DialogContent className="max-w-3xl max-h-[90vh] overflow-y-auto">
->>>>>>> 7764cee451c47f55a76747b7905e08647d9b9590
           <DialogHeader>
             <DialogTitle className="text-xl font-black uppercase tracking-tight">Detalle Completo de Orden</DialogTitle>
             <DialogDescription className="font-medium">

@@ -136,8 +136,8 @@ export function Sidebar({ isOpen, onClose }: SidebarProps) {
       )}
 
       <aside className={cn(
-        "fixed left-0 top-0 z-50 h-screen w-72 border-r border-zinc-200 bg-white p-6 transition-transform duration-300 dark:border-zinc-800 dark:bg-zinc-950 lg:translate-x-0",
-        isOpen ? "translate-x-0" : "-translate-x-full"
+        "fixed left-0 top-0 z-50 h-screen w-72 border-r border-zinc-200 bg-white p-6 transition-transform duration-300 dark:border-zinc-800 dark:bg-zinc-950",
+        isOpen ? "translate-x-0 shadow-2xl lg:shadow-none" : "-translate-x-full"
       )}>
         <div className="flex h-full flex-col justify-between">
           <div className="space-y-10">
@@ -154,10 +154,10 @@ export function Sidebar({ isOpen, onClose }: SidebarProps) {
               {/* Close button for mobile */}
               <button 
                 onClick={onClose}
-                className="flex h-10 w-10 items-center justify-center rounded-xl bg-zinc-50 dark:bg-zinc-900 text-zinc-500 dark:text-zinc-300 lg:hidden hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors"
+                className="flex h-10 w-10 items-center justify-center rounded-xl bg-zinc-50 dark:bg-zinc-900 text-zinc-500 dark:text-zinc-300 hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors shadow-sm border border-zinc-200 dark:border-zinc-800"
                 aria-label="Cerrar menú"
               >
-                <ChevronRight className="h-5 w-5 rotate-180" />
+                <ChevronRight className="h-5 w-5 lg:rotate-180 max-lg:rotate-180" />
               </button>
             </div>
 

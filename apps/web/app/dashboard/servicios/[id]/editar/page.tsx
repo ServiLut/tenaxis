@@ -109,11 +109,6 @@ function EditarServicioContent({ id }: { id: string }) {
   const [clientes, setClientes] = useState<Cliente[]>([]);
   const [metodosPago, setMetodosPago] = useState<MetodoPago[]>([]);
   const [operadores, setOperadores] = useState<Operador[]>([]);
-<<<<<<< HEAD
-=======
-  const [estados, setEstados] = useState<EstadoServicio[]>([]);
-  const [empresas, setEmpresas] = useState<any[]>([]);
->>>>>>> 7764cee451c47f55a76747b7905e08647d9b9590
 
   // Form State
   const [selectedCliente, setSelectedCliente] = useState("");
