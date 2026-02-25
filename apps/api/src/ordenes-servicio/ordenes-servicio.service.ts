@@ -446,6 +446,21 @@ export class OrdenesServicioService {
         zona: true,
         direccion: true,
         vehiculo: true,
+        geolocalizaciones: {
+          include: {
+            membership: {
+              include: {
+                user: {
+                  select: {
+                    nombre: true,
+                    apellido: true,
+                  },
+                },
+              },
+            },
+          },
+          orderBy: { llegada: 'desc' },
+        },
       },
       orderBy: { createdAt: 'desc' },
     });
@@ -464,6 +479,21 @@ export class OrdenesServicioService {
           include: { user: true },
         },
         servicio: true,
+        geolocalizaciones: {
+          include: {
+            membership: {
+              include: {
+                user: {
+                  select: {
+                    nombre: true,
+                    apellido: true,
+                  },
+                },
+              },
+            },
+          },
+          orderBy: { llegada: 'desc' },
+        },
       },
     });
 

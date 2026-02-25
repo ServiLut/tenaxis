@@ -3,8 +3,6 @@
 import React, { useState, useEffect, Suspense } from "react";
 import { DashboardLayout } from "@/components/dashboard";
 import { 
-  Card, 
-  CardContent, 
   Button, 
   Select,
   Popover,
@@ -654,13 +652,10 @@ function AgendaContent() {
                                           size="sm"
                                           className="rounded-xl font-black text-[10px] uppercase tracking-[0.1em] h-10 px-5 shadow-lg shadow-azul-1/20"
                                           onClick={() => {
-                                            const searchTerm = 
-                                              s.numeroOrden || 
-                                              s.cliente.numeroDocumento || 
-                                              s.cliente.apellido || 
-                                              "";
+                                            // Priorizamos el ID del servicio o número de orden para un filtrado exacto
+                                            const searchTerm = s.numeroOrden || s.id;
                                             router.push(
-                                              `/dashboard/servicios?term=${encodeURIComponent(searchTerm)}`
+                                              `/dashboard/servicios?search=${encodeURIComponent(searchTerm)}`
                                             );
                                           }}
                                         >
