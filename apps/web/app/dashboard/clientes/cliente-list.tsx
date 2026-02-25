@@ -696,7 +696,7 @@ export function ClienteList({ initialClientes }: ClienteListProps) {
                     <div className="flex items-center gap-4">
                       <div className={cn(
                         "flex h-10 w-10 shrink-0 items-center justify-center rounded-xl shadow-md",
-                        cliente.tipoCliente === "EMPRESA" ? "bg-zinc-900 text-white dark:bg-white dark:text-black" : "bg-blue-50 text-blue-600 dark:bg-blue-500/10 dark:text-blue-400"
+                        cliente.tipoCliente === "EMPRESA" ? "bg-zinc-900 text-white dark:bg-zinc-800 dark:text-zinc-300" : "bg-blue-50 text-blue-600 dark:bg-blue-500/10 dark:text-blue-400"
                       )}>
                         {cliente.tipoCliente === "EMPRESA" ? <Building2 className="h-5 w-5" /> : <User className="h-5 w-5" />}
                       </div>
@@ -871,7 +871,7 @@ export function ClienteList({ initialClientes }: ClienteListProps) {
       <Dialog open={!!selectedCliente} onOpenChange={(open) => !open && setSelectedCliente(null)}>
         <DialogContent className="max-w-4xl p-0 overflow-hidden border-none shadow-2xl rounded-2xl">
           <DialogHeader className="sr-only">
-            <DialogTitle>Detalles del Cliente</DialogTitle>
+            <DialogTitle className="dark:text-zinc-300">Detalles del Cliente</DialogTitle>
           </DialogHeader>
           {selectedCliente && (
             <div className="flex flex-col h-[90vh]">
@@ -1067,7 +1067,9 @@ export function ClienteList({ initialClientes }: ClienteListProps) {
                         <p className="text-[9px] font-black text-zinc-400 uppercase">Marketing</p>
                         <span className={cn(
                           "text-[9px] font-black px-2 py-0.5 rounded-md",
-                          selectedCliente.aceptaMarketing ? "bg-emerald-100 text-emerald-700" : "bg-red-100 text-red-700"
+                          selectedCliente.aceptaMarketing 
+                            ? "bg-emerald-100 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-400" 
+                            : "bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-zinc-300"
                         )}>
                           {selectedCliente.aceptaMarketing ? "AUTORIZADO" : "DENEGADO"}
                         </span>
@@ -1174,7 +1176,7 @@ export function ClienteList({ initialClientes }: ClienteListProps) {
                             <div className="shrink-0 p-8 bg-white dark:bg-zinc-900 border-t border-zinc-100 dark:border-zinc-800 flex gap-4">
                               <button
                                 onClick={() => router.push(`/dashboard/clientes/${selectedCliente.id}/editar`)}
-                                className="flex-1 h-14 rounded-2xl bg-azul-1 text-xs font-black uppercase tracking-[0.2em] text-white transition-all hover:bg-blue-700 active:scale-[0.98] shadow-xl shadow-azul-1/25"
+                                className="flex-1 h-14 rounded-2xl bg-azul-1 text-xs font-black uppercase tracking-[0.2em] text-white dark:text-zinc-300 transition-all hover:bg-blue-700 active:scale-[0.98] shadow-xl shadow-azul-1/25"
                               >
                                 Editar Perfil Estratégico
                               </button>
