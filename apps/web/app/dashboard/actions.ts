@@ -752,6 +752,7 @@ export interface CreateOrdenServicioDTO {
   valorCotizado?: number;
   metodoPagoId?: string;
   estadoPago?: string;
+  estadoServicio?: string;
   fechaVisita?: string;
   horaInicio?: string;
   duracionMinutos?: number;
@@ -792,7 +793,7 @@ export async function createOrdenServicioAction(
 
 export async function updateOrdenServicioAction(
   id: string,
-  payload: Partial<CreateOrdenServicioDTO> & { estadoServicioId?: string },
+  payload: Partial<CreateOrdenServicioDTO>,
 ) {
   const cookieStore = await cookies();
   const token = cookieStore.get('access_token')?.value;

@@ -516,7 +516,7 @@ export const OrdenServicioScalarFieldEnum = {
   zonaId: 'zonaId',
   vehiculoId: 'vehiculoId',
   metodoPagoId: 'metodoPagoId',
-  estadoServicioId: 'estadoServicioId',
+  estadoServicio: 'estadoServicio',
   numeroOrden: 'numeroOrden',
   fechaVisita: 'fechaVisita',
   horaInicio: 'horaInicio',

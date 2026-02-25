@@ -469,6 +469,13 @@ export type FloatNullableWithAggregatesFilter<$PrismaModel = never> = {
   _max?: Prisma.NestedFloatNullableFilter<$PrismaModel>
 }
 
+export type EnumEstadoOrdenFilter<$PrismaModel = never> = {
+  equals?: $Enums.EstadoOrden | Prisma.EnumEstadoOrdenFieldRefInput<$PrismaModel>
+  in?: $Enums.EstadoOrden[] | Prisma.ListEnumEstadoOrdenFieldRefInput<$PrismaModel>
+  notIn?: $Enums.EstadoOrden[] | Prisma.ListEnumEstadoOrdenFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumEstadoOrdenFilter<$PrismaModel> | $Enums.EstadoOrden
+}
+
 export type EnumEstadoPagoOrdenFilter<$PrismaModel = never> = {
   equals?: $Enums.EstadoPagoOrden | Prisma.EnumEstadoPagoOrdenFieldRefInput<$PrismaModel>
   in?: $Enums.EstadoPagoOrden[] | Prisma.ListEnumEstadoPagoOrdenFieldRefInput<$PrismaModel>
@@ -502,6 +509,16 @@ export type EnumUrgenciaOrdenNullableFilter<$PrismaModel = never> = {
   in?: $Enums.UrgenciaOrden[] | Prisma.ListEnumUrgenciaOrdenFieldRefInput<$PrismaModel> | null
   notIn?: $Enums.UrgenciaOrden[] | Prisma.ListEnumUrgenciaOrdenFieldRefInput<$PrismaModel> | null
   not?: Prisma.NestedEnumUrgenciaOrdenNullableFilter<$PrismaModel> | $Enums.UrgenciaOrden | null
+}
+
+export type EnumEstadoOrdenWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.EstadoOrden | Prisma.EnumEstadoOrdenFieldRefInput<$PrismaModel>
+  in?: $Enums.EstadoOrden[] | Prisma.ListEnumEstadoOrdenFieldRefInput<$PrismaModel>
+  notIn?: $Enums.EstadoOrden[] | Prisma.ListEnumEstadoOrdenFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumEstadoOrdenWithAggregatesFilter<$PrismaModel> | $Enums.EstadoOrden
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumEstadoOrdenFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumEstadoOrdenFilter<$PrismaModel>
 }
 
 export type EnumEstadoPagoOrdenWithAggregatesFilter<$PrismaModel = never> = {
@@ -1228,6 +1245,13 @@ export type NestedFloatNullableWithAggregatesFilter<$PrismaModel = never> = {
   _max?: Prisma.NestedFloatNullableFilter<$PrismaModel>
 }
 
+export type NestedEnumEstadoOrdenFilter<$PrismaModel = never> = {
+  equals?: $Enums.EstadoOrden | Prisma.EnumEstadoOrdenFieldRefInput<$PrismaModel>
+  in?: $Enums.EstadoOrden[] | Prisma.ListEnumEstadoOrdenFieldRefInput<$PrismaModel>
+  notIn?: $Enums.EstadoOrden[] | Prisma.ListEnumEstadoOrdenFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumEstadoOrdenFilter<$PrismaModel> | $Enums.EstadoOrden
+}
+
 export type NestedEnumEstadoPagoOrdenFilter<$PrismaModel = never> = {
   equals?: $Enums.EstadoPagoOrden | Prisma.EnumEstadoPagoOrdenFieldRefInput<$PrismaModel>
   in?: $Enums.EstadoPagoOrden[] | Prisma.ListEnumEstadoPagoOrdenFieldRefInput<$PrismaModel>
@@ -1261,6 +1285,16 @@ export type NestedEnumUrgenciaOrdenNullableFilter<$PrismaModel = never> = {
   in?: $Enums.UrgenciaOrden[] | Prisma.ListEnumUrgenciaOrdenFieldRefInput<$PrismaModel> | null
   notIn?: $Enums.UrgenciaOrden[] | Prisma.ListEnumUrgenciaOrdenFieldRefInput<$PrismaModel> | null
   not?: Prisma.NestedEnumUrgenciaOrdenNullableFilter<$PrismaModel> | $Enums.UrgenciaOrden | null
+}
+
+export type NestedEnumEstadoOrdenWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.EstadoOrden | Prisma.EnumEstadoOrdenFieldRefInput<$PrismaModel>
+  in?: $Enums.EstadoOrden[] | Prisma.ListEnumEstadoOrdenFieldRefInput<$PrismaModel>
+  notIn?: $Enums.EstadoOrden[] | Prisma.ListEnumEstadoOrdenFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumEstadoOrdenWithAggregatesFilter<$PrismaModel> | $Enums.EstadoOrden
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumEstadoOrdenFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumEstadoOrdenFilter<$PrismaModel>
 }
 
 export type NestedEnumEstadoPagoOrdenWithAggregatesFilter<$PrismaModel = never> = {

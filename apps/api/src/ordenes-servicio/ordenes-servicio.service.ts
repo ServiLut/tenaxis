@@ -78,23 +78,6 @@ export class OrdenesServicioService {
       }
     }
 
-    // 3. Obtener el estado default o crear uno si no existe
-    let estadoDefault = await this.prisma.estadoServicio.findFirst({
-      where: { tenantId, empresaId: createDto.empresaId, activo: true },
-    });
-
-    if (!estadoDefault) {
-      // Crear un estado inicial por defecto si la empresa no tiene ninguno
-      estadoDefault = await this.prisma.estadoServicio.create({
-        data: {
-          tenantId,
-          empresaId: createDto.empresaId,
-          nombre: 'PROGRAMADO',
-          activo: true,
-        },
-      });
-    }
-
     // Calcular horaFin basado en horaInicio y duracionMinutos
     const horaInicioDate = createDto.horaInicio
       ? new Date(createDto.horaInicio)
@@ -150,7 +133,7 @@ export class OrdenesServicioService {
         tecnicoId,
         direccionId,
         direccionTexto,
-        estadoServicioId: estadoDefault.id,
+        estadoServicio: createDto.estadoServicio ?? 'NUEVO',
         observacion: createDto.observacion,
         nivelInfestacion: createDto.nivelInfestacion,
         urgencia: createDto.urgencia,
@@ -168,7 +151,6 @@ export class OrdenesServicioService {
       },
       include: {
         cliente: true,
-        estadoServicio: true,
         servicio: true,
         tecnico: {
           include: { user: true },
@@ -438,7 +420,6 @@ export class OrdenesServicioService {
       },
       include: {
         cliente: true,
-        estadoServicio: true,
         tecnico: {
           include: {
             user: {
@@ -479,7 +460,6 @@ export class OrdenesServicioService {
             direcciones: true,
           },
         },
-        estadoServicio: true,
         tecnico: {
           include: { user: true },
         },
@@ -512,9 +492,6 @@ export class OrdenesServicioService {
       tecnico: updateDto.tecnicoId
         ? { connect: { id: updateDto.tecnicoId } }
         : undefined,
-      estadoServicio: updateDto.estadoServicioId
-        ? { connect: { id: updateDto.estadoServicioId } }
-        : undefined,
       observacion: updateDto.observacion ?? undefined,
       nivelInfestacion: updateDto.nivelInfestacion ?? undefined,
       urgencia: updateDto.urgencia ?? undefined,
@@ -526,6 +503,7 @@ export class OrdenesServicioService {
         ? { connect: { id: updateDto.metodoPagoId } }
         : undefined,
       estadoPago: updateDto.estadoPago ?? undefined,
+      estadoServicio: updateDto.estadoServicio ?? undefined,
     };
 
     if (updateDto.fechaVisita) {
@@ -569,7 +547,6 @@ export class OrdenesServicioService {
       data,
       include: {
         cliente: true,
-        estadoServicio: true,
         servicio: true,
         tecnico: {
           include: { user: true },
