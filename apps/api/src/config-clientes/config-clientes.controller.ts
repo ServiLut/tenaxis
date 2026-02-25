@@ -15,6 +15,7 @@ import { CreateSegmentoDto, UpdateSegmentoDto } from './dto/segmento.dto';
 import { CreateRiesgoDto, UpdateRiesgoDto } from './dto/riesgo.dto';
 import { CreateTipoInteresDto, UpdateTipoInteresDto } from './dto/interes.dto';
 import { CreateServicioDto, UpdateServicioDto } from './dto/servicio.dto';
+import { UpsertClienteConfigDto } from './dto/cliente-config.dto';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { JwtPayload } from '../auth/auth.service';
 import { Request as ExpressRequest } from 'express';
@@ -27,6 +28,41 @@ interface RequestWithUser extends ExpressRequest {
 @UseGuards(JwtAuthGuard)
 export class ConfigClientesController {
   constructor(private readonly configService: ConfigClientesService) {}
+
+  // --- ConfiguraciÃ³n Operativa de Clientes ---
+  @Get('operativa/:clienteId')
+  async findAllClienteConfigs(
+    @Request() req: RequestWithUser,
+    @Param('clienteId') clienteId: string,
+  ) {
+    return this.configService.findAllClienteConfigs(
+      req.user.tenantId || '',
+      clienteId,
+    );
+  }
+
+  @Get('operativa/:clienteId/especifica')
+  async findClienteConfig(
+    @Request() req: RequestWithUser,
+    @Param('clienteId') clienteId: string,
+    @Query('empresaId') empresaId: string,
+    @Query('direccionId') direccionId?: string,
+  ) {
+    return this.configService.findClienteConfig(
+      req.user.tenantId || '',
+      clienteId,
+      empresaId,
+      direccionId,
+    );
+  }
+
+  @Post('operativa')
+  async upsertClienteConfig(
+    @Request() req: RequestWithUser,
+    @Body() dto: UpsertClienteConfigDto,
+  ) {
+    return this.configService.upsertClienteConfig(req.user.tenantId || '', dto);
+  }
 
   // --- Segmentos ---
   @Get('segmentos')

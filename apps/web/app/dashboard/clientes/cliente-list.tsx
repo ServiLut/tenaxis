@@ -66,11 +66,15 @@ import { Button } from "@/components/ui/button";
 import { cn } from "@/components/ui/utils";
 import { toast } from "sonner";
 import { exportToExcel, exportToPDF, exportToWord } from "@/lib/utils/export-helper";
-import { deleteClienteAction } from "../actions";
+import { 
+  deleteClienteAction, 
+  getClienteConfigsAction, 
+  upsertClienteConfigAction,
+  getOrdenesServicioByClienteAction
+} from "../actions";
 import { Contact } from "lucide-react";
 
-interface Cliente {
-  id: string;
+interface Cliente {  id: string;
   nombre?: string;
   apellido?: string;
   razonSocial?: string;
@@ -192,6 +196,24 @@ export function ClienteList({ initialClientes }: ClienteListProps) {
   const [currentPage, setCurrentPage] = useState(1);
   const [selectedCliente, setSelectedCliente] = useState<Cliente | null>(null);
   const [selectedClienteForConfig, setSelectedClienteForConfig] = useState<Cliente | null>(null);
+  const [selectedClienteForHistory, setSelectedClienteForHistory] = useState<Cliente | null>(null);
+  const [historyLoading, setHistoryLoading] = useState(false);
+  const [serviceHistory, setServiceHistory] = useState<any[]>([]);
+  const [configLoading, setConfigLoading] = useState(false);
+  const [activeConfigs, setActiveConfigs] = useState<any[]>([]);
+  const [currentConfigSede, setCurrentConfigSede] = useState("all");
+
+  // Form States para ConfiguraciÃ³n
+  const [configForm, setConfigForm] = useState({
+    protocoloServicio: "",
+    observacionesFijas: "",
+    requiereFirmaDigital: true,
+    requiereFotosEvidencia: true,
+    duracionEstimada: 60,
+    frecuenciaSugerida: 30,
+    elementosPredefinidos: [] as any[],
+  });
+
   const [userRole, setUserRole] = useState<string | null>(null);
   const [showKPIs, setShowKPIs] = useState(false);
 
@@ -373,6 +395,127 @@ export function ClienteList({ initialClientes }: ClienteListProps) {
     setCurrentPage(1);
   }, [search, filters]);
 
+  // Cargar configuraciones cuando se abre el modal
+  React.useEffect(() => {
+    const loadConfigs = async () => {
+      if (!selectedClienteForConfig) return;
+      setConfigLoading(true);
+      const configs = await getClienteConfigsAction(selectedClienteForConfig.id);
+      setActiveConfigs(configs);
+
+      // Cargar configuraciÃ³n "Global" (all) por defecto
+      const globalConfig = configs.find((c: any) => !c.direccionId);
+      if (globalConfig) {
+        setConfigForm({
+          protocoloServicio: globalConfig.protocoloServicio || "",
+          observacionesFijas: globalConfig.observacionesFijas || "",
+          requiereFirmaDigital: globalConfig.requiereFirmaDigital,
+          requiereFotosEvidencia: globalConfig.requiereFotosEvidencia,
+          duracionEstimada: globalConfig.duracionEstimada || 60,
+          frecuenciaSugerida: globalConfig.frecuenciaSugerida || 30,
+          elementosPredefinidos: globalConfig.elementosPredefinidos || [],
+        });
+      } else {
+        // Reset a valores por defecto si no hay global
+        setConfigForm({
+          protocoloServicio: "",
+          observacionesFijas: "",
+          requiereFirmaDigital: true,
+          requiereFotosEvidencia: true,
+          duracionEstimada: 60,
+          frecuenciaSugerida: 30,
+          elementosPredefinidos: [],
+        });
+      }
+      setCurrentConfigSede("all");
+      setConfigLoading(false);
+    };
+
+    loadConfigs();
+  }, [selectedClienteForConfig]);
+
+  // Cargar historial de servicios
+  React.useEffect(() => {
+    const loadHistory = async () => {
+      if (!selectedClienteForHistory) return;
+      setHistoryLoading(true);
+      const history = await getOrdenesServicioByClienteAction(selectedClienteForHistory.id);
+      setServiceHistory(history);
+      setHistoryLoading(false);
+    };
+
+    loadHistory();
+  }, [selectedClienteForHistory]);
+
+  // Cambiar de sede en el formulario
+  const handleSedeChange = (sedeValue: string) => {
+    setCurrentConfigSede(sedeValue);
+    const targetId = sedeValue === "all" ? null : selectedClienteForConfig?.direcciones?.find(d => d.direccion === sedeValue)?.direccion;
+
+    // Si direccionId es null en la DB, es global. Si no, es por sede.
+    // El frontend usa 'direccion' como valor para identificar la sede.
+    const config = activeConfigs.find((c: any) =>
+      sedeValue === "all" ? !c.direccionId : c.direccion?.direccion === sedeValue
+    );
+
+    if (config) {
+      setConfigForm({
+        protocoloServicio: config.protocoloServicio || "",
+        observacionesFijas: config.observacionesFijas || "",
+        requiereFirmaDigital: config.requiereFirmaDigital,
+        requiereFotosEvidencia: config.requiereFotosEvidencia,
+        duracionEstimada: config.duracionEstimada || 60,
+        frecuenciaSugerida: config.frecuenciaSugerida || 30,
+        elementosPredefinidos: config.elementosPredefinidos || [],
+      });
+    } else {
+      setConfigForm({
+        protocoloServicio: "",
+        observacionesFijas: "",
+        requiereFirmaDigital: true,
+        requiereFotosEvidencia: true,
+        duracionEstimada: 60,
+        frecuenciaSugerida: 30,
+        elementosPredefinidos: [],
+      });
+    }
+  };
+
+  const handleSaveConfig = async () => {
+    if (!selectedClienteForConfig) return;
+
+    const cookieStore = document.cookie;
+    const empresaId = cookieStore.split("; ").find(row => row.startsWith("x-enterprise-id="))?.split("=")[1];
+
+    if (!empresaId) {
+      toast.error("No se encontrÃ³ la empresa activa");
+      return;
+    }
+
+    const direccionId = currentConfigSede === "all"
+      ? null
+      : (selectedClienteForConfig.direcciones?.find(d => d.direccion === currentConfigSede) as any)?.id;
+
+    const payload = {
+      clienteId: selectedClienteForConfig.id,
+      empresaId,
+      direccionId,
+      ...configForm,
+    };
+
+    toast.promise(upsertClienteConfigAction(payload), {
+      loading: "Guardando configuraciÃ³n...",
+      success: (res) => {
+        if (res.success) {
+          setSelectedClienteForConfig(null);
+          return "ConfiguraciÃ³n guardada exitosamente";
+        }
+        throw new Error(res.error);
+      },
+      error: (err) => err.message || "Error al guardar la configuraciÃ³n",
+    });
+  };
+
   if (!mounted) {
     return (
       <div className="flex flex-col h-full bg-white dark:bg-zinc-900 rounded-xl border border-zinc-200/60 dark:border-zinc-800/50 shadow-xl shadow-zinc-200/20 dark:shadow-none overflow-hidden items-center justify-center">
@@ -425,7 +568,7 @@ export function ClienteList({ initialClientes }: ClienteListProps) {
       {/* Contenedor Principal de Datos */}
       <div className="flex-1 min-h-0 px-4 sm:px-6 lg:px-10 pb-4 sm:pb-6 lg:pb-10">
         <div className="max-w-[1600px] mx-auto w-full h-full flex flex-col">
-          
+
           {/* KPI Cards Grid */}
           {showKPIs && (
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 mb-6 shrink-0 animate-in fade-in slide-in-from-top-4 duration-300">
@@ -555,8 +698,8 @@ export function ClienteList({ initialClientes }: ClienteListProps) {
                                 const checked = e.target.checked;
                                 setFilters(prev => ({
                                   ...prev,
-                                  empresas: checked 
-                                    ? [...prev.empresas, emp.id] 
+                                  empresas: checked
+                                    ? [...prev.empresas, emp.id]
                                     : prev.empresas.filter(id => id !== emp.id)
                                 }));
                               }}
@@ -810,10 +953,16 @@ export function ClienteList({ initialClientes }: ClienteListProps) {
                           <Eye className="h-4 w-4 text-zinc-400" /> VER DETALLES
                         </DropdownMenuItem>
                         <DropdownMenuItem
+                          onClick={() => setSelectedClienteForHistory(cliente)}
+                          className="flex items-center gap-3 py-2.5 text-[11px] font-bold cursor-pointer"
+                        >
+                          <FileText className="h-4 w-4 text-zinc-400" /> VER SERVICIOS
+                        </DropdownMenuItem>
+                        <DropdownMenuItem
                           onClick={() => setSelectedClienteForConfig(cliente)}
                           className="flex items-center gap-3 py-2.5 text-[11px] font-bold cursor-pointer"
                         >
-                          <Settings className="h-4 w-4 text-zinc-400" /> SERVICIOS
+                          <Settings className="h-4 w-4 text-zinc-400" /> CONFIGURACION
                         </DropdownMenuItem>
                         <Link href={`/dashboard/clientes/${cliente.id}/editar`}>
                           <DropdownMenuItem className="flex items-center gap-3 py-2.5 text-[11px] font-bold cursor-pointer">
@@ -821,7 +970,7 @@ export function ClienteList({ initialClientes }: ClienteListProps) {
                           </DropdownMenuItem>
                         </Link>
                         <DropdownMenuSeparator />
-                        <DropdownMenuItem 
+                        <DropdownMenuItem
                           onClick={() => handleDelete(cliente.id)}
                           className="flex items-center gap-3 py-2.5 text-[11px] font-bold text-red-600 hover:text-red-600 hover:bg-red-50 cursor-pointer"
                         >
@@ -1231,8 +1380,8 @@ export function ClienteList({ initialClientes }: ClienteListProps) {
       </Dialog>
 
       {/* MODAL DE CONFIGURACIÓN OPERATIVA - SERVICIOS */}
-      <Dialog 
-        open={!!selectedClienteForConfig} 
+      <Dialog
+        open={!!selectedClienteForConfig}
         onOpenChange={(open) => !open && setSelectedClienteForConfig(null)}
       >
         <DialogContent className="max-w-5xl p-0 overflow-hidden border-none shadow-2xl rounded-2xl">
@@ -1268,137 +1417,305 @@ export function ClienteList({ initialClientes }: ClienteListProps) {
 
               {/* Contenido Scrollable */}
               <div className="flex-1 overflow-y-auto p-8 space-y-8 custom-scrollbar">
-                
-                {/* Selector de Sede para Configuración Específica */}
-                <div className="p-6 rounded-3xl bg-blue-50/50 dark:bg-blue-500/5 border border-blue-100 dark:border-blue-500/10 flex flex-col md:flex-row md:items-center justify-between gap-4">
-                  <div className="flex items-center gap-4">
-                    <div className="h-10 w-10 rounded-xl bg-white dark:bg-zinc-900 flex items-center justify-center text-azul-1 shadow-sm border border-blue-100 dark:border-blue-800">
-                      <MapPin className="h-5 w-5" />
-                    </div>
-                    <div>
-                      <h4 className="text-xs font-black text-zinc-900 dark:text-zinc-50 uppercase">Ámbito de Configuración</h4>
-                      <p className="text-[10px] font-bold text-zinc-500 uppercase tracking-wide">Define si los cambios aplican a todas las sedes o una específica</p>
-                    </div>
-                  </div>
-                  <div className="w-full md:w-64">
-                    <Select defaultValue="all" className="h-11 text-xs font-bold bg-white">
-                      <option value="all">Todas las Sedes (Global)</option>
-                      {selectedClienteForConfig.direcciones?.map((dir, i) => (
-                        <option key={i} value={dir.direccion}>{dir.nombreSede || dir.direccion.substring(0, 20)}</option>
-                      ))}
-                    </Select>
-                  </div>
-                </div>
 
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-                  {/* Columna Izquierda: Protocolos y Notas */}
-                  <div className="space-y-6">
-                    <div className="space-y-3">
-                      <h3 className="text-[10px] font-black uppercase tracking-[0.2em] text-zinc-400 flex items-center gap-2">
-                        <ClipboardCheck className="h-4 w-4 text-azul-1" /> Protocolo de Servicio Estándar
-                      </h3>
-                      <textarea 
-                        className="w-full h-40 p-4 rounded-2xl bg-zinc-50 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 text-xs font-medium text-zinc-700 dark:text-zinc-300 focus:ring-2 focus:ring-azul-1/20 focus:border-azul-1 transition-all resize-none"
-                        placeholder="Escribe aquí las instrucciones fijas para el técnico (EPP requerido, químicos permitidos, restricciones de acceso...)"
-                      />
-                      <p className="text-[9px] font-bold text-zinc-400 italic">* Este texto se precargará automáticamente en todas las futuras órdenes de servicio.</p>
-                    </div>
-
-                    <div className="space-y-3">
-                      <h3 className="text-[10px] font-black uppercase tracking-[0.2em] text-zinc-400 flex items-center gap-2">
-                        <FileText className="h-4 w-4 text-amber-500" /> Observaciones Administrativas
-                      </h3>
-                      <textarea 
-                        className="w-full h-32 p-4 rounded-2xl bg-zinc-50 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 text-xs font-medium text-zinc-700 dark:text-zinc-300 focus:ring-2 focus:ring-amber-500/20 focus:border-amber-500 transition-all resize-none"
-                        placeholder="Notas internas para el personal de oficina (condiciones de pago, horarios de atención, contactos de emergencia...)"
-                      />
-                    </div>
+                {configLoading ? (
+                  <div className="flex flex-col items-center justify-center py-20 animate-pulse">
+                    <Settings className="h-10 w-10 text-zinc-300 animate-spin mb-4" />
+                    <p className="text-[10px] font-black uppercase tracking-widest text-zinc-400">Sincronizando Parámetros...</p>
                   </div>
-
-                  {/* Columna Derecha: Reglas y Agendamiento */}
-                  <div className="space-y-6">
-                    <div className="space-y-3">
-                      <h3 className="text-[10px] font-black uppercase tracking-[0.2em] text-zinc-400 flex items-center gap-2">
-                        <Clock className="h-4 w-4 text-emerald-500" /> Parámetros de Agendamiento
-                      </h3>
-                      <div className="grid grid-cols-2 gap-4">
-                        <div className="p-4 rounded-2xl bg-white dark:bg-zinc-900 border border-zinc-100 dark:border-zinc-800 shadow-sm">
-                          <Label className="text-[9px] font-black uppercase tracking-widest text-zinc-400 mb-2 block">Duración Estimada</Label>
-                          <div className="flex items-center gap-2">
-                            <Input type="number" defaultValue={60} className="h-9 text-xs font-black w-20" />
-                            <span className="text-[10px] font-bold text-zinc-500 uppercase">Minutos</span>
-                          </div>
+                ) : (
+                  <>
+                    {/* Selector de Sede para Configuración Específica */}
+                    <div className="p-6 rounded-3xl bg-blue-50/50 dark:bg-blue-500/5 border border-blue-100 dark:border-blue-500/10 flex flex-col md:flex-row md:items-center justify-between gap-4">
+                      <div className="flex items-center gap-4">
+                        <div className="h-10 w-10 rounded-xl bg-white dark:bg-zinc-900 flex items-center justify-center text-azul-1 shadow-sm border border-blue-100 dark:border-blue-800">
+                          <MapPin className="h-5 w-5" />
                         </div>
-                        <div className="p-4 rounded-2xl bg-white dark:bg-zinc-900 border border-zinc-100 dark:border-zinc-800 shadow-sm">
-                          <Label className="text-[9px] font-black uppercase tracking-widest text-zinc-400 mb-2 block">Frecuencia Sugerida</Label>
-                          <div className="flex items-center gap-2">
-                            <Input type="number" defaultValue={30} className="h-9 text-xs font-black w-20" />
-                            <span className="text-[10px] font-bold text-zinc-500 uppercase">Días</span>
-                          </div>
+                        <div>
+                          <h4 className="text-xs font-black text-zinc-900 dark:text-zinc-50 uppercase">Ámbito de Configuración</h4>
+                          <p className="text-[10px] font-bold text-zinc-500 uppercase tracking-wide">Define si los cambios aplican a todas las sedes o una específica</p>
                         </div>
                       </div>
-                    </div>
-
-                    <div className="space-y-3">
-                      <h3 className="text-[10px] font-black uppercase tracking-[0.2em] text-zinc-400 flex items-center gap-2">
-                        <ShieldCheck className="h-4 w-4 text-purple-500" /> Reglas de Validación
-                      </h3>
-                      <div className="space-y-3 bg-zinc-50 dark:bg-zinc-900 p-6 rounded-3xl border border-zinc-100 dark:border-zinc-800">
-                        <label className="flex items-center justify-between cursor-pointer group">
-                          <div className="flex flex-col">
-                            <span className="text-xs font-black text-zinc-800 dark:text-zinc-100 uppercase tracking-tight">Firma Digital Obligatoria</span>
-                            <span className="text-[9px] font-bold text-zinc-400 uppercase">No permite finalizar sin firma del cliente</span>
-                          </div>
-                          <div className="h-6 w-11 rounded-full bg-azul-1 flex items-center px-1">
-                            <div className="h-4 w-4 rounded-full bg-white translate-x-5" />
-                          </div>
-                        </label>
-                        <div className="h-px bg-zinc-200/50 dark:bg-zinc-800" />
-                        <label className="flex items-center justify-between cursor-pointer group">
-                          <div className="flex flex-col">
-                            <span className="text-xs font-black text-zinc-800 dark:text-zinc-100 uppercase tracking-tight">Fotos de Evidencia</span>
-                            <span className="text-[9px] font-bold text-zinc-400 uppercase">Exigir fotos de antes y después del servicio</span>
-                          </div>
-                          <div className="h-6 w-11 rounded-full bg-zinc-300 dark:bg-zinc-700 flex items-center px-1">
-                            <div className="h-4 w-4 rounded-full bg-white" />
-                          </div>
-                        </label>
+                      <div className="w-full md:w-64">
+                        <Select
+                          value={currentConfigSede}
+                          onChange={(e) => handleSedeChange(e.target.value)}
+                          className="h-11 text-xs font-bold bg-white"
+                        >
+                          <option value="all">Todas las Sedes (Global)</option>
+                          {selectedClienteForConfig.direcciones?.map((dir, i) => (
+                            <option key={i} value={dir.direccion}>{dir.nombreSede || dir.direccion.substring(0, 20)}</option>
+                          ))}
+                        </Select>
                       </div>
                     </div>
 
-                    <div className="space-y-3">
-                      <div className="flex items-center justify-between">
-                        <h3 className="text-[10px] font-black uppercase tracking-[0.2em] text-zinc-400 flex items-center gap-2">
-                          <Box className="h-4 w-4 text-blue-400" /> Activos / Elementos Predefinidos
-                        </h3>
-                        <button className="text-[9px] font-black text-azul-1 hover:underline uppercase">+ Agregar</button>
+                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                      {/* Columna Izquierda: Protocolos y Notas */}
+                      <div className="space-y-6">
+                        <div className="space-y-3">
+                          <h3 className="text-[10px] font-black uppercase tracking-[0.2em] text-zinc-400 flex items-center gap-2">
+                            <ClipboardCheck className="h-4 w-4 text-azul-1" /> Protocolo de Servicio Estándar
+                          </h3>
+                          <textarea
+                            value={configForm.protocoloServicio}
+                            onChange={(e) => setConfigForm(prev => ({ ...prev, protocoloServicio: e.target.value }))}
+                            className="w-full h-40 p-4 rounded-2xl bg-zinc-50 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 text-xs font-medium text-zinc-700 dark:text-zinc-300 focus:ring-2 focus:ring-azul-1/20 focus:border-azul-1 transition-all resize-none"
+                            placeholder="Escribe aquí las instrucciones fijas para el técnico (EPP requerido, químicos permitidos, restricciones de acceso...)"
+                          />
+                          <p className="text-[9px] font-bold text-zinc-400 italic">* Este texto se precargará automáticamente en todas las futuras órdenes de servicio.</p>
+                        </div>
+
+                        <div className="space-y-3">
+                          <h3 className="text-[10px] font-black uppercase tracking-[0.2em] text-zinc-400 flex items-center gap-2">
+                            <FileText className="h-4 w-4 text-amber-500" /> Observaciones Administrativas
+                          </h3>
+                          <textarea
+                            value={configForm.observacionesFijas}
+                            onChange={(e) => setConfigForm(prev => ({ ...prev, observacionesFijas: e.target.value }))}
+                            className="w-full h-32 p-4 rounded-2xl bg-zinc-50 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 text-xs font-medium text-zinc-700 dark:text-zinc-300 focus:ring-2 focus:ring-amber-500/20 focus:border-amber-500 transition-all resize-none"
+                            placeholder="Notas internas para el personal de oficina (condiciones de pago, horarios de atención, contactos de emergencia...)"
+                          />
+                        </div>
                       </div>
-                      <div className="border-2 border-dashed border-zinc-200 dark:border-zinc-800 rounded-2xl p-6 text-center">
-                        <p className="text-[10px] font-bold text-zinc-400 uppercase tracking-widest">No hay elementos configurados</p>
-                        <p className="text-[9px] font-medium text-zinc-400 mt-1 lowercase italic">Ej: Trampas de luz, Extintores, Aires acondicionados...</p>
+
+                      {/* Columna Derecha: Reglas y Agendamiento */}
+                      <div className="space-y-6">
+                        <div className="space-y-3">
+                          <h3 className="text-[10px] font-black uppercase tracking-[0.2em] text-zinc-400 flex items-center gap-2">
+                            <Clock className="h-4 w-4 text-emerald-500" /> Parámetros de Agendamiento
+                          </h3>
+                          <div className="grid grid-cols-2 gap-4">
+                            <div className="p-4 rounded-2xl bg-white dark:bg-zinc-900 border border-zinc-100 dark:border-zinc-800 shadow-sm">
+                              <Label className="text-[9px] font-black uppercase tracking-widest text-zinc-400 mb-2 block">Duración Estimada</Label>
+                              <div className="flex items-center gap-2">
+                                <Input
+                                  type="number"
+                                  value={configForm.duracionEstimada}
+                                  onChange={(e) => setConfigForm(prev => ({ ...prev, duracionEstimada: parseInt(e.target.value) || 0 }))}
+                                  className="h-9 text-xs font-black w-20"
+                                />
+                                <span className="text-[10px] font-bold text-zinc-500 uppercase">Minutos</span>
+                              </div>
+                            </div>
+                            <div className="p-4 rounded-2xl bg-white dark:bg-zinc-900 border border-zinc-100 dark:border-zinc-800 shadow-sm">
+                              <Label className="text-[9px] font-black uppercase tracking-widest text-zinc-400 mb-2 block">Frecuencia Sugerida</Label>
+                              <div className="flex items-center gap-2">
+                                <Input
+                                  type="number"
+                                  value={configForm.frecuenciaSugerida}
+                                  onChange={(e) => setConfigForm(prev => ({ ...prev, frecuenciaSugerida: parseInt(e.target.value) || 0 }))}
+                                  className="h-9 text-xs font-black w-20"
+                                />
+                                <span className="text-[10px] font-bold text-zinc-500 uppercase">Días</span>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+
+                        <div className="space-y-3">
+                          <h3 className="text-[10px] font-black uppercase tracking-[0.2em] text-zinc-400 flex items-center gap-2">
+                            <ShieldCheck className="h-4 w-4 text-purple-500" /> Reglas de Validación
+                          </h3>
+                          <div className="space-y-3 bg-zinc-50 dark:bg-zinc-900 p-6 rounded-3xl border border-zinc-100 dark:border-zinc-800">
+                            <label className="flex items-center justify-between cursor-pointer group">
+                              <div className="flex flex-col">
+                                <span className="text-xs font-black text-zinc-800 dark:text-zinc-100 uppercase tracking-tight">Firma Digital Obligatoria</span>
+                                <span className="text-[9px] font-bold text-zinc-400 uppercase">No permite finalizar sin firma del cliente</span>
+                              </div>
+                              <div
+                                onClick={() => setConfigForm(prev => ({ ...prev, requiereFirmaDigital: !prev.requiereFirmaDigital }))}
+                                className={cn(
+                                  "h-6 w-11 rounded-full flex items-center px-1 transition-all",
+                                  configForm.requiereFirmaDigital ? "bg-azul-1" : "bg-zinc-300 dark:bg-zinc-700"
+                                )}
+                              >
+                                <div className={cn(
+                                  "h-4 w-4 rounded-full bg-white transition-all transform",
+                                  configForm.requiereFirmaDigital ? "translate-x-5" : "translate-x-0"
+                                )} />
+                              </div>
+                            </label>
+                            <div className="h-px bg-zinc-200/50 dark:bg-zinc-800" />
+                            <label className="flex items-center justify-between cursor-pointer group">
+                              <div className="flex flex-col">
+                                <span className="text-xs font-black text-zinc-800 dark:text-zinc-100 uppercase tracking-tight">Fotos de Evidencia</span>
+                                <span className="text-[9px] font-bold text-zinc-400 uppercase">Exigir fotos de antes y después del servicio</span>
+                              </div>
+                              <div
+                                onClick={() => setConfigForm(prev => ({ ...prev, requiereFotosEvidencia: !prev.requiereFotosEvidencia }))}
+                                className={cn(
+                                  "h-6 w-11 rounded-full flex items-center px-1 transition-all",
+                                  configForm.requiereFotosEvidencia ? "bg-azul-1" : "bg-zinc-300 dark:bg-zinc-700"
+                                )}
+                              >
+                                <div className={cn(
+                                  "h-4 w-4 rounded-full bg-white transition-all transform",
+                                  configForm.requiereFotosEvidencia ? "translate-x-5" : "translate-x-0"
+                                )} />
+                              </div>
+                            </label>
+                          </div>
+                        </div>
+
+                        <div className="space-y-3">
+                          <div className="flex items-center justify-between">
+                            <h3 className="text-[10px] font-black uppercase tracking-[0.2em] text-zinc-400 flex items-center gap-2">
+                              <Box className="h-4 w-4 text-blue-400" /> Activos / Elementos Predefinidos
+                            </h3>
+                            <button className="text-[9px] font-black text-azul-1 hover:underline uppercase">+ Agregar</button>
+                          </div>
+                          <div className="border-2 border-dashed border-zinc-200 dark:border-zinc-800 rounded-2xl p-6 text-center">
+                            <p className="text-[10px] font-bold text-zinc-400 uppercase tracking-widest">No hay elementos configurados</p>
+                            <p className="text-[9px] font-medium text-zinc-400 mt-1 lowercase italic">Ej: Trampas de luz, Extintores, Aires acondicionados...</p>
+                          </div>
+                        </div>
                       </div>
                     </div>
-                  </div>
-                </div>
+                  </>
+                )}
 
               </div>
 
               {/* Footer de Acciones */}
               <div className="shrink-0 p-8 border-t border-zinc-100 dark:border-zinc-800 bg-white dark:bg-zinc-950 flex items-center justify-end gap-4">
-                <button 
+                <button
                   onClick={() => setSelectedClienteForConfig(null)}
-                  className="px-8 h-12 rounded-xl text-xs font-black uppercase tracking-widest text-zinc-500 hover:bg-zinc-100 dark:hover:bg-zinc-900 transition-all"
+                  disabled={configLoading}
+                  className="px-8 h-12 rounded-xl text-xs font-black uppercase tracking-widest text-zinc-500 hover:bg-zinc-100 dark:hover:bg-zinc-900 transition-all disabled:opacity-50"
                 >
                   Cancelar
                 </button>
-                <button 
-                  onClick={() => {
-                    toast.success("Configuración guardada correctamente");
-                    setSelectedClienteForConfig(null);
-                  }}
-                  className="px-10 h-12 rounded-xl bg-azul-1 text-xs font-black uppercase tracking-widest text-white shadow-lg shadow-azul-1/20 hover:scale-[1.02] active:scale-[0.98] transition-all"
+                <button
+                  onClick={handleSaveConfig}
+                  disabled={configLoading}
+                  className="px-10 h-12 rounded-xl bg-azul-1 text-xs font-black uppercase tracking-widest text-white shadow-lg shadow-azul-1/20 hover:scale-[1.02] active:scale-[0.98] transition-all disabled:opacity-50"
                 >
                   Guardar Cambios
+                </button>
+              </div>
+            </div>
+          )}
+        </DialogContent>
+      </Dialog>
+
+      {/* MODAL DE HISTORIAL DE SERVICIOS */}
+      <Dialog 
+        open={!!selectedClienteForHistory} 
+        onOpenChange={(open) => !open && setSelectedClienteForHistory(null)}
+      >
+        <DialogContent className="max-w-5xl p-0 overflow-hidden border-none shadow-2xl rounded-2xl">
+          <DialogHeader className="sr-only">
+            <DialogTitle>Historial de Servicios</DialogTitle>
+          </DialogHeader>
+          {selectedClienteForHistory && (
+            <div className="flex flex-col h-[85vh] bg-white dark:bg-zinc-950">
+              {/* Header con Info del Cliente */}
+              <div className="shrink-0 p-8 border-b border-zinc-100 dark:border-zinc-800 bg-zinc-50/50 dark:bg-zinc-900/30 flex items-center justify-between">
+                <div className="flex items-center gap-5">
+                  <div className="h-14 w-14 rounded-2xl bg-azul-1 flex items-center justify-center text-white shadow-lg shadow-azul-1/20">
+                    <Calendar className="h-7 w-7" />
+                  </div>
+                  <div>
+                    <h2 className="text-xl font-black text-zinc-900 dark:text-zinc-50 tracking-tight uppercase">
+                      Historial de Servicios
+                    </h2>
+                    <p className="text-xs font-bold text-zinc-400 mt-0.5 uppercase tracking-wider">
+                      {selectedClienteForHistory.tipoCliente === "EMPRESA" ? selectedClienteForHistory.razonSocial : `${selectedClienteForHistory.nombre} ${selectedClienteForHistory.apellido}`}
+                    </p>
+                  </div>
+                </div>
+                <div className="flex flex-col items-end gap-1">
+                  <span className="text-[10px] font-black text-azul-1 bg-azul-1/10 px-3 py-1 rounded-full uppercase">
+                    {serviceHistory.length} Servicios Registrados
+                  </span>
+                </div>
+              </div>
+
+              {/* Lista de Servicios */}
+              <div className="flex-1 overflow-y-auto p-8 custom-scrollbar">
+                {historyLoading ? (
+                  <div className="flex flex-col items-center justify-center py-20 animate-pulse">
+                    <Calendar className="h-10 w-10 text-zinc-300 animate-bounce mb-4" />
+                    <p className="text-[10px] font-black uppercase tracking-widest text-zinc-400">Consultando Expediente...</p>
+                  </div>
+                ) : serviceHistory.length === 0 ? (
+                  <div className="flex flex-col items-center justify-center py-20 text-center">
+                    <div className="h-20 w-20 rounded-full bg-zinc-50 dark:bg-zinc-900 flex items-center justify-center mb-4">
+                      <Search className="h-10 w-10 text-zinc-200" />
+                    </div>
+                    <h3 className="text-sm font-black text-zinc-400 uppercase tracking-widest">Sin Servicios Previos</h3>
+                    <p className="text-xs text-zinc-400 mt-1">Este cliente aún no registra órdenes de servicio en el sistema.</p>
+                  </div>
+                ) : (
+                  <div className="space-y-4">
+                    {serviceHistory.map((orden: any) => (
+                      <div key={orden.id} className="p-6 rounded-3xl bg-white dark:bg-zinc-900 border border-zinc-100 dark:border-zinc-800 hover:border-azul-1/30 transition-all group">
+                        <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
+                          <div className="flex items-center gap-5">
+                            <div className="h-12 w-12 rounded-2xl bg-zinc-50 dark:bg-zinc-800 flex items-center justify-center text-zinc-400 group-hover:text-azul-1 transition-colors">
+                              <FileText className="h-6 w-6" />
+                            </div>
+                            <div>
+                              <div className="flex items-center gap-3 mb-1">
+                                <span className="text-xs font-black text-zinc-900 dark:text-zinc-50 uppercase tracking-tight">#{orden.numeroOrden || 'S/N'}</span>
+                                <span className={cn(
+                                  "text-[9px] font-black px-2 py-0.5 rounded-md uppercase",
+                                  orden.estadoServicio === "LIQUIDADO" ? "bg-emerald-100 text-emerald-700" :
+                                  orden.estadoServicio === "PROGRAMADO" ? "bg-blue-100 text-blue-700" :
+                                  "bg-zinc-100 text-zinc-600"
+                                )}>
+                                  {orden.estadoServicio}
+                                </span>
+                              </div>
+                              <h4 className="text-sm font-bold text-zinc-700 dark:text-zinc-300">{orden.servicio?.nombre || 'Servicio General'}</h4>
+                              <div className="flex items-center gap-4 mt-2">
+                                <div className="flex items-center gap-1.5 text-[10px] font-medium text-zinc-400 uppercase">
+                                  <Calendar className="h-3 w-3" />
+                                  {orden.fechaVisita ? new Date(orden.fechaVisita).toLocaleDateString() : 'Pendiente'}
+                                </div>
+                                <div className="flex items-center gap-1.5 text-[10px] font-medium text-zinc-400 uppercase">
+                                  <MapPin className="h-3 w-3" />
+                                  {orden.direccionTexto?.substring(0, 30) || 'Sede Principal'}
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+
+                          <div className="flex items-center gap-10">
+                            <div className="hidden md:flex flex-col items-end">
+                              <p className="text-[9px] font-black text-zinc-400 uppercase tracking-widest">Técnico Asignado</p>
+                              <div className="flex items-center gap-2 mt-1">
+                                <div className="h-6 w-6 rounded-full bg-azul-1/10 flex items-center justify-center text-[10px] font-bold text-azul-1">
+                                  {orden.tecnico?.user?.nombre?.charAt(0) || 'T'}
+                                </div>
+                                <span className="text-xs font-bold text-zinc-700 dark:text-zinc-300">
+                                  {orden.tecnico?.user?.nombre} {orden.tecnico?.user?.apellido}
+                                </span>
+                              </div>
+                            </div>
+                            <div className="flex flex-col items-end">
+                              <p className="text-[9px] font-black text-zinc-400 uppercase tracking-widest">Valor</p>
+                              <p className="text-sm font-black text-zinc-900 dark:text-zinc-100 mt-1">${Number(orden.valorCotizado || 0).toLocaleString()}</p>
+                            </div>
+                            <button className="h-10 w-10 rounded-xl border border-zinc-100 dark:border-zinc-800 flex items-center justify-center hover:bg-azul-1 hover:text-white transition-all">
+                              <ChevronRight className="h-5 w-5" />
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+
+              {/* Footer */}
+              <div className="shrink-0 p-8 border-t border-zinc-100 dark:border-zinc-800 bg-white dark:bg-zinc-950 flex items-center justify-end">
+                <button 
+                  onClick={() => setSelectedClienteForHistory(null)}
+                  className="px-10 h-12 rounded-xl bg-zinc-100 dark:bg-zinc-900 text-xs font-black uppercase tracking-widest text-zinc-600 dark:text-zinc-400 hover:bg-zinc-200 transition-all"
+                >
+                  Cerrar Historial
                 </button>
               </div>
             </div>
