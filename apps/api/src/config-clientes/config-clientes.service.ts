@@ -4,10 +4,65 @@ import { CreateSegmentoDto, UpdateSegmentoDto } from './dto/segmento.dto';
 import { CreateRiesgoDto, UpdateRiesgoDto } from './dto/riesgo.dto';
 import { CreateTipoInteresDto, UpdateTipoInteresDto } from './dto/interes.dto';
 import { CreateServicioDto, UpdateServicioDto } from './dto/servicio.dto';
+import { UpsertClienteConfigDto } from './dto/cliente-config.dto';
 
 @Injectable()
 export class ConfigClientesService {
   constructor(private prisma: PrismaService) {}
+
+  // --- ConfiguraciÃ³n Operativa de Clientes ---
+  async findClienteConfig(tenantId: string, clienteId: string, empresaId: string, direccionId?: string) {
+    return this.prisma.clienteConfiguracionOperativa.findFirst({
+      where: {
+        tenantId,
+        clienteId,
+        empresaId,
+        direccionId: direccionId || null,
+      },
+    });
+  }
+
+  async findAllClienteConfigs(tenantId: string, clienteId: string) {
+    return this.prisma.clienteConfiguracionOperativa.findMany({
+      where: { tenantId, clienteId },
+      include: {
+        direccion: {
+          select: { nombreSede: true, direccion: true }
+        }
+      }
+    });
+  }
+
+  async upsertClienteConfig(tenantId: string, dto: UpsertClienteConfigDto) {
+    const { clienteId, empresaId, direccionId, ...configData } = dto;
+
+    // Buscamos si ya existe una configuraciÃ³n para este cliente/empresa/sede
+    const existing = await this.prisma.clienteConfiguracionOperativa.findFirst({
+      where: {
+        tenantId,
+        clienteId,
+        empresaId,
+        direccionId: direccionId || null,
+      },
+    });
+
+    if (existing) {
+      return this.prisma.clienteConfiguracionOperativa.update({
+        where: { id: existing.id },
+        data: configData,
+      });
+    }
+
+    return this.prisma.clienteConfiguracionOperativa.create({
+      data: {
+        ...configData,
+        clienteId,
+        empresaId,
+        tenantId,
+        direccionId: direccionId || null,
+      },
+    });
+  }
 
   // --- Segmentos ---
   async findAllSegmentos(tenantId: string) {
