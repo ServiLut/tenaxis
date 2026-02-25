@@ -554,6 +554,52 @@ export async function deleteServicioAction(id: string) {
   return response.json();
 }
 
+// --- Acciones de ConfiguraciÃ³n Operativa ---
+export async function getClienteConfigsAction(clienteId: string) {
+  const cookieStore = await cookies();
+  const token = cookieStore.get("access_token")?.value;
+  if (!token) return [];
+
+  try {
+    const apiUrl = process.env.NESTJS_API_URL || "http://127.0.0.1:4000";
+    const response = await fetch(`${apiUrl}/config-clientes/operativa/${clienteId}`, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+    if (!response.ok) return [];
+    const result = await response.json();
+    return result.data || result;
+  } catch (error) {
+    console.error("Error fetching client configs:", error);
+    return [];
+  }
+}
+
+export async function upsertClienteConfigAction(payload: any) {
+  const cookieStore = await cookies();
+  const token = cookieStore.get("access_token")?.value;
+  if (!token) return { success: false, error: "No session found" };
+
+  try {
+    const apiUrl = process.env.NESTJS_API_URL || "http://127.0.0.1:4000";
+    const response = await fetch(`${apiUrl}/config-clientes/operativa`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify(payload),
+    });
+
+    const result = await response.json();
+    if (!response.ok) return { success: false, error: result.message || "Error al guardar configuraciÃ³n" };
+
+    revalidatePath("/dashboard/clientes");
+    return { success: true, data: result.data || result };
+  } catch (error) {
+    return { success: false, error: "OcurriÃ³ un error inesperado" };
+  }
+}
+
 export async function createClienteAction(payload: ClienteDTO) {
   const cookieStore = await cookies();
   const token = cookieStore.get("access_token")?.value;
@@ -826,6 +872,25 @@ export async function getOrdenesServicioAction(empresaId?: string) {
     return result.data || result;
   } catch (error) {
     console.error("Error fetching service orders:", error);
+    return [];
+  }
+}
+
+export async function getOrdenesServicioByClienteAction(clienteId: string) {
+  try {
+    const apiUrl = process.env.NESTJS_API_URL || "http://127.0.0.1:4000";
+    const headers = await getHeaders();
+    const response = await fetch(`${apiUrl}/ordenes-servicio?clienteId=${clienteId}`, {
+      headers,
+      cache: "no-store",
+    });
+
+    if (!response.ok) return [];
+
+    const result = await response.json();
+    return result.data || result;
+  } catch (error) {
+    console.error("Error fetching client service orders:", error);
     return [];
   }
 }
