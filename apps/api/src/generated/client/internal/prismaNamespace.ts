@@ -4589,7 +4589,6 @@ export const OrdenServicioScalarFieldEnum = {
   zonaId: 'zonaId',
   vehiculoId: 'vehiculoId',
   metodoPagoId: 'metodoPagoId',
-  estadoServicio: 'estadoServicio',
   numeroOrden: 'numeroOrden',
   fechaVisita: 'fechaVisita',
   horaInicio: 'horaInicio',
@@ -4615,7 +4614,8 @@ export const OrdenServicioScalarFieldEnum = {
   tipoFacturacion: 'tipoFacturacion',
   tipoVisita: 'tipoVisita',
   nivelInfestacion: 'nivelInfestacion',
-  urgencia: 'urgencia'
+  urgencia: 'urgencia',
+  estadoServicio: 'estadoServicio'
 } as const
 
 export type OrdenServicioScalarFieldEnum = (typeof OrdenServicioScalarFieldEnum)[keyof typeof OrdenServicioScalarFieldEnum]
@@ -5274,20 +5274,6 @@ export type ListFloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaMode
 
 
 /**
- * Reference to a field of type 'EstadoOrden'
- */
-export type EnumEstadoOrdenFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'EstadoOrden'>
-    
-
-
-/**
- * Reference to a field of type 'EstadoOrden[]'
- */
-export type ListEnumEstadoOrdenFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'EstadoOrden[]'>
-    
-
-
-/**
  * Reference to a field of type 'EstadoPagoOrden'
  */
 export type EnumEstadoPagoOrdenFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'EstadoPagoOrden'>
@@ -5354,6 +5340,20 @@ export type EnumUrgenciaOrdenFieldRefInput<$PrismaModel> = FieldRefInputType<$Pr
  * Reference to a field of type 'UrgenciaOrden[]'
  */
 export type ListEnumUrgenciaOrdenFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'UrgenciaOrden[]'>
+    
+
+
+/**
+ * Reference to a field of type 'EstadoOrden'
+ */
+export type EnumEstadoOrdenFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'EstadoOrden'>
+    
+
+
+/**
+ * Reference to a field of type 'EstadoOrden[]'
+ */
+export type ListEnumEstadoOrdenFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'EstadoOrden[]'>
     
 
 

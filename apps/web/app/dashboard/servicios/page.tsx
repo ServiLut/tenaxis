@@ -48,7 +48,9 @@ import {
   Receipt,
   Image as ImageIcon,
   Send,
-  UserPlus
+  UserPlus,
+  Navigation,
+  Camera
 } from "lucide-react";
 import {
   DropdownMenu,
@@ -140,17 +142,39 @@ interface OrdenServicioRaw {
   facturaPath?: string | null;
   facturaElectronica?: string | null;
   linkMaps?: string | null;
+  evidenciaPath?: string | null;
+  geolocalizaciones?: {
+    id: string;
+    latitud: number | null;
+    longitud: number | null;
+    llegada: string;
+    salida: string | null;
+    fotoLlegada: string | null;
+    fotoSalida: string | null;
+    linkMaps: string | null;
+    membership: {
+      user: {
+        nombre: string;
+        apellido: string;
+      };
+    };
+  }[];
 }
 
 const ESTADO_STYLING: Record<string, string> = {
-  "NUEVO": "bg-zinc-50 text-zinc-600 border-zinc-100 dark:bg-zinc-900/20 dark:text-zinc-400 dark:border-zinc-800/50",
-  "PROCESO": "bg-amber-50 text-amber-600 border-amber-100 dark:bg-amber-900/20 dark:text-amber-400 dark:border-amber-800/50",
-  "CANCELADO": "bg-red-50 text-red-600 border-red-100 dark:bg-red-900/20 dark:text-red-400 dark:border-red-800/50",
-  "PROGRAMADO": "bg-blue-50 text-blue-600 border-blue-100 dark:bg-blue-900/20 dark:text-blue-400 dark:border-blue-800/50",
-  "LIQUIDADO": "bg-emerald-50 text-emerald-600 border-emerald-100 dark:bg-emerald-900/20 dark:text-emerald-400 dark:border-emerald-800/50",
-  "TECNICO_FINALIZO": "bg-purple-50 text-purple-600 border-purple-100 dark:bg-purple-900/20 dark:text-purple-400 dark:border-purple-800/50",
-  "REPROGRAMADO": "bg-indigo-50 text-indigo-600 border-indigo-100 dark:bg-indigo-900/20 dark:text-indigo-400 dark:border-indigo-800/50",
-  "SIN_CONCRETAR": "bg-slate-50 text-slate-600 border-slate-100 dark:bg-slate-900/20 dark:text-slate-400 dark:border-slate-800/50",
+  "NUEVO": "bg-zinc-100 text-zinc-600 border-zinc-200 dark:bg-zinc-900/40 dark:text-zinc-400 dark:border-zinc-800",
+  "PROCESO": "bg-amber-100 text-amber-700 border-amber-200 dark:bg-amber-900/30 dark:text-amber-400 dark:border-amber-800/50",
+  "EN PROCESO": "bg-amber-100 text-amber-700 border-amber-200 dark:bg-amber-900/30 dark:text-amber-400 dark:border-amber-800/50",
+  "CANCELADO": "bg-red-100 text-red-700 border-red-200 dark:bg-red-900/30 dark:text-red-400 dark:border-red-800/50",
+  "PROGRAMADO": "bg-blue-100 text-blue-700 border-blue-200 dark:bg-blue-900/30 dark:text-blue-400 dark:border-blue-800/50",
+  "LIQUIDADO": "bg-emerald-100 text-emerald-700 border-emerald-200 dark:bg-emerald-900/30 dark:text-emerald-400 dark:border-emerald-800/50",
+  "TECNICO_FINALIZO": "bg-green-100 text-green-900 border-green-200 dark:bg-green-900/40 dark:text-green-300 dark:border-green-800/50",
+  "TECNICO FINALIZO": "bg-green-100 text-green-900 border-green-200 dark:bg-green-900/40 dark:text-green-300 dark:border-green-800/50",
+  "TECNICO FINALIZADO": "bg-green-100 text-green-900 border-green-200 dark:bg-green-900/40 dark:text-green-300 dark:border-green-800/50",
+  "REPROGRAMADO": "bg-indigo-100 text-indigo-700 border-indigo-200 dark:bg-indigo-900/30 dark:text-indigo-400 dark:border-indigo-800/50",
+  "SIN_CONCRETAR": "bg-slate-100 text-slate-700 border-slate-200 dark:bg-slate-900/30 dark:text-slate-400 dark:border-slate-800/50",
+  "SIN CONCRETAR": "bg-slate-100 text-slate-700 border-slate-200 dark:bg-slate-900/30 dark:text-slate-400 dark:border-slate-800/50",
+  "DEFAULT": "bg-zinc-100 text-zinc-600 border-zinc-200 dark:bg-zinc-900/40 dark:text-zinc-400 dark:border-zinc-800",
 };
 
 const URGENCIA_STYLING: Record<string, string> = {
@@ -244,6 +268,7 @@ export default function ServiciosPage() {
   const [showExportMenu, setShowExportMenu] = useState(false);
   const [selectedServicio, setSelectedServicio] = useState<Servicio | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isGeoModalOpen, setIsGeoModalOpen] = useState(false);
   const [showKPIs, setShowKPIs] = useState(true);
   
   // Filter State
@@ -295,6 +320,15 @@ export default function ServiciosPage() {
           ? (os.cliente.razonSocial || "Empresa") 
           : `${os.cliente.nombre || ""} ${os.cliente.apellido || ""}`.trim();
           
+        // Map database status to requested readable status
+        const statusMap: Record<string, string> = {
+          "PROCESO": "EN PROCESO",
+          "TECNICO_FINALIZO": "TECNICO FINALIZADO",
+          "SIN_CONCRETAR": "SIN CONCRETAR",
+        };
+
+        const displayStatus = statusMap[os.estadoServicio || ""] || os.estadoServicio || "NUEVO";
+          
         return {
           id: os.numeroOrden || os.id.substring(0, 8).toUpperCase(),
           cliente: clienteLabel,
@@ -304,7 +338,7 @@ export default function ServiciosPage() {
           hora: os.horaInicio ? new Date(os.horaInicio).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : "Sin hora",
           tecnico: os.tecnico?.user ? `${os.tecnico.user.nombre} ${os.tecnico.user.apellido}` : "Sin asignar",
           tecnicoId: os.tecnicoId,
-          estadoServicio: os.estadoServicio || "NUEVO",
+          estadoServicio: displayStatus,
           urgencia: os.urgencia || "BAJA",
           empresaId: os.empresaId,
           raw: os,
@@ -349,9 +383,11 @@ export default function ServiciosPage() {
   const stats = {
     total: servicios.length,
     programados: servicios.filter(s => s.estadoServicio === "PROGRAMADO").length,
-    enProceso: servicios.filter(s => s.estadoServicio === "EN PROCESO").length,
-    finalizados: servicios.filter(s => s.estadoServicio === "FINALIZADO").length,
-    noConcretados: servicios.filter(s => s.estadoServicio === "CANCELADO").length,
+    enProceso: servicios.filter(s => s.estadoServicio === "PROCESO" || s.estadoServicio === "EN PROCESO").length,
+    liquidado: servicios.filter(s => s.estadoServicio === "LIQUIDADO").length,
+    tecnicoFinalizado: servicios.filter(s => s.estadoServicio === "TECNICO_FINALIZO" || s.estadoServicio === "TECNICO FINALIZO" || s.estadoServicio === "TECNICO FINALIZADO").length,
+    cancelados: servicios.filter(s => s.estadoServicio === "CANCELADO").length,
+    sinConcretar: servicios.filter(s => s.estadoServicio === "SIN_CONCRETAR" || s.estadoServicio === "SIN CONCRETAR").length,
   };
 
   const handleExport = async (format: 'pdf' | 'excel' | 'word') => {
@@ -390,6 +426,62 @@ export default function ServiciosPage() {
     } finally {
       setShowExportMenu(false);
     }
+  };
+
+  const handleCopy = (servicio: Servicio) => {
+    const formattedValor = new Intl.NumberFormat('es-CO', { style: 'currency', currency: 'COP', maximumFractionDigits: 0 }).format(servicio.raw.valorCotizado || 0);
+    const detalles = [
+      servicio.raw.bloque && `Bloque: ${servicio.raw.bloque}`,
+      servicio.raw.piso && `Piso: ${servicio.raw.piso}`,
+      servicio.raw.unidad && `Unidad: ${servicio.raw.unidad}`,
+    ].filter(Boolean).join(" - ") || "Sin detalles adicionales";
+
+    const text = `
+ORDEN DE SERVICIO: #${servicio.id}
+*Cliente:* ${servicio.cliente}
+*Servicio:* ${servicio.servicioEspecifico}
+*Programación:* ${servicio.fecha} a las ${servicio.hora}
+*Técnico:* ${servicio.tecnico}
+*Estado:* ${servicio.estadoServicio}
+*Urgencia:* ${servicio.urgencia}
+*Dirección:* ${servicio.raw.direccionTexto || "No especificada"}
+*Link Maps:* ${servicio.raw.linkMaps || "N/A"}
+*Municipio:* ${servicio.raw.municipio || "N/A"}
+*Barrio:* ${servicio.raw.barrio || "N/A"}
+*Detalles:* ${detalles}
+*Valor Cotizado:* ${formattedValor}
+*Observaciones:* ${servicio.raw.observacion || "Sin observaciones"}
+    `.trim();
+
+    navigator.clipboard.writeText(text).then(() => {
+      toast.success("Información copiada", {
+        description: `Los detalles de la orden #${servicio.id} están en el portapapeles.`,
+      });
+    }).catch(() => {
+      toast.error("Error al copiar al portapapeles");
+    });
+  };
+
+  const handleWhatsAppNotify = (servicio: Servicio) => {
+    // Limpiar el teléfono de caracteres no numéricos
+    const rawPhone = servicio.clienteFull.telefono || "";
+    const cleanPhone = rawPhone.replace(/\D/g, "");
+    
+    if (!cleanPhone) {
+      toast.error("El cliente no tiene un número de teléfono registrado");
+      return;
+    }
+
+    // Asegurar que tenga el código de país (asumiendo +57 si tiene 10 dígitos)
+    const finalPhone = cleanPhone.length === 10 ? `57${cleanPhone}` : cleanPhone;
+
+    const empresaNombre = servicio.raw.empresa?.nombre || "Control de Plagas Medellin";
+    const direccion = servicio.raw.direccionTexto || "No especificada";
+    
+    const message = `Hola *${servicio.cliente}*, le saludamos de *${empresaNombre}*. Le recordamos su servicio de *${servicio.servicioEspecifico}* programado para:\n\n📅 *Fecha:* ${servicio.fecha}\n⏰ *Hora:* ${servicio.hora}\n📍 *Dirección:* ${direccion}\n👤 *Técnico:* ${servicio.tecnico}\n\nCualquier inquietud, estamos atentos.`;
+
+    const whatsappUrl = `https://wa.me/${finalPhone}?text=${encodeURIComponent(message)}`;
+    window.open(whatsappUrl, "_blank");
   };
 
     return (
@@ -440,7 +532,7 @@ export default function ServiciosPage() {
                 <>
                   {/* KPI Cards Grid */}
                   {showKPIs && (
-                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 mb-6 shrink-0 animate-in fade-in slide-in-from-top-4 duration-300">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-7 gap-4 mb-6 shrink-0 animate-in fade-in slide-in-from-top-4 duration-300">
                       <div className="bg-white dark:bg-zinc-900 p-6 rounded-2xl border border-zinc-200/60 dark:border-zinc-800/50 shadow-sm flex items-center gap-4">
                         <div className="h-12 w-12 rounded-xl bg-azul-1/10 flex items-center justify-center text-azul-1">
                           <FileText className="h-6 w-6" />
@@ -476,8 +568,18 @@ export default function ServiciosPage() {
                           <CheckCircle2 className="h-6 w-6" />
                         </div>
                         <div>
-                          <p className="text-[10px] font-black text-zinc-400 uppercase tracking-widest">Finalizados</p>
-                          <p className="text-2xl font-black text-zinc-900 dark:text-zinc-50">{stats.finalizados}</p>
+                          <p className="text-[10px] font-black text-zinc-400 uppercase tracking-widest">Liquidados</p>
+                          <p className="text-2xl font-black text-zinc-900 dark:text-zinc-50">{stats.liquidado}</p>
+                        </div>
+                      </div>
+
+                      <div className="bg-white dark:bg-zinc-900 p-6 rounded-2xl border border-zinc-200/60 dark:border-zinc-800/50 shadow-sm flex items-center gap-4">
+                        <div className="h-12 w-12 rounded-xl bg-green-500/10 flex items-center justify-center text-green-600">
+                          <CheckCircle2 className="h-6 w-6" />
+                        </div>
+                        <div>
+                          <p className="text-[10px] font-black text-zinc-400 uppercase tracking-widest">Téc. Finalizó</p>
+                          <p className="text-2xl font-black text-zinc-900 dark:text-zinc-50">{stats.tecnicoFinalizado}</p>
                         </div>
                       </div>
   
@@ -486,8 +588,18 @@ export default function ServiciosPage() {
                           <XCircle className="h-6 w-6" />
                         </div>
                         <div>
-                          <p className="text-[10px] font-black text-zinc-400 uppercase tracking-widest">No Concretados</p>
-                          <p className="text-2xl font-black text-zinc-900 dark:text-zinc-50">{stats.noConcretados}</p>
+                          <p className="text-[10px] font-black text-zinc-400 uppercase tracking-widest">Cancelados</p>
+                          <p className="text-2xl font-black text-zinc-900 dark:text-zinc-50">{stats.cancelados}</p>
+                        </div>
+                      </div>
+
+                      <div className="bg-white dark:bg-zinc-900 p-6 rounded-2xl border border-zinc-200/60 dark:border-zinc-800/50 shadow-sm flex items-center gap-4">
+                        <div className="h-12 w-12 rounded-xl bg-slate-500/10 flex items-center justify-center text-slate-500">
+                          <AlertCircle className="h-6 w-6" />
+                        </div>
+                        <div>
+                          <p className="text-[10px] font-black text-zinc-400 uppercase tracking-widest">Sin Concretar</p>
+                          <p className="text-2xl font-black text-zinc-900 dark:text-zinc-50">{stats.sinConcretar}</p>
                         </div>
                       </div>
                     </div>
@@ -691,7 +803,7 @@ export default function ServiciosPage() {
                                 <td className="px-8 py-6">
                                   <span className={cn(
                                     "inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-[10px] font-black uppercase tracking-widest border shadow-sm",
-                                    ESTADO_STYLING[servicio.estadoServicio]
+                                    ESTADO_STYLING[servicio.estadoServicio] || ESTADO_STYLING["DEFAULT"]
                                   )}>
                                     <div className="h-1.5 w-1.5 rounded-full bg-current" />
                                     {servicio.estadoServicio}
@@ -720,32 +832,47 @@ export default function ServiciosPage() {
                                           <Pencil className="h-4 w-4" /> EDITAR ORDEN
                                         </DropdownMenuItem>
                                       </Link>
-                                      <DropdownMenuItem className="flex items-center gap-3 py-2.5 text-[11px] font-bold cursor-pointer text-zinc-600 dark:text-zinc-400">
-                                        <MapPin className="h-4 w-4 text-blue-500" /> VER GEOLOCALIZACIÓN
+                                      <DropdownMenuItem 
+                                        onClick={() => {
+                                          setSelectedServicio(servicio);
+                                          setIsGeoModalOpen(true);
+                                        }}
+                                        className="flex items-center gap-3 py-2.5 text-[11px] font-bold cursor-pointer text-zinc-600 dark:text-zinc-400"
+                                      >
+                                        <MapPin className="h-4 w-4 text-blue-500" /> REGISTRO DE VISITAS
                                       </DropdownMenuItem>
-                                      <DropdownMenuItem className="flex items-center gap-3 py-2.5 text-[11px] font-bold cursor-pointer text-zinc-600 dark:text-zinc-400">
+                                      <DropdownMenuItem 
+                                        onClick={() => handleCopy(servicio)}
+                                        className="flex items-center gap-3 py-2.5 text-[11px] font-bold cursor-pointer text-zinc-600 dark:text-zinc-400"
+                                      >
                                         <Copy className="h-4 w-4 text-amber-500" /> COPIAR
                                       </DropdownMenuItem>
 
                                       <DropdownMenuSeparator />
                                       
-                                      <DropdownMenuItem className="flex items-center gap-3 py-2.5 text-[11px] font-bold cursor-pointer text-zinc-600 dark:text-zinc-400">
+                                      <DropdownMenuItem 
+                                        onClick={() => handleWhatsAppNotify(servicio)}
+                                        className="flex items-center gap-3 py-2.5 text-[11px] font-bold cursor-pointer text-zinc-600 dark:text-zinc-400"
+                                      >
                                         <Bell className="h-4 w-4 text-purple-500" /> NOTIFICAR AL CLIENTE
                                       </DropdownMenuItem>
                                       <DropdownMenuItem className="flex items-center gap-3 py-2.5 text-[11px] font-bold cursor-pointer text-zinc-600 dark:text-zinc-400">
                                         <Send className="h-4 w-4 text-azul-1" /> ENVIAR AL TÉCNICO
                                       </DropdownMenuItem>
-                                      <DropdownMenuItem className="flex items-center gap-3 py-2.5 text-[11px] font-bold cursor-pointer text-zinc-600 dark:text-zinc-400">
-                                        <UserPlus className="h-4 w-4 text-emerald-500" /> ASIGNAR REFUERZO
-                                      </DropdownMenuItem>
 
                                       <DropdownMenuSeparator />
 
                                       <DropdownMenuItem className="flex items-center gap-3 py-2.5 text-[11px] font-bold cursor-pointer text-zinc-600 dark:text-zinc-400">
-                                        <FileUp className="h-4 w-4 text-orange-500" /> SUBIR FACTURA/ORDEN
+                                        <FileUp className="h-4 w-4 text-orange-500" /> VER FACTURA/ORDEN
                                       </DropdownMenuItem>
                                       <DropdownMenuItem className="flex items-center gap-3 py-2.5 text-[11px] font-bold cursor-pointer text-zinc-600 dark:text-zinc-400">
-                                        <Receipt className="h-4 w-4 text-blue-600" /> SUBIR COMPROBANTE
+                                        <RotateCcw className="h-4 w-4 text-orange-600" /> ACTUALIZAR FACTURA
+                                      </DropdownMenuItem>
+                                      <DropdownMenuItem className="flex items-center gap-3 py-2.5 text-[11px] font-bold cursor-pointer text-zinc-600 dark:text-zinc-400">
+                                        <Receipt className="h-4 w-4 text-blue-600" /> VER COMPROBANTE
+                                      </DropdownMenuItem>
+                                      <DropdownMenuItem className="flex items-center gap-3 py-2.5 text-[11px] font-bold cursor-pointer text-zinc-600 dark:text-zinc-400">
+                                        <RotateCcw className="h-4 w-4 text-blue-700" /> ACTUALIZAR COMPROBANTE
                                       </DropdownMenuItem>
                                       <DropdownMenuItem className="flex items-center gap-3 py-2.5 text-[11px] font-bold cursor-pointer text-zinc-600 dark:text-zinc-400">
                                         <ImageIcon className="h-4 w-4 text-pink-500" /> SUBIR EVIDENCIA
@@ -754,10 +881,7 @@ export default function ServiciosPage() {
                                       <DropdownMenuSeparator />
 
                                       <DropdownMenuItem className="flex items-center gap-3 py-2.5 text-[11px] font-bold cursor-pointer text-zinc-600 dark:text-zinc-400">
-                                        <FileText className="h-4 w-4 text-emerald-500" /> CERTIFICADO
-                                      </DropdownMenuItem>
-                                      <DropdownMenuItem className="flex items-center gap-3 py-2.5 text-[11px] font-bold cursor-pointer text-zinc-600 dark:text-zinc-400">
-                                        <CalendarClock className="h-4 w-4 text-blue-500" /> RE-PROGRAMAR
+                                        <FileText className="h-4 w-4 text-emerald-500" /> LIQUIDAR
                                       </DropdownMenuItem>
                                       
                                       <DropdownMenuSeparator />
@@ -780,7 +904,7 @@ export default function ServiciosPage() {
                           <div className="mx-auto flex h-24 w-24 items-center justify-center rounded-[2.5rem] bg-zinc-50 dark:bg-zinc-800 mb-6">
                             <AlertCircle className="h-12 w-12 text-zinc-300" />
                           </div>
-                          <h2 className="text-2xl font-black tracking-tight text-zinc-900 dark:text-zinc-50 uppercase">Sin resultados</h2>
+                          <h2 className="text-2xl font-black tracking-tight text-zinc-900 dark:text-zinc-50 uppercase tracking-tight">Sin resultados</h2>
                           <p className="text-zinc-500 mt-2 font-medium">No se encontraron órdenes que coincidan con su búsqueda.</p>
                         </div>
                       )}
@@ -849,7 +973,7 @@ export default function ServiciosPage() {
                     <div className="mt-1">
                       <span className={cn(
                         "px-3 py-1 rounded-full text-[9px] font-black uppercase tracking-widest border shadow-sm",
-                        ESTADO_STYLING[selectedServicio.estadoServicio]
+                        ESTADO_STYLING[selectedServicio.estadoServicio] || ESTADO_STYLING["DEFAULT"]
                       )}>
                         {selectedServicio.estadoServicio}
                       </span>
@@ -1137,6 +1261,250 @@ export default function ServiciosPage() {
                   </div>
                 </div>
               )}
+            </div>
+          )}
+        </DialogContent>
+      </Dialog>
+
+      <Dialog open={isGeoModalOpen} onOpenChange={setIsGeoModalOpen}>
+        <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto">
+          <DialogHeader>
+            <DialogTitle className="text-xl font-black uppercase tracking-tight flex items-center gap-3">
+              <MapPin className="h-6 w-6 text-blue-500" /> Registro de Visitas y Geolocalización
+            </DialogTitle>
+            <DialogDescription className="font-medium">
+              Historial de marcación de llegada, salida y ubicación del técnico.
+            </DialogDescription>
+          </DialogHeader>
+
+          {selectedServicio && (
+            <div className="space-y-8 mt-4">
+              <div className="bg-zinc-50 dark:bg-zinc-800/50 p-6 rounded-2xl border border-zinc-100 dark:border-zinc-800">
+                <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+                  <div>
+                    <p className="text-[10px] font-black text-zinc-400 uppercase tracking-widest mb-1">Orden de Servicio</p>
+                    <p className="text-lg font-black text-zinc-900 dark:text-zinc-50">#{selectedServicio.id} - {selectedServicio.cliente}</p>
+                  </div>
+                  <div className="text-right">
+                    <p className="text-[10px] font-black text-zinc-400 uppercase tracking-widest mb-1">Técnico Asignado</p>
+                    <p className="text-lg font-black text-azul-1">{selectedServicio.tecnico}</p>
+                  </div>
+                </div>
+              </div>
+
+              <div className="space-y-6">
+                <div className="flex items-center gap-4">
+                  {(() => {
+                    const latestGeo = selectedServicio.raw.geolocalizaciones?.[0];
+                    const llegadaTime = latestGeo ? new Date(latestGeo.llegada).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: true }) : "--:--";
+                    const salidaTime = latestGeo?.salida ? new Date(latestGeo.salida).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: true }) : "--:--";
+                    const totalVisitas = selectedServicio.raw.geolocalizaciones?.length || 0;
+                    const ultimaFecha = latestGeo ? new Date(latestGeo.llegada).toLocaleDateString() : "--/--/--";
+                    
+                    return (
+                      <>
+                        <div className="px-6 py-3 bg-zinc-50 dark:bg-zinc-800/50 rounded-xl border border-zinc-200 dark:border-zinc-800 flex flex-col items-center min-w-[120px]">
+                          <span className="text-[9px] font-black text-azul-1 uppercase tracking-widest">Nº Visitas</span>
+                          <span className="text-lg font-black text-zinc-900 dark:text-zinc-50">{totalVisitas}</span>
+                        </div>
+                        <div className="px-6 py-3 bg-zinc-50 dark:bg-zinc-800/50 rounded-xl border border-zinc-200 dark:border-zinc-800 flex flex-col items-center min-w-[120px]">
+                          <span className="text-[9px] font-black text-emerald-500 uppercase tracking-widest">Llegada</span>
+                          <span className="text-lg font-black text-zinc-900 dark:text-zinc-50">{llegadaTime}</span>
+                        </div>
+                        <div className="px-6 py-3 bg-zinc-50 dark:bg-zinc-800/50 rounded-xl border border-zinc-200 dark:border-zinc-800 flex flex-col items-center min-w-[120px]">
+                          <span className="text-[9px] font-black text-red-500 uppercase tracking-widest">Salida</span>
+                          <span className="text-lg font-black text-zinc-900 dark:text-zinc-50">{salidaTime}</span>
+                        </div>
+                        <div className="ml-auto px-6 py-3 bg-zinc-50 dark:bg-zinc-800/50 rounded-xl border border-zinc-200 dark:border-zinc-800 flex flex-col items-center min-w-[140px]">
+                          <span className="text-[9px] font-black text-zinc-400 uppercase tracking-widest">Fecha Visita</span>
+                          <span className="text-lg font-black text-zinc-900 dark:text-zinc-50">{ultimaFecha}</span>
+                        </div>
+                      </>
+                    );
+                  })()}
+                </div>
+
+                {selectedServicio.raw.geolocalizaciones && selectedServicio.raw.geolocalizaciones.length > 0 ? (
+                  <>
+                    {selectedServicio.raw.geolocalizaciones.map((geo, idx) => (
+                      <div key={geo.id} className="relative pl-8 before:absolute before:left-0 before:top-0 before:bottom-0 before:w-px before:bg-zinc-200 dark:before:bg-zinc-800">
+                        <div className="absolute left-[-4px] top-0 h-2 w-2 rounded-full bg-blue-500 ring-4 ring-white dark:ring-zinc-950" />
+                        
+                        <div className="bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-2xl p-6 shadow-sm">
+                          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                            <div className="space-y-6">
+                              <div className="flex items-center justify-between">
+                                <h4 className="font-black text-sm uppercase tracking-tight text-zinc-900 dark:text-zinc-50">Visita #{selectedServicio.raw.geolocalizaciones!.length - idx}</h4>
+                                <span className="text-[10px] font-black px-2 py-1 bg-blue-50 dark:bg-blue-900/20 text-blue-600 dark:text-blue-400 rounded-md">
+                                  {new Date(geo.llegada).toLocaleDateString()}
+                                </span>
+                              </div>
+
+                              <div className="grid grid-cols-2 gap-4">
+                                <div className="p-4 bg-zinc-50 dark:bg-zinc-800/30 rounded-xl border border-zinc-100 dark:border-zinc-800">
+                                  <div className="flex items-center gap-2 mb-2">
+                                    <Clock className="h-3.5 w-3.5 text-emerald-500" />
+                                    <span className="text-[9px] font-black text-zinc-400 uppercase tracking-widest">Hora Llegada</span>
+                                  </div>
+                                  <p className="text-sm font-black text-zinc-900 dark:text-zinc-50">
+                                    {new Date(geo.llegada).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: true })}
+                                  </p>
+                                </div>
+
+                                <div className="p-4 bg-zinc-50 dark:bg-zinc-800/30 rounded-xl border border-zinc-100 dark:border-zinc-800">
+                                  <div className="flex items-center gap-2 mb-2">
+                                    <Clock className="h-3.5 w-3.5 text-red-500" />
+                                    <span className="text-[9px] font-black text-zinc-400 uppercase tracking-widest">Hora Salida</span>
+                                  </div>
+                                  <p className="text-sm font-black text-zinc-900 dark:text-zinc-50">
+                                    {geo.salida ? new Date(geo.salida).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: true }) : "--:--"}
+                                  </p>
+                                </div>
+                              </div>
+
+                              <div className="space-y-3">
+                                <div className="flex items-center gap-3">
+                                  <div className="h-8 w-8 rounded-lg bg-blue-50 dark:bg-blue-900/20 flex items-center justify-center text-blue-500">
+                                    <Navigation className="h-4 w-4" />
+                                  </div>
+                                  <div>
+                                    <p className="text-[9px] font-black text-zinc-400 uppercase tracking-widest">Coordenadas</p>
+                                    <p className="text-xs font-bold font-mono">{geo.latitud?.toFixed(6)}, {geo.longitud?.toFixed(6)}</p>
+                                  </div>
+                                </div>
+
+                                {geo.linkMaps && (
+                                  <Button 
+                                    variant="outline" 
+                                    size="sm" 
+                                    className="w-full justify-start gap-2 h-10 border-blue-100 dark:border-blue-900/30 hover:bg-blue-50 dark:hover:bg-blue-900/20 text-blue-600 dark:text-blue-400"
+                                    onClick={() => window.open(geo.linkMaps!, '_blank')}
+                                  >
+                                    <ExternalLink className="h-3.5 w-3.5" />
+                                    Ver ubicación en Maps
+                                  </Button>
+                                )}
+                              </div>
+                            </div>
+
+                            <div className="grid grid-cols-2 gap-4">
+                              <div className="space-y-2">
+                                <p className="text-[9px] font-black text-zinc-400 uppercase tracking-widest flex items-center gap-2">
+                                  <Camera className="h-3 w-3" /> Foto Llegada
+                                </p>
+                                {geo.fotoLlegada ? (
+                                  <div 
+                                    className="aspect-square rounded-xl overflow-hidden border border-zinc-200 dark:border-zinc-800 bg-zinc-100 cursor-pointer group relative"
+                                    onClick={() => window.open(geo.fotoLlegada!, '_blank')}
+                                  >
+                                    <img src={geo.fotoLlegada} alt="Llegada" className="w-full h-full object-cover transition-transform group-hover:scale-110" />
+                                    <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 flex items-center justify-center transition-opacity">
+                                      <Eye className="h-6 w-6 text-white" />
+                                    </div>
+                                  </div>
+                                ) : (
+                                  <div className="aspect-square rounded-xl border-2 border-dashed border-zinc-200 dark:border-zinc-800 flex flex-col items-center justify-center text-zinc-300 dark:text-zinc-700">
+                                    <ImageIcon className="h-8 w-8 mb-2" />
+                                    <p className="text-[8px] font-black uppercase">Sin foto</p>
+                                  </div>
+                                )}
+                              </div>
+
+                              <div className="space-y-2">
+                                <p className="text-[9px] font-black text-zinc-400 uppercase tracking-widest flex items-center gap-2">
+                                  <Camera className="h-3 w-3" /> Foto Salida
+                                </p>
+                                {geo.fotoSalida ? (
+                                  <div 
+                                    className="aspect-square rounded-xl overflow-hidden border border-zinc-200 dark:border-zinc-800 bg-zinc-100 cursor-pointer group relative"
+                                    onClick={() => window.open(geo.fotoSalida!, '_blank')}
+                                  >
+                                    <img src={geo.fotoSalida} alt="Salida" className="w-full h-full object-cover transition-transform group-hover:scale-110" />
+                                    <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 flex items-center justify-center transition-opacity">
+                                      <Eye className="h-6 w-6 text-white" />
+                                    </div>
+                                  </div>
+                                ) : (
+                                  <div className="aspect-square rounded-xl border-2 border-dashed border-zinc-200 dark:border-zinc-800 flex flex-col items-center justify-center text-zinc-300 dark:text-zinc-700">
+                                    <ImageIcon className="h-8 w-8 mb-2" />
+                                    <p className="text-[8px] font-black uppercase">Sin foto</p>
+                                  </div>
+                                )}
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    ))}
+
+                    <div className="pt-4 mt-4 border-t border-zinc-100 dark:border-zinc-800 flex justify-center">
+                      <div className="px-8 py-4 bg-blue-50 dark:bg-blue-900/20 rounded-2xl border border-blue-100 dark:border-blue-800 flex flex-col items-center min-w-[250px] shadow-sm">
+                        <span className="text-[10px] font-black text-blue-600 dark:text-blue-400 uppercase tracking-[0.2em] mb-2 flex items-center gap-2">
+                          <Navigation className="h-3 w-3" /> Coordenadas Última Visita
+                        </span>
+                        <span className="text-sm font-mono font-black text-zinc-900 dark:text-zinc-50">
+                          {selectedServicio.raw.geolocalizaciones?.[0]?.latitud?.toFixed(6) || "0.00"}, {selectedServicio.raw.geolocalizaciones?.[0]?.longitud?.toFixed(6) || "0.00"}
+                        </span>
+                        {selectedServicio.raw.geolocalizaciones?.[0]?.linkMaps && (
+                          <button 
+                            onClick={() => window.open(selectedServicio.raw.geolocalizaciones![0].linkMaps!, '_blank')}
+                            className="mt-3 px-6 py-2 bg-white dark:bg-zinc-900 rounded-lg border border-blue-200 dark:border-blue-800 text-[10px] font-black text-azul-1 hover:bg-blue-50 dark:hover:bg-blue-900/40 transition-colors uppercase tracking-widest"
+                          >
+                            Ver ubicación en Google Maps
+                          </button>
+                        )}
+                      </div>
+                    </div>
+                  </>
+                ) : (
+                  <div className="py-12 px-6 text-center bg-zinc-50 dark:bg-zinc-900/50 rounded-3xl border-2 border-dashed border-zinc-200 dark:border-zinc-800">
+                    {selectedServicio.raw.evidenciaPath ? (
+                      <div className="space-y-6">
+                        <div className="flex flex-col items-center">
+                          <div className="h-12 w-12 rounded-2xl bg-pink-50 dark:bg-pink-900/20 text-pink-500 flex items-center justify-center mb-4">
+                            <ImageIcon className="h-6 w-6" />
+                          </div>
+                          <h3 className="text-lg font-black text-zinc-900 dark:text-zinc-50 uppercase tracking-tight">Evidencia Fotográfica</h3>
+                          <p className="text-zinc-500 text-sm font-medium mt-1">Se ha cargado evidencia del servicio, aunque no existan marcaciones de GPS.</p>
+                        </div>
+                        
+                        <div 
+                          className="max-w-xl mx-auto aspect-video rounded-2xl overflow-hidden border border-zinc-200 dark:border-zinc-800 bg-white shadow-xl cursor-pointer group relative"
+                          onClick={() => window.open(selectedServicio.raw.evidenciaPath!, '_blank')}
+                        >
+                          <img 
+                            src={selectedServicio.raw.evidenciaPath} 
+                            alt="Evidencia del Servicio" 
+                            className="w-full h-full object-cover transition-all duration-500 group-hover:scale-105" 
+                          />
+                          <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 flex items-center justify-center transition-opacity">
+                            <div className="flex flex-col items-center gap-2">
+                              <Eye className="h-8 w-8 text-white" />
+                              <span className="text-[10px] font-black text-white uppercase tracking-[0.2em]">Ver Pantalla Completa</span>
+                            </div>
+                          </div>
+                        </div>
+
+                        <Button 
+                          variant="outline" 
+                          size="sm"
+                          className="h-10 px-6 rounded-xl border-pink-200 dark:border-pink-900/30 text-pink-600 dark:text-pink-400 hover:bg-pink-50 dark:hover:bg-pink-900/20"
+                          onClick={() => window.open(selectedServicio.raw.evidenciaPath!, '_blank')}
+                        >
+                          <Download className="h-4 w-4 mr-2" />
+                          Descargar Evidencia Original
+                        </Button>
+                      </div>
+                    ) : (
+                      <>
+                        <Navigation className="h-12 w-12 text-zinc-300 dark:text-zinc-700 mx-auto mb-4" />
+                        <h3 className="text-lg font-black text-zinc-900 dark:text-zinc-50 uppercase tracking-tight">Sin registros</h3>
+                        <p className="text-zinc-500 font-medium max-w-xs mx-auto mt-2">No se han encontrado registros de visitas o geolocalización para esta orden.</p>
+                      </>
+                    )}
+                  </div>
+                )}
+              </div>
             </div>
           )}
         </DialogContent>
