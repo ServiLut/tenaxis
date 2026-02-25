@@ -3,7 +3,18 @@
 import React, { useState, useEffect, useCallback } from "react";
 import Link from "next/link";
 import { DashboardLayout } from "@/components/dashboard";
-import { Input, Button, Skeleton } from "@/components/ui";
+import { 
+  Input, 
+  Button, 
+  Skeleton,
+  Select,
+  Label
+} from "@/components/ui";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
 import { 
   Plus, 
   Search, 
@@ -11,9 +22,11 @@ import {
   Clock, 
   User, 
   Filter,
+  RotateCcw,
   MoreHorizontal,
   AlertCircle,
   Eye,
+  EyeOff,
   Pencil,
   FileText,
   CalendarClock,
@@ -25,7 +38,17 @@ import {
   CreditCard,
   MapPin,
   ExternalLink,
-  Car
+  Car,
+  CheckCircle2,
+  Activity,
+  XCircle,
+  Copy,
+  Bell,
+  FileUp,
+  Receipt,
+  Image as ImageIcon,
+  Send,
+  UserPlus
 } from "lucide-react";
 import {
   DropdownMenu,
@@ -46,6 +69,8 @@ import { toast } from "sonner";
 import { exportToExcel, exportToPDF, exportToWord } from "@/lib/utils/export-helper";
 import {
   getOrdenesServicioAction,
+  getEstadoServiciosAction,
+  getOperatorsAction,
   type ClienteDTO,
 } from "../actions";
 
@@ -135,10 +160,31 @@ const URGENCIA_STYLING: Record<string, string> = {
   "CRITICA": "bg-red-700 text-white",
 };
 
-function ServiciosSkeleton() {
+function ServiciosSkeleton({ showKPIs = true }: { showKPIs?: boolean }) {
   return (
-    <div className="flex-1 overflow-auto">
-      <table className="w-full text-left border-collapse">
+    <div className="flex-1 min-h-0 flex flex-col">
+      {showKPIs && (
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 mb-6 shrink-0">
+          {[...Array(5)].map((_, i) => (
+            <div key={i} className="bg-white dark:bg-zinc-900 p-6 rounded-2xl border border-zinc-200/60 dark:border-zinc-800/50 shadow-sm flex items-center gap-4 animate-pulse">
+              <Skeleton className="h-12 w-12 rounded-xl" />
+              <div className="space-y-2">
+                <Skeleton className="h-3 w-20" />
+                <Skeleton className="h-6 w-12" />
+              </div>
+            </div>
+          ))}
+        </div>
+      )}
+      <div className="flex-1 bg-white dark:bg-zinc-900 rounded-xl border border-zinc-200/60 dark:border-zinc-800/50 shadow-xl shadow-zinc-200/20 dark:shadow-none overflow-hidden">
+        <div className="px-8 py-6 border-b border-zinc-100 dark:border-zinc-800/50 flex justify-between">
+          <Skeleton className="h-12 w-1/2 rounded-lg" />
+          <div className="flex gap-3">
+            <Skeleton className="h-12 w-32 rounded-lg" />
+            <Skeleton className="h-12 w-40 rounded-lg" />
+          </div>
+        </div>
+        <table className="w-full text-left border-collapse">
         <thead>
           <tr className="border-b border-zinc-100 dark:border-zinc-800 bg-zinc-50/50 dark:bg-zinc-800/50">
             <th className="px-8 py-6 text-[10px] font-black uppercase tracking-[0.2em] text-zinc-400">ID Orden</th>
@@ -187,6 +233,7 @@ function ServiciosSkeleton() {
         </tbody>
       </table>
     </div>
+  </div>
   );
 }
 
@@ -197,10 +244,45 @@ export default function ServiciosPage() {
   const [showExportMenu, setShowExportMenu] = useState(false);
   const [selectedServicio, setSelectedServicio] = useState<Servicio | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [showKPIs, setShowKPIs] = useState(true);
   
+  // Filter State
+  const [filters, setFilters] = useState({
+    estado: "all",
+    tecnico: "all",
+    urgencia: "all",
+  });
+  const [filterOptions, setOptions] = useState<{
+    estados: { id: string; nombre: string }[];
+    tecnicos: { id: string; nombre: string }[];
+  }>({
+    estados: [],
+    tecnicos: [],
+  });
+
   // Pagination State
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 10;
+
+  const fetchOptions = useCallback(async () => {
+    try {
+      const empresaId = localStorage.getItem("current-enterprise-id") || undefined;
+      const [estados, tecnicos] = await Promise.all([
+        getEstadoServiciosAction(empresaId),
+        empresaId ? getOperatorsAction(empresaId) : Promise.resolve([]),
+      ]);
+      
+      setOptions({
+        estados: Array.isArray(estados) ? estados : [],
+        tecnicos: (Array.isArray(tecnicos) ? tecnicos : []).map(t => ({
+          id: t.id,
+          nombre: `${t.user?.nombre || ""} ${t.user?.apellido || ""}`.trim() || "Sin nombre"
+        })),
+      });
+    } catch (error) {
+      console.error("Error fetching filter options", error);
+    }
+  }, []);
 
   const fetchServicios = useCallback(async () => {
     setLoading(true);
@@ -240,21 +322,37 @@ export default function ServiciosPage() {
 
   useEffect(() => {
     fetchServicios();
-  }, [fetchServicios]);
+    fetchOptions();
+  }, [fetchServicios, fetchOptions]);
 
   useEffect(() => {
     setCurrentPage(1);
   }, [search]);
 
-  const filteredServicios = servicios.filter((s: Servicio) => 
-    s.cliente.toLowerCase().includes(search.toLowerCase()) ||
-    s.servicioEspecifico.toLowerCase().includes(search.toLowerCase()) ||
-    s.id.toLowerCase().includes(search.toLowerCase())
-  );
+  const filteredServicios = servicios.filter((s: Servicio) => {
+    const matchesSearch = 
+      s.cliente.toLowerCase().includes(search.toLowerCase()) ||
+      s.servicioEspecifico.toLowerCase().includes(search.toLowerCase()) ||
+      s.id.toLowerCase().includes(search.toLowerCase());
+    
+    const matchesEstado = filters.estado === "all" || s.estadoId === filters.estado;
+    const matchesTecnico = filters.tecnico === "all" || s.tecnicoId === filters.tecnico;
+    const matchesUrgencia = filters.urgencia === "all" || s.urgencia === filters.urgencia;
+
+    return matchesSearch && matchesEstado && matchesTecnico && matchesUrgencia;
+  });
 
   const totalPages = Math.ceil(filteredServicios.length / itemsPerPage);
   const startIndex = (currentPage - 1) * itemsPerPage;
   const paginatedServicios = filteredServicios.slice(startIndex, startIndex + itemsPerPage);
+
+  const stats = {
+    total: servicios.length,
+    programados: servicios.filter(s => s.estado === "PROGRAMADO").length,
+    enProceso: servicios.filter(s => s.estado === "EN PROCESO").length,
+    finalizados: servicios.filter(s => s.estado === "FINALIZADO").length,
+    noConcretados: servicios.filter(s => s.estado === "CANCELADO").length,
+  };
 
   const handleExport = async (format: 'pdf' | 'excel' | 'word') => {
     const headers = ["ID Orden", "Cliente", "Servicio", "Fecha", "Hora", "Técnico", "Estado", "Urgencia"];
@@ -294,91 +392,433 @@ export default function ServiciosPage() {
     }
   };
 
-  return (
-    <DashboardLayout overflowHidden>
-      <div className="flex flex-col h-full">
-        {/* Sub-Header Estratégico */}
-        <div className="shrink-0 py-10 px-6 lg:px-10 border-b border-zinc-200/60 dark:border-zinc-800/50 mb-8 bg-gray-50 dark:bg-zinc-900/50">
-          <div className="max-w-[1600px] mx-auto w-full flex flex-col md:flex-row md:items-center gap-6">
-            <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-azul-1 text-white shadow-xl shadow-azul-1/20">
-              <FileText className="h-5 w-5" />
-            </div>
-            <div>
-              <h1 className="text-2xl lg:text-3xl font-black tracking-tight text-zinc-900 dark:text-zinc-50">
-                Órdenes de <span className="text-azul-1 dark:text-claro-azul-4">Servicio</span>
-              </h1>
-              <p className="text-zinc-500 font-medium mt-1">
-                Control operativo y trazabilidad de servicios técnicos.
-              </p>
+    return (
+      <DashboardLayout overflowHidden>
+        <div className="flex flex-col h-full">
+          {/* Sub-Header Estratégico */}
+          <div className="shrink-0 py-10 px-6 lg:px-10 border-b border-zinc-200/60 dark:border-zinc-800/50 mb-8 bg-gray-50 dark:bg-zinc-900/50">
+            <div className="max-w-[1600px] mx-auto w-full flex flex-col md:flex-row md:items-center gap-6">
+              <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-azul-1 text-white shadow-xl shadow-azul-1/20">
+                <FileText className="h-5 w-5" />
+              </div>
+              <div>
+                <h1 className="text-2xl lg:text-3xl font-black tracking-tight text-zinc-900 dark:text-zinc-50">
+                  Órdenes de <span className="text-azul-1 dark:text-claro-azul-4">Servicio</span>
+                </h1>
+                <p className="text-zinc-500 font-medium mt-1">
+                  Control operativo y trazabilidad de servicios técnicos.
+                </p>
+              </div>
+              <div className="md:ml-auto">
+                              <Button
+                                variant="outline"
+                                size="sm"
+                                onClick={() => setShowKPIs(!showKPIs)}
+                                className="h-10 px-4 rounded-xl border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 text-[10px] font-black uppercase tracking-widest gap-2"
+                              >
+                                {showKPIs ? (
+                                  <>
+                                    <EyeOff className="h-4 w-4" />
+                                    Ocultar KPIs
+                                  </>
+                                ) : (
+                                  <>
+                                    <Eye className="h-4 w-4" />
+                                    Mostrar KPIs
+                                  </>
+                                )}
+                              </Button>              </div>
             </div>
           </div>
-        </div>
+  
+          {/* Contenedor Principal de Datos */}
+          <div className="flex-1 min-h-0 px-4 sm:px-6 lg:px-10 pb-4 sm:pb-6 lg:pb-10">
+            <div className="max-w-[1600px] mx-auto w-full h-full flex flex-col">
+              {loading ? (
+                <ServiciosSkeleton showKPIs={showKPIs} />
+              ) : (
+                <>
+                  {/* KPI Cards Grid */}
+                  {showKPIs && (
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 mb-6 shrink-0 animate-in fade-in slide-in-from-top-4 duration-300">
+                      <div className="bg-white dark:bg-zinc-900 p-6 rounded-2xl border border-zinc-200/60 dark:border-zinc-800/50 shadow-sm flex items-center gap-4">
+                        <div className="h-12 w-12 rounded-xl bg-azul-1/10 flex items-center justify-center text-azul-1">
+                          <FileText className="h-6 w-6" />
+                        </div>
+                        <div>
+                          <p className="text-[10px] font-black text-zinc-400 uppercase tracking-widest">Total Órdenes</p>
+                          <p className="text-2xl font-black text-zinc-900 dark:text-zinc-50">{stats.total}</p>
+                        </div>
+                      </div>
+  
+                      <div className="bg-white dark:bg-zinc-900 p-6 rounded-2xl border border-zinc-200/60 dark:border-zinc-800/50 shadow-sm flex items-center gap-4">
+                        <div className="h-12 w-12 rounded-xl bg-blue-500/10 flex items-center justify-center text-blue-500">
+                          <Calendar className="h-6 w-6" />
+                        </div>
+                        <div>
+                          <p className="text-[10px] font-black text-zinc-400 uppercase tracking-widest">Programados</p>
+                          <p className="text-2xl font-black text-zinc-900 dark:text-zinc-50">{stats.programados}</p>
+                        </div>
+                      </div>
+  
+                      <div className="bg-white dark:bg-zinc-900 p-6 rounded-2xl border border-zinc-200/60 dark:border-zinc-800/50 shadow-sm flex items-center gap-4">
+                        <div className="h-12 w-12 rounded-xl bg-amber-500/10 flex items-center justify-center text-amber-500">
+                          <Activity className="h-6 w-6" />
+                        </div>
+                        <div>
+                          <p className="text-[10px] font-black text-zinc-400 uppercase tracking-widest">En Proceso</p>
+                          <p className="text-2xl font-black text-zinc-900 dark:text-zinc-50">{stats.enProceso}</p>
+                        </div>
+                      </div>
+  
+                      <div className="bg-white dark:bg-zinc-900 p-6 rounded-2xl border border-zinc-200/60 dark:border-zinc-800/50 shadow-sm flex items-center gap-4">
+                        <div className="h-12 w-12 rounded-xl bg-emerald-500/10 flex items-center justify-center text-emerald-500">
+                          <CheckCircle2 className="h-6 w-6" />
+                        </div>
+                        <div>
+                          <p className="text-[10px] font-black text-zinc-400 uppercase tracking-widest">Finalizados</p>
+                          <p className="text-2xl font-black text-zinc-900 dark:text-zinc-50">{stats.finalizados}</p>
+                        </div>
+                      </div>
+  
+                      <div className="bg-white dark:bg-zinc-900 p-6 rounded-2xl border border-zinc-200/60 dark:border-zinc-800/50 shadow-sm flex items-center gap-4">
+                        <div className="h-12 w-12 rounded-xl bg-red-500/10 flex items-center justify-center text-red-500">
+                          <XCircle className="h-6 w-6" />
+                        </div>
+                        <div>
+                          <p className="text-[10px] font-black text-zinc-400 uppercase tracking-widest">No Concretados</p>
+                          <p className="text-2xl font-black text-zinc-900 dark:text-zinc-50">{stats.noConcretados}</p>
+                        </div>
+                      </div>
+                    </div>
+                  )}
+  
+                  <div className="flex-1 min-h-0 flex flex-col bg-white dark:bg-zinc-900 rounded-xl border border-zinc-200/60 dark:border-zinc-800/50 shadow-xl shadow-zinc-200/20 dark:shadow-none overflow-hidden">
+                    {/* Search & Actions */}
+                    <div className="px-8 py-6 border-b border-zinc-100 dark:border-zinc-800/50 flex flex-col gap-6 sm:flex-row sm:items-center sm:justify-between bg-white dark:bg-zinc-900 shrink-0">
+                      <div className="flex flex-1 items-center gap-3 max-w-2xl">
+                                    <div className="relative flex-1">
+                                      <Search className="absolute left-4 top-1/2 h-5 w-5 -translate-y-1/2 text-zinc-400" />
+                                      <Input 
+                                        placeholder="Buscar por ID, cliente o servicio..." 
+                                        className="h-12 pl-12 rounded-lg border-zinc-200 dark:border-zinc-800 bg-zinc-50 dark:bg-zinc-800/50 transition-all"
+                                        value={search}
+                                        onChange={(e) => setSearch(e.target.value)}
+                                      />
+                                    </div>
+                        
+                                    {/* Botón de Filtros Avanzados */}
+                                    <Popover>
+                                      <PopoverTrigger asChild>
+                                        <button className={cn(
+                                          "flex items-center h-12 px-5 rounded-lg bg-zinc-50 dark:bg-zinc-800/50 border border-zinc-200 dark:border-zinc-800 text-zinc-600 dark:text-zinc-400 hover:bg-zinc-100 dark:hover:bg-zinc-800 gap-3 transition-all font-bold text-[11px] uppercase tracking-wider relative",
+                                          (filters.estado !== "all" || filters.tecnico !== "all" || filters.urgencia !== "all") && "border-azul-1 text-azul-1 dark:border-azul-1 dark:text-azul-1"
+                                        )}>
+                                          <Filter className="h-4 w-4" />
+                                          <span>Filtros</span>
+                                          {(filters.estado !== "all" || filters.tecnico !== "all" || filters.urgencia !== "all") && (
+                                            <span className="absolute -top-1.5 -right-1.5 flex h-4 w-4 items-center justify-center rounded-full bg-azul-1 text-[8px] font-black text-white ring-2 ring-white dark:ring-zinc-900">
+                                              !
+                                            </span>
+                                          )}
+                                        </button>
+                                      </PopoverTrigger>
+                                      <PopoverContent className="w-80 p-6 rounded-2xl shadow-2xl border-zinc-100 dark:border-zinc-800" align="start">
+                                        <div className="space-y-6">
+                                          <div className="flex items-center justify-between">
+                                            <h4 className="font-black text-[10px] uppercase tracking-[0.2em] text-zinc-400">Filtrar Servicios</h4>
+                                            <button 
+                                              onClick={() => setFilters({ estado: "all", tecnico: "all", urgencia: "all" })}
+                                              className="text-[9px] font-black uppercase tracking-widest text-zinc-400 hover:text-azul-1 flex items-center gap-1 transition-colors"
+                                            >
+                                              <RotateCcw className="h-3 w-3" /> Reiniciar
+                                            </button>
+                                          </div>
+                        
+                                          <div className="space-y-4">
+                                            <div className="space-y-2">
+                                              <Label className="text-[10px] font-black uppercase tracking-widest text-zinc-500">Estado del Servicio</Label>
+                                              <Select 
+                                                value={filters.estado} 
+                                                onChange={(e) => setFilters(f => ({ ...f, estado: e.target.value }))}
+                                                className="h-10 rounded-xl bg-zinc-50 dark:bg-zinc-800/50 border-zinc-100 dark:border-zinc-800 text-[11px] font-bold"
+                                              >
+                                                <option value="all">TODOS LOS ESTADOS</option>
+                                                {filterOptions.estados.map(est => (
+                                                  <option key={est.id} value={est.id}>{est.nombre.toUpperCase()}</option>
+                                                ))}
+                                              </Select>
+                                            </div>
+                        
+                                            <div className="space-y-2">
+                                              <Label className="text-[10px] font-black uppercase tracking-widest text-zinc-500">Técnico Asignado</Label>
+                                              <Select 
+                                                value={filters.tecnico} 
+                                                onChange={(e) => setFilters(f => ({ ...f, tecnico: e.target.value }))}
+                                                className="h-10 rounded-xl bg-zinc-50 dark:bg-zinc-800/50 border-zinc-100 dark:border-zinc-800 text-[11px] font-bold"
+                                              >
+                                                <option value="all">TODOS LOS TÉCNICOS</option>
+                                                {filterOptions.tecnicos.map(tec => (
+                                                  <option key={tec.id} value={tec.id}>{tec.nombre.toUpperCase()}</option>
+                                                ))}
+                                              </Select>
+                                            </div>
+                        
+                                            <div className="space-y-2">
+                                              <Label className="text-[10px] font-black uppercase tracking-widest text-zinc-500">Nivel de Urgencia</Label>
+                                              <Select 
+                                                value={filters.urgencia} 
+                                                onChange={(e) => setFilters(f => ({ ...f, urgencia: e.target.value }))}
+                                                className="h-10 rounded-xl bg-zinc-50 dark:bg-zinc-800/50 border-zinc-100 dark:border-zinc-800 text-[11px] font-bold"
+                                              >
+                                                <option value="all">CUALQUIER URGENCIA</option>
+                                                <option value="ALTA">ALTA</option>
+                                                <option value="MEDIA">MEDIA</option>
+                                                <option value="BAJA">BAJA</option>
+                                                <option value="CRITICA">CRÍTICA</option>
+                                              </Select>
+                                            </div>
+                                          </div>
+                                        </div>
+                                      </PopoverContent>
+                                    </Popover>
+                                  </div>                      <div className="flex items-center gap-3">
+                        {/* Botón de Exportación */}
+                        <div className="relative">
+                          <button 
+                            onClick={(e) => { e.stopPropagation(); setShowExportMenu(!showExportMenu); }}
+                            className="flex items-center h-12 px-6 rounded-lg bg-zinc-100 dark:bg-zinc-800 text-zinc-700 dark:text-zinc-300 hover:bg-zinc-200 dark:hover:bg-zinc-700 gap-3 transition-all font-bold text-[11px] uppercase tracking-wider"
+                          >
+                            <Download className="h-4 w-4" />
+                            <span>Exportar</span>
+                          </button>
+  
+                          {showExportMenu && (
+                            <div className="absolute right-0 mt-2 w-56 bg-white dark:bg-zinc-900 border border-zinc-100 dark:border-zinc-800 rounded-2xl shadow-[0_20px_50px_rgba(0,0,0,0.15)] z-50 overflow-hidden py-2 animate-in fade-in slide-in-from-top-2 duration-200">
+                              <div className="px-4 py-2 mb-1 border-b border-zinc-50 dark:border-zinc-800">
+                                <p className="text-[9px] font-black text-zinc-400 uppercase tracking-widest">Reportes Operativos</p>
+                              </div>
+                              <button 
+                                onClick={() => handleExport('excel')}
+                                className="w-full flex items-center gap-3 px-4 py-3 text-[11px] font-bold text-zinc-700 dark:text-zinc-300 hover:bg-emerald-50 dark:hover:bg-emerald-900/20 hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors"
+                              >
+                                <FileSpreadsheet className="h-4 w-4" />
+                                MICROSOFT EXCEL (.XLSX)
+                              </button>
+                              <button 
+                                onClick={() => handleExport('pdf')}
+                                className="w-full flex items-center gap-3 px-4 py-3 text-[11px] font-bold text-zinc-700 dark:text-zinc-300 hover:bg-red-50 dark:hover:bg-red-900/20 hover:text-red-600 dark:hover:text-red-400 transition-colors"
+                              >
+                                <FileText className="h-4 w-4" />
+                                DOCUMENTO PDF (.PDF)
+                              </button>
+                              <button 
+                                onClick={() => handleExport('word')}
+                                className="w-full flex items-center gap-3 px-4 py-3 text-[11px] font-bold text-zinc-700 dark:text-zinc-300 hover:bg-blue-50 dark:hover:bg-blue-900/20 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
+                              >
+                                <FileIcon className="h-4 w-4" />
+                                MICROSOFT WORD (.DOCX)
+                              </button>
+                            </div>
+                          )}
+                        </div>
+  
+                        <Link href="/dashboard/servicios/nuevo">
+                          <div className="flex items-center h-12 px-8 rounded-lg bg-azul-1 text-zinc-50 gap-3 shadow-lg shadow-azul-1/20 transition-all hover:bg-blue-700 dark:hover:bg-blue-600 cursor-pointer">
+                            <Plus className="h-5 w-5" />
+                            <span className="font-bold uppercase tracking-wider text-[11px]">Nueva Orden</span>
+                          </div>
+                        </Link>
+                      </div>
+                    </div>
+  
+                    {/* Tabla de Servicios con Scroll y Paginación */}
+                    <div className="flex-1 min-h-0 flex flex-col overflow-hidden">
+                      <div className="flex-1 overflow-auto">
+                        <table className="w-full text-left border-collapse">
+                          <thead>
+                            <tr className="border-b border-zinc-100 dark:border-zinc-800 bg-zinc-50/50 dark:bg-zinc-800/50">
+                              <th className="px-8 py-6 text-[10px] font-black uppercase tracking-[0.2em] text-zinc-400">ID Orden</th>
+                              <th className="px-8 py-6 text-[10px] font-black uppercase tracking-[0.2em] text-zinc-400">Cliente / Servicio</th>
+                              <th className="px-8 py-6 text-[10px] font-black uppercase tracking-[0.2em] text-zinc-400">Programación</th>
+                              <th className="px-8 py-6 text-[10px] font-black uppercase tracking-[0.2em] text-zinc-400">Técnico</th>
+                              <th className="px-8 py-6 text-[10px] font-black uppercase tracking-[0.2em] text-zinc-400">Estado</th>
+                              <th className="px-8 py-6 text-[10px] font-black uppercase tracking-[0.2em] text-zinc-400 text-right">Acciones</th>
+                            </tr>
+                          </thead>
+                          <tbody className="divide-y divide-zinc-100 dark:divide-zinc-800">
+                            {paginatedServicios.map((servicio: Servicio) => (
+                              <tr key={servicio.id} className="group hover:bg-zinc-50/50 dark:hover:bg-zinc-800/30 transition-colors">
+                                <td className="px-8 py-6">
+                                  <span className="font-mono text-xs font-black text-[var(--color-azul-1)] bg-blue-50 dark:bg-blue-500/10 px-3 py-1.5 rounded-lg border border-blue-100 dark:border-blue-500/20">
+                                    {servicio.id}
+                                  </span>
+                                </td>
+                                <td className="px-8 py-6">
+                                  <div className="space-y-1">
+                                    <p className="font-black text-zinc-900 dark:text-zinc-100 tracking-tight">{servicio.cliente}</p>
+                                    <div className="flex items-center gap-2">
+                                      <span className="text-[10px] font-bold text-zinc-400 uppercase tracking-widest">{servicio.servicioEspecifico}</span>
+                                      <span className={cn(
+                                        "px-2 py-0.5 rounded-md text-[8px] font-black uppercase tracking-tighter",
+                                        URGENCIA_STYLING[servicio.urgencia]
+                                      )}>
+                                        {servicio.urgencia}
+                                      </span>
+                                    </div>
+                                  </div>
+                                </td>
+                                <td className="px-8 py-6">
+                                  <div className="space-y-1.5">
+                                    <div className="flex items-center gap-2 text-xs font-bold text-zinc-600 dark:text-zinc-400">
+                                      <Calendar className="h-3.5 w-3.5 text-zinc-400" />
+                                      {servicio.fecha}
+                                    </div>
+                                    <div className="flex items-center gap-2 text-xs font-bold text-zinc-600 dark:text-zinc-400">
+                                      <Clock className="h-3.5 w-3.5 text-zinc-400" />
+                                      {servicio.hora}
+                                    </div>
+                                  </div>
+                                </td>
+                                <td className="px-8 py-6">
+                                  <div className="flex items-center gap-3">
+                                    <div className="h-8 w-8 rounded-lg bg-zinc-100 dark:bg-zinc-800 flex items-center justify-center">
+                                      <User className="h-4 w-4 text-zinc-500" />
+                                    </div>
+                                    <span className="text-sm font-bold text-zinc-700 dark:text-zinc-300">{servicio.tecnico}</span>
+                                  </div>
+                                </td>
+                                <td className="px-8 py-6">
+                                  <span className={cn(
+                                    "inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-[10px] font-black uppercase tracking-widest border shadow-sm",
+                                    ESTADO_STYLING[servicio.estado]
+                                  )}>
+                                    <div className="h-1.5 w-1.5 rounded-full bg-current" />
+                                    {servicio.estado}
+                                  </span>
+                                </td>
+                                <td className="px-8 py-6 text-right">
+                                  <div className="flex justify-end gap-2">
+                                    <DropdownMenu>
+                                      <DropdownMenuTrigger asChild>
+                                        <button className="inline-flex h-10 w-10 items-center justify-center rounded-xl bg-zinc-50 hover:bg-zinc-900 hover:text-white text-zinc-400 dark:bg-zinc-800 dark:hover:bg-zinc-700 transition-all">
+                                          <MoreHorizontal className="h-5 w-5" />
+                                        </button>
+                                      </DropdownMenuTrigger>
+                                    <DropdownMenuContent align="end" className="w-64 p-2 rounded-xl">
+                                      <DropdownMenuItem 
+                                        onClick={() => {
+                                          setSelectedServicio(servicio);
+                                          setIsModalOpen(true);
+                                        }}
+                                        className="flex items-center gap-3 py-2.5 text-[11px] font-bold cursor-pointer text-zinc-600 dark:text-zinc-400"
+                                      >
+                                        <Eye className="h-4 w-4" /> VER DETALLES
+                                      </DropdownMenuItem>
+                                      <Link href={`/dashboard/servicios/${servicio.raw.id}/editar`}>
+                                        <DropdownMenuItem className="flex items-center gap-3 py-2.5 text-[11px] font-bold cursor-pointer text-zinc-600 dark:text-zinc-400">
+                                          <Pencil className="h-4 w-4" /> EDITAR ORDEN
+                                        </DropdownMenuItem>
+                                      </Link>
+                                      <DropdownMenuItem className="flex items-center gap-3 py-2.5 text-[11px] font-bold cursor-pointer text-zinc-600 dark:text-zinc-400">
+                                        <MapPin className="h-4 w-4 text-blue-500" /> VER GEOLOCALIZACIÓN
+                                      </DropdownMenuItem>
+                                      <DropdownMenuItem className="flex items-center gap-3 py-2.5 text-[11px] font-bold cursor-pointer text-zinc-600 dark:text-zinc-400">
+                                        <Copy className="h-4 w-4 text-amber-500" /> COPIAR
+                                      </DropdownMenuItem>
 
-        {/* Contenedor Principal de Datos */}
-        <div className="flex-1 min-h-0 px-4 sm:px-6 lg:px-10 pb-4 sm:pb-6 lg:pb-10">
-          <div className="max-w-[1600px] mx-auto w-full h-full flex flex-col bg-white dark:bg-zinc-900 rounded-xl border border-zinc-200/60 dark:border-zinc-800/50 shadow-xl shadow-zinc-200/20 dark:shadow-none overflow-hidden">
-            {/* Search & Actions */}
-            <div className="px-8 py-6 border-b border-zinc-100 dark:border-zinc-800/50 flex flex-col gap-6 sm:flex-row sm:items-center sm:justify-between bg-white dark:bg-zinc-900 shrink-0">
-          <div className="flex flex-1 items-center gap-3 max-w-2xl">
-            <div className="relative flex-1">
-              <Search className="absolute left-4 top-1/2 h-5 w-5 -translate-y-1/2 text-zinc-400" />
-              <Input 
-                placeholder="Buscar por ID, cliente o servicio..." 
-                className="h-12 pl-12 rounded-lg border-zinc-200 dark:border-zinc-800 bg-zinc-50 dark:bg-zinc-800/50 transition-all"
-                value={search}
-                onChange={(e) => setSearch(e.target.value)}
-              />
-            </div>
-          </div>
-          <div className="flex items-center gap-3">
-            {/* Botón de Exportación */}
-            <div className="relative">
-              <button 
-                onClick={(e) => { e.stopPropagation(); setShowExportMenu(!showExportMenu); }}
-                className="flex items-center h-12 px-6 rounded-lg bg-zinc-100 dark:bg-zinc-800 text-zinc-700 dark:text-zinc-300 hover:bg-zinc-200 dark:hover:bg-zinc-700 gap-3 transition-all font-bold text-[11px] uppercase tracking-wider"
-              >
-                <Download className="h-4 w-4" />
-                <span>Exportar</span>
-              </button>
+                                      <DropdownMenuSeparator />
+                                      
+                                      <DropdownMenuItem className="flex items-center gap-3 py-2.5 text-[11px] font-bold cursor-pointer text-zinc-600 dark:text-zinc-400">
+                                        <Bell className="h-4 w-4 text-purple-500" /> NOTIFICAR AL CLIENTE
+                                      </DropdownMenuItem>
+                                      <DropdownMenuItem className="flex items-center gap-3 py-2.5 text-[11px] font-bold cursor-pointer text-zinc-600 dark:text-zinc-400">
+                                        <Send className="h-4 w-4 text-azul-1" /> ENVIAR AL TÉCNICO
+                                      </DropdownMenuItem>
+                                      <DropdownMenuItem className="flex items-center gap-3 py-2.5 text-[11px] font-bold cursor-pointer text-zinc-600 dark:text-zinc-400">
+                                        <UserPlus className="h-4 w-4 text-emerald-500" /> ASIGNAR REFUERZO
+                                      </DropdownMenuItem>
 
-              {showExportMenu && (
-                <div className="absolute right-0 mt-2 w-56 bg-white dark:bg-zinc-900 border border-zinc-100 dark:border-zinc-800 rounded-2xl shadow-[0_20px_50px_rgba(0,0,0,0.15)] z-50 overflow-hidden py-2 animate-in fade-in slide-in-from-top-2 duration-200">
-                  <div className="px-4 py-2 mb-1 border-b border-zinc-50 dark:border-zinc-800">
-                    <p className="text-[9px] font-black text-zinc-400 uppercase tracking-widest">Reportes Operativos</p>
+                                      <DropdownMenuSeparator />
+
+                                      <DropdownMenuItem className="flex items-center gap-3 py-2.5 text-[11px] font-bold cursor-pointer text-zinc-600 dark:text-zinc-400">
+                                        <FileUp className="h-4 w-4 text-orange-500" /> SUBIR FACTURA/ORDEN
+                                      </DropdownMenuItem>
+                                      <DropdownMenuItem className="flex items-center gap-3 py-2.5 text-[11px] font-bold cursor-pointer text-zinc-600 dark:text-zinc-400">
+                                        <Receipt className="h-4 w-4 text-blue-600" /> SUBIR COMPROBANTE
+                                      </DropdownMenuItem>
+                                      <DropdownMenuItem className="flex items-center gap-3 py-2.5 text-[11px] font-bold cursor-pointer text-zinc-600 dark:text-zinc-400">
+                                        <ImageIcon className="h-4 w-4 text-pink-500" /> SUBIR EVIDENCIA
+                                      </DropdownMenuItem>
+
+                                      <DropdownMenuSeparator />
+
+                                      <DropdownMenuItem className="flex items-center gap-3 py-2.5 text-[11px] font-bold cursor-pointer text-zinc-600 dark:text-zinc-400">
+                                        <FileText className="h-4 w-4 text-emerald-500" /> CERTIFICADO
+                                      </DropdownMenuItem>
+                                      <DropdownMenuItem className="flex items-center gap-3 py-2.5 text-[11px] font-bold cursor-pointer text-zinc-600 dark:text-zinc-400">
+                                        <CalendarClock className="h-4 w-4 text-blue-500" /> RE-PROGRAMAR
+                                      </DropdownMenuItem>
+                                      
+                                      <DropdownMenuSeparator />
+                                      
+                                      <DropdownMenuItem className="flex items-center gap-3 py-2.5 text-[11px] font-bold text-red-600 hover:text-red-600 hover:bg-red-50 cursor-pointer">
+                                        <Trash2 className="h-4 w-4" /> ELIMINAR
+                                      </DropdownMenuItem>
+                                    </DropdownMenuContent>
+                                    </DropdownMenu>
+                                  </div>
+                                </td>
+                              </tr>
+                            ))}
+                          </tbody>
+                        </table>
+                      </div>
+  
+                      {!loading && filteredServicios.length === 0 && (
+                        <div className="py-32 text-center flex-1 flex flex-col justify-center">
+                          <div className="mx-auto flex h-24 w-24 items-center justify-center rounded-[2.5rem] bg-zinc-50 dark:bg-zinc-800 mb-6">
+                            <AlertCircle className="h-12 w-12 text-zinc-300" />
+                          </div>
+                          <h2 className="text-2xl font-black tracking-tight text-zinc-900 dark:text-zinc-50 uppercase">Sin resultados</h2>
+                          <p className="text-zinc-500 mt-2 font-medium">No se encontraron órdenes que coincidan con su búsqueda.</p>
+                        </div>
+                      )}
+  
+                      {/* Paginación */}
+                      <div className="px-8 py-4 border-t border-zinc-100 dark:border-zinc-800/50 bg-zinc-50/50 dark:bg-zinc-900/50 flex items-center justify-between shrink-0">
+                        <span className="text-[10px] font-black uppercase tracking-widest text-zinc-400 dark:text-zinc-300">
+                          Mostrando <span className="text-zinc-900 dark:text-zinc-100">{Math.min(startIndex + 1, filteredServicios.length)}</span> - <span className="text-zinc-900 dark:text-zinc-100">{Math.min(startIndex + itemsPerPage, filteredServicios.length)}</span> de <span className="text-zinc-900 dark:text-zinc-100">{filteredServicios.length}</span> resultados
+                        </span>
+                        <div className="flex items-center gap-2">
+                          <Button 
+                            variant="outline" 
+                            size="sm" 
+                            className="h-8 rounded-xl text-xs font-bold" 
+                            disabled={currentPage === 1}
+                            onClick={() => setCurrentPage(prev => Math.max(1, prev - 1))}
+                          >
+                            Anterior
+                          </Button>
+                          <Button 
+                            variant="outline" 
+                            size="sm" 
+                            className="h-8 rounded-xl text-xs font-bold" 
+                            disabled={currentPage >= totalPages}
+                            onClick={() => setCurrentPage(prev => Math.min(totalPages, prev + 1))}
+                          >
+                            Siguiente
+                          </Button>
+                        </div>
+                      </div>
+                    </div>
                   </div>
-                  <button 
-                    onClick={() => handleExport('excel')}
-                    className="w-full flex items-center gap-3 px-4 py-3 text-[11px] font-bold text-zinc-700 dark:text-zinc-300 hover:bg-emerald-50 dark:hover:bg-emerald-900/20 hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors"
-                  >
-                    <FileSpreadsheet className="h-4 w-4" />
-                    MICROSOFT EXCEL (.XLSX)
-                  </button>
-                  <button 
-                    onClick={() => handleExport('pdf')}
-                    className="w-full flex items-center gap-3 px-4 py-3 text-[11px] font-bold text-zinc-700 dark:text-zinc-300 hover:bg-red-50 dark:hover:bg-red-900/20 hover:text-red-600 dark:hover:text-red-400 transition-colors"
-                  >
-                    <FileText className="h-4 w-4" />
-                    DOCUMENTO PDF (.PDF)
-                  </button>
-                  <button 
-                    onClick={() => handleExport('word')}
-                    className="w-full flex items-center gap-3 px-4 py-3 text-[11px] font-bold text-zinc-700 dark:text-zinc-300 hover:bg-blue-50 dark:hover:bg-blue-900/20 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
-                  >
-                    <FileIcon className="h-4 w-4" />
-                    MICROSOFT WORD (.DOCX)
-                  </button>
-                </div>
+                </>
               )}
             </div>
-
-            <Link href="/dashboard/servicios/nuevo">
-              <div className="flex items-center h-12 px-8 rounded-lg bg-azul-1 text-zinc-50 gap-3 shadow-lg shadow-azul-1/20 transition-all hover:bg-blue-700 dark:hover:bg-blue-600 cursor-pointer">
-                <Plus className="h-5 w-5" />
-                <span className="font-bold uppercase tracking-wider text-[11px]">Nueva Orden</span>
-              </div>
-            </Link>
           </div>
         </div>
+<<<<<<< HEAD
 
             {/* Tabla de Servicios con Scroll y Paginación */}
             <div className="flex-1 min-h-0 flex flex-col overflow-hidden">
@@ -536,6 +976,10 @@ export default function ServiciosPage() {
 
       <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}>
         <DialogContent className="max-w-3xl max-h-[90vh] overflow-y-auto">
+=======
+  
+        <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}>        <DialogContent className="max-w-3xl max-h-[90vh] overflow-y-auto">
+>>>>>>> 7764cee451c47f55a76747b7905e08647d9b9590
           <DialogHeader>
             <DialogTitle className="text-xl font-black uppercase tracking-tight">Detalle Completo de Orden</DialogTitle>
             <DialogDescription className="font-medium">
