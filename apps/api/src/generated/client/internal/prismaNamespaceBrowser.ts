@@ -100,7 +100,8 @@ export const ModelName = {
   SesionActividad: 'SesionActividad',
   LogEvento: 'LogEvento',
   AuthSession: 'AuthSession',
-  PasswordResetToken: 'PasswordResetToken'
+  PasswordResetToken: 'PasswordResetToken',
+  cliente_configuracion_operativa: 'cliente_configuracion_operativa'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -990,6 +991,26 @@ export const PasswordResetTokenScalarFieldEnum = {
 } as const
 
 export type PasswordResetTokenScalarFieldEnum = (typeof PasswordResetTokenScalarFieldEnum)[keyof typeof PasswordResetTokenScalarFieldEnum]
+
+
+export const Cliente_configuracion_operativaScalarFieldEnum = {
+  id: 'id',
+  clienteId: 'clienteId',
+  empresaId: 'empresaId',
+  tenantId: 'tenantId',
+  direccionId: 'direccionId',
+  protocoloServicio: 'protocoloServicio',
+  observacionesFijas: 'observacionesFijas',
+  requiereFirmaDigital: 'requiereFirmaDigital',
+  requiereFotosEvidencia: 'requiereFotosEvidencia',
+  duracionEstimada: 'duracionEstimada',
+  frecuenciaSugerida: 'frecuenciaSugerida',
+  elementosPredefinidos: 'elementosPredefinidos',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type Cliente_configuracion_operativaScalarFieldEnum = (typeof Cliente_configuracion_operativaScalarFieldEnum)[keyof typeof Cliente_configuracion_operativaScalarFieldEnum]
 
 
 export const SortOrder = {
