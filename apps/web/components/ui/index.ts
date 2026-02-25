@@ -6,3 +6,4 @@ export * from "./select";
 export * from "./combobox";
 export * from "./skeleton";
 export * from "./utils";
+export * from "./popover";
