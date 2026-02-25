@@ -174,10 +174,10 @@ interface ClienteListProps {
 }
 
 const SCORE_COLORS = {
-  ORO: "bg-amber-500 text-white shadow-black-100",
-  PLATA: "bg-zinc-400 text-white shadow-black-100",
-  BRONCE: "bg-orange-400 text-white shadow-black-100",
-  RIESGO: "bg-red-500 text-white shadow-black-100",
+  ORO: "bg-amber-500 text-black dark:text-zinc-300 shadow-black-100",
+  PLATA: "bg-zinc-400 text-black dark:text-zinc-300 shadow-black-100",
+  BRONCE: "bg-orange-400 text-black dark:text-zinc-300 shadow-black-100",
+  RIESGO: "bg-red-500 text-black dark:text-zinc-300 shadow-black-100",
 };
 
 const RIESGO_LABELS = {
@@ -618,7 +618,7 @@ export function ClienteList({ initialClientes }: ClienteListProps) {
                 </div>
                 <div>
                   <p className="text-[10px] font-black text-zinc-400 uppercase tracking-widest">Avg Score</p>
-                  <p className="text-2xl font-black text-zinc-900 dark:text-zinc-50">{stats.avgScore}</p>
+                  <p className="text-2xl font-black text-zinc-900 dark:text-zinc-300">{stats.avgScore}</p>
                 </div>
               </div>
             </div>
@@ -1051,17 +1051,17 @@ export function ClienteList({ initialClientes }: ClienteListProps) {
               )}>
                 <div className="flex items-center gap-6 z-10">
                   <div className="h-20 w-20 rounded-2xl bg-white/10 backdrop-blur-xl flex items-center justify-center text-3xl font-black shadow-2xl border border-white/20">
-                    {selectedCliente.tipoCliente === "EMPRESA" ? <Building2 className="h-10 w-10" /> : <User className="h-10 w-10" />}
+                    {selectedCliente.tipoCliente === "EMPRESA" ? <Building2 className="h-10 w-10 dark:text-zinc-300" /> : <User className="h-10 w-10 dark:text-zinc-300" />}
                   </div>
                   <div className="flex flex-col">
-                    <h2 className="text-3xl font-black tracking-tight leading-none mb-2">
+                    <h2 className="text-3xl font-black tracking-tight leading-none mb-2 dark:text-zinc-300">
                       {selectedCliente.tipoCliente === "EMPRESA" ? (selectedCliente.razonSocial || "S/N") : `${selectedCliente.nombre || ''} ${selectedCliente.apellido || ''}`.trim()}
                     </h2>
                     <div className="flex items-center gap-3">
-                      <span className="text-[10px] font-black uppercase tracking-[0.2em] px-2 py-1 bg-white/10 rounded-md">
+                      <span className="text-[10px] font-black uppercase tracking-[0.2em] px-2 py-1 bg-white/10 dark:text-zinc-300 rounded-md">
                         {selectedCliente.tipoCliente === "EMPRESA" ? "Corporativo" : "Persona Natural"}
                       </span>
-                      <span className="text-[10px] font-black uppercase tracking-[0.2em] opacity-60">
+                      <span className="text-[10px] font-black uppercase tracking-[0.2em] opacity-60 dark:text-zinc-300">
                         ID: {selectedCliente.id}
                       </span>
                     </div>
@@ -1077,8 +1077,8 @@ export function ClienteList({ initialClientes }: ClienteListProps) {
                     {selectedCliente.clasificacion || "BRONCE"}
                   </div>
                   <div className="bg-white/10 backdrop-blur-md px-3 py-1.5 rounded-lg border border-white/10 flex items-center gap-2">
-                    <span className="text-[9px] font-black uppercase tracking-widest opacity-60">Score:</span>
-                    <span className="text-xs font-black">{selectedCliente.score || 0} pts</span>
+                    <span className="text-[9px] font-black uppercase tracking-widest opacity-60 dark:text-zinc-300">Score:</span>
+                    <span className="text-xs font-black dark:text-zinc-300">{selectedCliente.score || 0} pts</span>
                   </div>
                 </div>
               </div>
@@ -1370,7 +1370,7 @@ export function ClienteList({ initialClientes }: ClienteListProps) {
                               </button>
                               <button
                                 onClick={() => setSelectedCliente(null)}
-                                className="px-10 h-14 rounded-2xl border-2 border-zinc-200 dark:border-zinc-800 text-xs font-black uppercase tracking-[0.2em] text-zinc-500 dark:text-zinc-400 hover:bg-zinc-100 dark:hover:bg-zinc-800 hover:text-zinc-900 dark:hover:text-zinc-200 transition-all"
+                                className="px-10 h-14 rounded-2xl border-2 border-zinc-200 dark:border-zinc-800 text-xs font-black uppercase tracking-[0.2em] text-zinc-500 dark:text-zinc-300 hover:bg-zinc-100 dark:hover:bg-zinc-800 hover:text-zinc-900 dark:hover:text-zinc-200 transition-all"
                               >
                                 Cerrar
                               </button>
@@ -1394,22 +1394,22 @@ export function ClienteList({ initialClientes }: ClienteListProps) {
               <div className="shrink-0 p-8 border-b border-zinc-100 dark:border-zinc-800 bg-zinc-50/50 dark:bg-zinc-900/30 flex items-center justify-between">
                 <div className="flex items-center gap-5">
                   <div className="h-14 w-14 rounded-2xl bg-azul-1 flex items-center justify-center text-white shadow-lg shadow-azul-1/20">
-                    <Settings className="h-7 w-7" />
+                    <Settings className="h-7 w-7 dark:text-zinc-300" />
                   </div>
                   <div>
                     <h2 className="text-xl font-black text-zinc-900 dark:text-zinc-50 tracking-tight uppercase">
                       Configuración Operativa
                     </h2>
-                    <p className="text-xs font-bold text-zinc-400 mt-0.5 uppercase tracking-wider">
+                    <p className="text-xs font-bold text-zinc-400 dark:text-zinc-300 mt-0.5 uppercase tracking-wider">
                       {selectedClienteForConfig.tipoCliente === "EMPRESA" ? selectedClienteForConfig.razonSocial : `${selectedClienteForConfig.nombre} ${selectedClienteForConfig.apellido}`}
                     </p>
                   </div>
                 </div>
                 <div className="flex flex-col items-end gap-1">
-                  <span className="text-[10px] font-black text-azul-1 bg-azul-1/10 px-3 py-1 rounded-full uppercase">
+                  <span className="text-[10px] font-black text-azul-1 dark:text-zinc-300 bg-azul-1/10 px-3 py-1 rounded-full uppercase">
                     Módulo de Automatización
                   </span>
-                  <span className="text-[9px] font-bold text-zinc-400 uppercase tracking-widest">
+                  <span className="text-[9px] font-bold text-zinc-400 dark:text-zinc-300 uppercase tracking-widest">
                     ID: {selectedClienteForConfig.id.split('-')[0]}...
                   </span>
                 </div>
@@ -1429,7 +1429,7 @@ export function ClienteList({ initialClientes }: ClienteListProps) {
                     <div className="p-6 rounded-3xl bg-blue-50/50 dark:bg-blue-500/5 border border-blue-100 dark:border-blue-500/10 flex flex-col md:flex-row md:items-center justify-between gap-4">
                       <div className="flex items-center gap-4">
                         <div className="h-10 w-10 rounded-xl bg-white dark:bg-zinc-900 flex items-center justify-center text-azul-1 shadow-sm border border-blue-100 dark:border-blue-800">
-                          <MapPin className="h-5 w-5" />
+                          <MapPin className="h-5 w-5 dark:text-zinc-300" />
                         </div>
                         <div>
                           <h4 className="text-xs font-black text-zinc-900 dark:text-zinc-50 uppercase">Ámbito de Configuración</h4>
@@ -1563,7 +1563,7 @@ export function ClienteList({ initialClientes }: ClienteListProps) {
                             <h3 className="text-[10px] font-black uppercase tracking-[0.2em] text-zinc-400 flex items-center gap-2">
                               <Box className="h-4 w-4 text-blue-400" /> Activos / Elementos Predefinidos
                             </h3>
-                            <button className="text-[9px] font-black text-azul-1 hover:underline uppercase">+ Agregar</button>
+                            <button className="text-[9px] font-black text-azul-1 dark:text-zinc-300 hover:underline uppercase">+ Agregar</button>
                           </div>
                           <div className="border-2 border-dashed border-zinc-200 dark:border-zinc-800 rounded-2xl p-6 text-center">
                             <p className="text-[10px] font-bold text-zinc-400 uppercase tracking-widest">No hay elementos configurados</p>
@@ -1582,14 +1582,14 @@ export function ClienteList({ initialClientes }: ClienteListProps) {
                 <button
                   onClick={() => setSelectedClienteForConfig(null)}
                   disabled={configLoading}
-                  className="px-8 h-12 rounded-xl text-xs font-black uppercase tracking-widest text-zinc-500 hover:bg-zinc-100 dark:hover:bg-zinc-900 transition-all disabled:opacity-50"
+                  className="px-8 h-12 rounded-xl text-xs font-black uppercase tracking-widest text-zinc-500 dark:text-zinc-300 hover:bg-zinc-100 dark:hover:bg-zinc-900 transition-all disabled:opacity-50"
                 >
                   Cancelar
                 </button>
                 <button
                   onClick={handleSaveConfig}
                   disabled={configLoading}
-                  className="px-10 h-12 rounded-xl bg-azul-1 text-xs font-black uppercase tracking-widest text-white shadow-lg shadow-azul-1/20 hover:scale-[1.02] active:scale-[0.98] transition-all disabled:opacity-50"
+                  className="px-10 h-12 rounded-xl bg-azul-1 text-xs font-black uppercase tracking-widest text-white dark:text-zinc-300 shadow-lg shadow-azul-1/20 hover:scale-[1.02] active:scale-[0.98] transition-all disabled:opacity-50"
                 >
                   Guardar Cambios
                 </button>
@@ -1614,19 +1614,19 @@ export function ClienteList({ initialClientes }: ClienteListProps) {
               <div className="shrink-0 p-8 border-b border-zinc-100 dark:border-zinc-800 bg-zinc-50/50 dark:bg-zinc-900/30 flex items-center justify-between">
                 <div className="flex items-center gap-5">
                   <div className="h-14 w-14 rounded-2xl bg-azul-1 flex items-center justify-center text-white shadow-lg shadow-azul-1/20">
-                    <Calendar className="h-7 w-7" />
+                    <Calendar className="h-7 w-7 dark:text-zinc-300" />
                   </div>
                   <div>
                     <h2 className="text-xl font-black text-zinc-900 dark:text-zinc-50 tracking-tight uppercase">
                       Historial de Servicios
                     </h2>
-                    <p className="text-xs font-bold text-zinc-400 mt-0.5 uppercase tracking-wider">
+                    <p className="text-xs font-bold text-zinc-400 dark:text-zinc-300 mt-0.5 uppercase tracking-wider">
                       {selectedClienteForHistory.tipoCliente === "EMPRESA" ? selectedClienteForHistory.razonSocial : `${selectedClienteForHistory.nombre} ${selectedClienteForHistory.apellido}`}
                     </p>
                   </div>
                 </div>
                 <div className="flex flex-col items-end gap-1">
-                  <span className="text-[10px] font-black text-azul-1 bg-azul-1/10 px-3 py-1 rounded-full uppercase">
+                  <span className="text-[10px] font-black text-azul-1 dark:text-zinc-300 bg-azul-1/10 px-3 py-1 rounded-full uppercase">
                     {serviceHistory.length} Servicios Registrados
                   </span>
                 </div>
@@ -1713,7 +1713,7 @@ export function ClienteList({ initialClientes }: ClienteListProps) {
               <div className="shrink-0 p-8 border-t border-zinc-100 dark:border-zinc-800 bg-white dark:bg-zinc-950 flex items-center justify-end">
                 <button 
                   onClick={() => setSelectedClienteForHistory(null)}
-                  className="px-10 h-12 rounded-xl bg-zinc-100 dark:bg-zinc-900 text-xs font-black uppercase tracking-widest text-zinc-600 dark:text-zinc-400 hover:bg-zinc-200 transition-all"
+                  className="px-10 h-12 rounded-xl bg-zinc-100 dark:bg-zinc-900 text-xs font-black uppercase tracking-widest text-zinc-600 dark:text-zinc-300 hover:bg-zinc-200 transition-all"
                 >
                   Cerrar Historial
                 </button>

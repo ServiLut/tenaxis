@@ -1,4 +1,10 @@
-import { IsBoolean, IsInt, IsOptional, IsString, IsUUID } from 'class-validator';
+import {
+  IsBoolean,
+  IsInt,
+  IsOptional,
+  IsString,
+  IsUUID,
+} from 'class-validator';
 
 export class UpsertClienteConfigDto {
   @IsUUID()
