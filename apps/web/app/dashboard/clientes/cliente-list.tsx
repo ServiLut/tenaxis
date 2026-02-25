@@ -17,6 +17,9 @@ import {
   ChevronLeft,
   MoreHorizontal,
   Eye,
+  EyeOff,
+  BarChart3,
+  Activity,
   Settings,
   Pencil,
   Trash2,
@@ -55,10 +58,12 @@ import {
 import { Combobox } from "@/components/ui/combobox";
 import { Select } from "@/components/ui/select";
 import { Label } from "@/components/ui/label";
+import { Button } from "@/components/ui/button";
 import { cn } from "@/components/ui/utils";
 import { toast } from "sonner";
 import { exportToExcel, exportToPDF, exportToWord } from "@/lib/utils/export-helper";
 import { deleteClienteAction } from "../actions";
+import { Contact } from "lucide-react";
 
 interface Cliente {
   id: string;
@@ -171,6 +176,20 @@ export function ClienteList({ initialClientes }: ClienteListProps) {
   const [currentPage, setCurrentPage] = useState(1);
   const [selectedCliente, setSelectedCliente] = useState<Cliente | null>(null);
   const [userRole, setUserRole] = useState<string | null>(null);
+  const [showKPIs, setShowKPIs] = useState(false);
+
+  const stats = useMemo(() => {
+    const total = initialClientes.length;
+    const empresas = initialClientes.filter(c => c.tipoCliente === "EMPRESA").length;
+    const oro = initialClientes.filter(c => c.clasificacion === "ORO").length;
+    const riesgoCritico = initialClientes.filter(c => {
+      const r = (c.riesgo?.nombre || c.nivelRiesgo || "").toUpperCase();
+      return r === "CRITICO" || r === "ALTO";
+    }).length;
+    const avgScore = total > 0 ? Math.round(initialClientes.reduce((acc, c) => acc + (c.score || 0), 0) / total) : 0;
+
+    return { total, empresas, oro, riesgoCritico, avgScore };
+  }, [initialClientes]);
 
   const handleDelete = async (id: string) => {
     if (!confirm("¿Estás seguro de que deseas eliminar este cliente?")) return;
@@ -346,10 +365,107 @@ export function ClienteList({ initialClientes }: ClienteListProps) {
       </div>
     );
   }
-  return (
-    <div className="flex flex-col h-full bg-white dark:bg-zinc-900 rounded-xl border border-zinc-200/60 dark:border-zinc-800/50 shadow-xl shadow-zinc-200/20 dark:shadow-none overflow-hidden">
 
-      {/* Barra de Filtros Unificada */}
+  return (
+    <div className="flex flex-col h-full">
+      {/* Sub-Header Estratégico */}
+      <div className="shrink-0 py-10 px-6 lg:px-10 border-b border-zinc-200/60 dark:border-zinc-800/50 mb-8 bg-gray-50 dark:bg-zinc-900/50">
+        <div className="max-w-[1600px] mx-auto w-full flex flex-col md:flex-row md:items-center gap-6">
+          <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-azul-1 text-white shadow-xl shadow-azul-1/20">
+            <Contact className="h-5 w-5" />
+          </div>
+          <div className="flex-1">
+            <h1 className="text-2xl lg:text-3xl font-black tracking-tight text-zinc-900 dark:text-zinc-50">
+              Cartera de <span className="text-azul-1 dark:text-claro-azul-4">Clientes</span>
+            </h1>
+            <p className="text-zinc-500 font-medium mt-1">
+              Gestión estratégica y segmentación de la base instalada.
+            </p>
+          </div>
+          <div className="md:ml-auto">
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => setShowKPIs(!showKPIs)}
+              className="h-10 px-4 rounded-xl border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 text-[10px] font-black uppercase tracking-widest gap-2"
+            >
+              {showKPIs ? (
+                <>
+                  <EyeOff className="h-4 w-4 text-amber-500" />
+                  Ocultar KPIs
+                </>
+              ) : (
+                <>
+                  <BarChart3 className="h-4 w-4 text-azul-1" />
+                  Ver KPIs
+                </>
+              )}
+            </Button>
+          </div>
+        </div>
+      </div>
+
+      {/* Contenedor Principal de Datos */}
+      <div className="flex-1 min-h-0 px-4 sm:px-6 lg:px-10 pb-4 sm:pb-6 lg:pb-10">
+        <div className="max-w-[1600px] mx-auto w-full h-full flex flex-col">
+          
+          {/* KPI Cards Grid */}
+          {showKPIs && (
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 mb-6 shrink-0 animate-in fade-in slide-in-from-top-4 duration-300">
+              <div className="bg-white dark:bg-zinc-900 p-6 rounded-2xl border border-zinc-200/60 dark:border-zinc-800/50 shadow-sm flex items-center gap-4">
+                <div className="h-12 w-12 rounded-xl bg-azul-1/10 flex items-center justify-center text-azul-1">
+                  <User className="h-6 w-6" />
+                </div>
+                <div>
+                  <p className="text-[10px] font-black text-zinc-400 uppercase tracking-widest">Total Clientes</p>
+                  <p className="text-2xl font-black text-zinc-900 dark:text-zinc-50">{stats.total}</p>
+                </div>
+              </div>
+
+              <div className="bg-white dark:bg-zinc-900 p-6 rounded-2xl border border-zinc-200/60 dark:border-zinc-800/50 shadow-sm flex items-center gap-4">
+                <div className="h-12 w-12 rounded-xl bg-purple-500/10 flex items-center justify-center text-purple-500">
+                  <Building2 className="h-6 w-6" />
+                </div>
+                <div>
+                  <p className="text-[10px] font-black text-zinc-400 uppercase tracking-widest">Corporativos</p>
+                  <p className="text-2xl font-black text-zinc-900 dark:text-zinc-50">{stats.empresas}</p>
+                </div>
+              </div>
+
+              <div className="bg-white dark:bg-zinc-900 p-6 rounded-2xl border border-zinc-200/60 dark:border-zinc-800/50 shadow-sm flex items-center gap-4">
+                <div className="h-12 w-12 rounded-xl bg-amber-500/10 flex items-center justify-center text-amber-500">
+                  <Trophy className="h-6 w-6" />
+                </div>
+                <div>
+                  <p className="text-[10px] font-black text-zinc-400 uppercase tracking-widest">Clientes Oro</p>
+                  <p className="text-2xl font-black text-zinc-900 dark:text-zinc-50">{stats.oro}</p>
+                </div>
+              </div>
+
+              <div className="bg-white dark:bg-zinc-900 p-6 rounded-2xl border border-zinc-200/60 dark:border-zinc-800/50 shadow-sm flex items-center gap-4">
+                <div className="h-12 w-12 rounded-xl bg-red-500/10 flex items-center justify-center text-red-500">
+                  <AlertCircle className="h-6 w-6" />
+                </div>
+                <div>
+                  <p className="text-[10px] font-black text-zinc-400 uppercase tracking-widest">Riesgo Alto</p>
+                  <p className="text-2xl font-black text-zinc-900 dark:text-zinc-50">{stats.riesgoCritico}</p>
+                </div>
+              </div>
+
+              <div className="bg-white dark:bg-zinc-900 p-6 rounded-2xl border border-zinc-200/60 dark:border-zinc-800/50 shadow-sm flex items-center gap-4">
+                <div className="h-12 w-12 rounded-xl bg-emerald-500/10 flex items-center justify-center text-emerald-500">
+                  <Activity className="h-6 w-6" />
+                </div>
+                <div>
+                  <p className="text-[10px] font-black text-zinc-400 uppercase tracking-widest">Avg Score</p>
+                  <p className="text-2xl font-black text-zinc-900 dark:text-zinc-50">{stats.avgScore}</p>
+                </div>
+              </div>
+            </div>
+          )}
+
+          <div className="flex-1 min-h-0 flex flex-col bg-white dark:bg-zinc-900 rounded-xl border border-zinc-200/60 dark:border-zinc-800/50 shadow-xl shadow-zinc-200/20 dark:shadow-none overflow-hidden">
+            {/* Barra de Filtros Unificada */}
       <div className="px-8 py-6 border-b border-zinc-100 dark:border-zinc-800/50 flex flex-col gap-6 sm:flex-row sm:items-center sm:justify-between bg-white dark:bg-zinc-900 shrink-0">
         <div className="flex flex-1 items-center gap-3 max-w-2xl">
           <div className="relative flex-1">
@@ -1073,5 +1189,8 @@ export function ClienteList({ initialClientes }: ClienteListProps) {
         </DialogContent>
       </Dialog>
     </div>
-  );
+  </div>
+</div>
+</div>
+);
 }
