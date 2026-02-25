@@ -202,6 +202,7 @@ export type EmpresaWhereInput = {
   auditorias?: Prisma.AuditoriaListRelationFilter
   authSessions?: Prisma.AuthSessionListRelationFilter
   citasPsicologos?: Prisma.CitasPsicologosListRelationFilter
+  cliente_configuracion_operativa?: Prisma.Cliente_configuracion_operativaListRelationFilter
   clientes?: Prisma.ClienteListRelationFilter
   commissions?: Prisma.CommissionRecordListRelationFilter
   configuracionPagos?: Prisma.ConfiguracionPagosListRelationFilter
@@ -252,6 +253,7 @@ export type EmpresaOrderByWithRelationInput = {
   auditorias?: Prisma.AuditoriaOrderByRelationAggregateInput
   authSessions?: Prisma.AuthSessionOrderByRelationAggregateInput
   citasPsicologos?: Prisma.CitasPsicologosOrderByRelationAggregateInput
+  cliente_configuracion_operativa?: Prisma.cliente_configuracion_operativaOrderByRelationAggregateInput
   clientes?: Prisma.ClienteOrderByRelationAggregateInput
   commissions?: Prisma.CommissionRecordOrderByRelationAggregateInput
   configuracionPagos?: Prisma.ConfiguracionPagosOrderByRelationAggregateInput
@@ -305,6 +307,7 @@ export type EmpresaWhereUniqueInput = Prisma.AtLeast<{
   auditorias?: Prisma.AuditoriaListRelationFilter
   authSessions?: Prisma.AuthSessionListRelationFilter
   citasPsicologos?: Prisma.CitasPsicologosListRelationFilter
+  cliente_configuracion_operativa?: Prisma.Cliente_configuracion_operativaListRelationFilter
   clientes?: Prisma.ClienteListRelationFilter
   commissions?: Prisma.CommissionRecordListRelationFilter
   configuracionPagos?: Prisma.ConfiguracionPagosListRelationFilter
@@ -380,6 +383,7 @@ export type EmpresaCreateInput = {
   auditorias?: Prisma.AuditoriaCreateNestedManyWithoutEmpresaInput
   authSessions?: Prisma.AuthSessionCreateNestedManyWithoutEmpresaInput
   citasPsicologos?: Prisma.CitasPsicologosCreateNestedManyWithoutEmpresaInput
+  cliente_configuracion_operativa?: Prisma.cliente_configuracion_operativaCreateNestedManyWithoutEmpresasInput
   clientes?: Prisma.ClienteCreateNestedManyWithoutEmpresaInput
   commissions?: Prisma.CommissionRecordCreateNestedManyWithoutEmpresaInput
   configuracionPagos?: Prisma.ConfiguracionPagosCreateNestedManyWithoutEmpresaInput
@@ -430,6 +434,7 @@ export type EmpresaUncheckedCreateInput = {
   auditorias?: Prisma.AuditoriaUncheckedCreateNestedManyWithoutEmpresaInput
   authSessions?: Prisma.AuthSessionUncheckedCreateNestedManyWithoutEmpresaInput
   citasPsicologos?: Prisma.CitasPsicologosUncheckedCreateNestedManyWithoutEmpresaInput
+  cliente_configuracion_operativa?: Prisma.cliente_configuracion_operativaUncheckedCreateNestedManyWithoutEmpresasInput
   clientes?: Prisma.ClienteUncheckedCreateNestedManyWithoutEmpresaInput
   commissions?: Prisma.CommissionRecordUncheckedCreateNestedManyWithoutEmpresaInput
   configuracionPagos?: Prisma.ConfiguracionPagosUncheckedCreateNestedManyWithoutEmpresaInput
@@ -478,6 +483,7 @@ export type EmpresaUpdateInput = {
   auditorias?: Prisma.AuditoriaUpdateManyWithoutEmpresaNestedInput
   authSessions?: Prisma.AuthSessionUpdateManyWithoutEmpresaNestedInput
   citasPsicologos?: Prisma.CitasPsicologosUpdateManyWithoutEmpresaNestedInput
+  cliente_configuracion_operativa?: Prisma.cliente_configuracion_operativaUpdateManyWithoutEmpresasNestedInput
   clientes?: Prisma.ClienteUpdateManyWithoutEmpresaNestedInput
   commissions?: Prisma.CommissionRecordUpdateManyWithoutEmpresaNestedInput
   configuracionPagos?: Prisma.ConfiguracionPagosUpdateManyWithoutEmpresaNestedInput
@@ -528,6 +534,7 @@ export type EmpresaUncheckedUpdateInput = {
   auditorias?: Prisma.AuditoriaUncheckedUpdateManyWithoutEmpresaNestedInput
   authSessions?: Prisma.AuthSessionUncheckedUpdateManyWithoutEmpresaNestedInput
   citasPsicologos?: Prisma.CitasPsicologosUncheckedUpdateManyWithoutEmpresaNestedInput
+  cliente_configuracion_operativa?: Prisma.cliente_configuracion_operativaUncheckedUpdateManyWithoutEmpresasNestedInput
   clientes?: Prisma.ClienteUncheckedUpdateManyWithoutEmpresaNestedInput
   commissions?: Prisma.CommissionRecordUncheckedUpdateManyWithoutEmpresaNestedInput
   configuracionPagos?: Prisma.ConfiguracionPagosUncheckedUpdateManyWithoutEmpresaNestedInput
@@ -1244,6 +1251,20 @@ export type EmpresaUpdateOneWithoutResetTokensNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.EmpresaUpdateToOneWithWhereWithoutResetTokensInput, Prisma.EmpresaUpdateWithoutResetTokensInput>, Prisma.EmpresaUncheckedUpdateWithoutResetTokensInput>
 }
 
+export type EmpresaCreateNestedOneWithoutCliente_configuracion_operativaInput = {
+  create?: Prisma.XOR<Prisma.EmpresaCreateWithoutCliente_configuracion_operativaInput, Prisma.EmpresaUncheckedCreateWithoutCliente_configuracion_operativaInput>
+  connectOrCreate?: Prisma.EmpresaCreateOrConnectWithoutCliente_configuracion_operativaInput
+  connect?: Prisma.EmpresaWhereUniqueInput
+}
+
+export type EmpresaUpdateOneRequiredWithoutCliente_configuracion_operativaNestedInput = {
+  create?: Prisma.XOR<Prisma.EmpresaCreateWithoutCliente_configuracion_operativaInput, Prisma.EmpresaUncheckedCreateWithoutCliente_configuracion_operativaInput>
+  connectOrCreate?: Prisma.EmpresaCreateOrConnectWithoutCliente_configuracion_operativaInput
+  upsert?: Prisma.EmpresaUpsertWithoutCliente_configuracion_operativaInput
+  connect?: Prisma.EmpresaWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.EmpresaUpdateToOneWithWhereWithoutCliente_configuracion_operativaInput, Prisma.EmpresaUpdateWithoutCliente_configuracion_operativaInput>, Prisma.EmpresaUncheckedUpdateWithoutCliente_configuracion_operativaInput>
+}
+
 export type EmpresaCreateWithoutTenantInput = {
   id?: string
   nombre: string
@@ -1255,6 +1276,7 @@ export type EmpresaCreateWithoutTenantInput = {
   auditorias?: Prisma.AuditoriaCreateNestedManyWithoutEmpresaInput
   authSessions?: Prisma.AuthSessionCreateNestedManyWithoutEmpresaInput
   citasPsicologos?: Prisma.CitasPsicologosCreateNestedManyWithoutEmpresaInput
+  cliente_configuracion_operativa?: Prisma.cliente_configuracion_operativaCreateNestedManyWithoutEmpresasInput
   clientes?: Prisma.ClienteCreateNestedManyWithoutEmpresaInput
   commissions?: Prisma.CommissionRecordCreateNestedManyWithoutEmpresaInput
   configuracionPagos?: Prisma.ConfiguracionPagosCreateNestedManyWithoutEmpresaInput
@@ -1303,6 +1325,7 @@ export type EmpresaUncheckedCreateWithoutTenantInput = {
   auditorias?: Prisma.AuditoriaUncheckedCreateNestedManyWithoutEmpresaInput
   authSessions?: Prisma.AuthSessionUncheckedCreateNestedManyWithoutEmpresaInput
   citasPsicologos?: Prisma.CitasPsicologosUncheckedCreateNestedManyWithoutEmpresaInput
+  cliente_configuracion_operativa?: Prisma.cliente_configuracion_operativaUncheckedCreateNestedManyWithoutEmpresasInput
   clientes?: Prisma.ClienteUncheckedCreateNestedManyWithoutEmpresaInput
   commissions?: Prisma.CommissionRecordUncheckedCreateNestedManyWithoutEmpresaInput
   configuracionPagos?: Prisma.ConfiguracionPagosUncheckedCreateNestedManyWithoutEmpresaInput
@@ -1390,6 +1413,7 @@ export type EmpresaCreateWithoutMembershipsInput = {
   auditorias?: Prisma.AuditoriaCreateNestedManyWithoutEmpresaInput
   authSessions?: Prisma.AuthSessionCreateNestedManyWithoutEmpresaInput
   citasPsicologos?: Prisma.CitasPsicologosCreateNestedManyWithoutEmpresaInput
+  cliente_configuracion_operativa?: Prisma.cliente_configuracion_operativaCreateNestedManyWithoutEmpresasInput
   clientes?: Prisma.ClienteCreateNestedManyWithoutEmpresaInput
   commissions?: Prisma.CommissionRecordCreateNestedManyWithoutEmpresaInput
   configuracionPagos?: Prisma.ConfiguracionPagosCreateNestedManyWithoutEmpresaInput
@@ -1439,6 +1463,7 @@ export type EmpresaUncheckedCreateWithoutMembershipsInput = {
   auditorias?: Prisma.AuditoriaUncheckedCreateNestedManyWithoutEmpresaInput
   authSessions?: Prisma.AuthSessionUncheckedCreateNestedManyWithoutEmpresaInput
   citasPsicologos?: Prisma.CitasPsicologosUncheckedCreateNestedManyWithoutEmpresaInput
+  cliente_configuracion_operativa?: Prisma.cliente_configuracion_operativaUncheckedCreateNestedManyWithoutEmpresasInput
   clientes?: Prisma.ClienteUncheckedCreateNestedManyWithoutEmpresaInput
   commissions?: Prisma.CommissionRecordUncheckedCreateNestedManyWithoutEmpresaInput
   configuracionPagos?: Prisma.ConfiguracionPagosUncheckedCreateNestedManyWithoutEmpresaInput
@@ -1502,6 +1527,7 @@ export type EmpresaUpdateWithoutMembershipsInput = {
   auditorias?: Prisma.AuditoriaUpdateManyWithoutEmpresaNestedInput
   authSessions?: Prisma.AuthSessionUpdateManyWithoutEmpresaNestedInput
   citasPsicologos?: Prisma.CitasPsicologosUpdateManyWithoutEmpresaNestedInput
+  cliente_configuracion_operativa?: Prisma.cliente_configuracion_operativaUpdateManyWithoutEmpresasNestedInput
   clientes?: Prisma.ClienteUpdateManyWithoutEmpresaNestedInput
   commissions?: Prisma.CommissionRecordUpdateManyWithoutEmpresaNestedInput
   configuracionPagos?: Prisma.ConfiguracionPagosUpdateManyWithoutEmpresaNestedInput
@@ -1551,6 +1577,7 @@ export type EmpresaUncheckedUpdateWithoutMembershipsInput = {
   auditorias?: Prisma.AuditoriaUncheckedUpdateManyWithoutEmpresaNestedInput
   authSessions?: Prisma.AuthSessionUncheckedUpdateManyWithoutEmpresaNestedInput
   citasPsicologos?: Prisma.CitasPsicologosUncheckedUpdateManyWithoutEmpresaNestedInput
+  cliente_configuracion_operativa?: Prisma.cliente_configuracion_operativaUncheckedUpdateManyWithoutEmpresasNestedInput
   clientes?: Prisma.ClienteUncheckedUpdateManyWithoutEmpresaNestedInput
   commissions?: Prisma.CommissionRecordUncheckedUpdateManyWithoutEmpresaNestedInput
   configuracionPagos?: Prisma.ConfiguracionPagosUncheckedUpdateManyWithoutEmpresaNestedInput
@@ -1598,6 +1625,7 @@ export type EmpresaCreateWithoutOrgNodesInput = {
   auditorias?: Prisma.AuditoriaCreateNestedManyWithoutEmpresaInput
   authSessions?: Prisma.AuthSessionCreateNestedManyWithoutEmpresaInput
   citasPsicologos?: Prisma.CitasPsicologosCreateNestedManyWithoutEmpresaInput
+  cliente_configuracion_operativa?: Prisma.cliente_configuracion_operativaCreateNestedManyWithoutEmpresasInput
   clientes?: Prisma.ClienteCreateNestedManyWithoutEmpresaInput
   commissions?: Prisma.CommissionRecordCreateNestedManyWithoutEmpresaInput
   configuracionPagos?: Prisma.ConfiguracionPagosCreateNestedManyWithoutEmpresaInput
@@ -1647,6 +1675,7 @@ export type EmpresaUncheckedCreateWithoutOrgNodesInput = {
   auditorias?: Prisma.AuditoriaUncheckedCreateNestedManyWithoutEmpresaInput
   authSessions?: Prisma.AuthSessionUncheckedCreateNestedManyWithoutEmpresaInput
   citasPsicologos?: Prisma.CitasPsicologosUncheckedCreateNestedManyWithoutEmpresaInput
+  cliente_configuracion_operativa?: Prisma.cliente_configuracion_operativaUncheckedCreateNestedManyWithoutEmpresasInput
   clientes?: Prisma.ClienteUncheckedCreateNestedManyWithoutEmpresaInput
   commissions?: Prisma.CommissionRecordUncheckedCreateNestedManyWithoutEmpresaInput
   configuracionPagos?: Prisma.ConfiguracionPagosUncheckedCreateNestedManyWithoutEmpresaInput
@@ -1710,6 +1739,7 @@ export type EmpresaUpdateWithoutOrgNodesInput = {
   auditorias?: Prisma.AuditoriaUpdateManyWithoutEmpresaNestedInput
   authSessions?: Prisma.AuthSessionUpdateManyWithoutEmpresaNestedInput
   citasPsicologos?: Prisma.CitasPsicologosUpdateManyWithoutEmpresaNestedInput
+  cliente_configuracion_operativa?: Prisma.cliente_configuracion_operativaUpdateManyWithoutEmpresasNestedInput
   clientes?: Prisma.ClienteUpdateManyWithoutEmpresaNestedInput
   commissions?: Prisma.CommissionRecordUpdateManyWithoutEmpresaNestedInput
   configuracionPagos?: Prisma.ConfiguracionPagosUpdateManyWithoutEmpresaNestedInput
@@ -1759,6 +1789,7 @@ export type EmpresaUncheckedUpdateWithoutOrgNodesInput = {
   auditorias?: Prisma.AuditoriaUncheckedUpdateManyWithoutEmpresaNestedInput
   authSessions?: Prisma.AuthSessionUncheckedUpdateManyWithoutEmpresaNestedInput
   citasPsicologos?: Prisma.CitasPsicologosUncheckedUpdateManyWithoutEmpresaNestedInput
+  cliente_configuracion_operativa?: Prisma.cliente_configuracion_operativaUncheckedUpdateManyWithoutEmpresasNestedInput
   clientes?: Prisma.ClienteUncheckedUpdateManyWithoutEmpresaNestedInput
   commissions?: Prisma.CommissionRecordUncheckedUpdateManyWithoutEmpresaNestedInput
   configuracionPagos?: Prisma.ConfiguracionPagosUncheckedUpdateManyWithoutEmpresaNestedInput
@@ -1806,6 +1837,7 @@ export type EmpresaCreateWithoutCommissionsInput = {
   auditorias?: Prisma.AuditoriaCreateNestedManyWithoutEmpresaInput
   authSessions?: Prisma.AuthSessionCreateNestedManyWithoutEmpresaInput
   citasPsicologos?: Prisma.CitasPsicologosCreateNestedManyWithoutEmpresaInput
+  cliente_configuracion_operativa?: Prisma.cliente_configuracion_operativaCreateNestedManyWithoutEmpresasInput
   clientes?: Prisma.ClienteCreateNestedManyWithoutEmpresaInput
   configuracionPagos?: Prisma.ConfiguracionPagosCreateNestedManyWithoutEmpresaInput
   consignacionOrdenes?: Prisma.ConsignacionOrdenCreateNestedManyWithoutEmpresaInput
@@ -1855,6 +1887,7 @@ export type EmpresaUncheckedCreateWithoutCommissionsInput = {
   auditorias?: Prisma.AuditoriaUncheckedCreateNestedManyWithoutEmpresaInput
   authSessions?: Prisma.AuthSessionUncheckedCreateNestedManyWithoutEmpresaInput
   citasPsicologos?: Prisma.CitasPsicologosUncheckedCreateNestedManyWithoutEmpresaInput
+  cliente_configuracion_operativa?: Prisma.cliente_configuracion_operativaUncheckedCreateNestedManyWithoutEmpresasInput
   clientes?: Prisma.ClienteUncheckedCreateNestedManyWithoutEmpresaInput
   configuracionPagos?: Prisma.ConfiguracionPagosUncheckedCreateNestedManyWithoutEmpresaInput
   consignacionOrdenes?: Prisma.ConsignacionOrdenUncheckedCreateNestedManyWithoutEmpresaInput
@@ -1918,6 +1951,7 @@ export type EmpresaUpdateWithoutCommissionsInput = {
   auditorias?: Prisma.AuditoriaUpdateManyWithoutEmpresaNestedInput
   authSessions?: Prisma.AuthSessionUpdateManyWithoutEmpresaNestedInput
   citasPsicologos?: Prisma.CitasPsicologosUpdateManyWithoutEmpresaNestedInput
+  cliente_configuracion_operativa?: Prisma.cliente_configuracion_operativaUpdateManyWithoutEmpresasNestedInput
   clientes?: Prisma.ClienteUpdateManyWithoutEmpresaNestedInput
   configuracionPagos?: Prisma.ConfiguracionPagosUpdateManyWithoutEmpresaNestedInput
   consignacionOrdenes?: Prisma.ConsignacionOrdenUpdateManyWithoutEmpresaNestedInput
@@ -1967,6 +2001,7 @@ export type EmpresaUncheckedUpdateWithoutCommissionsInput = {
   auditorias?: Prisma.AuditoriaUncheckedUpdateManyWithoutEmpresaNestedInput
   authSessions?: Prisma.AuthSessionUncheckedUpdateManyWithoutEmpresaNestedInput
   citasPsicologos?: Prisma.CitasPsicologosUncheckedUpdateManyWithoutEmpresaNestedInput
+  cliente_configuracion_operativa?: Prisma.cliente_configuracion_operativaUncheckedUpdateManyWithoutEmpresasNestedInput
   clientes?: Prisma.ClienteUncheckedUpdateManyWithoutEmpresaNestedInput
   configuracionPagos?: Prisma.ConfiguracionPagosUncheckedUpdateManyWithoutEmpresaNestedInput
   consignacionOrdenes?: Prisma.ConsignacionOrdenUncheckedUpdateManyWithoutEmpresaNestedInput
@@ -2014,6 +2049,7 @@ export type EmpresaCreateWithoutClientesInput = {
   auditorias?: Prisma.AuditoriaCreateNestedManyWithoutEmpresaInput
   authSessions?: Prisma.AuthSessionCreateNestedManyWithoutEmpresaInput
   citasPsicologos?: Prisma.CitasPsicologosCreateNestedManyWithoutEmpresaInput
+  cliente_configuracion_operativa?: Prisma.cliente_configuracion_operativaCreateNestedManyWithoutEmpresasInput
   commissions?: Prisma.CommissionRecordCreateNestedManyWithoutEmpresaInput
   configuracionPagos?: Prisma.ConfiguracionPagosCreateNestedManyWithoutEmpresaInput
   consignacionOrdenes?: Prisma.ConsignacionOrdenCreateNestedManyWithoutEmpresaInput
@@ -2063,6 +2099,7 @@ export type EmpresaUncheckedCreateWithoutClientesInput = {
   auditorias?: Prisma.AuditoriaUncheckedCreateNestedManyWithoutEmpresaInput
   authSessions?: Prisma.AuthSessionUncheckedCreateNestedManyWithoutEmpresaInput
   citasPsicologos?: Prisma.CitasPsicologosUncheckedCreateNestedManyWithoutEmpresaInput
+  cliente_configuracion_operativa?: Prisma.cliente_configuracion_operativaUncheckedCreateNestedManyWithoutEmpresasInput
   commissions?: Prisma.CommissionRecordUncheckedCreateNestedManyWithoutEmpresaInput
   configuracionPagos?: Prisma.ConfiguracionPagosUncheckedCreateNestedManyWithoutEmpresaInput
   consignacionOrdenes?: Prisma.ConsignacionOrdenUncheckedCreateNestedManyWithoutEmpresaInput
@@ -2126,6 +2163,7 @@ export type EmpresaUpdateWithoutClientesInput = {
   auditorias?: Prisma.AuditoriaUpdateManyWithoutEmpresaNestedInput
   authSessions?: Prisma.AuthSessionUpdateManyWithoutEmpresaNestedInput
   citasPsicologos?: Prisma.CitasPsicologosUpdateManyWithoutEmpresaNestedInput
+  cliente_configuracion_operativa?: Prisma.cliente_configuracion_operativaUpdateManyWithoutEmpresasNestedInput
   commissions?: Prisma.CommissionRecordUpdateManyWithoutEmpresaNestedInput
   configuracionPagos?: Prisma.ConfiguracionPagosUpdateManyWithoutEmpresaNestedInput
   consignacionOrdenes?: Prisma.ConsignacionOrdenUpdateManyWithoutEmpresaNestedInput
@@ -2175,6 +2213,7 @@ export type EmpresaUncheckedUpdateWithoutClientesInput = {
   auditorias?: Prisma.AuditoriaUncheckedUpdateManyWithoutEmpresaNestedInput
   authSessions?: Prisma.AuthSessionUncheckedUpdateManyWithoutEmpresaNestedInput
   citasPsicologos?: Prisma.CitasPsicologosUncheckedUpdateManyWithoutEmpresaNestedInput
+  cliente_configuracion_operativa?: Prisma.cliente_configuracion_operativaUncheckedUpdateManyWithoutEmpresasNestedInput
   commissions?: Prisma.CommissionRecordUncheckedUpdateManyWithoutEmpresaNestedInput
   configuracionPagos?: Prisma.ConfiguracionPagosUncheckedUpdateManyWithoutEmpresaNestedInput
   consignacionOrdenes?: Prisma.ConsignacionOrdenUncheckedUpdateManyWithoutEmpresaNestedInput
@@ -2222,6 +2261,7 @@ export type EmpresaCreateWithoutVehiculosInput = {
   auditorias?: Prisma.AuditoriaCreateNestedManyWithoutEmpresaInput
   authSessions?: Prisma.AuthSessionCreateNestedManyWithoutEmpresaInput
   citasPsicologos?: Prisma.CitasPsicologosCreateNestedManyWithoutEmpresaInput
+  cliente_configuracion_operativa?: Prisma.cliente_configuracion_operativaCreateNestedManyWithoutEmpresasInput
   clientes?: Prisma.ClienteCreateNestedManyWithoutEmpresaInput
   commissions?: Prisma.CommissionRecordCreateNestedManyWithoutEmpresaInput
   configuracionPagos?: Prisma.ConfiguracionPagosCreateNestedManyWithoutEmpresaInput
@@ -2271,6 +2311,7 @@ export type EmpresaUncheckedCreateWithoutVehiculosInput = {
   auditorias?: Prisma.AuditoriaUncheckedCreateNestedManyWithoutEmpresaInput
   authSessions?: Prisma.AuthSessionUncheckedCreateNestedManyWithoutEmpresaInput
   citasPsicologos?: Prisma.CitasPsicologosUncheckedCreateNestedManyWithoutEmpresaInput
+  cliente_configuracion_operativa?: Prisma.cliente_configuracion_operativaUncheckedCreateNestedManyWithoutEmpresasInput
   clientes?: Prisma.ClienteUncheckedCreateNestedManyWithoutEmpresaInput
   commissions?: Prisma.CommissionRecordUncheckedCreateNestedManyWithoutEmpresaInput
   configuracionPagos?: Prisma.ConfiguracionPagosUncheckedCreateNestedManyWithoutEmpresaInput
@@ -2334,6 +2375,7 @@ export type EmpresaUpdateWithoutVehiculosInput = {
   auditorias?: Prisma.AuditoriaUpdateManyWithoutEmpresaNestedInput
   authSessions?: Prisma.AuthSessionUpdateManyWithoutEmpresaNestedInput
   citasPsicologos?: Prisma.CitasPsicologosUpdateManyWithoutEmpresaNestedInput
+  cliente_configuracion_operativa?: Prisma.cliente_configuracion_operativaUpdateManyWithoutEmpresasNestedInput
   clientes?: Prisma.ClienteUpdateManyWithoutEmpresaNestedInput
   commissions?: Prisma.CommissionRecordUpdateManyWithoutEmpresaNestedInput
   configuracionPagos?: Prisma.ConfiguracionPagosUpdateManyWithoutEmpresaNestedInput
@@ -2383,6 +2425,7 @@ export type EmpresaUncheckedUpdateWithoutVehiculosInput = {
   auditorias?: Prisma.AuditoriaUncheckedUpdateManyWithoutEmpresaNestedInput
   authSessions?: Prisma.AuthSessionUncheckedUpdateManyWithoutEmpresaNestedInput
   citasPsicologos?: Prisma.CitasPsicologosUncheckedUpdateManyWithoutEmpresaNestedInput
+  cliente_configuracion_operativa?: Prisma.cliente_configuracion_operativaUncheckedUpdateManyWithoutEmpresasNestedInput
   clientes?: Prisma.ClienteUncheckedUpdateManyWithoutEmpresaNestedInput
   commissions?: Prisma.CommissionRecordUncheckedUpdateManyWithoutEmpresaNestedInput
   configuracionPagos?: Prisma.ConfiguracionPagosUncheckedUpdateManyWithoutEmpresaNestedInput
@@ -2430,6 +2473,7 @@ export type EmpresaCreateWithoutDireccionesInput = {
   auditorias?: Prisma.AuditoriaCreateNestedManyWithoutEmpresaInput
   authSessions?: Prisma.AuthSessionCreateNestedManyWithoutEmpresaInput
   citasPsicologos?: Prisma.CitasPsicologosCreateNestedManyWithoutEmpresaInput
+  cliente_configuracion_operativa?: Prisma.cliente_configuracion_operativaCreateNestedManyWithoutEmpresasInput
   clientes?: Prisma.ClienteCreateNestedManyWithoutEmpresaInput
   commissions?: Prisma.CommissionRecordCreateNestedManyWithoutEmpresaInput
   configuracionPagos?: Prisma.ConfiguracionPagosCreateNestedManyWithoutEmpresaInput
@@ -2479,6 +2523,7 @@ export type EmpresaUncheckedCreateWithoutDireccionesInput = {
   auditorias?: Prisma.AuditoriaUncheckedCreateNestedManyWithoutEmpresaInput
   authSessions?: Prisma.AuthSessionUncheckedCreateNestedManyWithoutEmpresaInput
   citasPsicologos?: Prisma.CitasPsicologosUncheckedCreateNestedManyWithoutEmpresaInput
+  cliente_configuracion_operativa?: Prisma.cliente_configuracion_operativaUncheckedCreateNestedManyWithoutEmpresasInput
   clientes?: Prisma.ClienteUncheckedCreateNestedManyWithoutEmpresaInput
   commissions?: Prisma.CommissionRecordUncheckedCreateNestedManyWithoutEmpresaInput
   configuracionPagos?: Prisma.ConfiguracionPagosUncheckedCreateNestedManyWithoutEmpresaInput
@@ -2542,6 +2587,7 @@ export type EmpresaUpdateWithoutDireccionesInput = {
   auditorias?: Prisma.AuditoriaUpdateManyWithoutEmpresaNestedInput
   authSessions?: Prisma.AuthSessionUpdateManyWithoutEmpresaNestedInput
   citasPsicologos?: Prisma.CitasPsicologosUpdateManyWithoutEmpresaNestedInput
+  cliente_configuracion_operativa?: Prisma.cliente_configuracion_operativaUpdateManyWithoutEmpresasNestedInput
   clientes?: Prisma.ClienteUpdateManyWithoutEmpresaNestedInput
   commissions?: Prisma.CommissionRecordUpdateManyWithoutEmpresaNestedInput
   configuracionPagos?: Prisma.ConfiguracionPagosUpdateManyWithoutEmpresaNestedInput
@@ -2591,6 +2637,7 @@ export type EmpresaUncheckedUpdateWithoutDireccionesInput = {
   auditorias?: Prisma.AuditoriaUncheckedUpdateManyWithoutEmpresaNestedInput
   authSessions?: Prisma.AuthSessionUncheckedUpdateManyWithoutEmpresaNestedInput
   citasPsicologos?: Prisma.CitasPsicologosUncheckedUpdateManyWithoutEmpresaNestedInput
+  cliente_configuracion_operativa?: Prisma.cliente_configuracion_operativaUncheckedUpdateManyWithoutEmpresasNestedInput
   clientes?: Prisma.ClienteUncheckedUpdateManyWithoutEmpresaNestedInput
   commissions?: Prisma.CommissionRecordUncheckedUpdateManyWithoutEmpresaNestedInput
   configuracionPagos?: Prisma.ConfiguracionPagosUncheckedUpdateManyWithoutEmpresaNestedInput
@@ -2638,6 +2685,7 @@ export type EmpresaCreateWithoutZonasInput = {
   auditorias?: Prisma.AuditoriaCreateNestedManyWithoutEmpresaInput
   authSessions?: Prisma.AuthSessionCreateNestedManyWithoutEmpresaInput
   citasPsicologos?: Prisma.CitasPsicologosCreateNestedManyWithoutEmpresaInput
+  cliente_configuracion_operativa?: Prisma.cliente_configuracion_operativaCreateNestedManyWithoutEmpresasInput
   clientes?: Prisma.ClienteCreateNestedManyWithoutEmpresaInput
   commissions?: Prisma.CommissionRecordCreateNestedManyWithoutEmpresaInput
   configuracionPagos?: Prisma.ConfiguracionPagosCreateNestedManyWithoutEmpresaInput
@@ -2687,6 +2735,7 @@ export type EmpresaUncheckedCreateWithoutZonasInput = {
   auditorias?: Prisma.AuditoriaUncheckedCreateNestedManyWithoutEmpresaInput
   authSessions?: Prisma.AuthSessionUncheckedCreateNestedManyWithoutEmpresaInput
   citasPsicologos?: Prisma.CitasPsicologosUncheckedCreateNestedManyWithoutEmpresaInput
+  cliente_configuracion_operativa?: Prisma.cliente_configuracion_operativaUncheckedCreateNestedManyWithoutEmpresasInput
   clientes?: Prisma.ClienteUncheckedCreateNestedManyWithoutEmpresaInput
   commissions?: Prisma.CommissionRecordUncheckedCreateNestedManyWithoutEmpresaInput
   configuracionPagos?: Prisma.ConfiguracionPagosUncheckedCreateNestedManyWithoutEmpresaInput
@@ -2750,6 +2799,7 @@ export type EmpresaUpdateWithoutZonasInput = {
   auditorias?: Prisma.AuditoriaUpdateManyWithoutEmpresaNestedInput
   authSessions?: Prisma.AuthSessionUpdateManyWithoutEmpresaNestedInput
   citasPsicologos?: Prisma.CitasPsicologosUpdateManyWithoutEmpresaNestedInput
+  cliente_configuracion_operativa?: Prisma.cliente_configuracion_operativaUpdateManyWithoutEmpresasNestedInput
   clientes?: Prisma.ClienteUpdateManyWithoutEmpresaNestedInput
   commissions?: Prisma.CommissionRecordUpdateManyWithoutEmpresaNestedInput
   configuracionPagos?: Prisma.ConfiguracionPagosUpdateManyWithoutEmpresaNestedInput
@@ -2799,6 +2849,7 @@ export type EmpresaUncheckedUpdateWithoutZonasInput = {
   auditorias?: Prisma.AuditoriaUncheckedUpdateManyWithoutEmpresaNestedInput
   authSessions?: Prisma.AuthSessionUncheckedUpdateManyWithoutEmpresaNestedInput
   citasPsicologos?: Prisma.CitasPsicologosUncheckedUpdateManyWithoutEmpresaNestedInput
+  cliente_configuracion_operativa?: Prisma.cliente_configuracion_operativaUncheckedUpdateManyWithoutEmpresasNestedInput
   clientes?: Prisma.ClienteUncheckedUpdateManyWithoutEmpresaNestedInput
   commissions?: Prisma.CommissionRecordUncheckedUpdateManyWithoutEmpresaNestedInput
   configuracionPagos?: Prisma.ConfiguracionPagosUncheckedUpdateManyWithoutEmpresaNestedInput
@@ -2846,6 +2897,7 @@ export type EmpresaCreateWithoutServiciosInput = {
   auditorias?: Prisma.AuditoriaCreateNestedManyWithoutEmpresaInput
   authSessions?: Prisma.AuthSessionCreateNestedManyWithoutEmpresaInput
   citasPsicologos?: Prisma.CitasPsicologosCreateNestedManyWithoutEmpresaInput
+  cliente_configuracion_operativa?: Prisma.cliente_configuracion_operativaCreateNestedManyWithoutEmpresasInput
   clientes?: Prisma.ClienteCreateNestedManyWithoutEmpresaInput
   commissions?: Prisma.CommissionRecordCreateNestedManyWithoutEmpresaInput
   configuracionPagos?: Prisma.ConfiguracionPagosCreateNestedManyWithoutEmpresaInput
@@ -2895,6 +2947,7 @@ export type EmpresaUncheckedCreateWithoutServiciosInput = {
   auditorias?: Prisma.AuditoriaUncheckedCreateNestedManyWithoutEmpresaInput
   authSessions?: Prisma.AuthSessionUncheckedCreateNestedManyWithoutEmpresaInput
   citasPsicologos?: Prisma.CitasPsicologosUncheckedCreateNestedManyWithoutEmpresaInput
+  cliente_configuracion_operativa?: Prisma.cliente_configuracion_operativaUncheckedCreateNestedManyWithoutEmpresasInput
   clientes?: Prisma.ClienteUncheckedCreateNestedManyWithoutEmpresaInput
   commissions?: Prisma.CommissionRecordUncheckedCreateNestedManyWithoutEmpresaInput
   configuracionPagos?: Prisma.ConfiguracionPagosUncheckedCreateNestedManyWithoutEmpresaInput
@@ -2958,6 +3011,7 @@ export type EmpresaUpdateWithoutServiciosInput = {
   auditorias?: Prisma.AuditoriaUpdateManyWithoutEmpresaNestedInput
   authSessions?: Prisma.AuthSessionUpdateManyWithoutEmpresaNestedInput
   citasPsicologos?: Prisma.CitasPsicologosUpdateManyWithoutEmpresaNestedInput
+  cliente_configuracion_operativa?: Prisma.cliente_configuracion_operativaUpdateManyWithoutEmpresasNestedInput
   clientes?: Prisma.ClienteUpdateManyWithoutEmpresaNestedInput
   commissions?: Prisma.CommissionRecordUpdateManyWithoutEmpresaNestedInput
   configuracionPagos?: Prisma.ConfiguracionPagosUpdateManyWithoutEmpresaNestedInput
@@ -3007,6 +3061,7 @@ export type EmpresaUncheckedUpdateWithoutServiciosInput = {
   auditorias?: Prisma.AuditoriaUncheckedUpdateManyWithoutEmpresaNestedInput
   authSessions?: Prisma.AuthSessionUncheckedUpdateManyWithoutEmpresaNestedInput
   citasPsicologos?: Prisma.CitasPsicologosUncheckedUpdateManyWithoutEmpresaNestedInput
+  cliente_configuracion_operativa?: Prisma.cliente_configuracion_operativaUncheckedUpdateManyWithoutEmpresasNestedInput
   clientes?: Prisma.ClienteUncheckedUpdateManyWithoutEmpresaNestedInput
   commissions?: Prisma.CommissionRecordUncheckedUpdateManyWithoutEmpresaNestedInput
   configuracionPagos?: Prisma.ConfiguracionPagosUncheckedUpdateManyWithoutEmpresaNestedInput
@@ -3054,6 +3109,7 @@ export type EmpresaCreateWithoutTiposServicioInput = {
   auditorias?: Prisma.AuditoriaCreateNestedManyWithoutEmpresaInput
   authSessions?: Prisma.AuthSessionCreateNestedManyWithoutEmpresaInput
   citasPsicologos?: Prisma.CitasPsicologosCreateNestedManyWithoutEmpresaInput
+  cliente_configuracion_operativa?: Prisma.cliente_configuracion_operativaCreateNestedManyWithoutEmpresasInput
   clientes?: Prisma.ClienteCreateNestedManyWithoutEmpresaInput
   commissions?: Prisma.CommissionRecordCreateNestedManyWithoutEmpresaInput
   configuracionPagos?: Prisma.ConfiguracionPagosCreateNestedManyWithoutEmpresaInput
@@ -3103,6 +3159,7 @@ export type EmpresaUncheckedCreateWithoutTiposServicioInput = {
   auditorias?: Prisma.AuditoriaUncheckedCreateNestedManyWithoutEmpresaInput
   authSessions?: Prisma.AuthSessionUncheckedCreateNestedManyWithoutEmpresaInput
   citasPsicologos?: Prisma.CitasPsicologosUncheckedCreateNestedManyWithoutEmpresaInput
+  cliente_configuracion_operativa?: Prisma.cliente_configuracion_operativaUncheckedCreateNestedManyWithoutEmpresasInput
   clientes?: Prisma.ClienteUncheckedCreateNestedManyWithoutEmpresaInput
   commissions?: Prisma.CommissionRecordUncheckedCreateNestedManyWithoutEmpresaInput
   configuracionPagos?: Prisma.ConfiguracionPagosUncheckedCreateNestedManyWithoutEmpresaInput
@@ -3166,6 +3223,7 @@ export type EmpresaUpdateWithoutTiposServicioInput = {
   auditorias?: Prisma.AuditoriaUpdateManyWithoutEmpresaNestedInput
   authSessions?: Prisma.AuthSessionUpdateManyWithoutEmpresaNestedInput
   citasPsicologos?: Prisma.CitasPsicologosUpdateManyWithoutEmpresaNestedInput
+  cliente_configuracion_operativa?: Prisma.cliente_configuracion_operativaUpdateManyWithoutEmpresasNestedInput
   clientes?: Prisma.ClienteUpdateManyWithoutEmpresaNestedInput
   commissions?: Prisma.CommissionRecordUpdateManyWithoutEmpresaNestedInput
   configuracionPagos?: Prisma.ConfiguracionPagosUpdateManyWithoutEmpresaNestedInput
@@ -3215,6 +3273,7 @@ export type EmpresaUncheckedUpdateWithoutTiposServicioInput = {
   auditorias?: Prisma.AuditoriaUncheckedUpdateManyWithoutEmpresaNestedInput
   authSessions?: Prisma.AuthSessionUncheckedUpdateManyWithoutEmpresaNestedInput
   citasPsicologos?: Prisma.CitasPsicologosUncheckedUpdateManyWithoutEmpresaNestedInput
+  cliente_configuracion_operativa?: Prisma.cliente_configuracion_operativaUncheckedUpdateManyWithoutEmpresasNestedInput
   clientes?: Prisma.ClienteUncheckedUpdateManyWithoutEmpresaNestedInput
   commissions?: Prisma.CommissionRecordUncheckedUpdateManyWithoutEmpresaNestedInput
   configuracionPagos?: Prisma.ConfiguracionPagosUncheckedUpdateManyWithoutEmpresaNestedInput
@@ -3262,6 +3321,7 @@ export type EmpresaCreateWithoutMetodosPagoInput = {
   auditorias?: Prisma.AuditoriaCreateNestedManyWithoutEmpresaInput
   authSessions?: Prisma.AuthSessionCreateNestedManyWithoutEmpresaInput
   citasPsicologos?: Prisma.CitasPsicologosCreateNestedManyWithoutEmpresaInput
+  cliente_configuracion_operativa?: Prisma.cliente_configuracion_operativaCreateNestedManyWithoutEmpresasInput
   clientes?: Prisma.ClienteCreateNestedManyWithoutEmpresaInput
   commissions?: Prisma.CommissionRecordCreateNestedManyWithoutEmpresaInput
   configuracionPagos?: Prisma.ConfiguracionPagosCreateNestedManyWithoutEmpresaInput
@@ -3311,6 +3371,7 @@ export type EmpresaUncheckedCreateWithoutMetodosPagoInput = {
   auditorias?: Prisma.AuditoriaUncheckedCreateNestedManyWithoutEmpresaInput
   authSessions?: Prisma.AuthSessionUncheckedCreateNestedManyWithoutEmpresaInput
   citasPsicologos?: Prisma.CitasPsicologosUncheckedCreateNestedManyWithoutEmpresaInput
+  cliente_configuracion_operativa?: Prisma.cliente_configuracion_operativaUncheckedCreateNestedManyWithoutEmpresasInput
   clientes?: Prisma.ClienteUncheckedCreateNestedManyWithoutEmpresaInput
   commissions?: Prisma.CommissionRecordUncheckedCreateNestedManyWithoutEmpresaInput
   configuracionPagos?: Prisma.ConfiguracionPagosUncheckedCreateNestedManyWithoutEmpresaInput
@@ -3374,6 +3435,7 @@ export type EmpresaUpdateWithoutMetodosPagoInput = {
   auditorias?: Prisma.AuditoriaUpdateManyWithoutEmpresaNestedInput
   authSessions?: Prisma.AuthSessionUpdateManyWithoutEmpresaNestedInput
   citasPsicologos?: Prisma.CitasPsicologosUpdateManyWithoutEmpresaNestedInput
+  cliente_configuracion_operativa?: Prisma.cliente_configuracion_operativaUpdateManyWithoutEmpresasNestedInput
   clientes?: Prisma.ClienteUpdateManyWithoutEmpresaNestedInput
   commissions?: Prisma.CommissionRecordUpdateManyWithoutEmpresaNestedInput
   configuracionPagos?: Prisma.ConfiguracionPagosUpdateManyWithoutEmpresaNestedInput
@@ -3423,6 +3485,7 @@ export type EmpresaUncheckedUpdateWithoutMetodosPagoInput = {
   auditorias?: Prisma.AuditoriaUncheckedUpdateManyWithoutEmpresaNestedInput
   authSessions?: Prisma.AuthSessionUncheckedUpdateManyWithoutEmpresaNestedInput
   citasPsicologos?: Prisma.CitasPsicologosUncheckedUpdateManyWithoutEmpresaNestedInput
+  cliente_configuracion_operativa?: Prisma.cliente_configuracion_operativaUncheckedUpdateManyWithoutEmpresasNestedInput
   clientes?: Prisma.ClienteUncheckedUpdateManyWithoutEmpresaNestedInput
   commissions?: Prisma.CommissionRecordUncheckedUpdateManyWithoutEmpresaNestedInput
   configuracionPagos?: Prisma.ConfiguracionPagosUncheckedUpdateManyWithoutEmpresaNestedInput
@@ -3470,6 +3533,7 @@ export type EmpresaCreateWithoutEstadosServicioInput = {
   auditorias?: Prisma.AuditoriaCreateNestedManyWithoutEmpresaInput
   authSessions?: Prisma.AuthSessionCreateNestedManyWithoutEmpresaInput
   citasPsicologos?: Prisma.CitasPsicologosCreateNestedManyWithoutEmpresaInput
+  cliente_configuracion_operativa?: Prisma.cliente_configuracion_operativaCreateNestedManyWithoutEmpresasInput
   clientes?: Prisma.ClienteCreateNestedManyWithoutEmpresaInput
   commissions?: Prisma.CommissionRecordCreateNestedManyWithoutEmpresaInput
   configuracionPagos?: Prisma.ConfiguracionPagosCreateNestedManyWithoutEmpresaInput
@@ -3519,6 +3583,7 @@ export type EmpresaUncheckedCreateWithoutEstadosServicioInput = {
   auditorias?: Prisma.AuditoriaUncheckedCreateNestedManyWithoutEmpresaInput
   authSessions?: Prisma.AuthSessionUncheckedCreateNestedManyWithoutEmpresaInput
   citasPsicologos?: Prisma.CitasPsicologosUncheckedCreateNestedManyWithoutEmpresaInput
+  cliente_configuracion_operativa?: Prisma.cliente_configuracion_operativaUncheckedCreateNestedManyWithoutEmpresasInput
   clientes?: Prisma.ClienteUncheckedCreateNestedManyWithoutEmpresaInput
   commissions?: Prisma.CommissionRecordUncheckedCreateNestedManyWithoutEmpresaInput
   configuracionPagos?: Prisma.ConfiguracionPagosUncheckedCreateNestedManyWithoutEmpresaInput
@@ -3582,6 +3647,7 @@ export type EmpresaUpdateWithoutEstadosServicioInput = {
   auditorias?: Prisma.AuditoriaUpdateManyWithoutEmpresaNestedInput
   authSessions?: Prisma.AuthSessionUpdateManyWithoutEmpresaNestedInput
   citasPsicologos?: Prisma.CitasPsicologosUpdateManyWithoutEmpresaNestedInput
+  cliente_configuracion_operativa?: Prisma.cliente_configuracion_operativaUpdateManyWithoutEmpresasNestedInput
   clientes?: Prisma.ClienteUpdateManyWithoutEmpresaNestedInput
   commissions?: Prisma.CommissionRecordUpdateManyWithoutEmpresaNestedInput
   configuracionPagos?: Prisma.ConfiguracionPagosUpdateManyWithoutEmpresaNestedInput
@@ -3631,6 +3697,7 @@ export type EmpresaUncheckedUpdateWithoutEstadosServicioInput = {
   auditorias?: Prisma.AuditoriaUncheckedUpdateManyWithoutEmpresaNestedInput
   authSessions?: Prisma.AuthSessionUncheckedUpdateManyWithoutEmpresaNestedInput
   citasPsicologos?: Prisma.CitasPsicologosUncheckedUpdateManyWithoutEmpresaNestedInput
+  cliente_configuracion_operativa?: Prisma.cliente_configuracion_operativaUncheckedUpdateManyWithoutEmpresasNestedInput
   clientes?: Prisma.ClienteUncheckedUpdateManyWithoutEmpresaNestedInput
   commissions?: Prisma.CommissionRecordUncheckedUpdateManyWithoutEmpresaNestedInput
   configuracionPagos?: Prisma.ConfiguracionPagosUncheckedUpdateManyWithoutEmpresaNestedInput
@@ -3678,6 +3745,7 @@ export type EmpresaCreateWithoutOrdenesServicioInput = {
   auditorias?: Prisma.AuditoriaCreateNestedManyWithoutEmpresaInput
   authSessions?: Prisma.AuthSessionCreateNestedManyWithoutEmpresaInput
   citasPsicologos?: Prisma.CitasPsicologosCreateNestedManyWithoutEmpresaInput
+  cliente_configuracion_operativa?: Prisma.cliente_configuracion_operativaCreateNestedManyWithoutEmpresasInput
   clientes?: Prisma.ClienteCreateNestedManyWithoutEmpresaInput
   commissions?: Prisma.CommissionRecordCreateNestedManyWithoutEmpresaInput
   configuracionPagos?: Prisma.ConfiguracionPagosCreateNestedManyWithoutEmpresaInput
@@ -3727,6 +3795,7 @@ export type EmpresaUncheckedCreateWithoutOrdenesServicioInput = {
   auditorias?: Prisma.AuditoriaUncheckedCreateNestedManyWithoutEmpresaInput
   authSessions?: Prisma.AuthSessionUncheckedCreateNestedManyWithoutEmpresaInput
   citasPsicologos?: Prisma.CitasPsicologosUncheckedCreateNestedManyWithoutEmpresaInput
+  cliente_configuracion_operativa?: Prisma.cliente_configuracion_operativaUncheckedCreateNestedManyWithoutEmpresasInput
   clientes?: Prisma.ClienteUncheckedCreateNestedManyWithoutEmpresaInput
   commissions?: Prisma.CommissionRecordUncheckedCreateNestedManyWithoutEmpresaInput
   configuracionPagos?: Prisma.ConfiguracionPagosUncheckedCreateNestedManyWithoutEmpresaInput
@@ -3790,6 +3859,7 @@ export type EmpresaUpdateWithoutOrdenesServicioInput = {
   auditorias?: Prisma.AuditoriaUpdateManyWithoutEmpresaNestedInput
   authSessions?: Prisma.AuthSessionUpdateManyWithoutEmpresaNestedInput
   citasPsicologos?: Prisma.CitasPsicologosUpdateManyWithoutEmpresaNestedInput
+  cliente_configuracion_operativa?: Prisma.cliente_configuracion_operativaUpdateManyWithoutEmpresasNestedInput
   clientes?: Prisma.ClienteUpdateManyWithoutEmpresaNestedInput
   commissions?: Prisma.CommissionRecordUpdateManyWithoutEmpresaNestedInput
   configuracionPagos?: Prisma.ConfiguracionPagosUpdateManyWithoutEmpresaNestedInput
@@ -3839,6 +3909,7 @@ export type EmpresaUncheckedUpdateWithoutOrdenesServicioInput = {
   auditorias?: Prisma.AuditoriaUncheckedUpdateManyWithoutEmpresaNestedInput
   authSessions?: Prisma.AuthSessionUncheckedUpdateManyWithoutEmpresaNestedInput
   citasPsicologos?: Prisma.CitasPsicologosUncheckedUpdateManyWithoutEmpresaNestedInput
+  cliente_configuracion_operativa?: Prisma.cliente_configuracion_operativaUncheckedUpdateManyWithoutEmpresasNestedInput
   clientes?: Prisma.ClienteUncheckedUpdateManyWithoutEmpresaNestedInput
   commissions?: Prisma.CommissionRecordUncheckedUpdateManyWithoutEmpresaNestedInput
   configuracionPagos?: Prisma.ConfiguracionPagosUncheckedUpdateManyWithoutEmpresaNestedInput
@@ -3886,6 +3957,7 @@ export type EmpresaCreateWithoutGeolocalizacionesInput = {
   auditorias?: Prisma.AuditoriaCreateNestedManyWithoutEmpresaInput
   authSessions?: Prisma.AuthSessionCreateNestedManyWithoutEmpresaInput
   citasPsicologos?: Prisma.CitasPsicologosCreateNestedManyWithoutEmpresaInput
+  cliente_configuracion_operativa?: Prisma.cliente_configuracion_operativaCreateNestedManyWithoutEmpresasInput
   clientes?: Prisma.ClienteCreateNestedManyWithoutEmpresaInput
   commissions?: Prisma.CommissionRecordCreateNestedManyWithoutEmpresaInput
   configuracionPagos?: Prisma.ConfiguracionPagosCreateNestedManyWithoutEmpresaInput
@@ -3935,6 +4007,7 @@ export type EmpresaUncheckedCreateWithoutGeolocalizacionesInput = {
   auditorias?: Prisma.AuditoriaUncheckedCreateNestedManyWithoutEmpresaInput
   authSessions?: Prisma.AuthSessionUncheckedCreateNestedManyWithoutEmpresaInput
   citasPsicologos?: Prisma.CitasPsicologosUncheckedCreateNestedManyWithoutEmpresaInput
+  cliente_configuracion_operativa?: Prisma.cliente_configuracion_operativaUncheckedCreateNestedManyWithoutEmpresasInput
   clientes?: Prisma.ClienteUncheckedCreateNestedManyWithoutEmpresaInput
   commissions?: Prisma.CommissionRecordUncheckedCreateNestedManyWithoutEmpresaInput
   configuracionPagos?: Prisma.ConfiguracionPagosUncheckedCreateNestedManyWithoutEmpresaInput
@@ -3998,6 +4071,7 @@ export type EmpresaUpdateWithoutGeolocalizacionesInput = {
   auditorias?: Prisma.AuditoriaUpdateManyWithoutEmpresaNestedInput
   authSessions?: Prisma.AuthSessionUpdateManyWithoutEmpresaNestedInput
   citasPsicologos?: Prisma.CitasPsicologosUpdateManyWithoutEmpresaNestedInput
+  cliente_configuracion_operativa?: Prisma.cliente_configuracion_operativaUpdateManyWithoutEmpresasNestedInput
   clientes?: Prisma.ClienteUpdateManyWithoutEmpresaNestedInput
   commissions?: Prisma.CommissionRecordUpdateManyWithoutEmpresaNestedInput
   configuracionPagos?: Prisma.ConfiguracionPagosUpdateManyWithoutEmpresaNestedInput
@@ -4047,6 +4121,7 @@ export type EmpresaUncheckedUpdateWithoutGeolocalizacionesInput = {
   auditorias?: Prisma.AuditoriaUncheckedUpdateManyWithoutEmpresaNestedInput
   authSessions?: Prisma.AuthSessionUncheckedUpdateManyWithoutEmpresaNestedInput
   citasPsicologos?: Prisma.CitasPsicologosUncheckedUpdateManyWithoutEmpresaNestedInput
+  cliente_configuracion_operativa?: Prisma.cliente_configuracion_operativaUncheckedUpdateManyWithoutEmpresasNestedInput
   clientes?: Prisma.ClienteUncheckedUpdateManyWithoutEmpresaNestedInput
   commissions?: Prisma.CommissionRecordUncheckedUpdateManyWithoutEmpresaNestedInput
   configuracionPagos?: Prisma.ConfiguracionPagosUncheckedUpdateManyWithoutEmpresaNestedInput
@@ -4094,6 +4169,7 @@ export type EmpresaCreateWithoutNominasInput = {
   auditorias?: Prisma.AuditoriaCreateNestedManyWithoutEmpresaInput
   authSessions?: Prisma.AuthSessionCreateNestedManyWithoutEmpresaInput
   citasPsicologos?: Prisma.CitasPsicologosCreateNestedManyWithoutEmpresaInput
+  cliente_configuracion_operativa?: Prisma.cliente_configuracion_operativaCreateNestedManyWithoutEmpresasInput
   clientes?: Prisma.ClienteCreateNestedManyWithoutEmpresaInput
   commissions?: Prisma.CommissionRecordCreateNestedManyWithoutEmpresaInput
   configuracionPagos?: Prisma.ConfiguracionPagosCreateNestedManyWithoutEmpresaInput
@@ -4143,6 +4219,7 @@ export type EmpresaUncheckedCreateWithoutNominasInput = {
   auditorias?: Prisma.AuditoriaUncheckedCreateNestedManyWithoutEmpresaInput
   authSessions?: Prisma.AuthSessionUncheckedCreateNestedManyWithoutEmpresaInput
   citasPsicologos?: Prisma.CitasPsicologosUncheckedCreateNestedManyWithoutEmpresaInput
+  cliente_configuracion_operativa?: Prisma.cliente_configuracion_operativaUncheckedCreateNestedManyWithoutEmpresasInput
   clientes?: Prisma.ClienteUncheckedCreateNestedManyWithoutEmpresaInput
   commissions?: Prisma.CommissionRecordUncheckedCreateNestedManyWithoutEmpresaInput
   configuracionPagos?: Prisma.ConfiguracionPagosUncheckedCreateNestedManyWithoutEmpresaInput
@@ -4206,6 +4283,7 @@ export type EmpresaUpdateWithoutNominasInput = {
   auditorias?: Prisma.AuditoriaUpdateManyWithoutEmpresaNestedInput
   authSessions?: Prisma.AuthSessionUpdateManyWithoutEmpresaNestedInput
   citasPsicologos?: Prisma.CitasPsicologosUpdateManyWithoutEmpresaNestedInput
+  cliente_configuracion_operativa?: Prisma.cliente_configuracion_operativaUpdateManyWithoutEmpresasNestedInput
   clientes?: Prisma.ClienteUpdateManyWithoutEmpresaNestedInput
   commissions?: Prisma.CommissionRecordUpdateManyWithoutEmpresaNestedInput
   configuracionPagos?: Prisma.ConfiguracionPagosUpdateManyWithoutEmpresaNestedInput
@@ -4255,6 +4333,7 @@ export type EmpresaUncheckedUpdateWithoutNominasInput = {
   auditorias?: Prisma.AuditoriaUncheckedUpdateManyWithoutEmpresaNestedInput
   authSessions?: Prisma.AuthSessionUncheckedUpdateManyWithoutEmpresaNestedInput
   citasPsicologos?: Prisma.CitasPsicologosUncheckedUpdateManyWithoutEmpresaNestedInput
+  cliente_configuracion_operativa?: Prisma.cliente_configuracion_operativaUncheckedUpdateManyWithoutEmpresasNestedInput
   clientes?: Prisma.ClienteUncheckedUpdateManyWithoutEmpresaNestedInput
   commissions?: Prisma.CommissionRecordUncheckedUpdateManyWithoutEmpresaNestedInput
   configuracionPagos?: Prisma.ConfiguracionPagosUncheckedUpdateManyWithoutEmpresaNestedInput
@@ -4302,6 +4381,7 @@ export type EmpresaCreateWithoutNominaDetallesInput = {
   auditorias?: Prisma.AuditoriaCreateNestedManyWithoutEmpresaInput
   authSessions?: Prisma.AuthSessionCreateNestedManyWithoutEmpresaInput
   citasPsicologos?: Prisma.CitasPsicologosCreateNestedManyWithoutEmpresaInput
+  cliente_configuracion_operativa?: Prisma.cliente_configuracion_operativaCreateNestedManyWithoutEmpresasInput
   clientes?: Prisma.ClienteCreateNestedManyWithoutEmpresaInput
   commissions?: Prisma.CommissionRecordCreateNestedManyWithoutEmpresaInput
   configuracionPagos?: Prisma.ConfiguracionPagosCreateNestedManyWithoutEmpresaInput
@@ -4351,6 +4431,7 @@ export type EmpresaUncheckedCreateWithoutNominaDetallesInput = {
   auditorias?: Prisma.AuditoriaUncheckedCreateNestedManyWithoutEmpresaInput
   authSessions?: Prisma.AuthSessionUncheckedCreateNestedManyWithoutEmpresaInput
   citasPsicologos?: Prisma.CitasPsicologosUncheckedCreateNestedManyWithoutEmpresaInput
+  cliente_configuracion_operativa?: Prisma.cliente_configuracion_operativaUncheckedCreateNestedManyWithoutEmpresasInput
   clientes?: Prisma.ClienteUncheckedCreateNestedManyWithoutEmpresaInput
   commissions?: Prisma.CommissionRecordUncheckedCreateNestedManyWithoutEmpresaInput
   configuracionPagos?: Prisma.ConfiguracionPagosUncheckedCreateNestedManyWithoutEmpresaInput
@@ -4414,6 +4495,7 @@ export type EmpresaUpdateWithoutNominaDetallesInput = {
   auditorias?: Prisma.AuditoriaUpdateManyWithoutEmpresaNestedInput
   authSessions?: Prisma.AuthSessionUpdateManyWithoutEmpresaNestedInput
   citasPsicologos?: Prisma.CitasPsicologosUpdateManyWithoutEmpresaNestedInput
+  cliente_configuracion_operativa?: Prisma.cliente_configuracion_operativaUpdateManyWithoutEmpresasNestedInput
   clientes?: Prisma.ClienteUpdateManyWithoutEmpresaNestedInput
   commissions?: Prisma.CommissionRecordUpdateManyWithoutEmpresaNestedInput
   configuracionPagos?: Prisma.ConfiguracionPagosUpdateManyWithoutEmpresaNestedInput
@@ -4463,6 +4545,7 @@ export type EmpresaUncheckedUpdateWithoutNominaDetallesInput = {
   auditorias?: Prisma.AuditoriaUncheckedUpdateManyWithoutEmpresaNestedInput
   authSessions?: Prisma.AuthSessionUncheckedUpdateManyWithoutEmpresaNestedInput
   citasPsicologos?: Prisma.CitasPsicologosUncheckedUpdateManyWithoutEmpresaNestedInput
+  cliente_configuracion_operativa?: Prisma.cliente_configuracion_operativaUncheckedUpdateManyWithoutEmpresasNestedInput
   clientes?: Prisma.ClienteUncheckedUpdateManyWithoutEmpresaNestedInput
   commissions?: Prisma.CommissionRecordUncheckedUpdateManyWithoutEmpresaNestedInput
   configuracionPagos?: Prisma.ConfiguracionPagosUncheckedUpdateManyWithoutEmpresaNestedInput
@@ -4509,6 +4592,7 @@ export type EmpresaCreateWithoutCitasPsicologosInput = {
   anticipos?: Prisma.AnticiposCreateNestedManyWithoutEmpresaInput
   auditorias?: Prisma.AuditoriaCreateNestedManyWithoutEmpresaInput
   authSessions?: Prisma.AuthSessionCreateNestedManyWithoutEmpresaInput
+  cliente_configuracion_operativa?: Prisma.cliente_configuracion_operativaCreateNestedManyWithoutEmpresasInput
   clientes?: Prisma.ClienteCreateNestedManyWithoutEmpresaInput
   commissions?: Prisma.CommissionRecordCreateNestedManyWithoutEmpresaInput
   configuracionPagos?: Prisma.ConfiguracionPagosCreateNestedManyWithoutEmpresaInput
@@ -4558,6 +4642,7 @@ export type EmpresaUncheckedCreateWithoutCitasPsicologosInput = {
   anticipos?: Prisma.AnticiposUncheckedCreateNestedManyWithoutEmpresaInput
   auditorias?: Prisma.AuditoriaUncheckedCreateNestedManyWithoutEmpresaInput
   authSessions?: Prisma.AuthSessionUncheckedCreateNestedManyWithoutEmpresaInput
+  cliente_configuracion_operativa?: Prisma.cliente_configuracion_operativaUncheckedCreateNestedManyWithoutEmpresasInput
   clientes?: Prisma.ClienteUncheckedCreateNestedManyWithoutEmpresaInput
   commissions?: Prisma.CommissionRecordUncheckedCreateNestedManyWithoutEmpresaInput
   configuracionPagos?: Prisma.ConfiguracionPagosUncheckedCreateNestedManyWithoutEmpresaInput
@@ -4621,6 +4706,7 @@ export type EmpresaUpdateWithoutCitasPsicologosInput = {
   anticipos?: Prisma.AnticiposUpdateManyWithoutEmpresaNestedInput
   auditorias?: Prisma.AuditoriaUpdateManyWithoutEmpresaNestedInput
   authSessions?: Prisma.AuthSessionUpdateManyWithoutEmpresaNestedInput
+  cliente_configuracion_operativa?: Prisma.cliente_configuracion_operativaUpdateManyWithoutEmpresasNestedInput
   clientes?: Prisma.ClienteUpdateManyWithoutEmpresaNestedInput
   commissions?: Prisma.CommissionRecordUpdateManyWithoutEmpresaNestedInput
   configuracionPagos?: Prisma.ConfiguracionPagosUpdateManyWithoutEmpresaNestedInput
@@ -4670,6 +4756,7 @@ export type EmpresaUncheckedUpdateWithoutCitasPsicologosInput = {
   anticipos?: Prisma.AnticiposUncheckedUpdateManyWithoutEmpresaNestedInput
   auditorias?: Prisma.AuditoriaUncheckedUpdateManyWithoutEmpresaNestedInput
   authSessions?: Prisma.AuthSessionUncheckedUpdateManyWithoutEmpresaNestedInput
+  cliente_configuracion_operativa?: Prisma.cliente_configuracion_operativaUncheckedUpdateManyWithoutEmpresasNestedInput
   clientes?: Prisma.ClienteUncheckedUpdateManyWithoutEmpresaNestedInput
   commissions?: Prisma.CommissionRecordUncheckedUpdateManyWithoutEmpresaNestedInput
   configuracionPagos?: Prisma.ConfiguracionPagosUncheckedUpdateManyWithoutEmpresaNestedInput
@@ -4718,6 +4805,7 @@ export type EmpresaCreateWithoutConsultoriosInput = {
   auditorias?: Prisma.AuditoriaCreateNestedManyWithoutEmpresaInput
   authSessions?: Prisma.AuthSessionCreateNestedManyWithoutEmpresaInput
   citasPsicologos?: Prisma.CitasPsicologosCreateNestedManyWithoutEmpresaInput
+  cliente_configuracion_operativa?: Prisma.cliente_configuracion_operativaCreateNestedManyWithoutEmpresasInput
   clientes?: Prisma.ClienteCreateNestedManyWithoutEmpresaInput
   commissions?: Prisma.CommissionRecordCreateNestedManyWithoutEmpresaInput
   configuracionPagos?: Prisma.ConfiguracionPagosCreateNestedManyWithoutEmpresaInput
@@ -4767,6 +4855,7 @@ export type EmpresaUncheckedCreateWithoutConsultoriosInput = {
   auditorias?: Prisma.AuditoriaUncheckedCreateNestedManyWithoutEmpresaInput
   authSessions?: Prisma.AuthSessionUncheckedCreateNestedManyWithoutEmpresaInput
   citasPsicologos?: Prisma.CitasPsicologosUncheckedCreateNestedManyWithoutEmpresaInput
+  cliente_configuracion_operativa?: Prisma.cliente_configuracion_operativaUncheckedCreateNestedManyWithoutEmpresasInput
   clientes?: Prisma.ClienteUncheckedCreateNestedManyWithoutEmpresaInput
   commissions?: Prisma.CommissionRecordUncheckedCreateNestedManyWithoutEmpresaInput
   configuracionPagos?: Prisma.ConfiguracionPagosUncheckedCreateNestedManyWithoutEmpresaInput
@@ -4830,6 +4919,7 @@ export type EmpresaUpdateWithoutConsultoriosInput = {
   auditorias?: Prisma.AuditoriaUpdateManyWithoutEmpresaNestedInput
   authSessions?: Prisma.AuthSessionUpdateManyWithoutEmpresaNestedInput
   citasPsicologos?: Prisma.CitasPsicologosUpdateManyWithoutEmpresaNestedInput
+  cliente_configuracion_operativa?: Prisma.cliente_configuracion_operativaUpdateManyWithoutEmpresasNestedInput
   clientes?: Prisma.ClienteUpdateManyWithoutEmpresaNestedInput
   commissions?: Prisma.CommissionRecordUpdateManyWithoutEmpresaNestedInput
   configuracionPagos?: Prisma.ConfiguracionPagosUpdateManyWithoutEmpresaNestedInput
@@ -4879,6 +4969,7 @@ export type EmpresaUncheckedUpdateWithoutConsultoriosInput = {
   auditorias?: Prisma.AuditoriaUncheckedUpdateManyWithoutEmpresaNestedInput
   authSessions?: Prisma.AuthSessionUncheckedUpdateManyWithoutEmpresaNestedInput
   citasPsicologos?: Prisma.CitasPsicologosUncheckedUpdateManyWithoutEmpresaNestedInput
+  cliente_configuracion_operativa?: Prisma.cliente_configuracion_operativaUncheckedUpdateManyWithoutEmpresasNestedInput
   clientes?: Prisma.ClienteUncheckedUpdateManyWithoutEmpresaNestedInput
   commissions?: Prisma.CommissionRecordUncheckedUpdateManyWithoutEmpresaNestedInput
   configuracionPagos?: Prisma.ConfiguracionPagosUncheckedUpdateManyWithoutEmpresaNestedInput
@@ -4926,6 +5017,7 @@ export type EmpresaCreateWithoutTerapiasPsicologosInput = {
   auditorias?: Prisma.AuditoriaCreateNestedManyWithoutEmpresaInput
   authSessions?: Prisma.AuthSessionCreateNestedManyWithoutEmpresaInput
   citasPsicologos?: Prisma.CitasPsicologosCreateNestedManyWithoutEmpresaInput
+  cliente_configuracion_operativa?: Prisma.cliente_configuracion_operativaCreateNestedManyWithoutEmpresasInput
   clientes?: Prisma.ClienteCreateNestedManyWithoutEmpresaInput
   commissions?: Prisma.CommissionRecordCreateNestedManyWithoutEmpresaInput
   configuracionPagos?: Prisma.ConfiguracionPagosCreateNestedManyWithoutEmpresaInput
@@ -4975,6 +5067,7 @@ export type EmpresaUncheckedCreateWithoutTerapiasPsicologosInput = {
   auditorias?: Prisma.AuditoriaUncheckedCreateNestedManyWithoutEmpresaInput
   authSessions?: Prisma.AuthSessionUncheckedCreateNestedManyWithoutEmpresaInput
   citasPsicologos?: Prisma.CitasPsicologosUncheckedCreateNestedManyWithoutEmpresaInput
+  cliente_configuracion_operativa?: Prisma.cliente_configuracion_operativaUncheckedCreateNestedManyWithoutEmpresasInput
   clientes?: Prisma.ClienteUncheckedCreateNestedManyWithoutEmpresaInput
   commissions?: Prisma.CommissionRecordUncheckedCreateNestedManyWithoutEmpresaInput
   configuracionPagos?: Prisma.ConfiguracionPagosUncheckedCreateNestedManyWithoutEmpresaInput
@@ -5038,6 +5131,7 @@ export type EmpresaUpdateWithoutTerapiasPsicologosInput = {
   auditorias?: Prisma.AuditoriaUpdateManyWithoutEmpresaNestedInput
   authSessions?: Prisma.AuthSessionUpdateManyWithoutEmpresaNestedInput
   citasPsicologos?: Prisma.CitasPsicologosUpdateManyWithoutEmpresaNestedInput
+  cliente_configuracion_operativa?: Prisma.cliente_configuracion_operativaUpdateManyWithoutEmpresasNestedInput
   clientes?: Prisma.ClienteUpdateManyWithoutEmpresaNestedInput
   commissions?: Prisma.CommissionRecordUpdateManyWithoutEmpresaNestedInput
   configuracionPagos?: Prisma.ConfiguracionPagosUpdateManyWithoutEmpresaNestedInput
@@ -5087,6 +5181,7 @@ export type EmpresaUncheckedUpdateWithoutTerapiasPsicologosInput = {
   auditorias?: Prisma.AuditoriaUncheckedUpdateManyWithoutEmpresaNestedInput
   authSessions?: Prisma.AuthSessionUncheckedUpdateManyWithoutEmpresaNestedInput
   citasPsicologos?: Prisma.CitasPsicologosUncheckedUpdateManyWithoutEmpresaNestedInput
+  cliente_configuracion_operativa?: Prisma.cliente_configuracion_operativaUncheckedUpdateManyWithoutEmpresasNestedInput
   clientes?: Prisma.ClienteUncheckedUpdateManyWithoutEmpresaNestedInput
   commissions?: Prisma.CommissionRecordUncheckedUpdateManyWithoutEmpresaNestedInput
   configuracionPagos?: Prisma.ConfiguracionPagosUncheckedUpdateManyWithoutEmpresaNestedInput
@@ -5134,6 +5229,7 @@ export type EmpresaCreateWithoutPaquetesAdquiridosInput = {
   auditorias?: Prisma.AuditoriaCreateNestedManyWithoutEmpresaInput
   authSessions?: Prisma.AuthSessionCreateNestedManyWithoutEmpresaInput
   citasPsicologos?: Prisma.CitasPsicologosCreateNestedManyWithoutEmpresaInput
+  cliente_configuracion_operativa?: Prisma.cliente_configuracion_operativaCreateNestedManyWithoutEmpresasInput
   clientes?: Prisma.ClienteCreateNestedManyWithoutEmpresaInput
   commissions?: Prisma.CommissionRecordCreateNestedManyWithoutEmpresaInput
   configuracionPagos?: Prisma.ConfiguracionPagosCreateNestedManyWithoutEmpresaInput
@@ -5183,6 +5279,7 @@ export type EmpresaUncheckedCreateWithoutPaquetesAdquiridosInput = {
   auditorias?: Prisma.AuditoriaUncheckedCreateNestedManyWithoutEmpresaInput
   authSessions?: Prisma.AuthSessionUncheckedCreateNestedManyWithoutEmpresaInput
   citasPsicologos?: Prisma.CitasPsicologosUncheckedCreateNestedManyWithoutEmpresaInput
+  cliente_configuracion_operativa?: Prisma.cliente_configuracion_operativaUncheckedCreateNestedManyWithoutEmpresasInput
   clientes?: Prisma.ClienteUncheckedCreateNestedManyWithoutEmpresaInput
   commissions?: Prisma.CommissionRecordUncheckedCreateNestedManyWithoutEmpresaInput
   configuracionPagos?: Prisma.ConfiguracionPagosUncheckedCreateNestedManyWithoutEmpresaInput
@@ -5246,6 +5343,7 @@ export type EmpresaUpdateWithoutPaquetesAdquiridosInput = {
   auditorias?: Prisma.AuditoriaUpdateManyWithoutEmpresaNestedInput
   authSessions?: Prisma.AuthSessionUpdateManyWithoutEmpresaNestedInput
   citasPsicologos?: Prisma.CitasPsicologosUpdateManyWithoutEmpresaNestedInput
+  cliente_configuracion_operativa?: Prisma.cliente_configuracion_operativaUpdateManyWithoutEmpresasNestedInput
   clientes?: Prisma.ClienteUpdateManyWithoutEmpresaNestedInput
   commissions?: Prisma.CommissionRecordUpdateManyWithoutEmpresaNestedInput
   configuracionPagos?: Prisma.ConfiguracionPagosUpdateManyWithoutEmpresaNestedInput
@@ -5295,6 +5393,7 @@ export type EmpresaUncheckedUpdateWithoutPaquetesAdquiridosInput = {
   auditorias?: Prisma.AuditoriaUncheckedUpdateManyWithoutEmpresaNestedInput
   authSessions?: Prisma.AuthSessionUncheckedUpdateManyWithoutEmpresaNestedInput
   citasPsicologos?: Prisma.CitasPsicologosUncheckedUpdateManyWithoutEmpresaNestedInput
+  cliente_configuracion_operativa?: Prisma.cliente_configuracion_operativaUncheckedUpdateManyWithoutEmpresasNestedInput
   clientes?: Prisma.ClienteUncheckedUpdateManyWithoutEmpresaNestedInput
   commissions?: Prisma.CommissionRecordUncheckedUpdateManyWithoutEmpresaNestedInput
   configuracionPagos?: Prisma.ConfiguracionPagosUncheckedUpdateManyWithoutEmpresaNestedInput
@@ -5342,6 +5441,7 @@ export type EmpresaCreateWithoutTurnosInput = {
   auditorias?: Prisma.AuditoriaCreateNestedManyWithoutEmpresaInput
   authSessions?: Prisma.AuthSessionCreateNestedManyWithoutEmpresaInput
   citasPsicologos?: Prisma.CitasPsicologosCreateNestedManyWithoutEmpresaInput
+  cliente_configuracion_operativa?: Prisma.cliente_configuracion_operativaCreateNestedManyWithoutEmpresasInput
   clientes?: Prisma.ClienteCreateNestedManyWithoutEmpresaInput
   commissions?: Prisma.CommissionRecordCreateNestedManyWithoutEmpresaInput
   configuracionPagos?: Prisma.ConfiguracionPagosCreateNestedManyWithoutEmpresaInput
@@ -5391,6 +5491,7 @@ export type EmpresaUncheckedCreateWithoutTurnosInput = {
   auditorias?: Prisma.AuditoriaUncheckedCreateNestedManyWithoutEmpresaInput
   authSessions?: Prisma.AuthSessionUncheckedCreateNestedManyWithoutEmpresaInput
   citasPsicologos?: Prisma.CitasPsicologosUncheckedCreateNestedManyWithoutEmpresaInput
+  cliente_configuracion_operativa?: Prisma.cliente_configuracion_operativaUncheckedCreateNestedManyWithoutEmpresasInput
   clientes?: Prisma.ClienteUncheckedCreateNestedManyWithoutEmpresaInput
   commissions?: Prisma.CommissionRecordUncheckedCreateNestedManyWithoutEmpresaInput
   configuracionPagos?: Prisma.ConfiguracionPagosUncheckedCreateNestedManyWithoutEmpresaInput
@@ -5454,6 +5555,7 @@ export type EmpresaUpdateWithoutTurnosInput = {
   auditorias?: Prisma.AuditoriaUpdateManyWithoutEmpresaNestedInput
   authSessions?: Prisma.AuthSessionUpdateManyWithoutEmpresaNestedInput
   citasPsicologos?: Prisma.CitasPsicologosUpdateManyWithoutEmpresaNestedInput
+  cliente_configuracion_operativa?: Prisma.cliente_configuracion_operativaUpdateManyWithoutEmpresasNestedInput
   clientes?: Prisma.ClienteUpdateManyWithoutEmpresaNestedInput
   commissions?: Prisma.CommissionRecordUpdateManyWithoutEmpresaNestedInput
   configuracionPagos?: Prisma.ConfiguracionPagosUpdateManyWithoutEmpresaNestedInput
@@ -5503,6 +5605,7 @@ export type EmpresaUncheckedUpdateWithoutTurnosInput = {
   auditorias?: Prisma.AuditoriaUncheckedUpdateManyWithoutEmpresaNestedInput
   authSessions?: Prisma.AuthSessionUncheckedUpdateManyWithoutEmpresaNestedInput
   citasPsicologos?: Prisma.CitasPsicologosUncheckedUpdateManyWithoutEmpresaNestedInput
+  cliente_configuracion_operativa?: Prisma.cliente_configuracion_operativaUncheckedUpdateManyWithoutEmpresasNestedInput
   clientes?: Prisma.ClienteUncheckedUpdateManyWithoutEmpresaNestedInput
   commissions?: Prisma.CommissionRecordUncheckedUpdateManyWithoutEmpresaNestedInput
   configuracionPagos?: Prisma.ConfiguracionPagosUncheckedUpdateManyWithoutEmpresaNestedInput
@@ -5550,6 +5653,7 @@ export type EmpresaCreateWithoutCuentasCobroInput = {
   auditorias?: Prisma.AuditoriaCreateNestedManyWithoutEmpresaInput
   authSessions?: Prisma.AuthSessionCreateNestedManyWithoutEmpresaInput
   citasPsicologos?: Prisma.CitasPsicologosCreateNestedManyWithoutEmpresaInput
+  cliente_configuracion_operativa?: Prisma.cliente_configuracion_operativaCreateNestedManyWithoutEmpresasInput
   clientes?: Prisma.ClienteCreateNestedManyWithoutEmpresaInput
   commissions?: Prisma.CommissionRecordCreateNestedManyWithoutEmpresaInput
   configuracionPagos?: Prisma.ConfiguracionPagosCreateNestedManyWithoutEmpresaInput
@@ -5599,6 +5703,7 @@ export type EmpresaUncheckedCreateWithoutCuentasCobroInput = {
   auditorias?: Prisma.AuditoriaUncheckedCreateNestedManyWithoutEmpresaInput
   authSessions?: Prisma.AuthSessionUncheckedCreateNestedManyWithoutEmpresaInput
   citasPsicologos?: Prisma.CitasPsicologosUncheckedCreateNestedManyWithoutEmpresaInput
+  cliente_configuracion_operativa?: Prisma.cliente_configuracion_operativaUncheckedCreateNestedManyWithoutEmpresasInput
   clientes?: Prisma.ClienteUncheckedCreateNestedManyWithoutEmpresaInput
   commissions?: Prisma.CommissionRecordUncheckedCreateNestedManyWithoutEmpresaInput
   configuracionPagos?: Prisma.ConfiguracionPagosUncheckedCreateNestedManyWithoutEmpresaInput
@@ -5662,6 +5767,7 @@ export type EmpresaUpdateWithoutCuentasCobroInput = {
   auditorias?: Prisma.AuditoriaUpdateManyWithoutEmpresaNestedInput
   authSessions?: Prisma.AuthSessionUpdateManyWithoutEmpresaNestedInput
   citasPsicologos?: Prisma.CitasPsicologosUpdateManyWithoutEmpresaNestedInput
+  cliente_configuracion_operativa?: Prisma.cliente_configuracion_operativaUpdateManyWithoutEmpresasNestedInput
   clientes?: Prisma.ClienteUpdateManyWithoutEmpresaNestedInput
   commissions?: Prisma.CommissionRecordUpdateManyWithoutEmpresaNestedInput
   configuracionPagos?: Prisma.ConfiguracionPagosUpdateManyWithoutEmpresaNestedInput
@@ -5711,6 +5817,7 @@ export type EmpresaUncheckedUpdateWithoutCuentasCobroInput = {
   auditorias?: Prisma.AuditoriaUncheckedUpdateManyWithoutEmpresaNestedInput
   authSessions?: Prisma.AuthSessionUncheckedUpdateManyWithoutEmpresaNestedInput
   citasPsicologos?: Prisma.CitasPsicologosUncheckedUpdateManyWithoutEmpresaNestedInput
+  cliente_configuracion_operativa?: Prisma.cliente_configuracion_operativaUncheckedUpdateManyWithoutEmpresasNestedInput
   clientes?: Prisma.ClienteUncheckedUpdateManyWithoutEmpresaNestedInput
   commissions?: Prisma.CommissionRecordUncheckedUpdateManyWithoutEmpresaNestedInput
   configuracionPagos?: Prisma.ConfiguracionPagosUncheckedUpdateManyWithoutEmpresaNestedInput
@@ -5758,6 +5865,7 @@ export type EmpresaCreateWithoutDeclaracionesInput = {
   auditorias?: Prisma.AuditoriaCreateNestedManyWithoutEmpresaInput
   authSessions?: Prisma.AuthSessionCreateNestedManyWithoutEmpresaInput
   citasPsicologos?: Prisma.CitasPsicologosCreateNestedManyWithoutEmpresaInput
+  cliente_configuracion_operativa?: Prisma.cliente_configuracion_operativaCreateNestedManyWithoutEmpresasInput
   clientes?: Prisma.ClienteCreateNestedManyWithoutEmpresaInput
   commissions?: Prisma.CommissionRecordCreateNestedManyWithoutEmpresaInput
   configuracionPagos?: Prisma.ConfiguracionPagosCreateNestedManyWithoutEmpresaInput
@@ -5807,6 +5915,7 @@ export type EmpresaUncheckedCreateWithoutDeclaracionesInput = {
   auditorias?: Prisma.AuditoriaUncheckedCreateNestedManyWithoutEmpresaInput
   authSessions?: Prisma.AuthSessionUncheckedCreateNestedManyWithoutEmpresaInput
   citasPsicologos?: Prisma.CitasPsicologosUncheckedCreateNestedManyWithoutEmpresaInput
+  cliente_configuracion_operativa?: Prisma.cliente_configuracion_operativaUncheckedCreateNestedManyWithoutEmpresasInput
   clientes?: Prisma.ClienteUncheckedCreateNestedManyWithoutEmpresaInput
   commissions?: Prisma.CommissionRecordUncheckedCreateNestedManyWithoutEmpresaInput
   configuracionPagos?: Prisma.ConfiguracionPagosUncheckedCreateNestedManyWithoutEmpresaInput
@@ -5870,6 +5979,7 @@ export type EmpresaUpdateWithoutDeclaracionesInput = {
   auditorias?: Prisma.AuditoriaUpdateManyWithoutEmpresaNestedInput
   authSessions?: Prisma.AuthSessionUpdateManyWithoutEmpresaNestedInput
   citasPsicologos?: Prisma.CitasPsicologosUpdateManyWithoutEmpresaNestedInput
+  cliente_configuracion_operativa?: Prisma.cliente_configuracion_operativaUpdateManyWithoutEmpresasNestedInput
   clientes?: Prisma.ClienteUpdateManyWithoutEmpresaNestedInput
   commissions?: Prisma.CommissionRecordUpdateManyWithoutEmpresaNestedInput
   configuracionPagos?: Prisma.ConfiguracionPagosUpdateManyWithoutEmpresaNestedInput
@@ -5919,6 +6029,7 @@ export type EmpresaUncheckedUpdateWithoutDeclaracionesInput = {
   auditorias?: Prisma.AuditoriaUncheckedUpdateManyWithoutEmpresaNestedInput
   authSessions?: Prisma.AuthSessionUncheckedUpdateManyWithoutEmpresaNestedInput
   citasPsicologos?: Prisma.CitasPsicologosUncheckedUpdateManyWithoutEmpresaNestedInput
+  cliente_configuracion_operativa?: Prisma.cliente_configuracion_operativaUncheckedUpdateManyWithoutEmpresasNestedInput
   clientes?: Prisma.ClienteUncheckedUpdateManyWithoutEmpresaNestedInput
   commissions?: Prisma.CommissionRecordUncheckedUpdateManyWithoutEmpresaNestedInput
   configuracionPagos?: Prisma.ConfiguracionPagosUncheckedUpdateManyWithoutEmpresaNestedInput
@@ -5966,6 +6077,7 @@ export type EmpresaCreateWithoutConsignacionesInput = {
   auditorias?: Prisma.AuditoriaCreateNestedManyWithoutEmpresaInput
   authSessions?: Prisma.AuthSessionCreateNestedManyWithoutEmpresaInput
   citasPsicologos?: Prisma.CitasPsicologosCreateNestedManyWithoutEmpresaInput
+  cliente_configuracion_operativa?: Prisma.cliente_configuracion_operativaCreateNestedManyWithoutEmpresasInput
   clientes?: Prisma.ClienteCreateNestedManyWithoutEmpresaInput
   commissions?: Prisma.CommissionRecordCreateNestedManyWithoutEmpresaInput
   configuracionPagos?: Prisma.ConfiguracionPagosCreateNestedManyWithoutEmpresaInput
@@ -6015,6 +6127,7 @@ export type EmpresaUncheckedCreateWithoutConsignacionesInput = {
   auditorias?: Prisma.AuditoriaUncheckedCreateNestedManyWithoutEmpresaInput
   authSessions?: Prisma.AuthSessionUncheckedCreateNestedManyWithoutEmpresaInput
   citasPsicologos?: Prisma.CitasPsicologosUncheckedCreateNestedManyWithoutEmpresaInput
+  cliente_configuracion_operativa?: Prisma.cliente_configuracion_operativaUncheckedCreateNestedManyWithoutEmpresasInput
   clientes?: Prisma.ClienteUncheckedCreateNestedManyWithoutEmpresaInput
   commissions?: Prisma.CommissionRecordUncheckedCreateNestedManyWithoutEmpresaInput
   configuracionPagos?: Prisma.ConfiguracionPagosUncheckedCreateNestedManyWithoutEmpresaInput
@@ -6078,6 +6191,7 @@ export type EmpresaUpdateWithoutConsignacionesInput = {
   auditorias?: Prisma.AuditoriaUpdateManyWithoutEmpresaNestedInput
   authSessions?: Prisma.AuthSessionUpdateManyWithoutEmpresaNestedInput
   citasPsicologos?: Prisma.CitasPsicologosUpdateManyWithoutEmpresaNestedInput
+  cliente_configuracion_operativa?: Prisma.cliente_configuracion_operativaUpdateManyWithoutEmpresasNestedInput
   clientes?: Prisma.ClienteUpdateManyWithoutEmpresaNestedInput
   commissions?: Prisma.CommissionRecordUpdateManyWithoutEmpresaNestedInput
   configuracionPagos?: Prisma.ConfiguracionPagosUpdateManyWithoutEmpresaNestedInput
@@ -6127,6 +6241,7 @@ export type EmpresaUncheckedUpdateWithoutConsignacionesInput = {
   auditorias?: Prisma.AuditoriaUncheckedUpdateManyWithoutEmpresaNestedInput
   authSessions?: Prisma.AuthSessionUncheckedUpdateManyWithoutEmpresaNestedInput
   citasPsicologos?: Prisma.CitasPsicologosUncheckedUpdateManyWithoutEmpresaNestedInput
+  cliente_configuracion_operativa?: Prisma.cliente_configuracion_operativaUncheckedUpdateManyWithoutEmpresasNestedInput
   clientes?: Prisma.ClienteUncheckedUpdateManyWithoutEmpresaNestedInput
   commissions?: Prisma.CommissionRecordUncheckedUpdateManyWithoutEmpresaNestedInput
   configuracionPagos?: Prisma.ConfiguracionPagosUncheckedUpdateManyWithoutEmpresaNestedInput
@@ -6174,6 +6289,7 @@ export type EmpresaCreateWithoutConsignacionOrdenesInput = {
   auditorias?: Prisma.AuditoriaCreateNestedManyWithoutEmpresaInput
   authSessions?: Prisma.AuthSessionCreateNestedManyWithoutEmpresaInput
   citasPsicologos?: Prisma.CitasPsicologosCreateNestedManyWithoutEmpresaInput
+  cliente_configuracion_operativa?: Prisma.cliente_configuracion_operativaCreateNestedManyWithoutEmpresasInput
   clientes?: Prisma.ClienteCreateNestedManyWithoutEmpresaInput
   commissions?: Prisma.CommissionRecordCreateNestedManyWithoutEmpresaInput
   configuracionPagos?: Prisma.ConfiguracionPagosCreateNestedManyWithoutEmpresaInput
@@ -6223,6 +6339,7 @@ export type EmpresaUncheckedCreateWithoutConsignacionOrdenesInput = {
   auditorias?: Prisma.AuditoriaUncheckedCreateNestedManyWithoutEmpresaInput
   authSessions?: Prisma.AuthSessionUncheckedCreateNestedManyWithoutEmpresaInput
   citasPsicologos?: Prisma.CitasPsicologosUncheckedCreateNestedManyWithoutEmpresaInput
+  cliente_configuracion_operativa?: Prisma.cliente_configuracion_operativaUncheckedCreateNestedManyWithoutEmpresasInput
   clientes?: Prisma.ClienteUncheckedCreateNestedManyWithoutEmpresaInput
   commissions?: Prisma.CommissionRecordUncheckedCreateNestedManyWithoutEmpresaInput
   configuracionPagos?: Prisma.ConfiguracionPagosUncheckedCreateNestedManyWithoutEmpresaInput
@@ -6286,6 +6403,7 @@ export type EmpresaUpdateWithoutConsignacionOrdenesInput = {
   auditorias?: Prisma.AuditoriaUpdateManyWithoutEmpresaNestedInput
   authSessions?: Prisma.AuthSessionUpdateManyWithoutEmpresaNestedInput
   citasPsicologos?: Prisma.CitasPsicologosUpdateManyWithoutEmpresaNestedInput
+  cliente_configuracion_operativa?: Prisma.cliente_configuracion_operativaUpdateManyWithoutEmpresasNestedInput
   clientes?: Prisma.ClienteUpdateManyWithoutEmpresaNestedInput
   commissions?: Prisma.CommissionRecordUpdateManyWithoutEmpresaNestedInput
   configuracionPagos?: Prisma.ConfiguracionPagosUpdateManyWithoutEmpresaNestedInput
@@ -6335,6 +6453,7 @@ export type EmpresaUncheckedUpdateWithoutConsignacionOrdenesInput = {
   auditorias?: Prisma.AuditoriaUncheckedUpdateManyWithoutEmpresaNestedInput
   authSessions?: Prisma.AuthSessionUncheckedUpdateManyWithoutEmpresaNestedInput
   citasPsicologos?: Prisma.CitasPsicologosUncheckedUpdateManyWithoutEmpresaNestedInput
+  cliente_configuracion_operativa?: Prisma.cliente_configuracion_operativaUncheckedUpdateManyWithoutEmpresasNestedInput
   clientes?: Prisma.ClienteUncheckedUpdateManyWithoutEmpresaNestedInput
   commissions?: Prisma.CommissionRecordUncheckedUpdateManyWithoutEmpresaNestedInput
   configuracionPagos?: Prisma.ConfiguracionPagosUncheckedUpdateManyWithoutEmpresaNestedInput
@@ -6381,6 +6500,7 @@ export type EmpresaCreateWithoutAnticiposInput = {
   auditorias?: Prisma.AuditoriaCreateNestedManyWithoutEmpresaInput
   authSessions?: Prisma.AuthSessionCreateNestedManyWithoutEmpresaInput
   citasPsicologos?: Prisma.CitasPsicologosCreateNestedManyWithoutEmpresaInput
+  cliente_configuracion_operativa?: Prisma.cliente_configuracion_operativaCreateNestedManyWithoutEmpresasInput
   clientes?: Prisma.ClienteCreateNestedManyWithoutEmpresaInput
   commissions?: Prisma.CommissionRecordCreateNestedManyWithoutEmpresaInput
   configuracionPagos?: Prisma.ConfiguracionPagosCreateNestedManyWithoutEmpresaInput
@@ -6430,6 +6550,7 @@ export type EmpresaUncheckedCreateWithoutAnticiposInput = {
   auditorias?: Prisma.AuditoriaUncheckedCreateNestedManyWithoutEmpresaInput
   authSessions?: Prisma.AuthSessionUncheckedCreateNestedManyWithoutEmpresaInput
   citasPsicologos?: Prisma.CitasPsicologosUncheckedCreateNestedManyWithoutEmpresaInput
+  cliente_configuracion_operativa?: Prisma.cliente_configuracion_operativaUncheckedCreateNestedManyWithoutEmpresasInput
   clientes?: Prisma.ClienteUncheckedCreateNestedManyWithoutEmpresaInput
   commissions?: Prisma.CommissionRecordUncheckedCreateNestedManyWithoutEmpresaInput
   configuracionPagos?: Prisma.ConfiguracionPagosUncheckedCreateNestedManyWithoutEmpresaInput
@@ -6493,6 +6614,7 @@ export type EmpresaUpdateWithoutAnticiposInput = {
   auditorias?: Prisma.AuditoriaUpdateManyWithoutEmpresaNestedInput
   authSessions?: Prisma.AuthSessionUpdateManyWithoutEmpresaNestedInput
   citasPsicologos?: Prisma.CitasPsicologosUpdateManyWithoutEmpresaNestedInput
+  cliente_configuracion_operativa?: Prisma.cliente_configuracion_operativaUpdateManyWithoutEmpresasNestedInput
   clientes?: Prisma.ClienteUpdateManyWithoutEmpresaNestedInput
   commissions?: Prisma.CommissionRecordUpdateManyWithoutEmpresaNestedInput
   configuracionPagos?: Prisma.ConfiguracionPagosUpdateManyWithoutEmpresaNestedInput
@@ -6542,6 +6664,7 @@ export type EmpresaUncheckedUpdateWithoutAnticiposInput = {
   auditorias?: Prisma.AuditoriaUncheckedUpdateManyWithoutEmpresaNestedInput
   authSessions?: Prisma.AuthSessionUncheckedUpdateManyWithoutEmpresaNestedInput
   citasPsicologos?: Prisma.CitasPsicologosUncheckedUpdateManyWithoutEmpresaNestedInput
+  cliente_configuracion_operativa?: Prisma.cliente_configuracion_operativaUncheckedUpdateManyWithoutEmpresasNestedInput
   clientes?: Prisma.ClienteUncheckedUpdateManyWithoutEmpresaNestedInput
   commissions?: Prisma.CommissionRecordUncheckedUpdateManyWithoutEmpresaNestedInput
   configuracionPagos?: Prisma.ConfiguracionPagosUncheckedUpdateManyWithoutEmpresaNestedInput
@@ -6590,6 +6713,7 @@ export type EmpresaCreateWithoutProductosInput = {
   auditorias?: Prisma.AuditoriaCreateNestedManyWithoutEmpresaInput
   authSessions?: Prisma.AuthSessionCreateNestedManyWithoutEmpresaInput
   citasPsicologos?: Prisma.CitasPsicologosCreateNestedManyWithoutEmpresaInput
+  cliente_configuracion_operativa?: Prisma.cliente_configuracion_operativaCreateNestedManyWithoutEmpresasInput
   clientes?: Prisma.ClienteCreateNestedManyWithoutEmpresaInput
   commissions?: Prisma.CommissionRecordCreateNestedManyWithoutEmpresaInput
   configuracionPagos?: Prisma.ConfiguracionPagosCreateNestedManyWithoutEmpresaInput
@@ -6639,6 +6763,7 @@ export type EmpresaUncheckedCreateWithoutProductosInput = {
   auditorias?: Prisma.AuditoriaUncheckedCreateNestedManyWithoutEmpresaInput
   authSessions?: Prisma.AuthSessionUncheckedCreateNestedManyWithoutEmpresaInput
   citasPsicologos?: Prisma.CitasPsicologosUncheckedCreateNestedManyWithoutEmpresaInput
+  cliente_configuracion_operativa?: Prisma.cliente_configuracion_operativaUncheckedCreateNestedManyWithoutEmpresasInput
   clientes?: Prisma.ClienteUncheckedCreateNestedManyWithoutEmpresaInput
   commissions?: Prisma.CommissionRecordUncheckedCreateNestedManyWithoutEmpresaInput
   configuracionPagos?: Prisma.ConfiguracionPagosUncheckedCreateNestedManyWithoutEmpresaInput
@@ -6702,6 +6827,7 @@ export type EmpresaUpdateWithoutProductosInput = {
   auditorias?: Prisma.AuditoriaUpdateManyWithoutEmpresaNestedInput
   authSessions?: Prisma.AuthSessionUpdateManyWithoutEmpresaNestedInput
   citasPsicologos?: Prisma.CitasPsicologosUpdateManyWithoutEmpresaNestedInput
+  cliente_configuracion_operativa?: Prisma.cliente_configuracion_operativaUpdateManyWithoutEmpresasNestedInput
   clientes?: Prisma.ClienteUpdateManyWithoutEmpresaNestedInput
   commissions?: Prisma.CommissionRecordUpdateManyWithoutEmpresaNestedInput
   configuracionPagos?: Prisma.ConfiguracionPagosUpdateManyWithoutEmpresaNestedInput
@@ -6751,6 +6877,7 @@ export type EmpresaUncheckedUpdateWithoutProductosInput = {
   auditorias?: Prisma.AuditoriaUncheckedUpdateManyWithoutEmpresaNestedInput
   authSessions?: Prisma.AuthSessionUncheckedUpdateManyWithoutEmpresaNestedInput
   citasPsicologos?: Prisma.CitasPsicologosUncheckedUpdateManyWithoutEmpresaNestedInput
+  cliente_configuracion_operativa?: Prisma.cliente_configuracion_operativaUncheckedUpdateManyWithoutEmpresasNestedInput
   clientes?: Prisma.ClienteUncheckedUpdateManyWithoutEmpresaNestedInput
   commissions?: Prisma.CommissionRecordUncheckedUpdateManyWithoutEmpresaNestedInput
   configuracionPagos?: Prisma.ConfiguracionPagosUncheckedUpdateManyWithoutEmpresaNestedInput
@@ -6798,6 +6925,7 @@ export type EmpresaCreateWithoutProductosSolicitadosInput = {
   auditorias?: Prisma.AuditoriaCreateNestedManyWithoutEmpresaInput
   authSessions?: Prisma.AuthSessionCreateNestedManyWithoutEmpresaInput
   citasPsicologos?: Prisma.CitasPsicologosCreateNestedManyWithoutEmpresaInput
+  cliente_configuracion_operativa?: Prisma.cliente_configuracion_operativaCreateNestedManyWithoutEmpresasInput
   clientes?: Prisma.ClienteCreateNestedManyWithoutEmpresaInput
   commissions?: Prisma.CommissionRecordCreateNestedManyWithoutEmpresaInput
   configuracionPagos?: Prisma.ConfiguracionPagosCreateNestedManyWithoutEmpresaInput
@@ -6847,6 +6975,7 @@ export type EmpresaUncheckedCreateWithoutProductosSolicitadosInput = {
   auditorias?: Prisma.AuditoriaUncheckedCreateNestedManyWithoutEmpresaInput
   authSessions?: Prisma.AuthSessionUncheckedCreateNestedManyWithoutEmpresaInput
   citasPsicologos?: Prisma.CitasPsicologosUncheckedCreateNestedManyWithoutEmpresaInput
+  cliente_configuracion_operativa?: Prisma.cliente_configuracion_operativaUncheckedCreateNestedManyWithoutEmpresasInput
   clientes?: Prisma.ClienteUncheckedCreateNestedManyWithoutEmpresaInput
   commissions?: Prisma.CommissionRecordUncheckedCreateNestedManyWithoutEmpresaInput
   configuracionPagos?: Prisma.ConfiguracionPagosUncheckedCreateNestedManyWithoutEmpresaInput
@@ -6910,6 +7039,7 @@ export type EmpresaUpdateWithoutProductosSolicitadosInput = {
   auditorias?: Prisma.AuditoriaUpdateManyWithoutEmpresaNestedInput
   authSessions?: Prisma.AuthSessionUpdateManyWithoutEmpresaNestedInput
   citasPsicologos?: Prisma.CitasPsicologosUpdateManyWithoutEmpresaNestedInput
+  cliente_configuracion_operativa?: Prisma.cliente_configuracion_operativaUpdateManyWithoutEmpresasNestedInput
   clientes?: Prisma.ClienteUpdateManyWithoutEmpresaNestedInput
   commissions?: Prisma.CommissionRecordUpdateManyWithoutEmpresaNestedInput
   configuracionPagos?: Prisma.ConfiguracionPagosUpdateManyWithoutEmpresaNestedInput
@@ -6959,6 +7089,7 @@ export type EmpresaUncheckedUpdateWithoutProductosSolicitadosInput = {
   auditorias?: Prisma.AuditoriaUncheckedUpdateManyWithoutEmpresaNestedInput
   authSessions?: Prisma.AuthSessionUncheckedUpdateManyWithoutEmpresaNestedInput
   citasPsicologos?: Prisma.CitasPsicologosUncheckedUpdateManyWithoutEmpresaNestedInput
+  cliente_configuracion_operativa?: Prisma.cliente_configuracion_operativaUncheckedUpdateManyWithoutEmpresasNestedInput
   clientes?: Prisma.ClienteUncheckedUpdateManyWithoutEmpresaNestedInput
   commissions?: Prisma.CommissionRecordUncheckedUpdateManyWithoutEmpresaNestedInput
   configuracionPagos?: Prisma.ConfiguracionPagosUncheckedUpdateManyWithoutEmpresaNestedInput
@@ -7006,6 +7137,7 @@ export type EmpresaCreateWithoutProveedoresInput = {
   auditorias?: Prisma.AuditoriaCreateNestedManyWithoutEmpresaInput
   authSessions?: Prisma.AuthSessionCreateNestedManyWithoutEmpresaInput
   citasPsicologos?: Prisma.CitasPsicologosCreateNestedManyWithoutEmpresaInput
+  cliente_configuracion_operativa?: Prisma.cliente_configuracion_operativaCreateNestedManyWithoutEmpresasInput
   clientes?: Prisma.ClienteCreateNestedManyWithoutEmpresaInput
   commissions?: Prisma.CommissionRecordCreateNestedManyWithoutEmpresaInput
   configuracionPagos?: Prisma.ConfiguracionPagosCreateNestedManyWithoutEmpresaInput
@@ -7055,6 +7187,7 @@ export type EmpresaUncheckedCreateWithoutProveedoresInput = {
   auditorias?: Prisma.AuditoriaUncheckedCreateNestedManyWithoutEmpresaInput
   authSessions?: Prisma.AuthSessionUncheckedCreateNestedManyWithoutEmpresaInput
   citasPsicologos?: Prisma.CitasPsicologosUncheckedCreateNestedManyWithoutEmpresaInput
+  cliente_configuracion_operativa?: Prisma.cliente_configuracion_operativaUncheckedCreateNestedManyWithoutEmpresasInput
   clientes?: Prisma.ClienteUncheckedCreateNestedManyWithoutEmpresaInput
   commissions?: Prisma.CommissionRecordUncheckedCreateNestedManyWithoutEmpresaInput
   configuracionPagos?: Prisma.ConfiguracionPagosUncheckedCreateNestedManyWithoutEmpresaInput
@@ -7118,6 +7251,7 @@ export type EmpresaUpdateWithoutProveedoresInput = {
   auditorias?: Prisma.AuditoriaUpdateManyWithoutEmpresaNestedInput
   authSessions?: Prisma.AuthSessionUpdateManyWithoutEmpresaNestedInput
   citasPsicologos?: Prisma.CitasPsicologosUpdateManyWithoutEmpresaNestedInput
+  cliente_configuracion_operativa?: Prisma.cliente_configuracion_operativaUpdateManyWithoutEmpresasNestedInput
   clientes?: Prisma.ClienteUpdateManyWithoutEmpresaNestedInput
   commissions?: Prisma.CommissionRecordUpdateManyWithoutEmpresaNestedInput
   configuracionPagos?: Prisma.ConfiguracionPagosUpdateManyWithoutEmpresaNestedInput
@@ -7167,6 +7301,7 @@ export type EmpresaUncheckedUpdateWithoutProveedoresInput = {
   auditorias?: Prisma.AuditoriaUncheckedUpdateManyWithoutEmpresaNestedInput
   authSessions?: Prisma.AuthSessionUncheckedUpdateManyWithoutEmpresaNestedInput
   citasPsicologos?: Prisma.CitasPsicologosUncheckedUpdateManyWithoutEmpresaNestedInput
+  cliente_configuracion_operativa?: Prisma.cliente_configuracion_operativaUncheckedUpdateManyWithoutEmpresasNestedInput
   clientes?: Prisma.ClienteUncheckedUpdateManyWithoutEmpresaNestedInput
   commissions?: Prisma.CommissionRecordUncheckedUpdateManyWithoutEmpresaNestedInput
   configuracionPagos?: Prisma.ConfiguracionPagosUncheckedUpdateManyWithoutEmpresaNestedInput
@@ -7214,6 +7349,7 @@ export type EmpresaCreateWithoutPermisosInput = {
   auditorias?: Prisma.AuditoriaCreateNestedManyWithoutEmpresaInput
   authSessions?: Prisma.AuthSessionCreateNestedManyWithoutEmpresaInput
   citasPsicologos?: Prisma.CitasPsicologosCreateNestedManyWithoutEmpresaInput
+  cliente_configuracion_operativa?: Prisma.cliente_configuracion_operativaCreateNestedManyWithoutEmpresasInput
   clientes?: Prisma.ClienteCreateNestedManyWithoutEmpresaInput
   commissions?: Prisma.CommissionRecordCreateNestedManyWithoutEmpresaInput
   configuracionPagos?: Prisma.ConfiguracionPagosCreateNestedManyWithoutEmpresaInput
@@ -7263,6 +7399,7 @@ export type EmpresaUncheckedCreateWithoutPermisosInput = {
   auditorias?: Prisma.AuditoriaUncheckedCreateNestedManyWithoutEmpresaInput
   authSessions?: Prisma.AuthSessionUncheckedCreateNestedManyWithoutEmpresaInput
   citasPsicologos?: Prisma.CitasPsicologosUncheckedCreateNestedManyWithoutEmpresaInput
+  cliente_configuracion_operativa?: Prisma.cliente_configuracion_operativaUncheckedCreateNestedManyWithoutEmpresasInput
   clientes?: Prisma.ClienteUncheckedCreateNestedManyWithoutEmpresaInput
   commissions?: Prisma.CommissionRecordUncheckedCreateNestedManyWithoutEmpresaInput
   configuracionPagos?: Prisma.ConfiguracionPagosUncheckedCreateNestedManyWithoutEmpresaInput
@@ -7326,6 +7463,7 @@ export type EmpresaUpdateWithoutPermisosInput = {
   auditorias?: Prisma.AuditoriaUpdateManyWithoutEmpresaNestedInput
   authSessions?: Prisma.AuthSessionUpdateManyWithoutEmpresaNestedInput
   citasPsicologos?: Prisma.CitasPsicologosUpdateManyWithoutEmpresaNestedInput
+  cliente_configuracion_operativa?: Prisma.cliente_configuracion_operativaUpdateManyWithoutEmpresasNestedInput
   clientes?: Prisma.ClienteUpdateManyWithoutEmpresaNestedInput
   commissions?: Prisma.CommissionRecordUpdateManyWithoutEmpresaNestedInput
   configuracionPagos?: Prisma.ConfiguracionPagosUpdateManyWithoutEmpresaNestedInput
@@ -7375,6 +7513,7 @@ export type EmpresaUncheckedUpdateWithoutPermisosInput = {
   auditorias?: Prisma.AuditoriaUncheckedUpdateManyWithoutEmpresaNestedInput
   authSessions?: Prisma.AuthSessionUncheckedUpdateManyWithoutEmpresaNestedInput
   citasPsicologos?: Prisma.CitasPsicologosUncheckedUpdateManyWithoutEmpresaNestedInput
+  cliente_configuracion_operativa?: Prisma.cliente_configuracion_operativaUncheckedUpdateManyWithoutEmpresasNestedInput
   clientes?: Prisma.ClienteUncheckedUpdateManyWithoutEmpresaNestedInput
   commissions?: Prisma.CommissionRecordUncheckedUpdateManyWithoutEmpresaNestedInput
   configuracionPagos?: Prisma.ConfiguracionPagosUncheckedUpdateManyWithoutEmpresaNestedInput
@@ -7422,6 +7561,7 @@ export type EmpresaCreateWithoutConfiguracionPagosInput = {
   auditorias?: Prisma.AuditoriaCreateNestedManyWithoutEmpresaInput
   authSessions?: Prisma.AuthSessionCreateNestedManyWithoutEmpresaInput
   citasPsicologos?: Prisma.CitasPsicologosCreateNestedManyWithoutEmpresaInput
+  cliente_configuracion_operativa?: Prisma.cliente_configuracion_operativaCreateNestedManyWithoutEmpresasInput
   clientes?: Prisma.ClienteCreateNestedManyWithoutEmpresaInput
   commissions?: Prisma.CommissionRecordCreateNestedManyWithoutEmpresaInput
   consignacionOrdenes?: Prisma.ConsignacionOrdenCreateNestedManyWithoutEmpresaInput
@@ -7471,6 +7611,7 @@ export type EmpresaUncheckedCreateWithoutConfiguracionPagosInput = {
   auditorias?: Prisma.AuditoriaUncheckedCreateNestedManyWithoutEmpresaInput
   authSessions?: Prisma.AuthSessionUncheckedCreateNestedManyWithoutEmpresaInput
   citasPsicologos?: Prisma.CitasPsicologosUncheckedCreateNestedManyWithoutEmpresaInput
+  cliente_configuracion_operativa?: Prisma.cliente_configuracion_operativaUncheckedCreateNestedManyWithoutEmpresasInput
   clientes?: Prisma.ClienteUncheckedCreateNestedManyWithoutEmpresaInput
   commissions?: Prisma.CommissionRecordUncheckedCreateNestedManyWithoutEmpresaInput
   consignacionOrdenes?: Prisma.ConsignacionOrdenUncheckedCreateNestedManyWithoutEmpresaInput
@@ -7534,6 +7675,7 @@ export type EmpresaUpdateWithoutConfiguracionPagosInput = {
   auditorias?: Prisma.AuditoriaUpdateManyWithoutEmpresaNestedInput
   authSessions?: Prisma.AuthSessionUpdateManyWithoutEmpresaNestedInput
   citasPsicologos?: Prisma.CitasPsicologosUpdateManyWithoutEmpresaNestedInput
+  cliente_configuracion_operativa?: Prisma.cliente_configuracion_operativaUpdateManyWithoutEmpresasNestedInput
   clientes?: Prisma.ClienteUpdateManyWithoutEmpresaNestedInput
   commissions?: Prisma.CommissionRecordUpdateManyWithoutEmpresaNestedInput
   consignacionOrdenes?: Prisma.ConsignacionOrdenUpdateManyWithoutEmpresaNestedInput
@@ -7583,6 +7725,7 @@ export type EmpresaUncheckedUpdateWithoutConfiguracionPagosInput = {
   auditorias?: Prisma.AuditoriaUncheckedUpdateManyWithoutEmpresaNestedInput
   authSessions?: Prisma.AuthSessionUncheckedUpdateManyWithoutEmpresaNestedInput
   citasPsicologos?: Prisma.CitasPsicologosUncheckedUpdateManyWithoutEmpresaNestedInput
+  cliente_configuracion_operativa?: Prisma.cliente_configuracion_operativaUncheckedUpdateManyWithoutEmpresasNestedInput
   clientes?: Prisma.ClienteUncheckedUpdateManyWithoutEmpresaNestedInput
   commissions?: Prisma.CommissionRecordUncheckedUpdateManyWithoutEmpresaNestedInput
   consignacionOrdenes?: Prisma.ConsignacionOrdenUncheckedUpdateManyWithoutEmpresaNestedInput
@@ -7630,6 +7773,7 @@ export type EmpresaCreateWithoutCuentasPagoInput = {
   auditorias?: Prisma.AuditoriaCreateNestedManyWithoutEmpresaInput
   authSessions?: Prisma.AuthSessionCreateNestedManyWithoutEmpresaInput
   citasPsicologos?: Prisma.CitasPsicologosCreateNestedManyWithoutEmpresaInput
+  cliente_configuracion_operativa?: Prisma.cliente_configuracion_operativaCreateNestedManyWithoutEmpresasInput
   clientes?: Prisma.ClienteCreateNestedManyWithoutEmpresaInput
   commissions?: Prisma.CommissionRecordCreateNestedManyWithoutEmpresaInput
   configuracionPagos?: Prisma.ConfiguracionPagosCreateNestedManyWithoutEmpresaInput
@@ -7679,6 +7823,7 @@ export type EmpresaUncheckedCreateWithoutCuentasPagoInput = {
   auditorias?: Prisma.AuditoriaUncheckedCreateNestedManyWithoutEmpresaInput
   authSessions?: Prisma.AuthSessionUncheckedCreateNestedManyWithoutEmpresaInput
   citasPsicologos?: Prisma.CitasPsicologosUncheckedCreateNestedManyWithoutEmpresaInput
+  cliente_configuracion_operativa?: Prisma.cliente_configuracion_operativaUncheckedCreateNestedManyWithoutEmpresasInput
   clientes?: Prisma.ClienteUncheckedCreateNestedManyWithoutEmpresaInput
   commissions?: Prisma.CommissionRecordUncheckedCreateNestedManyWithoutEmpresaInput
   configuracionPagos?: Prisma.ConfiguracionPagosUncheckedCreateNestedManyWithoutEmpresaInput
@@ -7742,6 +7887,7 @@ export type EmpresaUpdateWithoutCuentasPagoInput = {
   auditorias?: Prisma.AuditoriaUpdateManyWithoutEmpresaNestedInput
   authSessions?: Prisma.AuthSessionUpdateManyWithoutEmpresaNestedInput
   citasPsicologos?: Prisma.CitasPsicologosUpdateManyWithoutEmpresaNestedInput
+  cliente_configuracion_operativa?: Prisma.cliente_configuracion_operativaUpdateManyWithoutEmpresasNestedInput
   clientes?: Prisma.ClienteUpdateManyWithoutEmpresaNestedInput
   commissions?: Prisma.CommissionRecordUpdateManyWithoutEmpresaNestedInput
   configuracionPagos?: Prisma.ConfiguracionPagosUpdateManyWithoutEmpresaNestedInput
@@ -7791,6 +7937,7 @@ export type EmpresaUncheckedUpdateWithoutCuentasPagoInput = {
   auditorias?: Prisma.AuditoriaUncheckedUpdateManyWithoutEmpresaNestedInput
   authSessions?: Prisma.AuthSessionUncheckedUpdateManyWithoutEmpresaNestedInput
   citasPsicologos?: Prisma.CitasPsicologosUncheckedUpdateManyWithoutEmpresaNestedInput
+  cliente_configuracion_operativa?: Prisma.cliente_configuracion_operativaUncheckedUpdateManyWithoutEmpresasNestedInput
   clientes?: Prisma.ClienteUncheckedUpdateManyWithoutEmpresaNestedInput
   commissions?: Prisma.CommissionRecordUncheckedUpdateManyWithoutEmpresaNestedInput
   configuracionPagos?: Prisma.ConfiguracionPagosUncheckedUpdateManyWithoutEmpresaNestedInput
@@ -7838,6 +7985,7 @@ export type EmpresaCreateWithoutEgresosInput = {
   auditorias?: Prisma.AuditoriaCreateNestedManyWithoutEmpresaInput
   authSessions?: Prisma.AuthSessionCreateNestedManyWithoutEmpresaInput
   citasPsicologos?: Prisma.CitasPsicologosCreateNestedManyWithoutEmpresaInput
+  cliente_configuracion_operativa?: Prisma.cliente_configuracion_operativaCreateNestedManyWithoutEmpresasInput
   clientes?: Prisma.ClienteCreateNestedManyWithoutEmpresaInput
   commissions?: Prisma.CommissionRecordCreateNestedManyWithoutEmpresaInput
   configuracionPagos?: Prisma.ConfiguracionPagosCreateNestedManyWithoutEmpresaInput
@@ -7887,6 +8035,7 @@ export type EmpresaUncheckedCreateWithoutEgresosInput = {
   auditorias?: Prisma.AuditoriaUncheckedCreateNestedManyWithoutEmpresaInput
   authSessions?: Prisma.AuthSessionUncheckedCreateNestedManyWithoutEmpresaInput
   citasPsicologos?: Prisma.CitasPsicologosUncheckedCreateNestedManyWithoutEmpresaInput
+  cliente_configuracion_operativa?: Prisma.cliente_configuracion_operativaUncheckedCreateNestedManyWithoutEmpresasInput
   clientes?: Prisma.ClienteUncheckedCreateNestedManyWithoutEmpresaInput
   commissions?: Prisma.CommissionRecordUncheckedCreateNestedManyWithoutEmpresaInput
   configuracionPagos?: Prisma.ConfiguracionPagosUncheckedCreateNestedManyWithoutEmpresaInput
@@ -7950,6 +8099,7 @@ export type EmpresaUpdateWithoutEgresosInput = {
   auditorias?: Prisma.AuditoriaUpdateManyWithoutEmpresaNestedInput
   authSessions?: Prisma.AuthSessionUpdateManyWithoutEmpresaNestedInput
   citasPsicologos?: Prisma.CitasPsicologosUpdateManyWithoutEmpresaNestedInput
+  cliente_configuracion_operativa?: Prisma.cliente_configuracion_operativaUpdateManyWithoutEmpresasNestedInput
   clientes?: Prisma.ClienteUpdateManyWithoutEmpresaNestedInput
   commissions?: Prisma.CommissionRecordUpdateManyWithoutEmpresaNestedInput
   configuracionPagos?: Prisma.ConfiguracionPagosUpdateManyWithoutEmpresaNestedInput
@@ -7999,6 +8149,7 @@ export type EmpresaUncheckedUpdateWithoutEgresosInput = {
   auditorias?: Prisma.AuditoriaUncheckedUpdateManyWithoutEmpresaNestedInput
   authSessions?: Prisma.AuthSessionUncheckedUpdateManyWithoutEmpresaNestedInput
   citasPsicologos?: Prisma.CitasPsicologosUncheckedUpdateManyWithoutEmpresaNestedInput
+  cliente_configuracion_operativa?: Prisma.cliente_configuracion_operativaUncheckedUpdateManyWithoutEmpresasNestedInput
   clientes?: Prisma.ClienteUncheckedUpdateManyWithoutEmpresaNestedInput
   commissions?: Prisma.CommissionRecordUncheckedUpdateManyWithoutEmpresaNestedInput
   configuracionPagos?: Prisma.ConfiguracionPagosUncheckedUpdateManyWithoutEmpresaNestedInput
@@ -8046,6 +8197,7 @@ export type EmpresaCreateWithoutPicoPlacaInput = {
   auditorias?: Prisma.AuditoriaCreateNestedManyWithoutEmpresaInput
   authSessions?: Prisma.AuthSessionCreateNestedManyWithoutEmpresaInput
   citasPsicologos?: Prisma.CitasPsicologosCreateNestedManyWithoutEmpresaInput
+  cliente_configuracion_operativa?: Prisma.cliente_configuracion_operativaCreateNestedManyWithoutEmpresasInput
   clientes?: Prisma.ClienteCreateNestedManyWithoutEmpresaInput
   commissions?: Prisma.CommissionRecordCreateNestedManyWithoutEmpresaInput
   configuracionPagos?: Prisma.ConfiguracionPagosCreateNestedManyWithoutEmpresaInput
@@ -8095,6 +8247,7 @@ export type EmpresaUncheckedCreateWithoutPicoPlacaInput = {
   auditorias?: Prisma.AuditoriaUncheckedCreateNestedManyWithoutEmpresaInput
   authSessions?: Prisma.AuthSessionUncheckedCreateNestedManyWithoutEmpresaInput
   citasPsicologos?: Prisma.CitasPsicologosUncheckedCreateNestedManyWithoutEmpresaInput
+  cliente_configuracion_operativa?: Prisma.cliente_configuracion_operativaUncheckedCreateNestedManyWithoutEmpresasInput
   clientes?: Prisma.ClienteUncheckedCreateNestedManyWithoutEmpresaInput
   commissions?: Prisma.CommissionRecordUncheckedCreateNestedManyWithoutEmpresaInput
   configuracionPagos?: Prisma.ConfiguracionPagosUncheckedCreateNestedManyWithoutEmpresaInput
@@ -8158,6 +8311,7 @@ export type EmpresaUpdateWithoutPicoPlacaInput = {
   auditorias?: Prisma.AuditoriaUpdateManyWithoutEmpresaNestedInput
   authSessions?: Prisma.AuthSessionUpdateManyWithoutEmpresaNestedInput
   citasPsicologos?: Prisma.CitasPsicologosUpdateManyWithoutEmpresaNestedInput
+  cliente_configuracion_operativa?: Prisma.cliente_configuracion_operativaUpdateManyWithoutEmpresasNestedInput
   clientes?: Prisma.ClienteUpdateManyWithoutEmpresaNestedInput
   commissions?: Prisma.CommissionRecordUpdateManyWithoutEmpresaNestedInput
   configuracionPagos?: Prisma.ConfiguracionPagosUpdateManyWithoutEmpresaNestedInput
@@ -8207,6 +8361,7 @@ export type EmpresaUncheckedUpdateWithoutPicoPlacaInput = {
   auditorias?: Prisma.AuditoriaUncheckedUpdateManyWithoutEmpresaNestedInput
   authSessions?: Prisma.AuthSessionUncheckedUpdateManyWithoutEmpresaNestedInput
   citasPsicologos?: Prisma.CitasPsicologosUncheckedUpdateManyWithoutEmpresaNestedInput
+  cliente_configuracion_operativa?: Prisma.cliente_configuracion_operativaUncheckedUpdateManyWithoutEmpresasNestedInput
   clientes?: Prisma.ClienteUncheckedUpdateManyWithoutEmpresaNestedInput
   commissions?: Prisma.CommissionRecordUncheckedUpdateManyWithoutEmpresaNestedInput
   configuracionPagos?: Prisma.ConfiguracionPagosUncheckedUpdateManyWithoutEmpresaNestedInput
@@ -8254,6 +8409,7 @@ export type EmpresaCreateWithoutReferidosInput = {
   auditorias?: Prisma.AuditoriaCreateNestedManyWithoutEmpresaInput
   authSessions?: Prisma.AuthSessionCreateNestedManyWithoutEmpresaInput
   citasPsicologos?: Prisma.CitasPsicologosCreateNestedManyWithoutEmpresaInput
+  cliente_configuracion_operativa?: Prisma.cliente_configuracion_operativaCreateNestedManyWithoutEmpresasInput
   clientes?: Prisma.ClienteCreateNestedManyWithoutEmpresaInput
   commissions?: Prisma.CommissionRecordCreateNestedManyWithoutEmpresaInput
   configuracionPagos?: Prisma.ConfiguracionPagosCreateNestedManyWithoutEmpresaInput
@@ -8303,6 +8459,7 @@ export type EmpresaUncheckedCreateWithoutReferidosInput = {
   auditorias?: Prisma.AuditoriaUncheckedCreateNestedManyWithoutEmpresaInput
   authSessions?: Prisma.AuthSessionUncheckedCreateNestedManyWithoutEmpresaInput
   citasPsicologos?: Prisma.CitasPsicologosUncheckedCreateNestedManyWithoutEmpresaInput
+  cliente_configuracion_operativa?: Prisma.cliente_configuracion_operativaUncheckedCreateNestedManyWithoutEmpresasInput
   clientes?: Prisma.ClienteUncheckedCreateNestedManyWithoutEmpresaInput
   commissions?: Prisma.CommissionRecordUncheckedCreateNestedManyWithoutEmpresaInput
   configuracionPagos?: Prisma.ConfiguracionPagosUncheckedCreateNestedManyWithoutEmpresaInput
@@ -8366,6 +8523,7 @@ export type EmpresaUpdateWithoutReferidosInput = {
   auditorias?: Prisma.AuditoriaUpdateManyWithoutEmpresaNestedInput
   authSessions?: Prisma.AuthSessionUpdateManyWithoutEmpresaNestedInput
   citasPsicologos?: Prisma.CitasPsicologosUpdateManyWithoutEmpresaNestedInput
+  cliente_configuracion_operativa?: Prisma.cliente_configuracion_operativaUpdateManyWithoutEmpresasNestedInput
   clientes?: Prisma.ClienteUpdateManyWithoutEmpresaNestedInput
   commissions?: Prisma.CommissionRecordUpdateManyWithoutEmpresaNestedInput
   configuracionPagos?: Prisma.ConfiguracionPagosUpdateManyWithoutEmpresaNestedInput
@@ -8415,6 +8573,7 @@ export type EmpresaUncheckedUpdateWithoutReferidosInput = {
   auditorias?: Prisma.AuditoriaUncheckedUpdateManyWithoutEmpresaNestedInput
   authSessions?: Prisma.AuthSessionUncheckedUpdateManyWithoutEmpresaNestedInput
   citasPsicologos?: Prisma.CitasPsicologosUncheckedUpdateManyWithoutEmpresaNestedInput
+  cliente_configuracion_operativa?: Prisma.cliente_configuracion_operativaUncheckedUpdateManyWithoutEmpresasNestedInput
   clientes?: Prisma.ClienteUncheckedUpdateManyWithoutEmpresaNestedInput
   commissions?: Prisma.CommissionRecordUncheckedUpdateManyWithoutEmpresaNestedInput
   configuracionPagos?: Prisma.ConfiguracionPagosUncheckedUpdateManyWithoutEmpresaNestedInput
@@ -8461,6 +8620,7 @@ export type EmpresaCreateWithoutAuditoriasInput = {
   anticipos?: Prisma.AnticiposCreateNestedManyWithoutEmpresaInput
   authSessions?: Prisma.AuthSessionCreateNestedManyWithoutEmpresaInput
   citasPsicologos?: Prisma.CitasPsicologosCreateNestedManyWithoutEmpresaInput
+  cliente_configuracion_operativa?: Prisma.cliente_configuracion_operativaCreateNestedManyWithoutEmpresasInput
   clientes?: Prisma.ClienteCreateNestedManyWithoutEmpresaInput
   commissions?: Prisma.CommissionRecordCreateNestedManyWithoutEmpresaInput
   configuracionPagos?: Prisma.ConfiguracionPagosCreateNestedManyWithoutEmpresaInput
@@ -8510,6 +8670,7 @@ export type EmpresaUncheckedCreateWithoutAuditoriasInput = {
   anticipos?: Prisma.AnticiposUncheckedCreateNestedManyWithoutEmpresaInput
   authSessions?: Prisma.AuthSessionUncheckedCreateNestedManyWithoutEmpresaInput
   citasPsicologos?: Prisma.CitasPsicologosUncheckedCreateNestedManyWithoutEmpresaInput
+  cliente_configuracion_operativa?: Prisma.cliente_configuracion_operativaUncheckedCreateNestedManyWithoutEmpresasInput
   clientes?: Prisma.ClienteUncheckedCreateNestedManyWithoutEmpresaInput
   commissions?: Prisma.CommissionRecordUncheckedCreateNestedManyWithoutEmpresaInput
   configuracionPagos?: Prisma.ConfiguracionPagosUncheckedCreateNestedManyWithoutEmpresaInput
@@ -8573,6 +8734,7 @@ export type EmpresaUpdateWithoutAuditoriasInput = {
   anticipos?: Prisma.AnticiposUpdateManyWithoutEmpresaNestedInput
   authSessions?: Prisma.AuthSessionUpdateManyWithoutEmpresaNestedInput
   citasPsicologos?: Prisma.CitasPsicologosUpdateManyWithoutEmpresaNestedInput
+  cliente_configuracion_operativa?: Prisma.cliente_configuracion_operativaUpdateManyWithoutEmpresasNestedInput
   clientes?: Prisma.ClienteUpdateManyWithoutEmpresaNestedInput
   commissions?: Prisma.CommissionRecordUpdateManyWithoutEmpresaNestedInput
   configuracionPagos?: Prisma.ConfiguracionPagosUpdateManyWithoutEmpresaNestedInput
@@ -8622,6 +8784,7 @@ export type EmpresaUncheckedUpdateWithoutAuditoriasInput = {
   anticipos?: Prisma.AnticiposUncheckedUpdateManyWithoutEmpresaNestedInput
   authSessions?: Prisma.AuthSessionUncheckedUpdateManyWithoutEmpresaNestedInput
   citasPsicologos?: Prisma.CitasPsicologosUncheckedUpdateManyWithoutEmpresaNestedInput
+  cliente_configuracion_operativa?: Prisma.cliente_configuracion_operativaUncheckedUpdateManyWithoutEmpresasNestedInput
   clientes?: Prisma.ClienteUncheckedUpdateManyWithoutEmpresaNestedInput
   commissions?: Prisma.CommissionRecordUncheckedUpdateManyWithoutEmpresaNestedInput
   configuracionPagos?: Prisma.ConfiguracionPagosUncheckedUpdateManyWithoutEmpresaNestedInput
@@ -8670,6 +8833,7 @@ export type EmpresaCreateWithoutSesionesActividadInput = {
   auditorias?: Prisma.AuditoriaCreateNestedManyWithoutEmpresaInput
   authSessions?: Prisma.AuthSessionCreateNestedManyWithoutEmpresaInput
   citasPsicologos?: Prisma.CitasPsicologosCreateNestedManyWithoutEmpresaInput
+  cliente_configuracion_operativa?: Prisma.cliente_configuracion_operativaCreateNestedManyWithoutEmpresasInput
   clientes?: Prisma.ClienteCreateNestedManyWithoutEmpresaInput
   commissions?: Prisma.CommissionRecordCreateNestedManyWithoutEmpresaInput
   configuracionPagos?: Prisma.ConfiguracionPagosCreateNestedManyWithoutEmpresaInput
@@ -8719,6 +8883,7 @@ export type EmpresaUncheckedCreateWithoutSesionesActividadInput = {
   auditorias?: Prisma.AuditoriaUncheckedCreateNestedManyWithoutEmpresaInput
   authSessions?: Prisma.AuthSessionUncheckedCreateNestedManyWithoutEmpresaInput
   citasPsicologos?: Prisma.CitasPsicologosUncheckedCreateNestedManyWithoutEmpresaInput
+  cliente_configuracion_operativa?: Prisma.cliente_configuracion_operativaUncheckedCreateNestedManyWithoutEmpresasInput
   clientes?: Prisma.ClienteUncheckedCreateNestedManyWithoutEmpresaInput
   commissions?: Prisma.CommissionRecordUncheckedCreateNestedManyWithoutEmpresaInput
   configuracionPagos?: Prisma.ConfiguracionPagosUncheckedCreateNestedManyWithoutEmpresaInput
@@ -8782,6 +8947,7 @@ export type EmpresaUpdateWithoutSesionesActividadInput = {
   auditorias?: Prisma.AuditoriaUpdateManyWithoutEmpresaNestedInput
   authSessions?: Prisma.AuthSessionUpdateManyWithoutEmpresaNestedInput
   citasPsicologos?: Prisma.CitasPsicologosUpdateManyWithoutEmpresaNestedInput
+  cliente_configuracion_operativa?: Prisma.cliente_configuracion_operativaUpdateManyWithoutEmpresasNestedInput
   clientes?: Prisma.ClienteUpdateManyWithoutEmpresaNestedInput
   commissions?: Prisma.CommissionRecordUpdateManyWithoutEmpresaNestedInput
   configuracionPagos?: Prisma.ConfiguracionPagosUpdateManyWithoutEmpresaNestedInput
@@ -8831,6 +8997,7 @@ export type EmpresaUncheckedUpdateWithoutSesionesActividadInput = {
   auditorias?: Prisma.AuditoriaUncheckedUpdateManyWithoutEmpresaNestedInput
   authSessions?: Prisma.AuthSessionUncheckedUpdateManyWithoutEmpresaNestedInput
   citasPsicologos?: Prisma.CitasPsicologosUncheckedUpdateManyWithoutEmpresaNestedInput
+  cliente_configuracion_operativa?: Prisma.cliente_configuracion_operativaUncheckedUpdateManyWithoutEmpresasNestedInput
   clientes?: Prisma.ClienteUncheckedUpdateManyWithoutEmpresaNestedInput
   commissions?: Prisma.CommissionRecordUncheckedUpdateManyWithoutEmpresaNestedInput
   configuracionPagos?: Prisma.ConfiguracionPagosUncheckedUpdateManyWithoutEmpresaNestedInput
@@ -8878,6 +9045,7 @@ export type EmpresaCreateWithoutLogsEventoInput = {
   auditorias?: Prisma.AuditoriaCreateNestedManyWithoutEmpresaInput
   authSessions?: Prisma.AuthSessionCreateNestedManyWithoutEmpresaInput
   citasPsicologos?: Prisma.CitasPsicologosCreateNestedManyWithoutEmpresaInput
+  cliente_configuracion_operativa?: Prisma.cliente_configuracion_operativaCreateNestedManyWithoutEmpresasInput
   clientes?: Prisma.ClienteCreateNestedManyWithoutEmpresaInput
   commissions?: Prisma.CommissionRecordCreateNestedManyWithoutEmpresaInput
   configuracionPagos?: Prisma.ConfiguracionPagosCreateNestedManyWithoutEmpresaInput
@@ -8927,6 +9095,7 @@ export type EmpresaUncheckedCreateWithoutLogsEventoInput = {
   auditorias?: Prisma.AuditoriaUncheckedCreateNestedManyWithoutEmpresaInput
   authSessions?: Prisma.AuthSessionUncheckedCreateNestedManyWithoutEmpresaInput
   citasPsicologos?: Prisma.CitasPsicologosUncheckedCreateNestedManyWithoutEmpresaInput
+  cliente_configuracion_operativa?: Prisma.cliente_configuracion_operativaUncheckedCreateNestedManyWithoutEmpresasInput
   clientes?: Prisma.ClienteUncheckedCreateNestedManyWithoutEmpresaInput
   commissions?: Prisma.CommissionRecordUncheckedCreateNestedManyWithoutEmpresaInput
   configuracionPagos?: Prisma.ConfiguracionPagosUncheckedCreateNestedManyWithoutEmpresaInput
@@ -8990,6 +9159,7 @@ export type EmpresaUpdateWithoutLogsEventoInput = {
   auditorias?: Prisma.AuditoriaUpdateManyWithoutEmpresaNestedInput
   authSessions?: Prisma.AuthSessionUpdateManyWithoutEmpresaNestedInput
   citasPsicologos?: Prisma.CitasPsicologosUpdateManyWithoutEmpresaNestedInput
+  cliente_configuracion_operativa?: Prisma.cliente_configuracion_operativaUpdateManyWithoutEmpresasNestedInput
   clientes?: Prisma.ClienteUpdateManyWithoutEmpresaNestedInput
   commissions?: Prisma.CommissionRecordUpdateManyWithoutEmpresaNestedInput
   configuracionPagos?: Prisma.ConfiguracionPagosUpdateManyWithoutEmpresaNestedInput
@@ -9039,6 +9209,7 @@ export type EmpresaUncheckedUpdateWithoutLogsEventoInput = {
   auditorias?: Prisma.AuditoriaUncheckedUpdateManyWithoutEmpresaNestedInput
   authSessions?: Prisma.AuthSessionUncheckedUpdateManyWithoutEmpresaNestedInput
   citasPsicologos?: Prisma.CitasPsicologosUncheckedUpdateManyWithoutEmpresaNestedInput
+  cliente_configuracion_operativa?: Prisma.cliente_configuracion_operativaUncheckedUpdateManyWithoutEmpresasNestedInput
   clientes?: Prisma.ClienteUncheckedUpdateManyWithoutEmpresaNestedInput
   commissions?: Prisma.CommissionRecordUncheckedUpdateManyWithoutEmpresaNestedInput
   configuracionPagos?: Prisma.ConfiguracionPagosUncheckedUpdateManyWithoutEmpresaNestedInput
@@ -9085,6 +9256,7 @@ export type EmpresaCreateWithoutAuthSessionsInput = {
   anticipos?: Prisma.AnticiposCreateNestedManyWithoutEmpresaInput
   auditorias?: Prisma.AuditoriaCreateNestedManyWithoutEmpresaInput
   citasPsicologos?: Prisma.CitasPsicologosCreateNestedManyWithoutEmpresaInput
+  cliente_configuracion_operativa?: Prisma.cliente_configuracion_operativaCreateNestedManyWithoutEmpresasInput
   clientes?: Prisma.ClienteCreateNestedManyWithoutEmpresaInput
   commissions?: Prisma.CommissionRecordCreateNestedManyWithoutEmpresaInput
   configuracionPagos?: Prisma.ConfiguracionPagosCreateNestedManyWithoutEmpresaInput
@@ -9134,6 +9306,7 @@ export type EmpresaUncheckedCreateWithoutAuthSessionsInput = {
   anticipos?: Prisma.AnticiposUncheckedCreateNestedManyWithoutEmpresaInput
   auditorias?: Prisma.AuditoriaUncheckedCreateNestedManyWithoutEmpresaInput
   citasPsicologos?: Prisma.CitasPsicologosUncheckedCreateNestedManyWithoutEmpresaInput
+  cliente_configuracion_operativa?: Prisma.cliente_configuracion_operativaUncheckedCreateNestedManyWithoutEmpresasInput
   clientes?: Prisma.ClienteUncheckedCreateNestedManyWithoutEmpresaInput
   commissions?: Prisma.CommissionRecordUncheckedCreateNestedManyWithoutEmpresaInput
   configuracionPagos?: Prisma.ConfiguracionPagosUncheckedCreateNestedManyWithoutEmpresaInput
@@ -9197,6 +9370,7 @@ export type EmpresaUpdateWithoutAuthSessionsInput = {
   anticipos?: Prisma.AnticiposUpdateManyWithoutEmpresaNestedInput
   auditorias?: Prisma.AuditoriaUpdateManyWithoutEmpresaNestedInput
   citasPsicologos?: Prisma.CitasPsicologosUpdateManyWithoutEmpresaNestedInput
+  cliente_configuracion_operativa?: Prisma.cliente_configuracion_operativaUpdateManyWithoutEmpresasNestedInput
   clientes?: Prisma.ClienteUpdateManyWithoutEmpresaNestedInput
   commissions?: Prisma.CommissionRecordUpdateManyWithoutEmpresaNestedInput
   configuracionPagos?: Prisma.ConfiguracionPagosUpdateManyWithoutEmpresaNestedInput
@@ -9246,6 +9420,7 @@ export type EmpresaUncheckedUpdateWithoutAuthSessionsInput = {
   anticipos?: Prisma.AnticiposUncheckedUpdateManyWithoutEmpresaNestedInput
   auditorias?: Prisma.AuditoriaUncheckedUpdateManyWithoutEmpresaNestedInput
   citasPsicologos?: Prisma.CitasPsicologosUncheckedUpdateManyWithoutEmpresaNestedInput
+  cliente_configuracion_operativa?: Prisma.cliente_configuracion_operativaUncheckedUpdateManyWithoutEmpresasNestedInput
   clientes?: Prisma.ClienteUncheckedUpdateManyWithoutEmpresaNestedInput
   commissions?: Prisma.CommissionRecordUncheckedUpdateManyWithoutEmpresaNestedInput
   configuracionPagos?: Prisma.ConfiguracionPagosUncheckedUpdateManyWithoutEmpresaNestedInput
@@ -9294,6 +9469,7 @@ export type EmpresaCreateWithoutResetTokensInput = {
   auditorias?: Prisma.AuditoriaCreateNestedManyWithoutEmpresaInput
   authSessions?: Prisma.AuthSessionCreateNestedManyWithoutEmpresaInput
   citasPsicologos?: Prisma.CitasPsicologosCreateNestedManyWithoutEmpresaInput
+  cliente_configuracion_operativa?: Prisma.cliente_configuracion_operativaCreateNestedManyWithoutEmpresasInput
   clientes?: Prisma.ClienteCreateNestedManyWithoutEmpresaInput
   commissions?: Prisma.CommissionRecordCreateNestedManyWithoutEmpresaInput
   configuracionPagos?: Prisma.ConfiguracionPagosCreateNestedManyWithoutEmpresaInput
@@ -9343,6 +9519,7 @@ export type EmpresaUncheckedCreateWithoutResetTokensInput = {
   auditorias?: Prisma.AuditoriaUncheckedCreateNestedManyWithoutEmpresaInput
   authSessions?: Prisma.AuthSessionUncheckedCreateNestedManyWithoutEmpresaInput
   citasPsicologos?: Prisma.CitasPsicologosUncheckedCreateNestedManyWithoutEmpresaInput
+  cliente_configuracion_operativa?: Prisma.cliente_configuracion_operativaUncheckedCreateNestedManyWithoutEmpresasInput
   clientes?: Prisma.ClienteUncheckedCreateNestedManyWithoutEmpresaInput
   commissions?: Prisma.CommissionRecordUncheckedCreateNestedManyWithoutEmpresaInput
   configuracionPagos?: Prisma.ConfiguracionPagosUncheckedCreateNestedManyWithoutEmpresaInput
@@ -9406,6 +9583,7 @@ export type EmpresaUpdateWithoutResetTokensInput = {
   auditorias?: Prisma.AuditoriaUpdateManyWithoutEmpresaNestedInput
   authSessions?: Prisma.AuthSessionUpdateManyWithoutEmpresaNestedInput
   citasPsicologos?: Prisma.CitasPsicologosUpdateManyWithoutEmpresaNestedInput
+  cliente_configuracion_operativa?: Prisma.cliente_configuracion_operativaUpdateManyWithoutEmpresasNestedInput
   clientes?: Prisma.ClienteUpdateManyWithoutEmpresaNestedInput
   commissions?: Prisma.CommissionRecordUpdateManyWithoutEmpresaNestedInput
   configuracionPagos?: Prisma.ConfiguracionPagosUpdateManyWithoutEmpresaNestedInput
@@ -9455,6 +9633,7 @@ export type EmpresaUncheckedUpdateWithoutResetTokensInput = {
   auditorias?: Prisma.AuditoriaUncheckedUpdateManyWithoutEmpresaNestedInput
   authSessions?: Prisma.AuthSessionUncheckedUpdateManyWithoutEmpresaNestedInput
   citasPsicologos?: Prisma.CitasPsicologosUncheckedUpdateManyWithoutEmpresaNestedInput
+  cliente_configuracion_operativa?: Prisma.cliente_configuracion_operativaUncheckedUpdateManyWithoutEmpresasNestedInput
   clientes?: Prisma.ClienteUncheckedUpdateManyWithoutEmpresaNestedInput
   commissions?: Prisma.CommissionRecordUncheckedUpdateManyWithoutEmpresaNestedInput
   configuracionPagos?: Prisma.ConfiguracionPagosUncheckedUpdateManyWithoutEmpresaNestedInput
@@ -9491,6 +9670,218 @@ export type EmpresaUncheckedUpdateWithoutResetTokensInput = {
   zonas?: Prisma.ZonaUncheckedUpdateManyWithoutEmpresaNestedInput
 }
 
+export type EmpresaCreateWithoutCliente_configuracion_operativaInput = {
+  id?: string
+  nombre: string
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  activo?: boolean
+  deletedAt?: Date | string | null
+  anticipos?: Prisma.AnticiposCreateNestedManyWithoutEmpresaInput
+  auditorias?: Prisma.AuditoriaCreateNestedManyWithoutEmpresaInput
+  authSessions?: Prisma.AuthSessionCreateNestedManyWithoutEmpresaInput
+  citasPsicologos?: Prisma.CitasPsicologosCreateNestedManyWithoutEmpresaInput
+  clientes?: Prisma.ClienteCreateNestedManyWithoutEmpresaInput
+  commissions?: Prisma.CommissionRecordCreateNestedManyWithoutEmpresaInput
+  configuracionPagos?: Prisma.ConfiguracionPagosCreateNestedManyWithoutEmpresaInput
+  consignacionOrdenes?: Prisma.ConsignacionOrdenCreateNestedManyWithoutEmpresaInput
+  consignaciones?: Prisma.ConsignacionEfectivoCreateNestedManyWithoutEmpresaInput
+  consultorios?: Prisma.ConsultorioCreateNestedManyWithoutEmpresaInput
+  cuentasCobro?: Prisma.CuentaCobroCreateNestedManyWithoutEmpresaInput
+  cuentasPago?: Prisma.CuentasPagoCreateNestedManyWithoutEmpresaInput
+  declaraciones?: Prisma.DeclaracionEfectivoCreateNestedManyWithoutEmpresaInput
+  direcciones?: Prisma.DireccionCreateNestedManyWithoutEmpresaInput
+  egresos?: Prisma.EgresosCreateNestedManyWithoutEmpresaInput
+  memberships?: Prisma.EmpresaMembershipCreateNestedManyWithoutEmpresaInput
+  tenant: Prisma.TenantCreateNestedOneWithoutEmpresasInput
+  estadosServicio?: Prisma.EstadoServicioCreateNestedManyWithoutEmpresaInput
+  geolocalizaciones?: Prisma.GeolocalizacionCreateNestedManyWithoutEmpresaInput
+  logsEvento?: Prisma.LogEventoCreateNestedManyWithoutEmpresaInput
+  metodosPago?: Prisma.MetodoPagoCreateNestedManyWithoutEmpresaInput
+  nominaDetalles?: Prisma.NominaDetalleCreateNestedManyWithoutEmpresaInput
+  nominas?: Prisma.NominaCreateNestedManyWithoutEmpresaInput
+  ordenesServicio?: Prisma.OrdenServicioCreateNestedManyWithoutEmpresaInput
+  orgNodes?: Prisma.OrganizationNodeCreateNestedManyWithoutEmpresaInput
+  paquetesAdquiridos?: Prisma.PaqueteAdquiridoCreateNestedManyWithoutEmpresaInput
+  resetTokens?: Prisma.PasswordResetTokenCreateNestedManyWithoutEmpresaInput
+  permisos?: Prisma.PermisoCreateNestedManyWithoutEmpresaInput
+  picoPlaca?: Prisma.PicoPlacaCreateNestedManyWithoutEmpresaInput
+  productos?: Prisma.ProductoCreateNestedManyWithoutEmpresaInput
+  productosSolicitados?: Prisma.ProductoSolicitadoCreateNestedManyWithoutEmpresaInput
+  proveedores?: Prisma.ProveedoresCreateNestedManyWithoutEmpresaInput
+  referidos?: Prisma.ReferidosCreateNestedManyWithoutEmpresaInput
+  servicios?: Prisma.ServicioCreateNestedManyWithoutEmpresaInput
+  sesionesActividad?: Prisma.SesionActividadCreateNestedManyWithoutEmpresaInput
+  terapiasPsicologos?: Prisma.TerapiasPsicologosCreateNestedManyWithoutEmpresaInput
+  tiposServicio?: Prisma.TipoServicioCreateNestedManyWithoutEmpresaInput
+  turnos?: Prisma.TurnoCreateNestedManyWithoutEmpresaInput
+  vehiculos?: Prisma.VehiculoCreateNestedManyWithoutEmpresaInput
+  zonas?: Prisma.ZonaCreateNestedManyWithoutEmpresaInput
+}
+
+export type EmpresaUncheckedCreateWithoutCliente_configuracion_operativaInput = {
+  id?: string
+  tenantId: string
+  nombre: string
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  activo?: boolean
+  deletedAt?: Date | string | null
+  anticipos?: Prisma.AnticiposUncheckedCreateNestedManyWithoutEmpresaInput
+  auditorias?: Prisma.AuditoriaUncheckedCreateNestedManyWithoutEmpresaInput
+  authSessions?: Prisma.AuthSessionUncheckedCreateNestedManyWithoutEmpresaInput
+  citasPsicologos?: Prisma.CitasPsicologosUncheckedCreateNestedManyWithoutEmpresaInput
+  clientes?: Prisma.ClienteUncheckedCreateNestedManyWithoutEmpresaInput
+  commissions?: Prisma.CommissionRecordUncheckedCreateNestedManyWithoutEmpresaInput
+  configuracionPagos?: Prisma.ConfiguracionPagosUncheckedCreateNestedManyWithoutEmpresaInput
+  consignacionOrdenes?: Prisma.ConsignacionOrdenUncheckedCreateNestedManyWithoutEmpresaInput
+  consignaciones?: Prisma.ConsignacionEfectivoUncheckedCreateNestedManyWithoutEmpresaInput
+  consultorios?: Prisma.ConsultorioUncheckedCreateNestedManyWithoutEmpresaInput
+  cuentasCobro?: Prisma.CuentaCobroUncheckedCreateNestedManyWithoutEmpresaInput
+  cuentasPago?: Prisma.CuentasPagoUncheckedCreateNestedManyWithoutEmpresaInput
+  declaraciones?: Prisma.DeclaracionEfectivoUncheckedCreateNestedManyWithoutEmpresaInput
+  direcciones?: Prisma.DireccionUncheckedCreateNestedManyWithoutEmpresaInput
+  egresos?: Prisma.EgresosUncheckedCreateNestedManyWithoutEmpresaInput
+  memberships?: Prisma.EmpresaMembershipUncheckedCreateNestedManyWithoutEmpresaInput
+  estadosServicio?: Prisma.EstadoServicioUncheckedCreateNestedManyWithoutEmpresaInput
+  geolocalizaciones?: Prisma.GeolocalizacionUncheckedCreateNestedManyWithoutEmpresaInput
+  logsEvento?: Prisma.LogEventoUncheckedCreateNestedManyWithoutEmpresaInput
+  metodosPago?: Prisma.MetodoPagoUncheckedCreateNestedManyWithoutEmpresaInput
+  nominaDetalles?: Prisma.NominaDetalleUncheckedCreateNestedManyWithoutEmpresaInput
+  nominas?: Prisma.NominaUncheckedCreateNestedManyWithoutEmpresaInput
+  ordenesServicio?: Prisma.OrdenServicioUncheckedCreateNestedManyWithoutEmpresaInput
+  orgNodes?: Prisma.OrganizationNodeUncheckedCreateNestedManyWithoutEmpresaInput
+  paquetesAdquiridos?: Prisma.PaqueteAdquiridoUncheckedCreateNestedManyWithoutEmpresaInput
+  resetTokens?: Prisma.PasswordResetTokenUncheckedCreateNestedManyWithoutEmpresaInput
+  permisos?: Prisma.PermisoUncheckedCreateNestedManyWithoutEmpresaInput
+  picoPlaca?: Prisma.PicoPlacaUncheckedCreateNestedManyWithoutEmpresaInput
+  productos?: Prisma.ProductoUncheckedCreateNestedManyWithoutEmpresaInput
+  productosSolicitados?: Prisma.ProductoSolicitadoUncheckedCreateNestedManyWithoutEmpresaInput
+  proveedores?: Prisma.ProveedoresUncheckedCreateNestedManyWithoutEmpresaInput
+  referidos?: Prisma.ReferidosUncheckedCreateNestedManyWithoutEmpresaInput
+  servicios?: Prisma.ServicioUncheckedCreateNestedManyWithoutEmpresaInput
+  sesionesActividad?: Prisma.SesionActividadUncheckedCreateNestedManyWithoutEmpresaInput
+  terapiasPsicologos?: Prisma.TerapiasPsicologosUncheckedCreateNestedManyWithoutEmpresaInput
+  tiposServicio?: Prisma.TipoServicioUncheckedCreateNestedManyWithoutEmpresaInput
+  turnos?: Prisma.TurnoUncheckedCreateNestedManyWithoutEmpresaInput
+  vehiculos?: Prisma.VehiculoUncheckedCreateNestedManyWithoutEmpresaInput
+  zonas?: Prisma.ZonaUncheckedCreateNestedManyWithoutEmpresaInput
+}
+
+export type EmpresaCreateOrConnectWithoutCliente_configuracion_operativaInput = {
+  where: Prisma.EmpresaWhereUniqueInput
+  create: Prisma.XOR<Prisma.EmpresaCreateWithoutCliente_configuracion_operativaInput, Prisma.EmpresaUncheckedCreateWithoutCliente_configuracion_operativaInput>
+}
+
+export type EmpresaUpsertWithoutCliente_configuracion_operativaInput = {
+  update: Prisma.XOR<Prisma.EmpresaUpdateWithoutCliente_configuracion_operativaInput, Prisma.EmpresaUncheckedUpdateWithoutCliente_configuracion_operativaInput>
+  create: Prisma.XOR<Prisma.EmpresaCreateWithoutCliente_configuracion_operativaInput, Prisma.EmpresaUncheckedCreateWithoutCliente_configuracion_operativaInput>
+  where?: Prisma.EmpresaWhereInput
+}
+
+export type EmpresaUpdateToOneWithWhereWithoutCliente_configuracion_operativaInput = {
+  where?: Prisma.EmpresaWhereInput
+  data: Prisma.XOR<Prisma.EmpresaUpdateWithoutCliente_configuracion_operativaInput, Prisma.EmpresaUncheckedUpdateWithoutCliente_configuracion_operativaInput>
+}
+
+export type EmpresaUpdateWithoutCliente_configuracion_operativaInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  nombre?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  anticipos?: Prisma.AnticiposUpdateManyWithoutEmpresaNestedInput
+  auditorias?: Prisma.AuditoriaUpdateManyWithoutEmpresaNestedInput
+  authSessions?: Prisma.AuthSessionUpdateManyWithoutEmpresaNestedInput
+  citasPsicologos?: Prisma.CitasPsicologosUpdateManyWithoutEmpresaNestedInput
+  clientes?: Prisma.ClienteUpdateManyWithoutEmpresaNestedInput
+  commissions?: Prisma.CommissionRecordUpdateManyWithoutEmpresaNestedInput
+  configuracionPagos?: Prisma.ConfiguracionPagosUpdateManyWithoutEmpresaNestedInput
+  consignacionOrdenes?: Prisma.ConsignacionOrdenUpdateManyWithoutEmpresaNestedInput
+  consignaciones?: Prisma.ConsignacionEfectivoUpdateManyWithoutEmpresaNestedInput
+  consultorios?: Prisma.ConsultorioUpdateManyWithoutEmpresaNestedInput
+  cuentasCobro?: Prisma.CuentaCobroUpdateManyWithoutEmpresaNestedInput
+  cuentasPago?: Prisma.CuentasPagoUpdateManyWithoutEmpresaNestedInput
+  declaraciones?: Prisma.DeclaracionEfectivoUpdateManyWithoutEmpresaNestedInput
+  direcciones?: Prisma.DireccionUpdateManyWithoutEmpresaNestedInput
+  egresos?: Prisma.EgresosUpdateManyWithoutEmpresaNestedInput
+  memberships?: Prisma.EmpresaMembershipUpdateManyWithoutEmpresaNestedInput
+  tenant?: Prisma.TenantUpdateOneRequiredWithoutEmpresasNestedInput
+  estadosServicio?: Prisma.EstadoServicioUpdateManyWithoutEmpresaNestedInput
+  geolocalizaciones?: Prisma.GeolocalizacionUpdateManyWithoutEmpresaNestedInput
+  logsEvento?: Prisma.LogEventoUpdateManyWithoutEmpresaNestedInput
+  metodosPago?: Prisma.MetodoPagoUpdateManyWithoutEmpresaNestedInput
+  nominaDetalles?: Prisma.NominaDetalleUpdateManyWithoutEmpresaNestedInput
+  nominas?: Prisma.NominaUpdateManyWithoutEmpresaNestedInput
+  ordenesServicio?: Prisma.OrdenServicioUpdateManyWithoutEmpresaNestedInput
+  orgNodes?: Prisma.OrganizationNodeUpdateManyWithoutEmpresaNestedInput
+  paquetesAdquiridos?: Prisma.PaqueteAdquiridoUpdateManyWithoutEmpresaNestedInput
+  resetTokens?: Prisma.PasswordResetTokenUpdateManyWithoutEmpresaNestedInput
+  permisos?: Prisma.PermisoUpdateManyWithoutEmpresaNestedInput
+  picoPlaca?: Prisma.PicoPlacaUpdateManyWithoutEmpresaNestedInput
+  productos?: Prisma.ProductoUpdateManyWithoutEmpresaNestedInput
+  productosSolicitados?: Prisma.ProductoSolicitadoUpdateManyWithoutEmpresaNestedInput
+  proveedores?: Prisma.ProveedoresUpdateManyWithoutEmpresaNestedInput
+  referidos?: Prisma.ReferidosUpdateManyWithoutEmpresaNestedInput
+  servicios?: Prisma.ServicioUpdateManyWithoutEmpresaNestedInput
+  sesionesActividad?: Prisma.SesionActividadUpdateManyWithoutEmpresaNestedInput
+  terapiasPsicologos?: Prisma.TerapiasPsicologosUpdateManyWithoutEmpresaNestedInput
+  tiposServicio?: Prisma.TipoServicioUpdateManyWithoutEmpresaNestedInput
+  turnos?: Prisma.TurnoUpdateManyWithoutEmpresaNestedInput
+  vehiculos?: Prisma.VehiculoUpdateManyWithoutEmpresaNestedInput
+  zonas?: Prisma.ZonaUpdateManyWithoutEmpresaNestedInput
+}
+
+export type EmpresaUncheckedUpdateWithoutCliente_configuracion_operativaInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenantId?: Prisma.StringFieldUpdateOperationsInput | string
+  nombre?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  anticipos?: Prisma.AnticiposUncheckedUpdateManyWithoutEmpresaNestedInput
+  auditorias?: Prisma.AuditoriaUncheckedUpdateManyWithoutEmpresaNestedInput
+  authSessions?: Prisma.AuthSessionUncheckedUpdateManyWithoutEmpresaNestedInput
+  citasPsicologos?: Prisma.CitasPsicologosUncheckedUpdateManyWithoutEmpresaNestedInput
+  clientes?: Prisma.ClienteUncheckedUpdateManyWithoutEmpresaNestedInput
+  commissions?: Prisma.CommissionRecordUncheckedUpdateManyWithoutEmpresaNestedInput
+  configuracionPagos?: Prisma.ConfiguracionPagosUncheckedUpdateManyWithoutEmpresaNestedInput
+  consignacionOrdenes?: Prisma.ConsignacionOrdenUncheckedUpdateManyWithoutEmpresaNestedInput
+  consignaciones?: Prisma.ConsignacionEfectivoUncheckedUpdateManyWithoutEmpresaNestedInput
+  consultorios?: Prisma.ConsultorioUncheckedUpdateManyWithoutEmpresaNestedInput
+  cuentasCobro?: Prisma.CuentaCobroUncheckedUpdateManyWithoutEmpresaNestedInput
+  cuentasPago?: Prisma.CuentasPagoUncheckedUpdateManyWithoutEmpresaNestedInput
+  declaraciones?: Prisma.DeclaracionEfectivoUncheckedUpdateManyWithoutEmpresaNestedInput
+  direcciones?: Prisma.DireccionUncheckedUpdateManyWithoutEmpresaNestedInput
+  egresos?: Prisma.EgresosUncheckedUpdateManyWithoutEmpresaNestedInput
+  memberships?: Prisma.EmpresaMembershipUncheckedUpdateManyWithoutEmpresaNestedInput
+  estadosServicio?: Prisma.EstadoServicioUncheckedUpdateManyWithoutEmpresaNestedInput
+  geolocalizaciones?: Prisma.GeolocalizacionUncheckedUpdateManyWithoutEmpresaNestedInput
+  logsEvento?: Prisma.LogEventoUncheckedUpdateManyWithoutEmpresaNestedInput
+  metodosPago?: Prisma.MetodoPagoUncheckedUpdateManyWithoutEmpresaNestedInput
+  nominaDetalles?: Prisma.NominaDetalleUncheckedUpdateManyWithoutEmpresaNestedInput
+  nominas?: Prisma.NominaUncheckedUpdateManyWithoutEmpresaNestedInput
+  ordenesServicio?: Prisma.OrdenServicioUncheckedUpdateManyWithoutEmpresaNestedInput
+  orgNodes?: Prisma.OrganizationNodeUncheckedUpdateManyWithoutEmpresaNestedInput
+  paquetesAdquiridos?: Prisma.PaqueteAdquiridoUncheckedUpdateManyWithoutEmpresaNestedInput
+  resetTokens?: Prisma.PasswordResetTokenUncheckedUpdateManyWithoutEmpresaNestedInput
+  permisos?: Prisma.PermisoUncheckedUpdateManyWithoutEmpresaNestedInput
+  picoPlaca?: Prisma.PicoPlacaUncheckedUpdateManyWithoutEmpresaNestedInput
+  productos?: Prisma.ProductoUncheckedUpdateManyWithoutEmpresaNestedInput
+  productosSolicitados?: Prisma.ProductoSolicitadoUncheckedUpdateManyWithoutEmpresaNestedInput
+  proveedores?: Prisma.ProveedoresUncheckedUpdateManyWithoutEmpresaNestedInput
+  referidos?: Prisma.ReferidosUncheckedUpdateManyWithoutEmpresaNestedInput
+  servicios?: Prisma.ServicioUncheckedUpdateManyWithoutEmpresaNestedInput
+  sesionesActividad?: Prisma.SesionActividadUncheckedUpdateManyWithoutEmpresaNestedInput
+  terapiasPsicologos?: Prisma.TerapiasPsicologosUncheckedUpdateManyWithoutEmpresaNestedInput
+  tiposServicio?: Prisma.TipoServicioUncheckedUpdateManyWithoutEmpresaNestedInput
+  turnos?: Prisma.TurnoUncheckedUpdateManyWithoutEmpresaNestedInput
+  vehiculos?: Prisma.VehiculoUncheckedUpdateManyWithoutEmpresaNestedInput
+  zonas?: Prisma.ZonaUncheckedUpdateManyWithoutEmpresaNestedInput
+}
+
 export type EmpresaCreateManyTenantInput = {
   id?: string
   nombre: string
@@ -9511,6 +9902,7 @@ export type EmpresaUpdateWithoutTenantInput = {
   auditorias?: Prisma.AuditoriaUpdateManyWithoutEmpresaNestedInput
   authSessions?: Prisma.AuthSessionUpdateManyWithoutEmpresaNestedInput
   citasPsicologos?: Prisma.CitasPsicologosUpdateManyWithoutEmpresaNestedInput
+  cliente_configuracion_operativa?: Prisma.cliente_configuracion_operativaUpdateManyWithoutEmpresasNestedInput
   clientes?: Prisma.ClienteUpdateManyWithoutEmpresaNestedInput
   commissions?: Prisma.CommissionRecordUpdateManyWithoutEmpresaNestedInput
   configuracionPagos?: Prisma.ConfiguracionPagosUpdateManyWithoutEmpresaNestedInput
@@ -9559,6 +9951,7 @@ export type EmpresaUncheckedUpdateWithoutTenantInput = {
   auditorias?: Prisma.AuditoriaUncheckedUpdateManyWithoutEmpresaNestedInput
   authSessions?: Prisma.AuthSessionUncheckedUpdateManyWithoutEmpresaNestedInput
   citasPsicologos?: Prisma.CitasPsicologosUncheckedUpdateManyWithoutEmpresaNestedInput
+  cliente_configuracion_operativa?: Prisma.cliente_configuracion_operativaUncheckedUpdateManyWithoutEmpresasNestedInput
   clientes?: Prisma.ClienteUncheckedUpdateManyWithoutEmpresaNestedInput
   commissions?: Prisma.CommissionRecordUncheckedUpdateManyWithoutEmpresaNestedInput
   configuracionPagos?: Prisma.ConfiguracionPagosUncheckedUpdateManyWithoutEmpresaNestedInput
@@ -9615,6 +10008,7 @@ export type EmpresaCountOutputType = {
   auditorias: number
   authSessions: number
   citasPsicologos: number
+  cliente_configuracion_operativa: number
   clientes: number
   commissions: number
   configuracionPagos: number
@@ -9657,6 +10051,7 @@ export type EmpresaCountOutputTypeSelect<ExtArgs extends runtime.Types.Extension
   auditorias?: boolean | EmpresaCountOutputTypeCountAuditoriasArgs
   authSessions?: boolean | EmpresaCountOutputTypeCountAuthSessionsArgs
   citasPsicologos?: boolean | EmpresaCountOutputTypeCountCitasPsicologosArgs
+  cliente_configuracion_operativa?: boolean | EmpresaCountOutputTypeCountCliente_configuracion_operativaArgs
   clientes?: boolean | EmpresaCountOutputTypeCountClientesArgs
   commissions?: boolean | EmpresaCountOutputTypeCountCommissionsArgs
   configuracionPagos?: boolean | EmpresaCountOutputTypeCountConfiguracionPagosArgs
@@ -9730,6 +10125,13 @@ export type EmpresaCountOutputTypeCountAuthSessionsArgs<ExtArgs extends runtime.
  */
 export type EmpresaCountOutputTypeCountCitasPsicologosArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   where?: Prisma.CitasPsicologosWhereInput
+}
+
+/**
+ * EmpresaCountOutputType without action
+ */
+export type EmpresaCountOutputTypeCountCliente_configuracion_operativaArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.cliente_configuracion_operativaWhereInput
 }
 
 /**
@@ -9990,6 +10392,7 @@ export type EmpresaSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs 
   auditorias?: boolean | Prisma.Empresa$auditoriasArgs<ExtArgs>
   authSessions?: boolean | Prisma.Empresa$authSessionsArgs<ExtArgs>
   citasPsicologos?: boolean | Prisma.Empresa$citasPsicologosArgs<ExtArgs>
+  cliente_configuracion_operativa?: boolean | Prisma.Empresa$cliente_configuracion_operativaArgs<ExtArgs>
   clientes?: boolean | Prisma.Empresa$clientesArgs<ExtArgs>
   commissions?: boolean | Prisma.Empresa$commissionsArgs<ExtArgs>
   configuracionPagos?: boolean | Prisma.Empresa$configuracionPagosArgs<ExtArgs>
@@ -10067,6 +10470,7 @@ export type EmpresaInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs
   auditorias?: boolean | Prisma.Empresa$auditoriasArgs<ExtArgs>
   authSessions?: boolean | Prisma.Empresa$authSessionsArgs<ExtArgs>
   citasPsicologos?: boolean | Prisma.Empresa$citasPsicologosArgs<ExtArgs>
+  cliente_configuracion_operativa?: boolean | Prisma.Empresa$cliente_configuracion_operativaArgs<ExtArgs>
   clientes?: boolean | Prisma.Empresa$clientesArgs<ExtArgs>
   commissions?: boolean | Prisma.Empresa$commissionsArgs<ExtArgs>
   configuracionPagos?: boolean | Prisma.Empresa$configuracionPagosArgs<ExtArgs>
@@ -10119,6 +10523,7 @@ export type $EmpresaPayload<ExtArgs extends runtime.Types.Extensions.InternalArg
     auditorias: Prisma.$AuditoriaPayload<ExtArgs>[]
     authSessions: Prisma.$AuthSessionPayload<ExtArgs>[]
     citasPsicologos: Prisma.$CitasPsicologosPayload<ExtArgs>[]
+    cliente_configuracion_operativa: Prisma.$cliente_configuracion_operativaPayload<ExtArgs>[]
     clientes: Prisma.$ClientePayload<ExtArgs>[]
     commissions: Prisma.$CommissionRecordPayload<ExtArgs>[]
     configuracionPagos: Prisma.$ConfiguracionPagosPayload<ExtArgs>[]
@@ -10562,6 +10967,7 @@ export interface Prisma__EmpresaClient<T, Null = never, ExtArgs extends runtime.
   auditorias<T extends Prisma.Empresa$auditoriasArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Empresa$auditoriasArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$AuditoriaPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   authSessions<T extends Prisma.Empresa$authSessionsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Empresa$authSessionsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$AuthSessionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   citasPsicologos<T extends Prisma.Empresa$citasPsicologosArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Empresa$citasPsicologosArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$CitasPsicologosPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  cliente_configuracion_operativa<T extends Prisma.Empresa$cliente_configuracion_operativaArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Empresa$cliente_configuracion_operativaArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$cliente_configuracion_operativaPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   clientes<T extends Prisma.Empresa$clientesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Empresa$clientesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ClientePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   commissions<T extends Prisma.Empresa$commissionsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Empresa$commissionsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$CommissionRecordPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   configuracionPagos<T extends Prisma.Empresa$configuracionPagosArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Empresa$configuracionPagosArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ConfiguracionPagosPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
@@ -11123,6 +11529,30 @@ export type Empresa$citasPsicologosArgs<ExtArgs extends runtime.Types.Extensions
   take?: number
   skip?: number
   distinct?: Prisma.CitasPsicologosScalarFieldEnum | Prisma.CitasPsicologosScalarFieldEnum[]
+}
+
+/**
+ * Empresa.cliente_configuracion_operativa
+ */
+export type Empresa$cliente_configuracion_operativaArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the cliente_configuracion_operativa
+   */
+  select?: Prisma.cliente_configuracion_operativaSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the cliente_configuracion_operativa
+   */
+  omit?: Prisma.cliente_configuracion_operativaOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.cliente_configuracion_operativaInclude<ExtArgs> | null
+  where?: Prisma.cliente_configuracion_operativaWhereInput
+  orderBy?: Prisma.cliente_configuracion_operativaOrderByWithRelationInput | Prisma.cliente_configuracion_operativaOrderByWithRelationInput[]
+  cursor?: Prisma.cliente_configuracion_operativaWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.Cliente_configuracion_operativaScalarFieldEnum | Prisma.Cliente_configuracion_operativaScalarFieldEnum[]
 }
 
 /**

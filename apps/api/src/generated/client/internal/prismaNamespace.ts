@@ -433,7 +433,8 @@ export const ModelName = {
   SesionActividad: 'SesionActividad',
   LogEvento: 'LogEvento',
   AuthSession: 'AuthSession',
-  PasswordResetToken: 'PasswordResetToken'
+  PasswordResetToken: 'PasswordResetToken',
+  cliente_configuracion_operativa: 'cliente_configuracion_operativa'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -449,7 +450,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "user" | "tenant" | "plan" | "subscription" | "tenantMembership" | "empresa" | "empresaMembership" | "organizationNode" | "commissionRecord" | "segmentoNegocio" | "nivelRiesgoOperativo" | "tipoInteres" | "department" | "municipality" | "cliente" | "vehiculo" | "direccion" | "zona" | "servicio" | "tipoServicio" | "metodoPago" | "estadoServicio" | "ordenServicio" | "geolocalizacion" | "nomina" | "nominaDetalle" | "citasPsicologos" | "consultorio" | "terapiasPsicologos" | "paqueteAdquirido" | "turno" | "cuentaCobro" | "declaracionEfectivo" | "consignacionEfectivo" | "consignacionOrden" | "anticipos" | "producto" | "productoSolicitado" | "proveedores" | "permiso" | "configuracionPagos" | "cuentasPago" | "egresos" | "picoPlaca" | "referidos" | "auditoria" | "sesionActividad" | "logEvento" | "authSession" | "passwordResetToken"
+    modelProps: "user" | "tenant" | "plan" | "subscription" | "tenantMembership" | "empresa" | "empresaMembership" | "organizationNode" | "commissionRecord" | "segmentoNegocio" | "nivelRiesgoOperativo" | "tipoInteres" | "department" | "municipality" | "cliente" | "vehiculo" | "direccion" | "zona" | "servicio" | "tipoServicio" | "metodoPago" | "estadoServicio" | "ordenServicio" | "geolocalizacion" | "nomina" | "nominaDetalle" | "citasPsicologos" | "consultorio" | "terapiasPsicologos" | "paqueteAdquirido" | "turno" | "cuentaCobro" | "declaracionEfectivo" | "consignacionEfectivo" | "consignacionOrden" | "anticipos" | "producto" | "productoSolicitado" | "proveedores" | "permiso" | "configuracionPagos" | "cuentasPago" | "egresos" | "picoPlaca" | "referidos" | "auditoria" | "sesionActividad" | "logEvento" | "authSession" | "passwordResetToken" | "cliente_configuracion_operativa"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -4153,6 +4154,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    cliente_configuracion_operativa: {
+      payload: Prisma.$cliente_configuracion_operativaPayload<ExtArgs>
+      fields: Prisma.cliente_configuracion_operativaFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.cliente_configuracion_operativaFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$cliente_configuracion_operativaPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.cliente_configuracion_operativaFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$cliente_configuracion_operativaPayload>
+        }
+        findFirst: {
+          args: Prisma.cliente_configuracion_operativaFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$cliente_configuracion_operativaPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.cliente_configuracion_operativaFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$cliente_configuracion_operativaPayload>
+        }
+        findMany: {
+          args: Prisma.cliente_configuracion_operativaFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$cliente_configuracion_operativaPayload>[]
+        }
+        create: {
+          args: Prisma.cliente_configuracion_operativaCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$cliente_configuracion_operativaPayload>
+        }
+        createMany: {
+          args: Prisma.cliente_configuracion_operativaCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.cliente_configuracion_operativaCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$cliente_configuracion_operativaPayload>[]
+        }
+        delete: {
+          args: Prisma.cliente_configuracion_operativaDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$cliente_configuracion_operativaPayload>
+        }
+        update: {
+          args: Prisma.cliente_configuracion_operativaUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$cliente_configuracion_operativaPayload>
+        }
+        deleteMany: {
+          args: Prisma.cliente_configuracion_operativaDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.cliente_configuracion_operativaUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.cliente_configuracion_operativaUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$cliente_configuracion_operativaPayload>[]
+        }
+        upsert: {
+          args: Prisma.cliente_configuracion_operativaUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$cliente_configuracion_operativaPayload>
+        }
+        aggregate: {
+          args: Prisma.Cliente_configuracion_operativaAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateCliente_configuracion_operativa>
+        }
+        groupBy: {
+          args: Prisma.cliente_configuracion_operativaGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.Cliente_configuracion_operativaGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.cliente_configuracion_operativaCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.Cliente_configuracion_operativaCountAggregateOutputType> | number
+        }
+      }
+    }
   }
 } & {
   other: {
@@ -5065,6 +5140,26 @@ export const PasswordResetTokenScalarFieldEnum = {
 export type PasswordResetTokenScalarFieldEnum = (typeof PasswordResetTokenScalarFieldEnum)[keyof typeof PasswordResetTokenScalarFieldEnum]
 
 
+export const Cliente_configuracion_operativaScalarFieldEnum = {
+  id: 'id',
+  clienteId: 'clienteId',
+  empresaId: 'empresaId',
+  tenantId: 'tenantId',
+  direccionId: 'direccionId',
+  protocoloServicio: 'protocoloServicio',
+  observacionesFijas: 'observacionesFijas',
+  requiereFirmaDigital: 'requiereFirmaDigital',
+  requiereFotosEvidencia: 'requiereFotosEvidencia',
+  duracionEstimada: 'duracionEstimada',
+  frecuenciaSugerida: 'frecuenciaSugerida',
+  elementosPredefinidos: 'elementosPredefinidos',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type Cliente_configuracion_operativaScalarFieldEnum = (typeof Cliente_configuracion_operativaScalarFieldEnum)[keyof typeof Cliente_configuracion_operativaScalarFieldEnum]
+
+
 export const SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -5641,6 +5736,7 @@ export type GlobalOmitConfig = {
   logEvento?: Prisma.LogEventoOmit
   authSession?: Prisma.AuthSessionOmit
   passwordResetToken?: Prisma.PasswordResetTokenOmit
+  cliente_configuracion_operativa?: Prisma.cliente_configuracion_operativaOmit
 }
 
 /* Types for Logging */
