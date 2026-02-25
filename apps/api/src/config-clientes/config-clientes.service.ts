@@ -75,10 +75,10 @@ export class ConfigClientesService {
   // --- Servicios ---
   async findAllServicios(tenantId: string, empresaId?: string) {
     return this.prisma.servicio.findMany({
-      where: { 
-        tenantId, 
+      where: {
+        tenantId,
         ...(empresaId ? { empresaId } : {}),
-        deleteAt: null 
+        deleteAt: null,
       },
       orderBy: { nombre: 'asc' },
     });
