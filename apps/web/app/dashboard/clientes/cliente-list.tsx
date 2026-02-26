@@ -128,6 +128,7 @@ interface Cliente {  id: string;
     }
   };
   direcciones?: {
+    id: string;
     direccion: string;
     municipio?: string;
     barrio?: string;
@@ -164,9 +165,22 @@ interface Cliente {  id: string;
     requiereFotosEvidencia: boolean;
     duracionEstimada?: number;
     frecuenciaSugerida?: number;
-    elementosPredefinidos?: any;
+    elementosPredefinidos?: unknown;
     direccionId?: string;
   }[];
+}
+
+interface ConfigOperativa {
+  id: string;
+  direccionId?: string | null;
+  protocoloServicio?: string;
+  observacionesFijas?: string;
+  requiereFirmaDigital: boolean;
+  requiereFotosEvidencia: boolean;
+  duracionEstimada?: number;
+  frecuenciaSugerida?: number;
+  elementosPredefinidos?: unknown[];
+  direccion?: { direccion: string };
 }
 
 interface ClienteListProps {
@@ -187,6 +201,17 @@ const RIESGO_LABELS = {
   CRITICO: { label: "Crítico", color: "text-red-600 bg-red-50", dot: "bg-red-500" },
 };
 
+interface OrdenHistorial {
+  id: string;
+  numeroOrden?: string;
+  estadoServicio: string;
+  servicio?: { nombre: string };
+  fechaVisita?: string;
+  direccionTexto?: string;
+  tecnico?: { user?: { nombre: string; apellido: string } };
+  valorCotizado?: number;
+}
+
 export function ClienteList({ initialClientes }: ClienteListProps) {
   const router = useRouter();
   const [mounted, setMounted] = useState(false);
@@ -198,9 +223,9 @@ export function ClienteList({ initialClientes }: ClienteListProps) {
   const [selectedClienteForConfig, setSelectedClienteForConfig] = useState<Cliente | null>(null);
   const [selectedClienteForHistory, setSelectedClienteForHistory] = useState<Cliente | null>(null);
   const [historyLoading, setHistoryLoading] = useState(false);
-  const [serviceHistory, setServiceHistory] = useState<any[]>([]);
+  const [serviceHistory, setServiceHistory] = useState<unknown[]>([]);
   const [configLoading, setConfigLoading] = useState(false);
-  const [activeConfigs, setActiveConfigs] = useState<any[]>([]);
+  const [activeConfigs, setActiveConfigs] = useState<ConfigOperativa[]>([]);
   const [currentConfigSede, setCurrentConfigSede] = useState("all");
 
   // Form States para ConfiguraciÃ³n
@@ -211,7 +236,7 @@ export function ClienteList({ initialClientes }: ClienteListProps) {
     requiereFotosEvidencia: true,
     duracionEstimada: 60,
     frecuenciaSugerida: 30,
-    elementosPredefinidos: [] as any[],
+    elementosPredefinidos: [] as unknown[],
   });
 
   const [userRole, setUserRole] = useState<string | null>(null);
@@ -400,11 +425,11 @@ export function ClienteList({ initialClientes }: ClienteListProps) {
     const loadConfigs = async () => {
       if (!selectedClienteForConfig) return;
       setConfigLoading(true);
-      const configs = await getClienteConfigsAction(selectedClienteForConfig.id);
+      const configs = await getClienteConfigsAction(selectedClienteForConfig.id) as ConfigOperativa[];
       setActiveConfigs(configs);
 
       // Cargar configuraciÃ³n "Global" (all) por defecto
-      const globalConfig = configs.find((c: any) => !c.direccionId);
+      const globalConfig = configs.find((c) => !c.direccionId);
       if (globalConfig) {
         setConfigForm({
           protocoloServicio: globalConfig.protocoloServicio || "",
@@ -450,11 +475,10 @@ export function ClienteList({ initialClientes }: ClienteListProps) {
   // Cambiar de sede en el formulario
   const handleSedeChange = (sedeValue: string) => {
     setCurrentConfigSede(sedeValue);
-    const targetId = sedeValue === "all" ? null : selectedClienteForConfig?.direcciones?.find(d => d.direccion === sedeValue)?.direccion;
 
     // Si direccionId es null en la DB, es global. Si no, es por sede.
     // El frontend usa 'direccion' como valor para identificar la sede.
-    const config = activeConfigs.find((c: any) =>
+    const config = activeConfigs.find((c) =>
       sedeValue === "all" ? !c.direccionId : c.direccion?.direccion === sedeValue
     );
 
@@ -494,7 +518,7 @@ export function ClienteList({ initialClientes }: ClienteListProps) {
 
     const direccionId = currentConfigSede === "all"
       ? null
-      : (selectedClienteForConfig.direcciones?.find(d => d.direccion === currentConfigSede) as any)?.id;
+      : selectedClienteForConfig.direcciones?.find(d => d.direccion === currentConfigSede)?.id;
 
     const payload = {
       clienteId: selectedClienteForConfig.id,
@@ -1649,7 +1673,7 @@ export function ClienteList({ initialClientes }: ClienteListProps) {
                   </div>
                 ) : (
                   <div className="space-y-4">
-                    {serviceHistory.map((orden: any) => (
+                    {(serviceHistory as OrdenHistorial[]).map((orden) => (
                       <div key={orden.id} className="p-6 rounded-3xl bg-white dark:bg-zinc-900 border border-zinc-100 dark:border-zinc-800 hover:border-azul-1/30 transition-all group">
                         <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
                           <div className="flex items-center gap-5">

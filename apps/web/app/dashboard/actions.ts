@@ -574,7 +574,7 @@ export async function getClienteConfigsAction(clienteId: string) {
   }
 }
 
-export async function upsertClienteConfigAction(payload: any) {
+export async function upsertClienteConfigAction(payload: Record<string, unknown>) {
   const cookieStore = await cookies();
   const token = cookieStore.get("access_token")?.value;
   if (!token) return { success: false, error: "No session found" };
@@ -595,7 +595,7 @@ export async function upsertClienteConfigAction(payload: any) {
 
     revalidatePath("/dashboard/clientes");
     return { success: true, data: result.data || result };
-  } catch (error) {
+  } catch {
     return { success: false, error: "OcurriÃ³ un error inesperado" };
   }
 }

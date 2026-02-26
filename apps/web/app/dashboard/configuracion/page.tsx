@@ -67,6 +67,21 @@ type TipoInteres = {
   activo: boolean;
 };
 
+type User = {
+  nombre?: string;
+  apellido?: string;
+  tipoDocumento?: string;
+  numeroDocumento?: string;
+  telefono?: string;
+  phone?: string;
+  banco?: string;
+  tipoCuenta?: string;
+  numeroCuenta?: string;
+  valorHora?: number;
+  email?: string;
+  role?: string;
+};
+
 export default function ConfiguracionPage() {
   const [activeTab, setActiveTab] = useState<"segmentos" | "riesgos" | "intereses" | "empresas" | "perfil">("segmentos");
   const [loading, setLoading] = useState(true);
@@ -74,7 +89,7 @@ export default function ConfiguracionPage() {
   const [segmentos, setSegmentos] = useState<Segmento[]>([]);
   const [riesgos, setRiesgos] = useState<Riesgo[]>([]);
   const [intereses, setIntereses] = useState<TipoInteres[]>([]);
-  const [user, setUser] = useState<any>(null);
+  const [user, setUser] = useState<User | null>(null);
 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingItem, setEditingItem] = useState<Segmento | Riesgo | TipoInteres | null>(null);
@@ -85,7 +100,7 @@ export default function ConfiguracionPage() {
     if (userData && userData !== "undefined") {
       try {
         setUser(JSON.parse(userData));
-      } catch (e) {
+      } catch {
         // ignore
       }
     }
@@ -338,7 +353,7 @@ export default function ConfiguracionPage() {
                   <CardHeader className="p-8 sm:p-10 border-b border-zinc-100/80 dark:border-zinc-800/50 bg-white/40 dark:bg-zinc-900/40">
                     <div className="flex items-center gap-4">
                       <div className="h-12 w-12 rounded-2xl bg-emerald-500/10 flex items-center justify-center text-emerald-600">
-                        <Building className="h-6 w-6" />
+                        <CreditCard className="h-6 w-6" />
                       </div>
                       <div>
                         <CardTitle className="text-xl font-black tracking-tight dark:text-zinc-100">Información Bancaria</CardTitle>
