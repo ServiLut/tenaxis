@@ -198,8 +198,9 @@ const SCORE_COLORS = {
 const RIESGO_LABELS = {
   BAJO: { label: "Riesgo Bajo", color: "text-emerald-600 bg-emerald-50", dot: "bg-emerald-500" },
   MEDIO: { label: "Riesgo Medio", color: "text-amber-600 bg-amber-50", dot: "bg-amber-500" },
-  ALTO: { label: "Riesgo Alto", color: "text-orange-600 bg-orange-50", dot: "bg-orange-500" },
+  ALTO: { label: "Riesgo Alto", color: "text-red-600 bg-red-50", dot: "bg-red-500" },
   CRITICO: { label: "Crítico", color: "text-red-600 bg-red-50", dot: "bg-red-500" },
+  "PLAGA ALTA": { label: "Plaga Alta", color: "text-red-600 bg-red-50", dot: "bg-red-500" },
 };
 
 interface OrdenServicio {
@@ -1119,20 +1120,29 @@ export function ClienteList({ initialClientes, initialDepartments = [], initialM
           </button>
 
           <div className="flex items-center gap-1">
-            {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
-              <button
-                key={page}
-                onClick={() => setCurrentPage(page)}
-                className={cn(
-                  "flex h-10 w-10 items-center justify-center rounded-xl text-[11px] font-black transition-all",
-                  currentPage === page
-                    ? "bg-azul-1 text-zinc-50 shadow-lg shadow-azul-1/20"
-                    : "bg-white dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 text-zinc-500 dark:text-zinc-300 hover:bg-zinc-50 dark:hover:bg-zinc-700"
-                )}
-              >
-                {page}
-              </button>
-            ))}
+            {Array.from({ length: totalPages }, (_, i) => i + 1)
+              .filter(page => {
+                // Mostrar siempre la primera, la última, y las páginas cercanas a la actual
+                return page === 1 || page === totalPages || (page >= currentPage - 1 && page <= currentPage + 1);
+              })
+              .map((page, index, array) => (
+                <React.Fragment key={page}>
+                  {index > 0 && array[index - 1] !== page - 1 && (
+                    <span className="px-2 text-zinc-400">...</span>
+                  )}
+                  <button
+                    onClick={() => setCurrentPage(page)}
+                    className={cn(
+                      "flex h-10 w-10 items-center justify-center rounded-xl text-[11px] font-black transition-all",
+                      currentPage === page
+                        ? "bg-azul-1 text-zinc-50 shadow-lg shadow-azul-1/20"
+                        : "bg-white dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 text-zinc-500 dark:text-zinc-300 hover:bg-zinc-50 dark:hover:bg-zinc-700"
+                    )}
+                  >
+                    {page}
+                  </button>
+                </React.Fragment>
+              ))}
           </div>
 
           <button
