@@ -11,7 +11,12 @@ export class ConfigClientesService {
   constructor(private prisma: PrismaService) {}
 
   // --- ConfiguraciÃ³n Operativa de Clientes ---
-  async findClienteConfig(tenantId: string, clienteId: string, empresaId: string, direccionId?: string) {
+  async findClienteConfig(
+    tenantId: string,
+    clienteId: string,
+    empresaId: string,
+    direccionId?: string,
+  ) {
     return this.prisma.clienteConfiguracionOperativa.findFirst({
       where: {
         tenantId,
@@ -27,9 +32,9 @@ export class ConfigClientesService {
       where: { tenantId, clienteId },
       include: {
         direccion: {
-          select: { nombreSede: true, direccion: true }
-        }
-      }
+          select: { nombreSede: true, direccion: true },
+        },
+      },
     });
   }
 

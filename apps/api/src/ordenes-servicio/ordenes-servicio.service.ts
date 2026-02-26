@@ -1,7 +1,12 @@
 import { Injectable, BadRequestException, Logger } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 import { CreateOrdenServicioDto } from './dto/create-orden-servicio.dto';
-import { OrdenServicioUpdateInput } from '../generated/client/models/OrdenServicio';
+import {
+  ClasificacionCliente,
+  EstadoOrden,
+  NivelInfestacion,
+  Prisma,
+} from '../generated/client/client';
 
 type LocalDiaSemana =
   | 'LUNES'
@@ -124,7 +129,7 @@ export class OrdenesServicioService {
       `CREATE: Final tecnicoId for the order: ${tecnicoId ?? 'NULL'}`,
     );
 
-    return this.prisma.ordenServicio.create({
+    const nuevaOrden = await this.prisma.ordenServicio.create({
       data: {
         tenantId,
         empresaId: createDto.empresaId,
@@ -157,6 +162,12 @@ export class OrdenesServicioService {
         },
       },
     });
+
+    if (nuevaOrden.estadoServicio === (EstadoOrden.LIQUIDADO as EstadoOrden)) {
+      await this.recalculateClientStatus(nuevaOrden.clienteId);
+    }
+
+    return nuevaOrden;
   }
 
   private async autoAssignTechnician(
@@ -518,7 +529,7 @@ export class OrdenesServicioService {
       throw new BadRequestException('La orden especificada no existe');
     }
 
-    const data: OrdenServicioUpdateInput = {
+    const data: Prisma.OrdenServicioUpdateInput = {
       tecnico: updateDto.tecnicoId
         ? { connect: { id: updateDto.tecnicoId } }
         : undefined,
@@ -572,7 +583,7 @@ export class OrdenesServicioService {
       data.servicio = { connect: { id: servicio.id } };
     }
 
-    return this.prisma.ordenServicio.update({
+    const updatedOrden = await this.prisma.ordenServicio.update({
       where: { id },
       data,
       include: {
@@ -581,6 +592,98 @@ export class OrdenesServicioService {
         tecnico: {
           include: { user: true },
         },
+      },
+    });
+
+    // Recalcular status si el estado actual es LIQUIDADO o si el estado anterior lo era
+    // (para manejar reversiones de estado y que el score sea siempre preciso)
+    if (
+      updatedOrden.estadoServicio === (EstadoOrden.LIQUIDADO as EstadoOrden) ||
+      orden.estadoServicio === (EstadoOrden.LIQUIDADO as EstadoOrden)
+    ) {
+      await this.recalculateClientStatus(updatedOrden.clienteId);
+    }
+
+    return updatedOrden;
+  }
+
+  private async recalculateClientStatus(clienteId: string): Promise<void> {
+    const cliente = await this.prisma.cliente.findUnique({
+      where: { id: clienteId },
+      include: {
+        ordenesServicio: {
+          where: { estadoServicio: EstadoOrden.LIQUIDADO as EstadoOrden },
+          orderBy: { fechaVisita: 'desc' },
+        },
+      },
+    });
+
+    if (!cliente) return;
+
+    let score = 0;
+    const now = new Date();
+    const sixMonthsAgo = new Date();
+    sixMonthsAgo.setMonth(now.getMonth() - 6);
+
+    const orders = cliente.ordenesServicio;
+
+    // 1. Basic score: +10 per liquidated order
+    score += orders.length * 10;
+
+    // 2. Ticket bonus: +5 if value > 1,000,000
+    score +=
+      orders.filter((o) => Number(o.valorCotizado || 0) > 1000000).length * 5;
+
+    // 3. Fidelity bonus: +20 if at least 5 in last 6 months
+    const recentOrders = orders.filter(
+      (o) => o.fechaVisita && new Date(o.fechaVisita) >= sixMonthsAgo,
+    );
+    if (recentOrders.length >= 5) {
+      score += 20;
+    }
+
+    // 4. Determine Classification
+    let clasificacion: ClasificacionCliente =
+      ClasificacionCliente.BRONCE as ClasificacionCliente;
+
+    // RIESGO logic:
+    // a. Technical Risk: last order infestation is CRITICO or ALTO
+    const lastOrder = orders[0];
+    const isTechnicalRisk =
+      lastOrder &&
+      (lastOrder.nivelInfestacion ===
+        (NivelInfestacion.CRITICO as NivelInfestacion) ||
+        lastOrder.nivelInfestacion ===
+          (NivelInfestacion.ALTO as NivelInfestacion));
+
+    // b. Commercial Risk: 45 days since last visit
+    const lastVisitDate = lastOrder?.fechaVisita
+      ? new Date(lastOrder.fechaVisita)
+      : null;
+    const daysSinceLastVisit = lastVisitDate
+      ? (now.getTime() - lastVisitDate.getTime()) / (1000 * 3600 * 24)
+      : null;
+    const isCommercialRisk =
+      daysSinceLastVisit !== null && daysSinceLastVisit > 45;
+
+    if (isTechnicalRisk || isCommercialRisk) {
+      clasificacion = ClasificacionCliente.RIESGO as ClasificacionCliente;
+    } else {
+      if (score > 500) {
+        clasificacion = ClasificacionCliente.ORO as ClasificacionCliente;
+      } else if (score > 100) {
+        clasificacion = ClasificacionCliente.PLATA as ClasificacionCliente;
+      } else {
+        clasificacion = ClasificacionCliente.BRONCE as ClasificacionCliente;
+      }
+    }
+
+    await this.prisma.cliente.update({
+      where: { id: clienteId },
+      data: {
+        score,
+        clasificacion,
+        ultimaVisita: lastVisitDate,
       },
     });
   }
