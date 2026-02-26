@@ -70,32 +70,11 @@ import {
   deleteClienteAction, 
   getClienteConfigsAction, 
   upsertClienteConfigAction,
-  getOrdenesServicioByClienteAction
+  getOrdenesServicioByClienteAction,
+  ConfiguracionOperativa,
+  ElementoPredefinido
 } from "../actions";
 import { Contact } from "lucide-react";
-
-interface ElementoPredefinido {
-  nombre: string;
-  tipo: string;
-  ubicacion: string;
-}
-
-interface ConfiguracionOperativa {
-  id: string;
-  empresaId: string;
-  protocoloServicio?: string;
-  observacionesFijas?: string;
-  requiereFirmaDigital: boolean;
-  requiereFotosEvidencia: boolean;
-  duracionEstimada?: number;
-  frecuenciaSugerida?: number;
-  elementosPredefinidos?: ElementoPredefinido[];
-  direccionId?: string;
-  direccion?: {
-    id: string;
-    direccion: string;
-  };
-}
 
 interface Cliente {
   id: string;
@@ -203,19 +182,6 @@ interface Municipality {
   departmentId: string;
 }
 
-interface ConfigOperativa {
-  id: string;
-  direccionId?: string | null;
-  protocoloServicio?: string;
-  observacionesFijas?: string;
-  requiereFirmaDigital: boolean;
-  requiereFotosEvidencia: boolean;
-  duracionEstimada?: number;
-  frecuenciaSugerida?: number;
-  elementosPredefinidos?: unknown[];
-  direccion?: { direccion: string };
-}
-
 interface ClienteListProps {
   initialClientes: Cliente[];
   initialDepartments?: Department[];
@@ -279,7 +245,7 @@ export function ClienteList({ initialClientes, initialDepartments = [], initialM
     requiereFotosEvidencia: true,
     duracionEstimada: 60,
     frecuenciaSugerida: 30,
-    elementosPredefinidos: [] as { nombre: string; tipo: string; ubicacion: string }[],
+    elementosPredefinidos: [] as ElementoPredefinido[],
   });
 
   const [newElement, setNewElement] = useState({
@@ -498,11 +464,11 @@ export function ClienteList({ initialClientes, initialDepartments = [], initialM
     const loadConfigs = async () => {
       if (!selectedClienteForConfig) return;
       setConfigLoading(true);
-      const configs = await getClienteConfigsAction(selectedClienteForConfig.id) as ConfigOperativa[];
+      const configs = await getClienteConfigsAction(selectedClienteForConfig.id) as ConfiguracionOperativa[];
       setActiveConfigs(configs);
 
       // Cargar configuración "Global" (all) por defecto
-      const globalConfig = configs.find((c: ConfiguracionOperativa) => !c.direccionId);
+      const globalConfig = configs.find(c => !c.direccionId);
       if (globalConfig) {
         setConfigForm({
           protocoloServicio: globalConfig.protocoloServicio || "",
@@ -511,7 +477,7 @@ export function ClienteList({ initialClientes, initialDepartments = [], initialM
           requiereFotosEvidencia: globalConfig.requiereFotosEvidencia,
           duracionEstimada: globalConfig.duracionEstimada || 60,
           frecuenciaSugerida: globalConfig.frecuenciaSugerida || 30,
-          elementosPredefinidos: globalConfig.elementosPredefinidos || [],
+          elementosPredefinidos: (globalConfig.elementosPredefinidos as ElementoPredefinido[]) || [],
         });
       } else {
         // Reset a valores por defecto si no hay global
@@ -551,7 +517,7 @@ export function ClienteList({ initialClientes, initialDepartments = [], initialM
 
     // Si direccionId es null en la DB, es global. Si no, es por sede.
     // El frontend usa 'direccion' como valor para identificar la sede.
-    const config = activeConfigs.find((c: ConfiguracionOperativa) =>
+    const config = activeConfigs.find(c =>
       sedeValue === "all" ? !c.direccionId : c.direccion?.direccion === sedeValue
     );
 
@@ -563,7 +529,7 @@ export function ClienteList({ initialClientes, initialDepartments = [], initialM
         requiereFotosEvidencia: config.requiereFotosEvidencia,
         duracionEstimada: config.duracionEstimada || 60,
         frecuenciaSugerida: config.frecuenciaSugerida || 30,
-        elementosPredefinidos: config.elementosPredefinidos || [],
+        elementosPredefinidos: (config.elementosPredefinidos as ElementoPredefinido[]) || [],
       });
     } else {
       setConfigForm({
