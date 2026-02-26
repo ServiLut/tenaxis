@@ -207,11 +207,11 @@ export default function InsumosPage() {
                               {/* Dropdown Menu */}
                               {openActionMenu === sol.id && (
                                 <div className="absolute right-6 top-12 z-50 w-40 rounded-xl border border-zinc-100 bg-white p-2 shadow-xl dark:border-zinc-800 dark:bg-zinc-950 animate-in fade-in slide-in-from-top-2 duration-200">
-                                  <button className="flex w-full items-center gap-2 rounded-lg px-3 py-2 text-[10px] font-black uppercase tracking-widest text-emerald-600 hover:bg-emerald-50 transition-colors">
+                                  <button className="flex w-full items-center gap-2 rounded-lg px-3 py-2 text-[10px] font-black uppercase tracking-widest text-emerald-600 dark:text-zinc-300 hover:bg-emerald-50 dark:hover:bg-zinc-900 transition-colors">
                                     <Check className="h-3 w-3" />
                                     Aprobar
                                   </button>
-                                  <button className="flex w-full items-center gap-2 rounded-lg px-3 py-2 text-[10px] font-black uppercase tracking-widest text-red-600 hover:bg-red-50 transition-colors">
+                                  <button className="flex w-full items-center gap-2 rounded-lg px-3 py-2 text-[10px] font-black uppercase tracking-widest text-red-600 dark:text-zinc-300 hover:bg-red-50 dark:hover:bg-zinc-900 transition-colors">
                                     <X className="h-3 w-3" />
                                     Rechazar
                                   </button>

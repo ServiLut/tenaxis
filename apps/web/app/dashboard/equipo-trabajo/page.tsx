@@ -460,7 +460,7 @@ export default function EquipoTrabajoPage() {
                               <Trophy className="h-4 w-4 text-yellow-900" />
                             </div>
                           )}
-                          <span className="text-zinc-900 dark:text-zinc-200">
+                          <span className="text-zinc-950 dark:text-zinc-300">
                             {user.avatar}
                           </span>
                         </div>
@@ -513,7 +513,7 @@ export default function EquipoTrabajoPage() {
                               </td>
                               <td className="px-6 py-4">
                                 <div className="flex items-center gap-3">
-                                  <div className={cn("flex h-10 w-10 shrink-0 items-center justify-center rounded-xl text-[10px] font-black text-white", user.color)}>
+                                  <div className={cn("flex h-10 w-10 shrink-0 items-center justify-center rounded-xl text-[10px] font-black text-zinc-950 dark:text-zinc-300", user.color)}>
                                     {user.avatar}
                                   </div>
                                   <div className="overflow-hidden">
@@ -635,7 +635,7 @@ export default function EquipoTrabajoPage() {
                               >
                                 <td className="px-6 py-4">
                                   <div className="flex items-center gap-3">
-                                    <div className={cn("flex h-10 w-10 shrink-0 items-center justify-center rounded-xl text-[10px] font-black text-white", user.color)}>
+                                    <div className={cn("flex h-10 w-10 shrink-0 items-center justify-center rounded-xl text-[10px] font-black text-zinc-950 dark:text-zinc-300", user.color)}>
                                       {user.avatar}
                                     </div>
                                     <div className="overflow-hidden">
@@ -705,109 +705,108 @@ export default function EquipoTrabajoPage() {
                           <CardContent className="relative pt-0 pb-8">
                             {/* Avatar Overlap */}
                               <div className="flex justify-center -mt-10 mb-6">
-                                <div className="h-20 w-20 rounded-2xl border-4 border-white bg-white dark:border-zinc-900 shadow-xl flex items-center justify-center text-2xl font-black text-zinc-900 dark:text-zinc-200">
+                                <div className="h-20 w-20 rounded-2xl border-4 border-white bg-white dark:border-zinc-900 shadow-xl flex items-center justify-center text-2xl font-black text-zinc-950 dark:text-zinc-300">
                                   {selectedUser.avatar}
                                 </div>
                               </div>
                             {!isEditing ? (
                               // Vista de Detalles Compacta
-                              <div className="space-y-6">
-                                <div className="grid grid-cols-2 gap-3 px-4">
-                                  <div className="rounded-xl bg-zinc-50 p-3 dark:bg-zinc-800/50">
-                                    <p className="text-[10px] font-black uppercase tracking-widest text-zinc-400">Servicios</p>
-                                    <p className="text-lg font-black text-zinc-900 dark:text-zinc-50 tabular-nums">{selectedUser.services}</p>
-                                  </div>
-                                  <div className="rounded-xl bg-zinc-50 p-3 dark:bg-zinc-800/50">
-                                    <p className="text-[10px] font-black uppercase tracking-widest text-zinc-400">Rating</p>
-                                    <div className="flex items-center gap-1">
-                                      <Star className="h-3 w-3 fill-yellow-400 text-yellow-400" />
-                                      <p className="text-lg font-black text-zinc-900 dark:text-zinc-50 tabular-nums">{selectedUser.rating}</p>
-                                    </div>
-                                  </div>
-                                </div>
-
-                                <div className="space-y-3 px-4">
-                                  <div className="flex items-center gap-3">
-                                    <div className="h-9 w-9 shrink-0 rounded-lg bg-zinc-50 flex items-center justify-center text-zinc-400 dark:bg-zinc-800">
-                                      <Mail className="h-4 w-4" />
-                                    </div>
-                                    <div className="min-w-0">
-                                      <p className="text-[9px] font-black uppercase tracking-widest text-zinc-400">Email</p>
-                                      <p className="truncate text-xs font-bold text-zinc-900 dark:text-zinc-50">{selectedUser.email}</p>
-                                    </div>
-                                  </div>
-                                  <div className="flex items-center gap-3">
-                                    <div className="h-9 w-9 shrink-0 rounded-lg bg-zinc-50 flex items-center justify-center text-zinc-400 dark:bg-zinc-800">
-                                      <Phone className="h-4 w-4" />
-                                    </div>
-                                    <div>
-                                      <p className="text-[9px] font-black uppercase tracking-widest text-zinc-400">Teléfono</p>
-                                      <p className="text-xs font-bold text-zinc-900 dark:text-zinc-50">{selectedUser.phone}</p>
-                                    </div>
-                                  </div>
-                                  <div className="flex items-center gap-3">
-                                    <div className="h-9 w-9 shrink-0 rounded-lg bg-zinc-50 flex items-center justify-center text-zinc-400 dark:bg-zinc-800">
-                                      <Calendar className="h-4 w-4" />
-                                    </div>
-                                    <div>
-                                      <p className="text-[9px] font-black uppercase tracking-widest text-zinc-400">Ingreso</p>
-                                      <p className="text-xs font-bold text-zinc-900 dark:text-zinc-50">{selectedUser.joinDate}</p>
-                                    </div>
-                                  </div>
-                                  <div className="flex items-center gap-3">
-                                    <div className="h-9 w-9 shrink-0 rounded-lg bg-zinc-50 flex items-center justify-center text-zinc-400 dark:bg-zinc-800">
-                                      <Car className="h-4 w-4" />
-                                    </div>
-                                    <div>
-                                      <p className="text-[9px] font-black uppercase tracking-widest text-zinc-400">Placa / Vehículo</p>
-                                      <p className="text-xs font-bold text-zinc-900 dark:text-zinc-50">
-                                        {selectedUser.placa || "N/A"} - {selectedUser.moto ? "MOTO" : "CARRO"}
-                                      </p>
-                                    </div>
-                                  </div>
-                                  <div className="flex items-center gap-3">
-                                    <div className="h-9 w-9 shrink-0 rounded-lg bg-zinc-50 flex items-center justify-center text-zinc-400 dark:bg-zinc-800">
-                                      <MapPin className="h-4 w-4" />
-                                    </div>
-                                    <div>
-                                      <p className="text-[9px] font-black uppercase tracking-widest text-zinc-400">Ubicación Base</p>
-                                      <p className="text-xs font-bold text-zinc-900 dark:text-zinc-50">
-                                        {selectedUser.municipioNombre ? `${selectedUser.municipioNombre}, ` : ""}{selectedUser.direccion || "No asignada"}
-                                      </p>
-                                    </div>
-                                  </div>
-                                  <div className="flex items-center gap-3">
-                                    <div className="h-9 w-9 shrink-0 rounded-lg bg-zinc-50 flex items-center justify-center text-zinc-400 dark:bg-zinc-800">
-                                      <Briefcase className="h-4 w-4" />
-                                    </div>
-                                    <div>
-                                      <p className="text-[9px] font-black uppercase tracking-widest text-zinc-400">Empresas</p>
-                                      <div className="flex flex-wrap gap-1 mt-0.5">
-                                        {selectedUser.empresaNombres.length > 0 ? (
-                                          selectedUser.empresaNombres.map((name, i) => (
-                                            <span key={i} className="px-1.5 py-0.5 rounded bg-blue-50 dark:bg-blue-500/10 text-blue-600 dark:text-blue-400 text-[9px] font-black uppercase">
-                                              {name}
-                                            </span>
-                                          ))
-                                        ) : (
-                                          <p className="text-xs font-bold text-zinc-900 dark:text-zinc-50">Ninguna</p>
-                                        )}
-                                      </div>
-                                    </div>
-                                  </div>
-                                  <div className="flex items-center gap-3">
-                                    <div className="h-9 w-9 shrink-0 rounded-lg bg-emerald-50 flex items-center justify-center text-emerald-500 dark:bg-emerald-500/10">
-                                      <Download className="h-4 w-4" />
-                                    </div>
-                                    <div>
-                                      <p className="text-[9px] font-black uppercase tracking-widest text-emerald-600 dark:text-emerald-400">Total Recaudo</p>
-                                      <p className="text-xs font-bold text-emerald-700 dark:text-emerald-400 tabular-nums">
-                                        ${selectedUser.totalRecaudo.toLocaleString("es-CO")}
-                                      </p>
-                                    </div>
-                                  </div>
-                                </div>
-
+                                                            <div className="space-y-6">
+                                                              <div className="grid grid-cols-2 gap-3 px-4">
+                                                                <div className="rounded-xl bg-zinc-50/50 p-3 dark:bg-zinc-900/50">
+                                                                  <p className="text-[10px] font-black uppercase tracking-widest text-zinc-400">Servicios</p>
+                                                                  <p className="text-lg font-black text-zinc-900 dark:text-zinc-50 tabular-nums">{selectedUser.services}</p>
+                                                                </div>
+                                                                <div className="rounded-xl bg-zinc-50/50 p-3 dark:bg-zinc-900/50">
+                                                                  <p className="text-[10px] font-black uppercase tracking-widest text-zinc-400">Rating</p>
+                                                                  <div className="flex items-center gap-1">
+                                                                    <Star className="h-3 w-3 fill-yellow-400 text-yellow-400" />
+                                                                    <p className="text-lg font-black text-zinc-900 dark:text-zinc-50 tabular-nums">{selectedUser.rating}</p>
+                                                                  </div>
+                                                                </div>
+                                                              </div>
+                              
+                                                              <div className="space-y-3 px-4">
+                                                                <div className="flex items-center gap-3">
+                                                                  <div className="h-9 w-9 shrink-0 rounded-lg bg-zinc-50/50 flex items-center justify-center text-zinc-400 dark:bg-zinc-900/50">
+                                                                    <Mail className="h-4 w-4" />
+                                                                  </div>
+                                                                  <div className="min-w-0">
+                                                                    <p className="text-[9px] font-black uppercase tracking-widest text-zinc-400">Email</p>
+                                                                    <p className="truncate text-xs font-bold text-zinc-900 dark:text-zinc-50">{selectedUser.email}</p>
+                                                                  </div>
+                                                                </div>
+                                                                <div className="flex items-center gap-3">
+                                                                  <div className="h-9 w-9 shrink-0 rounded-lg bg-zinc-50/50 flex items-center justify-center text-zinc-400 dark:bg-zinc-900/50">
+                                                                    <Phone className="h-4 w-4" />
+                                                                  </div>
+                                                                  <div>
+                                                                    <p className="text-[9px] font-black uppercase tracking-widest text-zinc-400">Teléfono</p>
+                                                                    <p className="text-xs font-bold text-zinc-900 dark:text-zinc-50">{selectedUser.phone}</p>
+                                                                  </div>
+                                                                </div>
+                                                                <div className="flex items-center gap-3">
+                                                                  <div className="h-9 w-9 shrink-0 rounded-lg bg-zinc-50/50 flex items-center justify-center text-zinc-400 dark:bg-zinc-900/50">
+                                                                    <Calendar className="h-4 w-4" />
+                                                                  </div>
+                                                                  <div>
+                                                                    <p className="text-[9px] font-black uppercase tracking-widest text-zinc-400">Ingreso</p>
+                                                                    <p className="text-xs font-bold text-zinc-900 dark:text-zinc-50">{selectedUser.joinDate}</p>
+                                                                  </div>
+                                                                </div>
+                                                                <div className="flex items-center gap-3">
+                                                                  <div className="h-9 w-9 shrink-0 rounded-lg bg-zinc-50/50 flex items-center justify-center text-zinc-400 dark:bg-zinc-900/50">
+                                                                    <Car className="h-4 w-4" />
+                                                                  </div>
+                                                                  <div>
+                                                                    <p className="text-[9px] font-black uppercase tracking-widest text-zinc-400">Placa / Vehículo</p>
+                                                                    <p className="text-xs font-bold text-zinc-900 dark:text-zinc-50">
+                                                                      {selectedUser.placa || "N/A"} - {selectedUser.moto ? "MOTO" : "CARRO"}
+                                                                    </p>
+                                                                  </div>
+                                                                </div>
+                                                                <div className="flex items-center gap-3">
+                                                                  <div className="h-9 w-9 shrink-0 rounded-lg bg-zinc-50/50 flex items-center justify-center text-zinc-400 dark:bg-zinc-900/50">
+                                                                    <MapPin className="h-4 w-4" />
+                                                                  </div>
+                                                                  <div>
+                                                                    <p className="text-[9px] font-black uppercase tracking-widest text-zinc-400">Ubicación Base</p>
+                                                                    <p className="text-xs font-bold text-zinc-900 dark:text-zinc-50">
+                                                                      {selectedUser.municipioNombre ? `${selectedUser.municipioNombre}, ` : ""}{selectedUser.direccion || "No asignada"}
+                                                                    </p>
+                                                                  </div>
+                                                                </div>
+                                                                <div className="flex items-center gap-3">
+                                                                  <div className="h-9 w-9 shrink-0 rounded-lg bg-zinc-50/50 flex items-center justify-center text-zinc-400 dark:bg-zinc-900/50">
+                                                                    <Briefcase className="h-4 w-4" />
+                                                                  </div>
+                                                                  <div>
+                                                                    <p className="text-[9px] font-black uppercase tracking-widest text-zinc-400">Empresas</p>
+                                                                    <div className="flex flex-wrap gap-1 mt-0.5">
+                                                                      {selectedUser.empresaNombres.length > 0 ? (
+                                                                        selectedUser.empresaNombres.map((name, i) => (
+                                                                          <span key={i} className="px-1.5 py-0.5 rounded bg-blue-50 dark:bg-zinc-800 text-blue-600 dark:text-zinc-300 text-[9px] font-black uppercase">
+                                                                            {name}
+                                                                          </span>
+                                                                        ))
+                                                                      ) : (
+                                                                        <p className="text-xs font-bold text-zinc-900 dark:text-zinc-50">Ninguna</p>
+                                                                      )}
+                                                                    </div>
+                                                                  </div>
+                                                                </div>
+                                                                <div className="flex items-center gap-3">
+                                                                  <div className="h-9 w-9 shrink-0 rounded-lg bg-emerald-50 flex items-center justify-center text-emerald-500 dark:bg-emerald-500/10 dark:text-zinc-300">
+                                                                    <Download className="h-4 w-4" />
+                                                                  </div>
+                                                                  <div>
+                                                                    <p className="text-[9px] font-black uppercase tracking-widest text-emerald-600 dark:text-zinc-300">Total Recaudo</p>
+                                                                    <p className="text-xs font-bold text-emerald-700 dark:text-zinc-300 tabular-nums">
+                                                                      ${selectedUser.totalRecaudo.toLocaleString("es-CO")}
+                                                                    </p>
+                                                                  </div>
+                                                                </div>
+                                                              </div>
                                 <div className="pt-4 flex gap-2 px-4">
                                   <button 
                                     onClick={() => handleEditClick(selectedUser)}
@@ -851,7 +850,7 @@ export default function EquipoTrabajoPage() {
 
                                 <div className="space-y-2">
                                   <Label className="text-[10px] font-black uppercase tracking-[0.1em] text-zinc-400 px-1">Empresas Asignadas</Label>
-                                  <div className="grid grid-cols-1 gap-2 p-3 bg-zinc-50 dark:bg-zinc-800/50 rounded-xl border border-zinc-100 dark:border-zinc-800">
+                                  <div className="grid grid-cols-1 gap-2 p-3 bg-zinc-50/50 dark:bg-zinc-900/50 rounded-xl border border-zinc-100 dark:border-zinc-800">
                                     {empresas.map((emp) => (
                                       <label key={emp.id} className="flex items-center gap-3 cursor-pointer group">
                                         <input
@@ -946,7 +945,7 @@ export default function EquipoTrabajoPage() {
                                 <div className="pt-4 flex gap-3">
                                   <button 
                                     onClick={handleSave}
-                                    className="flex-1 flex items-center justify-center gap-2 h-11 rounded-xl bg-azul-1 text-[10px] font-black uppercase tracking-widest text-white transition-all hover:bg-blue-700"
+                                    className="flex-1 flex items-center justify-center gap-2 h-11 rounded-xl bg-azul-1 text-[10px] font-black uppercase tracking-widest text-white dark:text-zinc-300 transition-all hover:bg-blue-700"
                                   >
                                     <Save className="h-4 w-4" />
                                     Guardar
@@ -1010,7 +1009,7 @@ export default function EquipoTrabajoPage() {
               <div className="p-8">
                 {/* Identificación del Usuario */}
                 <div className="flex items-center gap-4 mb-8">
-                  <div className={cn("h-16 w-16 rounded-2xl flex items-center justify-center text-xl font-black text-white shadow-lg", selectedUser.color)}>
+                  <div className={cn("h-16 w-16 rounded-2xl flex items-center justify-center text-xl font-black text-zinc-950 dark:text-zinc-300 shadow-lg", selectedUser.color)}>
                     {selectedUser.avatar}
                   </div>
                   <div>

@@ -74,7 +74,31 @@ import {
 } from "../actions";
 import { Contact } from "lucide-react";
 
-interface Cliente {  id: string;
+interface ElementoPredefinido {
+  nombre: string;
+  tipo: string;
+  ubicacion: string;
+}
+
+interface ConfiguracionOperativa {
+  id: string;
+  empresaId: string;
+  protocoloServicio?: string;
+  observacionesFijas?: string;
+  requiereFirmaDigital: boolean;
+  requiereFotosEvidencia: boolean;
+  duracionEstimada?: number;
+  frecuenciaSugerida?: number;
+  elementosPredefinidos?: ElementoPredefinido[];
+  direccionId?: string;
+  direccion?: {
+    id: string;
+    direccion: string;
+  };
+}
+
+interface Cliente {
+  id: string;
   nombre?: string;
   apellido?: string;
   razonSocial?: string;
@@ -128,6 +152,7 @@ interface Cliente {  id: string;
     }
   };
   direcciones?: {
+    id: string;
     direccion: string;
     municipio?: string;
     municipioId?: string;
@@ -162,18 +187,7 @@ interface Cliente {  id: string;
     color?: string;
     tipo?: string;
   }[];
-  configuracionesOperativas?: {
-    id: string;
-    empresaId: string;
-    protocoloServicio?: string;
-    observacionesFijas?: string;
-    requiereFirmaDigital: boolean;
-    requiereFotosEvidencia: boolean;
-    duracionEstimada?: number;
-    frecuenciaSugerida?: number;
-    elementosPredefinidos?: any;
-    direccionId?: string;
-  }[];
+  configuracionesOperativas?: ConfiguracionOperativa[];
 }
 
 interface Department {
@@ -196,10 +210,10 @@ interface ClienteListProps {
 }
 
 const SCORE_COLORS = {
-  ORO: "bg-amber-500 text-white shadow-black-100",
-  PLATA: "bg-zinc-400 text-white shadow-black-100",
-  BRONCE: "bg-orange-400 text-white shadow-black-100",
-  RIESGO: "bg-red-500 text-white shadow-black-100",
+  ORO: "bg-amber-500 text-black dark:text-zinc-300 shadow-black-100",
+  PLATA: "bg-zinc-400 text-black dark:text-zinc-300 shadow-black-100",
+  BRONCE: "bg-orange-400 text-black dark:text-zinc-300 shadow-black-100",
+  RIESGO: "bg-red-500 text-black dark:text-zinc-300 shadow-black-100",
 };
 
 const RIESGO_LABELS = {
@@ -208,6 +222,24 @@ const RIESGO_LABELS = {
   ALTO: { label: "Riesgo Alto", color: "text-orange-600 bg-orange-50", dot: "bg-orange-500" },
   CRITICO: { label: "Crítico", color: "text-red-600 bg-red-50", dot: "bg-red-500" },
 };
+
+interface OrdenServicio {
+  id: string;
+  numeroOrden?: string;
+  estadoServicio: string;
+  servicio?: {
+    nombre: string;
+  };
+  fechaVisita?: string;
+  direccionTexto?: string;
+  tecnico?: {
+    user: {
+      nombre: string;
+      apellido: string;
+    }
+  };
+  valorCotizado?: number;
+}
 
 export function ClienteList({ initialClientes, initialDepartments = [], initialMunicipalities = [] }: ClienteListProps) {
   const router = useRouter();
@@ -221,9 +253,9 @@ export function ClienteList({ initialClientes, initialDepartments = [], initialM
   const [selectedClienteForHistory, setSelectedClienteForHistory] = useState<Cliente | null>(null);
   const [clienteToDelete, setClienteToDelete] = useState<Cliente | null>(null);
   const [historyLoading, setHistoryLoading] = useState(false);
-  const [serviceHistory, setServiceHistory] = useState<any[]>([]);
+  const [serviceHistory, setServiceHistory] = useState<OrdenServicio[]>([]);
   const [configLoading, setConfigLoading] = useState(false);
-  const [activeConfigs, setActiveConfigs] = useState<any[]>([]);
+  const [activeConfigs, setActiveConfigs] = useState<ConfiguracionOperativa[]>([]);
   const [currentConfigSede, setCurrentConfigSede] = useState("all");
 
   // Form States para ConfiguraciÃ³n
@@ -456,8 +488,8 @@ export function ClienteList({ initialClientes, initialDepartments = [], initialM
       const configs = await getClienteConfigsAction(selectedClienteForConfig.id);
       setActiveConfigs(configs);
 
-      // Cargar configuraciÃ³n "Global" (all) por defecto
-      const globalConfig = configs.find((c: any) => !c.direccionId);
+      // Cargar configuración "Global" (all) por defecto
+      const globalConfig = configs.find((c: ConfiguracionOperativa) => !c.direccionId);
       if (globalConfig) {
         setConfigForm({
           protocoloServicio: globalConfig.protocoloServicio || "",
@@ -503,11 +535,10 @@ export function ClienteList({ initialClientes, initialDepartments = [], initialM
   // Cambiar de sede en el formulario
   const handleSedeChange = (sedeValue: string) => {
     setCurrentConfigSede(sedeValue);
-    const targetId = sedeValue === "all" ? null : selectedClienteForConfig?.direcciones?.find(d => d.direccion === sedeValue)?.direccion;
 
     // Si direccionId es null en la DB, es global. Si no, es por sede.
     // El frontend usa 'direccion' como valor para identificar la sede.
-    const config = activeConfigs.find((c: any) =>
+    const config = activeConfigs.find((c: ConfiguracionOperativa) =>
       sedeValue === "all" ? !c.direccionId : c.direccion?.direccion === sedeValue
     );
 
@@ -572,7 +603,7 @@ export function ClienteList({ initialClientes, initialDepartments = [], initialM
 
     const direccionId = currentConfigSede === "all"
       ? null
-      : (selectedClienteForConfig.direcciones?.find(d => d.direccion === currentConfigSede) as any)?.id;
+      : selectedClienteForConfig.direcciones?.find(d => d.direccion === currentConfigSede)?.id || null;
 
     const payload = {
       clienteId: selectedClienteForConfig.id,
@@ -696,7 +727,7 @@ export function ClienteList({ initialClientes, initialDepartments = [], initialM
                 </div>
                 <div>
                   <p className="text-[10px] font-black text-zinc-400 uppercase tracking-widest">Avg Score</p>
-                  <p className="text-2xl font-black text-zinc-900 dark:text-zinc-50">{stats.avgScore}</p>
+                  <p className="text-2xl font-black text-zinc-900 dark:text-zinc-300">{stats.avgScore}</p>
                 </div>
               </div>
             </div>
@@ -795,7 +826,7 @@ export function ClienteList({ initialClientes, initialDepartments = [], initialM
                     <Combobox
                       options={[
                         { value: "all", label: "Todos los departamentos" },
-                        ...filterOptions.departamentos.map(d => ({ value: d.id, label: d.name }))
+                        ...filterOptions.departamentos.map(d => ({ value: d.id || "", label: d.name }))
                       ]}
                       value={filters.departamento}
                       onChange={(val) => {
@@ -812,7 +843,7 @@ export function ClienteList({ initialClientes, initialDepartments = [], initialM
                     <Combobox
                       options={[
                         { value: "all", label: "Todos los municipios" },
-                        ...filterOptions.municipios.map(m => typeof m === 'string' ? { value: m, label: m } : { value: m.id, label: m.name })
+                        ...filterOptions.municipios.map(m => typeof m === 'string' ? { value: m, label: m } : { value: m.id || "", label: m.name })
                       ]}
                       value={filters.municipio}
                       onChange={(val) => setFilters(prev => ({ ...prev, municipio: val }))}
@@ -955,7 +986,7 @@ export function ClienteList({ initialClientes, initialDepartments = [], initialM
                     <div className="flex items-center gap-4">
                       <div className={cn(
                         "flex h-10 w-10 shrink-0 items-center justify-center rounded-xl shadow-md",
-                        cliente.tipoCliente === "EMPRESA" ? "bg-zinc-900 text-white dark:bg-white dark:text-black" : "bg-blue-50 text-blue-600 dark:bg-blue-500/10 dark:text-blue-400"
+                        cliente.tipoCliente === "EMPRESA" ? "bg-zinc-900 text-white dark:bg-zinc-800 dark:text-zinc-300" : "bg-blue-50 text-blue-600 dark:bg-blue-500/10 dark:text-blue-400"
                       )}>
                         {cliente.tipoCliente === "EMPRESA" ? <Building2 className="h-5 w-5" /> : <User className="h-5 w-5" />}
                       </div>
@@ -1139,7 +1170,7 @@ export function ClienteList({ initialClientes, initialDepartments = [], initialM
       <Dialog open={!!selectedCliente} onOpenChange={(open) => !open && setSelectedCliente(null)}>
         <DialogContent className="max-w-4xl p-0 overflow-hidden border-none shadow-2xl rounded-2xl">
           <DialogHeader className="sr-only">
-            <DialogTitle>Detalles del Cliente</DialogTitle>
+            <DialogTitle className="dark:text-zinc-300">Detalles del Cliente</DialogTitle>
           </DialogHeader>
           {selectedCliente && (
             <div className="flex flex-col h-[90vh]">
@@ -1150,17 +1181,17 @@ export function ClienteList({ initialClientes, initialDepartments = [], initialM
               )}>
                 <div className="flex items-center gap-6 z-10">
                   <div className="h-20 w-20 rounded-2xl bg-white/10 backdrop-blur-xl flex items-center justify-center text-3xl font-black shadow-2xl border border-white/20">
-                    {selectedCliente.tipoCliente === "EMPRESA" ? <Building2 className="h-10 w-10" /> : <User className="h-10 w-10" />}
+                    {selectedCliente.tipoCliente === "EMPRESA" ? <Building2 className="h-10 w-10 dark:text-zinc-300" /> : <User className="h-10 w-10 dark:text-zinc-300" />}
                   </div>
                   <div className="flex flex-col">
-                    <h2 className="text-3xl font-black tracking-tight leading-none mb-2">
+                    <h2 className="text-3xl font-black tracking-tight leading-none mb-2 dark:text-zinc-300">
                       {selectedCliente.tipoCliente === "EMPRESA" ? (selectedCliente.razonSocial || "S/N") : `${selectedCliente.nombre || ''} ${selectedCliente.apellido || ''}`.trim()}
                     </h2>
                     <div className="flex items-center gap-3">
-                      <span className="text-[10px] font-black uppercase tracking-[0.2em] px-2 py-1 bg-white/10 rounded-md">
+                      <span className="text-[10px] font-black uppercase tracking-[0.2em] px-2 py-1 bg-white/10 dark:text-zinc-300 rounded-md">
                         {selectedCliente.tipoCliente === "EMPRESA" ? "Corporativo" : "Persona Natural"}
                       </span>
-                      <span className="text-[10px] font-black uppercase tracking-[0.2em] opacity-60">
+                      <span className="text-[10px] font-black uppercase tracking-[0.2em] opacity-60 dark:text-zinc-300">
                         ID: {selectedCliente.id}
                       </span>
                     </div>
@@ -1176,8 +1207,8 @@ export function ClienteList({ initialClientes, initialDepartments = [], initialM
                     {selectedCliente.clasificacion || "BRONCE"}
                   </div>
                   <div className="bg-white/10 backdrop-blur-md px-3 py-1.5 rounded-lg border border-white/10 flex items-center gap-2">
-                    <span className="text-[9px] font-black uppercase tracking-widest opacity-60">Score:</span>
-                    <span className="text-xs font-black">{selectedCliente.score || 0} pts</span>
+                    <span className="text-[9px] font-black uppercase tracking-widest opacity-60 dark:text-zinc-300">Score:</span>
+                    <span className="text-xs font-black dark:text-zinc-300">{selectedCliente.score || 0} pts</span>
                   </div>
                 </div>
               </div>
@@ -1193,7 +1224,10 @@ export function ClienteList({ initialClientes, initialDepartments = [], initialM
                       <div className="h-8 w-8 rounded-lg bg-azul-1/10 flex items-center justify-center text-azul-1">
                         <Target className="h-4 w-4" />
                       </div>
-                      <span className="text-sm font-black text-zinc-800 dark:text-zinc-100 uppercase">
+                      <span className={cn(
+                        "text-sm font-black uppercase",
+                        (selectedCliente.segmento?.nombre || selectedCliente.segmentoNegocio) ? "text-zinc-800 dark:text-zinc-100" : "text-zinc-400 dark:text-zinc-500"
+                      )}>
                         {selectedCliente.segmento?.nombre || selectedCliente.segmentoNegocio || "No Definido"}
                       </span>
                     </div>
@@ -1242,35 +1276,51 @@ export function ClienteList({ initialClientes, initialDepartments = [], initialM
                   <div className="grid grid-cols-2 md:grid-cols-4 gap-4 bg-white dark:bg-zinc-900 p-6 rounded-3xl border border-zinc-200 dark:border-zinc-800">
                     <div className="space-y-1">
                       <p className="text-[9px] font-black text-zinc-400 uppercase">Tipo Documento</p>
-                      <p className="text-xs font-bold text-zinc-900 dark:text-zinc-100">{selectedCliente.tipoDocumento || "N/A"}</p>
+                      <p className={cn("text-xs font-bold", selectedCliente.tipoDocumento ? "text-zinc-900 dark:text-zinc-100" : "text-zinc-400 dark:text-zinc-500")}>
+                        {selectedCliente.tipoDocumento || "N/A"}
+                      </p>
                     </div>
                     <div className="space-y-1">
                       <p className="text-[9px] font-black text-zinc-400 uppercase">Número / NIT</p>
-                      <p className="text-xs font-bold text-zinc-900 dark:text-zinc-100 font-mono">{selectedCliente.nit || selectedCliente.numeroDocumento || "N/A"}</p>
+                      <p className={cn("text-xs font-bold font-mono", (selectedCliente.nit || selectedCliente.numeroDocumento) ? "text-zinc-900 dark:text-zinc-100" : "text-zinc-400 dark:text-zinc-500")}>
+                        {selectedCliente.nit || selectedCliente.numeroDocumento || "N/A"}
+                      </p>
                     </div>
                     <div className="space-y-1">
                       <p className="text-[9px] font-black text-zinc-400 uppercase">Origen Cliente</p>
-                      <p className="text-xs font-bold text-zinc-900 dark:text-zinc-100">{selectedCliente.origenCliente || "Desconocido"}</p>
+                      <p className={cn("text-xs font-bold", selectedCliente.origenCliente ? "text-zinc-900 dark:text-zinc-100" : "text-zinc-400 dark:text-zinc-500")}>
+                        {selectedCliente.origenCliente || "Desconocido"}
+                      </p>
                     </div>
                     <div className="space-y-1">
                       <p className="text-[9px] font-black text-zinc-400 uppercase">Tipo Interés</p>
-                      <p className="text-xs font-bold text-zinc-900 dark:text-zinc-100">{selectedCliente.tipoInteres?.nombre || "No definido"}</p>
+                      <p className={cn("text-xs font-bold", selectedCliente.tipoInteres?.nombre ? "text-zinc-900 dark:text-zinc-100" : "text-zinc-400 dark:text-zinc-500")}>
+                        {selectedCliente.tipoInteres?.nombre || "No definido"}
+                      </p>
                     </div>
                     <div className="space-y-1">
                       <p className="text-[9px] font-black text-zinc-400 uppercase">Subsegmento</p>
-                      <p className="text-xs font-bold text-zinc-900 dark:text-zinc-100">{selectedCliente.subsegmento || "N/A"}</p>
+                      <p className={cn("text-xs font-bold", selectedCliente.subsegmento ? "text-zinc-900 dark:text-zinc-100" : "text-zinc-400 dark:text-zinc-500")}>
+                        {selectedCliente.subsegmento || "N/A"}
+                      </p>
                     </div>
                     <div className="space-y-1">
                       <p className="text-[9px] font-black text-zinc-400 uppercase">Act. Económica</p>
-                      <p className="text-xs font-bold text-zinc-900 dark:text-zinc-100">{selectedCliente.actividadEconomica || "No Registrada"}</p>
+                      <p className={cn("text-xs font-bold", selectedCliente.actividadEconomica ? "text-zinc-900 dark:text-zinc-100" : "text-zinc-400 dark:text-zinc-500")}>
+                        {selectedCliente.actividadEconomica || "No Registrada"}
+                      </p>
                     </div>
                     <div className="space-y-1">
                       <p className="text-[9px] font-black text-zinc-400 uppercase">Metraje Total</p>
-                      <p className="text-xs font-bold text-zinc-900 dark:text-zinc-100">{selectedCliente.metrajeTotal ? `${selectedCliente.metrajeTotal} m²` : "N/A"}</p>
+                      <p className={cn("text-xs font-bold", selectedCliente.metrajeTotal ? "text-zinc-900 dark:text-zinc-100" : "text-zinc-400 dark:text-zinc-500")}>
+                        {selectedCliente.metrajeTotal ? `${selectedCliente.metrajeTotal} m²` : "N/A"}
+                      </p>
                     </div>
                     <div className="space-y-1">
                       <p className="text-[9px] font-black text-zinc-400 uppercase">Rep. Legal</p>
-                      <p className="text-xs font-bold text-zinc-900 dark:text-zinc-100">{selectedCliente.representanteLegal || "No Definido"}</p>
+                      <p className={cn("text-xs font-bold", selectedCliente.representanteLegal ? "text-zinc-900 dark:text-zinc-100" : "text-zinc-400 dark:text-zinc-500")}>
+                        {selectedCliente.representanteLegal || "No Definido"}
+                      </p>
                     </div>
                   </div>
                 </div>
@@ -1335,7 +1385,9 @@ export function ClienteList({ initialClientes, initialDepartments = [], initialM
                         <p className="text-[9px] font-black text-zinc-400 uppercase">Marketing</p>
                         <span className={cn(
                           "text-[9px] font-black px-2 py-0.5 rounded-md",
-                          selectedCliente.aceptaMarketing ? "bg-emerald-100 text-emerald-700" : "bg-red-100 text-red-700"
+                          selectedCliente.aceptaMarketing 
+                            ? "bg-emerald-100 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-400" 
+                            : "bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-zinc-300"
                         )}>
                           {selectedCliente.aceptaMarketing ? "AUTORIZADO" : "DENEGADO"}
                         </span>
@@ -1350,7 +1402,7 @@ export function ClienteList({ initialClientes, initialDepartments = [], initialM
                     <h3 className="text-[10px] font-black uppercase tracking-[0.3em] text-zinc-400 flex items-center gap-3">
                       <MapPin className="h-4 w-4" /> Sedes Operativas Registradas
                     </h3>
-                    <span className="text-[10px] font-black text-azul-1 bg-azul-1/10 px-3 py-1 rounded-full uppercase">
+                    <span className="text-[10px] font-black text-azul-1 dark:text-zinc-300 bg-azul-1/10 px-3 py-1 rounded-full uppercase">
                       {selectedCliente.direcciones?.length || 0} Sedes
                     </span>
                   </div>
@@ -1414,7 +1466,7 @@ export function ClienteList({ initialClientes, initialDepartments = [], initialM
                     <h3 className="text-[10px] font-black uppercase tracking-[0.3em] text-zinc-400 flex items-center gap-3">
                       <Settings className="h-4 w-4" /> Parque Automotor Vinculado
                     </h3>
-                    <span className="text-[10px] font-black text-zinc-900 dark:text-white bg-zinc-200 dark:bg-zinc-800 px-3 py-1 rounded-full uppercase">
+                    <span className="text-[10px] font-black text-zinc-900 dark:text-zinc-300 bg-zinc-200 dark:bg-zinc-800 px-3 py-1 rounded-full uppercase">
                       {selectedCliente.vehiculos?.length || 0} Vehículos
                     </span>
                   </div>
@@ -1442,13 +1494,13 @@ export function ClienteList({ initialClientes, initialDepartments = [], initialM
                             <div className="shrink-0 p-8 bg-white dark:bg-zinc-900 border-t border-zinc-100 dark:border-zinc-800 flex gap-4">
                               <button
                                 onClick={() => router.push(`/dashboard/clientes/${selectedCliente.id}/editar`)}
-                                className="flex-1 h-14 rounded-2xl bg-azul-1 text-xs font-black uppercase tracking-[0.2em] text-white transition-all hover:bg-blue-700 active:scale-[0.98] shadow-xl shadow-azul-1/25"
+                                className="flex-1 h-14 rounded-2xl bg-azul-1 text-xs font-black uppercase tracking-[0.2em] text-white dark:text-zinc-300 transition-all hover:bg-blue-700 active:scale-[0.98] shadow-xl shadow-azul-1/25"
                               >
                                 Editar Perfil Estratégico
                               </button>
                               <button
                                 onClick={() => setSelectedCliente(null)}
-                                className="px-10 h-14 rounded-2xl border-2 border-zinc-200 dark:border-zinc-800 text-xs font-black uppercase tracking-[0.2em] text-zinc-500 dark:text-zinc-400 hover:bg-zinc-100 dark:hover:bg-zinc-800 hover:text-zinc-900 dark:hover:text-zinc-200 transition-all"
+                                className="px-10 h-14 rounded-2xl border-2 border-zinc-200 dark:border-zinc-800 text-xs font-black uppercase tracking-[0.2em] text-zinc-500 dark:text-zinc-300 hover:bg-zinc-100 dark:hover:bg-zinc-800 hover:text-zinc-900 dark:hover:text-zinc-200 transition-all"
                               >
                                 Cerrar
                               </button>
@@ -1472,22 +1524,22 @@ export function ClienteList({ initialClientes, initialDepartments = [], initialM
               <div className="shrink-0 p-8 border-b border-zinc-100 dark:border-zinc-800 bg-zinc-50/50 dark:bg-zinc-900/30 flex items-center justify-between">
                 <div className="flex items-center gap-5">
                   <div className="h-14 w-14 rounded-2xl bg-azul-1 flex items-center justify-center text-white shadow-lg shadow-azul-1/20">
-                    <Settings className="h-7 w-7" />
+                    <Settings className="h-7 w-7 dark:text-zinc-300" />
                   </div>
                   <div>
                     <h2 className="text-xl font-black text-zinc-900 dark:text-zinc-50 tracking-tight uppercase">
                       Configuración Operativa
                     </h2>
-                    <p className="text-xs font-bold text-zinc-400 mt-0.5 uppercase tracking-wider">
+                    <p className="text-xs font-bold text-zinc-400 dark:text-zinc-300 mt-0.5 uppercase tracking-wider">
                       {selectedClienteForConfig.tipoCliente === "EMPRESA" ? selectedClienteForConfig.razonSocial : `${selectedClienteForConfig.nombre} ${selectedClienteForConfig.apellido}`}
                     </p>
                   </div>
                 </div>
                 <div className="flex flex-col items-end gap-1">
-                  <span className="text-[10px] font-black text-azul-1 bg-azul-1/10 px-3 py-1 rounded-full uppercase">
+                  <span className="text-[10px] font-black text-azul-1 dark:text-zinc-300 bg-azul-1/10 px-3 py-1 rounded-full uppercase">
                     Módulo de Automatización
                   </span>
-                  <span className="text-[9px] font-bold text-zinc-400 uppercase tracking-widest">
+                  <span className="text-[9px] font-bold text-zinc-400 dark:text-zinc-300 uppercase tracking-widest">
                     ID: {selectedClienteForConfig.id.split('-')[0]}...
                   </span>
                 </div>
@@ -1507,7 +1559,7 @@ export function ClienteList({ initialClientes, initialDepartments = [], initialM
                     <div className="p-6 rounded-3xl bg-blue-50/50 dark:bg-blue-500/5 border border-blue-100 dark:border-blue-500/10 flex flex-col md:flex-row md:items-center justify-between gap-4">
                       <div className="flex items-center gap-4">
                         <div className="h-10 w-10 rounded-xl bg-white dark:bg-zinc-900 flex items-center justify-center text-azul-1 shadow-sm border border-blue-100 dark:border-blue-800">
-                          <MapPin className="h-5 w-5" />
+                          <MapPin className="h-5 w-5 dark:text-zinc-300" />
                         </div>
                         <div>
                           <h4 className="text-xs font-black text-zinc-900 dark:text-zinc-50 uppercase">Ámbito de Configuración</h4>
@@ -1734,14 +1786,14 @@ export function ClienteList({ initialClientes, initialDepartments = [], initialM
                 <button
                   onClick={() => setSelectedClienteForConfig(null)}
                   disabled={configLoading}
-                  className="px-8 h-12 rounded-xl text-xs font-black uppercase tracking-widest text-zinc-500 hover:bg-zinc-100 dark:hover:bg-zinc-900 transition-all disabled:opacity-50"
+                  className="px-8 h-12 rounded-xl text-xs font-black uppercase tracking-widest text-zinc-500 dark:text-zinc-300 hover:bg-zinc-100 dark:hover:bg-zinc-900 transition-all disabled:opacity-50"
                 >
                   Cancelar
                 </button>
                 <button
                   onClick={handleSaveConfig}
                   disabled={configLoading}
-                  className="px-10 h-12 rounded-xl bg-azul-1 text-xs font-black uppercase tracking-widest text-white shadow-lg shadow-azul-1/20 hover:scale-[1.02] active:scale-[0.98] transition-all disabled:opacity-50"
+                  className="px-10 h-12 rounded-xl bg-azul-1 text-xs font-black uppercase tracking-widest text-white dark:text-zinc-300 shadow-lg shadow-azul-1/20 hover:scale-[1.02] active:scale-[0.98] transition-all disabled:opacity-50"
                 >
                   Guardar Cambios
                 </button>
@@ -1766,19 +1818,19 @@ export function ClienteList({ initialClientes, initialDepartments = [], initialM
               <div className="shrink-0 p-8 border-b border-zinc-100 dark:border-zinc-800 bg-zinc-50/50 dark:bg-zinc-900/30 flex items-center justify-between">
                 <div className="flex items-center gap-5">
                   <div className="h-14 w-14 rounded-2xl bg-azul-1 flex items-center justify-center text-white shadow-lg shadow-azul-1/20">
-                    <Calendar className="h-7 w-7" />
+                    <Calendar className="h-7 w-7 dark:text-zinc-300" />
                   </div>
                   <div>
                     <h2 className="text-xl font-black text-zinc-900 dark:text-zinc-50 tracking-tight uppercase">
                       Historial de Servicios
                     </h2>
-                    <p className="text-xs font-bold text-zinc-400 mt-0.5 uppercase tracking-wider">
+                    <p className="text-xs font-bold text-zinc-400 dark:text-zinc-300 mt-0.5 uppercase tracking-wider">
                       {selectedClienteForHistory.tipoCliente === "EMPRESA" ? selectedClienteForHistory.razonSocial : `${selectedClienteForHistory.nombre} ${selectedClienteForHistory.apellido}`}
                     </p>
                   </div>
                 </div>
                 <div className="flex flex-col items-end gap-1">
-                  <span className="text-[10px] font-black text-azul-1 bg-azul-1/10 px-3 py-1 rounded-full uppercase">
+                  <span className="text-[10px] font-black text-azul-1 dark:text-zinc-300 bg-azul-1/10 px-3 py-1 rounded-full uppercase">
                     {serviceHistory.length} Servicios Registrados
                   </span>
                 </div>
@@ -1801,7 +1853,7 @@ export function ClienteList({ initialClientes, initialDepartments = [], initialM
                   </div>
                 ) : (
                   <div className="space-y-4">
-                    {serviceHistory.map((orden: any) => (
+                    {serviceHistory.map((orden: OrdenServicio) => (
                       <div key={orden.id} className="p-6 rounded-3xl bg-white dark:bg-zinc-900 border border-zinc-100 dark:border-zinc-800 hover:border-azul-1/30 transition-all group">
                         <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
                           <div className="flex items-center gap-5">
@@ -1865,7 +1917,7 @@ export function ClienteList({ initialClientes, initialDepartments = [], initialM
               <div className="shrink-0 p-8 border-t border-zinc-100 dark:border-zinc-800 bg-white dark:bg-zinc-950 flex items-center justify-end">
                 <button 
                   onClick={() => setSelectedClienteForHistory(null)}
-                  className="px-10 h-12 rounded-xl bg-zinc-100 dark:bg-zinc-900 text-xs font-black uppercase tracking-widest text-zinc-600 dark:text-zinc-400 hover:bg-zinc-200 transition-all"
+                  className="px-10 h-12 rounded-xl bg-zinc-100 dark:bg-zinc-900 text-xs font-black uppercase tracking-widest text-zinc-600 dark:text-zinc-300 hover:bg-zinc-200 transition-all"
                 >
                   Cerrar Historial
                 </button>
