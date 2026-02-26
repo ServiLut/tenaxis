@@ -130,6 +130,13 @@ interface Cliente {  id: string;
   direcciones?: {
     direccion: string;
     municipio?: string;
+    municipioId?: string;
+    departmentId?: string;
+    municipioRel?: {
+      id: string;
+      name: string;
+      departmentId: string;
+    };
     barrio?: string;
     piso?: string;
     bloque?: string;
@@ -169,8 +176,23 @@ interface Cliente {  id: string;
   }[];
 }
 
+interface Department {
+  id: string;
+  name: string;
+  code: string;
+}
+
+interface Municipality {
+  id: string;
+  name: string;
+  code: string;
+  departmentId: string;
+}
+
 interface ClienteListProps {
   initialClientes: Cliente[];
+  initialDepartments?: Department[];
+  initialMunicipalities?: Municipality[];
 }
 
 const SCORE_COLORS = {
@@ -187,7 +209,7 @@ const RIESGO_LABELS = {
   CRITICO: { label: "Crítico", color: "text-red-600 bg-red-50", dot: "bg-red-500" },
 };
 
-export function ClienteList({ initialClientes }: ClienteListProps) {
+export function ClienteList({ initialClientes, initialDepartments = [], initialMunicipalities = [] }: ClienteListProps) {
   const router = useRouter();
   const [mounted, setMounted] = useState(false);
   const clientes = useMemo(() => initialClientes || [], [initialClientes]);
@@ -197,6 +219,7 @@ export function ClienteList({ initialClientes }: ClienteListProps) {
   const [selectedCliente, setSelectedCliente] = useState<Cliente | null>(null);
   const [selectedClienteForConfig, setSelectedClienteForConfig] = useState<Cliente | null>(null);
   const [selectedClienteForHistory, setSelectedClienteForHistory] = useState<Cliente | null>(null);
+  const [clienteToDelete, setClienteToDelete] = useState<Cliente | null>(null);
   const [historyLoading, setHistoryLoading] = useState(false);
   const [serviceHistory, setServiceHistory] = useState<any[]>([]);
   const [configLoading, setConfigLoading] = useState(false);
@@ -211,7 +234,13 @@ export function ClienteList({ initialClientes }: ClienteListProps) {
     requiereFotosEvidencia: true,
     duracionEstimada: 60,
     frecuenciaSugerida: 30,
-    elementosPredefinidos: [] as any[],
+    elementosPredefinidos: [] as { nombre: string; tipo: string; ubicacion: string }[],
+  });
+
+  const [newElement, setNewElement] = useState({
+    nombre: "",
+    tipo: "Estación de Cebo",
+    ubicacion: "",
   });
 
   const [userRole, setUserRole] = useState<string | null>(null);
@@ -230,8 +259,15 @@ export function ClienteList({ initialClientes }: ClienteListProps) {
     return { total, empresas, oro, riesgoCritico, avgScore };
   }, [initialClientes]);
 
-  const handleDelete = async (id: string) => {
-    if (!confirm("¿Estás seguro de que deseas eliminar este cliente?")) return;
+  const handleDelete = (cliente: Cliente) => {
+    setClienteToDelete(cliente);
+  };
+
+  const confirmDelete = async () => {
+    if (!clienteToDelete) return;
+
+    const id = clienteToDelete.id;
+    setClienteToDelete(null);
 
     toast.promise(deleteClienteAction(id), {
       loading: "Eliminando cliente...",
@@ -246,6 +282,7 @@ export function ClienteList({ initialClientes }: ClienteListProps) {
   // Estados de Filtros
   const [filters, setFilters] = useState({
     empresas: [] as string[],
+    departamento: "all",
     municipio: "all",
     barrio: "",
     clasificacion: "all",
@@ -270,8 +307,22 @@ export function ClienteList({ initialClientes }: ClienteListProps) {
 
   // Valores únicos para los filtros
   const filterOptions = useMemo(() => {
-    if (!mounted) return { municipios: [], segmentos: [], clasificaciones: [], riesgos: [], empresas: [] };
-    const municipios = Array.from(new Set(clientes.flatMap(c => c.direcciones?.map(d => d.municipio).filter((m): m is string => !!m) || []))).sort();
+    if (!mounted) return { municipios: [], segmentos: [], clasificaciones: [], riesgos: [], empresas: [], departamentos: [] };
+    
+    // Si tenemos datos maestros de departamentos, los usamos
+    const departamentos = initialDepartments.length > 0 
+      ? initialDepartments.sort((a, b) => a.name.localeCompare(b.name))
+      : Array.from(new Set(clientes.flatMap(c => c.direcciones?.map(d => d.departmentId).filter(Boolean) || [])))
+          .map(id => ({ id, name: String(id), code: String(id) }));
+
+    // Si tenemos datos maestros de municipios, los filtramos por el departamento seleccionado
+    const municipios = initialMunicipalities.length > 0
+      ? initialMunicipalities
+          .filter(m => filters.departamento === "all" || m.departmentId === filters.departamento)
+          .sort((a, b) => a.name.localeCompare(b.name))
+      : Array.from(new Set(clientes.flatMap(c => c.direcciones?.map(d => d.municipio).filter((m): m is string => !!m) || [])))
+          .sort();
+
     const segmentos = Array.from(new Set(clientes.map(c => c.segmento?.nombre || c.segmentoNegocio).filter((s): s is string => !!s))).sort();
     const clasificaciones = ["ORO", "PLATA", "BRONCE", "RIESGO"];
     const riesgos = Array.from(new Set(clientes.map(c => c.riesgo?.nombre || c.nivelRiesgo).filter((r): r is string => !!r))).sort();
@@ -283,8 +334,8 @@ export function ClienteList({ initialClientes }: ClienteListProps) {
       ).values()
     ).sort((a, b) => a.nombre.localeCompare(b.nombre));
 
-    return { municipios, segmentos, clasificaciones, riesgos, empresas };
-  }, [clientes, mounted]);
+    return { municipios, segmentos, clasificaciones, riesgos, empresas, departamentos };
+  }, [clientes, mounted, filters.departamento, initialDepartments, initialMunicipalities]);
 
   const filteredClientes = useMemo(() => {
     if (!mounted) return [];
@@ -301,7 +352,8 @@ export function ClienteList({ initialClientes }: ClienteListProps) {
 
       // Filtros específicos
       const matchesEmpresas = filters.empresas.length === 0 || (c.empresa?.id && filters.empresas.includes(c.empresa.id));
-      const matchesMunicipio = filters.municipio === "all" || c.direcciones?.some(d => d.municipio === filters.municipio);
+      const matchesDepartamento = filters.departamento === "all" || c.direcciones?.some(d => d.departmentId === filters.departamento);
+      const matchesMunicipio = filters.municipio === "all" || c.direcciones?.some(d => d.municipioId === filters.municipio || d.municipio === filters.municipio);
       const matchesBarrio = !filters.barrio || c.direcciones?.some(d => d.barrio?.toLowerCase().includes(filters.barrio.toLowerCase()));
       const matchesClasificacion = filters.clasificacion === "all" || c.clasificacion === filters.clasificacion;
       const matchesSegmento = filters.segmento === "all" || (c.segmento?.nombre || c.segmentoNegocio) === filters.segmento;
@@ -311,7 +363,7 @@ export function ClienteList({ initialClientes }: ClienteListProps) {
       const matchesFechaDesde = !filters.fechaDesde || (clientDate && clientDate >= new Date(filters.fechaDesde));
       const matchesFechaHasta = !filters.fechaHasta || (clientDate && clientDate <= new Date(filters.fechaHasta + "T23:59:59"));
 
-      return matchesSearch && matchesEmpresas && matchesMunicipio && matchesBarrio && matchesClasificacion && matchesSegmento && matchesRiesgo && matchesFechaDesde && matchesFechaHasta;
+      return matchesSearch && matchesEmpresas && matchesDepartamento && matchesMunicipio && matchesBarrio && matchesClasificacion && matchesSegmento && matchesRiesgo && matchesFechaDesde && matchesFechaHasta;
     });
   }, [clientes, search, filters, mounted]);
 
@@ -374,13 +426,14 @@ export function ClienteList({ initialClientes }: ClienteListProps) {
 
   const activeFiltersCount = Object.entries(filters).filter(([key, value]) => {
     if (key === "empresas") return (value as string[]).length > 0;
-    if (key === "municipio" || key === "clasificacion" || key === "segmento" || key === "riesgo") return value !== "all";
+    if (key === "municipio" || key === "departamento" || key === "clasificacion" || key === "segmento" || key === "riesgo") return value !== "all";
     return !!value;
   }).length;
 
   const resetFilters = () => {
     setFilters({
       empresas: [],
+      departamento: "all",
       municipio: "all",
       barrio: "",
       clasificacion: "all",
@@ -479,6 +532,31 @@ export function ClienteList({ initialClientes }: ClienteListProps) {
         elementosPredefinidos: [],
       });
     }
+  };
+
+  const handleAddElement = () => {
+    if (!newElement.nombre || !newElement.tipo) {
+      toast.error("Nombre y Tipo son obligatorios");
+      return;
+    }
+
+    setConfigForm(prev => ({
+      ...prev,
+      elementosPredefinidos: [...prev.elementosPredefinidos, { ...newElement }]
+    }));
+
+    setNewElement({
+      nombre: "",
+      tipo: "Estación de Cebo",
+      ubicacion: "",
+    });
+  };
+
+  const handleRemoveElement = (index: number) => {
+    setConfigForm(prev => ({
+      ...prev,
+      elementosPredefinidos: prev.elementosPredefinidos.filter((_, i) => i !== index)
+    }));
   };
 
   const handleSaveConfig = async () => {
@@ -711,19 +789,40 @@ export function ClienteList({ initialClientes }: ClienteListProps) {
                     </div>
                   )}
 
+                  {/* Departamento */}
+                  <div className="space-y-2">
+                    <Label className="text-[10px] font-black uppercase tracking-widest text-zinc-400">Departamento</Label>
+                    <Combobox
+                      options={[
+                        { value: "all", label: "Todos los departamentos" },
+                        ...filterOptions.departamentos.map(d => ({ value: d.id, label: d.name }))
+                      ]}
+                      value={filters.departamento}
+                      onChange={(val) => {
+                        setFilters(prev => ({ ...prev, departamento: val, municipio: "all" }));
+                      }}
+                      placeholder="Seleccionar departamento..."
+                      className="h-10"
+                    />
+                  </div>
+
                   {/* Municipio */}
                   <div className="space-y-2">
                     <Label className="text-[10px] font-black uppercase tracking-widest text-zinc-400">Municipio</Label>
                     <Combobox
                       options={[
                         { value: "all", label: "Todos los municipios" },
-                        ...filterOptions.municipios.map(m => ({ value: m, label: m }))
+                        ...filterOptions.municipios.map(m => typeof m === 'string' ? { value: m, label: m } : { value: m.id, label: m.name })
                       ]}
                       value={filters.municipio}
                       onChange={(val) => setFilters(prev => ({ ...prev, municipio: val }))}
                       placeholder="Seleccionar municipio..."
                       className="h-10"
+                      disabled={filters.departamento === "all" && initialDepartments.length > 0}
                     />
+                    {filters.departamento === "all" && initialDepartments.length > 0 && (
+                      <p className="text-[9px] font-bold text-amber-600 uppercase tracking-widest ml-1">Seleccione un departamento primero</p>
+                    )}
                   </div>
 
                   {/* Barrio */}
@@ -971,7 +1070,7 @@ export function ClienteList({ initialClientes }: ClienteListProps) {
                         </Link>
                         <DropdownMenuSeparator />
                         <DropdownMenuItem
-                          onClick={() => handleDelete(cliente.id)}
+                          onClick={() => handleDelete(cliente)}
                           className="flex items-center gap-3 py-2.5 text-[11px] font-bold text-red-600 hover:text-red-600 hover:bg-red-50 cursor-pointer"
                         >
                           <Trash2 className="h-4 w-4" /> ELIMINAR
@@ -1538,15 +1637,89 @@ export function ClienteList({ initialClientes }: ClienteListProps) {
                         </div>
 
                         <div className="space-y-3">
-                          <div className="flex items-center justify-between">
-                            <h3 className="text-[10px] font-black uppercase tracking-[0.2em] text-zinc-400 flex items-center gap-2">
-                              <Box className="h-4 w-4 text-blue-400" /> Activos / Elementos Predefinidos
-                            </h3>
-                            <button className="text-[9px] font-black text-azul-1 hover:underline uppercase">+ Agregar</button>
+                          <h3 className="text-[10px] font-black uppercase tracking-[0.2em] text-zinc-400 flex items-center gap-2">
+                            <Box className="h-4 w-4 text-blue-400" /> Activos / Elementos Predefinidos
+                          </h3>
+                          
+                          {/* Formulario rápido para nuevo elemento */}
+                          <div className="grid grid-cols-3 gap-2 bg-zinc-50 dark:bg-zinc-900 p-3 rounded-2xl border border-zinc-100 dark:border-zinc-800">
+                            <div className="space-y-1">
+                              <Label className="text-[8px] font-black text-zinc-400 uppercase">Nombre / Tag</Label>
+                              <Input 
+                                placeholder="Eje: Estación 01" 
+                                value={newElement.nombre}
+                                onChange={(e) => setNewElement(prev => ({ ...prev, nombre: e.target.value }))}
+                                className="h-8 text-[10px]"
+                              />
+                            </div>
+                            <div className="space-y-1">
+                              <Label className="text-[8px] font-black text-zinc-400 uppercase">Tipo</Label>
+                              <Select 
+                                value={newElement.tipo}
+                                onChange={(e) => setNewElement(prev => ({ ...prev, tipo: e.target.value }))}
+                                className="h-8 text-[10px]"
+                              >
+                                <option value="Estación de Cebo">Estación de Cebo</option>
+                                <option value="Trampa de Luz">Trampa de Luz</option>
+                                <option value="Extintor">Extintor</option>
+                                <option value="Unidad AC">Unidad AC</option>
+                                <option value="Tablero Eléctrico">Tablero Eléctrico</option>
+                                <option value="Otro">Otro</option>
+                              </Select>
+                            </div>
+                            <div className="space-y-1">
+                              <Label className="text-[8px] font-black text-zinc-400 uppercase">Acción</Label>
+                              <Button 
+                                size="sm" 
+                                onClick={handleAddElement}
+                                className="h-8 w-full bg-blue-500 hover:bg-blue-600 text-white text-[9px] font-bold uppercase"
+                              >
+                                <Plus className="h-3 w-3 mr-1" /> Añadir
+                              </Button>
+                            </div>
+                            <div className="col-span-3 space-y-1">
+                              <Label className="text-[8px] font-black text-zinc-400 uppercase">Ubicación / Notas</Label>
+                              <Input 
+                                placeholder="Eje: Pasillo de servicio, al lado de la puerta principal" 
+                                value={newElement.ubicacion}
+                                onChange={(e) => setNewElement(prev => ({ ...prev, ubicacion: e.target.value }))}
+                                className="h-8 text-[10px]"
+                              />
+                            </div>
                           </div>
-                          <div className="border-2 border-dashed border-zinc-200 dark:border-zinc-800 rounded-2xl p-6 text-center">
-                            <p className="text-[10px] font-bold text-zinc-400 uppercase tracking-widest">No hay elementos configurados</p>
-                            <p className="text-[9px] font-medium text-zinc-400 mt-1 lowercase italic">Ej: Trampas de luz, Extintores, Aires acondicionados...</p>
+
+                          {/* Lista de elementos agregados */}
+                          <div className="space-y-2 mt-4">
+                            {configForm.elementosPredefinidos.length === 0 ? (
+                              <div className="border-2 border-dashed border-zinc-200 dark:border-zinc-800 rounded-2xl p-6 text-center">
+                                <p className="text-[10px] font-bold text-zinc-400 uppercase tracking-widest">No hay elementos configurados</p>
+                                <p className="text-[9px] font-medium text-zinc-400 mt-1 lowercase italic">Ej: Trampas de luz, Extintores, Aires acondicionados...</p>
+                              </div>
+                            ) : (
+                              <div className="max-h-48 overflow-y-auto space-y-2 pr-2 custom-scrollbar">
+                                {configForm.elementosPredefinidos.map((el, i) => (
+                                  <div key={i} className="flex items-center justify-between p-3 rounded-xl bg-white dark:bg-zinc-800 border border-zinc-100 dark:border-zinc-700 shadow-sm group">
+                                    <div className="flex items-center gap-3">
+                                      <div className="h-8 w-8 rounded-lg bg-blue-50 dark:bg-blue-500/10 flex items-center justify-center text-blue-500">
+                                        <Box className="h-4 w-4" />
+                                      </div>
+                                      <div>
+                                        <p className="text-[11px] font-black text-zinc-900 dark:text-zinc-50 leading-tight uppercase">{el.nombre}</p>
+                                        <p className="text-[9px] font-bold text-zinc-400 uppercase tracking-tighter">
+                                          {el.tipo} {el.ubicacion ? `| ${el.ubicacion}` : ""}
+                                        </p>
+                                      </div>
+                                    </div>
+                                    <button 
+                                      onClick={() => handleRemoveElement(i)}
+                                      className="h-7 w-7 rounded-lg bg-red-50 text-red-500 hover:bg-red-500 hover:text-white flex items-center justify-center transition-all opacity-0 group-hover:opacity-100"
+                                    >
+                                      <Trash2 className="h-3.5 w-3.5" />
+                                    </button>
+                                  </div>
+                                ))}
+                              </div>
+                            )}
                           </div>
                         </div>
                       </div>
@@ -1695,6 +1868,52 @@ export function ClienteList({ initialClientes }: ClienteListProps) {
                   className="px-10 h-12 rounded-xl bg-zinc-100 dark:bg-zinc-900 text-xs font-black uppercase tracking-widest text-zinc-600 dark:text-zinc-400 hover:bg-zinc-200 transition-all"
                 >
                   Cerrar Historial
+                </button>
+              </div>
+            </div>
+          )}
+        </DialogContent>
+      </Dialog>
+
+      {/* MODAL DE CONFIRMACIÓN DE ELIMINACIÓN - PERSONALIZADO */}
+      <Dialog
+        open={!!clienteToDelete}
+        onOpenChange={(open) => !open && setClienteToDelete(null)}
+      >
+        <DialogContent className="max-w-md p-0 overflow-hidden border-none shadow-2xl rounded-2xl">
+          <DialogHeader className="sr-only">
+            <DialogTitle>Confirmar Eliminación</DialogTitle>
+          </DialogHeader>
+          {clienteToDelete && (
+            <div className="flex flex-col bg-white dark:bg-zinc-950">
+              <div className="p-8 flex flex-col items-center text-center">
+                <div className="h-20 w-20 rounded-2xl bg-red-50 dark:bg-red-500/10 flex items-center justify-center text-red-500 mb-6 shadow-xl shadow-red-500/10">
+                  <AlertCircle className="h-10 w-10" />
+                </div>
+                
+                <h3 className="text-xl font-black text-zinc-900 dark:text-zinc-50 tracking-tight uppercase mb-2">
+                  ¿Eliminar este cliente?
+                </h3>
+                
+                <p className="text-sm font-medium text-zinc-500 leading-relaxed px-4">
+                  Estás a punto de eliminar a <span className="font-black text-zinc-900 dark:text-zinc-100">
+                    {clienteToDelete.tipoCliente === "EMPRESA" ? clienteToDelete.razonSocial : `${clienteToDelete.nombre} ${clienteToDelete.apellido}`}
+                  </span>. Esta acción no se puede deshacer y afectará el historial operativo vinculado.
+                </p>
+              </div>
+
+              <div className="p-6 bg-zinc-50/50 dark:bg-zinc-900/50 border-t border-zinc-100 dark:border-zinc-800 flex gap-3">
+                <button
+                  onClick={() => setClienteToDelete(null)}
+                  className="flex-1 h-12 rounded-xl text-xs font-black uppercase tracking-widest text-zinc-500 hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-all border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900"
+                >
+                  Cancelar
+                </button>
+                <button
+                  onClick={confirmDelete}
+                  className="flex-1 h-12 rounded-xl bg-red-600 text-xs font-black uppercase tracking-widest text-white shadow-lg shadow-red-600/20 hover:bg-red-700 active:scale-[0.98] transition-all"
+                >
+                  Eliminar Ahora
                 </button>
               </div>
             </div>
