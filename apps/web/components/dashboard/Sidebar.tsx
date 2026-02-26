@@ -20,6 +20,7 @@ import {
   LucideIcon,
   Contact,
   Package,
+  Activity,
 } from "lucide-react";
 import { isTenantAdminAction } from "@/app/dashboard/actions";
 import { EmpresaSelector } from "./EmpresaSelector";
@@ -29,6 +30,11 @@ const menuItems: { title: string; icon: LucideIcon; href: string; role?: string 
     title: "Panel General",
     icon: LayoutDashboard,
     href: "/dashboard",
+  },
+  {
+    title: "Monitoreo",
+    icon: Activity,
+    href: "/dashboard/monitoreo",
   },
   {
     title: "Solicitudes",

@@ -1069,7 +1069,7 @@ ORDEN DE SERVICIO: #${servicio.id}
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
                   <div>
                     <span className="text-[10px] font-bold text-zinc-500 block uppercase tracking-wider mb-1">ID Servicio</span>
-                    <span className="font-mono text-sm font-black text-azul-1">#{selectedServicio.raw.id.substring(0, 8).toUpperCase()}</span>
+                    <span className="font-mono text-sm font-black text-azul-1 dark:text-zinc-300">#{selectedServicio.raw.id.substring(0, 8).toUpperCase()}</span>
                   </div>
                   <div>
                     <span className="text-[10px] font-bold text-zinc-500 block uppercase tracking-wider mb-1">Número Orden</span>
@@ -1227,7 +1227,7 @@ ORDEN DE SERVICIO: #${servicio.id}
                   </div>
                   <div>
                     <span className="text-[10px] font-bold text-zinc-500 block uppercase tracking-wider mb-1">Servicio Específico</span>
-                    <span className="font-black text-sm text-azul-1 uppercase">{selectedServicio.servicioEspecifico}</span>
+                    <span className="font-black text-sm text-azul-1 dark:text-zinc-300 uppercase">{selectedServicio.servicioEspecifico}</span>
                   </div>
                   <div>
                     <span className="text-[10px] font-bold text-zinc-500 block uppercase tracking-wider mb-1">Técnico Asignado</span>
@@ -1245,16 +1245,16 @@ ORDEN DE SERVICIO: #${servicio.id}
                 </h3>
                 <div className="grid grid-cols-3 gap-6 bg-blue-50 dark:bg-blue-900/20 p-5 rounded-2xl border border-blue-100 dark:border-blue-800/50 shadow-sm shadow-blue-100/20">
                   <div>
-                    <span className="text-[10px] font-bold text-blue-600/70 dark:text-blue-400/70 block uppercase tracking-wider mb-1">Fecha Visita</span>
-                    <span className="font-black text-sm text-blue-900 dark:text-blue-100 uppercase">{selectedServicio.fecha}</span>
+                    <span className="text-[10px] font-bold text-blue-600/70 dark:text-zinc-300 block uppercase tracking-wider mb-1">Fecha Visita</span>
+                    <span className="font-black text-sm text-blue-900 dark:text-zinc-300 uppercase">{selectedServicio.fecha}</span>
                   </div>
                   <div>
-                    <span className="text-[10px] font-bold text-blue-600/70 dark:text-blue-400/70 block uppercase tracking-wider mb-1">Hora Inicio</span>
-                    <span className="font-black text-sm text-blue-900 dark:text-blue-100">{selectedServicio.hora}</span>
+                    <span className="text-[10px] font-bold text-blue-600/70 dark:text-zinc-300 block uppercase tracking-wider mb-1">Hora Inicio</span>
+                    <span className="font-black text-sm text-blue-900 dark:text-zinc-300">{selectedServicio.hora}</span>
                   </div>
                   <div>
-                    <span className="text-[10px] font-bold text-blue-600/70 dark:text-blue-400/70 block uppercase tracking-wider mb-1">Hora Fin</span>
-                    <span className="font-black text-sm text-blue-900 dark:text-blue-100">
+                    <span className="text-[10px] font-bold text-blue-600/70 dark:text-zinc-300 block uppercase tracking-wider mb-1">Hora Fin</span>
+                    <span className="font-black text-sm text-blue-900 dark:text-zinc-300">
                       {selectedServicio.raw.horaFin ? new Date(selectedServicio.raw.horaFin).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: true }) : "--:--"}
                     </span>
                   </div>
