@@ -582,7 +582,7 @@ export interface ElementoPredefinido {
 
 export interface ConfiguracionOperativa {
   id: string;
-  empresaId: string;
+  empresaId?: string;
   protocoloServicio?: string;
   observacionesFijas?: string;
   requiereFirmaDigital: boolean;
