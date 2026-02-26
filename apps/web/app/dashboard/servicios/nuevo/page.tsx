@@ -11,6 +11,7 @@ import {
   getServiciosAction,
   createOrdenServicioAction,
   getClienteConfigsAction,
+  ConfiguracionOperativa
 } from "../../actions";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -122,7 +123,7 @@ function NuevoServicioContent() {
   const [operadores, setOperadores] = useState<Operador[]>([]);
   const [empresas, setEmpresas] = useState<Empresa[]>([]);
   const [serviciosEmpresa, setServiciosEmpresa] = useState<Servicio[]>([]);
-  const [clienteConfigs, setClienteConfigs] = useState<any[]>([]);
+  const [clienteConfigs, setClienteConfigs] = useState<ConfiguracionOperativa[]>([]);
 
   // Form State
   const [selectedCliente, setSelectedCliente] = useState("");
@@ -150,7 +151,7 @@ function NuevoServicioContent() {
   const [tipoFacturacion, setTipoFacturacion] = useState("");
   const [estadoServicio, setEstadoServicio] = useState("NUEVO");
 
-  const applyConfigToForm = useCallback((configs: any[], dirId?: string) => {
+  const applyConfigToForm = useCallback((configs: ConfiguracionOperativa[], dirId?: string) => {
     // 1. Try to find config for specific address
     // 2. Fallback to global config (direccionId is null or undefined)
     const targetConfig = configs.find(c => c.direccionId === dirId) || 

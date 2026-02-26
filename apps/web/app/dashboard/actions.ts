@@ -574,7 +574,43 @@ export async function getClienteConfigsAction(clienteId: string) {
   }
 }
 
-export async function upsertClienteConfigAction(payload: any) {
+export interface ElementoPredefinido {
+  nombre: string;
+  tipo: string;
+  ubicacion: string;
+}
+
+export interface ConfiguracionOperativa {
+  id: string;
+  empresaId: string;
+  protocoloServicio?: string;
+  observacionesFijas?: string;
+  requiereFirmaDigital: boolean;
+  requiereFotosEvidencia: boolean;
+  duracionEstimada?: number;
+  frecuenciaSugerida?: number;
+  elementosPredefinidos?: ElementoPredefinido[];
+  direccionId?: string;
+  direccion?: {
+    id: string;
+    direccion: string;
+  };
+}
+
+export interface UpsertClienteConfigPayload {
+  clienteId: string;
+  empresaId: string;
+  direccionId: string | null;
+  protocoloServicio: string;
+  observacionesFijas: string;
+  requiereFirmaDigital: boolean;
+  requiereFotosEvidencia: boolean;
+  duracionEstimada: number;
+  frecuenciaSugerida: number;
+  elementosPredefinidos: ElementoPredefinido[];
+}
+
+export async function upsertClienteConfigAction(payload: UpsertClienteConfigPayload) {
   const cookieStore = await cookies();
   const token = cookieStore.get("access_token")?.value;
   if (!token) return { success: false, error: "No session found" };
@@ -595,7 +631,7 @@ export async function upsertClienteConfigAction(payload: any) {
 
     revalidatePath("/dashboard/clientes");
     return { success: true, data: result.data || result };
-  } catch (error) {
+  } catch (_error) {
     return { success: false, error: "OcurriÃ³ un error inesperado" };
   }
 }
