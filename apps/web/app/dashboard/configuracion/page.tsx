@@ -35,7 +35,8 @@ import {
   Lightbulb,
   CheckCircle2,
   ListChecks,
-  Building
+  Building,
+  User
 } from "lucide-react";
 import { cn } from "@/components/ui/utils";
 import { ConfigEmpresas } from "@/components/dashboard/ConfigEmpresas";
@@ -66,24 +67,50 @@ type TipoInteres = {
   activo: boolean;
 };
 
+type User = {
+  nombre?: string;
+  apellido?: string;
+  tipoDocumento?: string;
+  numeroDocumento?: string;
+  telefono?: string;
+  phone?: string;
+  banco?: string;
+  tipoCuenta?: string;
+  numeroCuenta?: string;
+  valorHora?: number;
+  email?: string;
+  role?: string;
+};
+
 export default function ConfiguracionPage() {
-  const [activeTab, setActiveTab] = useState<"segmentos" | "riesgos" | "intereses" | "empresas">("segmentos");
+  const [activeTab, setActiveTab] = useState<"segmentos" | "riesgos" | "intereses" | "empresas" | "perfil">("segmentos");
   const [loading, setLoading] = useState(true);
   
   const [segmentos, setSegmentos] = useState<Segmento[]>([]);
   const [riesgos, setRiesgos] = useState<Riesgo[]>([]);
   const [intereses, setIntereses] = useState<TipoInteres[]>([]);
+  const [user, setUser] = useState<User | null>(null);
 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingItem, setEditingItem] = useState<Segmento | Riesgo | TipoInteres | null>(null);
 
   useEffect(() => {
+    // Load user data from localStorage
+    const userData = localStorage.getItem("user");
+    if (userData && userData !== "undefined") {
+      try {
+        setUser(JSON.parse(userData));
+      } catch {
+        // ignore
+      }
+    }
+
     // Sync activeTab with URL hash on mount and hash change
     const handleHashChange = () => {
       const hash = window.location.hash.replace('#', '');
-      const validTabs = ["segmentos", "riesgos", "intereses", "empresas"];
+      const validTabs = ["segmentos", "riesgos", "intereses", "empresas", "perfil"];
       if (hash && validTabs.includes(hash)) {
-        setActiveTab(hash as "segmentos" | "riesgos" | "intereses" | "empresas");
+        setActiveTab(hash as "segmentos" | "riesgos" | "intereses" | "empresas" | "perfil");
       }
     };
 
@@ -93,12 +120,12 @@ export default function ConfiguracionPage() {
   }, []);
 
   useEffect(() => {
-    if (activeTab !== 'empresas') {
+    if (activeTab !== 'empresas' && activeTab !== 'perfil') {
       loadData();
     }
   }, [activeTab]);
 
-  const handleTabChange = (tab: "segmentos" | "riesgos" | "intereses" | "empresas") => {
+  const handleTabChange = (tab: "segmentos" | "riesgos" | "intereses" | "empresas" | "perfil") => {
     setActiveTab(tab);
     window.location.hash = tab;
   };
@@ -254,6 +281,15 @@ export default function ConfiguracionPage() {
               >
                 <Building className="h-3.5 w-3.5" /> Empresas
               </button>
+              <button 
+                onClick={() => handleTabChange("perfil")}
+                className={cn(
+                  "flex items-center gap-2 px-6 py-2.5 rounded-xl text-xs font-black uppercase tracking-widest transition-all",
+                  activeTab === "perfil" ? "bg-white dark:bg-zinc-800 text-azul-1 shadow-md" : "text-zinc-500 hover:text-zinc-700 dark:text-zinc-500 dark:hover:text-zinc-300"
+                )}
+              >
+                <User className="h-3.5 w-3.5" /> Perfil
+              </button>
             </div>
           </div>
         </div>
@@ -261,7 +297,161 @@ export default function ConfiguracionPage() {
         {/* Contenedor Principal de Datos (Scrollable) */}
         <div className="flex-1 min-h-0 overflow-y-auto px-4 sm:px-6 lg:px-10 py-8 sm:py-10">
           <div className="max-w-[1600px] mx-auto w-full">
-            {activeTab === 'empresas' ? (
+            {activeTab === 'perfil' ? (
+              <div className="space-y-8">
+                <Card className="border-none shadow-2xl shadow-black/5 dark:shadow-none dark:bg-zinc-900/30 rounded-3xl overflow-hidden border-t border-white/50 dark:border-zinc-800/50">
+                  <CardHeader className="p-8 sm:p-10 border-b border-zinc-100/80 dark:border-zinc-800/50 bg-white/40 dark:bg-zinc-900/40">
+                    <div className="flex items-center gap-4">
+                      <div className="h-12 w-12 rounded-2xl bg-azul-1/10 flex items-center justify-center text-azul-1">
+                        <User className="h-6 w-6" />
+                      </div>
+                      <div>
+                        <CardTitle className="text-xl font-black tracking-tight dark:text-zinc-100">Información Personal</CardTitle>
+                        <CardDescription className="font-bold text-[10px] uppercase tracking-[0.2em] mt-1.5 text-zinc-400 dark:text-zinc-500">
+                          Detalles básicos de tu cuenta de usuario
+                        </CardDescription>
+                      </div>
+                    </div>
+                  </CardHeader>
+                  <CardContent className="p-0 bg-white/20 dark:bg-transparent">
+                    <div className="overflow-x-auto">
+                      <table className="w-full text-left border-collapse">
+                        <thead>
+                          <tr className="border-b border-zinc-100 dark:border-zinc-800 bg-zinc-50/50 dark:bg-zinc-900/50">
+                            <th className="px-10 py-5 text-[10px] font-black uppercase tracking-[0.2em] text-zinc-400">Campo</th>
+                            <th className="px-10 py-5 text-[10px] font-black uppercase tracking-[0.2em] text-zinc-400">Valor Actual</th>
+                          </tr>
+                        </thead>
+                        <tbody className="divide-y divide-zinc-100 dark:divide-zinc-800">
+                          <tr className="group hover:bg-zinc-50/50 dark:hover:bg-zinc-900/20 transition-all">
+                            <td className="px-10 py-5 text-xs font-black uppercase tracking-widest text-zinc-500 dark:text-zinc-400">Nombre</td>
+                            <td className="px-10 py-5 text-sm font-bold text-zinc-900 dark:text-zinc-100">{user?.nombre || "No definido"}</td>
+                          </tr>
+                          <tr className="group hover:bg-zinc-50/50 dark:hover:bg-zinc-900/20 transition-all">
+                            <td className="px-10 py-5 text-xs font-black uppercase tracking-widest text-zinc-500 dark:text-zinc-400">Apellido</td>
+                            <td className="px-10 py-5 text-sm font-bold text-zinc-900 dark:text-zinc-100">{user?.apellido || "No definido"}</td>
+                          </tr>
+                          <tr className="group hover:bg-zinc-50/50 dark:hover:bg-zinc-900/20 transition-all">
+                            <td className="px-10 py-5 text-xs font-black uppercase tracking-widest text-zinc-500 dark:text-zinc-400">Tipo Documento</td>
+                            <td className="px-10 py-5 text-sm font-bold text-zinc-900 dark:text-zinc-100">{user?.tipoDocumento || "Cédula de Ciudadanía"}</td>
+                          </tr>
+                          <tr className="group hover:bg-zinc-50/50 dark:hover:bg-zinc-900/20 transition-all">
+                            <td className="px-10 py-5 text-xs font-black uppercase tracking-widest text-zinc-500 dark:text-zinc-400">Número Documento</td>
+                            <td className="px-10 py-5 text-sm font-bold text-zinc-900 dark:text-zinc-100">{user?.numeroDocumento || "No definido"}</td>
+                          </tr>
+                          <tr className="group hover:bg-zinc-50/50 dark:hover:bg-zinc-900/20 transition-all">
+                            <td className="px-10 py-5 text-xs font-black uppercase tracking-widest text-zinc-500 dark:text-zinc-400">Teléfono / Celular</td>
+                            <td className="px-10 py-5 text-sm font-bold text-zinc-900 dark:text-zinc-100">{user?.telefono || user?.phone || "No definido"}</td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </CardContent>
+                </Card>
+
+                <Card className="border-none shadow-2xl shadow-black/5 dark:shadow-none dark:bg-zinc-900/30 rounded-3xl overflow-hidden border-t border-white/50 dark:border-zinc-800/50">
+                  <CardHeader className="p-8 sm:p-10 border-b border-zinc-100/80 dark:border-zinc-800/50 bg-white/40 dark:bg-zinc-900/40">
+                    <div className="flex items-center gap-4">
+                      <div className="h-12 w-12 rounded-2xl bg-emerald-500/10 flex items-center justify-center text-emerald-600">
+                        <CreditCard className="h-6 w-6" />
+                      </div>
+                      <div>
+                        <CardTitle className="text-xl font-black tracking-tight dark:text-zinc-100">Información Bancaria</CardTitle>
+                        <CardDescription className="font-bold text-[10px] uppercase tracking-[0.2em] mt-1.5 text-zinc-400 dark:text-zinc-500">
+                          Datos para la dispersión de pagos y honorarios
+                        </CardDescription>
+                      </div>
+                    </div>
+                  </CardHeader>
+                  <CardContent className="p-0 bg-white/20 dark:bg-transparent">
+                    <div className="overflow-x-auto">
+                      <table className="w-full text-left border-collapse">
+                        <thead>
+                          <tr className="border-b border-zinc-100 dark:border-zinc-800 bg-zinc-50/50 dark:bg-zinc-900/50">
+                            <th className="px-10 py-5 text-[10px] font-black uppercase tracking-[0.2em] text-zinc-400">Campo</th>
+                            <th className="px-10 py-5 text-[10px] font-black uppercase tracking-[0.2em] text-zinc-400">Valor Registrado</th>
+                          </tr>
+                        </thead>
+                        <tbody className="divide-y divide-zinc-100 dark:divide-zinc-800">
+                          <tr className="group hover:bg-zinc-50/50 dark:hover:bg-zinc-900/20 transition-all">
+                            <td className="px-10 py-5 text-xs font-black uppercase tracking-widest text-zinc-500 dark:text-zinc-400">Banco</td>
+                            <td className="px-10 py-5 text-sm font-bold text-zinc-900 dark:text-zinc-100">{user?.banco || "Bancolombia"}</td>
+                          </tr>
+                          <tr className="group hover:bg-zinc-50/50 dark:hover:bg-zinc-900/20 transition-all">
+                            <td className="px-10 py-5 text-xs font-black uppercase tracking-widest text-zinc-500 dark:text-zinc-400">Tipo de Cuenta</td>
+                            <td className="px-10 py-5 text-sm font-bold text-zinc-900 dark:text-zinc-100">{user?.tipoCuenta || "Ahorros"}</td>
+                          </tr>
+                          <tr className="group hover:bg-zinc-50/50 dark:hover:bg-zinc-900/20 transition-all">
+                            <td className="px-10 py-5 text-xs font-black uppercase tracking-widest text-zinc-500 dark:text-zinc-400">Número de Cuenta</td>
+                            <td className="px-10 py-5 text-sm font-bold text-zinc-900 dark:text-zinc-100">{user?.numeroCuenta || "****4321"}</td>
+                          </tr>
+                          <tr className="group hover:bg-zinc-50/50 dark:hover:bg-zinc-900/20 transition-all">
+                            <td className="px-10 py-5 text-xs font-black uppercase tracking-widest text-zinc-500 dark:text-zinc-400">Valor Hora</td>
+                            <td className="px-10 py-5 text-sm font-bold text-emerald-600 dark:text-emerald-400 tabular-nums">
+                              {user?.valorHora ? new Intl.NumberFormat('es-CO', { style: 'currency', currency: 'COP' }).format(user.valorHora) : "$ 15.000,00"}
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </CardContent>
+                </Card>
+
+                <Card className="border-none shadow-2xl shadow-black/5 dark:shadow-none dark:bg-zinc-900/30 rounded-3xl overflow-hidden border-t border-white/50 dark:border-zinc-800/50">
+                  <CardHeader className="p-8 sm:p-10 border-b border-zinc-100/80 dark:border-zinc-800/50 bg-white/40 dark:bg-zinc-900/40">
+                    <div className="flex items-center gap-4">
+                      <div className="h-12 w-12 rounded-2xl bg-azul-1/10 flex items-center justify-center text-azul-1">
+                        <ShieldAlert className="h-6 w-6" />
+                      </div>
+                      <div>
+                        <CardTitle className="text-xl font-black tracking-tight dark:text-zinc-100">Información de Cuenta</CardTitle>
+                        <CardDescription className="font-bold text-[10px] uppercase tracking-[0.2em] mt-1.5 text-zinc-400 dark:text-zinc-500">
+                          Credenciales de acceso y permisos del sistema
+                        </CardDescription>
+                      </div>
+                    </div>
+                  </CardHeader>
+                  <CardContent className="p-0 bg-white/20 dark:bg-transparent">
+                    <div className="overflow-x-auto">
+                      <table className="w-full text-left border-collapse">
+                        <thead>
+                          <tr className="border-b border-zinc-100 dark:border-zinc-800 bg-zinc-50/50 dark:bg-zinc-900/50">
+                            <th className="px-10 py-5 text-[10px] font-black uppercase tracking-[0.2em] text-zinc-400">Campo</th>
+                            <th className="px-10 py-5 text-[10px] font-black uppercase tracking-[0.2em] text-zinc-400">Valor / Acción</th>
+                          </tr>
+                        </thead>
+                        <tbody className="divide-y divide-zinc-100 dark:divide-zinc-800">
+                          <tr className="group hover:bg-zinc-50/50 dark:hover:bg-zinc-900/20 transition-all">
+                            <td className="px-10 py-5 text-xs font-black uppercase tracking-widest text-zinc-500 dark:text-zinc-400">Usuario</td>
+                            <td className="px-10 py-5 text-sm font-bold text-zinc-900 dark:text-zinc-100">{user?.email?.split('@')[0] || "usuario.demo"}</td>
+                          </tr>
+                          <tr className="group hover:bg-zinc-50/50 dark:hover:bg-zinc-900/20 transition-all">
+                            <td className="px-10 py-5 text-xs font-black uppercase tracking-widest text-zinc-500 dark:text-zinc-400">Correo Electrónico</td>
+                            <td className="px-10 py-5 text-sm font-bold text-zinc-900 dark:text-zinc-100">{user?.email || "No registrado"}</td>
+                          </tr>
+                          <tr className="group hover:bg-zinc-50/50 dark:hover:bg-zinc-900/20 transition-all">
+                            <td className="px-10 py-5 text-xs font-black uppercase tracking-widest text-zinc-500 dark:text-zinc-400">Nueva Contraseña</td>
+                            <td className="px-10 py-5 text-sm font-bold text-zinc-900 dark:text-zinc-100">
+                              <button className="text-[10px] font-black uppercase tracking-widest text-azul-1 hover:text-blue-700 underline underline-offset-4">
+                                Cambiar Contraseña
+                              </button>
+                            </td>
+                          </tr>
+                          <tr className="group bg-zinc-50/30 dark:bg-zinc-900/10">
+                            <td className="px-10 py-5 text-xs font-black uppercase tracking-widest text-zinc-400 dark:text-zinc-500">Rol del Sistema</td>
+                            <td className="px-10 py-5">
+                              <span className="inline-flex items-center px-3 py-1 rounded-lg bg-zinc-100 dark:bg-zinc-800 text-[10px] font-black uppercase tracking-[0.1em] text-zinc-500 dark:text-zinc-400 border border-zinc-200 dark:border-zinc-700">
+                                {user?.role || "Usuario"} (No editable)
+                              </span>
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </CardContent>
+                </Card>
+              </div>
+            ) : activeTab === 'empresas' ? (
               <ConfigEmpresas />
             ) : (
               <Card className="border-none shadow-2xl shadow-black/5 dark:shadow-none dark:bg-zinc-900/30 rounded-3xl overflow-hidden border-t border-white/50 dark:border-zinc-800/50">

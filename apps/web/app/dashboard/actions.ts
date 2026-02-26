@@ -1,4 +1,4 @@
-﻿"use server";
+"use server";
 
 import { cookies } from "next/headers";
 import { revalidatePath } from "next/cache";
@@ -1098,5 +1098,3 @@ export async function updateMembershipAction(
     return { success: false, error: "Ocurrió un error inesperado" };
   }
 }
-
-

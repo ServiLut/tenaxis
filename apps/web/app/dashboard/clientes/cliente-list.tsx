@@ -203,6 +203,19 @@ interface Municipality {
   departmentId: string;
 }
 
+interface ConfigOperativa {
+  id: string;
+  direccionId?: string | null;
+  protocoloServicio?: string;
+  observacionesFijas?: string;
+  requiereFirmaDigital: boolean;
+  requiereFotosEvidencia: boolean;
+  duracionEstimada?: number;
+  frecuenciaSugerida?: number;
+  elementosPredefinidos?: unknown[];
+  direccion?: { direccion: string };
+}
+
 interface ClienteListProps {
   initialClientes: Cliente[];
   initialDepartments?: Department[];
@@ -485,7 +498,7 @@ export function ClienteList({ initialClientes, initialDepartments = [], initialM
     const loadConfigs = async () => {
       if (!selectedClienteForConfig) return;
       setConfigLoading(true);
-      const configs = await getClienteConfigsAction(selectedClienteForConfig.id);
+      const configs = await getClienteConfigsAction(selectedClienteForConfig.id) as ConfigOperativa[];
       setActiveConfigs(configs);
 
       // Cargar configuración "Global" (all) por defecto

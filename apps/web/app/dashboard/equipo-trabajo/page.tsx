@@ -438,7 +438,7 @@ export default function EquipoTrabajoPage() {
                   {/* Export Button */}
                   <button 
                     onClick={handleExportExcel}
-                    className="flex items-center justify-center gap-2 h-9 px-4 rounded-lg bg-emerald-50 dark:bg-emerald-500/10 border border-emerald-200 dark:border-emerald-500/20 text-emerald-700 dark:text-emerald-400 text-xs font-bold transition-all hover:bg-emerald-100 dark:hover:bg-emerald-500/20 shrink-0 w-full sm:w-auto"
+                    className="flex items-center justify-center gap-2 h-9 px-4 rounded-lg bg-emerald-50 dark:bg-emerald-500/10 border border-emerald-200 dark:border-emerald-500/20 text-emerald-700 dark:text-zinc-300 text-xs font-bold transition-all hover:bg-emerald-100 dark:hover:bg-emerald-500/20 shrink-0 w-full sm:w-auto"
                   >
                     <Download className="h-4 w-4" />
                     Descargar Excel
@@ -534,7 +534,7 @@ export default function EquipoTrabajoPage() {
                                 <span className="font-black text-zinc-900 dark:text-zinc-50 tabular-nums">{user.services}</span>
                               </td>
                               <td className="px-6 py-4 text-center">
-                                <span className="font-black text-emerald-600 dark:text-emerald-400 tabular-nums">
+                                <span className="font-black text-emerald-600 dark:text-zinc-300 tabular-nums">
                                   ${user.totalRecaudo.toLocaleString("es-CO")}
                                 </span>
                               </td>
@@ -653,7 +653,7 @@ export default function EquipoTrabajoPage() {
                                   <span className="font-black text-zinc-900 dark:text-zinc-50 tabular-nums">{user.services}</span>
                                 </td>
                                 <td className="px-6 py-4 text-center">
-                                  <span className="font-black text-emerald-600 dark:text-emerald-400 tabular-nums">
+                                  <span className="font-black text-emerald-600 dark:text-zinc-300 tabular-nums">
                                     ${user.totalRecaudo.toLocaleString("es-CO")}
                                   </span>
                                 </td>
@@ -998,10 +998,10 @@ export default function EquipoTrabajoPage() {
                 <div className="flex items-center gap-4 mr-8">
                   <button 
                     onClick={() => handleExportExcel()}
-                    className="h-10 px-4 rounded-xl bg-emerald-50 dark:bg-emerald-500/10 border border-emerald-200 dark:border-emerald-500/20 text-emerald-700 dark:text-emerald-400 text-[10px] font-black uppercase tracking-widest transition-all hover:bg-emerald-100 dark:hover:bg-emerald-500/20 flex items-center gap-2"
+                    className="h-10 px-4 rounded-xl bg-emerald-50 dark:bg-emerald-500/10 border border-emerald-200 dark:border-emerald-500/20 text-emerald-700 dark:text-zinc-300 text-[10px] font-black uppercase tracking-widest transition-all hover:bg-emerald-100 dark:hover:bg-emerald-500/20 flex items-center gap-2"
                   >
                     <Download className="h-4 w-4" />
-                    <span className="hidden sm:inline">Descargar Informe</span>
+                    <span className="hidden sm:inline dark:text-zinc-300">Descargar Informe</span>
                   </button>
                 </div>
               </div>
@@ -1152,7 +1152,7 @@ export default function EquipoTrabajoPage() {
                                 <span className={cn(
                                   "inline-block rounded-lg px-2 py-1 text-[9px] font-black uppercase tracking-widest",
                                   order.status === "Liquidado" 
-                                    ? "bg-emerald-50 text-emerald-600 dark:bg-emerald-500/10 dark:text-emerald-400"
+                                    ? "bg-emerald-50 text-emerald-600 dark:bg-zinc-800 dark:text-zinc-300"
                                     : "bg-amber-50 text-amber-600 dark:bg-amber-500/10 dark:text-amber-400"
                                 )}>
                                   {order.status}
