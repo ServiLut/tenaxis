@@ -10,6 +10,8 @@ import {
   getOperatorsAction,
   getServiciosAction,
   createOrdenServicioAction,
+  getClienteConfigsAction,
+  ConfiguracionOperativa
 } from "../../actions";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -121,6 +123,7 @@ function NuevoServicioContent() {
   const [operadores, setOperadores] = useState<Operador[]>([]);
   const [empresas, setEmpresas] = useState<Empresa[]>([]);
   const [serviciosEmpresa, setServiciosEmpresa] = useState<Servicio[]>([]);
+  const [clienteConfigs, setClienteConfigs] = useState<ConfiguracionOperativa[]>([]);
 
   // Form State
   const [selectedCliente, setSelectedCliente] = useState("");
@@ -147,6 +150,26 @@ function NuevoServicioContent() {
   const [estadoPago, setEstadoPago] = useState("");
   const [tipoFacturacion, setTipoFacturacion] = useState("");
   const [estadoServicio, setEstadoServicio] = useState("NUEVO");
+
+  const applyConfigToForm = useCallback((configs: ConfiguracionOperativa[], dirId?: string) => {
+    // 1. Try to find config for specific address
+    // 2. Fallback to global config (direccionId is null or undefined)
+    const targetConfig = configs.find(c => c.direccionId === dirId) || 
+                         configs.find(c => !c.direccionId);
+
+    if (targetConfig) {
+      if (targetConfig.duracionEstimada) setDuracionMinutos(String(targetConfig.duracionEstimada));
+      if (targetConfig.frecuenciaSugerida) setFrecuenciaRecomendada(targetConfig.frecuenciaSugerida);
+      
+      const notes = [];
+      if (targetConfig.protocoloServicio) notes.push(`PROTOCOLO: ${targetConfig.protocoloServicio}`);
+      if (targetConfig.observacionesFijas) notes.push(`OBSERVACIONES FIJAS: ${targetConfig.observacionesFijas}`);
+      
+      if (notes.length > 0) {
+        setObservacion(notes.join('\n\n'));
+      }
+    }
+  }, []);
 
   const handleNivelInfestacionChange = (val: string) => {
     setNivelInfestacion(val);
@@ -277,21 +300,40 @@ function NuevoServicioContent() {
     setServicioEspecifico("");
   };
 
-  const handleClienteChange = (clientId: string) => {
+  const handleClienteChange = async (clientId: string) => {
     setSelectedCliente(clientId);
+    setClienteConfigs([]);
+    
     if (clientId) {
+      const configsResult = await getClienteConfigsAction(clientId);
+      const configs = Array.isArray(configsResult) ? configsResult : configsResult?.data || [];
+      setClienteConfigs(configs);
+
       const cliente = (clientes || []).find(c => c.id === clientId);
       const dirs = cliente?.direcciones || [];
       setDireccionesCliente(dirs);
+      
+      let dirId = "";
       if (dirs.length > 0) {
-        setSelectedDireccion(dirs[0].id);
+        dirId = dirs[0].id;
+        setSelectedDireccion(dirId);
       } else {
         setSelectedDireccion("");
       }
+
+      applyConfigToForm(configs, dirId);
     } else {
       setDireccionesCliente([]);
       setSelectedDireccion("");
+      setObservacion("");
+      setDuracionMinutos("60");
+      setFrecuenciaRecomendada("");
     }
+  };
+
+  const handleDireccionChange = (dirId: string) => {
+    setSelectedDireccion(dirId);
+    applyConfigToForm(clienteConfigs, dirId);
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -402,7 +444,7 @@ function NuevoServicioContent() {
 
                 <div className="space-y-2">
                   <Label className="text-xs font-bold text-zinc-500 uppercase tracking-wider">Dirección <span className="text-red-500">*</span></Label>
-                  <Select value={selectedDireccion} onChange={(e) => setSelectedDireccion(e.target.value)} disabled={!selectedCliente} required className="h-11 border-zinc-200">
+                  <Select value={selectedDireccion} onChange={(e) => handleDireccionChange(e.target.value)} disabled={!selectedCliente} required className="h-11 border-zinc-200">
                     <option value="">{selectedCliente ? "Seleccionar sede disponible..." : "Primero seleccione un cliente"}</option>
                     {(Array.isArray(direccionesCliente) ? direccionesCliente : []).map(d => (
                       <option key={d.id} value={d.id}>{d.direccion} - {d.nombreSede || d.barrio}</option>
