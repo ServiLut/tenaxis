@@ -969,6 +969,9 @@ export interface CreateOrdenServicioDTO {
   fechaVisita?: string;
   horaInicio?: string;
   duracionMinutos?: number;
+  facturaPath?: string;
+  facturaElectronica?: string;
+  evidenciaPath?: string;
 }
 
 export async function createOrdenServicioAction(
