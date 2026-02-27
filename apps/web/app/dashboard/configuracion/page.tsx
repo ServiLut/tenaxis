@@ -346,8 +346,8 @@ export default function ConfiguracionPage() {
           <div className="max-w-4xl mx-auto w-full pb-24">
             {activeTab === 'perfil' ? (
               <div className="space-y-8">
-                <Card className="border-none shadow-2xl shadow-black/5 dark:shadow-none dark:bg-zinc-900/30 rounded-3xl overflow-hidden border-t border-white/50 dark:border-zinc-800/50">
-                  <CardHeader className="p-8 sm:p-10 border-b border-zinc-100/80 dark:border-zinc-800/50 bg-white/40 dark:bg-zinc-900/40">
+                <Card className="border-none shadow-2xl shadow-black/5 dark:shadow-none dark:bg-zinc-900/40 rounded-3xl overflow-hidden border-t border-white/50 dark:border-zinc-800/50 bg-white dark:bg-zinc-900/40">
+                  <CardHeader className="p-8 sm:p-10 border-b border-zinc-100/80 dark:border-zinc-800/50 bg-transparent">
                     <div className="flex items-center gap-4">
                       <div className="h-12 w-12 rounded-2xl bg-azul-1/10 flex items-center justify-center text-azul-1">
                         <User className="h-6 w-6" />
@@ -360,9 +360,9 @@ export default function ConfiguracionPage() {
                       </div>
                     </div>
                   </CardHeader>
-                  <CardContent className="p-0 bg-white/20 dark:bg-transparent">
+                  <CardContent className="p-0 bg-transparent">
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-0">
-                      <div className="bg-white dark:bg-zinc-900/40 p-6 space-y-2">
+                      <div className="p-6 space-y-2">
                         <Label className="text-[10px] font-black uppercase tracking-[0.2em] text-zinc-400">Nombre</Label>
                         <Input 
                           value={user?.nombre || ""} 
@@ -370,7 +370,7 @@ export default function ConfiguracionPage() {
                                                           className="flex h-12 w-full rounded-2xl border-2 border-zinc-100 bg-white/50 dark:bg-zinc-900/20 px-4 text-sm font-bold transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-azul-1/20 focus-visible:border-azul-1 dark:border-zinc-800 dark:text-zinc-100"                          placeholder="Ingresa tu nombre"
                         />
                       </div>
-                      <div className="bg-white dark:bg-zinc-900/40 p-6 space-y-2">
+                      <div className="p-6 space-y-2">
                         <Label className="text-[10px] font-black uppercase tracking-[0.2em] text-zinc-400">Apellido</Label>
                         <Input 
                           value={user?.apellido || ""} 
@@ -378,7 +378,7 @@ export default function ConfiguracionPage() {
                                                           className="flex h-12 w-full rounded-2xl border-2 border-zinc-100 bg-white/50 dark:bg-zinc-900/20 px-4 text-sm font-bold transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-azul-1/20 focus-visible:border-azul-1 dark:border-zinc-800 dark:text-zinc-100"                          placeholder="Ingresa tu apellido"
                         />
                       </div>
-                      <div className="bg-white dark:bg-zinc-900/40 p-6 space-y-2">
+                      <div className="p-6 space-y-2">
                         <Label className="text-[10px] font-black uppercase tracking-[0.2em] text-zinc-400">Tipo Documento</Label>
                         <Select 
                           value={user?.tipoDocumento || "Cédula de Ciudadanía"}
@@ -389,7 +389,7 @@ export default function ConfiguracionPage() {
                           ))}
                         </Select>
                       </div>
-                      <div className="bg-white dark:bg-zinc-900/40 p-6 space-y-2">
+                      <div className="p-6 space-y-2">
                         <Label className="text-[10px] font-black uppercase tracking-[0.2em] text-zinc-400">Número Documento</Label>
                         <Input 
                           value={user?.numeroDocumento || ""} 
@@ -397,7 +397,7 @@ export default function ConfiguracionPage() {
                                                           className="flex h-12 w-full rounded-2xl border-2 border-zinc-100 bg-white/50 dark:bg-zinc-900/20 px-4 text-sm font-bold transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-azul-1/20 focus-visible:border-azul-1 dark:border-zinc-800 dark:text-zinc-100"                          placeholder="Número de documento"
                         />
                       </div>
-                      <div className="bg-white dark:bg-zinc-900/40 p-6 space-y-2">
+                      <div className="p-6 space-y-2">
                         <Label className="text-[10px] font-black uppercase tracking-[0.2em] text-zinc-400">Teléfono / Celular</Label>
                         <Input 
                           value={user?.telefono || user?.phone || ""} 
@@ -409,8 +409,8 @@ export default function ConfiguracionPage() {
                   </CardContent>
                 </Card>
 
-                <Card className="border-none shadow-2xl shadow-black/5 dark:shadow-none dark:bg-zinc-900/30 rounded-3xl overflow-hidden border-t border-white/50 dark:border-zinc-800/50">
-                  <CardHeader className="p-8 sm:p-10 border-b border-zinc-100/80 dark:border-zinc-800/50 bg-white/40 dark:bg-zinc-900/40">
+                <Card className="border-none shadow-2xl shadow-black/5 dark:shadow-none dark:bg-zinc-900/40 rounded-3xl overflow-hidden border-t border-white/50 dark:border-zinc-800/50 bg-white dark:bg-zinc-900/40">
+                  <CardHeader className="p-8 sm:p-10 border-b border-zinc-100/80 dark:border-zinc-800/50 bg-transparent">
                     <div className="flex items-center gap-4">
                       <div className="h-12 w-12 rounded-2xl bg-emerald-500/10 flex items-center justify-center text-emerald-600">
                         <CreditCard className="h-6 w-6" />
@@ -423,9 +423,9 @@ export default function ConfiguracionPage() {
                       </div>
                     </div>
                   </CardHeader>
-                  <CardContent className="p-0 bg-white/20 dark:bg-transparent">
+                  <CardContent className="p-0 bg-transparent">
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-0">
-                      <div className="bg-white dark:bg-zinc-900/40 p-6 space-y-2">
+                      <div className="p-6 space-y-2">
                         <Label className="text-[10px] font-black uppercase tracking-[0.2em] text-zinc-400">Banco</Label>
                         <Select 
                           value={user?.banco || "Bancolombia"}
@@ -436,7 +436,7 @@ export default function ConfiguracionPage() {
                           ))}
                         </Select>
                       </div>
-                      <div className="bg-white dark:bg-zinc-900/40 p-6 space-y-2">
+                      <div className="p-6 space-y-2">
                         <Label className="text-[10px] font-black uppercase tracking-[0.2em] text-zinc-400">Tipo de Cuenta</Label>
                         <Select 
                           value={user?.tipoCuenta || "Ahorros"}
@@ -447,7 +447,7 @@ export default function ConfiguracionPage() {
                           ))}
                         </Select>
                       </div>
-                      <div className="bg-white dark:bg-zinc-900/40 p-6 space-y-2">
+                      <div className="p-6 space-y-2">
                         <Label className="text-[10px] font-black uppercase tracking-[0.2em] text-zinc-400">Número de Cuenta</Label>
                         <Input 
                           value={user?.numeroCuenta || ""} 
@@ -455,7 +455,7 @@ export default function ConfiguracionPage() {
                                                           className="flex h-12 w-full rounded-2xl border-2 border-zinc-100 bg-white/50 dark:bg-zinc-900/20 px-4 text-sm font-bold transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-azul-1/20 focus-visible:border-azul-1 dark:border-zinc-800 dark:text-zinc-100"                          placeholder="Número de cuenta"
                         />
                       </div>
-                      <div className="bg-white dark:bg-zinc-900/40 p-6 space-y-2">
+                      <div className="p-6 space-y-2">
                         <Label className="text-[10px] font-black uppercase tracking-[0.2em] text-zinc-400">Valor Hora</Label>
                         <Input 
                           type="number"
@@ -468,8 +468,8 @@ export default function ConfiguracionPage() {
                   </CardContent>
                 </Card>
 
-                <Card className="border-none shadow-2xl shadow-black/5 dark:shadow-none dark:bg-zinc-900/30 rounded-3xl overflow-hidden border-t border-white/50 dark:border-zinc-800/50">
-                  <CardHeader className="p-8 sm:p-10 border-b border-zinc-100/80 dark:border-zinc-800/50 bg-white/40 dark:bg-zinc-900/40">
+                <Card className="border-none shadow-2xl shadow-black/5 dark:shadow-none dark:bg-zinc-900/40 rounded-3xl overflow-hidden border-t border-white/50 dark:border-zinc-800/50 bg-white dark:bg-zinc-900/40">
+                  <CardHeader className="p-8 sm:p-10 border-b border-zinc-100/80 dark:border-zinc-800/50 bg-transparent">
                     <div className="flex items-center gap-4">
                       <div className="h-12 w-12 rounded-2xl bg-azul-1/10 flex items-center justify-center text-azul-1">
                         <ShieldAlert className="h-6 w-6" />
@@ -482,9 +482,9 @@ export default function ConfiguracionPage() {
                       </div>
                     </div>
                   </CardHeader>
-                  <CardContent className="p-0 bg-white/20 dark:bg-transparent">
+                  <CardContent className="p-0 bg-transparent">
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-0">
-                      <div className="bg-white dark:bg-zinc-900/40 p-6 space-y-2">
+                      <div className="p-6 space-y-2">
                         <Label className="text-[10px] font-black uppercase tracking-[0.2em] text-zinc-400">Usuario</Label>
                         <Input 
                           value={user?.email?.split('@')[0] || "usuario.demo"} 
@@ -492,7 +492,7 @@ export default function ConfiguracionPage() {
                           className="flex h-12 w-full rounded-2xl border-2 border-zinc-100 bg-zinc-50/50 dark:bg-zinc-800/30 px-4 text-sm font-bold text-zinc-500 dark:text-zinc-400 cursor-not-allowed"
                         />
                       </div>
-                      <div className="bg-white dark:bg-zinc-900/40 p-6 space-y-2">
+                      <div className="p-6 space-y-2">
                         <Label className="text-[10px] font-black uppercase tracking-[0.2em] text-zinc-400">Correo Electrónico</Label>
                         <Input 
                           value={user?.email || "No registrado"} 
@@ -500,7 +500,7 @@ export default function ConfiguracionPage() {
                           className="flex h-12 w-full rounded-2xl border-2 border-zinc-100 bg-zinc-50/50 dark:bg-zinc-800/30 px-4 text-sm font-bold text-zinc-500 dark:text-zinc-400 cursor-not-allowed"
                         />
                       </div>
-                      <div className="bg-white dark:bg-zinc-900/40 p-6 space-y-2">
+                      <div className="p-6 space-y-2">
                         <Label className="text-[10px] font-black uppercase tracking-[0.2em] text-zinc-400">Nueva Contraseña</Label>
                         <div className="relative">
                           <Input 
@@ -513,7 +513,7 @@ export default function ConfiguracionPage() {
                           </button>
                         </div>
                       </div>
-                      <div className="bg-white dark:bg-zinc-900/40 p-6 space-y-2">
+                      <div className="p-6 space-y-2">
                         <Label className="text-[10px] font-black uppercase tracking-[0.2em] text-zinc-400">Rol del Sistema</Label>
                         <div className="relative">
                           <Input 
@@ -553,7 +553,7 @@ export default function ConfiguracionPage() {
                       {activeTab === "segmentos" ? "Define cómo clasificas a tus clientes por industria" : activeTab === "riesgos" ? "Gestiona los niveles de riesgo para priorizar servicios" : "Administra las opciones de servicio que interesan a tus clientes"}
                     </CardDescription>
                   </div>
-                  <Button onClick={() => handleOpenModal()} className="bg-azul-1 hover:bg-azul-1/90 text-white font-black uppercase tracking-widest text-[10px] rounded-xl gap-2 h-11 px-6 shadow-lg shadow-azul-1/20 transition-all hover:scale-105 active:scale-95">
+                  <Button onClick={() => handleOpenModal()} className="bg-azul-1 dark:bg-azul-1 hover:bg-azul-1/90 dark:hover:bg-azul-1/90 text-white dark:text-zinc-300 font-black uppercase tracking-widest text-[10px] rounded-xl gap-2 h-11 px-6 shadow-lg shadow-azul-1/20 transition-all hover:scale-105 active:scale-95">
                     <Plus className="h-4 w-4" /> AGREGAR NUEVO
                   </Button>
                 </CardHeader>
@@ -804,7 +804,7 @@ export default function ConfiguracionPage() {
               </CardContent>
               <CardFooter className="flex justify-end gap-3 pt-4 border-t border-zinc-100 dark:border-zinc-800 mt-4">
                 <Button type="button" variant="ghost" onClick={handleCloseModal} className="font-bold text-xs uppercase tracking-widest">Cancelar</Button>
-                <Button type="submit" className="bg-azul-1 hover:bg-azul-1/90 text-white font-bold rounded-xl gap-2 h-12 px-10">
+                <Button type="submit" className="bg-azul-1 dark:bg-azul-1 hover:bg-azul-1/90 dark:hover:bg-azul-1/90 text-white dark:text-zinc-300 font-bold rounded-xl gap-2 h-12 px-10">
                   <Save className="h-4 w-4" /> GUARDAR CAMBIOS
                 </Button>
               </CardFooter>

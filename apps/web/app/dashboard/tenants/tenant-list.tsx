@@ -162,7 +162,7 @@ export function TenantList({ initialTenants, availablePlans }: TenantListProps) 
   return (
     <div className="space-y-8">
       <div className="flex justify-end">
-        <Button onClick={() => setIsModalOpen(true)} className="gap-2 h-12 px-6 rounded-2xl bg-vivido-purpura-2 text-white hover:bg-vivido-purpura-2/90 transition-all border-none shadow-none">
+        <Button onClick={() => setIsModalOpen(true)} className="gap-2 h-12 px-6 rounded-2xl bg-vivido-purpura-2 dark:bg-vivido-purpura-2 text-white dark:text-zinc-300 hover:bg-vivido-purpura-2/90 dark:hover:bg-vivido-purpura-2/90 transition-all border-none shadow-none">
           <Plus className="h-5 w-5" />
           <span className="font-black uppercase tracking-widest text-xs">Nuevo Tenant</span>
         </Button>
@@ -171,7 +171,7 @@ export function TenantList({ initialTenants, availablePlans }: TenantListProps) 
       {tenants.length === 0 ? (
         <div className="rounded-[3rem] border-4 border-zinc-200 p-20 text-center bg-white shadow-xl">
           <div className="flex flex-col items-center justify-center">
-            <div className="flex h-20 w-20 items-center justify-center rounded-[2rem] bg-azul-1 text-white shadow-2xl">
+            <div className="flex h-20 w-20 items-center justify-center rounded-[2rem] bg-azul-1 text-white dark:text-zinc-300 shadow-2xl">
               <Building2 className="h-10 w-10" />
             </div>
             <h2 className="mt-8 text-2xl font-black tracking-tighter text-zinc-900">
@@ -187,7 +187,7 @@ export function TenantList({ initialTenants, availablePlans }: TenantListProps) 
           {tenants.map((tenant) => (
             <Card key={tenant.id} className="group overflow-hidden border-none shadow-xl bg-white transition-all hover:scale-[1.02] rounded-[3rem] relative">
               <CardHeader className="flex flex-row items-center justify-between pb-2 pt-10 px-10 relative z-10">
-                <div className="flex h-16 w-16 items-center justify-center rounded-2xl bg-azul-1 text-white shadow-lg">
+                <div className="flex h-16 w-16 items-center justify-center rounded-2xl bg-azul-1 text-white dark:text-zinc-300 shadow-lg">
                   <Building2 className="h-8 w-8" />
                 </div>
                 <span className={cn(
@@ -203,8 +203,8 @@ export function TenantList({ initialTenants, availablePlans }: TenantListProps) 
               <CardContent className="pt-6 px-10 pb-10 relative z-10">
                 <CardTitle className="text-3xl font-black tracking-tighter mb-1 leading-none">{tenant.nombre}</CardTitle>
                 <div className="inline-flex items-center gap-2 mt-2 mb-8">
-                  <div className="h-1.5 w-1.5 rounded-full bg-azul-1" />
-                  <p className="text-[10px] font-black text-azul-1 uppercase tracking-[0.3em]">ID: {tenant.slug}</p>
+                  <div className="h-1.5 w-1.5 rounded-full bg-azul-1 dark:bg-zinc-400" />
+                  <p className="text-[10px] font-black text-azul-1 dark:text-zinc-400 uppercase tracking-[0.3em]">ID: {tenant.slug}</p>
                 </div>
 
                 <div className="grid grid-cols-2 gap-4">
@@ -214,7 +214,7 @@ export function TenantList({ initialTenants, availablePlans }: TenantListProps) 
                     <span className="text-[10px] font-black text-zinc-400 uppercase tracking-widest">Miembros</span>
                   </div>
                   <div className="flex flex-col gap-1 p-5 rounded-2xl bg-zinc-50 border border-zinc-100">
-                    <Building2 className="h-5 w-5 text-azul-1" />
+                    <Building2 className="h-5 w-5 text-azul-1 dark:text-zinc-400" />
                     <span className="text-2xl font-black text-zinc-900 tabular-nums leading-none mt-2">{tenant._count?.empresas || 0}</span>
                     <span className="text-[10px] font-black text-zinc-400 uppercase tracking-widest">Sedes</span>
                   </div>
@@ -237,7 +237,7 @@ export function TenantList({ initialTenants, availablePlans }: TenantListProps) 
                     Ver
                   </button>
                   <div className="h-4 w-[1px] bg-zinc-200" />
-                  <Button className="flex-1 h-11 rounded-xl bg-zinc-900 text-white hover:bg-azul-1 transition-all shadow-md">
+                  <Button className="flex-1 h-11 rounded-xl bg-zinc-900 dark:bg-zinc-800 text-white dark:text-zinc-300 hover:bg-azul-1 dark:hover:bg-azul-1 transition-all shadow-md">
                     <Pencil className="h-4 w-4 mr-2" />
                     <span className="text-xs font-black uppercase tracking-widest">Gestionar</span>
                   </Button>
@@ -259,35 +259,35 @@ export function TenantList({ initialTenants, availablePlans }: TenantListProps) 
           <div className="w-full max-w-4xl overflow-hidden rounded-[3rem] bg-white shadow-2xl animate-in zoom-in-95 duration-300 border-none">
             <div className="relative max-h-[90vh]">
               {/* Header Modal */}
-              <div className="sticky top-0 z-10 flex items-center justify-between bg-white/90 p-8 pb-4 backdrop-blur-md border-b border-zinc-50">
+              <div className="sticky top-0 z-10 flex items-center justify-between bg-white/90 dark:bg-zinc-950/90 p-8 pb-4 backdrop-blur-md border-b border-zinc-50 dark:border-zinc-800">
                 <div className="flex items-center gap-4">
-                  <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-azul-1 text-white shadow-lg">
+                  <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-azul-1 text-white dark:text-zinc-300 shadow-lg">
                     <Building2 className="h-6 w-6" />
                   </div>
                   <div>
-                    <h2 className="text-3xl font-black tracking-tighter text-zinc-900">{selectedTenantDetail.nombre}</h2>
-                    <p className="text-xs font-bold text-azul-1 uppercase tracking-widest">ID: {selectedTenantDetail.slug}</p>
+                    <h2 className="text-3xl font-black tracking-tighter text-zinc-900 dark:text-zinc-100">{selectedTenantDetail.nombre}</h2>
+                    <p className="text-xs font-bold text-azul-1 dark:text-zinc-400 uppercase tracking-widest">ID: {selectedTenantDetail.slug}</p>
                   </div>
                 </div>
-                <button onClick={() => setIsViewModalOpen(false)} className="rounded-full p-3 text-zinc-400 hover:bg-zinc-100 transition-all hover:rotate-90">
+                <button onClick={() => setIsViewModalOpen(false)} className="rounded-full p-3 text-zinc-400 hover:bg-zinc-100 dark:hover:bg-zinc-900 transition-all hover:rotate-90">
                   <X className="h-6 w-6" />
                 </button>
               </div>
 
-              <div className="p-10 space-y-12">
+              <div className="p-10 space-y-12 bg-white dark:bg-zinc-950">
                 {/* Información General */}
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-                  <div className="space-y-1 p-6 rounded-3xl bg-[#F5F1EB] border border-zinc-100">
+                  <div className="space-y-1 p-6 rounded-3xl bg-[#F5F1EB] dark:bg-zinc-900/50 border border-zinc-100 dark:border-zinc-800">
                     <p className="text-[10px] font-black uppercase tracking-widest text-zinc-400">NIT / Identificación</p>
-                    <p className="text-lg font-black text-zinc-900">{selectedTenantDetail.nit || "No registrado"}</p>
+                    <p className="text-lg font-black text-zinc-900 dark:text-zinc-200">{selectedTenantDetail.nit || "No registrado"}</p>
                   </div>
-                  <div className="space-y-1 p-6 rounded-3xl bg-[#F5F1EB] border border-zinc-100">
+                  <div className="space-y-1 p-6 rounded-3xl bg-[#F5F1EB] dark:bg-zinc-900/50 border border-zinc-100 dark:border-zinc-800">
                     <p className="text-[10px] font-black uppercase tracking-widest text-zinc-400">Email Corporativo</p>
-                    <p className="text-lg font-black text-zinc-900 truncate">{selectedTenantDetail.correo || "No registrado"}</p>
+                    <p className="text-lg font-black text-zinc-900 dark:text-zinc-200 truncate">{selectedTenantDetail.correo || "No registrado"}</p>
                   </div>
-                  <div className="space-y-1 p-6 rounded-3xl bg-[#F5F1EB] border border-zinc-100">
+                  <div className="space-y-1 p-6 rounded-3xl bg-[#F5F1EB] dark:bg-zinc-900/50 border border-zinc-100 dark:border-zinc-800">
                     <p className="text-[10px] font-black uppercase tracking-widest text-zinc-400">Suscripción Activa</p>
-                    <p className="text-lg font-black text-azul-1">
+                    <p className="text-lg font-black text-azul-1 dark:text-zinc-200">
                       {selectedTenantDetail.subscription?.plan.nombre || "Sin plan"}
                     </p>
                   </div>
@@ -296,26 +296,26 @@ export function TenantList({ initialTenants, availablePlans }: TenantListProps) 
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
                   {/* Miembros */}
                   <div className="space-y-6">
-                    <div className="flex items-center gap-3 border-b border-zinc-100 pb-4">
-                      <Users className="h-5 w-5 text-azul-1" />
-                      <h3 className="text-sm font-black uppercase tracking-widest text-zinc-900">Miembros de la Organización</h3>
-                      <span className="ml-auto text-xs font-black bg-zinc-100 px-2 py-1 rounded-lg text-zinc-500">
+                    <div className="flex items-center gap-3 border-b border-zinc-100 dark:border-zinc-800 pb-4">
+                      <Users className="h-5 w-5 text-azul-1 dark:text-zinc-400" />
+                      <h3 className="text-sm font-black uppercase tracking-widest text-zinc-900 dark:text-zinc-100">Miembros de la Organización</h3>
+                      <span className="ml-auto text-xs font-black bg-zinc-100 dark:bg-zinc-800 px-2 py-1 rounded-lg text-zinc-500">
                         {selectedTenantDetail.memberships.length}
                       </span>
                     </div>
                     <div className="max-h-[300px] overflow-y-auto pr-2 space-y-4">
                       {selectedTenantDetail.memberships.map((membership, _idx) => (
-                        <div key={_idx} className="flex items-center justify-between p-4 rounded-2xl bg-white border border-zinc-100 shadow-sm">
+                        <div key={_idx} className="flex items-center justify-between p-4 rounded-2xl bg-white dark:bg-zinc-900/50 border border-zinc-100 dark:border-zinc-800 shadow-sm">
                           <div className="flex items-center gap-3">
-                            <div className="h-10 w-10 rounded-xl bg-zinc-900 flex items-center justify-center text-white font-black text-xs">
+                            <div className="h-10 w-10 rounded-xl bg-zinc-900 dark:bg-zinc-800 flex items-center justify-center text-white dark:text-zinc-300 font-black text-xs">
                               {membership.user.nombre[0]}{membership.user.apellido[0]}
                             </div>
                             <div>
-                              <p className="text-sm font-black text-zinc-900">{membership.user.nombre} {membership.user.apellido}</p>
+                              <p className="text-sm font-black text-zinc-900 dark:text-zinc-300">{membership.user.nombre} {membership.user.apellido}</p>
                               <p className="text-[10px] font-bold text-zinc-400">{membership.user.email}</p>
                             </div>
                           </div>
-                          <span className="text-[9px] font-black uppercase tracking-widest bg-azul-1/10 text-azul-1 px-3 py-1 rounded-full">
+                          <span className="text-[9px] font-black uppercase tracking-widest bg-azul-1/10 dark:bg-azul-1/20 text-azul-1 dark:text-azul-300 px-3 py-1 rounded-full">
                             {membership.role}
                           </span>
                         </div>
@@ -325,21 +325,21 @@ export function TenantList({ initialTenants, availablePlans }: TenantListProps) 
 
                   {/* Sedes */}
                   <div className="space-y-6">
-                    <div className="flex items-center gap-3 border-b border-zinc-100 pb-4">
-                      <Building2 className="h-5 w-5 text-azul-1" />
-                      <h3 className="text-sm font-black uppercase tracking-widest text-zinc-900">Sedes / Empresas</h3>
-                      <span className="ml-auto text-xs font-black bg-zinc-100 px-2 py-1 rounded-lg text-zinc-500">
+                    <div className="flex items-center gap-3 border-b border-zinc-100 pb-4 dark:border-zinc-800">
+                      <Building2 className="h-5 w-5 text-azul-1 dark:text-zinc-400" />
+                      <h3 className="text-sm font-black uppercase tracking-widest text-zinc-900 dark:text-zinc-100">Sedes / Empresas</h3>
+                      <span className="ml-auto text-xs font-black bg-zinc-100 dark:bg-zinc-800 px-2 py-1 rounded-lg text-zinc-500">
                         {selectedTenantDetail.empresas.length}
                       </span>
                     </div>
                     <div className="max-h-[300px] overflow-y-auto pr-2 space-y-4">
                       {selectedTenantDetail.empresas.map((empresa, idx) => (
-                        <div key={idx} className="flex items-center justify-between p-4 rounded-2xl bg-white border border-zinc-100 shadow-sm">
+                        <div key={idx} className="flex items-center justify-between p-4 rounded-2xl bg-white dark:bg-zinc-900/50 border border-zinc-100 dark:border-zinc-800 shadow-sm">
                           <div className="flex items-center gap-3">
-                            <div className="h-10 w-10 rounded-xl bg-azul-1/10 flex items-center justify-center text-azul-1">
+                            <div className="h-10 w-10 rounded-xl bg-azul-1/10 flex items-center justify-center text-azul-1 dark:text-zinc-400">
                               <Building2 className="h-5 w-5" />
                             </div>
-                            <p className="text-sm font-black text-zinc-900">{empresa.nombre}</p>
+                            <p className="text-sm font-black text-zinc-900 dark:text-zinc-300">{empresa.nombre}</p>
                           </div>
                           <button className="text-[10px] font-black uppercase tracking-widest text-zinc-400 hover:text-azul-1 transition-colors">
                             Ver Sede
@@ -353,8 +353,8 @@ export function TenantList({ initialTenants, availablePlans }: TenantListProps) 
                   </div>
                 </div>
 
-                <div className="pt-8 border-t border-zinc-100 flex justify-end">
-                  <Button onClick={() => setIsViewModalOpen(false)} className="h-12 px-8 rounded-xl bg-zinc-900 text-white hover:bg-azul-1 transition-all">
+                <div className="pt-8 border-t border-zinc-100 dark:border-zinc-800 flex justify-end">
+                  <Button onClick={() => setIsViewModalOpen(false)} className="h-12 px-8 rounded-xl bg-azul-1 dark:bg-azul-1 text-white dark:text-zinc-300 hover:bg-azul-1/90 dark:hover:bg-azul-1/90 transition-all shadow-lg shadow-azul-1/20">
                     Cerrar Vista
                   </Button>
                 </div>
@@ -394,7 +394,7 @@ export function TenantList({ initialTenants, availablePlans }: TenantListProps) 
                 {/* Sección 1: Organización */}
                 <div className="space-y-6">
                   <div className="flex items-center gap-3 border-b border-zinc-50 pb-2 dark:border-zinc-800">
-                    <Building2 className="h-4 w-4 text-blue-500" />
+                    <Building2 className="h-4 w-4 text-blue-500 dark:text-zinc-400" />
                     <h3 className="text-sm font-black uppercase tracking-widest text-zinc-900 dark:text-zinc-50">Organización</h3>
                   </div>
                   <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
@@ -481,7 +481,7 @@ export function TenantList({ initialTenants, availablePlans }: TenantListProps) 
                   <Button type="button" variant="outline" onClick={handleCloseModal} className="flex-1 h-14 rounded-2xl border-2 font-bold uppercase tracking-widest text-xs">
                     Cancelar
                   </Button>
-                  <Button type="submit" disabled={loading} className="flex-1 h-14 rounded-2xl bg-zinc-900 text-white hover:bg-zinc-800 dark:bg-zinc-50 dark:text-zinc-900 dark:hover:bg-white shadow-2xl transition-all">
+                  <Button type="submit" disabled={loading} className="flex-1 h-14 rounded-2xl bg-vivido-purpura-2 dark:bg-vivido-purpura-2 text-white dark:text-zinc-300 hover:bg-vivido-purpura-2/90 dark:hover:bg-vivido-purpura-2/90 shadow-2xl transition-all">
                     {loading ? <Loader2 className="h-6 w-6 animate-spin" /> : <span className="font-black uppercase tracking-widest">Crear Tenant</span>}
                   </Button>
                 </div>

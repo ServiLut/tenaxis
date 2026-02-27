@@ -33,12 +33,12 @@ export default function MonitoreoPage() {
             </p>
           </div>
           <div className="flex items-center space-x-2">
-            <Button variant="outline" size="sm" className="dark:text-zinc-300 dark:border-zinc-800">
-              <RefreshCcw className="mr-2 h-4 w-4" />
+            <Button size="sm" className="bg-azul-1 dark:bg-azul-1 text-white dark:text-zinc-300 hover:bg-azul-1/90 dark:hover:bg-azul-1/90 shadow-md shadow-azul-1/10 gap-2 border-none">
+              <RefreshCcw className="h-4 w-4" />
               Actualizar
             </Button>
-            <Button variant="outline" size="sm" className="dark:text-zinc-300 dark:border-zinc-800">
-              <Download className="mr-2 h-4 w-4" />
+            <Button variant="outline" size="sm" className="bg-emerald-50 dark:bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 hover:bg-emerald-100 dark:hover:bg-emerald-500/20 border-emerald-100 dark:border-emerald-500/20 shadow-sm gap-2">
+              <Download className="h-4 w-4" />
               Exportar
             </Button>
           </div>
