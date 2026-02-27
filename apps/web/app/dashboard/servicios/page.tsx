@@ -74,6 +74,7 @@ import {
   getEstadoServiciosAction,
   getOperatorsAction,
   updateOrdenServicioAction,
+  getMetodosPagoAction,
   type ClienteDTO,
 } from "../actions";
 
@@ -143,6 +144,8 @@ interface OrdenServicioRaw {
   facturaPath?: string | null;
   facturaElectronica?: string | null;
   comprobantePago?: string | null;
+  referenciaPago?: string | null;
+  fechaPago?: string | null;
   linkMaps?: string | null;
   evidenciaPath?: string | null;
   geolocalizaciones?: {
@@ -275,7 +278,18 @@ export default function ServiciosPage() {
   const [selectedServicio, setSelectedServicio] = useState<Servicio | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isGeoModalOpen, setIsGeoModalOpen] = useState(false);
+  const [isLiquidarModalOpen, setIsLiquidarModalOpen] = useState(false);
   const [showKPIs, setShowKPIs] = useState(true);
+
+  // Liquidation form state
+  const [liquidarData, setLiquidarData] = useState({
+    valorPagado: "",
+    metodoPagoId: "",
+    observacionFinal: "",
+    referenciaPago: "",
+    fechaPago: new Date().toISOString().split('T')[0],
+  });
+  const [comprobanteFile, setComprobanteFile] = useState<File | null>(null);
 
   // Upload state
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -291,9 +305,11 @@ export default function ServiciosPage() {
   const [filterOptions, setOptions] = useState<{
     estados: { id: string; nombre: string }[];
     tecnicos: { id: string; nombre: string }[];
+    metodosPago: { id: string; nombre: string }[];
   }>({
     estados: [],
     tecnicos: [],
+    metodosPago: [],
   });
 
   // Pagination State
@@ -303,9 +319,10 @@ export default function ServiciosPage() {
   const fetchOptions = useCallback(async () => {
     try {
       const empresaId = localStorage.getItem("current-enterprise-id") || undefined;
-      const [estados, tecnicos] = await Promise.all([
+      const [estados, tecnicos, metodos] = await Promise.all([
         getEstadoServiciosAction(empresaId),
         empresaId ? getOperatorsAction(empresaId) : Promise.resolve([]),
+        getMetodosPagoAction(empresaId),
       ]);
       
       setOptions({
@@ -314,6 +331,7 @@ export default function ServiciosPage() {
           id: t.id,
           nombre: `${t.user?.nombre || ""} ${t.user?.apellido || ""}`.trim() || "Sin nombre"
         })),
+        metodosPago: Array.isArray(metodos) ? metodos : [],
       });
     } catch (error) {
       console.error("Error fetching filter options", error);
@@ -403,6 +421,53 @@ export default function ServiciosPage() {
       setIsUploading(false);
       setUploadConfig(null);
       if (e.target) e.target.value = "";
+    }
+  };
+
+  const handleLiquidar = async () => {
+    if (!selectedServicio) return;
+    
+    setIsUploading(true);
+    const toastId = toast.loading("Liquidando servicio...");
+
+    try {
+      let comprobanteUrl = "";
+      if (comprobanteFile) {
+        const { url } = await uploadFile(comprobanteFile);
+        comprobanteUrl = url;
+      }
+
+      const result = await updateOrdenServicioAction(selectedServicio.raw.id, {
+        valorPagado: parseFloat(liquidarData.valorPagado) || 0,
+        metodoPagoId: liquidarData.metodoPagoId,
+        observacionFinal: liquidarData.observacionFinal,
+        referenciaPago: liquidarData.referenciaPago,
+        fechaPago: liquidarData.fechaPago,
+        comprobantePago: comprobanteUrl || undefined,
+        estadoServicio: "LIQUIDADO",
+        estadoPago: "PAGADO"
+      });
+
+      if (result.success) {
+        toast.success("Servicio liquidado exitosamente", { id: toastId });
+        setIsLiquidarModalOpen(false);
+        setLiquidarData({ 
+          valorPagado: "", 
+          metodoPagoId: "", 
+          observacionFinal: "",
+          referenciaPago: "",
+          fechaPago: new Date().toISOString().split('T')[0]
+        });
+        setComprobanteFile(null);
+        fetchServicios();
+      } else {
+        toast.error(result.error || "Error al liquidar el servicio", { id: toastId });
+      }
+    } catch (error) {
+      console.error("Liquidation error:", error);
+      toast.error("Error al procesar la liquidación", { id: toastId });
+    } finally {
+      setIsUploading(false);
     }
   };
 
@@ -1080,7 +1145,20 @@ ORDEN DE SERVICIO: #${servicio.id}
 
                                       <DropdownMenuSeparator />
 
-                                      <DropdownMenuItem className="flex items-center gap-3 py-2.5 text-[11px] font-bold cursor-pointer text-zinc-600 dark:text-zinc-400">
+                                      <DropdownMenuItem 
+                                        onClick={() => {
+                                          setSelectedServicio(servicio);
+                                          setLiquidarData({
+                                            valorPagado: (servicio.raw.valorPagado || servicio.raw.valorCotizado || "").toString(),
+                                            metodoPagoId: servicio.raw.metodoPagoId || "",
+                                            observacionFinal: servicio.raw.observacionFinal || "",
+                                            referenciaPago: servicio.raw.referenciaPago || "",
+                                            fechaPago: servicio.raw.fechaPago ? new Date(servicio.raw.fechaPago).toISOString().split('T')[0] : new Date().toISOString().split('T')[0],
+                                          });
+                                          setIsLiquidarModalOpen(true);
+                                        }}
+                                        className="flex items-center gap-3 py-2.5 text-[11px] font-bold cursor-pointer text-zinc-600 dark:text-zinc-400"
+                                      >
                                         <FileText className="h-4 w-4 text-emerald-500" /> LIQUIDAR
                                       </DropdownMenuItem>
                                       
@@ -1400,20 +1478,30 @@ ORDEN DE SERVICIO: #${servicio.id}
                     </span>
                   </div>
                   <div>
-                    <span className="text-[10px] font-bold text-zinc-500 block uppercase tracking-wider mb-1">Valor Repuestos</span>
-                    <span className="font-black text-sm text-red-500">
-                      {selectedServicio.raw.valorRepuestos ? new Intl.NumberFormat('es-CO', { style: 'currency', currency: 'COP' }).format(selectedServicio.raw.valorRepuestos) : "$ 0"}
-                    </span>
-                  </div>
-                  <div>
                     <span className="text-[10px] font-bold text-zinc-500 block uppercase tracking-wider mb-1">Valor Pagado</span>
                     <span className="font-black text-sm text-emerald-600 dark:text-emerald-400">
                       {selectedServicio.raw.valorPagado ? new Intl.NumberFormat('es-CO', { style: 'currency', currency: 'COP' }).format(selectedServicio.raw.valorPagado) : "$ 0"}
                     </span>
                   </div>
                   <div>
-                    <span className="text-[10px] font-bold text-zinc-500 block uppercase tracking-wider mb-1">Método de Pago</span>
+                    <span className="text-[10px] font-bold text-zinc-500 block uppercase tracking-wider mb-1">Banco / Medio</span>
                     <span className="font-black text-sm uppercase">{selectedServicio.raw.metodoPago?.nombre || selectedServicio.raw.estadoPago || "N/A"}</span>
+                  </div>
+                  <div>
+                    <span className="text-[10px] font-bold text-zinc-500 block uppercase tracking-wider mb-1">Referencia</span>
+                    <span className="font-black text-sm uppercase">{selectedServicio.raw.referenciaPago || "N/A"}</span>
+                  </div>
+                  <div>
+                    <span className="text-[10px] font-bold text-zinc-500 block uppercase tracking-wider mb-1">Fecha Pago</span>
+                    <span className="font-bold text-sm">
+                      {selectedServicio.raw.fechaPago ? new Date(selectedServicio.raw.fechaPago).toLocaleDateString() : "N/A"}
+                    </span>
+                  </div>
+                  <div>
+                    <span className="text-[10px] font-bold text-zinc-500 block uppercase tracking-wider mb-1">Valor Repuestos</span>
+                    <span className="font-black text-sm text-red-500">
+                      {selectedServicio.raw.valorRepuestos ? new Intl.NumberFormat('es-CO', { style: 'currency', currency: 'COP' }).format(selectedServicio.raw.valorRepuestos) : "$ 0"}
+                    </span>
                   </div>
                 </div>
               </div>
@@ -1723,6 +1811,119 @@ ORDEN DE SERVICIO: #${servicio.id}
                     )}
                   </div>
                 )}
+              </div>
+            </div>
+          )}
+        </DialogContent>
+      </Dialog>
+
+      <Dialog open={isLiquidarModalOpen} onOpenChange={setIsLiquidarModalOpen}>
+        <DialogContent className="max-w-md">
+          <DialogHeader>
+            <DialogTitle className="text-xl font-black uppercase tracking-tight flex items-center gap-3">
+              <CheckCircle2 className="h-6 w-6 text-emerald-500" /> Liquidar Servicio
+            </DialogTitle>
+            <DialogDescription className="font-medium">
+              Ingrese los detalles del pago para finalizar la orden.
+            </DialogDescription>
+          </DialogHeader>
+
+          {selectedServicio && (
+            <div className="space-y-6 mt-4">
+              <div className="space-y-4">
+                <div className="space-y-2">
+                  <Label className="text-[10px] font-black uppercase tracking-widest text-zinc-500">Valor Pagado</Label>
+                  <Input 
+                    type="number"
+                    value={liquidarData.valorPagado}
+                    onChange={(e) => setLiquidarData({...liquidarData, valorPagado: e.target.value})}
+                    placeholder="0.00"
+                    className="h-12 rounded-xl border-zinc-200 dark:border-zinc-800 bg-zinc-50 dark:bg-zinc-800/50 font-bold"
+                  />
+                </div>
+
+                <div className="space-y-2">
+                  <Label className="text-[10px] font-black uppercase tracking-widest text-zinc-500">Banco / Medio de Pago</Label>
+                  <Select 
+                    value={liquidarData.metodoPagoId} 
+                    onChange={(e) => setLiquidarData({...liquidarData, metodoPagoId: e.target.value})}
+                    className="h-12 rounded-xl bg-zinc-50 dark:bg-zinc-800/50 border-zinc-200 dark:border-zinc-800 text-sm font-bold"
+                  >
+                    <option value="">SELECCIONE BANCO / MEDIO</option>
+                    {filterOptions.metodosPago.map(metodo => (
+                      <option key={metodo.id} value={metodo.id}>{metodo.nombre.toUpperCase()}</option>
+                    ))}
+                  </Select>
+                </div>
+
+                <div className="grid grid-cols-2 gap-4">
+                  <div className="space-y-2">
+                    <Label className="text-[10px] font-black uppercase tracking-widest text-zinc-500">Referencia de Pago</Label>
+                    <Input 
+                      value={liquidarData.referenciaPago}
+                      onChange={(e) => setLiquidarData({...liquidarData, referenciaPago: e.target.value})}
+                      placeholder="Nº de comprobante"
+                      className="h-12 rounded-xl border-zinc-200 dark:border-zinc-800 bg-zinc-50 dark:bg-zinc-800/50 font-bold"
+                    />
+                  </div>
+                  <div className="space-y-2">
+                    <Label className="text-[10px] font-black uppercase tracking-widest text-zinc-500">Fecha de Transferencia</Label>
+                    <Input 
+                      type="date"
+                      value={liquidarData.fechaPago}
+                      onChange={(e) => setLiquidarData({...liquidarData, fechaPago: e.target.value})}
+                      className="h-12 rounded-xl border-zinc-200 dark:border-zinc-800 bg-zinc-50 dark:bg-zinc-800/50 font-bold"
+                    />
+                  </div>
+                </div>
+
+                <div className="space-y-2">
+                  <Label className="text-[10px] font-black uppercase tracking-widest text-zinc-500">Comprobante (Opcional)</Label>
+                  <div 
+                    onClick={() => document.getElementById('comprobante-liquidar-upload')?.click()}
+                    className="h-24 border-2 border-dashed border-zinc-200 dark:border-zinc-800 rounded-2xl flex flex-col items-center justify-center cursor-pointer hover:bg-zinc-50 dark:hover:bg-zinc-800/50 transition-colors"
+                  >
+                    <FileUp className="h-6 w-6 text-zinc-400 mb-2" />
+                    <span className="text-[10px] font-black uppercase tracking-widest text-zinc-500 px-4 text-center truncate w-full">
+                      {comprobanteFile ? comprobanteFile.name : "Subir comprobante de pago"}
+                    </span>
+                    <input 
+                      id="comprobante-liquidar-upload"
+                      type="file" 
+                      className="hidden" 
+                      onChange={(e) => setComprobanteFile(e.target.files?.[0] || null)}
+                      accept="image/*,application/pdf"
+                    />
+                  </div>
+                </div>
+
+                <div className="space-y-2">
+                  <Label className="text-[10px] font-black uppercase tracking-widest text-zinc-500">Observación Final</Label>
+                  <textarea 
+                    value={liquidarData.observacionFinal}
+                    onChange={(e) => setLiquidarData({...liquidarData, observacionFinal: e.target.value})}
+                    className="w-full min-h-[100px] p-4 rounded-2xl border border-zinc-200 dark:border-zinc-800 bg-zinc-50 dark:bg-zinc-800/50 text-sm font-medium focus:ring-2 focus:ring-azul-1 outline-none transition-all"
+                    placeholder="Notas adicionales sobre el pago o el cierre del servicio..."
+                  />
+                </div>
+              </div>
+
+              <div className="flex gap-3 pt-2">
+                <Button 
+                  variant="outline" 
+                  className="flex-1 h-12 rounded-xl font-bold uppercase tracking-widest text-[10px]"
+                  onClick={() => setIsLiquidarModalOpen(false)}
+                  disabled={isUploading}
+                >
+                  Cancelar
+                </Button>
+                <Button 
+                  className="flex-1 h-12 rounded-xl bg-azul-1 dark:bg-azul-1 hover:bg-blue-700 dark:hover:bg-blue-600 text-zinc-50 dark:text-zinc-50 font-bold uppercase tracking-widest text-[10px] shadow-lg shadow-azul-1/20 dark:shadow-none"
+                  onClick={handleLiquidar}
+                  disabled={isUploading || !liquidarData.metodoPagoId}
+                >
+                  {isUploading ? "Procesando..." : "Confirmar Liquidación"}
+                </Button>
               </div>
             </div>
           )}
