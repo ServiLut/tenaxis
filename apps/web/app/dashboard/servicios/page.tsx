@@ -806,7 +806,7 @@ ORDEN DE SERVICIO: #${servicio.id}
                         <div className="relative">
                           <button 
                             onClick={(e) => { e.stopPropagation(); setShowExportMenu(!showExportMenu); }}
-                            className="flex items-center h-12 px-6 rounded-lg bg-zinc-100 dark:bg-zinc-800 text-zinc-700 dark:text-zinc-300 hover:bg-zinc-200 dark:hover:bg-zinc-700 gap-3 transition-all font-bold text-[11px] uppercase tracking-wider"
+                            className="flex items-center h-12 px-6 rounded-lg bg-emerald-50 dark:bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 hover:bg-emerald-100 dark:hover:bg-emerald-500/20 gap-3 transition-all font-bold text-[11px] uppercase tracking-wider border border-emerald-100 dark:border-emerald-500/20 shadow-sm"
                           >
                             <Download className="h-4 w-4" />
                             <span>Exportar</span>

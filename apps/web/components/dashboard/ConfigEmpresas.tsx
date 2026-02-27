@@ -243,7 +243,7 @@ import {
             </div>
             <Button 
               onClick={() => handleOpenServiceModal()} 
-              className="bg-azul-1 hover:bg-azul-1/90 text-white font-black uppercase tracking-widest text-[10px] rounded-xl gap-2 h-11 px-6 shadow-lg shadow-azul-1/20 transition-all hover:scale-105 active:scale-95"
+              className="bg-azul-1 dark:bg-azul-1 hover:bg-azul-1/90 dark:hover:bg-azul-1/90 text-white dark:text-zinc-300 font-black uppercase tracking-widest text-[10px] rounded-xl gap-2 h-11 px-6 shadow-lg shadow-azul-1/20 transition-all hover:scale-105 active:scale-95"
             >
               <Plus className="h-4 w-4" /> AGREGAR SERVICIO
             </Button>
@@ -358,7 +358,7 @@ import {
                   </CardContent>
                   <CardFooter className="flex justify-end gap-3 pt-4 border-t border-zinc-100 dark:border-zinc-800 mt-4">
                     <Button type="button" variant="ghost" onClick={handleCloseServiceModal} className="font-bold text-xs uppercase tracking-widest">Cancelar</Button>
-                    <Button type="submit" className="bg-azul-1 hover:bg-azul-1/90 text-white font-bold rounded-xl gap-2 h-12 px-10">
+                    <Button type="submit" className="bg-azul-1 dark:bg-azul-1 hover:bg-azul-1/90 dark:hover:bg-azul-1/90 text-white dark:text-zinc-300 font-bold rounded-xl gap-2 h-12 px-10">
                       <Save className="h-4 w-4" /> GUARDAR CAMBIOS
                     </Button>
                   </CardFooter>
@@ -392,7 +392,7 @@ import {
             <Button 
               onClick={() => handleOpenModal()} 
               disabled={limitReached}
-              className="bg-azul-1 hover:bg-azul-1/90 text-white font-black uppercase tracking-widest text-[10px] rounded-xl gap-2 h-11 px-6 shadow-lg shadow-azul-1/20 transition-all hover:scale-105 active:scale-95 disabled:opacity-50 disabled:scale-100"
+              className="bg-azul-1 dark:bg-azul-1 hover:bg-azul-1/90 dark:hover:bg-azul-1/90 text-white dark:text-zinc-300 font-black uppercase tracking-widest text-[10px] rounded-xl gap-2 h-11 px-6 shadow-lg shadow-azul-1/20 transition-all hover:scale-105 active:scale-95 disabled:opacity-50 disabled:scale-100"
             >
               <Plus className="h-4 w-4" /> AGREGAR NUEVA
             </Button>
@@ -411,7 +411,7 @@ import {
               <div key={item.id} className="flex items-center justify-between p-6 bg-zinc-50 dark:bg-zinc-900/40 rounded-2xl border border-zinc-100 dark:border-zinc-800 hover:border-azul-1/20 transition-all group">
                 <div className="flex gap-4 items-center">
                   <div className="h-12 w-12 rounded-xl bg-white dark:bg-zinc-800 flex items-center justify-center border border-zinc-200 dark:border-zinc-700 shadow-sm group-hover:scale-110 transition-transform">
-                    <Building className="h-6 w-6 text-azul-1" />
+                    <Building className="h-6 w-6 text-azul-1 dark:text-zinc-400" />
                   </div>
                   <div>
                     <h4 className="font-black text-zinc-900 dark:text-zinc-100">{item.nombre}</h4>
@@ -500,7 +500,7 @@ import {
             <form onSubmit={handleSubmit}>
               <CardContent className="space-y-6">
                 <div className="bg-zinc-50 dark:bg-zinc-900/60 rounded-2xl p-5 border border-zinc-100 dark:border-zinc-800 space-y-3">
-                  <div className="flex items-center gap-2 text-azul-1 dark:text-azul-400">
+                  <div className="flex items-center gap-2 text-azul-1 dark:text-zinc-400">
                     <Building className="h-4 w-4" />
                     <span className="text-[10px] font-black uppercase tracking-[0.15em]">Estructura Organizativa</span>
                   </div>
@@ -516,7 +516,7 @@ import {
               </CardContent>
               <CardFooter className="flex justify-end gap-3 pt-4 border-t border-zinc-100 dark:border-zinc-800 mt-4">
                 <Button type="button" variant="ghost" onClick={handleCloseModal} className="font-bold text-xs uppercase tracking-widest">Cancelar</Button>
-                <Button type="submit" className="bg-azul-1 hover:bg-azul-1/90 text-white font-bold rounded-xl gap-2 h-12 px-10">
+                <Button type="submit" className="bg-azul-1 dark:bg-azul-1 hover:bg-azul-1/90 dark:hover:bg-azul-1/90 text-white dark:text-zinc-300 font-bold rounded-xl gap-2 h-12 px-10">
                   <Save className="h-4 w-4" /> GUARDAR CAMBIOS
                 </Button>
               </CardFooter>

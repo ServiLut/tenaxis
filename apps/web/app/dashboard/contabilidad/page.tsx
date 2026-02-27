@@ -187,7 +187,7 @@ function StandardTableView({ title, description }: { title: string, description:
           <div className="relative">
             <button 
               onClick={() => setShowExportMenu(!showExportMenu)}
-              className="flex items-center h-11 px-5 rounded-xl bg-zinc-100 dark:bg-zinc-800 text-zinc-700 dark:text-zinc-300 hover:bg-zinc-200 dark:hover:bg-zinc-700 gap-3 transition-all font-bold text-[10px] uppercase tracking-widest border border-transparent shadow-sm"
+              className="flex items-center h-11 px-5 rounded-xl bg-emerald-50 dark:bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 hover:bg-emerald-100 dark:hover:bg-emerald-500/20 gap-3 transition-all font-bold text-[10px] uppercase tracking-widest border border-emerald-100 dark:border-emerald-500/20 shadow-sm"
             >
               <Download className="h-4 w-4" />
               <span>Exportar</span>
@@ -226,7 +226,7 @@ function StandardTableView({ title, description }: { title: string, description:
           <Button variant="outline" className="h-11 rounded-xl gap-2 font-bold text-xs uppercase tracking-widest">
             <Filter className="h-4 w-4" /> Filtrar
           </Button>
-          <Button className="h-11 rounded-xl bg-zinc-900 text-white dark:bg-white dark:text-black gap-2 font-black text-xs uppercase tracking-widest px-6 shadow-xl">
+          <Button className="h-11 rounded-xl bg-azul-1 dark:bg-azul-1 text-white dark:text-zinc-300 hover:bg-azul-1/90 dark:hover:bg-azul-1/90 gap-2 font-black text-xs uppercase tracking-widest px-6 shadow-xl shadow-azul-1/20 border-none">
             <Plus className="h-4 w-4" /> Nuevo Registro
           </Button>
         </div>

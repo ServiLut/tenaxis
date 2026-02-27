@@ -209,7 +209,7 @@ export default function NuevoUsuarioPage() {
                 <button
                   type="submit"
                   disabled={loading}
-                  className="flex h-12 w-full md:w-auto items-center justify-center gap-2 rounded-2xl bg-azul-1 px-8 text-sm font-black uppercase tracking-widest text-white shadow-lg shadow-azul-1/20 transition-all hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="flex h-12 w-full md:w-auto items-center justify-center gap-2 rounded-2xl bg-azul-1 dark:bg-azul-1 px-8 text-sm font-black uppercase tracking-widest text-white dark:text-zinc-300 shadow-lg shadow-azul-1/20 transition-all hover:bg-blue-700 dark:hover:bg-blue-700/90 disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   {loading ? (
                     <>
