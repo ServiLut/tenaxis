@@ -14,8 +14,8 @@ export default async function ClientesPage() {
 
   return (
     <DashboardLayout overflowHidden>
-      <ClienteList 
-        initialClientes={clientes} 
+      <ClienteList
+        initialClientes={clientes}
         initialDepartments={departments}
         initialMunicipalities={municipalities}
       />

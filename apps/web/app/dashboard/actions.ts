@@ -971,6 +971,7 @@ export interface CreateOrdenServicioDTO {
   duracionMinutos?: number;
   facturaPath?: string;
   facturaElectronica?: string;
+  comprobantePago?: string;
   evidenciaPath?: string;
 }
 

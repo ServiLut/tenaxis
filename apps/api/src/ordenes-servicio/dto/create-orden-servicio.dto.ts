@@ -93,5 +93,21 @@ export class CreateOrdenServicioDto {
   @IsOptional()
   duracionMinutos?: number; // Not directly in schema but can be used to calculate horaFin
 
+  @IsString()
+  @IsOptional()
+  facturaPath?: string;
+
+  @IsString()
+  @IsOptional()
+  facturaElectronica?: string;
+
+  @IsString()
+  @IsOptional()
+  comprobantePago?: string;
+
+  @IsString()
+  @IsOptional()
+  evidenciaPath?: string;
+
   // In the frontend they have 'Urgencia' and 'Servicio Específico' which we can save in observacion or we can add them to the DB later. We map 'Servicio Específico' to 'observacion' for now.
 }
