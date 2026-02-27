@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect, useCallback, useRef } from "react";
 import Link from "next/link";
 import { useSearchParams, usePathname, useRouter } from "next/navigation";
 import { DashboardLayout } from "@/components/dashboard";
@@ -68,10 +68,12 @@ import {
 import { cn } from "@/components/ui/utils";
 import { toast } from "sonner";
 import { exportToExcel, exportToPDF, exportToWord } from "@/lib/utils/export-helper";
+import { uploadFile } from "@/lib/appwrite";
 import {
   getOrdenesServicioAction,
   getEstadoServiciosAction,
   getOperatorsAction,
+  updateOrdenServicioAction,
   type ClienteDTO,
 } from "../actions";
 
@@ -140,6 +142,7 @@ interface OrdenServicioRaw {
   };
   facturaPath?: string | null;
   facturaElectronica?: string | null;
+  comprobantePago?: string | null;
   linkMaps?: string | null;
   evidenciaPath?: string | null;
   geolocalizaciones?: {
@@ -273,6 +276,11 @@ export default function ServiciosPage() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isGeoModalOpen, setIsGeoModalOpen] = useState(false);
   const [showKPIs, setShowKPIs] = useState(true);
+
+  // Upload state
+  const fileInputRef = useRef<HTMLInputElement>(null);
+  const [isUploading, setIsUploading] = useState(false);
+  const [uploadConfig, setUploadConfig] = useState<{ id: string; field: "facturaElectronica" | "comprobantePago" } | null>(null);
   
   // Filter State
   const [filters, setFilters] = useState({
@@ -356,6 +364,42 @@ export default function ServiciosPage() {
       setLoading(false);
     }
   }, []);
+
+  const handleUploadClick = (servicio: Servicio, field: "facturaElectronica" | "comprobantePago") => {
+    setUploadConfig({ id: servicio.raw.id, field });
+    fileInputRef.current?.click();
+  };
+
+  const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file || !uploadConfig) return;
+
+    setIsUploading(true);
+    const label = uploadConfig.field === "facturaElectronica" ? "factura" : "comprobante";
+    const toastId = toast.loading(`Subiendo ${label}...`);
+
+    try {
+      const { url } = await uploadFile(file);
+      
+      const result = await updateOrdenServicioAction(uploadConfig.id, {
+        [uploadConfig.field]: url 
+      });
+
+      if (result.success) {
+        toast.success(`${label.charAt(0).toUpperCase() + label.slice(1)} subida exitosamente`, { id: toastId });
+        fetchServicios();
+      } else {
+        toast.error(result.error || `Error al actualizar la orden`, { id: toastId });
+      }
+    } catch (error) {
+      console.error("Upload error:", error);
+      toast.error(`Error al subir el archivo a Appwrite`, { id: toastId });
+    } finally {
+      setIsUploading(false);
+      setUploadConfig(null);
+      if (e.target) e.target.value = "";
+    }
+  };
 
   useEffect(() => {
     const params = new URLSearchParams(searchParams.toString());
@@ -968,19 +1012,60 @@ ORDEN DE SERVICIO: #${servicio.id}
                                       </DropdownMenuItem>
 
                                       <DropdownMenuSeparator />
+                                      
+                                      {servicio.raw.facturaElectronica || servicio.raw.facturaPath ? (
+                                        <>
+                                          <DropdownMenuItem 
+                                            onClick={() => {
+                                              const link = servicio.raw.facturaElectronica || servicio.raw.facturaPath;
+                                              if (link) window.open(link, "_blank");
+                                            }}
+                                            className="flex items-center gap-3 py-2.5 text-[11px] font-bold cursor-pointer text-zinc-600 dark:text-zinc-400"
+                                          >
+                                            <FileText className="h-4 w-4 text-orange-500" /> VER FACTURA
+                                          </DropdownMenuItem>
+                                          <DropdownMenuItem 
+                                            onClick={() => handleUploadClick(servicio, "facturaElectronica")}
+                                            className="flex items-center gap-3 py-2.5 text-[11px] font-bold cursor-pointer text-zinc-600 dark:text-zinc-400"
+                                          >
+                                            <RotateCcw className="h-4 w-4 text-orange-600" /> ACTUALIZAR FACTURA
+                                          </DropdownMenuItem>
+                                        </>
+                                      ) : (
+                                        <DropdownMenuItem 
+                                          onClick={() => handleUploadClick(servicio, "facturaElectronica")}
+                                          className="flex items-center gap-3 py-2.5 text-[11px] font-bold cursor-pointer text-zinc-600 dark:text-zinc-400"
+                                        >
+                                          <FileUp className="h-4 w-4 text-orange-500" /> SUBIR FACTURA
+                                        </DropdownMenuItem>
+                                      )}                                      
 
-                                      <DropdownMenuItem className="flex items-center gap-3 py-2.5 text-[11px] font-bold cursor-pointer text-zinc-600 dark:text-zinc-400">
-                                        <FileUp className="h-4 w-4 text-orange-500" /> VER FACTURA/ORDEN
-                                      </DropdownMenuItem>
-                                      <DropdownMenuItem className="flex items-center gap-3 py-2.5 text-[11px] font-bold cursor-pointer text-zinc-600 dark:text-zinc-400">
-                                        <RotateCcw className="h-4 w-4 text-orange-600" /> ACTUALIZAR FACTURA
-                                      </DropdownMenuItem>
-                                      <DropdownMenuItem className="flex items-center gap-3 py-2.5 text-[11px] font-bold cursor-pointer text-zinc-600 dark:text-zinc-400">
-                                        <Receipt className="h-4 w-4 text-blue-600" /> VER COMPROBANTE
-                                      </DropdownMenuItem>
-                                      <DropdownMenuItem className="flex items-center gap-3 py-2.5 text-[11px] font-bold cursor-pointer text-zinc-600 dark:text-zinc-400">
-                                        <RotateCcw className="h-4 w-4 text-blue-700" /> ACTUALIZAR COMPROBANTE
-                                      </DropdownMenuItem>
+                                      {servicio.raw.comprobantePago ? (
+                                        <>
+                                          <DropdownMenuItem 
+                                            onClick={() => {
+                                              if (servicio.raw.comprobantePago) window.open(servicio.raw.comprobantePago, "_blank");
+                                            }}
+                                            className="flex items-center gap-3 py-2.5 text-[11px] font-bold cursor-pointer text-zinc-600 dark:text-zinc-400"
+                                          >
+                                            <Receipt className="h-4 w-4 text-blue-600" /> VER COMPROBANTE
+                                          </DropdownMenuItem>
+                                          <DropdownMenuItem 
+                                            onClick={() => handleUploadClick(servicio, "comprobantePago")}
+                                            className="flex items-center gap-3 py-2.5 text-[11px] font-bold cursor-pointer text-zinc-600 dark:text-zinc-400"
+                                          >
+                                            <RotateCcw className="h-4 w-4 text-blue-700" /> ACTUALIZAR COMPROBANTE
+                                          </DropdownMenuItem>
+                                        </>
+                                      ) : (
+                                        <DropdownMenuItem 
+                                          onClick={() => handleUploadClick(servicio, "comprobantePago")}
+                                          className="flex items-center gap-3 py-2.5 text-[11px] font-bold cursor-pointer text-zinc-600 dark:text-zinc-400"
+                                        >
+                                          <Receipt className="h-4 w-4 text-blue-600" /> SUBIR COMPROBANTE
+                                        </DropdownMenuItem>
+                                      )}
+
                                       <DropdownMenuItem className="flex items-center gap-3 py-2.5 text-[11px] font-bold cursor-pointer text-zinc-600 dark:text-zinc-400">
                                         <ImageIcon className="h-4 w-4 text-pink-500" /> SUBIR EVIDENCIA
                                       </DropdownMenuItem>
@@ -1368,6 +1453,24 @@ ORDEN DE SERVICIO: #${servicio.id}
                   </div>
                 </div>
               )}
+
+              {/* 10. Comprobante de Pago */}
+              {selectedServicio.raw.comprobantePago && (
+                <div className="space-y-4">
+                  <h3 className="text-[10px] font-black text-zinc-400 uppercase tracking-[0.2em] border-b border-zinc-100 dark:border-zinc-800 pb-2">Comprobante de Pago</h3>
+                  <div>
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      className="gap-2 text-blue-600 border-blue-200 dark:border-blue-900/50 hover:bg-blue-50 dark:hover:bg-blue-900/20 font-bold text-[10px] uppercase tracking-wider h-10 px-5 rounded-xl"
+                      onClick={() => window.open(selectedServicio.raw.comprobantePago!, "_blank")}
+                    >
+                      <Receipt className="h-4 w-4" />
+                      Ver Comprobante de Pago
+                    </Button>
+                  </div>
+                </div>
+              )}
             </div>
           )}
         </DialogContent>
@@ -1617,6 +1720,15 @@ ORDEN DE SERVICIO: #${servicio.id}
           )}
         </DialogContent>
       </Dialog>
+
+      {/* Hidden File Input for Invoice Upload */}
+      <input
+        type="file"
+        ref={fileInputRef}
+        onChange={handleFileChange}
+        className="hidden"
+        accept="application/pdf,image/*"
+      />
     </DashboardLayout>
   );
 }
