@@ -3,6 +3,8 @@ import { PrismaService } from '../prisma/prisma.service';
 import { SupabaseService } from '../supabase/supabase.service';
 import { CreateOrdenServicioDto } from './dto/create-orden-servicio.dto';
 import {
+  OrdenServicio,
+  Geolocalizacion,
   ClasificacionCliente,
   EstadoOrden,
   NivelInfestacion,
@@ -43,6 +45,16 @@ interface LocalPicoPlaca {
 type CandidateWithMembership = LocalEmpresaMembership & {
   membership: LocalTenantMembership;
 };
+
+type OrdenWithGeolocalizaciones = OrdenServicio & {
+  geolocalizaciones?: Geolocalizacion[];
+};
+
+type SignableField =
+  | 'facturaPath'
+  | 'facturaElectronica'
+  | 'comprobantePago'
+  | 'evidenciaPath';
 
 @Injectable()
 export class OrdenesServicioService {
@@ -480,7 +492,11 @@ export class OrdenesServicioService {
       orderBy: { createdAt: 'desc' },
     });
 
-    return Promise.all(ordenes.map((o) => this.processSignedUrls(o)));
+    return Promise.all(
+      ordenes.map((o) =>
+        this.processSignedUrls(o as OrdenWithGeolocalizaciones),
+      ),
+    );
   }
 
   async findOne(tenantId: string, id: string) {
@@ -518,11 +534,13 @@ export class OrdenesServicioService {
       throw new BadRequestException('La orden especificada no existe');
     }
 
-    return this.processSignedUrls(orden);
+    return this.processSignedUrls(orden as OrdenWithGeolocalizaciones);
   }
 
-  private async processSignedUrls(orden: any) {
-    const fieldsToSign = [
+  private async processSignedUrls(
+    orden: OrdenWithGeolocalizaciones,
+  ): Promise<OrdenWithGeolocalizaciones> {
+    const fieldsToSign: SignableField[] = [
       'facturaPath',
       'facturaElectronica',
       'comprobantePago',
@@ -530,8 +548,9 @@ export class OrdenesServicioService {
     ];
 
     for (const field of fieldsToSign) {
-      if (orden[field] && !orden[field].startsWith('http')) {
-        const signedUrl = await this.supabase.getSignedUrl(orden[field]);
+      const value = orden[field];
+      if (value && typeof value === 'string' && !value.startsWith('http')) {
+        const signedUrl = await this.supabase.getSignedUrl(value);
         if (signedUrl) {
           orden[field] = signedUrl;
         }
@@ -542,10 +561,16 @@ export class OrdenesServicioService {
     if (orden.geolocalizaciones) {
       for (const geo of orden.geolocalizaciones) {
         if (geo.fotoLlegada && !geo.fotoLlegada.startsWith('http')) {
-          geo.fotoLlegada = await this.supabase.getSignedUrl(geo.fotoLlegada);
+          const signedUrl = await this.supabase.getSignedUrl(geo.fotoLlegada);
+          if (signedUrl) {
+            geo.fotoLlegada = signedUrl;
+          }
         }
         if (geo.fotoSalida && !geo.fotoSalida.startsWith('http')) {
-          geo.fotoSalida = await this.supabase.getSignedUrl(geo.fotoSalida);
+          const signedUrl = await this.supabase.getSignedUrl(geo.fotoSalida);
+          if (signedUrl) {
+            geo.fotoSalida = signedUrl;
+          }
         }
       }
     }

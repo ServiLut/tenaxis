@@ -68,7 +68,7 @@ import {
 import { cn } from "@/components/ui/utils";
 import { toast } from "sonner";
 import { exportToExcel, exportToPDF, exportToWord } from "@/lib/utils/export-helper";
-import { uploadFile, type StorageFolder } from "@/lib/supabase-storage";
+import { uploadFile } from "@/lib/appwrite";
 import {
   getOrdenesServicioAction,
   getEstadoServiciosAction,
@@ -372,7 +372,7 @@ export default function ServiciosPage() {
 
   const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
-    if (!file || !uploadConfig) return;
+    if (!file || !uploadConfig || isUploading) return;
 
     setIsUploading(true);
     const labelMap: Record<string, string> = {
@@ -384,17 +384,10 @@ export default function ServiciosPage() {
     const toastId = toast.loading(`Subiendo ${label}...`);
 
     try {
-      const folderMap: Record<string, StorageFolder> = {
-        "facturaElectronica": "facturaOrdenServicio",
-        "comprobantePago": "comprobanteOrdenServicio",
-        "evidenciaPath": "EvidenciaOrdenServicio"
-      };
-      
-      const folder = folderMap[uploadConfig.field] || 'EvidenciaOrdenServicio';
-      const { fileId } = await uploadFile(file, folder);
+      const { url } = await uploadFile(file);
       
       const result = await updateOrdenServicioAction(uploadConfig.id, {
-        [uploadConfig.field]: fileId 
+        [uploadConfig.field]: url 
       });
 
       if (result.success) {
@@ -405,7 +398,7 @@ export default function ServiciosPage() {
       }
     } catch (error) {
       console.error("Upload error:", error);
-      toast.error(`Error al subir el archivo a Supabase`, { id: toastId });
+      toast.error(`Error al subir el archivo a Appwrite`, { id: toastId });
     } finally {
       setIsUploading(false);
       setUploadConfig(null);
@@ -1079,7 +1072,7 @@ ORDEN DE SERVICIO: #${servicio.id}
                                       )}
 
                                       <DropdownMenuItem 
-                                        onClick={() => handleUploadClick(servicio, "evidenciaPath" as any)}
+                                        onClick={() => handleUploadClick(servicio, "evidenciaPath")}
                                         className="flex items-center gap-3 py-2.5 text-[11px] font-bold cursor-pointer text-zinc-600 dark:text-zinc-400"
                                       >
                                         <ImageIcon className="h-4 w-4 text-pink-500" /> SUBIR EVIDENCIA
@@ -1743,6 +1736,7 @@ ORDEN DE SERVICIO: #${servicio.id}
         onChange={handleFileChange}
         className="hidden"
         accept="application/pdf,image/*"
+        disabled={isUploading}
       />
     </DashboardLayout>
   );
