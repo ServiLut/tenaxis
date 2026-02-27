@@ -548,10 +548,10 @@ function EditarServicioContent({ id }: { id: string }) {
               type="submit"
               form="servicio-form"
               disabled={saving}
-              className="h-12 px-12 bg-vivido-purpura-2 text-white hover:opacity-90 shadow-xl shadow-vivido-purpura-2/20 transition-all gap-3 border-none rounded-xl"
+              className="h-12 px-12 bg-azul-1 dark:bg-azul-1 text-white hover:opacity-90 shadow-xl shadow-azul-1/20 transition-all gap-3 border-none rounded-xl"
             >
               {saving ? <Loader2 className="h-5 w-5 animate-spin" /> : <Save className="h-4 w-4" />}
-              <span className="font-bold text-xs tracking-[0.1em] uppercase text-white">Guardar Cambios</span>
+              <span className="font-bold text-xs tracking-[0.1em] uppercase text-white dark:text-zinc-200">Guardar Cambios</span>
             </Button>
           </div>
         </div>

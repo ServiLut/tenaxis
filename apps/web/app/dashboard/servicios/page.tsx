@@ -563,7 +563,9 @@ export default function ServiciosPage() {
         "Valor Cotizado",
         "Valor Pagado",
         "Valor Repuestos",
-        "Método de Pago",
+        "Banco / Medio",
+        "Referencia de Pago",
+        "Fecha de Pago",
         "Estado de Pago",
         "Fecha Creación"
       ];
@@ -618,6 +620,8 @@ export default function ServiciosPage() {
           formatCurrency(os.valorPagado),
           formatCurrency(os.valorRepuestos),
           os.metodoPago?.nombre || "N/A",
+          os.referenciaPago || "N/A",
+          os.fechaPago ? new Date(os.fechaPago).toLocaleDateString() : "N/A",
           os.estadoPago || "N/A",
           new Date(os.createdAt).toLocaleDateString()
         ];
@@ -1918,7 +1922,7 @@ ORDEN DE SERVICIO: #${servicio.id}
                   Cancelar
                 </Button>
                 <Button 
-                  className="flex-1 h-12 rounded-xl bg-azul-1 dark:bg-azul-1 hover:bg-blue-700 dark:hover:bg-blue-600 text-zinc-50 dark:text-zinc-50 font-bold uppercase tracking-widest text-[10px] shadow-lg shadow-azul-1/20 dark:shadow-none"
+                  className="flex-1 h-12 rounded-xl bg-azul-1 dark:bg-azul-1 hover:bg-blue-700 dark:hover:bg-blue-600 text-zinc-200 dark:text-zinc-200 font-bold uppercase tracking-widest text-[10px] shadow-lg shadow-azul-1/20 dark:shadow-none"
                   onClick={handleLiquidar}
                   disabled={isUploading || !liquidarData.metodoPagoId}
                 >

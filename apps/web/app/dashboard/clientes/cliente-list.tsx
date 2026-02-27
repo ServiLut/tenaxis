@@ -191,7 +191,7 @@ interface ClienteListProps {
 const SCORE_COLORS = {
   ORO: "bg-amber-500 text-black dark:text-zinc-300 shadow-black-100",
   PLATA: "bg-zinc-400 text-black dark:text-zinc-300 shadow-black-100",
-  BRONCE: "bg-orange-800 text-white shadow-black-100",
+  BRONCE: "bg-orange-800 text-white dark:text-zinc-200 shadow-black-100",
   RIESGO: "bg-red-500 text-black dark:text-zinc-300 shadow-black-100",
 };
 
@@ -1799,7 +1799,7 @@ export function ClienteList({ initialClientes, initialDepartments = [], initialM
                 <button
                   onClick={handleSaveConfig}
                   disabled={configLoading}
-                  className="px-10 h-12 rounded-xl bg-azul-1 text-xs font-black uppercase tracking-widest text-white dark:text-zinc-300 shadow-lg shadow-azul-1/20 hover:scale-[1.02] active:scale-[0.98] transition-all disabled:opacity-50"
+                  className="px-10 h-12 rounded-xl bg-azul-1 dark:bg-azul-1 text-xs font-black uppercase tracking-widest text-white dark:text-zinc-200 shadow-lg shadow-azul-1/20 hover:scale-[1.02] active:scale-[0.98] transition-all disabled:opacity-50"
                 >
                   Guardar Cambios
                 </button>
