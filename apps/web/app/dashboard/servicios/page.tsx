@@ -177,10 +177,10 @@ const ESTADO_STYLING: Record<string, string> = {
 };
 
 const URGENCIA_STYLING: Record<string, string> = {
-  "ALTA": "bg-red-500 text-white",
-  "MEDIA": "bg-amber-500 text-white",
-  "BAJA": "bg-emerald-500 text-white",
-  "CRITICA": "bg-red-700 text-white",
+  "ALTA": "bg-red-500 text-white dark:text-zinc-200",
+  "MEDIA": "bg-amber-500 text-white dark:text-zinc-200",
+  "BAJA": "bg-emerald-500 text-white dark:text-zinc-200",
+  "CRITICA": "bg-red-700 text-white dark:text-zinc-200",
 };
 
 function ServiciosSkeleton({ showKPIs = true }: { showKPIs?: boolean }) {
@@ -1269,15 +1269,15 @@ ORDEN DE SERVICIO: #${servicio.id}
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                   <div>
                     <span className="text-[10px] font-bold text-zinc-500 block uppercase tracking-wider mb-1">Nivel Infestación</span>
-                    <span className="font-black text-sm uppercase">{selectedServicio.raw.nivelInfestacion || "N/A"}</span>
+                    <span className="font-black text-sm uppercase text-zinc-900 dark:text-zinc-100">{selectedServicio.raw.nivelInfestacion || "N/A"}</span>
                   </div>
                   <div>
                     <span className="text-[10px] font-bold text-zinc-500 block uppercase tracking-wider mb-1">Cond. Higiene</span>
-                    <span className="font-black text-sm uppercase">{selectedServicio.raw.condicionesHigiene || "N/A"}</span>
+                    <span className="font-black text-sm uppercase text-zinc-900 dark:text-zinc-100">{selectedServicio.raw.condicionesHigiene || "N/A"}</span>
                   </div>
                   <div>
                     <span className="text-[10px] font-bold text-zinc-500 block uppercase tracking-wider mb-1">Cond. Local</span>
-                    <span className="font-black text-sm uppercase">{selectedServicio.raw.condicionesLocal || "N/A"}</span>
+                    <span className="font-black text-sm uppercase text-zinc-900 dark:text-zinc-100">{selectedServicio.raw.condicionesLocal || "N/A"}</span>
                   </div>
                   <div className="col-span-1 md:col-span-3">
                     <span className="text-[10px] font-bold text-zinc-500 block uppercase tracking-wider mb-2">Observaciones Generales</span>
