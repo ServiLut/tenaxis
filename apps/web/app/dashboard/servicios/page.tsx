@@ -68,7 +68,7 @@ import {
 import { cn } from "@/components/ui/utils";
 import { toast } from "sonner";
 import { exportToExcel, exportToPDF, exportToWord } from "@/lib/utils/export-helper";
-import { uploadFile } from "@/lib/appwrite";
+import { uploadFile, type StorageFolder } from "@/lib/supabase-storage";
 import {
   getOrdenesServicioAction,
   getEstadoServiciosAction,
@@ -280,7 +280,7 @@ export default function ServiciosPage() {
   // Upload state
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [isUploading, setIsUploading] = useState(false);
-  const [uploadConfig, setUploadConfig] = useState<{ id: string; field: "facturaElectronica" | "comprobantePago" } | null>(null);
+  const [uploadConfig, setUploadConfig] = useState<{ id: string; field: "facturaElectronica" | "comprobantePago" | "evidenciaPath" } | null>(null);
   
   // Filter State
   const [filters, setFilters] = useState({
@@ -365,7 +365,7 @@ export default function ServiciosPage() {
     }
   }, []);
 
-  const handleUploadClick = (servicio: Servicio, field: "facturaElectronica" | "comprobantePago") => {
+  const handleUploadClick = (servicio: Servicio, field: "facturaElectronica" | "comprobantePago" | "evidenciaPath") => {
     setUploadConfig({ id: servicio.raw.id, field });
     fileInputRef.current?.click();
   };
@@ -375,14 +375,26 @@ export default function ServiciosPage() {
     if (!file || !uploadConfig) return;
 
     setIsUploading(true);
-    const label = uploadConfig.field === "facturaElectronica" ? "factura" : "comprobante";
+    const labelMap: Record<string, string> = {
+      "facturaElectronica": "factura",
+      "comprobantePago": "comprobante",
+      "evidenciaPath": "evidencia"
+    };
+    const label = labelMap[uploadConfig.field] || "archivo";
     const toastId = toast.loading(`Subiendo ${label}...`);
 
     try {
-      const { url } = await uploadFile(file);
+      const folderMap: Record<string, StorageFolder> = {
+        "facturaElectronica": "facturaOrdenServicio",
+        "comprobantePago": "comprobanteOrdenServicio",
+        "evidenciaPath": "EvidenciaOrdenServicio"
+      };
+      
+      const folder = folderMap[uploadConfig.field] || 'EvidenciaOrdenServicio';
+      const { fileId } = await uploadFile(file, folder);
       
       const result = await updateOrdenServicioAction(uploadConfig.id, {
-        [uploadConfig.field]: url 
+        [uploadConfig.field]: fileId 
       });
 
       if (result.success) {
@@ -393,7 +405,7 @@ export default function ServiciosPage() {
       }
     } catch (error) {
       console.error("Upload error:", error);
-      toast.error(`Error al subir el archivo a Appwrite`, { id: toastId });
+      toast.error(`Error al subir el archivo a Supabase`, { id: toastId });
     } finally {
       setIsUploading(false);
       setUploadConfig(null);
@@ -1066,7 +1078,10 @@ ORDEN DE SERVICIO: #${servicio.id}
                                         </DropdownMenuItem>
                                       )}
 
-                                      <DropdownMenuItem className="flex items-center gap-3 py-2.5 text-[11px] font-bold cursor-pointer text-zinc-600 dark:text-zinc-400">
+                                      <DropdownMenuItem 
+                                        onClick={() => handleUploadClick(servicio, "evidenciaPath" as any)}
+                                        className="flex items-center gap-3 py-2.5 text-[11px] font-bold cursor-pointer text-zinc-600 dark:text-zinc-400"
+                                      >
                                         <ImageIcon className="h-4 w-4 text-pink-500" /> SUBIR EVIDENCIA
                                       </DropdownMenuItem>
 

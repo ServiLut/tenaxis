@@ -15,7 +15,6 @@
     "@supabase/ssr": "^0.8.0",
     "@supabase/supabase-js": "^2.93.3",
     "@tenaxis/ui": "workspace:*",
-    "appwrite": "^22.4.1",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "docx": "^9.5.3",

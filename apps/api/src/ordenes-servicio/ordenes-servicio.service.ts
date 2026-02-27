@@ -1,5 +1,6 @@
 import { Injectable, BadRequestException, Logger } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
+import { SupabaseService } from '../supabase/supabase.service';
 import { CreateOrdenServicioDto } from './dto/create-orden-servicio.dto';
 import {
   ClasificacionCliente,
@@ -47,7 +48,10 @@ type CandidateWithMembership = LocalEmpresaMembership & {
 export class OrdenesServicioService {
   private readonly logger = new Logger(OrdenesServicioService.name);
 
-  constructor(private prisma: PrismaService) {}
+  constructor(
+    private prisma: PrismaService,
+    private supabase: SupabaseService,
+  ) {}
 
   async create(tenantId: string, createDto: CreateOrdenServicioDto) {
     this.logger.log(`CREATE: Starting order creation for tenant: ${tenantId}`);
@@ -424,7 +428,7 @@ export class OrdenesServicioService {
   }
 
   async findAll(tenantId: string, empresaId?: string) {
-    return this.prisma.ordenServicio.findMany({
+    const ordenes = await this.prisma.ordenServicio.findMany({
       where: {
         tenantId,
         ...(empresaId ? { empresaId } : {}),
@@ -475,6 +479,8 @@ export class OrdenesServicioService {
       },
       orderBy: { createdAt: 'desc' },
     });
+
+    return Promise.all(ordenes.map((o) => this.processSignedUrls(o)));
   }
 
   async findOne(tenantId: string, id: string) {
@@ -512,6 +518,38 @@ export class OrdenesServicioService {
       throw new BadRequestException('La orden especificada no existe');
     }
 
+    return this.processSignedUrls(orden);
+  }
+
+  private async processSignedUrls(orden: any) {
+    const fieldsToSign = [
+      'facturaPath',
+      'facturaElectronica',
+      'comprobantePago',
+      'evidenciaPath',
+    ];
+
+    for (const field of fieldsToSign) {
+      if (orden[field] && !orden[field].startsWith('http')) {
+        const signedUrl = await this.supabase.getSignedUrl(orden[field]);
+        if (signedUrl) {
+          orden[field] = signedUrl;
+        }
+      }
+    }
+
+    // Also sign photos in geolocalizaciones
+    if (orden.geolocalizaciones) {
+      for (const geo of orden.geolocalizaciones) {
+        if (geo.fotoLlegada && !geo.fotoLlegada.startsWith('http')) {
+          geo.fotoLlegada = await this.supabase.getSignedUrl(geo.fotoLlegada);
+        }
+        if (geo.fotoSalida && !geo.fotoSalida.startsWith('http')) {
+          geo.fotoSalida = await this.supabase.getSignedUrl(geo.fotoSalida);
+        }
+      }
+    }
+
     return orden;
   }
 
@@ -545,6 +583,10 @@ export class OrdenesServicioService {
         : undefined,
       estadoPago: updateDto.estadoPago ?? undefined,
       estadoServicio: updateDto.estadoServicio ?? undefined,
+      facturaPath: updateDto.facturaPath ?? undefined,
+      facturaElectronica: updateDto.facturaElectronica ?? undefined,
+      comprobantePago: updateDto.comprobantePago ?? undefined,
+      evidenciaPath: updateDto.evidenciaPath ?? undefined,
     };
 
     if (updateDto.fechaVisita) {
