@@ -630,6 +630,8 @@ model OrdenServicio {
   facturaElectronica    String?
   comprobantePago       String?
   evidenciaPath         String?
+  referenciaPago        String?
+  fechaPago             DateTime?
   estadoPago            EstadoPagoOrden      @default(PENDIENTE)
   seguimientoRevisado   Boolean?             @default(false)
   ordenPadreId          String?              @db.Uuid

@@ -612,6 +612,12 @@ export class OrdenesServicioService {
       facturaElectronica: updateDto.facturaElectronica ?? undefined,
       comprobantePago: updateDto.comprobantePago ?? undefined,
       evidenciaPath: updateDto.evidenciaPath ?? undefined,
+      valorPagado: updateDto.valorPagado ?? undefined,
+      observacionFinal: updateDto.observacionFinal ?? undefined,
+      referenciaPago: updateDto.referenciaPago ?? undefined,
+      fechaPago: updateDto.fechaPago
+        ? new Date(updateDto.fechaPago)
+        : undefined,
     };
 
     if (updateDto.fechaVisita) {

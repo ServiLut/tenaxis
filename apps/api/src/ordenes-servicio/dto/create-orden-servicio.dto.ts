@@ -109,5 +109,21 @@ export class CreateOrdenServicioDto {
   @IsOptional()
   evidenciaPath?: string;
 
+  @IsNumber()
+  @IsOptional()
+  valorPagado?: number;
+
+  @IsString()
+  @IsOptional()
+  observacionFinal?: string;
+
+  @IsString()
+  @IsOptional()
+  referenciaPago?: string;
+
+  @IsDateString()
+  @IsOptional()
+  fechaPago?: string;
+
   // In the frontend they have 'Urgencia' and 'Servicio Específico' which we can save in observacion or we can add them to the DB later. We map 'Servicio Específico' to 'observacion' for now.
 }
