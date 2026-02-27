@@ -656,15 +656,19 @@ export class OrdenesServicioService {
         lastOrder.nivelInfestacion ===
           (NivelInfestacion.ALTO as NivelInfestacion));
 
-    // b. Commercial Risk: 45 days since last visit
+    // b. Commercial Risk: 45 days since last visit if frequency is 30
     const lastVisitDate = lastOrder?.fechaVisita
       ? new Date(lastOrder.fechaVisita)
       : null;
     const daysSinceLastVisit = lastVisitDate
       ? (now.getTime() - lastVisitDate.getTime()) / (1000 * 3600 * 24)
       : null;
+
+    // Get frequency from client or default to 30
+    const frequency = cliente.frecuenciaServicio || 30;
     const isCommercialRisk =
-      daysSinceLastVisit !== null && daysSinceLastVisit > 45;
+      daysSinceLastVisit !== null &&
+      daysSinceLastVisit > (frequency === 30 ? 45 : frequency * 1.5);
 
     if (isTechnicalRisk || isCommercialRisk) {
       clasificacion = ClasificacionCliente.RIESGO as ClasificacionCliente;

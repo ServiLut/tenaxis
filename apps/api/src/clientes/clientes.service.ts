@@ -71,16 +71,32 @@ export class ClientesService {
       });
     }
 
-    // Apply "Riesgo Comercial" logic in response (more than 45 days since last visit)
+    // Apply "Riesgo Comercial" logic in response (more than 45 days since last visit or 1.5x frequency)
     const now = new Date();
-    const result: Cliente[] = clients.map((client: Cliente): Cliente => {
+    const result: Cliente[] = clients.map((client: any): Cliente => {
+      // If already RIESGO from DB (e.g. Technical Risk), keep it
+      if (client.clasificacion === ClasificacionCliente.RIESGO) {
+        return client;
+      }
+
       const lastVisit = client.ultimaVisita
         ? new Date(client.ultimaVisita)
         : null;
+
       if (lastVisit) {
         const diffDays =
           (now.getTime() - lastVisit.getTime()) / (1000 * 3600 * 24);
-        if (diffDays > 45) {
+
+        // Frecuencia sugerida: prefer client's own frequency, then segment's, then default 30
+        const frequency =
+          client.frecuenciaServicio ||
+          client.segmento?.frecuenciaSugerida ||
+          30;
+
+        const isCommercialRisk =
+          diffDays > (frequency === 30 ? 45 : frequency * 1.5);
+
+        if (isCommercialRisk) {
           return {
             ...client,
             clasificacion: ClasificacionCliente.RIESGO,
