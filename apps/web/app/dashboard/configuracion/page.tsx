@@ -36,7 +36,8 @@ import {
   CheckCircle2,
   ListChecks,
   Building,
-  User
+  User,
+  CreditCard
 } from "lucide-react";
 import { cn } from "@/components/ui/utils";
 import { ConfigEmpresas } from "@/components/dashboard/ConfigEmpresas";

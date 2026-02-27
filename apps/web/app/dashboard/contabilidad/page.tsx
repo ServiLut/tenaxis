@@ -105,7 +105,7 @@ export default function ContabilidadPage() {
               className={cn(
                 "flex items-center gap-3 px-6 py-3 rounded-2xl transition-all duration-300",
                 activeTab === tab.id 
-                  ? "bg-zinc-900 text-white dark:bg-white dark:text-black shadow-lg scale-105" 
+                  ? "bg-zinc-900 text-white dark:bg-zinc-800 dark:text-zinc-200 shadow-lg scale-105" 
                   : "text-zinc-400 hover:bg-zinc-50 dark:hover:bg-zinc-800"
               )}
             >
@@ -302,14 +302,14 @@ function BalanceView() {
           </CardContent>
         </Card>
 
-        <Card className="border-none shadow-2xl bg-zinc-900 dark:bg-white text-white dark:text-black rounded-[2.5rem]">
+        <Card className="border-none shadow-2xl bg-zinc-900 dark:bg-zinc-950 text-white dark:text-zinc-200 rounded-[2.5rem] border dark:border-zinc-800">
           <CardContent className="p-8">
             <div className="flex items-center justify-between mb-4">
-              <div className="h-12 w-12 rounded-2xl bg-white/10 dark:bg-black/10 flex items-center justify-center">
-                <DollarSign className="h-6 w-6" />
+              <div className="h-12 w-12 rounded-2xl bg-white/10 dark:bg-zinc-800/50 flex items-center justify-center">
+                <DollarSign className="h-6 w-6 dark:text-zinc-200" />
               </div>
             </div>
-            <p className="text-[10px] font-black text-zinc-400 dark:text-zinc-500 uppercase tracking-widest">Utilidad Neta</p>
+            <p className="text-[10px] font-black text-zinc-400 dark:text-zinc-300 uppercase tracking-widest">Utilidad Neta</p>
             <h3 className="text-3xl font-black tracking-tighter mt-1">$ 32,410,000</h3>
           </CardContent>
         </Card>
