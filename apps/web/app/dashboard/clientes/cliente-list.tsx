@@ -191,7 +191,7 @@ interface ClienteListProps {
 const SCORE_COLORS = {
   ORO: "bg-amber-500 text-black dark:text-zinc-300 shadow-black-100",
   PLATA: "bg-zinc-400 text-black dark:text-zinc-300 shadow-black-100",
-  BRONCE: "bg-orange-400 text-black dark:text-zinc-300 shadow-black-100",
+  BRONCE: "bg-orange-800 text-white shadow-black-100",
   RIESGO: "bg-red-500 text-black dark:text-zinc-300 shadow-black-100",
 };
 
@@ -1007,12 +1007,15 @@ export function ClienteList({ initialClientes, initialDepartments = [], initialM
                   </td>
 
                   <td className="px-3 py-6 text-center">
-                    <div className={cn(
-                      "inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full text-[9px] font-black uppercase tracking-widest shadow-sm",
-                      SCORE_COLORS[cliente.clasificacion || "BRONCE"]
-                    )}>
-                      <Trophy className="h-2.5 w-2.5" />
-                      {cliente.clasificacion || "BRONCE"}
+                    <div className="flex flex-col items-center gap-1">
+                      <div className={cn(
+                        "inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full text-[9px] font-black uppercase tracking-widest shadow-sm",
+                        SCORE_COLORS[cliente.clasificacion || "BRONCE"]
+                      )}>
+                        <Trophy className="h-2.5 w-2.5" />
+                        {cliente.clasificacion || "BRONCE"}
+                      </div>
+                      <span className="text-[10px] font-bold text-zinc-500">{cliente.score || 0} pts</span>
                     </div>
                   </td>
 
