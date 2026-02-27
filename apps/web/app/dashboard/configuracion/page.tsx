@@ -36,7 +36,8 @@ import {
   CheckCircle2,
   ListChecks,
   Building,
-  User
+  User,
+  CreditCard
 } from "lucide-react";
 import { cn } from "@/components/ui/utils";
 import { ConfigEmpresas } from "@/components/dashboard/ConfigEmpresas";
@@ -81,6 +82,38 @@ type User = {
   email?: string;
   role?: string;
 };
+
+const BANCOS_COLOMBIA = [
+  "Bancolombia",
+  "Banco de Bogotá",
+  "Davivienda",
+  "BBVA Colombia",
+  "Banco de Occidente",
+  "Banco Popular",
+  "Scotiabank Colpatria",
+  "Itaú",
+  "Banco GNB Sudameris",
+  "Banco Caja Social",
+  "Banco AV Villas",
+  "Banco Agrario",
+  "Nequi",
+  "Daviplata",
+  "NuBank",
+  "Lulo Bank"
+];
+
+const TIPOS_DOCUMENTO = [
+  "Cédula de Ciudadanía",
+  "Cédula de Extranjería",
+  "NIT",
+  "Pasaporte",
+  "Tarjeta de Identidad"
+];
+
+const TIPOS_CUENTA = [
+  "Ahorros",
+  "Corriente"
+];
 
 export default function ConfiguracionPage() {
   const [activeTab, setActiveTab] = useState<"segmentos" | "riesgos" | "intereses" | "empresas" | "perfil">("segmentos");
@@ -157,6 +190,20 @@ export default function ConfiguracionPage() {
   const handleCloseModal = () => {
     setEditingItem(null);
     setIsModalOpen(false);
+  };
+
+  const handleSaveProfile = () => {
+    if (user) {
+      localStorage.setItem("user", JSON.stringify(user));
+      toast.success("Perfil actualizado localmente");
+    }
+  };
+
+  const updateProfileField = (field: keyof User, value: string | number | boolean | null) => {
+    if (user) {
+      const updatedUser = { ...user, [field]: value };
+      setUser(updatedUser);
+    }
   };
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -248,7 +295,7 @@ export default function ConfiguracionPage() {
               <button 
                 onClick={() => handleTabChange("segmentos")}
                 className={cn(
-                  "flex items-center gap-2 px-6 py-2.5 rounded-xl text-xs font-black uppercase tracking-widest transition-all",
+                  "flex items-center gap-2 px-4 py-1.5 rounded-xl text-xs font-black uppercase tracking-widest transition-all",
                   activeTab === "segmentos" ? "bg-white dark:bg-zinc-800 text-azul-1 shadow-md" : "text-zinc-500 hover:text-zinc-700 dark:text-zinc-500 dark:hover:text-zinc-300"
                 )}
               >
@@ -257,7 +304,7 @@ export default function ConfiguracionPage() {
               <button 
                 onClick={() => handleTabChange("riesgos")}
                 className={cn(
-                  "flex items-center gap-2 px-6 py-2.5 rounded-xl text-xs font-black uppercase tracking-widest transition-all",
+                  "flex items-center gap-2 px-4 py-1.5 rounded-xl text-xs font-black uppercase tracking-widest transition-all",
                   activeTab === "riesgos" ? "bg-white dark:bg-zinc-800 text-azul-1 shadow-md" : "text-zinc-500 hover:text-zinc-700 dark:text-zinc-500 dark:hover:text-zinc-300"
                 )}
               >
@@ -266,7 +313,7 @@ export default function ConfiguracionPage() {
               <button 
                 onClick={() => handleTabChange("intereses")}
                 className={cn(
-                  "flex items-center gap-2 px-6 py-2.5 rounded-xl text-xs font-black uppercase tracking-widest transition-all",
+                  "flex items-center gap-2 px-4 py-1.5 rounded-xl text-xs font-black uppercase tracking-widest transition-all",
                   activeTab === "intereses" ? "bg-white dark:bg-zinc-800 text-azul-1 shadow-md" : "text-zinc-500 hover:text-zinc-700 dark:text-zinc-500 dark:hover:text-zinc-300"
                 )}
               >
@@ -275,7 +322,7 @@ export default function ConfiguracionPage() {
               <button 
                 onClick={() => handleTabChange("empresas")}
                 className={cn(
-                  "flex items-center gap-2 px-6 py-2.5 rounded-xl text-xs font-black uppercase tracking-widest transition-all",
+                  "flex items-center gap-2 px-4 py-1.5 rounded-xl text-xs font-black uppercase tracking-widest transition-all",
                   activeTab === "empresas" ? "bg-white dark:bg-zinc-800 text-azul-1 shadow-md" : "text-zinc-500 hover:text-zinc-700 dark:text-zinc-500 dark:hover:text-zinc-300"
                 )}
               >
@@ -284,7 +331,7 @@ export default function ConfiguracionPage() {
               <button 
                 onClick={() => handleTabChange("perfil")}
                 className={cn(
-                  "flex items-center gap-2 px-6 py-2.5 rounded-xl text-xs font-black uppercase tracking-widest transition-all",
+                  "flex items-center gap-2 px-4 py-1.5 rounded-xl text-xs font-black uppercase tracking-widest transition-all",
                   activeTab === "perfil" ? "bg-white dark:bg-zinc-800 text-azul-1 shadow-md" : "text-zinc-500 hover:text-zinc-700 dark:text-zinc-500 dark:hover:text-zinc-300"
                 )}
               >
@@ -296,7 +343,7 @@ export default function ConfiguracionPage() {
 
         {/* Contenedor Principal de Datos (Scrollable) */}
         <div className="flex-1 min-h-0 overflow-y-auto px-4 sm:px-6 lg:px-10 py-8 sm:py-10">
-          <div className="max-w-[1600px] mx-auto w-full">
+          <div className="max-w-4xl mx-auto w-full pb-24">
             {activeTab === 'perfil' ? (
               <div className="space-y-8">
                 <Card className="border-none shadow-2xl shadow-black/5 dark:shadow-none dark:bg-zinc-900/30 rounded-3xl overflow-hidden border-t border-white/50 dark:border-zinc-800/50">
@@ -314,37 +361,50 @@ export default function ConfiguracionPage() {
                     </div>
                   </CardHeader>
                   <CardContent className="p-0 bg-white/20 dark:bg-transparent">
-                    <div className="overflow-x-auto">
-                      <table className="w-full text-left border-collapse">
-                        <thead>
-                          <tr className="border-b border-zinc-100 dark:border-zinc-800 bg-zinc-50/50 dark:bg-zinc-900/50">
-                            <th className="px-10 py-5 text-[10px] font-black uppercase tracking-[0.2em] text-zinc-400">Campo</th>
-                            <th className="px-10 py-5 text-[10px] font-black uppercase tracking-[0.2em] text-zinc-400">Valor Actual</th>
-                          </tr>
-                        </thead>
-                        <tbody className="divide-y divide-zinc-100 dark:divide-zinc-800">
-                          <tr className="group hover:bg-zinc-50/50 dark:hover:bg-zinc-900/20 transition-all">
-                            <td className="px-10 py-5 text-xs font-black uppercase tracking-widest text-zinc-500 dark:text-zinc-400">Nombre</td>
-                            <td className="px-10 py-5 text-sm font-bold text-zinc-900 dark:text-zinc-100">{user?.nombre || "No definido"}</td>
-                          </tr>
-                          <tr className="group hover:bg-zinc-50/50 dark:hover:bg-zinc-900/20 transition-all">
-                            <td className="px-10 py-5 text-xs font-black uppercase tracking-widest text-zinc-500 dark:text-zinc-400">Apellido</td>
-                            <td className="px-10 py-5 text-sm font-bold text-zinc-900 dark:text-zinc-100">{user?.apellido || "No definido"}</td>
-                          </tr>
-                          <tr className="group hover:bg-zinc-50/50 dark:hover:bg-zinc-900/20 transition-all">
-                            <td className="px-10 py-5 text-xs font-black uppercase tracking-widest text-zinc-500 dark:text-zinc-400">Tipo Documento</td>
-                            <td className="px-10 py-5 text-sm font-bold text-zinc-900 dark:text-zinc-100">{user?.tipoDocumento || "Cédula de Ciudadanía"}</td>
-                          </tr>
-                          <tr className="group hover:bg-zinc-50/50 dark:hover:bg-zinc-900/20 transition-all">
-                            <td className="px-10 py-5 text-xs font-black uppercase tracking-widest text-zinc-500 dark:text-zinc-400">Número Documento</td>
-                            <td className="px-10 py-5 text-sm font-bold text-zinc-900 dark:text-zinc-100">{user?.numeroDocumento || "No definido"}</td>
-                          </tr>
-                          <tr className="group hover:bg-zinc-50/50 dark:hover:bg-zinc-900/20 transition-all">
-                            <td className="px-10 py-5 text-xs font-black uppercase tracking-widest text-zinc-500 dark:text-zinc-400">Teléfono / Celular</td>
-                            <td className="px-10 py-5 text-sm font-bold text-zinc-900 dark:text-zinc-100">{user?.telefono || user?.phone || "No definido"}</td>
-                          </tr>
-                        </tbody>
-                      </table>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-0">
+                      <div className="bg-white dark:bg-zinc-900/40 p-6 space-y-2">
+                        <Label className="text-[10px] font-black uppercase tracking-[0.2em] text-zinc-400">Nombre</Label>
+                        <Input 
+                          value={user?.nombre || ""} 
+                          onChange={(e) => updateProfileField("nombre", e.target.value)}
+                                                          className="flex h-12 w-full rounded-2xl border-2 border-zinc-100 bg-white/50 dark:bg-zinc-900/20 px-4 text-sm font-bold transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-azul-1/20 focus-visible:border-azul-1 dark:border-zinc-800 dark:text-zinc-100"                          placeholder="Ingresa tu nombre"
+                        />
+                      </div>
+                      <div className="bg-white dark:bg-zinc-900/40 p-6 space-y-2">
+                        <Label className="text-[10px] font-black uppercase tracking-[0.2em] text-zinc-400">Apellido</Label>
+                        <Input 
+                          value={user?.apellido || ""} 
+                          onChange={(e) => updateProfileField("apellido", e.target.value)}
+                                                          className="flex h-12 w-full rounded-2xl border-2 border-zinc-100 bg-white/50 dark:bg-zinc-900/20 px-4 text-sm font-bold transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-azul-1/20 focus-visible:border-azul-1 dark:border-zinc-800 dark:text-zinc-100"                          placeholder="Ingresa tu apellido"
+                        />
+                      </div>
+                      <div className="bg-white dark:bg-zinc-900/40 p-6 space-y-2">
+                        <Label className="text-[10px] font-black uppercase tracking-[0.2em] text-zinc-400">Tipo Documento</Label>
+                        <Select 
+                          value={user?.tipoDocumento || "Cédula de Ciudadanía"}
+                          onChange={(e: React.ChangeEvent<HTMLSelectElement>) => updateProfileField("tipoDocumento", e.target.value)}
+                                                          className="flex h-12 w-full rounded-2xl border-2 border-zinc-100 bg-white/50 dark:bg-zinc-900/20 px-4 text-sm font-bold transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-azul-1/20 focus-visible:border-azul-1 dark:border-zinc-800 dark:text-zinc-100 cursor-pointer appearance-none"                        >
+                          {TIPOS_DOCUMENTO.map(tipo => (
+                            <option key={tipo} value={tipo} className="dark:bg-zinc-900">{tipo}</option>
+                          ))}
+                        </Select>
+                      </div>
+                      <div className="bg-white dark:bg-zinc-900/40 p-6 space-y-2">
+                        <Label className="text-[10px] font-black uppercase tracking-[0.2em] text-zinc-400">Número Documento</Label>
+                        <Input 
+                          value={user?.numeroDocumento || ""} 
+                          onChange={(e) => updateProfileField("numeroDocumento", e.target.value)}
+                                                          className="flex h-12 w-full rounded-2xl border-2 border-zinc-100 bg-white/50 dark:bg-zinc-900/20 px-4 text-sm font-bold transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-azul-1/20 focus-visible:border-azul-1 dark:border-zinc-800 dark:text-zinc-100"                          placeholder="Número de documento"
+                        />
+                      </div>
+                      <div className="bg-white dark:bg-zinc-900/40 p-6 space-y-2">
+                        <Label className="text-[10px] font-black uppercase tracking-[0.2em] text-zinc-400">Teléfono / Celular</Label>
+                        <Input 
+                          value={user?.telefono || user?.phone || ""} 
+                          onChange={(e) => updateProfileField("telefono", e.target.value)}
+                                                          className="flex h-12 w-full rounded-2xl border-2 border-zinc-100 bg-white/50 dark:bg-zinc-900/20 px-4 text-sm font-bold transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-azul-1/20 focus-visible:border-azul-1 dark:border-zinc-800 dark:text-zinc-100"                          placeholder="Tu número de contacto"
+                        />
+                      </div>
                     </div>
                   </CardContent>
                 </Card>
@@ -364,35 +424,46 @@ export default function ConfiguracionPage() {
                     </div>
                   </CardHeader>
                   <CardContent className="p-0 bg-white/20 dark:bg-transparent">
-                    <div className="overflow-x-auto">
-                      <table className="w-full text-left border-collapse">
-                        <thead>
-                          <tr className="border-b border-zinc-100 dark:border-zinc-800 bg-zinc-50/50 dark:bg-zinc-900/50">
-                            <th className="px-10 py-5 text-[10px] font-black uppercase tracking-[0.2em] text-zinc-400">Campo</th>
-                            <th className="px-10 py-5 text-[10px] font-black uppercase tracking-[0.2em] text-zinc-400">Valor Registrado</th>
-                          </tr>
-                        </thead>
-                        <tbody className="divide-y divide-zinc-100 dark:divide-zinc-800">
-                          <tr className="group hover:bg-zinc-50/50 dark:hover:bg-zinc-900/20 transition-all">
-                            <td className="px-10 py-5 text-xs font-black uppercase tracking-widest text-zinc-500 dark:text-zinc-400">Banco</td>
-                            <td className="px-10 py-5 text-sm font-bold text-zinc-900 dark:text-zinc-100">{user?.banco || "Bancolombia"}</td>
-                          </tr>
-                          <tr className="group hover:bg-zinc-50/50 dark:hover:bg-zinc-900/20 transition-all">
-                            <td className="px-10 py-5 text-xs font-black uppercase tracking-widest text-zinc-500 dark:text-zinc-400">Tipo de Cuenta</td>
-                            <td className="px-10 py-5 text-sm font-bold text-zinc-900 dark:text-zinc-100">{user?.tipoCuenta || "Ahorros"}</td>
-                          </tr>
-                          <tr className="group hover:bg-zinc-50/50 dark:hover:bg-zinc-900/20 transition-all">
-                            <td className="px-10 py-5 text-xs font-black uppercase tracking-widest text-zinc-500 dark:text-zinc-400">Número de Cuenta</td>
-                            <td className="px-10 py-5 text-sm font-bold text-zinc-900 dark:text-zinc-100">{user?.numeroCuenta || "****4321"}</td>
-                          </tr>
-                          <tr className="group hover:bg-zinc-50/50 dark:hover:bg-zinc-900/20 transition-all">
-                            <td className="px-10 py-5 text-xs font-black uppercase tracking-widest text-zinc-500 dark:text-zinc-400">Valor Hora</td>
-                            <td className="px-10 py-5 text-sm font-bold text-emerald-600 dark:text-emerald-400 tabular-nums">
-                              {user?.valorHora ? new Intl.NumberFormat('es-CO', { style: 'currency', currency: 'COP' }).format(user.valorHora) : "$ 15.000,00"}
-                            </td>
-                          </tr>
-                        </tbody>
-                      </table>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-0">
+                      <div className="bg-white dark:bg-zinc-900/40 p-6 space-y-2">
+                        <Label className="text-[10px] font-black uppercase tracking-[0.2em] text-zinc-400">Banco</Label>
+                        <Select 
+                          value={user?.banco || "Bancolombia"}
+                          onChange={(e: React.ChangeEvent<HTMLSelectElement>) => updateProfileField("banco", e.target.value)}
+                                                          className="flex h-12 w-full rounded-2xl border-2 border-zinc-100 bg-white/50 dark:bg-zinc-900/20 px-4 text-sm font-bold transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-azul-1/20 focus-visible:border-azul-1 dark:border-zinc-800 dark:text-zinc-100 cursor-pointer appearance-none"                        >
+                          {BANCOS_COLOMBIA.map(banco => (
+                            <option key={banco} value={banco} className="dark:bg-zinc-900">{banco}</option>
+                          ))}
+                        </Select>
+                      </div>
+                      <div className="bg-white dark:bg-zinc-900/40 p-6 space-y-2">
+                        <Label className="text-[10px] font-black uppercase tracking-[0.2em] text-zinc-400">Tipo de Cuenta</Label>
+                        <Select 
+                          value={user?.tipoCuenta || "Ahorros"}
+                          onChange={(e: React.ChangeEvent<HTMLSelectElement>) => updateProfileField("tipoCuenta", e.target.value)}
+                                                          className="flex h-12 w-full rounded-2xl border-2 border-zinc-100 bg-white/50 dark:bg-zinc-900/20 px-4 text-sm font-bold transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-azul-1/20 focus-visible:border-azul-1 dark:border-zinc-800 dark:text-zinc-100 cursor-pointer appearance-none"                        >
+                          {TIPOS_CUENTA.map(tipo => (
+                            <option key={tipo} value={tipo} className="dark:bg-zinc-900">{tipo}</option>
+                          ))}
+                        </Select>
+                      </div>
+                      <div className="bg-white dark:bg-zinc-900/40 p-6 space-y-2">
+                        <Label className="text-[10px] font-black uppercase tracking-[0.2em] text-zinc-400">Número de Cuenta</Label>
+                        <Input 
+                          value={user?.numeroCuenta || ""} 
+                          onChange={(e) => updateProfileField("numeroCuenta", e.target.value)}
+                                                          className="flex h-12 w-full rounded-2xl border-2 border-zinc-100 bg-white/50 dark:bg-zinc-900/20 px-4 text-sm font-bold transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-azul-1/20 focus-visible:border-azul-1 dark:border-zinc-800 dark:text-zinc-100"                          placeholder="Número de cuenta"
+                        />
+                      </div>
+                      <div className="bg-white dark:bg-zinc-900/40 p-6 space-y-2">
+                        <Label className="text-[10px] font-black uppercase tracking-[0.2em] text-zinc-400">Valor Hora</Label>
+                        <Input 
+                          type="number"
+                          value={user?.valorHora || 0} 
+                          onChange={(e) => updateProfileField("valorHora", parseInt(e.target.value) || 0)}
+                          className="flex h-12 w-full rounded-2xl border-2 border-zinc-100 bg-white/50 dark:bg-zinc-900/20 px-4 text-sm font-bold text-emerald-600 dark:text-emerald-400 tabular-nums transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-azul-1/20 focus-visible:border-azul-1 dark:border-zinc-800"
+                        />
+                      </div>
                     </div>
                   </CardContent>
                 </Card>
@@ -412,44 +483,62 @@ export default function ConfiguracionPage() {
                     </div>
                   </CardHeader>
                   <CardContent className="p-0 bg-white/20 dark:bg-transparent">
-                    <div className="overflow-x-auto">
-                      <table className="w-full text-left border-collapse">
-                        <thead>
-                          <tr className="border-b border-zinc-100 dark:border-zinc-800 bg-zinc-50/50 dark:bg-zinc-900/50">
-                            <th className="px-10 py-5 text-[10px] font-black uppercase tracking-[0.2em] text-zinc-400">Campo</th>
-                            <th className="px-10 py-5 text-[10px] font-black uppercase tracking-[0.2em] text-zinc-400">Valor / Acción</th>
-                          </tr>
-                        </thead>
-                        <tbody className="divide-y divide-zinc-100 dark:divide-zinc-800">
-                          <tr className="group hover:bg-zinc-50/50 dark:hover:bg-zinc-900/20 transition-all">
-                            <td className="px-10 py-5 text-xs font-black uppercase tracking-widest text-zinc-500 dark:text-zinc-400">Usuario</td>
-                            <td className="px-10 py-5 text-sm font-bold text-zinc-900 dark:text-zinc-100">{user?.email?.split('@')[0] || "usuario.demo"}</td>
-                          </tr>
-                          <tr className="group hover:bg-zinc-50/50 dark:hover:bg-zinc-900/20 transition-all">
-                            <td className="px-10 py-5 text-xs font-black uppercase tracking-widest text-zinc-500 dark:text-zinc-400">Correo Electrónico</td>
-                            <td className="px-10 py-5 text-sm font-bold text-zinc-900 dark:text-zinc-100">{user?.email || "No registrado"}</td>
-                          </tr>
-                          <tr className="group hover:bg-zinc-50/50 dark:hover:bg-zinc-900/20 transition-all">
-                            <td className="px-10 py-5 text-xs font-black uppercase tracking-widest text-zinc-500 dark:text-zinc-400">Nueva Contraseña</td>
-                            <td className="px-10 py-5 text-sm font-bold text-zinc-900 dark:text-zinc-100">
-                              <button className="text-[10px] font-black uppercase tracking-widest text-azul-1 hover:text-blue-700 underline underline-offset-4">
-                                Cambiar Contraseña
-                              </button>
-                            </td>
-                          </tr>
-                          <tr className="group bg-zinc-50/30 dark:bg-zinc-900/10">
-                            <td className="px-10 py-5 text-xs font-black uppercase tracking-widest text-zinc-400 dark:text-zinc-500">Rol del Sistema</td>
-                            <td className="px-10 py-5">
-                              <span className="inline-flex items-center px-3 py-1 rounded-lg bg-zinc-100 dark:bg-zinc-800 text-[10px] font-black uppercase tracking-[0.1em] text-zinc-500 dark:text-zinc-400 border border-zinc-200 dark:border-zinc-700">
-                                {user?.role || "Usuario"} (No editable)
-                              </span>
-                            </td>
-                          </tr>
-                        </tbody>
-                      </table>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-0">
+                      <div className="bg-white dark:bg-zinc-900/40 p-6 space-y-2">
+                        <Label className="text-[10px] font-black uppercase tracking-[0.2em] text-zinc-400">Usuario</Label>
+                        <Input 
+                          value={user?.email?.split('@')[0] || "usuario.demo"} 
+                          readOnly
+                          className="flex h-12 w-full rounded-2xl border-2 border-zinc-100 bg-zinc-50/50 dark:bg-zinc-800/30 px-4 text-sm font-bold text-zinc-500 dark:text-zinc-400 cursor-not-allowed"
+                        />
+                      </div>
+                      <div className="bg-white dark:bg-zinc-900/40 p-6 space-y-2">
+                        <Label className="text-[10px] font-black uppercase tracking-[0.2em] text-zinc-400">Correo Electrónico</Label>
+                        <Input 
+                          value={user?.email || "No registrado"} 
+                          readOnly
+                          className="flex h-12 w-full rounded-2xl border-2 border-zinc-100 bg-zinc-50/50 dark:bg-zinc-800/30 px-4 text-sm font-bold text-zinc-500 dark:text-zinc-400 cursor-not-allowed"
+                        />
+                      </div>
+                      <div className="bg-white dark:bg-zinc-900/40 p-6 space-y-2">
+                        <Label className="text-[10px] font-black uppercase tracking-[0.2em] text-zinc-400">Nueva Contraseña</Label>
+                        <div className="relative">
+                          <Input 
+                            type="password"
+                            placeholder="••••••••"
+                            className="flex h-12 w-full rounded-2xl border-2 border-zinc-100 bg-white/50 dark:bg-zinc-900/20 px-4 pr-24 text-sm font-bold transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-azul-1/20 focus-visible:border-azul-1 dark:border-zinc-800 dark:text-zinc-100"
+                          />
+                          <button className="absolute right-3 top-1/2 -translate-y-1/2 text-[10px] font-black uppercase tracking-widest text-azul-1 hover:text-blue-700">
+                            CAMBIAR
+                          </button>
+                        </div>
+                      </div>
+                      <div className="bg-white dark:bg-zinc-900/40 p-6 space-y-2">
+                        <Label className="text-[10px] font-black uppercase tracking-[0.2em] text-zinc-400">Rol del Sistema</Label>
+                        <div className="relative">
+                          <Input 
+                            value={user?.role || "Usuario"} 
+                            readOnly
+                            className="flex h-12 w-full rounded-2xl border-2 border-zinc-100 bg-zinc-50/50 dark:bg-zinc-800/30 px-4 text-sm font-bold text-zinc-500 dark:text-zinc-400 cursor-not-allowed"
+                          />
+                          <span className="absolute right-3 top-1/2 -translate-y-1/2 text-[9px] font-black uppercase tracking-widest text-zinc-400">
+                            NO EDITABLE
+                          </span>
+                        </div>
+                      </div>
                     </div>
                   </CardContent>
                 </Card>
+
+                {/* Botón de Guardar Fijo al final de la pestaña perfil */}
+                <div className="flex justify-end pt-4">
+                  <Button 
+                    onClick={handleSaveProfile}
+                    className="bg-azul-1 dark:bg-azul-1 hover:bg-azul-1/90 dark:hover:bg-azul-1/90 text-white dark:text-zinc-300 font-black uppercase tracking-widest text-[10px] rounded-2xl h-11 px-8 shadow-2xl shadow-azul-1/20 transition-all hover:scale-105 active:scale-95 flex items-center gap-2"
+                  >
+                    <Save className="h-4 w-4" /> GUARDAR CAMBIOS
+                  </Button>
+                </div>
               </div>
             ) : activeTab === 'empresas' ? (
               <ConfigEmpresas />
