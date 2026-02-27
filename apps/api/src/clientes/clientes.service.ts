@@ -5,14 +5,17 @@ import {
 } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 import { CreateClienteDto } from './dto/create-cliente.dto';
+import { Cliente, ClasificacionCliente } from '../generated/client/client';
 
 @Injectable()
 export class ClientesService {
   constructor(private prisma: PrismaService) {}
 
   async findAll(tenantId: string, empresaId?: string, userRole?: string) {
+    let clients: Cliente[] = [];
+
     if (userRole === 'SU_ADMIN') {
-      return this.prisma.cliente.findMany({
+      clients = await this.prisma.cliente.findMany({
         where: {
           deletedAt: null,
         },
@@ -29,10 +32,8 @@ export class ClientesService {
           empresa: true,
         },
       });
-    }
-
-    if (userRole === 'ADMIN') {
-      return this.prisma.cliente.findMany({
+    } else if (userRole === 'ADMIN') {
+      clients = await this.prisma.cliente.findMany({
         where: {
           tenantId,
           deletedAt: null,
@@ -49,31 +50,46 @@ export class ClientesService {
           empresa: true,
         },
       });
-    }
-
-    // For COORDINADOR, ASESOR, and OPERADOR roles
-    if (!empresaId) {
-      return [];
-    }
-
-    return this.prisma.cliente.findMany({
-      where: {
-        tenantId,
-        empresaId,
-        deletedAt: null,
-      },
-      orderBy: { createdAt: 'desc' },
-      include: {
-        direcciones: {
-          include: { municipioRel: true },
+    } else if (empresaId) {
+      clients = await this.prisma.cliente.findMany({
+        where: {
+          tenantId,
+          empresaId,
+          deletedAt: null,
         },
-        vehiculos: true,
-        segmento: true,
-        riesgo: true,
-        tipoInteres: true,
-        empresa: true,
-      },
+        orderBy: { createdAt: 'desc' },
+        include: {
+          direcciones: {
+            include: { municipioRel: true },
+          },
+          vehiculos: true,
+          segmento: true,
+          riesgo: true,
+          tipoInteres: true,
+          empresa: true,
+        },
+      });
+    }
+
+    // Apply "Riesgo Comercial" logic in response (more than 45 days since last visit)
+    const now = new Date();
+    const result: Cliente[] = clients.map((client: Cliente): Cliente => {
+      const lastVisit = client.ultimaVisita
+        ? new Date(client.ultimaVisita)
+        : null;
+      if (lastVisit) {
+        const diffDays =
+          (now.getTime() - lastVisit.getTime()) / (1000 * 3600 * 24);
+        if (diffDays > 45) {
+          return {
+            ...client,
+            clasificacion: ClasificacionCliente.RIESGO,
+          } as Cliente;
+        }
+      }
+      return client;
     });
+    return result;
   }
 
   async create(

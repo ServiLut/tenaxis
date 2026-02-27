@@ -151,9 +151,9 @@ export default function MonitoreoPage() {
                   <Search className="absolute left-4 top-1/2 h-5 w-5 -translate-y-1/2 text-muted-foreground" />
                   <Input placeholder="Buscar en los registros de auditoría..." className="pl-12 h-12 text-base" />
                 </div>
-                <Button variant="outline" size="lg" className="h-12 px-6 dark:text-zinc-300 dark:border-zinc-800">
-                  <Filter className="mr-2 h-5 w-5 dark:text-zinc-300" />
-                  Filtros Avanzados
+                <Button variant="outline" size="lg" className="h-12 px-6 text-zinc-950 dark:text-zinc-300 dark:border-zinc-800">
+                  <Filter className="mr-2 h-5 w-5 text-zinc-950 dark:text-zinc-300" />
+                  Filtros
                 </Button>
               </div>
 
@@ -182,7 +182,7 @@ export default function MonitoreoPage() {
                             <td className="px-6 py-5 font-medium text-zinc-600 dark:text-zinc-300">Actualización</td>
                             <td className="px-6 py-5 text-muted-foreground font-medium">Cliente #1023</td>
                             <td className="px-6 py-5">
-                              <span className="inline-flex items-center rounded-full bg-green-50 px-3 py-1 text-xs font-black uppercase tracking-wider text-green-700 dark:bg-zinc-800 dark:text-zinc-300">
+                              <span className="inline-flex items-center rounded-full bg-green-50 px-3 py-1 text-xs font-black uppercase tracking-wider text-green-700">
                                 Exitoso
                               </span>
                             </td>
