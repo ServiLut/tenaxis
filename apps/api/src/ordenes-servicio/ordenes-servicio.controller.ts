@@ -9,8 +9,11 @@ import {
   UseGuards,
   Query,
   UnauthorizedException,
+  UseInterceptors,
+  UploadedFiles,
 } from '@nestjs/common';
 import { Request } from 'express';
+import { FilesInterceptor } from '@nestjs/platform-express';
 import { OrdenesServicioService } from './ordenes-servicio.service';
 import { CreateOrdenServicioDto } from './dto/create-orden-servicio.dto';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
@@ -39,13 +42,32 @@ export class OrdenesServicioController {
     return this.ordenesServicioService.create(tenantId, createDto);
   }
 
-  @Get()
-  findAll(@Req() req: RequestWithUser, @Query('empresaId') empresaId?: string) {
+  @Post(':id/evidencias')
+  @UseInterceptors(FilesInterceptor('files'))
+  async addEvidencias(
+    @Req() req: RequestWithUser,
+    @Param('id') id: string,
+    @UploadedFiles() files: Array<Express.Multer.File>,
+  ) {
     const tenantId = req.user.tenantId;
     if (!tenantId) {
       throw new UnauthorizedException('Tenant ID not found in token');
     }
-    return this.ordenesServicioService.findAll(tenantId, empresaId);
+    return this.ordenesServicioService.addEvidence(tenantId, id, files);
+  }
+
+  @Get()
+  findAll(@Req() req: RequestWithUser, @Query('empresaId') queryEmpresaId?: string) {
+    const tenantId = req.user.tenantId;
+    if (!tenantId) {
+      throw new UnauthorizedException('Tenant ID not found in token');
+    }
+    
+    // Si se pasa por query, manda ese. Si no, usa el inyectado por el interceptor (desde headers)
+    const empresaId = queryEmpresaId || req.user.empresaId;
+    const role = req.user.role;
+    
+    return this.ordenesServicioService.findAll(tenantId, empresaId, role);
   }
 
   @Get(':id')

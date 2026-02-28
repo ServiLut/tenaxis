@@ -2,6 +2,7 @@ import { Injectable, BadRequestException, Logger } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 import { SupabaseService } from '../supabase/supabase.service';
 import { CreateOrdenServicioDto } from './dto/create-orden-servicio.dto';
+import sharp from 'sharp';
 import {
   ClasificacionCliente,
   EstadoOrden,
@@ -427,12 +428,38 @@ export class OrdenesServicioService {
     return selected;
   }
 
-  async findAll(tenantId: string, empresaId?: string) {
-    const ordenes = await this.prisma.ordenServicio.findMany({
-      where: {
+  async findAll(tenantId: string, empresaId?: string, userRole?: string) {
+    // Treat string literals "undefined", "null", "all" or invalid UUIDs as undefined
+    const isUUID = (id: string) => /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(id);
+    const cleanEmpresaId = (empresaId && isUUID(empresaId)) ? empresaId : undefined;
+    
+    let whereClause: Prisma.OrdenServicioWhereInput = {};
+
+    if (userRole === 'SU_ADMIN') {
+      // SU_ADMIN ve todo sin filtros
+      whereClause = {};
+    } else if (userRole === 'ADMIN') {
+      // ADMIN ve todo su tenant
+      whereClause = {
         tenantId,
-        ...(empresaId ? { empresaId } : {}),
-      },
+      };
+      // Si ademÃ¡s filtrÃ³ por empresa, se aplica
+      if (cleanEmpresaId) {
+        whereClause.empresaId = cleanEmpresaId;
+      }
+    } else if (cleanEmpresaId) {
+      // Otros roles requieren empresaId
+      whereClause = {
+        tenantId,
+        empresaId: cleanEmpresaId,
+      };
+    } else {
+      // Si no es admin y no hay empresa, no ve nada (igual que en clientes)
+      return [];
+    }
+
+    const ordenes = await this.prisma.ordenServicio.findMany({
+      where: whereClause,
       include: {
         cliente: true,
         tecnico: {
@@ -461,6 +488,7 @@ export class OrdenesServicioService {
         zona: true,
         direccion: true,
         vehiculo: true,
+        evidencias: true,
         geolocalizaciones: {
           include: {
             membership: {
@@ -496,6 +524,7 @@ export class OrdenesServicioService {
           include: { user: true },
         },
         servicio: true,
+        evidencias: true,
         geolocalizaciones: {
           include: {
             membership: {
@@ -521,6 +550,68 @@ export class OrdenesServicioService {
     return this.processSignedUrls(orden);
   }
 
+  async addEvidence(
+    tenantId: string,
+    id: string,
+    files: Array<{ buffer: Buffer; mimetype: string; originalname: string }>,
+  ) {
+    const orden = await this.prisma.ordenServicio.findFirst({
+      where: { id, tenantId },
+    });
+
+    if (!orden) {
+      throw new BadRequestException('La orden especificada no existe');
+    }
+
+    const uploadedEvidences: any[] = [];
+
+    for (const file of files) {
+      const fileExt = file.originalname.split('.').pop();
+      const fileName = `${Math.random().toString(36).substring(2)}-${Date.now()}.${fileExt}`;
+      const filePath = `EvidenciaOrdenServicio/${id}/${fileName}`;
+
+      let finalBuffer = file.buffer;
+      let finalMimeType = file.mimetype;
+
+      // Compress only images
+      if (file.mimetype.startsWith('image/')) {
+        try {
+          finalBuffer = await sharp(file.buffer)
+            .resize(1280, 1280, {
+              fit: 'inside',
+              withoutEnlargement: true,
+            })
+            .jpeg({ quality: 80 })
+            .toBuffer();
+          finalMimeType = 'image/jpeg';
+        } catch (error) {
+          this.logger.error(`Error compressing image ${file.originalname}: ${error.message}`);
+          // Fallback to original buffer if compression fails
+          finalBuffer = file.buffer;
+        }
+      }
+
+      const uploadedPath = await this.supabase.uploadFile(
+        filePath,
+        finalBuffer,
+        finalMimeType,
+      );
+
+      if (uploadedPath) {
+        const evidence = await this.prisma.evidenciaServicio.create({
+          data: {
+            tenantId,
+            ordenServicioId: id,
+            path: uploadedPath,
+          },
+        });
+        uploadedEvidences.push(evidence);
+      }
+    }
+
+    return uploadedEvidences;
+  }
+
   private async processSignedUrls(orden: any) {
     const fieldsToSign = [
       'facturaPath',
@@ -534,6 +625,18 @@ export class OrdenesServicioService {
         const signedUrl = await this.supabase.getSignedUrl(orden[field]);
         if (signedUrl) {
           orden[field] = signedUrl;
+        }
+      }
+    }
+
+    // Sign multiple evidences if they exist
+    if (orden.evidencias) {
+      for (const evidence of orden.evidencias) {
+        if (evidence.path && !evidence.path.startsWith('http')) {
+          const signedUrl = await this.supabase.getSignedUrl(evidence.path);
+          if (signedUrl) {
+            evidence.path = signedUrl;
+          }
         }
       }
     }

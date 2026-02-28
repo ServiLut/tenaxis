@@ -272,3 +272,8 @@ export type PasswordResetToken = Prisma.PasswordResetTokenModel
  * 
  */
 export type ClienteConfiguracionOperativa = Prisma.ClienteConfiguracionOperativaModel
+/**
+ * Model EvidenciaServicio
+ * 
+ */
+export type EvidenciaServicio = Prisma.EvidenciaServicioModel
