@@ -631,8 +631,6 @@ model OrdenServicio {
   facturaElectronica    String?
   comprobantePago       String?
   evidenciaPath         String?
-  referenciaPago        String?
-  fechaPago             DateTime?
   estadoPago            EstadoPagoOrden      @default(PENDIENTE)
   seguimientoRevisado   Boolean?             @default(false)
   ordenPadreId          String?              @db.Uuid
@@ -644,6 +642,8 @@ model OrdenServicio {
   nivelInfestacion      NivelInfestacion?
   urgencia              UrgenciaOrden?
   estadoServicio        EstadoOrden          @default(NUEVO)
+  fechaPago             DateTime?
+  referenciaPago        String?
   consignacionOrden     ConsignacionOrden?
   declaracionEfectivo   DeclaracionEfectivo?
   evidencias            EvidenciaServicio[]
