@@ -57,17 +57,20 @@ export class OrdenesServicioController {
   }
 
   @Get()
-  findAll(@Req() req: RequestWithUser, @Query('empresaId') queryEmpresaId?: string) {
+  findAll(
+    @Req() req: RequestWithUser,
+    @Query('empresaId') queryEmpresaId?: string,
+    @Query('clienteId') clienteId?: string,
+  ) {
     const tenantId = req.user.tenantId;
     if (!tenantId) {
       throw new UnauthorizedException('Tenant ID not found in token');
     }
     
-    // Si se pasa por query, manda ese. Si no, usa el inyectado por el interceptor (desde headers)
     const empresaId = queryEmpresaId || req.user.empresaId;
     const role = req.user.role;
     
-    return this.ordenesServicioService.findAll(tenantId, empresaId, role);
+    return this.ordenesServicioService.findAll(tenantId, empresaId, role, clienteId);
   }
 
   @Get(':id')

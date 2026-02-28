@@ -462,11 +462,12 @@ export class OrdenesServicioService {
     return selected;
   }
 
-  async findAll(tenantId: string, empresaId?: string, userRole?: string) {
+  async findAll(tenantId: string, empresaId?: string, userRole?: string, clienteId?: string) {
     // Treat string literals "undefined", "null", "all" or invalid UUIDs as undefined
     const isUUID = (id: string) => /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(id);
     const cleanEmpresaId = (empresaId && isUUID(empresaId)) ? empresaId : undefined;
-    
+    const cleanClienteId = (clienteId && isUUID(clienteId)) ? clienteId : undefined;
+
     let whereClause: Prisma.OrdenServicioWhereInput = {};
 
     if (userRole === 'SU_ADMIN') {
@@ -492,6 +493,10 @@ export class OrdenesServicioService {
       return [];
     }
 
+    // Filtrar por cliente si se proporciona
+    if (cleanClienteId) {
+      whereClause.clienteId = cleanClienteId;
+    }
     const ordenes = await this.prisma.ordenServicio.findMany({
       where: whereClause,
       include: {
