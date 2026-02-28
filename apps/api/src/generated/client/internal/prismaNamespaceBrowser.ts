@@ -101,7 +101,8 @@ export const ModelName = {
   LogEvento: 'LogEvento',
   AuthSession: 'AuthSession',
   PasswordResetToken: 'PasswordResetToken',
-  ClienteConfiguracionOperativa: 'ClienteConfiguracionOperativa'
+  ClienteConfiguracionOperativa: 'ClienteConfiguracionOperativa',
+  EvidenciaServicio: 'EvidenciaServicio'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -543,7 +544,9 @@ export const OrdenServicioScalarFieldEnum = {
   tipoVisita: 'tipoVisita',
   nivelInfestacion: 'nivelInfestacion',
   urgencia: 'urgencia',
-  estadoServicio: 'estadoServicio'
+  estadoServicio: 'estadoServicio',
+  fechaPago: 'fechaPago',
+  referenciaPago: 'referenciaPago'
 } as const
 
 export type OrdenServicioScalarFieldEnum = (typeof OrdenServicioScalarFieldEnum)[keyof typeof OrdenServicioScalarFieldEnum]
@@ -1011,6 +1014,17 @@ export const ClienteConfiguracionOperativaScalarFieldEnum = {
 } as const
 
 export type ClienteConfiguracionOperativaScalarFieldEnum = (typeof ClienteConfiguracionOperativaScalarFieldEnum)[keyof typeof ClienteConfiguracionOperativaScalarFieldEnum]
+
+
+export const EvidenciaServicioScalarFieldEnum = {
+  id: 'id',
+  tenantId: 'tenantId',
+  ordenServicioId: 'ordenServicioId',
+  path: 'path',
+  createdAt: 'createdAt'
+} as const
+
+export type EvidenciaServicioScalarFieldEnum = (typeof EvidenciaServicioScalarFieldEnum)[keyof typeof EvidenciaServicioScalarFieldEnum]
 
 
 export const SortOrder = {

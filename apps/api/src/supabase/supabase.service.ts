@@ -46,4 +46,30 @@ export class SupabaseService {
       return null;
     }
   }
+
+  async uploadFile(path: string, buffer: Buffer, contentType: string, bucket: string = 'tenaxis-docs') {
+    if (!this.supabase) {
+      this.logger.error('Supabase client not initialized');
+      return null;
+    }
+
+    try {
+      const { data, error } = await this.supabase.storage
+        .from(bucket)
+        .upload(path, buffer, {
+          contentType,
+          upsert: true,
+        });
+
+      if (error) {
+        this.logger.error(`Error uploading file ${path}: ${error.message}`);
+        return null;
+      }
+
+      return data.path;
+    } catch (error) {
+      this.logger.error(`Unexpected error uploading file: ${error.message}`);
+      return null;
+    }
+  }
 }

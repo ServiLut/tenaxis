@@ -434,7 +434,8 @@ export const ModelName = {
   LogEvento: 'LogEvento',
   AuthSession: 'AuthSession',
   PasswordResetToken: 'PasswordResetToken',
-  ClienteConfiguracionOperativa: 'ClienteConfiguracionOperativa'
+  ClienteConfiguracionOperativa: 'ClienteConfiguracionOperativa',
+  EvidenciaServicio: 'EvidenciaServicio'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -450,7 +451,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "user" | "tenant" | "plan" | "subscription" | "tenantMembership" | "empresa" | "empresaMembership" | "organizationNode" | "commissionRecord" | "segmentoNegocio" | "nivelRiesgoOperativo" | "tipoInteres" | "department" | "municipality" | "cliente" | "vehiculo" | "direccion" | "zona" | "servicio" | "tipoServicio" | "metodoPago" | "estadoServicio" | "ordenServicio" | "geolocalizacion" | "nomina" | "nominaDetalle" | "citasPsicologos" | "consultorio" | "terapiasPsicologos" | "paqueteAdquirido" | "turno" | "cuentaCobro" | "declaracionEfectivo" | "consignacionEfectivo" | "consignacionOrden" | "anticipos" | "producto" | "productoSolicitado" | "proveedores" | "permiso" | "configuracionPagos" | "cuentasPago" | "egresos" | "picoPlaca" | "referidos" | "auditoria" | "sesionActividad" | "logEvento" | "authSession" | "passwordResetToken" | "clienteConfiguracionOperativa"
+    modelProps: "user" | "tenant" | "plan" | "subscription" | "tenantMembership" | "empresa" | "empresaMembership" | "organizationNode" | "commissionRecord" | "segmentoNegocio" | "nivelRiesgoOperativo" | "tipoInteres" | "department" | "municipality" | "cliente" | "vehiculo" | "direccion" | "zona" | "servicio" | "tipoServicio" | "metodoPago" | "estadoServicio" | "ordenServicio" | "geolocalizacion" | "nomina" | "nominaDetalle" | "citasPsicologos" | "consultorio" | "terapiasPsicologos" | "paqueteAdquirido" | "turno" | "cuentaCobro" | "declaracionEfectivo" | "consignacionEfectivo" | "consignacionOrden" | "anticipos" | "producto" | "productoSolicitado" | "proveedores" | "permiso" | "configuracionPagos" | "cuentasPago" | "egresos" | "picoPlaca" | "referidos" | "auditoria" | "sesionActividad" | "logEvento" | "authSession" | "passwordResetToken" | "clienteConfiguracionOperativa" | "evidenciaServicio"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -4228,6 +4229,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    EvidenciaServicio: {
+      payload: Prisma.$EvidenciaServicioPayload<ExtArgs>
+      fields: Prisma.EvidenciaServicioFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.EvidenciaServicioFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$EvidenciaServicioPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.EvidenciaServicioFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$EvidenciaServicioPayload>
+        }
+        findFirst: {
+          args: Prisma.EvidenciaServicioFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$EvidenciaServicioPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.EvidenciaServicioFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$EvidenciaServicioPayload>
+        }
+        findMany: {
+          args: Prisma.EvidenciaServicioFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$EvidenciaServicioPayload>[]
+        }
+        create: {
+          args: Prisma.EvidenciaServicioCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$EvidenciaServicioPayload>
+        }
+        createMany: {
+          args: Prisma.EvidenciaServicioCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.EvidenciaServicioCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$EvidenciaServicioPayload>[]
+        }
+        delete: {
+          args: Prisma.EvidenciaServicioDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$EvidenciaServicioPayload>
+        }
+        update: {
+          args: Prisma.EvidenciaServicioUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$EvidenciaServicioPayload>
+        }
+        deleteMany: {
+          args: Prisma.EvidenciaServicioDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.EvidenciaServicioUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.EvidenciaServicioUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$EvidenciaServicioPayload>[]
+        }
+        upsert: {
+          args: Prisma.EvidenciaServicioUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$EvidenciaServicioPayload>
+        }
+        aggregate: {
+          args: Prisma.EvidenciaServicioAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateEvidenciaServicio>
+        }
+        groupBy: {
+          args: Prisma.EvidenciaServicioGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.EvidenciaServicioGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.EvidenciaServicioCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.EvidenciaServicioCountAggregateOutputType> | number
+        }
+      }
+    }
   }
 } & {
   other: {
@@ -4690,7 +4765,9 @@ export const OrdenServicioScalarFieldEnum = {
   tipoVisita: 'tipoVisita',
   nivelInfestacion: 'nivelInfestacion',
   urgencia: 'urgencia',
-  estadoServicio: 'estadoServicio'
+  estadoServicio: 'estadoServicio',
+  fechaPago: 'fechaPago',
+  referenciaPago: 'referenciaPago'
 } as const
 
 export type OrdenServicioScalarFieldEnum = (typeof OrdenServicioScalarFieldEnum)[keyof typeof OrdenServicioScalarFieldEnum]
@@ -5158,6 +5235,17 @@ export const ClienteConfiguracionOperativaScalarFieldEnum = {
 } as const
 
 export type ClienteConfiguracionOperativaScalarFieldEnum = (typeof ClienteConfiguracionOperativaScalarFieldEnum)[keyof typeof ClienteConfiguracionOperativaScalarFieldEnum]
+
+
+export const EvidenciaServicioScalarFieldEnum = {
+  id: 'id',
+  tenantId: 'tenantId',
+  ordenServicioId: 'ordenServicioId',
+  path: 'path',
+  createdAt: 'createdAt'
+} as const
+
+export type EvidenciaServicioScalarFieldEnum = (typeof EvidenciaServicioScalarFieldEnum)[keyof typeof EvidenciaServicioScalarFieldEnum]
 
 
 export const SortOrder = {
@@ -5737,6 +5825,7 @@ export type GlobalOmitConfig = {
   authSession?: Prisma.AuthSessionOmit
   passwordResetToken?: Prisma.PasswordResetTokenOmit
   clienteConfiguracionOperativa?: Prisma.ClienteConfiguracionOperativaOmit
+  evidenciaServicio?: Prisma.EvidenciaServicioOmit
 }
 
 /* Types for Logging */

@@ -2,13 +2,16 @@ import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { ValidationPipe, Logger } from '@nestjs/common';
 import { TransformInterceptor } from './common/interceptors/transform.interceptor';
-import { Request, Response, NextFunction } from 'express';
+import { Request, Response, NextFunction, json, urlencoded } from 'express';
 import { winstonConfig } from './common/logger/winston.config';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule, {
     logger: winstonConfig,
   });
+
+  app.use(json({ limit: '20mb' }));
+  app.use(urlencoded({ extended: true, limit: '20mb' }));
 
   const logger = new Logger('HTTP');
 

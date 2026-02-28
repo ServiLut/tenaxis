@@ -440,6 +440,7 @@ export type DireccionWhereInput = {
   validadoPorSistema?: Prisma.BoolFilter<"Direccion"> | boolean
   departmentId?: Prisma.UuidNullableFilter<"Direccion"> | string | null
   zonaId?: Prisma.UuidNullableFilter<"Direccion"> | string | null
+  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaListRelationFilter
   cliente?: Prisma.XOR<Prisma.ClienteScalarRelationFilter, Prisma.ClienteWhereInput>
   departmentRel?: Prisma.XOR<Prisma.DepartmentNullableScalarRelationFilter, Prisma.DepartmentWhereInput> | null
   empresa?: Prisma.XOR<Prisma.EmpresaNullableScalarRelationFilter, Prisma.EmpresaWhereInput> | null
@@ -447,7 +448,6 @@ export type DireccionWhereInput = {
   tenant?: Prisma.XOR<Prisma.TenantScalarRelationFilter, Prisma.TenantWhereInput>
   zona?: Prisma.XOR<Prisma.ZonaNullableScalarRelationFilter, Prisma.ZonaWhereInput> | null
   ordenesServicio?: Prisma.OrdenServicioListRelationFilter
-  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaListRelationFilter
 }
 
 export type DireccionOrderByWithRelationInput = {
@@ -483,6 +483,7 @@ export type DireccionOrderByWithRelationInput = {
   validadoPorSistema?: Prisma.SortOrder
   departmentId?: Prisma.SortOrderInput | Prisma.SortOrder
   zonaId?: Prisma.SortOrderInput | Prisma.SortOrder
+  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaOrderByRelationAggregateInput
   cliente?: Prisma.ClienteOrderByWithRelationInput
   departmentRel?: Prisma.DepartmentOrderByWithRelationInput
   empresa?: Prisma.EmpresaOrderByWithRelationInput
@@ -490,7 +491,6 @@ export type DireccionOrderByWithRelationInput = {
   tenant?: Prisma.TenantOrderByWithRelationInput
   zona?: Prisma.ZonaOrderByWithRelationInput
   ordenesServicio?: Prisma.OrdenServicioOrderByRelationAggregateInput
-  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaOrderByRelationAggregateInput
 }
 
 export type DireccionWhereUniqueInput = Prisma.AtLeast<{
@@ -529,6 +529,7 @@ export type DireccionWhereUniqueInput = Prisma.AtLeast<{
   validadoPorSistema?: Prisma.BoolFilter<"Direccion"> | boolean
   departmentId?: Prisma.UuidNullableFilter<"Direccion"> | string | null
   zonaId?: Prisma.UuidNullableFilter<"Direccion"> | string | null
+  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaListRelationFilter
   cliente?: Prisma.XOR<Prisma.ClienteScalarRelationFilter, Prisma.ClienteWhereInput>
   departmentRel?: Prisma.XOR<Prisma.DepartmentNullableScalarRelationFilter, Prisma.DepartmentWhereInput> | null
   empresa?: Prisma.XOR<Prisma.EmpresaNullableScalarRelationFilter, Prisma.EmpresaWhereInput> | null
@@ -536,7 +537,6 @@ export type DireccionWhereUniqueInput = Prisma.AtLeast<{
   tenant?: Prisma.XOR<Prisma.TenantScalarRelationFilter, Prisma.TenantWhereInput>
   zona?: Prisma.XOR<Prisma.ZonaNullableScalarRelationFilter, Prisma.ZonaWhereInput> | null
   ordenesServicio?: Prisma.OrdenServicioListRelationFilter
-  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaListRelationFilter
 }, "id">
 
 export type DireccionOrderByWithAggregationInput = {
@@ -644,6 +644,7 @@ export type DireccionCreateInput = {
   telefonoContacto?: string | null
   tipoUbicacion?: string | null
   validadoPorSistema?: boolean
+  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaCreateNestedManyWithoutDireccionInput
   cliente: Prisma.ClienteCreateNestedOneWithoutDireccionesInput
   departmentRel?: Prisma.DepartmentCreateNestedOneWithoutDireccionesInput
   empresa?: Prisma.EmpresaCreateNestedOneWithoutDireccionesInput
@@ -651,7 +652,6 @@ export type DireccionCreateInput = {
   tenant: Prisma.TenantCreateNestedOneWithoutDireccionesInput
   zona?: Prisma.ZonaCreateNestedOneWithoutDireccionesInput
   ordenesServicio?: Prisma.OrdenServicioCreateNestedManyWithoutDireccionInput
-  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaCreateNestedManyWithoutDireccionInput
 }
 
 export type DireccionUncheckedCreateInput = {
@@ -687,8 +687,8 @@ export type DireccionUncheckedCreateInput = {
   validadoPorSistema?: boolean
   departmentId?: string | null
   zonaId?: string | null
-  ordenesServicio?: Prisma.OrdenServicioUncheckedCreateNestedManyWithoutDireccionInput
   configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaUncheckedCreateNestedManyWithoutDireccionInput
+  ordenesServicio?: Prisma.OrdenServicioUncheckedCreateNestedManyWithoutDireccionInput
 }
 
 export type DireccionUpdateInput = {
@@ -718,6 +718,7 @@ export type DireccionUpdateInput = {
   telefonoContacto?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tipoUbicacion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   validadoPorSistema?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaUpdateManyWithoutDireccionNestedInput
   cliente?: Prisma.ClienteUpdateOneRequiredWithoutDireccionesNestedInput
   departmentRel?: Prisma.DepartmentUpdateOneWithoutDireccionesNestedInput
   empresa?: Prisma.EmpresaUpdateOneWithoutDireccionesNestedInput
@@ -725,7 +726,6 @@ export type DireccionUpdateInput = {
   tenant?: Prisma.TenantUpdateOneRequiredWithoutDireccionesNestedInput
   zona?: Prisma.ZonaUpdateOneWithoutDireccionesNestedInput
   ordenesServicio?: Prisma.OrdenServicioUpdateManyWithoutDireccionNestedInput
-  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaUpdateManyWithoutDireccionNestedInput
 }
 
 export type DireccionUncheckedUpdateInput = {
@@ -761,8 +761,8 @@ export type DireccionUncheckedUpdateInput = {
   validadoPorSistema?: Prisma.BoolFieldUpdateOperationsInput | boolean
   departmentId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   zonaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  ordenesServicio?: Prisma.OrdenServicioUncheckedUpdateManyWithoutDireccionNestedInput
   configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaUncheckedUpdateManyWithoutDireccionNestedInput
+  ordenesServicio?: Prisma.OrdenServicioUncheckedUpdateManyWithoutDireccionNestedInput
 }
 
 export type DireccionCreateManyInput = {
@@ -1315,13 +1315,13 @@ export type DireccionCreateWithoutTenantInput = {
   telefonoContacto?: string | null
   tipoUbicacion?: string | null
   validadoPorSistema?: boolean
+  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaCreateNestedManyWithoutDireccionInput
   cliente: Prisma.ClienteCreateNestedOneWithoutDireccionesInput
   departmentRel?: Prisma.DepartmentCreateNestedOneWithoutDireccionesInput
   empresa?: Prisma.EmpresaCreateNestedOneWithoutDireccionesInput
   municipioRel?: Prisma.MunicipalityCreateNestedOneWithoutDireccionesInput
   zona?: Prisma.ZonaCreateNestedOneWithoutDireccionesInput
   ordenesServicio?: Prisma.OrdenServicioCreateNestedManyWithoutDireccionInput
-  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaCreateNestedManyWithoutDireccionInput
 }
 
 export type DireccionUncheckedCreateWithoutTenantInput = {
@@ -1356,8 +1356,8 @@ export type DireccionUncheckedCreateWithoutTenantInput = {
   validadoPorSistema?: boolean
   departmentId?: string | null
   zonaId?: string | null
-  ordenesServicio?: Prisma.OrdenServicioUncheckedCreateNestedManyWithoutDireccionInput
   configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaUncheckedCreateNestedManyWithoutDireccionInput
+  ordenesServicio?: Prisma.OrdenServicioUncheckedCreateNestedManyWithoutDireccionInput
 }
 
 export type DireccionCreateOrConnectWithoutTenantInput = {
@@ -1451,13 +1451,13 @@ export type DireccionCreateWithoutEmpresaInput = {
   telefonoContacto?: string | null
   tipoUbicacion?: string | null
   validadoPorSistema?: boolean
+  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaCreateNestedManyWithoutDireccionInput
   cliente: Prisma.ClienteCreateNestedOneWithoutDireccionesInput
   departmentRel?: Prisma.DepartmentCreateNestedOneWithoutDireccionesInput
   municipioRel?: Prisma.MunicipalityCreateNestedOneWithoutDireccionesInput
   tenant: Prisma.TenantCreateNestedOneWithoutDireccionesInput
   zona?: Prisma.ZonaCreateNestedOneWithoutDireccionesInput
   ordenesServicio?: Prisma.OrdenServicioCreateNestedManyWithoutDireccionInput
-  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaCreateNestedManyWithoutDireccionInput
 }
 
 export type DireccionUncheckedCreateWithoutEmpresaInput = {
@@ -1492,8 +1492,8 @@ export type DireccionUncheckedCreateWithoutEmpresaInput = {
   validadoPorSistema?: boolean
   departmentId?: string | null
   zonaId?: string | null
-  ordenesServicio?: Prisma.OrdenServicioUncheckedCreateNestedManyWithoutDireccionInput
   configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaUncheckedCreateNestedManyWithoutDireccionInput
+  ordenesServicio?: Prisma.OrdenServicioUncheckedCreateNestedManyWithoutDireccionInput
 }
 
 export type DireccionCreateOrConnectWithoutEmpresaInput = {
@@ -1549,13 +1549,13 @@ export type DireccionCreateWithoutDepartmentRelInput = {
   telefonoContacto?: string | null
   tipoUbicacion?: string | null
   validadoPorSistema?: boolean
+  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaCreateNestedManyWithoutDireccionInput
   cliente: Prisma.ClienteCreateNestedOneWithoutDireccionesInput
   empresa?: Prisma.EmpresaCreateNestedOneWithoutDireccionesInput
   municipioRel?: Prisma.MunicipalityCreateNestedOneWithoutDireccionesInput
   tenant: Prisma.TenantCreateNestedOneWithoutDireccionesInput
   zona?: Prisma.ZonaCreateNestedOneWithoutDireccionesInput
   ordenesServicio?: Prisma.OrdenServicioCreateNestedManyWithoutDireccionInput
-  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaCreateNestedManyWithoutDireccionInput
 }
 
 export type DireccionUncheckedCreateWithoutDepartmentRelInput = {
@@ -1590,8 +1590,8 @@ export type DireccionUncheckedCreateWithoutDepartmentRelInput = {
   tipoUbicacion?: string | null
   validadoPorSistema?: boolean
   zonaId?: string | null
-  ordenesServicio?: Prisma.OrdenServicioUncheckedCreateNestedManyWithoutDireccionInput
   configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaUncheckedCreateNestedManyWithoutDireccionInput
+  ordenesServicio?: Prisma.OrdenServicioUncheckedCreateNestedManyWithoutDireccionInput
 }
 
 export type DireccionCreateOrConnectWithoutDepartmentRelInput = {
@@ -1647,13 +1647,13 @@ export type DireccionCreateWithoutMunicipioRelInput = {
   telefonoContacto?: string | null
   tipoUbicacion?: string | null
   validadoPorSistema?: boolean
+  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaCreateNestedManyWithoutDireccionInput
   cliente: Prisma.ClienteCreateNestedOneWithoutDireccionesInput
   departmentRel?: Prisma.DepartmentCreateNestedOneWithoutDireccionesInput
   empresa?: Prisma.EmpresaCreateNestedOneWithoutDireccionesInput
   tenant: Prisma.TenantCreateNestedOneWithoutDireccionesInput
   zona?: Prisma.ZonaCreateNestedOneWithoutDireccionesInput
   ordenesServicio?: Prisma.OrdenServicioCreateNestedManyWithoutDireccionInput
-  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaCreateNestedManyWithoutDireccionInput
 }
 
 export type DireccionUncheckedCreateWithoutMunicipioRelInput = {
@@ -1688,8 +1688,8 @@ export type DireccionUncheckedCreateWithoutMunicipioRelInput = {
   validadoPorSistema?: boolean
   departmentId?: string | null
   zonaId?: string | null
-  ordenesServicio?: Prisma.OrdenServicioUncheckedCreateNestedManyWithoutDireccionInput
   configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaUncheckedCreateNestedManyWithoutDireccionInput
+  ordenesServicio?: Prisma.OrdenServicioUncheckedCreateNestedManyWithoutDireccionInput
 }
 
 export type DireccionCreateOrConnectWithoutMunicipioRelInput = {
@@ -1745,13 +1745,13 @@ export type DireccionCreateWithoutClienteInput = {
   telefonoContacto?: string | null
   tipoUbicacion?: string | null
   validadoPorSistema?: boolean
+  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaCreateNestedManyWithoutDireccionInput
   departmentRel?: Prisma.DepartmentCreateNestedOneWithoutDireccionesInput
   empresa?: Prisma.EmpresaCreateNestedOneWithoutDireccionesInput
   municipioRel?: Prisma.MunicipalityCreateNestedOneWithoutDireccionesInput
   tenant: Prisma.TenantCreateNestedOneWithoutDireccionesInput
   zona?: Prisma.ZonaCreateNestedOneWithoutDireccionesInput
   ordenesServicio?: Prisma.OrdenServicioCreateNestedManyWithoutDireccionInput
-  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaCreateNestedManyWithoutDireccionInput
 }
 
 export type DireccionUncheckedCreateWithoutClienteInput = {
@@ -1786,8 +1786,8 @@ export type DireccionUncheckedCreateWithoutClienteInput = {
   validadoPorSistema?: boolean
   departmentId?: string | null
   zonaId?: string | null
-  ordenesServicio?: Prisma.OrdenServicioUncheckedCreateNestedManyWithoutDireccionInput
   configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaUncheckedCreateNestedManyWithoutDireccionInput
+  ordenesServicio?: Prisma.OrdenServicioUncheckedCreateNestedManyWithoutDireccionInput
 }
 
 export type DireccionCreateOrConnectWithoutClienteInput = {
@@ -1843,13 +1843,13 @@ export type DireccionCreateWithoutZonaInput = {
   telefonoContacto?: string | null
   tipoUbicacion?: string | null
   validadoPorSistema?: boolean
+  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaCreateNestedManyWithoutDireccionInput
   cliente: Prisma.ClienteCreateNestedOneWithoutDireccionesInput
   departmentRel?: Prisma.DepartmentCreateNestedOneWithoutDireccionesInput
   empresa?: Prisma.EmpresaCreateNestedOneWithoutDireccionesInput
   municipioRel?: Prisma.MunicipalityCreateNestedOneWithoutDireccionesInput
   tenant: Prisma.TenantCreateNestedOneWithoutDireccionesInput
   ordenesServicio?: Prisma.OrdenServicioCreateNestedManyWithoutDireccionInput
-  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaCreateNestedManyWithoutDireccionInput
 }
 
 export type DireccionUncheckedCreateWithoutZonaInput = {
@@ -1884,8 +1884,8 @@ export type DireccionUncheckedCreateWithoutZonaInput = {
   tipoUbicacion?: string | null
   validadoPorSistema?: boolean
   departmentId?: string | null
-  ordenesServicio?: Prisma.OrdenServicioUncheckedCreateNestedManyWithoutDireccionInput
   configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaUncheckedCreateNestedManyWithoutDireccionInput
+  ordenesServicio?: Prisma.OrdenServicioUncheckedCreateNestedManyWithoutDireccionInput
 }
 
 export type DireccionCreateOrConnectWithoutZonaInput = {
@@ -1941,13 +1941,13 @@ export type DireccionCreateWithoutOrdenesServicioInput = {
   telefonoContacto?: string | null
   tipoUbicacion?: string | null
   validadoPorSistema?: boolean
+  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaCreateNestedManyWithoutDireccionInput
   cliente: Prisma.ClienteCreateNestedOneWithoutDireccionesInput
   departmentRel?: Prisma.DepartmentCreateNestedOneWithoutDireccionesInput
   empresa?: Prisma.EmpresaCreateNestedOneWithoutDireccionesInput
   municipioRel?: Prisma.MunicipalityCreateNestedOneWithoutDireccionesInput
   tenant: Prisma.TenantCreateNestedOneWithoutDireccionesInput
   zona?: Prisma.ZonaCreateNestedOneWithoutDireccionesInput
-  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaCreateNestedManyWithoutDireccionInput
 }
 
 export type DireccionUncheckedCreateWithoutOrdenesServicioInput = {
@@ -2029,13 +2029,13 @@ export type DireccionUpdateWithoutOrdenesServicioInput = {
   telefonoContacto?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tipoUbicacion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   validadoPorSistema?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaUpdateManyWithoutDireccionNestedInput
   cliente?: Prisma.ClienteUpdateOneRequiredWithoutDireccionesNestedInput
   departmentRel?: Prisma.DepartmentUpdateOneWithoutDireccionesNestedInput
   empresa?: Prisma.EmpresaUpdateOneWithoutDireccionesNestedInput
   municipioRel?: Prisma.MunicipalityUpdateOneWithoutDireccionesNestedInput
   tenant?: Prisma.TenantUpdateOneRequiredWithoutDireccionesNestedInput
   zona?: Prisma.ZonaUpdateOneWithoutDireccionesNestedInput
-  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaUpdateManyWithoutDireccionNestedInput
 }
 
 export type DireccionUncheckedUpdateWithoutOrdenesServicioInput = {
@@ -2295,13 +2295,13 @@ export type DireccionUpdateWithoutTenantInput = {
   telefonoContacto?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tipoUbicacion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   validadoPorSistema?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaUpdateManyWithoutDireccionNestedInput
   cliente?: Prisma.ClienteUpdateOneRequiredWithoutDireccionesNestedInput
   departmentRel?: Prisma.DepartmentUpdateOneWithoutDireccionesNestedInput
   empresa?: Prisma.EmpresaUpdateOneWithoutDireccionesNestedInput
   municipioRel?: Prisma.MunicipalityUpdateOneWithoutDireccionesNestedInput
   zona?: Prisma.ZonaUpdateOneWithoutDireccionesNestedInput
   ordenesServicio?: Prisma.OrdenServicioUpdateManyWithoutDireccionNestedInput
-  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaUpdateManyWithoutDireccionNestedInput
 }
 
 export type DireccionUncheckedUpdateWithoutTenantInput = {
@@ -2336,8 +2336,8 @@ export type DireccionUncheckedUpdateWithoutTenantInput = {
   validadoPorSistema?: Prisma.BoolFieldUpdateOperationsInput | boolean
   departmentId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   zonaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  ordenesServicio?: Prisma.OrdenServicioUncheckedUpdateManyWithoutDireccionNestedInput
   configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaUncheckedUpdateManyWithoutDireccionNestedInput
+  ordenesServicio?: Prisma.OrdenServicioUncheckedUpdateManyWithoutDireccionNestedInput
 }
 
 export type DireccionUncheckedUpdateManyWithoutTenantInput = {
@@ -2435,13 +2435,13 @@ export type DireccionUpdateWithoutEmpresaInput = {
   telefonoContacto?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tipoUbicacion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   validadoPorSistema?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaUpdateManyWithoutDireccionNestedInput
   cliente?: Prisma.ClienteUpdateOneRequiredWithoutDireccionesNestedInput
   departmentRel?: Prisma.DepartmentUpdateOneWithoutDireccionesNestedInput
   municipioRel?: Prisma.MunicipalityUpdateOneWithoutDireccionesNestedInput
   tenant?: Prisma.TenantUpdateOneRequiredWithoutDireccionesNestedInput
   zona?: Prisma.ZonaUpdateOneWithoutDireccionesNestedInput
   ordenesServicio?: Prisma.OrdenServicioUpdateManyWithoutDireccionNestedInput
-  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaUpdateManyWithoutDireccionNestedInput
 }
 
 export type DireccionUncheckedUpdateWithoutEmpresaInput = {
@@ -2476,8 +2476,8 @@ export type DireccionUncheckedUpdateWithoutEmpresaInput = {
   validadoPorSistema?: Prisma.BoolFieldUpdateOperationsInput | boolean
   departmentId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   zonaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  ordenesServicio?: Prisma.OrdenServicioUncheckedUpdateManyWithoutDireccionNestedInput
   configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaUncheckedUpdateManyWithoutDireccionNestedInput
+  ordenesServicio?: Prisma.OrdenServicioUncheckedUpdateManyWithoutDireccionNestedInput
 }
 
 export type DireccionUncheckedUpdateManyWithoutEmpresaInput = {
@@ -2575,13 +2575,13 @@ export type DireccionUpdateWithoutDepartmentRelInput = {
   telefonoContacto?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tipoUbicacion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   validadoPorSistema?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaUpdateManyWithoutDireccionNestedInput
   cliente?: Prisma.ClienteUpdateOneRequiredWithoutDireccionesNestedInput
   empresa?: Prisma.EmpresaUpdateOneWithoutDireccionesNestedInput
   municipioRel?: Prisma.MunicipalityUpdateOneWithoutDireccionesNestedInput
   tenant?: Prisma.TenantUpdateOneRequiredWithoutDireccionesNestedInput
   zona?: Prisma.ZonaUpdateOneWithoutDireccionesNestedInput
   ordenesServicio?: Prisma.OrdenServicioUpdateManyWithoutDireccionNestedInput
-  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaUpdateManyWithoutDireccionNestedInput
 }
 
 export type DireccionUncheckedUpdateWithoutDepartmentRelInput = {
@@ -2616,8 +2616,8 @@ export type DireccionUncheckedUpdateWithoutDepartmentRelInput = {
   tipoUbicacion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   validadoPorSistema?: Prisma.BoolFieldUpdateOperationsInput | boolean
   zonaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  ordenesServicio?: Prisma.OrdenServicioUncheckedUpdateManyWithoutDireccionNestedInput
   configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaUncheckedUpdateManyWithoutDireccionNestedInput
+  ordenesServicio?: Prisma.OrdenServicioUncheckedUpdateManyWithoutDireccionNestedInput
 }
 
 export type DireccionUncheckedUpdateManyWithoutDepartmentRelInput = {
@@ -2715,13 +2715,13 @@ export type DireccionUpdateWithoutMunicipioRelInput = {
   telefonoContacto?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tipoUbicacion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   validadoPorSistema?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaUpdateManyWithoutDireccionNestedInput
   cliente?: Prisma.ClienteUpdateOneRequiredWithoutDireccionesNestedInput
   departmentRel?: Prisma.DepartmentUpdateOneWithoutDireccionesNestedInput
   empresa?: Prisma.EmpresaUpdateOneWithoutDireccionesNestedInput
   tenant?: Prisma.TenantUpdateOneRequiredWithoutDireccionesNestedInput
   zona?: Prisma.ZonaUpdateOneWithoutDireccionesNestedInput
   ordenesServicio?: Prisma.OrdenServicioUpdateManyWithoutDireccionNestedInput
-  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaUpdateManyWithoutDireccionNestedInput
 }
 
 export type DireccionUncheckedUpdateWithoutMunicipioRelInput = {
@@ -2756,8 +2756,8 @@ export type DireccionUncheckedUpdateWithoutMunicipioRelInput = {
   validadoPorSistema?: Prisma.BoolFieldUpdateOperationsInput | boolean
   departmentId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   zonaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  ordenesServicio?: Prisma.OrdenServicioUncheckedUpdateManyWithoutDireccionNestedInput
   configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaUncheckedUpdateManyWithoutDireccionNestedInput
+  ordenesServicio?: Prisma.OrdenServicioUncheckedUpdateManyWithoutDireccionNestedInput
 }
 
 export type DireccionUncheckedUpdateManyWithoutMunicipioRelInput = {
@@ -2855,13 +2855,13 @@ export type DireccionUpdateWithoutClienteInput = {
   telefonoContacto?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tipoUbicacion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   validadoPorSistema?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaUpdateManyWithoutDireccionNestedInput
   departmentRel?: Prisma.DepartmentUpdateOneWithoutDireccionesNestedInput
   empresa?: Prisma.EmpresaUpdateOneWithoutDireccionesNestedInput
   municipioRel?: Prisma.MunicipalityUpdateOneWithoutDireccionesNestedInput
   tenant?: Prisma.TenantUpdateOneRequiredWithoutDireccionesNestedInput
   zona?: Prisma.ZonaUpdateOneWithoutDireccionesNestedInput
   ordenesServicio?: Prisma.OrdenServicioUpdateManyWithoutDireccionNestedInput
-  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaUpdateManyWithoutDireccionNestedInput
 }
 
 export type DireccionUncheckedUpdateWithoutClienteInput = {
@@ -2896,8 +2896,8 @@ export type DireccionUncheckedUpdateWithoutClienteInput = {
   validadoPorSistema?: Prisma.BoolFieldUpdateOperationsInput | boolean
   departmentId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   zonaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  ordenesServicio?: Prisma.OrdenServicioUncheckedUpdateManyWithoutDireccionNestedInput
   configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaUncheckedUpdateManyWithoutDireccionNestedInput
+  ordenesServicio?: Prisma.OrdenServicioUncheckedUpdateManyWithoutDireccionNestedInput
 }
 
 export type DireccionUncheckedUpdateManyWithoutClienteInput = {
@@ -2995,13 +2995,13 @@ export type DireccionUpdateWithoutZonaInput = {
   telefonoContacto?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tipoUbicacion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   validadoPorSistema?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaUpdateManyWithoutDireccionNestedInput
   cliente?: Prisma.ClienteUpdateOneRequiredWithoutDireccionesNestedInput
   departmentRel?: Prisma.DepartmentUpdateOneWithoutDireccionesNestedInput
   empresa?: Prisma.EmpresaUpdateOneWithoutDireccionesNestedInput
   municipioRel?: Prisma.MunicipalityUpdateOneWithoutDireccionesNestedInput
   tenant?: Prisma.TenantUpdateOneRequiredWithoutDireccionesNestedInput
   ordenesServicio?: Prisma.OrdenServicioUpdateManyWithoutDireccionNestedInput
-  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaUpdateManyWithoutDireccionNestedInput
 }
 
 export type DireccionUncheckedUpdateWithoutZonaInput = {
@@ -3036,8 +3036,8 @@ export type DireccionUncheckedUpdateWithoutZonaInput = {
   tipoUbicacion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   validadoPorSistema?: Prisma.BoolFieldUpdateOperationsInput | boolean
   departmentId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  ordenesServicio?: Prisma.OrdenServicioUncheckedUpdateManyWithoutDireccionNestedInput
   configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaUncheckedUpdateManyWithoutDireccionNestedInput
+  ordenesServicio?: Prisma.OrdenServicioUncheckedUpdateManyWithoutDireccionNestedInput
 }
 
 export type DireccionUncheckedUpdateManyWithoutZonaInput = {
@@ -3080,13 +3080,13 @@ export type DireccionUncheckedUpdateManyWithoutZonaInput = {
  */
 
 export type DireccionCountOutputType = {
-  ordenesServicio: number
   configuracionesOperativas: number
+  ordenesServicio: number
 }
 
 export type DireccionCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  ordenesServicio?: boolean | DireccionCountOutputTypeCountOrdenesServicioArgs
   configuracionesOperativas?: boolean | DireccionCountOutputTypeCountConfiguracionesOperativasArgs
+  ordenesServicio?: boolean | DireccionCountOutputTypeCountOrdenesServicioArgs
 }
 
 /**
@@ -3102,15 +3102,15 @@ export type DireccionCountOutputTypeDefaultArgs<ExtArgs extends runtime.Types.Ex
 /**
  * DireccionCountOutputType without action
  */
-export type DireccionCountOutputTypeCountOrdenesServicioArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.OrdenServicioWhereInput
+export type DireccionCountOutputTypeCountConfiguracionesOperativasArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.ClienteConfiguracionOperativaWhereInput
 }
 
 /**
  * DireccionCountOutputType without action
  */
-export type DireccionCountOutputTypeCountConfiguracionesOperativasArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.ClienteConfiguracionOperativaWhereInput
+export type DireccionCountOutputTypeCountOrdenesServicioArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.OrdenServicioWhereInput
 }
 
 
@@ -3147,6 +3147,7 @@ export type DireccionSelect<ExtArgs extends runtime.Types.Extensions.InternalArg
   validadoPorSistema?: boolean
   departmentId?: boolean
   zonaId?: boolean
+  configuracionesOperativas?: boolean | Prisma.Direccion$configuracionesOperativasArgs<ExtArgs>
   cliente?: boolean | Prisma.ClienteDefaultArgs<ExtArgs>
   departmentRel?: boolean | Prisma.Direccion$departmentRelArgs<ExtArgs>
   empresa?: boolean | Prisma.Direccion$empresaArgs<ExtArgs>
@@ -3154,7 +3155,6 @@ export type DireccionSelect<ExtArgs extends runtime.Types.Extensions.InternalArg
   tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
   zona?: boolean | Prisma.Direccion$zonaArgs<ExtArgs>
   ordenesServicio?: boolean | Prisma.Direccion$ordenesServicioArgs<ExtArgs>
-  configuracionesOperativas?: boolean | Prisma.Direccion$configuracionesOperativasArgs<ExtArgs>
   _count?: boolean | Prisma.DireccionCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["direccion"]>
 
@@ -3277,6 +3277,7 @@ export type DireccionSelectScalar = {
 
 export type DireccionOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "tenantId" | "empresaId" | "clienteId" | "direccion" | "piso" | "bloque" | "unidad" | "barrio" | "municipio" | "linkMaps" | "createdAt" | "latitud" | "longitud" | "nombreSede" | "updatedAt" | "activa" | "bloqueada" | "cargoContacto" | "clasificacionPunto" | "horarioFin" | "horarioInicio" | "motivoBloqueo" | "municipioId" | "nombreContacto" | "precisionGPS" | "restricciones" | "telefonoContacto" | "tipoUbicacion" | "validadoPorSistema" | "departmentId" | "zonaId", ExtArgs["result"]["direccion"]>
 export type DireccionInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  configuracionesOperativas?: boolean | Prisma.Direccion$configuracionesOperativasArgs<ExtArgs>
   cliente?: boolean | Prisma.ClienteDefaultArgs<ExtArgs>
   departmentRel?: boolean | Prisma.Direccion$departmentRelArgs<ExtArgs>
   empresa?: boolean | Prisma.Direccion$empresaArgs<ExtArgs>
@@ -3284,7 +3285,6 @@ export type DireccionInclude<ExtArgs extends runtime.Types.Extensions.InternalAr
   tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
   zona?: boolean | Prisma.Direccion$zonaArgs<ExtArgs>
   ordenesServicio?: boolean | Prisma.Direccion$ordenesServicioArgs<ExtArgs>
-  configuracionesOperativas?: boolean | Prisma.Direccion$configuracionesOperativasArgs<ExtArgs>
   _count?: boolean | Prisma.DireccionCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type DireccionIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -3307,6 +3307,7 @@ export type DireccionIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Ex
 export type $DireccionPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "Direccion"
   objects: {
+    configuracionesOperativas: Prisma.$ClienteConfiguracionOperativaPayload<ExtArgs>[]
     cliente: Prisma.$ClientePayload<ExtArgs>
     departmentRel: Prisma.$DepartmentPayload<ExtArgs> | null
     empresa: Prisma.$EmpresaPayload<ExtArgs> | null
@@ -3314,7 +3315,6 @@ export type $DireccionPayload<ExtArgs extends runtime.Types.Extensions.InternalA
     tenant: Prisma.$TenantPayload<ExtArgs>
     zona: Prisma.$ZonaPayload<ExtArgs> | null
     ordenesServicio: Prisma.$OrdenServicioPayload<ExtArgs>[]
-    configuracionesOperativas: Prisma.$ClienteConfiguracionOperativaPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -3743,6 +3743,7 @@ readonly fields: DireccionFieldRefs;
  */
 export interface Prisma__DireccionClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
+  configuracionesOperativas<T extends Prisma.Direccion$configuracionesOperativasArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Direccion$configuracionesOperativasArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ClienteConfiguracionOperativaPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   cliente<T extends Prisma.ClienteDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.ClienteDefaultArgs<ExtArgs>>): Prisma.Prisma__ClienteClient<runtime.Types.Result.GetResult<Prisma.$ClientePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   departmentRel<T extends Prisma.Direccion$departmentRelArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Direccion$departmentRelArgs<ExtArgs>>): Prisma.Prisma__DepartmentClient<runtime.Types.Result.GetResult<Prisma.$DepartmentPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   empresa<T extends Prisma.Direccion$empresaArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Direccion$empresaArgs<ExtArgs>>): Prisma.Prisma__EmpresaClient<runtime.Types.Result.GetResult<Prisma.$EmpresaPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
@@ -3750,7 +3751,6 @@ export interface Prisma__DireccionClient<T, Null = never, ExtArgs extends runtim
   tenant<T extends Prisma.TenantDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.TenantDefaultArgs<ExtArgs>>): Prisma.Prisma__TenantClient<runtime.Types.Result.GetResult<Prisma.$TenantPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   zona<T extends Prisma.Direccion$zonaArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Direccion$zonaArgs<ExtArgs>>): Prisma.Prisma__ZonaClient<runtime.Types.Result.GetResult<Prisma.$ZonaPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   ordenesServicio<T extends Prisma.Direccion$ordenesServicioArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Direccion$ordenesServicioArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$OrdenServicioPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  configuracionesOperativas<T extends Prisma.Direccion$configuracionesOperativasArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Direccion$configuracionesOperativasArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ClienteConfiguracionOperativaPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -4208,6 +4208,30 @@ export type DireccionDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.Int
 }
 
 /**
+ * Direccion.configuracionesOperativas
+ */
+export type Direccion$configuracionesOperativasArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the ClienteConfiguracionOperativa
+   */
+  select?: Prisma.ClienteConfiguracionOperativaSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the ClienteConfiguracionOperativa
+   */
+  omit?: Prisma.ClienteConfiguracionOperativaOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ClienteConfiguracionOperativaInclude<ExtArgs> | null
+  where?: Prisma.ClienteConfiguracionOperativaWhereInput
+  orderBy?: Prisma.ClienteConfiguracionOperativaOrderByWithRelationInput | Prisma.ClienteConfiguracionOperativaOrderByWithRelationInput[]
+  cursor?: Prisma.ClienteConfiguracionOperativaWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.ClienteConfiguracionOperativaScalarFieldEnum | Prisma.ClienteConfiguracionOperativaScalarFieldEnum[]
+}
+
+/**
  * Direccion.departmentRel
  */
 export type Direccion$departmentRelArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -4305,30 +4329,6 @@ export type Direccion$ordenesServicioArgs<ExtArgs extends runtime.Types.Extensio
   take?: number
   skip?: number
   distinct?: Prisma.OrdenServicioScalarFieldEnum | Prisma.OrdenServicioScalarFieldEnum[]
-}
-
-/**
- * Direccion.configuracionesOperativas
- */
-export type Direccion$configuracionesOperativasArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the ClienteConfiguracionOperativa
-   */
-  select?: Prisma.ClienteConfiguracionOperativaSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the ClienteConfiguracionOperativa
-   */
-  omit?: Prisma.ClienteConfiguracionOperativaOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.ClienteConfiguracionOperativaInclude<ExtArgs> | null
-  where?: Prisma.ClienteConfiguracionOperativaWhereInput
-  orderBy?: Prisma.ClienteConfiguracionOperativaOrderByWithRelationInput | Prisma.ClienteConfiguracionOperativaOrderByWithRelationInput[]
-  cursor?: Prisma.ClienteConfiguracionOperativaWhereUniqueInput
-  take?: number
-  skip?: number
-  distinct?: Prisma.ClienteConfiguracionOperativaScalarFieldEnum | Prisma.ClienteConfiguracionOperativaScalarFieldEnum[]
 }
 
 /**

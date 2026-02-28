@@ -226,6 +226,7 @@ export type TenantWhereInput = {
   auditorias?: Prisma.AuditoriaListRelationFilter
   authSessions?: Prisma.AuthSessionListRelationFilter
   citasPsicologos?: Prisma.CitasPsicologosListRelationFilter
+  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaListRelationFilter
   clientes?: Prisma.ClienteListRelationFilter
   commissions?: Prisma.CommissionRecordListRelationFilter
   configuracionPagos?: Prisma.ConfiguracionPagosListRelationFilter
@@ -240,6 +241,7 @@ export type TenantWhereInput = {
   empresaMemberships?: Prisma.EmpresaMembershipListRelationFilter
   empresas?: Prisma.EmpresaListRelationFilter
   estadosServicio?: Prisma.EstadoServicioListRelationFilter
+  evidenciasServicio?: Prisma.EvidenciaServicioListRelationFilter
   geolocalizaciones?: Prisma.GeolocalizacionListRelationFilter
   logsEvento?: Prisma.LogEventoListRelationFilter
   metodosPago?: Prisma.MetodoPagoListRelationFilter
@@ -267,7 +269,6 @@ export type TenantWhereInput = {
   turnos?: Prisma.TurnoListRelationFilter
   vehiculos?: Prisma.VehiculoListRelationFilter
   zonas?: Prisma.ZonaListRelationFilter
-  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaListRelationFilter
 }
 
 export type TenantOrderByWithRelationInput = {
@@ -285,6 +286,7 @@ export type TenantOrderByWithRelationInput = {
   auditorias?: Prisma.AuditoriaOrderByRelationAggregateInput
   authSessions?: Prisma.AuthSessionOrderByRelationAggregateInput
   citasPsicologos?: Prisma.CitasPsicologosOrderByRelationAggregateInput
+  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaOrderByRelationAggregateInput
   clientes?: Prisma.ClienteOrderByRelationAggregateInput
   commissions?: Prisma.CommissionRecordOrderByRelationAggregateInput
   configuracionPagos?: Prisma.ConfiguracionPagosOrderByRelationAggregateInput
@@ -299,6 +301,7 @@ export type TenantOrderByWithRelationInput = {
   empresaMemberships?: Prisma.EmpresaMembershipOrderByRelationAggregateInput
   empresas?: Prisma.EmpresaOrderByRelationAggregateInput
   estadosServicio?: Prisma.EstadoServicioOrderByRelationAggregateInput
+  evidenciasServicio?: Prisma.EvidenciaServicioOrderByRelationAggregateInput
   geolocalizaciones?: Prisma.GeolocalizacionOrderByRelationAggregateInput
   logsEvento?: Prisma.LogEventoOrderByRelationAggregateInput
   metodosPago?: Prisma.MetodoPagoOrderByRelationAggregateInput
@@ -326,7 +329,6 @@ export type TenantOrderByWithRelationInput = {
   turnos?: Prisma.TurnoOrderByRelationAggregateInput
   vehiculos?: Prisma.VehiculoOrderByRelationAggregateInput
   zonas?: Prisma.ZonaOrderByRelationAggregateInput
-  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaOrderByRelationAggregateInput
 }
 
 export type TenantWhereUniqueInput = Prisma.AtLeast<{
@@ -347,6 +349,7 @@ export type TenantWhereUniqueInput = Prisma.AtLeast<{
   auditorias?: Prisma.AuditoriaListRelationFilter
   authSessions?: Prisma.AuthSessionListRelationFilter
   citasPsicologos?: Prisma.CitasPsicologosListRelationFilter
+  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaListRelationFilter
   clientes?: Prisma.ClienteListRelationFilter
   commissions?: Prisma.CommissionRecordListRelationFilter
   configuracionPagos?: Prisma.ConfiguracionPagosListRelationFilter
@@ -361,6 +364,7 @@ export type TenantWhereUniqueInput = Prisma.AtLeast<{
   empresaMemberships?: Prisma.EmpresaMembershipListRelationFilter
   empresas?: Prisma.EmpresaListRelationFilter
   estadosServicio?: Prisma.EstadoServicioListRelationFilter
+  evidenciasServicio?: Prisma.EvidenciaServicioListRelationFilter
   geolocalizaciones?: Prisma.GeolocalizacionListRelationFilter
   logsEvento?: Prisma.LogEventoListRelationFilter
   metodosPago?: Prisma.MetodoPagoListRelationFilter
@@ -388,7 +392,6 @@ export type TenantWhereUniqueInput = Prisma.AtLeast<{
   turnos?: Prisma.TurnoListRelationFilter
   vehiculos?: Prisma.VehiculoListRelationFilter
   zonas?: Prisma.ZonaListRelationFilter
-  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaListRelationFilter
 }, "id" | "slug">
 
 export type TenantOrderByWithAggregationInput = {
@@ -438,6 +441,7 @@ export type TenantCreateInput = {
   auditorias?: Prisma.AuditoriaCreateNestedManyWithoutTenantInput
   authSessions?: Prisma.AuthSessionCreateNestedManyWithoutTenantInput
   citasPsicologos?: Prisma.CitasPsicologosCreateNestedManyWithoutTenantInput
+  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaCreateNestedManyWithoutTenantInput
   clientes?: Prisma.ClienteCreateNestedManyWithoutTenantInput
   commissions?: Prisma.CommissionRecordCreateNestedManyWithoutTenantInput
   configuracionPagos?: Prisma.ConfiguracionPagosCreateNestedManyWithoutTenantInput
@@ -452,6 +456,7 @@ export type TenantCreateInput = {
   empresaMemberships?: Prisma.EmpresaMembershipCreateNestedManyWithoutTenantInput
   empresas?: Prisma.EmpresaCreateNestedManyWithoutTenantInput
   estadosServicio?: Prisma.EstadoServicioCreateNestedManyWithoutTenantInput
+  evidenciasServicio?: Prisma.EvidenciaServicioCreateNestedManyWithoutTenantInput
   geolocalizaciones?: Prisma.GeolocalizacionCreateNestedManyWithoutTenantInput
   logsEvento?: Prisma.LogEventoCreateNestedManyWithoutTenantInput
   metodosPago?: Prisma.MetodoPagoCreateNestedManyWithoutTenantInput
@@ -479,7 +484,6 @@ export type TenantCreateInput = {
   turnos?: Prisma.TurnoCreateNestedManyWithoutTenantInput
   vehiculos?: Prisma.VehiculoCreateNestedManyWithoutTenantInput
   zonas?: Prisma.ZonaCreateNestedManyWithoutTenantInput
-  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaCreateNestedManyWithoutTenantInput
 }
 
 export type TenantUncheckedCreateInput = {
@@ -497,6 +501,7 @@ export type TenantUncheckedCreateInput = {
   auditorias?: Prisma.AuditoriaUncheckedCreateNestedManyWithoutTenantInput
   authSessions?: Prisma.AuthSessionUncheckedCreateNestedManyWithoutTenantInput
   citasPsicologos?: Prisma.CitasPsicologosUncheckedCreateNestedManyWithoutTenantInput
+  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaUncheckedCreateNestedManyWithoutTenantInput
   clientes?: Prisma.ClienteUncheckedCreateNestedManyWithoutTenantInput
   commissions?: Prisma.CommissionRecordUncheckedCreateNestedManyWithoutTenantInput
   configuracionPagos?: Prisma.ConfiguracionPagosUncheckedCreateNestedManyWithoutTenantInput
@@ -511,6 +516,7 @@ export type TenantUncheckedCreateInput = {
   empresaMemberships?: Prisma.EmpresaMembershipUncheckedCreateNestedManyWithoutTenantInput
   empresas?: Prisma.EmpresaUncheckedCreateNestedManyWithoutTenantInput
   estadosServicio?: Prisma.EstadoServicioUncheckedCreateNestedManyWithoutTenantInput
+  evidenciasServicio?: Prisma.EvidenciaServicioUncheckedCreateNestedManyWithoutTenantInput
   geolocalizaciones?: Prisma.GeolocalizacionUncheckedCreateNestedManyWithoutTenantInput
   logsEvento?: Prisma.LogEventoUncheckedCreateNestedManyWithoutTenantInput
   metodosPago?: Prisma.MetodoPagoUncheckedCreateNestedManyWithoutTenantInput
@@ -538,7 +544,6 @@ export type TenantUncheckedCreateInput = {
   turnos?: Prisma.TurnoUncheckedCreateNestedManyWithoutTenantInput
   vehiculos?: Prisma.VehiculoUncheckedCreateNestedManyWithoutTenantInput
   zonas?: Prisma.ZonaUncheckedCreateNestedManyWithoutTenantInput
-  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaUncheckedCreateNestedManyWithoutTenantInput
 }
 
 export type TenantUpdateInput = {
@@ -556,6 +561,7 @@ export type TenantUpdateInput = {
   auditorias?: Prisma.AuditoriaUpdateManyWithoutTenantNestedInput
   authSessions?: Prisma.AuthSessionUpdateManyWithoutTenantNestedInput
   citasPsicologos?: Prisma.CitasPsicologosUpdateManyWithoutTenantNestedInput
+  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaUpdateManyWithoutTenantNestedInput
   clientes?: Prisma.ClienteUpdateManyWithoutTenantNestedInput
   commissions?: Prisma.CommissionRecordUpdateManyWithoutTenantNestedInput
   configuracionPagos?: Prisma.ConfiguracionPagosUpdateManyWithoutTenantNestedInput
@@ -570,6 +576,7 @@ export type TenantUpdateInput = {
   empresaMemberships?: Prisma.EmpresaMembershipUpdateManyWithoutTenantNestedInput
   empresas?: Prisma.EmpresaUpdateManyWithoutTenantNestedInput
   estadosServicio?: Prisma.EstadoServicioUpdateManyWithoutTenantNestedInput
+  evidenciasServicio?: Prisma.EvidenciaServicioUpdateManyWithoutTenantNestedInput
   geolocalizaciones?: Prisma.GeolocalizacionUpdateManyWithoutTenantNestedInput
   logsEvento?: Prisma.LogEventoUpdateManyWithoutTenantNestedInput
   metodosPago?: Prisma.MetodoPagoUpdateManyWithoutTenantNestedInput
@@ -597,7 +604,6 @@ export type TenantUpdateInput = {
   turnos?: Prisma.TurnoUpdateManyWithoutTenantNestedInput
   vehiculos?: Prisma.VehiculoUpdateManyWithoutTenantNestedInput
   zonas?: Prisma.ZonaUpdateManyWithoutTenantNestedInput
-  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaUpdateManyWithoutTenantNestedInput
 }
 
 export type TenantUncheckedUpdateInput = {
@@ -615,6 +621,7 @@ export type TenantUncheckedUpdateInput = {
   auditorias?: Prisma.AuditoriaUncheckedUpdateManyWithoutTenantNestedInput
   authSessions?: Prisma.AuthSessionUncheckedUpdateManyWithoutTenantNestedInput
   citasPsicologos?: Prisma.CitasPsicologosUncheckedUpdateManyWithoutTenantNestedInput
+  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaUncheckedUpdateManyWithoutTenantNestedInput
   clientes?: Prisma.ClienteUncheckedUpdateManyWithoutTenantNestedInput
   commissions?: Prisma.CommissionRecordUncheckedUpdateManyWithoutTenantNestedInput
   configuracionPagos?: Prisma.ConfiguracionPagosUncheckedUpdateManyWithoutTenantNestedInput
@@ -629,6 +636,7 @@ export type TenantUncheckedUpdateInput = {
   empresaMemberships?: Prisma.EmpresaMembershipUncheckedUpdateManyWithoutTenantNestedInput
   empresas?: Prisma.EmpresaUncheckedUpdateManyWithoutTenantNestedInput
   estadosServicio?: Prisma.EstadoServicioUncheckedUpdateManyWithoutTenantNestedInput
+  evidenciasServicio?: Prisma.EvidenciaServicioUncheckedUpdateManyWithoutTenantNestedInput
   geolocalizaciones?: Prisma.GeolocalizacionUncheckedUpdateManyWithoutTenantNestedInput
   logsEvento?: Prisma.LogEventoUncheckedUpdateManyWithoutTenantNestedInput
   metodosPago?: Prisma.MetodoPagoUncheckedUpdateManyWithoutTenantNestedInput
@@ -656,7 +664,6 @@ export type TenantUncheckedUpdateInput = {
   turnos?: Prisma.TurnoUncheckedUpdateManyWithoutTenantNestedInput
   vehiculos?: Prisma.VehiculoUncheckedUpdateManyWithoutTenantNestedInput
   zonas?: Prisma.ZonaUncheckedUpdateManyWithoutTenantNestedInput
-  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaUncheckedUpdateManyWithoutTenantNestedInput
 }
 
 export type TenantCreateManyInput = {
@@ -1395,6 +1402,20 @@ export type TenantUpdateOneRequiredWithoutConfiguracionesOperativasNestedInput =
   update?: Prisma.XOR<Prisma.XOR<Prisma.TenantUpdateToOneWithWhereWithoutConfiguracionesOperativasInput, Prisma.TenantUpdateWithoutConfiguracionesOperativasInput>, Prisma.TenantUncheckedUpdateWithoutConfiguracionesOperativasInput>
 }
 
+export type TenantCreateNestedOneWithoutEvidenciasServicioInput = {
+  create?: Prisma.XOR<Prisma.TenantCreateWithoutEvidenciasServicioInput, Prisma.TenantUncheckedCreateWithoutEvidenciasServicioInput>
+  connectOrCreate?: Prisma.TenantCreateOrConnectWithoutEvidenciasServicioInput
+  connect?: Prisma.TenantWhereUniqueInput
+}
+
+export type TenantUpdateOneRequiredWithoutEvidenciasServicioNestedInput = {
+  create?: Prisma.XOR<Prisma.TenantCreateWithoutEvidenciasServicioInput, Prisma.TenantUncheckedCreateWithoutEvidenciasServicioInput>
+  connectOrCreate?: Prisma.TenantCreateOrConnectWithoutEvidenciasServicioInput
+  upsert?: Prisma.TenantUpsertWithoutEvidenciasServicioInput
+  connect?: Prisma.TenantWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.TenantUpdateToOneWithWhereWithoutEvidenciasServicioInput, Prisma.TenantUpdateWithoutEvidenciasServicioInput>, Prisma.TenantUncheckedUpdateWithoutEvidenciasServicioInput>
+}
+
 export type TenantCreateWithoutSubscriptionInput = {
   id?: string
   slug: string
@@ -1410,6 +1431,7 @@ export type TenantCreateWithoutSubscriptionInput = {
   auditorias?: Prisma.AuditoriaCreateNestedManyWithoutTenantInput
   authSessions?: Prisma.AuthSessionCreateNestedManyWithoutTenantInput
   citasPsicologos?: Prisma.CitasPsicologosCreateNestedManyWithoutTenantInput
+  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaCreateNestedManyWithoutTenantInput
   clientes?: Prisma.ClienteCreateNestedManyWithoutTenantInput
   commissions?: Prisma.CommissionRecordCreateNestedManyWithoutTenantInput
   configuracionPagos?: Prisma.ConfiguracionPagosCreateNestedManyWithoutTenantInput
@@ -1424,6 +1446,7 @@ export type TenantCreateWithoutSubscriptionInput = {
   empresaMemberships?: Prisma.EmpresaMembershipCreateNestedManyWithoutTenantInput
   empresas?: Prisma.EmpresaCreateNestedManyWithoutTenantInput
   estadosServicio?: Prisma.EstadoServicioCreateNestedManyWithoutTenantInput
+  evidenciasServicio?: Prisma.EvidenciaServicioCreateNestedManyWithoutTenantInput
   geolocalizaciones?: Prisma.GeolocalizacionCreateNestedManyWithoutTenantInput
   logsEvento?: Prisma.LogEventoCreateNestedManyWithoutTenantInput
   metodosPago?: Prisma.MetodoPagoCreateNestedManyWithoutTenantInput
@@ -1450,7 +1473,6 @@ export type TenantCreateWithoutSubscriptionInput = {
   turnos?: Prisma.TurnoCreateNestedManyWithoutTenantInput
   vehiculos?: Prisma.VehiculoCreateNestedManyWithoutTenantInput
   zonas?: Prisma.ZonaCreateNestedManyWithoutTenantInput
-  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaCreateNestedManyWithoutTenantInput
 }
 
 export type TenantUncheckedCreateWithoutSubscriptionInput = {
@@ -1468,6 +1490,7 @@ export type TenantUncheckedCreateWithoutSubscriptionInput = {
   auditorias?: Prisma.AuditoriaUncheckedCreateNestedManyWithoutTenantInput
   authSessions?: Prisma.AuthSessionUncheckedCreateNestedManyWithoutTenantInput
   citasPsicologos?: Prisma.CitasPsicologosUncheckedCreateNestedManyWithoutTenantInput
+  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaUncheckedCreateNestedManyWithoutTenantInput
   clientes?: Prisma.ClienteUncheckedCreateNestedManyWithoutTenantInput
   commissions?: Prisma.CommissionRecordUncheckedCreateNestedManyWithoutTenantInput
   configuracionPagos?: Prisma.ConfiguracionPagosUncheckedCreateNestedManyWithoutTenantInput
@@ -1482,6 +1505,7 @@ export type TenantUncheckedCreateWithoutSubscriptionInput = {
   empresaMemberships?: Prisma.EmpresaMembershipUncheckedCreateNestedManyWithoutTenantInput
   empresas?: Prisma.EmpresaUncheckedCreateNestedManyWithoutTenantInput
   estadosServicio?: Prisma.EstadoServicioUncheckedCreateNestedManyWithoutTenantInput
+  evidenciasServicio?: Prisma.EvidenciaServicioUncheckedCreateNestedManyWithoutTenantInput
   geolocalizaciones?: Prisma.GeolocalizacionUncheckedCreateNestedManyWithoutTenantInput
   logsEvento?: Prisma.LogEventoUncheckedCreateNestedManyWithoutTenantInput
   metodosPago?: Prisma.MetodoPagoUncheckedCreateNestedManyWithoutTenantInput
@@ -1508,7 +1532,6 @@ export type TenantUncheckedCreateWithoutSubscriptionInput = {
   turnos?: Prisma.TurnoUncheckedCreateNestedManyWithoutTenantInput
   vehiculos?: Prisma.VehiculoUncheckedCreateNestedManyWithoutTenantInput
   zonas?: Prisma.ZonaUncheckedCreateNestedManyWithoutTenantInput
-  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaUncheckedCreateNestedManyWithoutTenantInput
 }
 
 export type TenantCreateOrConnectWithoutSubscriptionInput = {
@@ -1542,6 +1565,7 @@ export type TenantUpdateWithoutSubscriptionInput = {
   auditorias?: Prisma.AuditoriaUpdateManyWithoutTenantNestedInput
   authSessions?: Prisma.AuthSessionUpdateManyWithoutTenantNestedInput
   citasPsicologos?: Prisma.CitasPsicologosUpdateManyWithoutTenantNestedInput
+  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaUpdateManyWithoutTenantNestedInput
   clientes?: Prisma.ClienteUpdateManyWithoutTenantNestedInput
   commissions?: Prisma.CommissionRecordUpdateManyWithoutTenantNestedInput
   configuracionPagos?: Prisma.ConfiguracionPagosUpdateManyWithoutTenantNestedInput
@@ -1556,6 +1580,7 @@ export type TenantUpdateWithoutSubscriptionInput = {
   empresaMemberships?: Prisma.EmpresaMembershipUpdateManyWithoutTenantNestedInput
   empresas?: Prisma.EmpresaUpdateManyWithoutTenantNestedInput
   estadosServicio?: Prisma.EstadoServicioUpdateManyWithoutTenantNestedInput
+  evidenciasServicio?: Prisma.EvidenciaServicioUpdateManyWithoutTenantNestedInput
   geolocalizaciones?: Prisma.GeolocalizacionUpdateManyWithoutTenantNestedInput
   logsEvento?: Prisma.LogEventoUpdateManyWithoutTenantNestedInput
   metodosPago?: Prisma.MetodoPagoUpdateManyWithoutTenantNestedInput
@@ -1582,7 +1607,6 @@ export type TenantUpdateWithoutSubscriptionInput = {
   turnos?: Prisma.TurnoUpdateManyWithoutTenantNestedInput
   vehiculos?: Prisma.VehiculoUpdateManyWithoutTenantNestedInput
   zonas?: Prisma.ZonaUpdateManyWithoutTenantNestedInput
-  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaUpdateManyWithoutTenantNestedInput
 }
 
 export type TenantUncheckedUpdateWithoutSubscriptionInput = {
@@ -1600,6 +1624,7 @@ export type TenantUncheckedUpdateWithoutSubscriptionInput = {
   auditorias?: Prisma.AuditoriaUncheckedUpdateManyWithoutTenantNestedInput
   authSessions?: Prisma.AuthSessionUncheckedUpdateManyWithoutTenantNestedInput
   citasPsicologos?: Prisma.CitasPsicologosUncheckedUpdateManyWithoutTenantNestedInput
+  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaUncheckedUpdateManyWithoutTenantNestedInput
   clientes?: Prisma.ClienteUncheckedUpdateManyWithoutTenantNestedInput
   commissions?: Prisma.CommissionRecordUncheckedUpdateManyWithoutTenantNestedInput
   configuracionPagos?: Prisma.ConfiguracionPagosUncheckedUpdateManyWithoutTenantNestedInput
@@ -1614,6 +1639,7 @@ export type TenantUncheckedUpdateWithoutSubscriptionInput = {
   empresaMemberships?: Prisma.EmpresaMembershipUncheckedUpdateManyWithoutTenantNestedInput
   empresas?: Prisma.EmpresaUncheckedUpdateManyWithoutTenantNestedInput
   estadosServicio?: Prisma.EstadoServicioUncheckedUpdateManyWithoutTenantNestedInput
+  evidenciasServicio?: Prisma.EvidenciaServicioUncheckedUpdateManyWithoutTenantNestedInput
   geolocalizaciones?: Prisma.GeolocalizacionUncheckedUpdateManyWithoutTenantNestedInput
   logsEvento?: Prisma.LogEventoUncheckedUpdateManyWithoutTenantNestedInput
   metodosPago?: Prisma.MetodoPagoUncheckedUpdateManyWithoutTenantNestedInput
@@ -1640,7 +1666,6 @@ export type TenantUncheckedUpdateWithoutSubscriptionInput = {
   turnos?: Prisma.TurnoUncheckedUpdateManyWithoutTenantNestedInput
   vehiculos?: Prisma.VehiculoUncheckedUpdateManyWithoutTenantNestedInput
   zonas?: Prisma.ZonaUncheckedUpdateManyWithoutTenantNestedInput
-  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaUncheckedUpdateManyWithoutTenantNestedInput
 }
 
 export type TenantCreateWithoutMembershipsInput = {
@@ -1658,6 +1683,7 @@ export type TenantCreateWithoutMembershipsInput = {
   auditorias?: Prisma.AuditoriaCreateNestedManyWithoutTenantInput
   authSessions?: Prisma.AuthSessionCreateNestedManyWithoutTenantInput
   citasPsicologos?: Prisma.CitasPsicologosCreateNestedManyWithoutTenantInput
+  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaCreateNestedManyWithoutTenantInput
   clientes?: Prisma.ClienteCreateNestedManyWithoutTenantInput
   commissions?: Prisma.CommissionRecordCreateNestedManyWithoutTenantInput
   configuracionPagos?: Prisma.ConfiguracionPagosCreateNestedManyWithoutTenantInput
@@ -1672,6 +1698,7 @@ export type TenantCreateWithoutMembershipsInput = {
   empresaMemberships?: Prisma.EmpresaMembershipCreateNestedManyWithoutTenantInput
   empresas?: Prisma.EmpresaCreateNestedManyWithoutTenantInput
   estadosServicio?: Prisma.EstadoServicioCreateNestedManyWithoutTenantInput
+  evidenciasServicio?: Prisma.EvidenciaServicioCreateNestedManyWithoutTenantInput
   geolocalizaciones?: Prisma.GeolocalizacionCreateNestedManyWithoutTenantInput
   logsEvento?: Prisma.LogEventoCreateNestedManyWithoutTenantInput
   metodosPago?: Prisma.MetodoPagoCreateNestedManyWithoutTenantInput
@@ -1698,7 +1725,6 @@ export type TenantCreateWithoutMembershipsInput = {
   turnos?: Prisma.TurnoCreateNestedManyWithoutTenantInput
   vehiculos?: Prisma.VehiculoCreateNestedManyWithoutTenantInput
   zonas?: Prisma.ZonaCreateNestedManyWithoutTenantInput
-  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaCreateNestedManyWithoutTenantInput
 }
 
 export type TenantUncheckedCreateWithoutMembershipsInput = {
@@ -1716,6 +1742,7 @@ export type TenantUncheckedCreateWithoutMembershipsInput = {
   auditorias?: Prisma.AuditoriaUncheckedCreateNestedManyWithoutTenantInput
   authSessions?: Prisma.AuthSessionUncheckedCreateNestedManyWithoutTenantInput
   citasPsicologos?: Prisma.CitasPsicologosUncheckedCreateNestedManyWithoutTenantInput
+  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaUncheckedCreateNestedManyWithoutTenantInput
   clientes?: Prisma.ClienteUncheckedCreateNestedManyWithoutTenantInput
   commissions?: Prisma.CommissionRecordUncheckedCreateNestedManyWithoutTenantInput
   configuracionPagos?: Prisma.ConfiguracionPagosUncheckedCreateNestedManyWithoutTenantInput
@@ -1730,6 +1757,7 @@ export type TenantUncheckedCreateWithoutMembershipsInput = {
   empresaMemberships?: Prisma.EmpresaMembershipUncheckedCreateNestedManyWithoutTenantInput
   empresas?: Prisma.EmpresaUncheckedCreateNestedManyWithoutTenantInput
   estadosServicio?: Prisma.EstadoServicioUncheckedCreateNestedManyWithoutTenantInput
+  evidenciasServicio?: Prisma.EvidenciaServicioUncheckedCreateNestedManyWithoutTenantInput
   geolocalizaciones?: Prisma.GeolocalizacionUncheckedCreateNestedManyWithoutTenantInput
   logsEvento?: Prisma.LogEventoUncheckedCreateNestedManyWithoutTenantInput
   metodosPago?: Prisma.MetodoPagoUncheckedCreateNestedManyWithoutTenantInput
@@ -1756,7 +1784,6 @@ export type TenantUncheckedCreateWithoutMembershipsInput = {
   turnos?: Prisma.TurnoUncheckedCreateNestedManyWithoutTenantInput
   vehiculos?: Prisma.VehiculoUncheckedCreateNestedManyWithoutTenantInput
   zonas?: Prisma.ZonaUncheckedCreateNestedManyWithoutTenantInput
-  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaUncheckedCreateNestedManyWithoutTenantInput
 }
 
 export type TenantCreateOrConnectWithoutMembershipsInput = {
@@ -1790,6 +1817,7 @@ export type TenantUpdateWithoutMembershipsInput = {
   auditorias?: Prisma.AuditoriaUpdateManyWithoutTenantNestedInput
   authSessions?: Prisma.AuthSessionUpdateManyWithoutTenantNestedInput
   citasPsicologos?: Prisma.CitasPsicologosUpdateManyWithoutTenantNestedInput
+  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaUpdateManyWithoutTenantNestedInput
   clientes?: Prisma.ClienteUpdateManyWithoutTenantNestedInput
   commissions?: Prisma.CommissionRecordUpdateManyWithoutTenantNestedInput
   configuracionPagos?: Prisma.ConfiguracionPagosUpdateManyWithoutTenantNestedInput
@@ -1804,6 +1832,7 @@ export type TenantUpdateWithoutMembershipsInput = {
   empresaMemberships?: Prisma.EmpresaMembershipUpdateManyWithoutTenantNestedInput
   empresas?: Prisma.EmpresaUpdateManyWithoutTenantNestedInput
   estadosServicio?: Prisma.EstadoServicioUpdateManyWithoutTenantNestedInput
+  evidenciasServicio?: Prisma.EvidenciaServicioUpdateManyWithoutTenantNestedInput
   geolocalizaciones?: Prisma.GeolocalizacionUpdateManyWithoutTenantNestedInput
   logsEvento?: Prisma.LogEventoUpdateManyWithoutTenantNestedInput
   metodosPago?: Prisma.MetodoPagoUpdateManyWithoutTenantNestedInput
@@ -1830,7 +1859,6 @@ export type TenantUpdateWithoutMembershipsInput = {
   turnos?: Prisma.TurnoUpdateManyWithoutTenantNestedInput
   vehiculos?: Prisma.VehiculoUpdateManyWithoutTenantNestedInput
   zonas?: Prisma.ZonaUpdateManyWithoutTenantNestedInput
-  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaUpdateManyWithoutTenantNestedInput
 }
 
 export type TenantUncheckedUpdateWithoutMembershipsInput = {
@@ -1848,6 +1876,7 @@ export type TenantUncheckedUpdateWithoutMembershipsInput = {
   auditorias?: Prisma.AuditoriaUncheckedUpdateManyWithoutTenantNestedInput
   authSessions?: Prisma.AuthSessionUncheckedUpdateManyWithoutTenantNestedInput
   citasPsicologos?: Prisma.CitasPsicologosUncheckedUpdateManyWithoutTenantNestedInput
+  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaUncheckedUpdateManyWithoutTenantNestedInput
   clientes?: Prisma.ClienteUncheckedUpdateManyWithoutTenantNestedInput
   commissions?: Prisma.CommissionRecordUncheckedUpdateManyWithoutTenantNestedInput
   configuracionPagos?: Prisma.ConfiguracionPagosUncheckedUpdateManyWithoutTenantNestedInput
@@ -1862,6 +1891,7 @@ export type TenantUncheckedUpdateWithoutMembershipsInput = {
   empresaMemberships?: Prisma.EmpresaMembershipUncheckedUpdateManyWithoutTenantNestedInput
   empresas?: Prisma.EmpresaUncheckedUpdateManyWithoutTenantNestedInput
   estadosServicio?: Prisma.EstadoServicioUncheckedUpdateManyWithoutTenantNestedInput
+  evidenciasServicio?: Prisma.EvidenciaServicioUncheckedUpdateManyWithoutTenantNestedInput
   geolocalizaciones?: Prisma.GeolocalizacionUncheckedUpdateManyWithoutTenantNestedInput
   logsEvento?: Prisma.LogEventoUncheckedUpdateManyWithoutTenantNestedInput
   metodosPago?: Prisma.MetodoPagoUncheckedUpdateManyWithoutTenantNestedInput
@@ -1888,7 +1918,6 @@ export type TenantUncheckedUpdateWithoutMembershipsInput = {
   turnos?: Prisma.TurnoUncheckedUpdateManyWithoutTenantNestedInput
   vehiculos?: Prisma.VehiculoUncheckedUpdateManyWithoutTenantNestedInput
   zonas?: Prisma.ZonaUncheckedUpdateManyWithoutTenantNestedInput
-  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaUncheckedUpdateManyWithoutTenantNestedInput
 }
 
 export type TenantCreateWithoutEmpresasInput = {
@@ -1906,6 +1935,7 @@ export type TenantCreateWithoutEmpresasInput = {
   auditorias?: Prisma.AuditoriaCreateNestedManyWithoutTenantInput
   authSessions?: Prisma.AuthSessionCreateNestedManyWithoutTenantInput
   citasPsicologos?: Prisma.CitasPsicologosCreateNestedManyWithoutTenantInput
+  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaCreateNestedManyWithoutTenantInput
   clientes?: Prisma.ClienteCreateNestedManyWithoutTenantInput
   commissions?: Prisma.CommissionRecordCreateNestedManyWithoutTenantInput
   configuracionPagos?: Prisma.ConfiguracionPagosCreateNestedManyWithoutTenantInput
@@ -1919,6 +1949,7 @@ export type TenantCreateWithoutEmpresasInput = {
   egresos?: Prisma.EgresosCreateNestedManyWithoutTenantInput
   empresaMemberships?: Prisma.EmpresaMembershipCreateNestedManyWithoutTenantInput
   estadosServicio?: Prisma.EstadoServicioCreateNestedManyWithoutTenantInput
+  evidenciasServicio?: Prisma.EvidenciaServicioCreateNestedManyWithoutTenantInput
   geolocalizaciones?: Prisma.GeolocalizacionCreateNestedManyWithoutTenantInput
   logsEvento?: Prisma.LogEventoCreateNestedManyWithoutTenantInput
   metodosPago?: Prisma.MetodoPagoCreateNestedManyWithoutTenantInput
@@ -1946,7 +1977,6 @@ export type TenantCreateWithoutEmpresasInput = {
   turnos?: Prisma.TurnoCreateNestedManyWithoutTenantInput
   vehiculos?: Prisma.VehiculoCreateNestedManyWithoutTenantInput
   zonas?: Prisma.ZonaCreateNestedManyWithoutTenantInput
-  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaCreateNestedManyWithoutTenantInput
 }
 
 export type TenantUncheckedCreateWithoutEmpresasInput = {
@@ -1964,6 +1994,7 @@ export type TenantUncheckedCreateWithoutEmpresasInput = {
   auditorias?: Prisma.AuditoriaUncheckedCreateNestedManyWithoutTenantInput
   authSessions?: Prisma.AuthSessionUncheckedCreateNestedManyWithoutTenantInput
   citasPsicologos?: Prisma.CitasPsicologosUncheckedCreateNestedManyWithoutTenantInput
+  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaUncheckedCreateNestedManyWithoutTenantInput
   clientes?: Prisma.ClienteUncheckedCreateNestedManyWithoutTenantInput
   commissions?: Prisma.CommissionRecordUncheckedCreateNestedManyWithoutTenantInput
   configuracionPagos?: Prisma.ConfiguracionPagosUncheckedCreateNestedManyWithoutTenantInput
@@ -1977,6 +2008,7 @@ export type TenantUncheckedCreateWithoutEmpresasInput = {
   egresos?: Prisma.EgresosUncheckedCreateNestedManyWithoutTenantInput
   empresaMemberships?: Prisma.EmpresaMembershipUncheckedCreateNestedManyWithoutTenantInput
   estadosServicio?: Prisma.EstadoServicioUncheckedCreateNestedManyWithoutTenantInput
+  evidenciasServicio?: Prisma.EvidenciaServicioUncheckedCreateNestedManyWithoutTenantInput
   geolocalizaciones?: Prisma.GeolocalizacionUncheckedCreateNestedManyWithoutTenantInput
   logsEvento?: Prisma.LogEventoUncheckedCreateNestedManyWithoutTenantInput
   metodosPago?: Prisma.MetodoPagoUncheckedCreateNestedManyWithoutTenantInput
@@ -2004,7 +2036,6 @@ export type TenantUncheckedCreateWithoutEmpresasInput = {
   turnos?: Prisma.TurnoUncheckedCreateNestedManyWithoutTenantInput
   vehiculos?: Prisma.VehiculoUncheckedCreateNestedManyWithoutTenantInput
   zonas?: Prisma.ZonaUncheckedCreateNestedManyWithoutTenantInput
-  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaUncheckedCreateNestedManyWithoutTenantInput
 }
 
 export type TenantCreateOrConnectWithoutEmpresasInput = {
@@ -2038,6 +2069,7 @@ export type TenantUpdateWithoutEmpresasInput = {
   auditorias?: Prisma.AuditoriaUpdateManyWithoutTenantNestedInput
   authSessions?: Prisma.AuthSessionUpdateManyWithoutTenantNestedInput
   citasPsicologos?: Prisma.CitasPsicologosUpdateManyWithoutTenantNestedInput
+  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaUpdateManyWithoutTenantNestedInput
   clientes?: Prisma.ClienteUpdateManyWithoutTenantNestedInput
   commissions?: Prisma.CommissionRecordUpdateManyWithoutTenantNestedInput
   configuracionPagos?: Prisma.ConfiguracionPagosUpdateManyWithoutTenantNestedInput
@@ -2051,6 +2083,7 @@ export type TenantUpdateWithoutEmpresasInput = {
   egresos?: Prisma.EgresosUpdateManyWithoutTenantNestedInput
   empresaMemberships?: Prisma.EmpresaMembershipUpdateManyWithoutTenantNestedInput
   estadosServicio?: Prisma.EstadoServicioUpdateManyWithoutTenantNestedInput
+  evidenciasServicio?: Prisma.EvidenciaServicioUpdateManyWithoutTenantNestedInput
   geolocalizaciones?: Prisma.GeolocalizacionUpdateManyWithoutTenantNestedInput
   logsEvento?: Prisma.LogEventoUpdateManyWithoutTenantNestedInput
   metodosPago?: Prisma.MetodoPagoUpdateManyWithoutTenantNestedInput
@@ -2078,7 +2111,6 @@ export type TenantUpdateWithoutEmpresasInput = {
   turnos?: Prisma.TurnoUpdateManyWithoutTenantNestedInput
   vehiculos?: Prisma.VehiculoUpdateManyWithoutTenantNestedInput
   zonas?: Prisma.ZonaUpdateManyWithoutTenantNestedInput
-  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaUpdateManyWithoutTenantNestedInput
 }
 
 export type TenantUncheckedUpdateWithoutEmpresasInput = {
@@ -2096,6 +2128,7 @@ export type TenantUncheckedUpdateWithoutEmpresasInput = {
   auditorias?: Prisma.AuditoriaUncheckedUpdateManyWithoutTenantNestedInput
   authSessions?: Prisma.AuthSessionUncheckedUpdateManyWithoutTenantNestedInput
   citasPsicologos?: Prisma.CitasPsicologosUncheckedUpdateManyWithoutTenantNestedInput
+  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaUncheckedUpdateManyWithoutTenantNestedInput
   clientes?: Prisma.ClienteUncheckedUpdateManyWithoutTenantNestedInput
   commissions?: Prisma.CommissionRecordUncheckedUpdateManyWithoutTenantNestedInput
   configuracionPagos?: Prisma.ConfiguracionPagosUncheckedUpdateManyWithoutTenantNestedInput
@@ -2109,6 +2142,7 @@ export type TenantUncheckedUpdateWithoutEmpresasInput = {
   egresos?: Prisma.EgresosUncheckedUpdateManyWithoutTenantNestedInput
   empresaMemberships?: Prisma.EmpresaMembershipUncheckedUpdateManyWithoutTenantNestedInput
   estadosServicio?: Prisma.EstadoServicioUncheckedUpdateManyWithoutTenantNestedInput
+  evidenciasServicio?: Prisma.EvidenciaServicioUncheckedUpdateManyWithoutTenantNestedInput
   geolocalizaciones?: Prisma.GeolocalizacionUncheckedUpdateManyWithoutTenantNestedInput
   logsEvento?: Prisma.LogEventoUncheckedUpdateManyWithoutTenantNestedInput
   metodosPago?: Prisma.MetodoPagoUncheckedUpdateManyWithoutTenantNestedInput
@@ -2136,7 +2170,6 @@ export type TenantUncheckedUpdateWithoutEmpresasInput = {
   turnos?: Prisma.TurnoUncheckedUpdateManyWithoutTenantNestedInput
   vehiculos?: Prisma.VehiculoUncheckedUpdateManyWithoutTenantNestedInput
   zonas?: Prisma.ZonaUncheckedUpdateManyWithoutTenantNestedInput
-  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaUncheckedUpdateManyWithoutTenantNestedInput
 }
 
 export type TenantCreateWithoutEmpresaMembershipsInput = {
@@ -2154,6 +2187,7 @@ export type TenantCreateWithoutEmpresaMembershipsInput = {
   auditorias?: Prisma.AuditoriaCreateNestedManyWithoutTenantInput
   authSessions?: Prisma.AuthSessionCreateNestedManyWithoutTenantInput
   citasPsicologos?: Prisma.CitasPsicologosCreateNestedManyWithoutTenantInput
+  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaCreateNestedManyWithoutTenantInput
   clientes?: Prisma.ClienteCreateNestedManyWithoutTenantInput
   commissions?: Prisma.CommissionRecordCreateNestedManyWithoutTenantInput
   configuracionPagos?: Prisma.ConfiguracionPagosCreateNestedManyWithoutTenantInput
@@ -2167,6 +2201,7 @@ export type TenantCreateWithoutEmpresaMembershipsInput = {
   egresos?: Prisma.EgresosCreateNestedManyWithoutTenantInput
   empresas?: Prisma.EmpresaCreateNestedManyWithoutTenantInput
   estadosServicio?: Prisma.EstadoServicioCreateNestedManyWithoutTenantInput
+  evidenciasServicio?: Prisma.EvidenciaServicioCreateNestedManyWithoutTenantInput
   geolocalizaciones?: Prisma.GeolocalizacionCreateNestedManyWithoutTenantInput
   logsEvento?: Prisma.LogEventoCreateNestedManyWithoutTenantInput
   metodosPago?: Prisma.MetodoPagoCreateNestedManyWithoutTenantInput
@@ -2194,7 +2229,6 @@ export type TenantCreateWithoutEmpresaMembershipsInput = {
   turnos?: Prisma.TurnoCreateNestedManyWithoutTenantInput
   vehiculos?: Prisma.VehiculoCreateNestedManyWithoutTenantInput
   zonas?: Prisma.ZonaCreateNestedManyWithoutTenantInput
-  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaCreateNestedManyWithoutTenantInput
 }
 
 export type TenantUncheckedCreateWithoutEmpresaMembershipsInput = {
@@ -2212,6 +2246,7 @@ export type TenantUncheckedCreateWithoutEmpresaMembershipsInput = {
   auditorias?: Prisma.AuditoriaUncheckedCreateNestedManyWithoutTenantInput
   authSessions?: Prisma.AuthSessionUncheckedCreateNestedManyWithoutTenantInput
   citasPsicologos?: Prisma.CitasPsicologosUncheckedCreateNestedManyWithoutTenantInput
+  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaUncheckedCreateNestedManyWithoutTenantInput
   clientes?: Prisma.ClienteUncheckedCreateNestedManyWithoutTenantInput
   commissions?: Prisma.CommissionRecordUncheckedCreateNestedManyWithoutTenantInput
   configuracionPagos?: Prisma.ConfiguracionPagosUncheckedCreateNestedManyWithoutTenantInput
@@ -2225,6 +2260,7 @@ export type TenantUncheckedCreateWithoutEmpresaMembershipsInput = {
   egresos?: Prisma.EgresosUncheckedCreateNestedManyWithoutTenantInput
   empresas?: Prisma.EmpresaUncheckedCreateNestedManyWithoutTenantInput
   estadosServicio?: Prisma.EstadoServicioUncheckedCreateNestedManyWithoutTenantInput
+  evidenciasServicio?: Prisma.EvidenciaServicioUncheckedCreateNestedManyWithoutTenantInput
   geolocalizaciones?: Prisma.GeolocalizacionUncheckedCreateNestedManyWithoutTenantInput
   logsEvento?: Prisma.LogEventoUncheckedCreateNestedManyWithoutTenantInput
   metodosPago?: Prisma.MetodoPagoUncheckedCreateNestedManyWithoutTenantInput
@@ -2252,7 +2288,6 @@ export type TenantUncheckedCreateWithoutEmpresaMembershipsInput = {
   turnos?: Prisma.TurnoUncheckedCreateNestedManyWithoutTenantInput
   vehiculos?: Prisma.VehiculoUncheckedCreateNestedManyWithoutTenantInput
   zonas?: Prisma.ZonaUncheckedCreateNestedManyWithoutTenantInput
-  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaUncheckedCreateNestedManyWithoutTenantInput
 }
 
 export type TenantCreateOrConnectWithoutEmpresaMembershipsInput = {
@@ -2286,6 +2321,7 @@ export type TenantUpdateWithoutEmpresaMembershipsInput = {
   auditorias?: Prisma.AuditoriaUpdateManyWithoutTenantNestedInput
   authSessions?: Prisma.AuthSessionUpdateManyWithoutTenantNestedInput
   citasPsicologos?: Prisma.CitasPsicologosUpdateManyWithoutTenantNestedInput
+  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaUpdateManyWithoutTenantNestedInput
   clientes?: Prisma.ClienteUpdateManyWithoutTenantNestedInput
   commissions?: Prisma.CommissionRecordUpdateManyWithoutTenantNestedInput
   configuracionPagos?: Prisma.ConfiguracionPagosUpdateManyWithoutTenantNestedInput
@@ -2299,6 +2335,7 @@ export type TenantUpdateWithoutEmpresaMembershipsInput = {
   egresos?: Prisma.EgresosUpdateManyWithoutTenantNestedInput
   empresas?: Prisma.EmpresaUpdateManyWithoutTenantNestedInput
   estadosServicio?: Prisma.EstadoServicioUpdateManyWithoutTenantNestedInput
+  evidenciasServicio?: Prisma.EvidenciaServicioUpdateManyWithoutTenantNestedInput
   geolocalizaciones?: Prisma.GeolocalizacionUpdateManyWithoutTenantNestedInput
   logsEvento?: Prisma.LogEventoUpdateManyWithoutTenantNestedInput
   metodosPago?: Prisma.MetodoPagoUpdateManyWithoutTenantNestedInput
@@ -2326,7 +2363,6 @@ export type TenantUpdateWithoutEmpresaMembershipsInput = {
   turnos?: Prisma.TurnoUpdateManyWithoutTenantNestedInput
   vehiculos?: Prisma.VehiculoUpdateManyWithoutTenantNestedInput
   zonas?: Prisma.ZonaUpdateManyWithoutTenantNestedInput
-  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaUpdateManyWithoutTenantNestedInput
 }
 
 export type TenantUncheckedUpdateWithoutEmpresaMembershipsInput = {
@@ -2344,6 +2380,7 @@ export type TenantUncheckedUpdateWithoutEmpresaMembershipsInput = {
   auditorias?: Prisma.AuditoriaUncheckedUpdateManyWithoutTenantNestedInput
   authSessions?: Prisma.AuthSessionUncheckedUpdateManyWithoutTenantNestedInput
   citasPsicologos?: Prisma.CitasPsicologosUncheckedUpdateManyWithoutTenantNestedInput
+  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaUncheckedUpdateManyWithoutTenantNestedInput
   clientes?: Prisma.ClienteUncheckedUpdateManyWithoutTenantNestedInput
   commissions?: Prisma.CommissionRecordUncheckedUpdateManyWithoutTenantNestedInput
   configuracionPagos?: Prisma.ConfiguracionPagosUncheckedUpdateManyWithoutTenantNestedInput
@@ -2357,6 +2394,7 @@ export type TenantUncheckedUpdateWithoutEmpresaMembershipsInput = {
   egresos?: Prisma.EgresosUncheckedUpdateManyWithoutTenantNestedInput
   empresas?: Prisma.EmpresaUncheckedUpdateManyWithoutTenantNestedInput
   estadosServicio?: Prisma.EstadoServicioUncheckedUpdateManyWithoutTenantNestedInput
+  evidenciasServicio?: Prisma.EvidenciaServicioUncheckedUpdateManyWithoutTenantNestedInput
   geolocalizaciones?: Prisma.GeolocalizacionUncheckedUpdateManyWithoutTenantNestedInput
   logsEvento?: Prisma.LogEventoUncheckedUpdateManyWithoutTenantNestedInput
   metodosPago?: Prisma.MetodoPagoUncheckedUpdateManyWithoutTenantNestedInput
@@ -2384,7 +2422,6 @@ export type TenantUncheckedUpdateWithoutEmpresaMembershipsInput = {
   turnos?: Prisma.TurnoUncheckedUpdateManyWithoutTenantNestedInput
   vehiculos?: Prisma.VehiculoUncheckedUpdateManyWithoutTenantNestedInput
   zonas?: Prisma.ZonaUncheckedUpdateManyWithoutTenantNestedInput
-  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaUncheckedUpdateManyWithoutTenantNestedInput
 }
 
 export type TenantCreateWithoutOrgNodesInput = {
@@ -2402,6 +2439,7 @@ export type TenantCreateWithoutOrgNodesInput = {
   auditorias?: Prisma.AuditoriaCreateNestedManyWithoutTenantInput
   authSessions?: Prisma.AuthSessionCreateNestedManyWithoutTenantInput
   citasPsicologos?: Prisma.CitasPsicologosCreateNestedManyWithoutTenantInput
+  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaCreateNestedManyWithoutTenantInput
   clientes?: Prisma.ClienteCreateNestedManyWithoutTenantInput
   commissions?: Prisma.CommissionRecordCreateNestedManyWithoutTenantInput
   configuracionPagos?: Prisma.ConfiguracionPagosCreateNestedManyWithoutTenantInput
@@ -2416,6 +2454,7 @@ export type TenantCreateWithoutOrgNodesInput = {
   empresaMemberships?: Prisma.EmpresaMembershipCreateNestedManyWithoutTenantInput
   empresas?: Prisma.EmpresaCreateNestedManyWithoutTenantInput
   estadosServicio?: Prisma.EstadoServicioCreateNestedManyWithoutTenantInput
+  evidenciasServicio?: Prisma.EvidenciaServicioCreateNestedManyWithoutTenantInput
   geolocalizaciones?: Prisma.GeolocalizacionCreateNestedManyWithoutTenantInput
   logsEvento?: Prisma.LogEventoCreateNestedManyWithoutTenantInput
   metodosPago?: Prisma.MetodoPagoCreateNestedManyWithoutTenantInput
@@ -2442,7 +2481,6 @@ export type TenantCreateWithoutOrgNodesInput = {
   turnos?: Prisma.TurnoCreateNestedManyWithoutTenantInput
   vehiculos?: Prisma.VehiculoCreateNestedManyWithoutTenantInput
   zonas?: Prisma.ZonaCreateNestedManyWithoutTenantInput
-  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaCreateNestedManyWithoutTenantInput
 }
 
 export type TenantUncheckedCreateWithoutOrgNodesInput = {
@@ -2460,6 +2498,7 @@ export type TenantUncheckedCreateWithoutOrgNodesInput = {
   auditorias?: Prisma.AuditoriaUncheckedCreateNestedManyWithoutTenantInput
   authSessions?: Prisma.AuthSessionUncheckedCreateNestedManyWithoutTenantInput
   citasPsicologos?: Prisma.CitasPsicologosUncheckedCreateNestedManyWithoutTenantInput
+  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaUncheckedCreateNestedManyWithoutTenantInput
   clientes?: Prisma.ClienteUncheckedCreateNestedManyWithoutTenantInput
   commissions?: Prisma.CommissionRecordUncheckedCreateNestedManyWithoutTenantInput
   configuracionPagos?: Prisma.ConfiguracionPagosUncheckedCreateNestedManyWithoutTenantInput
@@ -2474,6 +2513,7 @@ export type TenantUncheckedCreateWithoutOrgNodesInput = {
   empresaMemberships?: Prisma.EmpresaMembershipUncheckedCreateNestedManyWithoutTenantInput
   empresas?: Prisma.EmpresaUncheckedCreateNestedManyWithoutTenantInput
   estadosServicio?: Prisma.EstadoServicioUncheckedCreateNestedManyWithoutTenantInput
+  evidenciasServicio?: Prisma.EvidenciaServicioUncheckedCreateNestedManyWithoutTenantInput
   geolocalizaciones?: Prisma.GeolocalizacionUncheckedCreateNestedManyWithoutTenantInput
   logsEvento?: Prisma.LogEventoUncheckedCreateNestedManyWithoutTenantInput
   metodosPago?: Prisma.MetodoPagoUncheckedCreateNestedManyWithoutTenantInput
@@ -2500,7 +2540,6 @@ export type TenantUncheckedCreateWithoutOrgNodesInput = {
   turnos?: Prisma.TurnoUncheckedCreateNestedManyWithoutTenantInput
   vehiculos?: Prisma.VehiculoUncheckedCreateNestedManyWithoutTenantInput
   zonas?: Prisma.ZonaUncheckedCreateNestedManyWithoutTenantInput
-  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaUncheckedCreateNestedManyWithoutTenantInput
 }
 
 export type TenantCreateOrConnectWithoutOrgNodesInput = {
@@ -2534,6 +2573,7 @@ export type TenantUpdateWithoutOrgNodesInput = {
   auditorias?: Prisma.AuditoriaUpdateManyWithoutTenantNestedInput
   authSessions?: Prisma.AuthSessionUpdateManyWithoutTenantNestedInput
   citasPsicologos?: Prisma.CitasPsicologosUpdateManyWithoutTenantNestedInput
+  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaUpdateManyWithoutTenantNestedInput
   clientes?: Prisma.ClienteUpdateManyWithoutTenantNestedInput
   commissions?: Prisma.CommissionRecordUpdateManyWithoutTenantNestedInput
   configuracionPagos?: Prisma.ConfiguracionPagosUpdateManyWithoutTenantNestedInput
@@ -2548,6 +2588,7 @@ export type TenantUpdateWithoutOrgNodesInput = {
   empresaMemberships?: Prisma.EmpresaMembershipUpdateManyWithoutTenantNestedInput
   empresas?: Prisma.EmpresaUpdateManyWithoutTenantNestedInput
   estadosServicio?: Prisma.EstadoServicioUpdateManyWithoutTenantNestedInput
+  evidenciasServicio?: Prisma.EvidenciaServicioUpdateManyWithoutTenantNestedInput
   geolocalizaciones?: Prisma.GeolocalizacionUpdateManyWithoutTenantNestedInput
   logsEvento?: Prisma.LogEventoUpdateManyWithoutTenantNestedInput
   metodosPago?: Prisma.MetodoPagoUpdateManyWithoutTenantNestedInput
@@ -2574,7 +2615,6 @@ export type TenantUpdateWithoutOrgNodesInput = {
   turnos?: Prisma.TurnoUpdateManyWithoutTenantNestedInput
   vehiculos?: Prisma.VehiculoUpdateManyWithoutTenantNestedInput
   zonas?: Prisma.ZonaUpdateManyWithoutTenantNestedInput
-  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaUpdateManyWithoutTenantNestedInput
 }
 
 export type TenantUncheckedUpdateWithoutOrgNodesInput = {
@@ -2592,6 +2632,7 @@ export type TenantUncheckedUpdateWithoutOrgNodesInput = {
   auditorias?: Prisma.AuditoriaUncheckedUpdateManyWithoutTenantNestedInput
   authSessions?: Prisma.AuthSessionUncheckedUpdateManyWithoutTenantNestedInput
   citasPsicologos?: Prisma.CitasPsicologosUncheckedUpdateManyWithoutTenantNestedInput
+  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaUncheckedUpdateManyWithoutTenantNestedInput
   clientes?: Prisma.ClienteUncheckedUpdateManyWithoutTenantNestedInput
   commissions?: Prisma.CommissionRecordUncheckedUpdateManyWithoutTenantNestedInput
   configuracionPagos?: Prisma.ConfiguracionPagosUncheckedUpdateManyWithoutTenantNestedInput
@@ -2606,6 +2647,7 @@ export type TenantUncheckedUpdateWithoutOrgNodesInput = {
   empresaMemberships?: Prisma.EmpresaMembershipUncheckedUpdateManyWithoutTenantNestedInput
   empresas?: Prisma.EmpresaUncheckedUpdateManyWithoutTenantNestedInput
   estadosServicio?: Prisma.EstadoServicioUncheckedUpdateManyWithoutTenantNestedInput
+  evidenciasServicio?: Prisma.EvidenciaServicioUncheckedUpdateManyWithoutTenantNestedInput
   geolocalizaciones?: Prisma.GeolocalizacionUncheckedUpdateManyWithoutTenantNestedInput
   logsEvento?: Prisma.LogEventoUncheckedUpdateManyWithoutTenantNestedInput
   metodosPago?: Prisma.MetodoPagoUncheckedUpdateManyWithoutTenantNestedInput
@@ -2632,7 +2674,6 @@ export type TenantUncheckedUpdateWithoutOrgNodesInput = {
   turnos?: Prisma.TurnoUncheckedUpdateManyWithoutTenantNestedInput
   vehiculos?: Prisma.VehiculoUncheckedUpdateManyWithoutTenantNestedInput
   zonas?: Prisma.ZonaUncheckedUpdateManyWithoutTenantNestedInput
-  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaUncheckedUpdateManyWithoutTenantNestedInput
 }
 
 export type TenantCreateWithoutCommissionsInput = {
@@ -2650,6 +2691,7 @@ export type TenantCreateWithoutCommissionsInput = {
   auditorias?: Prisma.AuditoriaCreateNestedManyWithoutTenantInput
   authSessions?: Prisma.AuthSessionCreateNestedManyWithoutTenantInput
   citasPsicologos?: Prisma.CitasPsicologosCreateNestedManyWithoutTenantInput
+  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaCreateNestedManyWithoutTenantInput
   clientes?: Prisma.ClienteCreateNestedManyWithoutTenantInput
   configuracionPagos?: Prisma.ConfiguracionPagosCreateNestedManyWithoutTenantInput
   consignacionOrdenes?: Prisma.ConsignacionOrdenCreateNestedManyWithoutTenantInput
@@ -2663,6 +2705,7 @@ export type TenantCreateWithoutCommissionsInput = {
   empresaMemberships?: Prisma.EmpresaMembershipCreateNestedManyWithoutTenantInput
   empresas?: Prisma.EmpresaCreateNestedManyWithoutTenantInput
   estadosServicio?: Prisma.EstadoServicioCreateNestedManyWithoutTenantInput
+  evidenciasServicio?: Prisma.EvidenciaServicioCreateNestedManyWithoutTenantInput
   geolocalizaciones?: Prisma.GeolocalizacionCreateNestedManyWithoutTenantInput
   logsEvento?: Prisma.LogEventoCreateNestedManyWithoutTenantInput
   metodosPago?: Prisma.MetodoPagoCreateNestedManyWithoutTenantInput
@@ -2690,7 +2733,6 @@ export type TenantCreateWithoutCommissionsInput = {
   turnos?: Prisma.TurnoCreateNestedManyWithoutTenantInput
   vehiculos?: Prisma.VehiculoCreateNestedManyWithoutTenantInput
   zonas?: Prisma.ZonaCreateNestedManyWithoutTenantInput
-  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaCreateNestedManyWithoutTenantInput
 }
 
 export type TenantUncheckedCreateWithoutCommissionsInput = {
@@ -2708,6 +2750,7 @@ export type TenantUncheckedCreateWithoutCommissionsInput = {
   auditorias?: Prisma.AuditoriaUncheckedCreateNestedManyWithoutTenantInput
   authSessions?: Prisma.AuthSessionUncheckedCreateNestedManyWithoutTenantInput
   citasPsicologos?: Prisma.CitasPsicologosUncheckedCreateNestedManyWithoutTenantInput
+  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaUncheckedCreateNestedManyWithoutTenantInput
   clientes?: Prisma.ClienteUncheckedCreateNestedManyWithoutTenantInput
   configuracionPagos?: Prisma.ConfiguracionPagosUncheckedCreateNestedManyWithoutTenantInput
   consignacionOrdenes?: Prisma.ConsignacionOrdenUncheckedCreateNestedManyWithoutTenantInput
@@ -2721,6 +2764,7 @@ export type TenantUncheckedCreateWithoutCommissionsInput = {
   empresaMemberships?: Prisma.EmpresaMembershipUncheckedCreateNestedManyWithoutTenantInput
   empresas?: Prisma.EmpresaUncheckedCreateNestedManyWithoutTenantInput
   estadosServicio?: Prisma.EstadoServicioUncheckedCreateNestedManyWithoutTenantInput
+  evidenciasServicio?: Prisma.EvidenciaServicioUncheckedCreateNestedManyWithoutTenantInput
   geolocalizaciones?: Prisma.GeolocalizacionUncheckedCreateNestedManyWithoutTenantInput
   logsEvento?: Prisma.LogEventoUncheckedCreateNestedManyWithoutTenantInput
   metodosPago?: Prisma.MetodoPagoUncheckedCreateNestedManyWithoutTenantInput
@@ -2748,7 +2792,6 @@ export type TenantUncheckedCreateWithoutCommissionsInput = {
   turnos?: Prisma.TurnoUncheckedCreateNestedManyWithoutTenantInput
   vehiculos?: Prisma.VehiculoUncheckedCreateNestedManyWithoutTenantInput
   zonas?: Prisma.ZonaUncheckedCreateNestedManyWithoutTenantInput
-  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaUncheckedCreateNestedManyWithoutTenantInput
 }
 
 export type TenantCreateOrConnectWithoutCommissionsInput = {
@@ -2782,6 +2825,7 @@ export type TenantUpdateWithoutCommissionsInput = {
   auditorias?: Prisma.AuditoriaUpdateManyWithoutTenantNestedInput
   authSessions?: Prisma.AuthSessionUpdateManyWithoutTenantNestedInput
   citasPsicologos?: Prisma.CitasPsicologosUpdateManyWithoutTenantNestedInput
+  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaUpdateManyWithoutTenantNestedInput
   clientes?: Prisma.ClienteUpdateManyWithoutTenantNestedInput
   configuracionPagos?: Prisma.ConfiguracionPagosUpdateManyWithoutTenantNestedInput
   consignacionOrdenes?: Prisma.ConsignacionOrdenUpdateManyWithoutTenantNestedInput
@@ -2795,6 +2839,7 @@ export type TenantUpdateWithoutCommissionsInput = {
   empresaMemberships?: Prisma.EmpresaMembershipUpdateManyWithoutTenantNestedInput
   empresas?: Prisma.EmpresaUpdateManyWithoutTenantNestedInput
   estadosServicio?: Prisma.EstadoServicioUpdateManyWithoutTenantNestedInput
+  evidenciasServicio?: Prisma.EvidenciaServicioUpdateManyWithoutTenantNestedInput
   geolocalizaciones?: Prisma.GeolocalizacionUpdateManyWithoutTenantNestedInput
   logsEvento?: Prisma.LogEventoUpdateManyWithoutTenantNestedInput
   metodosPago?: Prisma.MetodoPagoUpdateManyWithoutTenantNestedInput
@@ -2822,7 +2867,6 @@ export type TenantUpdateWithoutCommissionsInput = {
   turnos?: Prisma.TurnoUpdateManyWithoutTenantNestedInput
   vehiculos?: Prisma.VehiculoUpdateManyWithoutTenantNestedInput
   zonas?: Prisma.ZonaUpdateManyWithoutTenantNestedInput
-  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaUpdateManyWithoutTenantNestedInput
 }
 
 export type TenantUncheckedUpdateWithoutCommissionsInput = {
@@ -2840,6 +2884,7 @@ export type TenantUncheckedUpdateWithoutCommissionsInput = {
   auditorias?: Prisma.AuditoriaUncheckedUpdateManyWithoutTenantNestedInput
   authSessions?: Prisma.AuthSessionUncheckedUpdateManyWithoutTenantNestedInput
   citasPsicologos?: Prisma.CitasPsicologosUncheckedUpdateManyWithoutTenantNestedInput
+  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaUncheckedUpdateManyWithoutTenantNestedInput
   clientes?: Prisma.ClienteUncheckedUpdateManyWithoutTenantNestedInput
   configuracionPagos?: Prisma.ConfiguracionPagosUncheckedUpdateManyWithoutTenantNestedInput
   consignacionOrdenes?: Prisma.ConsignacionOrdenUncheckedUpdateManyWithoutTenantNestedInput
@@ -2853,6 +2898,7 @@ export type TenantUncheckedUpdateWithoutCommissionsInput = {
   empresaMemberships?: Prisma.EmpresaMembershipUncheckedUpdateManyWithoutTenantNestedInput
   empresas?: Prisma.EmpresaUncheckedUpdateManyWithoutTenantNestedInput
   estadosServicio?: Prisma.EstadoServicioUncheckedUpdateManyWithoutTenantNestedInput
+  evidenciasServicio?: Prisma.EvidenciaServicioUncheckedUpdateManyWithoutTenantNestedInput
   geolocalizaciones?: Prisma.GeolocalizacionUncheckedUpdateManyWithoutTenantNestedInput
   logsEvento?: Prisma.LogEventoUncheckedUpdateManyWithoutTenantNestedInput
   metodosPago?: Prisma.MetodoPagoUncheckedUpdateManyWithoutTenantNestedInput
@@ -2880,7 +2926,6 @@ export type TenantUncheckedUpdateWithoutCommissionsInput = {
   turnos?: Prisma.TurnoUncheckedUpdateManyWithoutTenantNestedInput
   vehiculos?: Prisma.VehiculoUncheckedUpdateManyWithoutTenantNestedInput
   zonas?: Prisma.ZonaUncheckedUpdateManyWithoutTenantNestedInput
-  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaUncheckedUpdateManyWithoutTenantNestedInput
 }
 
 export type TenantCreateWithoutSegmentosInput = {
@@ -2898,6 +2943,7 @@ export type TenantCreateWithoutSegmentosInput = {
   auditorias?: Prisma.AuditoriaCreateNestedManyWithoutTenantInput
   authSessions?: Prisma.AuthSessionCreateNestedManyWithoutTenantInput
   citasPsicologos?: Prisma.CitasPsicologosCreateNestedManyWithoutTenantInput
+  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaCreateNestedManyWithoutTenantInput
   clientes?: Prisma.ClienteCreateNestedManyWithoutTenantInput
   commissions?: Prisma.CommissionRecordCreateNestedManyWithoutTenantInput
   configuracionPagos?: Prisma.ConfiguracionPagosCreateNestedManyWithoutTenantInput
@@ -2912,6 +2958,7 @@ export type TenantCreateWithoutSegmentosInput = {
   empresaMemberships?: Prisma.EmpresaMembershipCreateNestedManyWithoutTenantInput
   empresas?: Prisma.EmpresaCreateNestedManyWithoutTenantInput
   estadosServicio?: Prisma.EstadoServicioCreateNestedManyWithoutTenantInput
+  evidenciasServicio?: Prisma.EvidenciaServicioCreateNestedManyWithoutTenantInput
   geolocalizaciones?: Prisma.GeolocalizacionCreateNestedManyWithoutTenantInput
   logsEvento?: Prisma.LogEventoCreateNestedManyWithoutTenantInput
   metodosPago?: Prisma.MetodoPagoCreateNestedManyWithoutTenantInput
@@ -2938,7 +2985,6 @@ export type TenantCreateWithoutSegmentosInput = {
   turnos?: Prisma.TurnoCreateNestedManyWithoutTenantInput
   vehiculos?: Prisma.VehiculoCreateNestedManyWithoutTenantInput
   zonas?: Prisma.ZonaCreateNestedManyWithoutTenantInput
-  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaCreateNestedManyWithoutTenantInput
 }
 
 export type TenantUncheckedCreateWithoutSegmentosInput = {
@@ -2956,6 +3002,7 @@ export type TenantUncheckedCreateWithoutSegmentosInput = {
   auditorias?: Prisma.AuditoriaUncheckedCreateNestedManyWithoutTenantInput
   authSessions?: Prisma.AuthSessionUncheckedCreateNestedManyWithoutTenantInput
   citasPsicologos?: Prisma.CitasPsicologosUncheckedCreateNestedManyWithoutTenantInput
+  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaUncheckedCreateNestedManyWithoutTenantInput
   clientes?: Prisma.ClienteUncheckedCreateNestedManyWithoutTenantInput
   commissions?: Prisma.CommissionRecordUncheckedCreateNestedManyWithoutTenantInput
   configuracionPagos?: Prisma.ConfiguracionPagosUncheckedCreateNestedManyWithoutTenantInput
@@ -2970,6 +3017,7 @@ export type TenantUncheckedCreateWithoutSegmentosInput = {
   empresaMemberships?: Prisma.EmpresaMembershipUncheckedCreateNestedManyWithoutTenantInput
   empresas?: Prisma.EmpresaUncheckedCreateNestedManyWithoutTenantInput
   estadosServicio?: Prisma.EstadoServicioUncheckedCreateNestedManyWithoutTenantInput
+  evidenciasServicio?: Prisma.EvidenciaServicioUncheckedCreateNestedManyWithoutTenantInput
   geolocalizaciones?: Prisma.GeolocalizacionUncheckedCreateNestedManyWithoutTenantInput
   logsEvento?: Prisma.LogEventoUncheckedCreateNestedManyWithoutTenantInput
   metodosPago?: Prisma.MetodoPagoUncheckedCreateNestedManyWithoutTenantInput
@@ -2996,7 +3044,6 @@ export type TenantUncheckedCreateWithoutSegmentosInput = {
   turnos?: Prisma.TurnoUncheckedCreateNestedManyWithoutTenantInput
   vehiculos?: Prisma.VehiculoUncheckedCreateNestedManyWithoutTenantInput
   zonas?: Prisma.ZonaUncheckedCreateNestedManyWithoutTenantInput
-  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaUncheckedCreateNestedManyWithoutTenantInput
 }
 
 export type TenantCreateOrConnectWithoutSegmentosInput = {
@@ -3030,6 +3077,7 @@ export type TenantUpdateWithoutSegmentosInput = {
   auditorias?: Prisma.AuditoriaUpdateManyWithoutTenantNestedInput
   authSessions?: Prisma.AuthSessionUpdateManyWithoutTenantNestedInput
   citasPsicologos?: Prisma.CitasPsicologosUpdateManyWithoutTenantNestedInput
+  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaUpdateManyWithoutTenantNestedInput
   clientes?: Prisma.ClienteUpdateManyWithoutTenantNestedInput
   commissions?: Prisma.CommissionRecordUpdateManyWithoutTenantNestedInput
   configuracionPagos?: Prisma.ConfiguracionPagosUpdateManyWithoutTenantNestedInput
@@ -3044,6 +3092,7 @@ export type TenantUpdateWithoutSegmentosInput = {
   empresaMemberships?: Prisma.EmpresaMembershipUpdateManyWithoutTenantNestedInput
   empresas?: Prisma.EmpresaUpdateManyWithoutTenantNestedInput
   estadosServicio?: Prisma.EstadoServicioUpdateManyWithoutTenantNestedInput
+  evidenciasServicio?: Prisma.EvidenciaServicioUpdateManyWithoutTenantNestedInput
   geolocalizaciones?: Prisma.GeolocalizacionUpdateManyWithoutTenantNestedInput
   logsEvento?: Prisma.LogEventoUpdateManyWithoutTenantNestedInput
   metodosPago?: Prisma.MetodoPagoUpdateManyWithoutTenantNestedInput
@@ -3070,7 +3119,6 @@ export type TenantUpdateWithoutSegmentosInput = {
   turnos?: Prisma.TurnoUpdateManyWithoutTenantNestedInput
   vehiculos?: Prisma.VehiculoUpdateManyWithoutTenantNestedInput
   zonas?: Prisma.ZonaUpdateManyWithoutTenantNestedInput
-  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaUpdateManyWithoutTenantNestedInput
 }
 
 export type TenantUncheckedUpdateWithoutSegmentosInput = {
@@ -3088,6 +3136,7 @@ export type TenantUncheckedUpdateWithoutSegmentosInput = {
   auditorias?: Prisma.AuditoriaUncheckedUpdateManyWithoutTenantNestedInput
   authSessions?: Prisma.AuthSessionUncheckedUpdateManyWithoutTenantNestedInput
   citasPsicologos?: Prisma.CitasPsicologosUncheckedUpdateManyWithoutTenantNestedInput
+  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaUncheckedUpdateManyWithoutTenantNestedInput
   clientes?: Prisma.ClienteUncheckedUpdateManyWithoutTenantNestedInput
   commissions?: Prisma.CommissionRecordUncheckedUpdateManyWithoutTenantNestedInput
   configuracionPagos?: Prisma.ConfiguracionPagosUncheckedUpdateManyWithoutTenantNestedInput
@@ -3102,6 +3151,7 @@ export type TenantUncheckedUpdateWithoutSegmentosInput = {
   empresaMemberships?: Prisma.EmpresaMembershipUncheckedUpdateManyWithoutTenantNestedInput
   empresas?: Prisma.EmpresaUncheckedUpdateManyWithoutTenantNestedInput
   estadosServicio?: Prisma.EstadoServicioUncheckedUpdateManyWithoutTenantNestedInput
+  evidenciasServicio?: Prisma.EvidenciaServicioUncheckedUpdateManyWithoutTenantNestedInput
   geolocalizaciones?: Prisma.GeolocalizacionUncheckedUpdateManyWithoutTenantNestedInput
   logsEvento?: Prisma.LogEventoUncheckedUpdateManyWithoutTenantNestedInput
   metodosPago?: Prisma.MetodoPagoUncheckedUpdateManyWithoutTenantNestedInput
@@ -3128,7 +3178,6 @@ export type TenantUncheckedUpdateWithoutSegmentosInput = {
   turnos?: Prisma.TurnoUncheckedUpdateManyWithoutTenantNestedInput
   vehiculos?: Prisma.VehiculoUncheckedUpdateManyWithoutTenantNestedInput
   zonas?: Prisma.ZonaUncheckedUpdateManyWithoutTenantNestedInput
-  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaUncheckedUpdateManyWithoutTenantNestedInput
 }
 
 export type TenantCreateWithoutNivelesRiesgoInput = {
@@ -3146,6 +3195,7 @@ export type TenantCreateWithoutNivelesRiesgoInput = {
   auditorias?: Prisma.AuditoriaCreateNestedManyWithoutTenantInput
   authSessions?: Prisma.AuthSessionCreateNestedManyWithoutTenantInput
   citasPsicologos?: Prisma.CitasPsicologosCreateNestedManyWithoutTenantInput
+  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaCreateNestedManyWithoutTenantInput
   clientes?: Prisma.ClienteCreateNestedManyWithoutTenantInput
   commissions?: Prisma.CommissionRecordCreateNestedManyWithoutTenantInput
   configuracionPagos?: Prisma.ConfiguracionPagosCreateNestedManyWithoutTenantInput
@@ -3160,6 +3210,7 @@ export type TenantCreateWithoutNivelesRiesgoInput = {
   empresaMemberships?: Prisma.EmpresaMembershipCreateNestedManyWithoutTenantInput
   empresas?: Prisma.EmpresaCreateNestedManyWithoutTenantInput
   estadosServicio?: Prisma.EstadoServicioCreateNestedManyWithoutTenantInput
+  evidenciasServicio?: Prisma.EvidenciaServicioCreateNestedManyWithoutTenantInput
   geolocalizaciones?: Prisma.GeolocalizacionCreateNestedManyWithoutTenantInput
   logsEvento?: Prisma.LogEventoCreateNestedManyWithoutTenantInput
   metodosPago?: Prisma.MetodoPagoCreateNestedManyWithoutTenantInput
@@ -3186,7 +3237,6 @@ export type TenantCreateWithoutNivelesRiesgoInput = {
   turnos?: Prisma.TurnoCreateNestedManyWithoutTenantInput
   vehiculos?: Prisma.VehiculoCreateNestedManyWithoutTenantInput
   zonas?: Prisma.ZonaCreateNestedManyWithoutTenantInput
-  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaCreateNestedManyWithoutTenantInput
 }
 
 export type TenantUncheckedCreateWithoutNivelesRiesgoInput = {
@@ -3204,6 +3254,7 @@ export type TenantUncheckedCreateWithoutNivelesRiesgoInput = {
   auditorias?: Prisma.AuditoriaUncheckedCreateNestedManyWithoutTenantInput
   authSessions?: Prisma.AuthSessionUncheckedCreateNestedManyWithoutTenantInput
   citasPsicologos?: Prisma.CitasPsicologosUncheckedCreateNestedManyWithoutTenantInput
+  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaUncheckedCreateNestedManyWithoutTenantInput
   clientes?: Prisma.ClienteUncheckedCreateNestedManyWithoutTenantInput
   commissions?: Prisma.CommissionRecordUncheckedCreateNestedManyWithoutTenantInput
   configuracionPagos?: Prisma.ConfiguracionPagosUncheckedCreateNestedManyWithoutTenantInput
@@ -3218,6 +3269,7 @@ export type TenantUncheckedCreateWithoutNivelesRiesgoInput = {
   empresaMemberships?: Prisma.EmpresaMembershipUncheckedCreateNestedManyWithoutTenantInput
   empresas?: Prisma.EmpresaUncheckedCreateNestedManyWithoutTenantInput
   estadosServicio?: Prisma.EstadoServicioUncheckedCreateNestedManyWithoutTenantInput
+  evidenciasServicio?: Prisma.EvidenciaServicioUncheckedCreateNestedManyWithoutTenantInput
   geolocalizaciones?: Prisma.GeolocalizacionUncheckedCreateNestedManyWithoutTenantInput
   logsEvento?: Prisma.LogEventoUncheckedCreateNestedManyWithoutTenantInput
   metodosPago?: Prisma.MetodoPagoUncheckedCreateNestedManyWithoutTenantInput
@@ -3244,7 +3296,6 @@ export type TenantUncheckedCreateWithoutNivelesRiesgoInput = {
   turnos?: Prisma.TurnoUncheckedCreateNestedManyWithoutTenantInput
   vehiculos?: Prisma.VehiculoUncheckedCreateNestedManyWithoutTenantInput
   zonas?: Prisma.ZonaUncheckedCreateNestedManyWithoutTenantInput
-  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaUncheckedCreateNestedManyWithoutTenantInput
 }
 
 export type TenantCreateOrConnectWithoutNivelesRiesgoInput = {
@@ -3278,6 +3329,7 @@ export type TenantUpdateWithoutNivelesRiesgoInput = {
   auditorias?: Prisma.AuditoriaUpdateManyWithoutTenantNestedInput
   authSessions?: Prisma.AuthSessionUpdateManyWithoutTenantNestedInput
   citasPsicologos?: Prisma.CitasPsicologosUpdateManyWithoutTenantNestedInput
+  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaUpdateManyWithoutTenantNestedInput
   clientes?: Prisma.ClienteUpdateManyWithoutTenantNestedInput
   commissions?: Prisma.CommissionRecordUpdateManyWithoutTenantNestedInput
   configuracionPagos?: Prisma.ConfiguracionPagosUpdateManyWithoutTenantNestedInput
@@ -3292,6 +3344,7 @@ export type TenantUpdateWithoutNivelesRiesgoInput = {
   empresaMemberships?: Prisma.EmpresaMembershipUpdateManyWithoutTenantNestedInput
   empresas?: Prisma.EmpresaUpdateManyWithoutTenantNestedInput
   estadosServicio?: Prisma.EstadoServicioUpdateManyWithoutTenantNestedInput
+  evidenciasServicio?: Prisma.EvidenciaServicioUpdateManyWithoutTenantNestedInput
   geolocalizaciones?: Prisma.GeolocalizacionUpdateManyWithoutTenantNestedInput
   logsEvento?: Prisma.LogEventoUpdateManyWithoutTenantNestedInput
   metodosPago?: Prisma.MetodoPagoUpdateManyWithoutTenantNestedInput
@@ -3318,7 +3371,6 @@ export type TenantUpdateWithoutNivelesRiesgoInput = {
   turnos?: Prisma.TurnoUpdateManyWithoutTenantNestedInput
   vehiculos?: Prisma.VehiculoUpdateManyWithoutTenantNestedInput
   zonas?: Prisma.ZonaUpdateManyWithoutTenantNestedInput
-  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaUpdateManyWithoutTenantNestedInput
 }
 
 export type TenantUncheckedUpdateWithoutNivelesRiesgoInput = {
@@ -3336,6 +3388,7 @@ export type TenantUncheckedUpdateWithoutNivelesRiesgoInput = {
   auditorias?: Prisma.AuditoriaUncheckedUpdateManyWithoutTenantNestedInput
   authSessions?: Prisma.AuthSessionUncheckedUpdateManyWithoutTenantNestedInput
   citasPsicologos?: Prisma.CitasPsicologosUncheckedUpdateManyWithoutTenantNestedInput
+  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaUncheckedUpdateManyWithoutTenantNestedInput
   clientes?: Prisma.ClienteUncheckedUpdateManyWithoutTenantNestedInput
   commissions?: Prisma.CommissionRecordUncheckedUpdateManyWithoutTenantNestedInput
   configuracionPagos?: Prisma.ConfiguracionPagosUncheckedUpdateManyWithoutTenantNestedInput
@@ -3350,6 +3403,7 @@ export type TenantUncheckedUpdateWithoutNivelesRiesgoInput = {
   empresaMemberships?: Prisma.EmpresaMembershipUncheckedUpdateManyWithoutTenantNestedInput
   empresas?: Prisma.EmpresaUncheckedUpdateManyWithoutTenantNestedInput
   estadosServicio?: Prisma.EstadoServicioUncheckedUpdateManyWithoutTenantNestedInput
+  evidenciasServicio?: Prisma.EvidenciaServicioUncheckedUpdateManyWithoutTenantNestedInput
   geolocalizaciones?: Prisma.GeolocalizacionUncheckedUpdateManyWithoutTenantNestedInput
   logsEvento?: Prisma.LogEventoUncheckedUpdateManyWithoutTenantNestedInput
   metodosPago?: Prisma.MetodoPagoUncheckedUpdateManyWithoutTenantNestedInput
@@ -3376,7 +3430,6 @@ export type TenantUncheckedUpdateWithoutNivelesRiesgoInput = {
   turnos?: Prisma.TurnoUncheckedUpdateManyWithoutTenantNestedInput
   vehiculos?: Prisma.VehiculoUncheckedUpdateManyWithoutTenantNestedInput
   zonas?: Prisma.ZonaUncheckedUpdateManyWithoutTenantNestedInput
-  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaUncheckedUpdateManyWithoutTenantNestedInput
 }
 
 export type TenantCreateWithoutTiposInteresInput = {
@@ -3394,6 +3447,7 @@ export type TenantCreateWithoutTiposInteresInput = {
   auditorias?: Prisma.AuditoriaCreateNestedManyWithoutTenantInput
   authSessions?: Prisma.AuthSessionCreateNestedManyWithoutTenantInput
   citasPsicologos?: Prisma.CitasPsicologosCreateNestedManyWithoutTenantInput
+  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaCreateNestedManyWithoutTenantInput
   clientes?: Prisma.ClienteCreateNestedManyWithoutTenantInput
   commissions?: Prisma.CommissionRecordCreateNestedManyWithoutTenantInput
   configuracionPagos?: Prisma.ConfiguracionPagosCreateNestedManyWithoutTenantInput
@@ -3408,6 +3462,7 @@ export type TenantCreateWithoutTiposInteresInput = {
   empresaMemberships?: Prisma.EmpresaMembershipCreateNestedManyWithoutTenantInput
   empresas?: Prisma.EmpresaCreateNestedManyWithoutTenantInput
   estadosServicio?: Prisma.EstadoServicioCreateNestedManyWithoutTenantInput
+  evidenciasServicio?: Prisma.EvidenciaServicioCreateNestedManyWithoutTenantInput
   geolocalizaciones?: Prisma.GeolocalizacionCreateNestedManyWithoutTenantInput
   logsEvento?: Prisma.LogEventoCreateNestedManyWithoutTenantInput
   metodosPago?: Prisma.MetodoPagoCreateNestedManyWithoutTenantInput
@@ -3434,7 +3489,6 @@ export type TenantCreateWithoutTiposInteresInput = {
   turnos?: Prisma.TurnoCreateNestedManyWithoutTenantInput
   vehiculos?: Prisma.VehiculoCreateNestedManyWithoutTenantInput
   zonas?: Prisma.ZonaCreateNestedManyWithoutTenantInput
-  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaCreateNestedManyWithoutTenantInput
 }
 
 export type TenantUncheckedCreateWithoutTiposInteresInput = {
@@ -3452,6 +3506,7 @@ export type TenantUncheckedCreateWithoutTiposInteresInput = {
   auditorias?: Prisma.AuditoriaUncheckedCreateNestedManyWithoutTenantInput
   authSessions?: Prisma.AuthSessionUncheckedCreateNestedManyWithoutTenantInput
   citasPsicologos?: Prisma.CitasPsicologosUncheckedCreateNestedManyWithoutTenantInput
+  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaUncheckedCreateNestedManyWithoutTenantInput
   clientes?: Prisma.ClienteUncheckedCreateNestedManyWithoutTenantInput
   commissions?: Prisma.CommissionRecordUncheckedCreateNestedManyWithoutTenantInput
   configuracionPagos?: Prisma.ConfiguracionPagosUncheckedCreateNestedManyWithoutTenantInput
@@ -3466,6 +3521,7 @@ export type TenantUncheckedCreateWithoutTiposInteresInput = {
   empresaMemberships?: Prisma.EmpresaMembershipUncheckedCreateNestedManyWithoutTenantInput
   empresas?: Prisma.EmpresaUncheckedCreateNestedManyWithoutTenantInput
   estadosServicio?: Prisma.EstadoServicioUncheckedCreateNestedManyWithoutTenantInput
+  evidenciasServicio?: Prisma.EvidenciaServicioUncheckedCreateNestedManyWithoutTenantInput
   geolocalizaciones?: Prisma.GeolocalizacionUncheckedCreateNestedManyWithoutTenantInput
   logsEvento?: Prisma.LogEventoUncheckedCreateNestedManyWithoutTenantInput
   metodosPago?: Prisma.MetodoPagoUncheckedCreateNestedManyWithoutTenantInput
@@ -3492,7 +3548,6 @@ export type TenantUncheckedCreateWithoutTiposInteresInput = {
   turnos?: Prisma.TurnoUncheckedCreateNestedManyWithoutTenantInput
   vehiculos?: Prisma.VehiculoUncheckedCreateNestedManyWithoutTenantInput
   zonas?: Prisma.ZonaUncheckedCreateNestedManyWithoutTenantInput
-  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaUncheckedCreateNestedManyWithoutTenantInput
 }
 
 export type TenantCreateOrConnectWithoutTiposInteresInput = {
@@ -3526,6 +3581,7 @@ export type TenantUpdateWithoutTiposInteresInput = {
   auditorias?: Prisma.AuditoriaUpdateManyWithoutTenantNestedInput
   authSessions?: Prisma.AuthSessionUpdateManyWithoutTenantNestedInput
   citasPsicologos?: Prisma.CitasPsicologosUpdateManyWithoutTenantNestedInput
+  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaUpdateManyWithoutTenantNestedInput
   clientes?: Prisma.ClienteUpdateManyWithoutTenantNestedInput
   commissions?: Prisma.CommissionRecordUpdateManyWithoutTenantNestedInput
   configuracionPagos?: Prisma.ConfiguracionPagosUpdateManyWithoutTenantNestedInput
@@ -3540,6 +3596,7 @@ export type TenantUpdateWithoutTiposInteresInput = {
   empresaMemberships?: Prisma.EmpresaMembershipUpdateManyWithoutTenantNestedInput
   empresas?: Prisma.EmpresaUpdateManyWithoutTenantNestedInput
   estadosServicio?: Prisma.EstadoServicioUpdateManyWithoutTenantNestedInput
+  evidenciasServicio?: Prisma.EvidenciaServicioUpdateManyWithoutTenantNestedInput
   geolocalizaciones?: Prisma.GeolocalizacionUpdateManyWithoutTenantNestedInput
   logsEvento?: Prisma.LogEventoUpdateManyWithoutTenantNestedInput
   metodosPago?: Prisma.MetodoPagoUpdateManyWithoutTenantNestedInput
@@ -3566,7 +3623,6 @@ export type TenantUpdateWithoutTiposInteresInput = {
   turnos?: Prisma.TurnoUpdateManyWithoutTenantNestedInput
   vehiculos?: Prisma.VehiculoUpdateManyWithoutTenantNestedInput
   zonas?: Prisma.ZonaUpdateManyWithoutTenantNestedInput
-  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaUpdateManyWithoutTenantNestedInput
 }
 
 export type TenantUncheckedUpdateWithoutTiposInteresInput = {
@@ -3584,6 +3640,7 @@ export type TenantUncheckedUpdateWithoutTiposInteresInput = {
   auditorias?: Prisma.AuditoriaUncheckedUpdateManyWithoutTenantNestedInput
   authSessions?: Prisma.AuthSessionUncheckedUpdateManyWithoutTenantNestedInput
   citasPsicologos?: Prisma.CitasPsicologosUncheckedUpdateManyWithoutTenantNestedInput
+  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaUncheckedUpdateManyWithoutTenantNestedInput
   clientes?: Prisma.ClienteUncheckedUpdateManyWithoutTenantNestedInput
   commissions?: Prisma.CommissionRecordUncheckedUpdateManyWithoutTenantNestedInput
   configuracionPagos?: Prisma.ConfiguracionPagosUncheckedUpdateManyWithoutTenantNestedInput
@@ -3598,6 +3655,7 @@ export type TenantUncheckedUpdateWithoutTiposInteresInput = {
   empresaMemberships?: Prisma.EmpresaMembershipUncheckedUpdateManyWithoutTenantNestedInput
   empresas?: Prisma.EmpresaUncheckedUpdateManyWithoutTenantNestedInput
   estadosServicio?: Prisma.EstadoServicioUncheckedUpdateManyWithoutTenantNestedInput
+  evidenciasServicio?: Prisma.EvidenciaServicioUncheckedUpdateManyWithoutTenantNestedInput
   geolocalizaciones?: Prisma.GeolocalizacionUncheckedUpdateManyWithoutTenantNestedInput
   logsEvento?: Prisma.LogEventoUncheckedUpdateManyWithoutTenantNestedInput
   metodosPago?: Prisma.MetodoPagoUncheckedUpdateManyWithoutTenantNestedInput
@@ -3624,7 +3682,6 @@ export type TenantUncheckedUpdateWithoutTiposInteresInput = {
   turnos?: Prisma.TurnoUncheckedUpdateManyWithoutTenantNestedInput
   vehiculos?: Prisma.VehiculoUncheckedUpdateManyWithoutTenantNestedInput
   zonas?: Prisma.ZonaUncheckedUpdateManyWithoutTenantNestedInput
-  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaUncheckedUpdateManyWithoutTenantNestedInput
 }
 
 export type TenantCreateWithoutClientesInput = {
@@ -3642,6 +3699,7 @@ export type TenantCreateWithoutClientesInput = {
   auditorias?: Prisma.AuditoriaCreateNestedManyWithoutTenantInput
   authSessions?: Prisma.AuthSessionCreateNestedManyWithoutTenantInput
   citasPsicologos?: Prisma.CitasPsicologosCreateNestedManyWithoutTenantInput
+  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaCreateNestedManyWithoutTenantInput
   commissions?: Prisma.CommissionRecordCreateNestedManyWithoutTenantInput
   configuracionPagos?: Prisma.ConfiguracionPagosCreateNestedManyWithoutTenantInput
   consignacionOrdenes?: Prisma.ConsignacionOrdenCreateNestedManyWithoutTenantInput
@@ -3655,6 +3713,7 @@ export type TenantCreateWithoutClientesInput = {
   empresaMemberships?: Prisma.EmpresaMembershipCreateNestedManyWithoutTenantInput
   empresas?: Prisma.EmpresaCreateNestedManyWithoutTenantInput
   estadosServicio?: Prisma.EstadoServicioCreateNestedManyWithoutTenantInput
+  evidenciasServicio?: Prisma.EvidenciaServicioCreateNestedManyWithoutTenantInput
   geolocalizaciones?: Prisma.GeolocalizacionCreateNestedManyWithoutTenantInput
   logsEvento?: Prisma.LogEventoCreateNestedManyWithoutTenantInput
   metodosPago?: Prisma.MetodoPagoCreateNestedManyWithoutTenantInput
@@ -3682,7 +3741,6 @@ export type TenantCreateWithoutClientesInput = {
   turnos?: Prisma.TurnoCreateNestedManyWithoutTenantInput
   vehiculos?: Prisma.VehiculoCreateNestedManyWithoutTenantInput
   zonas?: Prisma.ZonaCreateNestedManyWithoutTenantInput
-  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaCreateNestedManyWithoutTenantInput
 }
 
 export type TenantUncheckedCreateWithoutClientesInput = {
@@ -3700,6 +3758,7 @@ export type TenantUncheckedCreateWithoutClientesInput = {
   auditorias?: Prisma.AuditoriaUncheckedCreateNestedManyWithoutTenantInput
   authSessions?: Prisma.AuthSessionUncheckedCreateNestedManyWithoutTenantInput
   citasPsicologos?: Prisma.CitasPsicologosUncheckedCreateNestedManyWithoutTenantInput
+  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaUncheckedCreateNestedManyWithoutTenantInput
   commissions?: Prisma.CommissionRecordUncheckedCreateNestedManyWithoutTenantInput
   configuracionPagos?: Prisma.ConfiguracionPagosUncheckedCreateNestedManyWithoutTenantInput
   consignacionOrdenes?: Prisma.ConsignacionOrdenUncheckedCreateNestedManyWithoutTenantInput
@@ -3713,6 +3772,7 @@ export type TenantUncheckedCreateWithoutClientesInput = {
   empresaMemberships?: Prisma.EmpresaMembershipUncheckedCreateNestedManyWithoutTenantInput
   empresas?: Prisma.EmpresaUncheckedCreateNestedManyWithoutTenantInput
   estadosServicio?: Prisma.EstadoServicioUncheckedCreateNestedManyWithoutTenantInput
+  evidenciasServicio?: Prisma.EvidenciaServicioUncheckedCreateNestedManyWithoutTenantInput
   geolocalizaciones?: Prisma.GeolocalizacionUncheckedCreateNestedManyWithoutTenantInput
   logsEvento?: Prisma.LogEventoUncheckedCreateNestedManyWithoutTenantInput
   metodosPago?: Prisma.MetodoPagoUncheckedCreateNestedManyWithoutTenantInput
@@ -3740,7 +3800,6 @@ export type TenantUncheckedCreateWithoutClientesInput = {
   turnos?: Prisma.TurnoUncheckedCreateNestedManyWithoutTenantInput
   vehiculos?: Prisma.VehiculoUncheckedCreateNestedManyWithoutTenantInput
   zonas?: Prisma.ZonaUncheckedCreateNestedManyWithoutTenantInput
-  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaUncheckedCreateNestedManyWithoutTenantInput
 }
 
 export type TenantCreateOrConnectWithoutClientesInput = {
@@ -3774,6 +3833,7 @@ export type TenantUpdateWithoutClientesInput = {
   auditorias?: Prisma.AuditoriaUpdateManyWithoutTenantNestedInput
   authSessions?: Prisma.AuthSessionUpdateManyWithoutTenantNestedInput
   citasPsicologos?: Prisma.CitasPsicologosUpdateManyWithoutTenantNestedInput
+  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaUpdateManyWithoutTenantNestedInput
   commissions?: Prisma.CommissionRecordUpdateManyWithoutTenantNestedInput
   configuracionPagos?: Prisma.ConfiguracionPagosUpdateManyWithoutTenantNestedInput
   consignacionOrdenes?: Prisma.ConsignacionOrdenUpdateManyWithoutTenantNestedInput
@@ -3787,6 +3847,7 @@ export type TenantUpdateWithoutClientesInput = {
   empresaMemberships?: Prisma.EmpresaMembershipUpdateManyWithoutTenantNestedInput
   empresas?: Prisma.EmpresaUpdateManyWithoutTenantNestedInput
   estadosServicio?: Prisma.EstadoServicioUpdateManyWithoutTenantNestedInput
+  evidenciasServicio?: Prisma.EvidenciaServicioUpdateManyWithoutTenantNestedInput
   geolocalizaciones?: Prisma.GeolocalizacionUpdateManyWithoutTenantNestedInput
   logsEvento?: Prisma.LogEventoUpdateManyWithoutTenantNestedInput
   metodosPago?: Prisma.MetodoPagoUpdateManyWithoutTenantNestedInput
@@ -3814,7 +3875,6 @@ export type TenantUpdateWithoutClientesInput = {
   turnos?: Prisma.TurnoUpdateManyWithoutTenantNestedInput
   vehiculos?: Prisma.VehiculoUpdateManyWithoutTenantNestedInput
   zonas?: Prisma.ZonaUpdateManyWithoutTenantNestedInput
-  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaUpdateManyWithoutTenantNestedInput
 }
 
 export type TenantUncheckedUpdateWithoutClientesInput = {
@@ -3832,6 +3892,7 @@ export type TenantUncheckedUpdateWithoutClientesInput = {
   auditorias?: Prisma.AuditoriaUncheckedUpdateManyWithoutTenantNestedInput
   authSessions?: Prisma.AuthSessionUncheckedUpdateManyWithoutTenantNestedInput
   citasPsicologos?: Prisma.CitasPsicologosUncheckedUpdateManyWithoutTenantNestedInput
+  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaUncheckedUpdateManyWithoutTenantNestedInput
   commissions?: Prisma.CommissionRecordUncheckedUpdateManyWithoutTenantNestedInput
   configuracionPagos?: Prisma.ConfiguracionPagosUncheckedUpdateManyWithoutTenantNestedInput
   consignacionOrdenes?: Prisma.ConsignacionOrdenUncheckedUpdateManyWithoutTenantNestedInput
@@ -3845,6 +3906,7 @@ export type TenantUncheckedUpdateWithoutClientesInput = {
   empresaMemberships?: Prisma.EmpresaMembershipUncheckedUpdateManyWithoutTenantNestedInput
   empresas?: Prisma.EmpresaUncheckedUpdateManyWithoutTenantNestedInput
   estadosServicio?: Prisma.EstadoServicioUncheckedUpdateManyWithoutTenantNestedInput
+  evidenciasServicio?: Prisma.EvidenciaServicioUncheckedUpdateManyWithoutTenantNestedInput
   geolocalizaciones?: Prisma.GeolocalizacionUncheckedUpdateManyWithoutTenantNestedInput
   logsEvento?: Prisma.LogEventoUncheckedUpdateManyWithoutTenantNestedInput
   metodosPago?: Prisma.MetodoPagoUncheckedUpdateManyWithoutTenantNestedInput
@@ -3872,7 +3934,6 @@ export type TenantUncheckedUpdateWithoutClientesInput = {
   turnos?: Prisma.TurnoUncheckedUpdateManyWithoutTenantNestedInput
   vehiculos?: Prisma.VehiculoUncheckedUpdateManyWithoutTenantNestedInput
   zonas?: Prisma.ZonaUncheckedUpdateManyWithoutTenantNestedInput
-  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaUncheckedUpdateManyWithoutTenantNestedInput
 }
 
 export type TenantCreateWithoutVehiculosInput = {
@@ -3890,6 +3951,7 @@ export type TenantCreateWithoutVehiculosInput = {
   auditorias?: Prisma.AuditoriaCreateNestedManyWithoutTenantInput
   authSessions?: Prisma.AuthSessionCreateNestedManyWithoutTenantInput
   citasPsicologos?: Prisma.CitasPsicologosCreateNestedManyWithoutTenantInput
+  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaCreateNestedManyWithoutTenantInput
   clientes?: Prisma.ClienteCreateNestedManyWithoutTenantInput
   commissions?: Prisma.CommissionRecordCreateNestedManyWithoutTenantInput
   configuracionPagos?: Prisma.ConfiguracionPagosCreateNestedManyWithoutTenantInput
@@ -3904,6 +3966,7 @@ export type TenantCreateWithoutVehiculosInput = {
   empresaMemberships?: Prisma.EmpresaMembershipCreateNestedManyWithoutTenantInput
   empresas?: Prisma.EmpresaCreateNestedManyWithoutTenantInput
   estadosServicio?: Prisma.EstadoServicioCreateNestedManyWithoutTenantInput
+  evidenciasServicio?: Prisma.EvidenciaServicioCreateNestedManyWithoutTenantInput
   geolocalizaciones?: Prisma.GeolocalizacionCreateNestedManyWithoutTenantInput
   logsEvento?: Prisma.LogEventoCreateNestedManyWithoutTenantInput
   metodosPago?: Prisma.MetodoPagoCreateNestedManyWithoutTenantInput
@@ -3930,7 +3993,6 @@ export type TenantCreateWithoutVehiculosInput = {
   tiposServicio?: Prisma.TipoServicioCreateNestedManyWithoutTenantInput
   turnos?: Prisma.TurnoCreateNestedManyWithoutTenantInput
   zonas?: Prisma.ZonaCreateNestedManyWithoutTenantInput
-  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaCreateNestedManyWithoutTenantInput
 }
 
 export type TenantUncheckedCreateWithoutVehiculosInput = {
@@ -3948,6 +4010,7 @@ export type TenantUncheckedCreateWithoutVehiculosInput = {
   auditorias?: Prisma.AuditoriaUncheckedCreateNestedManyWithoutTenantInput
   authSessions?: Prisma.AuthSessionUncheckedCreateNestedManyWithoutTenantInput
   citasPsicologos?: Prisma.CitasPsicologosUncheckedCreateNestedManyWithoutTenantInput
+  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaUncheckedCreateNestedManyWithoutTenantInput
   clientes?: Prisma.ClienteUncheckedCreateNestedManyWithoutTenantInput
   commissions?: Prisma.CommissionRecordUncheckedCreateNestedManyWithoutTenantInput
   configuracionPagos?: Prisma.ConfiguracionPagosUncheckedCreateNestedManyWithoutTenantInput
@@ -3962,6 +4025,7 @@ export type TenantUncheckedCreateWithoutVehiculosInput = {
   empresaMemberships?: Prisma.EmpresaMembershipUncheckedCreateNestedManyWithoutTenantInput
   empresas?: Prisma.EmpresaUncheckedCreateNestedManyWithoutTenantInput
   estadosServicio?: Prisma.EstadoServicioUncheckedCreateNestedManyWithoutTenantInput
+  evidenciasServicio?: Prisma.EvidenciaServicioUncheckedCreateNestedManyWithoutTenantInput
   geolocalizaciones?: Prisma.GeolocalizacionUncheckedCreateNestedManyWithoutTenantInput
   logsEvento?: Prisma.LogEventoUncheckedCreateNestedManyWithoutTenantInput
   metodosPago?: Prisma.MetodoPagoUncheckedCreateNestedManyWithoutTenantInput
@@ -3988,7 +4052,6 @@ export type TenantUncheckedCreateWithoutVehiculosInput = {
   tiposServicio?: Prisma.TipoServicioUncheckedCreateNestedManyWithoutTenantInput
   turnos?: Prisma.TurnoUncheckedCreateNestedManyWithoutTenantInput
   zonas?: Prisma.ZonaUncheckedCreateNestedManyWithoutTenantInput
-  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaUncheckedCreateNestedManyWithoutTenantInput
 }
 
 export type TenantCreateOrConnectWithoutVehiculosInput = {
@@ -4022,6 +4085,7 @@ export type TenantUpdateWithoutVehiculosInput = {
   auditorias?: Prisma.AuditoriaUpdateManyWithoutTenantNestedInput
   authSessions?: Prisma.AuthSessionUpdateManyWithoutTenantNestedInput
   citasPsicologos?: Prisma.CitasPsicologosUpdateManyWithoutTenantNestedInput
+  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaUpdateManyWithoutTenantNestedInput
   clientes?: Prisma.ClienteUpdateManyWithoutTenantNestedInput
   commissions?: Prisma.CommissionRecordUpdateManyWithoutTenantNestedInput
   configuracionPagos?: Prisma.ConfiguracionPagosUpdateManyWithoutTenantNestedInput
@@ -4036,6 +4100,7 @@ export type TenantUpdateWithoutVehiculosInput = {
   empresaMemberships?: Prisma.EmpresaMembershipUpdateManyWithoutTenantNestedInput
   empresas?: Prisma.EmpresaUpdateManyWithoutTenantNestedInput
   estadosServicio?: Prisma.EstadoServicioUpdateManyWithoutTenantNestedInput
+  evidenciasServicio?: Prisma.EvidenciaServicioUpdateManyWithoutTenantNestedInput
   geolocalizaciones?: Prisma.GeolocalizacionUpdateManyWithoutTenantNestedInput
   logsEvento?: Prisma.LogEventoUpdateManyWithoutTenantNestedInput
   metodosPago?: Prisma.MetodoPagoUpdateManyWithoutTenantNestedInput
@@ -4062,7 +4127,6 @@ export type TenantUpdateWithoutVehiculosInput = {
   tiposServicio?: Prisma.TipoServicioUpdateManyWithoutTenantNestedInput
   turnos?: Prisma.TurnoUpdateManyWithoutTenantNestedInput
   zonas?: Prisma.ZonaUpdateManyWithoutTenantNestedInput
-  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaUpdateManyWithoutTenantNestedInput
 }
 
 export type TenantUncheckedUpdateWithoutVehiculosInput = {
@@ -4080,6 +4144,7 @@ export type TenantUncheckedUpdateWithoutVehiculosInput = {
   auditorias?: Prisma.AuditoriaUncheckedUpdateManyWithoutTenantNestedInput
   authSessions?: Prisma.AuthSessionUncheckedUpdateManyWithoutTenantNestedInput
   citasPsicologos?: Prisma.CitasPsicologosUncheckedUpdateManyWithoutTenantNestedInput
+  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaUncheckedUpdateManyWithoutTenantNestedInput
   clientes?: Prisma.ClienteUncheckedUpdateManyWithoutTenantNestedInput
   commissions?: Prisma.CommissionRecordUncheckedUpdateManyWithoutTenantNestedInput
   configuracionPagos?: Prisma.ConfiguracionPagosUncheckedUpdateManyWithoutTenantNestedInput
@@ -4094,6 +4159,7 @@ export type TenantUncheckedUpdateWithoutVehiculosInput = {
   empresaMemberships?: Prisma.EmpresaMembershipUncheckedUpdateManyWithoutTenantNestedInput
   empresas?: Prisma.EmpresaUncheckedUpdateManyWithoutTenantNestedInput
   estadosServicio?: Prisma.EstadoServicioUncheckedUpdateManyWithoutTenantNestedInput
+  evidenciasServicio?: Prisma.EvidenciaServicioUncheckedUpdateManyWithoutTenantNestedInput
   geolocalizaciones?: Prisma.GeolocalizacionUncheckedUpdateManyWithoutTenantNestedInput
   logsEvento?: Prisma.LogEventoUncheckedUpdateManyWithoutTenantNestedInput
   metodosPago?: Prisma.MetodoPagoUncheckedUpdateManyWithoutTenantNestedInput
@@ -4120,7 +4186,6 @@ export type TenantUncheckedUpdateWithoutVehiculosInput = {
   tiposServicio?: Prisma.TipoServicioUncheckedUpdateManyWithoutTenantNestedInput
   turnos?: Prisma.TurnoUncheckedUpdateManyWithoutTenantNestedInput
   zonas?: Prisma.ZonaUncheckedUpdateManyWithoutTenantNestedInput
-  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaUncheckedUpdateManyWithoutTenantNestedInput
 }
 
 export type TenantCreateWithoutDireccionesInput = {
@@ -4138,6 +4203,7 @@ export type TenantCreateWithoutDireccionesInput = {
   auditorias?: Prisma.AuditoriaCreateNestedManyWithoutTenantInput
   authSessions?: Prisma.AuthSessionCreateNestedManyWithoutTenantInput
   citasPsicologos?: Prisma.CitasPsicologosCreateNestedManyWithoutTenantInput
+  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaCreateNestedManyWithoutTenantInput
   clientes?: Prisma.ClienteCreateNestedManyWithoutTenantInput
   commissions?: Prisma.CommissionRecordCreateNestedManyWithoutTenantInput
   configuracionPagos?: Prisma.ConfiguracionPagosCreateNestedManyWithoutTenantInput
@@ -4151,6 +4217,7 @@ export type TenantCreateWithoutDireccionesInput = {
   empresaMemberships?: Prisma.EmpresaMembershipCreateNestedManyWithoutTenantInput
   empresas?: Prisma.EmpresaCreateNestedManyWithoutTenantInput
   estadosServicio?: Prisma.EstadoServicioCreateNestedManyWithoutTenantInput
+  evidenciasServicio?: Prisma.EvidenciaServicioCreateNestedManyWithoutTenantInput
   geolocalizaciones?: Prisma.GeolocalizacionCreateNestedManyWithoutTenantInput
   logsEvento?: Prisma.LogEventoCreateNestedManyWithoutTenantInput
   metodosPago?: Prisma.MetodoPagoCreateNestedManyWithoutTenantInput
@@ -4178,7 +4245,6 @@ export type TenantCreateWithoutDireccionesInput = {
   turnos?: Prisma.TurnoCreateNestedManyWithoutTenantInput
   vehiculos?: Prisma.VehiculoCreateNestedManyWithoutTenantInput
   zonas?: Prisma.ZonaCreateNestedManyWithoutTenantInput
-  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaCreateNestedManyWithoutTenantInput
 }
 
 export type TenantUncheckedCreateWithoutDireccionesInput = {
@@ -4196,6 +4262,7 @@ export type TenantUncheckedCreateWithoutDireccionesInput = {
   auditorias?: Prisma.AuditoriaUncheckedCreateNestedManyWithoutTenantInput
   authSessions?: Prisma.AuthSessionUncheckedCreateNestedManyWithoutTenantInput
   citasPsicologos?: Prisma.CitasPsicologosUncheckedCreateNestedManyWithoutTenantInput
+  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaUncheckedCreateNestedManyWithoutTenantInput
   clientes?: Prisma.ClienteUncheckedCreateNestedManyWithoutTenantInput
   commissions?: Prisma.CommissionRecordUncheckedCreateNestedManyWithoutTenantInput
   configuracionPagos?: Prisma.ConfiguracionPagosUncheckedCreateNestedManyWithoutTenantInput
@@ -4209,6 +4276,7 @@ export type TenantUncheckedCreateWithoutDireccionesInput = {
   empresaMemberships?: Prisma.EmpresaMembershipUncheckedCreateNestedManyWithoutTenantInput
   empresas?: Prisma.EmpresaUncheckedCreateNestedManyWithoutTenantInput
   estadosServicio?: Prisma.EstadoServicioUncheckedCreateNestedManyWithoutTenantInput
+  evidenciasServicio?: Prisma.EvidenciaServicioUncheckedCreateNestedManyWithoutTenantInput
   geolocalizaciones?: Prisma.GeolocalizacionUncheckedCreateNestedManyWithoutTenantInput
   logsEvento?: Prisma.LogEventoUncheckedCreateNestedManyWithoutTenantInput
   metodosPago?: Prisma.MetodoPagoUncheckedCreateNestedManyWithoutTenantInput
@@ -4236,7 +4304,6 @@ export type TenantUncheckedCreateWithoutDireccionesInput = {
   turnos?: Prisma.TurnoUncheckedCreateNestedManyWithoutTenantInput
   vehiculos?: Prisma.VehiculoUncheckedCreateNestedManyWithoutTenantInput
   zonas?: Prisma.ZonaUncheckedCreateNestedManyWithoutTenantInput
-  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaUncheckedCreateNestedManyWithoutTenantInput
 }
 
 export type TenantCreateOrConnectWithoutDireccionesInput = {
@@ -4270,6 +4337,7 @@ export type TenantUpdateWithoutDireccionesInput = {
   auditorias?: Prisma.AuditoriaUpdateManyWithoutTenantNestedInput
   authSessions?: Prisma.AuthSessionUpdateManyWithoutTenantNestedInput
   citasPsicologos?: Prisma.CitasPsicologosUpdateManyWithoutTenantNestedInput
+  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaUpdateManyWithoutTenantNestedInput
   clientes?: Prisma.ClienteUpdateManyWithoutTenantNestedInput
   commissions?: Prisma.CommissionRecordUpdateManyWithoutTenantNestedInput
   configuracionPagos?: Prisma.ConfiguracionPagosUpdateManyWithoutTenantNestedInput
@@ -4283,6 +4351,7 @@ export type TenantUpdateWithoutDireccionesInput = {
   empresaMemberships?: Prisma.EmpresaMembershipUpdateManyWithoutTenantNestedInput
   empresas?: Prisma.EmpresaUpdateManyWithoutTenantNestedInput
   estadosServicio?: Prisma.EstadoServicioUpdateManyWithoutTenantNestedInput
+  evidenciasServicio?: Prisma.EvidenciaServicioUpdateManyWithoutTenantNestedInput
   geolocalizaciones?: Prisma.GeolocalizacionUpdateManyWithoutTenantNestedInput
   logsEvento?: Prisma.LogEventoUpdateManyWithoutTenantNestedInput
   metodosPago?: Prisma.MetodoPagoUpdateManyWithoutTenantNestedInput
@@ -4310,7 +4379,6 @@ export type TenantUpdateWithoutDireccionesInput = {
   turnos?: Prisma.TurnoUpdateManyWithoutTenantNestedInput
   vehiculos?: Prisma.VehiculoUpdateManyWithoutTenantNestedInput
   zonas?: Prisma.ZonaUpdateManyWithoutTenantNestedInput
-  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaUpdateManyWithoutTenantNestedInput
 }
 
 export type TenantUncheckedUpdateWithoutDireccionesInput = {
@@ -4328,6 +4396,7 @@ export type TenantUncheckedUpdateWithoutDireccionesInput = {
   auditorias?: Prisma.AuditoriaUncheckedUpdateManyWithoutTenantNestedInput
   authSessions?: Prisma.AuthSessionUncheckedUpdateManyWithoutTenantNestedInput
   citasPsicologos?: Prisma.CitasPsicologosUncheckedUpdateManyWithoutTenantNestedInput
+  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaUncheckedUpdateManyWithoutTenantNestedInput
   clientes?: Prisma.ClienteUncheckedUpdateManyWithoutTenantNestedInput
   commissions?: Prisma.CommissionRecordUncheckedUpdateManyWithoutTenantNestedInput
   configuracionPagos?: Prisma.ConfiguracionPagosUncheckedUpdateManyWithoutTenantNestedInput
@@ -4341,6 +4410,7 @@ export type TenantUncheckedUpdateWithoutDireccionesInput = {
   empresaMemberships?: Prisma.EmpresaMembershipUncheckedUpdateManyWithoutTenantNestedInput
   empresas?: Prisma.EmpresaUncheckedUpdateManyWithoutTenantNestedInput
   estadosServicio?: Prisma.EstadoServicioUncheckedUpdateManyWithoutTenantNestedInput
+  evidenciasServicio?: Prisma.EvidenciaServicioUncheckedUpdateManyWithoutTenantNestedInput
   geolocalizaciones?: Prisma.GeolocalizacionUncheckedUpdateManyWithoutTenantNestedInput
   logsEvento?: Prisma.LogEventoUncheckedUpdateManyWithoutTenantNestedInput
   metodosPago?: Prisma.MetodoPagoUncheckedUpdateManyWithoutTenantNestedInput
@@ -4368,7 +4438,6 @@ export type TenantUncheckedUpdateWithoutDireccionesInput = {
   turnos?: Prisma.TurnoUncheckedUpdateManyWithoutTenantNestedInput
   vehiculos?: Prisma.VehiculoUncheckedUpdateManyWithoutTenantNestedInput
   zonas?: Prisma.ZonaUncheckedUpdateManyWithoutTenantNestedInput
-  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaUncheckedUpdateManyWithoutTenantNestedInput
 }
 
 export type TenantCreateWithoutZonasInput = {
@@ -4386,6 +4455,7 @@ export type TenantCreateWithoutZonasInput = {
   auditorias?: Prisma.AuditoriaCreateNestedManyWithoutTenantInput
   authSessions?: Prisma.AuthSessionCreateNestedManyWithoutTenantInput
   citasPsicologos?: Prisma.CitasPsicologosCreateNestedManyWithoutTenantInput
+  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaCreateNestedManyWithoutTenantInput
   clientes?: Prisma.ClienteCreateNestedManyWithoutTenantInput
   commissions?: Prisma.CommissionRecordCreateNestedManyWithoutTenantInput
   configuracionPagos?: Prisma.ConfiguracionPagosCreateNestedManyWithoutTenantInput
@@ -4400,6 +4470,7 @@ export type TenantCreateWithoutZonasInput = {
   empresaMemberships?: Prisma.EmpresaMembershipCreateNestedManyWithoutTenantInput
   empresas?: Prisma.EmpresaCreateNestedManyWithoutTenantInput
   estadosServicio?: Prisma.EstadoServicioCreateNestedManyWithoutTenantInput
+  evidenciasServicio?: Prisma.EvidenciaServicioCreateNestedManyWithoutTenantInput
   geolocalizaciones?: Prisma.GeolocalizacionCreateNestedManyWithoutTenantInput
   logsEvento?: Prisma.LogEventoCreateNestedManyWithoutTenantInput
   metodosPago?: Prisma.MetodoPagoCreateNestedManyWithoutTenantInput
@@ -4426,7 +4497,6 @@ export type TenantCreateWithoutZonasInput = {
   tiposServicio?: Prisma.TipoServicioCreateNestedManyWithoutTenantInput
   turnos?: Prisma.TurnoCreateNestedManyWithoutTenantInput
   vehiculos?: Prisma.VehiculoCreateNestedManyWithoutTenantInput
-  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaCreateNestedManyWithoutTenantInput
 }
 
 export type TenantUncheckedCreateWithoutZonasInput = {
@@ -4444,6 +4514,7 @@ export type TenantUncheckedCreateWithoutZonasInput = {
   auditorias?: Prisma.AuditoriaUncheckedCreateNestedManyWithoutTenantInput
   authSessions?: Prisma.AuthSessionUncheckedCreateNestedManyWithoutTenantInput
   citasPsicologos?: Prisma.CitasPsicologosUncheckedCreateNestedManyWithoutTenantInput
+  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaUncheckedCreateNestedManyWithoutTenantInput
   clientes?: Prisma.ClienteUncheckedCreateNestedManyWithoutTenantInput
   commissions?: Prisma.CommissionRecordUncheckedCreateNestedManyWithoutTenantInput
   configuracionPagos?: Prisma.ConfiguracionPagosUncheckedCreateNestedManyWithoutTenantInput
@@ -4458,6 +4529,7 @@ export type TenantUncheckedCreateWithoutZonasInput = {
   empresaMemberships?: Prisma.EmpresaMembershipUncheckedCreateNestedManyWithoutTenantInput
   empresas?: Prisma.EmpresaUncheckedCreateNestedManyWithoutTenantInput
   estadosServicio?: Prisma.EstadoServicioUncheckedCreateNestedManyWithoutTenantInput
+  evidenciasServicio?: Prisma.EvidenciaServicioUncheckedCreateNestedManyWithoutTenantInput
   geolocalizaciones?: Prisma.GeolocalizacionUncheckedCreateNestedManyWithoutTenantInput
   logsEvento?: Prisma.LogEventoUncheckedCreateNestedManyWithoutTenantInput
   metodosPago?: Prisma.MetodoPagoUncheckedCreateNestedManyWithoutTenantInput
@@ -4484,7 +4556,6 @@ export type TenantUncheckedCreateWithoutZonasInput = {
   tiposServicio?: Prisma.TipoServicioUncheckedCreateNestedManyWithoutTenantInput
   turnos?: Prisma.TurnoUncheckedCreateNestedManyWithoutTenantInput
   vehiculos?: Prisma.VehiculoUncheckedCreateNestedManyWithoutTenantInput
-  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaUncheckedCreateNestedManyWithoutTenantInput
 }
 
 export type TenantCreateOrConnectWithoutZonasInput = {
@@ -4518,6 +4589,7 @@ export type TenantUpdateWithoutZonasInput = {
   auditorias?: Prisma.AuditoriaUpdateManyWithoutTenantNestedInput
   authSessions?: Prisma.AuthSessionUpdateManyWithoutTenantNestedInput
   citasPsicologos?: Prisma.CitasPsicologosUpdateManyWithoutTenantNestedInput
+  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaUpdateManyWithoutTenantNestedInput
   clientes?: Prisma.ClienteUpdateManyWithoutTenantNestedInput
   commissions?: Prisma.CommissionRecordUpdateManyWithoutTenantNestedInput
   configuracionPagos?: Prisma.ConfiguracionPagosUpdateManyWithoutTenantNestedInput
@@ -4532,6 +4604,7 @@ export type TenantUpdateWithoutZonasInput = {
   empresaMemberships?: Prisma.EmpresaMembershipUpdateManyWithoutTenantNestedInput
   empresas?: Prisma.EmpresaUpdateManyWithoutTenantNestedInput
   estadosServicio?: Prisma.EstadoServicioUpdateManyWithoutTenantNestedInput
+  evidenciasServicio?: Prisma.EvidenciaServicioUpdateManyWithoutTenantNestedInput
   geolocalizaciones?: Prisma.GeolocalizacionUpdateManyWithoutTenantNestedInput
   logsEvento?: Prisma.LogEventoUpdateManyWithoutTenantNestedInput
   metodosPago?: Prisma.MetodoPagoUpdateManyWithoutTenantNestedInput
@@ -4558,7 +4631,6 @@ export type TenantUpdateWithoutZonasInput = {
   tiposServicio?: Prisma.TipoServicioUpdateManyWithoutTenantNestedInput
   turnos?: Prisma.TurnoUpdateManyWithoutTenantNestedInput
   vehiculos?: Prisma.VehiculoUpdateManyWithoutTenantNestedInput
-  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaUpdateManyWithoutTenantNestedInput
 }
 
 export type TenantUncheckedUpdateWithoutZonasInput = {
@@ -4576,6 +4648,7 @@ export type TenantUncheckedUpdateWithoutZonasInput = {
   auditorias?: Prisma.AuditoriaUncheckedUpdateManyWithoutTenantNestedInput
   authSessions?: Prisma.AuthSessionUncheckedUpdateManyWithoutTenantNestedInput
   citasPsicologos?: Prisma.CitasPsicologosUncheckedUpdateManyWithoutTenantNestedInput
+  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaUncheckedUpdateManyWithoutTenantNestedInput
   clientes?: Prisma.ClienteUncheckedUpdateManyWithoutTenantNestedInput
   commissions?: Prisma.CommissionRecordUncheckedUpdateManyWithoutTenantNestedInput
   configuracionPagos?: Prisma.ConfiguracionPagosUncheckedUpdateManyWithoutTenantNestedInput
@@ -4590,6 +4663,7 @@ export type TenantUncheckedUpdateWithoutZonasInput = {
   empresaMemberships?: Prisma.EmpresaMembershipUncheckedUpdateManyWithoutTenantNestedInput
   empresas?: Prisma.EmpresaUncheckedUpdateManyWithoutTenantNestedInput
   estadosServicio?: Prisma.EstadoServicioUncheckedUpdateManyWithoutTenantNestedInput
+  evidenciasServicio?: Prisma.EvidenciaServicioUncheckedUpdateManyWithoutTenantNestedInput
   geolocalizaciones?: Prisma.GeolocalizacionUncheckedUpdateManyWithoutTenantNestedInput
   logsEvento?: Prisma.LogEventoUncheckedUpdateManyWithoutTenantNestedInput
   metodosPago?: Prisma.MetodoPagoUncheckedUpdateManyWithoutTenantNestedInput
@@ -4616,7 +4690,6 @@ export type TenantUncheckedUpdateWithoutZonasInput = {
   tiposServicio?: Prisma.TipoServicioUncheckedUpdateManyWithoutTenantNestedInput
   turnos?: Prisma.TurnoUncheckedUpdateManyWithoutTenantNestedInput
   vehiculos?: Prisma.VehiculoUncheckedUpdateManyWithoutTenantNestedInput
-  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaUncheckedUpdateManyWithoutTenantNestedInput
 }
 
 export type TenantCreateWithoutServiciosInput = {
@@ -4634,6 +4707,7 @@ export type TenantCreateWithoutServiciosInput = {
   auditorias?: Prisma.AuditoriaCreateNestedManyWithoutTenantInput
   authSessions?: Prisma.AuthSessionCreateNestedManyWithoutTenantInput
   citasPsicologos?: Prisma.CitasPsicologosCreateNestedManyWithoutTenantInput
+  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaCreateNestedManyWithoutTenantInput
   clientes?: Prisma.ClienteCreateNestedManyWithoutTenantInput
   commissions?: Prisma.CommissionRecordCreateNestedManyWithoutTenantInput
   configuracionPagos?: Prisma.ConfiguracionPagosCreateNestedManyWithoutTenantInput
@@ -4648,6 +4722,7 @@ export type TenantCreateWithoutServiciosInput = {
   empresaMemberships?: Prisma.EmpresaMembershipCreateNestedManyWithoutTenantInput
   empresas?: Prisma.EmpresaCreateNestedManyWithoutTenantInput
   estadosServicio?: Prisma.EstadoServicioCreateNestedManyWithoutTenantInput
+  evidenciasServicio?: Prisma.EvidenciaServicioCreateNestedManyWithoutTenantInput
   geolocalizaciones?: Prisma.GeolocalizacionCreateNestedManyWithoutTenantInput
   logsEvento?: Prisma.LogEventoCreateNestedManyWithoutTenantInput
   metodosPago?: Prisma.MetodoPagoCreateNestedManyWithoutTenantInput
@@ -4674,7 +4749,6 @@ export type TenantCreateWithoutServiciosInput = {
   turnos?: Prisma.TurnoCreateNestedManyWithoutTenantInput
   vehiculos?: Prisma.VehiculoCreateNestedManyWithoutTenantInput
   zonas?: Prisma.ZonaCreateNestedManyWithoutTenantInput
-  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaCreateNestedManyWithoutTenantInput
 }
 
 export type TenantUncheckedCreateWithoutServiciosInput = {
@@ -4692,6 +4766,7 @@ export type TenantUncheckedCreateWithoutServiciosInput = {
   auditorias?: Prisma.AuditoriaUncheckedCreateNestedManyWithoutTenantInput
   authSessions?: Prisma.AuthSessionUncheckedCreateNestedManyWithoutTenantInput
   citasPsicologos?: Prisma.CitasPsicologosUncheckedCreateNestedManyWithoutTenantInput
+  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaUncheckedCreateNestedManyWithoutTenantInput
   clientes?: Prisma.ClienteUncheckedCreateNestedManyWithoutTenantInput
   commissions?: Prisma.CommissionRecordUncheckedCreateNestedManyWithoutTenantInput
   configuracionPagos?: Prisma.ConfiguracionPagosUncheckedCreateNestedManyWithoutTenantInput
@@ -4706,6 +4781,7 @@ export type TenantUncheckedCreateWithoutServiciosInput = {
   empresaMemberships?: Prisma.EmpresaMembershipUncheckedCreateNestedManyWithoutTenantInput
   empresas?: Prisma.EmpresaUncheckedCreateNestedManyWithoutTenantInput
   estadosServicio?: Prisma.EstadoServicioUncheckedCreateNestedManyWithoutTenantInput
+  evidenciasServicio?: Prisma.EvidenciaServicioUncheckedCreateNestedManyWithoutTenantInput
   geolocalizaciones?: Prisma.GeolocalizacionUncheckedCreateNestedManyWithoutTenantInput
   logsEvento?: Prisma.LogEventoUncheckedCreateNestedManyWithoutTenantInput
   metodosPago?: Prisma.MetodoPagoUncheckedCreateNestedManyWithoutTenantInput
@@ -4732,7 +4808,6 @@ export type TenantUncheckedCreateWithoutServiciosInput = {
   turnos?: Prisma.TurnoUncheckedCreateNestedManyWithoutTenantInput
   vehiculos?: Prisma.VehiculoUncheckedCreateNestedManyWithoutTenantInput
   zonas?: Prisma.ZonaUncheckedCreateNestedManyWithoutTenantInput
-  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaUncheckedCreateNestedManyWithoutTenantInput
 }
 
 export type TenantCreateOrConnectWithoutServiciosInput = {
@@ -4766,6 +4841,7 @@ export type TenantUpdateWithoutServiciosInput = {
   auditorias?: Prisma.AuditoriaUpdateManyWithoutTenantNestedInput
   authSessions?: Prisma.AuthSessionUpdateManyWithoutTenantNestedInput
   citasPsicologos?: Prisma.CitasPsicologosUpdateManyWithoutTenantNestedInput
+  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaUpdateManyWithoutTenantNestedInput
   clientes?: Prisma.ClienteUpdateManyWithoutTenantNestedInput
   commissions?: Prisma.CommissionRecordUpdateManyWithoutTenantNestedInput
   configuracionPagos?: Prisma.ConfiguracionPagosUpdateManyWithoutTenantNestedInput
@@ -4780,6 +4856,7 @@ export type TenantUpdateWithoutServiciosInput = {
   empresaMemberships?: Prisma.EmpresaMembershipUpdateManyWithoutTenantNestedInput
   empresas?: Prisma.EmpresaUpdateManyWithoutTenantNestedInput
   estadosServicio?: Prisma.EstadoServicioUpdateManyWithoutTenantNestedInput
+  evidenciasServicio?: Prisma.EvidenciaServicioUpdateManyWithoutTenantNestedInput
   geolocalizaciones?: Prisma.GeolocalizacionUpdateManyWithoutTenantNestedInput
   logsEvento?: Prisma.LogEventoUpdateManyWithoutTenantNestedInput
   metodosPago?: Prisma.MetodoPagoUpdateManyWithoutTenantNestedInput
@@ -4806,7 +4883,6 @@ export type TenantUpdateWithoutServiciosInput = {
   turnos?: Prisma.TurnoUpdateManyWithoutTenantNestedInput
   vehiculos?: Prisma.VehiculoUpdateManyWithoutTenantNestedInput
   zonas?: Prisma.ZonaUpdateManyWithoutTenantNestedInput
-  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaUpdateManyWithoutTenantNestedInput
 }
 
 export type TenantUncheckedUpdateWithoutServiciosInput = {
@@ -4824,6 +4900,7 @@ export type TenantUncheckedUpdateWithoutServiciosInput = {
   auditorias?: Prisma.AuditoriaUncheckedUpdateManyWithoutTenantNestedInput
   authSessions?: Prisma.AuthSessionUncheckedUpdateManyWithoutTenantNestedInput
   citasPsicologos?: Prisma.CitasPsicologosUncheckedUpdateManyWithoutTenantNestedInput
+  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaUncheckedUpdateManyWithoutTenantNestedInput
   clientes?: Prisma.ClienteUncheckedUpdateManyWithoutTenantNestedInput
   commissions?: Prisma.CommissionRecordUncheckedUpdateManyWithoutTenantNestedInput
   configuracionPagos?: Prisma.ConfiguracionPagosUncheckedUpdateManyWithoutTenantNestedInput
@@ -4838,6 +4915,7 @@ export type TenantUncheckedUpdateWithoutServiciosInput = {
   empresaMemberships?: Prisma.EmpresaMembershipUncheckedUpdateManyWithoutTenantNestedInput
   empresas?: Prisma.EmpresaUncheckedUpdateManyWithoutTenantNestedInput
   estadosServicio?: Prisma.EstadoServicioUncheckedUpdateManyWithoutTenantNestedInput
+  evidenciasServicio?: Prisma.EvidenciaServicioUncheckedUpdateManyWithoutTenantNestedInput
   geolocalizaciones?: Prisma.GeolocalizacionUncheckedUpdateManyWithoutTenantNestedInput
   logsEvento?: Prisma.LogEventoUncheckedUpdateManyWithoutTenantNestedInput
   metodosPago?: Prisma.MetodoPagoUncheckedUpdateManyWithoutTenantNestedInput
@@ -4864,7 +4942,6 @@ export type TenantUncheckedUpdateWithoutServiciosInput = {
   turnos?: Prisma.TurnoUncheckedUpdateManyWithoutTenantNestedInput
   vehiculos?: Prisma.VehiculoUncheckedUpdateManyWithoutTenantNestedInput
   zonas?: Prisma.ZonaUncheckedUpdateManyWithoutTenantNestedInput
-  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaUncheckedUpdateManyWithoutTenantNestedInput
 }
 
 export type TenantCreateWithoutTiposServicioInput = {
@@ -4882,6 +4959,7 @@ export type TenantCreateWithoutTiposServicioInput = {
   auditorias?: Prisma.AuditoriaCreateNestedManyWithoutTenantInput
   authSessions?: Prisma.AuthSessionCreateNestedManyWithoutTenantInput
   citasPsicologos?: Prisma.CitasPsicologosCreateNestedManyWithoutTenantInput
+  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaCreateNestedManyWithoutTenantInput
   clientes?: Prisma.ClienteCreateNestedManyWithoutTenantInput
   commissions?: Prisma.CommissionRecordCreateNestedManyWithoutTenantInput
   configuracionPagos?: Prisma.ConfiguracionPagosCreateNestedManyWithoutTenantInput
@@ -4896,6 +4974,7 @@ export type TenantCreateWithoutTiposServicioInput = {
   empresaMemberships?: Prisma.EmpresaMembershipCreateNestedManyWithoutTenantInput
   empresas?: Prisma.EmpresaCreateNestedManyWithoutTenantInput
   estadosServicio?: Prisma.EstadoServicioCreateNestedManyWithoutTenantInput
+  evidenciasServicio?: Prisma.EvidenciaServicioCreateNestedManyWithoutTenantInput
   geolocalizaciones?: Prisma.GeolocalizacionCreateNestedManyWithoutTenantInput
   logsEvento?: Prisma.LogEventoCreateNestedManyWithoutTenantInput
   metodosPago?: Prisma.MetodoPagoCreateNestedManyWithoutTenantInput
@@ -4922,7 +5001,6 @@ export type TenantCreateWithoutTiposServicioInput = {
   turnos?: Prisma.TurnoCreateNestedManyWithoutTenantInput
   vehiculos?: Prisma.VehiculoCreateNestedManyWithoutTenantInput
   zonas?: Prisma.ZonaCreateNestedManyWithoutTenantInput
-  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaCreateNestedManyWithoutTenantInput
 }
 
 export type TenantUncheckedCreateWithoutTiposServicioInput = {
@@ -4940,6 +5018,7 @@ export type TenantUncheckedCreateWithoutTiposServicioInput = {
   auditorias?: Prisma.AuditoriaUncheckedCreateNestedManyWithoutTenantInput
   authSessions?: Prisma.AuthSessionUncheckedCreateNestedManyWithoutTenantInput
   citasPsicologos?: Prisma.CitasPsicologosUncheckedCreateNestedManyWithoutTenantInput
+  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaUncheckedCreateNestedManyWithoutTenantInput
   clientes?: Prisma.ClienteUncheckedCreateNestedManyWithoutTenantInput
   commissions?: Prisma.CommissionRecordUncheckedCreateNestedManyWithoutTenantInput
   configuracionPagos?: Prisma.ConfiguracionPagosUncheckedCreateNestedManyWithoutTenantInput
@@ -4954,6 +5033,7 @@ export type TenantUncheckedCreateWithoutTiposServicioInput = {
   empresaMemberships?: Prisma.EmpresaMembershipUncheckedCreateNestedManyWithoutTenantInput
   empresas?: Prisma.EmpresaUncheckedCreateNestedManyWithoutTenantInput
   estadosServicio?: Prisma.EstadoServicioUncheckedCreateNestedManyWithoutTenantInput
+  evidenciasServicio?: Prisma.EvidenciaServicioUncheckedCreateNestedManyWithoutTenantInput
   geolocalizaciones?: Prisma.GeolocalizacionUncheckedCreateNestedManyWithoutTenantInput
   logsEvento?: Prisma.LogEventoUncheckedCreateNestedManyWithoutTenantInput
   metodosPago?: Prisma.MetodoPagoUncheckedCreateNestedManyWithoutTenantInput
@@ -4980,7 +5060,6 @@ export type TenantUncheckedCreateWithoutTiposServicioInput = {
   turnos?: Prisma.TurnoUncheckedCreateNestedManyWithoutTenantInput
   vehiculos?: Prisma.VehiculoUncheckedCreateNestedManyWithoutTenantInput
   zonas?: Prisma.ZonaUncheckedCreateNestedManyWithoutTenantInput
-  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaUncheckedCreateNestedManyWithoutTenantInput
 }
 
 export type TenantCreateOrConnectWithoutTiposServicioInput = {
@@ -5014,6 +5093,7 @@ export type TenantUpdateWithoutTiposServicioInput = {
   auditorias?: Prisma.AuditoriaUpdateManyWithoutTenantNestedInput
   authSessions?: Prisma.AuthSessionUpdateManyWithoutTenantNestedInput
   citasPsicologos?: Prisma.CitasPsicologosUpdateManyWithoutTenantNestedInput
+  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaUpdateManyWithoutTenantNestedInput
   clientes?: Prisma.ClienteUpdateManyWithoutTenantNestedInput
   commissions?: Prisma.CommissionRecordUpdateManyWithoutTenantNestedInput
   configuracionPagos?: Prisma.ConfiguracionPagosUpdateManyWithoutTenantNestedInput
@@ -5028,6 +5108,7 @@ export type TenantUpdateWithoutTiposServicioInput = {
   empresaMemberships?: Prisma.EmpresaMembershipUpdateManyWithoutTenantNestedInput
   empresas?: Prisma.EmpresaUpdateManyWithoutTenantNestedInput
   estadosServicio?: Prisma.EstadoServicioUpdateManyWithoutTenantNestedInput
+  evidenciasServicio?: Prisma.EvidenciaServicioUpdateManyWithoutTenantNestedInput
   geolocalizaciones?: Prisma.GeolocalizacionUpdateManyWithoutTenantNestedInput
   logsEvento?: Prisma.LogEventoUpdateManyWithoutTenantNestedInput
   metodosPago?: Prisma.MetodoPagoUpdateManyWithoutTenantNestedInput
@@ -5054,7 +5135,6 @@ export type TenantUpdateWithoutTiposServicioInput = {
   turnos?: Prisma.TurnoUpdateManyWithoutTenantNestedInput
   vehiculos?: Prisma.VehiculoUpdateManyWithoutTenantNestedInput
   zonas?: Prisma.ZonaUpdateManyWithoutTenantNestedInput
-  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaUpdateManyWithoutTenantNestedInput
 }
 
 export type TenantUncheckedUpdateWithoutTiposServicioInput = {
@@ -5072,6 +5152,7 @@ export type TenantUncheckedUpdateWithoutTiposServicioInput = {
   auditorias?: Prisma.AuditoriaUncheckedUpdateManyWithoutTenantNestedInput
   authSessions?: Prisma.AuthSessionUncheckedUpdateManyWithoutTenantNestedInput
   citasPsicologos?: Prisma.CitasPsicologosUncheckedUpdateManyWithoutTenantNestedInput
+  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaUncheckedUpdateManyWithoutTenantNestedInput
   clientes?: Prisma.ClienteUncheckedUpdateManyWithoutTenantNestedInput
   commissions?: Prisma.CommissionRecordUncheckedUpdateManyWithoutTenantNestedInput
   configuracionPagos?: Prisma.ConfiguracionPagosUncheckedUpdateManyWithoutTenantNestedInput
@@ -5086,6 +5167,7 @@ export type TenantUncheckedUpdateWithoutTiposServicioInput = {
   empresaMemberships?: Prisma.EmpresaMembershipUncheckedUpdateManyWithoutTenantNestedInput
   empresas?: Prisma.EmpresaUncheckedUpdateManyWithoutTenantNestedInput
   estadosServicio?: Prisma.EstadoServicioUncheckedUpdateManyWithoutTenantNestedInput
+  evidenciasServicio?: Prisma.EvidenciaServicioUncheckedUpdateManyWithoutTenantNestedInput
   geolocalizaciones?: Prisma.GeolocalizacionUncheckedUpdateManyWithoutTenantNestedInput
   logsEvento?: Prisma.LogEventoUncheckedUpdateManyWithoutTenantNestedInput
   metodosPago?: Prisma.MetodoPagoUncheckedUpdateManyWithoutTenantNestedInput
@@ -5112,7 +5194,6 @@ export type TenantUncheckedUpdateWithoutTiposServicioInput = {
   turnos?: Prisma.TurnoUncheckedUpdateManyWithoutTenantNestedInput
   vehiculos?: Prisma.VehiculoUncheckedUpdateManyWithoutTenantNestedInput
   zonas?: Prisma.ZonaUncheckedUpdateManyWithoutTenantNestedInput
-  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaUncheckedUpdateManyWithoutTenantNestedInput
 }
 
 export type TenantCreateWithoutMetodosPagoInput = {
@@ -5130,6 +5211,7 @@ export type TenantCreateWithoutMetodosPagoInput = {
   auditorias?: Prisma.AuditoriaCreateNestedManyWithoutTenantInput
   authSessions?: Prisma.AuthSessionCreateNestedManyWithoutTenantInput
   citasPsicologos?: Prisma.CitasPsicologosCreateNestedManyWithoutTenantInput
+  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaCreateNestedManyWithoutTenantInput
   clientes?: Prisma.ClienteCreateNestedManyWithoutTenantInput
   commissions?: Prisma.CommissionRecordCreateNestedManyWithoutTenantInput
   configuracionPagos?: Prisma.ConfiguracionPagosCreateNestedManyWithoutTenantInput
@@ -5144,6 +5226,7 @@ export type TenantCreateWithoutMetodosPagoInput = {
   empresaMemberships?: Prisma.EmpresaMembershipCreateNestedManyWithoutTenantInput
   empresas?: Prisma.EmpresaCreateNestedManyWithoutTenantInput
   estadosServicio?: Prisma.EstadoServicioCreateNestedManyWithoutTenantInput
+  evidenciasServicio?: Prisma.EvidenciaServicioCreateNestedManyWithoutTenantInput
   geolocalizaciones?: Prisma.GeolocalizacionCreateNestedManyWithoutTenantInput
   logsEvento?: Prisma.LogEventoCreateNestedManyWithoutTenantInput
   nivelesRiesgo?: Prisma.NivelRiesgoOperativoCreateNestedManyWithoutTenantInput
@@ -5170,7 +5253,6 @@ export type TenantCreateWithoutMetodosPagoInput = {
   turnos?: Prisma.TurnoCreateNestedManyWithoutTenantInput
   vehiculos?: Prisma.VehiculoCreateNestedManyWithoutTenantInput
   zonas?: Prisma.ZonaCreateNestedManyWithoutTenantInput
-  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaCreateNestedManyWithoutTenantInput
 }
 
 export type TenantUncheckedCreateWithoutMetodosPagoInput = {
@@ -5188,6 +5270,7 @@ export type TenantUncheckedCreateWithoutMetodosPagoInput = {
   auditorias?: Prisma.AuditoriaUncheckedCreateNestedManyWithoutTenantInput
   authSessions?: Prisma.AuthSessionUncheckedCreateNestedManyWithoutTenantInput
   citasPsicologos?: Prisma.CitasPsicologosUncheckedCreateNestedManyWithoutTenantInput
+  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaUncheckedCreateNestedManyWithoutTenantInput
   clientes?: Prisma.ClienteUncheckedCreateNestedManyWithoutTenantInput
   commissions?: Prisma.CommissionRecordUncheckedCreateNestedManyWithoutTenantInput
   configuracionPagos?: Prisma.ConfiguracionPagosUncheckedCreateNestedManyWithoutTenantInput
@@ -5202,6 +5285,7 @@ export type TenantUncheckedCreateWithoutMetodosPagoInput = {
   empresaMemberships?: Prisma.EmpresaMembershipUncheckedCreateNestedManyWithoutTenantInput
   empresas?: Prisma.EmpresaUncheckedCreateNestedManyWithoutTenantInput
   estadosServicio?: Prisma.EstadoServicioUncheckedCreateNestedManyWithoutTenantInput
+  evidenciasServicio?: Prisma.EvidenciaServicioUncheckedCreateNestedManyWithoutTenantInput
   geolocalizaciones?: Prisma.GeolocalizacionUncheckedCreateNestedManyWithoutTenantInput
   logsEvento?: Prisma.LogEventoUncheckedCreateNestedManyWithoutTenantInput
   nivelesRiesgo?: Prisma.NivelRiesgoOperativoUncheckedCreateNestedManyWithoutTenantInput
@@ -5228,7 +5312,6 @@ export type TenantUncheckedCreateWithoutMetodosPagoInput = {
   turnos?: Prisma.TurnoUncheckedCreateNestedManyWithoutTenantInput
   vehiculos?: Prisma.VehiculoUncheckedCreateNestedManyWithoutTenantInput
   zonas?: Prisma.ZonaUncheckedCreateNestedManyWithoutTenantInput
-  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaUncheckedCreateNestedManyWithoutTenantInput
 }
 
 export type TenantCreateOrConnectWithoutMetodosPagoInput = {
@@ -5262,6 +5345,7 @@ export type TenantUpdateWithoutMetodosPagoInput = {
   auditorias?: Prisma.AuditoriaUpdateManyWithoutTenantNestedInput
   authSessions?: Prisma.AuthSessionUpdateManyWithoutTenantNestedInput
   citasPsicologos?: Prisma.CitasPsicologosUpdateManyWithoutTenantNestedInput
+  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaUpdateManyWithoutTenantNestedInput
   clientes?: Prisma.ClienteUpdateManyWithoutTenantNestedInput
   commissions?: Prisma.CommissionRecordUpdateManyWithoutTenantNestedInput
   configuracionPagos?: Prisma.ConfiguracionPagosUpdateManyWithoutTenantNestedInput
@@ -5276,6 +5360,7 @@ export type TenantUpdateWithoutMetodosPagoInput = {
   empresaMemberships?: Prisma.EmpresaMembershipUpdateManyWithoutTenantNestedInput
   empresas?: Prisma.EmpresaUpdateManyWithoutTenantNestedInput
   estadosServicio?: Prisma.EstadoServicioUpdateManyWithoutTenantNestedInput
+  evidenciasServicio?: Prisma.EvidenciaServicioUpdateManyWithoutTenantNestedInput
   geolocalizaciones?: Prisma.GeolocalizacionUpdateManyWithoutTenantNestedInput
   logsEvento?: Prisma.LogEventoUpdateManyWithoutTenantNestedInput
   nivelesRiesgo?: Prisma.NivelRiesgoOperativoUpdateManyWithoutTenantNestedInput
@@ -5302,7 +5387,6 @@ export type TenantUpdateWithoutMetodosPagoInput = {
   turnos?: Prisma.TurnoUpdateManyWithoutTenantNestedInput
   vehiculos?: Prisma.VehiculoUpdateManyWithoutTenantNestedInput
   zonas?: Prisma.ZonaUpdateManyWithoutTenantNestedInput
-  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaUpdateManyWithoutTenantNestedInput
 }
 
 export type TenantUncheckedUpdateWithoutMetodosPagoInput = {
@@ -5320,6 +5404,7 @@ export type TenantUncheckedUpdateWithoutMetodosPagoInput = {
   auditorias?: Prisma.AuditoriaUncheckedUpdateManyWithoutTenantNestedInput
   authSessions?: Prisma.AuthSessionUncheckedUpdateManyWithoutTenantNestedInput
   citasPsicologos?: Prisma.CitasPsicologosUncheckedUpdateManyWithoutTenantNestedInput
+  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaUncheckedUpdateManyWithoutTenantNestedInput
   clientes?: Prisma.ClienteUncheckedUpdateManyWithoutTenantNestedInput
   commissions?: Prisma.CommissionRecordUncheckedUpdateManyWithoutTenantNestedInput
   configuracionPagos?: Prisma.ConfiguracionPagosUncheckedUpdateManyWithoutTenantNestedInput
@@ -5334,6 +5419,7 @@ export type TenantUncheckedUpdateWithoutMetodosPagoInput = {
   empresaMemberships?: Prisma.EmpresaMembershipUncheckedUpdateManyWithoutTenantNestedInput
   empresas?: Prisma.EmpresaUncheckedUpdateManyWithoutTenantNestedInput
   estadosServicio?: Prisma.EstadoServicioUncheckedUpdateManyWithoutTenantNestedInput
+  evidenciasServicio?: Prisma.EvidenciaServicioUncheckedUpdateManyWithoutTenantNestedInput
   geolocalizaciones?: Prisma.GeolocalizacionUncheckedUpdateManyWithoutTenantNestedInput
   logsEvento?: Prisma.LogEventoUncheckedUpdateManyWithoutTenantNestedInput
   nivelesRiesgo?: Prisma.NivelRiesgoOperativoUncheckedUpdateManyWithoutTenantNestedInput
@@ -5360,7 +5446,6 @@ export type TenantUncheckedUpdateWithoutMetodosPagoInput = {
   turnos?: Prisma.TurnoUncheckedUpdateManyWithoutTenantNestedInput
   vehiculos?: Prisma.VehiculoUncheckedUpdateManyWithoutTenantNestedInput
   zonas?: Prisma.ZonaUncheckedUpdateManyWithoutTenantNestedInput
-  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaUncheckedUpdateManyWithoutTenantNestedInput
 }
 
 export type TenantCreateWithoutEstadosServicioInput = {
@@ -5378,6 +5463,7 @@ export type TenantCreateWithoutEstadosServicioInput = {
   auditorias?: Prisma.AuditoriaCreateNestedManyWithoutTenantInput
   authSessions?: Prisma.AuthSessionCreateNestedManyWithoutTenantInput
   citasPsicologos?: Prisma.CitasPsicologosCreateNestedManyWithoutTenantInput
+  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaCreateNestedManyWithoutTenantInput
   clientes?: Prisma.ClienteCreateNestedManyWithoutTenantInput
   commissions?: Prisma.CommissionRecordCreateNestedManyWithoutTenantInput
   configuracionPagos?: Prisma.ConfiguracionPagosCreateNestedManyWithoutTenantInput
@@ -5391,6 +5477,7 @@ export type TenantCreateWithoutEstadosServicioInput = {
   egresos?: Prisma.EgresosCreateNestedManyWithoutTenantInput
   empresaMemberships?: Prisma.EmpresaMembershipCreateNestedManyWithoutTenantInput
   empresas?: Prisma.EmpresaCreateNestedManyWithoutTenantInput
+  evidenciasServicio?: Prisma.EvidenciaServicioCreateNestedManyWithoutTenantInput
   geolocalizaciones?: Prisma.GeolocalizacionCreateNestedManyWithoutTenantInput
   logsEvento?: Prisma.LogEventoCreateNestedManyWithoutTenantInput
   metodosPago?: Prisma.MetodoPagoCreateNestedManyWithoutTenantInput
@@ -5418,7 +5505,6 @@ export type TenantCreateWithoutEstadosServicioInput = {
   turnos?: Prisma.TurnoCreateNestedManyWithoutTenantInput
   vehiculos?: Prisma.VehiculoCreateNestedManyWithoutTenantInput
   zonas?: Prisma.ZonaCreateNestedManyWithoutTenantInput
-  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaCreateNestedManyWithoutTenantInput
 }
 
 export type TenantUncheckedCreateWithoutEstadosServicioInput = {
@@ -5436,6 +5522,7 @@ export type TenantUncheckedCreateWithoutEstadosServicioInput = {
   auditorias?: Prisma.AuditoriaUncheckedCreateNestedManyWithoutTenantInput
   authSessions?: Prisma.AuthSessionUncheckedCreateNestedManyWithoutTenantInput
   citasPsicologos?: Prisma.CitasPsicologosUncheckedCreateNestedManyWithoutTenantInput
+  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaUncheckedCreateNestedManyWithoutTenantInput
   clientes?: Prisma.ClienteUncheckedCreateNestedManyWithoutTenantInput
   commissions?: Prisma.CommissionRecordUncheckedCreateNestedManyWithoutTenantInput
   configuracionPagos?: Prisma.ConfiguracionPagosUncheckedCreateNestedManyWithoutTenantInput
@@ -5449,6 +5536,7 @@ export type TenantUncheckedCreateWithoutEstadosServicioInput = {
   egresos?: Prisma.EgresosUncheckedCreateNestedManyWithoutTenantInput
   empresaMemberships?: Prisma.EmpresaMembershipUncheckedCreateNestedManyWithoutTenantInput
   empresas?: Prisma.EmpresaUncheckedCreateNestedManyWithoutTenantInput
+  evidenciasServicio?: Prisma.EvidenciaServicioUncheckedCreateNestedManyWithoutTenantInput
   geolocalizaciones?: Prisma.GeolocalizacionUncheckedCreateNestedManyWithoutTenantInput
   logsEvento?: Prisma.LogEventoUncheckedCreateNestedManyWithoutTenantInput
   metodosPago?: Prisma.MetodoPagoUncheckedCreateNestedManyWithoutTenantInput
@@ -5476,7 +5564,6 @@ export type TenantUncheckedCreateWithoutEstadosServicioInput = {
   turnos?: Prisma.TurnoUncheckedCreateNestedManyWithoutTenantInput
   vehiculos?: Prisma.VehiculoUncheckedCreateNestedManyWithoutTenantInput
   zonas?: Prisma.ZonaUncheckedCreateNestedManyWithoutTenantInput
-  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaUncheckedCreateNestedManyWithoutTenantInput
 }
 
 export type TenantCreateOrConnectWithoutEstadosServicioInput = {
@@ -5510,6 +5597,7 @@ export type TenantUpdateWithoutEstadosServicioInput = {
   auditorias?: Prisma.AuditoriaUpdateManyWithoutTenantNestedInput
   authSessions?: Prisma.AuthSessionUpdateManyWithoutTenantNestedInput
   citasPsicologos?: Prisma.CitasPsicologosUpdateManyWithoutTenantNestedInput
+  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaUpdateManyWithoutTenantNestedInput
   clientes?: Prisma.ClienteUpdateManyWithoutTenantNestedInput
   commissions?: Prisma.CommissionRecordUpdateManyWithoutTenantNestedInput
   configuracionPagos?: Prisma.ConfiguracionPagosUpdateManyWithoutTenantNestedInput
@@ -5523,6 +5611,7 @@ export type TenantUpdateWithoutEstadosServicioInput = {
   egresos?: Prisma.EgresosUpdateManyWithoutTenantNestedInput
   empresaMemberships?: Prisma.EmpresaMembershipUpdateManyWithoutTenantNestedInput
   empresas?: Prisma.EmpresaUpdateManyWithoutTenantNestedInput
+  evidenciasServicio?: Prisma.EvidenciaServicioUpdateManyWithoutTenantNestedInput
   geolocalizaciones?: Prisma.GeolocalizacionUpdateManyWithoutTenantNestedInput
   logsEvento?: Prisma.LogEventoUpdateManyWithoutTenantNestedInput
   metodosPago?: Prisma.MetodoPagoUpdateManyWithoutTenantNestedInput
@@ -5550,7 +5639,6 @@ export type TenantUpdateWithoutEstadosServicioInput = {
   turnos?: Prisma.TurnoUpdateManyWithoutTenantNestedInput
   vehiculos?: Prisma.VehiculoUpdateManyWithoutTenantNestedInput
   zonas?: Prisma.ZonaUpdateManyWithoutTenantNestedInput
-  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaUpdateManyWithoutTenantNestedInput
 }
 
 export type TenantUncheckedUpdateWithoutEstadosServicioInput = {
@@ -5568,6 +5656,7 @@ export type TenantUncheckedUpdateWithoutEstadosServicioInput = {
   auditorias?: Prisma.AuditoriaUncheckedUpdateManyWithoutTenantNestedInput
   authSessions?: Prisma.AuthSessionUncheckedUpdateManyWithoutTenantNestedInput
   citasPsicologos?: Prisma.CitasPsicologosUncheckedUpdateManyWithoutTenantNestedInput
+  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaUncheckedUpdateManyWithoutTenantNestedInput
   clientes?: Prisma.ClienteUncheckedUpdateManyWithoutTenantNestedInput
   commissions?: Prisma.CommissionRecordUncheckedUpdateManyWithoutTenantNestedInput
   configuracionPagos?: Prisma.ConfiguracionPagosUncheckedUpdateManyWithoutTenantNestedInput
@@ -5581,6 +5670,7 @@ export type TenantUncheckedUpdateWithoutEstadosServicioInput = {
   egresos?: Prisma.EgresosUncheckedUpdateManyWithoutTenantNestedInput
   empresaMemberships?: Prisma.EmpresaMembershipUncheckedUpdateManyWithoutTenantNestedInput
   empresas?: Prisma.EmpresaUncheckedUpdateManyWithoutTenantNestedInput
+  evidenciasServicio?: Prisma.EvidenciaServicioUncheckedUpdateManyWithoutTenantNestedInput
   geolocalizaciones?: Prisma.GeolocalizacionUncheckedUpdateManyWithoutTenantNestedInput
   logsEvento?: Prisma.LogEventoUncheckedUpdateManyWithoutTenantNestedInput
   metodosPago?: Prisma.MetodoPagoUncheckedUpdateManyWithoutTenantNestedInput
@@ -5608,7 +5698,6 @@ export type TenantUncheckedUpdateWithoutEstadosServicioInput = {
   turnos?: Prisma.TurnoUncheckedUpdateManyWithoutTenantNestedInput
   vehiculos?: Prisma.VehiculoUncheckedUpdateManyWithoutTenantNestedInput
   zonas?: Prisma.ZonaUncheckedUpdateManyWithoutTenantNestedInput
-  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaUncheckedUpdateManyWithoutTenantNestedInput
 }
 
 export type TenantCreateWithoutOrdenesServicioInput = {
@@ -5626,6 +5715,7 @@ export type TenantCreateWithoutOrdenesServicioInput = {
   auditorias?: Prisma.AuditoriaCreateNestedManyWithoutTenantInput
   authSessions?: Prisma.AuthSessionCreateNestedManyWithoutTenantInput
   citasPsicologos?: Prisma.CitasPsicologosCreateNestedManyWithoutTenantInput
+  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaCreateNestedManyWithoutTenantInput
   clientes?: Prisma.ClienteCreateNestedManyWithoutTenantInput
   commissions?: Prisma.CommissionRecordCreateNestedManyWithoutTenantInput
   configuracionPagos?: Prisma.ConfiguracionPagosCreateNestedManyWithoutTenantInput
@@ -5640,6 +5730,7 @@ export type TenantCreateWithoutOrdenesServicioInput = {
   empresaMemberships?: Prisma.EmpresaMembershipCreateNestedManyWithoutTenantInput
   empresas?: Prisma.EmpresaCreateNestedManyWithoutTenantInput
   estadosServicio?: Prisma.EstadoServicioCreateNestedManyWithoutTenantInput
+  evidenciasServicio?: Prisma.EvidenciaServicioCreateNestedManyWithoutTenantInput
   geolocalizaciones?: Prisma.GeolocalizacionCreateNestedManyWithoutTenantInput
   logsEvento?: Prisma.LogEventoCreateNestedManyWithoutTenantInput
   metodosPago?: Prisma.MetodoPagoCreateNestedManyWithoutTenantInput
@@ -5666,7 +5757,6 @@ export type TenantCreateWithoutOrdenesServicioInput = {
   turnos?: Prisma.TurnoCreateNestedManyWithoutTenantInput
   vehiculos?: Prisma.VehiculoCreateNestedManyWithoutTenantInput
   zonas?: Prisma.ZonaCreateNestedManyWithoutTenantInput
-  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaCreateNestedManyWithoutTenantInput
 }
 
 export type TenantUncheckedCreateWithoutOrdenesServicioInput = {
@@ -5684,6 +5774,7 @@ export type TenantUncheckedCreateWithoutOrdenesServicioInput = {
   auditorias?: Prisma.AuditoriaUncheckedCreateNestedManyWithoutTenantInput
   authSessions?: Prisma.AuthSessionUncheckedCreateNestedManyWithoutTenantInput
   citasPsicologos?: Prisma.CitasPsicologosUncheckedCreateNestedManyWithoutTenantInput
+  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaUncheckedCreateNestedManyWithoutTenantInput
   clientes?: Prisma.ClienteUncheckedCreateNestedManyWithoutTenantInput
   commissions?: Prisma.CommissionRecordUncheckedCreateNestedManyWithoutTenantInput
   configuracionPagos?: Prisma.ConfiguracionPagosUncheckedCreateNestedManyWithoutTenantInput
@@ -5698,6 +5789,7 @@ export type TenantUncheckedCreateWithoutOrdenesServicioInput = {
   empresaMemberships?: Prisma.EmpresaMembershipUncheckedCreateNestedManyWithoutTenantInput
   empresas?: Prisma.EmpresaUncheckedCreateNestedManyWithoutTenantInput
   estadosServicio?: Prisma.EstadoServicioUncheckedCreateNestedManyWithoutTenantInput
+  evidenciasServicio?: Prisma.EvidenciaServicioUncheckedCreateNestedManyWithoutTenantInput
   geolocalizaciones?: Prisma.GeolocalizacionUncheckedCreateNestedManyWithoutTenantInput
   logsEvento?: Prisma.LogEventoUncheckedCreateNestedManyWithoutTenantInput
   metodosPago?: Prisma.MetodoPagoUncheckedCreateNestedManyWithoutTenantInput
@@ -5724,7 +5816,6 @@ export type TenantUncheckedCreateWithoutOrdenesServicioInput = {
   turnos?: Prisma.TurnoUncheckedCreateNestedManyWithoutTenantInput
   vehiculos?: Prisma.VehiculoUncheckedCreateNestedManyWithoutTenantInput
   zonas?: Prisma.ZonaUncheckedCreateNestedManyWithoutTenantInput
-  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaUncheckedCreateNestedManyWithoutTenantInput
 }
 
 export type TenantCreateOrConnectWithoutOrdenesServicioInput = {
@@ -5758,6 +5849,7 @@ export type TenantUpdateWithoutOrdenesServicioInput = {
   auditorias?: Prisma.AuditoriaUpdateManyWithoutTenantNestedInput
   authSessions?: Prisma.AuthSessionUpdateManyWithoutTenantNestedInput
   citasPsicologos?: Prisma.CitasPsicologosUpdateManyWithoutTenantNestedInput
+  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaUpdateManyWithoutTenantNestedInput
   clientes?: Prisma.ClienteUpdateManyWithoutTenantNestedInput
   commissions?: Prisma.CommissionRecordUpdateManyWithoutTenantNestedInput
   configuracionPagos?: Prisma.ConfiguracionPagosUpdateManyWithoutTenantNestedInput
@@ -5772,6 +5864,7 @@ export type TenantUpdateWithoutOrdenesServicioInput = {
   empresaMemberships?: Prisma.EmpresaMembershipUpdateManyWithoutTenantNestedInput
   empresas?: Prisma.EmpresaUpdateManyWithoutTenantNestedInput
   estadosServicio?: Prisma.EstadoServicioUpdateManyWithoutTenantNestedInput
+  evidenciasServicio?: Prisma.EvidenciaServicioUpdateManyWithoutTenantNestedInput
   geolocalizaciones?: Prisma.GeolocalizacionUpdateManyWithoutTenantNestedInput
   logsEvento?: Prisma.LogEventoUpdateManyWithoutTenantNestedInput
   metodosPago?: Prisma.MetodoPagoUpdateManyWithoutTenantNestedInput
@@ -5798,7 +5891,6 @@ export type TenantUpdateWithoutOrdenesServicioInput = {
   turnos?: Prisma.TurnoUpdateManyWithoutTenantNestedInput
   vehiculos?: Prisma.VehiculoUpdateManyWithoutTenantNestedInput
   zonas?: Prisma.ZonaUpdateManyWithoutTenantNestedInput
-  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaUpdateManyWithoutTenantNestedInput
 }
 
 export type TenantUncheckedUpdateWithoutOrdenesServicioInput = {
@@ -5816,6 +5908,7 @@ export type TenantUncheckedUpdateWithoutOrdenesServicioInput = {
   auditorias?: Prisma.AuditoriaUncheckedUpdateManyWithoutTenantNestedInput
   authSessions?: Prisma.AuthSessionUncheckedUpdateManyWithoutTenantNestedInput
   citasPsicologos?: Prisma.CitasPsicologosUncheckedUpdateManyWithoutTenantNestedInput
+  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaUncheckedUpdateManyWithoutTenantNestedInput
   clientes?: Prisma.ClienteUncheckedUpdateManyWithoutTenantNestedInput
   commissions?: Prisma.CommissionRecordUncheckedUpdateManyWithoutTenantNestedInput
   configuracionPagos?: Prisma.ConfiguracionPagosUncheckedUpdateManyWithoutTenantNestedInput
@@ -5830,6 +5923,7 @@ export type TenantUncheckedUpdateWithoutOrdenesServicioInput = {
   empresaMemberships?: Prisma.EmpresaMembershipUncheckedUpdateManyWithoutTenantNestedInput
   empresas?: Prisma.EmpresaUncheckedUpdateManyWithoutTenantNestedInput
   estadosServicio?: Prisma.EstadoServicioUncheckedUpdateManyWithoutTenantNestedInput
+  evidenciasServicio?: Prisma.EvidenciaServicioUncheckedUpdateManyWithoutTenantNestedInput
   geolocalizaciones?: Prisma.GeolocalizacionUncheckedUpdateManyWithoutTenantNestedInput
   logsEvento?: Prisma.LogEventoUncheckedUpdateManyWithoutTenantNestedInput
   metodosPago?: Prisma.MetodoPagoUncheckedUpdateManyWithoutTenantNestedInput
@@ -5856,7 +5950,6 @@ export type TenantUncheckedUpdateWithoutOrdenesServicioInput = {
   turnos?: Prisma.TurnoUncheckedUpdateManyWithoutTenantNestedInput
   vehiculos?: Prisma.VehiculoUncheckedUpdateManyWithoutTenantNestedInput
   zonas?: Prisma.ZonaUncheckedUpdateManyWithoutTenantNestedInput
-  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaUncheckedUpdateManyWithoutTenantNestedInput
 }
 
 export type TenantCreateWithoutGeolocalizacionesInput = {
@@ -5874,6 +5967,7 @@ export type TenantCreateWithoutGeolocalizacionesInput = {
   auditorias?: Prisma.AuditoriaCreateNestedManyWithoutTenantInput
   authSessions?: Prisma.AuthSessionCreateNestedManyWithoutTenantInput
   citasPsicologos?: Prisma.CitasPsicologosCreateNestedManyWithoutTenantInput
+  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaCreateNestedManyWithoutTenantInput
   clientes?: Prisma.ClienteCreateNestedManyWithoutTenantInput
   commissions?: Prisma.CommissionRecordCreateNestedManyWithoutTenantInput
   configuracionPagos?: Prisma.ConfiguracionPagosCreateNestedManyWithoutTenantInput
@@ -5888,6 +5982,7 @@ export type TenantCreateWithoutGeolocalizacionesInput = {
   empresaMemberships?: Prisma.EmpresaMembershipCreateNestedManyWithoutTenantInput
   empresas?: Prisma.EmpresaCreateNestedManyWithoutTenantInput
   estadosServicio?: Prisma.EstadoServicioCreateNestedManyWithoutTenantInput
+  evidenciasServicio?: Prisma.EvidenciaServicioCreateNestedManyWithoutTenantInput
   logsEvento?: Prisma.LogEventoCreateNestedManyWithoutTenantInput
   metodosPago?: Prisma.MetodoPagoCreateNestedManyWithoutTenantInput
   nivelesRiesgo?: Prisma.NivelRiesgoOperativoCreateNestedManyWithoutTenantInput
@@ -5914,7 +6009,6 @@ export type TenantCreateWithoutGeolocalizacionesInput = {
   turnos?: Prisma.TurnoCreateNestedManyWithoutTenantInput
   vehiculos?: Prisma.VehiculoCreateNestedManyWithoutTenantInput
   zonas?: Prisma.ZonaCreateNestedManyWithoutTenantInput
-  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaCreateNestedManyWithoutTenantInput
 }
 
 export type TenantUncheckedCreateWithoutGeolocalizacionesInput = {
@@ -5932,6 +6026,7 @@ export type TenantUncheckedCreateWithoutGeolocalizacionesInput = {
   auditorias?: Prisma.AuditoriaUncheckedCreateNestedManyWithoutTenantInput
   authSessions?: Prisma.AuthSessionUncheckedCreateNestedManyWithoutTenantInput
   citasPsicologos?: Prisma.CitasPsicologosUncheckedCreateNestedManyWithoutTenantInput
+  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaUncheckedCreateNestedManyWithoutTenantInput
   clientes?: Prisma.ClienteUncheckedCreateNestedManyWithoutTenantInput
   commissions?: Prisma.CommissionRecordUncheckedCreateNestedManyWithoutTenantInput
   configuracionPagos?: Prisma.ConfiguracionPagosUncheckedCreateNestedManyWithoutTenantInput
@@ -5946,6 +6041,7 @@ export type TenantUncheckedCreateWithoutGeolocalizacionesInput = {
   empresaMemberships?: Prisma.EmpresaMembershipUncheckedCreateNestedManyWithoutTenantInput
   empresas?: Prisma.EmpresaUncheckedCreateNestedManyWithoutTenantInput
   estadosServicio?: Prisma.EstadoServicioUncheckedCreateNestedManyWithoutTenantInput
+  evidenciasServicio?: Prisma.EvidenciaServicioUncheckedCreateNestedManyWithoutTenantInput
   logsEvento?: Prisma.LogEventoUncheckedCreateNestedManyWithoutTenantInput
   metodosPago?: Prisma.MetodoPagoUncheckedCreateNestedManyWithoutTenantInput
   nivelesRiesgo?: Prisma.NivelRiesgoOperativoUncheckedCreateNestedManyWithoutTenantInput
@@ -5972,7 +6068,6 @@ export type TenantUncheckedCreateWithoutGeolocalizacionesInput = {
   turnos?: Prisma.TurnoUncheckedCreateNestedManyWithoutTenantInput
   vehiculos?: Prisma.VehiculoUncheckedCreateNestedManyWithoutTenantInput
   zonas?: Prisma.ZonaUncheckedCreateNestedManyWithoutTenantInput
-  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaUncheckedCreateNestedManyWithoutTenantInput
 }
 
 export type TenantCreateOrConnectWithoutGeolocalizacionesInput = {
@@ -6006,6 +6101,7 @@ export type TenantUpdateWithoutGeolocalizacionesInput = {
   auditorias?: Prisma.AuditoriaUpdateManyWithoutTenantNestedInput
   authSessions?: Prisma.AuthSessionUpdateManyWithoutTenantNestedInput
   citasPsicologos?: Prisma.CitasPsicologosUpdateManyWithoutTenantNestedInput
+  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaUpdateManyWithoutTenantNestedInput
   clientes?: Prisma.ClienteUpdateManyWithoutTenantNestedInput
   commissions?: Prisma.CommissionRecordUpdateManyWithoutTenantNestedInput
   configuracionPagos?: Prisma.ConfiguracionPagosUpdateManyWithoutTenantNestedInput
@@ -6020,6 +6116,7 @@ export type TenantUpdateWithoutGeolocalizacionesInput = {
   empresaMemberships?: Prisma.EmpresaMembershipUpdateManyWithoutTenantNestedInput
   empresas?: Prisma.EmpresaUpdateManyWithoutTenantNestedInput
   estadosServicio?: Prisma.EstadoServicioUpdateManyWithoutTenantNestedInput
+  evidenciasServicio?: Prisma.EvidenciaServicioUpdateManyWithoutTenantNestedInput
   logsEvento?: Prisma.LogEventoUpdateManyWithoutTenantNestedInput
   metodosPago?: Prisma.MetodoPagoUpdateManyWithoutTenantNestedInput
   nivelesRiesgo?: Prisma.NivelRiesgoOperativoUpdateManyWithoutTenantNestedInput
@@ -6046,7 +6143,6 @@ export type TenantUpdateWithoutGeolocalizacionesInput = {
   turnos?: Prisma.TurnoUpdateManyWithoutTenantNestedInput
   vehiculos?: Prisma.VehiculoUpdateManyWithoutTenantNestedInput
   zonas?: Prisma.ZonaUpdateManyWithoutTenantNestedInput
-  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaUpdateManyWithoutTenantNestedInput
 }
 
 export type TenantUncheckedUpdateWithoutGeolocalizacionesInput = {
@@ -6064,6 +6160,7 @@ export type TenantUncheckedUpdateWithoutGeolocalizacionesInput = {
   auditorias?: Prisma.AuditoriaUncheckedUpdateManyWithoutTenantNestedInput
   authSessions?: Prisma.AuthSessionUncheckedUpdateManyWithoutTenantNestedInput
   citasPsicologos?: Prisma.CitasPsicologosUncheckedUpdateManyWithoutTenantNestedInput
+  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaUncheckedUpdateManyWithoutTenantNestedInput
   clientes?: Prisma.ClienteUncheckedUpdateManyWithoutTenantNestedInput
   commissions?: Prisma.CommissionRecordUncheckedUpdateManyWithoutTenantNestedInput
   configuracionPagos?: Prisma.ConfiguracionPagosUncheckedUpdateManyWithoutTenantNestedInput
@@ -6078,6 +6175,7 @@ export type TenantUncheckedUpdateWithoutGeolocalizacionesInput = {
   empresaMemberships?: Prisma.EmpresaMembershipUncheckedUpdateManyWithoutTenantNestedInput
   empresas?: Prisma.EmpresaUncheckedUpdateManyWithoutTenantNestedInput
   estadosServicio?: Prisma.EstadoServicioUncheckedUpdateManyWithoutTenantNestedInput
+  evidenciasServicio?: Prisma.EvidenciaServicioUncheckedUpdateManyWithoutTenantNestedInput
   logsEvento?: Prisma.LogEventoUncheckedUpdateManyWithoutTenantNestedInput
   metodosPago?: Prisma.MetodoPagoUncheckedUpdateManyWithoutTenantNestedInput
   nivelesRiesgo?: Prisma.NivelRiesgoOperativoUncheckedUpdateManyWithoutTenantNestedInput
@@ -6104,7 +6202,6 @@ export type TenantUncheckedUpdateWithoutGeolocalizacionesInput = {
   turnos?: Prisma.TurnoUncheckedUpdateManyWithoutTenantNestedInput
   vehiculos?: Prisma.VehiculoUncheckedUpdateManyWithoutTenantNestedInput
   zonas?: Prisma.ZonaUncheckedUpdateManyWithoutTenantNestedInput
-  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaUncheckedUpdateManyWithoutTenantNestedInput
 }
 
 export type TenantCreateWithoutNominasInput = {
@@ -6122,6 +6219,7 @@ export type TenantCreateWithoutNominasInput = {
   auditorias?: Prisma.AuditoriaCreateNestedManyWithoutTenantInput
   authSessions?: Prisma.AuthSessionCreateNestedManyWithoutTenantInput
   citasPsicologos?: Prisma.CitasPsicologosCreateNestedManyWithoutTenantInput
+  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaCreateNestedManyWithoutTenantInput
   clientes?: Prisma.ClienteCreateNestedManyWithoutTenantInput
   commissions?: Prisma.CommissionRecordCreateNestedManyWithoutTenantInput
   configuracionPagos?: Prisma.ConfiguracionPagosCreateNestedManyWithoutTenantInput
@@ -6136,6 +6234,7 @@ export type TenantCreateWithoutNominasInput = {
   empresaMemberships?: Prisma.EmpresaMembershipCreateNestedManyWithoutTenantInput
   empresas?: Prisma.EmpresaCreateNestedManyWithoutTenantInput
   estadosServicio?: Prisma.EstadoServicioCreateNestedManyWithoutTenantInput
+  evidenciasServicio?: Prisma.EvidenciaServicioCreateNestedManyWithoutTenantInput
   geolocalizaciones?: Prisma.GeolocalizacionCreateNestedManyWithoutTenantInput
   logsEvento?: Prisma.LogEventoCreateNestedManyWithoutTenantInput
   metodosPago?: Prisma.MetodoPagoCreateNestedManyWithoutTenantInput
@@ -6162,7 +6261,6 @@ export type TenantCreateWithoutNominasInput = {
   turnos?: Prisma.TurnoCreateNestedManyWithoutTenantInput
   vehiculos?: Prisma.VehiculoCreateNestedManyWithoutTenantInput
   zonas?: Prisma.ZonaCreateNestedManyWithoutTenantInput
-  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaCreateNestedManyWithoutTenantInput
 }
 
 export type TenantUncheckedCreateWithoutNominasInput = {
@@ -6180,6 +6278,7 @@ export type TenantUncheckedCreateWithoutNominasInput = {
   auditorias?: Prisma.AuditoriaUncheckedCreateNestedManyWithoutTenantInput
   authSessions?: Prisma.AuthSessionUncheckedCreateNestedManyWithoutTenantInput
   citasPsicologos?: Prisma.CitasPsicologosUncheckedCreateNestedManyWithoutTenantInput
+  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaUncheckedCreateNestedManyWithoutTenantInput
   clientes?: Prisma.ClienteUncheckedCreateNestedManyWithoutTenantInput
   commissions?: Prisma.CommissionRecordUncheckedCreateNestedManyWithoutTenantInput
   configuracionPagos?: Prisma.ConfiguracionPagosUncheckedCreateNestedManyWithoutTenantInput
@@ -6194,6 +6293,7 @@ export type TenantUncheckedCreateWithoutNominasInput = {
   empresaMemberships?: Prisma.EmpresaMembershipUncheckedCreateNestedManyWithoutTenantInput
   empresas?: Prisma.EmpresaUncheckedCreateNestedManyWithoutTenantInput
   estadosServicio?: Prisma.EstadoServicioUncheckedCreateNestedManyWithoutTenantInput
+  evidenciasServicio?: Prisma.EvidenciaServicioUncheckedCreateNestedManyWithoutTenantInput
   geolocalizaciones?: Prisma.GeolocalizacionUncheckedCreateNestedManyWithoutTenantInput
   logsEvento?: Prisma.LogEventoUncheckedCreateNestedManyWithoutTenantInput
   metodosPago?: Prisma.MetodoPagoUncheckedCreateNestedManyWithoutTenantInput
@@ -6220,7 +6320,6 @@ export type TenantUncheckedCreateWithoutNominasInput = {
   turnos?: Prisma.TurnoUncheckedCreateNestedManyWithoutTenantInput
   vehiculos?: Prisma.VehiculoUncheckedCreateNestedManyWithoutTenantInput
   zonas?: Prisma.ZonaUncheckedCreateNestedManyWithoutTenantInput
-  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaUncheckedCreateNestedManyWithoutTenantInput
 }
 
 export type TenantCreateOrConnectWithoutNominasInput = {
@@ -6254,6 +6353,7 @@ export type TenantUpdateWithoutNominasInput = {
   auditorias?: Prisma.AuditoriaUpdateManyWithoutTenantNestedInput
   authSessions?: Prisma.AuthSessionUpdateManyWithoutTenantNestedInput
   citasPsicologos?: Prisma.CitasPsicologosUpdateManyWithoutTenantNestedInput
+  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaUpdateManyWithoutTenantNestedInput
   clientes?: Prisma.ClienteUpdateManyWithoutTenantNestedInput
   commissions?: Prisma.CommissionRecordUpdateManyWithoutTenantNestedInput
   configuracionPagos?: Prisma.ConfiguracionPagosUpdateManyWithoutTenantNestedInput
@@ -6268,6 +6368,7 @@ export type TenantUpdateWithoutNominasInput = {
   empresaMemberships?: Prisma.EmpresaMembershipUpdateManyWithoutTenantNestedInput
   empresas?: Prisma.EmpresaUpdateManyWithoutTenantNestedInput
   estadosServicio?: Prisma.EstadoServicioUpdateManyWithoutTenantNestedInput
+  evidenciasServicio?: Prisma.EvidenciaServicioUpdateManyWithoutTenantNestedInput
   geolocalizaciones?: Prisma.GeolocalizacionUpdateManyWithoutTenantNestedInput
   logsEvento?: Prisma.LogEventoUpdateManyWithoutTenantNestedInput
   metodosPago?: Prisma.MetodoPagoUpdateManyWithoutTenantNestedInput
@@ -6294,7 +6395,6 @@ export type TenantUpdateWithoutNominasInput = {
   turnos?: Prisma.TurnoUpdateManyWithoutTenantNestedInput
   vehiculos?: Prisma.VehiculoUpdateManyWithoutTenantNestedInput
   zonas?: Prisma.ZonaUpdateManyWithoutTenantNestedInput
-  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaUpdateManyWithoutTenantNestedInput
 }
 
 export type TenantUncheckedUpdateWithoutNominasInput = {
@@ -6312,6 +6412,7 @@ export type TenantUncheckedUpdateWithoutNominasInput = {
   auditorias?: Prisma.AuditoriaUncheckedUpdateManyWithoutTenantNestedInput
   authSessions?: Prisma.AuthSessionUncheckedUpdateManyWithoutTenantNestedInput
   citasPsicologos?: Prisma.CitasPsicologosUncheckedUpdateManyWithoutTenantNestedInput
+  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaUncheckedUpdateManyWithoutTenantNestedInput
   clientes?: Prisma.ClienteUncheckedUpdateManyWithoutTenantNestedInput
   commissions?: Prisma.CommissionRecordUncheckedUpdateManyWithoutTenantNestedInput
   configuracionPagos?: Prisma.ConfiguracionPagosUncheckedUpdateManyWithoutTenantNestedInput
@@ -6326,6 +6427,7 @@ export type TenantUncheckedUpdateWithoutNominasInput = {
   empresaMemberships?: Prisma.EmpresaMembershipUncheckedUpdateManyWithoutTenantNestedInput
   empresas?: Prisma.EmpresaUncheckedUpdateManyWithoutTenantNestedInput
   estadosServicio?: Prisma.EstadoServicioUncheckedUpdateManyWithoutTenantNestedInput
+  evidenciasServicio?: Prisma.EvidenciaServicioUncheckedUpdateManyWithoutTenantNestedInput
   geolocalizaciones?: Prisma.GeolocalizacionUncheckedUpdateManyWithoutTenantNestedInput
   logsEvento?: Prisma.LogEventoUncheckedUpdateManyWithoutTenantNestedInput
   metodosPago?: Prisma.MetodoPagoUncheckedUpdateManyWithoutTenantNestedInput
@@ -6352,7 +6454,6 @@ export type TenantUncheckedUpdateWithoutNominasInput = {
   turnos?: Prisma.TurnoUncheckedUpdateManyWithoutTenantNestedInput
   vehiculos?: Prisma.VehiculoUncheckedUpdateManyWithoutTenantNestedInput
   zonas?: Prisma.ZonaUncheckedUpdateManyWithoutTenantNestedInput
-  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaUncheckedUpdateManyWithoutTenantNestedInput
 }
 
 export type TenantCreateWithoutNominaDetallesInput = {
@@ -6370,6 +6471,7 @@ export type TenantCreateWithoutNominaDetallesInput = {
   auditorias?: Prisma.AuditoriaCreateNestedManyWithoutTenantInput
   authSessions?: Prisma.AuthSessionCreateNestedManyWithoutTenantInput
   citasPsicologos?: Prisma.CitasPsicologosCreateNestedManyWithoutTenantInput
+  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaCreateNestedManyWithoutTenantInput
   clientes?: Prisma.ClienteCreateNestedManyWithoutTenantInput
   commissions?: Prisma.CommissionRecordCreateNestedManyWithoutTenantInput
   configuracionPagos?: Prisma.ConfiguracionPagosCreateNestedManyWithoutTenantInput
@@ -6384,6 +6486,7 @@ export type TenantCreateWithoutNominaDetallesInput = {
   empresaMemberships?: Prisma.EmpresaMembershipCreateNestedManyWithoutTenantInput
   empresas?: Prisma.EmpresaCreateNestedManyWithoutTenantInput
   estadosServicio?: Prisma.EstadoServicioCreateNestedManyWithoutTenantInput
+  evidenciasServicio?: Prisma.EvidenciaServicioCreateNestedManyWithoutTenantInput
   geolocalizaciones?: Prisma.GeolocalizacionCreateNestedManyWithoutTenantInput
   logsEvento?: Prisma.LogEventoCreateNestedManyWithoutTenantInput
   metodosPago?: Prisma.MetodoPagoCreateNestedManyWithoutTenantInput
@@ -6410,7 +6513,6 @@ export type TenantCreateWithoutNominaDetallesInput = {
   turnos?: Prisma.TurnoCreateNestedManyWithoutTenantInput
   vehiculos?: Prisma.VehiculoCreateNestedManyWithoutTenantInput
   zonas?: Prisma.ZonaCreateNestedManyWithoutTenantInput
-  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaCreateNestedManyWithoutTenantInput
 }
 
 export type TenantUncheckedCreateWithoutNominaDetallesInput = {
@@ -6428,6 +6530,7 @@ export type TenantUncheckedCreateWithoutNominaDetallesInput = {
   auditorias?: Prisma.AuditoriaUncheckedCreateNestedManyWithoutTenantInput
   authSessions?: Prisma.AuthSessionUncheckedCreateNestedManyWithoutTenantInput
   citasPsicologos?: Prisma.CitasPsicologosUncheckedCreateNestedManyWithoutTenantInput
+  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaUncheckedCreateNestedManyWithoutTenantInput
   clientes?: Prisma.ClienteUncheckedCreateNestedManyWithoutTenantInput
   commissions?: Prisma.CommissionRecordUncheckedCreateNestedManyWithoutTenantInput
   configuracionPagos?: Prisma.ConfiguracionPagosUncheckedCreateNestedManyWithoutTenantInput
@@ -6442,6 +6545,7 @@ export type TenantUncheckedCreateWithoutNominaDetallesInput = {
   empresaMemberships?: Prisma.EmpresaMembershipUncheckedCreateNestedManyWithoutTenantInput
   empresas?: Prisma.EmpresaUncheckedCreateNestedManyWithoutTenantInput
   estadosServicio?: Prisma.EstadoServicioUncheckedCreateNestedManyWithoutTenantInput
+  evidenciasServicio?: Prisma.EvidenciaServicioUncheckedCreateNestedManyWithoutTenantInput
   geolocalizaciones?: Prisma.GeolocalizacionUncheckedCreateNestedManyWithoutTenantInput
   logsEvento?: Prisma.LogEventoUncheckedCreateNestedManyWithoutTenantInput
   metodosPago?: Prisma.MetodoPagoUncheckedCreateNestedManyWithoutTenantInput
@@ -6468,7 +6572,6 @@ export type TenantUncheckedCreateWithoutNominaDetallesInput = {
   turnos?: Prisma.TurnoUncheckedCreateNestedManyWithoutTenantInput
   vehiculos?: Prisma.VehiculoUncheckedCreateNestedManyWithoutTenantInput
   zonas?: Prisma.ZonaUncheckedCreateNestedManyWithoutTenantInput
-  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaUncheckedCreateNestedManyWithoutTenantInput
 }
 
 export type TenantCreateOrConnectWithoutNominaDetallesInput = {
@@ -6502,6 +6605,7 @@ export type TenantUpdateWithoutNominaDetallesInput = {
   auditorias?: Prisma.AuditoriaUpdateManyWithoutTenantNestedInput
   authSessions?: Prisma.AuthSessionUpdateManyWithoutTenantNestedInput
   citasPsicologos?: Prisma.CitasPsicologosUpdateManyWithoutTenantNestedInput
+  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaUpdateManyWithoutTenantNestedInput
   clientes?: Prisma.ClienteUpdateManyWithoutTenantNestedInput
   commissions?: Prisma.CommissionRecordUpdateManyWithoutTenantNestedInput
   configuracionPagos?: Prisma.ConfiguracionPagosUpdateManyWithoutTenantNestedInput
@@ -6516,6 +6620,7 @@ export type TenantUpdateWithoutNominaDetallesInput = {
   empresaMemberships?: Prisma.EmpresaMembershipUpdateManyWithoutTenantNestedInput
   empresas?: Prisma.EmpresaUpdateManyWithoutTenantNestedInput
   estadosServicio?: Prisma.EstadoServicioUpdateManyWithoutTenantNestedInput
+  evidenciasServicio?: Prisma.EvidenciaServicioUpdateManyWithoutTenantNestedInput
   geolocalizaciones?: Prisma.GeolocalizacionUpdateManyWithoutTenantNestedInput
   logsEvento?: Prisma.LogEventoUpdateManyWithoutTenantNestedInput
   metodosPago?: Prisma.MetodoPagoUpdateManyWithoutTenantNestedInput
@@ -6542,7 +6647,6 @@ export type TenantUpdateWithoutNominaDetallesInput = {
   turnos?: Prisma.TurnoUpdateManyWithoutTenantNestedInput
   vehiculos?: Prisma.VehiculoUpdateManyWithoutTenantNestedInput
   zonas?: Prisma.ZonaUpdateManyWithoutTenantNestedInput
-  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaUpdateManyWithoutTenantNestedInput
 }
 
 export type TenantUncheckedUpdateWithoutNominaDetallesInput = {
@@ -6560,6 +6664,7 @@ export type TenantUncheckedUpdateWithoutNominaDetallesInput = {
   auditorias?: Prisma.AuditoriaUncheckedUpdateManyWithoutTenantNestedInput
   authSessions?: Prisma.AuthSessionUncheckedUpdateManyWithoutTenantNestedInput
   citasPsicologos?: Prisma.CitasPsicologosUncheckedUpdateManyWithoutTenantNestedInput
+  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaUncheckedUpdateManyWithoutTenantNestedInput
   clientes?: Prisma.ClienteUncheckedUpdateManyWithoutTenantNestedInput
   commissions?: Prisma.CommissionRecordUncheckedUpdateManyWithoutTenantNestedInput
   configuracionPagos?: Prisma.ConfiguracionPagosUncheckedUpdateManyWithoutTenantNestedInput
@@ -6574,6 +6679,7 @@ export type TenantUncheckedUpdateWithoutNominaDetallesInput = {
   empresaMemberships?: Prisma.EmpresaMembershipUncheckedUpdateManyWithoutTenantNestedInput
   empresas?: Prisma.EmpresaUncheckedUpdateManyWithoutTenantNestedInput
   estadosServicio?: Prisma.EstadoServicioUncheckedUpdateManyWithoutTenantNestedInput
+  evidenciasServicio?: Prisma.EvidenciaServicioUncheckedUpdateManyWithoutTenantNestedInput
   geolocalizaciones?: Prisma.GeolocalizacionUncheckedUpdateManyWithoutTenantNestedInput
   logsEvento?: Prisma.LogEventoUncheckedUpdateManyWithoutTenantNestedInput
   metodosPago?: Prisma.MetodoPagoUncheckedUpdateManyWithoutTenantNestedInput
@@ -6600,7 +6706,6 @@ export type TenantUncheckedUpdateWithoutNominaDetallesInput = {
   turnos?: Prisma.TurnoUncheckedUpdateManyWithoutTenantNestedInput
   vehiculos?: Prisma.VehiculoUncheckedUpdateManyWithoutTenantNestedInput
   zonas?: Prisma.ZonaUncheckedUpdateManyWithoutTenantNestedInput
-  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaUncheckedUpdateManyWithoutTenantNestedInput
 }
 
 export type TenantCreateWithoutCitasPsicologosInput = {
@@ -6617,6 +6722,7 @@ export type TenantCreateWithoutCitasPsicologosInput = {
   anticipos?: Prisma.AnticiposCreateNestedManyWithoutTenantInput
   auditorias?: Prisma.AuditoriaCreateNestedManyWithoutTenantInput
   authSessions?: Prisma.AuthSessionCreateNestedManyWithoutTenantInput
+  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaCreateNestedManyWithoutTenantInput
   clientes?: Prisma.ClienteCreateNestedManyWithoutTenantInput
   commissions?: Prisma.CommissionRecordCreateNestedManyWithoutTenantInput
   configuracionPagos?: Prisma.ConfiguracionPagosCreateNestedManyWithoutTenantInput
@@ -6631,6 +6737,7 @@ export type TenantCreateWithoutCitasPsicologosInput = {
   empresaMemberships?: Prisma.EmpresaMembershipCreateNestedManyWithoutTenantInput
   empresas?: Prisma.EmpresaCreateNestedManyWithoutTenantInput
   estadosServicio?: Prisma.EstadoServicioCreateNestedManyWithoutTenantInput
+  evidenciasServicio?: Prisma.EvidenciaServicioCreateNestedManyWithoutTenantInput
   geolocalizaciones?: Prisma.GeolocalizacionCreateNestedManyWithoutTenantInput
   logsEvento?: Prisma.LogEventoCreateNestedManyWithoutTenantInput
   metodosPago?: Prisma.MetodoPagoCreateNestedManyWithoutTenantInput
@@ -6658,7 +6765,6 @@ export type TenantCreateWithoutCitasPsicologosInput = {
   turnos?: Prisma.TurnoCreateNestedManyWithoutTenantInput
   vehiculos?: Prisma.VehiculoCreateNestedManyWithoutTenantInput
   zonas?: Prisma.ZonaCreateNestedManyWithoutTenantInput
-  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaCreateNestedManyWithoutTenantInput
 }
 
 export type TenantUncheckedCreateWithoutCitasPsicologosInput = {
@@ -6675,6 +6781,7 @@ export type TenantUncheckedCreateWithoutCitasPsicologosInput = {
   anticipos?: Prisma.AnticiposUncheckedCreateNestedManyWithoutTenantInput
   auditorias?: Prisma.AuditoriaUncheckedCreateNestedManyWithoutTenantInput
   authSessions?: Prisma.AuthSessionUncheckedCreateNestedManyWithoutTenantInput
+  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaUncheckedCreateNestedManyWithoutTenantInput
   clientes?: Prisma.ClienteUncheckedCreateNestedManyWithoutTenantInput
   commissions?: Prisma.CommissionRecordUncheckedCreateNestedManyWithoutTenantInput
   configuracionPagos?: Prisma.ConfiguracionPagosUncheckedCreateNestedManyWithoutTenantInput
@@ -6689,6 +6796,7 @@ export type TenantUncheckedCreateWithoutCitasPsicologosInput = {
   empresaMemberships?: Prisma.EmpresaMembershipUncheckedCreateNestedManyWithoutTenantInput
   empresas?: Prisma.EmpresaUncheckedCreateNestedManyWithoutTenantInput
   estadosServicio?: Prisma.EstadoServicioUncheckedCreateNestedManyWithoutTenantInput
+  evidenciasServicio?: Prisma.EvidenciaServicioUncheckedCreateNestedManyWithoutTenantInput
   geolocalizaciones?: Prisma.GeolocalizacionUncheckedCreateNestedManyWithoutTenantInput
   logsEvento?: Prisma.LogEventoUncheckedCreateNestedManyWithoutTenantInput
   metodosPago?: Prisma.MetodoPagoUncheckedCreateNestedManyWithoutTenantInput
@@ -6716,7 +6824,6 @@ export type TenantUncheckedCreateWithoutCitasPsicologosInput = {
   turnos?: Prisma.TurnoUncheckedCreateNestedManyWithoutTenantInput
   vehiculos?: Prisma.VehiculoUncheckedCreateNestedManyWithoutTenantInput
   zonas?: Prisma.ZonaUncheckedCreateNestedManyWithoutTenantInput
-  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaUncheckedCreateNestedManyWithoutTenantInput
 }
 
 export type TenantCreateOrConnectWithoutCitasPsicologosInput = {
@@ -6749,6 +6856,7 @@ export type TenantUpdateWithoutCitasPsicologosInput = {
   anticipos?: Prisma.AnticiposUpdateManyWithoutTenantNestedInput
   auditorias?: Prisma.AuditoriaUpdateManyWithoutTenantNestedInput
   authSessions?: Prisma.AuthSessionUpdateManyWithoutTenantNestedInput
+  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaUpdateManyWithoutTenantNestedInput
   clientes?: Prisma.ClienteUpdateManyWithoutTenantNestedInput
   commissions?: Prisma.CommissionRecordUpdateManyWithoutTenantNestedInput
   configuracionPagos?: Prisma.ConfiguracionPagosUpdateManyWithoutTenantNestedInput
@@ -6763,6 +6871,7 @@ export type TenantUpdateWithoutCitasPsicologosInput = {
   empresaMemberships?: Prisma.EmpresaMembershipUpdateManyWithoutTenantNestedInput
   empresas?: Prisma.EmpresaUpdateManyWithoutTenantNestedInput
   estadosServicio?: Prisma.EstadoServicioUpdateManyWithoutTenantNestedInput
+  evidenciasServicio?: Prisma.EvidenciaServicioUpdateManyWithoutTenantNestedInput
   geolocalizaciones?: Prisma.GeolocalizacionUpdateManyWithoutTenantNestedInput
   logsEvento?: Prisma.LogEventoUpdateManyWithoutTenantNestedInput
   metodosPago?: Prisma.MetodoPagoUpdateManyWithoutTenantNestedInput
@@ -6790,7 +6899,6 @@ export type TenantUpdateWithoutCitasPsicologosInput = {
   turnos?: Prisma.TurnoUpdateManyWithoutTenantNestedInput
   vehiculos?: Prisma.VehiculoUpdateManyWithoutTenantNestedInput
   zonas?: Prisma.ZonaUpdateManyWithoutTenantNestedInput
-  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaUpdateManyWithoutTenantNestedInput
 }
 
 export type TenantUncheckedUpdateWithoutCitasPsicologosInput = {
@@ -6807,6 +6915,7 @@ export type TenantUncheckedUpdateWithoutCitasPsicologosInput = {
   anticipos?: Prisma.AnticiposUncheckedUpdateManyWithoutTenantNestedInput
   auditorias?: Prisma.AuditoriaUncheckedUpdateManyWithoutTenantNestedInput
   authSessions?: Prisma.AuthSessionUncheckedUpdateManyWithoutTenantNestedInput
+  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaUncheckedUpdateManyWithoutTenantNestedInput
   clientes?: Prisma.ClienteUncheckedUpdateManyWithoutTenantNestedInput
   commissions?: Prisma.CommissionRecordUncheckedUpdateManyWithoutTenantNestedInput
   configuracionPagos?: Prisma.ConfiguracionPagosUncheckedUpdateManyWithoutTenantNestedInput
@@ -6821,6 +6930,7 @@ export type TenantUncheckedUpdateWithoutCitasPsicologosInput = {
   empresaMemberships?: Prisma.EmpresaMembershipUncheckedUpdateManyWithoutTenantNestedInput
   empresas?: Prisma.EmpresaUncheckedUpdateManyWithoutTenantNestedInput
   estadosServicio?: Prisma.EstadoServicioUncheckedUpdateManyWithoutTenantNestedInput
+  evidenciasServicio?: Prisma.EvidenciaServicioUncheckedUpdateManyWithoutTenantNestedInput
   geolocalizaciones?: Prisma.GeolocalizacionUncheckedUpdateManyWithoutTenantNestedInput
   logsEvento?: Prisma.LogEventoUncheckedUpdateManyWithoutTenantNestedInput
   metodosPago?: Prisma.MetodoPagoUncheckedUpdateManyWithoutTenantNestedInput
@@ -6848,7 +6958,6 @@ export type TenantUncheckedUpdateWithoutCitasPsicologosInput = {
   turnos?: Prisma.TurnoUncheckedUpdateManyWithoutTenantNestedInput
   vehiculos?: Prisma.VehiculoUncheckedUpdateManyWithoutTenantNestedInput
   zonas?: Prisma.ZonaUncheckedUpdateManyWithoutTenantNestedInput
-  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaUncheckedUpdateManyWithoutTenantNestedInput
 }
 
 export type TenantCreateWithoutConsultoriosInput = {
@@ -6866,6 +6975,7 @@ export type TenantCreateWithoutConsultoriosInput = {
   auditorias?: Prisma.AuditoriaCreateNestedManyWithoutTenantInput
   authSessions?: Prisma.AuthSessionCreateNestedManyWithoutTenantInput
   citasPsicologos?: Prisma.CitasPsicologosCreateNestedManyWithoutTenantInput
+  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaCreateNestedManyWithoutTenantInput
   clientes?: Prisma.ClienteCreateNestedManyWithoutTenantInput
   commissions?: Prisma.CommissionRecordCreateNestedManyWithoutTenantInput
   configuracionPagos?: Prisma.ConfiguracionPagosCreateNestedManyWithoutTenantInput
@@ -6879,6 +6989,7 @@ export type TenantCreateWithoutConsultoriosInput = {
   empresaMemberships?: Prisma.EmpresaMembershipCreateNestedManyWithoutTenantInput
   empresas?: Prisma.EmpresaCreateNestedManyWithoutTenantInput
   estadosServicio?: Prisma.EstadoServicioCreateNestedManyWithoutTenantInput
+  evidenciasServicio?: Prisma.EvidenciaServicioCreateNestedManyWithoutTenantInput
   geolocalizaciones?: Prisma.GeolocalizacionCreateNestedManyWithoutTenantInput
   logsEvento?: Prisma.LogEventoCreateNestedManyWithoutTenantInput
   metodosPago?: Prisma.MetodoPagoCreateNestedManyWithoutTenantInput
@@ -6906,7 +7017,6 @@ export type TenantCreateWithoutConsultoriosInput = {
   turnos?: Prisma.TurnoCreateNestedManyWithoutTenantInput
   vehiculos?: Prisma.VehiculoCreateNestedManyWithoutTenantInput
   zonas?: Prisma.ZonaCreateNestedManyWithoutTenantInput
-  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaCreateNestedManyWithoutTenantInput
 }
 
 export type TenantUncheckedCreateWithoutConsultoriosInput = {
@@ -6924,6 +7034,7 @@ export type TenantUncheckedCreateWithoutConsultoriosInput = {
   auditorias?: Prisma.AuditoriaUncheckedCreateNestedManyWithoutTenantInput
   authSessions?: Prisma.AuthSessionUncheckedCreateNestedManyWithoutTenantInput
   citasPsicologos?: Prisma.CitasPsicologosUncheckedCreateNestedManyWithoutTenantInput
+  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaUncheckedCreateNestedManyWithoutTenantInput
   clientes?: Prisma.ClienteUncheckedCreateNestedManyWithoutTenantInput
   commissions?: Prisma.CommissionRecordUncheckedCreateNestedManyWithoutTenantInput
   configuracionPagos?: Prisma.ConfiguracionPagosUncheckedCreateNestedManyWithoutTenantInput
@@ -6937,6 +7048,7 @@ export type TenantUncheckedCreateWithoutConsultoriosInput = {
   empresaMemberships?: Prisma.EmpresaMembershipUncheckedCreateNestedManyWithoutTenantInput
   empresas?: Prisma.EmpresaUncheckedCreateNestedManyWithoutTenantInput
   estadosServicio?: Prisma.EstadoServicioUncheckedCreateNestedManyWithoutTenantInput
+  evidenciasServicio?: Prisma.EvidenciaServicioUncheckedCreateNestedManyWithoutTenantInput
   geolocalizaciones?: Prisma.GeolocalizacionUncheckedCreateNestedManyWithoutTenantInput
   logsEvento?: Prisma.LogEventoUncheckedCreateNestedManyWithoutTenantInput
   metodosPago?: Prisma.MetodoPagoUncheckedCreateNestedManyWithoutTenantInput
@@ -6964,7 +7076,6 @@ export type TenantUncheckedCreateWithoutConsultoriosInput = {
   turnos?: Prisma.TurnoUncheckedCreateNestedManyWithoutTenantInput
   vehiculos?: Prisma.VehiculoUncheckedCreateNestedManyWithoutTenantInput
   zonas?: Prisma.ZonaUncheckedCreateNestedManyWithoutTenantInput
-  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaUncheckedCreateNestedManyWithoutTenantInput
 }
 
 export type TenantCreateOrConnectWithoutConsultoriosInput = {
@@ -6998,6 +7109,7 @@ export type TenantUpdateWithoutConsultoriosInput = {
   auditorias?: Prisma.AuditoriaUpdateManyWithoutTenantNestedInput
   authSessions?: Prisma.AuthSessionUpdateManyWithoutTenantNestedInput
   citasPsicologos?: Prisma.CitasPsicologosUpdateManyWithoutTenantNestedInput
+  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaUpdateManyWithoutTenantNestedInput
   clientes?: Prisma.ClienteUpdateManyWithoutTenantNestedInput
   commissions?: Prisma.CommissionRecordUpdateManyWithoutTenantNestedInput
   configuracionPagos?: Prisma.ConfiguracionPagosUpdateManyWithoutTenantNestedInput
@@ -7011,6 +7123,7 @@ export type TenantUpdateWithoutConsultoriosInput = {
   empresaMemberships?: Prisma.EmpresaMembershipUpdateManyWithoutTenantNestedInput
   empresas?: Prisma.EmpresaUpdateManyWithoutTenantNestedInput
   estadosServicio?: Prisma.EstadoServicioUpdateManyWithoutTenantNestedInput
+  evidenciasServicio?: Prisma.EvidenciaServicioUpdateManyWithoutTenantNestedInput
   geolocalizaciones?: Prisma.GeolocalizacionUpdateManyWithoutTenantNestedInput
   logsEvento?: Prisma.LogEventoUpdateManyWithoutTenantNestedInput
   metodosPago?: Prisma.MetodoPagoUpdateManyWithoutTenantNestedInput
@@ -7038,7 +7151,6 @@ export type TenantUpdateWithoutConsultoriosInput = {
   turnos?: Prisma.TurnoUpdateManyWithoutTenantNestedInput
   vehiculos?: Prisma.VehiculoUpdateManyWithoutTenantNestedInput
   zonas?: Prisma.ZonaUpdateManyWithoutTenantNestedInput
-  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaUpdateManyWithoutTenantNestedInput
 }
 
 export type TenantUncheckedUpdateWithoutConsultoriosInput = {
@@ -7056,6 +7168,7 @@ export type TenantUncheckedUpdateWithoutConsultoriosInput = {
   auditorias?: Prisma.AuditoriaUncheckedUpdateManyWithoutTenantNestedInput
   authSessions?: Prisma.AuthSessionUncheckedUpdateManyWithoutTenantNestedInput
   citasPsicologos?: Prisma.CitasPsicologosUncheckedUpdateManyWithoutTenantNestedInput
+  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaUncheckedUpdateManyWithoutTenantNestedInput
   clientes?: Prisma.ClienteUncheckedUpdateManyWithoutTenantNestedInput
   commissions?: Prisma.CommissionRecordUncheckedUpdateManyWithoutTenantNestedInput
   configuracionPagos?: Prisma.ConfiguracionPagosUncheckedUpdateManyWithoutTenantNestedInput
@@ -7069,6 +7182,7 @@ export type TenantUncheckedUpdateWithoutConsultoriosInput = {
   empresaMemberships?: Prisma.EmpresaMembershipUncheckedUpdateManyWithoutTenantNestedInput
   empresas?: Prisma.EmpresaUncheckedUpdateManyWithoutTenantNestedInput
   estadosServicio?: Prisma.EstadoServicioUncheckedUpdateManyWithoutTenantNestedInput
+  evidenciasServicio?: Prisma.EvidenciaServicioUncheckedUpdateManyWithoutTenantNestedInput
   geolocalizaciones?: Prisma.GeolocalizacionUncheckedUpdateManyWithoutTenantNestedInput
   logsEvento?: Prisma.LogEventoUncheckedUpdateManyWithoutTenantNestedInput
   metodosPago?: Prisma.MetodoPagoUncheckedUpdateManyWithoutTenantNestedInput
@@ -7096,7 +7210,6 @@ export type TenantUncheckedUpdateWithoutConsultoriosInput = {
   turnos?: Prisma.TurnoUncheckedUpdateManyWithoutTenantNestedInput
   vehiculos?: Prisma.VehiculoUncheckedUpdateManyWithoutTenantNestedInput
   zonas?: Prisma.ZonaUncheckedUpdateManyWithoutTenantNestedInput
-  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaUncheckedUpdateManyWithoutTenantNestedInput
 }
 
 export type TenantCreateWithoutTerapiasPsicologosInput = {
@@ -7114,6 +7227,7 @@ export type TenantCreateWithoutTerapiasPsicologosInput = {
   auditorias?: Prisma.AuditoriaCreateNestedManyWithoutTenantInput
   authSessions?: Prisma.AuthSessionCreateNestedManyWithoutTenantInput
   citasPsicologos?: Prisma.CitasPsicologosCreateNestedManyWithoutTenantInput
+  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaCreateNestedManyWithoutTenantInput
   clientes?: Prisma.ClienteCreateNestedManyWithoutTenantInput
   commissions?: Prisma.CommissionRecordCreateNestedManyWithoutTenantInput
   configuracionPagos?: Prisma.ConfiguracionPagosCreateNestedManyWithoutTenantInput
@@ -7128,6 +7242,7 @@ export type TenantCreateWithoutTerapiasPsicologosInput = {
   empresaMemberships?: Prisma.EmpresaMembershipCreateNestedManyWithoutTenantInput
   empresas?: Prisma.EmpresaCreateNestedManyWithoutTenantInput
   estadosServicio?: Prisma.EstadoServicioCreateNestedManyWithoutTenantInput
+  evidenciasServicio?: Prisma.EvidenciaServicioCreateNestedManyWithoutTenantInput
   geolocalizaciones?: Prisma.GeolocalizacionCreateNestedManyWithoutTenantInput
   logsEvento?: Prisma.LogEventoCreateNestedManyWithoutTenantInput
   metodosPago?: Prisma.MetodoPagoCreateNestedManyWithoutTenantInput
@@ -7154,7 +7269,6 @@ export type TenantCreateWithoutTerapiasPsicologosInput = {
   turnos?: Prisma.TurnoCreateNestedManyWithoutTenantInput
   vehiculos?: Prisma.VehiculoCreateNestedManyWithoutTenantInput
   zonas?: Prisma.ZonaCreateNestedManyWithoutTenantInput
-  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaCreateNestedManyWithoutTenantInput
 }
 
 export type TenantUncheckedCreateWithoutTerapiasPsicologosInput = {
@@ -7172,6 +7286,7 @@ export type TenantUncheckedCreateWithoutTerapiasPsicologosInput = {
   auditorias?: Prisma.AuditoriaUncheckedCreateNestedManyWithoutTenantInput
   authSessions?: Prisma.AuthSessionUncheckedCreateNestedManyWithoutTenantInput
   citasPsicologos?: Prisma.CitasPsicologosUncheckedCreateNestedManyWithoutTenantInput
+  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaUncheckedCreateNestedManyWithoutTenantInput
   clientes?: Prisma.ClienteUncheckedCreateNestedManyWithoutTenantInput
   commissions?: Prisma.CommissionRecordUncheckedCreateNestedManyWithoutTenantInput
   configuracionPagos?: Prisma.ConfiguracionPagosUncheckedCreateNestedManyWithoutTenantInput
@@ -7186,6 +7301,7 @@ export type TenantUncheckedCreateWithoutTerapiasPsicologosInput = {
   empresaMemberships?: Prisma.EmpresaMembershipUncheckedCreateNestedManyWithoutTenantInput
   empresas?: Prisma.EmpresaUncheckedCreateNestedManyWithoutTenantInput
   estadosServicio?: Prisma.EstadoServicioUncheckedCreateNestedManyWithoutTenantInput
+  evidenciasServicio?: Prisma.EvidenciaServicioUncheckedCreateNestedManyWithoutTenantInput
   geolocalizaciones?: Prisma.GeolocalizacionUncheckedCreateNestedManyWithoutTenantInput
   logsEvento?: Prisma.LogEventoUncheckedCreateNestedManyWithoutTenantInput
   metodosPago?: Prisma.MetodoPagoUncheckedCreateNestedManyWithoutTenantInput
@@ -7212,7 +7328,6 @@ export type TenantUncheckedCreateWithoutTerapiasPsicologosInput = {
   turnos?: Prisma.TurnoUncheckedCreateNestedManyWithoutTenantInput
   vehiculos?: Prisma.VehiculoUncheckedCreateNestedManyWithoutTenantInput
   zonas?: Prisma.ZonaUncheckedCreateNestedManyWithoutTenantInput
-  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaUncheckedCreateNestedManyWithoutTenantInput
 }
 
 export type TenantCreateOrConnectWithoutTerapiasPsicologosInput = {
@@ -7246,6 +7361,7 @@ export type TenantUpdateWithoutTerapiasPsicologosInput = {
   auditorias?: Prisma.AuditoriaUpdateManyWithoutTenantNestedInput
   authSessions?: Prisma.AuthSessionUpdateManyWithoutTenantNestedInput
   citasPsicologos?: Prisma.CitasPsicologosUpdateManyWithoutTenantNestedInput
+  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaUpdateManyWithoutTenantNestedInput
   clientes?: Prisma.ClienteUpdateManyWithoutTenantNestedInput
   commissions?: Prisma.CommissionRecordUpdateManyWithoutTenantNestedInput
   configuracionPagos?: Prisma.ConfiguracionPagosUpdateManyWithoutTenantNestedInput
@@ -7260,6 +7376,7 @@ export type TenantUpdateWithoutTerapiasPsicologosInput = {
   empresaMemberships?: Prisma.EmpresaMembershipUpdateManyWithoutTenantNestedInput
   empresas?: Prisma.EmpresaUpdateManyWithoutTenantNestedInput
   estadosServicio?: Prisma.EstadoServicioUpdateManyWithoutTenantNestedInput
+  evidenciasServicio?: Prisma.EvidenciaServicioUpdateManyWithoutTenantNestedInput
   geolocalizaciones?: Prisma.GeolocalizacionUpdateManyWithoutTenantNestedInput
   logsEvento?: Prisma.LogEventoUpdateManyWithoutTenantNestedInput
   metodosPago?: Prisma.MetodoPagoUpdateManyWithoutTenantNestedInput
@@ -7286,7 +7403,6 @@ export type TenantUpdateWithoutTerapiasPsicologosInput = {
   turnos?: Prisma.TurnoUpdateManyWithoutTenantNestedInput
   vehiculos?: Prisma.VehiculoUpdateManyWithoutTenantNestedInput
   zonas?: Prisma.ZonaUpdateManyWithoutTenantNestedInput
-  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaUpdateManyWithoutTenantNestedInput
 }
 
 export type TenantUncheckedUpdateWithoutTerapiasPsicologosInput = {
@@ -7304,6 +7420,7 @@ export type TenantUncheckedUpdateWithoutTerapiasPsicologosInput = {
   auditorias?: Prisma.AuditoriaUncheckedUpdateManyWithoutTenantNestedInput
   authSessions?: Prisma.AuthSessionUncheckedUpdateManyWithoutTenantNestedInput
   citasPsicologos?: Prisma.CitasPsicologosUncheckedUpdateManyWithoutTenantNestedInput
+  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaUncheckedUpdateManyWithoutTenantNestedInput
   clientes?: Prisma.ClienteUncheckedUpdateManyWithoutTenantNestedInput
   commissions?: Prisma.CommissionRecordUncheckedUpdateManyWithoutTenantNestedInput
   configuracionPagos?: Prisma.ConfiguracionPagosUncheckedUpdateManyWithoutTenantNestedInput
@@ -7318,6 +7435,7 @@ export type TenantUncheckedUpdateWithoutTerapiasPsicologosInput = {
   empresaMemberships?: Prisma.EmpresaMembershipUncheckedUpdateManyWithoutTenantNestedInput
   empresas?: Prisma.EmpresaUncheckedUpdateManyWithoutTenantNestedInput
   estadosServicio?: Prisma.EstadoServicioUncheckedUpdateManyWithoutTenantNestedInput
+  evidenciasServicio?: Prisma.EvidenciaServicioUncheckedUpdateManyWithoutTenantNestedInput
   geolocalizaciones?: Prisma.GeolocalizacionUncheckedUpdateManyWithoutTenantNestedInput
   logsEvento?: Prisma.LogEventoUncheckedUpdateManyWithoutTenantNestedInput
   metodosPago?: Prisma.MetodoPagoUncheckedUpdateManyWithoutTenantNestedInput
@@ -7344,7 +7462,6 @@ export type TenantUncheckedUpdateWithoutTerapiasPsicologosInput = {
   turnos?: Prisma.TurnoUncheckedUpdateManyWithoutTenantNestedInput
   vehiculos?: Prisma.VehiculoUncheckedUpdateManyWithoutTenantNestedInput
   zonas?: Prisma.ZonaUncheckedUpdateManyWithoutTenantNestedInput
-  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaUncheckedUpdateManyWithoutTenantNestedInput
 }
 
 export type TenantCreateWithoutPaquetesAdquiridosInput = {
@@ -7362,6 +7479,7 @@ export type TenantCreateWithoutPaquetesAdquiridosInput = {
   auditorias?: Prisma.AuditoriaCreateNestedManyWithoutTenantInput
   authSessions?: Prisma.AuthSessionCreateNestedManyWithoutTenantInput
   citasPsicologos?: Prisma.CitasPsicologosCreateNestedManyWithoutTenantInput
+  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaCreateNestedManyWithoutTenantInput
   clientes?: Prisma.ClienteCreateNestedManyWithoutTenantInput
   commissions?: Prisma.CommissionRecordCreateNestedManyWithoutTenantInput
   configuracionPagos?: Prisma.ConfiguracionPagosCreateNestedManyWithoutTenantInput
@@ -7376,6 +7494,7 @@ export type TenantCreateWithoutPaquetesAdquiridosInput = {
   empresaMemberships?: Prisma.EmpresaMembershipCreateNestedManyWithoutTenantInput
   empresas?: Prisma.EmpresaCreateNestedManyWithoutTenantInput
   estadosServicio?: Prisma.EstadoServicioCreateNestedManyWithoutTenantInput
+  evidenciasServicio?: Prisma.EvidenciaServicioCreateNestedManyWithoutTenantInput
   geolocalizaciones?: Prisma.GeolocalizacionCreateNestedManyWithoutTenantInput
   logsEvento?: Prisma.LogEventoCreateNestedManyWithoutTenantInput
   metodosPago?: Prisma.MetodoPagoCreateNestedManyWithoutTenantInput
@@ -7402,7 +7521,6 @@ export type TenantCreateWithoutPaquetesAdquiridosInput = {
   turnos?: Prisma.TurnoCreateNestedManyWithoutTenantInput
   vehiculos?: Prisma.VehiculoCreateNestedManyWithoutTenantInput
   zonas?: Prisma.ZonaCreateNestedManyWithoutTenantInput
-  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaCreateNestedManyWithoutTenantInput
 }
 
 export type TenantUncheckedCreateWithoutPaquetesAdquiridosInput = {
@@ -7420,6 +7538,7 @@ export type TenantUncheckedCreateWithoutPaquetesAdquiridosInput = {
   auditorias?: Prisma.AuditoriaUncheckedCreateNestedManyWithoutTenantInput
   authSessions?: Prisma.AuthSessionUncheckedCreateNestedManyWithoutTenantInput
   citasPsicologos?: Prisma.CitasPsicologosUncheckedCreateNestedManyWithoutTenantInput
+  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaUncheckedCreateNestedManyWithoutTenantInput
   clientes?: Prisma.ClienteUncheckedCreateNestedManyWithoutTenantInput
   commissions?: Prisma.CommissionRecordUncheckedCreateNestedManyWithoutTenantInput
   configuracionPagos?: Prisma.ConfiguracionPagosUncheckedCreateNestedManyWithoutTenantInput
@@ -7434,6 +7553,7 @@ export type TenantUncheckedCreateWithoutPaquetesAdquiridosInput = {
   empresaMemberships?: Prisma.EmpresaMembershipUncheckedCreateNestedManyWithoutTenantInput
   empresas?: Prisma.EmpresaUncheckedCreateNestedManyWithoutTenantInput
   estadosServicio?: Prisma.EstadoServicioUncheckedCreateNestedManyWithoutTenantInput
+  evidenciasServicio?: Prisma.EvidenciaServicioUncheckedCreateNestedManyWithoutTenantInput
   geolocalizaciones?: Prisma.GeolocalizacionUncheckedCreateNestedManyWithoutTenantInput
   logsEvento?: Prisma.LogEventoUncheckedCreateNestedManyWithoutTenantInput
   metodosPago?: Prisma.MetodoPagoUncheckedCreateNestedManyWithoutTenantInput
@@ -7460,7 +7580,6 @@ export type TenantUncheckedCreateWithoutPaquetesAdquiridosInput = {
   turnos?: Prisma.TurnoUncheckedCreateNestedManyWithoutTenantInput
   vehiculos?: Prisma.VehiculoUncheckedCreateNestedManyWithoutTenantInput
   zonas?: Prisma.ZonaUncheckedCreateNestedManyWithoutTenantInput
-  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaUncheckedCreateNestedManyWithoutTenantInput
 }
 
 export type TenantCreateOrConnectWithoutPaquetesAdquiridosInput = {
@@ -7494,6 +7613,7 @@ export type TenantUpdateWithoutPaquetesAdquiridosInput = {
   auditorias?: Prisma.AuditoriaUpdateManyWithoutTenantNestedInput
   authSessions?: Prisma.AuthSessionUpdateManyWithoutTenantNestedInput
   citasPsicologos?: Prisma.CitasPsicologosUpdateManyWithoutTenantNestedInput
+  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaUpdateManyWithoutTenantNestedInput
   clientes?: Prisma.ClienteUpdateManyWithoutTenantNestedInput
   commissions?: Prisma.CommissionRecordUpdateManyWithoutTenantNestedInput
   configuracionPagos?: Prisma.ConfiguracionPagosUpdateManyWithoutTenantNestedInput
@@ -7508,6 +7628,7 @@ export type TenantUpdateWithoutPaquetesAdquiridosInput = {
   empresaMemberships?: Prisma.EmpresaMembershipUpdateManyWithoutTenantNestedInput
   empresas?: Prisma.EmpresaUpdateManyWithoutTenantNestedInput
   estadosServicio?: Prisma.EstadoServicioUpdateManyWithoutTenantNestedInput
+  evidenciasServicio?: Prisma.EvidenciaServicioUpdateManyWithoutTenantNestedInput
   geolocalizaciones?: Prisma.GeolocalizacionUpdateManyWithoutTenantNestedInput
   logsEvento?: Prisma.LogEventoUpdateManyWithoutTenantNestedInput
   metodosPago?: Prisma.MetodoPagoUpdateManyWithoutTenantNestedInput
@@ -7534,7 +7655,6 @@ export type TenantUpdateWithoutPaquetesAdquiridosInput = {
   turnos?: Prisma.TurnoUpdateManyWithoutTenantNestedInput
   vehiculos?: Prisma.VehiculoUpdateManyWithoutTenantNestedInput
   zonas?: Prisma.ZonaUpdateManyWithoutTenantNestedInput
-  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaUpdateManyWithoutTenantNestedInput
 }
 
 export type TenantUncheckedUpdateWithoutPaquetesAdquiridosInput = {
@@ -7552,6 +7672,7 @@ export type TenantUncheckedUpdateWithoutPaquetesAdquiridosInput = {
   auditorias?: Prisma.AuditoriaUncheckedUpdateManyWithoutTenantNestedInput
   authSessions?: Prisma.AuthSessionUncheckedUpdateManyWithoutTenantNestedInput
   citasPsicologos?: Prisma.CitasPsicologosUncheckedUpdateManyWithoutTenantNestedInput
+  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaUncheckedUpdateManyWithoutTenantNestedInput
   clientes?: Prisma.ClienteUncheckedUpdateManyWithoutTenantNestedInput
   commissions?: Prisma.CommissionRecordUncheckedUpdateManyWithoutTenantNestedInput
   configuracionPagos?: Prisma.ConfiguracionPagosUncheckedUpdateManyWithoutTenantNestedInput
@@ -7566,6 +7687,7 @@ export type TenantUncheckedUpdateWithoutPaquetesAdquiridosInput = {
   empresaMemberships?: Prisma.EmpresaMembershipUncheckedUpdateManyWithoutTenantNestedInput
   empresas?: Prisma.EmpresaUncheckedUpdateManyWithoutTenantNestedInput
   estadosServicio?: Prisma.EstadoServicioUncheckedUpdateManyWithoutTenantNestedInput
+  evidenciasServicio?: Prisma.EvidenciaServicioUncheckedUpdateManyWithoutTenantNestedInput
   geolocalizaciones?: Prisma.GeolocalizacionUncheckedUpdateManyWithoutTenantNestedInput
   logsEvento?: Prisma.LogEventoUncheckedUpdateManyWithoutTenantNestedInput
   metodosPago?: Prisma.MetodoPagoUncheckedUpdateManyWithoutTenantNestedInput
@@ -7592,7 +7714,6 @@ export type TenantUncheckedUpdateWithoutPaquetesAdquiridosInput = {
   turnos?: Prisma.TurnoUncheckedUpdateManyWithoutTenantNestedInput
   vehiculos?: Prisma.VehiculoUncheckedUpdateManyWithoutTenantNestedInput
   zonas?: Prisma.ZonaUncheckedUpdateManyWithoutTenantNestedInput
-  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaUncheckedUpdateManyWithoutTenantNestedInput
 }
 
 export type TenantCreateWithoutTurnosInput = {
@@ -7610,6 +7731,7 @@ export type TenantCreateWithoutTurnosInput = {
   auditorias?: Prisma.AuditoriaCreateNestedManyWithoutTenantInput
   authSessions?: Prisma.AuthSessionCreateNestedManyWithoutTenantInput
   citasPsicologos?: Prisma.CitasPsicologosCreateNestedManyWithoutTenantInput
+  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaCreateNestedManyWithoutTenantInput
   clientes?: Prisma.ClienteCreateNestedManyWithoutTenantInput
   commissions?: Prisma.CommissionRecordCreateNestedManyWithoutTenantInput
   configuracionPagos?: Prisma.ConfiguracionPagosCreateNestedManyWithoutTenantInput
@@ -7624,6 +7746,7 @@ export type TenantCreateWithoutTurnosInput = {
   empresaMemberships?: Prisma.EmpresaMembershipCreateNestedManyWithoutTenantInput
   empresas?: Prisma.EmpresaCreateNestedManyWithoutTenantInput
   estadosServicio?: Prisma.EstadoServicioCreateNestedManyWithoutTenantInput
+  evidenciasServicio?: Prisma.EvidenciaServicioCreateNestedManyWithoutTenantInput
   geolocalizaciones?: Prisma.GeolocalizacionCreateNestedManyWithoutTenantInput
   logsEvento?: Prisma.LogEventoCreateNestedManyWithoutTenantInput
   metodosPago?: Prisma.MetodoPagoCreateNestedManyWithoutTenantInput
@@ -7650,7 +7773,6 @@ export type TenantCreateWithoutTurnosInput = {
   tiposServicio?: Prisma.TipoServicioCreateNestedManyWithoutTenantInput
   vehiculos?: Prisma.VehiculoCreateNestedManyWithoutTenantInput
   zonas?: Prisma.ZonaCreateNestedManyWithoutTenantInput
-  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaCreateNestedManyWithoutTenantInput
 }
 
 export type TenantUncheckedCreateWithoutTurnosInput = {
@@ -7668,6 +7790,7 @@ export type TenantUncheckedCreateWithoutTurnosInput = {
   auditorias?: Prisma.AuditoriaUncheckedCreateNestedManyWithoutTenantInput
   authSessions?: Prisma.AuthSessionUncheckedCreateNestedManyWithoutTenantInput
   citasPsicologos?: Prisma.CitasPsicologosUncheckedCreateNestedManyWithoutTenantInput
+  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaUncheckedCreateNestedManyWithoutTenantInput
   clientes?: Prisma.ClienteUncheckedCreateNestedManyWithoutTenantInput
   commissions?: Prisma.CommissionRecordUncheckedCreateNestedManyWithoutTenantInput
   configuracionPagos?: Prisma.ConfiguracionPagosUncheckedCreateNestedManyWithoutTenantInput
@@ -7682,6 +7805,7 @@ export type TenantUncheckedCreateWithoutTurnosInput = {
   empresaMemberships?: Prisma.EmpresaMembershipUncheckedCreateNestedManyWithoutTenantInput
   empresas?: Prisma.EmpresaUncheckedCreateNestedManyWithoutTenantInput
   estadosServicio?: Prisma.EstadoServicioUncheckedCreateNestedManyWithoutTenantInput
+  evidenciasServicio?: Prisma.EvidenciaServicioUncheckedCreateNestedManyWithoutTenantInput
   geolocalizaciones?: Prisma.GeolocalizacionUncheckedCreateNestedManyWithoutTenantInput
   logsEvento?: Prisma.LogEventoUncheckedCreateNestedManyWithoutTenantInput
   metodosPago?: Prisma.MetodoPagoUncheckedCreateNestedManyWithoutTenantInput
@@ -7708,7 +7832,6 @@ export type TenantUncheckedCreateWithoutTurnosInput = {
   tiposServicio?: Prisma.TipoServicioUncheckedCreateNestedManyWithoutTenantInput
   vehiculos?: Prisma.VehiculoUncheckedCreateNestedManyWithoutTenantInput
   zonas?: Prisma.ZonaUncheckedCreateNestedManyWithoutTenantInput
-  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaUncheckedCreateNestedManyWithoutTenantInput
 }
 
 export type TenantCreateOrConnectWithoutTurnosInput = {
@@ -7742,6 +7865,7 @@ export type TenantUpdateWithoutTurnosInput = {
   auditorias?: Prisma.AuditoriaUpdateManyWithoutTenantNestedInput
   authSessions?: Prisma.AuthSessionUpdateManyWithoutTenantNestedInput
   citasPsicologos?: Prisma.CitasPsicologosUpdateManyWithoutTenantNestedInput
+  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaUpdateManyWithoutTenantNestedInput
   clientes?: Prisma.ClienteUpdateManyWithoutTenantNestedInput
   commissions?: Prisma.CommissionRecordUpdateManyWithoutTenantNestedInput
   configuracionPagos?: Prisma.ConfiguracionPagosUpdateManyWithoutTenantNestedInput
@@ -7756,6 +7880,7 @@ export type TenantUpdateWithoutTurnosInput = {
   empresaMemberships?: Prisma.EmpresaMembershipUpdateManyWithoutTenantNestedInput
   empresas?: Prisma.EmpresaUpdateManyWithoutTenantNestedInput
   estadosServicio?: Prisma.EstadoServicioUpdateManyWithoutTenantNestedInput
+  evidenciasServicio?: Prisma.EvidenciaServicioUpdateManyWithoutTenantNestedInput
   geolocalizaciones?: Prisma.GeolocalizacionUpdateManyWithoutTenantNestedInput
   logsEvento?: Prisma.LogEventoUpdateManyWithoutTenantNestedInput
   metodosPago?: Prisma.MetodoPagoUpdateManyWithoutTenantNestedInput
@@ -7782,7 +7907,6 @@ export type TenantUpdateWithoutTurnosInput = {
   tiposServicio?: Prisma.TipoServicioUpdateManyWithoutTenantNestedInput
   vehiculos?: Prisma.VehiculoUpdateManyWithoutTenantNestedInput
   zonas?: Prisma.ZonaUpdateManyWithoutTenantNestedInput
-  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaUpdateManyWithoutTenantNestedInput
 }
 
 export type TenantUncheckedUpdateWithoutTurnosInput = {
@@ -7800,6 +7924,7 @@ export type TenantUncheckedUpdateWithoutTurnosInput = {
   auditorias?: Prisma.AuditoriaUncheckedUpdateManyWithoutTenantNestedInput
   authSessions?: Prisma.AuthSessionUncheckedUpdateManyWithoutTenantNestedInput
   citasPsicologos?: Prisma.CitasPsicologosUncheckedUpdateManyWithoutTenantNestedInput
+  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaUncheckedUpdateManyWithoutTenantNestedInput
   clientes?: Prisma.ClienteUncheckedUpdateManyWithoutTenantNestedInput
   commissions?: Prisma.CommissionRecordUncheckedUpdateManyWithoutTenantNestedInput
   configuracionPagos?: Prisma.ConfiguracionPagosUncheckedUpdateManyWithoutTenantNestedInput
@@ -7814,6 +7939,7 @@ export type TenantUncheckedUpdateWithoutTurnosInput = {
   empresaMemberships?: Prisma.EmpresaMembershipUncheckedUpdateManyWithoutTenantNestedInput
   empresas?: Prisma.EmpresaUncheckedUpdateManyWithoutTenantNestedInput
   estadosServicio?: Prisma.EstadoServicioUncheckedUpdateManyWithoutTenantNestedInput
+  evidenciasServicio?: Prisma.EvidenciaServicioUncheckedUpdateManyWithoutTenantNestedInput
   geolocalizaciones?: Prisma.GeolocalizacionUncheckedUpdateManyWithoutTenantNestedInput
   logsEvento?: Prisma.LogEventoUncheckedUpdateManyWithoutTenantNestedInput
   metodosPago?: Prisma.MetodoPagoUncheckedUpdateManyWithoutTenantNestedInput
@@ -7840,7 +7966,6 @@ export type TenantUncheckedUpdateWithoutTurnosInput = {
   tiposServicio?: Prisma.TipoServicioUncheckedUpdateManyWithoutTenantNestedInput
   vehiculos?: Prisma.VehiculoUncheckedUpdateManyWithoutTenantNestedInput
   zonas?: Prisma.ZonaUncheckedUpdateManyWithoutTenantNestedInput
-  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaUncheckedUpdateManyWithoutTenantNestedInput
 }
 
 export type TenantCreateWithoutCuentasCobroInput = {
@@ -7858,6 +7983,7 @@ export type TenantCreateWithoutCuentasCobroInput = {
   auditorias?: Prisma.AuditoriaCreateNestedManyWithoutTenantInput
   authSessions?: Prisma.AuthSessionCreateNestedManyWithoutTenantInput
   citasPsicologos?: Prisma.CitasPsicologosCreateNestedManyWithoutTenantInput
+  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaCreateNestedManyWithoutTenantInput
   clientes?: Prisma.ClienteCreateNestedManyWithoutTenantInput
   commissions?: Prisma.CommissionRecordCreateNestedManyWithoutTenantInput
   configuracionPagos?: Prisma.ConfiguracionPagosCreateNestedManyWithoutTenantInput
@@ -7871,6 +7997,7 @@ export type TenantCreateWithoutCuentasCobroInput = {
   empresaMemberships?: Prisma.EmpresaMembershipCreateNestedManyWithoutTenantInput
   empresas?: Prisma.EmpresaCreateNestedManyWithoutTenantInput
   estadosServicio?: Prisma.EstadoServicioCreateNestedManyWithoutTenantInput
+  evidenciasServicio?: Prisma.EvidenciaServicioCreateNestedManyWithoutTenantInput
   geolocalizaciones?: Prisma.GeolocalizacionCreateNestedManyWithoutTenantInput
   logsEvento?: Prisma.LogEventoCreateNestedManyWithoutTenantInput
   metodosPago?: Prisma.MetodoPagoCreateNestedManyWithoutTenantInput
@@ -7898,7 +8025,6 @@ export type TenantCreateWithoutCuentasCobroInput = {
   turnos?: Prisma.TurnoCreateNestedManyWithoutTenantInput
   vehiculos?: Prisma.VehiculoCreateNestedManyWithoutTenantInput
   zonas?: Prisma.ZonaCreateNestedManyWithoutTenantInput
-  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaCreateNestedManyWithoutTenantInput
 }
 
 export type TenantUncheckedCreateWithoutCuentasCobroInput = {
@@ -7916,6 +8042,7 @@ export type TenantUncheckedCreateWithoutCuentasCobroInput = {
   auditorias?: Prisma.AuditoriaUncheckedCreateNestedManyWithoutTenantInput
   authSessions?: Prisma.AuthSessionUncheckedCreateNestedManyWithoutTenantInput
   citasPsicologos?: Prisma.CitasPsicologosUncheckedCreateNestedManyWithoutTenantInput
+  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaUncheckedCreateNestedManyWithoutTenantInput
   clientes?: Prisma.ClienteUncheckedCreateNestedManyWithoutTenantInput
   commissions?: Prisma.CommissionRecordUncheckedCreateNestedManyWithoutTenantInput
   configuracionPagos?: Prisma.ConfiguracionPagosUncheckedCreateNestedManyWithoutTenantInput
@@ -7929,6 +8056,7 @@ export type TenantUncheckedCreateWithoutCuentasCobroInput = {
   empresaMemberships?: Prisma.EmpresaMembershipUncheckedCreateNestedManyWithoutTenantInput
   empresas?: Prisma.EmpresaUncheckedCreateNestedManyWithoutTenantInput
   estadosServicio?: Prisma.EstadoServicioUncheckedCreateNestedManyWithoutTenantInput
+  evidenciasServicio?: Prisma.EvidenciaServicioUncheckedCreateNestedManyWithoutTenantInput
   geolocalizaciones?: Prisma.GeolocalizacionUncheckedCreateNestedManyWithoutTenantInput
   logsEvento?: Prisma.LogEventoUncheckedCreateNestedManyWithoutTenantInput
   metodosPago?: Prisma.MetodoPagoUncheckedCreateNestedManyWithoutTenantInput
@@ -7956,7 +8084,6 @@ export type TenantUncheckedCreateWithoutCuentasCobroInput = {
   turnos?: Prisma.TurnoUncheckedCreateNestedManyWithoutTenantInput
   vehiculos?: Prisma.VehiculoUncheckedCreateNestedManyWithoutTenantInput
   zonas?: Prisma.ZonaUncheckedCreateNestedManyWithoutTenantInput
-  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaUncheckedCreateNestedManyWithoutTenantInput
 }
 
 export type TenantCreateOrConnectWithoutCuentasCobroInput = {
@@ -7990,6 +8117,7 @@ export type TenantUpdateWithoutCuentasCobroInput = {
   auditorias?: Prisma.AuditoriaUpdateManyWithoutTenantNestedInput
   authSessions?: Prisma.AuthSessionUpdateManyWithoutTenantNestedInput
   citasPsicologos?: Prisma.CitasPsicologosUpdateManyWithoutTenantNestedInput
+  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaUpdateManyWithoutTenantNestedInput
   clientes?: Prisma.ClienteUpdateManyWithoutTenantNestedInput
   commissions?: Prisma.CommissionRecordUpdateManyWithoutTenantNestedInput
   configuracionPagos?: Prisma.ConfiguracionPagosUpdateManyWithoutTenantNestedInput
@@ -8003,6 +8131,7 @@ export type TenantUpdateWithoutCuentasCobroInput = {
   empresaMemberships?: Prisma.EmpresaMembershipUpdateManyWithoutTenantNestedInput
   empresas?: Prisma.EmpresaUpdateManyWithoutTenantNestedInput
   estadosServicio?: Prisma.EstadoServicioUpdateManyWithoutTenantNestedInput
+  evidenciasServicio?: Prisma.EvidenciaServicioUpdateManyWithoutTenantNestedInput
   geolocalizaciones?: Prisma.GeolocalizacionUpdateManyWithoutTenantNestedInput
   logsEvento?: Prisma.LogEventoUpdateManyWithoutTenantNestedInput
   metodosPago?: Prisma.MetodoPagoUpdateManyWithoutTenantNestedInput
@@ -8030,7 +8159,6 @@ export type TenantUpdateWithoutCuentasCobroInput = {
   turnos?: Prisma.TurnoUpdateManyWithoutTenantNestedInput
   vehiculos?: Prisma.VehiculoUpdateManyWithoutTenantNestedInput
   zonas?: Prisma.ZonaUpdateManyWithoutTenantNestedInput
-  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaUpdateManyWithoutTenantNestedInput
 }
 
 export type TenantUncheckedUpdateWithoutCuentasCobroInput = {
@@ -8048,6 +8176,7 @@ export type TenantUncheckedUpdateWithoutCuentasCobroInput = {
   auditorias?: Prisma.AuditoriaUncheckedUpdateManyWithoutTenantNestedInput
   authSessions?: Prisma.AuthSessionUncheckedUpdateManyWithoutTenantNestedInput
   citasPsicologos?: Prisma.CitasPsicologosUncheckedUpdateManyWithoutTenantNestedInput
+  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaUncheckedUpdateManyWithoutTenantNestedInput
   clientes?: Prisma.ClienteUncheckedUpdateManyWithoutTenantNestedInput
   commissions?: Prisma.CommissionRecordUncheckedUpdateManyWithoutTenantNestedInput
   configuracionPagos?: Prisma.ConfiguracionPagosUncheckedUpdateManyWithoutTenantNestedInput
@@ -8061,6 +8190,7 @@ export type TenantUncheckedUpdateWithoutCuentasCobroInput = {
   empresaMemberships?: Prisma.EmpresaMembershipUncheckedUpdateManyWithoutTenantNestedInput
   empresas?: Prisma.EmpresaUncheckedUpdateManyWithoutTenantNestedInput
   estadosServicio?: Prisma.EstadoServicioUncheckedUpdateManyWithoutTenantNestedInput
+  evidenciasServicio?: Prisma.EvidenciaServicioUncheckedUpdateManyWithoutTenantNestedInput
   geolocalizaciones?: Prisma.GeolocalizacionUncheckedUpdateManyWithoutTenantNestedInput
   logsEvento?: Prisma.LogEventoUncheckedUpdateManyWithoutTenantNestedInput
   metodosPago?: Prisma.MetodoPagoUncheckedUpdateManyWithoutTenantNestedInput
@@ -8088,7 +8218,6 @@ export type TenantUncheckedUpdateWithoutCuentasCobroInput = {
   turnos?: Prisma.TurnoUncheckedUpdateManyWithoutTenantNestedInput
   vehiculos?: Prisma.VehiculoUncheckedUpdateManyWithoutTenantNestedInput
   zonas?: Prisma.ZonaUncheckedUpdateManyWithoutTenantNestedInput
-  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaUncheckedUpdateManyWithoutTenantNestedInput
 }
 
 export type TenantCreateWithoutDeclaracionesInput = {
@@ -8106,6 +8235,7 @@ export type TenantCreateWithoutDeclaracionesInput = {
   auditorias?: Prisma.AuditoriaCreateNestedManyWithoutTenantInput
   authSessions?: Prisma.AuthSessionCreateNestedManyWithoutTenantInput
   citasPsicologos?: Prisma.CitasPsicologosCreateNestedManyWithoutTenantInput
+  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaCreateNestedManyWithoutTenantInput
   clientes?: Prisma.ClienteCreateNestedManyWithoutTenantInput
   commissions?: Prisma.CommissionRecordCreateNestedManyWithoutTenantInput
   configuracionPagos?: Prisma.ConfiguracionPagosCreateNestedManyWithoutTenantInput
@@ -8119,6 +8249,7 @@ export type TenantCreateWithoutDeclaracionesInput = {
   empresaMemberships?: Prisma.EmpresaMembershipCreateNestedManyWithoutTenantInput
   empresas?: Prisma.EmpresaCreateNestedManyWithoutTenantInput
   estadosServicio?: Prisma.EstadoServicioCreateNestedManyWithoutTenantInput
+  evidenciasServicio?: Prisma.EvidenciaServicioCreateNestedManyWithoutTenantInput
   geolocalizaciones?: Prisma.GeolocalizacionCreateNestedManyWithoutTenantInput
   logsEvento?: Prisma.LogEventoCreateNestedManyWithoutTenantInput
   metodosPago?: Prisma.MetodoPagoCreateNestedManyWithoutTenantInput
@@ -8146,7 +8277,6 @@ export type TenantCreateWithoutDeclaracionesInput = {
   turnos?: Prisma.TurnoCreateNestedManyWithoutTenantInput
   vehiculos?: Prisma.VehiculoCreateNestedManyWithoutTenantInput
   zonas?: Prisma.ZonaCreateNestedManyWithoutTenantInput
-  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaCreateNestedManyWithoutTenantInput
 }
 
 export type TenantUncheckedCreateWithoutDeclaracionesInput = {
@@ -8164,6 +8294,7 @@ export type TenantUncheckedCreateWithoutDeclaracionesInput = {
   auditorias?: Prisma.AuditoriaUncheckedCreateNestedManyWithoutTenantInput
   authSessions?: Prisma.AuthSessionUncheckedCreateNestedManyWithoutTenantInput
   citasPsicologos?: Prisma.CitasPsicologosUncheckedCreateNestedManyWithoutTenantInput
+  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaUncheckedCreateNestedManyWithoutTenantInput
   clientes?: Prisma.ClienteUncheckedCreateNestedManyWithoutTenantInput
   commissions?: Prisma.CommissionRecordUncheckedCreateNestedManyWithoutTenantInput
   configuracionPagos?: Prisma.ConfiguracionPagosUncheckedCreateNestedManyWithoutTenantInput
@@ -8177,6 +8308,7 @@ export type TenantUncheckedCreateWithoutDeclaracionesInput = {
   empresaMemberships?: Prisma.EmpresaMembershipUncheckedCreateNestedManyWithoutTenantInput
   empresas?: Prisma.EmpresaUncheckedCreateNestedManyWithoutTenantInput
   estadosServicio?: Prisma.EstadoServicioUncheckedCreateNestedManyWithoutTenantInput
+  evidenciasServicio?: Prisma.EvidenciaServicioUncheckedCreateNestedManyWithoutTenantInput
   geolocalizaciones?: Prisma.GeolocalizacionUncheckedCreateNestedManyWithoutTenantInput
   logsEvento?: Prisma.LogEventoUncheckedCreateNestedManyWithoutTenantInput
   metodosPago?: Prisma.MetodoPagoUncheckedCreateNestedManyWithoutTenantInput
@@ -8204,7 +8336,6 @@ export type TenantUncheckedCreateWithoutDeclaracionesInput = {
   turnos?: Prisma.TurnoUncheckedCreateNestedManyWithoutTenantInput
   vehiculos?: Prisma.VehiculoUncheckedCreateNestedManyWithoutTenantInput
   zonas?: Prisma.ZonaUncheckedCreateNestedManyWithoutTenantInput
-  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaUncheckedCreateNestedManyWithoutTenantInput
 }
 
 export type TenantCreateOrConnectWithoutDeclaracionesInput = {
@@ -8238,6 +8369,7 @@ export type TenantUpdateWithoutDeclaracionesInput = {
   auditorias?: Prisma.AuditoriaUpdateManyWithoutTenantNestedInput
   authSessions?: Prisma.AuthSessionUpdateManyWithoutTenantNestedInput
   citasPsicologos?: Prisma.CitasPsicologosUpdateManyWithoutTenantNestedInput
+  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaUpdateManyWithoutTenantNestedInput
   clientes?: Prisma.ClienteUpdateManyWithoutTenantNestedInput
   commissions?: Prisma.CommissionRecordUpdateManyWithoutTenantNestedInput
   configuracionPagos?: Prisma.ConfiguracionPagosUpdateManyWithoutTenantNestedInput
@@ -8251,6 +8383,7 @@ export type TenantUpdateWithoutDeclaracionesInput = {
   empresaMemberships?: Prisma.EmpresaMembershipUpdateManyWithoutTenantNestedInput
   empresas?: Prisma.EmpresaUpdateManyWithoutTenantNestedInput
   estadosServicio?: Prisma.EstadoServicioUpdateManyWithoutTenantNestedInput
+  evidenciasServicio?: Prisma.EvidenciaServicioUpdateManyWithoutTenantNestedInput
   geolocalizaciones?: Prisma.GeolocalizacionUpdateManyWithoutTenantNestedInput
   logsEvento?: Prisma.LogEventoUpdateManyWithoutTenantNestedInput
   metodosPago?: Prisma.MetodoPagoUpdateManyWithoutTenantNestedInput
@@ -8278,7 +8411,6 @@ export type TenantUpdateWithoutDeclaracionesInput = {
   turnos?: Prisma.TurnoUpdateManyWithoutTenantNestedInput
   vehiculos?: Prisma.VehiculoUpdateManyWithoutTenantNestedInput
   zonas?: Prisma.ZonaUpdateManyWithoutTenantNestedInput
-  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaUpdateManyWithoutTenantNestedInput
 }
 
 export type TenantUncheckedUpdateWithoutDeclaracionesInput = {
@@ -8296,6 +8428,7 @@ export type TenantUncheckedUpdateWithoutDeclaracionesInput = {
   auditorias?: Prisma.AuditoriaUncheckedUpdateManyWithoutTenantNestedInput
   authSessions?: Prisma.AuthSessionUncheckedUpdateManyWithoutTenantNestedInput
   citasPsicologos?: Prisma.CitasPsicologosUncheckedUpdateManyWithoutTenantNestedInput
+  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaUncheckedUpdateManyWithoutTenantNestedInput
   clientes?: Prisma.ClienteUncheckedUpdateManyWithoutTenantNestedInput
   commissions?: Prisma.CommissionRecordUncheckedUpdateManyWithoutTenantNestedInput
   configuracionPagos?: Prisma.ConfiguracionPagosUncheckedUpdateManyWithoutTenantNestedInput
@@ -8309,6 +8442,7 @@ export type TenantUncheckedUpdateWithoutDeclaracionesInput = {
   empresaMemberships?: Prisma.EmpresaMembershipUncheckedUpdateManyWithoutTenantNestedInput
   empresas?: Prisma.EmpresaUncheckedUpdateManyWithoutTenantNestedInput
   estadosServicio?: Prisma.EstadoServicioUncheckedUpdateManyWithoutTenantNestedInput
+  evidenciasServicio?: Prisma.EvidenciaServicioUncheckedUpdateManyWithoutTenantNestedInput
   geolocalizaciones?: Prisma.GeolocalizacionUncheckedUpdateManyWithoutTenantNestedInput
   logsEvento?: Prisma.LogEventoUncheckedUpdateManyWithoutTenantNestedInput
   metodosPago?: Prisma.MetodoPagoUncheckedUpdateManyWithoutTenantNestedInput
@@ -8336,7 +8470,6 @@ export type TenantUncheckedUpdateWithoutDeclaracionesInput = {
   turnos?: Prisma.TurnoUncheckedUpdateManyWithoutTenantNestedInput
   vehiculos?: Prisma.VehiculoUncheckedUpdateManyWithoutTenantNestedInput
   zonas?: Prisma.ZonaUncheckedUpdateManyWithoutTenantNestedInput
-  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaUncheckedUpdateManyWithoutTenantNestedInput
 }
 
 export type TenantCreateWithoutConsignacionesInput = {
@@ -8354,6 +8487,7 @@ export type TenantCreateWithoutConsignacionesInput = {
   auditorias?: Prisma.AuditoriaCreateNestedManyWithoutTenantInput
   authSessions?: Prisma.AuthSessionCreateNestedManyWithoutTenantInput
   citasPsicologos?: Prisma.CitasPsicologosCreateNestedManyWithoutTenantInput
+  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaCreateNestedManyWithoutTenantInput
   clientes?: Prisma.ClienteCreateNestedManyWithoutTenantInput
   commissions?: Prisma.CommissionRecordCreateNestedManyWithoutTenantInput
   configuracionPagos?: Prisma.ConfiguracionPagosCreateNestedManyWithoutTenantInput
@@ -8367,6 +8501,7 @@ export type TenantCreateWithoutConsignacionesInput = {
   empresaMemberships?: Prisma.EmpresaMembershipCreateNestedManyWithoutTenantInput
   empresas?: Prisma.EmpresaCreateNestedManyWithoutTenantInput
   estadosServicio?: Prisma.EstadoServicioCreateNestedManyWithoutTenantInput
+  evidenciasServicio?: Prisma.EvidenciaServicioCreateNestedManyWithoutTenantInput
   geolocalizaciones?: Prisma.GeolocalizacionCreateNestedManyWithoutTenantInput
   logsEvento?: Prisma.LogEventoCreateNestedManyWithoutTenantInput
   metodosPago?: Prisma.MetodoPagoCreateNestedManyWithoutTenantInput
@@ -8394,7 +8529,6 @@ export type TenantCreateWithoutConsignacionesInput = {
   turnos?: Prisma.TurnoCreateNestedManyWithoutTenantInput
   vehiculos?: Prisma.VehiculoCreateNestedManyWithoutTenantInput
   zonas?: Prisma.ZonaCreateNestedManyWithoutTenantInput
-  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaCreateNestedManyWithoutTenantInput
 }
 
 export type TenantUncheckedCreateWithoutConsignacionesInput = {
@@ -8412,6 +8546,7 @@ export type TenantUncheckedCreateWithoutConsignacionesInput = {
   auditorias?: Prisma.AuditoriaUncheckedCreateNestedManyWithoutTenantInput
   authSessions?: Prisma.AuthSessionUncheckedCreateNestedManyWithoutTenantInput
   citasPsicologos?: Prisma.CitasPsicologosUncheckedCreateNestedManyWithoutTenantInput
+  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaUncheckedCreateNestedManyWithoutTenantInput
   clientes?: Prisma.ClienteUncheckedCreateNestedManyWithoutTenantInput
   commissions?: Prisma.CommissionRecordUncheckedCreateNestedManyWithoutTenantInput
   configuracionPagos?: Prisma.ConfiguracionPagosUncheckedCreateNestedManyWithoutTenantInput
@@ -8425,6 +8560,7 @@ export type TenantUncheckedCreateWithoutConsignacionesInput = {
   empresaMemberships?: Prisma.EmpresaMembershipUncheckedCreateNestedManyWithoutTenantInput
   empresas?: Prisma.EmpresaUncheckedCreateNestedManyWithoutTenantInput
   estadosServicio?: Prisma.EstadoServicioUncheckedCreateNestedManyWithoutTenantInput
+  evidenciasServicio?: Prisma.EvidenciaServicioUncheckedCreateNestedManyWithoutTenantInput
   geolocalizaciones?: Prisma.GeolocalizacionUncheckedCreateNestedManyWithoutTenantInput
   logsEvento?: Prisma.LogEventoUncheckedCreateNestedManyWithoutTenantInput
   metodosPago?: Prisma.MetodoPagoUncheckedCreateNestedManyWithoutTenantInput
@@ -8452,7 +8588,6 @@ export type TenantUncheckedCreateWithoutConsignacionesInput = {
   turnos?: Prisma.TurnoUncheckedCreateNestedManyWithoutTenantInput
   vehiculos?: Prisma.VehiculoUncheckedCreateNestedManyWithoutTenantInput
   zonas?: Prisma.ZonaUncheckedCreateNestedManyWithoutTenantInput
-  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaUncheckedCreateNestedManyWithoutTenantInput
 }
 
 export type TenantCreateOrConnectWithoutConsignacionesInput = {
@@ -8486,6 +8621,7 @@ export type TenantUpdateWithoutConsignacionesInput = {
   auditorias?: Prisma.AuditoriaUpdateManyWithoutTenantNestedInput
   authSessions?: Prisma.AuthSessionUpdateManyWithoutTenantNestedInput
   citasPsicologos?: Prisma.CitasPsicologosUpdateManyWithoutTenantNestedInput
+  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaUpdateManyWithoutTenantNestedInput
   clientes?: Prisma.ClienteUpdateManyWithoutTenantNestedInput
   commissions?: Prisma.CommissionRecordUpdateManyWithoutTenantNestedInput
   configuracionPagos?: Prisma.ConfiguracionPagosUpdateManyWithoutTenantNestedInput
@@ -8499,6 +8635,7 @@ export type TenantUpdateWithoutConsignacionesInput = {
   empresaMemberships?: Prisma.EmpresaMembershipUpdateManyWithoutTenantNestedInput
   empresas?: Prisma.EmpresaUpdateManyWithoutTenantNestedInput
   estadosServicio?: Prisma.EstadoServicioUpdateManyWithoutTenantNestedInput
+  evidenciasServicio?: Prisma.EvidenciaServicioUpdateManyWithoutTenantNestedInput
   geolocalizaciones?: Prisma.GeolocalizacionUpdateManyWithoutTenantNestedInput
   logsEvento?: Prisma.LogEventoUpdateManyWithoutTenantNestedInput
   metodosPago?: Prisma.MetodoPagoUpdateManyWithoutTenantNestedInput
@@ -8526,7 +8663,6 @@ export type TenantUpdateWithoutConsignacionesInput = {
   turnos?: Prisma.TurnoUpdateManyWithoutTenantNestedInput
   vehiculos?: Prisma.VehiculoUpdateManyWithoutTenantNestedInput
   zonas?: Prisma.ZonaUpdateManyWithoutTenantNestedInput
-  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaUpdateManyWithoutTenantNestedInput
 }
 
 export type TenantUncheckedUpdateWithoutConsignacionesInput = {
@@ -8544,6 +8680,7 @@ export type TenantUncheckedUpdateWithoutConsignacionesInput = {
   auditorias?: Prisma.AuditoriaUncheckedUpdateManyWithoutTenantNestedInput
   authSessions?: Prisma.AuthSessionUncheckedUpdateManyWithoutTenantNestedInput
   citasPsicologos?: Prisma.CitasPsicologosUncheckedUpdateManyWithoutTenantNestedInput
+  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaUncheckedUpdateManyWithoutTenantNestedInput
   clientes?: Prisma.ClienteUncheckedUpdateManyWithoutTenantNestedInput
   commissions?: Prisma.CommissionRecordUncheckedUpdateManyWithoutTenantNestedInput
   configuracionPagos?: Prisma.ConfiguracionPagosUncheckedUpdateManyWithoutTenantNestedInput
@@ -8557,6 +8694,7 @@ export type TenantUncheckedUpdateWithoutConsignacionesInput = {
   empresaMemberships?: Prisma.EmpresaMembershipUncheckedUpdateManyWithoutTenantNestedInput
   empresas?: Prisma.EmpresaUncheckedUpdateManyWithoutTenantNestedInput
   estadosServicio?: Prisma.EstadoServicioUncheckedUpdateManyWithoutTenantNestedInput
+  evidenciasServicio?: Prisma.EvidenciaServicioUncheckedUpdateManyWithoutTenantNestedInput
   geolocalizaciones?: Prisma.GeolocalizacionUncheckedUpdateManyWithoutTenantNestedInput
   logsEvento?: Prisma.LogEventoUncheckedUpdateManyWithoutTenantNestedInput
   metodosPago?: Prisma.MetodoPagoUncheckedUpdateManyWithoutTenantNestedInput
@@ -8584,7 +8722,6 @@ export type TenantUncheckedUpdateWithoutConsignacionesInput = {
   turnos?: Prisma.TurnoUncheckedUpdateManyWithoutTenantNestedInput
   vehiculos?: Prisma.VehiculoUncheckedUpdateManyWithoutTenantNestedInput
   zonas?: Prisma.ZonaUncheckedUpdateManyWithoutTenantNestedInput
-  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaUncheckedUpdateManyWithoutTenantNestedInput
 }
 
 export type TenantCreateWithoutConsignacionOrdenesInput = {
@@ -8602,6 +8739,7 @@ export type TenantCreateWithoutConsignacionOrdenesInput = {
   auditorias?: Prisma.AuditoriaCreateNestedManyWithoutTenantInput
   authSessions?: Prisma.AuthSessionCreateNestedManyWithoutTenantInput
   citasPsicologos?: Prisma.CitasPsicologosCreateNestedManyWithoutTenantInput
+  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaCreateNestedManyWithoutTenantInput
   clientes?: Prisma.ClienteCreateNestedManyWithoutTenantInput
   commissions?: Prisma.CommissionRecordCreateNestedManyWithoutTenantInput
   configuracionPagos?: Prisma.ConfiguracionPagosCreateNestedManyWithoutTenantInput
@@ -8615,6 +8753,7 @@ export type TenantCreateWithoutConsignacionOrdenesInput = {
   empresaMemberships?: Prisma.EmpresaMembershipCreateNestedManyWithoutTenantInput
   empresas?: Prisma.EmpresaCreateNestedManyWithoutTenantInput
   estadosServicio?: Prisma.EstadoServicioCreateNestedManyWithoutTenantInput
+  evidenciasServicio?: Prisma.EvidenciaServicioCreateNestedManyWithoutTenantInput
   geolocalizaciones?: Prisma.GeolocalizacionCreateNestedManyWithoutTenantInput
   logsEvento?: Prisma.LogEventoCreateNestedManyWithoutTenantInput
   metodosPago?: Prisma.MetodoPagoCreateNestedManyWithoutTenantInput
@@ -8642,7 +8781,6 @@ export type TenantCreateWithoutConsignacionOrdenesInput = {
   turnos?: Prisma.TurnoCreateNestedManyWithoutTenantInput
   vehiculos?: Prisma.VehiculoCreateNestedManyWithoutTenantInput
   zonas?: Prisma.ZonaCreateNestedManyWithoutTenantInput
-  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaCreateNestedManyWithoutTenantInput
 }
 
 export type TenantUncheckedCreateWithoutConsignacionOrdenesInput = {
@@ -8660,6 +8798,7 @@ export type TenantUncheckedCreateWithoutConsignacionOrdenesInput = {
   auditorias?: Prisma.AuditoriaUncheckedCreateNestedManyWithoutTenantInput
   authSessions?: Prisma.AuthSessionUncheckedCreateNestedManyWithoutTenantInput
   citasPsicologos?: Prisma.CitasPsicologosUncheckedCreateNestedManyWithoutTenantInput
+  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaUncheckedCreateNestedManyWithoutTenantInput
   clientes?: Prisma.ClienteUncheckedCreateNestedManyWithoutTenantInput
   commissions?: Prisma.CommissionRecordUncheckedCreateNestedManyWithoutTenantInput
   configuracionPagos?: Prisma.ConfiguracionPagosUncheckedCreateNestedManyWithoutTenantInput
@@ -8673,6 +8812,7 @@ export type TenantUncheckedCreateWithoutConsignacionOrdenesInput = {
   empresaMemberships?: Prisma.EmpresaMembershipUncheckedCreateNestedManyWithoutTenantInput
   empresas?: Prisma.EmpresaUncheckedCreateNestedManyWithoutTenantInput
   estadosServicio?: Prisma.EstadoServicioUncheckedCreateNestedManyWithoutTenantInput
+  evidenciasServicio?: Prisma.EvidenciaServicioUncheckedCreateNestedManyWithoutTenantInput
   geolocalizaciones?: Prisma.GeolocalizacionUncheckedCreateNestedManyWithoutTenantInput
   logsEvento?: Prisma.LogEventoUncheckedCreateNestedManyWithoutTenantInput
   metodosPago?: Prisma.MetodoPagoUncheckedCreateNestedManyWithoutTenantInput
@@ -8700,7 +8840,6 @@ export type TenantUncheckedCreateWithoutConsignacionOrdenesInput = {
   turnos?: Prisma.TurnoUncheckedCreateNestedManyWithoutTenantInput
   vehiculos?: Prisma.VehiculoUncheckedCreateNestedManyWithoutTenantInput
   zonas?: Prisma.ZonaUncheckedCreateNestedManyWithoutTenantInput
-  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaUncheckedCreateNestedManyWithoutTenantInput
 }
 
 export type TenantCreateOrConnectWithoutConsignacionOrdenesInput = {
@@ -8734,6 +8873,7 @@ export type TenantUpdateWithoutConsignacionOrdenesInput = {
   auditorias?: Prisma.AuditoriaUpdateManyWithoutTenantNestedInput
   authSessions?: Prisma.AuthSessionUpdateManyWithoutTenantNestedInput
   citasPsicologos?: Prisma.CitasPsicologosUpdateManyWithoutTenantNestedInput
+  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaUpdateManyWithoutTenantNestedInput
   clientes?: Prisma.ClienteUpdateManyWithoutTenantNestedInput
   commissions?: Prisma.CommissionRecordUpdateManyWithoutTenantNestedInput
   configuracionPagos?: Prisma.ConfiguracionPagosUpdateManyWithoutTenantNestedInput
@@ -8747,6 +8887,7 @@ export type TenantUpdateWithoutConsignacionOrdenesInput = {
   empresaMemberships?: Prisma.EmpresaMembershipUpdateManyWithoutTenantNestedInput
   empresas?: Prisma.EmpresaUpdateManyWithoutTenantNestedInput
   estadosServicio?: Prisma.EstadoServicioUpdateManyWithoutTenantNestedInput
+  evidenciasServicio?: Prisma.EvidenciaServicioUpdateManyWithoutTenantNestedInput
   geolocalizaciones?: Prisma.GeolocalizacionUpdateManyWithoutTenantNestedInput
   logsEvento?: Prisma.LogEventoUpdateManyWithoutTenantNestedInput
   metodosPago?: Prisma.MetodoPagoUpdateManyWithoutTenantNestedInput
@@ -8774,7 +8915,6 @@ export type TenantUpdateWithoutConsignacionOrdenesInput = {
   turnos?: Prisma.TurnoUpdateManyWithoutTenantNestedInput
   vehiculos?: Prisma.VehiculoUpdateManyWithoutTenantNestedInput
   zonas?: Prisma.ZonaUpdateManyWithoutTenantNestedInput
-  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaUpdateManyWithoutTenantNestedInput
 }
 
 export type TenantUncheckedUpdateWithoutConsignacionOrdenesInput = {
@@ -8792,6 +8932,7 @@ export type TenantUncheckedUpdateWithoutConsignacionOrdenesInput = {
   auditorias?: Prisma.AuditoriaUncheckedUpdateManyWithoutTenantNestedInput
   authSessions?: Prisma.AuthSessionUncheckedUpdateManyWithoutTenantNestedInput
   citasPsicologos?: Prisma.CitasPsicologosUncheckedUpdateManyWithoutTenantNestedInput
+  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaUncheckedUpdateManyWithoutTenantNestedInput
   clientes?: Prisma.ClienteUncheckedUpdateManyWithoutTenantNestedInput
   commissions?: Prisma.CommissionRecordUncheckedUpdateManyWithoutTenantNestedInput
   configuracionPagos?: Prisma.ConfiguracionPagosUncheckedUpdateManyWithoutTenantNestedInput
@@ -8805,6 +8946,7 @@ export type TenantUncheckedUpdateWithoutConsignacionOrdenesInput = {
   empresaMemberships?: Prisma.EmpresaMembershipUncheckedUpdateManyWithoutTenantNestedInput
   empresas?: Prisma.EmpresaUncheckedUpdateManyWithoutTenantNestedInput
   estadosServicio?: Prisma.EstadoServicioUncheckedUpdateManyWithoutTenantNestedInput
+  evidenciasServicio?: Prisma.EvidenciaServicioUncheckedUpdateManyWithoutTenantNestedInput
   geolocalizaciones?: Prisma.GeolocalizacionUncheckedUpdateManyWithoutTenantNestedInput
   logsEvento?: Prisma.LogEventoUncheckedUpdateManyWithoutTenantNestedInput
   metodosPago?: Prisma.MetodoPagoUncheckedUpdateManyWithoutTenantNestedInput
@@ -8832,7 +8974,6 @@ export type TenantUncheckedUpdateWithoutConsignacionOrdenesInput = {
   turnos?: Prisma.TurnoUncheckedUpdateManyWithoutTenantNestedInput
   vehiculos?: Prisma.VehiculoUncheckedUpdateManyWithoutTenantNestedInput
   zonas?: Prisma.ZonaUncheckedUpdateManyWithoutTenantNestedInput
-  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaUncheckedUpdateManyWithoutTenantNestedInput
 }
 
 export type TenantCreateWithoutAnticiposInput = {
@@ -8849,6 +8990,7 @@ export type TenantCreateWithoutAnticiposInput = {
   auditorias?: Prisma.AuditoriaCreateNestedManyWithoutTenantInput
   authSessions?: Prisma.AuthSessionCreateNestedManyWithoutTenantInput
   citasPsicologos?: Prisma.CitasPsicologosCreateNestedManyWithoutTenantInput
+  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaCreateNestedManyWithoutTenantInput
   clientes?: Prisma.ClienteCreateNestedManyWithoutTenantInput
   commissions?: Prisma.CommissionRecordCreateNestedManyWithoutTenantInput
   configuracionPagos?: Prisma.ConfiguracionPagosCreateNestedManyWithoutTenantInput
@@ -8863,6 +9005,7 @@ export type TenantCreateWithoutAnticiposInput = {
   empresaMemberships?: Prisma.EmpresaMembershipCreateNestedManyWithoutTenantInput
   empresas?: Prisma.EmpresaCreateNestedManyWithoutTenantInput
   estadosServicio?: Prisma.EstadoServicioCreateNestedManyWithoutTenantInput
+  evidenciasServicio?: Prisma.EvidenciaServicioCreateNestedManyWithoutTenantInput
   geolocalizaciones?: Prisma.GeolocalizacionCreateNestedManyWithoutTenantInput
   logsEvento?: Prisma.LogEventoCreateNestedManyWithoutTenantInput
   metodosPago?: Prisma.MetodoPagoCreateNestedManyWithoutTenantInput
@@ -8890,7 +9033,6 @@ export type TenantCreateWithoutAnticiposInput = {
   turnos?: Prisma.TurnoCreateNestedManyWithoutTenantInput
   vehiculos?: Prisma.VehiculoCreateNestedManyWithoutTenantInput
   zonas?: Prisma.ZonaCreateNestedManyWithoutTenantInput
-  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaCreateNestedManyWithoutTenantInput
 }
 
 export type TenantUncheckedCreateWithoutAnticiposInput = {
@@ -8907,6 +9049,7 @@ export type TenantUncheckedCreateWithoutAnticiposInput = {
   auditorias?: Prisma.AuditoriaUncheckedCreateNestedManyWithoutTenantInput
   authSessions?: Prisma.AuthSessionUncheckedCreateNestedManyWithoutTenantInput
   citasPsicologos?: Prisma.CitasPsicologosUncheckedCreateNestedManyWithoutTenantInput
+  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaUncheckedCreateNestedManyWithoutTenantInput
   clientes?: Prisma.ClienteUncheckedCreateNestedManyWithoutTenantInput
   commissions?: Prisma.CommissionRecordUncheckedCreateNestedManyWithoutTenantInput
   configuracionPagos?: Prisma.ConfiguracionPagosUncheckedCreateNestedManyWithoutTenantInput
@@ -8921,6 +9064,7 @@ export type TenantUncheckedCreateWithoutAnticiposInput = {
   empresaMemberships?: Prisma.EmpresaMembershipUncheckedCreateNestedManyWithoutTenantInput
   empresas?: Prisma.EmpresaUncheckedCreateNestedManyWithoutTenantInput
   estadosServicio?: Prisma.EstadoServicioUncheckedCreateNestedManyWithoutTenantInput
+  evidenciasServicio?: Prisma.EvidenciaServicioUncheckedCreateNestedManyWithoutTenantInput
   geolocalizaciones?: Prisma.GeolocalizacionUncheckedCreateNestedManyWithoutTenantInput
   logsEvento?: Prisma.LogEventoUncheckedCreateNestedManyWithoutTenantInput
   metodosPago?: Prisma.MetodoPagoUncheckedCreateNestedManyWithoutTenantInput
@@ -8948,7 +9092,6 @@ export type TenantUncheckedCreateWithoutAnticiposInput = {
   turnos?: Prisma.TurnoUncheckedCreateNestedManyWithoutTenantInput
   vehiculos?: Prisma.VehiculoUncheckedCreateNestedManyWithoutTenantInput
   zonas?: Prisma.ZonaUncheckedCreateNestedManyWithoutTenantInput
-  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaUncheckedCreateNestedManyWithoutTenantInput
 }
 
 export type TenantCreateOrConnectWithoutAnticiposInput = {
@@ -8981,6 +9124,7 @@ export type TenantUpdateWithoutAnticiposInput = {
   auditorias?: Prisma.AuditoriaUpdateManyWithoutTenantNestedInput
   authSessions?: Prisma.AuthSessionUpdateManyWithoutTenantNestedInput
   citasPsicologos?: Prisma.CitasPsicologosUpdateManyWithoutTenantNestedInput
+  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaUpdateManyWithoutTenantNestedInput
   clientes?: Prisma.ClienteUpdateManyWithoutTenantNestedInput
   commissions?: Prisma.CommissionRecordUpdateManyWithoutTenantNestedInput
   configuracionPagos?: Prisma.ConfiguracionPagosUpdateManyWithoutTenantNestedInput
@@ -8995,6 +9139,7 @@ export type TenantUpdateWithoutAnticiposInput = {
   empresaMemberships?: Prisma.EmpresaMembershipUpdateManyWithoutTenantNestedInput
   empresas?: Prisma.EmpresaUpdateManyWithoutTenantNestedInput
   estadosServicio?: Prisma.EstadoServicioUpdateManyWithoutTenantNestedInput
+  evidenciasServicio?: Prisma.EvidenciaServicioUpdateManyWithoutTenantNestedInput
   geolocalizaciones?: Prisma.GeolocalizacionUpdateManyWithoutTenantNestedInput
   logsEvento?: Prisma.LogEventoUpdateManyWithoutTenantNestedInput
   metodosPago?: Prisma.MetodoPagoUpdateManyWithoutTenantNestedInput
@@ -9022,7 +9167,6 @@ export type TenantUpdateWithoutAnticiposInput = {
   turnos?: Prisma.TurnoUpdateManyWithoutTenantNestedInput
   vehiculos?: Prisma.VehiculoUpdateManyWithoutTenantNestedInput
   zonas?: Prisma.ZonaUpdateManyWithoutTenantNestedInput
-  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaUpdateManyWithoutTenantNestedInput
 }
 
 export type TenantUncheckedUpdateWithoutAnticiposInput = {
@@ -9039,6 +9183,7 @@ export type TenantUncheckedUpdateWithoutAnticiposInput = {
   auditorias?: Prisma.AuditoriaUncheckedUpdateManyWithoutTenantNestedInput
   authSessions?: Prisma.AuthSessionUncheckedUpdateManyWithoutTenantNestedInput
   citasPsicologos?: Prisma.CitasPsicologosUncheckedUpdateManyWithoutTenantNestedInput
+  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaUncheckedUpdateManyWithoutTenantNestedInput
   clientes?: Prisma.ClienteUncheckedUpdateManyWithoutTenantNestedInput
   commissions?: Prisma.CommissionRecordUncheckedUpdateManyWithoutTenantNestedInput
   configuracionPagos?: Prisma.ConfiguracionPagosUncheckedUpdateManyWithoutTenantNestedInput
@@ -9053,6 +9198,7 @@ export type TenantUncheckedUpdateWithoutAnticiposInput = {
   empresaMemberships?: Prisma.EmpresaMembershipUncheckedUpdateManyWithoutTenantNestedInput
   empresas?: Prisma.EmpresaUncheckedUpdateManyWithoutTenantNestedInput
   estadosServicio?: Prisma.EstadoServicioUncheckedUpdateManyWithoutTenantNestedInput
+  evidenciasServicio?: Prisma.EvidenciaServicioUncheckedUpdateManyWithoutTenantNestedInput
   geolocalizaciones?: Prisma.GeolocalizacionUncheckedUpdateManyWithoutTenantNestedInput
   logsEvento?: Prisma.LogEventoUncheckedUpdateManyWithoutTenantNestedInput
   metodosPago?: Prisma.MetodoPagoUncheckedUpdateManyWithoutTenantNestedInput
@@ -9080,7 +9226,6 @@ export type TenantUncheckedUpdateWithoutAnticiposInput = {
   turnos?: Prisma.TurnoUncheckedUpdateManyWithoutTenantNestedInput
   vehiculos?: Prisma.VehiculoUncheckedUpdateManyWithoutTenantNestedInput
   zonas?: Prisma.ZonaUncheckedUpdateManyWithoutTenantNestedInput
-  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaUncheckedUpdateManyWithoutTenantNestedInput
 }
 
 export type TenantCreateWithoutProductosInput = {
@@ -9098,6 +9243,7 @@ export type TenantCreateWithoutProductosInput = {
   auditorias?: Prisma.AuditoriaCreateNestedManyWithoutTenantInput
   authSessions?: Prisma.AuthSessionCreateNestedManyWithoutTenantInput
   citasPsicologos?: Prisma.CitasPsicologosCreateNestedManyWithoutTenantInput
+  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaCreateNestedManyWithoutTenantInput
   clientes?: Prisma.ClienteCreateNestedManyWithoutTenantInput
   commissions?: Prisma.CommissionRecordCreateNestedManyWithoutTenantInput
   configuracionPagos?: Prisma.ConfiguracionPagosCreateNestedManyWithoutTenantInput
@@ -9112,6 +9258,7 @@ export type TenantCreateWithoutProductosInput = {
   empresaMemberships?: Prisma.EmpresaMembershipCreateNestedManyWithoutTenantInput
   empresas?: Prisma.EmpresaCreateNestedManyWithoutTenantInput
   estadosServicio?: Prisma.EstadoServicioCreateNestedManyWithoutTenantInput
+  evidenciasServicio?: Prisma.EvidenciaServicioCreateNestedManyWithoutTenantInput
   geolocalizaciones?: Prisma.GeolocalizacionCreateNestedManyWithoutTenantInput
   logsEvento?: Prisma.LogEventoCreateNestedManyWithoutTenantInput
   metodosPago?: Prisma.MetodoPagoCreateNestedManyWithoutTenantInput
@@ -9138,7 +9285,6 @@ export type TenantCreateWithoutProductosInput = {
   turnos?: Prisma.TurnoCreateNestedManyWithoutTenantInput
   vehiculos?: Prisma.VehiculoCreateNestedManyWithoutTenantInput
   zonas?: Prisma.ZonaCreateNestedManyWithoutTenantInput
-  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaCreateNestedManyWithoutTenantInput
 }
 
 export type TenantUncheckedCreateWithoutProductosInput = {
@@ -9156,6 +9302,7 @@ export type TenantUncheckedCreateWithoutProductosInput = {
   auditorias?: Prisma.AuditoriaUncheckedCreateNestedManyWithoutTenantInput
   authSessions?: Prisma.AuthSessionUncheckedCreateNestedManyWithoutTenantInput
   citasPsicologos?: Prisma.CitasPsicologosUncheckedCreateNestedManyWithoutTenantInput
+  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaUncheckedCreateNestedManyWithoutTenantInput
   clientes?: Prisma.ClienteUncheckedCreateNestedManyWithoutTenantInput
   commissions?: Prisma.CommissionRecordUncheckedCreateNestedManyWithoutTenantInput
   configuracionPagos?: Prisma.ConfiguracionPagosUncheckedCreateNestedManyWithoutTenantInput
@@ -9170,6 +9317,7 @@ export type TenantUncheckedCreateWithoutProductosInput = {
   empresaMemberships?: Prisma.EmpresaMembershipUncheckedCreateNestedManyWithoutTenantInput
   empresas?: Prisma.EmpresaUncheckedCreateNestedManyWithoutTenantInput
   estadosServicio?: Prisma.EstadoServicioUncheckedCreateNestedManyWithoutTenantInput
+  evidenciasServicio?: Prisma.EvidenciaServicioUncheckedCreateNestedManyWithoutTenantInput
   geolocalizaciones?: Prisma.GeolocalizacionUncheckedCreateNestedManyWithoutTenantInput
   logsEvento?: Prisma.LogEventoUncheckedCreateNestedManyWithoutTenantInput
   metodosPago?: Prisma.MetodoPagoUncheckedCreateNestedManyWithoutTenantInput
@@ -9196,7 +9344,6 @@ export type TenantUncheckedCreateWithoutProductosInput = {
   turnos?: Prisma.TurnoUncheckedCreateNestedManyWithoutTenantInput
   vehiculos?: Prisma.VehiculoUncheckedCreateNestedManyWithoutTenantInput
   zonas?: Prisma.ZonaUncheckedCreateNestedManyWithoutTenantInput
-  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaUncheckedCreateNestedManyWithoutTenantInput
 }
 
 export type TenantCreateOrConnectWithoutProductosInput = {
@@ -9230,6 +9377,7 @@ export type TenantUpdateWithoutProductosInput = {
   auditorias?: Prisma.AuditoriaUpdateManyWithoutTenantNestedInput
   authSessions?: Prisma.AuthSessionUpdateManyWithoutTenantNestedInput
   citasPsicologos?: Prisma.CitasPsicologosUpdateManyWithoutTenantNestedInput
+  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaUpdateManyWithoutTenantNestedInput
   clientes?: Prisma.ClienteUpdateManyWithoutTenantNestedInput
   commissions?: Prisma.CommissionRecordUpdateManyWithoutTenantNestedInput
   configuracionPagos?: Prisma.ConfiguracionPagosUpdateManyWithoutTenantNestedInput
@@ -9244,6 +9392,7 @@ export type TenantUpdateWithoutProductosInput = {
   empresaMemberships?: Prisma.EmpresaMembershipUpdateManyWithoutTenantNestedInput
   empresas?: Prisma.EmpresaUpdateManyWithoutTenantNestedInput
   estadosServicio?: Prisma.EstadoServicioUpdateManyWithoutTenantNestedInput
+  evidenciasServicio?: Prisma.EvidenciaServicioUpdateManyWithoutTenantNestedInput
   geolocalizaciones?: Prisma.GeolocalizacionUpdateManyWithoutTenantNestedInput
   logsEvento?: Prisma.LogEventoUpdateManyWithoutTenantNestedInput
   metodosPago?: Prisma.MetodoPagoUpdateManyWithoutTenantNestedInput
@@ -9270,7 +9419,6 @@ export type TenantUpdateWithoutProductosInput = {
   turnos?: Prisma.TurnoUpdateManyWithoutTenantNestedInput
   vehiculos?: Prisma.VehiculoUpdateManyWithoutTenantNestedInput
   zonas?: Prisma.ZonaUpdateManyWithoutTenantNestedInput
-  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaUpdateManyWithoutTenantNestedInput
 }
 
 export type TenantUncheckedUpdateWithoutProductosInput = {
@@ -9288,6 +9436,7 @@ export type TenantUncheckedUpdateWithoutProductosInput = {
   auditorias?: Prisma.AuditoriaUncheckedUpdateManyWithoutTenantNestedInput
   authSessions?: Prisma.AuthSessionUncheckedUpdateManyWithoutTenantNestedInput
   citasPsicologos?: Prisma.CitasPsicologosUncheckedUpdateManyWithoutTenantNestedInput
+  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaUncheckedUpdateManyWithoutTenantNestedInput
   clientes?: Prisma.ClienteUncheckedUpdateManyWithoutTenantNestedInput
   commissions?: Prisma.CommissionRecordUncheckedUpdateManyWithoutTenantNestedInput
   configuracionPagos?: Prisma.ConfiguracionPagosUncheckedUpdateManyWithoutTenantNestedInput
@@ -9302,6 +9451,7 @@ export type TenantUncheckedUpdateWithoutProductosInput = {
   empresaMemberships?: Prisma.EmpresaMembershipUncheckedUpdateManyWithoutTenantNestedInput
   empresas?: Prisma.EmpresaUncheckedUpdateManyWithoutTenantNestedInput
   estadosServicio?: Prisma.EstadoServicioUncheckedUpdateManyWithoutTenantNestedInput
+  evidenciasServicio?: Prisma.EvidenciaServicioUncheckedUpdateManyWithoutTenantNestedInput
   geolocalizaciones?: Prisma.GeolocalizacionUncheckedUpdateManyWithoutTenantNestedInput
   logsEvento?: Prisma.LogEventoUncheckedUpdateManyWithoutTenantNestedInput
   metodosPago?: Prisma.MetodoPagoUncheckedUpdateManyWithoutTenantNestedInput
@@ -9328,7 +9478,6 @@ export type TenantUncheckedUpdateWithoutProductosInput = {
   turnos?: Prisma.TurnoUncheckedUpdateManyWithoutTenantNestedInput
   vehiculos?: Prisma.VehiculoUncheckedUpdateManyWithoutTenantNestedInput
   zonas?: Prisma.ZonaUncheckedUpdateManyWithoutTenantNestedInput
-  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaUncheckedUpdateManyWithoutTenantNestedInput
 }
 
 export type TenantCreateWithoutProductosSolicitadosInput = {
@@ -9346,6 +9495,7 @@ export type TenantCreateWithoutProductosSolicitadosInput = {
   auditorias?: Prisma.AuditoriaCreateNestedManyWithoutTenantInput
   authSessions?: Prisma.AuthSessionCreateNestedManyWithoutTenantInput
   citasPsicologos?: Prisma.CitasPsicologosCreateNestedManyWithoutTenantInput
+  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaCreateNestedManyWithoutTenantInput
   clientes?: Prisma.ClienteCreateNestedManyWithoutTenantInput
   commissions?: Prisma.CommissionRecordCreateNestedManyWithoutTenantInput
   configuracionPagos?: Prisma.ConfiguracionPagosCreateNestedManyWithoutTenantInput
@@ -9360,6 +9510,7 @@ export type TenantCreateWithoutProductosSolicitadosInput = {
   empresaMemberships?: Prisma.EmpresaMembershipCreateNestedManyWithoutTenantInput
   empresas?: Prisma.EmpresaCreateNestedManyWithoutTenantInput
   estadosServicio?: Prisma.EstadoServicioCreateNestedManyWithoutTenantInput
+  evidenciasServicio?: Prisma.EvidenciaServicioCreateNestedManyWithoutTenantInput
   geolocalizaciones?: Prisma.GeolocalizacionCreateNestedManyWithoutTenantInput
   logsEvento?: Prisma.LogEventoCreateNestedManyWithoutTenantInput
   metodosPago?: Prisma.MetodoPagoCreateNestedManyWithoutTenantInput
@@ -9386,7 +9537,6 @@ export type TenantCreateWithoutProductosSolicitadosInput = {
   turnos?: Prisma.TurnoCreateNestedManyWithoutTenantInput
   vehiculos?: Prisma.VehiculoCreateNestedManyWithoutTenantInput
   zonas?: Prisma.ZonaCreateNestedManyWithoutTenantInput
-  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaCreateNestedManyWithoutTenantInput
 }
 
 export type TenantUncheckedCreateWithoutProductosSolicitadosInput = {
@@ -9404,6 +9554,7 @@ export type TenantUncheckedCreateWithoutProductosSolicitadosInput = {
   auditorias?: Prisma.AuditoriaUncheckedCreateNestedManyWithoutTenantInput
   authSessions?: Prisma.AuthSessionUncheckedCreateNestedManyWithoutTenantInput
   citasPsicologos?: Prisma.CitasPsicologosUncheckedCreateNestedManyWithoutTenantInput
+  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaUncheckedCreateNestedManyWithoutTenantInput
   clientes?: Prisma.ClienteUncheckedCreateNestedManyWithoutTenantInput
   commissions?: Prisma.CommissionRecordUncheckedCreateNestedManyWithoutTenantInput
   configuracionPagos?: Prisma.ConfiguracionPagosUncheckedCreateNestedManyWithoutTenantInput
@@ -9418,6 +9569,7 @@ export type TenantUncheckedCreateWithoutProductosSolicitadosInput = {
   empresaMemberships?: Prisma.EmpresaMembershipUncheckedCreateNestedManyWithoutTenantInput
   empresas?: Prisma.EmpresaUncheckedCreateNestedManyWithoutTenantInput
   estadosServicio?: Prisma.EstadoServicioUncheckedCreateNestedManyWithoutTenantInput
+  evidenciasServicio?: Prisma.EvidenciaServicioUncheckedCreateNestedManyWithoutTenantInput
   geolocalizaciones?: Prisma.GeolocalizacionUncheckedCreateNestedManyWithoutTenantInput
   logsEvento?: Prisma.LogEventoUncheckedCreateNestedManyWithoutTenantInput
   metodosPago?: Prisma.MetodoPagoUncheckedCreateNestedManyWithoutTenantInput
@@ -9444,7 +9596,6 @@ export type TenantUncheckedCreateWithoutProductosSolicitadosInput = {
   turnos?: Prisma.TurnoUncheckedCreateNestedManyWithoutTenantInput
   vehiculos?: Prisma.VehiculoUncheckedCreateNestedManyWithoutTenantInput
   zonas?: Prisma.ZonaUncheckedCreateNestedManyWithoutTenantInput
-  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaUncheckedCreateNestedManyWithoutTenantInput
 }
 
 export type TenantCreateOrConnectWithoutProductosSolicitadosInput = {
@@ -9478,6 +9629,7 @@ export type TenantUpdateWithoutProductosSolicitadosInput = {
   auditorias?: Prisma.AuditoriaUpdateManyWithoutTenantNestedInput
   authSessions?: Prisma.AuthSessionUpdateManyWithoutTenantNestedInput
   citasPsicologos?: Prisma.CitasPsicologosUpdateManyWithoutTenantNestedInput
+  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaUpdateManyWithoutTenantNestedInput
   clientes?: Prisma.ClienteUpdateManyWithoutTenantNestedInput
   commissions?: Prisma.CommissionRecordUpdateManyWithoutTenantNestedInput
   configuracionPagos?: Prisma.ConfiguracionPagosUpdateManyWithoutTenantNestedInput
@@ -9492,6 +9644,7 @@ export type TenantUpdateWithoutProductosSolicitadosInput = {
   empresaMemberships?: Prisma.EmpresaMembershipUpdateManyWithoutTenantNestedInput
   empresas?: Prisma.EmpresaUpdateManyWithoutTenantNestedInput
   estadosServicio?: Prisma.EstadoServicioUpdateManyWithoutTenantNestedInput
+  evidenciasServicio?: Prisma.EvidenciaServicioUpdateManyWithoutTenantNestedInput
   geolocalizaciones?: Prisma.GeolocalizacionUpdateManyWithoutTenantNestedInput
   logsEvento?: Prisma.LogEventoUpdateManyWithoutTenantNestedInput
   metodosPago?: Prisma.MetodoPagoUpdateManyWithoutTenantNestedInput
@@ -9518,7 +9671,6 @@ export type TenantUpdateWithoutProductosSolicitadosInput = {
   turnos?: Prisma.TurnoUpdateManyWithoutTenantNestedInput
   vehiculos?: Prisma.VehiculoUpdateManyWithoutTenantNestedInput
   zonas?: Prisma.ZonaUpdateManyWithoutTenantNestedInput
-  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaUpdateManyWithoutTenantNestedInput
 }
 
 export type TenantUncheckedUpdateWithoutProductosSolicitadosInput = {
@@ -9536,6 +9688,7 @@ export type TenantUncheckedUpdateWithoutProductosSolicitadosInput = {
   auditorias?: Prisma.AuditoriaUncheckedUpdateManyWithoutTenantNestedInput
   authSessions?: Prisma.AuthSessionUncheckedUpdateManyWithoutTenantNestedInput
   citasPsicologos?: Prisma.CitasPsicologosUncheckedUpdateManyWithoutTenantNestedInput
+  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaUncheckedUpdateManyWithoutTenantNestedInput
   clientes?: Prisma.ClienteUncheckedUpdateManyWithoutTenantNestedInput
   commissions?: Prisma.CommissionRecordUncheckedUpdateManyWithoutTenantNestedInput
   configuracionPagos?: Prisma.ConfiguracionPagosUncheckedUpdateManyWithoutTenantNestedInput
@@ -9550,6 +9703,7 @@ export type TenantUncheckedUpdateWithoutProductosSolicitadosInput = {
   empresaMemberships?: Prisma.EmpresaMembershipUncheckedUpdateManyWithoutTenantNestedInput
   empresas?: Prisma.EmpresaUncheckedUpdateManyWithoutTenantNestedInput
   estadosServicio?: Prisma.EstadoServicioUncheckedUpdateManyWithoutTenantNestedInput
+  evidenciasServicio?: Prisma.EvidenciaServicioUncheckedUpdateManyWithoutTenantNestedInput
   geolocalizaciones?: Prisma.GeolocalizacionUncheckedUpdateManyWithoutTenantNestedInput
   logsEvento?: Prisma.LogEventoUncheckedUpdateManyWithoutTenantNestedInput
   metodosPago?: Prisma.MetodoPagoUncheckedUpdateManyWithoutTenantNestedInput
@@ -9576,7 +9730,6 @@ export type TenantUncheckedUpdateWithoutProductosSolicitadosInput = {
   turnos?: Prisma.TurnoUncheckedUpdateManyWithoutTenantNestedInput
   vehiculos?: Prisma.VehiculoUncheckedUpdateManyWithoutTenantNestedInput
   zonas?: Prisma.ZonaUncheckedUpdateManyWithoutTenantNestedInput
-  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaUncheckedUpdateManyWithoutTenantNestedInput
 }
 
 export type TenantCreateWithoutProveedoresInput = {
@@ -9594,6 +9747,7 @@ export type TenantCreateWithoutProveedoresInput = {
   auditorias?: Prisma.AuditoriaCreateNestedManyWithoutTenantInput
   authSessions?: Prisma.AuthSessionCreateNestedManyWithoutTenantInput
   citasPsicologos?: Prisma.CitasPsicologosCreateNestedManyWithoutTenantInput
+  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaCreateNestedManyWithoutTenantInput
   clientes?: Prisma.ClienteCreateNestedManyWithoutTenantInput
   commissions?: Prisma.CommissionRecordCreateNestedManyWithoutTenantInput
   configuracionPagos?: Prisma.ConfiguracionPagosCreateNestedManyWithoutTenantInput
@@ -9608,6 +9762,7 @@ export type TenantCreateWithoutProveedoresInput = {
   empresaMemberships?: Prisma.EmpresaMembershipCreateNestedManyWithoutTenantInput
   empresas?: Prisma.EmpresaCreateNestedManyWithoutTenantInput
   estadosServicio?: Prisma.EstadoServicioCreateNestedManyWithoutTenantInput
+  evidenciasServicio?: Prisma.EvidenciaServicioCreateNestedManyWithoutTenantInput
   geolocalizaciones?: Prisma.GeolocalizacionCreateNestedManyWithoutTenantInput
   logsEvento?: Prisma.LogEventoCreateNestedManyWithoutTenantInput
   metodosPago?: Prisma.MetodoPagoCreateNestedManyWithoutTenantInput
@@ -9634,7 +9789,6 @@ export type TenantCreateWithoutProveedoresInput = {
   turnos?: Prisma.TurnoCreateNestedManyWithoutTenantInput
   vehiculos?: Prisma.VehiculoCreateNestedManyWithoutTenantInput
   zonas?: Prisma.ZonaCreateNestedManyWithoutTenantInput
-  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaCreateNestedManyWithoutTenantInput
 }
 
 export type TenantUncheckedCreateWithoutProveedoresInput = {
@@ -9652,6 +9806,7 @@ export type TenantUncheckedCreateWithoutProveedoresInput = {
   auditorias?: Prisma.AuditoriaUncheckedCreateNestedManyWithoutTenantInput
   authSessions?: Prisma.AuthSessionUncheckedCreateNestedManyWithoutTenantInput
   citasPsicologos?: Prisma.CitasPsicologosUncheckedCreateNestedManyWithoutTenantInput
+  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaUncheckedCreateNestedManyWithoutTenantInput
   clientes?: Prisma.ClienteUncheckedCreateNestedManyWithoutTenantInput
   commissions?: Prisma.CommissionRecordUncheckedCreateNestedManyWithoutTenantInput
   configuracionPagos?: Prisma.ConfiguracionPagosUncheckedCreateNestedManyWithoutTenantInput
@@ -9666,6 +9821,7 @@ export type TenantUncheckedCreateWithoutProveedoresInput = {
   empresaMemberships?: Prisma.EmpresaMembershipUncheckedCreateNestedManyWithoutTenantInput
   empresas?: Prisma.EmpresaUncheckedCreateNestedManyWithoutTenantInput
   estadosServicio?: Prisma.EstadoServicioUncheckedCreateNestedManyWithoutTenantInput
+  evidenciasServicio?: Prisma.EvidenciaServicioUncheckedCreateNestedManyWithoutTenantInput
   geolocalizaciones?: Prisma.GeolocalizacionUncheckedCreateNestedManyWithoutTenantInput
   logsEvento?: Prisma.LogEventoUncheckedCreateNestedManyWithoutTenantInput
   metodosPago?: Prisma.MetodoPagoUncheckedCreateNestedManyWithoutTenantInput
@@ -9692,7 +9848,6 @@ export type TenantUncheckedCreateWithoutProveedoresInput = {
   turnos?: Prisma.TurnoUncheckedCreateNestedManyWithoutTenantInput
   vehiculos?: Prisma.VehiculoUncheckedCreateNestedManyWithoutTenantInput
   zonas?: Prisma.ZonaUncheckedCreateNestedManyWithoutTenantInput
-  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaUncheckedCreateNestedManyWithoutTenantInput
 }
 
 export type TenantCreateOrConnectWithoutProveedoresInput = {
@@ -9726,6 +9881,7 @@ export type TenantUpdateWithoutProveedoresInput = {
   auditorias?: Prisma.AuditoriaUpdateManyWithoutTenantNestedInput
   authSessions?: Prisma.AuthSessionUpdateManyWithoutTenantNestedInput
   citasPsicologos?: Prisma.CitasPsicologosUpdateManyWithoutTenantNestedInput
+  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaUpdateManyWithoutTenantNestedInput
   clientes?: Prisma.ClienteUpdateManyWithoutTenantNestedInput
   commissions?: Prisma.CommissionRecordUpdateManyWithoutTenantNestedInput
   configuracionPagos?: Prisma.ConfiguracionPagosUpdateManyWithoutTenantNestedInput
@@ -9740,6 +9896,7 @@ export type TenantUpdateWithoutProveedoresInput = {
   empresaMemberships?: Prisma.EmpresaMembershipUpdateManyWithoutTenantNestedInput
   empresas?: Prisma.EmpresaUpdateManyWithoutTenantNestedInput
   estadosServicio?: Prisma.EstadoServicioUpdateManyWithoutTenantNestedInput
+  evidenciasServicio?: Prisma.EvidenciaServicioUpdateManyWithoutTenantNestedInput
   geolocalizaciones?: Prisma.GeolocalizacionUpdateManyWithoutTenantNestedInput
   logsEvento?: Prisma.LogEventoUpdateManyWithoutTenantNestedInput
   metodosPago?: Prisma.MetodoPagoUpdateManyWithoutTenantNestedInput
@@ -9766,7 +9923,6 @@ export type TenantUpdateWithoutProveedoresInput = {
   turnos?: Prisma.TurnoUpdateManyWithoutTenantNestedInput
   vehiculos?: Prisma.VehiculoUpdateManyWithoutTenantNestedInput
   zonas?: Prisma.ZonaUpdateManyWithoutTenantNestedInput
-  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaUpdateManyWithoutTenantNestedInput
 }
 
 export type TenantUncheckedUpdateWithoutProveedoresInput = {
@@ -9784,6 +9940,7 @@ export type TenantUncheckedUpdateWithoutProveedoresInput = {
   auditorias?: Prisma.AuditoriaUncheckedUpdateManyWithoutTenantNestedInput
   authSessions?: Prisma.AuthSessionUncheckedUpdateManyWithoutTenantNestedInput
   citasPsicologos?: Prisma.CitasPsicologosUncheckedUpdateManyWithoutTenantNestedInput
+  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaUncheckedUpdateManyWithoutTenantNestedInput
   clientes?: Prisma.ClienteUncheckedUpdateManyWithoutTenantNestedInput
   commissions?: Prisma.CommissionRecordUncheckedUpdateManyWithoutTenantNestedInput
   configuracionPagos?: Prisma.ConfiguracionPagosUncheckedUpdateManyWithoutTenantNestedInput
@@ -9798,6 +9955,7 @@ export type TenantUncheckedUpdateWithoutProveedoresInput = {
   empresaMemberships?: Prisma.EmpresaMembershipUncheckedUpdateManyWithoutTenantNestedInput
   empresas?: Prisma.EmpresaUncheckedUpdateManyWithoutTenantNestedInput
   estadosServicio?: Prisma.EstadoServicioUncheckedUpdateManyWithoutTenantNestedInput
+  evidenciasServicio?: Prisma.EvidenciaServicioUncheckedUpdateManyWithoutTenantNestedInput
   geolocalizaciones?: Prisma.GeolocalizacionUncheckedUpdateManyWithoutTenantNestedInput
   logsEvento?: Prisma.LogEventoUncheckedUpdateManyWithoutTenantNestedInput
   metodosPago?: Prisma.MetodoPagoUncheckedUpdateManyWithoutTenantNestedInput
@@ -9824,7 +9982,6 @@ export type TenantUncheckedUpdateWithoutProveedoresInput = {
   turnos?: Prisma.TurnoUncheckedUpdateManyWithoutTenantNestedInput
   vehiculos?: Prisma.VehiculoUncheckedUpdateManyWithoutTenantNestedInput
   zonas?: Prisma.ZonaUncheckedUpdateManyWithoutTenantNestedInput
-  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaUncheckedUpdateManyWithoutTenantNestedInput
 }
 
 export type TenantCreateWithoutPermisosInput = {
@@ -9842,6 +9999,7 @@ export type TenantCreateWithoutPermisosInput = {
   auditorias?: Prisma.AuditoriaCreateNestedManyWithoutTenantInput
   authSessions?: Prisma.AuthSessionCreateNestedManyWithoutTenantInput
   citasPsicologos?: Prisma.CitasPsicologosCreateNestedManyWithoutTenantInput
+  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaCreateNestedManyWithoutTenantInput
   clientes?: Prisma.ClienteCreateNestedManyWithoutTenantInput
   commissions?: Prisma.CommissionRecordCreateNestedManyWithoutTenantInput
   configuracionPagos?: Prisma.ConfiguracionPagosCreateNestedManyWithoutTenantInput
@@ -9856,6 +10014,7 @@ export type TenantCreateWithoutPermisosInput = {
   empresaMemberships?: Prisma.EmpresaMembershipCreateNestedManyWithoutTenantInput
   empresas?: Prisma.EmpresaCreateNestedManyWithoutTenantInput
   estadosServicio?: Prisma.EstadoServicioCreateNestedManyWithoutTenantInput
+  evidenciasServicio?: Prisma.EvidenciaServicioCreateNestedManyWithoutTenantInput
   geolocalizaciones?: Prisma.GeolocalizacionCreateNestedManyWithoutTenantInput
   logsEvento?: Prisma.LogEventoCreateNestedManyWithoutTenantInput
   metodosPago?: Prisma.MetodoPagoCreateNestedManyWithoutTenantInput
@@ -9882,7 +10041,6 @@ export type TenantCreateWithoutPermisosInput = {
   turnos?: Prisma.TurnoCreateNestedManyWithoutTenantInput
   vehiculos?: Prisma.VehiculoCreateNestedManyWithoutTenantInput
   zonas?: Prisma.ZonaCreateNestedManyWithoutTenantInput
-  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaCreateNestedManyWithoutTenantInput
 }
 
 export type TenantUncheckedCreateWithoutPermisosInput = {
@@ -9900,6 +10058,7 @@ export type TenantUncheckedCreateWithoutPermisosInput = {
   auditorias?: Prisma.AuditoriaUncheckedCreateNestedManyWithoutTenantInput
   authSessions?: Prisma.AuthSessionUncheckedCreateNestedManyWithoutTenantInput
   citasPsicologos?: Prisma.CitasPsicologosUncheckedCreateNestedManyWithoutTenantInput
+  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaUncheckedCreateNestedManyWithoutTenantInput
   clientes?: Prisma.ClienteUncheckedCreateNestedManyWithoutTenantInput
   commissions?: Prisma.CommissionRecordUncheckedCreateNestedManyWithoutTenantInput
   configuracionPagos?: Prisma.ConfiguracionPagosUncheckedCreateNestedManyWithoutTenantInput
@@ -9914,6 +10073,7 @@ export type TenantUncheckedCreateWithoutPermisosInput = {
   empresaMemberships?: Prisma.EmpresaMembershipUncheckedCreateNestedManyWithoutTenantInput
   empresas?: Prisma.EmpresaUncheckedCreateNestedManyWithoutTenantInput
   estadosServicio?: Prisma.EstadoServicioUncheckedCreateNestedManyWithoutTenantInput
+  evidenciasServicio?: Prisma.EvidenciaServicioUncheckedCreateNestedManyWithoutTenantInput
   geolocalizaciones?: Prisma.GeolocalizacionUncheckedCreateNestedManyWithoutTenantInput
   logsEvento?: Prisma.LogEventoUncheckedCreateNestedManyWithoutTenantInput
   metodosPago?: Prisma.MetodoPagoUncheckedCreateNestedManyWithoutTenantInput
@@ -9940,7 +10100,6 @@ export type TenantUncheckedCreateWithoutPermisosInput = {
   turnos?: Prisma.TurnoUncheckedCreateNestedManyWithoutTenantInput
   vehiculos?: Prisma.VehiculoUncheckedCreateNestedManyWithoutTenantInput
   zonas?: Prisma.ZonaUncheckedCreateNestedManyWithoutTenantInput
-  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaUncheckedCreateNestedManyWithoutTenantInput
 }
 
 export type TenantCreateOrConnectWithoutPermisosInput = {
@@ -9974,6 +10133,7 @@ export type TenantUpdateWithoutPermisosInput = {
   auditorias?: Prisma.AuditoriaUpdateManyWithoutTenantNestedInput
   authSessions?: Prisma.AuthSessionUpdateManyWithoutTenantNestedInput
   citasPsicologos?: Prisma.CitasPsicologosUpdateManyWithoutTenantNestedInput
+  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaUpdateManyWithoutTenantNestedInput
   clientes?: Prisma.ClienteUpdateManyWithoutTenantNestedInput
   commissions?: Prisma.CommissionRecordUpdateManyWithoutTenantNestedInput
   configuracionPagos?: Prisma.ConfiguracionPagosUpdateManyWithoutTenantNestedInput
@@ -9988,6 +10148,7 @@ export type TenantUpdateWithoutPermisosInput = {
   empresaMemberships?: Prisma.EmpresaMembershipUpdateManyWithoutTenantNestedInput
   empresas?: Prisma.EmpresaUpdateManyWithoutTenantNestedInput
   estadosServicio?: Prisma.EstadoServicioUpdateManyWithoutTenantNestedInput
+  evidenciasServicio?: Prisma.EvidenciaServicioUpdateManyWithoutTenantNestedInput
   geolocalizaciones?: Prisma.GeolocalizacionUpdateManyWithoutTenantNestedInput
   logsEvento?: Prisma.LogEventoUpdateManyWithoutTenantNestedInput
   metodosPago?: Prisma.MetodoPagoUpdateManyWithoutTenantNestedInput
@@ -10014,7 +10175,6 @@ export type TenantUpdateWithoutPermisosInput = {
   turnos?: Prisma.TurnoUpdateManyWithoutTenantNestedInput
   vehiculos?: Prisma.VehiculoUpdateManyWithoutTenantNestedInput
   zonas?: Prisma.ZonaUpdateManyWithoutTenantNestedInput
-  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaUpdateManyWithoutTenantNestedInput
 }
 
 export type TenantUncheckedUpdateWithoutPermisosInput = {
@@ -10032,6 +10192,7 @@ export type TenantUncheckedUpdateWithoutPermisosInput = {
   auditorias?: Prisma.AuditoriaUncheckedUpdateManyWithoutTenantNestedInput
   authSessions?: Prisma.AuthSessionUncheckedUpdateManyWithoutTenantNestedInput
   citasPsicologos?: Prisma.CitasPsicologosUncheckedUpdateManyWithoutTenantNestedInput
+  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaUncheckedUpdateManyWithoutTenantNestedInput
   clientes?: Prisma.ClienteUncheckedUpdateManyWithoutTenantNestedInput
   commissions?: Prisma.CommissionRecordUncheckedUpdateManyWithoutTenantNestedInput
   configuracionPagos?: Prisma.ConfiguracionPagosUncheckedUpdateManyWithoutTenantNestedInput
@@ -10046,6 +10207,7 @@ export type TenantUncheckedUpdateWithoutPermisosInput = {
   empresaMemberships?: Prisma.EmpresaMembershipUncheckedUpdateManyWithoutTenantNestedInput
   empresas?: Prisma.EmpresaUncheckedUpdateManyWithoutTenantNestedInput
   estadosServicio?: Prisma.EstadoServicioUncheckedUpdateManyWithoutTenantNestedInput
+  evidenciasServicio?: Prisma.EvidenciaServicioUncheckedUpdateManyWithoutTenantNestedInput
   geolocalizaciones?: Prisma.GeolocalizacionUncheckedUpdateManyWithoutTenantNestedInput
   logsEvento?: Prisma.LogEventoUncheckedUpdateManyWithoutTenantNestedInput
   metodosPago?: Prisma.MetodoPagoUncheckedUpdateManyWithoutTenantNestedInput
@@ -10072,7 +10234,6 @@ export type TenantUncheckedUpdateWithoutPermisosInput = {
   turnos?: Prisma.TurnoUncheckedUpdateManyWithoutTenantNestedInput
   vehiculos?: Prisma.VehiculoUncheckedUpdateManyWithoutTenantNestedInput
   zonas?: Prisma.ZonaUncheckedUpdateManyWithoutTenantNestedInput
-  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaUncheckedUpdateManyWithoutTenantNestedInput
 }
 
 export type TenantCreateWithoutConfiguracionPagosInput = {
@@ -10090,6 +10251,7 @@ export type TenantCreateWithoutConfiguracionPagosInput = {
   auditorias?: Prisma.AuditoriaCreateNestedManyWithoutTenantInput
   authSessions?: Prisma.AuthSessionCreateNestedManyWithoutTenantInput
   citasPsicologos?: Prisma.CitasPsicologosCreateNestedManyWithoutTenantInput
+  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaCreateNestedManyWithoutTenantInput
   clientes?: Prisma.ClienteCreateNestedManyWithoutTenantInput
   commissions?: Prisma.CommissionRecordCreateNestedManyWithoutTenantInput
   consignacionOrdenes?: Prisma.ConsignacionOrdenCreateNestedManyWithoutTenantInput
@@ -10103,6 +10265,7 @@ export type TenantCreateWithoutConfiguracionPagosInput = {
   empresaMemberships?: Prisma.EmpresaMembershipCreateNestedManyWithoutTenantInput
   empresas?: Prisma.EmpresaCreateNestedManyWithoutTenantInput
   estadosServicio?: Prisma.EstadoServicioCreateNestedManyWithoutTenantInput
+  evidenciasServicio?: Prisma.EvidenciaServicioCreateNestedManyWithoutTenantInput
   geolocalizaciones?: Prisma.GeolocalizacionCreateNestedManyWithoutTenantInput
   logsEvento?: Prisma.LogEventoCreateNestedManyWithoutTenantInput
   metodosPago?: Prisma.MetodoPagoCreateNestedManyWithoutTenantInput
@@ -10130,7 +10293,6 @@ export type TenantCreateWithoutConfiguracionPagosInput = {
   turnos?: Prisma.TurnoCreateNestedManyWithoutTenantInput
   vehiculos?: Prisma.VehiculoCreateNestedManyWithoutTenantInput
   zonas?: Prisma.ZonaCreateNestedManyWithoutTenantInput
-  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaCreateNestedManyWithoutTenantInput
 }
 
 export type TenantUncheckedCreateWithoutConfiguracionPagosInput = {
@@ -10148,6 +10310,7 @@ export type TenantUncheckedCreateWithoutConfiguracionPagosInput = {
   auditorias?: Prisma.AuditoriaUncheckedCreateNestedManyWithoutTenantInput
   authSessions?: Prisma.AuthSessionUncheckedCreateNestedManyWithoutTenantInput
   citasPsicologos?: Prisma.CitasPsicologosUncheckedCreateNestedManyWithoutTenantInput
+  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaUncheckedCreateNestedManyWithoutTenantInput
   clientes?: Prisma.ClienteUncheckedCreateNestedManyWithoutTenantInput
   commissions?: Prisma.CommissionRecordUncheckedCreateNestedManyWithoutTenantInput
   consignacionOrdenes?: Prisma.ConsignacionOrdenUncheckedCreateNestedManyWithoutTenantInput
@@ -10161,6 +10324,7 @@ export type TenantUncheckedCreateWithoutConfiguracionPagosInput = {
   empresaMemberships?: Prisma.EmpresaMembershipUncheckedCreateNestedManyWithoutTenantInput
   empresas?: Prisma.EmpresaUncheckedCreateNestedManyWithoutTenantInput
   estadosServicio?: Prisma.EstadoServicioUncheckedCreateNestedManyWithoutTenantInput
+  evidenciasServicio?: Prisma.EvidenciaServicioUncheckedCreateNestedManyWithoutTenantInput
   geolocalizaciones?: Prisma.GeolocalizacionUncheckedCreateNestedManyWithoutTenantInput
   logsEvento?: Prisma.LogEventoUncheckedCreateNestedManyWithoutTenantInput
   metodosPago?: Prisma.MetodoPagoUncheckedCreateNestedManyWithoutTenantInput
@@ -10188,7 +10352,6 @@ export type TenantUncheckedCreateWithoutConfiguracionPagosInput = {
   turnos?: Prisma.TurnoUncheckedCreateNestedManyWithoutTenantInput
   vehiculos?: Prisma.VehiculoUncheckedCreateNestedManyWithoutTenantInput
   zonas?: Prisma.ZonaUncheckedCreateNestedManyWithoutTenantInput
-  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaUncheckedCreateNestedManyWithoutTenantInput
 }
 
 export type TenantCreateOrConnectWithoutConfiguracionPagosInput = {
@@ -10222,6 +10385,7 @@ export type TenantUpdateWithoutConfiguracionPagosInput = {
   auditorias?: Prisma.AuditoriaUpdateManyWithoutTenantNestedInput
   authSessions?: Prisma.AuthSessionUpdateManyWithoutTenantNestedInput
   citasPsicologos?: Prisma.CitasPsicologosUpdateManyWithoutTenantNestedInput
+  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaUpdateManyWithoutTenantNestedInput
   clientes?: Prisma.ClienteUpdateManyWithoutTenantNestedInput
   commissions?: Prisma.CommissionRecordUpdateManyWithoutTenantNestedInput
   consignacionOrdenes?: Prisma.ConsignacionOrdenUpdateManyWithoutTenantNestedInput
@@ -10235,6 +10399,7 @@ export type TenantUpdateWithoutConfiguracionPagosInput = {
   empresaMemberships?: Prisma.EmpresaMembershipUpdateManyWithoutTenantNestedInput
   empresas?: Prisma.EmpresaUpdateManyWithoutTenantNestedInput
   estadosServicio?: Prisma.EstadoServicioUpdateManyWithoutTenantNestedInput
+  evidenciasServicio?: Prisma.EvidenciaServicioUpdateManyWithoutTenantNestedInput
   geolocalizaciones?: Prisma.GeolocalizacionUpdateManyWithoutTenantNestedInput
   logsEvento?: Prisma.LogEventoUpdateManyWithoutTenantNestedInput
   metodosPago?: Prisma.MetodoPagoUpdateManyWithoutTenantNestedInput
@@ -10262,7 +10427,6 @@ export type TenantUpdateWithoutConfiguracionPagosInput = {
   turnos?: Prisma.TurnoUpdateManyWithoutTenantNestedInput
   vehiculos?: Prisma.VehiculoUpdateManyWithoutTenantNestedInput
   zonas?: Prisma.ZonaUpdateManyWithoutTenantNestedInput
-  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaUpdateManyWithoutTenantNestedInput
 }
 
 export type TenantUncheckedUpdateWithoutConfiguracionPagosInput = {
@@ -10280,6 +10444,7 @@ export type TenantUncheckedUpdateWithoutConfiguracionPagosInput = {
   auditorias?: Prisma.AuditoriaUncheckedUpdateManyWithoutTenantNestedInput
   authSessions?: Prisma.AuthSessionUncheckedUpdateManyWithoutTenantNestedInput
   citasPsicologos?: Prisma.CitasPsicologosUncheckedUpdateManyWithoutTenantNestedInput
+  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaUncheckedUpdateManyWithoutTenantNestedInput
   clientes?: Prisma.ClienteUncheckedUpdateManyWithoutTenantNestedInput
   commissions?: Prisma.CommissionRecordUncheckedUpdateManyWithoutTenantNestedInput
   consignacionOrdenes?: Prisma.ConsignacionOrdenUncheckedUpdateManyWithoutTenantNestedInput
@@ -10293,6 +10458,7 @@ export type TenantUncheckedUpdateWithoutConfiguracionPagosInput = {
   empresaMemberships?: Prisma.EmpresaMembershipUncheckedUpdateManyWithoutTenantNestedInput
   empresas?: Prisma.EmpresaUncheckedUpdateManyWithoutTenantNestedInput
   estadosServicio?: Prisma.EstadoServicioUncheckedUpdateManyWithoutTenantNestedInput
+  evidenciasServicio?: Prisma.EvidenciaServicioUncheckedUpdateManyWithoutTenantNestedInput
   geolocalizaciones?: Prisma.GeolocalizacionUncheckedUpdateManyWithoutTenantNestedInput
   logsEvento?: Prisma.LogEventoUncheckedUpdateManyWithoutTenantNestedInput
   metodosPago?: Prisma.MetodoPagoUncheckedUpdateManyWithoutTenantNestedInput
@@ -10320,7 +10486,6 @@ export type TenantUncheckedUpdateWithoutConfiguracionPagosInput = {
   turnos?: Prisma.TurnoUncheckedUpdateManyWithoutTenantNestedInput
   vehiculos?: Prisma.VehiculoUncheckedUpdateManyWithoutTenantNestedInput
   zonas?: Prisma.ZonaUncheckedUpdateManyWithoutTenantNestedInput
-  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaUncheckedUpdateManyWithoutTenantNestedInput
 }
 
 export type TenantCreateWithoutCuentasPagoInput = {
@@ -10338,6 +10503,7 @@ export type TenantCreateWithoutCuentasPagoInput = {
   auditorias?: Prisma.AuditoriaCreateNestedManyWithoutTenantInput
   authSessions?: Prisma.AuthSessionCreateNestedManyWithoutTenantInput
   citasPsicologos?: Prisma.CitasPsicologosCreateNestedManyWithoutTenantInput
+  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaCreateNestedManyWithoutTenantInput
   clientes?: Prisma.ClienteCreateNestedManyWithoutTenantInput
   commissions?: Prisma.CommissionRecordCreateNestedManyWithoutTenantInput
   configuracionPagos?: Prisma.ConfiguracionPagosCreateNestedManyWithoutTenantInput
@@ -10351,6 +10517,7 @@ export type TenantCreateWithoutCuentasPagoInput = {
   empresaMemberships?: Prisma.EmpresaMembershipCreateNestedManyWithoutTenantInput
   empresas?: Prisma.EmpresaCreateNestedManyWithoutTenantInput
   estadosServicio?: Prisma.EstadoServicioCreateNestedManyWithoutTenantInput
+  evidenciasServicio?: Prisma.EvidenciaServicioCreateNestedManyWithoutTenantInput
   geolocalizaciones?: Prisma.GeolocalizacionCreateNestedManyWithoutTenantInput
   logsEvento?: Prisma.LogEventoCreateNestedManyWithoutTenantInput
   metodosPago?: Prisma.MetodoPagoCreateNestedManyWithoutTenantInput
@@ -10378,7 +10545,6 @@ export type TenantCreateWithoutCuentasPagoInput = {
   turnos?: Prisma.TurnoCreateNestedManyWithoutTenantInput
   vehiculos?: Prisma.VehiculoCreateNestedManyWithoutTenantInput
   zonas?: Prisma.ZonaCreateNestedManyWithoutTenantInput
-  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaCreateNestedManyWithoutTenantInput
 }
 
 export type TenantUncheckedCreateWithoutCuentasPagoInput = {
@@ -10396,6 +10562,7 @@ export type TenantUncheckedCreateWithoutCuentasPagoInput = {
   auditorias?: Prisma.AuditoriaUncheckedCreateNestedManyWithoutTenantInput
   authSessions?: Prisma.AuthSessionUncheckedCreateNestedManyWithoutTenantInput
   citasPsicologos?: Prisma.CitasPsicologosUncheckedCreateNestedManyWithoutTenantInput
+  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaUncheckedCreateNestedManyWithoutTenantInput
   clientes?: Prisma.ClienteUncheckedCreateNestedManyWithoutTenantInput
   commissions?: Prisma.CommissionRecordUncheckedCreateNestedManyWithoutTenantInput
   configuracionPagos?: Prisma.ConfiguracionPagosUncheckedCreateNestedManyWithoutTenantInput
@@ -10409,6 +10576,7 @@ export type TenantUncheckedCreateWithoutCuentasPagoInput = {
   empresaMemberships?: Prisma.EmpresaMembershipUncheckedCreateNestedManyWithoutTenantInput
   empresas?: Prisma.EmpresaUncheckedCreateNestedManyWithoutTenantInput
   estadosServicio?: Prisma.EstadoServicioUncheckedCreateNestedManyWithoutTenantInput
+  evidenciasServicio?: Prisma.EvidenciaServicioUncheckedCreateNestedManyWithoutTenantInput
   geolocalizaciones?: Prisma.GeolocalizacionUncheckedCreateNestedManyWithoutTenantInput
   logsEvento?: Prisma.LogEventoUncheckedCreateNestedManyWithoutTenantInput
   metodosPago?: Prisma.MetodoPagoUncheckedCreateNestedManyWithoutTenantInput
@@ -10436,7 +10604,6 @@ export type TenantUncheckedCreateWithoutCuentasPagoInput = {
   turnos?: Prisma.TurnoUncheckedCreateNestedManyWithoutTenantInput
   vehiculos?: Prisma.VehiculoUncheckedCreateNestedManyWithoutTenantInput
   zonas?: Prisma.ZonaUncheckedCreateNestedManyWithoutTenantInput
-  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaUncheckedCreateNestedManyWithoutTenantInput
 }
 
 export type TenantCreateOrConnectWithoutCuentasPagoInput = {
@@ -10470,6 +10637,7 @@ export type TenantUpdateWithoutCuentasPagoInput = {
   auditorias?: Prisma.AuditoriaUpdateManyWithoutTenantNestedInput
   authSessions?: Prisma.AuthSessionUpdateManyWithoutTenantNestedInput
   citasPsicologos?: Prisma.CitasPsicologosUpdateManyWithoutTenantNestedInput
+  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaUpdateManyWithoutTenantNestedInput
   clientes?: Prisma.ClienteUpdateManyWithoutTenantNestedInput
   commissions?: Prisma.CommissionRecordUpdateManyWithoutTenantNestedInput
   configuracionPagos?: Prisma.ConfiguracionPagosUpdateManyWithoutTenantNestedInput
@@ -10483,6 +10651,7 @@ export type TenantUpdateWithoutCuentasPagoInput = {
   empresaMemberships?: Prisma.EmpresaMembershipUpdateManyWithoutTenantNestedInput
   empresas?: Prisma.EmpresaUpdateManyWithoutTenantNestedInput
   estadosServicio?: Prisma.EstadoServicioUpdateManyWithoutTenantNestedInput
+  evidenciasServicio?: Prisma.EvidenciaServicioUpdateManyWithoutTenantNestedInput
   geolocalizaciones?: Prisma.GeolocalizacionUpdateManyWithoutTenantNestedInput
   logsEvento?: Prisma.LogEventoUpdateManyWithoutTenantNestedInput
   metodosPago?: Prisma.MetodoPagoUpdateManyWithoutTenantNestedInput
@@ -10510,7 +10679,6 @@ export type TenantUpdateWithoutCuentasPagoInput = {
   turnos?: Prisma.TurnoUpdateManyWithoutTenantNestedInput
   vehiculos?: Prisma.VehiculoUpdateManyWithoutTenantNestedInput
   zonas?: Prisma.ZonaUpdateManyWithoutTenantNestedInput
-  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaUpdateManyWithoutTenantNestedInput
 }
 
 export type TenantUncheckedUpdateWithoutCuentasPagoInput = {
@@ -10528,6 +10696,7 @@ export type TenantUncheckedUpdateWithoutCuentasPagoInput = {
   auditorias?: Prisma.AuditoriaUncheckedUpdateManyWithoutTenantNestedInput
   authSessions?: Prisma.AuthSessionUncheckedUpdateManyWithoutTenantNestedInput
   citasPsicologos?: Prisma.CitasPsicologosUncheckedUpdateManyWithoutTenantNestedInput
+  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaUncheckedUpdateManyWithoutTenantNestedInput
   clientes?: Prisma.ClienteUncheckedUpdateManyWithoutTenantNestedInput
   commissions?: Prisma.CommissionRecordUncheckedUpdateManyWithoutTenantNestedInput
   configuracionPagos?: Prisma.ConfiguracionPagosUncheckedUpdateManyWithoutTenantNestedInput
@@ -10541,6 +10710,7 @@ export type TenantUncheckedUpdateWithoutCuentasPagoInput = {
   empresaMemberships?: Prisma.EmpresaMembershipUncheckedUpdateManyWithoutTenantNestedInput
   empresas?: Prisma.EmpresaUncheckedUpdateManyWithoutTenantNestedInput
   estadosServicio?: Prisma.EstadoServicioUncheckedUpdateManyWithoutTenantNestedInput
+  evidenciasServicio?: Prisma.EvidenciaServicioUncheckedUpdateManyWithoutTenantNestedInput
   geolocalizaciones?: Prisma.GeolocalizacionUncheckedUpdateManyWithoutTenantNestedInput
   logsEvento?: Prisma.LogEventoUncheckedUpdateManyWithoutTenantNestedInput
   metodosPago?: Prisma.MetodoPagoUncheckedUpdateManyWithoutTenantNestedInput
@@ -10568,7 +10738,6 @@ export type TenantUncheckedUpdateWithoutCuentasPagoInput = {
   turnos?: Prisma.TurnoUncheckedUpdateManyWithoutTenantNestedInput
   vehiculos?: Prisma.VehiculoUncheckedUpdateManyWithoutTenantNestedInput
   zonas?: Prisma.ZonaUncheckedUpdateManyWithoutTenantNestedInput
-  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaUncheckedUpdateManyWithoutTenantNestedInput
 }
 
 export type TenantCreateWithoutEgresosInput = {
@@ -10586,6 +10755,7 @@ export type TenantCreateWithoutEgresosInput = {
   auditorias?: Prisma.AuditoriaCreateNestedManyWithoutTenantInput
   authSessions?: Prisma.AuthSessionCreateNestedManyWithoutTenantInput
   citasPsicologos?: Prisma.CitasPsicologosCreateNestedManyWithoutTenantInput
+  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaCreateNestedManyWithoutTenantInput
   clientes?: Prisma.ClienteCreateNestedManyWithoutTenantInput
   commissions?: Prisma.CommissionRecordCreateNestedManyWithoutTenantInput
   configuracionPagos?: Prisma.ConfiguracionPagosCreateNestedManyWithoutTenantInput
@@ -10599,6 +10769,7 @@ export type TenantCreateWithoutEgresosInput = {
   empresaMemberships?: Prisma.EmpresaMembershipCreateNestedManyWithoutTenantInput
   empresas?: Prisma.EmpresaCreateNestedManyWithoutTenantInput
   estadosServicio?: Prisma.EstadoServicioCreateNestedManyWithoutTenantInput
+  evidenciasServicio?: Prisma.EvidenciaServicioCreateNestedManyWithoutTenantInput
   geolocalizaciones?: Prisma.GeolocalizacionCreateNestedManyWithoutTenantInput
   logsEvento?: Prisma.LogEventoCreateNestedManyWithoutTenantInput
   metodosPago?: Prisma.MetodoPagoCreateNestedManyWithoutTenantInput
@@ -10626,7 +10797,6 @@ export type TenantCreateWithoutEgresosInput = {
   turnos?: Prisma.TurnoCreateNestedManyWithoutTenantInput
   vehiculos?: Prisma.VehiculoCreateNestedManyWithoutTenantInput
   zonas?: Prisma.ZonaCreateNestedManyWithoutTenantInput
-  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaCreateNestedManyWithoutTenantInput
 }
 
 export type TenantUncheckedCreateWithoutEgresosInput = {
@@ -10644,6 +10814,7 @@ export type TenantUncheckedCreateWithoutEgresosInput = {
   auditorias?: Prisma.AuditoriaUncheckedCreateNestedManyWithoutTenantInput
   authSessions?: Prisma.AuthSessionUncheckedCreateNestedManyWithoutTenantInput
   citasPsicologos?: Prisma.CitasPsicologosUncheckedCreateNestedManyWithoutTenantInput
+  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaUncheckedCreateNestedManyWithoutTenantInput
   clientes?: Prisma.ClienteUncheckedCreateNestedManyWithoutTenantInput
   commissions?: Prisma.CommissionRecordUncheckedCreateNestedManyWithoutTenantInput
   configuracionPagos?: Prisma.ConfiguracionPagosUncheckedCreateNestedManyWithoutTenantInput
@@ -10657,6 +10828,7 @@ export type TenantUncheckedCreateWithoutEgresosInput = {
   empresaMemberships?: Prisma.EmpresaMembershipUncheckedCreateNestedManyWithoutTenantInput
   empresas?: Prisma.EmpresaUncheckedCreateNestedManyWithoutTenantInput
   estadosServicio?: Prisma.EstadoServicioUncheckedCreateNestedManyWithoutTenantInput
+  evidenciasServicio?: Prisma.EvidenciaServicioUncheckedCreateNestedManyWithoutTenantInput
   geolocalizaciones?: Prisma.GeolocalizacionUncheckedCreateNestedManyWithoutTenantInput
   logsEvento?: Prisma.LogEventoUncheckedCreateNestedManyWithoutTenantInput
   metodosPago?: Prisma.MetodoPagoUncheckedCreateNestedManyWithoutTenantInput
@@ -10684,7 +10856,6 @@ export type TenantUncheckedCreateWithoutEgresosInput = {
   turnos?: Prisma.TurnoUncheckedCreateNestedManyWithoutTenantInput
   vehiculos?: Prisma.VehiculoUncheckedCreateNestedManyWithoutTenantInput
   zonas?: Prisma.ZonaUncheckedCreateNestedManyWithoutTenantInput
-  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaUncheckedCreateNestedManyWithoutTenantInput
 }
 
 export type TenantCreateOrConnectWithoutEgresosInput = {
@@ -10718,6 +10889,7 @@ export type TenantUpdateWithoutEgresosInput = {
   auditorias?: Prisma.AuditoriaUpdateManyWithoutTenantNestedInput
   authSessions?: Prisma.AuthSessionUpdateManyWithoutTenantNestedInput
   citasPsicologos?: Prisma.CitasPsicologosUpdateManyWithoutTenantNestedInput
+  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaUpdateManyWithoutTenantNestedInput
   clientes?: Prisma.ClienteUpdateManyWithoutTenantNestedInput
   commissions?: Prisma.CommissionRecordUpdateManyWithoutTenantNestedInput
   configuracionPagos?: Prisma.ConfiguracionPagosUpdateManyWithoutTenantNestedInput
@@ -10731,6 +10903,7 @@ export type TenantUpdateWithoutEgresosInput = {
   empresaMemberships?: Prisma.EmpresaMembershipUpdateManyWithoutTenantNestedInput
   empresas?: Prisma.EmpresaUpdateManyWithoutTenantNestedInput
   estadosServicio?: Prisma.EstadoServicioUpdateManyWithoutTenantNestedInput
+  evidenciasServicio?: Prisma.EvidenciaServicioUpdateManyWithoutTenantNestedInput
   geolocalizaciones?: Prisma.GeolocalizacionUpdateManyWithoutTenantNestedInput
   logsEvento?: Prisma.LogEventoUpdateManyWithoutTenantNestedInput
   metodosPago?: Prisma.MetodoPagoUpdateManyWithoutTenantNestedInput
@@ -10758,7 +10931,6 @@ export type TenantUpdateWithoutEgresosInput = {
   turnos?: Prisma.TurnoUpdateManyWithoutTenantNestedInput
   vehiculos?: Prisma.VehiculoUpdateManyWithoutTenantNestedInput
   zonas?: Prisma.ZonaUpdateManyWithoutTenantNestedInput
-  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaUpdateManyWithoutTenantNestedInput
 }
 
 export type TenantUncheckedUpdateWithoutEgresosInput = {
@@ -10776,6 +10948,7 @@ export type TenantUncheckedUpdateWithoutEgresosInput = {
   auditorias?: Prisma.AuditoriaUncheckedUpdateManyWithoutTenantNestedInput
   authSessions?: Prisma.AuthSessionUncheckedUpdateManyWithoutTenantNestedInput
   citasPsicologos?: Prisma.CitasPsicologosUncheckedUpdateManyWithoutTenantNestedInput
+  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaUncheckedUpdateManyWithoutTenantNestedInput
   clientes?: Prisma.ClienteUncheckedUpdateManyWithoutTenantNestedInput
   commissions?: Prisma.CommissionRecordUncheckedUpdateManyWithoutTenantNestedInput
   configuracionPagos?: Prisma.ConfiguracionPagosUncheckedUpdateManyWithoutTenantNestedInput
@@ -10789,6 +10962,7 @@ export type TenantUncheckedUpdateWithoutEgresosInput = {
   empresaMemberships?: Prisma.EmpresaMembershipUncheckedUpdateManyWithoutTenantNestedInput
   empresas?: Prisma.EmpresaUncheckedUpdateManyWithoutTenantNestedInput
   estadosServicio?: Prisma.EstadoServicioUncheckedUpdateManyWithoutTenantNestedInput
+  evidenciasServicio?: Prisma.EvidenciaServicioUncheckedUpdateManyWithoutTenantNestedInput
   geolocalizaciones?: Prisma.GeolocalizacionUncheckedUpdateManyWithoutTenantNestedInput
   logsEvento?: Prisma.LogEventoUncheckedUpdateManyWithoutTenantNestedInput
   metodosPago?: Prisma.MetodoPagoUncheckedUpdateManyWithoutTenantNestedInput
@@ -10816,7 +10990,6 @@ export type TenantUncheckedUpdateWithoutEgresosInput = {
   turnos?: Prisma.TurnoUncheckedUpdateManyWithoutTenantNestedInput
   vehiculos?: Prisma.VehiculoUncheckedUpdateManyWithoutTenantNestedInput
   zonas?: Prisma.ZonaUncheckedUpdateManyWithoutTenantNestedInput
-  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaUncheckedUpdateManyWithoutTenantNestedInput
 }
 
 export type TenantCreateWithoutPicoPlacaInput = {
@@ -10834,6 +11007,7 @@ export type TenantCreateWithoutPicoPlacaInput = {
   auditorias?: Prisma.AuditoriaCreateNestedManyWithoutTenantInput
   authSessions?: Prisma.AuthSessionCreateNestedManyWithoutTenantInput
   citasPsicologos?: Prisma.CitasPsicologosCreateNestedManyWithoutTenantInput
+  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaCreateNestedManyWithoutTenantInput
   clientes?: Prisma.ClienteCreateNestedManyWithoutTenantInput
   commissions?: Prisma.CommissionRecordCreateNestedManyWithoutTenantInput
   configuracionPagos?: Prisma.ConfiguracionPagosCreateNestedManyWithoutTenantInput
@@ -10848,6 +11022,7 @@ export type TenantCreateWithoutPicoPlacaInput = {
   empresaMemberships?: Prisma.EmpresaMembershipCreateNestedManyWithoutTenantInput
   empresas?: Prisma.EmpresaCreateNestedManyWithoutTenantInput
   estadosServicio?: Prisma.EstadoServicioCreateNestedManyWithoutTenantInput
+  evidenciasServicio?: Prisma.EvidenciaServicioCreateNestedManyWithoutTenantInput
   geolocalizaciones?: Prisma.GeolocalizacionCreateNestedManyWithoutTenantInput
   logsEvento?: Prisma.LogEventoCreateNestedManyWithoutTenantInput
   metodosPago?: Prisma.MetodoPagoCreateNestedManyWithoutTenantInput
@@ -10874,7 +11049,6 @@ export type TenantCreateWithoutPicoPlacaInput = {
   turnos?: Prisma.TurnoCreateNestedManyWithoutTenantInput
   vehiculos?: Prisma.VehiculoCreateNestedManyWithoutTenantInput
   zonas?: Prisma.ZonaCreateNestedManyWithoutTenantInput
-  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaCreateNestedManyWithoutTenantInput
 }
 
 export type TenantUncheckedCreateWithoutPicoPlacaInput = {
@@ -10892,6 +11066,7 @@ export type TenantUncheckedCreateWithoutPicoPlacaInput = {
   auditorias?: Prisma.AuditoriaUncheckedCreateNestedManyWithoutTenantInput
   authSessions?: Prisma.AuthSessionUncheckedCreateNestedManyWithoutTenantInput
   citasPsicologos?: Prisma.CitasPsicologosUncheckedCreateNestedManyWithoutTenantInput
+  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaUncheckedCreateNestedManyWithoutTenantInput
   clientes?: Prisma.ClienteUncheckedCreateNestedManyWithoutTenantInput
   commissions?: Prisma.CommissionRecordUncheckedCreateNestedManyWithoutTenantInput
   configuracionPagos?: Prisma.ConfiguracionPagosUncheckedCreateNestedManyWithoutTenantInput
@@ -10906,6 +11081,7 @@ export type TenantUncheckedCreateWithoutPicoPlacaInput = {
   empresaMemberships?: Prisma.EmpresaMembershipUncheckedCreateNestedManyWithoutTenantInput
   empresas?: Prisma.EmpresaUncheckedCreateNestedManyWithoutTenantInput
   estadosServicio?: Prisma.EstadoServicioUncheckedCreateNestedManyWithoutTenantInput
+  evidenciasServicio?: Prisma.EvidenciaServicioUncheckedCreateNestedManyWithoutTenantInput
   geolocalizaciones?: Prisma.GeolocalizacionUncheckedCreateNestedManyWithoutTenantInput
   logsEvento?: Prisma.LogEventoUncheckedCreateNestedManyWithoutTenantInput
   metodosPago?: Prisma.MetodoPagoUncheckedCreateNestedManyWithoutTenantInput
@@ -10932,7 +11108,6 @@ export type TenantUncheckedCreateWithoutPicoPlacaInput = {
   turnos?: Prisma.TurnoUncheckedCreateNestedManyWithoutTenantInput
   vehiculos?: Prisma.VehiculoUncheckedCreateNestedManyWithoutTenantInput
   zonas?: Prisma.ZonaUncheckedCreateNestedManyWithoutTenantInput
-  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaUncheckedCreateNestedManyWithoutTenantInput
 }
 
 export type TenantCreateOrConnectWithoutPicoPlacaInput = {
@@ -10966,6 +11141,7 @@ export type TenantUpdateWithoutPicoPlacaInput = {
   auditorias?: Prisma.AuditoriaUpdateManyWithoutTenantNestedInput
   authSessions?: Prisma.AuthSessionUpdateManyWithoutTenantNestedInput
   citasPsicologos?: Prisma.CitasPsicologosUpdateManyWithoutTenantNestedInput
+  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaUpdateManyWithoutTenantNestedInput
   clientes?: Prisma.ClienteUpdateManyWithoutTenantNestedInput
   commissions?: Prisma.CommissionRecordUpdateManyWithoutTenantNestedInput
   configuracionPagos?: Prisma.ConfiguracionPagosUpdateManyWithoutTenantNestedInput
@@ -10980,6 +11156,7 @@ export type TenantUpdateWithoutPicoPlacaInput = {
   empresaMemberships?: Prisma.EmpresaMembershipUpdateManyWithoutTenantNestedInput
   empresas?: Prisma.EmpresaUpdateManyWithoutTenantNestedInput
   estadosServicio?: Prisma.EstadoServicioUpdateManyWithoutTenantNestedInput
+  evidenciasServicio?: Prisma.EvidenciaServicioUpdateManyWithoutTenantNestedInput
   geolocalizaciones?: Prisma.GeolocalizacionUpdateManyWithoutTenantNestedInput
   logsEvento?: Prisma.LogEventoUpdateManyWithoutTenantNestedInput
   metodosPago?: Prisma.MetodoPagoUpdateManyWithoutTenantNestedInput
@@ -11006,7 +11183,6 @@ export type TenantUpdateWithoutPicoPlacaInput = {
   turnos?: Prisma.TurnoUpdateManyWithoutTenantNestedInput
   vehiculos?: Prisma.VehiculoUpdateManyWithoutTenantNestedInput
   zonas?: Prisma.ZonaUpdateManyWithoutTenantNestedInput
-  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaUpdateManyWithoutTenantNestedInput
 }
 
 export type TenantUncheckedUpdateWithoutPicoPlacaInput = {
@@ -11024,6 +11200,7 @@ export type TenantUncheckedUpdateWithoutPicoPlacaInput = {
   auditorias?: Prisma.AuditoriaUncheckedUpdateManyWithoutTenantNestedInput
   authSessions?: Prisma.AuthSessionUncheckedUpdateManyWithoutTenantNestedInput
   citasPsicologos?: Prisma.CitasPsicologosUncheckedUpdateManyWithoutTenantNestedInput
+  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaUncheckedUpdateManyWithoutTenantNestedInput
   clientes?: Prisma.ClienteUncheckedUpdateManyWithoutTenantNestedInput
   commissions?: Prisma.CommissionRecordUncheckedUpdateManyWithoutTenantNestedInput
   configuracionPagos?: Prisma.ConfiguracionPagosUncheckedUpdateManyWithoutTenantNestedInput
@@ -11038,6 +11215,7 @@ export type TenantUncheckedUpdateWithoutPicoPlacaInput = {
   empresaMemberships?: Prisma.EmpresaMembershipUncheckedUpdateManyWithoutTenantNestedInput
   empresas?: Prisma.EmpresaUncheckedUpdateManyWithoutTenantNestedInput
   estadosServicio?: Prisma.EstadoServicioUncheckedUpdateManyWithoutTenantNestedInput
+  evidenciasServicio?: Prisma.EvidenciaServicioUncheckedUpdateManyWithoutTenantNestedInput
   geolocalizaciones?: Prisma.GeolocalizacionUncheckedUpdateManyWithoutTenantNestedInput
   logsEvento?: Prisma.LogEventoUncheckedUpdateManyWithoutTenantNestedInput
   metodosPago?: Prisma.MetodoPagoUncheckedUpdateManyWithoutTenantNestedInput
@@ -11064,7 +11242,6 @@ export type TenantUncheckedUpdateWithoutPicoPlacaInput = {
   turnos?: Prisma.TurnoUncheckedUpdateManyWithoutTenantNestedInput
   vehiculos?: Prisma.VehiculoUncheckedUpdateManyWithoutTenantNestedInput
   zonas?: Prisma.ZonaUncheckedUpdateManyWithoutTenantNestedInput
-  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaUncheckedUpdateManyWithoutTenantNestedInput
 }
 
 export type TenantCreateWithoutReferidosInput = {
@@ -11082,6 +11259,7 @@ export type TenantCreateWithoutReferidosInput = {
   auditorias?: Prisma.AuditoriaCreateNestedManyWithoutTenantInput
   authSessions?: Prisma.AuthSessionCreateNestedManyWithoutTenantInput
   citasPsicologos?: Prisma.CitasPsicologosCreateNestedManyWithoutTenantInput
+  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaCreateNestedManyWithoutTenantInput
   clientes?: Prisma.ClienteCreateNestedManyWithoutTenantInput
   commissions?: Prisma.CommissionRecordCreateNestedManyWithoutTenantInput
   configuracionPagos?: Prisma.ConfiguracionPagosCreateNestedManyWithoutTenantInput
@@ -11096,6 +11274,7 @@ export type TenantCreateWithoutReferidosInput = {
   empresaMemberships?: Prisma.EmpresaMembershipCreateNestedManyWithoutTenantInput
   empresas?: Prisma.EmpresaCreateNestedManyWithoutTenantInput
   estadosServicio?: Prisma.EstadoServicioCreateNestedManyWithoutTenantInput
+  evidenciasServicio?: Prisma.EvidenciaServicioCreateNestedManyWithoutTenantInput
   geolocalizaciones?: Prisma.GeolocalizacionCreateNestedManyWithoutTenantInput
   logsEvento?: Prisma.LogEventoCreateNestedManyWithoutTenantInput
   metodosPago?: Prisma.MetodoPagoCreateNestedManyWithoutTenantInput
@@ -11122,7 +11301,6 @@ export type TenantCreateWithoutReferidosInput = {
   turnos?: Prisma.TurnoCreateNestedManyWithoutTenantInput
   vehiculos?: Prisma.VehiculoCreateNestedManyWithoutTenantInput
   zonas?: Prisma.ZonaCreateNestedManyWithoutTenantInput
-  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaCreateNestedManyWithoutTenantInput
 }
 
 export type TenantUncheckedCreateWithoutReferidosInput = {
@@ -11140,6 +11318,7 @@ export type TenantUncheckedCreateWithoutReferidosInput = {
   auditorias?: Prisma.AuditoriaUncheckedCreateNestedManyWithoutTenantInput
   authSessions?: Prisma.AuthSessionUncheckedCreateNestedManyWithoutTenantInput
   citasPsicologos?: Prisma.CitasPsicologosUncheckedCreateNestedManyWithoutTenantInput
+  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaUncheckedCreateNestedManyWithoutTenantInput
   clientes?: Prisma.ClienteUncheckedCreateNestedManyWithoutTenantInput
   commissions?: Prisma.CommissionRecordUncheckedCreateNestedManyWithoutTenantInput
   configuracionPagos?: Prisma.ConfiguracionPagosUncheckedCreateNestedManyWithoutTenantInput
@@ -11154,6 +11333,7 @@ export type TenantUncheckedCreateWithoutReferidosInput = {
   empresaMemberships?: Prisma.EmpresaMembershipUncheckedCreateNestedManyWithoutTenantInput
   empresas?: Prisma.EmpresaUncheckedCreateNestedManyWithoutTenantInput
   estadosServicio?: Prisma.EstadoServicioUncheckedCreateNestedManyWithoutTenantInput
+  evidenciasServicio?: Prisma.EvidenciaServicioUncheckedCreateNestedManyWithoutTenantInput
   geolocalizaciones?: Prisma.GeolocalizacionUncheckedCreateNestedManyWithoutTenantInput
   logsEvento?: Prisma.LogEventoUncheckedCreateNestedManyWithoutTenantInput
   metodosPago?: Prisma.MetodoPagoUncheckedCreateNestedManyWithoutTenantInput
@@ -11180,7 +11360,6 @@ export type TenantUncheckedCreateWithoutReferidosInput = {
   turnos?: Prisma.TurnoUncheckedCreateNestedManyWithoutTenantInput
   vehiculos?: Prisma.VehiculoUncheckedCreateNestedManyWithoutTenantInput
   zonas?: Prisma.ZonaUncheckedCreateNestedManyWithoutTenantInput
-  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaUncheckedCreateNestedManyWithoutTenantInput
 }
 
 export type TenantCreateOrConnectWithoutReferidosInput = {
@@ -11214,6 +11393,7 @@ export type TenantUpdateWithoutReferidosInput = {
   auditorias?: Prisma.AuditoriaUpdateManyWithoutTenantNestedInput
   authSessions?: Prisma.AuthSessionUpdateManyWithoutTenantNestedInput
   citasPsicologos?: Prisma.CitasPsicologosUpdateManyWithoutTenantNestedInput
+  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaUpdateManyWithoutTenantNestedInput
   clientes?: Prisma.ClienteUpdateManyWithoutTenantNestedInput
   commissions?: Prisma.CommissionRecordUpdateManyWithoutTenantNestedInput
   configuracionPagos?: Prisma.ConfiguracionPagosUpdateManyWithoutTenantNestedInput
@@ -11228,6 +11408,7 @@ export type TenantUpdateWithoutReferidosInput = {
   empresaMemberships?: Prisma.EmpresaMembershipUpdateManyWithoutTenantNestedInput
   empresas?: Prisma.EmpresaUpdateManyWithoutTenantNestedInput
   estadosServicio?: Prisma.EstadoServicioUpdateManyWithoutTenantNestedInput
+  evidenciasServicio?: Prisma.EvidenciaServicioUpdateManyWithoutTenantNestedInput
   geolocalizaciones?: Prisma.GeolocalizacionUpdateManyWithoutTenantNestedInput
   logsEvento?: Prisma.LogEventoUpdateManyWithoutTenantNestedInput
   metodosPago?: Prisma.MetodoPagoUpdateManyWithoutTenantNestedInput
@@ -11254,7 +11435,6 @@ export type TenantUpdateWithoutReferidosInput = {
   turnos?: Prisma.TurnoUpdateManyWithoutTenantNestedInput
   vehiculos?: Prisma.VehiculoUpdateManyWithoutTenantNestedInput
   zonas?: Prisma.ZonaUpdateManyWithoutTenantNestedInput
-  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaUpdateManyWithoutTenantNestedInput
 }
 
 export type TenantUncheckedUpdateWithoutReferidosInput = {
@@ -11272,6 +11452,7 @@ export type TenantUncheckedUpdateWithoutReferidosInput = {
   auditorias?: Prisma.AuditoriaUncheckedUpdateManyWithoutTenantNestedInput
   authSessions?: Prisma.AuthSessionUncheckedUpdateManyWithoutTenantNestedInput
   citasPsicologos?: Prisma.CitasPsicologosUncheckedUpdateManyWithoutTenantNestedInput
+  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaUncheckedUpdateManyWithoutTenantNestedInput
   clientes?: Prisma.ClienteUncheckedUpdateManyWithoutTenantNestedInput
   commissions?: Prisma.CommissionRecordUncheckedUpdateManyWithoutTenantNestedInput
   configuracionPagos?: Prisma.ConfiguracionPagosUncheckedUpdateManyWithoutTenantNestedInput
@@ -11286,6 +11467,7 @@ export type TenantUncheckedUpdateWithoutReferidosInput = {
   empresaMemberships?: Prisma.EmpresaMembershipUncheckedUpdateManyWithoutTenantNestedInput
   empresas?: Prisma.EmpresaUncheckedUpdateManyWithoutTenantNestedInput
   estadosServicio?: Prisma.EstadoServicioUncheckedUpdateManyWithoutTenantNestedInput
+  evidenciasServicio?: Prisma.EvidenciaServicioUncheckedUpdateManyWithoutTenantNestedInput
   geolocalizaciones?: Prisma.GeolocalizacionUncheckedUpdateManyWithoutTenantNestedInput
   logsEvento?: Prisma.LogEventoUncheckedUpdateManyWithoutTenantNestedInput
   metodosPago?: Prisma.MetodoPagoUncheckedUpdateManyWithoutTenantNestedInput
@@ -11312,7 +11494,6 @@ export type TenantUncheckedUpdateWithoutReferidosInput = {
   turnos?: Prisma.TurnoUncheckedUpdateManyWithoutTenantNestedInput
   vehiculos?: Prisma.VehiculoUncheckedUpdateManyWithoutTenantNestedInput
   zonas?: Prisma.ZonaUncheckedUpdateManyWithoutTenantNestedInput
-  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaUncheckedUpdateManyWithoutTenantNestedInput
 }
 
 export type TenantCreateWithoutAuditoriasInput = {
@@ -11329,6 +11510,7 @@ export type TenantCreateWithoutAuditoriasInput = {
   anticipos?: Prisma.AnticiposCreateNestedManyWithoutTenantInput
   authSessions?: Prisma.AuthSessionCreateNestedManyWithoutTenantInput
   citasPsicologos?: Prisma.CitasPsicologosCreateNestedManyWithoutTenantInput
+  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaCreateNestedManyWithoutTenantInput
   clientes?: Prisma.ClienteCreateNestedManyWithoutTenantInput
   commissions?: Prisma.CommissionRecordCreateNestedManyWithoutTenantInput
   configuracionPagos?: Prisma.ConfiguracionPagosCreateNestedManyWithoutTenantInput
@@ -11343,6 +11525,7 @@ export type TenantCreateWithoutAuditoriasInput = {
   empresaMemberships?: Prisma.EmpresaMembershipCreateNestedManyWithoutTenantInput
   empresas?: Prisma.EmpresaCreateNestedManyWithoutTenantInput
   estadosServicio?: Prisma.EstadoServicioCreateNestedManyWithoutTenantInput
+  evidenciasServicio?: Prisma.EvidenciaServicioCreateNestedManyWithoutTenantInput
   geolocalizaciones?: Prisma.GeolocalizacionCreateNestedManyWithoutTenantInput
   logsEvento?: Prisma.LogEventoCreateNestedManyWithoutTenantInput
   metodosPago?: Prisma.MetodoPagoCreateNestedManyWithoutTenantInput
@@ -11370,7 +11553,6 @@ export type TenantCreateWithoutAuditoriasInput = {
   turnos?: Prisma.TurnoCreateNestedManyWithoutTenantInput
   vehiculos?: Prisma.VehiculoCreateNestedManyWithoutTenantInput
   zonas?: Prisma.ZonaCreateNestedManyWithoutTenantInput
-  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaCreateNestedManyWithoutTenantInput
 }
 
 export type TenantUncheckedCreateWithoutAuditoriasInput = {
@@ -11387,6 +11569,7 @@ export type TenantUncheckedCreateWithoutAuditoriasInput = {
   anticipos?: Prisma.AnticiposUncheckedCreateNestedManyWithoutTenantInput
   authSessions?: Prisma.AuthSessionUncheckedCreateNestedManyWithoutTenantInput
   citasPsicologos?: Prisma.CitasPsicologosUncheckedCreateNestedManyWithoutTenantInput
+  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaUncheckedCreateNestedManyWithoutTenantInput
   clientes?: Prisma.ClienteUncheckedCreateNestedManyWithoutTenantInput
   commissions?: Prisma.CommissionRecordUncheckedCreateNestedManyWithoutTenantInput
   configuracionPagos?: Prisma.ConfiguracionPagosUncheckedCreateNestedManyWithoutTenantInput
@@ -11401,6 +11584,7 @@ export type TenantUncheckedCreateWithoutAuditoriasInput = {
   empresaMemberships?: Prisma.EmpresaMembershipUncheckedCreateNestedManyWithoutTenantInput
   empresas?: Prisma.EmpresaUncheckedCreateNestedManyWithoutTenantInput
   estadosServicio?: Prisma.EstadoServicioUncheckedCreateNestedManyWithoutTenantInput
+  evidenciasServicio?: Prisma.EvidenciaServicioUncheckedCreateNestedManyWithoutTenantInput
   geolocalizaciones?: Prisma.GeolocalizacionUncheckedCreateNestedManyWithoutTenantInput
   logsEvento?: Prisma.LogEventoUncheckedCreateNestedManyWithoutTenantInput
   metodosPago?: Prisma.MetodoPagoUncheckedCreateNestedManyWithoutTenantInput
@@ -11428,7 +11612,6 @@ export type TenantUncheckedCreateWithoutAuditoriasInput = {
   turnos?: Prisma.TurnoUncheckedCreateNestedManyWithoutTenantInput
   vehiculos?: Prisma.VehiculoUncheckedCreateNestedManyWithoutTenantInput
   zonas?: Prisma.ZonaUncheckedCreateNestedManyWithoutTenantInput
-  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaUncheckedCreateNestedManyWithoutTenantInput
 }
 
 export type TenantCreateOrConnectWithoutAuditoriasInput = {
@@ -11461,6 +11644,7 @@ export type TenantUpdateWithoutAuditoriasInput = {
   anticipos?: Prisma.AnticiposUpdateManyWithoutTenantNestedInput
   authSessions?: Prisma.AuthSessionUpdateManyWithoutTenantNestedInput
   citasPsicologos?: Prisma.CitasPsicologosUpdateManyWithoutTenantNestedInput
+  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaUpdateManyWithoutTenantNestedInput
   clientes?: Prisma.ClienteUpdateManyWithoutTenantNestedInput
   commissions?: Prisma.CommissionRecordUpdateManyWithoutTenantNestedInput
   configuracionPagos?: Prisma.ConfiguracionPagosUpdateManyWithoutTenantNestedInput
@@ -11475,6 +11659,7 @@ export type TenantUpdateWithoutAuditoriasInput = {
   empresaMemberships?: Prisma.EmpresaMembershipUpdateManyWithoutTenantNestedInput
   empresas?: Prisma.EmpresaUpdateManyWithoutTenantNestedInput
   estadosServicio?: Prisma.EstadoServicioUpdateManyWithoutTenantNestedInput
+  evidenciasServicio?: Prisma.EvidenciaServicioUpdateManyWithoutTenantNestedInput
   geolocalizaciones?: Prisma.GeolocalizacionUpdateManyWithoutTenantNestedInput
   logsEvento?: Prisma.LogEventoUpdateManyWithoutTenantNestedInput
   metodosPago?: Prisma.MetodoPagoUpdateManyWithoutTenantNestedInput
@@ -11502,7 +11687,6 @@ export type TenantUpdateWithoutAuditoriasInput = {
   turnos?: Prisma.TurnoUpdateManyWithoutTenantNestedInput
   vehiculos?: Prisma.VehiculoUpdateManyWithoutTenantNestedInput
   zonas?: Prisma.ZonaUpdateManyWithoutTenantNestedInput
-  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaUpdateManyWithoutTenantNestedInput
 }
 
 export type TenantUncheckedUpdateWithoutAuditoriasInput = {
@@ -11519,6 +11703,7 @@ export type TenantUncheckedUpdateWithoutAuditoriasInput = {
   anticipos?: Prisma.AnticiposUncheckedUpdateManyWithoutTenantNestedInput
   authSessions?: Prisma.AuthSessionUncheckedUpdateManyWithoutTenantNestedInput
   citasPsicologos?: Prisma.CitasPsicologosUncheckedUpdateManyWithoutTenantNestedInput
+  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaUncheckedUpdateManyWithoutTenantNestedInput
   clientes?: Prisma.ClienteUncheckedUpdateManyWithoutTenantNestedInput
   commissions?: Prisma.CommissionRecordUncheckedUpdateManyWithoutTenantNestedInput
   configuracionPagos?: Prisma.ConfiguracionPagosUncheckedUpdateManyWithoutTenantNestedInput
@@ -11533,6 +11718,7 @@ export type TenantUncheckedUpdateWithoutAuditoriasInput = {
   empresaMemberships?: Prisma.EmpresaMembershipUncheckedUpdateManyWithoutTenantNestedInput
   empresas?: Prisma.EmpresaUncheckedUpdateManyWithoutTenantNestedInput
   estadosServicio?: Prisma.EstadoServicioUncheckedUpdateManyWithoutTenantNestedInput
+  evidenciasServicio?: Prisma.EvidenciaServicioUncheckedUpdateManyWithoutTenantNestedInput
   geolocalizaciones?: Prisma.GeolocalizacionUncheckedUpdateManyWithoutTenantNestedInput
   logsEvento?: Prisma.LogEventoUncheckedUpdateManyWithoutTenantNestedInput
   metodosPago?: Prisma.MetodoPagoUncheckedUpdateManyWithoutTenantNestedInput
@@ -11560,7 +11746,6 @@ export type TenantUncheckedUpdateWithoutAuditoriasInput = {
   turnos?: Prisma.TurnoUncheckedUpdateManyWithoutTenantNestedInput
   vehiculos?: Prisma.VehiculoUncheckedUpdateManyWithoutTenantNestedInput
   zonas?: Prisma.ZonaUncheckedUpdateManyWithoutTenantNestedInput
-  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaUncheckedUpdateManyWithoutTenantNestedInput
 }
 
 export type TenantCreateWithoutSesionesActividadInput = {
@@ -11578,6 +11763,7 @@ export type TenantCreateWithoutSesionesActividadInput = {
   auditorias?: Prisma.AuditoriaCreateNestedManyWithoutTenantInput
   authSessions?: Prisma.AuthSessionCreateNestedManyWithoutTenantInput
   citasPsicologos?: Prisma.CitasPsicologosCreateNestedManyWithoutTenantInput
+  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaCreateNestedManyWithoutTenantInput
   clientes?: Prisma.ClienteCreateNestedManyWithoutTenantInput
   commissions?: Prisma.CommissionRecordCreateNestedManyWithoutTenantInput
   configuracionPagos?: Prisma.ConfiguracionPagosCreateNestedManyWithoutTenantInput
@@ -11592,6 +11778,7 @@ export type TenantCreateWithoutSesionesActividadInput = {
   empresaMemberships?: Prisma.EmpresaMembershipCreateNestedManyWithoutTenantInput
   empresas?: Prisma.EmpresaCreateNestedManyWithoutTenantInput
   estadosServicio?: Prisma.EstadoServicioCreateNestedManyWithoutTenantInput
+  evidenciasServicio?: Prisma.EvidenciaServicioCreateNestedManyWithoutTenantInput
   geolocalizaciones?: Prisma.GeolocalizacionCreateNestedManyWithoutTenantInput
   logsEvento?: Prisma.LogEventoCreateNestedManyWithoutTenantInput
   metodosPago?: Prisma.MetodoPagoCreateNestedManyWithoutTenantInput
@@ -11618,7 +11805,6 @@ export type TenantCreateWithoutSesionesActividadInput = {
   turnos?: Prisma.TurnoCreateNestedManyWithoutTenantInput
   vehiculos?: Prisma.VehiculoCreateNestedManyWithoutTenantInput
   zonas?: Prisma.ZonaCreateNestedManyWithoutTenantInput
-  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaCreateNestedManyWithoutTenantInput
 }
 
 export type TenantUncheckedCreateWithoutSesionesActividadInput = {
@@ -11636,6 +11822,7 @@ export type TenantUncheckedCreateWithoutSesionesActividadInput = {
   auditorias?: Prisma.AuditoriaUncheckedCreateNestedManyWithoutTenantInput
   authSessions?: Prisma.AuthSessionUncheckedCreateNestedManyWithoutTenantInput
   citasPsicologos?: Prisma.CitasPsicologosUncheckedCreateNestedManyWithoutTenantInput
+  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaUncheckedCreateNestedManyWithoutTenantInput
   clientes?: Prisma.ClienteUncheckedCreateNestedManyWithoutTenantInput
   commissions?: Prisma.CommissionRecordUncheckedCreateNestedManyWithoutTenantInput
   configuracionPagos?: Prisma.ConfiguracionPagosUncheckedCreateNestedManyWithoutTenantInput
@@ -11650,6 +11837,7 @@ export type TenantUncheckedCreateWithoutSesionesActividadInput = {
   empresaMemberships?: Prisma.EmpresaMembershipUncheckedCreateNestedManyWithoutTenantInput
   empresas?: Prisma.EmpresaUncheckedCreateNestedManyWithoutTenantInput
   estadosServicio?: Prisma.EstadoServicioUncheckedCreateNestedManyWithoutTenantInput
+  evidenciasServicio?: Prisma.EvidenciaServicioUncheckedCreateNestedManyWithoutTenantInput
   geolocalizaciones?: Prisma.GeolocalizacionUncheckedCreateNestedManyWithoutTenantInput
   logsEvento?: Prisma.LogEventoUncheckedCreateNestedManyWithoutTenantInput
   metodosPago?: Prisma.MetodoPagoUncheckedCreateNestedManyWithoutTenantInput
@@ -11676,7 +11864,6 @@ export type TenantUncheckedCreateWithoutSesionesActividadInput = {
   turnos?: Prisma.TurnoUncheckedCreateNestedManyWithoutTenantInput
   vehiculos?: Prisma.VehiculoUncheckedCreateNestedManyWithoutTenantInput
   zonas?: Prisma.ZonaUncheckedCreateNestedManyWithoutTenantInput
-  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaUncheckedCreateNestedManyWithoutTenantInput
 }
 
 export type TenantCreateOrConnectWithoutSesionesActividadInput = {
@@ -11710,6 +11897,7 @@ export type TenantUpdateWithoutSesionesActividadInput = {
   auditorias?: Prisma.AuditoriaUpdateManyWithoutTenantNestedInput
   authSessions?: Prisma.AuthSessionUpdateManyWithoutTenantNestedInput
   citasPsicologos?: Prisma.CitasPsicologosUpdateManyWithoutTenantNestedInput
+  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaUpdateManyWithoutTenantNestedInput
   clientes?: Prisma.ClienteUpdateManyWithoutTenantNestedInput
   commissions?: Prisma.CommissionRecordUpdateManyWithoutTenantNestedInput
   configuracionPagos?: Prisma.ConfiguracionPagosUpdateManyWithoutTenantNestedInput
@@ -11724,6 +11912,7 @@ export type TenantUpdateWithoutSesionesActividadInput = {
   empresaMemberships?: Prisma.EmpresaMembershipUpdateManyWithoutTenantNestedInput
   empresas?: Prisma.EmpresaUpdateManyWithoutTenantNestedInput
   estadosServicio?: Prisma.EstadoServicioUpdateManyWithoutTenantNestedInput
+  evidenciasServicio?: Prisma.EvidenciaServicioUpdateManyWithoutTenantNestedInput
   geolocalizaciones?: Prisma.GeolocalizacionUpdateManyWithoutTenantNestedInput
   logsEvento?: Prisma.LogEventoUpdateManyWithoutTenantNestedInput
   metodosPago?: Prisma.MetodoPagoUpdateManyWithoutTenantNestedInput
@@ -11750,7 +11939,6 @@ export type TenantUpdateWithoutSesionesActividadInput = {
   turnos?: Prisma.TurnoUpdateManyWithoutTenantNestedInput
   vehiculos?: Prisma.VehiculoUpdateManyWithoutTenantNestedInput
   zonas?: Prisma.ZonaUpdateManyWithoutTenantNestedInput
-  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaUpdateManyWithoutTenantNestedInput
 }
 
 export type TenantUncheckedUpdateWithoutSesionesActividadInput = {
@@ -11768,6 +11956,7 @@ export type TenantUncheckedUpdateWithoutSesionesActividadInput = {
   auditorias?: Prisma.AuditoriaUncheckedUpdateManyWithoutTenantNestedInput
   authSessions?: Prisma.AuthSessionUncheckedUpdateManyWithoutTenantNestedInput
   citasPsicologos?: Prisma.CitasPsicologosUncheckedUpdateManyWithoutTenantNestedInput
+  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaUncheckedUpdateManyWithoutTenantNestedInput
   clientes?: Prisma.ClienteUncheckedUpdateManyWithoutTenantNestedInput
   commissions?: Prisma.CommissionRecordUncheckedUpdateManyWithoutTenantNestedInput
   configuracionPagos?: Prisma.ConfiguracionPagosUncheckedUpdateManyWithoutTenantNestedInput
@@ -11782,6 +11971,7 @@ export type TenantUncheckedUpdateWithoutSesionesActividadInput = {
   empresaMemberships?: Prisma.EmpresaMembershipUncheckedUpdateManyWithoutTenantNestedInput
   empresas?: Prisma.EmpresaUncheckedUpdateManyWithoutTenantNestedInput
   estadosServicio?: Prisma.EstadoServicioUncheckedUpdateManyWithoutTenantNestedInput
+  evidenciasServicio?: Prisma.EvidenciaServicioUncheckedUpdateManyWithoutTenantNestedInput
   geolocalizaciones?: Prisma.GeolocalizacionUncheckedUpdateManyWithoutTenantNestedInput
   logsEvento?: Prisma.LogEventoUncheckedUpdateManyWithoutTenantNestedInput
   metodosPago?: Prisma.MetodoPagoUncheckedUpdateManyWithoutTenantNestedInput
@@ -11808,7 +11998,6 @@ export type TenantUncheckedUpdateWithoutSesionesActividadInput = {
   turnos?: Prisma.TurnoUncheckedUpdateManyWithoutTenantNestedInput
   vehiculos?: Prisma.VehiculoUncheckedUpdateManyWithoutTenantNestedInput
   zonas?: Prisma.ZonaUncheckedUpdateManyWithoutTenantNestedInput
-  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaUncheckedUpdateManyWithoutTenantNestedInput
 }
 
 export type TenantCreateWithoutLogsEventoInput = {
@@ -11826,6 +12015,7 @@ export type TenantCreateWithoutLogsEventoInput = {
   auditorias?: Prisma.AuditoriaCreateNestedManyWithoutTenantInput
   authSessions?: Prisma.AuthSessionCreateNestedManyWithoutTenantInput
   citasPsicologos?: Prisma.CitasPsicologosCreateNestedManyWithoutTenantInput
+  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaCreateNestedManyWithoutTenantInput
   clientes?: Prisma.ClienteCreateNestedManyWithoutTenantInput
   commissions?: Prisma.CommissionRecordCreateNestedManyWithoutTenantInput
   configuracionPagos?: Prisma.ConfiguracionPagosCreateNestedManyWithoutTenantInput
@@ -11840,6 +12030,7 @@ export type TenantCreateWithoutLogsEventoInput = {
   empresaMemberships?: Prisma.EmpresaMembershipCreateNestedManyWithoutTenantInput
   empresas?: Prisma.EmpresaCreateNestedManyWithoutTenantInput
   estadosServicio?: Prisma.EstadoServicioCreateNestedManyWithoutTenantInput
+  evidenciasServicio?: Prisma.EvidenciaServicioCreateNestedManyWithoutTenantInput
   geolocalizaciones?: Prisma.GeolocalizacionCreateNestedManyWithoutTenantInput
   metodosPago?: Prisma.MetodoPagoCreateNestedManyWithoutTenantInput
   nivelesRiesgo?: Prisma.NivelRiesgoOperativoCreateNestedManyWithoutTenantInput
@@ -11866,7 +12057,6 @@ export type TenantCreateWithoutLogsEventoInput = {
   turnos?: Prisma.TurnoCreateNestedManyWithoutTenantInput
   vehiculos?: Prisma.VehiculoCreateNestedManyWithoutTenantInput
   zonas?: Prisma.ZonaCreateNestedManyWithoutTenantInput
-  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaCreateNestedManyWithoutTenantInput
 }
 
 export type TenantUncheckedCreateWithoutLogsEventoInput = {
@@ -11884,6 +12074,7 @@ export type TenantUncheckedCreateWithoutLogsEventoInput = {
   auditorias?: Prisma.AuditoriaUncheckedCreateNestedManyWithoutTenantInput
   authSessions?: Prisma.AuthSessionUncheckedCreateNestedManyWithoutTenantInput
   citasPsicologos?: Prisma.CitasPsicologosUncheckedCreateNestedManyWithoutTenantInput
+  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaUncheckedCreateNestedManyWithoutTenantInput
   clientes?: Prisma.ClienteUncheckedCreateNestedManyWithoutTenantInput
   commissions?: Prisma.CommissionRecordUncheckedCreateNestedManyWithoutTenantInput
   configuracionPagos?: Prisma.ConfiguracionPagosUncheckedCreateNestedManyWithoutTenantInput
@@ -11898,6 +12089,7 @@ export type TenantUncheckedCreateWithoutLogsEventoInput = {
   empresaMemberships?: Prisma.EmpresaMembershipUncheckedCreateNestedManyWithoutTenantInput
   empresas?: Prisma.EmpresaUncheckedCreateNestedManyWithoutTenantInput
   estadosServicio?: Prisma.EstadoServicioUncheckedCreateNestedManyWithoutTenantInput
+  evidenciasServicio?: Prisma.EvidenciaServicioUncheckedCreateNestedManyWithoutTenantInput
   geolocalizaciones?: Prisma.GeolocalizacionUncheckedCreateNestedManyWithoutTenantInput
   metodosPago?: Prisma.MetodoPagoUncheckedCreateNestedManyWithoutTenantInput
   nivelesRiesgo?: Prisma.NivelRiesgoOperativoUncheckedCreateNestedManyWithoutTenantInput
@@ -11924,7 +12116,6 @@ export type TenantUncheckedCreateWithoutLogsEventoInput = {
   turnos?: Prisma.TurnoUncheckedCreateNestedManyWithoutTenantInput
   vehiculos?: Prisma.VehiculoUncheckedCreateNestedManyWithoutTenantInput
   zonas?: Prisma.ZonaUncheckedCreateNestedManyWithoutTenantInput
-  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaUncheckedCreateNestedManyWithoutTenantInput
 }
 
 export type TenantCreateOrConnectWithoutLogsEventoInput = {
@@ -11958,6 +12149,7 @@ export type TenantUpdateWithoutLogsEventoInput = {
   auditorias?: Prisma.AuditoriaUpdateManyWithoutTenantNestedInput
   authSessions?: Prisma.AuthSessionUpdateManyWithoutTenantNestedInput
   citasPsicologos?: Prisma.CitasPsicologosUpdateManyWithoutTenantNestedInput
+  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaUpdateManyWithoutTenantNestedInput
   clientes?: Prisma.ClienteUpdateManyWithoutTenantNestedInput
   commissions?: Prisma.CommissionRecordUpdateManyWithoutTenantNestedInput
   configuracionPagos?: Prisma.ConfiguracionPagosUpdateManyWithoutTenantNestedInput
@@ -11972,6 +12164,7 @@ export type TenantUpdateWithoutLogsEventoInput = {
   empresaMemberships?: Prisma.EmpresaMembershipUpdateManyWithoutTenantNestedInput
   empresas?: Prisma.EmpresaUpdateManyWithoutTenantNestedInput
   estadosServicio?: Prisma.EstadoServicioUpdateManyWithoutTenantNestedInput
+  evidenciasServicio?: Prisma.EvidenciaServicioUpdateManyWithoutTenantNestedInput
   geolocalizaciones?: Prisma.GeolocalizacionUpdateManyWithoutTenantNestedInput
   metodosPago?: Prisma.MetodoPagoUpdateManyWithoutTenantNestedInput
   nivelesRiesgo?: Prisma.NivelRiesgoOperativoUpdateManyWithoutTenantNestedInput
@@ -11998,7 +12191,6 @@ export type TenantUpdateWithoutLogsEventoInput = {
   turnos?: Prisma.TurnoUpdateManyWithoutTenantNestedInput
   vehiculos?: Prisma.VehiculoUpdateManyWithoutTenantNestedInput
   zonas?: Prisma.ZonaUpdateManyWithoutTenantNestedInput
-  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaUpdateManyWithoutTenantNestedInput
 }
 
 export type TenantUncheckedUpdateWithoutLogsEventoInput = {
@@ -12016,6 +12208,7 @@ export type TenantUncheckedUpdateWithoutLogsEventoInput = {
   auditorias?: Prisma.AuditoriaUncheckedUpdateManyWithoutTenantNestedInput
   authSessions?: Prisma.AuthSessionUncheckedUpdateManyWithoutTenantNestedInput
   citasPsicologos?: Prisma.CitasPsicologosUncheckedUpdateManyWithoutTenantNestedInput
+  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaUncheckedUpdateManyWithoutTenantNestedInput
   clientes?: Prisma.ClienteUncheckedUpdateManyWithoutTenantNestedInput
   commissions?: Prisma.CommissionRecordUncheckedUpdateManyWithoutTenantNestedInput
   configuracionPagos?: Prisma.ConfiguracionPagosUncheckedUpdateManyWithoutTenantNestedInput
@@ -12030,6 +12223,7 @@ export type TenantUncheckedUpdateWithoutLogsEventoInput = {
   empresaMemberships?: Prisma.EmpresaMembershipUncheckedUpdateManyWithoutTenantNestedInput
   empresas?: Prisma.EmpresaUncheckedUpdateManyWithoutTenantNestedInput
   estadosServicio?: Prisma.EstadoServicioUncheckedUpdateManyWithoutTenantNestedInput
+  evidenciasServicio?: Prisma.EvidenciaServicioUncheckedUpdateManyWithoutTenantNestedInput
   geolocalizaciones?: Prisma.GeolocalizacionUncheckedUpdateManyWithoutTenantNestedInput
   metodosPago?: Prisma.MetodoPagoUncheckedUpdateManyWithoutTenantNestedInput
   nivelesRiesgo?: Prisma.NivelRiesgoOperativoUncheckedUpdateManyWithoutTenantNestedInput
@@ -12056,7 +12250,6 @@ export type TenantUncheckedUpdateWithoutLogsEventoInput = {
   turnos?: Prisma.TurnoUncheckedUpdateManyWithoutTenantNestedInput
   vehiculos?: Prisma.VehiculoUncheckedUpdateManyWithoutTenantNestedInput
   zonas?: Prisma.ZonaUncheckedUpdateManyWithoutTenantNestedInput
-  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaUncheckedUpdateManyWithoutTenantNestedInput
 }
 
 export type TenantCreateWithoutAuthSessionsInput = {
@@ -12073,6 +12266,7 @@ export type TenantCreateWithoutAuthSessionsInput = {
   anticipos?: Prisma.AnticiposCreateNestedManyWithoutTenantInput
   auditorias?: Prisma.AuditoriaCreateNestedManyWithoutTenantInput
   citasPsicologos?: Prisma.CitasPsicologosCreateNestedManyWithoutTenantInput
+  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaCreateNestedManyWithoutTenantInput
   clientes?: Prisma.ClienteCreateNestedManyWithoutTenantInput
   commissions?: Prisma.CommissionRecordCreateNestedManyWithoutTenantInput
   configuracionPagos?: Prisma.ConfiguracionPagosCreateNestedManyWithoutTenantInput
@@ -12087,6 +12281,7 @@ export type TenantCreateWithoutAuthSessionsInput = {
   empresaMemberships?: Prisma.EmpresaMembershipCreateNestedManyWithoutTenantInput
   empresas?: Prisma.EmpresaCreateNestedManyWithoutTenantInput
   estadosServicio?: Prisma.EstadoServicioCreateNestedManyWithoutTenantInput
+  evidenciasServicio?: Prisma.EvidenciaServicioCreateNestedManyWithoutTenantInput
   geolocalizaciones?: Prisma.GeolocalizacionCreateNestedManyWithoutTenantInput
   logsEvento?: Prisma.LogEventoCreateNestedManyWithoutTenantInput
   metodosPago?: Prisma.MetodoPagoCreateNestedManyWithoutTenantInput
@@ -12114,7 +12309,6 @@ export type TenantCreateWithoutAuthSessionsInput = {
   turnos?: Prisma.TurnoCreateNestedManyWithoutTenantInput
   vehiculos?: Prisma.VehiculoCreateNestedManyWithoutTenantInput
   zonas?: Prisma.ZonaCreateNestedManyWithoutTenantInput
-  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaCreateNestedManyWithoutTenantInput
 }
 
 export type TenantUncheckedCreateWithoutAuthSessionsInput = {
@@ -12131,6 +12325,7 @@ export type TenantUncheckedCreateWithoutAuthSessionsInput = {
   anticipos?: Prisma.AnticiposUncheckedCreateNestedManyWithoutTenantInput
   auditorias?: Prisma.AuditoriaUncheckedCreateNestedManyWithoutTenantInput
   citasPsicologos?: Prisma.CitasPsicologosUncheckedCreateNestedManyWithoutTenantInput
+  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaUncheckedCreateNestedManyWithoutTenantInput
   clientes?: Prisma.ClienteUncheckedCreateNestedManyWithoutTenantInput
   commissions?: Prisma.CommissionRecordUncheckedCreateNestedManyWithoutTenantInput
   configuracionPagos?: Prisma.ConfiguracionPagosUncheckedCreateNestedManyWithoutTenantInput
@@ -12145,6 +12340,7 @@ export type TenantUncheckedCreateWithoutAuthSessionsInput = {
   empresaMemberships?: Prisma.EmpresaMembershipUncheckedCreateNestedManyWithoutTenantInput
   empresas?: Prisma.EmpresaUncheckedCreateNestedManyWithoutTenantInput
   estadosServicio?: Prisma.EstadoServicioUncheckedCreateNestedManyWithoutTenantInput
+  evidenciasServicio?: Prisma.EvidenciaServicioUncheckedCreateNestedManyWithoutTenantInput
   geolocalizaciones?: Prisma.GeolocalizacionUncheckedCreateNestedManyWithoutTenantInput
   logsEvento?: Prisma.LogEventoUncheckedCreateNestedManyWithoutTenantInput
   metodosPago?: Prisma.MetodoPagoUncheckedCreateNestedManyWithoutTenantInput
@@ -12172,7 +12368,6 @@ export type TenantUncheckedCreateWithoutAuthSessionsInput = {
   turnos?: Prisma.TurnoUncheckedCreateNestedManyWithoutTenantInput
   vehiculos?: Prisma.VehiculoUncheckedCreateNestedManyWithoutTenantInput
   zonas?: Prisma.ZonaUncheckedCreateNestedManyWithoutTenantInput
-  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaUncheckedCreateNestedManyWithoutTenantInput
 }
 
 export type TenantCreateOrConnectWithoutAuthSessionsInput = {
@@ -12205,6 +12400,7 @@ export type TenantUpdateWithoutAuthSessionsInput = {
   anticipos?: Prisma.AnticiposUpdateManyWithoutTenantNestedInput
   auditorias?: Prisma.AuditoriaUpdateManyWithoutTenantNestedInput
   citasPsicologos?: Prisma.CitasPsicologosUpdateManyWithoutTenantNestedInput
+  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaUpdateManyWithoutTenantNestedInput
   clientes?: Prisma.ClienteUpdateManyWithoutTenantNestedInput
   commissions?: Prisma.CommissionRecordUpdateManyWithoutTenantNestedInput
   configuracionPagos?: Prisma.ConfiguracionPagosUpdateManyWithoutTenantNestedInput
@@ -12219,6 +12415,7 @@ export type TenantUpdateWithoutAuthSessionsInput = {
   empresaMemberships?: Prisma.EmpresaMembershipUpdateManyWithoutTenantNestedInput
   empresas?: Prisma.EmpresaUpdateManyWithoutTenantNestedInput
   estadosServicio?: Prisma.EstadoServicioUpdateManyWithoutTenantNestedInput
+  evidenciasServicio?: Prisma.EvidenciaServicioUpdateManyWithoutTenantNestedInput
   geolocalizaciones?: Prisma.GeolocalizacionUpdateManyWithoutTenantNestedInput
   logsEvento?: Prisma.LogEventoUpdateManyWithoutTenantNestedInput
   metodosPago?: Prisma.MetodoPagoUpdateManyWithoutTenantNestedInput
@@ -12246,7 +12443,6 @@ export type TenantUpdateWithoutAuthSessionsInput = {
   turnos?: Prisma.TurnoUpdateManyWithoutTenantNestedInput
   vehiculos?: Prisma.VehiculoUpdateManyWithoutTenantNestedInput
   zonas?: Prisma.ZonaUpdateManyWithoutTenantNestedInput
-  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaUpdateManyWithoutTenantNestedInput
 }
 
 export type TenantUncheckedUpdateWithoutAuthSessionsInput = {
@@ -12263,6 +12459,7 @@ export type TenantUncheckedUpdateWithoutAuthSessionsInput = {
   anticipos?: Prisma.AnticiposUncheckedUpdateManyWithoutTenantNestedInput
   auditorias?: Prisma.AuditoriaUncheckedUpdateManyWithoutTenantNestedInput
   citasPsicologos?: Prisma.CitasPsicologosUncheckedUpdateManyWithoutTenantNestedInput
+  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaUncheckedUpdateManyWithoutTenantNestedInput
   clientes?: Prisma.ClienteUncheckedUpdateManyWithoutTenantNestedInput
   commissions?: Prisma.CommissionRecordUncheckedUpdateManyWithoutTenantNestedInput
   configuracionPagos?: Prisma.ConfiguracionPagosUncheckedUpdateManyWithoutTenantNestedInput
@@ -12277,6 +12474,7 @@ export type TenantUncheckedUpdateWithoutAuthSessionsInput = {
   empresaMemberships?: Prisma.EmpresaMembershipUncheckedUpdateManyWithoutTenantNestedInput
   empresas?: Prisma.EmpresaUncheckedUpdateManyWithoutTenantNestedInput
   estadosServicio?: Prisma.EstadoServicioUncheckedUpdateManyWithoutTenantNestedInput
+  evidenciasServicio?: Prisma.EvidenciaServicioUncheckedUpdateManyWithoutTenantNestedInput
   geolocalizaciones?: Prisma.GeolocalizacionUncheckedUpdateManyWithoutTenantNestedInput
   logsEvento?: Prisma.LogEventoUncheckedUpdateManyWithoutTenantNestedInput
   metodosPago?: Prisma.MetodoPagoUncheckedUpdateManyWithoutTenantNestedInput
@@ -12304,7 +12502,6 @@ export type TenantUncheckedUpdateWithoutAuthSessionsInput = {
   turnos?: Prisma.TurnoUncheckedUpdateManyWithoutTenantNestedInput
   vehiculos?: Prisma.VehiculoUncheckedUpdateManyWithoutTenantNestedInput
   zonas?: Prisma.ZonaUncheckedUpdateManyWithoutTenantNestedInput
-  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaUncheckedUpdateManyWithoutTenantNestedInput
 }
 
 export type TenantCreateWithoutResetTokensInput = {
@@ -12322,6 +12519,7 @@ export type TenantCreateWithoutResetTokensInput = {
   auditorias?: Prisma.AuditoriaCreateNestedManyWithoutTenantInput
   authSessions?: Prisma.AuthSessionCreateNestedManyWithoutTenantInput
   citasPsicologos?: Prisma.CitasPsicologosCreateNestedManyWithoutTenantInput
+  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaCreateNestedManyWithoutTenantInput
   clientes?: Prisma.ClienteCreateNestedManyWithoutTenantInput
   commissions?: Prisma.CommissionRecordCreateNestedManyWithoutTenantInput
   configuracionPagos?: Prisma.ConfiguracionPagosCreateNestedManyWithoutTenantInput
@@ -12336,6 +12534,7 @@ export type TenantCreateWithoutResetTokensInput = {
   empresaMemberships?: Prisma.EmpresaMembershipCreateNestedManyWithoutTenantInput
   empresas?: Prisma.EmpresaCreateNestedManyWithoutTenantInput
   estadosServicio?: Prisma.EstadoServicioCreateNestedManyWithoutTenantInput
+  evidenciasServicio?: Prisma.EvidenciaServicioCreateNestedManyWithoutTenantInput
   geolocalizaciones?: Prisma.GeolocalizacionCreateNestedManyWithoutTenantInput
   logsEvento?: Prisma.LogEventoCreateNestedManyWithoutTenantInput
   metodosPago?: Prisma.MetodoPagoCreateNestedManyWithoutTenantInput
@@ -12362,7 +12561,6 @@ export type TenantCreateWithoutResetTokensInput = {
   turnos?: Prisma.TurnoCreateNestedManyWithoutTenantInput
   vehiculos?: Prisma.VehiculoCreateNestedManyWithoutTenantInput
   zonas?: Prisma.ZonaCreateNestedManyWithoutTenantInput
-  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaCreateNestedManyWithoutTenantInput
 }
 
 export type TenantUncheckedCreateWithoutResetTokensInput = {
@@ -12380,6 +12578,7 @@ export type TenantUncheckedCreateWithoutResetTokensInput = {
   auditorias?: Prisma.AuditoriaUncheckedCreateNestedManyWithoutTenantInput
   authSessions?: Prisma.AuthSessionUncheckedCreateNestedManyWithoutTenantInput
   citasPsicologos?: Prisma.CitasPsicologosUncheckedCreateNestedManyWithoutTenantInput
+  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaUncheckedCreateNestedManyWithoutTenantInput
   clientes?: Prisma.ClienteUncheckedCreateNestedManyWithoutTenantInput
   commissions?: Prisma.CommissionRecordUncheckedCreateNestedManyWithoutTenantInput
   configuracionPagos?: Prisma.ConfiguracionPagosUncheckedCreateNestedManyWithoutTenantInput
@@ -12394,6 +12593,7 @@ export type TenantUncheckedCreateWithoutResetTokensInput = {
   empresaMemberships?: Prisma.EmpresaMembershipUncheckedCreateNestedManyWithoutTenantInput
   empresas?: Prisma.EmpresaUncheckedCreateNestedManyWithoutTenantInput
   estadosServicio?: Prisma.EstadoServicioUncheckedCreateNestedManyWithoutTenantInput
+  evidenciasServicio?: Prisma.EvidenciaServicioUncheckedCreateNestedManyWithoutTenantInput
   geolocalizaciones?: Prisma.GeolocalizacionUncheckedCreateNestedManyWithoutTenantInput
   logsEvento?: Prisma.LogEventoUncheckedCreateNestedManyWithoutTenantInput
   metodosPago?: Prisma.MetodoPagoUncheckedCreateNestedManyWithoutTenantInput
@@ -12420,7 +12620,6 @@ export type TenantUncheckedCreateWithoutResetTokensInput = {
   turnos?: Prisma.TurnoUncheckedCreateNestedManyWithoutTenantInput
   vehiculos?: Prisma.VehiculoUncheckedCreateNestedManyWithoutTenantInput
   zonas?: Prisma.ZonaUncheckedCreateNestedManyWithoutTenantInput
-  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaUncheckedCreateNestedManyWithoutTenantInput
 }
 
 export type TenantCreateOrConnectWithoutResetTokensInput = {
@@ -12454,6 +12653,7 @@ export type TenantUpdateWithoutResetTokensInput = {
   auditorias?: Prisma.AuditoriaUpdateManyWithoutTenantNestedInput
   authSessions?: Prisma.AuthSessionUpdateManyWithoutTenantNestedInput
   citasPsicologos?: Prisma.CitasPsicologosUpdateManyWithoutTenantNestedInput
+  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaUpdateManyWithoutTenantNestedInput
   clientes?: Prisma.ClienteUpdateManyWithoutTenantNestedInput
   commissions?: Prisma.CommissionRecordUpdateManyWithoutTenantNestedInput
   configuracionPagos?: Prisma.ConfiguracionPagosUpdateManyWithoutTenantNestedInput
@@ -12468,6 +12668,7 @@ export type TenantUpdateWithoutResetTokensInput = {
   empresaMemberships?: Prisma.EmpresaMembershipUpdateManyWithoutTenantNestedInput
   empresas?: Prisma.EmpresaUpdateManyWithoutTenantNestedInput
   estadosServicio?: Prisma.EstadoServicioUpdateManyWithoutTenantNestedInput
+  evidenciasServicio?: Prisma.EvidenciaServicioUpdateManyWithoutTenantNestedInput
   geolocalizaciones?: Prisma.GeolocalizacionUpdateManyWithoutTenantNestedInput
   logsEvento?: Prisma.LogEventoUpdateManyWithoutTenantNestedInput
   metodosPago?: Prisma.MetodoPagoUpdateManyWithoutTenantNestedInput
@@ -12494,7 +12695,6 @@ export type TenantUpdateWithoutResetTokensInput = {
   turnos?: Prisma.TurnoUpdateManyWithoutTenantNestedInput
   vehiculos?: Prisma.VehiculoUpdateManyWithoutTenantNestedInput
   zonas?: Prisma.ZonaUpdateManyWithoutTenantNestedInput
-  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaUpdateManyWithoutTenantNestedInput
 }
 
 export type TenantUncheckedUpdateWithoutResetTokensInput = {
@@ -12512,6 +12712,7 @@ export type TenantUncheckedUpdateWithoutResetTokensInput = {
   auditorias?: Prisma.AuditoriaUncheckedUpdateManyWithoutTenantNestedInput
   authSessions?: Prisma.AuthSessionUncheckedUpdateManyWithoutTenantNestedInput
   citasPsicologos?: Prisma.CitasPsicologosUncheckedUpdateManyWithoutTenantNestedInput
+  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaUncheckedUpdateManyWithoutTenantNestedInput
   clientes?: Prisma.ClienteUncheckedUpdateManyWithoutTenantNestedInput
   commissions?: Prisma.CommissionRecordUncheckedUpdateManyWithoutTenantNestedInput
   configuracionPagos?: Prisma.ConfiguracionPagosUncheckedUpdateManyWithoutTenantNestedInput
@@ -12526,6 +12727,7 @@ export type TenantUncheckedUpdateWithoutResetTokensInput = {
   empresaMemberships?: Prisma.EmpresaMembershipUncheckedUpdateManyWithoutTenantNestedInput
   empresas?: Prisma.EmpresaUncheckedUpdateManyWithoutTenantNestedInput
   estadosServicio?: Prisma.EstadoServicioUncheckedUpdateManyWithoutTenantNestedInput
+  evidenciasServicio?: Prisma.EvidenciaServicioUncheckedUpdateManyWithoutTenantNestedInput
   geolocalizaciones?: Prisma.GeolocalizacionUncheckedUpdateManyWithoutTenantNestedInput
   logsEvento?: Prisma.LogEventoUncheckedUpdateManyWithoutTenantNestedInput
   metodosPago?: Prisma.MetodoPagoUncheckedUpdateManyWithoutTenantNestedInput
@@ -12552,7 +12754,6 @@ export type TenantUncheckedUpdateWithoutResetTokensInput = {
   turnos?: Prisma.TurnoUncheckedUpdateManyWithoutTenantNestedInput
   vehiculos?: Prisma.VehiculoUncheckedUpdateManyWithoutTenantNestedInput
   zonas?: Prisma.ZonaUncheckedUpdateManyWithoutTenantNestedInput
-  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaUncheckedUpdateManyWithoutTenantNestedInput
 }
 
 export type TenantCreateWithoutConfiguracionesOperativasInput = {
@@ -12584,6 +12785,7 @@ export type TenantCreateWithoutConfiguracionesOperativasInput = {
   empresaMemberships?: Prisma.EmpresaMembershipCreateNestedManyWithoutTenantInput
   empresas?: Prisma.EmpresaCreateNestedManyWithoutTenantInput
   estadosServicio?: Prisma.EstadoServicioCreateNestedManyWithoutTenantInput
+  evidenciasServicio?: Prisma.EvidenciaServicioCreateNestedManyWithoutTenantInput
   geolocalizaciones?: Prisma.GeolocalizacionCreateNestedManyWithoutTenantInput
   logsEvento?: Prisma.LogEventoCreateNestedManyWithoutTenantInput
   metodosPago?: Prisma.MetodoPagoCreateNestedManyWithoutTenantInput
@@ -12642,6 +12844,7 @@ export type TenantUncheckedCreateWithoutConfiguracionesOperativasInput = {
   empresaMemberships?: Prisma.EmpresaMembershipUncheckedCreateNestedManyWithoutTenantInput
   empresas?: Prisma.EmpresaUncheckedCreateNestedManyWithoutTenantInput
   estadosServicio?: Prisma.EstadoServicioUncheckedCreateNestedManyWithoutTenantInput
+  evidenciasServicio?: Prisma.EvidenciaServicioUncheckedCreateNestedManyWithoutTenantInput
   geolocalizaciones?: Prisma.GeolocalizacionUncheckedCreateNestedManyWithoutTenantInput
   logsEvento?: Prisma.LogEventoUncheckedCreateNestedManyWithoutTenantInput
   metodosPago?: Prisma.MetodoPagoUncheckedCreateNestedManyWithoutTenantInput
@@ -12716,6 +12919,7 @@ export type TenantUpdateWithoutConfiguracionesOperativasInput = {
   empresaMemberships?: Prisma.EmpresaMembershipUpdateManyWithoutTenantNestedInput
   empresas?: Prisma.EmpresaUpdateManyWithoutTenantNestedInput
   estadosServicio?: Prisma.EstadoServicioUpdateManyWithoutTenantNestedInput
+  evidenciasServicio?: Prisma.EvidenciaServicioUpdateManyWithoutTenantNestedInput
   geolocalizaciones?: Prisma.GeolocalizacionUpdateManyWithoutTenantNestedInput
   logsEvento?: Prisma.LogEventoUpdateManyWithoutTenantNestedInput
   metodosPago?: Prisma.MetodoPagoUpdateManyWithoutTenantNestedInput
@@ -12774,6 +12978,259 @@ export type TenantUncheckedUpdateWithoutConfiguracionesOperativasInput = {
   empresaMemberships?: Prisma.EmpresaMembershipUncheckedUpdateManyWithoutTenantNestedInput
   empresas?: Prisma.EmpresaUncheckedUpdateManyWithoutTenantNestedInput
   estadosServicio?: Prisma.EstadoServicioUncheckedUpdateManyWithoutTenantNestedInput
+  evidenciasServicio?: Prisma.EvidenciaServicioUncheckedUpdateManyWithoutTenantNestedInput
+  geolocalizaciones?: Prisma.GeolocalizacionUncheckedUpdateManyWithoutTenantNestedInput
+  logsEvento?: Prisma.LogEventoUncheckedUpdateManyWithoutTenantNestedInput
+  metodosPago?: Prisma.MetodoPagoUncheckedUpdateManyWithoutTenantNestedInput
+  nivelesRiesgo?: Prisma.NivelRiesgoOperativoUncheckedUpdateManyWithoutTenantNestedInput
+  nominaDetalles?: Prisma.NominaDetalleUncheckedUpdateManyWithoutTenantNestedInput
+  nominas?: Prisma.NominaUncheckedUpdateManyWithoutTenantNestedInput
+  ordenesServicio?: Prisma.OrdenServicioUncheckedUpdateManyWithoutTenantNestedInput
+  orgNodes?: Prisma.OrganizationNodeUncheckedUpdateManyWithoutTenantNestedInput
+  paquetesAdquiridos?: Prisma.PaqueteAdquiridoUncheckedUpdateManyWithoutTenantNestedInput
+  resetTokens?: Prisma.PasswordResetTokenUncheckedUpdateManyWithoutTenantNestedInput
+  permisos?: Prisma.PermisoUncheckedUpdateManyWithoutTenantNestedInput
+  picoPlaca?: Prisma.PicoPlacaUncheckedUpdateManyWithoutTenantNestedInput
+  productos?: Prisma.ProductoUncheckedUpdateManyWithoutTenantNestedInput
+  productosSolicitados?: Prisma.ProductoSolicitadoUncheckedUpdateManyWithoutTenantNestedInput
+  proveedores?: Prisma.ProveedoresUncheckedUpdateManyWithoutTenantNestedInput
+  referidos?: Prisma.ReferidosUncheckedUpdateManyWithoutTenantNestedInput
+  segmentos?: Prisma.SegmentoNegocioUncheckedUpdateManyWithoutTenantNestedInput
+  servicios?: Prisma.ServicioUncheckedUpdateManyWithoutTenantNestedInput
+  sesionesActividad?: Prisma.SesionActividadUncheckedUpdateManyWithoutTenantNestedInput
+  subscription?: Prisma.SubscriptionUncheckedUpdateOneWithoutTenantNestedInput
+  memberships?: Prisma.TenantMembershipUncheckedUpdateManyWithoutTenantNestedInput
+  terapiasPsicologos?: Prisma.TerapiasPsicologosUncheckedUpdateManyWithoutTenantNestedInput
+  tiposInteres?: Prisma.TipoInteresUncheckedUpdateManyWithoutTenantNestedInput
+  tiposServicio?: Prisma.TipoServicioUncheckedUpdateManyWithoutTenantNestedInput
+  turnos?: Prisma.TurnoUncheckedUpdateManyWithoutTenantNestedInput
+  vehiculos?: Prisma.VehiculoUncheckedUpdateManyWithoutTenantNestedInput
+  zonas?: Prisma.ZonaUncheckedUpdateManyWithoutTenantNestedInput
+}
+
+export type TenantCreateWithoutEvidenciasServicioInput = {
+  id?: string
+  slug: string
+  isActive?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  correo?: string | null
+  nit?: string | null
+  nombre: string
+  numero?: string | null
+  pagina?: string | null
+  anticipos?: Prisma.AnticiposCreateNestedManyWithoutTenantInput
+  auditorias?: Prisma.AuditoriaCreateNestedManyWithoutTenantInput
+  authSessions?: Prisma.AuthSessionCreateNestedManyWithoutTenantInput
+  citasPsicologos?: Prisma.CitasPsicologosCreateNestedManyWithoutTenantInput
+  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaCreateNestedManyWithoutTenantInput
+  clientes?: Prisma.ClienteCreateNestedManyWithoutTenantInput
+  commissions?: Prisma.CommissionRecordCreateNestedManyWithoutTenantInput
+  configuracionPagos?: Prisma.ConfiguracionPagosCreateNestedManyWithoutTenantInput
+  consignacionOrdenes?: Prisma.ConsignacionOrdenCreateNestedManyWithoutTenantInput
+  consignaciones?: Prisma.ConsignacionEfectivoCreateNestedManyWithoutTenantInput
+  consultorios?: Prisma.ConsultorioCreateNestedManyWithoutTenantInput
+  cuentasCobro?: Prisma.CuentaCobroCreateNestedManyWithoutTenantInput
+  cuentasPago?: Prisma.CuentasPagoCreateNestedManyWithoutTenantInput
+  declaraciones?: Prisma.DeclaracionEfectivoCreateNestedManyWithoutTenantInput
+  direcciones?: Prisma.DireccionCreateNestedManyWithoutTenantInput
+  egresos?: Prisma.EgresosCreateNestedManyWithoutTenantInput
+  empresaMemberships?: Prisma.EmpresaMembershipCreateNestedManyWithoutTenantInput
+  empresas?: Prisma.EmpresaCreateNestedManyWithoutTenantInput
+  estadosServicio?: Prisma.EstadoServicioCreateNestedManyWithoutTenantInput
+  geolocalizaciones?: Prisma.GeolocalizacionCreateNestedManyWithoutTenantInput
+  logsEvento?: Prisma.LogEventoCreateNestedManyWithoutTenantInput
+  metodosPago?: Prisma.MetodoPagoCreateNestedManyWithoutTenantInput
+  nivelesRiesgo?: Prisma.NivelRiesgoOperativoCreateNestedManyWithoutTenantInput
+  nominaDetalles?: Prisma.NominaDetalleCreateNestedManyWithoutTenantInput
+  nominas?: Prisma.NominaCreateNestedManyWithoutTenantInput
+  ordenesServicio?: Prisma.OrdenServicioCreateNestedManyWithoutTenantInput
+  orgNodes?: Prisma.OrganizationNodeCreateNestedManyWithoutTenantInput
+  paquetesAdquiridos?: Prisma.PaqueteAdquiridoCreateNestedManyWithoutTenantInput
+  resetTokens?: Prisma.PasswordResetTokenCreateNestedManyWithoutTenantInput
+  permisos?: Prisma.PermisoCreateNestedManyWithoutTenantInput
+  picoPlaca?: Prisma.PicoPlacaCreateNestedManyWithoutTenantInput
+  productos?: Prisma.ProductoCreateNestedManyWithoutTenantInput
+  productosSolicitados?: Prisma.ProductoSolicitadoCreateNestedManyWithoutTenantInput
+  proveedores?: Prisma.ProveedoresCreateNestedManyWithoutTenantInput
+  referidos?: Prisma.ReferidosCreateNestedManyWithoutTenantInput
+  segmentos?: Prisma.SegmentoNegocioCreateNestedManyWithoutTenantInput
+  servicios?: Prisma.ServicioCreateNestedManyWithoutTenantInput
+  sesionesActividad?: Prisma.SesionActividadCreateNestedManyWithoutTenantInput
+  subscription?: Prisma.SubscriptionCreateNestedOneWithoutTenantInput
+  memberships?: Prisma.TenantMembershipCreateNestedManyWithoutTenantInput
+  terapiasPsicologos?: Prisma.TerapiasPsicologosCreateNestedManyWithoutTenantInput
+  tiposInteres?: Prisma.TipoInteresCreateNestedManyWithoutTenantInput
+  tiposServicio?: Prisma.TipoServicioCreateNestedManyWithoutTenantInput
+  turnos?: Prisma.TurnoCreateNestedManyWithoutTenantInput
+  vehiculos?: Prisma.VehiculoCreateNestedManyWithoutTenantInput
+  zonas?: Prisma.ZonaCreateNestedManyWithoutTenantInput
+}
+
+export type TenantUncheckedCreateWithoutEvidenciasServicioInput = {
+  id?: string
+  slug: string
+  isActive?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  correo?: string | null
+  nit?: string | null
+  nombre: string
+  numero?: string | null
+  pagina?: string | null
+  anticipos?: Prisma.AnticiposUncheckedCreateNestedManyWithoutTenantInput
+  auditorias?: Prisma.AuditoriaUncheckedCreateNestedManyWithoutTenantInput
+  authSessions?: Prisma.AuthSessionUncheckedCreateNestedManyWithoutTenantInput
+  citasPsicologos?: Prisma.CitasPsicologosUncheckedCreateNestedManyWithoutTenantInput
+  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaUncheckedCreateNestedManyWithoutTenantInput
+  clientes?: Prisma.ClienteUncheckedCreateNestedManyWithoutTenantInput
+  commissions?: Prisma.CommissionRecordUncheckedCreateNestedManyWithoutTenantInput
+  configuracionPagos?: Prisma.ConfiguracionPagosUncheckedCreateNestedManyWithoutTenantInput
+  consignacionOrdenes?: Prisma.ConsignacionOrdenUncheckedCreateNestedManyWithoutTenantInput
+  consignaciones?: Prisma.ConsignacionEfectivoUncheckedCreateNestedManyWithoutTenantInput
+  consultorios?: Prisma.ConsultorioUncheckedCreateNestedManyWithoutTenantInput
+  cuentasCobro?: Prisma.CuentaCobroUncheckedCreateNestedManyWithoutTenantInput
+  cuentasPago?: Prisma.CuentasPagoUncheckedCreateNestedManyWithoutTenantInput
+  declaraciones?: Prisma.DeclaracionEfectivoUncheckedCreateNestedManyWithoutTenantInput
+  direcciones?: Prisma.DireccionUncheckedCreateNestedManyWithoutTenantInput
+  egresos?: Prisma.EgresosUncheckedCreateNestedManyWithoutTenantInput
+  empresaMemberships?: Prisma.EmpresaMembershipUncheckedCreateNestedManyWithoutTenantInput
+  empresas?: Prisma.EmpresaUncheckedCreateNestedManyWithoutTenantInput
+  estadosServicio?: Prisma.EstadoServicioUncheckedCreateNestedManyWithoutTenantInput
+  geolocalizaciones?: Prisma.GeolocalizacionUncheckedCreateNestedManyWithoutTenantInput
+  logsEvento?: Prisma.LogEventoUncheckedCreateNestedManyWithoutTenantInput
+  metodosPago?: Prisma.MetodoPagoUncheckedCreateNestedManyWithoutTenantInput
+  nivelesRiesgo?: Prisma.NivelRiesgoOperativoUncheckedCreateNestedManyWithoutTenantInput
+  nominaDetalles?: Prisma.NominaDetalleUncheckedCreateNestedManyWithoutTenantInput
+  nominas?: Prisma.NominaUncheckedCreateNestedManyWithoutTenantInput
+  ordenesServicio?: Prisma.OrdenServicioUncheckedCreateNestedManyWithoutTenantInput
+  orgNodes?: Prisma.OrganizationNodeUncheckedCreateNestedManyWithoutTenantInput
+  paquetesAdquiridos?: Prisma.PaqueteAdquiridoUncheckedCreateNestedManyWithoutTenantInput
+  resetTokens?: Prisma.PasswordResetTokenUncheckedCreateNestedManyWithoutTenantInput
+  permisos?: Prisma.PermisoUncheckedCreateNestedManyWithoutTenantInput
+  picoPlaca?: Prisma.PicoPlacaUncheckedCreateNestedManyWithoutTenantInput
+  productos?: Prisma.ProductoUncheckedCreateNestedManyWithoutTenantInput
+  productosSolicitados?: Prisma.ProductoSolicitadoUncheckedCreateNestedManyWithoutTenantInput
+  proveedores?: Prisma.ProveedoresUncheckedCreateNestedManyWithoutTenantInput
+  referidos?: Prisma.ReferidosUncheckedCreateNestedManyWithoutTenantInput
+  segmentos?: Prisma.SegmentoNegocioUncheckedCreateNestedManyWithoutTenantInput
+  servicios?: Prisma.ServicioUncheckedCreateNestedManyWithoutTenantInput
+  sesionesActividad?: Prisma.SesionActividadUncheckedCreateNestedManyWithoutTenantInput
+  subscription?: Prisma.SubscriptionUncheckedCreateNestedOneWithoutTenantInput
+  memberships?: Prisma.TenantMembershipUncheckedCreateNestedManyWithoutTenantInput
+  terapiasPsicologos?: Prisma.TerapiasPsicologosUncheckedCreateNestedManyWithoutTenantInput
+  tiposInteres?: Prisma.TipoInteresUncheckedCreateNestedManyWithoutTenantInput
+  tiposServicio?: Prisma.TipoServicioUncheckedCreateNestedManyWithoutTenantInput
+  turnos?: Prisma.TurnoUncheckedCreateNestedManyWithoutTenantInput
+  vehiculos?: Prisma.VehiculoUncheckedCreateNestedManyWithoutTenantInput
+  zonas?: Prisma.ZonaUncheckedCreateNestedManyWithoutTenantInput
+}
+
+export type TenantCreateOrConnectWithoutEvidenciasServicioInput = {
+  where: Prisma.TenantWhereUniqueInput
+  create: Prisma.XOR<Prisma.TenantCreateWithoutEvidenciasServicioInput, Prisma.TenantUncheckedCreateWithoutEvidenciasServicioInput>
+}
+
+export type TenantUpsertWithoutEvidenciasServicioInput = {
+  update: Prisma.XOR<Prisma.TenantUpdateWithoutEvidenciasServicioInput, Prisma.TenantUncheckedUpdateWithoutEvidenciasServicioInput>
+  create: Prisma.XOR<Prisma.TenantCreateWithoutEvidenciasServicioInput, Prisma.TenantUncheckedCreateWithoutEvidenciasServicioInput>
+  where?: Prisma.TenantWhereInput
+}
+
+export type TenantUpdateToOneWithWhereWithoutEvidenciasServicioInput = {
+  where?: Prisma.TenantWhereInput
+  data: Prisma.XOR<Prisma.TenantUpdateWithoutEvidenciasServicioInput, Prisma.TenantUncheckedUpdateWithoutEvidenciasServicioInput>
+}
+
+export type TenantUpdateWithoutEvidenciasServicioInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  correo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  nit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  nombre?: Prisma.StringFieldUpdateOperationsInput | string
+  numero?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pagina?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  anticipos?: Prisma.AnticiposUpdateManyWithoutTenantNestedInput
+  auditorias?: Prisma.AuditoriaUpdateManyWithoutTenantNestedInput
+  authSessions?: Prisma.AuthSessionUpdateManyWithoutTenantNestedInput
+  citasPsicologos?: Prisma.CitasPsicologosUpdateManyWithoutTenantNestedInput
+  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaUpdateManyWithoutTenantNestedInput
+  clientes?: Prisma.ClienteUpdateManyWithoutTenantNestedInput
+  commissions?: Prisma.CommissionRecordUpdateManyWithoutTenantNestedInput
+  configuracionPagos?: Prisma.ConfiguracionPagosUpdateManyWithoutTenantNestedInput
+  consignacionOrdenes?: Prisma.ConsignacionOrdenUpdateManyWithoutTenantNestedInput
+  consignaciones?: Prisma.ConsignacionEfectivoUpdateManyWithoutTenantNestedInput
+  consultorios?: Prisma.ConsultorioUpdateManyWithoutTenantNestedInput
+  cuentasCobro?: Prisma.CuentaCobroUpdateManyWithoutTenantNestedInput
+  cuentasPago?: Prisma.CuentasPagoUpdateManyWithoutTenantNestedInput
+  declaraciones?: Prisma.DeclaracionEfectivoUpdateManyWithoutTenantNestedInput
+  direcciones?: Prisma.DireccionUpdateManyWithoutTenantNestedInput
+  egresos?: Prisma.EgresosUpdateManyWithoutTenantNestedInput
+  empresaMemberships?: Prisma.EmpresaMembershipUpdateManyWithoutTenantNestedInput
+  empresas?: Prisma.EmpresaUpdateManyWithoutTenantNestedInput
+  estadosServicio?: Prisma.EstadoServicioUpdateManyWithoutTenantNestedInput
+  geolocalizaciones?: Prisma.GeolocalizacionUpdateManyWithoutTenantNestedInput
+  logsEvento?: Prisma.LogEventoUpdateManyWithoutTenantNestedInput
+  metodosPago?: Prisma.MetodoPagoUpdateManyWithoutTenantNestedInput
+  nivelesRiesgo?: Prisma.NivelRiesgoOperativoUpdateManyWithoutTenantNestedInput
+  nominaDetalles?: Prisma.NominaDetalleUpdateManyWithoutTenantNestedInput
+  nominas?: Prisma.NominaUpdateManyWithoutTenantNestedInput
+  ordenesServicio?: Prisma.OrdenServicioUpdateManyWithoutTenantNestedInput
+  orgNodes?: Prisma.OrganizationNodeUpdateManyWithoutTenantNestedInput
+  paquetesAdquiridos?: Prisma.PaqueteAdquiridoUpdateManyWithoutTenantNestedInput
+  resetTokens?: Prisma.PasswordResetTokenUpdateManyWithoutTenantNestedInput
+  permisos?: Prisma.PermisoUpdateManyWithoutTenantNestedInput
+  picoPlaca?: Prisma.PicoPlacaUpdateManyWithoutTenantNestedInput
+  productos?: Prisma.ProductoUpdateManyWithoutTenantNestedInput
+  productosSolicitados?: Prisma.ProductoSolicitadoUpdateManyWithoutTenantNestedInput
+  proveedores?: Prisma.ProveedoresUpdateManyWithoutTenantNestedInput
+  referidos?: Prisma.ReferidosUpdateManyWithoutTenantNestedInput
+  segmentos?: Prisma.SegmentoNegocioUpdateManyWithoutTenantNestedInput
+  servicios?: Prisma.ServicioUpdateManyWithoutTenantNestedInput
+  sesionesActividad?: Prisma.SesionActividadUpdateManyWithoutTenantNestedInput
+  subscription?: Prisma.SubscriptionUpdateOneWithoutTenantNestedInput
+  memberships?: Prisma.TenantMembershipUpdateManyWithoutTenantNestedInput
+  terapiasPsicologos?: Prisma.TerapiasPsicologosUpdateManyWithoutTenantNestedInput
+  tiposInteres?: Prisma.TipoInteresUpdateManyWithoutTenantNestedInput
+  tiposServicio?: Prisma.TipoServicioUpdateManyWithoutTenantNestedInput
+  turnos?: Prisma.TurnoUpdateManyWithoutTenantNestedInput
+  vehiculos?: Prisma.VehiculoUpdateManyWithoutTenantNestedInput
+  zonas?: Prisma.ZonaUpdateManyWithoutTenantNestedInput
+}
+
+export type TenantUncheckedUpdateWithoutEvidenciasServicioInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  correo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  nit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  nombre?: Prisma.StringFieldUpdateOperationsInput | string
+  numero?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pagina?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  anticipos?: Prisma.AnticiposUncheckedUpdateManyWithoutTenantNestedInput
+  auditorias?: Prisma.AuditoriaUncheckedUpdateManyWithoutTenantNestedInput
+  authSessions?: Prisma.AuthSessionUncheckedUpdateManyWithoutTenantNestedInput
+  citasPsicologos?: Prisma.CitasPsicologosUncheckedUpdateManyWithoutTenantNestedInput
+  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaUncheckedUpdateManyWithoutTenantNestedInput
+  clientes?: Prisma.ClienteUncheckedUpdateManyWithoutTenantNestedInput
+  commissions?: Prisma.CommissionRecordUncheckedUpdateManyWithoutTenantNestedInput
+  configuracionPagos?: Prisma.ConfiguracionPagosUncheckedUpdateManyWithoutTenantNestedInput
+  consignacionOrdenes?: Prisma.ConsignacionOrdenUncheckedUpdateManyWithoutTenantNestedInput
+  consignaciones?: Prisma.ConsignacionEfectivoUncheckedUpdateManyWithoutTenantNestedInput
+  consultorios?: Prisma.ConsultorioUncheckedUpdateManyWithoutTenantNestedInput
+  cuentasCobro?: Prisma.CuentaCobroUncheckedUpdateManyWithoutTenantNestedInput
+  cuentasPago?: Prisma.CuentasPagoUncheckedUpdateManyWithoutTenantNestedInput
+  declaraciones?: Prisma.DeclaracionEfectivoUncheckedUpdateManyWithoutTenantNestedInput
+  direcciones?: Prisma.DireccionUncheckedUpdateManyWithoutTenantNestedInput
+  egresos?: Prisma.EgresosUncheckedUpdateManyWithoutTenantNestedInput
+  empresaMemberships?: Prisma.EmpresaMembershipUncheckedUpdateManyWithoutTenantNestedInput
+  empresas?: Prisma.EmpresaUncheckedUpdateManyWithoutTenantNestedInput
+  estadosServicio?: Prisma.EstadoServicioUncheckedUpdateManyWithoutTenantNestedInput
   geolocalizaciones?: Prisma.GeolocalizacionUncheckedUpdateManyWithoutTenantNestedInput
   logsEvento?: Prisma.LogEventoUncheckedUpdateManyWithoutTenantNestedInput
   metodosPago?: Prisma.MetodoPagoUncheckedUpdateManyWithoutTenantNestedInput
@@ -12813,6 +13270,7 @@ export type TenantCountOutputType = {
   auditorias: number
   authSessions: number
   citasPsicologos: number
+  configuracionesOperativas: number
   clientes: number
   commissions: number
   configuracionPagos: number
@@ -12827,6 +13285,7 @@ export type TenantCountOutputType = {
   empresaMemberships: number
   empresas: number
   estadosServicio: number
+  evidenciasServicio: number
   geolocalizaciones: number
   logsEvento: number
   metodosPago: number
@@ -12853,7 +13312,6 @@ export type TenantCountOutputType = {
   turnos: number
   vehiculos: number
   zonas: number
-  configuracionesOperativas: number
 }
 
 export type TenantCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -12861,6 +13319,7 @@ export type TenantCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions
   auditorias?: boolean | TenantCountOutputTypeCountAuditoriasArgs
   authSessions?: boolean | TenantCountOutputTypeCountAuthSessionsArgs
   citasPsicologos?: boolean | TenantCountOutputTypeCountCitasPsicologosArgs
+  configuracionesOperativas?: boolean | TenantCountOutputTypeCountConfiguracionesOperativasArgs
   clientes?: boolean | TenantCountOutputTypeCountClientesArgs
   commissions?: boolean | TenantCountOutputTypeCountCommissionsArgs
   configuracionPagos?: boolean | TenantCountOutputTypeCountConfiguracionPagosArgs
@@ -12875,6 +13334,7 @@ export type TenantCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions
   empresaMemberships?: boolean | TenantCountOutputTypeCountEmpresaMembershipsArgs
   empresas?: boolean | TenantCountOutputTypeCountEmpresasArgs
   estadosServicio?: boolean | TenantCountOutputTypeCountEstadosServicioArgs
+  evidenciasServicio?: boolean | TenantCountOutputTypeCountEvidenciasServicioArgs
   geolocalizaciones?: boolean | TenantCountOutputTypeCountGeolocalizacionesArgs
   logsEvento?: boolean | TenantCountOutputTypeCountLogsEventoArgs
   metodosPago?: boolean | TenantCountOutputTypeCountMetodosPagoArgs
@@ -12901,7 +13361,6 @@ export type TenantCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions
   turnos?: boolean | TenantCountOutputTypeCountTurnosArgs
   vehiculos?: boolean | TenantCountOutputTypeCountVehiculosArgs
   zonas?: boolean | TenantCountOutputTypeCountZonasArgs
-  configuracionesOperativas?: boolean | TenantCountOutputTypeCountConfiguracionesOperativasArgs
 }
 
 /**
@@ -12940,6 +13399,13 @@ export type TenantCountOutputTypeCountAuthSessionsArgs<ExtArgs extends runtime.T
  */
 export type TenantCountOutputTypeCountCitasPsicologosArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   where?: Prisma.CitasPsicologosWhereInput
+}
+
+/**
+ * TenantCountOutputType without action
+ */
+export type TenantCountOutputTypeCountConfiguracionesOperativasArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.ClienteConfiguracionOperativaWhereInput
 }
 
 /**
@@ -13038,6 +13504,13 @@ export type TenantCountOutputTypeCountEmpresasArgs<ExtArgs extends runtime.Types
  */
 export type TenantCountOutputTypeCountEstadosServicioArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   where?: Prisma.EstadoServicioWhereInput
+}
+
+/**
+ * TenantCountOutputType without action
+ */
+export type TenantCountOutputTypeCountEvidenciasServicioArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.EvidenciaServicioWhereInput
 }
 
 /**
@@ -13222,13 +13695,6 @@ export type TenantCountOutputTypeCountZonasArgs<ExtArgs extends runtime.Types.Ex
   where?: Prisma.ZonaWhereInput
 }
 
-/**
- * TenantCountOutputType without action
- */
-export type TenantCountOutputTypeCountConfiguracionesOperativasArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.ClienteConfiguracionOperativaWhereInput
-}
-
 
 export type TenantSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -13245,6 +13711,7 @@ export type TenantSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs =
   auditorias?: boolean | Prisma.Tenant$auditoriasArgs<ExtArgs>
   authSessions?: boolean | Prisma.Tenant$authSessionsArgs<ExtArgs>
   citasPsicologos?: boolean | Prisma.Tenant$citasPsicologosArgs<ExtArgs>
+  configuracionesOperativas?: boolean | Prisma.Tenant$configuracionesOperativasArgs<ExtArgs>
   clientes?: boolean | Prisma.Tenant$clientesArgs<ExtArgs>
   commissions?: boolean | Prisma.Tenant$commissionsArgs<ExtArgs>
   configuracionPagos?: boolean | Prisma.Tenant$configuracionPagosArgs<ExtArgs>
@@ -13259,6 +13726,7 @@ export type TenantSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs =
   empresaMemberships?: boolean | Prisma.Tenant$empresaMembershipsArgs<ExtArgs>
   empresas?: boolean | Prisma.Tenant$empresasArgs<ExtArgs>
   estadosServicio?: boolean | Prisma.Tenant$estadosServicioArgs<ExtArgs>
+  evidenciasServicio?: boolean | Prisma.Tenant$evidenciasServicioArgs<ExtArgs>
   geolocalizaciones?: boolean | Prisma.Tenant$geolocalizacionesArgs<ExtArgs>
   logsEvento?: boolean | Prisma.Tenant$logsEventoArgs<ExtArgs>
   metodosPago?: boolean | Prisma.Tenant$metodosPagoArgs<ExtArgs>
@@ -13286,7 +13754,6 @@ export type TenantSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs =
   turnos?: boolean | Prisma.Tenant$turnosArgs<ExtArgs>
   vehiculos?: boolean | Prisma.Tenant$vehiculosArgs<ExtArgs>
   zonas?: boolean | Prisma.Tenant$zonasArgs<ExtArgs>
-  configuracionesOperativas?: boolean | Prisma.Tenant$configuracionesOperativasArgs<ExtArgs>
   _count?: boolean | Prisma.TenantCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["tenant"]>
 
@@ -13335,6 +13802,7 @@ export type TenantInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs 
   auditorias?: boolean | Prisma.Tenant$auditoriasArgs<ExtArgs>
   authSessions?: boolean | Prisma.Tenant$authSessionsArgs<ExtArgs>
   citasPsicologos?: boolean | Prisma.Tenant$citasPsicologosArgs<ExtArgs>
+  configuracionesOperativas?: boolean | Prisma.Tenant$configuracionesOperativasArgs<ExtArgs>
   clientes?: boolean | Prisma.Tenant$clientesArgs<ExtArgs>
   commissions?: boolean | Prisma.Tenant$commissionsArgs<ExtArgs>
   configuracionPagos?: boolean | Prisma.Tenant$configuracionPagosArgs<ExtArgs>
@@ -13349,6 +13817,7 @@ export type TenantInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs 
   empresaMemberships?: boolean | Prisma.Tenant$empresaMembershipsArgs<ExtArgs>
   empresas?: boolean | Prisma.Tenant$empresasArgs<ExtArgs>
   estadosServicio?: boolean | Prisma.Tenant$estadosServicioArgs<ExtArgs>
+  evidenciasServicio?: boolean | Prisma.Tenant$evidenciasServicioArgs<ExtArgs>
   geolocalizaciones?: boolean | Prisma.Tenant$geolocalizacionesArgs<ExtArgs>
   logsEvento?: boolean | Prisma.Tenant$logsEventoArgs<ExtArgs>
   metodosPago?: boolean | Prisma.Tenant$metodosPagoArgs<ExtArgs>
@@ -13376,7 +13845,6 @@ export type TenantInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs 
   turnos?: boolean | Prisma.Tenant$turnosArgs<ExtArgs>
   vehiculos?: boolean | Prisma.Tenant$vehiculosArgs<ExtArgs>
   zonas?: boolean | Prisma.Tenant$zonasArgs<ExtArgs>
-  configuracionesOperativas?: boolean | Prisma.Tenant$configuracionesOperativasArgs<ExtArgs>
   _count?: boolean | Prisma.TenantCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type TenantIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
@@ -13389,6 +13857,7 @@ export type $TenantPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs
     auditorias: Prisma.$AuditoriaPayload<ExtArgs>[]
     authSessions: Prisma.$AuthSessionPayload<ExtArgs>[]
     citasPsicologos: Prisma.$CitasPsicologosPayload<ExtArgs>[]
+    configuracionesOperativas: Prisma.$ClienteConfiguracionOperativaPayload<ExtArgs>[]
     clientes: Prisma.$ClientePayload<ExtArgs>[]
     commissions: Prisma.$CommissionRecordPayload<ExtArgs>[]
     configuracionPagos: Prisma.$ConfiguracionPagosPayload<ExtArgs>[]
@@ -13403,6 +13872,7 @@ export type $TenantPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs
     empresaMemberships: Prisma.$EmpresaMembershipPayload<ExtArgs>[]
     empresas: Prisma.$EmpresaPayload<ExtArgs>[]
     estadosServicio: Prisma.$EstadoServicioPayload<ExtArgs>[]
+    evidenciasServicio: Prisma.$EvidenciaServicioPayload<ExtArgs>[]
     geolocalizaciones: Prisma.$GeolocalizacionPayload<ExtArgs>[]
     logsEvento: Prisma.$LogEventoPayload<ExtArgs>[]
     metodosPago: Prisma.$MetodoPagoPayload<ExtArgs>[]
@@ -13430,7 +13900,6 @@ export type $TenantPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs
     turnos: Prisma.$TurnoPayload<ExtArgs>[]
     vehiculos: Prisma.$VehiculoPayload<ExtArgs>[]
     zonas: Prisma.$ZonaPayload<ExtArgs>[]
-    configuracionesOperativas: Prisma.$ClienteConfiguracionOperativaPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -13841,6 +14310,7 @@ export interface Prisma__TenantClient<T, Null = never, ExtArgs extends runtime.T
   auditorias<T extends Prisma.Tenant$auditoriasArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Tenant$auditoriasArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$AuditoriaPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   authSessions<T extends Prisma.Tenant$authSessionsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Tenant$authSessionsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$AuthSessionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   citasPsicologos<T extends Prisma.Tenant$citasPsicologosArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Tenant$citasPsicologosArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$CitasPsicologosPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  configuracionesOperativas<T extends Prisma.Tenant$configuracionesOperativasArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Tenant$configuracionesOperativasArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ClienteConfiguracionOperativaPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   clientes<T extends Prisma.Tenant$clientesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Tenant$clientesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ClientePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   commissions<T extends Prisma.Tenant$commissionsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Tenant$commissionsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$CommissionRecordPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   configuracionPagos<T extends Prisma.Tenant$configuracionPagosArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Tenant$configuracionPagosArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ConfiguracionPagosPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
@@ -13855,6 +14325,7 @@ export interface Prisma__TenantClient<T, Null = never, ExtArgs extends runtime.T
   empresaMemberships<T extends Prisma.Tenant$empresaMembershipsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Tenant$empresaMembershipsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$EmpresaMembershipPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   empresas<T extends Prisma.Tenant$empresasArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Tenant$empresasArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$EmpresaPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   estadosServicio<T extends Prisma.Tenant$estadosServicioArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Tenant$estadosServicioArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$EstadoServicioPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  evidenciasServicio<T extends Prisma.Tenant$evidenciasServicioArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Tenant$evidenciasServicioArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$EvidenciaServicioPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   geolocalizaciones<T extends Prisma.Tenant$geolocalizacionesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Tenant$geolocalizacionesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$GeolocalizacionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   logsEvento<T extends Prisma.Tenant$logsEventoArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Tenant$logsEventoArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$LogEventoPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   metodosPago<T extends Prisma.Tenant$metodosPagoArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Tenant$metodosPagoArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$MetodoPagoPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
@@ -13882,7 +14353,6 @@ export interface Prisma__TenantClient<T, Null = never, ExtArgs extends runtime.T
   turnos<T extends Prisma.Tenant$turnosArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Tenant$turnosArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$TurnoPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   vehiculos<T extends Prisma.Tenant$vehiculosArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Tenant$vehiculosArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$VehiculoPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   zonas<T extends Prisma.Tenant$zonasArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Tenant$zonasArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ZonaPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  configuracionesOperativas<T extends Prisma.Tenant$configuracionesOperativasArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Tenant$configuracionesOperativasArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ClienteConfiguracionOperativaPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -14406,6 +14876,30 @@ export type Tenant$citasPsicologosArgs<ExtArgs extends runtime.Types.Extensions.
 }
 
 /**
+ * Tenant.configuracionesOperativas
+ */
+export type Tenant$configuracionesOperativasArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the ClienteConfiguracionOperativa
+   */
+  select?: Prisma.ClienteConfiguracionOperativaSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the ClienteConfiguracionOperativa
+   */
+  omit?: Prisma.ClienteConfiguracionOperativaOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ClienteConfiguracionOperativaInclude<ExtArgs> | null
+  where?: Prisma.ClienteConfiguracionOperativaWhereInput
+  orderBy?: Prisma.ClienteConfiguracionOperativaOrderByWithRelationInput | Prisma.ClienteConfiguracionOperativaOrderByWithRelationInput[]
+  cursor?: Prisma.ClienteConfiguracionOperativaWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.ClienteConfiguracionOperativaScalarFieldEnum | Prisma.ClienteConfiguracionOperativaScalarFieldEnum[]
+}
+
+/**
  * Tenant.clientes
  */
 export type Tenant$clientesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -14739,6 +15233,30 @@ export type Tenant$estadosServicioArgs<ExtArgs extends runtime.Types.Extensions.
   take?: number
   skip?: number
   distinct?: Prisma.EstadoServicioScalarFieldEnum | Prisma.EstadoServicioScalarFieldEnum[]
+}
+
+/**
+ * Tenant.evidenciasServicio
+ */
+export type Tenant$evidenciasServicioArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the EvidenciaServicio
+   */
+  select?: Prisma.EvidenciaServicioSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the EvidenciaServicio
+   */
+  omit?: Prisma.EvidenciaServicioOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.EvidenciaServicioInclude<ExtArgs> | null
+  where?: Prisma.EvidenciaServicioWhereInput
+  orderBy?: Prisma.EvidenciaServicioOrderByWithRelationInput | Prisma.EvidenciaServicioOrderByWithRelationInput[]
+  cursor?: Prisma.EvidenciaServicioWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.EvidenciaServicioScalarFieldEnum | Prisma.EvidenciaServicioScalarFieldEnum[]
 }
 
 /**
@@ -15382,30 +15900,6 @@ export type Tenant$zonasArgs<ExtArgs extends runtime.Types.Extensions.InternalAr
   take?: number
   skip?: number
   distinct?: Prisma.ZonaScalarFieldEnum | Prisma.ZonaScalarFieldEnum[]
-}
-
-/**
- * Tenant.configuracionesOperativas
- */
-export type Tenant$configuracionesOperativasArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the ClienteConfiguracionOperativa
-   */
-  select?: Prisma.ClienteConfiguracionOperativaSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the ClienteConfiguracionOperativa
-   */
-  omit?: Prisma.ClienteConfiguracionOperativaOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.ClienteConfiguracionOperativaInclude<ExtArgs> | null
-  where?: Prisma.ClienteConfiguracionOperativaWhereInput
-  orderBy?: Prisma.ClienteConfiguracionOperativaOrderByWithRelationInput | Prisma.ClienteConfiguracionOperativaOrderByWithRelationInput[]
-  cursor?: Prisma.ClienteConfiguracionOperativaWhereUniqueInput
-  take?: number
-  skip?: number
-  distinct?: Prisma.ClienteConfiguracionOperativaScalarFieldEnum | Prisma.ClienteConfiguracionOperativaScalarFieldEnum[]
 }
 
 /**
