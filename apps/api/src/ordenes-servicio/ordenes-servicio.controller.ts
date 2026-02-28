@@ -89,6 +89,6 @@ export class OrdenesServicioController {
     if (!tenantId) {
       throw new UnauthorizedException('Tenant ID not found in token');
     }
-    return this.ordenesServicioService.update(tenantId, id, updateDto);
+    return this.ordenesServicioService.update(tenantId, id, updateDto, req.user);
   }
 }

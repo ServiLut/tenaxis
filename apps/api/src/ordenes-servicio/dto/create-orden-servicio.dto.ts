@@ -73,6 +73,14 @@ export class CreateOrdenServicioDto {
   @IsOptional()
   metodoPagoId?: string;
 
+  @IsString()
+  @IsOptional()
+  entidadFinancieraNombre?: string;
+
+  @IsUUID()
+  @IsOptional()
+  liquidadoPorId?: string;
+
   @IsEnum(EstadoOrden)
   @IsOptional()
   estadoServicio?: EstadoOrden;
@@ -125,5 +133,6 @@ export class CreateOrdenServicioDto {
   @IsOptional()
   fechaPago?: string;
 
-  // In the frontend they have 'Urgencia' and 'Servicio Específico' which we can save in observacion or we can add them to the DB later. We map 'Servicio Específico' to 'observacion' for now.
+  @IsOptional()
+  desglosePago?: any[]; // Validaremos la estructura en el servicio para mayor flexibilidad con JSON
 }

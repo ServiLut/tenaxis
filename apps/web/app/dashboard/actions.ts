@@ -968,6 +968,7 @@ export interface CreateOrdenServicioDTO {
   tipoFacturacion?: string;
   valorCotizado?: number;
   metodoPagoId?: string;
+  entidadFinancieraNombre?: string;
   estadoPago?: string;
   estadoServicio?: string;
   fechaVisita?: string;
@@ -977,10 +978,12 @@ export interface CreateOrdenServicioDTO {
   facturaElectronica?: string;
   comprobantePago?: string;
   evidenciaPath?: string;
+  desglosePago?: any[];
   observacionFinal?: string;
   valorPagado?: number;
   referenciaPago?: string;
   fechaPago?: string;
+  liquidadoPorId?: string;
 }
 
 export async function createOrdenServicioAction(
@@ -1137,6 +1140,69 @@ export async function addOrdenServicioEvidenciasAction(
     }
 
     revalidatePath("/dashboard/servicios");
+    return { success: true, data: result.data || result };
+  } catch (error) {
+    if (error instanceof Error) return { success: false, error: error.message };
+    return { success: false, error: "Ocurrió un error inesperado" };
+  }
+}
+
+export async function getRecaudoTecnicosAction(empresaId?: string) {
+  const cookieStore = await cookies();
+  const token = cookieStore.get("access_token")?.value;
+  if (!token) return [];
+
+  try {
+    const apiUrl = process.env.NESTJS_API_URL || "http://127.0.0.1:4000";
+    const url = empresaId 
+      ? `${apiUrl}/contabilidad/recaudo-tecnicos?empresaId=${empresaId}`
+      : `${apiUrl}/contabilidad/recaudo-tecnicos`;
+      
+    const response = await fetch(url, {
+      headers: { Authorization: `Bearer ${token}` },
+      cache: "no-store",
+    });
+
+    if (!response.ok) return [];
+    const result = await response.json();
+    return result.data || result;
+  } catch (error) {
+    console.error("Error fetching technician collection:", error);
+    return [];
+  }
+}
+
+export async function registrarConsignacionAction(data: {
+  tecnicoId: string;
+  empresaId: string;
+  valorConsignado: number;
+  referenciaBanco: string;
+  comprobantePath: string;
+  ordenIds: string[];
+  fechaConsignacion: string;
+  observacion?: string;
+}) {
+  const cookieStore = await cookies();
+  const token = cookieStore.get("access_token")?.value;
+  if (!token) return { success: false, error: "No session found" };
+
+  try {
+    const apiUrl = process.env.NESTJS_API_URL || "http://127.0.0.1:4000";
+    const response = await fetch(`${apiUrl}/contabilidad/registrar-consignacion`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify(data),
+    });
+
+    const result = await response.json();
+    if (!response.ok) {
+      return { success: false, error: result.message || "Error al registrar consignación" };
+    }
+
+    revalidatePath("/dashboard/contabilidad");
     return { success: true, data: result.data || result };
   } catch (error) {
     if (error instanceof Error) return { success: false, error: error.message };

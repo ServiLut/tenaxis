@@ -74,6 +74,7 @@ export const ModelName = {
   MetodoPago: 'MetodoPago',
   EstadoServicio: 'EstadoServicio',
   OrdenServicio: 'OrdenServicio',
+  EntidadFinanciera: 'EntidadFinanciera',
   Geolocalizacion: 'Geolocalizacion',
   Nomina: 'Nomina',
   NominaDetalle: 'NominaDetalle',
@@ -534,8 +535,14 @@ export const OrdenServicioScalarFieldEnum = {
   facturaElectronica: 'facturaElectronica',
   comprobantePago: 'comprobantePago',
   evidenciaPath: 'evidenciaPath',
+  desglosePago: 'desglosePago',
+  referenciaPago: 'referenciaPago',
+  fechaPago: 'fechaPago',
+  entidadFinancieraId: 'entidadFinancieraId',
   estadoPago: 'estadoPago',
   seguimientoRevisado: 'seguimientoRevisado',
+  liquidadoPorId: 'liquidadoPorId',
+  liquidadoAt: 'liquidadoAt',
   ordenPadreId: 'ordenPadreId',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
@@ -544,12 +551,22 @@ export const OrdenServicioScalarFieldEnum = {
   tipoVisita: 'tipoVisita',
   nivelInfestacion: 'nivelInfestacion',
   urgencia: 'urgencia',
-  estadoServicio: 'estadoServicio',
-  fechaPago: 'fechaPago',
-  referenciaPago: 'referenciaPago'
+  estadoServicio: 'estadoServicio'
 } as const
 
 export type OrdenServicioScalarFieldEnum = (typeof OrdenServicioScalarFieldEnum)[keyof typeof OrdenServicioScalarFieldEnum]
+
+
+export const EntidadFinancieraScalarFieldEnum = {
+  id: 'id',
+  tenantId: 'tenantId',
+  empresaId: 'empresaId',
+  nombre: 'nombre',
+  activo: 'activo',
+  createdAt: 'createdAt'
+} as const
+
+export type EntidadFinancieraScalarFieldEnum = (typeof EntidadFinancieraScalarFieldEnum)[keyof typeof EntidadFinancieraScalarFieldEnum]
 
 
 export const GeolocalizacionScalarFieldEnum = {
