@@ -69,11 +69,14 @@ import { cn } from "@/components/ui/utils";
 import { toast } from "sonner";
 import { exportToExcel, exportToPDF, exportToWord } from "@/lib/utils/export-helper";
 import { uploadFile, type StorageFolder } from "@/lib/supabase-storage";
+import { FileManagement } from "./components/FileManagement";
+import { EvidenceManagement } from "./components/EvidenceManagement";
 import {
   getOrdenesServicioAction,
   getEstadoServiciosAction,
   getOperatorsAction,
   updateOrdenServicioAction,
+  addOrdenServicioEvidenciasAction,
   type ClienteDTO,
 } from "../actions";
 
@@ -145,6 +148,7 @@ interface OrdenServicioRaw {
   comprobantePago?: string | null;
   linkMaps?: string | null;
   evidenciaPath?: string | null;
+  evidencias?: { id: string; path: string }[];
   geolocalizaciones?: {
     id: string;
     latitud: number | null;
@@ -367,12 +371,15 @@ export default function ServiciosPage() {
 
   const handleUploadClick = (servicio: Servicio, field: "facturaElectronica" | "comprobantePago" | "evidenciaPath") => {
     setUploadConfig({ id: servicio.raw.id, field });
-    fileInputRef.current?.click();
+    if (fileInputRef.current) {
+      fileInputRef.current.multiple = field === "evidenciaPath";
+      fileInputRef.current.click();
+    }
   };
 
   const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (!file || !uploadConfig) return;
+    const files = e.target.files;
+    if (!files || files.length === 0 || !uploadConfig) return;
 
     setIsUploading(true);
     const labelMap: Record<string, string> = {
@@ -384,17 +391,75 @@ export default function ServiciosPage() {
     const toastId = toast.loading(`Subiendo ${label}...`);
 
     try {
+      if (uploadConfig.field === "evidenciaPath") {
+        // Usar la nueva API de evidencias para carga mÃºltiple
+        const formData = new FormData();
+        Array.from(files).forEach((file) => {
+          formData.append("files", file);
+        });
+
+        const result = await addOrdenServicioEvidenciasAction(uploadConfig.id, formData);
+
+        if (result.success) {
+          toast.success(`${files.length} evidencia(s) subida(s) exitosamente`, { id: toastId });
+          fetchServicios();
+        } else {
+          toast.error(result.error || `Error al subir las evidencias`, { id: toastId });
+        }
+      } else {
+        const file = files[0]!;
+        const folderMap: Record<string, StorageFolder> = {
+          "facturaElectronica": "facturaOrdenServicio",
+          "comprobantePago": "comprobanteOrdenServicio",
+          "evidenciaPath": "EvidenciaOrdenServicio"
+        };
+        
+        const folder = folderMap[uploadConfig.field] || 'EvidenciaOrdenServicio';
+        const { fileId } = await uploadFile(file, folder);
+        
+        const result = await updateOrdenServicioAction(uploadConfig.id, {
+          [uploadConfig.field]: fileId 
+        });
+
+        if (result.success) {
+          toast.success(`${label.charAt(0).toUpperCase() + label.slice(1)} subida exitosamente`, { id: toastId });
+          fetchServicios();
+        } else {
+          toast.error(result.error || `Error al actualizar la orden`, { id: toastId });
+        }
+      }
+    } catch (error) {
+      console.error("Upload error:", error);
+      toast.error(`Error al subir el archivo`, { id: toastId });
+    } finally {
+      setIsUploading(false);
+      setUploadConfig(null);
+      if (e.target) e.target.value = "";
+    }
+  };
+
+  const handleGenericUpload = async (id: string, file: File, field: "facturaElectronica" | "comprobantePago" | "evidenciaPath") => {
+    setIsUploading(true);
+    const labelMap: Record<string, string> = {
+      "facturaElectronica": "factura",
+      "comprobantePago": "comprobante",
+      "evidenciaPath": "evidencia"
+    };
+    const label = labelMap[field] || "archivo";
+    const toastId = toast.loading(`Subiendo ${label}...`);
+
+    try {
       const folderMap: Record<string, StorageFolder> = {
         "facturaElectronica": "facturaOrdenServicio",
         "comprobantePago": "comprobanteOrdenServicio",
         "evidenciaPath": "EvidenciaOrdenServicio"
       };
       
-      const folder = folderMap[uploadConfig.field] || 'EvidenciaOrdenServicio';
+      const folder = folderMap[field] || 'EvidenciaOrdenServicio';
       const { fileId } = await uploadFile(file, folder);
       
-      const result = await updateOrdenServicioAction(uploadConfig.id, {
-        [uploadConfig.field]: fileId 
+      const result = await updateOrdenServicioAction(id, {
+        [field]: fileId 
       });
 
       if (result.success) {
@@ -405,11 +470,35 @@ export default function ServiciosPage() {
       }
     } catch (error) {
       console.error("Upload error:", error);
-      toast.error(`Error al subir el archivo a Supabase`, { id: toastId });
+      toast.error(`Error al subir el archivo`, { id: toastId });
     } finally {
       setIsUploading(false);
-      setUploadConfig(null);
-      if (e.target) e.target.value = "";
+    }
+  };
+
+  const handleEvidenceUpload = async (id: string, fileList: FileList) => {
+    setIsUploading(true);
+    const toastId = toast.loading(`Subiendo ${fileList.length} evidencia(s)...`);
+
+    try {
+      const formData = new FormData();
+      Array.from(fileList).forEach((file) => {
+        formData.append("files", file);
+      });
+
+      const result = await addOrdenServicioEvidenciasAction(id, formData);
+
+      if (result.success) {
+        toast.success(`${fileList.length} evidencia(s) subida(s) exitosamente`, { id: toastId });
+        fetchServicios();
+      } else {
+        toast.error(result.error || `Error al subir las evidencias`, { id: toastId });
+      }
+    } catch (error) {
+      console.error("Upload error:", error);
+      toast.error(`Error al subir las evidencias`, { id: toastId });
+    } finally {
+      setIsUploading(false);
     }
   };
 
@@ -974,6 +1063,13 @@ ORDEN DE SERVICIO: #${servicio.id}
                                 </td>
                                 <td className="px-8 py-6 text-right">
                                   <div className="flex justify-end gap-2">
+                                    <button 
+                                      onClick={() => handleUploadClick(servicio, "evidenciaPath" as any)}
+                                      className="inline-flex h-10 w-10 items-center justify-center rounded-xl bg-pink-50 text-pink-500 hover:bg-pink-100 dark:bg-pink-900/20 dark:hover:bg-pink-900/40 transition-all border border-pink-100 dark:border-pink-900/50"
+                                      title="Subir Evidencia"
+                                    >
+                                      <Camera className="h-5 w-5" />
+                                    </button>
                                     <DropdownMenu>
                                       <DropdownMenuTrigger asChild>
                                         <button className="inline-flex h-10 w-10 items-center justify-center rounded-xl bg-zinc-50 hover:bg-zinc-900 hover:text-white text-zinc-400 dark:bg-zinc-800 dark:hover:bg-zinc-700 transition-all">
@@ -1025,65 +1121,31 @@ ORDEN DE SERVICIO: #${servicio.id}
 
                                       <DropdownMenuSeparator />
                                       
-                                      {servicio.raw.facturaElectronica || servicio.raw.facturaPath ? (
-                                        <>
-                                          <DropdownMenuItem 
-                                            onClick={() => {
-                                              const link = servicio.raw.facturaElectronica || servicio.raw.facturaPath;
-                                              if (link) window.open(link, "_blank");
-                                            }}
-                                            className="flex items-center gap-3 py-2.5 text-[11px] font-bold cursor-pointer text-zinc-600 dark:text-zinc-400"
-                                          >
-                                            <FileText className="h-4 w-4 text-orange-500" /> VER FACTURA
-                                          </DropdownMenuItem>
-                                          <DropdownMenuItem 
-                                            onClick={() => handleUploadClick(servicio, "facturaElectronica")}
-                                            className="flex items-center gap-3 py-2.5 text-[11px] font-bold cursor-pointer text-zinc-600 dark:text-zinc-400"
-                                          >
-                                            <RotateCcw className="h-4 w-4 text-orange-600" /> ACTUALIZAR FACTURA
-                                          </DropdownMenuItem>
-                                        </>
-                                      ) : (
-                                        <DropdownMenuItem 
-                                          onClick={() => handleUploadClick(servicio, "facturaElectronica")}
-                                          className="flex items-center gap-3 py-2.5 text-[11px] font-bold cursor-pointer text-zinc-600 dark:text-zinc-400"
-                                        >
-                                          <FileUp className="h-4 w-4 text-orange-500" /> SUBIR FACTURA
-                                        </DropdownMenuItem>
-                                      )}                                      
+                                      <FileManagement 
+                                        label="Factura"
+                                        path={servicio.raw.facturaElectronica || servicio.raw.facturaPath}
+                                        onUpload={(file) => handleGenericUpload(servicio.raw.id, file, "facturaElectronica")}
+                                        icon={FileText}
+                                        iconColor="text-orange-500"
+                                        isUploading={isUploading}
+                                      />
 
-                                      {servicio.raw.comprobantePago ? (
-                                        <>
-                                          <DropdownMenuItem 
-                                            onClick={() => {
-                                              if (servicio.raw.comprobantePago) window.open(servicio.raw.comprobantePago, "_blank");
-                                            }}
-                                            className="flex items-center gap-3 py-2.5 text-[11px] font-bold cursor-pointer text-zinc-600 dark:text-zinc-400"
-                                          >
-                                            <Receipt className="h-4 w-4 text-blue-600" /> VER COMPROBANTE
-                                          </DropdownMenuItem>
-                                          <DropdownMenuItem 
-                                            onClick={() => handleUploadClick(servicio, "comprobantePago")}
-                                            className="flex items-center gap-3 py-2.5 text-[11px] font-bold cursor-pointer text-zinc-600 dark:text-zinc-400"
-                                          >
-                                            <RotateCcw className="h-4 w-4 text-blue-700" /> ACTUALIZAR COMPROBANTE
-                                          </DropdownMenuItem>
-                                        </>
-                                      ) : (
-                                        <DropdownMenuItem 
-                                          onClick={() => handleUploadClick(servicio, "comprobantePago")}
-                                          className="flex items-center gap-3 py-2.5 text-[11px] font-bold cursor-pointer text-zinc-600 dark:text-zinc-400"
-                                        >
-                                          <Receipt className="h-4 w-4 text-blue-600" /> SUBIR COMPROBANTE
-                                        </DropdownMenuItem>
-                                      )}
+                                      <FileManagement 
+                                        label="Comprobante"
+                                        path={servicio.raw.comprobantePago}
+                                        onUpload={(file) => handleGenericUpload(servicio.raw.id, file, "comprobantePago")}
+                                        icon={Receipt}
+                                        iconColor="text-blue-600"
+                                        isUploading={isUploading}
+                                      />
 
-                                      <DropdownMenuItem 
-                                        onClick={() => handleUploadClick(servicio, "evidenciaPath" as any)}
-                                        className="flex items-center gap-3 py-2.5 text-[11px] font-bold cursor-pointer text-zinc-600 dark:text-zinc-400"
-                                      >
-                                        <ImageIcon className="h-4 w-4 text-pink-500" /> SUBIR EVIDENCIA
-                                      </DropdownMenuItem>
+                                      <EvidenceManagement 
+                                        id={servicio.raw.id}
+                                        evidenciaPath={servicio.raw.evidenciaPath}
+                                        evidencias={servicio.raw.evidencias}
+                                        onUpload={(files) => handleEvidenceUpload(servicio.raw.id, files)}
+                                        isUploading={isUploading}
+                                      />
 
                                       <DropdownMenuSeparator />
 
@@ -1683,43 +1745,52 @@ ORDEN DE SERVICIO: #${servicio.id}
                   </>
                 ) : (
                   <div className="py-12 px-6 text-center bg-zinc-50 dark:bg-zinc-900/50 rounded-3xl border-2 border-dashed border-zinc-200 dark:border-zinc-800">
-                    {selectedServicio.raw.evidenciaPath ? (
+                    {(selectedServicio.raw.evidenciaPath || (selectedServicio.raw.evidencias && selectedServicio.raw.evidencias.length > 0)) ? (
                       <div className="space-y-6">
                         <div className="flex flex-col items-center">
                           <div className="h-12 w-12 rounded-2xl bg-pink-50 dark:bg-pink-900/20 text-pink-500 flex items-center justify-center mb-4">
                             <ImageIcon className="h-6 w-6" />
                           </div>
                           <h3 className="text-lg font-black text-zinc-900 dark:text-zinc-50 uppercase tracking-tight">Evidencia Fotográfica</h3>
-                          <p className="text-zinc-500 text-sm font-medium mt-1">Se ha cargado evidencia del servicio, aunque no existan marcaciones de GPS.</p>
+                          <p className="text-zinc-500 text-sm font-medium mt-1">Se han cargado {selectedServicio.raw.evidencias?.length || 1} evidencias del servicio.</p>
                         </div>
                         
-                        <div 
-                          className="max-w-xl mx-auto aspect-video rounded-2xl overflow-hidden border border-zinc-200 dark:border-zinc-800 bg-white shadow-xl cursor-pointer group relative"
-                          onClick={() => window.open(selectedServicio.raw.evidenciaPath!, '_blank')}
-                        >
-                          {/* eslint-disable-next-line @next/next/no-img-element */}
-                          <img 
-                            src={selectedServicio.raw.evidenciaPath} 
-                            alt="Evidencia del Servicio" 
-                            className="w-full h-full object-cover transition-all duration-500 group-hover:scale-105" 
-                          />
-                          <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 flex items-center justify-center transition-opacity">
-                            <div className="flex flex-col items-center gap-2">
-                              <Eye className="h-8 w-8 text-white" />
-                              <span className="text-[10px] font-black text-white uppercase tracking-[0.2em]">Ver Pantalla Completa</span>
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 max-w-3xl mx-auto">
+                          {selectedServicio.raw.evidenciaPath && (
+                            <div 
+                              className="aspect-video rounded-2xl overflow-hidden border border-zinc-200 dark:border-zinc-800 bg-white shadow-xl cursor-pointer group relative"
+                              onClick={() => window.open(selectedServicio.raw.evidenciaPath!, '_blank')}
+                            >
+                              {/* eslint-disable-next-line @next/next/no-img-element */}
+                              <img 
+                                src={selectedServicio.raw.evidenciaPath} 
+                                alt="Evidencia Principal" 
+                                className="w-full h-full object-cover transition-all duration-500 group-hover:scale-105" 
+                              />
+                              <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 flex items-center justify-center transition-opacity">
+                                <Eye className="h-8 w-8 text-white" />
+                              </div>
                             </div>
-                          </div>
+                          )}
+                          
+                          {selectedServicio.raw.evidencias?.map((ev, index) => (
+                            <div 
+                              key={ev.id}
+                              className="aspect-video rounded-2xl overflow-hidden border border-zinc-200 dark:border-zinc-800 bg-white shadow-xl cursor-pointer group relative"
+                              onClick={() => window.open(ev.path, '_blank')}
+                            >
+                              {/* eslint-disable-next-line @next/next/no-img-element */}
+                              <img 
+                                src={ev.path} 
+                                alt={`Evidencia ${index + 1}`} 
+                                className="w-full h-full object-cover transition-all duration-500 group-hover:scale-105" 
+                              />
+                              <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 flex items-center justify-center transition-opacity">
+                                <Eye className="h-8 w-8 text-white" />
+                              </div>
+                            </div>
+                          ))}
                         </div>
-
-                        <Button 
-                          variant="outline" 
-                          size="sm"
-                          className="h-10 px-6 rounded-xl border-pink-200 dark:border-pink-900/30 text-pink-600 dark:text-pink-400 hover:bg-pink-50 dark:hover:bg-pink-900/20"
-                          onClick={() => window.open(selectedServicio.raw.evidenciaPath!, '_blank')}
-                        >
-                          <Download className="h-4 w-4 mr-2" />
-                          Descargar Evidencia Original
-                        </Button>
                       </div>
                     ) : (
                       <>

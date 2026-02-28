@@ -9,6 +9,8 @@ export async function uploadFile(file: File, folder: StorageFolder = 'EvidenciaO
   const fileExt = file.name.split('.').pop();
   const fileName = `${Math.random().toString(36).substring(2)}-${Date.now()}.${fileExt}`;
   const filePath = `${folder}/${fileName}`;
+  
+  console.log('Iniciando subida a Supabase:', `tenaxis-docs/${filePath}`);
 
   const { data, error } = await supabase.storage
     .from('tenaxis-docs')
@@ -18,18 +20,12 @@ export async function uploadFile(file: File, folder: StorageFolder = 'EvidenciaO
     });
 
   if (error) {
-    console.error('Error uploading to Supabase:', error);
+    console.error('Error detallado de Supabase Storage:', error);
     throw error;
   }
 
-  // Note: We return the path. The public URL might not work if RLS is strict.
-  // NestJS will be used to generate signed URLs for viewing.
-  const { data: { publicUrl } } = supabase.storage
-    .from('tenaxis-docs')
-    .getPublicUrl(data.path);
-
   return {
     fileId: data.path,
-    url: publicUrl
+    url: '' // No necesitamos la URL pública, el API generará la Signed URL
   };
 }
