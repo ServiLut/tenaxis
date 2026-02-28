@@ -893,8 +893,12 @@ export async function getOrdenesServicioAction(empresaId?: string) {
   try {
     const apiUrl = process.env.NESTJS_API_URL || "http://127.0.0.1:4000";
     const headers = await getHeaders();
-    const url = empresaId 
-      ? `${apiUrl}/ordenes-servicio?empresaId=${empresaId}`
+    
+    // Si empresaId es "undefined", "null" o "all" como string, tratar como undefined
+    const cleanEmpresaId = (empresaId === "undefined" || empresaId === "null" || empresaId === "all" || !empresaId) ? undefined : empresaId;
+    
+    const url = cleanEmpresaId 
+      ? `${apiUrl}/ordenes-servicio?empresaId=${cleanEmpresaId}`
       : `${apiUrl}/ordenes-servicio`;
       
     const response = await fetch(url, {
@@ -1096,6 +1100,39 @@ export async function updateMembershipAction(
     if (!response.ok) throw new Error(result.message || "Error al actualizar membresía");
     
     revalidatePath("/dashboard/equipo-trabajo");
+    return { success: true, data: result.data || result };
+  } catch (error) {
+    if (error instanceof Error) return { success: false, error: error.message };
+    return { success: false, error: "Ocurrió un error inesperado" };
+  }
+}
+
+export async function addOrdenServicioEvidenciasAction(
+  id: string,
+  formData: FormData
+) {
+  const cookieStore = await cookies();
+  const token = cookieStore.get("access_token")?.value;
+
+  if (!token) return { success: false, error: "No session found" };
+
+  try {
+    const apiUrl = process.env.NESTJS_API_URL || "http://127.0.0.1:4000";
+    const response = await fetch(`${apiUrl}/ordenes-servicio/${id}/evidencias`, {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+      body: formData,
+    });
+
+    const result = await response.json();
+
+    if (!response.ok) {
+      return { success: false, error: result.message || "Error al subir las evidencias" };
+    }
+
+    revalidatePath("/dashboard/servicios");
     return { success: true, data: result.data || result };
   } catch (error) {
     if (error instanceof Error) return { success: false, error: error.message };

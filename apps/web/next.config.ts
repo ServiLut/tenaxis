@@ -4,6 +4,11 @@ import path from "path";
 const nextConfig: NextConfig = {
   transpilePackages: ["@tenaxis/ui"],
   output: 'standalone',
+  experimental: {
+    serverActions: {
+      bodySizeLimit: '20mb',
+    },
+  },
   async rewrites() {
     const apiUrl = process.env.NESTJS_API_URL || 'http://localhost:4000';
     return [
