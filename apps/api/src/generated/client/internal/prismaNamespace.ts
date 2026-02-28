@@ -407,6 +407,7 @@ export const ModelName = {
   MetodoPago: 'MetodoPago',
   EstadoServicio: 'EstadoServicio',
   OrdenServicio: 'OrdenServicio',
+  EntidadFinanciera: 'EntidadFinanciera',
   Geolocalizacion: 'Geolocalizacion',
   Nomina: 'Nomina',
   NominaDetalle: 'NominaDetalle',
@@ -451,7 +452,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "user" | "tenant" | "plan" | "subscription" | "tenantMembership" | "empresa" | "empresaMembership" | "organizationNode" | "commissionRecord" | "segmentoNegocio" | "nivelRiesgoOperativo" | "tipoInteres" | "department" | "municipality" | "cliente" | "vehiculo" | "direccion" | "zona" | "servicio" | "tipoServicio" | "metodoPago" | "estadoServicio" | "ordenServicio" | "geolocalizacion" | "nomina" | "nominaDetalle" | "citasPsicologos" | "consultorio" | "terapiasPsicologos" | "paqueteAdquirido" | "turno" | "cuentaCobro" | "declaracionEfectivo" | "consignacionEfectivo" | "consignacionOrden" | "anticipos" | "producto" | "productoSolicitado" | "proveedores" | "permiso" | "configuracionPagos" | "cuentasPago" | "egresos" | "picoPlaca" | "referidos" | "auditoria" | "sesionActividad" | "logEvento" | "authSession" | "passwordResetToken" | "clienteConfiguracionOperativa" | "evidenciaServicio"
+    modelProps: "user" | "tenant" | "plan" | "subscription" | "tenantMembership" | "empresa" | "empresaMembership" | "organizationNode" | "commissionRecord" | "segmentoNegocio" | "nivelRiesgoOperativo" | "tipoInteres" | "department" | "municipality" | "cliente" | "vehiculo" | "direccion" | "zona" | "servicio" | "tipoServicio" | "metodoPago" | "estadoServicio" | "ordenServicio" | "entidadFinanciera" | "geolocalizacion" | "nomina" | "nominaDetalle" | "citasPsicologos" | "consultorio" | "terapiasPsicologos" | "paqueteAdquirido" | "turno" | "cuentaCobro" | "declaracionEfectivo" | "consignacionEfectivo" | "consignacionOrden" | "anticipos" | "producto" | "productoSolicitado" | "proveedores" | "permiso" | "configuracionPagos" | "cuentasPago" | "egresos" | "picoPlaca" | "referidos" | "auditoria" | "sesionActividad" | "logEvento" | "authSession" | "passwordResetToken" | "clienteConfiguracionOperativa" | "evidenciaServicio"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -2154,6 +2155,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         count: {
           args: Prisma.OrdenServicioCountArgs<ExtArgs>
           result: runtime.Types.Utils.Optional<Prisma.OrdenServicioCountAggregateOutputType> | number
+        }
+      }
+    }
+    EntidadFinanciera: {
+      payload: Prisma.$EntidadFinancieraPayload<ExtArgs>
+      fields: Prisma.EntidadFinancieraFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.EntidadFinancieraFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$EntidadFinancieraPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.EntidadFinancieraFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$EntidadFinancieraPayload>
+        }
+        findFirst: {
+          args: Prisma.EntidadFinancieraFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$EntidadFinancieraPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.EntidadFinancieraFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$EntidadFinancieraPayload>
+        }
+        findMany: {
+          args: Prisma.EntidadFinancieraFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$EntidadFinancieraPayload>[]
+        }
+        create: {
+          args: Prisma.EntidadFinancieraCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$EntidadFinancieraPayload>
+        }
+        createMany: {
+          args: Prisma.EntidadFinancieraCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.EntidadFinancieraCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$EntidadFinancieraPayload>[]
+        }
+        delete: {
+          args: Prisma.EntidadFinancieraDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$EntidadFinancieraPayload>
+        }
+        update: {
+          args: Prisma.EntidadFinancieraUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$EntidadFinancieraPayload>
+        }
+        deleteMany: {
+          args: Prisma.EntidadFinancieraDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.EntidadFinancieraUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.EntidadFinancieraUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$EntidadFinancieraPayload>[]
+        }
+        upsert: {
+          args: Prisma.EntidadFinancieraUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$EntidadFinancieraPayload>
+        }
+        aggregate: {
+          args: Prisma.EntidadFinancieraAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateEntidadFinanciera>
+        }
+        groupBy: {
+          args: Prisma.EntidadFinancieraGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.EntidadFinancieraGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.EntidadFinancieraCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.EntidadFinancieraCountAggregateOutputType> | number
         }
       }
     }
@@ -4755,8 +4830,14 @@ export const OrdenServicioScalarFieldEnum = {
   facturaElectronica: 'facturaElectronica',
   comprobantePago: 'comprobantePago',
   evidenciaPath: 'evidenciaPath',
+  desglosePago: 'desglosePago',
+  referenciaPago: 'referenciaPago',
+  fechaPago: 'fechaPago',
+  entidadFinancieraId: 'entidadFinancieraId',
   estadoPago: 'estadoPago',
   seguimientoRevisado: 'seguimientoRevisado',
+  liquidadoPorId: 'liquidadoPorId',
+  liquidadoAt: 'liquidadoAt',
   ordenPadreId: 'ordenPadreId',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
@@ -4765,12 +4846,22 @@ export const OrdenServicioScalarFieldEnum = {
   tipoVisita: 'tipoVisita',
   nivelInfestacion: 'nivelInfestacion',
   urgencia: 'urgencia',
-  estadoServicio: 'estadoServicio',
-  fechaPago: 'fechaPago',
-  referenciaPago: 'referenciaPago'
+  estadoServicio: 'estadoServicio'
 } as const
 
 export type OrdenServicioScalarFieldEnum = (typeof OrdenServicioScalarFieldEnum)[keyof typeof OrdenServicioScalarFieldEnum]
+
+
+export const EntidadFinancieraScalarFieldEnum = {
+  id: 'id',
+  tenantId: 'tenantId',
+  empresaId: 'empresaId',
+  nombre: 'nombre',
+  activo: 'activo',
+  createdAt: 'createdAt'
+} as const
+
+export type EntidadFinancieraScalarFieldEnum = (typeof EntidadFinancieraScalarFieldEnum)[keyof typeof EntidadFinancieraScalarFieldEnum]
 
 
 export const GeolocalizacionScalarFieldEnum = {
@@ -5457,6 +5548,20 @@ export type ListFloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaMode
 
 
 /**
+ * Reference to a field of type 'Json'
+ */
+export type JsonFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Json'>
+    
+
+
+/**
+ * Reference to a field of type 'QueryMode'
+ */
+export type EnumQueryModeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'QueryMode'>
+    
+
+
+/**
  * Reference to a field of type 'EstadoPagoOrden'
  */
 export type EnumEstadoPagoOrdenFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'EstadoPagoOrden'>
@@ -5665,20 +5770,6 @@ export type EnumDiaSemanaFieldRefInput<$PrismaModel> = FieldRefInputType<$Prisma
 export type ListEnumDiaSemanaFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DiaSemana[]'>
     
 
-
-/**
- * Reference to a field of type 'Json'
- */
-export type JsonFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Json'>
-    
-
-
-/**
- * Reference to a field of type 'QueryMode'
- */
-export type EnumQueryModeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'QueryMode'>
-    
-
 /**
  * Batch Payload for updateMany & deleteMany & createMany
  */
@@ -5797,6 +5888,7 @@ export type GlobalOmitConfig = {
   metodoPago?: Prisma.MetodoPagoOmit
   estadoServicio?: Prisma.EstadoServicioOmit
   ordenServicio?: Prisma.OrdenServicioOmit
+  entidadFinanciera?: Prisma.EntidadFinancieraOmit
   geolocalizacion?: Prisma.GeolocalizacionOmit
   nomina?: Prisma.NominaOmit
   nominaDetalle?: Prisma.NominaDetalleOmit

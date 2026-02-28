@@ -2,12 +2,16 @@ import { Injectable, BadRequestException, Logger } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 import { SupabaseService } from '../supabase/supabase.service';
 import { CreateOrdenServicioDto } from './dto/create-orden-servicio.dto';
+import { JwtPayload } from '../auth/auth.service';
 import sharp from 'sharp';
 import {
   OrdenServicio,
   Geolocalizacion,
+  EvidenciaServicio,
   ClasificacionCliente,
   EstadoOrden,
+  EstadoPagoOrden,
+  MetodoPagoBase,
   NivelInfestacion,
   Prisma,
 } from '../generated/client/client';
@@ -49,6 +53,7 @@ type CandidateWithMembership = LocalEmpresaMembership & {
 
 type OrdenWithGeolocalizaciones = OrdenServicio & {
   geolocalizaciones?: Geolocalizacion[];
+  evidencias?: EvidenciaServicio[];
 };
 
 type SignableField =
@@ -146,6 +151,19 @@ export class OrdenesServicioService {
       `CREATE: Final tecnicoId for the order: ${tecnicoId ?? 'NULL'}`,
     );
 
+    let estadoPago = (createDto.estadoPago as EstadoPagoOrden) || EstadoPagoOrden.PENDIENTE;
+    let valorPagado = createDto.valorPagado || 0;
+
+    // Calcular estado y valor si hay desglose
+    if (createDto.desglosePago && Array.isArray(createDto.desglosePago)) {
+      const totals = this.calculateBreakdownTotals(
+        createDto.desglosePago,
+        Number(createDto.valorCotizado || 0),
+      );
+      estadoPago = totals.estadoPago;
+      valorPagado = totals.valorPagado;
+    }
+
     const nuevaOrden = await this.prisma.ordenServicio.create({
       data: {
         tenantId,
@@ -163,8 +181,12 @@ export class OrdenesServicioService {
         frecuenciaSugerida: createDto.frecuenciaSugerida,
         tipoFacturacion: createDto.tipoFacturacion,
         valorCotizado: createDto.valorCotizado,
+        valorPagado,
         metodoPagoId: createDto.metodoPagoId,
-        estadoPago: createDto.estadoPago || 'PENDIENTE',
+        desglosePago: createDto.desglosePago
+          ? (createDto.desglosePago as any)
+          : undefined,
+        estadoPago,
         fechaVisita: createDto.fechaVisita
           ? new Date(createDto.fechaVisita)
           : null,
@@ -496,6 +518,17 @@ export class OrdenesServicioService {
           },
         },
         metodoPago: true,
+        entidadFinanciera: true,
+        liquidadoPor: {
+          include: {
+            user: {
+              select: {
+                nombre: true,
+                apellido: true,
+              },
+            },
+          },
+        },
         empresa: true,
         zona: true,
         direccion: true,
@@ -540,6 +573,10 @@ export class OrdenesServicioService {
           include: { user: true },
         },
         servicio: true,
+        entidadFinanciera: true,
+        liquidadoPor: {
+          include: { user: true },
+        },
         evidencias: true,
         geolocalizaciones: {
           include: {
@@ -687,6 +724,7 @@ export class OrdenesServicioService {
     tenantId: string,
     id: string,
     updateDto: Partial<CreateOrdenServicioDto>,
+    performingUser?: JwtPayload,
   ) {
     // Validar que la orden pertenezca al tenant
     const orden = await this.prisma.ordenServicio.findFirst({
@@ -695,6 +733,20 @@ export class OrdenesServicioService {
 
     if (!orden) {
       throw new BadRequestException('La orden especificada no existe');
+    }
+
+    // Intentar resolver el membershipId si no viene en el token (retrocompatibilidad)
+    let membershipId = performingUser?.membershipId;
+    if (!membershipId && performingUser?.sub && tenantId) {
+      const membership = await this.prisma.tenantMembership.findUnique({
+        where: {
+          userId_tenantId: {
+            userId: performingUser.sub,
+            tenantId: tenantId,
+          },
+        },
+      });
+      membershipId = membership?.id;
     }
 
     const data: Prisma.OrdenServicioUpdateInput = {
@@ -720,10 +772,58 @@ export class OrdenesServicioService {
       valorPagado: updateDto.valorPagado ?? undefined,
       observacionFinal: updateDto.observacionFinal ?? undefined,
       referenciaPago: updateDto.referenciaPago ?? undefined,
+      liquidadoPor:
+        updateDto.estadoServicio === (EstadoOrden.LIQUIDADO as EstadoOrden) &&
+        (membershipId || updateDto.liquidadoPorId)
+          ? { connect: { id: membershipId || updateDto.liquidadoPorId } }
+          : undefined,
+      liquidadoAt:
+        updateDto.estadoServicio === (EstadoOrden.LIQUIDADO as EstadoOrden)
+          ? new Date()
+          : undefined,
       fechaPago: updateDto.fechaPago
         ? new Date(updateDto.fechaPago)
         : undefined,
+      desglosePago: updateDto.desglosePago
+        ? (updateDto.desglosePago as any)
+        : undefined,
     };
+
+    // Lógica automática basada en el desglose de pago
+    if (updateDto.desglosePago && Array.isArray(updateDto.desglosePago)) {
+      const valorCotizado = Number(
+        updateDto.valorCotizado || orden.valorCotizado || 0,
+      );
+      const totals = this.calculateBreakdownTotals(
+        updateDto.desglosePago,
+        valorCotizado,
+      );
+      data.valorPagado = totals.valorPagado;
+      data.estadoPago = totals.estadoPago;
+    }
+
+    if (updateDto.entidadFinancieraNombre) {
+      let entidad = await this.prisma.entidadFinanciera.findFirst({
+        where: {
+          empresaId: orden.empresaId,
+          nombre: {
+            equals: updateDto.entidadFinancieraNombre,
+            mode: 'insensitive',
+          },
+        },
+      });
+
+      if (!entidad) {
+        entidad = await this.prisma.entidadFinanciera.create({
+          data: {
+            tenantId,
+            empresaId: orden.empresaId,
+            nombre: updateDto.entidadFinancieraNombre,
+          },
+        });
+      }
+      data.entidadFinanciera = { connect: { id: entidad.id } };
+    }
 
     if (updateDto.fechaVisita) {
       data.fechaVisita = new Date(updateDto.fechaVisita);
@@ -773,6 +873,38 @@ export class OrdenesServicioService {
       },
     });
 
+    // Nueva lógica: Si la orden se liquidó y tiene efectivo, crear Declaración de Efectivo
+    if (
+      updatedOrden.estadoServicio === (EstadoOrden.LIQUIDADO as EstadoOrden) &&
+      updatedOrden.desglosePago &&
+      Array.isArray(updatedOrden.desglosePago)
+    ) {
+      const breakdown = updatedOrden.desglosePago as any[];
+      const cashLine = breakdown.find((l) => l.metodo === MetodoPagoBase.EFECTIVO);
+
+      if (cashLine && Number(cashLine.monto) > 0 && updatedOrden.tecnicoId) {
+        // Verificar si ya existe una declaración para esta orden
+        const existingDecl = await this.prisma.declaracionEfectivo.findUnique({
+          where: { ordenId: updatedOrden.id },
+        });
+
+        if (!existingDecl) {
+          await this.prisma.declaracionEfectivo.create({
+            data: {
+              tenantId: updatedOrden.tenantId,
+              empresaId: updatedOrden.empresaId,
+              ordenId: updatedOrden.id,
+              tecnicoId: updatedOrden.tecnicoId,
+              valorDeclarado: Number(cashLine.monto),
+              evidenciaPath: updatedOrden.comprobantePago || 'POR_CONSIGNAR',
+              observacion: `Recaudo automático por liquidación de orden #${updatedOrden.id}`,
+              consignado: false,
+            },
+          });
+        }
+      }
+    }
+
     // Recalcular status si el estado actual es LIQUIDADO o si el estado anterior lo era
     // (para manejar reversiones de estado y que el score sea siempre preciso)
     if (
@@ -783,6 +915,58 @@ export class OrdenesServicioService {
     }
 
     return updatedOrden;
+  }
+
+  private calculateBreakdownTotals(
+    breakdown: any[],
+    valorCotizado: number,
+  ): { valorPagado: number; estadoPago: EstadoPagoOrden } {
+    // 1. Dinero real recibido (Lo que entra a caja/banco)
+    const valorPagado = breakdown
+      .filter(
+        (l) =>
+          l.metodo === MetodoPagoBase.EFECTIVO ||
+          l.metodo === MetodoPagoBase.TRANSFERENCIA,
+      )
+      .reduce((sum, l) => sum + Number(l.monto || 0), 0);
+
+    // 2. Valor cubierto por métodos no monetarios (Bonos, Cortesías)
+    const valorDescuentos = breakdown
+      .filter(
+        (l) =>
+          l.metodo === MetodoPagoBase.BONO ||
+          l.metodo === MetodoPagoBase.CORTESIA,
+      )
+      .reduce((sum, l) => sum + Number(l.monto || 0), 0);
+
+    // 3. Valor a crédito (Deuda pendiente)
+    const valorCredito = breakdown
+      .filter((l) => l.metodo === MetodoPagoBase.CREDITO)
+      .reduce((sum, l) => sum + Number(l.monto || 0), 0);
+
+    // 4. Total cubierto (Suma de todo para ver si la orden está cerrada)
+    const totalCubierto = valorPagado + valorDescuentos + valorCredito;
+
+    // Determinar estado de pago
+    const hasCredito = valorCredito > 0;
+    const hasCortesia = breakdown.some(
+      (l) => l.metodo === MetodoPagoBase.CORTESIA,
+    );
+
+    let estadoPago: EstadoPagoOrden = EstadoPagoOrden.PENDIENTE;
+
+    // Si todo está cubierto y no hay crédito, está PAGADO (o es CORTESIA total)
+    if (totalCubierto >= valorCotizado && !hasCredito) {
+      estadoPago = hasCortesia && valorPagado === 0 
+        ? EstadoPagoOrden.CORTESIA 
+        : EstadoPagoOrden.PAGADO;
+    } 
+    // Si hay algún movimiento pero no llega al total o hay crédito
+    else if (totalCubierto > 0) {
+      estadoPago = EstadoPagoOrden.PARCIAL;
+    }
+
+    return { valorPagado, estadoPago };
   }
 
   private async recalculateClientStatus(clienteId: string): Promise<void> {

@@ -85,6 +85,7 @@ model Tenant {
   turnos                    Turno[]
   vehiculos                 Vehiculo[]
   zonas                     Zona[]
+  entidadesFinancieras      EntidadFinanciera[]
 
   @@map("tenants")
 }
@@ -163,6 +164,7 @@ model TenantMembership {
   nominas               Nomina[]
   serviciosCreados      OrdenServicio[]        @relation("ServiciosCreados")
   serviciosAsignados    OrdenServicio[]        @relation("ServiciosAsignados")
+  serviciosLiquidados   OrdenServicio[]        @relation("ServiciosLiquidados")
   paquetesAdquiridos    PaqueteAdquirido[]
   permisosAprobados     Permiso[]              @relation("PermisosAprobados")
   permisosSolicitados   Permiso[]              @relation("PermisosSolicitados")
@@ -229,6 +231,7 @@ model Empresa {
   turnos                    Turno[]
   vehiculos                 Vehiculo[]
   zonas                     Zona[]
+  entidadesFinancieras      EntidadFinanciera[]
 
   @@index([tenantId])
   @@map("empresas")
@@ -631,8 +634,14 @@ model OrdenServicio {
   facturaElectronica    String?
   comprobantePago       String?
   evidenciaPath         String?
+  desglosePago          Json?
+  referenciaPago        String?
+  fechaPago             DateTime?
+  entidadFinancieraId   String?              @db.Uuid
   estadoPago            EstadoPagoOrden      @default(PENDIENTE)
   seguimientoRevisado   Boolean?             @default(false)
+  liquidadoPorId        String?              @db.Uuid
+  liquidadoAt           DateTime?
   ordenPadreId          String?              @db.Uuid
   createdAt             DateTime             @default(now())
   updatedAt             DateTime             @updatedAt
@@ -642,8 +651,6 @@ model OrdenServicio {
   nivelInfestacion      NivelInfestacion?
   urgencia              UrgenciaOrden?
   estadoServicio        EstadoOrden          @default(NUEVO)
-  fechaPago             DateTime?
-  referenciaPago        String?
   consignacionOrden     ConsignacionOrden?
   declaracionEfectivo   DeclaracionEfectivo?
   evidencias            EvidenciaServicio[]
@@ -654,6 +661,8 @@ model OrdenServicio {
   direccion             Direccion?           @relation(fields: [direccionId], references: [id])
   empresa               Empresa              @relation(fields: [empresaId], references: [id])
   metodoPago            MetodoPago?          @relation(fields: [metodoPagoId], references: [id])
+  entidadFinanciera     EntidadFinanciera?   @relation(fields: [entidadFinancieraId], references: [id])
+  liquidadoPor          TenantMembership?    @relation("ServiciosLiquidados", fields: [liquidadoPorId], references: [id])
   ordenPadre            OrdenServicio?       @relation("OrdenRefuerzo", fields: [ordenPadreId], references: [id])
   ordenesHijas          OrdenServicio[]      @relation("OrdenRefuerzo")
   servicio              Servicio             @relation(fields: [servicioId], references: [id])
@@ -667,10 +676,28 @@ model OrdenServicio {
   @@index([tenantId, empresaId])
   @@index([clienteId])
   @@index([tecnicoId])
+  @@index([entidadFinancieraId])
   @@index([estadoServicio])
   @@index([numeroOrden])
   @@index([fechaVisita])
   @@map("ordenes_servicio")
+}
+
+model EntidadFinanciera {
+  id        String          @id @default(uuid()) @db.Uuid
+  tenantId  String          @db.Uuid
+  empresaId String          @db.Uuid
+  nombre    String
+  activo    Boolean         @default(true)
+  createdAt DateTime        @default(now())
+  ordenes   OrdenServicio[]
+  empresa   Empresa         @relation(fields: [empresaId], references: [id], onDelete: Cascade)
+  tenant    Tenant          @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+
+  @@unique([empresaId, nombre])
+  @@index([tenantId])
+  @@index([empresaId])
+  @@map("entidades_financieras")
 }
 
 model Geolocalizacion {
@@ -1425,6 +1452,17 @@ enum EstadoPagoOrden {
   ANTICIPO
   PAGADO
   CREDITO
+  PARCIAL
+  CORTESIA
+}
+
+enum MetodoPagoBase {
+  EFECTIVO
+  TRANSFERENCIA
+  CREDITO
+  BONO
+  CORTESIA
+  PENDIENTE
 }
 
 enum NivelInfestacion {

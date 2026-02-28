@@ -17,6 +17,7 @@ export interface JwtPayload {
   role: Role;
   tenantId?: string;
   empresaId?: string;
+  membershipId?: string;
 }
 
 @Injectable()
@@ -53,6 +54,7 @@ export class AuthService {
       email: user.email,
       role: approvedMembership?.role || Role.OPERADOR,
       tenantId: approvedMembership?.tenantId,
+      membershipId: approvedMembership?.id,
     };
 
     const accessToken = await this.jwtService.signAsync(payload);
@@ -66,6 +68,7 @@ export class AuthService {
         apellido: user.apellido,
         role: approvedMembership?.role,
         tenantId: approvedMembership?.tenantId,
+        membershipId: approvedMembership?.id,
         hasPendingRequest: !!pendingMembership && !approvedMembership,
       },
     };

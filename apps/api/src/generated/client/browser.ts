@@ -133,6 +133,11 @@ export type EstadoServicio = Prisma.EstadoServicioModel
  */
 export type OrdenServicio = Prisma.OrdenServicioModel
 /**
+ * Model EntidadFinanciera
+ * 
+ */
+export type EntidadFinanciera = Prisma.EntidadFinancieraModel
+/**
  * Model Geolocalizacion
  * 
  */

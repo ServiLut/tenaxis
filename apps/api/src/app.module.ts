@@ -14,6 +14,7 @@ import { APP_INTERCEPTOR } from '@nestjs/core';
 import { EnterpriseInterceptor } from './common/interceptors/enterprise.interceptor';
 import { OrdenesServicioModule } from './ordenes-servicio/ordenes-servicio.module';
 import { SupabaseModule } from './supabase/supabase.module';
+import { ContabilidadModule } from './contabilidad/contabilidad.module';
 
 @Module({
   imports: [
@@ -28,6 +29,7 @@ import { SupabaseModule } from './supabase/supabase.module';
     EnterpriseModule,
     OrdenesServicioModule,
     SupabaseModule,
+    ContabilidadModule,
   ],
   controllers: [AppController],
   providers: [

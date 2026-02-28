@@ -123,10 +123,24 @@ export const EstadoPagoOrden = {
   CONCILIADO: 'CONCILIADO',
   ANTICIPO: 'ANTICIPO',
   PAGADO: 'PAGADO',
-  CREDITO: 'CREDITO'
+  CREDITO: 'CREDITO',
+  PARCIAL: 'PARCIAL',
+  CORTESIA: 'CORTESIA'
 } as const
 
 export type EstadoPagoOrden = (typeof EstadoPagoOrden)[keyof typeof EstadoPagoOrden]
+
+
+export const MetodoPagoBase = {
+  EFECTIVO: 'EFECTIVO',
+  TRANSFERENCIA: 'TRANSFERENCIA',
+  CREDITO: 'CREDITO',
+  BONO: 'BONO',
+  CORTESIA: 'CORTESIA',
+  PENDIENTE: 'PENDIENTE'
+} as const
+
+export type MetodoPagoBase = (typeof MetodoPagoBase)[keyof typeof MetodoPagoBase]
 
 
 export const NivelInfestacion = {

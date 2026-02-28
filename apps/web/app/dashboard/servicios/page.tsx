@@ -80,6 +80,7 @@ import {
   getMetodosPagoAction,
   type ClienteDTO,
 } from "../actions";
+import { Suspense } from "react";
 
 interface Servicio {
   id: string;
@@ -125,6 +126,10 @@ interface OrdenServicioRaw {
   valorRepuestos?: number;
   metodoPagoId?: string;
   metodoPago?: { id: string; nombre: string };
+  entidadFinanciera?: { id: string; nombre: string };
+  liquidadoPor?: { user: { nombre: string; apellido: string } };
+  liquidadoAt?: string;
+  desglosePago?: any;
   estadoPago?: string;
   estadoServicio?: string;
   createdAt: string;
@@ -271,6 +276,14 @@ function ServiciosSkeleton({ showKPIs = true }: { showKPIs?: boolean }) {
 }
 
 export default function ServiciosPage() {
+  return (
+    <Suspense fallback={<ServiciosSkeleton />}>
+      <ServiciosContent />
+    </Suspense>
+  );
+}
+
+function ServiciosContent() {
   const searchParams = useSearchParams();
   const pathname = usePathname();
   const router = useRouter();
@@ -283,14 +296,23 @@ export default function ServiciosPage() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isGeoModalOpen, setIsGeoModalOpen] = useState(false);
   const [isLiquidarModalOpen, setIsLiquidarModalOpen] = useState(false);
+  const [isLiquidationDetailsOpen, setIsLiquidationDetailsOpen] = useState(false);
   const [showKPIs, setShowKPIs] = useState(true);
 
   // Liquidation form state
-  const [liquidarData, setLiquidarData] = useState({
-    valorPagado: "",
-    metodoPagoId: "",
+  const [liquidarData, setLiquidarData] = useState<{
+    breakdown: Array<{
+      metodo: string;
+      monto: string;
+      banco?: string;
+      referencia?: string;
+      observacion?: string;
+    }>;
+    observacionFinal: string;
+    fechaPago: string;
+  }>({
+    breakdown: [{ metodo: "PENDIENTE", monto: "" }],
     observacionFinal: "",
-    referenciaPago: "",
     fechaPago: new Date().toISOString().split('T')[0],
   });
   const [comprobanteFile, setComprobanteFile] = useState<File | null>(null);
@@ -533,25 +555,26 @@ export default function ServiciosPage() {
         comprobanteUrl = fileId;
       }
 
+      // Procesar el desglose para el API
+      const processedBreakdown = liquidarData.breakdown.map(line => ({
+        ...line,
+        monto: parseFloat(line.monto.replace(/\./g, "")) || 0
+      }));
+
       const result = await updateOrdenServicioAction(selectedServicio.raw.id, {
-        valorPagado: parseFloat(liquidarData.valorPagado) || 0,
-        metodoPagoId: liquidarData.metodoPagoId,
+        desglosePago: processedBreakdown,
         observacionFinal: liquidarData.observacionFinal,
-        referenciaPago: liquidarData.referenciaPago,
         fechaPago: liquidarData.fechaPago,
         comprobantePago: comprobanteUrl || undefined,
-        estadoServicio: "LIQUIDADO",
-        estadoPago: "PAGADO"
+        estadoServicio: "LIQUIDADO"
       });
 
       if (result.success) {
         toast.success("Servicio liquidado exitosamente", { id: toastId });
         setIsLiquidarModalOpen(false);
         setLiquidarData({ 
-          valorPagado: "", 
-          metodoPagoId: "", 
+          breakdown: [{ metodo: "PENDIENTE", monto: "" }],
           observacionFinal: "",
-          referenciaPago: "",
           fechaPago: new Date().toISOString().split('T')[0]
         });
         setComprobanteFile(null);
@@ -1218,22 +1241,36 @@ ORDEN DE SERVICIO: #${servicio.id}
 
                                       <DropdownMenuSeparator />
 
-                                      <DropdownMenuItem 
-                                        onClick={() => {
-                                          setSelectedServicio(servicio);
-                                          setLiquidarData({
-                                            valorPagado: (servicio.raw.valorPagado || servicio.raw.valorCotizado || "").toString(),
-                                            metodoPagoId: servicio.raw.metodoPagoId || "",
-                                            observacionFinal: servicio.raw.observacionFinal || "",
-                                            referenciaPago: servicio.raw.referenciaPago || "",
-                                            fechaPago: servicio.raw.fechaPago ? new Date(servicio.raw.fechaPago).toISOString().split('T')[0] : new Date().toISOString().split('T')[0],
-                                          });
-                                          setIsLiquidarModalOpen(true);
-                                        }}
-                                        className="flex items-center gap-3 py-2.5 text-[11px] font-bold cursor-pointer text-zinc-600 dark:text-zinc-400"
-                                      >
-                                        <FileText className="h-4 w-4 text-emerald-500" /> LIQUIDAR
-                                      </DropdownMenuItem>
+                                      {servicio.estadoServicio === "LIQUIDADO" ? (
+                                        <DropdownMenuItem 
+                                          onClick={() => {
+                                            setSelectedServicio(servicio);
+                                            setIsLiquidationDetailsOpen(true);
+                                          }}
+                                          className="flex items-center gap-3 py-2.5 text-[11px] font-bold cursor-pointer text-emerald-600 dark:text-emerald-400"
+                                        >
+                                          <CheckCircle2 className="h-4 w-4" /> VER LIQUIDACIÓN
+                                        </DropdownMenuItem>
+                                      ) : (
+                                        <DropdownMenuItem 
+                                          onClick={() => {
+                                                                                      setSelectedServicio(servicio);
+                                                                                      const initialAmount = (servicio.raw.valorCotizado || "").toString();
+                                                                                      const formattedAmount = initialAmount.replace(/\D/g, "").replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+                                                                                      
+                                                                                      setLiquidarData({
+                                                                                        breakdown: [{ metodo: "EFECTIVO", monto: formattedAmount }],
+                                                                                        observacionFinal: servicio.raw.observacionFinal || "",
+                                                                                        fechaPago: servicio.raw.fechaPago ? new Date(servicio.raw.fechaPago).toISOString().split('T')[0] : new Date().toISOString().split('T')[0],
+                                                                                      });
+                                                                                      setIsLiquidarModalOpen(true);
+                                            
+                                          }}
+                                          className="flex items-center gap-3 py-2.5 text-[11px] font-bold cursor-pointer text-zinc-600 dark:text-zinc-400"
+                                        >
+                                          <FileText className="h-4 w-4 text-emerald-500" /> LIQUIDAR
+                                        </DropdownMenuItem>
+                                      )}
                                       
                                       <DropdownMenuSeparator />
                                       
@@ -1557,7 +1594,11 @@ ORDEN DE SERVICIO: #${servicio.id}
                     </span>
                   </div>
                   <div>
-                    <span className="text-[10px] font-bold text-zinc-500 block uppercase tracking-wider mb-1">Banco / Medio</span>
+                    <span className="text-[10px] font-bold text-zinc-500 block uppercase tracking-wider mb-1">Banco / Entidad</span>
+                    <span className="font-black text-sm uppercase text-azul-1">{selectedServicio.raw.entidadFinanciera?.nombre || "N/A"}</span>
+                  </div>
+                  <div>
+                    <span className="text-[10px] font-bold text-zinc-500 block uppercase tracking-wider mb-1">Medio de Pago</span>
                     <span className="font-black text-sm uppercase">{selectedServicio.raw.metodoPago?.nombre || selectedServicio.raw.estadoPago || "N/A"}</span>
                   </div>
                   <div>
@@ -1900,56 +1941,167 @@ ORDEN DE SERVICIO: #${servicio.id}
       </Dialog>
 
       <Dialog open={isLiquidarModalOpen} onOpenChange={setIsLiquidarModalOpen}>
-        <DialogContent className="max-w-md">
+        <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
           <DialogHeader>
             <DialogTitle className="text-xl font-black uppercase tracking-tight flex items-center gap-3">
               <CheckCircle2 className="h-6 w-6 text-emerald-500" /> Liquidar Servicio
             </DialogTitle>
             <DialogDescription className="font-medium">
-              Ingrese los detalles del pago para finalizar la orden.
+              Desglose los métodos de pago para finalizar la orden.
             </DialogDescription>
           </DialogHeader>
 
           {selectedServicio && (
             <div className="space-y-6 mt-4">
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 bg-zinc-50 dark:bg-zinc-800/50 p-5 rounded-2xl border border-zinc-100 dark:border-zinc-800">
+                <div className="space-y-1">
+                  <p className="text-[9px] font-black text-zinc-400 uppercase tracking-widest">Valor Cotizado</p>
+                  <p className="text-base font-black text-zinc-900 dark:text-zinc-50">
+                    {new Intl.NumberFormat('es-CO', { style: 'currency', currency: 'COP' }).format(selectedServicio.raw.valorCotizado || 0)}
+                  </p>
+                </div>
+                <div className="space-y-1">
+                  <p className="text-[9px] font-black text-amber-500 uppercase tracking-widest">(-) Bonos / Cortesía</p>
+                  <p className="text-base font-black text-amber-600">
+                    {new Intl.NumberFormat('es-CO', { style: 'currency', currency: 'COP' }).format(
+                      liquidarData.breakdown
+                        .filter(l => l.metodo === "BONO" || l.metodo === "CORTESIA")
+                        .reduce((sum, l) => sum + (parseFloat(l.monto.replace(/\./g, "")) || 0), 0)
+                    )}
+                  </p>
+                </div>
+                <div className="text-right space-y-1">
+                  <p className="text-[9px] font-black text-emerald-500 uppercase tracking-widest">Neto a Recaudar</p>
+                  <p className={cn(
+                    "text-lg font-black",
+                    // Total monetario (Efectivo + Trans + Credito) debe igualar al (Cotizado - Bonos)
+                    liquidarData.breakdown
+                      .filter(l => l.metodo !== "BONO" && l.metodo !== "CORTESIA")
+                      .reduce((sum, l) => sum + (parseFloat(l.monto.replace(/\./g, "")) || 0), 0) === 
+                    (Number(selectedServicio.raw.valorCotizado || 0) - 
+                     liquidarData.breakdown
+                      .filter(l => l.metodo === "BONO" || l.metodo === "CORTESIA")
+                      .reduce((sum, l) => sum + (parseFloat(l.monto.replace(/\./g, "")) || 0), 0))
+                      ? "text-emerald-500"
+                      : "text-red-500"
+                  )}>
+                    {new Intl.NumberFormat('es-CO', { style: 'currency', currency: 'COP' }).format(
+                      liquidarData.breakdown
+                        .filter(l => l.metodo !== "BONO" && l.metodo !== "CORTESIA")
+                        .reduce((sum, l) => sum + (parseFloat(l.monto.replace(/\./g, "")) || 0), 0)
+                    )}
+                  </p>
+                </div>
+              </div>
+
               <div className="space-y-4">
-                <div className="space-y-2">
-                  <Label className="text-[10px] font-black uppercase tracking-widest text-zinc-500">Valor Pagado</Label>
-                  <Input 
-                    type="number"
-                    value={liquidarData.valorPagado}
-                    onChange={(e) => setLiquidarData({...liquidarData, valorPagado: e.target.value})}
-                    placeholder="0.00"
-                    className="h-12 rounded-xl border-zinc-200 dark:border-zinc-800 bg-zinc-50 dark:bg-zinc-800/50 font-bold"
-                  />
-                </div>
-
-                <div className="space-y-2">
-                  <Label className="text-[10px] font-black uppercase tracking-widest text-zinc-500">Banco / Medio de Pago</Label>
-                  <Select 
-                    value={liquidarData.metodoPagoId} 
-                    onChange={(e) => setLiquidarData({...liquidarData, metodoPagoId: e.target.value})}
-                    className="h-12 rounded-xl bg-zinc-50 dark:bg-zinc-800/50 border-zinc-200 dark:border-zinc-800 text-sm font-bold"
+                <div className="flex items-center justify-between">
+                  <h4 className="text-[10px] font-black text-zinc-400 uppercase tracking-[0.2em]">Desglose de Cobro</h4>
+                  <Button 
+                    type="button" 
+                    variant="outline" 
+                    size="sm" 
+                    className="h-8 rounded-lg text-[10px] font-black uppercase tracking-widest gap-2"
+                    onClick={() => setLiquidarData({
+                      ...liquidarData,
+                      breakdown: [...liquidarData.breakdown, { metodo: "EFECTIVO", monto: "" }]
+                    })}
                   >
-                    <option value="">SELECCIONE BANCO / MEDIO</option>
-                    {filterOptions.metodosPago.map(metodo => (
-                      <option key={metodo.id} value={metodo.id}>{metodo.nombre.toUpperCase()}</option>
-                    ))}
-                  </Select>
+                    <Plus className="h-3 w-3" /> Añadir Método
+                  </Button>
                 </div>
 
-                <div className="grid grid-cols-2 gap-4">
+                <div className="space-y-3">
+                  {liquidarData.breakdown.map((line, index) => (
+                    <div key={index} className="p-4 bg-white dark:bg-zinc-900 rounded-2xl border border-zinc-100 dark:border-zinc-800 shadow-sm space-y-4">
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <div className="space-y-1.5">
+                          <Label className="text-[9px] font-black uppercase tracking-widest text-zinc-500">Método</Label>
+                          <Select 
+                            value={line.metodo} 
+                            onChange={(e) => {
+                              const newBreakdown = [...liquidarData.breakdown];
+                              newBreakdown[index] = { ...line, metodo: e.target.value };
+                              setLiquidarData({ ...liquidarData, breakdown: newBreakdown });
+                            }}
+                            className="h-10 rounded-xl bg-zinc-50 dark:bg-zinc-800/50 border-zinc-100 dark:border-zinc-800 text-[11px] font-bold"
+                          >
+                            <option value="EFECTIVO">EFECTIVO</option>
+                            <option value="TRANSFERENCIA">TRANSFERENCIA</option>
+                            <option value="CREDITO">CRÉDITO (POR COBRAR)</option>
+                            <option value="BONO">BONO / DESCUENTO</option>
+                            <option value="CORTESIA">CORTESÍA (NO SE COBRA)</option>
+                            <option value="PENDIENTE">PENDIENTE POR DEFINIR</option>
+                          </Select>
+                        </div>
+                        <div className="space-y-1.5">
+                          <div className="flex justify-between items-center">
+                            <Label className="text-[9px] font-black uppercase tracking-widest text-zinc-500">Monto</Label>
+                            {liquidarData.breakdown.length > 1 && (
+                              <button 
+                                onClick={() => {
+                                  const newBreakdown = liquidarData.breakdown.filter((_, i) => i !== index);
+                                  setLiquidarData({ ...liquidarData, breakdown: newBreakdown });
+                                }}
+                                className="text-red-500 hover:text-red-700"
+                              >
+                                <Trash2 className="h-3.5 w-3.5" />
+                              </button>
+                            )}
+                          </div>
+                          <Input 
+                            type="text"
+                            value={line.monto}
+                            onChange={(e) => {
+                              const val = e.target.value.replace(/\D/g, "");
+                              const formatted = val.replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+                              const newBreakdown = [...liquidarData.breakdown];
+                              newBreakdown[index] = { ...line, monto: formatted };
+                              setLiquidarData({ ...liquidarData, breakdown: newBreakdown });
+                            }}
+                            placeholder="0"
+                            className="h-10 rounded-xl border-zinc-200 dark:border-zinc-800 bg-zinc-50 dark:bg-zinc-800/50 font-bold text-sm"
+                          />
+                        </div>
+                      </div>
+
+                      {line.metodo === "TRANSFERENCIA" && (
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 animate-in fade-in slide-in-from-top-2">
+                          <div className="space-y-1.5">
+                            <Label className="text-[9px] font-black uppercase tracking-widest text-zinc-500">Banco / Entidad</Label>
+                            <Input 
+                              value={line.banco}
+                              onChange={(e) => {
+                                const newBreakdown = [...liquidarData.breakdown];
+                                newBreakdown[index] = { ...line, banco: e.target.value };
+                                setLiquidarData({ ...liquidarData, breakdown: newBreakdown });
+                              }}
+                              placeholder="Ej: Bancolombia, Nequi..."
+                              className="h-10 rounded-xl border-zinc-200 dark:border-zinc-800 bg-zinc-50 dark:bg-zinc-800/50 font-bold text-xs"
+                            />
+                          </div>
+                          <div className="space-y-1.5">
+                            <Label className="text-[9px] font-black uppercase tracking-widest text-zinc-500">Referencia</Label>
+                            <Input 
+                              value={line.referencia}
+                              onChange={(e) => {
+                                const newBreakdown = [...liquidarData.breakdown];
+                                newBreakdown[index] = { ...line, referencia: e.target.value };
+                                setLiquidarData({ ...liquidarData, breakdown: newBreakdown });
+                              }}
+                              placeholder="Nº comprobante"
+                              className="h-10 rounded-xl border-zinc-200 dark:border-zinc-800 bg-zinc-50 dark:bg-zinc-800/50 font-bold text-xs"
+                            />
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                  ))}
+                </div>
+
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div className="space-y-2">
-                    <Label className="text-[10px] font-black uppercase tracking-widest text-zinc-500">Referencia de Pago</Label>
-                    <Input 
-                      value={liquidarData.referenciaPago}
-                      onChange={(e) => setLiquidarData({...liquidarData, referenciaPago: e.target.value})}
-                      placeholder="Nº de comprobante"
-                      className="h-12 rounded-xl border-zinc-200 dark:border-zinc-800 bg-zinc-50 dark:bg-zinc-800/50 font-bold"
-                    />
-                  </div>
-                  <div className="space-y-2">
-                    <Label className="text-[10px] font-black uppercase tracking-widest text-zinc-500">Fecha de Transferencia</Label>
+                    <Label className="text-[10px] font-black uppercase tracking-widest text-zinc-500">Fecha de Cierre</Label>
                     <Input 
                       type="date"
                       value={liquidarData.fechaPago}
@@ -1957,25 +2109,24 @@ ORDEN DE SERVICIO: #${servicio.id}
                       className="h-12 rounded-xl border-zinc-200 dark:border-zinc-800 bg-zinc-50 dark:bg-zinc-800/50 font-bold"
                     />
                   </div>
-                </div>
-
-                <div className="space-y-2">
-                  <Label className="text-[10px] font-black uppercase tracking-widest text-zinc-500">Comprobante (Opcional)</Label>
-                  <div 
-                    onClick={() => document.getElementById('comprobante-liquidar-upload')?.click()}
-                    className="h-24 border-2 border-dashed border-zinc-200 dark:border-zinc-800 rounded-2xl flex flex-col items-center justify-center cursor-pointer hover:bg-zinc-50 dark:hover:bg-zinc-800/50 transition-colors"
-                  >
-                    <FileUp className="h-6 w-6 text-zinc-400 mb-2" />
-                    <span className="text-[10px] font-black uppercase tracking-widest text-zinc-500 px-4 text-center truncate w-full">
-                      {comprobanteFile ? comprobanteFile.name : "Subir comprobante de pago"}
-                    </span>
-                    <input 
-                      id="comprobante-liquidar-upload"
-                      type="file" 
-                      className="hidden" 
-                      onChange={(e) => setComprobanteFile(e.target.files?.[0] || null)}
-                      accept="image/*,application/pdf"
-                    />
+                  <div className="space-y-2">
+                    <Label className="text-[10px] font-black uppercase tracking-widest text-zinc-500">Comprobante Global (Opcional)</Label>
+                    <div 
+                      onClick={() => document.getElementById('comprobante-liquidar-upload')?.click()}
+                      className="h-12 border-2 border-dashed border-zinc-200 dark:border-zinc-800 rounded-xl flex items-center justify-center cursor-pointer hover:bg-zinc-50 dark:hover:bg-zinc-800/50 transition-colors"
+                    >
+                      <FileUp className="h-4 w-4 text-zinc-400 mr-2" />
+                      <span className="text-[10px] font-black uppercase tracking-widest text-zinc-500 px-4 truncate">
+                        {comprobanteFile ? comprobanteFile.name : "Subir archivo"}
+                      </span>
+                      <input 
+                        id="comprobante-liquidar-upload"
+                        type="file" 
+                        className="hidden" 
+                        onChange={(e) => setComprobanteFile(e.target.files?.[0] || null)}
+                        accept="image/*,application/pdf"
+                      />
+                    </div>
                   </div>
                 </div>
 
@@ -1984,8 +2135,8 @@ ORDEN DE SERVICIO: #${servicio.id}
                   <textarea 
                     value={liquidarData.observacionFinal}
                     onChange={(e) => setLiquidarData({...liquidarData, observacionFinal: e.target.value})}
-                    className="w-full min-h-[100px] p-4 rounded-2xl border border-zinc-200 dark:border-zinc-800 bg-zinc-50 dark:bg-zinc-800/50 text-sm font-medium focus:ring-2 focus:ring-azul-1 outline-none transition-all"
-                    placeholder="Notas adicionales sobre el pago o el cierre del servicio..."
+                    className="w-full min-h-[80px] p-4 rounded-2xl border border-zinc-200 dark:border-zinc-800 bg-zinc-50 dark:bg-zinc-800/50 text-sm font-medium focus:ring-2 focus:ring-azul-1 outline-none transition-all"
+                    placeholder="Notas adicionales..."
                   />
                 </div>
               </div>
@@ -2002,11 +2153,139 @@ ORDEN DE SERVICIO: #${servicio.id}
                 <Button 
                   className="flex-1 h-12 rounded-xl bg-azul-1 dark:bg-azul-1 hover:bg-blue-700 dark:hover:bg-blue-600 text-zinc-200 dark:text-zinc-200 font-bold uppercase tracking-widest text-[10px] shadow-lg shadow-azul-1/20 dark:shadow-none"
                   onClick={handleLiquidar}
-                  disabled={isUploading || !liquidarData.metodoPagoId}
+                  disabled={
+                    isUploading || 
+                    liquidarData.breakdown.length === 0 ||
+                    // Validar balance contable: Monetario + No Monetario === Cotizado
+                    (liquidarData.breakdown.reduce((sum, l) => sum + (parseFloat(l.monto.replace(/\./g, "")) || 0), 0) !== Number(selectedServicio.raw.valorCotizado || 0))
+                  }
                 >
                   {isUploading ? "Procesando..." : "Confirmar Liquidación"}
                 </Button>
               </div>
+            </div>
+          )}
+        </DialogContent>
+      </Dialog>
+
+      <Dialog open={isLiquidationDetailsOpen} onOpenChange={setIsLiquidationDetailsOpen}>
+        <DialogContent className="max-w-md">
+          <DialogHeader>
+            <DialogTitle className="text-xl font-black uppercase tracking-tight flex items-center gap-3">
+              <CheckCircle2 className="h-6 w-6 text-emerald-500" /> Detalles de Liquidación
+            </DialogTitle>
+            <DialogDescription className="font-medium">
+              Información del cierre financiero del servicio.
+            </DialogDescription>
+          </DialogHeader>
+
+          {selectedServicio && (
+            <div className="space-y-6 mt-4">
+              <div className="bg-emerald-50 dark:bg-emerald-900/20 p-6 rounded-2xl border border-emerald-100 dark:border-emerald-800/50">
+                <div className="space-y-4">
+                  <div>
+                    <span className="text-[10px] font-black text-emerald-600/70 dark:text-emerald-400 uppercase tracking-widest block mb-1">Liquidado Por</span>
+                    <div className="flex items-center gap-2">
+                      <div className="h-8 w-8 rounded-full bg-emerald-100 dark:bg-emerald-800 flex items-center justify-center text-emerald-600 dark:text-emerald-400">
+                        <User className="h-4 w-4" />
+                      </div>
+                      <span className="font-black text-sm text-emerald-900 dark:text-emerald-100 uppercase">
+                        {selectedServicio.raw.liquidadoPor?.user 
+                          ? `${selectedServicio.raw.liquidadoPor.user.nombre} ${selectedServicio.raw.liquidadoPor.user.apellido}`
+                          : "Administrador"}
+                      </span>
+                    </div>
+                  </div>
+                  <div>
+                    <span className="text-[10px] font-black text-emerald-600/70 dark:text-emerald-400 uppercase tracking-widest block mb-1">Fecha de Liquidación</span>
+                    <span className="font-black text-sm text-emerald-900 dark:text-emerald-100">
+                      {selectedServicio.raw.liquidadoAt 
+                        ? new Date(selectedServicio.raw.liquidadoAt).toLocaleString() 
+                        : "No registrada"}
+                    </span>
+                  </div>
+                </div>
+              </div>
+
+              <div className="space-y-4">
+                <span className="text-[10px] font-black text-zinc-500 uppercase tracking-widest block">Resumen de Cobro</span>
+                <div className="space-y-3">
+                  {selectedServicio.raw.desglosePago && Array.isArray(selectedServicio.raw.desglosePago) ? (
+                    (selectedServicio.raw.desglosePago as any[]).map((line, idx) => (
+                      <div key={idx} className="p-4 bg-zinc-50 dark:bg-zinc-800/50 rounded-2xl border border-zinc-100 dark:border-zinc-800 flex justify-between items-center">
+                        <div>
+                          <div className="flex items-center gap-2">
+                            <span className="text-xs font-black text-zinc-900 dark:text-zinc-100">{line.metodo}</span>
+                            {line.banco && <span className="text-[10px] font-bold text-azul-1 uppercase">({line.banco})</span>}
+                          </div>
+                          {line.referencia && <p className="text-[9px] font-medium text-zinc-500 mt-0.5">Ref: {line.referencia}</p>}
+                        </div>
+                        <span className="font-black text-sm text-zinc-900 dark:text-zinc-100">
+                          {new Intl.NumberFormat('es-CO', { style: 'currency', currency: 'COP' }).format(line.monto || 0)}
+                        </span>
+                      </div>
+                    ))
+                  ) : (
+                    /* Fallback para órdenes viejas */
+                    <div className="p-4 bg-zinc-50 dark:bg-zinc-800/50 rounded-2xl border border-zinc-100 dark:border-zinc-800 flex justify-between items-center">
+                      <div>
+                        <span className="text-xs font-black text-zinc-900 dark:text-zinc-100">PAGO ÚNICO</span>
+                        {selectedServicio.raw.entidadFinanciera && (
+                          <p className="text-[10px] font-bold text-azul-1 uppercase mt-0.5">{selectedServicio.raw.entidadFinanciera.nombre}</p>
+                        )}
+                      </div>
+                      <span className="font-black text-sm text-zinc-900 dark:text-zinc-100">
+                        {new Intl.NumberFormat('es-CO', { style: 'currency', currency: 'COP' }).format(selectedServicio.raw.valorPagado || 0)}
+                      </span>
+                    </div>
+                  )}
+                </div>
+              </div>
+
+              <div className="grid grid-cols-2 gap-6">
+                <div>
+                  <span className="text-[10px] font-bold text-zinc-500 block uppercase tracking-wider mb-1">Total Liquidado</span>
+                  <span className="font-black text-lg text-emerald-600">
+                    {new Intl.NumberFormat('es-CO', { style: 'currency', currency: 'COP' }).format(selectedServicio.raw.valorPagado || 0)}
+                  </span>
+                </div>
+                <div>
+                  <span className="text-[10px] font-bold text-zinc-500 block uppercase tracking-wider mb-1">Fecha Transferencia</span>
+                  <span className="font-bold text-sm uppercase">
+                    {selectedServicio.raw.fechaPago ? new Date(selectedServicio.raw.fechaPago).toLocaleDateString() : "N/A"}
+                  </span>
+                </div>
+              </div>
+
+              {selectedServicio.raw.comprobantePago && (
+                <div className="space-y-2">
+                  <span className="text-[10px] font-black text-zinc-500 uppercase tracking-widest block">Comprobante Adjunto</span>
+                  <Button 
+                    variant="outline" 
+                    className="w-full h-12 rounded-xl border-zinc-200 dark:border-zinc-800 gap-3 font-bold text-xs uppercase"
+                    onClick={() => window.open(selectedServicio.raw.comprobantePago!, "_blank")}
+                  >
+                    <Receipt className="h-4 w-4 text-blue-600" /> Ver Comprobante de Pago
+                  </Button>
+                </div>
+              )}
+
+              {selectedServicio.raw.observacionFinal && (
+                <div className="space-y-2">
+                  <span className="text-[10px] font-black text-zinc-500 uppercase tracking-widest block">Observaciones de Cierre</span>
+                  <div className="bg-zinc-50 dark:bg-zinc-800/50 p-4 rounded-2xl border border-zinc-100 dark:border-zinc-800 text-sm font-medium text-zinc-600 dark:text-zinc-400 italic">
+                    "{selectedServicio.raw.observacionFinal}"
+                  </div>
+                </div>
+              )}
+
+              <Button 
+                variant="outline" 
+                className="w-full h-12 rounded-xl font-bold uppercase tracking-widest text-[10px]"
+                onClick={() => setIsLiquidationDetailsOpen(false)}
+              >
+                Cerrar Detalle
+              </Button>
             </div>
           )}
         </DialogContent>

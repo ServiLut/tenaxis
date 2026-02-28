@@ -26,9 +26,12 @@ import {
   Briefcase,
   Info,
   Save,
-  GanttChart
+  GanttChart,
+  Trash2,
+  Plus
 } from "lucide-react";
 import { DashboardLayout } from "@/components/dashboard";
+import { cn } from "@/components/ui/utils";
 
 const URGENCIAS = [
   { value: "BAJA", label: "Baja (SLA 48h)" },
@@ -55,9 +58,20 @@ const TIPOS_VISITA = [
 
 const ESTADOS_PAGO = [
   { value: "PENDIENTE", label: "Pendiente de cobro" },
-  { value: "ANTICIPO", label: "Anticipo recibido" },
   { value: "PAGADO", label: "Pagado en su totalidad" },
+  { value: "PARCIAL", label: "Pago parcial / Abono" },
   { value: "CREDITO", label: "A crédito (Cuenta corriente)" },
+  { value: "CORTESIA", label: "Cortesía (Sin costo)" },
+  { value: "ANTICIPO", label: "Anticipo recibido" },
+];
+
+const METODOS_PAGO_BASE = [
+  { value: "EFECTIVO", label: "Efectivo" },
+  { value: "TRANSFERENCIA", label: "Transferencia Bancaria" },
+  { value: "CREDITO", label: "Crédito / Por Cobrar" },
+  { value: "BONO", label: "Bono / Descuento" },
+  { value: "CORTESIA", label: "Cortesía (No se cobra)" },
+  { value: "PENDIENTE", label: "Pendiente por definir" },
 ];
 
 const TIPOS_FACTURACION = [
@@ -146,8 +160,9 @@ function NuevoServicioContent() {
   const [horaInicio, setHoraInicio] = useState("");
   const [duracionMinutos, setDuracionMinutos] = useState("60");
   const [valorCotizado, setValorCotizado] = useState("");
-  const [metodoPagoId, setMetodoPagoId] = useState("");
-  const [estadoPago, setEstadoPago] = useState("");
+  const [breakdown, setBreakdown] = useState<Array<{ metodo: string; monto: string; banco?: string; referencia?: string }>>([
+    { metodo: "EFECTIVO", monto: "" }
+  ]);
   const [tipoFacturacion, setTipoFacturacion] = useState("");
   const [estadoServicio, setEstadoServicio] = useState("NUEVO");
 
@@ -358,9 +373,11 @@ function NuevoServicioContent() {
       tipoVisita: tipoVisita || undefined,
       frecuenciaSugerida: frecuenciaRecomendada ? Number(frecuenciaRecomendada) : undefined,
       tipoFacturacion: tipoFacturacion || undefined,
-      valorCotizado: valorCotizado ? Number(valorCotizado) : undefined,
-      metodoPagoId: metodoPagoId || undefined,
-      estadoPago: estadoPago || undefined,
+      valorCotizado: valorCotizado ? Number(valorCotizado.replace(/\./g, "")) : undefined,
+      desglosePago: breakdown.map(line => ({
+        ...line,
+        monto: parseFloat(line.monto.replace(/\./g, "")) || 0
+      })),
       estadoServicio: estadoServicio || undefined,
       fechaVisita: fechaVisita ? new Date(fechaVisita).toISOString() : undefined,
       horaInicio: (fechaVisita && horaInicio) ? new Date(`${fechaVisita}T${horaInicio}:00`).toISOString() : undefined,
@@ -631,46 +648,159 @@ function NuevoServicioContent() {
                 <div className="p-2 rounded-lg bg-zinc-50 dark:bg-zinc-900 border border-zinc-100 dark:border-zinc-800 text-zinc-400">
                   <CreditCard className="h-5 w-5" />
                 </div>
-                <h2 className="text-lg font-bold text-zinc-900 dark:text-zinc-50">Condiciones de Pago</h2>
+                <div className="flex-1 flex items-center justify-between">
+                  <h2 className="text-lg font-bold text-zinc-900 dark:text-zinc-50">Condiciones de Pago</h2>
+                  <Button 
+                    type="button" 
+                    variant="outline" 
+                    size="sm" 
+                    className="h-8 rounded-lg text-[10px] font-black uppercase tracking-widest gap-2"
+                    onClick={() => setBreakdown([...breakdown, { metodo: "EFECTIVO", monto: "" }])}
+                  >
+                    <Plus className="h-3 w-3" /> Añadir Método
+                  </Button>
+                </div>
               </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6">
-                <div className="space-y-2">
-                  <Label className="text-xs font-bold text-zinc-500 uppercase tracking-wider">Tarifa del Servicio (COP) <span className="text-red-500">*</span></Label>
-                  <div className="relative">
-                    <span className="absolute left-4 top-1/2 -translate-y-1/2 text-zinc-400 font-bold">$</span>
-                    <Input type="number" value={valorCotizado} onChange={(e) => setValorCotizado(e.target.value)} placeholder="0.00" required className="h-11 border-zinc-200 pl-8 font-bold" />
+              <div className="space-y-6">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6">
+                  <div className="space-y-2">
+                    <Label className="text-xs font-bold text-zinc-500 uppercase tracking-wider">Tarifa del Servicio (COP) <span className="text-red-500">*</span></Label>
+                    <div className="relative">
+                      <span className="absolute left-4 top-1/2 -translate-y-1/2 text-zinc-400 font-bold">$</span>
+                      <Input 
+                        type="text" 
+                        value={valorCotizado} 
+                        onChange={(e) => {
+                          const val = e.target.value.replace(/\D/g, "");
+                          const formatted = val.replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+                          setValorCotizado(formatted);
+                          
+                          // Si solo hay una línea de pago, actualizarla automáticamente
+                          if (breakdown.length === 1 && (!breakdown[0].monto || breakdown[0].monto === valorCotizado)) {
+                            const newBreakdown = [...breakdown];
+                            newBreakdown[0].monto = formatted;
+                            setBreakdown(newBreakdown);
+                          }
+                        }} 
+                        placeholder="0" 
+                        required 
+                        className="h-11 border-zinc-200 pl-8 font-bold" 
+                      />
+                    </div>
+                  </div>
+
+                  <div className="space-y-2">
+                    <Label className="text-xs font-bold text-zinc-500 uppercase tracking-wider">Tipo de Facturación <span className="text-red-500">*</span></Label>
+                    <Select value={tipoFacturacion} onChange={(e) => setTipoFacturacion(e.target.value)} required className="h-11 border-zinc-200">
+                      <option value="">Seleccionar facturación...</option>
+                      {TIPOS_FACTURACION.map(m => (
+                        <option key={m.value} value={m.value}>{m.label}</option>
+                      ))}
+                    </Select>
                   </div>
                 </div>
 
-                <div className="space-y-2">
-                  <Label className="text-xs font-bold text-zinc-500 uppercase tracking-wider">Método de Recaudo</Label>
-                  <Select value={metodoPagoId} onChange={(e) => setMetodoPagoId(e.target.value)} className="h-11 border-zinc-200">
-                    <option value="">No definido aún</option>
-                    {(Array.isArray(metodosPago) ? metodosPago : []).map(m => (
-                      <option key={m.id} value={m.id}>{m.nombre}</option>
-                    ))}
-                  </Select>
-                </div>
+                <div className="space-y-4">
+                  <Label className="text-[10px] font-black uppercase tracking-[0.2em] text-zinc-400 block px-1">Desglose de Cobro</Label>
+                  <div className="grid grid-cols-1 gap-4">
+                    {breakdown.map((line, index) => (
+                      <div key={index} className="p-5 bg-zinc-50/50 dark:bg-zinc-900/30 rounded-2xl border border-zinc-100 dark:border-zinc-800 space-y-4 relative group">
+                        {breakdown.length > 1 && (
+                          <button 
+                            type="button"
+                            onClick={() => setBreakdown(breakdown.filter((_, i) => i !== index))}
+                            className="absolute top-4 right-4 text-zinc-300 hover:text-red-500 transition-colors"
+                          >
+                            <Trash2 className="h-4 w-4" />
+                          </button>
+                        )}
+                        
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                          <div className="space-y-2">
+                            <Label className="text-[10px] font-bold text-zinc-500 uppercase">Método</Label>
+                            <Select 
+                              value={line.metodo} 
+                              onChange={(e) => {
+                                const newBreakdown = [...breakdown];
+                                newBreakdown[index] = { ...line, metodo: e.target.value };
+                                setBreakdown(newBreakdown);
+                              }}
+                              className="h-10 rounded-xl bg-white dark:bg-zinc-950 border-zinc-200"
+                            >
+                              {METODOS_PAGO_BASE.map(m => (
+                                <option key={m.value} value={m.value}>{m.label}</option>
+                              ))}
+                            </Select>
+                          </div>
+                          
+                          <div className="space-y-2">
+                            <Label className="text-[10px] font-bold text-zinc-500 uppercase">Monto</Label>
+                            <Input 
+                              type="text"
+                              value={line.monto}
+                              onChange={(e) => {
+                                const val = e.target.value.replace(/\D/g, "");
+                                const formatted = val.replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+                                const newBreakdown = [...breakdown];
+                                newBreakdown[index] = { ...line, monto: formatted };
+                                setBreakdown(newBreakdown);
+                              }}
+                              placeholder="0"
+                              className="h-10 rounded-xl bg-white dark:bg-zinc-950 border-zinc-200 font-bold"
+                            />
+                          </div>
+                        </div>
 
-                <div className="space-y-2">
-                  <Label className="text-xs font-bold text-zinc-500 uppercase tracking-wider">Estado del Pago <span className="text-red-500">*</span></Label>
-                  <Select value={estadoPago} onChange={(e) => setEstadoPago(e.target.value)} required className="h-11 border-zinc-200">
-                    <option value="">Seleccionar estado...</option>
-                    {ESTADOS_PAGO.map(m => (
-                      <option key={m.value} value={m.value}>{m.label}</option>
+                        {line.metodo === "TRANSFERENCIA" && (
+                          <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 animate-in fade-in slide-in-from-top-2">
+                            <div className="space-y-2">
+                              <Label className="text-[10px] font-bold text-zinc-500 uppercase">Banco / Entidad</Label>
+                              <Input 
+                                value={line.banco || ""}
+                                onChange={(e) => {
+                                  const newBreakdown = [...breakdown];
+                                  newBreakdown[index] = { ...line, banco: e.target.value };
+                                  setBreakdown(newBreakdown);
+                                }}
+                                placeholder="Ej: Bancolombia, Nequi..."
+                                className="h-10 rounded-xl bg-white dark:bg-zinc-950 border-zinc-200 font-medium"
+                              />
+                            </div>
+                            <div className="space-y-2">
+                              <Label className="text-[10px] font-bold text-zinc-500 uppercase">Referencia</Label>
+                              <Input 
+                                value={line.referencia || ""}
+                                onChange={(e) => {
+                                  const newBreakdown = [...breakdown];
+                                  newBreakdown[index] = { ...line, referencia: e.target.value };
+                                  setBreakdown(newBreakdown);
+                                }}
+                                placeholder="Nº comprobante"
+                                className="h-10 rounded-xl bg-white dark:bg-zinc-950 border-zinc-200 font-medium"
+                              />
+                            </div>
+                          </div>
+                        )}
+                      </div>
                     ))}
-                  </Select>
-                </div>
-
-                <div className="space-y-2">
-                  <Label className="text-xs font-bold text-zinc-500 uppercase tracking-wider">Tipo de Facturación <span className="text-red-500">*</span></Label>
-                  <Select value={tipoFacturacion} onChange={(e) => setTipoFacturacion(e.target.value)} required className="h-11 border-zinc-200">
-                    <option value="">Seleccionar facturación...</option>
-                    {TIPOS_FACTURACION.map(m => (
-                      <option key={m.value} value={m.value}>{m.label}</option>
-                    ))}
-                  </Select>
+                  </div>
+                  
+                  <div className="flex justify-between items-center px-2">
+                    <div className="flex gap-4">
+                      <div className="flex flex-col">
+                        <span className="text-[9px] font-black text-zinc-400 uppercase tracking-widest">Total Desglose</span>
+                        <span className={cn(
+                          "text-sm font-black",
+                          breakdown.reduce((sum, l) => sum + (parseFloat(l.monto.replace(/\./g, "")) || 0), 0) === (parseFloat(valorCotizado.replace(/\./g, "")) || 0)
+                            ? "text-emerald-500"
+                            : "text-amber-500"
+                        )}>
+                          $ {breakdown.reduce((sum, l) => sum + (parseFloat(l.monto.replace(/\./g, "")) || 0), 0).toLocaleString()}
+                        </span>
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </div>
             </section>
