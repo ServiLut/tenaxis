@@ -977,6 +977,10 @@ export interface CreateOrdenServicioDTO {
   facturaElectronica?: string;
   comprobantePago?: string;
   evidenciaPath?: string;
+  observacionFinal?: string;
+  valorPagado?: number;
+  referenciaPago?: string;
+  fechaPago?: string;
 }
 
 export async function createOrdenServicioAction(

@@ -5,14 +5,16 @@ import { createClient, SupabaseClient } from '@supabase/supabase-js';
 @Injectable()
 export class SupabaseService {
   private readonly logger = new Logger(SupabaseService.name);
-  private supabase: SupabaseClient;
+  private supabase: SupabaseClient<any, any, any>;
 
   constructor(private configService: ConfigService) {
     const url = this.configService.get<string>('SUPABASE_URL');
     const key = this.configService.get<string>('SUPABASE_SERVICE_ROLE_KEY');
 
     if (!url || !key) {
-      this.logger.error('Supabase URL or Service Role Key missing in configuration');
+      this.logger.error(
+        'Supabase URL or Service Role Key missing in configuration',
+      );
       return;
     }
 
@@ -24,7 +26,11 @@ export class SupabaseService {
     });
   }
 
-  async getSignedUrl(path: string, bucket: string = 'tenaxis-docs', expiresIn: number = 3600) {
+  async getSignedUrl(
+    path: string,
+    bucket: string = 'tenaxis-docs',
+    expiresIn: number = 3600,
+  ) {
     if (!this.supabase) {
       this.logger.error('Supabase client not initialized');
       return null;
@@ -36,13 +42,19 @@ export class SupabaseService {
         .createSignedUrl(path, expiresIn);
 
       if (error) {
-        this.logger.error(`Error creating signed URL for ${path}: ${error.message}`);
+        this.logger.error(
+          `Error creating signed URL for ${path}: ${error.message}`,
+        );
         return null;
       }
 
       return data.signedUrl;
     } catch (error) {
-      this.logger.error(`Unexpected error creating signed URL: ${error.message}`);
+      const errorMessage =
+        error instanceof Error ? error.message : 'Unknown error';
+      this.logger.error(
+        `Unexpected error creating signed URL: ${errorMessage}`,
+      );
       return null;
     }
   }

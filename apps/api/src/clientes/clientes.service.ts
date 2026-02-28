@@ -7,15 +7,23 @@ import { PrismaService } from '../prisma/prisma.service';
 import { CreateClienteDto } from './dto/create-cliente.dto';
 import { Cliente, ClasificacionCliente } from '../generated/client/client';
 
+type ClienteWithRelations = Cliente & {
+  segmento?: { frecuenciaSugerida?: number | null } | null;
+};
+
 @Injectable()
 export class ClientesService {
   constructor(private prisma: PrismaService) {}
 
-  async findAll(tenantId: string, empresaId?: string, userRole?: string) {
-    let clients: Cliente[] = [];
+  async findAll(
+    tenantId: string,
+    empresaId?: string,
+    userRole?: string,
+  ): Promise<Cliente[]> {
+    let clients: ClienteWithRelations[] = [];
 
     if (userRole === 'SU_ADMIN') {
-      clients = await this.prisma.cliente.findMany({
+      clients = (await this.prisma.cliente.findMany({
         where: {
           deletedAt: null,
         },
@@ -31,9 +39,9 @@ export class ClientesService {
           tenant: true,
           empresa: true,
         },
-      });
+      })) as ClienteWithRelations[];
     } else if (userRole === 'ADMIN') {
-      clients = await this.prisma.cliente.findMany({
+      clients = (await this.prisma.cliente.findMany({
         where: {
           tenantId,
           deletedAt: null,
@@ -49,9 +57,9 @@ export class ClientesService {
           tipoInteres: true,
           empresa: true,
         },
-      });
+      })) as ClienteWithRelations[];
     } else if (empresaId) {
-      clients = await this.prisma.cliente.findMany({
+      clients = (await this.prisma.cliente.findMany({
         where: {
           tenantId,
           empresaId,
@@ -68,43 +76,45 @@ export class ClientesService {
           tipoInteres: true,
           empresa: true,
         },
-      });
+      })) as ClienteWithRelations[];
     }
 
     // Apply "Riesgo Comercial" logic in response (more than 45 days since last visit or 1.5x frequency)
     const now = new Date();
-    const result: Cliente[] = clients.map((client: any): Cliente => {
-      // If already RIESGO from DB (e.g. Technical Risk), keep it
-      if (client.clasificacion === ClasificacionCliente.RIESGO) {
-        return client;
-      }
-
-      const lastVisit = client.ultimaVisita
-        ? new Date(client.ultimaVisita)
-        : null;
-
-      if (lastVisit) {
-        const diffDays =
-          (now.getTime() - lastVisit.getTime()) / (1000 * 3600 * 24);
-
-        // Frecuencia sugerida: prefer client's own frequency, then segment's, then default 30
-        const frequency =
-          client.frecuenciaServicio ||
-          client.segmento?.frecuenciaSugerida ||
-          30;
-
-        const isCommercialRisk =
-          diffDays > (frequency === 30 ? 45 : frequency * 1.5);
-
-        if (isCommercialRisk) {
-          return {
-            ...client,
-            clasificacion: ClasificacionCliente.RIESGO,
-          } as Cliente;
+    const result: Cliente[] = clients.map(
+      (client: ClienteWithRelations): Cliente => {
+        // If already RIESGO from DB (e.g. Technical Risk), keep it
+        if (client.clasificacion === ClasificacionCliente.RIESGO) {
+          return client;
         }
-      }
-      return client;
-    });
+
+        const lastVisit = client.ultimaVisita
+          ? new Date(client.ultimaVisita)
+          : null;
+
+        if (lastVisit) {
+          const diffDays =
+            (now.getTime() - lastVisit.getTime()) / (1000 * 3600 * 24);
+
+          // Frecuencia sugerida: prefer client's own frequency, then segment's, then default 30
+          const frequency =
+            client.frecuenciaServicio ||
+            client.segmento?.frecuenciaSugerida ||
+            30;
+
+          const isCommercialRisk =
+            diffDays > (frequency === 30 ? 45 : frequency * 1.5);
+
+          if (isCommercialRisk) {
+            return {
+              ...client,
+              clasificacion: ClasificacionCliente.RIESGO,
+            } as Cliente;
+          }
+        }
+        return client;
+      },
+    );
     return result;
   }
 
@@ -113,7 +123,7 @@ export class ClientesService {
     userId: string,
     dto: CreateClienteDto,
     reqEmpresaId?: string,
-  ) {
+  ): Promise<Cliente> {
     const {
       direcciones,
       vehiculos,
@@ -136,13 +146,13 @@ export class ClientesService {
     const empresaId =
       reqEmpresaId || membership?.empresaMemberships[0]?.empresaId;
 
-    const toDecimal = (val: any, decimals: number = 2) => {
+    const toDecimal = (val: unknown, decimals: number = 2) => {
       if (val === null || val === undefined || val === '') return null;
       const num = Number(val);
       return isNaN(num) ? null : num.toFixed(decimals);
     };
 
-    const orConditions: any[] = [];
+    const orConditions: Record<string, string>[] = [];
     if (
       clienteData.numeroDocumento &&
       clienteData.numeroDocumento !== 'No Concretado'
@@ -201,7 +211,7 @@ export class ClientesService {
     };
 
     try {
-      return await this.prisma.cliente.create({
+      return (await this.prisma.cliente.create({
         data,
         include: {
           direcciones: true,
@@ -210,7 +220,7 @@ export class ClientesService {
           riesgo: true,
           tipoInteres: true,
         },
-      });
+      })) as Cliente;
     } catch (error) {
       console.error(
         'Error creating cliente. Data:',
@@ -221,7 +231,7 @@ export class ClientesService {
     }
   }
 
-  async findOne(id: string, tenantId: string) {
+  async findOne(id: string, tenantId: string): Promise<Cliente | null> {
     return this.prisma.cliente.findFirst({
       where: { id, tenantId, deletedAt: null },
       include: {
@@ -241,7 +251,7 @@ export class ClientesService {
     tenantId: string,
     userId: string,
     dto: Partial<CreateClienteDto>,
-  ) {
+  ): Promise<Cliente> {
     const {
       direcciones,
       vehiculos,
@@ -262,7 +272,7 @@ export class ClientesService {
     await this.prisma.direccion.deleteMany({ where: { clienteId: id } });
     await this.prisma.vehiculo.deleteMany({ where: { clienteId: id } });
 
-    return this.prisma.cliente.update({
+    return (await this.prisma.cliente.update({
       where: { id },
       data: {
         ...clienteData,
@@ -292,10 +302,10 @@ export class ClientesService {
         riesgo: true,
         tipoInteres: true,
       },
-    });
+    })) as Cliente;
   }
 
-  async remove(id: string, tenantId: string) {
+  async remove(id: string, tenantId: string): Promise<Cliente> {
     return this.prisma.cliente.update({
       where: { id, tenantId },
       data: { deletedAt: new Date() },

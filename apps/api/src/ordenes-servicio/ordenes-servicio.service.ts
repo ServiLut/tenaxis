@@ -4,6 +4,8 @@ import { SupabaseService } from '../supabase/supabase.service';
 import { CreateOrdenServicioDto } from './dto/create-orden-servicio.dto';
 import sharp from 'sharp';
 import {
+  OrdenServicio,
+  Geolocalizacion,
   ClasificacionCliente,
   EstadoOrden,
   NivelInfestacion,
@@ -44,6 +46,16 @@ interface LocalPicoPlaca {
 type CandidateWithMembership = LocalEmpresaMembership & {
   membership: LocalTenantMembership;
 };
+
+type OrdenWithGeolocalizaciones = OrdenServicio & {
+  geolocalizaciones?: Geolocalizacion[];
+};
+
+type SignableField =
+  | 'facturaPath'
+  | 'facturaElectronica'
+  | 'comprobantePago'
+  | 'evidenciaPath';
 
 @Injectable()
 export class OrdenesServicioService {
@@ -508,7 +520,11 @@ export class OrdenesServicioService {
       orderBy: { createdAt: 'desc' },
     });
 
-    return Promise.all(ordenes.map((o) => this.processSignedUrls(o)));
+    return Promise.all(
+      ordenes.map((o) =>
+        this.processSignedUrls(o as OrdenWithGeolocalizaciones),
+      ),
+    );
   }
 
   async findOne(tenantId: string, id: string) {
@@ -547,7 +563,7 @@ export class OrdenesServicioService {
       throw new BadRequestException('La orden especificada no existe');
     }
 
-    return this.processSignedUrls(orden);
+    return this.processSignedUrls(orden as OrdenWithGeolocalizaciones);
   }
 
   async addEvidence(
@@ -585,7 +601,9 @@ export class OrdenesServicioService {
             .toBuffer();
           finalMimeType = 'image/jpeg';
         } catch (error) {
-          this.logger.error(`Error compressing image ${file.originalname}: ${error.message}`);
+          this.logger.error(
+            `Error compressing image ${file.originalname}: ${error.message}`,
+          );
           // Fallback to original buffer if compression fails
           finalBuffer = file.buffer;
         }
@@ -612,8 +630,10 @@ export class OrdenesServicioService {
     return uploadedEvidences;
   }
 
-  private async processSignedUrls(orden: any) {
-    const fieldsToSign = [
+  private async processSignedUrls(
+    orden: OrdenWithGeolocalizaciones,
+  ): Promise<OrdenWithGeolocalizaciones> {
+    const fieldsToSign: SignableField[] = [
       'facturaPath',
       'facturaElectronica',
       'comprobantePago',
@@ -621,8 +641,9 @@ export class OrdenesServicioService {
     ];
 
     for (const field of fieldsToSign) {
-      if (orden[field] && !orden[field].startsWith('http')) {
-        const signedUrl = await this.supabase.getSignedUrl(orden[field]);
+      const value = orden[field];
+      if (value && typeof value === 'string' && !value.startsWith('http')) {
+        const signedUrl = await this.supabase.getSignedUrl(value);
         if (signedUrl) {
           orden[field] = signedUrl;
         }
@@ -645,10 +666,16 @@ export class OrdenesServicioService {
     if (orden.geolocalizaciones) {
       for (const geo of orden.geolocalizaciones) {
         if (geo.fotoLlegada && !geo.fotoLlegada.startsWith('http')) {
-          geo.fotoLlegada = await this.supabase.getSignedUrl(geo.fotoLlegada);
+          const signedUrl = await this.supabase.getSignedUrl(geo.fotoLlegada);
+          if (signedUrl) {
+            geo.fotoLlegada = signedUrl;
+          }
         }
         if (geo.fotoSalida && !geo.fotoSalida.startsWith('http')) {
-          geo.fotoSalida = await this.supabase.getSignedUrl(geo.fotoSalida);
+          const signedUrl = await this.supabase.getSignedUrl(geo.fotoSalida);
+          if (signedUrl) {
+            geo.fotoSalida = signedUrl;
+          }
         }
       }
     }
@@ -690,6 +717,12 @@ export class OrdenesServicioService {
       facturaElectronica: updateDto.facturaElectronica ?? undefined,
       comprobantePago: updateDto.comprobantePago ?? undefined,
       evidenciaPath: updateDto.evidenciaPath ?? undefined,
+      valorPagado: updateDto.valorPagado ?? undefined,
+      observacionFinal: updateDto.observacionFinal ?? undefined,
+      referenciaPago: updateDto.referenciaPago ?? undefined,
+      fechaPago: updateDto.fechaPago
+        ? new Date(updateDto.fechaPago)
+        : undefined,
     };
 
     if (updateDto.fechaVisita) {
