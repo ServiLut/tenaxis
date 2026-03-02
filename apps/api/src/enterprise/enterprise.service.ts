@@ -210,6 +210,7 @@ export class EnterpriseService {
                 nombre: true,
                 apellido: true,
                 email: true,
+                telefono: true,
               },
             },
           },
@@ -221,6 +222,7 @@ export class EnterpriseService {
       id: om.membership.id, // El ID de la membresía es el que se usa como tecnicoId
       nombre: `${om.membership.user.nombre} ${om.membership.user.apellido}`,
       email: om.membership.user.email,
+      telefono: om.membership.user.telefono,
     }));
   }
 

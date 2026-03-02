@@ -78,6 +78,7 @@ import {
   updateOrdenServicioAction,
   addOrdenServicioEvidenciasAction,
   getMetodosPagoAction,
+  notifyLiquidationWebhookAction,
   type ClienteDTO,
 } from "../actions";
 import { Suspense } from "react";
@@ -571,6 +572,15 @@ function ServiciosContent() {
 
       if (result.success) {
         toast.success("Servicio liquidado exitosamente", { id: toastId });
+        
+        // Notificar via Webhook (n8n)
+        notifyLiquidationWebhookAction({
+          telefono: selectedServicio.clienteFull.telefono,
+          cliente: selectedServicio.cliente,
+          fecha: selectedServicio.fecha,
+          servicio: selectedServicio.servicioEspecifico,
+        }).catch(err => console.error("Error notifying webhook:", err));
+
         setIsLiquidarModalOpen(false);
         setLiquidarData({ 
           breakdown: [{ metodo: "PENDIENTE", monto: "" }],

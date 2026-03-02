@@ -135,19 +135,20 @@ export default function RegisterPage() {
   }
 
   return (
+
     <div className="flex min-h-screen overflow-hidden bg-[#F5F1EB] dark:bg-zinc-950">
       {/* Left side: Content/Marketing - Secondary Color (30%) */}
       <div className="relative hidden min-h-screen w-1/2 flex-col bg-azul-1 dark:bg-gradient-to-br dark:from-azul-1 dark:via-[#1e3a8a] dark:to-[#0f172a] p-12 text-white lg:flex overflow-hidden">
         {/* Background Decorative Element */}
-        <div className="absolute top-0 right-0 -mr-20 -mt-20 h-96 w-96 rounded-full bg-white/5 blur-3xl" />
-        <div className="absolute bottom-0 left-0 -ml-20 -mb-20 h-96 w-96 rounded-full bg-claro-azul-4/10 blur-3xl" />
+        <div className="absolute top-0 right-0 -mr-20 -mt-20 h-96 w-96 rounded-full bg-white/10 blur-3xl" />
+        <div className="absolute bottom-0 left-0 -ml-20 -mb-20 h-96 w-96 rounded-full bg-claro-azul-4/20 blur-3xl" />
 
         <div className="relative z-10">
           <Link href="/" className="flex items-center gap-4 group">
             <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-white text-azul-1 shadow-2xl transition-transform group-hover:scale-110 duration-500">
               <Sparkles className="h-6 w-6" />
             </div>
-            <span className="text-3xl font-black tracking-tighter">
+            <span className="text-3xl font-black tracking-tighter text-white dark:text-zinc-50">
               Tenaxis
             </span>
           </Link>
@@ -155,38 +156,38 @@ export default function RegisterPage() {
 
         <div className="relative z-10 my-auto space-y-12">
           <div className="space-y-6">
-            <h2 className="text-6xl font-black leading-[1.1] tracking-tighter italic">
+            <h2 className="text-6xl font-black leading-[1.1] tracking-tighter italic text-white dark:text-zinc-50">
               El poder de la <br />
               <span className="text-claro-azul-4 not-italic bg-clip-text text-transparent bg-gradient-to-r from-claro-azul-4 to-white">simplicidad.</span>
             </h2>
-            <p className="max-w-md text-xl leading-relaxed text-white/70 font-medium border-l-4 border-claro-azul-4/30 pl-6">
+            <p className="max-w-md text-xl leading-relaxed text-white dark:text-zinc-50 font-medium border-l-4 border-claro-azul-4 pl-6">
               La plataforma multitenant más intuitiva y potente del mercado.
             </p>
           </div>
 
           <div className="grid gap-8">
             <div className="flex items-center gap-5 group">
-              <div className="flex h-16 w-16 shrink-0 items-center justify-center rounded-2xl bg-white/10 border border-white/20 shadow-xl transition-all group-hover:scale-110 group-hover:bg-white/20 backdrop-blur-sm">
-                <ShieldCheck className="h-8 w-8 text-white" />
+              <div className="flex h-16 w-16 shrink-0 items-center justify-center rounded-2xl bg-white/20 border border-white/40 shadow-xl transition-all group-hover:scale-110 group-hover:bg-white/30 backdrop-blur-sm">
+                <ShieldCheck className="h-8 w-8 text-white dark:text-zinc-50" />
               </div>
               <div>
-                <h3 className="font-black text-white uppercase tracking-[0.2em] text-[11px] mb-1">
+                <h3 className="font-black text-white dark:text-zinc-50 uppercase tracking-[0.2em] text-[11px] mb-1">
                   Aislamiento Total
                 </h3>
-                <p className="text-white/60 text-lg">
+                <p className="text-white dark:text-zinc-50 text-lg font-medium">
                   Seguridad grado bancario para cada tenant.
                 </p>
               </div>
             </div>
             <div className="flex items-center gap-5 group">
-              <div className="flex h-16 w-16 shrink-0 items-center justify-center rounded-2xl bg-white/10 border border-white/20 shadow-xl transition-all group-hover:scale-110 group-hover:bg-white/20 backdrop-blur-sm">
-                <Zap className="h-8 w-8 text-white" />
+              <div className="flex h-16 w-16 shrink-0 items-center justify-center rounded-2xl bg-white/20 border border-white/40 shadow-xl transition-all group-hover:scale-110 group-hover:bg-white/30 backdrop-blur-sm">
+                <Zap className="h-8 w-8 text-white dark:text-zinc-50" />
               </div>
               <div>
-                <h3 className="font-black text-white uppercase tracking-[0.2em] text-[11px] mb-1">
+                <h3 className="font-black text-white dark:text-zinc-50 uppercase tracking-[0.2em] text-[11px] mb-1">
                   Rendimiento Extremo
                 </h3>
-                <p className="text-white/60 text-lg">
+                <p className="text-white dark:text-zinc-50 text-lg font-medium">
                   Arquitectura optimizada para la velocidad.
                 </p>
               </div>
@@ -194,18 +195,18 @@ export default function RegisterPage() {
           </div>
         </div>
 
-        <div className="relative z-10 flex items-center justify-between text-[10px] font-black uppercase tracking-[0.3em] text-white/40">
+        <div className="relative z-10 flex items-center justify-between text-[10px] font-black uppercase tracking-[0.3em] text-white dark:text-zinc-50">
           <span>TENAXIS © 2026</span>
           <div className="flex gap-10">
             <Link
               href="/privacidad"
-              className="hover:text-white transition-colors"
+              className="text-white dark:text-zinc-50 hover:text-claro-azul-4 transition-colors"
             >
               Privacidad
             </Link>
             <Link
               href="/terminos"
-              className="hover:text-white transition-colors"
+              className="text-white dark:text-zinc-50 hover:text-claro-azul-4 transition-colors"
             >
               Términos
             </Link>
@@ -280,7 +281,7 @@ export default function RegisterPage() {
                       value={formData.nombre}
                       onChange={handleChange}
                       required
-                      className="rounded-2xl border-2 border-zinc-200 dark:border-zinc-800 focus:border-azul-1 dark:focus:border-azul-1/50 bg-white dark:bg-zinc-900/50 dark:text-white h-14 transition-all px-6 backdrop-blur-sm"
+                      className="rounded-2xl border-2 border-zinc-200 dark:border-zinc-800 focus:border-azul-1 dark:focus:border-azul-1/50 bg-white dark:bg-zinc-900/50 text-zinc-900 dark:text-zinc-50 h-14 transition-all px-6 backdrop-blur-sm"
                     />
                   </div>
                   <div className="space-y-3">
@@ -297,7 +298,7 @@ export default function RegisterPage() {
                       value={formData.apellido}
                       onChange={handleChange}
                       required
-                      className="rounded-2xl border-2 border-zinc-200 dark:border-zinc-800 focus:border-azul-1 dark:focus:border-azul-1/50 bg-white dark:bg-zinc-900/50 dark:text-white h-14 transition-all px-6 backdrop-blur-sm"
+                      className="rounded-2xl border-2 border-zinc-200 dark:border-zinc-800 focus:border-azul-1 dark:focus:border-azul-1/50 bg-white dark:bg-zinc-900/50 text-zinc-900 dark:text-zinc-50 h-14 transition-all px-6 backdrop-blur-sm"
                     />
                   </div>
                 </div>
@@ -316,7 +317,7 @@ export default function RegisterPage() {
                       value={formData.tipoDocumento}
                       onChange={handleChange}
                       showIcon={false}
-                      className="rounded-2xl border-2 border-zinc-200 dark:border-zinc-800 focus:border-azul-1 dark:focus:border-azul-1/50 bg-white dark:bg-zinc-900/50 dark:text-white h-14 px-6 transition-all backdrop-blur-sm"
+                      className="rounded-2xl border-2 border-zinc-200 dark:border-zinc-800 focus:border-azul-1 dark:focus:border-azul-1/50 bg-white dark:bg-zinc-900/50 text-zinc-900 dark:text-zinc-50 h-14 px-6 transition-all backdrop-blur-sm"
                     >
                       <option value="">Seleccione...</option>
                       <option value="CC">C.C. (Cédula)</option>
@@ -340,7 +341,7 @@ export default function RegisterPage() {
                         placeholder="123456789"
                         value={formData.numeroDocumento}
                         onChange={handleChange}
-                        className="pl-16 rounded-2xl border-2 border-zinc-200 dark:border-zinc-800 focus:border-azul-1 dark:focus:border-azul-1/50 bg-white dark:bg-zinc-900/50 dark:text-white h-14 transition-all backdrop-blur-sm"
+                        className="pl-16 rounded-2xl border-2 border-zinc-200 dark:border-zinc-800 focus:border-azul-1 dark:focus:border-azul-1/50 bg-white dark:bg-zinc-900/50 text-zinc-900 dark:text-zinc-50 h-14 transition-all backdrop-blur-sm"
                       />
                     </div>
                   </div>
@@ -378,7 +379,7 @@ export default function RegisterPage() {
                         value={formData.email}
                         onChange={handleChange}
                         required
-                        className="pl-16 rounded-2xl border-2 border-zinc-200 dark:border-zinc-800 focus:border-azul-1 dark:focus:border-azul-1/50 bg-white dark:bg-zinc-900/50 dark:text-white h-14 transition-all backdrop-blur-sm"
+                        className="pl-16 rounded-2xl border-2 border-zinc-200 dark:border-zinc-800 focus:border-azul-1 dark:focus:border-azul-1/50 bg-white dark:bg-zinc-900/50 text-zinc-900 dark:text-zinc-50 h-14 transition-all backdrop-blur-sm"
                       />
                     </div>
                   </div>
@@ -400,7 +401,7 @@ export default function RegisterPage() {
                           placeholder="+57 300..."
                           value={formData.telefono}
                           onChange={handleChange}
-                          className="pl-16 rounded-2xl border-2 border-zinc-200 dark:border-zinc-800 focus:border-azul-1 dark:focus:border-azul-1/50 bg-white dark:bg-zinc-900/50 dark:text-white h-14 transition-all backdrop-blur-sm"
+                          className="pl-16 rounded-2xl border-2 border-zinc-200 dark:border-zinc-800 focus:border-azul-1 dark:focus:border-azul-1/50 bg-white dark:bg-zinc-900/50 text-zinc-900 dark:text-zinc-50 h-14 transition-all backdrop-blur-sm"
                         />
                       </div>
                     </div>
@@ -421,7 +422,7 @@ export default function RegisterPage() {
                           value={formData.password}
                           onChange={handleChange}
                           required
-                          className="pl-16 rounded-2xl border-2 border-zinc-200 dark:border-zinc-800 focus:border-azul-1 dark:focus:border-azul-1/50 bg-white dark:bg-zinc-900/50 dark:text-white h-14 transition-all backdrop-blur-sm"
+                          className="pl-16 rounded-2xl border-2 border-zinc-200 dark:border-zinc-800 focus:border-azul-1 dark:focus:border-azul-1/50 bg-white dark:bg-zinc-900/50 text-zinc-900 dark:text-zinc-50 h-14 transition-all backdrop-blur-sm"
                         />
                       </div>
                     </div>

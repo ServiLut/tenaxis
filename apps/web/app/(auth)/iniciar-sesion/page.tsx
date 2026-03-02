@@ -76,38 +76,38 @@ export default function LoginPage() {
         
         <div className="relative z-10">
           <Link href="/" className="flex items-center gap-3 group">
-            <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-white text-azul-1 shadow-2xl transition-transform group-hover:scale-110 duration-500">
+            <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-white dark:bg-zinc-900 text-azul-1 dark:text-claro-azul-4 shadow-2xl transition-transform group-hover:scale-110 duration-500 border border-transparent dark:border-zinc-800">
               <Sparkles className="h-8 w-8" />
             </div>
-            <span className="text-4xl font-black tracking-tighter">
+            <span className="text-4xl font-black tracking-tighter text-white dark:text-zinc-50">
               Tenaxis
             </span>
           </Link>
         </div>
 
         <div className="relative z-10 space-y-8">
-          <h2 className="text-7xl font-black leading-[1.1] tracking-tighter italic">
+          <h2 className="text-7xl font-black leading-[1.1] tracking-tighter italic text-white dark:text-zinc-50">
             El futuro <br />
-            <span className="text-claro-azul-4 not-italic bg-clip-text text-transparent bg-gradient-to-r from-claro-azul-4 to-white">es ahora.</span>
+            <span className="text-claro-azul-4 not-italic bg-clip-text text-transparent bg-gradient-to-r from-claro-azul-4 to-white dark:from-claro-azul-4 dark:to-zinc-200">es ahora.</span>
           </h2>
-          <p className="max-w-md text-2xl leading-relaxed text-white/80 font-medium border-l-4 border-claro-azul-4/30 pl-6">
+          <p className="max-w-md text-2xl leading-relaxed text-white/90 dark:text-zinc-200 font-medium border-l-4 border-claro-azul-4/30 pl-6">
             Gestiona servicios, equipos y clientes con la plataforma más
             avanzada del mercado.
           </p>
         </div>
 
-        <div className="relative z-10 flex items-center gap-8 text-[10px] font-black uppercase tracking-[0.3em] text-white/40">
+        <div className="relative z-10 flex items-center gap-8 text-[10px] font-black uppercase tracking-[0.3em] text-white/70 dark:text-zinc-400">
           <span>© 2026 TENAXIS CORP.</span>
           <div className="flex gap-6">
             <Link
               href="/privacidad"
-              className="hover:text-white transition-colors"
+              className="hover:text-white dark:hover:text-zinc-100 transition-colors"
             >
               Privacidad
             </Link>
             <Link
               href="/terminos"
-              className="hover:text-white transition-colors"
+              className="hover:text-white dark:hover:text-zinc-100 transition-colors"
             >
               Términos
             </Link>
@@ -155,7 +155,7 @@ export default function LoginPage() {
                     name="email"
                     type="email"
                     placeholder="tu@correo.com"
-                    className="pl-14 h-16 rounded-2xl border-2 border-zinc-200 dark:border-zinc-800 focus:border-azul-1 dark:focus:border-azul-1/50 focus:ring-4 focus:ring-azul-1/5 bg-white dark:bg-zinc-900/50 dark:text-white transition-all backdrop-blur-sm"
+                    className="pl-14 h-16 rounded-2xl border-2 border-zinc-200 dark:border-zinc-800 focus:border-azul-1 dark:focus:border-azul-1/50 focus:ring-4 focus:ring-azul-1/5 bg-white dark:bg-zinc-900/50 text-zinc-900 dark:text-white transition-all backdrop-blur-sm"
                     value={formData.email}
                     onChange={handleChange}
                     required
@@ -187,7 +187,7 @@ export default function LoginPage() {
                     name="password"
                     type="password"
                     placeholder="••••••••"
-                    className="pl-14 h-16 rounded-2xl border-2 border-zinc-200 dark:border-zinc-800 focus:border-azul-1 dark:focus:border-azul-1/50 focus:ring-4 focus:ring-azul-1/5 bg-white dark:bg-zinc-900/50 dark:text-white transition-all backdrop-blur-sm"
+                    className="pl-14 h-16 rounded-2xl border-2 border-zinc-200 dark:border-zinc-800 focus:border-azul-1 dark:focus:border-azul-1/50 focus:ring-4 focus:ring-azul-1/5 bg-white dark:bg-zinc-900/50 text-zinc-900 dark:text-white transition-all backdrop-blur-sm"
                     value={formData.password}
                     onChange={handleChange}
                     required

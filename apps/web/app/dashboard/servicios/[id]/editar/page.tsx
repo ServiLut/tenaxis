@@ -9,6 +9,7 @@ import {
   getOperatorsAction,
   updateOrdenServicioAction,
   getOrdenServicioByIdAction,
+  notifyServiceOperatorWebhookAction,
 } from "../../../actions";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -95,6 +96,8 @@ interface Direccion {
   direccion: string;
   nombreSede?: string | null;
   barrio?: string | null;
+  municipio?: string | null;
+  linkMaps?: string | null;
 }
 
 interface Cliente {
@@ -114,6 +117,7 @@ interface MetodoPago {
 interface Operador {
   id: string;
   nombre: string;
+  telefono?: string;
 }
 
 function EditarServicioContent({ id }: { id: string }) {
@@ -129,6 +133,8 @@ function EditarServicioContent({ id }: { id: string }) {
   const [selectedDireccion, setSelectedDireccion] = useState("");
   const [selectedEmpresa, setSelectedEmpresa] = useState("");
   const [selectedOperador, setSelectedOperador] = useState("");
+  const [initialOperadorId, setInitialOperadorId] = useState("");
+  const [numeroOrden, setNumeroOrden] = useState("");
   const [direccionesCliente, setDireccionesCliente] = useState<Direccion[]>([]);
 
   // Custom logic states
@@ -190,6 +196,8 @@ function EditarServicioContent({ id }: { id: string }) {
         setSelectedCliente(orderData.clienteId);
         setSelectedEmpresa(orderData.empresaId);
         setSelectedOperador(orderData.tecnicoId || "");
+        setInitialOperadorId(orderData.tecnicoId || "");
+        setNumeroOrden(orderData.numeroOrden || id.slice(0, 8).toUpperCase());
         setServicioEspecifico(orderData.servicio?.nombre || "");
         setTipoVisita(orderData.tipoVisita || "");
         setNivelInfestacion(orderData.nivelInfestacion || "");
@@ -310,6 +318,70 @@ function EditarServicioContent({ id }: { id: string }) {
     try {
       const res = await updateOrdenServicioAction(id, payload);
       if (!res.success) throw new Error(res.error);
+
+      // Webhook Notification if operator changed
+      console.log("Checking for operator change and service status...", { 
+        selectedOperador, 
+        initialOperadorId, 
+        estadoServicio 
+      });
+
+      const isFinishedOrLiquidated = estadoServicio === "TECNICO_FINALIZO" || estadoServicio === "LIQUIDADO";
+
+      if (selectedOperador && selectedOperador !== initialOperadorId && !isFinishedOrLiquidated) {
+        const operator = operadores.find(o => o.id === selectedOperador);
+        const client = clientes.find(c => c.id === selectedCliente);
+        const direccion = direccionesCliente.find(d => d.id === selectedDireccion);
+        
+        console.log("Operator found:", operator);
+        
+        if (operator?.telefono) {
+          toast.info(`Notificando al operador ${operator.nombre}...`);
+          
+          // Formatear fecha legible
+          const dateObj = new Date(`${fechaVisita}T${horaInicio}:00`);
+          const formattedDate = dateObj.toLocaleDateString('es-CO', { day: 'numeric', month: 'numeric', year: 'numeric' });
+          const formattedTime = dateObj.toLocaleTimeString('es-CO', { hour: 'numeric', minute: '2-digit', hour12: true });
+
+          // Formatear métodos de pago
+          const metodosFormatted = breakdown
+            .map(b => `${b.metodo} ($ ${b.monto})`)
+            .join(", ");
+
+          notifyServiceOperatorWebhookAction({
+            telefonoOperador: operator.telefono,
+            numeroOrden: `#${numeroOrden}`,
+            cliente: client ? (client.tipoCliente === "EMPRESA" ? (client.razonSocial || "") : `${client.nombre} ${client.apellido}`) : "Cliente desconocido",
+            servicio: servicioEspecifico.toUpperCase(),
+            programacion: `${formattedDate} a las ${formattedTime}`,
+            tecnico: operator.nombre,
+            estado: estadoServicio,
+            urgencia: urgencia,
+            direccion: direccion ? direccion.direccion : "N/A",
+            linkMaps: (direccion && direccion.linkMaps) ? direccion.linkMaps : "N/A",
+            municipio: (direccion && direccion.municipio) ? direccion.municipio : "N/A",
+            barrio: (direccion && direccion.barrio) ? direccion.barrio : "N/A",
+            detalles: "Sin detalles adicionales",
+            valorCotizado: `$ ${valorCotizado}`,
+            metodosPago: metodosFormatted,
+            observaciones: observacion || "Sin observaciones",
+            idServicio: id
+          }).then(webhookRes => {
+            if (webhookRes.success) {
+              toast.success("Operador notificado correctamente");
+            } else {
+              toast.error("Error al notificar al operador");
+            }
+          }).catch(err => {
+            console.error("Error triggering operator notification webhook", err);
+            toast.error("Error crítico al notificar operador");
+          });
+        } else {
+          console.warn("Operator has no phone number, skipping notification");
+          toast.warning("El operador no tiene teléfono registrado. No se pudo enviar la notificación.");
+        }
+      }
+
       toast.success("Orden de servicio actualizada correctamente");
       router.push("/dashboard/servicios");
     } catch (err: unknown) {

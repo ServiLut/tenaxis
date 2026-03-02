@@ -11,7 +11,8 @@ import {
   getServiciosAction,
   createOrdenServicioAction,
   getClienteConfigsAction,
-  ConfiguracionOperativa
+  ConfiguracionOperativa,
+  notifyServiceOperatorWebhookAction,
 } from "../../actions";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -98,6 +99,8 @@ interface Direccion {
   direccion: string;
   nombreSede?: string | null;
   barrio?: string | null;
+  municipio?: string | null;
+  linkMaps?: string | null;
 }
 
 interface Cliente {
@@ -117,6 +120,7 @@ interface MetodoPago {
 interface Operador {
   id: string;
   nombre: string;
+  telefono?: string;
 }
 
 interface Empresa {
@@ -385,8 +389,64 @@ function NuevoServicioContent() {
     };
 
     toast.promise(
-      createOrdenServicioAction(payload).then((res) => {
+      createOrdenServicioAction(payload).then(async (res) => {
         if (!res.success) throw new Error(res.error);
+
+        // Webhook Notification after creation
+        const orderData = res.data;
+        const targetTecnicoId = orderData.tecnicoId;
+
+        if (targetTecnicoId) {
+          const operator = operadores.find(o => o.id === targetTecnicoId);
+          const client = clientes.find(c => c.id === selectedCliente);
+          const direccion = direccionesCliente.find(d => d.id === selectedDireccion);
+
+          console.log("[Webhook] Service created, checking for operator notification...", { targetTecnicoId, operator });
+
+          if (operator?.telefono) {
+            // Formatear fecha legible
+            const dateObj = new Date(`${fechaVisita}T${horaInicio}:00`);
+            const formattedDate = dateObj.toLocaleDateString('es-CO', { day: 'numeric', month: 'numeric', year: 'numeric' });
+            const formattedTime = dateObj.toLocaleTimeString('es-CO', { hour: 'numeric', minute: '2-digit', hour12: true });
+
+            // Formatear métodos de pago
+            const metodosFormatted = breakdown
+              .map(b => `${b.metodo} ($ ${b.monto})`)
+              .join(", ");
+
+            notifyServiceOperatorWebhookAction({
+              telefonoOperador: operator.telefono,
+              numeroOrden: `#${orderData.numeroOrden || orderData.id.slice(0, 8).toUpperCase()}`,
+              cliente: client ? (client.tipoCliente === "EMPRESA" ? (client.razonSocial || "") : `${client.nombre} ${client.apellido}`) : "Cliente desconocido",
+              servicio: servicioEspecifico.toUpperCase(),
+              programacion: `${formattedDate} a las ${formattedTime}`,
+              tecnico: operator.nombre,
+              estado: estadoServicio,
+              urgencia: urgencia,
+              direccion: direccion ? direccion.direccion : "N/A",
+              linkMaps: (direccion && direccion.linkMaps) ? direccion.linkMaps : "N/A",
+              municipio: (direccion && direccion.municipio) ? direccion.municipio : "N/A",
+              barrio: (direccion && direccion.barrio) ? direccion.barrio : "N/A",
+              detalles: "Sin detalles adicionales",
+              valorCotizado: `$ ${valorCotizado}`,
+              metodosPago: metodosFormatted,
+              observaciones: observacion || "Sin observaciones",
+              idServicio: orderData.id
+            }).then(webhookRes => {
+              if (webhookRes.success) {
+                toast.success("Operador notificado correctamente");
+              } else {
+                toast.error("Error al notificar al operador");
+              }
+            }).catch(err => {
+              console.error("Error triggering operator notification webhook", err);
+            });
+          } else {
+            console.warn("[Webhook] Operator has no phone number, skipping notification");
+            toast.warning("El operador asignado no tiene teléfono registrado. No se envió notificación.");
+          }
+        }
+
         return res;
       }),
       {

@@ -2,6 +2,7 @@
 
 import { cookies } from "next/headers";
 import { revalidatePath } from "next/cache";
+import https from "https";
 
 async function getHeaders() {
   const cookieStore = await cookies();
@@ -28,6 +29,8 @@ async function getHeaders() {
   return headers;
 }
 
+const getApiUrl = () => process.env.NESTJS_API_URL || "http://localhost:4000";
+
 export async function isTenantAdminAction() {
   const cookieStore = await cookies();
   const token = cookieStore.get("access_token")?.value;
@@ -37,7 +40,7 @@ export async function isTenantAdminAction() {
   }
 
   try {
-    const apiUrl = process.env.NESTJS_API_URL || "http://localhost:4000";
+    const apiUrl = getApiUrl();
     const headers = await getHeaders();
     const response = await fetch(`${apiUrl}/auth/profile`, {
       headers,
@@ -59,15 +62,13 @@ export async function isTenantAdminAction() {
 export async function getTenantsAction() {
   const cookieStore = await cookies();
   const token = cookieStore.get("access_token")?.value;
-
   if (!token) return [];
 
   try {
-    const apiUrl = process.env.NESTJS_API_URL || "http://127.0.0.1:4000";
+    const apiUrl = getApiUrl();
+    const headers = await getHeaders();
     const response = await fetch(`${apiUrl}/tenants`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
+      headers,
     });
 
     if (!response.ok) return [];
@@ -83,15 +84,13 @@ export async function getTenantsAction() {
 export async function getTenantDetailAction(tenantId: string) {
   const cookieStore = await cookies();
   const token = cookieStore.get("access_token")?.value;
-
   if (!token) throw new Error("No session found");
 
   try {
-    const apiUrl = process.env.NESTJS_API_URL || "http://127.0.0.1:4000";
+    const apiUrl = getApiUrl();
+    const headers = await getHeaders();
     const response = await fetch(`${apiUrl}/tenants/${tenantId}`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
+      headers,
     });
 
     if (!response.ok) {
@@ -113,7 +112,7 @@ export async function getPlansAction() {
   if (!token) return [];
 
   try {
-    const apiUrl = process.env.NESTJS_API_URL || "http://127.0.0.1:4000";
+    const apiUrl = getApiUrl();
     const response = await fetch(`${apiUrl}/plans`, {
       headers: {
         Authorization: `Bearer ${token}`,
@@ -132,7 +131,7 @@ export async function getPlansAction() {
 
 export async function getClientesAction() {
   try {
-    const apiUrl = process.env.NESTJS_API_URL || "http://127.0.0.1:4000";
+    const apiUrl = getApiUrl();
     const headers = await getHeaders();
     console.log("FETCHING CLIENTES FROM /list WITH HEADERS", headers);
     const response = await fetch(`${apiUrl}/clientes/list`, {
@@ -159,7 +158,7 @@ export async function getSegmentosAction() {
   if (!token) return [];
 
   try {
-    const apiUrl = process.env.NESTJS_API_URL || "http://127.0.0.1:4000";
+    const apiUrl = getApiUrl();
     const response = await fetch(`${apiUrl}/config-clientes/segmentos`, {
       headers: { Authorization: `Bearer ${token}` },
     });
@@ -178,7 +177,7 @@ export async function getRiesgosAction() {
   if (!token) return [];
 
   try {
-    const apiUrl = process.env.NESTJS_API_URL || "http://127.0.0.1:4000";
+    const apiUrl = getApiUrl();
     const response = await fetch(`${apiUrl}/config-clientes/riesgos`, {
       headers: { Authorization: `Bearer ${token}` },
     });
@@ -197,7 +196,7 @@ export async function getTiposInteresAction() {
   if (!token) return [];
 
   try {
-    const apiUrl = process.env.NESTJS_API_URL || "http://127.0.0.1:4000";
+    const apiUrl = getApiUrl();
     const response = await fetch(`${apiUrl}/config-clientes/intereses`, {
       headers: { Authorization: `Bearer ${token}` },
     });
@@ -217,7 +216,7 @@ export async function getTiposServicioAction() {
   if (!token || !empresaId) return [];
 
   try {
-    const apiUrl = process.env.NESTJS_API_URL || "http://127.0.0.1:4000";
+    const apiUrl = getApiUrl();
     const response = await fetch(`${apiUrl}/config-clientes/tipos-servicio?empresaId=${empresaId}`, {
       headers: { Authorization: `Bearer ${token}` },
     });
@@ -238,7 +237,7 @@ export async function getMetodosPagoAction(empresaId?: string) {
   if (!token || !targetEmpresaId) return [];
 
   try {
-    const apiUrl = process.env.NESTJS_API_URL || "http://127.0.0.1:4000";
+    const apiUrl = getApiUrl();
     const response = await fetch(`${apiUrl}/config-clientes/metodos-pago?empresaId=${targetEmpresaId}`, {
       headers: { Authorization: `Bearer ${token}` },
     });
@@ -257,7 +256,7 @@ export async function getOperatorsAction(empresaId: string) {
   if (!token || !empresaId) return [];
 
   try {
-    const apiUrl = process.env.NESTJS_API_URL || "http://127.0.0.1:4000";
+    const apiUrl = getApiUrl();
     const response = await fetch(`${apiUrl}/enterprise/${empresaId}/operators`, {
       headers: { Authorization: `Bearer ${token}` },
     });
@@ -276,9 +275,10 @@ export async function getMunicipalitiesAction() {
   if (!token) return [];
 
   try {
-    const apiUrl = process.env.NESTJS_API_URL || "http://127.0.0.1:4000";
+    const apiUrl = getApiUrl();
+    const headers = await getHeaders();
     const response = await fetch(`${apiUrl}/geo/municipalities`, {
-      headers: { Authorization: `Bearer ${token}` },
+      headers,
     });
     if (!response.ok) return [];
     const result = await response.json();
@@ -295,9 +295,10 @@ export async function getDepartmentsAction() {
   if (!token) return [];
 
   try {
-    const apiUrl = process.env.NESTJS_API_URL || "http://127.0.0.1:4000";
+    const apiUrl = getApiUrl();
+    const headers = await getHeaders();
     const response = await fetch(`${apiUrl}/geo/departments`, {
-      headers: { Authorization: `Bearer ${token}` },
+      headers,
     });
     if (!response.ok) return [];
     const result = await response.json();
@@ -316,7 +317,7 @@ export async function getZonasAction(empresaId?: string) {
   if (!token || !targetEmpresaId) return [];
 
   try {
-    const apiUrl = process.env.NESTJS_API_URL || "http://127.0.0.1:4000";
+    const apiUrl = getApiUrl();
     const response = await fetch(`${apiUrl}/config-clientes/zonas?empresaId=${targetEmpresaId}`, {
       headers: { Authorization: `Bearer ${token}` },
     });
@@ -337,7 +338,7 @@ export async function getServiciosAction(empresaId?: string) {
   if (!token) return [];
 
   try {
-    const apiUrl = process.env.NESTJS_API_URL || "http://127.0.0.1:4000";
+    const apiUrl = getApiUrl();
     const url = targetEmpresaId 
       ? `${apiUrl}/config-clientes/servicios?empresaId=${targetEmpresaId}`
       : `${apiUrl}/config-clientes/servicios`;
@@ -434,7 +435,7 @@ export async function createSegmentoAction(data: SegmentoNegocioDTO) {
   const token = cookieStore.get("access_token")?.value;
   if (!token) throw new Error("No session found");
 
-  const apiUrl = process.env.NESTJS_API_URL || "http://127.0.0.1:4000";
+  const apiUrl = getApiUrl();
   const response = await fetch(`${apiUrl}/config-clientes/segmentos`, {
     method: "POST",
     headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
@@ -448,7 +449,7 @@ export async function updateSegmentoAction(id: string, data: Partial<SegmentoNeg
   const token = cookieStore.get("access_token")?.value;
   if (!token) throw new Error("No session found");
 
-  const apiUrl = process.env.NESTJS_API_URL || "http://127.0.0.1:4000";
+  const apiUrl = getApiUrl();
   const response = await fetch(`${apiUrl}/config-clientes/segmentos/${id}`, {
     method: "PATCH",
     headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
@@ -462,7 +463,7 @@ export async function createRiesgoAction(data: NivelRiesgoOperativoDTO) {
   const token = cookieStore.get("access_token")?.value;
   if (!token) throw new Error("No session found");
 
-  const apiUrl = process.env.NESTJS_API_URL || "http://127.0.0.1:4000";
+  const apiUrl = getApiUrl();
   const response = await fetch(`${apiUrl}/config-clientes/riesgos`, {
     method: "POST",
     headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
@@ -476,7 +477,7 @@ export async function updateRiesgoAction(id: string, data: Partial<NivelRiesgoOp
   const token = cookieStore.get("access_token")?.value;
   if (!token) throw new Error("No session found");
 
-  const apiUrl = process.env.NESTJS_API_URL || "http://127.0.0.1:4000";
+  const apiUrl = getApiUrl();
   const response = await fetch(`${apiUrl}/config-clientes/riesgos/${id}`, {
     method: "PATCH",
     headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
@@ -490,7 +491,7 @@ export async function createTipoInteresAction(data: TipoInteresDTO) {
   const token = cookieStore.get("access_token")?.value;
   if (!token) throw new Error("No session found");
 
-  const apiUrl = process.env.NESTJS_API_URL || "http://127.0.0.1:4000";
+  const apiUrl = getApiUrl();
   const response = await fetch(`${apiUrl}/config-clientes/intereses`, {
     method: "POST",
     headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
@@ -504,7 +505,7 @@ export async function updateTipoInteresAction(id: string, data: Partial<TipoInte
   const token = cookieStore.get("access_token")?.value;
   if (!token) throw new Error("No session found");
 
-  const apiUrl = process.env.NESTJS_API_URL || "http://127.0.0.1:4000";
+  const apiUrl = getApiUrl();
   const response = await fetch(`${apiUrl}/config-clientes/intereses/${id}`, {
     method: "PATCH",
     headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
@@ -518,7 +519,7 @@ export async function createServicioAction(data: ServicioDTO) {
   const token = cookieStore.get("access_token")?.value;
   if (!token) throw new Error("No session found");
 
-  const apiUrl = process.env.NESTJS_API_URL || "http://127.0.0.1:4000";
+  const apiUrl = getApiUrl();
   const response = await fetch(`${apiUrl}/config-clientes/servicios`, {
     method: "POST",
     headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
@@ -532,7 +533,7 @@ export async function updateServicioAction(id: string, data: Partial<ServicioDTO
   const token = cookieStore.get("access_token")?.value;
   if (!token) throw new Error("No session found");
 
-  const apiUrl = process.env.NESTJS_API_URL || "http://127.0.0.1:4000";
+  const apiUrl = getApiUrl();
   const response = await fetch(`${apiUrl}/config-clientes/servicios/${id}`, {
     method: "PATCH",
     headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
@@ -546,7 +547,7 @@ export async function deleteServicioAction(id: string) {
   const token = cookieStore.get("access_token")?.value;
   if (!token) throw new Error("No session found");
 
-  const apiUrl = process.env.NESTJS_API_URL || "http://127.0.0.1:4000";
+  const apiUrl = getApiUrl();
   const response = await fetch(`${apiUrl}/config-clientes/servicios/${id}`, {
     method: "DELETE",
     headers: { Authorization: `Bearer ${token}` },
@@ -561,7 +562,7 @@ export async function getClienteConfigsAction(clienteId: string) {
   if (!token) return [];
 
   try {
-    const apiUrl = process.env.NESTJS_API_URL || "http://127.0.0.1:4000";
+    const apiUrl = getApiUrl();
     const response = await fetch(`${apiUrl}/config-clientes/operativa/${clienteId}`, {
       headers: { Authorization: `Bearer ${token}` },
     });
@@ -616,7 +617,7 @@ export async function upsertClienteConfigAction(payload: UpsertClienteConfigPayl
   if (!token) return { success: false, error: "No session found" };
 
   try {
-    const apiUrl = process.env.NESTJS_API_URL || "http://127.0.0.1:4000";
+    const apiUrl = getApiUrl();
     const response = await fetch(`${apiUrl}/config-clientes/operativa`, {
       method: "POST",
       headers: {
@@ -651,7 +652,7 @@ export async function createClienteAction(payload: ClienteDTO) {
   };
 
   try {
-    const apiUrl = process.env.NESTJS_API_URL || "http://127.0.0.1:4000";
+    const apiUrl = getApiUrl();
     const response = await fetch(`${apiUrl}/clientes/create`, {
       method: "POST",
       headers: {
@@ -677,7 +678,7 @@ export async function createClienteAction(payload: ClienteDTO) {
 
 export async function getClienteByIdAction(id: string) {
   try {
-    const apiUrl = process.env.NESTJS_API_URL || "http://127.0.0.1:4000";
+    const apiUrl = getApiUrl();
     const headers = await getHeaders();
     const response = await fetch(`${apiUrl}/clientes/${id}`, {
       headers,
@@ -708,7 +709,7 @@ export async function updateClienteAction(id: string, payload: Partial<ClienteDT
   };
 
   try {
-    const apiUrl = process.env.NESTJS_API_URL || "http://127.0.0.1:4000";
+    const apiUrl = getApiUrl();
     const response = await fetch(`${apiUrl}/clientes/${id}`, {
       method: "PATCH",
       headers: {
@@ -739,7 +740,7 @@ export async function deleteClienteAction(id: string) {
   if (!token) return { success: false, error: "No session found" };
 
   try {
-    const apiUrl = process.env.NESTJS_API_URL || "http://127.0.0.1:4000";
+    const apiUrl = getApiUrl();
     const response = await fetch(`${apiUrl}/clientes/${id}`, {
       method: "DELETE",
       headers: {
@@ -767,7 +768,7 @@ export async function createEnterpriseAction(data: { nombre: string }) {
 
   if (!token) throw new Error("No session found");
 
-  const apiUrl = process.env.NESTJS_API_URL || "http://127.0.0.1:4000";
+  const apiUrl = getApiUrl();
   const response = await fetch(`${apiUrl}/enterprise/create`, {
     method: "POST",
     headers: {
@@ -790,7 +791,7 @@ export async function updateEnterpriseAction(id: string, data: { nombre?: string
 
   if (!token) throw new Error("No session found");
 
-  const apiUrl = process.env.NESTJS_API_URL || "http://127.0.0.1:4000";
+  const apiUrl = getApiUrl();
   const response = await fetch(`${apiUrl}/enterprise/${id}`, {
     method: "PATCH",
     headers: {
@@ -813,7 +814,7 @@ export async function deleteEnterpriseAction(id: string) {
 
   if (!token) throw new Error("No session found");
 
-  const apiUrl = process.env.NESTJS_API_URL || "http://127.0.0.1:4000";
+  const apiUrl = getApiUrl();
   const response = await fetch(`${apiUrl}/enterprise/${id}`, {
     method: "DELETE",
     headers: {
@@ -835,7 +836,7 @@ export async function getEnterprisesAction() {
   if (!token) return [];
 
   try {
-    const apiUrl = process.env.NESTJS_API_URL || "http://127.0.0.1:4000";
+    const apiUrl = getApiUrl();
     const response = await fetch(`${apiUrl}/enterprise`, {
       headers: {
         Authorization: `Bearer ${token}`,
@@ -866,7 +867,7 @@ export async function createTenantAction(formData: {
   if (!token) throw new Error("No session found");
 
   try {
-    const apiUrl = process.env.NESTJS_API_URL || "http://127.0.0.1:4000";
+    const apiUrl = getApiUrl();
     const response = await fetch(`${apiUrl}/tenants`, {
       method: "POST",
       headers: {
@@ -891,7 +892,7 @@ export async function createTenantAction(formData: {
 
 export async function getOrdenesServicioAction(empresaId?: string) {
   try {
-    const apiUrl = process.env.NESTJS_API_URL || "http://127.0.0.1:4000";
+    const apiUrl = getApiUrl();
     const headers = await getHeaders();
     
     // Si empresaId es "undefined", "null" o "all" como string, tratar como undefined
@@ -918,7 +919,7 @@ export async function getOrdenesServicioAction(empresaId?: string) {
 
 export async function getOrdenesServicioByClienteAction(clienteId: string) {
   try {
-    const apiUrl = process.env.NESTJS_API_URL || "http://127.0.0.1:4000";
+    const apiUrl = getApiUrl();
     const headers = await getHeaders();
     const response = await fetch(`${apiUrl}/ordenes-servicio?clienteId=${clienteId}`, {
       headers,
@@ -937,7 +938,7 @@ export async function getOrdenesServicioByClienteAction(clienteId: string) {
 
 export async function getOrdenServicioByIdAction(id: string) {
   try {
-    const apiUrl = process.env.NESTJS_API_URL || "http://127.0.0.1:4000";
+    const apiUrl = getApiUrl();
     const headers = await getHeaders();
     const response = await fetch(`${apiUrl}/ordenes-servicio/${id}`, {
       headers,
@@ -995,7 +996,7 @@ export async function createOrdenServicioAction(
   if (!token) return { success: false, error: 'No session found' };
 
   try {
-    const apiUrl = process.env.NESTJS_API_URL || 'http://127.0.0.1:4000';
+    const apiUrl = getApiUrl();
     const response = await fetch(`${apiUrl}/ordenes-servicio`, {
       method: 'POST',
       headers: {
@@ -1029,7 +1030,7 @@ export async function updateOrdenServicioAction(
   if (!token) return { success: false, error: 'No session found' };
 
   try {
-    const apiUrl = process.env.NESTJS_API_URL || 'http://127.0.0.1:4000';
+    const apiUrl = getApiUrl();
     const response = await fetch(`${apiUrl}/ordenes-servicio/${id}`, {
       method: 'PATCH',
       headers: {
@@ -1061,7 +1062,7 @@ export async function getEstadoServiciosAction(empresaId?: string) {
   if (!token || !targetEmpresaId) return [];
 
   try {
-    const apiUrl = process.env.NESTJS_API_URL || "http://127.0.0.1:4000";
+    const apiUrl = getApiUrl();
     const response = await fetch(`${apiUrl}/config-clientes/estados-servicio?empresaId=${targetEmpresaId}`, {
       headers: { Authorization: `Bearer ${token}` },
     });
@@ -1093,7 +1094,7 @@ export async function updateMembershipAction(
   if (!token) throw new Error("No session found");
 
   try {
-    const apiUrl = process.env.NESTJS_API_URL || "http://127.0.0.1:4000";
+    const apiUrl = getApiUrl();
     const response = await fetch(`${apiUrl}/tenants/memberships/${membershipId}`, {
       method: "PATCH",
       headers: {
@@ -1124,7 +1125,7 @@ export async function addOrdenServicioEvidenciasAction(
   if (!token) return { success: false, error: "No session found" };
 
   try {
-    const apiUrl = process.env.NESTJS_API_URL || "http://127.0.0.1:4000";
+    const apiUrl = getApiUrl();
     const response = await fetch(`${apiUrl}/ordenes-servicio/${id}/evidencias`, {
       method: "POST",
       headers: {
@@ -1153,7 +1154,7 @@ export async function getRecaudoTecnicosAction(empresaId?: string) {
   if (!token) return [];
 
   try {
-    const apiUrl = process.env.NESTJS_API_URL || "http://127.0.0.1:4000";
+    const apiUrl = getApiUrl();
     const url = empresaId 
       ? `${apiUrl}/contabilidad/recaudo-tecnicos?empresaId=${empresaId}`
       : `${apiUrl}/contabilidad/recaudo-tecnicos`;
@@ -1187,7 +1188,7 @@ export async function registrarConsignacionAction(data: {
   if (!token) return { success: false, error: "No session found" };
 
   try {
-    const apiUrl = process.env.NESTJS_API_URL || "http://127.0.0.1:4000";
+    const apiUrl = getApiUrl();
     const response = await fetch(`${apiUrl}/contabilidad/registrar-consignacion`, {
       method: "POST",
       headers: {
@@ -1207,5 +1208,125 @@ export async function registrarConsignacionAction(data: {
   } catch (error) {
     if (error instanceof Error) return { success: false, error: error.message };
     return { success: false, error: "Ocurrió un error inesperado" };
+  }
+}
+
+export async function notifyLiquidationWebhookAction(data: {
+  telefono: string;
+  cliente: string;
+  fecha: string;
+  servicio: string;
+}) {
+  const webhookUrl = process.env.N8N_MENSAJES_CLIENTES;
+  
+  if (!webhookUrl) {
+    console.error("Webhook URL N8N_MENSAJES_CLIENTES not found in environment");
+    return { success: false, error: "Webhook configuration missing" };
+  }
+
+  try {
+    const url = new URL(webhookUrl);
+    const postData = JSON.stringify({
+      ...data,
+      timestamp: new Date().toISOString(),
+    });
+
+    const options = {
+      hostname: url.hostname,
+      port: url.port || (url.protocol === "https:" ? 443 : 80),
+      path: url.pathname + (url.search || ""),
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "Host": url.hostname, // Explicit Host header for Traefik
+      },
+      agent: new https.Agent({
+        rejectUnauthorized: false,
+      }),
+    };
+
+    console.log(`Triggering webhook: ${webhookUrl} (Host: ${url.hostname})`);
+
+    return new Promise((resolve, reject) => {
+      const req = https.request(options, (res) => {
+        let responseBody = "";
+        res.on("data", (chunk) => { responseBody += chunk; });
+        
+        res.on("end", () => {
+          if (res.statusCode && res.statusCode >= 200 && res.statusCode < 300) {
+            resolve({ success: true });
+          } else {
+            console.error(`Webhook notification failed: ${res.statusCode} ${res.statusMessage}`);
+            console.error(`Response body: ${responseBody}`);
+            resolve({ success: false, error: `Failed to trigger webhook: ${res.statusCode}` });
+          }
+        });
+      });
+
+      req.on("error", (error) => {
+        console.error("Error triggering webhook:", error);
+        resolve({ success: false, error: "Error triggering webhook" });
+      });
+
+      req.write(postData);
+      req.end();
+    });
+  } catch (error) {
+    console.error("Error setting up webhook request:", error);
+    return { success: false, error: "Error setting up webhook request" };
+  }
+}
+
+export async function notifyServiceOperatorWebhookAction(data: {
+  telefonoOperador: string;
+  numeroOrden: string;
+  cliente: string;
+  servicio: string;
+  programacion: string;
+  tecnico: string;
+  estado: string;
+  urgencia: string;
+  direccion: string;
+  linkMaps: string;
+  municipio: string;
+  barrio: string;
+  detalles: string;
+  valorCotizado: string;
+  metodosPago: string;
+  observaciones: string;
+  idServicio: string;
+}) {
+  const webhookUrl = process.env.N8N_NOTIFICAR_SERVICIO;
+  
+  if (!webhookUrl) {
+    console.error("Webhook URL N8N_NOTIFICAR_SERVICIO not found in environment");
+    return { success: false, error: "Webhook configuration missing" };
+  }
+
+  console.log(`[Webhook] Attempting to notify operator at: ${webhookUrl}`);
+
+  try {
+    const response = await fetch(webhookUrl, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        ...data,
+        timestamp: new Date().toISOString(),
+      }),
+    });
+
+    if (response.ok) {
+      console.log(`[Webhook] Notification sent successfully`);
+      return { success: true };
+    } else {
+      const errorText = await response.text();
+      console.error(`[Webhook] Notification failed with status ${response.status}: ${errorText}`);
+      return { success: false, error: `Failed: ${response.status}` };
+    }
+  } catch (error) {
+    console.error("[Webhook] Error triggering operator notification webhook:", error);
+    return { success: false, error: "Error triggering webhook" };
   }
 }
