@@ -591,14 +591,19 @@ function ServiciosContent() {
   };
 
   useEffect(() => {
-    const params = new URLSearchParams(searchParams.toString());
-    if (search) {
-      params.set("search", search);
-    } else {
-      params.delete("search");
+    const currentParams = new URLSearchParams(window.location.search);
+    const currentSearch = currentParams.get("search") || "";
+    
+    if (currentSearch !== search) {
+      const newParams = new URLSearchParams(currentParams.toString());
+      if (search) {
+        newParams.set("search", search);
+      } else {
+        newParams.delete("search");
+      }
+      router.replace(`${pathname}?${newParams.toString()}`, { scroll: false });
     }
-    router.replace(`${pathname}?${params.toString()}`);
-  }, [search, pathname, router, searchParams]);
+  }, [search, pathname, router]);
 
   useEffect(() => {
     fetchServicios();

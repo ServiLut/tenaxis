@@ -26,6 +26,20 @@ export class SupabaseService {
     });
   }
 
+  getPublicUrl(path: string, bucket: string = 'tenaxis-docs') {
+    if (!this.supabase) {
+      // Si no hay cliente inicializado, intentamos construir la URL manualmente si tenemos la base URL
+      const url = this.configService.get<string>('SUPABASE_URL');
+      if (url) {
+        return `${url}/storage/v1/object/public/${bucket}/${path}`;
+      }
+      return null;
+    }
+
+    const { data } = this.supabase.storage.from(bucket).getPublicUrl(path);
+    return data.publicUrl;
+  }
+
   async getSignedUrl(
     path: string,
     bucket: string = 'tenaxis-docs',
@@ -33,7 +47,7 @@ export class SupabaseService {
   ) {
     if (!this.supabase) {
       this.logger.error('Supabase client not initialized');
-      return null;
+      return this.getPublicUrl(path, bucket);
     }
 
     try {
@@ -45,7 +59,8 @@ export class SupabaseService {
         this.logger.error(
           `Error creating signed URL for ${path}: ${error.message}`,
         );
-        return null;
+        // Si falla la firma, intentamos devolver la URL pública
+        return this.getPublicUrl(path, bucket);
       }
 
       return data.signedUrl;
@@ -55,7 +70,7 @@ export class SupabaseService {
       this.logger.error(
         `Unexpected error creating signed URL: ${errorMessage}`,
       );
-      return null;
+      return this.getPublicUrl(path, bucket);
     }
   }
 

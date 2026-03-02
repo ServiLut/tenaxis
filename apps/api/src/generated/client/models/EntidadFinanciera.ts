@@ -190,9 +190,9 @@ export type EntidadFinancieraWhereInput = {
   nombre?: Prisma.StringFilter<"EntidadFinanciera"> | string
   activo?: Prisma.BoolFilter<"EntidadFinanciera"> | boolean
   createdAt?: Prisma.DateTimeFilter<"EntidadFinanciera"> | Date | string
-  ordenes?: Prisma.OrdenServicioListRelationFilter
   empresa?: Prisma.XOR<Prisma.EmpresaScalarRelationFilter, Prisma.EmpresaWhereInput>
   tenant?: Prisma.XOR<Prisma.TenantScalarRelationFilter, Prisma.TenantWhereInput>
+  ordenes?: Prisma.OrdenServicioListRelationFilter
 }
 
 export type EntidadFinancieraOrderByWithRelationInput = {
@@ -202,9 +202,9 @@ export type EntidadFinancieraOrderByWithRelationInput = {
   nombre?: Prisma.SortOrder
   activo?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
-  ordenes?: Prisma.OrdenServicioOrderByRelationAggregateInput
   empresa?: Prisma.EmpresaOrderByWithRelationInput
   tenant?: Prisma.TenantOrderByWithRelationInput
+  ordenes?: Prisma.OrdenServicioOrderByRelationAggregateInput
 }
 
 export type EntidadFinancieraWhereUniqueInput = Prisma.AtLeast<{
@@ -218,9 +218,9 @@ export type EntidadFinancieraWhereUniqueInput = Prisma.AtLeast<{
   nombre?: Prisma.StringFilter<"EntidadFinanciera"> | string
   activo?: Prisma.BoolFilter<"EntidadFinanciera"> | boolean
   createdAt?: Prisma.DateTimeFilter<"EntidadFinanciera"> | Date | string
-  ordenes?: Prisma.OrdenServicioListRelationFilter
   empresa?: Prisma.XOR<Prisma.EmpresaScalarRelationFilter, Prisma.EmpresaWhereInput>
   tenant?: Prisma.XOR<Prisma.TenantScalarRelationFilter, Prisma.TenantWhereInput>
+  ordenes?: Prisma.OrdenServicioListRelationFilter
 }, "id" | "empresaId_nombre">
 
 export type EntidadFinancieraOrderByWithAggregationInput = {
@@ -252,9 +252,9 @@ export type EntidadFinancieraCreateInput = {
   nombre: string
   activo?: boolean
   createdAt?: Date | string
-  ordenes?: Prisma.OrdenServicioCreateNestedManyWithoutEntidadFinancieraInput
   empresa: Prisma.EmpresaCreateNestedOneWithoutEntidadesFinancierasInput
   tenant: Prisma.TenantCreateNestedOneWithoutEntidadesFinancierasInput
+  ordenes?: Prisma.OrdenServicioCreateNestedManyWithoutEntidadFinancieraInput
 }
 
 export type EntidadFinancieraUncheckedCreateInput = {
@@ -272,9 +272,9 @@ export type EntidadFinancieraUpdateInput = {
   nombre?: Prisma.StringFieldUpdateOperationsInput | string
   activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  ordenes?: Prisma.OrdenServicioUpdateManyWithoutEntidadFinancieraNestedInput
   empresa?: Prisma.EmpresaUpdateOneRequiredWithoutEntidadesFinancierasNestedInput
   tenant?: Prisma.TenantUpdateOneRequiredWithoutEntidadesFinancierasNestedInput
+  ordenes?: Prisma.OrdenServicioUpdateManyWithoutEntidadFinancieraNestedInput
 }
 
 export type EntidadFinancieraUncheckedUpdateInput = {
@@ -464,8 +464,8 @@ export type EntidadFinancieraCreateWithoutTenantInput = {
   nombre: string
   activo?: boolean
   createdAt?: Date | string
-  ordenes?: Prisma.OrdenServicioCreateNestedManyWithoutEntidadFinancieraInput
   empresa: Prisma.EmpresaCreateNestedOneWithoutEntidadesFinancierasInput
+  ordenes?: Prisma.OrdenServicioCreateNestedManyWithoutEntidadFinancieraInput
 }
 
 export type EntidadFinancieraUncheckedCreateWithoutTenantInput = {
@@ -520,8 +520,8 @@ export type EntidadFinancieraCreateWithoutEmpresaInput = {
   nombre: string
   activo?: boolean
   createdAt?: Date | string
-  ordenes?: Prisma.OrdenServicioCreateNestedManyWithoutEntidadFinancieraInput
   tenant: Prisma.TenantCreateNestedOneWithoutEntidadesFinancierasInput
+  ordenes?: Prisma.OrdenServicioCreateNestedManyWithoutEntidadFinancieraInput
 }
 
 export type EntidadFinancieraUncheckedCreateWithoutEmpresaInput = {
@@ -624,8 +624,8 @@ export type EntidadFinancieraUpdateWithoutTenantInput = {
   nombre?: Prisma.StringFieldUpdateOperationsInput | string
   activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  ordenes?: Prisma.OrdenServicioUpdateManyWithoutEntidadFinancieraNestedInput
   empresa?: Prisma.EmpresaUpdateOneRequiredWithoutEntidadesFinancierasNestedInput
+  ordenes?: Prisma.OrdenServicioUpdateManyWithoutEntidadFinancieraNestedInput
 }
 
 export type EntidadFinancieraUncheckedUpdateWithoutTenantInput = {
@@ -658,8 +658,8 @@ export type EntidadFinancieraUpdateWithoutEmpresaInput = {
   nombre?: Prisma.StringFieldUpdateOperationsInput | string
   activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  ordenes?: Prisma.OrdenServicioUpdateManyWithoutEntidadFinancieraNestedInput
   tenant?: Prisma.TenantUpdateOneRequiredWithoutEntidadesFinancierasNestedInput
+  ordenes?: Prisma.OrdenServicioUpdateManyWithoutEntidadFinancieraNestedInput
 }
 
 export type EntidadFinancieraUncheckedUpdateWithoutEmpresaInput = {
@@ -717,9 +717,9 @@ export type EntidadFinancieraSelect<ExtArgs extends runtime.Types.Extensions.Int
   nombre?: boolean
   activo?: boolean
   createdAt?: boolean
-  ordenes?: boolean | Prisma.EntidadFinanciera$ordenesArgs<ExtArgs>
   empresa?: boolean | Prisma.EmpresaDefaultArgs<ExtArgs>
   tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
+  ordenes?: boolean | Prisma.EntidadFinanciera$ordenesArgs<ExtArgs>
   _count?: boolean | Prisma.EntidadFinancieraCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["entidadFinanciera"]>
 
@@ -756,9 +756,9 @@ export type EntidadFinancieraSelectScalar = {
 
 export type EntidadFinancieraOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "tenantId" | "empresaId" | "nombre" | "activo" | "createdAt", ExtArgs["result"]["entidadFinanciera"]>
 export type EntidadFinancieraInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  ordenes?: boolean | Prisma.EntidadFinanciera$ordenesArgs<ExtArgs>
   empresa?: boolean | Prisma.EmpresaDefaultArgs<ExtArgs>
   tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
+  ordenes?: boolean | Prisma.EntidadFinanciera$ordenesArgs<ExtArgs>
   _count?: boolean | Prisma.EntidadFinancieraCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type EntidadFinancieraIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -773,9 +773,9 @@ export type EntidadFinancieraIncludeUpdateManyAndReturn<ExtArgs extends runtime.
 export type $EntidadFinancieraPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "EntidadFinanciera"
   objects: {
-    ordenes: Prisma.$OrdenServicioPayload<ExtArgs>[]
     empresa: Prisma.$EmpresaPayload<ExtArgs>
     tenant: Prisma.$TenantPayload<ExtArgs>
+    ordenes: Prisma.$OrdenServicioPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -1178,9 +1178,9 @@ readonly fields: EntidadFinancieraFieldRefs;
  */
 export interface Prisma__EntidadFinancieraClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
-  ordenes<T extends Prisma.EntidadFinanciera$ordenesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.EntidadFinanciera$ordenesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$OrdenServicioPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   empresa<T extends Prisma.EmpresaDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.EmpresaDefaultArgs<ExtArgs>>): Prisma.Prisma__EmpresaClient<runtime.Types.Result.GetResult<Prisma.$EmpresaPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   tenant<T extends Prisma.TenantDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.TenantDefaultArgs<ExtArgs>>): Prisma.Prisma__TenantClient<runtime.Types.Result.GetResult<Prisma.$TenantPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  ordenes<T extends Prisma.EntidadFinanciera$ordenesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.EntidadFinanciera$ordenesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$OrdenServicioPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.

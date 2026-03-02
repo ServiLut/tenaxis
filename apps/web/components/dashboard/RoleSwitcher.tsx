@@ -21,11 +21,11 @@ export function RoleSwitcher() {
     // setTimeout defers the state update, fixing the react-hooks/set-state-in-effect lint error
     const timer = setTimeout(() => {
       setIsMounted(true);
-      
+
       if (!isDev) return;
 
       let roleFound = false;
-      
+
       const cookieRole = document.cookie
         .split("; ")
         .find((row) => row.startsWith("x-test-role="))
@@ -54,13 +54,13 @@ export function RoleSwitcher() {
 
   const handleRoleChange = async (role: string) => {
     setCurrentRole(role);
-    
+
     // Defer the impure DOM mutations to next tick using setTimeout
     // to satisfy React strict mode / concurrent mode purity requirements
     setTimeout(async () => {
       const expires = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toUTCString();
       document.cookie = `x-test-role=${role}; path=/; expires=${expires}; SameSite=Lax`;
-      
+
       let token = "";
       const userData = localStorage.getItem("user");
       if (userData) {
@@ -75,12 +75,12 @@ export function RoleSwitcher() {
         .split("; ")
         .find((row) => row.startsWith("access_token="))
         ?.split("=")[1];
-      
+
       token = cookieToken || "";
 
       if (token) {
         try {
-          const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://127.0.0.1:4000";
+          const apiUrl = process.env.NESTJS_API_URL || "http://127.0.0.1:4000";
           await fetch(`${apiUrl}/auth/test-role`, {
             method: 'PATCH',
             headers: {
@@ -121,8 +121,8 @@ export function RoleSwitcher() {
             </div>
           </button>
         </DropdownMenuTrigger>
-        
-        <DropdownMenuContent 
+
+        <DropdownMenuContent
           className="w-48 rounded-2xl border-2 border-zinc-100 bg-white p-2 shadow-2xl dark:border-zinc-800 dark:bg-zinc-950"
           align="start"
           sideOffset={8}

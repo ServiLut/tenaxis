@@ -56,6 +56,7 @@ model Tenant {
   egresos                   Egresos[]
   empresaMemberships        EmpresaMembership[]
   empresas                  Empresa[]
+  entidadesFinancieras      EntidadFinanciera[]
   estadosServicio           EstadoServicio[]
   evidenciasServicio        EvidenciaServicio[]
   geolocalizaciones         Geolocalizacion[]
@@ -85,7 +86,6 @@ model Tenant {
   turnos                    Turno[]
   vehiculos                 Vehiculo[]
   zonas                     Zona[]
-  entidadesFinancieras      EntidadFinanciera[]
 
   @@map("tenants")
 }
@@ -163,8 +163,8 @@ model TenantMembership {
   geolocalizaciones     Geolocalizacion[]
   nominas               Nomina[]
   serviciosCreados      OrdenServicio[]        @relation("ServiciosCreados")
-  serviciosAsignados    OrdenServicio[]        @relation("ServiciosAsignados")
   serviciosLiquidados   OrdenServicio[]        @relation("ServiciosLiquidados")
+  serviciosAsignados    OrdenServicio[]        @relation("ServiciosAsignados")
   paquetesAdquiridos    PaqueteAdquirido[]
   permisosAprobados     Permiso[]              @relation("PermisosAprobados")
   permisosSolicitados   Permiso[]              @relation("PermisosSolicitados")
@@ -208,6 +208,7 @@ model Empresa {
   egresos                   Egresos[]
   memberships               EmpresaMembership[]
   tenant                    Tenant                          @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  entidadesFinancieras      EntidadFinanciera[]
   estadosServicio           EstadoServicio[]
   geolocalizaciones         Geolocalizacion[]
   logsEvento                LogEvento[]
@@ -231,7 +232,6 @@ model Empresa {
   turnos                    Turno[]
   vehiculos                 Vehiculo[]
   zonas                     Zona[]
-  entidadesFinancieras      EntidadFinanciera[]
 
   @@index([tenantId])
   @@map("empresas")
@@ -660,9 +660,9 @@ model OrdenServicio {
   creadoPor             TenantMembership?    @relation("ServiciosCreados", fields: [creadoPorId], references: [id])
   direccion             Direccion?           @relation(fields: [direccionId], references: [id])
   empresa               Empresa              @relation(fields: [empresaId], references: [id])
-  metodoPago            MetodoPago?          @relation(fields: [metodoPagoId], references: [id])
   entidadFinanciera     EntidadFinanciera?   @relation(fields: [entidadFinancieraId], references: [id])
   liquidadoPor          TenantMembership?    @relation("ServiciosLiquidados", fields: [liquidadoPorId], references: [id])
+  metodoPago            MetodoPago?          @relation(fields: [metodoPagoId], references: [id])
   ordenPadre            OrdenServicio?       @relation("OrdenRefuerzo", fields: [ordenPadreId], references: [id])
   ordenesHijas          OrdenServicio[]      @relation("OrdenRefuerzo")
   servicio              Servicio             @relation(fields: [servicioId], references: [id])
@@ -690,9 +690,9 @@ model EntidadFinanciera {
   nombre    String
   activo    Boolean         @default(true)
   createdAt DateTime        @default(now())
-  ordenes   OrdenServicio[]
   empresa   Empresa         @relation(fields: [empresaId], references: [id], onDelete: Cascade)
   tenant    Tenant          @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  ordenes   OrdenServicio[]
 
   @@unique([empresaId, nombre])
   @@index([tenantId])
