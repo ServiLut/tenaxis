@@ -206,7 +206,7 @@ export class OrdenesServicioService {
       await this.recalculateClientStatus(nuevaOrden.clienteId);
     }
 
-    return nuevaOrden;
+    return this.processSignedUrls(nuevaOrden as OrdenWithGeolocalizaciones);
   }
 
   private async autoAssignTechnician(
@@ -665,6 +665,13 @@ export class OrdenesServicioService {
             path: uploadedPath,
           },
         });
+        
+        // Generar URL firmada/pública para la respuesta inmediata
+        const signedUrl = await this.supabase.getSignedUrl(evidence.path);
+        if (signedUrl) {
+          evidence.path = signedUrl;
+        }
+        
         uploadedEvidences.push(evidence);
       }
     }
@@ -919,7 +926,7 @@ export class OrdenesServicioService {
       await this.recalculateClientStatus(updatedOrden.clienteId);
     }
 
-    return updatedOrden;
+    return this.processSignedUrls(updatedOrden as OrdenWithGeolocalizaciones);
   }
 
   private calculateBreakdownTotals(
