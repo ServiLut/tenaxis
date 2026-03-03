@@ -142,7 +142,7 @@ export function Sidebar({ isOpen, onClose }: SidebarProps) {
       )}
 
       <aside className={cn(
-        "fixed left-0 top-0 z-50 h-screen w-72 border-r border-[#706F71]/20 bg-[#021359] p-6 transition-transform duration-300 dark:border-white/10 dark:bg-sidebar",
+        "fixed left-0 top-0 z-50 h-screen w-72 border-r border-white/10 bg-[#021359] p-6 transition-transform duration-300 dark:bg-sidebar",
         isOpen ? "translate-x-0 shadow-2xl lg:shadow-none" : "-translate-x-full"
       )}>
         <div className="flex h-full flex-col justify-between">
@@ -150,7 +150,7 @@ export function Sidebar({ isOpen, onClose }: SidebarProps) {
             {/* Logo */}
             <div className="flex items-center justify-between">
               <Link href="/dashboard" className="flex items-center gap-3 px-2 group" onClick={onClose}>
-                <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-[#0091D5] text-white shadow-lg transition-transform group-hover:scale-105">
+                <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-[#01ADFB] text-white shadow-lg transition-transform group-hover:scale-105">
                   <Sparkles className="h-7 w-7" />
                 </div>
                 <span className="text-2xl font-black tracking-tighter text-white">
@@ -160,10 +160,10 @@ export function Sidebar({ isOpen, onClose }: SidebarProps) {
               {/* Close button for mobile */}
               <button 
                 onClick={onClose}
-                className="flex h-10 w-10 items-center justify-center rounded-xl bg-white/5 text-white/50 hover:bg-white/10 transition-colors shadow-sm border border-white/10"
+                className="flex h-10 w-10 items-center justify-center rounded-xl bg-white/5 text-white/50 hover:bg-white/10 transition-colors shadow-sm border border-white/10 lg:hidden"
                 aria-label="Cerrar menú"
               >
-                <ChevronRight className="h-5 w-5 lg:rotate-180 max-lg:rotate-180" />
+                <ChevronRight className="h-5 w-5 rotate-180" />
               </button>
             </div>
 
@@ -175,7 +175,7 @@ export function Sidebar({ isOpen, onClose }: SidebarProps) {
             {/* Navigation */}
             <nav className="space-y-8 overflow-y-auto max-h-[calc(100vh-320px)] custom-scrollbar">
               <div className="space-y-2">
-                <p className="px-4 text-[10px] font-black uppercase tracking-[0.2em] text-[#706F71] dark:text-zinc-400">
+                <p className="px-4 text-[10px] font-black uppercase tracking-[0.2em] text-white/40">
                   Principal
                 </p>
                 <div className="space-y-1">
@@ -189,12 +189,12 @@ export function Sidebar({ isOpen, onClose }: SidebarProps) {
                         className={cn(
                           "group flex items-center justify-between rounded-2xl px-4 py-3.5 transition-all duration-300",
                           isActive
-                            ? "bg-[#0091D5] text-white shadow-xl shadow-[#0091D5]/20"
-                            : "text-[#CBD5E1] hover:bg-white/5 hover:text-[#0091D5]"
+                            ? "bg-[#01ADFB] text-white shadow-xl shadow-[#01ADFB]/20"
+                            : "text-[#CBD5E1] hover:bg-white/5 hover:text-[#01ADFB]"
                         )}
                       >
                         <div className="flex items-center gap-3">
-                          <item.icon className={cn("h-5 w-5 transition-transform duration-300 group-hover:scale-110", isActive ? "text-white" : "text-[#706F71] group-hover:text-[#0091D5]")} />
+                          <item.icon className={cn("h-5 w-5 transition-transform duration-300 group-hover:scale-110", isActive ? "text-white" : "text-white/40 group-hover:text-[#01ADFB]")} />
                           <span className="text-sm font-bold tracking-tight">{item.title}</span>
                         </div>
                         {isActive && <ChevronRight className="h-4 w-4 text-white animate-in fade-in slide-in-from-left-2" />}
@@ -205,7 +205,7 @@ export function Sidebar({ isOpen, onClose }: SidebarProps) {
               </div>
 
               <div className="space-y-2">
-                <p className="px-4 text-[10px] font-black uppercase tracking-[0.2em] text-[#706F71] dark:text-zinc-400">
+                <p className="px-4 text-[10px] font-black uppercase tracking-[0.2em] text-white/40">
                   Sistema
                 </p>
                 <div className="space-y-1">
@@ -219,12 +219,12 @@ export function Sidebar({ isOpen, onClose }: SidebarProps) {
                         className={cn(
                           "group flex items-center justify-between rounded-2xl px-4 py-3.5 transition-all duration-300",
                           isActive
-                            ? "bg-[#0091D5] text-white shadow-xl shadow-[#0091D5]/20"
-                            : "text-[#CBD5E1] hover:bg-white/5 hover:text-[#0091D5]"
+                            ? "bg-[#01ADFB] text-white shadow-xl shadow-[#01ADFB]/20"
+                            : "text-[#CBD5E1] hover:bg-white/5 hover:text-[#01ADFB]"
                         )}
                       >
                         <div className="flex items-center gap-3">
-                          <item.icon className={cn("h-5 w-5 transition-transform duration-300 group-hover:scale-110", isActive ? "text-white" : "text-[#706F71] group-hover:text-[#0091D5]")} />
+                          <item.icon className={cn("h-5 w-5 transition-transform duration-300 group-hover:scale-110", isActive ? "text-white" : "text-white/40 group-hover:text-[#01ADFB]")} />
                           <span className="text-sm font-bold tracking-tight">{item.title}</span>
                         </div>
                       </Link>
@@ -239,14 +239,14 @@ export function Sidebar({ isOpen, onClose }: SidebarProps) {
           <div className="space-y-4 pt-6">
             <div className="rounded-2xl border border-white/10 bg-white/5 p-5">
               <div className="flex items-center gap-3">
-                <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-[#0091D5] text-white shadow-sm">
+                <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-[#01ADFB] text-white shadow-sm">
                   <ShieldCheck className="h-6 w-6" />
                 </div>
                 <div className="overflow-hidden">
                   <p className="truncate text-xs font-black uppercase tracking-wider text-white">
                     Plan Enterprise
                   </p>
-                  <p className="text-[10px] font-bold text-[#706F71]">
+                  <p className="text-[10px] font-bold text-white/40">
                     Renueva en 15 días
                   </p>
                 </div>
@@ -258,7 +258,7 @@ export function Sidebar({ isOpen, onClose }: SidebarProps) {
               aria-label="Cerrar sesión"
               className="group flex w-full items-center gap-3 rounded-2xl px-4 py-4 text-[#CBD5E1] transition-all hover:bg-red-500/10 hover:text-red-400"
             >
-              <LogOut className="h-5 w-5 text-[#706F71] group-hover:text-red-400" />
+              <LogOut className="h-5 w-5 text-white/40 group-hover:text-red-400" />
               <span className="text-sm font-bold tracking-tight">Cerrar Sesión</span>
             </button>
           </div>

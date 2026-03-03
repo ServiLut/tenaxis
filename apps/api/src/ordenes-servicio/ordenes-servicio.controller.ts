@@ -5,6 +5,7 @@ import {
   Body,
   Patch,
   Param,
+  Delete,
   Req,
   UseGuards,
   Query,
@@ -99,5 +100,14 @@ export class OrdenesServicioController {
       throw new UnauthorizedException('Tenant ID not found in token');
     }
     return this.ordenesServicioService.update(tenantId, id, updateDto, req.user);
+  }
+
+  @Delete(':id')
+  remove(@Req() req: RequestWithUser, @Param('id') id: string) {
+    const tenantId = req.user.tenantId;
+    if (!tenantId) {
+      throw new UnauthorizedException('Tenant ID not found in token');
+    }
+    return this.ordenesServicioService.remove(tenantId, id);
   }
 }

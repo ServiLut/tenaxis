@@ -111,19 +111,19 @@ export default function ContabilidadPage() {
 
   return (
     <DashboardLayout>
-      <div className="space-y-8">
+      <div className="space-y-8 bg-background">
         {/* Header Section */}
         <div className="flex flex-col gap-2">
-          <h1 className="text-4xl font-black tracking-tighter text-zinc-900 dark:text-zinc-50">
+          <h1 className="text-4xl font-black tracking-tighter text-foreground">
             Contabilidad & Finanzas
           </h1>
-          <p className="text-zinc-500 font-medium italic">
+          <p className="text-muted-foreground font-medium italic">
             Gestión integral de flujos de caja, nómina y balances operativos.
           </p>
         </div>
 
         {/* Navigation Tabs */}
-        <div className="flex flex-wrap gap-3 p-2 bg-white dark:bg-zinc-900 rounded-[2rem] shadow-xl shadow-zinc-200/50 dark:shadow-none border border-zinc-100 dark:border-zinc-800">
+        <div className="flex flex-wrap gap-3 p-2 bg-card rounded-[2rem] shadow-xl shadow-zinc-200/50 dark:shadow-none border border-border">
           {tabs.map((tab) => (
             <button
               key={tab.id}
@@ -131,8 +131,8 @@ export default function ContabilidadPage() {
               className={cn(
                 "flex items-center gap-3 px-6 py-3 rounded-2xl transition-all duration-300",
                 activeTab === tab.id 
-                  ? "bg-zinc-900 text-white dark:bg-zinc-800 dark:text-zinc-200 shadow-lg scale-105" 
-                  : "text-zinc-400 hover:bg-zinc-50 dark:hover:bg-zinc-800"
+                  ? "bg-foreground text-background shadow-lg scale-105" 
+                  : "text-muted-foreground hover:bg-muted"
               )}
             >
               <tab.icon className={cn("h-5 w-5", activeTab !== tab.id && tab.color.split(" ")[0])} />
@@ -205,42 +205,42 @@ function StandardTableView({ title, description }: { title: string, description:
     <div className="space-y-6">
       <div className="flex flex-col gap-6 sm:flex-row sm:items-center sm:justify-between">
         <div>
-          <h2 className="text-2xl font-black tracking-tight">{title}</h2>
-          <p className="text-sm text-zinc-500 font-medium">{description}</p>
+          <h2 className="text-2xl font-black tracking-tight text-foreground">{title}</h2>
+          <p className="text-sm text-muted-foreground font-medium">{description}</p>
         </div>
         <div className="flex items-center gap-3">
           {/* Botón de Exportación */}
           <div className="relative">
             <button 
               onClick={() => setShowExportMenu(!showExportMenu)}
-              className="flex items-center h-11 px-5 rounded-xl bg-emerald-50 dark:bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 hover:bg-emerald-100 dark:hover:bg-emerald-500/20 gap-3 transition-all font-bold text-[10px] uppercase tracking-widest border border-emerald-100 dark:border-emerald-500/20 shadow-sm"
+              className="flex items-center h-11 px-5 rounded-xl bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 hover:bg-emerald-500/20 gap-3 transition-all font-bold text-[10px] uppercase tracking-widest border border-emerald-500/20 shadow-sm"
             >
               <Download className="h-4 w-4" />
               <span>Exportar</span>
             </button>
 
             {showExportMenu && (
-              <div className="absolute right-0 mt-2 w-56 bg-white dark:bg-zinc-900 border border-zinc-100 dark:border-zinc-800 rounded-xl shadow-[0_20px_50px_rgba(0,0,0,0.15)] z-50 overflow-hidden py-2 animate-in fade-in slide-in-from-top-2 duration-200">
-                <div className="px-4 py-2 mb-1 border-b border-zinc-50 dark:border-zinc-800">
-                  <p className="text-[9px] font-black text-zinc-400 uppercase tracking-widest">Informes Financieros</p>
+              <div className="absolute right-0 mt-2 w-56 bg-card border border-border rounded-xl shadow-[0_20px_50px_rgba(0,0,0,0.15)] z-50 overflow-hidden py-2 animate-in fade-in slide-in-from-top-2 duration-200">
+                <div className="px-4 py-2 mb-1 border-b border-border">
+                  <p className="text-[9px] font-black text-muted-foreground uppercase tracking-widest">Informes Financieros</p>
                 </div>
                 <button 
                   onClick={() => handleExport('excel')}
-                  className="w-full flex items-center gap-3 px-4 py-3 text-[11px] font-bold text-zinc-700 dark:text-zinc-300 hover:bg-emerald-50 dark:hover:bg-emerald-900/20 hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors text-left"
+                  className="w-full flex items-center gap-3 px-4 py-3 text-[11px] font-bold text-foreground hover:bg-muted transition-colors text-left"
                 >
                   <FileSpreadsheet className="h-4 w-4" />
                   MICROSOFT EXCEL (.XLSX)
                 </button>
                 <button 
                   onClick={() => handleExport('pdf')}
-                  className="w-full flex items-center gap-3 px-4 py-3 text-[11px] font-bold text-zinc-700 dark:text-zinc-300 hover:bg-red-50 dark:hover:bg-red-900/20 hover:text-red-600 dark:hover:text-red-400 transition-colors text-left"
+                  className="w-full flex items-center gap-3 px-4 py-3 text-[11px] font-bold text-foreground hover:bg-muted transition-colors text-left"
                 >
                   <FileText className="h-4 w-4" />
                   DOCUMENTO PDF (.PDF)
                 </button>
                 <button 
                   onClick={() => handleExport('word')}
-                  className="w-full flex items-center gap-3 px-4 py-3 text-[11px] font-bold text-zinc-700 dark:text-zinc-300 hover:bg-blue-50 dark:hover:bg-blue-900/20 hover:text-blue-600 dark:hover:text-blue-400 transition-colors text-left"
+                  className="w-full flex items-center gap-3 px-4 py-3 text-[11px] font-bold text-foreground hover:bg-muted transition-colors text-left"
                 >
                   <FileIcon className="h-4 w-4" />
                   MICROSOFT WORD (.DOCX)
@@ -249,42 +249,42 @@ function StandardTableView({ title, description }: { title: string, description:
             )}
           </div>
 
-          <Button variant="outline" className="h-11 rounded-xl gap-2 font-bold text-xs uppercase tracking-widest">
+          <Button variant="outline" className="h-11 rounded-xl gap-2 font-bold text-xs uppercase tracking-widest border-border bg-card">
             <Filter className="h-4 w-4" /> Filtrar
           </Button>
-          <Button className="h-11 rounded-xl bg-azul-1 dark:bg-azul-1 text-white dark:text-zinc-300 hover:bg-azul-1/90 dark:hover:bg-azul-1/90 gap-2 font-black text-xs uppercase tracking-widest px-6 shadow-xl shadow-azul-1/20 border-none">
+          <Button className="h-11 rounded-xl bg-[#01ADFB] text-white hover:bg-blue-700 gap-2 font-black text-xs uppercase tracking-widest px-6 shadow-xl shadow-[#01ADFB]/20 border-none">
             <Plus className="h-4 w-4" /> Nuevo Registro
           </Button>
         </div>
       </div>
 
-      <Card className="border-none shadow-2xl shadow-zinc-200/50 dark:shadow-none bg-white dark:bg-zinc-900 rounded-[2.5rem] overflow-hidden">
+      <Card className="border-border shadow-2xl shadow-zinc-200/50 dark:shadow-none bg-card rounded-[2.5rem] overflow-hidden">
         <CardContent className="p-0">
           <div className="overflow-x-auto">
             <table className="w-full text-left">
               <thead>
-                <tr className="border-b border-zinc-100 dark:border-zinc-800 bg-zinc-50/50 dark:bg-zinc-800/50">
-                  <th className="px-8 py-5 text-[10px] font-black uppercase tracking-[0.2em] text-zinc-400">Fecha</th>
-                  <th className="px-8 py-5 text-[10px] font-black uppercase tracking-[0.2em] text-zinc-400">Descripción</th>
-                  <th className="px-8 py-5 text-[10px] font-black uppercase tracking-[0.2em] text-zinc-400">Categoría</th>
-                  <th className="px-8 py-5 text-[10px] font-black uppercase tracking-[0.2em] text-zinc-400 text-right">Monto</th>
-                  <th className="px-8 py-5 text-[10px] font-black uppercase tracking-[0.2em] text-zinc-400 text-center">Estado</th>
+                <tr className="border-b border-border bg-muted/50">
+                  <th className="px-8 py-5 text-[10px] font-black uppercase tracking-[0.2em] text-muted-foreground">Fecha</th>
+                  <th className="px-8 py-5 text-[10px] font-black uppercase tracking-[0.2em] text-muted-foreground">Descripción</th>
+                  <th className="px-8 py-5 text-[10px] font-black uppercase tracking-[0.2em] text-muted-foreground">Categoría</th>
+                  <th className="px-8 py-5 text-[10px] font-black uppercase tracking-[0.2em] text-muted-foreground text-right">Monto</th>
+                  <th className="px-8 py-5 text-[10px] font-black uppercase tracking-[0.2em] text-muted-foreground text-center">Estado</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-zinc-100 dark:divide-zinc-800">
+              <tbody className="divide-y divide-border">
                 {[1, 2, 3, 4, 5].map((i) => (
-                  <tr key={i} className="group hover:bg-zinc-50/50 dark:hover:bg-zinc-800/30 transition-colors">
-                    <td className="px-8 py-5 text-sm font-bold text-zinc-500">19/02/2026</td>
-                    <td className="px-8 py-5 font-black text-zinc-900 dark:text-zinc-100 uppercase tracking-tighter">Ejemplo de transacción #{i}04</td>
+                  <tr key={i} className="group hover:bg-muted/50 transition-colors">
+                    <td className="px-8 py-5 text-sm font-bold text-muted-foreground">19/02/2026</td>
+                    <td className="px-8 py-5 font-black text-foreground uppercase tracking-tighter">Ejemplo de transacción #{i}04</td>
                     <td className="px-8 py-5">
-                      <span className="px-3 py-1 rounded-lg bg-zinc-100 dark:bg-zinc-800 text-[10px] font-black uppercase">Operativo</span>
+                      <span className="px-3 py-1 rounded-lg bg-muted text-[10px] font-black uppercase border border-border">Operativo</span>
                     </td>
-                    <td className="px-8 py-5 text-right font-black text-zinc-900 dark:text-zinc-100 tabular-nums">
+                    <td className="px-8 py-5 text-right font-black text-foreground tabular-nums">
                       $ 1,250,000
                     </td>
                     <td className="px-8 py-5">
                       <div className="flex justify-center">
-                        <span className="px-3 py-1 rounded-full bg-emerald-50 text-emerald-600 dark:bg-emerald-500/10 text-[9px] font-black uppercase">Completado</span>
+                        <span className="px-3 py-1 rounded-full bg-emerald-500/10 text-emerald-600 text-[9px] font-black uppercase border border-emerald-500/20">Completado</span>
                       </div>
                     </td>
                   </tr>
@@ -350,10 +350,7 @@ function RecaudoView() {
     const toastId = toast.loading("Registrando consignación...");
 
     try {
-      // 1. Subir comprobante
       const { fileId } = await uploadFile(comprobanteFile, 'comprobanteOrdenServicio' as any);
-
-      // 2. Registrar en API
       const empresaId = localStorage.getItem("current-enterprise-id");
       if (!empresaId) throw new Error("No enterprise selected");
 
@@ -387,26 +384,26 @@ function RecaudoView() {
     <div className="space-y-6">
       <div className="flex flex-col gap-6 sm:flex-row sm:items-center sm:justify-between">
         <div>
-          <h2 className="text-2xl font-black tracking-tight text-zinc-900 dark:text-zinc-50 uppercase tracking-tight">Recaudo en Efectivo</h2>
-          <p className="text-sm text-zinc-500 font-medium">Conciliación de dinero físico entregado por los técnicos.</p>
+          <h2 className="text-2xl font-black tracking-tight text-foreground uppercase tracking-tight">Recaudo en Efectivo</h2>
+          <p className="text-sm text-muted-foreground font-medium">Conciliación de dinero físico entregado por los técnicos.</p>
         </div>
-        <Button onClick={fetchData} variant="outline" className="h-11 rounded-xl gap-2 font-bold text-xs uppercase tracking-widest">
+        <Button onClick={fetchData} variant="outline" className="h-11 rounded-xl gap-2 font-bold text-xs uppercase tracking-widest border-border bg-card">
           Refrescar Datos
         </Button>
       </div>
 
-      <Card className="border-none shadow-2xl shadow-zinc-200/50 dark:shadow-none bg-white dark:bg-zinc-900 rounded-[2.5rem] overflow-hidden">
+      <Card className="border-border shadow-2xl shadow-zinc-200/50 dark:shadow-none bg-card rounded-[2.5rem] overflow-hidden">
         <CardContent className="p-0">
           <div className="overflow-x-auto">
             <Table>
-              <TableHeader className="bg-zinc-50/50 dark:bg-zinc-800/50">
-                <TableRow className="border-b border-zinc-100 dark:border-zinc-800">
-                  <TableHead className="px-8 py-5 text-[10px] font-black uppercase tracking-[0.2em] text-zinc-400">Técnico</TableHead>
-                  <TableHead className="px-8 py-5 text-[10px] font-black uppercase tracking-[0.2em] text-zinc-400 text-center">Saldo Pendiente</TableHead>
-                  <TableHead className="px-8 py-5 text-[10px] font-black uppercase tracking-[0.2em] text-zinc-400 text-center">Órdenes</TableHead>
-                  <TableHead className="px-8 py-5 text-[10px] font-black uppercase tracking-[0.2em] text-zinc-400">Última Transferencia</TableHead>
-                  <TableHead className="px-8 py-5 text-[10px] font-black uppercase tracking-[0.2em] text-zinc-400">Estado</TableHead>
-                  <TableHead className="px-8 py-5 text-[10px] font-black uppercase tracking-[0.2em] text-zinc-400 text-right">Acción</TableHead>
+              <TableHeader className="bg-muted/50">
+                <TableRow className="border-b border-border">
+                  <TableHead className="px-8 py-5 text-[10px] font-black uppercase tracking-[0.2em] text-muted-foreground">Técnico</TableHead>
+                  <TableHead className="px-8 py-5 text-[10px] font-black uppercase tracking-[0.2em] text-muted-foreground text-center">Saldo Pendiente</TableHead>
+                  <TableHead className="px-8 py-5 text-[10px] font-black uppercase tracking-[0.2em] text-muted-foreground text-center">Órdenes</TableHead>
+                  <TableHead className="px-8 py-5 text-[10px] font-black uppercase tracking-[0.2em] text-muted-foreground">Última Transferencia</TableHead>
+                  <TableHead className="px-8 py-5 text-[10px] font-black uppercase tracking-[0.2em] text-muted-foreground">Estado</TableHead>
+                  <TableHead className="px-8 py-5 text-[10px] font-black uppercase tracking-[0.2em] text-muted-foreground text-right">Acción</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
@@ -415,8 +412,8 @@ function RecaudoView() {
                     <TableRow key={i}>
                       <TableCell colSpan={6} className="px-8 py-10 text-center">
                         <div className="flex justify-center items-center gap-3">
-                          <Loader2 className="h-5 w-5 animate-spin text-azul-1" />
-                          <span className="text-[10px] font-black uppercase tracking-widest text-zinc-400">Cargando balances...</span>
+                          <Loader2 className="h-5 w-5 animate-spin text-[#01ADFB]" />
+                          <span className="text-[10px] font-black uppercase tracking-widest text-muted-foreground">Cargando balances...</span>
                         </div>
                       </TableCell>
                     </TableRow>
@@ -425,35 +422,35 @@ function RecaudoView() {
                   <TableRow>
                     <TableCell colSpan={6} className="px-8 py-20 text-center">
                       <div className="flex flex-col items-center gap-4">
-                        <AlertCircle className="h-12 w-12 text-zinc-200" />
-                        <p className="text-zinc-500 font-bold uppercase tracking-widest text-xs">No hay recaudos pendientes de conciliación.</p>
+                        <AlertCircle className="h-12 w-12 text-muted/30" />
+                        <p className="text-muted-foreground font-bold uppercase tracking-widest text-xs">No hay recaudos pendientes de conciliación.</p>
                       </div>
                     </TableCell>
                   </TableRow>
                 ) : (
                   technicians.map((tech) => (
-                    <TableRow key={tech.id} className="group hover:bg-zinc-50/50 dark:hover:bg-zinc-800/30 transition-colors">
-                      <TableCell className="px-8 py-6 font-black text-zinc-900 dark:text-zinc-100 uppercase tracking-tight">
+                    <TableRow key={tech.id} className="group hover:bg-muted transition-colors">
+                      <TableCell className="px-8 py-6 font-black text-foreground uppercase tracking-tight">
                         {tech.nombre} {tech.apellido}
                       </TableCell>
                       <TableCell className="px-8 py-6 text-center">
                         <span className={cn(
                           "text-base font-black tabular-nums",
-                          tech.saldoPendiente > 0 ? "text-emerald-600 dark:text-emerald-400" : "text-zinc-300"
+                          tech.saldoPendiente > 0 ? "text-emerald-600 dark:text-emerald-400" : "text-muted-foreground/30"
                         )}>
                           $ {tech.saldoPendiente.toLocaleString()}
                         </span>
                       </TableCell>
                       <TableCell className="px-8 py-6 text-center">
                         {tech.ordenesPendientesCount > 0 ? (
-                          <Badge variant="outline" className="bg-blue-50 text-blue-700 border-blue-200 dark:bg-blue-900/20 dark:text-blue-400 dark:border-blue-800 font-black text-[10px]">
+                          <Badge variant="outline" className="bg-blue-500/10 text-[#01ADFB] border-[#01ADFB]/20 font-black text-[10px]">
                             {tech.ordenesPendientesCount} PENDIENTES
                           </Badge>
                         ) : (
-                          <span className="text-zinc-300 text-[10px] font-black">--</span>
+                          <span className="text-muted-foreground/30 text-[10px] font-black">--</span>
                         )}
                       </TableCell>
-                      <TableCell className="px-8 py-6 text-xs font-bold text-zinc-500">
+                      <TableCell className="px-8 py-6 text-xs font-bold text-muted-foreground">
                         {tech.ultimaTransferencia 
                           ? format(new Date(tech.ultimaTransferencia), "d 'de' MMM, yyyy", { locale: es })
                           : "PRIMER RECAUDO"
@@ -461,7 +458,7 @@ function RecaudoView() {
                       </TableCell>
                       <TableCell className="px-8 py-6">
                         {tech.diasSinTransferir > 7 && tech.saldoPendiente > 0 ? (
-                          <Badge variant="destructive" className="bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400 font-black text-[9px] uppercase tracking-tighter">
+                          <Badge variant="destructive" className="bg-destructive/10 text-destructive font-black text-[9px] uppercase tracking-tighter">
                             {tech.diasSinTransferir} DÍAS ATRASADO
                           </Badge>
                         ) : tech.saldoPendiente === 0 ? (
@@ -469,7 +466,7 @@ function RecaudoView() {
                             <CheckCircle className="h-3 w-3 mr-2" /> AL DÍA
                           </div>
                         ) : (
-                          <Badge variant="secondary" className="bg-zinc-100 text-zinc-600 dark:bg-zinc-800 dark:text-zinc-400 font-black text-[9px]">
+                          <Badge variant="secondary" className="bg-muted text-muted-foreground font-black text-[9px]">
                             NORMAL ({tech.diasSinTransferir} DÍAS)
                           </Badge>
                         )}
@@ -477,7 +474,7 @@ function RecaudoView() {
                       <TableCell className="px-8 py-6 text-right">
                         <Button 
                           size="sm" 
-                          className="h-10 px-6 rounded-xl bg-azul-1 dark:bg-azul-1 hover:bg-blue-700 text-white font-black text-[10px] uppercase tracking-widest shadow-lg shadow-azul-1/20 border-none"
+                          className="h-10 px-6 rounded-xl bg-[#01ADFB] hover:bg-blue-700 text-white font-black text-[10px] uppercase tracking-widest shadow-lg shadow-[#01ADFB]/20 border-none"
                           onClick={() => handleOpenModal(tech)}
                           disabled={tech.saldoPendiente <= 0}
                         >
@@ -494,25 +491,25 @@ function RecaudoView() {
       </Card>
 
       <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}>
-        <DialogContent className="max-w-xl">
+        <DialogContent className="max-w-xl bg-card border-border">
           <DialogHeader>
-            <DialogTitle className="text-xl font-black uppercase tracking-tight flex items-center gap-3">
+            <DialogTitle className="text-xl font-black uppercase tracking-tight flex items-center gap-3 text-foreground">
               <Coins className="h-6 w-6 text-emerald-500" /> Conciliación de Efectivo
             </DialogTitle>
-            <DialogDescription className="font-medium">
+            <DialogDescription className="font-medium text-muted-foreground">
               Legalice el dinero físico reportado por el técnico.
             </DialogDescription>
           </DialogHeader>
 
           {selectedTech && (
             <div className="space-y-6 mt-4">
-              <div className="bg-emerald-50 dark:bg-emerald-900/20 p-6 rounded-2xl border border-emerald-100 dark:border-emerald-800/50 flex justify-between items-center">
+              <div className="bg-emerald-500/10 p-6 rounded-2xl border border-emerald-500/20 flex justify-between items-center">
                 <div>
-                  <p className="text-[10px] font-black text-emerald-600/70 dark:text-emerald-400 uppercase tracking-widest mb-1">Responsable</p>
-                  <p className="text-lg font-black text-emerald-900 dark:text-emerald-50 uppercase">{selectedTech.nombre} {selectedTech.apellido}</p>
+                  <p className="text-[10px] font-black text-emerald-600 dark:text-emerald-400 uppercase tracking-widest mb-1">Responsable</p>
+                  <p className="text-lg font-black text-foreground uppercase">{selectedTech.nombre} {selectedTech.apellido}</p>
                 </div>
                 <div className="text-right">
-                  <p className="text-[10px] font-black text-emerald-600/70 dark:text-emerald-400 uppercase tracking-widest mb-1">Monto a Conciliar</p>
+                  <p className="text-[10px] font-black text-emerald-600 dark:text-emerald-400 uppercase tracking-widest mb-1">Monto a Conciliar</p>
                   <p className="text-2xl font-black text-emerald-600 dark:text-emerald-400">
                     $ {selectedTech.saldoPendiente.toLocaleString()}
                   </p>
@@ -521,32 +518,32 @@ function RecaudoView() {
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                 <div className="space-y-2">
-                  <Label className="text-[10px] font-black uppercase tracking-widest text-zinc-500">Referencia de Banco <span className="text-red-500">*</span></Label>
+                  <Label className="text-[10px] font-black uppercase tracking-widest text-muted-foreground">Referencia de Banco <span className="text-red-500">*</span></Label>
                   <Input 
                     value={formData.referenciaBanco}
                     onChange={(e) => setFormData({...formData, referenciaBanco: e.target.value})}
                     placeholder="Nº de transferencia"
-                    className="h-12 rounded-xl border-zinc-200 dark:border-zinc-800 bg-zinc-50 dark:bg-zinc-800/50 font-bold"
+                    className="h-12 rounded-xl border-border bg-muted text-foreground font-bold"
                   />
                 </div>
                 <div className="space-y-2">
-                  <Label className="text-[10px] font-black uppercase tracking-widest text-zinc-500">Fecha de Consignación <span className="text-red-500">*</span></Label>
+                  <Label className="text-[10px] font-black uppercase tracking-widest text-muted-foreground">Fecha de Consignación <span className="text-red-500">*</span></Label>
                   <DatePicker 
                     date={formData.fechaConsignacion ? new Date(formData.fechaConsignacion + "T00:00:00") : undefined}
                     onChange={(d) => setFormData({...formData, fechaConsignacion: d ? d.toISOString().split("T")[0] : ""})}
-                    className="h-12 border-zinc-200 dark:border-zinc-800 bg-zinc-50 dark:bg-zinc-800/50"
+                    className="h-12 border-border bg-muted"
                   />
                 </div>
               </div>
 
               <div className="space-y-2">
-                <Label className="text-[10px] font-black uppercase tracking-widest text-zinc-500">Comprobante de Consignación <span className="text-red-500">*</span></Label>
+                <Label className="text-[10px] font-black uppercase tracking-widest text-muted-foreground">Comprobante de Consignación <span className="text-red-500">*</span></Label>
                 <div 
                   onClick={() => document.getElementById('comprobante-recaudo-upload')?.click()}
-                  className="h-24 border-2 border-dashed border-zinc-200 dark:border-zinc-800 rounded-2xl flex flex-col items-center justify-center cursor-pointer hover:bg-zinc-50 dark:hover:bg-zinc-800/50 transition-colors"
+                  className="h-24 border-2 border-dashed border-border rounded-2xl flex flex-col items-center justify-center cursor-pointer hover:bg-muted transition-colors"
                 >
-                  <FileUp className="h-6 w-6 text-zinc-400 mb-2" />
-                  <span className="text-[10px] font-black uppercase tracking-widest text-zinc-500 px-4 text-center truncate w-full">
+                  <FileUp className="h-6 w-6 text-muted-foreground mb-2" />
+                  <span className="text-[10px] font-black uppercase tracking-widest text-muted-foreground px-4 text-center truncate w-full">
                     {comprobanteFile ? comprobanteFile.name : "Subir foto de la transferencia única"}
                   </span>
                   <input 
@@ -560,11 +557,11 @@ function RecaudoView() {
               </div>
 
               <div className="space-y-2">
-                <Label className="text-[10px] font-black uppercase tracking-widest text-zinc-500">Observaciones (Opcional)</Label>
+                <Label className="text-[10px] font-black uppercase tracking-widest text-muted-foreground">Observaciones (Opcional)</Label>
                 <textarea 
                   value={formData.observacion}
                   onChange={(e) => setFormData({...formData, observacion: e.target.value})}
-                  className="w-full min-h-[100px] p-4 rounded-2xl border border-zinc-200 dark:border-zinc-800 bg-zinc-50 dark:bg-zinc-800/50 text-sm font-medium focus:ring-2 focus:ring-azul-1 outline-none transition-all"
+                  className="w-full min-h-[100px] p-4 rounded-2xl border border-border bg-muted text-sm font-medium text-foreground focus:ring-2 focus:ring-[#01ADFB] outline-none transition-all"
                   placeholder="Notas sobre el cierre de caja..."
                 />
               </div>
@@ -572,14 +569,14 @@ function RecaudoView() {
               <div className="flex gap-3 pt-2">
                 <Button 
                   variant="outline" 
-                  className="flex-1 h-12 rounded-xl font-bold uppercase tracking-widest text-[10px]"
+                  className="flex-1 h-12 rounded-xl font-bold uppercase tracking-widest text-[10px] border-border bg-background"
                   onClick={() => setIsModalOpen(false)}
                   disabled={isSaving}
                 >
                   Cancelar
                 </Button>
                 <Button 
-                  className="flex-1 h-12 rounded-xl bg-azul-1 dark:bg-azul-1 hover:bg-blue-700 text-white font-bold uppercase tracking-widest text-[10px] shadow-lg shadow-azul-1/20"
+                  className="flex-1 h-12 rounded-xl bg-[#01ADFB] hover:bg-blue-700 text-white font-bold uppercase tracking-widest text-[10px] shadow-lg shadow-[#01ADFB]/20"
                   onClick={handleRegisterConsignacion}
                   disabled={isSaving || !formData.referenciaBanco || !comprobanteFile}
                 >
@@ -598,75 +595,75 @@ function BalanceView() {
   return (
     <div className="space-y-8">
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <Card className="border-none shadow-2xl bg-white dark:bg-zinc-900 rounded-[2.5rem]">
+        <Card className="border-border shadow-2xl bg-card rounded-[2.5rem]">
           <CardContent className="p-8">
             <div className="flex items-center justify-between mb-4">
-              <div className="h-12 w-12 rounded-2xl bg-emerald-50 dark:bg-emerald-500/10 flex items-center justify-center text-emerald-600">
+              <div className="h-12 w-12 rounded-2xl bg-emerald-500/10 flex items-center justify-center text-emerald-600">
                 <TrendingUp className="h-6 w-6" />
               </div>
-              <span className="text-[10px] font-black text-emerald-600 bg-emerald-50 px-2 py-1 rounded-lg">+12.5%</span>
+              <span className="text-[10px] font-black text-emerald-600 bg-emerald-500/10 px-2 py-1 rounded-lg">+12.5%</span>
             </div>
-            <p className="text-[10px] font-black text-zinc-400 uppercase tracking-widest">Ingresos Totales</p>
-            <h3 className="text-3xl font-black tracking-tighter mt-1">$ 45,250,000</h3>
+            <p className="text-[10px] font-black text-muted-foreground uppercase tracking-widest">Ingresos Totales</p>
+            <h3 className="text-3xl font-black tracking-tighter mt-1 text-foreground">$ 45,250,000</h3>
           </CardContent>
         </Card>
 
-        <Card className="border-none shadow-2xl bg-white dark:bg-zinc-900 rounded-[2.5rem]">
+        <Card className="border-border shadow-2xl bg-card rounded-[2.5rem]">
           <CardContent className="p-8">
             <div className="flex items-center justify-between mb-4">
-              <div className="h-12 w-12 rounded-2xl bg-red-50 dark:bg-red-500/10 flex items-center justify-center text-red-600">
+              <div className="h-12 w-12 rounded-2xl bg-destructive/10 flex items-center justify-center text-destructive">
                 <TrendingDown className="h-6 w-6" />
               </div>
-              <span className="text-[10px] font-black text-red-600 bg-red-50 px-2 py-1 rounded-lg">-4.3%</span>
+              <span className="text-[10px] font-black text-destructive bg-destructive/10 px-2 py-1 rounded-lg">-4.3%</span>
             </div>
-            <p className="text-[10px] font-black text-zinc-400 uppercase tracking-widest">Egresos Totales</p>
-            <h3 className="text-3xl font-black tracking-tighter mt-1">$ 12,840,000</h3>
+            <p className="text-[10px] font-black text-muted-foreground uppercase tracking-widest">Egresos Totales</p>
+            <h3 className="text-3xl font-black tracking-tighter mt-1 text-foreground">$ 12,840,000</h3>
           </CardContent>
         </Card>
 
-        <Card className="border-none shadow-2xl bg-zinc-900 dark:bg-zinc-950 text-white dark:text-zinc-200 rounded-[2.5rem] border dark:border-zinc-800">
+        <Card className="border-none shadow-2xl bg-foreground text-background rounded-[2.5rem]">
           <CardContent className="p-8">
             <div className="flex items-center justify-between mb-4">
-              <div className="h-12 w-12 rounded-2xl bg-white/10 dark:bg-zinc-800/50 flex items-center justify-center">
-                <DollarSign className="h-6 w-6 dark:text-zinc-200" />
+              <div className="h-12 w-12 rounded-2xl bg-background/10 flex items-center justify-center">
+                <DollarSign className="h-6 w-6 text-background" />
               </div>
             </div>
-            <p className="text-[10px] font-black text-zinc-400 dark:text-zinc-300 uppercase tracking-widest">Utilidad Neta</p>
+            <p className="text-[10px] font-black opacity-60 uppercase tracking-widest">Utilidad Neta</p>
             <h3 className="text-3xl font-black tracking-tighter mt-1">$ 32,410,000</h3>
           </CardContent>
         </Card>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-        <Card className="border-none shadow-2xl bg-white dark:bg-zinc-900 rounded-[2.5rem]">
+        <Card className="border-border shadow-2xl bg-card rounded-[2.5rem]">
           <CardHeader>
-            <CardTitle className="text-xl font-black flex items-center gap-3">
-              <div className="h-2 w-2 rounded-full bg-blue-500" />
+            <CardTitle className="text-xl font-black flex items-center gap-3 text-foreground">
+              <div className="h-2 w-2 rounded-full bg-[#01ADFB]" />
               Flujo de Caja Mensual
             </CardTitle>
           </CardHeader>
           <CardContent className="h-64 flex items-center justify-center">
-            <p className="text-zinc-400 font-bold uppercase tracking-widest text-xs">Visualización de Gráfico — Prototipo</p>
+            <p className="text-muted-foreground font-bold uppercase tracking-widest text-xs">Visualización de Gráfico — Prototipo</p>
           </CardContent>
         </Card>
 
-        <Card className="border-none shadow-2xl bg-white dark:bg-zinc-900 rounded-[2.5rem]">
+        <Card className="border-border shadow-2xl bg-card rounded-[2.5rem]">
           <CardHeader>
-            <CardTitle className="text-xl font-black">Gastos por Categoría</CardTitle>
+            <CardTitle className="text-xl font-black text-foreground">Gastos por Categoría</CardTitle>
           </CardHeader>
           <CardContent className="space-y-6">
             {[
-              { label: "Nómina", value: 65, color: "bg-blue-500" },
+              { label: "Nómina", value: 65, color: "bg-primary" },
               { label: "Insumos", value: 20, color: "bg-amber-500" },
               { label: "Marketing", value: 10, color: "bg-emerald-500" },
-              { label: "Otros", value: 5, color: "bg-zinc-400" },
+              { label: "Otros", value: 5, color: "bg-muted-foreground" },
             ].map((cat) => (
               <div key={cat.label} className="space-y-2">
                 <div className="flex justify-between items-end">
-                  <span className="text-[10px] font-black uppercase tracking-widest text-zinc-500">{cat.label}</span>
-                  <span className="text-xs font-black">{cat.value}%</span>
+                  <span className="text-[10px] font-black uppercase tracking-widest text-muted-foreground">{cat.label}</span>
+                  <span className="text-xs font-black text-foreground">{cat.value}%</span>
                 </div>
-                <div className="h-2 w-full bg-zinc-100 dark:bg-zinc-800 rounded-full overflow-hidden">
+                <div className="h-2 w-full bg-muted rounded-full overflow-hidden">
                   <div className={cn("h-full rounded-full", cat.color)} style={{ width: `${cat.value}%` }} />
                 </div>
               </div>

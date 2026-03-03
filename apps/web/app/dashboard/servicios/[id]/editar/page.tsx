@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect, Suspense, useCallback, use } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { toast } from "sonner";
 import {
   getClientesAction,
@@ -124,6 +124,9 @@ interface Operador {
 
 function EditarServicioContent({ id }: { id: string }) {
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const returnTo = searchParams.get("returnTo");
+  
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [clientes, setClientes] = useState<Cliente[]>([]);
@@ -397,7 +400,7 @@ function EditarServicioContent({ id }: { id: string }) {
       }
 
       toast.success("Orden de servicio actualizada correctamente");
-      router.push("/dashboard/servicios");
+      router.push(returnTo || "/dashboard/servicios");
     } catch (err: unknown) {
       const errorMessage = err instanceof Error ? err.message : "Error al actualizar la orden";
       toast.error(errorMessage);

@@ -19,7 +19,13 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Combobox } from "@/components/ui/combobox";
-import { Select } from "@/components/ui/select";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select-shadcn";
 import { TimePicker } from "@/components/ui/time-picker";
 import {
   ArrowLeft,
@@ -358,7 +364,7 @@ function EditarClienteContent() {
 
   if (loadingClient) {
     return (
-      <div className="flex h-[80vh] items-center justify-center text-sm text-zinc-500 animate-pulse font-bold uppercase tracking-widest">
+      <div className="flex h-[80vh] items-center justify-center text-sm text-muted-foreground animate-pulse font-bold uppercase tracking-widest">
         Recuperando expediente del cliente...
       </div>
     );
@@ -366,125 +372,146 @@ function EditarClienteContent() {
 
   return (
     <div className="max-w-5xl mx-auto w-full h-[calc(100vh-12rem)] flex flex-col min-h-0">
-      <div className="flex-1 flex flex-col bg-white dark:bg-zinc-950 rounded-2xl shadow-sm border border-zinc-100 dark:border-zinc-800 overflow-hidden min-h-0">
+      <div className="flex-1 flex flex-col bg-card rounded-2xl shadow-sm border border-border overflow-hidden min-h-0">
 
-        <div className="flex-none bg-white dark:bg-zinc-950 border-b border-zinc-100 dark:border-zinc-800 px-8 py-6 flex items-center justify-between">
+        <div className="flex-none bg-card border-b border-border px-8 py-6 flex items-center justify-between">
           <div className="flex items-center gap-5">
-            <Button variant="ghost" size="icon" onClick={() => router.push("/dashboard/clientes")} className="h-10 w-10 rounded-full border border-zinc-100 dark:border-zinc-800 hover:bg-zinc-50"><ArrowLeft className="h-4 w-4" /></Button>
+            <Button variant="ghost" size="icon" onClick={() => router.push("/dashboard/clientes")} className="h-10 w-10 rounded-full border border-border hover:bg-muted"><ArrowLeft className="h-4 w-4" /></Button>
             <div>
-              <h1 className="text-xl font-bold text-zinc-900 dark:text-zinc-50 tracking-tight">Editar Cliente</h1>
+              <h1 className="text-xl font-bold text-foreground tracking-tight">Editar Cliente</h1>
               <div className="flex items-center gap-2 mt-0.5">
                 <span className="flex h-1.5 w-1.5 rounded-full bg-azul-1"></span>
-                <p className="text-[10px] text-zinc-400 font-bold uppercase tracking-[0.1em]">Expediente: {id.slice(0,8)}</p>
+                <p className="text-[10px] text-muted-foreground font-bold uppercase tracking-[0.1em]">Expediente: {id.slice(0,8)}</p>
               </div>
             </div>
           </div>
 
-          <div className="flex bg-zinc-50 dark:bg-zinc-900 p-1 rounded-xl border border-zinc-100 dark:border-zinc-800 shadow-inner">
-            <button type="button" onClick={() => setTipoCliente("NATURAL")} className={`flex items-center gap-2 px-6 py-2.5 rounded-lg text-xs font-bold transition-all ${tipoCliente === "NATURAL" ? "bg-white dark:bg-zinc-800 text-azul-1 shadow-sm border border-zinc-100/50" : "text-zinc-400 hover:text-zinc-600"}`}><UserCircle2 className="h-4 w-4" /> PERSONA NATURAL</button>
-            <button type="button" onClick={() => setTipoCliente("EMPRESA")} className={`flex items-center gap-2 px-6 py-2.5 rounded-lg text-xs font-bold transition-all ${tipoCliente === "EMPRESA" ? "bg-white dark:bg-zinc-800 text-azul-1 shadow-sm border border-zinc-100/50" : "text-zinc-400 hover:text-zinc-600"}`}><Building2 className="h-4 w-4" /> CORPORATIVO / EMPRESA</button>
+          <div className="flex bg-muted p-1 rounded-xl border border-border shadow-inner">
+            <button type="button" onClick={() => setTipoCliente("NATURAL")} className={`flex items-center gap-2 px-6 py-2.5 rounded-lg text-xs font-bold transition-all ${tipoCliente === "NATURAL" ? "bg-background text-azul-1 shadow-sm border border-border/50" : "text-muted-foreground hover:text-foreground"}`}><UserCircle2 className="h-4 w-4" /> PERSONA NATURAL</button>
+            <button type="button" onClick={() => setTipoCliente("EMPRESA")} className={`flex items-center gap-2 px-6 py-2.5 rounded-lg text-xs font-bold transition-all ${tipoCliente === "EMPRESA" ? "bg-background text-azul-1 shadow-sm border border-border/50" : "text-muted-foreground hover:text-foreground"}`}><Building2 className="h-4 w-4" /> CORPORATIVO / EMPRESA</button>
           </div>
         </div>
 
-        <div className="flex-1 overflow-y-auto p-10 custom-scrollbar bg-white dark:bg-zinc-950">
+        <div className="flex-1 overflow-y-auto p-10 custom-scrollbar bg-background">
           <form id="cliente-form" onSubmit={handleSubmit} className="space-y-12 max-w-4xl mx-auto pb-12">
 
             <section className="space-y-8">
-              <div className="flex items-center gap-3 border-b border-zinc-100 dark:border-zinc-800 pb-3">
-                <div className="p-2 rounded-lg bg-zinc-50 dark:bg-zinc-900 border border-zinc-100 dark:border-zinc-800 text-zinc-400"><Target className="h-5 w-5" /></div>
-                <h2 className="text-lg font-bold text-zinc-900 dark:text-zinc-50">Configuración de Perfil</h2>
+              <div className="flex items-center gap-3 border-b border-border pb-3">
+                <div className="p-2 rounded-lg bg-muted border border-border text-muted-foreground"><Target className="h-5 w-5" /></div>
+                <h2 className="text-lg font-bold text-foreground">Configuración de Perfil</h2>
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6">
                 {tipoCliente === "NATURAL" ? (
                   <>
                     <div className="space-y-2">
-                      <Label className="text-xs font-bold text-zinc-500 dark:text-zinc-300 uppercase tracking-wider">Nombre(s)</Label>
-                      <Input value={nombre} onChange={(e) => setNombre(e.target.value)} className="h-11 border-zinc-100 dark:border-zinc-100 dark:bg-zinc-900 dark:text-zinc-100" placeholder="Ej: Juan" />
+                      <Label className="text-xs font-bold text-muted-foreground uppercase tracking-wider">Nombre(s)</Label>
+                      <Input value={nombre} onChange={(e) => setNombre(e.target.value)} className="h-11 border-border bg-background text-foreground focus-visible:ring-0 focus-visible:ring-offset-0" placeholder="Ej: Juan" />
                     </div>
                     <div className="space-y-2">
-                      <Label className="text-xs font-bold text-zinc-500 dark:text-zinc-300 uppercase tracking-wider">Apellido(s)</Label>
-                      <Input value={apellido} onChange={(e) => setApellido(e.target.value)} className="h-11 border-zinc-100 dark:border-zinc-100 dark:bg-zinc-900 dark:text-zinc-100" placeholder="Ej: Valdés" />
+                      <Label className="text-xs font-bold text-muted-foreground uppercase tracking-wider">Apellido(s)</Label>
+                      <Input value={apellido} onChange={(e) => setApellido(e.target.value)} className="h-11 border-border bg-background text-foreground focus-visible:ring-0 focus-visible:ring-offset-0" placeholder="Ej: Valdés" />
                     </div>
                     <div className="space-y-2">
-                      <Label className="text-xs font-bold text-zinc-500 dark:text-zinc-300 uppercase tracking-wider">Tipo de Documento</Label>
-                      <Select value={tipoDocumento} onChange={(e) => setTipoDocumento(e.target.value)} className="h-11 border-zinc-100 dark:border-zinc-100 dark:bg-zinc-900 dark:text-zinc-50">
-                        <option value="">No especificado</option>
-                        {TIPOS_DOCUMENTO.map(t => <option key={t} value={t}>{t}</option>)}
+                      <Label className="text-xs font-bold text-muted-foreground uppercase tracking-wider">Tipo de Documento</Label>
+                      <Select value={tipoDocumento} onValueChange={setTipoDocumento}>
+                        <SelectTrigger className="h-11 border-border bg-background text-foreground focus:ring-0">
+                          <SelectValue placeholder="No especificado" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="none">No especificado</SelectItem>
+                          {TIPOS_DOCUMENTO.map(t => <SelectItem key={t} value={t}>{t}</SelectItem>)}
+                        </SelectContent>
                       </Select>
                     </div>
                     <div className="space-y-2">
-                      <Label className="text-xs font-bold text-zinc-500 dark:text-zinc-300 uppercase tracking-wider">Número de Documento</Label>
-                      <Input value={numeroDocumento} onChange={(e) => setNumeroDocumento(e.target.value)} className="h-11 border-zinc-100 dark:border-zinc-100 dark:bg-zinc-900 dark:text-zinc-100 font-mono" placeholder="12345678" />
+                      <Label className="text-xs font-bold text-muted-foreground uppercase tracking-wider">Número de Documento</Label>
+                      <Input value={numeroDocumento} onChange={(e) => setNumeroDocumento(e.target.value)} className="h-11 border-border bg-background text-foreground font-mono focus-visible:ring-0 focus-visible:ring-offset-0" placeholder="12345678" />
                     </div>
                   </>
                 ) : (
                   <>
                     <div className="space-y-2 md:col-span-2">
-                      <Label className="text-xs font-bold text-zinc-500 dark:text-zinc-300 uppercase tracking-wider">Razón Social</Label>
-                      <Input value={razonSocial} onChange={(e) => setRazonSocial(e.target.value)} className="h-11 border-azul-1/20 dark:border-zinc-100 dark:bg-zinc-900 dark:text-zinc-100" />
+                      <Label className="text-xs font-bold text-muted-foreground uppercase tracking-wider">Razón Social</Label>
+                      <Input value={razonSocial} onChange={(e) => setRazonSocial(e.target.value)} className="h-11 border-border bg-background text-foreground focus-visible:ring-0 focus-visible:ring-offset-0" />
                     </div>
                     <div className="space-y-2">
-                      <Label className="text-xs font-bold text-zinc-500 dark:text-zinc-300 uppercase tracking-wider">NIT / Identificación</Label>
-                      <Input value={nit} onChange={(e) => setNit(e.target.value)} className="h-11 font-mono dark:border-zinc-100 dark:bg-zinc-900 dark:text-zinc-100" />
+                      <Label className="text-xs font-bold text-muted-foreground uppercase tracking-wider">NIT / Identificación</Label>
+                      <Input value={nit} onChange={(e) => setNit(e.target.value)} className="h-11 border-border bg-background text-foreground font-mono focus-visible:ring-0 focus-visible:ring-offset-0" />
                     </div>
                   </>
                 )}
 
                 <div className="space-y-2">
-                  <Label className="text-xs font-bold text-zinc-500 dark:text-zinc-300 uppercase tracking-wider">Teléfono Principal <span className="text-red-500">*</span></Label>
-                  <Input value={telefono} onChange={(e) => setTelefono(e.target.value)} required className="h-11 border-zinc-100 dark:border-zinc-100 dark:bg-zinc-900 dark:text-zinc-100" placeholder="3000000000" />
+                  <Label className="text-xs font-bold text-muted-foreground uppercase tracking-wider">Teléfono Principal <span className="text-red-500">*</span></Label>
+                  <Input value={telefono} onChange={(e) => setTelefono(e.target.value)} required className="h-11 border-border bg-background text-foreground focus-visible:ring-0 focus-visible:ring-offset-0" placeholder="3000000000" />
                 </div>
                 <div className="space-y-2">
-                  <Label className="text-xs font-bold text-zinc-500 dark:text-zinc-300 uppercase tracking-wider">Teléfono Secundario (Opcional)</Label>
-                  <Input value={telefono2} onChange={(e) => setTelefono2(e.target.value)} className="h-11 border-zinc-100 dark:border-zinc-100 dark:bg-zinc-900 dark:text-zinc-100 opacity-80" placeholder="3111111111" />
+                  <Label className="text-xs font-bold text-muted-foreground uppercase tracking-wider">Teléfono Secundario (Opcional)</Label>
+                  <Input value={telefono2} onChange={(e) => setTelefono2(e.target.value)} className="h-11 border-border bg-background text-foreground opacity-80 focus-visible:ring-0 focus-visible:ring-offset-0" placeholder="3111111111" />
                 </div>
 
                 <div className="space-y-2">
-                  <Label className="text-xs font-bold text-zinc-500 dark:text-zinc-300 uppercase tracking-wider">Segmento del Negocio</Label>
-                  <Select value={segmento} onChange={(e) => setSegmento(e.target.value)} className="h-11 dark:border-zinc-100 dark:bg-zinc-900 dark:text-zinc-100">
-                    <option value="">Seleccionar...</option>
-                    {segmentosDb.map(s => <option key={s.id} value={s.id}>{s.nombre}</option>)}
+                  <Label className="text-xs font-bold text-muted-foreground uppercase tracking-wider">Segmento del Negocio</Label>
+                  <Select value={segmento} onValueChange={setSegmento}>
+                    <SelectTrigger className="h-11 border-border bg-background text-foreground focus:ring-0">
+                      <SelectValue placeholder="Seleccionar..." />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {segmentosDb.map(s => <SelectItem key={s.id} value={s.id}>{s.nombre}</SelectItem>)}
+                    </SelectContent>
                   </Select>
                 </div>
 
                 <div className="space-y-2">
-                  <Label className="text-xs font-bold text-zinc-500 dark:text-zinc-300 uppercase tracking-wider">Nivel de Riesgo Operativo</Label>
-                  <Select value={riesgoOverride || riesgosDb.find(r => r.nombre === sugerencias.riesgo)?.id || ""} onChange={(e) => setRiesgoOverride(e.target.value)} className="h-11 dark:border-zinc-100 dark:bg-zinc-900 dark:text-zinc-100">
-                    <option value="">Seleccionar riesgo...</option>
-                    {riesgosDb.map(r => <option key={r.id} value={r.id}>{r.nombre}</option>)}
+                  <Label className="text-xs font-bold text-muted-foreground uppercase tracking-wider">Nivel de Riesgo Operativo</Label>
+                  <Select value={riesgoOverride || riesgosDb.find(r => r.nombre === sugerencias.riesgo)?.id || ""} onValueChange={setRiesgoOverride}>
+                    <SelectTrigger className="h-11 border-border bg-background text-foreground focus:ring-0">
+                      <SelectValue placeholder="Seleccionar riesgo..." />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {riesgosDb.map(r => <SelectItem key={r.id} value={r.id}>{r.nombre}</SelectItem>)}
+                    </SelectContent>
                   </Select>
                 </div>
 
                 <div className="space-y-2">
-                  <Label className="text-xs font-bold text-zinc-500 dark:text-zinc-300 uppercase tracking-wider">Canal de Captación</Label>
-                  <Select value={origen} onChange={(e) => setOrigen(e.target.value)} className="h-11 border-zinc-100 dark:border-zinc-100 dark:bg-zinc-900 dark:text-zinc-100">
-                    <option value="">Seleccionar...</option>
-                    {ORIGENES_CLIENTE.map(o => <option key={o} value={o}>{o}</option>)}
+                  <Label className="text-xs font-bold text-muted-foreground uppercase tracking-wider">Canal de Captación</Label>
+                  <Select value={origen} onValueChange={setOrigen}>
+                    <SelectTrigger className="h-11 border-border bg-background text-foreground focus:ring-0">
+                      <SelectValue placeholder="Seleccionar..." />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {ORIGENES_CLIENTE.map(o => <SelectItem key={o} value={o}>{o}</SelectItem>)}
+                    </SelectContent>
                   </Select>
                 </div>
                 <div className="space-y-2">
-                  <Label className="text-xs font-bold text-zinc-500 dark:text-zinc-300 uppercase tracking-wider">Correo Electrónico (Opcional)</Label>
-                  <Input value={correo} onChange={(e) => setCorreo(e.target.value)} type="email" className="h-11 border-zinc-100 dark:border-zinc-100 dark:bg-zinc-900 dark:text-zinc-100" placeholder="usuario@ejemplo.com" />
+                  <Label className="text-xs font-bold text-muted-foreground uppercase tracking-wider">Correo Electrónico (Opcional)</Label>
+                  <Input value={correo} onChange={(e) => setCorreo(e.target.value)} type="email" className="h-11 border-border bg-background text-foreground focus-visible:ring-0 focus-visible:ring-offset-0" placeholder="usuario@ejemplo.com" />
                 </div>
 
                 <div className="space-y-2">
-                  <Label className="text-xs font-bold text-zinc-500 dark:text-zinc-300 uppercase tracking-wider">Tipo de Servicio Interés</Label>
-                  <Select value={interes} onChange={(e) => setInteres(e.target.value)} className="h-11 border-zinc-100 dark:border-zinc-100 dark:bg-zinc-900 dark:text-zinc-100">
-                    <option value="">Seleccionar...</option>
-                    {tiposInteresDb.map(s => <option key={s.id} value={s.id}>{s.nombre}</option>)}
+                  <Label className="text-xs font-bold text-muted-foreground uppercase tracking-wider">Tipo de Servicio Interés</Label>
+                  <Select value={interes} onValueChange={setInteres}>
+                    <SelectTrigger className="h-11 border-border bg-background text-foreground focus:ring-0">
+                      <SelectValue placeholder="Seleccionar..." />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {tiposInteresDb.map(s => <SelectItem key={s.id} value={s.id}>{s.nombre}</SelectItem>)}
+                    </SelectContent>
                   </Select>
                 </div>
 
                 {tipoCliente === "EMPRESA" && (
                   <>
                     <div className="space-y-2">
-                      <Label className="text-xs font-bold text-zinc-500 dark:text-zinc-300 uppercase tracking-wider">Actividad Económica</Label>
-                      <Input value={actividad} onChange={(e) => setActividad(e.target.value)} className="h-11 dark:border-zinc-100 dark:bg-zinc-900 dark:text-zinc-100" placeholder="Ej: Venta de alimentos" />
+                      <Label className="text-xs font-bold text-muted-foreground uppercase tracking-wider">Actividad Económica</Label>
+                      <Input value={actividad} onChange={(e) => setActividad(e.target.value)} className="h-11 border-border bg-background text-foreground focus-visible:ring-0 focus-visible:ring-offset-0" placeholder="Ej: Venta de alimentos" />
                     </div>
                     <div className="space-y-2">
-                      <Label className="text-xs font-bold text-zinc-500 dark:text-zinc-300 uppercase tracking-wider">Área Instalaciones (m²)</Label>
-                      <Input type="number" value={metraje} onChange={(e) => setMetraje(Number(e.target.value))} className="h-11 dark:border-zinc-100 dark:bg-zinc-900 dark:text-zinc-100" />
+                      <Label className="text-xs font-bold text-muted-foreground uppercase tracking-wider">Área Instalaciones (m²)</Label>
+                      <Input type="number" value={metraje} onChange={(e) => setMetraje(Number(e.target.value))} className="h-11 border-border bg-background text-foreground focus-visible:ring-0 focus-visible:ring-offset-0" />
                     </div>
                   </>
                 )}
@@ -492,59 +519,61 @@ function EditarClienteContent() {
             </section>
 
             <section className="space-y-8">
-              <div className="flex items-center justify-between border-b border-zinc-100 dark:border-zinc-800 pb-3">
+              <div className="flex items-center justify-between border-b border-border pb-3">
                 <div className="flex items-center gap-3">
-                  <div className="p-2 rounded-lg bg-zinc-50 dark:bg-zinc-900 border border-zinc-100 dark:border-zinc-800 text-zinc-400"><MapPin className="h-5 w-5" /></div>
-                  <h2 className="text-lg font-bold text-zinc-900 dark:text-zinc-50">{tipoCliente === "NATURAL" ? "Información de Residencia" : "Sedes Operativas"}</h2>
+                  <div className="p-2 rounded-lg bg-muted border border-border text-muted-foreground"><MapPin className="h-5 w-5" /></div>
+                  <h2 className="text-lg font-bold text-foreground">{tipoCliente === "NATURAL" ? "Información de Residencia" : "Sedes Operativas"}</h2>
                 </div>
-                <Button type="button" variant="outline" size="sm" onClick={addDireccion} className="gap-2 h-9 text-azul-1 border-zinc-100 hover:bg-zinc-50 font-bold text-[10px] tracking-wider uppercase">
+                <Button type="button" variant="outline" size="sm" onClick={addDireccion} className="gap-2 h-9 text-azul-1 border-border hover:bg-muted font-bold text-[10px] tracking-wider uppercase bg-background">
                   <Plus className="h-3.5 w-3.5" /> {tipoCliente === "NATURAL" ? "AGREGAR OTRA DIRECCIÓN" : "AGREGAR OTRA SEDE"}
                 </Button>
               </div>
 
               <div className="space-y-10">
                 {direcciones.map((dir) => (
-                  <div key={dir.id} className="relative bg-white dark:bg-zinc-900/50 rounded-2xl border border-zinc-100 dark:border-zinc-800 p-8 space-y-10 transition-all hover:shadow-md">
+                  <div key={dir.id} className="relative bg-card rounded-2xl border border-border p-8 space-y-10 transition-all hover:shadow-md">
                     {direcciones.length > 1 && (
                       <button
                         type="button"
                         onClick={() => removeDireccion(dir.id)}
-                        className="absolute top-4 right-4 p-2 text-zinc-400 hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-950/30 rounded-full transition-colors"
+                        className="absolute top-4 right-4 p-2 text-muted-foreground hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-950/30 rounded-full transition-colors"
                       >
                         <Trash2 className="h-4 w-4" />
                       </button>
                     )}
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6">
                       <div className="space-y-2 md:col-span-2">
-                        <Label className="text-xs font-bold text-zinc-500 dark:text-zinc-300 uppercase tracking-wider">Dirección Principal <span className="text-red-500">*</span></Label>
+                        <Label className="text-xs font-bold text-muted-foreground uppercase tracking-wider">Dirección Principal <span className="text-red-500">*</span></Label>
                         <div className="flex gap-3">
-                          <Input value={dir.direccion} onChange={(e) => handleDireccionChange(dir.id, "direccion", e.target.value)} required className="h-12 border-zinc-100 dark:border-zinc-100 dark:bg-zinc-900 dark:text-zinc-100 text-base" placeholder="Calle 123 # 45 - 67" />
+                          <Input value={dir.direccion} onChange={(e) => handleDireccionChange(dir.id, "direccion", e.target.value)} required className="h-12 border-border bg-background text-foreground text-base focus-visible:ring-0 focus-visible:ring-offset-0" placeholder="Calle 123 # 45 - 67" />
                           <Button type="button" onClick={() => validarDireccion(dir.id)} variant="outline" className="h-12 px-6 gap-2 border-azul-1 text-azul-1 dark:text-claro-azul-4 dark:border-claro-azul-4/50 hover:bg-azul-1/5 transition-all font-bold text-xs"><Search className="h-4 w-4" /> VALIDAR</Button>
                         </div>
                       </div>
 
                       <div className="space-y-2">
-                        <Label className="text-xs font-bold text-zinc-500 dark:text-zinc-300 uppercase tracking-wider">Referencia Maps</Label>
-                        <Input value={dir.linkMaps} onChange={(e) => handleDireccionChange(dir.id, "linkMaps", e.target.value)} className="h-11 border-zinc-100 dark:border-zinc-100 dark:bg-zinc-900 dark:text-zinc-100" placeholder="Enlace de ubicación" />
+                        <Label className="text-xs font-bold text-muted-foreground uppercase tracking-wider">Referencia Maps</Label>
+                        <Input value={dir.linkMaps} onChange={(e) => handleDireccionChange(dir.id, "linkMaps", e.target.value)} className="h-11 border-border bg-background text-foreground focus-visible:ring-0 focus-visible:ring-offset-0" placeholder="Enlace de ubicación" />
                       </div>
                       <div className="grid grid-cols-2 gap-4">
                         <div className="space-y-2">
-                          <Label className="text-xs font-bold text-zinc-500 dark:text-zinc-300 uppercase tracking-wider">Departamento</Label>
+                          <Label className="text-xs font-bold text-muted-foreground uppercase tracking-wider">Departamento</Label>
                           <Combobox
                             options={Array.isArray(departamentos) ? departamentos.map(d => ({ value: d.id, label: d.name })) : []}
                             value={dir.departmentId || ""}
                             onChange={(v) => handleDireccionChange(dir.id, "departmentId", v)}
                             placeholder={departamentos.length > 0 ? "Seleccionar..." : "Cargando..."}
+                            className="[&>button]:border-border [&>button]:focus:ring-0 bg-background"
                           />
                         </div>
                         <div className="space-y-2">
-                          <Label className="text-xs font-bold text-zinc-500 dark:text-zinc-300 uppercase tracking-wider">Municipio</Label>
+                          <Label className="text-xs font-bold text-muted-foreground uppercase tracking-wider">Municipio</Label>
                           <Combobox
                             options={getMunicipiosOptions(dir.departmentId || "")}
                             value={dir.municipioId || ""}
                             onChange={(v) => handleDireccionChange(dir.id, "municipioId", v)}
                             placeholder={dir.departmentId ? "Seleccionar..." : "Elija departamento"}
                             disabled={!dir.departmentId}
+                            className="[&>button]:border-border [&>button]:focus:ring-0 bg-background"
                           />
                         </div>
                       </div>
@@ -552,27 +581,37 @@ function EditarClienteContent() {
 
                     <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
                       <div className="space-y-2">
-                        <Label className="text-xs font-bold text-zinc-500 dark:text-zinc-300 uppercase tracking-wider">Apto / Piso / Local</Label>
-                        <Input value={dir.piso} onChange={(e) => handleDireccionChange(dir.id, "piso", e.target.value)} className="h-11 bg-white dark:bg-zinc-900 dark:border-zinc-100 dark:text-zinc-100" placeholder="Ej: 201" />
+                        <Label className="text-xs font-bold text-muted-foreground uppercase tracking-wider">Apto / Piso / Local</Label>
+                        <Input value={dir.piso} onChange={(e) => handleDireccionChange(dir.id, "piso", e.target.value)} className="h-11 border-border bg-background text-foreground focus-visible:ring-0 focus-visible:ring-offset-0" placeholder="Ej: 201" />
                       </div>
                       <div className="space-y-2">
-                        <Label className="text-xs font-bold text-zinc-500 dark:text-zinc-300 uppercase tracking-wider">Bloque / Torre / Conjunto</Label>
-                        <Input value={dir.bloque} onChange={(e) => handleDireccionChange(dir.id, "bloque", e.target.value)} className="h-11 bg-white dark:bg-zinc-900 dark:border-zinc-100 dark:text-zinc-100" placeholder="Ej: Torre B" />
+                        <Label className="text-xs font-bold text-muted-foreground uppercase tracking-wider">Bloque / Torre / Conjunto</Label>
+                        <Input value={dir.bloque} onChange={(e) => handleDireccionChange(dir.id, "bloque", e.target.value)} className="h-11 border-border bg-background text-foreground focus-visible:ring-0 focus-visible:ring-offset-0" placeholder="Ej: Torre B" />
                       </div>
                       <div className="space-y-2">
-                        <Label className="text-xs font-bold text-zinc-500 dark:text-zinc-300 uppercase tracking-wider">Unidad / Edificio / Vereda</Label>
-                        <Input value={dir.unidad} onChange={(e) => handleDireccionChange(dir.id, "unidad", e.target.value)} className="h-11 bg-white dark:bg-zinc-900 dark:border-zinc-100 dark:text-zinc-100" placeholder="Ej: San Juan" />
+                        <Label className="text-xs font-bold text-muted-foreground uppercase tracking-wider">Unidad / Edificio / Vereda</Label>
+                        <Input value={dir.unidad} onChange={(e) => handleDireccionChange(dir.id, "unidad", e.target.value)} className="h-11 border-border bg-background text-foreground focus-visible:ring-0 focus-visible:ring-offset-0" placeholder="Ej: San Juan" />
                       </div>
                       <div className="space-y-2">
-                        <Label className="text-xs font-bold text-zinc-500 dark:text-zinc-300 uppercase tracking-wider">{tipoCliente === "NATURAL" ? "Tipo Vivienda" : "Clasificación"}</Label>
+                        <Label className="text-xs font-bold text-muted-foreground uppercase tracking-wider">{tipoCliente === "NATURAL" ? "Tipo Vivienda" : "Clasificación"}</Label>
                         {tipoCliente === "NATURAL" ? (
-                          <Select value={dir.tipoUbicacion} onChange={(e) => handleDireccionChange(dir.id, "tipoUbicacion", e.target.value)} className="h-11 bg-white dark:bg-zinc-900 dark:border-zinc-100 dark:text-zinc-100">
-                            <option value="CASA">CASA</option>
-                            <option value="APTO">APARTAMENTO</option>
+                          <Select value={dir.tipoUbicacion} onValueChange={(val) => handleDireccionChange(dir.id, "tipoUbicacion", val)}>
+                            <SelectTrigger className="h-11 border-border bg-background text-foreground focus:ring-0">
+                              <SelectValue placeholder="Seleccionar..." />
+                            </SelectTrigger>
+                            <SelectContent>
+                              <SelectItem value="CASA">CASA</SelectItem>
+                              <SelectItem value="APTO">APARTAMENTO</SelectItem>
+                            </SelectContent>
                           </Select>
                         ) : (
-                          <Select value={dir.clasificacionPunto} onChange={(e) => handleDireccionChange(dir.id, "clasificacionPunto", e.target.value)} className="h-11 bg-white dark:bg-zinc-900 dark:border-zinc-100 dark:text-zinc-100">
-                            {CLASIFICACIONES_PUNTO.map(c => <option key={c} value={c}>{c}</option>)}
+                          <Select value={dir.clasificacionPunto} onValueChange={(val) => handleDireccionChange(dir.id, "clasificacionPunto", val)}>
+                            <SelectTrigger className="h-11 border-border bg-background text-foreground focus:ring-0">
+                              <SelectValue placeholder="Seleccionar..." />
+                            </SelectTrigger>
+                            <SelectContent>
+                              {CLASIFICACIONES_PUNTO.map(c => <SelectItem key={c} value={c}>{c}</SelectItem>)}
+                            </SelectContent>
                           </Select>
                         )}
                       </div>
@@ -580,35 +619,38 @@ function EditarClienteContent() {
 
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                       <div className="space-y-2">
-                        <Label className="text-xs font-bold text-zinc-500 dark:text-zinc-300 uppercase tracking-wider">Barrio / Sector</Label>
-                        <Input value={dir.barrio} onChange={(e) => handleDireccionChange(dir.id, "barrio", e.target.value)} className="h-11 bg-white dark:bg-zinc-900 dark:border-zinc-100 dark:text-zinc-100" placeholder="Ej: El Poblado" />
+                        <Label className="text-xs font-bold text-muted-foreground uppercase tracking-wider">Barrio / Sector</Label>
+                        <Input value={dir.barrio} onChange={(e) => handleDireccionChange(dir.id, "barrio", e.target.value)} className="h-11 border-border bg-background text-foreground focus-visible:ring-0 focus-visible:ring-offset-0" placeholder="Ej: El Poblado" />
                       </div>
                       <div className="space-y-2">
-                        <Label className="text-xs font-bold text-zinc-500 dark:text-zinc-300 uppercase tracking-wider">Indicaciones Opcionales</Label>
-                        <Input value={dir.restriccionesAcceso} onChange={(e) => handleDireccionChange(dir.id, "restriccionesAcceso", e.target.value)} className="h-11 bg-white dark:bg-zinc-900 dark:border-zinc-100 dark:text-zinc-100" placeholder="Ej: Portón café, cerca al parque" />
+                        <Label className="text-xs font-bold text-muted-foreground uppercase tracking-wider">Indicaciones Opcionales</Label>
+                        <Input value={dir.restriccionesAcceso} onChange={(e) => handleDireccionChange(dir.id, "restriccionesAcceso", e.target.value)} className="h-11 border-border bg-background text-foreground focus-visible:ring-0 focus-visible:ring-offset-0" placeholder="Ej: Portón café, cerca al parque" />
                       </div>
                     </div>
 
                     {tipoCliente === "EMPRESA" && (
-                      <div className="grid grid-cols-1 md:grid-cols-2 gap-10 pt-6 border-t border-zinc-100 dark:border-zinc-800">
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-10 pt-6 border-t border-border">
                         <div className="space-y-5">
-                          <div className="flex items-center gap-2 text-zinc-400 dark:text-zinc-300 font-bold text-[10px] uppercase tracking-widest"><Clock className="h-4 w-4" /> Ventana Operativa</div>
+                          <div className="flex items-center gap-2 text-muted-foreground font-bold text-[10px] uppercase tracking-widest"><Clock className="h-4 w-4" /> Ventana Operativa</div>
                           <div className="flex gap-3">
                             <TimePicker 
                               value={dir.horarioInicio} 
                               onChange={(val) => handleDireccionChange(dir.id, "horarioInicio", val)} 
-                              className="h-11 bg-white dark:bg-zinc-900 shadow-sm" 
+                              className="h-11 bg-background border-border shadow-sm focus-within:ring-0" 
                             />
                             <TimePicker 
                               value={dir.horarioFin} 
                               onChange={(val) => handleDireccionChange(dir.id, "horarioFin", val)} 
-                              className="h-11 bg-white dark:bg-zinc-900 shadow-sm" 
+                              className="h-11 bg-background border-border shadow-sm focus-within:ring-0" 
                             />
                           </div>
                         </div>
                         <div className="space-y-5">
-                          <div className="flex items-center gap-2 text-zinc-400 dark:text-zinc-300 font-bold text-[10px] uppercase tracking-widest"><Contact2 className="h-4 w-4" /> Responsable Directo</div>
-                          <div className="grid grid-cols-2 gap-3"><Input value={dir.nombreContacto} onChange={(e) => handleDireccionChange(dir.id, "nombreContacto", e.target.value)} placeholder="Nombre" className="h-11 bg-white dark:bg-zinc-900 dark:text-zinc-100 dark:border-zinc-100 shadow-sm" /><Input value={dir.telefonoContacto} onChange={(e) => handleDireccionChange(dir.id, "telefonoContacto", e.target.value)} placeholder="Móvil" className="h-11 bg-white dark:bg-zinc-900 dark:text-zinc-100 dark:border-zinc-100 shadow-sm" /></div>
+                          <div className="flex items-center gap-2 text-muted-foreground font-bold text-[10px] uppercase tracking-widest"><Contact2 className="h-4 w-4" /> Responsable Directo</div>
+                          <div className="grid grid-cols-2 gap-3">
+                            <Input value={dir.nombreContacto} onChange={(e) => handleDireccionChange(dir.id, "nombreContacto", e.target.value)} placeholder="Nombre" className="h-11 border-border bg-background text-foreground focus-visible:ring-0 focus-visible:ring-offset-0 shadow-sm" />
+                            <Input value={dir.telefonoContacto} onChange={(e) => handleDireccionChange(dir.id, "telefonoContacto", e.target.value)} placeholder="Móvil" className="h-11 border-border bg-background text-foreground focus-visible:ring-0 focus-visible:ring-offset-0 shadow-sm" />
+                          </div>
                         </div>
                       </div>
                     )}
@@ -619,21 +661,21 @@ function EditarClienteContent() {
           </form>
         </div>
 
-        <div className="flex-none bg-zinc-50 dark:bg-zinc-900/50 border-t border-zinc-100 dark:border-zinc-800 px-10 py-5 flex items-center justify-between">
-          <div className="hidden lg:flex items-center gap-3 text-zinc-400">
+        <div className="flex-none bg-muted/50 border-t border-border px-10 py-5 flex items-center justify-between">
+          <div className="hidden lg:flex items-center gap-3 text-muted-foreground">
             <GanttChart className="h-5 w-5 text-claro-azul-4" />
             <p className="text-[11px] font-medium max-w-xs leading-relaxed">Actualizando expediente estratégico del cliente en el sistema.</p>
           </div>
           <div className="flex items-center gap-4">
-            <Button variant="ghost" onClick={() => router.push("/dashboard/clientes")} className="h-12 px-8 text-xs font-bold uppercase tracking-widest text-zinc-500 hover:bg-zinc-200">Cancelar</Button>
+            <Button variant="ghost" onClick={() => router.push("/dashboard/clientes")} className="h-12 px-8 text-xs font-bold uppercase tracking-widest text-muted-foreground hover:bg-muted">Cancelar</Button>
             <Button
               type="submit"
               form="cliente-form"
               disabled={loading}
-              className="h-12 px-12 bg-azul-1 dark:bg-azul-1 text-white hover:opacity-90 shadow-xl shadow-azul-1/20 transition-all gap-3 border-none rounded-xl"
+              className="h-12 px-12 bg-azul-1 text-white hover:opacity-90 shadow-xl shadow-azul-1/20 transition-all gap-3 border-none rounded-xl"
             >
               {loading ? <div className="h-5 w-5 border-2 border-current border-t-transparent rounded-full animate-spin" /> : <Save className="h-4 w-4" />}
-              <span className="font-bold text-xs tracking-[0.1em] uppercase text-white dark:text-zinc-200">Guardar Cambios</span>
+              <span className="font-bold text-xs tracking-[0.1em] uppercase text-white">Guardar Cambios</span>
             </Button>
           </div>
         </div>
@@ -645,7 +687,7 @@ function EditarClienteContent() {
 export default function EditarClientePage() {
   return (
     <DashboardLayout>
-      <Suspense fallback={<div className="flex h-[80vh] items-center justify-center text-sm text-zinc-500 animate-pulse font-bold uppercase tracking-widest">Cargando protocolo de edición...</div>}>
+      <Suspense fallback={<div className="flex h-[80vh] items-center justify-center text-sm text-muted-foreground animate-pulse font-bold uppercase tracking-widest">Cargando protocolo de edición...</div>}>
         <EditarClienteContent />
       </Suspense>
     </DashboardLayout>
