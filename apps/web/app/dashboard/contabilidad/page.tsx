@@ -47,7 +47,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-import { Input, Label, Skeleton } from "@/components/ui";
+import { Input, Label, Skeleton, DatePicker } from "@/components/ui";
 import { Badge } from "@/components/ui/badge";
 import { format } from "date-fns";
 import { es } from "date-fns/locale";
@@ -531,11 +531,10 @@ function RecaudoView() {
                 </div>
                 <div className="space-y-2">
                   <Label className="text-[10px] font-black uppercase tracking-widest text-zinc-500">Fecha de Consignación <span className="text-red-500">*</span></Label>
-                  <Input 
-                    type="date"
-                    value={formData.fechaConsignacion}
-                    onChange={(e) => setFormData({...formData, fechaConsignacion: e.target.value})}
-                    className="h-12 rounded-xl border-zinc-200 dark:border-zinc-800 bg-zinc-50 dark:bg-zinc-800/50 font-bold"
+                  <DatePicker 
+                    date={formData.fechaConsignacion ? new Date(formData.fechaConsignacion + "T00:00:00") : undefined}
+                    onChange={(d) => setFormData({...formData, fechaConsignacion: d ? d.toISOString().split("T")[0] : ""})}
+                    className="h-12 border-zinc-200 dark:border-zinc-800 bg-zinc-50 dark:bg-zinc-800/50"
                   />
                 </div>
               </div>

@@ -39,6 +39,12 @@ export class OrdenesServicioController {
     if (!tenantId) {
       throw new UnauthorizedException('Tenant ID not found in token');
     }
+    
+    // Asignar creador si no viene en el DTO
+    if (!createDto.creadoPorId && req.user.membershipId) {
+      createDto.creadoPorId = req.user.membershipId;
+    }
+
     return this.ordenesServicioService.create(tenantId, createDto);
   }
 

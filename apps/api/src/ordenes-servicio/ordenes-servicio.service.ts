@@ -170,6 +170,7 @@ export class OrdenesServicioService {
         empresaId: createDto.empresaId,
         clienteId: createDto.clienteId,
         servicioId: servicio.id,
+        creadoPorId: createDto.creadoPorId,
         tecnicoId,
         direccionId,
         direccionTexto,
