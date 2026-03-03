@@ -79,6 +79,10 @@ export class CreateOrdenServicioDto {
 
   @IsUUID()
   @IsOptional()
+  creadoPorId?: string;
+
+  @IsUUID()
+  @IsOptional()
   liquidadoPorId?: string;
 
   @IsEnum(EstadoOrden)

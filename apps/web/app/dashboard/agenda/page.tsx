@@ -4,11 +4,11 @@ import React, { useState, useEffect, Suspense } from "react";
 import { DashboardLayout } from "@/components/dashboard";
 import { 
   Button, 
-  Select,
   Popover,
   PopoverTrigger,
   PopoverContent,
-  Combobox
+  Combobox,
+  DatePicker
 } from "@/components/ui";
 import { 
   ChevronLeft, 
@@ -255,45 +255,45 @@ function AgendaContent() {
           {/* Barra de Controles (Filtros) */}
           <div className="px-8 py-6 border-b border-zinc-100 dark:border-zinc-800/50 flex flex-col gap-6 sm:flex-row sm:items-center sm:justify-between bg-white dark:bg-zinc-900 shrink-0">
             <div className="flex flex-col sm:flex-row gap-4 items-center">
-              <div className="w-full sm:w-36">
-                <Select 
-                  value={selectedTipo} 
-                  onChange={(e: React.ChangeEvent<HTMLSelectElement>) => setSelectedTipo(e.target.value)}
-                  className="h-11 rounded-xl bg-zinc-50 dark:bg-zinc-800 border-none text-xs font-bold"
-                >
-                  <option value="TODOS">Servicio</option>
-                  {tiposServicio.map(t => (
-                    <option key={t.id} value={t.id}>{t.nombre}</option>
-                  ))}
-                </Select>
+              <div className="w-full sm:w-40">
+                <Combobox
+                  options={[
+                    { value: "TODOS", label: "TODOS LOS SERVICIOS" },
+                    ...tiposServicio.map(t => ({ value: t.id, label: t.nombre.toUpperCase() }))
+                  ]}
+                  value={selectedTipo}
+                  onChange={setSelectedTipo}
+                  placeholder="Servicio"
+                  hideSearch
+                />
               </div>
 
-              <div className="w-full sm:w-36">
-                <Select 
-                  value={selectedTecnico} 
-                  onChange={(e: React.ChangeEvent<HTMLSelectElement>) => setSelectedTecnico(e.target.value)}
-                  className="h-11 rounded-xl bg-zinc-50 dark:bg-zinc-800 border-none text-xs font-bold"
-                >
-                  <option value="TODOS">Técnicos</option>
-                  {operadores.map(op => (
-                    <option key={op.id} value={op.id}>
-                      {op.user ? `${op.user.nombre} ${op.user.apellido}` : op.nombre}
-                    </option>
-                  ))}
-                </Select>
+              <div className="w-full sm:w-40">
+                <Combobox
+                  options={[
+                    { value: "TODOS", label: "TODOS LOS TÉCNICOS" },
+                    ...operadores.map(op => ({ 
+                      value: op.id, 
+                      label: (op.user ? `${op.user.nombre} ${op.user.apellido}` : op.nombre).toUpperCase() 
+                    }))
+                  ]}
+                  value={selectedTecnico}
+                  onChange={setSelectedTecnico}
+                  placeholder="Técnicos"
+                />
               </div>
 
-              <div className="w-full sm:w-36">
-                <Select 
-                  value={selectedEstado} 
-                  onChange={(e: React.ChangeEvent<HTMLSelectElement>) => setSelectedEstado(e.target.value)}
-                  className="h-11 rounded-xl bg-zinc-50 dark:bg-zinc-800 border-none text-xs font-bold"
-                >
-                  <option value="TODOS">Estados</option>
-                  {Object.keys(ESTADO_STYLING).map(est => (
-                    <option key={est} value={est}>{est}</option>
-                  ))}
-                </Select>
+              <div className="w-full sm:w-40">
+                <Combobox
+                  options={[
+                    { value: "TODOS", label: "TODOS LOS ESTADOS" },
+                    ...Object.keys(ESTADO_STYLING).map(est => ({ value: est, label: est.toUpperCase() }))
+                  ]}
+                  value={selectedEstado}
+                  onChange={setSelectedEstado}
+                  placeholder="Estados"
+                  hideSearch
+                />
               </div>
 
               <Popover>
@@ -381,28 +381,24 @@ function AgendaContent() {
               </Popover>
 
               <div className="flex items-center gap-2">
-                <div className="w-32">
-                  <Select 
-                    value={startHour} 
-                    onChange={(e: React.ChangeEvent<HTMLSelectElement>) => setStartHour(e.target.value)}
-                    className="h-11 rounded-xl bg-zinc-50 dark:bg-zinc-800 border-none text-[10px] font-bold"
-                  >
-                    {hours.map(h => (
-                      <option key={h} value={h}>{formatAMPM(h)}</option>
-                    ))}
-                  </Select>
+                <div className="w-36">
+                  <Combobox
+                    options={hours.map(h => ({ value: h, label: formatAMPM(h) }))}
+                    value={startHour}
+                    onChange={setStartHour}
+                    placeholder="Desde"
+                    hideSearch
+                  />
                 </div>
                 <span className="text-[10px] font-black text-zinc-400">A</span>
-                <div className="w-32">
-                  <Select 
-                    value={endHour} 
-                    onChange={(e: React.ChangeEvent<HTMLSelectElement>) => setEndHour(e.target.value)}
-                    className="h-11 rounded-xl bg-zinc-50 dark:bg-zinc-800 border-none text-[10px] font-bold"
-                  >
-                    {hours.map(h => (
-                      <option key={h} value={h}>{formatAMPM(h)}</option>
-                    ))}
-                  </Select>
+                <div className="w-36">
+                  <Combobox
+                    options={hours.map(h => ({ value: h, label: formatAMPM(h) }))}
+                    value={endHour}
+                    onChange={setEndHour}
+                    placeholder="Hasta"
+                    hideSearch
+                  />
                 </div>
               </div>
             </div>
@@ -429,9 +425,14 @@ function AgendaContent() {
                 <Button variant="ghost" size="icon" onClick={prevDate} className="h-8 w-8 rounded-lg">
                   <ChevronLeft className="h-4 w-4" />
                 </Button>
-                <span className="text-[10px] font-black tracking-widest px-2 min-w-[120px] text-center">
-                  {formatHeaderDate()}
-                </span>
+                <div className="min-w-[140px]">
+                  <DatePicker 
+                    date={currentDate}
+                    onChange={(d) => d && setCurrentDate(d)}
+                    className="border-none bg-transparent h-8 font-black uppercase tracking-widest text-[10px] text-center justify-center hover:bg-zinc-100 dark:hover:bg-zinc-700"
+                    placeholder={formatHeaderDate()}
+                  />
+                </div>
                 <Button variant="ghost" size="icon" onClick={nextDate} className="h-8 w-8 rounded-lg">
                   <ChevronRight className="h-4 w-4" />
                 </Button>

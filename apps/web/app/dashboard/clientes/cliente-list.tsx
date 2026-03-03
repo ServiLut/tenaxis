@@ -4,6 +4,7 @@ import React, { useState, useMemo } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { Input } from "@/components/ui/input";
+import { DatePicker } from "@/components/ui/date-picker";
 import {
   AlertCircle,
   Plus,
@@ -204,17 +205,17 @@ const RIESGO_LABELS = {
 };
 
 const ESTADO_STYLING: Record<string, string> = {
-  "NUEVO": "bg-zinc-100 text-zinc-600 border-zinc-200 dark:bg-zinc-900/40 dark:text-zinc-400 dark:border-zinc-800",
-  "PROCESO": "bg-amber-100 text-amber-700 border-amber-200 dark:bg-amber-900/30 dark:text-amber-400 dark:border-amber-800/50",
-  "EN PROCESO": "bg-amber-100 text-amber-700 border-amber-200 dark:bg-amber-900/30 dark:text-amber-400 dark:border-amber-800/50",
-  "CANCELADO": "bg-red-100 text-red-700 border-red-200 dark:bg-red-900/30 dark:text-red-400 dark:border-red-800/50",
-  "PROGRAMADO": "bg-blue-100 text-blue-700 border-blue-200 dark:bg-blue-900/30 dark:text-blue-400 dark:border-blue-800/50",
-  "LIQUIDADO": "bg-emerald-100 text-emerald-700 border-emerald-200 dark:bg-emerald-900/30 dark:text-emerald-400 dark:border-emerald-800/50",
-  "TECNICO_FINALIZO": "bg-green-100 text-green-900 border-green-200 dark:bg-green-900/40 dark:text-green-300 dark:border-green-800/50",
-  "TECNICO FINALIZO": "bg-green-100 text-green-900 border-green-200 dark:bg-green-900/40 dark:text-green-300 dark:border-green-800/50",
-  "REPROGRAMADO": "bg-indigo-100 text-indigo-700 border-indigo-200 dark:bg-indigo-900/30 dark:text-indigo-400 dark:border-indigo-800/50",
-  "SIN_CONCRETAR": "bg-slate-100 text-slate-700 border-slate-200 dark:bg-slate-900/30 dark:text-slate-400 dark:border-slate-800/50",
-  "DEFAULT": "bg-zinc-100 text-zinc-600 border-zinc-200 dark:bg-zinc-900/40 dark:text-zinc-400 dark:border-zinc-800",
+  "NUEVO": "bg-zinc-100 text-zinc-600 border-zinc-700 dark:bg-zinc-900/40 dark:text-zinc-400 dark:border-zinc-800",
+  "PROCESO": "bg-amber-100 text-amber-700 border-zinc-700 dark:bg-zinc-900/30 dark:text-amber-400 dark:border-amber-800/50",
+  "EN PROCESO": "bg-amber-100 text-amber-700 border-zinc-700 dark:bg-zinc-900/30 dark:text-amber-400 dark:border-amber-800/50",
+  "CANCELADO": "bg-red-100 text-red-700 border-zinc-700 dark:bg-zinc-900/30 dark:text-red-400 dark:border-red-800/50",
+  "PROGRAMADO": "bg-blue-100 text-blue-700 border-zinc-700 dark:bg-zinc-900/30 dark:text-blue-400 dark:border-blue-800/50",
+  "LIQUIDADO": "bg-emerald-100 text-emerald-700 border-zinc-700 dark:bg-zinc-900/30 dark:text-emerald-400 dark:border-emerald-800/50",
+  "TECNICO_FINALIZO": "bg-green-100 text-green-900 border-zinc-700 dark:bg-green-900/40 dark:text-green-300 dark:border-green-800/50",
+  "TECNICO FINALIZO": "bg-green-100 text-green-900 border-zinc-700 dark:bg-green-900/40 dark:text-green-300 dark:border-green-800/50",
+  "REPROGRAMADO": "bg-indigo-100 text-indigo-700 border-zinc-700 dark:bg-indigo-900/30 dark:text-indigo-400 dark:border-indigo-800/50",
+  "SIN_CONCRETAR": "bg-slate-100 text-slate-700 border-zinc-700 dark:bg-zinc-900/30 dark:text-slate-400 dark:border-slate-800/50",
+  "DEFAULT": "bg-zinc-100 text-zinc-600 border-zinc-700 dark:bg-zinc-900/40 dark:text-zinc-400 dark:border-zinc-800",
 };
 
 interface OrdenServicio {
@@ -271,6 +272,7 @@ export function ClienteList({ initialClientes, initialDepartments = [], initialM
 
   const [userRole, setUserRole] = useState<string | null>(null);
   const [showKPIs, setShowKPIs] = useState(false);
+  const [showFilters, setShowFilters] = useState(false);
 
   const stats = useMemo(() => {
     const total = initialClientes.length;
@@ -621,7 +623,7 @@ export function ClienteList({ initialClientes, initialDepartments = [], initialM
 
   if (!mounted) {
     return (
-      <div className="flex flex-col h-full bg-white dark:bg-zinc-900 rounded-xl border border-zinc-200/60 dark:border-zinc-800/50 shadow-xl shadow-zinc-200/20 dark:shadow-none overflow-hidden items-center justify-center">
+      <div className="flex flex-col h-full bg-white dark:bg-zinc-900 rounded-xl border border-zinc-700/60 dark:border-zinc-800/50 shadow-xl shadow-zinc-200/20 dark:shadow-none overflow-hidden items-center justify-center">
         <div className="animate-pulse text-sm font-black text-zinc-400 uppercase tracking-widest">
           Sincronizando Cartera...
         </div>
@@ -632,7 +634,7 @@ export function ClienteList({ initialClientes, initialDepartments = [], initialM
   return (
     <div className="flex flex-col h-full">
       {/* Sub-Header Estratégico */}
-      <div className="shrink-0 py-10 px-6 lg:px-10 border-b border-zinc-200/60 dark:border-zinc-800/50 mb-8 bg-gray-50 dark:bg-zinc-900/50">
+      <div className="shrink-0 py-10 px-6 lg:px-10 border-b border-zinc-700 dark:border-zinc-800/50 mb-8 bg-white dark:bg-zinc-900/50">
         <div className="max-w-[1600px] mx-auto w-full flex flex-col md:flex-row md:items-center gap-6">
           <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-azul-1 text-white shadow-xl shadow-azul-1/20">
             <Contact className="h-5 w-5" />
@@ -650,7 +652,7 @@ export function ClienteList({ initialClientes, initialDepartments = [], initialM
               variant="outline"
               size="sm"
               onClick={() => setShowKPIs(!showKPIs)}
-              className="h-10 px-4 rounded-xl border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 text-[10px] font-black uppercase tracking-widest gap-2"
+              className="h-10 px-4 rounded-xl border-zinc-700 dark:border-zinc-800 bg-white dark:bg-zinc-900 text-[10px] font-black uppercase tracking-widest gap-2"
             >
               {showKPIs ? (
                 <>
@@ -675,7 +677,7 @@ export function ClienteList({ initialClientes, initialDepartments = [], initialM
           {/* KPI Cards Grid */}
           {showKPIs && (
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 mb-6 shrink-0 animate-in fade-in slide-in-from-top-4 duration-300">
-              <div className="bg-white dark:bg-zinc-900 p-6 rounded-2xl border border-zinc-200/60 dark:border-zinc-800/50 shadow-sm flex items-center gap-4">
+              <div className="bg-white dark:bg-zinc-900 p-6 rounded-2xl border border-zinc-700 dark:border-zinc-800/50 shadow-sm flex items-center gap-4">
                 <div className="h-12 w-12 rounded-xl bg-azul-1/10 flex items-center justify-center text-azul-1">
                   <User className="h-6 w-6" />
                 </div>
@@ -685,7 +687,7 @@ export function ClienteList({ initialClientes, initialDepartments = [], initialM
                 </div>
               </div>
 
-              <div className="bg-white dark:bg-zinc-900 p-6 rounded-2xl border border-zinc-200/60 dark:border-zinc-800/50 shadow-sm flex items-center gap-4">
+              <div className="bg-white dark:bg-zinc-900 p-6 rounded-2xl border border-zinc-700 dark:border-zinc-800/50 shadow-sm flex items-center gap-4">
                 <div className="h-12 w-12 rounded-xl bg-purple-500/10 flex items-center justify-center text-purple-500">
                   <Building2 className="h-6 w-6" />
                 </div>
@@ -695,7 +697,7 @@ export function ClienteList({ initialClientes, initialDepartments = [], initialM
                 </div>
               </div>
 
-              <div className="bg-white dark:bg-zinc-900 p-6 rounded-2xl border border-zinc-200/60 dark:border-zinc-800/50 shadow-sm flex items-center gap-4">
+              <div className="bg-white dark:bg-zinc-900 p-6 rounded-2xl border border-zinc-700 dark:border-zinc-800/50 shadow-sm flex items-center gap-4">
                 <div className="h-12 w-12 rounded-xl bg-amber-500/10 flex items-center justify-center text-amber-500">
                   <Trophy className="h-6 w-6" />
                 </div>
@@ -705,7 +707,7 @@ export function ClienteList({ initialClientes, initialDepartments = [], initialM
                 </div>
               </div>
 
-              <div className="bg-white dark:bg-zinc-900 p-6 rounded-2xl border border-zinc-200/60 dark:border-zinc-800/50 shadow-sm flex items-center gap-4">
+              <div className="bg-white dark:bg-zinc-900 p-6 rounded-2xl border border-zinc-700 dark:border-zinc-800/50 shadow-sm flex items-center gap-4">
                 <div className="h-12 w-12 rounded-xl bg-red-500/10 flex items-center justify-center text-red-500">
                   <AlertCircle className="h-6 w-6" />
                 </div>
@@ -715,7 +717,7 @@ export function ClienteList({ initialClientes, initialDepartments = [], initialM
                 </div>
               </div>
 
-              <div className="bg-white dark:bg-zinc-900 p-6 rounded-2xl border border-zinc-200/60 dark:border-zinc-800/50 shadow-sm flex items-center gap-4">
+              <div className="bg-white dark:bg-zinc-900 p-6 rounded-2xl border border-zinc-700 dark:border-zinc-800/50 shadow-sm flex items-center gap-4">
                 <div className="h-12 w-12 rounded-xl bg-emerald-500/10 flex items-center justify-center text-emerald-500">
                   <Activity className="h-6 w-6" />
                 </div>
@@ -727,213 +729,54 @@ export function ClienteList({ initialClientes, initialDepartments = [], initialM
             </div>
           )}
 
-          <div className="flex-1 min-h-0 flex flex-col bg-white dark:bg-zinc-900 rounded-xl border border-zinc-200/60 dark:border-zinc-800/50 shadow-xl shadow-zinc-200/20 dark:shadow-none overflow-hidden">
+          <div className="flex-1 min-h-0 flex flex-col bg-white dark:bg-zinc-900 rounded-xl border border-zinc-700 dark:border-zinc-800/50 shadow-xl shadow-zinc-200/20 dark:shadow-none overflow-hidden">
             {/* Barra de Filtros Unificada */}
-      <div className="px-8 py-6 border-b border-zinc-100 dark:border-zinc-800/50 flex flex-col gap-6 sm:flex-row sm:items-center sm:justify-between bg-white dark:bg-zinc-900 shrink-0">
+      <div className="px-8 py-6 border-b border-zinc-700 dark:border-zinc-800/50 flex flex-col gap-6 sm:flex-row sm:items-center sm:justify-between bg-white dark:bg-zinc-900 shrink-0">
         <div className="flex flex-1 items-center gap-3 max-w-2xl">
           <div className="relative flex-1">
             <Search className="absolute left-4 top-1/2 h-5 w-5 -translate-y-1/2 text-zinc-400" />
             <Input
               placeholder="Buscar por nombre, documento o NIT..."
-              className="h-12 pl-12 rounded-lg border-zinc-200 dark:border-zinc-800 bg-zinc-50 dark:bg-zinc-800/50 transition-all"
+              className="h-12 pl-12 rounded-lg border-zinc-700 dark:border-zinc-800 bg-zinc-50 dark:bg-zinc-800/50 transition-all"
               value={search}
               onChange={(e) => setSearch(e.target.value)}
             />
           </div>
 
-          {/* Botón de Filtros Avanzados */}
-          <Popover>
-            <PopoverTrigger asChild>
-              <button className={cn(
-                "flex items-center h-12 px-6 rounded-lg font-bold text-[11px] uppercase tracking-wider transition-all gap-2 border",
-                activeFiltersCount > 0
-                  ? "bg-azul-1 text-white border-azul-1"
-                  : "bg-white dark:bg-zinc-800 text-zinc-700 dark:text-zinc-300 border-zinc-200 dark:border-zinc-700 hover:bg-zinc-50 dark:hover:bg-zinc-700"
+          {/* Botón de Filtros Avanzados - Toggle Div */}
+          <button 
+            onClick={() => setShowFilters(!showFilters)}
+            className={cn(
+              "flex items-center h-12 px-6 rounded-lg font-bold text-[11px] uppercase tracking-wider transition-all gap-2 border",
+              activeFiltersCount > 0
+                ? "bg-azul-1 text-white border-azul-1"
+                : "bg-white dark:bg-zinc-800 text-zinc-700 dark:text-zinc-300 border-zinc-700 dark:border-zinc-700 hover:bg-zinc-50 dark:hover:bg-zinc-700",
+              showFilters && "bg-zinc-100 dark:bg-zinc-700 border-zinc-700 shadow-inner"
+            )}
+          >
+            <Filter className="h-4 w-4" />
+            <span>{showFilters ? "Ocultar Filtros" : "Filtros"}</span>
+            {activeFiltersCount > 0 && (
+              <span className={cn(
+                "ml-1 h-5 w-5 rounded-full flex items-center justify-center text-[10px] font-black shadow-sm",
+                showFilters || activeFiltersCount > 0 ? "bg-white text-azul-1" : "bg-azul-1 text-white"
               )}>
-                <Filter className="h-4 w-4" />
-                <span>Filtros</span>
-                {activeFiltersCount > 0 && (
-                  <span className="ml-1 bg-white text-azul-1 h-5 w-5 rounded-full flex items-center justify-center text-[10px]">
-                    {activeFiltersCount}
-                  </span>
-                )}
-              </button>
-            </PopoverTrigger>
-            <PopoverContent className="w-80 p-0 rounded-2xl shadow-2xl border-zinc-100 dark:border-zinc-800 bg-white dark:bg-zinc-900 overflow-hidden" align="start">
-              <div className="p-6 space-y-6 max-h-[420px] overflow-y-auto custom-scrollbar">
-                <div className="flex items-center justify-between border-b border-zinc-50 dark:border-zinc-800 pb-4 sticky top-[-24px] bg-white dark:bg-zinc-900 z-10 pt-1">
-                  <h3 className="text-sm font-black uppercase tracking-widest text-zinc-900 dark:text-zinc-100">Filtros Avanzados</h3>
-                  <button
-                    onClick={resetFilters}
-                    className="text-[11px] font-black text-zinc-600 dark:text-zinc-400 hover:text-azul-1 flex items-center gap-1.5 transition-colors group"
-                  >
-                    <RotateCcw className="h-3.5 w-3.5 group-hover:rotate-[-45deg] transition-transform" /> REINICIAR
-                  </button>
-                </div>
-
-                <div className="grid gap-4">
-                  {/* Empresa (Solo Admins) */}
-                  {(userRole === "SU_ADMIN" || userRole === "ADMIN") && filterOptions.empresas.length > 0 && (
-                    <div className="space-y-2">
-                      <Label className="text-[10px] font-black uppercase tracking-widest text-zinc-400">Filtrar por Empresas</Label>
-                      <Input
-                        placeholder="Buscar empresa..."
-                        value={empresaSearch}
-                        onChange={(e) => setEmpresaSearch(e.target.value)}
-                        className="h-9 text-xs mb-2"
-                      />
-                      <div className="flex flex-col gap-2 max-h-32 overflow-y-auto custom-scrollbar p-3 bg-zinc-50 dark:bg-zinc-800/30 rounded-xl border border-zinc-100 dark:border-zinc-800">
-                        {filterOptions.empresas
-                          .filter(emp => emp.nombre.toLowerCase().includes(empresaSearch.toLowerCase()))
-                          .map((emp: { id: string, nombre: string }) => (
-                          <label key={emp.id} className="flex items-center gap-3 text-xs font-bold text-zinc-700 dark:text-zinc-300 cursor-pointer group">
-                            <div className={cn(
-                              "flex h-4 w-4 shrink-0 items-center justify-center rounded-md border border-zinc-300 dark:border-zinc-600 transition-colors",
-                              filters.empresas.includes(emp.id) ? "bg-azul-1 border-azul-1" : "bg-white dark:bg-zinc-900 group-hover:border-azul-1"
-                            )}>
-                              {filters.empresas.includes(emp.id) && <Check className="h-3 w-3 text-white" />}
-                            </div>
-                            <input
-                              type="checkbox"
-                              className="hidden"
-                              checked={filters.empresas.includes(emp.id)}
-                              onChange={(e) => {
-                                const checked = e.target.checked;
-                                setFilters(prev => ({
-                                  ...prev,
-                                  empresas: checked
-                                    ? [...prev.empresas, emp.id]
-                                    : prev.empresas.filter(id => id !== emp.id)
-                                }));
-                              }}
-                            />
-                            <span className="truncate flex-1" title={emp.nombre}>{emp.nombre}</span>
-                          </label>
-                        ))}
-                      </div>
-                    </div>
-                  )}
-
-                  {/* Departamento */}
-                  <div className="space-y-2">
-                    <Label className="text-[10px] font-black uppercase tracking-widest text-zinc-400">Departamento</Label>
-                    <Combobox
-                      options={[
-                        { value: "all", label: "Todos los departamentos" },
-                        ...filterOptions.departamentos.map(d => ({ value: d.id || "", label: d.name }))
-                      ]}
-                      value={filters.departamento}
-                      onChange={(val) => {
-                        setFilters(prev => ({ ...prev, departamento: val, municipio: "all" }));
-                      }}
-                      placeholder="Seleccionar departamento..."
-                      className="h-10"
-                    />
-                  </div>
-
-                  {/* Municipio */}
-                  <div className="space-y-2">
-                    <Label className="text-[10px] font-black uppercase tracking-widest text-zinc-400">Municipio</Label>
-                    <Combobox
-                      options={[
-                        { value: "all", label: "Todos los municipios" },
-                        ...filterOptions.municipios.map(m => typeof m === 'string' ? { value: m, label: m } : { value: m.id || "", label: m.name })
-                      ]}
-                      value={filters.municipio}
-                      onChange={(val) => setFilters(prev => ({ ...prev, municipio: val }))}
-                      placeholder="Seleccionar municipio..."
-                      className="h-10"
-                      disabled={filters.departamento === "all" && initialDepartments.length > 0}
-                    />
-                    {filters.departamento === "all" && initialDepartments.length > 0 && (
-                      <p className="text-[9px] font-bold text-amber-600 uppercase tracking-widest ml-1">Seleccione un departamento primero</p>
-                    )}
-                  </div>
-
-                  {/* Barrio */}
-                  <div className="space-y-2">
-                    <Label className="text-[10px] font-black uppercase tracking-widest text-zinc-400">Barrio</Label>
-                    <Input
-                      placeholder="Ej: El Poblado"
-                      value={filters.barrio}
-                      onChange={(e) => setFilters(prev => ({ ...prev, barrio: e.target.value }))}
-                      className="h-10 text-xs"
-                    />
-                  </div>
-
-                  {/* Clasificación */}
-                  <div className="space-y-2">
-                    <Label className="text-[10px] font-black uppercase tracking-widest text-zinc-400">Clasificación</Label>
-                    <Select
-                      value={filters.clasificacion}
-                      onChange={(e) => setFilters(prev => ({ ...prev, clasificacion: e.target.value }))}
-                      className="h-10 text-xs"
-                    >
-                      <option value="all">Todas</option>
-                      {filterOptions.clasificaciones.map(c => <option key={c} value={c}>{c}</option>)}
-                    </Select>
-                  </div>
-
-                  {/* Segmento */}
-                  <div className="space-y-2">
-                    <Label className="text-[10px] font-black uppercase tracking-widest text-zinc-400">Segmento</Label>
-                    <Select
-                      value={filters.segmento}
-                      onChange={(e) => setFilters(prev => ({ ...prev, segmento: e.target.value }))}
-                      className="h-10 text-xs"
-                    >
-                      <option value="all">Todos los segmentos</option>
-                      {filterOptions.segmentos.map(s => <option key={s} value={s}>{s}</option>)}
-                    </Select>
-                  </div>
-
-                  {/* Riesgo */}
-                  <div className="space-y-2">
-                    <Label className="text-[10px] font-black uppercase tracking-widest text-zinc-400">Nivel de Riesgo</Label>
-                    <Select
-                      value={filters.riesgo}
-                      onChange={(e) => setFilters(prev => ({ ...prev, riesgo: e.target.value }))}
-                      className="h-10 text-xs"
-                    >
-                      <option value="all">Todos los niveles</option>
-                      {filterOptions.riesgos.map(r => <option key={r} value={r}>{r}</option>)}
-                    </Select>
-                  </div>
-
-                  {/* Rango de Fechas */}
-                  <div className="space-y-2">
-                    <Label className="text-[10px] font-black uppercase tracking-widest text-zinc-400">Fecha de Registro</Label>
-                    <div className="grid grid-cols-2 gap-2">
-                      <Input
-                        type="date"
-                        value={filters.fechaDesde}
-                        onChange={(e) => setFilters(prev => ({ ...prev, fechaDesde: e.target.value }))}
-                        className="h-10 text-[10px]"
-                      />
-                      <Input
-                        type="date"
-                        value={filters.fechaHasta}
-                        onChange={(e) => setFilters(prev => ({ ...prev, fechaHasta: e.target.value }))}
-                        className="h-10 text-[10px]"
-                      />
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </PopoverContent>
-          </Popover>
+                {activeFiltersCount}
+              </span>
+            )}
+          </button>
         </div>
 
         <div className="flex items-center gap-3">
           {/* Botón de Exportación con Shadcn */}
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <button className="flex items-center h-12 px-6 rounded-lg bg-emerald-50 dark:bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 hover:bg-emerald-100 dark:hover:bg-emerald-500/20 gap-3 transition-all font-bold text-[11px] uppercase tracking-wider border border-emerald-100 dark:border-emerald-500/20 shadow-sm">
+              <button className="flex items-center h-12 px-6 rounded-lg bg-emerald-50 dark:bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 hover:bg-emerald-100 dark:hover:bg-emerald-500/20 gap-3 transition-all font-bold text-[11px] uppercase tracking-wider border border-emerald-400 dark:border-emerald-500/20 shadow-sm">
                 <Download className="h-4 w-4" />
                 <span>Exportar</span>
               </button>
             </DropdownMenuTrigger>
-            <DropdownMenuContent align="end" className="w-56 p-2 rounded-xl">
+            <DropdownMenuContent align="end" className="w-56 p-2 rounded-xl border border-zinc-700 shadow-2xl">
               <DropdownMenuLabel className="text-[9px] font-black text-zinc-400 uppercase tracking-widest pb-2">Formatos Corporativos</DropdownMenuLabel>
               <DropdownMenuSeparator />
               <DropdownMenuItem onClick={() => handleExport('excel')} className="flex items-center gap-3 py-3 text-[11px] font-bold cursor-pointer hover:text-emerald-600">
@@ -957,85 +800,275 @@ export function ClienteList({ initialClientes, initialDepartments = [], initialM
         </div>
       </div>
 
+      {/* Integrated Filter Panel */}
+      {showFilters && (
+        <div className="px-8 py-8 border-b border-zinc-700 dark:border-zinc-800/50 bg-zinc-50/50 dark:bg-zinc-800/20 animate-in fade-in slide-in-from-top-2 duration-300 max-h-[60vh] overflow-y-auto custom-scrollbar">
+          <div className="max-w-[1600px] mx-auto">
+            <div className="flex items-center justify-between mb-8 border-b border-zinc-700 dark:border-zinc-800 pb-4">
+              <div>
+                <h3 className="text-sm font-black uppercase tracking-widest text-zinc-900 dark:text-zinc-100 flex items-center gap-3">
+                  <Filter className="h-5 w-5 text-azul-1" /> Panel de Segmentación Avanzada
+                </h3>
+                <p className="text-[10px] font-bold text-zinc-500 mt-1 uppercase tracking-wider">
+                  Refine los resultados de la cartera de clientes
+                </p>
+              </div>
+              <button
+                onClick={resetFilters}
+                className="text-[11px] font-black text-zinc-600 dark:text-zinc-400 hover:text-azul-1 flex items-center gap-2 transition-colors px-4 py-2 rounded-xl hover:bg-zinc-100 dark:hover:bg-zinc-800 border border-zinc-700 dark:border-zinc-700"
+              >
+                <RotateCcw className="h-4 w-4" /> REINICIAR FILTROS
+              </button>
+            </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-x-8 gap-y-6">
+              {/* Empresa (Solo Admins) */}
+              {(userRole === "SU_ADMIN" || userRole === "ADMIN") && filterOptions.empresas.length > 0 && (
+                <div className="space-y-2">
+                  <Label className="text-[10px] font-black uppercase tracking-widest text-zinc-500">Empresa Responsable</Label>
+                  <Input
+                    placeholder="Filtrar por nombre..."
+                    value={empresaSearch}
+                    onChange={(e) => setEmpresaSearch(e.target.value)}
+                    className="h-9 text-xs mb-2 border-zinc-700"
+                  />
+                  <div className="flex flex-col gap-2 max-h-32 overflow-y-auto custom-scrollbar p-4 bg-white dark:bg-zinc-900 rounded-xl border border-zinc-700">
+                                            {filterOptions.empresas
+                                              .filter(emp => emp.nombre.toLowerCase().includes(empresaSearch.toLowerCase()))
+                                              .map((emp: { id: string, nombre: string }) => (
+                                              <label key={emp.id} className="flex items-center gap-3 text-xs font-black text-zinc-700 dark:text-zinc-300 cursor-pointer group">
+                                                <div className={cn(
+                                                  "flex h-4 w-4 shrink-0 items-center justify-center rounded-md border-2 border-zinc-700 transition-colors",                          filters.empresas.includes(emp.id) ? "bg-azul-1 border-azul-1" : "bg-white dark:bg-zinc-900 group-hover:border-azul-1"
+                        )}>
+                          {filters.empresas.includes(emp.id) && <Check className="h-3 w-3 text-white" />}
+                        </div>
+                        <input
+                          type="checkbox"
+                          className="hidden"
+                          checked={filters.empresas.includes(emp.id)}
+                          onChange={(e) => {
+                            const checked = e.target.checked;
+                            setFilters(prev => ({
+                              ...prev,
+                              empresas: checked
+                                ? [...prev.empresas, emp.id]
+                                : prev.empresas.filter(id => id !== emp.id)
+                            }));
+                          }}
+                        />
+                        <span className="truncate flex-1" title={emp.nombre}>{emp.nombre}</span>
+                      </label>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {/* Departamento */}
+              <div className="space-y-2">
+                <Label className="text-[10px] font-black uppercase tracking-widest text-zinc-500">Departamento</Label>
+                <Combobox
+                  options={[
+                    { value: "all", label: "TODOS LOS DEPARTAMENTOS" },
+                    ...filterOptions.departamentos.map(d => ({ value: d.id || "", label: d.name.toUpperCase() }))
+                  ]}
+                  value={filters.departamento}
+                  onChange={(val) => {
+                    setFilters(prev => ({ ...prev, departamento: val, municipio: "all" }));
+                  }}
+                  placeholder="Seleccionar..."
+                  className="h-11"
+                />
+              </div>
+
+              {/* Municipio */}
+              <div className="space-y-2">
+                <Label className="text-[10px] font-black uppercase tracking-widest text-zinc-500">Municipio / Localidad</Label>
+                <Combobox
+                  options={[
+                    { value: "all", label: "TODOS LOS MUNICIPIOS" },
+                    ...filterOptions.municipios.map(m => typeof m === 'string' ? { value: m, label: m.toUpperCase() } : { value: m.id || "", label: m.name.toUpperCase() })
+                  ]}
+                  value={filters.municipio}
+                  onChange={(val) => setFilters(prev => ({ ...prev, municipio: val }))}
+                  placeholder="Seleccionar..."
+                  className="h-11"
+                  disabled={filters.departamento === "all" && initialDepartments.length > 0}
+                />
+              </div>
+
+              {/* Barrio */}
+              <div className="space-y-2">
+                <Label className="text-[10px] font-black uppercase tracking-widest text-zinc-500">Barrio / Sector</Label>
+                <Input
+                  placeholder="Ej: El Poblado"
+                  value={filters.barrio}
+                  onChange={(e) => setFilters(prev => ({ ...prev, barrio: e.target.value }))}
+                  className="h-11 text-xs border-zinc-700 bg-white"
+                />
+              </div>
+
+              {/* Clasificación */}
+              <div className="space-y-2">
+                <Label className="text-[10px] font-black uppercase tracking-widest text-zinc-500">Clasificación Scoring</Label>
+                <Combobox
+                  options={[
+                    { value: "all", label: "TODAS LAS CATEGORÍAS" },
+                    ...filterOptions.clasificaciones.map(c => ({ value: c, label: c }))
+                  ]}
+                  value={filters.clasificacion}
+                  onChange={(val) => setFilters(prev => ({ ...prev, clasificacion: val }))}
+                  placeholder="Seleccionar..."
+                  className="h-11"
+                  hideSearch
+                />
+              </div>
+
+              {/* Segmento */}
+              <div className="space-y-2">
+                <Label className="text-[10px] font-black uppercase tracking-widest text-zinc-500">Segmento de Negocio</Label>
+                <Combobox
+                  options={[
+                    { value: "all", label: "TODOS LOS SEGMENTOS" },
+                    ...filterOptions.segmentos.map(s => ({ value: s, label: s.toUpperCase() }))
+                  ]}
+                  value={filters.segmento}
+                  onChange={(val) => setFilters(prev => ({ ...prev, segmento: val }))}
+                  placeholder="Seleccionar..."
+                  className="h-11"
+                />
+              </div>
+
+              {/* Riesgo */}
+              <div className="space-y-2">
+                <Label className="text-[10px] font-black uppercase tracking-widest text-zinc-500">Nivel de Riesgo Operativo</Label>
+                <Combobox
+                  options={[
+                    { value: "all", label: "TODOS LOS NIVELES" },
+                    ...filterOptions.riesgos.map(r => ({ value: r, label: r.toUpperCase() }))
+                  ]}
+                  value={filters.riesgo}
+                  onChange={(val) => setFilters(prev => ({ ...prev, riesgo: val }))}
+                  placeholder="Seleccionar..."
+                  className="h-11"
+                  hideSearch
+                />
+              </div>
+
+              {/* Rango de Fechas */}
+              <div className="lg:col-span-2 space-y-2">
+                <Label className="text-[10px] font-black uppercase tracking-widest text-zinc-500">Rango de Fecha de Registro</Label>
+                <div className="flex items-center gap-3">
+                  <DatePicker
+                    date={filters.fechaDesde ? new Date(filters.fechaDesde + "T00:00:00") : undefined}
+                    onChange={(d) => setFilters(prev => ({ ...prev, fechaDesde: d ? d.toISOString().split("T")[0] : "" }))}
+                    className="flex-1 h-11 bg-white border-zinc-700"
+                    placeholder="Fecha Inicial"
+                  />
+                  <span className="text-zinc-400 font-bold text-xs">AL</span>
+                  <DatePicker
+                    date={filters.fechaHasta ? new Date(filters.fechaHasta + "T00:00:00") : undefined}
+                    onChange={(d) => setFilters(prev => ({ ...prev, fechaHasta: d ? d.toISOString().split("T")[0] : "" }))}
+                    className="flex-1 h-11 bg-white border-zinc-700"
+                    placeholder="Fecha Final"
+                  />
+                </div>
+              </div>
+            </div>
+
+            <div className="mt-10 pt-6 border-t border-zinc-700 dark:border-zinc-800 flex justify-end">
+              <Button 
+                onClick={() => setShowFilters(false)}
+                className="h-12 px-10 rounded-xl text-[11px] font-black uppercase tracking-[0.2em] bg-zinc-900 dark:bg-zinc-100 text-white dark:text-zinc-900 shadow-xl shadow-zinc-900/20 dark:shadow-none hover:opacity-90 transition-all"
+              >
+                Aplicar y Cerrar Panel
+              </Button>
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* Tabla con Scroll Interno */}
       <div className="flex-1 min-h-0 overflow-hidden">
-        <div className="h-full overflow-y-auto overflow-x-auto scrollbar-thin scrollbar-thumb-zinc-200 dark:scrollbar-thumb-zinc-800">
+        <div className="h-full overflow-y-auto overflow-x-auto scrollbar-thin scrollbar-thumb-zinc-300 dark:scrollbar-thumb-zinc-800">
           <table className="w-full text-left border-collapse min-w-[1000px] lg:min-w-full">
-            <thead className="sticky top-0 bg-white/95 dark:bg-zinc-900/95 backdrop-blur-sm z-20">
-              <tr className="border-b border-zinc-100 dark:border-zinc-800/50">
-                <th className="px-4 py-5 text-[10px] font-black uppercase tracking-[0.2em] text-zinc-400 dark:text-zinc-300">Cliente</th>
-                <th className="px-3 py-5 text-[10px] font-black uppercase tracking-[0.2em] text-zinc-400 dark:text-zinc-300">Documento</th>
-                <th className="px-3 py-5 text-[10px] font-black uppercase tracking-[0.2em] text-zinc-400 dark:text-zinc-300 text-center">Clasificación</th>
-                <th className="px-3 py-5 text-[10px] font-black uppercase tracking-[0.2em] text-zinc-400 dark:text-zinc-300 text-center">Segmento</th>
-                <th className="px-3 py-5 text-[10px] font-black uppercase tracking-[0.2em] text-zinc-400 dark:text-zinc-300 text-center">Riesgo</th>
-                <th className="px-3 py-5 text-[10px] font-black uppercase tracking-[0.2em] text-zinc-400 dark:text-zinc-300">Teléfonos</th>
-                <th className="px-3 py-5 text-[10px] font-black uppercase tracking-[0.2em] text-zinc-400 dark:text-zinc-300">Ubicación</th>
-                <th className="px-4 py-5 text-right text-[10px] font-black uppercase tracking-[0.2em] text-zinc-400 dark:text-zinc-300">Acciones</th>
+            <thead className="sticky top-0 bg-zinc-50/95 dark:bg-zinc-900/95 backdrop-blur-sm z-20">
+              <tr className="border-b border-zinc-700 dark:border-zinc-800/50">
+                <th className="px-6 py-5 text-[10px] font-black uppercase tracking-[0.3em] text-zinc-500 dark:text-zinc-300">Cliente / Perfil</th>
+                <th className="px-4 py-5 text-[10px] font-black uppercase tracking-[0.3em] text-zinc-500 dark:text-zinc-300">Documentación</th>
+                <th className="px-4 py-5 text-[10px] font-black uppercase tracking-[0.3em] text-zinc-500 dark:text-zinc-300 text-center">Clasificación</th>
+                <th className="px-4 py-5 text-[10px] font-black uppercase tracking-[0.3em] text-zinc-500 dark:text-zinc-300 text-center">Segmentación</th>
+                <th className="px-4 py-5 text-[10px] font-black uppercase tracking-[0.3em] text-zinc-500 dark:text-zinc-300 text-center">Riesgo</th>
+                <th className="px-4 py-5 text-[10px] font-black uppercase tracking-[0.3em] text-zinc-500 dark:text-zinc-300">Contacto</th>
+                <th className="px-4 py-5 text-[10px] font-black uppercase tracking-[0.3em] text-zinc-500 dark:text-zinc-300">Ubicación</th>
+                <th className="px-6 py-5 text-right text-[10px] font-black uppercase tracking-[0.3em] text-zinc-500 dark:text-zinc-300">Acciones</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-zinc-50 dark:divide-zinc-800/50">
+            <tbody className="divide-y divide-zinc-300 dark:divide-zinc-800/50 bg-white dark:bg-zinc-900">
               {paginatedClientes.map((cliente) => (
-                <tr key={cliente.id} className="group hover:bg-zinc-50/50 dark:hover:bg-zinc-800/30 transition-all">
-                  <td className="px-4 py-6">
+                <tr key={cliente.id} className="group hover:bg-zinc-50 dark:hover:bg-zinc-800/30 transition-all">
+                  <td className="px-6 py-6">
                     <div className="flex items-center gap-4">
                       <div className={cn(
-                        "flex h-10 w-10 shrink-0 items-center justify-center rounded-xl shadow-md",
+                        "flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl shadow-sm border border-zinc-700 dark:border-zinc-700",
                         cliente.tipoCliente === "EMPRESA" ? "bg-zinc-900 text-white dark:bg-zinc-800 dark:text-zinc-300" : "bg-blue-50 text-blue-600 dark:bg-blue-500/10 dark:text-blue-400"
                       )}>
-                        {cliente.tipoCliente === "EMPRESA" ? <Building2 className="h-5 w-5" /> : <User className="h-5 w-5" />}
+                        {cliente.tipoCliente === "EMPRESA" ? <Building2 className="h-6 w-6" /> : <User className="h-6 w-6" />}
                       </div>
                       <div className="flex flex-col min-w-0">
-                        <span className="text-sm font-black tracking-tight text-zinc-900 dark:text-zinc-100 truncate max-w-[150px] sm:max-w-[200px] lg:max-w-[280px]">
+                        <span className="text-sm font-black tracking-tight text-zinc-900 dark:text-zinc-100 truncate max-w-[150px] sm:max-w-[200px] lg:max-w-[280px] uppercase">
                           {cliente.tipoCliente === "EMPRESA" ? cliente.razonSocial : `${cliente.nombre} ${cliente.apellido}`}
                         </span>
-                        <span className="text-[9px] font-bold text-zinc-400 uppercase tracking-widest truncate max-w-[120px]">
-                          {cliente.tipoCliente === "EMPRESA" ? "Empresa" : "Persona Natural"}
+                        <span className="text-[9px] font-black text-zinc-500 dark:text-zinc-400 uppercase tracking-[0.1em] mt-0.5">
+                          {cliente.tipoCliente === "EMPRESA" ? "Corporativo" : "Persona Natural"}
                         </span>
                       </div>
                     </div>
                   </td>
 
-                  <td className="px-3 py-6">
+                  <td className="px-4 py-6">
                     <div className="flex flex-col">
-                      <span className="text-xs font-black text-zinc-700 dark:text-zinc-300">
-                        {cliente.tipoCliente === "EMPRESA" ? (cliente.nit || "Sin NIT") : (cliente.numeroDocumento || "Sin Doc")}
+                      <span className="text-xs font-black text-zinc-900 dark:text-zinc-100 font-mono">
+                        {cliente.tipoCliente === "EMPRESA" ? (cliente.nit || "SIN NIT") : (cliente.numeroDocumento || "SIN DOC")}
                       </span>
-                      <span className="text-[9px] font-bold text-zinc-400 uppercase">
-                        {cliente.tipoCliente === "EMPRESA" ? "NIT" : "Documento"}
+                      <span className="text-[9px] font-black text-zinc-500 dark:text-zinc-400 uppercase tracking-wider mt-0.5">
+                        {cliente.tipoCliente === "EMPRESA" ? "NIT" : (cliente.tipoDocumento || "CC")}
                       </span>
                     </div>
                   </td>
 
-                  <td className="px-3 py-6 text-center">
-                    <div className="flex flex-col items-center gap-1">
+                  <td className="px-4 py-6 text-center">
+                    <div className="flex flex-col items-center gap-1.5">
                       <div className={cn(
-                        "inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full text-[9px] font-black uppercase tracking-widest shadow-sm",
+                        "inline-flex items-center gap-1.5 px-3 py-1 rounded-xl text-[9px] font-black uppercase tracking-widest shadow-sm border border-black/5",
                         SCORE_COLORS[cliente.clasificacion || "BRONCE"]
                       )}>
                         <Trophy className="h-2.5 w-2.5" />
                         {cliente.clasificacion || "BRONCE"}
                       </div>
-                      <span className="text-[10px] font-bold text-zinc-500">{cliente.score || 0} pts</span>
+                      <span className="text-[10px] font-black text-zinc-900 dark:text-zinc-400">{cliente.score || 0} PTS</span>
                     </div>
                   </td>
 
-                  <td className="px-3 py-6 text-center">
-                    <span className="text-[11px] font-bold text-zinc-600 dark:text-zinc-400">
-                      {cliente.segmento?.nombre || cliente.segmentoNegocio || "N/A"}
-                    </span>
+                  <td className="px-4 py-6 text-center">
+                    <div className="inline-flex items-center gap-2 px-3 py-1 rounded-lg bg-zinc-50 dark:bg-zinc-800 border border-zinc-700 dark:border-zinc-700">
+                      <Target className="h-3 w-3 text-azul-1" />
+                      <span className="text-[10px] font-black text-zinc-900 dark:text-zinc-300 uppercase tracking-tight">
+                        {cliente.segmento?.nombre || cliente.segmentoNegocio || "N/A"}
+                      </span>
+                    </div>
                   </td>
 
-                  <td className="px-3 py-6 text-center">
+                  <td className="px-4 py-6 text-center">
                     {(() => {
                       const riesgoNombre = cliente.riesgo?.nombre || cliente.nivelRiesgo || "BAJO";
                       const labelInfo = RIESGO_LABELS[riesgoNombre.toUpperCase() as keyof typeof RIESGO_LABELS] || {
                         label: riesgoNombre,
-                        color: "text-zinc-600 bg-zinc-50",
+                        color: "text-zinc-700 bg-zinc-100",
                         dot: "bg-zinc-500"
                       };
                       return (
                         <div className={cn(
-                          "inline-block px-2 py-0.5 rounded-md text-[9px] font-black uppercase tracking-widest",
+                          "inline-block px-3 py-1 rounded-xl text-[9px] font-black uppercase tracking-widest border border-black/5 shadow-sm",
                           labelInfo.color
                         )}>
                           {labelInfo.label}
@@ -1044,64 +1077,72 @@ export function ClienteList({ initialClientes, initialDepartments = [], initialM
                     })()}
                   </td>
 
-                  <td className="px-3 py-6">
-                    <div className="flex flex-col gap-0.5">
-                      <div className="flex items-center gap-1.5 text-[11px] font-bold text-zinc-700 dark:text-zinc-300">
-                        <Phone className="h-3 w-3 text-zinc-400" />
+                  <td className="px-4 py-6">
+                    <div className="flex flex-col gap-1">
+                      <div className="flex items-center gap-2 text-xs font-black text-zinc-900 dark:text-zinc-100">
+                        <Phone className="h-3.5 w-3.5 text-emerald-600" />
                         {cliente.telefono}
                       </div>
+                      {cliente.correo && (
+                        <div className="flex items-center gap-2 text-[10px] font-black text-zinc-500 truncate max-w-[120px]">
+                          <Mail className="h-3 w-3 text-zinc-400" />
+                          {cliente.correo}
+                        </div>
+                      )}
                     </div>
                   </td>
 
-                  <td className="px-3 py-6">
+                  <td className="px-4 py-6">
                     <div className="flex flex-col">
-                      <span className="text-[11px] font-bold text-zinc-700 dark:text-zinc-300 truncate max-w-[150px]">
-                        {cliente.direcciones?.[0]?.direccion || "N/A"}
-                      </span>
-                      <span className="text-[9px] font-medium text-zinc-400 uppercase">
+                      <div className="flex items-center gap-1.5 mb-0.5">
+                        <MapPin className="h-3 w-3 text-azul-1" />
+                        <span className="text-xs font-black text-zinc-900 dark:text-zinc-100 truncate max-w-[150px] uppercase">
+                          {cliente.direcciones?.[0]?.direccion || "SIN DIRECCIÓN"}
+                        </span>
+                      </div>
+                      <span className="text-[9px] font-black text-zinc-500 dark:text-zinc-400 uppercase tracking-widest ml-4">
                         {cliente.direcciones?.[0]?.municipio || "S/M"}
                       </span>
                     </div>
                   </td>
 
-                  <td className="px-4 py-6 text-right">
-                    {/* Dropdown de Acciones de Shadcn - Soluciona el problema de Z-Index y Scroll */}
+                  <td className="px-6 py-6 text-right">
                     <DropdownMenu>
                       <DropdownMenuTrigger asChild>
-                        <button className="inline-flex h-8 w-8 items-center justify-center rounded-lg bg-zinc-50 hover:bg-zinc-900 hover:text-white text-zinc-400 dark:bg-zinc-800/50 dark:hover:bg-white dark:hover:text-black transition-all">
-                          <MoreHorizontal className="h-4 w-4" />
+                        <button className="inline-flex h-10 w-10 items-center justify-center rounded-xl bg-zinc-100 hover:bg-zinc-900 hover:text-white text-zinc-500 dark:bg-zinc-800/50 dark:hover:bg-white dark:hover:text-black transition-all border border-zinc-700 dark:border-zinc-700 shadow-sm">
+                          <MoreHorizontal className="h-5 w-5" />
                         </button>
                       </DropdownMenuTrigger>
-                      <DropdownMenuContent align="end" className="w-48 p-2 rounded-xl">
+                      <DropdownMenuContent align="end" className="w-52 p-2 rounded-2xl border border-zinc-700 shadow-2xl">
                         <DropdownMenuItem
                           onClick={() => setSelectedCliente(cliente)}
-                          className="flex items-center gap-3 py-2.5 text-[11px] font-bold cursor-pointer"
+                          className="flex items-center gap-3 py-3 text-[11px] font-black uppercase tracking-widest cursor-pointer text-zinc-700"
                         >
-                          <Eye className="h-4 w-4 text-zinc-400" /> VER DETALLES
+                          <Eye className="h-4 w-4 text-azul-1" /> Ver Expediente
                         </DropdownMenuItem>
                         <DropdownMenuItem
                           onClick={() => setSelectedClienteForHistory(cliente)}
-                          className="flex items-center gap-3 py-2.5 text-[11px] font-bold cursor-pointer"
+                          className="flex items-center gap-3 py-3 text-[11px] font-black uppercase tracking-widest cursor-pointer text-zinc-700"
                         >
-                          <FileText className="h-4 w-4 text-zinc-400" /> VER SERVICIOS
+                          <FileText className="h-4 w-4 text-purple-600" /> Historial O.S
                         </DropdownMenuItem>
                         <DropdownMenuItem
                           onClick={() => setSelectedClienteForConfig(cliente)}
-                          className="flex items-center gap-3 py-2.5 text-[11px] font-bold cursor-pointer"
+                          className="flex items-center gap-3 py-3 text-[11px] font-black uppercase tracking-widest cursor-pointer text-zinc-700"
                         >
-                          <Settings className="h-4 w-4 text-zinc-400" /> CONFIGURACION
+                          <Settings className="h-4 w-4 text-zinc-500" /> Configuración
                         </DropdownMenuItem>
                         <Link href={`/dashboard/clientes/${cliente.id}/editar`}>
-                          <DropdownMenuItem className="flex items-center gap-3 py-2.5 text-[11px] font-bold cursor-pointer">
-                            <Pencil className="h-4 w-4 text-zinc-400" /> EDITAR
+                          <DropdownMenuItem className="flex items-center gap-3 py-3 text-[11px] font-black uppercase tracking-widest cursor-pointer text-zinc-700">
+                            <Pencil className="h-4 w-4 text-amber-600" /> Editar Perfil
                           </DropdownMenuItem>
                         </Link>
-                        <DropdownMenuSeparator />
+                        <DropdownMenuSeparator className="bg-zinc-200 dark:bg-zinc-800" />
                         <DropdownMenuItem
                           onClick={() => handleDelete(cliente)}
-                          className="flex items-center gap-3 py-2.5 text-[11px] font-bold text-red-600 hover:text-red-600 hover:bg-red-50 cursor-pointer"
+                          className="flex items-center gap-3 py-3 text-[11px] font-black uppercase tracking-widest text-red-600 hover:text-red-600 hover:bg-red-50 cursor-pointer"
                         >
-                          <Trash2 className="h-4 w-4" /> ELIMINAR
+                          <Trash2 className="h-4 w-4" /> Eliminar Cartera
                         </DropdownMenuItem>
                       </DropdownMenuContent>
                     </DropdownMenu>
@@ -1111,7 +1152,7 @@ export function ClienteList({ initialClientes, initialDepartments = [], initialM
             </tbody>
           </table>
           {filteredClientes.length === 0 && (
-            <div className="flex flex-col items-center justify-center py-20 text-zinc-400">
+            <div className="flex flex-col items-center justify-center py-20 text-zinc-500">
               <Search className="h-12 w-12 mb-4 opacity-20" />
               <p className="font-bold uppercase tracking-widest text-xs">No se encontraron clientes</p>
             </div>
@@ -1120,9 +1161,9 @@ export function ClienteList({ initialClientes, initialDepartments = [], initialM
       </div>
 
       {/* Paginación */}
-      <div className="px-8 py-4 border-t border-zinc-100 dark:border-zinc-800/50 bg-zinc-50/50 dark:bg-zinc-900/50 flex items-center justify-between shrink-0">
+      <div className="px-8 py-4 border-t border-zinc-700 dark:border-zinc-800/50 bg-white dark:bg-zinc-900/50 flex items-center justify-between shrink-0">
         <div className="flex items-center gap-4">
-          <span className="text-[10px] font-black uppercase tracking-widest text-zinc-400 dark:text-zinc-300">
+          <span className="text-[10px] font-black uppercase tracking-widest text-zinc-500 dark:text-zinc-300">
             Mostrando {Math.min(filteredClientes.length, (currentPage - 1) * itemsPerPage + 1)}-{Math.min(filteredClientes.length, currentPage * itemsPerPage)} de {filteredClientes.length}
           </span>
         </div>
@@ -1131,7 +1172,7 @@ export function ClienteList({ initialClientes, initialDepartments = [], initialM
           <button
             onClick={() => setCurrentPage(prev => Math.max(1, prev - 1))}
             disabled={currentPage === 1}
-            className="flex h-10 w-10 items-center justify-center rounded-xl bg-white dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 text-zinc-500 dark:text-zinc-300 disabled:opacity-30 hover:bg-zinc-50 dark:hover:bg-zinc-700 transition-all"
+            className="flex h-10 w-10 items-center justify-center rounded-xl bg-white dark:bg-zinc-800 border border-zinc-700 dark:border-zinc-700 text-zinc-600 dark:text-zinc-300 disabled:opacity-30 hover:bg-zinc-50 dark:hover:bg-zinc-700 transition-all"
           >
             <ChevronLeft className="h-5 w-5" />
           </button>
@@ -1145,7 +1186,7 @@ export function ClienteList({ initialClientes, initialDepartments = [], initialM
               .map((page, index, array) => (
                 <React.Fragment key={page}>
                   {index > 0 && array[index - 1] !== page - 1 && (
-                    <span className="px-2 text-zinc-400">...</span>
+                    <span className="px-2 text-zinc-500">...</span>
                   )}
                   <button
                     onClick={() => setCurrentPage(page)}
@@ -1153,7 +1194,7 @@ export function ClienteList({ initialClientes, initialDepartments = [], initialM
                       "flex h-10 w-10 items-center justify-center rounded-xl text-[11px] font-black transition-all",
                       currentPage === page
                         ? "bg-azul-1 text-zinc-50 shadow-lg shadow-azul-1/20"
-                        : "bg-white dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 text-zinc-500 dark:text-zinc-300 hover:bg-zinc-50 dark:hover:bg-zinc-700"
+                        : "bg-white dark:bg-zinc-800 border border-zinc-700 dark:border-zinc-700 text-zinc-600 dark:text-zinc-300 hover:bg-zinc-50 dark:hover:bg-zinc-700"
                     )}
                   >
                     {page}
@@ -1165,7 +1206,7 @@ export function ClienteList({ initialClientes, initialDepartments = [], initialM
           <button
             onClick={() => setCurrentPage(prev => Math.min(totalPages, prev + 1))}
             disabled={currentPage === totalPages || totalPages === 0}
-            className="flex h-10 w-10 items-center justify-center rounded-xl bg-white dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 text-zinc-500 dark:text-zinc-300 disabled:opacity-30 hover:bg-zinc-50 dark:hover:bg-zinc-700 transition-all"
+            className="flex h-10 w-10 items-center justify-center rounded-xl bg-white dark:bg-zinc-800 border border-zinc-700 dark:border-zinc-700 text-zinc-600 dark:text-zinc-300 disabled:opacity-30 hover:bg-zinc-50 dark:hover:bg-zinc-700 transition-all"
           >
             <ChevronRight className="h-5 w-5" />
           </button>
@@ -1220,32 +1261,32 @@ export function ClienteList({ initialClientes, initialDepartments = [], initialM
               </div>
 
               {/* Contenido con Scroll Interno */}
-              <div className="flex-1 overflow-y-auto p-8 bg-zinc-50 dark:bg-zinc-950 space-y-10 custom-scrollbar">
+              <div className="flex-1 overflow-y-auto p-8 bg-white dark:bg-zinc-950 space-y-10 custom-scrollbar">
 
                 {/* 1. SECCIÓN: RESUMEN ESTRATÉGICO */}
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                  <div className="p-4 rounded-2xl bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 shadow-sm">
-                    <p className="text-[9px] font-black uppercase tracking-[0.2em] text-zinc-400 mb-2">Segmento Negocio</p>
+                  <div className="p-4 rounded-2xl bg-zinc-50 dark:bg-zinc-900 border border-zinc-700 dark:border-zinc-800 shadow-sm">
+                    <p className="text-[9px] font-black uppercase tracking-[0.2em] text-zinc-500 mb-2">Segmento Negocio</p>
                     <div className="flex items-center gap-3">
                       <div className="h-8 w-8 rounded-lg bg-azul-1/10 flex items-center justify-center text-azul-1">
                         <Target className="h-4 w-4" />
                       </div>
                       <span className={cn(
                         "text-sm font-black uppercase",
-                        (selectedCliente.segmento?.nombre || selectedCliente.segmentoNegocio) ? "text-zinc-800 dark:text-zinc-100" : "text-zinc-400 dark:text-zinc-500"
+                        (selectedCliente.segmento?.nombre || selectedCliente.segmentoNegocio) ? "text-zinc-900 dark:text-zinc-100" : "text-zinc-500 dark:text-zinc-500"
                       )}>
                         {selectedCliente.segmento?.nombre || selectedCliente.segmentoNegocio || "No Definido"}
                       </span>
                     </div>
                   </div>
 
-                  <div className="p-4 rounded-2xl bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 shadow-sm">
-                    <p className="text-[9px] font-black uppercase tracking-[0.2em] text-zinc-400 mb-2">Nivel de Riesgo</p>
+                  <div className="p-4 rounded-2xl bg-zinc-50 dark:bg-zinc-900 border border-zinc-700 dark:border-zinc-800 shadow-sm">
+                    <p className="text-[9px] font-black uppercase tracking-[0.2em] text-zinc-500 mb-2">Nivel de Riesgo</p>
                     {(() => {
                       const riesgoNombre = selectedCliente.riesgo?.nombre || selectedCliente.nivelRiesgo || "BAJO";
                       const labelInfo = RIESGO_LABELS[riesgoNombre.toUpperCase() as keyof typeof RIESGO_LABELS] || {
                         label: riesgoNombre,
-                        color: "text-zinc-600 bg-zinc-50",
+                        color: "text-zinc-700 bg-zinc-100",
                         dot: "bg-zinc-500"
                       };
                       return (
@@ -1253,7 +1294,7 @@ export function ClienteList({ initialClientes, initialDepartments = [], initialM
                           <div className={cn("h-8 w-8 rounded-lg flex items-center justify-center", labelInfo.color)}>
                             <AlertCircle className="h-4 w-4" />
                           </div>
-                          <span className={cn("text-sm font-black uppercase", labelInfo.color.split(' ')[0])}>
+                          <span className={cn("text-sm font-black uppercase text-zinc-900")}>
                             {labelInfo.label}
                           </span>
                         </div>
@@ -1261,13 +1302,13 @@ export function ClienteList({ initialClientes, initialDepartments = [], initialM
                     })()}
                   </div>
 
-                  <div className="p-4 rounded-2xl bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 shadow-sm">
-                    <p className="text-[9px] font-black uppercase tracking-[0.2em] text-zinc-400 mb-2">Plan Actual</p>
+                  <div className="p-4 rounded-2xl bg-zinc-50 dark:bg-zinc-900 border border-zinc-700 dark:border-zinc-800 shadow-sm">
+                    <p className="text-[9px] font-black uppercase tracking-[0.2em] text-zinc-500 mb-2">Plan Actual</p>
                     <div className="flex items-center gap-3">
-                      <div className="h-8 w-8 rounded-lg bg-emerald-500/10 flex items-center justify-center text-emerald-500">
+                      <div className="h-8 w-8 rounded-lg bg-emerald-500/10 flex items-center justify-center text-emerald-600">
                         <Zap className="h-4 w-4" />
                       </div>
-                      <span className="text-sm font-black text-zinc-800 dark:text-zinc-100 uppercase">
+                      <span className="text-sm font-black text-zinc-900 dark:text-zinc-100 uppercase">
                         {selectedCliente.planActual || "Plan Estándar"}
                       </span>
                     </div>
@@ -1276,55 +1317,55 @@ export function ClienteList({ initialClientes, initialDepartments = [], initialM
 
                 {/* 2. SECCIÓN: DATOS DE IDENTIDAD Y PERFIL */}
                 <div className="space-y-4">
-                  <h3 className="text-[10px] font-black uppercase tracking-[0.3em] text-zinc-400 flex items-center gap-3 px-1">
-                    <Fingerprint className="h-4 w-4" /> Identidad y Perfil Corporativo
+                  <h3 className="text-[10px] font-black uppercase tracking-[0.3em] text-zinc-500 flex items-center gap-3 px-1">
+                    <Fingerprint className="h-4 w-4 text-azul-1" /> Identidad y Perfil Corporativo
                   </h3>
-                  <div className="grid grid-cols-2 md:grid-cols-4 gap-4 bg-white dark:bg-zinc-900 p-6 rounded-3xl border border-zinc-200 dark:border-zinc-800">
+                  <div className="grid grid-cols-2 md:grid-cols-4 gap-4 bg-zinc-50 dark:bg-zinc-900 p-6 rounded-3xl border border-zinc-700 dark:border-zinc-800">
                     <div className="space-y-1">
-                      <p className="text-[9px] font-black text-zinc-400 uppercase">Tipo Documento</p>
-                      <p className={cn("text-xs font-bold", selectedCliente.tipoDocumento ? "text-zinc-900 dark:text-zinc-100" : "text-zinc-400 dark:text-zinc-500")}>
+                      <p className="text-[9px] font-black text-zinc-500 uppercase">Tipo Documento</p>
+                      <p className={cn("text-xs font-black", selectedCliente.tipoDocumento ? "text-zinc-900 dark:text-zinc-100" : "text-zinc-500 dark:text-zinc-500")}>
                         {selectedCliente.tipoDocumento || "N/A"}
                       </p>
                     </div>
                     <div className="space-y-1">
-                      <p className="text-[9px] font-black text-zinc-400 uppercase">Número / NIT</p>
-                      <p className={cn("text-xs font-bold font-mono", (selectedCliente.nit || selectedCliente.numeroDocumento) ? "text-zinc-900 dark:text-zinc-100" : "text-zinc-400 dark:text-zinc-500")}>
+                      <p className="text-[9px] font-black text-zinc-500 uppercase">Número / NIT</p>
+                      <p className={cn("text-xs font-black font-mono", (selectedCliente.nit || selectedCliente.numeroDocumento) ? "text-zinc-900 dark:text-zinc-100" : "text-zinc-500 dark:text-zinc-500")}>
                         {selectedCliente.nit || selectedCliente.numeroDocumento || "N/A"}
                       </p>
                     </div>
                     <div className="space-y-1">
-                      <p className="text-[9px] font-black text-zinc-400 uppercase">Origen Cliente</p>
-                      <p className={cn("text-xs font-bold", selectedCliente.origenCliente ? "text-zinc-900 dark:text-zinc-100" : "text-zinc-400 dark:text-zinc-500")}>
+                      <p className="text-[9px] font-black text-zinc-500 uppercase">Origen Cliente</p>
+                      <p className={cn("text-xs font-black", selectedCliente.origenCliente ? "text-zinc-900 dark:text-zinc-100" : "text-zinc-500 dark:text-zinc-500")}>
                         {selectedCliente.origenCliente || "Desconocido"}
                       </p>
                     </div>
                     <div className="space-y-1">
-                      <p className="text-[9px] font-black text-zinc-400 uppercase">Tipo Interés</p>
-                      <p className={cn("text-xs font-bold", selectedCliente.tipoInteres?.nombre ? "text-zinc-900 dark:text-zinc-100" : "text-zinc-400 dark:text-zinc-500")}>
+                      <p className="text-[9px] font-black text-zinc-500 uppercase">Tipo Interés</p>
+                      <p className={cn("text-xs font-black", selectedCliente.tipoInteres?.nombre ? "text-zinc-900 dark:text-zinc-100" : "text-zinc-500 dark:text-zinc-500")}>
                         {selectedCliente.tipoInteres?.nombre || "No definido"}
                       </p>
                     </div>
                     <div className="space-y-1">
-                      <p className="text-[9px] font-black text-zinc-400 uppercase">Subsegmento</p>
-                      <p className={cn("text-xs font-bold", selectedCliente.subsegmento ? "text-zinc-900 dark:text-zinc-100" : "text-zinc-400 dark:text-zinc-500")}>
+                      <p className="text-[9px] font-black text-zinc-500 uppercase">Subsegmento</p>
+                      <p className={cn("text-xs font-black", selectedCliente.subsegmento ? "text-zinc-900 dark:text-zinc-100" : "text-zinc-500 dark:text-zinc-500")}>
                         {selectedCliente.subsegmento || "N/A"}
                       </p>
                     </div>
                     <div className="space-y-1">
-                      <p className="text-[9px] font-black text-zinc-400 uppercase">Act. Económica</p>
-                      <p className={cn("text-xs font-bold", selectedCliente.actividadEconomica ? "text-zinc-900 dark:text-zinc-100" : "text-zinc-400 dark:text-zinc-500")}>
+                      <p className="text-[9px] font-black text-zinc-500 uppercase">Act. Económica</p>
+                      <p className={cn("text-xs font-black", selectedCliente.actividadEconomica ? "text-zinc-900 dark:text-zinc-100" : "text-zinc-500 dark:text-zinc-500")}>
                         {selectedCliente.actividadEconomica || "No Registrada"}
                       </p>
                     </div>
                     <div className="space-y-1">
-                      <p className="text-[9px] font-black text-zinc-400 uppercase">Metraje Total</p>
-                      <p className={cn("text-xs font-bold", selectedCliente.metrajeTotal ? "text-zinc-900 dark:text-zinc-100" : "text-zinc-400 dark:text-zinc-500")}>
+                      <p className="text-[9px] font-black text-zinc-500 uppercase">Metraje Total</p>
+                      <p className={cn("text-xs font-black", selectedCliente.metrajeTotal ? "text-zinc-900 dark:text-zinc-100" : "text-zinc-500 dark:text-zinc-500")}>
                         {selectedCliente.metrajeTotal ? `${selectedCliente.metrajeTotal} m²` : "N/A"}
                       </p>
                     </div>
                     <div className="space-y-1">
-                      <p className="text-[9px] font-black text-zinc-400 uppercase">Rep. Legal</p>
-                      <p className={cn("text-xs font-bold", selectedCliente.representanteLegal ? "text-zinc-900 dark:text-zinc-100" : "text-zinc-400 dark:text-zinc-500")}>
+                      <p className="text-[9px] font-black text-zinc-500 uppercase">Rep. Legal</p>
+                      <p className={cn("text-xs font-black", selectedCliente.representanteLegal ? "text-zinc-900 dark:text-zinc-100" : "text-zinc-500 dark:text-zinc-500")}>
                         {selectedCliente.representanteLegal || "No Definido"}
                       </p>
                     </div>
@@ -1334,28 +1375,28 @@ export function ClienteList({ initialClientes, initialDepartments = [], initialM
                 {/* 3. SECCIÓN: CONTACTO Y TRAZABILIDAD */}
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
                   <div className="space-y-4">
-                    <h3 className="text-[10px] font-black uppercase tracking-[0.3em] text-zinc-400 flex items-center gap-3 px-1">
-                      <Phone className="h-4 w-4" /> Líneas de Contacto
+                    <h3 className="text-[10px] font-black uppercase tracking-[0.3em] text-zinc-500 flex items-center gap-3 px-1">
+                      <Phone className="h-4 w-4 text-emerald-600" /> Líneas de Contacto
                     </h3>
                     <div className="space-y-3">
-                      <div className="flex items-center gap-4 p-4 bg-white dark:bg-zinc-900 rounded-2xl border border-zinc-200 dark:border-zinc-800">
-                        <div className="h-10 w-10 rounded-xl bg-zinc-50 dark:bg-zinc-800 flex items-center justify-center text-zinc-400"><Phone className="h-5 w-5" /></div>
+                      <div className="flex items-center gap-4 p-4 bg-zinc-50 dark:bg-zinc-900 rounded-2xl border border-zinc-700 dark:border-zinc-800">
+                        <div className="h-10 w-10 rounded-xl bg-white dark:bg-zinc-800 flex items-center justify-center text-zinc-500 shadow-sm border border-zinc-700"><Phone className="h-5 w-5" /></div>
                         <div className="flex-1">
-                          <p className="text-[9px] font-black text-zinc-400 uppercase tracking-widest">Teléfono Principal</p>
+                          <p className="text-[9px] font-black text-zinc-500 uppercase tracking-widest">Teléfono Principal</p>
                           <p className="text-sm font-bold text-zinc-900 dark:text-zinc-100">{selectedCliente.telefono}</p>
                         </div>
                       </div>
-                      <div className="flex items-center gap-4 p-4 bg-white dark:bg-zinc-900 rounded-2xl border border-zinc-200 dark:border-zinc-800">
-                        <div className="h-10 w-10 rounded-xl bg-zinc-50 dark:bg-zinc-800 flex items-center justify-center text-zinc-400"><Phone className="h-5 w-5" /></div>
+                      <div className="flex items-center gap-4 p-4 bg-zinc-50 dark:bg-zinc-900 rounded-2xl border border-zinc-700 dark:border-zinc-800">
+                        <div className="h-10 w-10 rounded-xl bg-white dark:bg-zinc-800 flex items-center justify-center text-zinc-500 shadow-sm border border-zinc-700"><Phone className="h-5 w-5" /></div>
                         <div className="flex-1">
-                          <p className="text-[9px] font-black text-zinc-400 uppercase tracking-widest">Teléfono Secundario</p>
+                          <p className="text-[9px] font-black text-zinc-500 uppercase tracking-widest">Teléfono Secundario</p>
                           <p className="text-sm font-bold text-zinc-900 dark:text-zinc-100">{selectedCliente.telefono2 || "N/A"}</p>
                         </div>
                       </div>
-                      <div className="flex items-center gap-4 p-4 bg-white dark:bg-zinc-900 rounded-2xl border border-zinc-200 dark:border-zinc-800">
-                        <div className="h-10 w-10 rounded-xl bg-zinc-50 dark:bg-zinc-800 flex items-center justify-center text-zinc-400"><Mail className="h-5 w-5" /></div>
+                      <div className="flex items-center gap-4 p-4 bg-zinc-50 dark:bg-zinc-900 rounded-2xl border border-zinc-700 dark:border-zinc-800">
+                        <div className="h-10 w-10 rounded-xl bg-white dark:bg-zinc-800 flex items-center justify-center text-zinc-500 shadow-sm border border-zinc-700"><Mail className="h-5 w-5" /></div>
                         <div className="flex-1">
-                          <p className="text-[9px] font-black text-zinc-400 uppercase tracking-widest">Correo Electrónico</p>
+                          <p className="text-[9px] font-black text-zinc-500 uppercase tracking-widest">Correo Electrónico</p>
                           <p className="text-sm font-bold text-zinc-900 dark:text-zinc-100">{selectedCliente.correo || "Sin correo"}</p>
                         </div>
                       </div>
@@ -1363,32 +1404,32 @@ export function ClienteList({ initialClientes, initialDepartments = [], initialM
                   </div>
 
                   <div className="space-y-4">
-                    <h3 className="text-[10px] font-black uppercase tracking-[0.3em] text-zinc-400 flex items-center gap-3 px-1">
-                      <Calendar className="h-4 w-4" /> Cronología y Métricas
+                    <h3 className="text-[10px] font-black uppercase tracking-[0.3em] text-zinc-500 flex items-center gap-3 px-1">
+                      <Calendar className="h-4 w-4 text-purple-600" /> Cronología y Métricas
                     </h3>
-                    <div className="bg-white dark:bg-zinc-900 p-6 rounded-3xl border border-zinc-200 dark:border-zinc-800 grid grid-cols-2 gap-y-6 gap-x-4">
+                    <div className="bg-zinc-50 dark:bg-zinc-900 p-6 rounded-3xl border border-zinc-700 dark:border-zinc-800 grid grid-cols-2 gap-y-6 gap-x-4">
                       <div className="space-y-1">
-                        <p className="text-[9px] font-black text-zinc-400 uppercase">Creado El</p>
-                        <p className="text-xs font-bold text-zinc-900 dark:text-zinc-100">{selectedCliente.createdAt ? new Date(selectedCliente.createdAt).toLocaleDateString() : "N/A"}</p>
+                        <p className="text-[9px] font-black text-zinc-500 uppercase">Creado El</p>
+                        <p className="text-xs font-black text-zinc-900 dark:text-zinc-100">{selectedCliente.createdAt ? new Date(selectedCliente.createdAt).toLocaleDateString() : "N/A"}</p>
                       </div>
                       <div className="space-y-1">
-                        <p className="text-[9px] font-black text-zinc-400 uppercase">Última Visita</p>
-                        <p className="text-xs font-bold text-zinc-900 dark:text-zinc-100">{selectedCliente.ultimaVisita ? new Date(selectedCliente.ultimaVisita).toLocaleDateString() : "Ninguna"}</p>
+                        <p className="text-[9px] font-black text-zinc-500 uppercase">Última Visita</p>
+                        <p className="text-xs font-black text-zinc-900 dark:text-zinc-100">{selectedCliente.ultimaVisita ? new Date(selectedCliente.ultimaVisita).toLocaleDateString() : "Ninguna"}</p>
                       </div>
                       <div className="space-y-1">
-                        <p className="text-[9px] font-black text-zinc-400 uppercase">Próxima Visita</p>
-                        <p className="text-xs font-bold text-azul-1">{selectedCliente.proximaVisita ? new Date(selectedCliente.proximaVisita).toLocaleDateString() : "Pendiente"}</p>
+                        <p className="text-[9px] font-black text-zinc-500 uppercase">Próxima Visita</p>
+                        <p className="text-xs font-black text-azul-1">{selectedCliente.proximaVisita ? new Date(selectedCliente.proximaVisita).toLocaleDateString() : "Pendiente"}</p>
                       </div>
                       <div className="space-y-1">
-                        <p className="text-[9px] font-black text-zinc-400 uppercase">Frecuencia (Días)</p>
-                        <p className="text-xs font-bold text-zinc-900 dark:text-zinc-100">{selectedCliente.frecuenciaServicio || "Puntual"}</p>
+                        <p className="text-[9px] font-black text-zinc-500 uppercase">Frecuencia (Días)</p>
+                        <p className="text-xs font-black text-zinc-900 dark:text-zinc-100">{selectedCliente.frecuenciaServicio || "Puntual"}</p>
                       </div>
                       <div className="space-y-1">
-                        <p className="text-[9px] font-black text-zinc-400 uppercase">Ticket Promedio</p>
-                        <p className="text-xs font-bold text-emerald-600 dark:text-emerald-400">${Number(selectedCliente.ticketPromedio || 0).toLocaleString()}</p>
+                        <p className="text-[9px] font-black text-zinc-500 uppercase">Ticket Promedio</p>
+                        <p className="text-xs font-black text-emerald-600 dark:text-emerald-400">${Number(selectedCliente.ticketPromedio || 0).toLocaleString()}</p>
                       </div>
                       <div className="space-y-1">
-                        <p className="text-[9px] font-black text-zinc-400 uppercase">Marketing</p>
+                        <p className="text-[9px] font-black text-zinc-500 uppercase">Marketing</p>
                         <span className={cn(
                           "text-[9px] font-black px-2 py-0.5 rounded-md",
                           selectedCliente.aceptaMarketing 
@@ -1405,8 +1446,8 @@ export function ClienteList({ initialClientes, initialDepartments = [], initialM
                 {/* 4. SECCIÓN: SEDES Y UBICACIONES */}
                 <div className="space-y-4">
                   <div className="flex items-center justify-between px-1">
-                    <h3 className="text-[10px] font-black uppercase tracking-[0.3em] text-zinc-400 flex items-center gap-3">
-                      <MapPin className="h-4 w-4" /> Sedes Operativas Registradas
+                    <h3 className="text-[10px] font-black uppercase tracking-[0.3em] text-zinc-500 flex items-center gap-3">
+                      <MapPin className="h-4 w-4 text-orange-600" /> Sedes Operativas Registradas
                     </h3>
                     <span className="text-[10px] font-black text-azul-1 dark:text-zinc-300 bg-azul-1/10 px-3 py-1 rounded-full uppercase">
                       {selectedCliente.direcciones?.length || 0} Sedes
@@ -1414,43 +1455,43 @@ export function ClienteList({ initialClientes, initialDepartments = [], initialM
                   </div>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     {selectedCliente.direcciones?.map((dir, idx) => (
-                      <div key={idx} className="p-6 rounded-3xl bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 relative group overflow-hidden">
+                      <div key={idx} className="p-6 rounded-3xl bg-zinc-50 dark:bg-zinc-900 border border-zinc-700 dark:border-zinc-800 relative group overflow-hidden">
                         <div className="absolute top-0 left-0 w-1.5 h-full bg-azul-1/20 group-hover:bg-azul-1 transition-colors" />
                         <div className="flex justify-between items-start mb-4">
                           <div className="flex items-center gap-2">
                             <MapPin className="h-4 w-4 text-azul-1" />
-                            <span className="text-[10px] font-black text-zinc-400 uppercase tracking-widest">{dir.nombreSede || `SEDE #${idx + 1}`}</span>
+                            <span className="text-[10px] font-black text-zinc-500 uppercase tracking-widest">{dir.nombreSede || `SEDE #${idx + 1}`}</span>
                           </div>
-                          <span className="text-[9px] font-black px-2 py-0.5 rounded bg-zinc-100 dark:bg-zinc-800 text-zinc-500 uppercase">
+                          <span className="text-[9px] font-black px-2 py-0.5 rounded bg-white dark:bg-zinc-800 border border-zinc-700 dark:border-zinc-700 text-zinc-600 uppercase">
                             {dir.tipoUbicacion || "No Def."}
                           </span>
                         </div>
                         <h4 className="text-sm font-black text-zinc-900 dark:text-zinc-100 mb-4">{dir.direccion}</h4>
 
-                        <div className="grid grid-cols-2 gap-y-4 gap-x-2 border-t border-zinc-50 dark:border-zinc-800 pt-4">
+                        <div className="grid grid-cols-2 gap-y-4 gap-x-2 border-t border-zinc-700 dark:border-zinc-800 pt-4">
                           <div className="space-y-1">
-                            <p className="text-[9px] font-black text-zinc-400 uppercase">Municipio</p>
-                            <p className="text-xs font-bold text-zinc-700 dark:text-zinc-300">{dir.municipio || "N/A"}</p>
+                            <p className="text-[9px] font-black text-zinc-500 uppercase">Municipio</p>
+                            <p className="text-xs font-black text-zinc-800 dark:text-zinc-300">{dir.municipio || "N/A"}</p>
                           </div>
                           <div className="space-y-1">
-                            <p className="text-[9px] font-black text-zinc-400 uppercase">Barrio</p>
-                            <p className="text-xs font-bold text-zinc-700 dark:text-zinc-300">{dir.barrio || "N/A"}</p>
+                            <p className="text-[9px] font-black text-zinc-500 uppercase">Barrio</p>
+                            <p className="text-xs font-black text-zinc-800 dark:text-zinc-300">{dir.barrio || "N/A"}</p>
                           </div>
                           <div className="space-y-1">
-                            <p className="text-[9px] font-black text-zinc-400 uppercase">Contacto</p>
-                            <p className="text-xs font-bold text-zinc-700 dark:text-zinc-300">{dir.nombreContacto || "N/A"}</p>
+                            <p className="text-[9px] font-black text-zinc-500 uppercase">Contacto</p>
+                            <p className="text-xs font-black text-zinc-800 dark:text-zinc-300">{dir.nombreContacto || "N/A"}</p>
                           </div>
                           <div className="space-y-1">
-                            <p className="text-[9px] font-black text-zinc-400 uppercase">Tel. Sede</p>
-                            <p className="text-xs font-bold text-zinc-700 dark:text-zinc-300">{dir.telefonoContacto || "N/A"}</p>
+                            <p className="text-[9px] font-black text-zinc-500 uppercase">Tel. Sede</p>
+                            <p className="text-xs font-black text-zinc-800 dark:text-zinc-300">{dir.telefonoContacto || "N/A"}</p>
                           </div>
                           <div className="col-span-2 space-y-1">
-                            <p className="text-[9px] font-black text-zinc-400 uppercase">Punto Crítico</p>
-                            <p className="text-xs font-bold text-zinc-700 dark:text-zinc-300">{dir.clasificacionPunto || "No Especificado"}</p>
+                            <p className="text-[9px] font-black text-zinc-500 uppercase">Punto Crítico</p>
+                            <p className="text-xs font-black text-zinc-800 dark:text-zinc-300">{dir.clasificacionPunto || "No Especificado"}</p>
                           </div>
                           <div className="col-span-2 space-y-1">
-                            <p className="text-[9px] font-black text-zinc-400 uppercase">Horario Operativo</p>
-                            <p className="text-xs font-bold text-zinc-700 dark:text-zinc-300">
+                            <p className="text-[9px] font-black text-zinc-500 uppercase">Horario Operativo</p>
+                            <p className="text-xs font-black text-zinc-800 dark:text-zinc-300">
                               {dir.horarioInicio && dir.horarioFin ? `${dir.horarioInicio} - ${dir.horarioFin}` : "Sin restricciones"}
                             </p>
                           </div>
@@ -1458,9 +1499,9 @@ export function ClienteList({ initialClientes, initialDepartments = [], initialM
                       </div>
                     ))}
                     {(!selectedCliente.direcciones || selectedCliente.direcciones.length === 0) && (
-                      <div className="col-span-2 py-10 text-center border-2 border-dashed border-zinc-200 dark:border-zinc-800 rounded-3xl">
-                        <MapPin className="h-8 w-8 text-zinc-300 mx-auto mb-3" />
-                        <p className="text-xs font-bold text-zinc-400 uppercase tracking-widest">Sin sedes operativas vinculadas</p>
+                      <div className="col-span-2 py-10 text-center border-2 border-dashed border-zinc-700 dark:border-zinc-800 rounded-3xl">
+                        <MapPin className="h-8 w-8 text-zinc-400 mx-auto mb-3" />
+                        <p className="text-xs font-bold text-zinc-500 uppercase tracking-widest">Sin sedes operativas vinculadas</p>
                       </div>
                     )}
                   </div>
@@ -1469,8 +1510,8 @@ export function ClienteList({ initialClientes, initialDepartments = [], initialM
                 {/* 5. SECCIÓN: FLOTA VEHICULAR */}
                 <div className="space-y-4 pb-10">
                   <div className="flex items-center justify-between px-1">
-                    <h3 className="text-[10px] font-black uppercase tracking-[0.3em] text-zinc-400 flex items-center gap-3">
-                      <Settings className="h-4 w-4" /> Parque Automotor Vinculado
+                    <h3 className="text-[10px] font-black uppercase tracking-[0.3em] text-zinc-500 flex items-center gap-3">
+                      <Settings className="h-4 w-4 text-blue-600" /> Parque Automotor Vinculado
                     </h3>
                     <span className="text-[10px] font-black text-zinc-900 dark:text-zinc-300 bg-zinc-200 dark:bg-zinc-800 px-3 py-1 rounded-full uppercase">
                       {selectedCliente.vehiculos?.length || 0} Vehículos
@@ -1478,17 +1519,17 @@ export function ClienteList({ initialClientes, initialDepartments = [], initialM
                   </div>
                   <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                     {selectedCliente.vehiculos?.map((veh, idx) => (
-                      <div key={idx} className="p-4 bg-white dark:bg-zinc-900 rounded-2xl border border-zinc-200 dark:border-zinc-800 flex flex-col items-center text-center group transition-all hover:border-zinc-900 dark:hover:border-white">
-                        <div className="h-12 w-12 rounded-xl bg-zinc-50 dark:bg-zinc-800 flex items-center justify-center mb-3 text-zinc-400 group-hover:text-zinc-900 dark:group-hover:text-white transition-colors">
+                      <div key={idx} className="p-4 bg-zinc-50 dark:bg-zinc-900 rounded-2xl border border-zinc-700 dark:border-zinc-800 flex flex-col items-center text-center group transition-all hover:border-zinc-900 dark:hover:border-white shadow-sm">
+                        <div className="h-12 w-12 rounded-xl bg-white dark:bg-zinc-800 border border-zinc-700 flex items-center justify-center mb-3 text-zinc-500 group-hover:text-zinc-900 dark:group-hover:text-white transition-colors shadow-sm">
                           <Settings className="h-6 w-6" />
                         </div>
                         <p className="text-xs font-black text-zinc-900 dark:text-zinc-100 uppercase tracking-widest mb-1">{veh.placa}</p>
-                        <p className="text-[9px] font-bold text-zinc-400 uppercase">{veh.marca} {veh.modelo}</p>
+                        <p className="text-[9px] font-bold text-zinc-500 uppercase">{veh.marca} {veh.modelo}</p>
                       </div>
                     ))}
                     {(!selectedCliente.vehiculos || selectedCliente.vehiculos.length === 0) && (
-                      <div className="col-span-4 py-8 text-center border-2 border-dashed border-zinc-200 dark:border-zinc-800 rounded-3xl">
-                        <p className="text-[10px] font-black text-zinc-400 uppercase tracking-[0.2em]">Sin vehículos registrados en el sistema</p>
+                      <div className="col-span-4 py-8 text-center border-2 border-dashed border-zinc-700 dark:border-zinc-800 rounded-3xl">
+                        <p className="text-[10px] font-black text-zinc-500 uppercase tracking-[0.2em]">Sin vehículos registrados en el sistema</p>
                       </div>
                     )}
                   </div>
@@ -1497,16 +1538,16 @@ export function ClienteList({ initialClientes, initialDepartments = [], initialM
               </div>
 
                             {/* Footer con Acciones */}
-                            <div className="shrink-0 p-8 bg-white dark:bg-zinc-900 border-t border-zinc-100 dark:border-zinc-800 flex gap-4">
+                            <div className="shrink-0 p-8 bg-white dark:bg-zinc-900 border-t border-zinc-700 dark:border-zinc-800 flex gap-4">
                               <button
                                 onClick={() => router.push(`/dashboard/clientes/${selectedCliente.id}/editar`)}
-                                className="flex-1 h-14 rounded-2xl bg-azul-1 text-xs font-black uppercase tracking-[0.2em] text-white dark:text-zinc-300 transition-all hover:bg-blue-700 active:scale-[0.98] shadow-xl shadow-azul-1/25"
+                                className="flex-1 h-14 rounded-2xl bg-azul-1 text-xs font-black uppercase tracking-[0.2em] text-white transition-all hover:bg-blue-700 active:scale-[0.98] shadow-xl shadow-azul-1/25"
                               >
                                 Editar Perfil Estratégico
                               </button>
                               <button
                                 onClick={() => setSelectedCliente(null)}
-                                className="px-10 h-14 rounded-2xl border-2 border-zinc-200 dark:border-zinc-800 text-xs font-black uppercase tracking-[0.2em] text-zinc-500 dark:text-zinc-300 hover:bg-zinc-100 dark:hover:bg-zinc-800 hover:text-zinc-900 dark:hover:text-zinc-200 transition-all"
+                                className="px-10 h-14 rounded-2xl border-2 border-zinc-700 dark:border-zinc-800 text-xs font-black uppercase tracking-[0.2em] text-zinc-600 dark:text-zinc-300 hover:bg-zinc-100 dark:hover:bg-zinc-800 hover:text-zinc-900 dark:hover:text-zinc-200 transition-all bg-white dark:bg-transparent"
                               >
                                 Cerrar
                               </button>
@@ -1527,7 +1568,7 @@ export function ClienteList({ initialClientes, initialDepartments = [], initialM
           {selectedClienteForConfig && (
             <div className="flex flex-col h-[85vh] bg-white dark:bg-zinc-950">
               {/* Header Contextual */}
-              <div className="shrink-0 p-8 border-b border-zinc-100 dark:border-zinc-800 bg-zinc-50/50 dark:bg-zinc-900/30 flex items-center justify-between">
+              <div className="shrink-0 p-8 border-b border-zinc-700 dark:border-zinc-800 bg-zinc-50/50 dark:bg-zinc-900/30 flex items-center justify-between">
                 <div className="flex items-center gap-5">
                   <div className="h-14 w-14 rounded-2xl bg-azul-1 flex items-center justify-center text-white shadow-lg shadow-azul-1/20">
                     <Settings className="h-7 w-7 dark:text-zinc-300" />
@@ -1552,31 +1593,31 @@ export function ClienteList({ initialClientes, initialDepartments = [], initialM
               </div>
 
               {/* Contenido Scrollable */}
-              <div className="flex-1 overflow-y-auto p-8 space-y-8 custom-scrollbar">
+              <div className="flex-1 overflow-y-auto p-8 space-y-8 custom-scrollbar bg-white dark:bg-zinc-950">
 
                 {configLoading ? (
                   <div className="flex flex-col items-center justify-center py-20 animate-pulse">
-                    <Settings className="h-10 w-10 text-zinc-300 animate-spin mb-4" />
-                    <p className="text-[10px] font-black uppercase tracking-widest text-zinc-400">Sincronizando Parámetros...</p>
+                    <Settings className="h-10 w-10 text-zinc-400 animate-spin mb-4" />
+                    <p className="text-[10px] font-black uppercase tracking-widest text-zinc-500">Sincronizando Parámetros...</p>
                   </div>
                 ) : (
                   <>
                     {/* Selector de Sede para Configuración Específica */}
-                    <div className="p-6 rounded-3xl bg-blue-50/50 dark:bg-blue-500/5 border border-blue-100 dark:border-blue-500/10 flex flex-col md:flex-row md:items-center justify-between gap-4">
+                    <div className="p-6 rounded-3xl bg-blue-50 dark:bg-blue-500/5 border border-blue-200 dark:border-blue-500/10 flex flex-col md:flex-row md:items-center justify-between gap-4">
                       <div className="flex items-center gap-4">
-                        <div className="h-10 w-10 rounded-xl bg-white dark:bg-zinc-900 flex items-center justify-center text-azul-1 shadow-sm border border-blue-100 dark:border-blue-800">
+                        <div className="h-10 w-10 rounded-xl bg-white dark:bg-zinc-900 flex items-center justify-center text-azul-1 shadow-sm border border-blue-200 dark:border-blue-800">
                           <MapPin className="h-5 w-5 dark:text-zinc-300" />
                         </div>
                         <div>
                           <h4 className="text-xs font-black text-zinc-900 dark:text-zinc-50 uppercase">Ámbito de Configuración</h4>
-                          <p className="text-[10px] font-bold text-zinc-500 uppercase tracking-wide">Define si los cambios aplican a todas las sedes o una específica</p>
+                          <p className="text-[10px] font-bold text-zinc-600 uppercase tracking-wide">Define si los cambios aplican a todas las sedes o una específica</p>
                         </div>
                       </div>
                       <div className="w-full md:w-64">
                         <Select
                           value={currentConfigSede}
                           onChange={(e) => handleSedeChange(e.target.value)}
-                          className="h-11 text-xs font-bold bg-white"
+                          className="h-11 text-xs font-bold bg-white border-zinc-700"
                         >
                           <option value="all">Todas las Sedes (Global)</option>
                           {selectedClienteForConfig.direcciones?.map((dir, i) => (
@@ -1590,26 +1631,26 @@ export function ClienteList({ initialClientes, initialDepartments = [], initialM
                       {/* Columna Izquierda: Protocolos y Notas */}
                       <div className="space-y-6">
                         <div className="space-y-3">
-                          <h3 className="text-[10px] font-black uppercase tracking-[0.2em] text-zinc-400 flex items-center gap-2">
+                          <h3 className="text-[10px] font-black uppercase tracking-[0.2em] text-zinc-500 flex items-center gap-2">
                             <ClipboardCheck className="h-4 w-4 text-azul-1" /> Protocolo de Servicio Estándar
                           </h3>
                           <textarea
                             value={configForm.protocoloServicio}
                             onChange={(e) => setConfigForm(prev => ({ ...prev, protocoloServicio: e.target.value }))}
-                            className="w-full h-40 p-4 rounded-2xl bg-zinc-50 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 text-xs font-medium text-zinc-700 dark:text-zinc-300 focus:ring-2 focus:ring-azul-1/20 focus:border-azul-1 transition-all resize-none"
+                            className="w-full h-40 p-4 rounded-2xl bg-zinc-50 dark:bg-zinc-900 border border-zinc-700 dark:border-zinc-800 text-xs font-medium text-zinc-800 dark:text-zinc-300 focus:ring-2 focus:ring-azul-1/20 focus:border-azul-1 transition-all resize-none"
                             placeholder="Escribe aquí las instrucciones fijas para el técnico (EPP requerido, químicos permitidos, restricciones de acceso...)"
                           />
-                          <p className="text-[9px] font-bold text-zinc-400 italic">* Este texto se precargará automáticamente en todas las futuras órdenes de servicio.</p>
+                          <p className="text-[9px] font-bold text-zinc-500 italic">* Este texto se precargará automáticamente en todas las futuras órdenes de servicio.</p>
                         </div>
 
                         <div className="space-y-3">
-                          <h3 className="text-[10px] font-black uppercase tracking-[0.2em] text-zinc-400 flex items-center gap-2">
-                            <FileText className="h-4 w-4 text-amber-500" /> Observaciones Administrativas
+                          <h3 className="text-[10px] font-black uppercase tracking-[0.2em] text-zinc-500 flex items-center gap-2">
+                            <FileText className="h-4 w-4 text-amber-600" /> Observaciones Administrativas
                           </h3>
                           <textarea
                             value={configForm.observacionesFijas}
                             onChange={(e) => setConfigForm(prev => ({ ...prev, observacionesFijas: e.target.value }))}
-                            className="w-full h-32 p-4 rounded-2xl bg-zinc-50 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 text-xs font-medium text-zinc-700 dark:text-zinc-300 focus:ring-2 focus:ring-amber-500/20 focus:border-amber-500 transition-all resize-none"
+                            className="w-full h-32 p-4 rounded-2xl bg-zinc-50 dark:bg-zinc-900 border border-zinc-700 dark:border-zinc-800 text-xs font-medium text-zinc-800 dark:text-zinc-300 focus:ring-2 focus:ring-amber-500/20 focus:border-amber-500 transition-all resize-none"
                             placeholder="Notas internas para el personal de oficina (condiciones de pago, horarios de atención, contactos de emergencia...)"
                           />
                         </div>
@@ -1618,52 +1659,52 @@ export function ClienteList({ initialClientes, initialDepartments = [], initialM
                       {/* Columna Derecha: Reglas y Agendamiento */}
                       <div className="space-y-6">
                         <div className="space-y-3">
-                          <h3 className="text-[10px] font-black uppercase tracking-[0.2em] text-zinc-400 flex items-center gap-2">
-                            <Clock className="h-4 w-4 text-emerald-500" /> Parámetros de Agendamiento
+                          <h3 className="text-[10px] font-black uppercase tracking-[0.2em] text-zinc-500 flex items-center gap-2">
+                            <Clock className="h-4 w-4 text-emerald-600" /> Parámetros de Agendamiento
                           </h3>
                           <div className="grid grid-cols-2 gap-4">
-                            <div className="p-4 rounded-2xl bg-white dark:bg-zinc-900 border border-zinc-100 dark:border-zinc-800 shadow-sm">
-                              <Label className="text-[9px] font-black uppercase tracking-widest text-zinc-400 mb-2 block">Duración Estimada</Label>
+                            <div className="p-4 rounded-2xl bg-white dark:bg-zinc-900 border border-zinc-700 dark:border-zinc-800 shadow-sm">
+                              <Label className="text-[9px] font-black uppercase tracking-widest text-zinc-500 mb-2 block">Duración Estimada</Label>
                               <div className="flex items-center gap-2">
                                 <Input
                                   type="number"
                                   value={configForm.duracionEstimada}
                                   onChange={(e) => setConfigForm(prev => ({ ...prev, duracionEstimada: parseInt(e.target.value) || 0 }))}
-                                  className="h-9 text-xs font-black w-20"
+                                  className="h-9 text-xs font-black w-20 border-zinc-700"
                                 />
-                                <span className="text-[10px] font-bold text-zinc-500 uppercase">Minutos</span>
+                                <span className="text-[10px] font-bold text-zinc-600 uppercase">Minutos</span>
                               </div>
                             </div>
-                            <div className="p-4 rounded-2xl bg-white dark:bg-zinc-900 border border-zinc-100 dark:border-zinc-800 shadow-sm">
-                              <Label className="text-[9px] font-black uppercase tracking-widest text-zinc-400 mb-2 block">Frecuencia Sugerida</Label>
+                            <div className="p-4 rounded-2xl bg-white dark:bg-zinc-900 border border-zinc-700 dark:border-zinc-800 shadow-sm">
+                              <Label className="text-[9px] font-black uppercase tracking-widest text-zinc-500 mb-2 block">Frecuencia Sugerida</Label>
                               <div className="flex items-center gap-2">
                                 <Input
                                   type="number"
                                   value={configForm.frecuenciaSugerida}
                                   onChange={(e) => setConfigForm(prev => ({ ...prev, frecuenciaSugerida: parseInt(e.target.value) || 0 }))}
-                                  className="h-9 text-xs font-black w-20"
+                                  className="h-9 text-xs font-black w-20 border-zinc-700"
                                 />
-                                <span className="text-[10px] font-bold text-zinc-500 uppercase">Días</span>
+                                <span className="text-[10px] font-bold text-zinc-600 uppercase">Días</span>
                               </div>
                             </div>
                           </div>
                         </div>
 
                         <div className="space-y-3">
-                          <h3 className="text-[10px] font-black uppercase tracking-[0.2em] text-zinc-400 flex items-center gap-2">
-                            <ShieldCheck className="h-4 w-4 text-purple-500" /> Reglas de Validación
+                          <h3 className="text-[10px] font-black uppercase tracking-[0.2em] text-zinc-500 flex items-center gap-2">
+                            <ShieldCheck className="h-4 w-4 text-purple-600" /> Reglas de Validación
                           </h3>
-                          <div className="space-y-3 bg-zinc-50 dark:bg-zinc-900 p-6 rounded-3xl border border-zinc-100 dark:border-zinc-800">
+                          <div className="space-y-3 bg-zinc-50 dark:bg-zinc-900 p-6 rounded-3xl border border-zinc-700 dark:border-zinc-800">
                             <label className="flex items-center justify-between cursor-pointer group">
                               <div className="flex flex-col">
-                                <span className="text-xs font-black text-zinc-800 dark:text-zinc-100 uppercase tracking-tight">Firma Digital Obligatoria</span>
-                                <span className="text-[9px] font-bold text-zinc-400 uppercase">No permite finalizar sin firma del cliente</span>
+                                <span className="text-xs font-black text-zinc-900 dark:text-zinc-100 uppercase tracking-tight">Firma Digital Obligatoria</span>
+                                <span className="text-[9px] font-bold text-zinc-500 uppercase">No permite finalizar sin firma del cliente</span>
                               </div>
                               <div
                                 onClick={() => setConfigForm(prev => ({ ...prev, requiereFirmaDigital: !prev.requiereFirmaDigital }))}
                                 className={cn(
                                   "h-6 w-11 rounded-full flex items-center px-1 transition-all",
-                                  configForm.requiereFirmaDigital ? "bg-azul-1" : "bg-zinc-300 dark:bg-zinc-700"
+                                  configForm.requiereFirmaDigital ? "bg-azul-1" : "bg-zinc-400 dark:bg-zinc-700"
                                 )}
                               >
                                 <div className={cn(
@@ -1672,17 +1713,17 @@ export function ClienteList({ initialClientes, initialDepartments = [], initialM
                                 )} />
                               </div>
                             </label>
-                            <div className="h-px bg-zinc-200/50 dark:bg-zinc-800" />
+                            <div className="h-px bg-zinc-300 dark:bg-zinc-800" />
                             <label className="flex items-center justify-between cursor-pointer group">
                               <div className="flex flex-col">
-                                <span className="text-xs font-black text-zinc-800 dark:text-zinc-100 uppercase tracking-tight">Fotos de Evidencia</span>
-                                <span className="text-[9px] font-bold text-zinc-400 uppercase">Exigir fotos de antes y después del servicio</span>
+                                <span className="text-xs font-black text-zinc-900 dark:text-zinc-100 uppercase tracking-tight">Fotos de Evidencia</span>
+                                <span className="text-[9px] font-bold text-zinc-500 uppercase">Exigir fotos de antes y después del servicio</span>
                               </div>
                               <div
                                 onClick={() => setConfigForm(prev => ({ ...prev, requiereFotosEvidencia: !prev.requiereFotosEvidencia }))}
                                 className={cn(
                                   "h-6 w-11 rounded-full flex items-center px-1 transition-all",
-                                  configForm.requiereFotosEvidencia ? "bg-azul-1" : "bg-zinc-300 dark:bg-zinc-700"
+                                  configForm.requiereFotosEvidencia ? "bg-azul-1" : "bg-zinc-400 dark:bg-zinc-700"
                                 )}
                               >
                                 <div className={cn(
@@ -1695,27 +1736,27 @@ export function ClienteList({ initialClientes, initialDepartments = [], initialM
                         </div>
 
                         <div className="space-y-3">
-                          <h3 className="text-[10px] font-black uppercase tracking-[0.2em] text-zinc-400 flex items-center gap-2">
-                            <Box className="h-4 w-4 text-blue-400" /> Activos / Elementos Predefinidos
+                          <h3 className="text-[10px] font-black uppercase tracking-[0.2em] text-zinc-500 flex items-center gap-2">
+                            <Box className="h-4 w-4 text-blue-600" /> Activos / Elementos Predefinidos
                           </h3>
                           
                           {/* Formulario rápido para nuevo elemento */}
-                          <div className="grid grid-cols-3 gap-2 bg-zinc-50 dark:bg-zinc-900 p-3 rounded-2xl border border-zinc-100 dark:border-zinc-800">
+                          <div className="grid grid-cols-3 gap-2 bg-zinc-50 dark:bg-zinc-900 p-3 rounded-2xl border border-zinc-700 dark:border-zinc-800">
                             <div className="space-y-1">
-                              <Label className="text-[8px] font-black text-zinc-400 uppercase">Nombre / Tag</Label>
+                              <Label className="text-[8px] font-black text-zinc-500 uppercase">Nombre / Tag</Label>
                               <Input 
                                 placeholder="Eje: Estación 01" 
                                 value={newElement.nombre}
                                 onChange={(e) => setNewElement(prev => ({ ...prev, nombre: e.target.value }))}
-                                className="h-8 text-[10px]"
+                                className="h-8 text-[10px] border-zinc-700"
                               />
                             </div>
                             <div className="space-y-1">
-                              <Label className="text-[8px] font-black text-zinc-400 uppercase">Tipo</Label>
+                              <Label className="text-[8px] font-black text-zinc-500 uppercase">Tipo</Label>
                               <Select 
                                 value={newElement.tipo}
                                 onChange={(e) => setNewElement(prev => ({ ...prev, tipo: e.target.value }))}
-                                className="h-8 text-[10px]"
+                                className="h-8 text-[10px] border-zinc-700"
                               >
                                 <option value="Estación de Cebo">Estación de Cebo</option>
                                 <option value="Trampa de Luz">Trampa de Luz</option>
@@ -1726,22 +1767,22 @@ export function ClienteList({ initialClientes, initialDepartments = [], initialM
                               </Select>
                             </div>
                             <div className="space-y-1">
-                              <Label className="text-[8px] font-black text-zinc-400 uppercase">Acción</Label>
+                              <Label className="text-[8px] font-black text-zinc-500 uppercase">Acción</Label>
                               <Button 
                                 size="sm" 
                                 onClick={handleAddElement}
-                                className="h-8 w-full bg-blue-500 hover:bg-blue-600 text-white text-[9px] font-bold uppercase"
+                                className="h-8 w-full bg-azul-1 hover:bg-blue-600 text-white text-[9px] font-bold uppercase"
                               >
                                 <Plus className="h-3 w-3 mr-1" /> Añadir
                               </Button>
                             </div>
                             <div className="col-span-3 space-y-1">
-                              <Label className="text-[8px] font-black text-zinc-400 uppercase">Ubicación / Notas</Label>
+                              <Label className="text-[8px] font-black text-zinc-500 uppercase">Ubicación / Notas</Label>
                               <Input 
                                 placeholder="Eje: Pasillo de servicio, al lado de la puerta principal" 
                                 value={newElement.ubicacion}
                                 onChange={(e) => setNewElement(prev => ({ ...prev, ubicacion: e.target.value }))}
-                                className="h-8 text-[10px]"
+                                className="h-8 text-[10px] border-zinc-700"
                               />
                             </div>
                           </div>
@@ -1749,28 +1790,28 @@ export function ClienteList({ initialClientes, initialDepartments = [], initialM
                           {/* Lista de elementos agregados */}
                           <div className="space-y-2 mt-4">
                             {configForm.elementosPredefinidos.length === 0 ? (
-                              <div className="border-2 border-dashed border-zinc-200 dark:border-zinc-800 rounded-2xl p-6 text-center">
-                                <p className="text-[10px] font-bold text-zinc-400 uppercase tracking-widest">No hay elementos configurados</p>
+                              <div className="border-2 border-dashed border-zinc-700 dark:border-zinc-800 rounded-2xl p-6 text-center">
+                                <p className="text-[10px] font-bold text-zinc-500 uppercase tracking-widest">No hay elementos configurados</p>
                                 <p className="text-[9px] font-medium text-zinc-400 mt-1 lowercase italic">Ej: Trampas de luz, Extintores, Aires acondicionados...</p>
                               </div>
                             ) : (
                               <div className="max-h-48 overflow-y-auto space-y-2 pr-2 custom-scrollbar">
                                 {configForm.elementosPredefinidos.map((el, i) => (
-                                  <div key={i} className="flex items-center justify-between p-3 rounded-xl bg-white dark:bg-zinc-800 border border-zinc-100 dark:border-zinc-700 shadow-sm group">
+                                  <div key={i} className="flex items-center justify-between p-3 rounded-xl bg-white dark:bg-zinc-800 border border-zinc-700 dark:border-zinc-700 shadow-sm group">
                                     <div className="flex items-center gap-3">
-                                      <div className="h-8 w-8 rounded-lg bg-blue-50 dark:bg-blue-500/10 flex items-center justify-center text-blue-500">
+                                      <div className="h-8 w-8 rounded-lg bg-blue-50 dark:bg-blue-500/10 flex items-center justify-center text-blue-600 border border-blue-100">
                                         <Box className="h-4 w-4" />
                                       </div>
                                       <div>
                                         <p className="text-[11px] font-black text-zinc-900 dark:text-zinc-50 leading-tight uppercase">{el.nombre}</p>
-                                        <p className="text-[9px] font-bold text-zinc-400 uppercase tracking-tighter">
+                                        <p className="text-[9px] font-bold text-zinc-500 uppercase tracking-tighter">
                                           {el.tipo} {el.ubicacion ? `| ${el.ubicacion}` : ""}
                                         </p>
                                       </div>
                                     </div>
                                     <button 
                                       onClick={() => handleRemoveElement(i)}
-                                      className="h-7 w-7 rounded-lg bg-red-50 text-red-500 hover:bg-red-500 hover:text-white flex items-center justify-center transition-all opacity-0 group-hover:opacity-100"
+                                      className="h-7 w-7 rounded-lg bg-red-50 text-red-600 hover:bg-red-600 hover:text-white flex items-center justify-center transition-all opacity-0 group-hover:opacity-100 border border-red-100"
                                     >
                                       <Trash2 className="h-3.5 w-3.5" />
                                     </button>
@@ -1788,7 +1829,7 @@ export function ClienteList({ initialClientes, initialDepartments = [], initialM
               </div>
 
               {/* Footer de Acciones */}
-              <div className="shrink-0 p-8 border-t border-zinc-100 dark:border-zinc-800 bg-white dark:bg-zinc-950 flex items-center justify-end gap-4">
+              <div className="shrink-0 p-8 border-t border-zinc-700 dark:border-zinc-800 bg-white dark:bg-zinc-950 flex items-center justify-end gap-4">
                 <button
                   onClick={() => setSelectedClienteForConfig(null)}
                   disabled={configLoading}
@@ -1821,7 +1862,7 @@ export function ClienteList({ initialClientes, initialDepartments = [], initialM
           {selectedClienteForHistory && (
             <div className="flex flex-col h-[85vh] bg-white dark:bg-zinc-950">
               {/* Header con Info del Cliente */}
-              <div className="shrink-0 p-8 border-b border-zinc-100 dark:border-zinc-800 bg-zinc-50/50 dark:bg-zinc-900/30 flex items-center justify-between">
+              <div className="shrink-0 p-8 border-b border-zinc-700 dark:border-zinc-800 bg-zinc-50/50 dark:bg-zinc-900/30 flex items-center justify-between">
                 <div className="flex items-center gap-5">
                   <div className="h-14 w-14 rounded-2xl bg-azul-1 flex items-center justify-center text-white shadow-lg shadow-azul-1/20">
                     <Calendar className="h-7 w-7 dark:text-zinc-300" />
@@ -1843,46 +1884,46 @@ export function ClienteList({ initialClientes, initialDepartments = [], initialM
               </div>
 
               {/* Lista de Servicios */}
-              <div className="flex-1 overflow-y-auto p-8 custom-scrollbar">
+              <div className="flex-1 overflow-y-auto p-8 custom-scrollbar bg-white dark:bg-zinc-950">
                 {historyLoading ? (
                   <div className="flex flex-col items-center justify-center py-20 animate-pulse">
-                    <Calendar className="h-10 w-10 text-zinc-300 animate-bounce mb-4" />
-                    <p className="text-[10px] font-black uppercase tracking-widest text-zinc-400">Consultando Expediente...</p>
+                    <Calendar className="h-10 w-10 text-zinc-400 animate-bounce mb-4" />
+                    <p className="text-[10px] font-black uppercase tracking-widest text-zinc-500">Consultando Expediente...</p>
                   </div>
                 ) : serviceHistory.length === 0 ? (
                   <div className="flex flex-col items-center justify-center py-20 text-center">
-                    <div className="h-20 w-20 rounded-full bg-zinc-50 dark:bg-zinc-900 flex items-center justify-center mb-4">
-                      <Search className="h-10 w-10 text-zinc-200" />
+                    <div className="h-20 w-20 rounded-full bg-zinc-50 dark:bg-zinc-900 flex items-center justify-center mb-4 border border-zinc-700">
+                      <Search className="h-10 w-10 text-zinc-300" />
                     </div>
-                    <h3 className="text-sm font-black text-zinc-400 uppercase tracking-widest">Sin Servicios Previos</h3>
+                    <h3 className="text-sm font-black text-zinc-500 uppercase tracking-widest">Sin Servicios Previos</h3>
                     <p className="text-xs text-zinc-400 mt-1">Este cliente aún no registra órdenes de servicio en el sistema.</p>
                   </div>
                 ) : (
                   <div className="space-y-4">
                     {serviceHistory.map((orden: OrdenServicio) => (
-                      <div key={orden.id} className="p-6 rounded-3xl bg-white dark:bg-zinc-900 border border-zinc-100 dark:border-zinc-800 hover:border-azul-1/30 transition-all group">
+                      <div key={orden.id} className="p-6 rounded-3xl bg-white dark:bg-zinc-900 border border-zinc-700 dark:border-zinc-800 hover:border-azul-1 transition-all group shadow-sm">
                         <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
                           <div className="flex items-center gap-5">
-                            <div className="h-12 w-12 rounded-2xl bg-zinc-50 dark:bg-zinc-800 flex items-center justify-center text-zinc-400 group-hover:text-azul-1 transition-colors">
+                            <div className="h-12 w-12 rounded-2xl bg-zinc-50 dark:bg-zinc-800 flex items-center justify-center text-zinc-500 group-hover:text-azul-1 transition-colors border border-zinc-700">
                               <FileText className="h-6 w-6" />
                             </div>
                             <div>
                               <div className="flex items-center gap-3 mb-1">
                                 <span className="text-xs font-black text-zinc-900 dark:text-zinc-50 uppercase tracking-tight">#{orden.numeroOrden || 'S/N'}</span>
                                 <span className={cn(
-                                  "text-[9px] font-black px-2 py-0.5 rounded-md uppercase border shadow-sm",
+                                  "text-[9px] font-black px-2 py-0.5 rounded-md uppercase border border-zinc-700 shadow-sm",
                                   ESTADO_STYLING[orden.estadoServicio] || ESTADO_STYLING["DEFAULT"]
                                 )}>
                                   {orden.estadoServicio}
                                 </span>
                               </div>
-                              <h4 className="text-sm font-bold text-zinc-700 dark:text-zinc-300">{orden.servicio?.nombre || 'Servicio General'}</h4>
+                              <h4 className="text-sm font-bold text-zinc-800 dark:text-zinc-300">{orden.servicio?.nombre || 'Servicio General'}</h4>
                               <div className="flex items-center gap-4 mt-2">
-                                <div className="flex items-center gap-1.5 text-[10px] font-medium text-zinc-400 uppercase">
+                                <div className="flex items-center gap-1.5 text-[10px] font-medium text-zinc-500 uppercase">
                                   <Calendar className="h-3 w-3" />
                                   {orden.fechaVisita ? new Date(orden.fechaVisita).toLocaleDateString() : 'Pendiente'}
                                 </div>
-                                <div className="flex items-center gap-1.5 text-[10px] font-medium text-zinc-400 uppercase">
+                                <div className="flex items-center gap-1.5 text-[10px] font-medium text-zinc-500 uppercase">
                                   <MapPin className="h-3 w-3" />
                                   {orden.direccionTexto?.substring(0, 30) || 'Sede Principal'}
                                 </div>
@@ -1892,21 +1933,21 @@ export function ClienteList({ initialClientes, initialDepartments = [], initialM
 
                           <div className="flex items-center gap-10">
                             <div className="hidden md:flex flex-col items-end">
-                              <p className="text-[9px] font-black text-zinc-400 uppercase tracking-widest">Técnico Asignado</p>
+                              <p className="text-[9px] font-black text-zinc-500 uppercase tracking-widest">Técnico Asignado</p>
                               <div className="flex items-center gap-2 mt-1">
                                 <div className="h-6 w-6 rounded-full bg-azul-1/10 flex items-center justify-center text-[10px] font-bold text-azul-1">
                                   {orden.tecnico?.user?.nombre?.charAt(0) || 'T'}
                                 </div>
-                                <span className="text-xs font-bold text-zinc-700 dark:text-zinc-300">
+                                <span className="text-xs font-bold text-zinc-800 dark:text-zinc-300">
                                   {orden.tecnico?.user?.nombre} {orden.tecnico?.user?.apellido}
                                 </span>
                               </div>
                             </div>
                             <div className="flex flex-col items-end">
-                              <p className="text-[9px] font-black text-zinc-400 uppercase tracking-widest">Valor</p>
+                              <p className="text-[9px] font-black text-zinc-500 uppercase tracking-widest">Valor</p>
                               <p className="text-sm font-black text-zinc-900 dark:text-zinc-100 mt-1">${Number(orden.valorCotizado || 0).toLocaleString()}</p>
                             </div>
-                            <button className="h-10 w-10 rounded-xl border border-zinc-100 dark:border-zinc-800 flex items-center justify-center hover:bg-azul-1 hover:text-white transition-all">
+                            <button className="h-10 w-10 rounded-xl border border-zinc-700 dark:border-zinc-800 flex items-center justify-center hover:bg-azul-1 hover:text-white transition-all">
                               <ChevronRight className="h-5 w-5" />
                             </button>
                           </div>
@@ -1918,7 +1959,7 @@ export function ClienteList({ initialClientes, initialDepartments = [], initialM
               </div>
 
               {/* Footer */}
-              <div className="shrink-0 p-8 border-t border-zinc-100 dark:border-zinc-800 bg-white dark:bg-zinc-950 flex items-center justify-end">
+              <div className="shrink-0 p-8 border-t border-zinc-700 dark:border-zinc-800 bg-white dark:bg-zinc-950 flex items-center justify-end">
                 <button 
                   onClick={() => setSelectedClienteForHistory(null)}
                   className="px-10 h-12 rounded-xl bg-azul-1 dark:bg-azul-1 text-white dark:text-zinc-300 text-xs font-black uppercase tracking-widest hover:bg-azul-1/90 dark:hover:bg-azul-1/90 transition-all shadow-lg shadow-azul-1/20"
@@ -1958,10 +1999,10 @@ export function ClienteList({ initialClientes, initialDepartments = [], initialM
                 </p>
               </div>
 
-              <div className="p-6 bg-zinc-50/50 dark:bg-zinc-900/50 border-t border-zinc-100 dark:border-zinc-800 flex gap-3">
+              <div className="p-6 bg-white dark:bg-zinc-900/50 border-t border-zinc-700 dark:border-zinc-800 flex gap-3">
                 <button
                   onClick={() => setClienteToDelete(null)}
-                  className="flex-1 h-12 rounded-xl text-xs font-black uppercase tracking-widest text-zinc-500 hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-all border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900"
+                  className="flex-1 h-12 rounded-xl text-xs font-black uppercase tracking-widest text-zinc-600 hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-all border border-zinc-700 dark:border-zinc-800 bg-white dark:bg-zinc-900"
                 >
                   Cancelar
                 </button>

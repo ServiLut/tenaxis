@@ -317,7 +317,7 @@ export class TenantsService {
         throw new NotFoundException('Membresía no encontrada');
       }
 
-      // 2. Actualizar datos base
+      // 2. Actualizar datos base de la membresía
       const updated = await tx.tenantMembership.update({
         where: { id: membershipId },
         data: {
@@ -334,7 +334,35 @@ export class TenantsService {
         },
       });
 
-      // 3. Sincronizar empresas si se proporcionan
+      // 3. Actualizar datos del usuario si se proporcionan
+      if (
+        data.nombre ||
+        data.apellido ||
+        data.email ||
+        data.telefono !== undefined
+      ) {
+        // Separar nombre y apellido si solo se envía nombre (en el frontend a veces se envía completo)
+        let nombre = data.nombre;
+        let apellido = data.apellido;
+
+        if (nombre && !apellido && nombre.includes(' ')) {
+          const parts = nombre.trim().split(' ');
+          nombre = parts[0];
+          apellido = parts.slice(1).join(' ');
+        }
+
+        await tx.user.update({
+          where: { id: current.userId },
+          data: {
+            nombre: nombre || undefined,
+            apellido: apellido || undefined,
+            email: data.email || undefined,
+            telefono: data.telefono !== undefined ? data.telefono : undefined,
+          },
+        });
+      }
+
+      // 4. Sincronizar empresas si se proporcionan
       if (data.empresaIds) {
         // Eliminar vinculaciones previas
         await tx.empresaMembership.deleteMany({

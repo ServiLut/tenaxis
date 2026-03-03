@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect, useCallback, Suspense } from "react";
 import Link from "next/link";
 import { DashboardLayout } from "@/components/dashboard";
 import { Card, CardContent } from "@/components/ui/card";
@@ -8,10 +8,10 @@ import {
   Dialog,
   DialogContent,
 } from "@/components/ui/dialog";
-import { Select } from "@/components/ui/select";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Combobox } from "@/components/ui/combobox";
+import { DatePicker } from "@/components/ui/date-picker";
 import { cn } from "@/components/ui/utils";
 import { useUserRole } from "@/hooks/use-user-role";
 import { toast } from "sonner";
@@ -121,11 +121,32 @@ const COLORS = [
   "bg-cyan-500",
 ];
 
-export default function EquipoTrabajoPage() {
+function EquipoTrabajoContent() {
   const { tenantId } = useUserRole();
+
   const managementPanelRef = React.useRef<HTMLDivElement>(null);
   const [activeTab, setActiveTab] = useState<"ranking" | "usuarios">("ranking");
   const [users, setUsers] = useState<UserMember[]>([]);
+
+  // Sync activeTab with URL hash on mount and hash change
+  useEffect(() => {
+    const handleHashChange = () => {
+      const hash = window.location.hash.replace("#", "");
+      if (hash === "ranking" || hash === "usuarios") {
+        setActiveTab(hash);
+      }
+    };
+
+    handleHashChange();
+    window.addEventListener("hashchange", handleHashChange);
+    return () => window.removeEventListener("hashchange", handleHashChange);
+  }, []);
+
+  const handleTabChange = useCallback((newTab: "ranking" | "usuarios") => {
+    setActiveTab(newTab);
+    window.location.hash = newTab;
+  }, []);
+
   const [municipios, setMunicipios] = useState<Municipio[]>([]);
   const [empresas, setEmpresas] = useState<{ id: string; nombre: string }[]>([]);
   const [loading, setLoading] = useState(true);
@@ -134,10 +155,20 @@ export default function EquipoTrabajoPage() {
   const [nameQuery, setNameQuery] = useState("");
   const [roleQuery, setRoleQuery] = useState("");
   const [municipioQuery, setMunicipioQuery] = useState("");
+  const [startDate, setStartDate] = useState<Date | undefined>(undefined);
+  const [endDate, setEndDate] = useState<Date | undefined>(undefined);
   const [selectedUser, setSelectedUser] = useState<UserMember | null>(null);
   const [showDetailsModal, setShowDetailsModal] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
   const [editForm, setEditForm] = useState<UserMember | null>(null);
+
+  // Sync tab side effects
+  useEffect(() => {
+    if (activeTab === "usuarios") {
+      setSelectedUser(null);
+      setIsEditing(false);
+    }
+  }, [activeTab]);
 
   const scrollToManagementPanel = () => {
     setTimeout(() => {
@@ -244,12 +275,25 @@ export default function EquipoTrabajoPage() {
   const handleSave = async () => {
     if (!editForm) return;
 
+    // Split name into nombre/apellido if needed
+    let nombre = editForm.name;
+    let apellido = "";
+    if (nombre.includes(" ")) {
+      const parts = nombre.trim().split(" ");
+      nombre = parts[0] || "";
+      apellido = parts.slice(1).join(" ");
+    }
+
     toast.promise(
       updateMembershipAction(editForm.id, {
-        placa: editForm.placa,
+        nombre,
+        apellido,
+        email: editForm.email,
+        telefono: editForm.phone,
+        placa: editForm.placa || null,
         moto: editForm.moto,
-        direccion: editForm.direccion,
-        municipioId: editForm.municipioId,
+        direccion: editForm.direccion || null,
+        municipioId: (editForm.municipioId && editForm.municipioId !== "") ? editForm.municipioId : null,
         role: editForm.role,
         empresaIds: editForm.empresaIds,
       }).then((res) => {
@@ -362,7 +406,7 @@ export default function EquipoTrabajoPage() {
           {/* Custom Tabs */}
           <div className="flex gap-2 border-b border-zinc-100 dark:border-zinc-800 pb-px">
             <button
-              onClick={() => setActiveTab("ranking")}
+              onClick={() => handleTabChange("ranking")}
               className={cn(
                 "px-6 py-4 text-sm font-black uppercase tracking-widest transition-all relative",
                 activeTab === "ranking"
@@ -373,11 +417,7 @@ export default function EquipoTrabajoPage() {
               Ranking de Usuarios
             </button>
             <button
-              onClick={() => {
-                setActiveTab("usuarios");
-                setSelectedUser(null);
-                setIsEditing(false);
-              }}
+              onClick={() => handleTabChange("usuarios")}
               className={cn(
                 "px-6 py-4 text-sm font-black uppercase tracking-widest transition-all relative",
                 activeTab === "usuarios"
@@ -422,16 +462,19 @@ export default function EquipoTrabajoPage() {
 
                     {/* Date Range Picker */}
                     <div className="flex items-center gap-2 shrink-0">
-                      <div className="flex items-center h-9 px-3 bg-white dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-lg group focus-within:border-azul-1 focus-within:ring-1 focus-within:ring-azul-1/20 transition-all">
-                        <Calendar className="h-4 w-4 text-zinc-300 dark:text-zinc-600 mr-2" />
-                        <input type="text" placeholder="dd/mm/aaaa" className="bg-transparent border-none outline-none text-xs font-medium w-24 text-zinc-700 dark:text-zinc-300 placeholder:text-zinc-400" />
-                        <Calendar className="h-4 w-4 text-zinc-700 dark:text-zinc-400 ml-2" />
-                      </div>
+                      <DatePicker 
+                        date={startDate} 
+                        onChange={setStartDate} 
+                        className="h-9 w-32 px-3 text-[10px] rounded-lg bg-white dark:bg-zinc-950 border-zinc-200 dark:border-zinc-800" 
+                        placeholder="Desde..."
+                      />
                       <span className="text-zinc-300 dark:text-zinc-700">-</span>
-                      <div className="flex items-center h-9 px-3 bg-white dark:bg-zinc-950 border border-zinc-100 dark:border-zinc-800 rounded-lg group focus-within:border-azul-1 focus-within:ring-1 focus-within:ring-azul-1/20 transition-all">
-                        <input type="text" placeholder="dd/mm/aaaa" className="bg-transparent border-none outline-none text-xs font-medium w-24 text-zinc-700 dark:text-zinc-300 placeholder:text-zinc-400" />
-                        <Calendar className="h-4 w-4 text-zinc-700 dark:text-zinc-400 ml-2" />
-                      </div>
+                      <DatePicker 
+                        date={endDate} 
+                        onChange={setEndDate} 
+                        className="h-9 w-32 px-3 text-[10px] rounded-lg bg-white dark:bg-zinc-950 border-zinc-200 dark:border-zinc-800" 
+                        placeholder="Hasta..."
+                      />
                     </div>
                   </div>
 
@@ -578,16 +621,17 @@ export default function EquipoTrabajoPage() {
                         />
                       </div>
                       <div className="w-full sm:w-72">
-                        <Select
+                        <Combobox
+                          options={[
+                            { value: "", label: "Todos los roles" },
+                            ...allRoles.map(role => ({ value: role, label: role }))
+                          ]}
                           value={roleQuery}
-                          onChange={(e) => setRoleQuery(e.target.value)}
-                          className="h-12 border-2 border-zinc-100 bg-white dark:border-zinc-800 dark:bg-zinc-950 dark:text-zinc-50"
-                        >
-                          <option value="">Todos los roles</option>
-                          {allRoles.map(role => (
-                            <option key={role} value={role}>{role}</option>
-                          ))}
-                        </Select>
+                          onChange={setRoleQuery}
+                          placeholder="Filtrar por rol..."
+                          className="h-12"
+                          hideSearch
+                        />
                       </div>
                       <div className="w-full sm:w-72">
                         <Combobox
@@ -837,15 +881,13 @@ export default function EquipoTrabajoPage() {
 
                                 <div className="space-y-2">
                                   <Label className="text-[10px] font-black uppercase tracking-[0.1em] text-zinc-400 px-1">Rol del Usuario</Label>
-                                  <Select 
+                                  <Combobox
+                                    options={allRoles.map(role => ({ value: role, label: role }))}
                                     value={editForm?.role || ""}
-                                    onChange={(e) => setEditForm(prev => prev ? { ...prev, role: e.target.value } : null)}
-                                    className="h-11"
-                                  >
-                                    {allRoles.map(role => (
-                                      <option key={role} value={role}>{role}</option>
-                                    ))}
-                                  </Select>
+                                    onChange={(role) => setEditForm(prev => prev ? { ...prev, role } : null)}
+                                    placeholder="Seleccionar rol..."
+                                    hideSearch
+                                  />
                                 </div>
 
                                 <div className="space-y-2">
@@ -888,14 +930,16 @@ export default function EquipoTrabajoPage() {
                                   </div>
                                   <div className="space-y-2">
                                     <Label className="text-[10px] font-black uppercase tracking-[0.1em] text-zinc-400 px-1">Tipo Vehículo</Label>
-                                    <Select 
+                                    <Combobox
+                                      options={[
+                                        { value: "MOTO", label: "Moto" },
+                                        { value: "CARRO", label: "Carro" }
+                                      ]}
                                       value={editForm?.moto ? "MOTO" : "CARRO"}
-                                      onChange={(e) => setEditForm(prev => prev ? { ...prev, moto: e.target.value === "MOTO" } : null)}
-                                      className="h-11"
-                                    >
-                                      <option value="MOTO">Moto</option>
-                                      <option value="CARRO">Carro</option>
-                                    </Select>
+                                      onChange={(val) => setEditForm(prev => prev ? { ...prev, moto: val === "MOTO" } : null)}
+                                      placeholder="Tipo de vehículo..."
+                                      hideSearch
+                                    />
                                   </div>
                                 </div>
 
@@ -1183,5 +1227,13 @@ export default function EquipoTrabajoPage() {
         </DialogContent>
       </Dialog>
     </>
+  );
+}
+
+export default function EquipoTrabajoPage() {
+  return (
+    <Suspense fallback={<div className="flex h-[70vh] items-center justify-center"><Loader2 className="h-10 w-10 animate-spin text-azul-1" /></div>}>
+      <EquipoTrabajoContent />
+    </Suspense>
   );
 }

@@ -19,6 +19,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Combobox } from "@/components/ui/combobox";
 import { Select } from "@/components/ui/select";
+import { TimePicker } from "@/components/ui/time-picker";
 import {
   ArrowLeft,
   Save,
@@ -609,7 +610,18 @@ function NuevoClienteContent() {
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-10 pt-6 border-t border-zinc-100 dark:border-zinc-800">
                         <div className="space-y-5">
                           <div className="flex items-center gap-2 text-zinc-400 dark:text-zinc-300 font-bold text-[10px] uppercase tracking-widest"><Clock className="h-4 w-4" /> Ventana Operativa</div>
-                          <div className="flex gap-3"><Input type="time" value={dir.horarioInicio} onChange={(e) => handleDireccionChange(dir.id, "horarioInicio", e.target.value)} className="h-11 bg-white dark:bg-zinc-900 dark:text-zinc-100 dark:border-zinc-700 shadow-sm" /><Input type="time" value={dir.horarioFin} onChange={(e) => handleDireccionChange(dir.id, "horarioFin", e.target.value)} className="h-11 bg-white dark:bg-zinc-900 dark:text-zinc-100 dark:border-zinc-700 shadow-sm" /></div>
+                          <div className="flex gap-3">
+                            <TimePicker 
+                              value={dir.horarioInicio} 
+                              onChange={(val) => handleDireccionChange(dir.id, "horarioInicio", val)} 
+                              className="h-11 bg-white dark:bg-zinc-900 shadow-sm" 
+                            />
+                            <TimePicker 
+                              value={dir.horarioFin} 
+                              onChange={(val) => handleDireccionChange(dir.id, "horarioFin", val)} 
+                              className="h-11 bg-white dark:bg-zinc-900 shadow-sm" 
+                            />
+                          </div>
                         </div>
                         <div className="space-y-5">
                           <div className="flex items-center gap-2 text-zinc-400 dark:text-zinc-300 font-bold text-[10px] uppercase tracking-widest"><Contact2 className="h-4 w-4" /> Responsable Directo</div>

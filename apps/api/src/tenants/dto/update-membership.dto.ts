@@ -32,6 +32,22 @@ export class UpdateMembershipDto {
   @IsOptional()
   activo?: boolean;
 
+  @IsString()
+  @IsOptional()
+  nombre?: string;
+
+  @IsString()
+  @IsOptional()
+  apellido?: string;
+
+  @IsString()
+  @IsOptional()
+  email?: string;
+
+  @IsString()
+  @IsOptional()
+  telefono?: string;
+
   @IsOptional()
   @IsUUID('all', { each: true })
   empresaIds?: string[];

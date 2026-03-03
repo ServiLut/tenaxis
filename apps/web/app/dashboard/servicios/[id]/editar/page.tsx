@@ -9,13 +9,15 @@ import {
   getOperatorsAction,
   updateOrdenServicioAction,
   getOrdenServicioByIdAction,
+  getServiciosAction,
   notifyServiceOperatorWebhookAction,
 } from "../../../actions";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Select } from "@/components/ui/select";
 import { Combobox } from "@/components/ui/combobox";
+import { DatePicker } from "@/components/ui/date-picker";
+import { TimePicker } from "@/components/ui/time-picker";
 import {
   ArrowLeft,
   User,
@@ -127,6 +129,7 @@ function EditarServicioContent({ id }: { id: string }) {
   const [clientes, setClientes] = useState<Cliente[]>([]);
   const [metodosPago, setMetodosPago] = useState<MetodoPago[]>([]);
   const [operadores, setOperadores] = useState<Operador[]>([]);
+  const [serviciosEmpresa, setServiciosEmpresa] = useState<Array<{id: string, nombre: string}>>([]);
 
   // Form State
   const [selectedCliente, setSelectedCliente] = useState("");
@@ -173,6 +176,16 @@ function EditarServicioContent({ id }: { id: string }) {
       setOperadores(Array.isArray(ops) ? ops : ops?.data || []);
     } catch (e) {
       console.error("Error loading operators", e);
+    }
+  }, []);
+
+  const fetchServicios = useCallback(async (empId: string) => {
+    if (!empId) return;
+    try {
+      const svs = await getServiciosAction(empId);
+      setServiciosEmpresa(Array.isArray(svs) ? svs : svs?.data || []);
+    } catch (e) {
+      console.error("Error loading services", e);
     }
   }, []);
 
@@ -234,6 +247,7 @@ function EditarServicioContent({ id }: { id: string }) {
         await Promise.all([
           fetchMetodosPago(orderData.empresaId),
           fetchOperadores(orderData.empresaId),
+          fetchServicios(orderData.empresaId),
         ]);
 
         // Load addresses for selected client
@@ -252,7 +266,7 @@ function EditarServicioContent({ id }: { id: string }) {
     };
 
     loadData();
-  }, [id, router, fetchMetodosPago, fetchOperadores]);
+  }, [id, router, fetchMetodosPago, fetchOperadores, fetchServicios]);
 
   const handleClienteChange = (clientId: string) => {
     setSelectedCliente(clientId);
@@ -402,12 +416,12 @@ function EditarServicioContent({ id }: { id: string }) {
 
   return (
     <div className="max-w-5xl mx-auto w-full h-[calc(100vh-12rem)] flex flex-col min-h-0">
-      <div className="flex-1 flex flex-col bg-white dark:bg-zinc-950 rounded-2xl shadow-sm border border-zinc-200 dark:border-zinc-800 overflow-hidden min-h-0">
+      <div className="flex-1 flex flex-col bg-white dark:bg-zinc-950 rounded-2xl shadow-sm border border-zinc-700 dark:border-zinc-800 overflow-hidden min-h-0">
 
         {/* Header Fijo */}
-        <div className="flex-none bg-white dark:bg-zinc-950 border-b border-zinc-100 dark:border-zinc-800 px-8 py-6 flex items-center justify-between">
+        <div className="flex-none bg-white dark:bg-zinc-950 border-b border-zinc-700 dark:border-zinc-800 px-8 py-6 flex items-center justify-between">
           <div className="flex items-center gap-5">
-            <Button variant="ghost" size="icon" onClick={() => router.back()} className="h-10 w-10 rounded-full border border-zinc-100 dark:border-zinc-800 hover:bg-zinc-50">
+            <Button variant="ghost" size="icon" onClick={() => router.back()} className="h-10 w-10 rounded-full border border-zinc-700 dark:border-zinc-800 hover:bg-zinc-50">
               <ArrowLeft className="h-4 w-4" />
             </Button>
             <div>
@@ -426,8 +440,8 @@ function EditarServicioContent({ id }: { id: string }) {
 
             {/* SECCIÓN 1: IDENTIFICACIÓN DEL CLIENTE */}
             <section className="space-y-8">
-              <div className="flex items-center gap-3 border-b border-zinc-100 dark:border-zinc-800 pb-3">
-                <div className="p-2 rounded-lg bg-zinc-50 dark:bg-zinc-900 border border-zinc-100 dark:border-zinc-800 text-zinc-400">
+              <div className="flex items-center gap-3 border-b border-zinc-700 dark:border-zinc-800 pb-3">
+                <div className="p-2 rounded-lg bg-zinc-50 dark:bg-zinc-900 border border-zinc-700 dark:border-zinc-800 text-zinc-400">
                   <User className="h-5 w-5" />
                 </div>
                 <h2 className="text-lg font-bold text-zinc-900 dark:text-zinc-50">Identificación del Cliente</h2>
@@ -451,20 +465,28 @@ function EditarServicioContent({ id }: { id: string }) {
 
                 <div className="space-y-2">
                   <Label className="text-xs font-bold text-zinc-500 uppercase tracking-wider">Dirección <span className="text-red-500">*</span></Label>
-                  <Select value={selectedDireccion} onChange={(e) => setSelectedDireccion(e.target.value)} disabled={!selectedCliente} required className="h-11 border-zinc-200">
-                    <option value="">{selectedCliente ? "Seleccionar sede disponible..." : "Primero seleccione un cliente"}</option>
-                    {(Array.isArray(direccionesCliente) ? direccionesCliente : []).map(d => (
-                      <option key={d.id} value={d.id}>{d.direccion} - {d.nombreSede || d.barrio}</option>
-                    ))}
-                  </Select>
+                  <Combobox
+                    options={[
+                      { value: "", label: selectedCliente ? "Seleccionar sede disponible..." : "Primero seleccione un cliente" },
+                      ...(Array.isArray(direccionesCliente) ? direccionesCliente : []).map(d => ({
+                        value: d.id,
+                        label: `${d.direccion} - ${d.nombreSede || d.barrio}`
+                      }))
+                    ]}
+                    value={selectedDireccion}
+                    onChange={setSelectedDireccion}
+                    disabled={!selectedCliente}
+                    placeholder="Seleccionar sede..."
+                    hideSearch
+                  />
                 </div>
               </div>
             </section>
 
             {/* SECCIÓN 2: ESPECIFICACIONES TÉCNICAS */}
             <section className="space-y-8">
-              <div className="flex items-center gap-3 border-b border-zinc-100 dark:border-zinc-800 pb-3">
-                <div className="p-2 rounded-lg bg-zinc-50 dark:bg-zinc-900 border border-zinc-100 dark:border-zinc-800 text-zinc-400">
+              <div className="flex items-center gap-3 border-b border-zinc-700 dark:border-zinc-800 pb-3">
+                <div className="p-2 rounded-lg bg-zinc-50 dark:bg-zinc-900 border border-zinc-700 dark:border-zinc-800 text-zinc-400">
                   <Briefcase className="h-5 w-5" />
                 </div>
                 <h2 className="text-lg font-bold text-zinc-900 dark:text-zinc-50">Especificaciones Técnicas</h2>
@@ -473,42 +495,57 @@ function EditarServicioContent({ id }: { id: string }) {
               <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6">
                 <div className="space-y-2">
                   <Label className="text-xs font-bold text-zinc-500 uppercase tracking-wider">Estado del Servicio <span className="text-red-500">*</span></Label>
-                  <Select
+                  <Combobox
+                    options={[
+                      { value: "", label: "Seleccionar estado..." },
+                      ...ESTADOS_ORDEN.map(est => ({ value: est.value, label: est.label }))
+                    ]}
                     value={estadoServicio}
-                    onChange={(e) => setEstadoServicio(e.target.value)}
-                    required
-                    className="h-11 border-zinc-200"
-                  >
-                    <option value="">Seleccionar estado...</option>
-                    {ESTADOS_ORDEN.map(est => (
-                      <option key={est.value} value={est.value}>{est.label}</option>
-                    ))}
-                  </Select>
+                    onChange={setEstadoServicio}
+                    placeholder="Estado..."
+                    hideSearch
+                  />
                 </div>
 
                 <div className="space-y-2">
                   <Label className="text-xs font-bold text-zinc-500 uppercase tracking-wider">Servicio Específico <span className="text-red-500">*</span></Label>
-                  <Input value={servicioEspecifico} onChange={(e) => setServicioEspecifico(e.target.value)} placeholder="Ej: Control de Roedores" required className="h-11 border-zinc-200" />
+                  <Combobox
+                    options={[
+                      { value: "", label: "Seleccionar servicio..." },
+                      ...(Array.isArray(serviciosEmpresa) ? serviciosEmpresa : []).map(s => ({ value: s.nombre, label: s.nombre }))
+                    ]}
+                    value={servicioEspecifico}
+                    onChange={setServicioEspecifico}
+                    placeholder="Servicio..."
+                  />
                 </div>
 
                 <div className="space-y-2">
                   <Label className="text-xs font-bold text-zinc-500 uppercase tracking-wider">Tipo de Visita <span className="text-red-500">*</span></Label>
-                  <Select value={tipoVisita} onChange={(e) => setTipoVisita(e.target.value)} required className="h-11 border-zinc-200">
-                    <option value="">Seleccionar visita...</option>
-                    {TIPOS_VISITA.map(t => (
-                      <option key={t.value} value={t.value}>{t.label}</option>
-                    ))}
-                  </Select>
+                  <Combobox
+                    options={[
+                      { value: "", label: "Seleccionar visita..." },
+                      ...TIPOS_VISITA.map(t => ({ value: t.value, label: t.label }))
+                    ]}
+                    value={tipoVisita}
+                    onChange={setTipoVisita}
+                    placeholder="Visita..."
+                    hideSearch
+                  />
                 </div>
 
                 <div className="space-y-2">
                   <Label className="text-xs font-bold text-zinc-500 uppercase tracking-wider">Nivel de Infestación <span className="text-red-500">*</span></Label>
-                  <Select value={nivelInfestacion} onChange={(e) => handleNivelInfestacionChange(e.target.value)} required className="h-11 border-zinc-200">
-                    <option value="">Seleccionar nivel...</option>
-                    {NIVELES_INFESTACION.map(n => (
-                      <option key={n.value} value={n.value}>{n.label}</option>
-                    ))}
-                  </Select>
+                  <Combobox
+                    options={[
+                      { value: "", label: "Seleccionar nivel..." },
+                      ...NIVELES_INFESTACION.map(n => ({ value: n.value, label: n.label }))
+                    ]}
+                    value={nivelInfestacion}
+                    onChange={handleNivelInfestacionChange}
+                    placeholder="Nivel..."
+                    hideSearch
+                  />
                 </div>
 
                 <div className="space-y-2">
@@ -518,18 +555,22 @@ function EditarServicioContent({ id }: { id: string }) {
                     value={frecuenciaRecomendada}
                     onChange={(e) => setFrecuenciaRecomendada(e.target.value ? Number(e.target.value) : "")}
                     placeholder="Días"
-                    className="h-11 border-zinc-200"
+                    className="h-11 border-zinc-700"
                   />
                 </div>
 
                 <div className="space-y-2">
                   <Label className="text-xs font-bold text-zinc-500 uppercase tracking-wider">Urgencia <span className="text-red-500">*</span></Label>
-                  <Select value={urgencia} onChange={(e) => setUrgencia(e.target.value)} required className="h-11 border-zinc-200">
-                    <option value="">Seleccionar urgencia...</option>
-                    {URGENCIAS.map(u => (
-                      <option key={u.value} value={u.value}>{u.label}</option>
-                    ))}
-                  </Select>
+                  <Combobox
+                    options={[
+                      { value: "", label: "Seleccionar urgencia..." },
+                      ...URGENCIAS.map(u => ({ value: u.value, label: u.label }))
+                    ]}
+                    value={urgencia}
+                    onChange={setUrgencia}
+                    placeholder="Urgencia..."
+                    hideSearch
+                  />
                 </div>
 
                 <div className="space-y-2 md:col-span-2">
@@ -537,7 +578,7 @@ function EditarServicioContent({ id }: { id: string }) {
                   <textarea
                     value={observacion}
                     onChange={(e) => setObservacion(e.target.value)}
-                    className="w-full bg-white dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl p-4 text-sm font-medium resize-none min-h-[100px] focus:ring-[var(--color-azul-1)] focus:border-[var(--color-azul-1)] outline-none"
+                    className="w-full bg-white dark:bg-zinc-950 border border-zinc-700 dark:border-zinc-800 rounded-xl p-4 text-sm font-medium resize-none min-h-[100px] focus:ring-[var(--color-azul-1)] focus:border-[var(--color-azul-1)] outline-none"
                     placeholder="Detalles adicionales, requerimientos específicos o notas importantes..."
                   ></textarea>
                 </div>
@@ -546,8 +587,8 @@ function EditarServicioContent({ id }: { id: string }) {
 
             {/* SECCIÓN 3: AGENDA OPERATIVA */}
             <section className="space-y-8">
-              <div className="flex items-center gap-3 border-b border-zinc-100 dark:border-zinc-800 pb-3">
-                <div className="p-2 rounded-lg bg-zinc-50 dark:bg-zinc-900 border border-zinc-100 dark:border-zinc-800 text-zinc-400">
+              <div className="flex items-center gap-3 border-b border-zinc-700 dark:border-zinc-800 pb-3">
+                <div className="p-2 rounded-lg bg-zinc-50 dark:bg-zinc-900 border border-zinc-700 dark:border-zinc-800 text-zinc-400">
                   <Calendar className="h-5 w-5" />
                 </div>
                 <h2 className="text-lg font-bold text-zinc-900 dark:text-zinc-50">Agenda Operativa</h2>
@@ -556,40 +597,57 @@ function EditarServicioContent({ id }: { id: string }) {
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-x-8 gap-y-6">
                 <div className="space-y-2">
                   <Label className="text-xs font-bold text-zinc-500 uppercase tracking-wider">Fecha de Ejecución <span className="text-red-500">*</span></Label>
-                  <Input type="date" value={fechaVisita} onChange={(e) => setFechaVisita(e.target.value)} required className="h-11 border-zinc-200" />
+                  <DatePicker 
+                    date={fechaVisita ? new Date(fechaVisita + "T00:00:00") : undefined} 
+                    onChange={(d) => setFechaVisita(d ? d.toISOString().split("T")[0] : "")} 
+                    className="h-11 border-zinc-700" 
+                  />
                 </div>
 
                 <div className="space-y-2">
                   <Label className="text-xs font-bold text-zinc-500 uppercase tracking-wider">Hora de Inicio <span className="text-red-500">*</span></Label>
-                  <Input type="time" value={horaInicio} onChange={(e) => setHoraInicio(e.target.value)} required className="h-11 border-zinc-200" />
+                  <TimePicker 
+                    value={horaInicio} 
+                    onChange={setHoraInicio} 
+                    className="h-11 border-zinc-700" 
+                  />
                 </div>
 
                 <div className="space-y-2">
                   <Label className="text-xs font-bold text-zinc-500 uppercase tracking-wider">Duración Labor <span className="text-red-500">*</span></Label>
-                  <Select value={duracionMinutos} onChange={(e) => setDuracionMinutos(e.target.value)} required className="h-11 border-zinc-200">
-                    <option value="60">60 Minutos</option>
-                    <option value="90">90 Minutos</option>
-                    <option value="120">120 Minutos</option>
-                    <option value="180">180 Minutos</option>
-                  </Select>
+                  <Combobox
+                    options={[
+                      { value: "60", label: "60 Minutos" },
+                      { value: "90", label: "90 Minutos" },
+                      { value: "120", label: "120 Minutos" },
+                      { value: "180", label: "180 Minutos" }
+                    ]}
+                    value={duracionMinutos}
+                    onChange={setDuracionMinutos}
+                    placeholder="Duración..."
+                    hideSearch
+                  />
                 </div>
 
                 <div className="space-y-2">
                   <Label className="text-xs font-bold text-zinc-500 uppercase tracking-wider">Operador</Label>
-                  <Select value={selectedOperador} onChange={(e) => setSelectedOperador(e.target.value)} className="h-11 border-zinc-200">
-                    <option value="">Por asignar / Automático</option>
-                    {(Array.isArray(operadores) ? operadores : []).map(o => (
-                      <option key={o.id} value={o.id}>{o.nombre}</option>
-                    ))}
-                  </Select>
+                  <Combobox
+                    options={[
+                      { value: "", label: "Por asignar / Automático" },
+                      ...(Array.isArray(operadores) ? operadores : []).map(o => ({ value: o.id, label: o.nombre }))
+                    ]}
+                    value={selectedOperador}
+                    onChange={setSelectedOperador}
+                    placeholder="Operador..."
+                  />
                 </div>
               </div>
             </section>
 
             {/* SECCIÓN 4: CONDICIONES DE PAGO */}
             <section className="space-y-8">
-              <div className="flex items-center gap-3 border-b border-zinc-100 dark:border-zinc-800 pb-3">
-                <div className="p-2 rounded-lg bg-zinc-50 dark:bg-zinc-900 border border-zinc-100 dark:border-zinc-800 text-zinc-400">
+              <div className="flex items-center gap-3 border-b border-zinc-700 dark:border-zinc-800 pb-3">
+                <div className="p-2 rounded-lg bg-zinc-50 dark:bg-zinc-900 border border-zinc-700 dark:border-zinc-800 text-zinc-400">
                   <CreditCard className="h-5 w-5" />
                 </div>
                 <div className="flex-1 flex items-center justify-between">
@@ -628,19 +686,23 @@ function EditarServicioContent({ id }: { id: string }) {
                         }} 
                         placeholder="0" 
                         required 
-                        className="h-11 border-zinc-200 pl-8 font-bold" 
+                        className="h-11 border-zinc-700 pl-8 font-bold" 
                       />
                     </div>
                   </div>
 
                   <div className="space-y-2">
                     <Label className="text-xs font-bold text-zinc-500 uppercase tracking-wider">Tipo de Facturación <span className="text-red-500">*</span></Label>
-                    <Select value={tipoFacturacion} onChange={(e) => setTipoFacturacion(e.target.value)} required className="h-11 border-zinc-200">
-                      <option value="">Seleccionar facturación...</option>
-                      {TIPOS_FACTURACION.map(m => (
-                        <option key={m.value} value={m.value}>{m.label}</option>
-                      ))}
-                    </Select>
+                    <Combobox
+                      options={[
+                        { value: "", label: "Seleccionar facturación..." },
+                        ...TIPOS_FACTURACION.map(m => ({ value: m.value, label: m.label }))
+                      ]}
+                      value={tipoFacturacion}
+                      onChange={setTipoFacturacion}
+                      placeholder="Facturación..."
+                      hideSearch
+                    />
                   </div>
                 </div>
 
@@ -648,7 +710,7 @@ function EditarServicioContent({ id }: { id: string }) {
                   <Label className="text-[10px] font-black uppercase tracking-[0.2em] text-zinc-400 block px-1">Desglose de Cobro</Label>
                   <div className="grid grid-cols-1 gap-4">
                     {breakdown.map((line, index) => (
-                      <div key={index} className="p-5 bg-zinc-50/50 dark:bg-zinc-900/30 rounded-2xl border border-zinc-100 dark:border-zinc-800 space-y-4 relative group">
+                      <div key={index} className="p-5 bg-zinc-50/50 dark:bg-zinc-900/30 rounded-2xl border border-zinc-700 dark:border-zinc-800 space-y-4 relative group">
                         {breakdown.length > 1 && (
                           <button 
                             type="button"
@@ -662,19 +724,17 @@ function EditarServicioContent({ id }: { id: string }) {
                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                           <div className="space-y-2">
                             <Label className="text-[10px] font-bold text-zinc-500 uppercase">Método</Label>
-                            <Select 
-                              value={line.metodo} 
-                              onChange={(e) => {
+                            <Combobox
+                              options={METODOS_PAGO_BASE.map(m => ({ value: m.value, label: m.label }))}
+                              value={line.metodo}
+                              onChange={(val) => {
                                 const newBreakdown = [...breakdown];
-                                newBreakdown[index] = { ...line, metodo: e.target.value };
+                                newBreakdown[index] = { ...line, metodo: val };
                                 setBreakdown(newBreakdown);
                               }}
-                              className="h-10 rounded-xl bg-white dark:bg-zinc-950 border-zinc-200"
-                            >
-                              {METODOS_PAGO_BASE.map(m => (
-                                <option key={m.value} value={m.value}>{m.label}</option>
-                              ))}
-                            </Select>
+                              placeholder="Método..."
+                              hideSearch
+                            />
                           </div>
                           
                           <div className="space-y-2">
@@ -690,7 +750,7 @@ function EditarServicioContent({ id }: { id: string }) {
                                 setBreakdown(newBreakdown);
                               }}
                               placeholder="0"
-                              className="h-10 rounded-xl bg-white dark:bg-zinc-950 border-zinc-200 font-bold"
+                              className="h-10 rounded-xl bg-white dark:bg-zinc-950 border-zinc-700 font-bold"
                             />
                           </div>
                         </div>
@@ -707,7 +767,7 @@ function EditarServicioContent({ id }: { id: string }) {
                                   setBreakdown(newBreakdown);
                                 }}
                                 placeholder="Ej: Bancolombia, Nequi..."
-                                className="h-10 rounded-xl bg-white dark:bg-zinc-950 border-zinc-200 font-medium"
+                                className="h-10 rounded-xl bg-white dark:bg-zinc-950 border-zinc-700 font-medium"
                               />
                             </div>
                             <div className="space-y-2">
@@ -720,7 +780,7 @@ function EditarServicioContent({ id }: { id: string }) {
                                   setBreakdown(newBreakdown);
                                 }}
                                 placeholder="Nº comprobante"
-                                className="h-10 rounded-xl bg-white dark:bg-zinc-950 border-zinc-200 font-medium"
+                                className="h-10 rounded-xl bg-white dark:bg-zinc-950 border-zinc-700 font-medium"
                               />
                             </div>
                           </div>
@@ -749,7 +809,7 @@ function EditarServicioContent({ id }: { id: string }) {
         </div>
 
         {/* Footer Fijo */}
-        <div className="flex-none bg-zinc-50 dark:bg-zinc-900/50 border-t border-zinc-200 dark:border-zinc-800 px-10 py-5 flex items-center justify-between">
+        <div className="flex-none bg-zinc-50 dark:bg-zinc-900/50 border-t border-zinc-700 dark:border-zinc-800 px-10 py-5 flex items-center justify-between">
           <div className="hidden lg:flex items-center gap-3 text-zinc-400">
             <GanttChart className="h-5 w-5 text-[var(--color-claro-azul-4)]" />
             <p className="text-[11px] font-medium max-w-xs leading-relaxed">Actualizando los parámetros operativos de la orden técnica.</p>

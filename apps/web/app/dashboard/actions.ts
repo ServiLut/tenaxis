@@ -1082,6 +1082,10 @@ export interface UpdateMembershipDTO {
   municipioId?: string;
   role?: string;
   activo?: boolean;
+  nombre?: string;
+  apellido?: string;
+  email?: string;
+  telefono?: string;
   empresaIds?: string[];
 }
 
