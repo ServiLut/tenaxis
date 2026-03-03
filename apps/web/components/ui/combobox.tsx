@@ -58,8 +58,8 @@ export function Combobox({
         disabled={disabled}
         onClick={() => !disabled && setOpen(!open)}
         className={cn(
-          "flex h-11 w-full items-center justify-between rounded-xl border-2 border-zinc-700 bg-zinc-50/30 px-4 py-2 text-sm transition-all focus:outline-none focus:border-[var(--color-azul-1)] focus:bg-white disabled:cursor-not-allowed disabled:opacity-50 dark:border-zinc-800 dark:bg-zinc-900/30 dark:focus:border-zinc-300",
-          open && "border-[var(--color-azul-1)] bg-white shadow-sm ring-4 ring-[var(--color-azul-1)]/5"
+          "flex h-11 w-full items-center justify-between rounded-xl border border-zinc-300 bg-zinc-50/30 px-4 py-2 text-sm transition-all focus:outline-none focus:border-zinc-300 focus:bg-white disabled:cursor-not-allowed disabled:opacity-50 dark:border-zinc-800 dark:bg-zinc-900/30 dark:focus:border-zinc-300",
+          open && "border-zinc-300 bg-white shadow-sm"
         )}
       >
         <span className={cn("truncate", !selectedOption && "text-zinc-400")}>
@@ -69,7 +69,7 @@ export function Combobox({
       </button>
 
       {open && (
-        <div className="absolute z-50 mt-2 max-h-72 w-full overflow-hidden rounded-xl border border-zinc-700 bg-white shadow-xl animate-in fade-in zoom-in-95 slide-in-from-top-2 dark:border-zinc-800 dark:bg-zinc-950">
+        <div className="absolute z-50 mt-2 max-h-72 w-full overflow-hidden rounded-xl border border-zinc-200 bg-white shadow-xl animate-in fade-in zoom-in-95 slide-in-from-top-2 dark:border-zinc-800 dark:bg-zinc-950">
           {!hideSearch && (
             <div className="flex items-center border-b border-zinc-100 px-3 dark:border-zinc-800 bg-white dark:bg-zinc-950 sticky top-0 z-10">
               <Search className="h-4 w-4 text-zinc-400 shrink-0" />

@@ -205,17 +205,17 @@ const RIESGO_LABELS = {
 };
 
 const ESTADO_STYLING: Record<string, string> = {
-  "NUEVO": "bg-zinc-100 text-zinc-600 border-zinc-700 dark:bg-zinc-900/40 dark:text-zinc-400 dark:border-zinc-800",
-  "PROCESO": "bg-amber-100 text-amber-700 border-zinc-700 dark:bg-zinc-900/30 dark:text-amber-400 dark:border-amber-800/50",
-  "EN PROCESO": "bg-amber-100 text-amber-700 border-zinc-700 dark:bg-zinc-900/30 dark:text-amber-400 dark:border-amber-800/50",
-  "CANCELADO": "bg-red-100 text-red-700 border-zinc-700 dark:bg-zinc-900/30 dark:text-red-400 dark:border-red-800/50",
-  "PROGRAMADO": "bg-blue-100 text-blue-700 border-zinc-700 dark:bg-zinc-900/30 dark:text-blue-400 dark:border-blue-800/50",
-  "LIQUIDADO": "bg-emerald-100 text-emerald-700 border-zinc-700 dark:bg-zinc-900/30 dark:text-emerald-400 dark:border-emerald-800/50",
-  "TECNICO_FINALIZO": "bg-green-100 text-green-900 border-zinc-700 dark:bg-green-900/40 dark:text-green-300 dark:border-green-800/50",
-  "TECNICO FINALIZO": "bg-green-100 text-green-900 border-zinc-700 dark:bg-green-900/40 dark:text-green-300 dark:border-green-800/50",
-  "REPROGRAMADO": "bg-indigo-100 text-indigo-700 border-zinc-700 dark:bg-indigo-900/30 dark:text-indigo-400 dark:border-indigo-800/50",
-  "SIN_CONCRETAR": "bg-slate-100 text-slate-700 border-zinc-700 dark:bg-zinc-900/30 dark:text-slate-400 dark:border-slate-800/50",
-  "DEFAULT": "bg-zinc-100 text-zinc-600 border-zinc-700 dark:bg-zinc-900/40 dark:text-zinc-400 dark:border-zinc-800",
+  "NUEVO": "bg-zinc-100 text-zinc-600 border-zinc-100 dark:bg-zinc-900/40 dark:text-zinc-400 dark:border-zinc-800",
+  "PROCESO": "bg-amber-100 text-amber-700 border-zinc-100 dark:bg-zinc-900/30 dark:text-amber-400 dark:border-amber-800/50",
+  "EN PROCESO": "bg-amber-100 text-amber-700 border-zinc-100 dark:bg-zinc-900/30 dark:text-amber-400 dark:border-amber-800/50",
+  "CANCELADO": "bg-red-100 text-red-700 border-zinc-100 dark:bg-zinc-900/30 dark:text-red-400 dark:border-red-800/50",
+  "PROGRAMADO": "bg-blue-100 text-blue-700 border-zinc-100 dark:bg-zinc-900/30 dark:text-blue-400 dark:border-blue-800/50",
+  "LIQUIDADO": "bg-emerald-100 text-emerald-700 border-zinc-100 dark:bg-zinc-900/30 dark:text-emerald-400 dark:border-emerald-800/50",
+  "TECNICO_FINALIZO": "bg-green-100 text-green-900 border-zinc-100 dark:bg-green-900/40 dark:text-green-300 dark:border-green-800/50",
+  "TECNICO FINALIZO": "bg-green-100 text-green-900 border-zinc-100 dark:bg-green-900/40 dark:text-green-300 dark:border-green-800/50",
+  "REPROGRAMADO": "bg-indigo-100 text-indigo-700 border-zinc-100 dark:bg-indigo-900/30 dark:text-indigo-400 dark:border-indigo-800/50",
+  "SIN_CONCRETAR": "bg-slate-100 text-slate-700 border-zinc-100 dark:bg-zinc-900/30 dark:text-slate-400 dark:border-slate-800/50",
+  "DEFAULT": "bg-zinc-100 text-zinc-600 border-zinc-100 dark:bg-zinc-900/40 dark:text-zinc-400 dark:border-zinc-800",
 };
 
 interface OrdenServicio {
@@ -623,7 +623,7 @@ export function ClienteList({ initialClientes, initialDepartments = [], initialM
 
   if (!mounted) {
     return (
-      <div className="flex flex-col h-full bg-white dark:bg-zinc-900 rounded-xl border border-zinc-700/60 dark:border-zinc-800/50 shadow-xl shadow-zinc-200/20 dark:shadow-none overflow-hidden items-center justify-center">
+      <div className="flex flex-col h-full bg-white dark:bg-zinc-900 rounded-xl border border-zinc-100/60 dark:border-zinc-800/50 shadow-xl shadow-zinc-200/20 dark:shadow-none overflow-hidden items-center justify-center">
         <div className="animate-pulse text-sm font-black text-zinc-400 uppercase tracking-widest">
           Sincronizando Cartera...
         </div>
@@ -634,7 +634,7 @@ export function ClienteList({ initialClientes, initialDepartments = [], initialM
   return (
     <div className="flex flex-col h-full">
       {/* Sub-Header Estratégico */}
-      <div className="shrink-0 py-10 px-6 lg:px-10 border-b border-zinc-700 dark:border-zinc-800/50 mb-8 bg-white dark:bg-zinc-900/50">
+      <div className="shrink-0 py-10 px-6 lg:px-10 border-b border-zinc-100 dark:border-zinc-800/50 mb-8 bg-white dark:bg-zinc-900/50">
         <div className="max-w-[1600px] mx-auto w-full flex flex-col md:flex-row md:items-center gap-6">
           <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-azul-1 text-white shadow-xl shadow-azul-1/20">
             <Contact className="h-5 w-5" />
@@ -652,7 +652,7 @@ export function ClienteList({ initialClientes, initialDepartments = [], initialM
               variant="outline"
               size="sm"
               onClick={() => setShowKPIs(!showKPIs)}
-              className="h-10 px-4 rounded-xl border-zinc-700 dark:border-zinc-800 bg-white dark:bg-zinc-900 text-[10px] font-black uppercase tracking-widest gap-2"
+              className="h-10 px-4 rounded-xl border-zinc-100 dark:border-zinc-800 bg-white dark:bg-zinc-900 text-[10px] font-black uppercase tracking-widest gap-2"
             >
               {showKPIs ? (
                 <>
@@ -677,7 +677,7 @@ export function ClienteList({ initialClientes, initialDepartments = [], initialM
           {/* KPI Cards Grid */}
           {showKPIs && (
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 mb-6 shrink-0 animate-in fade-in slide-in-from-top-4 duration-300">
-              <div className="bg-white dark:bg-zinc-900 p-6 rounded-2xl border border-zinc-700 dark:border-zinc-800/50 shadow-sm flex items-center gap-4">
+              <div className="bg-white dark:bg-zinc-900 p-6 rounded-2xl border border-zinc-100 dark:border-zinc-800/50 shadow-sm flex items-center gap-4">
                 <div className="h-12 w-12 rounded-xl bg-azul-1/10 flex items-center justify-center text-azul-1">
                   <User className="h-6 w-6" />
                 </div>
@@ -687,7 +687,7 @@ export function ClienteList({ initialClientes, initialDepartments = [], initialM
                 </div>
               </div>
 
-              <div className="bg-white dark:bg-zinc-900 p-6 rounded-2xl border border-zinc-700 dark:border-zinc-800/50 shadow-sm flex items-center gap-4">
+              <div className="bg-white dark:bg-zinc-900 p-6 rounded-2xl border border-zinc-100 dark:border-zinc-800/50 shadow-sm flex items-center gap-4">
                 <div className="h-12 w-12 rounded-xl bg-purple-500/10 flex items-center justify-center text-purple-500">
                   <Building2 className="h-6 w-6" />
                 </div>
@@ -697,7 +697,7 @@ export function ClienteList({ initialClientes, initialDepartments = [], initialM
                 </div>
               </div>
 
-              <div className="bg-white dark:bg-zinc-900 p-6 rounded-2xl border border-zinc-700 dark:border-zinc-800/50 shadow-sm flex items-center gap-4">
+              <div className="bg-white dark:bg-zinc-900 p-6 rounded-2xl border border-zinc-100 dark:border-zinc-800/50 shadow-sm flex items-center gap-4">
                 <div className="h-12 w-12 rounded-xl bg-amber-500/10 flex items-center justify-center text-amber-500">
                   <Trophy className="h-6 w-6" />
                 </div>
@@ -707,7 +707,7 @@ export function ClienteList({ initialClientes, initialDepartments = [], initialM
                 </div>
               </div>
 
-              <div className="bg-white dark:bg-zinc-900 p-6 rounded-2xl border border-zinc-700 dark:border-zinc-800/50 shadow-sm flex items-center gap-4">
+              <div className="bg-white dark:bg-zinc-900 p-6 rounded-2xl border border-zinc-100 dark:border-zinc-800/50 shadow-sm flex items-center gap-4">
                 <div className="h-12 w-12 rounded-xl bg-red-500/10 flex items-center justify-center text-red-500">
                   <AlertCircle className="h-6 w-6" />
                 </div>
@@ -717,7 +717,7 @@ export function ClienteList({ initialClientes, initialDepartments = [], initialM
                 </div>
               </div>
 
-              <div className="bg-white dark:bg-zinc-900 p-6 rounded-2xl border border-zinc-700 dark:border-zinc-800/50 shadow-sm flex items-center gap-4">
+              <div className="bg-white dark:bg-zinc-900 p-6 rounded-2xl border border-zinc-100 dark:border-zinc-800/50 shadow-sm flex items-center gap-4">
                 <div className="h-12 w-12 rounded-xl bg-emerald-500/10 flex items-center justify-center text-emerald-500">
                   <Activity className="h-6 w-6" />
                 </div>
@@ -729,15 +729,15 @@ export function ClienteList({ initialClientes, initialDepartments = [], initialM
             </div>
           )}
 
-          <div className="flex-1 min-h-0 flex flex-col bg-white dark:bg-zinc-900 rounded-xl border border-zinc-700 dark:border-zinc-800/50 shadow-xl shadow-zinc-200/20 dark:shadow-none overflow-hidden">
+          <div className="flex-1 min-h-0 flex flex-col bg-white dark:bg-zinc-900 rounded-xl border border-zinc-100 dark:border-zinc-800/50 shadow-xl shadow-zinc-200/20 dark:shadow-none overflow-hidden">
             {/* Barra de Filtros Unificada */}
-      <div className="px-8 py-6 border-b border-zinc-700 dark:border-zinc-800/50 flex flex-col gap-6 sm:flex-row sm:items-center sm:justify-between bg-white dark:bg-zinc-900 shrink-0">
+      <div className="px-8 py-6 border-b border-zinc-100 dark:border-zinc-800/50 flex flex-col gap-6 sm:flex-row sm:items-center sm:justify-between bg-white dark:bg-zinc-900 shrink-0">
         <div className="flex flex-1 items-center gap-3 max-w-2xl">
           <div className="relative flex-1">
             <Search className="absolute left-4 top-1/2 h-5 w-5 -translate-y-1/2 text-zinc-400" />
             <Input
               placeholder="Buscar por nombre, documento o NIT..."
-              className="h-12 pl-12 rounded-lg border-zinc-700 dark:border-zinc-800 bg-zinc-50 dark:bg-zinc-800/50 transition-all"
+              className="h-12 pl-12 rounded-lg border-zinc-100 dark:border-zinc-800 bg-zinc-50 dark:bg-zinc-800/50 transition-all"
               value={search}
               onChange={(e) => setSearch(e.target.value)}
             />
@@ -750,8 +750,8 @@ export function ClienteList({ initialClientes, initialDepartments = [], initialM
               "flex items-center h-12 px-6 rounded-lg font-bold text-[11px] uppercase tracking-wider transition-all gap-2 border",
               activeFiltersCount > 0
                 ? "bg-azul-1 text-white border-azul-1"
-                : "bg-white dark:bg-zinc-800 text-zinc-700 dark:text-zinc-300 border-zinc-700 dark:border-zinc-700 hover:bg-zinc-50 dark:hover:bg-zinc-700",
-              showFilters && "bg-zinc-100 dark:bg-zinc-700 border-zinc-700 shadow-inner"
+                : "bg-white dark:bg-zinc-800 text-zinc-700 dark:text-zinc-300 border-zinc-100 dark:border-zinc-100 hover:bg-zinc-50 dark:hover:bg-zinc-700",
+              showFilters && "bg-zinc-100 dark:bg-zinc-700 border-zinc-100 shadow-inner"
             )}
           >
             <Filter className="h-4 w-4" />
@@ -776,7 +776,7 @@ export function ClienteList({ initialClientes, initialDepartments = [], initialM
                 <span>Exportar</span>
               </button>
             </DropdownMenuTrigger>
-            <DropdownMenuContent align="end" className="w-56 p-2 rounded-xl border border-zinc-700 shadow-2xl">
+            <DropdownMenuContent align="end" className="w-56 p-2 rounded-xl border border-zinc-100 shadow-2xl">
               <DropdownMenuLabel className="text-[9px] font-black text-zinc-400 uppercase tracking-widest pb-2">Formatos Corporativos</DropdownMenuLabel>
               <DropdownMenuSeparator />
               <DropdownMenuItem onClick={() => handleExport('excel')} className="flex items-center gap-3 py-3 text-[11px] font-bold cursor-pointer hover:text-emerald-600">
@@ -802,9 +802,9 @@ export function ClienteList({ initialClientes, initialDepartments = [], initialM
 
       {/* Integrated Filter Panel */}
       {showFilters && (
-        <div className="px-8 py-8 border-b border-zinc-700 dark:border-zinc-800/50 bg-zinc-50/50 dark:bg-zinc-800/20 animate-in fade-in slide-in-from-top-2 duration-300 max-h-[60vh] overflow-y-auto custom-scrollbar">
+        <div className="px-8 py-8 border-b border-zinc-100 dark:border-zinc-800/50 bg-zinc-50/50 dark:bg-zinc-800/20 animate-in fade-in slide-in-from-top-2 duration-300 max-h-[60vh] overflow-y-auto custom-scrollbar">
           <div className="max-w-[1600px] mx-auto">
-            <div className="flex items-center justify-between mb-8 border-b border-zinc-700 dark:border-zinc-800 pb-4">
+            <div className="flex items-center justify-between mb-8 border-b border-zinc-100 dark:border-zinc-800 pb-4">
               <div>
                 <h3 className="text-sm font-black uppercase tracking-widest text-zinc-900 dark:text-zinc-100 flex items-center gap-3">
                   <Filter className="h-5 w-5 text-azul-1" /> Panel de Segmentación Avanzada
@@ -815,7 +815,7 @@ export function ClienteList({ initialClientes, initialDepartments = [], initialM
               </div>
               <button
                 onClick={resetFilters}
-                className="text-[11px] font-black text-zinc-600 dark:text-zinc-400 hover:text-azul-1 flex items-center gap-2 transition-colors px-4 py-2 rounded-xl hover:bg-zinc-100 dark:hover:bg-zinc-800 border border-zinc-700 dark:border-zinc-700"
+                className="text-[11px] font-black text-zinc-600 dark:text-zinc-400 hover:text-azul-1 flex items-center gap-2 transition-colors px-4 py-2 rounded-xl hover:bg-zinc-100 dark:hover:bg-zinc-800 border border-zinc-100 dark:border-zinc-100"
               >
                 <RotateCcw className="h-4 w-4" /> REINICIAR FILTROS
               </button>
@@ -830,15 +830,15 @@ export function ClienteList({ initialClientes, initialDepartments = [], initialM
                     placeholder="Filtrar por nombre..."
                     value={empresaSearch}
                     onChange={(e) => setEmpresaSearch(e.target.value)}
-                    className="h-9 text-xs mb-2 border-zinc-700"
+                    className="h-9 text-xs mb-2 border-zinc-100"
                   />
-                  <div className="flex flex-col gap-2 max-h-32 overflow-y-auto custom-scrollbar p-4 bg-white dark:bg-zinc-900 rounded-xl border border-zinc-700">
+                  <div className="flex flex-col gap-2 max-h-32 overflow-y-auto custom-scrollbar p-4 bg-white dark:bg-zinc-900 rounded-xl border border-zinc-100">
                                             {filterOptions.empresas
                                               .filter(emp => emp.nombre.toLowerCase().includes(empresaSearch.toLowerCase()))
                                               .map((emp: { id: string, nombre: string }) => (
                                               <label key={emp.id} className="flex items-center gap-3 text-xs font-black text-zinc-700 dark:text-zinc-300 cursor-pointer group">
                                                 <div className={cn(
-                                                  "flex h-4 w-4 shrink-0 items-center justify-center rounded-md border-2 border-zinc-700 transition-colors",                          filters.empresas.includes(emp.id) ? "bg-azul-1 border-azul-1" : "bg-white dark:bg-zinc-900 group-hover:border-azul-1"
+                                                  "flex h-4 w-4 shrink-0 items-center justify-center rounded-md border-2 border-zinc-100 transition-colors",                          filters.empresas.includes(emp.id) ? "bg-azul-1 border-azul-1" : "bg-white dark:bg-zinc-900 group-hover:border-azul-1"
                         )}>
                           {filters.empresas.includes(emp.id) && <Check className="h-3 w-3 text-white" />}
                         </div>
@@ -903,7 +903,7 @@ export function ClienteList({ initialClientes, initialDepartments = [], initialM
                   placeholder="Ej: El Poblado"
                   value={filters.barrio}
                   onChange={(e) => setFilters(prev => ({ ...prev, barrio: e.target.value }))}
-                  className="h-11 text-xs border-zinc-700 bg-white"
+                  className="h-11 text-xs border-zinc-100 bg-white"
                 />
               </div>
 
@@ -961,21 +961,21 @@ export function ClienteList({ initialClientes, initialDepartments = [], initialM
                   <DatePicker
                     date={filters.fechaDesde ? new Date(filters.fechaDesde + "T00:00:00") : undefined}
                     onChange={(d) => setFilters(prev => ({ ...prev, fechaDesde: d ? d.toISOString().split("T")[0] : "" }))}
-                    className="flex-1 h-11 bg-white border-zinc-700"
+                    className="flex-1 h-11 bg-white border-zinc-100"
                     placeholder="Fecha Inicial"
                   />
                   <span className="text-zinc-400 font-bold text-xs">AL</span>
                   <DatePicker
                     date={filters.fechaHasta ? new Date(filters.fechaHasta + "T00:00:00") : undefined}
                     onChange={(d) => setFilters(prev => ({ ...prev, fechaHasta: d ? d.toISOString().split("T")[0] : "" }))}
-                    className="flex-1 h-11 bg-white border-zinc-700"
+                    className="flex-1 h-11 bg-white border-zinc-100"
                     placeholder="Fecha Final"
                   />
                 </div>
               </div>
             </div>
 
-            <div className="mt-10 pt-6 border-t border-zinc-700 dark:border-zinc-800 flex justify-end">
+            <div className="mt-10 pt-6 border-t border-zinc-100 dark:border-zinc-800 flex justify-end">
               <Button 
                 onClick={() => setShowFilters(false)}
                 className="h-12 px-10 rounded-xl text-[11px] font-black uppercase tracking-[0.2em] bg-zinc-900 dark:bg-zinc-100 text-white dark:text-zinc-900 shadow-xl shadow-zinc-900/20 dark:shadow-none hover:opacity-90 transition-all"
@@ -992,7 +992,7 @@ export function ClienteList({ initialClientes, initialDepartments = [], initialM
         <div className="h-full overflow-y-auto overflow-x-auto scrollbar-thin scrollbar-thumb-zinc-300 dark:scrollbar-thumb-zinc-800">
           <table className="w-full text-left border-collapse min-w-[1000px] lg:min-w-full">
             <thead className="sticky top-0 bg-zinc-50/95 dark:bg-zinc-900/95 backdrop-blur-sm z-20">
-              <tr className="border-b border-zinc-700 dark:border-zinc-800/50">
+              <tr className="border-b border-zinc-100 dark:border-zinc-800/50">
                 <th className="px-6 py-5 text-[10px] font-black uppercase tracking-[0.3em] text-zinc-500 dark:text-zinc-300">Cliente / Perfil</th>
                 <th className="px-4 py-5 text-[10px] font-black uppercase tracking-[0.3em] text-zinc-500 dark:text-zinc-300">Documentación</th>
                 <th className="px-4 py-5 text-[10px] font-black uppercase tracking-[0.3em] text-zinc-500 dark:text-zinc-300 text-center">Clasificación</th>
@@ -1003,13 +1003,13 @@ export function ClienteList({ initialClientes, initialDepartments = [], initialM
                 <th className="px-6 py-5 text-right text-[10px] font-black uppercase tracking-[0.3em] text-zinc-500 dark:text-zinc-300">Acciones</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-zinc-300 dark:divide-zinc-800/50 bg-white dark:bg-zinc-900">
+            <tbody className="divide-y divide-zinc-100 dark:divide-zinc-800/50 bg-white dark:bg-zinc-900">
               {paginatedClientes.map((cliente) => (
                 <tr key={cliente.id} className="group hover:bg-zinc-50 dark:hover:bg-zinc-800/30 transition-all">
                   <td className="px-6 py-6">
                     <div className="flex items-center gap-4">
                       <div className={cn(
-                        "flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl shadow-sm border border-zinc-700 dark:border-zinc-700",
+                        "flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl shadow-sm border border-zinc-100 dark:border-zinc-100",
                         cliente.tipoCliente === "EMPRESA" ? "bg-zinc-900 text-white dark:bg-zinc-800 dark:text-zinc-300" : "bg-blue-50 text-blue-600 dark:bg-blue-500/10 dark:text-blue-400"
                       )}>
                         {cliente.tipoCliente === "EMPRESA" ? <Building2 className="h-6 w-6" /> : <User className="h-6 w-6" />}
@@ -1050,7 +1050,7 @@ export function ClienteList({ initialClientes, initialDepartments = [], initialM
                   </td>
 
                   <td className="px-4 py-6 text-center">
-                    <div className="inline-flex items-center gap-2 px-3 py-1 rounded-lg bg-zinc-50 dark:bg-zinc-800 border border-zinc-700 dark:border-zinc-700">
+                    <div className="inline-flex items-center gap-2 px-3 py-1 rounded-lg bg-zinc-50 dark:bg-zinc-800 border border-zinc-100 dark:border-zinc-100">
                       <Target className="h-3 w-3 text-azul-1" />
                       <span className="text-[10px] font-black text-zinc-900 dark:text-zinc-300 uppercase tracking-tight">
                         {cliente.segmento?.nombre || cliente.segmentoNegocio || "N/A"}
@@ -1109,11 +1109,11 @@ export function ClienteList({ initialClientes, initialDepartments = [], initialM
                   <td className="px-6 py-6 text-right">
                     <DropdownMenu>
                       <DropdownMenuTrigger asChild>
-                        <button className="inline-flex h-10 w-10 items-center justify-center rounded-xl bg-zinc-100 hover:bg-zinc-900 hover:text-white text-zinc-500 dark:bg-zinc-800/50 dark:hover:bg-white dark:hover:text-black transition-all border border-zinc-700 dark:border-zinc-700 shadow-sm">
+                        <button className="inline-flex h-10 w-10 items-center justify-center rounded-xl bg-zinc-100 hover:bg-zinc-900 hover:text-white text-zinc-500 dark:bg-zinc-800/50 dark:hover:bg-white dark:hover:text-black transition-all border border-zinc-100 dark:border-zinc-100 shadow-sm">
                           <MoreHorizontal className="h-5 w-5" />
                         </button>
                       </DropdownMenuTrigger>
-                      <DropdownMenuContent align="end" className="w-52 p-2 rounded-2xl border border-zinc-700 shadow-2xl">
+                      <DropdownMenuContent align="end" className="w-52 p-2 rounded-2xl border border-zinc-100 shadow-2xl">
                         <DropdownMenuItem
                           onClick={() => setSelectedCliente(cliente)}
                           className="flex items-center gap-3 py-3 text-[11px] font-black uppercase tracking-widest cursor-pointer text-zinc-700"
@@ -1161,7 +1161,7 @@ export function ClienteList({ initialClientes, initialDepartments = [], initialM
       </div>
 
       {/* Paginación */}
-      <div className="px-8 py-4 border-t border-zinc-700 dark:border-zinc-800/50 bg-white dark:bg-zinc-900/50 flex items-center justify-between shrink-0">
+      <div className="px-8 py-4 border-t border-zinc-100 dark:border-zinc-800/50 bg-white dark:bg-zinc-900/50 flex items-center justify-between shrink-0">
         <div className="flex items-center gap-4">
           <span className="text-[10px] font-black uppercase tracking-widest text-zinc-500 dark:text-zinc-300">
             Mostrando {Math.min(filteredClientes.length, (currentPage - 1) * itemsPerPage + 1)}-{Math.min(filteredClientes.length, currentPage * itemsPerPage)} de {filteredClientes.length}
@@ -1172,7 +1172,7 @@ export function ClienteList({ initialClientes, initialDepartments = [], initialM
           <button
             onClick={() => setCurrentPage(prev => Math.max(1, prev - 1))}
             disabled={currentPage === 1}
-            className="flex h-10 w-10 items-center justify-center rounded-xl bg-white dark:bg-zinc-800 border border-zinc-700 dark:border-zinc-700 text-zinc-600 dark:text-zinc-300 disabled:opacity-30 hover:bg-zinc-50 dark:hover:bg-zinc-700 transition-all"
+            className="flex h-10 w-10 items-center justify-center rounded-xl bg-white dark:bg-zinc-800 border border-zinc-100 dark:border-zinc-100 text-zinc-600 dark:text-zinc-300 disabled:opacity-30 hover:bg-zinc-50 dark:hover:bg-zinc-700 transition-all"
           >
             <ChevronLeft className="h-5 w-5" />
           </button>
@@ -1194,7 +1194,7 @@ export function ClienteList({ initialClientes, initialDepartments = [], initialM
                       "flex h-10 w-10 items-center justify-center rounded-xl text-[11px] font-black transition-all",
                       currentPage === page
                         ? "bg-azul-1 text-zinc-50 shadow-lg shadow-azul-1/20"
-                        : "bg-white dark:bg-zinc-800 border border-zinc-700 dark:border-zinc-700 text-zinc-600 dark:text-zinc-300 hover:bg-zinc-50 dark:hover:bg-zinc-700"
+                        : "bg-white dark:bg-zinc-800 border border-zinc-100 dark:border-zinc-100 text-zinc-600 dark:text-zinc-300 hover:bg-zinc-50 dark:hover:bg-zinc-700"
                     )}
                   >
                     {page}
@@ -1206,7 +1206,7 @@ export function ClienteList({ initialClientes, initialDepartments = [], initialM
           <button
             onClick={() => setCurrentPage(prev => Math.min(totalPages, prev + 1))}
             disabled={currentPage === totalPages || totalPages === 0}
-            className="flex h-10 w-10 items-center justify-center rounded-xl bg-white dark:bg-zinc-800 border border-zinc-700 dark:border-zinc-700 text-zinc-600 dark:text-zinc-300 disabled:opacity-30 hover:bg-zinc-50 dark:hover:bg-zinc-700 transition-all"
+            className="flex h-10 w-10 items-center justify-center rounded-xl bg-white dark:bg-zinc-800 border border-zinc-100 dark:border-zinc-100 text-zinc-600 dark:text-zinc-300 disabled:opacity-30 hover:bg-zinc-50 dark:hover:bg-zinc-700 transition-all"
           >
             <ChevronRight className="h-5 w-5" />
           </button>
@@ -1265,7 +1265,7 @@ export function ClienteList({ initialClientes, initialDepartments = [], initialM
 
                 {/* 1. SECCIÓN: RESUMEN ESTRATÉGICO */}
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                  <div className="p-4 rounded-2xl bg-zinc-50 dark:bg-zinc-900 border border-zinc-700 dark:border-zinc-800 shadow-sm">
+                  <div className="p-4 rounded-2xl bg-zinc-50 dark:bg-zinc-900 border border-zinc-100 dark:border-zinc-800 shadow-sm">
                     <p className="text-[9px] font-black uppercase tracking-[0.2em] text-zinc-500 mb-2">Segmento Negocio</p>
                     <div className="flex items-center gap-3">
                       <div className="h-8 w-8 rounded-lg bg-azul-1/10 flex items-center justify-center text-azul-1">
@@ -1280,7 +1280,7 @@ export function ClienteList({ initialClientes, initialDepartments = [], initialM
                     </div>
                   </div>
 
-                  <div className="p-4 rounded-2xl bg-zinc-50 dark:bg-zinc-900 border border-zinc-700 dark:border-zinc-800 shadow-sm">
+                  <div className="p-4 rounded-2xl bg-zinc-50 dark:bg-zinc-900 border border-zinc-100 dark:border-zinc-800 shadow-sm">
                     <p className="text-[9px] font-black uppercase tracking-[0.2em] text-zinc-500 mb-2">Nivel de Riesgo</p>
                     {(() => {
                       const riesgoNombre = selectedCliente.riesgo?.nombre || selectedCliente.nivelRiesgo || "BAJO";
@@ -1302,7 +1302,7 @@ export function ClienteList({ initialClientes, initialDepartments = [], initialM
                     })()}
                   </div>
 
-                  <div className="p-4 rounded-2xl bg-zinc-50 dark:bg-zinc-900 border border-zinc-700 dark:border-zinc-800 shadow-sm">
+                  <div className="p-4 rounded-2xl bg-zinc-50 dark:bg-zinc-900 border border-zinc-100 dark:border-zinc-800 shadow-sm">
                     <p className="text-[9px] font-black uppercase tracking-[0.2em] text-zinc-500 mb-2">Plan Actual</p>
                     <div className="flex items-center gap-3">
                       <div className="h-8 w-8 rounded-lg bg-emerald-500/10 flex items-center justify-center text-emerald-600">
@@ -1320,7 +1320,7 @@ export function ClienteList({ initialClientes, initialDepartments = [], initialM
                   <h3 className="text-[10px] font-black uppercase tracking-[0.3em] text-zinc-500 flex items-center gap-3 px-1">
                     <Fingerprint className="h-4 w-4 text-azul-1" /> Identidad y Perfil Corporativo
                   </h3>
-                  <div className="grid grid-cols-2 md:grid-cols-4 gap-4 bg-zinc-50 dark:bg-zinc-900 p-6 rounded-3xl border border-zinc-700 dark:border-zinc-800">
+                  <div className="grid grid-cols-2 md:grid-cols-4 gap-4 bg-zinc-50 dark:bg-zinc-900 p-6 rounded-3xl border border-zinc-100 dark:border-zinc-800">
                     <div className="space-y-1">
                       <p className="text-[9px] font-black text-zinc-500 uppercase">Tipo Documento</p>
                       <p className={cn("text-xs font-black", selectedCliente.tipoDocumento ? "text-zinc-900 dark:text-zinc-100" : "text-zinc-500 dark:text-zinc-500")}>
@@ -1379,22 +1379,22 @@ export function ClienteList({ initialClientes, initialDepartments = [], initialM
                       <Phone className="h-4 w-4 text-emerald-600" /> Líneas de Contacto
                     </h3>
                     <div className="space-y-3">
-                      <div className="flex items-center gap-4 p-4 bg-zinc-50 dark:bg-zinc-900 rounded-2xl border border-zinc-700 dark:border-zinc-800">
-                        <div className="h-10 w-10 rounded-xl bg-white dark:bg-zinc-800 flex items-center justify-center text-zinc-500 shadow-sm border border-zinc-700"><Phone className="h-5 w-5" /></div>
+                      <div className="flex items-center gap-4 p-4 bg-zinc-50 dark:bg-zinc-900 rounded-2xl border border-zinc-100 dark:border-zinc-800">
+                        <div className="h-10 w-10 rounded-xl bg-white dark:bg-zinc-800 flex items-center justify-center text-zinc-500 shadow-sm border border-zinc-100"><Phone className="h-5 w-5" /></div>
                         <div className="flex-1">
                           <p className="text-[9px] font-black text-zinc-500 uppercase tracking-widest">Teléfono Principal</p>
                           <p className="text-sm font-bold text-zinc-900 dark:text-zinc-100">{selectedCliente.telefono}</p>
                         </div>
                       </div>
-                      <div className="flex items-center gap-4 p-4 bg-zinc-50 dark:bg-zinc-900 rounded-2xl border border-zinc-700 dark:border-zinc-800">
-                        <div className="h-10 w-10 rounded-xl bg-white dark:bg-zinc-800 flex items-center justify-center text-zinc-500 shadow-sm border border-zinc-700"><Phone className="h-5 w-5" /></div>
+                      <div className="flex items-center gap-4 p-4 bg-zinc-50 dark:bg-zinc-900 rounded-2xl border border-zinc-100 dark:border-zinc-800">
+                        <div className="h-10 w-10 rounded-xl bg-white dark:bg-zinc-800 flex items-center justify-center text-zinc-500 shadow-sm border border-zinc-100"><Phone className="h-5 w-5" /></div>
                         <div className="flex-1">
                           <p className="text-[9px] font-black text-zinc-500 uppercase tracking-widest">Teléfono Secundario</p>
                           <p className="text-sm font-bold text-zinc-900 dark:text-zinc-100">{selectedCliente.telefono2 || "N/A"}</p>
                         </div>
                       </div>
-                      <div className="flex items-center gap-4 p-4 bg-zinc-50 dark:bg-zinc-900 rounded-2xl border border-zinc-700 dark:border-zinc-800">
-                        <div className="h-10 w-10 rounded-xl bg-white dark:bg-zinc-800 flex items-center justify-center text-zinc-500 shadow-sm border border-zinc-700"><Mail className="h-5 w-5" /></div>
+                      <div className="flex items-center gap-4 p-4 bg-zinc-50 dark:bg-zinc-900 rounded-2xl border border-zinc-100 dark:border-zinc-800">
+                        <div className="h-10 w-10 rounded-xl bg-white dark:bg-zinc-800 flex items-center justify-center text-zinc-500 shadow-sm border border-zinc-100"><Mail className="h-5 w-5" /></div>
                         <div className="flex-1">
                           <p className="text-[9px] font-black text-zinc-500 uppercase tracking-widest">Correo Electrónico</p>
                           <p className="text-sm font-bold text-zinc-900 dark:text-zinc-100">{selectedCliente.correo || "Sin correo"}</p>
@@ -1407,7 +1407,7 @@ export function ClienteList({ initialClientes, initialDepartments = [], initialM
                     <h3 className="text-[10px] font-black uppercase tracking-[0.3em] text-zinc-500 flex items-center gap-3 px-1">
                       <Calendar className="h-4 w-4 text-purple-600" /> Cronología y Métricas
                     </h3>
-                    <div className="bg-zinc-50 dark:bg-zinc-900 p-6 rounded-3xl border border-zinc-700 dark:border-zinc-800 grid grid-cols-2 gap-y-6 gap-x-4">
+                    <div className="bg-zinc-50 dark:bg-zinc-900 p-6 rounded-3xl border border-zinc-100 dark:border-zinc-800 grid grid-cols-2 gap-y-6 gap-x-4">
                       <div className="space-y-1">
                         <p className="text-[9px] font-black text-zinc-500 uppercase">Creado El</p>
                         <p className="text-xs font-black text-zinc-900 dark:text-zinc-100">{selectedCliente.createdAt ? new Date(selectedCliente.createdAt).toLocaleDateString() : "N/A"}</p>
@@ -1455,20 +1455,20 @@ export function ClienteList({ initialClientes, initialDepartments = [], initialM
                   </div>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     {selectedCliente.direcciones?.map((dir, idx) => (
-                      <div key={idx} className="p-6 rounded-3xl bg-zinc-50 dark:bg-zinc-900 border border-zinc-700 dark:border-zinc-800 relative group overflow-hidden">
+                      <div key={idx} className="p-6 rounded-3xl bg-zinc-50 dark:bg-zinc-900 border border-zinc-100 dark:border-zinc-800 relative group overflow-hidden">
                         <div className="absolute top-0 left-0 w-1.5 h-full bg-azul-1/20 group-hover:bg-azul-1 transition-colors" />
                         <div className="flex justify-between items-start mb-4">
                           <div className="flex items-center gap-2">
                             <MapPin className="h-4 w-4 text-azul-1" />
                             <span className="text-[10px] font-black text-zinc-500 uppercase tracking-widest">{dir.nombreSede || `SEDE #${idx + 1}`}</span>
                           </div>
-                          <span className="text-[9px] font-black px-2 py-0.5 rounded bg-white dark:bg-zinc-800 border border-zinc-700 dark:border-zinc-700 text-zinc-600 uppercase">
+                          <span className="text-[9px] font-black px-2 py-0.5 rounded bg-white dark:bg-zinc-800 border border-zinc-100 dark:border-zinc-100 text-zinc-600 uppercase">
                             {dir.tipoUbicacion || "No Def."}
                           </span>
                         </div>
                         <h4 className="text-sm font-black text-zinc-900 dark:text-zinc-100 mb-4">{dir.direccion}</h4>
 
-                        <div className="grid grid-cols-2 gap-y-4 gap-x-2 border-t border-zinc-700 dark:border-zinc-800 pt-4">
+                        <div className="grid grid-cols-2 gap-y-4 gap-x-2 border-t border-zinc-100 dark:border-zinc-800 pt-4">
                           <div className="space-y-1">
                             <p className="text-[9px] font-black text-zinc-500 uppercase">Municipio</p>
                             <p className="text-xs font-black text-zinc-800 dark:text-zinc-300">{dir.municipio || "N/A"}</p>
@@ -1499,7 +1499,7 @@ export function ClienteList({ initialClientes, initialDepartments = [], initialM
                       </div>
                     ))}
                     {(!selectedCliente.direcciones || selectedCliente.direcciones.length === 0) && (
-                      <div className="col-span-2 py-10 text-center border-2 border-dashed border-zinc-700 dark:border-zinc-800 rounded-3xl">
+                      <div className="col-span-2 py-10 text-center border-2 border-dashed border-zinc-100 dark:border-zinc-800 rounded-3xl">
                         <MapPin className="h-8 w-8 text-zinc-400 mx-auto mb-3" />
                         <p className="text-xs font-bold text-zinc-500 uppercase tracking-widest">Sin sedes operativas vinculadas</p>
                       </div>
@@ -1519,8 +1519,8 @@ export function ClienteList({ initialClientes, initialDepartments = [], initialM
                   </div>
                   <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                     {selectedCliente.vehiculos?.map((veh, idx) => (
-                      <div key={idx} className="p-4 bg-zinc-50 dark:bg-zinc-900 rounded-2xl border border-zinc-700 dark:border-zinc-800 flex flex-col items-center text-center group transition-all hover:border-zinc-900 dark:hover:border-white shadow-sm">
-                        <div className="h-12 w-12 rounded-xl bg-white dark:bg-zinc-800 border border-zinc-700 flex items-center justify-center mb-3 text-zinc-500 group-hover:text-zinc-900 dark:group-hover:text-white transition-colors shadow-sm">
+                      <div key={idx} className="p-4 bg-zinc-50 dark:bg-zinc-900 rounded-2xl border border-zinc-100 dark:border-zinc-800 flex flex-col items-center text-center group transition-all hover:border-zinc-900 dark:hover:border-white shadow-sm">
+                        <div className="h-12 w-12 rounded-xl bg-white dark:bg-zinc-800 border border-zinc-100 flex items-center justify-center mb-3 text-zinc-500 group-hover:text-zinc-900 dark:group-hover:text-white transition-colors shadow-sm">
                           <Settings className="h-6 w-6" />
                         </div>
                         <p className="text-xs font-black text-zinc-900 dark:text-zinc-100 uppercase tracking-widest mb-1">{veh.placa}</p>
@@ -1528,7 +1528,7 @@ export function ClienteList({ initialClientes, initialDepartments = [], initialM
                       </div>
                     ))}
                     {(!selectedCliente.vehiculos || selectedCliente.vehiculos.length === 0) && (
-                      <div className="col-span-4 py-8 text-center border-2 border-dashed border-zinc-700 dark:border-zinc-800 rounded-3xl">
+                      <div className="col-span-4 py-8 text-center border-2 border-dashed border-zinc-100 dark:border-zinc-800 rounded-3xl">
                         <p className="text-[10px] font-black text-zinc-500 uppercase tracking-[0.2em]">Sin vehículos registrados en el sistema</p>
                       </div>
                     )}
@@ -1538,7 +1538,7 @@ export function ClienteList({ initialClientes, initialDepartments = [], initialM
               </div>
 
                             {/* Footer con Acciones */}
-                            <div className="shrink-0 p-8 bg-white dark:bg-zinc-900 border-t border-zinc-700 dark:border-zinc-800 flex gap-4">
+                            <div className="shrink-0 p-8 bg-white dark:bg-zinc-900 border-t border-zinc-100 dark:border-zinc-800 flex gap-4">
                               <button
                                 onClick={() => router.push(`/dashboard/clientes/${selectedCliente.id}/editar`)}
                                 className="flex-1 h-14 rounded-2xl bg-azul-1 text-xs font-black uppercase tracking-[0.2em] text-white transition-all hover:bg-blue-700 active:scale-[0.98] shadow-xl shadow-azul-1/25"
@@ -1547,7 +1547,7 @@ export function ClienteList({ initialClientes, initialDepartments = [], initialM
                               </button>
                               <button
                                 onClick={() => setSelectedCliente(null)}
-                                className="px-10 h-14 rounded-2xl border-2 border-zinc-700 dark:border-zinc-800 text-xs font-black uppercase tracking-[0.2em] text-zinc-600 dark:text-zinc-300 hover:bg-zinc-100 dark:hover:bg-zinc-800 hover:text-zinc-900 dark:hover:text-zinc-200 transition-all bg-white dark:bg-transparent"
+                                className="px-10 h-14 rounded-2xl border-2 border-zinc-100 dark:border-zinc-800 text-xs font-black uppercase tracking-[0.2em] text-zinc-600 dark:text-zinc-300 hover:bg-zinc-100 dark:hover:bg-zinc-800 hover:text-zinc-900 dark:hover:text-zinc-200 transition-all bg-white dark:bg-transparent"
                               >
                                 Cerrar
                               </button>
@@ -1568,7 +1568,7 @@ export function ClienteList({ initialClientes, initialDepartments = [], initialM
           {selectedClienteForConfig && (
             <div className="flex flex-col h-[85vh] bg-white dark:bg-zinc-950">
               {/* Header Contextual */}
-              <div className="shrink-0 p-8 border-b border-zinc-700 dark:border-zinc-800 bg-zinc-50/50 dark:bg-zinc-900/30 flex items-center justify-between">
+              <div className="shrink-0 p-8 border-b border-zinc-100 dark:border-zinc-800 bg-zinc-50/50 dark:bg-zinc-900/30 flex items-center justify-between">
                 <div className="flex items-center gap-5">
                   <div className="h-14 w-14 rounded-2xl bg-azul-1 flex items-center justify-center text-white shadow-lg shadow-azul-1/20">
                     <Settings className="h-7 w-7 dark:text-zinc-300" />
@@ -1617,7 +1617,7 @@ export function ClienteList({ initialClientes, initialDepartments = [], initialM
                         <Select
                           value={currentConfigSede}
                           onChange={(e) => handleSedeChange(e.target.value)}
-                          className="h-11 text-xs font-bold bg-white border-zinc-700"
+                          className="h-11 text-xs font-bold bg-white border-zinc-100"
                         >
                           <option value="all">Todas las Sedes (Global)</option>
                           {selectedClienteForConfig.direcciones?.map((dir, i) => (
@@ -1637,7 +1637,7 @@ export function ClienteList({ initialClientes, initialDepartments = [], initialM
                           <textarea
                             value={configForm.protocoloServicio}
                             onChange={(e) => setConfigForm(prev => ({ ...prev, protocoloServicio: e.target.value }))}
-                            className="w-full h-40 p-4 rounded-2xl bg-zinc-50 dark:bg-zinc-900 border border-zinc-700 dark:border-zinc-800 text-xs font-medium text-zinc-800 dark:text-zinc-300 focus:ring-2 focus:ring-azul-1/20 focus:border-azul-1 transition-all resize-none"
+                            className="w-full h-40 p-4 rounded-2xl bg-zinc-50 dark:bg-zinc-900 border border-zinc-100 dark:border-zinc-800 text-xs font-medium text-zinc-800 dark:text-zinc-300 focus:ring-2 focus:ring-azul-1/20 focus:border-azul-1 transition-all resize-none"
                             placeholder="Escribe aquí las instrucciones fijas para el técnico (EPP requerido, químicos permitidos, restricciones de acceso...)"
                           />
                           <p className="text-[9px] font-bold text-zinc-500 italic">* Este texto se precargará automáticamente en todas las futuras órdenes de servicio.</p>
@@ -1650,7 +1650,7 @@ export function ClienteList({ initialClientes, initialDepartments = [], initialM
                           <textarea
                             value={configForm.observacionesFijas}
                             onChange={(e) => setConfigForm(prev => ({ ...prev, observacionesFijas: e.target.value }))}
-                            className="w-full h-32 p-4 rounded-2xl bg-zinc-50 dark:bg-zinc-900 border border-zinc-700 dark:border-zinc-800 text-xs font-medium text-zinc-800 dark:text-zinc-300 focus:ring-2 focus:ring-amber-500/20 focus:border-amber-500 transition-all resize-none"
+                            className="w-full h-32 p-4 rounded-2xl bg-zinc-50 dark:bg-zinc-900 border border-zinc-100 dark:border-zinc-800 text-xs font-medium text-zinc-800 dark:text-zinc-300 focus:ring-2 focus:ring-amber-500/20 focus:border-amber-500 transition-all resize-none"
                             placeholder="Notas internas para el personal de oficina (condiciones de pago, horarios de atención, contactos de emergencia...)"
                           />
                         </div>
@@ -1663,26 +1663,26 @@ export function ClienteList({ initialClientes, initialDepartments = [], initialM
                             <Clock className="h-4 w-4 text-emerald-600" /> Parámetros de Agendamiento
                           </h3>
                           <div className="grid grid-cols-2 gap-4">
-                            <div className="p-4 rounded-2xl bg-white dark:bg-zinc-900 border border-zinc-700 dark:border-zinc-800 shadow-sm">
+                            <div className="p-4 rounded-2xl bg-white dark:bg-zinc-900 border border-zinc-100 dark:border-zinc-800 shadow-sm">
                               <Label className="text-[9px] font-black uppercase tracking-widest text-zinc-500 mb-2 block">Duración Estimada</Label>
                               <div className="flex items-center gap-2">
                                 <Input
                                   type="number"
                                   value={configForm.duracionEstimada}
                                   onChange={(e) => setConfigForm(prev => ({ ...prev, duracionEstimada: parseInt(e.target.value) || 0 }))}
-                                  className="h-9 text-xs font-black w-20 border-zinc-700"
+                                  className="h-9 text-xs font-black w-20 border-zinc-100"
                                 />
                                 <span className="text-[10px] font-bold text-zinc-600 uppercase">Minutos</span>
                               </div>
                             </div>
-                            <div className="p-4 rounded-2xl bg-white dark:bg-zinc-900 border border-zinc-700 dark:border-zinc-800 shadow-sm">
+                            <div className="p-4 rounded-2xl bg-white dark:bg-zinc-900 border border-zinc-100 dark:border-zinc-800 shadow-sm">
                               <Label className="text-[9px] font-black uppercase tracking-widest text-zinc-500 mb-2 block">Frecuencia Sugerida</Label>
                               <div className="flex items-center gap-2">
                                 <Input
                                   type="number"
                                   value={configForm.frecuenciaSugerida}
                                   onChange={(e) => setConfigForm(prev => ({ ...prev, frecuenciaSugerida: parseInt(e.target.value) || 0 }))}
-                                  className="h-9 text-xs font-black w-20 border-zinc-700"
+                                  className="h-9 text-xs font-black w-20 border-zinc-100"
                                 />
                                 <span className="text-[10px] font-bold text-zinc-600 uppercase">Días</span>
                               </div>
@@ -1694,7 +1694,7 @@ export function ClienteList({ initialClientes, initialDepartments = [], initialM
                           <h3 className="text-[10px] font-black uppercase tracking-[0.2em] text-zinc-500 flex items-center gap-2">
                             <ShieldCheck className="h-4 w-4 text-purple-600" /> Reglas de Validación
                           </h3>
-                          <div className="space-y-3 bg-zinc-50 dark:bg-zinc-900 p-6 rounded-3xl border border-zinc-700 dark:border-zinc-800">
+                          <div className="space-y-3 bg-zinc-50 dark:bg-zinc-900 p-6 rounded-3xl border border-zinc-100 dark:border-zinc-800">
                             <label className="flex items-center justify-between cursor-pointer group">
                               <div className="flex flex-col">
                                 <span className="text-xs font-black text-zinc-900 dark:text-zinc-100 uppercase tracking-tight">Firma Digital Obligatoria</span>
@@ -1741,14 +1741,14 @@ export function ClienteList({ initialClientes, initialDepartments = [], initialM
                           </h3>
                           
                           {/* Formulario rápido para nuevo elemento */}
-                          <div className="grid grid-cols-3 gap-2 bg-zinc-50 dark:bg-zinc-900 p-3 rounded-2xl border border-zinc-700 dark:border-zinc-800">
+                          <div className="grid grid-cols-3 gap-2 bg-zinc-50 dark:bg-zinc-900 p-3 rounded-2xl border border-zinc-100 dark:border-zinc-800">
                             <div className="space-y-1">
                               <Label className="text-[8px] font-black text-zinc-500 uppercase">Nombre / Tag</Label>
                               <Input 
                                 placeholder="Eje: Estación 01" 
                                 value={newElement.nombre}
                                 onChange={(e) => setNewElement(prev => ({ ...prev, nombre: e.target.value }))}
-                                className="h-8 text-[10px] border-zinc-700"
+                                className="h-8 text-[10px] border-zinc-100"
                               />
                             </div>
                             <div className="space-y-1">
@@ -1756,7 +1756,7 @@ export function ClienteList({ initialClientes, initialDepartments = [], initialM
                               <Select 
                                 value={newElement.tipo}
                                 onChange={(e) => setNewElement(prev => ({ ...prev, tipo: e.target.value }))}
-                                className="h-8 text-[10px] border-zinc-700"
+                                className="h-8 text-[10px] border-zinc-100"
                               >
                                 <option value="Estación de Cebo">Estación de Cebo</option>
                                 <option value="Trampa de Luz">Trampa de Luz</option>
@@ -1782,7 +1782,7 @@ export function ClienteList({ initialClientes, initialDepartments = [], initialM
                                 placeholder="Eje: Pasillo de servicio, al lado de la puerta principal" 
                                 value={newElement.ubicacion}
                                 onChange={(e) => setNewElement(prev => ({ ...prev, ubicacion: e.target.value }))}
-                                className="h-8 text-[10px] border-zinc-700"
+                                className="h-8 text-[10px] border-zinc-100"
                               />
                             </div>
                           </div>
@@ -1790,14 +1790,14 @@ export function ClienteList({ initialClientes, initialDepartments = [], initialM
                           {/* Lista de elementos agregados */}
                           <div className="space-y-2 mt-4">
                             {configForm.elementosPredefinidos.length === 0 ? (
-                              <div className="border-2 border-dashed border-zinc-700 dark:border-zinc-800 rounded-2xl p-6 text-center">
+                              <div className="border-2 border-dashed border-zinc-100 dark:border-zinc-800 rounded-2xl p-6 text-center">
                                 <p className="text-[10px] font-bold text-zinc-500 uppercase tracking-widest">No hay elementos configurados</p>
                                 <p className="text-[9px] font-medium text-zinc-400 mt-1 lowercase italic">Ej: Trampas de luz, Extintores, Aires acondicionados...</p>
                               </div>
                             ) : (
                               <div className="max-h-48 overflow-y-auto space-y-2 pr-2 custom-scrollbar">
                                 {configForm.elementosPredefinidos.map((el, i) => (
-                                  <div key={i} className="flex items-center justify-between p-3 rounded-xl bg-white dark:bg-zinc-800 border border-zinc-700 dark:border-zinc-700 shadow-sm group">
+                                  <div key={i} className="flex items-center justify-between p-3 rounded-xl bg-white dark:bg-zinc-800 border border-zinc-100 dark:border-zinc-100 shadow-sm group">
                                     <div className="flex items-center gap-3">
                                       <div className="h-8 w-8 rounded-lg bg-blue-50 dark:bg-blue-500/10 flex items-center justify-center text-blue-600 border border-blue-100">
                                         <Box className="h-4 w-4" />
@@ -1829,7 +1829,7 @@ export function ClienteList({ initialClientes, initialDepartments = [], initialM
               </div>
 
               {/* Footer de Acciones */}
-              <div className="shrink-0 p-8 border-t border-zinc-700 dark:border-zinc-800 bg-white dark:bg-zinc-950 flex items-center justify-end gap-4">
+              <div className="shrink-0 p-8 border-t border-zinc-100 dark:border-zinc-800 bg-white dark:bg-zinc-950 flex items-center justify-end gap-4">
                 <button
                   onClick={() => setSelectedClienteForConfig(null)}
                   disabled={configLoading}
@@ -1862,7 +1862,7 @@ export function ClienteList({ initialClientes, initialDepartments = [], initialM
           {selectedClienteForHistory && (
             <div className="flex flex-col h-[85vh] bg-white dark:bg-zinc-950">
               {/* Header con Info del Cliente */}
-              <div className="shrink-0 p-8 border-b border-zinc-700 dark:border-zinc-800 bg-zinc-50/50 dark:bg-zinc-900/30 flex items-center justify-between">
+              <div className="shrink-0 p-8 border-b border-zinc-100 dark:border-zinc-800 bg-zinc-50/50 dark:bg-zinc-900/30 flex items-center justify-between">
                 <div className="flex items-center gap-5">
                   <div className="h-14 w-14 rounded-2xl bg-azul-1 flex items-center justify-center text-white shadow-lg shadow-azul-1/20">
                     <Calendar className="h-7 w-7 dark:text-zinc-300" />
@@ -1892,7 +1892,7 @@ export function ClienteList({ initialClientes, initialDepartments = [], initialM
                   </div>
                 ) : serviceHistory.length === 0 ? (
                   <div className="flex flex-col items-center justify-center py-20 text-center">
-                    <div className="h-20 w-20 rounded-full bg-zinc-50 dark:bg-zinc-900 flex items-center justify-center mb-4 border border-zinc-700">
+                    <div className="h-20 w-20 rounded-full bg-zinc-50 dark:bg-zinc-900 flex items-center justify-center mb-4 border border-zinc-100">
                       <Search className="h-10 w-10 text-zinc-300" />
                     </div>
                     <h3 className="text-sm font-black text-zinc-500 uppercase tracking-widest">Sin Servicios Previos</h3>
@@ -1901,17 +1901,17 @@ export function ClienteList({ initialClientes, initialDepartments = [], initialM
                 ) : (
                   <div className="space-y-4">
                     {serviceHistory.map((orden: OrdenServicio) => (
-                      <div key={orden.id} className="p-6 rounded-3xl bg-white dark:bg-zinc-900 border border-zinc-700 dark:border-zinc-800 hover:border-azul-1 transition-all group shadow-sm">
+                      <div key={orden.id} className="p-6 rounded-3xl bg-white dark:bg-zinc-900 border border-zinc-100 dark:border-zinc-800 hover:border-azul-1 transition-all group shadow-sm">
                         <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
                           <div className="flex items-center gap-5">
-                            <div className="h-12 w-12 rounded-2xl bg-zinc-50 dark:bg-zinc-800 flex items-center justify-center text-zinc-500 group-hover:text-azul-1 transition-colors border border-zinc-700">
+                            <div className="h-12 w-12 rounded-2xl bg-zinc-50 dark:bg-zinc-800 flex items-center justify-center text-zinc-500 group-hover:text-azul-1 transition-colors border border-zinc-100">
                               <FileText className="h-6 w-6" />
                             </div>
                             <div>
                               <div className="flex items-center gap-3 mb-1">
                                 <span className="text-xs font-black text-zinc-900 dark:text-zinc-50 uppercase tracking-tight">#{orden.numeroOrden || 'S/N'}</span>
                                 <span className={cn(
-                                  "text-[9px] font-black px-2 py-0.5 rounded-md uppercase border border-zinc-700 shadow-sm",
+                                  "text-[9px] font-black px-2 py-0.5 rounded-md uppercase border border-zinc-100 shadow-sm",
                                   ESTADO_STYLING[orden.estadoServicio] || ESTADO_STYLING["DEFAULT"]
                                 )}>
                                   {orden.estadoServicio}
@@ -1947,7 +1947,7 @@ export function ClienteList({ initialClientes, initialDepartments = [], initialM
                               <p className="text-[9px] font-black text-zinc-500 uppercase tracking-widest">Valor</p>
                               <p className="text-sm font-black text-zinc-900 dark:text-zinc-100 mt-1">${Number(orden.valorCotizado || 0).toLocaleString()}</p>
                             </div>
-                            <button className="h-10 w-10 rounded-xl border border-zinc-700 dark:border-zinc-800 flex items-center justify-center hover:bg-azul-1 hover:text-white transition-all">
+                            <button className="h-10 w-10 rounded-xl border border-zinc-100 dark:border-zinc-800 flex items-center justify-center hover:bg-azul-1 hover:text-white transition-all">
                               <ChevronRight className="h-5 w-5" />
                             </button>
                           </div>
@@ -1959,7 +1959,7 @@ export function ClienteList({ initialClientes, initialDepartments = [], initialM
               </div>
 
               {/* Footer */}
-              <div className="shrink-0 p-8 border-t border-zinc-700 dark:border-zinc-800 bg-white dark:bg-zinc-950 flex items-center justify-end">
+              <div className="shrink-0 p-8 border-t border-zinc-100 dark:border-zinc-800 bg-white dark:bg-zinc-950 flex items-center justify-end">
                 <button 
                   onClick={() => setSelectedClienteForHistory(null)}
                   className="px-10 h-12 rounded-xl bg-azul-1 dark:bg-azul-1 text-white dark:text-zinc-300 text-xs font-black uppercase tracking-widest hover:bg-azul-1/90 dark:hover:bg-azul-1/90 transition-all shadow-lg shadow-azul-1/20"
@@ -1999,10 +1999,10 @@ export function ClienteList({ initialClientes, initialDepartments = [], initialM
                 </p>
               </div>
 
-              <div className="p-6 bg-white dark:bg-zinc-900/50 border-t border-zinc-700 dark:border-zinc-800 flex gap-3">
+              <div className="p-6 bg-white dark:bg-zinc-900/50 border-t border-zinc-100 dark:border-zinc-800 flex gap-3">
                 <button
                   onClick={() => setClienteToDelete(null)}
-                  className="flex-1 h-12 rounded-xl text-xs font-black uppercase tracking-widest text-zinc-600 hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-all border border-zinc-700 dark:border-zinc-800 bg-white dark:bg-zinc-900"
+                  className="flex-1 h-12 rounded-xl text-xs font-black uppercase tracking-widest text-zinc-600 hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-all border border-zinc-100 dark:border-zinc-800 bg-white dark:bg-zinc-900"
                 >
                   Cancelar
                 </button>

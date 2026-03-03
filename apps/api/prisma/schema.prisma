@@ -390,10 +390,10 @@ model Cliente {
   empresaId                 String?                         @db.Uuid
   nombre                    String?
   apellido                  String?
-  telefono                  String
+  telefono                  String                          @unique
   telefono2                 String?
   correo                    String?
-  numeroDocumento           String?
+  numeroDocumento           String?                         @unique
   tipoDocumento             String?
   registroDocumento         String?
   documentoPath             String?
