@@ -528,14 +528,14 @@ function EquipoTrabajoContent() {
           </div>
 
           {/* Custom Tabs */}
-          <div className="flex gap-2 border-b border-zinc-100 dark:border-zinc-800 pb-px">
+          <div className="flex gap-2 border-b border-[#706F71]/10 pb-px">
             <button
               onClick={() => handleTabChange("ranking")}
               className={cn(
                 "px-6 py-4 text-sm font-black uppercase tracking-widest transition-all relative",
                 activeTab === "ranking"
-                  ? "text-azul-1 after:absolute after:bottom-0 after:left-0 after:h-1 after:w-full after:bg-azul-1"
-                  : "text-zinc-400 hover:text-zinc-600 dark:hover:text-zinc-200"
+                  ? "text-[#01ADFB] after:absolute after:bottom-0 after:left-0 after:h-1 after:w-full after:bg-[#01ADFB]"
+                  : "text-[#706F71] hover:text-black"
               )}
             >
               Ranking de Usuarios
@@ -545,8 +545,8 @@ function EquipoTrabajoContent() {
               className={cn(
                 "px-6 py-4 text-sm font-black uppercase tracking-widest transition-all relative",
                 activeTab === "usuarios"
-                  ? "text-azul-1 after:absolute after:bottom-0 after:left-0 after:h-1 after:w-full after:bg-azul-1"
-                  : "text-zinc-400 hover:text-zinc-600 dark:hover:text-zinc-200"
+                  ? "text-[#01ADFB] after:absolute after:bottom-0 after:left-0 after:h-1 after:w-full after:bg-[#01ADFB]"
+                  : "text-[#706F71] hover:text-black"
               )}
             >
               Listado de Usuarios
@@ -560,100 +560,28 @@ function EquipoTrabajoContent() {
                 {/* Search, Filters & Export Bar */}
                 <div className="flex flex-col gap-4 mb-2">
                   <div className="flex flex-col xl:flex-row items-center justify-between gap-4">
-                    {/* Search & Role Bar */}
                     <div className="flex flex-col sm:flex-row gap-4 w-full xl:w-auto">
-                      <div className="relative w-full sm:w-80 shrink-0">
-                        <Search className="absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-zinc-400 z-10" />
+                      <div className="relative w-full sm:w-80 group">
+                        <Search className="absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-[#706F71] group-focus-within:text-[#01ADFB] z-10" />
                         <input
                           type="text"
                           placeholder="Buscar usuario..."
                           value={nameQuery}
                           onChange={(e) => setNameQuery(e.target.value)}
-                          className="h-[60px] w-full rounded-xl border border-zinc-200 bg-zinc-50 pl-11 pr-4 text-xs font-medium outline-none transition-all focus:border-azul-1 focus:bg-white dark:border-zinc-800 dark:bg-zinc-900 dark:text-zinc-50 dark:focus:bg-zinc-950 shadow-sm"
-                        />
-                      </div>
-                      <div className="w-full sm:w-64">
-                        <Combobox
-                          options={[
-                            { value: "", label: "Todos los roles de gestión" },
-                            ...["ADMIN", "SU_ADMIN", "COORDINADOR", "ASESOR"].map(role => ({ value: role, label: role }))
-                          ]}
-                          value={roleQuery}
-                          onChange={setRoleQuery}
-                          placeholder="Filtrar por rol..."
-                          className="h-[60px]"
-                          hideSearch
+                          className="h-[60px] w-full rounded-xl border-none bg-white pl-11 pr-4 text-xs font-bold shadow-sm ring-1 ring-[#706F71]/20 focus:ring-2 focus:ring-[#01ADFB]/20 transition-all outline-none"
                         />
                       </div>
                     </div>
 
-                    {/* Date Filter & Export */}
-                    <div className="flex flex-col sm:flex-row items-center gap-4 p-3 bg-zinc-50 dark:bg-zinc-900 border border-zinc-100 dark:border-zinc-800 rounded-xl w-full xl:w-fit">
-                      <div className="flex flex-col sm:flex-row items-center gap-3 w-full sm:w-auto overflow-x-auto">
-                        {/* Hoy / Ayer Toggle */}
-                        <div className="flex items-center p-1 bg-white dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-lg shrink-0">
-                          <button 
-                            onClick={setRangeToday}
-                            className={cn(
-                              "px-4 py-1.5 text-xs font-bold rounded-md transition-all",
-                              isToday 
-                                ? "bg-white dark:bg-zinc-800 text-zinc-900 dark:text-zinc-50 shadow-sm border border-zinc-100 dark:border-zinc-700" 
-                                : "text-zinc-500 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-50"
-                            )}
-                          >
-                            Hoy
-                          </button>
-                          <button 
-                            onClick={setRangeYesterday}
-                            className={cn(
-                              "px-4 py-1.5 text-xs font-bold rounded-md transition-all",
-                              isYesterday 
-                                ? "bg-white dark:bg-zinc-800 text-zinc-900 dark:text-zinc-50 shadow-sm border border-zinc-100 dark:border-zinc-700" 
-                                : "text-zinc-500 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-50"
-                            )}
-                          >
-                            Ayer
-                          </button>
-                        </div>
-
-                        {/* Date Range Picker */}
-                        <div className="flex items-center gap-2 shrink-0">
-                          <DatePicker 
-                            date={startDate} 
-                            onChange={setStartDate} 
-                            className="h-9 w-32 px-3 text-[10px] rounded-lg bg-white dark:bg-zinc-950 border-zinc-200 dark:border-zinc-800" 
-                            placeholder="Desde..."
-                          />
-                          <span className="text-zinc-300 dark:text-zinc-700">-</span>
-                          <DatePicker 
-                            date={endDate} 
-                            onChange={setEndDate} 
-                            className="h-9 w-32 px-3 text-[10px] rounded-lg bg-white dark:bg-zinc-950 border-zinc-200 dark:border-zinc-800" 
-                            placeholder="Hasta..."
-                          />
-                        </div>
-                      </div>
-
-                      {/* Export Button */}
+                    <div className="flex flex-col sm:flex-row items-center gap-4 p-3 bg-white/40 backdrop-blur-md border border-white rounded-xl w-full xl:w-fit shadow-sm">
                       <button 
                         onClick={handleExportExcel}
-                        className="flex items-center justify-center gap-2 h-9 px-4 rounded-lg bg-emerald-50 dark:bg-emerald-500/10 border border-emerald-200 dark:border-emerald-500/20 text-emerald-700 text-xs font-bold transition-all hover:bg-emerald-100 dark:hover:bg-emerald-500/20 shrink-0 w-full sm:w-auto"
+                        className="flex items-center justify-center gap-2 h-10 px-6 rounded-lg bg-[#01ADFB] text-white text-[11px] font-black uppercase tracking-widest shadow-lg shadow-[#01ADFB]/20 transition-all active:scale-95"
                       >
                         <Download className="h-4 w-4" />
-                        Excel
+                        Exportar Excel
                       </button>
                     </div>
-                  </div>
-
-                  {/* Reset Button */}
-                  <div className="flex justify-end">
-                    <button 
-                      onClick={resetFilters}
-                      className="text-[10px] font-black uppercase tracking-widest text-zinc-400 hover:text-azul-1 transition-colors flex items-center gap-2"
-                    >
-                      <X className="h-3 w-3" />
-                      Limpiar Filtros
-                    </button>
                   </div>
                 </div>
 
@@ -661,34 +589,27 @@ function EquipoTrabajoContent() {
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-4">
                   {filteredUsers.slice(0, 3).map((user, index) => (
                     <Card key={user.id} className={cn(
-                      "relative overflow-hidden border-none transition-all hover:scale-[1.02]",
-                      index === 0 ? "bg-azul-1 dark:bg-zinc-800 text-white dark:text-zinc-50 scale-105 z-10 shadow-xl dark:border-2 dark:border-azul-1/50" : "bg-white dark:bg-zinc-900 shadow-xl dark:shadow-none"
+                      "relative overflow-hidden border border-white bg-white/60 backdrop-blur-md transition-all hover:scale-[1.02] shadow-sm",
+                      index === 0 ? "scale-105 z-10 ring-2 ring-[#01ADFB]" : ""
                     )}>
                       <CardContent className="pt-8 text-center">
-                        <div className={cn("relative mx-auto mb-4 flex h-20 w-20 items-center justify-center rounded-2xl text-2xl font-black shadow-inner text-white", user.color)}>
+                        <div className={cn("relative mx-auto mb-4 flex h-20 w-20 items-center justify-center rounded-2xl text-2xl font-black shadow-lg text-white", index === 0 ? "bg-[#021359]" : "bg-[#706F71]")}>
                           {index === 0 && (
-                            <div className="absolute -top-3 -right-3 h-8 w-8 rounded-full bg-yellow-400 flex items-center justify-center shadow-lg">
-                              <Trophy className="h-4 w-4 text-yellow-900" />
+                            <div className="absolute -top-3 -right-3 h-8 w-8 rounded-full bg-[#01ADFB] flex items-center justify-center shadow-lg">
+                              <Trophy className="h-4 w-4 text-white" />
                             </div>
                           )}
-                          <span className="text-zinc-950 dark:text-zinc-300">
-                            {user.avatar}
-                          </span>
+                          <span>{user.avatar}</span>
                         </div>
-                        <h3 className={cn("text-xl font-black tracking-tight", index === 0 ? "text-white dark:text-zinc-50" : "text-zinc-900 dark:text-zinc-50")}>
-                          {user.name}
-                        </h3>
+                        <h3 className="text-xl font-black tracking-tight text-black">{user.name}</h3>
                         <div className="mt-4 flex items-center justify-center gap-6">
                           <div className="text-center">
-                            <p className={cn("text-[10px] font-black uppercase tracking-widest opacity-60", index === 0 ? "text-white dark:text-zinc-400" : "text-zinc-400")}>Servicios</p>
-                            <p className="text-xl font-black tabular-nums">{user.services}</p>
+                            <p className="text-[10px] font-black uppercase tracking-widest text-[#706F71] opacity-60">Servicios</p>
+                            <p className="text-xl font-black text-black tabular-nums">{user.services}</p>
                           </div>
                           <div className="text-center">
-                            <p className={cn("text-[10px] font-black uppercase tracking-widest opacity-60", index === 0 ? "text-white dark:text-zinc-400" : "text-zinc-400")}>Rating</p>
-                            <div className="flex items-center justify-center gap-1 font-black tabular-nums">
-                              <Star className={cn("h-3 w-3 fill-current", index === 0 ? "text-yellow-300 dark:text-yellow-400" : "text-yellow-400")} />
-                              {user.rating}
-                            </div>
+                            <p className="text-[10px] font-black uppercase tracking-widest text-[#706F71] opacity-60">Recaudo</p>
+                            <p className="text-sm font-black text-[#01ADFB] tabular-nums">${(user.totalRecaudo/1000).toFixed(1)}k</p>
                           </div>
                         </div>
                       </CardContent>

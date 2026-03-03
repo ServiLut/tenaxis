@@ -176,19 +176,19 @@ interface OrdenServicioRaw {
 }
 
 const ESTADO_STYLING: Record<string, string> = {
-  "NUEVO": "bg-zinc-100 text-zinc-600 border-zinc-700 dark:bg-zinc-900/40 dark:text-zinc-400 dark:border-zinc-800",
-  "PROCESO": "bg-amber-100 text-amber-700 border-zinc-700 dark:bg-zinc-900/30 dark:text-amber-400 dark:border-amber-800/50",
-  "EN PROCESO": "bg-amber-100 text-amber-700 border-zinc-700 dark:bg-zinc-900/30 dark:text-amber-400 dark:border-amber-800/50",
-  "CANCELADO": "bg-red-100 text-red-700 border-zinc-700 dark:bg-zinc-900/30 dark:text-red-400 dark:border-red-800/50",
-  "PROGRAMADO": "bg-blue-100 text-blue-700 border-zinc-700 dark:bg-zinc-900/30 dark:text-blue-400 dark:border-blue-800/50",
-  "LIQUIDADO": "bg-emerald-100 text-emerald-700 border-zinc-700 dark:bg-zinc-900/30 dark:text-emerald-400 dark:border-emerald-800/50",
-  "TECNICO_FINALIZO": "bg-green-100 text-green-900 border-zinc-700 dark:bg-zinc-900/40 dark:text-green-300 dark:border-green-800/50",
-  "TECNICO FINALIZO": "bg-green-100 text-green-900 border-zinc-700 dark:bg-zinc-900/40 dark:text-green-300 dark:border-green-800/50",
-  "TECNICO FINALIZADO": "bg-green-100 text-green-900 border-zinc-700 dark:bg-zinc-900/40 dark:text-green-300 dark:border-green-800/50",
-  "REPROGRAMADO": "bg-indigo-100 text-indigo-700 border-zinc-700 dark:bg-indigo-900/30 dark:text-indigo-400 dark:border-indigo-800/50",
-  "SIN_CONCRETAR": "bg-slate-100 text-slate-700 border-zinc-700 dark:bg-zinc-900/30 dark:text-slate-400 dark:border-slate-800/50",
-  "SIN CONCRETAR": "bg-slate-100 text-slate-700 border-zinc-700 dark:bg-zinc-900/30 dark:text-slate-400 dark:border-slate-800/50",
-  "DEFAULT": "bg-zinc-100 text-zinc-600 border-zinc-700 dark:bg-zinc-900/40 dark:text-zinc-400 dark:border-zinc-800",
+  "NUEVO": "bg-zinc-100 text-zinc-600 border-zinc-100 dark:bg-zinc-900/40 dark:text-zinc-400 dark:border-zinc-800/50",
+  "PROCESO": "bg-amber-100 text-amber-700 border-zinc-100 dark:bg-zinc-900/30 dark:text-amber-400 dark:border-amber-800/50",
+  "EN PROCESO": "bg-amber-100 text-amber-700 border-zinc-100 dark:bg-zinc-900/30 dark:text-amber-400 dark:border-amber-800/50",
+  "CANCELADO": "bg-red-100 text-red-700 border-zinc-100 dark:bg-zinc-900/30 dark:text-red-400 dark:border-red-800/50",
+  "PROGRAMADO": "bg-blue-100 text-blue-700 border-zinc-100 dark:bg-zinc-900/30 dark:text-blue-400 dark:border-blue-800/50",
+  "LIQUIDADO": "bg-emerald-100 text-emerald-700 border-zinc-100 dark:bg-zinc-900/30 dark:text-emerald-400 dark:border-emerald-800/50",
+  "TECNICO_FINALIZO": "bg-green-100 text-green-900 border-zinc-100 dark:bg-zinc-900/40 dark:text-green-300 dark:border-green-800/50",
+  "TECNICO FINALIZO": "bg-green-100 text-green-900 border-zinc-100 dark:bg-zinc-900/40 dark:text-green-300 dark:border-green-800/50",
+  "TECNICO FINALIZADO": "bg-green-100 text-green-900 border-zinc-100 dark:bg-zinc-900/40 dark:text-green-300 dark:border-green-800/50",
+  "REPROGRAMADO": "bg-indigo-100 text-indigo-700 border-zinc-100 dark:bg-indigo-900/30 dark:text-indigo-400 dark:border-indigo-800/50",
+  "SIN_CONCRETAR": "bg-slate-100 text-slate-700 border-zinc-100 dark:bg-zinc-900/30 dark:text-slate-400 dark:border-slate-800/50",
+  "SIN CONCRETAR": "bg-slate-100 text-slate-700 border-zinc-100 dark:bg-zinc-900/30 dark:text-slate-400 dark:border-slate-800/50",
+  "DEFAULT": "bg-zinc-100 text-zinc-600 border-zinc-100 dark:bg-zinc-900/40 dark:text-zinc-400 dark:border-zinc-800/50",
 };
 
 const URGENCIA_STYLING: Record<string, string> = {
@@ -204,7 +204,7 @@ function ServiciosSkeleton({ showKPIs = true }: { showKPIs?: boolean }) {
       {showKPIs && (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 mb-6 shrink-0">
           {[...Array(5)].map((_, i) => (
-            <div key={i} className="bg-white dark:bg-zinc-900 p-6 rounded-2xl border border-zinc-700/60 dark:border-zinc-800/50 shadow-sm flex items-center gap-4 animate-pulse">
+            <div key={i} className="bg-white dark:bg-zinc-900 p-6 rounded-2xl border border-zinc-100/60 dark:border-zinc-800/50 shadow-sm flex items-center gap-4 animate-pulse">
               <Skeleton className="h-12 w-12 rounded-xl" />
               <div className="space-y-2">
                 <Skeleton className="h-3 w-20" />
@@ -214,8 +214,8 @@ function ServiciosSkeleton({ showKPIs = true }: { showKPIs?: boolean }) {
           ))}
         </div>
       )}
-      <div className="flex-1 bg-white dark:bg-zinc-900 rounded-xl border border-zinc-700/60 dark:border-zinc-800/50 shadow-xl shadow-zinc-200/20 dark:shadow-none overflow-hidden">
-        <div className="px-8 py-6 border-b border-zinc-700 dark:border-zinc-800/50 flex justify-between">
+      <div className="flex-1 bg-white dark:bg-zinc-900 rounded-xl border border-zinc-100/60 dark:border-zinc-800/50 shadow-xl shadow-zinc-200/20 dark:shadow-none overflow-hidden">
+        <div className="px-8 py-6 border-b border-zinc-100 dark:border-zinc-800/50 flex justify-between">
           <Skeleton className="h-12 w-1/2 rounded-lg" />
           <div className="flex gap-3">
             <Skeleton className="h-12 w-32 rounded-lg" />
@@ -224,7 +224,7 @@ function ServiciosSkeleton({ showKPIs = true }: { showKPIs?: boolean }) {
         </div>
         <table className="w-full text-left border-collapse">
         <thead>
-          <tr className="border-b border-zinc-700 dark:border-zinc-800 bg-zinc-50/50 dark:bg-zinc-800/50">
+          <tr className="border-b border-zinc-100 dark:border-zinc-800/50 bg-zinc-50/50 dark:bg-zinc-800/50">
             <th className="px-8 py-6 text-[10px] font-black uppercase tracking-[0.2em] text-zinc-400">ID Orden</th>
             <th className="px-8 py-6 text-[10px] font-black uppercase tracking-[0.2em] text-zinc-400">Cliente / Servicio</th>
             <th className="px-8 py-6 text-[10px] font-black uppercase tracking-[0.2em] text-zinc-400">Programación</th>
@@ -233,7 +233,7 @@ function ServiciosSkeleton({ showKPIs = true }: { showKPIs?: boolean }) {
             <th className="px-8 py-6 text-[10px] font-black uppercase tracking-[0.2em] text-zinc-400 text-right">Acciones</th>
           </tr>
         </thead>
-        <tbody className="divide-y divide-zinc-100 dark:divide-zinc-800">
+        <tbody className="divide-y divide-zinc-100 dark:divide-zinc-800/50">
           {[...Array(5)].map((_, i) => (
             <tr key={i} className="animate-pulse">
               <td className="px-8 py-6">
@@ -1044,201 +1044,84 @@ ORDEN DE SERVICIO: #${servicio.id}
     return (
       <DashboardLayout overflowHidden>
         <div className="flex flex-col h-full">
-          {/* Sub-Header Estratégico */}
-          <div className="shrink-0 py-10 px-6 lg:px-10 border-b border-zinc-700/60 dark:border-zinc-800/50 mb-8 bg-gray-50 dark:bg-zinc-900/50">
+          {/* Sub-Header */}
+          <div className="shrink-0 py-10 px-6 lg:px-10 border-b border-[#706F71]/10 mb-8 bg-[#F8FAFC]">
             <div className="max-w-[1600px] mx-auto w-full flex flex-col md:flex-row md:items-center gap-6">
-              <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-azul-1 text-white shadow-xl shadow-azul-1/20">
-                <FileText className="h-5 w-5" />
+              <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-[#021359] text-white shadow-xl shadow-[#021359]/20">
+                <FileText className="h-5 w-5 text-[#01ADFB]" />
               </div>
               <div>
-                <h1 className="text-2xl lg:text-3xl font-black tracking-tight text-zinc-900 dark:text-zinc-50">
-                  Órdenes de <span className="text-azul-1 dark:text-claro-azul-4">Servicio</span>
+                <h1 className="text-2xl lg:text-3xl font-black tracking-tight text-black dark:text-white uppercase">
+                  Órdenes de <span className="text-[#01ADFB]">Servicio</span>
                 </h1>
-                <p className="text-zinc-500 font-medium mt-1">
+                <p className="text-[#706F71] font-medium mt-1 text-[10px] uppercase tracking-widest">
                   Control operativo y trazabilidad de servicios técnicos.
                 </p>
               </div>
               <div className="md:ml-auto">
-                              <Button
-                                variant="outline"
-                                size="sm"
-                                onClick={() => setShowKPIs(!showKPIs)}
-                                className="h-10 px-4 rounded-xl border-zinc-700 dark:border-zinc-800 bg-white dark:bg-zinc-900 text-[10px] font-black uppercase tracking-widest gap-2"
-                              >
-                                {showKPIs ? (
-                                  <>
-                                    <EyeOff className="h-4 w-4" />
-                                    Ocultar KPIs
-                                  </>
-                                ) : (
-                                  <>
-                                    <Eye className="h-4 w-4" />
-                                    Mostrar KPIs
-                                  </>
-                                )}
-                              </Button>              </div>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() => setShowKPIs(!showKPIs)}
+                  className="h-10 px-4 rounded-xl border-[#706F71]/20 bg-white text-[10px] font-black uppercase tracking-widest gap-2"
+                >
+                  {showKPIs ? <><EyeOff className="h-4 w-4" /> KPI</> : <><Eye className="h-4 w-4" /> KPI</>}
+                </Button>
+              </div>
             </div>
           </div>
   
-          {/* Contenedor Principal de Datos */}
-          <div className="flex-1 min-h-0 px-4 sm:px-6 lg:px-10 pb-4 sm:pb-6 lg:pb-10">
+          <div className="flex-1 min-h-0 px-4 sm:px-6 lg:px-10 pb-10">
             <div className="max-w-[1600px] mx-auto w-full h-full flex flex-col">
               {loading ? (
                 <ServiciosSkeleton showKPIs={showKPIs} />
               ) : (
                 <>
-                  {/* KPI Cards Grid */}
                   {showKPIs && (
-                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-7 gap-4 mb-6 shrink-0 animate-in fade-in slide-in-from-top-4 duration-300">
-                      <div className="bg-white dark:bg-zinc-900 p-6 rounded-2xl border border-zinc-700/60 dark:border-zinc-800/50 shadow-sm flex items-center gap-4">
-                        <div className="h-12 w-12 rounded-xl bg-azul-1/10 flex items-center justify-center text-azul-1">
-                          <FileText className="h-6 w-6" />
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-7 gap-4 mb-6 shrink-0">
+                      {[
+                        { label: "Total", val: stats.total, icon: FileText, color: "#021359" },
+                        { label: "Prog.", val: stats.programados, icon: Calendar, color: "#01ADFB" },
+                        { label: "Proceso", val: stats.enProceso, icon: Activity, color: "#01ADFB" },
+                        { label: "Liq.", val: stats.liquidado, icon: CheckCircle2, color: "#01ADFB" },
+                        { label: "Fin.", val: stats.tecnicoFinalizado, icon: CheckCircle2, color: "#021359" },
+                        { label: "Can.", val: stats.cancelados, icon: XCircle, color: "#706F71" },
+                        { label: "S.C.", val: stats.sinConcretar, icon: AlertCircle, color: "#706F71" },
+                      ].map((item, i) => (
+                        <div key={i} className="bg-white p-5 rounded-2xl border border-[#706F71]/10 shadow-sm flex items-center gap-4">
+                          <div className={cn("h-10 w-10 rounded-xl flex items-center justify-center text-white")} style={{ backgroundColor: item.color }}>
+                            <item.icon className="h-5 w-5" />
+                          </div>
+                          <div>
+                            <p className="text-[9px] font-black text-[#706F71] uppercase tracking-widest">{item.label}</p>
+                            <p className="text-xl font-black text-black">{item.val}</p>
+                          </div>
                         </div>
-                        <div>
-                          <p className="text-[10px] font-black text-zinc-400 uppercase tracking-widest">Total Órdenes</p>
-                          <p className="text-2xl font-black text-zinc-900 dark:text-zinc-50">{stats.total}</p>
-                        </div>
-                      </div>
-  
-                      <div className="bg-white dark:bg-zinc-900 p-6 rounded-2xl border border-zinc-700/60 dark:border-zinc-800/50 shadow-sm flex items-center gap-4">
-                        <div className="h-12 w-12 rounded-xl bg-blue-500/10 flex items-center justify-center text-blue-500">
-                          <Calendar className="h-6 w-6" />
-                        </div>
-                        <div>
-                          <p className="text-[10px] font-black text-zinc-400 uppercase tracking-widest">Programados</p>
-                          <p className="text-2xl font-black text-zinc-900 dark:text-zinc-50">{stats.programados}</p>
-                        </div>
-                      </div>
-  
-                      <div className="bg-white dark:bg-zinc-900 p-6 rounded-2xl border border-zinc-700/60 dark:border-zinc-800/50 shadow-sm flex items-center gap-4">
-                        <div className="h-12 w-12 rounded-xl bg-amber-500/10 flex items-center justify-center text-amber-500">
-                          <Activity className="h-6 w-6" />
-                        </div>
-                        <div>
-                          <p className="text-[10px] font-black text-zinc-400 uppercase tracking-widest">En Proceso</p>
-                          <p className="text-2xl font-black text-zinc-900 dark:text-zinc-50">{stats.enProceso}</p>
-                        </div>
-                      </div>
-  
-                      <div className="bg-white dark:bg-zinc-900 p-6 rounded-2xl border border-zinc-700/60 dark:border-zinc-800/50 shadow-sm flex items-center gap-4">
-                        <div className="h-12 w-12 rounded-xl bg-emerald-500/10 flex items-center justify-center text-emerald-500">
-                          <CheckCircle2 className="h-6 w-6" />
-                        </div>
-                        <div>
-                          <p className="text-[10px] font-black text-zinc-400 uppercase tracking-widest">Liquidados</p>
-                          <p className="text-2xl font-black text-zinc-900 dark:text-zinc-50">{stats.liquidado}</p>
-                        </div>
-                      </div>
-
-                      <div className="bg-white dark:bg-zinc-900 p-6 rounded-2xl border border-zinc-700/60 dark:border-zinc-800/50 shadow-sm flex items-center gap-4">
-                        <div className="h-12 w-12 rounded-xl bg-green-500/10 flex items-center justify-center text-green-600">
-                          <CheckCircle2 className="h-6 w-6" />
-                        </div>
-                        <div>
-                          <p className="text-[10px] font-black text-zinc-400 uppercase tracking-widest">Téc. Finalizó</p>
-                          <p className="text-2xl font-black text-zinc-900 dark:text-zinc-50">{stats.tecnicoFinalizado}</p>
-                        </div>
-                      </div>
-  
-                      <div className="bg-white dark:bg-zinc-900 p-6 rounded-2xl border border-zinc-700/60 dark:border-zinc-800/50 shadow-sm flex items-center gap-4">
-                        <div className="h-12 w-12 rounded-xl bg-red-500/10 flex items-center justify-center text-red-500">
-                          <XCircle className="h-6 w-6" />
-                        </div>
-                        <div>
-                          <p className="text-[10px] font-black text-zinc-400 uppercase tracking-widest">Cancelados</p>
-                          <p className="text-2xl font-black text-zinc-900 dark:text-zinc-50">{stats.cancelados}</p>
-                        </div>
-                      </div>
-
-                      <div className="bg-white dark:bg-zinc-900 p-6 rounded-2xl border border-zinc-700/60 dark:border-zinc-800/50 shadow-sm flex items-center gap-4">
-                        <div className="h-12 w-12 rounded-xl bg-slate-500/10 flex items-center justify-center text-slate-500">
-                          <AlertCircle className="h-6 w-6" />
-                        </div>
-                        <div>
-                          <p className="text-[10px] font-black text-zinc-400 uppercase tracking-widest">Sin Concretar</p>
-                          <p className="text-2xl font-black text-zinc-900 dark:text-zinc-50">{stats.sinConcretar}</p>
-                        </div>
-                      </div>
+                      ))}
                     </div>
                   )}
   
-                  <div className="flex-1 min-h-0 flex flex-col bg-white dark:bg-zinc-900 rounded-xl border border-zinc-700/60 dark:border-zinc-800/50 shadow-xl shadow-zinc-200/20 dark:shadow-none overflow-hidden">
-                    {/* Search & Actions */}
-                    <div className="px-8 py-6 border-b border-zinc-700 dark:border-zinc-800/50 flex flex-col gap-6 sm:flex-row sm:items-center sm:justify-between bg-white dark:bg-zinc-900 shrink-0">
+                  <div className="flex-1 min-h-0 flex flex-col bg-white rounded-3xl border border-[#706F71]/10 shadow-sm overflow-hidden">
+                    <div className="px-8 py-6 border-b border-[#706F71]/5 flex flex-col gap-6 sm:flex-row sm:items-center sm:justify-between bg-white shrink-0">
                       <div className="flex flex-1 items-center gap-3 max-w-2xl">
-                                    <div className="relative flex-1">
-                                      <Search className="absolute left-4 top-1/2 h-5 w-5 -translate-y-1/2 text-zinc-400" />
-                                      <Input 
-                                        placeholder="Buscar por ID, cliente o servicio..." 
-                                        className="h-12 pl-12 rounded-lg border-zinc-700 dark:border-zinc-800 bg-zinc-50 dark:bg-zinc-800/50 transition-all"
-                                        value={search}
-                                        onChange={(e) => setSearch(e.target.value)}
-                                      />
-                                    </div>
-                        
-                                    {/* Botón de Filtros Avanzados - Toggle Div */}
-                                    <button 
-                                      onClick={() => setShowFilters(!showFilters)}
-                                      className={cn(
-                                        "flex items-center h-12 px-5 rounded-lg bg-zinc-50 dark:bg-zinc-800/50 border border-zinc-700 dark:border-zinc-800 text-zinc-600 dark:text-zinc-400 hover:bg-zinc-100 dark:hover:bg-zinc-800 gap-3 transition-all font-bold text-[11px] uppercase tracking-wider relative",
-                                        (filters.estado !== "all" || filters.tecnico !== "all" || filters.urgencia !== "all" || filters.creador !== "all" || filters.municipio !== "all" || filters.metodoPago !== "all" || filters.empresa !== "all" || filters.tipo !== "all" || filters.fechaInicio !== "" || filters.fechaFin !== "") && "border-azul-1 text-azul-1 dark:border-azul-1 dark:text-azul-1",
-                                        showFilters && "bg-zinc-200 dark:bg-zinc-800 dark:text-zinc-50 border-zinc-700 dark:border-zinc-600"
-                                      )}
-                                    >
-                                      <Filter className="h-4 w-4" />
-                                      <span>{showFilters ? "Ocultar Filtros" : "Filtros"}</span>
-                                      {(filters.estado !== "all" || filters.tecnico !== "all" || filters.urgencia !== "all" || filters.creador !== "all" || filters.municipio !== "all" || filters.metodoPago !== "all" || filters.empresa !== "all" || filters.tipo !== "all" || filters.fechaInicio !== "" || filters.fechaFin !== "") && (
-                                        <span className="absolute -top-1.5 -right-1.5 flex h-4 w-4 items-center justify-center rounded-full bg-azul-1 text-[8px] font-black text-white ring-2 ring-white dark:ring-zinc-900">
-                                          !
-                                        </span>
-                                      )}
-                                    </button>
-                                  </div>
-                                  <div className="flex items-center gap-3">
-                        {/* Botón de Exportación */}
-                        <div className="relative">
-                          <button 
-                            onClick={(e) => { e.stopPropagation(); setShowExportMenu(!showExportMenu); }}
-                            className="flex items-center h-12 px-6 rounded-lg bg-emerald-50 dark:bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 hover:bg-emerald-100 dark:hover:bg-emerald-500/20 gap-3 transition-all font-bold text-[11px] uppercase tracking-wider border border-emerald-100 dark:border-emerald-500/20 shadow-sm"
-                          >
-                            <Download className="h-4 w-4" />
-                            <span>Exportar</span>
-                          </button>
-  
-                          {showExportMenu && (
-                            <div className="absolute right-0 mt-2 w-56 bg-white dark:bg-zinc-900 border border-zinc-700 dark:border-zinc-800 rounded-2xl shadow-[0_20px_50px_rgba(0,0,0,0.15)] z-50 overflow-hidden py-2 animate-in fade-in slide-in-from-top-2 duration-200">
-                              <div className="px-4 py-2 mb-1 border-b border-zinc-50 dark:border-zinc-800">
-                                <p className="text-[9px] font-black text-zinc-400 uppercase tracking-widest">Reportes Operativos</p>
-                              </div>
-                              <button 
-                                onClick={() => handleExport('excel')}
-                                className="w-full flex items-center gap-3 px-4 py-3 text-[11px] font-bold text-zinc-700 dark:text-zinc-300 hover:bg-emerald-50 dark:hover:bg-emerald-900/20 hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors"
-                              >
-                                <FileSpreadsheet className="h-4 w-4" />
-                                MICROSOFT EXCEL (.XLSX)
-                              </button>
-                              <button 
-                                onClick={() => handleExport('pdf')}
-                                className="w-full flex items-center gap-3 px-4 py-3 text-[11px] font-bold text-zinc-700 dark:text-zinc-300 hover:bg-red-50 dark:hover:bg-red-900/20 hover:text-red-600 dark:hover:text-red-400 transition-colors"
-                              >
-                                <FileText className="h-4 w-4" />
-                                DOCUMENTO PDF (.PDF)
-                              </button>
-                              <button 
-                                onClick={() => handleExport('word')}
-                                className="w-full flex items-center gap-3 px-4 py-3 text-[11px] font-bold text-zinc-700 dark:text-zinc-300 hover:bg-blue-50 dark:hover:bg-blue-900/20 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
-                              >
-                                <FileIcon className="h-4 w-4" />
-                                MICROSOFT WORD (.DOCX)
-                              </button>
-                            </div>
-                          )}
+                        <div className="relative flex-1 group">
+                          <Search className="absolute left-4 top-1/2 h-5 w-5 -translate-y-1/2 text-[#706F71] group-focus-within:text-[#01ADFB] transition-colors" />
+                          <Input 
+                            placeholder="Buscar servicios..." 
+                            className="h-12 pl-12 rounded-xl border-none bg-[#706F71]/5 focus:ring-2 focus:ring-[#01ADFB]/20 transition-all font-bold text-sm"
+                            value={search}
+                            onChange={(e) => setSearch(e.target.value)}
+                          />
                         </div>
-  
+                        <button onClick={() => setShowFilters(!showFilters)} className={cn("h-12 px-5 rounded-xl bg-white border border-[#706F71]/20 text-[#706F71] font-black text-[10px] uppercase tracking-widest flex items-center gap-2 transition-all", showFilters && "bg-[#021359] text-white")}>
+                          <Filter className="h-4 w-4" /> Filtros
+                        </button>
+                      </div>
+                      <div className="flex items-center gap-3">
                         <Link href="/dashboard/servicios/nuevo">
-                          <div className="flex items-center h-12 px-8 rounded-lg bg-azul-1 text-zinc-50 gap-3 shadow-lg shadow-azul-1/20 transition-all hover:bg-blue-700 dark:hover:bg-blue-600 cursor-pointer">
+                          <div className="flex items-center h-12 px-8 rounded-xl bg-[#01ADFB] text-white gap-3 shadow-lg shadow-[#01ADFB]/20 transition-transform hover:scale-105 active:scale-95 cursor-pointer">
                             <Plus className="h-5 w-5" />
-                            <span className="font-bold uppercase tracking-wider text-[11px]">Nueva Orden</span>
+                            <span className="font-black uppercase tracking-widest text-[10px]">Nueva Orden</span>
                           </div>
                         </Link>
                       </div>
@@ -1246,7 +1129,7 @@ ORDEN DE SERVICIO: #${servicio.id}
 
                     {/* Collapsible Filter Panel */}
                     {showFilters && (
-                      <div className="px-8 py-8 border-b border-zinc-700 dark:border-zinc-800/50 bg-zinc-50/50 dark:bg-zinc-800/20 animate-in fade-in slide-in-from-top-2 duration-300 max-h-[60vh] overflow-y-auto custom-scrollbar">
+                      <div className="px-8 py-8 border-b border-zinc-100 dark:border-zinc-800/50 bg-zinc-50/50 dark:bg-zinc-800/20 animate-in fade-in slide-in-from-top-2 duration-300 max-h-[60vh] overflow-y-auto custom-scrollbar">
                         <div className="max-w-7xl mx-auto">
                           <div className="flex items-center justify-between mb-8">
                             <div>
@@ -1276,17 +1159,17 @@ ORDEN DE SERVICIO: #${servicio.id}
                             </button>
                           </div>
 
-                          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
                             <div className="space-y-2">
                               <Label className="text-[10px] font-black uppercase tracking-widest text-zinc-500">Creador</Label>
                               <Combobox 
                                 value={filters.creador} 
                                 onChange={(val) => setFilters(f => ({ ...f, creador: val }))}
                                 options={[
-                                  { value: "all", label: "TODOS" },
+                                  { value: "all", label: "TODOS LOS CREADORES" },
                                   ...filterOptions.creadores.map(c => ({ value: c.id, label: c.nombre.toUpperCase() }))
                                 ]}
-                                className="h-10"
+                                className="h-10 transition-all hover:scale-[1.02] focus-within:scale-[1.02]"
                               />
                             </div>
 
@@ -1296,10 +1179,10 @@ ORDEN DE SERVICIO: #${servicio.id}
                                 value={filters.tecnico} 
                                 onChange={(val) => setFilters(f => ({ ...f, tecnico: val }))}
                                 options={[
-                                  { value: "all", label: "TODOS" },
+                                  { value: "all", label: "TODOS LOS TECNICOS" },
                                   ...filterOptions.tecnicos.map(tec => ({ value: tec.id, label: tec.nombre.toUpperCase() }))
                                 ]}
-                                className="h-10"
+                                className="h-10 transition-all hover:scale-[1.02] focus-within:scale-[1.02]"
                               />
                             </div>
 
@@ -1309,10 +1192,10 @@ ORDEN DE SERVICIO: #${servicio.id}
                                 value={filters.municipio} 
                                 onChange={(val) => setFilters(f => ({ ...f, municipio: val }))}
                                 options={[
-                                  { value: "all", label: "TODOS" },
+                                  { value: "all", label: "TODOS LOS MUNICIPIOS" },
                                   ...filterOptions.municipios.map(m => ({ value: m, label: m.toUpperCase() }))
                                 ]}
-                                className="h-10"
+                                className="h-10 transition-all hover:scale-[1.02] focus-within:scale-[1.02]"
                               />
                             </div>
 
@@ -1322,10 +1205,10 @@ ORDEN DE SERVICIO: #${servicio.id}
                                 value={filters.estado} 
                                 onChange={(val) => setFilters(f => ({ ...f, estado: val }))}
                                 options={[
-                                  { value: "all", label: "TODOS" },
+                                  { value: "all", label: "TODOS LOS ESTADOS" },
                                   ...filterOptions.estados.map(est => ({ value: est.id, label: est.nombre.toUpperCase() }))
                                 ]}
-                                className="h-10"
+                                className="h-10 transition-all hover:scale-[1.02] focus-within:scale-[1.02]"
                               />
                             </div>
 
@@ -1335,10 +1218,10 @@ ORDEN DE SERVICIO: #${servicio.id}
                                 value={filters.empresa} 
                                 onChange={(val) => setFilters(f => ({ ...f, empresa: val }))}
                                 options={[
-                                  { value: "all", label: "TODAS" },
+                                  { value: "all", label: "TODAS LAS EMPRESAS" },
                                   ...filterOptions.empresas.map(emp => ({ value: emp.id, label: emp.nombre.toUpperCase() }))
                                 ]}
-                                className="h-10"
+                                className="h-10 transition-all hover:scale-[1.02] focus-within:scale-[1.02]"
                               />
                             </div>
 
@@ -1348,10 +1231,10 @@ ORDEN DE SERVICIO: #${servicio.id}
                                 value={filters.tipo} 
                                 onChange={(val) => setFilters(f => ({ ...f, tipo: val }))}
                                 options={[
-                                  { value: "all", label: "TODOS" },
+                                  { value: "all", label: "TODOS TIPOS DE VISITA" },
                                   ...filterOptions.tiposVisita.map(t => ({ value: t, label: t.toUpperCase() }))
                                 ]}
-                                className="h-10"
+                                className="h-10 transition-all hover:scale-[1.02] focus-within:scale-[1.02]"
                               />
                             </div>
 
@@ -1361,10 +1244,10 @@ ORDEN DE SERVICIO: #${servicio.id}
                                 value={filters.metodoPago} 
                                 onChange={(val) => setFilters(f => ({ ...f, metodoPago: val }))}
                                 options={[
-                                  { value: "all", label: "TODOS" },
+                                  { value: "all", label: "TODOS LOS MEDIOS DE PAGO" },
                                   ...filterOptions.metodosPago.map(mp => ({ value: mp.id, label: mp.nombre.toUpperCase() }))
                                 ]}
-                                className="h-10"
+                                className="h-10 transition-all hover:scale-[1.02] focus-within:scale-[1.02]"
                               />
                             </div>
 
@@ -1374,13 +1257,13 @@ ORDEN DE SERVICIO: #${servicio.id}
                                 value={filters.urgencia} 
                                 onChange={(val) => setFilters(f => ({ ...f, urgencia: val }))}
                                 options={[
-                                  { value: "all", label: "TODAS" },
+                                  { value: "all", label: "TODAS LAS URGENCIAS" },
                                   { value: "ALTA", label: "ALTA" },
                                   { value: "MEDIA", label: "MEDIA" },
                                   { value: "BAJA", label: "BAJA" },
                                   { value: "CRITICA", label: "CRÍTICA" },
                                 ]}
-                                className="h-10"
+                                className="h-10 transition-all hover:scale-[1.02] focus-within:scale-[1.02]"
                               />
                             </div>
 
@@ -1390,19 +1273,21 @@ ORDEN DE SERVICIO: #${servicio.id}
                                 <DatePicker
                                   date={filters.fechaInicio ? new Date(filters.fechaInicio + "T00:00:00") : undefined}
                                   onChange={(date) => setFilters(f => ({ ...f, fechaInicio: date ? date.toISOString().split('T')[0] : "" }))}
-                                  className="flex-1 h-10 bg-white dark:bg-zinc-900 border-zinc-700 dark:border-zinc-800"
+                                  className="flex-1 h-10 bg-white dark:bg-zinc-900 border-zinc-300 transition-all hover:scale-[1.02] focus-within:scale-[1.02]"
+                                  placeholder="FECHA INICIAL"
                                 />
                                 <span className="text-zinc-400 text-xs">al</span>
                                 <DatePicker
                                   date={filters.fechaFin ? new Date(filters.fechaFin + "T00:00:00") : undefined}
                                   onChange={(date) => setFilters(f => ({ ...f, fechaFin: date ? date.toISOString().split('T')[0] : "" }))}
-                                  className="flex-1 h-10 bg-white dark:bg-zinc-900 border-zinc-700 dark:border-zinc-800"
+                                  className="flex-1 h-10 bg-white dark:bg-zinc-900 border-zinc-300 transition-all hover:scale-[1.02] focus-within:scale-[1.02]"
+                                  placeholder="FECHA FINAL"
                                 />
                               </div>
                             </div>
                           </div>
 
-                          <div className="mt-8 pt-6 border-t border-zinc-700 dark:border-zinc-800/50 flex justify-end">
+                          <div className="mt-8 pt-6 border-t border-zinc-100 dark:border-zinc-800/50 flex justify-end">
                             <Button 
                               onClick={() => setShowFilters(false)}
                               className="h-10 px-8 rounded-xl text-[10px] font-black uppercase tracking-widest bg-zinc-900 dark:bg-zinc-100 text-white dark:text-zinc-900 shadow-lg shadow-zinc-900/10 dark:shadow-none hover:opacity-90 transition-all"
@@ -1419,7 +1304,7 @@ ORDEN DE SERVICIO: #${servicio.id}
                       <div className="flex-1 overflow-auto">
                         <table className="w-full text-left border-collapse">
                           <thead>
-                            <tr className="border-b border-zinc-700 dark:border-zinc-800 bg-zinc-50/50 dark:bg-zinc-800/50">
+                            <tr className="border-b border-zinc-100 dark:border-zinc-800/50 bg-zinc-50/50 dark:bg-zinc-800/50">
                               <th className="px-8 py-6 text-[10px] font-black uppercase tracking-[0.2em] text-zinc-400">ID Orden</th>
                               <th className="px-8 py-6 text-[10px] font-black uppercase tracking-[0.2em] text-zinc-400">Cliente / Servicio</th>
                               <th className="px-8 py-6 text-[10px] font-black uppercase tracking-[0.2em] text-zinc-400">Programación</th>
@@ -1428,7 +1313,7 @@ ORDEN DE SERVICIO: #${servicio.id}
                               <th className="px-8 py-6 text-[10px] font-black uppercase tracking-[0.2em] text-zinc-400 text-right">Acciones</th>
                             </tr>
                           </thead>
-                          <tbody className="divide-y divide-zinc-100 dark:divide-zinc-800">
+                          <tbody className="divide-y divide-zinc-100 dark:divide-zinc-800/50">
                             {paginatedServicios.map((servicio: Servicio) => (
                               <tr key={servicio.id} className="group hover:bg-zinc-50/50 dark:hover:bg-zinc-800/30 transition-colors">
                                 <td className="px-8 py-6">
@@ -1627,7 +1512,7 @@ ORDEN DE SERVICIO: #${servicio.id}
                       )}
   
                       {/* Paginación */}
-                      <div className="px-8 py-4 border-t border-zinc-700 dark:border-zinc-800/50 bg-zinc-50/50 dark:bg-zinc-900/50 flex items-center justify-between shrink-0">
+                      <div className="px-8 py-4 border-t border-zinc-100 dark:border-zinc-800/50 bg-zinc-50/50 dark:bg-zinc-900/50 flex items-center justify-between shrink-0">
                         <span className="text-[10px] font-black uppercase tracking-widest text-zinc-400 dark:text-zinc-300">
                           Mostrando <span className="text-zinc-900 dark:text-zinc-100">{Math.min(startIndex + 1, filteredServicios.length)}</span> - <span className="text-zinc-900 dark:text-zinc-100">{Math.min(startIndex + itemsPerPage, filteredServicios.length)}</span> de <span className="text-zinc-900 dark:text-zinc-100">{filteredServicios.length}</span> resultados
                         </span>
@@ -1673,7 +1558,7 @@ ORDEN DE SERVICIO: #${servicio.id}
             <div className="space-y-8 mt-2">
               {/* 1. Información General */}
               <div className="space-y-4">
-                <h3 className="text-[10px] font-black text-zinc-400 uppercase tracking-[0.2em] border-b border-zinc-700 dark:border-zinc-800 pb-2 flex items-center gap-2">
+                <h3 className="text-[10px] font-black text-zinc-400 uppercase tracking-[0.2em] border-b border-zinc-100 dark:border-zinc-800/50 pb-2 flex items-center gap-2">
                   <Info className="h-3 w-3" /> Información General
                 </h3>
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
@@ -1713,10 +1598,10 @@ ORDEN DE SERVICIO: #${servicio.id}
 
               {/* 2. Cliente y Contacto */}
               <div className="space-y-4">
-                <h3 className="text-[10px] font-black text-zinc-400 uppercase tracking-[0.2em] border-b border-zinc-700 dark:border-zinc-800 pb-2 flex items-center gap-2">
+                <h3 className="text-[10px] font-black text-zinc-400 uppercase tracking-[0.2em] border-b border-zinc-100 dark:border-zinc-800/50 pb-2 flex items-center gap-2">
                   <User className="h-3 w-3" /> Cliente y Contacto
                 </h3>
-                <div className="grid grid-cols-2 md:grid-cols-3 gap-6 bg-zinc-50/50 dark:bg-zinc-800/30 p-5 rounded-2xl border border-zinc-700 dark:border-zinc-800">
+                <div className="grid grid-cols-2 md:grid-cols-3 gap-6 bg-zinc-50/50 dark:bg-zinc-800/30 p-5 rounded-2xl border border-zinc-100 dark:border-zinc-800/50">
                   <div className="col-span-1 md:col-span-2">
                     <span className="text-[10px] font-bold text-zinc-500 block uppercase tracking-wider mb-1">Nombre Completo</span>
                     <span className="font-black text-base text-zinc-900 dark:text-zinc-100 uppercase tracking-tight">
@@ -1742,10 +1627,10 @@ ORDEN DE SERVICIO: #${servicio.id}
 
               {/* 3. Ubicación del Servicio */}
               <div className="space-y-4">
-                <h3 className="text-[10px] font-black text-zinc-400 uppercase tracking-[0.2em] border-b border-zinc-700 dark:border-zinc-800 pb-2 flex items-center gap-2">
+                <h3 className="text-[10px] font-black text-zinc-400 uppercase tracking-[0.2em] border-b border-zinc-100 dark:border-zinc-800/50 pb-2 flex items-center gap-2">
                   <MapPin className="h-3 w-3" /> Ubicación del Servicio
                 </h3>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 bg-zinc-50/50 dark:bg-zinc-800/30 p-5 rounded-2xl border border-zinc-700 dark:border-zinc-800">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 bg-zinc-50/50 dark:bg-zinc-800/30 p-5 rounded-2xl border border-zinc-100 dark:border-zinc-800/50">
                   <div className="md:col-span-2">
                     <span className="text-[10px] font-bold text-zinc-500 block uppercase tracking-wider mb-1">
                       {selectedServicio.raw.vehiculoId && !selectedServicio.raw.municipio ? "Vehículo" : "Dirección Principal"}
@@ -1803,7 +1688,7 @@ ORDEN DE SERVICIO: #${servicio.id}
                   )}
 
                   {selectedServicio.raw.vehiculoId && selectedServicio.raw.vehiculo && (
-                    <div className="md:col-span-2 border-t border-zinc-700 dark:border-zinc-700 pt-4 mt-2 grid grid-cols-2 gap-6">
+                    <div className="md:col-span-2 border-t border-zinc-100 dark:border-zinc-100 pt-4 mt-2 grid grid-cols-2 gap-6">
                       <div>
                         <span className="text-[10px] font-bold text-zinc-500 block uppercase tracking-wider mb-1">Placa / Marca / Modelo</span>
                         <span className="font-black text-sm uppercase text-purple-600 dark:text-purple-400">
@@ -1823,10 +1708,10 @@ ORDEN DE SERVICIO: #${servicio.id}
 
               {/* 4. Detalle del Servicio */}
               <div className="space-y-4">
-                <h3 className="text-[10px] font-black text-zinc-400 uppercase tracking-[0.2em] border-b border-zinc-700 dark:border-zinc-800 pb-2 flex items-center gap-2">
+                <h3 className="text-[10px] font-black text-zinc-400 uppercase tracking-[0.2em] border-b border-zinc-100 dark:border-zinc-800/50 pb-2 flex items-center gap-2">
                   <FileText className="h-3 w-3" /> Detalle del Servicio
                 </h3>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 bg-zinc-50/50 dark:bg-zinc-800/30 p-5 rounded-2xl border border-zinc-700 dark:border-zinc-800">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 bg-zinc-50/50 dark:bg-zinc-800/30 p-5 rounded-2xl border border-zinc-100 dark:border-zinc-800/50">
                   <div>
                     <span className="text-[10px] font-bold text-zinc-500 block uppercase tracking-wider mb-1">Empresa</span>
                     <span className="font-bold text-sm uppercase">{selectedServicio.raw.empresa?.nombre || "N/A"}</span>
@@ -1850,7 +1735,7 @@ ORDEN DE SERVICIO: #${servicio.id}
 
               {/* 5. Programación */}
               <div className="space-y-4">
-                <h3 className="text-[10px] font-black text-zinc-400 uppercase tracking-[0.2em] border-b border-zinc-700 dark:border-zinc-800 pb-2 flex items-center gap-2">
+                <h3 className="text-[10px] font-black text-zinc-400 uppercase tracking-[0.2em] border-b border-zinc-100 dark:border-zinc-800/50 pb-2 flex items-center gap-2">
                   <Clock className="h-3 w-3" /> Programación
                 </h3>
                 <div className="grid grid-cols-3 gap-6 bg-blue-50 dark:bg-blue-900/20 p-5 rounded-2xl border border-blue-100 dark:border-blue-800/50 shadow-sm shadow-blue-100/20">
@@ -1873,7 +1758,7 @@ ORDEN DE SERVICIO: #${servicio.id}
 
               {/* 6. Estado y Observaciones */}
               <div className="space-y-4">
-                <h3 className="text-[10px] font-black text-zinc-400 uppercase tracking-[0.2em] border-b border-zinc-700 dark:border-zinc-800 pb-2 flex items-center gap-2">
+                <h3 className="text-[10px] font-black text-zinc-400 uppercase tracking-[0.2em] border-b border-zinc-100 dark:border-zinc-800/50 pb-2 flex items-center gap-2">
                   <AlertCircle className="h-3 w-3" /> Estado y Observaciones
                 </h3>
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -1891,13 +1776,13 @@ ORDEN DE SERVICIO: #${servicio.id}
                   </div>
                   <div className="col-span-1 md:col-span-3">
                     <span className="text-[10px] font-bold text-zinc-500 block uppercase tracking-wider mb-2">Observaciones Generales</span>
-                    <p className="text-sm font-medium bg-zinc-50 dark:bg-zinc-800/50 p-4 rounded-2xl border border-zinc-700 dark:border-zinc-800 min-h-[80px] leading-relaxed text-zinc-600 dark:text-zinc-400">
+                    <p className="text-sm font-medium bg-zinc-50 dark:bg-zinc-800/50 p-4 rounded-2xl border border-zinc-100 dark:border-zinc-800/50 min-h-[80px] leading-relaxed text-zinc-600 dark:text-zinc-400">
                       {selectedServicio.raw.observacion || "Sin observaciones registradas."}
                     </p>
                   </div>
                   <div className="col-span-1 md:col-span-3">
                     <span className="text-[10px] font-bold text-zinc-500 block uppercase tracking-wider mb-2">Observación Final</span>
-                    <p className="text-sm font-black bg-zinc-50 dark:bg-zinc-800/50 p-4 rounded-2xl border border-zinc-700 dark:border-zinc-800 min-h-[80px] leading-relaxed text-zinc-900 dark:text-zinc-100">
+                    <p className="text-sm font-black bg-zinc-50 dark:bg-zinc-800/50 p-4 rounded-2xl border border-zinc-100 dark:border-zinc-800/50 min-h-[80px] leading-relaxed text-zinc-900 dark:text-zinc-100">
                       {selectedServicio.raw.observacionFinal || "Sin observación final registrada."}
                     </p>
                   </div>
@@ -1906,7 +1791,7 @@ ORDEN DE SERVICIO: #${servicio.id}
 
               {/* 7. Información Financiera */}
               <div className="space-y-4">
-                <h3 className="text-[10px] font-black text-zinc-400 uppercase tracking-[0.2em] border-b border-zinc-700 dark:border-zinc-800 pb-2 flex items-center gap-2">
+                <h3 className="text-[10px] font-black text-zinc-400 uppercase tracking-[0.2em] border-b border-zinc-100 dark:border-zinc-800/50 pb-2 flex items-center gap-2">
                   <CreditCard className="h-3 w-3" /> Información Financiera
                 </h3>
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
@@ -1952,8 +1837,8 @@ ORDEN DE SERVICIO: #${servicio.id}
               {/* 8. Factura / Evidencia */}
               {selectedServicio.raw.facturaPath && (
                 <div className="space-y-4">
-                  <h3 className="text-[10px] font-black text-zinc-400 uppercase tracking-[0.2em] border-b border-zinc-700 dark:border-zinc-800 pb-2">Factura del Servicio</h3>
-                  <div className="rounded-2xl overflow-hidden border border-zinc-700 dark:border-zinc-800 bg-zinc-50 dark:bg-zinc-900 flex justify-center p-4">
+                  <h3 className="text-[10px] font-black text-zinc-400 uppercase tracking-[0.2em] border-b border-zinc-100 dark:border-zinc-800/50 pb-2">Factura del Servicio</h3>
+                  <div className="rounded-2xl overflow-hidden border border-zinc-100 dark:border-zinc-800/50 bg-zinc-50 dark:bg-zinc-900 flex justify-center p-4">
                     {/* eslint-disable-next-line @next/next/no-img-element */}
                     <img
                       src={selectedServicio.raw.facturaPath}
@@ -1965,7 +1850,7 @@ ORDEN DE SERVICIO: #${servicio.id}
                     <Button
                       variant="outline"
                       size="sm"
-                      className="gap-2 font-bold text-[10px] uppercase tracking-wider h-10 px-5 rounded-xl border-zinc-700 dark:border-zinc-800"
+                      className="gap-2 font-bold text-[10px] uppercase tracking-wider h-10 px-5 rounded-xl border-zinc-100 dark:border-zinc-800/50"
                       onClick={() => window.open(selectedServicio.raw.facturaPath!, "_blank")}
                     >
                       <Download className="h-4 w-4" />
@@ -1978,7 +1863,7 @@ ORDEN DE SERVICIO: #${servicio.id}
               {/* 9. Factura/Orden */}
               {selectedServicio.raw.facturaElectronica && (
                 <div className="space-y-4">
-                  <h3 className="text-[10px] font-black text-zinc-400 uppercase tracking-[0.2em] border-b border-zinc-700 dark:border-zinc-800 pb-2">Factura/Orden</h3>
+                  <h3 className="text-[10px] font-black text-zinc-400 uppercase tracking-[0.2em] border-b border-zinc-100 dark:border-zinc-800/50 pb-2">Factura/Orden</h3>
                   <div>
                     <Button
                       variant="outline"
@@ -1996,7 +1881,7 @@ ORDEN DE SERVICIO: #${servicio.id}
               {/* 10. Comprobante de Pago */}
               {selectedServicio.raw.comprobantePago && (
                 <div className="space-y-4">
-                  <h3 className="text-[10px] font-black text-zinc-400 uppercase tracking-[0.2em] border-b border-zinc-700 dark:border-zinc-800 pb-2">Comprobante de Pago</h3>
+                  <h3 className="text-[10px] font-black text-zinc-400 uppercase tracking-[0.2em] border-b border-zinc-100 dark:border-zinc-800/50 pb-2">Comprobante de Pago</h3>
                   <div>
                     <Button
                       variant="outline"
@@ -2028,7 +1913,7 @@ ORDEN DE SERVICIO: #${servicio.id}
 
           {selectedServicio && (
             <div className="space-y-8 mt-4">
-              <div className="bg-zinc-50 dark:bg-zinc-800/50 p-6 rounded-2xl border border-zinc-700 dark:border-zinc-800">
+              <div className="bg-zinc-50 dark:bg-zinc-800/50 p-6 rounded-2xl border border-zinc-100 dark:border-zinc-800/50">
                 <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
                   <div>
                     <p className="text-[10px] font-black text-zinc-400 uppercase tracking-widest mb-1">Orden de Servicio</p>
@@ -2052,19 +1937,19 @@ ORDEN DE SERVICIO: #${servicio.id}
                     
                     return (
                       <>
-                        <div className="px-6 py-3 bg-zinc-50 dark:bg-zinc-800/50 rounded-xl border border-zinc-700 dark:border-zinc-800 flex flex-col items-center min-w-[120px]">
+                        <div className="px-6 py-3 bg-zinc-50 dark:bg-zinc-800/50 rounded-xl border border-zinc-100 dark:border-zinc-800/50 flex flex-col items-center min-w-[120px]">
                           <span className="text-[9px] font-black text-azul-1 uppercase tracking-widest">Nº Visitas</span>
                           <span className="text-lg font-black text-zinc-900 dark:text-zinc-50">{totalVisitas}</span>
                         </div>
-                        <div className="px-6 py-3 bg-zinc-50 dark:bg-zinc-800/50 rounded-xl border border-zinc-700 dark:border-zinc-800 flex flex-col items-center min-w-[120px]">
+                        <div className="px-6 py-3 bg-zinc-50 dark:bg-zinc-800/50 rounded-xl border border-zinc-100 dark:border-zinc-800/50 flex flex-col items-center min-w-[120px]">
                           <span className="text-[9px] font-black text-emerald-500 uppercase tracking-widest">Llegada</span>
                           <span className="text-lg font-black text-zinc-900 dark:text-zinc-50">{llegadaTime}</span>
                         </div>
-                        <div className="px-6 py-3 bg-zinc-50 dark:bg-zinc-800/50 rounded-xl border border-zinc-700 dark:border-zinc-800 flex flex-col items-center min-w-[120px]">
+                        <div className="px-6 py-3 bg-zinc-50 dark:bg-zinc-800/50 rounded-xl border border-zinc-100 dark:border-zinc-800/50 flex flex-col items-center min-w-[120px]">
                           <span className="text-[9px] font-black text-red-500 uppercase tracking-widest">Salida</span>
                           <span className="text-lg font-black text-zinc-900 dark:text-zinc-50">{salidaTime}</span>
                         </div>
-                        <div className="ml-auto px-6 py-3 bg-zinc-50 dark:bg-zinc-800/50 rounded-xl border border-zinc-700 dark:border-zinc-800 flex flex-col items-center min-w-[140px]">
+                        <div className="ml-auto px-6 py-3 bg-zinc-50 dark:bg-zinc-800/50 rounded-xl border border-zinc-100 dark:border-zinc-800/50 flex flex-col items-center min-w-[140px]">
                           <span className="text-[9px] font-black text-zinc-400 uppercase tracking-widest">Fecha Visita</span>
                           <span className="text-lg font-black text-zinc-900 dark:text-zinc-50">{ultimaFecha}</span>
                         </div>
@@ -2079,7 +1964,7 @@ ORDEN DE SERVICIO: #${servicio.id}
                       <div key={geo.id} className="relative pl-8 before:absolute before:left-0 before:top-0 before:bottom-0 before:w-px before:bg-zinc-200 dark:before:bg-zinc-800">
                         <div className="absolute left-[-4px] top-0 h-2 w-2 rounded-full bg-blue-500 ring-4 ring-white dark:ring-zinc-950" />
                         
-                        <div className="bg-white dark:bg-zinc-900 border border-zinc-700 dark:border-zinc-800 rounded-2xl p-6 shadow-sm">
+                        <div className="bg-white dark:bg-zinc-900 border border-zinc-100 dark:border-zinc-800/50 rounded-2xl p-6 shadow-sm">
                           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                             <div className="space-y-6">
                               <div className="flex items-center justify-between">
@@ -2090,7 +1975,7 @@ ORDEN DE SERVICIO: #${servicio.id}
                               </div>
 
                               <div className="grid grid-cols-2 gap-4">
-                                <div className="p-4 bg-zinc-50 dark:bg-zinc-800/30 rounded-xl border border-zinc-700 dark:border-zinc-800">
+                                <div className="p-4 bg-zinc-50 dark:bg-zinc-800/30 rounded-xl border border-zinc-100 dark:border-zinc-800/50">
                                   <div className="flex items-center gap-2 mb-2">
                                     <Clock className="h-3.5 w-3.5 text-emerald-500" />
                                     <span className="text-[9px] font-black text-zinc-400 uppercase tracking-widest">Hora Llegada</span>
@@ -2100,7 +1985,7 @@ ORDEN DE SERVICIO: #${servicio.id}
                                   </p>
                                 </div>
 
-                                <div className="p-4 bg-zinc-50 dark:bg-zinc-800/30 rounded-xl border border-zinc-700 dark:border-zinc-800">
+                                <div className="p-4 bg-zinc-50 dark:bg-zinc-800/30 rounded-xl border border-zinc-100 dark:border-zinc-800/50">
                                   <div className="flex items-center gap-2 mb-2">
                                     <Clock className="h-3.5 w-3.5 text-red-500" />
                                     <span className="text-[9px] font-black text-zinc-400 uppercase tracking-widest">Hora Salida</span>
@@ -2143,7 +2028,7 @@ ORDEN DE SERVICIO: #${servicio.id}
                                 </p>
                                 {geo.fotoLlegada ? (
                                   <div 
-                                                                      className="aspect-square rounded-xl overflow-hidden border border-zinc-700 dark:border-zinc-800 bg-zinc-100 cursor-pointer group relative"
+                                                                      className="aspect-square rounded-xl overflow-hidden border border-zinc-100 dark:border-zinc-800/50 bg-zinc-100 cursor-pointer group relative"
                                                                       onClick={() => window.open(geo.fotoLlegada!, '_blank')}
                                                                     >
                                                                       {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -2152,7 +2037,7 @@ ORDEN DE SERVICIO: #${servicio.id}
                                     </div>
                                   </div>
                                 ) : (
-                                  <div className="aspect-square rounded-xl border-2 border-dashed border-zinc-700 dark:border-zinc-800 flex flex-col items-center justify-center text-zinc-300 dark:text-zinc-700">
+                                  <div className="aspect-square rounded-xl border-2 border-dashed border-zinc-100 dark:border-zinc-800/50 flex flex-col items-center justify-center text-zinc-300 dark:text-zinc-700">
                                     <ImageIcon className="h-8 w-8 mb-2" />
                                     <p className="text-[8px] font-black uppercase">Sin foto</p>
                                   </div>
@@ -2165,7 +2050,7 @@ ORDEN DE SERVICIO: #${servicio.id}
                                 </p>
                                 {geo.fotoSalida ? (
                                   <div 
-                                                                      className="aspect-square rounded-xl overflow-hidden border border-zinc-700 dark:border-zinc-800 bg-zinc-100 cursor-pointer group relative"
+                                                                      className="aspect-square rounded-xl overflow-hidden border border-zinc-100 dark:border-zinc-800/50 bg-zinc-100 cursor-pointer group relative"
                                                                       onClick={() => window.open(geo.fotoSalida!, '_blank')}
                                                                     >
                                                                       {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -2174,7 +2059,7 @@ ORDEN DE SERVICIO: #${servicio.id}
                                     </div>
                                   </div>
                                 ) : (
-                                  <div className="aspect-square rounded-xl border-2 border-dashed border-zinc-700 dark:border-zinc-800 flex flex-col items-center justify-center text-zinc-300 dark:text-zinc-700">
+                                  <div className="aspect-square rounded-xl border-2 border-dashed border-zinc-100 dark:border-zinc-800/50 flex flex-col items-center justify-center text-zinc-300 dark:text-zinc-700">
                                     <ImageIcon className="h-8 w-8 mb-2" />
                                     <p className="text-[8px] font-black uppercase">Sin foto</p>
                                   </div>
@@ -2186,7 +2071,7 @@ ORDEN DE SERVICIO: #${servicio.id}
                       </div>
                     ))}
 
-                    <div className="pt-4 mt-4 border-t border-zinc-700 dark:border-zinc-800 flex justify-center">
+                    <div className="pt-4 mt-4 border-t border-zinc-100 dark:border-zinc-800/50 flex justify-center">
                       <div className="px-8 py-4 bg-blue-50 dark:bg-blue-900/20 rounded-2xl border border-blue-100 dark:border-blue-800 flex flex-col items-center min-w-[250px] shadow-sm">
                         <span className="text-[10px] font-black text-blue-600 dark:text-blue-400 uppercase tracking-[0.2em] mb-2 flex items-center gap-2">
                           <Navigation className="h-3 w-3" /> Coordenadas Última Visita
@@ -2206,7 +2091,7 @@ ORDEN DE SERVICIO: #${servicio.id}
                     </div>
                   </>
                 ) : (
-                  <div className="py-12 px-6 text-center bg-zinc-50 dark:bg-zinc-900/50 rounded-3xl border-2 border-dashed border-zinc-700 dark:border-zinc-800">
+                  <div className="py-12 px-6 text-center bg-zinc-50 dark:bg-zinc-900/50 rounded-3xl border-2 border-dashed border-zinc-100 dark:border-zinc-800/50">
                     {(selectedServicio.raw.evidenciaPath || (selectedServicio.raw.evidencias && selectedServicio.raw.evidencias.length > 0)) ? (
                       <div className="space-y-6">
                         <div className="flex flex-col items-center">
@@ -2220,7 +2105,7 @@ ORDEN DE SERVICIO: #${servicio.id}
                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 max-w-3xl mx-auto">
                           {selectedServicio.raw.evidenciaPath && (
                             <div 
-                              className="aspect-video rounded-2xl overflow-hidden border border-zinc-700 dark:border-zinc-800 bg-white shadow-xl cursor-pointer group relative"
+                              className="aspect-video rounded-2xl overflow-hidden border border-zinc-100 dark:border-zinc-800/50 bg-white shadow-xl cursor-pointer group relative"
                               onClick={() => window.open(selectedServicio.raw.evidenciaPath!, '_blank')}
                             >
                               {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -2238,7 +2123,7 @@ ORDEN DE SERVICIO: #${servicio.id}
                           {selectedServicio.raw.evidencias?.map((ev, index) => (
                             <div 
                               key={ev.id}
-                              className="aspect-video rounded-2xl overflow-hidden border border-zinc-700 dark:border-zinc-800 bg-white shadow-xl cursor-pointer group relative"
+                              className="aspect-video rounded-2xl overflow-hidden border border-zinc-100 dark:border-zinc-800/50 bg-white shadow-xl cursor-pointer group relative"
                               onClick={() => window.open(ev.path, '_blank')}
                             >
                               {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -2282,7 +2167,7 @@ ORDEN DE SERVICIO: #${servicio.id}
 
           {selectedServicio && (
             <div className="space-y-6 mt-4">
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 bg-zinc-50 dark:bg-zinc-800/50 p-5 rounded-2xl border border-zinc-700 dark:border-zinc-800">
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 bg-zinc-50 dark:bg-zinc-800/50 p-5 rounded-2xl border border-zinc-100 dark:border-zinc-800/50">
                 <div className="space-y-1">
                   <p className="text-[9px] font-black text-zinc-400 uppercase tracking-widest">Valor Cotizado</p>
                   <p className="text-base font-black text-zinc-900 dark:text-zinc-50">
@@ -2342,7 +2227,7 @@ ORDEN DE SERVICIO: #${servicio.id}
 
                 <div className="space-y-3">
                   {liquidarData.breakdown.map((line, index) => (
-                    <div key={index} className="p-4 bg-white dark:bg-zinc-900 rounded-2xl border border-zinc-700 dark:border-zinc-800 shadow-sm space-y-4">
+                    <div key={index} className="p-4 bg-white dark:bg-zinc-900 rounded-2xl border border-zinc-100 dark:border-zinc-800/50 shadow-sm space-y-4">
                       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                         <div className="space-y-1.5">
                           <Label className="text-[9px] font-black uppercase tracking-widest text-zinc-500">Método</Label>
@@ -2353,7 +2238,7 @@ ORDEN DE SERVICIO: #${servicio.id}
                               newBreakdown[index] = { ...line, metodo: e.target.value };
                               setLiquidarData({ ...liquidarData, breakdown: newBreakdown });
                             }}
-                            className="h-10 rounded-xl bg-zinc-50 dark:bg-zinc-800/50 border-zinc-700 dark:border-zinc-800 text-[11px] font-bold"
+                            className="h-10 rounded-xl bg-zinc-50 dark:bg-zinc-800/50 border-zinc-100 dark:border-zinc-800/50 text-[11px] font-bold"
                           >
                             <option value="EFECTIVO">EFECTIVO</option>
                             <option value="TRANSFERENCIA">TRANSFERENCIA</option>
@@ -2389,7 +2274,7 @@ ORDEN DE SERVICIO: #${servicio.id}
                               setLiquidarData({ ...liquidarData, breakdown: newBreakdown });
                             }}
                             placeholder="0"
-                            className="h-10 rounded-xl border-zinc-700 dark:border-zinc-800 bg-zinc-50 dark:bg-zinc-800/50 font-bold text-sm"
+                            className="h-10 rounded-xl border-zinc-100 dark:border-zinc-800/50 bg-zinc-50 dark:bg-zinc-800/50 font-bold text-sm"
                           />
                         </div>
                       </div>
@@ -2406,7 +2291,7 @@ ORDEN DE SERVICIO: #${servicio.id}
                                 setLiquidarData({ ...liquidarData, breakdown: newBreakdown });
                               }}
                               placeholder="Ej: Bancolombia, Nequi..."
-                              className="h-10 rounded-xl border-zinc-700 dark:border-zinc-800 bg-zinc-50 dark:bg-zinc-800/50 font-bold text-xs"
+                              className="h-10 rounded-xl border-zinc-100 dark:border-zinc-800/50 bg-zinc-50 dark:bg-zinc-800/50 font-bold text-xs"
                             />
                           </div>
                           <div className="space-y-1.5">
@@ -2419,7 +2304,7 @@ ORDEN DE SERVICIO: #${servicio.id}
                                 setLiquidarData({ ...liquidarData, breakdown: newBreakdown });
                               }}
                               placeholder="Nº comprobante"
-                              className="h-10 rounded-xl border-zinc-700 dark:border-zinc-800 bg-zinc-50 dark:bg-zinc-800/50 font-bold text-xs"
+                              className="h-10 rounded-xl border-zinc-100 dark:border-zinc-800/50 bg-zinc-50 dark:bg-zinc-800/50 font-bold text-xs"
                             />
                           </div>
                         </div>
@@ -2434,14 +2319,14 @@ ORDEN DE SERVICIO: #${servicio.id}
                     <DatePicker 
                       date={liquidarData.fechaPago ? new Date(liquidarData.fechaPago + "T00:00:00") : undefined}
                       onChange={(d) => setLiquidarData({...liquidarData, fechaPago: d ? d.toISOString().split("T")[0] : ""})}
-                      className="h-12 border-zinc-700 dark:border-zinc-800 bg-zinc-50 dark:bg-zinc-800/50"
+                      className="h-12 border-zinc-300 transition-all hover:scale-[1.02] focus-within:scale-[1.02]"
                     />
                   </div>
                   <div className="space-y-2">
                     <Label className="text-[10px] font-black uppercase tracking-widest text-zinc-500">Comprobante Global (Opcional)</Label>
                     <div 
                       onClick={() => document.getElementById('comprobante-liquidar-upload')?.click()}
-                      className="h-12 border-2 border-dashed border-zinc-700 dark:border-zinc-800 rounded-xl flex items-center justify-center cursor-pointer hover:bg-zinc-50 dark:hover:bg-zinc-800/50 transition-colors"
+                      className="h-12 border-2 border-dashed border-zinc-100 dark:border-zinc-800/50 rounded-xl flex items-center justify-center cursor-pointer hover:bg-zinc-50 dark:hover:bg-zinc-800/50 transition-colors"
                     >
                       <FileUp className="h-4 w-4 text-zinc-400 mr-2" />
                       <span className="text-[10px] font-black uppercase tracking-widest text-zinc-500 px-4 truncate">
@@ -2463,7 +2348,7 @@ ORDEN DE SERVICIO: #${servicio.id}
                   <textarea 
                     value={liquidarData.observacionFinal}
                     onChange={(e) => setLiquidarData({...liquidarData, observacionFinal: e.target.value})}
-                    className="w-full min-h-[80px] p-4 rounded-2xl border border-zinc-700 dark:border-zinc-800 bg-zinc-50 dark:bg-zinc-800/50 text-sm font-medium focus:ring-2 focus:ring-azul-1 outline-none transition-all"
+                    className="w-full min-h-[80px] p-4 rounded-2xl border border-zinc-100 dark:border-zinc-800/50 bg-zinc-50 dark:bg-zinc-800/50 text-sm font-medium focus:ring-2 focus:ring-azul-1 outline-none transition-all"
                     placeholder="Notas adicionales..."
                   />
                 </div>
@@ -2540,7 +2425,7 @@ ORDEN DE SERVICIO: #${servicio.id}
                 <div className="space-y-3">
                   {selectedServicio.raw.desglosePago && Array.isArray(selectedServicio.raw.desglosePago) ? (
                     (selectedServicio.raw.desglosePago as any[]).map((line, idx) => (
-                      <div key={idx} className="p-4 bg-zinc-50 dark:bg-zinc-800/50 rounded-2xl border border-zinc-100 dark:border-zinc-800 flex justify-between items-center">
+                      <div key={idx} className="p-4 bg-zinc-50 dark:bg-zinc-800/50 rounded-2xl border border-zinc-100 dark:border-zinc-800/50 flex justify-between items-center">
                         <div>
                           <div className="flex items-center gap-2">
                             <span className="text-xs font-black text-zinc-900 dark:text-zinc-100">{line.metodo}</span>
@@ -2555,7 +2440,7 @@ ORDEN DE SERVICIO: #${servicio.id}
                     ))
                   ) : (
                     /* Fallback para órdenes viejas */
-                    <div className="p-4 bg-zinc-50 dark:bg-zinc-800/50 rounded-2xl border border-zinc-700 dark:border-zinc-800 flex justify-between items-center">
+                    <div className="p-4 bg-zinc-50 dark:bg-zinc-800/50 rounded-2xl border border-zinc-100 dark:border-zinc-800/50 flex justify-between items-center">
                       <div>
                         <span className="text-xs font-black text-zinc-900 dark:text-zinc-100">PAGO ÚNICO</span>
                         {selectedServicio.raw.entidadFinanciera && (
@@ -2590,7 +2475,7 @@ ORDEN DE SERVICIO: #${servicio.id}
                   <span className="text-[10px] font-black text-zinc-500 uppercase tracking-widest block">Comprobante Adjunto</span>
                   <Button 
                     variant="outline" 
-                    className="w-full h-12 rounded-xl border-zinc-700 dark:border-zinc-800 gap-3 font-bold text-xs uppercase"
+                    className="w-full h-12 rounded-xl border-zinc-100 dark:border-zinc-800/50 gap-3 font-bold text-xs uppercase"
                     onClick={() => window.open(selectedServicio.raw.comprobantePago!, "_blank")}
                   >
                     <Receipt className="h-4 w-4 text-blue-600" /> Ver Comprobante de Pago
@@ -2601,7 +2486,7 @@ ORDEN DE SERVICIO: #${servicio.id}
               {selectedServicio.raw.observacionFinal && (
                 <div className="space-y-2">
                   <span className="text-[10px] font-black text-zinc-500 uppercase tracking-widest block">Observaciones de Cierre</span>
-                  <div className="bg-zinc-50 dark:bg-zinc-800/50 p-4 rounded-2xl border border-zinc-700 dark:border-zinc-800 text-sm font-medium text-zinc-600 dark:text-zinc-400 italic">
+                  <div className="bg-zinc-50 dark:bg-zinc-800/50 p-4 rounded-2xl border border-zinc-100 dark:border-zinc-800/50 text-sm font-medium text-zinc-600 dark:text-zinc-400 italic">
                     "{selectedServicio.raw.observacionFinal}"
                   </div>
                 </div>

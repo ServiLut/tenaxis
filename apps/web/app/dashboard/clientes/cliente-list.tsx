@@ -634,16 +634,16 @@ export function ClienteList({ initialClientes, initialDepartments = [], initialM
   return (
     <div className="flex flex-col h-full">
       {/* Sub-Header Estratégico */}
-      <div className="shrink-0 py-10 px-6 lg:px-10 border-b border-zinc-100 dark:border-zinc-800/50 mb-8 bg-white dark:bg-zinc-900/50">
+      <div className="shrink-0 py-10 px-6 lg:px-10 border-b border-[#706F71]/10 mb-8 bg-[#F8FAFC]">
         <div className="max-w-[1600px] mx-auto w-full flex flex-col md:flex-row md:items-center gap-6">
-          <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-azul-1 text-white shadow-xl shadow-azul-1/20">
-            <Contact className="h-5 w-5" />
+          <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-[#021359] text-white shadow-xl shadow-[#021359]/20">
+            <Contact className="h-5 w-5 text-[#01ADFB]" />
           </div>
           <div className="flex-1">
-            <h1 className="text-2xl lg:text-3xl font-black tracking-tight text-zinc-900 dark:text-zinc-50">
-              Cartera de <span className="text-azul-1 dark:text-claro-azul-4">Clientes</span>
+            <h1 className="text-2xl lg:text-3xl font-black tracking-tight text-black uppercase">
+              Cartera de <span className="text-[#01ADFB]">Clientes</span>
             </h1>
-            <p className="text-zinc-500 font-medium mt-1">
+            <p className="text-[#706F71] font-medium mt-1 text-[10px] uppercase tracking-widest">
               Gestión estratégica y segmentación de la base instalada.
             </p>
           </div>
@@ -652,16 +652,16 @@ export function ClienteList({ initialClientes, initialDepartments = [], initialM
               variant="outline"
               size="sm"
               onClick={() => setShowKPIs(!showKPIs)}
-              className="h-10 px-4 rounded-xl border-zinc-100 dark:border-zinc-800 bg-white dark:bg-zinc-900 text-[10px] font-black uppercase tracking-widest gap-2"
+              className="h-10 px-4 rounded-xl border-[#706F71]/20 bg-white text-[10px] font-black uppercase tracking-widest gap-2"
             >
               {showKPIs ? (
                 <>
-                  <EyeOff className="h-4 w-4 text-amber-500" />
+                  <EyeOff className="h-4 w-4" />
                   Ocultar KPIs
                 </>
               ) : (
                 <>
-                  <BarChart3 className="h-4 w-4 text-azul-1" />
+                  <BarChart3 className="h-4 w-4 text-[#01ADFB]" />
                   Ver KPIs
                 </>
               )}
@@ -677,128 +677,64 @@ export function ClienteList({ initialClientes, initialDepartments = [], initialM
           {/* KPI Cards Grid */}
           {showKPIs && (
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 mb-6 shrink-0 animate-in fade-in slide-in-from-top-4 duration-300">
-              <div className="bg-white dark:bg-zinc-900 p-6 rounded-2xl border border-zinc-100 dark:border-zinc-800/50 shadow-sm flex items-center gap-4">
-                <div className="h-12 w-12 rounded-xl bg-azul-1/10 flex items-center justify-center text-azul-1">
-                  <User className="h-6 w-6" />
+              {[
+                { label: "Total Clientes", val: stats.total, icon: User, color: "#021359" },
+                { label: "Corporativos", val: stats.empresas, icon: Building2, color: "#01ADFB" },
+                { label: "Clientes Oro", val: stats.oro, icon: Trophy, color: "#01ADFB" },
+                { label: "Riesgo Alto", val: stats.riesgoCritico, icon: AlertCircle, color: "#706F71" },
+                { label: "Avg Score", val: stats.avgScore, icon: Activity, color: "#706F71" },
+              ].map((item, i) => (
+                <div key={i} className="bg-white p-6 rounded-2xl border border-[#706F71]/10 shadow-sm flex items-center gap-4">
+                  <div className="h-12 w-12 rounded-xl flex items-center justify-center text-white" style={{ backgroundColor: item.color }}>
+                    <item.icon className="h-6 w-6" />
+                  </div>
+                  <div>
+                    <p className="text-[10px] font-black text-[#706F71] uppercase tracking-widest">{item.label}</p>
+                    <p className="text-2xl font-black text-black">{item.val}</p>
+                  </div>
                 </div>
-                <div>
-                  <p className="text-[10px] font-black text-zinc-400 uppercase tracking-widest">Total Clientes</p>
-                  <p className="text-2xl font-black text-zinc-900 dark:text-zinc-50">{stats.total}</p>
-                </div>
-              </div>
-
-              <div className="bg-white dark:bg-zinc-900 p-6 rounded-2xl border border-zinc-100 dark:border-zinc-800/50 shadow-sm flex items-center gap-4">
-                <div className="h-12 w-12 rounded-xl bg-purple-500/10 flex items-center justify-center text-purple-500">
-                  <Building2 className="h-6 w-6" />
-                </div>
-                <div>
-                  <p className="text-[10px] font-black text-zinc-400 uppercase tracking-widest">Corporativos</p>
-                  <p className="text-2xl font-black text-zinc-900 dark:text-zinc-50">{stats.empresas}</p>
-                </div>
-              </div>
-
-              <div className="bg-white dark:bg-zinc-900 p-6 rounded-2xl border border-zinc-100 dark:border-zinc-800/50 shadow-sm flex items-center gap-4">
-                <div className="h-12 w-12 rounded-xl bg-amber-500/10 flex items-center justify-center text-amber-500">
-                  <Trophy className="h-6 w-6" />
-                </div>
-                <div>
-                  <p className="text-[10px] font-black text-zinc-400 uppercase tracking-widest">Clientes Oro</p>
-                  <p className="text-2xl font-black text-zinc-900 dark:text-zinc-50">{stats.oro}</p>
-                </div>
-              </div>
-
-              <div className="bg-white dark:bg-zinc-900 p-6 rounded-2xl border border-zinc-100 dark:border-zinc-800/50 shadow-sm flex items-center gap-4">
-                <div className="h-12 w-12 rounded-xl bg-red-500/10 flex items-center justify-center text-red-500">
-                  <AlertCircle className="h-6 w-6" />
-                </div>
-                <div>
-                  <p className="text-[10px] font-black text-zinc-400 uppercase tracking-widest">Riesgo Alto</p>
-                  <p className="text-2xl font-black text-zinc-900 dark:text-zinc-50">{stats.riesgoCritico}</p>
-                </div>
-              </div>
-
-              <div className="bg-white dark:bg-zinc-900 p-6 rounded-2xl border border-zinc-100 dark:border-zinc-800/50 shadow-sm flex items-center gap-4">
-                <div className="h-12 w-12 rounded-xl bg-emerald-500/10 flex items-center justify-center text-emerald-500">
-                  <Activity className="h-6 w-6" />
-                </div>
-                <div>
-                  <p className="text-[10px] font-black text-zinc-400 uppercase tracking-widest">Avg Score</p>
-                  <p className="text-2xl font-black text-zinc-900 dark:text-zinc-300">{stats.avgScore}</p>
-                </div>
-              </div>
+              ))}
             </div>
           )}
 
-          <div className="flex-1 min-h-0 flex flex-col bg-white dark:bg-zinc-900 rounded-xl border border-zinc-100 dark:border-zinc-800/50 shadow-xl shadow-zinc-200/20 dark:shadow-none overflow-hidden">
+          <div className="flex-1 min-h-0 flex flex-col bg-white rounded-[2.5rem] border border-[#706F71]/10 shadow-sm overflow-hidden">
             {/* Barra de Filtros Unificada */}
-      <div className="px-8 py-6 border-b border-zinc-100 dark:border-zinc-800/50 flex flex-col gap-6 sm:flex-row sm:items-center sm:justify-between bg-white dark:bg-zinc-900 shrink-0">
-        <div className="flex flex-1 items-center gap-3 max-w-2xl">
-          <div className="relative flex-1">
-            <Search className="absolute left-4 top-1/2 h-5 w-5 -translate-y-1/2 text-zinc-400" />
-            <Input
-              placeholder="Buscar por nombre, documento o NIT..."
-              className="h-12 pl-12 rounded-lg border-zinc-100 dark:border-zinc-800 bg-zinc-50 dark:bg-zinc-800/50 transition-all"
-              value={search}
-              onChange={(e) => setSearch(e.target.value)}
-            />
-          </div>
+            <div className="px-8 py-6 border-b border-[#706F71]/5 flex flex-col gap-6 sm:flex-row sm:items-center sm:justify-between bg-white shrink-0">
+              <div className="flex flex-1 items-center gap-3 max-w-2xl">
+                <div className="relative flex-1 group">
+                  <Search className="absolute left-4 top-1/2 h-5 w-5 -translate-y-1/2 text-[#706F71] group-focus-within:text-[#01ADFB] transition-colors" />
+                  <Input
+                    placeholder="Buscar clientes..."
+                    className="h-12 pl-12 rounded-xl border-none bg-[#706F71]/5 focus:ring-2 focus:ring-[#01ADFB]/20 transition-all font-bold text-sm"
+                    value={search}
+                    onChange={(e) => setSearch(e.target.value)}
+                  />
+                </div>
 
-          {/* Botón de Filtros Avanzados - Toggle Div */}
-          <button 
-            onClick={() => setShowFilters(!showFilters)}
-            className={cn(
-              "flex items-center h-12 px-6 rounded-lg font-bold text-[11px] uppercase tracking-wider transition-all gap-2 border",
-              activeFiltersCount > 0
-                ? "bg-azul-1 text-white border-azul-1"
-                : "bg-white dark:bg-zinc-800 text-zinc-700 dark:text-zinc-300 border-zinc-100 dark:border-zinc-100 hover:bg-zinc-50 dark:hover:bg-zinc-700",
-              showFilters && "bg-zinc-100 dark:bg-zinc-700 border-zinc-100 shadow-inner"
-            )}
-          >
-            <Filter className="h-4 w-4" />
-            <span>{showFilters ? "Ocultar Filtros" : "Filtros"}</span>
-            {activeFiltersCount > 0 && (
-              <span className={cn(
-                "ml-1 h-5 w-5 rounded-full flex items-center justify-center text-[10px] font-black shadow-sm",
-                showFilters || activeFiltersCount > 0 ? "bg-white text-azul-1" : "bg-azul-1 text-white"
-              )}>
-                {activeFiltersCount}
-              </span>
-            )}
-          </button>
-        </div>
+                <button 
+                  onClick={() => setShowFilters(!showFilters)}
+                  className={cn(
+                    "flex items-center h-12 px-6 rounded-xl font-bold text-[11px] uppercase tracking-wider transition-all gap-2 border",
+                    activeFiltersCount > 0
+                      ? "bg-[#01ADFB] text-white border-[#01ADFB]"
+                      : "bg-white text-[#706F71] border-[#706F71]/20 hover:bg-zinc-50",
+                    showFilters && "bg-[#021359] text-white border-[#021359]"
+                  )}
+                >
+                  <Filter className="h-4 w-4" />
+                  <span>{showFilters ? "Ocultar" : "Filtros"}</span>
+                </button>
+              </div>
 
-        <div className="flex items-center gap-3">
-          {/* Botón de Exportación con Shadcn */}
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <button className="flex items-center h-12 px-6 rounded-lg bg-emerald-50 dark:bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 hover:bg-emerald-100 dark:hover:bg-emerald-500/20 gap-3 transition-all font-bold text-[11px] uppercase tracking-wider border border-emerald-400 dark:border-emerald-500/20 shadow-sm">
-                <Download className="h-4 w-4" />
-                <span>Exportar</span>
-              </button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="end" className="w-56 p-2 rounded-xl border border-zinc-100 shadow-2xl">
-              <DropdownMenuLabel className="text-[9px] font-black text-zinc-400 uppercase tracking-widest pb-2">Formatos Corporativos</DropdownMenuLabel>
-              <DropdownMenuSeparator />
-              <DropdownMenuItem onClick={() => handleExport('excel')} className="flex items-center gap-3 py-3 text-[11px] font-bold cursor-pointer hover:text-emerald-600">
-                <FileSpreadsheet className="h-4 w-4" /> MICROSOFT EXCEL (.XLSX)
-              </DropdownMenuItem>
-              <DropdownMenuItem onClick={() => handleExport('pdf')} className="flex items-center gap-3 py-3 text-[11px] font-bold cursor-pointer hover:text-red-600">
-                <FileText className="h-4 w-4" /> DOCUMENTO PDF (.PDF)
-              </DropdownMenuItem>
-              <DropdownMenuItem onClick={() => handleExport('word')} className="flex items-center gap-3 py-3 text-[11px] font-bold cursor-pointer hover:text-blue-600">
-                <FileIcon className="h-4 w-4" /> MICROSOFT WORD (.DOCX)
-              </DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
-
-          <Link href="/dashboard/clientes/nuevo">
-            <div className="flex items-center h-12 px-8 rounded-lg bg-azul-1 text-zinc-50 gap-3 shadow-lg shadow-azul-1/20 transition-all hover:bg-blue-700 dark:hover:bg-blue-600 cursor-pointer">
-              <Plus className="h-5 w-5" />
-              <span className="font-bold uppercase tracking-wider text-[11px]">Nuevo Registro</span>
+              <div className="flex items-center gap-3">
+                <Link href="/dashboard/clientes/nuevo">
+                  <div className="flex items-center h-12 px-8 rounded-xl bg-[#01ADFB] text-white gap-3 shadow-lg shadow-[#01ADFB]/20 transition-transform hover:scale-105 active:scale-95 cursor-pointer">
+                    <Plus className="h-5 w-5" />
+                    <span className="font-black uppercase tracking-widest text-[10px]">Nuevo Cliente</span>
+                  </div>
+                </Link>
+              </div>
             </div>
-          </Link>
-        </div>
-      </div>
 
       {/* Integrated Filter Panel */}
       {showFilters && (
@@ -807,7 +743,7 @@ export function ClienteList({ initialClientes, initialDepartments = [], initialM
             <div className="flex items-center justify-between mb-8 border-b border-zinc-100 dark:border-zinc-800 pb-4">
               <div>
                 <h3 className="text-sm font-black uppercase tracking-widest text-zinc-900 dark:text-zinc-100 flex items-center gap-3">
-                  <Filter className="h-5 w-5 text-azul-1" /> Panel de Segmentación Avanzada
+                  <Filter className="h-5 w-5 text-#01ADFB" /> Panel de Segmentación Avanzada
                 </h3>
                 <p className="text-[10px] font-bold text-zinc-500 mt-1 uppercase tracking-wider">
                   Refine los resultados de la cartera de clientes
@@ -815,22 +751,22 @@ export function ClienteList({ initialClientes, initialDepartments = [], initialM
               </div>
               <button
                 onClick={resetFilters}
-                className="text-[11px] font-black text-zinc-600 dark:text-zinc-400 hover:text-azul-1 flex items-center gap-2 transition-colors px-4 py-2 rounded-xl hover:bg-zinc-100 dark:hover:bg-zinc-800 border border-zinc-100 dark:border-zinc-100"
+                className="text-[11px] font-black text-zinc-600 dark:text-zinc-400 hover:text-#01ADFB flex items-center gap-2 transition-colors px-4 py-2 rounded-xl hover:bg-zinc-100 dark:hover:bg-zinc-800 border border-zinc-100 dark:border-zinc-100"
               >
                 <RotateCcw className="h-4 w-4" /> REINICIAR FILTROS
               </button>
             </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-x-8 gap-y-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-x-8 gap-y-8">
               {/* Empresa (Solo Admins) */}
               {(userRole === "SU_ADMIN" || userRole === "ADMIN") && filterOptions.empresas.length > 0 && (
                 <div className="space-y-2">
                   <Label className="text-[10px] font-black uppercase tracking-widest text-zinc-500">Empresa Responsable</Label>
                   <Input
-                    placeholder="Filtrar por nombre..."
+                    placeholder="FILTRAR POR NOMBRE..."
                     value={empresaSearch}
                     onChange={(e) => setEmpresaSearch(e.target.value)}
-                    className="h-9 text-xs mb-2 border-zinc-100"
+                    className="h-11 text-xs mb-2 border border-zinc-300 focus-visible:border-zinc-300 transition-all hover:scale-[1.02] focus:scale-[1.02]"
                   />
                   <div className="flex flex-col gap-2 max-h-32 overflow-y-auto custom-scrollbar p-4 bg-white dark:bg-zinc-900 rounded-xl border border-zinc-100">
                                             {filterOptions.empresas
@@ -838,7 +774,7 @@ export function ClienteList({ initialClientes, initialDepartments = [], initialM
                                               .map((emp: { id: string, nombre: string }) => (
                                               <label key={emp.id} className="flex items-center gap-3 text-xs font-black text-zinc-700 dark:text-zinc-300 cursor-pointer group">
                                                 <div className={cn(
-                                                  "flex h-4 w-4 shrink-0 items-center justify-center rounded-md border-2 border-zinc-100 transition-colors",                          filters.empresas.includes(emp.id) ? "bg-azul-1 border-azul-1" : "bg-white dark:bg-zinc-900 group-hover:border-azul-1"
+                                                  "flex h-4 w-4 shrink-0 items-center justify-center rounded-md border-2 border-zinc-100 transition-colors",                          filters.empresas.includes(emp.id) ? "bg-#01ADFB border-#01ADFB" : "bg-white dark:bg-zinc-900 group-hover:border-#01ADFB"
                         )}>
                           {filters.empresas.includes(emp.id) && <Check className="h-3 w-3 text-white" />}
                         </div>
@@ -876,7 +812,7 @@ export function ClienteList({ initialClientes, initialDepartments = [], initialM
                     setFilters(prev => ({ ...prev, departamento: val, municipio: "all" }));
                   }}
                   placeholder="Seleccionar..."
-                  className="h-11"
+                  className="h-11 transition-all hover:scale-[1.02] focus-within:scale-[1.02]"
                 />
               </div>
 
@@ -891,7 +827,7 @@ export function ClienteList({ initialClientes, initialDepartments = [], initialM
                   value={filters.municipio}
                   onChange={(val) => setFilters(prev => ({ ...prev, municipio: val }))}
                   placeholder="Seleccionar..."
-                  className="h-11"
+                  className="h-11 transition-all hover:scale-[1.02] focus-within:scale-[1.02]"
                   disabled={filters.departamento === "all" && initialDepartments.length > 0}
                 />
               </div>
@@ -900,10 +836,10 @@ export function ClienteList({ initialClientes, initialDepartments = [], initialM
               <div className="space-y-2">
                 <Label className="text-[10px] font-black uppercase tracking-widest text-zinc-500">Barrio / Sector</Label>
                 <Input
-                  placeholder="Ej: El Poblado"
+                  placeholder="EJ: EL POBLADO"
                   value={filters.barrio}
                   onChange={(e) => setFilters(prev => ({ ...prev, barrio: e.target.value }))}
-                  className="h-11 text-xs border-zinc-100 bg-white"
+                  className="h-11 text-xs border border-zinc-300 bg-white focus-visible:border-zinc-300 transition-all hover:scale-[1.02] focus:scale-[1.02]"
                 />
               </div>
 
@@ -918,7 +854,7 @@ export function ClienteList({ initialClientes, initialDepartments = [], initialM
                   value={filters.clasificacion}
                   onChange={(val) => setFilters(prev => ({ ...prev, clasificacion: val }))}
                   placeholder="Seleccionar..."
-                  className="h-11"
+                  className="h-11 transition-all hover:scale-[1.02] focus-within:scale-[1.02]"
                   hideSearch
                 />
               </div>
@@ -934,7 +870,7 @@ export function ClienteList({ initialClientes, initialDepartments = [], initialM
                   value={filters.segmento}
                   onChange={(val) => setFilters(prev => ({ ...prev, segmento: val }))}
                   placeholder="Seleccionar..."
-                  className="h-11"
+                  className="h-11 transition-all hover:scale-[1.02] focus-within:scale-[1.02]"
                 />
               </div>
 
@@ -949,7 +885,7 @@ export function ClienteList({ initialClientes, initialDepartments = [], initialM
                   value={filters.riesgo}
                   onChange={(val) => setFilters(prev => ({ ...prev, riesgo: val }))}
                   placeholder="Seleccionar..."
-                  className="h-11"
+                  className="h-11 transition-all hover:scale-[1.02] focus-within:scale-[1.02]"
                   hideSearch
                 />
               </div>
@@ -961,15 +897,15 @@ export function ClienteList({ initialClientes, initialDepartments = [], initialM
                   <DatePicker
                     date={filters.fechaDesde ? new Date(filters.fechaDesde + "T00:00:00") : undefined}
                     onChange={(d) => setFilters(prev => ({ ...prev, fechaDesde: d ? d.toISOString().split("T")[0] : "" }))}
-                    className="flex-1 h-11 bg-white border-zinc-100"
-                    placeholder="Fecha Inicial"
+                    className="flex-1 h-11 bg-white border-zinc-300 transition-all hover:scale-[1.02] focus-within:scale-[1.02]"
+                    placeholder="FECHA INICIAL"
                   />
-                  <span className="text-zinc-400 font-bold text-xs">AL</span>
+                  <span className="text-zinc-600 font-bold text-xs">AL</span>
                   <DatePicker
                     date={filters.fechaHasta ? new Date(filters.fechaHasta + "T00:00:00") : undefined}
                     onChange={(d) => setFilters(prev => ({ ...prev, fechaHasta: d ? d.toISOString().split("T")[0] : "" }))}
-                    className="flex-1 h-11 bg-white border-zinc-100"
-                    placeholder="Fecha Final"
+                    className="flex-1 h-11 bg-white border-zinc-300 transition-all hover:scale-[1.02] focus-within:scale-[1.02]"
+                    placeholder="FECHA FINAL"
                   />
                 </div>
               </div>
@@ -1051,7 +987,7 @@ export function ClienteList({ initialClientes, initialDepartments = [], initialM
 
                   <td className="px-4 py-6 text-center">
                     <div className="inline-flex items-center gap-2 px-3 py-1 rounded-lg bg-zinc-50 dark:bg-zinc-800 border border-zinc-100 dark:border-zinc-100">
-                      <Target className="h-3 w-3 text-azul-1" />
+                      <Target className="h-3 w-3 text-#01ADFB" />
                       <span className="text-[10px] font-black text-zinc-900 dark:text-zinc-300 uppercase tracking-tight">
                         {cliente.segmento?.nombre || cliente.segmentoNegocio || "N/A"}
                       </span>
@@ -1095,7 +1031,7 @@ export function ClienteList({ initialClientes, initialDepartments = [], initialM
                   <td className="px-4 py-6">
                     <div className="flex flex-col">
                       <div className="flex items-center gap-1.5 mb-0.5">
-                        <MapPin className="h-3 w-3 text-azul-1" />
+                        <MapPin className="h-3 w-3 text-#01ADFB" />
                         <span className="text-xs font-black text-zinc-900 dark:text-zinc-100 truncate max-w-[150px] uppercase">
                           {cliente.direcciones?.[0]?.direccion || "SIN DIRECCIÓN"}
                         </span>
@@ -1118,7 +1054,7 @@ export function ClienteList({ initialClientes, initialDepartments = [], initialM
                           onClick={() => setSelectedCliente(cliente)}
                           className="flex items-center gap-3 py-3 text-[11px] font-black uppercase tracking-widest cursor-pointer text-zinc-700"
                         >
-                          <Eye className="h-4 w-4 text-azul-1" /> Ver Expediente
+                          <Eye className="h-4 w-4 text-#01ADFB" /> Ver Expediente
                         </DropdownMenuItem>
                         <DropdownMenuItem
                           onClick={() => setSelectedClienteForHistory(cliente)}
@@ -1193,7 +1129,7 @@ export function ClienteList({ initialClientes, initialDepartments = [], initialM
                     className={cn(
                       "flex h-10 w-10 items-center justify-center rounded-xl text-[11px] font-black transition-all",
                       currentPage === page
-                        ? "bg-azul-1 text-zinc-50 shadow-lg shadow-azul-1/20"
+                        ? "bg-#01ADFB text-zinc-50 shadow-lg shadow-#01ADFB/20"
                         : "bg-white dark:bg-zinc-800 border border-zinc-100 dark:border-zinc-100 text-zinc-600 dark:text-zinc-300 hover:bg-zinc-50 dark:hover:bg-zinc-700"
                     )}
                   >
@@ -1224,7 +1160,7 @@ export function ClienteList({ initialClientes, initialDepartments = [], initialM
               {/* Header Estratégico */}
               <div className={cn(
                 "h-40 w-full p-8 flex items-center justify-between text-white relative shrink-0",
-                selectedCliente.tipoCliente === "EMPRESA" ? "bg-zinc-900" : "bg-azul-1"
+                selectedCliente.tipoCliente === "EMPRESA" ? "bg-zinc-900" : "bg-#01ADFB"
               )}>
                 <div className="flex items-center gap-6 z-10">
                   <div className="h-20 w-20 rounded-2xl bg-white/10 backdrop-blur-xl flex items-center justify-center text-3xl font-black shadow-2xl border border-white/20">
@@ -1268,7 +1204,7 @@ export function ClienteList({ initialClientes, initialDepartments = [], initialM
                   <div className="p-4 rounded-2xl bg-zinc-50 dark:bg-zinc-900 border border-zinc-100 dark:border-zinc-800 shadow-sm">
                     <p className="text-[9px] font-black uppercase tracking-[0.2em] text-zinc-500 mb-2">Segmento Negocio</p>
                     <div className="flex items-center gap-3">
-                      <div className="h-8 w-8 rounded-lg bg-azul-1/10 flex items-center justify-center text-azul-1">
+                      <div className="h-8 w-8 rounded-lg bg-#01ADFB/10 flex items-center justify-center text-#01ADFB">
                         <Target className="h-4 w-4" />
                       </div>
                       <span className={cn(
@@ -1318,7 +1254,7 @@ export function ClienteList({ initialClientes, initialDepartments = [], initialM
                 {/* 2. SECCIÓN: DATOS DE IDENTIDAD Y PERFIL */}
                 <div className="space-y-4">
                   <h3 className="text-[10px] font-black uppercase tracking-[0.3em] text-zinc-500 flex items-center gap-3 px-1">
-                    <Fingerprint className="h-4 w-4 text-azul-1" /> Identidad y Perfil Corporativo
+                    <Fingerprint className="h-4 w-4 text-#01ADFB" /> Identidad y Perfil Corporativo
                   </h3>
                   <div className="grid grid-cols-2 md:grid-cols-4 gap-4 bg-zinc-50 dark:bg-zinc-900 p-6 rounded-3xl border border-zinc-100 dark:border-zinc-800">
                     <div className="space-y-1">
@@ -1418,7 +1354,7 @@ export function ClienteList({ initialClientes, initialDepartments = [], initialM
                       </div>
                       <div className="space-y-1">
                         <p className="text-[9px] font-black text-zinc-500 uppercase">Próxima Visita</p>
-                        <p className="text-xs font-black text-azul-1">{selectedCliente.proximaVisita ? new Date(selectedCliente.proximaVisita).toLocaleDateString() : "Pendiente"}</p>
+                        <p className="text-xs font-black text-#01ADFB">{selectedCliente.proximaVisita ? new Date(selectedCliente.proximaVisita).toLocaleDateString() : "Pendiente"}</p>
                       </div>
                       <div className="space-y-1">
                         <p className="text-[9px] font-black text-zinc-500 uppercase">Frecuencia (Días)</p>
@@ -1449,17 +1385,17 @@ export function ClienteList({ initialClientes, initialDepartments = [], initialM
                     <h3 className="text-[10px] font-black uppercase tracking-[0.3em] text-zinc-500 flex items-center gap-3">
                       <MapPin className="h-4 w-4 text-orange-600" /> Sedes Operativas Registradas
                     </h3>
-                    <span className="text-[10px] font-black text-azul-1 dark:text-zinc-300 bg-azul-1/10 px-3 py-1 rounded-full uppercase">
+                    <span className="text-[10px] font-black text-#01ADFB dark:text-zinc-300 bg-#01ADFB/10 px-3 py-1 rounded-full uppercase">
                       {selectedCliente.direcciones?.length || 0} Sedes
                     </span>
                   </div>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     {selectedCliente.direcciones?.map((dir, idx) => (
                       <div key={idx} className="p-6 rounded-3xl bg-zinc-50 dark:bg-zinc-900 border border-zinc-100 dark:border-zinc-800 relative group overflow-hidden">
-                        <div className="absolute top-0 left-0 w-1.5 h-full bg-azul-1/20 group-hover:bg-azul-1 transition-colors" />
+                        <div className="absolute top-0 left-0 w-1.5 h-full bg-#01ADFB/20 group-hover:bg-#01ADFB transition-colors" />
                         <div className="flex justify-between items-start mb-4">
                           <div className="flex items-center gap-2">
-                            <MapPin className="h-4 w-4 text-azul-1" />
+                            <MapPin className="h-4 w-4 text-#01ADFB" />
                             <span className="text-[10px] font-black text-zinc-500 uppercase tracking-widest">{dir.nombreSede || `SEDE #${idx + 1}`}</span>
                           </div>
                           <span className="text-[9px] font-black px-2 py-0.5 rounded bg-white dark:bg-zinc-800 border border-zinc-100 dark:border-zinc-100 text-zinc-600 uppercase">
@@ -1541,7 +1477,7 @@ export function ClienteList({ initialClientes, initialDepartments = [], initialM
                             <div className="shrink-0 p-8 bg-white dark:bg-zinc-900 border-t border-zinc-100 dark:border-zinc-800 flex gap-4">
                               <button
                                 onClick={() => router.push(`/dashboard/clientes/${selectedCliente.id}/editar`)}
-                                className="flex-1 h-14 rounded-2xl bg-azul-1 text-xs font-black uppercase tracking-[0.2em] text-white transition-all hover:bg-blue-700 active:scale-[0.98] shadow-xl shadow-azul-1/25"
+                                className="flex-1 h-14 rounded-2xl bg-#01ADFB text-xs font-black uppercase tracking-[0.2em] text-white transition-all hover:bg-blue-700 active:scale-[0.98] shadow-xl shadow-#01ADFB/25"
                               >
                                 Editar Perfil Estratégico
                               </button>
@@ -1570,7 +1506,7 @@ export function ClienteList({ initialClientes, initialDepartments = [], initialM
               {/* Header Contextual */}
               <div className="shrink-0 p-8 border-b border-zinc-100 dark:border-zinc-800 bg-zinc-50/50 dark:bg-zinc-900/30 flex items-center justify-between">
                 <div className="flex items-center gap-5">
-                  <div className="h-14 w-14 rounded-2xl bg-azul-1 flex items-center justify-center text-white shadow-lg shadow-azul-1/20">
+                  <div className="h-14 w-14 rounded-2xl bg-#01ADFB flex items-center justify-center text-white shadow-lg shadow-#01ADFB/20">
                     <Settings className="h-7 w-7 dark:text-zinc-300" />
                   </div>
                   <div>
@@ -1583,7 +1519,7 @@ export function ClienteList({ initialClientes, initialDepartments = [], initialM
                   </div>
                 </div>
                 <div className="flex flex-col items-end gap-1">
-                  <span className="text-[10px] font-black text-azul-1 dark:text-zinc-300 bg-azul-1/10 px-3 py-1 rounded-full uppercase">
+                  <span className="text-[10px] font-black text-#01ADFB dark:text-zinc-300 bg-#01ADFB/10 px-3 py-1 rounded-full uppercase">
                     Módulo de Automatización
                   </span>
                   <span className="text-[9px] font-bold text-zinc-400 dark:text-zinc-300 uppercase tracking-widest">
@@ -1605,7 +1541,7 @@ export function ClienteList({ initialClientes, initialDepartments = [], initialM
                     {/* Selector de Sede para Configuración Específica */}
                     <div className="p-6 rounded-3xl bg-blue-50 dark:bg-blue-500/5 border border-blue-200 dark:border-blue-500/10 flex flex-col md:flex-row md:items-center justify-between gap-4">
                       <div className="flex items-center gap-4">
-                        <div className="h-10 w-10 rounded-xl bg-white dark:bg-zinc-900 flex items-center justify-center text-azul-1 shadow-sm border border-blue-200 dark:border-blue-800">
+                        <div className="h-10 w-10 rounded-xl bg-white dark:bg-zinc-900 flex items-center justify-center text-#01ADFB shadow-sm border border-blue-200 dark:border-blue-800">
                           <MapPin className="h-5 w-5 dark:text-zinc-300" />
                         </div>
                         <div>
@@ -1632,12 +1568,12 @@ export function ClienteList({ initialClientes, initialDepartments = [], initialM
                       <div className="space-y-6">
                         <div className="space-y-3">
                           <h3 className="text-[10px] font-black uppercase tracking-[0.2em] text-zinc-500 flex items-center gap-2">
-                            <ClipboardCheck className="h-4 w-4 text-azul-1" /> Protocolo de Servicio Estándar
+                            <ClipboardCheck className="h-4 w-4 text-#01ADFB" /> Protocolo de Servicio Estándar
                           </h3>
                           <textarea
                             value={configForm.protocoloServicio}
                             onChange={(e) => setConfigForm(prev => ({ ...prev, protocoloServicio: e.target.value }))}
-                            className="w-full h-40 p-4 rounded-2xl bg-zinc-50 dark:bg-zinc-900 border border-zinc-100 dark:border-zinc-800 text-xs font-medium text-zinc-800 dark:text-zinc-300 focus:ring-2 focus:ring-azul-1/20 focus:border-azul-1 transition-all resize-none"
+                            className="w-full h-40 p-4 rounded-2xl bg-zinc-50 dark:bg-zinc-900 border border-zinc-100 dark:border-zinc-800 text-xs font-medium text-zinc-800 dark:text-zinc-300 focus:ring-2 focus:ring-#01ADFB/20 focus:border-#01ADFB transition-all resize-none"
                             placeholder="Escribe aquí las instrucciones fijas para el técnico (EPP requerido, químicos permitidos, restricciones de acceso...)"
                           />
                           <p className="text-[9px] font-bold text-zinc-500 italic">* Este texto se precargará automáticamente en todas las futuras órdenes de servicio.</p>
@@ -1704,7 +1640,7 @@ export function ClienteList({ initialClientes, initialDepartments = [], initialM
                                 onClick={() => setConfigForm(prev => ({ ...prev, requiereFirmaDigital: !prev.requiereFirmaDigital }))}
                                 className={cn(
                                   "h-6 w-11 rounded-full flex items-center px-1 transition-all",
-                                  configForm.requiereFirmaDigital ? "bg-azul-1" : "bg-zinc-400 dark:bg-zinc-700"
+                                  configForm.requiereFirmaDigital ? "bg-#01ADFB" : "bg-zinc-400 dark:bg-zinc-700"
                                 )}
                               >
                                 <div className={cn(
@@ -1723,7 +1659,7 @@ export function ClienteList({ initialClientes, initialDepartments = [], initialM
                                 onClick={() => setConfigForm(prev => ({ ...prev, requiereFotosEvidencia: !prev.requiereFotosEvidencia }))}
                                 className={cn(
                                   "h-6 w-11 rounded-full flex items-center px-1 transition-all",
-                                  configForm.requiereFotosEvidencia ? "bg-azul-1" : "bg-zinc-400 dark:bg-zinc-700"
+                                  configForm.requiereFotosEvidencia ? "bg-#01ADFB" : "bg-zinc-400 dark:bg-zinc-700"
                                 )}
                               >
                                 <div className={cn(
@@ -1771,7 +1707,7 @@ export function ClienteList({ initialClientes, initialDepartments = [], initialM
                               <Button 
                                 size="sm" 
                                 onClick={handleAddElement}
-                                className="h-8 w-full bg-azul-1 hover:bg-blue-600 text-white text-[9px] font-bold uppercase"
+                                className="h-8 w-full bg-#01ADFB hover:bg-blue-600 text-white text-[9px] font-bold uppercase"
                               >
                                 <Plus className="h-3 w-3 mr-1" /> Añadir
                               </Button>
@@ -1840,7 +1776,7 @@ export function ClienteList({ initialClientes, initialDepartments = [], initialM
                 <button
                   onClick={handleSaveConfig}
                   disabled={configLoading}
-                  className="px-10 h-12 rounded-xl bg-azul-1 dark:bg-azul-1 text-xs font-black uppercase tracking-widest text-white dark:text-zinc-200 shadow-lg shadow-azul-1/20 hover:scale-[1.02] active:scale-[0.98] transition-all disabled:opacity-50"
+                  className="px-10 h-12 rounded-xl bg-#01ADFB dark:bg-#01ADFB text-xs font-black uppercase tracking-widest text-white dark:text-zinc-200 shadow-lg shadow-#01ADFB/20 hover:scale-[1.02] active:scale-[0.98] transition-all disabled:opacity-50"
                 >
                   Guardar Cambios
                 </button>
@@ -1864,7 +1800,7 @@ export function ClienteList({ initialClientes, initialDepartments = [], initialM
               {/* Header con Info del Cliente */}
               <div className="shrink-0 p-8 border-b border-zinc-100 dark:border-zinc-800 bg-zinc-50/50 dark:bg-zinc-900/30 flex items-center justify-between">
                 <div className="flex items-center gap-5">
-                  <div className="h-14 w-14 rounded-2xl bg-azul-1 flex items-center justify-center text-white shadow-lg shadow-azul-1/20">
+                  <div className="h-14 w-14 rounded-2xl bg-#01ADFB flex items-center justify-center text-white shadow-lg shadow-#01ADFB/20">
                     <Calendar className="h-7 w-7 dark:text-zinc-300" />
                   </div>
                   <div>
@@ -1877,7 +1813,7 @@ export function ClienteList({ initialClientes, initialDepartments = [], initialM
                   </div>
                 </div>
                 <div className="flex flex-col items-end gap-1">
-                  <span className="text-[10px] font-black text-azul-1 dark:text-zinc-300 bg-azul-1/10 px-3 py-1 rounded-full uppercase">
+                  <span className="text-[10px] font-black text-#01ADFB dark:text-zinc-300 bg-#01ADFB/10 px-3 py-1 rounded-full uppercase">
                     {serviceHistory.length} Servicios Registrados
                   </span>
                 </div>
@@ -1901,10 +1837,10 @@ export function ClienteList({ initialClientes, initialDepartments = [], initialM
                 ) : (
                   <div className="space-y-4">
                     {serviceHistory.map((orden: OrdenServicio) => (
-                      <div key={orden.id} className="p-6 rounded-3xl bg-white dark:bg-zinc-900 border border-zinc-100 dark:border-zinc-800 hover:border-azul-1 transition-all group shadow-sm">
+                      <div key={orden.id} className="p-6 rounded-3xl bg-white dark:bg-zinc-900 border border-zinc-100 dark:border-zinc-800 hover:border-#01ADFB transition-all group shadow-sm">
                         <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
                           <div className="flex items-center gap-5">
-                            <div className="h-12 w-12 rounded-2xl bg-zinc-50 dark:bg-zinc-800 flex items-center justify-center text-zinc-500 group-hover:text-azul-1 transition-colors border border-zinc-100">
+                            <div className="h-12 w-12 rounded-2xl bg-zinc-50 dark:bg-zinc-800 flex items-center justify-center text-zinc-500 group-hover:text-#01ADFB transition-colors border border-zinc-100">
                               <FileText className="h-6 w-6" />
                             </div>
                             <div>
@@ -1935,7 +1871,7 @@ export function ClienteList({ initialClientes, initialDepartments = [], initialM
                             <div className="hidden md:flex flex-col items-end">
                               <p className="text-[9px] font-black text-zinc-500 uppercase tracking-widest">Técnico Asignado</p>
                               <div className="flex items-center gap-2 mt-1">
-                                <div className="h-6 w-6 rounded-full bg-azul-1/10 flex items-center justify-center text-[10px] font-bold text-azul-1">
+                                <div className="h-6 w-6 rounded-full bg-#01ADFB/10 flex items-center justify-center text-[10px] font-bold text-#01ADFB">
                                   {orden.tecnico?.user?.nombre?.charAt(0) || 'T'}
                                 </div>
                                 <span className="text-xs font-bold text-zinc-800 dark:text-zinc-300">
@@ -1947,7 +1883,7 @@ export function ClienteList({ initialClientes, initialDepartments = [], initialM
                               <p className="text-[9px] font-black text-zinc-500 uppercase tracking-widest">Valor</p>
                               <p className="text-sm font-black text-zinc-900 dark:text-zinc-100 mt-1">${Number(orden.valorCotizado || 0).toLocaleString()}</p>
                             </div>
-                            <button className="h-10 w-10 rounded-xl border border-zinc-100 dark:border-zinc-800 flex items-center justify-center hover:bg-azul-1 hover:text-white transition-all">
+                            <button className="h-10 w-10 rounded-xl border border-zinc-100 dark:border-zinc-800 flex items-center justify-center hover:bg-#01ADFB hover:text-white transition-all">
                               <ChevronRight className="h-5 w-5" />
                             </button>
                           </div>
@@ -1962,7 +1898,7 @@ export function ClienteList({ initialClientes, initialDepartments = [], initialM
               <div className="shrink-0 p-8 border-t border-zinc-100 dark:border-zinc-800 bg-white dark:bg-zinc-950 flex items-center justify-end">
                 <button 
                   onClick={() => setSelectedClienteForHistory(null)}
-                  className="px-10 h-12 rounded-xl bg-azul-1 dark:bg-azul-1 text-white dark:text-zinc-300 text-xs font-black uppercase tracking-widest hover:bg-azul-1/90 dark:hover:bg-azul-1/90 transition-all shadow-lg shadow-azul-1/20"
+                  className="px-10 h-12 rounded-xl bg-#01ADFB dark:bg-#01ADFB text-white dark:text-zinc-300 text-xs font-black uppercase tracking-widest hover:bg-#01ADFB/90 dark:hover:bg-#01ADFB/90 transition-all shadow-lg shadow-#01ADFB/20"
                 >
                   Cerrar Historial
                 </button>

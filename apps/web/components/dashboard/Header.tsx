@@ -46,51 +46,53 @@ export function Header({ onMenuClick, isSidebarOpen }: { onMenuClick?: () => voi
   }, []);
 
   return (
-    <header className="sticky top-0 z-30 flex h-20 lg:h-24 w-full items-center justify-between px-6 lg:px-10 border-b border-zinc-200/60 bg-white dark:bg-zinc-950 dark:border-zinc-800 shadow-sm transition-colors">
+    <header className="sticky top-0 z-30 flex h-20 lg:h-24 w-full items-center justify-between px-6 lg:px-10 border-b border-[#706F71]/10 bg-[#F8FAFC]/80 backdrop-blur-md dark:bg-black/80 dark:border-white/10 transition-all">
       <div className="flex items-center gap-4 lg:gap-6 flex-1 max-w-2xl">
         {/* menu toggle */}
         <button 
           onClick={onMenuClick}
           aria-label={isSidebarOpen ? "Cerrar menú" : "Abrir menú"}
-          className="flex h-10 w-10 items-center justify-center rounded-xl bg-zinc-50 text-zinc-900 transition-colors hover:bg-zinc-100 dark:bg-zinc-900 dark:text-zinc-100 dark:hover:bg-zinc-800 shadow-inner border border-zinc-200 dark:border-zinc-800"
+          className="flex h-11 w-11 items-center justify-center rounded-xl bg-white text-[#021359] transition-all hover:bg-zinc-50 dark:bg-zinc-900 dark:text-zinc-100 dark:hover:bg-zinc-800 shadow-sm border border-zinc-200 dark:border-zinc-800 hover:scale-105 active:scale-95"
         >
           <Menu className="h-5 w-5" />
         </button>
 
         <div className="relative w-full group hidden sm:block">
-          <Search className="absolute left-4 top-1/2 h-5 w-5 -translate-y-1/2 text-zinc-400 dark:text-zinc-300 group-focus-within:text-azul-1 transition-colors" />
+          <Search className="absolute left-4 top-1/2 h-5 w-5 -translate-y-1/2 text-[#706F71] group-focus-within:text-[#01ADFB] transition-colors" />
           <Input
             type="search"
             name="search"
-            placeholder="Escribe para buscar en Tenaxis…"
-            className="h-12 lg:h-14 w-full border-2 border-zinc-100 bg-zinc-50 dark:bg-zinc-900 dark:border-zinc-700 dark:text-zinc-100 dark:placeholder:text-zinc-400 pl-12 pr-4 rounded-2xl focus:border-azul-1 focus:bg-white dark:focus:bg-zinc-950 focus:ring-4 focus:ring-azul-1/5 transition-all text-sm font-semibold"
+            placeholder="Buscar en el sistema..."
+            className="h-12 lg:h-13 w-full border-none bg-white dark:bg-zinc-900/50 dark:text-zinc-100 dark:placeholder:text-zinc-500 pl-12 pr-4 rounded-2xl focus:ring-2 focus:ring-[#01ADFB]/20 focus:bg-white dark:focus:bg-zinc-900 transition-all text-sm font-bold shadow-sm"
             autoComplete="off"
           />
         </div>
       </div>
 
-      <div className="flex items-center gap-4 lg:gap-8 pl-4 lg:pl-8 border-l border-zinc-100 dark:border-zinc-800 ml-4 lg:ml-8">
-        <RoleSwitcher />
+      <div className="flex items-center gap-4 lg:gap-6 pl-4 lg:pl-6 ml-4">
+        <div className="hidden md:block">
+          <RoleSwitcher />
+        </div>
         <div className="flex items-center gap-3">
           <ModeToggle />
           <button 
             aria-label="Ver notificaciones"
-            className="relative flex h-10 w-10 lg:h-12 lg:w-12 items-center justify-center rounded-xl bg-zinc-50 text-zinc-500 dark:text-zinc-200 transition-all hover:bg-azul-1 hover:text-white hover:shadow-lg hover:shadow-azul-1/20 border border-zinc-100 dark:bg-zinc-900 dark:border-zinc-700"
+            className="relative flex h-11 w-11 items-center justify-center rounded-xl bg-white text-[#706F71] transition-all hover:bg-zinc-50 hover:text-[#01ADFB] border border-zinc-200 dark:bg-zinc-900 dark:border-zinc-800 hover:scale-105 shadow-sm"
           >
-            <Bell className="h-4 w-4 lg:h-5 lg:w-5" />
-            <span className="absolute right-2.5 top-2.5 lg:right-3 lg:top-3 h-2 w-2 lg:h-2.5 lg:w-2.5 rounded-full bg-vivido-purpura-2 ring-2 ring-white dark:ring-zinc-950" />
+            <Bell className="h-5 w-5" />
+            <span className="absolute right-3 top-3 h-2.5 w-2.5 rounded-full bg-[#01ADFB] ring-2 ring-white animate-pulse" />
           </button>
         </div>
 
-        <div className="flex items-center gap-2 lg:gap-4 py-1.5 lg:py-2 px-2 lg:px-3 rounded-2xl bg-zinc-50 dark:bg-zinc-900 border border-zinc-100 dark:border-zinc-700 hover:bg-zinc-100/50 dark:hover:bg-zinc-800/50 transition-colors cursor-pointer group/user">
-          <div className="flex h-8 w-8 lg:h-10 lg:w-10 items-center justify-center rounded-xl bg-azul-1 text-white shadow-md">
-            <User className="h-4 w-4 lg:h-5 lg:w-5" />
+        <div className="flex items-center gap-3 py-1.5 px-2 rounded-2xl bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 hover:shadow-md transition-all cursor-pointer group/user">
+          <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-br from-[#021359] to-[#01ADFB] text-white shadow-md transition-transform group-hover:rotate-12">
+            <User className="h-5 w-5" />
           </div>
           <div className="hidden text-left lg:block pr-2">
-            <p className="text-[13px] font-black text-zinc-900 dark:text-zinc-50 leading-tight">
+            <p className="text-[13px] font-black text-black dark:text-white leading-tight">
               {userName || "Cargando..."}
             </p>
-            <p className="text-[9px] font-black uppercase tracking-[0.15em] text-azul-1/80 dark:text-claro-azul-4 mt-0.5">
+            <p className="text-[9px] font-black uppercase tracking-[0.15em] text-[#01ADFB] mt-0.5">
               {userRole}
             </p>
           </div>

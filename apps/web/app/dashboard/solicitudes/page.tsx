@@ -5,6 +5,7 @@ import { DashboardLayout } from "@/components/dashboard";
 import { Card, CardHeader, CardTitle, CardContent, Button } from "@/components/ui";
 import { Users, Check, X, Loader2, Clock } from "lucide-react";
 import { toast } from "sonner";
+import { cn } from "@/components/ui/utils";
 
 interface PendingMembership {
   id: string;
@@ -85,52 +86,52 @@ export default function SolicitudesPage() {
 
   return (
     <DashboardLayout>
-      <div className="space-y-10">
+      <div className="mx-auto max-w-7xl space-y-10">
         <div className="space-y-1">
-          <h1 className="text-4xl font-black tracking-tighter text-zinc-900 dark:text-zinc-50">
-            Solicitudes de Unión
+          <h1 className="text-4xl font-black tracking-tighter text-black dark:text-white lg:text-5xl">
+            Solicitudes de <span className="text-[#01ADFB]">Unión</span>
           </h1>
-          <p className="text-zinc-500 dark:text-zinc-400 font-medium">
-            Gestiona quién puede entrar a tu conglomerado.
+          <p className="text-lg font-medium text-[#706F71]">
+            Gestiona quién puede entrar a tu organización.
           </p>
         </div>
 
         {loading ? (
           <div className="flex h-64 items-center justify-center">
-            <Loader2 className="h-8 w-8 animate-spin text-zinc-400" />
+            <Loader2 className="h-10 w-10 animate-spin text-[#01ADFB]" />
           </div>
         ) : requests.length === 0 ? (
-          <Card className="border-none shadow-2xl shadow-zinc-200/50 dark:shadow-none bg-white dark:bg-zinc-900 overflow-hidden rounded-[2.5rem] p-20 text-center ring-1 ring-zinc-200/50 dark:ring-zinc-800">
-            <div className="mx-auto flex h-20 w-20 items-center justify-center rounded-[2rem] bg-zinc-50 dark:bg-zinc-800">
-              <Users className="h-10 w-10 text-zinc-300 dark:text-zinc-600" />
+          <div className="rounded-[2.5rem] bg-white/40 backdrop-blur-md border border-white p-20 text-center shadow-sm dark:bg-zinc-900/60 dark:border-white/10">
+            <div className="mx-auto flex h-20 w-20 items-center justify-center rounded-[2rem] bg-[#706F71]/5">
+              <Users className="h-10 w-10 text-[#706F71]/40" />
             </div>
-            <h2 className="mt-8 text-2xl font-black tracking-tight text-zinc-900 dark:text-zinc-50">Sin solicitudes pendientes</h2>
-            <p className="mt-2 text-zinc-500 dark:text-zinc-400">No hay usuarios esperando aprobación en este momento.</p>
-          </Card>
+            <h2 className="mt-8 text-2xl font-black tracking-tight text-black dark:text-white">Sin solicitudes pendientes</h2>
+            <p className="mt-2 text-[#706F71] font-medium">No hay usuarios esperando aprobación en este momento.</p>
+          </div>
         ) : (
           <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
             {requests.map((request) => (
-              <Card key={request.id} className="group overflow-hidden border-none shadow-2xl shadow-zinc-200/50 dark:shadow-none bg-white dark:bg-zinc-900 transition-all hover:scale-[1.02] rounded-[2rem] ring-1 ring-zinc-200/50 dark:ring-zinc-800">
+              <Card key={request.id} className="group overflow-hidden border border-white bg-white/60 backdrop-blur-md shadow-sm transition-all hover:scale-[1.02] rounded-[2rem] dark:bg-zinc-900/60 dark:border-white/10">
                 <CardHeader className="pb-2">
                   <div className="flex items-center justify-between">
-                    <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-indigo-50 text-indigo-600 dark:bg-indigo-500/15 dark:text-indigo-300">
+                    <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-[#01ADFB]/10 text-[#01ADFB]">
                       <Users className="h-6 w-6" />
                     </div>
-                    <div className="flex items-center gap-1.5 text-[10px] font-black uppercase tracking-widest text-zinc-400 dark:text-zinc-300">
+                    <div className="flex items-center gap-1.5 text-[10px] font-black uppercase tracking-widest text-[#706F71]">
                       <Clock className="h-3 w-3" />
                       {new Date(request.createdAt).toLocaleDateString()}
                     </div>
                   </div>
                 </CardHeader>
                 <CardContent className="pt-4">
-                  <CardTitle className="text-xl font-black tracking-tight text-zinc-900 dark:text-zinc-50">{request.user.nombre} {request.user.apellido}</CardTitle>
-                  <p className="text-sm text-zinc-500 dark:text-zinc-300 font-medium truncate mb-8">{request.user.email}</p>
+                  <CardTitle className="text-xl font-black tracking-tight text-black dark:text-white">{request.user.nombre} {request.user.apellido}</CardTitle>
+                  <p className="text-sm text-[#706F71] font-medium truncate mb-8">{request.user.email}</p>
 
                   <div className="flex gap-3">
                     <Button 
                       onClick={() => handleApprove(request.id)}
                       disabled={processingId === request.id}
-                      className="flex-1 bg-emerald-600 hover:bg-emerald-700 text-zinc-50 dark:bg-emerald-500 dark:hover:bg-emerald-600 dark:text-zinc-50 rounded-xl h-12 gap-2 shadow-lg shadow-emerald-200/50 dark:shadow-none"
+                      className="flex-1 bg-[#01ADFB] hover:bg-[#01ADFB]/90 text-white rounded-xl h-12 gap-2 shadow-lg shadow-[#01ADFB]/20 transition-all active:scale-95"
                     >
                       {processingId === request.id ? <Loader2 className="h-4 w-4 animate-spin" /> : <Check className="h-4 w-4" />}
                       Aprobar
@@ -139,7 +140,7 @@ export default function SolicitudesPage() {
                       variant="outline"
                       onClick={() => handleReject(request.id)}
                       disabled={processingId === request.id}
-                      className="flex-1 border-2 border-red-100 text-red-600 hover:bg-red-50 hover:border-red-200 dark:border-red-900/30 dark:text-red-400 dark:hover:bg-red-950/30 rounded-xl h-12 gap-2"
+                      className="flex-1 border border-[#706F71]/20 text-[#706F71] hover:bg-white dark:hover:bg-zinc-800 rounded-xl h-12 gap-2 transition-all active:scale-95"
                     >
                       <X className="h-4 w-4" />
                       Rechazar

@@ -66,7 +66,7 @@ export function EmpresaSelector() {
   if (loading) {
     return (
       <div className="px-2">
-        <div className="h-14 w-full animate-pulse rounded-2xl bg-zinc-50 dark:bg-zinc-900/50" />
+        <div className="h-14 w-full animate-pulse rounded-2xl bg-white/5 border border-white/10" />
       </div>
     );
   }
@@ -78,8 +78,9 @@ export function EmpresaSelector() {
   return (
     <div className="px-2">
       <div className="group relative pt-2">
-        <div className="absolute -top-1 left-4 z-20 bg-white px-2 dark:bg-zinc-950">
-          <p className="text-[9px] font-black uppercase tracking-[0.15em] text-azul-1 dark:text-claro-azul-4">
+        {/* Label flotante con fondo que coincide con el sidebar (#021359) */}
+        <div className="absolute -top-1 left-4 z-20 bg-[#021359] px-2 dark:bg-black">
+          <p className="text-[9px] font-black uppercase tracking-[0.15em] text-[#0091D5]">
             Empresa Actual
           </p>
         </div>
@@ -88,40 +89,43 @@ export function EmpresaSelector() {
           <DropdownMenuTrigger asChild>
             <button
               className={cn(
-                "relative h-14 w-full rounded-2xl border-2 border-zinc-100 bg-white pl-11 pr-10 text-left text-sm font-bold text-zinc-900 outline-none transition-all",
-                "hover:border-azul-1 hover:bg-zinc-50 dark:border-zinc-700 dark:bg-zinc-950 dark:text-zinc-50 dark:hover:border-azul-1",
+                "relative h-14 w-full rounded-2xl border border-white/10 bg-white/5 pl-11 pr-10 text-left text-sm font-bold text-white outline-none transition-all",
+                "hover:border-[#0091D5]/50 hover:bg-white/10 active:scale-[0.98]",
                 "shadow-sm group-hover:shadow-md flex items-center"
               )}
             >
-              <Building2 className="absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-azul-1 dark:text-claro-azul-4 transition-transform group-hover:scale-110" />
+              <Building2 className="absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-[#0091D5] transition-transform group-hover:scale-110" />
               <span className="truncate">{currentEmpresa?.nombre}</span>
-              <div className="absolute right-4 top-1/2 -translate-y-1/2 text-zinc-400 dark:text-zinc-300">
+              <div className="absolute right-4 top-1/2 -translate-y-1/2 text-[#706F71]">
                 <ChevronsUpDown className="h-4 w-4" />
               </div>
             </button>
           </DropdownMenuTrigger>
           
           <DropdownMenuContent 
-            className="w-64 rounded-2xl border-2 border-zinc-100 bg-white p-2 shadow-2xl dark:border-zinc-800 dark:bg-zinc-900"
+            className="w-64 rounded-2xl border border-[#706F71]/20 bg-white p-2 shadow-2xl dark:bg-zinc-900"
             align="start"
             sideOffset={8}
           >
+            <div className="px-3 py-2 mb-1">
+              <p className="text-[9px] font-black uppercase tracking-widest text-[#706F71]">Cambiar de Unidad</p>
+            </div>
             {empresas.map((empresa) => (
               <DropdownMenuItem
                 key={empresa.id}
                 onClick={() => handleSelect(empresa.id)}
                 className={cn(
-                  "flex items-center justify-between rounded-xl px-4 py-3 text-sm font-bold transition-colors cursor-pointer",
+                  "flex items-center justify-between rounded-xl px-4 py-3 text-sm font-bold transition-colors cursor-pointer mb-1 last:mb-0",
                   empresa.id === currentEmpresaId
-                    ? "bg-azul-1 text-white dark:text-zinc-50"
-                    : "text-zinc-600 hover:bg-zinc-50 dark:text-zinc-200 dark:hover:bg-zinc-800"
+                    ? "bg-[#0091D5] text-white"
+                    : "text-[#021359] hover:bg-[#706F71]/5 dark:text-zinc-200 dark:hover:bg-white/5"
                 )}
               >
                 <div className="flex items-center gap-3">
-                  <Building2 className={cn("h-4 w-4", empresa.id === currentEmpresaId ? "text-white dark:text-zinc-50" : "text-zinc-400")} />
+                  <Building2 className={cn("h-4 w-4", empresa.id === currentEmpresaId ? "text-white" : "text-[#706F71]")} />
                   {empresa.nombre}
                 </div>
-                {empresa.id === currentEmpresaId && <Check className="h-4 w-4 text-white dark:text-zinc-50" />}
+                {empresa.id === currentEmpresaId && <Check className="h-4 w-4 text-white animate-in zoom-in-50" />}
               </DropdownMenuItem>
             ))}
           </DropdownMenuContent>

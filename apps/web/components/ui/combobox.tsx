@@ -52,7 +52,7 @@ export function Combobox({
   }, []);
 
   return (
-    <div className={cn("relative w-full", className)} ref={containerRef}>
+    <div className={cn("relative w-full", className, open && "z-50")} ref={containerRef}>
       <button
         type="button"
         disabled={disabled}

@@ -13,13 +13,33 @@ import {
   getClienteConfigsAction,
   ConfiguracionOperativa,
   notifyServiceOperatorWebhookAction,
+  getClienteByIdAction,
+  updateClienteAction,
 } from "../../actions";
+import { 
+  getDepartments, 
+  getMunicipalities 
+} from "../../clientes/nuevo/actions";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Combobox } from "@/components/ui/combobox";
 import { DatePicker } from "@/components/ui/date-picker";
 import { TimePicker } from "@/components/ui/time-picker";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogFooter,
+} from "@/components/ui/dialog";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select-shadcn";
 import {
   ArrowLeft,
   User,
@@ -30,7 +50,10 @@ import {
   Save,
   GanttChart,
   Trash2,
-  Plus
+  Plus,
+  MapPin,
+  Clock,
+  Contact2
 } from "lucide-react";
 import { DashboardLayout } from "@/components/dashboard";
 import { cn } from "@/components/ui/utils";
@@ -101,7 +124,20 @@ interface Direccion {
   nombreSede?: string | null;
   barrio?: string | null;
   municipio?: string | null;
+  municipioId?: string | null;
+  departmentId?: string | null;
   linkMaps?: string | null;
+  piso?: string | null;
+  bloque?: string | null;
+  unidad?: string | null;
+  tipoUbicacion?: string | null;
+  clasificacionPunto?: string | null;
+  horarioInicio?: string | null;
+  horarioFin?: string | null;
+  restriccionesAcceso?: string | null;
+  nombreContacto?: string | null;
+  telefonoContacto?: string | null;
+  cargoContacto?: string | null;
 }
 
 interface Cliente {
@@ -151,6 +187,33 @@ function NuevoServicioContent() {
   const [selectedOperador, setSelectedOperador] = useState("");
   const [direccionesCliente, setDireccionesCliente] = useState<Direccion[]>([]);
   const [userRole, setUserRole] = useState<string | null>(null);
+
+  // Modal State
+  const [isAddressModalOpen, setIsAddressModalOpen] = useState(false);
+  const [loadingAddress, setLoadingAddress] = useState(false);
+  const [departamentos, setDepartments] = useState<{id: string, name: string}[]>([]);
+  const [municipios, setMunicipalities] = useState<{id: string, name: string, departmentId: string}[]>([]);
+  
+  // New Address State
+  const [newDir, setNewDir] = useState({
+    direccion: "",
+    nombreSede: "",
+    barrio: "",
+    departmentId: "",
+    municipioId: "",
+    linkMaps: "",
+    piso: "",
+    bloque: "",
+    unidad: "",
+    tipoUbicacion: "RESIDENCIAL",
+    clasificacionPunto: "Cocina",
+    horarioInicio: "08:00",
+    horarioFin: "18:00",
+    restriccionesAcceso: "",
+    nombreContacto: "",
+    telefonoContacto: "",
+    cargoContacto: ""
+  });
 
   // Custom logic states
   const [nivelInfestacion, setNivelInfestacion] = useState("");
@@ -268,9 +331,11 @@ function NuevoServicioContent() {
       }
 
       try {
-        const [cls, emps] = await Promise.all([
+        const [cls, emps, deps, muns] = await Promise.all([
           getClientesAction(),
           getEnterprisesAction(),
+          getDepartments(),
+          getMunicipalities(),
         ]);
 
         // Clientes usually returns an array or { data: [] }
@@ -278,6 +343,8 @@ function NuevoServicioContent() {
           Array.isArray(cls) ? cls : cls?.data || []
         ) as Cliente[];
         setClientes(loadedClientes);
+        setDepartments(deps);
+        setMunicipalities(muns);
 
         // Enterprises returns { items: [], count: X, maxEmpresas: Y }
         const loadedEmpresas = (
@@ -357,6 +424,104 @@ function NuevoServicioContent() {
   const handleDireccionChange = (dirId: string) => {
     setSelectedDireccion(dirId);
     applyConfigToForm(clienteConfigs, dirId);
+  };
+
+  const handleAddAddress = async () => {
+    if (!selectedCliente) return;
+    if (!newDir.direccion || !newDir.municipioId) {
+      toast.error("Dirección y municipio son obligatorios");
+      return;
+    }
+
+    setLoadingAddress(true);
+    try {
+      const client = await getClienteByIdAction(selectedCliente);
+      if (!client) throw new Error("Cliente no encontrado");
+
+      // CLEANUP: We must remove relations and system-managed fields that Prisma rejects in a 'create' nested block
+      const existingDirs = (client.direcciones || []).map((d: any) => {
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        const { municipio, municipioRel, clienteId, createdAt, updatedAt, departmentRel, ...rest } = d;
+        return rest;
+      });
+
+      // Explicitly construct the new address to avoid any unexpected fields from state
+      const newAddress = {
+        direccion: newDir.direccion,
+        nombreSede: newDir.nombreSede || null,
+        barrio: newDir.barrio || null,
+        departmentId: newDir.departmentId || null,
+        municipioId: newDir.municipioId || null,
+        linkMaps: newDir.linkMaps || null,
+        piso: newDir.piso || null,
+        bloque: newDir.bloque || null,
+        unidad: newDir.unidad || null,
+        tipoUbicacion: newDir.tipoUbicacion || null,
+        clasificacionPunto: newDir.clasificacionPunto || null,
+        horarioInicio: newDir.horarioInicio || null,
+        horarioFin: newDir.horarioFin || null,
+        restricciones: newDir.restriccionesAcceso || null,
+        nombreContacto: newDir.nombreContacto || null,
+        telefonoContacto: newDir.telefonoContacto || null,
+        cargoContacto: newDir.cargoContacto || null,
+        activa: true,
+        validadoPorSistema: false,
+      };
+
+      const updatedDirs = [...existingDirs, newAddress];
+
+      console.log("[AddressModal] Sending updated addresses:", updatedDirs);
+
+      const res = await updateClienteAction(selectedCliente, {
+        direcciones: updatedDirs as any
+      });
+
+      if (res.success) {
+        toast.success("Dirección añadida correctamente");
+        setIsAddressModalOpen(false);
+        // Refresh client data
+        const updatedClient = await getClienteByIdAction(selectedCliente);
+        if (updatedClient) {
+          const dirs = updatedClient.direcciones || [];
+          setDireccionesCliente(dirs);
+          if (dirs.length > 0) {
+            const latestDir = dirs[dirs.length - 1];
+            setSelectedDireccion(latestDir.id);
+            applyConfigToForm(clienteConfigs, latestDir.id);
+          }
+          
+          // Update clients list in state to keep it consistent
+          setClientes(prev => prev.map(c => c.id === selectedCliente ? updatedClient : c));
+        }
+        // Reset form
+        setNewDir({
+          direccion: "",
+          nombreSede: "",
+          barrio: "",
+          departmentId: "",
+          municipioId: "",
+          linkMaps: "",
+          piso: "",
+          bloque: "",
+          unidad: "",
+          tipoUbicacion: "RESIDENCIAL",
+          clasificacionPunto: "Cocina",
+          horarioInicio: "08:00",
+          horarioFin: "18:00",
+          restriccionesAcceso: "",
+          nombreContacto: "",
+          telefonoContacto: "",
+          cargoContacto: ""
+        });
+      } else {
+        toast.error(res.error || "Error al añadir dirección");
+      }
+    } catch (e) {
+      console.error(e);
+      toast.error("Error inesperado al añadir dirección");
+    } finally {
+      setLoadingAddress(false);
+    }
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -472,12 +637,12 @@ function NuevoServicioContent() {
 
   return (
     <div className="max-w-5xl mx-auto w-full h-[calc(100vh-12rem)] flex flex-col min-h-0">
-      <div className="flex-1 flex flex-col bg-white dark:bg-zinc-950 rounded-2xl shadow-sm border border-zinc-700 dark:border-zinc-800 overflow-hidden min-h-0">
+      <div className="flex-1 flex flex-col bg-white dark:bg-zinc-950 rounded-2xl shadow-sm border border-zinc-100 dark:border-zinc-800/50 overflow-hidden min-h-0">
 
         {/* Header Fijo */}
-        <div className="flex-none bg-white dark:bg-zinc-950 border-b border-zinc-700 dark:border-zinc-800 px-8 py-6 flex items-center justify-between">
+        <div className="flex-none bg-white dark:bg-zinc-950 border-b border-zinc-100 dark:border-zinc-800/50 px-8 py-6 flex items-center justify-between">
           <div className="flex items-center gap-5">
-            <Button variant="ghost" size="icon" onClick={() => router.back()} className="h-10 w-10 rounded-full border border-zinc-700 dark:border-zinc-800 hover:bg-zinc-50">
+            <Button variant="ghost" size="icon" onClick={() => router.back()} className="h-10 w-10 rounded-full border border-zinc-100 dark:border-zinc-800/50 hover:bg-zinc-50">
               <ArrowLeft className="h-4 w-4" />
             </Button>
             <div>
@@ -496,8 +661,8 @@ function NuevoServicioContent() {
 
             {/* SECCIÓN 1: IDENTIFICACIÓN DEL CLIENTE */}
             <section className="space-y-8">
-              <div className="flex items-center gap-3 border-b border-zinc-700 dark:border-zinc-800 pb-3">
-                <div className="p-2 rounded-lg bg-zinc-50 dark:bg-zinc-900 border border-zinc-700 dark:border-zinc-800 text-zinc-400">
+              <div className="flex items-center gap-3 border-b border-zinc-100 dark:border-zinc-800/50 pb-3">
+                <div className="p-2 rounded-lg bg-zinc-50 dark:bg-zinc-900 border border-zinc-100 dark:border-zinc-800/50 text-zinc-400">
                   <User className="h-5 w-5" />
                 </div>
                 <h2 className="text-lg font-bold text-zinc-900 dark:text-zinc-50">Identificación del Cliente</h2>
@@ -518,7 +683,7 @@ function NuevoServicioContent() {
                     placeholder="Buscar por nombre o razón social..."
                   />
                   <div className="flex justify-start px-1">
-                    <Button variant="link" className="text-[10px] font-black p-0 h-auto text-vivido-purpura-2 uppercase tracking-widest hover:no-underline" onClick={() => router.push('/dashboard/clientes/nuevo')}>
+                    <Button variant="link" className="text-[10px] font-black p-0 h-auto text-zinc-900 dark:text-zinc-100 uppercase tracking-widest hover:no-underline" onClick={() => router.push('/dashboard/clientes/nuevo')}>
                       + Registrar nuevo cliente
                     </Button>
                   </div>
@@ -540,6 +705,18 @@ function NuevoServicioContent() {
                     placeholder="Seleccionar sede..."
                     hideSearch
                   />
+                  {selectedCliente && (
+                    <div className="flex justify-start px-1">
+                      <Button 
+                        variant="link" 
+                        type="button"
+                        className="text-[10px] font-black p-0 h-auto text-zinc-900 dark:text-zinc-100 uppercase tracking-widest hover:no-underline" 
+                        onClick={() => setIsAddressModalOpen(true)}
+                      >
+                        + Añadir nueva dirección
+                      </Button>
+                    </div>
+                  )}
                   {!selectedCliente && (
                     <p className="text-[9px] font-bold text-amber-600 uppercase tracking-widest ml-1">⚠ Debe vincular un cliente para cargar sedes</p>
                   )}
@@ -549,8 +726,8 @@ function NuevoServicioContent() {
 
             {/* SECCIÓN 2: ESPECIFICACIONES TÉCNICAS */}
             <section className="space-y-8">
-              <div className="flex items-center gap-3 border-b border-zinc-700 dark:border-zinc-800 pb-3">
-                <div className="p-2 rounded-lg bg-zinc-50 dark:bg-zinc-900 border border-zinc-700 dark:border-zinc-800 text-zinc-400">
+              <div className="flex items-center gap-3 border-b border-zinc-100 dark:border-zinc-800/50 pb-3">
+                <div className="p-2 rounded-lg bg-zinc-50 dark:bg-zinc-900 border border-zinc-100 dark:border-zinc-800/50 text-zinc-400">
                   <Briefcase className="h-5 w-5" />
                 </div>
                 <h2 className="text-lg font-bold text-zinc-900 dark:text-zinc-50">Especificaciones Técnicas</h2>
@@ -638,7 +815,7 @@ function NuevoServicioContent() {
                     value={frecuenciaRecomendada}
                     onChange={(e) => setFrecuenciaRecomendada(e.target.value ? Number(e.target.value) : "")}
                     placeholder="Días"
-                    className="h-11 border-zinc-700"
+                    className="h-11 !border !border-zinc-200 focus-visible:ring-0 focus-visible:ring-offset-0 focus-visible:border-zinc-200 dark:border-zinc-800/50"
                   />
                   {nivelInfestacion && (
                      <p className="text-[9px] font-bold text-zinc-400 mt-1 uppercase tracking-widest">Calculado por nivel de infestación</p>
@@ -664,7 +841,7 @@ function NuevoServicioContent() {
                   <textarea
                     value={observacion}
                     onChange={(e) => setObservacion(e.target.value)}
-                    className="w-full bg-white dark:bg-zinc-950 border border-zinc-700 dark:border-zinc-800 rounded-xl p-4 text-sm font-medium resize-none min-h-[100px] focus:ring-[var(--color-azul-1)] focus:border-[var(--color-azul-1)] outline-none"
+                    className="w-full bg-white dark:bg-zinc-950 border border-zinc-300 dark:border-zinc-800/50 rounded-xl p-4 text-sm font-medium resize-none min-h-[100px] focus:ring-0 focus:border-zinc-300 outline-none"
                     placeholder="Detalles adicionales, requerimientos específicos o notas importantes..."
                   ></textarea>
                 </div>
@@ -673,8 +850,8 @@ function NuevoServicioContent() {
 
             {/* SECCIÓN 3: AGENDA OPERATIVA */}
             <section className="space-y-8">
-              <div className="flex items-center gap-3 border-b border-zinc-700 dark:border-zinc-800 pb-3">
-                <div className="p-2 rounded-lg bg-zinc-50 dark:bg-zinc-900 border border-zinc-700 dark:border-zinc-800 text-zinc-400">
+              <div className="flex items-center gap-3 border-b border-zinc-100 dark:border-zinc-800/50 pb-3">
+                <div className="p-2 rounded-lg bg-zinc-50 dark:bg-zinc-900 border border-zinc-100 dark:border-zinc-800/50 text-zinc-400">
                   <Calendar className="h-5 w-5" />
                 </div>
                 <h2 className="text-lg font-bold text-zinc-900 dark:text-zinc-50">Agenda Operativa</h2>
@@ -686,7 +863,7 @@ function NuevoServicioContent() {
                   <DatePicker 
                     date={fechaVisita ? new Date(fechaVisita + "T00:00:00") : undefined} 
                     onChange={(d) => setFechaVisita(d ? d.toISOString().split("T")[0] : "")} 
-                    className="h-11 border-zinc-700" 
+                    className="h-11 !border !border-zinc-200 focus-visible:ring-0 focus-visible:ring-offset-0 focus-visible:border-zinc-200 dark:border-zinc-800/50" 
                   />
                 </div>
 
@@ -695,7 +872,7 @@ function NuevoServicioContent() {
                   <TimePicker 
                     value={horaInicio} 
                     onChange={setHoraInicio} 
-                    className="h-11 border-zinc-700" 
+                    className="h-11 !border !border-zinc-200 focus-visible:ring-0 focus-visible:ring-offset-0 focus-visible:border-zinc-200 dark:border-zinc-800/50" 
                   />
                 </div>
 
@@ -740,20 +917,18 @@ function NuevoServicioContent() {
 
             {/* SECCIÓN 4: CONDICIONES DE PAGO */}
             <section className="space-y-8">
-              <div className="flex items-center gap-3 border-b border-zinc-700 dark:border-zinc-800 pb-3">
-                <div className="p-2 rounded-lg bg-zinc-50 dark:bg-zinc-900 border border-zinc-700 dark:border-zinc-800 text-zinc-400">
+              <div className="flex items-center gap-3 border-b border-zinc-100 dark:border-zinc-800/50 pb-3">
+                <div className="p-2 rounded-lg bg-zinc-50 dark:bg-zinc-900 border border-zinc-100 dark:border-zinc-800/50 text-zinc-400">
                   <CreditCard className="h-5 w-5" />
                 </div>
                 <div className="flex-1 flex items-center justify-between">
                   <h2 className="text-lg font-bold text-zinc-900 dark:text-zinc-50">Condiciones de Pago</h2>
                   <Button 
                     type="button" 
-                    variant="outline" 
-                    size="sm" 
-                    className="h-8 rounded-lg text-[10px] font-black uppercase tracking-widest gap-2"
+                    className="h-9 px-4 rounded-xl bg-azul-1 text-white hover:bg-blue-700 transition-all text-[10px] font-black uppercase tracking-widest gap-2 shadow-lg shadow-azul-1/20 border-none"
                     onClick={() => setBreakdown([...breakdown, { metodo: "EFECTIVO", monto: "" }])}
                   >
-                    <Plus className="h-3 w-3" /> Añadir Método
+                    <Plus className="h-3.5 w-3.5" /> Añadir Método
                   </Button>
                 </div>
               </div>
@@ -781,7 +956,7 @@ function NuevoServicioContent() {
                         }} 
                         placeholder="0" 
                         required 
-                        className="h-11 border-zinc-700 pl-8 font-bold" 
+                        className="h-11 !border !border-zinc-200 focus-visible:ring-0 focus-visible:ring-offset-0 focus-visible:border-zinc-200 dark:border-zinc-800/50 pl-8 font-bold" 
                       />
                     </div>
                   </div>
@@ -805,7 +980,7 @@ function NuevoServicioContent() {
                   <Label className="text-[10px] font-black uppercase tracking-[0.2em] text-zinc-400 block px-1">Desglose de Cobro</Label>
                   <div className="grid grid-cols-1 gap-4">
                     {breakdown.map((line, index) => (
-                      <div key={index} className="p-5 bg-zinc-50/50 dark:bg-zinc-900/30 rounded-2xl border border-zinc-700 dark:border-zinc-800 space-y-4 relative group">
+                      <div key={index} className="p-5 bg-zinc-50/50 dark:bg-zinc-900/30 rounded-2xl border border-zinc-100 dark:border-zinc-800/50 space-y-4 relative group">
                         {breakdown.length > 1 && (
                           <button 
                             type="button"
@@ -845,7 +1020,7 @@ function NuevoServicioContent() {
                                 setBreakdown(newBreakdown);
                               }}
                               placeholder="0"
-                              className="h-10 rounded-xl bg-white dark:bg-zinc-950 border-zinc-700 font-bold"
+                              className="h-10 rounded-xl bg-white dark:bg-zinc-950 !border !border-zinc-200 focus-visible:ring-0 focus-visible:ring-offset-0 focus-visible:border-zinc-200 dark:border-zinc-800/50 font-bold"
                             />
                           </div>
                         </div>
@@ -862,7 +1037,7 @@ function NuevoServicioContent() {
                                   setBreakdown(newBreakdown);
                                 }}
                                 placeholder="Ej: Bancolombia, Nequi..."
-                                className="h-10 rounded-xl bg-white dark:bg-zinc-950 border-zinc-700 font-medium"
+                                className="h-10 rounded-xl bg-white dark:bg-zinc-950 !border !border-zinc-200 focus-visible:ring-0 focus-visible:ring-offset-0 focus-visible:border-zinc-200 dark:border-zinc-800/50 font-medium"
                               />
                             </div>
                             <div className="space-y-2">
@@ -875,7 +1050,7 @@ function NuevoServicioContent() {
                                   setBreakdown(newBreakdown);
                                 }}
                                 placeholder="Nº comprobante"
-                                className="h-10 rounded-xl bg-white dark:bg-zinc-950 border-zinc-700 font-medium"
+                                className="h-10 rounded-xl bg-white dark:bg-zinc-950 !border !border-zinc-200 focus-visible:ring-0 focus-visible:ring-offset-0 focus-visible:border-zinc-200 dark:border-zinc-800/50 font-medium"
                               />
                             </div>
                           </div>
@@ -906,7 +1081,7 @@ function NuevoServicioContent() {
         </div>
 
         {/* Footer Fijo */}
-        <div className="flex-none bg-zinc-50 dark:bg-zinc-900/50 border-t border-zinc-700 dark:border-zinc-800 px-10 py-5 flex items-center justify-between">
+        <div className="flex-none bg-zinc-50 dark:bg-zinc-900/50 border-t border-zinc-100 dark:border-zinc-800/50 px-10 py-5 flex items-center justify-between">
           <div className="hidden lg:flex items-center gap-3 text-zinc-400">
             <GanttChart className="h-5 w-5 text-[var(--color-claro-azul-4)]" />
             <p className="text-[11px] font-medium max-w-xs leading-relaxed">Se generará una orden de trabajo automática para el técnico asignado.</p>
@@ -917,13 +1092,178 @@ function NuevoServicioContent() {
               type="submit"
               form="servicio-form"
               disabled={loading}
-              className="h-12 px-12 bg-vivido-purpura-2 text-white hover:opacity-90 shadow-xl shadow-vivido-purpura-2/20 transition-all gap-3 border-none rounded-xl"
+              className="h-12 px-12 bg-azul-1 text-white hover:bg-blue-700 shadow-xl shadow-azul-1/20 transition-all gap-3 border-none rounded-xl"
             >
               {loading ? <div className="h-5 w-5 border-2 border-current border-t-transparent rounded-full animate-spin" /> : <Save className="h-4 w-4" />}
               <span className="font-bold text-xs tracking-[0.1em] uppercase text-white">Generar y Asignar</span>
             </Button>
           </div>
         </div>
+
+        {/* MODAL PARA AÑADIR DIRECCIÓN */}
+        <Dialog open={isAddressModalOpen} onOpenChange={setIsAddressModalOpen}>
+          <DialogContent className="max-w-3xl max-h-[90vh] overflow-y-auto">
+            <DialogHeader>
+              <DialogTitle className="text-xl font-bold flex items-center gap-2">
+                <MapPin className="h-5 w-5 text-azul-1" />
+                Nueva Dirección / Sede
+              </DialogTitle>
+            </DialogHeader>
+            
+            <div className="grid grid-cols-1 md:grid-cols-6 gap-x-6 gap-y-5 py-4">
+              <div className="md:col-span-3 space-y-1.5">
+                <Label className="text-[10px] font-semibold uppercase text-zinc-400">Dirección <span className="text-red-500">*</span></Label>
+                <Input 
+                  value={newDir.direccion}
+                  onChange={(e) => setNewDir({...newDir, direccion: e.target.value})}
+                  placeholder="Ej: Calle 123 # 45-67"
+                  className="h-9 text-sm border-zinc-200 rounded-lg focus:border-azul-1 focus:ring-0"
+                />
+              </div>
+              
+              <div className="md:col-span-3 space-y-1.5">
+                <Label className="text-[10px] font-semibold uppercase text-zinc-400">Nombre de Sede / Referencia</Label>
+                <Input 
+                  value={newDir.nombreSede}
+                  onChange={(e) => setNewDir({...newDir, nombreSede: e.target.value})}
+                  placeholder="Ej: Sede Principal, Casa, Local 1"
+                  className="h-9 text-sm border-zinc-200 rounded-lg focus:border-azul-1 focus:ring-0"
+                />
+              </div>
+
+              <div className="md:col-span-2 space-y-1.5">
+                <Label className="text-[10px] font-semibold uppercase text-zinc-400">Departamento <span className="text-red-500">*</span></Label>
+                <Select 
+                  value={newDir.departmentId} 
+                  onValueChange={(val) => setNewDir({...newDir, departmentId: val, municipioId: ""})}
+                >
+                  <SelectTrigger className="h-9 text-sm border-zinc-200 rounded-lg">
+                    <SelectValue placeholder="Departamento..." />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {departamentos.map(d => (
+                      <SelectItem key={d.id} value={d.id}>{d.name}</SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+
+              <div className="md:col-span-2 space-y-1.5">
+                <Label className="text-[10px] font-semibold uppercase text-zinc-400">Municipio <span className="text-red-500">*</span></Label>
+                <Select 
+                  value={newDir.municipioId} 
+                  onValueChange={(val) => setNewDir({...newDir, municipioId: val})}
+                  disabled={!newDir.departmentId}
+                >
+                  <SelectTrigger className="h-9 text-sm border-zinc-200 rounded-lg">
+                    <SelectValue placeholder="Municipio..." />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {municipios
+                      .filter(m => m.departmentId === newDir.departmentId)
+                      .map(m => (
+                        <SelectItem key={m.id} value={m.id}>{m.name}</SelectItem>
+                      ))
+                    }
+                  </SelectContent>
+                </Select>
+              </div>
+
+              <div className="md:col-span-2 space-y-1.5">
+                <Label className="text-[10px] font-semibold uppercase text-zinc-400">Barrio</Label>
+                <Input 
+                  value={newDir.barrio}
+                  onChange={(e) => setNewDir({...newDir, barrio: e.target.value})}
+                  placeholder="Nombre del barrio"
+                  className="h-9 text-sm border-zinc-200 rounded-lg focus:border-azul-1 focus:ring-0"
+                />
+              </div>
+
+              <div className="md:col-span-6 space-y-1.5">
+                <Label className="text-[10px] font-semibold uppercase text-zinc-400">Link Google Maps</Label>
+                <Input 
+                  value={newDir.linkMaps}
+                  onChange={(e) => setNewDir({...newDir, linkMaps: e.target.value})}
+                  placeholder="https://maps.app.goo.gl/..."
+                  className="h-9 text-sm border-zinc-200 rounded-lg focus:border-azul-1 focus:ring-0"
+                />
+              </div>
+
+              <div className="border-t border-zinc-100 dark:border-zinc-800 md:col-span-6 my-1 pt-4">
+                <h3 className="text-[11px] font-bold uppercase tracking-widest text-zinc-400 mb-3 flex items-center gap-2">
+                  <Contact2 className="h-3.5 w-3.5" /> Datos de Contacto en Sitio
+                </h3>
+              </div>
+
+              <div className="md:col-span-3 space-y-1.5">
+                <Label className="text-[10px] font-semibold uppercase text-zinc-400">Nombre Contacto</Label>
+                <Input 
+                  value={newDir.nombreContacto}
+                  onChange={(e) => setNewDir({...newDir, nombreContacto: e.target.value})}
+                  placeholder="Persona que recibe el servicio"
+                  className="h-9 text-sm border-zinc-200 rounded-lg focus:border-azul-1 focus:ring-0"
+                />
+              </div>
+
+              <div className="md:col-span-3 space-y-1.5">
+                <Label className="text-[10px] font-semibold uppercase text-zinc-400">Teléfono Contacto</Label>
+                <Input 
+                  value={newDir.telefonoContacto}
+                  onChange={(e) => setNewDir({...newDir, telefonoContacto: e.target.value})}
+                  placeholder="Teléfono móvil o fijo"
+                  className="h-9 text-sm border-zinc-200 rounded-lg focus:border-azul-1 focus:ring-0"
+                />
+              </div>
+
+              <div className="border-t border-zinc-100 dark:border-zinc-800 md:col-span-6 my-1 pt-4">
+                <h3 className="text-[11px] font-bold uppercase tracking-widest text-zinc-400 mb-3 flex items-center gap-2">
+                  <Clock className="h-3.5 w-3.5" /> Horarios y Restricciones
+                </h3>
+              </div>
+
+              <div className="md:col-span-2 space-y-1.5">
+                <Label className="text-[10px] font-semibold uppercase text-zinc-400">Horario Inicio</Label>
+                <TimePicker 
+                  value={newDir.horarioInicio}
+                  onChange={(val) => setNewDir({...newDir, horarioInicio: val})}
+                  className="h-9 !rounded-lg !py-0 !px-3"
+                />
+              </div>
+              <div className="md:col-span-2 space-y-1.5">
+                <Label className="text-[10px] font-semibold uppercase text-zinc-400">Horario Fin</Label>
+                <TimePicker 
+                  value={newDir.horarioFin}
+                  onChange={(val) => setNewDir({...newDir, horarioFin: val})}
+                  className="h-9 !rounded-lg !py-0 !px-3"
+                />
+              </div>
+
+              <div className="md:col-span-2 space-y-1.5">
+                <Label className="text-[10px] font-semibold uppercase text-zinc-400">Restricciones de Acceso</Label>
+                <Input 
+                  value={newDir.restriccionesAcceso}
+                  onChange={(e) => setNewDir({...newDir, restriccionesAcceso: e.target.value})}
+                  placeholder="Ej: Solo ingreso con ARL..."
+                  className="h-9 text-sm border-zinc-200 rounded-lg focus:border-azul-1 focus:ring-0"
+                />
+              </div>
+            </div>
+
+            <DialogFooter className="border-t border-zinc-100 dark:border-zinc-800 pt-6">
+              <Button variant="ghost" size="sm" onClick={() => setIsAddressModalOpen(false)} disabled={loadingAddress}>
+                Cancelar
+              </Button>
+              <Button 
+                size="sm"
+                onClick={handleAddAddress} 
+                disabled={loadingAddress}
+                className="bg-azul-1 hover:bg-blue-700 text-white min-w-[140px]"
+              >
+                {loadingAddress ? <div className="h-4 w-4 border-2 border-current border-t-transparent rounded-full animate-spin" /> : "Guardar Dirección"}
+              </Button>
+            </DialogFooter>
+          </DialogContent>
+        </Dialog>
       </div>
     </div>
   );
