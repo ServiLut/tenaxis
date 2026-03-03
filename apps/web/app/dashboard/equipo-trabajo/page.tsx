@@ -181,8 +181,30 @@ function EquipoTrabajoContent() {
   const [nameQuery, setNameQuery] = useState("");
   const [roleQuery, setRoleQuery] = useState("");
   const [municipioQuery, setMunicipioQuery] = useState("");
-  const [startDate, setStartDate] = useState<Date | undefined>(undefined);
-  const [endDate, setEndDate] = useState<Date | undefined>(undefined);
+  
+  // Set default range: Jan 1st 2026 to today
+  const [startDate, setStartDate] = useState<Date | undefined>(() => {
+    const d = new Date(2026, 0, 1);
+    d.setHours(0, 0, 0, 0);
+    return d;
+  });
+  const [endDate, setEndDate] = useState<Date | undefined>(() => {
+    const d = new Date();
+    d.setHours(23, 59, 59, 999);
+    return d;
+  });
+
+  const resetFilters = () => {
+    setNameQuery("");
+    setRoleQuery("");
+    setMunicipioQuery("");
+    const start = new Date(2026, 0, 1);
+    start.setHours(0, 0, 0, 0);
+    const end = new Date();
+    end.setHours(23, 59, 59, 999);
+    setStartDate(start);
+    setEndDate(end);
+  };
   const [selectedUser, setSelectedUser] = useState<UserMember | null>(null);
   const [showDetailsModal, setShowDetailsModal] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
@@ -535,77 +557,105 @@ function EquipoTrabajoContent() {
           <div className="mt-8">
             {activeTab === "ranking" ? (
               <div className="grid gap-6">
-                {/* Search, Date Filter & Export Bar */}
-                <div className="flex flex-col xl:flex-row items-center justify-between gap-4 mb-2">
-                  {/* Search Bar */}
-                  <div className="relative w-full xl:w-80 shrink-0">
-                    <Search className="absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-zinc-400 z-10" />
-                    <input
-                      type="text"
-                      placeholder="Buscar usuario..."
-                      value={nameQuery}
-                      onChange={(e) => setNameQuery(e.target.value)}
-                      className="h-[60px] w-full rounded-xl border border-zinc-200 bg-zinc-50 pl-11 pr-4 text-xs font-medium outline-none transition-all focus:border-azul-1 focus:bg-white dark:border-zinc-800 dark:bg-zinc-900 dark:text-zinc-50 dark:focus:bg-zinc-950 shadow-sm"
-                    />
-                  </div>
-
-                  {/* Date Filter & Export */}
-                  <div className="flex flex-col sm:flex-row items-center gap-4 p-3 bg-zinc-50 dark:bg-zinc-900 border border-zinc-100 dark:border-zinc-800 rounded-xl w-full xl:w-fit">
-                    <div className="flex flex-col sm:flex-row items-center gap-3 w-full sm:w-auto overflow-x-auto">
-                    {/* Hoy / Ayer Toggle */}
-                    <div className="flex items-center p-1 bg-white dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-lg shrink-0">
-                      <button 
-                        onClick={setRangeToday}
-                        className={cn(
-                          "px-4 py-1.5 text-xs font-bold rounded-md transition-all",
-                          isToday 
-                            ? "bg-white dark:bg-zinc-800 text-zinc-900 dark:text-zinc-50 shadow-sm border border-zinc-100 dark:border-zinc-700" 
-                            : "text-zinc-500 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-50"
-                        )}
-                      >
-                        Hoy
-                      </button>
-                      <button 
-                        onClick={setRangeYesterday}
-                        className={cn(
-                          "px-4 py-1.5 text-xs font-bold rounded-md transition-all",
-                          isYesterday 
-                            ? "bg-white dark:bg-zinc-800 text-zinc-900 dark:text-zinc-50 shadow-sm border border-zinc-100 dark:border-zinc-700" 
-                            : "text-zinc-500 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-50"
-                        )}
-                      >
-                        Ayer
-                      </button>
+                {/* Search, Filters & Export Bar */}
+                <div className="flex flex-col gap-4 mb-2">
+                  <div className="flex flex-col xl:flex-row items-center justify-between gap-4">
+                    {/* Search & Role Bar */}
+                    <div className="flex flex-col sm:flex-row gap-4 w-full xl:w-auto">
+                      <div className="relative w-full sm:w-80 shrink-0">
+                        <Search className="absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-zinc-400 z-10" />
+                        <input
+                          type="text"
+                          placeholder="Buscar usuario..."
+                          value={nameQuery}
+                          onChange={(e) => setNameQuery(e.target.value)}
+                          className="h-[60px] w-full rounded-xl border border-zinc-200 bg-zinc-50 pl-11 pr-4 text-xs font-medium outline-none transition-all focus:border-azul-1 focus:bg-white dark:border-zinc-800 dark:bg-zinc-900 dark:text-zinc-50 dark:focus:bg-zinc-950 shadow-sm"
+                        />
+                      </div>
+                      <div className="w-full sm:w-64">
+                        <Combobox
+                          options={[
+                            { value: "", label: "Todos los roles de gestión" },
+                            ...["ADMIN", "SU_ADMIN", "COORDINADOR", "ASESOR"].map(role => ({ value: role, label: role }))
+                          ]}
+                          value={roleQuery}
+                          onChange={setRoleQuery}
+                          placeholder="Filtrar por rol..."
+                          className="h-[60px]"
+                          hideSearch
+                        />
+                      </div>
                     </div>
 
-                    {/* Date Range Picker */}
-                    <div className="flex items-center gap-2 shrink-0">
-                      <DatePicker 
-                        date={startDate} 
-                        onChange={setStartDate} 
-                        className="h-9 w-32 px-3 text-[10px] rounded-lg bg-white dark:bg-zinc-950 border-zinc-200 dark:border-zinc-800" 
-                        placeholder="Desde..."
-                      />
-                      <span className="text-zinc-300 dark:text-zinc-700">-</span>
-                      <DatePicker 
-                        date={endDate} 
-                        onChange={setEndDate} 
-                        className="h-9 w-32 px-3 text-[10px] rounded-lg bg-white dark:bg-zinc-950 border-zinc-200 dark:border-zinc-800" 
-                        placeholder="Hasta..."
-                      />
+                    {/* Date Filter & Export */}
+                    <div className="flex flex-col sm:flex-row items-center gap-4 p-3 bg-zinc-50 dark:bg-zinc-900 border border-zinc-100 dark:border-zinc-800 rounded-xl w-full xl:w-fit">
+                      <div className="flex flex-col sm:flex-row items-center gap-3 w-full sm:w-auto overflow-x-auto">
+                        {/* Hoy / Ayer Toggle */}
+                        <div className="flex items-center p-1 bg-white dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-lg shrink-0">
+                          <button 
+                            onClick={setRangeToday}
+                            className={cn(
+                              "px-4 py-1.5 text-xs font-bold rounded-md transition-all",
+                              isToday 
+                                ? "bg-white dark:bg-zinc-800 text-zinc-900 dark:text-zinc-50 shadow-sm border border-zinc-100 dark:border-zinc-700" 
+                                : "text-zinc-500 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-50"
+                            )}
+                          >
+                            Hoy
+                          </button>
+                          <button 
+                            onClick={setRangeYesterday}
+                            className={cn(
+                              "px-4 py-1.5 text-xs font-bold rounded-md transition-all",
+                              isYesterday 
+                                ? "bg-white dark:bg-zinc-800 text-zinc-900 dark:text-zinc-50 shadow-sm border border-zinc-100 dark:border-zinc-700" 
+                                : "text-zinc-500 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-50"
+                            )}
+                          >
+                            Ayer
+                          </button>
+                        </div>
+
+                        {/* Date Range Picker */}
+                        <div className="flex items-center gap-2 shrink-0">
+                          <DatePicker 
+                            date={startDate} 
+                            onChange={setStartDate} 
+                            className="h-9 w-32 px-3 text-[10px] rounded-lg bg-white dark:bg-zinc-950 border-zinc-200 dark:border-zinc-800" 
+                            placeholder="Desde..."
+                          />
+                          <span className="text-zinc-300 dark:text-zinc-700">-</span>
+                          <DatePicker 
+                            date={endDate} 
+                            onChange={setEndDate} 
+                            className="h-9 w-32 px-3 text-[10px] rounded-lg bg-white dark:bg-zinc-950 border-zinc-200 dark:border-zinc-800" 
+                            placeholder="Hasta..."
+                          />
+                        </div>
+                      </div>
+
+                      {/* Export Button */}
+                      <button 
+                        onClick={handleExportExcel}
+                        className="flex items-center justify-center gap-2 h-9 px-4 rounded-lg bg-emerald-50 dark:bg-emerald-500/10 border border-emerald-200 dark:border-emerald-500/20 text-emerald-700 text-xs font-bold transition-all hover:bg-emerald-100 dark:hover:bg-emerald-500/20 shrink-0 w-full sm:w-auto"
+                      >
+                        <Download className="h-4 w-4" />
+                        Excel
+                      </button>
                     </div>
                   </div>
 
-                  {/* Export Button */}
-                  <button 
-                    onClick={handleExportExcel}
-                    className="flex items-center justify-center gap-2 h-9 px-4 rounded-lg bg-emerald-50 dark:bg-emerald-500/10 border border-emerald-200 dark:border-emerald-500/20 text-emerald-700 text-xs font-bold transition-all hover:bg-emerald-100 dark:hover:bg-emerald-500/20 shrink-0 w-full sm:w-auto"
-                  >
-                    <Download className="h-4 w-4" />
-                    Descargar Excel
-                  </button>
+                  {/* Reset Button */}
+                  <div className="flex justify-end">
+                    <button 
+                      onClick={resetFilters}
+                      className="text-[10px] font-black uppercase tracking-widest text-zinc-400 hover:text-azul-1 transition-colors flex items-center gap-2"
+                    >
+                      <X className="h-3 w-3" />
+                      Limpiar Filtros
+                    </button>
+                  </div>
                 </div>
-              </div>
 
                 {/* Podium / Top 3 */}
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-4">
