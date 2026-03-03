@@ -142,7 +142,7 @@ export function Sidebar({ isOpen, onClose }: SidebarProps) {
       )}
 
       <aside className={cn(
-        "fixed left-0 top-0 z-50 h-screen w-72 border-r border-[#706F71]/20 bg-[#021359] p-6 transition-transform duration-300 dark:border-white/10 dark:bg-black",
+        "fixed left-0 top-0 z-50 h-screen w-72 border-r border-[#706F71]/20 bg-[#021359] p-6 transition-transform duration-300 dark:border-white/10 dark:bg-sidebar",
         isOpen ? "translate-x-0 shadow-2xl lg:shadow-none" : "-translate-x-full"
       )}>
         <div className="flex h-full flex-col justify-between">

@@ -20,7 +20,7 @@ import {
 
 const GlassCard = ({ children, className }: { children: React.ReactNode; className?: string }) => (
   <div className={cn(
-    "relative overflow-hidden rounded-3xl border border-white/60 bg-white/40 p-6 shadow-sm backdrop-blur-md transition-all duration-300 hover:shadow-md dark:border-white/5 dark:bg-white/5",
+    "relative overflow-hidden rounded-3xl border border-white/60 bg-white/40 p-6 shadow-sm backdrop-blur-md transition-all duration-300 hover:shadow-md dark:border-white/10 dark:bg-zinc-900/40",
     className
   )}>
     {children}
@@ -42,7 +42,7 @@ const CircularProgress = ({ progress, color, size = 60 }: { progress: number; co
           stroke="currentColor"
           strokeWidth="6"
           fill="transparent"
-          className="text-zinc-200 dark:text-zinc-800"
+          className="text-zinc-200 dark:text-zinc-800/50"
         />
         <circle
           cx={size / 2}
@@ -71,7 +71,7 @@ const MiniBarChart = () => {
           key={i}
           className={cn(
             "w-2 rounded-full transition-all duration-500",
-            i % 2 === 0 ? "bg-[#01ADFB]" : "bg-[#021359] dark:bg-white/20"
+            i % 2 === 0 ? "bg-[#01ADFB]" : "bg-[#021359] dark:bg-zinc-700"
           )}
           style={{ height: `${height}%` }}
         />
@@ -276,17 +276,17 @@ export default function DashboardPage() {
 
           {/* Quick Actions & Tasks */}
           <div className="space-y-6">
-            <GlassCard className="bg-gradient-to-br from-[#021359] to-[#01ADFB] dark:from-[#01ADFB]/20 dark:to-zinc-900 border-none text-white overflow-hidden relative">
+            <GlassCard className="bg-gradient-to-br from-[#021359] to-[#01ADFB] dark:from-[#021359] dark:to-[#01ADFB]/40 border-none text-white overflow-hidden relative">
               <div className="relative z-10">
-                <h3 className="text-xl font-black tracking-tight text-white dark:text-zinc-50">Nueva Orden de Servicio</h3>
-                <p className="mt-2 text-sm font-medium text-white/80 dark:text-zinc-300">Genera una nueva solicitud de mantenimiento rápidamente.</p>
-                <button className="mt-6 flex w-full items-center justify-center gap-2 rounded-2xl bg-white dark:bg-zinc-100 px-6 py-4 text-sm font-black uppercase tracking-widest text-[#021359] dark:text-zinc-900 shadow-xl transition-transform hover:scale-[1.02] active:scale-95">
+                <h3 className="text-xl font-black tracking-tight text-white">Nueva Orden de Servicio</h3>
+                <p className="mt-2 text-sm font-medium text-white/80">Genera una nueva solicitud de mantenimiento rápidamente.</p>
+                <button className="mt-6 flex w-full items-center justify-center gap-2 rounded-2xl bg-white dark:bg-white px-6 py-4 text-sm font-black uppercase tracking-widest text-[#021359] dark:text-[#021359] shadow-xl transition-transform hover:scale-[1.02] active:scale-95">
                   Comenzar Ahora
                   <ArrowUpRight className="h-5 w-5" />
                 </button>
               </div>
-              <div className="absolute -right-4 -top-4 h-32 w-32 rounded-full bg-white/10 dark:bg-white/5 blur-3xl" />
-              <div className="absolute -bottom-8 -left-8 h-32 w-32 rounded-full bg-[#01ADFB]/30 dark:bg-[#01ADFB]/10 blur-3xl" />
+              <div className="absolute -right-4 -top-4 h-32 w-32 rounded-full bg-white/10 blur-3xl" />
+              <div className="absolute -bottom-8 -left-8 h-32 w-32 rounded-full bg-[#01ADFB]/30 blur-3xl" />
             </GlassCard>
 
             <GlassCard>

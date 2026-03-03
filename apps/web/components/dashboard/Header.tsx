@@ -46,7 +46,7 @@ export function Header({ onMenuClick, isSidebarOpen }: { onMenuClick?: () => voi
   }, []);
 
   return (
-    <header className="sticky top-0 z-30 flex h-20 lg:h-24 w-full items-center justify-between px-6 lg:px-10 border-b border-[#706F71]/10 bg-[#F8FAFC]/80 backdrop-blur-md dark:bg-black/80 dark:border-white/10 transition-all">
+    <header className="sticky top-0 z-30 flex h-20 lg:h-24 w-full items-center justify-between px-6 lg:px-10 border-b border-[#706F71]/10 bg-[#F8FAFC]/80 backdrop-blur-md dark:bg-background/80 dark:border-white/10 transition-all">
       <div className="flex items-center gap-4 lg:gap-6 flex-1 max-w-2xl">
         {/* menu toggle */}
         <button 
@@ -89,10 +89,10 @@ export function Header({ onMenuClick, isSidebarOpen }: { onMenuClick?: () => voi
             <User className="h-5 w-5" />
           </div>
           <div className="hidden text-left lg:block pr-2">
-            <p className="text-[13px] font-black text-black dark:text-white leading-tight">
+            <p className="text-[13px] font-black text-zinc-900 dark:text-zinc-50 leading-tight">
               {userName || "Cargando..."}
             </p>
-            <p className="text-[9px] font-black uppercase tracking-[0.15em] text-[#01ADFB] mt-0.5">
+            <p className="text-[10px] font-black uppercase tracking-[0.15em] text-[#01ADFB] mt-0.5">
               {userRole}
             </p>
           </div>
