@@ -1066,4 +1066,18 @@ export class OrdenesServicioService {
       },
     });
   }
+
+  async remove(tenantId: string, id: string) {
+    const orden = await this.prisma.ordenServicio.findFirst({
+      where: { id, tenantId },
+    });
+
+    if (!orden) {
+      throw new BadRequestException('La orden especificada no existe');
+    }
+
+    return this.prisma.ordenServicio.delete({
+      where: { id },
+    });
+  }
 }
