@@ -99,6 +99,32 @@ interface Membership {
       nombre: string;
     };
   }[];
+  serviciosCreados?: {
+    id: string;
+    numeroOrden: string;
+    fechaVisita: string;
+    valorPagado: number | string;
+    estadoServicio: string;
+    tipoVisita: string;
+    cliente: {
+      nombre: string;
+      apellido: string;
+      razonSocial: string;
+    };
+  }[];
+  serviciosAsignados?: {
+    id: string;
+    numeroOrden: string;
+    fechaVisita: string;
+    valorPagado: number | string;
+    estadoServicio: string;
+    tipoVisita: string;
+    cliente: {
+      nombre: string;
+      apellido: string;
+      razonSocial: string;
+    };
+  }[];
   _count?: {
     serviciosAsignados: number;
   };
@@ -155,8 +181,30 @@ function EquipoTrabajoContent() {
   const [nameQuery, setNameQuery] = useState("");
   const [roleQuery, setRoleQuery] = useState("");
   const [municipioQuery, setMunicipioQuery] = useState("");
-  const [startDate, setStartDate] = useState<Date | undefined>(undefined);
-  const [endDate, setEndDate] = useState<Date | undefined>(undefined);
+  
+  // Set default range: Jan 1st 2026 to today
+  const [startDate, setStartDate] = useState<Date | undefined>(() => {
+    const d = new Date(2026, 0, 1);
+    d.setHours(0, 0, 0, 0);
+    return d;
+  });
+  const [endDate, setEndDate] = useState<Date | undefined>(() => {
+    const d = new Date();
+    d.setHours(23, 59, 59, 999);
+    return d;
+  });
+
+  const resetFilters = () => {
+    setNameQuery("");
+    setRoleQuery("");
+    setMunicipioQuery("");
+    const start = new Date(2026, 0, 1);
+    start.setHours(0, 0, 0, 0);
+    const end = new Date();
+    end.setHours(23, 59, 59, 999);
+    setStartDate(start);
+    setEndDate(end);
+  };
   const [selectedUser, setSelectedUser] = useState<UserMember | null>(null);
   const [showDetailsModal, setShowDetailsModal] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
@@ -184,6 +232,34 @@ function EquipoTrabajoContent() {
     if (parts.length === 2) return parts.pop()?.split(";").shift();
   };
 
+  const setRangeToday = () => {
+    const start = new Date();
+    start.setHours(0, 0, 0, 0);
+    const end = new Date();
+    end.setHours(23, 59, 59, 999);
+    setStartDate(start);
+    setEndDate(end);
+  };
+
+  const setRangeYesterday = () => {
+    const start = new Date();
+    start.setDate(start.getDate() - 1);
+    start.setHours(0, 0, 0, 0);
+    const end = new Date();
+    end.setDate(end.getDate() - 1);
+    end.setHours(23, 59, 59, 999);
+    setStartDate(start);
+    setEndDate(end);
+  };
+
+  const isToday = startDate && endDate && 
+    startDate.toDateString() === new Date().toDateString() && 
+    endDate.toDateString() === new Date().toDateString();
+
+  const isYesterday = startDate && endDate && 
+    startDate.toDateString() === new Date(Date.now() - 86400000).toDateString() && 
+    endDate.toDateString() === new Date(Date.now() - 86400000).toDateString();
+
   const fetchTeam = useCallback(async () => {
     if (!tenantId) return;
 
@@ -191,8 +267,12 @@ function EquipoTrabajoContent() {
       setLoading(true);
       const token = getCookie("access_token");
 
+      const queryParams = new URLSearchParams();
+      if (startDate) queryParams.append("startDate", startDate.toISOString());
+      if (endDate) queryParams.append("endDate", endDate.toISOString());
+
       const [teamRes, munRes, empRes] = await Promise.all([
-        fetch(`/api/tenants/${tenantId}/memberships`, {
+        fetch(`/api/tenants/${tenantId}/memberships?${queryParams.toString()}`, {
           headers: { Authorization: `Bearer ${token}` },
         }),
         getMunicipalitiesAction(),
@@ -212,37 +292,72 @@ function EquipoTrabajoContent() {
 
       const mappedUsers: UserMember[] = (
         Array.isArray(teamList) ? teamList : []
-      ).map((m: Membership, index: number) => ({
-        id: m.id,
-        name: `${m.user.nombre} ${m.user.apellido}`,
-        services: m._count?.serviciosAsignados || 0,
-        rating: 4.5,
-        avatar: `${m.user.nombre[0]}${m.user.apellido[0]}`,
-        color: COLORS[index % COLORS.length] || 'bg-zinc-500',
-        email: m.user.email,
-        phone: m.user.telefono || 'Sin teléfono',
-        joinDate: new Date(m.createdAt).toLocaleDateString('es-ES', {
-          day: '2-digit',
-          month: 'short',
-          year: 'numeric',
-        }),
-        role: m.role,
-        placa: m.placa || '',
-        moto: m.moto ?? true,
-        direccion: m.direccion || '',
-        municipioId: m.municipioId || '',
-        municipioNombre: m.municipio?.name || '',
-        empresaIds: m.empresaMemberships?.map((em) => em.empresaId) || [],
-        empresaNombres:
-          m.empresaMemberships?.map((em) => em.empresa.nombre) || [],
-        totalRecaudo: 0,
-        totalServicios: m._count?.serviciosAsignados || 0,
-        serviciosLiquidados: 0,
-        recaudoNuevos: 0,
-        recaudoRefuerzo: 0,
-        efectividad: 0,
-        orders: [],
-      }));
+      ).map((m: Membership, index: number) => {
+        // Use created services for ranking (for Admins, Coordinators, etc.)
+        // but we still keep the assigned ones available for detail view if needed
+        const services = m.serviciosCreados || [];
+        
+        const totalServicios = services.length;
+        const serviciosLiquidados = services.filter(s => s.estadoServicio === "LIQUIDADO").length;
+        
+        const totalRecaudo = services
+          .filter(s => s.estadoServicio === "LIQUIDADO")
+          .reduce((acc, curr) => acc + Number(curr.valorPagado || 0), 0);
+
+        // Map recaudo based on tipoVisita
+        const recaudoNuevos = services
+          .filter(s => s.estadoServicio === "LIQUIDADO" && (s.tipoVisita === "DIAGNOSTICO" || s.tipoVisita === "CORRECTIVO" || s.tipoVisita === "PREVENTIVO"))
+          .reduce((acc, curr) => acc + Number(curr.valorPagado || 0), 0);
+
+        const recaudoRefuerzo = services
+          .filter(s => s.estadoServicio === "LIQUIDADO" && (s.tipoVisita === "SEGUIMIENTO" || s.tipoVisita === "REINCIDENCIA"))
+          .reduce((acc, curr) => acc + Number(curr.valorPagado || 0), 0);
+
+        const efectividad = totalServicios > 0 
+          ? Math.round((serviciosLiquidados / totalServicios) * 100) 
+          : 0;
+
+        const orders = services.map(s => ({
+          id: s.id,
+          orderNumber: s.numeroOrden || "N/A",
+          date: s.fechaVisita ? new Date(s.fechaVisita).toLocaleDateString() : "N/A",
+          client: s.cliente ? (s.cliente.razonSocial || `${s.cliente.nombre} ${s.cliente.apellido}`) : "N/A",
+          status: s.estadoServicio === "LIQUIDADO" ? "Liquidado" : s.estadoServicio,
+          paidValue: Number(s.valorPagado || 0),
+        }));
+
+        return {
+          id: m.id,
+          name: `${m.user.nombre} ${m.user.apellido}`,
+          services: totalServicios,
+          rating: 4.5,
+          avatar: `${m.user.nombre[0]}${m.user.apellido[0]}`,
+          color: COLORS[index % COLORS.length] || 'bg-zinc-500',
+          email: m.user.email,
+          phone: m.user.telefono || 'Sin teléfono',
+          joinDate: new Date(m.createdAt).toLocaleDateString('es-ES', {
+            day: '2-digit',
+            month: 'short',
+            year: 'numeric',
+          }),
+          role: m.role,
+          placa: m.placa || '',
+          moto: m.moto ?? true,
+          direccion: m.direccion || '',
+          municipioId: m.municipioId || '',
+          municipioNombre: m.municipio?.name || '',
+          empresaIds: m.empresaMemberships?.map((em) => em.empresaId) || [],
+          empresaNombres:
+            m.empresaMemberships?.map((em) => em.empresa.nombre) || [],
+          totalRecaudo,
+          totalServicios,
+          serviciosLiquidados,
+          recaudoNuevos,
+          recaudoRefuerzo,
+          efectividad,
+          orders,
+        };
+      });
 
       setUsers(mappedUsers);
     } catch (err: unknown) {
@@ -252,7 +367,7 @@ function EquipoTrabajoContent() {
     } finally {
       setLoading(false);
     }
-  }, [tenantId]);
+  }, [tenantId, startDate, endDate]);
 
   useEffect(() => {
     fetchTeam();
@@ -260,11 +375,20 @@ function EquipoTrabajoContent() {
 
   const allRoles = Array.from(new Set(users.map((u) => u.role)));
 
-  const filteredUsers = users.filter((user) =>
-    user.name.toLowerCase().includes(nameQuery.toLowerCase()) &&
-    (roleQuery === "" || user.role === roleQuery) &&
-    (municipioQuery === "" || user.municipioId === municipioQuery)
-  );
+  const filteredUsers = [...users]
+    .sort((a, b) => b.totalRecaudo - a.totalRecaudo)
+    .filter((user) => {
+      const matchesSearch = user.name.toLowerCase().includes(nameQuery.toLowerCase());
+      const matchesRole = roleQuery === "" || user.role === roleQuery;
+      const matchesMunicipio = municipioQuery === "" || user.municipioId === municipioQuery;
+
+      if (activeTab === "ranking") {
+        const rankingRoles = ["ADMIN", "SU_ADMIN", "COORDINADOR", "ASESOR"];
+        return matchesSearch && matchesRole && matchesMunicipio && rankingRoles.includes(user.role);
+      }
+
+      return matchesSearch && matchesRole && matchesMunicipio;
+    });
 
   const handleEditClick = (user: UserMember) => {
     setSelectedUser(user);
@@ -433,61 +557,105 @@ function EquipoTrabajoContent() {
           <div className="mt-8">
             {activeTab === "ranking" ? (
               <div className="grid gap-6">
-                {/* Search, Date Filter & Export Bar */}
-                <div className="flex flex-col xl:flex-row items-center justify-between gap-4 mb-2">
-                  {/* Search Bar */}
-                  <div className="relative w-full xl:w-80 shrink-0">
-                    <Search className="absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-zinc-400 z-10" />
-                    <input
-                      type="text"
-                      placeholder="Buscar usuario..."
-                      value={nameQuery}
-                      onChange={(e) => setNameQuery(e.target.value)}
-                      className="h-[60px] w-full rounded-xl border border-zinc-200 bg-zinc-50 pl-11 pr-4 text-xs font-medium outline-none transition-all focus:border-azul-1 focus:bg-white dark:border-zinc-800 dark:bg-zinc-900 dark:text-zinc-50 dark:focus:bg-zinc-950 shadow-sm"
-                    />
-                  </div>
-
-                  {/* Date Filter & Export */}
-                  <div className="flex flex-col sm:flex-row items-center gap-4 p-3 bg-zinc-50 dark:bg-zinc-900 border border-zinc-100 dark:border-zinc-800 rounded-xl w-full xl:w-fit">
-                    <div className="flex flex-col sm:flex-row items-center gap-3 w-full sm:w-auto overflow-x-auto">
-                    {/* Hoy / Ayer Toggle */}
-                    <div className="flex items-center p-1 bg-white dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-lg shrink-0">
-                      <button className="px-4 py-1.5 text-xs font-bold rounded-md bg-white dark:bg-zinc-800 text-zinc-900 dark:text-zinc-50 shadow-sm border border-zinc-100 dark:border-zinc-700">
-                        Hoy
-                      </button>
-                      <button className="px-4 py-1.5 text-xs font-bold rounded-md text-zinc-500 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-50 transition-colors">
-                        Ayer
-                      </button>
+                {/* Search, Filters & Export Bar */}
+                <div className="flex flex-col gap-4 mb-2">
+                  <div className="flex flex-col xl:flex-row items-center justify-between gap-4">
+                    {/* Search & Role Bar */}
+                    <div className="flex flex-col sm:flex-row gap-4 w-full xl:w-auto">
+                      <div className="relative w-full sm:w-80 shrink-0">
+                        <Search className="absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-zinc-400 z-10" />
+                        <input
+                          type="text"
+                          placeholder="Buscar usuario..."
+                          value={nameQuery}
+                          onChange={(e) => setNameQuery(e.target.value)}
+                          className="h-[60px] w-full rounded-xl border border-zinc-200 bg-zinc-50 pl-11 pr-4 text-xs font-medium outline-none transition-all focus:border-azul-1 focus:bg-white dark:border-zinc-800 dark:bg-zinc-900 dark:text-zinc-50 dark:focus:bg-zinc-950 shadow-sm"
+                        />
+                      </div>
+                      <div className="w-full sm:w-64">
+                        <Combobox
+                          options={[
+                            { value: "", label: "Todos los roles de gestión" },
+                            ...["ADMIN", "SU_ADMIN", "COORDINADOR", "ASESOR"].map(role => ({ value: role, label: role }))
+                          ]}
+                          value={roleQuery}
+                          onChange={setRoleQuery}
+                          placeholder="Filtrar por rol..."
+                          className="h-[60px]"
+                          hideSearch
+                        />
+                      </div>
                     </div>
 
-                    {/* Date Range Picker */}
-                    <div className="flex items-center gap-2 shrink-0">
-                      <DatePicker 
-                        date={startDate} 
-                        onChange={setStartDate} 
-                        className="h-9 w-32 px-3 text-[10px] rounded-lg bg-white dark:bg-zinc-950 border-zinc-200 dark:border-zinc-800" 
-                        placeholder="Desde..."
-                      />
-                      <span className="text-zinc-300 dark:text-zinc-700">-</span>
-                      <DatePicker 
-                        date={endDate} 
-                        onChange={setEndDate} 
-                        className="h-9 w-32 px-3 text-[10px] rounded-lg bg-white dark:bg-zinc-950 border-zinc-200 dark:border-zinc-800" 
-                        placeholder="Hasta..."
-                      />
+                    {/* Date Filter & Export */}
+                    <div className="flex flex-col sm:flex-row items-center gap-4 p-3 bg-zinc-50 dark:bg-zinc-900 border border-zinc-100 dark:border-zinc-800 rounded-xl w-full xl:w-fit">
+                      <div className="flex flex-col sm:flex-row items-center gap-3 w-full sm:w-auto overflow-x-auto">
+                        {/* Hoy / Ayer Toggle */}
+                        <div className="flex items-center p-1 bg-white dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-lg shrink-0">
+                          <button 
+                            onClick={setRangeToday}
+                            className={cn(
+                              "px-4 py-1.5 text-xs font-bold rounded-md transition-all",
+                              isToday 
+                                ? "bg-white dark:bg-zinc-800 text-zinc-900 dark:text-zinc-50 shadow-sm border border-zinc-100 dark:border-zinc-700" 
+                                : "text-zinc-500 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-50"
+                            )}
+                          >
+                            Hoy
+                          </button>
+                          <button 
+                            onClick={setRangeYesterday}
+                            className={cn(
+                              "px-4 py-1.5 text-xs font-bold rounded-md transition-all",
+                              isYesterday 
+                                ? "bg-white dark:bg-zinc-800 text-zinc-900 dark:text-zinc-50 shadow-sm border border-zinc-100 dark:border-zinc-700" 
+                                : "text-zinc-500 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-50"
+                            )}
+                          >
+                            Ayer
+                          </button>
+                        </div>
+
+                        {/* Date Range Picker */}
+                        <div className="flex items-center gap-2 shrink-0">
+                          <DatePicker 
+                            date={startDate} 
+                            onChange={setStartDate} 
+                            className="h-9 w-32 px-3 text-[10px] rounded-lg bg-white dark:bg-zinc-950 border-zinc-200 dark:border-zinc-800" 
+                            placeholder="Desde..."
+                          />
+                          <span className="text-zinc-300 dark:text-zinc-700">-</span>
+                          <DatePicker 
+                            date={endDate} 
+                            onChange={setEndDate} 
+                            className="h-9 w-32 px-3 text-[10px] rounded-lg bg-white dark:bg-zinc-950 border-zinc-200 dark:border-zinc-800" 
+                            placeholder="Hasta..."
+                          />
+                        </div>
+                      </div>
+
+                      {/* Export Button */}
+                      <button 
+                        onClick={handleExportExcel}
+                        className="flex items-center justify-center gap-2 h-9 px-4 rounded-lg bg-emerald-50 dark:bg-emerald-500/10 border border-emerald-200 dark:border-emerald-500/20 text-emerald-700 text-xs font-bold transition-all hover:bg-emerald-100 dark:hover:bg-emerald-500/20 shrink-0 w-full sm:w-auto"
+                      >
+                        <Download className="h-4 w-4" />
+                        Excel
+                      </button>
                     </div>
                   </div>
 
-                  {/* Export Button */}
-                  <button 
-                    onClick={handleExportExcel}
-                    className="flex items-center justify-center gap-2 h-9 px-4 rounded-lg bg-emerald-50 dark:bg-emerald-500/10 border border-emerald-200 dark:border-emerald-500/20 text-emerald-700 text-xs font-bold transition-all hover:bg-emerald-100 dark:hover:bg-emerald-500/20 shrink-0 w-full sm:w-auto"
-                  >
-                    <Download className="h-4 w-4" />
-                    Descargar Excel
-                  </button>
+                  {/* Reset Button */}
+                  <div className="flex justify-end">
+                    <button 
+                      onClick={resetFilters}
+                      className="text-[10px] font-black uppercase tracking-widest text-zinc-400 hover:text-azul-1 transition-colors flex items-center gap-2"
+                    >
+                      <X className="h-3 w-3" />
+                      Limpiar Filtros
+                    </button>
+                  </div>
                 </div>
-              </div>
 
                 {/* Podium / Top 3 */}
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-4">

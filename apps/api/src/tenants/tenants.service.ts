@@ -429,7 +429,27 @@ export class TenantsService {
     return tenant;
   }
 
-  async findAllMemberships(tenantId: string) {
+  async findAllMemberships(
+    tenantId: string,
+    startDate?: string,
+    endDate?: string,
+  ) {
+    const start = startDate ? new Date(startDate) : undefined;
+    const end = endDate ? new Date(endDate) : new Date();
+    if (!endDate) {
+      end.setHours(23, 59, 59, 999);
+    }
+
+    const whereServicios: any = {
+      fechaVisita: {
+        lte: end,
+      },
+    };
+
+    if (start) {
+      whereServicios.fechaVisita.gte = start;
+    }
+
     return this.prisma.tenantMembership.findMany({
       where: {
         tenantId,
@@ -453,6 +473,42 @@ export class TenantsService {
             empresa: {
               select: {
                 nombre: true,
+              },
+            },
+          },
+        },
+        serviciosCreados: {
+          where: whereServicios,
+          select: {
+            id: true,
+            numeroOrden: true,
+            fechaVisita: true,
+            valorPagado: true,
+            estadoServicio: true,
+            tipoVisita: true,
+            cliente: {
+              select: {
+                nombre: true,
+                apellido: true,
+                razonSocial: true,
+              },
+            },
+          },
+        },
+        serviciosAsignados: {
+          where: whereServicios,
+          select: {
+            id: true,
+            numeroOrden: true,
+            fechaVisita: true,
+            valorPagado: true,
+            estadoServicio: true,
+            tipoVisita: true,
+            cliente: {
+              select: {
+                nombre: true,
+                apellido: true,
+                razonSocial: true,
               },
             },
           },
