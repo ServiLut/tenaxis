@@ -8,6 +8,7 @@ import {
   Param,
   Patch,
   UnauthorizedException,
+  Query,
 } from '@nestjs/common';
 import { TenantsService } from './tenants.service';
 import { CreateTenantDto } from './dto/create-tenant.dto';
@@ -66,12 +67,20 @@ export class TenantsController {
 
   @Get(':tenantId/memberships')
   @UseGuards(JwtAuthGuard)
-  async findAllMemberships(@Request() req: RequestWithUser) {
+  async findAllMemberships(
+    @Request() req: RequestWithUser,
+    @Query('startDate') startDate?: string,
+    @Query('endDate') endDate?: string,
+  ) {
     if (!req.user.tenantId) {
       throw new UnauthorizedException('No perteneces a ningún conglomerado');
     }
     // TODO: Validar que sea ADMIN o SU_ADMIN del tenant
-    return this.tenantsService.findAllMemberships(req.user.tenantId);
+    return this.tenantsService.findAllMemberships(
+      req.user.tenantId,
+      startDate,
+      endDate,
+    );
   }
 
   @Post('memberships/:membershipId/approve')

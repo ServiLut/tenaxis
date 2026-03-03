@@ -171,6 +171,8 @@ function NuevoServicioContent() {
   const [tipoFacturacion, setTipoFacturacion] = useState("");
   const [estadoServicio, setEstadoServicio] = useState("NUEVO");
 
+  const [membershipId, setMembershipId] = useState<string | null>(null);
+
   const applyConfigToForm = useCallback((configs: ConfiguracionOperativa[], dirId?: string) => {
     // 1. Try to find config for specific address
     // 2. Fallback to global config (direccionId is null or undefined)
@@ -261,6 +263,7 @@ function NuevoServicioContent() {
           const user = JSON.parse(userData);
           uRole = user.role;
           setUserRole(uRole);
+          setMembershipId(user.membershipId || null);
         } catch (_e) { /* ignore */ }
       }
 
@@ -371,6 +374,7 @@ function NuevoServicioContent() {
       empresaId: selectedEmpresa,
       tecnicoId: selectedOperador || undefined,
       direccionId: selectedDireccion || undefined,
+      creadoPorId: membershipId || undefined,
       servicioEspecifico,
       urgencia: urgencia || undefined,
       observacion: observacion || undefined,

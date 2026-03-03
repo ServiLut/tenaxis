@@ -99,6 +99,32 @@ interface Membership {
       nombre: string;
     };
   }[];
+  serviciosCreados?: {
+    id: string;
+    numeroOrden: string;
+    fechaVisita: string;
+    valorPagado: number | string;
+    estadoServicio: string;
+    tipoVisita: string;
+    cliente: {
+      nombre: string;
+      apellido: string;
+      razonSocial: string;
+    };
+  }[];
+  serviciosAsignados?: {
+    id: string;
+    numeroOrden: string;
+    fechaVisita: string;
+    valorPagado: number | string;
+    estadoServicio: string;
+    tipoVisita: string;
+    cliente: {
+      nombre: string;
+      apellido: string;
+      razonSocial: string;
+    };
+  }[];
   _count?: {
     serviciosAsignados: number;
   };
@@ -184,6 +210,34 @@ function EquipoTrabajoContent() {
     if (parts.length === 2) return parts.pop()?.split(";").shift();
   };
 
+  const setRangeToday = () => {
+    const start = new Date();
+    start.setHours(0, 0, 0, 0);
+    const end = new Date();
+    end.setHours(23, 59, 59, 999);
+    setStartDate(start);
+    setEndDate(end);
+  };
+
+  const setRangeYesterday = () => {
+    const start = new Date();
+    start.setDate(start.getDate() - 1);
+    start.setHours(0, 0, 0, 0);
+    const end = new Date();
+    end.setDate(end.getDate() - 1);
+    end.setHours(23, 59, 59, 999);
+    setStartDate(start);
+    setEndDate(end);
+  };
+
+  const isToday = startDate && endDate && 
+    startDate.toDateString() === new Date().toDateString() && 
+    endDate.toDateString() === new Date().toDateString();
+
+  const isYesterday = startDate && endDate && 
+    startDate.toDateString() === new Date(Date.now() - 86400000).toDateString() && 
+    endDate.toDateString() === new Date(Date.now() - 86400000).toDateString();
+
   const fetchTeam = useCallback(async () => {
     if (!tenantId) return;
 
@@ -191,8 +245,12 @@ function EquipoTrabajoContent() {
       setLoading(true);
       const token = getCookie("access_token");
 
+      const queryParams = new URLSearchParams();
+      if (startDate) queryParams.append("startDate", startDate.toISOString());
+      if (endDate) queryParams.append("endDate", endDate.toISOString());
+
       const [teamRes, munRes, empRes] = await Promise.all([
-        fetch(`/api/tenants/${tenantId}/memberships`, {
+        fetch(`/api/tenants/${tenantId}/memberships?${queryParams.toString()}`, {
           headers: { Authorization: `Bearer ${token}` },
         }),
         getMunicipalitiesAction(),
@@ -212,37 +270,72 @@ function EquipoTrabajoContent() {
 
       const mappedUsers: UserMember[] = (
         Array.isArray(teamList) ? teamList : []
-      ).map((m: Membership, index: number) => ({
-        id: m.id,
-        name: `${m.user.nombre} ${m.user.apellido}`,
-        services: m._count?.serviciosAsignados || 0,
-        rating: 4.5,
-        avatar: `${m.user.nombre[0]}${m.user.apellido[0]}`,
-        color: COLORS[index % COLORS.length] || 'bg-zinc-500',
-        email: m.user.email,
-        phone: m.user.telefono || 'Sin teléfono',
-        joinDate: new Date(m.createdAt).toLocaleDateString('es-ES', {
-          day: '2-digit',
-          month: 'short',
-          year: 'numeric',
-        }),
-        role: m.role,
-        placa: m.placa || '',
-        moto: m.moto ?? true,
-        direccion: m.direccion || '',
-        municipioId: m.municipioId || '',
-        municipioNombre: m.municipio?.name || '',
-        empresaIds: m.empresaMemberships?.map((em) => em.empresaId) || [],
-        empresaNombres:
-          m.empresaMemberships?.map((em) => em.empresa.nombre) || [],
-        totalRecaudo: 0,
-        totalServicios: m._count?.serviciosAsignados || 0,
-        serviciosLiquidados: 0,
-        recaudoNuevos: 0,
-        recaudoRefuerzo: 0,
-        efectividad: 0,
-        orders: [],
-      }));
+      ).map((m: Membership, index: number) => {
+        // Use created services for ranking (for Admins, Coordinators, etc.)
+        // but we still keep the assigned ones available for detail view if needed
+        const services = m.serviciosCreados || [];
+        
+        const totalServicios = services.length;
+        const serviciosLiquidados = services.filter(s => s.estadoServicio === "LIQUIDADO").length;
+        
+        const totalRecaudo = services
+          .filter(s => s.estadoServicio === "LIQUIDADO")
+          .reduce((acc, curr) => acc + Number(curr.valorPagado || 0), 0);
+
+        // Map recaudo based on tipoVisita
+        const recaudoNuevos = services
+          .filter(s => s.estadoServicio === "LIQUIDADO" && (s.tipoVisita === "DIAGNOSTICO" || s.tipoVisita === "CORRECTIVO" || s.tipoVisita === "PREVENTIVO"))
+          .reduce((acc, curr) => acc + Number(curr.valorPagado || 0), 0);
+
+        const recaudoRefuerzo = services
+          .filter(s => s.estadoServicio === "LIQUIDADO" && (s.tipoVisita === "SEGUIMIENTO" || s.tipoVisita === "REINCIDENCIA"))
+          .reduce((acc, curr) => acc + Number(curr.valorPagado || 0), 0);
+
+        const efectividad = totalServicios > 0 
+          ? Math.round((serviciosLiquidados / totalServicios) * 100) 
+          : 0;
+
+        const orders = services.map(s => ({
+          id: s.id,
+          orderNumber: s.numeroOrden || "N/A",
+          date: s.fechaVisita ? new Date(s.fechaVisita).toLocaleDateString() : "N/A",
+          client: s.cliente ? (s.cliente.razonSocial || `${s.cliente.nombre} ${s.cliente.apellido}`) : "N/A",
+          status: s.estadoServicio === "LIQUIDADO" ? "Liquidado" : s.estadoServicio,
+          paidValue: Number(s.valorPagado || 0),
+        }));
+
+        return {
+          id: m.id,
+          name: `${m.user.nombre} ${m.user.apellido}`,
+          services: totalServicios,
+          rating: 4.5,
+          avatar: `${m.user.nombre[0]}${m.user.apellido[0]}`,
+          color: COLORS[index % COLORS.length] || 'bg-zinc-500',
+          email: m.user.email,
+          phone: m.user.telefono || 'Sin teléfono',
+          joinDate: new Date(m.createdAt).toLocaleDateString('es-ES', {
+            day: '2-digit',
+            month: 'short',
+            year: 'numeric',
+          }),
+          role: m.role,
+          placa: m.placa || '',
+          moto: m.moto ?? true,
+          direccion: m.direccion || '',
+          municipioId: m.municipioId || '',
+          municipioNombre: m.municipio?.name || '',
+          empresaIds: m.empresaMemberships?.map((em) => em.empresaId) || [],
+          empresaNombres:
+            m.empresaMemberships?.map((em) => em.empresa.nombre) || [],
+          totalRecaudo,
+          totalServicios,
+          serviciosLiquidados,
+          recaudoNuevos,
+          recaudoRefuerzo,
+          efectividad,
+          orders,
+        };
+      });
 
       setUsers(mappedUsers);
     } catch (err: unknown) {
@@ -252,7 +345,7 @@ function EquipoTrabajoContent() {
     } finally {
       setLoading(false);
     }
-  }, [tenantId]);
+  }, [tenantId, startDate, endDate]);
 
   useEffect(() => {
     fetchTeam();
@@ -260,11 +353,20 @@ function EquipoTrabajoContent() {
 
   const allRoles = Array.from(new Set(users.map((u) => u.role)));
 
-  const filteredUsers = users.filter((user) =>
-    user.name.toLowerCase().includes(nameQuery.toLowerCase()) &&
-    (roleQuery === "" || user.role === roleQuery) &&
-    (municipioQuery === "" || user.municipioId === municipioQuery)
-  );
+  const filteredUsers = [...users]
+    .sort((a, b) => b.totalRecaudo - a.totalRecaudo)
+    .filter((user) => {
+      const matchesSearch = user.name.toLowerCase().includes(nameQuery.toLowerCase());
+      const matchesRole = roleQuery === "" || user.role === roleQuery;
+      const matchesMunicipio = municipioQuery === "" || user.municipioId === municipioQuery;
+
+      if (activeTab === "ranking") {
+        const rankingRoles = ["ADMIN", "SU_ADMIN", "COORDINADOR", "ASESOR"];
+        return matchesSearch && matchesRole && matchesMunicipio && rankingRoles.includes(user.role);
+      }
+
+      return matchesSearch && matchesRole && matchesMunicipio;
+    });
 
   const handleEditClick = (user: UserMember) => {
     setSelectedUser(user);
@@ -452,10 +554,26 @@ function EquipoTrabajoContent() {
                     <div className="flex flex-col sm:flex-row items-center gap-3 w-full sm:w-auto overflow-x-auto">
                     {/* Hoy / Ayer Toggle */}
                     <div className="flex items-center p-1 bg-white dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-lg shrink-0">
-                      <button className="px-4 py-1.5 text-xs font-bold rounded-md bg-white dark:bg-zinc-800 text-zinc-900 dark:text-zinc-50 shadow-sm border border-zinc-100 dark:border-zinc-700">
+                      <button 
+                        onClick={setRangeToday}
+                        className={cn(
+                          "px-4 py-1.5 text-xs font-bold rounded-md transition-all",
+                          isToday 
+                            ? "bg-white dark:bg-zinc-800 text-zinc-900 dark:text-zinc-50 shadow-sm border border-zinc-100 dark:border-zinc-700" 
+                            : "text-zinc-500 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-50"
+                        )}
+                      >
                         Hoy
                       </button>
-                      <button className="px-4 py-1.5 text-xs font-bold rounded-md text-zinc-500 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-50 transition-colors">
+                      <button 
+                        onClick={setRangeYesterday}
+                        className={cn(
+                          "px-4 py-1.5 text-xs font-bold rounded-md transition-all",
+                          isYesterday 
+                            ? "bg-white dark:bg-zinc-800 text-zinc-900 dark:text-zinc-50 shadow-sm border border-zinc-100 dark:border-zinc-700" 
+                            : "text-zinc-500 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-50"
+                        )}
+                      >
                         Ayer
                       </button>
                     </div>
