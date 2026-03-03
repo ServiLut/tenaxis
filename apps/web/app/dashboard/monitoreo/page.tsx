@@ -19,39 +19,53 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Input } from "@/components/ui/input";
 import { DashboardLayout } from "@/components/dashboard";
 
+const GlassCard = ({ children, className }: { children: React.ReactNode; className?: string }) => (
+  <div className={cn(
+    "relative overflow-hidden rounded-3xl border border-white bg-white/40 p-6 shadow-sm backdrop-blur-md transition-all duration-300 hover:shadow-md dark:border-white/10 dark:bg-zinc-900/60",
+    className
+  )}>
+    {children}
+  </div>
+);
+
 export default function MonitoreoPage() {
   const [activeTab, setActiveTab] = useState<"actividad" | "auditoria">("actividad");
 
   return (
     <DashboardLayout>
-      <div className="flex-1 space-y-8">
-        <div className="flex items-center justify-between space-y-2">
-          <div>
-            <h2 className="text-3xl font-bold tracking-tight">Monitoreo</h2>
-            <p className="text-muted-foreground">
-              Sigue de cerca la actividad del sistema y los registros de auditoría.
+      <div className="mx-auto max-w-7xl space-y-10">
+        
+        {/* Header Section */}
+        <div className="flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between">
+          <div className="space-y-1">
+            <h1 className="text-4xl font-black tracking-tight text-black dark:text-white lg:text-5xl">
+              Monitoreo <span className="text-[#01ADFB]">Sistema</span>
+            </h1>
+            <p className="text-lg font-medium text-[#706F71]">
+              Sigue de cerca la actividad en tiempo real y los registros de auditoría.
             </p>
           </div>
-          <div className="flex items-center space-x-2">
-            <Button size="sm" className="bg-azul-1 dark:bg-azul-1 text-white dark:text-zinc-300 hover:bg-azul-1/90 dark:hover:bg-azul-1/90 shadow-md shadow-azul-1/10 gap-2 border-none">
-              <RefreshCcw className="h-4 w-4" />
-              Actualizar
-            </Button>
-            <Button variant="outline" size="sm" className="bg-emerald-50 dark:bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 hover:bg-emerald-100 dark:hover:bg-emerald-500/20 border-emerald-100 dark:border-emerald-500/20 shadow-sm gap-2">
+          <div className="flex items-center gap-3">
+            <button className="flex h-12 items-center gap-2 rounded-2xl bg-white px-6 text-sm font-black uppercase tracking-widest text-[#706F71] shadow-sm border border-[#706F71]/20 transition-all hover:bg-zinc-50 dark:bg-zinc-900 dark:text-white dark:border-white/10">
               <Download className="h-4 w-4" />
               Exportar
-            </Button>
+            </button>
+            <button className="flex h-12 items-center gap-2 rounded-2xl bg-[#01ADFB] px-6 text-sm font-black uppercase tracking-widest text-white shadow-lg shadow-[#01ADFB]/20 transition-transform hover:scale-105 active:scale-95">
+              <RefreshCcw className="h-4 w-4" />
+              Actualizar
+            </button>
           </div>
         </div>
 
-        <div className="flex items-center space-x-1 rounded-xl bg-zinc-100 p-1 dark:bg-zinc-800 w-fit">
+        {/* Custom Tabs */}
+        <div className="flex items-center gap-1.5 rounded-2xl bg-[#706F71]/5 p-1.5 w-fit border border-[#706F71]/10">
           <button
             onClick={() => setActiveTab("actividad")}
             className={cn(
-              "flex items-center gap-2 rounded-lg px-4 py-2 text-sm font-medium transition-all",
+              "flex items-center gap-2 rounded-xl px-6 py-3 text-[11px] font-black uppercase tracking-[0.15em] transition-all duration-300",
               activeTab === "actividad"
-                ? "bg-white text-zinc-950 shadow-sm dark:bg-zinc-950 dark:text-zinc-50"
-                : "text-zinc-500 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-100"
+                ? "bg-white text-[#01ADFB] shadow-md dark:bg-zinc-900"
+                : "text-[#706F71] hover:text-black dark:hover:text-white"
             )}
           >
             <Activity className="h-4 w-4" />
@@ -60,10 +74,10 @@ export default function MonitoreoPage() {
           <button
             onClick={() => setActiveTab("auditoria")}
             className={cn(
-              "flex items-center gap-2 rounded-lg px-4 py-2 text-sm font-medium transition-all",
+              "flex items-center gap-2 rounded-xl px-6 py-3 text-[11px] font-black uppercase tracking-[0.15em] transition-all duration-300",
               activeTab === "auditoria"
-                ? "bg-white text-zinc-950 shadow-sm dark:bg-zinc-950 dark:text-zinc-50"
-                : "text-zinc-500 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-100"
+                ? "bg-white text-[#01ADFB] shadow-md dark:bg-zinc-900"
+                : "text-[#706F71] hover:text-black dark:hover:text-white"
             )}
           >
             <History className="h-4 w-4" />
@@ -71,128 +85,110 @@ export default function MonitoreoPage() {
           </button>
         </div>
 
-        <div className="mt-4 space-y-4">
+        {/* Content Area */}
+        <div className="mt-4 space-y-8">
           {activeTab === "actividad" ? (
-            <div className="space-y-4">
-              <div className="grid gap-2 md:grid-cols-2 lg:grid-cols-4 w-full">
-                <Card>
-                  <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-0 pt-2 px-3">
-                    <CardTitle className="text-[10px] font-semibold text-zinc-950 dark:text-zinc-300 uppercase tracking-wider">Sesiones Activas</CardTitle>
-                    <Activity className="h-3 w-3 text-muted-foreground" />
-                  </CardHeader>
-                  <CardContent className="pb-2 px-3">
-                    <div className="text-lg font-bold leading-tight text-zinc-950 dark:text-zinc-300">12</div>
-                    <p className="text-[9px] text-muted-foreground font-medium">+2 desde la última hora</p>
-                  </CardContent>
-                </Card>
-                <Card>
-                  <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-0 pt-2 px-3">
-                    <CardTitle className="text-[10px] font-semibold text-zinc-950 dark:text-zinc-300 uppercase tracking-wider">Peticiones API</CardTitle>
-                    <Zap className="h-3 w-3 text-muted-foreground" />
-                  </CardHeader>
-                  <CardContent className="pb-2 px-3">
-                    <div className="text-lg font-bold leading-tight text-zinc-950 dark:text-zinc-300">2,345</div>
-                    <p className="text-[9px] text-muted-foreground font-medium">+18% vs ayer</p>
-                  </CardContent>
-                </Card>
-                <Card>
-                  <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-0 pt-2 px-3">
-                    <CardTitle className="text-[10px] font-semibold text-zinc-950 dark:text-zinc-300 uppercase tracking-wider">Tasa de Errores</CardTitle>
-                    <AlertTriangle className="h-3 w-3 text-muted-foreground" />
-                  </CardHeader>
-                  <CardContent className="pb-2 px-3">
-                    <div className="text-lg font-bold leading-tight text-zinc-950 dark:text-zinc-300">0.04%</div>
-                    <p className="text-[9px] text-muted-foreground font-medium">-0.01% estable</p>
-                  </CardContent>
-                </Card>
-                <Card>
-                  <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-0 pt-2 px-3">
-                    <CardTitle className="text-[10px] font-semibold text-zinc-950 dark:text-zinc-300 uppercase tracking-wider">Latencia Promedio</CardTitle>
-                    <Clock className="h-3 w-3 text-muted-foreground" />
-                  </CardHeader>
-                  <CardContent className="pb-2 px-3">
-                    <div className="text-lg font-bold leading-tight text-zinc-950 dark:text-zinc-300">145ms</div>
-                    <p className="text-[9px] text-muted-foreground font-medium">-12ms de promedio</p>
-                  </CardContent>
-                </Card>
+            <div className="space-y-10">
+              {/* Stats Grid */}
+              <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4 w-full">
+                {[
+                  { title: "Sesiones Activas", value: "12", icon: Activity, trend: "+2", color: "#01ADFB" },
+                  { title: "Peticiones API", value: "2,345", icon: Zap, trend: "+18%", color: "#021359" },
+                  { title: "Técnicos Online", value: "8", icon: CheckCircle2, trend: "Estable", color: "#01ADFB" },
+                  { title: "Latencia", value: "145ms", icon: Clock, trend: "-12ms", color: "#706F71" },
+                ].map((stat, i) => (
+                  <GlassCard key={i} className="group hover:scale-[1.02] cursor-default">
+                    <div className="flex items-center justify-between mb-4">
+                      <p className="text-[10px] font-black text-[#706F71] uppercase tracking-[0.2em]">{stat.title}</p>
+                      <div className={cn("p-2 rounded-xl text-white", i % 2 === 0 ? "bg-[#01ADFB]" : "bg-[#021359]")}>
+                        <stat.icon className="h-4 w-4" />
+                      </div>
+                    </div>
+                    <div className="text-3xl font-black text-black dark:text-white mb-1">{stat.value}</div>
+                    <p className="text-[10px] font-bold text-[#01ADFB] uppercase tracking-wider">{stat.trend} hoy</p>
+                  </GlassCard>
+                ))}
               </div>
 
-              <Card className="w-full">
-                <CardHeader className="pb-6 pt-8 px-8">
-                  <CardTitle className="text-2xl font-bold">Actividad Reciente</CardTitle>
-                  <CardDescription className="text-sm">Eventos en tiempo real del sistema.</CardDescription>
-                </CardHeader>
-                <CardContent className="px-8 pb-8">
-                  <div className="space-y-4">
-                    {[1, 2, 3, 4, 5].map((i) => (
-                      <div key={i} className="flex items-center gap-6 rounded-2xl border border-zinc-100 dark:border-zinc-800 p-6 transition-all hover:bg-zinc-50/50 dark:hover:bg-zinc-900/50">
-                        <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-azul-1/10 text-azul-1">
-                          <CheckCircle2 className="h-6 w-6" />
-                        </div>
-                        <div className="flex-1 space-y-1">
-                          <p className="text-base font-bold leading-none text-zinc-950 dark:text-zinc-100">
-                            Usuario inició sesión
-                          </p>
-                          <p className="text-sm font-medium text-zinc-500 dark:text-zinc-400">
-                            <span className="text-zinc-900 dark:text-zinc-300 font-bold">admin@tenaxis.com</span> desde 192.168.1.1
-                          </p>
-                        </div>
-                        <div className="text-sm font-bold text-zinc-400">Hace {i * 5} min</div>
+              {/* Activity List */}
+              <GlassCard className="w-full">
+                <div className="pb-8 pt-2 border-b border-[#706F71]/10 mb-6">
+                  <h3 className="text-xl font-black uppercase tracking-tight text-black dark:text-white">Eventos en Tiempo Real</h3>
+                  <p className="text-sm font-medium text-[#706F71]">Monitoreo de actividad concurrente en el sistema.</p>
+                </div>
+                <div className="space-y-4">
+                  {[1, 2, 3, 4, 5].map((i) => (
+                    <div key={i} className="flex items-center gap-6 rounded-2xl border border-[#706F71]/10 p-5 transition-all hover:bg-white/60 dark:hover:bg-zinc-800/50 group">
+                      <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-[#01ADFB]/10 text-[#01ADFB] transition-transform group-hover:rotate-6">
+                        <CheckCircle2 className="h-6 w-6" />
                       </div>
-                    ))}
-                  </div>
-                </CardContent>
-              </Card>
+                      <div className="flex-1 space-y-1">
+                        <p className="text-sm font-black uppercase tracking-tight text-black dark:text-white">
+                          Inicio de Sesión Exitoso
+                        </p>
+                        <p className="text-xs font-medium text-[#706F71]">
+                          <span className="text-black dark:text-white font-bold">admin@tenaxis.com</span> • IP: 192.168.1.{i}
+                        </p>
+                      </div>
+                      <div className="text-[10px] font-black uppercase tracking-widest text-[#706F71]">Hace {i * 5} min</div>
+                    </div>
+                  ))}
+                </div>
+              </GlassCard>
             </div>
           ) : (
-            <div className="space-y-6">
-              <div className="flex items-center gap-4 w-full">
-                <div className="relative max-w-md flex-1">
-                  <Search className="absolute left-4 top-1/2 h-5 w-5 -translate-y-1/2 text-muted-foreground" />
-                  <Input placeholder="Buscar en los registros de auditoría..." className="pl-12 h-12 text-base" />
+            <div className="space-y-10">
+              {/* Search & Filter Bar */}
+              <div className="flex flex-col md:flex-row items-center gap-4 w-full">
+                <div className="relative flex-1 group">
+                  <Search className="absolute left-4 top-1/2 h-5 w-5 -translate-y-1/2 text-[#706F71] group-focus-within:text-[#01ADFB] transition-colors" />
+                  <input 
+                    placeholder="Buscar en registros..." 
+                    className="w-full h-14 pl-12 pr-4 rounded-2xl bg-white border-none shadow-sm ring-1 ring-[#706F71]/20 focus:ring-2 focus:ring-[#01ADFB]/20 text-sm font-bold transition-all outline-none"
+                  />
                 </div>
-                <Button variant="outline" size="lg" className="h-12 px-6 text-zinc-950 dark:text-zinc-300 dark:border-zinc-800">
-                  <Filter className="mr-2 h-5 w-5 text-zinc-950 dark:text-zinc-300" />
-                  Filtros
-                </Button>
+                <button className="h-14 px-8 flex items-center gap-2 rounded-2xl bg-white text-[#706F71] font-black uppercase tracking-widest text-[11px] shadow-sm border border-[#706F71]/20 hover:bg-zinc-50 transition-all active:scale-95">
+                  <Filter className="h-4 w-4" />
+                  Filtros Avanzados
+                </button>
               </div>
 
-              <Card className="w-full">
-                <CardHeader className="pb-6 pt-8 px-8">
-                  <CardTitle className="text-2xl font-bold">Registros de Auditoría</CardTitle>
-                  <CardDescription className="text-sm">Historial detallado de cambios y accesos.</CardDescription>
-                </CardHeader>
-                <CardContent className="px-8 pb-8">
-                  <div className="rounded-2xl border border-zinc-100 dark:border-zinc-800 overflow-hidden shadow-sm">
-                    <table className="w-full text-base">
-                      <thead>
-                        <tr className="border-b bg-zinc-50/50 dark:bg-zinc-900/50">
-                          <th className="px-6 py-4 text-left font-bold uppercase tracking-wider text-xs text-zinc-500">Fecha</th>
-                          <th className="px-6 py-4 text-left font-bold uppercase tracking-wider text-xs text-zinc-500">Usuario</th>
-                          <th className="px-6 py-4 text-left font-bold uppercase tracking-wider text-xs text-zinc-500">Acción</th>
-                          <th className="px-6 py-4 text-left font-bold uppercase tracking-wider text-xs text-zinc-500">Entidad</th>
-                          <th className="px-6 py-4 text-left font-bold uppercase tracking-wider text-xs text-zinc-500">Estado</th>
+              {/* Audit Table */}
+              <GlassCard className="w-full overflow-hidden">
+                <div className="pb-8 pt-2 border-b border-[#706F71]/10 mb-6 px-2">
+                  <h3 className="text-xl font-black uppercase tracking-tight text-black dark:text-white">Registros de Auditoría</h3>
+                  <p className="text-sm font-medium text-[#706F71]">Historial detallado de cambios y transacciones.</p>
+                </div>
+                
+                <div className="overflow-x-auto">
+                  <table className="w-full">
+                    <thead>
+                      <tr className="border-b border-[#706F71]/5 bg-[#706F71]/5">
+                        <th className="px-6 py-5 text-left font-black uppercase tracking-widest text-[10px] text-[#706F71]">Fecha</th>
+                        <th className="px-6 py-5 text-left font-black uppercase tracking-widest text-[10px] text-[#706F71]">Usuario</th>
+                        <th className="px-6 py-5 text-left font-black uppercase tracking-widest text-[10px] text-[#706F71]">Acción</th>
+                        <th className="px-6 py-5 text-left font-black uppercase tracking-widest text-[10px] text-[#706F71]">Entidad</th>
+                        <th className="px-6 py-5 text-right font-black uppercase tracking-widest text-[10px] text-[#706F71]">Estado</th>
+                      </tr>
+                    </thead>
+                    <tbody className="divide-y divide-[#706F71]/5">
+                      {[1, 2, 3, 4, 5, 6].map((i) => (
+                        <tr key={i} className="hover:bg-white/40 dark:hover:bg-white/5 transition-colors group">
+                          <td className="px-6 py-5 text-[#706F71] font-medium text-xs">26 Feb, 2026 • 10:2{i} AM</td>
+                          <td className="px-6 py-5 font-black text-black dark:text-white uppercase tracking-tight text-sm">Daniela G.</td>
+                          <td className="px-6 py-5 font-bold text-[#021359] dark:text-[#01ADFB] text-sm">Actualización</td>
+                          <td className="px-6 py-5 text-[#706F71] font-bold text-xs uppercase">Cliente #{1023 + i}</td>
+                          <td className="px-6 py-5 text-right">
+                            <span className="inline-flex items-center rounded-lg bg-[#01ADFB]/10 px-3 py-1.5 text-[9px] font-black uppercase tracking-widest text-[#01ADFB] border border-[#01ADFB]/20 shadow-sm">
+                              Exitoso
+                            </span>
+                          </td>
                         </tr>
-                      </thead>
-                      <tbody className="divide-y divide-zinc-100 dark:divide-zinc-800">
-                        {[1, 2, 3, 4, 5, 6, 7, 8].map((i) => (
-                          <tr key={i} className="hover:bg-zinc-50/50 dark:hover:bg-zinc-900/50 transition-colors">
-                            <td className="px-6 py-5 text-muted-foreground font-medium">26 Feb, 2026 10:2{i} AM</td>
-                            <td className="px-6 py-5 font-bold text-zinc-950 dark:text-zinc-300">Daniela G.</td>
-                            <td className="px-6 py-5 font-medium text-zinc-600 dark:text-zinc-300">Actualización</td>
-                            <td className="px-6 py-5 text-muted-foreground font-medium">Cliente #1023</td>
-                            <td className="px-6 py-5">
-                              <span className="inline-flex items-center rounded-full bg-green-50 px-3 py-1 text-xs font-black uppercase tracking-wider text-green-700">
-                                Exitoso
-                              </span>
-                            </td>
-                          </tr>
-                        ))}
-                      </tbody>
-                    </table>
-                  </div>
-                </CardContent>
-              </Card>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              </GlassCard>
             </div>
           )}
         </div>

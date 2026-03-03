@@ -16,6 +16,7 @@ import {
   ShieldCheck,
   Zap,
 } from "lucide-react";
+import { ModeToggle } from "@/components/dashboard/ModeToggle";
 
 export default function RegisterPage() {
   const [formData, setFormData] = useState({
@@ -137,6 +138,11 @@ export default function RegisterPage() {
   return (
 
     <div className="flex min-h-screen overflow-hidden bg-[#F5F1EB] dark:bg-zinc-950">
+      {/* Floating Theme Toggle */}
+      <div className="fixed top-8 right-8 z-50">
+        <ModeToggle />
+      </div>
+
       {/* Left side: Content/Marketing - Secondary Color (30%) */}
       <div className="relative hidden min-h-screen w-1/2 flex-col bg-azul-1 dark:bg-gradient-to-br dark:from-azul-1 dark:via-[#1e3a8a] dark:to-[#0f172a] p-12 text-white lg:flex overflow-hidden">
         {/* Background Decorative Element */}

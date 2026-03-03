@@ -38,7 +38,7 @@ export function DashboardLayout({
   }, []);
 
   return (
-    <div className="h-screen bg-[#F5F1EB] dark:bg-zinc-950">
+    <div className="h-screen bg-[#F8FAFC] dark:bg-[#021359]">
       <Sidebar isOpen={isSidebarOpen} onClose={() => setIsSidebarOpen(false)} />
       <div className={cn(
         "h-full flex flex-col transition-all duration-300",

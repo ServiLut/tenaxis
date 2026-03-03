@@ -142,7 +142,7 @@ export function Sidebar({ isOpen, onClose }: SidebarProps) {
       )}
 
       <aside className={cn(
-        "fixed left-0 top-0 z-50 h-screen w-72 border-r border-zinc-200 bg-white p-6 transition-transform duration-300 dark:border-zinc-800 dark:bg-zinc-950",
+        "fixed left-0 top-0 z-50 h-screen w-72 border-r border-[#706F71]/20 bg-[#021359] p-6 transition-transform duration-300 dark:border-white/10 dark:bg-black",
         isOpen ? "translate-x-0 shadow-2xl lg:shadow-none" : "-translate-x-full"
       )}>
         <div className="flex h-full flex-col justify-between">
@@ -150,17 +150,17 @@ export function Sidebar({ isOpen, onClose }: SidebarProps) {
             {/* Logo */}
             <div className="flex items-center justify-between">
               <Link href="/dashboard" className="flex items-center gap-3 px-2 group" onClick={onClose}>
-                <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-azul-1 text-white shadow-lg transition-transform group-hover:scale-105">
+                <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-[#0091D5] text-white shadow-lg transition-transform group-hover:scale-105">
                   <Sparkles className="h-7 w-7" />
                 </div>
-                <span className="text-2xl font-black tracking-tighter text-zinc-900 dark:text-zinc-50">
+                <span className="text-2xl font-black tracking-tighter text-white">
                   Tenaxis
                 </span>
               </Link>
               {/* Close button for mobile */}
               <button 
                 onClick={onClose}
-                className="flex h-10 w-10 items-center justify-center rounded-xl bg-zinc-50 dark:bg-zinc-900 text-zinc-500 dark:text-zinc-300 hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors shadow-sm border border-zinc-200 dark:border-zinc-800"
+                className="flex h-10 w-10 items-center justify-center rounded-xl bg-white/5 text-white/50 hover:bg-white/10 transition-colors shadow-sm border border-white/10"
                 aria-label="Cerrar menú"
               >
                 <ChevronRight className="h-5 w-5 lg:rotate-180 max-lg:rotate-180" />
@@ -168,12 +168,14 @@ export function Sidebar({ isOpen, onClose }: SidebarProps) {
             </div>
 
             {/* Empresa Selector */}
-            <EmpresaSelector />
+            <div className="sidebar-empresa-selector-container">
+               <EmpresaSelector />
+            </div>
 
             {/* Navigation */}
             <nav className="space-y-8 overflow-y-auto max-h-[calc(100vh-320px)] custom-scrollbar">
               <div className="space-y-2">
-                <p className="px-4 text-[10px] font-black uppercase tracking-[0.2em] text-zinc-400 dark:text-zinc-200">
+                <p className="px-4 text-[10px] font-black uppercase tracking-[0.2em] text-[#706F71] dark:text-zinc-400">
                   Principal
                 </p>
                 <div className="space-y-1">
@@ -185,17 +187,17 @@ export function Sidebar({ isOpen, onClose }: SidebarProps) {
                         href={item.href}
                         onClick={onClose}
                         className={cn(
-                          "group flex items-center justify-between rounded-2xl px-4 py-3.5 transition-all duration-200",
+                          "group flex items-center justify-between rounded-2xl px-4 py-3.5 transition-all duration-300",
                           isActive
-                            ? "bg-azul-1 text-white shadow-xl shadow-azul-1/20 dark:bg-azul-1 dark:text-zinc-50"
-                            : "text-zinc-600 dark:text-zinc-300 hover:bg-zinc-100 dark:hover:bg-zinc-900 hover:text-azul-1 dark:hover:text-claro-azul-4"
+                            ? "bg-[#0091D5] text-white shadow-xl shadow-[#0091D5]/20"
+                            : "text-[#CBD5E1] hover:bg-white/5 hover:text-[#0091D5]"
                         )}
                       >
                         <div className="flex items-center gap-3">
-                          <item.icon className={cn("h-5 w-5", isActive ? "text-white dark:text-zinc-50" : "text-zinc-400 dark:text-zinc-400 group-hover:text-azul-1 dark:group-hover:text-claro-azul-4")} />
+                          <item.icon className={cn("h-5 w-5 transition-transform duration-300 group-hover:scale-110", isActive ? "text-white" : "text-[#706F71] group-hover:text-[#0091D5]")} />
                           <span className="text-sm font-bold tracking-tight">{item.title}</span>
                         </div>
-                        {isActive && <ChevronRight className="h-4 w-4 text-white dark:text-zinc-50" />}
+                        {isActive && <ChevronRight className="h-4 w-4 text-white animate-in fade-in slide-in-from-left-2" />}
                       </Link>
                     );
                   })}
@@ -203,7 +205,7 @@ export function Sidebar({ isOpen, onClose }: SidebarProps) {
               </div>
 
               <div className="space-y-2">
-                <p className="px-4 text-[10px] font-black uppercase tracking-[0.2em] text-zinc-400 dark:text-zinc-200">
+                <p className="px-4 text-[10px] font-black uppercase tracking-[0.2em] text-[#706F71] dark:text-zinc-400">
                   Sistema
                 </p>
                 <div className="space-y-1">
@@ -215,14 +217,14 @@ export function Sidebar({ isOpen, onClose }: SidebarProps) {
                         href={item.href}
                         onClick={onClose}
                         className={cn(
-                          "group flex items-center justify-between rounded-2xl px-4 py-3.5 transition-all duration-200",
+                          "group flex items-center justify-between rounded-2xl px-4 py-3.5 transition-all duration-300",
                           isActive
-                            ? "bg-azul-1 text-white shadow-xl shadow-azul-1/20 dark:bg-azul-1 dark:text-zinc-50"
-                            : "text-zinc-600 dark:text-zinc-300 hover:bg-zinc-100 dark:hover:bg-zinc-900 hover:text-azul-1 dark:hover:text-claro-azul-4"
+                            ? "bg-[#0091D5] text-white shadow-xl shadow-[#0091D5]/20"
+                            : "text-[#CBD5E1] hover:bg-white/5 hover:text-[#0091D5]"
                         )}
                       >
                         <div className="flex items-center gap-3">
-                          <item.icon className={cn("h-5 w-5", isActive ? "text-white dark:text-zinc-50" : "text-zinc-400 dark:text-zinc-400 group-hover:text-azul-1 dark:group-hover:text-claro-azul-4")} />
+                          <item.icon className={cn("h-5 w-5 transition-transform duration-300 group-hover:scale-110", isActive ? "text-white" : "text-[#706F71] group-hover:text-[#0091D5]")} />
                           <span className="text-sm font-bold tracking-tight">{item.title}</span>
                         </div>
                       </Link>
@@ -235,16 +237,16 @@ export function Sidebar({ isOpen, onClose }: SidebarProps) {
 
           {/* Bottom Section: Profile/Logout */}
           <div className="space-y-4 pt-6">
-            <div className="rounded-2xl border-2 border-zinc-100 dark:border-zinc-800 bg-zinc-50 dark:bg-zinc-900 p-5">
+            <div className="rounded-2xl border border-white/10 bg-white/5 p-5">
               <div className="flex items-center gap-3">
-                <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-white dark:bg-zinc-800 text-azul-1 shadow-sm border border-zinc-200 dark:border-zinc-700">
+                <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-[#0091D5] text-white shadow-sm">
                   <ShieldCheck className="h-6 w-6" />
                 </div>
                 <div className="overflow-hidden">
-                  <p className="truncate text-xs font-black uppercase tracking-wider text-zinc-900 dark:text-zinc-50">
+                  <p className="truncate text-xs font-black uppercase tracking-wider text-white">
                     Plan Enterprise
                   </p>
-                  <p className="text-[10px] font-bold text-zinc-500 dark:text-zinc-300">
+                  <p className="text-[10px] font-bold text-[#706F71]">
                     Renueva en 15 días
                   </p>
                 </div>
@@ -254,9 +256,9 @@ export function Sidebar({ isOpen, onClose }: SidebarProps) {
             <button
               onClick={handleLogout}
               aria-label="Cerrar sesión"
-              className="group flex w-full items-center gap-3 rounded-2xl px-4 py-4 text-zinc-500 dark:text-zinc-300 transition-all hover:bg-red-50 hover:text-red-600 dark:hover:bg-red-950/30 dark:hover:text-red-400"
+              className="group flex w-full items-center gap-3 rounded-2xl px-4 py-4 text-[#CBD5E1] transition-all hover:bg-red-500/10 hover:text-red-400"
             >
-              <LogOut className="h-5 w-5 text-zinc-400 group-hover:text-red-600 dark:group-hover:text-red-400" />
+              <LogOut className="h-5 w-5 text-[#706F71] group-hover:text-red-400" />
               <span className="text-sm font-bold tracking-tight">Cerrar Sesión</span>
             </button>
           </div>

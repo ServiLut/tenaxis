@@ -55,7 +55,7 @@ export function TimePicker({
           variant={"outline"}
           disabled={disabled}
           className={cn(
-            "w-full justify-start text-left border-2 border-zinc-700 bg-zinc-50/30 rounded-xl px-4 py-3 h-11 transition-all focus-within:border-azul-1 focus-within:bg-white dark:border-zinc-800 dark:bg-zinc-900/30 dark:text-zinc-50 dark:focus-within:border-zinc-300 dark:focus-within:bg-zinc-900",
+            "w-full justify-start text-left border border-zinc-200 bg-zinc-50/30 rounded-xl px-4 py-3 h-11 transition-all focus-within:border-zinc-200 focus-within:bg-white dark:border-zinc-800/50 dark:bg-zinc-900/30 dark:text-zinc-50 dark:focus-within:border-zinc-200 dark:focus-within:bg-zinc-900",
             "normal-case tracking-normal text-[11px] font-medium",
             value ? "text-zinc-900 dark:text-zinc-50 font-bold" : "text-zinc-400",
             className
@@ -66,7 +66,7 @@ export function TimePicker({
         </Button>
       </PopoverTrigger>
       <PopoverContent className="w-48 p-0 border-none shadow-2xl rounded-2xl overflow-hidden" align="start">
-        <div className="flex h-64 bg-white dark:bg-zinc-950 border border-zinc-700 dark:border-zinc-800">
+        <div className="flex h-64 bg-white dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800/50">
           {/* Hours Column */}
           <div className="flex-1 overflow-y-auto custom-scrollbar border-r border-zinc-50 dark:border-zinc-900 py-2">
             <div className="px-3 py-1 mb-1 text-[9px] font-black uppercase text-zinc-400 sticky top-0 bg-white dark:bg-zinc-950 z-10">Hora</div>

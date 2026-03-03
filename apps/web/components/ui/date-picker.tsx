@@ -35,9 +35,10 @@ export function DatePicker({
           variant={"outline"}
           disabled={disabled}
           className={cn(
-            "w-full justify-start text-left border-2 border-zinc-700 bg-zinc-50/30 rounded-xl px-4 py-3 h-11 transition-all focus-within:border-azul-1 focus-within:bg-white dark:border-zinc-800 dark:bg-zinc-900/30 dark:text-zinc-50 dark:focus-within:border-zinc-300 dark:focus-within:bg-zinc-900",
-            "normal-case tracking-normal text-[11px] font-medium",
-            date ? "text-zinc-900 dark:text-zinc-50 font-bold" : "text-zinc-400",
+            "w-full justify-start text-left border border-zinc-200 bg-zinc-50/30 rounded-xl px-4 py-3 h-11 transition-all focus-within:border-zinc-200 focus-within:bg-white dark:border-zinc-800/50 dark:bg-zinc-900/30 dark:text-zinc-50 dark:focus-within:border-zinc-200 dark:focus-within:bg-zinc-900",
+            "text-sm uppercase font-medium tracking-normal",
+            "hover:bg-zinc-50/30 hover:translate-y-0 hover:shadow-none",
+            date ? "text-zinc-900 dark:text-zinc-50" : "text-zinc-400",
             className
           )}
         >
@@ -54,7 +55,7 @@ export function DatePicker({
             // We can't easily close popover from here without more logic, 
             // but clicking outside works.
           }}
-          className="rounded-2xl border border-zinc-700 dark:border-zinc-800"
+          className="rounded-2xl border border-zinc-200 dark:border-zinc-800/50"
         />
       </PopoverContent>
     </Popover>

@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import Link from "next/link";
 import { Button, Input, Label } from "@/components/ui";
 import { LogIn, Mail, Lock, Sparkles, Loader2 } from "lucide-react";
+import { ModeToggle } from "@/components/dashboard/ModeToggle";
 
 export default function LoginPage() {
   const [formData, setFormData] = useState({
@@ -68,6 +69,11 @@ export default function LoginPage() {
 
   return (
     <div className="flex min-h-screen overflow-hidden bg-[#F5F1EB] dark:bg-zinc-950">
+      {/* Floating Theme Toggle */}
+      <div className="fixed top-8 right-8 z-50">
+        <ModeToggle />
+      </div>
+
       {/* Left side: Brand/Marketing - Secondary Color (30%) */}
       <div className="relative hidden w-1/2 flex-col justify-between bg-azul-1 dark:bg-gradient-to-br dark:from-azul-1 dark:via-[#1e3a8a] dark:to-[#0f172a] p-16 text-white lg:flex overflow-hidden">
         {/* Background Decorative Element */}

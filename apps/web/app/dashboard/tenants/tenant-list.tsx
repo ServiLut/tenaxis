@@ -169,15 +169,15 @@ export function TenantList({ initialTenants, availablePlans }: TenantListProps) 
       </div>
 
       {tenants.length === 0 ? (
-        <div className="rounded-[3rem] border-4 border-zinc-200 p-20 text-center bg-white shadow-xl">
+        <div className="rounded-[3rem] border-4 border-zinc-200 dark:border-zinc-800 p-20 text-center bg-white dark:bg-zinc-900 shadow-xl">
           <div className="flex flex-col items-center justify-center">
             <div className="flex h-20 w-20 items-center justify-center rounded-[2rem] bg-azul-1 text-white dark:text-zinc-300 shadow-2xl">
               <Building2 className="h-10 w-10" />
             </div>
-            <h2 className="mt-8 text-2xl font-black tracking-tighter text-zinc-900">
+            <h2 className="mt-8 text-2xl font-black tracking-tighter text-zinc-900 dark:text-zinc-100">
               No hay tenants registrados
             </h2>
-            <p className="mt-2 max-w-xs text-sm text-zinc-500 font-medium italic">
+            <p className="mt-2 max-w-xs text-sm text-zinc-500 dark:text-zinc-400 font-medium italic">
               Comienza creando tu primer tenant para administrar organizaciones.
             </p>
           </div>
@@ -185,7 +185,7 @@ export function TenantList({ initialTenants, availablePlans }: TenantListProps) 
       ) : (
         <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
           {tenants.map((tenant) => (
-            <Card key={tenant.id} className="group overflow-hidden border-none shadow-xl bg-white transition-all hover:scale-[1.02] rounded-[3rem] relative">
+            <Card key={tenant.id} className="group overflow-hidden border-none shadow-xl bg-white dark:bg-zinc-900 transition-all hover:scale-[1.02] rounded-[3rem] relative">
               <CardHeader className="flex flex-row items-center justify-between pb-2 pt-10 px-10 relative z-10">
                 <div className="flex h-16 w-16 items-center justify-center rounded-2xl bg-azul-1 text-white dark:text-zinc-300 shadow-lg">
                   <Building2 className="h-8 w-8" />
@@ -194,40 +194,40 @@ export function TenantList({ initialTenants, availablePlans }: TenantListProps) 
                   "rounded-xl px-4 py-2 text-[10px] font-black uppercase tracking-widest shadow-sm",
                   tenant.isActive
                     ? "bg-oscuro-verde-azulado-3 text-white"
-                    : "bg-zinc-100 text-zinc-400"
+                    : "bg-zinc-100 dark:bg-zinc-800 text-zinc-400 dark:text-zinc-500"
                 )}>
                   {tenant.isActive ? "Activo" : "Inactivo"}
                 </span>
               </CardHeader>
 
               <CardContent className="pt-6 px-10 pb-10 relative z-10">
-                <CardTitle className="text-3xl font-black tracking-tighter mb-1 leading-none">{tenant.nombre}</CardTitle>
+                <CardTitle className="text-3xl font-black tracking-tighter mb-1 leading-none text-zinc-900 dark:text-zinc-100">{tenant.nombre}</CardTitle>
                 <div className="inline-flex items-center gap-2 mt-2 mb-8">
                   <div className="h-1.5 w-1.5 rounded-full bg-azul-1 dark:bg-zinc-400" />
                   <p className="text-[10px] font-black text-azul-1 dark:text-zinc-400 uppercase tracking-[0.3em]">ID: {tenant.slug}</p>
                 </div>
 
                 <div className="grid grid-cols-2 gap-4">
-                  <div className="flex flex-col gap-1 p-5 rounded-2xl bg-zinc-50 border border-zinc-100">
+                  <div className="flex flex-col gap-1 p-5 rounded-2xl bg-zinc-50 dark:bg-zinc-800/50 border border-zinc-100 dark:border-zinc-800">
                     <Users className="h-5 w-5 text-azul-1" />
-                    <span className="text-2xl font-black text-zinc-900 tabular-nums leading-none mt-2">{tenant._count?.memberships || 0}</span>
+                    <span className="text-2xl font-black text-zinc-900 dark:text-zinc-100 tabular-nums leading-none mt-2">{tenant._count?.memberships || 0}</span>
                     <span className="text-[10px] font-black text-zinc-400 uppercase tracking-widest">Miembros</span>
                   </div>
-                  <div className="flex flex-col gap-1 p-5 rounded-2xl bg-zinc-50 border border-zinc-100">
+                  <div className="flex flex-col gap-1 p-5 rounded-2xl bg-zinc-50 dark:bg-zinc-800/50 border border-zinc-100 dark:border-zinc-800">
                     <Building2 className="h-5 w-5 text-azul-1 dark:text-zinc-400" />
-                    <span className="text-2xl font-black text-zinc-900 tabular-nums leading-none mt-2">{tenant._count?.empresas || 0}</span>
+                    <span className="text-2xl font-black text-zinc-900 dark:text-zinc-100 tabular-nums leading-none mt-2">{tenant._count?.empresas || 0}</span>
                     <span className="text-[10px] font-black text-zinc-400 uppercase tracking-widest">Sedes</span>
                   </div>
                 </div>
 
                 {tenant.correo && (
-                  <div className="mt-6 flex items-center gap-3 px-4 py-3 rounded-xl bg-zinc-50 border border-zinc-100">
+                  <div className="mt-6 flex items-center gap-3 px-4 py-3 rounded-xl bg-zinc-50 dark:bg-zinc-800/50 border border-zinc-100 dark:border-zinc-800">
                     <Mail className="h-4 w-4 text-zinc-400" />
-                    <span className="text-xs font-bold text-zinc-500 truncate">{tenant.correo}</span>
+                    <span className="text-xs font-bold text-zinc-500 dark:text-zinc-400 truncate">{tenant.correo}</span>
                   </div>
                 )}
 
-                <div className="mt-10 flex items-center gap-4 pt-6 border-t border-zinc-100">
+                <div className="mt-10 flex items-center gap-4 pt-6 border-t border-zinc-100 dark:border-zinc-800">
                   <button
                     onClick={() => handleViewTenant(tenant.id)}
                     disabled={loadingDetail}
