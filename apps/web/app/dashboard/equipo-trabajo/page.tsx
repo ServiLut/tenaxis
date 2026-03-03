@@ -7,6 +7,8 @@ import { Card, CardContent } from "@/components/ui/card";
 import {
   Dialog,
   DialogContent,
+  DialogTitle,
+  DialogDescription,
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -1198,6 +1200,10 @@ function EquipoTrabajoContent() {
         <DialogContent className="max-w-5xl border-none p-0 bg-white dark:bg-zinc-950 rounded-[2.5rem] shadow-2xl max-h-[90vh] overflow-y-auto custom-scrollbar">
           {selectedUser && (
             <div className="relative">
+              {/* Hidden for accessibility but required by Radix UI */}
+              <DialogTitle className="sr-only">Detalles de {selectedUser.name}</DialogTitle>
+              <DialogDescription className="sr-only">Visualización de rendimiento y servicios del usuario.</DialogDescription>
+
               {/* Header */}
               <div className="p-8 pb-4 flex items-center justify-between border-b border-zinc-100 dark:border-zinc-800 sticky top-0 bg-white dark:bg-zinc-950 z-30">
                 <div>
