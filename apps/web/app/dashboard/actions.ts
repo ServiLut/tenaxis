@@ -960,6 +960,7 @@ export interface CreateOrdenServicioDTO {
   empresaId: string;
   direccionId?: string;
   tecnicoId?: string;
+  creadoPorId?: string;
   servicioEspecifico: string;
   urgencia?: string;
   observacion?: string;
