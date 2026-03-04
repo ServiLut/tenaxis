@@ -12,9 +12,11 @@ import { GeoModule } from './geo/geo.module';
 import { EnterpriseModule } from './enterprise/enterprise.module';
 import { APP_INTERCEPTOR } from '@nestjs/core';
 import { EnterpriseInterceptor } from './common/interceptors/enterprise.interceptor';
+import { AuditInterceptor } from './common/interceptors/audit.interceptor';
 import { OrdenesServicioModule } from './ordenes-servicio/ordenes-servicio.module';
 import { SupabaseModule } from './supabase/supabase.module';
 import { ContabilidadModule } from './contabilidad/contabilidad.module';
+import { MonitoringModule } from './monitoring/monitoring.module';
 
 @Module({
   imports: [
@@ -30,6 +32,7 @@ import { ContabilidadModule } from './contabilidad/contabilidad.module';
     OrdenesServicioModule,
     SupabaseModule,
     ContabilidadModule,
+    MonitoringModule,
   ],
   controllers: [AppController],
   providers: [
@@ -37,6 +40,10 @@ import { ContabilidadModule } from './contabilidad/contabilidad.module';
     {
       provide: APP_INTERCEPTOR,
       useClass: EnterpriseInterceptor,
+    },
+    {
+      provide: APP_INTERCEPTOR,
+      useClass: AuditInterceptor,
     },
   ],
 })

@@ -291,16 +291,16 @@ function ServiciosContent() {
   const [uploadConfig, setUploadConfig] = useState<{ id: string; field: "facturaElectronica" | "comprobantePago" | "evidenciaPath" } | null>(null);
 
   const [filters, setFilters] = useState({
-    estado: "all",
-    tecnico: "all",
-    urgencia: "all",
-    creador: "all",
-    municipio: "all",
-    metodoPago: "all",
-    empresa: "all",
-    tipo: "all",
-    fechaInicio: "",
-    fechaFin: "",
+    estado: searchParams.get("estado") || "all",
+    tecnico: searchParams.get("tecnico") || "all",
+    urgencia: searchParams.get("urgencia") || "all",
+    creador: searchParams.get("creador") || "all",
+    municipio: searchParams.get("municipio") || "all",
+    metodoPago: searchParams.get("metodoPago") || "all",
+    empresa: searchParams.get("empresa") || "all",
+    tipo: searchParams.get("tipo") || "all",
+    fechaInicio: searchParams.get("fechaInicio") || "",
+    fechaFin: searchParams.get("fechaFin") || "",
   });
   const [filterOptions, setOptions] = useState<{
     estados: { id: string; nombre: string }[];
