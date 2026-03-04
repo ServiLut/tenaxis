@@ -4,21 +4,23 @@ import {
   Post,
   Get,
   Patch,
-  Request as NestRequest,
+  Req,
   UnauthorizedException,
 } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { RegisterDto } from './dto/register.dto';
 import { LoginDto } from './dto/login.dto';
-import { Request } from 'express';
+import type { Request } from 'express';
 
 @Controller('auth')
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
   @Post('login')
-  async login(@Body() loginDto: LoginDto) {
-    return this.authService.login(loginDto);
+  async login(@Body() loginDto: LoginDto, @Req() req: Request) {
+    const ip = req.ip || req.headers['x-forwarded-for'] || req.connection.remoteAddress;
+    const userAgent = req.headers['user-agent'];
+    return this.authService.login(loginDto, Array.isArray(ip) ? ip[0] : ip, userAgent);
   }
 
   @Post('register')
@@ -27,7 +29,7 @@ export class AuthController {
   }
 
   @Get('profile')
-  async getProfile(@NestRequest() req: Request) {
+  async getProfile(@Req() req: Request) {
     const authHeader = req.headers.authorization;
     if (!authHeader) {
       throw new UnauthorizedException();
@@ -42,7 +44,7 @@ export class AuthController {
   @Patch('test-role')
   async updateTestRole(
     @Body() body: { role: string },
-    @NestRequest() req: Request,
+    @Req() req: Request,
   ) {
     const authHeader = req.headers.authorization;
     if (!authHeader) {

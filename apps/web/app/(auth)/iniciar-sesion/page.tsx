@@ -47,6 +47,10 @@ export default function LoginPage() {
 
       document.cookie = `access_token=${data.access_token}; path=/; max-age=86400; SameSite=Lax`;
       
+      if (data.user?.sesionId) {
+        document.cookie = `sesion_id=${data.user.sesionId}; path=/; max-age=86400; SameSite=Lax`;
+      }
+      
       if (data.user?.tenantId) {
         document.cookie = `tenant-id=${data.user.tenantId}; path=/; max-age=86400; SameSite=Lax`;
       }

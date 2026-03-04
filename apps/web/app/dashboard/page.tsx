@@ -33,11 +33,11 @@ import {
   DialogDescription,
 } from "@/components/ui/dialog";
 import { toast } from "sonner";
-import { 
-  getDashboardStatsAction, 
-  getOrdenesServicioAction, 
+import {
+  getDashboardStatsAction,
+  getOrdenesServicioAction,
   deleteOrdenServicioAction,
-  type DashboardStats 
+  type DashboardStats
 } from "./actions";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
@@ -137,13 +137,13 @@ export default function DashboardPage() {
 
   const handleDelete = async () => {
     if (!selectedServicio) return;
-    
+
     setIsDeleting(true);
     const toastId = toast.loading("Eliminando orden de servicio...");
-    
+
     try {
       const result = await deleteOrdenServicioAction(selectedServicio.id);
-      
+
       if (result.success) {
         toast.success("Orden eliminada correctamente", { id: toastId });
         setIsDeleteModalOpen(false);
@@ -268,7 +268,10 @@ export default function DashboardPage() {
               <Download className="h-4 w-4" />
               Reporte
             </button>
-            <button className="flex h-12 items-center gap-2 rounded-2xl bg-[#01ADFB] px-6 text-sm font-black uppercase tracking-widest text-white shadow-lg shadow-[#01ADFB]/20 transition-transform hover:scale-105 active:scale-95">
+            <button
+              onClick={() => router.push('/dashboard/servicios/nuevo')}
+              className="flex h-12 items-center gap-2 rounded-2xl bg-[#01ADFB] px-6 text-sm font-black uppercase tracking-widest text-white shadow-lg shadow-[#01ADFB]/20 transition-transform hover:scale-105 active:scale-95"
+            >
               <Plus className="h-5 w-5" />
               Nueva Orden
             </button>
@@ -325,7 +328,7 @@ export default function DashboardPage() {
                 <h2 className="text-xl font-black tracking-tight text-foreground">Ingresos Semanales</h2>
                 <p className="text-sm font-medium text-muted-foreground">Tendencia de ingresos de la semana actual (Lun - Dom)</p>
               </div>
-              <button className="flex items-center gap-2 rounded-xl bg-card px-4 py-2 text-xs font-black uppercase tracking-wider text-muted-foreground shadow-sm border border-border hover:bg-muted hover:text-foreground">
+              <button className="flex items-center gap-2 rounded-xl bg-card px-4 py-2 text-xs font-black uppercase tracking-wider text-muted-foreground shadow-sm border border-border hover:bg-muted hover:text-foreground dark:text-gray-50">
                 <Download className="h-4 w-4" />
                 Exportar
               </button>
@@ -358,9 +361,12 @@ export default function DashboardPage() {
           <div className="space-y-6">
             <GlassCard className="bg-gradient-to-br from-[#021359] to-[#01ADFB] dark:from-[#021359] dark:to-[#01ADFB]/40 border-none text-white overflow-hidden relative">
               <div className="relative z-10">
-                <h3 className="text-xl font-black tracking-tight text-white/90">Nueva Orden de Servicio</h3>
-                <p className="mt-2 text-sm font-medium text-white/80">Genera una nueva solicitud de mantenimiento rápidamente.</p>
-                <button className="mt-6 flex w-full items-center justify-center gap-2 rounded-2xl bg-white px-6 py-4 text-sm font-black uppercase tracking-widest text-[#021359] shadow-xl transition-transform hover:scale-[1.02] active:scale-95">
+                <h3 className="text-xl font-black tracking-tight text-white/90 dark:text-gray-50">Nueva Orden de Servicio</h3>
+                <p className="mt-2 text-sm font-medium text-white/80 dark:text-gray-50">Genera una nueva solicitud de mantenimiento rápidamente.</p>
+                <button
+                  onClick={() => router.push('/dashboard/servicios/nuevo')}
+                  className="mt-6 flex w-full items-center justify-center gap-2 rounded-2xl bg-white px-6 py-4 text-sm font-black uppercase tracking-widest text-[#021359] shadow-xl transition-transform hover:scale-[1.02] active:scale-95 dark:text-gray-50"
+                >
                   Comenzar Ahora
                   <ArrowUpRight className="h-5 w-5" />
                 </button>
@@ -373,11 +379,15 @@ export default function DashboardPage() {
               <h3 className="text-lg font-black tracking-tight text-foreground">Acciones Recomendadas</h3>
               <div className="mt-6 space-y-3">
                 {[
-                  { label: "Validar Facturas Pendientes", color: "bg-[#01ADFB]" },
-                  { label: "Actualizar Inventario", color: "bg-primary dark:bg-[#01ADFB]" },
-                  { label: "Revisar Alertas Críticas", color: "bg-muted-foreground" },
+                  { label: "Validar Facturas Pendientes", color: "bg-[#01ADFB]", onClick: () => toast.info("Módulo de facturación próximamente") },
+                  { label: "Actualizar Inventario", color: "bg-primary dark:bg-[#01ADFB]", onClick: () => router.push('/dashboard/insumos') },
+                  { label: "Revisar Alertas Críticas", color: "bg-muted-foreground", onClick: () => router.push('/dashboard/servicios?urgencia=ALTA') },
                 ].map((action, i) => (
-                  <button key={i} className="flex w-full items-center gap-4 rounded-2xl bg-card p-4 transition-colors hover:bg-muted border border-border">
+                  <button
+                    key={i}
+                    onClick={action.onClick}
+                    className="flex w-full items-center gap-4 rounded-2xl bg-card p-4 transition-colors hover:bg-muted border border-border"
+                  >
                     <div className={cn("h-2 w-2 rounded-full", action.color)} />
                     <span className="text-xs font-bold text-foreground">{action.label}</span>
                   </button>
@@ -532,7 +542,7 @@ export default function DashboardPage() {
             <DialogTitle className="text-xl font-black tracking-tight text-foreground uppercase">Detalles del Servicio</DialogTitle>
             <DialogDescription className="text-muted-foreground">Información detallada de la orden de servicio seleccionada.</DialogDescription>
           </DialogHeader>
-          
+
           {selectedServicio && (
             <div className="mt-6 grid grid-cols-1 md:grid-cols-2 gap-8">
               <div className="space-y-6">
@@ -561,7 +571,7 @@ export default function DashboardPage() {
                       {selectedServicio.tecnico?.user?.nombre?.charAt(0) || 'T'}
                     </div>
                     <p className="text-sm font-bold text-foreground">
-                      {selectedServicio.tecnico?.user?.nombre 
+                      {selectedServicio.tecnico?.user?.nombre
                         ? `${selectedServicio.tecnico.user.nombre} ${selectedServicio.tecnico.user.apellido || ''}`.trim()
                         : "Sin asignar"}
                     </p>
@@ -588,8 +598,8 @@ export default function DashboardPage() {
                   <div className="mt-2">
                     <span className={cn(
                       "inline-flex rounded-xl border border-border bg-muted px-3 py-1 text-[10px] font-black uppercase tracking-widest",
-                      (selectedServicio.estadoServicio === "LIQUIDADO" || selectedServicio.estadoServicio === "TECNICO_FINALIZO") 
-                        ? "text-emerald-600" 
+                      (selectedServicio.estadoServicio === "LIQUIDADO" || selectedServicio.estadoServicio === "TECNICO_FINALIZO")
+                        ? "text-emerald-600"
                         : "text-amber-600"
                     )}>
                       {selectedServicio.estadoServicio}
@@ -615,18 +625,18 @@ export default function DashboardPage() {
             <DialogTitle className="text-xl font-black text-foreground uppercase">Confirmar Eliminación</DialogTitle>
             <DialogDescription className="text-muted-foreground">¿Estás seguro de que deseas eliminar esta orden de servicio? Esta acción no se puede deshacer.</DialogDescription>
           </DialogHeader>
-          
+
           <div className="mt-6 flex items-center justify-end gap-3">
-            <Button 
-              variant="outline" 
-              className="rounded-xl border-border bg-card font-bold text-muted-foreground hover:bg-muted" 
+            <Button
+              variant="outline"
+              className="rounded-xl border-border bg-card font-bold text-muted-foreground hover:bg-muted"
               onClick={() => setIsDeleteModalOpen(false)}
               disabled={isDeleting}
             >
               Cancelar
             </Button>
-            <Button 
-              variant="destructive" 
+            <Button
+              variant="destructive"
               className="rounded-xl font-bold uppercase tracking-widest shadow-lg shadow-destructive/20 transition-transform active:scale-95"
               onClick={handleDelete}
               disabled={isDeleting}

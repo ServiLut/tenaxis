@@ -76,7 +76,7 @@ export function EmpresaSelector() {
   const currentEmpresa = empresas.find(e => e.id === currentEmpresaId) || empresas[0];
 
   return (
-    <div className="px-2">
+    <div className="">
       <div className="group relative pt-2">
         {/* Label flotante con fondo que coincide con el sidebar */}
         <div className="absolute -top-1 left-4 z-20 bg-[#021359] px-2 dark:bg-sidebar">
@@ -89,14 +89,14 @@ export function EmpresaSelector() {
           <DropdownMenuTrigger asChild>
             <button
               className={cn(
-                "relative h-14 w-full rounded-2xl border border-white/10 bg-white/5 pl-11 pr-10 text-left text-sm font-bold text-white outline-none transition-all",
+                "relative h-14 w-full rounded-2xl border border-white/10 bg-white/5 pl-11 pr-10 text-left text-sm font-bold text-[#F8FAFC] outline-none transition-all",
                 "hover:border-[#01ADFB]/50 hover:bg-white/10 active:scale-[0.98]",
                 "shadow-sm group-hover:shadow-md flex items-center"
               )}
             >
               <Building2 className="absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-[#01ADFB] transition-transform group-hover:scale-110" />
               <span className="truncate">{currentEmpresa?.nombre}</span>
-              <div className="absolute right-4 top-1/2 -translate-y-1/2 text-white/40">
+              <div className="absolute right-4 top-1/2 -translate-y-1/2 text-[#F8FAFC]/40">
                 <ChevronsUpDown className="h-4 w-4" />
               </div>
             </button>

@@ -3,6 +3,8 @@ import {
   Injectable,
   InternalServerErrorException,
   UnauthorizedException,
+  Inject,
+  forwardRef,
 } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 import { RegisterDto } from './dto/register.dto';
@@ -10,6 +12,7 @@ import { LoginDto } from './dto/login.dto';
 import * as bcrypt from 'bcrypt';
 import { Role } from '../generated/client/client';
 import { JwtService } from '@nestjs/jwt';
+import { MonitoringService } from '../monitoring/monitoring.service';
 
 export interface JwtPayload {
   sub: string;
@@ -18,6 +21,7 @@ export interface JwtPayload {
   tenantId?: string;
   empresaId?: string;
   membershipId?: string;
+  sesionId?: string;
 }
 
 @Injectable()
@@ -25,9 +29,11 @@ export class AuthService {
   constructor(
     private prisma: PrismaService,
     private jwtService: JwtService,
+    @Inject(forwardRef(() => MonitoringService))
+    private monitoringService: MonitoringService,
   ) {}
 
-  async login(dto: LoginDto) {
+  async login(dto: LoginDto, ip?: string, dispositivo?: string) {
     const { email, password } = dto;
 
     const user = await this.prisma.user.findUnique({
@@ -45,9 +51,31 @@ export class AuthService {
       throw new UnauthorizedException('Credenciales inválidas');
     }
 
-    // Priorizar membresías aprobadas
-    const approvedMembership = user.memberships.find((m) => m.aprobado);
-    const pendingMembership = user.memberships.find((m) => !m.aprobado);
+    // Priorizar membresías activas
+    const approvedMembership = user.memberships.find((m) => m.aprobado || m.role === Role.SU_ADMIN);
+    const pendingMembership = user.memberships.find((m) => !m.aprobado && m.role !== Role.SU_ADMIN);
+
+    let sesionId: string | undefined;
+
+    // Registrar sesión de actividad si hay membresía
+    if (approvedMembership) {
+      const session = await this.monitoringService.startSession(
+        approvedMembership.tenantId,
+        approvedMembership.id,
+        ip,
+        dispositivo
+      );
+      sesionId = session?.id;
+
+      if (sesionId) {
+        await this.monitoringService.recordEvent(
+          sesionId,
+          'LOGIN',
+          'El usuario inició sesión en el sistema',
+          '/login'
+        );
+      }
+    }
 
     const payload: JwtPayload = {
       sub: user.id,
@@ -55,6 +83,7 @@ export class AuthService {
       role: approvedMembership?.role || Role.OPERADOR,
       tenantId: approvedMembership?.tenantId,
       membershipId: approvedMembership?.id,
+      sesionId,
     };
 
     const accessToken = await this.jwtService.signAsync(payload);
@@ -69,6 +98,7 @@ export class AuthService {
         role: approvedMembership?.role,
         tenantId: approvedMembership?.tenantId,
         membershipId: approvedMembership?.id,
+        sesionId,
         hasPendingRequest: !!pendingMembership && !approvedMembership,
       },
     };
