@@ -17,6 +17,7 @@ import { OrdenesServicioModule } from './ordenes-servicio/ordenes-servicio.modul
 import { SupabaseModule } from './supabase/supabase.module';
 import { ContabilidadModule } from './contabilidad/contabilidad.module';
 import { MonitoringModule } from './monitoring/monitoring.module';
+import { DashboardModule } from './dashboard/dashboard.module';
 
 @Module({
   imports: [
@@ -33,6 +34,7 @@ import { MonitoringModule } from './monitoring/monitoring.module';
     SupabaseModule,
     ContabilidadModule,
     MonitoringModule,
+    DashboardModule,
   ],
   controllers: [AppController],
   providers: [

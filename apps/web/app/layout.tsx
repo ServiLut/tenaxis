@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import { ThemeProvider } from "@/components/theme-provider";
+import { QueryProvider } from "@/components/query-provider";
 import { Toaster } from "@/components/ui/sonner";
 import { ActivityTracker } from "@/components/dashboard/ActivityTracker";
 import "./globals.css";
@@ -36,9 +37,11 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          {children}
-          <Toaster position="top-right" />
-          <ActivityTracker />
+          <QueryProvider>
+            {children}
+            <Toaster position="top-right" />
+            <ActivityTracker />
+          </QueryProvider>
         </ThemeProvider>
       </body>
     </html>
