@@ -5260,7 +5260,8 @@ export const SesionActividadScalarFieldEnum = {
   duracionMin: 'duracionMin',
   tiempoInactivo: 'tiempoInactivo',
   dispositivo: 'dispositivo',
-  ip: 'ip'
+  ip: 'ip',
+  updatedAt: 'updatedAt'
 } as const
 
 export type SesionActividadScalarFieldEnum = (typeof SesionActividadScalarFieldEnum)[keyof typeof SesionActividadScalarFieldEnum]

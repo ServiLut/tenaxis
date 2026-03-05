@@ -1,4 +1,4 @@
-import { PrismaClient, Role, TipoCliente, EstadoOrden } from '../src/generated/client/client';
+import { PrismaClient, Role, TipoCliente, EstadoOrden, MetodoPago, Servicio, Cliente } from '../src/generated/client/client';
 import { PrismaPg } from '@prisma/adapter-pg';
 import pg from 'pg';
 import * as dotenv from 'dotenv';
@@ -46,7 +46,7 @@ async function main() {
 
   // 1. Asegurar Métodos de Pago
   const metodosPagoNombres = ['EFECTIVO', 'TRANSFERENCIA', 'CREDITO', 'BONO', 'CORTESIA'];
-  const metodosPago = [];
+  const metodosPago: MetodoPago[] = [];
   
   for (const nombre of metodosPagoNombres) {
     let mp = await prisma.metodoPago.findFirst({
@@ -69,7 +69,7 @@ async function main() {
 
   // 2. Asegurar Servicios
   const serviciosNombres = ['CONTROL DE PLAGAS', 'DESINFECCION', 'LIMPIEZA DE TANQUES', 'MANTENIMIENTO'];
-  const servicios = [];
+  const servicios: Servicio[] = [];
 
   for (const nombre of serviciosNombres) {
     let s = await prisma.servicio.findFirst({
@@ -98,7 +98,7 @@ async function main() {
     { razonSocial: 'Hotel Continental', nit: '860.111.222-3', telefono: '3152223344', correo: 'mantenimiento@hotelcont.com', tipoCliente: TipoCliente.EMPRESA },
   ];
 
-  const clientes = [];
+  const clientes: Cliente[] = [];
   for (const data of clientesData) {
     const c = await prisma.cliente.create({
       data: {

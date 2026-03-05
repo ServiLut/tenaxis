@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useMemo } from "react";
 import { 
   Activity, 
   History, 
@@ -19,12 +19,18 @@ import { useMonitoringAudits } from "./hooks/use-monitoring-audits";
 
 // Components
 import { MonitoreoHeader } from "./components/MonitoreoHeader";
+import { ScopeInfo } from "./components/ScopeInfo";
+import { MonitoringHealth } from "./components/MonitoringHealth";
+import { MonitoringAlerts } from "./components/MonitoringAlerts";
 import { KpiCards } from "./components/KpiCards";
+import { OperationMetrics } from "./components/OperationMetrics";
+import { ExecutiveAudit } from "./components/ExecutiveAudit";
 import { SessionsTable } from "./components/SessionsTable";
 import { AuditsTable } from "./components/AuditsTable";
 import { LogsModal } from "./components/LogsModal";
 import { AuditDetailModal } from "./components/AuditDetailModal";
 import { KPIModal } from "./components/KPIModal";
+import { exportToCSV } from "./components/utils";
 
 import { Audit, Membership, Session } from "./types";
 
@@ -35,13 +41,21 @@ export default function MonitoreoPage() {
   const {
     sessions,
     stats,
+    alerts,
+    metrics,
+    executiveAudit,
     latency,
+    maxLatency,
+    lastUpdated: activityLastUpdated,
     isLoading: isActivityLoading,
     isRefreshing: isActivityRefreshing,
     isLogsLoading,
     userLogs,
     recentLogs,
     fetchActivity,
+    fetchAlerts,
+    fetchMetrics,
+    fetchExecutiveAudit,
     fetchUserLogs,
     fetchRecentLogs
   } = useMonitoringActivity();
@@ -51,6 +65,7 @@ export default function MonitoreoPage() {
     meta,
     currentPage,
     setCurrentPage,
+    lastUpdated: auditsLastUpdated,
     isLoading: isAuditsLoading,
     isRefreshing: isAuditsRefreshing,
     searchQuery,
@@ -64,18 +79,25 @@ export default function MonitoreoPage() {
   const [isKpiModalOpen, setIsKpiModalOpen] = useState(false);
   const [kpiModalType, setKpiModalType] = useState<'sessions' | 'events' | 'technicians' | null>(null);
   
-  const [selectedMembership, setSelectedMembership] = useState<Membership | null>(null);
+  const [selectedSession, setSelectedSession] = useState<Session | null>(null);
   const [selectedAudit, setSelectedAudit] = useState<Audit | null>(null);
 
   const handleRefresh = () => {
-    if (activeTab === "actividad") fetchActivity();
-    else fetchAudits();
+    if (activeTab === "actividad") {
+      fetchActivity();
+      fetchAlerts();
+      fetchMetrics();
+    } else {
+      fetchAudits();
+      fetchExecutiveAudit();
+    }
   };
 
   const isCurrentTabRefreshing = activeTab === "actividad" ? isActivityRefreshing : isAuditsRefreshing;
+  const currentLastUpdated = activeTab === "actividad" ? activityLastUpdated : auditsLastUpdated;
 
   const handleOpenLogs = async (session: Session) => {
-    setSelectedMembership(session.membership);
+    setSelectedSession(session);
     setIsLogsModalOpen(true);
     fetchUserLogs(session.membershipId);
   };
@@ -93,6 +115,32 @@ export default function MonitoreoPage() {
     setIsAuditModalOpen(true);
   };
 
+  const handleExport = () => {
+    if (activeTab === "actividad") {
+      const exportData = sessions.map(s => ({
+        Usuario: `${s.membership.user.nombre} ${s.membership.user.apellido}`,
+        Username: s.membership.username,
+        Rol: s.membership.role,
+        Inicio: format(new Date(s.fechaInicio), "yyyy-MM-dd HH:mm:ss"),
+        Fin: s.fechaFin ? format(new Date(s.fechaFin), "yyyy-MM-dd HH:mm:ss") : "Activo",
+        Inactividad: `${s.tiempoInactivo} min`,
+        IP: s.ip,
+        Dispositivo: s.dispositivo
+      }));
+      exportToCSV(exportData, "monitoreo_actividad");
+    } else {
+      const exportData = audits.map(a => ({
+        Fecha: format(new Date(a.createdAt), "yyyy-MM-dd HH:mm:ss"),
+        Entidad: a.entidad,
+        Accion: a.accion,
+        Usuario: `${a.membership?.user?.nombre} ${a.membership?.user?.apellido}`,
+        Username: a.membership?.username,
+        ID_Entidad: a.entidadId
+      }));
+      exportToCSV(exportData, "monitoreo_auditoria");
+    }
+  };
+
   const activeSessionsList = Array.isArray(sessions) ? sessions.filter(s => !s.fechaFin) : [];
   const activeTechniciansList = Array.isArray(sessions) ? sessions.filter(s => !s.fechaFin && s.membership?.role === "OPERADOR") : [];
 
@@ -102,8 +150,20 @@ export default function MonitoreoPage() {
         
         <MonitoreoHeader 
           isLoading={isCurrentTabRefreshing} 
-          onRefresh={handleRefresh} 
+          onRefresh={handleRefresh}
+          lastUpdated={currentLastUpdated}
+          onExport={handleExport}
         />
+
+        <ScopeInfo />
+
+        <MonitoringHealth 
+          sessions={sessions} 
+          latency={latency} 
+          maxLatency={maxLatency} 
+        />
+
+        <MonitoringAlerts alerts={alerts} />
 
         {/* Custom Tabs */}
         <div className="flex items-center gap-1.5 rounded-2xl bg-muted p-1.5 w-fit border border-border">
@@ -136,13 +196,15 @@ export default function MonitoreoPage() {
         {/* Content Area */}
         <div className="mt-4 space-y-8">
           {activeTab === "actividad" ? (
-            <div className="space-y-10">
+            <div className="space-y-12">
               <KpiCards 
                 stats={stats} 
                 latency={latency} 
                 activeTechniciansCount={activeTechniciansList.length}
                 onOpenKpi={handleOpenKpiModal}
               />
+
+              <OperationMetrics metrics={metrics} />
 
               <SessionsTable 
                 sessions={sessions}
@@ -151,16 +213,20 @@ export default function MonitoreoPage() {
               />
             </div>
           ) : (
-            <AuditsTable 
-              audits={audits}
-              meta={meta}
-              currentPage={currentPage}
-              isLoading={isAuditsLoading}
-              searchQuery={searchQuery}
-              onSearchChange={setSearchQuery}
-              onPageChange={setCurrentPage}
-              onOpenAudit={handleOpenAudit}
-            />
+            <div className="space-y-12">
+              <ExecutiveAudit metrics={executiveAudit} />
+
+              <AuditsTable 
+                audits={audits}
+                meta={meta}
+                currentPage={currentPage}
+                isLoading={isAuditsLoading}
+                searchQuery={searchQuery}
+                onSearchChange={setSearchQuery}
+                onPageChange={setCurrentPage}
+                onOpenAudit={handleOpenAudit}
+              />
+            </div>
           )}
         </div>
       </div>
@@ -243,15 +309,13 @@ export default function MonitoreoPage() {
       </KPIModal>
 
       {/* Logs Modal (Membresía específica) */}
-      {selectedMembership && (
-        <LogsModal 
-          isOpen={isLogsModalOpen} 
-          onOpenChange={setIsLogsModalOpen} 
-          membership={selectedMembership}
-          logs={userLogs}
-          isLoading={isLogsLoading}
-        />
-      )}
+      <LogsModal 
+        isOpen={isLogsModalOpen} 
+        onOpenChange={setIsLogsModalOpen} 
+        session={selectedSession}
+        logs={userLogs}
+        isLoading={isLogsLoading}
+      />
 
       {/* Audit Detail Modal */}
       {selectedAudit && (

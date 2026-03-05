@@ -1,4 +1,11 @@
-import { Controller, Get, UseGuards, Request, Query, UnauthorizedException } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  UseGuards,
+  Request,
+  Query,
+  UnauthorizedException,
+} from '@nestjs/common';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { DashboardService } from './dashboard.service';
 import { Role } from '../generated/client/client';
@@ -19,7 +26,10 @@ export class DashboardController {
   constructor(private readonly dashboardService: DashboardService) {}
 
   @Get('stats')
-  async getStats(@Request() req: RequestWithUser, @Query('empresaId') empresaId?: string) {
+  async getStats(
+    @Request() req: RequestWithUser,
+    @Query('empresaId') empresaId?: string,
+  ) {
     if (!req.user.tenantId) {
       throw new UnauthorizedException('No perteneces a ningún conglomerado');
     }

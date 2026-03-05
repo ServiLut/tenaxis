@@ -5,7 +5,7 @@ import { createClient, SupabaseClient } from '@supabase/supabase-js';
 @Injectable()
 export class SupabaseService {
   private readonly logger = new Logger(SupabaseService.name);
-  private supabase: SupabaseClient<any, any, any>;
+  private supabase: SupabaseClient | null = null;
 
   constructor(private configService: ConfigService) {
     const url = this.configService.get<string>('SUPABASE_URL');
@@ -56,8 +56,12 @@ export class SupabaseService {
         .createSignedUrl(path, expiresIn);
 
       if (error) {
+        const errorMessage =
+          typeof error === 'object' && error !== null && 'message' in error
+            ? String(error.message)
+            : 'Unknown error';
         this.logger.error(
-          `Error creating signed URL for ${path}: ${error.message}`,
+          `Error creating signed URL for ${path}: ${errorMessage}`,
         );
         // Si falla la firma, intentamos devolver la URL pública
         return this.getPublicUrl(path, bucket);
@@ -74,7 +78,12 @@ export class SupabaseService {
     }
   }
 
-  async uploadFile(path: string, buffer: Buffer, contentType: string, bucket: string = 'tenaxis-docs') {
+  async uploadFile(
+    path: string,
+    buffer: Buffer,
+    contentType: string,
+    bucket: string = 'tenaxis-docs',
+  ) {
     if (!this.supabase) {
       this.logger.error('Supabase client not initialized');
       return null;
@@ -89,13 +98,19 @@ export class SupabaseService {
         });
 
       if (error) {
-        this.logger.error(`Error uploading file ${path}: ${error.message}`);
+        const errorMessage =
+          typeof error === 'object' && error !== null && 'message' in error
+            ? String(error.message)
+            : 'Unknown error';
+        this.logger.error(`Error uploading file ${path}: ${errorMessage}`);
         return null;
       }
 
       return data.path;
     } catch (error) {
-      this.logger.error(`Unexpected error uploading file: ${error.message}`);
+      const errorMessage =
+        error instanceof Error ? error.message : 'Unknown error';
+      this.logger.error(`Unexpected error uploading file: ${errorMessage}`);
       return null;
     }
   }

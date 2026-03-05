@@ -7,7 +7,7 @@ import { PrismaService } from '../prisma/prisma.service';
 import { CreateTenantDto } from './dto/create-tenant.dto';
 import { JoinTenantDto } from './dto/join-tenant.dto';
 import { UpdateMembershipDto } from './dto/update-membership.dto';
-import { Role } from '../generated/client/client';
+import { Role, Prisma } from '../generated/client/client';
 import * as bcrypt from 'bcrypt';
 
 @Injectable()
@@ -440,15 +440,12 @@ export class TenantsService {
       end.setHours(23, 59, 59, 999);
     }
 
-    const whereServicios: any = {
+    const whereServicios: Prisma.OrdenServicioWhereInput = {
       fechaVisita: {
         lte: end,
+        ...(start ? { gte: start } : {}),
       },
     };
-
-    if (start) {
-      whereServicios.fechaVisita.gte = start;
-    }
 
     return this.prisma.tenantMembership.findMany({
       where: {

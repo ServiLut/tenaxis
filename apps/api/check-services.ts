@@ -1,12 +1,11 @@
-import { PrismaClient } from './src/generated/client';
+import { PrismaClient } from './src/generated/client/client';
+import { PrismaPg } from '@prisma/adapter-pg';
+import pg from 'pg';
 
-const prisma = new PrismaClient({
-  datasources: {
-    db: {
-      url: "postgresql://postgres:dJOeUJhZ1x2mGpm7mHvh@76.13.101.140:5433/tenaxis"
-    }
-  }
-});
+const connectionString = "postgresql://postgres:dJOeUJhZ1x2mGpm7mHvh@76.13.101.140:5433/tenaxis";
+const pool = new pg.Pool({ connectionString });
+const adapter = new PrismaPg(pool);
+const prisma = new PrismaClient({ adapter });
 
 async function main() {
   const tenantId = "323c9206-75ac-47e4-9e53-b023445ee3de";

@@ -69,6 +69,7 @@ export function useMonitoringAudits() {
     meta: auditsData.meta,
     currentPage,
     setCurrentPage,
+    lastUpdated: auditsQuery.dataUpdatedAt,
     isLoading: auditsQuery.isLoading,
     isRefreshing: auditsQuery.isFetching,
     isError: auditsQuery.isError,

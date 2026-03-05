@@ -1,22 +1,26 @@
-import { 
-  Controller, 
-  Get, 
-  Post, 
-  Body, 
-  UseGuards, 
-  Request, 
-  UnauthorizedException, 
-  Param, 
-  Query, 
-  ValidationPipe, 
-  UsePipes 
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  UseGuards,
+  Request,
+  UnauthorizedException,
+  Param,
+  Query,
+  ValidationPipe,
+  UsePipes,
 } from '@nestjs/common';
 import { MonitoringService } from './monitoring.service';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { MonitoringScopeGuard } from './guards/monitoring-scope.guard';
 import { GetScope } from './decorators/get-scope.decorator';
 import { MonitoringScope } from './types';
-import { RecordEventDto, HeartbeatDto, MonitoringPaginationDto } from './dto/monitoring.dto';
+import {
+  RecordEventDto,
+  HeartbeatDto,
+  MonitoringPaginationDto,
+} from './dto/monitoring.dto';
 import { JwtPayload } from '../auth/auth.service';
 import { Request as ExpressRequest } from 'express';
 
@@ -40,6 +44,21 @@ export class MonitoringController {
     return this.monitoringService.getGlobalStats(scope);
   }
 
+  @Get('alerts')
+  async getAlerts(@GetScope() scope: MonitoringScope) {
+    return this.monitoringService.getAlerts(scope);
+  }
+
+  @Get('metrics')
+  async getMetrics(@GetScope() scope: MonitoringScope) {
+    return this.monitoringService.getOperationMetrics(scope);
+  }
+
+  @Get('executive-audit')
+  async getExecutiveAudit(@GetScope() scope: MonitoringScope) {
+    return this.monitoringService.getExecutiveAuditMetrics(scope);
+  }
+
   @Get('audits')
   async findAllAudits(
     @GetScope() scope: MonitoringScope,
@@ -59,41 +78,45 @@ export class MonitoringController {
 
   @Get('logs/:membershipId')
   async getMemberLogs(
-    @GetScope() scope: MonitoringScope, 
-    @Param('membershipId') membershipId: string
+    @GetScope() scope: MonitoringScope,
+    @Param('membershipId') membershipId: string,
   ) {
     return this.monitoringService.getMemberLogs(scope, membershipId);
   }
 
   @Post('event')
   async recordEvent(
-    @Request() req: RequestWithUser, 
-    @Body() dto: RecordEventDto
+    @Request() req: RequestWithUser,
+    @Body() dto: RecordEventDto,
   ) {
     if (!req.user.sesionId) {
-      throw new UnauthorizedException('No hay una sesión activa vinculada a tu token');
+      throw new UnauthorizedException(
+        'No hay una sesión activa vinculada a tu token',
+      );
     }
     return this.monitoringService.recordEvent(
-      req.user.sesionId, 
-      dto.tipo, 
-      dto.descripcion, 
-      dto.ruta
+      req.user.sesionId,
+      dto.tipo,
+      dto.descripcion,
+      dto.ruta,
     );
   }
 
   @Post('heartbeat')
-  async heartbeat(
-    @Request() req: RequestWithUser, 
-    @Body() dto: HeartbeatDto
-  ) {
+  async heartbeat(@Request() req: RequestWithUser, @Body() dto: HeartbeatDto) {
     if (!req.user.sesionId) {
       throw new UnauthorizedException('No hay una sesión activa');
     }
-    
+
     if (dto.inactiveMinutes && dto.inactiveMinutes > 0) {
-      await this.monitoringService.updateInactivityTime(req.user.sesionId, dto.inactiveMinutes);
+      await this.monitoringService.updateInactivityTime(
+        req.user.sesionId,
+        dto.inactiveMinutes,
+      );
+    } else {
+      await this.monitoringService.refreshSession(req.user.sesionId);
     }
-    
+
     return { success: true };
   }
 }
