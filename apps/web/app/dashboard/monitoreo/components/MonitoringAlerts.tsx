@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { AlertCircle, AlertTriangle, Info, Bell, ShieldAlert } from "lucide-react";
+import { AlertTriangle, Info, Bell, ShieldAlert } from "lucide-react";
 import { cn } from "@/components/ui/utils";
 import { MonitoringAlert } from "../types";
 

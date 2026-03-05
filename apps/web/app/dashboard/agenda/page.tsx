@@ -4,39 +4,23 @@ import React, { useState, useEffect, Suspense } from "react";
 import { DashboardLayout } from "@/components/dashboard";
 import { 
   Button, 
-  Popover,
-  PopoverTrigger,
-  PopoverContent,
-  Combobox,
-  DatePicker
+  Combobox
 } from "@/components/ui";
 import { 
   ChevronLeft, 
   ChevronRight, 
-  Clock,
-  MapPin,
   CalendarClock,
-  Filter,
   RotateCcw
 } from "lucide-react";
 import { cn } from "@/components/ui/utils";
-import { useRouter } from "next/navigation";
 import { 
-  getTiposServicioAction, 
   getOperatorsAction, 
-  getOrdenesServicioAction,
-  getDepartmentsAction,
-  getMunicipalitiesAction,
-  getZonasAction
+  getOrdenesServicioAction
 } from "../actions";
 
 type ViewType = "SEMANA" | "DIA";
 
-interface TipoServicio { id: string; nombre: string; }
 interface Operador { id: string; nombre: string; user?: { nombre: string; apellido: string; }; }
-interface Departamento { id: string; name: string; }
-interface Municipio { id: string; name: string; departmentId: string; }
-interface Zona { id: string; nombre: string; }
 interface OrdenServicio {
   id: string;
   cliente: { nombre: string; apellido?: string; razonSocial?: string; numeroDocumento?: string; };
@@ -56,26 +40,12 @@ interface OrdenServicio {
   estadoServicio: string;
 }
 
-const ESTADO_STYLING: Record<string, string> = {
-  "NUEVO": "bg-muted text-muted-foreground border-border",
-  "PROCESO": "bg-amber-500/10 text-amber-600 border-amber-500/20",
-  "CANCELADO": "bg-destructive/10 text-destructive border-destructive/20",
-  "PROGRAMADO": "bg-[#01ADFB]/10 text-[#01ADFB] border-[#01ADFB]/20",
-  "LIQUIDADO": "bg-emerald-500/10 text-emerald-600 border-emerald-500/20",
-  "TECNICO_FINALIZO": "bg-primary/10 text-primary border-primary/20",
-  "REPROGRAMADO": "bg-indigo-500/10 text-indigo-600 border-indigo-500/20",
-};
-
 function AgendaContent() {
-  const router = useRouter();
   const [view, setView] = useState<ViewType>("SEMANA");
   const [currentDate, setCurrentDate] = useState(new Date());
-  const [tiposServicio, setTiposServicio] = useState<TipoServicio[]>([]);
   const [operadores, setOperadores] = useState<Operador[]>([]);
-  const [ordenes, setOrdenes] = useState<OrdenServicio[]>([]);
-  const [selectedTipo, setSelectedTipo] = useState("TODOS");
+  const [, setOrdenes] = useState<OrdenServicio[]>([]);
   const [selectedTecnico, setSelectedTecnico] = useState("TODOS");
-  const [selectedEstado, setSelectedEstado] = useState("TODOS");
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -83,12 +53,10 @@ function AgendaContent() {
       try {
         setLoading(true);
         const empresaId = localStorage.getItem("current-enterprise-id");
-        const [servs, ops, ords] = await Promise.all([
-          getTiposServicioAction(),
+        const [ops, ords] = await Promise.all([
           empresaId ? getOperatorsAction(empresaId) : Promise.resolve([]),
           empresaId ? getOrdenesServicioAction(empresaId) : Promise.resolve([]),
         ]);
-        setTiposServicio(Array.isArray(servs) ? servs : servs?.data || []);
         setOperadores(Array.isArray(ops) ? ops : ops?.data || []);
         setOrdenes(Array.isArray(ords) ? ords : ords?.data || []);
       } catch (e) {

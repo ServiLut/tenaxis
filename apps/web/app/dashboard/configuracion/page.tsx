@@ -28,19 +28,14 @@ import {
   Pencil, 
   Save, 
   X,
-  Hash,
-  Clock,
-  AlertTriangle,
-  Info,
-  Lightbulb,
-  CheckCircle2,
-  ListChecks,
   Building,
   User,
   CreditCard
 } from "lucide-react";
 import { cn } from "@/components/ui/utils";
 import { ConfigEmpresas } from "@/components/dashboard/ConfigEmpresas";
+
+type TabType = "segmentos" | "riesgos" | "intereses" | "empresas" | "perfil";
 
 type Segmento = {
   id: string;
@@ -93,14 +88,12 @@ const TIPOS_DOCUMENTO = [
   "Cédula de Ciudadanía", "Cédula de Extranjería", "NIT", "Pasaporte", "Tarjeta de Identidad"
 ];
 
-const TIPOS_CUENTA = [ "Ahorros", "Corriente" ];
-
 export default function ConfiguracionPage() {
-  const [activeTab, setActiveTab] = useState<"segmentos" | "riesgos" | "intereses" | "empresas" | "perfil">("segmentos");
+  const [activeTab, setActiveTab] = useState<TabType>("segmentos");
   const [loading, setLoading] = useState(true);
   const [segmentos, setSegmentos] = useState<Segmento[]>([]);
-  const [riesgos, setRiesgos] = useState<Riesgo[]>([]);
-  const [intereses, setIntereses] = useState<TipoInteres[]>([]);
+  const [_riesgos, setRiesgos] = useState<Riesgo[]>([]);
+  const [_intereses, setIntereses] = useState<TipoInteres[]>([]);
   const [user, setUser] = useState<UserProfile | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingItem, setEditingItem] = useState<Segmento | Riesgo | TipoInteres | null>(null);
@@ -112,9 +105,9 @@ export default function ConfiguracionPage() {
     }
     const handleHashChange = () => {
       const hash = window.location.hash.replace('#', '');
-      const validTabs = ["segmentos", "riesgos", "intereses", "empresas", "perfil"];
-      if (hash && validTabs.includes(hash)) {
-        setActiveTab(hash as any);
+      const validTabs: TabType[] = ["segmentos", "riesgos", "intereses", "empresas", "perfil"];
+      if (hash && validTabs.includes(hash as TabType)) {
+        setActiveTab(hash as TabType);
       }
     };
     handleHashChange();
@@ -124,11 +117,13 @@ export default function ConfiguracionPage() {
 
   useEffect(() => {
     if (activeTab !== 'empresas' && activeTab !== 'perfil') {
-      loadData();
+      loadData().catch(() => {
+        toast.error("Error al cargar la configuración");
+      });
     }
   }, [activeTab]);
 
-  const handleTabChange = (tab: any) => {
+  const handleTabChange = (tab: TabType) => {
     setActiveTab(tab);
     window.location.hash = tab;
   };
@@ -144,14 +139,14 @@ export default function ConfiguracionPage() {
       setSegmentos(segs);
       setRiesgos(ries);
       setIntereses(ints);
-    } catch (error) {
+    } catch (_error) {
       toast.error("Error al cargar la configuración");
     } finally {
       setLoading(false);
     }
   }
 
-  const handleOpenModal = (item: any = null) => { setEditingItem(item); setIsModalOpen(true); };
+  const handleOpenModal = (item: Segmento | Riesgo | TipoInteres | null = null) => { setEditingItem(item); setIsModalOpen(true); };
   const handleCloseModal = () => { setEditingItem(null); setIsModalOpen(false); };
 
   const handleSaveProfile = () => {
@@ -161,7 +156,7 @@ export default function ConfiguracionPage() {
     }
   };
 
-  const updateProfileField = (field: keyof UserProfile, value: any) => {
+  const updateProfileField = (field: keyof UserProfile, value: string | number | undefined) => {
     if (user) setUser({ ...user, [field]: value });
   };
 
@@ -198,10 +193,13 @@ export default function ConfiguracionPage() {
         else await createTipoInteresAction(data);
       }
       toast.success("Guardado exitosamente");
-      loadData();
+      loadData().catch(() => {
+        toast.error("Error al recargar datos");
+      });
       handleCloseModal();
-    } catch (error: any) {
-      toast.error(error.message || "Error al guardar");
+    } catch (error: unknown) {
+      const message = error instanceof Error ? error.message : "Error al guardar";
+      toast.error(message);
     }
   };
 
@@ -261,7 +259,7 @@ export default function ConfiguracionPage() {
                   <CardContent className="p-8 grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div className="space-y-2"><Label className="text-[10px] font-black uppercase text-muted-foreground">Nombre</Label><Input value={user?.nombre || ""} onChange={(e) => updateProfileField("nombre", e.target.value)} className="h-12 rounded-xl border-border bg-background text-foreground font-bold" /></div>
                     <div className="space-y-2"><Label className="text-[10px] font-black uppercase text-muted-foreground">Apellido</Label><Input value={user?.apellido || ""} onChange={(e) => updateProfileField("apellido", e.target.value)} className="h-12 rounded-xl border-border bg-background text-foreground font-bold" /></div>
-                    <div className="space-y-2"><Label className="text-[10px] font-black uppercase text-muted-foreground">Tipo Documento</Label><Select value={user?.tipoDocumento} onChange={(e: any) => updateProfileField("tipoDocumento", e.target.value)} className="h-12 rounded-xl border-border bg-background text-foreground font-bold">{TIPOS_DOCUMENTO.map(t => <option key={t} value={t}>{t}</option>)}</Select></div>
+                    <div className="space-y-2"><Label className="text-[10px] font-black uppercase text-muted-foreground">Tipo Documento</Label><Select value={user?.tipoDocumento} onChange={(e: React.ChangeEvent<HTMLSelectElement>) => updateProfileField("tipoDocumento", e.target.value)} className="h-12 rounded-xl border-border bg-background text-foreground font-bold">{TIPOS_DOCUMENTO.map(t => <option key={t} value={t}>{t}</option>)}</Select></div>
                     <div className="space-y-2"><Label className="text-[10px] font-black uppercase text-muted-foreground">Documento</Label><Input value={user?.numeroDocumento || ""} onChange={(e) => updateProfileField("numeroDocumento", e.target.value)} className="h-12 rounded-xl border-border bg-background text-foreground font-bold" /></div>
                   </CardContent>
                 </Card>
@@ -274,7 +272,7 @@ export default function ConfiguracionPage() {
                     </div>
                   </CardHeader>
                   <CardContent className="p-8 grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <div className="space-y-2"><Label className="text-[10px] font-black uppercase text-muted-foreground">Banco</Label><Select value={user?.banco} onChange={(e: any) => updateProfileField("banco", e.target.value)} className="h-12 rounded-xl border-border bg-background text-foreground font-bold">{BANCOS_COLOMBIA.map(b => <option key={b} value={b}>{b}</option>)}</Select></div>
+                    <div className="space-y-2"><Label className="text-[10px] font-black uppercase text-muted-foreground">Banco</Label><Select value={user?.banco} onChange={(e: React.ChangeEvent<HTMLSelectElement>) => updateProfileField("banco", e.target.value)} className="h-12 rounded-xl border-border bg-background text-foreground font-bold">{BANCOS_COLOMBIA.map(b => <option key={b} value={b}>{b}</option>)}</Select></div>
                     <div className="space-y-2"><Label className="text-[10px] font-black uppercase text-muted-foreground">Valor Hora</Label><Input type="number" value={user?.valorHora || 0} onChange={(e) => updateProfileField("valorHora", parseInt(e.target.value))} className="h-12 rounded-xl border-border bg-background text-emerald-600 font-bold" /></div>
                   </CardContent>
                 </Card>
@@ -331,8 +329,8 @@ export default function ConfiguracionPage() {
                 <div className="space-y-2"><Label className="text-[10px] font-black uppercase text-muted-foreground">Nombre</Label><Input name="nombre" defaultValue={editingItem?.nombre} required className="h-12 rounded-xl border-border bg-background text-foreground font-bold" /></div>
                 {activeTab === "segmentos" && (
                   <div className="grid grid-cols-2 gap-4">
-                    <div className="space-y-2"><Label className="text-[10px] font-black uppercase text-muted-foreground">Frecuencia (Días)</Label><Input type="number" name="frecuenciaSugerida" defaultValue={(editingItem as any)?.frecuenciaSugerida} className="h-12 rounded-xl border-border bg-background text-foreground font-bold" /></div>
-                    <div className="space-y-2"><Label className="text-[10px] font-black uppercase text-muted-foreground">Riesgo</Label><Select name="riesgoSugerido" defaultValue={(editingItem as any)?.riesgoSugerido || 'BAJO'} className="h-12 rounded-xl border-border bg-background text-foreground font-bold"><option value="BAJO">BAJO</option><option value="MEDIO">MEDIO</option><option value="ALTO">ALTO</option><option value="CRITICO">CRÍTICO</option></Select></div>
+                    <div className="space-y-2"><Label className="text-[10px] font-black uppercase text-muted-foreground">Frecuencia (Días)</Label><Input type="number" name="frecuenciaSugerida" defaultValue={(editingItem as Segmento)?.frecuenciaSugerida} className="h-12 rounded-xl border-border bg-background text-foreground font-bold" /></div>
+                    <div className="space-y-2"><Label className="text-[10px] font-black uppercase text-muted-foreground">Riesgo</Label><Select name="riesgoSugerido" defaultValue={(editingItem as Segmento)?.riesgoSugerido || 'BAJO'} className="h-12 rounded-xl border-border bg-background text-foreground font-bold"><option value="BAJO">BAJO</option><option value="MEDIO">MEDIO</option><option value="ALTO">ALTO</option><option value="CRITICO">CRÍTICO</option></Select></div>
                   </div>
                 )}
               </CardContent>

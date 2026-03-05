@@ -4,7 +4,6 @@ import React from "react";
 import { Download, RefreshCcw, Clock, Globe, CloudSync } from "lucide-react";
 import { cn } from "@/components/ui/utils";
 import { format } from "date-fns";
-import { es } from "date-fns/locale";
 
 interface MonitoreoHeaderProps {
   isLoading: boolean;

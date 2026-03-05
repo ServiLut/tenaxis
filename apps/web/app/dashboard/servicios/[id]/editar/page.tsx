@@ -56,24 +56,6 @@ const TIPOS_VISITA = [
   { value: "REINCIDENCIA", label: "Atención por Reincidencia (Garantía)" },
 ];
 
-const ESTADOS_PAGO = [
-  { value: "PENDIENTE", label: "Pendiente de cobro" },
-  { value: "PAGADO", label: "Pagado en su totalidad" },
-  { value: "PARCIAL", label: "Pago parcial / Abono" },
-  { value: "CREDITO", label: "A crédito (Cuenta corriente)" },
-  { value: "CORTESIA", label: "Cortesía (Sin costo)" },
-  { value: "ANTICIPO", label: "Anticipo recibido" },
-];
-
-const METODOS_PAGO_BASE = [
-  { value: "EFECTIVO", label: "Efectivo" },
-  { value: "TRANSFERENCIA", label: "Transferencia Bancaria" },
-  { value: "CREDITO", label: "Crédito / Por Cobrar" },
-  { value: "BONO", label: "Bono / Descuento" },
-  { value: "CORTESIA", label: "Cortesía (No se cobra)" },
-  { value: "PENDIENTE", label: "Pendiente por definir" },
-];
-
 const TIPOS_FACTURACION = [
   { value: "UNICO", label: "Servicio único / Eventual" },
   { value: "CONTRATO_MENSUAL", label: "Parte de contrato mensual" },
@@ -111,15 +93,17 @@ interface Cliente {
   direcciones?: Direccion[];
 }
 
-interface MetodoPago {
-  id: string;
-  nombre: string;
-}
-
 interface Operador {
   id: string;
   nombre: string;
   telefono?: string;
+}
+
+interface BreakdownLine {
+  metodo: string;
+  monto: string | number;
+  banco?: string;
+  referencia?: string;
 }
 
 function EditarServicioContent({ id }: { id: string }) {
@@ -130,7 +114,6 @@ function EditarServicioContent({ id }: { id: string }) {
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [clientes, setClientes] = useState<Cliente[]>([]);
-  const [metodosPago, setMetodosPago] = useState<MetodoPago[]>([]);
   const [operadores, setOperadores] = useState<Operador[]>([]);
   const [serviciosEmpresa, setServiciosEmpresa] = useState<Array<{id: string, nombre: string}>>([]);
 
@@ -161,16 +144,6 @@ function EditarServicioContent({ id }: { id: string }) {
   ]);
   const [tipoFacturacion, setTipoFacturacion] = useState("");
   const [estadoServicio, setEstadoServicio] = useState("");
-
-  const fetchMetodosPago = useCallback(async (empId: string) => {
-    if (!empId) return;
-    try {
-      const mps = await getMetodosPagoAction(empId);
-      setMetodosPago(Array.isArray(mps) ? mps : mps?.data || []);
-    } catch (e) {
-      console.error("Error loading payment methods", e);
-    }
-  }, []);
 
   const fetchOperadores = useCallback(async (empId: string) => {
     if (!empId) return;
@@ -227,8 +200,10 @@ function EditarServicioContent({ id }: { id: string }) {
 
         // Cargar desglose de pago si existe
         if (orderData.desglosePago && Array.isArray(orderData.desglosePago) && orderData.desglosePago.length > 0) {
-          setBreakdown((orderData.desglosePago as any[]).map(l => ({
-            ...l,
+          setBreakdown((orderData.desglosePago as unknown as BreakdownLine[]).map(l => ({
+            metodo: l.metodo,
+            banco: l.banco,
+            referencia: l.referencia,
             monto: l.monto.toString().replace(/\D/g, "").replace(/\B(?=(\d{3})+(?!\d))/g, ".")
           })));
         } else {

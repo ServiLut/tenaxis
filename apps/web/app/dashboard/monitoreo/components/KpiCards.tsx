@@ -14,8 +14,10 @@ interface KpiCardsProps {
   onOpenKpi: (type: 'sessions' | 'events' | 'technicians') => void;
 }
 
+type KpiId = 'sessions' | 'events' | 'technicians' | 'latency';
+
 export function KpiCards({ stats, latency, activeTechniciansCount, onOpenKpi }: KpiCardsProps) {
-  const kpis = [
+  const kpis: { id: KpiId; title: string; value: string; icon: any; trend: string; color: string; interactive: boolean }[] = [
     { 
       id: 'sessions',
       title: "Sesiones Activas", 
@@ -60,7 +62,7 @@ export function KpiCards({ stats, latency, activeTechniciansCount, onOpenKpi }: 
         <GlassCard 
           key={i} 
           className={cn("group transition-all", stat.interactive && "hover:shadow-[#01ADFB]/10")}
-          onClick={stat.interactive ? () => onOpenKpi(stat.id as any) : undefined}
+          onClick={stat.interactive ? () => onOpenKpi(stat.id as 'sessions' | 'events' | 'technicians') : undefined}
         >
           <div className="flex items-center justify-between mb-4">
             <p className="text-[10px] font-black text-muted-foreground uppercase tracking-[0.2em]">{stat.title}</p>

@@ -9,9 +9,9 @@ import {
   DialogFooter,
   DialogDescription,
 } from "@/components/ui/dialog";
-import { Button, Skeleton } from "@/components/ui";
+import { Button } from "@/components/ui";
 import { DropdownMenuItem } from "@/components/ui/dropdown-menu";
-import { FileUp, RotateCcw, Download, FileText, Eye, Receipt, Loader2, ImageIcon, ExternalLink } from "lucide-react";
+import { FileUp, RotateCcw, Download, FileText, Loader2, ExternalLink } from "lucide-react";
 import { cn } from "@/components/ui/utils";
 
 interface FileManagementProps {

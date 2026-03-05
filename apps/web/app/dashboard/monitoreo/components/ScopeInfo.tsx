@@ -43,8 +43,8 @@ export function ScopeInfo() {
           getEnterprisesAction()
         ]);
 
-        const tenants = (tenantsRes as any).data || tenantsRes;
-        const enterprises = (enterprisesRes as any).data || enterprisesRes;
+        const tenants = (tenantsRes as { data?: Tenant[] }).data || (tenantsRes as Tenant[]);
+        const enterprises = (enterprisesRes as { data?: Enterprise[] }).data || (enterprisesRes as Enterprise[]);
 
         // Find tenant name
         if (parsedUser.tenantId) {

@@ -1045,7 +1045,7 @@ export interface CreateOrdenServicioDTO {
   facturaElectronica?: string;
   comprobantePago?: string;
   evidenciaPath?: string;
-  desglosePago?: any[];
+  desglosePago?: Record<string, unknown>[];
   observacionFinal?: string;
   valorPagado?: number;
   referenciaPago?: string;
@@ -1347,7 +1347,7 @@ export async function notifyLiquidationWebhookAction(data: {
 
     console.log(`Triggering webhook: ${webhookUrl} (Host: ${url.hostname})`);
 
-    return new Promise((resolve, reject) => {
+    return new Promise((resolve, _reject) => {
       const req = https.request(options, (res) => {
         let responseBody = "";
         res.on("data", (chunk) => { responseBody += chunk; });

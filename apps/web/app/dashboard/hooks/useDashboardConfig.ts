@@ -17,20 +17,21 @@ const DEFAULT_CONFIG: DashboardConfig = {
 };
 
 export function useDashboardConfig() {
-  const [config, setConfig] = useState<DashboardConfig>(DEFAULT_CONFIG);
-  const [isLoaded, setIsLoaded] = useState(false);
-
-  useEffect(() => {
-    const saved = localStorage.getItem(STORAGE_KEY);
-    if (saved) {
-      try {
-        setConfig(JSON.parse(saved));
-      } catch (e) {
-        console.error("Error parsing dashboard config", e);
+  const [config, setConfig] = useState<DashboardConfig>(() => {
+    if (typeof window !== "undefined") {
+      const saved = localStorage.getItem(STORAGE_KEY);
+      if (saved) {
+        try {
+          return JSON.parse(saved);
+        } catch (e) {
+          console.error("Error parsing dashboard config", e);
+        }
       }
     }
-    setIsLoaded(true);
-  }, []);
+    return DEFAULT_CONFIG;
+  });
+
+  const isLoaded = true; // Since we initialize from localStorage, it's effectively loaded on mount in client
 
   const updateConfig = (newConfig: DashboardConfig) => {
     setConfig(newConfig);

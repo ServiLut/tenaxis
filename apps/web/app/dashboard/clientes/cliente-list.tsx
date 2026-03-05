@@ -24,10 +24,7 @@ import {
   Settings,
   Pencil,
   Trash2,
-  Download,
   FileText,
-  FileSpreadsheet,
-  File as FileIcon,
   Mail,
   MapPin,
   Fingerprint,
@@ -45,7 +42,6 @@ import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
-  DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
@@ -55,18 +51,12 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
 import { Combobox } from "@/components/ui/combobox";
 import { Select } from "@/components/ui/select";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/components/ui/utils";
 import { toast } from "sonner";
-import { exportToExcel, exportToPDF, exportToWord } from "@/lib/utils/export-helper";
 import {
   deleteClienteAction,
   getClienteConfigsAction,
@@ -378,53 +368,6 @@ export function ClienteList({ initialClientes, initialDepartments = [], initialM
       return matchesSearch && matchesEmpresas && matchesDepartamento && matchesMunicipio && matchesBarrio && matchesClasificacion && matchesSegmento && matchesRiesgo && matchesFechaDesde && matchesFechaHasta;
     });
   }, [clientes, search, filters, mounted]);
-
-  const handleExport = async (format: 'pdf' | 'excel' | 'word') => {
-    let headers: string[];
-    let data: (string | number | boolean)[][];
-    if (format === 'pdf') {
-      headers = ["Cliente", "Identificación", "Tipo", "Celular", "Segmento", "Clasif.", "Riesgo"];
-      data = filteredClientes.map(c => [
-        c.tipoCliente === "EMPRESA" ? (c.razonSocial || "N/A") : `${c.nombre || ''} ${c.apellido || ''}`.trim(),
-        c.tipoCliente === "EMPRESA" ? (c.nit || "N/A") : (c.numeroDocumento || "N/A"),
-        c.tipoCliente,
-        c.telefono,
-        c.segmento?.nombre || c.segmentoNegocio || "N/A",
-        c.clasificacion || "BRONCE",
-        c.riesgo?.nombre || c.nivelRiesgo || "BAJO"
-      ]);
-    } else {
-      headers = [
-        "ID", "Tipo", "Nombre / Razón Social", "Identificación / NIT", "Correo", "Teléfono 1", "Teléfono 2",
-        "Clasificación", "Segmento", "Riesgo", "Puntos", "Origen", "Act. Económica", "Metraje", "Frecuencia",
-        "Ticket Prom.", "Última Visita", "Próxima Visita", "Fecha Registro"
-      ];
-      data = filteredClientes.map(c => [
-        c.id, c.tipoCliente,
-        c.tipoCliente === "EMPRESA" ? (c.razonSocial || "N/A") : `${c.nombre || ''} ${c.apellido || ''}`.trim(),
-        c.tipoCliente === "EMPRESA" ? (c.nit || "N/A") : (c.numeroDocumento || "N/A"),
-        c.correo || "N/A", c.telefono, c.clasificacion || "BRONCE",
-        c.segmento?.nombre || c.segmentoNegocio || "N/A",
-        c.riesgo?.nombre || c.nivelRiesgo || "BAJO"
-      ]);
-    }
-    const exportParams = {
-      headers,
-      data,
-      filename: `cartera_clientes_tenaxis_${new Date().toISOString().split('T')[0]}`,
-      title: "REPORTE ESTRATÉGICO DE CARTERA DE CLIENTES"
-    };
-    toast.info(`Generando archivo ${format.toUpperCase()}...`);
-    try {
-      if (format === 'excel') await exportToExcel(exportParams);
-      else if (format === 'pdf') exportToPDF(exportParams);
-      else if (format === 'word') await exportToWord(exportParams);
-      toast.success(`${format.toUpperCase()} generado exitosamente`);
-    } catch (error) {
-      console.error("Export error:", error);
-      toast.error(`Error al generar el archivo ${format.toUpperCase()}`);
-    }
-  };
 
   const totalPages = Math.ceil(filteredClientes.length / itemsPerPage);
   const paginatedClientes = filteredClientes.slice(
