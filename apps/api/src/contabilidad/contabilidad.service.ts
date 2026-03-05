@@ -1,4 +1,4 @@
-import { Injectable, BadRequestException } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 import { EstadoConsignacion } from '../generated/client/client';
 
@@ -14,7 +14,9 @@ export class ContabilidadService {
         role: 'OPERADOR',
         activo: true,
         // Si hay empresaId, filtrar por los que pertenecen a esa empresa
-        empresaMemberships: empresaId ? { some: { empresaId, activo: true } } : undefined,
+        empresaMemberships: empresaId
+          ? { some: { empresaId, activo: true } }
+          : undefined,
       },
       include: {
         user: {
@@ -56,11 +58,17 @@ export class ContabilidadService {
         (sum, d) => sum + Number(d.valorDeclarado),
         0,
       );
-      
+
       const ultimaTrans = t.consignacionesTecnico[0]?.fechaConsignacion;
-      const diasSinTransferir = ultimaTrans 
-        ? Math.floor((new Date().getTime() - new Date(ultimaTrans).getTime()) / (1000 * 3600 * 24))
-        : Math.floor((new Date().getTime() - new Date(t.createdAt).getTime()) / (1000 * 3600 * 24));
+      const diasSinTransferir = ultimaTrans
+        ? Math.floor(
+            (new Date().getTime() - new Date(ultimaTrans).getTime()) /
+              (1000 * 3600 * 24),
+          )
+        : Math.floor(
+            (new Date().getTime() - new Date(t.createdAt).getTime()) /
+              (1000 * 3600 * 24),
+          );
 
       return {
         id: t.id,
@@ -68,7 +76,7 @@ export class ContabilidadService {
         apellido: t.user.apellido,
         saldoPendiente,
         ordenesPendientesCount: t.declaracionesEfectivo.length,
-        ordenesIds: t.declaracionesEfectivo.map(d => d.ordenId),
+        ordenesIds: t.declaracionesEfectivo.map((d) => d.ordenId),
         ultimaTransferencia: ultimaTrans || null,
         diasSinTransferir,
       };

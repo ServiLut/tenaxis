@@ -31,7 +31,7 @@ export class ContabilidadController {
     if (!tenantId) {
       throw new UnauthorizedException('Tenant ID not found in token');
     }
-    
+
     const empresaId = queryEmpresaId || req.user.empresaId;
     return this.contabilidadService.getRecaudoTecnicos(tenantId, empresaId);
   }
@@ -39,7 +39,8 @@ export class ContabilidadController {
   @Post('registrar-consignacion')
   register(
     @Req() req: RequestWithUser,
-    @Body() data: {
+    @Body()
+    data: {
       tecnicoId: string;
       empresaId: string;
       valorConsignado: number;
@@ -52,7 +53,7 @@ export class ContabilidadController {
   ) {
     const tenantId = req.user.tenantId;
     const membershipId = req.user.membershipId;
-    
+
     if (!tenantId || !membershipId) {
       throw new UnauthorizedException('Auth data missing');
     }

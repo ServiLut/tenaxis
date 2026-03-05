@@ -7,13 +7,20 @@ import {
 import { PrismaService } from '../../prisma/prisma.service';
 import { Role } from '../../generated/client/client';
 import { MonitoringScope } from '../types';
+import { Request } from 'express';
+import { JwtPayload } from '../../auth/auth.service';
+
+interface RequestWithMonitoring extends Request {
+  user: JwtPayload;
+  monitoringScope?: MonitoringScope;
+}
 
 @Injectable()
 export class MonitoringScopeGuard implements CanActivate {
   constructor(private prisma: PrismaService) {}
 
   async canActivate(context: ExecutionContext): Promise<boolean> {
-    const request = context.switchToHttp().getRequest();
+    const request = context.switchToHttp().getRequest<RequestWithMonitoring>();
     const user = request.user;
 
     if (!user) {
@@ -23,7 +30,9 @@ export class MonitoringScopeGuard implements CanActivate {
     const { tenantId, role, membershipId } = user;
 
     if (!tenantId) {
-      throw new UnauthorizedException('No se encontró información del conglomerado (tenant)');
+      throw new UnauthorizedException(
+        'No se encontró información del conglomerado (tenant)',
+      );
     }
 
     const scope: MonitoringScope = {
@@ -62,10 +71,12 @@ export class MonitoringScopeGuard implements CanActivate {
       throw new UnauthorizedException('No tienes empresas vinculadas activas');
     }
 
-    scope.empresaIds = memberships.map(m => m.empresaId);
-    
+    scope.empresaIds = memberships.map((m) => m.empresaId);
+
     // Si tiene zonaId en sus vinculaciones, aplicamos filtro por zona
-    const zonaIds = memberships.map(m => m.zonaId).filter(id => !!id) as string[];
+    const zonaIds = memberships
+      .map((m) => m.zonaId)
+      .filter((id) => !!id) as string[];
     if (zonaIds.length > 0) {
       scope.zonaIds = zonaIds;
     }

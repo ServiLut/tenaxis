@@ -47,6 +47,7 @@ export type SesionActividadMinAggregateOutputType = {
   tiempoInactivo: number | null
   dispositivo: string | null
   ip: string | null
+  updatedAt: Date | null
 }
 
 export type SesionActividadMaxAggregateOutputType = {
@@ -60,6 +61,7 @@ export type SesionActividadMaxAggregateOutputType = {
   tiempoInactivo: number | null
   dispositivo: string | null
   ip: string | null
+  updatedAt: Date | null
 }
 
 export type SesionActividadCountAggregateOutputType = {
@@ -73,6 +75,7 @@ export type SesionActividadCountAggregateOutputType = {
   tiempoInactivo: number
   dispositivo: number
   ip: number
+  updatedAt: number
   _all: number
 }
 
@@ -98,6 +101,7 @@ export type SesionActividadMinAggregateInputType = {
   tiempoInactivo?: true
   dispositivo?: true
   ip?: true
+  updatedAt?: true
 }
 
 export type SesionActividadMaxAggregateInputType = {
@@ -111,6 +115,7 @@ export type SesionActividadMaxAggregateInputType = {
   tiempoInactivo?: true
   dispositivo?: true
   ip?: true
+  updatedAt?: true
 }
 
 export type SesionActividadCountAggregateInputType = {
@@ -124,6 +129,7 @@ export type SesionActividadCountAggregateInputType = {
   tiempoInactivo?: true
   dispositivo?: true
   ip?: true
+  updatedAt?: true
   _all?: true
 }
 
@@ -224,6 +230,7 @@ export type SesionActividadGroupByOutputType = {
   tiempoInactivo: number
   dispositivo: string | null
   ip: string | null
+  updatedAt: Date
   _count: SesionActividadCountAggregateOutputType | null
   _avg: SesionActividadAvgAggregateOutputType | null
   _sum: SesionActividadSumAggregateOutputType | null
@@ -260,6 +267,7 @@ export type SesionActividadWhereInput = {
   tiempoInactivo?: Prisma.IntFilter<"SesionActividad"> | number
   dispositivo?: Prisma.StringNullableFilter<"SesionActividad"> | string | null
   ip?: Prisma.StringNullableFilter<"SesionActividad"> | string | null
+  updatedAt?: Prisma.DateTimeFilter<"SesionActividad"> | Date | string
   logs?: Prisma.LogEventoListRelationFilter
   empresa?: Prisma.XOR<Prisma.EmpresaScalarRelationFilter, Prisma.EmpresaWhereInput>
   membership?: Prisma.XOR<Prisma.TenantMembershipScalarRelationFilter, Prisma.TenantMembershipWhereInput>
@@ -277,6 +285,7 @@ export type SesionActividadOrderByWithRelationInput = {
   tiempoInactivo?: Prisma.SortOrder
   dispositivo?: Prisma.SortOrderInput | Prisma.SortOrder
   ip?: Prisma.SortOrderInput | Prisma.SortOrder
+  updatedAt?: Prisma.SortOrder
   logs?: Prisma.LogEventoOrderByRelationAggregateInput
   empresa?: Prisma.EmpresaOrderByWithRelationInput
   membership?: Prisma.TenantMembershipOrderByWithRelationInput
@@ -297,6 +306,7 @@ export type SesionActividadWhereUniqueInput = Prisma.AtLeast<{
   tiempoInactivo?: Prisma.IntFilter<"SesionActividad"> | number
   dispositivo?: Prisma.StringNullableFilter<"SesionActividad"> | string | null
   ip?: Prisma.StringNullableFilter<"SesionActividad"> | string | null
+  updatedAt?: Prisma.DateTimeFilter<"SesionActividad"> | Date | string
   logs?: Prisma.LogEventoListRelationFilter
   empresa?: Prisma.XOR<Prisma.EmpresaScalarRelationFilter, Prisma.EmpresaWhereInput>
   membership?: Prisma.XOR<Prisma.TenantMembershipScalarRelationFilter, Prisma.TenantMembershipWhereInput>
@@ -314,6 +324,7 @@ export type SesionActividadOrderByWithAggregationInput = {
   tiempoInactivo?: Prisma.SortOrder
   dispositivo?: Prisma.SortOrderInput | Prisma.SortOrder
   ip?: Prisma.SortOrderInput | Prisma.SortOrder
+  updatedAt?: Prisma.SortOrder
   _count?: Prisma.SesionActividadCountOrderByAggregateInput
   _avg?: Prisma.SesionActividadAvgOrderByAggregateInput
   _max?: Prisma.SesionActividadMaxOrderByAggregateInput
@@ -335,6 +346,7 @@ export type SesionActividadScalarWhereWithAggregatesInput = {
   tiempoInactivo?: Prisma.IntWithAggregatesFilter<"SesionActividad"> | number
   dispositivo?: Prisma.StringNullableWithAggregatesFilter<"SesionActividad"> | string | null
   ip?: Prisma.StringNullableWithAggregatesFilter<"SesionActividad"> | string | null
+  updatedAt?: Prisma.DateTimeWithAggregatesFilter<"SesionActividad"> | Date | string
 }
 
 export type SesionActividadCreateInput = {
@@ -345,6 +357,7 @@ export type SesionActividadCreateInput = {
   tiempoInactivo?: number
   dispositivo?: string | null
   ip?: string | null
+  updatedAt?: Date | string
   logs?: Prisma.LogEventoCreateNestedManyWithoutSesionInput
   empresa: Prisma.EmpresaCreateNestedOneWithoutSesionesActividadInput
   membership: Prisma.TenantMembershipCreateNestedOneWithoutSesionesActividadInput
@@ -362,6 +375,7 @@ export type SesionActividadUncheckedCreateInput = {
   tiempoInactivo?: number
   dispositivo?: string | null
   ip?: string | null
+  updatedAt?: Date | string
   logs?: Prisma.LogEventoUncheckedCreateNestedManyWithoutSesionInput
 }
 
@@ -373,6 +387,7 @@ export type SesionActividadUpdateInput = {
   tiempoInactivo?: Prisma.IntFieldUpdateOperationsInput | number
   dispositivo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   ip?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   logs?: Prisma.LogEventoUpdateManyWithoutSesionNestedInput
   empresa?: Prisma.EmpresaUpdateOneRequiredWithoutSesionesActividadNestedInput
   membership?: Prisma.TenantMembershipUpdateOneRequiredWithoutSesionesActividadNestedInput
@@ -390,6 +405,7 @@ export type SesionActividadUncheckedUpdateInput = {
   tiempoInactivo?: Prisma.IntFieldUpdateOperationsInput | number
   dispositivo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   ip?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   logs?: Prisma.LogEventoUncheckedUpdateManyWithoutSesionNestedInput
 }
 
@@ -404,6 +420,7 @@ export type SesionActividadCreateManyInput = {
   tiempoInactivo?: number
   dispositivo?: string | null
   ip?: string | null
+  updatedAt?: Date | string
 }
 
 export type SesionActividadUpdateManyMutationInput = {
@@ -414,6 +431,7 @@ export type SesionActividadUpdateManyMutationInput = {
   tiempoInactivo?: Prisma.IntFieldUpdateOperationsInput | number
   dispositivo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   ip?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type SesionActividadUncheckedUpdateManyInput = {
@@ -427,6 +445,7 @@ export type SesionActividadUncheckedUpdateManyInput = {
   tiempoInactivo?: Prisma.IntFieldUpdateOperationsInput | number
   dispositivo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   ip?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type SesionActividadListRelationFilter = {
@@ -450,6 +469,7 @@ export type SesionActividadCountOrderByAggregateInput = {
   tiempoInactivo?: Prisma.SortOrder
   dispositivo?: Prisma.SortOrder
   ip?: Prisma.SortOrder
+  updatedAt?: Prisma.SortOrder
 }
 
 export type SesionActividadAvgOrderByAggregateInput = {
@@ -468,6 +488,7 @@ export type SesionActividadMaxOrderByAggregateInput = {
   tiempoInactivo?: Prisma.SortOrder
   dispositivo?: Prisma.SortOrder
   ip?: Prisma.SortOrder
+  updatedAt?: Prisma.SortOrder
 }
 
 export type SesionActividadMinOrderByAggregateInput = {
@@ -481,6 +502,7 @@ export type SesionActividadMinOrderByAggregateInput = {
   tiempoInactivo?: Prisma.SortOrder
   dispositivo?: Prisma.SortOrder
   ip?: Prisma.SortOrder
+  updatedAt?: Prisma.SortOrder
 }
 
 export type SesionActividadSumOrderByAggregateInput = {
@@ -641,6 +663,7 @@ export type SesionActividadCreateWithoutTenantInput = {
   tiempoInactivo?: number
   dispositivo?: string | null
   ip?: string | null
+  updatedAt?: Date | string
   logs?: Prisma.LogEventoCreateNestedManyWithoutSesionInput
   empresa: Prisma.EmpresaCreateNestedOneWithoutSesionesActividadInput
   membership: Prisma.TenantMembershipCreateNestedOneWithoutSesionesActividadInput
@@ -656,6 +679,7 @@ export type SesionActividadUncheckedCreateWithoutTenantInput = {
   tiempoInactivo?: number
   dispositivo?: string | null
   ip?: string | null
+  updatedAt?: Date | string
   logs?: Prisma.LogEventoUncheckedCreateNestedManyWithoutSesionInput
 }
 
@@ -699,6 +723,7 @@ export type SesionActividadScalarWhereInput = {
   tiempoInactivo?: Prisma.IntFilter<"SesionActividad"> | number
   dispositivo?: Prisma.StringNullableFilter<"SesionActividad"> | string | null
   ip?: Prisma.StringNullableFilter<"SesionActividad"> | string | null
+  updatedAt?: Prisma.DateTimeFilter<"SesionActividad"> | Date | string
 }
 
 export type SesionActividadCreateWithoutMembershipInput = {
@@ -709,6 +734,7 @@ export type SesionActividadCreateWithoutMembershipInput = {
   tiempoInactivo?: number
   dispositivo?: string | null
   ip?: string | null
+  updatedAt?: Date | string
   logs?: Prisma.LogEventoCreateNestedManyWithoutSesionInput
   empresa: Prisma.EmpresaCreateNestedOneWithoutSesionesActividadInput
   tenant: Prisma.TenantCreateNestedOneWithoutSesionesActividadInput
@@ -724,6 +750,7 @@ export type SesionActividadUncheckedCreateWithoutMembershipInput = {
   tiempoInactivo?: number
   dispositivo?: string | null
   ip?: string | null
+  updatedAt?: Date | string
   logs?: Prisma.LogEventoUncheckedCreateNestedManyWithoutSesionInput
 }
 
@@ -761,6 +788,7 @@ export type SesionActividadCreateWithoutEmpresaInput = {
   tiempoInactivo?: number
   dispositivo?: string | null
   ip?: string | null
+  updatedAt?: Date | string
   logs?: Prisma.LogEventoCreateNestedManyWithoutSesionInput
   membership: Prisma.TenantMembershipCreateNestedOneWithoutSesionesActividadInput
   tenant: Prisma.TenantCreateNestedOneWithoutSesionesActividadInput
@@ -776,6 +804,7 @@ export type SesionActividadUncheckedCreateWithoutEmpresaInput = {
   tiempoInactivo?: number
   dispositivo?: string | null
   ip?: string | null
+  updatedAt?: Date | string
   logs?: Prisma.LogEventoUncheckedCreateNestedManyWithoutSesionInput
 }
 
@@ -813,6 +842,7 @@ export type SesionActividadCreateWithoutLogsInput = {
   tiempoInactivo?: number
   dispositivo?: string | null
   ip?: string | null
+  updatedAt?: Date | string
   empresa: Prisma.EmpresaCreateNestedOneWithoutSesionesActividadInput
   membership: Prisma.TenantMembershipCreateNestedOneWithoutSesionesActividadInput
   tenant: Prisma.TenantCreateNestedOneWithoutSesionesActividadInput
@@ -829,6 +859,7 @@ export type SesionActividadUncheckedCreateWithoutLogsInput = {
   tiempoInactivo?: number
   dispositivo?: string | null
   ip?: string | null
+  updatedAt?: Date | string
 }
 
 export type SesionActividadCreateOrConnectWithoutLogsInput = {
@@ -855,6 +886,7 @@ export type SesionActividadUpdateWithoutLogsInput = {
   tiempoInactivo?: Prisma.IntFieldUpdateOperationsInput | number
   dispositivo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   ip?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   empresa?: Prisma.EmpresaUpdateOneRequiredWithoutSesionesActividadNestedInput
   membership?: Prisma.TenantMembershipUpdateOneRequiredWithoutSesionesActividadNestedInput
   tenant?: Prisma.TenantUpdateOneRequiredWithoutSesionesActividadNestedInput
@@ -871,6 +903,7 @@ export type SesionActividadUncheckedUpdateWithoutLogsInput = {
   tiempoInactivo?: Prisma.IntFieldUpdateOperationsInput | number
   dispositivo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   ip?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type SesionActividadCreateManyTenantInput = {
@@ -883,6 +916,7 @@ export type SesionActividadCreateManyTenantInput = {
   tiempoInactivo?: number
   dispositivo?: string | null
   ip?: string | null
+  updatedAt?: Date | string
 }
 
 export type SesionActividadUpdateWithoutTenantInput = {
@@ -893,6 +927,7 @@ export type SesionActividadUpdateWithoutTenantInput = {
   tiempoInactivo?: Prisma.IntFieldUpdateOperationsInput | number
   dispositivo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   ip?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   logs?: Prisma.LogEventoUpdateManyWithoutSesionNestedInput
   empresa?: Prisma.EmpresaUpdateOneRequiredWithoutSesionesActividadNestedInput
   membership?: Prisma.TenantMembershipUpdateOneRequiredWithoutSesionesActividadNestedInput
@@ -908,6 +943,7 @@ export type SesionActividadUncheckedUpdateWithoutTenantInput = {
   tiempoInactivo?: Prisma.IntFieldUpdateOperationsInput | number
   dispositivo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   ip?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   logs?: Prisma.LogEventoUncheckedUpdateManyWithoutSesionNestedInput
 }
 
@@ -921,6 +957,7 @@ export type SesionActividadUncheckedUpdateManyWithoutTenantInput = {
   tiempoInactivo?: Prisma.IntFieldUpdateOperationsInput | number
   dispositivo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   ip?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type SesionActividadCreateManyMembershipInput = {
@@ -933,6 +970,7 @@ export type SesionActividadCreateManyMembershipInput = {
   tiempoInactivo?: number
   dispositivo?: string | null
   ip?: string | null
+  updatedAt?: Date | string
 }
 
 export type SesionActividadUpdateWithoutMembershipInput = {
@@ -943,6 +981,7 @@ export type SesionActividadUpdateWithoutMembershipInput = {
   tiempoInactivo?: Prisma.IntFieldUpdateOperationsInput | number
   dispositivo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   ip?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   logs?: Prisma.LogEventoUpdateManyWithoutSesionNestedInput
   empresa?: Prisma.EmpresaUpdateOneRequiredWithoutSesionesActividadNestedInput
   tenant?: Prisma.TenantUpdateOneRequiredWithoutSesionesActividadNestedInput
@@ -958,6 +997,7 @@ export type SesionActividadUncheckedUpdateWithoutMembershipInput = {
   tiempoInactivo?: Prisma.IntFieldUpdateOperationsInput | number
   dispositivo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   ip?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   logs?: Prisma.LogEventoUncheckedUpdateManyWithoutSesionNestedInput
 }
 
@@ -971,6 +1011,7 @@ export type SesionActividadUncheckedUpdateManyWithoutMembershipInput = {
   tiempoInactivo?: Prisma.IntFieldUpdateOperationsInput | number
   dispositivo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   ip?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type SesionActividadCreateManyEmpresaInput = {
@@ -983,6 +1024,7 @@ export type SesionActividadCreateManyEmpresaInput = {
   tiempoInactivo?: number
   dispositivo?: string | null
   ip?: string | null
+  updatedAt?: Date | string
 }
 
 export type SesionActividadUpdateWithoutEmpresaInput = {
@@ -993,6 +1035,7 @@ export type SesionActividadUpdateWithoutEmpresaInput = {
   tiempoInactivo?: Prisma.IntFieldUpdateOperationsInput | number
   dispositivo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   ip?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   logs?: Prisma.LogEventoUpdateManyWithoutSesionNestedInput
   membership?: Prisma.TenantMembershipUpdateOneRequiredWithoutSesionesActividadNestedInput
   tenant?: Prisma.TenantUpdateOneRequiredWithoutSesionesActividadNestedInput
@@ -1008,6 +1051,7 @@ export type SesionActividadUncheckedUpdateWithoutEmpresaInput = {
   tiempoInactivo?: Prisma.IntFieldUpdateOperationsInput | number
   dispositivo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   ip?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   logs?: Prisma.LogEventoUncheckedUpdateManyWithoutSesionNestedInput
 }
 
@@ -1021,6 +1065,7 @@ export type SesionActividadUncheckedUpdateManyWithoutEmpresaInput = {
   tiempoInactivo?: Prisma.IntFieldUpdateOperationsInput | number
   dispositivo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   ip?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 
@@ -1065,6 +1110,7 @@ export type SesionActividadSelect<ExtArgs extends runtime.Types.Extensions.Inter
   tiempoInactivo?: boolean
   dispositivo?: boolean
   ip?: boolean
+  updatedAt?: boolean
   logs?: boolean | Prisma.SesionActividad$logsArgs<ExtArgs>
   empresa?: boolean | Prisma.EmpresaDefaultArgs<ExtArgs>
   membership?: boolean | Prisma.TenantMembershipDefaultArgs<ExtArgs>
@@ -1083,6 +1129,7 @@ export type SesionActividadSelectCreateManyAndReturn<ExtArgs extends runtime.Typ
   tiempoInactivo?: boolean
   dispositivo?: boolean
   ip?: boolean
+  updatedAt?: boolean
   empresa?: boolean | Prisma.EmpresaDefaultArgs<ExtArgs>
   membership?: boolean | Prisma.TenantMembershipDefaultArgs<ExtArgs>
   tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
@@ -1099,6 +1146,7 @@ export type SesionActividadSelectUpdateManyAndReturn<ExtArgs extends runtime.Typ
   tiempoInactivo?: boolean
   dispositivo?: boolean
   ip?: boolean
+  updatedAt?: boolean
   empresa?: boolean | Prisma.EmpresaDefaultArgs<ExtArgs>
   membership?: boolean | Prisma.TenantMembershipDefaultArgs<ExtArgs>
   tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
@@ -1115,9 +1163,10 @@ export type SesionActividadSelectScalar = {
   tiempoInactivo?: boolean
   dispositivo?: boolean
   ip?: boolean
+  updatedAt?: boolean
 }
 
-export type SesionActividadOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "tenantId" | "empresaId" | "membershipId" | "fechaInicio" | "fechaFin" | "duracionMin" | "tiempoInactivo" | "dispositivo" | "ip", ExtArgs["result"]["sesionActividad"]>
+export type SesionActividadOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "tenantId" | "empresaId" | "membershipId" | "fechaInicio" | "fechaFin" | "duracionMin" | "tiempoInactivo" | "dispositivo" | "ip" | "updatedAt", ExtArgs["result"]["sesionActividad"]>
 export type SesionActividadInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   logs?: boolean | Prisma.SesionActividad$logsArgs<ExtArgs>
   empresa?: boolean | Prisma.EmpresaDefaultArgs<ExtArgs>
@@ -1155,6 +1204,7 @@ export type $SesionActividadPayload<ExtArgs extends runtime.Types.Extensions.Int
     tiempoInactivo: number
     dispositivo: string | null
     ip: string | null
+    updatedAt: Date
   }, ExtArgs["result"]["sesionActividad"]>
   composites: {}
 }
@@ -1592,6 +1642,7 @@ export interface SesionActividadFieldRefs {
   readonly tiempoInactivo: Prisma.FieldRef<"SesionActividad", 'Int'>
   readonly dispositivo: Prisma.FieldRef<"SesionActividad", 'String'>
   readonly ip: Prisma.FieldRef<"SesionActividad", 'String'>
+  readonly updatedAt: Prisma.FieldRef<"SesionActividad", 'DateTime'>
 }
     
 

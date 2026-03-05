@@ -52,8 +52,12 @@ export class AuthService {
     }
 
     // Priorizar membresías activas
-    const approvedMembership = user.memberships.find((m) => m.aprobado || m.role === Role.SU_ADMIN);
-    const pendingMembership = user.memberships.find((m) => !m.aprobado && m.role !== Role.SU_ADMIN);
+    const approvedMembership = user.memberships.find(
+      (m) => m.aprobado || m.role === Role.SU_ADMIN,
+    );
+    const pendingMembership = user.memberships.find(
+      (m) => !m.aprobado && m.role !== Role.SU_ADMIN,
+    );
 
     let sesionId: string | undefined;
 
@@ -63,7 +67,7 @@ export class AuthService {
         approvedMembership.tenantId,
         approvedMembership.id,
         ip,
-        dispositivo
+        dispositivo,
       );
       sesionId = session?.id;
 
@@ -72,7 +76,7 @@ export class AuthService {
           sesionId,
           'LOGIN',
           'El usuario inició sesión en el sistema',
-          '/login'
+          '/login',
         );
       }
     }

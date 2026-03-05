@@ -393,7 +393,7 @@ model Cliente {
   telefono                  String                          @unique
   telefono2                 String?
   correo                    String?
-  numeroDocumento           String?                         @unique
+  numeroDocumento           String?
   tipoDocumento             String?
   registroDocumento         String?
   documentoPath             String?
@@ -1261,6 +1261,7 @@ model SesionActividad {
   empresa        Empresa          @relation(fields: [empresaId], references: [id])
   membership     TenantMembership @relation(fields: [membershipId], references: [id])
   tenant         Tenant           @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  updatedAt      DateTime         @default(now()) @updatedAt
 
   @@index([tenantId])
   @@index([empresaId])

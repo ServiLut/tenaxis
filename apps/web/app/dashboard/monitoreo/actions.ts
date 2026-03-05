@@ -1,9 +1,18 @@
 "use server";
 
 import { cookies } from "next/headers";
-import { ApiResponse, Session, MonitoringStats, Audit, Log } from "./types";
+import { 
+  ApiResponse, 
+  Session, 
+  MonitoringStats, 
+  Audit, 
+  Log, 
+  MonitoringAlert, 
+  MonitoringMetrics,
+  ExecutiveAuditMetrics
+} from "./types";
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3001";
+const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:4000";
 
 async function getAuthToken() {
   const cookieStore = await cookies();
@@ -25,7 +34,6 @@ export async function getMonitoringSessions(): Promise<ApiResponse<Session[]>> {
   }
 
   const result = await response.json();
-  // Normalize response to { data, meta, message }
   return {
     data: result.data || result,
     meta: result.meta,
@@ -53,6 +61,66 @@ export async function getMonitoringStats(): Promise<ApiResponse<MonitoringStats>
   };
 }
 
+export async function getMonitoringAlerts(): Promise<ApiResponse<MonitoringAlert[]>> {
+  const token = await getAuthToken();
+  const response = await fetch(`${API_URL}/monitoring/alerts`, {
+    headers: { Authorization: `Bearer ${token}` },
+    cache: "no-store",
+  });
+
+  if (!response.ok) {
+    const errorData = await response.json().catch(() => ({}));
+    throw new Error(errorData.message || "Failed to fetch alerts");
+  }
+
+  const result = await response.json();
+  return {
+    data: result.data || result,
+    meta: result.meta,
+    message: result.message
+  };
+}
+
+export async function getMonitoringMetrics(): Promise<ApiResponse<MonitoringMetrics>> {
+  const token = await getAuthToken();
+  const response = await fetch(`${API_URL}/monitoring/metrics`, {
+    headers: { Authorization: `Bearer ${token}` },
+    cache: "no-store",
+  });
+
+  if (!response.ok) {
+    const errorData = await response.json().catch(() => ({}));
+    throw new Error(errorData.message || "Failed to fetch metrics");
+  }
+
+  const result = await response.json();
+  return {
+    data: result.data || result,
+    meta: result.meta,
+    message: result.message
+  };
+}
+
+export async function getExecutiveAuditMetrics(): Promise<ApiResponse<ExecutiveAuditMetrics>> {
+  const token = await getAuthToken();
+  const response = await fetch(`${API_URL}/monitoring/executive-audit`, {
+    headers: { Authorization: `Bearer ${token}` },
+    cache: "no-store",
+  });
+
+  if (!response.ok) {
+    const errorData = await response.json().catch(() => ({}));
+    throw new Error(errorData.message || "Failed to fetch executive audit metrics");
+  }
+
+  const result = await response.json();
+  return {
+    data: result.data || result,
+    meta: result.meta,
+    message: result.message
+  };
+}
+
 export async function getAudits(page: number = 1, limit: number = 20): Promise<ApiResponse<Audit[]>> {
   const safeLimit = Math.min(Math.max(1, limit), 100);
   const token = await getAuthToken();
@@ -69,7 +137,6 @@ export async function getAudits(page: number = 1, limit: number = 20): Promise<A
 
   const result = await response.json();
   
-  // Smark extraction: look for the array in results, data.results, or data
   let auditsList: Audit[] = [];
   if (Array.isArray(result.results)) auditsList = result.results;
   else if (result.data && Array.isArray(result.data.results)) auditsList = result.data.results;

@@ -552,6 +552,8 @@ export type ClienteOrderByWithRelationInput = {
 
 export type ClienteWhereUniqueInput = Prisma.AtLeast<{
   id?: string
+  telefono?: string
+  numeroDocumento?: string
   AND?: Prisma.ClienteWhereInput | Prisma.ClienteWhereInput[]
   OR?: Prisma.ClienteWhereInput[]
   NOT?: Prisma.ClienteWhereInput | Prisma.ClienteWhereInput[]
@@ -559,10 +561,8 @@ export type ClienteWhereUniqueInput = Prisma.AtLeast<{
   empresaId?: Prisma.UuidNullableFilter<"Cliente"> | string | null
   nombre?: Prisma.StringNullableFilter<"Cliente"> | string | null
   apellido?: Prisma.StringNullableFilter<"Cliente"> | string | null
-  telefono?: Prisma.StringFilter<"Cliente"> | string
   telefono2?: Prisma.StringNullableFilter<"Cliente"> | string | null
   correo?: Prisma.StringNullableFilter<"Cliente"> | string | null
-  numeroDocumento?: Prisma.StringNullableFilter<"Cliente"> | string | null
   tipoDocumento?: Prisma.StringNullableFilter<"Cliente"> | string | null
   registroDocumento?: Prisma.StringNullableFilter<"Cliente"> | string | null
   documentoPath?: Prisma.StringNullableFilter<"Cliente"> | string | null
@@ -603,7 +603,7 @@ export type ClienteWhereUniqueInput = Prisma.AtLeast<{
   ordenesServicio?: Prisma.OrdenServicioListRelationFilter
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoListRelationFilter
   vehiculos?: Prisma.VehiculoListRelationFilter
-}, "id">
+}, "id" | "telefono" | "numeroDocumento">
 
 export type ClienteOrderByWithAggregationInput = {
   id?: Prisma.SortOrder

@@ -30,6 +30,9 @@ export interface Session {
   membershipId: string;
   membership: Membership;
   logs: Log[];
+  updatedAt: string;
+  ip: string;
+  dispositivo: string;
 }
 
 export interface Log {
@@ -65,4 +68,27 @@ export interface MonitoringStats {
   totalEvents: number;
   activeSessions: number;
   totalInactivity: number;
+}
+
+export interface MonitoringAlert {
+  id: string;
+  type: 'warning' | 'danger' | 'info';
+  title: string;
+  severity: 'alta' | 'media' | 'baja';
+}
+
+export interface MonitoringMetrics {
+  avgActiveTimeMin: number;
+  totalInactivityMin: number;
+  topInactivity: { name: string; minutes: number }[];
+  mttfeSec: number;
+  userCount: number;
+}
+
+export interface ExecutiveAuditMetrics {
+  today: { created: number; updated: number; deleted: number; total: number };
+  week: { created: number; updated: number; deleted: number; total: number };
+  topEntities: { name: string; count: number }[];
+  topUsers: { name: string; count: number }[];
+  successRate: number;
 }

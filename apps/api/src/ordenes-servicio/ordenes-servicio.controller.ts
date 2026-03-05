@@ -40,7 +40,7 @@ export class OrdenesServicioController {
     if (!tenantId) {
       throw new UnauthorizedException('Tenant ID not found in token');
     }
-    
+
     // Asignar creador si no viene en el DTO
     if (!createDto.creadoPorId && req.user.membershipId) {
       createDto.creadoPorId = req.user.membershipId;
@@ -73,11 +73,16 @@ export class OrdenesServicioController {
     if (!tenantId) {
       throw new UnauthorizedException('Tenant ID not found in token');
     }
-    
+
     const empresaId = queryEmpresaId || req.user.empresaId;
     const role = req.user.role;
-    
-    return this.ordenesServicioService.findAll(tenantId, empresaId, role, clienteId);
+
+    return this.ordenesServicioService.findAll(
+      tenantId,
+      empresaId,
+      role,
+      clienteId,
+    );
   }
 
   @Get(':id')
@@ -99,7 +104,12 @@ export class OrdenesServicioController {
     if (!tenantId) {
       throw new UnauthorizedException('Tenant ID not found in token');
     }
-    return this.ordenesServicioService.update(tenantId, id, updateDto, req.user);
+    return this.ordenesServicioService.update(
+      tenantId,
+      id,
+      updateDto,
+      req.user,
+    );
   }
 
   @Delete(':id')

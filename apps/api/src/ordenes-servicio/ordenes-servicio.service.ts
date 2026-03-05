@@ -47,6 +47,11 @@ interface LocalPicoPlaca {
   numeroDos: number;
 }
 
+interface DesglosePagoItem {
+  metodo: MetodoPagoBase;
+  monto: number;
+}
+
 type CandidateWithMembership = LocalEmpresaMembership & {
   membership: LocalTenantMembership;
 };
@@ -151,13 +156,14 @@ export class OrdenesServicioService {
       `CREATE: Final tecnicoId for the order: ${tecnicoId ?? 'NULL'}`,
     );
 
-    let estadoPago = (createDto.estadoPago as EstadoPagoOrden) || EstadoPagoOrden.PENDIENTE;
+    let estadoPago =
+      (createDto.estadoPago as EstadoPagoOrden) || EstadoPagoOrden.PENDIENTE;
     let valorPagado = createDto.valorPagado || 0;
 
     // Calcular estado y valor si hay desglose
     if (createDto.desglosePago && Array.isArray(createDto.desglosePago)) {
       const totals = this.calculateBreakdownTotals(
-        createDto.desglosePago,
+        createDto.desglosePago as unknown as DesglosePagoItem[],
         Number(createDto.valorCotizado || 0),
       );
       estadoPago = totals.estadoPago;
@@ -185,7 +191,7 @@ export class OrdenesServicioService {
         valorPagado,
         metodoPagoId: createDto.metodoPagoId,
         desglosePago: createDto.desglosePago
-          ? (createDto.desglosePago as any)
+          ? (createDto.desglosePago as unknown as Prisma.InputJsonValue)
           : undefined,
         estadoPago,
         fechaVisita: createDto.fechaVisita
@@ -355,7 +361,7 @@ export class OrdenesServicioService {
     this.logger.log(`AUTO-ASSIGN: Day of week: ${diaSemana}`);
 
     const delegate = this.prisma.picoPlaca as {
-      findFirst: (args: any) => Promise<unknown>;
+      findFirst: (args: Prisma.PicoPlacaFindFirstArgs) => Promise<unknown>;
     };
 
     const reglasPicoPlaca = (await delegate.findFirst({
@@ -463,11 +469,21 @@ export class OrdenesServicioService {
     return selected;
   }
 
-  async findAll(tenantId: string, empresaId?: string, userRole?: string, clienteId?: string) {
+  async findAll(
+    tenantId: string,
+    empresaId?: string,
+    userRole?: string,
+    clienteId?: string,
+  ) {
     // Treat string literals "undefined", "null", "all" or invalid UUIDs as undefined
-    const isUUID = (id: string) => /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(id);
-    const cleanEmpresaId = (empresaId && isUUID(empresaId)) ? empresaId : undefined;
-    const cleanClienteId = (clienteId && isUUID(clienteId)) ? clienteId : undefined;
+    const isUUID = (id: string) =>
+      /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(
+        id,
+      );
+    const cleanEmpresaId =
+      empresaId && isUUID(empresaId) ? empresaId : undefined;
+    const cleanClienteId =
+      clienteId && isUUID(clienteId) ? clienteId : undefined;
 
     let whereClause: Prisma.OrdenServicioWhereInput = {};
 
@@ -622,7 +638,7 @@ export class OrdenesServicioService {
       throw new BadRequestException('La orden especificada no existe');
     }
 
-    const uploadedEvidences: any[] = [];
+    const uploadedEvidences: EvidenciaServicio[] = [];
 
     for (const file of files) {
       const fileExt = file.originalname.split('.').pop();
@@ -643,9 +659,11 @@ export class OrdenesServicioService {
             .jpeg({ quality: 80 })
             .toBuffer();
           finalMimeType = 'image/jpeg';
-        } catch (error) {
+        } catch (error: unknown) {
+          const errorMessage =
+            error instanceof Error ? error.message : 'Unknown error';
           this.logger.error(
-            `Error compressing image ${file.originalname}: ${error.message}`,
+            `Error compressing image ${file.originalname}: ${errorMessage}`,
           );
           // Fallback to original buffer if compression fails
           finalBuffer = file.buffer;
@@ -666,13 +684,13 @@ export class OrdenesServicioService {
             path: uploadedPath,
           },
         });
-        
+
         // Generar URL firmada/pública para la respuesta inmediata
         const signedUrl = await this.supabase.getSignedUrl(evidence.path);
         if (signedUrl) {
           evidence.path = signedUrl;
         }
-        
+
         uploadedEvidences.push(evidence);
       }
     }
@@ -798,7 +816,7 @@ export class OrdenesServicioService {
         ? new Date(updateDto.fechaPago)
         : undefined,
       desglosePago: updateDto.desglosePago
-        ? (updateDto.desglosePago as any)
+        ? (updateDto.desglosePago as unknown as Prisma.InputJsonValue)
         : undefined,
     };
 
@@ -808,7 +826,7 @@ export class OrdenesServicioService {
         updateDto.valorCotizado || orden.valorCotizado || 0,
       );
       const totals = this.calculateBreakdownTotals(
-        updateDto.desglosePago,
+        updateDto.desglosePago as unknown as DesglosePagoItem[],
         valorCotizado,
       );
       data.valorPagado = totals.valorPagado;
@@ -892,8 +910,11 @@ export class OrdenesServicioService {
       updatedOrden.desglosePago &&
       Array.isArray(updatedOrden.desglosePago)
     ) {
-      const breakdown = updatedOrden.desglosePago as any[];
-      const cashLine = breakdown.find((l) => l.metodo === MetodoPagoBase.EFECTIVO);
+      const breakdown =
+        updatedOrden.desglosePago as unknown as DesglosePagoItem[];
+      const cashLine = breakdown.find(
+        (l) => l.metodo === MetodoPagoBase.EFECTIVO,
+      );
 
       if (cashLine && Number(cashLine.monto) > 0 && updatedOrden.tecnicoId) {
         // Verificar si ya existe una declaración para esta orden
@@ -931,7 +952,7 @@ export class OrdenesServicioService {
   }
 
   private calculateBreakdownTotals(
-    breakdown: any[],
+    breakdown: DesglosePagoItem[],
     valorCotizado: number,
   ): { valorPagado: number; estadoPago: EstadoPagoOrden } {
     // 1. Dinero real recibido (Lo que entra a caja/banco)
@@ -970,10 +991,11 @@ export class OrdenesServicioService {
 
     // Si todo está cubierto y no hay crédito, está PAGADO (o es CORTESIA total)
     if (totalCubierto >= valorCotizado && !hasCredito) {
-      estadoPago = hasCortesia && valorPagado === 0 
-        ? EstadoPagoOrden.CORTESIA 
-        : EstadoPagoOrden.PAGADO;
-    } 
+      estadoPago =
+        hasCortesia && valorPagado === 0
+          ? EstadoPagoOrden.CORTESIA
+          : EstadoPagoOrden.PAGADO;
+    }
     // Si hay algún movimiento pero no llega al total o hay crédito
     else if (totalCubierto > 0) {
       estadoPago = EstadoPagoOrden.PARCIAL;

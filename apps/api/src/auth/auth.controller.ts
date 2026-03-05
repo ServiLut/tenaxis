@@ -18,9 +18,14 @@ export class AuthController {
 
   @Post('login')
   async login(@Body() loginDto: LoginDto, @Req() req: Request) {
-    const ip = req.ip || req.headers['x-forwarded-for'] || req.connection.remoteAddress;
+    const ip =
+      req.ip || req.headers['x-forwarded-for'] || req.connection.remoteAddress;
     const userAgent = req.headers['user-agent'];
-    return this.authService.login(loginDto, Array.isArray(ip) ? ip[0] : ip, userAgent);
+    return this.authService.login(
+      loginDto,
+      Array.isArray(ip) ? ip[0] : ip,
+      userAgent,
+    );
   }
 
   @Post('register')
@@ -42,10 +47,7 @@ export class AuthController {
   }
 
   @Patch('test-role')
-  async updateTestRole(
-    @Body() body: { role: string },
-    @Req() req: Request,
-  ) {
+  async updateTestRole(@Body() body: { role: string }, @Req() req: Request) {
     const authHeader = req.headers.authorization;
     if (!authHeader) {
       throw new UnauthorizedException();
