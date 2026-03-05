@@ -2,8 +2,6 @@
 
 import React, { useMemo } from "react";
 import { 
-  Activity, 
-  Zap, 
   Wifi, 
   WifiOff, 
   AlertTriangle, 
@@ -40,6 +38,17 @@ export function MonitoringHealth({ sessions, latency, maxLatency }: MonitoringHe
     return "SANO";
   }, [latency, atRiskSessions, activeSessions]);
 
+  const availability = useMemo(() => {
+    if (activeSessions.length === 0) return 100;
+    const healthySessions = activeSessions.length - atRiskSessions.length;
+    const baseScore = (healthySessions / activeSessions.length) * 100;
+    
+    // Slightly degrade availability metric if latency is high
+    const latencyImpact = latency > 500 ? Math.min((latency - 500) / 20, 10) : 0;
+    
+    return Math.max(0, Math.round((baseScore - latencyImpact) * 10) / 10);
+  }, [activeSessions.length, atRiskSessions.length, latency]);
+
   const statusConfig = {
     "SANO": { color: "text-emerald-500", bg: "bg-emerald-500/10", border: "border-emerald-500/20", icon: CheckCircle2 },
     "DEGRADADO": { color: "text-amber-500", bg: "bg-amber-500/10", border: "border-amber-500/20", icon: AlertTriangle },
@@ -71,10 +80,10 @@ export function MonitoringHealth({ sessions, latency, maxLatency }: MonitoringHe
         <div className="space-y-3">
           <div className="flex items-center justify-between text-[11px] font-bold uppercase tracking-wider text-muted-foreground">
             <span>Disponibilidad del Servicio</span>
-            <span className={config.color}>99.9%</span>
+            <span className={config.color}>{availability}%</span>
           </div>
           <div className="h-2 w-full bg-muted/20 rounded-full overflow-hidden">
-            <div className={cn("h-full transition-all duration-1000", config.color.replace('text', 'bg'))} style={{ width: '99.9%' }} />
+            <div className={cn("h-full transition-all duration-1000", config.color.replace('text', 'bg'))} style={{ width: `${availability}%` }} />
           </div>
         </div>
       </div>

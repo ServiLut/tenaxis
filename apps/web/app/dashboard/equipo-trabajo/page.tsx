@@ -8,12 +8,10 @@ import {
   Dialog,
   DialogContent,
   DialogTitle,
-  DialogDescription,
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Combobox } from "@/components/ui/combobox";
-import { DatePicker } from "@/components/ui/date-picker";
 import { cn } from "@/components/ui/utils";
 import { useUserRole } from "@/hooks/use-user-role";
 import { toast } from "sonner";
@@ -21,7 +19,6 @@ import { exportToExcel } from "@/lib/utils/export-helper";
 import {
   updateMembershipAction,
   getMunicipalitiesAction,
-  getEnterprisesAction,
 } from '../actions';
 import {
   Trophy,
@@ -40,7 +37,6 @@ import {
   Download,
   MapPin,
   Car,
-  Briefcase,
 } from "lucide-react";
 
 type UserOrder = {
@@ -175,7 +171,6 @@ function EquipoTrabajoContent() {
   }, []);
 
   const [municipios, setMunicipios] = useState<Municipio[]>([]);
-  const [empresas, setEmpresas] = useState<{ id: string; nombre: string }[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -183,28 +178,6 @@ function EquipoTrabajoContent() {
   const [roleQuery, setRoleQuery] = useState("");
   const [municipioQuery, setMunicipioQuery] = useState("");
   
-  const [startDate, setStartDate] = useState<Date | undefined>(() => {
-    const d = new Date(2026, 0, 1);
-    d.setHours(0, 0, 0, 0);
-    return d;
-  });
-  const [endDate, setEndDate] = useState<Date | undefined>(() => {
-    const d = new Date();
-    d.setHours(23, 59, 59, 999);
-    return d;
-  });
-
-  const resetFilters = () => {
-    setNameQuery("");
-    setRoleQuery("");
-    setMunicipioQuery("");
-    const start = new Date(2026, 0, 1);
-    start.setHours(0, 0, 0, 0);
-    const end = new Date();
-    end.setHours(23, 59, 59, 999);
-    setStartDate(start);
-    setEndDate(end);
-  };
   const [selectedUser, setSelectedUser] = useState<UserMember | null>(null);
   const [showDetailsModal, setShowDetailsModal] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
@@ -238,16 +211,11 @@ function EquipoTrabajoContent() {
       setLoading(true);
       const token = getCookie("access_token");
 
-      const queryParams = new URLSearchParams();
-      if (startDate) queryParams.append("startDate", startDate.toISOString());
-      if (endDate) queryParams.append("endDate", endDate.toISOString());
-
-      const [teamRes, munRes, empRes] = await Promise.all([
-        fetch(`/api/tenants/${tenantId}/memberships?${queryParams.toString()}`, {
+      const [teamRes, munRes] = await Promise.all([
+        fetch(`/api/tenants/${tenantId}/memberships`, {
           headers: { Authorization: `Bearer ${token}` },
         }),
         getMunicipalitiesAction(),
-        getEnterprisesAction(),
       ]);
 
       if (!teamRes.ok) throw new Error("Error al cargar el equipo");
@@ -255,11 +223,6 @@ function EquipoTrabajoContent() {
       const teamData = await teamRes.json();
       const teamList = teamData.data || teamData;
       setMunicipios(Array.isArray(munRes) ? munRes : munRes?.data || []);
-
-      const loadedEmpresas = Array.isArray(empRes)
-        ? empRes
-        : empRes?.items || empRes?.data || [];
-      setEmpresas(loadedEmpresas);
 
       const mappedUsers: UserMember[] = (
         Array.isArray(teamList) ? teamList : []
@@ -335,7 +298,7 @@ function EquipoTrabajoContent() {
     } finally {
       setLoading(false);
     }
-  }, [tenantId, startDate, endDate]);
+  }, [tenantId]);
 
   useEffect(() => {
     fetchTeam();

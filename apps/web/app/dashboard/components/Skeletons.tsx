@@ -43,11 +43,11 @@ export function RevenueChartSkeleton() {
         <Skeleton className="h-8 w-24 rounded-xl" />
       </div>
       <div className="flex h-64 items-end justify-between gap-4 px-2">
-        {[1, 2, 3, 4, 5, 6, 7].map((i) => (
+        {[60, 40, 75, 50, 90, 35, 65].map((height, i) => (
           <div key={i} className="flex flex-1 flex-col items-center gap-2">
             <Skeleton 
               className="w-full rounded-2xl" 
-              style={{ height: `${20 + Math.random() * 60}%` }} 
+              style={{ height: `${height}%` }} 
             />
             <Skeleton className="h-3 w-8" />
           </div>

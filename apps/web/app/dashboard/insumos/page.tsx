@@ -2,16 +2,11 @@
 
 import React, { useState } from "react";
 import { DashboardLayout } from "@/components/dashboard";
-import { Card, CardContent } from "@/components/ui/card";
-import { Select } from "@/components/ui/select";
 import { cn } from "@/components/ui/utils";
 import {
   Package,
   Search,
-  Check,
-  X,
   History,
-  MoreVertical,
   AlertCircle,
   TrendingDown,
   Download,
@@ -45,7 +40,6 @@ const GlassCard = ({ children, className }: { children: React.ReactNode; classNa
 
 export default function InsumosPage() {
   const [activeTab, setActiveTab] = useState<"solicitudes" | "stock">("solicitudes");
-  const [openActionMenu, setOpenActionMenu] = useState<number | null>(null);
   const [solSearch, setSolSearch] = useState("");
   const [stockSearch, setStockSearch] = useState("");
 
@@ -60,7 +54,7 @@ export default function InsumosPage() {
 
   return (
     <DashboardLayout>
-      <div className="mx-auto max-w-7xl space-y-10" onClick={() => setOpenActionMenu(null)}>
+      <div className="mx-auto max-w-7xl space-y-10">
         {/* Header */}
         <div className="flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between">
           <div className="space-y-1">

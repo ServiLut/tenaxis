@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useMemo } from "react";
+import React, { useState } from "react";
 import { 
   Activity, 
   History, 
@@ -11,7 +11,6 @@ import {
 import { cn } from "@/components/ui/utils";
 import { DashboardLayout } from "@/components/dashboard";
 import { format } from "date-fns";
-import { es } from "date-fns/locale";
 
 // Hooks
 import { useMonitoringActivity } from "./hooks/use-monitoring-activity";
@@ -32,7 +31,7 @@ import { AuditDetailModal } from "./components/AuditDetailModal";
 import { KPIModal } from "./components/KPIModal";
 import { exportToCSV } from "./components/utils";
 
-import { Audit, Membership, Session } from "./types";
+import { Audit, Session } from "./types";
 
 export default function MonitoreoPage() {
   const [activeTab, setActiveTab] = useState<"actividad" | "auditoria">("actividad");
@@ -301,7 +300,7 @@ export default function MonitoreoPage() {
                   <p className="text-xs font-black uppercase text-foreground truncate">{log.sesion.membership.user.nombre} {log.sesion.membership.user.apellido}</p>
                   <span className="text-[9px] font-bold text-muted-foreground whitespace-nowrap">{format(new Date(log.createdAt), "HH:mm")}</span>
                 </div>
-                <p className="text-[10px] font-medium text-muted-foreground leading-tight italic">"{log.descripcion}"</p>
+                <p className="text-[10px] font-medium text-muted-foreground leading-tight italic">&quot;{log.descripcion}&quot;</p>
               </div>
             </div>
           ))}

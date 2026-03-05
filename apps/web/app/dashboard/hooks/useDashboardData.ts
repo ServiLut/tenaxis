@@ -2,7 +2,7 @@
 
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { getDashboardStatsAction, getOrdenesServicioAction } from "../actions";
-import type { DashboardStatsType, DashboardKpisType, DashboardTrendsType, DashboardActionableType } from "../schemas/dashboard.schema";
+import type { DashboardKpisType, DashboardTrendsType, DashboardActionableType } from "../schemas/dashboard.schema";
 
 export const DASHBOARD_STATS_KEY = "dashboard-stats";
 export const RECENT_ACTIVITY_KEY = "recent-activity";

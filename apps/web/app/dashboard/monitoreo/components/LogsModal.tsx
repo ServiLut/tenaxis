@@ -5,9 +5,6 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } f
 import { 
   Terminal, 
   RefreshCcw, 
-  CheckCircle2, 
-  Smartphone, 
-  Monitor, 
   Activity, 
   Clock, 
   Fingerprint, 
@@ -158,7 +155,7 @@ export function LogsModal({
                     </div>
 
                     <p className="text-sm font-black text-foreground/80 leading-relaxed mb-4 italic">
-                      "{log.descripcion || "Evento de sistema registrado automáticamente."}"
+                      &quot;{log.descripcion || "Evento de sistema registrado automáticamente."}&quot;
                     </p>
 
                     {log.ruta && (

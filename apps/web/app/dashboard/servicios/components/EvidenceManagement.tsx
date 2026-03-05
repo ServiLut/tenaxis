@@ -11,8 +11,7 @@ import {
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui";
 import { DropdownMenuItem } from "@/components/ui/dropdown-menu";
-import { Camera, FileUp, Loader2, ImageIcon, Eye, Trash2, Plus, ExternalLink } from "lucide-react";
-import { cn } from "@/components/ui/utils";
+import { Camera, FileUp, Loader2, ImageIcon, Eye, Plus } from "lucide-react";
 
 interface Evidence {
   id: string;
@@ -29,7 +28,7 @@ interface EvidenceManagementProps {
 }
 
 export function EvidenceManagement({
-  id,
+  id: _id,
   evidenciaPath,
   evidencias = [],
   onUpload,

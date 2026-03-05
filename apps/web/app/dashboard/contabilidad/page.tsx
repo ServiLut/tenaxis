@@ -43,11 +43,21 @@ import {
   Dialog,
   DialogContent,
   DialogDescription,
-  DialogFooter,
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-import { Input, Label, Skeleton, DatePicker } from "@/components/ui";
+import { Input, Label, DatePicker } from "@/components/ui";
+
+interface TechnicianRecaudo {
+  id: string;
+  nombre: string;
+  apellido: string;
+  saldoPendiente: number;
+  ordenesPendientesCount: number;
+  ultimaTransferencia: string | null;
+  diasSinTransferir: number;
+  ordenesIds: string[];
+}
 import { Badge } from "@/components/ui/badge";
 import { format } from "date-fns";
 import { es } from "date-fns/locale";
@@ -300,8 +310,8 @@ function StandardTableView({ title, description }: { title: string, description:
 
 function RecaudoView() {
   const [loading, setLoading] = useState(true);
-  const [technicians, setTechnicians] = useState<any[]>([]);
-  const [selectedTech, setSelectedTech] = useState<any>(null);
+  const [technicians, setTechnicians] = useState<TechnicianRecaudo[]>([]);
+  const [selectedTech, setSelectedTech] = useState<TechnicianRecaudo | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
   const [comprobanteFile, setComprobanteFile] = useState<File | null>(null);
@@ -329,7 +339,7 @@ function RecaudoView() {
     fetchData();
   }, []);
 
-  const handleOpenModal = (tech: any) => {
+  const handleOpenModal = (tech: TechnicianRecaudo) => {
     setSelectedTech(tech);
     setComprobanteFile(null);
     setFormData({
@@ -350,7 +360,7 @@ function RecaudoView() {
     const toastId = toast.loading("Registrando consignación...");
 
     try {
-      const { fileId } = await uploadFile(comprobanteFile, 'comprobanteOrdenServicio' as any);
+      const { fileId } = await uploadFile(comprobanteFile, 'comprobanteOrdenServicio');
       const empresaId = localStorage.getItem("current-enterprise-id");
       if (!empresaId) throw new Error("No enterprise selected");
 

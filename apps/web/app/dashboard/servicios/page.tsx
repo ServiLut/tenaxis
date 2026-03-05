@@ -8,7 +8,6 @@ import {
   Input,
   Button,
   Skeleton,
-  Select,
   Label,
   DatePicker,
   Combobox
@@ -17,37 +16,23 @@ import {
   Search,
   Filter,
   RotateCcw,
-  Download,
-  FileSpreadsheet,
   FileText,
-  FileIcon,
   Plus,
   Calendar,
   Clock,
   User,
-  Camera,
   MoreHorizontal,
   Eye,
   EyeOff,
   Pencil,
-  MapPin,
   Copy,
   Bell,
   Send,
-  Receipt,
-  Trash2,
-  Info,
-  Car,
-  ExternalLink,
   CreditCard,
   Activity,
   CheckCircle2,
   XCircle,
-  AlertCircle,
-  FileUp,
-  Navigation,
-  ImageIcon,
-  Briefcase
+  AlertCircle
 } from "lucide-react";
 import {
   Dialog,
@@ -65,10 +50,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { cn } from "@/components/ui/utils";
 import { toast } from "sonner";
-import { exportToExcel, exportToPDF, exportToWord } from "@/lib/utils/export-helper";
 import { uploadFile, type StorageFolder } from "@/lib/supabase-storage";
-import { FileManagement } from "./components/FileManagement";
-import { EvidenceManagement } from "./components/EvidenceManagement";
 import {
   getOrdenesServicioAction,
   getEstadoServiciosAction,
@@ -82,6 +64,24 @@ import {
   type ClienteDTO,
 } from "../actions";
 import { Suspense } from "react";
+
+interface DesglosePago {
+  metodo: string;
+  monto: number;
+  banco?: string;
+  referencia?: string;
+  observacion?: string;
+}
+
+interface Operator {
+  id: string;
+  nombre: string;
+  telefono?: string;
+  user?: {
+    nombre: string;
+    apellido: string;
+  }
+}
 
 interface Servicio {
   id: string;
@@ -130,7 +130,7 @@ interface OrdenServicioRaw {
   entidadFinanciera?: { id: string; nombre: string };
   liquidadoPor?: { user: { nombre: string; apellido: string } };
   liquidadoAt?: string;
-  desglosePago?: any;
+  desglosePago?: DesglosePago[];
   estadoPago?: string;
   estadoServicio?: string;
   createdAt: string;
@@ -260,13 +260,10 @@ function ServiciosContent() {
   const [search, setSearch] = useState(searchParams.get("search") || "");
   const [servicios, setServicios] = useState<Servicio[]>([]);
   const [loading, setLoading] = useState(true);
-  const [showExportMenu, setShowExportMenu] = useState(false);
   const [selectedServicio, setSelectedServicio] = useState<Servicio | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [isGeoModalOpen, setIsGeoModalOpen] = useState(false);
   const [showFilters, setShowFilters] = useState(false);
   const [isLiquidarModalOpen, setIsLiquidarModalOpen] = useState(false);
-  const [isLiquidationDetailsOpen, setIsLiquidationDetailsOpen] = useState(false);
   const [showKPIs, setShowKPIs] = useState(true);
 
   const [liquidarData, setLiquidarData] = useState<{
@@ -450,14 +447,6 @@ function ServiciosContent() {
     }
   }, []);
 
-  const handleUploadClick = (servicio: Servicio, field: "facturaElectronica" | "comprobantePago" | "evidenciaPath") => {
-    setUploadConfig({ id: servicio.raw.id, field });
-    if (fileInputRef.current) {
-      fileInputRef.current.multiple = field === "evidenciaPath";
-      fileInputRef.current.click();
-    }
-  };
-
   const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files;
     if (!files || files.length === 0 || !uploadConfig || isUploading) return;
@@ -515,70 +504,6 @@ function ServiciosContent() {
       setIsUploading(false);
       setUploadConfig(null);
       if (e.target) e.target.value = "";
-    }
-  };
-
-  const handleGenericUpload = async (id: string, file: File, field: "facturaElectronica" | "comprobantePago" | "evidenciaPath") => {
-    setIsUploading(true);
-    const labelMap: Record<string, string> = {
-      "facturaElectronica": "factura",
-      "comprobantePago": "comprobante",
-      "evidenciaPath": "evidencia"
-    };
-    const label = labelMap[field] || "archivo";
-    const toastId = toast.loading(`Subiendo ${label}...`);
-
-    try {
-      const folderMap: Record<string, StorageFolder> = {
-        "facturaElectronica": "facturaOrdenServicio",
-        "comprobantePago": "comprobanteOrdenServicio",
-        "evidenciaPath": "EvidenciaOrdenServicio"
-      };
-
-      const folder = folderMap[field] || 'EvidenciaOrdenServicio';
-      const { fileId } = await uploadFile(file, folder);
-
-      const result = await updateOrdenServicioAction(id, {
-        [field]: fileId
-      });
-
-      if (result.success) {
-        toast.success(`${label.charAt(0).toUpperCase() + label.slice(1)} subida exitosamente`, { id: toastId });
-        fetchServicios();
-      } else {
-        toast.error(result.error || `Error al actualizar la orden`, { id: toastId });
-      }
-    } catch (error) {
-      console.error("Upload error:", error);
-      toast.error(`Error al subir el archivo`, { id: toastId });
-    } finally {
-      setIsUploading(false);
-    }
-  };
-
-  const handleEvidenceUpload = async (id: string, fileList: FileList) => {
-    setIsUploading(true);
-    const toastId = toast.loading(`Subiendo ${fileList.length} evidencia(s)...`);
-
-    try {
-      const formData = new FormData();
-      Array.from(fileList).forEach((file) => {
-        formData.append("files", file);
-      });
-
-      const result = await addOrdenServicioEvidenciasAction(id, formData);
-
-      if (result.success) {
-        toast.success(`${fileList.length} evidencia(s) subida(s) exitosamente`, { id: toastId });
-        fetchServicios();
-      } else {
-        toast.error(result.error || `Error al subir las evidencias`, { id: toastId });
-      }
-    } catch (error) {
-      console.error("Upload error:", error);
-      toast.error(`Error al subir las evidencias`, { id: toastId });
-    } finally {
-      setIsUploading(false);
     }
   };
 
@@ -710,62 +635,6 @@ function ServiciosContent() {
     sinConcretar: servicios.filter(s => s.estadoServicio === "SIN_CONCRETAR" || s.estadoServicio === "SIN CONCRETAR").length,
   };
 
-  const handleExport = async (format: 'pdf' | 'excel' | 'word') => {
-    let headers = ["ID Orden", "Cliente", "Servicio", "Fecha", "Hora", "Técnico", "Estado", "Urgencia"];
-    let data = filteredServicios.map((s: Servicio) => [
-      s.id, s.cliente, s.servicioEspecifico, s.fecha, s.hora, s.tecnico, s.estadoServicio, s.urgencia
-    ]);
-
-    if (format === 'excel') {
-      headers = [
-        "ID Orden", "Número Orden", "Cliente", "Documento", "Teléfono", "Correo", "Servicio Específico",
-        "Tipo de Visita", "Fecha", "Hora Inicio", "Hora Fin", "Técnico", "Estado", "Urgencia",
-        "Dirección", "Municipio", "Departamento", "Barrio", "Zona", "Detalles Ubicación", "Vehículo",
-        "Nivel Infestación", "Cond. Higiene", "Cond. Local", "Observación", "Observación Final",
-        "Valor Cotizado", "Valor Pagado", "Valor Repuestos", "Banco / Medio", "Referencia de Pago",
-        "Fecha de Pago", "Estado de Pago", "Fecha Creación"
-      ];
-
-      data = filteredServicios.map((s: Servicio) => {
-        const os = s.raw;
-        const clienteDoc = os.cliente.tipoCliente === "EMPRESA" ? (os.cliente.nit || "N/A") : (os.cliente.numeroDocumento || "N/A");
-        const ubicacionDetalle = [os.bloque && `Bloque: ${os.bloque}`, os.piso && `Piso: ${os.piso}`, os.unidad && `Unidad: ${os.unidad}`].filter(Boolean).join(" - ") || "N/A";
-        const vehiculoInfo = os.vehiculo ? `${os.vehiculo.placa}${os.vehiculo.marca ? ` - ${os.vehiculo.marca}` : ""}` : "N/A";
-        const formatCurrency = (val?: number) => val ? new Intl.NumberFormat('es-CO', { style: 'currency', currency: 'COP' }).format(val) : "$ 0";
-
-        return [
-          s.id, os.numeroOrden || "N/A", s.cliente, clienteDoc, os.cliente.telefono || "N/A", os.cliente.correo || "N/A",
-          s.servicioEspecifico, os.tipoVisita || "N/A", s.fecha, s.hora,
-          os.horaFin ? new Date(os.horaFin).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : "N/A",
-          s.tecnico, s.estadoServicio, s.urgencia, os.direccionTexto || "N/A", os.municipio || "N/A", os.departamento || "N/A",
-          os.barrio || "N/A", os.zona?.nombre || "N/A", ubicacionDetalle, vehiculoInfo, os.nivelInfestacion || "N/A",
-          os.condicionesHigiene || "N/A", os.condicionesLocal || "N/A", os.observacion || "N/A", os.observacionFinal || "N/A",
-          formatCurrency(os.valorCotizado), formatCurrency(os.valorPagado), formatCurrency(os.valorRepuestos),
-          os.metodoPago?.nombre || "N/A", os.referenciaPago || "N/A", os.fechaPago ? new Date(os.fechaPago).toLocaleDateString() : "N/A",
-          os.estadoPago || "N/A", new Date(os.createdAt).toLocaleDateString()
-        ];
-      });
-    }
-
-    const exportParams = {
-      headers, data, filename: `servicios_tenaxis_${new Date().getTime()}`,
-      title: "REPORTE OPERATIVO DE ÓRDENES DE SERVICIO"
-    };
-
-    toast.info(`Generando archivo ${format.toUpperCase()}...`);
-    try {
-      if (format === 'excel') exportToExcel(exportParams);
-      else if (format === 'pdf') exportToPDF(exportParams);
-      else if (format === 'word') await exportToWord(exportParams);
-      toast.success(`${format.toUpperCase()} generado exitosamente`);
-    } catch (error) {
-      console.error("Export error:", error);
-      toast.error(`Error al generar el archivo ${format.toUpperCase()}`);
-    } finally {
-      setShowExportMenu(false);
-    }
-  };
-
   const handleCopy = (servicio: Servicio) => {
     const formattedValor = new Intl.NumberFormat('es-CO', { style: 'currency', currency: 'COP', maximumFractionDigits: 0 }).format(servicio.raw.valorCotizado || 0);
     const detalles = [servicio.raw.bloque && `Bloque: ${servicio.raw.bloque}`, servicio.raw.piso && `Piso: ${servicio.raw.piso}`, servicio.raw.unidad && `Unidad: ${servicio.raw.unidad}`].filter(Boolean).join(" - ") || "Sin detalles adicionales";
@@ -789,7 +658,7 @@ function ServiciosContent() {
     const toastId = toast.loading(`Notificando al técnico...`);
     try {
       const ops = await getOperatorsAction(servicio.raw.empresaId);
-      const operator = (Array.isArray(ops) ? ops : ops?.data || []).find((o: any) => o.id === tecnicoId);
+      const operator = (Array.isArray(ops) ? ops : ops?.data || []).find((o: Operator) => o.id === tecnicoId);
       if (!operator?.telefono) { toast.error("El técnico no tiene teléfono registrado", { id: toastId }); return; }
       const os = servicio.raw;
       const dateObj = os.fechaVisita && os.horaInicio ? new Date(os.horaInicio) : new Date();
@@ -814,7 +683,7 @@ function ServiciosContent() {
       });
       if (res.success) toast.success("Técnico notificado", { id: toastId });
       else toast.error("Error al notificar", { id: toastId });
-    } catch (error) { toast.error("Error al procesar notificación", { id: toastId }); }
+    } catch (_error) { toast.error("Error al procesar notificación", { id: toastId }); }
   };
 
   return (
@@ -916,7 +785,7 @@ function ServiciosContent() {
                                     <DropdownMenuItem onClick={() => handleNotifyOperator(s)} className="flex items-center gap-3 py-2.5 text-[11px] font-bold cursor-pointer text-foreground hover:bg-muted"><Send className="h-4 w-4 text-[#01ADFB]" /> ENVIAR A TECNICO</DropdownMenuItem>
                                     <DropdownMenuSeparator />
                                     {s.estadoServicio === "LIQUIDADO" ? (
-                                      <DropdownMenuItem onClick={() => { setSelectedServicio(s); setIsLiquidationDetailsOpen(true); }} className="flex items-center gap-3 py-2.5 text-[11px] font-bold cursor-pointer text-emerald-600 hover:bg-emerald-500/10"><CheckCircle2 className="h-4 w-4" /> VER LIQUIDACION</DropdownMenuItem>
+                                      <DropdownMenuItem onClick={() => { setSelectedServicio(s); }} className="flex items-center gap-3 py-2.5 text-[11px] font-bold cursor-pointer text-emerald-600 hover:bg-emerald-500/10"><CheckCircle2 className="h-4 w-4" /> VER LIQUIDACION</DropdownMenuItem>
                                     ) : (
                                       <DropdownMenuItem onClick={() => { setSelectedServicio(s); setLiquidarData({ breakdown: [{ metodo: "EFECTIVO", monto: (s.raw.valorCotizado || "").toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".") }], observacionFinal: s.raw.observacionFinal || "", fechaPago: new Date().toISOString().split('T')[0] }); setIsLiquidarModalOpen(true); }} className="flex items-center gap-3 py-2.5 text-[11px] font-bold cursor-pointer text-emerald-600 hover:bg-emerald-500/10"><CreditCard className="h-4 w-4" /> LIQUIDAR SERVICIO</DropdownMenuItem>
                                     )}
@@ -964,7 +833,7 @@ function ServiciosContent() {
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6 bg-muted/30 p-6 rounded-2xl border border-border">
                 <div><p className="text-[9px] font-black text-muted-foreground uppercase">Servicio</p><p className="text-sm font-black text-[#01ADFB] uppercase">{selectedServicio.servicioEspecifico}</p></div>
                 <div><p className="text-[9px] font-black text-muted-foreground uppercase">Programación</p><p className="text-sm font-bold text-foreground">{selectedServicio.fecha} a las {selectedServicio.hora}</p></div>
-                <div className="col-span-2"><p className="text-[9px] font-black text-muted-foreground uppercase mb-2">Observaciones</p><div className="p-4 bg-background rounded-xl border border-border text-xs font-medium text-muted-foreground leading-relaxed italic">"{selectedServicio.raw.observacion || "Sin observaciones registradas"}"</div></div>
+                <div className="col-span-2"><p className="text-[9px] font-black text-muted-foreground uppercase mb-2">Observaciones</p><div className="p-4 bg-background rounded-xl border border-border text-xs font-medium text-muted-foreground leading-relaxed italic">&quot;{selectedServicio.raw.observacion || "Sin observaciones registradas"}&quot;</div></div>
               </div>
             </div>
             <div className="flex gap-3 pt-4"><Button variant="outline" onClick={() => setIsModalOpen(false)} className="flex-1 h-12 rounded-xl font-black uppercase text-[10px] border-border bg-card">Cerrar Detalle</Button><Button onClick={() => router.push(`/dashboard/servicios/${selectedServicio.raw.id}/editar`)} className="flex-1 h-12 rounded-xl bg-[#01ADFB] text-white font-black uppercase text-[10px]">Editar Orden</Button></div>
