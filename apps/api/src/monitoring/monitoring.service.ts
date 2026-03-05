@@ -1,14 +1,19 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
+import { MonitoringScope } from './types';
+import { Prisma } from '../generated/client/client';
 
 @Injectable()
 export class MonitoringService {
   constructor(private prisma: PrismaService) {}
 
   async startSession(tenantId: string, membershipId: string, ip?: string, dispositivo?: string) {
-    // 1. Intentar buscar empresa vinculada a la membresía
+    // 1. Intentar buscar empresa vinculada a la membresía (filtrando por tenant)
     let empresaMembership = await this.prisma.empresaMembership.findFirst({
-      where: { membershipId },
+      where: { 
+        membershipId,
+        empresa: { tenantId }
+      },
       select: { empresaId: true },
     });
 
@@ -78,17 +83,31 @@ export class MonitoringService {
     });
   }
 
-  async findAllSessions(tenantId: string) {
+  async findAllSessions(scope: MonitoringScope) {
     const today = new Date();
     today.setHours(0, 0, 0, 0);
 
+    const where: Prisma.SesionActividadWhereInput = {
+      tenantId: scope.tenantId,
+      fechaInicio: { gte: today },
+    };
+
+    if (scope.empresaIds?.length) {
+      where.empresaId = { in: scope.empresaIds };
+    }
+
+    if (scope.zonaIds?.length) {
+      where.membership = {
+        empresaMemberships: {
+          some: {
+            zonaId: { in: scope.zonaIds }
+          }
+        }
+      };
+    }
+
     const sessions = await this.prisma.sesionActividad.findMany({
-      where: {
-        tenantId,
-        fechaInicio: {
-          gte: today,
-        },
-      },
+      where,
       include: {
         membership: {
           include: {
@@ -120,47 +139,56 @@ export class MonitoringService {
       if (!userGroups.has(userId)) {
         userGroups.set(userId, {
           ...s,
-          // Guardamos el inicio original del día
           originalInicio: s.fechaInicio,
-          // Guardamos el fin más reciente
           originalFin: s.fechaFin,
         });
       } else {
         const group = userGroups.get(userId);
-        // Si esta sesión es más antigua, es el verdadero inicio del día
         if (s.fechaInicio < group.originalInicio) {
           group.originalInicio = s.fechaInicio;
         }
-        // Si esta sesión tiene un fin más reciente (o es nulo, lo que significa activo)
         if (s.fechaFin === null || (group.originalFin !== null && s.fechaFin > group.originalFin)) {
           group.originalFin = s.fechaFin;
         }
       }
     });
 
-    const result = Array.from(userGroups.values()).map(group => ({
+    return Array.from(userGroups.values()).map(group => ({
       ...group,
       fechaInicio: group.originalInicio,
       fechaFin: group.originalFin,
     }));
-
-    return result;
   }
 
-  async getMemberLogs(tenantId: string, membershipId: string) {
+  async getMemberLogs(scope: MonitoringScope, membershipId: string) {
     const today = new Date();
     today.setHours(0, 0, 0, 0);
 
-    return this.prisma.logEvento.findMany({
-      where: {
-        tenantId,
-        sesion: {
-          membershipId,
-          fechaInicio: {
-            gte: today,
-          },
-        },
+    const where: Prisma.LogEventoWhereInput = {
+      tenantId: scope.tenantId,
+      sesion: {
+        membershipId,
+        fechaInicio: { gte: today },
       },
+    };
+
+    if (scope.empresaIds?.length) {
+      where.empresaId = { in: scope.empresaIds };
+    }
+
+    if (scope.zonaIds?.length) {
+      where.sesion = {
+        ...(where.sesion as any),
+        membership: {
+          empresaMemberships: {
+            some: { zonaId: { in: scope.zonaIds } }
+          }
+        }
+      };
+    }
+
+    return this.prisma.logEvento.findMany({
+      where,
       include: {
         sesion: {
           select: {
@@ -176,59 +204,150 @@ export class MonitoringService {
     });
   }
 
-  async getGlobalStats(tenantId: string) {
+  async getGlobalStats(scope: MonitoringScope) {
     const today = new Date();
     today.setHours(0, 0, 0, 0);
 
-    const [totalEvents, activeSessions, totalInactivity] = await Promise.all([
+    const commonWhere: Prisma.SesionActividadWhereInput = {
+      tenantId: scope.tenantId,
+      fechaInicio: { gte: today },
+    };
+
+    if (scope.empresaIds?.length) {
+      commonWhere.empresaId = { in: scope.empresaIds };
+    }
+
+    if (scope.zonaIds?.length) {
+      commonWhere.membership = {
+        empresaMemberships: {
+          some: { zonaId: { in: scope.zonaIds } }
+        }
+      };
+    }
+
+    const eventsWhere: Prisma.LogEventoWhereInput = {
+      tenantId: scope.tenantId,
+      createdAt: { gte: today },
+    };
+
+    if (scope.empresaIds?.length) {
+      eventsWhere.empresaId = { in: scope.empresaIds };
+    }
+
+    if (scope.zonaIds?.length) {
+      eventsWhere.sesion = {
+        membership: {
+          empresaMemberships: {
+            some: { zonaId: { in: scope.zonaIds } }
+          }
+        }
+      };
+    }
+
+    const [totalEvents, activeSessionsGroup, totalInactivity] = await Promise.all([
       this.prisma.logEvento.count({
-        where: { tenantId, createdAt: { gte: today } }
+        where: eventsWhere
       }),
-      this.prisma.sesionActividad.count({
-        where: { tenantId, fechaInicio: { gte: today }, fechaFin: null }
+      this.prisma.sesionActividad.groupBy({
+        by: ['membershipId'],
+        where: { 
+          ...commonWhere,
+          fechaFin: null 
+        }
       }),
       this.prisma.sesionActividad.aggregate({
-        where: { tenantId, fechaInicio: { gte: today } },
+        where: commonWhere,
         _sum: { tiempoInactivo: true }
       })
     ]);
 
     return {
       totalEvents,
-      activeSessions,
+      activeSessions: activeSessionsGroup.length,
       totalInactivity: totalInactivity._sum.tiempoInactivo || 0,
       timestamp: new Date()
     };
   }
 
-  async findAllAudits(tenantId: string) {
-    return this.prisma.auditoria.findMany({
-      where: {
-        tenantId,
-      },
-      include: {
-        membership: {
-          include: {
-            user: {
-              select: {
-                nombre: true,
-                apellido: true,
-                email: true,
+  async findAllAudits(scope: MonitoringScope, page: number = 1, limit: number = 20) {
+    const skip = (page - 1) * limit;
+
+    const where: Prisma.AuditoriaWhereInput = {
+      tenantId: scope.tenantId,
+    };
+
+    if (scope.empresaIds?.length) {
+      where.empresaId = { in: scope.empresaIds };
+    }
+
+    if (scope.zonaIds?.length) {
+      where.membership = {
+        empresaMemberships: {
+          some: { zonaId: { in: scope.zonaIds } }
+        }
+      };
+    }
+
+    const [data, total] = await Promise.all([
+      this.prisma.auditoria.findMany({
+        where,
+        include: {
+          membership: {
+            include: {
+              user: {
+                select: {
+                  nombre: true,
+                  apellido: true,
+                  email: true,
+                },
               },
             },
           },
         },
+        orderBy: {
+          createdAt: 'desc',
+        },
+        skip,
+        take: limit,
+      }),
+      this.prisma.auditoria.count({
+        where,
+      }),
+    ]);
+
+    return {
+      results: data,
+      meta: {
+        total,
+        page,
+        limit,
+        totalPages: Math.ceil(total / limit),
       },
-      orderBy: {
-        createdAt: 'desc',
-      },
-      take: 100, // Limitamos a los últimos 100 por rendimiento
-    });
+    };
   }
 
-  async findRecentLogs(tenantId: string) {
+  async findRecentLogs(scope: MonitoringScope) {
+    const where: Prisma.LogEventoWhereInput = {
+      tenantId: scope.tenantId,
+    };
+
+    if (scope.empresaIds?.length) {
+      where.empresaId = { in: scope.empresaIds };
+    }
+
+    if (scope.zonaIds?.length) {
+      where.sesion = {
+        ...(where.sesion as any),
+        membership: {
+          empresaMemberships: {
+            some: { zonaId: { in: scope.zonaIds } }
+          }
+        }
+      };
+    }
+
     return this.prisma.logEvento.findMany({
-      where: { tenantId },
+      where,
       include: {
         sesion: {
           include: {

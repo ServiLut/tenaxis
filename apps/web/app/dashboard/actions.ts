@@ -829,93 +829,68 @@ export async function deleteEnterpriseAction(id: string) {
   return result;
 }
 
-export interface DashboardStats {
-  totalClientes: number;
-  serviciosHoy: number;
-  ingresosMes: number;
-  alertasActivas: number;
-  ingresosSemanales: number[];
-}
+import { DashboardStatsSchema, type DashboardStatsType } from "./schemas/dashboard.schema";
 
-export async function getDashboardStatsAction(empresaId?: string) {
+export type DashboardStats = DashboardStatsType;
+
+export async function getDashboardStatsAction(empresaId?: string): Promise<DashboardStats> {
+  const fallbackStats: DashboardStats = {
+    kpis: {
+      ingresos: { current: 0, previous: 0, change: 0 },
+      ordenes: { current: 0, previous: 0, change: 0 },
+      sla: { value: 0 },
+      cobranza: { total: 0 },
+    },
+    trends: {
+      ingresosSemanales: [0, 0, 0, 0, 0, 0, 0],
+      monthlyComparison: [
+        { label: 'Anterior', value: 0 },
+        { label: 'Actual', value: 0 }
+      ]
+    },
+    actionable: {
+      vencidas: 0,
+      sinAsignacion: 0,
+      alertas: 0
+    }
+  };
+
   try {
-    const [clientes, ordenes] = await Promise.all([
-      getClientesAction(),
-      getOrdenesServicioAction(empresaId),
-    ]);
-
-    const now = new Date();
-    const todayStr = now.toISOString().split('T')[0];
-    const currentMonth = now.getMonth();
-    const currentYear = now.getFullYear();
-
-    const totalClientes = Array.isArray(clientes) ? clientes.length : 0;
-    const ordenesArray = Array.isArray(ordenes) ? ordenes : [];
+    const apiUrl = getApiUrl();
+    const headers = await getHeaders();
     
-    // KPIs Básicos
-    const serviciosHoy = ordenesArray.filter((o: any) => {
-      const fechaVisita = o.fechaVisita ? new Date(o.fechaVisita).toISOString().split('T')[0] : null;
-      return fechaVisita === todayStr;
-    }).length;
-
-    const ingresosMes = ordenesArray.reduce((acc: number, o: any) => {
-      const fechaVisita = o.fechaVisita ? new Date(o.fechaVisita) : null;
-      if (fechaVisita && 
-          fechaVisita.getMonth() === currentMonth && 
-          fechaVisita.getFullYear() === currentYear &&
-          (o.estadoPago === 'PAGADO' || o.estadoPago === 'CONCILIADO')) {
-        return acc + (Number(o.valorPagado) || Number(o.valorCotizado) || 0);
-      }
-      return acc;
-    }, 0);
-
-    const alertasActivas = ordenesArray.filter((o: any) => 
-      (o.urgencia === 'ALTA' || o.urgencia === 'CRITICA') && 
-      o.estadoServicio !== 'LIQUIDADO' &&
-      o.estadoServicio !== 'TECNICO_FINALIZO' &&
-      o.estadoServicio !== 'CANCELADO'
-    ).length;
-
-    // Ingresos Semanales (Lun - Dom)
-    const ingresosSemanales = [0, 0, 0, 0, 0, 0, 0]; // Lun, Mar, Mie, Jue, Vie, Sab, Dom
+    // Si empresaId es "undefined", "null" o "all" como string, tratar como undefined
+    const cleanEmpresaId = (empresaId === "undefined" || empresaId === "null" || empresaId === "all" || !empresaId) ? undefined : empresaId;
     
-    const currNow = new Date();
-    const dayOfWeekNow = currNow.getDay();
-    const diffToMonday = currNow.getDate() - (dayOfWeekNow === 0 ? 6 : dayOfWeekNow - 1);
-    const startOfWeek = new Date(new Date(currNow).setDate(diffToMonday));
-    startOfWeek.setHours(0, 0, 0, 0);
-    
-    const endOfWeek = new Date(startOfWeek);
-    endOfWeek.setDate(startOfWeek.getDate() + 7);
-    
-    ordenesArray.forEach((o: any) => {
-      if (o.estadoPago === 'PAGADO' || o.estadoPago === 'CONCILIADO') {
-        const fecha = new Date(o.fechaVisita);
-        if (fecha >= startOfWeek && fecha < endOfWeek) {
-          const day = fecha.getDay();
-          const index = day === 0 ? 6 : day - 1; // Map Sun(0) to index 6, others to day-1
-          const valor = Number(o.valorPagado) || Number(o.valorCotizado) || 0;
-          ingresosSemanales[index] += valor;
-        }
-      }
+    const url = cleanEmpresaId 
+      ? `${apiUrl}/dashboard/stats?empresaId=${cleanEmpresaId}`
+      : `${apiUrl}/dashboard/stats`;
+      
+    const response = await fetch(url, {
+      headers,
+      cache: "no-store",
     });
 
-    return {
-      totalClientes,
-      serviciosHoy,
-      ingresosMes,
-      alertasActivas,
-      ingresosSemanales
-    };
+    if (!response.ok) {
+      console.error("getDashboardStatsAction: response not ok", response.status);
+      return fallbackStats;
+    }
+
+    const result = await response.json();
+    const data = result.data || result;
+    
+    // Parse using Zod for strict typing and validation
+    const parsedData = DashboardStatsSchema.safeParse(data);
+    
+    if (!parsedData.success) {
+      console.error("getDashboardStatsAction: Zod parsing failed", parsedData.error);
+      return fallbackStats;
+    }
+    
+    return parsedData.data;
   } catch (error) {
-    console.error("Error calculating dashboard stats:", error);
-    return {
-      totalClientes: 0,
-      serviciosHoy: 0,
-      ingresosMes: 0,
-      alertasActivas: 0,
-      ingresosSemanales: [0, 0, 0, 0, 0, 0, 0]
-    };
+    console.error("Error fetching dashboard stats from API:", error);
+    return fallbackStats;
   }
 }
 
