@@ -5,7 +5,7 @@ import {
   EstadoSugerencia, 
   PrioridadSugerencia, 
   ClasificacionCliente 
-} from '../generated/client';
+} from '../generated/client/client';
 
 @Injectable()
 export class SugerenciasService {
@@ -54,6 +54,7 @@ export class SugerenciasService {
     const ejecutadas = sugerencias.filter(s => s.estado === EstadoSugerencia.EJECUTADA && s.fechaEjecutada);
     const avgTimeToExecution = ejecutadas.length > 0
       ? ejecutadas.reduce((acc, s) => {
+          if (!s.fechaEjecutada) return acc;
           const diff = s.fechaEjecutada.getTime() - s.creadoAt.getTime();
           return acc + (diff / (1000 * 60));
         }, 0) / ejecutadas.length
@@ -99,7 +100,7 @@ export class SugerenciasService {
         for (const client of segmented.riesgoFuga.data) {
           await this.createSugerenciaIfNotExists({
             tenantId: tenant.id,
-            empresaId: client.empresaId,
+            empresaId: client.empresaId ?? undefined,
             clienteId: client.id,
             tipo: 'PROGRAMAR_VISITA',
             prioridad: PrioridadSugerencia.CRITICA,
@@ -112,7 +113,7 @@ export class SugerenciasService {
         for (const client of segmented.dormidos.data) {
           await this.createSugerenciaIfNotExists({
             tenantId: tenant.id,
-            empresaId: client.empresaId,
+            empresaId: client.empresaId ?? undefined,
             clienteId: client.id,
             tipo: 'REACTIVAR',
             prioridad: PrioridadSugerencia.ALTA,
@@ -124,11 +125,11 @@ export class SugerenciasService {
         // 3. Upsell Potencial -> Prioridad MEDIA
         for (const client of segmented.upsellPotencial.data) {
           if (client.aceptaMarketing) {
-            await this.createSugerenciaIfNotExists({
-              tenantId: tenant.id,
-              empresaId: client.empresaId,
-              clienteId: client.id,
-              tipo: 'UPSELL',
+              await this.createSugerenciaIfNotExists({
+                tenantId: tenant.id,
+                empresaId: client.empresaId ?? undefined,
+                clienteId: client.id,
+                tipo: 'UPSELL',
               prioridad: PrioridadSugerencia.MEDIA,
               titulo: 'Oferta Upsell',
               descripcion: `Ticket promedio superior a la media. Potencial para nuevos servicios.`,
@@ -151,7 +152,7 @@ export class SugerenciasService {
         for (const client of incompleteClients) {
           await this.createSugerenciaIfNotExists({
             tenantId: tenant.id,
-            empresaId: client.empresaId,
+            empresaId: client.empresaId ?? undefined,
             clienteId: client.id,
             tipo: 'COMPLETAR_CONFIG',
             prioridad: PrioridadSugerencia.BAJA,

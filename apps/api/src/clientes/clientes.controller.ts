@@ -39,6 +39,14 @@ export class ClientesController {
     return this.clientesService.getSegmented(tenantId, empresaId);
   }
 
+  @Get('dashboard-data')
+  async getDashboardData(@Request() req: RequestWithUser) {
+    const tenantId = req.user.tenantId || '';
+    const empresaId = req.user.empresaId;
+    const role = req.user.role;
+    return this.clientesService.getDashboardData(tenantId, empresaId, role);
+  }
+
   @Get(':id')
   async findOne(@Request() req: RequestWithUser, @Param('id') id: string) {
     const tenantId = req.user.tenantId || '';

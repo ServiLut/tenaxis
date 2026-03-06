@@ -1,10 +1,9 @@
 import React from "react";
 import { DashboardLayout } from "@/components/dashboard";
 import { 
-  getClientesAction, 
+  getClientesDashboardAction,
   getDepartmentsAction, 
   getMunicipalitiesAction,
-  getSegmentedClientesAction,
   getSugerenciasAction,
   getSugerenciasStatsAction
 } from "../actions";
@@ -14,15 +13,13 @@ export const dynamic = "force-dynamic";
 
 export default async function ClientesPage() {
   const [
-    clientes, 
-    segmentedData, 
+    dashboardData,
     sugerencias,
     sugerenciasStats,
     departments, 
     municipalities
   ] = await Promise.all([
-    getClientesAction(),
-    getSegmentedClientesAction(),
+    getClientesDashboardAction(),
     getSugerenciasAction(),
     getSugerenciasStatsAction(),
     getDepartmentsAction(),
@@ -32,8 +29,8 @@ export default async function ClientesPage() {
   return (
     <DashboardLayout overflowHidden>
       <ClienteList
-        initialClientes={clientes}
-        segmentedData={segmentedData}
+        initialClientes={dashboardData.clientes}
+        segmentedData={dashboardData.segmentacion}
         initialSugerencias={sugerencias}
         sugerenciasStats={sugerenciasStats}
         initialDepartments={departments}

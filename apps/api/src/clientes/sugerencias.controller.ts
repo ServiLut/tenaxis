@@ -9,21 +9,29 @@ import {
   Post
 } from '@nestjs/common';
 import { SugerenciasService } from './sugerencias.service';
-import { EstadoSugerencia } from '../generated/client';
+import { EstadoSugerencia } from '../generated/client/client';
+import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
+import { JwtPayload } from '../auth/auth.service';
+import { Request as ExpressRequest } from 'express';
 
-@Controller('clientes/sugerencias')
+interface RequestWithUser extends ExpressRequest {
+  user: JwtPayload;
+}
+
+@Controller('sugerencias-clientes')
+@UseGuards(JwtAuthGuard)
 export class SugerenciasController {
   constructor(private readonly sugerenciasService: SugerenciasService) {}
 
   @Get()
-  async findAll(@Request() req) {
+  async findAll(@Request() req: RequestWithUser) {
     const tenantId = req.user.tenantId || '';
     const empresaId = req.user.empresaId;
     return this.sugerenciasService.findAll(tenantId, empresaId);
   }
 
   @Get('stats')
-  async getQuickStats(@Request() req) {
+  async getQuickStats(@Request() req: RequestWithUser) {
     const tenantId = req.user.tenantId || '';
     const empresaId = req.user.empresaId;
     return this.sugerenciasService.getQuickStats(tenantId, empresaId);
@@ -31,7 +39,7 @@ export class SugerenciasController {
 
   @Patch(':id/estado')
   async updateEstado(
-    @Request() req,
+    @Request() req: RequestWithUser,
     @Param('id') id: string,
     @Body('estado') estado: EstadoSugerencia
   ) {

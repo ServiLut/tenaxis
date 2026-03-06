@@ -152,6 +152,53 @@ export async function getClientesAction() {
   }
 }
 
+interface SegmentedClientesGroup<T = any> {
+  count: number;
+  data: T[];
+}
+
+export interface ClientesDashboardDataResponse<T = any> {
+  clientes: T[];
+  segmentacion: {
+    riesgoFuga: SegmentedClientesGroup<T>;
+    upsellPotencial: SegmentedClientesGroup<T>;
+    dormidos: SegmentedClientesGroup<T>;
+    operacionEstable: SegmentedClientesGroup<T>;
+  } | null;
+}
+
+export async function getClientesDashboardAction(): Promise<ClientesDashboardDataResponse> {
+  try {
+    const apiUrl = getApiUrl();
+    const headers = await getHeaders();
+    const response = await fetch(`${apiUrl}/clientes/dashboard-data`, {
+      headers,
+      cache: "no-store",
+    });
+
+    if (!response.ok) {
+      console.error("getClientesDashboardAction: response not ok", response.status);
+      return {
+        clientes: [],
+        segmentacion: null,
+      };
+    }
+
+    const result = await response.json();
+    const data = result.data || result;
+    return {
+      clientes: data?.clientes || [],
+      segmentacion: data?.segmentacion || null,
+    };
+  } catch (error) {
+    console.error("Error fetching clientes dashboard data:", error);
+    return {
+      clientes: [],
+      segmentacion: null,
+    };
+  }
+}
+
 export async function getSegmentedClientesAction() {
   try {
     const apiUrl = getApiUrl();
@@ -179,12 +226,13 @@ export async function getSugerenciasAction() {
   try {
     const apiUrl = getApiUrl();
     const headers = await getHeaders();
-    const response = await fetch(`${apiUrl}/clientes/sugerencias`, {
+    const response = await fetch(`${apiUrl}/sugerencias-clientes`, {
       headers,
       cache: "no-store",
     });
     if (!response.ok) return [];
-    return await response.json();
+    const result = await response.json();
+    return result.data || result;
   } catch (error) {
     console.error("Error fetching suggestions:", error);
     return [];
@@ -195,12 +243,13 @@ export async function getSugerenciasStatsAction() {
   try {
     const apiUrl = getApiUrl();
     const headers = await getHeaders();
-    const response = await fetch(`${apiUrl}/clientes/sugerencias/stats`, {
+    const response = await fetch(`${apiUrl}/sugerencias-clientes/stats`, {
       headers,
       cache: "no-store",
     });
     if (!response.ok) return null;
-    return await response.json();
+    const result = await response.json();
+    return result.data || result;
   } catch (error) {
     console.error("Error fetching suggestions stats:", error);
     return null;
@@ -211,7 +260,7 @@ export async function updateSugerenciaEstadoAction(id: string, estado: string) {
   try {
     const apiUrl = getApiUrl();
     const headers = await getHeaders();
-    const response = await fetch(`${apiUrl}/clientes/sugerencias/${id}/estado`, {
+    const response = await fetch(`${apiUrl}/sugerencias-clientes/${id}/estado`, {
       method: "PATCH",
       headers: {
         ...headers,
