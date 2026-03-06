@@ -436,7 +436,8 @@ export const ModelName = {
   AuthSession: 'AuthSession',
   PasswordResetToken: 'PasswordResetToken',
   ClienteConfiguracionOperativa: 'ClienteConfiguracionOperativa',
-  EvidenciaServicio: 'EvidenciaServicio'
+  EvidenciaServicio: 'EvidenciaServicio',
+  SugerenciaSeguimiento: 'SugerenciaSeguimiento'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -452,7 +453,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "user" | "tenant" | "plan" | "subscription" | "tenantMembership" | "empresa" | "empresaMembership" | "organizationNode" | "commissionRecord" | "segmentoNegocio" | "nivelRiesgoOperativo" | "tipoInteres" | "department" | "municipality" | "cliente" | "vehiculo" | "direccion" | "zona" | "servicio" | "tipoServicio" | "metodoPago" | "estadoServicio" | "ordenServicio" | "entidadFinanciera" | "geolocalizacion" | "nomina" | "nominaDetalle" | "citasPsicologos" | "consultorio" | "terapiasPsicologos" | "paqueteAdquirido" | "turno" | "cuentaCobro" | "declaracionEfectivo" | "consignacionEfectivo" | "consignacionOrden" | "anticipos" | "producto" | "productoSolicitado" | "proveedores" | "permiso" | "configuracionPagos" | "cuentasPago" | "egresos" | "picoPlaca" | "referidos" | "auditoria" | "sesionActividad" | "logEvento" | "authSession" | "passwordResetToken" | "clienteConfiguracionOperativa" | "evidenciaServicio"
+    modelProps: "user" | "tenant" | "plan" | "subscription" | "tenantMembership" | "empresa" | "empresaMembership" | "organizationNode" | "commissionRecord" | "segmentoNegocio" | "nivelRiesgoOperativo" | "tipoInteres" | "department" | "municipality" | "cliente" | "vehiculo" | "direccion" | "zona" | "servicio" | "tipoServicio" | "metodoPago" | "estadoServicio" | "ordenServicio" | "entidadFinanciera" | "geolocalizacion" | "nomina" | "nominaDetalle" | "citasPsicologos" | "consultorio" | "terapiasPsicologos" | "paqueteAdquirido" | "turno" | "cuentaCobro" | "declaracionEfectivo" | "consignacionEfectivo" | "consignacionOrden" | "anticipos" | "producto" | "productoSolicitado" | "proveedores" | "permiso" | "configuracionPagos" | "cuentasPago" | "egresos" | "picoPlaca" | "referidos" | "auditoria" | "sesionActividad" | "logEvento" | "authSession" | "passwordResetToken" | "clienteConfiguracionOperativa" | "evidenciaServicio" | "sugerenciaSeguimiento"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -4378,6 +4379,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    SugerenciaSeguimiento: {
+      payload: Prisma.$SugerenciaSeguimientoPayload<ExtArgs>
+      fields: Prisma.SugerenciaSeguimientoFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.SugerenciaSeguimientoFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SugerenciaSeguimientoPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.SugerenciaSeguimientoFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SugerenciaSeguimientoPayload>
+        }
+        findFirst: {
+          args: Prisma.SugerenciaSeguimientoFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SugerenciaSeguimientoPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.SugerenciaSeguimientoFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SugerenciaSeguimientoPayload>
+        }
+        findMany: {
+          args: Prisma.SugerenciaSeguimientoFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SugerenciaSeguimientoPayload>[]
+        }
+        create: {
+          args: Prisma.SugerenciaSeguimientoCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SugerenciaSeguimientoPayload>
+        }
+        createMany: {
+          args: Prisma.SugerenciaSeguimientoCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.SugerenciaSeguimientoCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SugerenciaSeguimientoPayload>[]
+        }
+        delete: {
+          args: Prisma.SugerenciaSeguimientoDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SugerenciaSeguimientoPayload>
+        }
+        update: {
+          args: Prisma.SugerenciaSeguimientoUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SugerenciaSeguimientoPayload>
+        }
+        deleteMany: {
+          args: Prisma.SugerenciaSeguimientoDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.SugerenciaSeguimientoUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.SugerenciaSeguimientoUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SugerenciaSeguimientoPayload>[]
+        }
+        upsert: {
+          args: Prisma.SugerenciaSeguimientoUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SugerenciaSeguimientoPayload>
+        }
+        aggregate: {
+          args: Prisma.SugerenciaSeguimientoAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateSugerenciaSeguimiento>
+        }
+        groupBy: {
+          args: Prisma.SugerenciaSeguimientoGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.SugerenciaSeguimientoGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.SugerenciaSeguimientoCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.SugerenciaSeguimientoCountAggregateOutputType> | number
+        }
+      }
+    }
   }
 } & {
   other: {
@@ -5199,7 +5274,8 @@ export const EgresosScalarFieldEnum = {
   titulo: 'titulo',
   monto: 'monto',
   razon: 'razon',
-  createdAt: 'createdAt'
+  createdAt: 'createdAt',
+  categoria: 'categoria'
 } as const
 
 export type EgresosScalarFieldEnum = (typeof EgresosScalarFieldEnum)[keyof typeof EgresosScalarFieldEnum]
@@ -5338,6 +5414,26 @@ export const EvidenciaServicioScalarFieldEnum = {
 } as const
 
 export type EvidenciaServicioScalarFieldEnum = (typeof EvidenciaServicioScalarFieldEnum)[keyof typeof EvidenciaServicioScalarFieldEnum]
+
+
+export const SugerenciaSeguimientoScalarFieldEnum = {
+  id: 'id',
+  tenantId: 'tenantId',
+  empresaId: 'empresaId',
+  clienteId: 'clienteId',
+  tipo: 'tipo',
+  prioridad: 'prioridad',
+  estado: 'estado',
+  titulo: 'titulo',
+  descripcion: 'descripcion',
+  metadata: 'metadata',
+  fechaSugerida: 'fechaSugerida',
+  fechaEjecutada: 'fechaEjecutada',
+  creadoAt: 'creadoAt',
+  actualizadoAt: 'actualizadoAt'
+} as const
+
+export type SugerenciaSeguimientoScalarFieldEnum = (typeof SugerenciaSeguimientoScalarFieldEnum)[keyof typeof SugerenciaSeguimientoScalarFieldEnum]
 
 
 export const SortOrder = {
@@ -5771,6 +5867,34 @@ export type EnumDiaSemanaFieldRefInput<$PrismaModel> = FieldRefInputType<$Prisma
 export type ListEnumDiaSemanaFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DiaSemana[]'>
     
 
+
+/**
+ * Reference to a field of type 'PrioridadSugerencia'
+ */
+export type EnumPrioridadSugerenciaFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'PrioridadSugerencia'>
+    
+
+
+/**
+ * Reference to a field of type 'PrioridadSugerencia[]'
+ */
+export type ListEnumPrioridadSugerenciaFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'PrioridadSugerencia[]'>
+    
+
+
+/**
+ * Reference to a field of type 'EstadoSugerencia'
+ */
+export type EnumEstadoSugerenciaFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'EstadoSugerencia'>
+    
+
+
+/**
+ * Reference to a field of type 'EstadoSugerencia[]'
+ */
+export type ListEnumEstadoSugerenciaFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'EstadoSugerencia[]'>
+    
+
 /**
  * Batch Payload for updateMany & deleteMany & createMany
  */
@@ -5919,6 +6043,7 @@ export type GlobalOmitConfig = {
   passwordResetToken?: Prisma.PasswordResetTokenOmit
   clienteConfiguracionOperativa?: Prisma.ClienteConfiguracionOperativaOmit
   evidenciaServicio?: Prisma.EvidenciaServicioOmit
+  sugerenciaSeguimiento?: Prisma.SugerenciaSeguimientoOmit
 }
 
 /* Types for Logging */

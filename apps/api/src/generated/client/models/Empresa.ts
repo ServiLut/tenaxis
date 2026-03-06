@@ -240,6 +240,7 @@ export type EmpresaWhereInput = {
   turnos?: Prisma.TurnoListRelationFilter
   vehiculos?: Prisma.VehiculoListRelationFilter
   zonas?: Prisma.ZonaListRelationFilter
+  sugerencias?: Prisma.SugerenciaSeguimientoListRelationFilter
 }
 
 export type EmpresaOrderByWithRelationInput = {
@@ -292,6 +293,7 @@ export type EmpresaOrderByWithRelationInput = {
   turnos?: Prisma.TurnoOrderByRelationAggregateInput
   vehiculos?: Prisma.VehiculoOrderByRelationAggregateInput
   zonas?: Prisma.ZonaOrderByRelationAggregateInput
+  sugerencias?: Prisma.SugerenciaSeguimientoOrderByRelationAggregateInput
 }
 
 export type EmpresaWhereUniqueInput = Prisma.AtLeast<{
@@ -347,6 +349,7 @@ export type EmpresaWhereUniqueInput = Prisma.AtLeast<{
   turnos?: Prisma.TurnoListRelationFilter
   vehiculos?: Prisma.VehiculoListRelationFilter
   zonas?: Prisma.ZonaListRelationFilter
+  sugerencias?: Prisma.SugerenciaSeguimientoListRelationFilter
 }, "id">
 
 export type EmpresaOrderByWithAggregationInput = {
@@ -424,6 +427,7 @@ export type EmpresaCreateInput = {
   turnos?: Prisma.TurnoCreateNestedManyWithoutEmpresaInput
   vehiculos?: Prisma.VehiculoCreateNestedManyWithoutEmpresaInput
   zonas?: Prisma.ZonaCreateNestedManyWithoutEmpresaInput
+  sugerencias?: Prisma.SugerenciaSeguimientoCreateNestedManyWithoutEmpresaInput
 }
 
 export type EmpresaUncheckedCreateInput = {
@@ -475,6 +479,7 @@ export type EmpresaUncheckedCreateInput = {
   turnos?: Prisma.TurnoUncheckedCreateNestedManyWithoutEmpresaInput
   vehiculos?: Prisma.VehiculoUncheckedCreateNestedManyWithoutEmpresaInput
   zonas?: Prisma.ZonaUncheckedCreateNestedManyWithoutEmpresaInput
+  sugerencias?: Prisma.SugerenciaSeguimientoUncheckedCreateNestedManyWithoutEmpresaInput
 }
 
 export type EmpresaUpdateInput = {
@@ -526,6 +531,7 @@ export type EmpresaUpdateInput = {
   turnos?: Prisma.TurnoUpdateManyWithoutEmpresaNestedInput
   vehiculos?: Prisma.VehiculoUpdateManyWithoutEmpresaNestedInput
   zonas?: Prisma.ZonaUpdateManyWithoutEmpresaNestedInput
+  sugerencias?: Prisma.SugerenciaSeguimientoUpdateManyWithoutEmpresaNestedInput
 }
 
 export type EmpresaUncheckedUpdateInput = {
@@ -577,6 +583,7 @@ export type EmpresaUncheckedUpdateInput = {
   turnos?: Prisma.TurnoUncheckedUpdateManyWithoutEmpresaNestedInput
   vehiculos?: Prisma.VehiculoUncheckedUpdateManyWithoutEmpresaNestedInput
   zonas?: Prisma.ZonaUncheckedUpdateManyWithoutEmpresaNestedInput
+  sugerencias?: Prisma.SugerenciaSeguimientoUncheckedUpdateManyWithoutEmpresaNestedInput
 }
 
 export type EmpresaCreateManyInput = {
@@ -1286,6 +1293,22 @@ export type EmpresaUpdateOneRequiredWithoutConfiguracionesOperativasNestedInput 
   update?: Prisma.XOR<Prisma.XOR<Prisma.EmpresaUpdateToOneWithWhereWithoutConfiguracionesOperativasInput, Prisma.EmpresaUpdateWithoutConfiguracionesOperativasInput>, Prisma.EmpresaUncheckedUpdateWithoutConfiguracionesOperativasInput>
 }
 
+export type EmpresaCreateNestedOneWithoutSugerenciasInput = {
+  create?: Prisma.XOR<Prisma.EmpresaCreateWithoutSugerenciasInput, Prisma.EmpresaUncheckedCreateWithoutSugerenciasInput>
+  connectOrCreate?: Prisma.EmpresaCreateOrConnectWithoutSugerenciasInput
+  connect?: Prisma.EmpresaWhereUniqueInput
+}
+
+export type EmpresaUpdateOneWithoutSugerenciasNestedInput = {
+  create?: Prisma.XOR<Prisma.EmpresaCreateWithoutSugerenciasInput, Prisma.EmpresaUncheckedCreateWithoutSugerenciasInput>
+  connectOrCreate?: Prisma.EmpresaCreateOrConnectWithoutSugerenciasInput
+  upsert?: Prisma.EmpresaUpsertWithoutSugerenciasInput
+  disconnect?: Prisma.EmpresaWhereInput | boolean
+  delete?: Prisma.EmpresaWhereInput | boolean
+  connect?: Prisma.EmpresaWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.EmpresaUpdateToOneWithWhereWithoutSugerenciasInput, Prisma.EmpresaUpdateWithoutSugerenciasInput>, Prisma.EmpresaUncheckedUpdateWithoutSugerenciasInput>
+}
+
 export type EmpresaCreateWithoutTenantInput = {
   id?: string
   nombre: string
@@ -1334,6 +1357,7 @@ export type EmpresaCreateWithoutTenantInput = {
   turnos?: Prisma.TurnoCreateNestedManyWithoutEmpresaInput
   vehiculos?: Prisma.VehiculoCreateNestedManyWithoutEmpresaInput
   zonas?: Prisma.ZonaCreateNestedManyWithoutEmpresaInput
+  sugerencias?: Prisma.SugerenciaSeguimientoCreateNestedManyWithoutEmpresaInput
 }
 
 export type EmpresaUncheckedCreateWithoutTenantInput = {
@@ -1384,6 +1408,7 @@ export type EmpresaUncheckedCreateWithoutTenantInput = {
   turnos?: Prisma.TurnoUncheckedCreateNestedManyWithoutEmpresaInput
   vehiculos?: Prisma.VehiculoUncheckedCreateNestedManyWithoutEmpresaInput
   zonas?: Prisma.ZonaUncheckedCreateNestedManyWithoutEmpresaInput
+  sugerencias?: Prisma.SugerenciaSeguimientoUncheckedCreateNestedManyWithoutEmpresaInput
 }
 
 export type EmpresaCreateOrConnectWithoutTenantInput = {
@@ -1473,6 +1498,7 @@ export type EmpresaCreateWithoutMembershipsInput = {
   turnos?: Prisma.TurnoCreateNestedManyWithoutEmpresaInput
   vehiculos?: Prisma.VehiculoCreateNestedManyWithoutEmpresaInput
   zonas?: Prisma.ZonaCreateNestedManyWithoutEmpresaInput
+  sugerencias?: Prisma.SugerenciaSeguimientoCreateNestedManyWithoutEmpresaInput
 }
 
 export type EmpresaUncheckedCreateWithoutMembershipsInput = {
@@ -1523,6 +1549,7 @@ export type EmpresaUncheckedCreateWithoutMembershipsInput = {
   turnos?: Prisma.TurnoUncheckedCreateNestedManyWithoutEmpresaInput
   vehiculos?: Prisma.VehiculoUncheckedCreateNestedManyWithoutEmpresaInput
   zonas?: Prisma.ZonaUncheckedCreateNestedManyWithoutEmpresaInput
+  sugerencias?: Prisma.SugerenciaSeguimientoUncheckedCreateNestedManyWithoutEmpresaInput
 }
 
 export type EmpresaCreateOrConnectWithoutMembershipsInput = {
@@ -1589,6 +1616,7 @@ export type EmpresaUpdateWithoutMembershipsInput = {
   turnos?: Prisma.TurnoUpdateManyWithoutEmpresaNestedInput
   vehiculos?: Prisma.VehiculoUpdateManyWithoutEmpresaNestedInput
   zonas?: Prisma.ZonaUpdateManyWithoutEmpresaNestedInput
+  sugerencias?: Prisma.SugerenciaSeguimientoUpdateManyWithoutEmpresaNestedInput
 }
 
 export type EmpresaUncheckedUpdateWithoutMembershipsInput = {
@@ -1639,6 +1667,7 @@ export type EmpresaUncheckedUpdateWithoutMembershipsInput = {
   turnos?: Prisma.TurnoUncheckedUpdateManyWithoutEmpresaNestedInput
   vehiculos?: Prisma.VehiculoUncheckedUpdateManyWithoutEmpresaNestedInput
   zonas?: Prisma.ZonaUncheckedUpdateManyWithoutEmpresaNestedInput
+  sugerencias?: Prisma.SugerenciaSeguimientoUncheckedUpdateManyWithoutEmpresaNestedInput
 }
 
 export type EmpresaCreateWithoutOrgNodesInput = {
@@ -1689,6 +1718,7 @@ export type EmpresaCreateWithoutOrgNodesInput = {
   turnos?: Prisma.TurnoCreateNestedManyWithoutEmpresaInput
   vehiculos?: Prisma.VehiculoCreateNestedManyWithoutEmpresaInput
   zonas?: Prisma.ZonaCreateNestedManyWithoutEmpresaInput
+  sugerencias?: Prisma.SugerenciaSeguimientoCreateNestedManyWithoutEmpresaInput
 }
 
 export type EmpresaUncheckedCreateWithoutOrgNodesInput = {
@@ -1739,6 +1769,7 @@ export type EmpresaUncheckedCreateWithoutOrgNodesInput = {
   turnos?: Prisma.TurnoUncheckedCreateNestedManyWithoutEmpresaInput
   vehiculos?: Prisma.VehiculoUncheckedCreateNestedManyWithoutEmpresaInput
   zonas?: Prisma.ZonaUncheckedCreateNestedManyWithoutEmpresaInput
+  sugerencias?: Prisma.SugerenciaSeguimientoUncheckedCreateNestedManyWithoutEmpresaInput
 }
 
 export type EmpresaCreateOrConnectWithoutOrgNodesInput = {
@@ -1805,6 +1836,7 @@ export type EmpresaUpdateWithoutOrgNodesInput = {
   turnos?: Prisma.TurnoUpdateManyWithoutEmpresaNestedInput
   vehiculos?: Prisma.VehiculoUpdateManyWithoutEmpresaNestedInput
   zonas?: Prisma.ZonaUpdateManyWithoutEmpresaNestedInput
+  sugerencias?: Prisma.SugerenciaSeguimientoUpdateManyWithoutEmpresaNestedInput
 }
 
 export type EmpresaUncheckedUpdateWithoutOrgNodesInput = {
@@ -1855,6 +1887,7 @@ export type EmpresaUncheckedUpdateWithoutOrgNodesInput = {
   turnos?: Prisma.TurnoUncheckedUpdateManyWithoutEmpresaNestedInput
   vehiculos?: Prisma.VehiculoUncheckedUpdateManyWithoutEmpresaNestedInput
   zonas?: Prisma.ZonaUncheckedUpdateManyWithoutEmpresaNestedInput
+  sugerencias?: Prisma.SugerenciaSeguimientoUncheckedUpdateManyWithoutEmpresaNestedInput
 }
 
 export type EmpresaCreateWithoutCommissionsInput = {
@@ -1905,6 +1938,7 @@ export type EmpresaCreateWithoutCommissionsInput = {
   turnos?: Prisma.TurnoCreateNestedManyWithoutEmpresaInput
   vehiculos?: Prisma.VehiculoCreateNestedManyWithoutEmpresaInput
   zonas?: Prisma.ZonaCreateNestedManyWithoutEmpresaInput
+  sugerencias?: Prisma.SugerenciaSeguimientoCreateNestedManyWithoutEmpresaInput
 }
 
 export type EmpresaUncheckedCreateWithoutCommissionsInput = {
@@ -1955,6 +1989,7 @@ export type EmpresaUncheckedCreateWithoutCommissionsInput = {
   turnos?: Prisma.TurnoUncheckedCreateNestedManyWithoutEmpresaInput
   vehiculos?: Prisma.VehiculoUncheckedCreateNestedManyWithoutEmpresaInput
   zonas?: Prisma.ZonaUncheckedCreateNestedManyWithoutEmpresaInput
+  sugerencias?: Prisma.SugerenciaSeguimientoUncheckedCreateNestedManyWithoutEmpresaInput
 }
 
 export type EmpresaCreateOrConnectWithoutCommissionsInput = {
@@ -2021,6 +2056,7 @@ export type EmpresaUpdateWithoutCommissionsInput = {
   turnos?: Prisma.TurnoUpdateManyWithoutEmpresaNestedInput
   vehiculos?: Prisma.VehiculoUpdateManyWithoutEmpresaNestedInput
   zonas?: Prisma.ZonaUpdateManyWithoutEmpresaNestedInput
+  sugerencias?: Prisma.SugerenciaSeguimientoUpdateManyWithoutEmpresaNestedInput
 }
 
 export type EmpresaUncheckedUpdateWithoutCommissionsInput = {
@@ -2071,6 +2107,7 @@ export type EmpresaUncheckedUpdateWithoutCommissionsInput = {
   turnos?: Prisma.TurnoUncheckedUpdateManyWithoutEmpresaNestedInput
   vehiculos?: Prisma.VehiculoUncheckedUpdateManyWithoutEmpresaNestedInput
   zonas?: Prisma.ZonaUncheckedUpdateManyWithoutEmpresaNestedInput
+  sugerencias?: Prisma.SugerenciaSeguimientoUncheckedUpdateManyWithoutEmpresaNestedInput
 }
 
 export type EmpresaCreateWithoutClientesInput = {
@@ -2121,6 +2158,7 @@ export type EmpresaCreateWithoutClientesInput = {
   turnos?: Prisma.TurnoCreateNestedManyWithoutEmpresaInput
   vehiculos?: Prisma.VehiculoCreateNestedManyWithoutEmpresaInput
   zonas?: Prisma.ZonaCreateNestedManyWithoutEmpresaInput
+  sugerencias?: Prisma.SugerenciaSeguimientoCreateNestedManyWithoutEmpresaInput
 }
 
 export type EmpresaUncheckedCreateWithoutClientesInput = {
@@ -2171,6 +2209,7 @@ export type EmpresaUncheckedCreateWithoutClientesInput = {
   turnos?: Prisma.TurnoUncheckedCreateNestedManyWithoutEmpresaInput
   vehiculos?: Prisma.VehiculoUncheckedCreateNestedManyWithoutEmpresaInput
   zonas?: Prisma.ZonaUncheckedCreateNestedManyWithoutEmpresaInput
+  sugerencias?: Prisma.SugerenciaSeguimientoUncheckedCreateNestedManyWithoutEmpresaInput
 }
 
 export type EmpresaCreateOrConnectWithoutClientesInput = {
@@ -2237,6 +2276,7 @@ export type EmpresaUpdateWithoutClientesInput = {
   turnos?: Prisma.TurnoUpdateManyWithoutEmpresaNestedInput
   vehiculos?: Prisma.VehiculoUpdateManyWithoutEmpresaNestedInput
   zonas?: Prisma.ZonaUpdateManyWithoutEmpresaNestedInput
+  sugerencias?: Prisma.SugerenciaSeguimientoUpdateManyWithoutEmpresaNestedInput
 }
 
 export type EmpresaUncheckedUpdateWithoutClientesInput = {
@@ -2287,6 +2327,7 @@ export type EmpresaUncheckedUpdateWithoutClientesInput = {
   turnos?: Prisma.TurnoUncheckedUpdateManyWithoutEmpresaNestedInput
   vehiculos?: Prisma.VehiculoUncheckedUpdateManyWithoutEmpresaNestedInput
   zonas?: Prisma.ZonaUncheckedUpdateManyWithoutEmpresaNestedInput
+  sugerencias?: Prisma.SugerenciaSeguimientoUncheckedUpdateManyWithoutEmpresaNestedInput
 }
 
 export type EmpresaCreateWithoutVehiculosInput = {
@@ -2337,6 +2378,7 @@ export type EmpresaCreateWithoutVehiculosInput = {
   tiposServicio?: Prisma.TipoServicioCreateNestedManyWithoutEmpresaInput
   turnos?: Prisma.TurnoCreateNestedManyWithoutEmpresaInput
   zonas?: Prisma.ZonaCreateNestedManyWithoutEmpresaInput
+  sugerencias?: Prisma.SugerenciaSeguimientoCreateNestedManyWithoutEmpresaInput
 }
 
 export type EmpresaUncheckedCreateWithoutVehiculosInput = {
@@ -2387,6 +2429,7 @@ export type EmpresaUncheckedCreateWithoutVehiculosInput = {
   tiposServicio?: Prisma.TipoServicioUncheckedCreateNestedManyWithoutEmpresaInput
   turnos?: Prisma.TurnoUncheckedCreateNestedManyWithoutEmpresaInput
   zonas?: Prisma.ZonaUncheckedCreateNestedManyWithoutEmpresaInput
+  sugerencias?: Prisma.SugerenciaSeguimientoUncheckedCreateNestedManyWithoutEmpresaInput
 }
 
 export type EmpresaCreateOrConnectWithoutVehiculosInput = {
@@ -2453,6 +2496,7 @@ export type EmpresaUpdateWithoutVehiculosInput = {
   tiposServicio?: Prisma.TipoServicioUpdateManyWithoutEmpresaNestedInput
   turnos?: Prisma.TurnoUpdateManyWithoutEmpresaNestedInput
   zonas?: Prisma.ZonaUpdateManyWithoutEmpresaNestedInput
+  sugerencias?: Prisma.SugerenciaSeguimientoUpdateManyWithoutEmpresaNestedInput
 }
 
 export type EmpresaUncheckedUpdateWithoutVehiculosInput = {
@@ -2503,6 +2547,7 @@ export type EmpresaUncheckedUpdateWithoutVehiculosInput = {
   tiposServicio?: Prisma.TipoServicioUncheckedUpdateManyWithoutEmpresaNestedInput
   turnos?: Prisma.TurnoUncheckedUpdateManyWithoutEmpresaNestedInput
   zonas?: Prisma.ZonaUncheckedUpdateManyWithoutEmpresaNestedInput
+  sugerencias?: Prisma.SugerenciaSeguimientoUncheckedUpdateManyWithoutEmpresaNestedInput
 }
 
 export type EmpresaCreateWithoutDireccionesInput = {
@@ -2553,6 +2598,7 @@ export type EmpresaCreateWithoutDireccionesInput = {
   turnos?: Prisma.TurnoCreateNestedManyWithoutEmpresaInput
   vehiculos?: Prisma.VehiculoCreateNestedManyWithoutEmpresaInput
   zonas?: Prisma.ZonaCreateNestedManyWithoutEmpresaInput
+  sugerencias?: Prisma.SugerenciaSeguimientoCreateNestedManyWithoutEmpresaInput
 }
 
 export type EmpresaUncheckedCreateWithoutDireccionesInput = {
@@ -2603,6 +2649,7 @@ export type EmpresaUncheckedCreateWithoutDireccionesInput = {
   turnos?: Prisma.TurnoUncheckedCreateNestedManyWithoutEmpresaInput
   vehiculos?: Prisma.VehiculoUncheckedCreateNestedManyWithoutEmpresaInput
   zonas?: Prisma.ZonaUncheckedCreateNestedManyWithoutEmpresaInput
+  sugerencias?: Prisma.SugerenciaSeguimientoUncheckedCreateNestedManyWithoutEmpresaInput
 }
 
 export type EmpresaCreateOrConnectWithoutDireccionesInput = {
@@ -2669,6 +2716,7 @@ export type EmpresaUpdateWithoutDireccionesInput = {
   turnos?: Prisma.TurnoUpdateManyWithoutEmpresaNestedInput
   vehiculos?: Prisma.VehiculoUpdateManyWithoutEmpresaNestedInput
   zonas?: Prisma.ZonaUpdateManyWithoutEmpresaNestedInput
+  sugerencias?: Prisma.SugerenciaSeguimientoUpdateManyWithoutEmpresaNestedInput
 }
 
 export type EmpresaUncheckedUpdateWithoutDireccionesInput = {
@@ -2719,6 +2767,7 @@ export type EmpresaUncheckedUpdateWithoutDireccionesInput = {
   turnos?: Prisma.TurnoUncheckedUpdateManyWithoutEmpresaNestedInput
   vehiculos?: Prisma.VehiculoUncheckedUpdateManyWithoutEmpresaNestedInput
   zonas?: Prisma.ZonaUncheckedUpdateManyWithoutEmpresaNestedInput
+  sugerencias?: Prisma.SugerenciaSeguimientoUncheckedUpdateManyWithoutEmpresaNestedInput
 }
 
 export type EmpresaCreateWithoutZonasInput = {
@@ -2769,6 +2818,7 @@ export type EmpresaCreateWithoutZonasInput = {
   tiposServicio?: Prisma.TipoServicioCreateNestedManyWithoutEmpresaInput
   turnos?: Prisma.TurnoCreateNestedManyWithoutEmpresaInput
   vehiculos?: Prisma.VehiculoCreateNestedManyWithoutEmpresaInput
+  sugerencias?: Prisma.SugerenciaSeguimientoCreateNestedManyWithoutEmpresaInput
 }
 
 export type EmpresaUncheckedCreateWithoutZonasInput = {
@@ -2819,6 +2869,7 @@ export type EmpresaUncheckedCreateWithoutZonasInput = {
   tiposServicio?: Prisma.TipoServicioUncheckedCreateNestedManyWithoutEmpresaInput
   turnos?: Prisma.TurnoUncheckedCreateNestedManyWithoutEmpresaInput
   vehiculos?: Prisma.VehiculoUncheckedCreateNestedManyWithoutEmpresaInput
+  sugerencias?: Prisma.SugerenciaSeguimientoUncheckedCreateNestedManyWithoutEmpresaInput
 }
 
 export type EmpresaCreateOrConnectWithoutZonasInput = {
@@ -2885,6 +2936,7 @@ export type EmpresaUpdateWithoutZonasInput = {
   tiposServicio?: Prisma.TipoServicioUpdateManyWithoutEmpresaNestedInput
   turnos?: Prisma.TurnoUpdateManyWithoutEmpresaNestedInput
   vehiculos?: Prisma.VehiculoUpdateManyWithoutEmpresaNestedInput
+  sugerencias?: Prisma.SugerenciaSeguimientoUpdateManyWithoutEmpresaNestedInput
 }
 
 export type EmpresaUncheckedUpdateWithoutZonasInput = {
@@ -2935,6 +2987,7 @@ export type EmpresaUncheckedUpdateWithoutZonasInput = {
   tiposServicio?: Prisma.TipoServicioUncheckedUpdateManyWithoutEmpresaNestedInput
   turnos?: Prisma.TurnoUncheckedUpdateManyWithoutEmpresaNestedInput
   vehiculos?: Prisma.VehiculoUncheckedUpdateManyWithoutEmpresaNestedInput
+  sugerencias?: Prisma.SugerenciaSeguimientoUncheckedUpdateManyWithoutEmpresaNestedInput
 }
 
 export type EmpresaCreateWithoutServiciosInput = {
@@ -2985,6 +3038,7 @@ export type EmpresaCreateWithoutServiciosInput = {
   turnos?: Prisma.TurnoCreateNestedManyWithoutEmpresaInput
   vehiculos?: Prisma.VehiculoCreateNestedManyWithoutEmpresaInput
   zonas?: Prisma.ZonaCreateNestedManyWithoutEmpresaInput
+  sugerencias?: Prisma.SugerenciaSeguimientoCreateNestedManyWithoutEmpresaInput
 }
 
 export type EmpresaUncheckedCreateWithoutServiciosInput = {
@@ -3035,6 +3089,7 @@ export type EmpresaUncheckedCreateWithoutServiciosInput = {
   turnos?: Prisma.TurnoUncheckedCreateNestedManyWithoutEmpresaInput
   vehiculos?: Prisma.VehiculoUncheckedCreateNestedManyWithoutEmpresaInput
   zonas?: Prisma.ZonaUncheckedCreateNestedManyWithoutEmpresaInput
+  sugerencias?: Prisma.SugerenciaSeguimientoUncheckedCreateNestedManyWithoutEmpresaInput
 }
 
 export type EmpresaCreateOrConnectWithoutServiciosInput = {
@@ -3101,6 +3156,7 @@ export type EmpresaUpdateWithoutServiciosInput = {
   turnos?: Prisma.TurnoUpdateManyWithoutEmpresaNestedInput
   vehiculos?: Prisma.VehiculoUpdateManyWithoutEmpresaNestedInput
   zonas?: Prisma.ZonaUpdateManyWithoutEmpresaNestedInput
+  sugerencias?: Prisma.SugerenciaSeguimientoUpdateManyWithoutEmpresaNestedInput
 }
 
 export type EmpresaUncheckedUpdateWithoutServiciosInput = {
@@ -3151,6 +3207,7 @@ export type EmpresaUncheckedUpdateWithoutServiciosInput = {
   turnos?: Prisma.TurnoUncheckedUpdateManyWithoutEmpresaNestedInput
   vehiculos?: Prisma.VehiculoUncheckedUpdateManyWithoutEmpresaNestedInput
   zonas?: Prisma.ZonaUncheckedUpdateManyWithoutEmpresaNestedInput
+  sugerencias?: Prisma.SugerenciaSeguimientoUncheckedUpdateManyWithoutEmpresaNestedInput
 }
 
 export type EmpresaCreateWithoutTiposServicioInput = {
@@ -3201,6 +3258,7 @@ export type EmpresaCreateWithoutTiposServicioInput = {
   turnos?: Prisma.TurnoCreateNestedManyWithoutEmpresaInput
   vehiculos?: Prisma.VehiculoCreateNestedManyWithoutEmpresaInput
   zonas?: Prisma.ZonaCreateNestedManyWithoutEmpresaInput
+  sugerencias?: Prisma.SugerenciaSeguimientoCreateNestedManyWithoutEmpresaInput
 }
 
 export type EmpresaUncheckedCreateWithoutTiposServicioInput = {
@@ -3251,6 +3309,7 @@ export type EmpresaUncheckedCreateWithoutTiposServicioInput = {
   turnos?: Prisma.TurnoUncheckedCreateNestedManyWithoutEmpresaInput
   vehiculos?: Prisma.VehiculoUncheckedCreateNestedManyWithoutEmpresaInput
   zonas?: Prisma.ZonaUncheckedCreateNestedManyWithoutEmpresaInput
+  sugerencias?: Prisma.SugerenciaSeguimientoUncheckedCreateNestedManyWithoutEmpresaInput
 }
 
 export type EmpresaCreateOrConnectWithoutTiposServicioInput = {
@@ -3317,6 +3376,7 @@ export type EmpresaUpdateWithoutTiposServicioInput = {
   turnos?: Prisma.TurnoUpdateManyWithoutEmpresaNestedInput
   vehiculos?: Prisma.VehiculoUpdateManyWithoutEmpresaNestedInput
   zonas?: Prisma.ZonaUpdateManyWithoutEmpresaNestedInput
+  sugerencias?: Prisma.SugerenciaSeguimientoUpdateManyWithoutEmpresaNestedInput
 }
 
 export type EmpresaUncheckedUpdateWithoutTiposServicioInput = {
@@ -3367,6 +3427,7 @@ export type EmpresaUncheckedUpdateWithoutTiposServicioInput = {
   turnos?: Prisma.TurnoUncheckedUpdateManyWithoutEmpresaNestedInput
   vehiculos?: Prisma.VehiculoUncheckedUpdateManyWithoutEmpresaNestedInput
   zonas?: Prisma.ZonaUncheckedUpdateManyWithoutEmpresaNestedInput
+  sugerencias?: Prisma.SugerenciaSeguimientoUncheckedUpdateManyWithoutEmpresaNestedInput
 }
 
 export type EmpresaCreateWithoutMetodosPagoInput = {
@@ -3417,6 +3478,7 @@ export type EmpresaCreateWithoutMetodosPagoInput = {
   turnos?: Prisma.TurnoCreateNestedManyWithoutEmpresaInput
   vehiculos?: Prisma.VehiculoCreateNestedManyWithoutEmpresaInput
   zonas?: Prisma.ZonaCreateNestedManyWithoutEmpresaInput
+  sugerencias?: Prisma.SugerenciaSeguimientoCreateNestedManyWithoutEmpresaInput
 }
 
 export type EmpresaUncheckedCreateWithoutMetodosPagoInput = {
@@ -3467,6 +3529,7 @@ export type EmpresaUncheckedCreateWithoutMetodosPagoInput = {
   turnos?: Prisma.TurnoUncheckedCreateNestedManyWithoutEmpresaInput
   vehiculos?: Prisma.VehiculoUncheckedCreateNestedManyWithoutEmpresaInput
   zonas?: Prisma.ZonaUncheckedCreateNestedManyWithoutEmpresaInput
+  sugerencias?: Prisma.SugerenciaSeguimientoUncheckedCreateNestedManyWithoutEmpresaInput
 }
 
 export type EmpresaCreateOrConnectWithoutMetodosPagoInput = {
@@ -3533,6 +3596,7 @@ export type EmpresaUpdateWithoutMetodosPagoInput = {
   turnos?: Prisma.TurnoUpdateManyWithoutEmpresaNestedInput
   vehiculos?: Prisma.VehiculoUpdateManyWithoutEmpresaNestedInput
   zonas?: Prisma.ZonaUpdateManyWithoutEmpresaNestedInput
+  sugerencias?: Prisma.SugerenciaSeguimientoUpdateManyWithoutEmpresaNestedInput
 }
 
 export type EmpresaUncheckedUpdateWithoutMetodosPagoInput = {
@@ -3583,6 +3647,7 @@ export type EmpresaUncheckedUpdateWithoutMetodosPagoInput = {
   turnos?: Prisma.TurnoUncheckedUpdateManyWithoutEmpresaNestedInput
   vehiculos?: Prisma.VehiculoUncheckedUpdateManyWithoutEmpresaNestedInput
   zonas?: Prisma.ZonaUncheckedUpdateManyWithoutEmpresaNestedInput
+  sugerencias?: Prisma.SugerenciaSeguimientoUncheckedUpdateManyWithoutEmpresaNestedInput
 }
 
 export type EmpresaCreateWithoutEstadosServicioInput = {
@@ -3633,6 +3698,7 @@ export type EmpresaCreateWithoutEstadosServicioInput = {
   turnos?: Prisma.TurnoCreateNestedManyWithoutEmpresaInput
   vehiculos?: Prisma.VehiculoCreateNestedManyWithoutEmpresaInput
   zonas?: Prisma.ZonaCreateNestedManyWithoutEmpresaInput
+  sugerencias?: Prisma.SugerenciaSeguimientoCreateNestedManyWithoutEmpresaInput
 }
 
 export type EmpresaUncheckedCreateWithoutEstadosServicioInput = {
@@ -3683,6 +3749,7 @@ export type EmpresaUncheckedCreateWithoutEstadosServicioInput = {
   turnos?: Prisma.TurnoUncheckedCreateNestedManyWithoutEmpresaInput
   vehiculos?: Prisma.VehiculoUncheckedCreateNestedManyWithoutEmpresaInput
   zonas?: Prisma.ZonaUncheckedCreateNestedManyWithoutEmpresaInput
+  sugerencias?: Prisma.SugerenciaSeguimientoUncheckedCreateNestedManyWithoutEmpresaInput
 }
 
 export type EmpresaCreateOrConnectWithoutEstadosServicioInput = {
@@ -3749,6 +3816,7 @@ export type EmpresaUpdateWithoutEstadosServicioInput = {
   turnos?: Prisma.TurnoUpdateManyWithoutEmpresaNestedInput
   vehiculos?: Prisma.VehiculoUpdateManyWithoutEmpresaNestedInput
   zonas?: Prisma.ZonaUpdateManyWithoutEmpresaNestedInput
+  sugerencias?: Prisma.SugerenciaSeguimientoUpdateManyWithoutEmpresaNestedInput
 }
 
 export type EmpresaUncheckedUpdateWithoutEstadosServicioInput = {
@@ -3799,6 +3867,7 @@ export type EmpresaUncheckedUpdateWithoutEstadosServicioInput = {
   turnos?: Prisma.TurnoUncheckedUpdateManyWithoutEmpresaNestedInput
   vehiculos?: Prisma.VehiculoUncheckedUpdateManyWithoutEmpresaNestedInput
   zonas?: Prisma.ZonaUncheckedUpdateManyWithoutEmpresaNestedInput
+  sugerencias?: Prisma.SugerenciaSeguimientoUncheckedUpdateManyWithoutEmpresaNestedInput
 }
 
 export type EmpresaCreateWithoutOrdenesServicioInput = {
@@ -3849,6 +3918,7 @@ export type EmpresaCreateWithoutOrdenesServicioInput = {
   turnos?: Prisma.TurnoCreateNestedManyWithoutEmpresaInput
   vehiculos?: Prisma.VehiculoCreateNestedManyWithoutEmpresaInput
   zonas?: Prisma.ZonaCreateNestedManyWithoutEmpresaInput
+  sugerencias?: Prisma.SugerenciaSeguimientoCreateNestedManyWithoutEmpresaInput
 }
 
 export type EmpresaUncheckedCreateWithoutOrdenesServicioInput = {
@@ -3899,6 +3969,7 @@ export type EmpresaUncheckedCreateWithoutOrdenesServicioInput = {
   turnos?: Prisma.TurnoUncheckedCreateNestedManyWithoutEmpresaInput
   vehiculos?: Prisma.VehiculoUncheckedCreateNestedManyWithoutEmpresaInput
   zonas?: Prisma.ZonaUncheckedCreateNestedManyWithoutEmpresaInput
+  sugerencias?: Prisma.SugerenciaSeguimientoUncheckedCreateNestedManyWithoutEmpresaInput
 }
 
 export type EmpresaCreateOrConnectWithoutOrdenesServicioInput = {
@@ -3965,6 +4036,7 @@ export type EmpresaUpdateWithoutOrdenesServicioInput = {
   turnos?: Prisma.TurnoUpdateManyWithoutEmpresaNestedInput
   vehiculos?: Prisma.VehiculoUpdateManyWithoutEmpresaNestedInput
   zonas?: Prisma.ZonaUpdateManyWithoutEmpresaNestedInput
+  sugerencias?: Prisma.SugerenciaSeguimientoUpdateManyWithoutEmpresaNestedInput
 }
 
 export type EmpresaUncheckedUpdateWithoutOrdenesServicioInput = {
@@ -4015,6 +4087,7 @@ export type EmpresaUncheckedUpdateWithoutOrdenesServicioInput = {
   turnos?: Prisma.TurnoUncheckedUpdateManyWithoutEmpresaNestedInput
   vehiculos?: Prisma.VehiculoUncheckedUpdateManyWithoutEmpresaNestedInput
   zonas?: Prisma.ZonaUncheckedUpdateManyWithoutEmpresaNestedInput
+  sugerencias?: Prisma.SugerenciaSeguimientoUncheckedUpdateManyWithoutEmpresaNestedInput
 }
 
 export type EmpresaCreateWithoutEntidadesFinancierasInput = {
@@ -4065,6 +4138,7 @@ export type EmpresaCreateWithoutEntidadesFinancierasInput = {
   turnos?: Prisma.TurnoCreateNestedManyWithoutEmpresaInput
   vehiculos?: Prisma.VehiculoCreateNestedManyWithoutEmpresaInput
   zonas?: Prisma.ZonaCreateNestedManyWithoutEmpresaInput
+  sugerencias?: Prisma.SugerenciaSeguimientoCreateNestedManyWithoutEmpresaInput
 }
 
 export type EmpresaUncheckedCreateWithoutEntidadesFinancierasInput = {
@@ -4115,6 +4189,7 @@ export type EmpresaUncheckedCreateWithoutEntidadesFinancierasInput = {
   turnos?: Prisma.TurnoUncheckedCreateNestedManyWithoutEmpresaInput
   vehiculos?: Prisma.VehiculoUncheckedCreateNestedManyWithoutEmpresaInput
   zonas?: Prisma.ZonaUncheckedCreateNestedManyWithoutEmpresaInput
+  sugerencias?: Prisma.SugerenciaSeguimientoUncheckedCreateNestedManyWithoutEmpresaInput
 }
 
 export type EmpresaCreateOrConnectWithoutEntidadesFinancierasInput = {
@@ -4181,6 +4256,7 @@ export type EmpresaUpdateWithoutEntidadesFinancierasInput = {
   turnos?: Prisma.TurnoUpdateManyWithoutEmpresaNestedInput
   vehiculos?: Prisma.VehiculoUpdateManyWithoutEmpresaNestedInput
   zonas?: Prisma.ZonaUpdateManyWithoutEmpresaNestedInput
+  sugerencias?: Prisma.SugerenciaSeguimientoUpdateManyWithoutEmpresaNestedInput
 }
 
 export type EmpresaUncheckedUpdateWithoutEntidadesFinancierasInput = {
@@ -4231,6 +4307,7 @@ export type EmpresaUncheckedUpdateWithoutEntidadesFinancierasInput = {
   turnos?: Prisma.TurnoUncheckedUpdateManyWithoutEmpresaNestedInput
   vehiculos?: Prisma.VehiculoUncheckedUpdateManyWithoutEmpresaNestedInput
   zonas?: Prisma.ZonaUncheckedUpdateManyWithoutEmpresaNestedInput
+  sugerencias?: Prisma.SugerenciaSeguimientoUncheckedUpdateManyWithoutEmpresaNestedInput
 }
 
 export type EmpresaCreateWithoutGeolocalizacionesInput = {
@@ -4281,6 +4358,7 @@ export type EmpresaCreateWithoutGeolocalizacionesInput = {
   turnos?: Prisma.TurnoCreateNestedManyWithoutEmpresaInput
   vehiculos?: Prisma.VehiculoCreateNestedManyWithoutEmpresaInput
   zonas?: Prisma.ZonaCreateNestedManyWithoutEmpresaInput
+  sugerencias?: Prisma.SugerenciaSeguimientoCreateNestedManyWithoutEmpresaInput
 }
 
 export type EmpresaUncheckedCreateWithoutGeolocalizacionesInput = {
@@ -4331,6 +4409,7 @@ export type EmpresaUncheckedCreateWithoutGeolocalizacionesInput = {
   turnos?: Prisma.TurnoUncheckedCreateNestedManyWithoutEmpresaInput
   vehiculos?: Prisma.VehiculoUncheckedCreateNestedManyWithoutEmpresaInput
   zonas?: Prisma.ZonaUncheckedCreateNestedManyWithoutEmpresaInput
+  sugerencias?: Prisma.SugerenciaSeguimientoUncheckedCreateNestedManyWithoutEmpresaInput
 }
 
 export type EmpresaCreateOrConnectWithoutGeolocalizacionesInput = {
@@ -4397,6 +4476,7 @@ export type EmpresaUpdateWithoutGeolocalizacionesInput = {
   turnos?: Prisma.TurnoUpdateManyWithoutEmpresaNestedInput
   vehiculos?: Prisma.VehiculoUpdateManyWithoutEmpresaNestedInput
   zonas?: Prisma.ZonaUpdateManyWithoutEmpresaNestedInput
+  sugerencias?: Prisma.SugerenciaSeguimientoUpdateManyWithoutEmpresaNestedInput
 }
 
 export type EmpresaUncheckedUpdateWithoutGeolocalizacionesInput = {
@@ -4447,6 +4527,7 @@ export type EmpresaUncheckedUpdateWithoutGeolocalizacionesInput = {
   turnos?: Prisma.TurnoUncheckedUpdateManyWithoutEmpresaNestedInput
   vehiculos?: Prisma.VehiculoUncheckedUpdateManyWithoutEmpresaNestedInput
   zonas?: Prisma.ZonaUncheckedUpdateManyWithoutEmpresaNestedInput
+  sugerencias?: Prisma.SugerenciaSeguimientoUncheckedUpdateManyWithoutEmpresaNestedInput
 }
 
 export type EmpresaCreateWithoutNominasInput = {
@@ -4497,6 +4578,7 @@ export type EmpresaCreateWithoutNominasInput = {
   turnos?: Prisma.TurnoCreateNestedManyWithoutEmpresaInput
   vehiculos?: Prisma.VehiculoCreateNestedManyWithoutEmpresaInput
   zonas?: Prisma.ZonaCreateNestedManyWithoutEmpresaInput
+  sugerencias?: Prisma.SugerenciaSeguimientoCreateNestedManyWithoutEmpresaInput
 }
 
 export type EmpresaUncheckedCreateWithoutNominasInput = {
@@ -4547,6 +4629,7 @@ export type EmpresaUncheckedCreateWithoutNominasInput = {
   turnos?: Prisma.TurnoUncheckedCreateNestedManyWithoutEmpresaInput
   vehiculos?: Prisma.VehiculoUncheckedCreateNestedManyWithoutEmpresaInput
   zonas?: Prisma.ZonaUncheckedCreateNestedManyWithoutEmpresaInput
+  sugerencias?: Prisma.SugerenciaSeguimientoUncheckedCreateNestedManyWithoutEmpresaInput
 }
 
 export type EmpresaCreateOrConnectWithoutNominasInput = {
@@ -4613,6 +4696,7 @@ export type EmpresaUpdateWithoutNominasInput = {
   turnos?: Prisma.TurnoUpdateManyWithoutEmpresaNestedInput
   vehiculos?: Prisma.VehiculoUpdateManyWithoutEmpresaNestedInput
   zonas?: Prisma.ZonaUpdateManyWithoutEmpresaNestedInput
+  sugerencias?: Prisma.SugerenciaSeguimientoUpdateManyWithoutEmpresaNestedInput
 }
 
 export type EmpresaUncheckedUpdateWithoutNominasInput = {
@@ -4663,6 +4747,7 @@ export type EmpresaUncheckedUpdateWithoutNominasInput = {
   turnos?: Prisma.TurnoUncheckedUpdateManyWithoutEmpresaNestedInput
   vehiculos?: Prisma.VehiculoUncheckedUpdateManyWithoutEmpresaNestedInput
   zonas?: Prisma.ZonaUncheckedUpdateManyWithoutEmpresaNestedInput
+  sugerencias?: Prisma.SugerenciaSeguimientoUncheckedUpdateManyWithoutEmpresaNestedInput
 }
 
 export type EmpresaCreateWithoutNominaDetallesInput = {
@@ -4713,6 +4798,7 @@ export type EmpresaCreateWithoutNominaDetallesInput = {
   turnos?: Prisma.TurnoCreateNestedManyWithoutEmpresaInput
   vehiculos?: Prisma.VehiculoCreateNestedManyWithoutEmpresaInput
   zonas?: Prisma.ZonaCreateNestedManyWithoutEmpresaInput
+  sugerencias?: Prisma.SugerenciaSeguimientoCreateNestedManyWithoutEmpresaInput
 }
 
 export type EmpresaUncheckedCreateWithoutNominaDetallesInput = {
@@ -4763,6 +4849,7 @@ export type EmpresaUncheckedCreateWithoutNominaDetallesInput = {
   turnos?: Prisma.TurnoUncheckedCreateNestedManyWithoutEmpresaInput
   vehiculos?: Prisma.VehiculoUncheckedCreateNestedManyWithoutEmpresaInput
   zonas?: Prisma.ZonaUncheckedCreateNestedManyWithoutEmpresaInput
+  sugerencias?: Prisma.SugerenciaSeguimientoUncheckedCreateNestedManyWithoutEmpresaInput
 }
 
 export type EmpresaCreateOrConnectWithoutNominaDetallesInput = {
@@ -4829,6 +4916,7 @@ export type EmpresaUpdateWithoutNominaDetallesInput = {
   turnos?: Prisma.TurnoUpdateManyWithoutEmpresaNestedInput
   vehiculos?: Prisma.VehiculoUpdateManyWithoutEmpresaNestedInput
   zonas?: Prisma.ZonaUpdateManyWithoutEmpresaNestedInput
+  sugerencias?: Prisma.SugerenciaSeguimientoUpdateManyWithoutEmpresaNestedInput
 }
 
 export type EmpresaUncheckedUpdateWithoutNominaDetallesInput = {
@@ -4879,6 +4967,7 @@ export type EmpresaUncheckedUpdateWithoutNominaDetallesInput = {
   turnos?: Prisma.TurnoUncheckedUpdateManyWithoutEmpresaNestedInput
   vehiculos?: Prisma.VehiculoUncheckedUpdateManyWithoutEmpresaNestedInput
   zonas?: Prisma.ZonaUncheckedUpdateManyWithoutEmpresaNestedInput
+  sugerencias?: Prisma.SugerenciaSeguimientoUncheckedUpdateManyWithoutEmpresaNestedInput
 }
 
 export type EmpresaCreateWithoutCitasPsicologosInput = {
@@ -4929,6 +5018,7 @@ export type EmpresaCreateWithoutCitasPsicologosInput = {
   turnos?: Prisma.TurnoCreateNestedManyWithoutEmpresaInput
   vehiculos?: Prisma.VehiculoCreateNestedManyWithoutEmpresaInput
   zonas?: Prisma.ZonaCreateNestedManyWithoutEmpresaInput
+  sugerencias?: Prisma.SugerenciaSeguimientoCreateNestedManyWithoutEmpresaInput
 }
 
 export type EmpresaUncheckedCreateWithoutCitasPsicologosInput = {
@@ -4979,6 +5069,7 @@ export type EmpresaUncheckedCreateWithoutCitasPsicologosInput = {
   turnos?: Prisma.TurnoUncheckedCreateNestedManyWithoutEmpresaInput
   vehiculos?: Prisma.VehiculoUncheckedCreateNestedManyWithoutEmpresaInput
   zonas?: Prisma.ZonaUncheckedCreateNestedManyWithoutEmpresaInput
+  sugerencias?: Prisma.SugerenciaSeguimientoUncheckedCreateNestedManyWithoutEmpresaInput
 }
 
 export type EmpresaCreateOrConnectWithoutCitasPsicologosInput = {
@@ -5045,6 +5136,7 @@ export type EmpresaUpdateWithoutCitasPsicologosInput = {
   turnos?: Prisma.TurnoUpdateManyWithoutEmpresaNestedInput
   vehiculos?: Prisma.VehiculoUpdateManyWithoutEmpresaNestedInput
   zonas?: Prisma.ZonaUpdateManyWithoutEmpresaNestedInput
+  sugerencias?: Prisma.SugerenciaSeguimientoUpdateManyWithoutEmpresaNestedInput
 }
 
 export type EmpresaUncheckedUpdateWithoutCitasPsicologosInput = {
@@ -5095,6 +5187,7 @@ export type EmpresaUncheckedUpdateWithoutCitasPsicologosInput = {
   turnos?: Prisma.TurnoUncheckedUpdateManyWithoutEmpresaNestedInput
   vehiculos?: Prisma.VehiculoUncheckedUpdateManyWithoutEmpresaNestedInput
   zonas?: Prisma.ZonaUncheckedUpdateManyWithoutEmpresaNestedInput
+  sugerencias?: Prisma.SugerenciaSeguimientoUncheckedUpdateManyWithoutEmpresaNestedInput
 }
 
 export type EmpresaCreateWithoutConsultoriosInput = {
@@ -5145,6 +5238,7 @@ export type EmpresaCreateWithoutConsultoriosInput = {
   turnos?: Prisma.TurnoCreateNestedManyWithoutEmpresaInput
   vehiculos?: Prisma.VehiculoCreateNestedManyWithoutEmpresaInput
   zonas?: Prisma.ZonaCreateNestedManyWithoutEmpresaInput
+  sugerencias?: Prisma.SugerenciaSeguimientoCreateNestedManyWithoutEmpresaInput
 }
 
 export type EmpresaUncheckedCreateWithoutConsultoriosInput = {
@@ -5195,6 +5289,7 @@ export type EmpresaUncheckedCreateWithoutConsultoriosInput = {
   turnos?: Prisma.TurnoUncheckedCreateNestedManyWithoutEmpresaInput
   vehiculos?: Prisma.VehiculoUncheckedCreateNestedManyWithoutEmpresaInput
   zonas?: Prisma.ZonaUncheckedCreateNestedManyWithoutEmpresaInput
+  sugerencias?: Prisma.SugerenciaSeguimientoUncheckedCreateNestedManyWithoutEmpresaInput
 }
 
 export type EmpresaCreateOrConnectWithoutConsultoriosInput = {
@@ -5261,6 +5356,7 @@ export type EmpresaUpdateWithoutConsultoriosInput = {
   turnos?: Prisma.TurnoUpdateManyWithoutEmpresaNestedInput
   vehiculos?: Prisma.VehiculoUpdateManyWithoutEmpresaNestedInput
   zonas?: Prisma.ZonaUpdateManyWithoutEmpresaNestedInput
+  sugerencias?: Prisma.SugerenciaSeguimientoUpdateManyWithoutEmpresaNestedInput
 }
 
 export type EmpresaUncheckedUpdateWithoutConsultoriosInput = {
@@ -5311,6 +5407,7 @@ export type EmpresaUncheckedUpdateWithoutConsultoriosInput = {
   turnos?: Prisma.TurnoUncheckedUpdateManyWithoutEmpresaNestedInput
   vehiculos?: Prisma.VehiculoUncheckedUpdateManyWithoutEmpresaNestedInput
   zonas?: Prisma.ZonaUncheckedUpdateManyWithoutEmpresaNestedInput
+  sugerencias?: Prisma.SugerenciaSeguimientoUncheckedUpdateManyWithoutEmpresaNestedInput
 }
 
 export type EmpresaCreateWithoutTerapiasPsicologosInput = {
@@ -5361,6 +5458,7 @@ export type EmpresaCreateWithoutTerapiasPsicologosInput = {
   turnos?: Prisma.TurnoCreateNestedManyWithoutEmpresaInput
   vehiculos?: Prisma.VehiculoCreateNestedManyWithoutEmpresaInput
   zonas?: Prisma.ZonaCreateNestedManyWithoutEmpresaInput
+  sugerencias?: Prisma.SugerenciaSeguimientoCreateNestedManyWithoutEmpresaInput
 }
 
 export type EmpresaUncheckedCreateWithoutTerapiasPsicologosInput = {
@@ -5411,6 +5509,7 @@ export type EmpresaUncheckedCreateWithoutTerapiasPsicologosInput = {
   turnos?: Prisma.TurnoUncheckedCreateNestedManyWithoutEmpresaInput
   vehiculos?: Prisma.VehiculoUncheckedCreateNestedManyWithoutEmpresaInput
   zonas?: Prisma.ZonaUncheckedCreateNestedManyWithoutEmpresaInput
+  sugerencias?: Prisma.SugerenciaSeguimientoUncheckedCreateNestedManyWithoutEmpresaInput
 }
 
 export type EmpresaCreateOrConnectWithoutTerapiasPsicologosInput = {
@@ -5477,6 +5576,7 @@ export type EmpresaUpdateWithoutTerapiasPsicologosInput = {
   turnos?: Prisma.TurnoUpdateManyWithoutEmpresaNestedInput
   vehiculos?: Prisma.VehiculoUpdateManyWithoutEmpresaNestedInput
   zonas?: Prisma.ZonaUpdateManyWithoutEmpresaNestedInput
+  sugerencias?: Prisma.SugerenciaSeguimientoUpdateManyWithoutEmpresaNestedInput
 }
 
 export type EmpresaUncheckedUpdateWithoutTerapiasPsicologosInput = {
@@ -5527,6 +5627,7 @@ export type EmpresaUncheckedUpdateWithoutTerapiasPsicologosInput = {
   turnos?: Prisma.TurnoUncheckedUpdateManyWithoutEmpresaNestedInput
   vehiculos?: Prisma.VehiculoUncheckedUpdateManyWithoutEmpresaNestedInput
   zonas?: Prisma.ZonaUncheckedUpdateManyWithoutEmpresaNestedInput
+  sugerencias?: Prisma.SugerenciaSeguimientoUncheckedUpdateManyWithoutEmpresaNestedInput
 }
 
 export type EmpresaCreateWithoutPaquetesAdquiridosInput = {
@@ -5577,6 +5678,7 @@ export type EmpresaCreateWithoutPaquetesAdquiridosInput = {
   turnos?: Prisma.TurnoCreateNestedManyWithoutEmpresaInput
   vehiculos?: Prisma.VehiculoCreateNestedManyWithoutEmpresaInput
   zonas?: Prisma.ZonaCreateNestedManyWithoutEmpresaInput
+  sugerencias?: Prisma.SugerenciaSeguimientoCreateNestedManyWithoutEmpresaInput
 }
 
 export type EmpresaUncheckedCreateWithoutPaquetesAdquiridosInput = {
@@ -5627,6 +5729,7 @@ export type EmpresaUncheckedCreateWithoutPaquetesAdquiridosInput = {
   turnos?: Prisma.TurnoUncheckedCreateNestedManyWithoutEmpresaInput
   vehiculos?: Prisma.VehiculoUncheckedCreateNestedManyWithoutEmpresaInput
   zonas?: Prisma.ZonaUncheckedCreateNestedManyWithoutEmpresaInput
+  sugerencias?: Prisma.SugerenciaSeguimientoUncheckedCreateNestedManyWithoutEmpresaInput
 }
 
 export type EmpresaCreateOrConnectWithoutPaquetesAdquiridosInput = {
@@ -5693,6 +5796,7 @@ export type EmpresaUpdateWithoutPaquetesAdquiridosInput = {
   turnos?: Prisma.TurnoUpdateManyWithoutEmpresaNestedInput
   vehiculos?: Prisma.VehiculoUpdateManyWithoutEmpresaNestedInput
   zonas?: Prisma.ZonaUpdateManyWithoutEmpresaNestedInput
+  sugerencias?: Prisma.SugerenciaSeguimientoUpdateManyWithoutEmpresaNestedInput
 }
 
 export type EmpresaUncheckedUpdateWithoutPaquetesAdquiridosInput = {
@@ -5743,6 +5847,7 @@ export type EmpresaUncheckedUpdateWithoutPaquetesAdquiridosInput = {
   turnos?: Prisma.TurnoUncheckedUpdateManyWithoutEmpresaNestedInput
   vehiculos?: Prisma.VehiculoUncheckedUpdateManyWithoutEmpresaNestedInput
   zonas?: Prisma.ZonaUncheckedUpdateManyWithoutEmpresaNestedInput
+  sugerencias?: Prisma.SugerenciaSeguimientoUncheckedUpdateManyWithoutEmpresaNestedInput
 }
 
 export type EmpresaCreateWithoutTurnosInput = {
@@ -5793,6 +5898,7 @@ export type EmpresaCreateWithoutTurnosInput = {
   tiposServicio?: Prisma.TipoServicioCreateNestedManyWithoutEmpresaInput
   vehiculos?: Prisma.VehiculoCreateNestedManyWithoutEmpresaInput
   zonas?: Prisma.ZonaCreateNestedManyWithoutEmpresaInput
+  sugerencias?: Prisma.SugerenciaSeguimientoCreateNestedManyWithoutEmpresaInput
 }
 
 export type EmpresaUncheckedCreateWithoutTurnosInput = {
@@ -5843,6 +5949,7 @@ export type EmpresaUncheckedCreateWithoutTurnosInput = {
   tiposServicio?: Prisma.TipoServicioUncheckedCreateNestedManyWithoutEmpresaInput
   vehiculos?: Prisma.VehiculoUncheckedCreateNestedManyWithoutEmpresaInput
   zonas?: Prisma.ZonaUncheckedCreateNestedManyWithoutEmpresaInput
+  sugerencias?: Prisma.SugerenciaSeguimientoUncheckedCreateNestedManyWithoutEmpresaInput
 }
 
 export type EmpresaCreateOrConnectWithoutTurnosInput = {
@@ -5909,6 +6016,7 @@ export type EmpresaUpdateWithoutTurnosInput = {
   tiposServicio?: Prisma.TipoServicioUpdateManyWithoutEmpresaNestedInput
   vehiculos?: Prisma.VehiculoUpdateManyWithoutEmpresaNestedInput
   zonas?: Prisma.ZonaUpdateManyWithoutEmpresaNestedInput
+  sugerencias?: Prisma.SugerenciaSeguimientoUpdateManyWithoutEmpresaNestedInput
 }
 
 export type EmpresaUncheckedUpdateWithoutTurnosInput = {
@@ -5959,6 +6067,7 @@ export type EmpresaUncheckedUpdateWithoutTurnosInput = {
   tiposServicio?: Prisma.TipoServicioUncheckedUpdateManyWithoutEmpresaNestedInput
   vehiculos?: Prisma.VehiculoUncheckedUpdateManyWithoutEmpresaNestedInput
   zonas?: Prisma.ZonaUncheckedUpdateManyWithoutEmpresaNestedInput
+  sugerencias?: Prisma.SugerenciaSeguimientoUncheckedUpdateManyWithoutEmpresaNestedInput
 }
 
 export type EmpresaCreateWithoutCuentasCobroInput = {
@@ -6009,6 +6118,7 @@ export type EmpresaCreateWithoutCuentasCobroInput = {
   turnos?: Prisma.TurnoCreateNestedManyWithoutEmpresaInput
   vehiculos?: Prisma.VehiculoCreateNestedManyWithoutEmpresaInput
   zonas?: Prisma.ZonaCreateNestedManyWithoutEmpresaInput
+  sugerencias?: Prisma.SugerenciaSeguimientoCreateNestedManyWithoutEmpresaInput
 }
 
 export type EmpresaUncheckedCreateWithoutCuentasCobroInput = {
@@ -6059,6 +6169,7 @@ export type EmpresaUncheckedCreateWithoutCuentasCobroInput = {
   turnos?: Prisma.TurnoUncheckedCreateNestedManyWithoutEmpresaInput
   vehiculos?: Prisma.VehiculoUncheckedCreateNestedManyWithoutEmpresaInput
   zonas?: Prisma.ZonaUncheckedCreateNestedManyWithoutEmpresaInput
+  sugerencias?: Prisma.SugerenciaSeguimientoUncheckedCreateNestedManyWithoutEmpresaInput
 }
 
 export type EmpresaCreateOrConnectWithoutCuentasCobroInput = {
@@ -6125,6 +6236,7 @@ export type EmpresaUpdateWithoutCuentasCobroInput = {
   turnos?: Prisma.TurnoUpdateManyWithoutEmpresaNestedInput
   vehiculos?: Prisma.VehiculoUpdateManyWithoutEmpresaNestedInput
   zonas?: Prisma.ZonaUpdateManyWithoutEmpresaNestedInput
+  sugerencias?: Prisma.SugerenciaSeguimientoUpdateManyWithoutEmpresaNestedInput
 }
 
 export type EmpresaUncheckedUpdateWithoutCuentasCobroInput = {
@@ -6175,6 +6287,7 @@ export type EmpresaUncheckedUpdateWithoutCuentasCobroInput = {
   turnos?: Prisma.TurnoUncheckedUpdateManyWithoutEmpresaNestedInput
   vehiculos?: Prisma.VehiculoUncheckedUpdateManyWithoutEmpresaNestedInput
   zonas?: Prisma.ZonaUncheckedUpdateManyWithoutEmpresaNestedInput
+  sugerencias?: Prisma.SugerenciaSeguimientoUncheckedUpdateManyWithoutEmpresaNestedInput
 }
 
 export type EmpresaCreateWithoutDeclaracionesInput = {
@@ -6225,6 +6338,7 @@ export type EmpresaCreateWithoutDeclaracionesInput = {
   turnos?: Prisma.TurnoCreateNestedManyWithoutEmpresaInput
   vehiculos?: Prisma.VehiculoCreateNestedManyWithoutEmpresaInput
   zonas?: Prisma.ZonaCreateNestedManyWithoutEmpresaInput
+  sugerencias?: Prisma.SugerenciaSeguimientoCreateNestedManyWithoutEmpresaInput
 }
 
 export type EmpresaUncheckedCreateWithoutDeclaracionesInput = {
@@ -6275,6 +6389,7 @@ export type EmpresaUncheckedCreateWithoutDeclaracionesInput = {
   turnos?: Prisma.TurnoUncheckedCreateNestedManyWithoutEmpresaInput
   vehiculos?: Prisma.VehiculoUncheckedCreateNestedManyWithoutEmpresaInput
   zonas?: Prisma.ZonaUncheckedCreateNestedManyWithoutEmpresaInput
+  sugerencias?: Prisma.SugerenciaSeguimientoUncheckedCreateNestedManyWithoutEmpresaInput
 }
 
 export type EmpresaCreateOrConnectWithoutDeclaracionesInput = {
@@ -6341,6 +6456,7 @@ export type EmpresaUpdateWithoutDeclaracionesInput = {
   turnos?: Prisma.TurnoUpdateManyWithoutEmpresaNestedInput
   vehiculos?: Prisma.VehiculoUpdateManyWithoutEmpresaNestedInput
   zonas?: Prisma.ZonaUpdateManyWithoutEmpresaNestedInput
+  sugerencias?: Prisma.SugerenciaSeguimientoUpdateManyWithoutEmpresaNestedInput
 }
 
 export type EmpresaUncheckedUpdateWithoutDeclaracionesInput = {
@@ -6391,6 +6507,7 @@ export type EmpresaUncheckedUpdateWithoutDeclaracionesInput = {
   turnos?: Prisma.TurnoUncheckedUpdateManyWithoutEmpresaNestedInput
   vehiculos?: Prisma.VehiculoUncheckedUpdateManyWithoutEmpresaNestedInput
   zonas?: Prisma.ZonaUncheckedUpdateManyWithoutEmpresaNestedInput
+  sugerencias?: Prisma.SugerenciaSeguimientoUncheckedUpdateManyWithoutEmpresaNestedInput
 }
 
 export type EmpresaCreateWithoutConsignacionesInput = {
@@ -6441,6 +6558,7 @@ export type EmpresaCreateWithoutConsignacionesInput = {
   turnos?: Prisma.TurnoCreateNestedManyWithoutEmpresaInput
   vehiculos?: Prisma.VehiculoCreateNestedManyWithoutEmpresaInput
   zonas?: Prisma.ZonaCreateNestedManyWithoutEmpresaInput
+  sugerencias?: Prisma.SugerenciaSeguimientoCreateNestedManyWithoutEmpresaInput
 }
 
 export type EmpresaUncheckedCreateWithoutConsignacionesInput = {
@@ -6491,6 +6609,7 @@ export type EmpresaUncheckedCreateWithoutConsignacionesInput = {
   turnos?: Prisma.TurnoUncheckedCreateNestedManyWithoutEmpresaInput
   vehiculos?: Prisma.VehiculoUncheckedCreateNestedManyWithoutEmpresaInput
   zonas?: Prisma.ZonaUncheckedCreateNestedManyWithoutEmpresaInput
+  sugerencias?: Prisma.SugerenciaSeguimientoUncheckedCreateNestedManyWithoutEmpresaInput
 }
 
 export type EmpresaCreateOrConnectWithoutConsignacionesInput = {
@@ -6557,6 +6676,7 @@ export type EmpresaUpdateWithoutConsignacionesInput = {
   turnos?: Prisma.TurnoUpdateManyWithoutEmpresaNestedInput
   vehiculos?: Prisma.VehiculoUpdateManyWithoutEmpresaNestedInput
   zonas?: Prisma.ZonaUpdateManyWithoutEmpresaNestedInput
+  sugerencias?: Prisma.SugerenciaSeguimientoUpdateManyWithoutEmpresaNestedInput
 }
 
 export type EmpresaUncheckedUpdateWithoutConsignacionesInput = {
@@ -6607,6 +6727,7 @@ export type EmpresaUncheckedUpdateWithoutConsignacionesInput = {
   turnos?: Prisma.TurnoUncheckedUpdateManyWithoutEmpresaNestedInput
   vehiculos?: Prisma.VehiculoUncheckedUpdateManyWithoutEmpresaNestedInput
   zonas?: Prisma.ZonaUncheckedUpdateManyWithoutEmpresaNestedInput
+  sugerencias?: Prisma.SugerenciaSeguimientoUncheckedUpdateManyWithoutEmpresaNestedInput
 }
 
 export type EmpresaCreateWithoutConsignacionOrdenesInput = {
@@ -6657,6 +6778,7 @@ export type EmpresaCreateWithoutConsignacionOrdenesInput = {
   turnos?: Prisma.TurnoCreateNestedManyWithoutEmpresaInput
   vehiculos?: Prisma.VehiculoCreateNestedManyWithoutEmpresaInput
   zonas?: Prisma.ZonaCreateNestedManyWithoutEmpresaInput
+  sugerencias?: Prisma.SugerenciaSeguimientoCreateNestedManyWithoutEmpresaInput
 }
 
 export type EmpresaUncheckedCreateWithoutConsignacionOrdenesInput = {
@@ -6707,6 +6829,7 @@ export type EmpresaUncheckedCreateWithoutConsignacionOrdenesInput = {
   turnos?: Prisma.TurnoUncheckedCreateNestedManyWithoutEmpresaInput
   vehiculos?: Prisma.VehiculoUncheckedCreateNestedManyWithoutEmpresaInput
   zonas?: Prisma.ZonaUncheckedCreateNestedManyWithoutEmpresaInput
+  sugerencias?: Prisma.SugerenciaSeguimientoUncheckedCreateNestedManyWithoutEmpresaInput
 }
 
 export type EmpresaCreateOrConnectWithoutConsignacionOrdenesInput = {
@@ -6773,6 +6896,7 @@ export type EmpresaUpdateWithoutConsignacionOrdenesInput = {
   turnos?: Prisma.TurnoUpdateManyWithoutEmpresaNestedInput
   vehiculos?: Prisma.VehiculoUpdateManyWithoutEmpresaNestedInput
   zonas?: Prisma.ZonaUpdateManyWithoutEmpresaNestedInput
+  sugerencias?: Prisma.SugerenciaSeguimientoUpdateManyWithoutEmpresaNestedInput
 }
 
 export type EmpresaUncheckedUpdateWithoutConsignacionOrdenesInput = {
@@ -6823,6 +6947,7 @@ export type EmpresaUncheckedUpdateWithoutConsignacionOrdenesInput = {
   turnos?: Prisma.TurnoUncheckedUpdateManyWithoutEmpresaNestedInput
   vehiculos?: Prisma.VehiculoUncheckedUpdateManyWithoutEmpresaNestedInput
   zonas?: Prisma.ZonaUncheckedUpdateManyWithoutEmpresaNestedInput
+  sugerencias?: Prisma.SugerenciaSeguimientoUncheckedUpdateManyWithoutEmpresaNestedInput
 }
 
 export type EmpresaCreateWithoutAnticiposInput = {
@@ -6873,6 +6998,7 @@ export type EmpresaCreateWithoutAnticiposInput = {
   turnos?: Prisma.TurnoCreateNestedManyWithoutEmpresaInput
   vehiculos?: Prisma.VehiculoCreateNestedManyWithoutEmpresaInput
   zonas?: Prisma.ZonaCreateNestedManyWithoutEmpresaInput
+  sugerencias?: Prisma.SugerenciaSeguimientoCreateNestedManyWithoutEmpresaInput
 }
 
 export type EmpresaUncheckedCreateWithoutAnticiposInput = {
@@ -6923,6 +7049,7 @@ export type EmpresaUncheckedCreateWithoutAnticiposInput = {
   turnos?: Prisma.TurnoUncheckedCreateNestedManyWithoutEmpresaInput
   vehiculos?: Prisma.VehiculoUncheckedCreateNestedManyWithoutEmpresaInput
   zonas?: Prisma.ZonaUncheckedCreateNestedManyWithoutEmpresaInput
+  sugerencias?: Prisma.SugerenciaSeguimientoUncheckedCreateNestedManyWithoutEmpresaInput
 }
 
 export type EmpresaCreateOrConnectWithoutAnticiposInput = {
@@ -6989,6 +7116,7 @@ export type EmpresaUpdateWithoutAnticiposInput = {
   turnos?: Prisma.TurnoUpdateManyWithoutEmpresaNestedInput
   vehiculos?: Prisma.VehiculoUpdateManyWithoutEmpresaNestedInput
   zonas?: Prisma.ZonaUpdateManyWithoutEmpresaNestedInput
+  sugerencias?: Prisma.SugerenciaSeguimientoUpdateManyWithoutEmpresaNestedInput
 }
 
 export type EmpresaUncheckedUpdateWithoutAnticiposInput = {
@@ -7039,6 +7167,7 @@ export type EmpresaUncheckedUpdateWithoutAnticiposInput = {
   turnos?: Prisma.TurnoUncheckedUpdateManyWithoutEmpresaNestedInput
   vehiculos?: Prisma.VehiculoUncheckedUpdateManyWithoutEmpresaNestedInput
   zonas?: Prisma.ZonaUncheckedUpdateManyWithoutEmpresaNestedInput
+  sugerencias?: Prisma.SugerenciaSeguimientoUncheckedUpdateManyWithoutEmpresaNestedInput
 }
 
 export type EmpresaCreateWithoutProductosInput = {
@@ -7089,6 +7218,7 @@ export type EmpresaCreateWithoutProductosInput = {
   turnos?: Prisma.TurnoCreateNestedManyWithoutEmpresaInput
   vehiculos?: Prisma.VehiculoCreateNestedManyWithoutEmpresaInput
   zonas?: Prisma.ZonaCreateNestedManyWithoutEmpresaInput
+  sugerencias?: Prisma.SugerenciaSeguimientoCreateNestedManyWithoutEmpresaInput
 }
 
 export type EmpresaUncheckedCreateWithoutProductosInput = {
@@ -7139,6 +7269,7 @@ export type EmpresaUncheckedCreateWithoutProductosInput = {
   turnos?: Prisma.TurnoUncheckedCreateNestedManyWithoutEmpresaInput
   vehiculos?: Prisma.VehiculoUncheckedCreateNestedManyWithoutEmpresaInput
   zonas?: Prisma.ZonaUncheckedCreateNestedManyWithoutEmpresaInput
+  sugerencias?: Prisma.SugerenciaSeguimientoUncheckedCreateNestedManyWithoutEmpresaInput
 }
 
 export type EmpresaCreateOrConnectWithoutProductosInput = {
@@ -7205,6 +7336,7 @@ export type EmpresaUpdateWithoutProductosInput = {
   turnos?: Prisma.TurnoUpdateManyWithoutEmpresaNestedInput
   vehiculos?: Prisma.VehiculoUpdateManyWithoutEmpresaNestedInput
   zonas?: Prisma.ZonaUpdateManyWithoutEmpresaNestedInput
+  sugerencias?: Prisma.SugerenciaSeguimientoUpdateManyWithoutEmpresaNestedInput
 }
 
 export type EmpresaUncheckedUpdateWithoutProductosInput = {
@@ -7255,6 +7387,7 @@ export type EmpresaUncheckedUpdateWithoutProductosInput = {
   turnos?: Prisma.TurnoUncheckedUpdateManyWithoutEmpresaNestedInput
   vehiculos?: Prisma.VehiculoUncheckedUpdateManyWithoutEmpresaNestedInput
   zonas?: Prisma.ZonaUncheckedUpdateManyWithoutEmpresaNestedInput
+  sugerencias?: Prisma.SugerenciaSeguimientoUncheckedUpdateManyWithoutEmpresaNestedInput
 }
 
 export type EmpresaCreateWithoutProductosSolicitadosInput = {
@@ -7305,6 +7438,7 @@ export type EmpresaCreateWithoutProductosSolicitadosInput = {
   turnos?: Prisma.TurnoCreateNestedManyWithoutEmpresaInput
   vehiculos?: Prisma.VehiculoCreateNestedManyWithoutEmpresaInput
   zonas?: Prisma.ZonaCreateNestedManyWithoutEmpresaInput
+  sugerencias?: Prisma.SugerenciaSeguimientoCreateNestedManyWithoutEmpresaInput
 }
 
 export type EmpresaUncheckedCreateWithoutProductosSolicitadosInput = {
@@ -7355,6 +7489,7 @@ export type EmpresaUncheckedCreateWithoutProductosSolicitadosInput = {
   turnos?: Prisma.TurnoUncheckedCreateNestedManyWithoutEmpresaInput
   vehiculos?: Prisma.VehiculoUncheckedCreateNestedManyWithoutEmpresaInput
   zonas?: Prisma.ZonaUncheckedCreateNestedManyWithoutEmpresaInput
+  sugerencias?: Prisma.SugerenciaSeguimientoUncheckedCreateNestedManyWithoutEmpresaInput
 }
 
 export type EmpresaCreateOrConnectWithoutProductosSolicitadosInput = {
@@ -7421,6 +7556,7 @@ export type EmpresaUpdateWithoutProductosSolicitadosInput = {
   turnos?: Prisma.TurnoUpdateManyWithoutEmpresaNestedInput
   vehiculos?: Prisma.VehiculoUpdateManyWithoutEmpresaNestedInput
   zonas?: Prisma.ZonaUpdateManyWithoutEmpresaNestedInput
+  sugerencias?: Prisma.SugerenciaSeguimientoUpdateManyWithoutEmpresaNestedInput
 }
 
 export type EmpresaUncheckedUpdateWithoutProductosSolicitadosInput = {
@@ -7471,6 +7607,7 @@ export type EmpresaUncheckedUpdateWithoutProductosSolicitadosInput = {
   turnos?: Prisma.TurnoUncheckedUpdateManyWithoutEmpresaNestedInput
   vehiculos?: Prisma.VehiculoUncheckedUpdateManyWithoutEmpresaNestedInput
   zonas?: Prisma.ZonaUncheckedUpdateManyWithoutEmpresaNestedInput
+  sugerencias?: Prisma.SugerenciaSeguimientoUncheckedUpdateManyWithoutEmpresaNestedInput
 }
 
 export type EmpresaCreateWithoutProveedoresInput = {
@@ -7521,6 +7658,7 @@ export type EmpresaCreateWithoutProveedoresInput = {
   turnos?: Prisma.TurnoCreateNestedManyWithoutEmpresaInput
   vehiculos?: Prisma.VehiculoCreateNestedManyWithoutEmpresaInput
   zonas?: Prisma.ZonaCreateNestedManyWithoutEmpresaInput
+  sugerencias?: Prisma.SugerenciaSeguimientoCreateNestedManyWithoutEmpresaInput
 }
 
 export type EmpresaUncheckedCreateWithoutProveedoresInput = {
@@ -7571,6 +7709,7 @@ export type EmpresaUncheckedCreateWithoutProveedoresInput = {
   turnos?: Prisma.TurnoUncheckedCreateNestedManyWithoutEmpresaInput
   vehiculos?: Prisma.VehiculoUncheckedCreateNestedManyWithoutEmpresaInput
   zonas?: Prisma.ZonaUncheckedCreateNestedManyWithoutEmpresaInput
+  sugerencias?: Prisma.SugerenciaSeguimientoUncheckedCreateNestedManyWithoutEmpresaInput
 }
 
 export type EmpresaCreateOrConnectWithoutProveedoresInput = {
@@ -7637,6 +7776,7 @@ export type EmpresaUpdateWithoutProveedoresInput = {
   turnos?: Prisma.TurnoUpdateManyWithoutEmpresaNestedInput
   vehiculos?: Prisma.VehiculoUpdateManyWithoutEmpresaNestedInput
   zonas?: Prisma.ZonaUpdateManyWithoutEmpresaNestedInput
+  sugerencias?: Prisma.SugerenciaSeguimientoUpdateManyWithoutEmpresaNestedInput
 }
 
 export type EmpresaUncheckedUpdateWithoutProveedoresInput = {
@@ -7687,6 +7827,7 @@ export type EmpresaUncheckedUpdateWithoutProveedoresInput = {
   turnos?: Prisma.TurnoUncheckedUpdateManyWithoutEmpresaNestedInput
   vehiculos?: Prisma.VehiculoUncheckedUpdateManyWithoutEmpresaNestedInput
   zonas?: Prisma.ZonaUncheckedUpdateManyWithoutEmpresaNestedInput
+  sugerencias?: Prisma.SugerenciaSeguimientoUncheckedUpdateManyWithoutEmpresaNestedInput
 }
 
 export type EmpresaCreateWithoutPermisosInput = {
@@ -7737,6 +7878,7 @@ export type EmpresaCreateWithoutPermisosInput = {
   turnos?: Prisma.TurnoCreateNestedManyWithoutEmpresaInput
   vehiculos?: Prisma.VehiculoCreateNestedManyWithoutEmpresaInput
   zonas?: Prisma.ZonaCreateNestedManyWithoutEmpresaInput
+  sugerencias?: Prisma.SugerenciaSeguimientoCreateNestedManyWithoutEmpresaInput
 }
 
 export type EmpresaUncheckedCreateWithoutPermisosInput = {
@@ -7787,6 +7929,7 @@ export type EmpresaUncheckedCreateWithoutPermisosInput = {
   turnos?: Prisma.TurnoUncheckedCreateNestedManyWithoutEmpresaInput
   vehiculos?: Prisma.VehiculoUncheckedCreateNestedManyWithoutEmpresaInput
   zonas?: Prisma.ZonaUncheckedCreateNestedManyWithoutEmpresaInput
+  sugerencias?: Prisma.SugerenciaSeguimientoUncheckedCreateNestedManyWithoutEmpresaInput
 }
 
 export type EmpresaCreateOrConnectWithoutPermisosInput = {
@@ -7853,6 +7996,7 @@ export type EmpresaUpdateWithoutPermisosInput = {
   turnos?: Prisma.TurnoUpdateManyWithoutEmpresaNestedInput
   vehiculos?: Prisma.VehiculoUpdateManyWithoutEmpresaNestedInput
   zonas?: Prisma.ZonaUpdateManyWithoutEmpresaNestedInput
+  sugerencias?: Prisma.SugerenciaSeguimientoUpdateManyWithoutEmpresaNestedInput
 }
 
 export type EmpresaUncheckedUpdateWithoutPermisosInput = {
@@ -7903,6 +8047,7 @@ export type EmpresaUncheckedUpdateWithoutPermisosInput = {
   turnos?: Prisma.TurnoUncheckedUpdateManyWithoutEmpresaNestedInput
   vehiculos?: Prisma.VehiculoUncheckedUpdateManyWithoutEmpresaNestedInput
   zonas?: Prisma.ZonaUncheckedUpdateManyWithoutEmpresaNestedInput
+  sugerencias?: Prisma.SugerenciaSeguimientoUncheckedUpdateManyWithoutEmpresaNestedInput
 }
 
 export type EmpresaCreateWithoutConfiguracionPagosInput = {
@@ -7953,6 +8098,7 @@ export type EmpresaCreateWithoutConfiguracionPagosInput = {
   turnos?: Prisma.TurnoCreateNestedManyWithoutEmpresaInput
   vehiculos?: Prisma.VehiculoCreateNestedManyWithoutEmpresaInput
   zonas?: Prisma.ZonaCreateNestedManyWithoutEmpresaInput
+  sugerencias?: Prisma.SugerenciaSeguimientoCreateNestedManyWithoutEmpresaInput
 }
 
 export type EmpresaUncheckedCreateWithoutConfiguracionPagosInput = {
@@ -8003,6 +8149,7 @@ export type EmpresaUncheckedCreateWithoutConfiguracionPagosInput = {
   turnos?: Prisma.TurnoUncheckedCreateNestedManyWithoutEmpresaInput
   vehiculos?: Prisma.VehiculoUncheckedCreateNestedManyWithoutEmpresaInput
   zonas?: Prisma.ZonaUncheckedCreateNestedManyWithoutEmpresaInput
+  sugerencias?: Prisma.SugerenciaSeguimientoUncheckedCreateNestedManyWithoutEmpresaInput
 }
 
 export type EmpresaCreateOrConnectWithoutConfiguracionPagosInput = {
@@ -8069,6 +8216,7 @@ export type EmpresaUpdateWithoutConfiguracionPagosInput = {
   turnos?: Prisma.TurnoUpdateManyWithoutEmpresaNestedInput
   vehiculos?: Prisma.VehiculoUpdateManyWithoutEmpresaNestedInput
   zonas?: Prisma.ZonaUpdateManyWithoutEmpresaNestedInput
+  sugerencias?: Prisma.SugerenciaSeguimientoUpdateManyWithoutEmpresaNestedInput
 }
 
 export type EmpresaUncheckedUpdateWithoutConfiguracionPagosInput = {
@@ -8119,6 +8267,7 @@ export type EmpresaUncheckedUpdateWithoutConfiguracionPagosInput = {
   turnos?: Prisma.TurnoUncheckedUpdateManyWithoutEmpresaNestedInput
   vehiculos?: Prisma.VehiculoUncheckedUpdateManyWithoutEmpresaNestedInput
   zonas?: Prisma.ZonaUncheckedUpdateManyWithoutEmpresaNestedInput
+  sugerencias?: Prisma.SugerenciaSeguimientoUncheckedUpdateManyWithoutEmpresaNestedInput
 }
 
 export type EmpresaCreateWithoutCuentasPagoInput = {
@@ -8169,6 +8318,7 @@ export type EmpresaCreateWithoutCuentasPagoInput = {
   turnos?: Prisma.TurnoCreateNestedManyWithoutEmpresaInput
   vehiculos?: Prisma.VehiculoCreateNestedManyWithoutEmpresaInput
   zonas?: Prisma.ZonaCreateNestedManyWithoutEmpresaInput
+  sugerencias?: Prisma.SugerenciaSeguimientoCreateNestedManyWithoutEmpresaInput
 }
 
 export type EmpresaUncheckedCreateWithoutCuentasPagoInput = {
@@ -8219,6 +8369,7 @@ export type EmpresaUncheckedCreateWithoutCuentasPagoInput = {
   turnos?: Prisma.TurnoUncheckedCreateNestedManyWithoutEmpresaInput
   vehiculos?: Prisma.VehiculoUncheckedCreateNestedManyWithoutEmpresaInput
   zonas?: Prisma.ZonaUncheckedCreateNestedManyWithoutEmpresaInput
+  sugerencias?: Prisma.SugerenciaSeguimientoUncheckedCreateNestedManyWithoutEmpresaInput
 }
 
 export type EmpresaCreateOrConnectWithoutCuentasPagoInput = {
@@ -8285,6 +8436,7 @@ export type EmpresaUpdateWithoutCuentasPagoInput = {
   turnos?: Prisma.TurnoUpdateManyWithoutEmpresaNestedInput
   vehiculos?: Prisma.VehiculoUpdateManyWithoutEmpresaNestedInput
   zonas?: Prisma.ZonaUpdateManyWithoutEmpresaNestedInput
+  sugerencias?: Prisma.SugerenciaSeguimientoUpdateManyWithoutEmpresaNestedInput
 }
 
 export type EmpresaUncheckedUpdateWithoutCuentasPagoInput = {
@@ -8335,6 +8487,7 @@ export type EmpresaUncheckedUpdateWithoutCuentasPagoInput = {
   turnos?: Prisma.TurnoUncheckedUpdateManyWithoutEmpresaNestedInput
   vehiculos?: Prisma.VehiculoUncheckedUpdateManyWithoutEmpresaNestedInput
   zonas?: Prisma.ZonaUncheckedUpdateManyWithoutEmpresaNestedInput
+  sugerencias?: Prisma.SugerenciaSeguimientoUncheckedUpdateManyWithoutEmpresaNestedInput
 }
 
 export type EmpresaCreateWithoutEgresosInput = {
@@ -8385,6 +8538,7 @@ export type EmpresaCreateWithoutEgresosInput = {
   turnos?: Prisma.TurnoCreateNestedManyWithoutEmpresaInput
   vehiculos?: Prisma.VehiculoCreateNestedManyWithoutEmpresaInput
   zonas?: Prisma.ZonaCreateNestedManyWithoutEmpresaInput
+  sugerencias?: Prisma.SugerenciaSeguimientoCreateNestedManyWithoutEmpresaInput
 }
 
 export type EmpresaUncheckedCreateWithoutEgresosInput = {
@@ -8435,6 +8589,7 @@ export type EmpresaUncheckedCreateWithoutEgresosInput = {
   turnos?: Prisma.TurnoUncheckedCreateNestedManyWithoutEmpresaInput
   vehiculos?: Prisma.VehiculoUncheckedCreateNestedManyWithoutEmpresaInput
   zonas?: Prisma.ZonaUncheckedCreateNestedManyWithoutEmpresaInput
+  sugerencias?: Prisma.SugerenciaSeguimientoUncheckedCreateNestedManyWithoutEmpresaInput
 }
 
 export type EmpresaCreateOrConnectWithoutEgresosInput = {
@@ -8501,6 +8656,7 @@ export type EmpresaUpdateWithoutEgresosInput = {
   turnos?: Prisma.TurnoUpdateManyWithoutEmpresaNestedInput
   vehiculos?: Prisma.VehiculoUpdateManyWithoutEmpresaNestedInput
   zonas?: Prisma.ZonaUpdateManyWithoutEmpresaNestedInput
+  sugerencias?: Prisma.SugerenciaSeguimientoUpdateManyWithoutEmpresaNestedInput
 }
 
 export type EmpresaUncheckedUpdateWithoutEgresosInput = {
@@ -8551,6 +8707,7 @@ export type EmpresaUncheckedUpdateWithoutEgresosInput = {
   turnos?: Prisma.TurnoUncheckedUpdateManyWithoutEmpresaNestedInput
   vehiculos?: Prisma.VehiculoUncheckedUpdateManyWithoutEmpresaNestedInput
   zonas?: Prisma.ZonaUncheckedUpdateManyWithoutEmpresaNestedInput
+  sugerencias?: Prisma.SugerenciaSeguimientoUncheckedUpdateManyWithoutEmpresaNestedInput
 }
 
 export type EmpresaCreateWithoutPicoPlacaInput = {
@@ -8601,6 +8758,7 @@ export type EmpresaCreateWithoutPicoPlacaInput = {
   turnos?: Prisma.TurnoCreateNestedManyWithoutEmpresaInput
   vehiculos?: Prisma.VehiculoCreateNestedManyWithoutEmpresaInput
   zonas?: Prisma.ZonaCreateNestedManyWithoutEmpresaInput
+  sugerencias?: Prisma.SugerenciaSeguimientoCreateNestedManyWithoutEmpresaInput
 }
 
 export type EmpresaUncheckedCreateWithoutPicoPlacaInput = {
@@ -8651,6 +8809,7 @@ export type EmpresaUncheckedCreateWithoutPicoPlacaInput = {
   turnos?: Prisma.TurnoUncheckedCreateNestedManyWithoutEmpresaInput
   vehiculos?: Prisma.VehiculoUncheckedCreateNestedManyWithoutEmpresaInput
   zonas?: Prisma.ZonaUncheckedCreateNestedManyWithoutEmpresaInput
+  sugerencias?: Prisma.SugerenciaSeguimientoUncheckedCreateNestedManyWithoutEmpresaInput
 }
 
 export type EmpresaCreateOrConnectWithoutPicoPlacaInput = {
@@ -8717,6 +8876,7 @@ export type EmpresaUpdateWithoutPicoPlacaInput = {
   turnos?: Prisma.TurnoUpdateManyWithoutEmpresaNestedInput
   vehiculos?: Prisma.VehiculoUpdateManyWithoutEmpresaNestedInput
   zonas?: Prisma.ZonaUpdateManyWithoutEmpresaNestedInput
+  sugerencias?: Prisma.SugerenciaSeguimientoUpdateManyWithoutEmpresaNestedInput
 }
 
 export type EmpresaUncheckedUpdateWithoutPicoPlacaInput = {
@@ -8767,6 +8927,7 @@ export type EmpresaUncheckedUpdateWithoutPicoPlacaInput = {
   turnos?: Prisma.TurnoUncheckedUpdateManyWithoutEmpresaNestedInput
   vehiculos?: Prisma.VehiculoUncheckedUpdateManyWithoutEmpresaNestedInput
   zonas?: Prisma.ZonaUncheckedUpdateManyWithoutEmpresaNestedInput
+  sugerencias?: Prisma.SugerenciaSeguimientoUncheckedUpdateManyWithoutEmpresaNestedInput
 }
 
 export type EmpresaCreateWithoutReferidosInput = {
@@ -8817,6 +8978,7 @@ export type EmpresaCreateWithoutReferidosInput = {
   turnos?: Prisma.TurnoCreateNestedManyWithoutEmpresaInput
   vehiculos?: Prisma.VehiculoCreateNestedManyWithoutEmpresaInput
   zonas?: Prisma.ZonaCreateNestedManyWithoutEmpresaInput
+  sugerencias?: Prisma.SugerenciaSeguimientoCreateNestedManyWithoutEmpresaInput
 }
 
 export type EmpresaUncheckedCreateWithoutReferidosInput = {
@@ -8867,6 +9029,7 @@ export type EmpresaUncheckedCreateWithoutReferidosInput = {
   turnos?: Prisma.TurnoUncheckedCreateNestedManyWithoutEmpresaInput
   vehiculos?: Prisma.VehiculoUncheckedCreateNestedManyWithoutEmpresaInput
   zonas?: Prisma.ZonaUncheckedCreateNestedManyWithoutEmpresaInput
+  sugerencias?: Prisma.SugerenciaSeguimientoUncheckedCreateNestedManyWithoutEmpresaInput
 }
 
 export type EmpresaCreateOrConnectWithoutReferidosInput = {
@@ -8933,6 +9096,7 @@ export type EmpresaUpdateWithoutReferidosInput = {
   turnos?: Prisma.TurnoUpdateManyWithoutEmpresaNestedInput
   vehiculos?: Prisma.VehiculoUpdateManyWithoutEmpresaNestedInput
   zonas?: Prisma.ZonaUpdateManyWithoutEmpresaNestedInput
+  sugerencias?: Prisma.SugerenciaSeguimientoUpdateManyWithoutEmpresaNestedInput
 }
 
 export type EmpresaUncheckedUpdateWithoutReferidosInput = {
@@ -8983,6 +9147,7 @@ export type EmpresaUncheckedUpdateWithoutReferidosInput = {
   turnos?: Prisma.TurnoUncheckedUpdateManyWithoutEmpresaNestedInput
   vehiculos?: Prisma.VehiculoUncheckedUpdateManyWithoutEmpresaNestedInput
   zonas?: Prisma.ZonaUncheckedUpdateManyWithoutEmpresaNestedInput
+  sugerencias?: Prisma.SugerenciaSeguimientoUncheckedUpdateManyWithoutEmpresaNestedInput
 }
 
 export type EmpresaCreateWithoutAuditoriasInput = {
@@ -9033,6 +9198,7 @@ export type EmpresaCreateWithoutAuditoriasInput = {
   turnos?: Prisma.TurnoCreateNestedManyWithoutEmpresaInput
   vehiculos?: Prisma.VehiculoCreateNestedManyWithoutEmpresaInput
   zonas?: Prisma.ZonaCreateNestedManyWithoutEmpresaInput
+  sugerencias?: Prisma.SugerenciaSeguimientoCreateNestedManyWithoutEmpresaInput
 }
 
 export type EmpresaUncheckedCreateWithoutAuditoriasInput = {
@@ -9083,6 +9249,7 @@ export type EmpresaUncheckedCreateWithoutAuditoriasInput = {
   turnos?: Prisma.TurnoUncheckedCreateNestedManyWithoutEmpresaInput
   vehiculos?: Prisma.VehiculoUncheckedCreateNestedManyWithoutEmpresaInput
   zonas?: Prisma.ZonaUncheckedCreateNestedManyWithoutEmpresaInput
+  sugerencias?: Prisma.SugerenciaSeguimientoUncheckedCreateNestedManyWithoutEmpresaInput
 }
 
 export type EmpresaCreateOrConnectWithoutAuditoriasInput = {
@@ -9149,6 +9316,7 @@ export type EmpresaUpdateWithoutAuditoriasInput = {
   turnos?: Prisma.TurnoUpdateManyWithoutEmpresaNestedInput
   vehiculos?: Prisma.VehiculoUpdateManyWithoutEmpresaNestedInput
   zonas?: Prisma.ZonaUpdateManyWithoutEmpresaNestedInput
+  sugerencias?: Prisma.SugerenciaSeguimientoUpdateManyWithoutEmpresaNestedInput
 }
 
 export type EmpresaUncheckedUpdateWithoutAuditoriasInput = {
@@ -9199,6 +9367,7 @@ export type EmpresaUncheckedUpdateWithoutAuditoriasInput = {
   turnos?: Prisma.TurnoUncheckedUpdateManyWithoutEmpresaNestedInput
   vehiculos?: Prisma.VehiculoUncheckedUpdateManyWithoutEmpresaNestedInput
   zonas?: Prisma.ZonaUncheckedUpdateManyWithoutEmpresaNestedInput
+  sugerencias?: Prisma.SugerenciaSeguimientoUncheckedUpdateManyWithoutEmpresaNestedInput
 }
 
 export type EmpresaCreateWithoutSesionesActividadInput = {
@@ -9249,6 +9418,7 @@ export type EmpresaCreateWithoutSesionesActividadInput = {
   turnos?: Prisma.TurnoCreateNestedManyWithoutEmpresaInput
   vehiculos?: Prisma.VehiculoCreateNestedManyWithoutEmpresaInput
   zonas?: Prisma.ZonaCreateNestedManyWithoutEmpresaInput
+  sugerencias?: Prisma.SugerenciaSeguimientoCreateNestedManyWithoutEmpresaInput
 }
 
 export type EmpresaUncheckedCreateWithoutSesionesActividadInput = {
@@ -9299,6 +9469,7 @@ export type EmpresaUncheckedCreateWithoutSesionesActividadInput = {
   turnos?: Prisma.TurnoUncheckedCreateNestedManyWithoutEmpresaInput
   vehiculos?: Prisma.VehiculoUncheckedCreateNestedManyWithoutEmpresaInput
   zonas?: Prisma.ZonaUncheckedCreateNestedManyWithoutEmpresaInput
+  sugerencias?: Prisma.SugerenciaSeguimientoUncheckedCreateNestedManyWithoutEmpresaInput
 }
 
 export type EmpresaCreateOrConnectWithoutSesionesActividadInput = {
@@ -9365,6 +9536,7 @@ export type EmpresaUpdateWithoutSesionesActividadInput = {
   turnos?: Prisma.TurnoUpdateManyWithoutEmpresaNestedInput
   vehiculos?: Prisma.VehiculoUpdateManyWithoutEmpresaNestedInput
   zonas?: Prisma.ZonaUpdateManyWithoutEmpresaNestedInput
+  sugerencias?: Prisma.SugerenciaSeguimientoUpdateManyWithoutEmpresaNestedInput
 }
 
 export type EmpresaUncheckedUpdateWithoutSesionesActividadInput = {
@@ -9415,6 +9587,7 @@ export type EmpresaUncheckedUpdateWithoutSesionesActividadInput = {
   turnos?: Prisma.TurnoUncheckedUpdateManyWithoutEmpresaNestedInput
   vehiculos?: Prisma.VehiculoUncheckedUpdateManyWithoutEmpresaNestedInput
   zonas?: Prisma.ZonaUncheckedUpdateManyWithoutEmpresaNestedInput
+  sugerencias?: Prisma.SugerenciaSeguimientoUncheckedUpdateManyWithoutEmpresaNestedInput
 }
 
 export type EmpresaCreateWithoutLogsEventoInput = {
@@ -9465,6 +9638,7 @@ export type EmpresaCreateWithoutLogsEventoInput = {
   turnos?: Prisma.TurnoCreateNestedManyWithoutEmpresaInput
   vehiculos?: Prisma.VehiculoCreateNestedManyWithoutEmpresaInput
   zonas?: Prisma.ZonaCreateNestedManyWithoutEmpresaInput
+  sugerencias?: Prisma.SugerenciaSeguimientoCreateNestedManyWithoutEmpresaInput
 }
 
 export type EmpresaUncheckedCreateWithoutLogsEventoInput = {
@@ -9515,6 +9689,7 @@ export type EmpresaUncheckedCreateWithoutLogsEventoInput = {
   turnos?: Prisma.TurnoUncheckedCreateNestedManyWithoutEmpresaInput
   vehiculos?: Prisma.VehiculoUncheckedCreateNestedManyWithoutEmpresaInput
   zonas?: Prisma.ZonaUncheckedCreateNestedManyWithoutEmpresaInput
+  sugerencias?: Prisma.SugerenciaSeguimientoUncheckedCreateNestedManyWithoutEmpresaInput
 }
 
 export type EmpresaCreateOrConnectWithoutLogsEventoInput = {
@@ -9581,6 +9756,7 @@ export type EmpresaUpdateWithoutLogsEventoInput = {
   turnos?: Prisma.TurnoUpdateManyWithoutEmpresaNestedInput
   vehiculos?: Prisma.VehiculoUpdateManyWithoutEmpresaNestedInput
   zonas?: Prisma.ZonaUpdateManyWithoutEmpresaNestedInput
+  sugerencias?: Prisma.SugerenciaSeguimientoUpdateManyWithoutEmpresaNestedInput
 }
 
 export type EmpresaUncheckedUpdateWithoutLogsEventoInput = {
@@ -9631,6 +9807,7 @@ export type EmpresaUncheckedUpdateWithoutLogsEventoInput = {
   turnos?: Prisma.TurnoUncheckedUpdateManyWithoutEmpresaNestedInput
   vehiculos?: Prisma.VehiculoUncheckedUpdateManyWithoutEmpresaNestedInput
   zonas?: Prisma.ZonaUncheckedUpdateManyWithoutEmpresaNestedInput
+  sugerencias?: Prisma.SugerenciaSeguimientoUncheckedUpdateManyWithoutEmpresaNestedInput
 }
 
 export type EmpresaCreateWithoutAuthSessionsInput = {
@@ -9681,6 +9858,7 @@ export type EmpresaCreateWithoutAuthSessionsInput = {
   turnos?: Prisma.TurnoCreateNestedManyWithoutEmpresaInput
   vehiculos?: Prisma.VehiculoCreateNestedManyWithoutEmpresaInput
   zonas?: Prisma.ZonaCreateNestedManyWithoutEmpresaInput
+  sugerencias?: Prisma.SugerenciaSeguimientoCreateNestedManyWithoutEmpresaInput
 }
 
 export type EmpresaUncheckedCreateWithoutAuthSessionsInput = {
@@ -9731,6 +9909,7 @@ export type EmpresaUncheckedCreateWithoutAuthSessionsInput = {
   turnos?: Prisma.TurnoUncheckedCreateNestedManyWithoutEmpresaInput
   vehiculos?: Prisma.VehiculoUncheckedCreateNestedManyWithoutEmpresaInput
   zonas?: Prisma.ZonaUncheckedCreateNestedManyWithoutEmpresaInput
+  sugerencias?: Prisma.SugerenciaSeguimientoUncheckedCreateNestedManyWithoutEmpresaInput
 }
 
 export type EmpresaCreateOrConnectWithoutAuthSessionsInput = {
@@ -9797,6 +9976,7 @@ export type EmpresaUpdateWithoutAuthSessionsInput = {
   turnos?: Prisma.TurnoUpdateManyWithoutEmpresaNestedInput
   vehiculos?: Prisma.VehiculoUpdateManyWithoutEmpresaNestedInput
   zonas?: Prisma.ZonaUpdateManyWithoutEmpresaNestedInput
+  sugerencias?: Prisma.SugerenciaSeguimientoUpdateManyWithoutEmpresaNestedInput
 }
 
 export type EmpresaUncheckedUpdateWithoutAuthSessionsInput = {
@@ -9847,6 +10027,7 @@ export type EmpresaUncheckedUpdateWithoutAuthSessionsInput = {
   turnos?: Prisma.TurnoUncheckedUpdateManyWithoutEmpresaNestedInput
   vehiculos?: Prisma.VehiculoUncheckedUpdateManyWithoutEmpresaNestedInput
   zonas?: Prisma.ZonaUncheckedUpdateManyWithoutEmpresaNestedInput
+  sugerencias?: Prisma.SugerenciaSeguimientoUncheckedUpdateManyWithoutEmpresaNestedInput
 }
 
 export type EmpresaCreateWithoutResetTokensInput = {
@@ -9897,6 +10078,7 @@ export type EmpresaCreateWithoutResetTokensInput = {
   turnos?: Prisma.TurnoCreateNestedManyWithoutEmpresaInput
   vehiculos?: Prisma.VehiculoCreateNestedManyWithoutEmpresaInput
   zonas?: Prisma.ZonaCreateNestedManyWithoutEmpresaInput
+  sugerencias?: Prisma.SugerenciaSeguimientoCreateNestedManyWithoutEmpresaInput
 }
 
 export type EmpresaUncheckedCreateWithoutResetTokensInput = {
@@ -9947,6 +10129,7 @@ export type EmpresaUncheckedCreateWithoutResetTokensInput = {
   turnos?: Prisma.TurnoUncheckedCreateNestedManyWithoutEmpresaInput
   vehiculos?: Prisma.VehiculoUncheckedCreateNestedManyWithoutEmpresaInput
   zonas?: Prisma.ZonaUncheckedCreateNestedManyWithoutEmpresaInput
+  sugerencias?: Prisma.SugerenciaSeguimientoUncheckedCreateNestedManyWithoutEmpresaInput
 }
 
 export type EmpresaCreateOrConnectWithoutResetTokensInput = {
@@ -10013,6 +10196,7 @@ export type EmpresaUpdateWithoutResetTokensInput = {
   turnos?: Prisma.TurnoUpdateManyWithoutEmpresaNestedInput
   vehiculos?: Prisma.VehiculoUpdateManyWithoutEmpresaNestedInput
   zonas?: Prisma.ZonaUpdateManyWithoutEmpresaNestedInput
+  sugerencias?: Prisma.SugerenciaSeguimientoUpdateManyWithoutEmpresaNestedInput
 }
 
 export type EmpresaUncheckedUpdateWithoutResetTokensInput = {
@@ -10063,6 +10247,7 @@ export type EmpresaUncheckedUpdateWithoutResetTokensInput = {
   turnos?: Prisma.TurnoUncheckedUpdateManyWithoutEmpresaNestedInput
   vehiculos?: Prisma.VehiculoUncheckedUpdateManyWithoutEmpresaNestedInput
   zonas?: Prisma.ZonaUncheckedUpdateManyWithoutEmpresaNestedInput
+  sugerencias?: Prisma.SugerenciaSeguimientoUncheckedUpdateManyWithoutEmpresaNestedInput
 }
 
 export type EmpresaCreateWithoutConfiguracionesOperativasInput = {
@@ -10113,6 +10298,7 @@ export type EmpresaCreateWithoutConfiguracionesOperativasInput = {
   turnos?: Prisma.TurnoCreateNestedManyWithoutEmpresaInput
   vehiculos?: Prisma.VehiculoCreateNestedManyWithoutEmpresaInput
   zonas?: Prisma.ZonaCreateNestedManyWithoutEmpresaInput
+  sugerencias?: Prisma.SugerenciaSeguimientoCreateNestedManyWithoutEmpresaInput
 }
 
 export type EmpresaUncheckedCreateWithoutConfiguracionesOperativasInput = {
@@ -10163,6 +10349,7 @@ export type EmpresaUncheckedCreateWithoutConfiguracionesOperativasInput = {
   turnos?: Prisma.TurnoUncheckedCreateNestedManyWithoutEmpresaInput
   vehiculos?: Prisma.VehiculoUncheckedCreateNestedManyWithoutEmpresaInput
   zonas?: Prisma.ZonaUncheckedCreateNestedManyWithoutEmpresaInput
+  sugerencias?: Prisma.SugerenciaSeguimientoUncheckedCreateNestedManyWithoutEmpresaInput
 }
 
 export type EmpresaCreateOrConnectWithoutConfiguracionesOperativasInput = {
@@ -10229,6 +10416,7 @@ export type EmpresaUpdateWithoutConfiguracionesOperativasInput = {
   turnos?: Prisma.TurnoUpdateManyWithoutEmpresaNestedInput
   vehiculos?: Prisma.VehiculoUpdateManyWithoutEmpresaNestedInput
   zonas?: Prisma.ZonaUpdateManyWithoutEmpresaNestedInput
+  sugerencias?: Prisma.SugerenciaSeguimientoUpdateManyWithoutEmpresaNestedInput
 }
 
 export type EmpresaUncheckedUpdateWithoutConfiguracionesOperativasInput = {
@@ -10243,6 +10431,227 @@ export type EmpresaUncheckedUpdateWithoutConfiguracionesOperativasInput = {
   auditorias?: Prisma.AuditoriaUncheckedUpdateManyWithoutEmpresaNestedInput
   authSessions?: Prisma.AuthSessionUncheckedUpdateManyWithoutEmpresaNestedInput
   citasPsicologos?: Prisma.CitasPsicologosUncheckedUpdateManyWithoutEmpresaNestedInput
+  clientes?: Prisma.ClienteUncheckedUpdateManyWithoutEmpresaNestedInput
+  commissions?: Prisma.CommissionRecordUncheckedUpdateManyWithoutEmpresaNestedInput
+  configuracionPagos?: Prisma.ConfiguracionPagosUncheckedUpdateManyWithoutEmpresaNestedInput
+  consignacionOrdenes?: Prisma.ConsignacionOrdenUncheckedUpdateManyWithoutEmpresaNestedInput
+  consignaciones?: Prisma.ConsignacionEfectivoUncheckedUpdateManyWithoutEmpresaNestedInput
+  consultorios?: Prisma.ConsultorioUncheckedUpdateManyWithoutEmpresaNestedInput
+  cuentasCobro?: Prisma.CuentaCobroUncheckedUpdateManyWithoutEmpresaNestedInput
+  cuentasPago?: Prisma.CuentasPagoUncheckedUpdateManyWithoutEmpresaNestedInput
+  declaraciones?: Prisma.DeclaracionEfectivoUncheckedUpdateManyWithoutEmpresaNestedInput
+  direcciones?: Prisma.DireccionUncheckedUpdateManyWithoutEmpresaNestedInput
+  egresos?: Prisma.EgresosUncheckedUpdateManyWithoutEmpresaNestedInput
+  memberships?: Prisma.EmpresaMembershipUncheckedUpdateManyWithoutEmpresaNestedInput
+  entidadesFinancieras?: Prisma.EntidadFinancieraUncheckedUpdateManyWithoutEmpresaNestedInput
+  estadosServicio?: Prisma.EstadoServicioUncheckedUpdateManyWithoutEmpresaNestedInput
+  geolocalizaciones?: Prisma.GeolocalizacionUncheckedUpdateManyWithoutEmpresaNestedInput
+  logsEvento?: Prisma.LogEventoUncheckedUpdateManyWithoutEmpresaNestedInput
+  metodosPago?: Prisma.MetodoPagoUncheckedUpdateManyWithoutEmpresaNestedInput
+  nominaDetalles?: Prisma.NominaDetalleUncheckedUpdateManyWithoutEmpresaNestedInput
+  nominas?: Prisma.NominaUncheckedUpdateManyWithoutEmpresaNestedInput
+  ordenesServicio?: Prisma.OrdenServicioUncheckedUpdateManyWithoutEmpresaNestedInput
+  orgNodes?: Prisma.OrganizationNodeUncheckedUpdateManyWithoutEmpresaNestedInput
+  paquetesAdquiridos?: Prisma.PaqueteAdquiridoUncheckedUpdateManyWithoutEmpresaNestedInput
+  resetTokens?: Prisma.PasswordResetTokenUncheckedUpdateManyWithoutEmpresaNestedInput
+  permisos?: Prisma.PermisoUncheckedUpdateManyWithoutEmpresaNestedInput
+  picoPlaca?: Prisma.PicoPlacaUncheckedUpdateManyWithoutEmpresaNestedInput
+  productos?: Prisma.ProductoUncheckedUpdateManyWithoutEmpresaNestedInput
+  productosSolicitados?: Prisma.ProductoSolicitadoUncheckedUpdateManyWithoutEmpresaNestedInput
+  proveedores?: Prisma.ProveedoresUncheckedUpdateManyWithoutEmpresaNestedInput
+  referidos?: Prisma.ReferidosUncheckedUpdateManyWithoutEmpresaNestedInput
+  servicios?: Prisma.ServicioUncheckedUpdateManyWithoutEmpresaNestedInput
+  sesionesActividad?: Prisma.SesionActividadUncheckedUpdateManyWithoutEmpresaNestedInput
+  terapiasPsicologos?: Prisma.TerapiasPsicologosUncheckedUpdateManyWithoutEmpresaNestedInput
+  tiposServicio?: Prisma.TipoServicioUncheckedUpdateManyWithoutEmpresaNestedInput
+  turnos?: Prisma.TurnoUncheckedUpdateManyWithoutEmpresaNestedInput
+  vehiculos?: Prisma.VehiculoUncheckedUpdateManyWithoutEmpresaNestedInput
+  zonas?: Prisma.ZonaUncheckedUpdateManyWithoutEmpresaNestedInput
+  sugerencias?: Prisma.SugerenciaSeguimientoUncheckedUpdateManyWithoutEmpresaNestedInput
+}
+
+export type EmpresaCreateWithoutSugerenciasInput = {
+  id?: string
+  nombre: string
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  activo?: boolean
+  deletedAt?: Date | string | null
+  anticipos?: Prisma.AnticiposCreateNestedManyWithoutEmpresaInput
+  auditorias?: Prisma.AuditoriaCreateNestedManyWithoutEmpresaInput
+  authSessions?: Prisma.AuthSessionCreateNestedManyWithoutEmpresaInput
+  citasPsicologos?: Prisma.CitasPsicologosCreateNestedManyWithoutEmpresaInput
+  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaCreateNestedManyWithoutEmpresaInput
+  clientes?: Prisma.ClienteCreateNestedManyWithoutEmpresaInput
+  commissions?: Prisma.CommissionRecordCreateNestedManyWithoutEmpresaInput
+  configuracionPagos?: Prisma.ConfiguracionPagosCreateNestedManyWithoutEmpresaInput
+  consignacionOrdenes?: Prisma.ConsignacionOrdenCreateNestedManyWithoutEmpresaInput
+  consignaciones?: Prisma.ConsignacionEfectivoCreateNestedManyWithoutEmpresaInput
+  consultorios?: Prisma.ConsultorioCreateNestedManyWithoutEmpresaInput
+  cuentasCobro?: Prisma.CuentaCobroCreateNestedManyWithoutEmpresaInput
+  cuentasPago?: Prisma.CuentasPagoCreateNestedManyWithoutEmpresaInput
+  declaraciones?: Prisma.DeclaracionEfectivoCreateNestedManyWithoutEmpresaInput
+  direcciones?: Prisma.DireccionCreateNestedManyWithoutEmpresaInput
+  egresos?: Prisma.EgresosCreateNestedManyWithoutEmpresaInput
+  memberships?: Prisma.EmpresaMembershipCreateNestedManyWithoutEmpresaInput
+  tenant: Prisma.TenantCreateNestedOneWithoutEmpresasInput
+  entidadesFinancieras?: Prisma.EntidadFinancieraCreateNestedManyWithoutEmpresaInput
+  estadosServicio?: Prisma.EstadoServicioCreateNestedManyWithoutEmpresaInput
+  geolocalizaciones?: Prisma.GeolocalizacionCreateNestedManyWithoutEmpresaInput
+  logsEvento?: Prisma.LogEventoCreateNestedManyWithoutEmpresaInput
+  metodosPago?: Prisma.MetodoPagoCreateNestedManyWithoutEmpresaInput
+  nominaDetalles?: Prisma.NominaDetalleCreateNestedManyWithoutEmpresaInput
+  nominas?: Prisma.NominaCreateNestedManyWithoutEmpresaInput
+  ordenesServicio?: Prisma.OrdenServicioCreateNestedManyWithoutEmpresaInput
+  orgNodes?: Prisma.OrganizationNodeCreateNestedManyWithoutEmpresaInput
+  paquetesAdquiridos?: Prisma.PaqueteAdquiridoCreateNestedManyWithoutEmpresaInput
+  resetTokens?: Prisma.PasswordResetTokenCreateNestedManyWithoutEmpresaInput
+  permisos?: Prisma.PermisoCreateNestedManyWithoutEmpresaInput
+  picoPlaca?: Prisma.PicoPlacaCreateNestedManyWithoutEmpresaInput
+  productos?: Prisma.ProductoCreateNestedManyWithoutEmpresaInput
+  productosSolicitados?: Prisma.ProductoSolicitadoCreateNestedManyWithoutEmpresaInput
+  proveedores?: Prisma.ProveedoresCreateNestedManyWithoutEmpresaInput
+  referidos?: Prisma.ReferidosCreateNestedManyWithoutEmpresaInput
+  servicios?: Prisma.ServicioCreateNestedManyWithoutEmpresaInput
+  sesionesActividad?: Prisma.SesionActividadCreateNestedManyWithoutEmpresaInput
+  terapiasPsicologos?: Prisma.TerapiasPsicologosCreateNestedManyWithoutEmpresaInput
+  tiposServicio?: Prisma.TipoServicioCreateNestedManyWithoutEmpresaInput
+  turnos?: Prisma.TurnoCreateNestedManyWithoutEmpresaInput
+  vehiculos?: Prisma.VehiculoCreateNestedManyWithoutEmpresaInput
+  zonas?: Prisma.ZonaCreateNestedManyWithoutEmpresaInput
+}
+
+export type EmpresaUncheckedCreateWithoutSugerenciasInput = {
+  id?: string
+  tenantId: string
+  nombre: string
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  activo?: boolean
+  deletedAt?: Date | string | null
+  anticipos?: Prisma.AnticiposUncheckedCreateNestedManyWithoutEmpresaInput
+  auditorias?: Prisma.AuditoriaUncheckedCreateNestedManyWithoutEmpresaInput
+  authSessions?: Prisma.AuthSessionUncheckedCreateNestedManyWithoutEmpresaInput
+  citasPsicologos?: Prisma.CitasPsicologosUncheckedCreateNestedManyWithoutEmpresaInput
+  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaUncheckedCreateNestedManyWithoutEmpresaInput
+  clientes?: Prisma.ClienteUncheckedCreateNestedManyWithoutEmpresaInput
+  commissions?: Prisma.CommissionRecordUncheckedCreateNestedManyWithoutEmpresaInput
+  configuracionPagos?: Prisma.ConfiguracionPagosUncheckedCreateNestedManyWithoutEmpresaInput
+  consignacionOrdenes?: Prisma.ConsignacionOrdenUncheckedCreateNestedManyWithoutEmpresaInput
+  consignaciones?: Prisma.ConsignacionEfectivoUncheckedCreateNestedManyWithoutEmpresaInput
+  consultorios?: Prisma.ConsultorioUncheckedCreateNestedManyWithoutEmpresaInput
+  cuentasCobro?: Prisma.CuentaCobroUncheckedCreateNestedManyWithoutEmpresaInput
+  cuentasPago?: Prisma.CuentasPagoUncheckedCreateNestedManyWithoutEmpresaInput
+  declaraciones?: Prisma.DeclaracionEfectivoUncheckedCreateNestedManyWithoutEmpresaInput
+  direcciones?: Prisma.DireccionUncheckedCreateNestedManyWithoutEmpresaInput
+  egresos?: Prisma.EgresosUncheckedCreateNestedManyWithoutEmpresaInput
+  memberships?: Prisma.EmpresaMembershipUncheckedCreateNestedManyWithoutEmpresaInput
+  entidadesFinancieras?: Prisma.EntidadFinancieraUncheckedCreateNestedManyWithoutEmpresaInput
+  estadosServicio?: Prisma.EstadoServicioUncheckedCreateNestedManyWithoutEmpresaInput
+  geolocalizaciones?: Prisma.GeolocalizacionUncheckedCreateNestedManyWithoutEmpresaInput
+  logsEvento?: Prisma.LogEventoUncheckedCreateNestedManyWithoutEmpresaInput
+  metodosPago?: Prisma.MetodoPagoUncheckedCreateNestedManyWithoutEmpresaInput
+  nominaDetalles?: Prisma.NominaDetalleUncheckedCreateNestedManyWithoutEmpresaInput
+  nominas?: Prisma.NominaUncheckedCreateNestedManyWithoutEmpresaInput
+  ordenesServicio?: Prisma.OrdenServicioUncheckedCreateNestedManyWithoutEmpresaInput
+  orgNodes?: Prisma.OrganizationNodeUncheckedCreateNestedManyWithoutEmpresaInput
+  paquetesAdquiridos?: Prisma.PaqueteAdquiridoUncheckedCreateNestedManyWithoutEmpresaInput
+  resetTokens?: Prisma.PasswordResetTokenUncheckedCreateNestedManyWithoutEmpresaInput
+  permisos?: Prisma.PermisoUncheckedCreateNestedManyWithoutEmpresaInput
+  picoPlaca?: Prisma.PicoPlacaUncheckedCreateNestedManyWithoutEmpresaInput
+  productos?: Prisma.ProductoUncheckedCreateNestedManyWithoutEmpresaInput
+  productosSolicitados?: Prisma.ProductoSolicitadoUncheckedCreateNestedManyWithoutEmpresaInput
+  proveedores?: Prisma.ProveedoresUncheckedCreateNestedManyWithoutEmpresaInput
+  referidos?: Prisma.ReferidosUncheckedCreateNestedManyWithoutEmpresaInput
+  servicios?: Prisma.ServicioUncheckedCreateNestedManyWithoutEmpresaInput
+  sesionesActividad?: Prisma.SesionActividadUncheckedCreateNestedManyWithoutEmpresaInput
+  terapiasPsicologos?: Prisma.TerapiasPsicologosUncheckedCreateNestedManyWithoutEmpresaInput
+  tiposServicio?: Prisma.TipoServicioUncheckedCreateNestedManyWithoutEmpresaInput
+  turnos?: Prisma.TurnoUncheckedCreateNestedManyWithoutEmpresaInput
+  vehiculos?: Prisma.VehiculoUncheckedCreateNestedManyWithoutEmpresaInput
+  zonas?: Prisma.ZonaUncheckedCreateNestedManyWithoutEmpresaInput
+}
+
+export type EmpresaCreateOrConnectWithoutSugerenciasInput = {
+  where: Prisma.EmpresaWhereUniqueInput
+  create: Prisma.XOR<Prisma.EmpresaCreateWithoutSugerenciasInput, Prisma.EmpresaUncheckedCreateWithoutSugerenciasInput>
+}
+
+export type EmpresaUpsertWithoutSugerenciasInput = {
+  update: Prisma.XOR<Prisma.EmpresaUpdateWithoutSugerenciasInput, Prisma.EmpresaUncheckedUpdateWithoutSugerenciasInput>
+  create: Prisma.XOR<Prisma.EmpresaCreateWithoutSugerenciasInput, Prisma.EmpresaUncheckedCreateWithoutSugerenciasInput>
+  where?: Prisma.EmpresaWhereInput
+}
+
+export type EmpresaUpdateToOneWithWhereWithoutSugerenciasInput = {
+  where?: Prisma.EmpresaWhereInput
+  data: Prisma.XOR<Prisma.EmpresaUpdateWithoutSugerenciasInput, Prisma.EmpresaUncheckedUpdateWithoutSugerenciasInput>
+}
+
+export type EmpresaUpdateWithoutSugerenciasInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  nombre?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  anticipos?: Prisma.AnticiposUpdateManyWithoutEmpresaNestedInput
+  auditorias?: Prisma.AuditoriaUpdateManyWithoutEmpresaNestedInput
+  authSessions?: Prisma.AuthSessionUpdateManyWithoutEmpresaNestedInput
+  citasPsicologos?: Prisma.CitasPsicologosUpdateManyWithoutEmpresaNestedInput
+  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaUpdateManyWithoutEmpresaNestedInput
+  clientes?: Prisma.ClienteUpdateManyWithoutEmpresaNestedInput
+  commissions?: Prisma.CommissionRecordUpdateManyWithoutEmpresaNestedInput
+  configuracionPagos?: Prisma.ConfiguracionPagosUpdateManyWithoutEmpresaNestedInput
+  consignacionOrdenes?: Prisma.ConsignacionOrdenUpdateManyWithoutEmpresaNestedInput
+  consignaciones?: Prisma.ConsignacionEfectivoUpdateManyWithoutEmpresaNestedInput
+  consultorios?: Prisma.ConsultorioUpdateManyWithoutEmpresaNestedInput
+  cuentasCobro?: Prisma.CuentaCobroUpdateManyWithoutEmpresaNestedInput
+  cuentasPago?: Prisma.CuentasPagoUpdateManyWithoutEmpresaNestedInput
+  declaraciones?: Prisma.DeclaracionEfectivoUpdateManyWithoutEmpresaNestedInput
+  direcciones?: Prisma.DireccionUpdateManyWithoutEmpresaNestedInput
+  egresos?: Prisma.EgresosUpdateManyWithoutEmpresaNestedInput
+  memberships?: Prisma.EmpresaMembershipUpdateManyWithoutEmpresaNestedInput
+  tenant?: Prisma.TenantUpdateOneRequiredWithoutEmpresasNestedInput
+  entidadesFinancieras?: Prisma.EntidadFinancieraUpdateManyWithoutEmpresaNestedInput
+  estadosServicio?: Prisma.EstadoServicioUpdateManyWithoutEmpresaNestedInput
+  geolocalizaciones?: Prisma.GeolocalizacionUpdateManyWithoutEmpresaNestedInput
+  logsEvento?: Prisma.LogEventoUpdateManyWithoutEmpresaNestedInput
+  metodosPago?: Prisma.MetodoPagoUpdateManyWithoutEmpresaNestedInput
+  nominaDetalles?: Prisma.NominaDetalleUpdateManyWithoutEmpresaNestedInput
+  nominas?: Prisma.NominaUpdateManyWithoutEmpresaNestedInput
+  ordenesServicio?: Prisma.OrdenServicioUpdateManyWithoutEmpresaNestedInput
+  orgNodes?: Prisma.OrganizationNodeUpdateManyWithoutEmpresaNestedInput
+  paquetesAdquiridos?: Prisma.PaqueteAdquiridoUpdateManyWithoutEmpresaNestedInput
+  resetTokens?: Prisma.PasswordResetTokenUpdateManyWithoutEmpresaNestedInput
+  permisos?: Prisma.PermisoUpdateManyWithoutEmpresaNestedInput
+  picoPlaca?: Prisma.PicoPlacaUpdateManyWithoutEmpresaNestedInput
+  productos?: Prisma.ProductoUpdateManyWithoutEmpresaNestedInput
+  productosSolicitados?: Prisma.ProductoSolicitadoUpdateManyWithoutEmpresaNestedInput
+  proveedores?: Prisma.ProveedoresUpdateManyWithoutEmpresaNestedInput
+  referidos?: Prisma.ReferidosUpdateManyWithoutEmpresaNestedInput
+  servicios?: Prisma.ServicioUpdateManyWithoutEmpresaNestedInput
+  sesionesActividad?: Prisma.SesionActividadUpdateManyWithoutEmpresaNestedInput
+  terapiasPsicologos?: Prisma.TerapiasPsicologosUpdateManyWithoutEmpresaNestedInput
+  tiposServicio?: Prisma.TipoServicioUpdateManyWithoutEmpresaNestedInput
+  turnos?: Prisma.TurnoUpdateManyWithoutEmpresaNestedInput
+  vehiculos?: Prisma.VehiculoUpdateManyWithoutEmpresaNestedInput
+  zonas?: Prisma.ZonaUpdateManyWithoutEmpresaNestedInput
+}
+
+export type EmpresaUncheckedUpdateWithoutSugerenciasInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenantId?: Prisma.StringFieldUpdateOperationsInput | string
+  nombre?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  anticipos?: Prisma.AnticiposUncheckedUpdateManyWithoutEmpresaNestedInput
+  auditorias?: Prisma.AuditoriaUncheckedUpdateManyWithoutEmpresaNestedInput
+  authSessions?: Prisma.AuthSessionUncheckedUpdateManyWithoutEmpresaNestedInput
+  citasPsicologos?: Prisma.CitasPsicologosUncheckedUpdateManyWithoutEmpresaNestedInput
+  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaUncheckedUpdateManyWithoutEmpresaNestedInput
   clientes?: Prisma.ClienteUncheckedUpdateManyWithoutEmpresaNestedInput
   commissions?: Prisma.CommissionRecordUncheckedUpdateManyWithoutEmpresaNestedInput
   configuracionPagos?: Prisma.ConfiguracionPagosUncheckedUpdateManyWithoutEmpresaNestedInput
@@ -10338,6 +10747,7 @@ export type EmpresaUpdateWithoutTenantInput = {
   turnos?: Prisma.TurnoUpdateManyWithoutEmpresaNestedInput
   vehiculos?: Prisma.VehiculoUpdateManyWithoutEmpresaNestedInput
   zonas?: Prisma.ZonaUpdateManyWithoutEmpresaNestedInput
+  sugerencias?: Prisma.SugerenciaSeguimientoUpdateManyWithoutEmpresaNestedInput
 }
 
 export type EmpresaUncheckedUpdateWithoutTenantInput = {
@@ -10388,6 +10798,7 @@ export type EmpresaUncheckedUpdateWithoutTenantInput = {
   turnos?: Prisma.TurnoUncheckedUpdateManyWithoutEmpresaNestedInput
   vehiculos?: Prisma.VehiculoUncheckedUpdateManyWithoutEmpresaNestedInput
   zonas?: Prisma.ZonaUncheckedUpdateManyWithoutEmpresaNestedInput
+  sugerencias?: Prisma.SugerenciaSeguimientoUncheckedUpdateManyWithoutEmpresaNestedInput
 }
 
 export type EmpresaUncheckedUpdateManyWithoutTenantInput = {
@@ -10446,6 +10857,7 @@ export type EmpresaCountOutputType = {
   turnos: number
   vehiculos: number
   zonas: number
+  sugerencias: number
 }
 
 export type EmpresaCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -10490,6 +10902,7 @@ export type EmpresaCountOutputTypeSelect<ExtArgs extends runtime.Types.Extension
   turnos?: boolean | EmpresaCountOutputTypeCountTurnosArgs
   vehiculos?: boolean | EmpresaCountOutputTypeCountVehiculosArgs
   zonas?: boolean | EmpresaCountOutputTypeCountZonasArgs
+  sugerencias?: boolean | EmpresaCountOutputTypeCountSugerenciasArgs
 }
 
 /**
@@ -10789,6 +11202,13 @@ export type EmpresaCountOutputTypeCountZonasArgs<ExtArgs extends runtime.Types.E
   where?: Prisma.ZonaWhereInput
 }
 
+/**
+ * EmpresaCountOutputType without action
+ */
+export type EmpresaCountOutputTypeCountSugerenciasArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.SugerenciaSeguimientoWhereInput
+}
+
 
 export type EmpresaSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -10840,6 +11260,7 @@ export type EmpresaSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs 
   turnos?: boolean | Prisma.Empresa$turnosArgs<ExtArgs>
   vehiculos?: boolean | Prisma.Empresa$vehiculosArgs<ExtArgs>
   zonas?: boolean | Prisma.Empresa$zonasArgs<ExtArgs>
+  sugerencias?: boolean | Prisma.Empresa$sugerenciasArgs<ExtArgs>
   _count?: boolean | Prisma.EmpresaCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["empresa"]>
 
@@ -10919,6 +11340,7 @@ export type EmpresaInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs
   turnos?: boolean | Prisma.Empresa$turnosArgs<ExtArgs>
   vehiculos?: boolean | Prisma.Empresa$vehiculosArgs<ExtArgs>
   zonas?: boolean | Prisma.Empresa$zonasArgs<ExtArgs>
+  sugerencias?: boolean | Prisma.Empresa$sugerenciasArgs<ExtArgs>
   _count?: boolean | Prisma.EmpresaCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type EmpresaIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -10973,6 +11395,7 @@ export type $EmpresaPayload<ExtArgs extends runtime.Types.Extensions.InternalArg
     turnos: Prisma.$TurnoPayload<ExtArgs>[]
     vehiculos: Prisma.$VehiculoPayload<ExtArgs>[]
     zonas: Prisma.$ZonaPayload<ExtArgs>[]
+    sugerencias: Prisma.$SugerenciaSeguimientoPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -11418,6 +11841,7 @@ export interface Prisma__EmpresaClient<T, Null = never, ExtArgs extends runtime.
   turnos<T extends Prisma.Empresa$turnosArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Empresa$turnosArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$TurnoPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   vehiculos<T extends Prisma.Empresa$vehiculosArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Empresa$vehiculosArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$VehiculoPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   zonas<T extends Prisma.Empresa$zonasArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Empresa$zonasArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ZonaPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  sugerencias<T extends Prisma.Empresa$sugerenciasArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Empresa$sugerenciasArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$SugerenciaSeguimientoPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -12831,6 +13255,30 @@ export type Empresa$zonasArgs<ExtArgs extends runtime.Types.Extensions.InternalA
   take?: number
   skip?: number
   distinct?: Prisma.ZonaScalarFieldEnum | Prisma.ZonaScalarFieldEnum[]
+}
+
+/**
+ * Empresa.sugerencias
+ */
+export type Empresa$sugerenciasArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the SugerenciaSeguimiento
+   */
+  select?: Prisma.SugerenciaSeguimientoSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the SugerenciaSeguimiento
+   */
+  omit?: Prisma.SugerenciaSeguimientoOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.SugerenciaSeguimientoInclude<ExtArgs> | null
+  where?: Prisma.SugerenciaSeguimientoWhereInput
+  orderBy?: Prisma.SugerenciaSeguimientoOrderByWithRelationInput | Prisma.SugerenciaSeguimientoOrderByWithRelationInput[]
+  cursor?: Prisma.SugerenciaSeguimientoWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.SugerenciaSeguimientoScalarFieldEnum | Prisma.SugerenciaSeguimientoScalarFieldEnum[]
 }
 
 /**

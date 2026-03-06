@@ -103,7 +103,8 @@ export const ModelName = {
   AuthSession: 'AuthSession',
   PasswordResetToken: 'PasswordResetToken',
   ClienteConfiguracionOperativa: 'ClienteConfiguracionOperativa',
-  EvidenciaServicio: 'EvidenciaServicio'
+  EvidenciaServicio: 'EvidenciaServicio',
+  SugerenciaSeguimiento: 'SugerenciaSeguimiento'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -904,7 +905,8 @@ export const EgresosScalarFieldEnum = {
   titulo: 'titulo',
   monto: 'monto',
   razon: 'razon',
-  createdAt: 'createdAt'
+  createdAt: 'createdAt',
+  categoria: 'categoria'
 } as const
 
 export type EgresosScalarFieldEnum = (typeof EgresosScalarFieldEnum)[keyof typeof EgresosScalarFieldEnum]
@@ -1043,6 +1045,26 @@ export const EvidenciaServicioScalarFieldEnum = {
 } as const
 
 export type EvidenciaServicioScalarFieldEnum = (typeof EvidenciaServicioScalarFieldEnum)[keyof typeof EvidenciaServicioScalarFieldEnum]
+
+
+export const SugerenciaSeguimientoScalarFieldEnum = {
+  id: 'id',
+  tenantId: 'tenantId',
+  empresaId: 'empresaId',
+  clienteId: 'clienteId',
+  tipo: 'tipo',
+  prioridad: 'prioridad',
+  estado: 'estado',
+  titulo: 'titulo',
+  descripcion: 'descripcion',
+  metadata: 'metadata',
+  fechaSugerida: 'fechaSugerida',
+  fechaEjecutada: 'fechaEjecutada',
+  creadoAt: 'creadoAt',
+  actualizadoAt: 'actualizadoAt'
+} as const
+
+export type SugerenciaSeguimientoScalarFieldEnum = (typeof SugerenciaSeguimientoScalarFieldEnum)[keyof typeof SugerenciaSeguimientoScalarFieldEnum]
 
 
 export const SortOrder = {

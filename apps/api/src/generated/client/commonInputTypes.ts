@@ -792,6 +792,40 @@ export type EnumDiaSemanaWithAggregatesFilter<$PrismaModel = never> = {
   _max?: Prisma.NestedEnumDiaSemanaFilter<$PrismaModel>
 }
 
+export type EnumPrioridadSugerenciaFilter<$PrismaModel = never> = {
+  equals?: $Enums.PrioridadSugerencia | Prisma.EnumPrioridadSugerenciaFieldRefInput<$PrismaModel>
+  in?: $Enums.PrioridadSugerencia[] | Prisma.ListEnumPrioridadSugerenciaFieldRefInput<$PrismaModel>
+  notIn?: $Enums.PrioridadSugerencia[] | Prisma.ListEnumPrioridadSugerenciaFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumPrioridadSugerenciaFilter<$PrismaModel> | $Enums.PrioridadSugerencia
+}
+
+export type EnumEstadoSugerenciaFilter<$PrismaModel = never> = {
+  equals?: $Enums.EstadoSugerencia | Prisma.EnumEstadoSugerenciaFieldRefInput<$PrismaModel>
+  in?: $Enums.EstadoSugerencia[] | Prisma.ListEnumEstadoSugerenciaFieldRefInput<$PrismaModel>
+  notIn?: $Enums.EstadoSugerencia[] | Prisma.ListEnumEstadoSugerenciaFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumEstadoSugerenciaFilter<$PrismaModel> | $Enums.EstadoSugerencia
+}
+
+export type EnumPrioridadSugerenciaWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.PrioridadSugerencia | Prisma.EnumPrioridadSugerenciaFieldRefInput<$PrismaModel>
+  in?: $Enums.PrioridadSugerencia[] | Prisma.ListEnumPrioridadSugerenciaFieldRefInput<$PrismaModel>
+  notIn?: $Enums.PrioridadSugerencia[] | Prisma.ListEnumPrioridadSugerenciaFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumPrioridadSugerenciaWithAggregatesFilter<$PrismaModel> | $Enums.PrioridadSugerencia
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumPrioridadSugerenciaFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumPrioridadSugerenciaFilter<$PrismaModel>
+}
+
+export type EnumEstadoSugerenciaWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.EstadoSugerencia | Prisma.EnumEstadoSugerenciaFieldRefInput<$PrismaModel>
+  in?: $Enums.EstadoSugerencia[] | Prisma.ListEnumEstadoSugerenciaFieldRefInput<$PrismaModel>
+  notIn?: $Enums.EstadoSugerencia[] | Prisma.ListEnumEstadoSugerenciaFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumEstadoSugerenciaWithAggregatesFilter<$PrismaModel> | $Enums.EstadoSugerencia
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumEstadoSugerenciaFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumEstadoSugerenciaFilter<$PrismaModel>
+}
+
 export type NestedUuidFilter<$PrismaModel = never> = {
   equals?: string | Prisma.StringFieldRefInput<$PrismaModel>
   in?: string[] | Prisma.ListStringFieldRefInput<$PrismaModel>
@@ -1539,6 +1573,40 @@ export type NestedEnumDiaSemanaWithAggregatesFilter<$PrismaModel = never> = {
   _count?: Prisma.NestedIntFilter<$PrismaModel>
   _min?: Prisma.NestedEnumDiaSemanaFilter<$PrismaModel>
   _max?: Prisma.NestedEnumDiaSemanaFilter<$PrismaModel>
+}
+
+export type NestedEnumPrioridadSugerenciaFilter<$PrismaModel = never> = {
+  equals?: $Enums.PrioridadSugerencia | Prisma.EnumPrioridadSugerenciaFieldRefInput<$PrismaModel>
+  in?: $Enums.PrioridadSugerencia[] | Prisma.ListEnumPrioridadSugerenciaFieldRefInput<$PrismaModel>
+  notIn?: $Enums.PrioridadSugerencia[] | Prisma.ListEnumPrioridadSugerenciaFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumPrioridadSugerenciaFilter<$PrismaModel> | $Enums.PrioridadSugerencia
+}
+
+export type NestedEnumEstadoSugerenciaFilter<$PrismaModel = never> = {
+  equals?: $Enums.EstadoSugerencia | Prisma.EnumEstadoSugerenciaFieldRefInput<$PrismaModel>
+  in?: $Enums.EstadoSugerencia[] | Prisma.ListEnumEstadoSugerenciaFieldRefInput<$PrismaModel>
+  notIn?: $Enums.EstadoSugerencia[] | Prisma.ListEnumEstadoSugerenciaFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumEstadoSugerenciaFilter<$PrismaModel> | $Enums.EstadoSugerencia
+}
+
+export type NestedEnumPrioridadSugerenciaWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.PrioridadSugerencia | Prisma.EnumPrioridadSugerenciaFieldRefInput<$PrismaModel>
+  in?: $Enums.PrioridadSugerencia[] | Prisma.ListEnumPrioridadSugerenciaFieldRefInput<$PrismaModel>
+  notIn?: $Enums.PrioridadSugerencia[] | Prisma.ListEnumPrioridadSugerenciaFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumPrioridadSugerenciaWithAggregatesFilter<$PrismaModel> | $Enums.PrioridadSugerencia
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumPrioridadSugerenciaFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumPrioridadSugerenciaFilter<$PrismaModel>
+}
+
+export type NestedEnumEstadoSugerenciaWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.EstadoSugerencia | Prisma.EnumEstadoSugerenciaFieldRefInput<$PrismaModel>
+  in?: $Enums.EstadoSugerencia[] | Prisma.ListEnumEstadoSugerenciaFieldRefInput<$PrismaModel>
+  notIn?: $Enums.EstadoSugerencia[] | Prisma.ListEnumEstadoSugerenciaFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumEstadoSugerenciaWithAggregatesFilter<$PrismaModel> | $Enums.EstadoSugerencia
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumEstadoSugerenciaFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumEstadoSugerenciaFilter<$PrismaModel>
 }
 
 

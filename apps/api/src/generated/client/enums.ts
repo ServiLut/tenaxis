@@ -244,3 +244,23 @@ export const EstadoOrden = {
 } as const
 
 export type EstadoOrden = (typeof EstadoOrden)[keyof typeof EstadoOrden]
+
+
+export const EstadoSugerencia = {
+  PENDIENTE: 'PENDIENTE',
+  ACEPTADA: 'ACEPTADA',
+  DESCARTADA: 'DESCARTADA',
+  EJECUTADA: 'EJECUTADA'
+} as const
+
+export type EstadoSugerencia = (typeof EstadoSugerencia)[keyof typeof EstadoSugerencia]
+
+
+export const PrioridadSugerencia = {
+  BAJA: 'BAJA',
+  MEDIA: 'MEDIA',
+  ALTA: 'ALTA',
+  CRITICA: 'CRITICA'
+} as const
+
+export type PrioridadSugerencia = (typeof PrioridadSugerencia)[keyof typeof PrioridadSugerencia]
