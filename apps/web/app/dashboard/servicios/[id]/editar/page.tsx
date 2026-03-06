@@ -5,7 +5,6 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { toast } from "sonner";
 import {
   getClientesAction,
-  getMetodosPagoAction,
   getOperatorsAction,
   updateOrdenServicioAction,
   getOrdenServicioByIdAction,
@@ -54,6 +53,15 @@ const TIPOS_VISITA = [
   { value: "CORRECTIVO", label: "Servicio Correctivo" },
   { value: "SEGUIMIENTO", label: "Seguimiento/Monitoreo" },
   { value: "REINCIDENCIA", label: "Atención por Reincidencia (Garantía)" },
+];
+
+const METODOS_PAGO_BASE = [
+  { value: "EFECTIVO", label: "Efectivo" },
+  { value: "TRANSFERENCIA", label: "Transferencia Bancaria" },
+  { value: "CREDITO", label: "Crédito / Por Cobrar" },
+  { value: "BONO", label: "Bono / Descuento" },
+  { value: "CORTESIA", label: "Cortesía (No se cobra)" },
+  { value: "PENDIENTE", label: "Pendiente por definir" },
 ];
 
 const TIPOS_FACTURACION = [
@@ -223,7 +231,6 @@ function EditarServicioContent({ id }: { id: string }) {
 
         // Load specific data for the enterprise
         await Promise.all([
-          fetchMetodosPago(orderData.empresaId),
           fetchOperadores(orderData.empresaId),
           fetchServicios(orderData.empresaId),
         ]);
@@ -244,7 +251,7 @@ function EditarServicioContent({ id }: { id: string }) {
     };
 
     loadData();
-  }, [id, router, fetchMetodosPago, fetchOperadores, fetchServicios]);
+  }, [id, router, fetchOperadores, fetchServicios]);
 
   const handleClienteChange = (clientId: string) => {
     setSelectedCliente(clientId);
@@ -703,7 +710,7 @@ function EditarServicioContent({ id }: { id: string }) {
                           <div className="space-y-2">
                             <Label className="text-[10px] font-bold text-zinc-500 uppercase">Método</Label>
                             <Combobox
-                              options={METODOS_PAGO_BASE.map(m => ({ value: m.value, label: m.label }))}
+                              options={METODOS_PAGO_BASE.map((m: { value: string; label: string }) => ({ value: m.value, label: m.label }))}
                               value={line.metodo}
                               onChange={(val) => {
                                 const newBreakdown = [...breakdown];

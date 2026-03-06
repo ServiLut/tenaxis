@@ -5,7 +5,6 @@ import { DashboardLayout } from "@/components/dashboard";
 import { Card, CardHeader, CardTitle, CardContent, Button } from "@/components/ui";
 import { Users, Check, X, Loader2, Clock } from "lucide-react";
 import { toast } from "sonner";
-import { cn } from "@/components/ui/utils";
 
 interface PendingMembership {
   id: string;

@@ -343,10 +343,10 @@ function EquipoTrabajoContent() {
         apellido,
         email: editForm.email,
         telefono: editForm.phone,
-        placa: editForm.placa || null,
+        placa: editForm.placa || undefined,
         moto: editForm.moto,
-        direccion: editForm.direccion || null,
-        municipioId: (editForm.municipioId && editForm.municipioId !== "") ? editForm.municipioId : null,
+        direccion: editForm.direccion || undefined,
+        municipioId: (editForm.municipioId && editForm.municipioId !== "") ? editForm.municipioId : undefined,
         role: editForm.role,
         empresaIds: editForm.empresaIds,
       }).then((res) => {
