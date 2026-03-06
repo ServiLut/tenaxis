@@ -1,44 +1,45 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useCallback, useEffect, useRef } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import { toast } from "sonner";
+
+// Configuración de tiempos - Movido fuera para ser constante
+const INACTIVITY_THRESHOLD = 2 * 60 * 1000; // 2 min para empezar a marcar inactividad en DB
+const AUTO_LOGOUT_TIME = 4 * 60 * 1000;     // 4 min para cierre de sesión automático
+const HEARTBEAT_INTERVAL = 60 * 1000;       // 1 min para latidos
 
 export function ActivityTracker() {
   const pathname = usePathname();
   const router = useRouter();
-  const lastActivityRef = useRef<number>(Date.now());
+  // Inicializar en 0 para evitar llamada impura en renderizado
+  const lastActivityRef = useRef<number>(0);
   
-  // Configuración de tiempos
-  const INACTIVITY_THRESHOLD = 2 * 60 * 1000; // 2 min para empezar a marcar inactividad en DB
-  const AUTO_LOGOUT_TIME = 4 * 60 * 1000;     // 4 min para cierre de sesión automático
-  const HEARTBEAT_INTERVAL = 60 * 1000;       // 1 min para latidos
-
-  const sendEvent = async (tipo: string, descripcion?: string) => {
+  const sendEvent = useCallback(async (tipo: string, descripcion?: string) => {
     try {
       await fetch("/api/monitoring/event", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ tipo, descripcion, ruta: pathname }),
       });
-    } catch (e) {
+    } catch (_e) {
       // Fallo silencioso
     }
-  };
+  }, [pathname]);
 
-  const sendHeartbeat = async (inactiveMinutes: number = 0) => {
+  const sendHeartbeat = useCallback(async (inactiveMinutes: number = 0) => {
     try {
       await fetch("/api/monitoring/heartbeat", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ inactiveMinutes }),
       });
-    } catch (e) {
+    } catch (_e) {
       // Ignorar
     }
-  };
+  }, []);
 
-  const handleLogout = async () => {
+  const handleLogout = useCallback(async () => {
     await sendEvent("SESSION_TIMEOUT", "Cierre de sesión automático por 4 minutos de inactividad");
     
     // Limpiar cookies
@@ -51,9 +52,12 @@ export function ActivityTracker() {
     });
 
     router.push("/iniciar-sesion");
-  };
+  }, [sendEvent, router]);
 
   useEffect(() => {
+    // Establecer actividad inicial en el montaje
+    lastActivityRef.current = Date.now();
+
     // No trackear en la página de login
     if (pathname === "/iniciar-sesion") return;
 
@@ -109,7 +113,7 @@ export function ActivityTracker() {
       document.removeEventListener("click", updateActivity);
       document.removeEventListener("scroll", updateActivity);
     };
-  }, [pathname]);
+  }, [pathname, sendEvent, sendHeartbeat, handleLogout]);
 
   return null;
 }

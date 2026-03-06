@@ -5,35 +5,64 @@ import { DashboardLayout, JoinOrganization } from "@/components/dashboard";
 import { DashboardProviders } from "./components/DashboardProviders";
 import { DashboardContent } from "./components/DashboardContent";
 
+const USER_STORAGE_KEY = "user";
+const TENANT_COOKIE_KEY = "tenant-id";
+const ENTERPRISE_COOKIE_KEY = "x-enterprise-id";
+const COOKIE_MAX_AGE_SECONDS = 60 * 60 * 24;
+const COOKIE_PATH = "/";
+const COOKIE_SAME_SITE = "Lax";
+
+type StoredUser = {
+  tenantId?: string;
+};
+
+function getCookieValue(cookieName: string): string | undefined {
+  const cookieEntries = document.cookie.split("; ");
+  const value = cookieEntries
+    .find((row) => row.startsWith(`${cookieName}=`))
+    ?.split("=")[1];
+
+  return value ? decodeURIComponent(value) : undefined;
+}
+
+function setCookie(cookieName: string, value: string) {
+  const secureFlag = window.location.protocol === "https:" ? "; Secure" : "";
+  document.cookie = `${cookieName}=${encodeURIComponent(value)}; path=${COOKIE_PATH}; max-age=${COOKIE_MAX_AGE_SECONDS}; SameSite=${COOKIE_SAME_SITE}${secureFlag}`;
+}
+
 export default function DashboardPage() {
   const [hasTenant, setHasTenant] = useState<boolean | null>(null);
   const [enterpriseId, setEnterpriseId] = useState<string | undefined>();
 
   useEffect(() => {
-    const userData = localStorage.getItem("user");
+    const userData = localStorage.getItem(USER_STORAGE_KEY);
     let tenantExists = false;
-    let entId: string | undefined;
+    let currentEnterpriseId: string | undefined;
 
     if (userData && userData !== "undefined") {
       try {
-        const user = JSON.parse(userData);
+        const user = JSON.parse(userData) as StoredUser;
         tenantExists = !!user.tenantId;
 
         if (user.tenantId) {
-          const cookieEntries = document.cookie.split('; ');
-          const hasTenantCookie = cookieEntries.some(row => row.startsWith('tenant-id='));
+          const hasTenantCookie = !!getCookieValue(TENANT_COOKIE_KEY);
           if (!hasTenantCookie) {
-            document.cookie = `tenant-id=${user.tenantId}; path=/; max-age=86400; SameSite=Lax`;
+            setCookie(TENANT_COOKIE_KEY, user.tenantId);
           }
-          entId = cookieEntries.find(row => row.startsWith('x-enterprise-id='))?.split('=')[1];
+          currentEnterpriseId = getCookieValue(ENTERPRISE_COOKIE_KEY);
         }
-      } catch {
+      } catch (_e) {
         tenantExists = false;
       }
     }
 
-    setHasTenant(tenantExists);
-    setEnterpriseId(entId);
+    // Defer state updates to the next tick to avoid cascading renders warning
+    const timer = setTimeout(() => {
+      setHasTenant(tenantExists);
+      setEnterpriseId(currentEnterpriseId);
+    }, 0);
+
+    return () => clearTimeout(timer);
   }, []);
 
   if (hasTenant === null) return null;

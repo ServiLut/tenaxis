@@ -81,15 +81,6 @@ const TIPOS_VISITA = [
   { value: "REINCIDENCIA", label: "Atención por Reincidencia (Garantía)" },
 ];
 
-const ESTADOS_PAGO = [
-  { value: "PENDIENTE", label: "Pendiente de cobro" },
-  { value: "PAGADO", label: "Pagado en su totalidad" },
-  { value: "PARCIAL", label: "Pago parcial / Abono" },
-  { value: "CREDITO", label: "A crédito (Cuenta corriente)" },
-  { value: "CORTESIA", label: "Cortesía (Sin costo)" },
-  { value: "ANTICIPO", label: "Anticipo recibido" },
-];
-
 const METODOS_PAGO_BASE = [
   { value: "EFECTIVO", label: "Efectivo" },
   { value: "TRANSFERENCIA", label: "Transferencia Bancaria" },
@@ -149,11 +140,6 @@ interface Cliente {
   direcciones?: Direccion[];
 }
 
-interface MetodoPago {
-  id: string;
-  nombre: string;
-}
-
 interface Operador {
   id: string;
   nombre: string;
@@ -174,7 +160,6 @@ function NuevoServicioContent() {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
   const [clientes, setClientes] = useState<Cliente[]>([]);
-  const [metodosPago, setMetodosPago] = useState<MetodoPago[]>([]);
   const [operadores, setOperadores] = useState<Operador[]>([]);
   const [empresas, setEmpresas] = useState<Empresa[]>([]);
   const [serviciosEmpresa, setServiciosEmpresa] = useState<Servicio[]>([]);
@@ -280,8 +265,8 @@ function NuevoServicioContent() {
   const fetchMetodosPago = useCallback(async (empId: string) => {
     if (!empId) return;
     try {
-      const mps = await getMetodosPagoAction(empId);
-      setMetodosPago(Array.isArray(mps) ? mps : mps?.data || []);
+      await getMetodosPagoAction(empId);
+      // setMetodosPago(...) removed as it was unused
     } catch (e) {
       console.error("Error loading payment methods", e);
     }
@@ -435,14 +420,19 @@ function NuevoServicioContent() {
 
     setLoadingAddress(true);
     try {
-      const client = await getClienteByIdAction(selectedCliente);
+      const client = await getClienteByIdAction(selectedCliente) as Cliente | null;
       if (!client) throw new Error("Cliente no encontrado");
 
       // CLEANUP: We must remove relations and system-managed fields that Prisma rejects in a 'create' nested block
-      const existingDirs = (client.direcciones || []).map((d: any) => {
+      const existingDirs = (client.direcciones || []).map((d: Direccion) => {
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
-        const { municipio, municipioRel, clienteId, createdAt, updatedAt, departmentRel, ...rest } = d;
-        return rest;
+        const { id, municipio, municipioId, departmentId, linkMaps, ...rest } = d;
+        return {
+          ...rest,
+          municipioId: municipioId || null,
+          departmentId: departmentId || null,
+          linkMaps: linkMaps || null
+        };
       });
 
       // Explicitly construct the new address to avoid any unexpected fields from state
@@ -473,14 +463,14 @@ function NuevoServicioContent() {
       console.log("[AddressModal] Sending updated addresses:", updatedDirs);
 
       const res = await updateClienteAction(selectedCliente, {
-        direcciones: updatedDirs as any
+        direcciones: updatedDirs as unknown as Direccion[]
       });
 
       if (res.success) {
         toast.success("Dirección añadida correctamente");
         setIsAddressModalOpen(false);
         // Refresh client data
-        const updatedClient = await getClienteByIdAction(selectedCliente);
+        const updatedClient = await getClienteByIdAction(selectedCliente) as Cliente | null;
         if (updatedClient) {
           const dirs = updatedClient.direcciones || [];
           setDireccionesCliente(dirs);

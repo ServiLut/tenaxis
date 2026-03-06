@@ -10,12 +10,8 @@ import {
   endOfWeek, 
   isSameMonth, 
   isSameDay, 
-  addDays, 
   eachDayOfInterval,
-  isToday,
-  isAfter,
-  isBefore,
-  startOfDay
+  isToday
 } from "date-fns";
 import { es } from "date-fns/locale";
 import { cn } from "./utils";

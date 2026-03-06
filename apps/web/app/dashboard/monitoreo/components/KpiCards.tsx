@@ -17,7 +17,7 @@ interface KpiCardsProps {
 type KpiId = 'sessions' | 'events' | 'technicians' | 'latency';
 
 export function KpiCards({ stats, latency, activeTechniciansCount, onOpenKpi }: KpiCardsProps) {
-  const kpis: { id: KpiId; title: string; value: string; icon: any; trend: string; color: string; interactive: boolean }[] = [
+  const kpis: { id: KpiId; title: string; value: string; icon: React.ElementType; trend: string; color: string; interactive: boolean }[] = [
     { 
       id: 'sessions',
       title: "Sesiones Activas", 
