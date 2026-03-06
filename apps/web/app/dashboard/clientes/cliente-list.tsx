@@ -64,6 +64,7 @@ import {
   getClienteConfigsAction,
   upsertClienteConfigAction,
   getOrdenesServicioByClienteAction,
+  updateSugerenciaEstadoAction,
   ConfiguracionOperativa,
   ElementoPredefinido
 } from "../actions";
@@ -101,6 +102,7 @@ interface Cliente {
   cargoContacto?: string;
   fechaConsentimiento?: string;
   frecuenciaServicio?: number;
+  frecuenciaSugerida?: number;
   metrajeTotal?: number | string;
   origenCliente?: string;
   planActual?: string;
@@ -277,6 +279,7 @@ export function ClienteList({
       : null
   );
 
+  const [onlySinVisita, setOnlySinVisita] = useState(searchParams.get("sinVisita") === "true");
   const [filters, setFilters] = useState({
     empresas: searchParams.get("empresas")?.split(",").filter(Boolean) || [] as string[],
     departamento: searchParams.get("dept") || "all",
@@ -300,6 +303,7 @@ export function ClienteList({
       params.set("sort", sortConfig.key);
       params.set("dir", sortConfig.direction);
     }
+    if (onlySinVisita) params.set("sinVisita", "true");
     if (filters.empresas.length > 0) params.set("empresas", filters.empresas.join(","));
     if (filters.departamento !== "all") params.set("dept", filters.departamento);
     if (filters.municipio !== "all") params.set("muni", filters.municipio);
@@ -541,7 +545,12 @@ export function ClienteList({
       const clientDate = c.createdAt ? new Date(c.createdAt) : null;
       const matchesFechaDesde = !filters.fechaDesde || (clientDate && clientDate >= new Date(filters.fechaDesde));
       const matchesFechaHasta = !filters.fechaHasta || (clientDate && clientDate <= new Date(filters.fechaHasta + "T23:59:59"));
-      return matchesSearch && matchesEmpresas && matchesDepartamento && matchesMunicipio && matchesBarrio && matchesClasificacion && matchesSegmento && matchesRiesgo && matchesFechaDesde && matchesFechaHasta;
+      
+      const matchesSinVisita = !onlySinVisita || (
+        !c.proximaVisita || new Date(c.proximaVisita) < new Date()
+      );
+
+      return matchesSearch && matchesEmpresas && matchesDepartamento && matchesMunicipio && matchesBarrio && matchesClasificacion && matchesSegmento && matchesRiesgo && matchesFechaDesde && matchesFechaHasta && matchesSinVisita;
     });
 
     if (sortConfig) {
@@ -906,7 +915,17 @@ export function ClienteList({
                   { label: "Riesgo Crítico", icon: AlertCircle, color: "hover:border-red-500 hover:bg-red-50", action: () => { resetFilters(); setFilters(f => ({ ...f, riesgo: "CRITICO" })); } },
                   { label: "Upsell Potencial", icon: Zap, color: "hover:border-amber-500 hover:bg-amber-50", action: () => { resetFilters(); setActiveSegment("upsellPotencial"); } },
                   { label: "Dormidos (60d)", icon: Clock, color: "hover:border-slate-500 hover:bg-slate-50", action: () => { resetFilters(); setActiveSegment("dormidos"); } },
-                  { label: "Sin Próxima Visita", icon: Calendar, color: "hover:border-purple-500 hover:bg-purple-50", action: () => { resetFilters(); setSortConfig({ key: "proximaVisita", direction: "asc" }); } },
+                  { 
+                    label: "Sin Próxima Visita", 
+                    icon: Calendar, 
+                    color: onlySinVisita ? "border-purple-500 bg-purple-50 text-purple-700" : "hover:border-purple-500 hover:bg-purple-50", 
+                    action: () => { 
+                      const newValue = !onlySinVisita;
+                      resetFilters(); 
+                      setOnlySinVisita(newValue);
+                      if (newValue) setSortConfig({ key: "proximaVisita", direction: "asc" }); 
+                    } 
+                  },
                 ].map((preset, i) => (
                   <button
                     key={i}

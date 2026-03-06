@@ -9,11 +9,94 @@ import { Cliente, ClasificacionCliente } from '../generated/client/client';
 
 type ClienteWithRelations = Cliente & {
   segmento?: { frecuenciaSugerida?: number | null } | null;
+  riesgo?: { nombre?: string | null } | null;
 };
 
 @Injectable()
 export class ClientesService {
   constructor(private prisma: PrismaService) {}
+
+  private buildSegmentedFromClients(clients: ClienteWithRelations[]) {
+    const tickets = clients
+      .map((c) => Number(c.ticketPromedio))
+      .filter((t) => !isNaN(t) && t > 0)
+      .sort((a, b) => a - b);
+
+    let median = 0;
+    if (tickets.length > 0) {
+      const mid = Math.floor(tickets.length / 2);
+      median =
+        tickets.length % 2 !== 0
+          ? tickets[mid]
+          : (tickets[mid - 1] + (tickets[mid] ?? 0)) / 2;
+    }
+
+    const now = new Date();
+    const sixtyDaysAgo = new Date();
+    sixtyDaysAgo.setDate(now.getDate() - 60);
+
+    const segmented = {
+      riesgoFuga: [] as ClienteWithRelations[],
+      upsellPotencial: [] as ClienteWithRelations[],
+      dormidos: [] as ClienteWithRelations[],
+      operacionEstable: [] as ClienteWithRelations[],
+    };
+
+    clients.forEach((client) => {
+      const riesgoNombre = client.riesgo?.nombre?.toUpperCase() || '';
+      const isRiesgoFuga =
+        riesgoNombre.includes('ALTO') ||
+        riesgoNombre.includes('CRITICO') ||
+        riesgoNombre.includes('CRÍTICO') ||
+        (client.proximaVisita && new Date(client.proximaVisita) < now);
+
+      if (isRiesgoFuga) {
+        segmented.riesgoFuga.push(client);
+        return;
+      }
+
+      const isUpsell =
+        (client.clasificacion === ClasificacionCliente.ORO ||
+          client.clasificacion === ClasificacionCliente.PLATA) &&
+        Number(client.ticketPromedio || 0) > median;
+
+      if (isUpsell) {
+        segmented.upsellPotencial.push(client);
+        return;
+      }
+
+      const lastVisit = client.ultimaVisita
+        ? new Date(client.ultimaVisita)
+        : new Date(client.createdAt);
+      const isDormido = lastVisit < sixtyDaysAgo;
+
+      if (isDormido) {
+        segmented.dormidos.push(client);
+        return;
+      }
+
+      segmented.operacionEstable.push(client);
+    });
+
+    return {
+      riesgoFuga: {
+        count: segmented.riesgoFuga.length,
+        data: segmented.riesgoFuga as Cliente[],
+      },
+      upsellPotencial: {
+        count: segmented.upsellPotencial.length,
+        data: segmented.upsellPotencial as Cliente[],
+      },
+      dormidos: {
+        count: segmented.dormidos.length,
+        data: segmented.dormidos as Cliente[],
+      },
+      operacionEstable: {
+        count: segmented.operacionEstable.length,
+        data: segmented.operacionEstable as Cliente[],
+      },
+    };
+  }
 
   async findAll(
     tenantId: string,
@@ -40,11 +123,12 @@ export class ClientesService {
           empresa: true,
         },
       })) as ClienteWithRelations[];
-    } else if (userRole === 'ADMIN') {
+    } else if (userRole === 'ADMIN' || userRole === 'COORDINADOR' || userRole === 'ASESOR') {
       clients = (await this.prisma.cliente.findMany({
         where: {
           tenantId,
           deletedAt: null,
+          ...(empresaId && { empresaId }),
         },
         orderBy: { createdAt: 'desc' },
         include: {
@@ -137,89 +221,18 @@ export class ClientesService {
       orderBy: { createdAt: "desc" },
     });
 
-    // median calculation for ticketPromedio
-    const tickets = clients
-      .map((c) => Number(c.ticketPromedio))
-      .filter((t) => !isNaN(t) && t > 0)
-      .sort((a, b) => a - b);
+    return this.buildSegmentedFromClients(clients as ClienteWithRelations[]);
+  }
 
-    let median = 0;
-    if (tickets.length > 0) {
-      const mid = Math.floor(tickets.length / 2);
-      median =
-        tickets.length % 2 !== 0
-          ? tickets[mid]
-          : (tickets[mid - 1] + (tickets[mid] ?? 0)) / 2;
-    }
-
-    const now = new Date();
-    const sixtyDaysAgo = new Date();
-    sixtyDaysAgo.setDate(now.getDate() - 60);
-
-    const segmented = {
-      riesgoFuga: [] as Cliente[],
-      upsellPotencial: [] as Cliente[],
-      dormidos: [] as Cliente[],
-      operacionEstable: [] as Cliente[],
-    };
-
-    clients.forEach((client) => {
-      // 1. Riesgo de fuga: riesgo in (ALTO, CRITICO) o proximaVisita vencida
-      const riesgoNombre = client.riesgo?.nombre?.toUpperCase() || "";
-      const isRiesgoFuga =
-        riesgoNombre.includes("ALTO") ||
-        riesgoNombre.includes("CRITICO") ||
-        riesgoNombre.includes("CRÍTICO") ||
-        (client.proximaVisita && new Date(client.proximaVisita) < now);
-
-      if (isRiesgoFuga) {
-        segmented.riesgoFuga.push(client as Cliente);
-        return;
-      }
-
-      // 2. Upsell potencial: clasificacion in (ORO, PLATA) y ticketPromedio > mediana tenant
-      const isUpsell =
-        (client.clasificacion === ClasificacionCliente.ORO ||
-          client.clasificacion === ClasificacionCliente.PLATA) &&
-        Number(client.ticketPromedio || 0) > median;
-
-      if (isUpsell) {
-        segmented.upsellPotencial.push(client as Cliente);
-        return;
-      }
-
-      // 3. Dormidos: sin orden en últimos 60 días (usamos ultimaVisita como proxy)
-      const lastVisit = client.ultimaVisita
-        ? new Date(client.ultimaVisita)
-        : new Date(client.createdAt);
-      const isDormido = lastVisit < sixtyDaysAgo;
-
-      if (isDormido) {
-        segmented.dormidos.push(client as Cliente);
-        return;
-      }
-
-      // 4. Operación estable: resto
-      segmented.operacionEstable.push(client as Cliente);
-    });
+  async getDashboardData(tenantId: string, empresaId?: string, userRole?: string) {
+    const clientes = await this.findAll(tenantId, empresaId, userRole);
+    const segmentacion = this.buildSegmentedFromClients(
+      clientes as ClienteWithRelations[],
+    );
 
     return {
-      riesgoFuga: {
-        count: segmented.riesgoFuga.length,
-        data: segmented.riesgoFuga,
-      },
-      upsellPotencial: {
-        count: segmented.upsellPotencial.length,
-        data: segmented.upsellPotencial,
-      },
-      dormidos: {
-        count: segmented.dormidos.length,
-        data: segmented.dormidos,
-      },
-      operacionEstable: {
-        count: segmented.operacionEstable.length,
-        data: segmented.operacionEstable,
-      },
+      clientes,
+      segmentacion,
     };
   }
 
