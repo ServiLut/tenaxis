@@ -302,3 +302,8 @@ export type ClienteConfiguracionOperativa = Prisma.ClienteConfiguracionOperativa
  * 
  */
 export type EvidenciaServicio = Prisma.EvidenciaServicioModel
+/**
+ * Model SugerenciaSeguimiento
+ * 
+ */
+export type SugerenciaSeguimiento = Prisma.SugerenciaSeguimientoModel

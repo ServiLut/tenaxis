@@ -32,6 +32,13 @@ export class ClientesController {
     return this.clientesService.findAll(tenantId, empresaId, role);
   }
 
+  @Get('segmentacion')
+  async getSegmented(@Request() req: RequestWithUser) {
+    const tenantId = req.user.tenantId || '';
+    const empresaId = req.user.empresaId;
+    return this.clientesService.getSegmented(tenantId, empresaId);
+  }
+
   @Get(':id')
   async findOne(@Request() req: RequestWithUser, @Param('id') id: string) {
     const tenantId = req.user.tenantId || '';

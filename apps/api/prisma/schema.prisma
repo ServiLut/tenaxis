@@ -86,6 +86,7 @@ model Tenant {
   turnos                    Turno[]
   vehiculos                 Vehiculo[]
   zonas                     Zona[]
+  sugerencias               SugerenciaSeguimiento[]
 
   @@map("tenants")
 }
@@ -232,6 +233,7 @@ model Empresa {
   turnos                    Turno[]
   vehiculos                 Vehiculo[]
   zonas                     Zona[]
+  sugerencias               SugerenciaSeguimiento[]
 
   @@index([tenantId])
   @@map("empresas")
@@ -434,6 +436,7 @@ model Cliente {
   ordenesServicio           OrdenServicio[]
   paquetesAdquiridos        PaqueteAdquirido[]
   vehiculos                 Vehiculo[]
+  sugerencias               SugerenciaSeguimiento[]
 
   @@index([tenantId])
   @@index([empresaId])
@@ -1167,17 +1170,18 @@ model CuentasPago {
 }
 
 model Egresos {
-  id           String           @id @default(uuid()) @db.Uuid
-  tenantId     String           @db.Uuid
-  empresaId    String           @db.Uuid
-  membershipId String           @db.Uuid
+  id           String            @id @default(uuid()) @db.Uuid
+  tenantId     String            @db.Uuid
+  empresaId    String            @db.Uuid
+  membershipId String?           @db.Uuid
   titulo       String
-  monto        Decimal          @db.Decimal(12, 2)
+  monto        Decimal           @db.Decimal(12, 2)
   razon        String?
-  createdAt    DateTime         @default(now())
-  empresa      Empresa          @relation(fields: [empresaId], references: [id])
-  membership   TenantMembership @relation(fields: [membershipId], references: [id])
-  tenant       Tenant           @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  createdAt    DateTime          @default(now())
+  categoria    String?           @default("GENERAL")
+  empresa      Empresa           @relation(fields: [empresaId], references: [id])
+  membership   TenantMembership? @relation(fields: [membershipId], references: [id])
+  tenant       Tenant            @relation(fields: [tenantId], references: [id], onDelete: Cascade)
 
   @@index([tenantId])
   @@index([empresaId])
@@ -1257,11 +1261,11 @@ model SesionActividad {
   tiempoInactivo Int              @default(0)
   dispositivo    String?
   ip             String?
+  updatedAt      DateTime         @default(now()) @updatedAt
   logs           LogEvento[]
   empresa        Empresa          @relation(fields: [empresaId], references: [id])
   membership     TenantMembership @relation(fields: [membershipId], references: [id])
   tenant         Tenant           @relation(fields: [tenantId], references: [id], onDelete: Cascade)
-  updatedAt      DateTime         @default(now()) @updatedAt
 
   @@index([tenantId])
   @@index([empresaId])
@@ -1538,3 +1542,45 @@ enum EstadoOrden {
   REPROGRAMADO
   SIN_CONCRETAR
 }
+
+model SugerenciaSeguimiento {
+  id              String             @id @default(uuid()) @db.Uuid
+  tenantId        String             @db.Uuid
+  empresaId       String?            @db.Uuid
+  clienteId       String             @db.Uuid
+  tipo            String             // "PROGRAMAR_VISITA", "REACTIVAR", "UPSELL", "COMPLETAR_CONFIG"
+  prioridad       PrioridadSugerencia @default(MEDIA)
+  estado          EstadoSugerencia   @default(PENDIENTE)
+  titulo          String
+  descripcion     String
+  metadata        Json?              
+  fechaSugerida   DateTime           @default(now())
+  fechaEjecutada  DateTime?
+  creadoAt        DateTime           @default(now())
+  actualizadoAt   DateTime           @updatedAt
+
+  cliente         Cliente            @relation(fields: [clienteId], references: [id], onDelete: Cascade)
+  empresa         Empresa?           @relation(fields: [empresaId], references: [id])
+  tenant          Tenant             @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+
+  @@index([tenantId])
+  @@index([empresaId])
+  @@index([estado])
+  @@index([fechaSugerida])
+  @@map("sugerencias_seguimiento")
+}
+
+enum EstadoSugerencia {
+  PENDIENTE
+  ACEPTADA
+  DESCARTADA
+  EJECUTADA
+}
+
+enum PrioridadSugerencia {
+  BAJA
+  MEDIA
+  ALTA
+  CRITICA
+}
+

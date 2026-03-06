@@ -1252,10 +1252,12 @@ export type TenantMembershipCreateNestedOneWithoutEgresosInput = {
   connect?: Prisma.TenantMembershipWhereUniqueInput
 }
 
-export type TenantMembershipUpdateOneRequiredWithoutEgresosNestedInput = {
+export type TenantMembershipUpdateOneWithoutEgresosNestedInput = {
   create?: Prisma.XOR<Prisma.TenantMembershipCreateWithoutEgresosInput, Prisma.TenantMembershipUncheckedCreateWithoutEgresosInput>
   connectOrCreate?: Prisma.TenantMembershipCreateOrConnectWithoutEgresosInput
   upsert?: Prisma.TenantMembershipUpsertWithoutEgresosInput
+  disconnect?: Prisma.TenantMembershipWhereInput | boolean
+  delete?: Prisma.TenantMembershipWhereInput | boolean
   connect?: Prisma.TenantMembershipWhereUniqueInput
   update?: Prisma.XOR<Prisma.XOR<Prisma.TenantMembershipUpdateToOneWithWhereWithoutEgresosInput, Prisma.TenantMembershipUpdateWithoutEgresosInput>, Prisma.TenantMembershipUncheckedUpdateWithoutEgresosInput>
 }

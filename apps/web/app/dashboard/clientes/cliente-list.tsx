@@ -1,8 +1,8 @@
 "use client";
 
-import React, { useState, useMemo } from "react";
+import React, { useState, useMemo, useEffect } from "react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams, usePathname } from "next/navigation";
 import { Input } from "@/components/ui/input";
 import { DatePicker } from "@/components/ui/date-picker";
 import {
@@ -37,6 +37,8 @@ import {
   ClipboardCheck,
   ShieldCheck,
   Box,
+  ArrowUpDown,
+  Info,
 } from "lucide-react";
 import {
   DropdownMenu,
@@ -173,8 +175,33 @@ interface Municipality {
   departmentId: string;
 }
 
+interface Sugerencia {
+  id: string;
+  clienteId: string;
+  tipo: string;
+  prioridad: string;
+  estado: string;
+  titulo: string;
+  descripcion: string;
+  creadoAt: string;
+  cliente?: Cliente;
+}
+
 interface ClienteListProps {
   initialClientes: Cliente[];
+  segmentedData?: {
+    riesgoFuga: { count: number; data: Cliente[] };
+    upsellPotencial: { count: number; data: Cliente[] };
+    dormidos: { count: number; data: Cliente[] };
+    operacionEstable: { count: number; data: Cliente[] };
+  } | null;
+  initialSugerencias?: Sugerencia[];
+  sugerenciasStats?: {
+    pendientesPorPrioridad: Record<string, number>;
+    tasaAceptacion: number;
+    tiempoPromedioEjecucionMin: number;
+    totalHoy: number;
+  } | null;
   initialDepartments?: Department[];
   initialMunicipalities?: Municipality[];
 }
@@ -226,17 +253,180 @@ interface OrdenServicio {
   valorCotizado?: number;
 }
 
-export function ClienteList({ initialClientes, initialDepartments = [], initialMunicipalities = [] }: ClienteListProps) {
+export function ClienteList({ 
+  initialClientes, 
+  segmentedData, 
+  initialSugerencias = [],
+  sugerenciasStats,
+  initialDepartments = [], 
+  initialMunicipalities = [] 
+}: ClienteListProps) {
   const router = useRouter();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
+
   const [mounted, setMounted] = useState(false);
-  const clientes = useMemo(() => initialClientes || [], [initialClientes]);
-  const [search, setSearch] = useState("");
+  
+  // URL Persistence
+  const [activeSegment, setActiveSegment] = useState<string>(searchParams.get("segment") || "all");
+  const [search, setSearch] = useState(searchParams.get("search") || "");
+  const [currentPage, setCurrentPage] = useState(Number(searchParams.get("page")) || 1);
+  const [sortConfig, setSortConfig] = useState<{ key: string; direction: "asc" | "desc" } | null>(
+    searchParams.get("sort") 
+      ? { key: searchParams.get("sort")!, direction: (searchParams.get("dir") as "asc" | "desc") || "asc" }
+      : null
+  );
+
+  const [filters, setFilters] = useState({
+    empresas: searchParams.get("empresas")?.split(",").filter(Boolean) || [] as string[],
+    departamento: searchParams.get("dept") || "all",
+    municipio: searchParams.get("muni") || "all",
+    barrio: searchParams.get("barrio") || "",
+    clasificacion: searchParams.get("class") || "all",
+    segmento: searchParams.get("seg") || "all",
+    riesgo: searchParams.get("risk") || "all",
+    fechaDesde: searchParams.get("from") || "",
+    fechaHasta: searchParams.get("to") || "",
+  });
+
+  // Sync state to URL
+  useEffect(() => {
+    if (!mounted) return;
+    const params = new URLSearchParams();
+    if (activeSegment !== "all") params.set("segment", activeSegment);
+    if (search) params.set("search", search);
+    if (currentPage > 1) params.set("page", currentPage.toString());
+    if (sortConfig) {
+      params.set("sort", sortConfig.key);
+      params.set("dir", sortConfig.direction);
+    }
+    if (filters.empresas.length > 0) params.set("empresas", filters.empresas.join(","));
+    if (filters.departamento !== "all") params.set("dept", filters.departamento);
+    if (filters.municipio !== "all") params.set("muni", filters.municipio);
+    if (filters.barrio) params.set("barrio", filters.barrio);
+    if (filters.clasificacion !== "all") params.set("class", filters.clasificacion);
+    if (filters.segmento !== "all") params.set("seg", filters.segmento);
+    if (filters.riesgo !== "all") params.set("risk", filters.riesgo);
+    if (filters.fechaDesde) params.set("from", filters.fechaDesde);
+    if (filters.fechaHasta) params.set("to", filters.fechaHasta);
+
+    const query = params.toString();
+    router.replace(`${pathname}${query ? `?${query}` : ""}`, { scroll: false });
+  }, [activeSegment, search, currentPage, sortConfig, filters, pathname, router, mounted]);
+
+  const [showSuggestionsQueue, setShowSuggestionsQueue] = useState(false);
+  
+  const [sugerencias, setSugerencias] = useState<Sugerencia[]>(initialSugerencias);
+  
+  const clientes = useMemo(() => {
+    if (activeSegment === "all") return initialClientes || [];
+    if (!segmentedData) return initialClientes || [];
+    
+    switch (activeSegment) {
+      case "riesgoFuga": return segmentedData.riesgoFuga.data;
+      case "upsellPotencial": return segmentedData.upsellPotencial.data;
+      case "dormidos": return segmentedData.dormidos.data;
+      case "operacionEstable": return segmentedData.operacionEstable.data;
+      default: return initialClientes || [];
+    }
+  }, [initialClientes, segmentedData, activeSegment]);
+
   const [empresaSearch, setEmpresaSearch] = useState("");
-  const [currentPage, setCurrentPage] = useState(1);
   const [selectedCliente, setSelectedCliente] = useState<Cliente | null>(null);
   const [selectedClienteForConfig, setSelectedClienteForConfig] = useState<Cliente | null>(null);
   const [selectedClienteForHistory, setSelectedClienteForHistory] = useState<Cliente | null>(null);
+  const [selectedClienteForSuggestions, setSelectedClienteForSuggestions] = useState<Cliente | null>(null);
   const [clienteToDelete, setClienteToDelete] = useState<Cliente | null>(null);
+
+  const handleUpdateSugerencia = async (id: string, nuevoEstado: string) => {
+    const res = await updateSugerenciaEstadoAction(id, nuevoEstado);
+    if (res.success) {
+      setSugerencias(prev => prev.map(s => s.id === id ? { ...s, estado: nuevoEstado } : s));
+      toast.success(`Sugerencia ${nuevoEstado.toLowerCase()} correctamente`);
+    } else {
+      toast.error("Error al actualizar la sugerencia");
+    }
+  };
+
+  const suggestions = useMemo(() => {
+    if (!selectedClienteForSuggestions) return [];
+    const client = selectedClienteForSuggestions;
+    const now = new Date();
+    const list = [];
+
+    // 1. Programar visita (si próxima visita vencida o vacía con frecuencia definida)
+    const proximaVencida = !client.proximaVisita || new Date(client.proximaVisita) < now;
+    const tieneFrecuencia = Number(client.frecuenciaSugerida || client.frecuenciaServicio || 0) > 0;
+    
+    if (proximaVencida && tieneFrecuencia) {
+      list.push({
+        id: "programar-visita",
+        title: "Programar Visita de Seguimiento",
+        description: "La fecha de próxima visita está vencida o no ha sido programada, pero el cliente tiene una frecuencia de servicio establecida.",
+        icon: Calendar,
+        color: "text-blue-600 bg-blue-50",
+        actionLabel: "Ir a Programación",
+        action: () => {
+          router.push(`/dashboard/servicios/nuevo?clienteId=${client.id}`);
+          setSelectedClienteForSuggestions(null);
+        }
+      });
+    }
+
+    // 2. Reactivar cliente (si dormido)
+    const isDormido = segmentedData?.dormidos.data.some(c => c.id === client.id);
+    if (isDormido) {
+      list.push({
+        id: "reactivar-cliente",
+        title: "Reactivar Cliente Dormido",
+        description: "Este cliente no ha registrado actividad en los últimos 60 días. Se recomienda contacto comercial inmediato.",
+        icon: RotateCcw,
+        color: "text-slate-600 bg-slate-50",
+        actionLabel: "Registrar Contacto",
+        action: () => {
+          toast.info("Función de registro de contacto en desarrollo");
+          setSelectedClienteForSuggestions(null);
+        }
+      });
+    }
+
+    // 3. Ofrecer upsell (si upsell potencial y consentimiento marketing activo)
+    const isUpsell = segmentedData?.upsellPotencial.data.some(c => c.id === client.id);
+    if (isUpsell && client.aceptaMarketing) {
+      list.push({
+        id: "ofrecer-upsell",
+        title: "Oferta de Upsell Potencial",
+        description: "El ticket promedio es superior a la media y el cliente autoriza marketing. Ideal para servicios complementarios.",
+        icon: Zap,
+        color: "text-amber-600 bg-amber-50",
+        actionLabel: "Generar Oferta",
+        action: () => {
+          toast.info("Generando propuesta comercial automática...");
+          setSelectedClienteForSuggestions(null);
+        }
+      });
+    }
+
+    // 4. Revisar configuración operativa (si datos críticos incompletos)
+    const sinDirecciones = !client.direcciones || client.direcciones.length === 0;
+    const sinConfig = !client.configuracionesOperativas || client.configuracionesOperativas.length === 0;
+    if (sinDirecciones || sinConfig) {
+      list.push({
+        id: "revisar-config",
+        title: "Completar Configuración Operativa",
+        description: "Faltan datos críticos (sedes o protocolos) para garantizar una ejecución técnica perfecta.",
+        icon: Settings,
+        color: "text-purple-600 bg-purple-50",
+        actionLabel: "Configurar Ahora",
+        action: () => {
+          setSelectedClienteForConfig(client);
+          setSelectedClienteForSuggestions(null);
+        }
+      });
+    }
+
+    return list;
+  }, [selectedClienteForSuggestions, segmentedData, router]);
   const [historyLoading, setHistoryLoading] = useState(false);
   const [serviceHistory, setServiceHistory] = useState<OrdenServicio[]>([]);
   const [configLoading, setConfigLoading] = useState(false);
@@ -294,20 +484,6 @@ export function ClienteList({ initialClientes, initialDepartments = [], initialM
     });
   };
 
-  const [filters, setFilters] = useState({
-    empresas: [] as string[],
-    departamento: "all",
-    municipio: "all",
-    barrio: "",
-    clasificacion: "all",
-    segmento: "all",
-    riesgo: "all",
-    fechaDesde: "",
-    fechaHasta: "",
-  });
-
-  const itemsPerPage = 10;
-
   React.useEffect(() => {
     setMounted(true);
     const userData = localStorage.getItem("user");
@@ -346,7 +522,7 @@ export function ClienteList({ initialClientes, initialDepartments = [], initialM
 
   const filteredClientes = useMemo(() => {
     if (!mounted) return [];
-    return clientes.filter(c => {
+    let result = clientes.filter(c => {
       const searchLower = search.toLowerCase();
       const matchesSearch = !search || (
         c.nombre?.toLowerCase().includes(searchLower) ||
@@ -367,8 +543,42 @@ export function ClienteList({ initialClientes, initialDepartments = [], initialM
       const matchesFechaHasta = !filters.fechaHasta || (clientDate && clientDate <= new Date(filters.fechaHasta + "T23:59:59"));
       return matchesSearch && matchesEmpresas && matchesDepartamento && matchesMunicipio && matchesBarrio && matchesClasificacion && matchesSegmento && matchesRiesgo && matchesFechaDesde && matchesFechaHasta;
     });
-  }, [clientes, search, filters, mounted]);
 
+    if (sortConfig) {
+      result.sort((a, b) => {
+        let aVal: any = a[sortConfig.key as keyof Cliente];
+        let bVal: any = b[sortConfig.key as keyof Cliente];
+
+        if (sortConfig.key === "nombre") {
+          aVal = a.tipoCliente === "EMPRESA" ? a.razonSocial : `${a.nombre} ${a.apellido}`;
+          bVal = b.tipoCliente === "EMPRESA" ? b.razonSocial : `${b.nombre} ${b.apellido}`;
+        } else if (sortConfig.key === "riesgo") {
+          aVal = a.riesgo?.nombre || a.nivelRiesgo || "";
+          bVal = b.riesgo?.nombre || b.nivelRiesgo || "";
+        } else if (sortConfig.key === "proximaVisita") {
+          aVal = a.proximaVisita ? new Date(a.proximaVisita).getTime() : 0;
+          bVal = b.proximaVisita ? new Date(b.proximaVisita).getTime() : 0;
+        }
+
+        if (aVal < bVal) return sortConfig.direction === "asc" ? -1 : 1;
+        if (aVal > bVal) return sortConfig.direction === "asc" ? 1 : -1;
+        return 0;
+      });
+    }
+
+    return result;
+  }, [clientes, search, filters, mounted, sortConfig]);
+
+  const handleSort = (key: string) => {
+    setSortConfig(prev => {
+      if (prev?.key === key) {
+        return { key, direction: prev.direction === "asc" ? "desc" : "asc" };
+      }
+      return { key, direction: "desc" };
+    });
+  };
+
+  const itemsPerPage = 10;
   const totalPages = Math.ceil(filteredClientes.length / itemsPerPage);
   const paginatedClientes = filteredClientes.slice(
     (currentPage - 1) * itemsPerPage,
@@ -393,11 +603,14 @@ export function ClienteList({ initialClientes, initialDepartments = [], initialM
       fechaDesde: "",
       fechaHasta: "",
     });
+    setSortConfig(null);
+    setSearch("");
+    setActiveSegment("all");
   };
 
   React.useEffect(() => {
     setCurrentPage(1);
-  }, [search, filters]);
+  }, [search, filters, activeSegment]);
 
   React.useEffect(() => {
     const loadConfigs = async () => {
@@ -547,7 +760,19 @@ export function ClienteList({ initialClientes, initialDepartments = [], initialM
               Gestión estratégica y segmentación de la base instalada.
             </p>
           </div>
-          <div className="md:ml-auto">
+          <div className="md:ml-auto flex items-center gap-3">
+            <Button
+              onClick={() => setShowSuggestionsQueue(true)}
+              className="h-10 px-6 rounded-xl bg-amber-500 text-white text-[10px] font-black uppercase tracking-widest gap-2 shadow-lg shadow-amber-500/20 hover:bg-amber-600 transition-all"
+            >
+              <Zap className="h-4 w-4 fill-current" />
+              Cola de Hoy
+              {sugerencias.filter(s => s.estado === "PENDIENTE").length > 0 && (
+                <span className="ml-1 px-2 py-0.5 rounded-full bg-white text-amber-600 text-[9px] font-black animate-pulse">
+                  {sugerencias.filter(s => s.estado === "PENDIENTE").length}
+                </span>
+              )}
+            </Button>
             <Button
               variant="outline"
               size="sm"
@@ -634,9 +859,70 @@ export function ClienteList({ initialClientes, initialDepartments = [], initialM
                   </div>
                 </Link>
               </div>
-            </div>
+              </div>
 
-            {/* Integrated Filter Panel */}
+              {/* Segmentación Operativa - Tabs */}
+              {segmentedData && (
+              <div className="px-8 py-2 border-b border-border bg-muted/20 flex items-center gap-2 overflow-x-auto scrollbar-hide">
+                {[
+                  { id: "all", label: "Todos", count: initialClientes.length, icon: Target },
+                  { id: "riesgoFuga", label: "Riesgo de Fuga", count: segmentedData.riesgoFuga.count, icon: AlertCircle, color: "text-red-600" },
+                  { id: "upsellPotencial", label: "Upsell Potencial", count: segmentedData.upsellPotencial.count, icon: Trophy, color: "text-amber-600" },
+                  { id: "dormidos", label: "Dormidos", count: segmentedData.dormidos.count, icon: Clock, color: "text-slate-600" },
+                  { id: "operacionEstable", label: "Operación Estable", count: segmentedData.operacionEstable.count, icon: ShieldCheck, color: "text-emerald-600" },
+                ].map((seg) => (
+                  <button
+                    key={seg.id}
+                    onClick={() => setActiveSegment(seg.id)}
+                    className={cn(
+                      "flex items-center gap-2 px-4 py-3 rounded-xl transition-all whitespace-nowrap border-2",
+                      activeSegment === seg.id
+                        ? "bg-background border-[#01ADFB] shadow-sm scale-[1.02]"
+                        : "border-transparent hover:bg-muted text-muted-foreground"
+                    )}
+                  >
+                    <seg.icon className={cn("h-4 w-4", activeSegment === seg.id ? "text-[#01ADFB]" : seg.color)} />
+                    <span className={cn(
+                      "text-[10px] font-black uppercase tracking-widest",
+                      activeSegment === seg.id ? "text-foreground" : ""
+                    )}>
+                      {seg.label}
+                    </span>
+                    <span className={cn(
+                      "ml-1 px-2 py-0.5 rounded-full text-[9px] font-black",
+                      activeSegment === seg.id ? "bg-[#01ADFB] text-white" : "bg-muted text-muted-foreground"
+                    )}>
+                      {seg.count}
+                    </span>
+                  </button>
+                ))}
+              </div>
+              )}
+
+              {/* Presets de Filtro Rápidos */}
+              <div className="px-8 py-3 flex items-center gap-3 overflow-x-auto scrollbar-hide border-b border-border bg-muted/5">
+                <span className="text-[9px] font-black uppercase tracking-[0.2em] text-muted-foreground mr-2 shrink-0">Presets Rápidos:</span>
+                {[
+                  { label: "Riesgo Crítico", icon: AlertCircle, color: "hover:border-red-500 hover:bg-red-50", action: () => { resetFilters(); setFilters(f => ({ ...f, riesgo: "CRITICO" })); } },
+                  { label: "Upsell Potencial", icon: Zap, color: "hover:border-amber-500 hover:bg-amber-50", action: () => { resetFilters(); setActiveSegment("upsellPotencial"); } },
+                  { label: "Dormidos (60d)", icon: Clock, color: "hover:border-slate-500 hover:bg-slate-50", action: () => { resetFilters(); setActiveSegment("dormidos"); } },
+                  { label: "Sin Próxima Visita", icon: Calendar, color: "hover:border-purple-500 hover:bg-purple-50", action: () => { resetFilters(); setSortConfig({ key: "proximaVisita", direction: "asc" }); } },
+                ].map((preset, i) => (
+                  <button
+                    key={i}
+                    onClick={preset.action}
+                    className={cn(
+                      "flex items-center gap-2 px-3 py-1.5 rounded-lg border border-border bg-background text-[10px] font-bold uppercase tracking-wider transition-all whitespace-nowrap",
+                      preset.color
+                    )}
+                  >
+                    <preset.icon className="h-3 w-3" />
+                    {preset.label}
+                  </button>
+                ))}
+              </div>
+
+              {/* Integrated Filter Panel */}
             {showFilters && (
               <div className="px-8 py-8 border-b border-border bg-muted/50 animate-in fade-in slide-in-from-top-2 duration-300 max-h-[60vh] overflow-y-auto custom-scrollbar">
                 <div className="max-w-[1600px] mx-auto">
@@ -830,12 +1116,44 @@ export function ClienteList({ initialClientes, initialDepartments = [], initialM
                 <table className="w-full text-left border-collapse min-w-[1000px] lg:min-w-full">
                   <thead className="sticky top-0 bg-muted/95 backdrop-blur-sm z-20">
                     <tr className="border-b border-border">
-                      <th className="px-6 py-5 text-[10px] font-black uppercase tracking-[0.3em] text-muted-foreground">Cliente / Perfil</th>
+                      <th 
+                        className="px-6 py-5 text-[10px] font-black uppercase tracking-[0.3em] text-muted-foreground cursor-pointer hover:text-foreground transition-colors"
+                        onClick={() => handleSort("nombre")}
+                      >
+                        <div className="flex items-center gap-2">
+                          Cliente / Perfil
+                          <ArrowUpDown className={cn("h-3 w-3", sortConfig?.key === "nombre" ? "text-[#01ADFB]" : "opacity-30")} />
+                        </div>
+                      </th>
                       <th className="px-4 py-5 text-[10px] font-black uppercase tracking-[0.3em] text-muted-foreground">Documentación</th>
-                      <th className="px-4 py-5 text-[10px] font-black uppercase tracking-[0.3em] text-muted-foreground text-center">Clasificación</th>
+                      <th 
+                        className="px-4 py-5 text-[10px] font-black uppercase tracking-[0.3em] text-muted-foreground text-center cursor-pointer hover:text-foreground transition-colors"
+                        onClick={() => handleSort("score")}
+                      >
+                        <div className="flex items-center justify-center gap-2">
+                          Clasificación
+                          <ArrowUpDown className={cn("h-3 w-3", sortConfig?.key === "score" ? "text-[#01ADFB]" : "opacity-30")} />
+                        </div>
+                      </th>
                       <th className="px-4 py-5 text-[10px] font-black uppercase tracking-[0.3em] text-muted-foreground text-center">Segmentación</th>
-                      <th className="px-4 py-5 text-[10px] font-black uppercase tracking-[0.3em] text-muted-foreground text-center">Riesgo</th>
-                      <th className="px-4 py-5 text-[10px] font-black uppercase tracking-[0.3em] text-muted-foreground">Contacto</th>
+                      <th 
+                        className="px-4 py-5 text-[10px] font-black uppercase tracking-[0.3em] text-muted-foreground text-center cursor-pointer hover:text-foreground transition-colors"
+                        onClick={() => handleSort("riesgo")}
+                      >
+                        <div className="flex items-center justify-center gap-2">
+                          Riesgo
+                          <ArrowUpDown className={cn("h-3 w-3", sortConfig?.key === "riesgo" ? "text-[#01ADFB]" : "opacity-30")} />
+                        </div>
+                      </th>
+                      <th 
+                        className="px-4 py-5 text-[10px] font-black uppercase tracking-[0.3em] text-muted-foreground cursor-pointer hover:text-foreground transition-colors"
+                        onClick={() => handleSort("proximaVisita")}
+                      >
+                        <div className="flex items-center gap-2">
+                          Próxima Visita
+                          <ArrowUpDown className={cn("h-3 w-3", sortConfig?.key === "proximaVisita" ? "text-[#01ADFB]" : "opacity-30")} />
+                        </div>
+                      </th>
                       <th className="px-4 py-5 text-[10px] font-black uppercase tracking-[0.3em] text-muted-foreground">Ubicación</th>
                       <th className="px-6 py-5 text-right text-[10px] font-black uppercase tracking-[0.3em] text-muted-foreground">Acciones</th>
                     </tr>
@@ -855,9 +1173,17 @@ export function ClienteList({ initialClientes, initialDepartments = [], initialM
                               <span className="text-sm font-black tracking-tight text-foreground truncate max-w-[150px] sm:max-w-[200px] lg:max-w-[280px] uppercase">
                                 {cliente.tipoCliente === "EMPRESA" ? cliente.razonSocial : `${cliente.nombre} ${cliente.apellido}`}
                               </span>
-                              <span className="text-[9px] font-black text-muted-foreground uppercase tracking-[0.1em] mt-0.5">
-                                {cliente.tipoCliente === "EMPRESA" ? "Corporativo" : "Persona Natural"}
-                              </span>
+                              <div className="flex items-center gap-2 mt-0.5">
+                                <span className="text-[9px] font-black text-muted-foreground uppercase tracking-[0.1em]">
+                                  {cliente.tipoCliente === "EMPRESA" ? "Corporativo" : "Persona Natural"}
+                                </span>
+                                {/* Badges de Calidad de Dato */}
+                                <div className="flex items-center gap-1 ml-1">
+                                  {!cliente.correo && <div title="Sin correo" className="h-1.5 w-1.5 rounded-full bg-red-500" />}
+                                  {!(cliente.segmento?.nombre || cliente.segmentoNegocio) && <div title="Sin segmento" className="h-1.5 w-1.5 rounded-full bg-amber-500" />}
+                                  {!cliente.frecuenciaServicio && <div title="Sin frecuencia" className="h-1.5 w-1.5 rounded-full bg-purple-500" />}
+                                </div>
+                              </div>
                             </div>
                           </div>
                         </td>
@@ -956,6 +1282,12 @@ export function ClienteList({ initialClientes, initialDepartments = [], initialM
                                 className="flex items-center gap-3 py-3 text-[11px] font-black uppercase tracking-widest cursor-pointer text-foreground hover:bg-muted"
                               >
                                 <Eye className="h-4 w-4 text-[#01ADFB]" /> Ver Expediente
+                              </DropdownMenuItem>
+                              <DropdownMenuItem
+                                onClick={() => setSelectedClienteForSuggestions(cliente)}
+                                className="flex items-center gap-3 py-3 text-[11px] font-black uppercase tracking-widest cursor-pointer text-foreground hover:bg-muted"
+                              >
+                                <Zap className="h-4 w-4 text-amber-500" /> Sugerencias
                               </DropdownMenuItem>
                               <DropdownMenuItem
                                 onClick={() => setSelectedClienteForHistory(cliente)}
@@ -1857,6 +2189,179 @@ export function ClienteList({ initialClientes, initialDepartments = [], initialM
           )}
         </DialogContent>
       </Dialog>
+      {/* MODAL DE SUGERENCIAS ESTRATÉGICAS */}
+      <Dialog
+        open={!!selectedClienteForSuggestions}
+        onOpenChange={(open) => !open && setSelectedClienteForSuggestions(null)}
+      >
+        <DialogContent className="max-w-2xl p-0 overflow-hidden border-none shadow-2xl rounded-2xl bg-background">
+          <DialogHeader className="sr-only">
+            <DialogTitle>Acciones Sugeridas</DialogTitle>
+          </DialogHeader>
+          {selectedClienteForSuggestions && (
+            <div className="flex flex-col">
+              {/* Header Contextual */}
+              <div className="shrink-0 p-8 border-b border-border bg-[#01ADFB]/5 flex items-center gap-5">
+                <div className="h-14 w-14 rounded-2xl bg-[#01ADFB] flex items-center justify-center text-white shadow-lg shadow-[#01ADFB]/20">
+                  <Zap className="h-7 w-7" />
+                </div>
+                <div>
+                  <h2 className="text-xl font-black text-foreground tracking-tight uppercase">
+                    Acciones Sugeridas
+                  </h2>
+                  <p className="text-xs font-bold text-muted-foreground mt-0.5 uppercase tracking-wider">
+                    Recomendaciones inteligentes para {selectedClienteForSuggestions.tipoCliente === "EMPRESA" ? selectedClienteForSuggestions.razonSocial : `${selectedClienteForSuggestions.nombre} ${selectedClienteForSuggestions.apellido}`}
+                  </p>
+                </div>
+              </div>
+
+              {/* Lista de Sugerencias */}
+              <div className="p-8 space-y-4 max-h-[60vh] overflow-y-auto custom-scrollbar">
+                {suggestions.length === 0 ? (
+                  <div className="py-10 text-center flex flex-col items-center">
+                    <ShieldCheck className="h-12 w-12 text-emerald-500 mb-4 opacity-20" />
+                    <p className="text-sm font-black text-muted-foreground uppercase tracking-widest">Operación al día</p>
+                    <p className="text-xs text-muted-foreground mt-1">No hay acciones urgentes pendientes para este cliente.</p>
+                  </div>
+                ) : (
+                  suggestions.map((sug) => (
+                    <div key={sug.id} className="p-6 rounded-3xl border border-border bg-card hover:border-[#01ADFB] transition-all group flex items-start gap-6 shadow-sm">
+                      <div className={cn("h-12 w-12 shrink-0 rounded-2xl flex items-center justify-center", sug.color)}>
+                        <sug.icon className="h-6 w-6" />
+                      </div>
+                      <div className="flex-1">
+                        <h4 className="text-sm font-black text-foreground uppercase tracking-tight mb-1">{sug.title}</h4>
+                        <p className="text-xs text-muted-foreground leading-relaxed mb-4">{sug.description}</p>
+                        <Button
+                          onClick={sug.action}
+                          className="h-10 px-6 rounded-xl bg-foreground text-background text-[10px] font-black uppercase tracking-widest hover:opacity-90 transition-all"
+                        >
+                          {sug.actionLabel}
+                        </Button>
+                      </div>
+                    </div>
+                  ))
+                )}
+              </div>
+
+              {/* Footer */}
+              <div className="p-6 bg-muted/50 border-t border-border flex justify-end">
+                <button
+                  onClick={() => setSelectedClienteForSuggestions(null)}
+                  className="px-8 h-12 rounded-xl text-xs font-black uppercase tracking-widest text-muted-foreground hover:bg-muted transition-all"
+                >
+                  Cerrar
+                </button>
+              </div>
+            </div>
+          )}
+        </DialogContent>
+      </Dialog>
+
+      {/* PANEL LATERAL: COLA DE TAREAS SUGERIDAS (HOY) */}
+      <div className={cn(
+        "fixed inset-y-0 right-0 w-full sm:w-[450px] bg-background border-l border-border shadow-2xl z-[100] transition-transform duration-500 ease-in-out transform flex flex-col",
+        showSuggestionsQueue ? "translate-x-0" : "translate-x-full"
+      )}>
+        {/* Header del Panel */}
+        <div className="shrink-0 p-8 border-b border-border bg-muted/30 flex items-center justify-between">
+          <div className="flex items-center gap-4">
+            <div className="h-12 w-12 rounded-2xl bg-amber-500 flex items-center justify-center text-white shadow-lg shadow-amber-500/20">
+              <Zap className="h-6 w-6" />
+            </div>
+            <div>
+              <h2 className="text-xl font-black text-foreground uppercase tracking-tight">Acciones Hoy</h2>
+              <p className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest mt-0.5">Cola de tareas inteligentes</p>
+            </div>
+          </div>
+          <button
+            onClick={() => setShowSuggestionsQueue(false)}
+            className="h-10 w-10 rounded-xl hover:bg-muted flex items-center justify-center text-muted-foreground transition-all"
+          >
+            <ChevronRight className="h-6 w-6" />
+          </button>
+        </div>
+
+        {/* Stats del Panel */}
+        {sugerenciasStats && (
+          <div className="p-6 grid grid-cols-3 gap-3 border-b border-border bg-muted/10">
+            <div className="p-3 rounded-2xl bg-background border border-border text-center">
+              <p className="text-[8px] font-black text-muted-foreground uppercase mb-1">Aceptación</p>
+              <p className="text-sm font-black text-[#01ADFB]">{sugerenciasStats.tasaAceptacion}%</p>
+            </div>
+            <div className="p-3 rounded-2xl bg-background border border-border text-center">
+              <p className="text-[8px] font-black text-muted-foreground uppercase mb-1">T. Ejecución</p>
+              <p className="text-sm font-black text-amber-600">{Math.round(sugerenciasStats.tiempoPromedioEjecucionMin)}m</p>
+            </div>
+            <div className="p-3 rounded-2xl bg-background border border-border text-center">
+              <p className="text-[8px] font-black text-muted-foreground uppercase mb-1">Pendientes</p>
+              <p className="text-sm font-black text-red-600">{sugerenciasStats.pendientesPorPrioridad.CRITICA + sugerenciasStats.pendientesPorPrioridad.ALTA}</p>
+            </div>
+          </div>
+        )}
+
+        {/* Lista de Tareas */}
+        <div className="flex-1 overflow-y-auto p-6 space-y-4 custom-scrollbar">
+          {sugerencias.filter(s => s.estado === "PENDIENTE").length === 0 ? (
+            <div className="h-full flex flex-col items-center justify-center text-center opacity-40">
+              <ClipboardCheck className="h-16 w-16 mb-4 text-emerald-500" />
+              <p className="text-sm font-black uppercase tracking-widest">Todo al día</p>
+              <p className="text-xs mt-1">No hay tareas pendientes en la cola.</p>
+            </div>
+          ) : (
+            sugerencias
+              .filter(s => s.estado === "PENDIENTE")
+              .map((sug) => (
+                <div key={sug.id} className="p-5 rounded-3xl bg-card border border-border shadow-sm hover:border-[#01ADFB] transition-all group">
+                  <div className="flex items-start justify-between mb-3">
+                    <span className={cn(
+                      "text-[9px] font-black px-2 py-0.5 rounded-md uppercase tracking-widest",
+                      sug.prioridad === "CRITICA" ? "bg-red-100 text-red-700" :
+                      sug.prioridad === "ALTA" ? "bg-amber-100 text-amber-700" :
+                      "bg-blue-100 text-blue-700"
+                    )}>
+                      {sug.prioridad}
+                    </span>
+                    <span className="text-[9px] font-bold text-muted-foreground">
+                      {new Date(sug.creadoAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                    </span>
+                  </div>
+                  
+                  <h4 className="text-sm font-black text-foreground uppercase tracking-tight leading-tight mb-1">{sug.titulo}</h4>
+                  <p className="text-xs text-muted-foreground mb-4 leading-relaxed">{sug.descripcion}</p>
+                  
+                  <div className="flex items-center gap-3">
+                    <Button
+                      size="sm"
+                      onClick={() => handleUpdateSugerencia(sug.id, "ACEPTADA")}
+                      className="flex-1 h-9 rounded-xl bg-[#01ADFB] text-[10px] font-black uppercase tracking-widest"
+                    >
+                      Aceptar
+                    </Button>
+                    <Button
+                      size="sm"
+                      variant="outline"
+                      onClick={() => handleUpdateSugerencia(sug.id, "DESCARTADA")}
+                      className="h-9 rounded-xl border-border text-[10px] font-black uppercase tracking-widest"
+                    >
+                      Descartar
+                    </Button>
+                  </div>
+                </div>
+              ))
+          )}
+        </div>
+
+        {/* Footer del Panel */}
+        <div className="shrink-0 p-8 border-t border-border bg-muted/30">
+          <Button
+            onClick={() => setShowSuggestionsQueue(false)}
+            className="w-full h-12 rounded-xl bg-foreground text-background text-xs font-black uppercase tracking-[0.2em]"
+          >
+            Volver a la Cartera
+          </Button>
+        </div>
+      </div>
     </div>
   );
 }

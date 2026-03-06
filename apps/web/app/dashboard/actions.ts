@@ -152,6 +152,85 @@ export async function getClientesAction() {
   }
 }
 
+export async function getSegmentedClientesAction() {
+  try {
+    const apiUrl = getApiUrl();
+    const headers = await getHeaders();
+    console.log("FETCHING SEGMENTED CLIENTES FROM /segmentacion");
+    const response = await fetch(`${apiUrl}/clientes/segmentacion`, {
+      headers,
+      cache: "no-store",
+    });
+
+    if (!response.ok) {
+      console.error("getSegmentedClientesAction: response not ok", response.status);
+      return null;
+    }
+
+    const result = await response.json();
+    return result.data || result;
+  } catch (error) {
+    console.error("Error fetching segmented clients:", error);
+    return null;
+  }
+}
+
+export async function getSugerenciasAction() {
+  try {
+    const apiUrl = getApiUrl();
+    const headers = await getHeaders();
+    const response = await fetch(`${apiUrl}/clientes/sugerencias`, {
+      headers,
+      cache: "no-store",
+    });
+    if (!response.ok) return [];
+    return await response.json();
+  } catch (error) {
+    console.error("Error fetching suggestions:", error);
+    return [];
+  }
+}
+
+export async function getSugerenciasStatsAction() {
+  try {
+    const apiUrl = getApiUrl();
+    const headers = await getHeaders();
+    const response = await fetch(`${apiUrl}/clientes/sugerencias/stats`, {
+      headers,
+      cache: "no-store",
+    });
+    if (!response.ok) return null;
+    return await response.json();
+  } catch (error) {
+    console.error("Error fetching suggestions stats:", error);
+    return null;
+  }
+}
+
+export async function updateSugerenciaEstadoAction(id: string, estado: string) {
+  try {
+    const apiUrl = getApiUrl();
+    const headers = await getHeaders();
+    const response = await fetch(`${apiUrl}/clientes/sugerencias/${id}/estado`, {
+      method: "PATCH",
+      headers: {
+        ...headers,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ estado }),
+    });
+    
+    if (response.ok) {
+      revalidatePath("/dashboard/clientes");
+      return { success: true };
+    }
+    return { success: false };
+  } catch (error) {
+    console.error("Error updating suggestion status:", error);
+    return { success: false };
+  }
+}
+
 export async function getSegmentosAction() {
   const cookieStore = await cookies();
   const token = cookieStore.get("access_token")?.value;
