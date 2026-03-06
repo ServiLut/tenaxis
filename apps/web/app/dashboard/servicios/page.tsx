@@ -686,9 +686,20 @@ function ServiciosContent() {
     } catch (_error) { toast.error("Error al procesar notificación", { id: toastId }); }
   };
 
+  const isSixSeven = search === "67";
+
   return (
     <DashboardLayout overflowHidden>
-      <div className="flex flex-col h-full bg-background">
+      <style dangerouslySetInnerHTML={{ __html: `
+        @keyframes six-seven-bounce {
+          0%, 100% { transform: translateY(0); }
+          50% { transform: translateY(-40px); }
+        }
+        .animate-six-seven {
+          animation: six-seven-bounce 0.4s infinite ease-in-out;
+        }
+      `}} />
+      <div className={cn("flex flex-col h-full bg-background transition-all duration-500", isSixSeven && "animate-six-seven")}>
         <div className="shrink-0 py-10 px-6 lg:px-10 border-b border-border mb-8 bg-muted/30">
           <div className="max-w-[1600px] mx-auto w-full flex flex-col md:flex-row md:items-center gap-6">
             <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-primary text-primary-foreground shadow-xl shadow-primary/20">
