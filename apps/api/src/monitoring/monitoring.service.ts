@@ -129,8 +129,6 @@ export class MonitoringService {
     const today = new Date();
     today.setHours(0, 0, 0, 0);
 
-    const oneHourAgo = new Date(Date.now() - 60 * 60 * 1000);
-
     const commonWhere: Prisma.SesionActividadWhereInput = {
       tenantId: scope.tenantId,
       fechaInicio: { gte: today },
@@ -155,12 +153,19 @@ export class MonitoringService {
           tenantId: scope.tenantId,
           tipo: 'SESSION_TIMEOUT',
           createdAt: { gte: today },
-          ...(scope.empresaIds?.length ? { empresaId: { in: scope.empresaIds } } : {}),
+          ...(scope.empresaIds?.length
+            ? { empresaId: { in: scope.empresaIds } }
+            : {}),
         },
       }),
     ]);
 
-    const alerts: { id: string; type: string; title: string; severity: string }[] = [];
+    const alerts: {
+      id: string;
+      type: string;
+      title: string;
+      severity: string;
+    }[] = [];
 
     if (inactiveUsers > 0) {
       alerts.push({
@@ -180,7 +185,7 @@ export class MonitoringService {
       });
     }
 
-    // Nota: Intentos fallidos de login y IP inusual requerirían rastreo adicional 
+    // Nota: Intentos fallidos de login y IP inusual requerirían rastreo adicional
     // que no está implementado en la lógica actual de auth.service.
 
     return alerts;
@@ -214,50 +219,68 @@ export class MonitoringService {
     });
 
     const now = new Date();
-    const userMetrics = new Map<string, { activeMs: number; inactiveMin: number; name: string }>();
+    const userMetrics = new Map<
+      string,
+      { activeMs: number; inactiveMin: number; name: string }
+    >();
     let totalTimeToFirstEventMs = 0;
     let sessionsWithEvents = 0;
 
-    sessions.forEach(session => {
+    sessions.forEach((session) => {
       const end = session.fechaFin || now;
       const durationMs = end.getTime() - session.fechaInicio.getTime();
-      const activeMs = Math.max(0, durationMs - (session.tiempoInactivo * 60 * 1000));
-      
+      const activeMs = Math.max(
+        0,
+        durationMs - session.tiempoInactivo * 60 * 1000,
+      );
+
       const userId = session.membershipId;
-      const current = userMetrics.get(userId) || { activeMs: 0, inactiveMin: 0, name: `${session.membership.user.nombre} ${session.membership.user.apellido}` };
-      
+      const current = userMetrics.get(userId) || {
+        activeMs: 0,
+        inactiveMin: 0,
+        name: `${session.membership.user.nombre} ${session.membership.user.apellido}`,
+      };
+
       current.activeMs += activeMs;
       current.inactiveMin += session.tiempoInactivo;
       userMetrics.set(userId, current);
 
       // MTTFE: Primer evento que no sea LOGIN
-      const firstRealEvent = session.logs.find(l => l.tipo !== 'LOGIN');
+      const firstRealEvent = session.logs.find((l) => l.tipo !== 'LOGIN');
       if (firstRealEvent) {
-        totalTimeToFirstEventMs += firstRealEvent.createdAt.getTime() - session.fechaInicio.getTime();
+        totalTimeToFirstEventMs +=
+          firstRealEvent.createdAt.getTime() - session.fechaInicio.getTime();
         sessionsWithEvents++;
       }
     });
 
     const userMetricsList = Array.from(userMetrics.values());
-    const avgActiveTimeMin = userMetricsList.length > 0 
-      ? (userMetricsList.reduce((acc, curr) => acc + curr.activeMs, 0) / userMetricsList.length) / (1000 * 60)
-      : 0;
+    const avgActiveTimeMin =
+      userMetricsList.length > 0
+        ? userMetricsList.reduce((acc, curr) => acc + curr.activeMs, 0) /
+          userMetricsList.length /
+          (1000 * 60)
+        : 0;
 
     const topInactivity = userMetricsList
       .sort((a, b) => b.inactiveMin - a.inactiveMin)
       .slice(0, 5)
-      .map(u => ({ name: u.name, minutes: u.inactiveMin }));
+      .map((u) => ({ name: u.name, minutes: u.inactiveMin }));
 
-    const mttfeSec = sessionsWithEvents > 0 
-      ? (totalTimeToFirstEventMs / sessionsWithEvents) / 1000
-      : 0;
+    const mttfeSec =
+      sessionsWithEvents > 0
+        ? totalTimeToFirstEventMs / sessionsWithEvents / 1000
+        : 0;
 
     return {
       avgActiveTimeMin: Math.round(avgActiveTimeMin),
-      totalInactivityMin: userMetricsList.reduce((acc, curr) => acc + curr.inactiveMin, 0),
+      totalInactivityMin: userMetricsList.reduce(
+        (acc, curr) => acc + curr.inactiveMin,
+        0,
+      ),
       topInactivity,
       mttfeSec: Math.round(mttfeSec),
-      userCount: userMetricsList.length
+      userCount: userMetricsList.length,
     };
   }
 
@@ -297,7 +320,7 @@ export class MonitoringService {
       successRate: 100, // Default to 100 if we don't track failures explicitly in logs
     };
 
-    audits.forEach(audit => {
+    audits.forEach((audit) => {
       const isToday = audit.createdAt >= today;
       const accion = audit.accion.toUpperCase();
 
@@ -305,10 +328,18 @@ export class MonitoringService {
       if (accion.includes('CREATE') || accion.includes('CREAR')) {
         metrics.week.created++;
         if (isToday) metrics.today.created++;
-      } else if (accion.includes('UPDATE') || accion.includes('ACTUALIZAR') || accion.includes('EDIT')) {
+      } else if (
+        accion.includes('UPDATE') ||
+        accion.includes('ACTUALIZAR') ||
+        accion.includes('EDIT')
+      ) {
         metrics.week.updated++;
         if (isToday) metrics.today.updated++;
-      } else if (accion.includes('DELETE') || accion.includes('ELIMINAR') || accion.includes('BORRAR')) {
+      } else if (
+        accion.includes('DELETE') ||
+        accion.includes('ELIMINAR') ||
+        accion.includes('BORRAR')
+      ) {
         metrics.week.deleted++;
         if (isToday) metrics.today.deleted++;
       }
@@ -317,12 +348,18 @@ export class MonitoringService {
 
       // Count by entity
       const entity = audit.entidad;
-      metrics.topEntities.set(entity, (metrics.topEntities.get(entity) || 0) + 1);
+      metrics.topEntities.set(
+        entity,
+        (metrics.topEntities.get(entity) || 0) + 1,
+      );
 
       // Count by user
       if (audit.membership) {
         const userId = audit.membershipId!;
-        const userData = metrics.topUsers.get(userId) || { count: 0, name: `${audit.membership.user.nombre} ${audit.membership.user.apellido}` };
+        const userData = metrics.topUsers.get(userId) || {
+          count: 0,
+          name: `${audit.membership.user.nombre} ${audit.membership.user.apellido}`,
+        };
         userData.count++;
         metrics.topUsers.set(userId, userData);
       }
@@ -338,7 +375,7 @@ export class MonitoringService {
       topUsers: Array.from(metrics.topUsers.values())
         .sort((a, b) => b.count - a.count)
         .slice(0, 5),
-      successRate: metrics.successRate
+      successRate: metrics.successRate,
     };
   }
 
