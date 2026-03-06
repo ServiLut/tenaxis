@@ -615,6 +615,7 @@ export function ClienteList({
     setSortConfig(null);
     setSearch("");
     setActiveSegment("all");
+    setOnlySinVisita(false);
   };
 
   React.useEffect(() => {
@@ -882,7 +883,10 @@ export function ClienteList({
                 ].map((seg) => (
                   <button
                     key={seg.id}
-                    onClick={() => setActiveSegment(seg.id)}
+                    onClick={() => {
+                      setActiveSegment(seg.id);
+                      setOnlySinVisita(false);
+                    }}
                     className={cn(
                       "flex items-center gap-2 px-4 py-3 rounded-xl transition-all whitespace-nowrap border-2",
                       activeSegment === seg.id
@@ -913,8 +917,6 @@ export function ClienteList({
                 <span className="text-[9px] font-black uppercase tracking-[0.2em] text-muted-foreground mr-2 shrink-0">Presets Rápidos:</span>
                 {[
                   { label: "Riesgo Crítico", icon: AlertCircle, color: "hover:border-red-500 hover:bg-red-50", action: () => { resetFilters(); setFilters(f => ({ ...f, riesgo: "CRITICO" })); } },
-                  { label: "Upsell Potencial", icon: Zap, color: "hover:border-amber-500 hover:bg-amber-50", action: () => { resetFilters(); setActiveSegment("upsellPotencial"); } },
-                  { label: "Dormidos (60d)", icon: Clock, color: "hover:border-slate-500 hover:bg-slate-50", action: () => { resetFilters(); setActiveSegment("dormidos"); } },
                   { 
                     label: "Sin Próxima Visita", 
                     icon: Calendar, 
