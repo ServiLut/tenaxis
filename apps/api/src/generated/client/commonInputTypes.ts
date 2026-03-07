@@ -422,6 +422,20 @@ export type EnumTipoClienteFilter<$PrismaModel = never> = {
   not?: Prisma.NestedEnumTipoClienteFilter<$PrismaModel> | $Enums.TipoCliente
 }
 
+export type EnumNivelRiesgoFilter<$PrismaModel = never> = {
+  equals?: $Enums.NivelRiesgo | Prisma.EnumNivelRiesgoFieldRefInput<$PrismaModel>
+  in?: $Enums.NivelRiesgo[] | Prisma.ListEnumNivelRiesgoFieldRefInput<$PrismaModel>
+  notIn?: $Enums.NivelRiesgo[] | Prisma.ListEnumNivelRiesgoFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumNivelRiesgoFilter<$PrismaModel> | $Enums.NivelRiesgo
+}
+
+export type EnumSegmentoClienteFilter<$PrismaModel = never> = {
+  equals?: $Enums.SegmentoCliente | Prisma.EnumSegmentoClienteFieldRefInput<$PrismaModel>
+  in?: $Enums.SegmentoCliente[] | Prisma.ListEnumSegmentoClienteFieldRefInput<$PrismaModel>
+  notIn?: $Enums.SegmentoCliente[] | Prisma.ListEnumSegmentoClienteFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumSegmentoClienteFilter<$PrismaModel> | $Enums.SegmentoCliente
+}
+
 export type EnumClasificacionClienteNullableWithAggregatesFilter<$PrismaModel = never> = {
   equals?: $Enums.ClasificacionCliente | Prisma.EnumClasificacionClienteFieldRefInput<$PrismaModel> | null
   in?: $Enums.ClasificacionCliente[] | Prisma.ListEnumClasificacionClienteFieldRefInput<$PrismaModel> | null
@@ -440,6 +454,26 @@ export type EnumTipoClienteWithAggregatesFilter<$PrismaModel = never> = {
   _count?: Prisma.NestedIntFilter<$PrismaModel>
   _min?: Prisma.NestedEnumTipoClienteFilter<$PrismaModel>
   _max?: Prisma.NestedEnumTipoClienteFilter<$PrismaModel>
+}
+
+export type EnumNivelRiesgoWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.NivelRiesgo | Prisma.EnumNivelRiesgoFieldRefInput<$PrismaModel>
+  in?: $Enums.NivelRiesgo[] | Prisma.ListEnumNivelRiesgoFieldRefInput<$PrismaModel>
+  notIn?: $Enums.NivelRiesgo[] | Prisma.ListEnumNivelRiesgoFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumNivelRiesgoWithAggregatesFilter<$PrismaModel> | $Enums.NivelRiesgo
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumNivelRiesgoFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumNivelRiesgoFilter<$PrismaModel>
+}
+
+export type EnumSegmentoClienteWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.SegmentoCliente | Prisma.EnumSegmentoClienteFieldRefInput<$PrismaModel>
+  in?: $Enums.SegmentoCliente[] | Prisma.ListEnumSegmentoClienteFieldRefInput<$PrismaModel>
+  notIn?: $Enums.SegmentoCliente[] | Prisma.ListEnumSegmentoClienteFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumSegmentoClienteWithAggregatesFilter<$PrismaModel> | $Enums.SegmentoCliente
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumSegmentoClienteFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumSegmentoClienteFilter<$PrismaModel>
 }
 
 export type FloatNullableFilter<$PrismaModel = never> = {
@@ -1243,6 +1277,20 @@ export type NestedEnumTipoClienteFilter<$PrismaModel = never> = {
   not?: Prisma.NestedEnumTipoClienteFilter<$PrismaModel> | $Enums.TipoCliente
 }
 
+export type NestedEnumNivelRiesgoFilter<$PrismaModel = never> = {
+  equals?: $Enums.NivelRiesgo | Prisma.EnumNivelRiesgoFieldRefInput<$PrismaModel>
+  in?: $Enums.NivelRiesgo[] | Prisma.ListEnumNivelRiesgoFieldRefInput<$PrismaModel>
+  notIn?: $Enums.NivelRiesgo[] | Prisma.ListEnumNivelRiesgoFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumNivelRiesgoFilter<$PrismaModel> | $Enums.NivelRiesgo
+}
+
+export type NestedEnumSegmentoClienteFilter<$PrismaModel = never> = {
+  equals?: $Enums.SegmentoCliente | Prisma.EnumSegmentoClienteFieldRefInput<$PrismaModel>
+  in?: $Enums.SegmentoCliente[] | Prisma.ListEnumSegmentoClienteFieldRefInput<$PrismaModel>
+  notIn?: $Enums.SegmentoCliente[] | Prisma.ListEnumSegmentoClienteFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumSegmentoClienteFilter<$PrismaModel> | $Enums.SegmentoCliente
+}
+
 export type NestedEnumClasificacionClienteNullableWithAggregatesFilter<$PrismaModel = never> = {
   equals?: $Enums.ClasificacionCliente | Prisma.EnumClasificacionClienteFieldRefInput<$PrismaModel> | null
   in?: $Enums.ClasificacionCliente[] | Prisma.ListEnumClasificacionClienteFieldRefInput<$PrismaModel> | null
@@ -1261,6 +1309,26 @@ export type NestedEnumTipoClienteWithAggregatesFilter<$PrismaModel = never> = {
   _count?: Prisma.NestedIntFilter<$PrismaModel>
   _min?: Prisma.NestedEnumTipoClienteFilter<$PrismaModel>
   _max?: Prisma.NestedEnumTipoClienteFilter<$PrismaModel>
+}
+
+export type NestedEnumNivelRiesgoWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.NivelRiesgo | Prisma.EnumNivelRiesgoFieldRefInput<$PrismaModel>
+  in?: $Enums.NivelRiesgo[] | Prisma.ListEnumNivelRiesgoFieldRefInput<$PrismaModel>
+  notIn?: $Enums.NivelRiesgo[] | Prisma.ListEnumNivelRiesgoFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumNivelRiesgoWithAggregatesFilter<$PrismaModel> | $Enums.NivelRiesgo
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumNivelRiesgoFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumNivelRiesgoFilter<$PrismaModel>
+}
+
+export type NestedEnumSegmentoClienteWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.SegmentoCliente | Prisma.EnumSegmentoClienteFieldRefInput<$PrismaModel>
+  in?: $Enums.SegmentoCliente[] | Prisma.ListEnumSegmentoClienteFieldRefInput<$PrismaModel>
+  notIn?: $Enums.SegmentoCliente[] | Prisma.ListEnumSegmentoClienteFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumSegmentoClienteWithAggregatesFilter<$PrismaModel> | $Enums.SegmentoCliente
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumSegmentoClienteFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumSegmentoClienteFilter<$PrismaModel>
 }
 
 export type NestedFloatNullableWithAggregatesFilter<$PrismaModel = never> = {

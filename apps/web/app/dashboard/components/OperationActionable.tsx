@@ -37,6 +37,7 @@ export const OperationActionable = React.memo(function OperationActionable({ ent
       id: "vencidas",
       label: "Tareas Vencidas",
       value: stats?.vencidas || 0,
+      description: "Fecha de visita pasada y aún no liquidada/cancelada.",
       icon: Clock,
       color: "text-amber-600",
       bgColor: "bg-amber-500/10",
@@ -46,6 +47,7 @@ export const OperationActionable = React.memo(function OperationActionable({ ent
       id: "sin-asignacion",
       label: "Sin Asignación",
       value: stats?.sinAsignacion || 0,
+      description: "Órdenes nuevas sin técnico asignado.",
       icon: UserX,
       color: "text-[#01ADFB]",
       bgColor: "bg-[#01ADFB]/10",
@@ -55,6 +57,7 @@ export const OperationActionable = React.memo(function OperationActionable({ ent
       id: "alertas",
       label: "Alertas Críticas",
       value: stats?.alertas || 0,
+      description: "Urgencia crítica todavía abierta.",
       icon: AlertCircle,
       color: "text-destructive",
       bgColor: "bg-destructive/10",
@@ -90,6 +93,9 @@ export const OperationActionable = React.memo(function OperationActionable({ ent
                 <h4 className={cn("text-3xl font-black tracking-tighter", alert.value > 0 ? alert.color : "text-muted-foreground/30")}>
                   {alert.value}
                 </h4>
+                <p className="mt-1 text-[11px] leading-tight text-muted-foreground/90">
+                  {alert.description}
+                </p>
               </div>
               
               <span className={cn(

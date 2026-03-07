@@ -1,10 +1,107 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
-import { CreateSegmentoDto, UpdateSegmentoDto } from './dto/segmento.dto';
-import { CreateRiesgoDto, UpdateRiesgoDto } from './dto/riesgo.dto';
 import { CreateTipoInteresDto, UpdateTipoInteresDto } from './dto/interes.dto';
 import { CreateServicioDto, UpdateServicioDto } from './dto/servicio.dto';
 import { UpsertClienteConfigDto } from './dto/cliente-config.dto';
+import { NivelRiesgo, SegmentoCliente } from '../generated/client/enums';
+
+const SEGMENTOS_CATALOG = [
+  {
+    id: SegmentoCliente.HOGAR,
+    nombre: 'HOGAR',
+    descripcion: 'Residencial y propiedad horizontal',
+    frecuenciaSugerida: 90,
+    riesgoSugerido: NivelRiesgo.BAJO,
+    activo: true,
+  },
+  {
+    id: SegmentoCliente.COMERCIO,
+    nombre: 'COMERCIO',
+    descripcion: 'Retail, tiendas y restaurantes',
+    frecuenciaSugerida: 30,
+    riesgoSugerido: NivelRiesgo.MEDIO,
+    activo: true,
+  },
+  {
+    id: SegmentoCliente.INDUSTRIA,
+    nombre: 'INDUSTRIA',
+    descripcion: 'Plantas, bodegas y procesos productivos',
+    frecuenciaSugerida: 15,
+    riesgoSugerido: NivelRiesgo.ALTO,
+    activo: true,
+  },
+  {
+    id: SegmentoCliente.SALUD,
+    nombre: 'SALUD',
+    descripcion: 'Clínicas, hospitales y consultorios',
+    frecuenciaSugerida: 15,
+    riesgoSugerido: NivelRiesgo.ALTO,
+    activo: true,
+  },
+  {
+    id: SegmentoCliente.EDUCACION,
+    nombre: 'EDUCACION',
+    descripcion: 'Colegios, universidades e instituciones educativas',
+    frecuenciaSugerida: 30,
+    riesgoSugerido: NivelRiesgo.MEDIO,
+    activo: true,
+  },
+  {
+    id: SegmentoCliente.HORECA,
+    nombre: 'HORECA',
+    descripcion: 'Hoteles, restaurantes y catering',
+    frecuenciaSugerida: 15,
+    riesgoSugerido: NivelRiesgo.ALTO,
+    activo: true,
+  },
+  {
+    id: SegmentoCliente.OFICINA,
+    nombre: 'OFICINA',
+    descripcion: 'Oficinas administrativas y corporativas',
+    frecuenciaSugerida: 30,
+    riesgoSugerido: NivelRiesgo.BAJO,
+    activo: true,
+  },
+  {
+    id: SegmentoCliente.OTRO,
+    nombre: 'OTRO',
+    descripcion: 'Casos no clasificados en el catálogo estándar',
+    frecuenciaSugerida: 30,
+    riesgoSugerido: NivelRiesgo.MEDIO,
+    activo: true,
+  },
+] as const;
+
+const RIESGOS_CATALOG = [
+  {
+    id: NivelRiesgo.BAJO,
+    nombre: 'BAJO',
+    color: 'emerald',
+    valor: 1,
+    activo: true,
+  },
+  {
+    id: NivelRiesgo.MEDIO,
+    nombre: 'MEDIO',
+    color: 'amber',
+    valor: 2,
+    activo: true,
+  },
+  {
+    id: NivelRiesgo.ALTO,
+    nombre: 'ALTO',
+    color: 'orange',
+    valor: 3,
+    activo: true,
+  },
+  {
+    id: NivelRiesgo.CRITICO,
+    nombre: 'CRITICO',
+    color: 'red',
+    valor: 4,
+    activo: true,
+  },
+] as const;
 
 @Injectable()
 export class ConfigClientesService {
@@ -71,44 +168,14 @@ export class ConfigClientesService {
 
   // --- Segmentos ---
   async findAllSegmentos(tenantId: string) {
-    return this.prisma.segmentoNegocio.findMany({
-      where: { tenantId },
-      orderBy: { nombre: 'asc' },
-    });
-  }
-
-  async createSegmento(tenantId: string, dto: CreateSegmentoDto) {
-    return this.prisma.segmentoNegocio.create({
-      data: { ...dto, tenantId },
-    });
-  }
-
-  async updateSegmento(id: string, dto: UpdateSegmentoDto) {
-    return this.prisma.segmentoNegocio.update({
-      where: { id },
-      data: dto,
-    });
+    void tenantId;
+    return SEGMENTOS_CATALOG;
   }
 
   // --- Riesgos ---
   async findAllRiesgos(tenantId: string) {
-    return this.prisma.nivelRiesgoOperativo.findMany({
-      where: { tenantId },
-      orderBy: { valor: 'asc' },
-    });
-  }
-
-  async createRiesgo(tenantId: string, dto: CreateRiesgoDto) {
-    return this.prisma.nivelRiesgoOperativo.create({
-      data: { ...dto, tenantId },
-    });
-  }
-
-  async updateRiesgo(id: string, dto: UpdateRiesgoDto) {
-    return this.prisma.nivelRiesgoOperativo.update({
-      where: { id },
-      data: dto,
-    });
+    void tenantId;
+    return RIESGOS_CATALOG;
   }
 
   // --- Tipos de Interés ---

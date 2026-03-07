@@ -152,12 +152,12 @@ export async function getClientesAction() {
   }
 }
 
-interface SegmentedClientesGroup<T = any> {
+interface SegmentedClientesGroup<T = unknown> {
   count: number;
   data: T[];
 }
 
-export interface ClientesDashboardDataResponse<T = any> {
+export interface ClientesDashboardDataResponse<T = unknown> {
   clientes: T[];
   segmentacion: {
     riesgoFuga: SegmentedClientesGroup<T>;
@@ -167,7 +167,7 @@ export interface ClientesDashboardDataResponse<T = any> {
   } | null;
 }
 
-export async function getClientesDashboardAction(): Promise<ClientesDashboardDataResponse> {
+export async function getClientesDashboardAction<T = unknown>(): Promise<ClientesDashboardDataResponse<T>> {
   try {
     const apiUrl = getApiUrl();
     const headers = await getHeaders();
@@ -179,7 +179,7 @@ export async function getClientesDashboardAction(): Promise<ClientesDashboardDat
     if (!response.ok) {
       console.error("getClientesDashboardAction: response not ok", response.status);
       return {
-        clientes: [],
+        clientes: [] as T[],
         segmentacion: null,
       };
     }
@@ -187,13 +187,13 @@ export async function getClientesDashboardAction(): Promise<ClientesDashboardDat
     const result = await response.json();
     const data = result.data || result;
     return {
-      clientes: data?.clientes || [],
-      segmentacion: data?.segmentacion || null,
+      clientes: (data?.clientes || []) as T[],
+      segmentacion: (data?.segmentacion || null) as ClientesDashboardDataResponse<T>["segmentacion"],
     };
   } catch (error) {
     console.error("Error fetching clientes dashboard data:", error);
     return {
-      clientes: [],
+      clientes: [] as T[],
       segmentacion: null,
     };
   }
@@ -483,21 +483,6 @@ export async function getServiciosAction(empresaId?: string) {
   }
 }
 
-export interface SegmentoNegocioDTO {
-  nombre: string;
-  descripcion?: string | null;
-  frecuenciaSugerida?: number | null;
-  riesgoSugerido?: string | null;
-  activo?: boolean;
-}
-
-export interface NivelRiesgoOperativoDTO {
-  nombre: string;
-  color?: string | null;
-  valor?: number;
-  activo?: boolean;
-}
-
 export interface TipoInteresDTO {
   nombre: string;
   descripcion?: string | null;
@@ -553,65 +538,9 @@ export interface ClienteDTO {
   tipoDocumento?: string | null;
   actividadEconomica?: string | null;
   metrajeTotal?: number | null;
-  segmentoId?: string | null;
-  riesgoId?: string | null;
+  segmento?: "HOGAR" | "COMERCIO" | "INDUSTRIA" | "SALUD" | "EDUCACION" | "HORECA" | "OFICINA" | "OTRO" | null;
+  nivelRiesgo?: "BAJO" | "MEDIO" | "ALTO" | "CRITICO" | null;
   direcciones?: DireccionDTO[];
-}
-
-export async function createSegmentoAction(data: SegmentoNegocioDTO) {
-  const cookieStore = await cookies();
-  const token = cookieStore.get("access_token")?.value;
-  if (!token) throw new Error("No session found");
-
-  const apiUrl = getApiUrl();
-  const response = await fetch(`${apiUrl}/config-clientes/segmentos`, {
-    method: "POST",
-    headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
-    body: JSON.stringify(data),
-  });
-  return response.json();
-}
-
-export async function updateSegmentoAction(id: string, data: Partial<SegmentoNegocioDTO>) {
-  const cookieStore = await cookies();
-  const token = cookieStore.get("access_token")?.value;
-  if (!token) throw new Error("No session found");
-
-  const apiUrl = getApiUrl();
-  const response = await fetch(`${apiUrl}/config-clientes/segmentos/${id}`, {
-    method: "PATCH",
-    headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
-    body: JSON.stringify(data),
-  });
-  return response.json();
-}
-
-export async function createRiesgoAction(data: NivelRiesgoOperativoDTO) {
-  const cookieStore = await cookies();
-  const token = cookieStore.get("access_token")?.value;
-  if (!token) throw new Error("No session found");
-
-  const apiUrl = getApiUrl();
-  const response = await fetch(`${apiUrl}/config-clientes/riesgos`, {
-    method: "POST",
-    headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
-    body: JSON.stringify(data),
-  });
-  return response.json();
-}
-
-export async function updateRiesgoAction(id: string, data: Partial<NivelRiesgoOperativoDTO>) {
-  const cookieStore = await cookies();
-  const token = cookieStore.get("access_token")?.value;
-  if (!token) throw new Error("No session found");
-
-  const apiUrl = getApiUrl();
-  const response = await fetch(`${apiUrl}/config-clientes/riesgos/${id}`, {
-    method: "PATCH",
-    headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
-    body: JSON.stringify(data),
-  });
-  return response.json();
 }
 
 export async function createTipoInteresAction(data: TipoInteresDTO) {
@@ -775,8 +704,8 @@ export async function createClienteAction(payload: ClienteDTO) {
   const sanitizedPayload = {
     ...payload,
     tipoInteresId: payload.tipoInteresId || null,
-    segmentoId: payload.segmentoId || null,
-    riesgoId: payload.riesgoId || null,
+    segmento: payload.segmento || undefined,
+    nivelRiesgo: payload.nivelRiesgo || undefined,
   };
 
   try {
@@ -832,8 +761,8 @@ export async function updateClienteAction(id: string, payload: Partial<ClienteDT
   const sanitizedPayload = {
     ...payload,
     tipoInteresId: payload.tipoInteresId || null,
-    segmentoId: payload.segmentoId || null,
-    riesgoId: payload.riesgoId || null,
+    segmento: payload.segmento || undefined,
+    nivelRiesgo: payload.nivelRiesgo || undefined,
   };
 
   try {
@@ -980,6 +909,28 @@ export async function getDashboardStatsAction(empresaId?: string): Promise<Dashb
       vencidas: 0,
       sinAsignacion: 0,
       alertas: 0
+    },
+    overview: {
+      today: {
+        serviciosAgendados: 0,
+        enProceso: 0,
+        realizados: 0,
+        ingresos: 0,
+        pendientesLiquidar: 0,
+        cancelados: 0,
+        tasaCancelacion: 0,
+        sinCobrar: 0
+      },
+      global: {
+        enProceso: 0,
+        pendientesLiquidar: 0,
+        realizadosHistorico: 0,
+        serviciosTotales: 0,
+        ingresosTotales: 0,
+        sinCobrarTotales: 0,
+        cancelados: 0,
+        tasaCancelacion: 0
+      }
     }
   };
 

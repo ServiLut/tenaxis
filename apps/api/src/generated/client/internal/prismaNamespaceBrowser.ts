@@ -60,8 +60,6 @@ export const ModelName = {
   EmpresaMembership: 'EmpresaMembership',
   OrganizationNode: 'OrganizationNode',
   CommissionRecord: 'CommissionRecord',
-  SegmentoNegocio: 'SegmentoNegocio',
-  NivelRiesgoOperativo: 'NivelRiesgoOperativo',
   TipoInteres: 'TipoInteres',
   Department: 'Department',
   Municipality: 'Municipality',
@@ -278,35 +276,6 @@ export const CommissionRecordScalarFieldEnum = {
 export type CommissionRecordScalarFieldEnum = (typeof CommissionRecordScalarFieldEnum)[keyof typeof CommissionRecordScalarFieldEnum]
 
 
-export const SegmentoNegocioScalarFieldEnum = {
-  id: 'id',
-  tenantId: 'tenantId',
-  nombre: 'nombre',
-  descripcion: 'descripcion',
-  activo: 'activo',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt',
-  frecuenciaSugerida: 'frecuenciaSugerida',
-  riesgoSugerido: 'riesgoSugerido'
-} as const
-
-export type SegmentoNegocioScalarFieldEnum = (typeof SegmentoNegocioScalarFieldEnum)[keyof typeof SegmentoNegocioScalarFieldEnum]
-
-
-export const NivelRiesgoOperativoScalarFieldEnum = {
-  id: 'id',
-  tenantId: 'tenantId',
-  nombre: 'nombre',
-  color: 'color',
-  valor: 'valor',
-  activo: 'activo',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
-} as const
-
-export type NivelRiesgoOperativoScalarFieldEnum = (typeof NivelRiesgoOperativoScalarFieldEnum)[keyof typeof NivelRiesgoOperativoScalarFieldEnum]
-
-
 export const TipoInteresScalarFieldEnum = {
   id: 'id',
   tenantId: 'tenantId',
@@ -373,8 +342,8 @@ export const ClienteScalarFieldEnum = {
   tipoCliente: 'tipoCliente',
   ultimaVisita: 'ultimaVisita',
   updatedAt: 'updatedAt',
-  riesgoId: 'riesgoId',
-  segmentoId: 'segmentoId',
+  nivelRiesgo: 'nivelRiesgo',
+  segmento: 'segmento',
   actividadEconomica: 'actividadEconomica',
   metrajeTotal: 'metrajeTotal',
   origenCliente: 'origenCliente',

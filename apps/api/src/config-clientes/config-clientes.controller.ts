@@ -11,8 +11,6 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import { ConfigClientesService } from './config-clientes.service';
-import { CreateSegmentoDto, UpdateSegmentoDto } from './dto/segmento.dto';
-import { CreateRiesgoDto, UpdateRiesgoDto } from './dto/riesgo.dto';
 import { CreateTipoInteresDto, UpdateTipoInteresDto } from './dto/interes.dto';
 import { CreateServicioDto, UpdateServicioDto } from './dto/servicio.dto';
 import { UpsertClienteConfigDto } from './dto/cliente-config.dto';
@@ -70,39 +68,10 @@ export class ConfigClientesController {
     return this.configService.findAllSegmentos(req.user.tenantId || '');
   }
 
-  @Post('segmentos')
-  async createSegmento(
-    @Request() req: RequestWithUser,
-    @Body() dto: CreateSegmentoDto,
-  ) {
-    return this.configService.createSegmento(req.user.tenantId || '', dto);
-  }
-
-  @Patch('segmentos/:id')
-  async updateSegmento(
-    @Param('id') id: string,
-    @Body() dto: UpdateSegmentoDto,
-  ) {
-    return this.configService.updateSegmento(id, dto);
-  }
-
   // --- Riesgos ---
   @Get('riesgos')
   async findAllRiesgos(@Request() req: RequestWithUser) {
     return this.configService.findAllRiesgos(req.user.tenantId || '');
-  }
-
-  @Post('riesgos')
-  async createRiesgo(
-    @Request() req: RequestWithUser,
-    @Body() dto: CreateRiesgoDto,
-  ) {
-    return this.configService.createRiesgo(req.user.tenantId || '', dto);
-  }
-
-  @Patch('riesgos/:id')
-  async updateRiesgo(@Param('id') id: string, @Body() dto: UpdateRiesgoDto) {
-    return this.configService.updateRiesgo(id, dto);
   }
 
   // --- Tipos de Interés ---

@@ -76,7 +76,8 @@ export const StatCards = React.memo(function StatCards({ enterpriseId, isConfigu
       icon: TrendingUp,
       color: "#01ADFB",
       progress: 100,
-      href: "/dashboard/contabilidad"
+      href: "/dashboard/contabilidad",
+      description: "Pagado/conciliado en el mes actual por fecha de visita."
     },
     {
       title: "Órdenes Activas",
@@ -86,7 +87,8 @@ export const StatCards = React.memo(function StatCards({ enterpriseId, isConfigu
       icon: Briefcase,
       color: "#01ADFB",
       progress: 100,
-      href: "/dashboard/servicios"
+      href: "/dashboard/servicios",
+      description: "Órdenes creadas este mes vs. mes anterior."
     },
     {
       title: "SLA Cumplimiento",
@@ -96,7 +98,8 @@ export const StatCards = React.memo(function StatCards({ enterpriseId, isConfigu
       icon: ShieldCheck,
       color: (stats?.sla.value || 0) > 90 ? "#10B981" : "#F59E0B",
       progress: stats?.sla.value || 0,
-      href: "/dashboard/servicios?estado=LIQUIDADO"
+      href: "/dashboard/servicios?estado=LIQUIDADO",
+      description: "Liquidado sobre servicios completados del mes."
     },
     {
       title: "Cobranza Pendiente",
@@ -106,7 +109,8 @@ export const StatCards = React.memo(function StatCards({ enterpriseId, isConfigu
       icon: CreditCard,
       color: "#64748B",
       progress: 100,
-      href: "/dashboard/servicios?estadoPago=PENDIENTE"
+      href: "/dashboard/servicios?estadoPago=PENDIENTE",
+      description: "Monto cotizado con pago pendiente en órdenes finalizadas."
     },
   ];
 
@@ -142,6 +146,9 @@ export const StatCards = React.memo(function StatCards({ enterpriseId, isConfigu
               <h3 className="text-3xl font-black tracking-tighter text-foreground">
                 {loading ? "..." : stat.value}
               </h3>
+              <p className="text-[11px] leading-tight text-muted-foreground/90">
+                {stat.description}
+              </p>
             </div>
 
             <div className="mt-4 flex items-center gap-2 border-t border-border pt-4">

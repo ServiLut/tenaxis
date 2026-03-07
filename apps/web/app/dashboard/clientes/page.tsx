@@ -1,13 +1,13 @@
 import React from "react";
 import { DashboardLayout } from "@/components/dashboard";
-import { 
+import {
   getClientesDashboardAction,
   getDepartmentsAction, 
   getMunicipalitiesAction,
   getSugerenciasAction,
   getSugerenciasStatsAction
 } from "../actions";
-import { ClienteList } from "./cliente-list";
+import { ClienteList, type Cliente } from "./cliente-list";
 
 export const dynamic = "force-dynamic";
 
@@ -19,7 +19,7 @@ export default async function ClientesPage() {
     departments, 
     municipalities
   ] = await Promise.all([
-    getClientesDashboardAction(),
+    getClientesDashboardAction<Cliente>(),
     getSugerenciasAction(),
     getSugerenciasStatsAction(),
     getDepartmentsAction(),

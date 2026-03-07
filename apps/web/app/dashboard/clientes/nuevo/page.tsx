@@ -271,8 +271,8 @@ function NuevoClienteContent() {
       nit: (formData.get("nit") as string) || "No Concretado",
       actividadEconomica: (formData.get("actividad") as string) || "No Concretado",
       metrajeTotal: metraje ? parseFloat(metraje.toString()) : null,
-      segmentoId: segmento || null,
-      riesgoId: riesgoOverride || riesgosDb.find(r => r.nombre === sugerencias.riesgo)?.id || null,
+      segmento: (segmento || null) as ClienteDTO["segmento"],
+      nivelRiesgo: (riesgoOverride || riesgosDb.find(r => r.nombre === sugerencias.riesgo)?.id || null) as ClienteDTO["nivelRiesgo"],
       direcciones: cleanedDirecciones,
     };
 
@@ -478,7 +478,7 @@ function NuevoClienteContent() {
 
                 <div className="space-y-2">
                   <Label className="text-xs font-bold text-muted-foreground uppercase tracking-wider">Nivel de Riesgo Operativo</Label>
-                  <Select value={riesgoOverride || riesgosDb.find(r => r.nombre === sugerencias.riesgo)?.id || ""} onValueChange={setRiesgoOverride} name="riesgoId">
+                  <Select value={riesgoOverride || riesgosDb.find(r => r.nombre === sugerencias.riesgo)?.id || ""} onValueChange={setRiesgoOverride} name="nivelRiesgo">
                     <SelectTrigger className="h-11 border-border focus:ring-0 focus:ring-offset-0 bg-background text-foreground">
                       <SelectValue placeholder="Seleccionar riesgo..." />
                     </SelectTrigger>

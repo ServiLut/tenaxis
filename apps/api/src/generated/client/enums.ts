@@ -212,6 +212,20 @@ export const TipoCliente = {
 export type TipoCliente = (typeof TipoCliente)[keyof typeof TipoCliente]
 
 
+export const SegmentoCliente = {
+  HOGAR: 'HOGAR',
+  COMERCIO: 'COMERCIO',
+  INDUSTRIA: 'INDUSTRIA',
+  SALUD: 'SALUD',
+  EDUCACION: 'EDUCACION',
+  HORECA: 'HORECA',
+  OFICINA: 'OFICINA',
+  OTRO: 'OTRO'
+} as const
+
+export type SegmentoCliente = (typeof SegmentoCliente)[keyof typeof SegmentoCliente]
+
+
 export const NivelRiesgo = {
   BAJO: 'BAJO',
   MEDIO: 'MEDIO',

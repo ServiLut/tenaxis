@@ -190,9 +190,9 @@ function EditarClienteContent() {
         setRazonSocial(client.razonSocial || "");
         setNit(client.nit || "");
         setActividad(client.actividadEconomica || "");
-        setSegmento(client.segmentoId || "");
+        setSegmento(client.segmento || "");
         setInteres(client.tipoInteresId || "");
-        setRiesgoOverride(client.riesgoId || null);
+        setRiesgoOverride(client.nivelRiesgo || null);
         setMetraje(client.metrajeTotal ? Number(client.metrajeTotal) : 0);
         
         if (client.direcciones && client.direcciones.length > 0) {
@@ -327,8 +327,8 @@ function EditarClienteContent() {
       nit: nit || "No Concretado",
       actividadEconomica: actividad || "No Concretado",
       metrajeTotal: metraje ? parseFloat(metraje.toString()) : null,
-      segmentoId: segmento || null,
-      riesgoId: riesgoOverride || riesgosDb.find(r => r.nombre === sugerencias.riesgo)?.id || null,
+      segmento: (segmento || null) as ClienteDTO["segmento"],
+      nivelRiesgo: (riesgoOverride || riesgosDb.find(r => r.nombre === sugerencias.riesgo)?.id || null) as ClienteDTO["nivelRiesgo"],
       direcciones: cleanedDirecciones as unknown as NonNullable<ClienteDTO["direcciones"]>,
     };
 

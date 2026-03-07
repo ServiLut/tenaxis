@@ -38,7 +38,6 @@ import {
   ShieldCheck,
   Box,
   ArrowUpDown,
-  Info,
 } from "lucide-react";
 import {
   DropdownMenu,
@@ -70,14 +69,14 @@ import {
 } from "../actions";
 import { Contact } from "lucide-react";
 
-interface Cliente {
+export interface Cliente {
   id: string;
   nombre?: string;
   apellido?: string;
   razonSocial?: string;
   tipoCliente: "PERSONA" | "EMPRESA";
   segmentoNegocio?: string;
-  segmento?: {
+  segmento?: string | {
     id: string;
     nombre: string;
   };
@@ -162,6 +161,7 @@ interface Cliente {
     tipo?: string;
   }[];
   configuracionesOperativas?: ConfiguracionOperativa[];
+  ordenesServicio?: OrdenServicio[];
 }
 
 interface Department {
@@ -241,6 +241,7 @@ interface OrdenServicio {
   id: string;
   numeroOrden?: string;
   estadoServicio: string;
+  estadoPago?: string;
   servicio?: {
     nombre: string;
   };
@@ -253,6 +254,8 @@ interface OrdenServicio {
     }
   };
   valorCotizado?: number;
+  valorPagado?: number;
+  valorRepuestos?: number;
 }
 
 export function ClienteList({ 
@@ -280,6 +283,7 @@ export function ClienteList({
   );
 
   const [onlySinVisita, setOnlySinVisita] = useState(searchParams.get("sinVisita") === "true");
+  const [onlyWithPendingPayments, setOnlyWithPendingPayments] = useState(searchParams.get("pendingPayments") === "true");
   const [filters, setFilters] = useState({
     empresas: searchParams.get("empresas")?.split(",").filter(Boolean) || [] as string[],
     departamento: searchParams.get("dept") || "all",
@@ -304,6 +308,7 @@ export function ClienteList({
       params.set("dir", sortConfig.direction);
     }
     if (onlySinVisita) params.set("sinVisita", "true");
+    if (onlyWithPendingPayments) params.set("pendingPayments", "true");
     if (filters.empresas.length > 0) params.set("empresas", filters.empresas.join(","));
     if (filters.departamento !== "all") params.set("dept", filters.departamento);
     if (filters.municipio !== "all") params.set("muni", filters.municipio);
@@ -316,7 +321,7 @@ export function ClienteList({
 
     const query = params.toString();
     router.replace(`${pathname}${query ? `?${query}` : ""}`, { scroll: false });
-  }, [activeSegment, search, currentPage, sortConfig, filters, pathname, router, mounted]);
+  }, [activeSegment, search, currentPage, sortConfig, filters, pathname, router, mounted, onlySinVisita, onlyWithPendingPayments]);
 
   const [showSuggestionsQueue, setShowSuggestionsQueue] = useState(false);
   
@@ -341,6 +346,14 @@ export function ClienteList({
   const [selectedClienteForHistory, setSelectedClienteForHistory] = useState<Cliente | null>(null);
   const [selectedClienteForSuggestions, setSelectedClienteForSuggestions] = useState<Cliente | null>(null);
   const [clienteToDelete, setClienteToDelete] = useState<Cliente | null>(null);
+
+  const getSegmentoNombre = (cliente: Cliente) =>
+    typeof cliente.segmento === "string"
+      ? cliente.segmento
+      : cliente.segmento?.nombre || cliente.segmentoNegocio || "";
+
+  const getRiesgoNombre = (cliente: Cliente) =>
+    cliente.riesgo?.nombre || cliente.nivelRiesgo || "";
 
   const handleUpdateSugerencia = async (id: string, nuevoEstado: string) => {
     const res = await updateSugerenciaEstadoAction(id, nuevoEstado);
@@ -456,13 +469,25 @@ export function ClienteList({
   const [userRole, setUserRole] = useState<string | null>(null);
   const [showKPIs, setShowKPIs] = useState(false);
   const [showFilters, setShowFilters] = useState(false);
+  const pendingSugerencias = useMemo(
+    () => sugerencias.filter((s) => s.estado === "PENDIENTE"),
+    [sugerencias]
+  );
+  const recentManagedSugerencias = useMemo(
+    () =>
+      sugerencias
+        .filter((s) => s.estado !== "PENDIENTE")
+        .sort((a, b) => new Date(b.creadoAt).getTime() - new Date(a.creadoAt).getTime())
+        .slice(0, 8),
+    [sugerencias]
+  );
 
   const stats = useMemo(() => {
     const total = initialClientes.length;
     const empresas = initialClientes.filter(c => c.tipoCliente === "EMPRESA").length;
     const oro = initialClientes.filter(c => c.clasificacion === "ORO").length;
     const riesgoCritico = initialClientes.filter(c => {
-      const r = (c.riesgo?.nombre || c.nivelRiesgo || "").toUpperCase();
+      const r = getRiesgoNombre(c).toUpperCase();
       return r === "CRITICO" || r === "ALTO";
     }).length;
     const avgScore = total > 0 ? Math.round(initialClientes.reduce((acc, c) => acc + (c.score || 0), 0) / total) : 0;
@@ -511,9 +536,9 @@ export function ClienteList({
           .sort((a, b) => a.name.localeCompare(b.name))
       : Array.from(new Set(clientes.flatMap(c => c.direcciones?.map(d => d.municipio).filter((m): m is string => !!m) || [])))
           .sort();
-    const segmentos = Array.from(new Set(clientes.map(c => c.segmento?.nombre || c.segmentoNegocio).filter((s): s is string => !!s))).sort();
+    const segmentos = Array.from(new Set(clientes.map(getSegmentoNombre).filter((s): s is string => !!s))).sort();
     const clasificaciones = ["ORO", "PLATA", "BRONCE", "RIESGO"];
-    const riesgos = Array.from(new Set(clientes.map(c => c.riesgo?.nombre || c.nivelRiesgo).filter((r): r is string => !!r))).sort();
+    const riesgos = Array.from(new Set(clientes.map(getRiesgoNombre).filter((r): r is string => !!r))).sort();
     const empresas = Array.from(
       new Map(
         clientes
@@ -526,7 +551,7 @@ export function ClienteList({
 
   const filteredClientes = useMemo(() => {
     if (!mounted) return [];
-    let result = clientes.filter(c => {
+    const result = clientes.filter(c => {
       const searchLower = search.toLowerCase();
       const matchesSearch = !search || (
         c.nombre?.toLowerCase().includes(searchLower) ||
@@ -540,8 +565,8 @@ export function ClienteList({
       const matchesMunicipio = filters.municipio === "all" || c.direcciones?.some(d => d.municipioId === filters.municipio || d.municipio === filters.municipio);
       const matchesBarrio = !filters.barrio || c.direcciones?.some(d => d.barrio?.toLowerCase().includes(filters.barrio.toLowerCase()));
       const matchesClasificacion = filters.clasificacion === "all" || c.clasificacion === filters.clasificacion;
-      const matchesSegmento = filters.segmento === "all" || (c.segmento?.nombre || c.segmentoNegocio) === filters.segmento;
-      const matchesRiesgo = filters.riesgo === "all" || (c.riesgo?.nombre || c.nivelRiesgo) === filters.riesgo;
+      const matchesSegmento = filters.segmento === "all" || getSegmentoNombre(c) === filters.segmento;
+      const matchesRiesgo = filters.riesgo === "all" || getRiesgoNombre(c) === filters.riesgo;
       const clientDate = c.createdAt ? new Date(c.createdAt) : null;
       const matchesFechaDesde = !filters.fechaDesde || (clientDate && clientDate >= new Date(filters.fechaDesde));
       const matchesFechaHasta = !filters.fechaHasta || (clientDate && clientDate <= new Date(filters.fechaHasta + "T23:59:59"));
@@ -550,33 +575,50 @@ export function ClienteList({
         !c.proximaVisita || new Date(c.proximaVisita) < new Date()
       );
 
-      return matchesSearch && matchesEmpresas && matchesDepartamento && matchesMunicipio && matchesBarrio && matchesClasificacion && matchesSegmento && matchesRiesgo && matchesFechaDesde && matchesFechaHasta && matchesSinVisita;
+      const matchesPendingPayments = !onlyWithPendingPayments || (
+        c.ordenesServicio && c.ordenesServicio.length > 0 && c.ordenesServicio.some(o => {
+          const total = Number(o.valorCotizado || 0) + Number(o.valorRepuestos || 0);
+          const pagado = Number(o.valorPagado || 0);
+          return pagado < total && o.estadoPago !== 'PAGADO' && o.estadoPago !== 'CORTESIA';
+        })
+      );
+
+      return matchesSearch && matchesEmpresas && matchesDepartamento && matchesMunicipio && matchesBarrio && matchesClasificacion && matchesSegmento && matchesRiesgo && matchesFechaDesde && matchesFechaHasta && matchesSinVisita && matchesPendingPayments;
     });
 
     if (sortConfig) {
       result.sort((a, b) => {
-        let aVal: any = a[sortConfig.key as keyof Cliente];
-        let bVal: any = b[sortConfig.key as keyof Cliente];
+        let aVal: unknown = (a as unknown as Record<string, unknown>)[sortConfig.key];
+        let bVal: unknown = (b as unknown as Record<string, unknown>)[sortConfig.key];
 
         if (sortConfig.key === "nombre") {
           aVal = a.tipoCliente === "EMPRESA" ? a.razonSocial : `${a.nombre} ${a.apellido}`;
           bVal = b.tipoCliente === "EMPRESA" ? b.razonSocial : `${b.nombre} ${b.apellido}`;
         } else if (sortConfig.key === "riesgo") {
-          aVal = a.riesgo?.nombre || a.nivelRiesgo || "";
-          bVal = b.riesgo?.nombre || b.nivelRiesgo || "";
+          aVal = getRiesgoNombre(a);
+          bVal = getRiesgoNombre(b);
         } else if (sortConfig.key === "proximaVisita") {
           aVal = a.proximaVisita ? new Date(a.proximaVisita).getTime() : 0;
           bVal = b.proximaVisita ? new Date(b.proximaVisita).getTime() : 0;
         }
 
-        if (aVal < bVal) return sortConfig.direction === "asc" ? -1 : 1;
-        if (aVal > bVal) return sortConfig.direction === "asc" ? 1 : -1;
+        const nA = Number(aVal);
+        const nB = Number(bVal);
+        if (!isNaN(nA) && !isNaN(nB)) {
+          if (nA < nB) return sortConfig.direction === "asc" ? -1 : 1;
+          if (nA > nB) return sortConfig.direction === "asc" ? 1 : -1;
+        }
+        
+        const sA = String(aVal || "");
+        const sB = String(bVal || "");
+        if (sA < sB) return sortConfig.direction === "asc" ? -1 : 1;
+        if (sA > sB) return sortConfig.direction === "asc" ? 1 : -1;
         return 0;
       });
     }
 
     return result;
-  }, [clientes, search, filters, mounted, sortConfig]);
+  }, [clientes, search, filters, mounted, sortConfig, onlySinVisita, onlyWithPendingPayments]);
 
   const handleSort = (key: string) => {
     setSortConfig(prev => {
@@ -616,11 +658,32 @@ export function ClienteList({
     setSearch("");
     setActiveSegment("all");
     setOnlySinVisita(false);
+    setOnlyWithPendingPayments(false);
   };
 
   React.useEffect(() => {
     setCurrentPage(1);
   }, [search, filters, activeSegment]);
+
+  useEffect(() => {
+    const onKeyDown = (event: KeyboardEvent) => {
+      const isCtrlD = (event.ctrlKey || event.metaKey) && event.key.toLowerCase() === "d";
+
+      if (isCtrlD) {
+        event.preventDefault();
+        setShowSuggestionsQueue((prev) => !prev);
+        return;
+      }
+
+      if (showSuggestionsQueue) {
+        event.preventDefault();
+        setShowSuggestionsQueue(false);
+      }
+    };
+
+    window.addEventListener("keydown", onKeyDown);
+    return () => window.removeEventListener("keydown", onKeyDown);
+  }, [showSuggestionsQueue]);
 
   React.useEffect(() => {
     const loadConfigs = async () => {
@@ -776,10 +839,10 @@ export function ClienteList({
               className="h-10 px-6 rounded-xl bg-amber-500 text-white text-[10px] font-black uppercase tracking-widest gap-2 shadow-lg shadow-amber-500/20 hover:bg-amber-600 transition-all"
             >
               <Zap className="h-4 w-4 fill-current" />
-              Cola de Hoy
-              {sugerencias.filter(s => s.estado === "PENDIENTE").length > 0 && (
+              Cola Operativa
+              {pendingSugerencias.length > 0 && (
                 <span className="ml-1 px-2 py-0.5 rounded-full bg-white text-amber-600 text-[9px] font-black animate-pulse">
-                  {sugerencias.filter(s => s.estado === "PENDIENTE").length}
+                  {pendingSugerencias.length}
                 </span>
               )}
             </Button>
@@ -884,8 +947,12 @@ export function ClienteList({
                   <button
                     key={seg.id}
                     onClick={() => {
-                      setActiveSegment(seg.id);
-                      setOnlySinVisita(false);
+                      if (seg.id === "all") {
+                        resetFilters();
+                      } else {
+                        setActiveSegment(seg.id);
+                        setOnlySinVisita(false);
+                      }
                     }}
                     className={cn(
                       "flex items-center gap-2 px-4 py-3 rounded-xl transition-all whitespace-nowrap border-2",
@@ -926,6 +993,16 @@ export function ClienteList({
                       resetFilters(); 
                       setOnlySinVisita(newValue);
                       if (newValue) setSortConfig({ key: "proximaVisita", direction: "asc" }); 
+                    } 
+                  },
+                  { 
+                    label: "Pagos Pendientes", 
+                    icon: FileText, 
+                    color: onlyWithPendingPayments ? "border-red-500 bg-red-50 text-red-700" : "hover:border-red-500 hover:bg-red-50", 
+                    action: () => { 
+                      const newValue = !onlyWithPendingPayments;
+                      resetFilters(); 
+                      setOnlyWithPendingPayments(newValue);
                     } 
                   },
                 ].map((preset, i) => (
@@ -1201,7 +1278,7 @@ export function ClienteList({
                                 {/* Badges de Calidad de Dato */}
                                 <div className="flex items-center gap-1 ml-1">
                                   {!cliente.correo && <div title="Sin correo" className="h-1.5 w-1.5 rounded-full bg-red-500" />}
-                                  {!(cliente.segmento?.nombre || cliente.segmentoNegocio) && <div title="Sin segmento" className="h-1.5 w-1.5 rounded-full bg-amber-500" />}
+                                  {!getSegmentoNombre(cliente) && <div title="Sin segmento" className="h-1.5 w-1.5 rounded-full bg-amber-500" />}
                                   {!cliente.frecuenciaServicio && <div title="Sin frecuencia" className="h-1.5 w-1.5 rounded-full bg-purple-500" />}
                                 </div>
                               </div>
@@ -1237,14 +1314,14 @@ export function ClienteList({
                           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-lg bg-muted border border-border">
                             <Target className="h-3 w-3 text-[#01ADFB]" />
                             <span className="text-[10px] font-black text-foreground uppercase tracking-tight">
-                              {cliente.segmento?.nombre || cliente.segmentoNegocio || "N/A"}
+                              {getSegmentoNombre(cliente) || "N/A"}
                             </span>
                           </div>
                         </td>
 
                         <td className="px-4 py-6 text-center">
                           {(() => {
-                            const riesgoNombre = cliente.riesgo?.nombre || cliente.nivelRiesgo || "BAJO";
+                            const riesgoNombre = getRiesgoNombre(cliente) || "BAJO";
                             const labelInfo = RIESGO_LABELS[riesgoNombre.toUpperCase() as keyof typeof RIESGO_LABELS] || {
                               label: riesgoNombre,
                               color: "text-muted-foreground bg-muted",
@@ -1465,9 +1542,9 @@ export function ClienteList({
                       </div>
                       <span className={cn(
                         "text-sm font-black uppercase",
-                        (selectedCliente.segmento?.nombre || selectedCliente.segmentoNegocio) ? "text-foreground" : "text-muted-foreground"
+                        getSegmentoNombre(selectedCliente) ? "text-foreground" : "text-muted-foreground"
                       )}>
-                        {selectedCliente.segmento?.nombre || selectedCliente.segmentoNegocio || "No Definido"}
+                        {getSegmentoNombre(selectedCliente) || "No Definido"}
                       </span>
                     </div>
                   </div>
@@ -1475,7 +1552,7 @@ export function ClienteList({
                   <div className="p-4 rounded-2xl bg-muted border border-border shadow-sm">
                     <p className="text-[9px] font-black uppercase tracking-[0.2em] text-muted-foreground mb-2">Nivel de Riesgo</p>
                     {(() => {
-                      const riesgoNombre = selectedCliente.riesgo?.nombre || selectedCliente.nivelRiesgo || "BAJO";
+                      const riesgoNombre = getRiesgoNombre(selectedCliente) || "BAJO";
                       const labelInfo = RIESGO_LABELS[riesgoNombre.toUpperCase() as keyof typeof RIESGO_LABELS] || {
                         label: riesgoNombre,
                         color: "text-muted-foreground bg-muted",
@@ -2280,10 +2357,18 @@ export function ClienteList({
       </Dialog>
 
       {/* PANEL LATERAL: COLA DE TAREAS SUGERIDAS (HOY) */}
+      {showSuggestionsQueue && (
+        <button
+          type="button"
+          aria-label="Cerrar panel de cola operativa pendiente"
+          onClick={() => setShowSuggestionsQueue(false)}
+          className="fixed inset-0 z-[90] bg-black/20 backdrop-blur-[1px] cursor-default"
+        />
+      )}
       <div className={cn(
         "fixed inset-y-0 right-0 w-full sm:w-[450px] bg-background border-l border-border shadow-2xl z-[100] transition-transform duration-500 ease-in-out transform flex flex-col",
         showSuggestionsQueue ? "translate-x-0" : "translate-x-full"
-      )}>
+      )} role="dialog" aria-modal="true" aria-label="Cola operativa pendiente">
         {/* Header del Panel */}
         <div className="shrink-0 p-8 border-b border-border bg-muted/30 flex items-center justify-between">
           <div className="flex items-center gap-4">
@@ -2291,8 +2376,8 @@ export function ClienteList({
               <Zap className="h-6 w-6" />
             </div>
             <div>
-              <h2 className="text-xl font-black text-foreground uppercase tracking-tight">Acciones Hoy</h2>
-              <p className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest mt-0.5">Cola de tareas inteligentes</p>
+              <h2 className="text-xl font-black text-foreground uppercase tracking-tight">Cola Operativa Pendiente</h2>
+              <p className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest mt-0.5">Tareas abiertas priorizadas</p>
             </div>
           </div>
           <button
@@ -2323,16 +2408,52 @@ export function ClienteList({
 
         {/* Lista de Tareas */}
         <div className="flex-1 overflow-y-auto p-6 space-y-4 custom-scrollbar">
-          {sugerencias.filter(s => s.estado === "PENDIENTE").length === 0 ? (
-            <div className="h-full flex flex-col items-center justify-center text-center opacity-40">
-              <ClipboardCheck className="h-16 w-16 mb-4 text-emerald-500" />
-              <p className="text-sm font-black uppercase tracking-widest">Todo al día</p>
-              <p className="text-xs mt-1">No hay tareas pendientes en la cola.</p>
+          {pendingSugerencias.length === 0 ? (
+            <div className="space-y-6">
+              <div className="rounded-3xl border border-emerald-500/20 bg-emerald-500/5 p-5 text-center">
+                <ClipboardCheck className="mx-auto h-12 w-12 text-emerald-500 mb-3" />
+                <p className="text-sm font-black uppercase tracking-widest text-emerald-700">Operación al día</p>
+                <p className="text-xs mt-1 text-muted-foreground">No hay pendientes activos en la cola operativa.</p>
+                {sugerenciasStats && (
+                  <p className="text-[10px] mt-2 font-bold uppercase tracking-widest text-muted-foreground">
+                    Creadas hoy: <span className="text-foreground">{sugerenciasStats.totalHoy}</span>
+                  </p>
+                )}
+              </div>
+
+              <div className="space-y-3">
+                <h4 className="text-[10px] font-black uppercase tracking-[0.2em] text-muted-foreground">
+                  Últimas sugerencias gestionadas
+                </h4>
+                {recentManagedSugerencias.length === 0 ? (
+                  <div className="rounded-2xl border border-border bg-card p-4 text-center">
+                    <p className="text-xs text-muted-foreground">Aún no hay histórico de sugerencias procesadas.</p>
+                  </div>
+                ) : (
+                  recentManagedSugerencias.map((sug) => (
+                    <div key={sug.id} className="p-4 rounded-2xl bg-card border border-border shadow-sm">
+                      <div className="flex items-start justify-between mb-2">
+                        <span className={cn(
+                          "text-[9px] font-black px-2 py-0.5 rounded-md uppercase tracking-widest",
+                          sug.estado === "EJECUTADA" && "bg-emerald-100 text-emerald-700",
+                          sug.estado === "ACEPTADA" && "bg-blue-100 text-blue-700",
+                          sug.estado === "DESCARTADA" && "bg-slate-100 text-slate-700"
+                        )}>
+                          {sug.estado}
+                        </span>
+                        <span className="text-[9px] font-bold text-muted-foreground">
+                          {new Date(sug.creadoAt).toLocaleDateString()}
+                        </span>
+                      </div>
+                      <p className="text-xs font-black uppercase tracking-wider text-foreground leading-tight mb-1">{sug.titulo}</p>
+                      <p className="text-xs text-muted-foreground leading-relaxed">{sug.descripcion}</p>
+                    </div>
+                  ))
+                )}
+              </div>
             </div>
           ) : (
-            sugerencias
-              .filter(s => s.estado === "PENDIENTE")
-              .map((sug) => (
+            pendingSugerencias.map((sug) => (
                 <div key={sug.id} className="p-5 rounded-3xl bg-card border border-border shadow-sm hover:border-[#01ADFB] transition-all group">
                   <div className="flex items-start justify-between mb-3">
                     <span className={cn(
