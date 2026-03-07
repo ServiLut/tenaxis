@@ -1,0 +1,238 @@
+"use client";
+
+import { createClient } from "@/utils/supabase/client";
+
+export interface ClienteDTO {
+  id?: string;
+  tipoCliente: "EMPRESA" | "PERSONA";
+  razonSocial?: string;
+  nombre?: string;
+  apellido?: string;
+  telefono?: string;
+}
+
+export interface ServiciosKpis {
+  total: number;
+  programadosHoy: number;
+  enCurso: number;
+  vencidosSla: number;
+  cumplimientoSlaPct: number;
+  porcentajeLiquidacion: number;
+  recaudoHoy: number;
+  ticketPromedio: number;
+  sinEvidencia: number;
+}
+
+export interface OperatorDTO {
+  id: string;
+  nombre?: string;
+  telefono?: string;
+  user?: {
+    nombre?: string;
+    apellido?: string;
+  };
+}
+
+type ApiOptions = RequestInit & {
+  enterpriseId?: string;
+};
+
+type UploadKind = "facturaElectronica" | "comprobantePago" | "evidencias";
+
+const getCookie = (name: string) => {
+  if (typeof document === "undefined") return undefined;
+  const value = `; ${document.cookie}`;
+  const parts = value.split(`; ${name}=`);
+  if (parts.length === 2) return parts.pop()?.split(";").shift();
+  return undefined;
+};
+
+const getDefaultHeaders = (enterpriseId?: string) => {
+  const token = getCookie("access_token");
+  const cookieEnterprise = getCookie("x-enterprise-id");
+  const effectiveEnterpriseId = enterpriseId || cookieEnterprise;
+
+  const headers: Record<string, string> = {};
+  if (token) headers.Authorization = `Bearer ${token}`;
+  if (effectiveEnterpriseId) headers["x-enterprise-id"] = effectiveEnterpriseId;
+  return headers;
+};
+
+const unwrapData = async <T>(res: Response): Promise<T> => {
+  const json = await res.json();
+  if (!res.ok) {
+    const message = json?.message || json?.error || "Error de API";
+    throw new Error(message);
+  }
+  return (json?.data ?? json) as T;
+};
+
+async function apiFetch<T>(path: string, options: ApiOptions = {}) {
+  const { enterpriseId, headers, ...rest } = options;
+  const defaultHeaders = getDefaultHeaders(enterpriseId);
+
+  const res = await fetch(`/api${path}`, {
+    ...rest,
+    headers: {
+      ...defaultHeaders,
+      ...(headers || {}),
+    },
+  });
+
+  return unwrapData<T>(res);
+}
+
+export async function getOrdenesServicio(empresaId?: string) {
+  const params = new URLSearchParams();
+  if (empresaId) params.set("empresaId", empresaId);
+  const query = params.toString();
+  return apiFetch<Record<string, unknown>[]>(`/ordenes-servicio${query ? `?${query}` : ""}`);
+}
+
+export async function getServiciosKpis(
+  query: Record<string, string | undefined>,
+) {
+  const params = new URLSearchParams();
+  for (const [key, value] of Object.entries(query)) {
+    if (value && value !== "all") {
+      params.set(key, value);
+    }
+  }
+  const queryString = params.toString();
+  return apiFetch<ServiciosKpis>(
+    `/ordenes-servicio/kpis${queryString ? `?${queryString}` : ""}`,
+  );
+}
+
+export async function getEstadoServicios(empresaId?: string) {
+  const params = new URLSearchParams();
+  if (empresaId) params.set("empresaId", empresaId);
+  try {
+    return await apiFetch<{ id: string; nombre: string }[]>(
+      `/config-clientes/estados-servicio?${params.toString()}`,
+    );
+  } catch {
+    return [];
+  }
+}
+
+export async function getOperators(empresaId: string) {
+  return apiFetch<OperatorDTO[]>(`/enterprise/${empresaId}/operators`);
+}
+
+export async function getMetodosPago(empresaId?: string) {
+  const params = new URLSearchParams();
+  if (empresaId) params.set("empresaId", empresaId);
+  return apiFetch<{ id: string; nombre: string }[]>(
+    `/config-clientes/metodos-pago?${params.toString()}`,
+  );
+}
+
+export async function getMunicipalities() {
+  return apiFetch<Array<{ id: string; name: string }>>("/geo/municipalities");
+}
+
+export async function updateOrdenServicio(id: string, body: object) {
+  return apiFetch<Record<string, unknown>>(`/ordenes-servicio/${id}`, {
+    method: "PATCH",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(body),
+  });
+}
+
+export async function createSignedUploadUrl(
+  id: string,
+  kind: UploadKind,
+  fileName: string,
+) {
+  return apiFetch<{ signedUrl: string; token: string; path: string }>(
+    `/ordenes-servicio/${id}/uploads/signed-url`,
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ kind, fileName }),
+    },
+  );
+}
+
+export async function uploadToSupabaseSignedUrl(
+  path: string,
+  token: string,
+  file: File,
+) {
+  const supabase = createClient();
+  const { error } = await supabase.storage
+    .from("tenaxis-docs")
+    .uploadToSignedUrl(path, token, file);
+
+  if (error) {
+    throw error;
+  }
+}
+
+export async function confirmOrdenUpload(
+  id: string,
+  kind: UploadKind,
+  paths: string[],
+) {
+  return apiFetch<Record<string, unknown>>(`/ordenes-servicio/${id}/uploads/confirm`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ kind, paths }),
+  });
+}
+
+export async function notifyLiquidationWebhook(data: {
+  telefono: string;
+  cliente: string;
+  fecha: string;
+  servicio: string;
+}) {
+  return apiFetch<{ success: boolean; error?: string }>(
+    "/ordenes-servicio/notifications/liquidation",
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    },
+  );
+}
+
+export async function notifyServiceOperatorWebhook(data: {
+  telefonoOperador: string;
+  numeroOrden: string;
+  cliente: string;
+  servicio: string;
+  programacion: string;
+  tecnico: string;
+  estado: string;
+  urgencia: string;
+  direccion: string;
+  linkMaps: string;
+  municipio: string;
+  barrio: string;
+  detalles: string;
+  valorCotizado: string;
+  metodosPago: string;
+  observaciones: string;
+  idServicio: string;
+}) {
+  return apiFetch<{ success: boolean; error?: string }>(
+    "/ordenes-servicio/notifications/operator",
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    },
+  );
+}

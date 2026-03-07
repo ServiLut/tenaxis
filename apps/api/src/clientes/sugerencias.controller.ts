@@ -1,12 +1,12 @@
-import { 
-  Controller, 
-  Get, 
-  Patch, 
-  Param, 
-  Body, 
-  Request, 
-  UseGuards, 
-  Post
+import {
+  Controller,
+  Get,
+  Patch,
+  Param,
+  Body,
+  Request,
+  UseGuards,
+  Post,
 } from '@nestjs/common';
 import { SugerenciasService } from './sugerencias.service';
 import { EstadoSugerencia } from '../generated/client/client';
@@ -41,7 +41,7 @@ export class SugerenciasController {
   async updateEstado(
     @Request() req: RequestWithUser,
     @Param('id') id: string,
-    @Body('estado') estado: EstadoSugerencia
+    @Body('estado') estado: EstadoSugerencia,
   ) {
     const tenantId = req.user.tenantId || '';
     return this.sugerenciasService.updateEstado(id, tenantId, estado);

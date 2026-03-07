@@ -269,6 +269,7 @@ export type TenantWhereInput = {
   turnos?: Prisma.TurnoListRelationFilter
   vehiculos?: Prisma.VehiculoListRelationFilter
   zonas?: Prisma.ZonaListRelationFilter
+  dashboardPresets?: Prisma.DashboardPresetListRelationFilter
 }
 
 export type TenantOrderByWithRelationInput = {
@@ -329,6 +330,7 @@ export type TenantOrderByWithRelationInput = {
   turnos?: Prisma.TurnoOrderByRelationAggregateInput
   vehiculos?: Prisma.VehiculoOrderByRelationAggregateInput
   zonas?: Prisma.ZonaOrderByRelationAggregateInput
+  dashboardPresets?: Prisma.DashboardPresetOrderByRelationAggregateInput
 }
 
 export type TenantWhereUniqueInput = Prisma.AtLeast<{
@@ -392,6 +394,7 @@ export type TenantWhereUniqueInput = Prisma.AtLeast<{
   turnos?: Prisma.TurnoListRelationFilter
   vehiculos?: Prisma.VehiculoListRelationFilter
   zonas?: Prisma.ZonaListRelationFilter
+  dashboardPresets?: Prisma.DashboardPresetListRelationFilter
 }, "id" | "slug">
 
 export type TenantOrderByWithAggregationInput = {
@@ -484,6 +487,7 @@ export type TenantCreateInput = {
   turnos?: Prisma.TurnoCreateNestedManyWithoutTenantInput
   vehiculos?: Prisma.VehiculoCreateNestedManyWithoutTenantInput
   zonas?: Prisma.ZonaCreateNestedManyWithoutTenantInput
+  dashboardPresets?: Prisma.DashboardPresetCreateNestedManyWithoutTenantInput
 }
 
 export type TenantUncheckedCreateInput = {
@@ -544,6 +548,7 @@ export type TenantUncheckedCreateInput = {
   turnos?: Prisma.TurnoUncheckedCreateNestedManyWithoutTenantInput
   vehiculos?: Prisma.VehiculoUncheckedCreateNestedManyWithoutTenantInput
   zonas?: Prisma.ZonaUncheckedCreateNestedManyWithoutTenantInput
+  dashboardPresets?: Prisma.DashboardPresetUncheckedCreateNestedManyWithoutTenantInput
 }
 
 export type TenantUpdateInput = {
@@ -604,6 +609,7 @@ export type TenantUpdateInput = {
   turnos?: Prisma.TurnoUpdateManyWithoutTenantNestedInput
   vehiculos?: Prisma.VehiculoUpdateManyWithoutTenantNestedInput
   zonas?: Prisma.ZonaUpdateManyWithoutTenantNestedInput
+  dashboardPresets?: Prisma.DashboardPresetUpdateManyWithoutTenantNestedInput
 }
 
 export type TenantUncheckedUpdateInput = {
@@ -664,6 +670,7 @@ export type TenantUncheckedUpdateInput = {
   turnos?: Prisma.TurnoUncheckedUpdateManyWithoutTenantNestedInput
   vehiculos?: Prisma.VehiculoUncheckedUpdateManyWithoutTenantNestedInput
   zonas?: Prisma.ZonaUncheckedUpdateManyWithoutTenantNestedInput
+  dashboardPresets?: Prisma.DashboardPresetUncheckedUpdateManyWithoutTenantNestedInput
 }
 
 export type TenantCreateManyInput = {
@@ -780,6 +787,20 @@ export type TenantUpdateOneRequiredWithoutMembershipsNestedInput = {
   upsert?: Prisma.TenantUpsertWithoutMembershipsInput
   connect?: Prisma.TenantWhereUniqueInput
   update?: Prisma.XOR<Prisma.XOR<Prisma.TenantUpdateToOneWithWhereWithoutMembershipsInput, Prisma.TenantUpdateWithoutMembershipsInput>, Prisma.TenantUncheckedUpdateWithoutMembershipsInput>
+}
+
+export type TenantCreateNestedOneWithoutDashboardPresetsInput = {
+  create?: Prisma.XOR<Prisma.TenantCreateWithoutDashboardPresetsInput, Prisma.TenantUncheckedCreateWithoutDashboardPresetsInput>
+  connectOrCreate?: Prisma.TenantCreateOrConnectWithoutDashboardPresetsInput
+  connect?: Prisma.TenantWhereUniqueInput
+}
+
+export type TenantUpdateOneRequiredWithoutDashboardPresetsNestedInput = {
+  create?: Prisma.XOR<Prisma.TenantCreateWithoutDashboardPresetsInput, Prisma.TenantUncheckedCreateWithoutDashboardPresetsInput>
+  connectOrCreate?: Prisma.TenantCreateOrConnectWithoutDashboardPresetsInput
+  upsert?: Prisma.TenantUpsertWithoutDashboardPresetsInput
+  connect?: Prisma.TenantWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.TenantUpdateToOneWithWhereWithoutDashboardPresetsInput, Prisma.TenantUpdateWithoutDashboardPresetsInput>, Prisma.TenantUncheckedUpdateWithoutDashboardPresetsInput>
 }
 
 export type TenantCreateNestedOneWithoutEmpresasInput = {
@@ -1473,6 +1494,7 @@ export type TenantCreateWithoutSubscriptionInput = {
   turnos?: Prisma.TurnoCreateNestedManyWithoutTenantInput
   vehiculos?: Prisma.VehiculoCreateNestedManyWithoutTenantInput
   zonas?: Prisma.ZonaCreateNestedManyWithoutTenantInput
+  dashboardPresets?: Prisma.DashboardPresetCreateNestedManyWithoutTenantInput
 }
 
 export type TenantUncheckedCreateWithoutSubscriptionInput = {
@@ -1532,6 +1554,7 @@ export type TenantUncheckedCreateWithoutSubscriptionInput = {
   turnos?: Prisma.TurnoUncheckedCreateNestedManyWithoutTenantInput
   vehiculos?: Prisma.VehiculoUncheckedCreateNestedManyWithoutTenantInput
   zonas?: Prisma.ZonaUncheckedCreateNestedManyWithoutTenantInput
+  dashboardPresets?: Prisma.DashboardPresetUncheckedCreateNestedManyWithoutTenantInput
 }
 
 export type TenantCreateOrConnectWithoutSubscriptionInput = {
@@ -1607,6 +1630,7 @@ export type TenantUpdateWithoutSubscriptionInput = {
   turnos?: Prisma.TurnoUpdateManyWithoutTenantNestedInput
   vehiculos?: Prisma.VehiculoUpdateManyWithoutTenantNestedInput
   zonas?: Prisma.ZonaUpdateManyWithoutTenantNestedInput
+  dashboardPresets?: Prisma.DashboardPresetUpdateManyWithoutTenantNestedInput
 }
 
 export type TenantUncheckedUpdateWithoutSubscriptionInput = {
@@ -1666,6 +1690,7 @@ export type TenantUncheckedUpdateWithoutSubscriptionInput = {
   turnos?: Prisma.TurnoUncheckedUpdateManyWithoutTenantNestedInput
   vehiculos?: Prisma.VehiculoUncheckedUpdateManyWithoutTenantNestedInput
   zonas?: Prisma.ZonaUncheckedUpdateManyWithoutTenantNestedInput
+  dashboardPresets?: Prisma.DashboardPresetUncheckedUpdateManyWithoutTenantNestedInput
 }
 
 export type TenantCreateWithoutMembershipsInput = {
@@ -1725,6 +1750,7 @@ export type TenantCreateWithoutMembershipsInput = {
   turnos?: Prisma.TurnoCreateNestedManyWithoutTenantInput
   vehiculos?: Prisma.VehiculoCreateNestedManyWithoutTenantInput
   zonas?: Prisma.ZonaCreateNestedManyWithoutTenantInput
+  dashboardPresets?: Prisma.DashboardPresetCreateNestedManyWithoutTenantInput
 }
 
 export type TenantUncheckedCreateWithoutMembershipsInput = {
@@ -1784,6 +1810,7 @@ export type TenantUncheckedCreateWithoutMembershipsInput = {
   turnos?: Prisma.TurnoUncheckedCreateNestedManyWithoutTenantInput
   vehiculos?: Prisma.VehiculoUncheckedCreateNestedManyWithoutTenantInput
   zonas?: Prisma.ZonaUncheckedCreateNestedManyWithoutTenantInput
+  dashboardPresets?: Prisma.DashboardPresetUncheckedCreateNestedManyWithoutTenantInput
 }
 
 export type TenantCreateOrConnectWithoutMembershipsInput = {
@@ -1859,6 +1886,7 @@ export type TenantUpdateWithoutMembershipsInput = {
   turnos?: Prisma.TurnoUpdateManyWithoutTenantNestedInput
   vehiculos?: Prisma.VehiculoUpdateManyWithoutTenantNestedInput
   zonas?: Prisma.ZonaUpdateManyWithoutTenantNestedInput
+  dashboardPresets?: Prisma.DashboardPresetUpdateManyWithoutTenantNestedInput
 }
 
 export type TenantUncheckedUpdateWithoutMembershipsInput = {
@@ -1912,6 +1940,263 @@ export type TenantUncheckedUpdateWithoutMembershipsInput = {
   sesionesActividad?: Prisma.SesionActividadUncheckedUpdateManyWithoutTenantNestedInput
   subscription?: Prisma.SubscriptionUncheckedUpdateOneWithoutTenantNestedInput
   sugerencias?: Prisma.SugerenciaSeguimientoUncheckedUpdateManyWithoutTenantNestedInput
+  terapiasPsicologos?: Prisma.TerapiasPsicologosUncheckedUpdateManyWithoutTenantNestedInput
+  tiposInteres?: Prisma.TipoInteresUncheckedUpdateManyWithoutTenantNestedInput
+  tiposServicio?: Prisma.TipoServicioUncheckedUpdateManyWithoutTenantNestedInput
+  turnos?: Prisma.TurnoUncheckedUpdateManyWithoutTenantNestedInput
+  vehiculos?: Prisma.VehiculoUncheckedUpdateManyWithoutTenantNestedInput
+  zonas?: Prisma.ZonaUncheckedUpdateManyWithoutTenantNestedInput
+  dashboardPresets?: Prisma.DashboardPresetUncheckedUpdateManyWithoutTenantNestedInput
+}
+
+export type TenantCreateWithoutDashboardPresetsInput = {
+  id?: string
+  slug: string
+  isActive?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  correo?: string | null
+  nit?: string | null
+  nombre: string
+  numero?: string | null
+  pagina?: string | null
+  anticipos?: Prisma.AnticiposCreateNestedManyWithoutTenantInput
+  auditorias?: Prisma.AuditoriaCreateNestedManyWithoutTenantInput
+  authSessions?: Prisma.AuthSessionCreateNestedManyWithoutTenantInput
+  citasPsicologos?: Prisma.CitasPsicologosCreateNestedManyWithoutTenantInput
+  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaCreateNestedManyWithoutTenantInput
+  clientes?: Prisma.ClienteCreateNestedManyWithoutTenantInput
+  commissions?: Prisma.CommissionRecordCreateNestedManyWithoutTenantInput
+  configuracionPagos?: Prisma.ConfiguracionPagosCreateNestedManyWithoutTenantInput
+  consignacionOrdenes?: Prisma.ConsignacionOrdenCreateNestedManyWithoutTenantInput
+  consignaciones?: Prisma.ConsignacionEfectivoCreateNestedManyWithoutTenantInput
+  consultorios?: Prisma.ConsultorioCreateNestedManyWithoutTenantInput
+  cuentasCobro?: Prisma.CuentaCobroCreateNestedManyWithoutTenantInput
+  cuentasPago?: Prisma.CuentasPagoCreateNestedManyWithoutTenantInput
+  declaraciones?: Prisma.DeclaracionEfectivoCreateNestedManyWithoutTenantInput
+  direcciones?: Prisma.DireccionCreateNestedManyWithoutTenantInput
+  egresos?: Prisma.EgresosCreateNestedManyWithoutTenantInput
+  empresaMemberships?: Prisma.EmpresaMembershipCreateNestedManyWithoutTenantInput
+  empresas?: Prisma.EmpresaCreateNestedManyWithoutTenantInput
+  entidadesFinancieras?: Prisma.EntidadFinancieraCreateNestedManyWithoutTenantInput
+  estadosServicio?: Prisma.EstadoServicioCreateNestedManyWithoutTenantInput
+  evidenciasServicio?: Prisma.EvidenciaServicioCreateNestedManyWithoutTenantInput
+  geolocalizaciones?: Prisma.GeolocalizacionCreateNestedManyWithoutTenantInput
+  logsEvento?: Prisma.LogEventoCreateNestedManyWithoutTenantInput
+  metodosPago?: Prisma.MetodoPagoCreateNestedManyWithoutTenantInput
+  nominaDetalles?: Prisma.NominaDetalleCreateNestedManyWithoutTenantInput
+  nominas?: Prisma.NominaCreateNestedManyWithoutTenantInput
+  ordenesServicio?: Prisma.OrdenServicioCreateNestedManyWithoutTenantInput
+  orgNodes?: Prisma.OrganizationNodeCreateNestedManyWithoutTenantInput
+  paquetesAdquiridos?: Prisma.PaqueteAdquiridoCreateNestedManyWithoutTenantInput
+  resetTokens?: Prisma.PasswordResetTokenCreateNestedManyWithoutTenantInput
+  permisos?: Prisma.PermisoCreateNestedManyWithoutTenantInput
+  picoPlaca?: Prisma.PicoPlacaCreateNestedManyWithoutTenantInput
+  productos?: Prisma.ProductoCreateNestedManyWithoutTenantInput
+  productosSolicitados?: Prisma.ProductoSolicitadoCreateNestedManyWithoutTenantInput
+  proveedores?: Prisma.ProveedoresCreateNestedManyWithoutTenantInput
+  referidos?: Prisma.ReferidosCreateNestedManyWithoutTenantInput
+  servicios?: Prisma.ServicioCreateNestedManyWithoutTenantInput
+  sesionesActividad?: Prisma.SesionActividadCreateNestedManyWithoutTenantInput
+  subscription?: Prisma.SubscriptionCreateNestedOneWithoutTenantInput
+  sugerencias?: Prisma.SugerenciaSeguimientoCreateNestedManyWithoutTenantInput
+  memberships?: Prisma.TenantMembershipCreateNestedManyWithoutTenantInput
+  terapiasPsicologos?: Prisma.TerapiasPsicologosCreateNestedManyWithoutTenantInput
+  tiposInteres?: Prisma.TipoInteresCreateNestedManyWithoutTenantInput
+  tiposServicio?: Prisma.TipoServicioCreateNestedManyWithoutTenantInput
+  turnos?: Prisma.TurnoCreateNestedManyWithoutTenantInput
+  vehiculos?: Prisma.VehiculoCreateNestedManyWithoutTenantInput
+  zonas?: Prisma.ZonaCreateNestedManyWithoutTenantInput
+}
+
+export type TenantUncheckedCreateWithoutDashboardPresetsInput = {
+  id?: string
+  slug: string
+  isActive?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  correo?: string | null
+  nit?: string | null
+  nombre: string
+  numero?: string | null
+  pagina?: string | null
+  anticipos?: Prisma.AnticiposUncheckedCreateNestedManyWithoutTenantInput
+  auditorias?: Prisma.AuditoriaUncheckedCreateNestedManyWithoutTenantInput
+  authSessions?: Prisma.AuthSessionUncheckedCreateNestedManyWithoutTenantInput
+  citasPsicologos?: Prisma.CitasPsicologosUncheckedCreateNestedManyWithoutTenantInput
+  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaUncheckedCreateNestedManyWithoutTenantInput
+  clientes?: Prisma.ClienteUncheckedCreateNestedManyWithoutTenantInput
+  commissions?: Prisma.CommissionRecordUncheckedCreateNestedManyWithoutTenantInput
+  configuracionPagos?: Prisma.ConfiguracionPagosUncheckedCreateNestedManyWithoutTenantInput
+  consignacionOrdenes?: Prisma.ConsignacionOrdenUncheckedCreateNestedManyWithoutTenantInput
+  consignaciones?: Prisma.ConsignacionEfectivoUncheckedCreateNestedManyWithoutTenantInput
+  consultorios?: Prisma.ConsultorioUncheckedCreateNestedManyWithoutTenantInput
+  cuentasCobro?: Prisma.CuentaCobroUncheckedCreateNestedManyWithoutTenantInput
+  cuentasPago?: Prisma.CuentasPagoUncheckedCreateNestedManyWithoutTenantInput
+  declaraciones?: Prisma.DeclaracionEfectivoUncheckedCreateNestedManyWithoutTenantInput
+  direcciones?: Prisma.DireccionUncheckedCreateNestedManyWithoutTenantInput
+  egresos?: Prisma.EgresosUncheckedCreateNestedManyWithoutTenantInput
+  empresaMemberships?: Prisma.EmpresaMembershipUncheckedCreateNestedManyWithoutTenantInput
+  empresas?: Prisma.EmpresaUncheckedCreateNestedManyWithoutTenantInput
+  entidadesFinancieras?: Prisma.EntidadFinancieraUncheckedCreateNestedManyWithoutTenantInput
+  estadosServicio?: Prisma.EstadoServicioUncheckedCreateNestedManyWithoutTenantInput
+  evidenciasServicio?: Prisma.EvidenciaServicioUncheckedCreateNestedManyWithoutTenantInput
+  geolocalizaciones?: Prisma.GeolocalizacionUncheckedCreateNestedManyWithoutTenantInput
+  logsEvento?: Prisma.LogEventoUncheckedCreateNestedManyWithoutTenantInput
+  metodosPago?: Prisma.MetodoPagoUncheckedCreateNestedManyWithoutTenantInput
+  nominaDetalles?: Prisma.NominaDetalleUncheckedCreateNestedManyWithoutTenantInput
+  nominas?: Prisma.NominaUncheckedCreateNestedManyWithoutTenantInput
+  ordenesServicio?: Prisma.OrdenServicioUncheckedCreateNestedManyWithoutTenantInput
+  orgNodes?: Prisma.OrganizationNodeUncheckedCreateNestedManyWithoutTenantInput
+  paquetesAdquiridos?: Prisma.PaqueteAdquiridoUncheckedCreateNestedManyWithoutTenantInput
+  resetTokens?: Prisma.PasswordResetTokenUncheckedCreateNestedManyWithoutTenantInput
+  permisos?: Prisma.PermisoUncheckedCreateNestedManyWithoutTenantInput
+  picoPlaca?: Prisma.PicoPlacaUncheckedCreateNestedManyWithoutTenantInput
+  productos?: Prisma.ProductoUncheckedCreateNestedManyWithoutTenantInput
+  productosSolicitados?: Prisma.ProductoSolicitadoUncheckedCreateNestedManyWithoutTenantInput
+  proveedores?: Prisma.ProveedoresUncheckedCreateNestedManyWithoutTenantInput
+  referidos?: Prisma.ReferidosUncheckedCreateNestedManyWithoutTenantInput
+  servicios?: Prisma.ServicioUncheckedCreateNestedManyWithoutTenantInput
+  sesionesActividad?: Prisma.SesionActividadUncheckedCreateNestedManyWithoutTenantInput
+  subscription?: Prisma.SubscriptionUncheckedCreateNestedOneWithoutTenantInput
+  sugerencias?: Prisma.SugerenciaSeguimientoUncheckedCreateNestedManyWithoutTenantInput
+  memberships?: Prisma.TenantMembershipUncheckedCreateNestedManyWithoutTenantInput
+  terapiasPsicologos?: Prisma.TerapiasPsicologosUncheckedCreateNestedManyWithoutTenantInput
+  tiposInteres?: Prisma.TipoInteresUncheckedCreateNestedManyWithoutTenantInput
+  tiposServicio?: Prisma.TipoServicioUncheckedCreateNestedManyWithoutTenantInput
+  turnos?: Prisma.TurnoUncheckedCreateNestedManyWithoutTenantInput
+  vehiculos?: Prisma.VehiculoUncheckedCreateNestedManyWithoutTenantInput
+  zonas?: Prisma.ZonaUncheckedCreateNestedManyWithoutTenantInput
+}
+
+export type TenantCreateOrConnectWithoutDashboardPresetsInput = {
+  where: Prisma.TenantWhereUniqueInput
+  create: Prisma.XOR<Prisma.TenantCreateWithoutDashboardPresetsInput, Prisma.TenantUncheckedCreateWithoutDashboardPresetsInput>
+}
+
+export type TenantUpsertWithoutDashboardPresetsInput = {
+  update: Prisma.XOR<Prisma.TenantUpdateWithoutDashboardPresetsInput, Prisma.TenantUncheckedUpdateWithoutDashboardPresetsInput>
+  create: Prisma.XOR<Prisma.TenantCreateWithoutDashboardPresetsInput, Prisma.TenantUncheckedCreateWithoutDashboardPresetsInput>
+  where?: Prisma.TenantWhereInput
+}
+
+export type TenantUpdateToOneWithWhereWithoutDashboardPresetsInput = {
+  where?: Prisma.TenantWhereInput
+  data: Prisma.XOR<Prisma.TenantUpdateWithoutDashboardPresetsInput, Prisma.TenantUncheckedUpdateWithoutDashboardPresetsInput>
+}
+
+export type TenantUpdateWithoutDashboardPresetsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  correo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  nit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  nombre?: Prisma.StringFieldUpdateOperationsInput | string
+  numero?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pagina?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  anticipos?: Prisma.AnticiposUpdateManyWithoutTenantNestedInput
+  auditorias?: Prisma.AuditoriaUpdateManyWithoutTenantNestedInput
+  authSessions?: Prisma.AuthSessionUpdateManyWithoutTenantNestedInput
+  citasPsicologos?: Prisma.CitasPsicologosUpdateManyWithoutTenantNestedInput
+  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaUpdateManyWithoutTenantNestedInput
+  clientes?: Prisma.ClienteUpdateManyWithoutTenantNestedInput
+  commissions?: Prisma.CommissionRecordUpdateManyWithoutTenantNestedInput
+  configuracionPagos?: Prisma.ConfiguracionPagosUpdateManyWithoutTenantNestedInput
+  consignacionOrdenes?: Prisma.ConsignacionOrdenUpdateManyWithoutTenantNestedInput
+  consignaciones?: Prisma.ConsignacionEfectivoUpdateManyWithoutTenantNestedInput
+  consultorios?: Prisma.ConsultorioUpdateManyWithoutTenantNestedInput
+  cuentasCobro?: Prisma.CuentaCobroUpdateManyWithoutTenantNestedInput
+  cuentasPago?: Prisma.CuentasPagoUpdateManyWithoutTenantNestedInput
+  declaraciones?: Prisma.DeclaracionEfectivoUpdateManyWithoutTenantNestedInput
+  direcciones?: Prisma.DireccionUpdateManyWithoutTenantNestedInput
+  egresos?: Prisma.EgresosUpdateManyWithoutTenantNestedInput
+  empresaMemberships?: Prisma.EmpresaMembershipUpdateManyWithoutTenantNestedInput
+  empresas?: Prisma.EmpresaUpdateManyWithoutTenantNestedInput
+  entidadesFinancieras?: Prisma.EntidadFinancieraUpdateManyWithoutTenantNestedInput
+  estadosServicio?: Prisma.EstadoServicioUpdateManyWithoutTenantNestedInput
+  evidenciasServicio?: Prisma.EvidenciaServicioUpdateManyWithoutTenantNestedInput
+  geolocalizaciones?: Prisma.GeolocalizacionUpdateManyWithoutTenantNestedInput
+  logsEvento?: Prisma.LogEventoUpdateManyWithoutTenantNestedInput
+  metodosPago?: Prisma.MetodoPagoUpdateManyWithoutTenantNestedInput
+  nominaDetalles?: Prisma.NominaDetalleUpdateManyWithoutTenantNestedInput
+  nominas?: Prisma.NominaUpdateManyWithoutTenantNestedInput
+  ordenesServicio?: Prisma.OrdenServicioUpdateManyWithoutTenantNestedInput
+  orgNodes?: Prisma.OrganizationNodeUpdateManyWithoutTenantNestedInput
+  paquetesAdquiridos?: Prisma.PaqueteAdquiridoUpdateManyWithoutTenantNestedInput
+  resetTokens?: Prisma.PasswordResetTokenUpdateManyWithoutTenantNestedInput
+  permisos?: Prisma.PermisoUpdateManyWithoutTenantNestedInput
+  picoPlaca?: Prisma.PicoPlacaUpdateManyWithoutTenantNestedInput
+  productos?: Prisma.ProductoUpdateManyWithoutTenantNestedInput
+  productosSolicitados?: Prisma.ProductoSolicitadoUpdateManyWithoutTenantNestedInput
+  proveedores?: Prisma.ProveedoresUpdateManyWithoutTenantNestedInput
+  referidos?: Prisma.ReferidosUpdateManyWithoutTenantNestedInput
+  servicios?: Prisma.ServicioUpdateManyWithoutTenantNestedInput
+  sesionesActividad?: Prisma.SesionActividadUpdateManyWithoutTenantNestedInput
+  subscription?: Prisma.SubscriptionUpdateOneWithoutTenantNestedInput
+  sugerencias?: Prisma.SugerenciaSeguimientoUpdateManyWithoutTenantNestedInput
+  memberships?: Prisma.TenantMembershipUpdateManyWithoutTenantNestedInput
+  terapiasPsicologos?: Prisma.TerapiasPsicologosUpdateManyWithoutTenantNestedInput
+  tiposInteres?: Prisma.TipoInteresUpdateManyWithoutTenantNestedInput
+  tiposServicio?: Prisma.TipoServicioUpdateManyWithoutTenantNestedInput
+  turnos?: Prisma.TurnoUpdateManyWithoutTenantNestedInput
+  vehiculos?: Prisma.VehiculoUpdateManyWithoutTenantNestedInput
+  zonas?: Prisma.ZonaUpdateManyWithoutTenantNestedInput
+}
+
+export type TenantUncheckedUpdateWithoutDashboardPresetsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  correo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  nit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  nombre?: Prisma.StringFieldUpdateOperationsInput | string
+  numero?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pagina?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  anticipos?: Prisma.AnticiposUncheckedUpdateManyWithoutTenantNestedInput
+  auditorias?: Prisma.AuditoriaUncheckedUpdateManyWithoutTenantNestedInput
+  authSessions?: Prisma.AuthSessionUncheckedUpdateManyWithoutTenantNestedInput
+  citasPsicologos?: Prisma.CitasPsicologosUncheckedUpdateManyWithoutTenantNestedInput
+  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaUncheckedUpdateManyWithoutTenantNestedInput
+  clientes?: Prisma.ClienteUncheckedUpdateManyWithoutTenantNestedInput
+  commissions?: Prisma.CommissionRecordUncheckedUpdateManyWithoutTenantNestedInput
+  configuracionPagos?: Prisma.ConfiguracionPagosUncheckedUpdateManyWithoutTenantNestedInput
+  consignacionOrdenes?: Prisma.ConsignacionOrdenUncheckedUpdateManyWithoutTenantNestedInput
+  consignaciones?: Prisma.ConsignacionEfectivoUncheckedUpdateManyWithoutTenantNestedInput
+  consultorios?: Prisma.ConsultorioUncheckedUpdateManyWithoutTenantNestedInput
+  cuentasCobro?: Prisma.CuentaCobroUncheckedUpdateManyWithoutTenantNestedInput
+  cuentasPago?: Prisma.CuentasPagoUncheckedUpdateManyWithoutTenantNestedInput
+  declaraciones?: Prisma.DeclaracionEfectivoUncheckedUpdateManyWithoutTenantNestedInput
+  direcciones?: Prisma.DireccionUncheckedUpdateManyWithoutTenantNestedInput
+  egresos?: Prisma.EgresosUncheckedUpdateManyWithoutTenantNestedInput
+  empresaMemberships?: Prisma.EmpresaMembershipUncheckedUpdateManyWithoutTenantNestedInput
+  empresas?: Prisma.EmpresaUncheckedUpdateManyWithoutTenantNestedInput
+  entidadesFinancieras?: Prisma.EntidadFinancieraUncheckedUpdateManyWithoutTenantNestedInput
+  estadosServicio?: Prisma.EstadoServicioUncheckedUpdateManyWithoutTenantNestedInput
+  evidenciasServicio?: Prisma.EvidenciaServicioUncheckedUpdateManyWithoutTenantNestedInput
+  geolocalizaciones?: Prisma.GeolocalizacionUncheckedUpdateManyWithoutTenantNestedInput
+  logsEvento?: Prisma.LogEventoUncheckedUpdateManyWithoutTenantNestedInput
+  metodosPago?: Prisma.MetodoPagoUncheckedUpdateManyWithoutTenantNestedInput
+  nominaDetalles?: Prisma.NominaDetalleUncheckedUpdateManyWithoutTenantNestedInput
+  nominas?: Prisma.NominaUncheckedUpdateManyWithoutTenantNestedInput
+  ordenesServicio?: Prisma.OrdenServicioUncheckedUpdateManyWithoutTenantNestedInput
+  orgNodes?: Prisma.OrganizationNodeUncheckedUpdateManyWithoutTenantNestedInput
+  paquetesAdquiridos?: Prisma.PaqueteAdquiridoUncheckedUpdateManyWithoutTenantNestedInput
+  resetTokens?: Prisma.PasswordResetTokenUncheckedUpdateManyWithoutTenantNestedInput
+  permisos?: Prisma.PermisoUncheckedUpdateManyWithoutTenantNestedInput
+  picoPlaca?: Prisma.PicoPlacaUncheckedUpdateManyWithoutTenantNestedInput
+  productos?: Prisma.ProductoUncheckedUpdateManyWithoutTenantNestedInput
+  productosSolicitados?: Prisma.ProductoSolicitadoUncheckedUpdateManyWithoutTenantNestedInput
+  proveedores?: Prisma.ProveedoresUncheckedUpdateManyWithoutTenantNestedInput
+  referidos?: Prisma.ReferidosUncheckedUpdateManyWithoutTenantNestedInput
+  servicios?: Prisma.ServicioUncheckedUpdateManyWithoutTenantNestedInput
+  sesionesActividad?: Prisma.SesionActividadUncheckedUpdateManyWithoutTenantNestedInput
+  subscription?: Prisma.SubscriptionUncheckedUpdateOneWithoutTenantNestedInput
+  sugerencias?: Prisma.SugerenciaSeguimientoUncheckedUpdateManyWithoutTenantNestedInput
+  memberships?: Prisma.TenantMembershipUncheckedUpdateManyWithoutTenantNestedInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUncheckedUpdateManyWithoutTenantNestedInput
   tiposInteres?: Prisma.TipoInteresUncheckedUpdateManyWithoutTenantNestedInput
   tiposServicio?: Prisma.TipoServicioUncheckedUpdateManyWithoutTenantNestedInput
@@ -1977,6 +2262,7 @@ export type TenantCreateWithoutEmpresasInput = {
   turnos?: Prisma.TurnoCreateNestedManyWithoutTenantInput
   vehiculos?: Prisma.VehiculoCreateNestedManyWithoutTenantInput
   zonas?: Prisma.ZonaCreateNestedManyWithoutTenantInput
+  dashboardPresets?: Prisma.DashboardPresetCreateNestedManyWithoutTenantInput
 }
 
 export type TenantUncheckedCreateWithoutEmpresasInput = {
@@ -2036,6 +2322,7 @@ export type TenantUncheckedCreateWithoutEmpresasInput = {
   turnos?: Prisma.TurnoUncheckedCreateNestedManyWithoutTenantInput
   vehiculos?: Prisma.VehiculoUncheckedCreateNestedManyWithoutTenantInput
   zonas?: Prisma.ZonaUncheckedCreateNestedManyWithoutTenantInput
+  dashboardPresets?: Prisma.DashboardPresetUncheckedCreateNestedManyWithoutTenantInput
 }
 
 export type TenantCreateOrConnectWithoutEmpresasInput = {
@@ -2111,6 +2398,7 @@ export type TenantUpdateWithoutEmpresasInput = {
   turnos?: Prisma.TurnoUpdateManyWithoutTenantNestedInput
   vehiculos?: Prisma.VehiculoUpdateManyWithoutTenantNestedInput
   zonas?: Prisma.ZonaUpdateManyWithoutTenantNestedInput
+  dashboardPresets?: Prisma.DashboardPresetUpdateManyWithoutTenantNestedInput
 }
 
 export type TenantUncheckedUpdateWithoutEmpresasInput = {
@@ -2170,6 +2458,7 @@ export type TenantUncheckedUpdateWithoutEmpresasInput = {
   turnos?: Prisma.TurnoUncheckedUpdateManyWithoutTenantNestedInput
   vehiculos?: Prisma.VehiculoUncheckedUpdateManyWithoutTenantNestedInput
   zonas?: Prisma.ZonaUncheckedUpdateManyWithoutTenantNestedInput
+  dashboardPresets?: Prisma.DashboardPresetUncheckedUpdateManyWithoutTenantNestedInput
 }
 
 export type TenantCreateWithoutEmpresaMembershipsInput = {
@@ -2229,6 +2518,7 @@ export type TenantCreateWithoutEmpresaMembershipsInput = {
   turnos?: Prisma.TurnoCreateNestedManyWithoutTenantInput
   vehiculos?: Prisma.VehiculoCreateNestedManyWithoutTenantInput
   zonas?: Prisma.ZonaCreateNestedManyWithoutTenantInput
+  dashboardPresets?: Prisma.DashboardPresetCreateNestedManyWithoutTenantInput
 }
 
 export type TenantUncheckedCreateWithoutEmpresaMembershipsInput = {
@@ -2288,6 +2578,7 @@ export type TenantUncheckedCreateWithoutEmpresaMembershipsInput = {
   turnos?: Prisma.TurnoUncheckedCreateNestedManyWithoutTenantInput
   vehiculos?: Prisma.VehiculoUncheckedCreateNestedManyWithoutTenantInput
   zonas?: Prisma.ZonaUncheckedCreateNestedManyWithoutTenantInput
+  dashboardPresets?: Prisma.DashboardPresetUncheckedCreateNestedManyWithoutTenantInput
 }
 
 export type TenantCreateOrConnectWithoutEmpresaMembershipsInput = {
@@ -2363,6 +2654,7 @@ export type TenantUpdateWithoutEmpresaMembershipsInput = {
   turnos?: Prisma.TurnoUpdateManyWithoutTenantNestedInput
   vehiculos?: Prisma.VehiculoUpdateManyWithoutTenantNestedInput
   zonas?: Prisma.ZonaUpdateManyWithoutTenantNestedInput
+  dashboardPresets?: Prisma.DashboardPresetUpdateManyWithoutTenantNestedInput
 }
 
 export type TenantUncheckedUpdateWithoutEmpresaMembershipsInput = {
@@ -2422,6 +2714,7 @@ export type TenantUncheckedUpdateWithoutEmpresaMembershipsInput = {
   turnos?: Prisma.TurnoUncheckedUpdateManyWithoutTenantNestedInput
   vehiculos?: Prisma.VehiculoUncheckedUpdateManyWithoutTenantNestedInput
   zonas?: Prisma.ZonaUncheckedUpdateManyWithoutTenantNestedInput
+  dashboardPresets?: Prisma.DashboardPresetUncheckedUpdateManyWithoutTenantNestedInput
 }
 
 export type TenantCreateWithoutOrgNodesInput = {
@@ -2481,6 +2774,7 @@ export type TenantCreateWithoutOrgNodesInput = {
   turnos?: Prisma.TurnoCreateNestedManyWithoutTenantInput
   vehiculos?: Prisma.VehiculoCreateNestedManyWithoutTenantInput
   zonas?: Prisma.ZonaCreateNestedManyWithoutTenantInput
+  dashboardPresets?: Prisma.DashboardPresetCreateNestedManyWithoutTenantInput
 }
 
 export type TenantUncheckedCreateWithoutOrgNodesInput = {
@@ -2540,6 +2834,7 @@ export type TenantUncheckedCreateWithoutOrgNodesInput = {
   turnos?: Prisma.TurnoUncheckedCreateNestedManyWithoutTenantInput
   vehiculos?: Prisma.VehiculoUncheckedCreateNestedManyWithoutTenantInput
   zonas?: Prisma.ZonaUncheckedCreateNestedManyWithoutTenantInput
+  dashboardPresets?: Prisma.DashboardPresetUncheckedCreateNestedManyWithoutTenantInput
 }
 
 export type TenantCreateOrConnectWithoutOrgNodesInput = {
@@ -2615,6 +2910,7 @@ export type TenantUpdateWithoutOrgNodesInput = {
   turnos?: Prisma.TurnoUpdateManyWithoutTenantNestedInput
   vehiculos?: Prisma.VehiculoUpdateManyWithoutTenantNestedInput
   zonas?: Prisma.ZonaUpdateManyWithoutTenantNestedInput
+  dashboardPresets?: Prisma.DashboardPresetUpdateManyWithoutTenantNestedInput
 }
 
 export type TenantUncheckedUpdateWithoutOrgNodesInput = {
@@ -2674,6 +2970,7 @@ export type TenantUncheckedUpdateWithoutOrgNodesInput = {
   turnos?: Prisma.TurnoUncheckedUpdateManyWithoutTenantNestedInput
   vehiculos?: Prisma.VehiculoUncheckedUpdateManyWithoutTenantNestedInput
   zonas?: Prisma.ZonaUncheckedUpdateManyWithoutTenantNestedInput
+  dashboardPresets?: Prisma.DashboardPresetUncheckedUpdateManyWithoutTenantNestedInput
 }
 
 export type TenantCreateWithoutCommissionsInput = {
@@ -2733,6 +3030,7 @@ export type TenantCreateWithoutCommissionsInput = {
   turnos?: Prisma.TurnoCreateNestedManyWithoutTenantInput
   vehiculos?: Prisma.VehiculoCreateNestedManyWithoutTenantInput
   zonas?: Prisma.ZonaCreateNestedManyWithoutTenantInput
+  dashboardPresets?: Prisma.DashboardPresetCreateNestedManyWithoutTenantInput
 }
 
 export type TenantUncheckedCreateWithoutCommissionsInput = {
@@ -2792,6 +3090,7 @@ export type TenantUncheckedCreateWithoutCommissionsInput = {
   turnos?: Prisma.TurnoUncheckedCreateNestedManyWithoutTenantInput
   vehiculos?: Prisma.VehiculoUncheckedCreateNestedManyWithoutTenantInput
   zonas?: Prisma.ZonaUncheckedCreateNestedManyWithoutTenantInput
+  dashboardPresets?: Prisma.DashboardPresetUncheckedCreateNestedManyWithoutTenantInput
 }
 
 export type TenantCreateOrConnectWithoutCommissionsInput = {
@@ -2867,6 +3166,7 @@ export type TenantUpdateWithoutCommissionsInput = {
   turnos?: Prisma.TurnoUpdateManyWithoutTenantNestedInput
   vehiculos?: Prisma.VehiculoUpdateManyWithoutTenantNestedInput
   zonas?: Prisma.ZonaUpdateManyWithoutTenantNestedInput
+  dashboardPresets?: Prisma.DashboardPresetUpdateManyWithoutTenantNestedInput
 }
 
 export type TenantUncheckedUpdateWithoutCommissionsInput = {
@@ -2926,6 +3226,7 @@ export type TenantUncheckedUpdateWithoutCommissionsInput = {
   turnos?: Prisma.TurnoUncheckedUpdateManyWithoutTenantNestedInput
   vehiculos?: Prisma.VehiculoUncheckedUpdateManyWithoutTenantNestedInput
   zonas?: Prisma.ZonaUncheckedUpdateManyWithoutTenantNestedInput
+  dashboardPresets?: Prisma.DashboardPresetUncheckedUpdateManyWithoutTenantNestedInput
 }
 
 export type TenantCreateWithoutTiposInteresInput = {
@@ -2985,6 +3286,7 @@ export type TenantCreateWithoutTiposInteresInput = {
   turnos?: Prisma.TurnoCreateNestedManyWithoutTenantInput
   vehiculos?: Prisma.VehiculoCreateNestedManyWithoutTenantInput
   zonas?: Prisma.ZonaCreateNestedManyWithoutTenantInput
+  dashboardPresets?: Prisma.DashboardPresetCreateNestedManyWithoutTenantInput
 }
 
 export type TenantUncheckedCreateWithoutTiposInteresInput = {
@@ -3044,6 +3346,7 @@ export type TenantUncheckedCreateWithoutTiposInteresInput = {
   turnos?: Prisma.TurnoUncheckedCreateNestedManyWithoutTenantInput
   vehiculos?: Prisma.VehiculoUncheckedCreateNestedManyWithoutTenantInput
   zonas?: Prisma.ZonaUncheckedCreateNestedManyWithoutTenantInput
+  dashboardPresets?: Prisma.DashboardPresetUncheckedCreateNestedManyWithoutTenantInput
 }
 
 export type TenantCreateOrConnectWithoutTiposInteresInput = {
@@ -3119,6 +3422,7 @@ export type TenantUpdateWithoutTiposInteresInput = {
   turnos?: Prisma.TurnoUpdateManyWithoutTenantNestedInput
   vehiculos?: Prisma.VehiculoUpdateManyWithoutTenantNestedInput
   zonas?: Prisma.ZonaUpdateManyWithoutTenantNestedInput
+  dashboardPresets?: Prisma.DashboardPresetUpdateManyWithoutTenantNestedInput
 }
 
 export type TenantUncheckedUpdateWithoutTiposInteresInput = {
@@ -3178,6 +3482,7 @@ export type TenantUncheckedUpdateWithoutTiposInteresInput = {
   turnos?: Prisma.TurnoUncheckedUpdateManyWithoutTenantNestedInput
   vehiculos?: Prisma.VehiculoUncheckedUpdateManyWithoutTenantNestedInput
   zonas?: Prisma.ZonaUncheckedUpdateManyWithoutTenantNestedInput
+  dashboardPresets?: Prisma.DashboardPresetUncheckedUpdateManyWithoutTenantNestedInput
 }
 
 export type TenantCreateWithoutClientesInput = {
@@ -3237,6 +3542,7 @@ export type TenantCreateWithoutClientesInput = {
   turnos?: Prisma.TurnoCreateNestedManyWithoutTenantInput
   vehiculos?: Prisma.VehiculoCreateNestedManyWithoutTenantInput
   zonas?: Prisma.ZonaCreateNestedManyWithoutTenantInput
+  dashboardPresets?: Prisma.DashboardPresetCreateNestedManyWithoutTenantInput
 }
 
 export type TenantUncheckedCreateWithoutClientesInput = {
@@ -3296,6 +3602,7 @@ export type TenantUncheckedCreateWithoutClientesInput = {
   turnos?: Prisma.TurnoUncheckedCreateNestedManyWithoutTenantInput
   vehiculos?: Prisma.VehiculoUncheckedCreateNestedManyWithoutTenantInput
   zonas?: Prisma.ZonaUncheckedCreateNestedManyWithoutTenantInput
+  dashboardPresets?: Prisma.DashboardPresetUncheckedCreateNestedManyWithoutTenantInput
 }
 
 export type TenantCreateOrConnectWithoutClientesInput = {
@@ -3371,6 +3678,7 @@ export type TenantUpdateWithoutClientesInput = {
   turnos?: Prisma.TurnoUpdateManyWithoutTenantNestedInput
   vehiculos?: Prisma.VehiculoUpdateManyWithoutTenantNestedInput
   zonas?: Prisma.ZonaUpdateManyWithoutTenantNestedInput
+  dashboardPresets?: Prisma.DashboardPresetUpdateManyWithoutTenantNestedInput
 }
 
 export type TenantUncheckedUpdateWithoutClientesInput = {
@@ -3430,6 +3738,7 @@ export type TenantUncheckedUpdateWithoutClientesInput = {
   turnos?: Prisma.TurnoUncheckedUpdateManyWithoutTenantNestedInput
   vehiculos?: Prisma.VehiculoUncheckedUpdateManyWithoutTenantNestedInput
   zonas?: Prisma.ZonaUncheckedUpdateManyWithoutTenantNestedInput
+  dashboardPresets?: Prisma.DashboardPresetUncheckedUpdateManyWithoutTenantNestedInput
 }
 
 export type TenantCreateWithoutVehiculosInput = {
@@ -3489,6 +3798,7 @@ export type TenantCreateWithoutVehiculosInput = {
   tiposServicio?: Prisma.TipoServicioCreateNestedManyWithoutTenantInput
   turnos?: Prisma.TurnoCreateNestedManyWithoutTenantInput
   zonas?: Prisma.ZonaCreateNestedManyWithoutTenantInput
+  dashboardPresets?: Prisma.DashboardPresetCreateNestedManyWithoutTenantInput
 }
 
 export type TenantUncheckedCreateWithoutVehiculosInput = {
@@ -3548,6 +3858,7 @@ export type TenantUncheckedCreateWithoutVehiculosInput = {
   tiposServicio?: Prisma.TipoServicioUncheckedCreateNestedManyWithoutTenantInput
   turnos?: Prisma.TurnoUncheckedCreateNestedManyWithoutTenantInput
   zonas?: Prisma.ZonaUncheckedCreateNestedManyWithoutTenantInput
+  dashboardPresets?: Prisma.DashboardPresetUncheckedCreateNestedManyWithoutTenantInput
 }
 
 export type TenantCreateOrConnectWithoutVehiculosInput = {
@@ -3623,6 +3934,7 @@ export type TenantUpdateWithoutVehiculosInput = {
   tiposServicio?: Prisma.TipoServicioUpdateManyWithoutTenantNestedInput
   turnos?: Prisma.TurnoUpdateManyWithoutTenantNestedInput
   zonas?: Prisma.ZonaUpdateManyWithoutTenantNestedInput
+  dashboardPresets?: Prisma.DashboardPresetUpdateManyWithoutTenantNestedInput
 }
 
 export type TenantUncheckedUpdateWithoutVehiculosInput = {
@@ -3682,6 +3994,7 @@ export type TenantUncheckedUpdateWithoutVehiculosInput = {
   tiposServicio?: Prisma.TipoServicioUncheckedUpdateManyWithoutTenantNestedInput
   turnos?: Prisma.TurnoUncheckedUpdateManyWithoutTenantNestedInput
   zonas?: Prisma.ZonaUncheckedUpdateManyWithoutTenantNestedInput
+  dashboardPresets?: Prisma.DashboardPresetUncheckedUpdateManyWithoutTenantNestedInput
 }
 
 export type TenantCreateWithoutDireccionesInput = {
@@ -3741,6 +4054,7 @@ export type TenantCreateWithoutDireccionesInput = {
   turnos?: Prisma.TurnoCreateNestedManyWithoutTenantInput
   vehiculos?: Prisma.VehiculoCreateNestedManyWithoutTenantInput
   zonas?: Prisma.ZonaCreateNestedManyWithoutTenantInput
+  dashboardPresets?: Prisma.DashboardPresetCreateNestedManyWithoutTenantInput
 }
 
 export type TenantUncheckedCreateWithoutDireccionesInput = {
@@ -3800,6 +4114,7 @@ export type TenantUncheckedCreateWithoutDireccionesInput = {
   turnos?: Prisma.TurnoUncheckedCreateNestedManyWithoutTenantInput
   vehiculos?: Prisma.VehiculoUncheckedCreateNestedManyWithoutTenantInput
   zonas?: Prisma.ZonaUncheckedCreateNestedManyWithoutTenantInput
+  dashboardPresets?: Prisma.DashboardPresetUncheckedCreateNestedManyWithoutTenantInput
 }
 
 export type TenantCreateOrConnectWithoutDireccionesInput = {
@@ -3875,6 +4190,7 @@ export type TenantUpdateWithoutDireccionesInput = {
   turnos?: Prisma.TurnoUpdateManyWithoutTenantNestedInput
   vehiculos?: Prisma.VehiculoUpdateManyWithoutTenantNestedInput
   zonas?: Prisma.ZonaUpdateManyWithoutTenantNestedInput
+  dashboardPresets?: Prisma.DashboardPresetUpdateManyWithoutTenantNestedInput
 }
 
 export type TenantUncheckedUpdateWithoutDireccionesInput = {
@@ -3934,6 +4250,7 @@ export type TenantUncheckedUpdateWithoutDireccionesInput = {
   turnos?: Prisma.TurnoUncheckedUpdateManyWithoutTenantNestedInput
   vehiculos?: Prisma.VehiculoUncheckedUpdateManyWithoutTenantNestedInput
   zonas?: Prisma.ZonaUncheckedUpdateManyWithoutTenantNestedInput
+  dashboardPresets?: Prisma.DashboardPresetUncheckedUpdateManyWithoutTenantNestedInput
 }
 
 export type TenantCreateWithoutZonasInput = {
@@ -3993,6 +4310,7 @@ export type TenantCreateWithoutZonasInput = {
   tiposServicio?: Prisma.TipoServicioCreateNestedManyWithoutTenantInput
   turnos?: Prisma.TurnoCreateNestedManyWithoutTenantInput
   vehiculos?: Prisma.VehiculoCreateNestedManyWithoutTenantInput
+  dashboardPresets?: Prisma.DashboardPresetCreateNestedManyWithoutTenantInput
 }
 
 export type TenantUncheckedCreateWithoutZonasInput = {
@@ -4052,6 +4370,7 @@ export type TenantUncheckedCreateWithoutZonasInput = {
   tiposServicio?: Prisma.TipoServicioUncheckedCreateNestedManyWithoutTenantInput
   turnos?: Prisma.TurnoUncheckedCreateNestedManyWithoutTenantInput
   vehiculos?: Prisma.VehiculoUncheckedCreateNestedManyWithoutTenantInput
+  dashboardPresets?: Prisma.DashboardPresetUncheckedCreateNestedManyWithoutTenantInput
 }
 
 export type TenantCreateOrConnectWithoutZonasInput = {
@@ -4127,6 +4446,7 @@ export type TenantUpdateWithoutZonasInput = {
   tiposServicio?: Prisma.TipoServicioUpdateManyWithoutTenantNestedInput
   turnos?: Prisma.TurnoUpdateManyWithoutTenantNestedInput
   vehiculos?: Prisma.VehiculoUpdateManyWithoutTenantNestedInput
+  dashboardPresets?: Prisma.DashboardPresetUpdateManyWithoutTenantNestedInput
 }
 
 export type TenantUncheckedUpdateWithoutZonasInput = {
@@ -4186,6 +4506,7 @@ export type TenantUncheckedUpdateWithoutZonasInput = {
   tiposServicio?: Prisma.TipoServicioUncheckedUpdateManyWithoutTenantNestedInput
   turnos?: Prisma.TurnoUncheckedUpdateManyWithoutTenantNestedInput
   vehiculos?: Prisma.VehiculoUncheckedUpdateManyWithoutTenantNestedInput
+  dashboardPresets?: Prisma.DashboardPresetUncheckedUpdateManyWithoutTenantNestedInput
 }
 
 export type TenantCreateWithoutServiciosInput = {
@@ -4245,6 +4566,7 @@ export type TenantCreateWithoutServiciosInput = {
   turnos?: Prisma.TurnoCreateNestedManyWithoutTenantInput
   vehiculos?: Prisma.VehiculoCreateNestedManyWithoutTenantInput
   zonas?: Prisma.ZonaCreateNestedManyWithoutTenantInput
+  dashboardPresets?: Prisma.DashboardPresetCreateNestedManyWithoutTenantInput
 }
 
 export type TenantUncheckedCreateWithoutServiciosInput = {
@@ -4304,6 +4626,7 @@ export type TenantUncheckedCreateWithoutServiciosInput = {
   turnos?: Prisma.TurnoUncheckedCreateNestedManyWithoutTenantInput
   vehiculos?: Prisma.VehiculoUncheckedCreateNestedManyWithoutTenantInput
   zonas?: Prisma.ZonaUncheckedCreateNestedManyWithoutTenantInput
+  dashboardPresets?: Prisma.DashboardPresetUncheckedCreateNestedManyWithoutTenantInput
 }
 
 export type TenantCreateOrConnectWithoutServiciosInput = {
@@ -4379,6 +4702,7 @@ export type TenantUpdateWithoutServiciosInput = {
   turnos?: Prisma.TurnoUpdateManyWithoutTenantNestedInput
   vehiculos?: Prisma.VehiculoUpdateManyWithoutTenantNestedInput
   zonas?: Prisma.ZonaUpdateManyWithoutTenantNestedInput
+  dashboardPresets?: Prisma.DashboardPresetUpdateManyWithoutTenantNestedInput
 }
 
 export type TenantUncheckedUpdateWithoutServiciosInput = {
@@ -4438,6 +4762,7 @@ export type TenantUncheckedUpdateWithoutServiciosInput = {
   turnos?: Prisma.TurnoUncheckedUpdateManyWithoutTenantNestedInput
   vehiculos?: Prisma.VehiculoUncheckedUpdateManyWithoutTenantNestedInput
   zonas?: Prisma.ZonaUncheckedUpdateManyWithoutTenantNestedInput
+  dashboardPresets?: Prisma.DashboardPresetUncheckedUpdateManyWithoutTenantNestedInput
 }
 
 export type TenantCreateWithoutTiposServicioInput = {
@@ -4497,6 +4822,7 @@ export type TenantCreateWithoutTiposServicioInput = {
   turnos?: Prisma.TurnoCreateNestedManyWithoutTenantInput
   vehiculos?: Prisma.VehiculoCreateNestedManyWithoutTenantInput
   zonas?: Prisma.ZonaCreateNestedManyWithoutTenantInput
+  dashboardPresets?: Prisma.DashboardPresetCreateNestedManyWithoutTenantInput
 }
 
 export type TenantUncheckedCreateWithoutTiposServicioInput = {
@@ -4556,6 +4882,7 @@ export type TenantUncheckedCreateWithoutTiposServicioInput = {
   turnos?: Prisma.TurnoUncheckedCreateNestedManyWithoutTenantInput
   vehiculos?: Prisma.VehiculoUncheckedCreateNestedManyWithoutTenantInput
   zonas?: Prisma.ZonaUncheckedCreateNestedManyWithoutTenantInput
+  dashboardPresets?: Prisma.DashboardPresetUncheckedCreateNestedManyWithoutTenantInput
 }
 
 export type TenantCreateOrConnectWithoutTiposServicioInput = {
@@ -4631,6 +4958,7 @@ export type TenantUpdateWithoutTiposServicioInput = {
   turnos?: Prisma.TurnoUpdateManyWithoutTenantNestedInput
   vehiculos?: Prisma.VehiculoUpdateManyWithoutTenantNestedInput
   zonas?: Prisma.ZonaUpdateManyWithoutTenantNestedInput
+  dashboardPresets?: Prisma.DashboardPresetUpdateManyWithoutTenantNestedInput
 }
 
 export type TenantUncheckedUpdateWithoutTiposServicioInput = {
@@ -4690,6 +5018,7 @@ export type TenantUncheckedUpdateWithoutTiposServicioInput = {
   turnos?: Prisma.TurnoUncheckedUpdateManyWithoutTenantNestedInput
   vehiculos?: Prisma.VehiculoUncheckedUpdateManyWithoutTenantNestedInput
   zonas?: Prisma.ZonaUncheckedUpdateManyWithoutTenantNestedInput
+  dashboardPresets?: Prisma.DashboardPresetUncheckedUpdateManyWithoutTenantNestedInput
 }
 
 export type TenantCreateWithoutMetodosPagoInput = {
@@ -4749,6 +5078,7 @@ export type TenantCreateWithoutMetodosPagoInput = {
   turnos?: Prisma.TurnoCreateNestedManyWithoutTenantInput
   vehiculos?: Prisma.VehiculoCreateNestedManyWithoutTenantInput
   zonas?: Prisma.ZonaCreateNestedManyWithoutTenantInput
+  dashboardPresets?: Prisma.DashboardPresetCreateNestedManyWithoutTenantInput
 }
 
 export type TenantUncheckedCreateWithoutMetodosPagoInput = {
@@ -4808,6 +5138,7 @@ export type TenantUncheckedCreateWithoutMetodosPagoInput = {
   turnos?: Prisma.TurnoUncheckedCreateNestedManyWithoutTenantInput
   vehiculos?: Prisma.VehiculoUncheckedCreateNestedManyWithoutTenantInput
   zonas?: Prisma.ZonaUncheckedCreateNestedManyWithoutTenantInput
+  dashboardPresets?: Prisma.DashboardPresetUncheckedCreateNestedManyWithoutTenantInput
 }
 
 export type TenantCreateOrConnectWithoutMetodosPagoInput = {
@@ -4883,6 +5214,7 @@ export type TenantUpdateWithoutMetodosPagoInput = {
   turnos?: Prisma.TurnoUpdateManyWithoutTenantNestedInput
   vehiculos?: Prisma.VehiculoUpdateManyWithoutTenantNestedInput
   zonas?: Prisma.ZonaUpdateManyWithoutTenantNestedInput
+  dashboardPresets?: Prisma.DashboardPresetUpdateManyWithoutTenantNestedInput
 }
 
 export type TenantUncheckedUpdateWithoutMetodosPagoInput = {
@@ -4942,6 +5274,7 @@ export type TenantUncheckedUpdateWithoutMetodosPagoInput = {
   turnos?: Prisma.TurnoUncheckedUpdateManyWithoutTenantNestedInput
   vehiculos?: Prisma.VehiculoUncheckedUpdateManyWithoutTenantNestedInput
   zonas?: Prisma.ZonaUncheckedUpdateManyWithoutTenantNestedInput
+  dashboardPresets?: Prisma.DashboardPresetUncheckedUpdateManyWithoutTenantNestedInput
 }
 
 export type TenantCreateWithoutEstadosServicioInput = {
@@ -5001,6 +5334,7 @@ export type TenantCreateWithoutEstadosServicioInput = {
   turnos?: Prisma.TurnoCreateNestedManyWithoutTenantInput
   vehiculos?: Prisma.VehiculoCreateNestedManyWithoutTenantInput
   zonas?: Prisma.ZonaCreateNestedManyWithoutTenantInput
+  dashboardPresets?: Prisma.DashboardPresetCreateNestedManyWithoutTenantInput
 }
 
 export type TenantUncheckedCreateWithoutEstadosServicioInput = {
@@ -5060,6 +5394,7 @@ export type TenantUncheckedCreateWithoutEstadosServicioInput = {
   turnos?: Prisma.TurnoUncheckedCreateNestedManyWithoutTenantInput
   vehiculos?: Prisma.VehiculoUncheckedCreateNestedManyWithoutTenantInput
   zonas?: Prisma.ZonaUncheckedCreateNestedManyWithoutTenantInput
+  dashboardPresets?: Prisma.DashboardPresetUncheckedCreateNestedManyWithoutTenantInput
 }
 
 export type TenantCreateOrConnectWithoutEstadosServicioInput = {
@@ -5135,6 +5470,7 @@ export type TenantUpdateWithoutEstadosServicioInput = {
   turnos?: Prisma.TurnoUpdateManyWithoutTenantNestedInput
   vehiculos?: Prisma.VehiculoUpdateManyWithoutTenantNestedInput
   zonas?: Prisma.ZonaUpdateManyWithoutTenantNestedInput
+  dashboardPresets?: Prisma.DashboardPresetUpdateManyWithoutTenantNestedInput
 }
 
 export type TenantUncheckedUpdateWithoutEstadosServicioInput = {
@@ -5194,6 +5530,7 @@ export type TenantUncheckedUpdateWithoutEstadosServicioInput = {
   turnos?: Prisma.TurnoUncheckedUpdateManyWithoutTenantNestedInput
   vehiculos?: Prisma.VehiculoUncheckedUpdateManyWithoutTenantNestedInput
   zonas?: Prisma.ZonaUncheckedUpdateManyWithoutTenantNestedInput
+  dashboardPresets?: Prisma.DashboardPresetUncheckedUpdateManyWithoutTenantNestedInput
 }
 
 export type TenantCreateWithoutOrdenesServicioInput = {
@@ -5253,6 +5590,7 @@ export type TenantCreateWithoutOrdenesServicioInput = {
   turnos?: Prisma.TurnoCreateNestedManyWithoutTenantInput
   vehiculos?: Prisma.VehiculoCreateNestedManyWithoutTenantInput
   zonas?: Prisma.ZonaCreateNestedManyWithoutTenantInput
+  dashboardPresets?: Prisma.DashboardPresetCreateNestedManyWithoutTenantInput
 }
 
 export type TenantUncheckedCreateWithoutOrdenesServicioInput = {
@@ -5312,6 +5650,7 @@ export type TenantUncheckedCreateWithoutOrdenesServicioInput = {
   turnos?: Prisma.TurnoUncheckedCreateNestedManyWithoutTenantInput
   vehiculos?: Prisma.VehiculoUncheckedCreateNestedManyWithoutTenantInput
   zonas?: Prisma.ZonaUncheckedCreateNestedManyWithoutTenantInput
+  dashboardPresets?: Prisma.DashboardPresetUncheckedCreateNestedManyWithoutTenantInput
 }
 
 export type TenantCreateOrConnectWithoutOrdenesServicioInput = {
@@ -5387,6 +5726,7 @@ export type TenantUpdateWithoutOrdenesServicioInput = {
   turnos?: Prisma.TurnoUpdateManyWithoutTenantNestedInput
   vehiculos?: Prisma.VehiculoUpdateManyWithoutTenantNestedInput
   zonas?: Prisma.ZonaUpdateManyWithoutTenantNestedInput
+  dashboardPresets?: Prisma.DashboardPresetUpdateManyWithoutTenantNestedInput
 }
 
 export type TenantUncheckedUpdateWithoutOrdenesServicioInput = {
@@ -5446,6 +5786,7 @@ export type TenantUncheckedUpdateWithoutOrdenesServicioInput = {
   turnos?: Prisma.TurnoUncheckedUpdateManyWithoutTenantNestedInput
   vehiculos?: Prisma.VehiculoUncheckedUpdateManyWithoutTenantNestedInput
   zonas?: Prisma.ZonaUncheckedUpdateManyWithoutTenantNestedInput
+  dashboardPresets?: Prisma.DashboardPresetUncheckedUpdateManyWithoutTenantNestedInput
 }
 
 export type TenantCreateWithoutEntidadesFinancierasInput = {
@@ -5505,6 +5846,7 @@ export type TenantCreateWithoutEntidadesFinancierasInput = {
   turnos?: Prisma.TurnoCreateNestedManyWithoutTenantInput
   vehiculos?: Prisma.VehiculoCreateNestedManyWithoutTenantInput
   zonas?: Prisma.ZonaCreateNestedManyWithoutTenantInput
+  dashboardPresets?: Prisma.DashboardPresetCreateNestedManyWithoutTenantInput
 }
 
 export type TenantUncheckedCreateWithoutEntidadesFinancierasInput = {
@@ -5564,6 +5906,7 @@ export type TenantUncheckedCreateWithoutEntidadesFinancierasInput = {
   turnos?: Prisma.TurnoUncheckedCreateNestedManyWithoutTenantInput
   vehiculos?: Prisma.VehiculoUncheckedCreateNestedManyWithoutTenantInput
   zonas?: Prisma.ZonaUncheckedCreateNestedManyWithoutTenantInput
+  dashboardPresets?: Prisma.DashboardPresetUncheckedCreateNestedManyWithoutTenantInput
 }
 
 export type TenantCreateOrConnectWithoutEntidadesFinancierasInput = {
@@ -5639,6 +5982,7 @@ export type TenantUpdateWithoutEntidadesFinancierasInput = {
   turnos?: Prisma.TurnoUpdateManyWithoutTenantNestedInput
   vehiculos?: Prisma.VehiculoUpdateManyWithoutTenantNestedInput
   zonas?: Prisma.ZonaUpdateManyWithoutTenantNestedInput
+  dashboardPresets?: Prisma.DashboardPresetUpdateManyWithoutTenantNestedInput
 }
 
 export type TenantUncheckedUpdateWithoutEntidadesFinancierasInput = {
@@ -5698,6 +6042,7 @@ export type TenantUncheckedUpdateWithoutEntidadesFinancierasInput = {
   turnos?: Prisma.TurnoUncheckedUpdateManyWithoutTenantNestedInput
   vehiculos?: Prisma.VehiculoUncheckedUpdateManyWithoutTenantNestedInput
   zonas?: Prisma.ZonaUncheckedUpdateManyWithoutTenantNestedInput
+  dashboardPresets?: Prisma.DashboardPresetUncheckedUpdateManyWithoutTenantNestedInput
 }
 
 export type TenantCreateWithoutGeolocalizacionesInput = {
@@ -5757,6 +6102,7 @@ export type TenantCreateWithoutGeolocalizacionesInput = {
   turnos?: Prisma.TurnoCreateNestedManyWithoutTenantInput
   vehiculos?: Prisma.VehiculoCreateNestedManyWithoutTenantInput
   zonas?: Prisma.ZonaCreateNestedManyWithoutTenantInput
+  dashboardPresets?: Prisma.DashboardPresetCreateNestedManyWithoutTenantInput
 }
 
 export type TenantUncheckedCreateWithoutGeolocalizacionesInput = {
@@ -5816,6 +6162,7 @@ export type TenantUncheckedCreateWithoutGeolocalizacionesInput = {
   turnos?: Prisma.TurnoUncheckedCreateNestedManyWithoutTenantInput
   vehiculos?: Prisma.VehiculoUncheckedCreateNestedManyWithoutTenantInput
   zonas?: Prisma.ZonaUncheckedCreateNestedManyWithoutTenantInput
+  dashboardPresets?: Prisma.DashboardPresetUncheckedCreateNestedManyWithoutTenantInput
 }
 
 export type TenantCreateOrConnectWithoutGeolocalizacionesInput = {
@@ -5891,6 +6238,7 @@ export type TenantUpdateWithoutGeolocalizacionesInput = {
   turnos?: Prisma.TurnoUpdateManyWithoutTenantNestedInput
   vehiculos?: Prisma.VehiculoUpdateManyWithoutTenantNestedInput
   zonas?: Prisma.ZonaUpdateManyWithoutTenantNestedInput
+  dashboardPresets?: Prisma.DashboardPresetUpdateManyWithoutTenantNestedInput
 }
 
 export type TenantUncheckedUpdateWithoutGeolocalizacionesInput = {
@@ -5950,6 +6298,7 @@ export type TenantUncheckedUpdateWithoutGeolocalizacionesInput = {
   turnos?: Prisma.TurnoUncheckedUpdateManyWithoutTenantNestedInput
   vehiculos?: Prisma.VehiculoUncheckedUpdateManyWithoutTenantNestedInput
   zonas?: Prisma.ZonaUncheckedUpdateManyWithoutTenantNestedInput
+  dashboardPresets?: Prisma.DashboardPresetUncheckedUpdateManyWithoutTenantNestedInput
 }
 
 export type TenantCreateWithoutNominasInput = {
@@ -6009,6 +6358,7 @@ export type TenantCreateWithoutNominasInput = {
   turnos?: Prisma.TurnoCreateNestedManyWithoutTenantInput
   vehiculos?: Prisma.VehiculoCreateNestedManyWithoutTenantInput
   zonas?: Prisma.ZonaCreateNestedManyWithoutTenantInput
+  dashboardPresets?: Prisma.DashboardPresetCreateNestedManyWithoutTenantInput
 }
 
 export type TenantUncheckedCreateWithoutNominasInput = {
@@ -6068,6 +6418,7 @@ export type TenantUncheckedCreateWithoutNominasInput = {
   turnos?: Prisma.TurnoUncheckedCreateNestedManyWithoutTenantInput
   vehiculos?: Prisma.VehiculoUncheckedCreateNestedManyWithoutTenantInput
   zonas?: Prisma.ZonaUncheckedCreateNestedManyWithoutTenantInput
+  dashboardPresets?: Prisma.DashboardPresetUncheckedCreateNestedManyWithoutTenantInput
 }
 
 export type TenantCreateOrConnectWithoutNominasInput = {
@@ -6143,6 +6494,7 @@ export type TenantUpdateWithoutNominasInput = {
   turnos?: Prisma.TurnoUpdateManyWithoutTenantNestedInput
   vehiculos?: Prisma.VehiculoUpdateManyWithoutTenantNestedInput
   zonas?: Prisma.ZonaUpdateManyWithoutTenantNestedInput
+  dashboardPresets?: Prisma.DashboardPresetUpdateManyWithoutTenantNestedInput
 }
 
 export type TenantUncheckedUpdateWithoutNominasInput = {
@@ -6202,6 +6554,7 @@ export type TenantUncheckedUpdateWithoutNominasInput = {
   turnos?: Prisma.TurnoUncheckedUpdateManyWithoutTenantNestedInput
   vehiculos?: Prisma.VehiculoUncheckedUpdateManyWithoutTenantNestedInput
   zonas?: Prisma.ZonaUncheckedUpdateManyWithoutTenantNestedInput
+  dashboardPresets?: Prisma.DashboardPresetUncheckedUpdateManyWithoutTenantNestedInput
 }
 
 export type TenantCreateWithoutNominaDetallesInput = {
@@ -6261,6 +6614,7 @@ export type TenantCreateWithoutNominaDetallesInput = {
   turnos?: Prisma.TurnoCreateNestedManyWithoutTenantInput
   vehiculos?: Prisma.VehiculoCreateNestedManyWithoutTenantInput
   zonas?: Prisma.ZonaCreateNestedManyWithoutTenantInput
+  dashboardPresets?: Prisma.DashboardPresetCreateNestedManyWithoutTenantInput
 }
 
 export type TenantUncheckedCreateWithoutNominaDetallesInput = {
@@ -6320,6 +6674,7 @@ export type TenantUncheckedCreateWithoutNominaDetallesInput = {
   turnos?: Prisma.TurnoUncheckedCreateNestedManyWithoutTenantInput
   vehiculos?: Prisma.VehiculoUncheckedCreateNestedManyWithoutTenantInput
   zonas?: Prisma.ZonaUncheckedCreateNestedManyWithoutTenantInput
+  dashboardPresets?: Prisma.DashboardPresetUncheckedCreateNestedManyWithoutTenantInput
 }
 
 export type TenantCreateOrConnectWithoutNominaDetallesInput = {
@@ -6395,6 +6750,7 @@ export type TenantUpdateWithoutNominaDetallesInput = {
   turnos?: Prisma.TurnoUpdateManyWithoutTenantNestedInput
   vehiculos?: Prisma.VehiculoUpdateManyWithoutTenantNestedInput
   zonas?: Prisma.ZonaUpdateManyWithoutTenantNestedInput
+  dashboardPresets?: Prisma.DashboardPresetUpdateManyWithoutTenantNestedInput
 }
 
 export type TenantUncheckedUpdateWithoutNominaDetallesInput = {
@@ -6454,6 +6810,7 @@ export type TenantUncheckedUpdateWithoutNominaDetallesInput = {
   turnos?: Prisma.TurnoUncheckedUpdateManyWithoutTenantNestedInput
   vehiculos?: Prisma.VehiculoUncheckedUpdateManyWithoutTenantNestedInput
   zonas?: Prisma.ZonaUncheckedUpdateManyWithoutTenantNestedInput
+  dashboardPresets?: Prisma.DashboardPresetUncheckedUpdateManyWithoutTenantNestedInput
 }
 
 export type TenantCreateWithoutCitasPsicologosInput = {
@@ -6513,6 +6870,7 @@ export type TenantCreateWithoutCitasPsicologosInput = {
   turnos?: Prisma.TurnoCreateNestedManyWithoutTenantInput
   vehiculos?: Prisma.VehiculoCreateNestedManyWithoutTenantInput
   zonas?: Prisma.ZonaCreateNestedManyWithoutTenantInput
+  dashboardPresets?: Prisma.DashboardPresetCreateNestedManyWithoutTenantInput
 }
 
 export type TenantUncheckedCreateWithoutCitasPsicologosInput = {
@@ -6572,6 +6930,7 @@ export type TenantUncheckedCreateWithoutCitasPsicologosInput = {
   turnos?: Prisma.TurnoUncheckedCreateNestedManyWithoutTenantInput
   vehiculos?: Prisma.VehiculoUncheckedCreateNestedManyWithoutTenantInput
   zonas?: Prisma.ZonaUncheckedCreateNestedManyWithoutTenantInput
+  dashboardPresets?: Prisma.DashboardPresetUncheckedCreateNestedManyWithoutTenantInput
 }
 
 export type TenantCreateOrConnectWithoutCitasPsicologosInput = {
@@ -6647,6 +7006,7 @@ export type TenantUpdateWithoutCitasPsicologosInput = {
   turnos?: Prisma.TurnoUpdateManyWithoutTenantNestedInput
   vehiculos?: Prisma.VehiculoUpdateManyWithoutTenantNestedInput
   zonas?: Prisma.ZonaUpdateManyWithoutTenantNestedInput
+  dashboardPresets?: Prisma.DashboardPresetUpdateManyWithoutTenantNestedInput
 }
 
 export type TenantUncheckedUpdateWithoutCitasPsicologosInput = {
@@ -6706,6 +7066,7 @@ export type TenantUncheckedUpdateWithoutCitasPsicologosInput = {
   turnos?: Prisma.TurnoUncheckedUpdateManyWithoutTenantNestedInput
   vehiculos?: Prisma.VehiculoUncheckedUpdateManyWithoutTenantNestedInput
   zonas?: Prisma.ZonaUncheckedUpdateManyWithoutTenantNestedInput
+  dashboardPresets?: Prisma.DashboardPresetUncheckedUpdateManyWithoutTenantNestedInput
 }
 
 export type TenantCreateWithoutConsultoriosInput = {
@@ -6765,6 +7126,7 @@ export type TenantCreateWithoutConsultoriosInput = {
   turnos?: Prisma.TurnoCreateNestedManyWithoutTenantInput
   vehiculos?: Prisma.VehiculoCreateNestedManyWithoutTenantInput
   zonas?: Prisma.ZonaCreateNestedManyWithoutTenantInput
+  dashboardPresets?: Prisma.DashboardPresetCreateNestedManyWithoutTenantInput
 }
 
 export type TenantUncheckedCreateWithoutConsultoriosInput = {
@@ -6824,6 +7186,7 @@ export type TenantUncheckedCreateWithoutConsultoriosInput = {
   turnos?: Prisma.TurnoUncheckedCreateNestedManyWithoutTenantInput
   vehiculos?: Prisma.VehiculoUncheckedCreateNestedManyWithoutTenantInput
   zonas?: Prisma.ZonaUncheckedCreateNestedManyWithoutTenantInput
+  dashboardPresets?: Prisma.DashboardPresetUncheckedCreateNestedManyWithoutTenantInput
 }
 
 export type TenantCreateOrConnectWithoutConsultoriosInput = {
@@ -6899,6 +7262,7 @@ export type TenantUpdateWithoutConsultoriosInput = {
   turnos?: Prisma.TurnoUpdateManyWithoutTenantNestedInput
   vehiculos?: Prisma.VehiculoUpdateManyWithoutTenantNestedInput
   zonas?: Prisma.ZonaUpdateManyWithoutTenantNestedInput
+  dashboardPresets?: Prisma.DashboardPresetUpdateManyWithoutTenantNestedInput
 }
 
 export type TenantUncheckedUpdateWithoutConsultoriosInput = {
@@ -6958,6 +7322,7 @@ export type TenantUncheckedUpdateWithoutConsultoriosInput = {
   turnos?: Prisma.TurnoUncheckedUpdateManyWithoutTenantNestedInput
   vehiculos?: Prisma.VehiculoUncheckedUpdateManyWithoutTenantNestedInput
   zonas?: Prisma.ZonaUncheckedUpdateManyWithoutTenantNestedInput
+  dashboardPresets?: Prisma.DashboardPresetUncheckedUpdateManyWithoutTenantNestedInput
 }
 
 export type TenantCreateWithoutTerapiasPsicologosInput = {
@@ -7017,6 +7382,7 @@ export type TenantCreateWithoutTerapiasPsicologosInput = {
   turnos?: Prisma.TurnoCreateNestedManyWithoutTenantInput
   vehiculos?: Prisma.VehiculoCreateNestedManyWithoutTenantInput
   zonas?: Prisma.ZonaCreateNestedManyWithoutTenantInput
+  dashboardPresets?: Prisma.DashboardPresetCreateNestedManyWithoutTenantInput
 }
 
 export type TenantUncheckedCreateWithoutTerapiasPsicologosInput = {
@@ -7076,6 +7442,7 @@ export type TenantUncheckedCreateWithoutTerapiasPsicologosInput = {
   turnos?: Prisma.TurnoUncheckedCreateNestedManyWithoutTenantInput
   vehiculos?: Prisma.VehiculoUncheckedCreateNestedManyWithoutTenantInput
   zonas?: Prisma.ZonaUncheckedCreateNestedManyWithoutTenantInput
+  dashboardPresets?: Prisma.DashboardPresetUncheckedCreateNestedManyWithoutTenantInput
 }
 
 export type TenantCreateOrConnectWithoutTerapiasPsicologosInput = {
@@ -7151,6 +7518,7 @@ export type TenantUpdateWithoutTerapiasPsicologosInput = {
   turnos?: Prisma.TurnoUpdateManyWithoutTenantNestedInput
   vehiculos?: Prisma.VehiculoUpdateManyWithoutTenantNestedInput
   zonas?: Prisma.ZonaUpdateManyWithoutTenantNestedInput
+  dashboardPresets?: Prisma.DashboardPresetUpdateManyWithoutTenantNestedInput
 }
 
 export type TenantUncheckedUpdateWithoutTerapiasPsicologosInput = {
@@ -7210,6 +7578,7 @@ export type TenantUncheckedUpdateWithoutTerapiasPsicologosInput = {
   turnos?: Prisma.TurnoUncheckedUpdateManyWithoutTenantNestedInput
   vehiculos?: Prisma.VehiculoUncheckedUpdateManyWithoutTenantNestedInput
   zonas?: Prisma.ZonaUncheckedUpdateManyWithoutTenantNestedInput
+  dashboardPresets?: Prisma.DashboardPresetUncheckedUpdateManyWithoutTenantNestedInput
 }
 
 export type TenantCreateWithoutPaquetesAdquiridosInput = {
@@ -7269,6 +7638,7 @@ export type TenantCreateWithoutPaquetesAdquiridosInput = {
   turnos?: Prisma.TurnoCreateNestedManyWithoutTenantInput
   vehiculos?: Prisma.VehiculoCreateNestedManyWithoutTenantInput
   zonas?: Prisma.ZonaCreateNestedManyWithoutTenantInput
+  dashboardPresets?: Prisma.DashboardPresetCreateNestedManyWithoutTenantInput
 }
 
 export type TenantUncheckedCreateWithoutPaquetesAdquiridosInput = {
@@ -7328,6 +7698,7 @@ export type TenantUncheckedCreateWithoutPaquetesAdquiridosInput = {
   turnos?: Prisma.TurnoUncheckedCreateNestedManyWithoutTenantInput
   vehiculos?: Prisma.VehiculoUncheckedCreateNestedManyWithoutTenantInput
   zonas?: Prisma.ZonaUncheckedCreateNestedManyWithoutTenantInput
+  dashboardPresets?: Prisma.DashboardPresetUncheckedCreateNestedManyWithoutTenantInput
 }
 
 export type TenantCreateOrConnectWithoutPaquetesAdquiridosInput = {
@@ -7403,6 +7774,7 @@ export type TenantUpdateWithoutPaquetesAdquiridosInput = {
   turnos?: Prisma.TurnoUpdateManyWithoutTenantNestedInput
   vehiculos?: Prisma.VehiculoUpdateManyWithoutTenantNestedInput
   zonas?: Prisma.ZonaUpdateManyWithoutTenantNestedInput
+  dashboardPresets?: Prisma.DashboardPresetUpdateManyWithoutTenantNestedInput
 }
 
 export type TenantUncheckedUpdateWithoutPaquetesAdquiridosInput = {
@@ -7462,6 +7834,7 @@ export type TenantUncheckedUpdateWithoutPaquetesAdquiridosInput = {
   turnos?: Prisma.TurnoUncheckedUpdateManyWithoutTenantNestedInput
   vehiculos?: Prisma.VehiculoUncheckedUpdateManyWithoutTenantNestedInput
   zonas?: Prisma.ZonaUncheckedUpdateManyWithoutTenantNestedInput
+  dashboardPresets?: Prisma.DashboardPresetUncheckedUpdateManyWithoutTenantNestedInput
 }
 
 export type TenantCreateWithoutTurnosInput = {
@@ -7521,6 +7894,7 @@ export type TenantCreateWithoutTurnosInput = {
   tiposServicio?: Prisma.TipoServicioCreateNestedManyWithoutTenantInput
   vehiculos?: Prisma.VehiculoCreateNestedManyWithoutTenantInput
   zonas?: Prisma.ZonaCreateNestedManyWithoutTenantInput
+  dashboardPresets?: Prisma.DashboardPresetCreateNestedManyWithoutTenantInput
 }
 
 export type TenantUncheckedCreateWithoutTurnosInput = {
@@ -7580,6 +7954,7 @@ export type TenantUncheckedCreateWithoutTurnosInput = {
   tiposServicio?: Prisma.TipoServicioUncheckedCreateNestedManyWithoutTenantInput
   vehiculos?: Prisma.VehiculoUncheckedCreateNestedManyWithoutTenantInput
   zonas?: Prisma.ZonaUncheckedCreateNestedManyWithoutTenantInput
+  dashboardPresets?: Prisma.DashboardPresetUncheckedCreateNestedManyWithoutTenantInput
 }
 
 export type TenantCreateOrConnectWithoutTurnosInput = {
@@ -7655,6 +8030,7 @@ export type TenantUpdateWithoutTurnosInput = {
   tiposServicio?: Prisma.TipoServicioUpdateManyWithoutTenantNestedInput
   vehiculos?: Prisma.VehiculoUpdateManyWithoutTenantNestedInput
   zonas?: Prisma.ZonaUpdateManyWithoutTenantNestedInput
+  dashboardPresets?: Prisma.DashboardPresetUpdateManyWithoutTenantNestedInput
 }
 
 export type TenantUncheckedUpdateWithoutTurnosInput = {
@@ -7714,6 +8090,7 @@ export type TenantUncheckedUpdateWithoutTurnosInput = {
   tiposServicio?: Prisma.TipoServicioUncheckedUpdateManyWithoutTenantNestedInput
   vehiculos?: Prisma.VehiculoUncheckedUpdateManyWithoutTenantNestedInput
   zonas?: Prisma.ZonaUncheckedUpdateManyWithoutTenantNestedInput
+  dashboardPresets?: Prisma.DashboardPresetUncheckedUpdateManyWithoutTenantNestedInput
 }
 
 export type TenantCreateWithoutCuentasCobroInput = {
@@ -7773,6 +8150,7 @@ export type TenantCreateWithoutCuentasCobroInput = {
   turnos?: Prisma.TurnoCreateNestedManyWithoutTenantInput
   vehiculos?: Prisma.VehiculoCreateNestedManyWithoutTenantInput
   zonas?: Prisma.ZonaCreateNestedManyWithoutTenantInput
+  dashboardPresets?: Prisma.DashboardPresetCreateNestedManyWithoutTenantInput
 }
 
 export type TenantUncheckedCreateWithoutCuentasCobroInput = {
@@ -7832,6 +8210,7 @@ export type TenantUncheckedCreateWithoutCuentasCobroInput = {
   turnos?: Prisma.TurnoUncheckedCreateNestedManyWithoutTenantInput
   vehiculos?: Prisma.VehiculoUncheckedCreateNestedManyWithoutTenantInput
   zonas?: Prisma.ZonaUncheckedCreateNestedManyWithoutTenantInput
+  dashboardPresets?: Prisma.DashboardPresetUncheckedCreateNestedManyWithoutTenantInput
 }
 
 export type TenantCreateOrConnectWithoutCuentasCobroInput = {
@@ -7907,6 +8286,7 @@ export type TenantUpdateWithoutCuentasCobroInput = {
   turnos?: Prisma.TurnoUpdateManyWithoutTenantNestedInput
   vehiculos?: Prisma.VehiculoUpdateManyWithoutTenantNestedInput
   zonas?: Prisma.ZonaUpdateManyWithoutTenantNestedInput
+  dashboardPresets?: Prisma.DashboardPresetUpdateManyWithoutTenantNestedInput
 }
 
 export type TenantUncheckedUpdateWithoutCuentasCobroInput = {
@@ -7966,6 +8346,7 @@ export type TenantUncheckedUpdateWithoutCuentasCobroInput = {
   turnos?: Prisma.TurnoUncheckedUpdateManyWithoutTenantNestedInput
   vehiculos?: Prisma.VehiculoUncheckedUpdateManyWithoutTenantNestedInput
   zonas?: Prisma.ZonaUncheckedUpdateManyWithoutTenantNestedInput
+  dashboardPresets?: Prisma.DashboardPresetUncheckedUpdateManyWithoutTenantNestedInput
 }
 
 export type TenantCreateWithoutDeclaracionesInput = {
@@ -8025,6 +8406,7 @@ export type TenantCreateWithoutDeclaracionesInput = {
   turnos?: Prisma.TurnoCreateNestedManyWithoutTenantInput
   vehiculos?: Prisma.VehiculoCreateNestedManyWithoutTenantInput
   zonas?: Prisma.ZonaCreateNestedManyWithoutTenantInput
+  dashboardPresets?: Prisma.DashboardPresetCreateNestedManyWithoutTenantInput
 }
 
 export type TenantUncheckedCreateWithoutDeclaracionesInput = {
@@ -8084,6 +8466,7 @@ export type TenantUncheckedCreateWithoutDeclaracionesInput = {
   turnos?: Prisma.TurnoUncheckedCreateNestedManyWithoutTenantInput
   vehiculos?: Prisma.VehiculoUncheckedCreateNestedManyWithoutTenantInput
   zonas?: Prisma.ZonaUncheckedCreateNestedManyWithoutTenantInput
+  dashboardPresets?: Prisma.DashboardPresetUncheckedCreateNestedManyWithoutTenantInput
 }
 
 export type TenantCreateOrConnectWithoutDeclaracionesInput = {
@@ -8159,6 +8542,7 @@ export type TenantUpdateWithoutDeclaracionesInput = {
   turnos?: Prisma.TurnoUpdateManyWithoutTenantNestedInput
   vehiculos?: Prisma.VehiculoUpdateManyWithoutTenantNestedInput
   zonas?: Prisma.ZonaUpdateManyWithoutTenantNestedInput
+  dashboardPresets?: Prisma.DashboardPresetUpdateManyWithoutTenantNestedInput
 }
 
 export type TenantUncheckedUpdateWithoutDeclaracionesInput = {
@@ -8218,6 +8602,7 @@ export type TenantUncheckedUpdateWithoutDeclaracionesInput = {
   turnos?: Prisma.TurnoUncheckedUpdateManyWithoutTenantNestedInput
   vehiculos?: Prisma.VehiculoUncheckedUpdateManyWithoutTenantNestedInput
   zonas?: Prisma.ZonaUncheckedUpdateManyWithoutTenantNestedInput
+  dashboardPresets?: Prisma.DashboardPresetUncheckedUpdateManyWithoutTenantNestedInput
 }
 
 export type TenantCreateWithoutConsignacionesInput = {
@@ -8277,6 +8662,7 @@ export type TenantCreateWithoutConsignacionesInput = {
   turnos?: Prisma.TurnoCreateNestedManyWithoutTenantInput
   vehiculos?: Prisma.VehiculoCreateNestedManyWithoutTenantInput
   zonas?: Prisma.ZonaCreateNestedManyWithoutTenantInput
+  dashboardPresets?: Prisma.DashboardPresetCreateNestedManyWithoutTenantInput
 }
 
 export type TenantUncheckedCreateWithoutConsignacionesInput = {
@@ -8336,6 +8722,7 @@ export type TenantUncheckedCreateWithoutConsignacionesInput = {
   turnos?: Prisma.TurnoUncheckedCreateNestedManyWithoutTenantInput
   vehiculos?: Prisma.VehiculoUncheckedCreateNestedManyWithoutTenantInput
   zonas?: Prisma.ZonaUncheckedCreateNestedManyWithoutTenantInput
+  dashboardPresets?: Prisma.DashboardPresetUncheckedCreateNestedManyWithoutTenantInput
 }
 
 export type TenantCreateOrConnectWithoutConsignacionesInput = {
@@ -8411,6 +8798,7 @@ export type TenantUpdateWithoutConsignacionesInput = {
   turnos?: Prisma.TurnoUpdateManyWithoutTenantNestedInput
   vehiculos?: Prisma.VehiculoUpdateManyWithoutTenantNestedInput
   zonas?: Prisma.ZonaUpdateManyWithoutTenantNestedInput
+  dashboardPresets?: Prisma.DashboardPresetUpdateManyWithoutTenantNestedInput
 }
 
 export type TenantUncheckedUpdateWithoutConsignacionesInput = {
@@ -8470,6 +8858,7 @@ export type TenantUncheckedUpdateWithoutConsignacionesInput = {
   turnos?: Prisma.TurnoUncheckedUpdateManyWithoutTenantNestedInput
   vehiculos?: Prisma.VehiculoUncheckedUpdateManyWithoutTenantNestedInput
   zonas?: Prisma.ZonaUncheckedUpdateManyWithoutTenantNestedInput
+  dashboardPresets?: Prisma.DashboardPresetUncheckedUpdateManyWithoutTenantNestedInput
 }
 
 export type TenantCreateWithoutConsignacionOrdenesInput = {
@@ -8529,6 +8918,7 @@ export type TenantCreateWithoutConsignacionOrdenesInput = {
   turnos?: Prisma.TurnoCreateNestedManyWithoutTenantInput
   vehiculos?: Prisma.VehiculoCreateNestedManyWithoutTenantInput
   zonas?: Prisma.ZonaCreateNestedManyWithoutTenantInput
+  dashboardPresets?: Prisma.DashboardPresetCreateNestedManyWithoutTenantInput
 }
 
 export type TenantUncheckedCreateWithoutConsignacionOrdenesInput = {
@@ -8588,6 +8978,7 @@ export type TenantUncheckedCreateWithoutConsignacionOrdenesInput = {
   turnos?: Prisma.TurnoUncheckedCreateNestedManyWithoutTenantInput
   vehiculos?: Prisma.VehiculoUncheckedCreateNestedManyWithoutTenantInput
   zonas?: Prisma.ZonaUncheckedCreateNestedManyWithoutTenantInput
+  dashboardPresets?: Prisma.DashboardPresetUncheckedCreateNestedManyWithoutTenantInput
 }
 
 export type TenantCreateOrConnectWithoutConsignacionOrdenesInput = {
@@ -8663,6 +9054,7 @@ export type TenantUpdateWithoutConsignacionOrdenesInput = {
   turnos?: Prisma.TurnoUpdateManyWithoutTenantNestedInput
   vehiculos?: Prisma.VehiculoUpdateManyWithoutTenantNestedInput
   zonas?: Prisma.ZonaUpdateManyWithoutTenantNestedInput
+  dashboardPresets?: Prisma.DashboardPresetUpdateManyWithoutTenantNestedInput
 }
 
 export type TenantUncheckedUpdateWithoutConsignacionOrdenesInput = {
@@ -8722,6 +9114,7 @@ export type TenantUncheckedUpdateWithoutConsignacionOrdenesInput = {
   turnos?: Prisma.TurnoUncheckedUpdateManyWithoutTenantNestedInput
   vehiculos?: Prisma.VehiculoUncheckedUpdateManyWithoutTenantNestedInput
   zonas?: Prisma.ZonaUncheckedUpdateManyWithoutTenantNestedInput
+  dashboardPresets?: Prisma.DashboardPresetUncheckedUpdateManyWithoutTenantNestedInput
 }
 
 export type TenantCreateWithoutAnticiposInput = {
@@ -8781,6 +9174,7 @@ export type TenantCreateWithoutAnticiposInput = {
   turnos?: Prisma.TurnoCreateNestedManyWithoutTenantInput
   vehiculos?: Prisma.VehiculoCreateNestedManyWithoutTenantInput
   zonas?: Prisma.ZonaCreateNestedManyWithoutTenantInput
+  dashboardPresets?: Prisma.DashboardPresetCreateNestedManyWithoutTenantInput
 }
 
 export type TenantUncheckedCreateWithoutAnticiposInput = {
@@ -8840,6 +9234,7 @@ export type TenantUncheckedCreateWithoutAnticiposInput = {
   turnos?: Prisma.TurnoUncheckedCreateNestedManyWithoutTenantInput
   vehiculos?: Prisma.VehiculoUncheckedCreateNestedManyWithoutTenantInput
   zonas?: Prisma.ZonaUncheckedCreateNestedManyWithoutTenantInput
+  dashboardPresets?: Prisma.DashboardPresetUncheckedCreateNestedManyWithoutTenantInput
 }
 
 export type TenantCreateOrConnectWithoutAnticiposInput = {
@@ -8915,6 +9310,7 @@ export type TenantUpdateWithoutAnticiposInput = {
   turnos?: Prisma.TurnoUpdateManyWithoutTenantNestedInput
   vehiculos?: Prisma.VehiculoUpdateManyWithoutTenantNestedInput
   zonas?: Prisma.ZonaUpdateManyWithoutTenantNestedInput
+  dashboardPresets?: Prisma.DashboardPresetUpdateManyWithoutTenantNestedInput
 }
 
 export type TenantUncheckedUpdateWithoutAnticiposInput = {
@@ -8974,6 +9370,7 @@ export type TenantUncheckedUpdateWithoutAnticiposInput = {
   turnos?: Prisma.TurnoUncheckedUpdateManyWithoutTenantNestedInput
   vehiculos?: Prisma.VehiculoUncheckedUpdateManyWithoutTenantNestedInput
   zonas?: Prisma.ZonaUncheckedUpdateManyWithoutTenantNestedInput
+  dashboardPresets?: Prisma.DashboardPresetUncheckedUpdateManyWithoutTenantNestedInput
 }
 
 export type TenantCreateWithoutProductosInput = {
@@ -9033,6 +9430,7 @@ export type TenantCreateWithoutProductosInput = {
   turnos?: Prisma.TurnoCreateNestedManyWithoutTenantInput
   vehiculos?: Prisma.VehiculoCreateNestedManyWithoutTenantInput
   zonas?: Prisma.ZonaCreateNestedManyWithoutTenantInput
+  dashboardPresets?: Prisma.DashboardPresetCreateNestedManyWithoutTenantInput
 }
 
 export type TenantUncheckedCreateWithoutProductosInput = {
@@ -9092,6 +9490,7 @@ export type TenantUncheckedCreateWithoutProductosInput = {
   turnos?: Prisma.TurnoUncheckedCreateNestedManyWithoutTenantInput
   vehiculos?: Prisma.VehiculoUncheckedCreateNestedManyWithoutTenantInput
   zonas?: Prisma.ZonaUncheckedCreateNestedManyWithoutTenantInput
+  dashboardPresets?: Prisma.DashboardPresetUncheckedCreateNestedManyWithoutTenantInput
 }
 
 export type TenantCreateOrConnectWithoutProductosInput = {
@@ -9167,6 +9566,7 @@ export type TenantUpdateWithoutProductosInput = {
   turnos?: Prisma.TurnoUpdateManyWithoutTenantNestedInput
   vehiculos?: Prisma.VehiculoUpdateManyWithoutTenantNestedInput
   zonas?: Prisma.ZonaUpdateManyWithoutTenantNestedInput
+  dashboardPresets?: Prisma.DashboardPresetUpdateManyWithoutTenantNestedInput
 }
 
 export type TenantUncheckedUpdateWithoutProductosInput = {
@@ -9226,6 +9626,7 @@ export type TenantUncheckedUpdateWithoutProductosInput = {
   turnos?: Prisma.TurnoUncheckedUpdateManyWithoutTenantNestedInput
   vehiculos?: Prisma.VehiculoUncheckedUpdateManyWithoutTenantNestedInput
   zonas?: Prisma.ZonaUncheckedUpdateManyWithoutTenantNestedInput
+  dashboardPresets?: Prisma.DashboardPresetUncheckedUpdateManyWithoutTenantNestedInput
 }
 
 export type TenantCreateWithoutProductosSolicitadosInput = {
@@ -9285,6 +9686,7 @@ export type TenantCreateWithoutProductosSolicitadosInput = {
   turnos?: Prisma.TurnoCreateNestedManyWithoutTenantInput
   vehiculos?: Prisma.VehiculoCreateNestedManyWithoutTenantInput
   zonas?: Prisma.ZonaCreateNestedManyWithoutTenantInput
+  dashboardPresets?: Prisma.DashboardPresetCreateNestedManyWithoutTenantInput
 }
 
 export type TenantUncheckedCreateWithoutProductosSolicitadosInput = {
@@ -9344,6 +9746,7 @@ export type TenantUncheckedCreateWithoutProductosSolicitadosInput = {
   turnos?: Prisma.TurnoUncheckedCreateNestedManyWithoutTenantInput
   vehiculos?: Prisma.VehiculoUncheckedCreateNestedManyWithoutTenantInput
   zonas?: Prisma.ZonaUncheckedCreateNestedManyWithoutTenantInput
+  dashboardPresets?: Prisma.DashboardPresetUncheckedCreateNestedManyWithoutTenantInput
 }
 
 export type TenantCreateOrConnectWithoutProductosSolicitadosInput = {
@@ -9419,6 +9822,7 @@ export type TenantUpdateWithoutProductosSolicitadosInput = {
   turnos?: Prisma.TurnoUpdateManyWithoutTenantNestedInput
   vehiculos?: Prisma.VehiculoUpdateManyWithoutTenantNestedInput
   zonas?: Prisma.ZonaUpdateManyWithoutTenantNestedInput
+  dashboardPresets?: Prisma.DashboardPresetUpdateManyWithoutTenantNestedInput
 }
 
 export type TenantUncheckedUpdateWithoutProductosSolicitadosInput = {
@@ -9478,6 +9882,7 @@ export type TenantUncheckedUpdateWithoutProductosSolicitadosInput = {
   turnos?: Prisma.TurnoUncheckedUpdateManyWithoutTenantNestedInput
   vehiculos?: Prisma.VehiculoUncheckedUpdateManyWithoutTenantNestedInput
   zonas?: Prisma.ZonaUncheckedUpdateManyWithoutTenantNestedInput
+  dashboardPresets?: Prisma.DashboardPresetUncheckedUpdateManyWithoutTenantNestedInput
 }
 
 export type TenantCreateWithoutProveedoresInput = {
@@ -9537,6 +9942,7 @@ export type TenantCreateWithoutProveedoresInput = {
   turnos?: Prisma.TurnoCreateNestedManyWithoutTenantInput
   vehiculos?: Prisma.VehiculoCreateNestedManyWithoutTenantInput
   zonas?: Prisma.ZonaCreateNestedManyWithoutTenantInput
+  dashboardPresets?: Prisma.DashboardPresetCreateNestedManyWithoutTenantInput
 }
 
 export type TenantUncheckedCreateWithoutProveedoresInput = {
@@ -9596,6 +10002,7 @@ export type TenantUncheckedCreateWithoutProveedoresInput = {
   turnos?: Prisma.TurnoUncheckedCreateNestedManyWithoutTenantInput
   vehiculos?: Prisma.VehiculoUncheckedCreateNestedManyWithoutTenantInput
   zonas?: Prisma.ZonaUncheckedCreateNestedManyWithoutTenantInput
+  dashboardPresets?: Prisma.DashboardPresetUncheckedCreateNestedManyWithoutTenantInput
 }
 
 export type TenantCreateOrConnectWithoutProveedoresInput = {
@@ -9671,6 +10078,7 @@ export type TenantUpdateWithoutProveedoresInput = {
   turnos?: Prisma.TurnoUpdateManyWithoutTenantNestedInput
   vehiculos?: Prisma.VehiculoUpdateManyWithoutTenantNestedInput
   zonas?: Prisma.ZonaUpdateManyWithoutTenantNestedInput
+  dashboardPresets?: Prisma.DashboardPresetUpdateManyWithoutTenantNestedInput
 }
 
 export type TenantUncheckedUpdateWithoutProveedoresInput = {
@@ -9730,6 +10138,7 @@ export type TenantUncheckedUpdateWithoutProveedoresInput = {
   turnos?: Prisma.TurnoUncheckedUpdateManyWithoutTenantNestedInput
   vehiculos?: Prisma.VehiculoUncheckedUpdateManyWithoutTenantNestedInput
   zonas?: Prisma.ZonaUncheckedUpdateManyWithoutTenantNestedInput
+  dashboardPresets?: Prisma.DashboardPresetUncheckedUpdateManyWithoutTenantNestedInput
 }
 
 export type TenantCreateWithoutPermisosInput = {
@@ -9789,6 +10198,7 @@ export type TenantCreateWithoutPermisosInput = {
   turnos?: Prisma.TurnoCreateNestedManyWithoutTenantInput
   vehiculos?: Prisma.VehiculoCreateNestedManyWithoutTenantInput
   zonas?: Prisma.ZonaCreateNestedManyWithoutTenantInput
+  dashboardPresets?: Prisma.DashboardPresetCreateNestedManyWithoutTenantInput
 }
 
 export type TenantUncheckedCreateWithoutPermisosInput = {
@@ -9848,6 +10258,7 @@ export type TenantUncheckedCreateWithoutPermisosInput = {
   turnos?: Prisma.TurnoUncheckedCreateNestedManyWithoutTenantInput
   vehiculos?: Prisma.VehiculoUncheckedCreateNestedManyWithoutTenantInput
   zonas?: Prisma.ZonaUncheckedCreateNestedManyWithoutTenantInput
+  dashboardPresets?: Prisma.DashboardPresetUncheckedCreateNestedManyWithoutTenantInput
 }
 
 export type TenantCreateOrConnectWithoutPermisosInput = {
@@ -9923,6 +10334,7 @@ export type TenantUpdateWithoutPermisosInput = {
   turnos?: Prisma.TurnoUpdateManyWithoutTenantNestedInput
   vehiculos?: Prisma.VehiculoUpdateManyWithoutTenantNestedInput
   zonas?: Prisma.ZonaUpdateManyWithoutTenantNestedInput
+  dashboardPresets?: Prisma.DashboardPresetUpdateManyWithoutTenantNestedInput
 }
 
 export type TenantUncheckedUpdateWithoutPermisosInput = {
@@ -9982,6 +10394,7 @@ export type TenantUncheckedUpdateWithoutPermisosInput = {
   turnos?: Prisma.TurnoUncheckedUpdateManyWithoutTenantNestedInput
   vehiculos?: Prisma.VehiculoUncheckedUpdateManyWithoutTenantNestedInput
   zonas?: Prisma.ZonaUncheckedUpdateManyWithoutTenantNestedInput
+  dashboardPresets?: Prisma.DashboardPresetUncheckedUpdateManyWithoutTenantNestedInput
 }
 
 export type TenantCreateWithoutConfiguracionPagosInput = {
@@ -10041,6 +10454,7 @@ export type TenantCreateWithoutConfiguracionPagosInput = {
   turnos?: Prisma.TurnoCreateNestedManyWithoutTenantInput
   vehiculos?: Prisma.VehiculoCreateNestedManyWithoutTenantInput
   zonas?: Prisma.ZonaCreateNestedManyWithoutTenantInput
+  dashboardPresets?: Prisma.DashboardPresetCreateNestedManyWithoutTenantInput
 }
 
 export type TenantUncheckedCreateWithoutConfiguracionPagosInput = {
@@ -10100,6 +10514,7 @@ export type TenantUncheckedCreateWithoutConfiguracionPagosInput = {
   turnos?: Prisma.TurnoUncheckedCreateNestedManyWithoutTenantInput
   vehiculos?: Prisma.VehiculoUncheckedCreateNestedManyWithoutTenantInput
   zonas?: Prisma.ZonaUncheckedCreateNestedManyWithoutTenantInput
+  dashboardPresets?: Prisma.DashboardPresetUncheckedCreateNestedManyWithoutTenantInput
 }
 
 export type TenantCreateOrConnectWithoutConfiguracionPagosInput = {
@@ -10175,6 +10590,7 @@ export type TenantUpdateWithoutConfiguracionPagosInput = {
   turnos?: Prisma.TurnoUpdateManyWithoutTenantNestedInput
   vehiculos?: Prisma.VehiculoUpdateManyWithoutTenantNestedInput
   zonas?: Prisma.ZonaUpdateManyWithoutTenantNestedInput
+  dashboardPresets?: Prisma.DashboardPresetUpdateManyWithoutTenantNestedInput
 }
 
 export type TenantUncheckedUpdateWithoutConfiguracionPagosInput = {
@@ -10234,6 +10650,7 @@ export type TenantUncheckedUpdateWithoutConfiguracionPagosInput = {
   turnos?: Prisma.TurnoUncheckedUpdateManyWithoutTenantNestedInput
   vehiculos?: Prisma.VehiculoUncheckedUpdateManyWithoutTenantNestedInput
   zonas?: Prisma.ZonaUncheckedUpdateManyWithoutTenantNestedInput
+  dashboardPresets?: Prisma.DashboardPresetUncheckedUpdateManyWithoutTenantNestedInput
 }
 
 export type TenantCreateWithoutCuentasPagoInput = {
@@ -10293,6 +10710,7 @@ export type TenantCreateWithoutCuentasPagoInput = {
   turnos?: Prisma.TurnoCreateNestedManyWithoutTenantInput
   vehiculos?: Prisma.VehiculoCreateNestedManyWithoutTenantInput
   zonas?: Prisma.ZonaCreateNestedManyWithoutTenantInput
+  dashboardPresets?: Prisma.DashboardPresetCreateNestedManyWithoutTenantInput
 }
 
 export type TenantUncheckedCreateWithoutCuentasPagoInput = {
@@ -10352,6 +10770,7 @@ export type TenantUncheckedCreateWithoutCuentasPagoInput = {
   turnos?: Prisma.TurnoUncheckedCreateNestedManyWithoutTenantInput
   vehiculos?: Prisma.VehiculoUncheckedCreateNestedManyWithoutTenantInput
   zonas?: Prisma.ZonaUncheckedCreateNestedManyWithoutTenantInput
+  dashboardPresets?: Prisma.DashboardPresetUncheckedCreateNestedManyWithoutTenantInput
 }
 
 export type TenantCreateOrConnectWithoutCuentasPagoInput = {
@@ -10427,6 +10846,7 @@ export type TenantUpdateWithoutCuentasPagoInput = {
   turnos?: Prisma.TurnoUpdateManyWithoutTenantNestedInput
   vehiculos?: Prisma.VehiculoUpdateManyWithoutTenantNestedInput
   zonas?: Prisma.ZonaUpdateManyWithoutTenantNestedInput
+  dashboardPresets?: Prisma.DashboardPresetUpdateManyWithoutTenantNestedInput
 }
 
 export type TenantUncheckedUpdateWithoutCuentasPagoInput = {
@@ -10486,6 +10906,7 @@ export type TenantUncheckedUpdateWithoutCuentasPagoInput = {
   turnos?: Prisma.TurnoUncheckedUpdateManyWithoutTenantNestedInput
   vehiculos?: Prisma.VehiculoUncheckedUpdateManyWithoutTenantNestedInput
   zonas?: Prisma.ZonaUncheckedUpdateManyWithoutTenantNestedInput
+  dashboardPresets?: Prisma.DashboardPresetUncheckedUpdateManyWithoutTenantNestedInput
 }
 
 export type TenantCreateWithoutEgresosInput = {
@@ -10545,6 +10966,7 @@ export type TenantCreateWithoutEgresosInput = {
   turnos?: Prisma.TurnoCreateNestedManyWithoutTenantInput
   vehiculos?: Prisma.VehiculoCreateNestedManyWithoutTenantInput
   zonas?: Prisma.ZonaCreateNestedManyWithoutTenantInput
+  dashboardPresets?: Prisma.DashboardPresetCreateNestedManyWithoutTenantInput
 }
 
 export type TenantUncheckedCreateWithoutEgresosInput = {
@@ -10604,6 +11026,7 @@ export type TenantUncheckedCreateWithoutEgresosInput = {
   turnos?: Prisma.TurnoUncheckedCreateNestedManyWithoutTenantInput
   vehiculos?: Prisma.VehiculoUncheckedCreateNestedManyWithoutTenantInput
   zonas?: Prisma.ZonaUncheckedCreateNestedManyWithoutTenantInput
+  dashboardPresets?: Prisma.DashboardPresetUncheckedCreateNestedManyWithoutTenantInput
 }
 
 export type TenantCreateOrConnectWithoutEgresosInput = {
@@ -10679,6 +11102,7 @@ export type TenantUpdateWithoutEgresosInput = {
   turnos?: Prisma.TurnoUpdateManyWithoutTenantNestedInput
   vehiculos?: Prisma.VehiculoUpdateManyWithoutTenantNestedInput
   zonas?: Prisma.ZonaUpdateManyWithoutTenantNestedInput
+  dashboardPresets?: Prisma.DashboardPresetUpdateManyWithoutTenantNestedInput
 }
 
 export type TenantUncheckedUpdateWithoutEgresosInput = {
@@ -10738,6 +11162,7 @@ export type TenantUncheckedUpdateWithoutEgresosInput = {
   turnos?: Prisma.TurnoUncheckedUpdateManyWithoutTenantNestedInput
   vehiculos?: Prisma.VehiculoUncheckedUpdateManyWithoutTenantNestedInput
   zonas?: Prisma.ZonaUncheckedUpdateManyWithoutTenantNestedInput
+  dashboardPresets?: Prisma.DashboardPresetUncheckedUpdateManyWithoutTenantNestedInput
 }
 
 export type TenantCreateWithoutPicoPlacaInput = {
@@ -10797,6 +11222,7 @@ export type TenantCreateWithoutPicoPlacaInput = {
   turnos?: Prisma.TurnoCreateNestedManyWithoutTenantInput
   vehiculos?: Prisma.VehiculoCreateNestedManyWithoutTenantInput
   zonas?: Prisma.ZonaCreateNestedManyWithoutTenantInput
+  dashboardPresets?: Prisma.DashboardPresetCreateNestedManyWithoutTenantInput
 }
 
 export type TenantUncheckedCreateWithoutPicoPlacaInput = {
@@ -10856,6 +11282,7 @@ export type TenantUncheckedCreateWithoutPicoPlacaInput = {
   turnos?: Prisma.TurnoUncheckedCreateNestedManyWithoutTenantInput
   vehiculos?: Prisma.VehiculoUncheckedCreateNestedManyWithoutTenantInput
   zonas?: Prisma.ZonaUncheckedCreateNestedManyWithoutTenantInput
+  dashboardPresets?: Prisma.DashboardPresetUncheckedCreateNestedManyWithoutTenantInput
 }
 
 export type TenantCreateOrConnectWithoutPicoPlacaInput = {
@@ -10931,6 +11358,7 @@ export type TenantUpdateWithoutPicoPlacaInput = {
   turnos?: Prisma.TurnoUpdateManyWithoutTenantNestedInput
   vehiculos?: Prisma.VehiculoUpdateManyWithoutTenantNestedInput
   zonas?: Prisma.ZonaUpdateManyWithoutTenantNestedInput
+  dashboardPresets?: Prisma.DashboardPresetUpdateManyWithoutTenantNestedInput
 }
 
 export type TenantUncheckedUpdateWithoutPicoPlacaInput = {
@@ -10990,6 +11418,7 @@ export type TenantUncheckedUpdateWithoutPicoPlacaInput = {
   turnos?: Prisma.TurnoUncheckedUpdateManyWithoutTenantNestedInput
   vehiculos?: Prisma.VehiculoUncheckedUpdateManyWithoutTenantNestedInput
   zonas?: Prisma.ZonaUncheckedUpdateManyWithoutTenantNestedInput
+  dashboardPresets?: Prisma.DashboardPresetUncheckedUpdateManyWithoutTenantNestedInput
 }
 
 export type TenantCreateWithoutReferidosInput = {
@@ -11049,6 +11478,7 @@ export type TenantCreateWithoutReferidosInput = {
   turnos?: Prisma.TurnoCreateNestedManyWithoutTenantInput
   vehiculos?: Prisma.VehiculoCreateNestedManyWithoutTenantInput
   zonas?: Prisma.ZonaCreateNestedManyWithoutTenantInput
+  dashboardPresets?: Prisma.DashboardPresetCreateNestedManyWithoutTenantInput
 }
 
 export type TenantUncheckedCreateWithoutReferidosInput = {
@@ -11108,6 +11538,7 @@ export type TenantUncheckedCreateWithoutReferidosInput = {
   turnos?: Prisma.TurnoUncheckedCreateNestedManyWithoutTenantInput
   vehiculos?: Prisma.VehiculoUncheckedCreateNestedManyWithoutTenantInput
   zonas?: Prisma.ZonaUncheckedCreateNestedManyWithoutTenantInput
+  dashboardPresets?: Prisma.DashboardPresetUncheckedCreateNestedManyWithoutTenantInput
 }
 
 export type TenantCreateOrConnectWithoutReferidosInput = {
@@ -11183,6 +11614,7 @@ export type TenantUpdateWithoutReferidosInput = {
   turnos?: Prisma.TurnoUpdateManyWithoutTenantNestedInput
   vehiculos?: Prisma.VehiculoUpdateManyWithoutTenantNestedInput
   zonas?: Prisma.ZonaUpdateManyWithoutTenantNestedInput
+  dashboardPresets?: Prisma.DashboardPresetUpdateManyWithoutTenantNestedInput
 }
 
 export type TenantUncheckedUpdateWithoutReferidosInput = {
@@ -11242,6 +11674,7 @@ export type TenantUncheckedUpdateWithoutReferidosInput = {
   turnos?: Prisma.TurnoUncheckedUpdateManyWithoutTenantNestedInput
   vehiculos?: Prisma.VehiculoUncheckedUpdateManyWithoutTenantNestedInput
   zonas?: Prisma.ZonaUncheckedUpdateManyWithoutTenantNestedInput
+  dashboardPresets?: Prisma.DashboardPresetUncheckedUpdateManyWithoutTenantNestedInput
 }
 
 export type TenantCreateWithoutAuditoriasInput = {
@@ -11301,6 +11734,7 @@ export type TenantCreateWithoutAuditoriasInput = {
   turnos?: Prisma.TurnoCreateNestedManyWithoutTenantInput
   vehiculos?: Prisma.VehiculoCreateNestedManyWithoutTenantInput
   zonas?: Prisma.ZonaCreateNestedManyWithoutTenantInput
+  dashboardPresets?: Prisma.DashboardPresetCreateNestedManyWithoutTenantInput
 }
 
 export type TenantUncheckedCreateWithoutAuditoriasInput = {
@@ -11360,6 +11794,7 @@ export type TenantUncheckedCreateWithoutAuditoriasInput = {
   turnos?: Prisma.TurnoUncheckedCreateNestedManyWithoutTenantInput
   vehiculos?: Prisma.VehiculoUncheckedCreateNestedManyWithoutTenantInput
   zonas?: Prisma.ZonaUncheckedCreateNestedManyWithoutTenantInput
+  dashboardPresets?: Prisma.DashboardPresetUncheckedCreateNestedManyWithoutTenantInput
 }
 
 export type TenantCreateOrConnectWithoutAuditoriasInput = {
@@ -11435,6 +11870,7 @@ export type TenantUpdateWithoutAuditoriasInput = {
   turnos?: Prisma.TurnoUpdateManyWithoutTenantNestedInput
   vehiculos?: Prisma.VehiculoUpdateManyWithoutTenantNestedInput
   zonas?: Prisma.ZonaUpdateManyWithoutTenantNestedInput
+  dashboardPresets?: Prisma.DashboardPresetUpdateManyWithoutTenantNestedInput
 }
 
 export type TenantUncheckedUpdateWithoutAuditoriasInput = {
@@ -11494,6 +11930,7 @@ export type TenantUncheckedUpdateWithoutAuditoriasInput = {
   turnos?: Prisma.TurnoUncheckedUpdateManyWithoutTenantNestedInput
   vehiculos?: Prisma.VehiculoUncheckedUpdateManyWithoutTenantNestedInput
   zonas?: Prisma.ZonaUncheckedUpdateManyWithoutTenantNestedInput
+  dashboardPresets?: Prisma.DashboardPresetUncheckedUpdateManyWithoutTenantNestedInput
 }
 
 export type TenantCreateWithoutSesionesActividadInput = {
@@ -11553,6 +11990,7 @@ export type TenantCreateWithoutSesionesActividadInput = {
   turnos?: Prisma.TurnoCreateNestedManyWithoutTenantInput
   vehiculos?: Prisma.VehiculoCreateNestedManyWithoutTenantInput
   zonas?: Prisma.ZonaCreateNestedManyWithoutTenantInput
+  dashboardPresets?: Prisma.DashboardPresetCreateNestedManyWithoutTenantInput
 }
 
 export type TenantUncheckedCreateWithoutSesionesActividadInput = {
@@ -11612,6 +12050,7 @@ export type TenantUncheckedCreateWithoutSesionesActividadInput = {
   turnos?: Prisma.TurnoUncheckedCreateNestedManyWithoutTenantInput
   vehiculos?: Prisma.VehiculoUncheckedCreateNestedManyWithoutTenantInput
   zonas?: Prisma.ZonaUncheckedCreateNestedManyWithoutTenantInput
+  dashboardPresets?: Prisma.DashboardPresetUncheckedCreateNestedManyWithoutTenantInput
 }
 
 export type TenantCreateOrConnectWithoutSesionesActividadInput = {
@@ -11687,6 +12126,7 @@ export type TenantUpdateWithoutSesionesActividadInput = {
   turnos?: Prisma.TurnoUpdateManyWithoutTenantNestedInput
   vehiculos?: Prisma.VehiculoUpdateManyWithoutTenantNestedInput
   zonas?: Prisma.ZonaUpdateManyWithoutTenantNestedInput
+  dashboardPresets?: Prisma.DashboardPresetUpdateManyWithoutTenantNestedInput
 }
 
 export type TenantUncheckedUpdateWithoutSesionesActividadInput = {
@@ -11746,6 +12186,7 @@ export type TenantUncheckedUpdateWithoutSesionesActividadInput = {
   turnos?: Prisma.TurnoUncheckedUpdateManyWithoutTenantNestedInput
   vehiculos?: Prisma.VehiculoUncheckedUpdateManyWithoutTenantNestedInput
   zonas?: Prisma.ZonaUncheckedUpdateManyWithoutTenantNestedInput
+  dashboardPresets?: Prisma.DashboardPresetUncheckedUpdateManyWithoutTenantNestedInput
 }
 
 export type TenantCreateWithoutLogsEventoInput = {
@@ -11805,6 +12246,7 @@ export type TenantCreateWithoutLogsEventoInput = {
   turnos?: Prisma.TurnoCreateNestedManyWithoutTenantInput
   vehiculos?: Prisma.VehiculoCreateNestedManyWithoutTenantInput
   zonas?: Prisma.ZonaCreateNestedManyWithoutTenantInput
+  dashboardPresets?: Prisma.DashboardPresetCreateNestedManyWithoutTenantInput
 }
 
 export type TenantUncheckedCreateWithoutLogsEventoInput = {
@@ -11864,6 +12306,7 @@ export type TenantUncheckedCreateWithoutLogsEventoInput = {
   turnos?: Prisma.TurnoUncheckedCreateNestedManyWithoutTenantInput
   vehiculos?: Prisma.VehiculoUncheckedCreateNestedManyWithoutTenantInput
   zonas?: Prisma.ZonaUncheckedCreateNestedManyWithoutTenantInput
+  dashboardPresets?: Prisma.DashboardPresetUncheckedCreateNestedManyWithoutTenantInput
 }
 
 export type TenantCreateOrConnectWithoutLogsEventoInput = {
@@ -11939,6 +12382,7 @@ export type TenantUpdateWithoutLogsEventoInput = {
   turnos?: Prisma.TurnoUpdateManyWithoutTenantNestedInput
   vehiculos?: Prisma.VehiculoUpdateManyWithoutTenantNestedInput
   zonas?: Prisma.ZonaUpdateManyWithoutTenantNestedInput
+  dashboardPresets?: Prisma.DashboardPresetUpdateManyWithoutTenantNestedInput
 }
 
 export type TenantUncheckedUpdateWithoutLogsEventoInput = {
@@ -11998,6 +12442,7 @@ export type TenantUncheckedUpdateWithoutLogsEventoInput = {
   turnos?: Prisma.TurnoUncheckedUpdateManyWithoutTenantNestedInput
   vehiculos?: Prisma.VehiculoUncheckedUpdateManyWithoutTenantNestedInput
   zonas?: Prisma.ZonaUncheckedUpdateManyWithoutTenantNestedInput
+  dashboardPresets?: Prisma.DashboardPresetUncheckedUpdateManyWithoutTenantNestedInput
 }
 
 export type TenantCreateWithoutAuthSessionsInput = {
@@ -12057,6 +12502,7 @@ export type TenantCreateWithoutAuthSessionsInput = {
   turnos?: Prisma.TurnoCreateNestedManyWithoutTenantInput
   vehiculos?: Prisma.VehiculoCreateNestedManyWithoutTenantInput
   zonas?: Prisma.ZonaCreateNestedManyWithoutTenantInput
+  dashboardPresets?: Prisma.DashboardPresetCreateNestedManyWithoutTenantInput
 }
 
 export type TenantUncheckedCreateWithoutAuthSessionsInput = {
@@ -12116,6 +12562,7 @@ export type TenantUncheckedCreateWithoutAuthSessionsInput = {
   turnos?: Prisma.TurnoUncheckedCreateNestedManyWithoutTenantInput
   vehiculos?: Prisma.VehiculoUncheckedCreateNestedManyWithoutTenantInput
   zonas?: Prisma.ZonaUncheckedCreateNestedManyWithoutTenantInput
+  dashboardPresets?: Prisma.DashboardPresetUncheckedCreateNestedManyWithoutTenantInput
 }
 
 export type TenantCreateOrConnectWithoutAuthSessionsInput = {
@@ -12191,6 +12638,7 @@ export type TenantUpdateWithoutAuthSessionsInput = {
   turnos?: Prisma.TurnoUpdateManyWithoutTenantNestedInput
   vehiculos?: Prisma.VehiculoUpdateManyWithoutTenantNestedInput
   zonas?: Prisma.ZonaUpdateManyWithoutTenantNestedInput
+  dashboardPresets?: Prisma.DashboardPresetUpdateManyWithoutTenantNestedInput
 }
 
 export type TenantUncheckedUpdateWithoutAuthSessionsInput = {
@@ -12250,6 +12698,7 @@ export type TenantUncheckedUpdateWithoutAuthSessionsInput = {
   turnos?: Prisma.TurnoUncheckedUpdateManyWithoutTenantNestedInput
   vehiculos?: Prisma.VehiculoUncheckedUpdateManyWithoutTenantNestedInput
   zonas?: Prisma.ZonaUncheckedUpdateManyWithoutTenantNestedInput
+  dashboardPresets?: Prisma.DashboardPresetUncheckedUpdateManyWithoutTenantNestedInput
 }
 
 export type TenantCreateWithoutResetTokensInput = {
@@ -12309,6 +12758,7 @@ export type TenantCreateWithoutResetTokensInput = {
   turnos?: Prisma.TurnoCreateNestedManyWithoutTenantInput
   vehiculos?: Prisma.VehiculoCreateNestedManyWithoutTenantInput
   zonas?: Prisma.ZonaCreateNestedManyWithoutTenantInput
+  dashboardPresets?: Prisma.DashboardPresetCreateNestedManyWithoutTenantInput
 }
 
 export type TenantUncheckedCreateWithoutResetTokensInput = {
@@ -12368,6 +12818,7 @@ export type TenantUncheckedCreateWithoutResetTokensInput = {
   turnos?: Prisma.TurnoUncheckedCreateNestedManyWithoutTenantInput
   vehiculos?: Prisma.VehiculoUncheckedCreateNestedManyWithoutTenantInput
   zonas?: Prisma.ZonaUncheckedCreateNestedManyWithoutTenantInput
+  dashboardPresets?: Prisma.DashboardPresetUncheckedCreateNestedManyWithoutTenantInput
 }
 
 export type TenantCreateOrConnectWithoutResetTokensInput = {
@@ -12443,6 +12894,7 @@ export type TenantUpdateWithoutResetTokensInput = {
   turnos?: Prisma.TurnoUpdateManyWithoutTenantNestedInput
   vehiculos?: Prisma.VehiculoUpdateManyWithoutTenantNestedInput
   zonas?: Prisma.ZonaUpdateManyWithoutTenantNestedInput
+  dashboardPresets?: Prisma.DashboardPresetUpdateManyWithoutTenantNestedInput
 }
 
 export type TenantUncheckedUpdateWithoutResetTokensInput = {
@@ -12502,6 +12954,7 @@ export type TenantUncheckedUpdateWithoutResetTokensInput = {
   turnos?: Prisma.TurnoUncheckedUpdateManyWithoutTenantNestedInput
   vehiculos?: Prisma.VehiculoUncheckedUpdateManyWithoutTenantNestedInput
   zonas?: Prisma.ZonaUncheckedUpdateManyWithoutTenantNestedInput
+  dashboardPresets?: Prisma.DashboardPresetUncheckedUpdateManyWithoutTenantNestedInput
 }
 
 export type TenantCreateWithoutConfiguracionesOperativasInput = {
@@ -12561,6 +13014,7 @@ export type TenantCreateWithoutConfiguracionesOperativasInput = {
   turnos?: Prisma.TurnoCreateNestedManyWithoutTenantInput
   vehiculos?: Prisma.VehiculoCreateNestedManyWithoutTenantInput
   zonas?: Prisma.ZonaCreateNestedManyWithoutTenantInput
+  dashboardPresets?: Prisma.DashboardPresetCreateNestedManyWithoutTenantInput
 }
 
 export type TenantUncheckedCreateWithoutConfiguracionesOperativasInput = {
@@ -12620,6 +13074,7 @@ export type TenantUncheckedCreateWithoutConfiguracionesOperativasInput = {
   turnos?: Prisma.TurnoUncheckedCreateNestedManyWithoutTenantInput
   vehiculos?: Prisma.VehiculoUncheckedCreateNestedManyWithoutTenantInput
   zonas?: Prisma.ZonaUncheckedCreateNestedManyWithoutTenantInput
+  dashboardPresets?: Prisma.DashboardPresetUncheckedCreateNestedManyWithoutTenantInput
 }
 
 export type TenantCreateOrConnectWithoutConfiguracionesOperativasInput = {
@@ -12695,6 +13150,7 @@ export type TenantUpdateWithoutConfiguracionesOperativasInput = {
   turnos?: Prisma.TurnoUpdateManyWithoutTenantNestedInput
   vehiculos?: Prisma.VehiculoUpdateManyWithoutTenantNestedInput
   zonas?: Prisma.ZonaUpdateManyWithoutTenantNestedInput
+  dashboardPresets?: Prisma.DashboardPresetUpdateManyWithoutTenantNestedInput
 }
 
 export type TenantUncheckedUpdateWithoutConfiguracionesOperativasInput = {
@@ -12754,6 +13210,7 @@ export type TenantUncheckedUpdateWithoutConfiguracionesOperativasInput = {
   turnos?: Prisma.TurnoUncheckedUpdateManyWithoutTenantNestedInput
   vehiculos?: Prisma.VehiculoUncheckedUpdateManyWithoutTenantNestedInput
   zonas?: Prisma.ZonaUncheckedUpdateManyWithoutTenantNestedInput
+  dashboardPresets?: Prisma.DashboardPresetUncheckedUpdateManyWithoutTenantNestedInput
 }
 
 export type TenantCreateWithoutEvidenciasServicioInput = {
@@ -12813,6 +13270,7 @@ export type TenantCreateWithoutEvidenciasServicioInput = {
   turnos?: Prisma.TurnoCreateNestedManyWithoutTenantInput
   vehiculos?: Prisma.VehiculoCreateNestedManyWithoutTenantInput
   zonas?: Prisma.ZonaCreateNestedManyWithoutTenantInput
+  dashboardPresets?: Prisma.DashboardPresetCreateNestedManyWithoutTenantInput
 }
 
 export type TenantUncheckedCreateWithoutEvidenciasServicioInput = {
@@ -12872,6 +13330,7 @@ export type TenantUncheckedCreateWithoutEvidenciasServicioInput = {
   turnos?: Prisma.TurnoUncheckedCreateNestedManyWithoutTenantInput
   vehiculos?: Prisma.VehiculoUncheckedCreateNestedManyWithoutTenantInput
   zonas?: Prisma.ZonaUncheckedCreateNestedManyWithoutTenantInput
+  dashboardPresets?: Prisma.DashboardPresetUncheckedCreateNestedManyWithoutTenantInput
 }
 
 export type TenantCreateOrConnectWithoutEvidenciasServicioInput = {
@@ -12947,6 +13406,7 @@ export type TenantUpdateWithoutEvidenciasServicioInput = {
   turnos?: Prisma.TurnoUpdateManyWithoutTenantNestedInput
   vehiculos?: Prisma.VehiculoUpdateManyWithoutTenantNestedInput
   zonas?: Prisma.ZonaUpdateManyWithoutTenantNestedInput
+  dashboardPresets?: Prisma.DashboardPresetUpdateManyWithoutTenantNestedInput
 }
 
 export type TenantUncheckedUpdateWithoutEvidenciasServicioInput = {
@@ -13006,6 +13466,7 @@ export type TenantUncheckedUpdateWithoutEvidenciasServicioInput = {
   turnos?: Prisma.TurnoUncheckedUpdateManyWithoutTenantNestedInput
   vehiculos?: Prisma.VehiculoUncheckedUpdateManyWithoutTenantNestedInput
   zonas?: Prisma.ZonaUncheckedUpdateManyWithoutTenantNestedInput
+  dashboardPresets?: Prisma.DashboardPresetUncheckedUpdateManyWithoutTenantNestedInput
 }
 
 export type TenantCreateWithoutSugerenciasInput = {
@@ -13065,6 +13526,7 @@ export type TenantCreateWithoutSugerenciasInput = {
   turnos?: Prisma.TurnoCreateNestedManyWithoutTenantInput
   vehiculos?: Prisma.VehiculoCreateNestedManyWithoutTenantInput
   zonas?: Prisma.ZonaCreateNestedManyWithoutTenantInput
+  dashboardPresets?: Prisma.DashboardPresetCreateNestedManyWithoutTenantInput
 }
 
 export type TenantUncheckedCreateWithoutSugerenciasInput = {
@@ -13124,6 +13586,7 @@ export type TenantUncheckedCreateWithoutSugerenciasInput = {
   turnos?: Prisma.TurnoUncheckedCreateNestedManyWithoutTenantInput
   vehiculos?: Prisma.VehiculoUncheckedCreateNestedManyWithoutTenantInput
   zonas?: Prisma.ZonaUncheckedCreateNestedManyWithoutTenantInput
+  dashboardPresets?: Prisma.DashboardPresetUncheckedCreateNestedManyWithoutTenantInput
 }
 
 export type TenantCreateOrConnectWithoutSugerenciasInput = {
@@ -13199,6 +13662,7 @@ export type TenantUpdateWithoutSugerenciasInput = {
   turnos?: Prisma.TurnoUpdateManyWithoutTenantNestedInput
   vehiculos?: Prisma.VehiculoUpdateManyWithoutTenantNestedInput
   zonas?: Prisma.ZonaUpdateManyWithoutTenantNestedInput
+  dashboardPresets?: Prisma.DashboardPresetUpdateManyWithoutTenantNestedInput
 }
 
 export type TenantUncheckedUpdateWithoutSugerenciasInput = {
@@ -13258,6 +13722,7 @@ export type TenantUncheckedUpdateWithoutSugerenciasInput = {
   turnos?: Prisma.TurnoUncheckedUpdateManyWithoutTenantNestedInput
   vehiculos?: Prisma.VehiculoUncheckedUpdateManyWithoutTenantNestedInput
   zonas?: Prisma.ZonaUncheckedUpdateManyWithoutTenantNestedInput
+  dashboardPresets?: Prisma.DashboardPresetUncheckedUpdateManyWithoutTenantNestedInput
 }
 
 
@@ -13312,6 +13777,7 @@ export type TenantCountOutputType = {
   turnos: number
   vehiculos: number
   zonas: number
+  dashboardPresets: number
 }
 
 export type TenantCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -13361,6 +13827,7 @@ export type TenantCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions
   turnos?: boolean | TenantCountOutputTypeCountTurnosArgs
   vehiculos?: boolean | TenantCountOutputTypeCountVehiculosArgs
   zonas?: boolean | TenantCountOutputTypeCountZonasArgs
+  dashboardPresets?: boolean | TenantCountOutputTypeCountDashboardPresetsArgs
 }
 
 /**
@@ -13695,6 +14162,13 @@ export type TenantCountOutputTypeCountZonasArgs<ExtArgs extends runtime.Types.Ex
   where?: Prisma.ZonaWhereInput
 }
 
+/**
+ * TenantCountOutputType without action
+ */
+export type TenantCountOutputTypeCountDashboardPresetsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.DashboardPresetWhereInput
+}
+
 
 export type TenantSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -13754,6 +14228,7 @@ export type TenantSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs =
   turnos?: boolean | Prisma.Tenant$turnosArgs<ExtArgs>
   vehiculos?: boolean | Prisma.Tenant$vehiculosArgs<ExtArgs>
   zonas?: boolean | Prisma.Tenant$zonasArgs<ExtArgs>
+  dashboardPresets?: boolean | Prisma.Tenant$dashboardPresetsArgs<ExtArgs>
   _count?: boolean | Prisma.TenantCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["tenant"]>
 
@@ -13845,6 +14320,7 @@ export type TenantInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs 
   turnos?: boolean | Prisma.Tenant$turnosArgs<ExtArgs>
   vehiculos?: boolean | Prisma.Tenant$vehiculosArgs<ExtArgs>
   zonas?: boolean | Prisma.Tenant$zonasArgs<ExtArgs>
+  dashboardPresets?: boolean | Prisma.Tenant$dashboardPresetsArgs<ExtArgs>
   _count?: boolean | Prisma.TenantCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type TenantIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
@@ -13900,6 +14376,7 @@ export type $TenantPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs
     turnos: Prisma.$TurnoPayload<ExtArgs>[]
     vehiculos: Prisma.$VehiculoPayload<ExtArgs>[]
     zonas: Prisma.$ZonaPayload<ExtArgs>[]
+    dashboardPresets: Prisma.$DashboardPresetPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -14353,6 +14830,7 @@ export interface Prisma__TenantClient<T, Null = never, ExtArgs extends runtime.T
   turnos<T extends Prisma.Tenant$turnosArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Tenant$turnosArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$TurnoPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   vehiculos<T extends Prisma.Tenant$vehiculosArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Tenant$vehiculosArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$VehiculoPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   zonas<T extends Prisma.Tenant$zonasArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Tenant$zonasArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ZonaPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  dashboardPresets<T extends Prisma.Tenant$dashboardPresetsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Tenant$dashboardPresetsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$DashboardPresetPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -15900,6 +16378,30 @@ export type Tenant$zonasArgs<ExtArgs extends runtime.Types.Extensions.InternalAr
   take?: number
   skip?: number
   distinct?: Prisma.ZonaScalarFieldEnum | Prisma.ZonaScalarFieldEnum[]
+}
+
+/**
+ * Tenant.dashboardPresets
+ */
+export type Tenant$dashboardPresetsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the DashboardPreset
+   */
+  select?: Prisma.DashboardPresetSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the DashboardPreset
+   */
+  omit?: Prisma.DashboardPresetOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.DashboardPresetInclude<ExtArgs> | null
+  where?: Prisma.DashboardPresetWhereInput
+  orderBy?: Prisma.DashboardPresetOrderByWithRelationInput | Prisma.DashboardPresetOrderByWithRelationInput[]
+  cursor?: Prisma.DashboardPresetWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.DashboardPresetScalarFieldEnum | Prisma.DashboardPresetScalarFieldEnum[]
 }
 
 /**

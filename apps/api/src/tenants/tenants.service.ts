@@ -516,21 +516,39 @@ export class TenantsService {
       access.allowedEmpresaIds,
       'empresa',
     );
-    const zonaIds = this.resolveFilterIds(query.zonaId, access.allowedZonaIds, 'zona');
+    const zonaIds = this.resolveFilterIds(
+      query.zonaId,
+      access.allowedZonaIds,
+      'zona',
+    );
 
     const membershipWhere: Prisma.TenantMembershipWhereInput = {
       tenantId,
       aprobado: true,
       activo: true,
-      ...(scope === TeamScope.OPERATIVO ? { role: { in: [...OPERATIVE_ROLES] } } : {}),
+      ...(scope === TeamScope.OPERATIVO
+        ? { role: { in: [...OPERATIVE_ROLES] } }
+        : {}),
       ...(query.role ? { role: query.role } : {}),
       ...(query.municipioId ? { municipioId: query.municipioId } : {}),
       ...(query.search
         ? {
             OR: [
-              { user: { nombre: { contains: query.search, mode: 'insensitive' } } },
-              { user: { apellido: { contains: query.search, mode: 'insensitive' } } },
-              { user: { email: { contains: query.search, mode: 'insensitive' } } },
+              {
+                user: {
+                  nombre: { contains: query.search, mode: 'insensitive' },
+                },
+              },
+              {
+                user: {
+                  apellido: { contains: query.search, mode: 'insensitive' },
+                },
+              },
+              {
+                user: {
+                  email: { contains: query.search, mode: 'insensitive' },
+                },
+              },
             ],
           }
         : {}),
@@ -598,7 +616,9 @@ export class TenantsService {
     const membershipIds = memberships.map((m) => m.id);
     const ordersWhere: Prisma.OrdenServicioWhereInput = {
       tenantId,
-      creadoPorId: { in: membershipIds.length > 0 ? membershipIds : ['__none__'] },
+      creadoPorId: {
+        in: membershipIds.length > 0 ? membershipIds : ['__none__'],
+      },
       fechaVisita: {
         gte: range.from,
         lte: range.to,
@@ -704,7 +724,9 @@ export class TenantsService {
         municipioId: membership.municipioId,
         municipioNombre: membership.municipio?.name || null,
         empresaIds: membership.empresaMemberships.map((em) => em.empresaId),
-        empresaNombres: membership.empresaMemberships.map((em) => em.empresa.nombre),
+        empresaNombres: membership.empresaMemberships.map(
+          (em) => em.empresa.nombre,
+        ),
         zonaIds: membership.empresaMemberships
           .map((em) => em.zona?.id)
           .filter((id): id is string => !!id),
@@ -736,7 +758,9 @@ export class TenantsService {
           role: member.role,
         })),
       lowEffectiveness: members
-        .filter((member) => member.totalServicios >= 3 && member.efectividad < 60)
+        .filter(
+          (member) => member.totalServicios >= 3 && member.efectividad < 60,
+        )
         .slice(0, 8)
         .map((member) => ({
           membershipId: member.id,
@@ -802,9 +826,16 @@ export class TenantsService {
       access.allowedEmpresaIds,
       'empresa',
     );
-    const zonaIds = this.resolveFilterIds(query.zonaId, access.allowedZonaIds, 'zona');
+    const zonaIds = this.resolveFilterIds(
+      query.zonaId,
+      access.allowedZonaIds,
+      'zona',
+    );
 
-    if (access.onlyOwnMembershipId && access.onlyOwnMembershipId !== membershipId) {
+    if (
+      access.onlyOwnMembershipId &&
+      access.onlyOwnMembershipId !== membershipId
+    ) {
       throw new UnauthorizedException(
         'No tienes permisos para consultar el detalle de este usuario',
       );
@@ -1006,7 +1037,9 @@ export class TenantsService {
     }
 
     if (!user.membershipId) {
-      throw new UnauthorizedException('No se pudo resolver la membresía del usuario');
+      throw new UnauthorizedException(
+        'No se pudo resolver la membresía del usuario',
+      );
     }
 
     const selfMembership = await this.prisma.tenantMembership.findFirst({
@@ -1028,7 +1061,9 @@ export class TenantsService {
     });
 
     if (!selfMembership) {
-      throw new UnauthorizedException('Membresía no válida para este conglomerado');
+      throw new UnauthorizedException(
+        'Membresía no válida para este conglomerado',
+      );
     }
 
     const allowedEmpresaIds = [
@@ -1079,7 +1114,10 @@ export class TenantsService {
       pendientes: number;
     }>,
   ) {
-    const totalRecaudo = members.reduce((acc, member) => acc + member.totalRecaudo, 0);
+    const totalRecaudo = members.reduce(
+      (acc, member) => acc + member.totalRecaudo,
+      0,
+    );
     const totalServicios = members.reduce(
       (acc, member) => acc + member.totalServicios,
       0,
@@ -1112,7 +1150,10 @@ export class TenantsService {
   }
 
   private buildKpisFromOrders(
-    orders: Array<{ estadoServicio: EstadoOrden; valorPagado: Prisma.Decimal | null }>,
+    orders: Array<{
+      estadoServicio: EstadoOrden;
+      valorPagado: Prisma.Decimal | null;
+    }>,
   ) {
     let totalRecaudo = 0;
     let serviciosLiquidados = 0;
