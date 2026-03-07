@@ -284,7 +284,9 @@ export class DashboardService {
         0,
     );
     const tasaCancelacionHoy =
-      serviciosAgendadosHoy > 0 ? (canceladosHoy / serviciosAgendadosHoy) * 100 : 0;
+      serviciosAgendadosHoy > 0
+        ? (canceladosHoy / serviciosAgendadosHoy) * 100
+        : 0;
     const tasaCancelacionTotal =
       serviciosTotales > 0 ? (canceladosTotales / serviciosTotales) * 100 : 0;
 

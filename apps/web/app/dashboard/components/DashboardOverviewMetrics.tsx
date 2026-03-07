@@ -3,7 +3,8 @@
 import React from "react";
 import { 
   Calendar, Activity, CheckCircle2, TrendingUp, Clock, XCircle, Percent, AlertTriangle,
-  Layers, ClipboardCheck, History, Briefcase, BarChart3, CreditCard, FileX, PieChart
+  Layers, ClipboardCheck, History, Briefcase, BarChart3, CreditCard, FileX, PieChart,
+  Zap, Shield, Info
 } from "lucide-react";
 import { useDashboardOverview } from "../hooks/useDashboardData";
 import { cn } from "@/components/ui/utils";
@@ -29,6 +30,8 @@ function formatValue(value: number, kind: "number" | "currency" | "percent") {
   return value.toLocaleString("es-CO");
 }
 
+type Category = "alert" | "performance" | "pending" | "success";
+
 export const DashboardOverviewMetrics = React.memo(function DashboardOverviewMetrics({
   enterpriseId,
   isConfiguring,
@@ -38,75 +41,124 @@ export const DashboardOverviewMetrics = React.memo(function DashboardOverviewMet
 }: DashboardOverviewMetricsProps) {
   const { data } = useDashboardOverview(enterpriseId);
 
+  const categories: Record<Category, { bg: string; iconBg: string; text: string; label: string; icon: any }> = {
+    alert: { bg: "bg-red-500/10", iconBg: "bg-red-500", text: "text-red-600", label: "Alerta", icon: Zap },
+    performance: { bg: "bg-orange-500/10", iconBg: "bg-orange-500", text: "text-orange-600", label: "Métrica", icon: TrendingUp },
+    pending: { bg: "bg-blue-500/10", iconBg: "bg-[#01ADFB]", text: "text-[#01ADFB]", label: "Pendiente", icon: Clock },
+    success: { bg: "bg-emerald-500/10", iconBg: "bg-emerald-500", text: "text-emerald-600", label: "Completado", icon: Shield },
+  };
+
   const todayItems = [
-    { label: "Servicios Agendados", value: data?.today.serviciosAgendados ?? 0, kind: "number" as const, description: "Órdenes con visita hoy.", icon: Calendar, color: "text-[#01ADFB]" },
-    { label: "En Proceso (Hoy)", value: data?.today.enProceso ?? 0, kind: "number" as const, description: "Estado PROCESO hoy.", icon: Activity, color: "text-amber-500" },
-    { label: "Realizados Hoy", value: data?.today.realizados ?? 0, kind: "number" as const, description: "Estado LIQUIDADO hoy.", icon: CheckCircle2, color: "text-emerald-500" },
-    { label: "Ingresos Hoy", value: data?.today.ingresos ?? 0, kind: "currency" as const, description: "Pagado con visita hoy.", icon: TrendingUp, color: "text-[#01ADFB]" },
-    { label: "Pendientes Liquidar", value: data?.today.pendientesLiquidar ?? 0, kind: "number" as const, description: "TECNICO_FINALIZO hoy.", icon: Clock, color: "text-indigo-500" },
-    { label: "Cancelados Hoy", value: data?.today.cancelados ?? 0, kind: "number" as const, description: "Estado CANCELADO hoy.", icon: XCircle, color: "text-destructive" },
-    { label: "Tasa Cancelación", value: data?.today.tasaCancelacion ?? 0, kind: "percent" as const, description: "Cancelados/Agendados hoy.", icon: Percent, color: "text-slate-500" },
-    { label: "Sin Cobrar Hoy", value: data?.today.sinCobrar ?? 0, kind: "number" as const, description: "Pago pendiente hoy.", icon: AlertTriangle, color: "text-orange-500" },
+    { label: "Servicios Agendados", value: data?.today.serviciosAgendados ?? 0, kind: "number" as const, category: "pending" as Category, icon: Calendar, big: true },
+    { label: "En Proceso", value: data?.today.enProceso ?? 0, kind: "number" as const, category: "performance" as Category, icon: Activity },
+    { label: "Realizados", value: data?.today.realizados ?? 0, kind: "number" as const, category: "success" as Category, icon: CheckCircle2 },
+    { label: "Ingresos Hoy", value: data?.today.ingresos ?? 0, kind: "currency" as const, category: "performance" as Category, icon: TrendingUp, big: true },
+    { label: "Pendientes Liquidar", value: data?.today.pendientesLiquidar ?? 0, kind: "number" as const, category: "pending" as Category, icon: Clock },
+    { label: "Cancelados", value: data?.today.cancelados ?? 0, kind: "number" as const, category: "alert" as Category, icon: XCircle },
+    { label: "Tasa Cancelación", value: data?.today.tasaCancelacion ?? 0, kind: "percent" as const, category: "alert" as Category, icon: Percent },
+    { label: "Sin Cobrar", value: data?.today.sinCobrar ?? 0, kind: "number" as const, category: "alert" as Category, icon: AlertTriangle },
   ];
 
   const globalItems = [
-    { label: "En Proceso (Total)", value: data?.global.enProceso ?? 0, kind: "number" as const, description: "Histórico en PROCESO.", icon: Layers, color: "text-amber-500" },
-    { label: "Pendientes Liquidar", value: data?.global.pendientesLiquidar ?? 0, kind: "number" as const, description: "Histórico FINALIZADOS.", icon: ClipboardCheck, color: "text-indigo-500" },
-    { label: "Realizados (Total)", value: data?.global.realizadosHistorico ?? 0, kind: "number" as const, description: "Histórico LIQUIDADOS.", icon: History, color: "text-emerald-500" },
-    { label: "Servicios Totales", value: data?.global.serviciosTotales ?? 0, kind: "number" as const, description: "Total órdenes empresa.", icon: Briefcase, color: "text-[#01ADFB]" },
-    { label: "Ingresos Totales", value: data?.global.ingresosTotales ?? 0, kind: "currency" as const, description: "Suma histórica pagada.", icon: BarChart3, color: "text-[#01ADFB]" },
-    { label: "Sin Cobrar Total", value: data?.global.sinCobrarTotales ?? 0, kind: "number" as const, description: "Finalizadas con pago pendiente.", icon: CreditCard, color: "text-orange-500" },
-    { label: "Cancelados (Total)", value: data?.global.cancelados ?? 0, kind: "number" as const, description: "Histórico CANCELADOS.", icon: FileX, color: "text-destructive" },
-    { label: "Tasa de Cancelación", value: data?.global.tasaCancelacion ?? 0, kind: "percent" as const, description: "Cancelados/Totales.", icon: PieChart, color: "text-slate-500" },
+    { label: "Servicios Totales", value: data?.global.serviciosTotales ?? 0, kind: "number" as const, category: "pending" as Category, icon: Briefcase, big: true },
+    { label: "En Proceso", value: data?.global.enProceso ?? 0, kind: "number" as const, category: "performance" as Category, icon: Layers },
+    { label: "Pendientes Liquidar", value: data?.global.pendientesLiquidar ?? 0, kind: "number" as const, category: "pending" as Category, icon: ClipboardCheck },
+    { label: "Ingresos Totales", value: data?.global.ingresosTotales ?? 0, kind: "currency" as const, category: "performance" as Category, icon: BarChart3, big: true },
+    { label: "Realizados", value: data?.global.realizadosHistorico ?? 0, kind: "number" as const, category: "success" as Category, icon: History },
+    { label: "Sin Cobrar", value: data?.global.sinCobrarTotales ?? 0, kind: "number" as const, category: "alert" as Category, icon: CreditCard },
+    { label: "Cancelados", value: data?.global.cancelados ?? 0, kind: "number" as const, category: "alert" as Category, icon: FileX },
+    { label: "Tasa de Cancelación", value: data?.global.tasaCancelacion ?? 0, kind: "percent" as const, category: "alert" as Category, icon: PieChart },
+  ];
+
+  const dailyBentoSpans = [
+    "md:col-span-3 md:row-span-2",
+    "md:col-span-2 md:row-span-1",
+    "md:col-span-1 md:row-span-1",
+    "md:col-span-3 md:row-span-2",
+    "md:col-span-2 md:row-span-1",
+    "md:col-span-1 md:row-span-1",
+    "md:col-span-3 md:row-span-1",
+    "md:col-span-3 md:row-span-1",
+  ];
+  const globalBentoSpans = [
+    "md:col-span-3 md:row-span-2",
+    "md:col-span-2 md:row-span-1",
+    "md:col-span-1 md:row-span-1",
+    "md:col-span-3 md:row-span-2",
+    "md:col-span-2 md:row-span-1",
+    "md:col-span-1 md:row-span-1",
+    "md:col-span-3 md:row-span-1",
+    "md:col-span-3 md:row-span-1",
   ];
 
   // eslint-disable-next-line react/no-unstable-nested-components
-  const MetricItem = ({ item }: { item: typeof todayItems[0] }) => (
-    <div className="group relative flex flex-col justify-between rounded-2xl border border-border/50 bg-background/40 p-4 transition-all duration-300 hover:border-[#01ADFB]/40 hover:bg-background/60 hover:shadow-sm">
-      <div className="flex items-start justify-between">
-        <div className={cn("rounded-xl bg-muted/50 p-2 transition-transform group-hover:scale-110", item.color)}>
-          <item.icon className="h-4 w-4" />
+  const MetricItem = ({
+    item,
+    className,
+  }: {
+    item: typeof todayItems[0];
+    className?: string;
+  }) => {
+    const cat = categories[item.category];
+    return (
+      <div className={cn(
+        "group relative flex min-w-0 flex-col justify-between overflow-hidden rounded-[2.5rem] border border-white/10 p-6 transition-all duration-500 hover:scale-[1.02]",
+        cat.bg, "backdrop-blur-3xl shadow-[inset_0_1px_1px_rgba(255,255,255,0.05)]",
+        item.big ? "md:col-span-2" : "md:col-span-1",
+        className
+      )}>
+        <div className="flex items-center justify-between">
+          <div className={cn("flex h-12 w-12 items-center justify-center rounded-full text-white shadow-lg transition-transform duration-500 group-hover:rotate-12", cat.iconBg)}>
+            <item.icon className="h-6 w-6" />
+          </div>
+          <span className={cn("flex items-center gap-1 rounded-full px-3 py-1 text-[10px] font-black uppercase tracking-widest bg-white/20", cat.text)}>
+            <cat.icon className="h-3 w-3" /> {cat.label}
+          </span>
         </div>
-        <span className="text-[10px] font-black uppercase tracking-[0.2em] text-muted-foreground/30">Métrica</span>
+        
+        <div className="mt-6 min-w-0">
+          <p className="mb-2 break-words pr-6 text-[10px] font-black uppercase leading-tight tracking-[0.2em] text-muted-foreground/60">
+            {item.label}
+          </p>
+          <h4 className={cn(
+            "break-words font-black leading-tight tracking-tight text-foreground",
+            item.big ? "text-3xl md:text-4xl" : "text-2xl md:text-3xl"
+          )}>
+            {formatValue(item.value, item.kind)}
+          </h4>
+        </div>
+        
+        <div className="absolute bottom-4 right-8 opacity-0 transition-opacity duration-500 group-hover:opacity-100">
+           <Info className="h-4 w-4 text-muted-foreground/40" />
+        </div>
       </div>
-      
-      <div className="mt-4">
-        <p className="text-[10px] font-black uppercase tracking-[0.2em] text-muted-foreground mb-1 line-clamp-1">{item.label}</p>
-        <h4 className="text-xl font-black tracking-tighter text-foreground">
-          {formatValue(item.value, item.kind)}
-        </h4>
-        <p className="mt-1 text-[10px] leading-tight text-muted-foreground/70 font-medium line-clamp-2">
-          {item.description}
-        </p>
-      </div>
-    </div>
-  );
+    );
+  };
 
   return (
-    <section className="relative space-y-10">
-      <div className="space-y-6">
-        <h3 className="text-xl font-black uppercase tracking-widest text-foreground pl-2 border-l-4 border-[#01ADFB]">
-          Resumen de <span className="text-[#01ADFB]">Hoy</span>
-        </h3>
-        <div className="rounded-3xl border border-border bg-card/30 p-6 shadow-sm backdrop-blur-md">
-          <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4">
-            {todayItems.map((item) => (
-              <MetricItem key={item.label} item={item} />
-            ))}
-          </div>
+    <section className="relative space-y-12">
+      <div className="space-y-8">
+        <div className="flex items-center justify-between px-2">
+          <h3 className="text-2xl font-black uppercase tracking-[0.2em] text-foreground border-l-8 border-[#01ADFB] pl-4">
+            Resumen <span className="text-[#01ADFB]">Diario</span>
+          </h3>
+          <span className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest bg-muted/50 px-4 py-2 rounded-full">En Vivo</span>
+        </div>
+        <div className="grid grid-cols-1 gap-5 md:grid-cols-6 md:auto-rows-[170px]">
+          {todayItems.map((item, idx) => (
+            <MetricItem key={item.label + idx} item={item} className={dailyBentoSpans[idx]} />
+          ))}
         </div>
       </div>
 
-      <div className="space-y-6">
-        <h3 className="text-xl font-black uppercase tracking-widest text-foreground pl-2 border-l-4 border-[#01ADFB]">
-          Estadísticas <span className="text-[#01ADFB]">Globales</span>
+      <div className="space-y-8">
+        <h3 className="text-2xl font-black uppercase tracking-[0.2em] text-foreground border-l-8 border-[#01ADFB] pl-4">
+          Métricas <span className="text-[#01ADFB]">Globales</span>
         </h3>
-        <div className="rounded-3xl border border-border bg-card/30 p-6 shadow-sm backdrop-blur-md">
-          <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4">
-            {globalItems.map((item) => (
-              <MetricItem key={item.label} item={item} />
-            ))}
-          </div>
+        <div className="grid grid-cols-1 gap-5 md:grid-cols-6 md:auto-rows-[170px]">
+          {globalItems.map((item, idx) => (
+            <MetricItem key={item.label + idx} item={item} className={globalBentoSpans[idx]} />
+          ))}
         </div>
       </div>
       

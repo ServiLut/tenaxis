@@ -389,6 +389,7 @@ export const ModelName = {
   Plan: 'Plan',
   Subscription: 'Subscription',
   TenantMembership: 'TenantMembership',
+  DashboardPreset: 'DashboardPreset',
   Empresa: 'Empresa',
   EmpresaMembership: 'EmpresaMembership',
   OrganizationNode: 'OrganizationNode',
@@ -451,7 +452,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "user" | "tenant" | "plan" | "subscription" | "tenantMembership" | "empresa" | "empresaMembership" | "organizationNode" | "commissionRecord" | "tipoInteres" | "department" | "municipality" | "cliente" | "vehiculo" | "direccion" | "zona" | "servicio" | "tipoServicio" | "metodoPago" | "estadoServicio" | "ordenServicio" | "entidadFinanciera" | "geolocalizacion" | "nomina" | "nominaDetalle" | "citasPsicologos" | "consultorio" | "terapiasPsicologos" | "paqueteAdquirido" | "turno" | "cuentaCobro" | "declaracionEfectivo" | "consignacionEfectivo" | "consignacionOrden" | "anticipos" | "producto" | "productoSolicitado" | "proveedores" | "permiso" | "configuracionPagos" | "cuentasPago" | "egresos" | "picoPlaca" | "referidos" | "auditoria" | "sesionActividad" | "logEvento" | "authSession" | "passwordResetToken" | "clienteConfiguracionOperativa" | "evidenciaServicio" | "sugerenciaSeguimiento"
+    modelProps: "user" | "tenant" | "plan" | "subscription" | "tenantMembership" | "dashboardPreset" | "empresa" | "empresaMembership" | "organizationNode" | "commissionRecord" | "tipoInteres" | "department" | "municipality" | "cliente" | "vehiculo" | "direccion" | "zona" | "servicio" | "tipoServicio" | "metodoPago" | "estadoServicio" | "ordenServicio" | "entidadFinanciera" | "geolocalizacion" | "nomina" | "nominaDetalle" | "citasPsicologos" | "consultorio" | "terapiasPsicologos" | "paqueteAdquirido" | "turno" | "cuentaCobro" | "declaracionEfectivo" | "consignacionEfectivo" | "consignacionOrden" | "anticipos" | "producto" | "productoSolicitado" | "proveedores" | "permiso" | "configuracionPagos" | "cuentasPago" | "egresos" | "picoPlaca" | "referidos" | "auditoria" | "sesionActividad" | "logEvento" | "authSession" | "passwordResetToken" | "clienteConfiguracionOperativa" | "evidenciaServicio" | "sugerenciaSeguimiento"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -822,6 +823,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         count: {
           args: Prisma.TenantMembershipCountArgs<ExtArgs>
           result: runtime.Types.Utils.Optional<Prisma.TenantMembershipCountAggregateOutputType> | number
+        }
+      }
+    }
+    DashboardPreset: {
+      payload: Prisma.$DashboardPresetPayload<ExtArgs>
+      fields: Prisma.DashboardPresetFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.DashboardPresetFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DashboardPresetPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.DashboardPresetFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DashboardPresetPayload>
+        }
+        findFirst: {
+          args: Prisma.DashboardPresetFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DashboardPresetPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.DashboardPresetFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DashboardPresetPayload>
+        }
+        findMany: {
+          args: Prisma.DashboardPresetFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DashboardPresetPayload>[]
+        }
+        create: {
+          args: Prisma.DashboardPresetCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DashboardPresetPayload>
+        }
+        createMany: {
+          args: Prisma.DashboardPresetCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.DashboardPresetCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DashboardPresetPayload>[]
+        }
+        delete: {
+          args: Prisma.DashboardPresetDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DashboardPresetPayload>
+        }
+        update: {
+          args: Prisma.DashboardPresetUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DashboardPresetPayload>
+        }
+        deleteMany: {
+          args: Prisma.DashboardPresetDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.DashboardPresetUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.DashboardPresetUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DashboardPresetPayload>[]
+        }
+        upsert: {
+          args: Prisma.DashboardPresetUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DashboardPresetPayload>
+        }
+        aggregate: {
+          args: Prisma.DashboardPresetAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateDashboardPreset>
+        }
+        groupBy: {
+          args: Prisma.DashboardPresetGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.DashboardPresetGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.DashboardPresetCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.DashboardPresetCountAggregateOutputType> | number
         }
       }
     }
@@ -4433,6 +4508,22 @@ export const TenantMembershipScalarFieldEnum = {
 export type TenantMembershipScalarFieldEnum = (typeof TenantMembershipScalarFieldEnum)[keyof typeof TenantMembershipScalarFieldEnum]
 
 
+export const DashboardPresetScalarFieldEnum = {
+  id: 'id',
+  tenantId: 'tenantId',
+  createdByMembershipId: 'createdByMembershipId',
+  module: 'module',
+  name: 'name',
+  colorToken: 'colorToken',
+  isShared: 'isShared',
+  filters: 'filters',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type DashboardPresetScalarFieldEnum = (typeof DashboardPresetScalarFieldEnum)[keyof typeof DashboardPresetScalarFieldEnum]
+
+
 export const EmpresaScalarFieldEnum = {
   id: 'id',
   tenantId: 'tenantId',
@@ -5265,6 +5356,13 @@ export const SortOrder = {
 export type SortOrder = (typeof SortOrder)[keyof typeof SortOrder]
 
 
+export const JsonNullValueInput = {
+  JsonNull: JsonNull
+} as const
+
+export type JsonNullValueInput = (typeof JsonNullValueInput)[keyof typeof JsonNullValueInput]
+
+
 export const NullableJsonNullValueInput = {
   DbNull: DbNull,
   JsonNull: JsonNull
@@ -5410,6 +5508,34 @@ export type ListEnumMembershipStatusFieldRefInput<$PrismaModel> = FieldRefInputT
 
 
 /**
+ * Reference to a field of type 'DashboardPresetModule'
+ */
+export type EnumDashboardPresetModuleFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DashboardPresetModule'>
+    
+
+
+/**
+ * Reference to a field of type 'DashboardPresetModule[]'
+ */
+export type ListEnumDashboardPresetModuleFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DashboardPresetModule[]'>
+    
+
+
+/**
+ * Reference to a field of type 'Json'
+ */
+export type JsonFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Json'>
+    
+
+
+/**
+ * Reference to a field of type 'QueryMode'
+ */
+export type EnumQueryModeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'QueryMode'>
+    
+
+
+/**
  * Reference to a field of type 'EstadoPagoComision'
  */
 export type EnumEstadoPagoComisionFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'EstadoPagoComision'>
@@ -5490,20 +5616,6 @@ export type FloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, '
  * Reference to a field of type 'Float[]'
  */
 export type ListFloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float[]'>
-    
-
-
-/**
- * Reference to a field of type 'Json'
- */
-export type JsonFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Json'>
-    
-
-
-/**
- * Reference to a field of type 'QueryMode'
- */
-export type EnumQueryModeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'QueryMode'>
     
 
 
@@ -5844,6 +5956,7 @@ export type GlobalOmitConfig = {
   plan?: Prisma.PlanOmit
   subscription?: Prisma.SubscriptionOmit
   tenantMembership?: Prisma.TenantMembershipOmit
+  dashboardPreset?: Prisma.DashboardPresetOmit
   empresa?: Prisma.EmpresaOmit
   empresaMembership?: Prisma.EmpresaMembershipOmit
   organizationNode?: Prisma.OrganizationNodeOmit

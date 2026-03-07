@@ -43,6 +43,11 @@ export type Subscription = Prisma.SubscriptionModel
  */
 export type TenantMembership = Prisma.TenantMembershipModel
 /**
+ * Model DashboardPreset
+ * 
+ */
+export type DashboardPreset = Prisma.DashboardPresetModel
+/**
  * Model Empresa
  * 
  */

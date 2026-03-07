@@ -85,6 +85,7 @@ model Tenant {
   turnos                    Turno[]
   vehiculos                 Vehiculo[]
   zonas                     Zona[]
+  dashboardPresets          DashboardPreset[]
 
   @@map("tenants")
 }
@@ -174,11 +175,32 @@ model TenantMembership {
   tenant                Tenant                 @relation(fields: [tenantId], references: [id], onDelete: Cascade)
   user                  User                   @relation(fields: [userId], references: [id], onDelete: Cascade)
   turnos                Turno[]
+  dashboardPresets      DashboardPreset[]
 
   @@unique([userId, tenantId])
   @@index([tenantId])
   @@index([role])
   @@map("tenant_memberships")
+}
+
+model DashboardPreset {
+  id                    String            @id @default(uuid()) @db.Uuid
+  tenantId              String            @db.Uuid @map("tenant_id")
+  createdByMembershipId String            @db.Uuid @map("created_by_membership_id")
+  module                DashboardPresetModule
+  name                  String
+  colorToken            String            @map("color_token")
+  isShared              Boolean           @default(false) @map("is_shared")
+  filters               Json
+  createdAt             DateTime          @default(now()) @map("created_at")
+  updatedAt             DateTime?          @updatedAt @map("updated_at")
+  tenant                Tenant            @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  createdByMembership   TenantMembership  @relation(fields: [createdByMembershipId], references: [id], onDelete: Cascade)
+
+  @@index([tenantId, module])
+  @@index([createdByMembershipId, module])
+  @@index([tenantId, module, isShared])
+  @@map("dashboard_presets")
 }
 
 model Empresa {
@@ -1543,6 +1565,11 @@ enum EstadoOrden {
   TECNICO_FINALIZO
   REPROGRAMADO
   SIN_CONCRETAR
+}
+
+enum DashboardPresetModule {
+  SERVICIOS
+  CLIENTES
 }
 
 enum EstadoSugerencia {

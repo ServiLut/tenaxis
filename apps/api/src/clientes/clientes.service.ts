@@ -5,10 +5,7 @@ import {
 } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 import { CreateClienteDto } from './dto/create-cliente.dto';
-import {
-  Cliente,
-  ClasificacionCliente,
-} from '../generated/client/client';
+import { Cliente, ClasificacionCliente } from '../generated/client/client';
 
 type ClienteWithRelations = Cliente & {
   direcciones?: any[];
@@ -145,17 +142,21 @@ export class ClientesService {
               valorRepuestos: true,
             },
           },
-          },
-          })) as ClienteWithRelations[];
-          } else if (userRole === 'ADMIN' || userRole === 'COORDINADOR' || userRole === 'ASESOR') {
-          clients = (await this.prisma.cliente.findMany({
-          where: {
+        },
+      })) as ClienteWithRelations[];
+    } else if (
+      userRole === 'ADMIN' ||
+      userRole === 'COORDINADOR' ||
+      userRole === 'ASESOR'
+    ) {
+      clients = (await this.prisma.cliente.findMany({
+        where: {
           tenantId,
           deletedAt: null,
           ...(empresaId && { empresaId }),
-          },
-          orderBy: { createdAt: 'desc' },
-          include: {
+        },
+        orderBy: { createdAt: 'desc' },
+        include: {
           direcciones: {
             include: { municipioRel: true },
           },
@@ -180,17 +181,17 @@ export class ClientesService {
               valorRepuestos: true,
             },
           },
-          },
-          })) as ClienteWithRelations[];
-          } else if (empresaId) {
-          clients = (await this.prisma.cliente.findMany({
-          where: {
+        },
+      })) as ClienteWithRelations[];
+    } else if (empresaId) {
+      clients = (await this.prisma.cliente.findMany({
+        where: {
           tenantId,
           empresaId,
           deletedAt: null,
-          },
-          orderBy: { createdAt: 'desc' },
-          include: {
+        },
+        orderBy: { createdAt: 'desc' },
+        include: {
           direcciones: {
             include: { municipioRel: true },
           },
@@ -215,9 +216,9 @@ export class ClientesService {
               valorRepuestos: true,
             },
           },
-          },
-          })) as ClienteWithRelations[];
-          }
+        },
+      })) as ClienteWithRelations[];
+    }
 
     // Apply "Riesgo Comercial" logic in response (more than 45 days since last visit or 1.5x frequency)
     const now = new Date();
@@ -315,12 +316,7 @@ export class ClientesService {
     dto: CreateClienteDto,
     reqEmpresaId?: string,
   ): Promise<Cliente> {
-    const {
-      direcciones,
-      vehiculos,
-      metrajeTotal,
-      ...clienteData
-    } = dto;
+    const { direcciones, vehiculos, metrajeTotal, ...clienteData } = dto;
 
     const membership = await this.prisma.tenantMembership.findUnique({
       where: { userId_tenantId: { userId, tenantId } },
@@ -435,12 +431,7 @@ export class ClientesService {
     userId: string,
     dto: Partial<CreateClienteDto>,
   ): Promise<Cliente> {
-    const {
-      direcciones,
-      vehiculos,
-      metrajeTotal,
-      ...clienteData
-    } = dto;
+    const { direcciones, vehiculos, metrajeTotal, ...clienteData } = dto;
 
     const toDecimal = (val: unknown, decimals: number = 2) => {
       if (val === null || val === undefined || val === '') return null;

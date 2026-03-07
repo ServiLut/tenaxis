@@ -58,12 +58,24 @@ describe('DashboardService', () => {
 
     const stats = await service.getStats('tenant-1', 'empresa-1');
 
-    expect(stats.kpis.ingresos).toEqual({ current: 1000, previous: 500, change: 100 });
-    expect(stats.kpis.ordenes).toEqual({ current: 10, previous: 8, change: 25 });
+    expect(stats.kpis.ingresos).toEqual({
+      current: 1000,
+      previous: 500,
+      change: 100,
+    });
+    expect(stats.kpis.ordenes).toEqual({
+      current: 10,
+      previous: 8,
+      change: 25,
+    });
     expect(stats.kpis.sla).toEqual({ value: 75 });
     expect(stats.kpis.cobranza).toEqual({ total: 300 });
 
-    expect(stats.actionable).toEqual({ vencidas: 4, sinAsignacion: 3, alertas: 2 });
+    expect(stats.actionable).toEqual({
+      vencidas: 4,
+      sinAsignacion: 3,
+      alertas: 2,
+    });
     expect(stats.trends.monthlyComparison).toEqual([
       { label: 'Anterior', value: 500 },
       { label: 'Actual', value: 1000 },
@@ -93,13 +105,19 @@ describe('DashboardService', () => {
 
     expect(prismaMock.ordenServicio.count).toHaveBeenCalledWith(
       expect.objectContaining({
-        where: expect.objectContaining({ tenantId: 'tenant-1', empresaId: 'empresa-1' }),
+        where: expect.objectContaining({
+          tenantId: 'tenant-1',
+          empresaId: 'empresa-1',
+        }),
       }),
     );
 
     expect(prismaMock.ordenServicio.findMany).toHaveBeenCalledWith(
       expect.objectContaining({
-        where: expect.objectContaining({ tenantId: 'tenant-1', empresaId: 'empresa-1' }),
+        where: expect.objectContaining({
+          tenantId: 'tenant-1',
+          empresaId: 'empresa-1',
+        }),
       }),
     );
   });

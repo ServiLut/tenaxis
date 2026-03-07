@@ -18,6 +18,7 @@ import { SupabaseModule } from './supabase/supabase.module';
 import { ContabilidadModule } from './contabilidad/contabilidad.module';
 import { MonitoringModule } from './monitoring/monitoring.module';
 import { DashboardModule } from './dashboard/dashboard.module';
+import { DashboardPresetsModule } from './dashboard-presets/dashboard-presets.module';
 
 @Module({
   imports: [
@@ -35,6 +36,7 @@ import { DashboardModule } from './dashboard/dashboard.module';
     ContabilidadModule,
     MonitoringModule,
     DashboardModule,
+    DashboardPresetsModule,
   ],
   controllers: [AppController],
   providers: [
