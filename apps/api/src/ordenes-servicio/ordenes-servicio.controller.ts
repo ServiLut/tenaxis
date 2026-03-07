@@ -102,7 +102,7 @@ export class OrdenesServicioController {
   async update(
     @Req() req: RequestWithUser,
     @Param('id') id: string,
-    @Body() body: Record<string, any>,
+    @Body() body: Record<string, unknown>,
     @UploadedFile() file?: Express.Multer.File,
   ) {
     const tenantId = req.user.tenantId;
@@ -110,30 +110,32 @@ export class OrdenesServicioController {
       throw new UnauthorizedException('Tenant ID not found in token');
     }
 
-    const updateDto: Partial<CreateOrdenServicioDto> = { ...body };
+    const updateDto = body as unknown as Partial<CreateOrdenServicioDto> & {
+      uploadField?: string;
+    };
 
     // Parse specific JSON fields if they are sent as strings in FormData
     if (typeof body.desglosePago === 'string') {
       try {
-        updateDto.desglosePago = JSON.parse(body.desglosePago);
-      } catch (e) {
-        // Handle gracefully if needed
+        updateDto.desglosePago = JSON.parse(body.desglosePago) as any[];
+      } catch {
+        // Handle gracefully
       }
     }
 
-    if (file && body.uploadField) {
-      const fieldToUpdate = body.uploadField as string;
-      const fileExt = file.originalname.split('.').pop();
+    if (file && typeof body.uploadField === 'string') {
+      const fieldToUpdate = body.uploadField;
+      const fileExt = file.originalname.split('.').pop() || '';
       const fileName = `${Math.random().toString(36).substring(2)}-${Date.now()}.${fileExt}`;
       const folderMap: Record<string, string> = {
-        "facturaElectronica": "facturaOrdenServicio",
-        "comprobantePago": "comprobanteOrdenServicio",
-        "evidenciaPath": "EvidenciaOrdenServicio"
+        facturaElectronica: 'facturaOrdenServicio',
+        comprobantePago: 'comprobanteOrdenServicio',
+        evidenciaPath: 'EvidenciaOrdenServicio',
       };
-      
+
       const folder = folderMap[fieldToUpdate] || 'EvidenciaOrdenServicio';
       const filePath = `${folder}/${fileName}`;
-      
+
       const fileId = await this.supabaseService.uploadFile(
         filePath,
         file.buffer,
@@ -142,9 +144,17 @@ export class OrdenesServicioController {
       );
 
       if (fileId) {
-        (updateDto as any)[fieldToUpdate] = fileId;
+        if (fieldToUpdate === 'facturaElectronica')
+          updateDto.facturaElectronica = fileId;
+        if (fieldToUpdate === 'comprobantePago')
+          updateDto.comprobantePago = fileId;
+        if (fieldToUpdate === 'evidenciaPath') updateDto.evidenciaPath = fileId;
       }
-      delete (updateDto as any).uploadField;
+    }
+
+    // Clean up temporary field used for routing the file
+    if ('uploadField' in updateDto) {
+      delete updateDto.uploadField;
     }
 
     return this.ordenesServicioService.update(

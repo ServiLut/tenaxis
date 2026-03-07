@@ -13,6 +13,8 @@ import {
   getMunicipalitiesAction,
   type ClienteDTO,
 } from "../../../actions";
+import { type Cliente } from "@/lib/api/clientes-client";
+import { type ConfigItem } from "@/lib/api/config-client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -87,9 +89,9 @@ function EditarClienteContent() {
   // --- Datos Dinámicos ---
   const [departamentos, setDepartments] = useState<{id: string, name: string}[]>([]);
   const [municipios, setMunicipalities] = useState<{id: string, name: string, departmentId: string}[]>([]);
-  const [segmentosDb, setSegmentosDb] = useState<{id: string, nombre: string, frecuenciaSugerida: number, riesgoSugerido: string}[]>([]);
-  const [riesgosDb, setRiesgosDb] = useState<{id: string, nombre: string}[]>([]);
-  const [tiposInteresDb, setTiposInteresDb] = useState<{id: string, nombre: string, frecuenciaSugerida: number, riesgoSugerido: string}[]>([]);
+  const [segmentosDb, setSegmentosDb] = useState<ConfigItem[]>([]);
+  const [riesgosDb, setRiesgosDb] = useState<ConfigItem[]>([]);
+  const [tiposInteresDb, setTiposInteresDb] = useState<ConfigItem[]>([]);
 
   // Estados del Formulario
   const [tipoCliente, setTipoCliente] = useState<"NATURAL" | "EMPRESA">("NATURAL");
@@ -169,7 +171,7 @@ function EditarClienteContent() {
     const loadClientData = async () => {
       if (!id) return;
       try {
-        const client = await getClienteByIdAction(id) as any;
+        const client = await getClienteByIdAction(id) as Cliente;
         if (!client) {
           toast.error("No se encontró el cliente");
           router.push("/dashboard/clientes");
@@ -188,31 +190,31 @@ function EditarClienteContent() {
         setRazonSocial(client.razonSocial || "");
         setNit(client.nit || "");
         setActividad(client.actividadEconomica || "");
-        setSegmento(client.segmentoId || "");
+        setSegmento(client.segmento || "");
         setInteres(client.tipoInteresId || "");
-        setRiesgoOverride(client.riesgoId || null);
+        setRiesgoOverride(client.nivelRiesgo || null);
         setMetraje(client.metrajeTotal ? Number(client.metrajeTotal) : 0);
         
         if (client.direcciones && client.direcciones.length > 0) {
-          setDirecciones(client.direcciones.map((d: Record<string, unknown>) => ({
+          setDirecciones(client.direcciones.map((d) => ({
             id: Number(d.id) || Date.now() + Math.random(),
-            direccion: (d.direccion as string) || "",
-            linkMaps: (d.linkMaps as string) || "",
-            departmentId: (d.departmentId as string) || "",
-            municipioId: (d.municipioId as string) || "",
-            municipio: ((d.municipioRel as { name?: string })?.name) || (d.municipio as string) || "",
-            barrio: (d.barrio as string) || "",
-            piso: (d.piso as string) || "",
-            bloque: (d.bloque as string) || "",
-            unidad: (d.unidad as string) || "",
-            tipoUbicacion: (d.tipoUbicacion as string) || "Residencial",
-            clasificacionPunto: (d.clasificacionPunto as string) || "Oficina administrativa",
-            horarioInicio: (d.horarioInicio as string) || "08:00",
-            horarioFin: (d.horarioFin as string) || "18:00",
-            restriccionesAcceso: (d.restricciones as string) || "",
-            nombreContacto: (d.nombreContacto as string) || "",
-            telefonoContacto: (d.telefonoContacto as string) || "",
-            cargoContacto: (d.cargoContacto as string) || "",
+            direccion: d.direccion || "",
+            linkMaps: d.linkMaps || "",
+            departmentId: d.departmentId || "",
+            municipioId: d.municipioId || "",
+            municipio: d.municipioRel?.name || d.municipio || "",
+            barrio: d.barrio || "",
+            piso: d.piso || "",
+            bloque: d.bloque || "",
+            unidad: d.unidad || "",
+            tipoUbicacion: d.tipoUbicacion || "Residencial",
+            clasificacionPunto: d.clasificacionPunto || "Oficina administrativa",
+            horarioInicio: d.horarioInicio || "08:00",
+            horarioFin: d.horarioFin || "18:00",
+            restriccionesAcceso: d.restricciones || "",
+            nombreContacto: d.nombreContacto || "",
+            telefonoContacto: d.telefonoContacto || "",
+            cargoContacto: d.cargoContacto || "",
             activa: d.activa ?? true,
             bloqueada: d.bloqueada ?? false,
             motivoBloqueo: d.motivoBloqueo || "",
@@ -325,8 +327,8 @@ function EditarClienteContent() {
       nit: nit || "No Concretado",
       actividadEconomica: actividad || "No Concretado",
       metrajeTotal: metraje ? parseFloat(metraje.toString()) : null,
-      segmentoId: segmento || null,
-      riesgoId: riesgoOverride || riesgosDb.find(r => r.nombre === sugerencias.riesgo)?.id || null,
+      segmento: (segmento || null) as ClienteDTO["segmento"],
+      nivelRiesgo: (riesgoOverride || riesgosDb.find(r => r.nombre === sugerencias.riesgo)?.id || null) as ClienteDTO["nivelRiesgo"],
       direcciones: cleanedDirecciones as unknown as NonNullable<ClienteDTO["direcciones"]>,
     };
 

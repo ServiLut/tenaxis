@@ -2,7 +2,12 @@
 
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { getDashboardStatsAction, getOrdenesServicioAction } from "../actions";
-import type { DashboardKpisType, DashboardTrendsType, DashboardActionableType } from "../schemas/dashboard.schema";
+import type {
+  DashboardKpisType,
+  DashboardTrendsType,
+  DashboardActionableType,
+  DashboardOverviewType,
+} from "../schemas/dashboard.schema";
 
 export const DASHBOARD_STATS_KEY = "dashboard-stats";
 export const RECENT_ACTIVITY_KEY = "recent-activity";
@@ -39,6 +44,15 @@ export function useDashboardActionable(empresaId?: string) {
     queryKey: [DASHBOARD_STATS_KEY, empresaId],
     queryFn: () => getDashboardStatsAction(empresaId),
     select: (data): DashboardActionableType => data.actionable,
+    staleTime: 1000 * 60 * 5,
+  });
+}
+
+export function useDashboardOverview(empresaId?: string) {
+  return useQuery({
+    queryKey: [DASHBOARD_STATS_KEY, empresaId],
+    queryFn: () => getDashboardStatsAction(empresaId),
+    select: (data): DashboardOverviewType => data.overview,
     staleTime: 1000 * 60 * 5,
   });
 }

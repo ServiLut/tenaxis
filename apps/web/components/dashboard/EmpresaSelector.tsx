@@ -25,7 +25,14 @@ export function EmpresaSelector() {
     async function loadEmpresas() {
       try {
         const result = await getEnterprisesAction();
-        const items = result.items || [];
+        let items: Empresa[] = [];
+        
+        if (result && typeof result === 'object' && 'items' in result) {
+          items = (result as { items: Empresa[] }).items;
+        } else {
+          items = Array.isArray(result) ? (result as Empresa[]) : [];
+        }
+        
         setEmpresas(items);
 
         const cookieId = document.cookie

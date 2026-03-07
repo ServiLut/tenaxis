@@ -12,6 +12,7 @@ import {
   getMunicipalitiesAction,
   type ClienteDTO,
 } from "../../actions";
+import { type ConfigItem } from "@/lib/api/config-client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -93,9 +94,9 @@ function NuevoClienteContent() {
   // --- Datos Dinámicos ---
   const [departamentos, setDepartments] = useState<{id: string, name: string}[]>([]);
   const [municipios, setMunicipalities] = useState<{id: string, name: string, departmentId: string}[]>([]);
-  const [segmentosDb, setSegmentosDb] = useState<{id: string, nombre: string, frecuenciaSugerida: number, riesgoSugerido: string}[]>([]);
-  const [riesgosDb, setRiesgosDb] = useState<{id: string, nombre: string}[]>([]);
-  const [tiposInteresDb, setTiposInteresDb] = useState<{id: string, nombre: string, frecuenciaSugerida: number, riesgoSugerido: string}[]>([]);
+  const [segmentosDb, setSegmentosDb] = useState<ConfigItem[]>([]);
+  const [riesgosDb, setRiesgosDb] = useState<ConfigItem[]>([]);
+  const [tiposInteresDb, setTiposInteresDb] = useState<ConfigItem[]>([]);
 
   // 1. Cargar Datos Geográficos y Configuración al iniciar
   useEffect(() => {
@@ -119,7 +120,7 @@ function NuevoClienteContent() {
         if (ints.length > 0) setInteres(ints[0]?.id || "");
         
         // Cargar empresas del usuario
-        const items = (empresasData as any)?.items || [];
+        const items = (empresasData as { items?: { id: string, nombre: string }[] })?.items || [];
         setEmpresasUser(items);
         
         const cookieId = document.cookie
@@ -269,8 +270,8 @@ function NuevoClienteContent() {
       nit: (formData.get("nit") as string) || "No Concretado",
       actividadEconomica: (formData.get("actividad") as string) || "No Concretado",
       metrajeTotal: metraje ? parseFloat(metraje.toString()) : null,
-      segmentoId: segmento || null,
-      riesgoId: riesgoOverride || riesgosDb.find(r => r.nombre === sugerencias.riesgo)?.id || null,
+      segmento: (segmento || null) as ClienteDTO["segmento"],
+      nivelRiesgo: (riesgoOverride || riesgosDb.find(r => r.nombre === sugerencias.riesgo)?.id || null) as ClienteDTO["nivelRiesgo"],
       direcciones: cleanedDirecciones,
     };
 
@@ -476,7 +477,7 @@ function NuevoClienteContent() {
 
                 <div className="space-y-2">
                   <Label className="text-xs font-bold text-muted-foreground uppercase tracking-wider">Nivel de Riesgo Operativo</Label>
-                  <Select value={riesgoOverride || riesgosDb.find(r => r.nombre === sugerencias.riesgo)?.id || ""} onValueChange={setRiesgoOverride} name="riesgoId">
+                  <Select value={riesgoOverride || riesgosDb.find(r => r.nombre === sugerencias.riesgo)?.id || ""} onValueChange={setRiesgoOverride} name="nivelRiesgo">
                     <SelectTrigger className="h-11 border-border focus:ring-0 focus:ring-offset-0 bg-background text-foreground">
                       <SelectValue placeholder="Seleccionar riesgo..." />
                     </SelectTrigger>

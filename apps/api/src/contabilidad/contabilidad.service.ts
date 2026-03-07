@@ -139,10 +139,24 @@ export class ContabilidadService {
   async getAccountingBalance(tenantId: string, empresaId?: string) {
     const now = new Date();
     const startOfMonth = new Date(now.getFullYear(), now.getMonth(), 1);
-    const endOfMonth = new Date(now.getFullYear(), now.getMonth() + 1, 0, 23, 59, 59);
+    const endOfMonth = new Date(
+      now.getFullYear(),
+      now.getMonth() + 1,
+      0,
+      23,
+      59,
+      59,
+    );
 
     const startOfPrevMonth = new Date(now.getFullYear(), now.getMonth() - 1, 1);
-    const endOfPrevMonth = new Date(now.getFullYear(), now.getMonth(), 0, 23, 59, 59);
+    const endOfPrevMonth = new Date(
+      now.getFullYear(),
+      now.getMonth(),
+      0,
+      23,
+      59,
+      59,
+    );
 
     const commonWhere = {
       tenantId,
@@ -204,40 +218,55 @@ export class ContabilidadService {
       }),
     ]);
 
-    const totalIngresos = Number(ingresosActual._sum.valorPagado || ingresosActual._sum.valorCotizado || 0);
-    const totalIngresosPrev = Number(ingresosPrev._sum.valorPagado || ingresosPrev._sum.valorCotizado || 0);
+    const totalIngresos = Number(
+      ingresosActual._sum.valorPagado || ingresosActual._sum.valorCotizado || 0,
+    );
+    const totalIngresosPrev = Number(
+      ingresosPrev._sum.valorPagado || ingresosPrev._sum.valorCotizado || 0,
+    );
     const totalEgresosEfectivos = Number(egresosActual._sum.monto || 0);
     const totalNominasMonto = Number(totalNominas._sum.totalPagar || 0);
-    
+
     const totalEgresos = totalEgresosEfectivos + totalNominasMonto;
     const totalEgresosPrev = Number(egresosPrev._sum.monto || 0); // Note: Simple comparison for now
 
-    const ingresosChange = totalIngresosPrev > 0 
-      ? ((totalIngresos - totalIngresosPrev) / totalIngresosPrev) * 100 
-      : 0;
-    
-    const egresosChange = totalEgresosPrev > 0
-      ? ((totalEgresos - totalEgresosPrev) / totalEgresosPrev) * 100
-      : 0;
+    const ingresosChange =
+      totalIngresosPrev > 0
+        ? ((totalIngresos - totalIngresosPrev) / totalIngresosPrev) * 100
+        : 0;
+
+    const egresosChange =
+      totalEgresosPrev > 0
+        ? ((totalEgresos - totalEgresosPrev) / totalEgresosPrev) * 100
+        : 0;
 
     // Build category breakdown
     const categories: { label: string; value: number; color: string }[] = [];
-    
+
     if (totalNominasMonto > 0) {
       categories.push({
         label: 'Nómina',
-        value: totalEgresos > 0 ? Math.round((totalNominasMonto / totalEgresos) * 100) : 0,
+        value:
+          totalEgresos > 0
+            ? Math.round((totalNominasMonto / totalEgresos) * 100)
+            : 0,
         color: 'bg-primary',
       });
     }
 
-    const colors = ['bg-amber-500', 'bg-emerald-500', 'bg-blue-500', 'bg-purple-500'];
+    const colors = [
+      'bg-amber-500',
+      'bg-emerald-500',
+      'bg-blue-500',
+      'bg-purple-500',
+    ];
     egresosPorCategoria.forEach((group, index) => {
       const monto = Number(group._sum?.monto || 0);
       if (monto > 0) {
         categories.push({
           label: group.categoria || 'General',
-          value: totalEgresos > 0 ? Math.round((monto / totalEgresos) * 100) : 0,
+          value:
+            totalEgresos > 0 ? Math.round((monto / totalEgresos) * 100) : 0,
           color: colors[index % colors.length],
         });
       }
@@ -275,10 +304,10 @@ export class ContabilidadService {
       include: {
         membership: {
           include: {
-            user: { select: { nombre: true, apellido: true } }
-          }
-        }
-      }
+            user: { select: { nombre: true, apellido: true } },
+          },
+        },
+      },
     });
   }
 
@@ -292,10 +321,10 @@ export class ContabilidadService {
       include: {
         membership: {
           include: {
-            user: { select: { nombre: true, apellido: true } }
-          }
-        }
-      }
+            user: { select: { nombre: true, apellido: true } },
+          },
+        },
+      },
     });
   }
 
@@ -309,10 +338,10 @@ export class ContabilidadService {
       include: {
         membership: {
           include: {
-            user: { select: { nombre: true, apellido: true } }
-          }
-        }
-      }
+            user: { select: { nombre: true, apellido: true } },
+          },
+        },
+      },
     });
   }
 
@@ -360,4 +389,3 @@ export class ContabilidadService {
     });
   }
 }
-

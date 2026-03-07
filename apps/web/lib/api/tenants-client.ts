@@ -34,7 +34,7 @@ export const tenantsClient = {
     return apiFetch<TenantMembership[]>(`/tenants/${tenantId}/memberships`, { cache: "no-store" });
   },
 
-  async updateMembership(id: string, data: any) {
+  async updateMembership(id: string, data: Record<string, unknown>) {
     return apiFetch(`/tenants/memberships/${id}`, {
       method: "PATCH",
       body: JSON.stringify(data),
@@ -57,7 +57,7 @@ export const tenantsClient = {
     });
   },
 
-  async createTenant(data: any) {
+  async createTenant(data: Record<string, unknown>) {
     return apiFetch("/tenants", {
       method: "POST",
       body: JSON.stringify(data),
@@ -71,7 +71,7 @@ export const tenantsClient = {
     });
   },
 
-  async inviteMember(tenantId: string, data: any) {
+  async inviteMember(tenantId: string, data: Record<string, unknown>) {
     return apiFetch(`/tenants/${tenantId}/memberships`, {
       method: "POST",
       body: JSON.stringify(data),

@@ -209,9 +209,8 @@ export class OrdenesServicioService {
       },
     });
 
-    if (nuevaOrden.estadoServicio === (EstadoOrden.LIQUIDADO as EstadoOrden)) {
-      await this.recalculateClientStatus(nuevaOrden.clienteId);
-    }
+    // Recalcular estado del cliente (score, clasificación, ultima/proxima visita)
+    await this.recalculateClientStatus(nuevaOrden.clienteId);
 
     return this.processSignedUrls(nuevaOrden as OrdenWithGeolocalizaciones);
   }
@@ -1009,7 +1008,11 @@ export class OrdenesServicioService {
       where: { id: clienteId },
       include: {
         ordenesServicio: {
-          where: { estadoServicio: EstadoOrden.LIQUIDADO as EstadoOrden },
+          where: {
+            estadoServicio: {
+              not: EstadoOrden.CANCELADO as EstadoOrden,
+            },
+          },
           orderBy: { fechaVisita: 'desc' },
         },
       },
@@ -1022,17 +1025,20 @@ export class OrdenesServicioService {
     const sixMonthsAgo = new Date();
     sixMonthsAgo.setMonth(now.getMonth() - 6);
 
-    const orders = cliente.ordenesServicio;
+    const liquidatedOrders = cliente.ordenesServicio.filter(
+      (o) => o.estadoServicio === (EstadoOrden.LIQUIDADO as EstadoOrden),
+    );
 
     // 1. Basic score: +10 per liquidated order
-    score += orders.length * 10;
+    score += liquidatedOrders.length * 10;
 
     // 2. Ticket bonus: +5 if value > 1,000,000
     score +=
-      orders.filter((o) => Number(o.valorCotizado || 0) > 1000000).length * 5;
+      liquidatedOrders.filter((o) => Number(o.valorCotizado || 0) > 1000000)
+        .length * 5;
 
     // 3. Fidelity bonus: +20 if at least 5 in last 6 months
-    const recentOrders = orders.filter(
+    const recentOrders = liquidatedOrders.filter(
       (o) => o.fechaVisita && new Date(o.fechaVisita) >= sixMonthsAgo,
     );
     if (recentOrders.length >= 5) {
@@ -1045,7 +1051,7 @@ export class OrdenesServicioService {
 
     // RIESGO logic:
     // a. Technical Risk: last order infestation is CRITICO or ALTO
-    const lastOrder = orders[0];
+    const lastOrder = liquidatedOrders[0];
     const isTechnicalRisk =
       lastOrder &&
       (lastOrder.nivelInfestacion ===
@@ -1079,12 +1085,24 @@ export class OrdenesServicioService {
       }
     }
 
+    // Proxima Visita: La fecha más cercana en el futuro de una orden NO cancelada
+    const futureOrders = cliente.ordenesServicio
+      .filter((o) => o.fechaVisita && new Date(o.fechaVisita) >= now)
+      .sort(
+        (a, b) =>
+          new Date(a.fechaVisita!).getTime() -
+          new Date(b.fechaVisita!).getTime(),
+      );
+
+    const proximaVisita = futureOrders[0]?.fechaVisita || null;
+
     await this.prisma.cliente.update({
       where: { id: clienteId },
       data: {
         score,
         clasificacion,
         ultimaVisita: lastVisitDate,
+        proximaVisita: proximaVisita,
       },
     });
   }

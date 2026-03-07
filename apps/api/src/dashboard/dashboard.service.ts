@@ -32,6 +32,10 @@ export class DashboardService {
       59,
       999,
     );
+    const startOfToday = new Date(now);
+    startOfToday.setHours(0, 0, 0, 0);
+    const endOfToday = new Date(now);
+    endOfToday.setHours(23, 59, 59, 999);
 
     const commonWhere: Prisma.OrdenServicioWhereInput = {
       tenantId,
@@ -50,27 +54,20 @@ export class DashboardService {
       tareasVencidas,
       alertasCriticas,
       ingresosSemanales,
-    ]: [
-      Prisma.GetOrdenServicioAggregateType<{
-        where: Prisma.OrdenServicioWhereInput;
-        _sum: { valorPagado: true; valorCotizado: true };
-      }>,
-      Prisma.GetOrdenServicioAggregateType<{
-        where: Prisma.OrdenServicioWhereInput;
-        _sum: { valorPagado: true; valorCotizado: true };
-      }>,
-      number,
-      number,
-      Prisma.GetOrdenServicioAggregateType<{
-        where: Prisma.OrdenServicioWhereInput;
-        _sum: { valorCotizado: true };
-      }>,
-      number,
-      number,
-      number,
-      number,
-      number,
-      number[],
+      serviciosAgendadosHoy,
+      enProcesoHoy,
+      realizadosHoy,
+      ingresosHoy,
+      pendientesLiquidarHoy,
+      canceladosHoy,
+      sinCobrarHoy,
+      enProcesoTotal,
+      pendientesLiquidarTotal,
+      realizadosTotal,
+      serviciosTotales,
+      ingresosTotales,
+      sinCobrarTotales,
+      canceladosTotales,
     ] = await Promise.all([
       // 1. Ingresos Mes Actual
       this.prisma.ordenServicio.aggregate({
@@ -155,6 +152,111 @@ export class DashboardService {
       }),
       // 11. Weekly Trend
       this.getWeeklyIncome(tenantId, empresaId),
+      // 12. Servicios agendados hoy
+      this.prisma.ordenServicio.count({
+        where: {
+          ...commonWhere,
+          fechaVisita: { gte: startOfToday, lte: endOfToday },
+        },
+      }),
+      // 13. En proceso hoy
+      this.prisma.ordenServicio.count({
+        where: {
+          ...commonWhere,
+          fechaVisita: { gte: startOfToday, lte: endOfToday },
+          estadoServicio: 'PROCESO',
+        },
+      }),
+      // 14. Realizados hoy
+      this.prisma.ordenServicio.count({
+        where: {
+          ...commonWhere,
+          fechaVisita: { gte: startOfToday, lte: endOfToday },
+          estadoServicio: 'LIQUIDADO',
+        },
+      }),
+      // 15. Ingresos hoy
+      this.prisma.ordenServicio.aggregate({
+        where: {
+          ...commonWhere,
+          fechaVisita: { gte: startOfToday, lte: endOfToday },
+          estadoPago: { in: ['PAGADO', 'CONCILIADO'] },
+        },
+        _sum: { valorPagado: true, valorCotizado: true },
+      }),
+      // 16. Pendientes por liquidar hoy
+      this.prisma.ordenServicio.count({
+        where: {
+          ...commonWhere,
+          fechaVisita: { gte: startOfToday, lte: endOfToday },
+          estadoServicio: 'TECNICO_FINALIZO',
+        },
+      }),
+      // 17. Cancelados hoy
+      this.prisma.ordenServicio.count({
+        where: {
+          ...commonWhere,
+          fechaVisita: { gte: startOfToday, lte: endOfToday },
+          estadoServicio: 'CANCELADO',
+        },
+      }),
+      // 18. Sin cobrar hoy
+      this.prisma.ordenServicio.count({
+        where: {
+          ...commonWhere,
+          fechaVisita: { gte: startOfToday, lte: endOfToday },
+          estadoPago: 'PENDIENTE',
+          estadoServicio: { in: ['LIQUIDADO', 'TECNICO_FINALIZO'] },
+        },
+      }),
+      // 19. En proceso (total)
+      this.prisma.ordenServicio.count({
+        where: {
+          ...commonWhere,
+          estadoServicio: 'PROCESO',
+        },
+      }),
+      // 20. Pendientes liquidar (total)
+      this.prisma.ordenServicio.count({
+        where: {
+          ...commonWhere,
+          estadoServicio: 'TECNICO_FINALIZO',
+        },
+      }),
+      // 21. Realizados histórico
+      this.prisma.ordenServicio.count({
+        where: {
+          ...commonWhere,
+          estadoServicio: 'LIQUIDADO',
+        },
+      }),
+      // 22. Servicios totales
+      this.prisma.ordenServicio.count({
+        where: commonWhere,
+      }),
+      // 23. Ingresos totales
+      this.prisma.ordenServicio.aggregate({
+        where: {
+          ...commonWhere,
+          estadoPago: { in: ['PAGADO', 'CONCILIADO'] },
+        },
+        _sum: { valorPagado: true, valorCotizado: true },
+      }),
+      // 24. Sin cobrar totales
+      this.prisma.ordenServicio.count({
+        where: {
+          ...commonWhere,
+          estadoPago: 'PENDIENTE',
+          estadoServicio: { in: ['LIQUIDADO', 'TECNICO_FINALIZO'] },
+        },
+      }),
+      // 25. Cancelados totales
+      this.prisma.ordenServicio.count({
+        where: {
+          ...commonWhere,
+          estadoServicio: 'CANCELADO',
+        },
+      }),
     ]);
 
     const valActual = Number(
@@ -173,6 +275,20 @@ export class DashboardService {
         : 0;
 
     const sla = totalMes > 0 ? Math.round((aTiempoMes / totalMes) * 100) : 100;
+    const ingresosHoyValue = Number(
+      ingresosHoy._sum?.valorPagado || ingresosHoy._sum?.valorCotizado || 0,
+    );
+    const ingresosTotalesValue = Number(
+      ingresosTotales._sum?.valorPagado ||
+        ingresosTotales._sum?.valorCotizado ||
+        0,
+    );
+    const tasaCancelacionHoy =
+      serviciosAgendadosHoy > 0
+        ? (canceladosHoy / serviciosAgendadosHoy) * 100
+        : 0;
+    const tasaCancelacionTotal =
+      serviciosTotales > 0 ? (canceladosTotales / serviciosTotales) * 100 : 0;
 
     return {
       kpis: {
@@ -200,6 +316,28 @@ export class DashboardService {
         vencidas: tareasVencidas,
         sinAsignacion: sinAsignacion,
         alertas: alertasCriticas,
+      },
+      overview: {
+        today: {
+          serviciosAgendados: serviciosAgendadosHoy,
+          enProceso: enProcesoHoy,
+          realizados: realizadosHoy,
+          ingresos: ingresosHoyValue,
+          pendientesLiquidar: pendientesLiquidarHoy,
+          cancelados: canceladosHoy,
+          tasaCancelacion: Number(tasaCancelacionHoy.toFixed(1)),
+          sinCobrar: sinCobrarHoy,
+        },
+        global: {
+          enProceso: enProcesoTotal,
+          pendientesLiquidar: pendientesLiquidarTotal,
+          realizadosHistorico: realizadosTotal,
+          serviciosTotales: serviciosTotales,
+          ingresosTotales: ingresosTotalesValue,
+          sinCobrarTotales: sinCobrarTotales,
+          cancelados: canceladosTotales,
+          tasaCancelacion: Number(tasaCancelacionTotal.toFixed(1)),
+        },
       },
     };
   }

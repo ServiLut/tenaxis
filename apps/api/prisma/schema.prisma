@@ -77,7 +77,7 @@ model Tenant {
   servicios                 Servicio[]
   sesionesActividad         SesionActividad[]
   subscription              Subscription?
-  sugerencias_seguimiento   sugerencias_seguimiento[]
+  sugerencias               SugerenciaSeguimiento[]
   memberships               TenantMembership[]
   terapiasPsicologos        TerapiasPsicologos[]
   tiposInteres              TipoInteres[]
@@ -226,7 +226,7 @@ model Empresa {
   referidos                 Referidos[]
   servicios                 Servicio[]
   sesionesActividad         SesionActividad[]
-  sugerencias_seguimiento   sugerencias_seguimiento[]
+  sugerencias               SugerenciaSeguimiento[]
   terapiasPsicologos        TerapiasPsicologos[]
   tiposServicio             TipoServicio[]
   turnos                    Turno[]
@@ -398,7 +398,7 @@ model Cliente {
   direcciones               Direccion[]
   ordenesServicio           OrdenServicio[]
   paquetesAdquiridos        PaqueteAdquirido[]
-  sugerencias_seguimiento   sugerencias_seguimiento[]
+  sugerencias               SugerenciaSeguimiento[]
   vehiculos                 Vehiculo[]
 
   @@index([tenantId])
@@ -406,8 +406,8 @@ model Cliente {
   @@index([tenantId, empresaId])
   @@index([numeroDocumento])
   @@index([nombre, apellido])
-  @@index([nivelRiesgo])
   @@index([segmento])
+  @@index([nivelRiesgo])
   @@map("clientes")
 }
 
@@ -1340,8 +1340,8 @@ model EvidenciaServicio {
   @@map("evidencias_servicio")
 }
 
-model sugerencias_seguimiento {
-  id             String              @id @db.Uuid
+model SugerenciaSeguimiento {
+  id             String              @id @default(uuid()) @db.Uuid
   tenantId       String              @db.Uuid
   empresaId      String?             @db.Uuid
   clienteId      String              @db.Uuid
@@ -1354,15 +1354,16 @@ model sugerencias_seguimiento {
   fechaSugerida  DateTime            @default(now())
   fechaEjecutada DateTime?
   creadoAt       DateTime            @default(now())
-  actualizadoAt  DateTime
-  clientes       Cliente             @relation(fields: [clienteId], references: [id], onDelete: Cascade)
-  empresas       Empresa?            @relation(fields: [empresaId], references: [id])
-  tenants        Tenant              @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  actualizadoAt  DateTime            @updatedAt
+  cliente        Cliente             @relation(fields: [clienteId], references: [id], onDelete: Cascade)
+  empresa        Empresa?            @relation(fields: [empresaId], references: [id])
+  tenant         Tenant              @relation(fields: [tenantId], references: [id], onDelete: Cascade)
 
+  @@index([tenantId])
   @@index([empresaId])
   @@index([estado])
   @@index([fechaSugerida])
-  @@index([tenantId])
+  @@map("sugerencias_seguimiento")
 }
 
 enum DiaSemana {
@@ -1508,6 +1509,17 @@ enum TipoCliente {
   EMPRESA
 }
 
+enum SegmentoCliente {
+  HOGAR
+  COMERCIO
+  INDUSTRIA
+  SALUD
+  EDUCACION
+  HORECA
+  OFICINA
+  OTRO
+}
+
 enum NivelRiesgo {
   BAJO
   MEDIO
@@ -1545,15 +1557,4 @@ enum PrioridadSugerencia {
   MEDIA
   ALTA
   CRITICA
-}
-
-enum SegmentoCliente {
-  HOGAR
-  COMERCIO
-  INDUSTRIA
-  SALUD
-  EDUCACION
-  HORECA
-  OFICINA
-  OTRO
 }

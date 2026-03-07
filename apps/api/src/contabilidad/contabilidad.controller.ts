@@ -155,13 +155,14 @@ export class FinanzasController {
       const fileExt = comprobanteFile.originalname.split('.').pop();
       const fileName = `${Math.random().toString(36).substring(2)}-${Date.now()}.${fileExt}`;
       const filePath = `comprobanteOrdenServicio/${fileName}`;
-      
-      fileId = await this.supabaseService.uploadFile(
-        filePath,
-        comprobanteFile.buffer,
-        comprobanteFile.mimetype,
-        'tenaxis-docs',
-      ) || '';
+
+      fileId =
+        (await this.supabaseService.uploadFile(
+          filePath,
+          comprobanteFile.buffer,
+          comprobanteFile.mimetype,
+          'tenaxis-docs',
+        )) || '';
     }
 
     return this.contabilidadService.registrarConsignacion(
@@ -173,10 +174,10 @@ export class FinanzasController {
         valorConsignado: Number(data.valorConsignado),
         referenciaBanco: data.referenciaBanco,
         comprobantePath: fileId,
-        ordenIds: JSON.parse(data.ordenIds),
+        ordenIds: JSON.parse(data.ordenIds) as string[],
         fechaConsignacion: data.fechaConsignacion,
         observacion: data.observacion,
-      }
+      },
     );
   }
 }

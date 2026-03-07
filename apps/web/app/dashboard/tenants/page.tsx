@@ -2,7 +2,7 @@ import React from "react";
 import { DashboardLayout } from "@/components/dashboard";
 import { isTenantAdminAction, getTenantsAction, getPlansAction } from "../actions";
 import { redirect } from "next/navigation";
-import { TenantList } from "./tenant-list";
+import { TenantList, type Tenant, type Plan } from "./tenant-list";
 
 export default async function TenantsPage() {
   const isAdmin = await isTenantAdminAction();
@@ -30,7 +30,7 @@ export default async function TenantsPage() {
           </div>
         </div>
 
-        <TenantList initialTenants={tenants} availablePlans={plans} />
+        <TenantList initialTenants={tenants as Tenant[]} availablePlans={plans as unknown as Plan[]} />
       </div>
     </DashboardLayout>
   );

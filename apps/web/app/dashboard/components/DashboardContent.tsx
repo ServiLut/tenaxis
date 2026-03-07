@@ -5,14 +5,15 @@ import { useDashboardRefresh, useRecentActivity } from "../hooks/useDashboardDat
 import { useDashboardConfig, DashboardWidget } from "../hooks/useDashboardConfig";
 import { DashboardHeader } from "./DashboardHeader";
 import { StatCards } from "./StatCards";
+import { DashboardOverviewMetrics } from "./DashboardOverviewMetrics";
 import { RevenueChart } from "./RevenueChart";
 import { QuickActions } from "./QuickActions";
-import { RecentActivity } from "./RecentActivity";
+import { RecentActivity, type RecentService } from "./RecentActivity";
 import { OperationActionable } from "./OperationActionable";
-import { StatCardSkeleton, RevenueChartSkeleton, TableSkeleton, Skeleton } from "./Skeletons";
+import { StatCardSkeleton, RevenueChartSkeleton, TableSkeleton, Skeleton, OverviewMetricsSkeleton, ActionableCardsSkeleton } from "./Skeletons";
 import { AlertCircle, RefreshCw, Eye } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { useDashboardKpis, useDashboardTrends, useDashboardActionable } from "../hooks/useDashboardData";
+import { useDashboardKpis, useDashboardTrends, useDashboardActionable, useDashboardOverview } from "../hooks/useDashboardData";
 
 interface DashboardContentProps {
   enterpriseId?: string;
@@ -23,6 +24,7 @@ export const DashboardContent = React.memo(function DashboardContent({ enterpris
   const { config, moveWidget, toggleVisibility, isLoaded: configLoaded } = useDashboardConfig();
 
   const { isLoading: kpisLoading, isError: kpisError } = useDashboardKpis(enterpriseId);
+  const { isLoading: overviewLoading, isError: overviewError } = useDashboardOverview(enterpriseId);
   const { isLoading: trendsLoading, isError: trendsError } = useDashboardTrends(enterpriseId);
   const { isLoading: actionableLoading, isError: actionableError } = useDashboardActionable(enterpriseId);
   
@@ -34,7 +36,7 @@ export const DashboardContent = React.memo(function DashboardContent({ enterpris
 
   const { refreshAll } = useDashboardRefresh(enterpriseId);
 
-  const hasAnyError = kpisError || trendsError || actionableError || activityError;
+  const hasAnyError = kpisError || overviewError || trendsError || actionableError || activityError;
 
   if (hasAnyError) {
     return (
@@ -78,6 +80,15 @@ export const DashboardContent = React.memo(function DashboardContent({ enterpris
         ) : (
           <StatCards key={id} enterpriseId={enterpriseId} {...commonProps} />
         );
+
+      case "overview":
+        return overviewLoading ? (
+          <div key={id}>
+            <OverviewMetricsSkeleton />
+          </div>
+        ) : (
+          <DashboardOverviewMetrics key={id} enterpriseId={enterpriseId} {...commonProps} />
+        );
       
       case "trends":
         return (
@@ -99,8 +110,8 @@ export const DashboardContent = React.memo(function DashboardContent({ enterpris
 
       case "actionable":
         return actionableLoading ? (
-          <div key={id} className="grid grid-cols-1 md:grid-cols-3 gap-6">
-             {[1,2,3].map(i => <Skeleton key={i} className="h-40 rounded-3xl" />)}
+          <div key={id}>
+            <ActionableCardsSkeleton />
           </div>
         ) : (
           <OperationActionable key={id} enterpriseId={enterpriseId} {...commonProps} />
@@ -112,7 +123,7 @@ export const DashboardContent = React.memo(function DashboardContent({ enterpris
         ) : (
           <RecentActivity 
             key={id}
-            recentServices={recentServices || []} 
+            recentServices={(recentServices as unknown as RecentService[]) || []} 
             loading={false} 
             refreshData={() => refreshAll()} 
             {...commonProps}

@@ -32,7 +32,12 @@ import {
   Activity,
   CheckCircle2,
   XCircle,
-  AlertCircle
+  AlertCircle,
+  MapPin,
+  Upload,
+  Receipt,
+  Image as ImageIcon,
+  ExternalLink
 } from "lucide-react";
 import {
   Dialog,
@@ -50,6 +55,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { cn } from "@/components/ui/utils";
 import { toast } from "sonner";
+import Image from "next/image";
 import {
   getOrdenesServicioAction,
   getEstadoServiciosAction,
@@ -261,6 +267,7 @@ function ServiciosContent() {
   const [loading, setLoading] = useState(true);
   const [selectedServicio, setSelectedServicio] = useState<Servicio | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isVisitaModalOpen, setIsVisitaModalOpen] = useState(false);
   const [showFilters, setShowFilters] = useState(false);
   const [isLiquidarModalOpen, setIsLiquidarModalOpen] = useState(false);
   const [showKPIs, setShowKPIs] = useState(true);
@@ -285,6 +292,16 @@ function ServiciosContent() {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [isUploading, setIsUploading] = useState(false);
   const [uploadConfig, setUploadConfig] = useState<{ id: string; field: "facturaElectronica" | "comprobantePago" | "evidenciaPath" } | null>(null);
+
+  const triggerUpload = (id: string, field: "facturaElectronica" | "comprobantePago" | "evidenciaPath") => {
+    if (fileInputRef.current) {
+      fileInputRef.current.multiple = field === "evidenciaPath";
+    }
+    setUploadConfig({ id, field });
+    setTimeout(() => {
+      fileInputRef.current?.click();
+    }, 100);
+  };
 
   const [filters, setFilters] = useState({
     estado: searchParams.get("estado") || "all",
@@ -323,9 +340,9 @@ function ServiciosContent() {
     try {
       const empresaId = localStorage.getItem("current-enterprise-id") || "";
       const [estados, tecnicos, metodos, munis] = await Promise.all([
-        getEstadoServiciosAction(empresaId as any || undefined),
+        getEstadoServiciosAction(empresaId || undefined),
         empresaId ? getOperatorsAction(empresaId) : Promise.resolve([]),
-        getMetodosPagoAction(empresaId as any || undefined),
+        getMetodosPagoAction(empresaId || undefined),
         getMunicipalitiesAction(),
       ]);
 
@@ -342,15 +359,18 @@ function ServiciosContent() {
 
       setOptions(prev => ({
         ...prev,
-        estados: Array.isArray(estados) && estados.length > 0 ? estados : coreEstados,
-        tecnicos: (Array.isArray(tecnicos) ? tecnicos : []).map(t => ({
+        estados: Array.isArray(estados) && estados.length > 0 ? (estados as Array<{id: string, nombre: string}>) : coreEstados,
+        tecnicos: (Array.isArray(tecnicos) ? (tecnicos as Array<{ id: string, user?: { nombre?: string, apellido?: string } }>) : []).map(t => ({
           id: t.id,
           nombre: `${t.user?.nombre || ""} ${t.user?.apellido || ""}`.trim() || "Sin nombre"
         })),
-        metodosPago: Array.isArray(metodos) ? metodos : [],
+        metodosPago: (Array.isArray(metodos) ? (metodos as Array<{ id: string, nombre: string }>) : []).map(m => ({
+          id: m.id,
+          nombre: m.nombre
+        })),
         municipios: Array.from(new Set([
           ...prev.municipios,
-          ...(Array.isArray(munis) ? munis : []).map(m => m.name.toUpperCase())
+          ...(Array.isArray(munis) ? (munis as Array<{ name: string }>) : []).map(m => m.name.toUpperCase())
         ])).sort(),
       }));
     } catch (error) {
@@ -364,7 +384,7 @@ function ServiciosContent() {
       const empresaId = localStorage.getItem("current-enterprise-id") || undefined;
       const data = await getOrdenesServicioAction(empresaId);
 
-      const mapped: Servicio[] = (Array.isArray(data) ? data : []).map((os: OrdenServicioRaw) => {
+      const mapped: Servicio[] = (Array.isArray(data) ? (data as OrdenServicioRaw[]) : []).map((os) => {
         const clienteLabel = os.cliente.tipoCliente === "EMPRESA"
           ? (os.cliente.razonSocial || "Empresa")
           : `${os.cliente.nombre || ""} ${os.cliente.apellido || ""}`.trim();
@@ -401,7 +421,7 @@ function ServiciosContent() {
       const techniciansMap = new Map<string, string>();
       const typesSet = new Set<string>();
 
-      (Array.isArray(data) ? data : []).forEach((os: OrdenServicioRaw) => {
+      (Array.isArray(data) ? (data as OrdenServicioRaw[]) : []).forEach((os) => {
         if (os.municipio) muniSet.add(os.municipio.trim().toUpperCase());
         if (os.creadoPor?.user) {
           const name = `${os.creadoPor.user.nombre} ${os.creadoPor.user.apellido}`.trim();
@@ -476,11 +496,6 @@ function ServiciosContent() {
         }
       } else {
         const file = files[0]!;
-        const folderMap: Record<string, string> = {
-          "facturaElectronica": "facturaOrdenServicio",
-          "comprobantePago": "comprobanteOrdenServicio",
-          "evidenciaPath": "EvidenciaOrdenServicio"
-        };
 
         const formData = new FormData();
         formData.append("file", file);
@@ -662,7 +677,8 @@ function ServiciosContent() {
     const toastId = toast.loading(`Notificando al técnico...`);
     try {
       const ops = await getOperatorsAction(servicio.raw.empresaId);
-      const operator = (Array.isArray(ops) ? ops : ops?.data || []).find((o: Operator) => o.id === tecnicoId);
+      const operatorList = Array.isArray(ops) ? (ops as Operator[]) : [];
+      const operator = operatorList.find((o: Operator) => o.id === tecnicoId);
       if (!operator?.telefono) { toast.error("El técnico no tiene teléfono registrado", { id: toastId }); return; }
       const os = servicio.raw;
       const dateObj = os.fechaVisita && os.horaInicio ? new Date(os.horaInicio) : new Date();
@@ -690,9 +706,20 @@ function ServiciosContent() {
     } catch (_error) { toast.error("Error al procesar notificación", { id: toastId }); }
   };
 
+  const isSixSeven = search === "67";
+
   return (
     <DashboardLayout overflowHidden>
-      <div className="flex flex-col h-full bg-background">
+      <style dangerouslySetInnerHTML={{ __html: `
+        @keyframes six-seven-bounce {
+          0%, 100% { transform: translateY(0); }
+          50% { transform: translateY(-40px); }
+        }
+        .animate-six-seven {
+          animation: six-seven-bounce 0.4s infinite ease-in-out;
+        }
+      `}} />
+      <div className={cn("flex flex-col h-full bg-background transition-all duration-500", isSixSeven && "animate-six-seven")}>
         <div className="shrink-0 py-10 px-6 lg:px-10 border-b border-border mb-8 bg-muted/30">
           <div className="max-w-[1600px] mx-auto w-full flex flex-col md:flex-row md:items-center gap-6">
             <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-primary text-primary-foreground shadow-xl shadow-primary/20">
@@ -788,6 +815,11 @@ function ServiciosContent() {
                                     <DropdownMenuItem onClick={() => handleWhatsAppNotify(s)} className="flex items-center gap-3 py-2.5 text-[11px] font-bold cursor-pointer text-foreground hover:bg-muted"><Bell className="h-4 w-4 text-pink-500" /> RECORDATORIO WPP</DropdownMenuItem>
                                     <DropdownMenuItem onClick={() => handleNotifyOperator(s)} className="flex items-center gap-3 py-2.5 text-[11px] font-bold cursor-pointer text-foreground hover:bg-muted"><Send className="h-4 w-4 text-[#01ADFB]" /> ENVIAR A TECNICO</DropdownMenuItem>
                                     <DropdownMenuSeparator />
+                                    <DropdownMenuItem onClick={() => { setSelectedServicio(s); setIsVisitaModalOpen(true); }} className="flex items-center gap-3 py-2.5 text-[11px] font-bold cursor-pointer text-foreground hover:bg-muted"><MapPin className="h-4 w-4 text-emerald-500" /> EVIDENCIA DE VISITA</DropdownMenuItem>
+                                    <DropdownMenuItem onClick={() => triggerUpload(s.raw.id, "facturaElectronica")} className="flex items-center gap-3 py-2.5 text-[11px] font-bold cursor-pointer text-foreground hover:bg-muted"><Upload className="h-4 w-4 text-blue-500" /> SUBIR FACTURA</DropdownMenuItem>
+                                    <DropdownMenuItem onClick={() => triggerUpload(s.raw.id, "comprobantePago")} className="flex items-center gap-3 py-2.5 text-[11px] font-bold cursor-pointer text-foreground hover:bg-muted"><Receipt className="h-4 w-4 text-orange-500" /> SUBIR COMPROBANTE</DropdownMenuItem>
+                                    <DropdownMenuItem onClick={() => triggerUpload(s.raw.id, "evidenciaPath")} className="flex items-center gap-3 py-2.5 text-[11px] font-bold cursor-pointer text-foreground hover:bg-muted"><ImageIcon className="h-4 w-4 text-indigo-500" /> SUBIR EVIDENCIAS</DropdownMenuItem>
+                                    <DropdownMenuSeparator />
                                     {s.estadoServicio === "LIQUIDADO" ? (
                                       <DropdownMenuItem onClick={() => { setSelectedServicio(s); }} className="flex items-center gap-3 py-2.5 text-[11px] font-bold cursor-pointer text-emerald-600 hover:bg-emerald-500/10"><CheckCircle2 className="h-4 w-4" /> VER LIQUIDACION</DropdownMenuItem>
                                     ) : (
@@ -861,6 +893,121 @@ function ServiciosContent() {
           </div>
         )}
       </DialogContent></Dialog>
+
+      <Dialog open={isVisitaModalOpen} onOpenChange={setIsVisitaModalOpen}>
+        <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto bg-background border-border">
+          <DialogHeader>
+            <DialogTitle className="text-xl font-black uppercase text-foreground">Evidencia de Visita</DialogTitle>
+            <DialogDescription className="text-muted-foreground">Trazabilidad geográfica y fotográfica del servicio.</DialogDescription>
+          </DialogHeader>
+          {selectedServicio && (
+            <div className="space-y-6 mt-4">
+              {selectedServicio.raw.geolocalizaciones && selectedServicio.raw.geolocalizaciones.length > 0 ? (
+                <div className="grid grid-cols-1 gap-6">
+                  {selectedServicio.raw.geolocalizaciones.map((geo, idx) => (
+                    <div key={geo.id} className="p-6 bg-muted/30 rounded-3xl border border-border space-y-6">
+                      <div className="flex items-center justify-between border-b border-border pb-4">
+                        <div className="flex items-center gap-3">
+                          <div className="h-10 w-10 rounded-xl bg-emerald-500/10 flex items-center justify-center">
+                            <MapPin className="h-5 w-5 text-emerald-600" />
+                          </div>
+                          <div>
+                            <p className="text-xs font-black text-foreground uppercase">Visita #{idx + 1}</p>
+                            <p className="text-[10px] font-bold text-muted-foreground uppercase">{geo.membership.user.nombre} {geo.membership.user.apellido}</p>
+                          </div>
+                        </div>
+                        {geo.linkMaps && (
+                          <Button variant="outline" size="sm" asChild className="h-9 px-4 rounded-xl border-border bg-card text-[10px] font-black uppercase gap-2">
+                            <a href={geo.linkMaps} target="_blank" rel="noopener noreferrer">
+                              <ExternalLink className="h-3.5 w-3.5" /> Ver en Maps
+                            </a>
+                          </Button>
+                        )}
+                      </div>
+
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                        <div className="space-y-4">
+                          <div className="flex items-center justify-between">
+                            <div className="flex items-center gap-2">
+                              <div className="h-2 w-2 rounded-full bg-emerald-500" />
+                              <p className="text-[10px] font-black text-muted-foreground uppercase">Llegada</p>
+                            </div>
+                            <p className="text-xs font-bold text-foreground">{new Date(geo.llegada).toLocaleString()}</p>
+                          </div>
+                          <div className="aspect-video relative rounded-2xl border border-border bg-muted overflow-hidden flex items-center justify-center">
+                            {geo.fotoLlegada ? (
+                              <Image 
+                                src={`https://axistestst.supabase.co/storage/v1/object/public/EvidenciaOrdenServicio/${geo.fotoLlegada}`} 
+                                alt="Foto Llegada" 
+                                fill
+                                className="object-cover" 
+                              />
+                            ) : (
+                              <div className="text-center space-y-2">
+                                <ImageIcon className="h-8 w-8 text-muted-foreground/30 mx-auto" />
+                                <p className="text-[10px] font-bold text-muted-foreground uppercase">Sin foto de llegada</p>
+                              </div>
+                            )}
+                          </div>
+                        </div>
+
+                        <div className="space-y-4">
+                          <div className="flex items-center justify-between">
+                            <div className="flex items-center gap-2">
+                              <div className="h-2 w-2 rounded-full bg-red-500" />
+                              <p className="text-[10px] font-black text-muted-foreground uppercase">Salida</p>
+                            </div>
+                            <p className="text-xs font-bold text-foreground">{geo.salida ? new Date(geo.salida).toLocaleString() : "Pendiente"}</p>
+                          </div>
+                          <div className="aspect-video relative rounded-2xl border border-border bg-muted overflow-hidden flex items-center justify-center">
+                            {geo.fotoSalida ? (
+                              <Image 
+                                src={`https://axistestst.supabase.co/storage/v1/object/public/EvidenciaOrdenServicio/${geo.fotoSalida}`} 
+                                alt="Foto Salida" 
+                                fill
+                                className="object-cover" 
+                              />
+                            ) : (
+                              <div className="text-center space-y-2">
+                                <ImageIcon className="h-8 w-8 text-muted-foreground/30 mx-auto" />
+                                <p className="text-[10px] font-bold text-muted-foreground uppercase">Sin foto de salida</p>
+                              </div>
+                            )}
+                          </div>
+                        </div>
+                      </div>
+
+                      <div className="pt-4 border-t border-border grid grid-cols-2 gap-4">
+                        <div className="space-y-1">
+                          <p className="text-[9px] font-black text-muted-foreground uppercase">Coordenadas</p>
+                          <p className="font-mono text-xs font-bold text-foreground">{geo.latitud?.toFixed(6) || "N/A"}, {geo.longitud?.toFixed(6) || "N/A"}</p>
+                        </div>
+                        <div className="space-y-1 text-right">
+                          <p className="text-[9px] font-black text-muted-foreground uppercase">Duración</p>
+                          <p className="text-xs font-bold text-foreground">
+                            {geo.salida ? (
+                              `${Math.floor((new Date(geo.salida).getTime() - new Date(geo.llegada).getTime()) / (1000 * 60))} minutos`
+                            ) : "En curso"}
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              ) : (
+                <div className="py-20 text-center bg-muted/20 rounded-3xl border border-dashed border-border flex flex-col items-center justify-center">
+                  <MapPin className="h-12 w-12 text-muted/30 mb-4" />
+                  <h3 className="text-sm font-black text-foreground uppercase">Sin registros de geolocalización</h3>
+                  <p className="text-[10px] font-medium text-muted-foreground uppercase mt-1">El técnico no ha marcado su llegada a este servicio.</p>
+                </div>
+              )}
+              <div className="flex justify-end pt-4">
+                <Button variant="outline" onClick={() => setIsVisitaModalOpen(false)} className="h-12 px-8 rounded-xl font-black uppercase text-[10px] border-border bg-card">Cerrar Evidencias</Button>
+              </div>
+            </div>
+          )}
+        </DialogContent>
+      </Dialog>
 
       <input type="file" ref={fileInputRef} onChange={handleFileChange} className="hidden" accept="application/pdf,image/*" disabled={isUploading} />
     </DashboardLayout>

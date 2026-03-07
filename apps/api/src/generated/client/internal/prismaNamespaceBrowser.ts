@@ -102,7 +102,7 @@ export const ModelName = {
   PasswordResetToken: 'PasswordResetToken',
   ClienteConfiguracionOperativa: 'ClienteConfiguracionOperativa',
   EvidenciaServicio: 'EvidenciaServicio',
-  sugerencias_seguimiento: 'sugerencias_seguimiento'
+  SugerenciaSeguimiento: 'SugerenciaSeguimiento'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -1016,7 +1016,7 @@ export const EvidenciaServicioScalarFieldEnum = {
 export type EvidenciaServicioScalarFieldEnum = (typeof EvidenciaServicioScalarFieldEnum)[keyof typeof EvidenciaServicioScalarFieldEnum]
 
 
-export const Sugerencias_seguimientoScalarFieldEnum = {
+export const SugerenciaSeguimientoScalarFieldEnum = {
   id: 'id',
   tenantId: 'tenantId',
   empresaId: 'empresaId',
@@ -1033,7 +1033,7 @@ export const Sugerencias_seguimientoScalarFieldEnum = {
   actualizadoAt: 'actualizadoAt'
 } as const
 
-export type Sugerencias_seguimientoScalarFieldEnum = (typeof Sugerencias_seguimientoScalarFieldEnum)[keyof typeof Sugerencias_seguimientoScalarFieldEnum]
+export type SugerenciaSeguimientoScalarFieldEnum = (typeof SugerenciaSeguimientoScalarFieldEnum)[keyof typeof SugerenciaSeguimientoScalarFieldEnum]
 
 
 export const SortOrder = {

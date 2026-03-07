@@ -261,7 +261,7 @@ export type TenantWhereInput = {
   servicios?: Prisma.ServicioListRelationFilter
   sesionesActividad?: Prisma.SesionActividadListRelationFilter
   subscription?: Prisma.XOR<Prisma.SubscriptionNullableScalarRelationFilter, Prisma.SubscriptionWhereInput> | null
-  sugerencias_seguimiento?: Prisma.Sugerencias_seguimientoListRelationFilter
+  sugerencias?: Prisma.SugerenciaSeguimientoListRelationFilter
   memberships?: Prisma.TenantMembershipListRelationFilter
   terapiasPsicologos?: Prisma.TerapiasPsicologosListRelationFilter
   tiposInteres?: Prisma.TipoInteresListRelationFilter
@@ -321,7 +321,7 @@ export type TenantOrderByWithRelationInput = {
   servicios?: Prisma.ServicioOrderByRelationAggregateInput
   sesionesActividad?: Prisma.SesionActividadOrderByRelationAggregateInput
   subscription?: Prisma.SubscriptionOrderByWithRelationInput
-  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoOrderByRelationAggregateInput
+  sugerencias?: Prisma.SugerenciaSeguimientoOrderByRelationAggregateInput
   memberships?: Prisma.TenantMembershipOrderByRelationAggregateInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosOrderByRelationAggregateInput
   tiposInteres?: Prisma.TipoInteresOrderByRelationAggregateInput
@@ -384,7 +384,7 @@ export type TenantWhereUniqueInput = Prisma.AtLeast<{
   servicios?: Prisma.ServicioListRelationFilter
   sesionesActividad?: Prisma.SesionActividadListRelationFilter
   subscription?: Prisma.XOR<Prisma.SubscriptionNullableScalarRelationFilter, Prisma.SubscriptionWhereInput> | null
-  sugerencias_seguimiento?: Prisma.Sugerencias_seguimientoListRelationFilter
+  sugerencias?: Prisma.SugerenciaSeguimientoListRelationFilter
   memberships?: Prisma.TenantMembershipListRelationFilter
   terapiasPsicologos?: Prisma.TerapiasPsicologosListRelationFilter
   tiposInteres?: Prisma.TipoInteresListRelationFilter
@@ -476,7 +476,7 @@ export type TenantCreateInput = {
   servicios?: Prisma.ServicioCreateNestedManyWithoutTenantInput
   sesionesActividad?: Prisma.SesionActividadCreateNestedManyWithoutTenantInput
   subscription?: Prisma.SubscriptionCreateNestedOneWithoutTenantInput
-  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoCreateNestedManyWithoutTenantsInput
+  sugerencias?: Prisma.SugerenciaSeguimientoCreateNestedManyWithoutTenantInput
   memberships?: Prisma.TenantMembershipCreateNestedManyWithoutTenantInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosCreateNestedManyWithoutTenantInput
   tiposInteres?: Prisma.TipoInteresCreateNestedManyWithoutTenantInput
@@ -536,7 +536,7 @@ export type TenantUncheckedCreateInput = {
   servicios?: Prisma.ServicioUncheckedCreateNestedManyWithoutTenantInput
   sesionesActividad?: Prisma.SesionActividadUncheckedCreateNestedManyWithoutTenantInput
   subscription?: Prisma.SubscriptionUncheckedCreateNestedOneWithoutTenantInput
-  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUncheckedCreateNestedManyWithoutTenantsInput
+  sugerencias?: Prisma.SugerenciaSeguimientoUncheckedCreateNestedManyWithoutTenantInput
   memberships?: Prisma.TenantMembershipUncheckedCreateNestedManyWithoutTenantInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUncheckedCreateNestedManyWithoutTenantInput
   tiposInteres?: Prisma.TipoInteresUncheckedCreateNestedManyWithoutTenantInput
@@ -596,7 +596,7 @@ export type TenantUpdateInput = {
   servicios?: Prisma.ServicioUpdateManyWithoutTenantNestedInput
   sesionesActividad?: Prisma.SesionActividadUpdateManyWithoutTenantNestedInput
   subscription?: Prisma.SubscriptionUpdateOneWithoutTenantNestedInput
-  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUpdateManyWithoutTenantsNestedInput
+  sugerencias?: Prisma.SugerenciaSeguimientoUpdateManyWithoutTenantNestedInput
   memberships?: Prisma.TenantMembershipUpdateManyWithoutTenantNestedInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUpdateManyWithoutTenantNestedInput
   tiposInteres?: Prisma.TipoInteresUpdateManyWithoutTenantNestedInput
@@ -656,7 +656,7 @@ export type TenantUncheckedUpdateInput = {
   servicios?: Prisma.ServicioUncheckedUpdateManyWithoutTenantNestedInput
   sesionesActividad?: Prisma.SesionActividadUncheckedUpdateManyWithoutTenantNestedInput
   subscription?: Prisma.SubscriptionUncheckedUpdateOneWithoutTenantNestedInput
-  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUncheckedUpdateManyWithoutTenantsNestedInput
+  sugerencias?: Prisma.SugerenciaSeguimientoUncheckedUpdateManyWithoutTenantNestedInput
   memberships?: Prisma.TenantMembershipUncheckedUpdateManyWithoutTenantNestedInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUncheckedUpdateManyWithoutTenantNestedInput
   tiposInteres?: Prisma.TipoInteresUncheckedUpdateManyWithoutTenantNestedInput
@@ -1402,18 +1402,18 @@ export type TenantUpdateOneRequiredWithoutEvidenciasServicioNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.TenantUpdateToOneWithWhereWithoutEvidenciasServicioInput, Prisma.TenantUpdateWithoutEvidenciasServicioInput>, Prisma.TenantUncheckedUpdateWithoutEvidenciasServicioInput>
 }
 
-export type TenantCreateNestedOneWithoutSugerencias_seguimientoInput = {
-  create?: Prisma.XOR<Prisma.TenantCreateWithoutSugerencias_seguimientoInput, Prisma.TenantUncheckedCreateWithoutSugerencias_seguimientoInput>
-  connectOrCreate?: Prisma.TenantCreateOrConnectWithoutSugerencias_seguimientoInput
+export type TenantCreateNestedOneWithoutSugerenciasInput = {
+  create?: Prisma.XOR<Prisma.TenantCreateWithoutSugerenciasInput, Prisma.TenantUncheckedCreateWithoutSugerenciasInput>
+  connectOrCreate?: Prisma.TenantCreateOrConnectWithoutSugerenciasInput
   connect?: Prisma.TenantWhereUniqueInput
 }
 
-export type TenantUpdateOneRequiredWithoutSugerencias_seguimientoNestedInput = {
-  create?: Prisma.XOR<Prisma.TenantCreateWithoutSugerencias_seguimientoInput, Prisma.TenantUncheckedCreateWithoutSugerencias_seguimientoInput>
-  connectOrCreate?: Prisma.TenantCreateOrConnectWithoutSugerencias_seguimientoInput
-  upsert?: Prisma.TenantUpsertWithoutSugerencias_seguimientoInput
+export type TenantUpdateOneRequiredWithoutSugerenciasNestedInput = {
+  create?: Prisma.XOR<Prisma.TenantCreateWithoutSugerenciasInput, Prisma.TenantUncheckedCreateWithoutSugerenciasInput>
+  connectOrCreate?: Prisma.TenantCreateOrConnectWithoutSugerenciasInput
+  upsert?: Prisma.TenantUpsertWithoutSugerenciasInput
   connect?: Prisma.TenantWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.TenantUpdateToOneWithWhereWithoutSugerencias_seguimientoInput, Prisma.TenantUpdateWithoutSugerencias_seguimientoInput>, Prisma.TenantUncheckedUpdateWithoutSugerencias_seguimientoInput>
+  update?: Prisma.XOR<Prisma.XOR<Prisma.TenantUpdateToOneWithWhereWithoutSugerenciasInput, Prisma.TenantUpdateWithoutSugerenciasInput>, Prisma.TenantUncheckedUpdateWithoutSugerenciasInput>
 }
 
 export type TenantCreateWithoutSubscriptionInput = {
@@ -1465,7 +1465,7 @@ export type TenantCreateWithoutSubscriptionInput = {
   referidos?: Prisma.ReferidosCreateNestedManyWithoutTenantInput
   servicios?: Prisma.ServicioCreateNestedManyWithoutTenantInput
   sesionesActividad?: Prisma.SesionActividadCreateNestedManyWithoutTenantInput
-  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoCreateNestedManyWithoutTenantsInput
+  sugerencias?: Prisma.SugerenciaSeguimientoCreateNestedManyWithoutTenantInput
   memberships?: Prisma.TenantMembershipCreateNestedManyWithoutTenantInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosCreateNestedManyWithoutTenantInput
   tiposInteres?: Prisma.TipoInteresCreateNestedManyWithoutTenantInput
@@ -1524,7 +1524,7 @@ export type TenantUncheckedCreateWithoutSubscriptionInput = {
   referidos?: Prisma.ReferidosUncheckedCreateNestedManyWithoutTenantInput
   servicios?: Prisma.ServicioUncheckedCreateNestedManyWithoutTenantInput
   sesionesActividad?: Prisma.SesionActividadUncheckedCreateNestedManyWithoutTenantInput
-  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUncheckedCreateNestedManyWithoutTenantsInput
+  sugerencias?: Prisma.SugerenciaSeguimientoUncheckedCreateNestedManyWithoutTenantInput
   memberships?: Prisma.TenantMembershipUncheckedCreateNestedManyWithoutTenantInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUncheckedCreateNestedManyWithoutTenantInput
   tiposInteres?: Prisma.TipoInteresUncheckedCreateNestedManyWithoutTenantInput
@@ -1599,7 +1599,7 @@ export type TenantUpdateWithoutSubscriptionInput = {
   referidos?: Prisma.ReferidosUpdateManyWithoutTenantNestedInput
   servicios?: Prisma.ServicioUpdateManyWithoutTenantNestedInput
   sesionesActividad?: Prisma.SesionActividadUpdateManyWithoutTenantNestedInput
-  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUpdateManyWithoutTenantsNestedInput
+  sugerencias?: Prisma.SugerenciaSeguimientoUpdateManyWithoutTenantNestedInput
   memberships?: Prisma.TenantMembershipUpdateManyWithoutTenantNestedInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUpdateManyWithoutTenantNestedInput
   tiposInteres?: Prisma.TipoInteresUpdateManyWithoutTenantNestedInput
@@ -1658,7 +1658,7 @@ export type TenantUncheckedUpdateWithoutSubscriptionInput = {
   referidos?: Prisma.ReferidosUncheckedUpdateManyWithoutTenantNestedInput
   servicios?: Prisma.ServicioUncheckedUpdateManyWithoutTenantNestedInput
   sesionesActividad?: Prisma.SesionActividadUncheckedUpdateManyWithoutTenantNestedInput
-  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUncheckedUpdateManyWithoutTenantsNestedInput
+  sugerencias?: Prisma.SugerenciaSeguimientoUncheckedUpdateManyWithoutTenantNestedInput
   memberships?: Prisma.TenantMembershipUncheckedUpdateManyWithoutTenantNestedInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUncheckedUpdateManyWithoutTenantNestedInput
   tiposInteres?: Prisma.TipoInteresUncheckedUpdateManyWithoutTenantNestedInput
@@ -1718,7 +1718,7 @@ export type TenantCreateWithoutMembershipsInput = {
   servicios?: Prisma.ServicioCreateNestedManyWithoutTenantInput
   sesionesActividad?: Prisma.SesionActividadCreateNestedManyWithoutTenantInput
   subscription?: Prisma.SubscriptionCreateNestedOneWithoutTenantInput
-  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoCreateNestedManyWithoutTenantsInput
+  sugerencias?: Prisma.SugerenciaSeguimientoCreateNestedManyWithoutTenantInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosCreateNestedManyWithoutTenantInput
   tiposInteres?: Prisma.TipoInteresCreateNestedManyWithoutTenantInput
   tiposServicio?: Prisma.TipoServicioCreateNestedManyWithoutTenantInput
@@ -1777,7 +1777,7 @@ export type TenantUncheckedCreateWithoutMembershipsInput = {
   servicios?: Prisma.ServicioUncheckedCreateNestedManyWithoutTenantInput
   sesionesActividad?: Prisma.SesionActividadUncheckedCreateNestedManyWithoutTenantInput
   subscription?: Prisma.SubscriptionUncheckedCreateNestedOneWithoutTenantInput
-  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUncheckedCreateNestedManyWithoutTenantsInput
+  sugerencias?: Prisma.SugerenciaSeguimientoUncheckedCreateNestedManyWithoutTenantInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUncheckedCreateNestedManyWithoutTenantInput
   tiposInteres?: Prisma.TipoInteresUncheckedCreateNestedManyWithoutTenantInput
   tiposServicio?: Prisma.TipoServicioUncheckedCreateNestedManyWithoutTenantInput
@@ -1852,7 +1852,7 @@ export type TenantUpdateWithoutMembershipsInput = {
   servicios?: Prisma.ServicioUpdateManyWithoutTenantNestedInput
   sesionesActividad?: Prisma.SesionActividadUpdateManyWithoutTenantNestedInput
   subscription?: Prisma.SubscriptionUpdateOneWithoutTenantNestedInput
-  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUpdateManyWithoutTenantsNestedInput
+  sugerencias?: Prisma.SugerenciaSeguimientoUpdateManyWithoutTenantNestedInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUpdateManyWithoutTenantNestedInput
   tiposInteres?: Prisma.TipoInteresUpdateManyWithoutTenantNestedInput
   tiposServicio?: Prisma.TipoServicioUpdateManyWithoutTenantNestedInput
@@ -1911,7 +1911,7 @@ export type TenantUncheckedUpdateWithoutMembershipsInput = {
   servicios?: Prisma.ServicioUncheckedUpdateManyWithoutTenantNestedInput
   sesionesActividad?: Prisma.SesionActividadUncheckedUpdateManyWithoutTenantNestedInput
   subscription?: Prisma.SubscriptionUncheckedUpdateOneWithoutTenantNestedInput
-  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUncheckedUpdateManyWithoutTenantsNestedInput
+  sugerencias?: Prisma.SugerenciaSeguimientoUncheckedUpdateManyWithoutTenantNestedInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUncheckedUpdateManyWithoutTenantNestedInput
   tiposInteres?: Prisma.TipoInteresUncheckedUpdateManyWithoutTenantNestedInput
   tiposServicio?: Prisma.TipoServicioUncheckedUpdateManyWithoutTenantNestedInput
@@ -1969,7 +1969,7 @@ export type TenantCreateWithoutEmpresasInput = {
   servicios?: Prisma.ServicioCreateNestedManyWithoutTenantInput
   sesionesActividad?: Prisma.SesionActividadCreateNestedManyWithoutTenantInput
   subscription?: Prisma.SubscriptionCreateNestedOneWithoutTenantInput
-  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoCreateNestedManyWithoutTenantsInput
+  sugerencias?: Prisma.SugerenciaSeguimientoCreateNestedManyWithoutTenantInput
   memberships?: Prisma.TenantMembershipCreateNestedManyWithoutTenantInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosCreateNestedManyWithoutTenantInput
   tiposInteres?: Prisma.TipoInteresCreateNestedManyWithoutTenantInput
@@ -2028,7 +2028,7 @@ export type TenantUncheckedCreateWithoutEmpresasInput = {
   servicios?: Prisma.ServicioUncheckedCreateNestedManyWithoutTenantInput
   sesionesActividad?: Prisma.SesionActividadUncheckedCreateNestedManyWithoutTenantInput
   subscription?: Prisma.SubscriptionUncheckedCreateNestedOneWithoutTenantInput
-  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUncheckedCreateNestedManyWithoutTenantsInput
+  sugerencias?: Prisma.SugerenciaSeguimientoUncheckedCreateNestedManyWithoutTenantInput
   memberships?: Prisma.TenantMembershipUncheckedCreateNestedManyWithoutTenantInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUncheckedCreateNestedManyWithoutTenantInput
   tiposInteres?: Prisma.TipoInteresUncheckedCreateNestedManyWithoutTenantInput
@@ -2103,7 +2103,7 @@ export type TenantUpdateWithoutEmpresasInput = {
   servicios?: Prisma.ServicioUpdateManyWithoutTenantNestedInput
   sesionesActividad?: Prisma.SesionActividadUpdateManyWithoutTenantNestedInput
   subscription?: Prisma.SubscriptionUpdateOneWithoutTenantNestedInput
-  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUpdateManyWithoutTenantsNestedInput
+  sugerencias?: Prisma.SugerenciaSeguimientoUpdateManyWithoutTenantNestedInput
   memberships?: Prisma.TenantMembershipUpdateManyWithoutTenantNestedInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUpdateManyWithoutTenantNestedInput
   tiposInteres?: Prisma.TipoInteresUpdateManyWithoutTenantNestedInput
@@ -2162,7 +2162,7 @@ export type TenantUncheckedUpdateWithoutEmpresasInput = {
   servicios?: Prisma.ServicioUncheckedUpdateManyWithoutTenantNestedInput
   sesionesActividad?: Prisma.SesionActividadUncheckedUpdateManyWithoutTenantNestedInput
   subscription?: Prisma.SubscriptionUncheckedUpdateOneWithoutTenantNestedInput
-  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUncheckedUpdateManyWithoutTenantsNestedInput
+  sugerencias?: Prisma.SugerenciaSeguimientoUncheckedUpdateManyWithoutTenantNestedInput
   memberships?: Prisma.TenantMembershipUncheckedUpdateManyWithoutTenantNestedInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUncheckedUpdateManyWithoutTenantNestedInput
   tiposInteres?: Prisma.TipoInteresUncheckedUpdateManyWithoutTenantNestedInput
@@ -2221,7 +2221,7 @@ export type TenantCreateWithoutEmpresaMembershipsInput = {
   servicios?: Prisma.ServicioCreateNestedManyWithoutTenantInput
   sesionesActividad?: Prisma.SesionActividadCreateNestedManyWithoutTenantInput
   subscription?: Prisma.SubscriptionCreateNestedOneWithoutTenantInput
-  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoCreateNestedManyWithoutTenantsInput
+  sugerencias?: Prisma.SugerenciaSeguimientoCreateNestedManyWithoutTenantInput
   memberships?: Prisma.TenantMembershipCreateNestedManyWithoutTenantInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosCreateNestedManyWithoutTenantInput
   tiposInteres?: Prisma.TipoInteresCreateNestedManyWithoutTenantInput
@@ -2280,7 +2280,7 @@ export type TenantUncheckedCreateWithoutEmpresaMembershipsInput = {
   servicios?: Prisma.ServicioUncheckedCreateNestedManyWithoutTenantInput
   sesionesActividad?: Prisma.SesionActividadUncheckedCreateNestedManyWithoutTenantInput
   subscription?: Prisma.SubscriptionUncheckedCreateNestedOneWithoutTenantInput
-  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUncheckedCreateNestedManyWithoutTenantsInput
+  sugerencias?: Prisma.SugerenciaSeguimientoUncheckedCreateNestedManyWithoutTenantInput
   memberships?: Prisma.TenantMembershipUncheckedCreateNestedManyWithoutTenantInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUncheckedCreateNestedManyWithoutTenantInput
   tiposInteres?: Prisma.TipoInteresUncheckedCreateNestedManyWithoutTenantInput
@@ -2355,7 +2355,7 @@ export type TenantUpdateWithoutEmpresaMembershipsInput = {
   servicios?: Prisma.ServicioUpdateManyWithoutTenantNestedInput
   sesionesActividad?: Prisma.SesionActividadUpdateManyWithoutTenantNestedInput
   subscription?: Prisma.SubscriptionUpdateOneWithoutTenantNestedInput
-  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUpdateManyWithoutTenantsNestedInput
+  sugerencias?: Prisma.SugerenciaSeguimientoUpdateManyWithoutTenantNestedInput
   memberships?: Prisma.TenantMembershipUpdateManyWithoutTenantNestedInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUpdateManyWithoutTenantNestedInput
   tiposInteres?: Prisma.TipoInteresUpdateManyWithoutTenantNestedInput
@@ -2414,7 +2414,7 @@ export type TenantUncheckedUpdateWithoutEmpresaMembershipsInput = {
   servicios?: Prisma.ServicioUncheckedUpdateManyWithoutTenantNestedInput
   sesionesActividad?: Prisma.SesionActividadUncheckedUpdateManyWithoutTenantNestedInput
   subscription?: Prisma.SubscriptionUncheckedUpdateOneWithoutTenantNestedInput
-  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUncheckedUpdateManyWithoutTenantsNestedInput
+  sugerencias?: Prisma.SugerenciaSeguimientoUncheckedUpdateManyWithoutTenantNestedInput
   memberships?: Prisma.TenantMembershipUncheckedUpdateManyWithoutTenantNestedInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUncheckedUpdateManyWithoutTenantNestedInput
   tiposInteres?: Prisma.TipoInteresUncheckedUpdateManyWithoutTenantNestedInput
@@ -2473,7 +2473,7 @@ export type TenantCreateWithoutOrgNodesInput = {
   servicios?: Prisma.ServicioCreateNestedManyWithoutTenantInput
   sesionesActividad?: Prisma.SesionActividadCreateNestedManyWithoutTenantInput
   subscription?: Prisma.SubscriptionCreateNestedOneWithoutTenantInput
-  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoCreateNestedManyWithoutTenantsInput
+  sugerencias?: Prisma.SugerenciaSeguimientoCreateNestedManyWithoutTenantInput
   memberships?: Prisma.TenantMembershipCreateNestedManyWithoutTenantInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosCreateNestedManyWithoutTenantInput
   tiposInteres?: Prisma.TipoInteresCreateNestedManyWithoutTenantInput
@@ -2532,7 +2532,7 @@ export type TenantUncheckedCreateWithoutOrgNodesInput = {
   servicios?: Prisma.ServicioUncheckedCreateNestedManyWithoutTenantInput
   sesionesActividad?: Prisma.SesionActividadUncheckedCreateNestedManyWithoutTenantInput
   subscription?: Prisma.SubscriptionUncheckedCreateNestedOneWithoutTenantInput
-  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUncheckedCreateNestedManyWithoutTenantsInput
+  sugerencias?: Prisma.SugerenciaSeguimientoUncheckedCreateNestedManyWithoutTenantInput
   memberships?: Prisma.TenantMembershipUncheckedCreateNestedManyWithoutTenantInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUncheckedCreateNestedManyWithoutTenantInput
   tiposInteres?: Prisma.TipoInteresUncheckedCreateNestedManyWithoutTenantInput
@@ -2607,7 +2607,7 @@ export type TenantUpdateWithoutOrgNodesInput = {
   servicios?: Prisma.ServicioUpdateManyWithoutTenantNestedInput
   sesionesActividad?: Prisma.SesionActividadUpdateManyWithoutTenantNestedInput
   subscription?: Prisma.SubscriptionUpdateOneWithoutTenantNestedInput
-  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUpdateManyWithoutTenantsNestedInput
+  sugerencias?: Prisma.SugerenciaSeguimientoUpdateManyWithoutTenantNestedInput
   memberships?: Prisma.TenantMembershipUpdateManyWithoutTenantNestedInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUpdateManyWithoutTenantNestedInput
   tiposInteres?: Prisma.TipoInteresUpdateManyWithoutTenantNestedInput
@@ -2666,7 +2666,7 @@ export type TenantUncheckedUpdateWithoutOrgNodesInput = {
   servicios?: Prisma.ServicioUncheckedUpdateManyWithoutTenantNestedInput
   sesionesActividad?: Prisma.SesionActividadUncheckedUpdateManyWithoutTenantNestedInput
   subscription?: Prisma.SubscriptionUncheckedUpdateOneWithoutTenantNestedInput
-  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUncheckedUpdateManyWithoutTenantsNestedInput
+  sugerencias?: Prisma.SugerenciaSeguimientoUncheckedUpdateManyWithoutTenantNestedInput
   memberships?: Prisma.TenantMembershipUncheckedUpdateManyWithoutTenantNestedInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUncheckedUpdateManyWithoutTenantNestedInput
   tiposInteres?: Prisma.TipoInteresUncheckedUpdateManyWithoutTenantNestedInput
@@ -2725,7 +2725,7 @@ export type TenantCreateWithoutCommissionsInput = {
   servicios?: Prisma.ServicioCreateNestedManyWithoutTenantInput
   sesionesActividad?: Prisma.SesionActividadCreateNestedManyWithoutTenantInput
   subscription?: Prisma.SubscriptionCreateNestedOneWithoutTenantInput
-  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoCreateNestedManyWithoutTenantsInput
+  sugerencias?: Prisma.SugerenciaSeguimientoCreateNestedManyWithoutTenantInput
   memberships?: Prisma.TenantMembershipCreateNestedManyWithoutTenantInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosCreateNestedManyWithoutTenantInput
   tiposInteres?: Prisma.TipoInteresCreateNestedManyWithoutTenantInput
@@ -2784,7 +2784,7 @@ export type TenantUncheckedCreateWithoutCommissionsInput = {
   servicios?: Prisma.ServicioUncheckedCreateNestedManyWithoutTenantInput
   sesionesActividad?: Prisma.SesionActividadUncheckedCreateNestedManyWithoutTenantInput
   subscription?: Prisma.SubscriptionUncheckedCreateNestedOneWithoutTenantInput
-  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUncheckedCreateNestedManyWithoutTenantsInput
+  sugerencias?: Prisma.SugerenciaSeguimientoUncheckedCreateNestedManyWithoutTenantInput
   memberships?: Prisma.TenantMembershipUncheckedCreateNestedManyWithoutTenantInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUncheckedCreateNestedManyWithoutTenantInput
   tiposInteres?: Prisma.TipoInteresUncheckedCreateNestedManyWithoutTenantInput
@@ -2859,7 +2859,7 @@ export type TenantUpdateWithoutCommissionsInput = {
   servicios?: Prisma.ServicioUpdateManyWithoutTenantNestedInput
   sesionesActividad?: Prisma.SesionActividadUpdateManyWithoutTenantNestedInput
   subscription?: Prisma.SubscriptionUpdateOneWithoutTenantNestedInput
-  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUpdateManyWithoutTenantsNestedInput
+  sugerencias?: Prisma.SugerenciaSeguimientoUpdateManyWithoutTenantNestedInput
   memberships?: Prisma.TenantMembershipUpdateManyWithoutTenantNestedInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUpdateManyWithoutTenantNestedInput
   tiposInteres?: Prisma.TipoInteresUpdateManyWithoutTenantNestedInput
@@ -2918,7 +2918,7 @@ export type TenantUncheckedUpdateWithoutCommissionsInput = {
   servicios?: Prisma.ServicioUncheckedUpdateManyWithoutTenantNestedInput
   sesionesActividad?: Prisma.SesionActividadUncheckedUpdateManyWithoutTenantNestedInput
   subscription?: Prisma.SubscriptionUncheckedUpdateOneWithoutTenantNestedInput
-  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUncheckedUpdateManyWithoutTenantsNestedInput
+  sugerencias?: Prisma.SugerenciaSeguimientoUncheckedUpdateManyWithoutTenantNestedInput
   memberships?: Prisma.TenantMembershipUncheckedUpdateManyWithoutTenantNestedInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUncheckedUpdateManyWithoutTenantNestedInput
   tiposInteres?: Prisma.TipoInteresUncheckedUpdateManyWithoutTenantNestedInput
@@ -2978,7 +2978,7 @@ export type TenantCreateWithoutTiposInteresInput = {
   servicios?: Prisma.ServicioCreateNestedManyWithoutTenantInput
   sesionesActividad?: Prisma.SesionActividadCreateNestedManyWithoutTenantInput
   subscription?: Prisma.SubscriptionCreateNestedOneWithoutTenantInput
-  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoCreateNestedManyWithoutTenantsInput
+  sugerencias?: Prisma.SugerenciaSeguimientoCreateNestedManyWithoutTenantInput
   memberships?: Prisma.TenantMembershipCreateNestedManyWithoutTenantInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosCreateNestedManyWithoutTenantInput
   tiposServicio?: Prisma.TipoServicioCreateNestedManyWithoutTenantInput
@@ -3037,7 +3037,7 @@ export type TenantUncheckedCreateWithoutTiposInteresInput = {
   servicios?: Prisma.ServicioUncheckedCreateNestedManyWithoutTenantInput
   sesionesActividad?: Prisma.SesionActividadUncheckedCreateNestedManyWithoutTenantInput
   subscription?: Prisma.SubscriptionUncheckedCreateNestedOneWithoutTenantInput
-  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUncheckedCreateNestedManyWithoutTenantsInput
+  sugerencias?: Prisma.SugerenciaSeguimientoUncheckedCreateNestedManyWithoutTenantInput
   memberships?: Prisma.TenantMembershipUncheckedCreateNestedManyWithoutTenantInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUncheckedCreateNestedManyWithoutTenantInput
   tiposServicio?: Prisma.TipoServicioUncheckedCreateNestedManyWithoutTenantInput
@@ -3112,7 +3112,7 @@ export type TenantUpdateWithoutTiposInteresInput = {
   servicios?: Prisma.ServicioUpdateManyWithoutTenantNestedInput
   sesionesActividad?: Prisma.SesionActividadUpdateManyWithoutTenantNestedInput
   subscription?: Prisma.SubscriptionUpdateOneWithoutTenantNestedInput
-  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUpdateManyWithoutTenantsNestedInput
+  sugerencias?: Prisma.SugerenciaSeguimientoUpdateManyWithoutTenantNestedInput
   memberships?: Prisma.TenantMembershipUpdateManyWithoutTenantNestedInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUpdateManyWithoutTenantNestedInput
   tiposServicio?: Prisma.TipoServicioUpdateManyWithoutTenantNestedInput
@@ -3171,7 +3171,7 @@ export type TenantUncheckedUpdateWithoutTiposInteresInput = {
   servicios?: Prisma.ServicioUncheckedUpdateManyWithoutTenantNestedInput
   sesionesActividad?: Prisma.SesionActividadUncheckedUpdateManyWithoutTenantNestedInput
   subscription?: Prisma.SubscriptionUncheckedUpdateOneWithoutTenantNestedInput
-  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUncheckedUpdateManyWithoutTenantsNestedInput
+  sugerencias?: Prisma.SugerenciaSeguimientoUncheckedUpdateManyWithoutTenantNestedInput
   memberships?: Prisma.TenantMembershipUncheckedUpdateManyWithoutTenantNestedInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUncheckedUpdateManyWithoutTenantNestedInput
   tiposServicio?: Prisma.TipoServicioUncheckedUpdateManyWithoutTenantNestedInput
@@ -3229,7 +3229,7 @@ export type TenantCreateWithoutClientesInput = {
   servicios?: Prisma.ServicioCreateNestedManyWithoutTenantInput
   sesionesActividad?: Prisma.SesionActividadCreateNestedManyWithoutTenantInput
   subscription?: Prisma.SubscriptionCreateNestedOneWithoutTenantInput
-  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoCreateNestedManyWithoutTenantsInput
+  sugerencias?: Prisma.SugerenciaSeguimientoCreateNestedManyWithoutTenantInput
   memberships?: Prisma.TenantMembershipCreateNestedManyWithoutTenantInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosCreateNestedManyWithoutTenantInput
   tiposInteres?: Prisma.TipoInteresCreateNestedManyWithoutTenantInput
@@ -3288,7 +3288,7 @@ export type TenantUncheckedCreateWithoutClientesInput = {
   servicios?: Prisma.ServicioUncheckedCreateNestedManyWithoutTenantInput
   sesionesActividad?: Prisma.SesionActividadUncheckedCreateNestedManyWithoutTenantInput
   subscription?: Prisma.SubscriptionUncheckedCreateNestedOneWithoutTenantInput
-  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUncheckedCreateNestedManyWithoutTenantsInput
+  sugerencias?: Prisma.SugerenciaSeguimientoUncheckedCreateNestedManyWithoutTenantInput
   memberships?: Prisma.TenantMembershipUncheckedCreateNestedManyWithoutTenantInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUncheckedCreateNestedManyWithoutTenantInput
   tiposInteres?: Prisma.TipoInteresUncheckedCreateNestedManyWithoutTenantInput
@@ -3363,7 +3363,7 @@ export type TenantUpdateWithoutClientesInput = {
   servicios?: Prisma.ServicioUpdateManyWithoutTenantNestedInput
   sesionesActividad?: Prisma.SesionActividadUpdateManyWithoutTenantNestedInput
   subscription?: Prisma.SubscriptionUpdateOneWithoutTenantNestedInput
-  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUpdateManyWithoutTenantsNestedInput
+  sugerencias?: Prisma.SugerenciaSeguimientoUpdateManyWithoutTenantNestedInput
   memberships?: Prisma.TenantMembershipUpdateManyWithoutTenantNestedInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUpdateManyWithoutTenantNestedInput
   tiposInteres?: Prisma.TipoInteresUpdateManyWithoutTenantNestedInput
@@ -3422,7 +3422,7 @@ export type TenantUncheckedUpdateWithoutClientesInput = {
   servicios?: Prisma.ServicioUncheckedUpdateManyWithoutTenantNestedInput
   sesionesActividad?: Prisma.SesionActividadUncheckedUpdateManyWithoutTenantNestedInput
   subscription?: Prisma.SubscriptionUncheckedUpdateOneWithoutTenantNestedInput
-  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUncheckedUpdateManyWithoutTenantsNestedInput
+  sugerencias?: Prisma.SugerenciaSeguimientoUncheckedUpdateManyWithoutTenantNestedInput
   memberships?: Prisma.TenantMembershipUncheckedUpdateManyWithoutTenantNestedInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUncheckedUpdateManyWithoutTenantNestedInput
   tiposInteres?: Prisma.TipoInteresUncheckedUpdateManyWithoutTenantNestedInput
@@ -3482,7 +3482,7 @@ export type TenantCreateWithoutVehiculosInput = {
   servicios?: Prisma.ServicioCreateNestedManyWithoutTenantInput
   sesionesActividad?: Prisma.SesionActividadCreateNestedManyWithoutTenantInput
   subscription?: Prisma.SubscriptionCreateNestedOneWithoutTenantInput
-  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoCreateNestedManyWithoutTenantsInput
+  sugerencias?: Prisma.SugerenciaSeguimientoCreateNestedManyWithoutTenantInput
   memberships?: Prisma.TenantMembershipCreateNestedManyWithoutTenantInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosCreateNestedManyWithoutTenantInput
   tiposInteres?: Prisma.TipoInteresCreateNestedManyWithoutTenantInput
@@ -3541,7 +3541,7 @@ export type TenantUncheckedCreateWithoutVehiculosInput = {
   servicios?: Prisma.ServicioUncheckedCreateNestedManyWithoutTenantInput
   sesionesActividad?: Prisma.SesionActividadUncheckedCreateNestedManyWithoutTenantInput
   subscription?: Prisma.SubscriptionUncheckedCreateNestedOneWithoutTenantInput
-  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUncheckedCreateNestedManyWithoutTenantsInput
+  sugerencias?: Prisma.SugerenciaSeguimientoUncheckedCreateNestedManyWithoutTenantInput
   memberships?: Prisma.TenantMembershipUncheckedCreateNestedManyWithoutTenantInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUncheckedCreateNestedManyWithoutTenantInput
   tiposInteres?: Prisma.TipoInteresUncheckedCreateNestedManyWithoutTenantInput
@@ -3616,7 +3616,7 @@ export type TenantUpdateWithoutVehiculosInput = {
   servicios?: Prisma.ServicioUpdateManyWithoutTenantNestedInput
   sesionesActividad?: Prisma.SesionActividadUpdateManyWithoutTenantNestedInput
   subscription?: Prisma.SubscriptionUpdateOneWithoutTenantNestedInput
-  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUpdateManyWithoutTenantsNestedInput
+  sugerencias?: Prisma.SugerenciaSeguimientoUpdateManyWithoutTenantNestedInput
   memberships?: Prisma.TenantMembershipUpdateManyWithoutTenantNestedInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUpdateManyWithoutTenantNestedInput
   tiposInteres?: Prisma.TipoInteresUpdateManyWithoutTenantNestedInput
@@ -3675,7 +3675,7 @@ export type TenantUncheckedUpdateWithoutVehiculosInput = {
   servicios?: Prisma.ServicioUncheckedUpdateManyWithoutTenantNestedInput
   sesionesActividad?: Prisma.SesionActividadUncheckedUpdateManyWithoutTenantNestedInput
   subscription?: Prisma.SubscriptionUncheckedUpdateOneWithoutTenantNestedInput
-  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUncheckedUpdateManyWithoutTenantsNestedInput
+  sugerencias?: Prisma.SugerenciaSeguimientoUncheckedUpdateManyWithoutTenantNestedInput
   memberships?: Prisma.TenantMembershipUncheckedUpdateManyWithoutTenantNestedInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUncheckedUpdateManyWithoutTenantNestedInput
   tiposInteres?: Prisma.TipoInteresUncheckedUpdateManyWithoutTenantNestedInput
@@ -3733,7 +3733,7 @@ export type TenantCreateWithoutDireccionesInput = {
   servicios?: Prisma.ServicioCreateNestedManyWithoutTenantInput
   sesionesActividad?: Prisma.SesionActividadCreateNestedManyWithoutTenantInput
   subscription?: Prisma.SubscriptionCreateNestedOneWithoutTenantInput
-  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoCreateNestedManyWithoutTenantsInput
+  sugerencias?: Prisma.SugerenciaSeguimientoCreateNestedManyWithoutTenantInput
   memberships?: Prisma.TenantMembershipCreateNestedManyWithoutTenantInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosCreateNestedManyWithoutTenantInput
   tiposInteres?: Prisma.TipoInteresCreateNestedManyWithoutTenantInput
@@ -3792,7 +3792,7 @@ export type TenantUncheckedCreateWithoutDireccionesInput = {
   servicios?: Prisma.ServicioUncheckedCreateNestedManyWithoutTenantInput
   sesionesActividad?: Prisma.SesionActividadUncheckedCreateNestedManyWithoutTenantInput
   subscription?: Prisma.SubscriptionUncheckedCreateNestedOneWithoutTenantInput
-  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUncheckedCreateNestedManyWithoutTenantsInput
+  sugerencias?: Prisma.SugerenciaSeguimientoUncheckedCreateNestedManyWithoutTenantInput
   memberships?: Prisma.TenantMembershipUncheckedCreateNestedManyWithoutTenantInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUncheckedCreateNestedManyWithoutTenantInput
   tiposInteres?: Prisma.TipoInteresUncheckedCreateNestedManyWithoutTenantInput
@@ -3867,7 +3867,7 @@ export type TenantUpdateWithoutDireccionesInput = {
   servicios?: Prisma.ServicioUpdateManyWithoutTenantNestedInput
   sesionesActividad?: Prisma.SesionActividadUpdateManyWithoutTenantNestedInput
   subscription?: Prisma.SubscriptionUpdateOneWithoutTenantNestedInput
-  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUpdateManyWithoutTenantsNestedInput
+  sugerencias?: Prisma.SugerenciaSeguimientoUpdateManyWithoutTenantNestedInput
   memberships?: Prisma.TenantMembershipUpdateManyWithoutTenantNestedInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUpdateManyWithoutTenantNestedInput
   tiposInteres?: Prisma.TipoInteresUpdateManyWithoutTenantNestedInput
@@ -3926,7 +3926,7 @@ export type TenantUncheckedUpdateWithoutDireccionesInput = {
   servicios?: Prisma.ServicioUncheckedUpdateManyWithoutTenantNestedInput
   sesionesActividad?: Prisma.SesionActividadUncheckedUpdateManyWithoutTenantNestedInput
   subscription?: Prisma.SubscriptionUncheckedUpdateOneWithoutTenantNestedInput
-  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUncheckedUpdateManyWithoutTenantsNestedInput
+  sugerencias?: Prisma.SugerenciaSeguimientoUncheckedUpdateManyWithoutTenantNestedInput
   memberships?: Prisma.TenantMembershipUncheckedUpdateManyWithoutTenantNestedInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUncheckedUpdateManyWithoutTenantNestedInput
   tiposInteres?: Prisma.TipoInteresUncheckedUpdateManyWithoutTenantNestedInput
@@ -3986,7 +3986,7 @@ export type TenantCreateWithoutZonasInput = {
   servicios?: Prisma.ServicioCreateNestedManyWithoutTenantInput
   sesionesActividad?: Prisma.SesionActividadCreateNestedManyWithoutTenantInput
   subscription?: Prisma.SubscriptionCreateNestedOneWithoutTenantInput
-  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoCreateNestedManyWithoutTenantsInput
+  sugerencias?: Prisma.SugerenciaSeguimientoCreateNestedManyWithoutTenantInput
   memberships?: Prisma.TenantMembershipCreateNestedManyWithoutTenantInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosCreateNestedManyWithoutTenantInput
   tiposInteres?: Prisma.TipoInteresCreateNestedManyWithoutTenantInput
@@ -4045,7 +4045,7 @@ export type TenantUncheckedCreateWithoutZonasInput = {
   servicios?: Prisma.ServicioUncheckedCreateNestedManyWithoutTenantInput
   sesionesActividad?: Prisma.SesionActividadUncheckedCreateNestedManyWithoutTenantInput
   subscription?: Prisma.SubscriptionUncheckedCreateNestedOneWithoutTenantInput
-  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUncheckedCreateNestedManyWithoutTenantsInput
+  sugerencias?: Prisma.SugerenciaSeguimientoUncheckedCreateNestedManyWithoutTenantInput
   memberships?: Prisma.TenantMembershipUncheckedCreateNestedManyWithoutTenantInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUncheckedCreateNestedManyWithoutTenantInput
   tiposInteres?: Prisma.TipoInteresUncheckedCreateNestedManyWithoutTenantInput
@@ -4120,7 +4120,7 @@ export type TenantUpdateWithoutZonasInput = {
   servicios?: Prisma.ServicioUpdateManyWithoutTenantNestedInput
   sesionesActividad?: Prisma.SesionActividadUpdateManyWithoutTenantNestedInput
   subscription?: Prisma.SubscriptionUpdateOneWithoutTenantNestedInput
-  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUpdateManyWithoutTenantsNestedInput
+  sugerencias?: Prisma.SugerenciaSeguimientoUpdateManyWithoutTenantNestedInput
   memberships?: Prisma.TenantMembershipUpdateManyWithoutTenantNestedInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUpdateManyWithoutTenantNestedInput
   tiposInteres?: Prisma.TipoInteresUpdateManyWithoutTenantNestedInput
@@ -4179,7 +4179,7 @@ export type TenantUncheckedUpdateWithoutZonasInput = {
   servicios?: Prisma.ServicioUncheckedUpdateManyWithoutTenantNestedInput
   sesionesActividad?: Prisma.SesionActividadUncheckedUpdateManyWithoutTenantNestedInput
   subscription?: Prisma.SubscriptionUncheckedUpdateOneWithoutTenantNestedInput
-  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUncheckedUpdateManyWithoutTenantsNestedInput
+  sugerencias?: Prisma.SugerenciaSeguimientoUncheckedUpdateManyWithoutTenantNestedInput
   memberships?: Prisma.TenantMembershipUncheckedUpdateManyWithoutTenantNestedInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUncheckedUpdateManyWithoutTenantNestedInput
   tiposInteres?: Prisma.TipoInteresUncheckedUpdateManyWithoutTenantNestedInput
@@ -4237,7 +4237,7 @@ export type TenantCreateWithoutServiciosInput = {
   referidos?: Prisma.ReferidosCreateNestedManyWithoutTenantInput
   sesionesActividad?: Prisma.SesionActividadCreateNestedManyWithoutTenantInput
   subscription?: Prisma.SubscriptionCreateNestedOneWithoutTenantInput
-  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoCreateNestedManyWithoutTenantsInput
+  sugerencias?: Prisma.SugerenciaSeguimientoCreateNestedManyWithoutTenantInput
   memberships?: Prisma.TenantMembershipCreateNestedManyWithoutTenantInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosCreateNestedManyWithoutTenantInput
   tiposInteres?: Prisma.TipoInteresCreateNestedManyWithoutTenantInput
@@ -4296,7 +4296,7 @@ export type TenantUncheckedCreateWithoutServiciosInput = {
   referidos?: Prisma.ReferidosUncheckedCreateNestedManyWithoutTenantInput
   sesionesActividad?: Prisma.SesionActividadUncheckedCreateNestedManyWithoutTenantInput
   subscription?: Prisma.SubscriptionUncheckedCreateNestedOneWithoutTenantInput
-  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUncheckedCreateNestedManyWithoutTenantsInput
+  sugerencias?: Prisma.SugerenciaSeguimientoUncheckedCreateNestedManyWithoutTenantInput
   memberships?: Prisma.TenantMembershipUncheckedCreateNestedManyWithoutTenantInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUncheckedCreateNestedManyWithoutTenantInput
   tiposInteres?: Prisma.TipoInteresUncheckedCreateNestedManyWithoutTenantInput
@@ -4371,7 +4371,7 @@ export type TenantUpdateWithoutServiciosInput = {
   referidos?: Prisma.ReferidosUpdateManyWithoutTenantNestedInput
   sesionesActividad?: Prisma.SesionActividadUpdateManyWithoutTenantNestedInput
   subscription?: Prisma.SubscriptionUpdateOneWithoutTenantNestedInput
-  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUpdateManyWithoutTenantsNestedInput
+  sugerencias?: Prisma.SugerenciaSeguimientoUpdateManyWithoutTenantNestedInput
   memberships?: Prisma.TenantMembershipUpdateManyWithoutTenantNestedInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUpdateManyWithoutTenantNestedInput
   tiposInteres?: Prisma.TipoInteresUpdateManyWithoutTenantNestedInput
@@ -4430,7 +4430,7 @@ export type TenantUncheckedUpdateWithoutServiciosInput = {
   referidos?: Prisma.ReferidosUncheckedUpdateManyWithoutTenantNestedInput
   sesionesActividad?: Prisma.SesionActividadUncheckedUpdateManyWithoutTenantNestedInput
   subscription?: Prisma.SubscriptionUncheckedUpdateOneWithoutTenantNestedInput
-  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUncheckedUpdateManyWithoutTenantsNestedInput
+  sugerencias?: Prisma.SugerenciaSeguimientoUncheckedUpdateManyWithoutTenantNestedInput
   memberships?: Prisma.TenantMembershipUncheckedUpdateManyWithoutTenantNestedInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUncheckedUpdateManyWithoutTenantNestedInput
   tiposInteres?: Prisma.TipoInteresUncheckedUpdateManyWithoutTenantNestedInput
@@ -4490,7 +4490,7 @@ export type TenantCreateWithoutTiposServicioInput = {
   servicios?: Prisma.ServicioCreateNestedManyWithoutTenantInput
   sesionesActividad?: Prisma.SesionActividadCreateNestedManyWithoutTenantInput
   subscription?: Prisma.SubscriptionCreateNestedOneWithoutTenantInput
-  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoCreateNestedManyWithoutTenantsInput
+  sugerencias?: Prisma.SugerenciaSeguimientoCreateNestedManyWithoutTenantInput
   memberships?: Prisma.TenantMembershipCreateNestedManyWithoutTenantInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosCreateNestedManyWithoutTenantInput
   tiposInteres?: Prisma.TipoInteresCreateNestedManyWithoutTenantInput
@@ -4549,7 +4549,7 @@ export type TenantUncheckedCreateWithoutTiposServicioInput = {
   servicios?: Prisma.ServicioUncheckedCreateNestedManyWithoutTenantInput
   sesionesActividad?: Prisma.SesionActividadUncheckedCreateNestedManyWithoutTenantInput
   subscription?: Prisma.SubscriptionUncheckedCreateNestedOneWithoutTenantInput
-  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUncheckedCreateNestedManyWithoutTenantsInput
+  sugerencias?: Prisma.SugerenciaSeguimientoUncheckedCreateNestedManyWithoutTenantInput
   memberships?: Prisma.TenantMembershipUncheckedCreateNestedManyWithoutTenantInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUncheckedCreateNestedManyWithoutTenantInput
   tiposInteres?: Prisma.TipoInteresUncheckedCreateNestedManyWithoutTenantInput
@@ -4624,7 +4624,7 @@ export type TenantUpdateWithoutTiposServicioInput = {
   servicios?: Prisma.ServicioUpdateManyWithoutTenantNestedInput
   sesionesActividad?: Prisma.SesionActividadUpdateManyWithoutTenantNestedInput
   subscription?: Prisma.SubscriptionUpdateOneWithoutTenantNestedInput
-  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUpdateManyWithoutTenantsNestedInput
+  sugerencias?: Prisma.SugerenciaSeguimientoUpdateManyWithoutTenantNestedInput
   memberships?: Prisma.TenantMembershipUpdateManyWithoutTenantNestedInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUpdateManyWithoutTenantNestedInput
   tiposInteres?: Prisma.TipoInteresUpdateManyWithoutTenantNestedInput
@@ -4683,7 +4683,7 @@ export type TenantUncheckedUpdateWithoutTiposServicioInput = {
   servicios?: Prisma.ServicioUncheckedUpdateManyWithoutTenantNestedInput
   sesionesActividad?: Prisma.SesionActividadUncheckedUpdateManyWithoutTenantNestedInput
   subscription?: Prisma.SubscriptionUncheckedUpdateOneWithoutTenantNestedInput
-  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUncheckedUpdateManyWithoutTenantsNestedInput
+  sugerencias?: Prisma.SugerenciaSeguimientoUncheckedUpdateManyWithoutTenantNestedInput
   memberships?: Prisma.TenantMembershipUncheckedUpdateManyWithoutTenantNestedInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUncheckedUpdateManyWithoutTenantNestedInput
   tiposInteres?: Prisma.TipoInteresUncheckedUpdateManyWithoutTenantNestedInput
@@ -4741,7 +4741,7 @@ export type TenantCreateWithoutMetodosPagoInput = {
   servicios?: Prisma.ServicioCreateNestedManyWithoutTenantInput
   sesionesActividad?: Prisma.SesionActividadCreateNestedManyWithoutTenantInput
   subscription?: Prisma.SubscriptionCreateNestedOneWithoutTenantInput
-  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoCreateNestedManyWithoutTenantsInput
+  sugerencias?: Prisma.SugerenciaSeguimientoCreateNestedManyWithoutTenantInput
   memberships?: Prisma.TenantMembershipCreateNestedManyWithoutTenantInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosCreateNestedManyWithoutTenantInput
   tiposInteres?: Prisma.TipoInteresCreateNestedManyWithoutTenantInput
@@ -4800,7 +4800,7 @@ export type TenantUncheckedCreateWithoutMetodosPagoInput = {
   servicios?: Prisma.ServicioUncheckedCreateNestedManyWithoutTenantInput
   sesionesActividad?: Prisma.SesionActividadUncheckedCreateNestedManyWithoutTenantInput
   subscription?: Prisma.SubscriptionUncheckedCreateNestedOneWithoutTenantInput
-  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUncheckedCreateNestedManyWithoutTenantsInput
+  sugerencias?: Prisma.SugerenciaSeguimientoUncheckedCreateNestedManyWithoutTenantInput
   memberships?: Prisma.TenantMembershipUncheckedCreateNestedManyWithoutTenantInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUncheckedCreateNestedManyWithoutTenantInput
   tiposInteres?: Prisma.TipoInteresUncheckedCreateNestedManyWithoutTenantInput
@@ -4875,7 +4875,7 @@ export type TenantUpdateWithoutMetodosPagoInput = {
   servicios?: Prisma.ServicioUpdateManyWithoutTenantNestedInput
   sesionesActividad?: Prisma.SesionActividadUpdateManyWithoutTenantNestedInput
   subscription?: Prisma.SubscriptionUpdateOneWithoutTenantNestedInput
-  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUpdateManyWithoutTenantsNestedInput
+  sugerencias?: Prisma.SugerenciaSeguimientoUpdateManyWithoutTenantNestedInput
   memberships?: Prisma.TenantMembershipUpdateManyWithoutTenantNestedInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUpdateManyWithoutTenantNestedInput
   tiposInteres?: Prisma.TipoInteresUpdateManyWithoutTenantNestedInput
@@ -4934,7 +4934,7 @@ export type TenantUncheckedUpdateWithoutMetodosPagoInput = {
   servicios?: Prisma.ServicioUncheckedUpdateManyWithoutTenantNestedInput
   sesionesActividad?: Prisma.SesionActividadUncheckedUpdateManyWithoutTenantNestedInput
   subscription?: Prisma.SubscriptionUncheckedUpdateOneWithoutTenantNestedInput
-  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUncheckedUpdateManyWithoutTenantsNestedInput
+  sugerencias?: Prisma.SugerenciaSeguimientoUncheckedUpdateManyWithoutTenantNestedInput
   memberships?: Prisma.TenantMembershipUncheckedUpdateManyWithoutTenantNestedInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUncheckedUpdateManyWithoutTenantNestedInput
   tiposInteres?: Prisma.TipoInteresUncheckedUpdateManyWithoutTenantNestedInput
@@ -4993,7 +4993,7 @@ export type TenantCreateWithoutEstadosServicioInput = {
   servicios?: Prisma.ServicioCreateNestedManyWithoutTenantInput
   sesionesActividad?: Prisma.SesionActividadCreateNestedManyWithoutTenantInput
   subscription?: Prisma.SubscriptionCreateNestedOneWithoutTenantInput
-  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoCreateNestedManyWithoutTenantsInput
+  sugerencias?: Prisma.SugerenciaSeguimientoCreateNestedManyWithoutTenantInput
   memberships?: Prisma.TenantMembershipCreateNestedManyWithoutTenantInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosCreateNestedManyWithoutTenantInput
   tiposInteres?: Prisma.TipoInteresCreateNestedManyWithoutTenantInput
@@ -5052,7 +5052,7 @@ export type TenantUncheckedCreateWithoutEstadosServicioInput = {
   servicios?: Prisma.ServicioUncheckedCreateNestedManyWithoutTenantInput
   sesionesActividad?: Prisma.SesionActividadUncheckedCreateNestedManyWithoutTenantInput
   subscription?: Prisma.SubscriptionUncheckedCreateNestedOneWithoutTenantInput
-  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUncheckedCreateNestedManyWithoutTenantsInput
+  sugerencias?: Prisma.SugerenciaSeguimientoUncheckedCreateNestedManyWithoutTenantInput
   memberships?: Prisma.TenantMembershipUncheckedCreateNestedManyWithoutTenantInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUncheckedCreateNestedManyWithoutTenantInput
   tiposInteres?: Prisma.TipoInteresUncheckedCreateNestedManyWithoutTenantInput
@@ -5127,7 +5127,7 @@ export type TenantUpdateWithoutEstadosServicioInput = {
   servicios?: Prisma.ServicioUpdateManyWithoutTenantNestedInput
   sesionesActividad?: Prisma.SesionActividadUpdateManyWithoutTenantNestedInput
   subscription?: Prisma.SubscriptionUpdateOneWithoutTenantNestedInput
-  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUpdateManyWithoutTenantsNestedInput
+  sugerencias?: Prisma.SugerenciaSeguimientoUpdateManyWithoutTenantNestedInput
   memberships?: Prisma.TenantMembershipUpdateManyWithoutTenantNestedInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUpdateManyWithoutTenantNestedInput
   tiposInteres?: Prisma.TipoInteresUpdateManyWithoutTenantNestedInput
@@ -5186,7 +5186,7 @@ export type TenantUncheckedUpdateWithoutEstadosServicioInput = {
   servicios?: Prisma.ServicioUncheckedUpdateManyWithoutTenantNestedInput
   sesionesActividad?: Prisma.SesionActividadUncheckedUpdateManyWithoutTenantNestedInput
   subscription?: Prisma.SubscriptionUncheckedUpdateOneWithoutTenantNestedInput
-  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUncheckedUpdateManyWithoutTenantsNestedInput
+  sugerencias?: Prisma.SugerenciaSeguimientoUncheckedUpdateManyWithoutTenantNestedInput
   memberships?: Prisma.TenantMembershipUncheckedUpdateManyWithoutTenantNestedInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUncheckedUpdateManyWithoutTenantNestedInput
   tiposInteres?: Prisma.TipoInteresUncheckedUpdateManyWithoutTenantNestedInput
@@ -5245,7 +5245,7 @@ export type TenantCreateWithoutOrdenesServicioInput = {
   servicios?: Prisma.ServicioCreateNestedManyWithoutTenantInput
   sesionesActividad?: Prisma.SesionActividadCreateNestedManyWithoutTenantInput
   subscription?: Prisma.SubscriptionCreateNestedOneWithoutTenantInput
-  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoCreateNestedManyWithoutTenantsInput
+  sugerencias?: Prisma.SugerenciaSeguimientoCreateNestedManyWithoutTenantInput
   memberships?: Prisma.TenantMembershipCreateNestedManyWithoutTenantInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosCreateNestedManyWithoutTenantInput
   tiposInteres?: Prisma.TipoInteresCreateNestedManyWithoutTenantInput
@@ -5304,7 +5304,7 @@ export type TenantUncheckedCreateWithoutOrdenesServicioInput = {
   servicios?: Prisma.ServicioUncheckedCreateNestedManyWithoutTenantInput
   sesionesActividad?: Prisma.SesionActividadUncheckedCreateNestedManyWithoutTenantInput
   subscription?: Prisma.SubscriptionUncheckedCreateNestedOneWithoutTenantInput
-  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUncheckedCreateNestedManyWithoutTenantsInput
+  sugerencias?: Prisma.SugerenciaSeguimientoUncheckedCreateNestedManyWithoutTenantInput
   memberships?: Prisma.TenantMembershipUncheckedCreateNestedManyWithoutTenantInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUncheckedCreateNestedManyWithoutTenantInput
   tiposInteres?: Prisma.TipoInteresUncheckedCreateNestedManyWithoutTenantInput
@@ -5379,7 +5379,7 @@ export type TenantUpdateWithoutOrdenesServicioInput = {
   servicios?: Prisma.ServicioUpdateManyWithoutTenantNestedInput
   sesionesActividad?: Prisma.SesionActividadUpdateManyWithoutTenantNestedInput
   subscription?: Prisma.SubscriptionUpdateOneWithoutTenantNestedInput
-  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUpdateManyWithoutTenantsNestedInput
+  sugerencias?: Prisma.SugerenciaSeguimientoUpdateManyWithoutTenantNestedInput
   memberships?: Prisma.TenantMembershipUpdateManyWithoutTenantNestedInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUpdateManyWithoutTenantNestedInput
   tiposInteres?: Prisma.TipoInteresUpdateManyWithoutTenantNestedInput
@@ -5438,7 +5438,7 @@ export type TenantUncheckedUpdateWithoutOrdenesServicioInput = {
   servicios?: Prisma.ServicioUncheckedUpdateManyWithoutTenantNestedInput
   sesionesActividad?: Prisma.SesionActividadUncheckedUpdateManyWithoutTenantNestedInput
   subscription?: Prisma.SubscriptionUncheckedUpdateOneWithoutTenantNestedInput
-  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUncheckedUpdateManyWithoutTenantsNestedInput
+  sugerencias?: Prisma.SugerenciaSeguimientoUncheckedUpdateManyWithoutTenantNestedInput
   memberships?: Prisma.TenantMembershipUncheckedUpdateManyWithoutTenantNestedInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUncheckedUpdateManyWithoutTenantNestedInput
   tiposInteres?: Prisma.TipoInteresUncheckedUpdateManyWithoutTenantNestedInput
@@ -5497,7 +5497,7 @@ export type TenantCreateWithoutEntidadesFinancierasInput = {
   servicios?: Prisma.ServicioCreateNestedManyWithoutTenantInput
   sesionesActividad?: Prisma.SesionActividadCreateNestedManyWithoutTenantInput
   subscription?: Prisma.SubscriptionCreateNestedOneWithoutTenantInput
-  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoCreateNestedManyWithoutTenantsInput
+  sugerencias?: Prisma.SugerenciaSeguimientoCreateNestedManyWithoutTenantInput
   memberships?: Prisma.TenantMembershipCreateNestedManyWithoutTenantInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosCreateNestedManyWithoutTenantInput
   tiposInteres?: Prisma.TipoInteresCreateNestedManyWithoutTenantInput
@@ -5556,7 +5556,7 @@ export type TenantUncheckedCreateWithoutEntidadesFinancierasInput = {
   servicios?: Prisma.ServicioUncheckedCreateNestedManyWithoutTenantInput
   sesionesActividad?: Prisma.SesionActividadUncheckedCreateNestedManyWithoutTenantInput
   subscription?: Prisma.SubscriptionUncheckedCreateNestedOneWithoutTenantInput
-  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUncheckedCreateNestedManyWithoutTenantsInput
+  sugerencias?: Prisma.SugerenciaSeguimientoUncheckedCreateNestedManyWithoutTenantInput
   memberships?: Prisma.TenantMembershipUncheckedCreateNestedManyWithoutTenantInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUncheckedCreateNestedManyWithoutTenantInput
   tiposInteres?: Prisma.TipoInteresUncheckedCreateNestedManyWithoutTenantInput
@@ -5631,7 +5631,7 @@ export type TenantUpdateWithoutEntidadesFinancierasInput = {
   servicios?: Prisma.ServicioUpdateManyWithoutTenantNestedInput
   sesionesActividad?: Prisma.SesionActividadUpdateManyWithoutTenantNestedInput
   subscription?: Prisma.SubscriptionUpdateOneWithoutTenantNestedInput
-  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUpdateManyWithoutTenantsNestedInput
+  sugerencias?: Prisma.SugerenciaSeguimientoUpdateManyWithoutTenantNestedInput
   memberships?: Prisma.TenantMembershipUpdateManyWithoutTenantNestedInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUpdateManyWithoutTenantNestedInput
   tiposInteres?: Prisma.TipoInteresUpdateManyWithoutTenantNestedInput
@@ -5690,7 +5690,7 @@ export type TenantUncheckedUpdateWithoutEntidadesFinancierasInput = {
   servicios?: Prisma.ServicioUncheckedUpdateManyWithoutTenantNestedInput
   sesionesActividad?: Prisma.SesionActividadUncheckedUpdateManyWithoutTenantNestedInput
   subscription?: Prisma.SubscriptionUncheckedUpdateOneWithoutTenantNestedInput
-  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUncheckedUpdateManyWithoutTenantsNestedInput
+  sugerencias?: Prisma.SugerenciaSeguimientoUncheckedUpdateManyWithoutTenantNestedInput
   memberships?: Prisma.TenantMembershipUncheckedUpdateManyWithoutTenantNestedInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUncheckedUpdateManyWithoutTenantNestedInput
   tiposInteres?: Prisma.TipoInteresUncheckedUpdateManyWithoutTenantNestedInput
@@ -5749,7 +5749,7 @@ export type TenantCreateWithoutGeolocalizacionesInput = {
   servicios?: Prisma.ServicioCreateNestedManyWithoutTenantInput
   sesionesActividad?: Prisma.SesionActividadCreateNestedManyWithoutTenantInput
   subscription?: Prisma.SubscriptionCreateNestedOneWithoutTenantInput
-  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoCreateNestedManyWithoutTenantsInput
+  sugerencias?: Prisma.SugerenciaSeguimientoCreateNestedManyWithoutTenantInput
   memberships?: Prisma.TenantMembershipCreateNestedManyWithoutTenantInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosCreateNestedManyWithoutTenantInput
   tiposInteres?: Prisma.TipoInteresCreateNestedManyWithoutTenantInput
@@ -5808,7 +5808,7 @@ export type TenantUncheckedCreateWithoutGeolocalizacionesInput = {
   servicios?: Prisma.ServicioUncheckedCreateNestedManyWithoutTenantInput
   sesionesActividad?: Prisma.SesionActividadUncheckedCreateNestedManyWithoutTenantInput
   subscription?: Prisma.SubscriptionUncheckedCreateNestedOneWithoutTenantInput
-  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUncheckedCreateNestedManyWithoutTenantsInput
+  sugerencias?: Prisma.SugerenciaSeguimientoUncheckedCreateNestedManyWithoutTenantInput
   memberships?: Prisma.TenantMembershipUncheckedCreateNestedManyWithoutTenantInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUncheckedCreateNestedManyWithoutTenantInput
   tiposInteres?: Prisma.TipoInteresUncheckedCreateNestedManyWithoutTenantInput
@@ -5883,7 +5883,7 @@ export type TenantUpdateWithoutGeolocalizacionesInput = {
   servicios?: Prisma.ServicioUpdateManyWithoutTenantNestedInput
   sesionesActividad?: Prisma.SesionActividadUpdateManyWithoutTenantNestedInput
   subscription?: Prisma.SubscriptionUpdateOneWithoutTenantNestedInput
-  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUpdateManyWithoutTenantsNestedInput
+  sugerencias?: Prisma.SugerenciaSeguimientoUpdateManyWithoutTenantNestedInput
   memberships?: Prisma.TenantMembershipUpdateManyWithoutTenantNestedInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUpdateManyWithoutTenantNestedInput
   tiposInteres?: Prisma.TipoInteresUpdateManyWithoutTenantNestedInput
@@ -5942,7 +5942,7 @@ export type TenantUncheckedUpdateWithoutGeolocalizacionesInput = {
   servicios?: Prisma.ServicioUncheckedUpdateManyWithoutTenantNestedInput
   sesionesActividad?: Prisma.SesionActividadUncheckedUpdateManyWithoutTenantNestedInput
   subscription?: Prisma.SubscriptionUncheckedUpdateOneWithoutTenantNestedInput
-  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUncheckedUpdateManyWithoutTenantsNestedInput
+  sugerencias?: Prisma.SugerenciaSeguimientoUncheckedUpdateManyWithoutTenantNestedInput
   memberships?: Prisma.TenantMembershipUncheckedUpdateManyWithoutTenantNestedInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUncheckedUpdateManyWithoutTenantNestedInput
   tiposInteres?: Prisma.TipoInteresUncheckedUpdateManyWithoutTenantNestedInput
@@ -6001,7 +6001,7 @@ export type TenantCreateWithoutNominasInput = {
   servicios?: Prisma.ServicioCreateNestedManyWithoutTenantInput
   sesionesActividad?: Prisma.SesionActividadCreateNestedManyWithoutTenantInput
   subscription?: Prisma.SubscriptionCreateNestedOneWithoutTenantInput
-  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoCreateNestedManyWithoutTenantsInput
+  sugerencias?: Prisma.SugerenciaSeguimientoCreateNestedManyWithoutTenantInput
   memberships?: Prisma.TenantMembershipCreateNestedManyWithoutTenantInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosCreateNestedManyWithoutTenantInput
   tiposInteres?: Prisma.TipoInteresCreateNestedManyWithoutTenantInput
@@ -6060,7 +6060,7 @@ export type TenantUncheckedCreateWithoutNominasInput = {
   servicios?: Prisma.ServicioUncheckedCreateNestedManyWithoutTenantInput
   sesionesActividad?: Prisma.SesionActividadUncheckedCreateNestedManyWithoutTenantInput
   subscription?: Prisma.SubscriptionUncheckedCreateNestedOneWithoutTenantInput
-  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUncheckedCreateNestedManyWithoutTenantsInput
+  sugerencias?: Prisma.SugerenciaSeguimientoUncheckedCreateNestedManyWithoutTenantInput
   memberships?: Prisma.TenantMembershipUncheckedCreateNestedManyWithoutTenantInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUncheckedCreateNestedManyWithoutTenantInput
   tiposInteres?: Prisma.TipoInteresUncheckedCreateNestedManyWithoutTenantInput
@@ -6135,7 +6135,7 @@ export type TenantUpdateWithoutNominasInput = {
   servicios?: Prisma.ServicioUpdateManyWithoutTenantNestedInput
   sesionesActividad?: Prisma.SesionActividadUpdateManyWithoutTenantNestedInput
   subscription?: Prisma.SubscriptionUpdateOneWithoutTenantNestedInput
-  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUpdateManyWithoutTenantsNestedInput
+  sugerencias?: Prisma.SugerenciaSeguimientoUpdateManyWithoutTenantNestedInput
   memberships?: Prisma.TenantMembershipUpdateManyWithoutTenantNestedInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUpdateManyWithoutTenantNestedInput
   tiposInteres?: Prisma.TipoInteresUpdateManyWithoutTenantNestedInput
@@ -6194,7 +6194,7 @@ export type TenantUncheckedUpdateWithoutNominasInput = {
   servicios?: Prisma.ServicioUncheckedUpdateManyWithoutTenantNestedInput
   sesionesActividad?: Prisma.SesionActividadUncheckedUpdateManyWithoutTenantNestedInput
   subscription?: Prisma.SubscriptionUncheckedUpdateOneWithoutTenantNestedInput
-  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUncheckedUpdateManyWithoutTenantsNestedInput
+  sugerencias?: Prisma.SugerenciaSeguimientoUncheckedUpdateManyWithoutTenantNestedInput
   memberships?: Prisma.TenantMembershipUncheckedUpdateManyWithoutTenantNestedInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUncheckedUpdateManyWithoutTenantNestedInput
   tiposInteres?: Prisma.TipoInteresUncheckedUpdateManyWithoutTenantNestedInput
@@ -6253,7 +6253,7 @@ export type TenantCreateWithoutNominaDetallesInput = {
   servicios?: Prisma.ServicioCreateNestedManyWithoutTenantInput
   sesionesActividad?: Prisma.SesionActividadCreateNestedManyWithoutTenantInput
   subscription?: Prisma.SubscriptionCreateNestedOneWithoutTenantInput
-  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoCreateNestedManyWithoutTenantsInput
+  sugerencias?: Prisma.SugerenciaSeguimientoCreateNestedManyWithoutTenantInput
   memberships?: Prisma.TenantMembershipCreateNestedManyWithoutTenantInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosCreateNestedManyWithoutTenantInput
   tiposInteres?: Prisma.TipoInteresCreateNestedManyWithoutTenantInput
@@ -6312,7 +6312,7 @@ export type TenantUncheckedCreateWithoutNominaDetallesInput = {
   servicios?: Prisma.ServicioUncheckedCreateNestedManyWithoutTenantInput
   sesionesActividad?: Prisma.SesionActividadUncheckedCreateNestedManyWithoutTenantInput
   subscription?: Prisma.SubscriptionUncheckedCreateNestedOneWithoutTenantInput
-  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUncheckedCreateNestedManyWithoutTenantsInput
+  sugerencias?: Prisma.SugerenciaSeguimientoUncheckedCreateNestedManyWithoutTenantInput
   memberships?: Prisma.TenantMembershipUncheckedCreateNestedManyWithoutTenantInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUncheckedCreateNestedManyWithoutTenantInput
   tiposInteres?: Prisma.TipoInteresUncheckedCreateNestedManyWithoutTenantInput
@@ -6387,7 +6387,7 @@ export type TenantUpdateWithoutNominaDetallesInput = {
   servicios?: Prisma.ServicioUpdateManyWithoutTenantNestedInput
   sesionesActividad?: Prisma.SesionActividadUpdateManyWithoutTenantNestedInput
   subscription?: Prisma.SubscriptionUpdateOneWithoutTenantNestedInput
-  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUpdateManyWithoutTenantsNestedInput
+  sugerencias?: Prisma.SugerenciaSeguimientoUpdateManyWithoutTenantNestedInput
   memberships?: Prisma.TenantMembershipUpdateManyWithoutTenantNestedInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUpdateManyWithoutTenantNestedInput
   tiposInteres?: Prisma.TipoInteresUpdateManyWithoutTenantNestedInput
@@ -6446,7 +6446,7 @@ export type TenantUncheckedUpdateWithoutNominaDetallesInput = {
   servicios?: Prisma.ServicioUncheckedUpdateManyWithoutTenantNestedInput
   sesionesActividad?: Prisma.SesionActividadUncheckedUpdateManyWithoutTenantNestedInput
   subscription?: Prisma.SubscriptionUncheckedUpdateOneWithoutTenantNestedInput
-  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUncheckedUpdateManyWithoutTenantsNestedInput
+  sugerencias?: Prisma.SugerenciaSeguimientoUncheckedUpdateManyWithoutTenantNestedInput
   memberships?: Prisma.TenantMembershipUncheckedUpdateManyWithoutTenantNestedInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUncheckedUpdateManyWithoutTenantNestedInput
   tiposInteres?: Prisma.TipoInteresUncheckedUpdateManyWithoutTenantNestedInput
@@ -6505,7 +6505,7 @@ export type TenantCreateWithoutCitasPsicologosInput = {
   servicios?: Prisma.ServicioCreateNestedManyWithoutTenantInput
   sesionesActividad?: Prisma.SesionActividadCreateNestedManyWithoutTenantInput
   subscription?: Prisma.SubscriptionCreateNestedOneWithoutTenantInput
-  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoCreateNestedManyWithoutTenantsInput
+  sugerencias?: Prisma.SugerenciaSeguimientoCreateNestedManyWithoutTenantInput
   memberships?: Prisma.TenantMembershipCreateNestedManyWithoutTenantInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosCreateNestedManyWithoutTenantInput
   tiposInteres?: Prisma.TipoInteresCreateNestedManyWithoutTenantInput
@@ -6564,7 +6564,7 @@ export type TenantUncheckedCreateWithoutCitasPsicologosInput = {
   servicios?: Prisma.ServicioUncheckedCreateNestedManyWithoutTenantInput
   sesionesActividad?: Prisma.SesionActividadUncheckedCreateNestedManyWithoutTenantInput
   subscription?: Prisma.SubscriptionUncheckedCreateNestedOneWithoutTenantInput
-  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUncheckedCreateNestedManyWithoutTenantsInput
+  sugerencias?: Prisma.SugerenciaSeguimientoUncheckedCreateNestedManyWithoutTenantInput
   memberships?: Prisma.TenantMembershipUncheckedCreateNestedManyWithoutTenantInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUncheckedCreateNestedManyWithoutTenantInput
   tiposInteres?: Prisma.TipoInteresUncheckedCreateNestedManyWithoutTenantInput
@@ -6639,7 +6639,7 @@ export type TenantUpdateWithoutCitasPsicologosInput = {
   servicios?: Prisma.ServicioUpdateManyWithoutTenantNestedInput
   sesionesActividad?: Prisma.SesionActividadUpdateManyWithoutTenantNestedInput
   subscription?: Prisma.SubscriptionUpdateOneWithoutTenantNestedInput
-  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUpdateManyWithoutTenantsNestedInput
+  sugerencias?: Prisma.SugerenciaSeguimientoUpdateManyWithoutTenantNestedInput
   memberships?: Prisma.TenantMembershipUpdateManyWithoutTenantNestedInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUpdateManyWithoutTenantNestedInput
   tiposInteres?: Prisma.TipoInteresUpdateManyWithoutTenantNestedInput
@@ -6698,7 +6698,7 @@ export type TenantUncheckedUpdateWithoutCitasPsicologosInput = {
   servicios?: Prisma.ServicioUncheckedUpdateManyWithoutTenantNestedInput
   sesionesActividad?: Prisma.SesionActividadUncheckedUpdateManyWithoutTenantNestedInput
   subscription?: Prisma.SubscriptionUncheckedUpdateOneWithoutTenantNestedInput
-  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUncheckedUpdateManyWithoutTenantsNestedInput
+  sugerencias?: Prisma.SugerenciaSeguimientoUncheckedUpdateManyWithoutTenantNestedInput
   memberships?: Prisma.TenantMembershipUncheckedUpdateManyWithoutTenantNestedInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUncheckedUpdateManyWithoutTenantNestedInput
   tiposInteres?: Prisma.TipoInteresUncheckedUpdateManyWithoutTenantNestedInput
@@ -6757,7 +6757,7 @@ export type TenantCreateWithoutConsultoriosInput = {
   servicios?: Prisma.ServicioCreateNestedManyWithoutTenantInput
   sesionesActividad?: Prisma.SesionActividadCreateNestedManyWithoutTenantInput
   subscription?: Prisma.SubscriptionCreateNestedOneWithoutTenantInput
-  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoCreateNestedManyWithoutTenantsInput
+  sugerencias?: Prisma.SugerenciaSeguimientoCreateNestedManyWithoutTenantInput
   memberships?: Prisma.TenantMembershipCreateNestedManyWithoutTenantInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosCreateNestedManyWithoutTenantInput
   tiposInteres?: Prisma.TipoInteresCreateNestedManyWithoutTenantInput
@@ -6816,7 +6816,7 @@ export type TenantUncheckedCreateWithoutConsultoriosInput = {
   servicios?: Prisma.ServicioUncheckedCreateNestedManyWithoutTenantInput
   sesionesActividad?: Prisma.SesionActividadUncheckedCreateNestedManyWithoutTenantInput
   subscription?: Prisma.SubscriptionUncheckedCreateNestedOneWithoutTenantInput
-  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUncheckedCreateNestedManyWithoutTenantsInput
+  sugerencias?: Prisma.SugerenciaSeguimientoUncheckedCreateNestedManyWithoutTenantInput
   memberships?: Prisma.TenantMembershipUncheckedCreateNestedManyWithoutTenantInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUncheckedCreateNestedManyWithoutTenantInput
   tiposInteres?: Prisma.TipoInteresUncheckedCreateNestedManyWithoutTenantInput
@@ -6891,7 +6891,7 @@ export type TenantUpdateWithoutConsultoriosInput = {
   servicios?: Prisma.ServicioUpdateManyWithoutTenantNestedInput
   sesionesActividad?: Prisma.SesionActividadUpdateManyWithoutTenantNestedInput
   subscription?: Prisma.SubscriptionUpdateOneWithoutTenantNestedInput
-  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUpdateManyWithoutTenantsNestedInput
+  sugerencias?: Prisma.SugerenciaSeguimientoUpdateManyWithoutTenantNestedInput
   memberships?: Prisma.TenantMembershipUpdateManyWithoutTenantNestedInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUpdateManyWithoutTenantNestedInput
   tiposInteres?: Prisma.TipoInteresUpdateManyWithoutTenantNestedInput
@@ -6950,7 +6950,7 @@ export type TenantUncheckedUpdateWithoutConsultoriosInput = {
   servicios?: Prisma.ServicioUncheckedUpdateManyWithoutTenantNestedInput
   sesionesActividad?: Prisma.SesionActividadUncheckedUpdateManyWithoutTenantNestedInput
   subscription?: Prisma.SubscriptionUncheckedUpdateOneWithoutTenantNestedInput
-  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUncheckedUpdateManyWithoutTenantsNestedInput
+  sugerencias?: Prisma.SugerenciaSeguimientoUncheckedUpdateManyWithoutTenantNestedInput
   memberships?: Prisma.TenantMembershipUncheckedUpdateManyWithoutTenantNestedInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUncheckedUpdateManyWithoutTenantNestedInput
   tiposInteres?: Prisma.TipoInteresUncheckedUpdateManyWithoutTenantNestedInput
@@ -7010,7 +7010,7 @@ export type TenantCreateWithoutTerapiasPsicologosInput = {
   servicios?: Prisma.ServicioCreateNestedManyWithoutTenantInput
   sesionesActividad?: Prisma.SesionActividadCreateNestedManyWithoutTenantInput
   subscription?: Prisma.SubscriptionCreateNestedOneWithoutTenantInput
-  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoCreateNestedManyWithoutTenantsInput
+  sugerencias?: Prisma.SugerenciaSeguimientoCreateNestedManyWithoutTenantInput
   memberships?: Prisma.TenantMembershipCreateNestedManyWithoutTenantInput
   tiposInteres?: Prisma.TipoInteresCreateNestedManyWithoutTenantInput
   tiposServicio?: Prisma.TipoServicioCreateNestedManyWithoutTenantInput
@@ -7069,7 +7069,7 @@ export type TenantUncheckedCreateWithoutTerapiasPsicologosInput = {
   servicios?: Prisma.ServicioUncheckedCreateNestedManyWithoutTenantInput
   sesionesActividad?: Prisma.SesionActividadUncheckedCreateNestedManyWithoutTenantInput
   subscription?: Prisma.SubscriptionUncheckedCreateNestedOneWithoutTenantInput
-  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUncheckedCreateNestedManyWithoutTenantsInput
+  sugerencias?: Prisma.SugerenciaSeguimientoUncheckedCreateNestedManyWithoutTenantInput
   memberships?: Prisma.TenantMembershipUncheckedCreateNestedManyWithoutTenantInput
   tiposInteres?: Prisma.TipoInteresUncheckedCreateNestedManyWithoutTenantInput
   tiposServicio?: Prisma.TipoServicioUncheckedCreateNestedManyWithoutTenantInput
@@ -7144,7 +7144,7 @@ export type TenantUpdateWithoutTerapiasPsicologosInput = {
   servicios?: Prisma.ServicioUpdateManyWithoutTenantNestedInput
   sesionesActividad?: Prisma.SesionActividadUpdateManyWithoutTenantNestedInput
   subscription?: Prisma.SubscriptionUpdateOneWithoutTenantNestedInput
-  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUpdateManyWithoutTenantsNestedInput
+  sugerencias?: Prisma.SugerenciaSeguimientoUpdateManyWithoutTenantNestedInput
   memberships?: Prisma.TenantMembershipUpdateManyWithoutTenantNestedInput
   tiposInteres?: Prisma.TipoInteresUpdateManyWithoutTenantNestedInput
   tiposServicio?: Prisma.TipoServicioUpdateManyWithoutTenantNestedInput
@@ -7203,7 +7203,7 @@ export type TenantUncheckedUpdateWithoutTerapiasPsicologosInput = {
   servicios?: Prisma.ServicioUncheckedUpdateManyWithoutTenantNestedInput
   sesionesActividad?: Prisma.SesionActividadUncheckedUpdateManyWithoutTenantNestedInput
   subscription?: Prisma.SubscriptionUncheckedUpdateOneWithoutTenantNestedInput
-  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUncheckedUpdateManyWithoutTenantsNestedInput
+  sugerencias?: Prisma.SugerenciaSeguimientoUncheckedUpdateManyWithoutTenantNestedInput
   memberships?: Prisma.TenantMembershipUncheckedUpdateManyWithoutTenantNestedInput
   tiposInteres?: Prisma.TipoInteresUncheckedUpdateManyWithoutTenantNestedInput
   tiposServicio?: Prisma.TipoServicioUncheckedUpdateManyWithoutTenantNestedInput
@@ -7261,7 +7261,7 @@ export type TenantCreateWithoutPaquetesAdquiridosInput = {
   servicios?: Prisma.ServicioCreateNestedManyWithoutTenantInput
   sesionesActividad?: Prisma.SesionActividadCreateNestedManyWithoutTenantInput
   subscription?: Prisma.SubscriptionCreateNestedOneWithoutTenantInput
-  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoCreateNestedManyWithoutTenantsInput
+  sugerencias?: Prisma.SugerenciaSeguimientoCreateNestedManyWithoutTenantInput
   memberships?: Prisma.TenantMembershipCreateNestedManyWithoutTenantInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosCreateNestedManyWithoutTenantInput
   tiposInteres?: Prisma.TipoInteresCreateNestedManyWithoutTenantInput
@@ -7320,7 +7320,7 @@ export type TenantUncheckedCreateWithoutPaquetesAdquiridosInput = {
   servicios?: Prisma.ServicioUncheckedCreateNestedManyWithoutTenantInput
   sesionesActividad?: Prisma.SesionActividadUncheckedCreateNestedManyWithoutTenantInput
   subscription?: Prisma.SubscriptionUncheckedCreateNestedOneWithoutTenantInput
-  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUncheckedCreateNestedManyWithoutTenantsInput
+  sugerencias?: Prisma.SugerenciaSeguimientoUncheckedCreateNestedManyWithoutTenantInput
   memberships?: Prisma.TenantMembershipUncheckedCreateNestedManyWithoutTenantInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUncheckedCreateNestedManyWithoutTenantInput
   tiposInteres?: Prisma.TipoInteresUncheckedCreateNestedManyWithoutTenantInput
@@ -7395,7 +7395,7 @@ export type TenantUpdateWithoutPaquetesAdquiridosInput = {
   servicios?: Prisma.ServicioUpdateManyWithoutTenantNestedInput
   sesionesActividad?: Prisma.SesionActividadUpdateManyWithoutTenantNestedInput
   subscription?: Prisma.SubscriptionUpdateOneWithoutTenantNestedInput
-  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUpdateManyWithoutTenantsNestedInput
+  sugerencias?: Prisma.SugerenciaSeguimientoUpdateManyWithoutTenantNestedInput
   memberships?: Prisma.TenantMembershipUpdateManyWithoutTenantNestedInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUpdateManyWithoutTenantNestedInput
   tiposInteres?: Prisma.TipoInteresUpdateManyWithoutTenantNestedInput
@@ -7454,7 +7454,7 @@ export type TenantUncheckedUpdateWithoutPaquetesAdquiridosInput = {
   servicios?: Prisma.ServicioUncheckedUpdateManyWithoutTenantNestedInput
   sesionesActividad?: Prisma.SesionActividadUncheckedUpdateManyWithoutTenantNestedInput
   subscription?: Prisma.SubscriptionUncheckedUpdateOneWithoutTenantNestedInput
-  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUncheckedUpdateManyWithoutTenantsNestedInput
+  sugerencias?: Prisma.SugerenciaSeguimientoUncheckedUpdateManyWithoutTenantNestedInput
   memberships?: Prisma.TenantMembershipUncheckedUpdateManyWithoutTenantNestedInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUncheckedUpdateManyWithoutTenantNestedInput
   tiposInteres?: Prisma.TipoInteresUncheckedUpdateManyWithoutTenantNestedInput
@@ -7514,7 +7514,7 @@ export type TenantCreateWithoutTurnosInput = {
   servicios?: Prisma.ServicioCreateNestedManyWithoutTenantInput
   sesionesActividad?: Prisma.SesionActividadCreateNestedManyWithoutTenantInput
   subscription?: Prisma.SubscriptionCreateNestedOneWithoutTenantInput
-  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoCreateNestedManyWithoutTenantsInput
+  sugerencias?: Prisma.SugerenciaSeguimientoCreateNestedManyWithoutTenantInput
   memberships?: Prisma.TenantMembershipCreateNestedManyWithoutTenantInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosCreateNestedManyWithoutTenantInput
   tiposInteres?: Prisma.TipoInteresCreateNestedManyWithoutTenantInput
@@ -7573,7 +7573,7 @@ export type TenantUncheckedCreateWithoutTurnosInput = {
   servicios?: Prisma.ServicioUncheckedCreateNestedManyWithoutTenantInput
   sesionesActividad?: Prisma.SesionActividadUncheckedCreateNestedManyWithoutTenantInput
   subscription?: Prisma.SubscriptionUncheckedCreateNestedOneWithoutTenantInput
-  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUncheckedCreateNestedManyWithoutTenantsInput
+  sugerencias?: Prisma.SugerenciaSeguimientoUncheckedCreateNestedManyWithoutTenantInput
   memberships?: Prisma.TenantMembershipUncheckedCreateNestedManyWithoutTenantInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUncheckedCreateNestedManyWithoutTenantInput
   tiposInteres?: Prisma.TipoInteresUncheckedCreateNestedManyWithoutTenantInput
@@ -7648,7 +7648,7 @@ export type TenantUpdateWithoutTurnosInput = {
   servicios?: Prisma.ServicioUpdateManyWithoutTenantNestedInput
   sesionesActividad?: Prisma.SesionActividadUpdateManyWithoutTenantNestedInput
   subscription?: Prisma.SubscriptionUpdateOneWithoutTenantNestedInput
-  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUpdateManyWithoutTenantsNestedInput
+  sugerencias?: Prisma.SugerenciaSeguimientoUpdateManyWithoutTenantNestedInput
   memberships?: Prisma.TenantMembershipUpdateManyWithoutTenantNestedInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUpdateManyWithoutTenantNestedInput
   tiposInteres?: Prisma.TipoInteresUpdateManyWithoutTenantNestedInput
@@ -7707,7 +7707,7 @@ export type TenantUncheckedUpdateWithoutTurnosInput = {
   servicios?: Prisma.ServicioUncheckedUpdateManyWithoutTenantNestedInput
   sesionesActividad?: Prisma.SesionActividadUncheckedUpdateManyWithoutTenantNestedInput
   subscription?: Prisma.SubscriptionUncheckedUpdateOneWithoutTenantNestedInput
-  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUncheckedUpdateManyWithoutTenantsNestedInput
+  sugerencias?: Prisma.SugerenciaSeguimientoUncheckedUpdateManyWithoutTenantNestedInput
   memberships?: Prisma.TenantMembershipUncheckedUpdateManyWithoutTenantNestedInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUncheckedUpdateManyWithoutTenantNestedInput
   tiposInteres?: Prisma.TipoInteresUncheckedUpdateManyWithoutTenantNestedInput
@@ -7765,7 +7765,7 @@ export type TenantCreateWithoutCuentasCobroInput = {
   servicios?: Prisma.ServicioCreateNestedManyWithoutTenantInput
   sesionesActividad?: Prisma.SesionActividadCreateNestedManyWithoutTenantInput
   subscription?: Prisma.SubscriptionCreateNestedOneWithoutTenantInput
-  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoCreateNestedManyWithoutTenantsInput
+  sugerencias?: Prisma.SugerenciaSeguimientoCreateNestedManyWithoutTenantInput
   memberships?: Prisma.TenantMembershipCreateNestedManyWithoutTenantInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosCreateNestedManyWithoutTenantInput
   tiposInteres?: Prisma.TipoInteresCreateNestedManyWithoutTenantInput
@@ -7824,7 +7824,7 @@ export type TenantUncheckedCreateWithoutCuentasCobroInput = {
   servicios?: Prisma.ServicioUncheckedCreateNestedManyWithoutTenantInput
   sesionesActividad?: Prisma.SesionActividadUncheckedCreateNestedManyWithoutTenantInput
   subscription?: Prisma.SubscriptionUncheckedCreateNestedOneWithoutTenantInput
-  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUncheckedCreateNestedManyWithoutTenantsInput
+  sugerencias?: Prisma.SugerenciaSeguimientoUncheckedCreateNestedManyWithoutTenantInput
   memberships?: Prisma.TenantMembershipUncheckedCreateNestedManyWithoutTenantInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUncheckedCreateNestedManyWithoutTenantInput
   tiposInteres?: Prisma.TipoInteresUncheckedCreateNestedManyWithoutTenantInput
@@ -7899,7 +7899,7 @@ export type TenantUpdateWithoutCuentasCobroInput = {
   servicios?: Prisma.ServicioUpdateManyWithoutTenantNestedInput
   sesionesActividad?: Prisma.SesionActividadUpdateManyWithoutTenantNestedInput
   subscription?: Prisma.SubscriptionUpdateOneWithoutTenantNestedInput
-  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUpdateManyWithoutTenantsNestedInput
+  sugerencias?: Prisma.SugerenciaSeguimientoUpdateManyWithoutTenantNestedInput
   memberships?: Prisma.TenantMembershipUpdateManyWithoutTenantNestedInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUpdateManyWithoutTenantNestedInput
   tiposInteres?: Prisma.TipoInteresUpdateManyWithoutTenantNestedInput
@@ -7958,7 +7958,7 @@ export type TenantUncheckedUpdateWithoutCuentasCobroInput = {
   servicios?: Prisma.ServicioUncheckedUpdateManyWithoutTenantNestedInput
   sesionesActividad?: Prisma.SesionActividadUncheckedUpdateManyWithoutTenantNestedInput
   subscription?: Prisma.SubscriptionUncheckedUpdateOneWithoutTenantNestedInput
-  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUncheckedUpdateManyWithoutTenantsNestedInput
+  sugerencias?: Prisma.SugerenciaSeguimientoUncheckedUpdateManyWithoutTenantNestedInput
   memberships?: Prisma.TenantMembershipUncheckedUpdateManyWithoutTenantNestedInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUncheckedUpdateManyWithoutTenantNestedInput
   tiposInteres?: Prisma.TipoInteresUncheckedUpdateManyWithoutTenantNestedInput
@@ -8017,7 +8017,7 @@ export type TenantCreateWithoutDeclaracionesInput = {
   servicios?: Prisma.ServicioCreateNestedManyWithoutTenantInput
   sesionesActividad?: Prisma.SesionActividadCreateNestedManyWithoutTenantInput
   subscription?: Prisma.SubscriptionCreateNestedOneWithoutTenantInput
-  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoCreateNestedManyWithoutTenantsInput
+  sugerencias?: Prisma.SugerenciaSeguimientoCreateNestedManyWithoutTenantInput
   memberships?: Prisma.TenantMembershipCreateNestedManyWithoutTenantInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosCreateNestedManyWithoutTenantInput
   tiposInteres?: Prisma.TipoInteresCreateNestedManyWithoutTenantInput
@@ -8076,7 +8076,7 @@ export type TenantUncheckedCreateWithoutDeclaracionesInput = {
   servicios?: Prisma.ServicioUncheckedCreateNestedManyWithoutTenantInput
   sesionesActividad?: Prisma.SesionActividadUncheckedCreateNestedManyWithoutTenantInput
   subscription?: Prisma.SubscriptionUncheckedCreateNestedOneWithoutTenantInput
-  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUncheckedCreateNestedManyWithoutTenantsInput
+  sugerencias?: Prisma.SugerenciaSeguimientoUncheckedCreateNestedManyWithoutTenantInput
   memberships?: Prisma.TenantMembershipUncheckedCreateNestedManyWithoutTenantInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUncheckedCreateNestedManyWithoutTenantInput
   tiposInteres?: Prisma.TipoInteresUncheckedCreateNestedManyWithoutTenantInput
@@ -8151,7 +8151,7 @@ export type TenantUpdateWithoutDeclaracionesInput = {
   servicios?: Prisma.ServicioUpdateManyWithoutTenantNestedInput
   sesionesActividad?: Prisma.SesionActividadUpdateManyWithoutTenantNestedInput
   subscription?: Prisma.SubscriptionUpdateOneWithoutTenantNestedInput
-  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUpdateManyWithoutTenantsNestedInput
+  sugerencias?: Prisma.SugerenciaSeguimientoUpdateManyWithoutTenantNestedInput
   memberships?: Prisma.TenantMembershipUpdateManyWithoutTenantNestedInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUpdateManyWithoutTenantNestedInput
   tiposInteres?: Prisma.TipoInteresUpdateManyWithoutTenantNestedInput
@@ -8210,7 +8210,7 @@ export type TenantUncheckedUpdateWithoutDeclaracionesInput = {
   servicios?: Prisma.ServicioUncheckedUpdateManyWithoutTenantNestedInput
   sesionesActividad?: Prisma.SesionActividadUncheckedUpdateManyWithoutTenantNestedInput
   subscription?: Prisma.SubscriptionUncheckedUpdateOneWithoutTenantNestedInput
-  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUncheckedUpdateManyWithoutTenantsNestedInput
+  sugerencias?: Prisma.SugerenciaSeguimientoUncheckedUpdateManyWithoutTenantNestedInput
   memberships?: Prisma.TenantMembershipUncheckedUpdateManyWithoutTenantNestedInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUncheckedUpdateManyWithoutTenantNestedInput
   tiposInteres?: Prisma.TipoInteresUncheckedUpdateManyWithoutTenantNestedInput
@@ -8269,7 +8269,7 @@ export type TenantCreateWithoutConsignacionesInput = {
   servicios?: Prisma.ServicioCreateNestedManyWithoutTenantInput
   sesionesActividad?: Prisma.SesionActividadCreateNestedManyWithoutTenantInput
   subscription?: Prisma.SubscriptionCreateNestedOneWithoutTenantInput
-  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoCreateNestedManyWithoutTenantsInput
+  sugerencias?: Prisma.SugerenciaSeguimientoCreateNestedManyWithoutTenantInput
   memberships?: Prisma.TenantMembershipCreateNestedManyWithoutTenantInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosCreateNestedManyWithoutTenantInput
   tiposInteres?: Prisma.TipoInteresCreateNestedManyWithoutTenantInput
@@ -8328,7 +8328,7 @@ export type TenantUncheckedCreateWithoutConsignacionesInput = {
   servicios?: Prisma.ServicioUncheckedCreateNestedManyWithoutTenantInput
   sesionesActividad?: Prisma.SesionActividadUncheckedCreateNestedManyWithoutTenantInput
   subscription?: Prisma.SubscriptionUncheckedCreateNestedOneWithoutTenantInput
-  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUncheckedCreateNestedManyWithoutTenantsInput
+  sugerencias?: Prisma.SugerenciaSeguimientoUncheckedCreateNestedManyWithoutTenantInput
   memberships?: Prisma.TenantMembershipUncheckedCreateNestedManyWithoutTenantInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUncheckedCreateNestedManyWithoutTenantInput
   tiposInteres?: Prisma.TipoInteresUncheckedCreateNestedManyWithoutTenantInput
@@ -8403,7 +8403,7 @@ export type TenantUpdateWithoutConsignacionesInput = {
   servicios?: Prisma.ServicioUpdateManyWithoutTenantNestedInput
   sesionesActividad?: Prisma.SesionActividadUpdateManyWithoutTenantNestedInput
   subscription?: Prisma.SubscriptionUpdateOneWithoutTenantNestedInput
-  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUpdateManyWithoutTenantsNestedInput
+  sugerencias?: Prisma.SugerenciaSeguimientoUpdateManyWithoutTenantNestedInput
   memberships?: Prisma.TenantMembershipUpdateManyWithoutTenantNestedInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUpdateManyWithoutTenantNestedInput
   tiposInteres?: Prisma.TipoInteresUpdateManyWithoutTenantNestedInput
@@ -8462,7 +8462,7 @@ export type TenantUncheckedUpdateWithoutConsignacionesInput = {
   servicios?: Prisma.ServicioUncheckedUpdateManyWithoutTenantNestedInput
   sesionesActividad?: Prisma.SesionActividadUncheckedUpdateManyWithoutTenantNestedInput
   subscription?: Prisma.SubscriptionUncheckedUpdateOneWithoutTenantNestedInput
-  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUncheckedUpdateManyWithoutTenantsNestedInput
+  sugerencias?: Prisma.SugerenciaSeguimientoUncheckedUpdateManyWithoutTenantNestedInput
   memberships?: Prisma.TenantMembershipUncheckedUpdateManyWithoutTenantNestedInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUncheckedUpdateManyWithoutTenantNestedInput
   tiposInteres?: Prisma.TipoInteresUncheckedUpdateManyWithoutTenantNestedInput
@@ -8521,7 +8521,7 @@ export type TenantCreateWithoutConsignacionOrdenesInput = {
   servicios?: Prisma.ServicioCreateNestedManyWithoutTenantInput
   sesionesActividad?: Prisma.SesionActividadCreateNestedManyWithoutTenantInput
   subscription?: Prisma.SubscriptionCreateNestedOneWithoutTenantInput
-  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoCreateNestedManyWithoutTenantsInput
+  sugerencias?: Prisma.SugerenciaSeguimientoCreateNestedManyWithoutTenantInput
   memberships?: Prisma.TenantMembershipCreateNestedManyWithoutTenantInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosCreateNestedManyWithoutTenantInput
   tiposInteres?: Prisma.TipoInteresCreateNestedManyWithoutTenantInput
@@ -8580,7 +8580,7 @@ export type TenantUncheckedCreateWithoutConsignacionOrdenesInput = {
   servicios?: Prisma.ServicioUncheckedCreateNestedManyWithoutTenantInput
   sesionesActividad?: Prisma.SesionActividadUncheckedCreateNestedManyWithoutTenantInput
   subscription?: Prisma.SubscriptionUncheckedCreateNestedOneWithoutTenantInput
-  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUncheckedCreateNestedManyWithoutTenantsInput
+  sugerencias?: Prisma.SugerenciaSeguimientoUncheckedCreateNestedManyWithoutTenantInput
   memberships?: Prisma.TenantMembershipUncheckedCreateNestedManyWithoutTenantInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUncheckedCreateNestedManyWithoutTenantInput
   tiposInteres?: Prisma.TipoInteresUncheckedCreateNestedManyWithoutTenantInput
@@ -8655,7 +8655,7 @@ export type TenantUpdateWithoutConsignacionOrdenesInput = {
   servicios?: Prisma.ServicioUpdateManyWithoutTenantNestedInput
   sesionesActividad?: Prisma.SesionActividadUpdateManyWithoutTenantNestedInput
   subscription?: Prisma.SubscriptionUpdateOneWithoutTenantNestedInput
-  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUpdateManyWithoutTenantsNestedInput
+  sugerencias?: Prisma.SugerenciaSeguimientoUpdateManyWithoutTenantNestedInput
   memberships?: Prisma.TenantMembershipUpdateManyWithoutTenantNestedInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUpdateManyWithoutTenantNestedInput
   tiposInteres?: Prisma.TipoInteresUpdateManyWithoutTenantNestedInput
@@ -8714,7 +8714,7 @@ export type TenantUncheckedUpdateWithoutConsignacionOrdenesInput = {
   servicios?: Prisma.ServicioUncheckedUpdateManyWithoutTenantNestedInput
   sesionesActividad?: Prisma.SesionActividadUncheckedUpdateManyWithoutTenantNestedInput
   subscription?: Prisma.SubscriptionUncheckedUpdateOneWithoutTenantNestedInput
-  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUncheckedUpdateManyWithoutTenantsNestedInput
+  sugerencias?: Prisma.SugerenciaSeguimientoUncheckedUpdateManyWithoutTenantNestedInput
   memberships?: Prisma.TenantMembershipUncheckedUpdateManyWithoutTenantNestedInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUncheckedUpdateManyWithoutTenantNestedInput
   tiposInteres?: Prisma.TipoInteresUncheckedUpdateManyWithoutTenantNestedInput
@@ -8773,7 +8773,7 @@ export type TenantCreateWithoutAnticiposInput = {
   servicios?: Prisma.ServicioCreateNestedManyWithoutTenantInput
   sesionesActividad?: Prisma.SesionActividadCreateNestedManyWithoutTenantInput
   subscription?: Prisma.SubscriptionCreateNestedOneWithoutTenantInput
-  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoCreateNestedManyWithoutTenantsInput
+  sugerencias?: Prisma.SugerenciaSeguimientoCreateNestedManyWithoutTenantInput
   memberships?: Prisma.TenantMembershipCreateNestedManyWithoutTenantInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosCreateNestedManyWithoutTenantInput
   tiposInteres?: Prisma.TipoInteresCreateNestedManyWithoutTenantInput
@@ -8832,7 +8832,7 @@ export type TenantUncheckedCreateWithoutAnticiposInput = {
   servicios?: Prisma.ServicioUncheckedCreateNestedManyWithoutTenantInput
   sesionesActividad?: Prisma.SesionActividadUncheckedCreateNestedManyWithoutTenantInput
   subscription?: Prisma.SubscriptionUncheckedCreateNestedOneWithoutTenantInput
-  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUncheckedCreateNestedManyWithoutTenantsInput
+  sugerencias?: Prisma.SugerenciaSeguimientoUncheckedCreateNestedManyWithoutTenantInput
   memberships?: Prisma.TenantMembershipUncheckedCreateNestedManyWithoutTenantInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUncheckedCreateNestedManyWithoutTenantInput
   tiposInteres?: Prisma.TipoInteresUncheckedCreateNestedManyWithoutTenantInput
@@ -8907,7 +8907,7 @@ export type TenantUpdateWithoutAnticiposInput = {
   servicios?: Prisma.ServicioUpdateManyWithoutTenantNestedInput
   sesionesActividad?: Prisma.SesionActividadUpdateManyWithoutTenantNestedInput
   subscription?: Prisma.SubscriptionUpdateOneWithoutTenantNestedInput
-  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUpdateManyWithoutTenantsNestedInput
+  sugerencias?: Prisma.SugerenciaSeguimientoUpdateManyWithoutTenantNestedInput
   memberships?: Prisma.TenantMembershipUpdateManyWithoutTenantNestedInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUpdateManyWithoutTenantNestedInput
   tiposInteres?: Prisma.TipoInteresUpdateManyWithoutTenantNestedInput
@@ -8966,7 +8966,7 @@ export type TenantUncheckedUpdateWithoutAnticiposInput = {
   servicios?: Prisma.ServicioUncheckedUpdateManyWithoutTenantNestedInput
   sesionesActividad?: Prisma.SesionActividadUncheckedUpdateManyWithoutTenantNestedInput
   subscription?: Prisma.SubscriptionUncheckedUpdateOneWithoutTenantNestedInput
-  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUncheckedUpdateManyWithoutTenantsNestedInput
+  sugerencias?: Prisma.SugerenciaSeguimientoUncheckedUpdateManyWithoutTenantNestedInput
   memberships?: Prisma.TenantMembershipUncheckedUpdateManyWithoutTenantNestedInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUncheckedUpdateManyWithoutTenantNestedInput
   tiposInteres?: Prisma.TipoInteresUncheckedUpdateManyWithoutTenantNestedInput
@@ -9025,7 +9025,7 @@ export type TenantCreateWithoutProductosInput = {
   servicios?: Prisma.ServicioCreateNestedManyWithoutTenantInput
   sesionesActividad?: Prisma.SesionActividadCreateNestedManyWithoutTenantInput
   subscription?: Prisma.SubscriptionCreateNestedOneWithoutTenantInput
-  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoCreateNestedManyWithoutTenantsInput
+  sugerencias?: Prisma.SugerenciaSeguimientoCreateNestedManyWithoutTenantInput
   memberships?: Prisma.TenantMembershipCreateNestedManyWithoutTenantInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosCreateNestedManyWithoutTenantInput
   tiposInteres?: Prisma.TipoInteresCreateNestedManyWithoutTenantInput
@@ -9084,7 +9084,7 @@ export type TenantUncheckedCreateWithoutProductosInput = {
   servicios?: Prisma.ServicioUncheckedCreateNestedManyWithoutTenantInput
   sesionesActividad?: Prisma.SesionActividadUncheckedCreateNestedManyWithoutTenantInput
   subscription?: Prisma.SubscriptionUncheckedCreateNestedOneWithoutTenantInput
-  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUncheckedCreateNestedManyWithoutTenantsInput
+  sugerencias?: Prisma.SugerenciaSeguimientoUncheckedCreateNestedManyWithoutTenantInput
   memberships?: Prisma.TenantMembershipUncheckedCreateNestedManyWithoutTenantInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUncheckedCreateNestedManyWithoutTenantInput
   tiposInteres?: Prisma.TipoInteresUncheckedCreateNestedManyWithoutTenantInput
@@ -9159,7 +9159,7 @@ export type TenantUpdateWithoutProductosInput = {
   servicios?: Prisma.ServicioUpdateManyWithoutTenantNestedInput
   sesionesActividad?: Prisma.SesionActividadUpdateManyWithoutTenantNestedInput
   subscription?: Prisma.SubscriptionUpdateOneWithoutTenantNestedInput
-  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUpdateManyWithoutTenantsNestedInput
+  sugerencias?: Prisma.SugerenciaSeguimientoUpdateManyWithoutTenantNestedInput
   memberships?: Prisma.TenantMembershipUpdateManyWithoutTenantNestedInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUpdateManyWithoutTenantNestedInput
   tiposInteres?: Prisma.TipoInteresUpdateManyWithoutTenantNestedInput
@@ -9218,7 +9218,7 @@ export type TenantUncheckedUpdateWithoutProductosInput = {
   servicios?: Prisma.ServicioUncheckedUpdateManyWithoutTenantNestedInput
   sesionesActividad?: Prisma.SesionActividadUncheckedUpdateManyWithoutTenantNestedInput
   subscription?: Prisma.SubscriptionUncheckedUpdateOneWithoutTenantNestedInput
-  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUncheckedUpdateManyWithoutTenantsNestedInput
+  sugerencias?: Prisma.SugerenciaSeguimientoUncheckedUpdateManyWithoutTenantNestedInput
   memberships?: Prisma.TenantMembershipUncheckedUpdateManyWithoutTenantNestedInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUncheckedUpdateManyWithoutTenantNestedInput
   tiposInteres?: Prisma.TipoInteresUncheckedUpdateManyWithoutTenantNestedInput
@@ -9277,7 +9277,7 @@ export type TenantCreateWithoutProductosSolicitadosInput = {
   servicios?: Prisma.ServicioCreateNestedManyWithoutTenantInput
   sesionesActividad?: Prisma.SesionActividadCreateNestedManyWithoutTenantInput
   subscription?: Prisma.SubscriptionCreateNestedOneWithoutTenantInput
-  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoCreateNestedManyWithoutTenantsInput
+  sugerencias?: Prisma.SugerenciaSeguimientoCreateNestedManyWithoutTenantInput
   memberships?: Prisma.TenantMembershipCreateNestedManyWithoutTenantInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosCreateNestedManyWithoutTenantInput
   tiposInteres?: Prisma.TipoInteresCreateNestedManyWithoutTenantInput
@@ -9336,7 +9336,7 @@ export type TenantUncheckedCreateWithoutProductosSolicitadosInput = {
   servicios?: Prisma.ServicioUncheckedCreateNestedManyWithoutTenantInput
   sesionesActividad?: Prisma.SesionActividadUncheckedCreateNestedManyWithoutTenantInput
   subscription?: Prisma.SubscriptionUncheckedCreateNestedOneWithoutTenantInput
-  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUncheckedCreateNestedManyWithoutTenantsInput
+  sugerencias?: Prisma.SugerenciaSeguimientoUncheckedCreateNestedManyWithoutTenantInput
   memberships?: Prisma.TenantMembershipUncheckedCreateNestedManyWithoutTenantInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUncheckedCreateNestedManyWithoutTenantInput
   tiposInteres?: Prisma.TipoInteresUncheckedCreateNestedManyWithoutTenantInput
@@ -9411,7 +9411,7 @@ export type TenantUpdateWithoutProductosSolicitadosInput = {
   servicios?: Prisma.ServicioUpdateManyWithoutTenantNestedInput
   sesionesActividad?: Prisma.SesionActividadUpdateManyWithoutTenantNestedInput
   subscription?: Prisma.SubscriptionUpdateOneWithoutTenantNestedInput
-  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUpdateManyWithoutTenantsNestedInput
+  sugerencias?: Prisma.SugerenciaSeguimientoUpdateManyWithoutTenantNestedInput
   memberships?: Prisma.TenantMembershipUpdateManyWithoutTenantNestedInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUpdateManyWithoutTenantNestedInput
   tiposInteres?: Prisma.TipoInteresUpdateManyWithoutTenantNestedInput
@@ -9470,7 +9470,7 @@ export type TenantUncheckedUpdateWithoutProductosSolicitadosInput = {
   servicios?: Prisma.ServicioUncheckedUpdateManyWithoutTenantNestedInput
   sesionesActividad?: Prisma.SesionActividadUncheckedUpdateManyWithoutTenantNestedInput
   subscription?: Prisma.SubscriptionUncheckedUpdateOneWithoutTenantNestedInput
-  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUncheckedUpdateManyWithoutTenantsNestedInput
+  sugerencias?: Prisma.SugerenciaSeguimientoUncheckedUpdateManyWithoutTenantNestedInput
   memberships?: Prisma.TenantMembershipUncheckedUpdateManyWithoutTenantNestedInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUncheckedUpdateManyWithoutTenantNestedInput
   tiposInteres?: Prisma.TipoInteresUncheckedUpdateManyWithoutTenantNestedInput
@@ -9529,7 +9529,7 @@ export type TenantCreateWithoutProveedoresInput = {
   servicios?: Prisma.ServicioCreateNestedManyWithoutTenantInput
   sesionesActividad?: Prisma.SesionActividadCreateNestedManyWithoutTenantInput
   subscription?: Prisma.SubscriptionCreateNestedOneWithoutTenantInput
-  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoCreateNestedManyWithoutTenantsInput
+  sugerencias?: Prisma.SugerenciaSeguimientoCreateNestedManyWithoutTenantInput
   memberships?: Prisma.TenantMembershipCreateNestedManyWithoutTenantInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosCreateNestedManyWithoutTenantInput
   tiposInteres?: Prisma.TipoInteresCreateNestedManyWithoutTenantInput
@@ -9588,7 +9588,7 @@ export type TenantUncheckedCreateWithoutProveedoresInput = {
   servicios?: Prisma.ServicioUncheckedCreateNestedManyWithoutTenantInput
   sesionesActividad?: Prisma.SesionActividadUncheckedCreateNestedManyWithoutTenantInput
   subscription?: Prisma.SubscriptionUncheckedCreateNestedOneWithoutTenantInput
-  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUncheckedCreateNestedManyWithoutTenantsInput
+  sugerencias?: Prisma.SugerenciaSeguimientoUncheckedCreateNestedManyWithoutTenantInput
   memberships?: Prisma.TenantMembershipUncheckedCreateNestedManyWithoutTenantInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUncheckedCreateNestedManyWithoutTenantInput
   tiposInteres?: Prisma.TipoInteresUncheckedCreateNestedManyWithoutTenantInput
@@ -9663,7 +9663,7 @@ export type TenantUpdateWithoutProveedoresInput = {
   servicios?: Prisma.ServicioUpdateManyWithoutTenantNestedInput
   sesionesActividad?: Prisma.SesionActividadUpdateManyWithoutTenantNestedInput
   subscription?: Prisma.SubscriptionUpdateOneWithoutTenantNestedInput
-  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUpdateManyWithoutTenantsNestedInput
+  sugerencias?: Prisma.SugerenciaSeguimientoUpdateManyWithoutTenantNestedInput
   memberships?: Prisma.TenantMembershipUpdateManyWithoutTenantNestedInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUpdateManyWithoutTenantNestedInput
   tiposInteres?: Prisma.TipoInteresUpdateManyWithoutTenantNestedInput
@@ -9722,7 +9722,7 @@ export type TenantUncheckedUpdateWithoutProveedoresInput = {
   servicios?: Prisma.ServicioUncheckedUpdateManyWithoutTenantNestedInput
   sesionesActividad?: Prisma.SesionActividadUncheckedUpdateManyWithoutTenantNestedInput
   subscription?: Prisma.SubscriptionUncheckedUpdateOneWithoutTenantNestedInput
-  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUncheckedUpdateManyWithoutTenantsNestedInput
+  sugerencias?: Prisma.SugerenciaSeguimientoUncheckedUpdateManyWithoutTenantNestedInput
   memberships?: Prisma.TenantMembershipUncheckedUpdateManyWithoutTenantNestedInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUncheckedUpdateManyWithoutTenantNestedInput
   tiposInteres?: Prisma.TipoInteresUncheckedUpdateManyWithoutTenantNestedInput
@@ -9781,7 +9781,7 @@ export type TenantCreateWithoutPermisosInput = {
   servicios?: Prisma.ServicioCreateNestedManyWithoutTenantInput
   sesionesActividad?: Prisma.SesionActividadCreateNestedManyWithoutTenantInput
   subscription?: Prisma.SubscriptionCreateNestedOneWithoutTenantInput
-  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoCreateNestedManyWithoutTenantsInput
+  sugerencias?: Prisma.SugerenciaSeguimientoCreateNestedManyWithoutTenantInput
   memberships?: Prisma.TenantMembershipCreateNestedManyWithoutTenantInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosCreateNestedManyWithoutTenantInput
   tiposInteres?: Prisma.TipoInteresCreateNestedManyWithoutTenantInput
@@ -9840,7 +9840,7 @@ export type TenantUncheckedCreateWithoutPermisosInput = {
   servicios?: Prisma.ServicioUncheckedCreateNestedManyWithoutTenantInput
   sesionesActividad?: Prisma.SesionActividadUncheckedCreateNestedManyWithoutTenantInput
   subscription?: Prisma.SubscriptionUncheckedCreateNestedOneWithoutTenantInput
-  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUncheckedCreateNestedManyWithoutTenantsInput
+  sugerencias?: Prisma.SugerenciaSeguimientoUncheckedCreateNestedManyWithoutTenantInput
   memberships?: Prisma.TenantMembershipUncheckedCreateNestedManyWithoutTenantInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUncheckedCreateNestedManyWithoutTenantInput
   tiposInteres?: Prisma.TipoInteresUncheckedCreateNestedManyWithoutTenantInput
@@ -9915,7 +9915,7 @@ export type TenantUpdateWithoutPermisosInput = {
   servicios?: Prisma.ServicioUpdateManyWithoutTenantNestedInput
   sesionesActividad?: Prisma.SesionActividadUpdateManyWithoutTenantNestedInput
   subscription?: Prisma.SubscriptionUpdateOneWithoutTenantNestedInput
-  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUpdateManyWithoutTenantsNestedInput
+  sugerencias?: Prisma.SugerenciaSeguimientoUpdateManyWithoutTenantNestedInput
   memberships?: Prisma.TenantMembershipUpdateManyWithoutTenantNestedInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUpdateManyWithoutTenantNestedInput
   tiposInteres?: Prisma.TipoInteresUpdateManyWithoutTenantNestedInput
@@ -9974,7 +9974,7 @@ export type TenantUncheckedUpdateWithoutPermisosInput = {
   servicios?: Prisma.ServicioUncheckedUpdateManyWithoutTenantNestedInput
   sesionesActividad?: Prisma.SesionActividadUncheckedUpdateManyWithoutTenantNestedInput
   subscription?: Prisma.SubscriptionUncheckedUpdateOneWithoutTenantNestedInput
-  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUncheckedUpdateManyWithoutTenantsNestedInput
+  sugerencias?: Prisma.SugerenciaSeguimientoUncheckedUpdateManyWithoutTenantNestedInput
   memberships?: Prisma.TenantMembershipUncheckedUpdateManyWithoutTenantNestedInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUncheckedUpdateManyWithoutTenantNestedInput
   tiposInteres?: Prisma.TipoInteresUncheckedUpdateManyWithoutTenantNestedInput
@@ -10033,7 +10033,7 @@ export type TenantCreateWithoutConfiguracionPagosInput = {
   servicios?: Prisma.ServicioCreateNestedManyWithoutTenantInput
   sesionesActividad?: Prisma.SesionActividadCreateNestedManyWithoutTenantInput
   subscription?: Prisma.SubscriptionCreateNestedOneWithoutTenantInput
-  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoCreateNestedManyWithoutTenantsInput
+  sugerencias?: Prisma.SugerenciaSeguimientoCreateNestedManyWithoutTenantInput
   memberships?: Prisma.TenantMembershipCreateNestedManyWithoutTenantInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosCreateNestedManyWithoutTenantInput
   tiposInteres?: Prisma.TipoInteresCreateNestedManyWithoutTenantInput
@@ -10092,7 +10092,7 @@ export type TenantUncheckedCreateWithoutConfiguracionPagosInput = {
   servicios?: Prisma.ServicioUncheckedCreateNestedManyWithoutTenantInput
   sesionesActividad?: Prisma.SesionActividadUncheckedCreateNestedManyWithoutTenantInput
   subscription?: Prisma.SubscriptionUncheckedCreateNestedOneWithoutTenantInput
-  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUncheckedCreateNestedManyWithoutTenantsInput
+  sugerencias?: Prisma.SugerenciaSeguimientoUncheckedCreateNestedManyWithoutTenantInput
   memberships?: Prisma.TenantMembershipUncheckedCreateNestedManyWithoutTenantInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUncheckedCreateNestedManyWithoutTenantInput
   tiposInteres?: Prisma.TipoInteresUncheckedCreateNestedManyWithoutTenantInput
@@ -10167,7 +10167,7 @@ export type TenantUpdateWithoutConfiguracionPagosInput = {
   servicios?: Prisma.ServicioUpdateManyWithoutTenantNestedInput
   sesionesActividad?: Prisma.SesionActividadUpdateManyWithoutTenantNestedInput
   subscription?: Prisma.SubscriptionUpdateOneWithoutTenantNestedInput
-  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUpdateManyWithoutTenantsNestedInput
+  sugerencias?: Prisma.SugerenciaSeguimientoUpdateManyWithoutTenantNestedInput
   memberships?: Prisma.TenantMembershipUpdateManyWithoutTenantNestedInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUpdateManyWithoutTenantNestedInput
   tiposInteres?: Prisma.TipoInteresUpdateManyWithoutTenantNestedInput
@@ -10226,7 +10226,7 @@ export type TenantUncheckedUpdateWithoutConfiguracionPagosInput = {
   servicios?: Prisma.ServicioUncheckedUpdateManyWithoutTenantNestedInput
   sesionesActividad?: Prisma.SesionActividadUncheckedUpdateManyWithoutTenantNestedInput
   subscription?: Prisma.SubscriptionUncheckedUpdateOneWithoutTenantNestedInput
-  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUncheckedUpdateManyWithoutTenantsNestedInput
+  sugerencias?: Prisma.SugerenciaSeguimientoUncheckedUpdateManyWithoutTenantNestedInput
   memberships?: Prisma.TenantMembershipUncheckedUpdateManyWithoutTenantNestedInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUncheckedUpdateManyWithoutTenantNestedInput
   tiposInteres?: Prisma.TipoInteresUncheckedUpdateManyWithoutTenantNestedInput
@@ -10285,7 +10285,7 @@ export type TenantCreateWithoutCuentasPagoInput = {
   servicios?: Prisma.ServicioCreateNestedManyWithoutTenantInput
   sesionesActividad?: Prisma.SesionActividadCreateNestedManyWithoutTenantInput
   subscription?: Prisma.SubscriptionCreateNestedOneWithoutTenantInput
-  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoCreateNestedManyWithoutTenantsInput
+  sugerencias?: Prisma.SugerenciaSeguimientoCreateNestedManyWithoutTenantInput
   memberships?: Prisma.TenantMembershipCreateNestedManyWithoutTenantInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosCreateNestedManyWithoutTenantInput
   tiposInteres?: Prisma.TipoInteresCreateNestedManyWithoutTenantInput
@@ -10344,7 +10344,7 @@ export type TenantUncheckedCreateWithoutCuentasPagoInput = {
   servicios?: Prisma.ServicioUncheckedCreateNestedManyWithoutTenantInput
   sesionesActividad?: Prisma.SesionActividadUncheckedCreateNestedManyWithoutTenantInput
   subscription?: Prisma.SubscriptionUncheckedCreateNestedOneWithoutTenantInput
-  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUncheckedCreateNestedManyWithoutTenantsInput
+  sugerencias?: Prisma.SugerenciaSeguimientoUncheckedCreateNestedManyWithoutTenantInput
   memberships?: Prisma.TenantMembershipUncheckedCreateNestedManyWithoutTenantInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUncheckedCreateNestedManyWithoutTenantInput
   tiposInteres?: Prisma.TipoInteresUncheckedCreateNestedManyWithoutTenantInput
@@ -10419,7 +10419,7 @@ export type TenantUpdateWithoutCuentasPagoInput = {
   servicios?: Prisma.ServicioUpdateManyWithoutTenantNestedInput
   sesionesActividad?: Prisma.SesionActividadUpdateManyWithoutTenantNestedInput
   subscription?: Prisma.SubscriptionUpdateOneWithoutTenantNestedInput
-  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUpdateManyWithoutTenantsNestedInput
+  sugerencias?: Prisma.SugerenciaSeguimientoUpdateManyWithoutTenantNestedInput
   memberships?: Prisma.TenantMembershipUpdateManyWithoutTenantNestedInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUpdateManyWithoutTenantNestedInput
   tiposInteres?: Prisma.TipoInteresUpdateManyWithoutTenantNestedInput
@@ -10478,7 +10478,7 @@ export type TenantUncheckedUpdateWithoutCuentasPagoInput = {
   servicios?: Prisma.ServicioUncheckedUpdateManyWithoutTenantNestedInput
   sesionesActividad?: Prisma.SesionActividadUncheckedUpdateManyWithoutTenantNestedInput
   subscription?: Prisma.SubscriptionUncheckedUpdateOneWithoutTenantNestedInput
-  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUncheckedUpdateManyWithoutTenantsNestedInput
+  sugerencias?: Prisma.SugerenciaSeguimientoUncheckedUpdateManyWithoutTenantNestedInput
   memberships?: Prisma.TenantMembershipUncheckedUpdateManyWithoutTenantNestedInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUncheckedUpdateManyWithoutTenantNestedInput
   tiposInteres?: Prisma.TipoInteresUncheckedUpdateManyWithoutTenantNestedInput
@@ -10537,7 +10537,7 @@ export type TenantCreateWithoutEgresosInput = {
   servicios?: Prisma.ServicioCreateNestedManyWithoutTenantInput
   sesionesActividad?: Prisma.SesionActividadCreateNestedManyWithoutTenantInput
   subscription?: Prisma.SubscriptionCreateNestedOneWithoutTenantInput
-  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoCreateNestedManyWithoutTenantsInput
+  sugerencias?: Prisma.SugerenciaSeguimientoCreateNestedManyWithoutTenantInput
   memberships?: Prisma.TenantMembershipCreateNestedManyWithoutTenantInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosCreateNestedManyWithoutTenantInput
   tiposInteres?: Prisma.TipoInteresCreateNestedManyWithoutTenantInput
@@ -10596,7 +10596,7 @@ export type TenantUncheckedCreateWithoutEgresosInput = {
   servicios?: Prisma.ServicioUncheckedCreateNestedManyWithoutTenantInput
   sesionesActividad?: Prisma.SesionActividadUncheckedCreateNestedManyWithoutTenantInput
   subscription?: Prisma.SubscriptionUncheckedCreateNestedOneWithoutTenantInput
-  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUncheckedCreateNestedManyWithoutTenantsInput
+  sugerencias?: Prisma.SugerenciaSeguimientoUncheckedCreateNestedManyWithoutTenantInput
   memberships?: Prisma.TenantMembershipUncheckedCreateNestedManyWithoutTenantInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUncheckedCreateNestedManyWithoutTenantInput
   tiposInteres?: Prisma.TipoInteresUncheckedCreateNestedManyWithoutTenantInput
@@ -10671,7 +10671,7 @@ export type TenantUpdateWithoutEgresosInput = {
   servicios?: Prisma.ServicioUpdateManyWithoutTenantNestedInput
   sesionesActividad?: Prisma.SesionActividadUpdateManyWithoutTenantNestedInput
   subscription?: Prisma.SubscriptionUpdateOneWithoutTenantNestedInput
-  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUpdateManyWithoutTenantsNestedInput
+  sugerencias?: Prisma.SugerenciaSeguimientoUpdateManyWithoutTenantNestedInput
   memberships?: Prisma.TenantMembershipUpdateManyWithoutTenantNestedInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUpdateManyWithoutTenantNestedInput
   tiposInteres?: Prisma.TipoInteresUpdateManyWithoutTenantNestedInput
@@ -10730,7 +10730,7 @@ export type TenantUncheckedUpdateWithoutEgresosInput = {
   servicios?: Prisma.ServicioUncheckedUpdateManyWithoutTenantNestedInput
   sesionesActividad?: Prisma.SesionActividadUncheckedUpdateManyWithoutTenantNestedInput
   subscription?: Prisma.SubscriptionUncheckedUpdateOneWithoutTenantNestedInput
-  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUncheckedUpdateManyWithoutTenantsNestedInput
+  sugerencias?: Prisma.SugerenciaSeguimientoUncheckedUpdateManyWithoutTenantNestedInput
   memberships?: Prisma.TenantMembershipUncheckedUpdateManyWithoutTenantNestedInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUncheckedUpdateManyWithoutTenantNestedInput
   tiposInteres?: Prisma.TipoInteresUncheckedUpdateManyWithoutTenantNestedInput
@@ -10789,7 +10789,7 @@ export type TenantCreateWithoutPicoPlacaInput = {
   servicios?: Prisma.ServicioCreateNestedManyWithoutTenantInput
   sesionesActividad?: Prisma.SesionActividadCreateNestedManyWithoutTenantInput
   subscription?: Prisma.SubscriptionCreateNestedOneWithoutTenantInput
-  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoCreateNestedManyWithoutTenantsInput
+  sugerencias?: Prisma.SugerenciaSeguimientoCreateNestedManyWithoutTenantInput
   memberships?: Prisma.TenantMembershipCreateNestedManyWithoutTenantInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosCreateNestedManyWithoutTenantInput
   tiposInteres?: Prisma.TipoInteresCreateNestedManyWithoutTenantInput
@@ -10848,7 +10848,7 @@ export type TenantUncheckedCreateWithoutPicoPlacaInput = {
   servicios?: Prisma.ServicioUncheckedCreateNestedManyWithoutTenantInput
   sesionesActividad?: Prisma.SesionActividadUncheckedCreateNestedManyWithoutTenantInput
   subscription?: Prisma.SubscriptionUncheckedCreateNestedOneWithoutTenantInput
-  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUncheckedCreateNestedManyWithoutTenantsInput
+  sugerencias?: Prisma.SugerenciaSeguimientoUncheckedCreateNestedManyWithoutTenantInput
   memberships?: Prisma.TenantMembershipUncheckedCreateNestedManyWithoutTenantInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUncheckedCreateNestedManyWithoutTenantInput
   tiposInteres?: Prisma.TipoInteresUncheckedCreateNestedManyWithoutTenantInput
@@ -10923,7 +10923,7 @@ export type TenantUpdateWithoutPicoPlacaInput = {
   servicios?: Prisma.ServicioUpdateManyWithoutTenantNestedInput
   sesionesActividad?: Prisma.SesionActividadUpdateManyWithoutTenantNestedInput
   subscription?: Prisma.SubscriptionUpdateOneWithoutTenantNestedInput
-  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUpdateManyWithoutTenantsNestedInput
+  sugerencias?: Prisma.SugerenciaSeguimientoUpdateManyWithoutTenantNestedInput
   memberships?: Prisma.TenantMembershipUpdateManyWithoutTenantNestedInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUpdateManyWithoutTenantNestedInput
   tiposInteres?: Prisma.TipoInteresUpdateManyWithoutTenantNestedInput
@@ -10982,7 +10982,7 @@ export type TenantUncheckedUpdateWithoutPicoPlacaInput = {
   servicios?: Prisma.ServicioUncheckedUpdateManyWithoutTenantNestedInput
   sesionesActividad?: Prisma.SesionActividadUncheckedUpdateManyWithoutTenantNestedInput
   subscription?: Prisma.SubscriptionUncheckedUpdateOneWithoutTenantNestedInput
-  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUncheckedUpdateManyWithoutTenantsNestedInput
+  sugerencias?: Prisma.SugerenciaSeguimientoUncheckedUpdateManyWithoutTenantNestedInput
   memberships?: Prisma.TenantMembershipUncheckedUpdateManyWithoutTenantNestedInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUncheckedUpdateManyWithoutTenantNestedInput
   tiposInteres?: Prisma.TipoInteresUncheckedUpdateManyWithoutTenantNestedInput
@@ -11041,7 +11041,7 @@ export type TenantCreateWithoutReferidosInput = {
   servicios?: Prisma.ServicioCreateNestedManyWithoutTenantInput
   sesionesActividad?: Prisma.SesionActividadCreateNestedManyWithoutTenantInput
   subscription?: Prisma.SubscriptionCreateNestedOneWithoutTenantInput
-  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoCreateNestedManyWithoutTenantsInput
+  sugerencias?: Prisma.SugerenciaSeguimientoCreateNestedManyWithoutTenantInput
   memberships?: Prisma.TenantMembershipCreateNestedManyWithoutTenantInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosCreateNestedManyWithoutTenantInput
   tiposInteres?: Prisma.TipoInteresCreateNestedManyWithoutTenantInput
@@ -11100,7 +11100,7 @@ export type TenantUncheckedCreateWithoutReferidosInput = {
   servicios?: Prisma.ServicioUncheckedCreateNestedManyWithoutTenantInput
   sesionesActividad?: Prisma.SesionActividadUncheckedCreateNestedManyWithoutTenantInput
   subscription?: Prisma.SubscriptionUncheckedCreateNestedOneWithoutTenantInput
-  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUncheckedCreateNestedManyWithoutTenantsInput
+  sugerencias?: Prisma.SugerenciaSeguimientoUncheckedCreateNestedManyWithoutTenantInput
   memberships?: Prisma.TenantMembershipUncheckedCreateNestedManyWithoutTenantInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUncheckedCreateNestedManyWithoutTenantInput
   tiposInteres?: Prisma.TipoInteresUncheckedCreateNestedManyWithoutTenantInput
@@ -11175,7 +11175,7 @@ export type TenantUpdateWithoutReferidosInput = {
   servicios?: Prisma.ServicioUpdateManyWithoutTenantNestedInput
   sesionesActividad?: Prisma.SesionActividadUpdateManyWithoutTenantNestedInput
   subscription?: Prisma.SubscriptionUpdateOneWithoutTenantNestedInput
-  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUpdateManyWithoutTenantsNestedInput
+  sugerencias?: Prisma.SugerenciaSeguimientoUpdateManyWithoutTenantNestedInput
   memberships?: Prisma.TenantMembershipUpdateManyWithoutTenantNestedInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUpdateManyWithoutTenantNestedInput
   tiposInteres?: Prisma.TipoInteresUpdateManyWithoutTenantNestedInput
@@ -11234,7 +11234,7 @@ export type TenantUncheckedUpdateWithoutReferidosInput = {
   servicios?: Prisma.ServicioUncheckedUpdateManyWithoutTenantNestedInput
   sesionesActividad?: Prisma.SesionActividadUncheckedUpdateManyWithoutTenantNestedInput
   subscription?: Prisma.SubscriptionUncheckedUpdateOneWithoutTenantNestedInput
-  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUncheckedUpdateManyWithoutTenantsNestedInput
+  sugerencias?: Prisma.SugerenciaSeguimientoUncheckedUpdateManyWithoutTenantNestedInput
   memberships?: Prisma.TenantMembershipUncheckedUpdateManyWithoutTenantNestedInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUncheckedUpdateManyWithoutTenantNestedInput
   tiposInteres?: Prisma.TipoInteresUncheckedUpdateManyWithoutTenantNestedInput
@@ -11293,7 +11293,7 @@ export type TenantCreateWithoutAuditoriasInput = {
   servicios?: Prisma.ServicioCreateNestedManyWithoutTenantInput
   sesionesActividad?: Prisma.SesionActividadCreateNestedManyWithoutTenantInput
   subscription?: Prisma.SubscriptionCreateNestedOneWithoutTenantInput
-  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoCreateNestedManyWithoutTenantsInput
+  sugerencias?: Prisma.SugerenciaSeguimientoCreateNestedManyWithoutTenantInput
   memberships?: Prisma.TenantMembershipCreateNestedManyWithoutTenantInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosCreateNestedManyWithoutTenantInput
   tiposInteres?: Prisma.TipoInteresCreateNestedManyWithoutTenantInput
@@ -11352,7 +11352,7 @@ export type TenantUncheckedCreateWithoutAuditoriasInput = {
   servicios?: Prisma.ServicioUncheckedCreateNestedManyWithoutTenantInput
   sesionesActividad?: Prisma.SesionActividadUncheckedCreateNestedManyWithoutTenantInput
   subscription?: Prisma.SubscriptionUncheckedCreateNestedOneWithoutTenantInput
-  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUncheckedCreateNestedManyWithoutTenantsInput
+  sugerencias?: Prisma.SugerenciaSeguimientoUncheckedCreateNestedManyWithoutTenantInput
   memberships?: Prisma.TenantMembershipUncheckedCreateNestedManyWithoutTenantInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUncheckedCreateNestedManyWithoutTenantInput
   tiposInteres?: Prisma.TipoInteresUncheckedCreateNestedManyWithoutTenantInput
@@ -11427,7 +11427,7 @@ export type TenantUpdateWithoutAuditoriasInput = {
   servicios?: Prisma.ServicioUpdateManyWithoutTenantNestedInput
   sesionesActividad?: Prisma.SesionActividadUpdateManyWithoutTenantNestedInput
   subscription?: Prisma.SubscriptionUpdateOneWithoutTenantNestedInput
-  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUpdateManyWithoutTenantsNestedInput
+  sugerencias?: Prisma.SugerenciaSeguimientoUpdateManyWithoutTenantNestedInput
   memberships?: Prisma.TenantMembershipUpdateManyWithoutTenantNestedInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUpdateManyWithoutTenantNestedInput
   tiposInteres?: Prisma.TipoInteresUpdateManyWithoutTenantNestedInput
@@ -11486,7 +11486,7 @@ export type TenantUncheckedUpdateWithoutAuditoriasInput = {
   servicios?: Prisma.ServicioUncheckedUpdateManyWithoutTenantNestedInput
   sesionesActividad?: Prisma.SesionActividadUncheckedUpdateManyWithoutTenantNestedInput
   subscription?: Prisma.SubscriptionUncheckedUpdateOneWithoutTenantNestedInput
-  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUncheckedUpdateManyWithoutTenantsNestedInput
+  sugerencias?: Prisma.SugerenciaSeguimientoUncheckedUpdateManyWithoutTenantNestedInput
   memberships?: Prisma.TenantMembershipUncheckedUpdateManyWithoutTenantNestedInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUncheckedUpdateManyWithoutTenantNestedInput
   tiposInteres?: Prisma.TipoInteresUncheckedUpdateManyWithoutTenantNestedInput
@@ -11545,7 +11545,7 @@ export type TenantCreateWithoutSesionesActividadInput = {
   referidos?: Prisma.ReferidosCreateNestedManyWithoutTenantInput
   servicios?: Prisma.ServicioCreateNestedManyWithoutTenantInput
   subscription?: Prisma.SubscriptionCreateNestedOneWithoutTenantInput
-  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoCreateNestedManyWithoutTenantsInput
+  sugerencias?: Prisma.SugerenciaSeguimientoCreateNestedManyWithoutTenantInput
   memberships?: Prisma.TenantMembershipCreateNestedManyWithoutTenantInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosCreateNestedManyWithoutTenantInput
   tiposInteres?: Prisma.TipoInteresCreateNestedManyWithoutTenantInput
@@ -11604,7 +11604,7 @@ export type TenantUncheckedCreateWithoutSesionesActividadInput = {
   referidos?: Prisma.ReferidosUncheckedCreateNestedManyWithoutTenantInput
   servicios?: Prisma.ServicioUncheckedCreateNestedManyWithoutTenantInput
   subscription?: Prisma.SubscriptionUncheckedCreateNestedOneWithoutTenantInput
-  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUncheckedCreateNestedManyWithoutTenantsInput
+  sugerencias?: Prisma.SugerenciaSeguimientoUncheckedCreateNestedManyWithoutTenantInput
   memberships?: Prisma.TenantMembershipUncheckedCreateNestedManyWithoutTenantInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUncheckedCreateNestedManyWithoutTenantInput
   tiposInteres?: Prisma.TipoInteresUncheckedCreateNestedManyWithoutTenantInput
@@ -11679,7 +11679,7 @@ export type TenantUpdateWithoutSesionesActividadInput = {
   referidos?: Prisma.ReferidosUpdateManyWithoutTenantNestedInput
   servicios?: Prisma.ServicioUpdateManyWithoutTenantNestedInput
   subscription?: Prisma.SubscriptionUpdateOneWithoutTenantNestedInput
-  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUpdateManyWithoutTenantsNestedInput
+  sugerencias?: Prisma.SugerenciaSeguimientoUpdateManyWithoutTenantNestedInput
   memberships?: Prisma.TenantMembershipUpdateManyWithoutTenantNestedInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUpdateManyWithoutTenantNestedInput
   tiposInteres?: Prisma.TipoInteresUpdateManyWithoutTenantNestedInput
@@ -11738,7 +11738,7 @@ export type TenantUncheckedUpdateWithoutSesionesActividadInput = {
   referidos?: Prisma.ReferidosUncheckedUpdateManyWithoutTenantNestedInput
   servicios?: Prisma.ServicioUncheckedUpdateManyWithoutTenantNestedInput
   subscription?: Prisma.SubscriptionUncheckedUpdateOneWithoutTenantNestedInput
-  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUncheckedUpdateManyWithoutTenantsNestedInput
+  sugerencias?: Prisma.SugerenciaSeguimientoUncheckedUpdateManyWithoutTenantNestedInput
   memberships?: Prisma.TenantMembershipUncheckedUpdateManyWithoutTenantNestedInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUncheckedUpdateManyWithoutTenantNestedInput
   tiposInteres?: Prisma.TipoInteresUncheckedUpdateManyWithoutTenantNestedInput
@@ -11797,7 +11797,7 @@ export type TenantCreateWithoutLogsEventoInput = {
   servicios?: Prisma.ServicioCreateNestedManyWithoutTenantInput
   sesionesActividad?: Prisma.SesionActividadCreateNestedManyWithoutTenantInput
   subscription?: Prisma.SubscriptionCreateNestedOneWithoutTenantInput
-  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoCreateNestedManyWithoutTenantsInput
+  sugerencias?: Prisma.SugerenciaSeguimientoCreateNestedManyWithoutTenantInput
   memberships?: Prisma.TenantMembershipCreateNestedManyWithoutTenantInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosCreateNestedManyWithoutTenantInput
   tiposInteres?: Prisma.TipoInteresCreateNestedManyWithoutTenantInput
@@ -11856,7 +11856,7 @@ export type TenantUncheckedCreateWithoutLogsEventoInput = {
   servicios?: Prisma.ServicioUncheckedCreateNestedManyWithoutTenantInput
   sesionesActividad?: Prisma.SesionActividadUncheckedCreateNestedManyWithoutTenantInput
   subscription?: Prisma.SubscriptionUncheckedCreateNestedOneWithoutTenantInput
-  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUncheckedCreateNestedManyWithoutTenantsInput
+  sugerencias?: Prisma.SugerenciaSeguimientoUncheckedCreateNestedManyWithoutTenantInput
   memberships?: Prisma.TenantMembershipUncheckedCreateNestedManyWithoutTenantInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUncheckedCreateNestedManyWithoutTenantInput
   tiposInteres?: Prisma.TipoInteresUncheckedCreateNestedManyWithoutTenantInput
@@ -11931,7 +11931,7 @@ export type TenantUpdateWithoutLogsEventoInput = {
   servicios?: Prisma.ServicioUpdateManyWithoutTenantNestedInput
   sesionesActividad?: Prisma.SesionActividadUpdateManyWithoutTenantNestedInput
   subscription?: Prisma.SubscriptionUpdateOneWithoutTenantNestedInput
-  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUpdateManyWithoutTenantsNestedInput
+  sugerencias?: Prisma.SugerenciaSeguimientoUpdateManyWithoutTenantNestedInput
   memberships?: Prisma.TenantMembershipUpdateManyWithoutTenantNestedInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUpdateManyWithoutTenantNestedInput
   tiposInteres?: Prisma.TipoInteresUpdateManyWithoutTenantNestedInput
@@ -11990,7 +11990,7 @@ export type TenantUncheckedUpdateWithoutLogsEventoInput = {
   servicios?: Prisma.ServicioUncheckedUpdateManyWithoutTenantNestedInput
   sesionesActividad?: Prisma.SesionActividadUncheckedUpdateManyWithoutTenantNestedInput
   subscription?: Prisma.SubscriptionUncheckedUpdateOneWithoutTenantNestedInput
-  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUncheckedUpdateManyWithoutTenantsNestedInput
+  sugerencias?: Prisma.SugerenciaSeguimientoUncheckedUpdateManyWithoutTenantNestedInput
   memberships?: Prisma.TenantMembershipUncheckedUpdateManyWithoutTenantNestedInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUncheckedUpdateManyWithoutTenantNestedInput
   tiposInteres?: Prisma.TipoInteresUncheckedUpdateManyWithoutTenantNestedInput
@@ -12049,7 +12049,7 @@ export type TenantCreateWithoutAuthSessionsInput = {
   servicios?: Prisma.ServicioCreateNestedManyWithoutTenantInput
   sesionesActividad?: Prisma.SesionActividadCreateNestedManyWithoutTenantInput
   subscription?: Prisma.SubscriptionCreateNestedOneWithoutTenantInput
-  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoCreateNestedManyWithoutTenantsInput
+  sugerencias?: Prisma.SugerenciaSeguimientoCreateNestedManyWithoutTenantInput
   memberships?: Prisma.TenantMembershipCreateNestedManyWithoutTenantInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosCreateNestedManyWithoutTenantInput
   tiposInteres?: Prisma.TipoInteresCreateNestedManyWithoutTenantInput
@@ -12108,7 +12108,7 @@ export type TenantUncheckedCreateWithoutAuthSessionsInput = {
   servicios?: Prisma.ServicioUncheckedCreateNestedManyWithoutTenantInput
   sesionesActividad?: Prisma.SesionActividadUncheckedCreateNestedManyWithoutTenantInput
   subscription?: Prisma.SubscriptionUncheckedCreateNestedOneWithoutTenantInput
-  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUncheckedCreateNestedManyWithoutTenantsInput
+  sugerencias?: Prisma.SugerenciaSeguimientoUncheckedCreateNestedManyWithoutTenantInput
   memberships?: Prisma.TenantMembershipUncheckedCreateNestedManyWithoutTenantInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUncheckedCreateNestedManyWithoutTenantInput
   tiposInteres?: Prisma.TipoInteresUncheckedCreateNestedManyWithoutTenantInput
@@ -12183,7 +12183,7 @@ export type TenantUpdateWithoutAuthSessionsInput = {
   servicios?: Prisma.ServicioUpdateManyWithoutTenantNestedInput
   sesionesActividad?: Prisma.SesionActividadUpdateManyWithoutTenantNestedInput
   subscription?: Prisma.SubscriptionUpdateOneWithoutTenantNestedInput
-  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUpdateManyWithoutTenantsNestedInput
+  sugerencias?: Prisma.SugerenciaSeguimientoUpdateManyWithoutTenantNestedInput
   memberships?: Prisma.TenantMembershipUpdateManyWithoutTenantNestedInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUpdateManyWithoutTenantNestedInput
   tiposInteres?: Prisma.TipoInteresUpdateManyWithoutTenantNestedInput
@@ -12242,7 +12242,7 @@ export type TenantUncheckedUpdateWithoutAuthSessionsInput = {
   servicios?: Prisma.ServicioUncheckedUpdateManyWithoutTenantNestedInput
   sesionesActividad?: Prisma.SesionActividadUncheckedUpdateManyWithoutTenantNestedInput
   subscription?: Prisma.SubscriptionUncheckedUpdateOneWithoutTenantNestedInput
-  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUncheckedUpdateManyWithoutTenantsNestedInput
+  sugerencias?: Prisma.SugerenciaSeguimientoUncheckedUpdateManyWithoutTenantNestedInput
   memberships?: Prisma.TenantMembershipUncheckedUpdateManyWithoutTenantNestedInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUncheckedUpdateManyWithoutTenantNestedInput
   tiposInteres?: Prisma.TipoInteresUncheckedUpdateManyWithoutTenantNestedInput
@@ -12301,7 +12301,7 @@ export type TenantCreateWithoutResetTokensInput = {
   servicios?: Prisma.ServicioCreateNestedManyWithoutTenantInput
   sesionesActividad?: Prisma.SesionActividadCreateNestedManyWithoutTenantInput
   subscription?: Prisma.SubscriptionCreateNestedOneWithoutTenantInput
-  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoCreateNestedManyWithoutTenantsInput
+  sugerencias?: Prisma.SugerenciaSeguimientoCreateNestedManyWithoutTenantInput
   memberships?: Prisma.TenantMembershipCreateNestedManyWithoutTenantInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosCreateNestedManyWithoutTenantInput
   tiposInteres?: Prisma.TipoInteresCreateNestedManyWithoutTenantInput
@@ -12360,7 +12360,7 @@ export type TenantUncheckedCreateWithoutResetTokensInput = {
   servicios?: Prisma.ServicioUncheckedCreateNestedManyWithoutTenantInput
   sesionesActividad?: Prisma.SesionActividadUncheckedCreateNestedManyWithoutTenantInput
   subscription?: Prisma.SubscriptionUncheckedCreateNestedOneWithoutTenantInput
-  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUncheckedCreateNestedManyWithoutTenantsInput
+  sugerencias?: Prisma.SugerenciaSeguimientoUncheckedCreateNestedManyWithoutTenantInput
   memberships?: Prisma.TenantMembershipUncheckedCreateNestedManyWithoutTenantInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUncheckedCreateNestedManyWithoutTenantInput
   tiposInteres?: Prisma.TipoInteresUncheckedCreateNestedManyWithoutTenantInput
@@ -12435,7 +12435,7 @@ export type TenantUpdateWithoutResetTokensInput = {
   servicios?: Prisma.ServicioUpdateManyWithoutTenantNestedInput
   sesionesActividad?: Prisma.SesionActividadUpdateManyWithoutTenantNestedInput
   subscription?: Prisma.SubscriptionUpdateOneWithoutTenantNestedInput
-  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUpdateManyWithoutTenantsNestedInput
+  sugerencias?: Prisma.SugerenciaSeguimientoUpdateManyWithoutTenantNestedInput
   memberships?: Prisma.TenantMembershipUpdateManyWithoutTenantNestedInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUpdateManyWithoutTenantNestedInput
   tiposInteres?: Prisma.TipoInteresUpdateManyWithoutTenantNestedInput
@@ -12494,7 +12494,7 @@ export type TenantUncheckedUpdateWithoutResetTokensInput = {
   servicios?: Prisma.ServicioUncheckedUpdateManyWithoutTenantNestedInput
   sesionesActividad?: Prisma.SesionActividadUncheckedUpdateManyWithoutTenantNestedInput
   subscription?: Prisma.SubscriptionUncheckedUpdateOneWithoutTenantNestedInput
-  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUncheckedUpdateManyWithoutTenantsNestedInput
+  sugerencias?: Prisma.SugerenciaSeguimientoUncheckedUpdateManyWithoutTenantNestedInput
   memberships?: Prisma.TenantMembershipUncheckedUpdateManyWithoutTenantNestedInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUncheckedUpdateManyWithoutTenantNestedInput
   tiposInteres?: Prisma.TipoInteresUncheckedUpdateManyWithoutTenantNestedInput
@@ -12553,7 +12553,7 @@ export type TenantCreateWithoutConfiguracionesOperativasInput = {
   servicios?: Prisma.ServicioCreateNestedManyWithoutTenantInput
   sesionesActividad?: Prisma.SesionActividadCreateNestedManyWithoutTenantInput
   subscription?: Prisma.SubscriptionCreateNestedOneWithoutTenantInput
-  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoCreateNestedManyWithoutTenantsInput
+  sugerencias?: Prisma.SugerenciaSeguimientoCreateNestedManyWithoutTenantInput
   memberships?: Prisma.TenantMembershipCreateNestedManyWithoutTenantInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosCreateNestedManyWithoutTenantInput
   tiposInteres?: Prisma.TipoInteresCreateNestedManyWithoutTenantInput
@@ -12612,7 +12612,7 @@ export type TenantUncheckedCreateWithoutConfiguracionesOperativasInput = {
   servicios?: Prisma.ServicioUncheckedCreateNestedManyWithoutTenantInput
   sesionesActividad?: Prisma.SesionActividadUncheckedCreateNestedManyWithoutTenantInput
   subscription?: Prisma.SubscriptionUncheckedCreateNestedOneWithoutTenantInput
-  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUncheckedCreateNestedManyWithoutTenantsInput
+  sugerencias?: Prisma.SugerenciaSeguimientoUncheckedCreateNestedManyWithoutTenantInput
   memberships?: Prisma.TenantMembershipUncheckedCreateNestedManyWithoutTenantInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUncheckedCreateNestedManyWithoutTenantInput
   tiposInteres?: Prisma.TipoInteresUncheckedCreateNestedManyWithoutTenantInput
@@ -12687,7 +12687,7 @@ export type TenantUpdateWithoutConfiguracionesOperativasInput = {
   servicios?: Prisma.ServicioUpdateManyWithoutTenantNestedInput
   sesionesActividad?: Prisma.SesionActividadUpdateManyWithoutTenantNestedInput
   subscription?: Prisma.SubscriptionUpdateOneWithoutTenantNestedInput
-  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUpdateManyWithoutTenantsNestedInput
+  sugerencias?: Prisma.SugerenciaSeguimientoUpdateManyWithoutTenantNestedInput
   memberships?: Prisma.TenantMembershipUpdateManyWithoutTenantNestedInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUpdateManyWithoutTenantNestedInput
   tiposInteres?: Prisma.TipoInteresUpdateManyWithoutTenantNestedInput
@@ -12746,7 +12746,7 @@ export type TenantUncheckedUpdateWithoutConfiguracionesOperativasInput = {
   servicios?: Prisma.ServicioUncheckedUpdateManyWithoutTenantNestedInput
   sesionesActividad?: Prisma.SesionActividadUncheckedUpdateManyWithoutTenantNestedInput
   subscription?: Prisma.SubscriptionUncheckedUpdateOneWithoutTenantNestedInput
-  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUncheckedUpdateManyWithoutTenantsNestedInput
+  sugerencias?: Prisma.SugerenciaSeguimientoUncheckedUpdateManyWithoutTenantNestedInput
   memberships?: Prisma.TenantMembershipUncheckedUpdateManyWithoutTenantNestedInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUncheckedUpdateManyWithoutTenantNestedInput
   tiposInteres?: Prisma.TipoInteresUncheckedUpdateManyWithoutTenantNestedInput
@@ -12805,7 +12805,7 @@ export type TenantCreateWithoutEvidenciasServicioInput = {
   servicios?: Prisma.ServicioCreateNestedManyWithoutTenantInput
   sesionesActividad?: Prisma.SesionActividadCreateNestedManyWithoutTenantInput
   subscription?: Prisma.SubscriptionCreateNestedOneWithoutTenantInput
-  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoCreateNestedManyWithoutTenantsInput
+  sugerencias?: Prisma.SugerenciaSeguimientoCreateNestedManyWithoutTenantInput
   memberships?: Prisma.TenantMembershipCreateNestedManyWithoutTenantInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosCreateNestedManyWithoutTenantInput
   tiposInteres?: Prisma.TipoInteresCreateNestedManyWithoutTenantInput
@@ -12864,7 +12864,7 @@ export type TenantUncheckedCreateWithoutEvidenciasServicioInput = {
   servicios?: Prisma.ServicioUncheckedCreateNestedManyWithoutTenantInput
   sesionesActividad?: Prisma.SesionActividadUncheckedCreateNestedManyWithoutTenantInput
   subscription?: Prisma.SubscriptionUncheckedCreateNestedOneWithoutTenantInput
-  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUncheckedCreateNestedManyWithoutTenantsInput
+  sugerencias?: Prisma.SugerenciaSeguimientoUncheckedCreateNestedManyWithoutTenantInput
   memberships?: Prisma.TenantMembershipUncheckedCreateNestedManyWithoutTenantInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUncheckedCreateNestedManyWithoutTenantInput
   tiposInteres?: Prisma.TipoInteresUncheckedCreateNestedManyWithoutTenantInput
@@ -12939,7 +12939,7 @@ export type TenantUpdateWithoutEvidenciasServicioInput = {
   servicios?: Prisma.ServicioUpdateManyWithoutTenantNestedInput
   sesionesActividad?: Prisma.SesionActividadUpdateManyWithoutTenantNestedInput
   subscription?: Prisma.SubscriptionUpdateOneWithoutTenantNestedInput
-  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUpdateManyWithoutTenantsNestedInput
+  sugerencias?: Prisma.SugerenciaSeguimientoUpdateManyWithoutTenantNestedInput
   memberships?: Prisma.TenantMembershipUpdateManyWithoutTenantNestedInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUpdateManyWithoutTenantNestedInput
   tiposInteres?: Prisma.TipoInteresUpdateManyWithoutTenantNestedInput
@@ -12998,7 +12998,7 @@ export type TenantUncheckedUpdateWithoutEvidenciasServicioInput = {
   servicios?: Prisma.ServicioUncheckedUpdateManyWithoutTenantNestedInput
   sesionesActividad?: Prisma.SesionActividadUncheckedUpdateManyWithoutTenantNestedInput
   subscription?: Prisma.SubscriptionUncheckedUpdateOneWithoutTenantNestedInput
-  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUncheckedUpdateManyWithoutTenantsNestedInput
+  sugerencias?: Prisma.SugerenciaSeguimientoUncheckedUpdateManyWithoutTenantNestedInput
   memberships?: Prisma.TenantMembershipUncheckedUpdateManyWithoutTenantNestedInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUncheckedUpdateManyWithoutTenantNestedInput
   tiposInteres?: Prisma.TipoInteresUncheckedUpdateManyWithoutTenantNestedInput
@@ -13008,7 +13008,7 @@ export type TenantUncheckedUpdateWithoutEvidenciasServicioInput = {
   zonas?: Prisma.ZonaUncheckedUpdateManyWithoutTenantNestedInput
 }
 
-export type TenantCreateWithoutSugerencias_seguimientoInput = {
+export type TenantCreateWithoutSugerenciasInput = {
   id?: string
   slug: string
   isActive?: boolean
@@ -13067,7 +13067,7 @@ export type TenantCreateWithoutSugerencias_seguimientoInput = {
   zonas?: Prisma.ZonaCreateNestedManyWithoutTenantInput
 }
 
-export type TenantUncheckedCreateWithoutSugerencias_seguimientoInput = {
+export type TenantUncheckedCreateWithoutSugerenciasInput = {
   id?: string
   slug: string
   isActive?: boolean
@@ -13126,23 +13126,23 @@ export type TenantUncheckedCreateWithoutSugerencias_seguimientoInput = {
   zonas?: Prisma.ZonaUncheckedCreateNestedManyWithoutTenantInput
 }
 
-export type TenantCreateOrConnectWithoutSugerencias_seguimientoInput = {
+export type TenantCreateOrConnectWithoutSugerenciasInput = {
   where: Prisma.TenantWhereUniqueInput
-  create: Prisma.XOR<Prisma.TenantCreateWithoutSugerencias_seguimientoInput, Prisma.TenantUncheckedCreateWithoutSugerencias_seguimientoInput>
+  create: Prisma.XOR<Prisma.TenantCreateWithoutSugerenciasInput, Prisma.TenantUncheckedCreateWithoutSugerenciasInput>
 }
 
-export type TenantUpsertWithoutSugerencias_seguimientoInput = {
-  update: Prisma.XOR<Prisma.TenantUpdateWithoutSugerencias_seguimientoInput, Prisma.TenantUncheckedUpdateWithoutSugerencias_seguimientoInput>
-  create: Prisma.XOR<Prisma.TenantCreateWithoutSugerencias_seguimientoInput, Prisma.TenantUncheckedCreateWithoutSugerencias_seguimientoInput>
+export type TenantUpsertWithoutSugerenciasInput = {
+  update: Prisma.XOR<Prisma.TenantUpdateWithoutSugerenciasInput, Prisma.TenantUncheckedUpdateWithoutSugerenciasInput>
+  create: Prisma.XOR<Prisma.TenantCreateWithoutSugerenciasInput, Prisma.TenantUncheckedCreateWithoutSugerenciasInput>
   where?: Prisma.TenantWhereInput
 }
 
-export type TenantUpdateToOneWithWhereWithoutSugerencias_seguimientoInput = {
+export type TenantUpdateToOneWithWhereWithoutSugerenciasInput = {
   where?: Prisma.TenantWhereInput
-  data: Prisma.XOR<Prisma.TenantUpdateWithoutSugerencias_seguimientoInput, Prisma.TenantUncheckedUpdateWithoutSugerencias_seguimientoInput>
+  data: Prisma.XOR<Prisma.TenantUpdateWithoutSugerenciasInput, Prisma.TenantUncheckedUpdateWithoutSugerenciasInput>
 }
 
-export type TenantUpdateWithoutSugerencias_seguimientoInput = {
+export type TenantUpdateWithoutSugerenciasInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -13201,7 +13201,7 @@ export type TenantUpdateWithoutSugerencias_seguimientoInput = {
   zonas?: Prisma.ZonaUpdateManyWithoutTenantNestedInput
 }
 
-export type TenantUncheckedUpdateWithoutSugerencias_seguimientoInput = {
+export type TenantUncheckedUpdateWithoutSugerenciasInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -13304,7 +13304,7 @@ export type TenantCountOutputType = {
   referidos: number
   servicios: number
   sesionesActividad: number
-  sugerencias_seguimiento: number
+  sugerencias: number
   memberships: number
   terapiasPsicologos: number
   tiposInteres: number
@@ -13353,7 +13353,7 @@ export type TenantCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions
   referidos?: boolean | TenantCountOutputTypeCountReferidosArgs
   servicios?: boolean | TenantCountOutputTypeCountServiciosArgs
   sesionesActividad?: boolean | TenantCountOutputTypeCountSesionesActividadArgs
-  sugerencias_seguimiento?: boolean | TenantCountOutputTypeCountSugerencias_seguimientoArgs
+  sugerencias?: boolean | TenantCountOutputTypeCountSugerenciasArgs
   memberships?: boolean | TenantCountOutputTypeCountMembershipsArgs
   terapiasPsicologos?: boolean | TenantCountOutputTypeCountTerapiasPsicologosArgs
   tiposInteres?: boolean | TenantCountOutputTypeCountTiposInteresArgs
@@ -13642,8 +13642,8 @@ export type TenantCountOutputTypeCountSesionesActividadArgs<ExtArgs extends runt
 /**
  * TenantCountOutputType without action
  */
-export type TenantCountOutputTypeCountSugerencias_seguimientoArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.sugerencias_seguimientoWhereInput
+export type TenantCountOutputTypeCountSugerenciasArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.SugerenciaSeguimientoWhereInput
 }
 
 /**
@@ -13746,7 +13746,7 @@ export type TenantSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs =
   servicios?: boolean | Prisma.Tenant$serviciosArgs<ExtArgs>
   sesionesActividad?: boolean | Prisma.Tenant$sesionesActividadArgs<ExtArgs>
   subscription?: boolean | Prisma.Tenant$subscriptionArgs<ExtArgs>
-  sugerencias_seguimiento?: boolean | Prisma.Tenant$sugerencias_seguimientoArgs<ExtArgs>
+  sugerencias?: boolean | Prisma.Tenant$sugerenciasArgs<ExtArgs>
   memberships?: boolean | Prisma.Tenant$membershipsArgs<ExtArgs>
   terapiasPsicologos?: boolean | Prisma.Tenant$terapiasPsicologosArgs<ExtArgs>
   tiposInteres?: boolean | Prisma.Tenant$tiposInteresArgs<ExtArgs>
@@ -13837,7 +13837,7 @@ export type TenantInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs 
   servicios?: boolean | Prisma.Tenant$serviciosArgs<ExtArgs>
   sesionesActividad?: boolean | Prisma.Tenant$sesionesActividadArgs<ExtArgs>
   subscription?: boolean | Prisma.Tenant$subscriptionArgs<ExtArgs>
-  sugerencias_seguimiento?: boolean | Prisma.Tenant$sugerencias_seguimientoArgs<ExtArgs>
+  sugerencias?: boolean | Prisma.Tenant$sugerenciasArgs<ExtArgs>
   memberships?: boolean | Prisma.Tenant$membershipsArgs<ExtArgs>
   terapiasPsicologos?: boolean | Prisma.Tenant$terapiasPsicologosArgs<ExtArgs>
   tiposInteres?: boolean | Prisma.Tenant$tiposInteresArgs<ExtArgs>
@@ -13892,7 +13892,7 @@ export type $TenantPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs
     servicios: Prisma.$ServicioPayload<ExtArgs>[]
     sesionesActividad: Prisma.$SesionActividadPayload<ExtArgs>[]
     subscription: Prisma.$SubscriptionPayload<ExtArgs> | null
-    sugerencias_seguimiento: Prisma.$sugerencias_seguimientoPayload<ExtArgs>[]
+    sugerencias: Prisma.$SugerenciaSeguimientoPayload<ExtArgs>[]
     memberships: Prisma.$TenantMembershipPayload<ExtArgs>[]
     terapiasPsicologos: Prisma.$TerapiasPsicologosPayload<ExtArgs>[]
     tiposInteres: Prisma.$TipoInteresPayload<ExtArgs>[]
@@ -14345,7 +14345,7 @@ export interface Prisma__TenantClient<T, Null = never, ExtArgs extends runtime.T
   servicios<T extends Prisma.Tenant$serviciosArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Tenant$serviciosArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ServicioPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   sesionesActividad<T extends Prisma.Tenant$sesionesActividadArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Tenant$sesionesActividadArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$SesionActividadPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   subscription<T extends Prisma.Tenant$subscriptionArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Tenant$subscriptionArgs<ExtArgs>>): Prisma.Prisma__SubscriptionClient<runtime.Types.Result.GetResult<Prisma.$SubscriptionPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
-  sugerencias_seguimiento<T extends Prisma.Tenant$sugerencias_seguimientoArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Tenant$sugerencias_seguimientoArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$sugerencias_seguimientoPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  sugerencias<T extends Prisma.Tenant$sugerenciasArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Tenant$sugerenciasArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$SugerenciaSeguimientoPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   memberships<T extends Prisma.Tenant$membershipsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Tenant$membershipsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$TenantMembershipPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   terapiasPsicologos<T extends Prisma.Tenant$terapiasPsicologosArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Tenant$terapiasPsicologosArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$TerapiasPsicologosPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   tiposInteres<T extends Prisma.Tenant$tiposInteresArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Tenant$tiposInteresArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$TipoInteresPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
@@ -15711,27 +15711,27 @@ export type Tenant$subscriptionArgs<ExtArgs extends runtime.Types.Extensions.Int
 }
 
 /**
- * Tenant.sugerencias_seguimiento
+ * Tenant.sugerencias
  */
-export type Tenant$sugerencias_seguimientoArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+export type Tenant$sugerenciasArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   /**
-   * Select specific fields to fetch from the sugerencias_seguimiento
+   * Select specific fields to fetch from the SugerenciaSeguimiento
    */
-  select?: Prisma.sugerencias_seguimientoSelect<ExtArgs> | null
+  select?: Prisma.SugerenciaSeguimientoSelect<ExtArgs> | null
   /**
-   * Omit specific fields from the sugerencias_seguimiento
+   * Omit specific fields from the SugerenciaSeguimiento
    */
-  omit?: Prisma.sugerencias_seguimientoOmit<ExtArgs> | null
+  omit?: Prisma.SugerenciaSeguimientoOmit<ExtArgs> | null
   /**
    * Choose, which related nodes to fetch as well
    */
-  include?: Prisma.sugerencias_seguimientoInclude<ExtArgs> | null
-  where?: Prisma.sugerencias_seguimientoWhereInput
-  orderBy?: Prisma.sugerencias_seguimientoOrderByWithRelationInput | Prisma.sugerencias_seguimientoOrderByWithRelationInput[]
-  cursor?: Prisma.sugerencias_seguimientoWhereUniqueInput
+  include?: Prisma.SugerenciaSeguimientoInclude<ExtArgs> | null
+  where?: Prisma.SugerenciaSeguimientoWhereInput
+  orderBy?: Prisma.SugerenciaSeguimientoOrderByWithRelationInput | Prisma.SugerenciaSeguimientoOrderByWithRelationInput[]
+  cursor?: Prisma.SugerenciaSeguimientoWhereUniqueInput
   take?: number
   skip?: number
-  distinct?: Prisma.Sugerencias_seguimientoScalarFieldEnum | Prisma.Sugerencias_seguimientoScalarFieldEnum[]
+  distinct?: Prisma.SugerenciaSeguimientoScalarFieldEnum | Prisma.SugerenciaSeguimientoScalarFieldEnum[]
 }
 
 /**

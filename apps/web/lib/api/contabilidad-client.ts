@@ -90,26 +90,16 @@ export const contabilidadClient = {
     });
   },
 
-  async crearEgreso(data: {
-    titulo: string;
-    monto: number;
-    razon: string;
-    categoria: string;
-    membershipId?: string;
-    empresaId: string;
-  }) {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  async crearEgreso(data: any) {
     return apiFetch("/finanzas/registrar-egreso", {
       method: "POST",
       body: JSON.stringify(data),
     });
   },
 
-  async crearAnticipo(data: {
-    membershipId: string;
-    monto: number;
-    razon: string;
-    empresaId: string;
-  }) {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  async crearAnticipo(data: any) {
     return apiFetch("/finanzas/registrar-anticipo", {
       method: "POST",
       body: JSON.stringify(data),

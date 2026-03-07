@@ -8,7 +8,7 @@ import { createTenantAction, getTenantDetailAction } from "../actions";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 
-interface TenantDetail extends Tenant {
+export interface TenantDetail extends Tenant {
   memberships: Array<{
     user: {
       nombre: string;
@@ -29,7 +29,7 @@ interface TenantDetail extends Tenant {
   } | null;
 }
 
-interface Tenant {
+export interface Tenant {
   id: string;
   nombre: string;
   slug: string;
@@ -43,7 +43,7 @@ interface Tenant {
   };
 }
 
-interface Plan {
+export interface Plan {
   id: string;
   nombre: string;
   price: number;
@@ -80,7 +80,8 @@ export function TenantList({ initialTenants, availablePlans }: TenantListProps) 
     setLoadingDetail(true);
     try {
       const detail = await getTenantDetailAction(tenantId);
-      setSelectedTenantDetail(detail);
+      setSelectedTenantDetail(detail as unknown as TenantDetail);
+
       setIsViewModalOpen(true);
     } catch (_error) {
       toast.error("No se pudo cargar la información del sistema");
@@ -107,7 +108,7 @@ export function TenantList({ initialTenants, availablePlans }: TenantListProps) 
     setLoading(true);
     try {
       const newTenant = await createTenantAction(formData);
-      setTenants([newTenant, ...tenants]);
+      setTenants([newTenant as unknown as Tenant, ...tenants]);
       setIsModalOpen(false);
       setSlugTouched(false);
       setFormData({

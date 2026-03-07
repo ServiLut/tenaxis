@@ -435,7 +435,7 @@ export const ModelName = {
   PasswordResetToken: 'PasswordResetToken',
   ClienteConfiguracionOperativa: 'ClienteConfiguracionOperativa',
   EvidenciaServicio: 'EvidenciaServicio',
-  sugerencias_seguimiento: 'sugerencias_seguimiento'
+  SugerenciaSeguimiento: 'SugerenciaSeguimiento'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -451,7 +451,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "user" | "tenant" | "plan" | "subscription" | "tenantMembership" | "empresa" | "empresaMembership" | "organizationNode" | "commissionRecord" | "tipoInteres" | "department" | "municipality" | "cliente" | "vehiculo" | "direccion" | "zona" | "servicio" | "tipoServicio" | "metodoPago" | "estadoServicio" | "ordenServicio" | "entidadFinanciera" | "geolocalizacion" | "nomina" | "nominaDetalle" | "citasPsicologos" | "consultorio" | "terapiasPsicologos" | "paqueteAdquirido" | "turno" | "cuentaCobro" | "declaracionEfectivo" | "consignacionEfectivo" | "consignacionOrden" | "anticipos" | "producto" | "productoSolicitado" | "proveedores" | "permiso" | "configuracionPagos" | "cuentasPago" | "egresos" | "picoPlaca" | "referidos" | "auditoria" | "sesionActividad" | "logEvento" | "authSession" | "passwordResetToken" | "clienteConfiguracionOperativa" | "evidenciaServicio" | "sugerencias_seguimiento"
+    modelProps: "user" | "tenant" | "plan" | "subscription" | "tenantMembership" | "empresa" | "empresaMembership" | "organizationNode" | "commissionRecord" | "tipoInteres" | "department" | "municipality" | "cliente" | "vehiculo" | "direccion" | "zona" | "servicio" | "tipoServicio" | "metodoPago" | "estadoServicio" | "ordenServicio" | "entidadFinanciera" | "geolocalizacion" | "nomina" | "nominaDetalle" | "citasPsicologos" | "consultorio" | "terapiasPsicologos" | "paqueteAdquirido" | "turno" | "cuentaCobro" | "declaracionEfectivo" | "consignacionEfectivo" | "consignacionOrden" | "anticipos" | "producto" | "productoSolicitado" | "proveedores" | "permiso" | "configuracionPagos" | "cuentasPago" | "egresos" | "picoPlaca" | "referidos" | "auditoria" | "sesionActividad" | "logEvento" | "authSession" | "passwordResetToken" | "clienteConfiguracionOperativa" | "evidenciaServicio" | "sugerenciaSeguimiento"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -4229,77 +4229,77 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
-    sugerencias_seguimiento: {
-      payload: Prisma.$sugerencias_seguimientoPayload<ExtArgs>
-      fields: Prisma.sugerencias_seguimientoFieldRefs
+    SugerenciaSeguimiento: {
+      payload: Prisma.$SugerenciaSeguimientoPayload<ExtArgs>
+      fields: Prisma.SugerenciaSeguimientoFieldRefs
       operations: {
         findUnique: {
-          args: Prisma.sugerencias_seguimientoFindUniqueArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$sugerencias_seguimientoPayload> | null
+          args: Prisma.SugerenciaSeguimientoFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SugerenciaSeguimientoPayload> | null
         }
         findUniqueOrThrow: {
-          args: Prisma.sugerencias_seguimientoFindUniqueOrThrowArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$sugerencias_seguimientoPayload>
+          args: Prisma.SugerenciaSeguimientoFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SugerenciaSeguimientoPayload>
         }
         findFirst: {
-          args: Prisma.sugerencias_seguimientoFindFirstArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$sugerencias_seguimientoPayload> | null
+          args: Prisma.SugerenciaSeguimientoFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SugerenciaSeguimientoPayload> | null
         }
         findFirstOrThrow: {
-          args: Prisma.sugerencias_seguimientoFindFirstOrThrowArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$sugerencias_seguimientoPayload>
+          args: Prisma.SugerenciaSeguimientoFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SugerenciaSeguimientoPayload>
         }
         findMany: {
-          args: Prisma.sugerencias_seguimientoFindManyArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$sugerencias_seguimientoPayload>[]
+          args: Prisma.SugerenciaSeguimientoFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SugerenciaSeguimientoPayload>[]
         }
         create: {
-          args: Prisma.sugerencias_seguimientoCreateArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$sugerencias_seguimientoPayload>
+          args: Prisma.SugerenciaSeguimientoCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SugerenciaSeguimientoPayload>
         }
         createMany: {
-          args: Prisma.sugerencias_seguimientoCreateManyArgs<ExtArgs>
+          args: Prisma.SugerenciaSeguimientoCreateManyArgs<ExtArgs>
           result: BatchPayload
         }
         createManyAndReturn: {
-          args: Prisma.sugerencias_seguimientoCreateManyAndReturnArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$sugerencias_seguimientoPayload>[]
+          args: Prisma.SugerenciaSeguimientoCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SugerenciaSeguimientoPayload>[]
         }
         delete: {
-          args: Prisma.sugerencias_seguimientoDeleteArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$sugerencias_seguimientoPayload>
+          args: Prisma.SugerenciaSeguimientoDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SugerenciaSeguimientoPayload>
         }
         update: {
-          args: Prisma.sugerencias_seguimientoUpdateArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$sugerencias_seguimientoPayload>
+          args: Prisma.SugerenciaSeguimientoUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SugerenciaSeguimientoPayload>
         }
         deleteMany: {
-          args: Prisma.sugerencias_seguimientoDeleteManyArgs<ExtArgs>
+          args: Prisma.SugerenciaSeguimientoDeleteManyArgs<ExtArgs>
           result: BatchPayload
         }
         updateMany: {
-          args: Prisma.sugerencias_seguimientoUpdateManyArgs<ExtArgs>
+          args: Prisma.SugerenciaSeguimientoUpdateManyArgs<ExtArgs>
           result: BatchPayload
         }
         updateManyAndReturn: {
-          args: Prisma.sugerencias_seguimientoUpdateManyAndReturnArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$sugerencias_seguimientoPayload>[]
+          args: Prisma.SugerenciaSeguimientoUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SugerenciaSeguimientoPayload>[]
         }
         upsert: {
-          args: Prisma.sugerencias_seguimientoUpsertArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$sugerencias_seguimientoPayload>
+          args: Prisma.SugerenciaSeguimientoUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SugerenciaSeguimientoPayload>
         }
         aggregate: {
-          args: Prisma.Sugerencias_seguimientoAggregateArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.AggregateSugerencias_seguimiento>
+          args: Prisma.SugerenciaSeguimientoAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateSugerenciaSeguimiento>
         }
         groupBy: {
-          args: Prisma.sugerencias_seguimientoGroupByArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.Sugerencias_seguimientoGroupByOutputType>[]
+          args: Prisma.SugerenciaSeguimientoGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.SugerenciaSeguimientoGroupByOutputType>[]
         }
         count: {
-          args: Prisma.sugerencias_seguimientoCountArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.Sugerencias_seguimientoCountAggregateOutputType> | number
+          args: Prisma.SugerenciaSeguimientoCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.SugerenciaSeguimientoCountAggregateOutputType> | number
         }
       }
     }
@@ -5237,7 +5237,7 @@ export const EvidenciaServicioScalarFieldEnum = {
 export type EvidenciaServicioScalarFieldEnum = (typeof EvidenciaServicioScalarFieldEnum)[keyof typeof EvidenciaServicioScalarFieldEnum]
 
 
-export const Sugerencias_seguimientoScalarFieldEnum = {
+export const SugerenciaSeguimientoScalarFieldEnum = {
   id: 'id',
   tenantId: 'tenantId',
   empresaId: 'empresaId',
@@ -5254,7 +5254,7 @@ export const Sugerencias_seguimientoScalarFieldEnum = {
   actualizadoAt: 'actualizadoAt'
 } as const
 
-export type Sugerencias_seguimientoScalarFieldEnum = (typeof Sugerencias_seguimientoScalarFieldEnum)[keyof typeof Sugerencias_seguimientoScalarFieldEnum]
+export type SugerenciaSeguimientoScalarFieldEnum = (typeof SugerenciaSeguimientoScalarFieldEnum)[keyof typeof SugerenciaSeguimientoScalarFieldEnum]
 
 
 export const SortOrder = {
@@ -5890,7 +5890,7 @@ export type GlobalOmitConfig = {
   passwordResetToken?: Prisma.PasswordResetTokenOmit
   clienteConfiguracionOperativa?: Prisma.ClienteConfiguracionOperativaOmit
   evidenciaServicio?: Prisma.EvidenciaServicioOmit
-  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoOmit
+  sugerenciaSeguimiento?: Prisma.SugerenciaSeguimientoOmit
 }
 
 /* Types for Logging */

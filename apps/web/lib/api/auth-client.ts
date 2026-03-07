@@ -1,15 +1,32 @@
 import { apiFetch } from "./base-client";
 
+export interface UserProfile {
+  id: string;
+  email: string;
+  role: string;
+  nombre?: string;
+  apellido?: string;
+  isTenantAdmin?: boolean;
+  membershipId?: string;
+  tenantId?: string;
+  sesionId?: string;
+}
+
+export interface LoginResponse {
+  access_token: string;
+  user: UserProfile;
+}
+
 export const authClient = {
-  async login(data: any) {
-    return apiFetch("/auth/login", {
+  async login(data: Record<string, unknown>) {
+    return apiFetch<LoginResponse>("/auth/login", {
       method: "POST",
       body: JSON.stringify(data),
     });
   },
 
-  async register(data: any) {
-    return apiFetch("/auth/register", {
+  async register(data: Record<string, unknown>) {
+    return apiFetch<UserProfile>("/auth/register", {
       method: "POST",
       body: JSON.stringify(data),
     });
@@ -22,8 +39,8 @@ export const authClient = {
     });
   },
 
-  async getProfile(): Promise<any> {
-    return apiFetch("/auth/profile");
+  async getProfile(): Promise<UserProfile> {
+    return apiFetch<UserProfile>("/auth/profile");
   },
 
   async updateTestRole(role: string) {

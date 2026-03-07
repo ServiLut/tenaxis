@@ -35,15 +35,15 @@ export default function LoginPage() {
 
       const data = res.data;
       
-      if (data.user?.sesionId) {
+      if (data?.user?.sesionId) {
         document.cookie = `sesion_id=${data.user.sesionId}; path=/; max-age=86400; SameSite=Lax`;
       }
       
-      if (data.user?.tenantId) {
+      if (data?.user?.tenantId) {
         document.cookie = `tenant-id=${data.user.tenantId}; path=/; max-age=86400; SameSite=Lax`;
       }
       
-      if (data.user) {
+      if (data?.user) {
         localStorage.setItem("user", JSON.stringify(data.user));
       }
 

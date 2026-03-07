@@ -1,7 +1,7 @@
 import { apiFetch } from "./base-client";
 
 export const serviciosClient = {
-  async getAll(empresaId?: string, clienteId?: string): Promise<any[]> {
+  async getAll(empresaId?: string, clienteId?: string): Promise<unknown[]> {
     let url = "/ordenes-servicio";
     const params = new URLSearchParams();
     if (empresaId && empresaId !== "all") params.append("empresaId", empresaId);
@@ -10,26 +10,26 @@ export const serviciosClient = {
     const queryString = params.toString();
     if (queryString) url += `?${queryString}`;
     
-    return apiFetch<any[]>(url, { cache: "no-store" });
+    return apiFetch<unknown[]>(url, { cache: "no-store" });
   },
 
-  async getById(id: string): Promise<any | null> {
+  async getById(id: string): Promise<Record<string, unknown> | null> {
     try {
-      return await apiFetch<any>(`/ordenes-servicio/${id}`, { cache: "no-store" });
+      return await apiFetch<Record<string, unknown>>(`/ordenes-servicio/${id}`, { cache: "no-store" });
     } catch (error) {
       console.error("serviciosClient.getById error:", error);
       return null;
     }
   },
 
-  async create(data: any) {
+  async create(data: Record<string, unknown>) {
     return apiFetch("/ordenes-servicio", {
       method: "POST",
       body: JSON.stringify(data),
     });
   },
 
-  async update(id: string, payload: any | FormData) {
+  async update(id: string, payload: Record<string, unknown> | FormData) {
     const isFormData = payload instanceof FormData;
     return apiFetch(`/ordenes-servicio/${id}`, {
       method: "PATCH",

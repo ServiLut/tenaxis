@@ -10,13 +10,91 @@ import { configClient } from "@/lib/api/config-client";
 import { enterpriseClient } from "@/lib/api/enterprise-client";
 import { serviciosClient } from "@/lib/api/servicios-client";
 import { authClient } from "@/lib/api/auth-client";
-import { apiFetch } from "@/lib/api/base-client";
+import { apiFetch, getApiUrl, getAuthHeaders } from "@/lib/api/base-client";
 import { DashboardStatsSchema, type DashboardStatsType } from "./schemas/dashboard.schema";
 
 export type DashboardStats = DashboardStatsType;
-export type ClienteDTO = any;
-export type ConfiguracionOperativa = any;
-export type ElementoPredefinido = any;
+export interface ElementoPredefinido {
+  nombre: string;
+  tipo: string;
+  ubicacion?: string;
+}
+export interface ConfiguracionOperativa {
+  id: string;
+  direccionId?: string | null;
+  direccion?: {
+    id: string;
+    direccion: string;
+  } | null;
+  protocoloServicio?: string | null;
+  observacionesFijas?: string | null;
+  requiereFirmaDigital: boolean;
+  requiereFotosEvidencia: boolean;
+  duracionEstimada?: number | null;
+  frecuenciaSugerida?: number | null;
+  elementosPredefinidos?: ElementoPredefinido[] | null;
+}
+
+// --- DTO Interfaces ---
+export interface TipoInteresDTO {
+  nombre: string;
+  descripcion?: string | null;
+  frecuenciaSugerida?: number | null;
+  riesgoSugerido?: string | null;
+  activo?: boolean;
+}
+
+export interface ServicioDTO {
+  nombre: string;
+  empresaId: string;
+  activo?: boolean;
+}
+
+export interface DireccionDTO {
+  direccion: string;
+  piso?: string | null;
+  bloque?: string | null;
+  unidad?: string | null;
+  barrio?: string | null;
+  municipio?: string | null;
+  linkMaps?: string | null;
+  cargoContacto?: string | null;
+  clasificacionPunto?: string | null;
+  departmentId?: string | null;
+  horarioFin?: string | null;
+  horarioInicio?: string | null;
+  latitud?: number | null;
+  longitud?: number | null;
+  motivoBloqueo?: string | null;
+  municipioId?: string | null;
+  nombreContacto?: string | null;
+  nombreSede?: string | null;
+  precisionGPS?: number | null;
+  restricciones?: string | null;
+  telefonoContacto?: string | null;
+  tipoUbicacion?: string | null;
+  validadoPorSistema?: boolean;
+}
+
+export interface ClienteDTO {
+  tipoCliente: "PERSONA" | "EMPRESA";
+  nombre?: string | null;
+  apellido?: string | null;
+  telefono: string;
+  telefono2?: string | null;
+  correo?: string | null;
+  origenCliente?: string | null;
+  tipoInteresId?: string | null;
+  razonSocial?: string | null;
+  nit?: string | null;
+  numeroDocumento?: string | null;
+  tipoDocumento?: string | null;
+  actividadEconomica?: string | null;
+  metrajeTotal?: number | null;
+  segmento?: "HOGAR" | "COMERCIO" | "INDUSTRIA" | "SALUD" | "EDUCACION" | "HORECA" | "OFICINA" | "OTRO" | null;
+  nivelRiesgo?: "BAJO" | "MEDIO" | "ALTO" | "CRITICO" | null;
+  direcciones?: DireccionDTO[];
+}
 
 // --- Auth Actions ---
 export async function isTenantAdminAction() {
@@ -89,7 +167,7 @@ export async function rejectMembershipAction(id: string) {
   }
 }
 
-export async function createTenantAction(formData: any) {
+export async function createTenantAction(formData: Record<string, unknown>) {
   try {
     return await tenantsClient.createTenant(formData);
   } catch (error) {
@@ -107,7 +185,7 @@ export async function joinTenantAction(slug: string) {
   }
 }
 
-export async function updateMembershipAction(membershipId: string, data: any) {
+export async function updateMembershipAction(membershipId: string, data: Record<string, unknown>) {
   try {
     const result = await tenantsClient.updateMembership(membershipId, data);
     revalidatePath("/dashboard/equipo-trabajo");
@@ -129,7 +207,7 @@ export async function getTenantMembershipsAction() {
   }
 }
 
-export async function inviteMemberAction(tenantId: string, data: any) {
+export async function inviteMemberAction(tenantId: string, data: Record<string, unknown>) {
   try {
     const result = await tenantsClient.inviteMember(tenantId, data);
     revalidatePath("/dashboard/equipo-trabajo");
@@ -142,7 +220,7 @@ export async function inviteMemberAction(tenantId: string, data: any) {
 // --- Plan Actions ---
 export async function getPlansAction() {
   try {
-    return await apiFetch<any[]>("/plans");
+    return await apiFetch<unknown[]>("/plans");
   } catch (error) {
     console.error("Error fetching plans:", error);
     return [];
@@ -150,6 +228,16 @@ export async function getPlansAction() {
 }
 
 // --- Client Actions ---
+export interface ClientesDashboardDataResponse<T = unknown> {
+  clientes: T[];
+  segmentacion: {
+    riesgoFuga: { count: number; data: T[] };
+    upsellPotencial: { count: number; data: T[] };
+    dormidos: { count: number; data: T[] };
+    operacionEstable: { count: number; data: T[] };
+  } | null;
+}
+
 export async function getClientesAction() {
   try {
     return await clientesClient.getAll();
@@ -168,7 +256,113 @@ export async function getClienteByIdAction(id: string) {
   }
 }
 
-export async function createClienteAction(payload: any) {
+export async function getClientesDashboardAction<T = unknown>(): Promise<ClientesDashboardDataResponse<T>> {
+  try {
+    const apiUrl = getApiUrl();
+    const headers = await getAuthHeaders();
+    const response = await fetch(`${apiUrl}/clientes/dashboard-data`, {
+      headers,
+      cache: "no-store",
+    });
+
+    if (!response.ok) {
+      console.error("getClientesDashboardAction: response not ok", response.status);
+      return { clientes: [], segmentacion: null };
+    }
+
+    const result = await response.json();
+    const data = (result.data || result) as { clientes: T[]; segmentacion: ClientesDashboardDataResponse<T>["segmentacion"] };
+    return {
+      clientes: (data?.clientes || []) as T[],
+      segmentacion: (data?.segmentacion || null) as ClientesDashboardDataResponse<T>["segmentacion"],
+    };
+  } catch (error) {
+    console.error("Error fetching clientes dashboard data:", error);
+    return { clientes: [], segmentacion: null };
+  }
+}
+
+export async function getSegmentedClientesAction() {
+  try {
+    const apiUrl = getApiUrl();
+    const headers = await getAuthHeaders();
+    const response = await fetch(`${apiUrl}/clientes/segmentacion`, {
+      headers,
+      cache: "no-store",
+    });
+
+    if (!response.ok) {
+      console.error("getSegmentedClientesAction: response not ok", response.status);
+      return null;
+    }
+
+    const result = await response.json();
+    return result.data || result;
+  } catch (error) {
+    console.error("Error fetching segmented clients:", error);
+    return null;
+  }
+}
+
+export async function getSugerenciasAction() {
+  try {
+    const apiUrl = getApiUrl();
+    const headers = await getAuthHeaders();
+    const response = await fetch(`${apiUrl}/sugerencias-clientes`, {
+      headers,
+      cache: "no-store",
+    });
+    if (!response.ok) return [];
+    const result = await response.json();
+    return (result.data || result) as unknown[];
+  } catch (error) {
+    console.error("Error fetching suggestions:", error);
+    return [];
+  }
+}
+
+export async function getSugerenciasStatsAction() {
+  try {
+    const apiUrl = getApiUrl();
+    const headers = await getAuthHeaders();
+    const response = await fetch(`${apiUrl}/sugerencias-clientes/stats`, {
+      headers,
+      cache: "no-store",
+    });
+    if (!response.ok) return null;
+    const result = await response.json();
+    return (result.data || result) as Record<string, unknown>;
+  } catch (error) {
+    console.error("Error fetching suggestions stats:", error);
+    return null;
+  }
+}
+
+export async function updateSugerenciaEstadoAction(id: string, estado: string) {
+  try {
+    const apiUrl = getApiUrl();
+    const headers = await getAuthHeaders();
+    const response = await fetch(`${apiUrl}/sugerencias-clientes/${id}/estado`, {
+      method: "PATCH",
+      headers: {
+        ...headers,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ estado }),
+    });
+    
+    if (response.ok) {
+      revalidatePath("/dashboard/clientes");
+      return { success: true };
+    }
+    return { success: false };
+  } catch (error) {
+    console.error("Error updating suggestion status:", error);
+    return { success: false };
+  }
+}
+
+export async function createClienteAction(payload: ClienteDTO) {
   try {
     const result = await clientesClient.create(payload);
     revalidatePath("/dashboard/clientes");
@@ -178,7 +372,7 @@ export async function createClienteAction(payload: any) {
   }
 }
 
-export async function updateClienteAction(id: string, payload: any) {
+export async function updateClienteAction(id: string, payload: Partial<ClienteDTO>) {
   try {
     const result = await clientesClient.update(id, payload);
     revalidatePath("/dashboard/clientes");
@@ -208,7 +402,7 @@ export async function getSegmentosAction() {
   }
 }
 
-export async function createSegmentoAction(data: any) {
+export async function createSegmentoAction(data: Record<string, unknown>) {
   try {
     return await apiFetch("/config-clientes/segmentos", {
       method: "POST",
@@ -219,7 +413,7 @@ export async function createSegmentoAction(data: any) {
   }
 }
 
-export async function updateSegmentoAction(id: string, data: any) {
+export async function updateSegmentoAction(id: string, data: Record<string, unknown>) {
   try {
     return await apiFetch(`/config-clientes/segmentos/${id}`, {
       method: "PATCH",
@@ -239,7 +433,7 @@ export async function getRiesgosAction() {
   }
 }
 
-export async function createRiesgoAction(data: any) {
+export async function createRiesgoAction(data: Record<string, unknown>) {
   try {
     return await apiFetch("/config-clientes/riesgos", {
       method: "POST",
@@ -250,7 +444,7 @@ export async function createRiesgoAction(data: any) {
   }
 }
 
-export async function updateRiesgoAction(id: string, data: any) {
+export async function updateRiesgoAction(id: string, data: Record<string, unknown>) {
   try {
     return await apiFetch(`/config-clientes/riesgos/${id}`, {
       method: "PATCH",
@@ -270,7 +464,7 @@ export async function getTiposInteresAction() {
   }
 }
 
-export async function createTipoInteresAction(data: any) {
+export async function createTipoInteresAction(data: TipoInteresDTO) {
   try {
     return await apiFetch("/config-clientes/intereses", {
       method: "POST",
@@ -281,7 +475,7 @@ export async function createTipoInteresAction(data: any) {
   }
 }
 
-export async function updateTipoInteresAction(id: string, data: any) {
+export async function updateTipoInteresAction(id: string, data: Partial<TipoInteresDTO>) {
   try {
     return await apiFetch(`/config-clientes/intereses/${id}`, {
       method: "PATCH",
@@ -302,7 +496,7 @@ export async function getTiposServicioAction(empresaId: string) {
   }
 }
 
-export async function getMetodosPagoAction(empresaId: string) {
+export async function getMetodosPagoAction(empresaId?: string) {
   if (!empresaId) return [];
   try {
     return await configClient.getMetodosPago(empresaId);
@@ -331,7 +525,7 @@ export async function getServiciosAction(empresaId?: string) {
   }
 }
 
-export async function createServicioAction(data: any) {
+export async function createServicioAction(data: ServicioDTO) {
   try {
     return await apiFetch("/config-clientes/servicios", {
       method: "POST",
@@ -342,7 +536,7 @@ export async function createServicioAction(data: any) {
   }
 }
 
-export async function updateServicioAction(id: string, data: any) {
+export async function updateServicioAction(id: string, data: Partial<ServicioDTO>) {
   try {
     return await apiFetch(`/config-clientes/servicios/${id}`, {
       method: "PATCH",
@@ -372,7 +566,7 @@ export async function getClienteConfigsAction(clienteId: string) {
   }
 }
 
-export async function upsertClienteConfigAction(payload: any) {
+export async function upsertClienteConfigAction(payload: Record<string, unknown>) {
   try {
     const result = await configClient.upsertOperativa(payload);
     revalidatePath("/dashboard/clientes");
@@ -382,10 +576,10 @@ export async function upsertClienteConfigAction(payload: any) {
   }
 }
 
-export async function getEstadoServiciosAction(empresaId: string) {
+export async function getEstadoServiciosAction(empresaId?: string) {
   if (!empresaId) return [];
   try {
-    return await apiFetch<any[]>(`/config-clientes/estados-servicio?empresaId=${empresaId}`);
+    return await apiFetch<unknown[]>(`/config-clientes/estados-servicio?empresaId=${empresaId}`);
   } catch (error) {
     console.error("Error fetching service states:", error);
     return [];
@@ -412,7 +606,7 @@ export async function getEnterprisesAction() {
   }
 }
 
-export async function createEnterpriseAction(data: any) {
+export async function createEnterpriseAction(data: Record<string, unknown>) {
   try {
     return await enterpriseClient.create(data);
   } catch (error) {
@@ -420,7 +614,7 @@ export async function createEnterpriseAction(data: any) {
   }
 }
 
-export async function updateEnterpriseAction(id: string, data: any) {
+export async function updateEnterpriseAction(id: string, data: Record<string, unknown>) {
   try {
     return await enterpriseClient.update(id, data);
   } catch (error) {
@@ -465,7 +659,7 @@ export async function getOrdenServicioByIdAction(id: string) {
   }
 }
 
-export async function createOrdenServicioAction(payload: any) {
+export async function createOrdenServicioAction(payload: Record<string, unknown>) {
   try {
     const result = await serviciosClient.create(payload);
     revalidatePath('/dashboard/servicios');
@@ -475,7 +669,7 @@ export async function createOrdenServicioAction(payload: any) {
   }
 }
 
-export async function updateOrdenServicioAction(id: string, payload: any) {
+export async function updateOrdenServicioAction(id: string, payload: Record<string, unknown> | FormData) {
   try {
     const result = await serviciosClient.update(id, payload);
     revalidatePath('/dashboard/servicios');
@@ -562,7 +756,7 @@ export async function getMovimientosAction(empresaId?: string) {
   }
 }
 
-export async function createEgresoAction(data: any) {
+export async function createEgresoAction(data: Record<string, unknown>) {
   try {
     const result = await contabilidadClient.crearEgreso(data);
     return { success: true, data: result };
@@ -571,7 +765,7 @@ export async function createEgresoAction(data: any) {
   }
 }
 
-export async function createAnticipoAction(data: any) {
+export async function createAnticipoAction(data: Record<string, unknown>) {
   try {
     const result = await contabilidadClient.crearAnticipo(data);
     return { success: true, data: result };
@@ -631,13 +825,35 @@ export async function getDashboardStatsAction(empresaId?: string): Promise<Dashb
       vencidas: 0,
       sinAsignacion: 0,
       alertas: 0
+    },
+    overview: {
+      today: {
+        serviciosAgendados: 0,
+        enProceso: 0,
+        realizados: 0,
+        ingresos: 0,
+        pendientesLiquidar: 0,
+        cancelados: 0,
+        tasaCancelacion: 0,
+        sinCobrar: 0
+      },
+      global: {
+        enProceso: 0,
+        pendientesLiquidar: 0,
+        realizadosHistorico: 0,
+        serviciosTotales: 0,
+        ingresosTotales: 0,
+        sinCobrarTotales: 0,
+        cancelados: 0,
+        tasaCancelacion: 0
+      }
     }
   };
 
   try {
     const cleanId = (empresaId === "all" || empresaId === "undefined" || !empresaId) ? undefined : empresaId;
     const url = cleanId ? `/dashboard/stats?empresaId=${cleanId}` : "/dashboard/stats";
-    const data = await apiFetch<any>(url, { cache: "no-store" });
+    const data = await apiFetch<unknown>(url, { cache: "no-store" });
     const parsed = DashboardStatsSchema.safeParse(data);
     if (!parsed.success) {
       console.error("getDashboardStatsAction: Zod parsing failed", parsed.error);
@@ -674,18 +890,18 @@ export async function notifyLiquidationWebhookAction(data: {
 
     return new Promise((resolve) => {
       const req = https.request(options, (res) => {
-        res.on("end", () => resolve({ success: res.statusCode && res.statusCode >= 200 && res.statusCode < 300 }));
+        res.on("end", () => resolve({ success: (res.statusCode ?? 0) >= 200 && (res.statusCode ?? 0) < 300 }));
       });
       req.on("error", () => resolve({ success: false, error: "Error triggering webhook" }));
       req.write(postData);
       req.end();
     });
-  } catch (error) {
+  } catch {
     return { success: false, error: "Error setting up webhook" };
   }
 }
 
-export async function notifyServiceOperatorWebhookAction(data: any) {
+export async function notifyServiceOperatorWebhookAction(data: Record<string, unknown>) {
   const webhookUrl = process.env.N8N_NOTIFICAR_SERVICIO;
   if (!webhookUrl) return { success: false, error: "Webhook configuration missing" };
 
@@ -696,7 +912,7 @@ export async function notifyServiceOperatorWebhookAction(data: any) {
       body: JSON.stringify({ ...data, timestamp: new Date().toISOString() }),
     });
     return { success: response.ok };
-  } catch (error) {
+  } catch {
     return { success: false, error: "Error triggering webhook" };
   }
 }

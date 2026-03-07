@@ -1,17 +1,115 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
-import { CreateSegmentoDto, UpdateSegmentoDto } from './dto/segmento.dto';
-import { CreateRiesgoDto, UpdateRiesgoDto } from './dto/riesgo.dto';
 import { CreateTipoInteresDto, UpdateTipoInteresDto } from './dto/interes.dto';
 import { CreateServicioDto, UpdateServicioDto } from './dto/servicio.dto';
 import { UpsertClienteConfigDto } from './dto/cliente-config.dto';
-import { SegmentoCliente, NivelRiesgo } from '../generated/client/client';
+import { CreateSegmentoDto, UpdateSegmentoDto } from './dto/segmento.dto';
+import { CreateRiesgoDto, UpdateRiesgoDto } from './dto/riesgo.dto';
+import { NivelRiesgo, SegmentoCliente } from '../generated/client/client';
+
+const SEGMENTOS_CATALOG = [
+  {
+    id: SegmentoCliente.HOGAR,
+    nombre: 'HOGAR',
+    descripcion: 'Residencial y propiedad horizontal',
+    frecuenciaSugerida: 90,
+    riesgoSugerido: NivelRiesgo.BAJO,
+    activo: true,
+  },
+  {
+    id: SegmentoCliente.COMERCIO,
+    nombre: 'COMERCIO',
+    descripcion: 'Retail, tiendas y restaurantes',
+    frecuenciaSugerida: 30,
+    riesgoSugerido: NivelRiesgo.MEDIO,
+    activo: true,
+  },
+  {
+    id: SegmentoCliente.INDUSTRIA,
+    nombre: 'INDUSTRIA',
+    descripcion: 'Plantas, bodegas y procesos productivos',
+    frecuenciaSugerida: 15,
+    riesgoSugerido: NivelRiesgo.ALTO,
+    activo: true,
+  },
+  {
+    id: SegmentoCliente.SALUD,
+    nombre: 'SALUD',
+    descripcion: 'Clínicas, hospitales y consultorios',
+    frecuenciaSugerida: 15,
+    riesgoSugerido: NivelRiesgo.ALTO,
+    activo: true,
+  },
+  {
+    id: SegmentoCliente.EDUCACION,
+    nombre: 'EDUCACION',
+    descripcion: 'Colegios, universidades e instituciones educativas',
+    frecuenciaSugerida: 30,
+    riesgoSugerido: NivelRiesgo.MEDIO,
+    activo: true,
+  },
+  {
+    id: SegmentoCliente.HORECA,
+    nombre: 'HORECA',
+    descripcion: 'Hoteles, restaurantes y catering',
+    frecuenciaSugerida: 15,
+    riesgoSugerido: NivelRiesgo.ALTO,
+    activo: true,
+  },
+  {
+    id: SegmentoCliente.OFICINA,
+    nombre: 'OFICINA',
+    descripcion: 'Oficinas administrativas y corporativas',
+    frecuenciaSugerida: 30,
+    riesgoSugerido: NivelRiesgo.BAJO,
+    activo: true,
+  },
+  {
+    id: SegmentoCliente.OTRO,
+    nombre: 'OTRO',
+    descripcion: 'Casos no clasificados en el catálogo estándar',
+    frecuenciaSugerida: 30,
+    riesgoSugerido: NivelRiesgo.MEDIO,
+    activo: true,
+  },
+] as const;
+
+const RIESGOS_CATALOG = [
+  {
+    id: NivelRiesgo.BAJO,
+    nombre: 'BAJO',
+    color: 'emerald',
+    valor: 1,
+    activo: true,
+  },
+  {
+    id: NivelRiesgo.MEDIO,
+    nombre: 'MEDIO',
+    color: 'amber',
+    valor: 2,
+    activo: true,
+  },
+  {
+    id: NivelRiesgo.ALTO,
+    nombre: 'ALTO',
+    color: 'orange',
+    valor: 3,
+    activo: true,
+  },
+  {
+    id: NivelRiesgo.CRITICO,
+    nombre: 'CRITICO',
+    color: 'red',
+    valor: 4,
+    activo: true,
+  },
+] as const;
 
 @Injectable()
 export class ConfigClientesService {
   constructor(private prisma: PrismaService) {}
 
-  // --- ConfiguraciÃ³n Operativa de Clientes ---
+  // --- Configuracion Operativa de Clientes ---
   async findClienteConfig(
     tenantId: string,
     clienteId: string,
@@ -42,7 +140,7 @@ export class ConfigClientesService {
   async upsertClienteConfig(tenantId: string, dto: UpsertClienteConfigDto) {
     const { clienteId, empresaId, direccionId, ...configData } = dto;
 
-    // Buscamos si ya existe una configuraciÃ³n para este cliente/empresa/sede
+    // Buscamos si ya existe una configuración para este cliente/empresa/sede
     const existing = await this.prisma.clienteConfiguracionOperativa.findFirst({
       where: {
         tenantId,
@@ -71,44 +169,32 @@ export class ConfigClientesService {
   }
 
   // --- Segmentos ---
-  async findAllSegmentos(tenantId: string) {
-    // Return static list from Enum as the model was removed
-    return Object.values(SegmentoCliente).map(s => ({
-      id: s,
-      nombre: s,
-      frecuenciaSugerida: 30,
-      activo: true
-    }));
+  findAllSegmentos(tenantId: string) {
+    void tenantId;
+    return SEGMENTOS_CATALOG;
   }
 
-  async createSegmento(tenantId: string, dto: CreateSegmentoDto) {
-    // Model removed, doing nothing
+  createSegmento(tenantId: string, dto: CreateSegmentoDto) {
+    void tenantId;
     return { id: 'dummy', ...dto };
   }
 
-  async updateSegmento(id: string, dto: UpdateSegmentoDto) {
-    // Model removed, doing nothing
+  updateSegmento(id: string, dto: UpdateSegmentoDto) {
     return { id, ...dto };
   }
 
   // --- Riesgos ---
-  async findAllRiesgos(tenantId: string) {
-    // Return static list from Enum as the model was removed
-    return Object.values(NivelRiesgo).map(r => ({
-      id: r,
-      nombre: r,
-      valor: 0,
-      activo: true
-    }));
+  findAllRiesgos(tenantId: string) {
+    void tenantId;
+    return RIESGOS_CATALOG;
   }
 
-  async createRiesgo(tenantId: string, dto: CreateRiesgoDto) {
-    // Model removed, doing nothing
+  createRiesgo(tenantId: string, dto: CreateRiesgoDto) {
+    void tenantId;
     return { id: 'dummy', ...dto };
   }
 
-  async updateRiesgo(id: string, dto: UpdateRiesgoDto) {
-    // Model removed, doing nothing
+  updateRiesgo(id: string, dto: UpdateRiesgoDto) {
     return { id, ...dto };
   }
 

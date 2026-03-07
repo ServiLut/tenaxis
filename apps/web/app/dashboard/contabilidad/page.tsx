@@ -16,7 +16,6 @@ import {
   ArrowUpCircle, 
   Scale, 
   Plus, 
-  Filter,
   TrendingDown,
   TrendingUp,
   DollarSign,
@@ -62,10 +61,7 @@ import {
   SelectValue,
 } from "@/components/ui/select-shadcn";
 import { 
-  contabilidadClient, 
-  type TechnicianRecaudo, 
-  type AccountingBalance, 
-  type MovimientoFinanciero 
+  type TechnicianRecaudo
 } from "@/lib/api/contabilidad-client";
 import { Badge } from "@/components/ui/badge";
 import { format } from "date-fns";
@@ -172,13 +168,35 @@ import { exportToExcel, exportToPDF, exportToWord } from "@/lib/utils/export-hel
 
 // --- sub-views ---
 
+interface Movement {
+  id: string;
+  createdAt?: string;
+  fechaGeneracion?: string;
+  monto?: number;
+  totalPagar?: number;
+  titulo?: string;
+  razon?: string;
+  membership?: { user: { nombre: string; apellido: string } };
+  estado?: string;
+}
+
+interface Membership {
+  id: string;
+  role: string;
+  user: {
+    nombre: string;
+    apellido: string;
+  };
+}
+
 function StandardTableView({ title, description, type }: { title: string, description: string, type: 'egresos' | 'nomina' | 'anticipos' }) {
   const [showExportMenu, setShowExportMenu] = useState(false);
-  const [data, setData] = useState<any[]>([]);
+  const [data, setData] = useState<unknown[]>([]);
   const [loading, setLoading] = useState(true);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
-  const [members, setMembers] = useState<any[]>([]);
+  const [members, setMembers] = useState<Membership[]>([]);
+
   const [formData, setFormData] = useState({
     titulo: "",
     monto: "",
@@ -187,11 +205,11 @@ function StandardTableView({ title, description, type }: { title: string, descri
     membershipId: "none",
   });
 
-  const fetchData = async () => {
+  const fetchData = React.useCallback(async () => {
     setLoading(true);
     try {
       const empresaId = localStorage.getItem("current-enterprise-id") || undefined;
-      let result: any[] = [];
+      let result: unknown[] = [];
       if (type === 'egresos') result = await getEgresosAction(empresaId);
       else if (type === 'nomina') result = await getNominasAction(empresaId);
       else if (type === 'anticipos') result = await getAnticiposAction(empresaId);
@@ -202,9 +220,9 @@ function StandardTableView({ title, description, type }: { title: string, descri
     } finally {
       setLoading(false);
     }
-  };
+  }, [type, title]);
 
-  const fetchMembers = async () => {
+  const fetchMembers = React.useCallback(async () => {
     try {
       const res = await getTenantMembershipsAction();
       if (!res || res.length === 0) {
@@ -215,12 +233,12 @@ function StandardTableView({ title, description, type }: { title: string, descri
       console.error("Error fetching members:", error);
       toast.error("Error al cargar la lista de responsables");
     }
-  };
+  }, []);
 
   useEffect(() => {
     fetchData();
     if (type === 'egresos' || type === 'anticipos') fetchMembers();
-  }, [type]);
+  }, [type, fetchData, fetchMembers]);
 
   const handleCreateRecord = async () => {
     if ((type === 'egresos' && !formData.titulo) || !formData.monto || (type === 'anticipos' && formData.membershipId === 'none')) {
@@ -279,11 +297,12 @@ function StandardTableView({ title, description, type }: { title: string, descri
   const handleExport = async (formatType: 'pdf' | 'excel' | 'word') => {
     const headers = ["Fecha", "Descripción", "Responsable", "Monto", "Estado"];
     const exportData = data.map(d => {
-      const fecha = d.createdAt || d.fechaGeneracion || new Date();
-      const monto = d.monto || d.totalPagar || 0;
-      const desc = d.titulo || d.razon || `Registro #${d.id.slice(0, 8)}`;
-      const resp = d.membership?.user ? `${d.membership.user.nombre} ${d.membership.user.apellido}` : "N/A";
-      const est = d.estado || "Completado";
+      const item = d as Movement;
+      const fecha = item.createdAt || item.fechaGeneracion || new Date();
+      const monto = item.monto || item.totalPagar || 0;
+      const desc = item.titulo || item.razon || `Registro #${item.id.slice(0, 8)}`;
+      const resp = item.membership?.user ? `${item.membership.user.nombre} ${item.membership.user.apellido}` : "N/A";
+      const est = item.estado || "Completado";
 
       return [
         format(new Date(fecha), "dd/MM/yyyy"),
@@ -403,7 +422,8 @@ function StandardTableView({ title, description, type }: { title: string, descri
                     </td>
                   </tr>
                 ) : (
-                  data.map((item) => {
+                  data.map((d) => {
+                    const item = d as Movement;
                     const fecha = item.createdAt || item.fechaGeneracion || new Date();
                     const monto = item.monto || item.totalPagar || 0;
                     const desc = item.titulo || item.razon || `ID: ${item.id.slice(0, 8)}`;

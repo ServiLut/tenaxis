@@ -2,7 +2,7 @@
 
 import React from "react";
 import { DashboardLayout } from "@/components/dashboard";
-import { Bell, Shield, Info, AlertTriangle, CheckCircle2 } from "lucide-react";
+import { Bell, Shield, AlertTriangle, CheckCircle2 } from "lucide-react";
 import { cn } from "@/components/ui/utils";
 
 const notifications = [

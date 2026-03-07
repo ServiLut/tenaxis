@@ -1,14 +1,14 @@
 "use server";
 
 import { cookies } from "next/headers";
-import { authClient } from "@/lib/api/auth-client";
+import { authClient, type LoginResponse } from "@/lib/api/auth-client";
 
-export async function loginAction(data: any) {
+export async function loginAction(data: Record<string, unknown>) {
   try {
-    const result = await authClient.login(data) as any;
+    const result = await authClient.login(data) as unknown as LoginResponse;
     const cookieStore = await cookies();
     
-    const token = result.access_token || result.accessToken;
+    const token = result.access_token;
     
     if (token) {
       cookieStore.set("access_token", token, {
@@ -21,17 +21,19 @@ export async function loginAction(data: any) {
     }
     
     return { success: true, data: result };
-  } catch (error: any) {
-    return { success: false, error: error.message };
+  } catch (error: unknown) {
+    const message = error instanceof Error ? error.message : "Error al iniciar sesión";
+    return { success: false, error: message };
   }
 }
 
-export async function registerAction(data: any) {
+export async function registerAction(data: Record<string, unknown>) {
   try {
     const result = await authClient.register(data);
     return { success: true, data: result };
-  } catch (error: any) {
-    return { success: false, error: error.message };
+  } catch (error: unknown) {
+    const message = error instanceof Error ? error.message : "Error al registrarse";
+    return { success: false, error: message };
   }
 }
 
@@ -39,8 +41,9 @@ export async function forgotPasswordAction(email: string) {
   try {
     const result = await authClient.forgotPassword(email);
     return { success: true, data: result };
-  } catch (error: any) {
-    return { success: false, error: error.message };
+  } catch (error: unknown) {
+    const message = error instanceof Error ? error.message : "Error al procesar solicitud";
+    return { success: false, error: message };
   }
 }
 

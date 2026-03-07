@@ -36,10 +36,13 @@ export default function SolicitudesPage() {
     try {
       const userData = localStorage.getItem("user");
       if (!userData) return;
-      const user = JSON.parse(userData);
+      const parsedUser = JSON.parse(userData);
+      const tenantId = parsedUser.tenantId;
+      if (!tenantId) return;
       
-      const data = await getPendingMembershipsAction(user.tenantId);
-      setRequests(data);
+      const data = await getPendingMembershipsAction(tenantId);
+      setRequests(data as unknown as PendingMembership[]);
+
     } catch (_error) {
       toast.error("Error al cargar solicitudes");
     } finally {
@@ -57,8 +60,9 @@ export default function SolicitudesPage() {
       } else {
         throw new Error(res.error);
       }
-    } catch (error: any) {
-      toast.error(error.message || "Error al procesar aprobación");
+    } catch (error: unknown) {
+      const msg = error instanceof Error ? error.message : "Error al procesar aprobación";
+      toast.error(msg);
     } finally {
       setProcessingId(null);
     }
@@ -74,8 +78,9 @@ export default function SolicitudesPage() {
       } else {
         throw new Error(res.error);
       }
-    } catch (error: any) {
-      toast.error(error.message || "Error al procesar rechazo");
+    } catch (error: unknown) {
+      const msg = error instanceof Error ? error.message : "Error al procesar rechazo";
+      toast.error(msg);
     } finally {
       setProcessingId(null);
     }
