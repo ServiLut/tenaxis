@@ -3,13 +3,7 @@
 import { useState, useEffect } from "react";
 import { toast } from "sonner";
 import {
-  getSegmentosAction,
-  getRiesgosAction,
   getTiposInteresAction,
-  createSegmentoAction,
-  updateSegmentoAction,
-  createRiesgoAction,
-  updateRiesgoAction,
   createTipoInteresAction,
   updateTipoInteresAction,
 } from "../actions";
@@ -21,8 +15,6 @@ import { Label } from "@/components/ui/label";
 import { Select } from "@/components/ui/select";
 import { 
   Settings, 
-  Target, 
-  ShieldAlert, 
   Zap, 
   Plus, 
   Pencil, 
@@ -35,24 +27,7 @@ import {
 import { cn } from "@/components/ui/utils";
 import { ConfigEmpresas } from "@/components/dashboard/ConfigEmpresas";
 
-type TabType = "segmentos" | "riesgos" | "intereses" | "empresas" | "perfil";
-
-type Segmento = {
-  id: string;
-  nombre: string;
-  descripcion: string | null;
-  frecuenciaSugerida: number;
-  riesgoSugerido: string;
-  activo: boolean;
-};
-
-type Riesgo = {
-  id: string;
-  nombre: string;
-  color: string | null;
-  valor: number;
-  activo: boolean;
-};
+type TabType = "intereses" | "empresas" | "perfil";
 
 type TipoInteres = {
   id: string;
@@ -89,14 +64,12 @@ const TIPOS_DOCUMENTO = [
 ];
 
 export default function ConfiguracionPage() {
-  const [activeTab, setActiveTab] = useState<TabType>("segmentos");
+  const [activeTab, setActiveTab] = useState<TabType>("intereses");
   const [loading, setLoading] = useState(true);
-  const [segmentos, setSegmentos] = useState<Segmento[]>([]);
-  const [_riesgos, setRiesgos] = useState<Riesgo[]>([]);
-  const [_intereses, setIntereses] = useState<TipoInteres[]>([]);
+  const [intereses, setIntereses] = useState<TipoInteres[]>([]);
   const [user, setUser] = useState<UserProfile | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [editingItem, setEditingItem] = useState<Segmento | Riesgo | TipoInteres | null>(null);
+  const [editingItem, setEditingItem] = useState<TipoInteres | null>(null);
 
   useEffect(() => {
     const userData = localStorage.getItem("user");
@@ -105,7 +78,7 @@ export default function ConfiguracionPage() {
     }
     const handleHashChange = () => {
       const hash = window.location.hash.replace('#', '');
-      const validTabs: TabType[] = ["segmentos", "riesgos", "intereses", "empresas", "perfil"];
+      const validTabs: TabType[] = ["intereses", "empresas", "perfil"];
       if (hash && validTabs.includes(hash as TabType)) {
         setActiveTab(hash as TabType);
       }
@@ -116,7 +89,7 @@ export default function ConfiguracionPage() {
   }, []);
 
   useEffect(() => {
-    if (activeTab !== 'empresas' && activeTab !== 'perfil') {
+    if (activeTab === 'intereses') {
       loadData().catch(() => {
         toast.error("Error al cargar la configuración");
       });
@@ -131,13 +104,7 @@ export default function ConfiguracionPage() {
   async function loadData() {
     setLoading(true);
     try {
-      const [segs, ries, ints] = await Promise.all([
-        getSegmentosAction(),
-        getRiesgosAction(),
-        getTiposInteresAction()
-      ]);
-      setSegmentos(segs);
-      setRiesgos(ries);
+      const ints = await getTiposInteresAction();
       setIntereses(ints);
     } catch (_error) {
       toast.error("Error al cargar la configuración");
@@ -146,7 +113,7 @@ export default function ConfiguracionPage() {
     }
   }
 
-  const handleOpenModal = (item: Segmento | Riesgo | TipoInteres | null = null) => { setEditingItem(item); setIsModalOpen(true); };
+  const handleOpenModal = (item: TipoInteres | null = null) => { setEditingItem(item); setIsModalOpen(true); };
   const handleCloseModal = () => { setEditingItem(null); setIsModalOpen(false); };
 
   const handleSaveProfile = () => {
@@ -165,24 +132,7 @@ export default function ConfiguracionPage() {
     const formData = new FormData(e.currentTarget);
     const entries = Object.fromEntries(formData.entries());
     try {
-      if (activeTab === "segmentos") {
-        const data = {
-          nombre: entries.nombre as string,
-          descripcion: entries.descripcion as string || null,
-          frecuenciaSugerida: parseInt(entries.frecuenciaSugerida as string) || 30,
-          riesgoSugerido: entries.riesgoSugerido as string || "BAJO",
-        };
-        if (editingItem && 'frecuenciaSugerida' in editingItem) await updateSegmentoAction(editingItem.id, data);
-        else await createSegmentoAction(data);
-      } else if (activeTab === "riesgos") {
-        const data = {
-          nombre: entries.nombre as string,
-          color: entries.color as string || null,
-          valor: parseInt(entries.valor as string) || 0,
-        };
-        if (editingItem && 'valor' in editingItem) await updateRiesgoAction(editingItem.id, data);
-        else await createRiesgoAction(data);
-      } else if (activeTab === "intereses") {
+      if (activeTab === "intereses") {
         const data = {
           nombre: entries.nombre as string,
           descripcion: entries.descripcion as string || null,
@@ -222,8 +172,8 @@ export default function ConfiguracionPage() {
             </div>
 
             {/* Tabs */}
-            <div className="flex gap-2 p-1 bg-muted rounded-2xl w-fit border border-border">
-              {(["segmentos", "riesgos", "intereses", "empresas", "perfil"] as const).map((tab) => (
+              <div className="flex gap-2 p-1 bg-muted rounded-2xl w-fit border border-border">
+              {(["intereses", "empresas", "perfil"] as const).map((tab) => (
                 <button 
                   key={tab}
                   onClick={() => handleTabChange(tab)}
@@ -232,8 +182,6 @@ export default function ConfiguracionPage() {
                     activeTab === tab ? "bg-background text-[#01ADFB] shadow-md" : "text-muted-foreground hover:text-foreground"
                   )}
                 >
-                  {tab === "segmentos" && <Target className="h-3.5 w-3.5" />}
-                  {tab === "riesgos" && <ShieldAlert className="h-3.5 w-3.5" />}
                   {tab === "intereses" && <Zap className="h-3.5 w-3.5" />}
                   {tab === "empresas" && <Building className="h-3.5 w-3.5" />}
                   {tab === "perfil" && <User className="h-3.5 w-3.5" />}
@@ -285,7 +233,7 @@ export default function ConfiguracionPage() {
               <Card className="border-border shadow-2xl shadow-black/5 dark:shadow-none bg-card rounded-[2rem] overflow-hidden">
                 <CardHeader className="flex flex-row items-center justify-between p-8 border-b border-border bg-muted/30">
                   <div>
-                    <CardTitle className="text-xl font-black text-foreground">{activeTab === "segmentos" ? "Segmentos" : activeTab === "riesgos" ? "Riesgos" : "Intereses"}</CardTitle>
+                    <CardTitle className="text-xl font-black text-foreground">Intereses</CardTitle>
                     <CardDescription className="font-bold text-[10px] uppercase text-muted-foreground mt-1.5">Gestiona los parámetros del sistema</CardDescription>
                   </div>
                   <Button onClick={() => handleOpenModal()} className="bg-[#01ADFB] hover:bg-blue-700 text-white font-black uppercase tracking-widest text-[10px] rounded-xl gap-2 h-11 px-6 shadow-lg shadow-[#01ADFB]/20"><Plus className="h-4 w-4" /> AGREGAR NUEVO</Button>
@@ -298,16 +246,15 @@ export default function ConfiguracionPage() {
                     </div>
                   ) : (
                     <div className="grid gap-4">
-                      {activeTab === "segmentos" && segmentos.map((item) => (
+                      {intereses.map((item) => (
                         <div key={item.id} className="flex items-center justify-between p-6 bg-muted/30 rounded-2xl border border-border hover:border-[#01ADFB]/30 transition-all group">
                           <div className="flex gap-4 items-center">
-                            <div className="h-12 w-12 rounded-xl bg-background border border-border flex items-center justify-center shadow-sm group-hover:scale-110 transition-transform"><Target className="h-6 w-6 text-[#01ADFB]" /></div>
+                            <div className="h-12 w-12 rounded-xl bg-background border border-border flex items-center justify-center shadow-sm group-hover:scale-110 transition-transform"><Zap className="h-6 w-6 text-[#01ADFB]" /></div>
                             <div><h4 className="font-black text-foreground">{item.nombre}</h4><p className="text-xs text-muted-foreground font-medium mt-0.5">{item.descripcion || "Sin descripción"}</p></div>
                           </div>
                           <Button variant="ghost" size="icon" onClick={() => handleOpenModal(item)} className="h-11 w-11 rounded-xl hover:bg-background border border-transparent hover:border-border transition-all"><Pencil className="h-4 w-4 text-muted-foreground" /></Button>
                         </div>
                       ))}
-                      {/* Similar logic for risks and interests... */}
                     </div>
                   )}
                 </CardContent>
@@ -327,10 +274,10 @@ export default function ConfiguracionPage() {
             <form onSubmit={handleSubmit}>
               <CardContent className="p-8 space-y-6">
                 <div className="space-y-2"><Label className="text-[10px] font-black uppercase text-muted-foreground">Nombre</Label><Input name="nombre" defaultValue={editingItem?.nombre} required className="h-12 rounded-xl border-border bg-background text-foreground font-bold" /></div>
-                {activeTab === "segmentos" && (
+                {activeTab === "intereses" && (
                   <div className="grid grid-cols-2 gap-4">
-                    <div className="space-y-2"><Label className="text-[10px] font-black uppercase text-muted-foreground">Frecuencia (Días)</Label><Input type="number" name="frecuenciaSugerida" defaultValue={(editingItem as Segmento)?.frecuenciaSugerida} className="h-12 rounded-xl border-border bg-background text-foreground font-bold" /></div>
-                    <div className="space-y-2"><Label className="text-[10px] font-black uppercase text-muted-foreground">Riesgo</Label><Select name="riesgoSugerido" defaultValue={(editingItem as Segmento)?.riesgoSugerido || 'BAJO'} className="h-12 rounded-xl border-border bg-background text-foreground font-bold"><option value="BAJO">BAJO</option><option value="MEDIO">MEDIO</option><option value="ALTO">ALTO</option><option value="CRITICO">CRÍTICO</option></Select></div>
+                    <div className="space-y-2"><Label className="text-[10px] font-black uppercase text-muted-foreground">Frecuencia (Días)</Label><Input type="number" name="frecuenciaSugerida" defaultValue={editingItem?.frecuenciaSugerida} className="h-12 rounded-xl border-border bg-background text-foreground font-bold" /></div>
+                    <div className="space-y-2"><Label className="text-[10px] font-black uppercase text-muted-foreground">Riesgo</Label><Select name="riesgoSugerido" defaultValue={editingItem?.riesgoSugerido || 'BAJO'} className="h-12 rounded-xl border-border bg-background text-foreground font-bold"><option value="BAJO">BAJO</option><option value="MEDIO">MEDIO</option><option value="ALTO">ALTO</option><option value="CRITICO">CRÍTICO</option></Select></div>
                   </div>
                 )}
               </CardContent>

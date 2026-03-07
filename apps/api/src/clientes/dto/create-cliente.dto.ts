@@ -10,7 +10,11 @@ import {
   IsUUID,
 } from 'class-validator';
 import { Type } from 'class-transformer';
-import { TipoCliente } from '../../generated/client/enums';
+import {
+  NivelRiesgo,
+  SegmentoCliente,
+  TipoCliente,
+} from '../../generated/client/enums';
 
 class DireccionDto {
   @IsString()
@@ -185,17 +189,17 @@ export class CreateClienteDto {
   @IsOptional()
   metrajeTotal?: number | string;
 
-  @IsUUID()
+  @IsEnum(SegmentoCliente)
   @IsOptional()
-  segmentoId?: string;
+  segmento?: SegmentoCliente;
 
   @IsString()
   @IsOptional()
   subsegmento?: string;
 
-  @IsUUID()
+  @IsEnum(NivelRiesgo)
   @IsOptional()
-  riesgoId?: string;
+  nivelRiesgo?: NivelRiesgo;
 
   @IsBoolean()
   @IsOptional()

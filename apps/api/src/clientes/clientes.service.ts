@@ -5,11 +5,19 @@ import {
 } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 import { CreateClienteDto } from './dto/create-cliente.dto';
-import { Cliente, ClasificacionCliente } from '../generated/client/client';
+import {
+  Cliente,
+  ClasificacionCliente,
+} from '../generated/client/client';
 
 type ClienteWithRelations = Cliente & {
-  segmento?: { frecuenciaSugerida?: number | null } | null;
-  riesgo?: { nombre?: string | null } | null;
+  direcciones?: any[];
+  vehiculos?: any[];
+  configuracionesOperativas?: any[];
+  ordenesServicio?: any[];
+  empresa?: any;
+  tenant?: any;
+  tipoInteres?: any;
 };
 
 @Injectable()
@@ -43,7 +51,7 @@ export class ClientesService {
     };
 
     clients.forEach((client) => {
-      const riesgoNombre = client.riesgo?.nombre?.toUpperCase() || '';
+      const riesgoNombre = String(client.nivelRiesgo || '').toUpperCase();
       const isRiesgoFuga =
         riesgoNombre.includes('ALTO') ||
         riesgoNombre.includes('CRITICO') ||
@@ -116,52 +124,100 @@ export class ClientesService {
             include: { municipioRel: true },
           },
           vehiculos: true,
-          segmento: true,
-          riesgo: true,
           tipoInteres: true,
           tenant: true,
           empresa: true,
-        },
-      })) as ClienteWithRelations[];
-    } else if (userRole === 'ADMIN' || userRole === 'COORDINADOR' || userRole === 'ASESOR') {
-      clients = (await this.prisma.cliente.findMany({
-        where: {
+          configuracionesOperativas: {
+            where: {
+              ...(empresaId && { empresaId }),
+            },
+          },
+          ordenesServicio: {
+            where: {
+              ...(empresaId && { empresaId }),
+              estadoPago: { not: 'PAGADO' },
+            },
+            select: {
+              id: true,
+              estadoPago: true,
+              valorCotizado: true,
+              valorPagado: true,
+              valorRepuestos: true,
+            },
+          },
+          },
+          })) as ClienteWithRelations[];
+          } else if (userRole === 'ADMIN' || userRole === 'COORDINADOR' || userRole === 'ASESOR') {
+          clients = (await this.prisma.cliente.findMany({
+          where: {
           tenantId,
           deletedAt: null,
           ...(empresaId && { empresaId }),
-        },
-        orderBy: { createdAt: 'desc' },
-        include: {
+          },
+          orderBy: { createdAt: 'desc' },
+          include: {
           direcciones: {
             include: { municipioRel: true },
           },
           vehiculos: true,
-          segmento: true,
-          riesgo: true,
           tipoInteres: true,
           empresa: true,
-        },
-      })) as ClienteWithRelations[];
-    } else if (empresaId) {
-      clients = (await this.prisma.cliente.findMany({
-        where: {
+          configuracionesOperativas: {
+            where: {
+              ...(empresaId && { empresaId }),
+            },
+          },
+          ordenesServicio: {
+            where: {
+              ...(empresaId && { empresaId }),
+              estadoPago: { not: 'PAGADO' },
+            },
+            select: {
+              id: true,
+              estadoPago: true,
+              valorCotizado: true,
+              valorPagado: true,
+              valorRepuestos: true,
+            },
+          },
+          },
+          })) as ClienteWithRelations[];
+          } else if (empresaId) {
+          clients = (await this.prisma.cliente.findMany({
+          where: {
           tenantId,
           empresaId,
           deletedAt: null,
-        },
-        orderBy: { createdAt: 'desc' },
-        include: {
+          },
+          orderBy: { createdAt: 'desc' },
+          include: {
           direcciones: {
             include: { municipioRel: true },
           },
           vehiculos: true,
-          segmento: true,
-          riesgo: true,
           tipoInteres: true,
           empresa: true,
-        },
-      })) as ClienteWithRelations[];
-    }
+          configuracionesOperativas: {
+            where: {
+              empresaId,
+            },
+          },
+          ordenesServicio: {
+            where: {
+              empresaId,
+              estadoPago: { not: 'PAGADO' },
+            },
+            select: {
+              id: true,
+              estadoPago: true,
+              valorCotizado: true,
+              valorPagado: true,
+              valorRepuestos: true,
+            },
+          },
+          },
+          })) as ClienteWithRelations[];
+          }
 
     // Apply "Riesgo Comercial" logic in response (more than 45 days since last visit or 1.5x frequency)
     const now = new Date();
@@ -181,10 +237,7 @@ export class ClientesService {
             (now.getTime() - lastVisit.getTime()) / (1000 * 3600 * 24);
 
           // Frecuencia sugerida: prefer client's own frequency, then segment's, then default 30
-          const frequency =
-            client.frecuenciaServicio ||
-            client.segmento?.frecuenciaSugerida ||
-            30;
+          const frequency = client.frecuenciaServicio || 30;
 
           const isCommercialRisk =
             diffDays > (frequency === 30 ? 45 : frequency * 1.5);
@@ -210,21 +263,41 @@ export class ClientesService {
         deletedAt: null,
       },
       include: {
-        riesgo: true,
-        segmento: true,
         direcciones: {
           include: { municipioRel: true },
         },
         vehiculos: true,
         tipoInteres: true,
+        configuracionesOperativas: {
+          where: {
+            ...(empresaId && { empresaId }),
+          },
+        },
+        ordenesServicio: {
+          where: {
+            ...(empresaId && { empresaId }),
+            estadoPago: { not: 'PAGADO' },
+          },
+          select: {
+            id: true,
+            estadoPago: true,
+            valorCotizado: true,
+            valorPagado: true,
+            valorRepuestos: true,
+          },
+        },
       },
-      orderBy: { createdAt: "desc" },
+      orderBy: { createdAt: 'desc' },
     });
 
     return this.buildSegmentedFromClients(clients as ClienteWithRelations[]);
   }
 
-  async getDashboardData(tenantId: string, empresaId?: string, userRole?: string) {
+  async getDashboardData(
+    tenantId: string,
+    empresaId?: string,
+    userRole?: string,
+  ) {
     const clientes = await this.findAll(tenantId, empresaId, userRole);
     const segmentacion = this.buildSegmentedFromClients(
       clientes as ClienteWithRelations[],
@@ -245,8 +318,6 @@ export class ClientesService {
     const {
       direcciones,
       vehiculos,
-      segmentoId,
-      riesgoId,
       metrajeTotal,
       ...clienteData
     } = dto;
@@ -304,8 +375,6 @@ export class ClientesService {
       ...clienteData,
       tenantId,
       ...(empresaId && { empresaId }),
-      segmentoId,
-      riesgoId,
       metrajeTotal: toDecimal(metrajeTotal, 2),
       creadoPorId: membership.id,
       direcciones: {
@@ -334,8 +403,6 @@ export class ClientesService {
         include: {
           direcciones: true,
           vehiculos: true,
-          segmento: true,
-          riesgo: true,
           tipoInteres: true,
         },
       })) as Cliente;
@@ -357,8 +424,6 @@ export class ClientesService {
           include: { municipioRel: true },
         },
         vehiculos: true,
-        segmento: true,
-        riesgo: true,
         tipoInteres: true,
       },
     });
@@ -373,8 +438,6 @@ export class ClientesService {
     const {
       direcciones,
       vehiculos,
-      segmentoId,
-      riesgoId,
       metrajeTotal,
       ...clienteData
     } = dto;
@@ -394,8 +457,6 @@ export class ClientesService {
       where: { id },
       data: {
         ...clienteData,
-        segmentoId,
-        riesgoId,
         metrajeTotal: toDecimal(metrajeTotal, 2),
         direcciones: {
           create: direcciones?.map((d) => ({
@@ -416,8 +477,6 @@ export class ClientesService {
       include: {
         direcciones: true,
         vehiculos: true,
-        segmento: true,
-        riesgo: true,
         tipoInteres: true,
       },
     })) as Cliente;
