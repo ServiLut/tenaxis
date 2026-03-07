@@ -10,6 +10,14 @@ import {
   Min,
 } from 'class-validator';
 import { EstadoOrden, UrgenciaOrden } from '../../generated/client/client';
+import {
+  addBogotaDaysUtc,
+  endOfBogotaDayUtc,
+  endOfBogotaWeekUtc,
+  startOfBogotaDayUtc,
+  startOfBogotaWeekUtc,
+  toBogotaDayBoundsUtc,
+} from '../../common/utils/timezone.util';
 
 export enum ServiciosPreset {
   HOY = 'HOY',
@@ -91,11 +99,10 @@ export const normalizeSearchToken = (value?: string) =>
   value?.trim().toUpperCase() || undefined;
 
 export const toLocalDayRange = (date: Date) => {
-  const start = new Date(date);
-  start.setHours(0, 0, 0, 0);
-  const end = new Date(date);
-  end.setHours(23, 59, 59, 999);
-  return { start, end };
+  return {
+    start: startOfBogotaDayUtc(date),
+    end: endOfBogotaDayUtc(date),
+  };
 };
 
 export const applyPresetRange = (preset?: ServiciosPreset) => {
@@ -108,29 +115,20 @@ export const applyPresetRange = (preset?: ServiciosPreset) => {
   }
 
   if (preset === ServiciosPreset.MANANA) {
-    const tomorrow = new Date(now);
-    tomorrow.setDate(now.getDate() + 1);
+    const tomorrow = addBogotaDaysUtc(now, 1);
     return toLocalDayRange(tomorrow);
   }
 
   if (preset === ServiciosPreset.SEMANA) {
-    const start = new Date(now);
-    const day = start.getDay();
-    const diff = day === 0 ? -6 : 1 - day;
-    start.setDate(start.getDate() + diff);
-    start.setHours(0, 0, 0, 0);
-
-    const end = new Date(start);
-    end.setDate(start.getDate() + 6);
-    end.setHours(23, 59, 59, 999);
+    const start = startOfBogotaWeekUtc(now);
+    const end = endOfBogotaWeekUtc(now);
     return { start, end };
   }
 
   if (preset === ServiciosPreset.VENCIDOS) {
-    const yesterday = new Date(now);
-    yesterday.setDate(now.getDate() - 1);
-    yesterday.setHours(23, 59, 59, 999);
-    return { end: yesterday };
+    const yesterday = addBogotaDaysUtc(now, -1);
+    const yesterdayEnd = endOfBogotaDayUtc(yesterday);
+    return { end: yesterdayEnd };
   }
 
   return undefined;
@@ -138,7 +136,5 @@ export const applyPresetRange = (preset?: ServiciosPreset) => {
 
 export const toDayBoundsFromIso = (iso?: string) => {
   if (!iso) return undefined;
-  const date = new Date(iso);
-  if (Number.isNaN(date.getTime())) return undefined;
-  return toLocalDayRange(date);
+  return toBogotaDayBoundsUtc(iso);
 };

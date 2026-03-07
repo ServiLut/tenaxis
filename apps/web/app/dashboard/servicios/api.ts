@@ -9,6 +9,23 @@ export interface ClienteDTO {
   nombre?: string;
   apellido?: string;
   telefono?: string;
+  telefono2?: string;
+  correo?: string;
+  numeroDocumento?: string;
+  tipoDocumento?: string;
+  nit?: string;
+  segmento?: string;
+  subsegmento?: string;
+  nivelRiesgo?: string;
+  clasificacion?: string;
+  actividadEconomica?: string;
+  representanteLegal?: string;
+  score?: number;
+  origenCliente?: string;
+  frecuenciaServicio?: number;
+  ticketPromedio?: number;
+  ultimaVisita?: string;
+  proximaVisita?: string;
 }
 
 export interface ServiciosKpis {
