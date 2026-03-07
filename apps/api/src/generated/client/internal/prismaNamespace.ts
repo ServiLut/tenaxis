@@ -4563,12 +4563,12 @@ export const ClienteScalarFieldEnum = {
   tipoCliente: 'tipoCliente',
   ultimaVisita: 'ultimaVisita',
   updatedAt: 'updatedAt',
-  nivelRiesgo: 'nivelRiesgo',
-  segmento: 'segmento',
   actividadEconomica: 'actividadEconomica',
   metrajeTotal: 'metrajeTotal',
   origenCliente: 'origenCliente',
-  tipoInteresId: 'tipoInteresId'
+  tipoInteresId: 'tipoInteresId',
+  segmento: 'segmento',
+  nivelRiesgo: 'nivelRiesgo'
 } as const
 
 export type ClienteScalarFieldEnum = (typeof ClienteScalarFieldEnum)[keyof typeof ClienteScalarFieldEnum]
@@ -5452,20 +5452,6 @@ export type ListEnumTipoClienteFieldRefInput<$PrismaModel> = FieldRefInputType<$
 
 
 /**
- * Reference to a field of type 'NivelRiesgo'
- */
-export type EnumNivelRiesgoFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'NivelRiesgo'>
-    
-
-
-/**
- * Reference to a field of type 'NivelRiesgo[]'
- */
-export type ListEnumNivelRiesgoFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'NivelRiesgo[]'>
-    
-
-
-/**
  * Reference to a field of type 'SegmentoCliente'
  */
 export type EnumSegmentoClienteFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'SegmentoCliente'>
@@ -5476,6 +5462,20 @@ export type EnumSegmentoClienteFieldRefInput<$PrismaModel> = FieldRefInputType<$
  * Reference to a field of type 'SegmentoCliente[]'
  */
 export type ListEnumSegmentoClienteFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'SegmentoCliente[]'>
+    
+
+
+/**
+ * Reference to a field of type 'NivelRiesgo'
+ */
+export type EnumNivelRiesgoFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'NivelRiesgo'>
+    
+
+
+/**
+ * Reference to a field of type 'NivelRiesgo[]'
+ */
+export type ListEnumNivelRiesgoFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'NivelRiesgo[]'>
     
 
 

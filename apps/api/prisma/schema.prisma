@@ -383,12 +383,12 @@ model Cliente {
   tipoCliente               TipoCliente                     @default(PERSONA)
   ultimaVisita              DateTime?
   updatedAt                 DateTime                        @updatedAt
-  nivelRiesgo               NivelRiesgo                     @default(MEDIO)
-  segmento                  SegmentoCliente                 @default(OTRO)
   actividadEconomica        String?
   metrajeTotal              Decimal?                        @db.Decimal(12, 2)
   origenCliente             String?
   tipoInteresId             String?                         @db.Uuid
+  segmento                  SegmentoCliente                 @default(OTRO)
+  nivelRiesgo               NivelRiesgo                     @default(MEDIO)
   citasPsicologos           CitasPsicologos[]
   configuracionesOperativas ClienteConfiguracionOperativa[]
   creadoPor                 TenantMembership?               @relation(fields: [creadoPorId], references: [id], onDelete: NoAction, onUpdate: NoAction)
