@@ -342,12 +342,12 @@ export const ClienteScalarFieldEnum = {
   tipoCliente: 'tipoCliente',
   ultimaVisita: 'ultimaVisita',
   updatedAt: 'updatedAt',
-  nivelRiesgo: 'nivelRiesgo',
-  segmento: 'segmento',
   actividadEconomica: 'actividadEconomica',
   metrajeTotal: 'metrajeTotal',
   origenCliente: 'origenCliente',
-  tipoInteresId: 'tipoInteresId'
+  tipoInteresId: 'tipoInteresId',
+  segmento: 'segmento',
+  nivelRiesgo: 'nivelRiesgo'
 } as const
 
 export type ClienteScalarFieldEnum = (typeof ClienteScalarFieldEnum)[keyof typeof ClienteScalarFieldEnum]

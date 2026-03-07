@@ -32,7 +32,12 @@ import {
   Activity,
   CheckCircle2,
   XCircle,
-  AlertCircle
+  AlertCircle,
+  MapPin,
+  Upload,
+  Receipt,
+  Image as ImageIcon,
+  ExternalLink
 } from "lucide-react";
 import {
   Dialog,
@@ -262,6 +267,7 @@ function ServiciosContent() {
   const [loading, setLoading] = useState(true);
   const [selectedServicio, setSelectedServicio] = useState<Servicio | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isVisitaModalOpen, setIsVisitaModalOpen] = useState(false);
   const [showFilters, setShowFilters] = useState(false);
   const [isLiquidarModalOpen, setIsLiquidarModalOpen] = useState(false);
   const [showKPIs, setShowKPIs] = useState(true);
@@ -286,6 +292,16 @@ function ServiciosContent() {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [isUploading, setIsUploading] = useState(false);
   const [uploadConfig, setUploadConfig] = useState<{ id: string; field: "facturaElectronica" | "comprobantePago" | "evidenciaPath" } | null>(null);
+
+  const triggerUpload = (id: string, field: "facturaElectronica" | "comprobantePago" | "evidenciaPath") => {
+    if (fileInputRef.current) {
+      fileInputRef.current.multiple = field === "evidenciaPath";
+    }
+    setUploadConfig({ id, field });
+    setTimeout(() => {
+      fileInputRef.current?.click();
+    }, 100);
+  };
 
   const [filters, setFilters] = useState({
     estado: searchParams.get("estado") || "all",
@@ -795,6 +811,11 @@ function ServiciosContent() {
                                     <DropdownMenuItem onClick={() => handleWhatsAppNotify(s)} className="flex items-center gap-3 py-2.5 text-[11px] font-bold cursor-pointer text-foreground hover:bg-muted"><Bell className="h-4 w-4 text-pink-500" /> RECORDATORIO WPP</DropdownMenuItem>
                                     <DropdownMenuItem onClick={() => handleNotifyOperator(s)} className="flex items-center gap-3 py-2.5 text-[11px] font-bold cursor-pointer text-foreground hover:bg-muted"><Send className="h-4 w-4 text-[#01ADFB]" /> ENVIAR A TECNICO</DropdownMenuItem>
                                     <DropdownMenuSeparator />
+                                    <DropdownMenuItem onClick={() => { setSelectedServicio(s); setIsVisitaModalOpen(true); }} className="flex items-center gap-3 py-2.5 text-[11px] font-bold cursor-pointer text-foreground hover:bg-muted"><MapPin className="h-4 w-4 text-emerald-500" /> EVIDENCIA DE VISITA</DropdownMenuItem>
+                                    <DropdownMenuItem onClick={() => triggerUpload(s.raw.id, "facturaElectronica")} className="flex items-center gap-3 py-2.5 text-[11px] font-bold cursor-pointer text-foreground hover:bg-muted"><Upload className="h-4 w-4 text-blue-500" /> SUBIR FACTURA</DropdownMenuItem>
+                                    <DropdownMenuItem onClick={() => triggerUpload(s.raw.id, "comprobantePago")} className="flex items-center gap-3 py-2.5 text-[11px] font-bold cursor-pointer text-foreground hover:bg-muted"><Receipt className="h-4 w-4 text-orange-500" /> SUBIR COMPROBANTE</DropdownMenuItem>
+                                    <DropdownMenuItem onClick={() => triggerUpload(s.raw.id, "evidenciaPath")} className="flex items-center gap-3 py-2.5 text-[11px] font-bold cursor-pointer text-foreground hover:bg-muted"><ImageIcon className="h-4 w-4 text-indigo-500" /> SUBIR EVIDENCIAS</DropdownMenuItem>
+                                    <DropdownMenuSeparator />
                                     {s.estadoServicio === "LIQUIDADO" ? (
                                       <DropdownMenuItem onClick={() => { setSelectedServicio(s); }} className="flex items-center gap-3 py-2.5 text-[11px] font-bold cursor-pointer text-emerald-600 hover:bg-emerald-500/10"><CheckCircle2 className="h-4 w-4" /> VER LIQUIDACION</DropdownMenuItem>
                                     ) : (
@@ -868,6 +889,111 @@ function ServiciosContent() {
           </div>
         )}
       </DialogContent></Dialog>
+
+      <Dialog open={isVisitaModalOpen} onOpenChange={setIsVisitaModalOpen}>
+        <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto bg-background border-border">
+          <DialogHeader>
+            <DialogTitle className="text-xl font-black uppercase text-foreground">Evidencia de Visita</DialogTitle>
+            <DialogDescription className="text-muted-foreground">Trazabilidad geográfica y fotográfica del servicio.</DialogDescription>
+          </DialogHeader>
+          {selectedServicio && (
+            <div className="space-y-6 mt-4">
+              {selectedServicio.raw.geolocalizaciones && selectedServicio.raw.geolocalizaciones.length > 0 ? (
+                <div className="grid grid-cols-1 gap-6">
+                  {selectedServicio.raw.geolocalizaciones.map((geo, idx) => (
+                    <div key={geo.id} className="p-6 bg-muted/30 rounded-3xl border border-border space-y-6">
+                      <div className="flex items-center justify-between border-b border-border pb-4">
+                        <div className="flex items-center gap-3">
+                          <div className="h-10 w-10 rounded-xl bg-emerald-500/10 flex items-center justify-center">
+                            <MapPin className="h-5 w-5 text-emerald-600" />
+                          </div>
+                          <div>
+                            <p className="text-xs font-black text-foreground uppercase">Visita #{idx + 1}</p>
+                            <p className="text-[10px] font-bold text-muted-foreground uppercase">{geo.membership.user.nombre} {geo.membership.user.apellido}</p>
+                          </div>
+                        </div>
+                        {geo.linkMaps && (
+                          <Button variant="outline" size="sm" asChild className="h-9 px-4 rounded-xl border-border bg-card text-[10px] font-black uppercase gap-2">
+                            <a href={geo.linkMaps} target="_blank" rel="noopener noreferrer">
+                              <ExternalLink className="h-3.5 w-3.5" /> Ver en Maps
+                            </a>
+                          </Button>
+                        )}
+                      </div>
+
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                        <div className="space-y-4">
+                          <div className="flex items-center justify-between">
+                            <div className="flex items-center gap-2">
+                              <div className="h-2 w-2 rounded-full bg-emerald-500" />
+                              <p className="text-[10px] font-black text-muted-foreground uppercase">Llegada</p>
+                            </div>
+                            <p className="text-xs font-bold text-foreground">{new Date(geo.llegada).toLocaleString()}</p>
+                          </div>
+                          <div className="aspect-video relative rounded-2xl border border-border bg-muted overflow-hidden flex items-center justify-center">
+                            {geo.fotoLlegada ? (
+                              <img src={`https://axistestst.supabase.co/storage/v1/object/public/EvidenciaOrdenServicio/${geo.fotoLlegada}`} alt="Foto Llegada" className="w-full h-full object-cover" />
+                            ) : (
+                              <div className="text-center space-y-2">
+                                <ImageIcon className="h-8 w-8 text-muted-foreground/30 mx-auto" />
+                                <p className="text-[10px] font-bold text-muted-foreground uppercase">Sin foto de llegada</p>
+                              </div>
+                            )}
+                          </div>
+                        </div>
+
+                        <div className="space-y-4">
+                          <div className="flex items-center justify-between">
+                            <div className="flex items-center gap-2">
+                              <div className="h-2 w-2 rounded-full bg-red-500" />
+                              <p className="text-[10px] font-black text-muted-foreground uppercase">Salida</p>
+                            </div>
+                            <p className="text-xs font-bold text-foreground">{geo.salida ? new Date(geo.salida).toLocaleString() : "Pendiente"}</p>
+                          </div>
+                          <div className="aspect-video relative rounded-2xl border border-border bg-muted overflow-hidden flex items-center justify-center">
+                            {geo.fotoSalida ? (
+                              <img src={`https://axistestst.supabase.co/storage/v1/object/public/EvidenciaOrdenServicio/${geo.fotoSalida}`} alt="Foto Salida" className="w-full h-full object-cover" />
+                            ) : (
+                              <div className="text-center space-y-2">
+                                <ImageIcon className="h-8 w-8 text-muted-foreground/30 mx-auto" />
+                                <p className="text-[10px] font-bold text-muted-foreground uppercase">Sin foto de salida</p>
+                              </div>
+                            )}
+                          </div>
+                        </div>
+                      </div>
+
+                      <div className="pt-4 border-t border-border grid grid-cols-2 gap-4">
+                        <div className="space-y-1">
+                          <p className="text-[9px] font-black text-muted-foreground uppercase">Coordenadas</p>
+                          <p className="font-mono text-xs font-bold text-foreground">{geo.latitud?.toFixed(6) || "N/A"}, {geo.longitud?.toFixed(6) || "N/A"}</p>
+                        </div>
+                        <div className="space-y-1 text-right">
+                          <p className="text-[9px] font-black text-muted-foreground uppercase">Duración</p>
+                          <p className="text-xs font-bold text-foreground">
+                            {geo.salida ? (
+                              `${Math.floor((new Date(geo.salida).getTime() - new Date(geo.llegada).getTime()) / (1000 * 60))} minutos`
+                            ) : "En curso"}
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              ) : (
+                <div className="py-20 text-center bg-muted/20 rounded-3xl border border-dashed border-border flex flex-col items-center justify-center">
+                  <MapPin className="h-12 w-12 text-muted/30 mb-4" />
+                  <h3 className="text-sm font-black text-foreground uppercase">Sin registros de geolocalización</h3>
+                  <p className="text-[10px] font-medium text-muted-foreground uppercase mt-1">El técnico no ha marcado su llegada a este servicio.</p>
+                </div>
+              )}
+              <div className="flex justify-end pt-4">
+                <Button variant="outline" onClick={() => setIsVisitaModalOpen(false)} className="h-12 px-8 rounded-xl font-black uppercase text-[10px] border-border bg-card">Cerrar Evidencias</Button>
+              </div>
+            </div>
+          )}
+        </DialogContent>
+      </Dialog>
 
       <input type="file" ref={fileInputRef} onChange={handleFileChange} className="hidden" accept="application/pdf,image/*" disabled={isUploading} />
     </DashboardLayout>

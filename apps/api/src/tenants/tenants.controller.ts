@@ -14,6 +14,8 @@ import { TenantsService } from './tenants.service';
 import { CreateTenantDto } from './dto/create-tenant.dto';
 import { JoinTenantDto } from './dto/join-tenant.dto';
 import { UpdateMembershipDto } from './dto/update-membership.dto';
+import { TeamPerformanceQueryDto } from './dto/team-performance-query.dto';
+import { TeamMemberDetailQueryDto } from './dto/team-member-detail-query.dto';
 import { SuAdminGuard } from '../auth/guards/su-admin.guard';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { JwtPayload } from '../auth/auth.service';
@@ -83,6 +85,44 @@ export class TenantsController {
     );
   }
 
+  @Get(':tenantId/team/performance')
+  @UseGuards(JwtAuthGuard)
+  async getTeamPerformance(
+    @Request() req: RequestWithUser,
+    @Param('tenantId') tenantId: string,
+    @Query() query: TeamPerformanceQueryDto,
+  ) {
+    if (!req.user.tenantId || req.user.tenantId !== tenantId) {
+      throw new UnauthorizedException(
+        'No tienes permisos para acceder a este conglomerado',
+      );
+    }
+
+    return this.tenantsService.getTeamPerformance(tenantId, req.user, query);
+  }
+
+  @Get(':tenantId/team/members/:membershipId/detail')
+  @UseGuards(JwtAuthGuard)
+  async getTeamMemberDetail(
+    @Request() req: RequestWithUser,
+    @Param('tenantId') tenantId: string,
+    @Param('membershipId') membershipId: string,
+    @Query() query: TeamMemberDetailQueryDto,
+  ) {
+    if (!req.user.tenantId || req.user.tenantId !== tenantId) {
+      throw new UnauthorizedException(
+        'No tienes permisos para acceder a este conglomerado',
+      );
+    }
+
+    return this.tenantsService.getTeamMemberDetail(
+      tenantId,
+      membershipId,
+      req.user,
+      query,
+    );
+  }
+
   @Post('memberships/:membershipId/approve')
   @UseGuards(JwtAuthGuard)
   async approveMembership(@Param('membershipId') membershipId: string) {
@@ -98,9 +138,18 @@ export class TenantsController {
   @Patch('memberships/:membershipId')
   @UseGuards(JwtAuthGuard)
   async updateMembership(
+    @Request() req: RequestWithUser,
     @Param('membershipId') membershipId: string,
     @Body() data: UpdateMembershipDto,
   ) {
-    return this.tenantsService.updateMembership(membershipId, data);
+    if (!req.user.tenantId) {
+      throw new UnauthorizedException('No perteneces a ningún conglomerado');
+    }
+
+    return this.tenantsService.updateMembership(
+      membershipId,
+      req.user.tenantId,
+      data,
+    );
   }
 }
