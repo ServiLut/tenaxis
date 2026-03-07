@@ -183,4 +183,16 @@ export class ConfigClientesController {
       empresaId,
     );
   }
+
+  // --- Estados de Servicio ---
+  @Get('estados-servicio')
+  async findAllEstadosServicio(
+    @Request() req: RequestWithUser,
+    @Query('empresaId') empresaId: string,
+  ) {
+    return this.configService.findAllEstadosServicio(
+      req.user.tenantId || '',
+      empresaId,
+    );
+  }
 }

@@ -8,12 +8,10 @@ import {
   getSegmentosAction,
   getRiesgosAction,
   getTiposInteresAction,
+  getDepartmentsAction,
+  getMunicipalitiesAction,
   type ClienteDTO,
 } from "../../actions";
-import {
-  getDepartments,
-  getMunicipalities,
-} from "./actions";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -105,8 +103,8 @@ function NuevoClienteContent() {
       try {
         const { getEnterprisesAction } = await import("@/app/dashboard/actions");
         const [deps, muns, segs, ries, ints, empresasData] = await Promise.all([
-          getDepartments(),
-          getMunicipalities(),
+          getDepartmentsAction(),
+          getMunicipalitiesAction(),
           getSegmentosAction(),
           getRiesgosAction(),
           getTiposInteresAction(),
@@ -121,7 +119,7 @@ function NuevoClienteContent() {
         if (ints.length > 0) setInteres(ints[0]?.id || "");
         
         // Cargar empresas del usuario
-        const items = empresasData?.items || [];
+        const items = (empresasData as any)?.items || [];
         setEmpresasUser(items);
         
         const cookieId = document.cookie

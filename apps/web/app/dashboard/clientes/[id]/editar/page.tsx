@@ -9,12 +9,10 @@ import {
   getSegmentosAction,
   getRiesgosAction,
   getTiposInteresAction,
+  getDepartmentsAction,
+  getMunicipalitiesAction,
   type ClienteDTO,
 } from "../../../actions";
-import {
-  getDepartments,
-  getMunicipalities,
-} from "../../nuevo/actions";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -147,8 +145,8 @@ function EditarClienteContent() {
     const loadInitialData = async () => {
       try {
         const [deps, muns, segs, ries, ints] = await Promise.all([
-          getDepartments(),
-          getMunicipalities(),
+          getDepartmentsAction(),
+          getMunicipalitiesAction(),
           getSegmentosAction(),
           getRiesgosAction(),
           getTiposInteresAction()
@@ -171,7 +169,7 @@ function EditarClienteContent() {
     const loadClientData = async () => {
       if (!id) return;
       try {
-        const client = await getClienteByIdAction(id);
+        const client = await getClienteByIdAction(id) as any;
         if (!client) {
           toast.error("No se encontró el cliente");
           router.push("/dashboard/clientes");

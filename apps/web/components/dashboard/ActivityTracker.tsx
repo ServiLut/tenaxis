@@ -9,6 +9,9 @@ const INACTIVITY_THRESHOLD = 2 * 60 * 1000; // 2 min para empezar a marcar inact
 const AUTO_LOGOUT_TIME = 4 * 60 * 1000;     // 4 min para cierre de sesión automático
 const HEARTBEAT_INTERVAL = 60 * 1000;       // 1 min para latidos
 
+import { trackEventAction, heartbeatAction } from "@/app/dashboard/monitoreo/actions";
+import { logoutAction } from "@/app/(auth)/actions";
+
 export function ActivityTracker() {
   const pathname = usePathname();
   const router = useRouter();
@@ -17,23 +20,15 @@ export function ActivityTracker() {
   
   const sendEvent = useCallback(async (tipo: string, descripcion?: string) => {
     try {
-      await fetch("/api/monitoring/event", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ tipo, descripcion, ruta: pathname }),
-      });
+      await trackEventAction(tipo, descripcion, pathname);
     } catch (_e) {
       // Fallo silencioso
     }
   }, [pathname]);
 
-  const sendHeartbeat = useCallback(async (inactiveMinutes: number = 0) => {
+  const sendHeartbeat = useCallback(async (_inactiveMinutes: number = 0) => {
     try {
-      await fetch("/api/monitoring/heartbeat", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ inactiveMinutes }),
-      });
+      await heartbeatAction();
     } catch (_e) {
       // Ignorar
     }
@@ -42,9 +37,7 @@ export function ActivityTracker() {
   const handleLogout = useCallback(async () => {
     await sendEvent("SESSION_TIMEOUT", "Cierre de sesión automático por 4 minutos de inactividad");
     
-    // Limpiar cookies
-    document.cookie = "access_token=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT";
-    document.cookie = "sesion_id=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT";
+    await logoutAction();
     
     toast.error("Sesión Expirada", {
       description: "Se ha cerrado tu sesión automáticamente tras 4 minutos de inactividad por seguridad.",

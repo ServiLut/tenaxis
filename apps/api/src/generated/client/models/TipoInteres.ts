@@ -503,6 +503,14 @@ export type TipoInteresUncheckedUpdateManyWithoutTenantNestedInput = {
   deleteMany?: Prisma.TipoInteresScalarWhereInput | Prisma.TipoInteresScalarWhereInput[]
 }
 
+export type NullableIntFieldUpdateOperationsInput = {
+  set?: number | null
+  increment?: number
+  decrement?: number
+  multiply?: number
+  divide?: number
+}
+
 export type TipoInteresCreateNestedOneWithoutClientesInput = {
   create?: Prisma.XOR<Prisma.TipoInteresCreateWithoutClientesInput, Prisma.TipoInteresUncheckedCreateWithoutClientesInput>
   connectOrCreate?: Prisma.TipoInteresCreateOrConnectWithoutClientesInput

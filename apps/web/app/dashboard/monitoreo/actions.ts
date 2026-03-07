@@ -1,191 +1,105 @@
 "use server";
 
-import { cookies } from "next/headers";
-import { 
-  ApiResponse, 
-  Session, 
-  MonitoringStats, 
-  Audit, 
-  Log, 
-  MonitoringAlert, 
-  MonitoringMetrics,
-  ExecutiveAuditMetrics
-} from "./types";
+import { monitoringClient } from "@/lib/api/monitoreo-client";
+import { ApiResponse } from "./types";
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:4000";
-
-async function getAuthToken() {
-  const cookieStore = await cookies();
-  const token = cookieStore.get("access_token")?.value;
-  if (!token) throw new Error("No token found");
-  return token;
+export async function getMonitoringSessions(): Promise<ApiResponse<any[]>> {
+  try {
+    const data = await monitoringClient.getSessions();
+    return { data, message: "Success" };
+  } catch (error: any) {
+    return { data: [], message: error.message };
+  }
 }
 
-export async function getMonitoringSessions(): Promise<ApiResponse<Session[]>> {
-  const token = await getAuthToken();
-  const response = await fetch(`${API_URL}/monitoring/sessions`, {
-    headers: { Authorization: `Bearer ${token}` },
-    next: { revalidate: 60 },
-  });
-
-  if (!response.ok) {
-    const errorData = await response.json().catch(() => ({}));
-    throw new Error(errorData.message || "Failed to fetch monitoring sessions");
+export async function getMonitoringStats(): Promise<ApiResponse<any>> {
+  try {
+    const data = await monitoringClient.getStats();
+    return { data, message: "Success" };
+  } catch (error: any) {
+    return { data: { totalEvents: 0, activeSessions: 0, totalInactivity: 0 }, message: error.message };
   }
-
-  const result = await response.json();
-  return {
-    data: result.data || result,
-    meta: result.meta,
-    message: result.message
-  };
 }
 
-export async function getMonitoringStats(): Promise<ApiResponse<MonitoringStats>> {
-  const token = await getAuthToken();
-  const response = await fetch(`${API_URL}/monitoring/stats`, {
-    headers: { Authorization: `Bearer ${token}` },
-    next: { revalidate: 30 },
-  });
-
-  if (!response.ok) {
-    const errorData = await response.json().catch(() => ({}));
-    throw new Error(errorData.message || "Failed to fetch stats");
+export async function getMonitoringAlerts(): Promise<ApiResponse<any[]>> {
+  try {
+    const data = await monitoringClient.getAlerts();
+    return { data, message: "Success" };
+  } catch (error: any) {
+    return { data: [], message: error.message };
   }
-
-  const result = await response.json();
-  return {
-    data: result.data || result,
-    meta: result.meta,
-    message: result.message
-  };
 }
 
-export async function getMonitoringAlerts(): Promise<ApiResponse<MonitoringAlert[]>> {
-  const token = await getAuthToken();
-  const response = await fetch(`${API_URL}/monitoring/alerts`, {
-    headers: { Authorization: `Bearer ${token}` },
-    cache: "no-store",
-  });
-
-  if (!response.ok) {
-    const errorData = await response.json().catch(() => ({}));
-    throw new Error(errorData.message || "Failed to fetch alerts");
+export async function getMonitoringMetrics(): Promise<ApiResponse<any>> {
+  try {
+    const data = await monitoringClient.getMetrics();
+    return { data, message: "Success" };
+  } catch (error: any) {
+    return { data: { avgActiveTimeMin: 0, totalInactivityMin: 0, topInactivity: [], mttfeSec: 0, userCount: 0 }, message: error.message };
   }
-
-  const result = await response.json();
-  return {
-    data: result.data || result,
-    meta: result.meta,
-    message: result.message
-  };
 }
 
-export async function getMonitoringMetrics(): Promise<ApiResponse<MonitoringMetrics>> {
-  const token = await getAuthToken();
-  const response = await fetch(`${API_URL}/monitoring/metrics`, {
-    headers: { Authorization: `Bearer ${token}` },
-    cache: "no-store",
-  });
-
-  if (!response.ok) {
-    const errorData = await response.json().catch(() => ({}));
-    throw new Error(errorData.message || "Failed to fetch metrics");
+export async function getExecutiveAuditMetrics(): Promise<ApiResponse<any>> {
+  try {
+    const data = await monitoringClient.getExecutiveAudit();
+    return { data, message: "Success" };
+  } catch (error: any) {
+    return { 
+      data: { 
+        today: { created: 0, updated: 0, deleted: 0, total: 0 }, 
+        week: { created: 0, updated: 0, deleted: 0, total: 0 },
+        topEntities: [],
+        topUsers: [],
+        successRate: 0
+      }, 
+      message: error.message 
+    };
   }
-
-  const result = await response.json();
-  return {
-    data: result.data || result,
-    meta: result.meta,
-    message: result.message
-  };
 }
 
-export async function getExecutiveAuditMetrics(): Promise<ApiResponse<ExecutiveAuditMetrics>> {
-  const token = await getAuthToken();
-  const response = await fetch(`${API_URL}/monitoring/executive-audit`, {
-    headers: { Authorization: `Bearer ${token}` },
-    cache: "no-store",
-  });
-
-  if (!response.ok) {
-    const errorData = await response.json().catch(() => ({}));
-    throw new Error(errorData.message || "Failed to fetch executive audit metrics");
+export async function getAudits(page: number = 1, limit: number = 20): Promise<ApiResponse<any[]>> {
+  try {
+    const result = await monitoringClient.getAudits(page, limit);
+    return {
+      data: result.results || result.data || result,
+      meta: result.meta || { total: 0, page, limit },
+      message: "Success"
+    };
+  } catch (error: any) {
+    return { data: [], message: error.message };
   }
-
-  const result = await response.json();
-  return {
-    data: result.data || result,
-    meta: result.meta,
-    message: result.message
-  };
 }
 
-export async function getAudits(page: number = 1, limit: number = 20): Promise<ApiResponse<Audit[]>> {
-  const safeLimit = Math.min(Math.max(1, limit), 100);
-  const token = await getAuthToken();
-  
-  const response = await fetch(`${API_URL}/monitoring/audits?page=${page}&limit=${safeLimit}`, {
-    headers: { Authorization: `Bearer ${token}` },
-    cache: "no-store",
-  });
-
-  if (!response.ok) {
-    const errorData = await response.json().catch(() => ({}));
-    throw new Error(errorData.message || "Failed to fetch audits");
+export async function getRecentLogs(): Promise<ApiResponse<any[]>> {
+  try {
+    const data = await monitoringClient.getRecentLogs();
+    return { data, message: "Success" };
+  } catch (error: any) {
+    return { data: [], message: error.message };
   }
-
-  const result = await response.json();
-  
-  let auditsList: Audit[] = [];
-  if (Array.isArray(result.results)) auditsList = result.results;
-  else if (result.data && Array.isArray(result.data.results)) auditsList = result.data.results;
-  else if (Array.isArray(result.data)) auditsList = result.data;
-  else if (Array.isArray(result)) auditsList = result;
-
-  return {
-    data: auditsList,
-    meta: result.meta || result.data?.meta || { total: auditsList.length, page, limit: safeLimit, totalPages: 1 },
-    message: result.message
-  };
 }
 
-export async function getRecentLogs(): Promise<ApiResponse<Log[]>> {
-  const token = await getAuthToken();
-  const response = await fetch(`${API_URL}/monitoring/recent-logs`, {
-    headers: { Authorization: `Bearer ${token}` },
-    cache: "no-store",
-  });
-
-  if (!response.ok) {
-    const errorData = await response.json().catch(() => ({}));
-    throw new Error(errorData.message || "Failed to fetch recent logs");
+export async function getMemberLogs(membershipId: string): Promise<ApiResponse<any[]>> {
+  try {
+    const data = await monitoringClient.getLogsByMembership(membershipId);
+    return { data, message: "Success" };
+  } catch (error: any) {
+    return { data: [], message: error.message };
   }
-
-  const result = await response.json();
-  return {
-    data: result.data || result,
-    meta: result.meta,
-    message: result.message
-  };
 }
 
-export async function getMemberLogs(membershipId: string): Promise<ApiResponse<Log[]>> {
-  const token = await getAuthToken();
-  const response = await fetch(`${API_URL}/monitoring/logs/${membershipId}`, {
-    headers: { Authorization: `Bearer ${token}` },
-    cache: "no-store",
-  });
-
-  if (!response.ok) {
-    const errorData = await response.json().catch(() => ({}));
-    throw new Error(errorData.message || "Failed to fetch logs");
+export async function trackEventAction(tipo: string, descripcion?: string, ruta?: string) {
+  try {
+    return await monitoringClient.trackEvent({ tipo, descripcion, ruta });
+  } catch (error) {
+    return null;
   }
+}
 
-  const result = await response.json();
-  return {
-    data: result.data || result,
-    meta: result.meta,
-    message: result.message
-  };
+export async function heartbeatAction() {
+  try {
+    return await monitoringClient.sendHeartbeat();
+  } catch (error) {
+    return null;
+  }
 }

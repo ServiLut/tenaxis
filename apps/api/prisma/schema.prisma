@@ -62,7 +62,6 @@ model Tenant {
   geolocalizaciones         Geolocalizacion[]
   logsEvento                LogEvento[]
   metodosPago               MetodoPago[]
-  nivelesRiesgo             NivelRiesgoOperativo[]
   nominaDetalles            NominaDetalle[]
   nominas                   Nomina[]
   ordenesServicio           OrdenServicio[]
@@ -75,10 +74,10 @@ model Tenant {
   productosSolicitados      ProductoSolicitado[]
   proveedores               Proveedores[]
   referidos                 Referidos[]
-  segmentos                 SegmentoNegocio[]
   servicios                 Servicio[]
   sesionesActividad         SesionActividad[]
   subscription              Subscription?
+  sugerencias_seguimiento   sugerencias_seguimiento[]
   memberships               TenantMembership[]
   terapiasPsicologos        TerapiasPsicologos[]
   tiposInteres              TipoInteres[]
@@ -227,6 +226,7 @@ model Empresa {
   referidos                 Referidos[]
   servicios                 Servicio[]
   sesionesActividad         SesionActividad[]
+  sugerencias_seguimiento   sugerencias_seguimiento[]
   terapiasPsicologos        TerapiasPsicologos[]
   tiposServicio             TipoServicio[]
   turnos                    Turno[]
@@ -312,39 +312,6 @@ model CommissionRecord {
   @@map("commission_records")
 }
 
-model SegmentoNegocio {
-  id                 String    @id @default(uuid()) @db.Uuid
-  tenantId           String    @db.Uuid
-  nombre             String
-  descripcion        String?
-  activo             Boolean   @default(true)
-  createdAt          DateTime  @default(now())
-  updatedAt          DateTime  @updatedAt
-  frecuenciaSugerida Int?      @default(30)
-  riesgoSugerido     String?   @default("BAJO")
-  clientes           Cliente[]
-  tenant             Tenant    @relation(fields: [tenantId], references: [id], onDelete: Cascade)
-
-  @@index([tenantId])
-  @@map("segmentos_negocio")
-}
-
-model NivelRiesgoOperativo {
-  id        String    @id @default(uuid()) @db.Uuid
-  tenantId  String    @db.Uuid
-  nombre    String
-  color     String?
-  valor     Int       @default(0)
-  activo    Boolean   @default(true)
-  createdAt DateTime  @default(now())
-  updatedAt DateTime  @updatedAt
-  clientes  Cliente[]
-  tenant    Tenant    @relation(fields: [tenantId], references: [id], onDelete: Cascade)
-
-  @@index([tenantId])
-  @@map("niveles_riesgo_operativo")
-}
-
 model TipoInteres {
   id                 String    @id @default(uuid()) @db.Uuid
   tenantId           String    @db.Uuid
@@ -416,23 +383,22 @@ model Cliente {
   tipoCliente               TipoCliente                     @default(PERSONA)
   ultimaVisita              DateTime?
   updatedAt                 DateTime                        @updatedAt
-  riesgoId                  String?                         @db.Uuid
-  segmentoId                String?                         @db.Uuid
   actividadEconomica        String?
   metrajeTotal              Decimal?                        @db.Decimal(12, 2)
   origenCliente             String?
   tipoInteresId             String?                         @db.Uuid
+  segmento                  SegmentoCliente                 @default(OTRO)
+  nivelRiesgo               NivelRiesgo                     @default(MEDIO)
   citasPsicologos           CitasPsicologos[]
   configuracionesOperativas ClienteConfiguracionOperativa[]
   creadoPor                 TenantMembership?               @relation(fields: [creadoPorId], references: [id], onDelete: NoAction, onUpdate: NoAction)
   empresa                   Empresa?                        @relation(fields: [empresaId], references: [id])
-  riesgo                    NivelRiesgoOperativo?           @relation(fields: [riesgoId], references: [id])
-  segmento                  SegmentoNegocio?                @relation(fields: [segmentoId], references: [id])
   tenant                    Tenant                          @relation(fields: [tenantId], references: [id], onDelete: Cascade)
   tipoInteres               TipoInteres?                    @relation(fields: [tipoInteresId], references: [id])
   direcciones               Direccion[]
   ordenesServicio           OrdenServicio[]
   paquetesAdquiridos        PaqueteAdquirido[]
+  sugerencias_seguimiento   sugerencias_seguimiento[]
   vehiculos                 Vehiculo[]
 
   @@index([tenantId])
@@ -440,6 +406,8 @@ model Cliente {
   @@index([tenantId, empresaId])
   @@index([numeroDocumento])
   @@index([nombre, apellido])
+  @@index([nivelRiesgo])
+  @@index([segmento])
   @@map("clientes")
 }
 
@@ -1167,17 +1135,18 @@ model CuentasPago {
 }
 
 model Egresos {
-  id           String           @id @default(uuid()) @db.Uuid
-  tenantId     String           @db.Uuid
-  empresaId    String           @db.Uuid
-  membershipId String           @db.Uuid
+  id           String            @id @default(uuid()) @db.Uuid
+  tenantId     String            @db.Uuid
+  empresaId    String            @db.Uuid
+  membershipId String?           @db.Uuid
   titulo       String
-  monto        Decimal          @db.Decimal(12, 2)
+  monto        Decimal           @db.Decimal(12, 2)
   razon        String?
-  createdAt    DateTime         @default(now())
-  empresa      Empresa          @relation(fields: [empresaId], references: [id])
-  membership   TenantMembership @relation(fields: [membershipId], references: [id])
-  tenant       Tenant           @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  createdAt    DateTime          @default(now())
+  categoria    String?           @default("GENERAL")
+  empresa      Empresa           @relation(fields: [empresaId], references: [id])
+  membership   TenantMembership? @relation(fields: [membershipId], references: [id])
+  tenant       Tenant            @relation(fields: [tenantId], references: [id], onDelete: Cascade)
 
   @@index([tenantId])
   @@index([empresaId])
@@ -1257,11 +1226,11 @@ model SesionActividad {
   tiempoInactivo Int              @default(0)
   dispositivo    String?
   ip             String?
+  updatedAt      DateTime         @default(now()) @updatedAt
   logs           LogEvento[]
   empresa        Empresa          @relation(fields: [empresaId], references: [id])
   membership     TenantMembership @relation(fields: [membershipId], references: [id])
   tenant         Tenant           @relation(fields: [tenantId], references: [id], onDelete: Cascade)
-  updatedAt      DateTime         @default(now()) @updatedAt
 
   @@index([tenantId])
   @@index([empresaId])
@@ -1369,6 +1338,31 @@ model EvidenciaServicio {
   @@index([ordenServicioId])
   @@index([tenantId])
   @@map("evidencias_servicio")
+}
+
+model sugerencias_seguimiento {
+  id             String              @id @db.Uuid
+  tenantId       String              @db.Uuid
+  empresaId      String?             @db.Uuid
+  clienteId      String              @db.Uuid
+  tipo           String
+  prioridad      PrioridadSugerencia @default(MEDIA)
+  estado         EstadoSugerencia    @default(PENDIENTE)
+  titulo         String
+  descripcion    String
+  metadata       Json?
+  fechaSugerida  DateTime            @default(now())
+  fechaEjecutada DateTime?
+  creadoAt       DateTime            @default(now())
+  actualizadoAt  DateTime
+  clientes       Cliente             @relation(fields: [clienteId], references: [id], onDelete: Cascade)
+  empresas       Empresa?            @relation(fields: [empresaId], references: [id])
+  tenants        Tenant              @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+
+  @@index([empresaId])
+  @@index([estado])
+  @@index([fechaSugerida])
+  @@index([tenantId])
 }
 
 enum DiaSemana {
@@ -1537,4 +1531,29 @@ enum EstadoOrden {
   TECNICO_FINALIZO
   REPROGRAMADO
   SIN_CONCRETAR
+}
+
+enum EstadoSugerencia {
+  PENDIENTE
+  ACEPTADA
+  DESCARTADA
+  EJECUTADA
+}
+
+enum PrioridadSugerencia {
+  BAJA
+  MEDIA
+  ALTA
+  CRITICA
+}
+
+enum SegmentoCliente {
+  HOGAR
+  COMERCIO
+  INDUSTRIA
+  SALUD
+  EDUCACION
+  HORECA
+  OFICINA
+  OTRO
 }

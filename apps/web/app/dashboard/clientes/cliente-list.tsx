@@ -69,9 +69,9 @@ import { Contact } from "lucide-react";
 
 interface Cliente {
   id: string;
-  nombre?: string;
-  apellido?: string;
-  razonSocial?: string;
+  nombre?: string | null;
+  apellido?: string | null;
+  razonSocial?: string | null;
   tipoCliente: "PERSONA" | "EMPRESA";
   segmentoNegocio?: string;
   segmento?: {
@@ -85,7 +85,7 @@ interface Cliente {
     color?: string;
   };
   clasificacion?: "ORO" | "PLATA" | "BRONCE" | "RIESGO";
-  score: number;
+  score?: number;
   telefono: string;
   telefono2?: string;
   correo?: string;
@@ -174,7 +174,7 @@ interface Municipality {
 }
 
 interface ClienteListProps {
-  initialClientes: Cliente[];
+  initialClientes: any[];
   initialDepartments?: Department[];
   initialMunicipalities?: Municipality[];
 }
@@ -323,22 +323,22 @@ export function ClienteList({ initialClientes, initialDepartments = [], initialM
     if (!mounted) return { municipios: [], segmentos: [], clasificaciones: [], riesgos: [], empresas: [], departamentos: [] };
     const departamentos = initialDepartments.length > 0
       ? initialDepartments.sort((a, b) => a.name.localeCompare(b.name))
-      : Array.from(new Set(clientes.flatMap(c => c.direcciones?.map(d => d.departmentId).filter(Boolean) || [])))
+      : Array.from(new Set(clientes.flatMap((c: any) => c.direcciones?.map((d: any) => d.departmentId).filter(Boolean) || [])))
           .map(id => ({ id, name: String(id), code: String(id) }));
     const municipios = initialMunicipalities.length > 0
       ? initialMunicipalities
           .filter(m => filters.departamento === "all" || m.departmentId === filters.departamento)
           .sort((a, b) => a.name.localeCompare(b.name))
-      : Array.from(new Set(clientes.flatMap(c => c.direcciones?.map(d => d.municipio).filter((m): m is string => !!m) || [])))
+      : Array.from(new Set(clientes.flatMap((c: any) => c.direcciones?.map((d: any) => d.municipio).filter((m: string): m is string => !!m) || [])))
           .sort();
-    const segmentos = Array.from(new Set(clientes.map(c => c.segmento?.nombre || c.segmentoNegocio).filter((s): s is string => !!s))).sort();
+    const segmentos = Array.from(new Set(clientes.map((c: any) => c.segmento?.nombre || c.segmentoNegocio).filter((s: string): s is string => !!s))).sort();
     const clasificaciones = ["ORO", "PLATA", "BRONCE", "RIESGO"];
-    const riesgos = Array.from(new Set(clientes.map(c => c.riesgo?.nombre || c.nivelRiesgo).filter((r): r is string => !!r))).sort();
+    const riesgos = Array.from(new Set(clientes.map((c: any) => c.riesgo?.nombre || c.nivelRiesgo).filter((r: string): r is string => !!r))).sort();
     const empresas = Array.from(
       new Map(
         clientes
-          .filter(c => c.empresa)
-          .map(c => [c.empresa!.id, { id: c.empresa!.id, nombre: c.empresa!.nombre }])
+          .filter((c: any) => c.empresa)
+          .map((c: any) => [c.empresa!.id, { id: c.empresa!.id, nombre: c.empresa!.nombre }])
       ).values()
     ).sort((a, b) => a.nombre.localeCompare(b.nombre));
     return { municipios, segmentos, clasificaciones, riesgos, empresas, departamentos };
@@ -346,7 +346,7 @@ export function ClienteList({ initialClientes, initialDepartments = [], initialM
 
   const filteredClientes = useMemo(() => {
     if (!mounted) return [];
-    return clientes.filter(c => {
+    return clientes.filter((c: any) => {
       const searchLower = search.toLowerCase();
       const matchesSearch = !search || (
         c.nombre?.toLowerCase().includes(searchLower) ||
@@ -356,9 +356,9 @@ export function ClienteList({ initialClientes, initialDepartments = [], initialM
         c.numeroDocumento?.toLowerCase().includes(searchLower)
       );
       const matchesEmpresas = filters.empresas.length === 0 || (c.empresa?.id && filters.empresas.includes(c.empresa.id));
-      const matchesDepartamento = filters.departamento === "all" || c.direcciones?.some(d => d.departmentId === filters.departamento);
-      const matchesMunicipio = filters.municipio === "all" || c.direcciones?.some(d => d.municipioId === filters.municipio || d.municipio === filters.municipio);
-      const matchesBarrio = !filters.barrio || c.direcciones?.some(d => d.barrio?.toLowerCase().includes(filters.barrio.toLowerCase()));
+      const matchesDepartamento = filters.departamento === "all" || c.direcciones?.some((d: any) => d.departmentId === filters.departamento);
+      const matchesMunicipio = filters.municipio === "all" || c.direcciones?.some((d: any) => d.municipioId === filters.municipio || d.municipio === filters.municipio);
+      const matchesBarrio = !filters.barrio || c.direcciones?.some((d: any) => d.barrio?.toLowerCase().includes(filters.barrio.toLowerCase()));
       const matchesClasificacion = filters.clasificacion === "all" || c.clasificacion === filters.clasificacion;
       const matchesSegmento = filters.segmento === "all" || (c.segmento?.nombre || c.segmentoNegocio) === filters.segmento;
       const matchesRiesgo = filters.riesgo === "all" || (c.riesgo?.nombre || c.nivelRiesgo) === filters.riesgo;
@@ -877,7 +877,7 @@ export function ClienteList({ initialClientes, initialDepartments = [], initialM
                           <div className="flex flex-col items-center gap-1.5">
                             <div className={cn(
                               "inline-flex items-center gap-1.5 px-3 py-1 rounded-xl text-[9px] font-black uppercase tracking-widest shadow-sm border border-black/5",
-                              SCORE_COLORS[cliente.clasificacion || "BRONCE"]
+                              (SCORE_COLORS as any)[cliente.clasificacion || "BRONCE"]
                             )}>
                               <Trophy className="h-2.5 w-2.5" />
                               {cliente.clasificacion || "BRONCE"}

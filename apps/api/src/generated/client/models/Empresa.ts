@@ -235,6 +235,7 @@ export type EmpresaWhereInput = {
   referidos?: Prisma.ReferidosListRelationFilter
   servicios?: Prisma.ServicioListRelationFilter
   sesionesActividad?: Prisma.SesionActividadListRelationFilter
+  sugerencias_seguimiento?: Prisma.Sugerencias_seguimientoListRelationFilter
   terapiasPsicologos?: Prisma.TerapiasPsicologosListRelationFilter
   tiposServicio?: Prisma.TipoServicioListRelationFilter
   turnos?: Prisma.TurnoListRelationFilter
@@ -287,6 +288,7 @@ export type EmpresaOrderByWithRelationInput = {
   referidos?: Prisma.ReferidosOrderByRelationAggregateInput
   servicios?: Prisma.ServicioOrderByRelationAggregateInput
   sesionesActividad?: Prisma.SesionActividadOrderByRelationAggregateInput
+  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoOrderByRelationAggregateInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosOrderByRelationAggregateInput
   tiposServicio?: Prisma.TipoServicioOrderByRelationAggregateInput
   turnos?: Prisma.TurnoOrderByRelationAggregateInput
@@ -342,6 +344,7 @@ export type EmpresaWhereUniqueInput = Prisma.AtLeast<{
   referidos?: Prisma.ReferidosListRelationFilter
   servicios?: Prisma.ServicioListRelationFilter
   sesionesActividad?: Prisma.SesionActividadListRelationFilter
+  sugerencias_seguimiento?: Prisma.Sugerencias_seguimientoListRelationFilter
   terapiasPsicologos?: Prisma.TerapiasPsicologosListRelationFilter
   tiposServicio?: Prisma.TipoServicioListRelationFilter
   turnos?: Prisma.TurnoListRelationFilter
@@ -419,6 +422,7 @@ export type EmpresaCreateInput = {
   referidos?: Prisma.ReferidosCreateNestedManyWithoutEmpresaInput
   servicios?: Prisma.ServicioCreateNestedManyWithoutEmpresaInput
   sesionesActividad?: Prisma.SesionActividadCreateNestedManyWithoutEmpresaInput
+  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoCreateNestedManyWithoutEmpresasInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosCreateNestedManyWithoutEmpresaInput
   tiposServicio?: Prisma.TipoServicioCreateNestedManyWithoutEmpresaInput
   turnos?: Prisma.TurnoCreateNestedManyWithoutEmpresaInput
@@ -470,6 +474,7 @@ export type EmpresaUncheckedCreateInput = {
   referidos?: Prisma.ReferidosUncheckedCreateNestedManyWithoutEmpresaInput
   servicios?: Prisma.ServicioUncheckedCreateNestedManyWithoutEmpresaInput
   sesionesActividad?: Prisma.SesionActividadUncheckedCreateNestedManyWithoutEmpresaInput
+  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUncheckedCreateNestedManyWithoutEmpresasInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUncheckedCreateNestedManyWithoutEmpresaInput
   tiposServicio?: Prisma.TipoServicioUncheckedCreateNestedManyWithoutEmpresaInput
   turnos?: Prisma.TurnoUncheckedCreateNestedManyWithoutEmpresaInput
@@ -521,6 +526,7 @@ export type EmpresaUpdateInput = {
   referidos?: Prisma.ReferidosUpdateManyWithoutEmpresaNestedInput
   servicios?: Prisma.ServicioUpdateManyWithoutEmpresaNestedInput
   sesionesActividad?: Prisma.SesionActividadUpdateManyWithoutEmpresaNestedInput
+  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUpdateManyWithoutEmpresasNestedInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUpdateManyWithoutEmpresaNestedInput
   tiposServicio?: Prisma.TipoServicioUpdateManyWithoutEmpresaNestedInput
   turnos?: Prisma.TurnoUpdateManyWithoutEmpresaNestedInput
@@ -572,6 +578,7 @@ export type EmpresaUncheckedUpdateInput = {
   referidos?: Prisma.ReferidosUncheckedUpdateManyWithoutEmpresaNestedInput
   servicios?: Prisma.ServicioUncheckedUpdateManyWithoutEmpresaNestedInput
   sesionesActividad?: Prisma.SesionActividadUncheckedUpdateManyWithoutEmpresaNestedInput
+  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUncheckedUpdateManyWithoutEmpresasNestedInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUncheckedUpdateManyWithoutEmpresaNestedInput
   tiposServicio?: Prisma.TipoServicioUncheckedUpdateManyWithoutEmpresaNestedInput
   turnos?: Prisma.TurnoUncheckedUpdateManyWithoutEmpresaNestedInput
@@ -1286,6 +1293,22 @@ export type EmpresaUpdateOneRequiredWithoutConfiguracionesOperativasNestedInput 
   update?: Prisma.XOR<Prisma.XOR<Prisma.EmpresaUpdateToOneWithWhereWithoutConfiguracionesOperativasInput, Prisma.EmpresaUpdateWithoutConfiguracionesOperativasInput>, Prisma.EmpresaUncheckedUpdateWithoutConfiguracionesOperativasInput>
 }
 
+export type EmpresaCreateNestedOneWithoutSugerencias_seguimientoInput = {
+  create?: Prisma.XOR<Prisma.EmpresaCreateWithoutSugerencias_seguimientoInput, Prisma.EmpresaUncheckedCreateWithoutSugerencias_seguimientoInput>
+  connectOrCreate?: Prisma.EmpresaCreateOrConnectWithoutSugerencias_seguimientoInput
+  connect?: Prisma.EmpresaWhereUniqueInput
+}
+
+export type EmpresaUpdateOneWithoutSugerencias_seguimientoNestedInput = {
+  create?: Prisma.XOR<Prisma.EmpresaCreateWithoutSugerencias_seguimientoInput, Prisma.EmpresaUncheckedCreateWithoutSugerencias_seguimientoInput>
+  connectOrCreate?: Prisma.EmpresaCreateOrConnectWithoutSugerencias_seguimientoInput
+  upsert?: Prisma.EmpresaUpsertWithoutSugerencias_seguimientoInput
+  disconnect?: Prisma.EmpresaWhereInput | boolean
+  delete?: Prisma.EmpresaWhereInput | boolean
+  connect?: Prisma.EmpresaWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.EmpresaUpdateToOneWithWhereWithoutSugerencias_seguimientoInput, Prisma.EmpresaUpdateWithoutSugerencias_seguimientoInput>, Prisma.EmpresaUncheckedUpdateWithoutSugerencias_seguimientoInput>
+}
+
 export type EmpresaCreateWithoutTenantInput = {
   id?: string
   nombre: string
@@ -1329,6 +1352,7 @@ export type EmpresaCreateWithoutTenantInput = {
   referidos?: Prisma.ReferidosCreateNestedManyWithoutEmpresaInput
   servicios?: Prisma.ServicioCreateNestedManyWithoutEmpresaInput
   sesionesActividad?: Prisma.SesionActividadCreateNestedManyWithoutEmpresaInput
+  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoCreateNestedManyWithoutEmpresasInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosCreateNestedManyWithoutEmpresaInput
   tiposServicio?: Prisma.TipoServicioCreateNestedManyWithoutEmpresaInput
   turnos?: Prisma.TurnoCreateNestedManyWithoutEmpresaInput
@@ -1379,6 +1403,7 @@ export type EmpresaUncheckedCreateWithoutTenantInput = {
   referidos?: Prisma.ReferidosUncheckedCreateNestedManyWithoutEmpresaInput
   servicios?: Prisma.ServicioUncheckedCreateNestedManyWithoutEmpresaInput
   sesionesActividad?: Prisma.SesionActividadUncheckedCreateNestedManyWithoutEmpresaInput
+  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUncheckedCreateNestedManyWithoutEmpresasInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUncheckedCreateNestedManyWithoutEmpresaInput
   tiposServicio?: Prisma.TipoServicioUncheckedCreateNestedManyWithoutEmpresaInput
   turnos?: Prisma.TurnoUncheckedCreateNestedManyWithoutEmpresaInput
@@ -1468,6 +1493,7 @@ export type EmpresaCreateWithoutMembershipsInput = {
   referidos?: Prisma.ReferidosCreateNestedManyWithoutEmpresaInput
   servicios?: Prisma.ServicioCreateNestedManyWithoutEmpresaInput
   sesionesActividad?: Prisma.SesionActividadCreateNestedManyWithoutEmpresaInput
+  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoCreateNestedManyWithoutEmpresasInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosCreateNestedManyWithoutEmpresaInput
   tiposServicio?: Prisma.TipoServicioCreateNestedManyWithoutEmpresaInput
   turnos?: Prisma.TurnoCreateNestedManyWithoutEmpresaInput
@@ -1518,6 +1544,7 @@ export type EmpresaUncheckedCreateWithoutMembershipsInput = {
   referidos?: Prisma.ReferidosUncheckedCreateNestedManyWithoutEmpresaInput
   servicios?: Prisma.ServicioUncheckedCreateNestedManyWithoutEmpresaInput
   sesionesActividad?: Prisma.SesionActividadUncheckedCreateNestedManyWithoutEmpresaInput
+  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUncheckedCreateNestedManyWithoutEmpresasInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUncheckedCreateNestedManyWithoutEmpresaInput
   tiposServicio?: Prisma.TipoServicioUncheckedCreateNestedManyWithoutEmpresaInput
   turnos?: Prisma.TurnoUncheckedCreateNestedManyWithoutEmpresaInput
@@ -1584,6 +1611,7 @@ export type EmpresaUpdateWithoutMembershipsInput = {
   referidos?: Prisma.ReferidosUpdateManyWithoutEmpresaNestedInput
   servicios?: Prisma.ServicioUpdateManyWithoutEmpresaNestedInput
   sesionesActividad?: Prisma.SesionActividadUpdateManyWithoutEmpresaNestedInput
+  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUpdateManyWithoutEmpresasNestedInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUpdateManyWithoutEmpresaNestedInput
   tiposServicio?: Prisma.TipoServicioUpdateManyWithoutEmpresaNestedInput
   turnos?: Prisma.TurnoUpdateManyWithoutEmpresaNestedInput
@@ -1634,6 +1662,7 @@ export type EmpresaUncheckedUpdateWithoutMembershipsInput = {
   referidos?: Prisma.ReferidosUncheckedUpdateManyWithoutEmpresaNestedInput
   servicios?: Prisma.ServicioUncheckedUpdateManyWithoutEmpresaNestedInput
   sesionesActividad?: Prisma.SesionActividadUncheckedUpdateManyWithoutEmpresaNestedInput
+  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUncheckedUpdateManyWithoutEmpresasNestedInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUncheckedUpdateManyWithoutEmpresaNestedInput
   tiposServicio?: Prisma.TipoServicioUncheckedUpdateManyWithoutEmpresaNestedInput
   turnos?: Prisma.TurnoUncheckedUpdateManyWithoutEmpresaNestedInput
@@ -1684,6 +1713,7 @@ export type EmpresaCreateWithoutOrgNodesInput = {
   referidos?: Prisma.ReferidosCreateNestedManyWithoutEmpresaInput
   servicios?: Prisma.ServicioCreateNestedManyWithoutEmpresaInput
   sesionesActividad?: Prisma.SesionActividadCreateNestedManyWithoutEmpresaInput
+  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoCreateNestedManyWithoutEmpresasInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosCreateNestedManyWithoutEmpresaInput
   tiposServicio?: Prisma.TipoServicioCreateNestedManyWithoutEmpresaInput
   turnos?: Prisma.TurnoCreateNestedManyWithoutEmpresaInput
@@ -1734,6 +1764,7 @@ export type EmpresaUncheckedCreateWithoutOrgNodesInput = {
   referidos?: Prisma.ReferidosUncheckedCreateNestedManyWithoutEmpresaInput
   servicios?: Prisma.ServicioUncheckedCreateNestedManyWithoutEmpresaInput
   sesionesActividad?: Prisma.SesionActividadUncheckedCreateNestedManyWithoutEmpresaInput
+  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUncheckedCreateNestedManyWithoutEmpresasInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUncheckedCreateNestedManyWithoutEmpresaInput
   tiposServicio?: Prisma.TipoServicioUncheckedCreateNestedManyWithoutEmpresaInput
   turnos?: Prisma.TurnoUncheckedCreateNestedManyWithoutEmpresaInput
@@ -1800,6 +1831,7 @@ export type EmpresaUpdateWithoutOrgNodesInput = {
   referidos?: Prisma.ReferidosUpdateManyWithoutEmpresaNestedInput
   servicios?: Prisma.ServicioUpdateManyWithoutEmpresaNestedInput
   sesionesActividad?: Prisma.SesionActividadUpdateManyWithoutEmpresaNestedInput
+  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUpdateManyWithoutEmpresasNestedInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUpdateManyWithoutEmpresaNestedInput
   tiposServicio?: Prisma.TipoServicioUpdateManyWithoutEmpresaNestedInput
   turnos?: Prisma.TurnoUpdateManyWithoutEmpresaNestedInput
@@ -1850,6 +1882,7 @@ export type EmpresaUncheckedUpdateWithoutOrgNodesInput = {
   referidos?: Prisma.ReferidosUncheckedUpdateManyWithoutEmpresaNestedInput
   servicios?: Prisma.ServicioUncheckedUpdateManyWithoutEmpresaNestedInput
   sesionesActividad?: Prisma.SesionActividadUncheckedUpdateManyWithoutEmpresaNestedInput
+  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUncheckedUpdateManyWithoutEmpresasNestedInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUncheckedUpdateManyWithoutEmpresaNestedInput
   tiposServicio?: Prisma.TipoServicioUncheckedUpdateManyWithoutEmpresaNestedInput
   turnos?: Prisma.TurnoUncheckedUpdateManyWithoutEmpresaNestedInput
@@ -1900,6 +1933,7 @@ export type EmpresaCreateWithoutCommissionsInput = {
   referidos?: Prisma.ReferidosCreateNestedManyWithoutEmpresaInput
   servicios?: Prisma.ServicioCreateNestedManyWithoutEmpresaInput
   sesionesActividad?: Prisma.SesionActividadCreateNestedManyWithoutEmpresaInput
+  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoCreateNestedManyWithoutEmpresasInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosCreateNestedManyWithoutEmpresaInput
   tiposServicio?: Prisma.TipoServicioCreateNestedManyWithoutEmpresaInput
   turnos?: Prisma.TurnoCreateNestedManyWithoutEmpresaInput
@@ -1950,6 +1984,7 @@ export type EmpresaUncheckedCreateWithoutCommissionsInput = {
   referidos?: Prisma.ReferidosUncheckedCreateNestedManyWithoutEmpresaInput
   servicios?: Prisma.ServicioUncheckedCreateNestedManyWithoutEmpresaInput
   sesionesActividad?: Prisma.SesionActividadUncheckedCreateNestedManyWithoutEmpresaInput
+  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUncheckedCreateNestedManyWithoutEmpresasInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUncheckedCreateNestedManyWithoutEmpresaInput
   tiposServicio?: Prisma.TipoServicioUncheckedCreateNestedManyWithoutEmpresaInput
   turnos?: Prisma.TurnoUncheckedCreateNestedManyWithoutEmpresaInput
@@ -2016,6 +2051,7 @@ export type EmpresaUpdateWithoutCommissionsInput = {
   referidos?: Prisma.ReferidosUpdateManyWithoutEmpresaNestedInput
   servicios?: Prisma.ServicioUpdateManyWithoutEmpresaNestedInput
   sesionesActividad?: Prisma.SesionActividadUpdateManyWithoutEmpresaNestedInput
+  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUpdateManyWithoutEmpresasNestedInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUpdateManyWithoutEmpresaNestedInput
   tiposServicio?: Prisma.TipoServicioUpdateManyWithoutEmpresaNestedInput
   turnos?: Prisma.TurnoUpdateManyWithoutEmpresaNestedInput
@@ -2066,6 +2102,7 @@ export type EmpresaUncheckedUpdateWithoutCommissionsInput = {
   referidos?: Prisma.ReferidosUncheckedUpdateManyWithoutEmpresaNestedInput
   servicios?: Prisma.ServicioUncheckedUpdateManyWithoutEmpresaNestedInput
   sesionesActividad?: Prisma.SesionActividadUncheckedUpdateManyWithoutEmpresaNestedInput
+  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUncheckedUpdateManyWithoutEmpresasNestedInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUncheckedUpdateManyWithoutEmpresaNestedInput
   tiposServicio?: Prisma.TipoServicioUncheckedUpdateManyWithoutEmpresaNestedInput
   turnos?: Prisma.TurnoUncheckedUpdateManyWithoutEmpresaNestedInput
@@ -2116,6 +2153,7 @@ export type EmpresaCreateWithoutClientesInput = {
   referidos?: Prisma.ReferidosCreateNestedManyWithoutEmpresaInput
   servicios?: Prisma.ServicioCreateNestedManyWithoutEmpresaInput
   sesionesActividad?: Prisma.SesionActividadCreateNestedManyWithoutEmpresaInput
+  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoCreateNestedManyWithoutEmpresasInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosCreateNestedManyWithoutEmpresaInput
   tiposServicio?: Prisma.TipoServicioCreateNestedManyWithoutEmpresaInput
   turnos?: Prisma.TurnoCreateNestedManyWithoutEmpresaInput
@@ -2166,6 +2204,7 @@ export type EmpresaUncheckedCreateWithoutClientesInput = {
   referidos?: Prisma.ReferidosUncheckedCreateNestedManyWithoutEmpresaInput
   servicios?: Prisma.ServicioUncheckedCreateNestedManyWithoutEmpresaInput
   sesionesActividad?: Prisma.SesionActividadUncheckedCreateNestedManyWithoutEmpresaInput
+  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUncheckedCreateNestedManyWithoutEmpresasInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUncheckedCreateNestedManyWithoutEmpresaInput
   tiposServicio?: Prisma.TipoServicioUncheckedCreateNestedManyWithoutEmpresaInput
   turnos?: Prisma.TurnoUncheckedCreateNestedManyWithoutEmpresaInput
@@ -2232,6 +2271,7 @@ export type EmpresaUpdateWithoutClientesInput = {
   referidos?: Prisma.ReferidosUpdateManyWithoutEmpresaNestedInput
   servicios?: Prisma.ServicioUpdateManyWithoutEmpresaNestedInput
   sesionesActividad?: Prisma.SesionActividadUpdateManyWithoutEmpresaNestedInput
+  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUpdateManyWithoutEmpresasNestedInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUpdateManyWithoutEmpresaNestedInput
   tiposServicio?: Prisma.TipoServicioUpdateManyWithoutEmpresaNestedInput
   turnos?: Prisma.TurnoUpdateManyWithoutEmpresaNestedInput
@@ -2282,6 +2322,7 @@ export type EmpresaUncheckedUpdateWithoutClientesInput = {
   referidos?: Prisma.ReferidosUncheckedUpdateManyWithoutEmpresaNestedInput
   servicios?: Prisma.ServicioUncheckedUpdateManyWithoutEmpresaNestedInput
   sesionesActividad?: Prisma.SesionActividadUncheckedUpdateManyWithoutEmpresaNestedInput
+  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUncheckedUpdateManyWithoutEmpresasNestedInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUncheckedUpdateManyWithoutEmpresaNestedInput
   tiposServicio?: Prisma.TipoServicioUncheckedUpdateManyWithoutEmpresaNestedInput
   turnos?: Prisma.TurnoUncheckedUpdateManyWithoutEmpresaNestedInput
@@ -2333,6 +2374,7 @@ export type EmpresaCreateWithoutVehiculosInput = {
   referidos?: Prisma.ReferidosCreateNestedManyWithoutEmpresaInput
   servicios?: Prisma.ServicioCreateNestedManyWithoutEmpresaInput
   sesionesActividad?: Prisma.SesionActividadCreateNestedManyWithoutEmpresaInput
+  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoCreateNestedManyWithoutEmpresasInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosCreateNestedManyWithoutEmpresaInput
   tiposServicio?: Prisma.TipoServicioCreateNestedManyWithoutEmpresaInput
   turnos?: Prisma.TurnoCreateNestedManyWithoutEmpresaInput
@@ -2383,6 +2425,7 @@ export type EmpresaUncheckedCreateWithoutVehiculosInput = {
   referidos?: Prisma.ReferidosUncheckedCreateNestedManyWithoutEmpresaInput
   servicios?: Prisma.ServicioUncheckedCreateNestedManyWithoutEmpresaInput
   sesionesActividad?: Prisma.SesionActividadUncheckedCreateNestedManyWithoutEmpresaInput
+  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUncheckedCreateNestedManyWithoutEmpresasInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUncheckedCreateNestedManyWithoutEmpresaInput
   tiposServicio?: Prisma.TipoServicioUncheckedCreateNestedManyWithoutEmpresaInput
   turnos?: Prisma.TurnoUncheckedCreateNestedManyWithoutEmpresaInput
@@ -2449,6 +2492,7 @@ export type EmpresaUpdateWithoutVehiculosInput = {
   referidos?: Prisma.ReferidosUpdateManyWithoutEmpresaNestedInput
   servicios?: Prisma.ServicioUpdateManyWithoutEmpresaNestedInput
   sesionesActividad?: Prisma.SesionActividadUpdateManyWithoutEmpresaNestedInput
+  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUpdateManyWithoutEmpresasNestedInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUpdateManyWithoutEmpresaNestedInput
   tiposServicio?: Prisma.TipoServicioUpdateManyWithoutEmpresaNestedInput
   turnos?: Prisma.TurnoUpdateManyWithoutEmpresaNestedInput
@@ -2499,6 +2543,7 @@ export type EmpresaUncheckedUpdateWithoutVehiculosInput = {
   referidos?: Prisma.ReferidosUncheckedUpdateManyWithoutEmpresaNestedInput
   servicios?: Prisma.ServicioUncheckedUpdateManyWithoutEmpresaNestedInput
   sesionesActividad?: Prisma.SesionActividadUncheckedUpdateManyWithoutEmpresaNestedInput
+  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUncheckedUpdateManyWithoutEmpresasNestedInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUncheckedUpdateManyWithoutEmpresaNestedInput
   tiposServicio?: Prisma.TipoServicioUncheckedUpdateManyWithoutEmpresaNestedInput
   turnos?: Prisma.TurnoUncheckedUpdateManyWithoutEmpresaNestedInput
@@ -2548,6 +2593,7 @@ export type EmpresaCreateWithoutDireccionesInput = {
   referidos?: Prisma.ReferidosCreateNestedManyWithoutEmpresaInput
   servicios?: Prisma.ServicioCreateNestedManyWithoutEmpresaInput
   sesionesActividad?: Prisma.SesionActividadCreateNestedManyWithoutEmpresaInput
+  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoCreateNestedManyWithoutEmpresasInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosCreateNestedManyWithoutEmpresaInput
   tiposServicio?: Prisma.TipoServicioCreateNestedManyWithoutEmpresaInput
   turnos?: Prisma.TurnoCreateNestedManyWithoutEmpresaInput
@@ -2598,6 +2644,7 @@ export type EmpresaUncheckedCreateWithoutDireccionesInput = {
   referidos?: Prisma.ReferidosUncheckedCreateNestedManyWithoutEmpresaInput
   servicios?: Prisma.ServicioUncheckedCreateNestedManyWithoutEmpresaInput
   sesionesActividad?: Prisma.SesionActividadUncheckedCreateNestedManyWithoutEmpresaInput
+  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUncheckedCreateNestedManyWithoutEmpresasInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUncheckedCreateNestedManyWithoutEmpresaInput
   tiposServicio?: Prisma.TipoServicioUncheckedCreateNestedManyWithoutEmpresaInput
   turnos?: Prisma.TurnoUncheckedCreateNestedManyWithoutEmpresaInput
@@ -2664,6 +2711,7 @@ export type EmpresaUpdateWithoutDireccionesInput = {
   referidos?: Prisma.ReferidosUpdateManyWithoutEmpresaNestedInput
   servicios?: Prisma.ServicioUpdateManyWithoutEmpresaNestedInput
   sesionesActividad?: Prisma.SesionActividadUpdateManyWithoutEmpresaNestedInput
+  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUpdateManyWithoutEmpresasNestedInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUpdateManyWithoutEmpresaNestedInput
   tiposServicio?: Prisma.TipoServicioUpdateManyWithoutEmpresaNestedInput
   turnos?: Prisma.TurnoUpdateManyWithoutEmpresaNestedInput
@@ -2714,6 +2762,7 @@ export type EmpresaUncheckedUpdateWithoutDireccionesInput = {
   referidos?: Prisma.ReferidosUncheckedUpdateManyWithoutEmpresaNestedInput
   servicios?: Prisma.ServicioUncheckedUpdateManyWithoutEmpresaNestedInput
   sesionesActividad?: Prisma.SesionActividadUncheckedUpdateManyWithoutEmpresaNestedInput
+  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUncheckedUpdateManyWithoutEmpresasNestedInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUncheckedUpdateManyWithoutEmpresaNestedInput
   tiposServicio?: Prisma.TipoServicioUncheckedUpdateManyWithoutEmpresaNestedInput
   turnos?: Prisma.TurnoUncheckedUpdateManyWithoutEmpresaNestedInput
@@ -2765,6 +2814,7 @@ export type EmpresaCreateWithoutZonasInput = {
   referidos?: Prisma.ReferidosCreateNestedManyWithoutEmpresaInput
   servicios?: Prisma.ServicioCreateNestedManyWithoutEmpresaInput
   sesionesActividad?: Prisma.SesionActividadCreateNestedManyWithoutEmpresaInput
+  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoCreateNestedManyWithoutEmpresasInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosCreateNestedManyWithoutEmpresaInput
   tiposServicio?: Prisma.TipoServicioCreateNestedManyWithoutEmpresaInput
   turnos?: Prisma.TurnoCreateNestedManyWithoutEmpresaInput
@@ -2815,6 +2865,7 @@ export type EmpresaUncheckedCreateWithoutZonasInput = {
   referidos?: Prisma.ReferidosUncheckedCreateNestedManyWithoutEmpresaInput
   servicios?: Prisma.ServicioUncheckedCreateNestedManyWithoutEmpresaInput
   sesionesActividad?: Prisma.SesionActividadUncheckedCreateNestedManyWithoutEmpresaInput
+  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUncheckedCreateNestedManyWithoutEmpresasInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUncheckedCreateNestedManyWithoutEmpresaInput
   tiposServicio?: Prisma.TipoServicioUncheckedCreateNestedManyWithoutEmpresaInput
   turnos?: Prisma.TurnoUncheckedCreateNestedManyWithoutEmpresaInput
@@ -2881,6 +2932,7 @@ export type EmpresaUpdateWithoutZonasInput = {
   referidos?: Prisma.ReferidosUpdateManyWithoutEmpresaNestedInput
   servicios?: Prisma.ServicioUpdateManyWithoutEmpresaNestedInput
   sesionesActividad?: Prisma.SesionActividadUpdateManyWithoutEmpresaNestedInput
+  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUpdateManyWithoutEmpresasNestedInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUpdateManyWithoutEmpresaNestedInput
   tiposServicio?: Prisma.TipoServicioUpdateManyWithoutEmpresaNestedInput
   turnos?: Prisma.TurnoUpdateManyWithoutEmpresaNestedInput
@@ -2931,6 +2983,7 @@ export type EmpresaUncheckedUpdateWithoutZonasInput = {
   referidos?: Prisma.ReferidosUncheckedUpdateManyWithoutEmpresaNestedInput
   servicios?: Prisma.ServicioUncheckedUpdateManyWithoutEmpresaNestedInput
   sesionesActividad?: Prisma.SesionActividadUncheckedUpdateManyWithoutEmpresaNestedInput
+  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUncheckedUpdateManyWithoutEmpresasNestedInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUncheckedUpdateManyWithoutEmpresaNestedInput
   tiposServicio?: Prisma.TipoServicioUncheckedUpdateManyWithoutEmpresaNestedInput
   turnos?: Prisma.TurnoUncheckedUpdateManyWithoutEmpresaNestedInput
@@ -2980,6 +3033,7 @@ export type EmpresaCreateWithoutServiciosInput = {
   proveedores?: Prisma.ProveedoresCreateNestedManyWithoutEmpresaInput
   referidos?: Prisma.ReferidosCreateNestedManyWithoutEmpresaInput
   sesionesActividad?: Prisma.SesionActividadCreateNestedManyWithoutEmpresaInput
+  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoCreateNestedManyWithoutEmpresasInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosCreateNestedManyWithoutEmpresaInput
   tiposServicio?: Prisma.TipoServicioCreateNestedManyWithoutEmpresaInput
   turnos?: Prisma.TurnoCreateNestedManyWithoutEmpresaInput
@@ -3030,6 +3084,7 @@ export type EmpresaUncheckedCreateWithoutServiciosInput = {
   proveedores?: Prisma.ProveedoresUncheckedCreateNestedManyWithoutEmpresaInput
   referidos?: Prisma.ReferidosUncheckedCreateNestedManyWithoutEmpresaInput
   sesionesActividad?: Prisma.SesionActividadUncheckedCreateNestedManyWithoutEmpresaInput
+  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUncheckedCreateNestedManyWithoutEmpresasInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUncheckedCreateNestedManyWithoutEmpresaInput
   tiposServicio?: Prisma.TipoServicioUncheckedCreateNestedManyWithoutEmpresaInput
   turnos?: Prisma.TurnoUncheckedCreateNestedManyWithoutEmpresaInput
@@ -3096,6 +3151,7 @@ export type EmpresaUpdateWithoutServiciosInput = {
   proveedores?: Prisma.ProveedoresUpdateManyWithoutEmpresaNestedInput
   referidos?: Prisma.ReferidosUpdateManyWithoutEmpresaNestedInput
   sesionesActividad?: Prisma.SesionActividadUpdateManyWithoutEmpresaNestedInput
+  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUpdateManyWithoutEmpresasNestedInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUpdateManyWithoutEmpresaNestedInput
   tiposServicio?: Prisma.TipoServicioUpdateManyWithoutEmpresaNestedInput
   turnos?: Prisma.TurnoUpdateManyWithoutEmpresaNestedInput
@@ -3146,6 +3202,7 @@ export type EmpresaUncheckedUpdateWithoutServiciosInput = {
   proveedores?: Prisma.ProveedoresUncheckedUpdateManyWithoutEmpresaNestedInput
   referidos?: Prisma.ReferidosUncheckedUpdateManyWithoutEmpresaNestedInput
   sesionesActividad?: Prisma.SesionActividadUncheckedUpdateManyWithoutEmpresaNestedInput
+  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUncheckedUpdateManyWithoutEmpresasNestedInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUncheckedUpdateManyWithoutEmpresaNestedInput
   tiposServicio?: Prisma.TipoServicioUncheckedUpdateManyWithoutEmpresaNestedInput
   turnos?: Prisma.TurnoUncheckedUpdateManyWithoutEmpresaNestedInput
@@ -3197,6 +3254,7 @@ export type EmpresaCreateWithoutTiposServicioInput = {
   referidos?: Prisma.ReferidosCreateNestedManyWithoutEmpresaInput
   servicios?: Prisma.ServicioCreateNestedManyWithoutEmpresaInput
   sesionesActividad?: Prisma.SesionActividadCreateNestedManyWithoutEmpresaInput
+  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoCreateNestedManyWithoutEmpresasInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosCreateNestedManyWithoutEmpresaInput
   turnos?: Prisma.TurnoCreateNestedManyWithoutEmpresaInput
   vehiculos?: Prisma.VehiculoCreateNestedManyWithoutEmpresaInput
@@ -3247,6 +3305,7 @@ export type EmpresaUncheckedCreateWithoutTiposServicioInput = {
   referidos?: Prisma.ReferidosUncheckedCreateNestedManyWithoutEmpresaInput
   servicios?: Prisma.ServicioUncheckedCreateNestedManyWithoutEmpresaInput
   sesionesActividad?: Prisma.SesionActividadUncheckedCreateNestedManyWithoutEmpresaInput
+  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUncheckedCreateNestedManyWithoutEmpresasInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUncheckedCreateNestedManyWithoutEmpresaInput
   turnos?: Prisma.TurnoUncheckedCreateNestedManyWithoutEmpresaInput
   vehiculos?: Prisma.VehiculoUncheckedCreateNestedManyWithoutEmpresaInput
@@ -3313,6 +3372,7 @@ export type EmpresaUpdateWithoutTiposServicioInput = {
   referidos?: Prisma.ReferidosUpdateManyWithoutEmpresaNestedInput
   servicios?: Prisma.ServicioUpdateManyWithoutEmpresaNestedInput
   sesionesActividad?: Prisma.SesionActividadUpdateManyWithoutEmpresaNestedInput
+  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUpdateManyWithoutEmpresasNestedInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUpdateManyWithoutEmpresaNestedInput
   turnos?: Prisma.TurnoUpdateManyWithoutEmpresaNestedInput
   vehiculos?: Prisma.VehiculoUpdateManyWithoutEmpresaNestedInput
@@ -3363,6 +3423,7 @@ export type EmpresaUncheckedUpdateWithoutTiposServicioInput = {
   referidos?: Prisma.ReferidosUncheckedUpdateManyWithoutEmpresaNestedInput
   servicios?: Prisma.ServicioUncheckedUpdateManyWithoutEmpresaNestedInput
   sesionesActividad?: Prisma.SesionActividadUncheckedUpdateManyWithoutEmpresaNestedInput
+  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUncheckedUpdateManyWithoutEmpresasNestedInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUncheckedUpdateManyWithoutEmpresaNestedInput
   turnos?: Prisma.TurnoUncheckedUpdateManyWithoutEmpresaNestedInput
   vehiculos?: Prisma.VehiculoUncheckedUpdateManyWithoutEmpresaNestedInput
@@ -3412,6 +3473,7 @@ export type EmpresaCreateWithoutMetodosPagoInput = {
   referidos?: Prisma.ReferidosCreateNestedManyWithoutEmpresaInput
   servicios?: Prisma.ServicioCreateNestedManyWithoutEmpresaInput
   sesionesActividad?: Prisma.SesionActividadCreateNestedManyWithoutEmpresaInput
+  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoCreateNestedManyWithoutEmpresasInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosCreateNestedManyWithoutEmpresaInput
   tiposServicio?: Prisma.TipoServicioCreateNestedManyWithoutEmpresaInput
   turnos?: Prisma.TurnoCreateNestedManyWithoutEmpresaInput
@@ -3462,6 +3524,7 @@ export type EmpresaUncheckedCreateWithoutMetodosPagoInput = {
   referidos?: Prisma.ReferidosUncheckedCreateNestedManyWithoutEmpresaInput
   servicios?: Prisma.ServicioUncheckedCreateNestedManyWithoutEmpresaInput
   sesionesActividad?: Prisma.SesionActividadUncheckedCreateNestedManyWithoutEmpresaInput
+  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUncheckedCreateNestedManyWithoutEmpresasInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUncheckedCreateNestedManyWithoutEmpresaInput
   tiposServicio?: Prisma.TipoServicioUncheckedCreateNestedManyWithoutEmpresaInput
   turnos?: Prisma.TurnoUncheckedCreateNestedManyWithoutEmpresaInput
@@ -3528,6 +3591,7 @@ export type EmpresaUpdateWithoutMetodosPagoInput = {
   referidos?: Prisma.ReferidosUpdateManyWithoutEmpresaNestedInput
   servicios?: Prisma.ServicioUpdateManyWithoutEmpresaNestedInput
   sesionesActividad?: Prisma.SesionActividadUpdateManyWithoutEmpresaNestedInput
+  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUpdateManyWithoutEmpresasNestedInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUpdateManyWithoutEmpresaNestedInput
   tiposServicio?: Prisma.TipoServicioUpdateManyWithoutEmpresaNestedInput
   turnos?: Prisma.TurnoUpdateManyWithoutEmpresaNestedInput
@@ -3578,6 +3642,7 @@ export type EmpresaUncheckedUpdateWithoutMetodosPagoInput = {
   referidos?: Prisma.ReferidosUncheckedUpdateManyWithoutEmpresaNestedInput
   servicios?: Prisma.ServicioUncheckedUpdateManyWithoutEmpresaNestedInput
   sesionesActividad?: Prisma.SesionActividadUncheckedUpdateManyWithoutEmpresaNestedInput
+  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUncheckedUpdateManyWithoutEmpresasNestedInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUncheckedUpdateManyWithoutEmpresaNestedInput
   tiposServicio?: Prisma.TipoServicioUncheckedUpdateManyWithoutEmpresaNestedInput
   turnos?: Prisma.TurnoUncheckedUpdateManyWithoutEmpresaNestedInput
@@ -3628,6 +3693,7 @@ export type EmpresaCreateWithoutEstadosServicioInput = {
   referidos?: Prisma.ReferidosCreateNestedManyWithoutEmpresaInput
   servicios?: Prisma.ServicioCreateNestedManyWithoutEmpresaInput
   sesionesActividad?: Prisma.SesionActividadCreateNestedManyWithoutEmpresaInput
+  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoCreateNestedManyWithoutEmpresasInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosCreateNestedManyWithoutEmpresaInput
   tiposServicio?: Prisma.TipoServicioCreateNestedManyWithoutEmpresaInput
   turnos?: Prisma.TurnoCreateNestedManyWithoutEmpresaInput
@@ -3678,6 +3744,7 @@ export type EmpresaUncheckedCreateWithoutEstadosServicioInput = {
   referidos?: Prisma.ReferidosUncheckedCreateNestedManyWithoutEmpresaInput
   servicios?: Prisma.ServicioUncheckedCreateNestedManyWithoutEmpresaInput
   sesionesActividad?: Prisma.SesionActividadUncheckedCreateNestedManyWithoutEmpresaInput
+  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUncheckedCreateNestedManyWithoutEmpresasInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUncheckedCreateNestedManyWithoutEmpresaInput
   tiposServicio?: Prisma.TipoServicioUncheckedCreateNestedManyWithoutEmpresaInput
   turnos?: Prisma.TurnoUncheckedCreateNestedManyWithoutEmpresaInput
@@ -3744,6 +3811,7 @@ export type EmpresaUpdateWithoutEstadosServicioInput = {
   referidos?: Prisma.ReferidosUpdateManyWithoutEmpresaNestedInput
   servicios?: Prisma.ServicioUpdateManyWithoutEmpresaNestedInput
   sesionesActividad?: Prisma.SesionActividadUpdateManyWithoutEmpresaNestedInput
+  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUpdateManyWithoutEmpresasNestedInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUpdateManyWithoutEmpresaNestedInput
   tiposServicio?: Prisma.TipoServicioUpdateManyWithoutEmpresaNestedInput
   turnos?: Prisma.TurnoUpdateManyWithoutEmpresaNestedInput
@@ -3794,6 +3862,7 @@ export type EmpresaUncheckedUpdateWithoutEstadosServicioInput = {
   referidos?: Prisma.ReferidosUncheckedUpdateManyWithoutEmpresaNestedInput
   servicios?: Prisma.ServicioUncheckedUpdateManyWithoutEmpresaNestedInput
   sesionesActividad?: Prisma.SesionActividadUncheckedUpdateManyWithoutEmpresaNestedInput
+  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUncheckedUpdateManyWithoutEmpresasNestedInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUncheckedUpdateManyWithoutEmpresaNestedInput
   tiposServicio?: Prisma.TipoServicioUncheckedUpdateManyWithoutEmpresaNestedInput
   turnos?: Prisma.TurnoUncheckedUpdateManyWithoutEmpresaNestedInput
@@ -3844,6 +3913,7 @@ export type EmpresaCreateWithoutOrdenesServicioInput = {
   referidos?: Prisma.ReferidosCreateNestedManyWithoutEmpresaInput
   servicios?: Prisma.ServicioCreateNestedManyWithoutEmpresaInput
   sesionesActividad?: Prisma.SesionActividadCreateNestedManyWithoutEmpresaInput
+  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoCreateNestedManyWithoutEmpresasInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosCreateNestedManyWithoutEmpresaInput
   tiposServicio?: Prisma.TipoServicioCreateNestedManyWithoutEmpresaInput
   turnos?: Prisma.TurnoCreateNestedManyWithoutEmpresaInput
@@ -3894,6 +3964,7 @@ export type EmpresaUncheckedCreateWithoutOrdenesServicioInput = {
   referidos?: Prisma.ReferidosUncheckedCreateNestedManyWithoutEmpresaInput
   servicios?: Prisma.ServicioUncheckedCreateNestedManyWithoutEmpresaInput
   sesionesActividad?: Prisma.SesionActividadUncheckedCreateNestedManyWithoutEmpresaInput
+  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUncheckedCreateNestedManyWithoutEmpresasInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUncheckedCreateNestedManyWithoutEmpresaInput
   tiposServicio?: Prisma.TipoServicioUncheckedCreateNestedManyWithoutEmpresaInput
   turnos?: Prisma.TurnoUncheckedCreateNestedManyWithoutEmpresaInput
@@ -3960,6 +4031,7 @@ export type EmpresaUpdateWithoutOrdenesServicioInput = {
   referidos?: Prisma.ReferidosUpdateManyWithoutEmpresaNestedInput
   servicios?: Prisma.ServicioUpdateManyWithoutEmpresaNestedInput
   sesionesActividad?: Prisma.SesionActividadUpdateManyWithoutEmpresaNestedInput
+  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUpdateManyWithoutEmpresasNestedInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUpdateManyWithoutEmpresaNestedInput
   tiposServicio?: Prisma.TipoServicioUpdateManyWithoutEmpresaNestedInput
   turnos?: Prisma.TurnoUpdateManyWithoutEmpresaNestedInput
@@ -4010,6 +4082,7 @@ export type EmpresaUncheckedUpdateWithoutOrdenesServicioInput = {
   referidos?: Prisma.ReferidosUncheckedUpdateManyWithoutEmpresaNestedInput
   servicios?: Prisma.ServicioUncheckedUpdateManyWithoutEmpresaNestedInput
   sesionesActividad?: Prisma.SesionActividadUncheckedUpdateManyWithoutEmpresaNestedInput
+  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUncheckedUpdateManyWithoutEmpresasNestedInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUncheckedUpdateManyWithoutEmpresaNestedInput
   tiposServicio?: Prisma.TipoServicioUncheckedUpdateManyWithoutEmpresaNestedInput
   turnos?: Prisma.TurnoUncheckedUpdateManyWithoutEmpresaNestedInput
@@ -4060,6 +4133,7 @@ export type EmpresaCreateWithoutEntidadesFinancierasInput = {
   referidos?: Prisma.ReferidosCreateNestedManyWithoutEmpresaInput
   servicios?: Prisma.ServicioCreateNestedManyWithoutEmpresaInput
   sesionesActividad?: Prisma.SesionActividadCreateNestedManyWithoutEmpresaInput
+  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoCreateNestedManyWithoutEmpresasInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosCreateNestedManyWithoutEmpresaInput
   tiposServicio?: Prisma.TipoServicioCreateNestedManyWithoutEmpresaInput
   turnos?: Prisma.TurnoCreateNestedManyWithoutEmpresaInput
@@ -4110,6 +4184,7 @@ export type EmpresaUncheckedCreateWithoutEntidadesFinancierasInput = {
   referidos?: Prisma.ReferidosUncheckedCreateNestedManyWithoutEmpresaInput
   servicios?: Prisma.ServicioUncheckedCreateNestedManyWithoutEmpresaInput
   sesionesActividad?: Prisma.SesionActividadUncheckedCreateNestedManyWithoutEmpresaInput
+  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUncheckedCreateNestedManyWithoutEmpresasInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUncheckedCreateNestedManyWithoutEmpresaInput
   tiposServicio?: Prisma.TipoServicioUncheckedCreateNestedManyWithoutEmpresaInput
   turnos?: Prisma.TurnoUncheckedCreateNestedManyWithoutEmpresaInput
@@ -4176,6 +4251,7 @@ export type EmpresaUpdateWithoutEntidadesFinancierasInput = {
   referidos?: Prisma.ReferidosUpdateManyWithoutEmpresaNestedInput
   servicios?: Prisma.ServicioUpdateManyWithoutEmpresaNestedInput
   sesionesActividad?: Prisma.SesionActividadUpdateManyWithoutEmpresaNestedInput
+  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUpdateManyWithoutEmpresasNestedInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUpdateManyWithoutEmpresaNestedInput
   tiposServicio?: Prisma.TipoServicioUpdateManyWithoutEmpresaNestedInput
   turnos?: Prisma.TurnoUpdateManyWithoutEmpresaNestedInput
@@ -4226,6 +4302,7 @@ export type EmpresaUncheckedUpdateWithoutEntidadesFinancierasInput = {
   referidos?: Prisma.ReferidosUncheckedUpdateManyWithoutEmpresaNestedInput
   servicios?: Prisma.ServicioUncheckedUpdateManyWithoutEmpresaNestedInput
   sesionesActividad?: Prisma.SesionActividadUncheckedUpdateManyWithoutEmpresaNestedInput
+  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUncheckedUpdateManyWithoutEmpresasNestedInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUncheckedUpdateManyWithoutEmpresaNestedInput
   tiposServicio?: Prisma.TipoServicioUncheckedUpdateManyWithoutEmpresaNestedInput
   turnos?: Prisma.TurnoUncheckedUpdateManyWithoutEmpresaNestedInput
@@ -4276,6 +4353,7 @@ export type EmpresaCreateWithoutGeolocalizacionesInput = {
   referidos?: Prisma.ReferidosCreateNestedManyWithoutEmpresaInput
   servicios?: Prisma.ServicioCreateNestedManyWithoutEmpresaInput
   sesionesActividad?: Prisma.SesionActividadCreateNestedManyWithoutEmpresaInput
+  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoCreateNestedManyWithoutEmpresasInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosCreateNestedManyWithoutEmpresaInput
   tiposServicio?: Prisma.TipoServicioCreateNestedManyWithoutEmpresaInput
   turnos?: Prisma.TurnoCreateNestedManyWithoutEmpresaInput
@@ -4326,6 +4404,7 @@ export type EmpresaUncheckedCreateWithoutGeolocalizacionesInput = {
   referidos?: Prisma.ReferidosUncheckedCreateNestedManyWithoutEmpresaInput
   servicios?: Prisma.ServicioUncheckedCreateNestedManyWithoutEmpresaInput
   sesionesActividad?: Prisma.SesionActividadUncheckedCreateNestedManyWithoutEmpresaInput
+  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUncheckedCreateNestedManyWithoutEmpresasInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUncheckedCreateNestedManyWithoutEmpresaInput
   tiposServicio?: Prisma.TipoServicioUncheckedCreateNestedManyWithoutEmpresaInput
   turnos?: Prisma.TurnoUncheckedCreateNestedManyWithoutEmpresaInput
@@ -4392,6 +4471,7 @@ export type EmpresaUpdateWithoutGeolocalizacionesInput = {
   referidos?: Prisma.ReferidosUpdateManyWithoutEmpresaNestedInput
   servicios?: Prisma.ServicioUpdateManyWithoutEmpresaNestedInput
   sesionesActividad?: Prisma.SesionActividadUpdateManyWithoutEmpresaNestedInput
+  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUpdateManyWithoutEmpresasNestedInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUpdateManyWithoutEmpresaNestedInput
   tiposServicio?: Prisma.TipoServicioUpdateManyWithoutEmpresaNestedInput
   turnos?: Prisma.TurnoUpdateManyWithoutEmpresaNestedInput
@@ -4442,6 +4522,7 @@ export type EmpresaUncheckedUpdateWithoutGeolocalizacionesInput = {
   referidos?: Prisma.ReferidosUncheckedUpdateManyWithoutEmpresaNestedInput
   servicios?: Prisma.ServicioUncheckedUpdateManyWithoutEmpresaNestedInput
   sesionesActividad?: Prisma.SesionActividadUncheckedUpdateManyWithoutEmpresaNestedInput
+  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUncheckedUpdateManyWithoutEmpresasNestedInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUncheckedUpdateManyWithoutEmpresaNestedInput
   tiposServicio?: Prisma.TipoServicioUncheckedUpdateManyWithoutEmpresaNestedInput
   turnos?: Prisma.TurnoUncheckedUpdateManyWithoutEmpresaNestedInput
@@ -4492,6 +4573,7 @@ export type EmpresaCreateWithoutNominasInput = {
   referidos?: Prisma.ReferidosCreateNestedManyWithoutEmpresaInput
   servicios?: Prisma.ServicioCreateNestedManyWithoutEmpresaInput
   sesionesActividad?: Prisma.SesionActividadCreateNestedManyWithoutEmpresaInput
+  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoCreateNestedManyWithoutEmpresasInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosCreateNestedManyWithoutEmpresaInput
   tiposServicio?: Prisma.TipoServicioCreateNestedManyWithoutEmpresaInput
   turnos?: Prisma.TurnoCreateNestedManyWithoutEmpresaInput
@@ -4542,6 +4624,7 @@ export type EmpresaUncheckedCreateWithoutNominasInput = {
   referidos?: Prisma.ReferidosUncheckedCreateNestedManyWithoutEmpresaInput
   servicios?: Prisma.ServicioUncheckedCreateNestedManyWithoutEmpresaInput
   sesionesActividad?: Prisma.SesionActividadUncheckedCreateNestedManyWithoutEmpresaInput
+  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUncheckedCreateNestedManyWithoutEmpresasInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUncheckedCreateNestedManyWithoutEmpresaInput
   tiposServicio?: Prisma.TipoServicioUncheckedCreateNestedManyWithoutEmpresaInput
   turnos?: Prisma.TurnoUncheckedCreateNestedManyWithoutEmpresaInput
@@ -4608,6 +4691,7 @@ export type EmpresaUpdateWithoutNominasInput = {
   referidos?: Prisma.ReferidosUpdateManyWithoutEmpresaNestedInput
   servicios?: Prisma.ServicioUpdateManyWithoutEmpresaNestedInput
   sesionesActividad?: Prisma.SesionActividadUpdateManyWithoutEmpresaNestedInput
+  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUpdateManyWithoutEmpresasNestedInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUpdateManyWithoutEmpresaNestedInput
   tiposServicio?: Prisma.TipoServicioUpdateManyWithoutEmpresaNestedInput
   turnos?: Prisma.TurnoUpdateManyWithoutEmpresaNestedInput
@@ -4658,6 +4742,7 @@ export type EmpresaUncheckedUpdateWithoutNominasInput = {
   referidos?: Prisma.ReferidosUncheckedUpdateManyWithoutEmpresaNestedInput
   servicios?: Prisma.ServicioUncheckedUpdateManyWithoutEmpresaNestedInput
   sesionesActividad?: Prisma.SesionActividadUncheckedUpdateManyWithoutEmpresaNestedInput
+  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUncheckedUpdateManyWithoutEmpresasNestedInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUncheckedUpdateManyWithoutEmpresaNestedInput
   tiposServicio?: Prisma.TipoServicioUncheckedUpdateManyWithoutEmpresaNestedInput
   turnos?: Prisma.TurnoUncheckedUpdateManyWithoutEmpresaNestedInput
@@ -4708,6 +4793,7 @@ export type EmpresaCreateWithoutNominaDetallesInput = {
   referidos?: Prisma.ReferidosCreateNestedManyWithoutEmpresaInput
   servicios?: Prisma.ServicioCreateNestedManyWithoutEmpresaInput
   sesionesActividad?: Prisma.SesionActividadCreateNestedManyWithoutEmpresaInput
+  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoCreateNestedManyWithoutEmpresasInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosCreateNestedManyWithoutEmpresaInput
   tiposServicio?: Prisma.TipoServicioCreateNestedManyWithoutEmpresaInput
   turnos?: Prisma.TurnoCreateNestedManyWithoutEmpresaInput
@@ -4758,6 +4844,7 @@ export type EmpresaUncheckedCreateWithoutNominaDetallesInput = {
   referidos?: Prisma.ReferidosUncheckedCreateNestedManyWithoutEmpresaInput
   servicios?: Prisma.ServicioUncheckedCreateNestedManyWithoutEmpresaInput
   sesionesActividad?: Prisma.SesionActividadUncheckedCreateNestedManyWithoutEmpresaInput
+  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUncheckedCreateNestedManyWithoutEmpresasInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUncheckedCreateNestedManyWithoutEmpresaInput
   tiposServicio?: Prisma.TipoServicioUncheckedCreateNestedManyWithoutEmpresaInput
   turnos?: Prisma.TurnoUncheckedCreateNestedManyWithoutEmpresaInput
@@ -4824,6 +4911,7 @@ export type EmpresaUpdateWithoutNominaDetallesInput = {
   referidos?: Prisma.ReferidosUpdateManyWithoutEmpresaNestedInput
   servicios?: Prisma.ServicioUpdateManyWithoutEmpresaNestedInput
   sesionesActividad?: Prisma.SesionActividadUpdateManyWithoutEmpresaNestedInput
+  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUpdateManyWithoutEmpresasNestedInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUpdateManyWithoutEmpresaNestedInput
   tiposServicio?: Prisma.TipoServicioUpdateManyWithoutEmpresaNestedInput
   turnos?: Prisma.TurnoUpdateManyWithoutEmpresaNestedInput
@@ -4874,6 +4962,7 @@ export type EmpresaUncheckedUpdateWithoutNominaDetallesInput = {
   referidos?: Prisma.ReferidosUncheckedUpdateManyWithoutEmpresaNestedInput
   servicios?: Prisma.ServicioUncheckedUpdateManyWithoutEmpresaNestedInput
   sesionesActividad?: Prisma.SesionActividadUncheckedUpdateManyWithoutEmpresaNestedInput
+  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUncheckedUpdateManyWithoutEmpresasNestedInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUncheckedUpdateManyWithoutEmpresaNestedInput
   tiposServicio?: Prisma.TipoServicioUncheckedUpdateManyWithoutEmpresaNestedInput
   turnos?: Prisma.TurnoUncheckedUpdateManyWithoutEmpresaNestedInput
@@ -4924,6 +5013,7 @@ export type EmpresaCreateWithoutCitasPsicologosInput = {
   referidos?: Prisma.ReferidosCreateNestedManyWithoutEmpresaInput
   servicios?: Prisma.ServicioCreateNestedManyWithoutEmpresaInput
   sesionesActividad?: Prisma.SesionActividadCreateNestedManyWithoutEmpresaInput
+  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoCreateNestedManyWithoutEmpresasInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosCreateNestedManyWithoutEmpresaInput
   tiposServicio?: Prisma.TipoServicioCreateNestedManyWithoutEmpresaInput
   turnos?: Prisma.TurnoCreateNestedManyWithoutEmpresaInput
@@ -4974,6 +5064,7 @@ export type EmpresaUncheckedCreateWithoutCitasPsicologosInput = {
   referidos?: Prisma.ReferidosUncheckedCreateNestedManyWithoutEmpresaInput
   servicios?: Prisma.ServicioUncheckedCreateNestedManyWithoutEmpresaInput
   sesionesActividad?: Prisma.SesionActividadUncheckedCreateNestedManyWithoutEmpresaInput
+  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUncheckedCreateNestedManyWithoutEmpresasInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUncheckedCreateNestedManyWithoutEmpresaInput
   tiposServicio?: Prisma.TipoServicioUncheckedCreateNestedManyWithoutEmpresaInput
   turnos?: Prisma.TurnoUncheckedCreateNestedManyWithoutEmpresaInput
@@ -5040,6 +5131,7 @@ export type EmpresaUpdateWithoutCitasPsicologosInput = {
   referidos?: Prisma.ReferidosUpdateManyWithoutEmpresaNestedInput
   servicios?: Prisma.ServicioUpdateManyWithoutEmpresaNestedInput
   sesionesActividad?: Prisma.SesionActividadUpdateManyWithoutEmpresaNestedInput
+  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUpdateManyWithoutEmpresasNestedInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUpdateManyWithoutEmpresaNestedInput
   tiposServicio?: Prisma.TipoServicioUpdateManyWithoutEmpresaNestedInput
   turnos?: Prisma.TurnoUpdateManyWithoutEmpresaNestedInput
@@ -5090,6 +5182,7 @@ export type EmpresaUncheckedUpdateWithoutCitasPsicologosInput = {
   referidos?: Prisma.ReferidosUncheckedUpdateManyWithoutEmpresaNestedInput
   servicios?: Prisma.ServicioUncheckedUpdateManyWithoutEmpresaNestedInput
   sesionesActividad?: Prisma.SesionActividadUncheckedUpdateManyWithoutEmpresaNestedInput
+  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUncheckedUpdateManyWithoutEmpresasNestedInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUncheckedUpdateManyWithoutEmpresaNestedInput
   tiposServicio?: Prisma.TipoServicioUncheckedUpdateManyWithoutEmpresaNestedInput
   turnos?: Prisma.TurnoUncheckedUpdateManyWithoutEmpresaNestedInput
@@ -5140,6 +5233,7 @@ export type EmpresaCreateWithoutConsultoriosInput = {
   referidos?: Prisma.ReferidosCreateNestedManyWithoutEmpresaInput
   servicios?: Prisma.ServicioCreateNestedManyWithoutEmpresaInput
   sesionesActividad?: Prisma.SesionActividadCreateNestedManyWithoutEmpresaInput
+  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoCreateNestedManyWithoutEmpresasInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosCreateNestedManyWithoutEmpresaInput
   tiposServicio?: Prisma.TipoServicioCreateNestedManyWithoutEmpresaInput
   turnos?: Prisma.TurnoCreateNestedManyWithoutEmpresaInput
@@ -5190,6 +5284,7 @@ export type EmpresaUncheckedCreateWithoutConsultoriosInput = {
   referidos?: Prisma.ReferidosUncheckedCreateNestedManyWithoutEmpresaInput
   servicios?: Prisma.ServicioUncheckedCreateNestedManyWithoutEmpresaInput
   sesionesActividad?: Prisma.SesionActividadUncheckedCreateNestedManyWithoutEmpresaInput
+  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUncheckedCreateNestedManyWithoutEmpresasInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUncheckedCreateNestedManyWithoutEmpresaInput
   tiposServicio?: Prisma.TipoServicioUncheckedCreateNestedManyWithoutEmpresaInput
   turnos?: Prisma.TurnoUncheckedCreateNestedManyWithoutEmpresaInput
@@ -5256,6 +5351,7 @@ export type EmpresaUpdateWithoutConsultoriosInput = {
   referidos?: Prisma.ReferidosUpdateManyWithoutEmpresaNestedInput
   servicios?: Prisma.ServicioUpdateManyWithoutEmpresaNestedInput
   sesionesActividad?: Prisma.SesionActividadUpdateManyWithoutEmpresaNestedInput
+  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUpdateManyWithoutEmpresasNestedInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUpdateManyWithoutEmpresaNestedInput
   tiposServicio?: Prisma.TipoServicioUpdateManyWithoutEmpresaNestedInput
   turnos?: Prisma.TurnoUpdateManyWithoutEmpresaNestedInput
@@ -5306,6 +5402,7 @@ export type EmpresaUncheckedUpdateWithoutConsultoriosInput = {
   referidos?: Prisma.ReferidosUncheckedUpdateManyWithoutEmpresaNestedInput
   servicios?: Prisma.ServicioUncheckedUpdateManyWithoutEmpresaNestedInput
   sesionesActividad?: Prisma.SesionActividadUncheckedUpdateManyWithoutEmpresaNestedInput
+  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUncheckedUpdateManyWithoutEmpresasNestedInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUncheckedUpdateManyWithoutEmpresaNestedInput
   tiposServicio?: Prisma.TipoServicioUncheckedUpdateManyWithoutEmpresaNestedInput
   turnos?: Prisma.TurnoUncheckedUpdateManyWithoutEmpresaNestedInput
@@ -5357,6 +5454,7 @@ export type EmpresaCreateWithoutTerapiasPsicologosInput = {
   referidos?: Prisma.ReferidosCreateNestedManyWithoutEmpresaInput
   servicios?: Prisma.ServicioCreateNestedManyWithoutEmpresaInput
   sesionesActividad?: Prisma.SesionActividadCreateNestedManyWithoutEmpresaInput
+  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoCreateNestedManyWithoutEmpresasInput
   tiposServicio?: Prisma.TipoServicioCreateNestedManyWithoutEmpresaInput
   turnos?: Prisma.TurnoCreateNestedManyWithoutEmpresaInput
   vehiculos?: Prisma.VehiculoCreateNestedManyWithoutEmpresaInput
@@ -5407,6 +5505,7 @@ export type EmpresaUncheckedCreateWithoutTerapiasPsicologosInput = {
   referidos?: Prisma.ReferidosUncheckedCreateNestedManyWithoutEmpresaInput
   servicios?: Prisma.ServicioUncheckedCreateNestedManyWithoutEmpresaInput
   sesionesActividad?: Prisma.SesionActividadUncheckedCreateNestedManyWithoutEmpresaInput
+  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUncheckedCreateNestedManyWithoutEmpresasInput
   tiposServicio?: Prisma.TipoServicioUncheckedCreateNestedManyWithoutEmpresaInput
   turnos?: Prisma.TurnoUncheckedCreateNestedManyWithoutEmpresaInput
   vehiculos?: Prisma.VehiculoUncheckedCreateNestedManyWithoutEmpresaInput
@@ -5473,6 +5572,7 @@ export type EmpresaUpdateWithoutTerapiasPsicologosInput = {
   referidos?: Prisma.ReferidosUpdateManyWithoutEmpresaNestedInput
   servicios?: Prisma.ServicioUpdateManyWithoutEmpresaNestedInput
   sesionesActividad?: Prisma.SesionActividadUpdateManyWithoutEmpresaNestedInput
+  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUpdateManyWithoutEmpresasNestedInput
   tiposServicio?: Prisma.TipoServicioUpdateManyWithoutEmpresaNestedInput
   turnos?: Prisma.TurnoUpdateManyWithoutEmpresaNestedInput
   vehiculos?: Prisma.VehiculoUpdateManyWithoutEmpresaNestedInput
@@ -5523,6 +5623,7 @@ export type EmpresaUncheckedUpdateWithoutTerapiasPsicologosInput = {
   referidos?: Prisma.ReferidosUncheckedUpdateManyWithoutEmpresaNestedInput
   servicios?: Prisma.ServicioUncheckedUpdateManyWithoutEmpresaNestedInput
   sesionesActividad?: Prisma.SesionActividadUncheckedUpdateManyWithoutEmpresaNestedInput
+  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUncheckedUpdateManyWithoutEmpresasNestedInput
   tiposServicio?: Prisma.TipoServicioUncheckedUpdateManyWithoutEmpresaNestedInput
   turnos?: Prisma.TurnoUncheckedUpdateManyWithoutEmpresaNestedInput
   vehiculos?: Prisma.VehiculoUncheckedUpdateManyWithoutEmpresaNestedInput
@@ -5572,6 +5673,7 @@ export type EmpresaCreateWithoutPaquetesAdquiridosInput = {
   referidos?: Prisma.ReferidosCreateNestedManyWithoutEmpresaInput
   servicios?: Prisma.ServicioCreateNestedManyWithoutEmpresaInput
   sesionesActividad?: Prisma.SesionActividadCreateNestedManyWithoutEmpresaInput
+  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoCreateNestedManyWithoutEmpresasInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosCreateNestedManyWithoutEmpresaInput
   tiposServicio?: Prisma.TipoServicioCreateNestedManyWithoutEmpresaInput
   turnos?: Prisma.TurnoCreateNestedManyWithoutEmpresaInput
@@ -5622,6 +5724,7 @@ export type EmpresaUncheckedCreateWithoutPaquetesAdquiridosInput = {
   referidos?: Prisma.ReferidosUncheckedCreateNestedManyWithoutEmpresaInput
   servicios?: Prisma.ServicioUncheckedCreateNestedManyWithoutEmpresaInput
   sesionesActividad?: Prisma.SesionActividadUncheckedCreateNestedManyWithoutEmpresaInput
+  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUncheckedCreateNestedManyWithoutEmpresasInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUncheckedCreateNestedManyWithoutEmpresaInput
   tiposServicio?: Prisma.TipoServicioUncheckedCreateNestedManyWithoutEmpresaInput
   turnos?: Prisma.TurnoUncheckedCreateNestedManyWithoutEmpresaInput
@@ -5688,6 +5791,7 @@ export type EmpresaUpdateWithoutPaquetesAdquiridosInput = {
   referidos?: Prisma.ReferidosUpdateManyWithoutEmpresaNestedInput
   servicios?: Prisma.ServicioUpdateManyWithoutEmpresaNestedInput
   sesionesActividad?: Prisma.SesionActividadUpdateManyWithoutEmpresaNestedInput
+  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUpdateManyWithoutEmpresasNestedInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUpdateManyWithoutEmpresaNestedInput
   tiposServicio?: Prisma.TipoServicioUpdateManyWithoutEmpresaNestedInput
   turnos?: Prisma.TurnoUpdateManyWithoutEmpresaNestedInput
@@ -5738,6 +5842,7 @@ export type EmpresaUncheckedUpdateWithoutPaquetesAdquiridosInput = {
   referidos?: Prisma.ReferidosUncheckedUpdateManyWithoutEmpresaNestedInput
   servicios?: Prisma.ServicioUncheckedUpdateManyWithoutEmpresaNestedInput
   sesionesActividad?: Prisma.SesionActividadUncheckedUpdateManyWithoutEmpresaNestedInput
+  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUncheckedUpdateManyWithoutEmpresasNestedInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUncheckedUpdateManyWithoutEmpresaNestedInput
   tiposServicio?: Prisma.TipoServicioUncheckedUpdateManyWithoutEmpresaNestedInput
   turnos?: Prisma.TurnoUncheckedUpdateManyWithoutEmpresaNestedInput
@@ -5789,6 +5894,7 @@ export type EmpresaCreateWithoutTurnosInput = {
   referidos?: Prisma.ReferidosCreateNestedManyWithoutEmpresaInput
   servicios?: Prisma.ServicioCreateNestedManyWithoutEmpresaInput
   sesionesActividad?: Prisma.SesionActividadCreateNestedManyWithoutEmpresaInput
+  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoCreateNestedManyWithoutEmpresasInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosCreateNestedManyWithoutEmpresaInput
   tiposServicio?: Prisma.TipoServicioCreateNestedManyWithoutEmpresaInput
   vehiculos?: Prisma.VehiculoCreateNestedManyWithoutEmpresaInput
@@ -5839,6 +5945,7 @@ export type EmpresaUncheckedCreateWithoutTurnosInput = {
   referidos?: Prisma.ReferidosUncheckedCreateNestedManyWithoutEmpresaInput
   servicios?: Prisma.ServicioUncheckedCreateNestedManyWithoutEmpresaInput
   sesionesActividad?: Prisma.SesionActividadUncheckedCreateNestedManyWithoutEmpresaInput
+  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUncheckedCreateNestedManyWithoutEmpresasInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUncheckedCreateNestedManyWithoutEmpresaInput
   tiposServicio?: Prisma.TipoServicioUncheckedCreateNestedManyWithoutEmpresaInput
   vehiculos?: Prisma.VehiculoUncheckedCreateNestedManyWithoutEmpresaInput
@@ -5905,6 +6012,7 @@ export type EmpresaUpdateWithoutTurnosInput = {
   referidos?: Prisma.ReferidosUpdateManyWithoutEmpresaNestedInput
   servicios?: Prisma.ServicioUpdateManyWithoutEmpresaNestedInput
   sesionesActividad?: Prisma.SesionActividadUpdateManyWithoutEmpresaNestedInput
+  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUpdateManyWithoutEmpresasNestedInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUpdateManyWithoutEmpresaNestedInput
   tiposServicio?: Prisma.TipoServicioUpdateManyWithoutEmpresaNestedInput
   vehiculos?: Prisma.VehiculoUpdateManyWithoutEmpresaNestedInput
@@ -5955,6 +6063,7 @@ export type EmpresaUncheckedUpdateWithoutTurnosInput = {
   referidos?: Prisma.ReferidosUncheckedUpdateManyWithoutEmpresaNestedInput
   servicios?: Prisma.ServicioUncheckedUpdateManyWithoutEmpresaNestedInput
   sesionesActividad?: Prisma.SesionActividadUncheckedUpdateManyWithoutEmpresaNestedInput
+  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUncheckedUpdateManyWithoutEmpresasNestedInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUncheckedUpdateManyWithoutEmpresaNestedInput
   tiposServicio?: Prisma.TipoServicioUncheckedUpdateManyWithoutEmpresaNestedInput
   vehiculos?: Prisma.VehiculoUncheckedUpdateManyWithoutEmpresaNestedInput
@@ -6004,6 +6113,7 @@ export type EmpresaCreateWithoutCuentasCobroInput = {
   referidos?: Prisma.ReferidosCreateNestedManyWithoutEmpresaInput
   servicios?: Prisma.ServicioCreateNestedManyWithoutEmpresaInput
   sesionesActividad?: Prisma.SesionActividadCreateNestedManyWithoutEmpresaInput
+  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoCreateNestedManyWithoutEmpresasInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosCreateNestedManyWithoutEmpresaInput
   tiposServicio?: Prisma.TipoServicioCreateNestedManyWithoutEmpresaInput
   turnos?: Prisma.TurnoCreateNestedManyWithoutEmpresaInput
@@ -6054,6 +6164,7 @@ export type EmpresaUncheckedCreateWithoutCuentasCobroInput = {
   referidos?: Prisma.ReferidosUncheckedCreateNestedManyWithoutEmpresaInput
   servicios?: Prisma.ServicioUncheckedCreateNestedManyWithoutEmpresaInput
   sesionesActividad?: Prisma.SesionActividadUncheckedCreateNestedManyWithoutEmpresaInput
+  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUncheckedCreateNestedManyWithoutEmpresasInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUncheckedCreateNestedManyWithoutEmpresaInput
   tiposServicio?: Prisma.TipoServicioUncheckedCreateNestedManyWithoutEmpresaInput
   turnos?: Prisma.TurnoUncheckedCreateNestedManyWithoutEmpresaInput
@@ -6120,6 +6231,7 @@ export type EmpresaUpdateWithoutCuentasCobroInput = {
   referidos?: Prisma.ReferidosUpdateManyWithoutEmpresaNestedInput
   servicios?: Prisma.ServicioUpdateManyWithoutEmpresaNestedInput
   sesionesActividad?: Prisma.SesionActividadUpdateManyWithoutEmpresaNestedInput
+  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUpdateManyWithoutEmpresasNestedInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUpdateManyWithoutEmpresaNestedInput
   tiposServicio?: Prisma.TipoServicioUpdateManyWithoutEmpresaNestedInput
   turnos?: Prisma.TurnoUpdateManyWithoutEmpresaNestedInput
@@ -6170,6 +6282,7 @@ export type EmpresaUncheckedUpdateWithoutCuentasCobroInput = {
   referidos?: Prisma.ReferidosUncheckedUpdateManyWithoutEmpresaNestedInput
   servicios?: Prisma.ServicioUncheckedUpdateManyWithoutEmpresaNestedInput
   sesionesActividad?: Prisma.SesionActividadUncheckedUpdateManyWithoutEmpresaNestedInput
+  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUncheckedUpdateManyWithoutEmpresasNestedInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUncheckedUpdateManyWithoutEmpresaNestedInput
   tiposServicio?: Prisma.TipoServicioUncheckedUpdateManyWithoutEmpresaNestedInput
   turnos?: Prisma.TurnoUncheckedUpdateManyWithoutEmpresaNestedInput
@@ -6220,6 +6333,7 @@ export type EmpresaCreateWithoutDeclaracionesInput = {
   referidos?: Prisma.ReferidosCreateNestedManyWithoutEmpresaInput
   servicios?: Prisma.ServicioCreateNestedManyWithoutEmpresaInput
   sesionesActividad?: Prisma.SesionActividadCreateNestedManyWithoutEmpresaInput
+  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoCreateNestedManyWithoutEmpresasInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosCreateNestedManyWithoutEmpresaInput
   tiposServicio?: Prisma.TipoServicioCreateNestedManyWithoutEmpresaInput
   turnos?: Prisma.TurnoCreateNestedManyWithoutEmpresaInput
@@ -6270,6 +6384,7 @@ export type EmpresaUncheckedCreateWithoutDeclaracionesInput = {
   referidos?: Prisma.ReferidosUncheckedCreateNestedManyWithoutEmpresaInput
   servicios?: Prisma.ServicioUncheckedCreateNestedManyWithoutEmpresaInput
   sesionesActividad?: Prisma.SesionActividadUncheckedCreateNestedManyWithoutEmpresaInput
+  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUncheckedCreateNestedManyWithoutEmpresasInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUncheckedCreateNestedManyWithoutEmpresaInput
   tiposServicio?: Prisma.TipoServicioUncheckedCreateNestedManyWithoutEmpresaInput
   turnos?: Prisma.TurnoUncheckedCreateNestedManyWithoutEmpresaInput
@@ -6336,6 +6451,7 @@ export type EmpresaUpdateWithoutDeclaracionesInput = {
   referidos?: Prisma.ReferidosUpdateManyWithoutEmpresaNestedInput
   servicios?: Prisma.ServicioUpdateManyWithoutEmpresaNestedInput
   sesionesActividad?: Prisma.SesionActividadUpdateManyWithoutEmpresaNestedInput
+  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUpdateManyWithoutEmpresasNestedInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUpdateManyWithoutEmpresaNestedInput
   tiposServicio?: Prisma.TipoServicioUpdateManyWithoutEmpresaNestedInput
   turnos?: Prisma.TurnoUpdateManyWithoutEmpresaNestedInput
@@ -6386,6 +6502,7 @@ export type EmpresaUncheckedUpdateWithoutDeclaracionesInput = {
   referidos?: Prisma.ReferidosUncheckedUpdateManyWithoutEmpresaNestedInput
   servicios?: Prisma.ServicioUncheckedUpdateManyWithoutEmpresaNestedInput
   sesionesActividad?: Prisma.SesionActividadUncheckedUpdateManyWithoutEmpresaNestedInput
+  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUncheckedUpdateManyWithoutEmpresasNestedInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUncheckedUpdateManyWithoutEmpresaNestedInput
   tiposServicio?: Prisma.TipoServicioUncheckedUpdateManyWithoutEmpresaNestedInput
   turnos?: Prisma.TurnoUncheckedUpdateManyWithoutEmpresaNestedInput
@@ -6436,6 +6553,7 @@ export type EmpresaCreateWithoutConsignacionesInput = {
   referidos?: Prisma.ReferidosCreateNestedManyWithoutEmpresaInput
   servicios?: Prisma.ServicioCreateNestedManyWithoutEmpresaInput
   sesionesActividad?: Prisma.SesionActividadCreateNestedManyWithoutEmpresaInput
+  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoCreateNestedManyWithoutEmpresasInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosCreateNestedManyWithoutEmpresaInput
   tiposServicio?: Prisma.TipoServicioCreateNestedManyWithoutEmpresaInput
   turnos?: Prisma.TurnoCreateNestedManyWithoutEmpresaInput
@@ -6486,6 +6604,7 @@ export type EmpresaUncheckedCreateWithoutConsignacionesInput = {
   referidos?: Prisma.ReferidosUncheckedCreateNestedManyWithoutEmpresaInput
   servicios?: Prisma.ServicioUncheckedCreateNestedManyWithoutEmpresaInput
   sesionesActividad?: Prisma.SesionActividadUncheckedCreateNestedManyWithoutEmpresaInput
+  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUncheckedCreateNestedManyWithoutEmpresasInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUncheckedCreateNestedManyWithoutEmpresaInput
   tiposServicio?: Prisma.TipoServicioUncheckedCreateNestedManyWithoutEmpresaInput
   turnos?: Prisma.TurnoUncheckedCreateNestedManyWithoutEmpresaInput
@@ -6552,6 +6671,7 @@ export type EmpresaUpdateWithoutConsignacionesInput = {
   referidos?: Prisma.ReferidosUpdateManyWithoutEmpresaNestedInput
   servicios?: Prisma.ServicioUpdateManyWithoutEmpresaNestedInput
   sesionesActividad?: Prisma.SesionActividadUpdateManyWithoutEmpresaNestedInput
+  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUpdateManyWithoutEmpresasNestedInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUpdateManyWithoutEmpresaNestedInput
   tiposServicio?: Prisma.TipoServicioUpdateManyWithoutEmpresaNestedInput
   turnos?: Prisma.TurnoUpdateManyWithoutEmpresaNestedInput
@@ -6602,6 +6722,7 @@ export type EmpresaUncheckedUpdateWithoutConsignacionesInput = {
   referidos?: Prisma.ReferidosUncheckedUpdateManyWithoutEmpresaNestedInput
   servicios?: Prisma.ServicioUncheckedUpdateManyWithoutEmpresaNestedInput
   sesionesActividad?: Prisma.SesionActividadUncheckedUpdateManyWithoutEmpresaNestedInput
+  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUncheckedUpdateManyWithoutEmpresasNestedInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUncheckedUpdateManyWithoutEmpresaNestedInput
   tiposServicio?: Prisma.TipoServicioUncheckedUpdateManyWithoutEmpresaNestedInput
   turnos?: Prisma.TurnoUncheckedUpdateManyWithoutEmpresaNestedInput
@@ -6652,6 +6773,7 @@ export type EmpresaCreateWithoutConsignacionOrdenesInput = {
   referidos?: Prisma.ReferidosCreateNestedManyWithoutEmpresaInput
   servicios?: Prisma.ServicioCreateNestedManyWithoutEmpresaInput
   sesionesActividad?: Prisma.SesionActividadCreateNestedManyWithoutEmpresaInput
+  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoCreateNestedManyWithoutEmpresasInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosCreateNestedManyWithoutEmpresaInput
   tiposServicio?: Prisma.TipoServicioCreateNestedManyWithoutEmpresaInput
   turnos?: Prisma.TurnoCreateNestedManyWithoutEmpresaInput
@@ -6702,6 +6824,7 @@ export type EmpresaUncheckedCreateWithoutConsignacionOrdenesInput = {
   referidos?: Prisma.ReferidosUncheckedCreateNestedManyWithoutEmpresaInput
   servicios?: Prisma.ServicioUncheckedCreateNestedManyWithoutEmpresaInput
   sesionesActividad?: Prisma.SesionActividadUncheckedCreateNestedManyWithoutEmpresaInput
+  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUncheckedCreateNestedManyWithoutEmpresasInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUncheckedCreateNestedManyWithoutEmpresaInput
   tiposServicio?: Prisma.TipoServicioUncheckedCreateNestedManyWithoutEmpresaInput
   turnos?: Prisma.TurnoUncheckedCreateNestedManyWithoutEmpresaInput
@@ -6768,6 +6891,7 @@ export type EmpresaUpdateWithoutConsignacionOrdenesInput = {
   referidos?: Prisma.ReferidosUpdateManyWithoutEmpresaNestedInput
   servicios?: Prisma.ServicioUpdateManyWithoutEmpresaNestedInput
   sesionesActividad?: Prisma.SesionActividadUpdateManyWithoutEmpresaNestedInput
+  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUpdateManyWithoutEmpresasNestedInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUpdateManyWithoutEmpresaNestedInput
   tiposServicio?: Prisma.TipoServicioUpdateManyWithoutEmpresaNestedInput
   turnos?: Prisma.TurnoUpdateManyWithoutEmpresaNestedInput
@@ -6818,6 +6942,7 @@ export type EmpresaUncheckedUpdateWithoutConsignacionOrdenesInput = {
   referidos?: Prisma.ReferidosUncheckedUpdateManyWithoutEmpresaNestedInput
   servicios?: Prisma.ServicioUncheckedUpdateManyWithoutEmpresaNestedInput
   sesionesActividad?: Prisma.SesionActividadUncheckedUpdateManyWithoutEmpresaNestedInput
+  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUncheckedUpdateManyWithoutEmpresasNestedInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUncheckedUpdateManyWithoutEmpresaNestedInput
   tiposServicio?: Prisma.TipoServicioUncheckedUpdateManyWithoutEmpresaNestedInput
   turnos?: Prisma.TurnoUncheckedUpdateManyWithoutEmpresaNestedInput
@@ -6868,6 +6993,7 @@ export type EmpresaCreateWithoutAnticiposInput = {
   referidos?: Prisma.ReferidosCreateNestedManyWithoutEmpresaInput
   servicios?: Prisma.ServicioCreateNestedManyWithoutEmpresaInput
   sesionesActividad?: Prisma.SesionActividadCreateNestedManyWithoutEmpresaInput
+  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoCreateNestedManyWithoutEmpresasInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosCreateNestedManyWithoutEmpresaInput
   tiposServicio?: Prisma.TipoServicioCreateNestedManyWithoutEmpresaInput
   turnos?: Prisma.TurnoCreateNestedManyWithoutEmpresaInput
@@ -6918,6 +7044,7 @@ export type EmpresaUncheckedCreateWithoutAnticiposInput = {
   referidos?: Prisma.ReferidosUncheckedCreateNestedManyWithoutEmpresaInput
   servicios?: Prisma.ServicioUncheckedCreateNestedManyWithoutEmpresaInput
   sesionesActividad?: Prisma.SesionActividadUncheckedCreateNestedManyWithoutEmpresaInput
+  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUncheckedCreateNestedManyWithoutEmpresasInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUncheckedCreateNestedManyWithoutEmpresaInput
   tiposServicio?: Prisma.TipoServicioUncheckedCreateNestedManyWithoutEmpresaInput
   turnos?: Prisma.TurnoUncheckedCreateNestedManyWithoutEmpresaInput
@@ -6984,6 +7111,7 @@ export type EmpresaUpdateWithoutAnticiposInput = {
   referidos?: Prisma.ReferidosUpdateManyWithoutEmpresaNestedInput
   servicios?: Prisma.ServicioUpdateManyWithoutEmpresaNestedInput
   sesionesActividad?: Prisma.SesionActividadUpdateManyWithoutEmpresaNestedInput
+  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUpdateManyWithoutEmpresasNestedInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUpdateManyWithoutEmpresaNestedInput
   tiposServicio?: Prisma.TipoServicioUpdateManyWithoutEmpresaNestedInput
   turnos?: Prisma.TurnoUpdateManyWithoutEmpresaNestedInput
@@ -7034,6 +7162,7 @@ export type EmpresaUncheckedUpdateWithoutAnticiposInput = {
   referidos?: Prisma.ReferidosUncheckedUpdateManyWithoutEmpresaNestedInput
   servicios?: Prisma.ServicioUncheckedUpdateManyWithoutEmpresaNestedInput
   sesionesActividad?: Prisma.SesionActividadUncheckedUpdateManyWithoutEmpresaNestedInput
+  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUncheckedUpdateManyWithoutEmpresasNestedInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUncheckedUpdateManyWithoutEmpresaNestedInput
   tiposServicio?: Prisma.TipoServicioUncheckedUpdateManyWithoutEmpresaNestedInput
   turnos?: Prisma.TurnoUncheckedUpdateManyWithoutEmpresaNestedInput
@@ -7084,6 +7213,7 @@ export type EmpresaCreateWithoutProductosInput = {
   referidos?: Prisma.ReferidosCreateNestedManyWithoutEmpresaInput
   servicios?: Prisma.ServicioCreateNestedManyWithoutEmpresaInput
   sesionesActividad?: Prisma.SesionActividadCreateNestedManyWithoutEmpresaInput
+  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoCreateNestedManyWithoutEmpresasInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosCreateNestedManyWithoutEmpresaInput
   tiposServicio?: Prisma.TipoServicioCreateNestedManyWithoutEmpresaInput
   turnos?: Prisma.TurnoCreateNestedManyWithoutEmpresaInput
@@ -7134,6 +7264,7 @@ export type EmpresaUncheckedCreateWithoutProductosInput = {
   referidos?: Prisma.ReferidosUncheckedCreateNestedManyWithoutEmpresaInput
   servicios?: Prisma.ServicioUncheckedCreateNestedManyWithoutEmpresaInput
   sesionesActividad?: Prisma.SesionActividadUncheckedCreateNestedManyWithoutEmpresaInput
+  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUncheckedCreateNestedManyWithoutEmpresasInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUncheckedCreateNestedManyWithoutEmpresaInput
   tiposServicio?: Prisma.TipoServicioUncheckedCreateNestedManyWithoutEmpresaInput
   turnos?: Prisma.TurnoUncheckedCreateNestedManyWithoutEmpresaInput
@@ -7200,6 +7331,7 @@ export type EmpresaUpdateWithoutProductosInput = {
   referidos?: Prisma.ReferidosUpdateManyWithoutEmpresaNestedInput
   servicios?: Prisma.ServicioUpdateManyWithoutEmpresaNestedInput
   sesionesActividad?: Prisma.SesionActividadUpdateManyWithoutEmpresaNestedInput
+  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUpdateManyWithoutEmpresasNestedInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUpdateManyWithoutEmpresaNestedInput
   tiposServicio?: Prisma.TipoServicioUpdateManyWithoutEmpresaNestedInput
   turnos?: Prisma.TurnoUpdateManyWithoutEmpresaNestedInput
@@ -7250,6 +7382,7 @@ export type EmpresaUncheckedUpdateWithoutProductosInput = {
   referidos?: Prisma.ReferidosUncheckedUpdateManyWithoutEmpresaNestedInput
   servicios?: Prisma.ServicioUncheckedUpdateManyWithoutEmpresaNestedInput
   sesionesActividad?: Prisma.SesionActividadUncheckedUpdateManyWithoutEmpresaNestedInput
+  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUncheckedUpdateManyWithoutEmpresasNestedInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUncheckedUpdateManyWithoutEmpresaNestedInput
   tiposServicio?: Prisma.TipoServicioUncheckedUpdateManyWithoutEmpresaNestedInput
   turnos?: Prisma.TurnoUncheckedUpdateManyWithoutEmpresaNestedInput
@@ -7300,6 +7433,7 @@ export type EmpresaCreateWithoutProductosSolicitadosInput = {
   referidos?: Prisma.ReferidosCreateNestedManyWithoutEmpresaInput
   servicios?: Prisma.ServicioCreateNestedManyWithoutEmpresaInput
   sesionesActividad?: Prisma.SesionActividadCreateNestedManyWithoutEmpresaInput
+  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoCreateNestedManyWithoutEmpresasInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosCreateNestedManyWithoutEmpresaInput
   tiposServicio?: Prisma.TipoServicioCreateNestedManyWithoutEmpresaInput
   turnos?: Prisma.TurnoCreateNestedManyWithoutEmpresaInput
@@ -7350,6 +7484,7 @@ export type EmpresaUncheckedCreateWithoutProductosSolicitadosInput = {
   referidos?: Prisma.ReferidosUncheckedCreateNestedManyWithoutEmpresaInput
   servicios?: Prisma.ServicioUncheckedCreateNestedManyWithoutEmpresaInput
   sesionesActividad?: Prisma.SesionActividadUncheckedCreateNestedManyWithoutEmpresaInput
+  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUncheckedCreateNestedManyWithoutEmpresasInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUncheckedCreateNestedManyWithoutEmpresaInput
   tiposServicio?: Prisma.TipoServicioUncheckedCreateNestedManyWithoutEmpresaInput
   turnos?: Prisma.TurnoUncheckedCreateNestedManyWithoutEmpresaInput
@@ -7416,6 +7551,7 @@ export type EmpresaUpdateWithoutProductosSolicitadosInput = {
   referidos?: Prisma.ReferidosUpdateManyWithoutEmpresaNestedInput
   servicios?: Prisma.ServicioUpdateManyWithoutEmpresaNestedInput
   sesionesActividad?: Prisma.SesionActividadUpdateManyWithoutEmpresaNestedInput
+  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUpdateManyWithoutEmpresasNestedInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUpdateManyWithoutEmpresaNestedInput
   tiposServicio?: Prisma.TipoServicioUpdateManyWithoutEmpresaNestedInput
   turnos?: Prisma.TurnoUpdateManyWithoutEmpresaNestedInput
@@ -7466,6 +7602,7 @@ export type EmpresaUncheckedUpdateWithoutProductosSolicitadosInput = {
   referidos?: Prisma.ReferidosUncheckedUpdateManyWithoutEmpresaNestedInput
   servicios?: Prisma.ServicioUncheckedUpdateManyWithoutEmpresaNestedInput
   sesionesActividad?: Prisma.SesionActividadUncheckedUpdateManyWithoutEmpresaNestedInput
+  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUncheckedUpdateManyWithoutEmpresasNestedInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUncheckedUpdateManyWithoutEmpresaNestedInput
   tiposServicio?: Prisma.TipoServicioUncheckedUpdateManyWithoutEmpresaNestedInput
   turnos?: Prisma.TurnoUncheckedUpdateManyWithoutEmpresaNestedInput
@@ -7516,6 +7653,7 @@ export type EmpresaCreateWithoutProveedoresInput = {
   referidos?: Prisma.ReferidosCreateNestedManyWithoutEmpresaInput
   servicios?: Prisma.ServicioCreateNestedManyWithoutEmpresaInput
   sesionesActividad?: Prisma.SesionActividadCreateNestedManyWithoutEmpresaInput
+  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoCreateNestedManyWithoutEmpresasInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosCreateNestedManyWithoutEmpresaInput
   tiposServicio?: Prisma.TipoServicioCreateNestedManyWithoutEmpresaInput
   turnos?: Prisma.TurnoCreateNestedManyWithoutEmpresaInput
@@ -7566,6 +7704,7 @@ export type EmpresaUncheckedCreateWithoutProveedoresInput = {
   referidos?: Prisma.ReferidosUncheckedCreateNestedManyWithoutEmpresaInput
   servicios?: Prisma.ServicioUncheckedCreateNestedManyWithoutEmpresaInput
   sesionesActividad?: Prisma.SesionActividadUncheckedCreateNestedManyWithoutEmpresaInput
+  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUncheckedCreateNestedManyWithoutEmpresasInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUncheckedCreateNestedManyWithoutEmpresaInput
   tiposServicio?: Prisma.TipoServicioUncheckedCreateNestedManyWithoutEmpresaInput
   turnos?: Prisma.TurnoUncheckedCreateNestedManyWithoutEmpresaInput
@@ -7632,6 +7771,7 @@ export type EmpresaUpdateWithoutProveedoresInput = {
   referidos?: Prisma.ReferidosUpdateManyWithoutEmpresaNestedInput
   servicios?: Prisma.ServicioUpdateManyWithoutEmpresaNestedInput
   sesionesActividad?: Prisma.SesionActividadUpdateManyWithoutEmpresaNestedInput
+  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUpdateManyWithoutEmpresasNestedInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUpdateManyWithoutEmpresaNestedInput
   tiposServicio?: Prisma.TipoServicioUpdateManyWithoutEmpresaNestedInput
   turnos?: Prisma.TurnoUpdateManyWithoutEmpresaNestedInput
@@ -7682,6 +7822,7 @@ export type EmpresaUncheckedUpdateWithoutProveedoresInput = {
   referidos?: Prisma.ReferidosUncheckedUpdateManyWithoutEmpresaNestedInput
   servicios?: Prisma.ServicioUncheckedUpdateManyWithoutEmpresaNestedInput
   sesionesActividad?: Prisma.SesionActividadUncheckedUpdateManyWithoutEmpresaNestedInput
+  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUncheckedUpdateManyWithoutEmpresasNestedInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUncheckedUpdateManyWithoutEmpresaNestedInput
   tiposServicio?: Prisma.TipoServicioUncheckedUpdateManyWithoutEmpresaNestedInput
   turnos?: Prisma.TurnoUncheckedUpdateManyWithoutEmpresaNestedInput
@@ -7732,6 +7873,7 @@ export type EmpresaCreateWithoutPermisosInput = {
   referidos?: Prisma.ReferidosCreateNestedManyWithoutEmpresaInput
   servicios?: Prisma.ServicioCreateNestedManyWithoutEmpresaInput
   sesionesActividad?: Prisma.SesionActividadCreateNestedManyWithoutEmpresaInput
+  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoCreateNestedManyWithoutEmpresasInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosCreateNestedManyWithoutEmpresaInput
   tiposServicio?: Prisma.TipoServicioCreateNestedManyWithoutEmpresaInput
   turnos?: Prisma.TurnoCreateNestedManyWithoutEmpresaInput
@@ -7782,6 +7924,7 @@ export type EmpresaUncheckedCreateWithoutPermisosInput = {
   referidos?: Prisma.ReferidosUncheckedCreateNestedManyWithoutEmpresaInput
   servicios?: Prisma.ServicioUncheckedCreateNestedManyWithoutEmpresaInput
   sesionesActividad?: Prisma.SesionActividadUncheckedCreateNestedManyWithoutEmpresaInput
+  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUncheckedCreateNestedManyWithoutEmpresasInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUncheckedCreateNestedManyWithoutEmpresaInput
   tiposServicio?: Prisma.TipoServicioUncheckedCreateNestedManyWithoutEmpresaInput
   turnos?: Prisma.TurnoUncheckedCreateNestedManyWithoutEmpresaInput
@@ -7848,6 +7991,7 @@ export type EmpresaUpdateWithoutPermisosInput = {
   referidos?: Prisma.ReferidosUpdateManyWithoutEmpresaNestedInput
   servicios?: Prisma.ServicioUpdateManyWithoutEmpresaNestedInput
   sesionesActividad?: Prisma.SesionActividadUpdateManyWithoutEmpresaNestedInput
+  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUpdateManyWithoutEmpresasNestedInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUpdateManyWithoutEmpresaNestedInput
   tiposServicio?: Prisma.TipoServicioUpdateManyWithoutEmpresaNestedInput
   turnos?: Prisma.TurnoUpdateManyWithoutEmpresaNestedInput
@@ -7898,6 +8042,7 @@ export type EmpresaUncheckedUpdateWithoutPermisosInput = {
   referidos?: Prisma.ReferidosUncheckedUpdateManyWithoutEmpresaNestedInput
   servicios?: Prisma.ServicioUncheckedUpdateManyWithoutEmpresaNestedInput
   sesionesActividad?: Prisma.SesionActividadUncheckedUpdateManyWithoutEmpresaNestedInput
+  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUncheckedUpdateManyWithoutEmpresasNestedInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUncheckedUpdateManyWithoutEmpresaNestedInput
   tiposServicio?: Prisma.TipoServicioUncheckedUpdateManyWithoutEmpresaNestedInput
   turnos?: Prisma.TurnoUncheckedUpdateManyWithoutEmpresaNestedInput
@@ -7948,6 +8093,7 @@ export type EmpresaCreateWithoutConfiguracionPagosInput = {
   referidos?: Prisma.ReferidosCreateNestedManyWithoutEmpresaInput
   servicios?: Prisma.ServicioCreateNestedManyWithoutEmpresaInput
   sesionesActividad?: Prisma.SesionActividadCreateNestedManyWithoutEmpresaInput
+  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoCreateNestedManyWithoutEmpresasInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosCreateNestedManyWithoutEmpresaInput
   tiposServicio?: Prisma.TipoServicioCreateNestedManyWithoutEmpresaInput
   turnos?: Prisma.TurnoCreateNestedManyWithoutEmpresaInput
@@ -7998,6 +8144,7 @@ export type EmpresaUncheckedCreateWithoutConfiguracionPagosInput = {
   referidos?: Prisma.ReferidosUncheckedCreateNestedManyWithoutEmpresaInput
   servicios?: Prisma.ServicioUncheckedCreateNestedManyWithoutEmpresaInput
   sesionesActividad?: Prisma.SesionActividadUncheckedCreateNestedManyWithoutEmpresaInput
+  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUncheckedCreateNestedManyWithoutEmpresasInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUncheckedCreateNestedManyWithoutEmpresaInput
   tiposServicio?: Prisma.TipoServicioUncheckedCreateNestedManyWithoutEmpresaInput
   turnos?: Prisma.TurnoUncheckedCreateNestedManyWithoutEmpresaInput
@@ -8064,6 +8211,7 @@ export type EmpresaUpdateWithoutConfiguracionPagosInput = {
   referidos?: Prisma.ReferidosUpdateManyWithoutEmpresaNestedInput
   servicios?: Prisma.ServicioUpdateManyWithoutEmpresaNestedInput
   sesionesActividad?: Prisma.SesionActividadUpdateManyWithoutEmpresaNestedInput
+  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUpdateManyWithoutEmpresasNestedInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUpdateManyWithoutEmpresaNestedInput
   tiposServicio?: Prisma.TipoServicioUpdateManyWithoutEmpresaNestedInput
   turnos?: Prisma.TurnoUpdateManyWithoutEmpresaNestedInput
@@ -8114,6 +8262,7 @@ export type EmpresaUncheckedUpdateWithoutConfiguracionPagosInput = {
   referidos?: Prisma.ReferidosUncheckedUpdateManyWithoutEmpresaNestedInput
   servicios?: Prisma.ServicioUncheckedUpdateManyWithoutEmpresaNestedInput
   sesionesActividad?: Prisma.SesionActividadUncheckedUpdateManyWithoutEmpresaNestedInput
+  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUncheckedUpdateManyWithoutEmpresasNestedInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUncheckedUpdateManyWithoutEmpresaNestedInput
   tiposServicio?: Prisma.TipoServicioUncheckedUpdateManyWithoutEmpresaNestedInput
   turnos?: Prisma.TurnoUncheckedUpdateManyWithoutEmpresaNestedInput
@@ -8164,6 +8313,7 @@ export type EmpresaCreateWithoutCuentasPagoInput = {
   referidos?: Prisma.ReferidosCreateNestedManyWithoutEmpresaInput
   servicios?: Prisma.ServicioCreateNestedManyWithoutEmpresaInput
   sesionesActividad?: Prisma.SesionActividadCreateNestedManyWithoutEmpresaInput
+  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoCreateNestedManyWithoutEmpresasInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosCreateNestedManyWithoutEmpresaInput
   tiposServicio?: Prisma.TipoServicioCreateNestedManyWithoutEmpresaInput
   turnos?: Prisma.TurnoCreateNestedManyWithoutEmpresaInput
@@ -8214,6 +8364,7 @@ export type EmpresaUncheckedCreateWithoutCuentasPagoInput = {
   referidos?: Prisma.ReferidosUncheckedCreateNestedManyWithoutEmpresaInput
   servicios?: Prisma.ServicioUncheckedCreateNestedManyWithoutEmpresaInput
   sesionesActividad?: Prisma.SesionActividadUncheckedCreateNestedManyWithoutEmpresaInput
+  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUncheckedCreateNestedManyWithoutEmpresasInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUncheckedCreateNestedManyWithoutEmpresaInput
   tiposServicio?: Prisma.TipoServicioUncheckedCreateNestedManyWithoutEmpresaInput
   turnos?: Prisma.TurnoUncheckedCreateNestedManyWithoutEmpresaInput
@@ -8280,6 +8431,7 @@ export type EmpresaUpdateWithoutCuentasPagoInput = {
   referidos?: Prisma.ReferidosUpdateManyWithoutEmpresaNestedInput
   servicios?: Prisma.ServicioUpdateManyWithoutEmpresaNestedInput
   sesionesActividad?: Prisma.SesionActividadUpdateManyWithoutEmpresaNestedInput
+  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUpdateManyWithoutEmpresasNestedInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUpdateManyWithoutEmpresaNestedInput
   tiposServicio?: Prisma.TipoServicioUpdateManyWithoutEmpresaNestedInput
   turnos?: Prisma.TurnoUpdateManyWithoutEmpresaNestedInput
@@ -8330,6 +8482,7 @@ export type EmpresaUncheckedUpdateWithoutCuentasPagoInput = {
   referidos?: Prisma.ReferidosUncheckedUpdateManyWithoutEmpresaNestedInput
   servicios?: Prisma.ServicioUncheckedUpdateManyWithoutEmpresaNestedInput
   sesionesActividad?: Prisma.SesionActividadUncheckedUpdateManyWithoutEmpresaNestedInput
+  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUncheckedUpdateManyWithoutEmpresasNestedInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUncheckedUpdateManyWithoutEmpresaNestedInput
   tiposServicio?: Prisma.TipoServicioUncheckedUpdateManyWithoutEmpresaNestedInput
   turnos?: Prisma.TurnoUncheckedUpdateManyWithoutEmpresaNestedInput
@@ -8380,6 +8533,7 @@ export type EmpresaCreateWithoutEgresosInput = {
   referidos?: Prisma.ReferidosCreateNestedManyWithoutEmpresaInput
   servicios?: Prisma.ServicioCreateNestedManyWithoutEmpresaInput
   sesionesActividad?: Prisma.SesionActividadCreateNestedManyWithoutEmpresaInput
+  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoCreateNestedManyWithoutEmpresasInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosCreateNestedManyWithoutEmpresaInput
   tiposServicio?: Prisma.TipoServicioCreateNestedManyWithoutEmpresaInput
   turnos?: Prisma.TurnoCreateNestedManyWithoutEmpresaInput
@@ -8430,6 +8584,7 @@ export type EmpresaUncheckedCreateWithoutEgresosInput = {
   referidos?: Prisma.ReferidosUncheckedCreateNestedManyWithoutEmpresaInput
   servicios?: Prisma.ServicioUncheckedCreateNestedManyWithoutEmpresaInput
   sesionesActividad?: Prisma.SesionActividadUncheckedCreateNestedManyWithoutEmpresaInput
+  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUncheckedCreateNestedManyWithoutEmpresasInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUncheckedCreateNestedManyWithoutEmpresaInput
   tiposServicio?: Prisma.TipoServicioUncheckedCreateNestedManyWithoutEmpresaInput
   turnos?: Prisma.TurnoUncheckedCreateNestedManyWithoutEmpresaInput
@@ -8496,6 +8651,7 @@ export type EmpresaUpdateWithoutEgresosInput = {
   referidos?: Prisma.ReferidosUpdateManyWithoutEmpresaNestedInput
   servicios?: Prisma.ServicioUpdateManyWithoutEmpresaNestedInput
   sesionesActividad?: Prisma.SesionActividadUpdateManyWithoutEmpresaNestedInput
+  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUpdateManyWithoutEmpresasNestedInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUpdateManyWithoutEmpresaNestedInput
   tiposServicio?: Prisma.TipoServicioUpdateManyWithoutEmpresaNestedInput
   turnos?: Prisma.TurnoUpdateManyWithoutEmpresaNestedInput
@@ -8546,6 +8702,7 @@ export type EmpresaUncheckedUpdateWithoutEgresosInput = {
   referidos?: Prisma.ReferidosUncheckedUpdateManyWithoutEmpresaNestedInput
   servicios?: Prisma.ServicioUncheckedUpdateManyWithoutEmpresaNestedInput
   sesionesActividad?: Prisma.SesionActividadUncheckedUpdateManyWithoutEmpresaNestedInput
+  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUncheckedUpdateManyWithoutEmpresasNestedInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUncheckedUpdateManyWithoutEmpresaNestedInput
   tiposServicio?: Prisma.TipoServicioUncheckedUpdateManyWithoutEmpresaNestedInput
   turnos?: Prisma.TurnoUncheckedUpdateManyWithoutEmpresaNestedInput
@@ -8596,6 +8753,7 @@ export type EmpresaCreateWithoutPicoPlacaInput = {
   referidos?: Prisma.ReferidosCreateNestedManyWithoutEmpresaInput
   servicios?: Prisma.ServicioCreateNestedManyWithoutEmpresaInput
   sesionesActividad?: Prisma.SesionActividadCreateNestedManyWithoutEmpresaInput
+  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoCreateNestedManyWithoutEmpresasInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosCreateNestedManyWithoutEmpresaInput
   tiposServicio?: Prisma.TipoServicioCreateNestedManyWithoutEmpresaInput
   turnos?: Prisma.TurnoCreateNestedManyWithoutEmpresaInput
@@ -8646,6 +8804,7 @@ export type EmpresaUncheckedCreateWithoutPicoPlacaInput = {
   referidos?: Prisma.ReferidosUncheckedCreateNestedManyWithoutEmpresaInput
   servicios?: Prisma.ServicioUncheckedCreateNestedManyWithoutEmpresaInput
   sesionesActividad?: Prisma.SesionActividadUncheckedCreateNestedManyWithoutEmpresaInput
+  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUncheckedCreateNestedManyWithoutEmpresasInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUncheckedCreateNestedManyWithoutEmpresaInput
   tiposServicio?: Prisma.TipoServicioUncheckedCreateNestedManyWithoutEmpresaInput
   turnos?: Prisma.TurnoUncheckedCreateNestedManyWithoutEmpresaInput
@@ -8712,6 +8871,7 @@ export type EmpresaUpdateWithoutPicoPlacaInput = {
   referidos?: Prisma.ReferidosUpdateManyWithoutEmpresaNestedInput
   servicios?: Prisma.ServicioUpdateManyWithoutEmpresaNestedInput
   sesionesActividad?: Prisma.SesionActividadUpdateManyWithoutEmpresaNestedInput
+  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUpdateManyWithoutEmpresasNestedInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUpdateManyWithoutEmpresaNestedInput
   tiposServicio?: Prisma.TipoServicioUpdateManyWithoutEmpresaNestedInput
   turnos?: Prisma.TurnoUpdateManyWithoutEmpresaNestedInput
@@ -8762,6 +8922,7 @@ export type EmpresaUncheckedUpdateWithoutPicoPlacaInput = {
   referidos?: Prisma.ReferidosUncheckedUpdateManyWithoutEmpresaNestedInput
   servicios?: Prisma.ServicioUncheckedUpdateManyWithoutEmpresaNestedInput
   sesionesActividad?: Prisma.SesionActividadUncheckedUpdateManyWithoutEmpresaNestedInput
+  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUncheckedUpdateManyWithoutEmpresasNestedInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUncheckedUpdateManyWithoutEmpresaNestedInput
   tiposServicio?: Prisma.TipoServicioUncheckedUpdateManyWithoutEmpresaNestedInput
   turnos?: Prisma.TurnoUncheckedUpdateManyWithoutEmpresaNestedInput
@@ -8812,6 +8973,7 @@ export type EmpresaCreateWithoutReferidosInput = {
   proveedores?: Prisma.ProveedoresCreateNestedManyWithoutEmpresaInput
   servicios?: Prisma.ServicioCreateNestedManyWithoutEmpresaInput
   sesionesActividad?: Prisma.SesionActividadCreateNestedManyWithoutEmpresaInput
+  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoCreateNestedManyWithoutEmpresasInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosCreateNestedManyWithoutEmpresaInput
   tiposServicio?: Prisma.TipoServicioCreateNestedManyWithoutEmpresaInput
   turnos?: Prisma.TurnoCreateNestedManyWithoutEmpresaInput
@@ -8862,6 +9024,7 @@ export type EmpresaUncheckedCreateWithoutReferidosInput = {
   proveedores?: Prisma.ProveedoresUncheckedCreateNestedManyWithoutEmpresaInput
   servicios?: Prisma.ServicioUncheckedCreateNestedManyWithoutEmpresaInput
   sesionesActividad?: Prisma.SesionActividadUncheckedCreateNestedManyWithoutEmpresaInput
+  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUncheckedCreateNestedManyWithoutEmpresasInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUncheckedCreateNestedManyWithoutEmpresaInput
   tiposServicio?: Prisma.TipoServicioUncheckedCreateNestedManyWithoutEmpresaInput
   turnos?: Prisma.TurnoUncheckedCreateNestedManyWithoutEmpresaInput
@@ -8928,6 +9091,7 @@ export type EmpresaUpdateWithoutReferidosInput = {
   proveedores?: Prisma.ProveedoresUpdateManyWithoutEmpresaNestedInput
   servicios?: Prisma.ServicioUpdateManyWithoutEmpresaNestedInput
   sesionesActividad?: Prisma.SesionActividadUpdateManyWithoutEmpresaNestedInput
+  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUpdateManyWithoutEmpresasNestedInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUpdateManyWithoutEmpresaNestedInput
   tiposServicio?: Prisma.TipoServicioUpdateManyWithoutEmpresaNestedInput
   turnos?: Prisma.TurnoUpdateManyWithoutEmpresaNestedInput
@@ -8978,6 +9142,7 @@ export type EmpresaUncheckedUpdateWithoutReferidosInput = {
   proveedores?: Prisma.ProveedoresUncheckedUpdateManyWithoutEmpresaNestedInput
   servicios?: Prisma.ServicioUncheckedUpdateManyWithoutEmpresaNestedInput
   sesionesActividad?: Prisma.SesionActividadUncheckedUpdateManyWithoutEmpresaNestedInput
+  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUncheckedUpdateManyWithoutEmpresasNestedInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUncheckedUpdateManyWithoutEmpresaNestedInput
   tiposServicio?: Prisma.TipoServicioUncheckedUpdateManyWithoutEmpresaNestedInput
   turnos?: Prisma.TurnoUncheckedUpdateManyWithoutEmpresaNestedInput
@@ -9028,6 +9193,7 @@ export type EmpresaCreateWithoutAuditoriasInput = {
   referidos?: Prisma.ReferidosCreateNestedManyWithoutEmpresaInput
   servicios?: Prisma.ServicioCreateNestedManyWithoutEmpresaInput
   sesionesActividad?: Prisma.SesionActividadCreateNestedManyWithoutEmpresaInput
+  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoCreateNestedManyWithoutEmpresasInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosCreateNestedManyWithoutEmpresaInput
   tiposServicio?: Prisma.TipoServicioCreateNestedManyWithoutEmpresaInput
   turnos?: Prisma.TurnoCreateNestedManyWithoutEmpresaInput
@@ -9078,6 +9244,7 @@ export type EmpresaUncheckedCreateWithoutAuditoriasInput = {
   referidos?: Prisma.ReferidosUncheckedCreateNestedManyWithoutEmpresaInput
   servicios?: Prisma.ServicioUncheckedCreateNestedManyWithoutEmpresaInput
   sesionesActividad?: Prisma.SesionActividadUncheckedCreateNestedManyWithoutEmpresaInput
+  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUncheckedCreateNestedManyWithoutEmpresasInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUncheckedCreateNestedManyWithoutEmpresaInput
   tiposServicio?: Prisma.TipoServicioUncheckedCreateNestedManyWithoutEmpresaInput
   turnos?: Prisma.TurnoUncheckedCreateNestedManyWithoutEmpresaInput
@@ -9144,6 +9311,7 @@ export type EmpresaUpdateWithoutAuditoriasInput = {
   referidos?: Prisma.ReferidosUpdateManyWithoutEmpresaNestedInput
   servicios?: Prisma.ServicioUpdateManyWithoutEmpresaNestedInput
   sesionesActividad?: Prisma.SesionActividadUpdateManyWithoutEmpresaNestedInput
+  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUpdateManyWithoutEmpresasNestedInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUpdateManyWithoutEmpresaNestedInput
   tiposServicio?: Prisma.TipoServicioUpdateManyWithoutEmpresaNestedInput
   turnos?: Prisma.TurnoUpdateManyWithoutEmpresaNestedInput
@@ -9194,6 +9362,7 @@ export type EmpresaUncheckedUpdateWithoutAuditoriasInput = {
   referidos?: Prisma.ReferidosUncheckedUpdateManyWithoutEmpresaNestedInput
   servicios?: Prisma.ServicioUncheckedUpdateManyWithoutEmpresaNestedInput
   sesionesActividad?: Prisma.SesionActividadUncheckedUpdateManyWithoutEmpresaNestedInput
+  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUncheckedUpdateManyWithoutEmpresasNestedInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUncheckedUpdateManyWithoutEmpresaNestedInput
   tiposServicio?: Prisma.TipoServicioUncheckedUpdateManyWithoutEmpresaNestedInput
   turnos?: Prisma.TurnoUncheckedUpdateManyWithoutEmpresaNestedInput
@@ -9244,6 +9413,7 @@ export type EmpresaCreateWithoutSesionesActividadInput = {
   proveedores?: Prisma.ProveedoresCreateNestedManyWithoutEmpresaInput
   referidos?: Prisma.ReferidosCreateNestedManyWithoutEmpresaInput
   servicios?: Prisma.ServicioCreateNestedManyWithoutEmpresaInput
+  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoCreateNestedManyWithoutEmpresasInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosCreateNestedManyWithoutEmpresaInput
   tiposServicio?: Prisma.TipoServicioCreateNestedManyWithoutEmpresaInput
   turnos?: Prisma.TurnoCreateNestedManyWithoutEmpresaInput
@@ -9294,6 +9464,7 @@ export type EmpresaUncheckedCreateWithoutSesionesActividadInput = {
   proveedores?: Prisma.ProveedoresUncheckedCreateNestedManyWithoutEmpresaInput
   referidos?: Prisma.ReferidosUncheckedCreateNestedManyWithoutEmpresaInput
   servicios?: Prisma.ServicioUncheckedCreateNestedManyWithoutEmpresaInput
+  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUncheckedCreateNestedManyWithoutEmpresasInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUncheckedCreateNestedManyWithoutEmpresaInput
   tiposServicio?: Prisma.TipoServicioUncheckedCreateNestedManyWithoutEmpresaInput
   turnos?: Prisma.TurnoUncheckedCreateNestedManyWithoutEmpresaInput
@@ -9360,6 +9531,7 @@ export type EmpresaUpdateWithoutSesionesActividadInput = {
   proveedores?: Prisma.ProveedoresUpdateManyWithoutEmpresaNestedInput
   referidos?: Prisma.ReferidosUpdateManyWithoutEmpresaNestedInput
   servicios?: Prisma.ServicioUpdateManyWithoutEmpresaNestedInput
+  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUpdateManyWithoutEmpresasNestedInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUpdateManyWithoutEmpresaNestedInput
   tiposServicio?: Prisma.TipoServicioUpdateManyWithoutEmpresaNestedInput
   turnos?: Prisma.TurnoUpdateManyWithoutEmpresaNestedInput
@@ -9410,6 +9582,7 @@ export type EmpresaUncheckedUpdateWithoutSesionesActividadInput = {
   proveedores?: Prisma.ProveedoresUncheckedUpdateManyWithoutEmpresaNestedInput
   referidos?: Prisma.ReferidosUncheckedUpdateManyWithoutEmpresaNestedInput
   servicios?: Prisma.ServicioUncheckedUpdateManyWithoutEmpresaNestedInput
+  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUncheckedUpdateManyWithoutEmpresasNestedInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUncheckedUpdateManyWithoutEmpresaNestedInput
   tiposServicio?: Prisma.TipoServicioUncheckedUpdateManyWithoutEmpresaNestedInput
   turnos?: Prisma.TurnoUncheckedUpdateManyWithoutEmpresaNestedInput
@@ -9460,6 +9633,7 @@ export type EmpresaCreateWithoutLogsEventoInput = {
   referidos?: Prisma.ReferidosCreateNestedManyWithoutEmpresaInput
   servicios?: Prisma.ServicioCreateNestedManyWithoutEmpresaInput
   sesionesActividad?: Prisma.SesionActividadCreateNestedManyWithoutEmpresaInput
+  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoCreateNestedManyWithoutEmpresasInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosCreateNestedManyWithoutEmpresaInput
   tiposServicio?: Prisma.TipoServicioCreateNestedManyWithoutEmpresaInput
   turnos?: Prisma.TurnoCreateNestedManyWithoutEmpresaInput
@@ -9510,6 +9684,7 @@ export type EmpresaUncheckedCreateWithoutLogsEventoInput = {
   referidos?: Prisma.ReferidosUncheckedCreateNestedManyWithoutEmpresaInput
   servicios?: Prisma.ServicioUncheckedCreateNestedManyWithoutEmpresaInput
   sesionesActividad?: Prisma.SesionActividadUncheckedCreateNestedManyWithoutEmpresaInput
+  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUncheckedCreateNestedManyWithoutEmpresasInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUncheckedCreateNestedManyWithoutEmpresaInput
   tiposServicio?: Prisma.TipoServicioUncheckedCreateNestedManyWithoutEmpresaInput
   turnos?: Prisma.TurnoUncheckedCreateNestedManyWithoutEmpresaInput
@@ -9576,6 +9751,7 @@ export type EmpresaUpdateWithoutLogsEventoInput = {
   referidos?: Prisma.ReferidosUpdateManyWithoutEmpresaNestedInput
   servicios?: Prisma.ServicioUpdateManyWithoutEmpresaNestedInput
   sesionesActividad?: Prisma.SesionActividadUpdateManyWithoutEmpresaNestedInput
+  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUpdateManyWithoutEmpresasNestedInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUpdateManyWithoutEmpresaNestedInput
   tiposServicio?: Prisma.TipoServicioUpdateManyWithoutEmpresaNestedInput
   turnos?: Prisma.TurnoUpdateManyWithoutEmpresaNestedInput
@@ -9626,6 +9802,7 @@ export type EmpresaUncheckedUpdateWithoutLogsEventoInput = {
   referidos?: Prisma.ReferidosUncheckedUpdateManyWithoutEmpresaNestedInput
   servicios?: Prisma.ServicioUncheckedUpdateManyWithoutEmpresaNestedInput
   sesionesActividad?: Prisma.SesionActividadUncheckedUpdateManyWithoutEmpresaNestedInput
+  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUncheckedUpdateManyWithoutEmpresasNestedInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUncheckedUpdateManyWithoutEmpresaNestedInput
   tiposServicio?: Prisma.TipoServicioUncheckedUpdateManyWithoutEmpresaNestedInput
   turnos?: Prisma.TurnoUncheckedUpdateManyWithoutEmpresaNestedInput
@@ -9676,6 +9853,7 @@ export type EmpresaCreateWithoutAuthSessionsInput = {
   referidos?: Prisma.ReferidosCreateNestedManyWithoutEmpresaInput
   servicios?: Prisma.ServicioCreateNestedManyWithoutEmpresaInput
   sesionesActividad?: Prisma.SesionActividadCreateNestedManyWithoutEmpresaInput
+  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoCreateNestedManyWithoutEmpresasInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosCreateNestedManyWithoutEmpresaInput
   tiposServicio?: Prisma.TipoServicioCreateNestedManyWithoutEmpresaInput
   turnos?: Prisma.TurnoCreateNestedManyWithoutEmpresaInput
@@ -9726,6 +9904,7 @@ export type EmpresaUncheckedCreateWithoutAuthSessionsInput = {
   referidos?: Prisma.ReferidosUncheckedCreateNestedManyWithoutEmpresaInput
   servicios?: Prisma.ServicioUncheckedCreateNestedManyWithoutEmpresaInput
   sesionesActividad?: Prisma.SesionActividadUncheckedCreateNestedManyWithoutEmpresaInput
+  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUncheckedCreateNestedManyWithoutEmpresasInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUncheckedCreateNestedManyWithoutEmpresaInput
   tiposServicio?: Prisma.TipoServicioUncheckedCreateNestedManyWithoutEmpresaInput
   turnos?: Prisma.TurnoUncheckedCreateNestedManyWithoutEmpresaInput
@@ -9792,6 +9971,7 @@ export type EmpresaUpdateWithoutAuthSessionsInput = {
   referidos?: Prisma.ReferidosUpdateManyWithoutEmpresaNestedInput
   servicios?: Prisma.ServicioUpdateManyWithoutEmpresaNestedInput
   sesionesActividad?: Prisma.SesionActividadUpdateManyWithoutEmpresaNestedInput
+  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUpdateManyWithoutEmpresasNestedInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUpdateManyWithoutEmpresaNestedInput
   tiposServicio?: Prisma.TipoServicioUpdateManyWithoutEmpresaNestedInput
   turnos?: Prisma.TurnoUpdateManyWithoutEmpresaNestedInput
@@ -9842,6 +10022,7 @@ export type EmpresaUncheckedUpdateWithoutAuthSessionsInput = {
   referidos?: Prisma.ReferidosUncheckedUpdateManyWithoutEmpresaNestedInput
   servicios?: Prisma.ServicioUncheckedUpdateManyWithoutEmpresaNestedInput
   sesionesActividad?: Prisma.SesionActividadUncheckedUpdateManyWithoutEmpresaNestedInput
+  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUncheckedUpdateManyWithoutEmpresasNestedInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUncheckedUpdateManyWithoutEmpresaNestedInput
   tiposServicio?: Prisma.TipoServicioUncheckedUpdateManyWithoutEmpresaNestedInput
   turnos?: Prisma.TurnoUncheckedUpdateManyWithoutEmpresaNestedInput
@@ -9892,6 +10073,7 @@ export type EmpresaCreateWithoutResetTokensInput = {
   referidos?: Prisma.ReferidosCreateNestedManyWithoutEmpresaInput
   servicios?: Prisma.ServicioCreateNestedManyWithoutEmpresaInput
   sesionesActividad?: Prisma.SesionActividadCreateNestedManyWithoutEmpresaInput
+  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoCreateNestedManyWithoutEmpresasInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosCreateNestedManyWithoutEmpresaInput
   tiposServicio?: Prisma.TipoServicioCreateNestedManyWithoutEmpresaInput
   turnos?: Prisma.TurnoCreateNestedManyWithoutEmpresaInput
@@ -9942,6 +10124,7 @@ export type EmpresaUncheckedCreateWithoutResetTokensInput = {
   referidos?: Prisma.ReferidosUncheckedCreateNestedManyWithoutEmpresaInput
   servicios?: Prisma.ServicioUncheckedCreateNestedManyWithoutEmpresaInput
   sesionesActividad?: Prisma.SesionActividadUncheckedCreateNestedManyWithoutEmpresaInput
+  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUncheckedCreateNestedManyWithoutEmpresasInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUncheckedCreateNestedManyWithoutEmpresaInput
   tiposServicio?: Prisma.TipoServicioUncheckedCreateNestedManyWithoutEmpresaInput
   turnos?: Prisma.TurnoUncheckedCreateNestedManyWithoutEmpresaInput
@@ -10008,6 +10191,7 @@ export type EmpresaUpdateWithoutResetTokensInput = {
   referidos?: Prisma.ReferidosUpdateManyWithoutEmpresaNestedInput
   servicios?: Prisma.ServicioUpdateManyWithoutEmpresaNestedInput
   sesionesActividad?: Prisma.SesionActividadUpdateManyWithoutEmpresaNestedInput
+  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUpdateManyWithoutEmpresasNestedInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUpdateManyWithoutEmpresaNestedInput
   tiposServicio?: Prisma.TipoServicioUpdateManyWithoutEmpresaNestedInput
   turnos?: Prisma.TurnoUpdateManyWithoutEmpresaNestedInput
@@ -10058,6 +10242,7 @@ export type EmpresaUncheckedUpdateWithoutResetTokensInput = {
   referidos?: Prisma.ReferidosUncheckedUpdateManyWithoutEmpresaNestedInput
   servicios?: Prisma.ServicioUncheckedUpdateManyWithoutEmpresaNestedInput
   sesionesActividad?: Prisma.SesionActividadUncheckedUpdateManyWithoutEmpresaNestedInput
+  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUncheckedUpdateManyWithoutEmpresasNestedInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUncheckedUpdateManyWithoutEmpresaNestedInput
   tiposServicio?: Prisma.TipoServicioUncheckedUpdateManyWithoutEmpresaNestedInput
   turnos?: Prisma.TurnoUncheckedUpdateManyWithoutEmpresaNestedInput
@@ -10108,6 +10293,7 @@ export type EmpresaCreateWithoutConfiguracionesOperativasInput = {
   referidos?: Prisma.ReferidosCreateNestedManyWithoutEmpresaInput
   servicios?: Prisma.ServicioCreateNestedManyWithoutEmpresaInput
   sesionesActividad?: Prisma.SesionActividadCreateNestedManyWithoutEmpresaInput
+  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoCreateNestedManyWithoutEmpresasInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosCreateNestedManyWithoutEmpresaInput
   tiposServicio?: Prisma.TipoServicioCreateNestedManyWithoutEmpresaInput
   turnos?: Prisma.TurnoCreateNestedManyWithoutEmpresaInput
@@ -10158,6 +10344,7 @@ export type EmpresaUncheckedCreateWithoutConfiguracionesOperativasInput = {
   referidos?: Prisma.ReferidosUncheckedCreateNestedManyWithoutEmpresaInput
   servicios?: Prisma.ServicioUncheckedCreateNestedManyWithoutEmpresaInput
   sesionesActividad?: Prisma.SesionActividadUncheckedCreateNestedManyWithoutEmpresaInput
+  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUncheckedCreateNestedManyWithoutEmpresasInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUncheckedCreateNestedManyWithoutEmpresaInput
   tiposServicio?: Prisma.TipoServicioUncheckedCreateNestedManyWithoutEmpresaInput
   turnos?: Prisma.TurnoUncheckedCreateNestedManyWithoutEmpresaInput
@@ -10224,6 +10411,7 @@ export type EmpresaUpdateWithoutConfiguracionesOperativasInput = {
   referidos?: Prisma.ReferidosUpdateManyWithoutEmpresaNestedInput
   servicios?: Prisma.ServicioUpdateManyWithoutEmpresaNestedInput
   sesionesActividad?: Prisma.SesionActividadUpdateManyWithoutEmpresaNestedInput
+  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUpdateManyWithoutEmpresasNestedInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUpdateManyWithoutEmpresaNestedInput
   tiposServicio?: Prisma.TipoServicioUpdateManyWithoutEmpresaNestedInput
   turnos?: Prisma.TurnoUpdateManyWithoutEmpresaNestedInput
@@ -10243,6 +10431,227 @@ export type EmpresaUncheckedUpdateWithoutConfiguracionesOperativasInput = {
   auditorias?: Prisma.AuditoriaUncheckedUpdateManyWithoutEmpresaNestedInput
   authSessions?: Prisma.AuthSessionUncheckedUpdateManyWithoutEmpresaNestedInput
   citasPsicologos?: Prisma.CitasPsicologosUncheckedUpdateManyWithoutEmpresaNestedInput
+  clientes?: Prisma.ClienteUncheckedUpdateManyWithoutEmpresaNestedInput
+  commissions?: Prisma.CommissionRecordUncheckedUpdateManyWithoutEmpresaNestedInput
+  configuracionPagos?: Prisma.ConfiguracionPagosUncheckedUpdateManyWithoutEmpresaNestedInput
+  consignacionOrdenes?: Prisma.ConsignacionOrdenUncheckedUpdateManyWithoutEmpresaNestedInput
+  consignaciones?: Prisma.ConsignacionEfectivoUncheckedUpdateManyWithoutEmpresaNestedInput
+  consultorios?: Prisma.ConsultorioUncheckedUpdateManyWithoutEmpresaNestedInput
+  cuentasCobro?: Prisma.CuentaCobroUncheckedUpdateManyWithoutEmpresaNestedInput
+  cuentasPago?: Prisma.CuentasPagoUncheckedUpdateManyWithoutEmpresaNestedInput
+  declaraciones?: Prisma.DeclaracionEfectivoUncheckedUpdateManyWithoutEmpresaNestedInput
+  direcciones?: Prisma.DireccionUncheckedUpdateManyWithoutEmpresaNestedInput
+  egresos?: Prisma.EgresosUncheckedUpdateManyWithoutEmpresaNestedInput
+  memberships?: Prisma.EmpresaMembershipUncheckedUpdateManyWithoutEmpresaNestedInput
+  entidadesFinancieras?: Prisma.EntidadFinancieraUncheckedUpdateManyWithoutEmpresaNestedInput
+  estadosServicio?: Prisma.EstadoServicioUncheckedUpdateManyWithoutEmpresaNestedInput
+  geolocalizaciones?: Prisma.GeolocalizacionUncheckedUpdateManyWithoutEmpresaNestedInput
+  logsEvento?: Prisma.LogEventoUncheckedUpdateManyWithoutEmpresaNestedInput
+  metodosPago?: Prisma.MetodoPagoUncheckedUpdateManyWithoutEmpresaNestedInput
+  nominaDetalles?: Prisma.NominaDetalleUncheckedUpdateManyWithoutEmpresaNestedInput
+  nominas?: Prisma.NominaUncheckedUpdateManyWithoutEmpresaNestedInput
+  ordenesServicio?: Prisma.OrdenServicioUncheckedUpdateManyWithoutEmpresaNestedInput
+  orgNodes?: Prisma.OrganizationNodeUncheckedUpdateManyWithoutEmpresaNestedInput
+  paquetesAdquiridos?: Prisma.PaqueteAdquiridoUncheckedUpdateManyWithoutEmpresaNestedInput
+  resetTokens?: Prisma.PasswordResetTokenUncheckedUpdateManyWithoutEmpresaNestedInput
+  permisos?: Prisma.PermisoUncheckedUpdateManyWithoutEmpresaNestedInput
+  picoPlaca?: Prisma.PicoPlacaUncheckedUpdateManyWithoutEmpresaNestedInput
+  productos?: Prisma.ProductoUncheckedUpdateManyWithoutEmpresaNestedInput
+  productosSolicitados?: Prisma.ProductoSolicitadoUncheckedUpdateManyWithoutEmpresaNestedInput
+  proveedores?: Prisma.ProveedoresUncheckedUpdateManyWithoutEmpresaNestedInput
+  referidos?: Prisma.ReferidosUncheckedUpdateManyWithoutEmpresaNestedInput
+  servicios?: Prisma.ServicioUncheckedUpdateManyWithoutEmpresaNestedInput
+  sesionesActividad?: Prisma.SesionActividadUncheckedUpdateManyWithoutEmpresaNestedInput
+  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUncheckedUpdateManyWithoutEmpresasNestedInput
+  terapiasPsicologos?: Prisma.TerapiasPsicologosUncheckedUpdateManyWithoutEmpresaNestedInput
+  tiposServicio?: Prisma.TipoServicioUncheckedUpdateManyWithoutEmpresaNestedInput
+  turnos?: Prisma.TurnoUncheckedUpdateManyWithoutEmpresaNestedInput
+  vehiculos?: Prisma.VehiculoUncheckedUpdateManyWithoutEmpresaNestedInput
+  zonas?: Prisma.ZonaUncheckedUpdateManyWithoutEmpresaNestedInput
+}
+
+export type EmpresaCreateWithoutSugerencias_seguimientoInput = {
+  id?: string
+  nombre: string
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  activo?: boolean
+  deletedAt?: Date | string | null
+  anticipos?: Prisma.AnticiposCreateNestedManyWithoutEmpresaInput
+  auditorias?: Prisma.AuditoriaCreateNestedManyWithoutEmpresaInput
+  authSessions?: Prisma.AuthSessionCreateNestedManyWithoutEmpresaInput
+  citasPsicologos?: Prisma.CitasPsicologosCreateNestedManyWithoutEmpresaInput
+  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaCreateNestedManyWithoutEmpresaInput
+  clientes?: Prisma.ClienteCreateNestedManyWithoutEmpresaInput
+  commissions?: Prisma.CommissionRecordCreateNestedManyWithoutEmpresaInput
+  configuracionPagos?: Prisma.ConfiguracionPagosCreateNestedManyWithoutEmpresaInput
+  consignacionOrdenes?: Prisma.ConsignacionOrdenCreateNestedManyWithoutEmpresaInput
+  consignaciones?: Prisma.ConsignacionEfectivoCreateNestedManyWithoutEmpresaInput
+  consultorios?: Prisma.ConsultorioCreateNestedManyWithoutEmpresaInput
+  cuentasCobro?: Prisma.CuentaCobroCreateNestedManyWithoutEmpresaInput
+  cuentasPago?: Prisma.CuentasPagoCreateNestedManyWithoutEmpresaInput
+  declaraciones?: Prisma.DeclaracionEfectivoCreateNestedManyWithoutEmpresaInput
+  direcciones?: Prisma.DireccionCreateNestedManyWithoutEmpresaInput
+  egresos?: Prisma.EgresosCreateNestedManyWithoutEmpresaInput
+  memberships?: Prisma.EmpresaMembershipCreateNestedManyWithoutEmpresaInput
+  tenant: Prisma.TenantCreateNestedOneWithoutEmpresasInput
+  entidadesFinancieras?: Prisma.EntidadFinancieraCreateNestedManyWithoutEmpresaInput
+  estadosServicio?: Prisma.EstadoServicioCreateNestedManyWithoutEmpresaInput
+  geolocalizaciones?: Prisma.GeolocalizacionCreateNestedManyWithoutEmpresaInput
+  logsEvento?: Prisma.LogEventoCreateNestedManyWithoutEmpresaInput
+  metodosPago?: Prisma.MetodoPagoCreateNestedManyWithoutEmpresaInput
+  nominaDetalles?: Prisma.NominaDetalleCreateNestedManyWithoutEmpresaInput
+  nominas?: Prisma.NominaCreateNestedManyWithoutEmpresaInput
+  ordenesServicio?: Prisma.OrdenServicioCreateNestedManyWithoutEmpresaInput
+  orgNodes?: Prisma.OrganizationNodeCreateNestedManyWithoutEmpresaInput
+  paquetesAdquiridos?: Prisma.PaqueteAdquiridoCreateNestedManyWithoutEmpresaInput
+  resetTokens?: Prisma.PasswordResetTokenCreateNestedManyWithoutEmpresaInput
+  permisos?: Prisma.PermisoCreateNestedManyWithoutEmpresaInput
+  picoPlaca?: Prisma.PicoPlacaCreateNestedManyWithoutEmpresaInput
+  productos?: Prisma.ProductoCreateNestedManyWithoutEmpresaInput
+  productosSolicitados?: Prisma.ProductoSolicitadoCreateNestedManyWithoutEmpresaInput
+  proveedores?: Prisma.ProveedoresCreateNestedManyWithoutEmpresaInput
+  referidos?: Prisma.ReferidosCreateNestedManyWithoutEmpresaInput
+  servicios?: Prisma.ServicioCreateNestedManyWithoutEmpresaInput
+  sesionesActividad?: Prisma.SesionActividadCreateNestedManyWithoutEmpresaInput
+  terapiasPsicologos?: Prisma.TerapiasPsicologosCreateNestedManyWithoutEmpresaInput
+  tiposServicio?: Prisma.TipoServicioCreateNestedManyWithoutEmpresaInput
+  turnos?: Prisma.TurnoCreateNestedManyWithoutEmpresaInput
+  vehiculos?: Prisma.VehiculoCreateNestedManyWithoutEmpresaInput
+  zonas?: Prisma.ZonaCreateNestedManyWithoutEmpresaInput
+}
+
+export type EmpresaUncheckedCreateWithoutSugerencias_seguimientoInput = {
+  id?: string
+  tenantId: string
+  nombre: string
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  activo?: boolean
+  deletedAt?: Date | string | null
+  anticipos?: Prisma.AnticiposUncheckedCreateNestedManyWithoutEmpresaInput
+  auditorias?: Prisma.AuditoriaUncheckedCreateNestedManyWithoutEmpresaInput
+  authSessions?: Prisma.AuthSessionUncheckedCreateNestedManyWithoutEmpresaInput
+  citasPsicologos?: Prisma.CitasPsicologosUncheckedCreateNestedManyWithoutEmpresaInput
+  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaUncheckedCreateNestedManyWithoutEmpresaInput
+  clientes?: Prisma.ClienteUncheckedCreateNestedManyWithoutEmpresaInput
+  commissions?: Prisma.CommissionRecordUncheckedCreateNestedManyWithoutEmpresaInput
+  configuracionPagos?: Prisma.ConfiguracionPagosUncheckedCreateNestedManyWithoutEmpresaInput
+  consignacionOrdenes?: Prisma.ConsignacionOrdenUncheckedCreateNestedManyWithoutEmpresaInput
+  consignaciones?: Prisma.ConsignacionEfectivoUncheckedCreateNestedManyWithoutEmpresaInput
+  consultorios?: Prisma.ConsultorioUncheckedCreateNestedManyWithoutEmpresaInput
+  cuentasCobro?: Prisma.CuentaCobroUncheckedCreateNestedManyWithoutEmpresaInput
+  cuentasPago?: Prisma.CuentasPagoUncheckedCreateNestedManyWithoutEmpresaInput
+  declaraciones?: Prisma.DeclaracionEfectivoUncheckedCreateNestedManyWithoutEmpresaInput
+  direcciones?: Prisma.DireccionUncheckedCreateNestedManyWithoutEmpresaInput
+  egresos?: Prisma.EgresosUncheckedCreateNestedManyWithoutEmpresaInput
+  memberships?: Prisma.EmpresaMembershipUncheckedCreateNestedManyWithoutEmpresaInput
+  entidadesFinancieras?: Prisma.EntidadFinancieraUncheckedCreateNestedManyWithoutEmpresaInput
+  estadosServicio?: Prisma.EstadoServicioUncheckedCreateNestedManyWithoutEmpresaInput
+  geolocalizaciones?: Prisma.GeolocalizacionUncheckedCreateNestedManyWithoutEmpresaInput
+  logsEvento?: Prisma.LogEventoUncheckedCreateNestedManyWithoutEmpresaInput
+  metodosPago?: Prisma.MetodoPagoUncheckedCreateNestedManyWithoutEmpresaInput
+  nominaDetalles?: Prisma.NominaDetalleUncheckedCreateNestedManyWithoutEmpresaInput
+  nominas?: Prisma.NominaUncheckedCreateNestedManyWithoutEmpresaInput
+  ordenesServicio?: Prisma.OrdenServicioUncheckedCreateNestedManyWithoutEmpresaInput
+  orgNodes?: Prisma.OrganizationNodeUncheckedCreateNestedManyWithoutEmpresaInput
+  paquetesAdquiridos?: Prisma.PaqueteAdquiridoUncheckedCreateNestedManyWithoutEmpresaInput
+  resetTokens?: Prisma.PasswordResetTokenUncheckedCreateNestedManyWithoutEmpresaInput
+  permisos?: Prisma.PermisoUncheckedCreateNestedManyWithoutEmpresaInput
+  picoPlaca?: Prisma.PicoPlacaUncheckedCreateNestedManyWithoutEmpresaInput
+  productos?: Prisma.ProductoUncheckedCreateNestedManyWithoutEmpresaInput
+  productosSolicitados?: Prisma.ProductoSolicitadoUncheckedCreateNestedManyWithoutEmpresaInput
+  proveedores?: Prisma.ProveedoresUncheckedCreateNestedManyWithoutEmpresaInput
+  referidos?: Prisma.ReferidosUncheckedCreateNestedManyWithoutEmpresaInput
+  servicios?: Prisma.ServicioUncheckedCreateNestedManyWithoutEmpresaInput
+  sesionesActividad?: Prisma.SesionActividadUncheckedCreateNestedManyWithoutEmpresaInput
+  terapiasPsicologos?: Prisma.TerapiasPsicologosUncheckedCreateNestedManyWithoutEmpresaInput
+  tiposServicio?: Prisma.TipoServicioUncheckedCreateNestedManyWithoutEmpresaInput
+  turnos?: Prisma.TurnoUncheckedCreateNestedManyWithoutEmpresaInput
+  vehiculos?: Prisma.VehiculoUncheckedCreateNestedManyWithoutEmpresaInput
+  zonas?: Prisma.ZonaUncheckedCreateNestedManyWithoutEmpresaInput
+}
+
+export type EmpresaCreateOrConnectWithoutSugerencias_seguimientoInput = {
+  where: Prisma.EmpresaWhereUniqueInput
+  create: Prisma.XOR<Prisma.EmpresaCreateWithoutSugerencias_seguimientoInput, Prisma.EmpresaUncheckedCreateWithoutSugerencias_seguimientoInput>
+}
+
+export type EmpresaUpsertWithoutSugerencias_seguimientoInput = {
+  update: Prisma.XOR<Prisma.EmpresaUpdateWithoutSugerencias_seguimientoInput, Prisma.EmpresaUncheckedUpdateWithoutSugerencias_seguimientoInput>
+  create: Prisma.XOR<Prisma.EmpresaCreateWithoutSugerencias_seguimientoInput, Prisma.EmpresaUncheckedCreateWithoutSugerencias_seguimientoInput>
+  where?: Prisma.EmpresaWhereInput
+}
+
+export type EmpresaUpdateToOneWithWhereWithoutSugerencias_seguimientoInput = {
+  where?: Prisma.EmpresaWhereInput
+  data: Prisma.XOR<Prisma.EmpresaUpdateWithoutSugerencias_seguimientoInput, Prisma.EmpresaUncheckedUpdateWithoutSugerencias_seguimientoInput>
+}
+
+export type EmpresaUpdateWithoutSugerencias_seguimientoInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  nombre?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  anticipos?: Prisma.AnticiposUpdateManyWithoutEmpresaNestedInput
+  auditorias?: Prisma.AuditoriaUpdateManyWithoutEmpresaNestedInput
+  authSessions?: Prisma.AuthSessionUpdateManyWithoutEmpresaNestedInput
+  citasPsicologos?: Prisma.CitasPsicologosUpdateManyWithoutEmpresaNestedInput
+  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaUpdateManyWithoutEmpresaNestedInput
+  clientes?: Prisma.ClienteUpdateManyWithoutEmpresaNestedInput
+  commissions?: Prisma.CommissionRecordUpdateManyWithoutEmpresaNestedInput
+  configuracionPagos?: Prisma.ConfiguracionPagosUpdateManyWithoutEmpresaNestedInput
+  consignacionOrdenes?: Prisma.ConsignacionOrdenUpdateManyWithoutEmpresaNestedInput
+  consignaciones?: Prisma.ConsignacionEfectivoUpdateManyWithoutEmpresaNestedInput
+  consultorios?: Prisma.ConsultorioUpdateManyWithoutEmpresaNestedInput
+  cuentasCobro?: Prisma.CuentaCobroUpdateManyWithoutEmpresaNestedInput
+  cuentasPago?: Prisma.CuentasPagoUpdateManyWithoutEmpresaNestedInput
+  declaraciones?: Prisma.DeclaracionEfectivoUpdateManyWithoutEmpresaNestedInput
+  direcciones?: Prisma.DireccionUpdateManyWithoutEmpresaNestedInput
+  egresos?: Prisma.EgresosUpdateManyWithoutEmpresaNestedInput
+  memberships?: Prisma.EmpresaMembershipUpdateManyWithoutEmpresaNestedInput
+  tenant?: Prisma.TenantUpdateOneRequiredWithoutEmpresasNestedInput
+  entidadesFinancieras?: Prisma.EntidadFinancieraUpdateManyWithoutEmpresaNestedInput
+  estadosServicio?: Prisma.EstadoServicioUpdateManyWithoutEmpresaNestedInput
+  geolocalizaciones?: Prisma.GeolocalizacionUpdateManyWithoutEmpresaNestedInput
+  logsEvento?: Prisma.LogEventoUpdateManyWithoutEmpresaNestedInput
+  metodosPago?: Prisma.MetodoPagoUpdateManyWithoutEmpresaNestedInput
+  nominaDetalles?: Prisma.NominaDetalleUpdateManyWithoutEmpresaNestedInput
+  nominas?: Prisma.NominaUpdateManyWithoutEmpresaNestedInput
+  ordenesServicio?: Prisma.OrdenServicioUpdateManyWithoutEmpresaNestedInput
+  orgNodes?: Prisma.OrganizationNodeUpdateManyWithoutEmpresaNestedInput
+  paquetesAdquiridos?: Prisma.PaqueteAdquiridoUpdateManyWithoutEmpresaNestedInput
+  resetTokens?: Prisma.PasswordResetTokenUpdateManyWithoutEmpresaNestedInput
+  permisos?: Prisma.PermisoUpdateManyWithoutEmpresaNestedInput
+  picoPlaca?: Prisma.PicoPlacaUpdateManyWithoutEmpresaNestedInput
+  productos?: Prisma.ProductoUpdateManyWithoutEmpresaNestedInput
+  productosSolicitados?: Prisma.ProductoSolicitadoUpdateManyWithoutEmpresaNestedInput
+  proveedores?: Prisma.ProveedoresUpdateManyWithoutEmpresaNestedInput
+  referidos?: Prisma.ReferidosUpdateManyWithoutEmpresaNestedInput
+  servicios?: Prisma.ServicioUpdateManyWithoutEmpresaNestedInput
+  sesionesActividad?: Prisma.SesionActividadUpdateManyWithoutEmpresaNestedInput
+  terapiasPsicologos?: Prisma.TerapiasPsicologosUpdateManyWithoutEmpresaNestedInput
+  tiposServicio?: Prisma.TipoServicioUpdateManyWithoutEmpresaNestedInput
+  turnos?: Prisma.TurnoUpdateManyWithoutEmpresaNestedInput
+  vehiculos?: Prisma.VehiculoUpdateManyWithoutEmpresaNestedInput
+  zonas?: Prisma.ZonaUpdateManyWithoutEmpresaNestedInput
+}
+
+export type EmpresaUncheckedUpdateWithoutSugerencias_seguimientoInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenantId?: Prisma.StringFieldUpdateOperationsInput | string
+  nombre?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  anticipos?: Prisma.AnticiposUncheckedUpdateManyWithoutEmpresaNestedInput
+  auditorias?: Prisma.AuditoriaUncheckedUpdateManyWithoutEmpresaNestedInput
+  authSessions?: Prisma.AuthSessionUncheckedUpdateManyWithoutEmpresaNestedInput
+  citasPsicologos?: Prisma.CitasPsicologosUncheckedUpdateManyWithoutEmpresaNestedInput
+  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaUncheckedUpdateManyWithoutEmpresaNestedInput
   clientes?: Prisma.ClienteUncheckedUpdateManyWithoutEmpresaNestedInput
   commissions?: Prisma.CommissionRecordUncheckedUpdateManyWithoutEmpresaNestedInput
   configuracionPagos?: Prisma.ConfiguracionPagosUncheckedUpdateManyWithoutEmpresaNestedInput
@@ -10333,6 +10742,7 @@ export type EmpresaUpdateWithoutTenantInput = {
   referidos?: Prisma.ReferidosUpdateManyWithoutEmpresaNestedInput
   servicios?: Prisma.ServicioUpdateManyWithoutEmpresaNestedInput
   sesionesActividad?: Prisma.SesionActividadUpdateManyWithoutEmpresaNestedInput
+  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUpdateManyWithoutEmpresasNestedInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUpdateManyWithoutEmpresaNestedInput
   tiposServicio?: Prisma.TipoServicioUpdateManyWithoutEmpresaNestedInput
   turnos?: Prisma.TurnoUpdateManyWithoutEmpresaNestedInput
@@ -10383,6 +10793,7 @@ export type EmpresaUncheckedUpdateWithoutTenantInput = {
   referidos?: Prisma.ReferidosUncheckedUpdateManyWithoutEmpresaNestedInput
   servicios?: Prisma.ServicioUncheckedUpdateManyWithoutEmpresaNestedInput
   sesionesActividad?: Prisma.SesionActividadUncheckedUpdateManyWithoutEmpresaNestedInput
+  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUncheckedUpdateManyWithoutEmpresasNestedInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUncheckedUpdateManyWithoutEmpresaNestedInput
   tiposServicio?: Prisma.TipoServicioUncheckedUpdateManyWithoutEmpresaNestedInput
   turnos?: Prisma.TurnoUncheckedUpdateManyWithoutEmpresaNestedInput
@@ -10441,6 +10852,7 @@ export type EmpresaCountOutputType = {
   referidos: number
   servicios: number
   sesionesActividad: number
+  sugerencias_seguimiento: number
   terapiasPsicologos: number
   tiposServicio: number
   turnos: number
@@ -10485,6 +10897,7 @@ export type EmpresaCountOutputTypeSelect<ExtArgs extends runtime.Types.Extension
   referidos?: boolean | EmpresaCountOutputTypeCountReferidosArgs
   servicios?: boolean | EmpresaCountOutputTypeCountServiciosArgs
   sesionesActividad?: boolean | EmpresaCountOutputTypeCountSesionesActividadArgs
+  sugerencias_seguimiento?: boolean | EmpresaCountOutputTypeCountSugerencias_seguimientoArgs
   terapiasPsicologos?: boolean | EmpresaCountOutputTypeCountTerapiasPsicologosArgs
   tiposServicio?: boolean | EmpresaCountOutputTypeCountTiposServicioArgs
   turnos?: boolean | EmpresaCountOutputTypeCountTurnosArgs
@@ -10757,6 +11170,13 @@ export type EmpresaCountOutputTypeCountSesionesActividadArgs<ExtArgs extends run
 /**
  * EmpresaCountOutputType without action
  */
+export type EmpresaCountOutputTypeCountSugerencias_seguimientoArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.sugerencias_seguimientoWhereInput
+}
+
+/**
+ * EmpresaCountOutputType without action
+ */
 export type EmpresaCountOutputTypeCountTerapiasPsicologosArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   where?: Prisma.TerapiasPsicologosWhereInput
 }
@@ -10835,6 +11255,7 @@ export type EmpresaSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs 
   referidos?: boolean | Prisma.Empresa$referidosArgs<ExtArgs>
   servicios?: boolean | Prisma.Empresa$serviciosArgs<ExtArgs>
   sesionesActividad?: boolean | Prisma.Empresa$sesionesActividadArgs<ExtArgs>
+  sugerencias_seguimiento?: boolean | Prisma.Empresa$sugerencias_seguimientoArgs<ExtArgs>
   terapiasPsicologos?: boolean | Prisma.Empresa$terapiasPsicologosArgs<ExtArgs>
   tiposServicio?: boolean | Prisma.Empresa$tiposServicioArgs<ExtArgs>
   turnos?: boolean | Prisma.Empresa$turnosArgs<ExtArgs>
@@ -10914,6 +11335,7 @@ export type EmpresaInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs
   referidos?: boolean | Prisma.Empresa$referidosArgs<ExtArgs>
   servicios?: boolean | Prisma.Empresa$serviciosArgs<ExtArgs>
   sesionesActividad?: boolean | Prisma.Empresa$sesionesActividadArgs<ExtArgs>
+  sugerencias_seguimiento?: boolean | Prisma.Empresa$sugerencias_seguimientoArgs<ExtArgs>
   terapiasPsicologos?: boolean | Prisma.Empresa$terapiasPsicologosArgs<ExtArgs>
   tiposServicio?: boolean | Prisma.Empresa$tiposServicioArgs<ExtArgs>
   turnos?: boolean | Prisma.Empresa$turnosArgs<ExtArgs>
@@ -10968,6 +11390,7 @@ export type $EmpresaPayload<ExtArgs extends runtime.Types.Extensions.InternalArg
     referidos: Prisma.$ReferidosPayload<ExtArgs>[]
     servicios: Prisma.$ServicioPayload<ExtArgs>[]
     sesionesActividad: Prisma.$SesionActividadPayload<ExtArgs>[]
+    sugerencias_seguimiento: Prisma.$sugerencias_seguimientoPayload<ExtArgs>[]
     terapiasPsicologos: Prisma.$TerapiasPsicologosPayload<ExtArgs>[]
     tiposServicio: Prisma.$TipoServicioPayload<ExtArgs>[]
     turnos: Prisma.$TurnoPayload<ExtArgs>[]
@@ -11413,6 +11836,7 @@ export interface Prisma__EmpresaClient<T, Null = never, ExtArgs extends runtime.
   referidos<T extends Prisma.Empresa$referidosArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Empresa$referidosArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ReferidosPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   servicios<T extends Prisma.Empresa$serviciosArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Empresa$serviciosArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ServicioPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   sesionesActividad<T extends Prisma.Empresa$sesionesActividadArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Empresa$sesionesActividadArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$SesionActividadPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  sugerencias_seguimiento<T extends Prisma.Empresa$sugerencias_seguimientoArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Empresa$sugerencias_seguimientoArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$sugerencias_seguimientoPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   terapiasPsicologos<T extends Prisma.Empresa$terapiasPsicologosArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Empresa$terapiasPsicologosArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$TerapiasPsicologosPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   tiposServicio<T extends Prisma.Empresa$tiposServicioArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Empresa$tiposServicioArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$TipoServicioPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   turnos<T extends Prisma.Empresa$turnosArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Empresa$turnosArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$TurnoPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
@@ -12711,6 +13135,30 @@ export type Empresa$sesionesActividadArgs<ExtArgs extends runtime.Types.Extensio
   take?: number
   skip?: number
   distinct?: Prisma.SesionActividadScalarFieldEnum | Prisma.SesionActividadScalarFieldEnum[]
+}
+
+/**
+ * Empresa.sugerencias_seguimiento
+ */
+export type Empresa$sugerencias_seguimientoArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the sugerencias_seguimiento
+   */
+  select?: Prisma.sugerencias_seguimientoSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the sugerencias_seguimiento
+   */
+  omit?: Prisma.sugerencias_seguimientoOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.sugerencias_seguimientoInclude<ExtArgs> | null
+  where?: Prisma.sugerencias_seguimientoWhereInput
+  orderBy?: Prisma.sugerencias_seguimientoOrderByWithRelationInput | Prisma.sugerencias_seguimientoOrderByWithRelationInput[]
+  cursor?: Prisma.sugerencias_seguimientoWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.Sugerencias_seguimientoScalarFieldEnum | Prisma.Sugerencias_seguimientoScalarFieldEnum[]
 }
 
 /**

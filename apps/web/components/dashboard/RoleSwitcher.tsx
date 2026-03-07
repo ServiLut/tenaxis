@@ -12,6 +12,8 @@ import {
 
 const ROLES = ["SU_ADMIN", "ADMIN", "COORDINADOR", "ASESOR", "OPERADOR"];
 
+import { updateTestRoleAction } from "@/app/dashboard/actions";
+
 export function RoleSwitcher() {
   const isDev = process.env.NODE_ENV !== 'production';
   const [currentRole, setCurrentRole] = useState<string>("");
@@ -58,10 +60,7 @@ export function RoleSwitcher() {
     // Defer the impure DOM mutations to next tick using setTimeout
     // to satisfy React strict mode / concurrent mode purity requirements
     setTimeout(async () => {
-      const expires = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toUTCString();
-      document.cookie = `x-test-role=${role}; path=/; expires=${expires}; SameSite=Lax`;
-
-      let token = "";
+      // Update local storage for immediate UI feedback if needed
       const userData = localStorage.getItem("user");
       if (userData) {
         try {
@@ -71,30 +70,16 @@ export function RoleSwitcher() {
         } catch (_e) { /* ignore */ }
       }
 
-      const cookieToken = document.cookie
-        .split("; ")
-        .find((row) => row.startsWith("access_token="))
-        ?.split("=")[1];
-
-      token = cookieToken || "";
-
-      if (token) {
-        try {
-          const apiUrl = process.env.NESTJS_API_URL || "http://127.0.0.1:4000";
-          await fetch(`${apiUrl}/auth/test-role`, {
-            method: 'PATCH',
-            headers: {
-              'Content-Type': 'application/json',
-              'Authorization': `Bearer ${token}`
-            },
-            body: JSON.stringify({ role })
-          });
-        } catch (_e) {
-          console.error("Error updating role in DB", _e);
+      try {
+        const res = await updateTestRoleAction(role);
+        if (res.success) {
+          window.location.reload();
+        } else {
+          console.error("Error updating role:", res.error);
         }
+      } catch (error) {
+        console.error("Error updating role:", error);
       }
-
-      window.location.reload();
     }, 0);
   };
 

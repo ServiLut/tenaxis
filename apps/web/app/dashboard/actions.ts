@@ -3,55 +3,25 @@
 import { cookies } from "next/headers";
 import { revalidatePath } from "next/cache";
 import https from "https";
+import { contabilidadClient } from "@/lib/api/contabilidad-client";
+import { tenantsClient } from "@/lib/api/tenants-client";
+import { clientesClient } from "@/lib/api/clientes-client";
+import { configClient } from "@/lib/api/config-client";
+import { enterpriseClient } from "@/lib/api/enterprise-client";
+import { serviciosClient } from "@/lib/api/servicios-client";
+import { authClient } from "@/lib/api/auth-client";
+import { apiFetch } from "@/lib/api/base-client";
+import { DashboardStatsSchema, type DashboardStatsType } from "./schemas/dashboard.schema";
 
-async function getHeaders() {
-  const cookieStore = await cookies();
-  const token = cookieStore.get("access_token")?.value;
-  const enterpriseId = cookieStore.get("x-enterprise-id")?.value;
-  const testRole = cookieStore.get("x-test-role")?.value;
+export type DashboardStats = DashboardStatsType;
+export type ClienteDTO = any;
+export type ConfiguracionOperativa = any;
+export type ElementoPredefinido = any;
 
-  const headers: Record<string, string> = {
-    "Content-Type": "application/json",
-  };
-
-  if (token) {
-    headers["Authorization"] = `Bearer ${token}`;
-  }
-
-  if (enterpriseId) {
-    headers["x-enterprise-id"] = enterpriseId;
-  }
-
-  if (testRole) {
-    headers["x-test-role"] = testRole;
-  }
-
-  return headers;
-}
-
-const getApiUrl = () => process.env.NESTJS_API_URL || "http://localhost:4000";
-
+// --- Auth Actions ---
 export async function isTenantAdminAction() {
-  const cookieStore = await cookies();
-  const token = cookieStore.get("access_token")?.value;
-
-  if (!token || token === "undefined") {
-    return false;
-  }
-
   try {
-    const apiUrl = getApiUrl();
-    const headers = await getHeaders();
-    const response = await fetch(`${apiUrl}/auth/profile`, {
-      headers,
-    });
-
-    if (!response.ok) return false;
-
-    const result = await response.json();
-
-    // El interceptor de NestJS envuelve la respuesta en { data: { ... } }
-    const data = result.data || result;
+    const data = await authClient.getProfile();
     return !!data.isTenantAdmin;
   } catch (error) {
     console.error("Error checking tenant admin status:", error);
@@ -59,22 +29,22 @@ export async function isTenantAdminAction() {
   }
 }
 
-export async function getTenantsAction() {
-  const cookieStore = await cookies();
-  const token = cookieStore.get("access_token")?.value;
-  if (!token) return [];
-
+export async function updateTestRoleAction(role: string) {
   try {
-    const apiUrl = getApiUrl();
-    const headers = await getHeaders();
-    const response = await fetch(`${apiUrl}/tenants`, {
-      headers,
-    });
+    const result = await authClient.updateTestRole(role);
+    const cookieStore = await cookies();
+    const expires = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000);
+    cookieStore.set("x-test-role", role, { path: "/", expires, sameSite: "lax" });
+    return { success: true, data: result };
+  } catch (error) {
+    return { success: false, error: error instanceof Error ? error.message : "Error inesperado" };
+  }
+}
 
-    if (!response.ok) return [];
-
-    const result = await response.json();
-    return result.data || result;
+// --- Tenant Actions ---
+export async function getTenantsAction() {
+  try {
+    return await tenantsClient.getAll();
   } catch (error) {
     console.error("Error fetching tenants:", error);
     return [];
@@ -82,248 +52,270 @@ export async function getTenantsAction() {
 }
 
 export async function getTenantDetailAction(tenantId: string) {
-  const cookieStore = await cookies();
-  const token = cookieStore.get("access_token")?.value;
-  if (!token) throw new Error("No session found");
-
   try {
-    const apiUrl = getApiUrl();
-    const headers = await getHeaders();
-    const response = await fetch(`${apiUrl}/tenants/${tenantId}`, {
-      headers,
-    });
-
-    if (!response.ok) {
-      throw new Error("Error fetching tenant detail");
-    }
-
-    const result = await response.json();
-    return result.data || result;
+    return await tenantsClient.getById(tenantId);
   } catch (error) {
     console.error("Error fetching tenant detail:", error);
     throw error;
   }
 }
 
-export async function getPlansAction() {
-  const cookieStore = await cookies();
-  const token = cookieStore.get("access_token")?.value;
-
-  if (!token) return [];
-
+export async function getPendingMembershipsAction(tenantId: string) {
   try {
-    const apiUrl = getApiUrl();
-    const response = await fetch(`${apiUrl}/plans`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
+    return await tenantsClient.getPendingMemberships(tenantId);
+  } catch (error) {
+    console.error("Error fetching pending memberships:", error);
+    return [];
+  }
+}
 
-    if (!response.ok) return [];
+export async function approveMembershipAction(id: string) {
+  try {
+    await tenantsClient.approveMembership(id);
+    revalidatePath("/dashboard/solicitudes");
+    return { success: true };
+  } catch (error) {
+    return { success: false, error: error instanceof Error ? error.message : "Error inesperado" };
+  }
+}
 
-    const result = await response.json();
-    return result.data || result;
+export async function rejectMembershipAction(id: string) {
+  try {
+    await tenantsClient.rejectMembership(id);
+    revalidatePath("/dashboard/solicitudes");
+    return { success: true };
+  } catch (error) {
+    return { success: false, error: error instanceof Error ? error.message : "Error inesperado" };
+  }
+}
+
+export async function createTenantAction(formData: any) {
+  try {
+    return await tenantsClient.createTenant(formData);
+  } catch (error) {
+    console.error("Error creating tenant:", error);
+    throw error;
+  }
+}
+
+export async function joinTenantAction(slug: string) {
+  try {
+    const result = await tenantsClient.join(slug);
+    return { success: true, data: result };
+  } catch (error) {
+    return { success: false, error: error instanceof Error ? error.message : "Error inesperado" };
+  }
+}
+
+export async function updateMembershipAction(membershipId: string, data: any) {
+  try {
+    const result = await tenantsClient.updateMembership(membershipId, data);
+    revalidatePath("/dashboard/equipo-trabajo");
+    return { success: true, data: result };
+  } catch (error) {
+    return { success: false, error: error instanceof Error ? error.message : "Error inesperado" };
+  }
+}
+
+export async function getTenantMembershipsAction() {
+  try {
+    const profile = await authClient.getProfile();
+    const tenantId = profile.tenantId;
+    if (!tenantId) return [];
+    return await tenantsClient.getMemberships(tenantId);
+  } catch (error) {
+    console.error("Error fetching memberships:", error);
+    return [];
+  }
+}
+
+export async function inviteMemberAction(tenantId: string, data: any) {
+  try {
+    const result = await tenantsClient.inviteMember(tenantId, data);
+    revalidatePath("/dashboard/equipo-trabajo");
+    return { success: true, data: result };
+  } catch (error) {
+    return { success: false, error: error instanceof Error ? error.message : "Error inesperado" };
+  }
+}
+
+// --- Plan Actions ---
+export async function getPlansAction() {
+  try {
+    return await apiFetch<any[]>("/plans");
   } catch (error) {
     console.error("Error fetching plans:", error);
     return [];
   }
 }
 
+// --- Client Actions ---
 export async function getClientesAction() {
   try {
-    const apiUrl = getApiUrl();
-    const headers = await getHeaders();
-    console.log("FETCHING CLIENTES FROM /list WITH HEADERS", headers);
-    const response = await fetch(`${apiUrl}/clientes/list`, {
-      headers,
-      cache: "no-store",
-    });
-
-    if (!response.ok) {
-      console.error("getClientesAction: response not ok", response.status);
-      return [];
-    }
-
-    const result = await response.json();
-    return result.data || result;
+    return await clientesClient.getAll();
   } catch (error) {
     console.error("Error fetching clients:", error);
     return [];
   }
 }
 
-export async function getSegmentosAction() {
-  const cookieStore = await cookies();
-  const token = cookieStore.get("access_token")?.value;
-  if (!token) return [];
-
+export async function getClienteByIdAction(id: string) {
   try {
-    const apiUrl = getApiUrl();
-    const response = await fetch(`${apiUrl}/config-clientes/segmentos`, {
-      headers: { Authorization: `Bearer ${token}` },
-    });
-    if (!response.ok) return [];
-    const result = await response.json();
-    return result.data || result;
+    return await clientesClient.getById(id);
+  } catch (error) {
+    console.error("Error fetching client by id:", error);
+    return null;
+  }
+}
+
+export async function createClienteAction(payload: any) {
+  try {
+    const result = await clientesClient.create(payload);
+    revalidatePath("/dashboard/clientes");
+    return { success: true, data: result };
+  } catch (error) {
+    return { success: false, error: error instanceof Error ? error.message : "Error inesperado" };
+  }
+}
+
+export async function updateClienteAction(id: string, payload: any) {
+  try {
+    const result = await clientesClient.update(id, payload);
+    revalidatePath("/dashboard/clientes");
+    return { success: true, data: result };
+  } catch (error) {
+    return { success: false, error: error instanceof Error ? error.message : "Error inesperado" };
+  }
+}
+
+export async function deleteClienteAction(id: string) {
+  try {
+    await clientesClient.delete(id);
+    revalidatePath("/dashboard/clientes");
+    return { success: true };
+  } catch (error) {
+    return { success: false, error: error instanceof Error ? error.message : "Error inesperado" };
+  }
+}
+
+// --- Config Actions ---
+export async function getSegmentosAction() {
+  try {
+    return await configClient.getSegmentos();
   } catch (error) {
     console.error("Error fetching segments:", error);
     return [];
   }
 }
 
-export async function getRiesgosAction() {
-  const cookieStore = await cookies();
-  const token = cookieStore.get("access_token")?.value;
-  if (!token) return [];
-
+export async function createSegmentoAction(data: any) {
   try {
-    const apiUrl = getApiUrl();
-    const response = await fetch(`${apiUrl}/config-clientes/riesgos`, {
-      headers: { Authorization: `Bearer ${token}` },
+    return await apiFetch("/config-clientes/segmentos", {
+      method: "POST",
+      body: JSON.stringify(data),
     });
-    if (!response.ok) return [];
-    const result = await response.json();
-    return result.data || result;
+  } catch (error) {
+    throw error;
+  }
+}
+
+export async function updateSegmentoAction(id: string, data: any) {
+  try {
+    return await apiFetch(`/config-clientes/segmentos/${id}`, {
+      method: "PATCH",
+      body: JSON.stringify(data),
+    });
+  } catch (error) {
+    throw error;
+  }
+}
+
+export async function getRiesgosAction() {
+  try {
+    return await configClient.getRiesgos();
   } catch (error) {
     console.error("Error fetching risks:", error);
     return [];
   }
 }
 
-export async function getTiposInteresAction() {
-  const cookieStore = await cookies();
-  const token = cookieStore.get("access_token")?.value;
-  if (!token) return [];
-
+export async function createRiesgoAction(data: any) {
   try {
-    const apiUrl = getApiUrl();
-    const response = await fetch(`${apiUrl}/config-clientes/intereses`, {
-      headers: { Authorization: `Bearer ${token}` },
+    return await apiFetch("/config-clientes/riesgos", {
+      method: "POST",
+      body: JSON.stringify(data),
     });
-    if (!response.ok) return [];
-    const result = await response.json();
-    return result.data || result;
+  } catch (error) {
+    throw error;
+  }
+}
+
+export async function updateRiesgoAction(id: string, data: any) {
+  try {
+    return await apiFetch(`/config-clientes/riesgos/${id}`, {
+      method: "PATCH",
+      body: JSON.stringify(data),
+    });
+  } catch (error) {
+    throw error;
+  }
+}
+
+export async function getTiposInteresAction() {
+  try {
+    return await configClient.getIntereses();
   } catch (error) {
     console.error("Error fetching interest types:", error);
     return [];
   }
 }
 
-export async function getTiposServicioAction() {
-  const cookieStore = await cookies();
-  const token = cookieStore.get("access_token")?.value;
-  const empresaId = cookieStore.get("x-enterprise-id")?.value;
-  if (!token || !empresaId) return [];
-
+export async function createTipoInteresAction(data: any) {
   try {
-    const apiUrl = getApiUrl();
-    const response = await fetch(`${apiUrl}/config-clientes/tipos-servicio?empresaId=${empresaId}`, {
-      headers: { Authorization: `Bearer ${token}` },
+    return await apiFetch("/config-clientes/intereses", {
+      method: "POST",
+      body: JSON.stringify(data),
     });
-    if (!response.ok) return [];
-    const result = await response.json();
-    return result.data || result;
+  } catch (error) {
+    throw error;
+  }
+}
+
+export async function updateTipoInteresAction(id: string, data: any) {
+  try {
+    return await apiFetch(`/config-clientes/intereses/${id}`, {
+      method: "PATCH",
+      body: JSON.stringify(data),
+    });
+  } catch (error) {
+    throw error;
+  }
+}
+
+export async function getTiposServicioAction(empresaId: string) {
+  if (!empresaId) return [];
+  try {
+    return await configClient.getTiposServicio(empresaId);
   } catch (error) {
     console.error("Error fetching service types:", error);
     return [];
   }
 }
 
-export async function getMetodosPagoAction(empresaId?: string) {
-  const cookieStore = await cookies();
-  const token = cookieStore.get("access_token")?.value;
-  const targetEmpresaId = empresaId || cookieStore.get("x-enterprise-id")?.value;
-  
-  if (!token || !targetEmpresaId) return [];
-
+export async function getMetodosPagoAction(empresaId: string) {
+  if (!empresaId) return [];
   try {
-    const apiUrl = getApiUrl();
-    const response = await fetch(`${apiUrl}/config-clientes/metodos-pago?empresaId=${targetEmpresaId}`, {
-      headers: { Authorization: `Bearer ${token}` },
-    });
-    if (!response.ok) return [];
-    const result = await response.json();
-    return result.data || result;
+    return await configClient.getMetodosPago(empresaId);
   } catch (error) {
     console.error("Error fetching payment methods:", error);
     return [];
   }
 }
 
-export async function getOperatorsAction(empresaId: string) {
-  const cookieStore = await cookies();
-  const token = cookieStore.get("access_token")?.value;
-  if (!token || !empresaId) return [];
-
+export async function getZonasAction(empresaId: string) {
+  if (!empresaId) return [];
   try {
-    const apiUrl = getApiUrl();
-    const response = await fetch(`${apiUrl}/enterprise/${empresaId}/operators`, {
-      headers: { Authorization: `Bearer ${token}` },
-    });
-    if (!response.ok) return [];
-    const result = await response.json();
-    return result.data || result;
-  } catch (error) {
-    console.error("Error fetching operators:", error);
-    return [];
-  }
-}
-
-export async function getMunicipalitiesAction() {
-  const cookieStore = await cookies();
-  const token = cookieStore.get("access_token")?.value;
-  if (!token) return [];
-
-  try {
-    const apiUrl = getApiUrl();
-    const headers = await getHeaders();
-    const response = await fetch(`${apiUrl}/geo/municipalities`, {
-      headers,
-    });
-    if (!response.ok) return [];
-    const result = await response.json();
-    return result.data || result;
-  } catch (error) {
-    console.error("Error fetching municipalities:", error);
-    return [];
-  }
-}
-
-export async function getDepartmentsAction() {
-  const cookieStore = await cookies();
-  const token = cookieStore.get("access_token")?.value;
-  if (!token) return [];
-
-  try {
-    const apiUrl = getApiUrl();
-    const headers = await getHeaders();
-    const response = await fetch(`${apiUrl}/geo/departments`, {
-      headers,
-    });
-    if (!response.ok) return [];
-    const result = await response.json();
-    return result.data || result;
-  } catch (error) {
-    console.error("Error fetching departments:", error);
-    return [];
-  }
-}
-
-export async function getZonasAction(empresaId?: string) {
-  const cookieStore = await cookies();
-  const token = cookieStore.get("access_token")?.value;
-  const targetEmpresaId = empresaId || cookieStore.get("x-enterprise-id")?.value;
-  
-  if (!token || !targetEmpresaId) return [];
-
-  try {
-    const apiUrl = getApiUrl();
-    const response = await fetch(`${apiUrl}/config-clientes/zonas?empresaId=${targetEmpresaId}`, {
-      headers: { Authorization: `Bearer ${token}` },
-    });
-    if (!response.ok) return [];
-    const result = await response.json();
-    return result.data || result;
+    return await configClient.getZonas(empresaId);
   } catch (error) {
     console.error("Error fetching zones:", error);
     return [];
@@ -331,508 +323,295 @@ export async function getZonasAction(empresaId?: string) {
 }
 
 export async function getServiciosAction(empresaId?: string) {
-  const cookieStore = await cookies();
-  const token = cookieStore.get("access_token")?.value;
-  const targetEmpresaId = empresaId || cookieStore.get("x-enterprise-id")?.value;
-  
-  if (!token) return [];
-
   try {
-    const apiUrl = getApiUrl();
-    const url = targetEmpresaId 
-      ? `${apiUrl}/config-clientes/servicios?empresaId=${targetEmpresaId}`
-      : `${apiUrl}/config-clientes/servicios`;
-      
-    const response = await fetch(url, {
-      headers: { Authorization: `Bearer ${token}` },
-    });
-    if (!response.ok) return [];
-    const result = await response.json();
-    return result.data || result;
+    return await configClient.getServicios(empresaId);
   } catch (error) {
     console.error("Error fetching services:", error);
     return [];
   }
 }
 
-export interface SegmentoNegocioDTO {
-  nombre: string;
-  descripcion?: string | null;
-  frecuenciaSugerida?: number | null;
-  riesgoSugerido?: string | null;
-  activo?: boolean;
+export async function createServicioAction(data: any) {
+  try {
+    return await apiFetch("/config-clientes/servicios", {
+      method: "POST",
+      body: JSON.stringify(data),
+    });
+  } catch (error) {
+    throw error;
+  }
 }
 
-export interface NivelRiesgoOperativoDTO {
-  nombre: string;
-  color?: string | null;
-  valor?: number;
-  activo?: boolean;
-}
-
-export interface TipoInteresDTO {
-  nombre: string;
-  descripcion?: string | null;
-  frecuenciaSugerida?: number | null;
-  riesgoSugerido?: string | null;
-  activo?: boolean;
-}
-
-export interface ServicioDTO {
-  nombre: string;
-  empresaId: string;
-  activo?: boolean;
-}
-
-export interface DireccionDTO {
-  direccion: string;
-  piso?: string | null;
-  bloque?: string | null;
-  unidad?: string | null;
-  barrio?: string | null;
-  municipio?: string | null;
-  linkMaps?: string | null;
-  cargoContacto?: string | null;
-  clasificacionPunto?: string | null;
-  departmentId?: string | null;
-  horarioFin?: string | null;
-  horarioInicio?: string | null;
-  latitud?: number | null;
-  longitud?: number | null;
-  motivoBloqueo?: string | null;
-  municipioId?: string | null;
-  nombreContacto?: string | null;
-  nombreSede?: string | null;
-  precisionGPS?: number | null;
-  restricciones?: string | null;
-  telefonoContacto?: string | null;
-  tipoUbicacion?: string | null;
-  validadoPorSistema?: boolean;
-}
-
-export interface ClienteDTO {
-  tipoCliente: "PERSONA" | "EMPRESA";
-  nombre?: string | null;
-  apellido?: string | null;
-  telefono: string;
-  telefono2?: string | null;
-  correo?: string | null;
-  origenCliente?: string | null;
-  tipoInteresId?: string | null;
-  razonSocial?: string | null;
-  nit?: string | null;
-  numeroDocumento?: string | null;
-  tipoDocumento?: string | null;
-  actividadEconomica?: string | null;
-  metrajeTotal?: number | null;
-  segmentoId?: string | null;
-  riesgoId?: string | null;
-  direcciones?: DireccionDTO[];
-}
-
-export async function createSegmentoAction(data: SegmentoNegocioDTO) {
-  const cookieStore = await cookies();
-  const token = cookieStore.get("access_token")?.value;
-  if (!token) throw new Error("No session found");
-
-  const apiUrl = getApiUrl();
-  const response = await fetch(`${apiUrl}/config-clientes/segmentos`, {
-    method: "POST",
-    headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
-    body: JSON.stringify(data),
-  });
-  return response.json();
-}
-
-export async function updateSegmentoAction(id: string, data: Partial<SegmentoNegocioDTO>) {
-  const cookieStore = await cookies();
-  const token = cookieStore.get("access_token")?.value;
-  if (!token) throw new Error("No session found");
-
-  const apiUrl = getApiUrl();
-  const response = await fetch(`${apiUrl}/config-clientes/segmentos/${id}`, {
-    method: "PATCH",
-    headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
-    body: JSON.stringify(data),
-  });
-  return response.json();
-}
-
-export async function createRiesgoAction(data: NivelRiesgoOperativoDTO) {
-  const cookieStore = await cookies();
-  const token = cookieStore.get("access_token")?.value;
-  if (!token) throw new Error("No session found");
-
-  const apiUrl = getApiUrl();
-  const response = await fetch(`${apiUrl}/config-clientes/riesgos`, {
-    method: "POST",
-    headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
-    body: JSON.stringify(data),
-  });
-  return response.json();
-}
-
-export async function updateRiesgoAction(id: string, data: Partial<NivelRiesgoOperativoDTO>) {
-  const cookieStore = await cookies();
-  const token = cookieStore.get("access_token")?.value;
-  if (!token) throw new Error("No session found");
-
-  const apiUrl = getApiUrl();
-  const response = await fetch(`${apiUrl}/config-clientes/riesgos/${id}`, {
-    method: "PATCH",
-    headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
-    body: JSON.stringify(data),
-  });
-  return response.json();
-}
-
-export async function createTipoInteresAction(data: TipoInteresDTO) {
-  const cookieStore = await cookies();
-  const token = cookieStore.get("access_token")?.value;
-  if (!token) throw new Error("No session found");
-
-  const apiUrl = getApiUrl();
-  const response = await fetch(`${apiUrl}/config-clientes/intereses`, {
-    method: "POST",
-    headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
-    body: JSON.stringify(data),
-  });
-  return response.json();
-}
-
-export async function updateTipoInteresAction(id: string, data: Partial<TipoInteresDTO>) {
-  const cookieStore = await cookies();
-  const token = cookieStore.get("access_token")?.value;
-  if (!token) throw new Error("No session found");
-
-  const apiUrl = getApiUrl();
-  const response = await fetch(`${apiUrl}/config-clientes/intereses/${id}`, {
-    method: "PATCH",
-    headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
-    body: JSON.stringify(data),
-  });
-  return response.json();
-}
-
-export async function createServicioAction(data: ServicioDTO) {
-  const cookieStore = await cookies();
-  const token = cookieStore.get("access_token")?.value;
-  if (!token) throw new Error("No session found");
-
-  const apiUrl = getApiUrl();
-  const response = await fetch(`${apiUrl}/config-clientes/servicios`, {
-    method: "POST",
-    headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
-    body: JSON.stringify(data),
-  });
-  return response.json();
-}
-
-export async function updateServicioAction(id: string, data: Partial<ServicioDTO>) {
-  const cookieStore = await cookies();
-  const token = cookieStore.get("access_token")?.value;
-  if (!token) throw new Error("No session found");
-
-  const apiUrl = getApiUrl();
-  const response = await fetch(`${apiUrl}/config-clientes/servicios/${id}`, {
-    method: "PATCH",
-    headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
-    body: JSON.stringify(data),
-  });
-  return response.json();
+export async function updateServicioAction(id: string, data: any) {
+  try {
+    return await apiFetch(`/config-clientes/servicios/${id}`, {
+      method: "PATCH",
+      body: JSON.stringify(data),
+    });
+  } catch (error) {
+    throw error;
+  }
 }
 
 export async function deleteServicioAction(id: string) {
-  const cookieStore = await cookies();
-  const token = cookieStore.get("access_token")?.value;
-  if (!token) throw new Error("No session found");
-
-  const apiUrl = getApiUrl();
-  const response = await fetch(`${apiUrl}/config-clientes/servicios/${id}`, {
-    method: "DELETE",
-    headers: { Authorization: `Bearer ${token}` },
-  });
-  return response.json();
+  try {
+    return await apiFetch(`/config-clientes/servicios/${id}`, {
+      method: "DELETE",
+    });
+  } catch (error) {
+    throw error;
+  }
 }
 
-// --- Acciones de ConfiguraciÃ³n Operativa ---
 export async function getClienteConfigsAction(clienteId: string) {
-  const cookieStore = await cookies();
-  const token = cookieStore.get("access_token")?.value;
-  if (!token) return [];
-
   try {
-    const apiUrl = getApiUrl();
-    const response = await fetch(`${apiUrl}/config-clientes/operativa/${clienteId}`, {
-      headers: { Authorization: `Bearer ${token}` },
-    });
-    if (!response.ok) return [];
-    const result = await response.json();
-    return result.data || result;
+    return await configClient.getClienteOperativa(clienteId);
   } catch (error) {
     console.error("Error fetching client configs:", error);
     return [];
   }
 }
 
-export interface ElementoPredefinido {
-  nombre: string;
-  tipo: string;
-  ubicacion: string;
-}
-
-export interface ConfiguracionOperativa {
-  id: string;
-  empresaId?: string;
-  protocoloServicio?: string;
-  observacionesFijas?: string;
-  requiereFirmaDigital: boolean;
-  requiereFotosEvidencia: boolean;
-  duracionEstimada?: number;
-  frecuenciaSugerida?: number;
-  elementosPredefinidos?: ElementoPredefinido[];
-  direccionId?: string;
-  direccion?: {
-    id: string;
-    direccion: string;
-  };
-}
-
-export interface UpsertClienteConfigPayload {
-  clienteId: string;
-  empresaId: string;
-  direccionId: string | null;
-  protocoloServicio: string;
-  observacionesFijas: string;
-  requiereFirmaDigital: boolean;
-  requiereFotosEvidencia: boolean;
-  duracionEstimada: number;
-  frecuenciaSugerida: number;
-  elementosPredefinidos: ElementoPredefinido[];
-}
-
-export async function upsertClienteConfigAction(payload: UpsertClienteConfigPayload) {
-  const cookieStore = await cookies();
-  const token = cookieStore.get("access_token")?.value;
-  if (!token) return { success: false, error: "No session found" };
-
+export async function upsertClienteConfigAction(payload: any) {
   try {
-    const apiUrl = getApiUrl();
-    const response = await fetch(`${apiUrl}/config-clientes/operativa`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-      body: JSON.stringify(payload),
-    });
-
-    const result = await response.json();
-    if (!response.ok) return { success: false, error: result.message || "Error al guardar configuraciÃ³n" };
-
+    const result = await configClient.upsertOperativa(payload);
     revalidatePath("/dashboard/clientes");
-    return { success: true, data: result.data || result };
-  } catch (_error) {
-    return { success: false, error: "OcurriÃ³ un error inesperado" };
+    return { success: true, data: result };
+  } catch (error) {
+    return { success: false, error: error instanceof Error ? error.message : "Error inesperado" };
   }
 }
 
-export async function createClienteAction(payload: ClienteDTO) {
-  const cookieStore = await cookies();
-  const token = cookieStore.get("access_token")?.value;
-
-  if (!token) return { success: false, error: "No session found" };
-
-  // Sanitize UUID fields: convert empty strings to null to avoid Prisma validation errors
-  const sanitizedPayload = {
-    ...payload,
-    tipoInteresId: payload.tipoInteresId || null,
-    segmentoId: payload.segmentoId || null,
-    riesgoId: payload.riesgoId || null,
-  };
-
+export async function getEstadoServiciosAction(empresaId: string) {
+  if (!empresaId) return [];
   try {
-    const apiUrl = getApiUrl();
-    const response = await fetch(`${apiUrl}/clientes/create`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-      body: JSON.stringify(sanitizedPayload),
-    });
-
-    const result = await response.json();
-
-    if (!response.ok) {
-      return { success: false, error: result.message || "Error al crear el cliente" };
-    }
-
-    revalidatePath("/dashboard/clientes");
-    return { success: true, data: result.data || result };
+    return await apiFetch<any[]>(`/config-clientes/estados-servicio?empresaId=${empresaId}`);
   } catch (error) {
-    if (error instanceof Error) return { success: false, error: error.message };
-    return { success: false, error: "OcurriÃ³ un error inesperado" };
+    console.error("Error fetching service states:", error);
+    return [];
   }
 }
 
-export async function getClienteByIdAction(id: string) {
+// --- Enterprise Actions ---
+export async function getOperatorsAction(empresaId: string) {
+  if (!empresaId) return [];
   try {
-    const apiUrl = getApiUrl();
-    const headers = await getHeaders();
-    const response = await fetch(`${apiUrl}/clientes/${id}`, {
-      headers,
-      cache: "no-store",
-    });
-
-    if (!response.ok) return null;
-
-    const result = await response.json();
-    return result.data || result;
+    return await enterpriseClient.getOperators(empresaId);
   } catch (error) {
-    console.error("Error fetching client by id:", error);
+    console.error("Error fetching operators:", error);
+    return [];
+  }
+}
+
+export async function getEnterprisesAction() {
+  try {
+    return await enterpriseClient.getAll();
+  } catch (error) {
+    console.error("Error fetching enterprises:", error);
+    return [];
+  }
+}
+
+export async function createEnterpriseAction(data: any) {
+  try {
+    return await enterpriseClient.create(data);
+  } catch (error) {
+    throw error;
+  }
+}
+
+export async function updateEnterpriseAction(id: string, data: any) {
+  try {
+    return await enterpriseClient.update(id, data);
+  } catch (error) {
+    throw error;
+  }
+}
+
+export async function deleteEnterpriseAction(id: string) {
+  try {
+    return await enterpriseClient.delete(id);
+  } catch (error) {
+    throw error;
+  }
+}
+
+// --- Service Order Actions ---
+export async function getOrdenesServicioAction(empresaId?: string) {
+  try {
+    const cleanId = (empresaId === "all" || empresaId === "undefined" || !empresaId) ? undefined : empresaId;
+    return await serviciosClient.getAll(cleanId);
+  } catch (error) {
+    console.error("Error fetching service orders:", error);
+    return [];
+  }
+}
+
+export async function getOrdenesServicioByClienteAction(clienteId: string) {
+  try {
+    return await serviciosClient.getAll(undefined, clienteId);
+  } catch (error) {
+    console.error("Error fetching client service orders:", error);
+    return [];
+  }
+}
+
+export async function getOrdenServicioByIdAction(id: string) {
+  try {
+    return await serviciosClient.getById(id);
+  } catch (error) {
+    console.error("Error fetching order by id:", error);
     return null;
   }
 }
 
-export async function updateClienteAction(id: string, payload: Partial<ClienteDTO>) {
-  const cookieStore = await cookies();
-  const token = cookieStore.get("access_token")?.value;
-
-  if (!token) return { success: false, error: "No session found" };
-
-  const sanitizedPayload = {
-    ...payload,
-    tipoInteresId: payload.tipoInteresId || null,
-    segmentoId: payload.segmentoId || null,
-    riesgoId: payload.riesgoId || null,
-  };
-
+export async function createOrdenServicioAction(payload: any) {
   try {
-    const apiUrl = getApiUrl();
-    const response = await fetch(`${apiUrl}/clientes/${id}`, {
-      method: "PATCH",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-      body: JSON.stringify(sanitizedPayload),
-    });
-
-    const result = await response.json();
-
-    if (!response.ok) {
-      return { success: false, error: result.message || "Error al actualizar el cliente" };
-    }
-
-    revalidatePath("/dashboard/clientes");
-    return { success: true, data: result.data || result };
+    const result = await serviciosClient.create(payload);
+    revalidatePath('/dashboard/servicios');
+    return { success: true, data: result };
   } catch (error) {
-    if (error instanceof Error) return { success: false, error: error.message };
-    return { success: false, error: "OcurriÃ³ un error inesperado" };
+    return { success: false, error: error instanceof Error ? error.message : 'Error inesperado' };
   }
 }
 
-export async function deleteClienteAction(id: string) {
-  const cookieStore = await cookies();
-  const token = cookieStore.get("access_token")?.value;
-
-  if (!token) return { success: false, error: "No session found" };
-
+export async function updateOrdenServicioAction(id: string, payload: any) {
   try {
-    const apiUrl = getApiUrl();
-    const response = await fetch(`${apiUrl}/clientes/${id}`, {
-      method: "DELETE",
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
+    const result = await serviciosClient.update(id, payload);
+    revalidatePath('/dashboard/servicios');
+    revalidatePath('/dashboard');
+    return { success: true, data: result };
+  } catch (error) {
+    return { success: false, error: error instanceof Error ? error.message : 'Error inesperado' };
+  }
+}
 
-    if (!response.ok) {
-      const result = await response.json();
-      return { success: false, error: result.message || "Error al eliminar el cliente" };
-    }
-
-    revalidatePath("/dashboard/clientes");
+export async function deleteOrdenServicioAction(id: string) {
+  try {
+    await serviciosClient.delete(id);
+    revalidatePath('/dashboard/servicios');
+    revalidatePath('/dashboard');
     return { success: true };
   } catch (error) {
-    if (error instanceof Error) return { success: false, error: error.message };
-    return { success: false, error: "OcurriÃ³ un error inesperado" };
+    return { success: false, error: error instanceof Error ? error.message : 'Error inesperado' };
   }
 }
 
-
-export async function createEnterpriseAction(data: { nombre: string }) {
-  const cookieStore = await cookies();
-  const token = cookieStore.get("access_token")?.value;
-
-  if (!token) throw new Error("No session found");
-
-  const apiUrl = getApiUrl();
-  const response = await fetch(`${apiUrl}/enterprise/create`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${token}`,
-    },
-    body: JSON.stringify(data),
-  });
-  
-  const result = await response.json();
-  if (!response.ok) {
-    throw new Error(result.message || "Error al crear la empresa");
+export async function addOrdenServicioEvidenciasAction(id: string, formData: FormData) {
+  try {
+    const result = await serviciosClient.addEvidencias(id, formData);
+    revalidatePath("/dashboard/servicios");
+    return { success: true, data: result };
+  } catch (error) {
+    return { success: false, error: error instanceof Error ? error.message : "Error inesperado" };
   }
-  return result;
 }
 
-export async function updateEnterpriseAction(id: string, data: { nombre?: string; activo?: boolean }) {
-  const cookieStore = await cookies();
-  const token = cookieStore.get("access_token")?.value;
-
-  if (!token) throw new Error("No session found");
-
-  const apiUrl = getApiUrl();
-  const response = await fetch(`${apiUrl}/enterprise/${id}`, {
-    method: "PATCH",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${token}`,
-    },
-    body: JSON.stringify(data),
-  });
-  
-  const result = await response.json();
-  if (!response.ok) {
-    throw new Error(result.message || "Error al actualizar la empresa");
+// --- Finance Actions (Using unified contabilidadClient) ---
+export async function getRecaudoTecnicosAction(empresaId?: string) {
+  try {
+    return await contabilidadClient.getRecaudoTecnicos(empresaId);
+  } catch (error) {
+    console.error("Error fetching technician collection:", error);
+    return [];
   }
-  return result;
 }
 
-export async function deleteEnterpriseAction(id: string) {
-  const cookieStore = await cookies();
-  const token = cookieStore.get("access_token")?.value;
-
-  if (!token) throw new Error("No session found");
-
-  const apiUrl = getApiUrl();
-  const response = await fetch(`${apiUrl}/enterprise/${id}`, {
-    method: "DELETE",
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  });
-  
-  const result = await response.json();
-  if (!response.ok) {
-    throw new Error(result.message || "Error al eliminar la empresa");
+export async function getAccountingBalanceAction(empresaId?: string) {
+  try {
+    return await contabilidadClient.getBalance(empresaId);
+  } catch (error) {
+    console.error("Error fetching balance:", error);
+    return null;
   }
-  return result;
 }
 
-import { DashboardStatsSchema, type DashboardStatsType } from "./schemas/dashboard.schema";
+export async function getEgresosAction(empresaId?: string) {
+  try {
+    return await contabilidadClient.getEgresos(empresaId);
+  } catch (error) {
+    console.error("Error fetching egresos:", error);
+    return [];
+  }
+}
 
-export type DashboardStats = DashboardStatsType;
+export async function getNominasAction(empresaId?: string) {
+  try {
+    return await contabilidadClient.getNominas(empresaId);
+  } catch (error) {
+    console.error("Error fetching nominas:", error);
+    return [];
+  }
+}
 
+export async function getAnticiposAction(empresaId?: string) {
+  try {
+    return await contabilidadClient.getAnticipos(empresaId);
+  } catch (error) {
+    console.error("Error fetching anticipos:", error);
+    return [];
+  }
+}
+
+export async function getMovimientosAction(empresaId?: string) {
+  try {
+    return await contabilidadClient.getMovimientos(empresaId);
+  } catch (error) {
+    console.error("Error fetching movements:", error);
+    return [];
+  }
+}
+
+export async function createEgresoAction(data: any) {
+  try {
+    const result = await contabilidadClient.crearEgreso(data);
+    return { success: true, data: result };
+  } catch (error) {
+    return { success: false, error: error instanceof Error ? error.message : "Error inesperado" };
+  }
+}
+
+export async function createAnticipoAction(data: any) {
+  try {
+    const result = await contabilidadClient.crearAnticipo(data);
+    return { success: true, data: result };
+  } catch (error) {
+    return { success: false, error: error instanceof Error ? error.message : "Error inesperado" };
+  }
+}
+
+export async function registrarConsignacionAction(formData: FormData) {
+  try {
+    const result = await contabilidadClient.registrarConsignacion(formData);
+    revalidatePath("/dashboard/contabilidad");
+    return { success: true, data: result };
+  } catch (error) {
+    return { success: false, error: error instanceof Error ? error.message : "Error inesperado" };
+  }
+}
+
+import { geoClient } from "@/lib/api/geo-client";
+
+// --- Geo Actions ---
+export async function getMunicipalitiesAction() {
+  try {
+    return await geoClient.getMunicipalities();
+  } catch (error) {
+    console.error("Error fetching municipalities:", error);
+    return [];
+  }
+}
+
+export async function getDepartmentsAction() {
+  try {
+    return await geoClient.getDepartments();
+  } catch (error) {
+    console.error("Error fetching departments:", error);
+    return [];
+  }
+}
+
+// --- Dashboard Actions ---
 export async function getDashboardStatsAction(empresaId?: string): Promise<DashboardStats> {
   const fallbackStats: DashboardStats = {
     kpis: {
@@ -856,461 +635,22 @@ export async function getDashboardStatsAction(empresaId?: string): Promise<Dashb
   };
 
   try {
-    const apiUrl = getApiUrl();
-    const headers = await getHeaders();
-    
-    // Si empresaId es "undefined", "null" o "all" como string, tratar como undefined
-    const cleanEmpresaId = (empresaId === "undefined" || empresaId === "null" || empresaId === "all" || !empresaId) ? undefined : empresaId;
-    
-    const url = cleanEmpresaId 
-      ? `${apiUrl}/dashboard/stats?empresaId=${cleanEmpresaId}`
-      : `${apiUrl}/dashboard/stats`;
-      
-    const response = await fetch(url, {
-      headers,
-      cache: "no-store",
-    });
-
-    if (!response.ok) {
-      console.error("getDashboardStatsAction: response not ok", response.status);
+    const cleanId = (empresaId === "all" || empresaId === "undefined" || !empresaId) ? undefined : empresaId;
+    const url = cleanId ? `/dashboard/stats?empresaId=${cleanId}` : "/dashboard/stats";
+    const data = await apiFetch<any>(url, { cache: "no-store" });
+    const parsed = DashboardStatsSchema.safeParse(data);
+    if (!parsed.success) {
+      console.error("getDashboardStatsAction: Zod parsing failed", parsed.error);
       return fallbackStats;
     }
-
-    const result = await response.json();
-    const data = result.data || result;
-    
-    // Parse using Zod for strict typing and validation
-    const parsedData = DashboardStatsSchema.safeParse(data);
-    
-    if (!parsedData.success) {
-      console.error("getDashboardStatsAction: Zod parsing failed", parsedData.error);
-      return fallbackStats;
-    }
-    
-    return parsedData.data;
+    return parsed.data;
   } catch (error) {
-    console.error("Error fetching dashboard stats from API:", error);
+    console.error("Error fetching dashboard stats:", error);
     return fallbackStats;
   }
 }
 
-export async function getEnterprisesAction() {
-  const cookieStore = await cookies();
-  const token = cookieStore.get("access_token")?.value;
-
-  if (!token) return [];
-
-  try {
-    const apiUrl = getApiUrl();
-    const response = await fetch(`${apiUrl}/enterprise`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
-    if (!response.ok) return [];
-    const result = await response.json();
-    return result.data || result;
-  } catch (error) {
-    console.error("Error fetching enterprises:", error);
-    return [];
-  }
-}
-
-export async function createTenantAction(formData: {
-  nombre: string;
-  slug: string;
-  ownerEmail: string;
-  ownerPassword?: string;
-  ownerNombre?: string;
-  ownerApellido?: string;
-  nit?: string;
-  correo?: string;
-}) {
-  const cookieStore = await cookies();
-  const token = cookieStore.get("access_token")?.value;
-
-  if (!token) throw new Error("No session found");
-
-  try {
-    const apiUrl = getApiUrl();
-    const response = await fetch(`${apiUrl}/tenants`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-      body: JSON.stringify(formData),
-    });
-
-    const result = await response.json();
-
-    if (!response.ok) {
-      throw new Error(result.message || "Error al crear el tenant");
-    }
-
-    return result.data || result;
-  } catch (error) {
-    if (error instanceof Error) throw error;
-    throw new Error("OcurriÃ³ un error inesperado");
-  }
-}
-
-export async function getOrdenesServicioAction(empresaId?: string) {
-  try {
-    const apiUrl = getApiUrl();
-    const headers = await getHeaders();
-    
-    // Si empresaId es "undefined", "null" o "all" como string, tratar como undefined
-    const cleanEmpresaId = (empresaId === "undefined" || empresaId === "null" || empresaId === "all" || !empresaId) ? undefined : empresaId;
-    
-    const url = cleanEmpresaId 
-      ? `${apiUrl}/ordenes-servicio?empresaId=${cleanEmpresaId}`
-      : `${apiUrl}/ordenes-servicio`;
-      
-    const response = await fetch(url, {
-      headers,
-      cache: "no-store",
-    });
-
-    if (!response.ok) return [];
-
-    const result = await response.json();
-    return result.data || result;
-  } catch (error) {
-    console.error("Error fetching service orders:", error);
-    return [];
-  }
-}
-
-export async function getOrdenesServicioByClienteAction(clienteId: string) {
-  try {
-    const apiUrl = getApiUrl();
-    const headers = await getHeaders();
-    const response = await fetch(`${apiUrl}/ordenes-servicio?clienteId=${clienteId}`, {
-      headers,
-      cache: "no-store",
-    });
-
-    if (!response.ok) return [];
-
-    const result = await response.json();
-    return result.data || result;
-  } catch (error) {
-    console.error("Error fetching client service orders:", error);
-    return [];
-  }
-}
-
-export async function getOrdenServicioByIdAction(id: string) {
-  try {
-    const apiUrl = getApiUrl();
-    const headers = await getHeaders();
-    const response = await fetch(`${apiUrl}/ordenes-servicio/${id}`, {
-      headers,
-      cache: "no-store",
-    });
-
-    if (!response.ok) return null;
-
-    const result = await response.json();
-    return result.data || result;
-  } catch (error) {
-    console.error("Error fetching order by id:", error);
-    return null;
-  }
-}
-
-export interface CreateOrdenServicioDTO {
-  clienteId: string;
-  empresaId: string;
-  direccionId?: string;
-  tecnicoId?: string;
-  creadoPorId?: string;
-  servicioEspecifico: string;
-  urgencia?: string;
-  observacion?: string;
-  nivelInfestacion?: string;
-  tipoVisita?: string;
-  frecuenciaSugerida?: number;
-  tipoFacturacion?: string;
-  valorCotizado?: number;
-  metodoPagoId?: string;
-  entidadFinancieraNombre?: string;
-  estadoPago?: string;
-  estadoServicio?: string;
-  fechaVisita?: string;
-  horaInicio?: string;
-  duracionMinutos?: number;
-  facturaPath?: string;
-  facturaElectronica?: string;
-  comprobantePago?: string;
-  evidenciaPath?: string;
-  desglosePago?: Record<string, unknown>[];
-  observacionFinal?: string;
-  valorPagado?: number;
-  referenciaPago?: string;
-  fechaPago?: string;
-  liquidadoPorId?: string;
-}
-
-export async function createOrdenServicioAction(
-  payload: CreateOrdenServicioDTO,
-) {
-  const cookieStore = await cookies();
-  const token = cookieStore.get('access_token')?.value;
-
-  if (!token) return { success: false, error: 'No session found' };
-
-  try {
-    const apiUrl = getApiUrl();
-    const response = await fetch(`${apiUrl}/ordenes-servicio`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${token}`,
-      },
-      body: JSON.stringify(payload),
-    });
-
-    const result = await response.json();
-
-    if (!response.ok) {
-      return { success: false, error: result.message || 'Error al crear la orden de servicio' };
-    }
-
-    revalidatePath('/dashboard/servicios');
-    return { success: true, data: result.data || result };
-  } catch (error) {
-    if (error instanceof Error) return { success: false, error: error.message };
-    return { success: false, error: 'Ocurrió un error inesperado' };
-  }
-}
-
-export async function updateOrdenServicioAction(
-  id: string,
-  payload: Partial<CreateOrdenServicioDTO>,
-) {
-  const cookieStore = await cookies();
-  const token = cookieStore.get('access_token')?.value;
-
-  if (!token) return { success: false, error: 'No session found' };
-
-  try {
-    const apiUrl = getApiUrl();
-    const response = await fetch(`${apiUrl}/ordenes-servicio/${id}`, {
-      method: 'PATCH',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${token}`,
-      },
-      body: JSON.stringify(payload),
-    });
-
-    const result = await response.json();
-
-    if (!response.ok) {
-      return { success: false, error: result.message || 'Error al actualizar la orden de servicio' };
-    }
-
-    revalidatePath('/dashboard/servicios');
-    revalidatePath('/dashboard');
-    return { success: true, data: result.data || result };
-  } catch (error) {
-    if (error instanceof Error) return { success: false, error: error.message };
-    return { success: false, error: 'Ocurrió un error inesperado' };
-  }
-}
-
-export async function deleteOrdenServicioAction(id: string) {
-  const cookieStore = await cookies();
-  const token = cookieStore.get('access_token')?.value;
-
-  if (!token) return { success: false, error: 'No session found' };
-
-  try {
-    const apiUrl = getApiUrl();
-    const response = await fetch(`${apiUrl}/ordenes-servicio/${id}`, {
-      method: 'DELETE',
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
-
-    if (!response.ok) {
-      const result = await response.json();
-      return { success: false, error: result.message || 'Error al eliminar la orden de servicio' };
-    }
-
-    revalidatePath('/dashboard/servicios');
-    revalidatePath('/dashboard');
-    return { success: true };
-  } catch (error) {
-    if (error instanceof Error) return { success: false, error: error.message };
-    return { success: false, error: 'Ocurrió un error inesperado' };
-  }
-}
-
-export async function getEstadoServiciosAction(empresaId?: string) {
-  const cookieStore = await cookies();
-  const token = cookieStore.get("access_token")?.value;
-  const targetEmpresaId = empresaId || cookieStore.get("x-enterprise-id")?.value;
-  
-  if (!token || !targetEmpresaId) return [];
-
-  try {
-    const apiUrl = getApiUrl();
-    const response = await fetch(`${apiUrl}/config-clientes/estados-servicio?empresaId=${targetEmpresaId}`, {
-      headers: { Authorization: `Bearer ${token}` },
-    });
-    if (!response.ok) return [];
-    const result = await response.json();
-    return result.data || result;
-  } catch (error) {
-    console.error("Error fetching service states:", error);
-    return [];
-  }
-}
-
-export interface UpdateMembershipDTO {
-  placa?: string;
-  moto?: boolean;
-  direccion?: string;
-  municipioId?: string;
-  role?: string;
-  activo?: boolean;
-  nombre?: string;
-  apellido?: string;
-  email?: string;
-  telefono?: string;
-  empresaIds?: string[];
-}
-
-export async function updateMembershipAction(
-  membershipId: string,
-  data: UpdateMembershipDTO,
-) {
-  const cookieStore = await cookies();
-  const token = cookieStore.get("access_token")?.value;
-  if (!token) throw new Error("No session found");
-
-  try {
-    const apiUrl = getApiUrl();
-    const response = await fetch(`${apiUrl}/tenants/memberships/${membershipId}`, {
-      method: "PATCH",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-      body: JSON.stringify(data),
-    });
-
-    const result = await response.json();
-    if (!response.ok) throw new Error(result.message || "Error al actualizar membresía");
-    
-    revalidatePath("/dashboard/equipo-trabajo");
-    return { success: true, data: result.data || result };
-  } catch (error) {
-    if (error instanceof Error) return { success: false, error: error.message };
-    return { success: false, error: "Ocurrió un error inesperado" };
-  }
-}
-
-export async function addOrdenServicioEvidenciasAction(
-  id: string,
-  formData: FormData
-) {
-  const cookieStore = await cookies();
-  const token = cookieStore.get("access_token")?.value;
-
-  if (!token) return { success: false, error: "No session found" };
-
-  try {
-    const apiUrl = getApiUrl();
-    const response = await fetch(`${apiUrl}/ordenes-servicio/${id}/evidencias`, {
-      method: "POST",
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-      body: formData,
-    });
-
-    const result = await response.json();
-
-    if (!response.ok) {
-      return { success: false, error: result.message || "Error al subir las evidencias" };
-    }
-
-    revalidatePath("/dashboard/servicios");
-    return { success: true, data: result.data || result };
-  } catch (error) {
-    if (error instanceof Error) return { success: false, error: error.message };
-    return { success: false, error: "Ocurrió un error inesperado" };
-  }
-}
-
-export async function getRecaudoTecnicosAction(empresaId?: string) {
-  const cookieStore = await cookies();
-  const token = cookieStore.get("access_token")?.value;
-  if (!token) return [];
-
-  try {
-    const apiUrl = getApiUrl();
-    const url = empresaId 
-      ? `${apiUrl}/contabilidad/recaudo-tecnicos?empresaId=${empresaId}`
-      : `${apiUrl}/contabilidad/recaudo-tecnicos`;
-      
-    const response = await fetch(url, {
-      headers: { Authorization: `Bearer ${token}` },
-      cache: "no-store",
-    });
-
-    if (!response.ok) return [];
-    const result = await response.json();
-    return result.data || result;
-  } catch (error) {
-    console.error("Error fetching technician collection:", error);
-    return [];
-  }
-}
-
-export async function registrarConsignacionAction(data: {
-  tecnicoId: string;
-  empresaId: string;
-  valorConsignado: number;
-  referenciaBanco: string;
-  comprobantePath: string;
-  ordenIds: string[];
-  fechaConsignacion: string;
-  observacion?: string;
-}) {
-  const cookieStore = await cookies();
-  const token = cookieStore.get("access_token")?.value;
-  if (!token) return { success: false, error: "No session found" };
-
-  try {
-    const apiUrl = getApiUrl();
-    const response = await fetch(`${apiUrl}/contabilidad/registrar-consignacion`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-      body: JSON.stringify(data),
-    });
-
-    const result = await response.json();
-    if (!response.ok) {
-      return { success: false, error: result.message || "Error al registrar consignación" };
-    }
-
-    revalidatePath("/dashboard/contabilidad");
-    return { success: true, data: result.data || result };
-  } catch (error) {
-    if (error instanceof Error) return { success: false, error: error.message };
-    return { success: false, error: "Ocurrió un error inesperado" };
-  }
-}
-
+// --- Webhook Actions ---
 export async function notifyLiquidationWebhookAction(data: {
   telefono: string;
   cliente: string;
@@ -1318,115 +658,45 @@ export async function notifyLiquidationWebhookAction(data: {
   servicio: string;
 }) {
   const webhookUrl = process.env.N8N_MENSAJES_CLIENTES;
-  
-  if (!webhookUrl) {
-    console.error("Webhook URL N8N_MENSAJES_CLIENTES not found in environment");
-    return { success: false, error: "Webhook configuration missing" };
-  }
+  if (!webhookUrl) return { success: false, error: "Webhook configuration missing" };
 
   try {
     const url = new URL(webhookUrl);
-    const postData = JSON.stringify({
-      ...data,
-      timestamp: new Date().toISOString(),
-    });
-
+    const postData = JSON.stringify({ ...data, timestamp: new Date().toISOString() });
     const options = {
       hostname: url.hostname,
       port: url.port || (url.protocol === "https:" ? 443 : 80),
       path: url.pathname + (url.search || ""),
       method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "Host": url.hostname, // Explicit Host header for Traefik
-      },
-      agent: new https.Agent({
-        rejectUnauthorized: false,
-      }),
+      headers: { "Content-Type": "application/json", "Host": url.hostname },
+      agent: new https.Agent({ rejectUnauthorized: false }),
     };
 
-    console.log(`Triggering webhook: ${webhookUrl} (Host: ${url.hostname})`);
-
-    return new Promise((resolve, _reject) => {
+    return new Promise((resolve) => {
       const req = https.request(options, (res) => {
-        let responseBody = "";
-        res.on("data", (chunk) => { responseBody += chunk; });
-        
-        res.on("end", () => {
-          if (res.statusCode && res.statusCode >= 200 && res.statusCode < 300) {
-            resolve({ success: true });
-          } else {
-            console.error(`Webhook notification failed: ${res.statusCode} ${res.statusMessage}`);
-            console.error(`Response body: ${responseBody}`);
-            resolve({ success: false, error: `Failed to trigger webhook: ${res.statusCode}` });
-          }
-        });
+        res.on("end", () => resolve({ success: res.statusCode && res.statusCode >= 200 && res.statusCode < 300 }));
       });
-
-      req.on("error", (error) => {
-        console.error("Error triggering webhook:", error);
-        resolve({ success: false, error: "Error triggering webhook" });
-      });
-
+      req.on("error", () => resolve({ success: false, error: "Error triggering webhook" }));
       req.write(postData);
       req.end();
     });
   } catch (error) {
-    console.error("Error setting up webhook request:", error);
-    return { success: false, error: "Error setting up webhook request" };
+    return { success: false, error: "Error setting up webhook" };
   }
 }
 
-export async function notifyServiceOperatorWebhookAction(data: {
-  telefonoOperador: string;
-  numeroOrden: string;
-  cliente: string;
-  servicio: string;
-  programacion: string;
-  tecnico: string;
-  estado: string;
-  urgencia: string;
-  direccion: string;
-  linkMaps: string;
-  municipio: string;
-  barrio: string;
-  detalles: string;
-  valorCotizado: string;
-  metodosPago: string;
-  observaciones: string;
-  idServicio: string;
-}) {
+export async function notifyServiceOperatorWebhookAction(data: any) {
   const webhookUrl = process.env.N8N_NOTIFICAR_SERVICIO;
-  
-  if (!webhookUrl) {
-    console.error("Webhook URL N8N_NOTIFICAR_SERVICIO not found in environment");
-    return { success: false, error: "Webhook configuration missing" };
-  }
-
-  console.log(`[Webhook] Attempting to notify operator at: ${webhookUrl}`);
+  if (!webhookUrl) return { success: false, error: "Webhook configuration missing" };
 
   try {
     const response = await fetch(webhookUrl, {
       method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        ...data,
-        timestamp: new Date().toISOString(),
-      }),
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ ...data, timestamp: new Date().toISOString() }),
     });
-
-    if (response.ok) {
-      console.log(`[Webhook] Notification sent successfully`);
-      return { success: true };
-    } else {
-      const errorText = await response.text();
-      console.error(`[Webhook] Notification failed with status ${response.status}: ${errorText}`);
-      return { success: false, error: `Failed: ${response.status}` };
-    }
+    return { success: response.ok };
   } catch (error) {
-    console.error("[Webhook] Error triggering operator notification webhook:", error);
     return { success: false, error: "Error triggering webhook" };
   }
 }

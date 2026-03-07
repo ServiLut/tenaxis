@@ -17,6 +17,12 @@ interface PendingMembership {
   createdAt: string;
 }
 
+import { 
+  getPendingMembershipsAction, 
+  approveMembershipAction, 
+  rejectMembershipAction 
+} from "../actions";
+
 export default function SolicitudesPage() {
   const [requests, setRequests] = useState<PendingMembership[]>([]);
   const [loading, setLoading] = useState(true);
@@ -32,12 +38,8 @@ export default function SolicitudesPage() {
       if (!userData) return;
       const user = JSON.parse(userData);
       
-      const response = await fetch(`/api/tenants/${user.tenantId}/pending-memberships`);
-      const result = await response.json();
-      
-      if (response.ok) {
-        setRequests(result.data || result);
-      }
+      const data = await getPendingMembershipsAction(user.tenantId);
+      setRequests(data);
     } catch (_error) {
       toast.error("Error al cargar solicitudes");
     } finally {
@@ -48,17 +50,15 @@ export default function SolicitudesPage() {
   const handleApprove = async (id: string) => {
     setProcessingId(id);
     try {
-      const response = await fetch(`/api/tenants/memberships/${id}/approve`, {
-        method: "POST",
-      });
-      if (response.ok) {
+      const res = await approveMembershipAction(id);
+      if (res.success) {
         toast.success("Usuario aprobado correctamente");
         setRequests(requests.filter(r => r.id !== id));
       } else {
-        throw new Error("Error al aprobar");
+        throw new Error(res.error);
       }
-    } catch (_error) {
-      toast.error("Error al procesar aprobación");
+    } catch (error: any) {
+      toast.error(error.message || "Error al procesar aprobación");
     } finally {
       setProcessingId(null);
     }
@@ -67,17 +67,15 @@ export default function SolicitudesPage() {
   const handleReject = async (id: string) => {
     setProcessingId(id);
     try {
-      const response = await fetch(`/api/tenants/memberships/${id}/reject`, {
-        method: "POST",
-      });
-      if (response.ok) {
+      const res = await rejectMembershipAction(id);
+      if (res.success) {
         toast.success("Solicitud rechazada");
         setRequests(requests.filter(r => r.id !== id));
       } else {
-        throw new Error("Error al rechazar");
+        throw new Error(res.error);
       }
-    } catch (_error) {
-      toast.error("Error al procesar rechazo");
+    } catch (error: any) {
+      toast.error(error.message || "Error al procesar rechazo");
     } finally {
       setProcessingId(null);
     }

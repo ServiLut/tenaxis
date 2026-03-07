@@ -50,7 +50,6 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { cn } from "@/components/ui/utils";
 import { toast } from "sonner";
-import { uploadFile, type StorageFolder } from "@/lib/supabase-storage";
 import {
   getOrdenesServicioAction,
   getEstadoServiciosAction,
@@ -322,11 +321,11 @@ function ServiciosContent() {
 
   const fetchOptions = useCallback(async () => {
     try {
-      const empresaId = localStorage.getItem("current-enterprise-id") || undefined;
+      const empresaId = localStorage.getItem("current-enterprise-id") || "";
       const [estados, tecnicos, metodos, munis] = await Promise.all([
-        getEstadoServiciosAction(empresaId),
+        getEstadoServiciosAction(empresaId as any || undefined),
         empresaId ? getOperatorsAction(empresaId) : Promise.resolve([]),
-        getMetodosPagoAction(empresaId),
+        getMetodosPagoAction(empresaId as any || undefined),
         getMunicipalitiesAction(),
       ]);
 
@@ -477,18 +476,17 @@ function ServiciosContent() {
         }
       } else {
         const file = files[0]!;
-        const folderMap: Record<string, StorageFolder> = {
+        const folderMap: Record<string, string> = {
           "facturaElectronica": "facturaOrdenServicio",
           "comprobantePago": "comprobanteOrdenServicio",
           "evidenciaPath": "EvidenciaOrdenServicio"
         };
 
-        const folder = folderMap[uploadConfig.field] || 'EvidenciaOrdenServicio';
-        const { fileId } = await uploadFile(file, folder);
+        const formData = new FormData();
+        formData.append("file", file);
+        formData.append("uploadField", uploadConfig.field);
 
-        const result = await updateOrdenServicioAction(uploadConfig.id, {
-          [uploadConfig.field]: fileId
-        });
+        const result = await updateOrdenServicioAction(uploadConfig.id, formData);
 
         if (result.success) {
           toast.success(`${label.charAt(0).toUpperCase() + label.slice(1)} subida exitosamente`, { id: toastId });
@@ -514,25 +512,31 @@ function ServiciosContent() {
     const toastId = toast.loading("Liquidando servicio...");
 
     try {
-      let comprobanteUrl = "";
-      if (comprobanteFile) {
-        const { fileId } = await uploadFile(comprobanteFile, 'comprobanteOrdenServicio');
-        comprobanteUrl = fileId;
-      }
-
       const processedBreakdown = liquidarData.breakdown.map(line => ({
         ...line,
         monto: parseFloat(line.monto.replace(/\./g, "")) || 0
       }));
 
-      const result = await updateOrdenServicioAction(selectedServicio.raw.id, {
-        desglosePago: processedBreakdown,
-        observacionFinal: liquidarData.observacionFinal,
-        fechaPago: liquidarData.fechaPago,
-        comprobantePago: comprobanteUrl || undefined,
-        estadoServicio: "LIQUIDADO"
-      });
+      let result;
 
+      if (comprobanteFile) {
+        const formData = new FormData();
+        formData.append("file", comprobanteFile);
+        formData.append("uploadField", "comprobantePago");
+        formData.append("desglosePago", JSON.stringify(processedBreakdown));
+        formData.append("observacionFinal", liquidarData.observacionFinal || "");
+        formData.append("estadoServicio", "LIQUIDADO");
+        formData.append("fechaPago", new Date().toISOString());
+
+        result = await updateOrdenServicioAction(selectedServicio.raw.id, formData);
+      } else {
+        result = await updateOrdenServicioAction(selectedServicio.raw.id, {
+          desglosePago: processedBreakdown,
+          observacionFinal: liquidarData.observacionFinal,
+          fechaPago: liquidarData.fechaPago,
+          estadoServicio: "LIQUIDADO"
+        });
+      }
       if (result.success) {
         toast.success("Servicio liquidado exitosamente", { id: toastId });
 

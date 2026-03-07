@@ -5,6 +5,8 @@ import { Button, Input, Label, Card, CardHeader, CardTitle, CardContent } from "
 import { Building2, ArrowRight, Loader2, Sparkles, Clock } from "lucide-react";
 import { toast } from "sonner";
 
+import { joinTenantAction } from "@/app/dashboard/actions";
+
 export function JoinOrganization() {
   const [slug, setSlug] = useState("");
   const [loading, setLoading] = useState(false);
@@ -27,25 +29,10 @@ export function JoinOrganization() {
     setLoading(true);
 
     try {
-      // Obtener el token de las cookies
-      const token = document.cookie
-        .split("; ")
-        .find((row) => row.startsWith("access_token="))
-        ?.split("=")[1];
+      const res = await joinTenantAction(slug);
 
-      const response = await fetch("/api/tenants/join", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify({ slug }),
-      });
-
-      const result = await response.json();
-
-      if (!response.ok) {
-        throw new Error(result.message || "Error al solicitar unión");
+      if (!res.success) {
+        throw new Error(res.error);
       }
 
       toast.success("Solicitud enviada exitosamente. Espera a que un administrador te apruebe.");

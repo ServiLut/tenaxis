@@ -19,6 +19,7 @@ import { exportToExcel } from "@/lib/utils/export-helper";
 import {
   updateMembershipAction,
   getMunicipalitiesAction,
+  getTenantMembershipsAction,
 } from '../actions';
 import {
   Trophy,
@@ -209,46 +210,39 @@ function EquipoTrabajoContent() {
 
     try {
       setLoading(true);
-      const token = getCookie("access_token");
 
-      const [teamRes, munRes] = await Promise.all([
-        fetch(`/api/tenants/${tenantId}/memberships`, {
-          headers: { Authorization: `Bearer ${token}` },
-        }),
+      const [teamList, munRes] = await Promise.all([
+        getTenantMembershipsAction(),
         getMunicipalitiesAction(),
       ]);
 
-      if (!teamRes.ok) throw new Error("Error al cargar el equipo");
-
-      const teamData = await teamRes.json();
-      const teamList = teamData.data || teamData;
-      setMunicipios(Array.isArray(munRes) ? munRes : munRes?.data || []);
+      setMunicipios(Array.isArray(munRes) ? munRes : (munRes as any)?.data || []);
 
       const mappedUsers: UserMember[] = (
         Array.isArray(teamList) ? teamList : []
-      ).map((m: Membership, index: number) => {
+      ).map((m: any, index: number) => {
         const services = m.serviciosCreados || [];
         
         const totalServicios = services.length;
-        const serviciosLiquidados = services.filter(s => s.estadoServicio === "LIQUIDADO").length;
+        const serviciosLiquidados = services.filter((s: any) => s.estadoServicio === "LIQUIDADO").length;
         
         const totalRecaudo = services
-          .filter(s => s.estadoServicio === "LIQUIDADO")
-          .reduce((acc, curr) => acc + Number(curr.valorPagado || 0), 0);
+          .filter((s: any) => s.estadoServicio === "LIQUIDADO")
+          .reduce((acc: number, curr: any) => acc + Number(curr.valorPagado || 0), 0);
 
         const recaudoNuevos = services
-          .filter(s => s.estadoServicio === "LIQUIDADO" && (s.tipoVisita === "DIAGNOSTICO" || s.tipoVisita === "CORRECTIVO" || s.tipoVisita === "PREVENTIVO"))
-          .reduce((acc, curr) => acc + Number(curr.valorPagado || 0), 0);
+          .filter((s: any) => s.estadoServicio === "LIQUIDADO" && (s.tipoVisita === "DIAGNOSTICO" || s.tipoVisita === "CORRECTIVO" || s.tipoVisita === "PREVENTIVO"))
+          .reduce((acc: number, curr: any) => acc + Number(curr.valorPagado || 0), 0);
 
         const recaudoRefuerzo = services
-          .filter(s => s.estadoServicio === "LIQUIDADO" && (s.tipoVisita === "SEGUIMIENTO" || s.tipoVisita === "REINCIDENCIA"))
-          .reduce((acc, curr) => acc + Number(curr.valorPagado || 0), 0);
+          .filter((s: any) => s.estadoServicio === "LIQUIDADO" && (s.tipoVisita === "SEGUIMIENTO" || s.tipoVisita === "REINCIDENCIA"))
+          .reduce((acc: number, curr: any) => acc + Number(curr.valorPagado || 0), 0);
 
         const efectividad = totalServicios > 0 
           ? Math.round((serviciosLiquidados / totalServicios) * 100) 
           : 0;
 
-        const orders = services.map(s => ({
+        const orders = services.map((s: any) => ({
           id: s.id,
           orderNumber: s.numeroOrden || "N/A",
           date: s.fechaVisita ? new Date(s.fechaVisita).toLocaleDateString() : "N/A",
@@ -277,9 +271,9 @@ function EquipoTrabajoContent() {
           direccion: m.direccion || '',
           municipioId: m.municipioId || '',
           municipioNombre: m.municipio?.name || '',
-          empresaIds: m.empresaMemberships?.map((em) => em.empresaId) || [],
+          empresaIds: m.empresaMemberships?.map((em: any) => em.empresaId) || [],
           empresaNombres:
-            m.empresaMemberships?.map((em) => em.empresa.nombre) || [],
+            m.empresaMemberships?.map((em: any) => em.empresa.nombre) || [],
           totalRecaudo,
           totalServicios,
           serviciosLiquidados,

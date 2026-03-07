@@ -3,7 +3,7 @@
 import React, { useEffect, useState } from "react";
 import { Shield, Building2, MapPin, UserCircle } from "lucide-react";
 import { cn } from "@/components/ui/utils";
-import { getEnterprisesAction, getTenantsAction } from "@/app/dashboard/actions";
+import { getEnterprisesAction, getTenantDetailAction } from "@/app/dashboard/actions";
 
 interface UserData {
   tenantId: string;
@@ -38,20 +38,17 @@ export function ScopeInfo() {
         const parsedUser = JSON.parse(userData) as UserData;
         setUser(parsedUser);
 
-        const [tenantsRes, enterprisesRes] = await Promise.all([
-          getTenantsAction(),
+        const [tenantRes, enterprisesRes] = await Promise.all([
+          parsedUser.tenantId ? getTenantDetailAction(parsedUser.tenantId) : null,
           getEnterprisesAction()
         ]);
 
-        const tenants = (tenantsRes as { data?: Tenant[] }).data || (tenantsRes as Tenant[]);
+        const tenant = (tenantRes as { data?: Tenant })?.data || (tenantRes as Tenant);
         const enterprises = (enterprisesRes as { data?: Enterprise[] }).data || (enterprisesRes as Enterprise[]);
 
-        // Find tenant name
-        if (parsedUser.tenantId) {
-          const currentTenant = Array.isArray(tenants) 
-            ? tenants.find((t: Tenant) => t.id === parsedUser.tenantId)
-            : null;
-          setTenantName(currentTenant?.nombre || "Tenaxis");
+        // Set tenant name
+        if (tenant) {
+          setTenantName(tenant.nombre || "Tenaxis");
         }
 
         // Find enterprise name

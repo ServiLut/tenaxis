@@ -157,7 +157,7 @@ function EditarServicioContent({ id }: { id: string }) {
     if (!empId) return;
     try {
       const ops = await getOperatorsAction(empId);
-      setOperadores(Array.isArray(ops) ? ops : ops?.data || []);
+      setOperadores(Array.isArray(ops) ? ops : (ops as any)?.data || []);
     } catch (e) {
       console.error("Error loading operators", e);
     }
@@ -167,7 +167,7 @@ function EditarServicioContent({ id }: { id: string }) {
     if (!empId) return;
     try {
       const svs = await getServiciosAction(empId);
-      setServiciosEmpresa(Array.isArray(svs) ? svs : svs?.data || []);
+      setServiciosEmpresa(Array.isArray(svs) ? svs : (svs as any)?.data || []);
     } catch (e) {
       console.error("Error loading services", e);
     }
@@ -187,7 +187,7 @@ function EditarServicioContent({ id }: { id: string }) {
           return;
         }
 
-        setClientes(Array.isArray(cls) ? cls : cls?.data || []);
+        setClientes(Array.isArray(cls) ? cls : (cls as any)?.data || []);
 
         // Populating form with order data
         setSelectedCliente(orderData.clienteId);
@@ -236,7 +236,7 @@ function EditarServicioContent({ id }: { id: string }) {
         ]);
 
         // Load addresses for selected client
-        const client = (Array.isArray(cls) ? cls : cls?.data || []).find((c: Cliente) => c.id === orderData.clienteId);
+        const client = (Array.isArray(cls) ? cls : (cls as any)?.data || []).find((c: Cliente) => c.id === orderData.clienteId);
         if (client) {
           setDireccionesCliente(client.direcciones || []);
           setSelectedDireccion(orderData.direccionId || "");

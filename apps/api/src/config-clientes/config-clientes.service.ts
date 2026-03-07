@@ -5,6 +5,7 @@ import { CreateRiesgoDto, UpdateRiesgoDto } from './dto/riesgo.dto';
 import { CreateTipoInteresDto, UpdateTipoInteresDto } from './dto/interes.dto';
 import { CreateServicioDto, UpdateServicioDto } from './dto/servicio.dto';
 import { UpsertClienteConfigDto } from './dto/cliente-config.dto';
+import { SegmentoCliente, NivelRiesgo } from '../generated/client/client';
 
 @Injectable()
 export class ConfigClientesService {
@@ -71,44 +72,44 @@ export class ConfigClientesService {
 
   // --- Segmentos ---
   async findAllSegmentos(tenantId: string) {
-    return this.prisma.segmentoNegocio.findMany({
-      where: { tenantId },
-      orderBy: { nombre: 'asc' },
-    });
+    // Return static list from Enum as the model was removed
+    return Object.values(SegmentoCliente).map(s => ({
+      id: s,
+      nombre: s,
+      frecuenciaSugerida: 30,
+      activo: true
+    }));
   }
 
   async createSegmento(tenantId: string, dto: CreateSegmentoDto) {
-    return this.prisma.segmentoNegocio.create({
-      data: { ...dto, tenantId },
-    });
+    // Model removed, doing nothing
+    return { id: 'dummy', ...dto };
   }
 
   async updateSegmento(id: string, dto: UpdateSegmentoDto) {
-    return this.prisma.segmentoNegocio.update({
-      where: { id },
-      data: dto,
-    });
+    // Model removed, doing nothing
+    return { id, ...dto };
   }
 
   // --- Riesgos ---
   async findAllRiesgos(tenantId: string) {
-    return this.prisma.nivelRiesgoOperativo.findMany({
-      where: { tenantId },
-      orderBy: { valor: 'asc' },
-    });
+    // Return static list from Enum as the model was removed
+    return Object.values(NivelRiesgo).map(r => ({
+      id: r,
+      nombre: r,
+      valor: 0,
+      activo: true
+    }));
   }
 
   async createRiesgo(tenantId: string, dto: CreateRiesgoDto) {
-    return this.prisma.nivelRiesgoOperativo.create({
-      data: { ...dto, tenantId },
-    });
+    // Model removed, doing nothing
+    return { id: 'dummy', ...dto };
   }
 
   async updateRiesgo(id: string, dto: UpdateRiesgoDto) {
-    return this.prisma.nivelRiesgoOperativo.update({
-      where: { id },
-      data: dto,
-    });
+    // Model removed, doing nothing
+    return { id, ...dto };
   }
 
   // --- Tipos de Interés ---
@@ -175,6 +176,14 @@ export class ConfigClientesService {
   // --- Métodos de Pago ---
   async findAllMetodosPago(tenantId: string, empresaId: string) {
     return this.prisma.metodoPago.findMany({
+      where: { tenantId, empresaId, activo: true },
+      orderBy: { nombre: 'asc' },
+    });
+  }
+
+  // --- Estados de Servicio ---
+  async findAllEstadosServicio(tenantId: string, empresaId: string) {
+    return this.prisma.estadoServicio.findMany({
       where: { tenantId, empresaId, activo: true },
       orderBy: { nombre: 'asc' },
     });

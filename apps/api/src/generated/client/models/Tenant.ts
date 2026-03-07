@@ -246,7 +246,6 @@ export type TenantWhereInput = {
   geolocalizaciones?: Prisma.GeolocalizacionListRelationFilter
   logsEvento?: Prisma.LogEventoListRelationFilter
   metodosPago?: Prisma.MetodoPagoListRelationFilter
-  nivelesRiesgo?: Prisma.NivelRiesgoOperativoListRelationFilter
   nominaDetalles?: Prisma.NominaDetalleListRelationFilter
   nominas?: Prisma.NominaListRelationFilter
   ordenesServicio?: Prisma.OrdenServicioListRelationFilter
@@ -259,10 +258,10 @@ export type TenantWhereInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoListRelationFilter
   proveedores?: Prisma.ProveedoresListRelationFilter
   referidos?: Prisma.ReferidosListRelationFilter
-  segmentos?: Prisma.SegmentoNegocioListRelationFilter
   servicios?: Prisma.ServicioListRelationFilter
   sesionesActividad?: Prisma.SesionActividadListRelationFilter
   subscription?: Prisma.XOR<Prisma.SubscriptionNullableScalarRelationFilter, Prisma.SubscriptionWhereInput> | null
+  sugerencias_seguimiento?: Prisma.Sugerencias_seguimientoListRelationFilter
   memberships?: Prisma.TenantMembershipListRelationFilter
   terapiasPsicologos?: Prisma.TerapiasPsicologosListRelationFilter
   tiposInteres?: Prisma.TipoInteresListRelationFilter
@@ -307,7 +306,6 @@ export type TenantOrderByWithRelationInput = {
   geolocalizaciones?: Prisma.GeolocalizacionOrderByRelationAggregateInput
   logsEvento?: Prisma.LogEventoOrderByRelationAggregateInput
   metodosPago?: Prisma.MetodoPagoOrderByRelationAggregateInput
-  nivelesRiesgo?: Prisma.NivelRiesgoOperativoOrderByRelationAggregateInput
   nominaDetalles?: Prisma.NominaDetalleOrderByRelationAggregateInput
   nominas?: Prisma.NominaOrderByRelationAggregateInput
   ordenesServicio?: Prisma.OrdenServicioOrderByRelationAggregateInput
@@ -320,10 +318,10 @@ export type TenantOrderByWithRelationInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoOrderByRelationAggregateInput
   proveedores?: Prisma.ProveedoresOrderByRelationAggregateInput
   referidos?: Prisma.ReferidosOrderByRelationAggregateInput
-  segmentos?: Prisma.SegmentoNegocioOrderByRelationAggregateInput
   servicios?: Prisma.ServicioOrderByRelationAggregateInput
   sesionesActividad?: Prisma.SesionActividadOrderByRelationAggregateInput
   subscription?: Prisma.SubscriptionOrderByWithRelationInput
+  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoOrderByRelationAggregateInput
   memberships?: Prisma.TenantMembershipOrderByRelationAggregateInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosOrderByRelationAggregateInput
   tiposInteres?: Prisma.TipoInteresOrderByRelationAggregateInput
@@ -371,7 +369,6 @@ export type TenantWhereUniqueInput = Prisma.AtLeast<{
   geolocalizaciones?: Prisma.GeolocalizacionListRelationFilter
   logsEvento?: Prisma.LogEventoListRelationFilter
   metodosPago?: Prisma.MetodoPagoListRelationFilter
-  nivelesRiesgo?: Prisma.NivelRiesgoOperativoListRelationFilter
   nominaDetalles?: Prisma.NominaDetalleListRelationFilter
   nominas?: Prisma.NominaListRelationFilter
   ordenesServicio?: Prisma.OrdenServicioListRelationFilter
@@ -384,10 +381,10 @@ export type TenantWhereUniqueInput = Prisma.AtLeast<{
   productosSolicitados?: Prisma.ProductoSolicitadoListRelationFilter
   proveedores?: Prisma.ProveedoresListRelationFilter
   referidos?: Prisma.ReferidosListRelationFilter
-  segmentos?: Prisma.SegmentoNegocioListRelationFilter
   servicios?: Prisma.ServicioListRelationFilter
   sesionesActividad?: Prisma.SesionActividadListRelationFilter
   subscription?: Prisma.XOR<Prisma.SubscriptionNullableScalarRelationFilter, Prisma.SubscriptionWhereInput> | null
+  sugerencias_seguimiento?: Prisma.Sugerencias_seguimientoListRelationFilter
   memberships?: Prisma.TenantMembershipListRelationFilter
   terapiasPsicologos?: Prisma.TerapiasPsicologosListRelationFilter
   tiposInteres?: Prisma.TipoInteresListRelationFilter
@@ -464,7 +461,6 @@ export type TenantCreateInput = {
   geolocalizaciones?: Prisma.GeolocalizacionCreateNestedManyWithoutTenantInput
   logsEvento?: Prisma.LogEventoCreateNestedManyWithoutTenantInput
   metodosPago?: Prisma.MetodoPagoCreateNestedManyWithoutTenantInput
-  nivelesRiesgo?: Prisma.NivelRiesgoOperativoCreateNestedManyWithoutTenantInput
   nominaDetalles?: Prisma.NominaDetalleCreateNestedManyWithoutTenantInput
   nominas?: Prisma.NominaCreateNestedManyWithoutTenantInput
   ordenesServicio?: Prisma.OrdenServicioCreateNestedManyWithoutTenantInput
@@ -477,10 +473,10 @@ export type TenantCreateInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoCreateNestedManyWithoutTenantInput
   proveedores?: Prisma.ProveedoresCreateNestedManyWithoutTenantInput
   referidos?: Prisma.ReferidosCreateNestedManyWithoutTenantInput
-  segmentos?: Prisma.SegmentoNegocioCreateNestedManyWithoutTenantInput
   servicios?: Prisma.ServicioCreateNestedManyWithoutTenantInput
   sesionesActividad?: Prisma.SesionActividadCreateNestedManyWithoutTenantInput
   subscription?: Prisma.SubscriptionCreateNestedOneWithoutTenantInput
+  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoCreateNestedManyWithoutTenantsInput
   memberships?: Prisma.TenantMembershipCreateNestedManyWithoutTenantInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosCreateNestedManyWithoutTenantInput
   tiposInteres?: Prisma.TipoInteresCreateNestedManyWithoutTenantInput
@@ -525,7 +521,6 @@ export type TenantUncheckedCreateInput = {
   geolocalizaciones?: Prisma.GeolocalizacionUncheckedCreateNestedManyWithoutTenantInput
   logsEvento?: Prisma.LogEventoUncheckedCreateNestedManyWithoutTenantInput
   metodosPago?: Prisma.MetodoPagoUncheckedCreateNestedManyWithoutTenantInput
-  nivelesRiesgo?: Prisma.NivelRiesgoOperativoUncheckedCreateNestedManyWithoutTenantInput
   nominaDetalles?: Prisma.NominaDetalleUncheckedCreateNestedManyWithoutTenantInput
   nominas?: Prisma.NominaUncheckedCreateNestedManyWithoutTenantInput
   ordenesServicio?: Prisma.OrdenServicioUncheckedCreateNestedManyWithoutTenantInput
@@ -538,10 +533,10 @@ export type TenantUncheckedCreateInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUncheckedCreateNestedManyWithoutTenantInput
   proveedores?: Prisma.ProveedoresUncheckedCreateNestedManyWithoutTenantInput
   referidos?: Prisma.ReferidosUncheckedCreateNestedManyWithoutTenantInput
-  segmentos?: Prisma.SegmentoNegocioUncheckedCreateNestedManyWithoutTenantInput
   servicios?: Prisma.ServicioUncheckedCreateNestedManyWithoutTenantInput
   sesionesActividad?: Prisma.SesionActividadUncheckedCreateNestedManyWithoutTenantInput
   subscription?: Prisma.SubscriptionUncheckedCreateNestedOneWithoutTenantInput
+  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUncheckedCreateNestedManyWithoutTenantsInput
   memberships?: Prisma.TenantMembershipUncheckedCreateNestedManyWithoutTenantInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUncheckedCreateNestedManyWithoutTenantInput
   tiposInteres?: Prisma.TipoInteresUncheckedCreateNestedManyWithoutTenantInput
@@ -586,7 +581,6 @@ export type TenantUpdateInput = {
   geolocalizaciones?: Prisma.GeolocalizacionUpdateManyWithoutTenantNestedInput
   logsEvento?: Prisma.LogEventoUpdateManyWithoutTenantNestedInput
   metodosPago?: Prisma.MetodoPagoUpdateManyWithoutTenantNestedInput
-  nivelesRiesgo?: Prisma.NivelRiesgoOperativoUpdateManyWithoutTenantNestedInput
   nominaDetalles?: Prisma.NominaDetalleUpdateManyWithoutTenantNestedInput
   nominas?: Prisma.NominaUpdateManyWithoutTenantNestedInput
   ordenesServicio?: Prisma.OrdenServicioUpdateManyWithoutTenantNestedInput
@@ -599,10 +593,10 @@ export type TenantUpdateInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUpdateManyWithoutTenantNestedInput
   proveedores?: Prisma.ProveedoresUpdateManyWithoutTenantNestedInput
   referidos?: Prisma.ReferidosUpdateManyWithoutTenantNestedInput
-  segmentos?: Prisma.SegmentoNegocioUpdateManyWithoutTenantNestedInput
   servicios?: Prisma.ServicioUpdateManyWithoutTenantNestedInput
   sesionesActividad?: Prisma.SesionActividadUpdateManyWithoutTenantNestedInput
   subscription?: Prisma.SubscriptionUpdateOneWithoutTenantNestedInput
+  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUpdateManyWithoutTenantsNestedInput
   memberships?: Prisma.TenantMembershipUpdateManyWithoutTenantNestedInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUpdateManyWithoutTenantNestedInput
   tiposInteres?: Prisma.TipoInteresUpdateManyWithoutTenantNestedInput
@@ -647,7 +641,6 @@ export type TenantUncheckedUpdateInput = {
   geolocalizaciones?: Prisma.GeolocalizacionUncheckedUpdateManyWithoutTenantNestedInput
   logsEvento?: Prisma.LogEventoUncheckedUpdateManyWithoutTenantNestedInput
   metodosPago?: Prisma.MetodoPagoUncheckedUpdateManyWithoutTenantNestedInput
-  nivelesRiesgo?: Prisma.NivelRiesgoOperativoUncheckedUpdateManyWithoutTenantNestedInput
   nominaDetalles?: Prisma.NominaDetalleUncheckedUpdateManyWithoutTenantNestedInput
   nominas?: Prisma.NominaUncheckedUpdateManyWithoutTenantNestedInput
   ordenesServicio?: Prisma.OrdenServicioUncheckedUpdateManyWithoutTenantNestedInput
@@ -660,10 +653,10 @@ export type TenantUncheckedUpdateInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUncheckedUpdateManyWithoutTenantNestedInput
   proveedores?: Prisma.ProveedoresUncheckedUpdateManyWithoutTenantNestedInput
   referidos?: Prisma.ReferidosUncheckedUpdateManyWithoutTenantNestedInput
-  segmentos?: Prisma.SegmentoNegocioUncheckedUpdateManyWithoutTenantNestedInput
   servicios?: Prisma.ServicioUncheckedUpdateManyWithoutTenantNestedInput
   sesionesActividad?: Prisma.SesionActividadUncheckedUpdateManyWithoutTenantNestedInput
   subscription?: Prisma.SubscriptionUncheckedUpdateOneWithoutTenantNestedInput
+  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUncheckedUpdateManyWithoutTenantsNestedInput
   memberships?: Prisma.TenantMembershipUncheckedUpdateManyWithoutTenantNestedInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUncheckedUpdateManyWithoutTenantNestedInput
   tiposInteres?: Prisma.TipoInteresUncheckedUpdateManyWithoutTenantNestedInput
@@ -843,34 +836,6 @@ export type TenantUpdateOneRequiredWithoutCommissionsNestedInput = {
   upsert?: Prisma.TenantUpsertWithoutCommissionsInput
   connect?: Prisma.TenantWhereUniqueInput
   update?: Prisma.XOR<Prisma.XOR<Prisma.TenantUpdateToOneWithWhereWithoutCommissionsInput, Prisma.TenantUpdateWithoutCommissionsInput>, Prisma.TenantUncheckedUpdateWithoutCommissionsInput>
-}
-
-export type TenantCreateNestedOneWithoutSegmentosInput = {
-  create?: Prisma.XOR<Prisma.TenantCreateWithoutSegmentosInput, Prisma.TenantUncheckedCreateWithoutSegmentosInput>
-  connectOrCreate?: Prisma.TenantCreateOrConnectWithoutSegmentosInput
-  connect?: Prisma.TenantWhereUniqueInput
-}
-
-export type TenantUpdateOneRequiredWithoutSegmentosNestedInput = {
-  create?: Prisma.XOR<Prisma.TenantCreateWithoutSegmentosInput, Prisma.TenantUncheckedCreateWithoutSegmentosInput>
-  connectOrCreate?: Prisma.TenantCreateOrConnectWithoutSegmentosInput
-  upsert?: Prisma.TenantUpsertWithoutSegmentosInput
-  connect?: Prisma.TenantWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.TenantUpdateToOneWithWhereWithoutSegmentosInput, Prisma.TenantUpdateWithoutSegmentosInput>, Prisma.TenantUncheckedUpdateWithoutSegmentosInput>
-}
-
-export type TenantCreateNestedOneWithoutNivelesRiesgoInput = {
-  create?: Prisma.XOR<Prisma.TenantCreateWithoutNivelesRiesgoInput, Prisma.TenantUncheckedCreateWithoutNivelesRiesgoInput>
-  connectOrCreate?: Prisma.TenantCreateOrConnectWithoutNivelesRiesgoInput
-  connect?: Prisma.TenantWhereUniqueInput
-}
-
-export type TenantUpdateOneRequiredWithoutNivelesRiesgoNestedInput = {
-  create?: Prisma.XOR<Prisma.TenantCreateWithoutNivelesRiesgoInput, Prisma.TenantUncheckedCreateWithoutNivelesRiesgoInput>
-  connectOrCreate?: Prisma.TenantCreateOrConnectWithoutNivelesRiesgoInput
-  upsert?: Prisma.TenantUpsertWithoutNivelesRiesgoInput
-  connect?: Prisma.TenantWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.TenantUpdateToOneWithWhereWithoutNivelesRiesgoInput, Prisma.TenantUpdateWithoutNivelesRiesgoInput>, Prisma.TenantUncheckedUpdateWithoutNivelesRiesgoInput>
 }
 
 export type TenantCreateNestedOneWithoutTiposInteresInput = {
@@ -1437,6 +1402,20 @@ export type TenantUpdateOneRequiredWithoutEvidenciasServicioNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.TenantUpdateToOneWithWhereWithoutEvidenciasServicioInput, Prisma.TenantUpdateWithoutEvidenciasServicioInput>, Prisma.TenantUncheckedUpdateWithoutEvidenciasServicioInput>
 }
 
+export type TenantCreateNestedOneWithoutSugerencias_seguimientoInput = {
+  create?: Prisma.XOR<Prisma.TenantCreateWithoutSugerencias_seguimientoInput, Prisma.TenantUncheckedCreateWithoutSugerencias_seguimientoInput>
+  connectOrCreate?: Prisma.TenantCreateOrConnectWithoutSugerencias_seguimientoInput
+  connect?: Prisma.TenantWhereUniqueInput
+}
+
+export type TenantUpdateOneRequiredWithoutSugerencias_seguimientoNestedInput = {
+  create?: Prisma.XOR<Prisma.TenantCreateWithoutSugerencias_seguimientoInput, Prisma.TenantUncheckedCreateWithoutSugerencias_seguimientoInput>
+  connectOrCreate?: Prisma.TenantCreateOrConnectWithoutSugerencias_seguimientoInput
+  upsert?: Prisma.TenantUpsertWithoutSugerencias_seguimientoInput
+  connect?: Prisma.TenantWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.TenantUpdateToOneWithWhereWithoutSugerencias_seguimientoInput, Prisma.TenantUpdateWithoutSugerencias_seguimientoInput>, Prisma.TenantUncheckedUpdateWithoutSugerencias_seguimientoInput>
+}
+
 export type TenantCreateWithoutSubscriptionInput = {
   id?: string
   slug: string
@@ -1472,7 +1451,6 @@ export type TenantCreateWithoutSubscriptionInput = {
   geolocalizaciones?: Prisma.GeolocalizacionCreateNestedManyWithoutTenantInput
   logsEvento?: Prisma.LogEventoCreateNestedManyWithoutTenantInput
   metodosPago?: Prisma.MetodoPagoCreateNestedManyWithoutTenantInput
-  nivelesRiesgo?: Prisma.NivelRiesgoOperativoCreateNestedManyWithoutTenantInput
   nominaDetalles?: Prisma.NominaDetalleCreateNestedManyWithoutTenantInput
   nominas?: Prisma.NominaCreateNestedManyWithoutTenantInput
   ordenesServicio?: Prisma.OrdenServicioCreateNestedManyWithoutTenantInput
@@ -1485,9 +1463,9 @@ export type TenantCreateWithoutSubscriptionInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoCreateNestedManyWithoutTenantInput
   proveedores?: Prisma.ProveedoresCreateNestedManyWithoutTenantInput
   referidos?: Prisma.ReferidosCreateNestedManyWithoutTenantInput
-  segmentos?: Prisma.SegmentoNegocioCreateNestedManyWithoutTenantInput
   servicios?: Prisma.ServicioCreateNestedManyWithoutTenantInput
   sesionesActividad?: Prisma.SesionActividadCreateNestedManyWithoutTenantInput
+  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoCreateNestedManyWithoutTenantsInput
   memberships?: Prisma.TenantMembershipCreateNestedManyWithoutTenantInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosCreateNestedManyWithoutTenantInput
   tiposInteres?: Prisma.TipoInteresCreateNestedManyWithoutTenantInput
@@ -1532,7 +1510,6 @@ export type TenantUncheckedCreateWithoutSubscriptionInput = {
   geolocalizaciones?: Prisma.GeolocalizacionUncheckedCreateNestedManyWithoutTenantInput
   logsEvento?: Prisma.LogEventoUncheckedCreateNestedManyWithoutTenantInput
   metodosPago?: Prisma.MetodoPagoUncheckedCreateNestedManyWithoutTenantInput
-  nivelesRiesgo?: Prisma.NivelRiesgoOperativoUncheckedCreateNestedManyWithoutTenantInput
   nominaDetalles?: Prisma.NominaDetalleUncheckedCreateNestedManyWithoutTenantInput
   nominas?: Prisma.NominaUncheckedCreateNestedManyWithoutTenantInput
   ordenesServicio?: Prisma.OrdenServicioUncheckedCreateNestedManyWithoutTenantInput
@@ -1545,9 +1522,9 @@ export type TenantUncheckedCreateWithoutSubscriptionInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUncheckedCreateNestedManyWithoutTenantInput
   proveedores?: Prisma.ProveedoresUncheckedCreateNestedManyWithoutTenantInput
   referidos?: Prisma.ReferidosUncheckedCreateNestedManyWithoutTenantInput
-  segmentos?: Prisma.SegmentoNegocioUncheckedCreateNestedManyWithoutTenantInput
   servicios?: Prisma.ServicioUncheckedCreateNestedManyWithoutTenantInput
   sesionesActividad?: Prisma.SesionActividadUncheckedCreateNestedManyWithoutTenantInput
+  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUncheckedCreateNestedManyWithoutTenantsInput
   memberships?: Prisma.TenantMembershipUncheckedCreateNestedManyWithoutTenantInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUncheckedCreateNestedManyWithoutTenantInput
   tiposInteres?: Prisma.TipoInteresUncheckedCreateNestedManyWithoutTenantInput
@@ -1608,7 +1585,6 @@ export type TenantUpdateWithoutSubscriptionInput = {
   geolocalizaciones?: Prisma.GeolocalizacionUpdateManyWithoutTenantNestedInput
   logsEvento?: Prisma.LogEventoUpdateManyWithoutTenantNestedInput
   metodosPago?: Prisma.MetodoPagoUpdateManyWithoutTenantNestedInput
-  nivelesRiesgo?: Prisma.NivelRiesgoOperativoUpdateManyWithoutTenantNestedInput
   nominaDetalles?: Prisma.NominaDetalleUpdateManyWithoutTenantNestedInput
   nominas?: Prisma.NominaUpdateManyWithoutTenantNestedInput
   ordenesServicio?: Prisma.OrdenServicioUpdateManyWithoutTenantNestedInput
@@ -1621,9 +1597,9 @@ export type TenantUpdateWithoutSubscriptionInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUpdateManyWithoutTenantNestedInput
   proveedores?: Prisma.ProveedoresUpdateManyWithoutTenantNestedInput
   referidos?: Prisma.ReferidosUpdateManyWithoutTenantNestedInput
-  segmentos?: Prisma.SegmentoNegocioUpdateManyWithoutTenantNestedInput
   servicios?: Prisma.ServicioUpdateManyWithoutTenantNestedInput
   sesionesActividad?: Prisma.SesionActividadUpdateManyWithoutTenantNestedInput
+  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUpdateManyWithoutTenantsNestedInput
   memberships?: Prisma.TenantMembershipUpdateManyWithoutTenantNestedInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUpdateManyWithoutTenantNestedInput
   tiposInteres?: Prisma.TipoInteresUpdateManyWithoutTenantNestedInput
@@ -1668,7 +1644,6 @@ export type TenantUncheckedUpdateWithoutSubscriptionInput = {
   geolocalizaciones?: Prisma.GeolocalizacionUncheckedUpdateManyWithoutTenantNestedInput
   logsEvento?: Prisma.LogEventoUncheckedUpdateManyWithoutTenantNestedInput
   metodosPago?: Prisma.MetodoPagoUncheckedUpdateManyWithoutTenantNestedInput
-  nivelesRiesgo?: Prisma.NivelRiesgoOperativoUncheckedUpdateManyWithoutTenantNestedInput
   nominaDetalles?: Prisma.NominaDetalleUncheckedUpdateManyWithoutTenantNestedInput
   nominas?: Prisma.NominaUncheckedUpdateManyWithoutTenantNestedInput
   ordenesServicio?: Prisma.OrdenServicioUncheckedUpdateManyWithoutTenantNestedInput
@@ -1681,9 +1656,9 @@ export type TenantUncheckedUpdateWithoutSubscriptionInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUncheckedUpdateManyWithoutTenantNestedInput
   proveedores?: Prisma.ProveedoresUncheckedUpdateManyWithoutTenantNestedInput
   referidos?: Prisma.ReferidosUncheckedUpdateManyWithoutTenantNestedInput
-  segmentos?: Prisma.SegmentoNegocioUncheckedUpdateManyWithoutTenantNestedInput
   servicios?: Prisma.ServicioUncheckedUpdateManyWithoutTenantNestedInput
   sesionesActividad?: Prisma.SesionActividadUncheckedUpdateManyWithoutTenantNestedInput
+  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUncheckedUpdateManyWithoutTenantsNestedInput
   memberships?: Prisma.TenantMembershipUncheckedUpdateManyWithoutTenantNestedInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUncheckedUpdateManyWithoutTenantNestedInput
   tiposInteres?: Prisma.TipoInteresUncheckedUpdateManyWithoutTenantNestedInput
@@ -1728,7 +1703,6 @@ export type TenantCreateWithoutMembershipsInput = {
   geolocalizaciones?: Prisma.GeolocalizacionCreateNestedManyWithoutTenantInput
   logsEvento?: Prisma.LogEventoCreateNestedManyWithoutTenantInput
   metodosPago?: Prisma.MetodoPagoCreateNestedManyWithoutTenantInput
-  nivelesRiesgo?: Prisma.NivelRiesgoOperativoCreateNestedManyWithoutTenantInput
   nominaDetalles?: Prisma.NominaDetalleCreateNestedManyWithoutTenantInput
   nominas?: Prisma.NominaCreateNestedManyWithoutTenantInput
   ordenesServicio?: Prisma.OrdenServicioCreateNestedManyWithoutTenantInput
@@ -1741,10 +1715,10 @@ export type TenantCreateWithoutMembershipsInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoCreateNestedManyWithoutTenantInput
   proveedores?: Prisma.ProveedoresCreateNestedManyWithoutTenantInput
   referidos?: Prisma.ReferidosCreateNestedManyWithoutTenantInput
-  segmentos?: Prisma.SegmentoNegocioCreateNestedManyWithoutTenantInput
   servicios?: Prisma.ServicioCreateNestedManyWithoutTenantInput
   sesionesActividad?: Prisma.SesionActividadCreateNestedManyWithoutTenantInput
   subscription?: Prisma.SubscriptionCreateNestedOneWithoutTenantInput
+  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoCreateNestedManyWithoutTenantsInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosCreateNestedManyWithoutTenantInput
   tiposInteres?: Prisma.TipoInteresCreateNestedManyWithoutTenantInput
   tiposServicio?: Prisma.TipoServicioCreateNestedManyWithoutTenantInput
@@ -1788,7 +1762,6 @@ export type TenantUncheckedCreateWithoutMembershipsInput = {
   geolocalizaciones?: Prisma.GeolocalizacionUncheckedCreateNestedManyWithoutTenantInput
   logsEvento?: Prisma.LogEventoUncheckedCreateNestedManyWithoutTenantInput
   metodosPago?: Prisma.MetodoPagoUncheckedCreateNestedManyWithoutTenantInput
-  nivelesRiesgo?: Prisma.NivelRiesgoOperativoUncheckedCreateNestedManyWithoutTenantInput
   nominaDetalles?: Prisma.NominaDetalleUncheckedCreateNestedManyWithoutTenantInput
   nominas?: Prisma.NominaUncheckedCreateNestedManyWithoutTenantInput
   ordenesServicio?: Prisma.OrdenServicioUncheckedCreateNestedManyWithoutTenantInput
@@ -1801,10 +1774,10 @@ export type TenantUncheckedCreateWithoutMembershipsInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUncheckedCreateNestedManyWithoutTenantInput
   proveedores?: Prisma.ProveedoresUncheckedCreateNestedManyWithoutTenantInput
   referidos?: Prisma.ReferidosUncheckedCreateNestedManyWithoutTenantInput
-  segmentos?: Prisma.SegmentoNegocioUncheckedCreateNestedManyWithoutTenantInput
   servicios?: Prisma.ServicioUncheckedCreateNestedManyWithoutTenantInput
   sesionesActividad?: Prisma.SesionActividadUncheckedCreateNestedManyWithoutTenantInput
   subscription?: Prisma.SubscriptionUncheckedCreateNestedOneWithoutTenantInput
+  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUncheckedCreateNestedManyWithoutTenantsInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUncheckedCreateNestedManyWithoutTenantInput
   tiposInteres?: Prisma.TipoInteresUncheckedCreateNestedManyWithoutTenantInput
   tiposServicio?: Prisma.TipoServicioUncheckedCreateNestedManyWithoutTenantInput
@@ -1864,7 +1837,6 @@ export type TenantUpdateWithoutMembershipsInput = {
   geolocalizaciones?: Prisma.GeolocalizacionUpdateManyWithoutTenantNestedInput
   logsEvento?: Prisma.LogEventoUpdateManyWithoutTenantNestedInput
   metodosPago?: Prisma.MetodoPagoUpdateManyWithoutTenantNestedInput
-  nivelesRiesgo?: Prisma.NivelRiesgoOperativoUpdateManyWithoutTenantNestedInput
   nominaDetalles?: Prisma.NominaDetalleUpdateManyWithoutTenantNestedInput
   nominas?: Prisma.NominaUpdateManyWithoutTenantNestedInput
   ordenesServicio?: Prisma.OrdenServicioUpdateManyWithoutTenantNestedInput
@@ -1877,10 +1849,10 @@ export type TenantUpdateWithoutMembershipsInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUpdateManyWithoutTenantNestedInput
   proveedores?: Prisma.ProveedoresUpdateManyWithoutTenantNestedInput
   referidos?: Prisma.ReferidosUpdateManyWithoutTenantNestedInput
-  segmentos?: Prisma.SegmentoNegocioUpdateManyWithoutTenantNestedInput
   servicios?: Prisma.ServicioUpdateManyWithoutTenantNestedInput
   sesionesActividad?: Prisma.SesionActividadUpdateManyWithoutTenantNestedInput
   subscription?: Prisma.SubscriptionUpdateOneWithoutTenantNestedInput
+  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUpdateManyWithoutTenantsNestedInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUpdateManyWithoutTenantNestedInput
   tiposInteres?: Prisma.TipoInteresUpdateManyWithoutTenantNestedInput
   tiposServicio?: Prisma.TipoServicioUpdateManyWithoutTenantNestedInput
@@ -1924,7 +1896,6 @@ export type TenantUncheckedUpdateWithoutMembershipsInput = {
   geolocalizaciones?: Prisma.GeolocalizacionUncheckedUpdateManyWithoutTenantNestedInput
   logsEvento?: Prisma.LogEventoUncheckedUpdateManyWithoutTenantNestedInput
   metodosPago?: Prisma.MetodoPagoUncheckedUpdateManyWithoutTenantNestedInput
-  nivelesRiesgo?: Prisma.NivelRiesgoOperativoUncheckedUpdateManyWithoutTenantNestedInput
   nominaDetalles?: Prisma.NominaDetalleUncheckedUpdateManyWithoutTenantNestedInput
   nominas?: Prisma.NominaUncheckedUpdateManyWithoutTenantNestedInput
   ordenesServicio?: Prisma.OrdenServicioUncheckedUpdateManyWithoutTenantNestedInput
@@ -1937,10 +1908,10 @@ export type TenantUncheckedUpdateWithoutMembershipsInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUncheckedUpdateManyWithoutTenantNestedInput
   proveedores?: Prisma.ProveedoresUncheckedUpdateManyWithoutTenantNestedInput
   referidos?: Prisma.ReferidosUncheckedUpdateManyWithoutTenantNestedInput
-  segmentos?: Prisma.SegmentoNegocioUncheckedUpdateManyWithoutTenantNestedInput
   servicios?: Prisma.ServicioUncheckedUpdateManyWithoutTenantNestedInput
   sesionesActividad?: Prisma.SesionActividadUncheckedUpdateManyWithoutTenantNestedInput
   subscription?: Prisma.SubscriptionUncheckedUpdateOneWithoutTenantNestedInput
+  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUncheckedUpdateManyWithoutTenantsNestedInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUncheckedUpdateManyWithoutTenantNestedInput
   tiposInteres?: Prisma.TipoInteresUncheckedUpdateManyWithoutTenantNestedInput
   tiposServicio?: Prisma.TipoServicioUncheckedUpdateManyWithoutTenantNestedInput
@@ -1983,7 +1954,6 @@ export type TenantCreateWithoutEmpresasInput = {
   geolocalizaciones?: Prisma.GeolocalizacionCreateNestedManyWithoutTenantInput
   logsEvento?: Prisma.LogEventoCreateNestedManyWithoutTenantInput
   metodosPago?: Prisma.MetodoPagoCreateNestedManyWithoutTenantInput
-  nivelesRiesgo?: Prisma.NivelRiesgoOperativoCreateNestedManyWithoutTenantInput
   nominaDetalles?: Prisma.NominaDetalleCreateNestedManyWithoutTenantInput
   nominas?: Prisma.NominaCreateNestedManyWithoutTenantInput
   ordenesServicio?: Prisma.OrdenServicioCreateNestedManyWithoutTenantInput
@@ -1996,10 +1966,10 @@ export type TenantCreateWithoutEmpresasInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoCreateNestedManyWithoutTenantInput
   proveedores?: Prisma.ProveedoresCreateNestedManyWithoutTenantInput
   referidos?: Prisma.ReferidosCreateNestedManyWithoutTenantInput
-  segmentos?: Prisma.SegmentoNegocioCreateNestedManyWithoutTenantInput
   servicios?: Prisma.ServicioCreateNestedManyWithoutTenantInput
   sesionesActividad?: Prisma.SesionActividadCreateNestedManyWithoutTenantInput
   subscription?: Prisma.SubscriptionCreateNestedOneWithoutTenantInput
+  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoCreateNestedManyWithoutTenantsInput
   memberships?: Prisma.TenantMembershipCreateNestedManyWithoutTenantInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosCreateNestedManyWithoutTenantInput
   tiposInteres?: Prisma.TipoInteresCreateNestedManyWithoutTenantInput
@@ -2043,7 +2013,6 @@ export type TenantUncheckedCreateWithoutEmpresasInput = {
   geolocalizaciones?: Prisma.GeolocalizacionUncheckedCreateNestedManyWithoutTenantInput
   logsEvento?: Prisma.LogEventoUncheckedCreateNestedManyWithoutTenantInput
   metodosPago?: Prisma.MetodoPagoUncheckedCreateNestedManyWithoutTenantInput
-  nivelesRiesgo?: Prisma.NivelRiesgoOperativoUncheckedCreateNestedManyWithoutTenantInput
   nominaDetalles?: Prisma.NominaDetalleUncheckedCreateNestedManyWithoutTenantInput
   nominas?: Prisma.NominaUncheckedCreateNestedManyWithoutTenantInput
   ordenesServicio?: Prisma.OrdenServicioUncheckedCreateNestedManyWithoutTenantInput
@@ -2056,10 +2025,10 @@ export type TenantUncheckedCreateWithoutEmpresasInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUncheckedCreateNestedManyWithoutTenantInput
   proveedores?: Prisma.ProveedoresUncheckedCreateNestedManyWithoutTenantInput
   referidos?: Prisma.ReferidosUncheckedCreateNestedManyWithoutTenantInput
-  segmentos?: Prisma.SegmentoNegocioUncheckedCreateNestedManyWithoutTenantInput
   servicios?: Prisma.ServicioUncheckedCreateNestedManyWithoutTenantInput
   sesionesActividad?: Prisma.SesionActividadUncheckedCreateNestedManyWithoutTenantInput
   subscription?: Prisma.SubscriptionUncheckedCreateNestedOneWithoutTenantInput
+  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUncheckedCreateNestedManyWithoutTenantsInput
   memberships?: Prisma.TenantMembershipUncheckedCreateNestedManyWithoutTenantInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUncheckedCreateNestedManyWithoutTenantInput
   tiposInteres?: Prisma.TipoInteresUncheckedCreateNestedManyWithoutTenantInput
@@ -2119,7 +2088,6 @@ export type TenantUpdateWithoutEmpresasInput = {
   geolocalizaciones?: Prisma.GeolocalizacionUpdateManyWithoutTenantNestedInput
   logsEvento?: Prisma.LogEventoUpdateManyWithoutTenantNestedInput
   metodosPago?: Prisma.MetodoPagoUpdateManyWithoutTenantNestedInput
-  nivelesRiesgo?: Prisma.NivelRiesgoOperativoUpdateManyWithoutTenantNestedInput
   nominaDetalles?: Prisma.NominaDetalleUpdateManyWithoutTenantNestedInput
   nominas?: Prisma.NominaUpdateManyWithoutTenantNestedInput
   ordenesServicio?: Prisma.OrdenServicioUpdateManyWithoutTenantNestedInput
@@ -2132,10 +2100,10 @@ export type TenantUpdateWithoutEmpresasInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUpdateManyWithoutTenantNestedInput
   proveedores?: Prisma.ProveedoresUpdateManyWithoutTenantNestedInput
   referidos?: Prisma.ReferidosUpdateManyWithoutTenantNestedInput
-  segmentos?: Prisma.SegmentoNegocioUpdateManyWithoutTenantNestedInput
   servicios?: Prisma.ServicioUpdateManyWithoutTenantNestedInput
   sesionesActividad?: Prisma.SesionActividadUpdateManyWithoutTenantNestedInput
   subscription?: Prisma.SubscriptionUpdateOneWithoutTenantNestedInput
+  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUpdateManyWithoutTenantsNestedInput
   memberships?: Prisma.TenantMembershipUpdateManyWithoutTenantNestedInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUpdateManyWithoutTenantNestedInput
   tiposInteres?: Prisma.TipoInteresUpdateManyWithoutTenantNestedInput
@@ -2179,7 +2147,6 @@ export type TenantUncheckedUpdateWithoutEmpresasInput = {
   geolocalizaciones?: Prisma.GeolocalizacionUncheckedUpdateManyWithoutTenantNestedInput
   logsEvento?: Prisma.LogEventoUncheckedUpdateManyWithoutTenantNestedInput
   metodosPago?: Prisma.MetodoPagoUncheckedUpdateManyWithoutTenantNestedInput
-  nivelesRiesgo?: Prisma.NivelRiesgoOperativoUncheckedUpdateManyWithoutTenantNestedInput
   nominaDetalles?: Prisma.NominaDetalleUncheckedUpdateManyWithoutTenantNestedInput
   nominas?: Prisma.NominaUncheckedUpdateManyWithoutTenantNestedInput
   ordenesServicio?: Prisma.OrdenServicioUncheckedUpdateManyWithoutTenantNestedInput
@@ -2192,10 +2159,10 @@ export type TenantUncheckedUpdateWithoutEmpresasInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUncheckedUpdateManyWithoutTenantNestedInput
   proveedores?: Prisma.ProveedoresUncheckedUpdateManyWithoutTenantNestedInput
   referidos?: Prisma.ReferidosUncheckedUpdateManyWithoutTenantNestedInput
-  segmentos?: Prisma.SegmentoNegocioUncheckedUpdateManyWithoutTenantNestedInput
   servicios?: Prisma.ServicioUncheckedUpdateManyWithoutTenantNestedInput
   sesionesActividad?: Prisma.SesionActividadUncheckedUpdateManyWithoutTenantNestedInput
   subscription?: Prisma.SubscriptionUncheckedUpdateOneWithoutTenantNestedInput
+  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUncheckedUpdateManyWithoutTenantsNestedInput
   memberships?: Prisma.TenantMembershipUncheckedUpdateManyWithoutTenantNestedInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUncheckedUpdateManyWithoutTenantNestedInput
   tiposInteres?: Prisma.TipoInteresUncheckedUpdateManyWithoutTenantNestedInput
@@ -2239,7 +2206,6 @@ export type TenantCreateWithoutEmpresaMembershipsInput = {
   geolocalizaciones?: Prisma.GeolocalizacionCreateNestedManyWithoutTenantInput
   logsEvento?: Prisma.LogEventoCreateNestedManyWithoutTenantInput
   metodosPago?: Prisma.MetodoPagoCreateNestedManyWithoutTenantInput
-  nivelesRiesgo?: Prisma.NivelRiesgoOperativoCreateNestedManyWithoutTenantInput
   nominaDetalles?: Prisma.NominaDetalleCreateNestedManyWithoutTenantInput
   nominas?: Prisma.NominaCreateNestedManyWithoutTenantInput
   ordenesServicio?: Prisma.OrdenServicioCreateNestedManyWithoutTenantInput
@@ -2252,10 +2218,10 @@ export type TenantCreateWithoutEmpresaMembershipsInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoCreateNestedManyWithoutTenantInput
   proveedores?: Prisma.ProveedoresCreateNestedManyWithoutTenantInput
   referidos?: Prisma.ReferidosCreateNestedManyWithoutTenantInput
-  segmentos?: Prisma.SegmentoNegocioCreateNestedManyWithoutTenantInput
   servicios?: Prisma.ServicioCreateNestedManyWithoutTenantInput
   sesionesActividad?: Prisma.SesionActividadCreateNestedManyWithoutTenantInput
   subscription?: Prisma.SubscriptionCreateNestedOneWithoutTenantInput
+  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoCreateNestedManyWithoutTenantsInput
   memberships?: Prisma.TenantMembershipCreateNestedManyWithoutTenantInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosCreateNestedManyWithoutTenantInput
   tiposInteres?: Prisma.TipoInteresCreateNestedManyWithoutTenantInput
@@ -2299,7 +2265,6 @@ export type TenantUncheckedCreateWithoutEmpresaMembershipsInput = {
   geolocalizaciones?: Prisma.GeolocalizacionUncheckedCreateNestedManyWithoutTenantInput
   logsEvento?: Prisma.LogEventoUncheckedCreateNestedManyWithoutTenantInput
   metodosPago?: Prisma.MetodoPagoUncheckedCreateNestedManyWithoutTenantInput
-  nivelesRiesgo?: Prisma.NivelRiesgoOperativoUncheckedCreateNestedManyWithoutTenantInput
   nominaDetalles?: Prisma.NominaDetalleUncheckedCreateNestedManyWithoutTenantInput
   nominas?: Prisma.NominaUncheckedCreateNestedManyWithoutTenantInput
   ordenesServicio?: Prisma.OrdenServicioUncheckedCreateNestedManyWithoutTenantInput
@@ -2312,10 +2277,10 @@ export type TenantUncheckedCreateWithoutEmpresaMembershipsInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUncheckedCreateNestedManyWithoutTenantInput
   proveedores?: Prisma.ProveedoresUncheckedCreateNestedManyWithoutTenantInput
   referidos?: Prisma.ReferidosUncheckedCreateNestedManyWithoutTenantInput
-  segmentos?: Prisma.SegmentoNegocioUncheckedCreateNestedManyWithoutTenantInput
   servicios?: Prisma.ServicioUncheckedCreateNestedManyWithoutTenantInput
   sesionesActividad?: Prisma.SesionActividadUncheckedCreateNestedManyWithoutTenantInput
   subscription?: Prisma.SubscriptionUncheckedCreateNestedOneWithoutTenantInput
+  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUncheckedCreateNestedManyWithoutTenantsInput
   memberships?: Prisma.TenantMembershipUncheckedCreateNestedManyWithoutTenantInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUncheckedCreateNestedManyWithoutTenantInput
   tiposInteres?: Prisma.TipoInteresUncheckedCreateNestedManyWithoutTenantInput
@@ -2375,7 +2340,6 @@ export type TenantUpdateWithoutEmpresaMembershipsInput = {
   geolocalizaciones?: Prisma.GeolocalizacionUpdateManyWithoutTenantNestedInput
   logsEvento?: Prisma.LogEventoUpdateManyWithoutTenantNestedInput
   metodosPago?: Prisma.MetodoPagoUpdateManyWithoutTenantNestedInput
-  nivelesRiesgo?: Prisma.NivelRiesgoOperativoUpdateManyWithoutTenantNestedInput
   nominaDetalles?: Prisma.NominaDetalleUpdateManyWithoutTenantNestedInput
   nominas?: Prisma.NominaUpdateManyWithoutTenantNestedInput
   ordenesServicio?: Prisma.OrdenServicioUpdateManyWithoutTenantNestedInput
@@ -2388,10 +2352,10 @@ export type TenantUpdateWithoutEmpresaMembershipsInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUpdateManyWithoutTenantNestedInput
   proveedores?: Prisma.ProveedoresUpdateManyWithoutTenantNestedInput
   referidos?: Prisma.ReferidosUpdateManyWithoutTenantNestedInput
-  segmentos?: Prisma.SegmentoNegocioUpdateManyWithoutTenantNestedInput
   servicios?: Prisma.ServicioUpdateManyWithoutTenantNestedInput
   sesionesActividad?: Prisma.SesionActividadUpdateManyWithoutTenantNestedInput
   subscription?: Prisma.SubscriptionUpdateOneWithoutTenantNestedInput
+  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUpdateManyWithoutTenantsNestedInput
   memberships?: Prisma.TenantMembershipUpdateManyWithoutTenantNestedInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUpdateManyWithoutTenantNestedInput
   tiposInteres?: Prisma.TipoInteresUpdateManyWithoutTenantNestedInput
@@ -2435,7 +2399,6 @@ export type TenantUncheckedUpdateWithoutEmpresaMembershipsInput = {
   geolocalizaciones?: Prisma.GeolocalizacionUncheckedUpdateManyWithoutTenantNestedInput
   logsEvento?: Prisma.LogEventoUncheckedUpdateManyWithoutTenantNestedInput
   metodosPago?: Prisma.MetodoPagoUncheckedUpdateManyWithoutTenantNestedInput
-  nivelesRiesgo?: Prisma.NivelRiesgoOperativoUncheckedUpdateManyWithoutTenantNestedInput
   nominaDetalles?: Prisma.NominaDetalleUncheckedUpdateManyWithoutTenantNestedInput
   nominas?: Prisma.NominaUncheckedUpdateManyWithoutTenantNestedInput
   ordenesServicio?: Prisma.OrdenServicioUncheckedUpdateManyWithoutTenantNestedInput
@@ -2448,10 +2411,10 @@ export type TenantUncheckedUpdateWithoutEmpresaMembershipsInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUncheckedUpdateManyWithoutTenantNestedInput
   proveedores?: Prisma.ProveedoresUncheckedUpdateManyWithoutTenantNestedInput
   referidos?: Prisma.ReferidosUncheckedUpdateManyWithoutTenantNestedInput
-  segmentos?: Prisma.SegmentoNegocioUncheckedUpdateManyWithoutTenantNestedInput
   servicios?: Prisma.ServicioUncheckedUpdateManyWithoutTenantNestedInput
   sesionesActividad?: Prisma.SesionActividadUncheckedUpdateManyWithoutTenantNestedInput
   subscription?: Prisma.SubscriptionUncheckedUpdateOneWithoutTenantNestedInput
+  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUncheckedUpdateManyWithoutTenantsNestedInput
   memberships?: Prisma.TenantMembershipUncheckedUpdateManyWithoutTenantNestedInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUncheckedUpdateManyWithoutTenantNestedInput
   tiposInteres?: Prisma.TipoInteresUncheckedUpdateManyWithoutTenantNestedInput
@@ -2496,7 +2459,6 @@ export type TenantCreateWithoutOrgNodesInput = {
   geolocalizaciones?: Prisma.GeolocalizacionCreateNestedManyWithoutTenantInput
   logsEvento?: Prisma.LogEventoCreateNestedManyWithoutTenantInput
   metodosPago?: Prisma.MetodoPagoCreateNestedManyWithoutTenantInput
-  nivelesRiesgo?: Prisma.NivelRiesgoOperativoCreateNestedManyWithoutTenantInput
   nominaDetalles?: Prisma.NominaDetalleCreateNestedManyWithoutTenantInput
   nominas?: Prisma.NominaCreateNestedManyWithoutTenantInput
   ordenesServicio?: Prisma.OrdenServicioCreateNestedManyWithoutTenantInput
@@ -2508,10 +2470,10 @@ export type TenantCreateWithoutOrgNodesInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoCreateNestedManyWithoutTenantInput
   proveedores?: Prisma.ProveedoresCreateNestedManyWithoutTenantInput
   referidos?: Prisma.ReferidosCreateNestedManyWithoutTenantInput
-  segmentos?: Prisma.SegmentoNegocioCreateNestedManyWithoutTenantInput
   servicios?: Prisma.ServicioCreateNestedManyWithoutTenantInput
   sesionesActividad?: Prisma.SesionActividadCreateNestedManyWithoutTenantInput
   subscription?: Prisma.SubscriptionCreateNestedOneWithoutTenantInput
+  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoCreateNestedManyWithoutTenantsInput
   memberships?: Prisma.TenantMembershipCreateNestedManyWithoutTenantInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosCreateNestedManyWithoutTenantInput
   tiposInteres?: Prisma.TipoInteresCreateNestedManyWithoutTenantInput
@@ -2556,7 +2518,6 @@ export type TenantUncheckedCreateWithoutOrgNodesInput = {
   geolocalizaciones?: Prisma.GeolocalizacionUncheckedCreateNestedManyWithoutTenantInput
   logsEvento?: Prisma.LogEventoUncheckedCreateNestedManyWithoutTenantInput
   metodosPago?: Prisma.MetodoPagoUncheckedCreateNestedManyWithoutTenantInput
-  nivelesRiesgo?: Prisma.NivelRiesgoOperativoUncheckedCreateNestedManyWithoutTenantInput
   nominaDetalles?: Prisma.NominaDetalleUncheckedCreateNestedManyWithoutTenantInput
   nominas?: Prisma.NominaUncheckedCreateNestedManyWithoutTenantInput
   ordenesServicio?: Prisma.OrdenServicioUncheckedCreateNestedManyWithoutTenantInput
@@ -2568,10 +2529,10 @@ export type TenantUncheckedCreateWithoutOrgNodesInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUncheckedCreateNestedManyWithoutTenantInput
   proveedores?: Prisma.ProveedoresUncheckedCreateNestedManyWithoutTenantInput
   referidos?: Prisma.ReferidosUncheckedCreateNestedManyWithoutTenantInput
-  segmentos?: Prisma.SegmentoNegocioUncheckedCreateNestedManyWithoutTenantInput
   servicios?: Prisma.ServicioUncheckedCreateNestedManyWithoutTenantInput
   sesionesActividad?: Prisma.SesionActividadUncheckedCreateNestedManyWithoutTenantInput
   subscription?: Prisma.SubscriptionUncheckedCreateNestedOneWithoutTenantInput
+  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUncheckedCreateNestedManyWithoutTenantsInput
   memberships?: Prisma.TenantMembershipUncheckedCreateNestedManyWithoutTenantInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUncheckedCreateNestedManyWithoutTenantInput
   tiposInteres?: Prisma.TipoInteresUncheckedCreateNestedManyWithoutTenantInput
@@ -2632,7 +2593,6 @@ export type TenantUpdateWithoutOrgNodesInput = {
   geolocalizaciones?: Prisma.GeolocalizacionUpdateManyWithoutTenantNestedInput
   logsEvento?: Prisma.LogEventoUpdateManyWithoutTenantNestedInput
   metodosPago?: Prisma.MetodoPagoUpdateManyWithoutTenantNestedInput
-  nivelesRiesgo?: Prisma.NivelRiesgoOperativoUpdateManyWithoutTenantNestedInput
   nominaDetalles?: Prisma.NominaDetalleUpdateManyWithoutTenantNestedInput
   nominas?: Prisma.NominaUpdateManyWithoutTenantNestedInput
   ordenesServicio?: Prisma.OrdenServicioUpdateManyWithoutTenantNestedInput
@@ -2644,10 +2604,10 @@ export type TenantUpdateWithoutOrgNodesInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUpdateManyWithoutTenantNestedInput
   proveedores?: Prisma.ProveedoresUpdateManyWithoutTenantNestedInput
   referidos?: Prisma.ReferidosUpdateManyWithoutTenantNestedInput
-  segmentos?: Prisma.SegmentoNegocioUpdateManyWithoutTenantNestedInput
   servicios?: Prisma.ServicioUpdateManyWithoutTenantNestedInput
   sesionesActividad?: Prisma.SesionActividadUpdateManyWithoutTenantNestedInput
   subscription?: Prisma.SubscriptionUpdateOneWithoutTenantNestedInput
+  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUpdateManyWithoutTenantsNestedInput
   memberships?: Prisma.TenantMembershipUpdateManyWithoutTenantNestedInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUpdateManyWithoutTenantNestedInput
   tiposInteres?: Prisma.TipoInteresUpdateManyWithoutTenantNestedInput
@@ -2692,7 +2652,6 @@ export type TenantUncheckedUpdateWithoutOrgNodesInput = {
   geolocalizaciones?: Prisma.GeolocalizacionUncheckedUpdateManyWithoutTenantNestedInput
   logsEvento?: Prisma.LogEventoUncheckedUpdateManyWithoutTenantNestedInput
   metodosPago?: Prisma.MetodoPagoUncheckedUpdateManyWithoutTenantNestedInput
-  nivelesRiesgo?: Prisma.NivelRiesgoOperativoUncheckedUpdateManyWithoutTenantNestedInput
   nominaDetalles?: Prisma.NominaDetalleUncheckedUpdateManyWithoutTenantNestedInput
   nominas?: Prisma.NominaUncheckedUpdateManyWithoutTenantNestedInput
   ordenesServicio?: Prisma.OrdenServicioUncheckedUpdateManyWithoutTenantNestedInput
@@ -2704,10 +2663,10 @@ export type TenantUncheckedUpdateWithoutOrgNodesInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUncheckedUpdateManyWithoutTenantNestedInput
   proveedores?: Prisma.ProveedoresUncheckedUpdateManyWithoutTenantNestedInput
   referidos?: Prisma.ReferidosUncheckedUpdateManyWithoutTenantNestedInput
-  segmentos?: Prisma.SegmentoNegocioUncheckedUpdateManyWithoutTenantNestedInput
   servicios?: Prisma.ServicioUncheckedUpdateManyWithoutTenantNestedInput
   sesionesActividad?: Prisma.SesionActividadUncheckedUpdateManyWithoutTenantNestedInput
   subscription?: Prisma.SubscriptionUncheckedUpdateOneWithoutTenantNestedInput
+  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUncheckedUpdateManyWithoutTenantsNestedInput
   memberships?: Prisma.TenantMembershipUncheckedUpdateManyWithoutTenantNestedInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUncheckedUpdateManyWithoutTenantNestedInput
   tiposInteres?: Prisma.TipoInteresUncheckedUpdateManyWithoutTenantNestedInput
@@ -2751,7 +2710,6 @@ export type TenantCreateWithoutCommissionsInput = {
   geolocalizaciones?: Prisma.GeolocalizacionCreateNestedManyWithoutTenantInput
   logsEvento?: Prisma.LogEventoCreateNestedManyWithoutTenantInput
   metodosPago?: Prisma.MetodoPagoCreateNestedManyWithoutTenantInput
-  nivelesRiesgo?: Prisma.NivelRiesgoOperativoCreateNestedManyWithoutTenantInput
   nominaDetalles?: Prisma.NominaDetalleCreateNestedManyWithoutTenantInput
   nominas?: Prisma.NominaCreateNestedManyWithoutTenantInput
   ordenesServicio?: Prisma.OrdenServicioCreateNestedManyWithoutTenantInput
@@ -2764,10 +2722,10 @@ export type TenantCreateWithoutCommissionsInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoCreateNestedManyWithoutTenantInput
   proveedores?: Prisma.ProveedoresCreateNestedManyWithoutTenantInput
   referidos?: Prisma.ReferidosCreateNestedManyWithoutTenantInput
-  segmentos?: Prisma.SegmentoNegocioCreateNestedManyWithoutTenantInput
   servicios?: Prisma.ServicioCreateNestedManyWithoutTenantInput
   sesionesActividad?: Prisma.SesionActividadCreateNestedManyWithoutTenantInput
   subscription?: Prisma.SubscriptionCreateNestedOneWithoutTenantInput
+  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoCreateNestedManyWithoutTenantsInput
   memberships?: Prisma.TenantMembershipCreateNestedManyWithoutTenantInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosCreateNestedManyWithoutTenantInput
   tiposInteres?: Prisma.TipoInteresCreateNestedManyWithoutTenantInput
@@ -2811,7 +2769,6 @@ export type TenantUncheckedCreateWithoutCommissionsInput = {
   geolocalizaciones?: Prisma.GeolocalizacionUncheckedCreateNestedManyWithoutTenantInput
   logsEvento?: Prisma.LogEventoUncheckedCreateNestedManyWithoutTenantInput
   metodosPago?: Prisma.MetodoPagoUncheckedCreateNestedManyWithoutTenantInput
-  nivelesRiesgo?: Prisma.NivelRiesgoOperativoUncheckedCreateNestedManyWithoutTenantInput
   nominaDetalles?: Prisma.NominaDetalleUncheckedCreateNestedManyWithoutTenantInput
   nominas?: Prisma.NominaUncheckedCreateNestedManyWithoutTenantInput
   ordenesServicio?: Prisma.OrdenServicioUncheckedCreateNestedManyWithoutTenantInput
@@ -2824,10 +2781,10 @@ export type TenantUncheckedCreateWithoutCommissionsInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUncheckedCreateNestedManyWithoutTenantInput
   proveedores?: Prisma.ProveedoresUncheckedCreateNestedManyWithoutTenantInput
   referidos?: Prisma.ReferidosUncheckedCreateNestedManyWithoutTenantInput
-  segmentos?: Prisma.SegmentoNegocioUncheckedCreateNestedManyWithoutTenantInput
   servicios?: Prisma.ServicioUncheckedCreateNestedManyWithoutTenantInput
   sesionesActividad?: Prisma.SesionActividadUncheckedCreateNestedManyWithoutTenantInput
   subscription?: Prisma.SubscriptionUncheckedCreateNestedOneWithoutTenantInput
+  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUncheckedCreateNestedManyWithoutTenantsInput
   memberships?: Prisma.TenantMembershipUncheckedCreateNestedManyWithoutTenantInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUncheckedCreateNestedManyWithoutTenantInput
   tiposInteres?: Prisma.TipoInteresUncheckedCreateNestedManyWithoutTenantInput
@@ -2887,7 +2844,6 @@ export type TenantUpdateWithoutCommissionsInput = {
   geolocalizaciones?: Prisma.GeolocalizacionUpdateManyWithoutTenantNestedInput
   logsEvento?: Prisma.LogEventoUpdateManyWithoutTenantNestedInput
   metodosPago?: Prisma.MetodoPagoUpdateManyWithoutTenantNestedInput
-  nivelesRiesgo?: Prisma.NivelRiesgoOperativoUpdateManyWithoutTenantNestedInput
   nominaDetalles?: Prisma.NominaDetalleUpdateManyWithoutTenantNestedInput
   nominas?: Prisma.NominaUpdateManyWithoutTenantNestedInput
   ordenesServicio?: Prisma.OrdenServicioUpdateManyWithoutTenantNestedInput
@@ -2900,10 +2856,10 @@ export type TenantUpdateWithoutCommissionsInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUpdateManyWithoutTenantNestedInput
   proveedores?: Prisma.ProveedoresUpdateManyWithoutTenantNestedInput
   referidos?: Prisma.ReferidosUpdateManyWithoutTenantNestedInput
-  segmentos?: Prisma.SegmentoNegocioUpdateManyWithoutTenantNestedInput
   servicios?: Prisma.ServicioUpdateManyWithoutTenantNestedInput
   sesionesActividad?: Prisma.SesionActividadUpdateManyWithoutTenantNestedInput
   subscription?: Prisma.SubscriptionUpdateOneWithoutTenantNestedInput
+  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUpdateManyWithoutTenantsNestedInput
   memberships?: Prisma.TenantMembershipUpdateManyWithoutTenantNestedInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUpdateManyWithoutTenantNestedInput
   tiposInteres?: Prisma.TipoInteresUpdateManyWithoutTenantNestedInput
@@ -2947,264 +2903,6 @@ export type TenantUncheckedUpdateWithoutCommissionsInput = {
   geolocalizaciones?: Prisma.GeolocalizacionUncheckedUpdateManyWithoutTenantNestedInput
   logsEvento?: Prisma.LogEventoUncheckedUpdateManyWithoutTenantNestedInput
   metodosPago?: Prisma.MetodoPagoUncheckedUpdateManyWithoutTenantNestedInput
-  nivelesRiesgo?: Prisma.NivelRiesgoOperativoUncheckedUpdateManyWithoutTenantNestedInput
-  nominaDetalles?: Prisma.NominaDetalleUncheckedUpdateManyWithoutTenantNestedInput
-  nominas?: Prisma.NominaUncheckedUpdateManyWithoutTenantNestedInput
-  ordenesServicio?: Prisma.OrdenServicioUncheckedUpdateManyWithoutTenantNestedInput
-  orgNodes?: Prisma.OrganizationNodeUncheckedUpdateManyWithoutTenantNestedInput
-  paquetesAdquiridos?: Prisma.PaqueteAdquiridoUncheckedUpdateManyWithoutTenantNestedInput
-  resetTokens?: Prisma.PasswordResetTokenUncheckedUpdateManyWithoutTenantNestedInput
-  permisos?: Prisma.PermisoUncheckedUpdateManyWithoutTenantNestedInput
-  picoPlaca?: Prisma.PicoPlacaUncheckedUpdateManyWithoutTenantNestedInput
-  productos?: Prisma.ProductoUncheckedUpdateManyWithoutTenantNestedInput
-  productosSolicitados?: Prisma.ProductoSolicitadoUncheckedUpdateManyWithoutTenantNestedInput
-  proveedores?: Prisma.ProveedoresUncheckedUpdateManyWithoutTenantNestedInput
-  referidos?: Prisma.ReferidosUncheckedUpdateManyWithoutTenantNestedInput
-  segmentos?: Prisma.SegmentoNegocioUncheckedUpdateManyWithoutTenantNestedInput
-  servicios?: Prisma.ServicioUncheckedUpdateManyWithoutTenantNestedInput
-  sesionesActividad?: Prisma.SesionActividadUncheckedUpdateManyWithoutTenantNestedInput
-  subscription?: Prisma.SubscriptionUncheckedUpdateOneWithoutTenantNestedInput
-  memberships?: Prisma.TenantMembershipUncheckedUpdateManyWithoutTenantNestedInput
-  terapiasPsicologos?: Prisma.TerapiasPsicologosUncheckedUpdateManyWithoutTenantNestedInput
-  tiposInteres?: Prisma.TipoInteresUncheckedUpdateManyWithoutTenantNestedInput
-  tiposServicio?: Prisma.TipoServicioUncheckedUpdateManyWithoutTenantNestedInput
-  turnos?: Prisma.TurnoUncheckedUpdateManyWithoutTenantNestedInput
-  vehiculos?: Prisma.VehiculoUncheckedUpdateManyWithoutTenantNestedInput
-  zonas?: Prisma.ZonaUncheckedUpdateManyWithoutTenantNestedInput
-}
-
-export type TenantCreateWithoutSegmentosInput = {
-  id?: string
-  slug: string
-  isActive?: boolean
-  createdAt?: Date | string
-  updatedAt?: Date | string
-  correo?: string | null
-  nit?: string | null
-  nombre: string
-  numero?: string | null
-  pagina?: string | null
-  anticipos?: Prisma.AnticiposCreateNestedManyWithoutTenantInput
-  auditorias?: Prisma.AuditoriaCreateNestedManyWithoutTenantInput
-  authSessions?: Prisma.AuthSessionCreateNestedManyWithoutTenantInput
-  citasPsicologos?: Prisma.CitasPsicologosCreateNestedManyWithoutTenantInput
-  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaCreateNestedManyWithoutTenantInput
-  clientes?: Prisma.ClienteCreateNestedManyWithoutTenantInput
-  commissions?: Prisma.CommissionRecordCreateNestedManyWithoutTenantInput
-  configuracionPagos?: Prisma.ConfiguracionPagosCreateNestedManyWithoutTenantInput
-  consignacionOrdenes?: Prisma.ConsignacionOrdenCreateNestedManyWithoutTenantInput
-  consignaciones?: Prisma.ConsignacionEfectivoCreateNestedManyWithoutTenantInput
-  consultorios?: Prisma.ConsultorioCreateNestedManyWithoutTenantInput
-  cuentasCobro?: Prisma.CuentaCobroCreateNestedManyWithoutTenantInput
-  cuentasPago?: Prisma.CuentasPagoCreateNestedManyWithoutTenantInput
-  declaraciones?: Prisma.DeclaracionEfectivoCreateNestedManyWithoutTenantInput
-  direcciones?: Prisma.DireccionCreateNestedManyWithoutTenantInput
-  egresos?: Prisma.EgresosCreateNestedManyWithoutTenantInput
-  empresaMemberships?: Prisma.EmpresaMembershipCreateNestedManyWithoutTenantInput
-  empresas?: Prisma.EmpresaCreateNestedManyWithoutTenantInput
-  entidadesFinancieras?: Prisma.EntidadFinancieraCreateNestedManyWithoutTenantInput
-  estadosServicio?: Prisma.EstadoServicioCreateNestedManyWithoutTenantInput
-  evidenciasServicio?: Prisma.EvidenciaServicioCreateNestedManyWithoutTenantInput
-  geolocalizaciones?: Prisma.GeolocalizacionCreateNestedManyWithoutTenantInput
-  logsEvento?: Prisma.LogEventoCreateNestedManyWithoutTenantInput
-  metodosPago?: Prisma.MetodoPagoCreateNestedManyWithoutTenantInput
-  nivelesRiesgo?: Prisma.NivelRiesgoOperativoCreateNestedManyWithoutTenantInput
-  nominaDetalles?: Prisma.NominaDetalleCreateNestedManyWithoutTenantInput
-  nominas?: Prisma.NominaCreateNestedManyWithoutTenantInput
-  ordenesServicio?: Prisma.OrdenServicioCreateNestedManyWithoutTenantInput
-  orgNodes?: Prisma.OrganizationNodeCreateNestedManyWithoutTenantInput
-  paquetesAdquiridos?: Prisma.PaqueteAdquiridoCreateNestedManyWithoutTenantInput
-  resetTokens?: Prisma.PasswordResetTokenCreateNestedManyWithoutTenantInput
-  permisos?: Prisma.PermisoCreateNestedManyWithoutTenantInput
-  picoPlaca?: Prisma.PicoPlacaCreateNestedManyWithoutTenantInput
-  productos?: Prisma.ProductoCreateNestedManyWithoutTenantInput
-  productosSolicitados?: Prisma.ProductoSolicitadoCreateNestedManyWithoutTenantInput
-  proveedores?: Prisma.ProveedoresCreateNestedManyWithoutTenantInput
-  referidos?: Prisma.ReferidosCreateNestedManyWithoutTenantInput
-  servicios?: Prisma.ServicioCreateNestedManyWithoutTenantInput
-  sesionesActividad?: Prisma.SesionActividadCreateNestedManyWithoutTenantInput
-  subscription?: Prisma.SubscriptionCreateNestedOneWithoutTenantInput
-  memberships?: Prisma.TenantMembershipCreateNestedManyWithoutTenantInput
-  terapiasPsicologos?: Prisma.TerapiasPsicologosCreateNestedManyWithoutTenantInput
-  tiposInteres?: Prisma.TipoInteresCreateNestedManyWithoutTenantInput
-  tiposServicio?: Prisma.TipoServicioCreateNestedManyWithoutTenantInput
-  turnos?: Prisma.TurnoCreateNestedManyWithoutTenantInput
-  vehiculos?: Prisma.VehiculoCreateNestedManyWithoutTenantInput
-  zonas?: Prisma.ZonaCreateNestedManyWithoutTenantInput
-}
-
-export type TenantUncheckedCreateWithoutSegmentosInput = {
-  id?: string
-  slug: string
-  isActive?: boolean
-  createdAt?: Date | string
-  updatedAt?: Date | string
-  correo?: string | null
-  nit?: string | null
-  nombre: string
-  numero?: string | null
-  pagina?: string | null
-  anticipos?: Prisma.AnticiposUncheckedCreateNestedManyWithoutTenantInput
-  auditorias?: Prisma.AuditoriaUncheckedCreateNestedManyWithoutTenantInput
-  authSessions?: Prisma.AuthSessionUncheckedCreateNestedManyWithoutTenantInput
-  citasPsicologos?: Prisma.CitasPsicologosUncheckedCreateNestedManyWithoutTenantInput
-  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaUncheckedCreateNestedManyWithoutTenantInput
-  clientes?: Prisma.ClienteUncheckedCreateNestedManyWithoutTenantInput
-  commissions?: Prisma.CommissionRecordUncheckedCreateNestedManyWithoutTenantInput
-  configuracionPagos?: Prisma.ConfiguracionPagosUncheckedCreateNestedManyWithoutTenantInput
-  consignacionOrdenes?: Prisma.ConsignacionOrdenUncheckedCreateNestedManyWithoutTenantInput
-  consignaciones?: Prisma.ConsignacionEfectivoUncheckedCreateNestedManyWithoutTenantInput
-  consultorios?: Prisma.ConsultorioUncheckedCreateNestedManyWithoutTenantInput
-  cuentasCobro?: Prisma.CuentaCobroUncheckedCreateNestedManyWithoutTenantInput
-  cuentasPago?: Prisma.CuentasPagoUncheckedCreateNestedManyWithoutTenantInput
-  declaraciones?: Prisma.DeclaracionEfectivoUncheckedCreateNestedManyWithoutTenantInput
-  direcciones?: Prisma.DireccionUncheckedCreateNestedManyWithoutTenantInput
-  egresos?: Prisma.EgresosUncheckedCreateNestedManyWithoutTenantInput
-  empresaMemberships?: Prisma.EmpresaMembershipUncheckedCreateNestedManyWithoutTenantInput
-  empresas?: Prisma.EmpresaUncheckedCreateNestedManyWithoutTenantInput
-  entidadesFinancieras?: Prisma.EntidadFinancieraUncheckedCreateNestedManyWithoutTenantInput
-  estadosServicio?: Prisma.EstadoServicioUncheckedCreateNestedManyWithoutTenantInput
-  evidenciasServicio?: Prisma.EvidenciaServicioUncheckedCreateNestedManyWithoutTenantInput
-  geolocalizaciones?: Prisma.GeolocalizacionUncheckedCreateNestedManyWithoutTenantInput
-  logsEvento?: Prisma.LogEventoUncheckedCreateNestedManyWithoutTenantInput
-  metodosPago?: Prisma.MetodoPagoUncheckedCreateNestedManyWithoutTenantInput
-  nivelesRiesgo?: Prisma.NivelRiesgoOperativoUncheckedCreateNestedManyWithoutTenantInput
-  nominaDetalles?: Prisma.NominaDetalleUncheckedCreateNestedManyWithoutTenantInput
-  nominas?: Prisma.NominaUncheckedCreateNestedManyWithoutTenantInput
-  ordenesServicio?: Prisma.OrdenServicioUncheckedCreateNestedManyWithoutTenantInput
-  orgNodes?: Prisma.OrganizationNodeUncheckedCreateNestedManyWithoutTenantInput
-  paquetesAdquiridos?: Prisma.PaqueteAdquiridoUncheckedCreateNestedManyWithoutTenantInput
-  resetTokens?: Prisma.PasswordResetTokenUncheckedCreateNestedManyWithoutTenantInput
-  permisos?: Prisma.PermisoUncheckedCreateNestedManyWithoutTenantInput
-  picoPlaca?: Prisma.PicoPlacaUncheckedCreateNestedManyWithoutTenantInput
-  productos?: Prisma.ProductoUncheckedCreateNestedManyWithoutTenantInput
-  productosSolicitados?: Prisma.ProductoSolicitadoUncheckedCreateNestedManyWithoutTenantInput
-  proveedores?: Prisma.ProveedoresUncheckedCreateNestedManyWithoutTenantInput
-  referidos?: Prisma.ReferidosUncheckedCreateNestedManyWithoutTenantInput
-  servicios?: Prisma.ServicioUncheckedCreateNestedManyWithoutTenantInput
-  sesionesActividad?: Prisma.SesionActividadUncheckedCreateNestedManyWithoutTenantInput
-  subscription?: Prisma.SubscriptionUncheckedCreateNestedOneWithoutTenantInput
-  memberships?: Prisma.TenantMembershipUncheckedCreateNestedManyWithoutTenantInput
-  terapiasPsicologos?: Prisma.TerapiasPsicologosUncheckedCreateNestedManyWithoutTenantInput
-  tiposInteres?: Prisma.TipoInteresUncheckedCreateNestedManyWithoutTenantInput
-  tiposServicio?: Prisma.TipoServicioUncheckedCreateNestedManyWithoutTenantInput
-  turnos?: Prisma.TurnoUncheckedCreateNestedManyWithoutTenantInput
-  vehiculos?: Prisma.VehiculoUncheckedCreateNestedManyWithoutTenantInput
-  zonas?: Prisma.ZonaUncheckedCreateNestedManyWithoutTenantInput
-}
-
-export type TenantCreateOrConnectWithoutSegmentosInput = {
-  where: Prisma.TenantWhereUniqueInput
-  create: Prisma.XOR<Prisma.TenantCreateWithoutSegmentosInput, Prisma.TenantUncheckedCreateWithoutSegmentosInput>
-}
-
-export type TenantUpsertWithoutSegmentosInput = {
-  update: Prisma.XOR<Prisma.TenantUpdateWithoutSegmentosInput, Prisma.TenantUncheckedUpdateWithoutSegmentosInput>
-  create: Prisma.XOR<Prisma.TenantCreateWithoutSegmentosInput, Prisma.TenantUncheckedCreateWithoutSegmentosInput>
-  where?: Prisma.TenantWhereInput
-}
-
-export type TenantUpdateToOneWithWhereWithoutSegmentosInput = {
-  where?: Prisma.TenantWhereInput
-  data: Prisma.XOR<Prisma.TenantUpdateWithoutSegmentosInput, Prisma.TenantUncheckedUpdateWithoutSegmentosInput>
-}
-
-export type TenantUpdateWithoutSegmentosInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  slug?: Prisma.StringFieldUpdateOperationsInput | string
-  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  correo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  nit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  nombre?: Prisma.StringFieldUpdateOperationsInput | string
-  numero?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  pagina?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  anticipos?: Prisma.AnticiposUpdateManyWithoutTenantNestedInput
-  auditorias?: Prisma.AuditoriaUpdateManyWithoutTenantNestedInput
-  authSessions?: Prisma.AuthSessionUpdateManyWithoutTenantNestedInput
-  citasPsicologos?: Prisma.CitasPsicologosUpdateManyWithoutTenantNestedInput
-  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaUpdateManyWithoutTenantNestedInput
-  clientes?: Prisma.ClienteUpdateManyWithoutTenantNestedInput
-  commissions?: Prisma.CommissionRecordUpdateManyWithoutTenantNestedInput
-  configuracionPagos?: Prisma.ConfiguracionPagosUpdateManyWithoutTenantNestedInput
-  consignacionOrdenes?: Prisma.ConsignacionOrdenUpdateManyWithoutTenantNestedInput
-  consignaciones?: Prisma.ConsignacionEfectivoUpdateManyWithoutTenantNestedInput
-  consultorios?: Prisma.ConsultorioUpdateManyWithoutTenantNestedInput
-  cuentasCobro?: Prisma.CuentaCobroUpdateManyWithoutTenantNestedInput
-  cuentasPago?: Prisma.CuentasPagoUpdateManyWithoutTenantNestedInput
-  declaraciones?: Prisma.DeclaracionEfectivoUpdateManyWithoutTenantNestedInput
-  direcciones?: Prisma.DireccionUpdateManyWithoutTenantNestedInput
-  egresos?: Prisma.EgresosUpdateManyWithoutTenantNestedInput
-  empresaMemberships?: Prisma.EmpresaMembershipUpdateManyWithoutTenantNestedInput
-  empresas?: Prisma.EmpresaUpdateManyWithoutTenantNestedInput
-  entidadesFinancieras?: Prisma.EntidadFinancieraUpdateManyWithoutTenantNestedInput
-  estadosServicio?: Prisma.EstadoServicioUpdateManyWithoutTenantNestedInput
-  evidenciasServicio?: Prisma.EvidenciaServicioUpdateManyWithoutTenantNestedInput
-  geolocalizaciones?: Prisma.GeolocalizacionUpdateManyWithoutTenantNestedInput
-  logsEvento?: Prisma.LogEventoUpdateManyWithoutTenantNestedInput
-  metodosPago?: Prisma.MetodoPagoUpdateManyWithoutTenantNestedInput
-  nivelesRiesgo?: Prisma.NivelRiesgoOperativoUpdateManyWithoutTenantNestedInput
-  nominaDetalles?: Prisma.NominaDetalleUpdateManyWithoutTenantNestedInput
-  nominas?: Prisma.NominaUpdateManyWithoutTenantNestedInput
-  ordenesServicio?: Prisma.OrdenServicioUpdateManyWithoutTenantNestedInput
-  orgNodes?: Prisma.OrganizationNodeUpdateManyWithoutTenantNestedInput
-  paquetesAdquiridos?: Prisma.PaqueteAdquiridoUpdateManyWithoutTenantNestedInput
-  resetTokens?: Prisma.PasswordResetTokenUpdateManyWithoutTenantNestedInput
-  permisos?: Prisma.PermisoUpdateManyWithoutTenantNestedInput
-  picoPlaca?: Prisma.PicoPlacaUpdateManyWithoutTenantNestedInput
-  productos?: Prisma.ProductoUpdateManyWithoutTenantNestedInput
-  productosSolicitados?: Prisma.ProductoSolicitadoUpdateManyWithoutTenantNestedInput
-  proveedores?: Prisma.ProveedoresUpdateManyWithoutTenantNestedInput
-  referidos?: Prisma.ReferidosUpdateManyWithoutTenantNestedInput
-  servicios?: Prisma.ServicioUpdateManyWithoutTenantNestedInput
-  sesionesActividad?: Prisma.SesionActividadUpdateManyWithoutTenantNestedInput
-  subscription?: Prisma.SubscriptionUpdateOneWithoutTenantNestedInput
-  memberships?: Prisma.TenantMembershipUpdateManyWithoutTenantNestedInput
-  terapiasPsicologos?: Prisma.TerapiasPsicologosUpdateManyWithoutTenantNestedInput
-  tiposInteres?: Prisma.TipoInteresUpdateManyWithoutTenantNestedInput
-  tiposServicio?: Prisma.TipoServicioUpdateManyWithoutTenantNestedInput
-  turnos?: Prisma.TurnoUpdateManyWithoutTenantNestedInput
-  vehiculos?: Prisma.VehiculoUpdateManyWithoutTenantNestedInput
-  zonas?: Prisma.ZonaUpdateManyWithoutTenantNestedInput
-}
-
-export type TenantUncheckedUpdateWithoutSegmentosInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  slug?: Prisma.StringFieldUpdateOperationsInput | string
-  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  correo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  nit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  nombre?: Prisma.StringFieldUpdateOperationsInput | string
-  numero?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  pagina?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  anticipos?: Prisma.AnticiposUncheckedUpdateManyWithoutTenantNestedInput
-  auditorias?: Prisma.AuditoriaUncheckedUpdateManyWithoutTenantNestedInput
-  authSessions?: Prisma.AuthSessionUncheckedUpdateManyWithoutTenantNestedInput
-  citasPsicologos?: Prisma.CitasPsicologosUncheckedUpdateManyWithoutTenantNestedInput
-  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaUncheckedUpdateManyWithoutTenantNestedInput
-  clientes?: Prisma.ClienteUncheckedUpdateManyWithoutTenantNestedInput
-  commissions?: Prisma.CommissionRecordUncheckedUpdateManyWithoutTenantNestedInput
-  configuracionPagos?: Prisma.ConfiguracionPagosUncheckedUpdateManyWithoutTenantNestedInput
-  consignacionOrdenes?: Prisma.ConsignacionOrdenUncheckedUpdateManyWithoutTenantNestedInput
-  consignaciones?: Prisma.ConsignacionEfectivoUncheckedUpdateManyWithoutTenantNestedInput
-  consultorios?: Prisma.ConsultorioUncheckedUpdateManyWithoutTenantNestedInput
-  cuentasCobro?: Prisma.CuentaCobroUncheckedUpdateManyWithoutTenantNestedInput
-  cuentasPago?: Prisma.CuentasPagoUncheckedUpdateManyWithoutTenantNestedInput
-  declaraciones?: Prisma.DeclaracionEfectivoUncheckedUpdateManyWithoutTenantNestedInput
-  direcciones?: Prisma.DireccionUncheckedUpdateManyWithoutTenantNestedInput
-  egresos?: Prisma.EgresosUncheckedUpdateManyWithoutTenantNestedInput
-  empresaMemberships?: Prisma.EmpresaMembershipUncheckedUpdateManyWithoutTenantNestedInput
-  empresas?: Prisma.EmpresaUncheckedUpdateManyWithoutTenantNestedInput
-  entidadesFinancieras?: Prisma.EntidadFinancieraUncheckedUpdateManyWithoutTenantNestedInput
-  estadosServicio?: Prisma.EstadoServicioUncheckedUpdateManyWithoutTenantNestedInput
-  evidenciasServicio?: Prisma.EvidenciaServicioUncheckedUpdateManyWithoutTenantNestedInput
-  geolocalizaciones?: Prisma.GeolocalizacionUncheckedUpdateManyWithoutTenantNestedInput
-  logsEvento?: Prisma.LogEventoUncheckedUpdateManyWithoutTenantNestedInput
-  metodosPago?: Prisma.MetodoPagoUncheckedUpdateManyWithoutTenantNestedInput
-  nivelesRiesgo?: Prisma.NivelRiesgoOperativoUncheckedUpdateManyWithoutTenantNestedInput
   nominaDetalles?: Prisma.NominaDetalleUncheckedUpdateManyWithoutTenantNestedInput
   nominas?: Prisma.NominaUncheckedUpdateManyWithoutTenantNestedInput
   ordenesServicio?: Prisma.OrdenServicioUncheckedUpdateManyWithoutTenantNestedInput
@@ -3220,262 +2918,7 @@ export type TenantUncheckedUpdateWithoutSegmentosInput = {
   servicios?: Prisma.ServicioUncheckedUpdateManyWithoutTenantNestedInput
   sesionesActividad?: Prisma.SesionActividadUncheckedUpdateManyWithoutTenantNestedInput
   subscription?: Prisma.SubscriptionUncheckedUpdateOneWithoutTenantNestedInput
-  memberships?: Prisma.TenantMembershipUncheckedUpdateManyWithoutTenantNestedInput
-  terapiasPsicologos?: Prisma.TerapiasPsicologosUncheckedUpdateManyWithoutTenantNestedInput
-  tiposInteres?: Prisma.TipoInteresUncheckedUpdateManyWithoutTenantNestedInput
-  tiposServicio?: Prisma.TipoServicioUncheckedUpdateManyWithoutTenantNestedInput
-  turnos?: Prisma.TurnoUncheckedUpdateManyWithoutTenantNestedInput
-  vehiculos?: Prisma.VehiculoUncheckedUpdateManyWithoutTenantNestedInput
-  zonas?: Prisma.ZonaUncheckedUpdateManyWithoutTenantNestedInput
-}
-
-export type TenantCreateWithoutNivelesRiesgoInput = {
-  id?: string
-  slug: string
-  isActive?: boolean
-  createdAt?: Date | string
-  updatedAt?: Date | string
-  correo?: string | null
-  nit?: string | null
-  nombre: string
-  numero?: string | null
-  pagina?: string | null
-  anticipos?: Prisma.AnticiposCreateNestedManyWithoutTenantInput
-  auditorias?: Prisma.AuditoriaCreateNestedManyWithoutTenantInput
-  authSessions?: Prisma.AuthSessionCreateNestedManyWithoutTenantInput
-  citasPsicologos?: Prisma.CitasPsicologosCreateNestedManyWithoutTenantInput
-  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaCreateNestedManyWithoutTenantInput
-  clientes?: Prisma.ClienteCreateNestedManyWithoutTenantInput
-  commissions?: Prisma.CommissionRecordCreateNestedManyWithoutTenantInput
-  configuracionPagos?: Prisma.ConfiguracionPagosCreateNestedManyWithoutTenantInput
-  consignacionOrdenes?: Prisma.ConsignacionOrdenCreateNestedManyWithoutTenantInput
-  consignaciones?: Prisma.ConsignacionEfectivoCreateNestedManyWithoutTenantInput
-  consultorios?: Prisma.ConsultorioCreateNestedManyWithoutTenantInput
-  cuentasCobro?: Prisma.CuentaCobroCreateNestedManyWithoutTenantInput
-  cuentasPago?: Prisma.CuentasPagoCreateNestedManyWithoutTenantInput
-  declaraciones?: Prisma.DeclaracionEfectivoCreateNestedManyWithoutTenantInput
-  direcciones?: Prisma.DireccionCreateNestedManyWithoutTenantInput
-  egresos?: Prisma.EgresosCreateNestedManyWithoutTenantInput
-  empresaMemberships?: Prisma.EmpresaMembershipCreateNestedManyWithoutTenantInput
-  empresas?: Prisma.EmpresaCreateNestedManyWithoutTenantInput
-  entidadesFinancieras?: Prisma.EntidadFinancieraCreateNestedManyWithoutTenantInput
-  estadosServicio?: Prisma.EstadoServicioCreateNestedManyWithoutTenantInput
-  evidenciasServicio?: Prisma.EvidenciaServicioCreateNestedManyWithoutTenantInput
-  geolocalizaciones?: Prisma.GeolocalizacionCreateNestedManyWithoutTenantInput
-  logsEvento?: Prisma.LogEventoCreateNestedManyWithoutTenantInput
-  metodosPago?: Prisma.MetodoPagoCreateNestedManyWithoutTenantInput
-  nominaDetalles?: Prisma.NominaDetalleCreateNestedManyWithoutTenantInput
-  nominas?: Prisma.NominaCreateNestedManyWithoutTenantInput
-  ordenesServicio?: Prisma.OrdenServicioCreateNestedManyWithoutTenantInput
-  orgNodes?: Prisma.OrganizationNodeCreateNestedManyWithoutTenantInput
-  paquetesAdquiridos?: Prisma.PaqueteAdquiridoCreateNestedManyWithoutTenantInput
-  resetTokens?: Prisma.PasswordResetTokenCreateNestedManyWithoutTenantInput
-  permisos?: Prisma.PermisoCreateNestedManyWithoutTenantInput
-  picoPlaca?: Prisma.PicoPlacaCreateNestedManyWithoutTenantInput
-  productos?: Prisma.ProductoCreateNestedManyWithoutTenantInput
-  productosSolicitados?: Prisma.ProductoSolicitadoCreateNestedManyWithoutTenantInput
-  proveedores?: Prisma.ProveedoresCreateNestedManyWithoutTenantInput
-  referidos?: Prisma.ReferidosCreateNestedManyWithoutTenantInput
-  segmentos?: Prisma.SegmentoNegocioCreateNestedManyWithoutTenantInput
-  servicios?: Prisma.ServicioCreateNestedManyWithoutTenantInput
-  sesionesActividad?: Prisma.SesionActividadCreateNestedManyWithoutTenantInput
-  subscription?: Prisma.SubscriptionCreateNestedOneWithoutTenantInput
-  memberships?: Prisma.TenantMembershipCreateNestedManyWithoutTenantInput
-  terapiasPsicologos?: Prisma.TerapiasPsicologosCreateNestedManyWithoutTenantInput
-  tiposInteres?: Prisma.TipoInteresCreateNestedManyWithoutTenantInput
-  tiposServicio?: Prisma.TipoServicioCreateNestedManyWithoutTenantInput
-  turnos?: Prisma.TurnoCreateNestedManyWithoutTenantInput
-  vehiculos?: Prisma.VehiculoCreateNestedManyWithoutTenantInput
-  zonas?: Prisma.ZonaCreateNestedManyWithoutTenantInput
-}
-
-export type TenantUncheckedCreateWithoutNivelesRiesgoInput = {
-  id?: string
-  slug: string
-  isActive?: boolean
-  createdAt?: Date | string
-  updatedAt?: Date | string
-  correo?: string | null
-  nit?: string | null
-  nombre: string
-  numero?: string | null
-  pagina?: string | null
-  anticipos?: Prisma.AnticiposUncheckedCreateNestedManyWithoutTenantInput
-  auditorias?: Prisma.AuditoriaUncheckedCreateNestedManyWithoutTenantInput
-  authSessions?: Prisma.AuthSessionUncheckedCreateNestedManyWithoutTenantInput
-  citasPsicologos?: Prisma.CitasPsicologosUncheckedCreateNestedManyWithoutTenantInput
-  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaUncheckedCreateNestedManyWithoutTenantInput
-  clientes?: Prisma.ClienteUncheckedCreateNestedManyWithoutTenantInput
-  commissions?: Prisma.CommissionRecordUncheckedCreateNestedManyWithoutTenantInput
-  configuracionPagos?: Prisma.ConfiguracionPagosUncheckedCreateNestedManyWithoutTenantInput
-  consignacionOrdenes?: Prisma.ConsignacionOrdenUncheckedCreateNestedManyWithoutTenantInput
-  consignaciones?: Prisma.ConsignacionEfectivoUncheckedCreateNestedManyWithoutTenantInput
-  consultorios?: Prisma.ConsultorioUncheckedCreateNestedManyWithoutTenantInput
-  cuentasCobro?: Prisma.CuentaCobroUncheckedCreateNestedManyWithoutTenantInput
-  cuentasPago?: Prisma.CuentasPagoUncheckedCreateNestedManyWithoutTenantInput
-  declaraciones?: Prisma.DeclaracionEfectivoUncheckedCreateNestedManyWithoutTenantInput
-  direcciones?: Prisma.DireccionUncheckedCreateNestedManyWithoutTenantInput
-  egresos?: Prisma.EgresosUncheckedCreateNestedManyWithoutTenantInput
-  empresaMemberships?: Prisma.EmpresaMembershipUncheckedCreateNestedManyWithoutTenantInput
-  empresas?: Prisma.EmpresaUncheckedCreateNestedManyWithoutTenantInput
-  entidadesFinancieras?: Prisma.EntidadFinancieraUncheckedCreateNestedManyWithoutTenantInput
-  estadosServicio?: Prisma.EstadoServicioUncheckedCreateNestedManyWithoutTenantInput
-  evidenciasServicio?: Prisma.EvidenciaServicioUncheckedCreateNestedManyWithoutTenantInput
-  geolocalizaciones?: Prisma.GeolocalizacionUncheckedCreateNestedManyWithoutTenantInput
-  logsEvento?: Prisma.LogEventoUncheckedCreateNestedManyWithoutTenantInput
-  metodosPago?: Prisma.MetodoPagoUncheckedCreateNestedManyWithoutTenantInput
-  nominaDetalles?: Prisma.NominaDetalleUncheckedCreateNestedManyWithoutTenantInput
-  nominas?: Prisma.NominaUncheckedCreateNestedManyWithoutTenantInput
-  ordenesServicio?: Prisma.OrdenServicioUncheckedCreateNestedManyWithoutTenantInput
-  orgNodes?: Prisma.OrganizationNodeUncheckedCreateNestedManyWithoutTenantInput
-  paquetesAdquiridos?: Prisma.PaqueteAdquiridoUncheckedCreateNestedManyWithoutTenantInput
-  resetTokens?: Prisma.PasswordResetTokenUncheckedCreateNestedManyWithoutTenantInput
-  permisos?: Prisma.PermisoUncheckedCreateNestedManyWithoutTenantInput
-  picoPlaca?: Prisma.PicoPlacaUncheckedCreateNestedManyWithoutTenantInput
-  productos?: Prisma.ProductoUncheckedCreateNestedManyWithoutTenantInput
-  productosSolicitados?: Prisma.ProductoSolicitadoUncheckedCreateNestedManyWithoutTenantInput
-  proveedores?: Prisma.ProveedoresUncheckedCreateNestedManyWithoutTenantInput
-  referidos?: Prisma.ReferidosUncheckedCreateNestedManyWithoutTenantInput
-  segmentos?: Prisma.SegmentoNegocioUncheckedCreateNestedManyWithoutTenantInput
-  servicios?: Prisma.ServicioUncheckedCreateNestedManyWithoutTenantInput
-  sesionesActividad?: Prisma.SesionActividadUncheckedCreateNestedManyWithoutTenantInput
-  subscription?: Prisma.SubscriptionUncheckedCreateNestedOneWithoutTenantInput
-  memberships?: Prisma.TenantMembershipUncheckedCreateNestedManyWithoutTenantInput
-  terapiasPsicologos?: Prisma.TerapiasPsicologosUncheckedCreateNestedManyWithoutTenantInput
-  tiposInteres?: Prisma.TipoInteresUncheckedCreateNestedManyWithoutTenantInput
-  tiposServicio?: Prisma.TipoServicioUncheckedCreateNestedManyWithoutTenantInput
-  turnos?: Prisma.TurnoUncheckedCreateNestedManyWithoutTenantInput
-  vehiculos?: Prisma.VehiculoUncheckedCreateNestedManyWithoutTenantInput
-  zonas?: Prisma.ZonaUncheckedCreateNestedManyWithoutTenantInput
-}
-
-export type TenantCreateOrConnectWithoutNivelesRiesgoInput = {
-  where: Prisma.TenantWhereUniqueInput
-  create: Prisma.XOR<Prisma.TenantCreateWithoutNivelesRiesgoInput, Prisma.TenantUncheckedCreateWithoutNivelesRiesgoInput>
-}
-
-export type TenantUpsertWithoutNivelesRiesgoInput = {
-  update: Prisma.XOR<Prisma.TenantUpdateWithoutNivelesRiesgoInput, Prisma.TenantUncheckedUpdateWithoutNivelesRiesgoInput>
-  create: Prisma.XOR<Prisma.TenantCreateWithoutNivelesRiesgoInput, Prisma.TenantUncheckedCreateWithoutNivelesRiesgoInput>
-  where?: Prisma.TenantWhereInput
-}
-
-export type TenantUpdateToOneWithWhereWithoutNivelesRiesgoInput = {
-  where?: Prisma.TenantWhereInput
-  data: Prisma.XOR<Prisma.TenantUpdateWithoutNivelesRiesgoInput, Prisma.TenantUncheckedUpdateWithoutNivelesRiesgoInput>
-}
-
-export type TenantUpdateWithoutNivelesRiesgoInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  slug?: Prisma.StringFieldUpdateOperationsInput | string
-  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  correo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  nit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  nombre?: Prisma.StringFieldUpdateOperationsInput | string
-  numero?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  pagina?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  anticipos?: Prisma.AnticiposUpdateManyWithoutTenantNestedInput
-  auditorias?: Prisma.AuditoriaUpdateManyWithoutTenantNestedInput
-  authSessions?: Prisma.AuthSessionUpdateManyWithoutTenantNestedInput
-  citasPsicologos?: Prisma.CitasPsicologosUpdateManyWithoutTenantNestedInput
-  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaUpdateManyWithoutTenantNestedInput
-  clientes?: Prisma.ClienteUpdateManyWithoutTenantNestedInput
-  commissions?: Prisma.CommissionRecordUpdateManyWithoutTenantNestedInput
-  configuracionPagos?: Prisma.ConfiguracionPagosUpdateManyWithoutTenantNestedInput
-  consignacionOrdenes?: Prisma.ConsignacionOrdenUpdateManyWithoutTenantNestedInput
-  consignaciones?: Prisma.ConsignacionEfectivoUpdateManyWithoutTenantNestedInput
-  consultorios?: Prisma.ConsultorioUpdateManyWithoutTenantNestedInput
-  cuentasCobro?: Prisma.CuentaCobroUpdateManyWithoutTenantNestedInput
-  cuentasPago?: Prisma.CuentasPagoUpdateManyWithoutTenantNestedInput
-  declaraciones?: Prisma.DeclaracionEfectivoUpdateManyWithoutTenantNestedInput
-  direcciones?: Prisma.DireccionUpdateManyWithoutTenantNestedInput
-  egresos?: Prisma.EgresosUpdateManyWithoutTenantNestedInput
-  empresaMemberships?: Prisma.EmpresaMembershipUpdateManyWithoutTenantNestedInput
-  empresas?: Prisma.EmpresaUpdateManyWithoutTenantNestedInput
-  entidadesFinancieras?: Prisma.EntidadFinancieraUpdateManyWithoutTenantNestedInput
-  estadosServicio?: Prisma.EstadoServicioUpdateManyWithoutTenantNestedInput
-  evidenciasServicio?: Prisma.EvidenciaServicioUpdateManyWithoutTenantNestedInput
-  geolocalizaciones?: Prisma.GeolocalizacionUpdateManyWithoutTenantNestedInput
-  logsEvento?: Prisma.LogEventoUpdateManyWithoutTenantNestedInput
-  metodosPago?: Prisma.MetodoPagoUpdateManyWithoutTenantNestedInput
-  nominaDetalles?: Prisma.NominaDetalleUpdateManyWithoutTenantNestedInput
-  nominas?: Prisma.NominaUpdateManyWithoutTenantNestedInput
-  ordenesServicio?: Prisma.OrdenServicioUpdateManyWithoutTenantNestedInput
-  orgNodes?: Prisma.OrganizationNodeUpdateManyWithoutTenantNestedInput
-  paquetesAdquiridos?: Prisma.PaqueteAdquiridoUpdateManyWithoutTenantNestedInput
-  resetTokens?: Prisma.PasswordResetTokenUpdateManyWithoutTenantNestedInput
-  permisos?: Prisma.PermisoUpdateManyWithoutTenantNestedInput
-  picoPlaca?: Prisma.PicoPlacaUpdateManyWithoutTenantNestedInput
-  productos?: Prisma.ProductoUpdateManyWithoutTenantNestedInput
-  productosSolicitados?: Prisma.ProductoSolicitadoUpdateManyWithoutTenantNestedInput
-  proveedores?: Prisma.ProveedoresUpdateManyWithoutTenantNestedInput
-  referidos?: Prisma.ReferidosUpdateManyWithoutTenantNestedInput
-  segmentos?: Prisma.SegmentoNegocioUpdateManyWithoutTenantNestedInput
-  servicios?: Prisma.ServicioUpdateManyWithoutTenantNestedInput
-  sesionesActividad?: Prisma.SesionActividadUpdateManyWithoutTenantNestedInput
-  subscription?: Prisma.SubscriptionUpdateOneWithoutTenantNestedInput
-  memberships?: Prisma.TenantMembershipUpdateManyWithoutTenantNestedInput
-  terapiasPsicologos?: Prisma.TerapiasPsicologosUpdateManyWithoutTenantNestedInput
-  tiposInteres?: Prisma.TipoInteresUpdateManyWithoutTenantNestedInput
-  tiposServicio?: Prisma.TipoServicioUpdateManyWithoutTenantNestedInput
-  turnos?: Prisma.TurnoUpdateManyWithoutTenantNestedInput
-  vehiculos?: Prisma.VehiculoUpdateManyWithoutTenantNestedInput
-  zonas?: Prisma.ZonaUpdateManyWithoutTenantNestedInput
-}
-
-export type TenantUncheckedUpdateWithoutNivelesRiesgoInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  slug?: Prisma.StringFieldUpdateOperationsInput | string
-  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  correo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  nit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  nombre?: Prisma.StringFieldUpdateOperationsInput | string
-  numero?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  pagina?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  anticipos?: Prisma.AnticiposUncheckedUpdateManyWithoutTenantNestedInput
-  auditorias?: Prisma.AuditoriaUncheckedUpdateManyWithoutTenantNestedInput
-  authSessions?: Prisma.AuthSessionUncheckedUpdateManyWithoutTenantNestedInput
-  citasPsicologos?: Prisma.CitasPsicologosUncheckedUpdateManyWithoutTenantNestedInput
-  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaUncheckedUpdateManyWithoutTenantNestedInput
-  clientes?: Prisma.ClienteUncheckedUpdateManyWithoutTenantNestedInput
-  commissions?: Prisma.CommissionRecordUncheckedUpdateManyWithoutTenantNestedInput
-  configuracionPagos?: Prisma.ConfiguracionPagosUncheckedUpdateManyWithoutTenantNestedInput
-  consignacionOrdenes?: Prisma.ConsignacionOrdenUncheckedUpdateManyWithoutTenantNestedInput
-  consignaciones?: Prisma.ConsignacionEfectivoUncheckedUpdateManyWithoutTenantNestedInput
-  consultorios?: Prisma.ConsultorioUncheckedUpdateManyWithoutTenantNestedInput
-  cuentasCobro?: Prisma.CuentaCobroUncheckedUpdateManyWithoutTenantNestedInput
-  cuentasPago?: Prisma.CuentasPagoUncheckedUpdateManyWithoutTenantNestedInput
-  declaraciones?: Prisma.DeclaracionEfectivoUncheckedUpdateManyWithoutTenantNestedInput
-  direcciones?: Prisma.DireccionUncheckedUpdateManyWithoutTenantNestedInput
-  egresos?: Prisma.EgresosUncheckedUpdateManyWithoutTenantNestedInput
-  empresaMemberships?: Prisma.EmpresaMembershipUncheckedUpdateManyWithoutTenantNestedInput
-  empresas?: Prisma.EmpresaUncheckedUpdateManyWithoutTenantNestedInput
-  entidadesFinancieras?: Prisma.EntidadFinancieraUncheckedUpdateManyWithoutTenantNestedInput
-  estadosServicio?: Prisma.EstadoServicioUncheckedUpdateManyWithoutTenantNestedInput
-  evidenciasServicio?: Prisma.EvidenciaServicioUncheckedUpdateManyWithoutTenantNestedInput
-  geolocalizaciones?: Prisma.GeolocalizacionUncheckedUpdateManyWithoutTenantNestedInput
-  logsEvento?: Prisma.LogEventoUncheckedUpdateManyWithoutTenantNestedInput
-  metodosPago?: Prisma.MetodoPagoUncheckedUpdateManyWithoutTenantNestedInput
-  nominaDetalles?: Prisma.NominaDetalleUncheckedUpdateManyWithoutTenantNestedInput
-  nominas?: Prisma.NominaUncheckedUpdateManyWithoutTenantNestedInput
-  ordenesServicio?: Prisma.OrdenServicioUncheckedUpdateManyWithoutTenantNestedInput
-  orgNodes?: Prisma.OrganizationNodeUncheckedUpdateManyWithoutTenantNestedInput
-  paquetesAdquiridos?: Prisma.PaqueteAdquiridoUncheckedUpdateManyWithoutTenantNestedInput
-  resetTokens?: Prisma.PasswordResetTokenUncheckedUpdateManyWithoutTenantNestedInput
-  permisos?: Prisma.PermisoUncheckedUpdateManyWithoutTenantNestedInput
-  picoPlaca?: Prisma.PicoPlacaUncheckedUpdateManyWithoutTenantNestedInput
-  productos?: Prisma.ProductoUncheckedUpdateManyWithoutTenantNestedInput
-  productosSolicitados?: Prisma.ProductoSolicitadoUncheckedUpdateManyWithoutTenantNestedInput
-  proveedores?: Prisma.ProveedoresUncheckedUpdateManyWithoutTenantNestedInput
-  referidos?: Prisma.ReferidosUncheckedUpdateManyWithoutTenantNestedInput
-  segmentos?: Prisma.SegmentoNegocioUncheckedUpdateManyWithoutTenantNestedInput
-  servicios?: Prisma.ServicioUncheckedUpdateManyWithoutTenantNestedInput
-  sesionesActividad?: Prisma.SesionActividadUncheckedUpdateManyWithoutTenantNestedInput
-  subscription?: Prisma.SubscriptionUncheckedUpdateOneWithoutTenantNestedInput
+  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUncheckedUpdateManyWithoutTenantsNestedInput
   memberships?: Prisma.TenantMembershipUncheckedUpdateManyWithoutTenantNestedInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUncheckedUpdateManyWithoutTenantNestedInput
   tiposInteres?: Prisma.TipoInteresUncheckedUpdateManyWithoutTenantNestedInput
@@ -3520,7 +2963,6 @@ export type TenantCreateWithoutTiposInteresInput = {
   geolocalizaciones?: Prisma.GeolocalizacionCreateNestedManyWithoutTenantInput
   logsEvento?: Prisma.LogEventoCreateNestedManyWithoutTenantInput
   metodosPago?: Prisma.MetodoPagoCreateNestedManyWithoutTenantInput
-  nivelesRiesgo?: Prisma.NivelRiesgoOperativoCreateNestedManyWithoutTenantInput
   nominaDetalles?: Prisma.NominaDetalleCreateNestedManyWithoutTenantInput
   nominas?: Prisma.NominaCreateNestedManyWithoutTenantInput
   ordenesServicio?: Prisma.OrdenServicioCreateNestedManyWithoutTenantInput
@@ -3533,10 +2975,10 @@ export type TenantCreateWithoutTiposInteresInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoCreateNestedManyWithoutTenantInput
   proveedores?: Prisma.ProveedoresCreateNestedManyWithoutTenantInput
   referidos?: Prisma.ReferidosCreateNestedManyWithoutTenantInput
-  segmentos?: Prisma.SegmentoNegocioCreateNestedManyWithoutTenantInput
   servicios?: Prisma.ServicioCreateNestedManyWithoutTenantInput
   sesionesActividad?: Prisma.SesionActividadCreateNestedManyWithoutTenantInput
   subscription?: Prisma.SubscriptionCreateNestedOneWithoutTenantInput
+  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoCreateNestedManyWithoutTenantsInput
   memberships?: Prisma.TenantMembershipCreateNestedManyWithoutTenantInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosCreateNestedManyWithoutTenantInput
   tiposServicio?: Prisma.TipoServicioCreateNestedManyWithoutTenantInput
@@ -3580,7 +3022,6 @@ export type TenantUncheckedCreateWithoutTiposInteresInput = {
   geolocalizaciones?: Prisma.GeolocalizacionUncheckedCreateNestedManyWithoutTenantInput
   logsEvento?: Prisma.LogEventoUncheckedCreateNestedManyWithoutTenantInput
   metodosPago?: Prisma.MetodoPagoUncheckedCreateNestedManyWithoutTenantInput
-  nivelesRiesgo?: Prisma.NivelRiesgoOperativoUncheckedCreateNestedManyWithoutTenantInput
   nominaDetalles?: Prisma.NominaDetalleUncheckedCreateNestedManyWithoutTenantInput
   nominas?: Prisma.NominaUncheckedCreateNestedManyWithoutTenantInput
   ordenesServicio?: Prisma.OrdenServicioUncheckedCreateNestedManyWithoutTenantInput
@@ -3593,10 +3034,10 @@ export type TenantUncheckedCreateWithoutTiposInteresInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUncheckedCreateNestedManyWithoutTenantInput
   proveedores?: Prisma.ProveedoresUncheckedCreateNestedManyWithoutTenantInput
   referidos?: Prisma.ReferidosUncheckedCreateNestedManyWithoutTenantInput
-  segmentos?: Prisma.SegmentoNegocioUncheckedCreateNestedManyWithoutTenantInput
   servicios?: Prisma.ServicioUncheckedCreateNestedManyWithoutTenantInput
   sesionesActividad?: Prisma.SesionActividadUncheckedCreateNestedManyWithoutTenantInput
   subscription?: Prisma.SubscriptionUncheckedCreateNestedOneWithoutTenantInput
+  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUncheckedCreateNestedManyWithoutTenantsInput
   memberships?: Prisma.TenantMembershipUncheckedCreateNestedManyWithoutTenantInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUncheckedCreateNestedManyWithoutTenantInput
   tiposServicio?: Prisma.TipoServicioUncheckedCreateNestedManyWithoutTenantInput
@@ -3656,7 +3097,6 @@ export type TenantUpdateWithoutTiposInteresInput = {
   geolocalizaciones?: Prisma.GeolocalizacionUpdateManyWithoutTenantNestedInput
   logsEvento?: Prisma.LogEventoUpdateManyWithoutTenantNestedInput
   metodosPago?: Prisma.MetodoPagoUpdateManyWithoutTenantNestedInput
-  nivelesRiesgo?: Prisma.NivelRiesgoOperativoUpdateManyWithoutTenantNestedInput
   nominaDetalles?: Prisma.NominaDetalleUpdateManyWithoutTenantNestedInput
   nominas?: Prisma.NominaUpdateManyWithoutTenantNestedInput
   ordenesServicio?: Prisma.OrdenServicioUpdateManyWithoutTenantNestedInput
@@ -3669,10 +3109,10 @@ export type TenantUpdateWithoutTiposInteresInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUpdateManyWithoutTenantNestedInput
   proveedores?: Prisma.ProveedoresUpdateManyWithoutTenantNestedInput
   referidos?: Prisma.ReferidosUpdateManyWithoutTenantNestedInput
-  segmentos?: Prisma.SegmentoNegocioUpdateManyWithoutTenantNestedInput
   servicios?: Prisma.ServicioUpdateManyWithoutTenantNestedInput
   sesionesActividad?: Prisma.SesionActividadUpdateManyWithoutTenantNestedInput
   subscription?: Prisma.SubscriptionUpdateOneWithoutTenantNestedInput
+  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUpdateManyWithoutTenantsNestedInput
   memberships?: Prisma.TenantMembershipUpdateManyWithoutTenantNestedInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUpdateManyWithoutTenantNestedInput
   tiposServicio?: Prisma.TipoServicioUpdateManyWithoutTenantNestedInput
@@ -3716,7 +3156,6 @@ export type TenantUncheckedUpdateWithoutTiposInteresInput = {
   geolocalizaciones?: Prisma.GeolocalizacionUncheckedUpdateManyWithoutTenantNestedInput
   logsEvento?: Prisma.LogEventoUncheckedUpdateManyWithoutTenantNestedInput
   metodosPago?: Prisma.MetodoPagoUncheckedUpdateManyWithoutTenantNestedInput
-  nivelesRiesgo?: Prisma.NivelRiesgoOperativoUncheckedUpdateManyWithoutTenantNestedInput
   nominaDetalles?: Prisma.NominaDetalleUncheckedUpdateManyWithoutTenantNestedInput
   nominas?: Prisma.NominaUncheckedUpdateManyWithoutTenantNestedInput
   ordenesServicio?: Prisma.OrdenServicioUncheckedUpdateManyWithoutTenantNestedInput
@@ -3729,10 +3168,10 @@ export type TenantUncheckedUpdateWithoutTiposInteresInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUncheckedUpdateManyWithoutTenantNestedInput
   proveedores?: Prisma.ProveedoresUncheckedUpdateManyWithoutTenantNestedInput
   referidos?: Prisma.ReferidosUncheckedUpdateManyWithoutTenantNestedInput
-  segmentos?: Prisma.SegmentoNegocioUncheckedUpdateManyWithoutTenantNestedInput
   servicios?: Prisma.ServicioUncheckedUpdateManyWithoutTenantNestedInput
   sesionesActividad?: Prisma.SesionActividadUncheckedUpdateManyWithoutTenantNestedInput
   subscription?: Prisma.SubscriptionUncheckedUpdateOneWithoutTenantNestedInput
+  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUncheckedUpdateManyWithoutTenantsNestedInput
   memberships?: Prisma.TenantMembershipUncheckedUpdateManyWithoutTenantNestedInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUncheckedUpdateManyWithoutTenantNestedInput
   tiposServicio?: Prisma.TipoServicioUncheckedUpdateManyWithoutTenantNestedInput
@@ -3775,7 +3214,6 @@ export type TenantCreateWithoutClientesInput = {
   geolocalizaciones?: Prisma.GeolocalizacionCreateNestedManyWithoutTenantInput
   logsEvento?: Prisma.LogEventoCreateNestedManyWithoutTenantInput
   metodosPago?: Prisma.MetodoPagoCreateNestedManyWithoutTenantInput
-  nivelesRiesgo?: Prisma.NivelRiesgoOperativoCreateNestedManyWithoutTenantInput
   nominaDetalles?: Prisma.NominaDetalleCreateNestedManyWithoutTenantInput
   nominas?: Prisma.NominaCreateNestedManyWithoutTenantInput
   ordenesServicio?: Prisma.OrdenServicioCreateNestedManyWithoutTenantInput
@@ -3788,10 +3226,10 @@ export type TenantCreateWithoutClientesInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoCreateNestedManyWithoutTenantInput
   proveedores?: Prisma.ProveedoresCreateNestedManyWithoutTenantInput
   referidos?: Prisma.ReferidosCreateNestedManyWithoutTenantInput
-  segmentos?: Prisma.SegmentoNegocioCreateNestedManyWithoutTenantInput
   servicios?: Prisma.ServicioCreateNestedManyWithoutTenantInput
   sesionesActividad?: Prisma.SesionActividadCreateNestedManyWithoutTenantInput
   subscription?: Prisma.SubscriptionCreateNestedOneWithoutTenantInput
+  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoCreateNestedManyWithoutTenantsInput
   memberships?: Prisma.TenantMembershipCreateNestedManyWithoutTenantInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosCreateNestedManyWithoutTenantInput
   tiposInteres?: Prisma.TipoInteresCreateNestedManyWithoutTenantInput
@@ -3835,7 +3273,6 @@ export type TenantUncheckedCreateWithoutClientesInput = {
   geolocalizaciones?: Prisma.GeolocalizacionUncheckedCreateNestedManyWithoutTenantInput
   logsEvento?: Prisma.LogEventoUncheckedCreateNestedManyWithoutTenantInput
   metodosPago?: Prisma.MetodoPagoUncheckedCreateNestedManyWithoutTenantInput
-  nivelesRiesgo?: Prisma.NivelRiesgoOperativoUncheckedCreateNestedManyWithoutTenantInput
   nominaDetalles?: Prisma.NominaDetalleUncheckedCreateNestedManyWithoutTenantInput
   nominas?: Prisma.NominaUncheckedCreateNestedManyWithoutTenantInput
   ordenesServicio?: Prisma.OrdenServicioUncheckedCreateNestedManyWithoutTenantInput
@@ -3848,10 +3285,10 @@ export type TenantUncheckedCreateWithoutClientesInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUncheckedCreateNestedManyWithoutTenantInput
   proveedores?: Prisma.ProveedoresUncheckedCreateNestedManyWithoutTenantInput
   referidos?: Prisma.ReferidosUncheckedCreateNestedManyWithoutTenantInput
-  segmentos?: Prisma.SegmentoNegocioUncheckedCreateNestedManyWithoutTenantInput
   servicios?: Prisma.ServicioUncheckedCreateNestedManyWithoutTenantInput
   sesionesActividad?: Prisma.SesionActividadUncheckedCreateNestedManyWithoutTenantInput
   subscription?: Prisma.SubscriptionUncheckedCreateNestedOneWithoutTenantInput
+  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUncheckedCreateNestedManyWithoutTenantsInput
   memberships?: Prisma.TenantMembershipUncheckedCreateNestedManyWithoutTenantInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUncheckedCreateNestedManyWithoutTenantInput
   tiposInteres?: Prisma.TipoInteresUncheckedCreateNestedManyWithoutTenantInput
@@ -3911,7 +3348,6 @@ export type TenantUpdateWithoutClientesInput = {
   geolocalizaciones?: Prisma.GeolocalizacionUpdateManyWithoutTenantNestedInput
   logsEvento?: Prisma.LogEventoUpdateManyWithoutTenantNestedInput
   metodosPago?: Prisma.MetodoPagoUpdateManyWithoutTenantNestedInput
-  nivelesRiesgo?: Prisma.NivelRiesgoOperativoUpdateManyWithoutTenantNestedInput
   nominaDetalles?: Prisma.NominaDetalleUpdateManyWithoutTenantNestedInput
   nominas?: Prisma.NominaUpdateManyWithoutTenantNestedInput
   ordenesServicio?: Prisma.OrdenServicioUpdateManyWithoutTenantNestedInput
@@ -3924,10 +3360,10 @@ export type TenantUpdateWithoutClientesInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUpdateManyWithoutTenantNestedInput
   proveedores?: Prisma.ProveedoresUpdateManyWithoutTenantNestedInput
   referidos?: Prisma.ReferidosUpdateManyWithoutTenantNestedInput
-  segmentos?: Prisma.SegmentoNegocioUpdateManyWithoutTenantNestedInput
   servicios?: Prisma.ServicioUpdateManyWithoutTenantNestedInput
   sesionesActividad?: Prisma.SesionActividadUpdateManyWithoutTenantNestedInput
   subscription?: Prisma.SubscriptionUpdateOneWithoutTenantNestedInput
+  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUpdateManyWithoutTenantsNestedInput
   memberships?: Prisma.TenantMembershipUpdateManyWithoutTenantNestedInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUpdateManyWithoutTenantNestedInput
   tiposInteres?: Prisma.TipoInteresUpdateManyWithoutTenantNestedInput
@@ -3971,7 +3407,6 @@ export type TenantUncheckedUpdateWithoutClientesInput = {
   geolocalizaciones?: Prisma.GeolocalizacionUncheckedUpdateManyWithoutTenantNestedInput
   logsEvento?: Prisma.LogEventoUncheckedUpdateManyWithoutTenantNestedInput
   metodosPago?: Prisma.MetodoPagoUncheckedUpdateManyWithoutTenantNestedInput
-  nivelesRiesgo?: Prisma.NivelRiesgoOperativoUncheckedUpdateManyWithoutTenantNestedInput
   nominaDetalles?: Prisma.NominaDetalleUncheckedUpdateManyWithoutTenantNestedInput
   nominas?: Prisma.NominaUncheckedUpdateManyWithoutTenantNestedInput
   ordenesServicio?: Prisma.OrdenServicioUncheckedUpdateManyWithoutTenantNestedInput
@@ -3984,10 +3419,10 @@ export type TenantUncheckedUpdateWithoutClientesInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUncheckedUpdateManyWithoutTenantNestedInput
   proveedores?: Prisma.ProveedoresUncheckedUpdateManyWithoutTenantNestedInput
   referidos?: Prisma.ReferidosUncheckedUpdateManyWithoutTenantNestedInput
-  segmentos?: Prisma.SegmentoNegocioUncheckedUpdateManyWithoutTenantNestedInput
   servicios?: Prisma.ServicioUncheckedUpdateManyWithoutTenantNestedInput
   sesionesActividad?: Prisma.SesionActividadUncheckedUpdateManyWithoutTenantNestedInput
   subscription?: Prisma.SubscriptionUncheckedUpdateOneWithoutTenantNestedInput
+  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUncheckedUpdateManyWithoutTenantsNestedInput
   memberships?: Prisma.TenantMembershipUncheckedUpdateManyWithoutTenantNestedInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUncheckedUpdateManyWithoutTenantNestedInput
   tiposInteres?: Prisma.TipoInteresUncheckedUpdateManyWithoutTenantNestedInput
@@ -4032,7 +3467,6 @@ export type TenantCreateWithoutVehiculosInput = {
   geolocalizaciones?: Prisma.GeolocalizacionCreateNestedManyWithoutTenantInput
   logsEvento?: Prisma.LogEventoCreateNestedManyWithoutTenantInput
   metodosPago?: Prisma.MetodoPagoCreateNestedManyWithoutTenantInput
-  nivelesRiesgo?: Prisma.NivelRiesgoOperativoCreateNestedManyWithoutTenantInput
   nominaDetalles?: Prisma.NominaDetalleCreateNestedManyWithoutTenantInput
   nominas?: Prisma.NominaCreateNestedManyWithoutTenantInput
   ordenesServicio?: Prisma.OrdenServicioCreateNestedManyWithoutTenantInput
@@ -4045,10 +3479,10 @@ export type TenantCreateWithoutVehiculosInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoCreateNestedManyWithoutTenantInput
   proveedores?: Prisma.ProveedoresCreateNestedManyWithoutTenantInput
   referidos?: Prisma.ReferidosCreateNestedManyWithoutTenantInput
-  segmentos?: Prisma.SegmentoNegocioCreateNestedManyWithoutTenantInput
   servicios?: Prisma.ServicioCreateNestedManyWithoutTenantInput
   sesionesActividad?: Prisma.SesionActividadCreateNestedManyWithoutTenantInput
   subscription?: Prisma.SubscriptionCreateNestedOneWithoutTenantInput
+  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoCreateNestedManyWithoutTenantsInput
   memberships?: Prisma.TenantMembershipCreateNestedManyWithoutTenantInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosCreateNestedManyWithoutTenantInput
   tiposInteres?: Prisma.TipoInteresCreateNestedManyWithoutTenantInput
@@ -4092,7 +3526,6 @@ export type TenantUncheckedCreateWithoutVehiculosInput = {
   geolocalizaciones?: Prisma.GeolocalizacionUncheckedCreateNestedManyWithoutTenantInput
   logsEvento?: Prisma.LogEventoUncheckedCreateNestedManyWithoutTenantInput
   metodosPago?: Prisma.MetodoPagoUncheckedCreateNestedManyWithoutTenantInput
-  nivelesRiesgo?: Prisma.NivelRiesgoOperativoUncheckedCreateNestedManyWithoutTenantInput
   nominaDetalles?: Prisma.NominaDetalleUncheckedCreateNestedManyWithoutTenantInput
   nominas?: Prisma.NominaUncheckedCreateNestedManyWithoutTenantInput
   ordenesServicio?: Prisma.OrdenServicioUncheckedCreateNestedManyWithoutTenantInput
@@ -4105,10 +3538,10 @@ export type TenantUncheckedCreateWithoutVehiculosInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUncheckedCreateNestedManyWithoutTenantInput
   proveedores?: Prisma.ProveedoresUncheckedCreateNestedManyWithoutTenantInput
   referidos?: Prisma.ReferidosUncheckedCreateNestedManyWithoutTenantInput
-  segmentos?: Prisma.SegmentoNegocioUncheckedCreateNestedManyWithoutTenantInput
   servicios?: Prisma.ServicioUncheckedCreateNestedManyWithoutTenantInput
   sesionesActividad?: Prisma.SesionActividadUncheckedCreateNestedManyWithoutTenantInput
   subscription?: Prisma.SubscriptionUncheckedCreateNestedOneWithoutTenantInput
+  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUncheckedCreateNestedManyWithoutTenantsInput
   memberships?: Prisma.TenantMembershipUncheckedCreateNestedManyWithoutTenantInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUncheckedCreateNestedManyWithoutTenantInput
   tiposInteres?: Prisma.TipoInteresUncheckedCreateNestedManyWithoutTenantInput
@@ -4168,7 +3601,6 @@ export type TenantUpdateWithoutVehiculosInput = {
   geolocalizaciones?: Prisma.GeolocalizacionUpdateManyWithoutTenantNestedInput
   logsEvento?: Prisma.LogEventoUpdateManyWithoutTenantNestedInput
   metodosPago?: Prisma.MetodoPagoUpdateManyWithoutTenantNestedInput
-  nivelesRiesgo?: Prisma.NivelRiesgoOperativoUpdateManyWithoutTenantNestedInput
   nominaDetalles?: Prisma.NominaDetalleUpdateManyWithoutTenantNestedInput
   nominas?: Prisma.NominaUpdateManyWithoutTenantNestedInput
   ordenesServicio?: Prisma.OrdenServicioUpdateManyWithoutTenantNestedInput
@@ -4181,10 +3613,10 @@ export type TenantUpdateWithoutVehiculosInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUpdateManyWithoutTenantNestedInput
   proveedores?: Prisma.ProveedoresUpdateManyWithoutTenantNestedInput
   referidos?: Prisma.ReferidosUpdateManyWithoutTenantNestedInput
-  segmentos?: Prisma.SegmentoNegocioUpdateManyWithoutTenantNestedInput
   servicios?: Prisma.ServicioUpdateManyWithoutTenantNestedInput
   sesionesActividad?: Prisma.SesionActividadUpdateManyWithoutTenantNestedInput
   subscription?: Prisma.SubscriptionUpdateOneWithoutTenantNestedInput
+  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUpdateManyWithoutTenantsNestedInput
   memberships?: Prisma.TenantMembershipUpdateManyWithoutTenantNestedInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUpdateManyWithoutTenantNestedInput
   tiposInteres?: Prisma.TipoInteresUpdateManyWithoutTenantNestedInput
@@ -4228,7 +3660,6 @@ export type TenantUncheckedUpdateWithoutVehiculosInput = {
   geolocalizaciones?: Prisma.GeolocalizacionUncheckedUpdateManyWithoutTenantNestedInput
   logsEvento?: Prisma.LogEventoUncheckedUpdateManyWithoutTenantNestedInput
   metodosPago?: Prisma.MetodoPagoUncheckedUpdateManyWithoutTenantNestedInput
-  nivelesRiesgo?: Prisma.NivelRiesgoOperativoUncheckedUpdateManyWithoutTenantNestedInput
   nominaDetalles?: Prisma.NominaDetalleUncheckedUpdateManyWithoutTenantNestedInput
   nominas?: Prisma.NominaUncheckedUpdateManyWithoutTenantNestedInput
   ordenesServicio?: Prisma.OrdenServicioUncheckedUpdateManyWithoutTenantNestedInput
@@ -4241,10 +3672,10 @@ export type TenantUncheckedUpdateWithoutVehiculosInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUncheckedUpdateManyWithoutTenantNestedInput
   proveedores?: Prisma.ProveedoresUncheckedUpdateManyWithoutTenantNestedInput
   referidos?: Prisma.ReferidosUncheckedUpdateManyWithoutTenantNestedInput
-  segmentos?: Prisma.SegmentoNegocioUncheckedUpdateManyWithoutTenantNestedInput
   servicios?: Prisma.ServicioUncheckedUpdateManyWithoutTenantNestedInput
   sesionesActividad?: Prisma.SesionActividadUncheckedUpdateManyWithoutTenantNestedInput
   subscription?: Prisma.SubscriptionUncheckedUpdateOneWithoutTenantNestedInput
+  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUncheckedUpdateManyWithoutTenantsNestedInput
   memberships?: Prisma.TenantMembershipUncheckedUpdateManyWithoutTenantNestedInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUncheckedUpdateManyWithoutTenantNestedInput
   tiposInteres?: Prisma.TipoInteresUncheckedUpdateManyWithoutTenantNestedInput
@@ -4287,7 +3718,6 @@ export type TenantCreateWithoutDireccionesInput = {
   geolocalizaciones?: Prisma.GeolocalizacionCreateNestedManyWithoutTenantInput
   logsEvento?: Prisma.LogEventoCreateNestedManyWithoutTenantInput
   metodosPago?: Prisma.MetodoPagoCreateNestedManyWithoutTenantInput
-  nivelesRiesgo?: Prisma.NivelRiesgoOperativoCreateNestedManyWithoutTenantInput
   nominaDetalles?: Prisma.NominaDetalleCreateNestedManyWithoutTenantInput
   nominas?: Prisma.NominaCreateNestedManyWithoutTenantInput
   ordenesServicio?: Prisma.OrdenServicioCreateNestedManyWithoutTenantInput
@@ -4300,10 +3730,10 @@ export type TenantCreateWithoutDireccionesInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoCreateNestedManyWithoutTenantInput
   proveedores?: Prisma.ProveedoresCreateNestedManyWithoutTenantInput
   referidos?: Prisma.ReferidosCreateNestedManyWithoutTenantInput
-  segmentos?: Prisma.SegmentoNegocioCreateNestedManyWithoutTenantInput
   servicios?: Prisma.ServicioCreateNestedManyWithoutTenantInput
   sesionesActividad?: Prisma.SesionActividadCreateNestedManyWithoutTenantInput
   subscription?: Prisma.SubscriptionCreateNestedOneWithoutTenantInput
+  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoCreateNestedManyWithoutTenantsInput
   memberships?: Prisma.TenantMembershipCreateNestedManyWithoutTenantInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosCreateNestedManyWithoutTenantInput
   tiposInteres?: Prisma.TipoInteresCreateNestedManyWithoutTenantInput
@@ -4347,7 +3777,6 @@ export type TenantUncheckedCreateWithoutDireccionesInput = {
   geolocalizaciones?: Prisma.GeolocalizacionUncheckedCreateNestedManyWithoutTenantInput
   logsEvento?: Prisma.LogEventoUncheckedCreateNestedManyWithoutTenantInput
   metodosPago?: Prisma.MetodoPagoUncheckedCreateNestedManyWithoutTenantInput
-  nivelesRiesgo?: Prisma.NivelRiesgoOperativoUncheckedCreateNestedManyWithoutTenantInput
   nominaDetalles?: Prisma.NominaDetalleUncheckedCreateNestedManyWithoutTenantInput
   nominas?: Prisma.NominaUncheckedCreateNestedManyWithoutTenantInput
   ordenesServicio?: Prisma.OrdenServicioUncheckedCreateNestedManyWithoutTenantInput
@@ -4360,10 +3789,10 @@ export type TenantUncheckedCreateWithoutDireccionesInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUncheckedCreateNestedManyWithoutTenantInput
   proveedores?: Prisma.ProveedoresUncheckedCreateNestedManyWithoutTenantInput
   referidos?: Prisma.ReferidosUncheckedCreateNestedManyWithoutTenantInput
-  segmentos?: Prisma.SegmentoNegocioUncheckedCreateNestedManyWithoutTenantInput
   servicios?: Prisma.ServicioUncheckedCreateNestedManyWithoutTenantInput
   sesionesActividad?: Prisma.SesionActividadUncheckedCreateNestedManyWithoutTenantInput
   subscription?: Prisma.SubscriptionUncheckedCreateNestedOneWithoutTenantInput
+  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUncheckedCreateNestedManyWithoutTenantsInput
   memberships?: Prisma.TenantMembershipUncheckedCreateNestedManyWithoutTenantInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUncheckedCreateNestedManyWithoutTenantInput
   tiposInteres?: Prisma.TipoInteresUncheckedCreateNestedManyWithoutTenantInput
@@ -4423,7 +3852,6 @@ export type TenantUpdateWithoutDireccionesInput = {
   geolocalizaciones?: Prisma.GeolocalizacionUpdateManyWithoutTenantNestedInput
   logsEvento?: Prisma.LogEventoUpdateManyWithoutTenantNestedInput
   metodosPago?: Prisma.MetodoPagoUpdateManyWithoutTenantNestedInput
-  nivelesRiesgo?: Prisma.NivelRiesgoOperativoUpdateManyWithoutTenantNestedInput
   nominaDetalles?: Prisma.NominaDetalleUpdateManyWithoutTenantNestedInput
   nominas?: Prisma.NominaUpdateManyWithoutTenantNestedInput
   ordenesServicio?: Prisma.OrdenServicioUpdateManyWithoutTenantNestedInput
@@ -4436,10 +3864,10 @@ export type TenantUpdateWithoutDireccionesInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUpdateManyWithoutTenantNestedInput
   proveedores?: Prisma.ProveedoresUpdateManyWithoutTenantNestedInput
   referidos?: Prisma.ReferidosUpdateManyWithoutTenantNestedInput
-  segmentos?: Prisma.SegmentoNegocioUpdateManyWithoutTenantNestedInput
   servicios?: Prisma.ServicioUpdateManyWithoutTenantNestedInput
   sesionesActividad?: Prisma.SesionActividadUpdateManyWithoutTenantNestedInput
   subscription?: Prisma.SubscriptionUpdateOneWithoutTenantNestedInput
+  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUpdateManyWithoutTenantsNestedInput
   memberships?: Prisma.TenantMembershipUpdateManyWithoutTenantNestedInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUpdateManyWithoutTenantNestedInput
   tiposInteres?: Prisma.TipoInteresUpdateManyWithoutTenantNestedInput
@@ -4483,7 +3911,6 @@ export type TenantUncheckedUpdateWithoutDireccionesInput = {
   geolocalizaciones?: Prisma.GeolocalizacionUncheckedUpdateManyWithoutTenantNestedInput
   logsEvento?: Prisma.LogEventoUncheckedUpdateManyWithoutTenantNestedInput
   metodosPago?: Prisma.MetodoPagoUncheckedUpdateManyWithoutTenantNestedInput
-  nivelesRiesgo?: Prisma.NivelRiesgoOperativoUncheckedUpdateManyWithoutTenantNestedInput
   nominaDetalles?: Prisma.NominaDetalleUncheckedUpdateManyWithoutTenantNestedInput
   nominas?: Prisma.NominaUncheckedUpdateManyWithoutTenantNestedInput
   ordenesServicio?: Prisma.OrdenServicioUncheckedUpdateManyWithoutTenantNestedInput
@@ -4496,10 +3923,10 @@ export type TenantUncheckedUpdateWithoutDireccionesInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUncheckedUpdateManyWithoutTenantNestedInput
   proveedores?: Prisma.ProveedoresUncheckedUpdateManyWithoutTenantNestedInput
   referidos?: Prisma.ReferidosUncheckedUpdateManyWithoutTenantNestedInput
-  segmentos?: Prisma.SegmentoNegocioUncheckedUpdateManyWithoutTenantNestedInput
   servicios?: Prisma.ServicioUncheckedUpdateManyWithoutTenantNestedInput
   sesionesActividad?: Prisma.SesionActividadUncheckedUpdateManyWithoutTenantNestedInput
   subscription?: Prisma.SubscriptionUncheckedUpdateOneWithoutTenantNestedInput
+  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUncheckedUpdateManyWithoutTenantsNestedInput
   memberships?: Prisma.TenantMembershipUncheckedUpdateManyWithoutTenantNestedInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUncheckedUpdateManyWithoutTenantNestedInput
   tiposInteres?: Prisma.TipoInteresUncheckedUpdateManyWithoutTenantNestedInput
@@ -4544,7 +3971,6 @@ export type TenantCreateWithoutZonasInput = {
   geolocalizaciones?: Prisma.GeolocalizacionCreateNestedManyWithoutTenantInput
   logsEvento?: Prisma.LogEventoCreateNestedManyWithoutTenantInput
   metodosPago?: Prisma.MetodoPagoCreateNestedManyWithoutTenantInput
-  nivelesRiesgo?: Prisma.NivelRiesgoOperativoCreateNestedManyWithoutTenantInput
   nominaDetalles?: Prisma.NominaDetalleCreateNestedManyWithoutTenantInput
   nominas?: Prisma.NominaCreateNestedManyWithoutTenantInput
   ordenesServicio?: Prisma.OrdenServicioCreateNestedManyWithoutTenantInput
@@ -4557,10 +3983,10 @@ export type TenantCreateWithoutZonasInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoCreateNestedManyWithoutTenantInput
   proveedores?: Prisma.ProveedoresCreateNestedManyWithoutTenantInput
   referidos?: Prisma.ReferidosCreateNestedManyWithoutTenantInput
-  segmentos?: Prisma.SegmentoNegocioCreateNestedManyWithoutTenantInput
   servicios?: Prisma.ServicioCreateNestedManyWithoutTenantInput
   sesionesActividad?: Prisma.SesionActividadCreateNestedManyWithoutTenantInput
   subscription?: Prisma.SubscriptionCreateNestedOneWithoutTenantInput
+  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoCreateNestedManyWithoutTenantsInput
   memberships?: Prisma.TenantMembershipCreateNestedManyWithoutTenantInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosCreateNestedManyWithoutTenantInput
   tiposInteres?: Prisma.TipoInteresCreateNestedManyWithoutTenantInput
@@ -4604,7 +4030,6 @@ export type TenantUncheckedCreateWithoutZonasInput = {
   geolocalizaciones?: Prisma.GeolocalizacionUncheckedCreateNestedManyWithoutTenantInput
   logsEvento?: Prisma.LogEventoUncheckedCreateNestedManyWithoutTenantInput
   metodosPago?: Prisma.MetodoPagoUncheckedCreateNestedManyWithoutTenantInput
-  nivelesRiesgo?: Prisma.NivelRiesgoOperativoUncheckedCreateNestedManyWithoutTenantInput
   nominaDetalles?: Prisma.NominaDetalleUncheckedCreateNestedManyWithoutTenantInput
   nominas?: Prisma.NominaUncheckedCreateNestedManyWithoutTenantInput
   ordenesServicio?: Prisma.OrdenServicioUncheckedCreateNestedManyWithoutTenantInput
@@ -4617,10 +4042,10 @@ export type TenantUncheckedCreateWithoutZonasInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUncheckedCreateNestedManyWithoutTenantInput
   proveedores?: Prisma.ProveedoresUncheckedCreateNestedManyWithoutTenantInput
   referidos?: Prisma.ReferidosUncheckedCreateNestedManyWithoutTenantInput
-  segmentos?: Prisma.SegmentoNegocioUncheckedCreateNestedManyWithoutTenantInput
   servicios?: Prisma.ServicioUncheckedCreateNestedManyWithoutTenantInput
   sesionesActividad?: Prisma.SesionActividadUncheckedCreateNestedManyWithoutTenantInput
   subscription?: Prisma.SubscriptionUncheckedCreateNestedOneWithoutTenantInput
+  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUncheckedCreateNestedManyWithoutTenantsInput
   memberships?: Prisma.TenantMembershipUncheckedCreateNestedManyWithoutTenantInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUncheckedCreateNestedManyWithoutTenantInput
   tiposInteres?: Prisma.TipoInteresUncheckedCreateNestedManyWithoutTenantInput
@@ -4680,7 +4105,6 @@ export type TenantUpdateWithoutZonasInput = {
   geolocalizaciones?: Prisma.GeolocalizacionUpdateManyWithoutTenantNestedInput
   logsEvento?: Prisma.LogEventoUpdateManyWithoutTenantNestedInput
   metodosPago?: Prisma.MetodoPagoUpdateManyWithoutTenantNestedInput
-  nivelesRiesgo?: Prisma.NivelRiesgoOperativoUpdateManyWithoutTenantNestedInput
   nominaDetalles?: Prisma.NominaDetalleUpdateManyWithoutTenantNestedInput
   nominas?: Prisma.NominaUpdateManyWithoutTenantNestedInput
   ordenesServicio?: Prisma.OrdenServicioUpdateManyWithoutTenantNestedInput
@@ -4693,10 +4117,10 @@ export type TenantUpdateWithoutZonasInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUpdateManyWithoutTenantNestedInput
   proveedores?: Prisma.ProveedoresUpdateManyWithoutTenantNestedInput
   referidos?: Prisma.ReferidosUpdateManyWithoutTenantNestedInput
-  segmentos?: Prisma.SegmentoNegocioUpdateManyWithoutTenantNestedInput
   servicios?: Prisma.ServicioUpdateManyWithoutTenantNestedInput
   sesionesActividad?: Prisma.SesionActividadUpdateManyWithoutTenantNestedInput
   subscription?: Prisma.SubscriptionUpdateOneWithoutTenantNestedInput
+  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUpdateManyWithoutTenantsNestedInput
   memberships?: Prisma.TenantMembershipUpdateManyWithoutTenantNestedInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUpdateManyWithoutTenantNestedInput
   tiposInteres?: Prisma.TipoInteresUpdateManyWithoutTenantNestedInput
@@ -4740,7 +4164,6 @@ export type TenantUncheckedUpdateWithoutZonasInput = {
   geolocalizaciones?: Prisma.GeolocalizacionUncheckedUpdateManyWithoutTenantNestedInput
   logsEvento?: Prisma.LogEventoUncheckedUpdateManyWithoutTenantNestedInput
   metodosPago?: Prisma.MetodoPagoUncheckedUpdateManyWithoutTenantNestedInput
-  nivelesRiesgo?: Prisma.NivelRiesgoOperativoUncheckedUpdateManyWithoutTenantNestedInput
   nominaDetalles?: Prisma.NominaDetalleUncheckedUpdateManyWithoutTenantNestedInput
   nominas?: Prisma.NominaUncheckedUpdateManyWithoutTenantNestedInput
   ordenesServicio?: Prisma.OrdenServicioUncheckedUpdateManyWithoutTenantNestedInput
@@ -4753,10 +4176,10 @@ export type TenantUncheckedUpdateWithoutZonasInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUncheckedUpdateManyWithoutTenantNestedInput
   proveedores?: Prisma.ProveedoresUncheckedUpdateManyWithoutTenantNestedInput
   referidos?: Prisma.ReferidosUncheckedUpdateManyWithoutTenantNestedInput
-  segmentos?: Prisma.SegmentoNegocioUncheckedUpdateManyWithoutTenantNestedInput
   servicios?: Prisma.ServicioUncheckedUpdateManyWithoutTenantNestedInput
   sesionesActividad?: Prisma.SesionActividadUncheckedUpdateManyWithoutTenantNestedInput
   subscription?: Prisma.SubscriptionUncheckedUpdateOneWithoutTenantNestedInput
+  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUncheckedUpdateManyWithoutTenantsNestedInput
   memberships?: Prisma.TenantMembershipUncheckedUpdateManyWithoutTenantNestedInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUncheckedUpdateManyWithoutTenantNestedInput
   tiposInteres?: Prisma.TipoInteresUncheckedUpdateManyWithoutTenantNestedInput
@@ -4800,7 +4223,6 @@ export type TenantCreateWithoutServiciosInput = {
   geolocalizaciones?: Prisma.GeolocalizacionCreateNestedManyWithoutTenantInput
   logsEvento?: Prisma.LogEventoCreateNestedManyWithoutTenantInput
   metodosPago?: Prisma.MetodoPagoCreateNestedManyWithoutTenantInput
-  nivelesRiesgo?: Prisma.NivelRiesgoOperativoCreateNestedManyWithoutTenantInput
   nominaDetalles?: Prisma.NominaDetalleCreateNestedManyWithoutTenantInput
   nominas?: Prisma.NominaCreateNestedManyWithoutTenantInput
   ordenesServicio?: Prisma.OrdenServicioCreateNestedManyWithoutTenantInput
@@ -4813,9 +4235,9 @@ export type TenantCreateWithoutServiciosInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoCreateNestedManyWithoutTenantInput
   proveedores?: Prisma.ProveedoresCreateNestedManyWithoutTenantInput
   referidos?: Prisma.ReferidosCreateNestedManyWithoutTenantInput
-  segmentos?: Prisma.SegmentoNegocioCreateNestedManyWithoutTenantInput
   sesionesActividad?: Prisma.SesionActividadCreateNestedManyWithoutTenantInput
   subscription?: Prisma.SubscriptionCreateNestedOneWithoutTenantInput
+  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoCreateNestedManyWithoutTenantsInput
   memberships?: Prisma.TenantMembershipCreateNestedManyWithoutTenantInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosCreateNestedManyWithoutTenantInput
   tiposInteres?: Prisma.TipoInteresCreateNestedManyWithoutTenantInput
@@ -4860,7 +4282,6 @@ export type TenantUncheckedCreateWithoutServiciosInput = {
   geolocalizaciones?: Prisma.GeolocalizacionUncheckedCreateNestedManyWithoutTenantInput
   logsEvento?: Prisma.LogEventoUncheckedCreateNestedManyWithoutTenantInput
   metodosPago?: Prisma.MetodoPagoUncheckedCreateNestedManyWithoutTenantInput
-  nivelesRiesgo?: Prisma.NivelRiesgoOperativoUncheckedCreateNestedManyWithoutTenantInput
   nominaDetalles?: Prisma.NominaDetalleUncheckedCreateNestedManyWithoutTenantInput
   nominas?: Prisma.NominaUncheckedCreateNestedManyWithoutTenantInput
   ordenesServicio?: Prisma.OrdenServicioUncheckedCreateNestedManyWithoutTenantInput
@@ -4873,9 +4294,9 @@ export type TenantUncheckedCreateWithoutServiciosInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUncheckedCreateNestedManyWithoutTenantInput
   proveedores?: Prisma.ProveedoresUncheckedCreateNestedManyWithoutTenantInput
   referidos?: Prisma.ReferidosUncheckedCreateNestedManyWithoutTenantInput
-  segmentos?: Prisma.SegmentoNegocioUncheckedCreateNestedManyWithoutTenantInput
   sesionesActividad?: Prisma.SesionActividadUncheckedCreateNestedManyWithoutTenantInput
   subscription?: Prisma.SubscriptionUncheckedCreateNestedOneWithoutTenantInput
+  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUncheckedCreateNestedManyWithoutTenantsInput
   memberships?: Prisma.TenantMembershipUncheckedCreateNestedManyWithoutTenantInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUncheckedCreateNestedManyWithoutTenantInput
   tiposInteres?: Prisma.TipoInteresUncheckedCreateNestedManyWithoutTenantInput
@@ -4936,7 +4357,6 @@ export type TenantUpdateWithoutServiciosInput = {
   geolocalizaciones?: Prisma.GeolocalizacionUpdateManyWithoutTenantNestedInput
   logsEvento?: Prisma.LogEventoUpdateManyWithoutTenantNestedInput
   metodosPago?: Prisma.MetodoPagoUpdateManyWithoutTenantNestedInput
-  nivelesRiesgo?: Prisma.NivelRiesgoOperativoUpdateManyWithoutTenantNestedInput
   nominaDetalles?: Prisma.NominaDetalleUpdateManyWithoutTenantNestedInput
   nominas?: Prisma.NominaUpdateManyWithoutTenantNestedInput
   ordenesServicio?: Prisma.OrdenServicioUpdateManyWithoutTenantNestedInput
@@ -4949,9 +4369,9 @@ export type TenantUpdateWithoutServiciosInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUpdateManyWithoutTenantNestedInput
   proveedores?: Prisma.ProveedoresUpdateManyWithoutTenantNestedInput
   referidos?: Prisma.ReferidosUpdateManyWithoutTenantNestedInput
-  segmentos?: Prisma.SegmentoNegocioUpdateManyWithoutTenantNestedInput
   sesionesActividad?: Prisma.SesionActividadUpdateManyWithoutTenantNestedInput
   subscription?: Prisma.SubscriptionUpdateOneWithoutTenantNestedInput
+  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUpdateManyWithoutTenantsNestedInput
   memberships?: Prisma.TenantMembershipUpdateManyWithoutTenantNestedInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUpdateManyWithoutTenantNestedInput
   tiposInteres?: Prisma.TipoInteresUpdateManyWithoutTenantNestedInput
@@ -4996,7 +4416,6 @@ export type TenantUncheckedUpdateWithoutServiciosInput = {
   geolocalizaciones?: Prisma.GeolocalizacionUncheckedUpdateManyWithoutTenantNestedInput
   logsEvento?: Prisma.LogEventoUncheckedUpdateManyWithoutTenantNestedInput
   metodosPago?: Prisma.MetodoPagoUncheckedUpdateManyWithoutTenantNestedInput
-  nivelesRiesgo?: Prisma.NivelRiesgoOperativoUncheckedUpdateManyWithoutTenantNestedInput
   nominaDetalles?: Prisma.NominaDetalleUncheckedUpdateManyWithoutTenantNestedInput
   nominas?: Prisma.NominaUncheckedUpdateManyWithoutTenantNestedInput
   ordenesServicio?: Prisma.OrdenServicioUncheckedUpdateManyWithoutTenantNestedInput
@@ -5009,9 +4428,9 @@ export type TenantUncheckedUpdateWithoutServiciosInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUncheckedUpdateManyWithoutTenantNestedInput
   proveedores?: Prisma.ProveedoresUncheckedUpdateManyWithoutTenantNestedInput
   referidos?: Prisma.ReferidosUncheckedUpdateManyWithoutTenantNestedInput
-  segmentos?: Prisma.SegmentoNegocioUncheckedUpdateManyWithoutTenantNestedInput
   sesionesActividad?: Prisma.SesionActividadUncheckedUpdateManyWithoutTenantNestedInput
   subscription?: Prisma.SubscriptionUncheckedUpdateOneWithoutTenantNestedInput
+  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUncheckedUpdateManyWithoutTenantsNestedInput
   memberships?: Prisma.TenantMembershipUncheckedUpdateManyWithoutTenantNestedInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUncheckedUpdateManyWithoutTenantNestedInput
   tiposInteres?: Prisma.TipoInteresUncheckedUpdateManyWithoutTenantNestedInput
@@ -5056,7 +4475,6 @@ export type TenantCreateWithoutTiposServicioInput = {
   geolocalizaciones?: Prisma.GeolocalizacionCreateNestedManyWithoutTenantInput
   logsEvento?: Prisma.LogEventoCreateNestedManyWithoutTenantInput
   metodosPago?: Prisma.MetodoPagoCreateNestedManyWithoutTenantInput
-  nivelesRiesgo?: Prisma.NivelRiesgoOperativoCreateNestedManyWithoutTenantInput
   nominaDetalles?: Prisma.NominaDetalleCreateNestedManyWithoutTenantInput
   nominas?: Prisma.NominaCreateNestedManyWithoutTenantInput
   ordenesServicio?: Prisma.OrdenServicioCreateNestedManyWithoutTenantInput
@@ -5069,10 +4487,10 @@ export type TenantCreateWithoutTiposServicioInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoCreateNestedManyWithoutTenantInput
   proveedores?: Prisma.ProveedoresCreateNestedManyWithoutTenantInput
   referidos?: Prisma.ReferidosCreateNestedManyWithoutTenantInput
-  segmentos?: Prisma.SegmentoNegocioCreateNestedManyWithoutTenantInput
   servicios?: Prisma.ServicioCreateNestedManyWithoutTenantInput
   sesionesActividad?: Prisma.SesionActividadCreateNestedManyWithoutTenantInput
   subscription?: Prisma.SubscriptionCreateNestedOneWithoutTenantInput
+  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoCreateNestedManyWithoutTenantsInput
   memberships?: Prisma.TenantMembershipCreateNestedManyWithoutTenantInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosCreateNestedManyWithoutTenantInput
   tiposInteres?: Prisma.TipoInteresCreateNestedManyWithoutTenantInput
@@ -5116,7 +4534,6 @@ export type TenantUncheckedCreateWithoutTiposServicioInput = {
   geolocalizaciones?: Prisma.GeolocalizacionUncheckedCreateNestedManyWithoutTenantInput
   logsEvento?: Prisma.LogEventoUncheckedCreateNestedManyWithoutTenantInput
   metodosPago?: Prisma.MetodoPagoUncheckedCreateNestedManyWithoutTenantInput
-  nivelesRiesgo?: Prisma.NivelRiesgoOperativoUncheckedCreateNestedManyWithoutTenantInput
   nominaDetalles?: Prisma.NominaDetalleUncheckedCreateNestedManyWithoutTenantInput
   nominas?: Prisma.NominaUncheckedCreateNestedManyWithoutTenantInput
   ordenesServicio?: Prisma.OrdenServicioUncheckedCreateNestedManyWithoutTenantInput
@@ -5129,10 +4546,10 @@ export type TenantUncheckedCreateWithoutTiposServicioInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUncheckedCreateNestedManyWithoutTenantInput
   proveedores?: Prisma.ProveedoresUncheckedCreateNestedManyWithoutTenantInput
   referidos?: Prisma.ReferidosUncheckedCreateNestedManyWithoutTenantInput
-  segmentos?: Prisma.SegmentoNegocioUncheckedCreateNestedManyWithoutTenantInput
   servicios?: Prisma.ServicioUncheckedCreateNestedManyWithoutTenantInput
   sesionesActividad?: Prisma.SesionActividadUncheckedCreateNestedManyWithoutTenantInput
   subscription?: Prisma.SubscriptionUncheckedCreateNestedOneWithoutTenantInput
+  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUncheckedCreateNestedManyWithoutTenantsInput
   memberships?: Prisma.TenantMembershipUncheckedCreateNestedManyWithoutTenantInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUncheckedCreateNestedManyWithoutTenantInput
   tiposInteres?: Prisma.TipoInteresUncheckedCreateNestedManyWithoutTenantInput
@@ -5192,7 +4609,6 @@ export type TenantUpdateWithoutTiposServicioInput = {
   geolocalizaciones?: Prisma.GeolocalizacionUpdateManyWithoutTenantNestedInput
   logsEvento?: Prisma.LogEventoUpdateManyWithoutTenantNestedInput
   metodosPago?: Prisma.MetodoPagoUpdateManyWithoutTenantNestedInput
-  nivelesRiesgo?: Prisma.NivelRiesgoOperativoUpdateManyWithoutTenantNestedInput
   nominaDetalles?: Prisma.NominaDetalleUpdateManyWithoutTenantNestedInput
   nominas?: Prisma.NominaUpdateManyWithoutTenantNestedInput
   ordenesServicio?: Prisma.OrdenServicioUpdateManyWithoutTenantNestedInput
@@ -5205,10 +4621,10 @@ export type TenantUpdateWithoutTiposServicioInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUpdateManyWithoutTenantNestedInput
   proveedores?: Prisma.ProveedoresUpdateManyWithoutTenantNestedInput
   referidos?: Prisma.ReferidosUpdateManyWithoutTenantNestedInput
-  segmentos?: Prisma.SegmentoNegocioUpdateManyWithoutTenantNestedInput
   servicios?: Prisma.ServicioUpdateManyWithoutTenantNestedInput
   sesionesActividad?: Prisma.SesionActividadUpdateManyWithoutTenantNestedInput
   subscription?: Prisma.SubscriptionUpdateOneWithoutTenantNestedInput
+  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUpdateManyWithoutTenantsNestedInput
   memberships?: Prisma.TenantMembershipUpdateManyWithoutTenantNestedInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUpdateManyWithoutTenantNestedInput
   tiposInteres?: Prisma.TipoInteresUpdateManyWithoutTenantNestedInput
@@ -5252,7 +4668,6 @@ export type TenantUncheckedUpdateWithoutTiposServicioInput = {
   geolocalizaciones?: Prisma.GeolocalizacionUncheckedUpdateManyWithoutTenantNestedInput
   logsEvento?: Prisma.LogEventoUncheckedUpdateManyWithoutTenantNestedInput
   metodosPago?: Prisma.MetodoPagoUncheckedUpdateManyWithoutTenantNestedInput
-  nivelesRiesgo?: Prisma.NivelRiesgoOperativoUncheckedUpdateManyWithoutTenantNestedInput
   nominaDetalles?: Prisma.NominaDetalleUncheckedUpdateManyWithoutTenantNestedInput
   nominas?: Prisma.NominaUncheckedUpdateManyWithoutTenantNestedInput
   ordenesServicio?: Prisma.OrdenServicioUncheckedUpdateManyWithoutTenantNestedInput
@@ -5265,10 +4680,10 @@ export type TenantUncheckedUpdateWithoutTiposServicioInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUncheckedUpdateManyWithoutTenantNestedInput
   proveedores?: Prisma.ProveedoresUncheckedUpdateManyWithoutTenantNestedInput
   referidos?: Prisma.ReferidosUncheckedUpdateManyWithoutTenantNestedInput
-  segmentos?: Prisma.SegmentoNegocioUncheckedUpdateManyWithoutTenantNestedInput
   servicios?: Prisma.ServicioUncheckedUpdateManyWithoutTenantNestedInput
   sesionesActividad?: Prisma.SesionActividadUncheckedUpdateManyWithoutTenantNestedInput
   subscription?: Prisma.SubscriptionUncheckedUpdateOneWithoutTenantNestedInput
+  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUncheckedUpdateManyWithoutTenantsNestedInput
   memberships?: Prisma.TenantMembershipUncheckedUpdateManyWithoutTenantNestedInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUncheckedUpdateManyWithoutTenantNestedInput
   tiposInteres?: Prisma.TipoInteresUncheckedUpdateManyWithoutTenantNestedInput
@@ -5311,7 +4726,6 @@ export type TenantCreateWithoutMetodosPagoInput = {
   evidenciasServicio?: Prisma.EvidenciaServicioCreateNestedManyWithoutTenantInput
   geolocalizaciones?: Prisma.GeolocalizacionCreateNestedManyWithoutTenantInput
   logsEvento?: Prisma.LogEventoCreateNestedManyWithoutTenantInput
-  nivelesRiesgo?: Prisma.NivelRiesgoOperativoCreateNestedManyWithoutTenantInput
   nominaDetalles?: Prisma.NominaDetalleCreateNestedManyWithoutTenantInput
   nominas?: Prisma.NominaCreateNestedManyWithoutTenantInput
   ordenesServicio?: Prisma.OrdenServicioCreateNestedManyWithoutTenantInput
@@ -5324,10 +4738,10 @@ export type TenantCreateWithoutMetodosPagoInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoCreateNestedManyWithoutTenantInput
   proveedores?: Prisma.ProveedoresCreateNestedManyWithoutTenantInput
   referidos?: Prisma.ReferidosCreateNestedManyWithoutTenantInput
-  segmentos?: Prisma.SegmentoNegocioCreateNestedManyWithoutTenantInput
   servicios?: Prisma.ServicioCreateNestedManyWithoutTenantInput
   sesionesActividad?: Prisma.SesionActividadCreateNestedManyWithoutTenantInput
   subscription?: Prisma.SubscriptionCreateNestedOneWithoutTenantInput
+  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoCreateNestedManyWithoutTenantsInput
   memberships?: Prisma.TenantMembershipCreateNestedManyWithoutTenantInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosCreateNestedManyWithoutTenantInput
   tiposInteres?: Prisma.TipoInteresCreateNestedManyWithoutTenantInput
@@ -5371,7 +4785,6 @@ export type TenantUncheckedCreateWithoutMetodosPagoInput = {
   evidenciasServicio?: Prisma.EvidenciaServicioUncheckedCreateNestedManyWithoutTenantInput
   geolocalizaciones?: Prisma.GeolocalizacionUncheckedCreateNestedManyWithoutTenantInput
   logsEvento?: Prisma.LogEventoUncheckedCreateNestedManyWithoutTenantInput
-  nivelesRiesgo?: Prisma.NivelRiesgoOperativoUncheckedCreateNestedManyWithoutTenantInput
   nominaDetalles?: Prisma.NominaDetalleUncheckedCreateNestedManyWithoutTenantInput
   nominas?: Prisma.NominaUncheckedCreateNestedManyWithoutTenantInput
   ordenesServicio?: Prisma.OrdenServicioUncheckedCreateNestedManyWithoutTenantInput
@@ -5384,10 +4797,10 @@ export type TenantUncheckedCreateWithoutMetodosPagoInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUncheckedCreateNestedManyWithoutTenantInput
   proveedores?: Prisma.ProveedoresUncheckedCreateNestedManyWithoutTenantInput
   referidos?: Prisma.ReferidosUncheckedCreateNestedManyWithoutTenantInput
-  segmentos?: Prisma.SegmentoNegocioUncheckedCreateNestedManyWithoutTenantInput
   servicios?: Prisma.ServicioUncheckedCreateNestedManyWithoutTenantInput
   sesionesActividad?: Prisma.SesionActividadUncheckedCreateNestedManyWithoutTenantInput
   subscription?: Prisma.SubscriptionUncheckedCreateNestedOneWithoutTenantInput
+  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUncheckedCreateNestedManyWithoutTenantsInput
   memberships?: Prisma.TenantMembershipUncheckedCreateNestedManyWithoutTenantInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUncheckedCreateNestedManyWithoutTenantInput
   tiposInteres?: Prisma.TipoInteresUncheckedCreateNestedManyWithoutTenantInput
@@ -5447,7 +4860,6 @@ export type TenantUpdateWithoutMetodosPagoInput = {
   evidenciasServicio?: Prisma.EvidenciaServicioUpdateManyWithoutTenantNestedInput
   geolocalizaciones?: Prisma.GeolocalizacionUpdateManyWithoutTenantNestedInput
   logsEvento?: Prisma.LogEventoUpdateManyWithoutTenantNestedInput
-  nivelesRiesgo?: Prisma.NivelRiesgoOperativoUpdateManyWithoutTenantNestedInput
   nominaDetalles?: Prisma.NominaDetalleUpdateManyWithoutTenantNestedInput
   nominas?: Prisma.NominaUpdateManyWithoutTenantNestedInput
   ordenesServicio?: Prisma.OrdenServicioUpdateManyWithoutTenantNestedInput
@@ -5460,10 +4872,10 @@ export type TenantUpdateWithoutMetodosPagoInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUpdateManyWithoutTenantNestedInput
   proveedores?: Prisma.ProveedoresUpdateManyWithoutTenantNestedInput
   referidos?: Prisma.ReferidosUpdateManyWithoutTenantNestedInput
-  segmentos?: Prisma.SegmentoNegocioUpdateManyWithoutTenantNestedInput
   servicios?: Prisma.ServicioUpdateManyWithoutTenantNestedInput
   sesionesActividad?: Prisma.SesionActividadUpdateManyWithoutTenantNestedInput
   subscription?: Prisma.SubscriptionUpdateOneWithoutTenantNestedInput
+  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUpdateManyWithoutTenantsNestedInput
   memberships?: Prisma.TenantMembershipUpdateManyWithoutTenantNestedInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUpdateManyWithoutTenantNestedInput
   tiposInteres?: Prisma.TipoInteresUpdateManyWithoutTenantNestedInput
@@ -5507,7 +4919,6 @@ export type TenantUncheckedUpdateWithoutMetodosPagoInput = {
   evidenciasServicio?: Prisma.EvidenciaServicioUncheckedUpdateManyWithoutTenantNestedInput
   geolocalizaciones?: Prisma.GeolocalizacionUncheckedUpdateManyWithoutTenantNestedInput
   logsEvento?: Prisma.LogEventoUncheckedUpdateManyWithoutTenantNestedInput
-  nivelesRiesgo?: Prisma.NivelRiesgoOperativoUncheckedUpdateManyWithoutTenantNestedInput
   nominaDetalles?: Prisma.NominaDetalleUncheckedUpdateManyWithoutTenantNestedInput
   nominas?: Prisma.NominaUncheckedUpdateManyWithoutTenantNestedInput
   ordenesServicio?: Prisma.OrdenServicioUncheckedUpdateManyWithoutTenantNestedInput
@@ -5520,10 +4931,10 @@ export type TenantUncheckedUpdateWithoutMetodosPagoInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUncheckedUpdateManyWithoutTenantNestedInput
   proveedores?: Prisma.ProveedoresUncheckedUpdateManyWithoutTenantNestedInput
   referidos?: Prisma.ReferidosUncheckedUpdateManyWithoutTenantNestedInput
-  segmentos?: Prisma.SegmentoNegocioUncheckedUpdateManyWithoutTenantNestedInput
   servicios?: Prisma.ServicioUncheckedUpdateManyWithoutTenantNestedInput
   sesionesActividad?: Prisma.SesionActividadUncheckedUpdateManyWithoutTenantNestedInput
   subscription?: Prisma.SubscriptionUncheckedUpdateOneWithoutTenantNestedInput
+  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUncheckedUpdateManyWithoutTenantsNestedInput
   memberships?: Prisma.TenantMembershipUncheckedUpdateManyWithoutTenantNestedInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUncheckedUpdateManyWithoutTenantNestedInput
   tiposInteres?: Prisma.TipoInteresUncheckedUpdateManyWithoutTenantNestedInput
@@ -5567,7 +4978,6 @@ export type TenantCreateWithoutEstadosServicioInput = {
   geolocalizaciones?: Prisma.GeolocalizacionCreateNestedManyWithoutTenantInput
   logsEvento?: Prisma.LogEventoCreateNestedManyWithoutTenantInput
   metodosPago?: Prisma.MetodoPagoCreateNestedManyWithoutTenantInput
-  nivelesRiesgo?: Prisma.NivelRiesgoOperativoCreateNestedManyWithoutTenantInput
   nominaDetalles?: Prisma.NominaDetalleCreateNestedManyWithoutTenantInput
   nominas?: Prisma.NominaCreateNestedManyWithoutTenantInput
   ordenesServicio?: Prisma.OrdenServicioCreateNestedManyWithoutTenantInput
@@ -5580,10 +4990,10 @@ export type TenantCreateWithoutEstadosServicioInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoCreateNestedManyWithoutTenantInput
   proveedores?: Prisma.ProveedoresCreateNestedManyWithoutTenantInput
   referidos?: Prisma.ReferidosCreateNestedManyWithoutTenantInput
-  segmentos?: Prisma.SegmentoNegocioCreateNestedManyWithoutTenantInput
   servicios?: Prisma.ServicioCreateNestedManyWithoutTenantInput
   sesionesActividad?: Prisma.SesionActividadCreateNestedManyWithoutTenantInput
   subscription?: Prisma.SubscriptionCreateNestedOneWithoutTenantInput
+  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoCreateNestedManyWithoutTenantsInput
   memberships?: Prisma.TenantMembershipCreateNestedManyWithoutTenantInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosCreateNestedManyWithoutTenantInput
   tiposInteres?: Prisma.TipoInteresCreateNestedManyWithoutTenantInput
@@ -5627,7 +5037,6 @@ export type TenantUncheckedCreateWithoutEstadosServicioInput = {
   geolocalizaciones?: Prisma.GeolocalizacionUncheckedCreateNestedManyWithoutTenantInput
   logsEvento?: Prisma.LogEventoUncheckedCreateNestedManyWithoutTenantInput
   metodosPago?: Prisma.MetodoPagoUncheckedCreateNestedManyWithoutTenantInput
-  nivelesRiesgo?: Prisma.NivelRiesgoOperativoUncheckedCreateNestedManyWithoutTenantInput
   nominaDetalles?: Prisma.NominaDetalleUncheckedCreateNestedManyWithoutTenantInput
   nominas?: Prisma.NominaUncheckedCreateNestedManyWithoutTenantInput
   ordenesServicio?: Prisma.OrdenServicioUncheckedCreateNestedManyWithoutTenantInput
@@ -5640,10 +5049,10 @@ export type TenantUncheckedCreateWithoutEstadosServicioInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUncheckedCreateNestedManyWithoutTenantInput
   proveedores?: Prisma.ProveedoresUncheckedCreateNestedManyWithoutTenantInput
   referidos?: Prisma.ReferidosUncheckedCreateNestedManyWithoutTenantInput
-  segmentos?: Prisma.SegmentoNegocioUncheckedCreateNestedManyWithoutTenantInput
   servicios?: Prisma.ServicioUncheckedCreateNestedManyWithoutTenantInput
   sesionesActividad?: Prisma.SesionActividadUncheckedCreateNestedManyWithoutTenantInput
   subscription?: Prisma.SubscriptionUncheckedCreateNestedOneWithoutTenantInput
+  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUncheckedCreateNestedManyWithoutTenantsInput
   memberships?: Prisma.TenantMembershipUncheckedCreateNestedManyWithoutTenantInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUncheckedCreateNestedManyWithoutTenantInput
   tiposInteres?: Prisma.TipoInteresUncheckedCreateNestedManyWithoutTenantInput
@@ -5703,7 +5112,6 @@ export type TenantUpdateWithoutEstadosServicioInput = {
   geolocalizaciones?: Prisma.GeolocalizacionUpdateManyWithoutTenantNestedInput
   logsEvento?: Prisma.LogEventoUpdateManyWithoutTenantNestedInput
   metodosPago?: Prisma.MetodoPagoUpdateManyWithoutTenantNestedInput
-  nivelesRiesgo?: Prisma.NivelRiesgoOperativoUpdateManyWithoutTenantNestedInput
   nominaDetalles?: Prisma.NominaDetalleUpdateManyWithoutTenantNestedInput
   nominas?: Prisma.NominaUpdateManyWithoutTenantNestedInput
   ordenesServicio?: Prisma.OrdenServicioUpdateManyWithoutTenantNestedInput
@@ -5716,10 +5124,10 @@ export type TenantUpdateWithoutEstadosServicioInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUpdateManyWithoutTenantNestedInput
   proveedores?: Prisma.ProveedoresUpdateManyWithoutTenantNestedInput
   referidos?: Prisma.ReferidosUpdateManyWithoutTenantNestedInput
-  segmentos?: Prisma.SegmentoNegocioUpdateManyWithoutTenantNestedInput
   servicios?: Prisma.ServicioUpdateManyWithoutTenantNestedInput
   sesionesActividad?: Prisma.SesionActividadUpdateManyWithoutTenantNestedInput
   subscription?: Prisma.SubscriptionUpdateOneWithoutTenantNestedInput
+  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUpdateManyWithoutTenantsNestedInput
   memberships?: Prisma.TenantMembershipUpdateManyWithoutTenantNestedInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUpdateManyWithoutTenantNestedInput
   tiposInteres?: Prisma.TipoInteresUpdateManyWithoutTenantNestedInput
@@ -5763,7 +5171,6 @@ export type TenantUncheckedUpdateWithoutEstadosServicioInput = {
   geolocalizaciones?: Prisma.GeolocalizacionUncheckedUpdateManyWithoutTenantNestedInput
   logsEvento?: Prisma.LogEventoUncheckedUpdateManyWithoutTenantNestedInput
   metodosPago?: Prisma.MetodoPagoUncheckedUpdateManyWithoutTenantNestedInput
-  nivelesRiesgo?: Prisma.NivelRiesgoOperativoUncheckedUpdateManyWithoutTenantNestedInput
   nominaDetalles?: Prisma.NominaDetalleUncheckedUpdateManyWithoutTenantNestedInput
   nominas?: Prisma.NominaUncheckedUpdateManyWithoutTenantNestedInput
   ordenesServicio?: Prisma.OrdenServicioUncheckedUpdateManyWithoutTenantNestedInput
@@ -5776,10 +5183,10 @@ export type TenantUncheckedUpdateWithoutEstadosServicioInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUncheckedUpdateManyWithoutTenantNestedInput
   proveedores?: Prisma.ProveedoresUncheckedUpdateManyWithoutTenantNestedInput
   referidos?: Prisma.ReferidosUncheckedUpdateManyWithoutTenantNestedInput
-  segmentos?: Prisma.SegmentoNegocioUncheckedUpdateManyWithoutTenantNestedInput
   servicios?: Prisma.ServicioUncheckedUpdateManyWithoutTenantNestedInput
   sesionesActividad?: Prisma.SesionActividadUncheckedUpdateManyWithoutTenantNestedInput
   subscription?: Prisma.SubscriptionUncheckedUpdateOneWithoutTenantNestedInput
+  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUncheckedUpdateManyWithoutTenantsNestedInput
   memberships?: Prisma.TenantMembershipUncheckedUpdateManyWithoutTenantNestedInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUncheckedUpdateManyWithoutTenantNestedInput
   tiposInteres?: Prisma.TipoInteresUncheckedUpdateManyWithoutTenantNestedInput
@@ -5824,7 +5231,6 @@ export type TenantCreateWithoutOrdenesServicioInput = {
   geolocalizaciones?: Prisma.GeolocalizacionCreateNestedManyWithoutTenantInput
   logsEvento?: Prisma.LogEventoCreateNestedManyWithoutTenantInput
   metodosPago?: Prisma.MetodoPagoCreateNestedManyWithoutTenantInput
-  nivelesRiesgo?: Prisma.NivelRiesgoOperativoCreateNestedManyWithoutTenantInput
   nominaDetalles?: Prisma.NominaDetalleCreateNestedManyWithoutTenantInput
   nominas?: Prisma.NominaCreateNestedManyWithoutTenantInput
   orgNodes?: Prisma.OrganizationNodeCreateNestedManyWithoutTenantInput
@@ -5836,10 +5242,10 @@ export type TenantCreateWithoutOrdenesServicioInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoCreateNestedManyWithoutTenantInput
   proveedores?: Prisma.ProveedoresCreateNestedManyWithoutTenantInput
   referidos?: Prisma.ReferidosCreateNestedManyWithoutTenantInput
-  segmentos?: Prisma.SegmentoNegocioCreateNestedManyWithoutTenantInput
   servicios?: Prisma.ServicioCreateNestedManyWithoutTenantInput
   sesionesActividad?: Prisma.SesionActividadCreateNestedManyWithoutTenantInput
   subscription?: Prisma.SubscriptionCreateNestedOneWithoutTenantInput
+  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoCreateNestedManyWithoutTenantsInput
   memberships?: Prisma.TenantMembershipCreateNestedManyWithoutTenantInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosCreateNestedManyWithoutTenantInput
   tiposInteres?: Prisma.TipoInteresCreateNestedManyWithoutTenantInput
@@ -5884,7 +5290,6 @@ export type TenantUncheckedCreateWithoutOrdenesServicioInput = {
   geolocalizaciones?: Prisma.GeolocalizacionUncheckedCreateNestedManyWithoutTenantInput
   logsEvento?: Prisma.LogEventoUncheckedCreateNestedManyWithoutTenantInput
   metodosPago?: Prisma.MetodoPagoUncheckedCreateNestedManyWithoutTenantInput
-  nivelesRiesgo?: Prisma.NivelRiesgoOperativoUncheckedCreateNestedManyWithoutTenantInput
   nominaDetalles?: Prisma.NominaDetalleUncheckedCreateNestedManyWithoutTenantInput
   nominas?: Prisma.NominaUncheckedCreateNestedManyWithoutTenantInput
   orgNodes?: Prisma.OrganizationNodeUncheckedCreateNestedManyWithoutTenantInput
@@ -5896,10 +5301,10 @@ export type TenantUncheckedCreateWithoutOrdenesServicioInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUncheckedCreateNestedManyWithoutTenantInput
   proveedores?: Prisma.ProveedoresUncheckedCreateNestedManyWithoutTenantInput
   referidos?: Prisma.ReferidosUncheckedCreateNestedManyWithoutTenantInput
-  segmentos?: Prisma.SegmentoNegocioUncheckedCreateNestedManyWithoutTenantInput
   servicios?: Prisma.ServicioUncheckedCreateNestedManyWithoutTenantInput
   sesionesActividad?: Prisma.SesionActividadUncheckedCreateNestedManyWithoutTenantInput
   subscription?: Prisma.SubscriptionUncheckedCreateNestedOneWithoutTenantInput
+  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUncheckedCreateNestedManyWithoutTenantsInput
   memberships?: Prisma.TenantMembershipUncheckedCreateNestedManyWithoutTenantInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUncheckedCreateNestedManyWithoutTenantInput
   tiposInteres?: Prisma.TipoInteresUncheckedCreateNestedManyWithoutTenantInput
@@ -5960,7 +5365,6 @@ export type TenantUpdateWithoutOrdenesServicioInput = {
   geolocalizaciones?: Prisma.GeolocalizacionUpdateManyWithoutTenantNestedInput
   logsEvento?: Prisma.LogEventoUpdateManyWithoutTenantNestedInput
   metodosPago?: Prisma.MetodoPagoUpdateManyWithoutTenantNestedInput
-  nivelesRiesgo?: Prisma.NivelRiesgoOperativoUpdateManyWithoutTenantNestedInput
   nominaDetalles?: Prisma.NominaDetalleUpdateManyWithoutTenantNestedInput
   nominas?: Prisma.NominaUpdateManyWithoutTenantNestedInput
   orgNodes?: Prisma.OrganizationNodeUpdateManyWithoutTenantNestedInput
@@ -5972,10 +5376,10 @@ export type TenantUpdateWithoutOrdenesServicioInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUpdateManyWithoutTenantNestedInput
   proveedores?: Prisma.ProveedoresUpdateManyWithoutTenantNestedInput
   referidos?: Prisma.ReferidosUpdateManyWithoutTenantNestedInput
-  segmentos?: Prisma.SegmentoNegocioUpdateManyWithoutTenantNestedInput
   servicios?: Prisma.ServicioUpdateManyWithoutTenantNestedInput
   sesionesActividad?: Prisma.SesionActividadUpdateManyWithoutTenantNestedInput
   subscription?: Prisma.SubscriptionUpdateOneWithoutTenantNestedInput
+  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUpdateManyWithoutTenantsNestedInput
   memberships?: Prisma.TenantMembershipUpdateManyWithoutTenantNestedInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUpdateManyWithoutTenantNestedInput
   tiposInteres?: Prisma.TipoInteresUpdateManyWithoutTenantNestedInput
@@ -6020,7 +5424,6 @@ export type TenantUncheckedUpdateWithoutOrdenesServicioInput = {
   geolocalizaciones?: Prisma.GeolocalizacionUncheckedUpdateManyWithoutTenantNestedInput
   logsEvento?: Prisma.LogEventoUncheckedUpdateManyWithoutTenantNestedInput
   metodosPago?: Prisma.MetodoPagoUncheckedUpdateManyWithoutTenantNestedInput
-  nivelesRiesgo?: Prisma.NivelRiesgoOperativoUncheckedUpdateManyWithoutTenantNestedInput
   nominaDetalles?: Prisma.NominaDetalleUncheckedUpdateManyWithoutTenantNestedInput
   nominas?: Prisma.NominaUncheckedUpdateManyWithoutTenantNestedInput
   orgNodes?: Prisma.OrganizationNodeUncheckedUpdateManyWithoutTenantNestedInput
@@ -6032,10 +5435,10 @@ export type TenantUncheckedUpdateWithoutOrdenesServicioInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUncheckedUpdateManyWithoutTenantNestedInput
   proveedores?: Prisma.ProveedoresUncheckedUpdateManyWithoutTenantNestedInput
   referidos?: Prisma.ReferidosUncheckedUpdateManyWithoutTenantNestedInput
-  segmentos?: Prisma.SegmentoNegocioUncheckedUpdateManyWithoutTenantNestedInput
   servicios?: Prisma.ServicioUncheckedUpdateManyWithoutTenantNestedInput
   sesionesActividad?: Prisma.SesionActividadUncheckedUpdateManyWithoutTenantNestedInput
   subscription?: Prisma.SubscriptionUncheckedUpdateOneWithoutTenantNestedInput
+  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUncheckedUpdateManyWithoutTenantsNestedInput
   memberships?: Prisma.TenantMembershipUncheckedUpdateManyWithoutTenantNestedInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUncheckedUpdateManyWithoutTenantNestedInput
   tiposInteres?: Prisma.TipoInteresUncheckedUpdateManyWithoutTenantNestedInput
@@ -6079,7 +5482,6 @@ export type TenantCreateWithoutEntidadesFinancierasInput = {
   geolocalizaciones?: Prisma.GeolocalizacionCreateNestedManyWithoutTenantInput
   logsEvento?: Prisma.LogEventoCreateNestedManyWithoutTenantInput
   metodosPago?: Prisma.MetodoPagoCreateNestedManyWithoutTenantInput
-  nivelesRiesgo?: Prisma.NivelRiesgoOperativoCreateNestedManyWithoutTenantInput
   nominaDetalles?: Prisma.NominaDetalleCreateNestedManyWithoutTenantInput
   nominas?: Prisma.NominaCreateNestedManyWithoutTenantInput
   ordenesServicio?: Prisma.OrdenServicioCreateNestedManyWithoutTenantInput
@@ -6092,10 +5494,10 @@ export type TenantCreateWithoutEntidadesFinancierasInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoCreateNestedManyWithoutTenantInput
   proveedores?: Prisma.ProveedoresCreateNestedManyWithoutTenantInput
   referidos?: Prisma.ReferidosCreateNestedManyWithoutTenantInput
-  segmentos?: Prisma.SegmentoNegocioCreateNestedManyWithoutTenantInput
   servicios?: Prisma.ServicioCreateNestedManyWithoutTenantInput
   sesionesActividad?: Prisma.SesionActividadCreateNestedManyWithoutTenantInput
   subscription?: Prisma.SubscriptionCreateNestedOneWithoutTenantInput
+  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoCreateNestedManyWithoutTenantsInput
   memberships?: Prisma.TenantMembershipCreateNestedManyWithoutTenantInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosCreateNestedManyWithoutTenantInput
   tiposInteres?: Prisma.TipoInteresCreateNestedManyWithoutTenantInput
@@ -6139,7 +5541,6 @@ export type TenantUncheckedCreateWithoutEntidadesFinancierasInput = {
   geolocalizaciones?: Prisma.GeolocalizacionUncheckedCreateNestedManyWithoutTenantInput
   logsEvento?: Prisma.LogEventoUncheckedCreateNestedManyWithoutTenantInput
   metodosPago?: Prisma.MetodoPagoUncheckedCreateNestedManyWithoutTenantInput
-  nivelesRiesgo?: Prisma.NivelRiesgoOperativoUncheckedCreateNestedManyWithoutTenantInput
   nominaDetalles?: Prisma.NominaDetalleUncheckedCreateNestedManyWithoutTenantInput
   nominas?: Prisma.NominaUncheckedCreateNestedManyWithoutTenantInput
   ordenesServicio?: Prisma.OrdenServicioUncheckedCreateNestedManyWithoutTenantInput
@@ -6152,10 +5553,10 @@ export type TenantUncheckedCreateWithoutEntidadesFinancierasInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUncheckedCreateNestedManyWithoutTenantInput
   proveedores?: Prisma.ProveedoresUncheckedCreateNestedManyWithoutTenantInput
   referidos?: Prisma.ReferidosUncheckedCreateNestedManyWithoutTenantInput
-  segmentos?: Prisma.SegmentoNegocioUncheckedCreateNestedManyWithoutTenantInput
   servicios?: Prisma.ServicioUncheckedCreateNestedManyWithoutTenantInput
   sesionesActividad?: Prisma.SesionActividadUncheckedCreateNestedManyWithoutTenantInput
   subscription?: Prisma.SubscriptionUncheckedCreateNestedOneWithoutTenantInput
+  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUncheckedCreateNestedManyWithoutTenantsInput
   memberships?: Prisma.TenantMembershipUncheckedCreateNestedManyWithoutTenantInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUncheckedCreateNestedManyWithoutTenantInput
   tiposInteres?: Prisma.TipoInteresUncheckedCreateNestedManyWithoutTenantInput
@@ -6215,7 +5616,6 @@ export type TenantUpdateWithoutEntidadesFinancierasInput = {
   geolocalizaciones?: Prisma.GeolocalizacionUpdateManyWithoutTenantNestedInput
   logsEvento?: Prisma.LogEventoUpdateManyWithoutTenantNestedInput
   metodosPago?: Prisma.MetodoPagoUpdateManyWithoutTenantNestedInput
-  nivelesRiesgo?: Prisma.NivelRiesgoOperativoUpdateManyWithoutTenantNestedInput
   nominaDetalles?: Prisma.NominaDetalleUpdateManyWithoutTenantNestedInput
   nominas?: Prisma.NominaUpdateManyWithoutTenantNestedInput
   ordenesServicio?: Prisma.OrdenServicioUpdateManyWithoutTenantNestedInput
@@ -6228,10 +5628,10 @@ export type TenantUpdateWithoutEntidadesFinancierasInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUpdateManyWithoutTenantNestedInput
   proveedores?: Prisma.ProveedoresUpdateManyWithoutTenantNestedInput
   referidos?: Prisma.ReferidosUpdateManyWithoutTenantNestedInput
-  segmentos?: Prisma.SegmentoNegocioUpdateManyWithoutTenantNestedInput
   servicios?: Prisma.ServicioUpdateManyWithoutTenantNestedInput
   sesionesActividad?: Prisma.SesionActividadUpdateManyWithoutTenantNestedInput
   subscription?: Prisma.SubscriptionUpdateOneWithoutTenantNestedInput
+  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUpdateManyWithoutTenantsNestedInput
   memberships?: Prisma.TenantMembershipUpdateManyWithoutTenantNestedInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUpdateManyWithoutTenantNestedInput
   tiposInteres?: Prisma.TipoInteresUpdateManyWithoutTenantNestedInput
@@ -6275,7 +5675,6 @@ export type TenantUncheckedUpdateWithoutEntidadesFinancierasInput = {
   geolocalizaciones?: Prisma.GeolocalizacionUncheckedUpdateManyWithoutTenantNestedInput
   logsEvento?: Prisma.LogEventoUncheckedUpdateManyWithoutTenantNestedInput
   metodosPago?: Prisma.MetodoPagoUncheckedUpdateManyWithoutTenantNestedInput
-  nivelesRiesgo?: Prisma.NivelRiesgoOperativoUncheckedUpdateManyWithoutTenantNestedInput
   nominaDetalles?: Prisma.NominaDetalleUncheckedUpdateManyWithoutTenantNestedInput
   nominas?: Prisma.NominaUncheckedUpdateManyWithoutTenantNestedInput
   ordenesServicio?: Prisma.OrdenServicioUncheckedUpdateManyWithoutTenantNestedInput
@@ -6288,10 +5687,10 @@ export type TenantUncheckedUpdateWithoutEntidadesFinancierasInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUncheckedUpdateManyWithoutTenantNestedInput
   proveedores?: Prisma.ProveedoresUncheckedUpdateManyWithoutTenantNestedInput
   referidos?: Prisma.ReferidosUncheckedUpdateManyWithoutTenantNestedInput
-  segmentos?: Prisma.SegmentoNegocioUncheckedUpdateManyWithoutTenantNestedInput
   servicios?: Prisma.ServicioUncheckedUpdateManyWithoutTenantNestedInput
   sesionesActividad?: Prisma.SesionActividadUncheckedUpdateManyWithoutTenantNestedInput
   subscription?: Prisma.SubscriptionUncheckedUpdateOneWithoutTenantNestedInput
+  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUncheckedUpdateManyWithoutTenantsNestedInput
   memberships?: Prisma.TenantMembershipUncheckedUpdateManyWithoutTenantNestedInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUncheckedUpdateManyWithoutTenantNestedInput
   tiposInteres?: Prisma.TipoInteresUncheckedUpdateManyWithoutTenantNestedInput
@@ -6335,7 +5734,6 @@ export type TenantCreateWithoutGeolocalizacionesInput = {
   evidenciasServicio?: Prisma.EvidenciaServicioCreateNestedManyWithoutTenantInput
   logsEvento?: Prisma.LogEventoCreateNestedManyWithoutTenantInput
   metodosPago?: Prisma.MetodoPagoCreateNestedManyWithoutTenantInput
-  nivelesRiesgo?: Prisma.NivelRiesgoOperativoCreateNestedManyWithoutTenantInput
   nominaDetalles?: Prisma.NominaDetalleCreateNestedManyWithoutTenantInput
   nominas?: Prisma.NominaCreateNestedManyWithoutTenantInput
   ordenesServicio?: Prisma.OrdenServicioCreateNestedManyWithoutTenantInput
@@ -6348,10 +5746,10 @@ export type TenantCreateWithoutGeolocalizacionesInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoCreateNestedManyWithoutTenantInput
   proveedores?: Prisma.ProveedoresCreateNestedManyWithoutTenantInput
   referidos?: Prisma.ReferidosCreateNestedManyWithoutTenantInput
-  segmentos?: Prisma.SegmentoNegocioCreateNestedManyWithoutTenantInput
   servicios?: Prisma.ServicioCreateNestedManyWithoutTenantInput
   sesionesActividad?: Prisma.SesionActividadCreateNestedManyWithoutTenantInput
   subscription?: Prisma.SubscriptionCreateNestedOneWithoutTenantInput
+  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoCreateNestedManyWithoutTenantsInput
   memberships?: Prisma.TenantMembershipCreateNestedManyWithoutTenantInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosCreateNestedManyWithoutTenantInput
   tiposInteres?: Prisma.TipoInteresCreateNestedManyWithoutTenantInput
@@ -6395,7 +5793,6 @@ export type TenantUncheckedCreateWithoutGeolocalizacionesInput = {
   evidenciasServicio?: Prisma.EvidenciaServicioUncheckedCreateNestedManyWithoutTenantInput
   logsEvento?: Prisma.LogEventoUncheckedCreateNestedManyWithoutTenantInput
   metodosPago?: Prisma.MetodoPagoUncheckedCreateNestedManyWithoutTenantInput
-  nivelesRiesgo?: Prisma.NivelRiesgoOperativoUncheckedCreateNestedManyWithoutTenantInput
   nominaDetalles?: Prisma.NominaDetalleUncheckedCreateNestedManyWithoutTenantInput
   nominas?: Prisma.NominaUncheckedCreateNestedManyWithoutTenantInput
   ordenesServicio?: Prisma.OrdenServicioUncheckedCreateNestedManyWithoutTenantInput
@@ -6408,10 +5805,10 @@ export type TenantUncheckedCreateWithoutGeolocalizacionesInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUncheckedCreateNestedManyWithoutTenantInput
   proveedores?: Prisma.ProveedoresUncheckedCreateNestedManyWithoutTenantInput
   referidos?: Prisma.ReferidosUncheckedCreateNestedManyWithoutTenantInput
-  segmentos?: Prisma.SegmentoNegocioUncheckedCreateNestedManyWithoutTenantInput
   servicios?: Prisma.ServicioUncheckedCreateNestedManyWithoutTenantInput
   sesionesActividad?: Prisma.SesionActividadUncheckedCreateNestedManyWithoutTenantInput
   subscription?: Prisma.SubscriptionUncheckedCreateNestedOneWithoutTenantInput
+  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUncheckedCreateNestedManyWithoutTenantsInput
   memberships?: Prisma.TenantMembershipUncheckedCreateNestedManyWithoutTenantInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUncheckedCreateNestedManyWithoutTenantInput
   tiposInteres?: Prisma.TipoInteresUncheckedCreateNestedManyWithoutTenantInput
@@ -6471,7 +5868,6 @@ export type TenantUpdateWithoutGeolocalizacionesInput = {
   evidenciasServicio?: Prisma.EvidenciaServicioUpdateManyWithoutTenantNestedInput
   logsEvento?: Prisma.LogEventoUpdateManyWithoutTenantNestedInput
   metodosPago?: Prisma.MetodoPagoUpdateManyWithoutTenantNestedInput
-  nivelesRiesgo?: Prisma.NivelRiesgoOperativoUpdateManyWithoutTenantNestedInput
   nominaDetalles?: Prisma.NominaDetalleUpdateManyWithoutTenantNestedInput
   nominas?: Prisma.NominaUpdateManyWithoutTenantNestedInput
   ordenesServicio?: Prisma.OrdenServicioUpdateManyWithoutTenantNestedInput
@@ -6484,10 +5880,10 @@ export type TenantUpdateWithoutGeolocalizacionesInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUpdateManyWithoutTenantNestedInput
   proveedores?: Prisma.ProveedoresUpdateManyWithoutTenantNestedInput
   referidos?: Prisma.ReferidosUpdateManyWithoutTenantNestedInput
-  segmentos?: Prisma.SegmentoNegocioUpdateManyWithoutTenantNestedInput
   servicios?: Prisma.ServicioUpdateManyWithoutTenantNestedInput
   sesionesActividad?: Prisma.SesionActividadUpdateManyWithoutTenantNestedInput
   subscription?: Prisma.SubscriptionUpdateOneWithoutTenantNestedInput
+  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUpdateManyWithoutTenantsNestedInput
   memberships?: Prisma.TenantMembershipUpdateManyWithoutTenantNestedInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUpdateManyWithoutTenantNestedInput
   tiposInteres?: Prisma.TipoInteresUpdateManyWithoutTenantNestedInput
@@ -6531,7 +5927,6 @@ export type TenantUncheckedUpdateWithoutGeolocalizacionesInput = {
   evidenciasServicio?: Prisma.EvidenciaServicioUncheckedUpdateManyWithoutTenantNestedInput
   logsEvento?: Prisma.LogEventoUncheckedUpdateManyWithoutTenantNestedInput
   metodosPago?: Prisma.MetodoPagoUncheckedUpdateManyWithoutTenantNestedInput
-  nivelesRiesgo?: Prisma.NivelRiesgoOperativoUncheckedUpdateManyWithoutTenantNestedInput
   nominaDetalles?: Prisma.NominaDetalleUncheckedUpdateManyWithoutTenantNestedInput
   nominas?: Prisma.NominaUncheckedUpdateManyWithoutTenantNestedInput
   ordenesServicio?: Prisma.OrdenServicioUncheckedUpdateManyWithoutTenantNestedInput
@@ -6544,10 +5939,10 @@ export type TenantUncheckedUpdateWithoutGeolocalizacionesInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUncheckedUpdateManyWithoutTenantNestedInput
   proveedores?: Prisma.ProveedoresUncheckedUpdateManyWithoutTenantNestedInput
   referidos?: Prisma.ReferidosUncheckedUpdateManyWithoutTenantNestedInput
-  segmentos?: Prisma.SegmentoNegocioUncheckedUpdateManyWithoutTenantNestedInput
   servicios?: Prisma.ServicioUncheckedUpdateManyWithoutTenantNestedInput
   sesionesActividad?: Prisma.SesionActividadUncheckedUpdateManyWithoutTenantNestedInput
   subscription?: Prisma.SubscriptionUncheckedUpdateOneWithoutTenantNestedInput
+  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUncheckedUpdateManyWithoutTenantsNestedInput
   memberships?: Prisma.TenantMembershipUncheckedUpdateManyWithoutTenantNestedInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUncheckedUpdateManyWithoutTenantNestedInput
   tiposInteres?: Prisma.TipoInteresUncheckedUpdateManyWithoutTenantNestedInput
@@ -6592,7 +5987,6 @@ export type TenantCreateWithoutNominasInput = {
   geolocalizaciones?: Prisma.GeolocalizacionCreateNestedManyWithoutTenantInput
   logsEvento?: Prisma.LogEventoCreateNestedManyWithoutTenantInput
   metodosPago?: Prisma.MetodoPagoCreateNestedManyWithoutTenantInput
-  nivelesRiesgo?: Prisma.NivelRiesgoOperativoCreateNestedManyWithoutTenantInput
   nominaDetalles?: Prisma.NominaDetalleCreateNestedManyWithoutTenantInput
   ordenesServicio?: Prisma.OrdenServicioCreateNestedManyWithoutTenantInput
   orgNodes?: Prisma.OrganizationNodeCreateNestedManyWithoutTenantInput
@@ -6604,10 +5998,10 @@ export type TenantCreateWithoutNominasInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoCreateNestedManyWithoutTenantInput
   proveedores?: Prisma.ProveedoresCreateNestedManyWithoutTenantInput
   referidos?: Prisma.ReferidosCreateNestedManyWithoutTenantInput
-  segmentos?: Prisma.SegmentoNegocioCreateNestedManyWithoutTenantInput
   servicios?: Prisma.ServicioCreateNestedManyWithoutTenantInput
   sesionesActividad?: Prisma.SesionActividadCreateNestedManyWithoutTenantInput
   subscription?: Prisma.SubscriptionCreateNestedOneWithoutTenantInput
+  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoCreateNestedManyWithoutTenantsInput
   memberships?: Prisma.TenantMembershipCreateNestedManyWithoutTenantInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosCreateNestedManyWithoutTenantInput
   tiposInteres?: Prisma.TipoInteresCreateNestedManyWithoutTenantInput
@@ -6652,7 +6046,6 @@ export type TenantUncheckedCreateWithoutNominasInput = {
   geolocalizaciones?: Prisma.GeolocalizacionUncheckedCreateNestedManyWithoutTenantInput
   logsEvento?: Prisma.LogEventoUncheckedCreateNestedManyWithoutTenantInput
   metodosPago?: Prisma.MetodoPagoUncheckedCreateNestedManyWithoutTenantInput
-  nivelesRiesgo?: Prisma.NivelRiesgoOperativoUncheckedCreateNestedManyWithoutTenantInput
   nominaDetalles?: Prisma.NominaDetalleUncheckedCreateNestedManyWithoutTenantInput
   ordenesServicio?: Prisma.OrdenServicioUncheckedCreateNestedManyWithoutTenantInput
   orgNodes?: Prisma.OrganizationNodeUncheckedCreateNestedManyWithoutTenantInput
@@ -6664,10 +6057,10 @@ export type TenantUncheckedCreateWithoutNominasInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUncheckedCreateNestedManyWithoutTenantInput
   proveedores?: Prisma.ProveedoresUncheckedCreateNestedManyWithoutTenantInput
   referidos?: Prisma.ReferidosUncheckedCreateNestedManyWithoutTenantInput
-  segmentos?: Prisma.SegmentoNegocioUncheckedCreateNestedManyWithoutTenantInput
   servicios?: Prisma.ServicioUncheckedCreateNestedManyWithoutTenantInput
   sesionesActividad?: Prisma.SesionActividadUncheckedCreateNestedManyWithoutTenantInput
   subscription?: Prisma.SubscriptionUncheckedCreateNestedOneWithoutTenantInput
+  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUncheckedCreateNestedManyWithoutTenantsInput
   memberships?: Prisma.TenantMembershipUncheckedCreateNestedManyWithoutTenantInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUncheckedCreateNestedManyWithoutTenantInput
   tiposInteres?: Prisma.TipoInteresUncheckedCreateNestedManyWithoutTenantInput
@@ -6728,7 +6121,6 @@ export type TenantUpdateWithoutNominasInput = {
   geolocalizaciones?: Prisma.GeolocalizacionUpdateManyWithoutTenantNestedInput
   logsEvento?: Prisma.LogEventoUpdateManyWithoutTenantNestedInput
   metodosPago?: Prisma.MetodoPagoUpdateManyWithoutTenantNestedInput
-  nivelesRiesgo?: Prisma.NivelRiesgoOperativoUpdateManyWithoutTenantNestedInput
   nominaDetalles?: Prisma.NominaDetalleUpdateManyWithoutTenantNestedInput
   ordenesServicio?: Prisma.OrdenServicioUpdateManyWithoutTenantNestedInput
   orgNodes?: Prisma.OrganizationNodeUpdateManyWithoutTenantNestedInput
@@ -6740,10 +6132,10 @@ export type TenantUpdateWithoutNominasInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUpdateManyWithoutTenantNestedInput
   proveedores?: Prisma.ProveedoresUpdateManyWithoutTenantNestedInput
   referidos?: Prisma.ReferidosUpdateManyWithoutTenantNestedInput
-  segmentos?: Prisma.SegmentoNegocioUpdateManyWithoutTenantNestedInput
   servicios?: Prisma.ServicioUpdateManyWithoutTenantNestedInput
   sesionesActividad?: Prisma.SesionActividadUpdateManyWithoutTenantNestedInput
   subscription?: Prisma.SubscriptionUpdateOneWithoutTenantNestedInput
+  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUpdateManyWithoutTenantsNestedInput
   memberships?: Prisma.TenantMembershipUpdateManyWithoutTenantNestedInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUpdateManyWithoutTenantNestedInput
   tiposInteres?: Prisma.TipoInteresUpdateManyWithoutTenantNestedInput
@@ -6788,7 +6180,6 @@ export type TenantUncheckedUpdateWithoutNominasInput = {
   geolocalizaciones?: Prisma.GeolocalizacionUncheckedUpdateManyWithoutTenantNestedInput
   logsEvento?: Prisma.LogEventoUncheckedUpdateManyWithoutTenantNestedInput
   metodosPago?: Prisma.MetodoPagoUncheckedUpdateManyWithoutTenantNestedInput
-  nivelesRiesgo?: Prisma.NivelRiesgoOperativoUncheckedUpdateManyWithoutTenantNestedInput
   nominaDetalles?: Prisma.NominaDetalleUncheckedUpdateManyWithoutTenantNestedInput
   ordenesServicio?: Prisma.OrdenServicioUncheckedUpdateManyWithoutTenantNestedInput
   orgNodes?: Prisma.OrganizationNodeUncheckedUpdateManyWithoutTenantNestedInput
@@ -6800,10 +6191,10 @@ export type TenantUncheckedUpdateWithoutNominasInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUncheckedUpdateManyWithoutTenantNestedInput
   proveedores?: Prisma.ProveedoresUncheckedUpdateManyWithoutTenantNestedInput
   referidos?: Prisma.ReferidosUncheckedUpdateManyWithoutTenantNestedInput
-  segmentos?: Prisma.SegmentoNegocioUncheckedUpdateManyWithoutTenantNestedInput
   servicios?: Prisma.ServicioUncheckedUpdateManyWithoutTenantNestedInput
   sesionesActividad?: Prisma.SesionActividadUncheckedUpdateManyWithoutTenantNestedInput
   subscription?: Prisma.SubscriptionUncheckedUpdateOneWithoutTenantNestedInput
+  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUncheckedUpdateManyWithoutTenantsNestedInput
   memberships?: Prisma.TenantMembershipUncheckedUpdateManyWithoutTenantNestedInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUncheckedUpdateManyWithoutTenantNestedInput
   tiposInteres?: Prisma.TipoInteresUncheckedUpdateManyWithoutTenantNestedInput
@@ -6848,7 +6239,6 @@ export type TenantCreateWithoutNominaDetallesInput = {
   geolocalizaciones?: Prisma.GeolocalizacionCreateNestedManyWithoutTenantInput
   logsEvento?: Prisma.LogEventoCreateNestedManyWithoutTenantInput
   metodosPago?: Prisma.MetodoPagoCreateNestedManyWithoutTenantInput
-  nivelesRiesgo?: Prisma.NivelRiesgoOperativoCreateNestedManyWithoutTenantInput
   nominas?: Prisma.NominaCreateNestedManyWithoutTenantInput
   ordenesServicio?: Prisma.OrdenServicioCreateNestedManyWithoutTenantInput
   orgNodes?: Prisma.OrganizationNodeCreateNestedManyWithoutTenantInput
@@ -6860,10 +6250,10 @@ export type TenantCreateWithoutNominaDetallesInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoCreateNestedManyWithoutTenantInput
   proveedores?: Prisma.ProveedoresCreateNestedManyWithoutTenantInput
   referidos?: Prisma.ReferidosCreateNestedManyWithoutTenantInput
-  segmentos?: Prisma.SegmentoNegocioCreateNestedManyWithoutTenantInput
   servicios?: Prisma.ServicioCreateNestedManyWithoutTenantInput
   sesionesActividad?: Prisma.SesionActividadCreateNestedManyWithoutTenantInput
   subscription?: Prisma.SubscriptionCreateNestedOneWithoutTenantInput
+  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoCreateNestedManyWithoutTenantsInput
   memberships?: Prisma.TenantMembershipCreateNestedManyWithoutTenantInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosCreateNestedManyWithoutTenantInput
   tiposInteres?: Prisma.TipoInteresCreateNestedManyWithoutTenantInput
@@ -6908,7 +6298,6 @@ export type TenantUncheckedCreateWithoutNominaDetallesInput = {
   geolocalizaciones?: Prisma.GeolocalizacionUncheckedCreateNestedManyWithoutTenantInput
   logsEvento?: Prisma.LogEventoUncheckedCreateNestedManyWithoutTenantInput
   metodosPago?: Prisma.MetodoPagoUncheckedCreateNestedManyWithoutTenantInput
-  nivelesRiesgo?: Prisma.NivelRiesgoOperativoUncheckedCreateNestedManyWithoutTenantInput
   nominas?: Prisma.NominaUncheckedCreateNestedManyWithoutTenantInput
   ordenesServicio?: Prisma.OrdenServicioUncheckedCreateNestedManyWithoutTenantInput
   orgNodes?: Prisma.OrganizationNodeUncheckedCreateNestedManyWithoutTenantInput
@@ -6920,10 +6309,10 @@ export type TenantUncheckedCreateWithoutNominaDetallesInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUncheckedCreateNestedManyWithoutTenantInput
   proveedores?: Prisma.ProveedoresUncheckedCreateNestedManyWithoutTenantInput
   referidos?: Prisma.ReferidosUncheckedCreateNestedManyWithoutTenantInput
-  segmentos?: Prisma.SegmentoNegocioUncheckedCreateNestedManyWithoutTenantInput
   servicios?: Prisma.ServicioUncheckedCreateNestedManyWithoutTenantInput
   sesionesActividad?: Prisma.SesionActividadUncheckedCreateNestedManyWithoutTenantInput
   subscription?: Prisma.SubscriptionUncheckedCreateNestedOneWithoutTenantInput
+  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUncheckedCreateNestedManyWithoutTenantsInput
   memberships?: Prisma.TenantMembershipUncheckedCreateNestedManyWithoutTenantInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUncheckedCreateNestedManyWithoutTenantInput
   tiposInteres?: Prisma.TipoInteresUncheckedCreateNestedManyWithoutTenantInput
@@ -6984,7 +6373,6 @@ export type TenantUpdateWithoutNominaDetallesInput = {
   geolocalizaciones?: Prisma.GeolocalizacionUpdateManyWithoutTenantNestedInput
   logsEvento?: Prisma.LogEventoUpdateManyWithoutTenantNestedInput
   metodosPago?: Prisma.MetodoPagoUpdateManyWithoutTenantNestedInput
-  nivelesRiesgo?: Prisma.NivelRiesgoOperativoUpdateManyWithoutTenantNestedInput
   nominas?: Prisma.NominaUpdateManyWithoutTenantNestedInput
   ordenesServicio?: Prisma.OrdenServicioUpdateManyWithoutTenantNestedInput
   orgNodes?: Prisma.OrganizationNodeUpdateManyWithoutTenantNestedInput
@@ -6996,10 +6384,10 @@ export type TenantUpdateWithoutNominaDetallesInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUpdateManyWithoutTenantNestedInput
   proveedores?: Prisma.ProveedoresUpdateManyWithoutTenantNestedInput
   referidos?: Prisma.ReferidosUpdateManyWithoutTenantNestedInput
-  segmentos?: Prisma.SegmentoNegocioUpdateManyWithoutTenantNestedInput
   servicios?: Prisma.ServicioUpdateManyWithoutTenantNestedInput
   sesionesActividad?: Prisma.SesionActividadUpdateManyWithoutTenantNestedInput
   subscription?: Prisma.SubscriptionUpdateOneWithoutTenantNestedInput
+  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUpdateManyWithoutTenantsNestedInput
   memberships?: Prisma.TenantMembershipUpdateManyWithoutTenantNestedInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUpdateManyWithoutTenantNestedInput
   tiposInteres?: Prisma.TipoInteresUpdateManyWithoutTenantNestedInput
@@ -7044,7 +6432,6 @@ export type TenantUncheckedUpdateWithoutNominaDetallesInput = {
   geolocalizaciones?: Prisma.GeolocalizacionUncheckedUpdateManyWithoutTenantNestedInput
   logsEvento?: Prisma.LogEventoUncheckedUpdateManyWithoutTenantNestedInput
   metodosPago?: Prisma.MetodoPagoUncheckedUpdateManyWithoutTenantNestedInput
-  nivelesRiesgo?: Prisma.NivelRiesgoOperativoUncheckedUpdateManyWithoutTenantNestedInput
   nominas?: Prisma.NominaUncheckedUpdateManyWithoutTenantNestedInput
   ordenesServicio?: Prisma.OrdenServicioUncheckedUpdateManyWithoutTenantNestedInput
   orgNodes?: Prisma.OrganizationNodeUncheckedUpdateManyWithoutTenantNestedInput
@@ -7056,10 +6443,10 @@ export type TenantUncheckedUpdateWithoutNominaDetallesInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUncheckedUpdateManyWithoutTenantNestedInput
   proveedores?: Prisma.ProveedoresUncheckedUpdateManyWithoutTenantNestedInput
   referidos?: Prisma.ReferidosUncheckedUpdateManyWithoutTenantNestedInput
-  segmentos?: Prisma.SegmentoNegocioUncheckedUpdateManyWithoutTenantNestedInput
   servicios?: Prisma.ServicioUncheckedUpdateManyWithoutTenantNestedInput
   sesionesActividad?: Prisma.SesionActividadUncheckedUpdateManyWithoutTenantNestedInput
   subscription?: Prisma.SubscriptionUncheckedUpdateOneWithoutTenantNestedInput
+  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUncheckedUpdateManyWithoutTenantsNestedInput
   memberships?: Prisma.TenantMembershipUncheckedUpdateManyWithoutTenantNestedInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUncheckedUpdateManyWithoutTenantNestedInput
   tiposInteres?: Prisma.TipoInteresUncheckedUpdateManyWithoutTenantNestedInput
@@ -7103,7 +6490,6 @@ export type TenantCreateWithoutCitasPsicologosInput = {
   geolocalizaciones?: Prisma.GeolocalizacionCreateNestedManyWithoutTenantInput
   logsEvento?: Prisma.LogEventoCreateNestedManyWithoutTenantInput
   metodosPago?: Prisma.MetodoPagoCreateNestedManyWithoutTenantInput
-  nivelesRiesgo?: Prisma.NivelRiesgoOperativoCreateNestedManyWithoutTenantInput
   nominaDetalles?: Prisma.NominaDetalleCreateNestedManyWithoutTenantInput
   nominas?: Prisma.NominaCreateNestedManyWithoutTenantInput
   ordenesServicio?: Prisma.OrdenServicioCreateNestedManyWithoutTenantInput
@@ -7116,10 +6502,10 @@ export type TenantCreateWithoutCitasPsicologosInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoCreateNestedManyWithoutTenantInput
   proveedores?: Prisma.ProveedoresCreateNestedManyWithoutTenantInput
   referidos?: Prisma.ReferidosCreateNestedManyWithoutTenantInput
-  segmentos?: Prisma.SegmentoNegocioCreateNestedManyWithoutTenantInput
   servicios?: Prisma.ServicioCreateNestedManyWithoutTenantInput
   sesionesActividad?: Prisma.SesionActividadCreateNestedManyWithoutTenantInput
   subscription?: Prisma.SubscriptionCreateNestedOneWithoutTenantInput
+  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoCreateNestedManyWithoutTenantsInput
   memberships?: Prisma.TenantMembershipCreateNestedManyWithoutTenantInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosCreateNestedManyWithoutTenantInput
   tiposInteres?: Prisma.TipoInteresCreateNestedManyWithoutTenantInput
@@ -7163,7 +6549,6 @@ export type TenantUncheckedCreateWithoutCitasPsicologosInput = {
   geolocalizaciones?: Prisma.GeolocalizacionUncheckedCreateNestedManyWithoutTenantInput
   logsEvento?: Prisma.LogEventoUncheckedCreateNestedManyWithoutTenantInput
   metodosPago?: Prisma.MetodoPagoUncheckedCreateNestedManyWithoutTenantInput
-  nivelesRiesgo?: Prisma.NivelRiesgoOperativoUncheckedCreateNestedManyWithoutTenantInput
   nominaDetalles?: Prisma.NominaDetalleUncheckedCreateNestedManyWithoutTenantInput
   nominas?: Prisma.NominaUncheckedCreateNestedManyWithoutTenantInput
   ordenesServicio?: Prisma.OrdenServicioUncheckedCreateNestedManyWithoutTenantInput
@@ -7176,10 +6561,10 @@ export type TenantUncheckedCreateWithoutCitasPsicologosInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUncheckedCreateNestedManyWithoutTenantInput
   proveedores?: Prisma.ProveedoresUncheckedCreateNestedManyWithoutTenantInput
   referidos?: Prisma.ReferidosUncheckedCreateNestedManyWithoutTenantInput
-  segmentos?: Prisma.SegmentoNegocioUncheckedCreateNestedManyWithoutTenantInput
   servicios?: Prisma.ServicioUncheckedCreateNestedManyWithoutTenantInput
   sesionesActividad?: Prisma.SesionActividadUncheckedCreateNestedManyWithoutTenantInput
   subscription?: Prisma.SubscriptionUncheckedCreateNestedOneWithoutTenantInput
+  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUncheckedCreateNestedManyWithoutTenantsInput
   memberships?: Prisma.TenantMembershipUncheckedCreateNestedManyWithoutTenantInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUncheckedCreateNestedManyWithoutTenantInput
   tiposInteres?: Prisma.TipoInteresUncheckedCreateNestedManyWithoutTenantInput
@@ -7239,7 +6624,6 @@ export type TenantUpdateWithoutCitasPsicologosInput = {
   geolocalizaciones?: Prisma.GeolocalizacionUpdateManyWithoutTenantNestedInput
   logsEvento?: Prisma.LogEventoUpdateManyWithoutTenantNestedInput
   metodosPago?: Prisma.MetodoPagoUpdateManyWithoutTenantNestedInput
-  nivelesRiesgo?: Prisma.NivelRiesgoOperativoUpdateManyWithoutTenantNestedInput
   nominaDetalles?: Prisma.NominaDetalleUpdateManyWithoutTenantNestedInput
   nominas?: Prisma.NominaUpdateManyWithoutTenantNestedInput
   ordenesServicio?: Prisma.OrdenServicioUpdateManyWithoutTenantNestedInput
@@ -7252,10 +6636,10 @@ export type TenantUpdateWithoutCitasPsicologosInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUpdateManyWithoutTenantNestedInput
   proveedores?: Prisma.ProveedoresUpdateManyWithoutTenantNestedInput
   referidos?: Prisma.ReferidosUpdateManyWithoutTenantNestedInput
-  segmentos?: Prisma.SegmentoNegocioUpdateManyWithoutTenantNestedInput
   servicios?: Prisma.ServicioUpdateManyWithoutTenantNestedInput
   sesionesActividad?: Prisma.SesionActividadUpdateManyWithoutTenantNestedInput
   subscription?: Prisma.SubscriptionUpdateOneWithoutTenantNestedInput
+  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUpdateManyWithoutTenantsNestedInput
   memberships?: Prisma.TenantMembershipUpdateManyWithoutTenantNestedInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUpdateManyWithoutTenantNestedInput
   tiposInteres?: Prisma.TipoInteresUpdateManyWithoutTenantNestedInput
@@ -7299,7 +6683,6 @@ export type TenantUncheckedUpdateWithoutCitasPsicologosInput = {
   geolocalizaciones?: Prisma.GeolocalizacionUncheckedUpdateManyWithoutTenantNestedInput
   logsEvento?: Prisma.LogEventoUncheckedUpdateManyWithoutTenantNestedInput
   metodosPago?: Prisma.MetodoPagoUncheckedUpdateManyWithoutTenantNestedInput
-  nivelesRiesgo?: Prisma.NivelRiesgoOperativoUncheckedUpdateManyWithoutTenantNestedInput
   nominaDetalles?: Prisma.NominaDetalleUncheckedUpdateManyWithoutTenantNestedInput
   nominas?: Prisma.NominaUncheckedUpdateManyWithoutTenantNestedInput
   ordenesServicio?: Prisma.OrdenServicioUncheckedUpdateManyWithoutTenantNestedInput
@@ -7312,10 +6695,10 @@ export type TenantUncheckedUpdateWithoutCitasPsicologosInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUncheckedUpdateManyWithoutTenantNestedInput
   proveedores?: Prisma.ProveedoresUncheckedUpdateManyWithoutTenantNestedInput
   referidos?: Prisma.ReferidosUncheckedUpdateManyWithoutTenantNestedInput
-  segmentos?: Prisma.SegmentoNegocioUncheckedUpdateManyWithoutTenantNestedInput
   servicios?: Prisma.ServicioUncheckedUpdateManyWithoutTenantNestedInput
   sesionesActividad?: Prisma.SesionActividadUncheckedUpdateManyWithoutTenantNestedInput
   subscription?: Prisma.SubscriptionUncheckedUpdateOneWithoutTenantNestedInput
+  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUncheckedUpdateManyWithoutTenantsNestedInput
   memberships?: Prisma.TenantMembershipUncheckedUpdateManyWithoutTenantNestedInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUncheckedUpdateManyWithoutTenantNestedInput
   tiposInteres?: Prisma.TipoInteresUncheckedUpdateManyWithoutTenantNestedInput
@@ -7359,7 +6742,6 @@ export type TenantCreateWithoutConsultoriosInput = {
   geolocalizaciones?: Prisma.GeolocalizacionCreateNestedManyWithoutTenantInput
   logsEvento?: Prisma.LogEventoCreateNestedManyWithoutTenantInput
   metodosPago?: Prisma.MetodoPagoCreateNestedManyWithoutTenantInput
-  nivelesRiesgo?: Prisma.NivelRiesgoOperativoCreateNestedManyWithoutTenantInput
   nominaDetalles?: Prisma.NominaDetalleCreateNestedManyWithoutTenantInput
   nominas?: Prisma.NominaCreateNestedManyWithoutTenantInput
   ordenesServicio?: Prisma.OrdenServicioCreateNestedManyWithoutTenantInput
@@ -7372,10 +6754,10 @@ export type TenantCreateWithoutConsultoriosInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoCreateNestedManyWithoutTenantInput
   proveedores?: Prisma.ProveedoresCreateNestedManyWithoutTenantInput
   referidos?: Prisma.ReferidosCreateNestedManyWithoutTenantInput
-  segmentos?: Prisma.SegmentoNegocioCreateNestedManyWithoutTenantInput
   servicios?: Prisma.ServicioCreateNestedManyWithoutTenantInput
   sesionesActividad?: Prisma.SesionActividadCreateNestedManyWithoutTenantInput
   subscription?: Prisma.SubscriptionCreateNestedOneWithoutTenantInput
+  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoCreateNestedManyWithoutTenantsInput
   memberships?: Prisma.TenantMembershipCreateNestedManyWithoutTenantInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosCreateNestedManyWithoutTenantInput
   tiposInteres?: Prisma.TipoInteresCreateNestedManyWithoutTenantInput
@@ -7419,7 +6801,6 @@ export type TenantUncheckedCreateWithoutConsultoriosInput = {
   geolocalizaciones?: Prisma.GeolocalizacionUncheckedCreateNestedManyWithoutTenantInput
   logsEvento?: Prisma.LogEventoUncheckedCreateNestedManyWithoutTenantInput
   metodosPago?: Prisma.MetodoPagoUncheckedCreateNestedManyWithoutTenantInput
-  nivelesRiesgo?: Prisma.NivelRiesgoOperativoUncheckedCreateNestedManyWithoutTenantInput
   nominaDetalles?: Prisma.NominaDetalleUncheckedCreateNestedManyWithoutTenantInput
   nominas?: Prisma.NominaUncheckedCreateNestedManyWithoutTenantInput
   ordenesServicio?: Prisma.OrdenServicioUncheckedCreateNestedManyWithoutTenantInput
@@ -7432,10 +6813,10 @@ export type TenantUncheckedCreateWithoutConsultoriosInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUncheckedCreateNestedManyWithoutTenantInput
   proveedores?: Prisma.ProveedoresUncheckedCreateNestedManyWithoutTenantInput
   referidos?: Prisma.ReferidosUncheckedCreateNestedManyWithoutTenantInput
-  segmentos?: Prisma.SegmentoNegocioUncheckedCreateNestedManyWithoutTenantInput
   servicios?: Prisma.ServicioUncheckedCreateNestedManyWithoutTenantInput
   sesionesActividad?: Prisma.SesionActividadUncheckedCreateNestedManyWithoutTenantInput
   subscription?: Prisma.SubscriptionUncheckedCreateNestedOneWithoutTenantInput
+  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUncheckedCreateNestedManyWithoutTenantsInput
   memberships?: Prisma.TenantMembershipUncheckedCreateNestedManyWithoutTenantInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUncheckedCreateNestedManyWithoutTenantInput
   tiposInteres?: Prisma.TipoInteresUncheckedCreateNestedManyWithoutTenantInput
@@ -7495,7 +6876,6 @@ export type TenantUpdateWithoutConsultoriosInput = {
   geolocalizaciones?: Prisma.GeolocalizacionUpdateManyWithoutTenantNestedInput
   logsEvento?: Prisma.LogEventoUpdateManyWithoutTenantNestedInput
   metodosPago?: Prisma.MetodoPagoUpdateManyWithoutTenantNestedInput
-  nivelesRiesgo?: Prisma.NivelRiesgoOperativoUpdateManyWithoutTenantNestedInput
   nominaDetalles?: Prisma.NominaDetalleUpdateManyWithoutTenantNestedInput
   nominas?: Prisma.NominaUpdateManyWithoutTenantNestedInput
   ordenesServicio?: Prisma.OrdenServicioUpdateManyWithoutTenantNestedInput
@@ -7508,10 +6888,10 @@ export type TenantUpdateWithoutConsultoriosInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUpdateManyWithoutTenantNestedInput
   proveedores?: Prisma.ProveedoresUpdateManyWithoutTenantNestedInput
   referidos?: Prisma.ReferidosUpdateManyWithoutTenantNestedInput
-  segmentos?: Prisma.SegmentoNegocioUpdateManyWithoutTenantNestedInput
   servicios?: Prisma.ServicioUpdateManyWithoutTenantNestedInput
   sesionesActividad?: Prisma.SesionActividadUpdateManyWithoutTenantNestedInput
   subscription?: Prisma.SubscriptionUpdateOneWithoutTenantNestedInput
+  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUpdateManyWithoutTenantsNestedInput
   memberships?: Prisma.TenantMembershipUpdateManyWithoutTenantNestedInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUpdateManyWithoutTenantNestedInput
   tiposInteres?: Prisma.TipoInteresUpdateManyWithoutTenantNestedInput
@@ -7555,7 +6935,6 @@ export type TenantUncheckedUpdateWithoutConsultoriosInput = {
   geolocalizaciones?: Prisma.GeolocalizacionUncheckedUpdateManyWithoutTenantNestedInput
   logsEvento?: Prisma.LogEventoUncheckedUpdateManyWithoutTenantNestedInput
   metodosPago?: Prisma.MetodoPagoUncheckedUpdateManyWithoutTenantNestedInput
-  nivelesRiesgo?: Prisma.NivelRiesgoOperativoUncheckedUpdateManyWithoutTenantNestedInput
   nominaDetalles?: Prisma.NominaDetalleUncheckedUpdateManyWithoutTenantNestedInput
   nominas?: Prisma.NominaUncheckedUpdateManyWithoutTenantNestedInput
   ordenesServicio?: Prisma.OrdenServicioUncheckedUpdateManyWithoutTenantNestedInput
@@ -7568,10 +6947,10 @@ export type TenantUncheckedUpdateWithoutConsultoriosInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUncheckedUpdateManyWithoutTenantNestedInput
   proveedores?: Prisma.ProveedoresUncheckedUpdateManyWithoutTenantNestedInput
   referidos?: Prisma.ReferidosUncheckedUpdateManyWithoutTenantNestedInput
-  segmentos?: Prisma.SegmentoNegocioUncheckedUpdateManyWithoutTenantNestedInput
   servicios?: Prisma.ServicioUncheckedUpdateManyWithoutTenantNestedInput
   sesionesActividad?: Prisma.SesionActividadUncheckedUpdateManyWithoutTenantNestedInput
   subscription?: Prisma.SubscriptionUncheckedUpdateOneWithoutTenantNestedInput
+  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUncheckedUpdateManyWithoutTenantsNestedInput
   memberships?: Prisma.TenantMembershipUncheckedUpdateManyWithoutTenantNestedInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUncheckedUpdateManyWithoutTenantNestedInput
   tiposInteres?: Prisma.TipoInteresUncheckedUpdateManyWithoutTenantNestedInput
@@ -7616,7 +6995,6 @@ export type TenantCreateWithoutTerapiasPsicologosInput = {
   geolocalizaciones?: Prisma.GeolocalizacionCreateNestedManyWithoutTenantInput
   logsEvento?: Prisma.LogEventoCreateNestedManyWithoutTenantInput
   metodosPago?: Prisma.MetodoPagoCreateNestedManyWithoutTenantInput
-  nivelesRiesgo?: Prisma.NivelRiesgoOperativoCreateNestedManyWithoutTenantInput
   nominaDetalles?: Prisma.NominaDetalleCreateNestedManyWithoutTenantInput
   nominas?: Prisma.NominaCreateNestedManyWithoutTenantInput
   ordenesServicio?: Prisma.OrdenServicioCreateNestedManyWithoutTenantInput
@@ -7629,10 +7007,10 @@ export type TenantCreateWithoutTerapiasPsicologosInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoCreateNestedManyWithoutTenantInput
   proveedores?: Prisma.ProveedoresCreateNestedManyWithoutTenantInput
   referidos?: Prisma.ReferidosCreateNestedManyWithoutTenantInput
-  segmentos?: Prisma.SegmentoNegocioCreateNestedManyWithoutTenantInput
   servicios?: Prisma.ServicioCreateNestedManyWithoutTenantInput
   sesionesActividad?: Prisma.SesionActividadCreateNestedManyWithoutTenantInput
   subscription?: Prisma.SubscriptionCreateNestedOneWithoutTenantInput
+  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoCreateNestedManyWithoutTenantsInput
   memberships?: Prisma.TenantMembershipCreateNestedManyWithoutTenantInput
   tiposInteres?: Prisma.TipoInteresCreateNestedManyWithoutTenantInput
   tiposServicio?: Prisma.TipoServicioCreateNestedManyWithoutTenantInput
@@ -7676,7 +7054,6 @@ export type TenantUncheckedCreateWithoutTerapiasPsicologosInput = {
   geolocalizaciones?: Prisma.GeolocalizacionUncheckedCreateNestedManyWithoutTenantInput
   logsEvento?: Prisma.LogEventoUncheckedCreateNestedManyWithoutTenantInput
   metodosPago?: Prisma.MetodoPagoUncheckedCreateNestedManyWithoutTenantInput
-  nivelesRiesgo?: Prisma.NivelRiesgoOperativoUncheckedCreateNestedManyWithoutTenantInput
   nominaDetalles?: Prisma.NominaDetalleUncheckedCreateNestedManyWithoutTenantInput
   nominas?: Prisma.NominaUncheckedCreateNestedManyWithoutTenantInput
   ordenesServicio?: Prisma.OrdenServicioUncheckedCreateNestedManyWithoutTenantInput
@@ -7689,10 +7066,10 @@ export type TenantUncheckedCreateWithoutTerapiasPsicologosInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUncheckedCreateNestedManyWithoutTenantInput
   proveedores?: Prisma.ProveedoresUncheckedCreateNestedManyWithoutTenantInput
   referidos?: Prisma.ReferidosUncheckedCreateNestedManyWithoutTenantInput
-  segmentos?: Prisma.SegmentoNegocioUncheckedCreateNestedManyWithoutTenantInput
   servicios?: Prisma.ServicioUncheckedCreateNestedManyWithoutTenantInput
   sesionesActividad?: Prisma.SesionActividadUncheckedCreateNestedManyWithoutTenantInput
   subscription?: Prisma.SubscriptionUncheckedCreateNestedOneWithoutTenantInput
+  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUncheckedCreateNestedManyWithoutTenantsInput
   memberships?: Prisma.TenantMembershipUncheckedCreateNestedManyWithoutTenantInput
   tiposInteres?: Prisma.TipoInteresUncheckedCreateNestedManyWithoutTenantInput
   tiposServicio?: Prisma.TipoServicioUncheckedCreateNestedManyWithoutTenantInput
@@ -7752,7 +7129,6 @@ export type TenantUpdateWithoutTerapiasPsicologosInput = {
   geolocalizaciones?: Prisma.GeolocalizacionUpdateManyWithoutTenantNestedInput
   logsEvento?: Prisma.LogEventoUpdateManyWithoutTenantNestedInput
   metodosPago?: Prisma.MetodoPagoUpdateManyWithoutTenantNestedInput
-  nivelesRiesgo?: Prisma.NivelRiesgoOperativoUpdateManyWithoutTenantNestedInput
   nominaDetalles?: Prisma.NominaDetalleUpdateManyWithoutTenantNestedInput
   nominas?: Prisma.NominaUpdateManyWithoutTenantNestedInput
   ordenesServicio?: Prisma.OrdenServicioUpdateManyWithoutTenantNestedInput
@@ -7765,10 +7141,10 @@ export type TenantUpdateWithoutTerapiasPsicologosInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUpdateManyWithoutTenantNestedInput
   proveedores?: Prisma.ProveedoresUpdateManyWithoutTenantNestedInput
   referidos?: Prisma.ReferidosUpdateManyWithoutTenantNestedInput
-  segmentos?: Prisma.SegmentoNegocioUpdateManyWithoutTenantNestedInput
   servicios?: Prisma.ServicioUpdateManyWithoutTenantNestedInput
   sesionesActividad?: Prisma.SesionActividadUpdateManyWithoutTenantNestedInput
   subscription?: Prisma.SubscriptionUpdateOneWithoutTenantNestedInput
+  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUpdateManyWithoutTenantsNestedInput
   memberships?: Prisma.TenantMembershipUpdateManyWithoutTenantNestedInput
   tiposInteres?: Prisma.TipoInteresUpdateManyWithoutTenantNestedInput
   tiposServicio?: Prisma.TipoServicioUpdateManyWithoutTenantNestedInput
@@ -7812,7 +7188,6 @@ export type TenantUncheckedUpdateWithoutTerapiasPsicologosInput = {
   geolocalizaciones?: Prisma.GeolocalizacionUncheckedUpdateManyWithoutTenantNestedInput
   logsEvento?: Prisma.LogEventoUncheckedUpdateManyWithoutTenantNestedInput
   metodosPago?: Prisma.MetodoPagoUncheckedUpdateManyWithoutTenantNestedInput
-  nivelesRiesgo?: Prisma.NivelRiesgoOperativoUncheckedUpdateManyWithoutTenantNestedInput
   nominaDetalles?: Prisma.NominaDetalleUncheckedUpdateManyWithoutTenantNestedInput
   nominas?: Prisma.NominaUncheckedUpdateManyWithoutTenantNestedInput
   ordenesServicio?: Prisma.OrdenServicioUncheckedUpdateManyWithoutTenantNestedInput
@@ -7825,10 +7200,10 @@ export type TenantUncheckedUpdateWithoutTerapiasPsicologosInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUncheckedUpdateManyWithoutTenantNestedInput
   proveedores?: Prisma.ProveedoresUncheckedUpdateManyWithoutTenantNestedInput
   referidos?: Prisma.ReferidosUncheckedUpdateManyWithoutTenantNestedInput
-  segmentos?: Prisma.SegmentoNegocioUncheckedUpdateManyWithoutTenantNestedInput
   servicios?: Prisma.ServicioUncheckedUpdateManyWithoutTenantNestedInput
   sesionesActividad?: Prisma.SesionActividadUncheckedUpdateManyWithoutTenantNestedInput
   subscription?: Prisma.SubscriptionUncheckedUpdateOneWithoutTenantNestedInput
+  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUncheckedUpdateManyWithoutTenantsNestedInput
   memberships?: Prisma.TenantMembershipUncheckedUpdateManyWithoutTenantNestedInput
   tiposInteres?: Prisma.TipoInteresUncheckedUpdateManyWithoutTenantNestedInput
   tiposServicio?: Prisma.TipoServicioUncheckedUpdateManyWithoutTenantNestedInput
@@ -7872,7 +7247,6 @@ export type TenantCreateWithoutPaquetesAdquiridosInput = {
   geolocalizaciones?: Prisma.GeolocalizacionCreateNestedManyWithoutTenantInput
   logsEvento?: Prisma.LogEventoCreateNestedManyWithoutTenantInput
   metodosPago?: Prisma.MetodoPagoCreateNestedManyWithoutTenantInput
-  nivelesRiesgo?: Prisma.NivelRiesgoOperativoCreateNestedManyWithoutTenantInput
   nominaDetalles?: Prisma.NominaDetalleCreateNestedManyWithoutTenantInput
   nominas?: Prisma.NominaCreateNestedManyWithoutTenantInput
   ordenesServicio?: Prisma.OrdenServicioCreateNestedManyWithoutTenantInput
@@ -7884,10 +7258,10 @@ export type TenantCreateWithoutPaquetesAdquiridosInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoCreateNestedManyWithoutTenantInput
   proveedores?: Prisma.ProveedoresCreateNestedManyWithoutTenantInput
   referidos?: Prisma.ReferidosCreateNestedManyWithoutTenantInput
-  segmentos?: Prisma.SegmentoNegocioCreateNestedManyWithoutTenantInput
   servicios?: Prisma.ServicioCreateNestedManyWithoutTenantInput
   sesionesActividad?: Prisma.SesionActividadCreateNestedManyWithoutTenantInput
   subscription?: Prisma.SubscriptionCreateNestedOneWithoutTenantInput
+  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoCreateNestedManyWithoutTenantsInput
   memberships?: Prisma.TenantMembershipCreateNestedManyWithoutTenantInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosCreateNestedManyWithoutTenantInput
   tiposInteres?: Prisma.TipoInteresCreateNestedManyWithoutTenantInput
@@ -7932,7 +7306,6 @@ export type TenantUncheckedCreateWithoutPaquetesAdquiridosInput = {
   geolocalizaciones?: Prisma.GeolocalizacionUncheckedCreateNestedManyWithoutTenantInput
   logsEvento?: Prisma.LogEventoUncheckedCreateNestedManyWithoutTenantInput
   metodosPago?: Prisma.MetodoPagoUncheckedCreateNestedManyWithoutTenantInput
-  nivelesRiesgo?: Prisma.NivelRiesgoOperativoUncheckedCreateNestedManyWithoutTenantInput
   nominaDetalles?: Prisma.NominaDetalleUncheckedCreateNestedManyWithoutTenantInput
   nominas?: Prisma.NominaUncheckedCreateNestedManyWithoutTenantInput
   ordenesServicio?: Prisma.OrdenServicioUncheckedCreateNestedManyWithoutTenantInput
@@ -7944,10 +7317,10 @@ export type TenantUncheckedCreateWithoutPaquetesAdquiridosInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUncheckedCreateNestedManyWithoutTenantInput
   proveedores?: Prisma.ProveedoresUncheckedCreateNestedManyWithoutTenantInput
   referidos?: Prisma.ReferidosUncheckedCreateNestedManyWithoutTenantInput
-  segmentos?: Prisma.SegmentoNegocioUncheckedCreateNestedManyWithoutTenantInput
   servicios?: Prisma.ServicioUncheckedCreateNestedManyWithoutTenantInput
   sesionesActividad?: Prisma.SesionActividadUncheckedCreateNestedManyWithoutTenantInput
   subscription?: Prisma.SubscriptionUncheckedCreateNestedOneWithoutTenantInput
+  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUncheckedCreateNestedManyWithoutTenantsInput
   memberships?: Prisma.TenantMembershipUncheckedCreateNestedManyWithoutTenantInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUncheckedCreateNestedManyWithoutTenantInput
   tiposInteres?: Prisma.TipoInteresUncheckedCreateNestedManyWithoutTenantInput
@@ -8008,7 +7381,6 @@ export type TenantUpdateWithoutPaquetesAdquiridosInput = {
   geolocalizaciones?: Prisma.GeolocalizacionUpdateManyWithoutTenantNestedInput
   logsEvento?: Prisma.LogEventoUpdateManyWithoutTenantNestedInput
   metodosPago?: Prisma.MetodoPagoUpdateManyWithoutTenantNestedInput
-  nivelesRiesgo?: Prisma.NivelRiesgoOperativoUpdateManyWithoutTenantNestedInput
   nominaDetalles?: Prisma.NominaDetalleUpdateManyWithoutTenantNestedInput
   nominas?: Prisma.NominaUpdateManyWithoutTenantNestedInput
   ordenesServicio?: Prisma.OrdenServicioUpdateManyWithoutTenantNestedInput
@@ -8020,10 +7392,10 @@ export type TenantUpdateWithoutPaquetesAdquiridosInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUpdateManyWithoutTenantNestedInput
   proveedores?: Prisma.ProveedoresUpdateManyWithoutTenantNestedInput
   referidos?: Prisma.ReferidosUpdateManyWithoutTenantNestedInput
-  segmentos?: Prisma.SegmentoNegocioUpdateManyWithoutTenantNestedInput
   servicios?: Prisma.ServicioUpdateManyWithoutTenantNestedInput
   sesionesActividad?: Prisma.SesionActividadUpdateManyWithoutTenantNestedInput
   subscription?: Prisma.SubscriptionUpdateOneWithoutTenantNestedInput
+  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUpdateManyWithoutTenantsNestedInput
   memberships?: Prisma.TenantMembershipUpdateManyWithoutTenantNestedInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUpdateManyWithoutTenantNestedInput
   tiposInteres?: Prisma.TipoInteresUpdateManyWithoutTenantNestedInput
@@ -8068,7 +7440,6 @@ export type TenantUncheckedUpdateWithoutPaquetesAdquiridosInput = {
   geolocalizaciones?: Prisma.GeolocalizacionUncheckedUpdateManyWithoutTenantNestedInput
   logsEvento?: Prisma.LogEventoUncheckedUpdateManyWithoutTenantNestedInput
   metodosPago?: Prisma.MetodoPagoUncheckedUpdateManyWithoutTenantNestedInput
-  nivelesRiesgo?: Prisma.NivelRiesgoOperativoUncheckedUpdateManyWithoutTenantNestedInput
   nominaDetalles?: Prisma.NominaDetalleUncheckedUpdateManyWithoutTenantNestedInput
   nominas?: Prisma.NominaUncheckedUpdateManyWithoutTenantNestedInput
   ordenesServicio?: Prisma.OrdenServicioUncheckedUpdateManyWithoutTenantNestedInput
@@ -8080,10 +7451,10 @@ export type TenantUncheckedUpdateWithoutPaquetesAdquiridosInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUncheckedUpdateManyWithoutTenantNestedInput
   proveedores?: Prisma.ProveedoresUncheckedUpdateManyWithoutTenantNestedInput
   referidos?: Prisma.ReferidosUncheckedUpdateManyWithoutTenantNestedInput
-  segmentos?: Prisma.SegmentoNegocioUncheckedUpdateManyWithoutTenantNestedInput
   servicios?: Prisma.ServicioUncheckedUpdateManyWithoutTenantNestedInput
   sesionesActividad?: Prisma.SesionActividadUncheckedUpdateManyWithoutTenantNestedInput
   subscription?: Prisma.SubscriptionUncheckedUpdateOneWithoutTenantNestedInput
+  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUncheckedUpdateManyWithoutTenantsNestedInput
   memberships?: Prisma.TenantMembershipUncheckedUpdateManyWithoutTenantNestedInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUncheckedUpdateManyWithoutTenantNestedInput
   tiposInteres?: Prisma.TipoInteresUncheckedUpdateManyWithoutTenantNestedInput
@@ -8128,7 +7499,6 @@ export type TenantCreateWithoutTurnosInput = {
   geolocalizaciones?: Prisma.GeolocalizacionCreateNestedManyWithoutTenantInput
   logsEvento?: Prisma.LogEventoCreateNestedManyWithoutTenantInput
   metodosPago?: Prisma.MetodoPagoCreateNestedManyWithoutTenantInput
-  nivelesRiesgo?: Prisma.NivelRiesgoOperativoCreateNestedManyWithoutTenantInput
   nominaDetalles?: Prisma.NominaDetalleCreateNestedManyWithoutTenantInput
   nominas?: Prisma.NominaCreateNestedManyWithoutTenantInput
   ordenesServicio?: Prisma.OrdenServicioCreateNestedManyWithoutTenantInput
@@ -8141,10 +7511,10 @@ export type TenantCreateWithoutTurnosInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoCreateNestedManyWithoutTenantInput
   proveedores?: Prisma.ProveedoresCreateNestedManyWithoutTenantInput
   referidos?: Prisma.ReferidosCreateNestedManyWithoutTenantInput
-  segmentos?: Prisma.SegmentoNegocioCreateNestedManyWithoutTenantInput
   servicios?: Prisma.ServicioCreateNestedManyWithoutTenantInput
   sesionesActividad?: Prisma.SesionActividadCreateNestedManyWithoutTenantInput
   subscription?: Prisma.SubscriptionCreateNestedOneWithoutTenantInput
+  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoCreateNestedManyWithoutTenantsInput
   memberships?: Prisma.TenantMembershipCreateNestedManyWithoutTenantInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosCreateNestedManyWithoutTenantInput
   tiposInteres?: Prisma.TipoInteresCreateNestedManyWithoutTenantInput
@@ -8188,7 +7558,6 @@ export type TenantUncheckedCreateWithoutTurnosInput = {
   geolocalizaciones?: Prisma.GeolocalizacionUncheckedCreateNestedManyWithoutTenantInput
   logsEvento?: Prisma.LogEventoUncheckedCreateNestedManyWithoutTenantInput
   metodosPago?: Prisma.MetodoPagoUncheckedCreateNestedManyWithoutTenantInput
-  nivelesRiesgo?: Prisma.NivelRiesgoOperativoUncheckedCreateNestedManyWithoutTenantInput
   nominaDetalles?: Prisma.NominaDetalleUncheckedCreateNestedManyWithoutTenantInput
   nominas?: Prisma.NominaUncheckedCreateNestedManyWithoutTenantInput
   ordenesServicio?: Prisma.OrdenServicioUncheckedCreateNestedManyWithoutTenantInput
@@ -8201,10 +7570,10 @@ export type TenantUncheckedCreateWithoutTurnosInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUncheckedCreateNestedManyWithoutTenantInput
   proveedores?: Prisma.ProveedoresUncheckedCreateNestedManyWithoutTenantInput
   referidos?: Prisma.ReferidosUncheckedCreateNestedManyWithoutTenantInput
-  segmentos?: Prisma.SegmentoNegocioUncheckedCreateNestedManyWithoutTenantInput
   servicios?: Prisma.ServicioUncheckedCreateNestedManyWithoutTenantInput
   sesionesActividad?: Prisma.SesionActividadUncheckedCreateNestedManyWithoutTenantInput
   subscription?: Prisma.SubscriptionUncheckedCreateNestedOneWithoutTenantInput
+  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUncheckedCreateNestedManyWithoutTenantsInput
   memberships?: Prisma.TenantMembershipUncheckedCreateNestedManyWithoutTenantInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUncheckedCreateNestedManyWithoutTenantInput
   tiposInteres?: Prisma.TipoInteresUncheckedCreateNestedManyWithoutTenantInput
@@ -8264,7 +7633,6 @@ export type TenantUpdateWithoutTurnosInput = {
   geolocalizaciones?: Prisma.GeolocalizacionUpdateManyWithoutTenantNestedInput
   logsEvento?: Prisma.LogEventoUpdateManyWithoutTenantNestedInput
   metodosPago?: Prisma.MetodoPagoUpdateManyWithoutTenantNestedInput
-  nivelesRiesgo?: Prisma.NivelRiesgoOperativoUpdateManyWithoutTenantNestedInput
   nominaDetalles?: Prisma.NominaDetalleUpdateManyWithoutTenantNestedInput
   nominas?: Prisma.NominaUpdateManyWithoutTenantNestedInput
   ordenesServicio?: Prisma.OrdenServicioUpdateManyWithoutTenantNestedInput
@@ -8277,10 +7645,10 @@ export type TenantUpdateWithoutTurnosInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUpdateManyWithoutTenantNestedInput
   proveedores?: Prisma.ProveedoresUpdateManyWithoutTenantNestedInput
   referidos?: Prisma.ReferidosUpdateManyWithoutTenantNestedInput
-  segmentos?: Prisma.SegmentoNegocioUpdateManyWithoutTenantNestedInput
   servicios?: Prisma.ServicioUpdateManyWithoutTenantNestedInput
   sesionesActividad?: Prisma.SesionActividadUpdateManyWithoutTenantNestedInput
   subscription?: Prisma.SubscriptionUpdateOneWithoutTenantNestedInput
+  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUpdateManyWithoutTenantsNestedInput
   memberships?: Prisma.TenantMembershipUpdateManyWithoutTenantNestedInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUpdateManyWithoutTenantNestedInput
   tiposInteres?: Prisma.TipoInteresUpdateManyWithoutTenantNestedInput
@@ -8324,7 +7692,6 @@ export type TenantUncheckedUpdateWithoutTurnosInput = {
   geolocalizaciones?: Prisma.GeolocalizacionUncheckedUpdateManyWithoutTenantNestedInput
   logsEvento?: Prisma.LogEventoUncheckedUpdateManyWithoutTenantNestedInput
   metodosPago?: Prisma.MetodoPagoUncheckedUpdateManyWithoutTenantNestedInput
-  nivelesRiesgo?: Prisma.NivelRiesgoOperativoUncheckedUpdateManyWithoutTenantNestedInput
   nominaDetalles?: Prisma.NominaDetalleUncheckedUpdateManyWithoutTenantNestedInput
   nominas?: Prisma.NominaUncheckedUpdateManyWithoutTenantNestedInput
   ordenesServicio?: Prisma.OrdenServicioUncheckedUpdateManyWithoutTenantNestedInput
@@ -8337,10 +7704,10 @@ export type TenantUncheckedUpdateWithoutTurnosInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUncheckedUpdateManyWithoutTenantNestedInput
   proveedores?: Prisma.ProveedoresUncheckedUpdateManyWithoutTenantNestedInput
   referidos?: Prisma.ReferidosUncheckedUpdateManyWithoutTenantNestedInput
-  segmentos?: Prisma.SegmentoNegocioUncheckedUpdateManyWithoutTenantNestedInput
   servicios?: Prisma.ServicioUncheckedUpdateManyWithoutTenantNestedInput
   sesionesActividad?: Prisma.SesionActividadUncheckedUpdateManyWithoutTenantNestedInput
   subscription?: Prisma.SubscriptionUncheckedUpdateOneWithoutTenantNestedInput
+  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUncheckedUpdateManyWithoutTenantsNestedInput
   memberships?: Prisma.TenantMembershipUncheckedUpdateManyWithoutTenantNestedInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUncheckedUpdateManyWithoutTenantNestedInput
   tiposInteres?: Prisma.TipoInteresUncheckedUpdateManyWithoutTenantNestedInput
@@ -8383,7 +7750,6 @@ export type TenantCreateWithoutCuentasCobroInput = {
   geolocalizaciones?: Prisma.GeolocalizacionCreateNestedManyWithoutTenantInput
   logsEvento?: Prisma.LogEventoCreateNestedManyWithoutTenantInput
   metodosPago?: Prisma.MetodoPagoCreateNestedManyWithoutTenantInput
-  nivelesRiesgo?: Prisma.NivelRiesgoOperativoCreateNestedManyWithoutTenantInput
   nominaDetalles?: Prisma.NominaDetalleCreateNestedManyWithoutTenantInput
   nominas?: Prisma.NominaCreateNestedManyWithoutTenantInput
   ordenesServicio?: Prisma.OrdenServicioCreateNestedManyWithoutTenantInput
@@ -8396,10 +7762,10 @@ export type TenantCreateWithoutCuentasCobroInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoCreateNestedManyWithoutTenantInput
   proveedores?: Prisma.ProveedoresCreateNestedManyWithoutTenantInput
   referidos?: Prisma.ReferidosCreateNestedManyWithoutTenantInput
-  segmentos?: Prisma.SegmentoNegocioCreateNestedManyWithoutTenantInput
   servicios?: Prisma.ServicioCreateNestedManyWithoutTenantInput
   sesionesActividad?: Prisma.SesionActividadCreateNestedManyWithoutTenantInput
   subscription?: Prisma.SubscriptionCreateNestedOneWithoutTenantInput
+  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoCreateNestedManyWithoutTenantsInput
   memberships?: Prisma.TenantMembershipCreateNestedManyWithoutTenantInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosCreateNestedManyWithoutTenantInput
   tiposInteres?: Prisma.TipoInteresCreateNestedManyWithoutTenantInput
@@ -8443,7 +7809,6 @@ export type TenantUncheckedCreateWithoutCuentasCobroInput = {
   geolocalizaciones?: Prisma.GeolocalizacionUncheckedCreateNestedManyWithoutTenantInput
   logsEvento?: Prisma.LogEventoUncheckedCreateNestedManyWithoutTenantInput
   metodosPago?: Prisma.MetodoPagoUncheckedCreateNestedManyWithoutTenantInput
-  nivelesRiesgo?: Prisma.NivelRiesgoOperativoUncheckedCreateNestedManyWithoutTenantInput
   nominaDetalles?: Prisma.NominaDetalleUncheckedCreateNestedManyWithoutTenantInput
   nominas?: Prisma.NominaUncheckedCreateNestedManyWithoutTenantInput
   ordenesServicio?: Prisma.OrdenServicioUncheckedCreateNestedManyWithoutTenantInput
@@ -8456,10 +7821,10 @@ export type TenantUncheckedCreateWithoutCuentasCobroInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUncheckedCreateNestedManyWithoutTenantInput
   proveedores?: Prisma.ProveedoresUncheckedCreateNestedManyWithoutTenantInput
   referidos?: Prisma.ReferidosUncheckedCreateNestedManyWithoutTenantInput
-  segmentos?: Prisma.SegmentoNegocioUncheckedCreateNestedManyWithoutTenantInput
   servicios?: Prisma.ServicioUncheckedCreateNestedManyWithoutTenantInput
   sesionesActividad?: Prisma.SesionActividadUncheckedCreateNestedManyWithoutTenantInput
   subscription?: Prisma.SubscriptionUncheckedCreateNestedOneWithoutTenantInput
+  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUncheckedCreateNestedManyWithoutTenantsInput
   memberships?: Prisma.TenantMembershipUncheckedCreateNestedManyWithoutTenantInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUncheckedCreateNestedManyWithoutTenantInput
   tiposInteres?: Prisma.TipoInteresUncheckedCreateNestedManyWithoutTenantInput
@@ -8519,7 +7884,6 @@ export type TenantUpdateWithoutCuentasCobroInput = {
   geolocalizaciones?: Prisma.GeolocalizacionUpdateManyWithoutTenantNestedInput
   logsEvento?: Prisma.LogEventoUpdateManyWithoutTenantNestedInput
   metodosPago?: Prisma.MetodoPagoUpdateManyWithoutTenantNestedInput
-  nivelesRiesgo?: Prisma.NivelRiesgoOperativoUpdateManyWithoutTenantNestedInput
   nominaDetalles?: Prisma.NominaDetalleUpdateManyWithoutTenantNestedInput
   nominas?: Prisma.NominaUpdateManyWithoutTenantNestedInput
   ordenesServicio?: Prisma.OrdenServicioUpdateManyWithoutTenantNestedInput
@@ -8532,10 +7896,10 @@ export type TenantUpdateWithoutCuentasCobroInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUpdateManyWithoutTenantNestedInput
   proveedores?: Prisma.ProveedoresUpdateManyWithoutTenantNestedInput
   referidos?: Prisma.ReferidosUpdateManyWithoutTenantNestedInput
-  segmentos?: Prisma.SegmentoNegocioUpdateManyWithoutTenantNestedInput
   servicios?: Prisma.ServicioUpdateManyWithoutTenantNestedInput
   sesionesActividad?: Prisma.SesionActividadUpdateManyWithoutTenantNestedInput
   subscription?: Prisma.SubscriptionUpdateOneWithoutTenantNestedInput
+  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUpdateManyWithoutTenantsNestedInput
   memberships?: Prisma.TenantMembershipUpdateManyWithoutTenantNestedInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUpdateManyWithoutTenantNestedInput
   tiposInteres?: Prisma.TipoInteresUpdateManyWithoutTenantNestedInput
@@ -8579,7 +7943,6 @@ export type TenantUncheckedUpdateWithoutCuentasCobroInput = {
   geolocalizaciones?: Prisma.GeolocalizacionUncheckedUpdateManyWithoutTenantNestedInput
   logsEvento?: Prisma.LogEventoUncheckedUpdateManyWithoutTenantNestedInput
   metodosPago?: Prisma.MetodoPagoUncheckedUpdateManyWithoutTenantNestedInput
-  nivelesRiesgo?: Prisma.NivelRiesgoOperativoUncheckedUpdateManyWithoutTenantNestedInput
   nominaDetalles?: Prisma.NominaDetalleUncheckedUpdateManyWithoutTenantNestedInput
   nominas?: Prisma.NominaUncheckedUpdateManyWithoutTenantNestedInput
   ordenesServicio?: Prisma.OrdenServicioUncheckedUpdateManyWithoutTenantNestedInput
@@ -8592,10 +7955,10 @@ export type TenantUncheckedUpdateWithoutCuentasCobroInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUncheckedUpdateManyWithoutTenantNestedInput
   proveedores?: Prisma.ProveedoresUncheckedUpdateManyWithoutTenantNestedInput
   referidos?: Prisma.ReferidosUncheckedUpdateManyWithoutTenantNestedInput
-  segmentos?: Prisma.SegmentoNegocioUncheckedUpdateManyWithoutTenantNestedInput
   servicios?: Prisma.ServicioUncheckedUpdateManyWithoutTenantNestedInput
   sesionesActividad?: Prisma.SesionActividadUncheckedUpdateManyWithoutTenantNestedInput
   subscription?: Prisma.SubscriptionUncheckedUpdateOneWithoutTenantNestedInput
+  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUncheckedUpdateManyWithoutTenantsNestedInput
   memberships?: Prisma.TenantMembershipUncheckedUpdateManyWithoutTenantNestedInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUncheckedUpdateManyWithoutTenantNestedInput
   tiposInteres?: Prisma.TipoInteresUncheckedUpdateManyWithoutTenantNestedInput
@@ -8639,7 +8002,6 @@ export type TenantCreateWithoutDeclaracionesInput = {
   geolocalizaciones?: Prisma.GeolocalizacionCreateNestedManyWithoutTenantInput
   logsEvento?: Prisma.LogEventoCreateNestedManyWithoutTenantInput
   metodosPago?: Prisma.MetodoPagoCreateNestedManyWithoutTenantInput
-  nivelesRiesgo?: Prisma.NivelRiesgoOperativoCreateNestedManyWithoutTenantInput
   nominaDetalles?: Prisma.NominaDetalleCreateNestedManyWithoutTenantInput
   nominas?: Prisma.NominaCreateNestedManyWithoutTenantInput
   ordenesServicio?: Prisma.OrdenServicioCreateNestedManyWithoutTenantInput
@@ -8652,10 +8014,10 @@ export type TenantCreateWithoutDeclaracionesInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoCreateNestedManyWithoutTenantInput
   proveedores?: Prisma.ProveedoresCreateNestedManyWithoutTenantInput
   referidos?: Prisma.ReferidosCreateNestedManyWithoutTenantInput
-  segmentos?: Prisma.SegmentoNegocioCreateNestedManyWithoutTenantInput
   servicios?: Prisma.ServicioCreateNestedManyWithoutTenantInput
   sesionesActividad?: Prisma.SesionActividadCreateNestedManyWithoutTenantInput
   subscription?: Prisma.SubscriptionCreateNestedOneWithoutTenantInput
+  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoCreateNestedManyWithoutTenantsInput
   memberships?: Prisma.TenantMembershipCreateNestedManyWithoutTenantInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosCreateNestedManyWithoutTenantInput
   tiposInteres?: Prisma.TipoInteresCreateNestedManyWithoutTenantInput
@@ -8699,7 +8061,6 @@ export type TenantUncheckedCreateWithoutDeclaracionesInput = {
   geolocalizaciones?: Prisma.GeolocalizacionUncheckedCreateNestedManyWithoutTenantInput
   logsEvento?: Prisma.LogEventoUncheckedCreateNestedManyWithoutTenantInput
   metodosPago?: Prisma.MetodoPagoUncheckedCreateNestedManyWithoutTenantInput
-  nivelesRiesgo?: Prisma.NivelRiesgoOperativoUncheckedCreateNestedManyWithoutTenantInput
   nominaDetalles?: Prisma.NominaDetalleUncheckedCreateNestedManyWithoutTenantInput
   nominas?: Prisma.NominaUncheckedCreateNestedManyWithoutTenantInput
   ordenesServicio?: Prisma.OrdenServicioUncheckedCreateNestedManyWithoutTenantInput
@@ -8712,10 +8073,10 @@ export type TenantUncheckedCreateWithoutDeclaracionesInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUncheckedCreateNestedManyWithoutTenantInput
   proveedores?: Prisma.ProveedoresUncheckedCreateNestedManyWithoutTenantInput
   referidos?: Prisma.ReferidosUncheckedCreateNestedManyWithoutTenantInput
-  segmentos?: Prisma.SegmentoNegocioUncheckedCreateNestedManyWithoutTenantInput
   servicios?: Prisma.ServicioUncheckedCreateNestedManyWithoutTenantInput
   sesionesActividad?: Prisma.SesionActividadUncheckedCreateNestedManyWithoutTenantInput
   subscription?: Prisma.SubscriptionUncheckedCreateNestedOneWithoutTenantInput
+  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUncheckedCreateNestedManyWithoutTenantsInput
   memberships?: Prisma.TenantMembershipUncheckedCreateNestedManyWithoutTenantInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUncheckedCreateNestedManyWithoutTenantInput
   tiposInteres?: Prisma.TipoInteresUncheckedCreateNestedManyWithoutTenantInput
@@ -8775,7 +8136,6 @@ export type TenantUpdateWithoutDeclaracionesInput = {
   geolocalizaciones?: Prisma.GeolocalizacionUpdateManyWithoutTenantNestedInput
   logsEvento?: Prisma.LogEventoUpdateManyWithoutTenantNestedInput
   metodosPago?: Prisma.MetodoPagoUpdateManyWithoutTenantNestedInput
-  nivelesRiesgo?: Prisma.NivelRiesgoOperativoUpdateManyWithoutTenantNestedInput
   nominaDetalles?: Prisma.NominaDetalleUpdateManyWithoutTenantNestedInput
   nominas?: Prisma.NominaUpdateManyWithoutTenantNestedInput
   ordenesServicio?: Prisma.OrdenServicioUpdateManyWithoutTenantNestedInput
@@ -8788,10 +8148,10 @@ export type TenantUpdateWithoutDeclaracionesInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUpdateManyWithoutTenantNestedInput
   proveedores?: Prisma.ProveedoresUpdateManyWithoutTenantNestedInput
   referidos?: Prisma.ReferidosUpdateManyWithoutTenantNestedInput
-  segmentos?: Prisma.SegmentoNegocioUpdateManyWithoutTenantNestedInput
   servicios?: Prisma.ServicioUpdateManyWithoutTenantNestedInput
   sesionesActividad?: Prisma.SesionActividadUpdateManyWithoutTenantNestedInput
   subscription?: Prisma.SubscriptionUpdateOneWithoutTenantNestedInput
+  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUpdateManyWithoutTenantsNestedInput
   memberships?: Prisma.TenantMembershipUpdateManyWithoutTenantNestedInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUpdateManyWithoutTenantNestedInput
   tiposInteres?: Prisma.TipoInteresUpdateManyWithoutTenantNestedInput
@@ -8835,7 +8195,6 @@ export type TenantUncheckedUpdateWithoutDeclaracionesInput = {
   geolocalizaciones?: Prisma.GeolocalizacionUncheckedUpdateManyWithoutTenantNestedInput
   logsEvento?: Prisma.LogEventoUncheckedUpdateManyWithoutTenantNestedInput
   metodosPago?: Prisma.MetodoPagoUncheckedUpdateManyWithoutTenantNestedInput
-  nivelesRiesgo?: Prisma.NivelRiesgoOperativoUncheckedUpdateManyWithoutTenantNestedInput
   nominaDetalles?: Prisma.NominaDetalleUncheckedUpdateManyWithoutTenantNestedInput
   nominas?: Prisma.NominaUncheckedUpdateManyWithoutTenantNestedInput
   ordenesServicio?: Prisma.OrdenServicioUncheckedUpdateManyWithoutTenantNestedInput
@@ -8848,10 +8207,10 @@ export type TenantUncheckedUpdateWithoutDeclaracionesInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUncheckedUpdateManyWithoutTenantNestedInput
   proveedores?: Prisma.ProveedoresUncheckedUpdateManyWithoutTenantNestedInput
   referidos?: Prisma.ReferidosUncheckedUpdateManyWithoutTenantNestedInput
-  segmentos?: Prisma.SegmentoNegocioUncheckedUpdateManyWithoutTenantNestedInput
   servicios?: Prisma.ServicioUncheckedUpdateManyWithoutTenantNestedInput
   sesionesActividad?: Prisma.SesionActividadUncheckedUpdateManyWithoutTenantNestedInput
   subscription?: Prisma.SubscriptionUncheckedUpdateOneWithoutTenantNestedInput
+  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUncheckedUpdateManyWithoutTenantsNestedInput
   memberships?: Prisma.TenantMembershipUncheckedUpdateManyWithoutTenantNestedInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUncheckedUpdateManyWithoutTenantNestedInput
   tiposInteres?: Prisma.TipoInteresUncheckedUpdateManyWithoutTenantNestedInput
@@ -8895,7 +8254,6 @@ export type TenantCreateWithoutConsignacionesInput = {
   geolocalizaciones?: Prisma.GeolocalizacionCreateNestedManyWithoutTenantInput
   logsEvento?: Prisma.LogEventoCreateNestedManyWithoutTenantInput
   metodosPago?: Prisma.MetodoPagoCreateNestedManyWithoutTenantInput
-  nivelesRiesgo?: Prisma.NivelRiesgoOperativoCreateNestedManyWithoutTenantInput
   nominaDetalles?: Prisma.NominaDetalleCreateNestedManyWithoutTenantInput
   nominas?: Prisma.NominaCreateNestedManyWithoutTenantInput
   ordenesServicio?: Prisma.OrdenServicioCreateNestedManyWithoutTenantInput
@@ -8908,10 +8266,10 @@ export type TenantCreateWithoutConsignacionesInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoCreateNestedManyWithoutTenantInput
   proveedores?: Prisma.ProveedoresCreateNestedManyWithoutTenantInput
   referidos?: Prisma.ReferidosCreateNestedManyWithoutTenantInput
-  segmentos?: Prisma.SegmentoNegocioCreateNestedManyWithoutTenantInput
   servicios?: Prisma.ServicioCreateNestedManyWithoutTenantInput
   sesionesActividad?: Prisma.SesionActividadCreateNestedManyWithoutTenantInput
   subscription?: Prisma.SubscriptionCreateNestedOneWithoutTenantInput
+  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoCreateNestedManyWithoutTenantsInput
   memberships?: Prisma.TenantMembershipCreateNestedManyWithoutTenantInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosCreateNestedManyWithoutTenantInput
   tiposInteres?: Prisma.TipoInteresCreateNestedManyWithoutTenantInput
@@ -8955,7 +8313,6 @@ export type TenantUncheckedCreateWithoutConsignacionesInput = {
   geolocalizaciones?: Prisma.GeolocalizacionUncheckedCreateNestedManyWithoutTenantInput
   logsEvento?: Prisma.LogEventoUncheckedCreateNestedManyWithoutTenantInput
   metodosPago?: Prisma.MetodoPagoUncheckedCreateNestedManyWithoutTenantInput
-  nivelesRiesgo?: Prisma.NivelRiesgoOperativoUncheckedCreateNestedManyWithoutTenantInput
   nominaDetalles?: Prisma.NominaDetalleUncheckedCreateNestedManyWithoutTenantInput
   nominas?: Prisma.NominaUncheckedCreateNestedManyWithoutTenantInput
   ordenesServicio?: Prisma.OrdenServicioUncheckedCreateNestedManyWithoutTenantInput
@@ -8968,10 +8325,10 @@ export type TenantUncheckedCreateWithoutConsignacionesInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUncheckedCreateNestedManyWithoutTenantInput
   proveedores?: Prisma.ProveedoresUncheckedCreateNestedManyWithoutTenantInput
   referidos?: Prisma.ReferidosUncheckedCreateNestedManyWithoutTenantInput
-  segmentos?: Prisma.SegmentoNegocioUncheckedCreateNestedManyWithoutTenantInput
   servicios?: Prisma.ServicioUncheckedCreateNestedManyWithoutTenantInput
   sesionesActividad?: Prisma.SesionActividadUncheckedCreateNestedManyWithoutTenantInput
   subscription?: Prisma.SubscriptionUncheckedCreateNestedOneWithoutTenantInput
+  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUncheckedCreateNestedManyWithoutTenantsInput
   memberships?: Prisma.TenantMembershipUncheckedCreateNestedManyWithoutTenantInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUncheckedCreateNestedManyWithoutTenantInput
   tiposInteres?: Prisma.TipoInteresUncheckedCreateNestedManyWithoutTenantInput
@@ -9031,7 +8388,6 @@ export type TenantUpdateWithoutConsignacionesInput = {
   geolocalizaciones?: Prisma.GeolocalizacionUpdateManyWithoutTenantNestedInput
   logsEvento?: Prisma.LogEventoUpdateManyWithoutTenantNestedInput
   metodosPago?: Prisma.MetodoPagoUpdateManyWithoutTenantNestedInput
-  nivelesRiesgo?: Prisma.NivelRiesgoOperativoUpdateManyWithoutTenantNestedInput
   nominaDetalles?: Prisma.NominaDetalleUpdateManyWithoutTenantNestedInput
   nominas?: Prisma.NominaUpdateManyWithoutTenantNestedInput
   ordenesServicio?: Prisma.OrdenServicioUpdateManyWithoutTenantNestedInput
@@ -9044,10 +8400,10 @@ export type TenantUpdateWithoutConsignacionesInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUpdateManyWithoutTenantNestedInput
   proveedores?: Prisma.ProveedoresUpdateManyWithoutTenantNestedInput
   referidos?: Prisma.ReferidosUpdateManyWithoutTenantNestedInput
-  segmentos?: Prisma.SegmentoNegocioUpdateManyWithoutTenantNestedInput
   servicios?: Prisma.ServicioUpdateManyWithoutTenantNestedInput
   sesionesActividad?: Prisma.SesionActividadUpdateManyWithoutTenantNestedInput
   subscription?: Prisma.SubscriptionUpdateOneWithoutTenantNestedInput
+  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUpdateManyWithoutTenantsNestedInput
   memberships?: Prisma.TenantMembershipUpdateManyWithoutTenantNestedInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUpdateManyWithoutTenantNestedInput
   tiposInteres?: Prisma.TipoInteresUpdateManyWithoutTenantNestedInput
@@ -9091,7 +8447,6 @@ export type TenantUncheckedUpdateWithoutConsignacionesInput = {
   geolocalizaciones?: Prisma.GeolocalizacionUncheckedUpdateManyWithoutTenantNestedInput
   logsEvento?: Prisma.LogEventoUncheckedUpdateManyWithoutTenantNestedInput
   metodosPago?: Prisma.MetodoPagoUncheckedUpdateManyWithoutTenantNestedInput
-  nivelesRiesgo?: Prisma.NivelRiesgoOperativoUncheckedUpdateManyWithoutTenantNestedInput
   nominaDetalles?: Prisma.NominaDetalleUncheckedUpdateManyWithoutTenantNestedInput
   nominas?: Prisma.NominaUncheckedUpdateManyWithoutTenantNestedInput
   ordenesServicio?: Prisma.OrdenServicioUncheckedUpdateManyWithoutTenantNestedInput
@@ -9104,10 +8459,10 @@ export type TenantUncheckedUpdateWithoutConsignacionesInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUncheckedUpdateManyWithoutTenantNestedInput
   proveedores?: Prisma.ProveedoresUncheckedUpdateManyWithoutTenantNestedInput
   referidos?: Prisma.ReferidosUncheckedUpdateManyWithoutTenantNestedInput
-  segmentos?: Prisma.SegmentoNegocioUncheckedUpdateManyWithoutTenantNestedInput
   servicios?: Prisma.ServicioUncheckedUpdateManyWithoutTenantNestedInput
   sesionesActividad?: Prisma.SesionActividadUncheckedUpdateManyWithoutTenantNestedInput
   subscription?: Prisma.SubscriptionUncheckedUpdateOneWithoutTenantNestedInput
+  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUncheckedUpdateManyWithoutTenantsNestedInput
   memberships?: Prisma.TenantMembershipUncheckedUpdateManyWithoutTenantNestedInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUncheckedUpdateManyWithoutTenantNestedInput
   tiposInteres?: Prisma.TipoInteresUncheckedUpdateManyWithoutTenantNestedInput
@@ -9151,7 +8506,6 @@ export type TenantCreateWithoutConsignacionOrdenesInput = {
   geolocalizaciones?: Prisma.GeolocalizacionCreateNestedManyWithoutTenantInput
   logsEvento?: Prisma.LogEventoCreateNestedManyWithoutTenantInput
   metodosPago?: Prisma.MetodoPagoCreateNestedManyWithoutTenantInput
-  nivelesRiesgo?: Prisma.NivelRiesgoOperativoCreateNestedManyWithoutTenantInput
   nominaDetalles?: Prisma.NominaDetalleCreateNestedManyWithoutTenantInput
   nominas?: Prisma.NominaCreateNestedManyWithoutTenantInput
   ordenesServicio?: Prisma.OrdenServicioCreateNestedManyWithoutTenantInput
@@ -9164,10 +8518,10 @@ export type TenantCreateWithoutConsignacionOrdenesInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoCreateNestedManyWithoutTenantInput
   proveedores?: Prisma.ProveedoresCreateNestedManyWithoutTenantInput
   referidos?: Prisma.ReferidosCreateNestedManyWithoutTenantInput
-  segmentos?: Prisma.SegmentoNegocioCreateNestedManyWithoutTenantInput
   servicios?: Prisma.ServicioCreateNestedManyWithoutTenantInput
   sesionesActividad?: Prisma.SesionActividadCreateNestedManyWithoutTenantInput
   subscription?: Prisma.SubscriptionCreateNestedOneWithoutTenantInput
+  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoCreateNestedManyWithoutTenantsInput
   memberships?: Prisma.TenantMembershipCreateNestedManyWithoutTenantInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosCreateNestedManyWithoutTenantInput
   tiposInteres?: Prisma.TipoInteresCreateNestedManyWithoutTenantInput
@@ -9211,7 +8565,6 @@ export type TenantUncheckedCreateWithoutConsignacionOrdenesInput = {
   geolocalizaciones?: Prisma.GeolocalizacionUncheckedCreateNestedManyWithoutTenantInput
   logsEvento?: Prisma.LogEventoUncheckedCreateNestedManyWithoutTenantInput
   metodosPago?: Prisma.MetodoPagoUncheckedCreateNestedManyWithoutTenantInput
-  nivelesRiesgo?: Prisma.NivelRiesgoOperativoUncheckedCreateNestedManyWithoutTenantInput
   nominaDetalles?: Prisma.NominaDetalleUncheckedCreateNestedManyWithoutTenantInput
   nominas?: Prisma.NominaUncheckedCreateNestedManyWithoutTenantInput
   ordenesServicio?: Prisma.OrdenServicioUncheckedCreateNestedManyWithoutTenantInput
@@ -9224,10 +8577,10 @@ export type TenantUncheckedCreateWithoutConsignacionOrdenesInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUncheckedCreateNestedManyWithoutTenantInput
   proveedores?: Prisma.ProveedoresUncheckedCreateNestedManyWithoutTenantInput
   referidos?: Prisma.ReferidosUncheckedCreateNestedManyWithoutTenantInput
-  segmentos?: Prisma.SegmentoNegocioUncheckedCreateNestedManyWithoutTenantInput
   servicios?: Prisma.ServicioUncheckedCreateNestedManyWithoutTenantInput
   sesionesActividad?: Prisma.SesionActividadUncheckedCreateNestedManyWithoutTenantInput
   subscription?: Prisma.SubscriptionUncheckedCreateNestedOneWithoutTenantInput
+  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUncheckedCreateNestedManyWithoutTenantsInput
   memberships?: Prisma.TenantMembershipUncheckedCreateNestedManyWithoutTenantInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUncheckedCreateNestedManyWithoutTenantInput
   tiposInteres?: Prisma.TipoInteresUncheckedCreateNestedManyWithoutTenantInput
@@ -9287,7 +8640,6 @@ export type TenantUpdateWithoutConsignacionOrdenesInput = {
   geolocalizaciones?: Prisma.GeolocalizacionUpdateManyWithoutTenantNestedInput
   logsEvento?: Prisma.LogEventoUpdateManyWithoutTenantNestedInput
   metodosPago?: Prisma.MetodoPagoUpdateManyWithoutTenantNestedInput
-  nivelesRiesgo?: Prisma.NivelRiesgoOperativoUpdateManyWithoutTenantNestedInput
   nominaDetalles?: Prisma.NominaDetalleUpdateManyWithoutTenantNestedInput
   nominas?: Prisma.NominaUpdateManyWithoutTenantNestedInput
   ordenesServicio?: Prisma.OrdenServicioUpdateManyWithoutTenantNestedInput
@@ -9300,10 +8652,10 @@ export type TenantUpdateWithoutConsignacionOrdenesInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUpdateManyWithoutTenantNestedInput
   proveedores?: Prisma.ProveedoresUpdateManyWithoutTenantNestedInput
   referidos?: Prisma.ReferidosUpdateManyWithoutTenantNestedInput
-  segmentos?: Prisma.SegmentoNegocioUpdateManyWithoutTenantNestedInput
   servicios?: Prisma.ServicioUpdateManyWithoutTenantNestedInput
   sesionesActividad?: Prisma.SesionActividadUpdateManyWithoutTenantNestedInput
   subscription?: Prisma.SubscriptionUpdateOneWithoutTenantNestedInput
+  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUpdateManyWithoutTenantsNestedInput
   memberships?: Prisma.TenantMembershipUpdateManyWithoutTenantNestedInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUpdateManyWithoutTenantNestedInput
   tiposInteres?: Prisma.TipoInteresUpdateManyWithoutTenantNestedInput
@@ -9347,7 +8699,6 @@ export type TenantUncheckedUpdateWithoutConsignacionOrdenesInput = {
   geolocalizaciones?: Prisma.GeolocalizacionUncheckedUpdateManyWithoutTenantNestedInput
   logsEvento?: Prisma.LogEventoUncheckedUpdateManyWithoutTenantNestedInput
   metodosPago?: Prisma.MetodoPagoUncheckedUpdateManyWithoutTenantNestedInput
-  nivelesRiesgo?: Prisma.NivelRiesgoOperativoUncheckedUpdateManyWithoutTenantNestedInput
   nominaDetalles?: Prisma.NominaDetalleUncheckedUpdateManyWithoutTenantNestedInput
   nominas?: Prisma.NominaUncheckedUpdateManyWithoutTenantNestedInput
   ordenesServicio?: Prisma.OrdenServicioUncheckedUpdateManyWithoutTenantNestedInput
@@ -9360,10 +8711,10 @@ export type TenantUncheckedUpdateWithoutConsignacionOrdenesInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUncheckedUpdateManyWithoutTenantNestedInput
   proveedores?: Prisma.ProveedoresUncheckedUpdateManyWithoutTenantNestedInput
   referidos?: Prisma.ReferidosUncheckedUpdateManyWithoutTenantNestedInput
-  segmentos?: Prisma.SegmentoNegocioUncheckedUpdateManyWithoutTenantNestedInput
   servicios?: Prisma.ServicioUncheckedUpdateManyWithoutTenantNestedInput
   sesionesActividad?: Prisma.SesionActividadUncheckedUpdateManyWithoutTenantNestedInput
   subscription?: Prisma.SubscriptionUncheckedUpdateOneWithoutTenantNestedInput
+  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUncheckedUpdateManyWithoutTenantsNestedInput
   memberships?: Prisma.TenantMembershipUncheckedUpdateManyWithoutTenantNestedInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUncheckedUpdateManyWithoutTenantNestedInput
   tiposInteres?: Prisma.TipoInteresUncheckedUpdateManyWithoutTenantNestedInput
@@ -9407,7 +8758,6 @@ export type TenantCreateWithoutAnticiposInput = {
   geolocalizaciones?: Prisma.GeolocalizacionCreateNestedManyWithoutTenantInput
   logsEvento?: Prisma.LogEventoCreateNestedManyWithoutTenantInput
   metodosPago?: Prisma.MetodoPagoCreateNestedManyWithoutTenantInput
-  nivelesRiesgo?: Prisma.NivelRiesgoOperativoCreateNestedManyWithoutTenantInput
   nominaDetalles?: Prisma.NominaDetalleCreateNestedManyWithoutTenantInput
   nominas?: Prisma.NominaCreateNestedManyWithoutTenantInput
   ordenesServicio?: Prisma.OrdenServicioCreateNestedManyWithoutTenantInput
@@ -9420,10 +8770,10 @@ export type TenantCreateWithoutAnticiposInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoCreateNestedManyWithoutTenantInput
   proveedores?: Prisma.ProveedoresCreateNestedManyWithoutTenantInput
   referidos?: Prisma.ReferidosCreateNestedManyWithoutTenantInput
-  segmentos?: Prisma.SegmentoNegocioCreateNestedManyWithoutTenantInput
   servicios?: Prisma.ServicioCreateNestedManyWithoutTenantInput
   sesionesActividad?: Prisma.SesionActividadCreateNestedManyWithoutTenantInput
   subscription?: Prisma.SubscriptionCreateNestedOneWithoutTenantInput
+  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoCreateNestedManyWithoutTenantsInput
   memberships?: Prisma.TenantMembershipCreateNestedManyWithoutTenantInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosCreateNestedManyWithoutTenantInput
   tiposInteres?: Prisma.TipoInteresCreateNestedManyWithoutTenantInput
@@ -9467,7 +8817,6 @@ export type TenantUncheckedCreateWithoutAnticiposInput = {
   geolocalizaciones?: Prisma.GeolocalizacionUncheckedCreateNestedManyWithoutTenantInput
   logsEvento?: Prisma.LogEventoUncheckedCreateNestedManyWithoutTenantInput
   metodosPago?: Prisma.MetodoPagoUncheckedCreateNestedManyWithoutTenantInput
-  nivelesRiesgo?: Prisma.NivelRiesgoOperativoUncheckedCreateNestedManyWithoutTenantInput
   nominaDetalles?: Prisma.NominaDetalleUncheckedCreateNestedManyWithoutTenantInput
   nominas?: Prisma.NominaUncheckedCreateNestedManyWithoutTenantInput
   ordenesServicio?: Prisma.OrdenServicioUncheckedCreateNestedManyWithoutTenantInput
@@ -9480,10 +8829,10 @@ export type TenantUncheckedCreateWithoutAnticiposInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUncheckedCreateNestedManyWithoutTenantInput
   proveedores?: Prisma.ProveedoresUncheckedCreateNestedManyWithoutTenantInput
   referidos?: Prisma.ReferidosUncheckedCreateNestedManyWithoutTenantInput
-  segmentos?: Prisma.SegmentoNegocioUncheckedCreateNestedManyWithoutTenantInput
   servicios?: Prisma.ServicioUncheckedCreateNestedManyWithoutTenantInput
   sesionesActividad?: Prisma.SesionActividadUncheckedCreateNestedManyWithoutTenantInput
   subscription?: Prisma.SubscriptionUncheckedCreateNestedOneWithoutTenantInput
+  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUncheckedCreateNestedManyWithoutTenantsInput
   memberships?: Prisma.TenantMembershipUncheckedCreateNestedManyWithoutTenantInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUncheckedCreateNestedManyWithoutTenantInput
   tiposInteres?: Prisma.TipoInteresUncheckedCreateNestedManyWithoutTenantInput
@@ -9543,7 +8892,6 @@ export type TenantUpdateWithoutAnticiposInput = {
   geolocalizaciones?: Prisma.GeolocalizacionUpdateManyWithoutTenantNestedInput
   logsEvento?: Prisma.LogEventoUpdateManyWithoutTenantNestedInput
   metodosPago?: Prisma.MetodoPagoUpdateManyWithoutTenantNestedInput
-  nivelesRiesgo?: Prisma.NivelRiesgoOperativoUpdateManyWithoutTenantNestedInput
   nominaDetalles?: Prisma.NominaDetalleUpdateManyWithoutTenantNestedInput
   nominas?: Prisma.NominaUpdateManyWithoutTenantNestedInput
   ordenesServicio?: Prisma.OrdenServicioUpdateManyWithoutTenantNestedInput
@@ -9556,10 +8904,10 @@ export type TenantUpdateWithoutAnticiposInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUpdateManyWithoutTenantNestedInput
   proveedores?: Prisma.ProveedoresUpdateManyWithoutTenantNestedInput
   referidos?: Prisma.ReferidosUpdateManyWithoutTenantNestedInput
-  segmentos?: Prisma.SegmentoNegocioUpdateManyWithoutTenantNestedInput
   servicios?: Prisma.ServicioUpdateManyWithoutTenantNestedInput
   sesionesActividad?: Prisma.SesionActividadUpdateManyWithoutTenantNestedInput
   subscription?: Prisma.SubscriptionUpdateOneWithoutTenantNestedInput
+  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUpdateManyWithoutTenantsNestedInput
   memberships?: Prisma.TenantMembershipUpdateManyWithoutTenantNestedInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUpdateManyWithoutTenantNestedInput
   tiposInteres?: Prisma.TipoInteresUpdateManyWithoutTenantNestedInput
@@ -9603,7 +8951,6 @@ export type TenantUncheckedUpdateWithoutAnticiposInput = {
   geolocalizaciones?: Prisma.GeolocalizacionUncheckedUpdateManyWithoutTenantNestedInput
   logsEvento?: Prisma.LogEventoUncheckedUpdateManyWithoutTenantNestedInput
   metodosPago?: Prisma.MetodoPagoUncheckedUpdateManyWithoutTenantNestedInput
-  nivelesRiesgo?: Prisma.NivelRiesgoOperativoUncheckedUpdateManyWithoutTenantNestedInput
   nominaDetalles?: Prisma.NominaDetalleUncheckedUpdateManyWithoutTenantNestedInput
   nominas?: Prisma.NominaUncheckedUpdateManyWithoutTenantNestedInput
   ordenesServicio?: Prisma.OrdenServicioUncheckedUpdateManyWithoutTenantNestedInput
@@ -9616,10 +8963,10 @@ export type TenantUncheckedUpdateWithoutAnticiposInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUncheckedUpdateManyWithoutTenantNestedInput
   proveedores?: Prisma.ProveedoresUncheckedUpdateManyWithoutTenantNestedInput
   referidos?: Prisma.ReferidosUncheckedUpdateManyWithoutTenantNestedInput
-  segmentos?: Prisma.SegmentoNegocioUncheckedUpdateManyWithoutTenantNestedInput
   servicios?: Prisma.ServicioUncheckedUpdateManyWithoutTenantNestedInput
   sesionesActividad?: Prisma.SesionActividadUncheckedUpdateManyWithoutTenantNestedInput
   subscription?: Prisma.SubscriptionUncheckedUpdateOneWithoutTenantNestedInput
+  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUncheckedUpdateManyWithoutTenantsNestedInput
   memberships?: Prisma.TenantMembershipUncheckedUpdateManyWithoutTenantNestedInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUncheckedUpdateManyWithoutTenantNestedInput
   tiposInteres?: Prisma.TipoInteresUncheckedUpdateManyWithoutTenantNestedInput
@@ -9664,7 +9011,6 @@ export type TenantCreateWithoutProductosInput = {
   geolocalizaciones?: Prisma.GeolocalizacionCreateNestedManyWithoutTenantInput
   logsEvento?: Prisma.LogEventoCreateNestedManyWithoutTenantInput
   metodosPago?: Prisma.MetodoPagoCreateNestedManyWithoutTenantInput
-  nivelesRiesgo?: Prisma.NivelRiesgoOperativoCreateNestedManyWithoutTenantInput
   nominaDetalles?: Prisma.NominaDetalleCreateNestedManyWithoutTenantInput
   nominas?: Prisma.NominaCreateNestedManyWithoutTenantInput
   ordenesServicio?: Prisma.OrdenServicioCreateNestedManyWithoutTenantInput
@@ -9676,10 +9022,10 @@ export type TenantCreateWithoutProductosInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoCreateNestedManyWithoutTenantInput
   proveedores?: Prisma.ProveedoresCreateNestedManyWithoutTenantInput
   referidos?: Prisma.ReferidosCreateNestedManyWithoutTenantInput
-  segmentos?: Prisma.SegmentoNegocioCreateNestedManyWithoutTenantInput
   servicios?: Prisma.ServicioCreateNestedManyWithoutTenantInput
   sesionesActividad?: Prisma.SesionActividadCreateNestedManyWithoutTenantInput
   subscription?: Prisma.SubscriptionCreateNestedOneWithoutTenantInput
+  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoCreateNestedManyWithoutTenantsInput
   memberships?: Prisma.TenantMembershipCreateNestedManyWithoutTenantInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosCreateNestedManyWithoutTenantInput
   tiposInteres?: Prisma.TipoInteresCreateNestedManyWithoutTenantInput
@@ -9724,7 +9070,6 @@ export type TenantUncheckedCreateWithoutProductosInput = {
   geolocalizaciones?: Prisma.GeolocalizacionUncheckedCreateNestedManyWithoutTenantInput
   logsEvento?: Prisma.LogEventoUncheckedCreateNestedManyWithoutTenantInput
   metodosPago?: Prisma.MetodoPagoUncheckedCreateNestedManyWithoutTenantInput
-  nivelesRiesgo?: Prisma.NivelRiesgoOperativoUncheckedCreateNestedManyWithoutTenantInput
   nominaDetalles?: Prisma.NominaDetalleUncheckedCreateNestedManyWithoutTenantInput
   nominas?: Prisma.NominaUncheckedCreateNestedManyWithoutTenantInput
   ordenesServicio?: Prisma.OrdenServicioUncheckedCreateNestedManyWithoutTenantInput
@@ -9736,10 +9081,10 @@ export type TenantUncheckedCreateWithoutProductosInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUncheckedCreateNestedManyWithoutTenantInput
   proveedores?: Prisma.ProveedoresUncheckedCreateNestedManyWithoutTenantInput
   referidos?: Prisma.ReferidosUncheckedCreateNestedManyWithoutTenantInput
-  segmentos?: Prisma.SegmentoNegocioUncheckedCreateNestedManyWithoutTenantInput
   servicios?: Prisma.ServicioUncheckedCreateNestedManyWithoutTenantInput
   sesionesActividad?: Prisma.SesionActividadUncheckedCreateNestedManyWithoutTenantInput
   subscription?: Prisma.SubscriptionUncheckedCreateNestedOneWithoutTenantInput
+  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUncheckedCreateNestedManyWithoutTenantsInput
   memberships?: Prisma.TenantMembershipUncheckedCreateNestedManyWithoutTenantInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUncheckedCreateNestedManyWithoutTenantInput
   tiposInteres?: Prisma.TipoInteresUncheckedCreateNestedManyWithoutTenantInput
@@ -9800,7 +9145,6 @@ export type TenantUpdateWithoutProductosInput = {
   geolocalizaciones?: Prisma.GeolocalizacionUpdateManyWithoutTenantNestedInput
   logsEvento?: Prisma.LogEventoUpdateManyWithoutTenantNestedInput
   metodosPago?: Prisma.MetodoPagoUpdateManyWithoutTenantNestedInput
-  nivelesRiesgo?: Prisma.NivelRiesgoOperativoUpdateManyWithoutTenantNestedInput
   nominaDetalles?: Prisma.NominaDetalleUpdateManyWithoutTenantNestedInput
   nominas?: Prisma.NominaUpdateManyWithoutTenantNestedInput
   ordenesServicio?: Prisma.OrdenServicioUpdateManyWithoutTenantNestedInput
@@ -9812,10 +9156,10 @@ export type TenantUpdateWithoutProductosInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUpdateManyWithoutTenantNestedInput
   proveedores?: Prisma.ProveedoresUpdateManyWithoutTenantNestedInput
   referidos?: Prisma.ReferidosUpdateManyWithoutTenantNestedInput
-  segmentos?: Prisma.SegmentoNegocioUpdateManyWithoutTenantNestedInput
   servicios?: Prisma.ServicioUpdateManyWithoutTenantNestedInput
   sesionesActividad?: Prisma.SesionActividadUpdateManyWithoutTenantNestedInput
   subscription?: Prisma.SubscriptionUpdateOneWithoutTenantNestedInput
+  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUpdateManyWithoutTenantsNestedInput
   memberships?: Prisma.TenantMembershipUpdateManyWithoutTenantNestedInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUpdateManyWithoutTenantNestedInput
   tiposInteres?: Prisma.TipoInteresUpdateManyWithoutTenantNestedInput
@@ -9860,7 +9204,6 @@ export type TenantUncheckedUpdateWithoutProductosInput = {
   geolocalizaciones?: Prisma.GeolocalizacionUncheckedUpdateManyWithoutTenantNestedInput
   logsEvento?: Prisma.LogEventoUncheckedUpdateManyWithoutTenantNestedInput
   metodosPago?: Prisma.MetodoPagoUncheckedUpdateManyWithoutTenantNestedInput
-  nivelesRiesgo?: Prisma.NivelRiesgoOperativoUncheckedUpdateManyWithoutTenantNestedInput
   nominaDetalles?: Prisma.NominaDetalleUncheckedUpdateManyWithoutTenantNestedInput
   nominas?: Prisma.NominaUncheckedUpdateManyWithoutTenantNestedInput
   ordenesServicio?: Prisma.OrdenServicioUncheckedUpdateManyWithoutTenantNestedInput
@@ -9872,10 +9215,10 @@ export type TenantUncheckedUpdateWithoutProductosInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUncheckedUpdateManyWithoutTenantNestedInput
   proveedores?: Prisma.ProveedoresUncheckedUpdateManyWithoutTenantNestedInput
   referidos?: Prisma.ReferidosUncheckedUpdateManyWithoutTenantNestedInput
-  segmentos?: Prisma.SegmentoNegocioUncheckedUpdateManyWithoutTenantNestedInput
   servicios?: Prisma.ServicioUncheckedUpdateManyWithoutTenantNestedInput
   sesionesActividad?: Prisma.SesionActividadUncheckedUpdateManyWithoutTenantNestedInput
   subscription?: Prisma.SubscriptionUncheckedUpdateOneWithoutTenantNestedInput
+  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUncheckedUpdateManyWithoutTenantsNestedInput
   memberships?: Prisma.TenantMembershipUncheckedUpdateManyWithoutTenantNestedInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUncheckedUpdateManyWithoutTenantNestedInput
   tiposInteres?: Prisma.TipoInteresUncheckedUpdateManyWithoutTenantNestedInput
@@ -9920,7 +9263,6 @@ export type TenantCreateWithoutProductosSolicitadosInput = {
   geolocalizaciones?: Prisma.GeolocalizacionCreateNestedManyWithoutTenantInput
   logsEvento?: Prisma.LogEventoCreateNestedManyWithoutTenantInput
   metodosPago?: Prisma.MetodoPagoCreateNestedManyWithoutTenantInput
-  nivelesRiesgo?: Prisma.NivelRiesgoOperativoCreateNestedManyWithoutTenantInput
   nominaDetalles?: Prisma.NominaDetalleCreateNestedManyWithoutTenantInput
   nominas?: Prisma.NominaCreateNestedManyWithoutTenantInput
   ordenesServicio?: Prisma.OrdenServicioCreateNestedManyWithoutTenantInput
@@ -9932,10 +9274,10 @@ export type TenantCreateWithoutProductosSolicitadosInput = {
   productos?: Prisma.ProductoCreateNestedManyWithoutTenantInput
   proveedores?: Prisma.ProveedoresCreateNestedManyWithoutTenantInput
   referidos?: Prisma.ReferidosCreateNestedManyWithoutTenantInput
-  segmentos?: Prisma.SegmentoNegocioCreateNestedManyWithoutTenantInput
   servicios?: Prisma.ServicioCreateNestedManyWithoutTenantInput
   sesionesActividad?: Prisma.SesionActividadCreateNestedManyWithoutTenantInput
   subscription?: Prisma.SubscriptionCreateNestedOneWithoutTenantInput
+  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoCreateNestedManyWithoutTenantsInput
   memberships?: Prisma.TenantMembershipCreateNestedManyWithoutTenantInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosCreateNestedManyWithoutTenantInput
   tiposInteres?: Prisma.TipoInteresCreateNestedManyWithoutTenantInput
@@ -9980,7 +9322,6 @@ export type TenantUncheckedCreateWithoutProductosSolicitadosInput = {
   geolocalizaciones?: Prisma.GeolocalizacionUncheckedCreateNestedManyWithoutTenantInput
   logsEvento?: Prisma.LogEventoUncheckedCreateNestedManyWithoutTenantInput
   metodosPago?: Prisma.MetodoPagoUncheckedCreateNestedManyWithoutTenantInput
-  nivelesRiesgo?: Prisma.NivelRiesgoOperativoUncheckedCreateNestedManyWithoutTenantInput
   nominaDetalles?: Prisma.NominaDetalleUncheckedCreateNestedManyWithoutTenantInput
   nominas?: Prisma.NominaUncheckedCreateNestedManyWithoutTenantInput
   ordenesServicio?: Prisma.OrdenServicioUncheckedCreateNestedManyWithoutTenantInput
@@ -9992,10 +9333,10 @@ export type TenantUncheckedCreateWithoutProductosSolicitadosInput = {
   productos?: Prisma.ProductoUncheckedCreateNestedManyWithoutTenantInput
   proveedores?: Prisma.ProveedoresUncheckedCreateNestedManyWithoutTenantInput
   referidos?: Prisma.ReferidosUncheckedCreateNestedManyWithoutTenantInput
-  segmentos?: Prisma.SegmentoNegocioUncheckedCreateNestedManyWithoutTenantInput
   servicios?: Prisma.ServicioUncheckedCreateNestedManyWithoutTenantInput
   sesionesActividad?: Prisma.SesionActividadUncheckedCreateNestedManyWithoutTenantInput
   subscription?: Prisma.SubscriptionUncheckedCreateNestedOneWithoutTenantInput
+  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUncheckedCreateNestedManyWithoutTenantsInput
   memberships?: Prisma.TenantMembershipUncheckedCreateNestedManyWithoutTenantInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUncheckedCreateNestedManyWithoutTenantInput
   tiposInteres?: Prisma.TipoInteresUncheckedCreateNestedManyWithoutTenantInput
@@ -10056,7 +9397,6 @@ export type TenantUpdateWithoutProductosSolicitadosInput = {
   geolocalizaciones?: Prisma.GeolocalizacionUpdateManyWithoutTenantNestedInput
   logsEvento?: Prisma.LogEventoUpdateManyWithoutTenantNestedInput
   metodosPago?: Prisma.MetodoPagoUpdateManyWithoutTenantNestedInput
-  nivelesRiesgo?: Prisma.NivelRiesgoOperativoUpdateManyWithoutTenantNestedInput
   nominaDetalles?: Prisma.NominaDetalleUpdateManyWithoutTenantNestedInput
   nominas?: Prisma.NominaUpdateManyWithoutTenantNestedInput
   ordenesServicio?: Prisma.OrdenServicioUpdateManyWithoutTenantNestedInput
@@ -10068,10 +9408,10 @@ export type TenantUpdateWithoutProductosSolicitadosInput = {
   productos?: Prisma.ProductoUpdateManyWithoutTenantNestedInput
   proveedores?: Prisma.ProveedoresUpdateManyWithoutTenantNestedInput
   referidos?: Prisma.ReferidosUpdateManyWithoutTenantNestedInput
-  segmentos?: Prisma.SegmentoNegocioUpdateManyWithoutTenantNestedInput
   servicios?: Prisma.ServicioUpdateManyWithoutTenantNestedInput
   sesionesActividad?: Prisma.SesionActividadUpdateManyWithoutTenantNestedInput
   subscription?: Prisma.SubscriptionUpdateOneWithoutTenantNestedInput
+  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUpdateManyWithoutTenantsNestedInput
   memberships?: Prisma.TenantMembershipUpdateManyWithoutTenantNestedInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUpdateManyWithoutTenantNestedInput
   tiposInteres?: Prisma.TipoInteresUpdateManyWithoutTenantNestedInput
@@ -10116,7 +9456,6 @@ export type TenantUncheckedUpdateWithoutProductosSolicitadosInput = {
   geolocalizaciones?: Prisma.GeolocalizacionUncheckedUpdateManyWithoutTenantNestedInput
   logsEvento?: Prisma.LogEventoUncheckedUpdateManyWithoutTenantNestedInput
   metodosPago?: Prisma.MetodoPagoUncheckedUpdateManyWithoutTenantNestedInput
-  nivelesRiesgo?: Prisma.NivelRiesgoOperativoUncheckedUpdateManyWithoutTenantNestedInput
   nominaDetalles?: Prisma.NominaDetalleUncheckedUpdateManyWithoutTenantNestedInput
   nominas?: Prisma.NominaUncheckedUpdateManyWithoutTenantNestedInput
   ordenesServicio?: Prisma.OrdenServicioUncheckedUpdateManyWithoutTenantNestedInput
@@ -10128,10 +9467,10 @@ export type TenantUncheckedUpdateWithoutProductosSolicitadosInput = {
   productos?: Prisma.ProductoUncheckedUpdateManyWithoutTenantNestedInput
   proveedores?: Prisma.ProveedoresUncheckedUpdateManyWithoutTenantNestedInput
   referidos?: Prisma.ReferidosUncheckedUpdateManyWithoutTenantNestedInput
-  segmentos?: Prisma.SegmentoNegocioUncheckedUpdateManyWithoutTenantNestedInput
   servicios?: Prisma.ServicioUncheckedUpdateManyWithoutTenantNestedInput
   sesionesActividad?: Prisma.SesionActividadUncheckedUpdateManyWithoutTenantNestedInput
   subscription?: Prisma.SubscriptionUncheckedUpdateOneWithoutTenantNestedInput
+  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUncheckedUpdateManyWithoutTenantsNestedInput
   memberships?: Prisma.TenantMembershipUncheckedUpdateManyWithoutTenantNestedInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUncheckedUpdateManyWithoutTenantNestedInput
   tiposInteres?: Prisma.TipoInteresUncheckedUpdateManyWithoutTenantNestedInput
@@ -10176,7 +9515,6 @@ export type TenantCreateWithoutProveedoresInput = {
   geolocalizaciones?: Prisma.GeolocalizacionCreateNestedManyWithoutTenantInput
   logsEvento?: Prisma.LogEventoCreateNestedManyWithoutTenantInput
   metodosPago?: Prisma.MetodoPagoCreateNestedManyWithoutTenantInput
-  nivelesRiesgo?: Prisma.NivelRiesgoOperativoCreateNestedManyWithoutTenantInput
   nominaDetalles?: Prisma.NominaDetalleCreateNestedManyWithoutTenantInput
   nominas?: Prisma.NominaCreateNestedManyWithoutTenantInput
   ordenesServicio?: Prisma.OrdenServicioCreateNestedManyWithoutTenantInput
@@ -10188,10 +9526,10 @@ export type TenantCreateWithoutProveedoresInput = {
   productos?: Prisma.ProductoCreateNestedManyWithoutTenantInput
   productosSolicitados?: Prisma.ProductoSolicitadoCreateNestedManyWithoutTenantInput
   referidos?: Prisma.ReferidosCreateNestedManyWithoutTenantInput
-  segmentos?: Prisma.SegmentoNegocioCreateNestedManyWithoutTenantInput
   servicios?: Prisma.ServicioCreateNestedManyWithoutTenantInput
   sesionesActividad?: Prisma.SesionActividadCreateNestedManyWithoutTenantInput
   subscription?: Prisma.SubscriptionCreateNestedOneWithoutTenantInput
+  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoCreateNestedManyWithoutTenantsInput
   memberships?: Prisma.TenantMembershipCreateNestedManyWithoutTenantInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosCreateNestedManyWithoutTenantInput
   tiposInteres?: Prisma.TipoInteresCreateNestedManyWithoutTenantInput
@@ -10236,7 +9574,6 @@ export type TenantUncheckedCreateWithoutProveedoresInput = {
   geolocalizaciones?: Prisma.GeolocalizacionUncheckedCreateNestedManyWithoutTenantInput
   logsEvento?: Prisma.LogEventoUncheckedCreateNestedManyWithoutTenantInput
   metodosPago?: Prisma.MetodoPagoUncheckedCreateNestedManyWithoutTenantInput
-  nivelesRiesgo?: Prisma.NivelRiesgoOperativoUncheckedCreateNestedManyWithoutTenantInput
   nominaDetalles?: Prisma.NominaDetalleUncheckedCreateNestedManyWithoutTenantInput
   nominas?: Prisma.NominaUncheckedCreateNestedManyWithoutTenantInput
   ordenesServicio?: Prisma.OrdenServicioUncheckedCreateNestedManyWithoutTenantInput
@@ -10248,10 +9585,10 @@ export type TenantUncheckedCreateWithoutProveedoresInput = {
   productos?: Prisma.ProductoUncheckedCreateNestedManyWithoutTenantInput
   productosSolicitados?: Prisma.ProductoSolicitadoUncheckedCreateNestedManyWithoutTenantInput
   referidos?: Prisma.ReferidosUncheckedCreateNestedManyWithoutTenantInput
-  segmentos?: Prisma.SegmentoNegocioUncheckedCreateNestedManyWithoutTenantInput
   servicios?: Prisma.ServicioUncheckedCreateNestedManyWithoutTenantInput
   sesionesActividad?: Prisma.SesionActividadUncheckedCreateNestedManyWithoutTenantInput
   subscription?: Prisma.SubscriptionUncheckedCreateNestedOneWithoutTenantInput
+  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUncheckedCreateNestedManyWithoutTenantsInput
   memberships?: Prisma.TenantMembershipUncheckedCreateNestedManyWithoutTenantInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUncheckedCreateNestedManyWithoutTenantInput
   tiposInteres?: Prisma.TipoInteresUncheckedCreateNestedManyWithoutTenantInput
@@ -10312,7 +9649,6 @@ export type TenantUpdateWithoutProveedoresInput = {
   geolocalizaciones?: Prisma.GeolocalizacionUpdateManyWithoutTenantNestedInput
   logsEvento?: Prisma.LogEventoUpdateManyWithoutTenantNestedInput
   metodosPago?: Prisma.MetodoPagoUpdateManyWithoutTenantNestedInput
-  nivelesRiesgo?: Prisma.NivelRiesgoOperativoUpdateManyWithoutTenantNestedInput
   nominaDetalles?: Prisma.NominaDetalleUpdateManyWithoutTenantNestedInput
   nominas?: Prisma.NominaUpdateManyWithoutTenantNestedInput
   ordenesServicio?: Prisma.OrdenServicioUpdateManyWithoutTenantNestedInput
@@ -10324,10 +9660,10 @@ export type TenantUpdateWithoutProveedoresInput = {
   productos?: Prisma.ProductoUpdateManyWithoutTenantNestedInput
   productosSolicitados?: Prisma.ProductoSolicitadoUpdateManyWithoutTenantNestedInput
   referidos?: Prisma.ReferidosUpdateManyWithoutTenantNestedInput
-  segmentos?: Prisma.SegmentoNegocioUpdateManyWithoutTenantNestedInput
   servicios?: Prisma.ServicioUpdateManyWithoutTenantNestedInput
   sesionesActividad?: Prisma.SesionActividadUpdateManyWithoutTenantNestedInput
   subscription?: Prisma.SubscriptionUpdateOneWithoutTenantNestedInput
+  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUpdateManyWithoutTenantsNestedInput
   memberships?: Prisma.TenantMembershipUpdateManyWithoutTenantNestedInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUpdateManyWithoutTenantNestedInput
   tiposInteres?: Prisma.TipoInteresUpdateManyWithoutTenantNestedInput
@@ -10372,7 +9708,6 @@ export type TenantUncheckedUpdateWithoutProveedoresInput = {
   geolocalizaciones?: Prisma.GeolocalizacionUncheckedUpdateManyWithoutTenantNestedInput
   logsEvento?: Prisma.LogEventoUncheckedUpdateManyWithoutTenantNestedInput
   metodosPago?: Prisma.MetodoPagoUncheckedUpdateManyWithoutTenantNestedInput
-  nivelesRiesgo?: Prisma.NivelRiesgoOperativoUncheckedUpdateManyWithoutTenantNestedInput
   nominaDetalles?: Prisma.NominaDetalleUncheckedUpdateManyWithoutTenantNestedInput
   nominas?: Prisma.NominaUncheckedUpdateManyWithoutTenantNestedInput
   ordenesServicio?: Prisma.OrdenServicioUncheckedUpdateManyWithoutTenantNestedInput
@@ -10384,10 +9719,10 @@ export type TenantUncheckedUpdateWithoutProveedoresInput = {
   productos?: Prisma.ProductoUncheckedUpdateManyWithoutTenantNestedInput
   productosSolicitados?: Prisma.ProductoSolicitadoUncheckedUpdateManyWithoutTenantNestedInput
   referidos?: Prisma.ReferidosUncheckedUpdateManyWithoutTenantNestedInput
-  segmentos?: Prisma.SegmentoNegocioUncheckedUpdateManyWithoutTenantNestedInput
   servicios?: Prisma.ServicioUncheckedUpdateManyWithoutTenantNestedInput
   sesionesActividad?: Prisma.SesionActividadUncheckedUpdateManyWithoutTenantNestedInput
   subscription?: Prisma.SubscriptionUncheckedUpdateOneWithoutTenantNestedInput
+  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUncheckedUpdateManyWithoutTenantsNestedInput
   memberships?: Prisma.TenantMembershipUncheckedUpdateManyWithoutTenantNestedInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUncheckedUpdateManyWithoutTenantNestedInput
   tiposInteres?: Prisma.TipoInteresUncheckedUpdateManyWithoutTenantNestedInput
@@ -10432,7 +9767,6 @@ export type TenantCreateWithoutPermisosInput = {
   geolocalizaciones?: Prisma.GeolocalizacionCreateNestedManyWithoutTenantInput
   logsEvento?: Prisma.LogEventoCreateNestedManyWithoutTenantInput
   metodosPago?: Prisma.MetodoPagoCreateNestedManyWithoutTenantInput
-  nivelesRiesgo?: Prisma.NivelRiesgoOperativoCreateNestedManyWithoutTenantInput
   nominaDetalles?: Prisma.NominaDetalleCreateNestedManyWithoutTenantInput
   nominas?: Prisma.NominaCreateNestedManyWithoutTenantInput
   ordenesServicio?: Prisma.OrdenServicioCreateNestedManyWithoutTenantInput
@@ -10444,10 +9778,10 @@ export type TenantCreateWithoutPermisosInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoCreateNestedManyWithoutTenantInput
   proveedores?: Prisma.ProveedoresCreateNestedManyWithoutTenantInput
   referidos?: Prisma.ReferidosCreateNestedManyWithoutTenantInput
-  segmentos?: Prisma.SegmentoNegocioCreateNestedManyWithoutTenantInput
   servicios?: Prisma.ServicioCreateNestedManyWithoutTenantInput
   sesionesActividad?: Prisma.SesionActividadCreateNestedManyWithoutTenantInput
   subscription?: Prisma.SubscriptionCreateNestedOneWithoutTenantInput
+  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoCreateNestedManyWithoutTenantsInput
   memberships?: Prisma.TenantMembershipCreateNestedManyWithoutTenantInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosCreateNestedManyWithoutTenantInput
   tiposInteres?: Prisma.TipoInteresCreateNestedManyWithoutTenantInput
@@ -10492,7 +9826,6 @@ export type TenantUncheckedCreateWithoutPermisosInput = {
   geolocalizaciones?: Prisma.GeolocalizacionUncheckedCreateNestedManyWithoutTenantInput
   logsEvento?: Prisma.LogEventoUncheckedCreateNestedManyWithoutTenantInput
   metodosPago?: Prisma.MetodoPagoUncheckedCreateNestedManyWithoutTenantInput
-  nivelesRiesgo?: Prisma.NivelRiesgoOperativoUncheckedCreateNestedManyWithoutTenantInput
   nominaDetalles?: Prisma.NominaDetalleUncheckedCreateNestedManyWithoutTenantInput
   nominas?: Prisma.NominaUncheckedCreateNestedManyWithoutTenantInput
   ordenesServicio?: Prisma.OrdenServicioUncheckedCreateNestedManyWithoutTenantInput
@@ -10504,10 +9837,10 @@ export type TenantUncheckedCreateWithoutPermisosInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUncheckedCreateNestedManyWithoutTenantInput
   proveedores?: Prisma.ProveedoresUncheckedCreateNestedManyWithoutTenantInput
   referidos?: Prisma.ReferidosUncheckedCreateNestedManyWithoutTenantInput
-  segmentos?: Prisma.SegmentoNegocioUncheckedCreateNestedManyWithoutTenantInput
   servicios?: Prisma.ServicioUncheckedCreateNestedManyWithoutTenantInput
   sesionesActividad?: Prisma.SesionActividadUncheckedCreateNestedManyWithoutTenantInput
   subscription?: Prisma.SubscriptionUncheckedCreateNestedOneWithoutTenantInput
+  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUncheckedCreateNestedManyWithoutTenantsInput
   memberships?: Prisma.TenantMembershipUncheckedCreateNestedManyWithoutTenantInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUncheckedCreateNestedManyWithoutTenantInput
   tiposInteres?: Prisma.TipoInteresUncheckedCreateNestedManyWithoutTenantInput
@@ -10568,7 +9901,6 @@ export type TenantUpdateWithoutPermisosInput = {
   geolocalizaciones?: Prisma.GeolocalizacionUpdateManyWithoutTenantNestedInput
   logsEvento?: Prisma.LogEventoUpdateManyWithoutTenantNestedInput
   metodosPago?: Prisma.MetodoPagoUpdateManyWithoutTenantNestedInput
-  nivelesRiesgo?: Prisma.NivelRiesgoOperativoUpdateManyWithoutTenantNestedInput
   nominaDetalles?: Prisma.NominaDetalleUpdateManyWithoutTenantNestedInput
   nominas?: Prisma.NominaUpdateManyWithoutTenantNestedInput
   ordenesServicio?: Prisma.OrdenServicioUpdateManyWithoutTenantNestedInput
@@ -10580,10 +9912,10 @@ export type TenantUpdateWithoutPermisosInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUpdateManyWithoutTenantNestedInput
   proveedores?: Prisma.ProveedoresUpdateManyWithoutTenantNestedInput
   referidos?: Prisma.ReferidosUpdateManyWithoutTenantNestedInput
-  segmentos?: Prisma.SegmentoNegocioUpdateManyWithoutTenantNestedInput
   servicios?: Prisma.ServicioUpdateManyWithoutTenantNestedInput
   sesionesActividad?: Prisma.SesionActividadUpdateManyWithoutTenantNestedInput
   subscription?: Prisma.SubscriptionUpdateOneWithoutTenantNestedInput
+  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUpdateManyWithoutTenantsNestedInput
   memberships?: Prisma.TenantMembershipUpdateManyWithoutTenantNestedInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUpdateManyWithoutTenantNestedInput
   tiposInteres?: Prisma.TipoInteresUpdateManyWithoutTenantNestedInput
@@ -10628,7 +9960,6 @@ export type TenantUncheckedUpdateWithoutPermisosInput = {
   geolocalizaciones?: Prisma.GeolocalizacionUncheckedUpdateManyWithoutTenantNestedInput
   logsEvento?: Prisma.LogEventoUncheckedUpdateManyWithoutTenantNestedInput
   metodosPago?: Prisma.MetodoPagoUncheckedUpdateManyWithoutTenantNestedInput
-  nivelesRiesgo?: Prisma.NivelRiesgoOperativoUncheckedUpdateManyWithoutTenantNestedInput
   nominaDetalles?: Prisma.NominaDetalleUncheckedUpdateManyWithoutTenantNestedInput
   nominas?: Prisma.NominaUncheckedUpdateManyWithoutTenantNestedInput
   ordenesServicio?: Prisma.OrdenServicioUncheckedUpdateManyWithoutTenantNestedInput
@@ -10640,10 +9971,10 @@ export type TenantUncheckedUpdateWithoutPermisosInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUncheckedUpdateManyWithoutTenantNestedInput
   proveedores?: Prisma.ProveedoresUncheckedUpdateManyWithoutTenantNestedInput
   referidos?: Prisma.ReferidosUncheckedUpdateManyWithoutTenantNestedInput
-  segmentos?: Prisma.SegmentoNegocioUncheckedUpdateManyWithoutTenantNestedInput
   servicios?: Prisma.ServicioUncheckedUpdateManyWithoutTenantNestedInput
   sesionesActividad?: Prisma.SesionActividadUncheckedUpdateManyWithoutTenantNestedInput
   subscription?: Prisma.SubscriptionUncheckedUpdateOneWithoutTenantNestedInput
+  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUncheckedUpdateManyWithoutTenantsNestedInput
   memberships?: Prisma.TenantMembershipUncheckedUpdateManyWithoutTenantNestedInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUncheckedUpdateManyWithoutTenantNestedInput
   tiposInteres?: Prisma.TipoInteresUncheckedUpdateManyWithoutTenantNestedInput
@@ -10687,7 +10018,6 @@ export type TenantCreateWithoutConfiguracionPagosInput = {
   geolocalizaciones?: Prisma.GeolocalizacionCreateNestedManyWithoutTenantInput
   logsEvento?: Prisma.LogEventoCreateNestedManyWithoutTenantInput
   metodosPago?: Prisma.MetodoPagoCreateNestedManyWithoutTenantInput
-  nivelesRiesgo?: Prisma.NivelRiesgoOperativoCreateNestedManyWithoutTenantInput
   nominaDetalles?: Prisma.NominaDetalleCreateNestedManyWithoutTenantInput
   nominas?: Prisma.NominaCreateNestedManyWithoutTenantInput
   ordenesServicio?: Prisma.OrdenServicioCreateNestedManyWithoutTenantInput
@@ -10700,10 +10030,10 @@ export type TenantCreateWithoutConfiguracionPagosInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoCreateNestedManyWithoutTenantInput
   proveedores?: Prisma.ProveedoresCreateNestedManyWithoutTenantInput
   referidos?: Prisma.ReferidosCreateNestedManyWithoutTenantInput
-  segmentos?: Prisma.SegmentoNegocioCreateNestedManyWithoutTenantInput
   servicios?: Prisma.ServicioCreateNestedManyWithoutTenantInput
   sesionesActividad?: Prisma.SesionActividadCreateNestedManyWithoutTenantInput
   subscription?: Prisma.SubscriptionCreateNestedOneWithoutTenantInput
+  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoCreateNestedManyWithoutTenantsInput
   memberships?: Prisma.TenantMembershipCreateNestedManyWithoutTenantInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosCreateNestedManyWithoutTenantInput
   tiposInteres?: Prisma.TipoInteresCreateNestedManyWithoutTenantInput
@@ -10747,7 +10077,6 @@ export type TenantUncheckedCreateWithoutConfiguracionPagosInput = {
   geolocalizaciones?: Prisma.GeolocalizacionUncheckedCreateNestedManyWithoutTenantInput
   logsEvento?: Prisma.LogEventoUncheckedCreateNestedManyWithoutTenantInput
   metodosPago?: Prisma.MetodoPagoUncheckedCreateNestedManyWithoutTenantInput
-  nivelesRiesgo?: Prisma.NivelRiesgoOperativoUncheckedCreateNestedManyWithoutTenantInput
   nominaDetalles?: Prisma.NominaDetalleUncheckedCreateNestedManyWithoutTenantInput
   nominas?: Prisma.NominaUncheckedCreateNestedManyWithoutTenantInput
   ordenesServicio?: Prisma.OrdenServicioUncheckedCreateNestedManyWithoutTenantInput
@@ -10760,10 +10089,10 @@ export type TenantUncheckedCreateWithoutConfiguracionPagosInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUncheckedCreateNestedManyWithoutTenantInput
   proveedores?: Prisma.ProveedoresUncheckedCreateNestedManyWithoutTenantInput
   referidos?: Prisma.ReferidosUncheckedCreateNestedManyWithoutTenantInput
-  segmentos?: Prisma.SegmentoNegocioUncheckedCreateNestedManyWithoutTenantInput
   servicios?: Prisma.ServicioUncheckedCreateNestedManyWithoutTenantInput
   sesionesActividad?: Prisma.SesionActividadUncheckedCreateNestedManyWithoutTenantInput
   subscription?: Prisma.SubscriptionUncheckedCreateNestedOneWithoutTenantInput
+  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUncheckedCreateNestedManyWithoutTenantsInput
   memberships?: Prisma.TenantMembershipUncheckedCreateNestedManyWithoutTenantInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUncheckedCreateNestedManyWithoutTenantInput
   tiposInteres?: Prisma.TipoInteresUncheckedCreateNestedManyWithoutTenantInput
@@ -10823,7 +10152,6 @@ export type TenantUpdateWithoutConfiguracionPagosInput = {
   geolocalizaciones?: Prisma.GeolocalizacionUpdateManyWithoutTenantNestedInput
   logsEvento?: Prisma.LogEventoUpdateManyWithoutTenantNestedInput
   metodosPago?: Prisma.MetodoPagoUpdateManyWithoutTenantNestedInput
-  nivelesRiesgo?: Prisma.NivelRiesgoOperativoUpdateManyWithoutTenantNestedInput
   nominaDetalles?: Prisma.NominaDetalleUpdateManyWithoutTenantNestedInput
   nominas?: Prisma.NominaUpdateManyWithoutTenantNestedInput
   ordenesServicio?: Prisma.OrdenServicioUpdateManyWithoutTenantNestedInput
@@ -10836,10 +10164,10 @@ export type TenantUpdateWithoutConfiguracionPagosInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUpdateManyWithoutTenantNestedInput
   proveedores?: Prisma.ProveedoresUpdateManyWithoutTenantNestedInput
   referidos?: Prisma.ReferidosUpdateManyWithoutTenantNestedInput
-  segmentos?: Prisma.SegmentoNegocioUpdateManyWithoutTenantNestedInput
   servicios?: Prisma.ServicioUpdateManyWithoutTenantNestedInput
   sesionesActividad?: Prisma.SesionActividadUpdateManyWithoutTenantNestedInput
   subscription?: Prisma.SubscriptionUpdateOneWithoutTenantNestedInput
+  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUpdateManyWithoutTenantsNestedInput
   memberships?: Prisma.TenantMembershipUpdateManyWithoutTenantNestedInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUpdateManyWithoutTenantNestedInput
   tiposInteres?: Prisma.TipoInteresUpdateManyWithoutTenantNestedInput
@@ -10883,7 +10211,6 @@ export type TenantUncheckedUpdateWithoutConfiguracionPagosInput = {
   geolocalizaciones?: Prisma.GeolocalizacionUncheckedUpdateManyWithoutTenantNestedInput
   logsEvento?: Prisma.LogEventoUncheckedUpdateManyWithoutTenantNestedInput
   metodosPago?: Prisma.MetodoPagoUncheckedUpdateManyWithoutTenantNestedInput
-  nivelesRiesgo?: Prisma.NivelRiesgoOperativoUncheckedUpdateManyWithoutTenantNestedInput
   nominaDetalles?: Prisma.NominaDetalleUncheckedUpdateManyWithoutTenantNestedInput
   nominas?: Prisma.NominaUncheckedUpdateManyWithoutTenantNestedInput
   ordenesServicio?: Prisma.OrdenServicioUncheckedUpdateManyWithoutTenantNestedInput
@@ -10896,10 +10223,10 @@ export type TenantUncheckedUpdateWithoutConfiguracionPagosInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUncheckedUpdateManyWithoutTenantNestedInput
   proveedores?: Prisma.ProveedoresUncheckedUpdateManyWithoutTenantNestedInput
   referidos?: Prisma.ReferidosUncheckedUpdateManyWithoutTenantNestedInput
-  segmentos?: Prisma.SegmentoNegocioUncheckedUpdateManyWithoutTenantNestedInput
   servicios?: Prisma.ServicioUncheckedUpdateManyWithoutTenantNestedInput
   sesionesActividad?: Prisma.SesionActividadUncheckedUpdateManyWithoutTenantNestedInput
   subscription?: Prisma.SubscriptionUncheckedUpdateOneWithoutTenantNestedInput
+  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUncheckedUpdateManyWithoutTenantsNestedInput
   memberships?: Prisma.TenantMembershipUncheckedUpdateManyWithoutTenantNestedInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUncheckedUpdateManyWithoutTenantNestedInput
   tiposInteres?: Prisma.TipoInteresUncheckedUpdateManyWithoutTenantNestedInput
@@ -10943,7 +10270,6 @@ export type TenantCreateWithoutCuentasPagoInput = {
   geolocalizaciones?: Prisma.GeolocalizacionCreateNestedManyWithoutTenantInput
   logsEvento?: Prisma.LogEventoCreateNestedManyWithoutTenantInput
   metodosPago?: Prisma.MetodoPagoCreateNestedManyWithoutTenantInput
-  nivelesRiesgo?: Prisma.NivelRiesgoOperativoCreateNestedManyWithoutTenantInput
   nominaDetalles?: Prisma.NominaDetalleCreateNestedManyWithoutTenantInput
   nominas?: Prisma.NominaCreateNestedManyWithoutTenantInput
   ordenesServicio?: Prisma.OrdenServicioCreateNestedManyWithoutTenantInput
@@ -10956,10 +10282,10 @@ export type TenantCreateWithoutCuentasPagoInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoCreateNestedManyWithoutTenantInput
   proveedores?: Prisma.ProveedoresCreateNestedManyWithoutTenantInput
   referidos?: Prisma.ReferidosCreateNestedManyWithoutTenantInput
-  segmentos?: Prisma.SegmentoNegocioCreateNestedManyWithoutTenantInput
   servicios?: Prisma.ServicioCreateNestedManyWithoutTenantInput
   sesionesActividad?: Prisma.SesionActividadCreateNestedManyWithoutTenantInput
   subscription?: Prisma.SubscriptionCreateNestedOneWithoutTenantInput
+  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoCreateNestedManyWithoutTenantsInput
   memberships?: Prisma.TenantMembershipCreateNestedManyWithoutTenantInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosCreateNestedManyWithoutTenantInput
   tiposInteres?: Prisma.TipoInteresCreateNestedManyWithoutTenantInput
@@ -11003,7 +10329,6 @@ export type TenantUncheckedCreateWithoutCuentasPagoInput = {
   geolocalizaciones?: Prisma.GeolocalizacionUncheckedCreateNestedManyWithoutTenantInput
   logsEvento?: Prisma.LogEventoUncheckedCreateNestedManyWithoutTenantInput
   metodosPago?: Prisma.MetodoPagoUncheckedCreateNestedManyWithoutTenantInput
-  nivelesRiesgo?: Prisma.NivelRiesgoOperativoUncheckedCreateNestedManyWithoutTenantInput
   nominaDetalles?: Prisma.NominaDetalleUncheckedCreateNestedManyWithoutTenantInput
   nominas?: Prisma.NominaUncheckedCreateNestedManyWithoutTenantInput
   ordenesServicio?: Prisma.OrdenServicioUncheckedCreateNestedManyWithoutTenantInput
@@ -11016,10 +10341,10 @@ export type TenantUncheckedCreateWithoutCuentasPagoInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUncheckedCreateNestedManyWithoutTenantInput
   proveedores?: Prisma.ProveedoresUncheckedCreateNestedManyWithoutTenantInput
   referidos?: Prisma.ReferidosUncheckedCreateNestedManyWithoutTenantInput
-  segmentos?: Prisma.SegmentoNegocioUncheckedCreateNestedManyWithoutTenantInput
   servicios?: Prisma.ServicioUncheckedCreateNestedManyWithoutTenantInput
   sesionesActividad?: Prisma.SesionActividadUncheckedCreateNestedManyWithoutTenantInput
   subscription?: Prisma.SubscriptionUncheckedCreateNestedOneWithoutTenantInput
+  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUncheckedCreateNestedManyWithoutTenantsInput
   memberships?: Prisma.TenantMembershipUncheckedCreateNestedManyWithoutTenantInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUncheckedCreateNestedManyWithoutTenantInput
   tiposInteres?: Prisma.TipoInteresUncheckedCreateNestedManyWithoutTenantInput
@@ -11079,7 +10404,6 @@ export type TenantUpdateWithoutCuentasPagoInput = {
   geolocalizaciones?: Prisma.GeolocalizacionUpdateManyWithoutTenantNestedInput
   logsEvento?: Prisma.LogEventoUpdateManyWithoutTenantNestedInput
   metodosPago?: Prisma.MetodoPagoUpdateManyWithoutTenantNestedInput
-  nivelesRiesgo?: Prisma.NivelRiesgoOperativoUpdateManyWithoutTenantNestedInput
   nominaDetalles?: Prisma.NominaDetalleUpdateManyWithoutTenantNestedInput
   nominas?: Prisma.NominaUpdateManyWithoutTenantNestedInput
   ordenesServicio?: Prisma.OrdenServicioUpdateManyWithoutTenantNestedInput
@@ -11092,10 +10416,10 @@ export type TenantUpdateWithoutCuentasPagoInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUpdateManyWithoutTenantNestedInput
   proveedores?: Prisma.ProveedoresUpdateManyWithoutTenantNestedInput
   referidos?: Prisma.ReferidosUpdateManyWithoutTenantNestedInput
-  segmentos?: Prisma.SegmentoNegocioUpdateManyWithoutTenantNestedInput
   servicios?: Prisma.ServicioUpdateManyWithoutTenantNestedInput
   sesionesActividad?: Prisma.SesionActividadUpdateManyWithoutTenantNestedInput
   subscription?: Prisma.SubscriptionUpdateOneWithoutTenantNestedInput
+  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUpdateManyWithoutTenantsNestedInput
   memberships?: Prisma.TenantMembershipUpdateManyWithoutTenantNestedInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUpdateManyWithoutTenantNestedInput
   tiposInteres?: Prisma.TipoInteresUpdateManyWithoutTenantNestedInput
@@ -11139,7 +10463,6 @@ export type TenantUncheckedUpdateWithoutCuentasPagoInput = {
   geolocalizaciones?: Prisma.GeolocalizacionUncheckedUpdateManyWithoutTenantNestedInput
   logsEvento?: Prisma.LogEventoUncheckedUpdateManyWithoutTenantNestedInput
   metodosPago?: Prisma.MetodoPagoUncheckedUpdateManyWithoutTenantNestedInput
-  nivelesRiesgo?: Prisma.NivelRiesgoOperativoUncheckedUpdateManyWithoutTenantNestedInput
   nominaDetalles?: Prisma.NominaDetalleUncheckedUpdateManyWithoutTenantNestedInput
   nominas?: Prisma.NominaUncheckedUpdateManyWithoutTenantNestedInput
   ordenesServicio?: Prisma.OrdenServicioUncheckedUpdateManyWithoutTenantNestedInput
@@ -11152,10 +10475,10 @@ export type TenantUncheckedUpdateWithoutCuentasPagoInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUncheckedUpdateManyWithoutTenantNestedInput
   proveedores?: Prisma.ProveedoresUncheckedUpdateManyWithoutTenantNestedInput
   referidos?: Prisma.ReferidosUncheckedUpdateManyWithoutTenantNestedInput
-  segmentos?: Prisma.SegmentoNegocioUncheckedUpdateManyWithoutTenantNestedInput
   servicios?: Prisma.ServicioUncheckedUpdateManyWithoutTenantNestedInput
   sesionesActividad?: Prisma.SesionActividadUncheckedUpdateManyWithoutTenantNestedInput
   subscription?: Prisma.SubscriptionUncheckedUpdateOneWithoutTenantNestedInput
+  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUncheckedUpdateManyWithoutTenantsNestedInput
   memberships?: Prisma.TenantMembershipUncheckedUpdateManyWithoutTenantNestedInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUncheckedUpdateManyWithoutTenantNestedInput
   tiposInteres?: Prisma.TipoInteresUncheckedUpdateManyWithoutTenantNestedInput
@@ -11199,7 +10522,6 @@ export type TenantCreateWithoutEgresosInput = {
   geolocalizaciones?: Prisma.GeolocalizacionCreateNestedManyWithoutTenantInput
   logsEvento?: Prisma.LogEventoCreateNestedManyWithoutTenantInput
   metodosPago?: Prisma.MetodoPagoCreateNestedManyWithoutTenantInput
-  nivelesRiesgo?: Prisma.NivelRiesgoOperativoCreateNestedManyWithoutTenantInput
   nominaDetalles?: Prisma.NominaDetalleCreateNestedManyWithoutTenantInput
   nominas?: Prisma.NominaCreateNestedManyWithoutTenantInput
   ordenesServicio?: Prisma.OrdenServicioCreateNestedManyWithoutTenantInput
@@ -11212,10 +10534,10 @@ export type TenantCreateWithoutEgresosInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoCreateNestedManyWithoutTenantInput
   proveedores?: Prisma.ProveedoresCreateNestedManyWithoutTenantInput
   referidos?: Prisma.ReferidosCreateNestedManyWithoutTenantInput
-  segmentos?: Prisma.SegmentoNegocioCreateNestedManyWithoutTenantInput
   servicios?: Prisma.ServicioCreateNestedManyWithoutTenantInput
   sesionesActividad?: Prisma.SesionActividadCreateNestedManyWithoutTenantInput
   subscription?: Prisma.SubscriptionCreateNestedOneWithoutTenantInput
+  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoCreateNestedManyWithoutTenantsInput
   memberships?: Prisma.TenantMembershipCreateNestedManyWithoutTenantInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosCreateNestedManyWithoutTenantInput
   tiposInteres?: Prisma.TipoInteresCreateNestedManyWithoutTenantInput
@@ -11259,7 +10581,6 @@ export type TenantUncheckedCreateWithoutEgresosInput = {
   geolocalizaciones?: Prisma.GeolocalizacionUncheckedCreateNestedManyWithoutTenantInput
   logsEvento?: Prisma.LogEventoUncheckedCreateNestedManyWithoutTenantInput
   metodosPago?: Prisma.MetodoPagoUncheckedCreateNestedManyWithoutTenantInput
-  nivelesRiesgo?: Prisma.NivelRiesgoOperativoUncheckedCreateNestedManyWithoutTenantInput
   nominaDetalles?: Prisma.NominaDetalleUncheckedCreateNestedManyWithoutTenantInput
   nominas?: Prisma.NominaUncheckedCreateNestedManyWithoutTenantInput
   ordenesServicio?: Prisma.OrdenServicioUncheckedCreateNestedManyWithoutTenantInput
@@ -11272,10 +10593,10 @@ export type TenantUncheckedCreateWithoutEgresosInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUncheckedCreateNestedManyWithoutTenantInput
   proveedores?: Prisma.ProveedoresUncheckedCreateNestedManyWithoutTenantInput
   referidos?: Prisma.ReferidosUncheckedCreateNestedManyWithoutTenantInput
-  segmentos?: Prisma.SegmentoNegocioUncheckedCreateNestedManyWithoutTenantInput
   servicios?: Prisma.ServicioUncheckedCreateNestedManyWithoutTenantInput
   sesionesActividad?: Prisma.SesionActividadUncheckedCreateNestedManyWithoutTenantInput
   subscription?: Prisma.SubscriptionUncheckedCreateNestedOneWithoutTenantInput
+  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUncheckedCreateNestedManyWithoutTenantsInput
   memberships?: Prisma.TenantMembershipUncheckedCreateNestedManyWithoutTenantInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUncheckedCreateNestedManyWithoutTenantInput
   tiposInteres?: Prisma.TipoInteresUncheckedCreateNestedManyWithoutTenantInput
@@ -11335,7 +10656,6 @@ export type TenantUpdateWithoutEgresosInput = {
   geolocalizaciones?: Prisma.GeolocalizacionUpdateManyWithoutTenantNestedInput
   logsEvento?: Prisma.LogEventoUpdateManyWithoutTenantNestedInput
   metodosPago?: Prisma.MetodoPagoUpdateManyWithoutTenantNestedInput
-  nivelesRiesgo?: Prisma.NivelRiesgoOperativoUpdateManyWithoutTenantNestedInput
   nominaDetalles?: Prisma.NominaDetalleUpdateManyWithoutTenantNestedInput
   nominas?: Prisma.NominaUpdateManyWithoutTenantNestedInput
   ordenesServicio?: Prisma.OrdenServicioUpdateManyWithoutTenantNestedInput
@@ -11348,10 +10668,10 @@ export type TenantUpdateWithoutEgresosInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUpdateManyWithoutTenantNestedInput
   proveedores?: Prisma.ProveedoresUpdateManyWithoutTenantNestedInput
   referidos?: Prisma.ReferidosUpdateManyWithoutTenantNestedInput
-  segmentos?: Prisma.SegmentoNegocioUpdateManyWithoutTenantNestedInput
   servicios?: Prisma.ServicioUpdateManyWithoutTenantNestedInput
   sesionesActividad?: Prisma.SesionActividadUpdateManyWithoutTenantNestedInput
   subscription?: Prisma.SubscriptionUpdateOneWithoutTenantNestedInput
+  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUpdateManyWithoutTenantsNestedInput
   memberships?: Prisma.TenantMembershipUpdateManyWithoutTenantNestedInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUpdateManyWithoutTenantNestedInput
   tiposInteres?: Prisma.TipoInteresUpdateManyWithoutTenantNestedInput
@@ -11395,7 +10715,6 @@ export type TenantUncheckedUpdateWithoutEgresosInput = {
   geolocalizaciones?: Prisma.GeolocalizacionUncheckedUpdateManyWithoutTenantNestedInput
   logsEvento?: Prisma.LogEventoUncheckedUpdateManyWithoutTenantNestedInput
   metodosPago?: Prisma.MetodoPagoUncheckedUpdateManyWithoutTenantNestedInput
-  nivelesRiesgo?: Prisma.NivelRiesgoOperativoUncheckedUpdateManyWithoutTenantNestedInput
   nominaDetalles?: Prisma.NominaDetalleUncheckedUpdateManyWithoutTenantNestedInput
   nominas?: Prisma.NominaUncheckedUpdateManyWithoutTenantNestedInput
   ordenesServicio?: Prisma.OrdenServicioUncheckedUpdateManyWithoutTenantNestedInput
@@ -11408,10 +10727,10 @@ export type TenantUncheckedUpdateWithoutEgresosInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUncheckedUpdateManyWithoutTenantNestedInput
   proveedores?: Prisma.ProveedoresUncheckedUpdateManyWithoutTenantNestedInput
   referidos?: Prisma.ReferidosUncheckedUpdateManyWithoutTenantNestedInput
-  segmentos?: Prisma.SegmentoNegocioUncheckedUpdateManyWithoutTenantNestedInput
   servicios?: Prisma.ServicioUncheckedUpdateManyWithoutTenantNestedInput
   sesionesActividad?: Prisma.SesionActividadUncheckedUpdateManyWithoutTenantNestedInput
   subscription?: Prisma.SubscriptionUncheckedUpdateOneWithoutTenantNestedInput
+  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUncheckedUpdateManyWithoutTenantsNestedInput
   memberships?: Prisma.TenantMembershipUncheckedUpdateManyWithoutTenantNestedInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUncheckedUpdateManyWithoutTenantNestedInput
   tiposInteres?: Prisma.TipoInteresUncheckedUpdateManyWithoutTenantNestedInput
@@ -11456,7 +10775,6 @@ export type TenantCreateWithoutPicoPlacaInput = {
   geolocalizaciones?: Prisma.GeolocalizacionCreateNestedManyWithoutTenantInput
   logsEvento?: Prisma.LogEventoCreateNestedManyWithoutTenantInput
   metodosPago?: Prisma.MetodoPagoCreateNestedManyWithoutTenantInput
-  nivelesRiesgo?: Prisma.NivelRiesgoOperativoCreateNestedManyWithoutTenantInput
   nominaDetalles?: Prisma.NominaDetalleCreateNestedManyWithoutTenantInput
   nominas?: Prisma.NominaCreateNestedManyWithoutTenantInput
   ordenesServicio?: Prisma.OrdenServicioCreateNestedManyWithoutTenantInput
@@ -11468,10 +10786,10 @@ export type TenantCreateWithoutPicoPlacaInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoCreateNestedManyWithoutTenantInput
   proveedores?: Prisma.ProveedoresCreateNestedManyWithoutTenantInput
   referidos?: Prisma.ReferidosCreateNestedManyWithoutTenantInput
-  segmentos?: Prisma.SegmentoNegocioCreateNestedManyWithoutTenantInput
   servicios?: Prisma.ServicioCreateNestedManyWithoutTenantInput
   sesionesActividad?: Prisma.SesionActividadCreateNestedManyWithoutTenantInput
   subscription?: Prisma.SubscriptionCreateNestedOneWithoutTenantInput
+  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoCreateNestedManyWithoutTenantsInput
   memberships?: Prisma.TenantMembershipCreateNestedManyWithoutTenantInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosCreateNestedManyWithoutTenantInput
   tiposInteres?: Prisma.TipoInteresCreateNestedManyWithoutTenantInput
@@ -11516,7 +10834,6 @@ export type TenantUncheckedCreateWithoutPicoPlacaInput = {
   geolocalizaciones?: Prisma.GeolocalizacionUncheckedCreateNestedManyWithoutTenantInput
   logsEvento?: Prisma.LogEventoUncheckedCreateNestedManyWithoutTenantInput
   metodosPago?: Prisma.MetodoPagoUncheckedCreateNestedManyWithoutTenantInput
-  nivelesRiesgo?: Prisma.NivelRiesgoOperativoUncheckedCreateNestedManyWithoutTenantInput
   nominaDetalles?: Prisma.NominaDetalleUncheckedCreateNestedManyWithoutTenantInput
   nominas?: Prisma.NominaUncheckedCreateNestedManyWithoutTenantInput
   ordenesServicio?: Prisma.OrdenServicioUncheckedCreateNestedManyWithoutTenantInput
@@ -11528,10 +10845,10 @@ export type TenantUncheckedCreateWithoutPicoPlacaInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUncheckedCreateNestedManyWithoutTenantInput
   proveedores?: Prisma.ProveedoresUncheckedCreateNestedManyWithoutTenantInput
   referidos?: Prisma.ReferidosUncheckedCreateNestedManyWithoutTenantInput
-  segmentos?: Prisma.SegmentoNegocioUncheckedCreateNestedManyWithoutTenantInput
   servicios?: Prisma.ServicioUncheckedCreateNestedManyWithoutTenantInput
   sesionesActividad?: Prisma.SesionActividadUncheckedCreateNestedManyWithoutTenantInput
   subscription?: Prisma.SubscriptionUncheckedCreateNestedOneWithoutTenantInput
+  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUncheckedCreateNestedManyWithoutTenantsInput
   memberships?: Prisma.TenantMembershipUncheckedCreateNestedManyWithoutTenantInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUncheckedCreateNestedManyWithoutTenantInput
   tiposInteres?: Prisma.TipoInteresUncheckedCreateNestedManyWithoutTenantInput
@@ -11592,7 +10909,6 @@ export type TenantUpdateWithoutPicoPlacaInput = {
   geolocalizaciones?: Prisma.GeolocalizacionUpdateManyWithoutTenantNestedInput
   logsEvento?: Prisma.LogEventoUpdateManyWithoutTenantNestedInput
   metodosPago?: Prisma.MetodoPagoUpdateManyWithoutTenantNestedInput
-  nivelesRiesgo?: Prisma.NivelRiesgoOperativoUpdateManyWithoutTenantNestedInput
   nominaDetalles?: Prisma.NominaDetalleUpdateManyWithoutTenantNestedInput
   nominas?: Prisma.NominaUpdateManyWithoutTenantNestedInput
   ordenesServicio?: Prisma.OrdenServicioUpdateManyWithoutTenantNestedInput
@@ -11604,10 +10920,10 @@ export type TenantUpdateWithoutPicoPlacaInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUpdateManyWithoutTenantNestedInput
   proveedores?: Prisma.ProveedoresUpdateManyWithoutTenantNestedInput
   referidos?: Prisma.ReferidosUpdateManyWithoutTenantNestedInput
-  segmentos?: Prisma.SegmentoNegocioUpdateManyWithoutTenantNestedInput
   servicios?: Prisma.ServicioUpdateManyWithoutTenantNestedInput
   sesionesActividad?: Prisma.SesionActividadUpdateManyWithoutTenantNestedInput
   subscription?: Prisma.SubscriptionUpdateOneWithoutTenantNestedInput
+  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUpdateManyWithoutTenantsNestedInput
   memberships?: Prisma.TenantMembershipUpdateManyWithoutTenantNestedInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUpdateManyWithoutTenantNestedInput
   tiposInteres?: Prisma.TipoInteresUpdateManyWithoutTenantNestedInput
@@ -11652,7 +10968,6 @@ export type TenantUncheckedUpdateWithoutPicoPlacaInput = {
   geolocalizaciones?: Prisma.GeolocalizacionUncheckedUpdateManyWithoutTenantNestedInput
   logsEvento?: Prisma.LogEventoUncheckedUpdateManyWithoutTenantNestedInput
   metodosPago?: Prisma.MetodoPagoUncheckedUpdateManyWithoutTenantNestedInput
-  nivelesRiesgo?: Prisma.NivelRiesgoOperativoUncheckedUpdateManyWithoutTenantNestedInput
   nominaDetalles?: Prisma.NominaDetalleUncheckedUpdateManyWithoutTenantNestedInput
   nominas?: Prisma.NominaUncheckedUpdateManyWithoutTenantNestedInput
   ordenesServicio?: Prisma.OrdenServicioUncheckedUpdateManyWithoutTenantNestedInput
@@ -11664,10 +10979,10 @@ export type TenantUncheckedUpdateWithoutPicoPlacaInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUncheckedUpdateManyWithoutTenantNestedInput
   proveedores?: Prisma.ProveedoresUncheckedUpdateManyWithoutTenantNestedInput
   referidos?: Prisma.ReferidosUncheckedUpdateManyWithoutTenantNestedInput
-  segmentos?: Prisma.SegmentoNegocioUncheckedUpdateManyWithoutTenantNestedInput
   servicios?: Prisma.ServicioUncheckedUpdateManyWithoutTenantNestedInput
   sesionesActividad?: Prisma.SesionActividadUncheckedUpdateManyWithoutTenantNestedInput
   subscription?: Prisma.SubscriptionUncheckedUpdateOneWithoutTenantNestedInput
+  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUncheckedUpdateManyWithoutTenantsNestedInput
   memberships?: Prisma.TenantMembershipUncheckedUpdateManyWithoutTenantNestedInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUncheckedUpdateManyWithoutTenantNestedInput
   tiposInteres?: Prisma.TipoInteresUncheckedUpdateManyWithoutTenantNestedInput
@@ -11712,7 +11027,6 @@ export type TenantCreateWithoutReferidosInput = {
   geolocalizaciones?: Prisma.GeolocalizacionCreateNestedManyWithoutTenantInput
   logsEvento?: Prisma.LogEventoCreateNestedManyWithoutTenantInput
   metodosPago?: Prisma.MetodoPagoCreateNestedManyWithoutTenantInput
-  nivelesRiesgo?: Prisma.NivelRiesgoOperativoCreateNestedManyWithoutTenantInput
   nominaDetalles?: Prisma.NominaDetalleCreateNestedManyWithoutTenantInput
   nominas?: Prisma.NominaCreateNestedManyWithoutTenantInput
   ordenesServicio?: Prisma.OrdenServicioCreateNestedManyWithoutTenantInput
@@ -11724,10 +11038,10 @@ export type TenantCreateWithoutReferidosInput = {
   productos?: Prisma.ProductoCreateNestedManyWithoutTenantInput
   productosSolicitados?: Prisma.ProductoSolicitadoCreateNestedManyWithoutTenantInput
   proveedores?: Prisma.ProveedoresCreateNestedManyWithoutTenantInput
-  segmentos?: Prisma.SegmentoNegocioCreateNestedManyWithoutTenantInput
   servicios?: Prisma.ServicioCreateNestedManyWithoutTenantInput
   sesionesActividad?: Prisma.SesionActividadCreateNestedManyWithoutTenantInput
   subscription?: Prisma.SubscriptionCreateNestedOneWithoutTenantInput
+  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoCreateNestedManyWithoutTenantsInput
   memberships?: Prisma.TenantMembershipCreateNestedManyWithoutTenantInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosCreateNestedManyWithoutTenantInput
   tiposInteres?: Prisma.TipoInteresCreateNestedManyWithoutTenantInput
@@ -11772,7 +11086,6 @@ export type TenantUncheckedCreateWithoutReferidosInput = {
   geolocalizaciones?: Prisma.GeolocalizacionUncheckedCreateNestedManyWithoutTenantInput
   logsEvento?: Prisma.LogEventoUncheckedCreateNestedManyWithoutTenantInput
   metodosPago?: Prisma.MetodoPagoUncheckedCreateNestedManyWithoutTenantInput
-  nivelesRiesgo?: Prisma.NivelRiesgoOperativoUncheckedCreateNestedManyWithoutTenantInput
   nominaDetalles?: Prisma.NominaDetalleUncheckedCreateNestedManyWithoutTenantInput
   nominas?: Prisma.NominaUncheckedCreateNestedManyWithoutTenantInput
   ordenesServicio?: Prisma.OrdenServicioUncheckedCreateNestedManyWithoutTenantInput
@@ -11784,10 +11097,10 @@ export type TenantUncheckedCreateWithoutReferidosInput = {
   productos?: Prisma.ProductoUncheckedCreateNestedManyWithoutTenantInput
   productosSolicitados?: Prisma.ProductoSolicitadoUncheckedCreateNestedManyWithoutTenantInput
   proveedores?: Prisma.ProveedoresUncheckedCreateNestedManyWithoutTenantInput
-  segmentos?: Prisma.SegmentoNegocioUncheckedCreateNestedManyWithoutTenantInput
   servicios?: Prisma.ServicioUncheckedCreateNestedManyWithoutTenantInput
   sesionesActividad?: Prisma.SesionActividadUncheckedCreateNestedManyWithoutTenantInput
   subscription?: Prisma.SubscriptionUncheckedCreateNestedOneWithoutTenantInput
+  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUncheckedCreateNestedManyWithoutTenantsInput
   memberships?: Prisma.TenantMembershipUncheckedCreateNestedManyWithoutTenantInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUncheckedCreateNestedManyWithoutTenantInput
   tiposInteres?: Prisma.TipoInteresUncheckedCreateNestedManyWithoutTenantInput
@@ -11848,7 +11161,6 @@ export type TenantUpdateWithoutReferidosInput = {
   geolocalizaciones?: Prisma.GeolocalizacionUpdateManyWithoutTenantNestedInput
   logsEvento?: Prisma.LogEventoUpdateManyWithoutTenantNestedInput
   metodosPago?: Prisma.MetodoPagoUpdateManyWithoutTenantNestedInput
-  nivelesRiesgo?: Prisma.NivelRiesgoOperativoUpdateManyWithoutTenantNestedInput
   nominaDetalles?: Prisma.NominaDetalleUpdateManyWithoutTenantNestedInput
   nominas?: Prisma.NominaUpdateManyWithoutTenantNestedInput
   ordenesServicio?: Prisma.OrdenServicioUpdateManyWithoutTenantNestedInput
@@ -11860,10 +11172,10 @@ export type TenantUpdateWithoutReferidosInput = {
   productos?: Prisma.ProductoUpdateManyWithoutTenantNestedInput
   productosSolicitados?: Prisma.ProductoSolicitadoUpdateManyWithoutTenantNestedInput
   proveedores?: Prisma.ProveedoresUpdateManyWithoutTenantNestedInput
-  segmentos?: Prisma.SegmentoNegocioUpdateManyWithoutTenantNestedInput
   servicios?: Prisma.ServicioUpdateManyWithoutTenantNestedInput
   sesionesActividad?: Prisma.SesionActividadUpdateManyWithoutTenantNestedInput
   subscription?: Prisma.SubscriptionUpdateOneWithoutTenantNestedInput
+  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUpdateManyWithoutTenantsNestedInput
   memberships?: Prisma.TenantMembershipUpdateManyWithoutTenantNestedInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUpdateManyWithoutTenantNestedInput
   tiposInteres?: Prisma.TipoInteresUpdateManyWithoutTenantNestedInput
@@ -11908,7 +11220,6 @@ export type TenantUncheckedUpdateWithoutReferidosInput = {
   geolocalizaciones?: Prisma.GeolocalizacionUncheckedUpdateManyWithoutTenantNestedInput
   logsEvento?: Prisma.LogEventoUncheckedUpdateManyWithoutTenantNestedInput
   metodosPago?: Prisma.MetodoPagoUncheckedUpdateManyWithoutTenantNestedInput
-  nivelesRiesgo?: Prisma.NivelRiesgoOperativoUncheckedUpdateManyWithoutTenantNestedInput
   nominaDetalles?: Prisma.NominaDetalleUncheckedUpdateManyWithoutTenantNestedInput
   nominas?: Prisma.NominaUncheckedUpdateManyWithoutTenantNestedInput
   ordenesServicio?: Prisma.OrdenServicioUncheckedUpdateManyWithoutTenantNestedInput
@@ -11920,10 +11231,10 @@ export type TenantUncheckedUpdateWithoutReferidosInput = {
   productos?: Prisma.ProductoUncheckedUpdateManyWithoutTenantNestedInput
   productosSolicitados?: Prisma.ProductoSolicitadoUncheckedUpdateManyWithoutTenantNestedInput
   proveedores?: Prisma.ProveedoresUncheckedUpdateManyWithoutTenantNestedInput
-  segmentos?: Prisma.SegmentoNegocioUncheckedUpdateManyWithoutTenantNestedInput
   servicios?: Prisma.ServicioUncheckedUpdateManyWithoutTenantNestedInput
   sesionesActividad?: Prisma.SesionActividadUncheckedUpdateManyWithoutTenantNestedInput
   subscription?: Prisma.SubscriptionUncheckedUpdateOneWithoutTenantNestedInput
+  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUncheckedUpdateManyWithoutTenantsNestedInput
   memberships?: Prisma.TenantMembershipUncheckedUpdateManyWithoutTenantNestedInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUncheckedUpdateManyWithoutTenantNestedInput
   tiposInteres?: Prisma.TipoInteresUncheckedUpdateManyWithoutTenantNestedInput
@@ -11967,7 +11278,6 @@ export type TenantCreateWithoutAuditoriasInput = {
   geolocalizaciones?: Prisma.GeolocalizacionCreateNestedManyWithoutTenantInput
   logsEvento?: Prisma.LogEventoCreateNestedManyWithoutTenantInput
   metodosPago?: Prisma.MetodoPagoCreateNestedManyWithoutTenantInput
-  nivelesRiesgo?: Prisma.NivelRiesgoOperativoCreateNestedManyWithoutTenantInput
   nominaDetalles?: Prisma.NominaDetalleCreateNestedManyWithoutTenantInput
   nominas?: Prisma.NominaCreateNestedManyWithoutTenantInput
   ordenesServicio?: Prisma.OrdenServicioCreateNestedManyWithoutTenantInput
@@ -11980,10 +11290,10 @@ export type TenantCreateWithoutAuditoriasInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoCreateNestedManyWithoutTenantInput
   proveedores?: Prisma.ProveedoresCreateNestedManyWithoutTenantInput
   referidos?: Prisma.ReferidosCreateNestedManyWithoutTenantInput
-  segmentos?: Prisma.SegmentoNegocioCreateNestedManyWithoutTenantInput
   servicios?: Prisma.ServicioCreateNestedManyWithoutTenantInput
   sesionesActividad?: Prisma.SesionActividadCreateNestedManyWithoutTenantInput
   subscription?: Prisma.SubscriptionCreateNestedOneWithoutTenantInput
+  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoCreateNestedManyWithoutTenantsInput
   memberships?: Prisma.TenantMembershipCreateNestedManyWithoutTenantInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosCreateNestedManyWithoutTenantInput
   tiposInteres?: Prisma.TipoInteresCreateNestedManyWithoutTenantInput
@@ -12027,7 +11337,6 @@ export type TenantUncheckedCreateWithoutAuditoriasInput = {
   geolocalizaciones?: Prisma.GeolocalizacionUncheckedCreateNestedManyWithoutTenantInput
   logsEvento?: Prisma.LogEventoUncheckedCreateNestedManyWithoutTenantInput
   metodosPago?: Prisma.MetodoPagoUncheckedCreateNestedManyWithoutTenantInput
-  nivelesRiesgo?: Prisma.NivelRiesgoOperativoUncheckedCreateNestedManyWithoutTenantInput
   nominaDetalles?: Prisma.NominaDetalleUncheckedCreateNestedManyWithoutTenantInput
   nominas?: Prisma.NominaUncheckedCreateNestedManyWithoutTenantInput
   ordenesServicio?: Prisma.OrdenServicioUncheckedCreateNestedManyWithoutTenantInput
@@ -12040,10 +11349,10 @@ export type TenantUncheckedCreateWithoutAuditoriasInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUncheckedCreateNestedManyWithoutTenantInput
   proveedores?: Prisma.ProveedoresUncheckedCreateNestedManyWithoutTenantInput
   referidos?: Prisma.ReferidosUncheckedCreateNestedManyWithoutTenantInput
-  segmentos?: Prisma.SegmentoNegocioUncheckedCreateNestedManyWithoutTenantInput
   servicios?: Prisma.ServicioUncheckedCreateNestedManyWithoutTenantInput
   sesionesActividad?: Prisma.SesionActividadUncheckedCreateNestedManyWithoutTenantInput
   subscription?: Prisma.SubscriptionUncheckedCreateNestedOneWithoutTenantInput
+  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUncheckedCreateNestedManyWithoutTenantsInput
   memberships?: Prisma.TenantMembershipUncheckedCreateNestedManyWithoutTenantInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUncheckedCreateNestedManyWithoutTenantInput
   tiposInteres?: Prisma.TipoInteresUncheckedCreateNestedManyWithoutTenantInput
@@ -12103,7 +11412,6 @@ export type TenantUpdateWithoutAuditoriasInput = {
   geolocalizaciones?: Prisma.GeolocalizacionUpdateManyWithoutTenantNestedInput
   logsEvento?: Prisma.LogEventoUpdateManyWithoutTenantNestedInput
   metodosPago?: Prisma.MetodoPagoUpdateManyWithoutTenantNestedInput
-  nivelesRiesgo?: Prisma.NivelRiesgoOperativoUpdateManyWithoutTenantNestedInput
   nominaDetalles?: Prisma.NominaDetalleUpdateManyWithoutTenantNestedInput
   nominas?: Prisma.NominaUpdateManyWithoutTenantNestedInput
   ordenesServicio?: Prisma.OrdenServicioUpdateManyWithoutTenantNestedInput
@@ -12116,10 +11424,10 @@ export type TenantUpdateWithoutAuditoriasInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUpdateManyWithoutTenantNestedInput
   proveedores?: Prisma.ProveedoresUpdateManyWithoutTenantNestedInput
   referidos?: Prisma.ReferidosUpdateManyWithoutTenantNestedInput
-  segmentos?: Prisma.SegmentoNegocioUpdateManyWithoutTenantNestedInput
   servicios?: Prisma.ServicioUpdateManyWithoutTenantNestedInput
   sesionesActividad?: Prisma.SesionActividadUpdateManyWithoutTenantNestedInput
   subscription?: Prisma.SubscriptionUpdateOneWithoutTenantNestedInput
+  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUpdateManyWithoutTenantsNestedInput
   memberships?: Prisma.TenantMembershipUpdateManyWithoutTenantNestedInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUpdateManyWithoutTenantNestedInput
   tiposInteres?: Prisma.TipoInteresUpdateManyWithoutTenantNestedInput
@@ -12163,7 +11471,6 @@ export type TenantUncheckedUpdateWithoutAuditoriasInput = {
   geolocalizaciones?: Prisma.GeolocalizacionUncheckedUpdateManyWithoutTenantNestedInput
   logsEvento?: Prisma.LogEventoUncheckedUpdateManyWithoutTenantNestedInput
   metodosPago?: Prisma.MetodoPagoUncheckedUpdateManyWithoutTenantNestedInput
-  nivelesRiesgo?: Prisma.NivelRiesgoOperativoUncheckedUpdateManyWithoutTenantNestedInput
   nominaDetalles?: Prisma.NominaDetalleUncheckedUpdateManyWithoutTenantNestedInput
   nominas?: Prisma.NominaUncheckedUpdateManyWithoutTenantNestedInput
   ordenesServicio?: Prisma.OrdenServicioUncheckedUpdateManyWithoutTenantNestedInput
@@ -12176,10 +11483,10 @@ export type TenantUncheckedUpdateWithoutAuditoriasInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUncheckedUpdateManyWithoutTenantNestedInput
   proveedores?: Prisma.ProveedoresUncheckedUpdateManyWithoutTenantNestedInput
   referidos?: Prisma.ReferidosUncheckedUpdateManyWithoutTenantNestedInput
-  segmentos?: Prisma.SegmentoNegocioUncheckedUpdateManyWithoutTenantNestedInput
   servicios?: Prisma.ServicioUncheckedUpdateManyWithoutTenantNestedInput
   sesionesActividad?: Prisma.SesionActividadUncheckedUpdateManyWithoutTenantNestedInput
   subscription?: Prisma.SubscriptionUncheckedUpdateOneWithoutTenantNestedInput
+  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUncheckedUpdateManyWithoutTenantsNestedInput
   memberships?: Prisma.TenantMembershipUncheckedUpdateManyWithoutTenantNestedInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUncheckedUpdateManyWithoutTenantNestedInput
   tiposInteres?: Prisma.TipoInteresUncheckedUpdateManyWithoutTenantNestedInput
@@ -12224,7 +11531,6 @@ export type TenantCreateWithoutSesionesActividadInput = {
   geolocalizaciones?: Prisma.GeolocalizacionCreateNestedManyWithoutTenantInput
   logsEvento?: Prisma.LogEventoCreateNestedManyWithoutTenantInput
   metodosPago?: Prisma.MetodoPagoCreateNestedManyWithoutTenantInput
-  nivelesRiesgo?: Prisma.NivelRiesgoOperativoCreateNestedManyWithoutTenantInput
   nominaDetalles?: Prisma.NominaDetalleCreateNestedManyWithoutTenantInput
   nominas?: Prisma.NominaCreateNestedManyWithoutTenantInput
   ordenesServicio?: Prisma.OrdenServicioCreateNestedManyWithoutTenantInput
@@ -12237,9 +11543,9 @@ export type TenantCreateWithoutSesionesActividadInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoCreateNestedManyWithoutTenantInput
   proveedores?: Prisma.ProveedoresCreateNestedManyWithoutTenantInput
   referidos?: Prisma.ReferidosCreateNestedManyWithoutTenantInput
-  segmentos?: Prisma.SegmentoNegocioCreateNestedManyWithoutTenantInput
   servicios?: Prisma.ServicioCreateNestedManyWithoutTenantInput
   subscription?: Prisma.SubscriptionCreateNestedOneWithoutTenantInput
+  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoCreateNestedManyWithoutTenantsInput
   memberships?: Prisma.TenantMembershipCreateNestedManyWithoutTenantInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosCreateNestedManyWithoutTenantInput
   tiposInteres?: Prisma.TipoInteresCreateNestedManyWithoutTenantInput
@@ -12284,7 +11590,6 @@ export type TenantUncheckedCreateWithoutSesionesActividadInput = {
   geolocalizaciones?: Prisma.GeolocalizacionUncheckedCreateNestedManyWithoutTenantInput
   logsEvento?: Prisma.LogEventoUncheckedCreateNestedManyWithoutTenantInput
   metodosPago?: Prisma.MetodoPagoUncheckedCreateNestedManyWithoutTenantInput
-  nivelesRiesgo?: Prisma.NivelRiesgoOperativoUncheckedCreateNestedManyWithoutTenantInput
   nominaDetalles?: Prisma.NominaDetalleUncheckedCreateNestedManyWithoutTenantInput
   nominas?: Prisma.NominaUncheckedCreateNestedManyWithoutTenantInput
   ordenesServicio?: Prisma.OrdenServicioUncheckedCreateNestedManyWithoutTenantInput
@@ -12297,9 +11602,9 @@ export type TenantUncheckedCreateWithoutSesionesActividadInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUncheckedCreateNestedManyWithoutTenantInput
   proveedores?: Prisma.ProveedoresUncheckedCreateNestedManyWithoutTenantInput
   referidos?: Prisma.ReferidosUncheckedCreateNestedManyWithoutTenantInput
-  segmentos?: Prisma.SegmentoNegocioUncheckedCreateNestedManyWithoutTenantInput
   servicios?: Prisma.ServicioUncheckedCreateNestedManyWithoutTenantInput
   subscription?: Prisma.SubscriptionUncheckedCreateNestedOneWithoutTenantInput
+  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUncheckedCreateNestedManyWithoutTenantsInput
   memberships?: Prisma.TenantMembershipUncheckedCreateNestedManyWithoutTenantInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUncheckedCreateNestedManyWithoutTenantInput
   tiposInteres?: Prisma.TipoInteresUncheckedCreateNestedManyWithoutTenantInput
@@ -12360,7 +11665,6 @@ export type TenantUpdateWithoutSesionesActividadInput = {
   geolocalizaciones?: Prisma.GeolocalizacionUpdateManyWithoutTenantNestedInput
   logsEvento?: Prisma.LogEventoUpdateManyWithoutTenantNestedInput
   metodosPago?: Prisma.MetodoPagoUpdateManyWithoutTenantNestedInput
-  nivelesRiesgo?: Prisma.NivelRiesgoOperativoUpdateManyWithoutTenantNestedInput
   nominaDetalles?: Prisma.NominaDetalleUpdateManyWithoutTenantNestedInput
   nominas?: Prisma.NominaUpdateManyWithoutTenantNestedInput
   ordenesServicio?: Prisma.OrdenServicioUpdateManyWithoutTenantNestedInput
@@ -12373,9 +11677,9 @@ export type TenantUpdateWithoutSesionesActividadInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUpdateManyWithoutTenantNestedInput
   proveedores?: Prisma.ProveedoresUpdateManyWithoutTenantNestedInput
   referidos?: Prisma.ReferidosUpdateManyWithoutTenantNestedInput
-  segmentos?: Prisma.SegmentoNegocioUpdateManyWithoutTenantNestedInput
   servicios?: Prisma.ServicioUpdateManyWithoutTenantNestedInput
   subscription?: Prisma.SubscriptionUpdateOneWithoutTenantNestedInput
+  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUpdateManyWithoutTenantsNestedInput
   memberships?: Prisma.TenantMembershipUpdateManyWithoutTenantNestedInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUpdateManyWithoutTenantNestedInput
   tiposInteres?: Prisma.TipoInteresUpdateManyWithoutTenantNestedInput
@@ -12420,7 +11724,6 @@ export type TenantUncheckedUpdateWithoutSesionesActividadInput = {
   geolocalizaciones?: Prisma.GeolocalizacionUncheckedUpdateManyWithoutTenantNestedInput
   logsEvento?: Prisma.LogEventoUncheckedUpdateManyWithoutTenantNestedInput
   metodosPago?: Prisma.MetodoPagoUncheckedUpdateManyWithoutTenantNestedInput
-  nivelesRiesgo?: Prisma.NivelRiesgoOperativoUncheckedUpdateManyWithoutTenantNestedInput
   nominaDetalles?: Prisma.NominaDetalleUncheckedUpdateManyWithoutTenantNestedInput
   nominas?: Prisma.NominaUncheckedUpdateManyWithoutTenantNestedInput
   ordenesServicio?: Prisma.OrdenServicioUncheckedUpdateManyWithoutTenantNestedInput
@@ -12433,9 +11736,9 @@ export type TenantUncheckedUpdateWithoutSesionesActividadInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUncheckedUpdateManyWithoutTenantNestedInput
   proveedores?: Prisma.ProveedoresUncheckedUpdateManyWithoutTenantNestedInput
   referidos?: Prisma.ReferidosUncheckedUpdateManyWithoutTenantNestedInput
-  segmentos?: Prisma.SegmentoNegocioUncheckedUpdateManyWithoutTenantNestedInput
   servicios?: Prisma.ServicioUncheckedUpdateManyWithoutTenantNestedInput
   subscription?: Prisma.SubscriptionUncheckedUpdateOneWithoutTenantNestedInput
+  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUncheckedUpdateManyWithoutTenantsNestedInput
   memberships?: Prisma.TenantMembershipUncheckedUpdateManyWithoutTenantNestedInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUncheckedUpdateManyWithoutTenantNestedInput
   tiposInteres?: Prisma.TipoInteresUncheckedUpdateManyWithoutTenantNestedInput
@@ -12479,7 +11782,6 @@ export type TenantCreateWithoutLogsEventoInput = {
   evidenciasServicio?: Prisma.EvidenciaServicioCreateNestedManyWithoutTenantInput
   geolocalizaciones?: Prisma.GeolocalizacionCreateNestedManyWithoutTenantInput
   metodosPago?: Prisma.MetodoPagoCreateNestedManyWithoutTenantInput
-  nivelesRiesgo?: Prisma.NivelRiesgoOperativoCreateNestedManyWithoutTenantInput
   nominaDetalles?: Prisma.NominaDetalleCreateNestedManyWithoutTenantInput
   nominas?: Prisma.NominaCreateNestedManyWithoutTenantInput
   ordenesServicio?: Prisma.OrdenServicioCreateNestedManyWithoutTenantInput
@@ -12492,10 +11794,10 @@ export type TenantCreateWithoutLogsEventoInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoCreateNestedManyWithoutTenantInput
   proveedores?: Prisma.ProveedoresCreateNestedManyWithoutTenantInput
   referidos?: Prisma.ReferidosCreateNestedManyWithoutTenantInput
-  segmentos?: Prisma.SegmentoNegocioCreateNestedManyWithoutTenantInput
   servicios?: Prisma.ServicioCreateNestedManyWithoutTenantInput
   sesionesActividad?: Prisma.SesionActividadCreateNestedManyWithoutTenantInput
   subscription?: Prisma.SubscriptionCreateNestedOneWithoutTenantInput
+  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoCreateNestedManyWithoutTenantsInput
   memberships?: Prisma.TenantMembershipCreateNestedManyWithoutTenantInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosCreateNestedManyWithoutTenantInput
   tiposInteres?: Prisma.TipoInteresCreateNestedManyWithoutTenantInput
@@ -12539,7 +11841,6 @@ export type TenantUncheckedCreateWithoutLogsEventoInput = {
   evidenciasServicio?: Prisma.EvidenciaServicioUncheckedCreateNestedManyWithoutTenantInput
   geolocalizaciones?: Prisma.GeolocalizacionUncheckedCreateNestedManyWithoutTenantInput
   metodosPago?: Prisma.MetodoPagoUncheckedCreateNestedManyWithoutTenantInput
-  nivelesRiesgo?: Prisma.NivelRiesgoOperativoUncheckedCreateNestedManyWithoutTenantInput
   nominaDetalles?: Prisma.NominaDetalleUncheckedCreateNestedManyWithoutTenantInput
   nominas?: Prisma.NominaUncheckedCreateNestedManyWithoutTenantInput
   ordenesServicio?: Prisma.OrdenServicioUncheckedCreateNestedManyWithoutTenantInput
@@ -12552,10 +11853,10 @@ export type TenantUncheckedCreateWithoutLogsEventoInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUncheckedCreateNestedManyWithoutTenantInput
   proveedores?: Prisma.ProveedoresUncheckedCreateNestedManyWithoutTenantInput
   referidos?: Prisma.ReferidosUncheckedCreateNestedManyWithoutTenantInput
-  segmentos?: Prisma.SegmentoNegocioUncheckedCreateNestedManyWithoutTenantInput
   servicios?: Prisma.ServicioUncheckedCreateNestedManyWithoutTenantInput
   sesionesActividad?: Prisma.SesionActividadUncheckedCreateNestedManyWithoutTenantInput
   subscription?: Prisma.SubscriptionUncheckedCreateNestedOneWithoutTenantInput
+  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUncheckedCreateNestedManyWithoutTenantsInput
   memberships?: Prisma.TenantMembershipUncheckedCreateNestedManyWithoutTenantInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUncheckedCreateNestedManyWithoutTenantInput
   tiposInteres?: Prisma.TipoInteresUncheckedCreateNestedManyWithoutTenantInput
@@ -12615,7 +11916,6 @@ export type TenantUpdateWithoutLogsEventoInput = {
   evidenciasServicio?: Prisma.EvidenciaServicioUpdateManyWithoutTenantNestedInput
   geolocalizaciones?: Prisma.GeolocalizacionUpdateManyWithoutTenantNestedInput
   metodosPago?: Prisma.MetodoPagoUpdateManyWithoutTenantNestedInput
-  nivelesRiesgo?: Prisma.NivelRiesgoOperativoUpdateManyWithoutTenantNestedInput
   nominaDetalles?: Prisma.NominaDetalleUpdateManyWithoutTenantNestedInput
   nominas?: Prisma.NominaUpdateManyWithoutTenantNestedInput
   ordenesServicio?: Prisma.OrdenServicioUpdateManyWithoutTenantNestedInput
@@ -12628,10 +11928,10 @@ export type TenantUpdateWithoutLogsEventoInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUpdateManyWithoutTenantNestedInput
   proveedores?: Prisma.ProveedoresUpdateManyWithoutTenantNestedInput
   referidos?: Prisma.ReferidosUpdateManyWithoutTenantNestedInput
-  segmentos?: Prisma.SegmentoNegocioUpdateManyWithoutTenantNestedInput
   servicios?: Prisma.ServicioUpdateManyWithoutTenantNestedInput
   sesionesActividad?: Prisma.SesionActividadUpdateManyWithoutTenantNestedInput
   subscription?: Prisma.SubscriptionUpdateOneWithoutTenantNestedInput
+  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUpdateManyWithoutTenantsNestedInput
   memberships?: Prisma.TenantMembershipUpdateManyWithoutTenantNestedInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUpdateManyWithoutTenantNestedInput
   tiposInteres?: Prisma.TipoInteresUpdateManyWithoutTenantNestedInput
@@ -12675,7 +11975,6 @@ export type TenantUncheckedUpdateWithoutLogsEventoInput = {
   evidenciasServicio?: Prisma.EvidenciaServicioUncheckedUpdateManyWithoutTenantNestedInput
   geolocalizaciones?: Prisma.GeolocalizacionUncheckedUpdateManyWithoutTenantNestedInput
   metodosPago?: Prisma.MetodoPagoUncheckedUpdateManyWithoutTenantNestedInput
-  nivelesRiesgo?: Prisma.NivelRiesgoOperativoUncheckedUpdateManyWithoutTenantNestedInput
   nominaDetalles?: Prisma.NominaDetalleUncheckedUpdateManyWithoutTenantNestedInput
   nominas?: Prisma.NominaUncheckedUpdateManyWithoutTenantNestedInput
   ordenesServicio?: Prisma.OrdenServicioUncheckedUpdateManyWithoutTenantNestedInput
@@ -12688,10 +11987,10 @@ export type TenantUncheckedUpdateWithoutLogsEventoInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUncheckedUpdateManyWithoutTenantNestedInput
   proveedores?: Prisma.ProveedoresUncheckedUpdateManyWithoutTenantNestedInput
   referidos?: Prisma.ReferidosUncheckedUpdateManyWithoutTenantNestedInput
-  segmentos?: Prisma.SegmentoNegocioUncheckedUpdateManyWithoutTenantNestedInput
   servicios?: Prisma.ServicioUncheckedUpdateManyWithoutTenantNestedInput
   sesionesActividad?: Prisma.SesionActividadUncheckedUpdateManyWithoutTenantNestedInput
   subscription?: Prisma.SubscriptionUncheckedUpdateOneWithoutTenantNestedInput
+  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUncheckedUpdateManyWithoutTenantsNestedInput
   memberships?: Prisma.TenantMembershipUncheckedUpdateManyWithoutTenantNestedInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUncheckedUpdateManyWithoutTenantNestedInput
   tiposInteres?: Prisma.TipoInteresUncheckedUpdateManyWithoutTenantNestedInput
@@ -12735,7 +12034,6 @@ export type TenantCreateWithoutAuthSessionsInput = {
   geolocalizaciones?: Prisma.GeolocalizacionCreateNestedManyWithoutTenantInput
   logsEvento?: Prisma.LogEventoCreateNestedManyWithoutTenantInput
   metodosPago?: Prisma.MetodoPagoCreateNestedManyWithoutTenantInput
-  nivelesRiesgo?: Prisma.NivelRiesgoOperativoCreateNestedManyWithoutTenantInput
   nominaDetalles?: Prisma.NominaDetalleCreateNestedManyWithoutTenantInput
   nominas?: Prisma.NominaCreateNestedManyWithoutTenantInput
   ordenesServicio?: Prisma.OrdenServicioCreateNestedManyWithoutTenantInput
@@ -12748,10 +12046,10 @@ export type TenantCreateWithoutAuthSessionsInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoCreateNestedManyWithoutTenantInput
   proveedores?: Prisma.ProveedoresCreateNestedManyWithoutTenantInput
   referidos?: Prisma.ReferidosCreateNestedManyWithoutTenantInput
-  segmentos?: Prisma.SegmentoNegocioCreateNestedManyWithoutTenantInput
   servicios?: Prisma.ServicioCreateNestedManyWithoutTenantInput
   sesionesActividad?: Prisma.SesionActividadCreateNestedManyWithoutTenantInput
   subscription?: Prisma.SubscriptionCreateNestedOneWithoutTenantInput
+  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoCreateNestedManyWithoutTenantsInput
   memberships?: Prisma.TenantMembershipCreateNestedManyWithoutTenantInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosCreateNestedManyWithoutTenantInput
   tiposInteres?: Prisma.TipoInteresCreateNestedManyWithoutTenantInput
@@ -12795,7 +12093,6 @@ export type TenantUncheckedCreateWithoutAuthSessionsInput = {
   geolocalizaciones?: Prisma.GeolocalizacionUncheckedCreateNestedManyWithoutTenantInput
   logsEvento?: Prisma.LogEventoUncheckedCreateNestedManyWithoutTenantInput
   metodosPago?: Prisma.MetodoPagoUncheckedCreateNestedManyWithoutTenantInput
-  nivelesRiesgo?: Prisma.NivelRiesgoOperativoUncheckedCreateNestedManyWithoutTenantInput
   nominaDetalles?: Prisma.NominaDetalleUncheckedCreateNestedManyWithoutTenantInput
   nominas?: Prisma.NominaUncheckedCreateNestedManyWithoutTenantInput
   ordenesServicio?: Prisma.OrdenServicioUncheckedCreateNestedManyWithoutTenantInput
@@ -12808,10 +12105,10 @@ export type TenantUncheckedCreateWithoutAuthSessionsInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUncheckedCreateNestedManyWithoutTenantInput
   proveedores?: Prisma.ProveedoresUncheckedCreateNestedManyWithoutTenantInput
   referidos?: Prisma.ReferidosUncheckedCreateNestedManyWithoutTenantInput
-  segmentos?: Prisma.SegmentoNegocioUncheckedCreateNestedManyWithoutTenantInput
   servicios?: Prisma.ServicioUncheckedCreateNestedManyWithoutTenantInput
   sesionesActividad?: Prisma.SesionActividadUncheckedCreateNestedManyWithoutTenantInput
   subscription?: Prisma.SubscriptionUncheckedCreateNestedOneWithoutTenantInput
+  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUncheckedCreateNestedManyWithoutTenantsInput
   memberships?: Prisma.TenantMembershipUncheckedCreateNestedManyWithoutTenantInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUncheckedCreateNestedManyWithoutTenantInput
   tiposInteres?: Prisma.TipoInteresUncheckedCreateNestedManyWithoutTenantInput
@@ -12871,7 +12168,6 @@ export type TenantUpdateWithoutAuthSessionsInput = {
   geolocalizaciones?: Prisma.GeolocalizacionUpdateManyWithoutTenantNestedInput
   logsEvento?: Prisma.LogEventoUpdateManyWithoutTenantNestedInput
   metodosPago?: Prisma.MetodoPagoUpdateManyWithoutTenantNestedInput
-  nivelesRiesgo?: Prisma.NivelRiesgoOperativoUpdateManyWithoutTenantNestedInput
   nominaDetalles?: Prisma.NominaDetalleUpdateManyWithoutTenantNestedInput
   nominas?: Prisma.NominaUpdateManyWithoutTenantNestedInput
   ordenesServicio?: Prisma.OrdenServicioUpdateManyWithoutTenantNestedInput
@@ -12884,10 +12180,10 @@ export type TenantUpdateWithoutAuthSessionsInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUpdateManyWithoutTenantNestedInput
   proveedores?: Prisma.ProveedoresUpdateManyWithoutTenantNestedInput
   referidos?: Prisma.ReferidosUpdateManyWithoutTenantNestedInput
-  segmentos?: Prisma.SegmentoNegocioUpdateManyWithoutTenantNestedInput
   servicios?: Prisma.ServicioUpdateManyWithoutTenantNestedInput
   sesionesActividad?: Prisma.SesionActividadUpdateManyWithoutTenantNestedInput
   subscription?: Prisma.SubscriptionUpdateOneWithoutTenantNestedInput
+  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUpdateManyWithoutTenantsNestedInput
   memberships?: Prisma.TenantMembershipUpdateManyWithoutTenantNestedInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUpdateManyWithoutTenantNestedInput
   tiposInteres?: Prisma.TipoInteresUpdateManyWithoutTenantNestedInput
@@ -12931,7 +12227,6 @@ export type TenantUncheckedUpdateWithoutAuthSessionsInput = {
   geolocalizaciones?: Prisma.GeolocalizacionUncheckedUpdateManyWithoutTenantNestedInput
   logsEvento?: Prisma.LogEventoUncheckedUpdateManyWithoutTenantNestedInput
   metodosPago?: Prisma.MetodoPagoUncheckedUpdateManyWithoutTenantNestedInput
-  nivelesRiesgo?: Prisma.NivelRiesgoOperativoUncheckedUpdateManyWithoutTenantNestedInput
   nominaDetalles?: Prisma.NominaDetalleUncheckedUpdateManyWithoutTenantNestedInput
   nominas?: Prisma.NominaUncheckedUpdateManyWithoutTenantNestedInput
   ordenesServicio?: Prisma.OrdenServicioUncheckedUpdateManyWithoutTenantNestedInput
@@ -12944,10 +12239,10 @@ export type TenantUncheckedUpdateWithoutAuthSessionsInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUncheckedUpdateManyWithoutTenantNestedInput
   proveedores?: Prisma.ProveedoresUncheckedUpdateManyWithoutTenantNestedInput
   referidos?: Prisma.ReferidosUncheckedUpdateManyWithoutTenantNestedInput
-  segmentos?: Prisma.SegmentoNegocioUncheckedUpdateManyWithoutTenantNestedInput
   servicios?: Prisma.ServicioUncheckedUpdateManyWithoutTenantNestedInput
   sesionesActividad?: Prisma.SesionActividadUncheckedUpdateManyWithoutTenantNestedInput
   subscription?: Prisma.SubscriptionUncheckedUpdateOneWithoutTenantNestedInput
+  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUncheckedUpdateManyWithoutTenantsNestedInput
   memberships?: Prisma.TenantMembershipUncheckedUpdateManyWithoutTenantNestedInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUncheckedUpdateManyWithoutTenantNestedInput
   tiposInteres?: Prisma.TipoInteresUncheckedUpdateManyWithoutTenantNestedInput
@@ -12992,7 +12287,6 @@ export type TenantCreateWithoutResetTokensInput = {
   geolocalizaciones?: Prisma.GeolocalizacionCreateNestedManyWithoutTenantInput
   logsEvento?: Prisma.LogEventoCreateNestedManyWithoutTenantInput
   metodosPago?: Prisma.MetodoPagoCreateNestedManyWithoutTenantInput
-  nivelesRiesgo?: Prisma.NivelRiesgoOperativoCreateNestedManyWithoutTenantInput
   nominaDetalles?: Prisma.NominaDetalleCreateNestedManyWithoutTenantInput
   nominas?: Prisma.NominaCreateNestedManyWithoutTenantInput
   ordenesServicio?: Prisma.OrdenServicioCreateNestedManyWithoutTenantInput
@@ -13004,10 +12298,10 @@ export type TenantCreateWithoutResetTokensInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoCreateNestedManyWithoutTenantInput
   proveedores?: Prisma.ProveedoresCreateNestedManyWithoutTenantInput
   referidos?: Prisma.ReferidosCreateNestedManyWithoutTenantInput
-  segmentos?: Prisma.SegmentoNegocioCreateNestedManyWithoutTenantInput
   servicios?: Prisma.ServicioCreateNestedManyWithoutTenantInput
   sesionesActividad?: Prisma.SesionActividadCreateNestedManyWithoutTenantInput
   subscription?: Prisma.SubscriptionCreateNestedOneWithoutTenantInput
+  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoCreateNestedManyWithoutTenantsInput
   memberships?: Prisma.TenantMembershipCreateNestedManyWithoutTenantInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosCreateNestedManyWithoutTenantInput
   tiposInteres?: Prisma.TipoInteresCreateNestedManyWithoutTenantInput
@@ -13052,7 +12346,6 @@ export type TenantUncheckedCreateWithoutResetTokensInput = {
   geolocalizaciones?: Prisma.GeolocalizacionUncheckedCreateNestedManyWithoutTenantInput
   logsEvento?: Prisma.LogEventoUncheckedCreateNestedManyWithoutTenantInput
   metodosPago?: Prisma.MetodoPagoUncheckedCreateNestedManyWithoutTenantInput
-  nivelesRiesgo?: Prisma.NivelRiesgoOperativoUncheckedCreateNestedManyWithoutTenantInput
   nominaDetalles?: Prisma.NominaDetalleUncheckedCreateNestedManyWithoutTenantInput
   nominas?: Prisma.NominaUncheckedCreateNestedManyWithoutTenantInput
   ordenesServicio?: Prisma.OrdenServicioUncheckedCreateNestedManyWithoutTenantInput
@@ -13064,10 +12357,10 @@ export type TenantUncheckedCreateWithoutResetTokensInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUncheckedCreateNestedManyWithoutTenantInput
   proveedores?: Prisma.ProveedoresUncheckedCreateNestedManyWithoutTenantInput
   referidos?: Prisma.ReferidosUncheckedCreateNestedManyWithoutTenantInput
-  segmentos?: Prisma.SegmentoNegocioUncheckedCreateNestedManyWithoutTenantInput
   servicios?: Prisma.ServicioUncheckedCreateNestedManyWithoutTenantInput
   sesionesActividad?: Prisma.SesionActividadUncheckedCreateNestedManyWithoutTenantInput
   subscription?: Prisma.SubscriptionUncheckedCreateNestedOneWithoutTenantInput
+  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUncheckedCreateNestedManyWithoutTenantsInput
   memberships?: Prisma.TenantMembershipUncheckedCreateNestedManyWithoutTenantInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUncheckedCreateNestedManyWithoutTenantInput
   tiposInteres?: Prisma.TipoInteresUncheckedCreateNestedManyWithoutTenantInput
@@ -13128,7 +12421,6 @@ export type TenantUpdateWithoutResetTokensInput = {
   geolocalizaciones?: Prisma.GeolocalizacionUpdateManyWithoutTenantNestedInput
   logsEvento?: Prisma.LogEventoUpdateManyWithoutTenantNestedInput
   metodosPago?: Prisma.MetodoPagoUpdateManyWithoutTenantNestedInput
-  nivelesRiesgo?: Prisma.NivelRiesgoOperativoUpdateManyWithoutTenantNestedInput
   nominaDetalles?: Prisma.NominaDetalleUpdateManyWithoutTenantNestedInput
   nominas?: Prisma.NominaUpdateManyWithoutTenantNestedInput
   ordenesServicio?: Prisma.OrdenServicioUpdateManyWithoutTenantNestedInput
@@ -13140,10 +12432,10 @@ export type TenantUpdateWithoutResetTokensInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUpdateManyWithoutTenantNestedInput
   proveedores?: Prisma.ProveedoresUpdateManyWithoutTenantNestedInput
   referidos?: Prisma.ReferidosUpdateManyWithoutTenantNestedInput
-  segmentos?: Prisma.SegmentoNegocioUpdateManyWithoutTenantNestedInput
   servicios?: Prisma.ServicioUpdateManyWithoutTenantNestedInput
   sesionesActividad?: Prisma.SesionActividadUpdateManyWithoutTenantNestedInput
   subscription?: Prisma.SubscriptionUpdateOneWithoutTenantNestedInput
+  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUpdateManyWithoutTenantsNestedInput
   memberships?: Prisma.TenantMembershipUpdateManyWithoutTenantNestedInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUpdateManyWithoutTenantNestedInput
   tiposInteres?: Prisma.TipoInteresUpdateManyWithoutTenantNestedInput
@@ -13188,7 +12480,6 @@ export type TenantUncheckedUpdateWithoutResetTokensInput = {
   geolocalizaciones?: Prisma.GeolocalizacionUncheckedUpdateManyWithoutTenantNestedInput
   logsEvento?: Prisma.LogEventoUncheckedUpdateManyWithoutTenantNestedInput
   metodosPago?: Prisma.MetodoPagoUncheckedUpdateManyWithoutTenantNestedInput
-  nivelesRiesgo?: Prisma.NivelRiesgoOperativoUncheckedUpdateManyWithoutTenantNestedInput
   nominaDetalles?: Prisma.NominaDetalleUncheckedUpdateManyWithoutTenantNestedInput
   nominas?: Prisma.NominaUncheckedUpdateManyWithoutTenantNestedInput
   ordenesServicio?: Prisma.OrdenServicioUncheckedUpdateManyWithoutTenantNestedInput
@@ -13200,10 +12491,10 @@ export type TenantUncheckedUpdateWithoutResetTokensInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUncheckedUpdateManyWithoutTenantNestedInput
   proveedores?: Prisma.ProveedoresUncheckedUpdateManyWithoutTenantNestedInput
   referidos?: Prisma.ReferidosUncheckedUpdateManyWithoutTenantNestedInput
-  segmentos?: Prisma.SegmentoNegocioUncheckedUpdateManyWithoutTenantNestedInput
   servicios?: Prisma.ServicioUncheckedUpdateManyWithoutTenantNestedInput
   sesionesActividad?: Prisma.SesionActividadUncheckedUpdateManyWithoutTenantNestedInput
   subscription?: Prisma.SubscriptionUncheckedUpdateOneWithoutTenantNestedInput
+  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUncheckedUpdateManyWithoutTenantsNestedInput
   memberships?: Prisma.TenantMembershipUncheckedUpdateManyWithoutTenantNestedInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUncheckedUpdateManyWithoutTenantNestedInput
   tiposInteres?: Prisma.TipoInteresUncheckedUpdateManyWithoutTenantNestedInput
@@ -13247,7 +12538,6 @@ export type TenantCreateWithoutConfiguracionesOperativasInput = {
   geolocalizaciones?: Prisma.GeolocalizacionCreateNestedManyWithoutTenantInput
   logsEvento?: Prisma.LogEventoCreateNestedManyWithoutTenantInput
   metodosPago?: Prisma.MetodoPagoCreateNestedManyWithoutTenantInput
-  nivelesRiesgo?: Prisma.NivelRiesgoOperativoCreateNestedManyWithoutTenantInput
   nominaDetalles?: Prisma.NominaDetalleCreateNestedManyWithoutTenantInput
   nominas?: Prisma.NominaCreateNestedManyWithoutTenantInput
   ordenesServicio?: Prisma.OrdenServicioCreateNestedManyWithoutTenantInput
@@ -13260,10 +12550,10 @@ export type TenantCreateWithoutConfiguracionesOperativasInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoCreateNestedManyWithoutTenantInput
   proveedores?: Prisma.ProveedoresCreateNestedManyWithoutTenantInput
   referidos?: Prisma.ReferidosCreateNestedManyWithoutTenantInput
-  segmentos?: Prisma.SegmentoNegocioCreateNestedManyWithoutTenantInput
   servicios?: Prisma.ServicioCreateNestedManyWithoutTenantInput
   sesionesActividad?: Prisma.SesionActividadCreateNestedManyWithoutTenantInput
   subscription?: Prisma.SubscriptionCreateNestedOneWithoutTenantInput
+  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoCreateNestedManyWithoutTenantsInput
   memberships?: Prisma.TenantMembershipCreateNestedManyWithoutTenantInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosCreateNestedManyWithoutTenantInput
   tiposInteres?: Prisma.TipoInteresCreateNestedManyWithoutTenantInput
@@ -13307,7 +12597,6 @@ export type TenantUncheckedCreateWithoutConfiguracionesOperativasInput = {
   geolocalizaciones?: Prisma.GeolocalizacionUncheckedCreateNestedManyWithoutTenantInput
   logsEvento?: Prisma.LogEventoUncheckedCreateNestedManyWithoutTenantInput
   metodosPago?: Prisma.MetodoPagoUncheckedCreateNestedManyWithoutTenantInput
-  nivelesRiesgo?: Prisma.NivelRiesgoOperativoUncheckedCreateNestedManyWithoutTenantInput
   nominaDetalles?: Prisma.NominaDetalleUncheckedCreateNestedManyWithoutTenantInput
   nominas?: Prisma.NominaUncheckedCreateNestedManyWithoutTenantInput
   ordenesServicio?: Prisma.OrdenServicioUncheckedCreateNestedManyWithoutTenantInput
@@ -13320,10 +12609,10 @@ export type TenantUncheckedCreateWithoutConfiguracionesOperativasInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUncheckedCreateNestedManyWithoutTenantInput
   proveedores?: Prisma.ProveedoresUncheckedCreateNestedManyWithoutTenantInput
   referidos?: Prisma.ReferidosUncheckedCreateNestedManyWithoutTenantInput
-  segmentos?: Prisma.SegmentoNegocioUncheckedCreateNestedManyWithoutTenantInput
   servicios?: Prisma.ServicioUncheckedCreateNestedManyWithoutTenantInput
   sesionesActividad?: Prisma.SesionActividadUncheckedCreateNestedManyWithoutTenantInput
   subscription?: Prisma.SubscriptionUncheckedCreateNestedOneWithoutTenantInput
+  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUncheckedCreateNestedManyWithoutTenantsInput
   memberships?: Prisma.TenantMembershipUncheckedCreateNestedManyWithoutTenantInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUncheckedCreateNestedManyWithoutTenantInput
   tiposInteres?: Prisma.TipoInteresUncheckedCreateNestedManyWithoutTenantInput
@@ -13383,7 +12672,6 @@ export type TenantUpdateWithoutConfiguracionesOperativasInput = {
   geolocalizaciones?: Prisma.GeolocalizacionUpdateManyWithoutTenantNestedInput
   logsEvento?: Prisma.LogEventoUpdateManyWithoutTenantNestedInput
   metodosPago?: Prisma.MetodoPagoUpdateManyWithoutTenantNestedInput
-  nivelesRiesgo?: Prisma.NivelRiesgoOperativoUpdateManyWithoutTenantNestedInput
   nominaDetalles?: Prisma.NominaDetalleUpdateManyWithoutTenantNestedInput
   nominas?: Prisma.NominaUpdateManyWithoutTenantNestedInput
   ordenesServicio?: Prisma.OrdenServicioUpdateManyWithoutTenantNestedInput
@@ -13396,10 +12684,10 @@ export type TenantUpdateWithoutConfiguracionesOperativasInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUpdateManyWithoutTenantNestedInput
   proveedores?: Prisma.ProveedoresUpdateManyWithoutTenantNestedInput
   referidos?: Prisma.ReferidosUpdateManyWithoutTenantNestedInput
-  segmentos?: Prisma.SegmentoNegocioUpdateManyWithoutTenantNestedInput
   servicios?: Prisma.ServicioUpdateManyWithoutTenantNestedInput
   sesionesActividad?: Prisma.SesionActividadUpdateManyWithoutTenantNestedInput
   subscription?: Prisma.SubscriptionUpdateOneWithoutTenantNestedInput
+  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUpdateManyWithoutTenantsNestedInput
   memberships?: Prisma.TenantMembershipUpdateManyWithoutTenantNestedInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUpdateManyWithoutTenantNestedInput
   tiposInteres?: Prisma.TipoInteresUpdateManyWithoutTenantNestedInput
@@ -13443,7 +12731,6 @@ export type TenantUncheckedUpdateWithoutConfiguracionesOperativasInput = {
   geolocalizaciones?: Prisma.GeolocalizacionUncheckedUpdateManyWithoutTenantNestedInput
   logsEvento?: Prisma.LogEventoUncheckedUpdateManyWithoutTenantNestedInput
   metodosPago?: Prisma.MetodoPagoUncheckedUpdateManyWithoutTenantNestedInput
-  nivelesRiesgo?: Prisma.NivelRiesgoOperativoUncheckedUpdateManyWithoutTenantNestedInput
   nominaDetalles?: Prisma.NominaDetalleUncheckedUpdateManyWithoutTenantNestedInput
   nominas?: Prisma.NominaUncheckedUpdateManyWithoutTenantNestedInput
   ordenesServicio?: Prisma.OrdenServicioUncheckedUpdateManyWithoutTenantNestedInput
@@ -13456,10 +12743,10 @@ export type TenantUncheckedUpdateWithoutConfiguracionesOperativasInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUncheckedUpdateManyWithoutTenantNestedInput
   proveedores?: Prisma.ProveedoresUncheckedUpdateManyWithoutTenantNestedInput
   referidos?: Prisma.ReferidosUncheckedUpdateManyWithoutTenantNestedInput
-  segmentos?: Prisma.SegmentoNegocioUncheckedUpdateManyWithoutTenantNestedInput
   servicios?: Prisma.ServicioUncheckedUpdateManyWithoutTenantNestedInput
   sesionesActividad?: Prisma.SesionActividadUncheckedUpdateManyWithoutTenantNestedInput
   subscription?: Prisma.SubscriptionUncheckedUpdateOneWithoutTenantNestedInput
+  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUncheckedUpdateManyWithoutTenantsNestedInput
   memberships?: Prisma.TenantMembershipUncheckedUpdateManyWithoutTenantNestedInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUncheckedUpdateManyWithoutTenantNestedInput
   tiposInteres?: Prisma.TipoInteresUncheckedUpdateManyWithoutTenantNestedInput
@@ -13503,7 +12790,6 @@ export type TenantCreateWithoutEvidenciasServicioInput = {
   geolocalizaciones?: Prisma.GeolocalizacionCreateNestedManyWithoutTenantInput
   logsEvento?: Prisma.LogEventoCreateNestedManyWithoutTenantInput
   metodosPago?: Prisma.MetodoPagoCreateNestedManyWithoutTenantInput
-  nivelesRiesgo?: Prisma.NivelRiesgoOperativoCreateNestedManyWithoutTenantInput
   nominaDetalles?: Prisma.NominaDetalleCreateNestedManyWithoutTenantInput
   nominas?: Prisma.NominaCreateNestedManyWithoutTenantInput
   ordenesServicio?: Prisma.OrdenServicioCreateNestedManyWithoutTenantInput
@@ -13516,10 +12802,10 @@ export type TenantCreateWithoutEvidenciasServicioInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoCreateNestedManyWithoutTenantInput
   proveedores?: Prisma.ProveedoresCreateNestedManyWithoutTenantInput
   referidos?: Prisma.ReferidosCreateNestedManyWithoutTenantInput
-  segmentos?: Prisma.SegmentoNegocioCreateNestedManyWithoutTenantInput
   servicios?: Prisma.ServicioCreateNestedManyWithoutTenantInput
   sesionesActividad?: Prisma.SesionActividadCreateNestedManyWithoutTenantInput
   subscription?: Prisma.SubscriptionCreateNestedOneWithoutTenantInput
+  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoCreateNestedManyWithoutTenantsInput
   memberships?: Prisma.TenantMembershipCreateNestedManyWithoutTenantInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosCreateNestedManyWithoutTenantInput
   tiposInteres?: Prisma.TipoInteresCreateNestedManyWithoutTenantInput
@@ -13563,7 +12849,6 @@ export type TenantUncheckedCreateWithoutEvidenciasServicioInput = {
   geolocalizaciones?: Prisma.GeolocalizacionUncheckedCreateNestedManyWithoutTenantInput
   logsEvento?: Prisma.LogEventoUncheckedCreateNestedManyWithoutTenantInput
   metodosPago?: Prisma.MetodoPagoUncheckedCreateNestedManyWithoutTenantInput
-  nivelesRiesgo?: Prisma.NivelRiesgoOperativoUncheckedCreateNestedManyWithoutTenantInput
   nominaDetalles?: Prisma.NominaDetalleUncheckedCreateNestedManyWithoutTenantInput
   nominas?: Prisma.NominaUncheckedCreateNestedManyWithoutTenantInput
   ordenesServicio?: Prisma.OrdenServicioUncheckedCreateNestedManyWithoutTenantInput
@@ -13576,10 +12861,10 @@ export type TenantUncheckedCreateWithoutEvidenciasServicioInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUncheckedCreateNestedManyWithoutTenantInput
   proveedores?: Prisma.ProveedoresUncheckedCreateNestedManyWithoutTenantInput
   referidos?: Prisma.ReferidosUncheckedCreateNestedManyWithoutTenantInput
-  segmentos?: Prisma.SegmentoNegocioUncheckedCreateNestedManyWithoutTenantInput
   servicios?: Prisma.ServicioUncheckedCreateNestedManyWithoutTenantInput
   sesionesActividad?: Prisma.SesionActividadUncheckedCreateNestedManyWithoutTenantInput
   subscription?: Prisma.SubscriptionUncheckedCreateNestedOneWithoutTenantInput
+  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUncheckedCreateNestedManyWithoutTenantsInput
   memberships?: Prisma.TenantMembershipUncheckedCreateNestedManyWithoutTenantInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUncheckedCreateNestedManyWithoutTenantInput
   tiposInteres?: Prisma.TipoInteresUncheckedCreateNestedManyWithoutTenantInput
@@ -13639,7 +12924,6 @@ export type TenantUpdateWithoutEvidenciasServicioInput = {
   geolocalizaciones?: Prisma.GeolocalizacionUpdateManyWithoutTenantNestedInput
   logsEvento?: Prisma.LogEventoUpdateManyWithoutTenantNestedInput
   metodosPago?: Prisma.MetodoPagoUpdateManyWithoutTenantNestedInput
-  nivelesRiesgo?: Prisma.NivelRiesgoOperativoUpdateManyWithoutTenantNestedInput
   nominaDetalles?: Prisma.NominaDetalleUpdateManyWithoutTenantNestedInput
   nominas?: Prisma.NominaUpdateManyWithoutTenantNestedInput
   ordenesServicio?: Prisma.OrdenServicioUpdateManyWithoutTenantNestedInput
@@ -13652,10 +12936,10 @@ export type TenantUpdateWithoutEvidenciasServicioInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUpdateManyWithoutTenantNestedInput
   proveedores?: Prisma.ProveedoresUpdateManyWithoutTenantNestedInput
   referidos?: Prisma.ReferidosUpdateManyWithoutTenantNestedInput
-  segmentos?: Prisma.SegmentoNegocioUpdateManyWithoutTenantNestedInput
   servicios?: Prisma.ServicioUpdateManyWithoutTenantNestedInput
   sesionesActividad?: Prisma.SesionActividadUpdateManyWithoutTenantNestedInput
   subscription?: Prisma.SubscriptionUpdateOneWithoutTenantNestedInput
+  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUpdateManyWithoutTenantsNestedInput
   memberships?: Prisma.TenantMembershipUpdateManyWithoutTenantNestedInput
   terapiasPsicologos?: Prisma.TerapiasPsicologosUpdateManyWithoutTenantNestedInput
   tiposInteres?: Prisma.TipoInteresUpdateManyWithoutTenantNestedInput
@@ -13699,7 +12983,6 @@ export type TenantUncheckedUpdateWithoutEvidenciasServicioInput = {
   geolocalizaciones?: Prisma.GeolocalizacionUncheckedUpdateManyWithoutTenantNestedInput
   logsEvento?: Prisma.LogEventoUncheckedUpdateManyWithoutTenantNestedInput
   metodosPago?: Prisma.MetodoPagoUncheckedUpdateManyWithoutTenantNestedInput
-  nivelesRiesgo?: Prisma.NivelRiesgoOperativoUncheckedUpdateManyWithoutTenantNestedInput
   nominaDetalles?: Prisma.NominaDetalleUncheckedUpdateManyWithoutTenantNestedInput
   nominas?: Prisma.NominaUncheckedUpdateManyWithoutTenantNestedInput
   ordenesServicio?: Prisma.OrdenServicioUncheckedUpdateManyWithoutTenantNestedInput
@@ -13712,7 +12995,259 @@ export type TenantUncheckedUpdateWithoutEvidenciasServicioInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUncheckedUpdateManyWithoutTenantNestedInput
   proveedores?: Prisma.ProveedoresUncheckedUpdateManyWithoutTenantNestedInput
   referidos?: Prisma.ReferidosUncheckedUpdateManyWithoutTenantNestedInput
-  segmentos?: Prisma.SegmentoNegocioUncheckedUpdateManyWithoutTenantNestedInput
+  servicios?: Prisma.ServicioUncheckedUpdateManyWithoutTenantNestedInput
+  sesionesActividad?: Prisma.SesionActividadUncheckedUpdateManyWithoutTenantNestedInput
+  subscription?: Prisma.SubscriptionUncheckedUpdateOneWithoutTenantNestedInput
+  sugerencias_seguimiento?: Prisma.sugerencias_seguimientoUncheckedUpdateManyWithoutTenantsNestedInput
+  memberships?: Prisma.TenantMembershipUncheckedUpdateManyWithoutTenantNestedInput
+  terapiasPsicologos?: Prisma.TerapiasPsicologosUncheckedUpdateManyWithoutTenantNestedInput
+  tiposInteres?: Prisma.TipoInteresUncheckedUpdateManyWithoutTenantNestedInput
+  tiposServicio?: Prisma.TipoServicioUncheckedUpdateManyWithoutTenantNestedInput
+  turnos?: Prisma.TurnoUncheckedUpdateManyWithoutTenantNestedInput
+  vehiculos?: Prisma.VehiculoUncheckedUpdateManyWithoutTenantNestedInput
+  zonas?: Prisma.ZonaUncheckedUpdateManyWithoutTenantNestedInput
+}
+
+export type TenantCreateWithoutSugerencias_seguimientoInput = {
+  id?: string
+  slug: string
+  isActive?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  correo?: string | null
+  nit?: string | null
+  nombre: string
+  numero?: string | null
+  pagina?: string | null
+  anticipos?: Prisma.AnticiposCreateNestedManyWithoutTenantInput
+  auditorias?: Prisma.AuditoriaCreateNestedManyWithoutTenantInput
+  authSessions?: Prisma.AuthSessionCreateNestedManyWithoutTenantInput
+  citasPsicologos?: Prisma.CitasPsicologosCreateNestedManyWithoutTenantInput
+  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaCreateNestedManyWithoutTenantInput
+  clientes?: Prisma.ClienteCreateNestedManyWithoutTenantInput
+  commissions?: Prisma.CommissionRecordCreateNestedManyWithoutTenantInput
+  configuracionPagos?: Prisma.ConfiguracionPagosCreateNestedManyWithoutTenantInput
+  consignacionOrdenes?: Prisma.ConsignacionOrdenCreateNestedManyWithoutTenantInput
+  consignaciones?: Prisma.ConsignacionEfectivoCreateNestedManyWithoutTenantInput
+  consultorios?: Prisma.ConsultorioCreateNestedManyWithoutTenantInput
+  cuentasCobro?: Prisma.CuentaCobroCreateNestedManyWithoutTenantInput
+  cuentasPago?: Prisma.CuentasPagoCreateNestedManyWithoutTenantInput
+  declaraciones?: Prisma.DeclaracionEfectivoCreateNestedManyWithoutTenantInput
+  direcciones?: Prisma.DireccionCreateNestedManyWithoutTenantInput
+  egresos?: Prisma.EgresosCreateNestedManyWithoutTenantInput
+  empresaMemberships?: Prisma.EmpresaMembershipCreateNestedManyWithoutTenantInput
+  empresas?: Prisma.EmpresaCreateNestedManyWithoutTenantInput
+  entidadesFinancieras?: Prisma.EntidadFinancieraCreateNestedManyWithoutTenantInput
+  estadosServicio?: Prisma.EstadoServicioCreateNestedManyWithoutTenantInput
+  evidenciasServicio?: Prisma.EvidenciaServicioCreateNestedManyWithoutTenantInput
+  geolocalizaciones?: Prisma.GeolocalizacionCreateNestedManyWithoutTenantInput
+  logsEvento?: Prisma.LogEventoCreateNestedManyWithoutTenantInput
+  metodosPago?: Prisma.MetodoPagoCreateNestedManyWithoutTenantInput
+  nominaDetalles?: Prisma.NominaDetalleCreateNestedManyWithoutTenantInput
+  nominas?: Prisma.NominaCreateNestedManyWithoutTenantInput
+  ordenesServicio?: Prisma.OrdenServicioCreateNestedManyWithoutTenantInput
+  orgNodes?: Prisma.OrganizationNodeCreateNestedManyWithoutTenantInput
+  paquetesAdquiridos?: Prisma.PaqueteAdquiridoCreateNestedManyWithoutTenantInput
+  resetTokens?: Prisma.PasswordResetTokenCreateNestedManyWithoutTenantInput
+  permisos?: Prisma.PermisoCreateNestedManyWithoutTenantInput
+  picoPlaca?: Prisma.PicoPlacaCreateNestedManyWithoutTenantInput
+  productos?: Prisma.ProductoCreateNestedManyWithoutTenantInput
+  productosSolicitados?: Prisma.ProductoSolicitadoCreateNestedManyWithoutTenantInput
+  proveedores?: Prisma.ProveedoresCreateNestedManyWithoutTenantInput
+  referidos?: Prisma.ReferidosCreateNestedManyWithoutTenantInput
+  servicios?: Prisma.ServicioCreateNestedManyWithoutTenantInput
+  sesionesActividad?: Prisma.SesionActividadCreateNestedManyWithoutTenantInput
+  subscription?: Prisma.SubscriptionCreateNestedOneWithoutTenantInput
+  memberships?: Prisma.TenantMembershipCreateNestedManyWithoutTenantInput
+  terapiasPsicologos?: Prisma.TerapiasPsicologosCreateNestedManyWithoutTenantInput
+  tiposInteres?: Prisma.TipoInteresCreateNestedManyWithoutTenantInput
+  tiposServicio?: Prisma.TipoServicioCreateNestedManyWithoutTenantInput
+  turnos?: Prisma.TurnoCreateNestedManyWithoutTenantInput
+  vehiculos?: Prisma.VehiculoCreateNestedManyWithoutTenantInput
+  zonas?: Prisma.ZonaCreateNestedManyWithoutTenantInput
+}
+
+export type TenantUncheckedCreateWithoutSugerencias_seguimientoInput = {
+  id?: string
+  slug: string
+  isActive?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  correo?: string | null
+  nit?: string | null
+  nombre: string
+  numero?: string | null
+  pagina?: string | null
+  anticipos?: Prisma.AnticiposUncheckedCreateNestedManyWithoutTenantInput
+  auditorias?: Prisma.AuditoriaUncheckedCreateNestedManyWithoutTenantInput
+  authSessions?: Prisma.AuthSessionUncheckedCreateNestedManyWithoutTenantInput
+  citasPsicologos?: Prisma.CitasPsicologosUncheckedCreateNestedManyWithoutTenantInput
+  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaUncheckedCreateNestedManyWithoutTenantInput
+  clientes?: Prisma.ClienteUncheckedCreateNestedManyWithoutTenantInput
+  commissions?: Prisma.CommissionRecordUncheckedCreateNestedManyWithoutTenantInput
+  configuracionPagos?: Prisma.ConfiguracionPagosUncheckedCreateNestedManyWithoutTenantInput
+  consignacionOrdenes?: Prisma.ConsignacionOrdenUncheckedCreateNestedManyWithoutTenantInput
+  consignaciones?: Prisma.ConsignacionEfectivoUncheckedCreateNestedManyWithoutTenantInput
+  consultorios?: Prisma.ConsultorioUncheckedCreateNestedManyWithoutTenantInput
+  cuentasCobro?: Prisma.CuentaCobroUncheckedCreateNestedManyWithoutTenantInput
+  cuentasPago?: Prisma.CuentasPagoUncheckedCreateNestedManyWithoutTenantInput
+  declaraciones?: Prisma.DeclaracionEfectivoUncheckedCreateNestedManyWithoutTenantInput
+  direcciones?: Prisma.DireccionUncheckedCreateNestedManyWithoutTenantInput
+  egresos?: Prisma.EgresosUncheckedCreateNestedManyWithoutTenantInput
+  empresaMemberships?: Prisma.EmpresaMembershipUncheckedCreateNestedManyWithoutTenantInput
+  empresas?: Prisma.EmpresaUncheckedCreateNestedManyWithoutTenantInput
+  entidadesFinancieras?: Prisma.EntidadFinancieraUncheckedCreateNestedManyWithoutTenantInput
+  estadosServicio?: Prisma.EstadoServicioUncheckedCreateNestedManyWithoutTenantInput
+  evidenciasServicio?: Prisma.EvidenciaServicioUncheckedCreateNestedManyWithoutTenantInput
+  geolocalizaciones?: Prisma.GeolocalizacionUncheckedCreateNestedManyWithoutTenantInput
+  logsEvento?: Prisma.LogEventoUncheckedCreateNestedManyWithoutTenantInput
+  metodosPago?: Prisma.MetodoPagoUncheckedCreateNestedManyWithoutTenantInput
+  nominaDetalles?: Prisma.NominaDetalleUncheckedCreateNestedManyWithoutTenantInput
+  nominas?: Prisma.NominaUncheckedCreateNestedManyWithoutTenantInput
+  ordenesServicio?: Prisma.OrdenServicioUncheckedCreateNestedManyWithoutTenantInput
+  orgNodes?: Prisma.OrganizationNodeUncheckedCreateNestedManyWithoutTenantInput
+  paquetesAdquiridos?: Prisma.PaqueteAdquiridoUncheckedCreateNestedManyWithoutTenantInput
+  resetTokens?: Prisma.PasswordResetTokenUncheckedCreateNestedManyWithoutTenantInput
+  permisos?: Prisma.PermisoUncheckedCreateNestedManyWithoutTenantInput
+  picoPlaca?: Prisma.PicoPlacaUncheckedCreateNestedManyWithoutTenantInput
+  productos?: Prisma.ProductoUncheckedCreateNestedManyWithoutTenantInput
+  productosSolicitados?: Prisma.ProductoSolicitadoUncheckedCreateNestedManyWithoutTenantInput
+  proveedores?: Prisma.ProveedoresUncheckedCreateNestedManyWithoutTenantInput
+  referidos?: Prisma.ReferidosUncheckedCreateNestedManyWithoutTenantInput
+  servicios?: Prisma.ServicioUncheckedCreateNestedManyWithoutTenantInput
+  sesionesActividad?: Prisma.SesionActividadUncheckedCreateNestedManyWithoutTenantInput
+  subscription?: Prisma.SubscriptionUncheckedCreateNestedOneWithoutTenantInput
+  memberships?: Prisma.TenantMembershipUncheckedCreateNestedManyWithoutTenantInput
+  terapiasPsicologos?: Prisma.TerapiasPsicologosUncheckedCreateNestedManyWithoutTenantInput
+  tiposInteres?: Prisma.TipoInteresUncheckedCreateNestedManyWithoutTenantInput
+  tiposServicio?: Prisma.TipoServicioUncheckedCreateNestedManyWithoutTenantInput
+  turnos?: Prisma.TurnoUncheckedCreateNestedManyWithoutTenantInput
+  vehiculos?: Prisma.VehiculoUncheckedCreateNestedManyWithoutTenantInput
+  zonas?: Prisma.ZonaUncheckedCreateNestedManyWithoutTenantInput
+}
+
+export type TenantCreateOrConnectWithoutSugerencias_seguimientoInput = {
+  where: Prisma.TenantWhereUniqueInput
+  create: Prisma.XOR<Prisma.TenantCreateWithoutSugerencias_seguimientoInput, Prisma.TenantUncheckedCreateWithoutSugerencias_seguimientoInput>
+}
+
+export type TenantUpsertWithoutSugerencias_seguimientoInput = {
+  update: Prisma.XOR<Prisma.TenantUpdateWithoutSugerencias_seguimientoInput, Prisma.TenantUncheckedUpdateWithoutSugerencias_seguimientoInput>
+  create: Prisma.XOR<Prisma.TenantCreateWithoutSugerencias_seguimientoInput, Prisma.TenantUncheckedCreateWithoutSugerencias_seguimientoInput>
+  where?: Prisma.TenantWhereInput
+}
+
+export type TenantUpdateToOneWithWhereWithoutSugerencias_seguimientoInput = {
+  where?: Prisma.TenantWhereInput
+  data: Prisma.XOR<Prisma.TenantUpdateWithoutSugerencias_seguimientoInput, Prisma.TenantUncheckedUpdateWithoutSugerencias_seguimientoInput>
+}
+
+export type TenantUpdateWithoutSugerencias_seguimientoInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  correo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  nit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  nombre?: Prisma.StringFieldUpdateOperationsInput | string
+  numero?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pagina?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  anticipos?: Prisma.AnticiposUpdateManyWithoutTenantNestedInput
+  auditorias?: Prisma.AuditoriaUpdateManyWithoutTenantNestedInput
+  authSessions?: Prisma.AuthSessionUpdateManyWithoutTenantNestedInput
+  citasPsicologos?: Prisma.CitasPsicologosUpdateManyWithoutTenantNestedInput
+  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaUpdateManyWithoutTenantNestedInput
+  clientes?: Prisma.ClienteUpdateManyWithoutTenantNestedInput
+  commissions?: Prisma.CommissionRecordUpdateManyWithoutTenantNestedInput
+  configuracionPagos?: Prisma.ConfiguracionPagosUpdateManyWithoutTenantNestedInput
+  consignacionOrdenes?: Prisma.ConsignacionOrdenUpdateManyWithoutTenantNestedInput
+  consignaciones?: Prisma.ConsignacionEfectivoUpdateManyWithoutTenantNestedInput
+  consultorios?: Prisma.ConsultorioUpdateManyWithoutTenantNestedInput
+  cuentasCobro?: Prisma.CuentaCobroUpdateManyWithoutTenantNestedInput
+  cuentasPago?: Prisma.CuentasPagoUpdateManyWithoutTenantNestedInput
+  declaraciones?: Prisma.DeclaracionEfectivoUpdateManyWithoutTenantNestedInput
+  direcciones?: Prisma.DireccionUpdateManyWithoutTenantNestedInput
+  egresos?: Prisma.EgresosUpdateManyWithoutTenantNestedInput
+  empresaMemberships?: Prisma.EmpresaMembershipUpdateManyWithoutTenantNestedInput
+  empresas?: Prisma.EmpresaUpdateManyWithoutTenantNestedInput
+  entidadesFinancieras?: Prisma.EntidadFinancieraUpdateManyWithoutTenantNestedInput
+  estadosServicio?: Prisma.EstadoServicioUpdateManyWithoutTenantNestedInput
+  evidenciasServicio?: Prisma.EvidenciaServicioUpdateManyWithoutTenantNestedInput
+  geolocalizaciones?: Prisma.GeolocalizacionUpdateManyWithoutTenantNestedInput
+  logsEvento?: Prisma.LogEventoUpdateManyWithoutTenantNestedInput
+  metodosPago?: Prisma.MetodoPagoUpdateManyWithoutTenantNestedInput
+  nominaDetalles?: Prisma.NominaDetalleUpdateManyWithoutTenantNestedInput
+  nominas?: Prisma.NominaUpdateManyWithoutTenantNestedInput
+  ordenesServicio?: Prisma.OrdenServicioUpdateManyWithoutTenantNestedInput
+  orgNodes?: Prisma.OrganizationNodeUpdateManyWithoutTenantNestedInput
+  paquetesAdquiridos?: Prisma.PaqueteAdquiridoUpdateManyWithoutTenantNestedInput
+  resetTokens?: Prisma.PasswordResetTokenUpdateManyWithoutTenantNestedInput
+  permisos?: Prisma.PermisoUpdateManyWithoutTenantNestedInput
+  picoPlaca?: Prisma.PicoPlacaUpdateManyWithoutTenantNestedInput
+  productos?: Prisma.ProductoUpdateManyWithoutTenantNestedInput
+  productosSolicitados?: Prisma.ProductoSolicitadoUpdateManyWithoutTenantNestedInput
+  proveedores?: Prisma.ProveedoresUpdateManyWithoutTenantNestedInput
+  referidos?: Prisma.ReferidosUpdateManyWithoutTenantNestedInput
+  servicios?: Prisma.ServicioUpdateManyWithoutTenantNestedInput
+  sesionesActividad?: Prisma.SesionActividadUpdateManyWithoutTenantNestedInput
+  subscription?: Prisma.SubscriptionUpdateOneWithoutTenantNestedInput
+  memberships?: Prisma.TenantMembershipUpdateManyWithoutTenantNestedInput
+  terapiasPsicologos?: Prisma.TerapiasPsicologosUpdateManyWithoutTenantNestedInput
+  tiposInteres?: Prisma.TipoInteresUpdateManyWithoutTenantNestedInput
+  tiposServicio?: Prisma.TipoServicioUpdateManyWithoutTenantNestedInput
+  turnos?: Prisma.TurnoUpdateManyWithoutTenantNestedInput
+  vehiculos?: Prisma.VehiculoUpdateManyWithoutTenantNestedInput
+  zonas?: Prisma.ZonaUpdateManyWithoutTenantNestedInput
+}
+
+export type TenantUncheckedUpdateWithoutSugerencias_seguimientoInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  correo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  nit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  nombre?: Prisma.StringFieldUpdateOperationsInput | string
+  numero?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pagina?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  anticipos?: Prisma.AnticiposUncheckedUpdateManyWithoutTenantNestedInput
+  auditorias?: Prisma.AuditoriaUncheckedUpdateManyWithoutTenantNestedInput
+  authSessions?: Prisma.AuthSessionUncheckedUpdateManyWithoutTenantNestedInput
+  citasPsicologos?: Prisma.CitasPsicologosUncheckedUpdateManyWithoutTenantNestedInput
+  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaUncheckedUpdateManyWithoutTenantNestedInput
+  clientes?: Prisma.ClienteUncheckedUpdateManyWithoutTenantNestedInput
+  commissions?: Prisma.CommissionRecordUncheckedUpdateManyWithoutTenantNestedInput
+  configuracionPagos?: Prisma.ConfiguracionPagosUncheckedUpdateManyWithoutTenantNestedInput
+  consignacionOrdenes?: Prisma.ConsignacionOrdenUncheckedUpdateManyWithoutTenantNestedInput
+  consignaciones?: Prisma.ConsignacionEfectivoUncheckedUpdateManyWithoutTenantNestedInput
+  consultorios?: Prisma.ConsultorioUncheckedUpdateManyWithoutTenantNestedInput
+  cuentasCobro?: Prisma.CuentaCobroUncheckedUpdateManyWithoutTenantNestedInput
+  cuentasPago?: Prisma.CuentasPagoUncheckedUpdateManyWithoutTenantNestedInput
+  declaraciones?: Prisma.DeclaracionEfectivoUncheckedUpdateManyWithoutTenantNestedInput
+  direcciones?: Prisma.DireccionUncheckedUpdateManyWithoutTenantNestedInput
+  egresos?: Prisma.EgresosUncheckedUpdateManyWithoutTenantNestedInput
+  empresaMemberships?: Prisma.EmpresaMembershipUncheckedUpdateManyWithoutTenantNestedInput
+  empresas?: Prisma.EmpresaUncheckedUpdateManyWithoutTenantNestedInput
+  entidadesFinancieras?: Prisma.EntidadFinancieraUncheckedUpdateManyWithoutTenantNestedInput
+  estadosServicio?: Prisma.EstadoServicioUncheckedUpdateManyWithoutTenantNestedInput
+  evidenciasServicio?: Prisma.EvidenciaServicioUncheckedUpdateManyWithoutTenantNestedInput
+  geolocalizaciones?: Prisma.GeolocalizacionUncheckedUpdateManyWithoutTenantNestedInput
+  logsEvento?: Prisma.LogEventoUncheckedUpdateManyWithoutTenantNestedInput
+  metodosPago?: Prisma.MetodoPagoUncheckedUpdateManyWithoutTenantNestedInput
+  nominaDetalles?: Prisma.NominaDetalleUncheckedUpdateManyWithoutTenantNestedInput
+  nominas?: Prisma.NominaUncheckedUpdateManyWithoutTenantNestedInput
+  ordenesServicio?: Prisma.OrdenServicioUncheckedUpdateManyWithoutTenantNestedInput
+  orgNodes?: Prisma.OrganizationNodeUncheckedUpdateManyWithoutTenantNestedInput
+  paquetesAdquiridos?: Prisma.PaqueteAdquiridoUncheckedUpdateManyWithoutTenantNestedInput
+  resetTokens?: Prisma.PasswordResetTokenUncheckedUpdateManyWithoutTenantNestedInput
+  permisos?: Prisma.PermisoUncheckedUpdateManyWithoutTenantNestedInput
+  picoPlaca?: Prisma.PicoPlacaUncheckedUpdateManyWithoutTenantNestedInput
+  productos?: Prisma.ProductoUncheckedUpdateManyWithoutTenantNestedInput
+  productosSolicitados?: Prisma.ProductoSolicitadoUncheckedUpdateManyWithoutTenantNestedInput
+  proveedores?: Prisma.ProveedoresUncheckedUpdateManyWithoutTenantNestedInput
+  referidos?: Prisma.ReferidosUncheckedUpdateManyWithoutTenantNestedInput
   servicios?: Prisma.ServicioUncheckedUpdateManyWithoutTenantNestedInput
   sesionesActividad?: Prisma.SesionActividadUncheckedUpdateManyWithoutTenantNestedInput
   subscription?: Prisma.SubscriptionUncheckedUpdateOneWithoutTenantNestedInput
@@ -13755,7 +13290,6 @@ export type TenantCountOutputType = {
   geolocalizaciones: number
   logsEvento: number
   metodosPago: number
-  nivelesRiesgo: number
   nominaDetalles: number
   nominas: number
   ordenesServicio: number
@@ -13768,9 +13302,9 @@ export type TenantCountOutputType = {
   productosSolicitados: number
   proveedores: number
   referidos: number
-  segmentos: number
   servicios: number
   sesionesActividad: number
+  sugerencias_seguimiento: number
   memberships: number
   terapiasPsicologos: number
   tiposInteres: number
@@ -13805,7 +13339,6 @@ export type TenantCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions
   geolocalizaciones?: boolean | TenantCountOutputTypeCountGeolocalizacionesArgs
   logsEvento?: boolean | TenantCountOutputTypeCountLogsEventoArgs
   metodosPago?: boolean | TenantCountOutputTypeCountMetodosPagoArgs
-  nivelesRiesgo?: boolean | TenantCountOutputTypeCountNivelesRiesgoArgs
   nominaDetalles?: boolean | TenantCountOutputTypeCountNominaDetallesArgs
   nominas?: boolean | TenantCountOutputTypeCountNominasArgs
   ordenesServicio?: boolean | TenantCountOutputTypeCountOrdenesServicioArgs
@@ -13818,9 +13351,9 @@ export type TenantCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions
   productosSolicitados?: boolean | TenantCountOutputTypeCountProductosSolicitadosArgs
   proveedores?: boolean | TenantCountOutputTypeCountProveedoresArgs
   referidos?: boolean | TenantCountOutputTypeCountReferidosArgs
-  segmentos?: boolean | TenantCountOutputTypeCountSegmentosArgs
   servicios?: boolean | TenantCountOutputTypeCountServiciosArgs
   sesionesActividad?: boolean | TenantCountOutputTypeCountSesionesActividadArgs
+  sugerencias_seguimiento?: boolean | TenantCountOutputTypeCountSugerencias_seguimientoArgs
   memberships?: boolean | TenantCountOutputTypeCountMembershipsArgs
   terapiasPsicologos?: boolean | TenantCountOutputTypeCountTerapiasPsicologosArgs
   tiposInteres?: boolean | TenantCountOutputTypeCountTiposInteresArgs
@@ -14011,13 +13544,6 @@ export type TenantCountOutputTypeCountMetodosPagoArgs<ExtArgs extends runtime.Ty
 /**
  * TenantCountOutputType without action
  */
-export type TenantCountOutputTypeCountNivelesRiesgoArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.NivelRiesgoOperativoWhereInput
-}
-
-/**
- * TenantCountOutputType without action
- */
 export type TenantCountOutputTypeCountNominaDetallesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   where?: Prisma.NominaDetalleWhereInput
 }
@@ -14102,13 +13628,6 @@ export type TenantCountOutputTypeCountReferidosArgs<ExtArgs extends runtime.Type
 /**
  * TenantCountOutputType without action
  */
-export type TenantCountOutputTypeCountSegmentosArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.SegmentoNegocioWhereInput
-}
-
-/**
- * TenantCountOutputType without action
- */
 export type TenantCountOutputTypeCountServiciosArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   where?: Prisma.ServicioWhereInput
 }
@@ -14118,6 +13637,13 @@ export type TenantCountOutputTypeCountServiciosArgs<ExtArgs extends runtime.Type
  */
 export type TenantCountOutputTypeCountSesionesActividadArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   where?: Prisma.SesionActividadWhereInput
+}
+
+/**
+ * TenantCountOutputType without action
+ */
+export type TenantCountOutputTypeCountSugerencias_seguimientoArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.sugerencias_seguimientoWhereInput
 }
 
 /**
@@ -14205,7 +13731,6 @@ export type TenantSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs =
   geolocalizaciones?: boolean | Prisma.Tenant$geolocalizacionesArgs<ExtArgs>
   logsEvento?: boolean | Prisma.Tenant$logsEventoArgs<ExtArgs>
   metodosPago?: boolean | Prisma.Tenant$metodosPagoArgs<ExtArgs>
-  nivelesRiesgo?: boolean | Prisma.Tenant$nivelesRiesgoArgs<ExtArgs>
   nominaDetalles?: boolean | Prisma.Tenant$nominaDetallesArgs<ExtArgs>
   nominas?: boolean | Prisma.Tenant$nominasArgs<ExtArgs>
   ordenesServicio?: boolean | Prisma.Tenant$ordenesServicioArgs<ExtArgs>
@@ -14218,10 +13743,10 @@ export type TenantSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs =
   productosSolicitados?: boolean | Prisma.Tenant$productosSolicitadosArgs<ExtArgs>
   proveedores?: boolean | Prisma.Tenant$proveedoresArgs<ExtArgs>
   referidos?: boolean | Prisma.Tenant$referidosArgs<ExtArgs>
-  segmentos?: boolean | Prisma.Tenant$segmentosArgs<ExtArgs>
   servicios?: boolean | Prisma.Tenant$serviciosArgs<ExtArgs>
   sesionesActividad?: boolean | Prisma.Tenant$sesionesActividadArgs<ExtArgs>
   subscription?: boolean | Prisma.Tenant$subscriptionArgs<ExtArgs>
+  sugerencias_seguimiento?: boolean | Prisma.Tenant$sugerencias_seguimientoArgs<ExtArgs>
   memberships?: boolean | Prisma.Tenant$membershipsArgs<ExtArgs>
   terapiasPsicologos?: boolean | Prisma.Tenant$terapiasPsicologosArgs<ExtArgs>
   tiposInteres?: boolean | Prisma.Tenant$tiposInteresArgs<ExtArgs>
@@ -14297,7 +13822,6 @@ export type TenantInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs 
   geolocalizaciones?: boolean | Prisma.Tenant$geolocalizacionesArgs<ExtArgs>
   logsEvento?: boolean | Prisma.Tenant$logsEventoArgs<ExtArgs>
   metodosPago?: boolean | Prisma.Tenant$metodosPagoArgs<ExtArgs>
-  nivelesRiesgo?: boolean | Prisma.Tenant$nivelesRiesgoArgs<ExtArgs>
   nominaDetalles?: boolean | Prisma.Tenant$nominaDetallesArgs<ExtArgs>
   nominas?: boolean | Prisma.Tenant$nominasArgs<ExtArgs>
   ordenesServicio?: boolean | Prisma.Tenant$ordenesServicioArgs<ExtArgs>
@@ -14310,10 +13834,10 @@ export type TenantInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs 
   productosSolicitados?: boolean | Prisma.Tenant$productosSolicitadosArgs<ExtArgs>
   proveedores?: boolean | Prisma.Tenant$proveedoresArgs<ExtArgs>
   referidos?: boolean | Prisma.Tenant$referidosArgs<ExtArgs>
-  segmentos?: boolean | Prisma.Tenant$segmentosArgs<ExtArgs>
   servicios?: boolean | Prisma.Tenant$serviciosArgs<ExtArgs>
   sesionesActividad?: boolean | Prisma.Tenant$sesionesActividadArgs<ExtArgs>
   subscription?: boolean | Prisma.Tenant$subscriptionArgs<ExtArgs>
+  sugerencias_seguimiento?: boolean | Prisma.Tenant$sugerencias_seguimientoArgs<ExtArgs>
   memberships?: boolean | Prisma.Tenant$membershipsArgs<ExtArgs>
   terapiasPsicologos?: boolean | Prisma.Tenant$terapiasPsicologosArgs<ExtArgs>
   tiposInteres?: boolean | Prisma.Tenant$tiposInteresArgs<ExtArgs>
@@ -14353,7 +13877,6 @@ export type $TenantPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs
     geolocalizaciones: Prisma.$GeolocalizacionPayload<ExtArgs>[]
     logsEvento: Prisma.$LogEventoPayload<ExtArgs>[]
     metodosPago: Prisma.$MetodoPagoPayload<ExtArgs>[]
-    nivelesRiesgo: Prisma.$NivelRiesgoOperativoPayload<ExtArgs>[]
     nominaDetalles: Prisma.$NominaDetallePayload<ExtArgs>[]
     nominas: Prisma.$NominaPayload<ExtArgs>[]
     ordenesServicio: Prisma.$OrdenServicioPayload<ExtArgs>[]
@@ -14366,10 +13889,10 @@ export type $TenantPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs
     productosSolicitados: Prisma.$ProductoSolicitadoPayload<ExtArgs>[]
     proveedores: Prisma.$ProveedoresPayload<ExtArgs>[]
     referidos: Prisma.$ReferidosPayload<ExtArgs>[]
-    segmentos: Prisma.$SegmentoNegocioPayload<ExtArgs>[]
     servicios: Prisma.$ServicioPayload<ExtArgs>[]
     sesionesActividad: Prisma.$SesionActividadPayload<ExtArgs>[]
     subscription: Prisma.$SubscriptionPayload<ExtArgs> | null
+    sugerencias_seguimiento: Prisma.$sugerencias_seguimientoPayload<ExtArgs>[]
     memberships: Prisma.$TenantMembershipPayload<ExtArgs>[]
     terapiasPsicologos: Prisma.$TerapiasPsicologosPayload<ExtArgs>[]
     tiposInteres: Prisma.$TipoInteresPayload<ExtArgs>[]
@@ -14807,7 +14330,6 @@ export interface Prisma__TenantClient<T, Null = never, ExtArgs extends runtime.T
   geolocalizaciones<T extends Prisma.Tenant$geolocalizacionesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Tenant$geolocalizacionesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$GeolocalizacionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   logsEvento<T extends Prisma.Tenant$logsEventoArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Tenant$logsEventoArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$LogEventoPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   metodosPago<T extends Prisma.Tenant$metodosPagoArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Tenant$metodosPagoArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$MetodoPagoPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  nivelesRiesgo<T extends Prisma.Tenant$nivelesRiesgoArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Tenant$nivelesRiesgoArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$NivelRiesgoOperativoPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   nominaDetalles<T extends Prisma.Tenant$nominaDetallesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Tenant$nominaDetallesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$NominaDetallePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   nominas<T extends Prisma.Tenant$nominasArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Tenant$nominasArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$NominaPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   ordenesServicio<T extends Prisma.Tenant$ordenesServicioArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Tenant$ordenesServicioArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$OrdenServicioPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
@@ -14820,10 +14342,10 @@ export interface Prisma__TenantClient<T, Null = never, ExtArgs extends runtime.T
   productosSolicitados<T extends Prisma.Tenant$productosSolicitadosArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Tenant$productosSolicitadosArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ProductoSolicitadoPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   proveedores<T extends Prisma.Tenant$proveedoresArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Tenant$proveedoresArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ProveedoresPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   referidos<T extends Prisma.Tenant$referidosArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Tenant$referidosArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ReferidosPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  segmentos<T extends Prisma.Tenant$segmentosArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Tenant$segmentosArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$SegmentoNegocioPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   servicios<T extends Prisma.Tenant$serviciosArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Tenant$serviciosArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ServicioPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   sesionesActividad<T extends Prisma.Tenant$sesionesActividadArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Tenant$sesionesActividadArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$SesionActividadPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   subscription<T extends Prisma.Tenant$subscriptionArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Tenant$subscriptionArgs<ExtArgs>>): Prisma.Prisma__SubscriptionClient<runtime.Types.Result.GetResult<Prisma.$SubscriptionPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  sugerencias_seguimiento<T extends Prisma.Tenant$sugerencias_seguimientoArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Tenant$sugerencias_seguimientoArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$sugerencias_seguimientoPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   memberships<T extends Prisma.Tenant$membershipsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Tenant$membershipsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$TenantMembershipPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   terapiasPsicologos<T extends Prisma.Tenant$terapiasPsicologosArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Tenant$terapiasPsicologosArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$TerapiasPsicologosPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   tiposInteres<T extends Prisma.Tenant$tiposInteresArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Tenant$tiposInteresArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$TipoInteresPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
@@ -15834,30 +15356,6 @@ export type Tenant$metodosPagoArgs<ExtArgs extends runtime.Types.Extensions.Inte
 }
 
 /**
- * Tenant.nivelesRiesgo
- */
-export type Tenant$nivelesRiesgoArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the NivelRiesgoOperativo
-   */
-  select?: Prisma.NivelRiesgoOperativoSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the NivelRiesgoOperativo
-   */
-  omit?: Prisma.NivelRiesgoOperativoOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.NivelRiesgoOperativoInclude<ExtArgs> | null
-  where?: Prisma.NivelRiesgoOperativoWhereInput
-  orderBy?: Prisma.NivelRiesgoOperativoOrderByWithRelationInput | Prisma.NivelRiesgoOperativoOrderByWithRelationInput[]
-  cursor?: Prisma.NivelRiesgoOperativoWhereUniqueInput
-  take?: number
-  skip?: number
-  distinct?: Prisma.NivelRiesgoOperativoScalarFieldEnum | Prisma.NivelRiesgoOperativoScalarFieldEnum[]
-}
-
-/**
  * Tenant.nominaDetalles
  */
 export type Tenant$nominaDetallesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -16146,30 +15644,6 @@ export type Tenant$referidosArgs<ExtArgs extends runtime.Types.Extensions.Intern
 }
 
 /**
- * Tenant.segmentos
- */
-export type Tenant$segmentosArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the SegmentoNegocio
-   */
-  select?: Prisma.SegmentoNegocioSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the SegmentoNegocio
-   */
-  omit?: Prisma.SegmentoNegocioOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.SegmentoNegocioInclude<ExtArgs> | null
-  where?: Prisma.SegmentoNegocioWhereInput
-  orderBy?: Prisma.SegmentoNegocioOrderByWithRelationInput | Prisma.SegmentoNegocioOrderByWithRelationInput[]
-  cursor?: Prisma.SegmentoNegocioWhereUniqueInput
-  take?: number
-  skip?: number
-  distinct?: Prisma.SegmentoNegocioScalarFieldEnum | Prisma.SegmentoNegocioScalarFieldEnum[]
-}
-
-/**
  * Tenant.servicios
  */
 export type Tenant$serviciosArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -16234,6 +15708,30 @@ export type Tenant$subscriptionArgs<ExtArgs extends runtime.Types.Extensions.Int
    */
   include?: Prisma.SubscriptionInclude<ExtArgs> | null
   where?: Prisma.SubscriptionWhereInput
+}
+
+/**
+ * Tenant.sugerencias_seguimiento
+ */
+export type Tenant$sugerencias_seguimientoArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the sugerencias_seguimiento
+   */
+  select?: Prisma.sugerencias_seguimientoSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the sugerencias_seguimiento
+   */
+  omit?: Prisma.sugerencias_seguimientoOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.sugerencias_seguimientoInclude<ExtArgs> | null
+  where?: Prisma.sugerencias_seguimientoWhereInput
+  orderBy?: Prisma.sugerencias_seguimientoOrderByWithRelationInput | Prisma.sugerencias_seguimientoOrderByWithRelationInput[]
+  cursor?: Prisma.sugerencias_seguimientoWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.Sugerencias_seguimientoScalarFieldEnum | Prisma.Sugerencias_seguimientoScalarFieldEnum[]
 }
 
 /**

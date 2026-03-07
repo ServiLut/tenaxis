@@ -6,6 +6,8 @@ import { Button, Input, Label } from "@/components/ui";
 import { LogIn, Mail, Lock, Sparkles, Loader2 } from "lucide-react";
 import { ModeToggle } from "@/components/dashboard/ModeToggle";
 
+import { loginAction } from "../actions";
+
 export default function LoginPage() {
   const [formData, setFormData] = useState({
     email: "",
@@ -25,27 +27,13 @@ export default function LoginPage() {
     setError(null);
 
     try {
-      const response = await fetch("/api/auth/login", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(formData),
-      });
+      const res = await loginAction(formData);
 
-      const result = await response.json();
-
-      if (!response.ok) {
-        throw new Error(result.message || "Error al iniciar sesión");
+      if (!res.success) {
+        throw new Error(res.error);
       }
 
-      const data = result.data || result;
-
-      if (!data.access_token) {
-        throw new Error("No se recibió un token de acceso válido");
-      }
-
-      document.cookie = `access_token=${data.access_token}; path=/; max-age=86400; SameSite=Lax`;
+      const data = res.data;
       
       if (data.user?.sesionId) {
         document.cookie = `sesion_id=${data.user.sesionId}; path=/; max-age=86400; SameSite=Lax`;

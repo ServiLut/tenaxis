@@ -164,6 +164,18 @@ async function main() {
     await prisma.servicio.create({ data: { nombre: s, tenantId: TENANT_ID, empresaId: EMPRESA_ID } });
   }
 
+  const estadosServicioList = ['PROGRAMADO', 'EN CAMINO', 'EN SITIO', 'FINALIZADO', 'CANCELADO', 'REPROGRAMADO'];
+  for (const e of estadosServicioList) {
+    await prisma.estadoServicio.create({
+      data: {
+        nombre: e,
+        activo: true,
+        tenantId: TENANT_ID,
+        empresaId: EMPRESA_ID
+      }
+    });
+  }
+
   // 6. Clientes
   console.log('👤 Creando clientes...');
   const clientes: any[] = [];

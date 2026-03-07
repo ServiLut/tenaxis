@@ -10,6 +10,8 @@ import { Select } from "@/components/ui/select";
 import { useUserRole } from "@/hooks/use-user-role";
 import { ArrowLeft, Save, Loader2, UserPlus } from "lucide-react";
 
+import { inviteMemberAction } from "../../actions";
+
 export default function NuevoUsuarioPage() {
   const router = useRouter();
   const { tenantId } = useUserRole();
@@ -23,12 +25,6 @@ export default function NuevoUsuarioPage() {
     telefono: "",
     role: "ASESOR", // Default role
   });
-
-  const getCookie = (name: string) => {
-    const value = `; ${document.cookie}`;
-    const parts = value.split(`; ${name}=`);
-    if (parts.length === 2) return parts.pop()?.split(";").shift();
-  };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
@@ -45,23 +41,17 @@ export default function NuevoUsuarioPage() {
     try {
       setLoading(true);
       setError(null);
-      const token = getCookie("access_token");
 
-      const response = await fetch(`/api/tenants/${tenantId}/memberships`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify({
-          email: formData.email,
-          role: formData.role,
-        }),
+      const res = await inviteMemberAction(tenantId, {
+        email: formData.email,
+        role: formData.role,
+        nombre: formData.nombre,
+        apellido: formData.apellido,
+        telefono: formData.telefono,
       });
 
-      if (!response.ok) {
-        const data = await response.json();
-        throw new Error(data.message || "Error al crear el usuario");
+      if (!res.success) {
+        throw new Error(res.error);
       }
 
       // Volver a la lista de usuarios

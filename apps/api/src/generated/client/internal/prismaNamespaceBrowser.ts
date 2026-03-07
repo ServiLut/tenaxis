@@ -60,8 +60,6 @@ export const ModelName = {
   EmpresaMembership: 'EmpresaMembership',
   OrganizationNode: 'OrganizationNode',
   CommissionRecord: 'CommissionRecord',
-  SegmentoNegocio: 'SegmentoNegocio',
-  NivelRiesgoOperativo: 'NivelRiesgoOperativo',
   TipoInteres: 'TipoInteres',
   Department: 'Department',
   Municipality: 'Municipality',
@@ -103,7 +101,8 @@ export const ModelName = {
   AuthSession: 'AuthSession',
   PasswordResetToken: 'PasswordResetToken',
   ClienteConfiguracionOperativa: 'ClienteConfiguracionOperativa',
-  EvidenciaServicio: 'EvidenciaServicio'
+  EvidenciaServicio: 'EvidenciaServicio',
+  sugerencias_seguimiento: 'sugerencias_seguimiento'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -277,35 +276,6 @@ export const CommissionRecordScalarFieldEnum = {
 export type CommissionRecordScalarFieldEnum = (typeof CommissionRecordScalarFieldEnum)[keyof typeof CommissionRecordScalarFieldEnum]
 
 
-export const SegmentoNegocioScalarFieldEnum = {
-  id: 'id',
-  tenantId: 'tenantId',
-  nombre: 'nombre',
-  descripcion: 'descripcion',
-  activo: 'activo',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt',
-  frecuenciaSugerida: 'frecuenciaSugerida',
-  riesgoSugerido: 'riesgoSugerido'
-} as const
-
-export type SegmentoNegocioScalarFieldEnum = (typeof SegmentoNegocioScalarFieldEnum)[keyof typeof SegmentoNegocioScalarFieldEnum]
-
-
-export const NivelRiesgoOperativoScalarFieldEnum = {
-  id: 'id',
-  tenantId: 'tenantId',
-  nombre: 'nombre',
-  color: 'color',
-  valor: 'valor',
-  activo: 'activo',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
-} as const
-
-export type NivelRiesgoOperativoScalarFieldEnum = (typeof NivelRiesgoOperativoScalarFieldEnum)[keyof typeof NivelRiesgoOperativoScalarFieldEnum]
-
-
 export const TipoInteresScalarFieldEnum = {
   id: 'id',
   tenantId: 'tenantId',
@@ -372,12 +342,12 @@ export const ClienteScalarFieldEnum = {
   tipoCliente: 'tipoCliente',
   ultimaVisita: 'ultimaVisita',
   updatedAt: 'updatedAt',
-  riesgoId: 'riesgoId',
-  segmentoId: 'segmentoId',
   actividadEconomica: 'actividadEconomica',
   metrajeTotal: 'metrajeTotal',
   origenCliente: 'origenCliente',
-  tipoInteresId: 'tipoInteresId'
+  tipoInteresId: 'tipoInteresId',
+  segmento: 'segmento',
+  nivelRiesgo: 'nivelRiesgo'
 } as const
 
 export type ClienteScalarFieldEnum = (typeof ClienteScalarFieldEnum)[keyof typeof ClienteScalarFieldEnum]
@@ -904,7 +874,8 @@ export const EgresosScalarFieldEnum = {
   titulo: 'titulo',
   monto: 'monto',
   razon: 'razon',
-  createdAt: 'createdAt'
+  createdAt: 'createdAt',
+  categoria: 'categoria'
 } as const
 
 export type EgresosScalarFieldEnum = (typeof EgresosScalarFieldEnum)[keyof typeof EgresosScalarFieldEnum]
@@ -1043,6 +1014,26 @@ export const EvidenciaServicioScalarFieldEnum = {
 } as const
 
 export type EvidenciaServicioScalarFieldEnum = (typeof EvidenciaServicioScalarFieldEnum)[keyof typeof EvidenciaServicioScalarFieldEnum]
+
+
+export const Sugerencias_seguimientoScalarFieldEnum = {
+  id: 'id',
+  tenantId: 'tenantId',
+  empresaId: 'empresaId',
+  clienteId: 'clienteId',
+  tipo: 'tipo',
+  prioridad: 'prioridad',
+  estado: 'estado',
+  titulo: 'titulo',
+  descripcion: 'descripcion',
+  metadata: 'metadata',
+  fechaSugerida: 'fechaSugerida',
+  fechaEjecutada: 'fechaEjecutada',
+  creadoAt: 'creadoAt',
+  actualizadoAt: 'actualizadoAt'
+} as const
+
+export type Sugerencias_seguimientoScalarFieldEnum = (typeof Sugerencias_seguimientoScalarFieldEnum)[keyof typeof Sugerencias_seguimientoScalarFieldEnum]
 
 
 export const SortOrder = {
