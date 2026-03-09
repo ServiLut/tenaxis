@@ -41,6 +41,10 @@ export class CreateOrdenServicioDto {
   @IsNotEmpty()
   servicioEspecifico: string; // Will create or find the service by name
 
+  @IsUUID()
+  @IsOptional()
+  servicioId?: string;
+
   @IsString()
   @IsOptional()
   observacion?: string;

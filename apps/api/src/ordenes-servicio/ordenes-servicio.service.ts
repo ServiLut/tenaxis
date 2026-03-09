@@ -195,13 +195,23 @@ export class OrdenesServicioService {
     }
 
     // 3.5 Obtener o crear el servicio específico
-    let servicio = await this.prisma.servicio.findFirst({
-      where: {
-        tenantId,
-        empresaId: createDto.empresaId,
-        nombre: createDto.servicioEspecifico,
-      },
-    });
+    let servicio =
+      (createDto.servicioId
+        ? await this.prisma.servicio.findFirst({
+            where: {
+              id: createDto.servicioId,
+              tenantId,
+              empresaId: createDto.empresaId,
+            },
+          })
+        : null) ||
+      (await this.prisma.servicio.findFirst({
+        where: {
+          tenantId,
+          empresaId: createDto.empresaId,
+          nombre: createDto.servicioEspecifico,
+        },
+      }));
 
     if (!servicio) {
       servicio = await this.prisma.servicio.create({
