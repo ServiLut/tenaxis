@@ -38,7 +38,8 @@ import {
   Receipt,
   Image as ImageIcon,
   ExternalLink,
-  Trash2
+  Trash2,
+  ChevronDown
 } from "lucide-react";
 import {
   Dialog,
@@ -133,6 +134,7 @@ interface OrdenServicioRaw {
   valorCotizado?: number;
   valorPagado?: number;
   valorRepuestos?: number;
+  valorRepuestosTecnico?: number;
   metodoPagoId?: string;
   metodoPago?: { id: string; nombre: string };
   entidadFinanciera?: { id: string; nombre: string };
@@ -1137,7 +1139,18 @@ function ServiciosContent() {
                   <div className="flex-1 min-h-0 flex flex-col overflow-hidden">
                     <div className="flex-1 overflow-auto">
                       <table className="w-full text-left border-collapse">
-                        <thead><tr className="border-b border-border bg-muted/50 sticky top-0 z-10"><th className="px-8 py-6 text-[10px] font-black uppercase tracking-[0.2em] text-muted-foreground">ID Orden</th><th className="px-8 py-6 text-[10px] font-black uppercase tracking-[0.2em] text-muted-foreground">Cliente / Servicio</th><th className="px-8 py-6 text-[10px] font-black uppercase tracking-[0.2em] text-muted-foreground">Programación</th><th className="px-8 py-6 text-[10px] font-black uppercase tracking-[0.2em] text-muted-foreground">Técnico</th><th className="px-8 py-6 text-[10px] font-black uppercase tracking-[0.2em] text-muted-foreground">Estado</th><th className="px-8 py-6 text-[10px] font-black uppercase tracking-[0.2em] text-muted-foreground text-right">Acciones</th></tr></thead>
+                        <thead>
+                          <tr className="border-b border-border bg-muted/50 sticky top-0 z-10">
+                            <th className="px-8 py-6 text-[10px] font-black uppercase tracking-[0.2em] text-muted-foreground">ID Orden</th>
+                            <th className="px-8 py-6 text-[10px] font-black uppercase tracking-[0.2em] text-muted-foreground">Cliente / Servicio</th>
+                            <th className="px-8 py-6 text-[10px] font-black uppercase tracking-[0.2em] text-muted-foreground">Dirección</th>
+                            <th className="px-8 py-6 text-[10px] font-black uppercase tracking-[0.2em] text-muted-foreground">Programación</th>
+                            <th className="px-8 py-6 text-[10px] font-black uppercase tracking-[0.2em] text-muted-foreground">Técnico</th>
+                            <th className="px-8 py-6 text-[10px] font-black uppercase tracking-[0.2em] text-muted-foreground">Tipo</th>
+                            <th className="px-8 py-6 text-[10px] font-black uppercase tracking-[0.2em] text-muted-foreground">Estado</th>
+                            <th className="px-8 py-6 text-[10px] font-black uppercase tracking-[0.2em] text-muted-foreground text-right">Acciones</th>
+                          </tr>
+                        </thead>
                         <tbody className="divide-y divide-border">
                           {paginatedServicios.map((s) => (
                             <tr key={s.id} className="group hover:bg-muted/50 transition-colors">
@@ -1267,34 +1280,385 @@ function ServiciosContent() {
         </DialogContent>
       </Dialog>
 
-      <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}><DialogContent className="max-w-3xl max-h-[90vh] overflow-y-auto bg-background border-border">
-        <DialogHeader><DialogTitle className="text-xl font-black uppercase text-foreground">Detalle de Orden</DialogTitle><DialogDescription className="text-muted-foreground">Información operativa completa.</DialogDescription></DialogHeader>
+      <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}><DialogContent className="max-w-4xl h-[90vh] p-0 flex flex-col overflow-hidden bg-background border-border">
+        <div className="p-6 border-b shrink-0 bg-background relative">
+          <DialogHeader>
+            <DialogTitle className="text-lg font-semibold leading-none tracking-tight text-foreground">Detalle Completo de Orden</DialogTitle>
+            <DialogDescription className="text-muted-foreground text-sm">Expediente maestro con toda la información del cliente y el servicio</DialogDescription>
+          </DialogHeader>
+        </div>
+        
+        <div className="flex-1 overflow-y-auto p-6 lg:p-8 custom-scrollbar">
+          {selectedServicio && (
+            <div className="space-y-8">
+              {/* 1. INFORMACIÓN GENERAL */}
+              <div className="space-y-3">
+                <h3 className="text-xs font-bold text-slate-400 uppercase tracking-wider border-b pb-1">Información General</h3>
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                  <div>
+                    <span className="text-xs text-slate-500 block">ID Servicio</span>
+                    <span className="font-mono text-sm font-medium text-[#01ADFB]">{selectedServicio.raw.id.substring(0, 8).toUpperCase()}</span>
+                  </div>
+                  <div>
+                    <span className="text-xs text-slate-500 block">Número Orden</span>
+                    <span className="font-medium">{selectedServicio.id || "N/A"}</span>
+                  </div>
+                  <div>
+                    <span className="text-xs text-slate-500 block">Estado Actual</span>
+                    <div className="mt-0.5">
+                      <span className={cn("inline-flex items-center rounded-full border px-2.5 py-0.5 text-[10px] font-semibold transition-colors uppercase", ESTADO_STYLING[selectedServicio.estadoServicio] || ESTADO_STYLING["DEFAULT"])}>
+                        {selectedServicio.estadoServicio}
+                      </span>
+                    </div>
+                  </div>
+                  <div>
+                    <span className="text-xs text-slate-500 block">Fecha Creación</span>
+                    <span className="font-medium text-sm">{new Date(selectedServicio.raw.createdAt).toLocaleDateString()}</span>
+                  </div>
+                  <div className="col-span-1 md:col-span-2">
+                    <span className="text-xs text-slate-500 block">Creado Por</span>
+                    <span className="font-medium text-sm uppercase">
+                      {selectedServicio.raw.creadoPor?.user ? `${selectedServicio.raw.creadoPor.user.nombre} ${selectedServicio.raw.creadoPor.user.apellido}` : "SISTEMA"}
+                    </span>
+                  </div>
+                  <div>
+                    <span className="text-xs text-slate-500 block">Prioridad</span>
+                    <span className={cn("inline-block px-2 py-0.5 rounded text-[10px] font-black uppercase mt-1", URGENCIA_STYLING[selectedServicio.urgencia])}>
+                      {selectedServicio.urgencia}
+                    </span>
+                  </div>
+                </div>
+              </div>
+
+              {/* 2. CLIENTE Y CONTACTO */}
+              <div className="space-y-3">
+                <h3 className="text-xs font-bold text-slate-400 uppercase tracking-wider border-b pb-1">Cliente y Contacto</h3>
+                <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+                  <div className="col-span-1 md:col-span-2">
+                    <span className="text-xs text-slate-500 block">Nombre Completo / Razón Social</span>
+                    <span className="font-medium text-base uppercase">{selectedServicio.cliente}</span>
+                    <span className="text-[10px] text-[#01ADFB] font-bold block">{selectedServicio.clienteFull.tipoCliente}</span>
+                  </div>
+                  <div>
+                    <span className="text-xs text-slate-500 block">Representante Legal</span>
+                    <span className="font-medium uppercase text-sm">{selectedServicio.clienteFull.representanteLegal || "N/A"}</span>
+                  </div>
+                  <div>
+                    <span className="text-xs text-slate-500 block">Documento / NIT</span>
+                    <span className="font-medium uppercase">
+                      {selectedServicio.clienteFull.tipoDocumento || "CC/NIT"} {selectedServicio.clienteFull.numeroDocumento || selectedServicio.clienteFull.nit || "N/A"}
+                    </span>
+                  </div>
+                  <div>
+                    <span className="text-xs text-slate-500 block">Teléfono Principal</span>
+                    <span className="font-medium">{selectedServicio.clienteFull.telefono || "N/A"}</span>
+                  </div>
+                  <div>
+                    <span className="text-xs text-slate-500 block">Teléfono Secundario</span>
+                    <span className="font-medium">{selectedServicio.clienteFull.telefono2 || "N/A"}</span>
+                  </div>
+                  <div className="col-span-1 md:col-span-2">
+                    <span className="text-xs text-slate-500 block">Correo Electrónico</span>
+                    <span className="font-medium text-sm lowercase">{selectedServicio.clienteFull.correo || "N/A"}</span>
+                  </div>
+                  <div>
+                    <span className="text-xs text-slate-500 block">Score / Calificación</span>
+                    <span className="font-bold text-[#01ADFB]">{selectedServicio.clienteFull.score ?? 0} pts</span>
+                  </div>
+                </div>
+              </div>
+
+              {/* 3. SEGMENTACIÓN DEL CLIENTE */}
+              <div className="space-y-3">
+                <h3 className="text-xs font-bold text-slate-400 uppercase tracking-wider border-b pb-1">Perfil y Segmentación</h3>
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                  <div>
+                    <span className="text-xs text-slate-500 block">Segmento</span>
+                    <span className="font-medium uppercase text-sm">{selectedServicio.clienteFull.segmento || "N/A"}</span>
+                  </div>
+                  <div>
+                    <span className="text-xs text-slate-500 block">Subsegmento</span>
+                    <span className="font-medium uppercase text-sm">{selectedServicio.clienteFull.subsegmento || "N/A"}</span>
+                  </div>
+                  <div>
+                    <span className="text-xs text-slate-500 block">Nivel de Riesgo</span>
+                    <span className="font-medium uppercase text-sm">{selectedServicio.clienteFull.nivelRiesgo || "N/A"}</span>
+                  </div>
+                  <div>
+                    <span className="text-xs text-slate-500 block">Clasificación</span>
+                    <span className="font-medium uppercase text-sm">{selectedServicio.clienteFull.clasificacion || "N/A"}</span>
+                  </div>
+                  <div className="col-span-2">
+                    <span className="text-xs text-slate-500 block">Actividad Económica</span>
+                    <span className="font-medium uppercase text-sm">{selectedServicio.clienteFull.actividadEconomica || "N/A"}</span>
+                  </div>
+                  <div>
+                    <span className="text-xs text-slate-500 block">Origen</span>
+                    <span className="font-medium uppercase text-sm">{selectedServicio.clienteFull.origenCliente || "N/A"}</span>
+                  </div>
+                  <div>
+                    <span className="text-xs text-slate-500 block">Ticket Promedio</span>
+                    <span className="font-medium uppercase text-sm">{selectedServicio.clienteFull.ticketPromedio ? new Intl.NumberFormat('es-CO', { style: 'currency', currency: 'COP', maximumFractionDigits: 0 }).format(selectedServicio.clienteFull.ticketPromedio) : "N/A"}</span>
+                  </div>
+                  <div>
+                    <span className="text-xs text-slate-500 block">Última Visita</span>
+                    <span className="font-medium text-sm">{selectedServicio.clienteFull.ultimaVisita ? new Date(selectedServicio.clienteFull.ultimaVisita).toLocaleDateString() : "N/A"}</span>
+                  </div>
+                  <div>
+                    <span className="text-xs text-slate-500 block">Próxima Visita</span>
+                    <span className="font-medium text-sm text-[#01ADFB]">{selectedServicio.clienteFull.proximaVisita ? new Date(selectedServicio.clienteFull.proximaVisita).toLocaleDateString() : "N/A"}</span>
+                  </div>
+                  <div>
+                    <span className="text-xs text-slate-500 block">Frecuencia Base</span>
+                    <span className="font-medium uppercase text-sm">{selectedServicio.clienteFull.frecuenciaServicio ? `${selectedServicio.clienteFull.frecuenciaServicio} días` : "N/A"}</span>
+                  </div>
+                </div>
+              </div>
+
+              {/* VEHÍCULO (SI APLICA) */}
+              {selectedServicio.raw.vehiculo && (
+                <div className="space-y-3">
+                  <h3 className="text-xs font-bold text-slate-400 uppercase tracking-wider border-b pb-1">Vehículo Asociado</h3>
+                  <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
+                    <div>
+                      <span className="text-xs text-slate-500 block">Placa</span>
+                      <span className="font-black text-[#01ADFB] uppercase">{selectedServicio.raw.vehiculo.placa}</span>
+                    </div>
+                    <div>
+                      <span className="text-xs text-slate-500 block">Marca</span>
+                      <span className="font-medium uppercase text-sm">{selectedServicio.raw.vehiculo.marca || "N/A"}</span>
+                    </div>
+                    <div>
+                      <span className="text-xs text-slate-500 block">Modelo</span>
+                      <span className="font-medium uppercase text-sm">{selectedServicio.raw.vehiculo.modelo || "N/A"}</span>
+                    </div>
+                    <div>
+                      <span className="text-xs text-slate-500 block">Color</span>
+                      <span className="font-medium uppercase text-sm">{selectedServicio.raw.vehiculo.color || "N/A"}</span>
+                    </div>
+                    <div>
+                      <span className="text-xs text-slate-500 block">Tipo</span>
+                      <span className="font-medium uppercase text-sm">{selectedServicio.raw.vehiculo.tipo || "N/A"}</span>
+                    </div>
+                  </div>
+                </div>
+              )}
+
+              {/* 4. UBICACIÓN DEL SERVICIO */}
+              <div className="space-y-3">
+                <h3 className="text-xs font-bold text-slate-400 uppercase tracking-wider border-b pb-1">Ubicación del Servicio</h3>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div className="md:col-span-2">
+                    <span className="text-xs text-slate-500 block">Dirección Principal</span>
+                    <span className="font-medium text-base flex items-center gap-2 uppercase">
+                      <MapPin className="h-4 w-4 text-blue-500" />
+                      {selectedServicio.raw.direccionTexto || "N/A"}
+                    </span>
+                  </div>
+                  <div>
+                    <span className="text-xs text-slate-500 block">Municipio / Depto</span>
+                    <span className="font-medium uppercase">
+                      {selectedServicio.raw.municipio || "N/A"} {selectedServicio.raw.departamento ? `/ ${selectedServicio.raw.departamento}` : ""}
+                    </span>
+                  </div>
+                  <div>
+                    <span className="text-xs text-slate-500 block">Zona / Sector</span>
+                    <span className="font-medium uppercase">{selectedServicio.raw.zona?.nombre || "N/A"}</span>
+                  </div>
+                  <div>
+                    <span className="text-xs text-slate-500 block">Barrio</span>
+                    <span className="font-medium uppercase">{selectedServicio.raw.barrio || "N/A"}</span>
+                  </div>
+                  <div>
+                    <span className="text-xs text-slate-500 block">Detalles Interior (B/P/U)</span>
+                    <span className="text-sm font-medium uppercase">
+                      {[
+                        selectedServicio.raw.bloque && `Bloque: ${selectedServicio.raw.bloque}`,
+                        selectedServicio.raw.piso && `Piso: ${selectedServicio.raw.piso}`,
+                        selectedServicio.raw.unidad && `Unidad: ${selectedServicio.raw.unidad}`
+                      ].filter(Boolean).join(" - ") || "N/A"}
+                    </span>
+                  </div>
+                  {selectedServicio.raw.linkMaps && (
+                    <div className="md:col-span-2">
+                      <a href={selectedServicio.raw.linkMaps} target="_blank" rel="noopener noreferrer" className="text-[10px] text-blue-600 font-bold hover:underline flex items-center gap-1 uppercase">
+                        <ExternalLink className="h-3 w-3" /> Ver en Google Maps
+                      </a>
+                    </div>
+                  )}
+                </div>
+              </div>
+
+              {/* 5. DETALLE DEL SERVICIO */}
+              <div className="space-y-3">
+                <h3 className="text-xs font-bold text-slate-400 uppercase tracking-wider border-b pb-1">Detalle del Servicio</h3>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div>
+                    <span className="text-xs text-slate-500 block">Empresa Prestadora</span>
+                    <span className="font-medium uppercase">{selectedServicio.raw.empresa?.nombre || "N/A"}</span>
+                  </div>
+                  <div>
+                    <span className="text-xs text-slate-500 block">Tipo de Visita</span>
+                    <span className="font-medium uppercase">{selectedServicio.raw.tipoVisita || "N/A"}</span>
+                  </div>
+                  <div>
+                    <span className="text-xs text-slate-500 block">Servicio Específico</span>
+                    <span className="font-medium uppercase text-[#01ADFB]">{selectedServicio.servicioEspecifico}</span>
+                  </div>
+                  <div>
+                    <span className="text-xs text-slate-500 block">Técnico Asignado</span>
+                    <span className="font-medium uppercase">{selectedServicio.tecnico}</span>
+                  </div>
+                  <div>
+                    <span className="text-xs text-slate-500 block">Tipo Facturación</span>
+                    <span className="font-medium uppercase text-sm">{selectedServicio.raw.tipoFacturacion || "N/A"}</span>
+                  </div>
+                  <div>
+                    <span className="text-xs text-slate-500 block">Frecuencia Sugerida</span>
+                    <span className="font-medium uppercase text-sm">{selectedServicio.raw.frecuenciaSugerida ? `${selectedServicio.raw.frecuenciaSugerida} días` : "N/A"}</span>
+                  </div>
+                </div>
+              </div>
+
+              {/* 6. PROGRAMACIÓN */}
+              <div className="space-y-3">
+                <h3 className="text-xs font-bold text-slate-400 uppercase tracking-wider border-b pb-1">Programación y Tiempos</h3>
+                <div className="grid grid-cols-3 gap-4 bg-blue-50 p-4 rounded-lg border border-blue-100">
+                  <div>
+                    <span className="text-xs text-slate-500 block">Fecha Programada</span>
+                    <span className="font-medium">{selectedServicio.fecha}</span>
+                  </div>
+                  <div>
+                    <span className="text-xs text-slate-500 block">Hora Inicio</span>
+                    <span className="font-medium">{selectedServicio.hora}</span>
+                  </div>
+                  <div>
+                    <span className="text-xs text-slate-500 block">Hora Fin Estimada</span>
+                    <span className="font-medium">
+                      {selectedServicio.raw.horaFin ? new Date(selectedServicio.raw.horaFin).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : "--:--"}
+                    </span>
+                  </div>
+                </div>
+              </div>
+
+              {/* 7. ESTADO Y OBSERVACIONES */}
+              <div className="space-y-3">
+                <h3 className="text-xs font-bold text-slate-400 uppercase tracking-wider border-b pb-1">Estado Operativo y Observaciones</h3>
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                  <div>
+                    <span className="text-xs text-slate-500 block">Nivel Infestación</span>
+                    <span className="font-medium uppercase">{selectedServicio.raw.nivelInfestacion || "N/A"}</span>
+                  </div>
+                  <div>
+                    <span className="text-xs text-slate-500 block">Cond. Higiene</span>
+                    <span className="font-medium uppercase">{selectedServicio.raw.condicionesHigiene || "N/A"}</span>
+                  </div>
+                  <div>
+                    <span className="text-xs text-slate-500 block">Cond. Local</span>
+                    <span className="font-medium uppercase">{selectedServicio.raw.condicionesLocal || "N/A"}</span>
+                  </div>
+                  <div className="col-span-1 md:col-span-3">
+                    <span className="text-xs text-slate-500 block mb-1">Observaciones Iniciales (Registro)</span>
+                    <p className="text-sm bg-slate-50 p-3 rounded-md border border-slate-100 min-h-[60px] italic">
+                      {selectedServicio.raw.observacion || "Sin observaciones registradas."}
+                    </p>
+                  </div>
+                  <div className="col-span-1 md:col-span-3">
+                    <span className="text-xs text-slate-500 block mb-1">Observación Final (Cierre Técnico)</span>
+                    <p className="text-sm bg-slate-50 p-3 rounded-md border border-slate-100 min-h-[60px] italic">
+                      {selectedServicio.raw.observacionFinal || "Sin observación final registrada."}
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              {/* 8. INFORMACIÓN FINANCIERA */}
+              <div className="space-y-3">
+                <h3 className="text-xs font-bold text-slate-400 uppercase tracking-wider border-b pb-1">Información Financiera y Pago</h3>
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                  <div>
+                    <span className="text-xs text-slate-500 block">Valor Cotizado</span>
+                    <span className="font-bold text-slate-900 text-base">
+                      {new Intl.NumberFormat('es-CO', { style: 'currency', currency: 'COP', maximumFractionDigits: 0 }).format(selectedServicio.raw.valorCotizado || 0)}
+                    </span>
+                  </div>
+                  <div>
+                    <span className="text-xs text-slate-500 block">Repuestos (C/T)</span>
+                    <span className="font-medium text-amber-600">
+                      {new Intl.NumberFormat('es-CO', { style: 'currency', currency: 'COP', maximumFractionDigits: 0 }).format((selectedServicio.raw.valorRepuestos || 0) + (selectedServicio.raw.valorRepuestosTecnico || 0))}
+                    </span>
+                  </div>
+                  <div>
+                    <span className="text-xs text-slate-500 block">Valor Recaudado</span>
+                    <span className="font-bold text-emerald-600 text-base">
+                      {new Intl.NumberFormat('es-CO', { style: 'currency', currency: 'COP', maximumFractionDigits: 0 }).format(selectedServicio.raw.valorPagado || 0)}
+                    </span>
+                  </div>
+                  <div>
+                    <span className="text-xs text-slate-500 block">Método de Pago</span>
+                    <span className="font-medium uppercase text-sm">{selectedServicio.raw.metodoPago?.nombre || "PENDIENTE"}</span>
+                  </div>
+                  <div>
+                    <span className="text-xs text-slate-500 block">Estado Pago</span>
+                    <span className="text-[10px] font-bold uppercase bg-slate-100 px-2 py-0.5 rounded border border-slate-200">{selectedServicio.raw.estadoPago || "PENDIENTE"}</span>
+                  </div>
+                  <div>
+                    <span className="text-xs text-slate-500 block">Fecha Pago</span>
+                    <span className="font-medium text-sm">{selectedServicio.raw.fechaPago ? new Date(selectedServicio.raw.fechaPago).toLocaleDateString() : "N/A"}</span>
+                  </div>
+                  <div className="col-span-2">
+                    <span className="text-xs text-slate-500 block">Entidad / Ref. Pago</span>
+                    <span className="font-medium text-sm uppercase">
+                      {selectedServicio.raw.entidadFinanciera?.nombre || "N/A"} {selectedServicio.raw.referenciaPago ? `- ${selectedServicio.raw.referenciaPago}` : ""}
+                    </span>
+                  </div>
+                </div>
+              </div>
+
+              {/* 9. TRAZABILIDAD Y CIERRE */}
+              <div className="space-y-3">
+                <h3 className="text-xs font-bold text-slate-400 uppercase tracking-wider border-b pb-1">Trazabilidad y Liquidación</h3>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div className="p-3 bg-slate-50 rounded-lg border border-slate-100">
+                    <span className="text-xs text-slate-500 block">Liquidado Por</span>
+                    <span className="font-medium text-sm uppercase">
+                      {selectedServicio.raw.liquidadoPor?.user ? `${selectedServicio.raw.liquidadoPor.user.nombre} ${selectedServicio.raw.liquidadoPor.user.apellido}` : "PENDIENTE"}
+                    </span>
+                    {selectedServicio.raw.liquidadoAt && (
+                      <span className="text-[10px] text-slate-400 block mt-0.5">{new Date(selectedServicio.raw.liquidadoAt).toLocaleString()}</span>
+                    )}
+                  </div>
+                  <div className="p-3 bg-slate-50 rounded-lg border border-slate-100">
+                    <span className="text-xs text-slate-500 block">Última Actualización</span>
+                    <span className="font-medium text-sm uppercase">SISTEMA / USUARIO</span>
+                    <span className="text-[10px] text-slate-400 block mt-0.5">{new Date(selectedServicio.raw.updatedAt || selectedServicio.raw.createdAt).toLocaleString()}</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
+        </div>
+
         {selectedServicio && (
-          <div className="space-y-8 mt-4">
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-6 p-6 bg-muted/50 rounded-2xl border border-border">
-              <div className="space-y-1"><p className="text-[9px] font-black text-muted-foreground uppercase">ID Orden</p><p className="font-mono text-sm font-black text-[#01ADFB]">#{selectedServicio.id}</p></div>
-              <div className="space-y-1"><p className="text-[9px] font-black text-muted-foreground uppercase">Urgencia</p><span className={cn("px-2 py-0.5 rounded text-[10px] font-black", URGENCIA_STYLING[selectedServicio.urgencia])}>{selectedServicio.urgencia}</span></div>
-              <div className="space-y-1"><p className="text-[9px] font-black text-muted-foreground uppercase">Técnico</p><p className="text-xs font-bold text-foreground uppercase">{selectedServicio.tecnico}</p></div>
-              <div className="space-y-1"><p className="text-[9px] font-black text-muted-foreground uppercase">Estado</p><span className={cn("text-[9px] font-black px-2 py-0.5 rounded border", ESTADO_STYLING[selectedServicio.estadoServicio] || ESTADO_STYLING["DEFAULT"])}>{selectedServicio.estadoServicio}</span></div>
-            </div>
-            <div className="space-y-4">
-              <h3 className="text-[10px] font-black text-muted-foreground uppercase tracking-widest border-b border-border pb-2">Información de Cliente</h3>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6 bg-muted/30 p-6 rounded-2xl border border-border">
-                <div><p className="text-[9px] font-black text-muted-foreground uppercase">Cliente</p><p className="text-base font-black text-foreground uppercase">{selectedServicio.cliente}</p></div>
-                <div><p className="text-[9px] font-black text-muted-foreground uppercase">Dirección</p><p className="text-sm font-bold text-foreground">{selectedServicio.raw.direccionTexto || "N/A"}</p></div>
-                <div><p className="text-[9px] font-black text-muted-foreground uppercase">Teléfono</p><p className="text-sm font-bold text-foreground">{selectedServicio.clienteFull.telefono}</p></div>
-                <div><p className="text-[9px] font-black text-muted-foreground uppercase">Municipio</p><p className="text-sm font-bold text-foreground uppercase">{selectedServicio.raw.municipio || "N/A"}</p></div>
-              </div>
-            </div>
-            <div className="space-y-4">
-              <h3 className="text-[10px] font-black text-muted-foreground uppercase tracking-widest border-b border-border pb-2">Datos del Servicio</h3>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6 bg-muted/30 p-6 rounded-2xl border border-border">
-                <div><p className="text-[9px] font-black text-muted-foreground uppercase">Servicio</p><p className="text-sm font-black text-[#01ADFB] uppercase">{selectedServicio.servicioEspecifico}</p></div>
-                <div><p className="text-[9px] font-black text-muted-foreground uppercase">Programación</p><p className="text-sm font-bold text-foreground">{selectedServicio.fecha} a las {selectedServicio.hora}</p></div>
-                <div className="col-span-2"><p className="text-[9px] font-black text-muted-foreground uppercase mb-2">Observaciones</p><div className="p-4 bg-background rounded-xl border border-border text-xs font-medium text-muted-foreground leading-relaxed italic">&quot;{selectedServicio.raw.observacion || "Sin observaciones registradas"}&quot;</div></div>
-              </div>
-            </div>
-            <div className="flex gap-3 pt-4"><Button variant="outline" onClick={() => setIsModalOpen(false)} className="flex-1 h-12 rounded-xl font-black uppercase text-[10px] border-border bg-card">Cerrar Detalle</Button><Button onClick={() => router.push(`/dashboard/servicios/${selectedServicio.raw.id}/editar`)} className="flex-1 h-12 rounded-xl bg-[#01ADFB] text-white font-black uppercase text-[10px]">Editar Orden</Button></div>
+          <div className="p-6 border-t shrink-0 bg-background flex gap-3 z-10 shadow-[0_-4px_10px_rgba(0,0,0,0.05)]">
+            <Button variant="outline" onClick={() => setIsModalOpen(false)} className="flex-1 h-11 rounded-xl font-bold uppercase text-[11px] border-slate-200">
+              Cerrar Expediente
+            </Button>
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button className="flex-1 h-11 rounded-xl bg-[#01ADFB] hover:bg-[#01ADFB]/90 text-white font-bold uppercase text-[11px] shadow-lg shadow-[#01ADFB]/20 gap-2">
+                  Editar Información <ChevronDown className="h-4 w-4" />
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end" className="w-64 p-2 rounded-xl bg-card border-border shadow-2xl">
+                <DropdownMenuItem onClick={() => router.push(`/dashboard/servicios/${selectedServicio.raw.id}/editar`)} className="flex items-center gap-3 py-2.5 text-[11px] font-bold cursor-pointer text-foreground hover:bg-muted">
+                  <FileText className="h-4 w-4 text-[#01ADFB]" /> EDITAR ORDEN (SERVICIO)
+                </DropdownMenuItem>
+                <DropdownMenuItem onClick={() => router.push(`/dashboard/clientes/${selectedServicio.raw.clienteId}/editar`)} className="flex items-center gap-3 py-2.5 text-[11px] font-bold cursor-pointer text-foreground hover:bg-muted">
+                  <User className="h-4 w-4 text-emerald-600" /> EDITAR PERFIL CLIENTE
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
           </div>
         )}
       </DialogContent></Dialog>
