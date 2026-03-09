@@ -48,14 +48,25 @@ export async function apiFetch<T>(endpoint: string, options: RequestInit = {}): 
 
     console.log(`[API Client] Response: ${response.status} ${url}`);
 
-    const result = await response.json();
+    const contentType = response.headers.get("content-type");
+    let result: unknown;
+    
+    if (contentType && contentType.includes("application/json")) {
+      result = await response.json();
+    } else {
+      const text = await response.text();
+      if (!response.ok) {
+        throw new Error(`API Error: ${response.status} - ${text || response.statusText}`);
+      }
+      result = text;
+    }
 
     if (!response.ok) {
       console.error(`[API Client] Error response:`, result);
-      throw new Error(result.message || `API Error: ${response.status}`);
+      throw new Error((result as { message?: string })?.message || `API Error: ${response.status}`);
     }
 
-    return (result.data || result) as T;
+    return ((result as { data?: T } | null)?.data || result) as T;
   } catch (error) {
     console.error(`[API Client] Fetch failed: ${url}`, error);
     throw error;

@@ -10,7 +10,7 @@ import { configClient } from "@/lib/api/config-client";
 import { enterpriseClient } from "@/lib/api/enterprise-client";
 import { serviciosClient } from "@/lib/api/servicios-client";
 import { authClient } from "@/lib/api/auth-client";
-import { apiFetch, getApiUrl, getAuthHeaders } from "@/lib/api/base-client";
+import { apiFetch, } from "@/lib/api/base-client";
 import { DashboardStatsSchema, type DashboardStatsType } from "./schemas/dashboard.schema";
 
 export type DashboardStats = DashboardStatsType;
@@ -258,20 +258,10 @@ export async function getClienteByIdAction(id: string) {
 
 export async function getClientesDashboardAction<T = unknown>(): Promise<ClientesDashboardDataResponse<T>> {
   try {
-    const apiUrl = getApiUrl();
-    const headers = await getAuthHeaders();
-    const response = await fetch(`${apiUrl}/clientes/dashboard-data`, {
-      headers,
+    const data = await     apiFetch<any /* eslint-disable-line @typescript-eslint/no-explicit-any */>("/clientes/dashboard-data", {
       cache: "no-store",
     });
 
-    if (!response.ok) {
-      console.error("getClientesDashboardAction: response not ok", response.status);
-      return { clientes: [], segmentacion: null };
-    }
-
-    const result = await response.json();
-    const data = (result.data || result) as { clientes: T[]; segmentacion: ClientesDashboardDataResponse<T>["segmentacion"] };
     return {
       clientes: (data?.clientes || []) as T[],
       segmentacion: (data?.segmentacion || null) as ClientesDashboardDataResponse<T>["segmentacion"],
@@ -284,20 +274,9 @@ export async function getClientesDashboardAction<T = unknown>(): Promise<Cliente
 
 export async function getSegmentedClientesAction() {
   try {
-    const apiUrl = getApiUrl();
-    const headers = await getAuthHeaders();
-    const response = await fetch(`${apiUrl}/clientes/segmentacion`, {
-      headers,
+    return await apiFetch("/clientes/segmentacion", {
       cache: "no-store",
     });
-
-    if (!response.ok) {
-      console.error("getSegmentedClientesAction: response not ok", response.status);
-      return null;
-    }
-
-    const result = await response.json();
-    return result.data || result;
   } catch (error) {
     console.error("Error fetching segmented clients:", error);
     return null;
@@ -306,15 +285,9 @@ export async function getSegmentedClientesAction() {
 
 export async function getSugerenciasAction() {
   try {
-    const apiUrl = getApiUrl();
-    const headers = await getAuthHeaders();
-    const response = await fetch(`${apiUrl}/sugerencias-clientes`, {
-      headers,
+    return await apiFetch<unknown[]>("/sugerencias-clientes", {
       cache: "no-store",
     });
-    if (!response.ok) return [];
-    const result = await response.json();
-    return (result.data || result) as unknown[];
   } catch (error) {
     console.error("Error fetching suggestions:", error);
     return [];
@@ -323,15 +296,9 @@ export async function getSugerenciasAction() {
 
 export async function getSugerenciasStatsAction() {
   try {
-    const apiUrl = getApiUrl();
-    const headers = await getAuthHeaders();
-    const response = await fetch(`${apiUrl}/sugerencias-clientes/stats`, {
-      headers,
+    return await apiFetch<Record<string, unknown>>("/sugerencias-clientes/stats", {
       cache: "no-store",
     });
-    if (!response.ok) return null;
-    const result = await response.json();
-    return (result.data || result) as Record<string, unknown>;
   } catch (error) {
     console.error("Error fetching suggestions stats:", error);
     return null;
@@ -340,22 +307,13 @@ export async function getSugerenciasStatsAction() {
 
 export async function updateSugerenciaEstadoAction(id: string, estado: string) {
   try {
-    const apiUrl = getApiUrl();
-    const headers = await getAuthHeaders();
-    const response = await fetch(`${apiUrl}/sugerencias-clientes/${id}/estado`, {
+    await apiFetch(`/sugerencias-clientes/${id}/estado`, {
       method: "PATCH",
-      headers: {
-        ...headers,
-        "Content-Type": "application/json",
-      },
       body: JSON.stringify({ estado }),
     });
     
-    if (response.ok) {
-      revalidatePath("/dashboard/clientes");
-      return { success: true };
-    }
-    return { success: false };
+    revalidatePath("/dashboard/clientes");
+    return { success: true };
   } catch (error) {
     console.error("Error updating suggestion status:", error);
     return { success: false };

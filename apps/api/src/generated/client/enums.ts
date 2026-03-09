@@ -100,7 +100,8 @@ export type EstadoSolicitudProductos = (typeof EstadoSolicitudProductos)[keyof t
 export const TipoPermiso = {
   EDITAR_VALOR_COTIZADO: 'EDITAR_VALOR_COTIZADO',
   EDITAR_TIPO_SERVICIO: 'EDITAR_TIPO_SERVICIO',
-  DESCARGAR_EXCEL: 'DESCARGAR_EXCEL'
+  DESCARGAR_EXCEL: 'DESCARGAR_EXCEL',
+  DESBLOQUEO_ASIGNACION_SERVICIOS: 'DESBLOQUEO_ASIGNACION_SERVICIOS'
 } as const
 
 export type TipoPermiso = (typeof TipoPermiso)[keyof typeof TipoPermiso]

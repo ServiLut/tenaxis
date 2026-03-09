@@ -76,12 +76,24 @@ const getDefaultHeaders = (enterpriseId?: string) => {
 };
 
 const unwrapData = async <T>(res: Response): Promise<T> => {
-  const json = await res.json();
+  const contentType = res.headers.get("content-type");
+  let data: unknown;
+
+  if (contentType && contentType.includes("application/json")) {
+    data = await res.json();
+  } else {
+    const text = await res.text();
+    if (!res.ok) {
+      throw new Error(`API Error: ${res.status} - ${text || res.statusText}`);
+    }
+    data = text;
+  }
+
   if (!res.ok) {
-    const message = json?.message || json?.error || "Error de API";
+    const message = ((data as Record<string, unknown>)?.message as string) || ((data as Record<string, unknown>)?.error as string) || "Error de API";
     throw new Error(message);
   }
-  return (json?.data ?? json) as T;
+  return ((data as Record<string, unknown>)?.data ?? data) as T;
 };
 
 async function apiFetch<T>(path: string, options: ApiOptions = {}) {

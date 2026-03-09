@@ -88,36 +88,148 @@ export const exportToExcel = async ({ headers, data, filename, title }: ExportDa
 
 export const exportToPDF = ({ headers, data, filename, title }: ExportData) => {
   const doc = new jsPDF();
+  const brandColor: [number, number, number] = [1, 173, 251]; // #01ADFB
+  const darkZinc: [number, number, number] = [24, 24, 27];
+  const mutedZinc: [number, number, number] = [113, 113, 122];
   
-  // Header Corporativo
-  doc.setFontSize(20);
-  doc.setTextColor(40);
-  doc.text('TENAXIS', 14, 22);
+  // --- HEADER DE MARCA ---
+  doc.setFillColor(brandColor[0], brandColor[1], brandColor[2]);
+  doc.rect(0, 0, 210, 15, 'F'); // Barra superior delgada
   
-  doc.setFontSize(12);
-  doc.setTextColor(100);
-  doc.text(title, 14, 30);
+  // Logo y Nombre
+  doc.setFont("helvetica", "bold");
+  doc.setFontSize(22);
+  doc.setTextColor(darkZinc[0], darkZinc[1], darkZinc[2]);
+  doc.text('TENAXIS', 15, 35);
   
+  doc.setFontSize(8);
+  doc.setFont("helvetica", "normal");
+  doc.setTextColor(mutedZinc[0], mutedZinc[1], mutedZinc[2]);
+  doc.text('SISTEMA INTEGRAL DE GESTIÓN OPERATIVA', 15, 40);
+
+  // Etiqueta de Documento
+  doc.setFillColor(244, 244, 245);
+  doc.rect(140, 25, 55, 20, 'F');
+  doc.setFont("helvetica", "bold");
   doc.setFontSize(10);
-  doc.text(`Fecha de generación: ${formatBogotaDateTime(new Date())}`, 14, 36);
+  doc.setTextColor(brandColor[0], brandColor[1], brandColor[2]);
+  doc.text('CUENTA DE COBRO', 145, 33);
+  doc.setFontSize(8);
+  doc.setTextColor(darkZinc[0], darkZinc[1], darkZinc[2]);
+  doc.text(`REF: ${Date.now().toString().slice(-8)}`, 145, 38);
+
+  // --- BLOQUES DE INFORMACIÓN (Grid) ---
+  doc.setDrawColor(228, 228, 231);
+  doc.line(15, 50, 195, 50); // Línea divisoria superior
+
+  // Título Principal
+  doc.setFontSize(14);
+  doc.setFont("helvetica", "bold");
+  doc.setTextColor(darkZinc[0], darkZinc[1], darkZinc[2]);
   
+  const cleanTitle = title.split('\n')[0];
+  doc.text(cleanTitle, 15, 62);
+
+  // Información del Colaborador vs Datos de Pago
+  const details = title.split('\n').slice(1).filter(line => line.trim() !== '');
+  
+  // Columna Izquierda: Identificación
+  doc.setFontSize(8);
+  doc.setTextColor(mutedZinc[0], mutedZinc[1], mutedZinc[2]);
+  doc.text('INFORMACIÓN DEL PRESTADOR', 15, 72);
+  doc.setFontSize(9);
+  doc.setTextColor(darkZinc[0], darkZinc[1], darkZinc[2]);
+  doc.setFont("helvetica", "bold");
+  
+  let leftY = 78;
+  details.slice(0, 2).forEach(line => {
+    doc.text(line.replace('|', '').trim(), 15, leftY);
+    leftY += 5;
+  });
+
+  // Columna Derecha: Pago
+  doc.setFontSize(8);
+  doc.setTextColor(mutedZinc[0], mutedZinc[1], mutedZinc[2]);
+  doc.text('DETALLES DE LIQUIDACIÓN', 110, 72);
+  doc.setFontSize(9);
+  doc.setTextColor(darkZinc[0], darkZinc[1], darkZinc[2]);
+  
+  let rightY = 78;
+  details.slice(2).forEach(line => {
+    doc.text(line.replace('|', '').trim(), 110, rightY);
+    rightY += 5;
+  });
+
+  // --- TABLA DE ACTIVIDADES ---
   autoTable(doc, {
     head: [headers],
-    body: data.map(row => row.map(cell => cell === undefined ? null : cell)),
-    startY: 45,
+    body: data.map((row, _index) => {
+      // Si es la última fila (totales), le damos un tratamiento especial
+      return row.map(cell => cell === undefined ? null : cell);
+    }),
+    startY: 100,
+    margin: { left: 15, right: 15 },
     styles: {
-      fontSize: 8,
-      cellPadding: 3,
+      fontSize: 8.5,
+      cellPadding: 5,
+      font: "helvetica",
+      lineColor: [244, 244, 245],
+      lineWidth: 0.1,
     },
     headStyles: {
-      fillColor: [24, 24, 27], // zinc-900
-      textColor: [255, 255, 255],
+      fillColor: [248, 250, 252],
+      textColor: [71, 85, 105],
       fontStyle: 'bold',
+      halign: 'left',
+      fontSize: 7,
+    },
+    bodyStyles: {
+      textColor: [30, 41, 59],
     },
     alternateRowStyles: {
-      fillColor: [250, 250, 250],
+      fillColor: [255, 255, 255],
     },
+    didParseCell: (data) => {
+      // Estilo para la fila de TOTALES
+      if (data.row.index === data.table.body.length - 1) {
+        data.cell.styles.fillColor = [241, 245, 249];
+        data.cell.styles.fontStyle = 'bold';
+        data.cell.styles.textColor = brandColor;
+        data.cell.styles.fontSize = 10;
+      }
+    },
+    columnStyles: {
+      [headers.length - 1]: { halign: 'right' }
+    }
   });
+
+  // --- SECCIÓN DE FIRMA Y LEGAL ---
+  const finalY =         ((doc as any /* eslint-disable-line @typescript-eslint/no-explicit-any */).lastAutoTable?.finalY ?? 0) + 25;
+  
+  doc.setFontSize(8);
+  doc.setTextColor(mutedZinc[0], mutedZinc[1], mutedZinc[2]);
+  doc.setFont("helvetica", "normal");
+  const legalText = "Certifico que la información aquí consignada es veraz y corresponde a los servicios efectivamente prestados durante el periodo mencionado.";
+  doc.text(legalText, 15, finalY);
+
+  doc.line(15, finalY + 20, 80, finalY + 20); // Línea de firma
+  doc.setFont("helvetica", "bold");
+  doc.text("FIRMA DEL PRESTADOR", 15, finalY + 25);
+  doc.setFont("helvetica", "normal");
+  doc.text("C.C. ____________________", 15, finalY + 30);
+
+  // --- FOOTER ---
+  const pageCount = doc.getNumberOfPages();
+  for (let i = 1; i <= pageCount; i++) {
+    doc.setPage(i);
+    doc.setFontSize(7);
+    doc.setTextColor(161, 161, 170);
+    doc.text(
+      `Página ${i} de ${pageCount} | Documento Autenticado Tenaxis Cloud | Generado el ${formatBogotaDateTime(new Date())}`,
+      15,
+      doc.internal.pageSize.getHeight() - 10
+    );
+  }
 
   doc.save(`${filename}.pdf`);
 };

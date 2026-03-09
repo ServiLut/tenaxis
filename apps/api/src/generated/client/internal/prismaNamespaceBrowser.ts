@@ -103,7 +103,8 @@ export const ModelName = {
   PasswordResetToken: 'PasswordResetToken',
   ClienteConfiguracionOperativa: 'ClienteConfiguracionOperativa',
   EvidenciaServicio: 'EvidenciaServicio',
-  SugerenciaSeguimiento: 'SugerenciaSeguimiento'
+  SugerenciaSeguimiento: 'SugerenciaSeguimiento',
+  ordenes_servicio_seguimientos: 'ordenes_servicio_seguimientos'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -444,7 +445,10 @@ export const ServicioScalarFieldEnum = {
   nombre: 'nombre',
   activo: 'activo',
   deleteAt: 'deleteAt',
-  createdAt: 'createdAt'
+  createdAt: 'createdAt',
+  requiereSeguimiento: 'requiereSeguimiento',
+  primerSeguimientoDias: 'primerSeguimientoDias',
+  requiereSeguimientoTresMeses: 'requiereSeguimientoTresMeses'
 } as const
 
 export type ServicioScalarFieldEnum = (typeof ServicioScalarFieldEnum)[keyof typeof ServicioScalarFieldEnum]
@@ -1051,6 +1055,28 @@ export const SugerenciaSeguimientoScalarFieldEnum = {
 } as const
 
 export type SugerenciaSeguimientoScalarFieldEnum = (typeof SugerenciaSeguimientoScalarFieldEnum)[keyof typeof SugerenciaSeguimientoScalarFieldEnum]
+
+
+export const Ordenes_servicio_seguimientosScalarFieldEnum = {
+  id: 'id',
+  tenantId: 'tenantId',
+  empresaId: 'empresaId',
+  ordenServicioId: 'ordenServicioId',
+  createdByMembershipId: 'createdByMembershipId',
+  completedByMembershipId: 'completedByMembershipId',
+  followUpType: 'followUpType',
+  status: 'status',
+  dueAt: 'dueAt',
+  contactedAt: 'contactedAt',
+  channel: 'channel',
+  outcome: 'outcome',
+  notes: 'notes',
+  completedAt: 'completedAt',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type Ordenes_servicio_seguimientosScalarFieldEnum = (typeof Ordenes_servicio_seguimientosScalarFieldEnum)[keyof typeof Ordenes_servicio_seguimientosScalarFieldEnum]
 
 
 export const SortOrder = {

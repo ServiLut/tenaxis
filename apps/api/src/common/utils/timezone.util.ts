@@ -98,7 +98,9 @@ export const endOfBogotaMonthUtc = (referenceUtc: Date = nowUtc()) => {
   return fromBogotaLocalProxy(localProxy);
 };
 
-export const startOfPreviousBogotaMonthUtc = (referenceUtc: Date = nowUtc()) => {
+export const startOfPreviousBogotaMonthUtc = (
+  referenceUtc: Date = nowUtc(),
+) => {
   const localProxy = toBogotaLocalProxy(referenceUtc);
   localProxy.setUTCMonth(localProxy.getUTCMonth() - 1, 1);
   localProxy.setUTCHours(0, 0, 0, 0);
@@ -174,7 +176,7 @@ export const parseFlexibleDateTimeToUtc = (
   }
 
   const localDateTimeMatch = input.match(YMD_TIME_REGEX);
-  if (localDateTimeMatch && !/[zZ]|[+\-]\d{2}:\d{2}$/.test(input)) {
+  if (localDateTimeMatch && !/[zZ]|[+-]\d{2}:\d{2}$/.test(input)) {
     const year = Number(localDateTimeMatch[1]);
     const month = Number(localDateTimeMatch[2]);
     const day = Number(localDateTimeMatch[3]);
