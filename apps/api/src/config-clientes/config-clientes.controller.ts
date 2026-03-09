@@ -64,13 +64,13 @@ export class ConfigClientesController {
 
   // --- Segmentos ---
   @Get('segmentos')
-  async findAllSegmentos(@Request() req: RequestWithUser) {
+  findAllSegmentos(@Request() req: RequestWithUser) {
     return this.configService.findAllSegmentos(req.user.tenantId || '');
   }
 
   // --- Riesgos ---
   @Get('riesgos')
-  async findAllRiesgos(@Request() req: RequestWithUser) {
+  findAllRiesgos(@Request() req: RequestWithUser) {
     return this.configService.findAllRiesgos(req.user.tenantId || '');
   }
 
@@ -148,6 +148,18 @@ export class ConfigClientesController {
     @Query('empresaId') empresaId: string,
   ) {
     return this.configService.findAllMetodosPago(
+      req.user.tenantId || '',
+      empresaId,
+    );
+  }
+
+  // --- Estados de Servicio ---
+  @Get('estados-servicio')
+  async findAllEstadosServicio(
+    @Request() req: RequestWithUser,
+    @Query('empresaId') empresaId: string,
+  ) {
+    return this.configService.findAllEstadosServicio(
       req.user.tenantId || '',
       empresaId,
     );

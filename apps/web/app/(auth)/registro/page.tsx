@@ -18,6 +18,8 @@ import {
 } from "lucide-react";
 import { ModeToggle } from "@/components/dashboard/ModeToggle";
 
+import { registerAction } from "../actions";
+
 export default function RegisterPage() {
   const [formData, setFormData] = useState({
     email: "",
@@ -77,17 +79,10 @@ export default function RegisterPage() {
     setError(null);
 
     try {
-      const response = await fetch("/api/auth/register", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(formData),
-      });
+      const res = await registerAction(formData);
 
-      if (!response.ok) {
-        const data = await response.json();
-        throw new Error(data.message || "Error al registrar usuario");
+      if (!res.success) {
+        throw new Error(res.error);
       }
 
       setSuccess(true);

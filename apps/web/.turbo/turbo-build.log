@@ -1,44 +1,15 @@
 
-> web@0.1.0 build C:\Users\Usuario\Desktop\tenaxis-saas\apps\web
+> web@0.1.0 build C:\Users\Abogados en Colombia\Desktop\tenaxis\apps\web
 > next build
 
 ▲ Next.js 16.1.6 (Turbopack)
 - Environments: .env
+- Experiments (use with caution):
+  · serverActions
 
   Creating an optimized production build ...
-✓ Compiled successfully in 18.1s
+✓ Compiled successfully in 20.5s
   Running TypeScript ...
-  Collecting page data using 7 workers ...
-  Generating static pages using 7 workers (0/18) ...
-  Generating static pages using 7 workers (4/18) 
-  Generating static pages using 7 workers (8/18) 
-  Generating static pages using 7 workers (13/18) 
-✓ Generating static pages using 7 workers (18/18) in 2.0s
-  Finalizing page optimization ...
-
-Route (app)
-┌ ○ /_not-found
-├ ○ /dashboard
-├ ○ /dashboard/agenda
-├ ƒ /dashboard/clientes
-├ ƒ /dashboard/clientes/[id]/editar
-├ ○ /dashboard/clientes/nuevo
-├ ○ /dashboard/configuracion
-├ ○ /dashboard/contabilidad
-├ ○ /dashboard/equipo-trabajo
-├ ○ /dashboard/insumos
-├ ○ /dashboard/servicios
-├ ○ /dashboard/servicios/nuevo
-├ ○ /dashboard/solicitudes
-├ ƒ /dashboard/tenants
-├ ○ /iniciar-sesion
-├ ○ /olvide-mi-contraseña
-├ ○ /registro
-└ ○ /reiniciar-contraseña
-
-
-ƒ Proxy (Middleware)
-
-○  (Static)   prerendered as static content
-ƒ  (Dynamic)  server-rendered on demand
-
+Debug Failure. Expected C:/Users/Abogados en Colombia/Desktop/tenaxis/apps/web/.next/cache/.tsbuildinfo === C:\Users\Abogados en Colombia\Desktop\tenaxis\apps\web\.next\cache\.tsbuildinfo. 
+Next.js build worker exited with code: 1 and signal: null
+ ELIFECYCLE  Command failed with exit code 1.

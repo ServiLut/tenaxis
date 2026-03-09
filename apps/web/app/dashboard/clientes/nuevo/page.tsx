@@ -8,12 +8,11 @@ import {
   getSegmentosAction,
   getRiesgosAction,
   getTiposInteresAction,
+  getDepartmentsAction,
+  getMunicipalitiesAction,
   type ClienteDTO,
 } from "../../actions";
-import {
-  getDepartments,
-  getMunicipalities,
-} from "./actions";
+import { type ConfigItem } from "@/lib/api/config-client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -95,9 +94,9 @@ function NuevoClienteContent() {
   // --- Datos Dinámicos ---
   const [departamentos, setDepartments] = useState<{id: string, name: string}[]>([]);
   const [municipios, setMunicipalities] = useState<{id: string, name: string, departmentId: string}[]>([]);
-  const [segmentosDb, setSegmentosDb] = useState<{id: string, nombre: string, frecuenciaSugerida: number, riesgoSugerido: string}[]>([]);
-  const [riesgosDb, setRiesgosDb] = useState<{id: string, nombre: string}[]>([]);
-  const [tiposInteresDb, setTiposInteresDb] = useState<{id: string, nombre: string, frecuenciaSugerida: number, riesgoSugerido: string}[]>([]);
+  const [segmentosDb, setSegmentosDb] = useState<ConfigItem[]>([]);
+  const [riesgosDb, setRiesgosDb] = useState<ConfigItem[]>([]);
+  const [tiposInteresDb, setTiposInteresDb] = useState<ConfigItem[]>([]);
 
   // 1. Cargar Datos Geográficos y Configuración al iniciar
   useEffect(() => {
@@ -105,8 +104,8 @@ function NuevoClienteContent() {
       try {
         const { getEnterprisesAction } = await import("@/app/dashboard/actions");
         const [deps, muns, segs, ries, ints, empresasData] = await Promise.all([
-          getDepartments(),
-          getMunicipalities(),
+          getDepartmentsAction(),
+          getMunicipalitiesAction(),
           getSegmentosAction(),
           getRiesgosAction(),
           getTiposInteresAction(),
@@ -121,7 +120,7 @@ function NuevoClienteContent() {
         if (ints.length > 0) setInteres(ints[0]?.id || "");
         
         // Cargar empresas del usuario
-        const items = empresasData?.items || [];
+        const items = (empresasData as { items?: { id: string, nombre: string }[] })?.items || [];
         setEmpresasUser(items);
         
         const cookieId = document.cookie

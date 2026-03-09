@@ -5,7 +5,13 @@ import {
 } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 import { CreateClienteDto } from './dto/create-cliente.dto';
-import { Cliente, ClasificacionCliente } from '../generated/client/client';
+import {
+  Cliente,
+  ClasificacionCliente,
+  SegmentoCliente,
+  NivelRiesgo,
+  Prisma,
+} from '../generated/client/client';
 import { startOfBogotaDayUtc } from '../common/utils/timezone.util';
 
 type ClienteWithRelations = Cliente & {
@@ -109,116 +115,54 @@ export class ClientesService {
     empresaId?: string,
     userRole?: string,
   ): Promise<Cliente[]> {
-    let clients: ClienteWithRelations[] = [];
+    const include: Prisma.ClienteInclude = {
+      direcciones: {
+        include: { municipioRel: true },
+      },
+      vehiculos: true,
+      tipoInteres: true,
+      tenant: userRole === 'SU_ADMIN',
+      empresa: true,
+      configuracionesOperativas: {
+        where: {
+          ...(empresaId && { empresaId }),
+        },
+      },
+      ordenesServicio: {
+        where: {
+          ...(empresaId && { empresaId }),
+          estadoPago: { not: 'PAGADO' },
+        },
+        select: {
+          id: true,
+          estadoPago: true,
+          valorCotizado: true,
+          valorPagado: true,
+          valorRepuestos: true,
+        },
+      },
+    };
+
+    let clients: Cliente[] = [];
 
     if (userRole === 'SU_ADMIN') {
-      clients = (await this.prisma.cliente.findMany({
+      clients = await this.prisma.cliente.findMany({
         where: {
           deletedAt: null,
         },
         orderBy: { createdAt: 'desc' },
-        include: {
-          direcciones: {
-            include: { municipioRel: true },
-          },
-          vehiculos: true,
-          tipoInteres: true,
-          tenant: true,
-          empresa: true,
-          configuracionesOperativas: {
-            where: {
-              ...(empresaId && { empresaId }),
-            },
-          },
-          ordenesServicio: {
-            where: {
-              ...(empresaId && { empresaId }),
-              estadoPago: { not: 'PAGADO' },
-            },
-            select: {
-              id: true,
-              estadoPago: true,
-              valorCotizado: true,
-              valorPagado: true,
-              valorRepuestos: true,
-            },
-          },
-        },
-      })) as ClienteWithRelations[];
-    } else if (
-      userRole === 'ADMIN' ||
-      userRole === 'COORDINADOR' ||
-      userRole === 'ASESOR'
-    ) {
-      clients = (await this.prisma.cliente.findMany({
+        include,
+      });
+    } else {
+      clients = await this.prisma.cliente.findMany({
         where: {
           tenantId,
           deletedAt: null,
           ...(empresaId && { empresaId }),
         },
         orderBy: { createdAt: 'desc' },
-        include: {
-          direcciones: {
-            include: { municipioRel: true },
-          },
-          vehiculos: true,
-          tipoInteres: true,
-          empresa: true,
-          configuracionesOperativas: {
-            where: {
-              ...(empresaId && { empresaId }),
-            },
-          },
-          ordenesServicio: {
-            where: {
-              ...(empresaId && { empresaId }),
-              estadoPago: { not: 'PAGADO' },
-            },
-            select: {
-              id: true,
-              estadoPago: true,
-              valorCotizado: true,
-              valorPagado: true,
-              valorRepuestos: true,
-            },
-          },
-        },
-      })) as ClienteWithRelations[];
-    } else if (empresaId) {
-      clients = (await this.prisma.cliente.findMany({
-        where: {
-          tenantId,
-          empresaId,
-          deletedAt: null,
-        },
-        orderBy: { createdAt: 'desc' },
-        include: {
-          direcciones: {
-            include: { municipioRel: true },
-          },
-          vehiculos: true,
-          tipoInteres: true,
-          empresa: true,
-          configuracionesOperativas: {
-            where: {
-              empresaId,
-            },
-          },
-          ordenesServicio: {
-            where: {
-              empresaId,
-              estadoPago: { not: 'PAGADO' },
-            },
-            select: {
-              id: true,
-              estadoPago: true,
-              valorCotizado: true,
-              valorPagado: true,
-              valorRepuestos: true,
-            },
-          },
-        },
-      })) as ClienteWithRelations[];
+        include,
+      });
     }
 
     // Apply "Riesgo Comercial" logic in response (more than 45 days since last visit or 1.5x frequency)
@@ -252,8 +196,31 @@ export class ClientesService {
           }
         }
         return client;
-      },
-    );
+      }
+
+      const lastVisit = client.ultimaVisita
+        ? new Date(client.ultimaVisita)
+        : null;
+
+      if (lastVisit) {
+        const diffDays =
+          (now.getTime() - lastVisit.getTime()) / (1000 * 3600 * 24);
+
+        // Frecuencia sugerida: prefer client's own frequency, then default 30
+        const frequency = client.frecuenciaServicio || 30;
+
+        const isCommercialRisk =
+          diffDays > (frequency === 30 ? 45 : frequency * 1.5);
+
+        if (isCommercialRisk) {
+          return {
+            ...client,
+            clasificacion: ClasificacionCliente.RIESGO,
+          } as Cliente;
+        }
+      }
+      return client;
+    });
     return result;
   }
 
@@ -317,7 +284,7 @@ export class ClientesService {
     dto: CreateClienteDto,
     reqEmpresaId?: string,
   ): Promise<Cliente> {
-    const { direcciones, vehiculos, metrajeTotal, ...clienteData } = dto;
+    const { direcciones, vehiculos, metrajeTotal, ...restDto } = dto;
 
     const membership = await this.prisma.tenantMembership.findUnique({
       where: { userId_tenantId: { userId, tenantId } },
@@ -338,18 +305,18 @@ export class ClientesService {
       return isNaN(num) ? null : num.toFixed(decimals);
     };
 
-    const orConditions: Record<string, string>[] = [];
+    const orConditions: Prisma.ClienteWhereInput[] = [];
     if (
-      clienteData.numeroDocumento &&
-      clienteData.numeroDocumento !== 'No Concretado'
+      restDto.numeroDocumento &&
+      restDto.numeroDocumento !== 'No Concretado'
     ) {
-      orConditions.push({ numeroDocumento: clienteData.numeroDocumento });
+      orConditions.push({ numeroDocumento: restDto.numeroDocumento });
     }
-    if (clienteData.nit && clienteData.nit !== 'No Concretado') {
-      orConditions.push({ nit: clienteData.nit });
+    if (restDto.nit && restDto.nit !== 'No Concretado') {
+      orConditions.push({ nit: restDto.nit });
     }
-    if (clienteData.telefono && clienteData.telefono !== 'No Concretado') {
-      orConditions.push({ telefono: clienteData.telefono });
+    if (restDto.telefono && restDto.telefono !== 'No Concretado') {
+      orConditions.push({ telefono: restDto.telefono });
     }
 
     if (orConditions.length > 0) {
@@ -369,22 +336,27 @@ export class ClientesService {
     }
 
     const data = {
-      ...clienteData,
-      tenantId,
-      ...(empresaId && { empresaId }),
-      metrajeTotal: toDecimal(metrajeTotal, 2),
-      creadoPorId: membership.id,
+      ...restDto,
+      tenant: { connect: { id: tenantId } },
+      ...(empresaId && { empresa: { connect: { id: empresaId } } }),
+      segmento: restDto.segmento || SegmentoCliente.OTRO,
+      nivelRiesgo: restDto.nivelRiesgo || NivelRiesgo.MEDIO,
+      metrajeTotal: toDecimal(metrajeTotal, 2)
+        ? new Prisma.Decimal(toDecimal(metrajeTotal, 2)!)
+        : null,
+      creadoPor: { connect: { id: membership.id } },
+
       direcciones: {
         create: direcciones?.map((d) => ({
           ...d,
           tenantId,
           ...(empresaId && { empresaId }),
-          // Asegurar que las coordenadas se traten como números para el tipo Float
           latitud: d.latitud ? Number(d.latitud) : null,
           longitud: d.longitud ? Number(d.longitud) : null,
           precisionGPS: toDecimal(d.precisionGPS, 2),
         })),
       },
+
       vehiculos: {
         create: vehiculos?.map((v) => ({
           ...v,
@@ -392,7 +364,7 @@ export class ClientesService {
           ...(empresaId && { empresaId }),
         })),
       },
-    };
+    } as unknown as Prisma.ClienteCreateInput;
 
     try {
       return (await this.prisma.cliente.create({
@@ -432,7 +404,8 @@ export class ClientesService {
     userId: string,
     dto: Partial<CreateClienteDto>,
   ): Promise<Cliente> {
-    const { direcciones, vehiculos, metrajeTotal, ...clienteData } = dto;
+    void userId;
+    const { direcciones, vehiculos, metrajeTotal, ...restDto } = dto;
 
     const toDecimal = (val: unknown, decimals: number = 2) => {
       if (val === null || val === undefined || val === '') return null;
@@ -440,32 +413,44 @@ export class ClientesService {
       return isNaN(num) ? null : num.toFixed(decimals);
     };
 
-    // For simplicity in this update, we delete and recreate direcciones and vehiculos
-    // A more advanced version would use upsert or nested updates
-    await this.prisma.direccion.deleteMany({ where: { clienteId: id } });
-    await this.prisma.vehiculo.deleteMany({ where: { clienteId: id } });
+    if (direcciones) {
+      await this.prisma.direccion.deleteMany({ where: { clienteId: id } });
+    }
+    if (vehiculos) {
+      await this.prisma.vehiculo.deleteMany({ where: { clienteId: id } });
+    }
+
+    const data = {
+      ...restDto,
+      metrajeTotal: toDecimal(metrajeTotal, 2)
+        ? new Prisma.Decimal(toDecimal(metrajeTotal, 2)!)
+        : undefined,
+
+      direcciones: direcciones
+        ? {
+            create: direcciones.map((d) => ({
+              ...d,
+              tenantId,
+              latitud: d.latitud ? Number(d.latitud) : null,
+              longitud: d.longitud ? Number(d.longitud) : null,
+              precisionGPS: toDecimal(d.precisionGPS, 2),
+            })),
+          }
+        : undefined,
+
+      vehiculos: vehiculos
+        ? {
+            create: vehiculos.map((v) => ({
+              ...v,
+              tenantId,
+            })),
+          }
+        : undefined,
+    } as unknown as Prisma.ClienteUpdateInput;
 
     return (await this.prisma.cliente.update({
       where: { id },
-      data: {
-        ...clienteData,
-        metrajeTotal: toDecimal(metrajeTotal, 2),
-        direcciones: {
-          create: direcciones?.map((d) => ({
-            ...d,
-            tenantId,
-            latitud: d.latitud ? Number(d.latitud) : null,
-            longitud: d.longitud ? Number(d.longitud) : null,
-            precisionGPS: toDecimal(d.precisionGPS, 2),
-          })),
-        },
-        vehiculos: {
-          create: vehiculos?.map((v) => ({
-            ...v,
-            tenantId,
-          })),
-        },
-      },
+      data,
       include: {
         direcciones: true,
         vehiculos: true,

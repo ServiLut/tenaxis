@@ -105,7 +105,7 @@ export default function ConfiguracionPage() {
     setLoading(true);
     try {
       const ints = await getTiposInteresAction();
-      setIntereses(ints);
+      setIntereses(ints as unknown as TipoInteres[]);
     } catch (_error) {
       toast.error("Error al cargar la configuración");
     } finally {

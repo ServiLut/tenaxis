@@ -62,8 +62,8 @@ function AgendaContent() {
           empresaId ? getOperatorsAction(empresaId) : Promise.resolve([]),
           empresaId ? getOrdenesServicioAction(empresaId) : Promise.resolve([]),
         ]);
-        setOperadores(Array.isArray(ops) ? ops : ops?.data || []);
-        setOrdenes(Array.isArray(ords) ? ords : ords?.data || []);
+        setOperadores(Array.isArray(ops) ? (ops as Operador[]) : []);
+        setOrdenes(Array.isArray(ords) ? (ords as OrdenServicio[]) : []);
       } catch (e) {
         console.error("Error loading initial data", e);
       } finally {

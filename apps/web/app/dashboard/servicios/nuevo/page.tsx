@@ -15,11 +15,9 @@ import {
   notifyServiceOperatorWebhookAction,
   getClienteByIdAction,
   updateClienteAction,
+  getDepartmentsAction,
+  getMunicipalitiesAction,
 } from "../../actions";
-import { 
-  getDepartments, 
-  getMunicipalities 
-} from "../../clientes/nuevo/actions";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -285,7 +283,7 @@ function NuevoServicioContent() {
     if (!empId) return;
     try {
       const ops = await getOperatorsAction(empId);
-      setOperadores(Array.isArray(ops) ? ops : ops?.data || []);
+      setOperadores(Array.isArray(ops) ? (ops as Operador[]) : []);
     } catch (e) {
       console.error("Error loading operators", e);
     }
@@ -296,7 +294,7 @@ function NuevoServicioContent() {
     if (!empId) return;
     try {
       const svs = await getServiciosAction(empId);
-      setServiciosEmpresa(Array.isArray(svs) ? svs : svs?.data || []);
+      setServiciosEmpresa(Array.isArray(svs) ? (svs as Servicio[]) : []);
     } catch (e) {
       console.error("Error loading services", e);
     }
@@ -327,13 +325,13 @@ function NuevoServicioContent() {
         const [cls, emps, deps, muns] = await Promise.all([
           getClientesAction(),
           getEnterprisesAction(),
-          getDepartments(),
-          getMunicipalities(),
+          getDepartmentsAction(),
+          getMunicipalitiesAction(),
         ]);
 
         // Clientes usually returns an array or { data: [] }
         const loadedClientes = (
-          Array.isArray(cls) ? cls : cls?.data || []
+          Array.isArray(cls) ? (cls as Cliente[]) : []
         ) as Cliente[];
         setClientes(loadedClientes);
         setDepartments(deps);
@@ -341,7 +339,7 @@ function NuevoServicioContent() {
 
         // Enterprises returns { items: [], count: X, maxEmpresas: Y }
         const loadedEmpresas = (
-          Array.isArray(emps) ? emps : emps?.items || emps?.data || []
+          Array.isArray(emps) ? emps : (emps as { items: Empresa[] })?.items || (emps as { data: Empresa[] })?.data || []
         ) as Empresa[];
 
         setEmpresas(loadedEmpresas);
@@ -389,7 +387,7 @@ function NuevoServicioContent() {
     
     if (clientId) {
       const configsResult = await getClienteConfigsAction(clientId);
-      const configs = Array.isArray(configsResult) ? configsResult : configsResult?.data || [];
+      const configs = Array.isArray(configsResult) ? (configsResult as ConfiguracionOperativa[]) : [];
       setClienteConfigs(configs);
 
       const cliente = (clientes || []).find(c => c.id === clientId);
@@ -561,8 +559,8 @@ function NuevoServicioContent() {
         if (!res.success) throw new Error(res.error);
 
         // Webhook Notification after creation
-        const orderData = res.data;
-        const targetTecnicoId = orderData.tecnicoId;
+        const orderData = res.data as Record<string, unknown>;
+        const targetTecnicoId = orderData.tecnicoId as string;
 
         if (targetTecnicoId) {
           const operator = operadores.find(o => o.id === targetTecnicoId);
@@ -588,7 +586,7 @@ function NuevoServicioContent() {
 
             notifyServiceOperatorWebhookAction({
               telefonoOperador: operator.telefono,
-              numeroOrden: `#${orderData.numeroOrden || orderData.id.slice(0, 8).toUpperCase()}`,
+              numeroOrden: `#${(orderData.numeroOrden as string) || (orderData.id as string).slice(0, 8).toUpperCase()}`,
               cliente: client ? (client.tipoCliente === "EMPRESA" ? (client.razonSocial || "") : `${client.nombre} ${client.apellido}`) : "Cliente desconocido",
               servicio: servicioEspecifico.toUpperCase(),
               programacion: `${formattedDate} a las ${formattedTime}`,

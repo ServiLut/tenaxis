@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { TrendingUp, Users, CheckCircle2, DollarSign, ChevronRight } from "lucide-react";
+import { TrendingUp, Users, CheckCircle2, DollarSign } from "lucide-react";
 import { cn } from "@/components/ui/utils";
 
 type TeamKpis = {

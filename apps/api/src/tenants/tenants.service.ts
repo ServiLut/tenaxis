@@ -196,6 +196,7 @@ export class TenantsService {
         },
       });
 
+      // 9. Seed de Configuración Dinámica (Tipos de Interés por defecto)
       await tx.tipoInteres.createMany({
         data: [
           {
@@ -437,7 +438,6 @@ export class TenantsService {
     return this.prisma.tenantMembership.findMany({
       where: {
         tenantId,
-        aprobado: true,
         activo: true,
       },
       include: {

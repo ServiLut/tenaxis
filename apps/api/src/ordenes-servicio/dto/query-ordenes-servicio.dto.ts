@@ -9,7 +9,11 @@ import {
   Max,
   Min,
 } from 'class-validator';
-import { EstadoOrden, UrgenciaOrden } from '../../generated/client/client';
+import {
+  EstadoOrden,
+  UrgenciaOrden,
+  TipoVisita,
+} from '../../generated/client/client';
 import {
   addBogotaDaysUtc,
   endOfBogotaDayUtc,
@@ -66,8 +70,8 @@ export class QueryOrdenesServicioDto {
   metodoPagoId?: string;
 
   @IsOptional()
-  @IsString()
-  tipoVisita?: string;
+  @IsEnum(TipoVisita)
+  tipoVisita?: TipoVisita;
 
   @IsOptional()
   @IsDateString()

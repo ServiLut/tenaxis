@@ -5,6 +5,8 @@ import Link from 'next/link';
 import { Mail, Loader2, AlertCircle, ArrowLeft, CheckCircle2 } from 'lucide-react';
 import Image from 'next/image';
 
+import { forgotPasswordAction } from '../actions';
+
 export default function ForgotPasswordPage() {
   const [email, setEmail] = useState('');
   const [isLoading, setIsLoading] = useState(false);
@@ -17,15 +19,10 @@ export default function ForgotPasswordPage() {
     setError(null);
 
     try {
-      const res = await fetch("/api/auth/forgot-password", {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email }),
-      });
+      const res = await forgotPasswordAction(email);
 
-      if (!res.ok) {
-        const errData = await res.json();
-        throw new Error(errData.message || 'Error al enviar el correo de recuperación');
+      if (!res.success) {
+        throw new Error(res.error);
       }
 
       setIsSubmitted(true);

@@ -42,8 +42,21 @@ export class TenantsController {
   }
 
   @Get(':id')
-  @UseGuards(SuAdminGuard)
-  async findOne(@Param('id') id: string) {
+  @UseGuards(JwtAuthGuard)
+  async findOne(@Request() req: RequestWithUser, @Param('id') id: string) {
+    // Si no es SU_ADMIN, solo puede ver su propio tenant
+    const allowedUuids = (process.env.ALLOWED_TENANT_ADMINS || '')
+      .split(',')
+      .map((id) => id.trim())
+      .filter((id) => id.length > 0);
+
+    const isSuAdmin = allowedUuids.includes(req.user.sub);
+
+    if (!isSuAdmin && req.user.tenantId !== id) {
+      throw new UnauthorizedException(
+        'No tienes permiso para ver este conglomerado',
+      );
+    }
     return this.tenantsService.findOne(id);
   }
 

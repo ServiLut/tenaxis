@@ -32,6 +32,13 @@ export function useMonitoringActivity() {
       setLatency(currentLatency);
       setMaxLatency(prev => Math.max(prev, currentLatency));
       
+      if (sessionsRes.message && (!sessionsRes.data || sessionsRes.data.length === 0)) {
+        throw new Error(sessionsRes.message);
+      }
+      if (statsRes.message && (!statsRes.data || statsRes.data.totalEvents === 0)) {
+        throw new Error(statsRes.message);
+      }
+
       return { 
         sessions: sessionsRes.data, 
         stats: statsRes.data 
@@ -47,6 +54,9 @@ export function useMonitoringActivity() {
     queryKey: ["monitoring", "alerts"],
     queryFn: async () => {
       const res = await getMonitoringAlerts();
+      if (res.message && (!res.data || res.data.length === 0)) {
+        // throw new Error(res.message); // Opcional: no bloquear todo por alertas
+      }
       return res.data || [] as MonitoringAlert[];
     },
     refetchInterval: 60000,
@@ -57,6 +67,9 @@ export function useMonitoringActivity() {
     queryKey: ["monitoring", "metrics"],
     queryFn: async () => {
       const res = await getMonitoringMetrics();
+      if (res.message && (!res.data || res.data.userCount === 0)) {
+        // throw new Error(res.message);
+      }
       return res.data;
     },
     refetchInterval: 120000, // Cada 2 minutos
@@ -67,6 +80,9 @@ export function useMonitoringActivity() {
     queryKey: ["monitoring", "executive-audit"],
     queryFn: async () => {
       const res = await getExecutiveAuditMetrics();
+      if (res.message && (!res.data || res.data.successRate === 0)) {
+        // throw new Error(res.message);
+      }
       return res.data;
     },
     refetchInterval: 300000, // Cada 5 minutos

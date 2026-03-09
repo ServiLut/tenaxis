@@ -63,11 +63,12 @@ import {
       try {
         const result = await getEnterprisesAction();
         // Si el backend devuelve el nuevo formato con items
-        if (result && result.items) {
-          setEnterprises(result.items);
-          setMaxEmpresas(result.maxEmpresas);
+        if (result && typeof result === 'object' && 'items' in result) {
+          const enterpriseResult = result as unknown as { items: Enterprise[], maxEmpresas: number };
+          setEnterprises(enterpriseResult.items);
+          setMaxEmpresas(enterpriseResult.maxEmpresas);
         } else {
-          setEnterprises(Array.isArray(result) ? result : []);
+          setEnterprises(Array.isArray(result) ? (result as Enterprise[]) : []);
         }
       } catch (error) {
         console.error("Error loading enterprises:", error);
@@ -81,7 +82,7 @@ import {
       setLoading(true);
       try {
         const data = await getServiciosAction(empresaId);
-        setServicios(data);
+        setServicios(data as unknown as Servicio[]);
       } catch (error) {
         console.error("Error loading services:", error);
         toast.error("Error al cargar los servicios");

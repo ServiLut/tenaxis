@@ -12,9 +12,10 @@ import {
   UnauthorizedException,
   UseInterceptors,
   UploadedFiles,
+  UploadedFile,
 } from '@nestjs/common';
 import { Request } from 'express';
-import { FilesInterceptor } from '@nestjs/platform-express';
+import { FilesInterceptor, FileInterceptor } from '@nestjs/platform-express';
 import {
   OrdenesServicioService,
   ServiciosKpiPayload,
@@ -31,6 +32,7 @@ import {
   NotifyLiquidationDto,
   NotifyOperatorDto,
 } from './dto/notify-webhook.dto';
+import { SupabaseService } from '../supabase/supabase.service';
 
 interface RequestWithUser extends Request {
   user: JwtPayload;
@@ -41,6 +43,7 @@ interface RequestWithUser extends Request {
 export class OrdenesServicioController {
   constructor(
     private readonly ordenesServicioService: OrdenesServicioService,
+    private readonly supabaseService: SupabaseService,
   ) {}
 
   @Post()
@@ -162,15 +165,65 @@ export class OrdenesServicioController {
   }
 
   @Patch(':id')
-  update(
+  @UseInterceptors(FileInterceptor('file'))
+  async update(
     @Req() req: RequestWithUser,
     @Param('id') id: string,
-    @Body() updateDto: Partial<CreateOrdenServicioDto>,
+    @Body() body: Record<string, unknown>,
+    @UploadedFile() file?: Express.Multer.File,
   ) {
     const tenantId = req.user.tenantId;
     if (!tenantId) {
       throw new UnauthorizedException('Tenant ID not found in token');
     }
+
+    const updateDto = body as unknown as Partial<CreateOrdenServicioDto> & {
+      uploadField?: string;
+    };
+
+    // Parse specific JSON fields if they are sent as strings in FormData
+    if (typeof body.desglosePago === 'string') {
+      try {
+        updateDto.desglosePago = JSON.parse(body.desglosePago) as any[];
+      } catch {
+        // Handle gracefully
+      }
+    }
+
+    if (file && typeof body.uploadField === 'string') {
+      const fieldToUpdate = body.uploadField;
+      const fileExt = file.originalname.split('.').pop() || '';
+      const fileName = `${Math.random().toString(36).substring(2)}-${Date.now()}.${fileExt}`;
+      const folderMap: Record<string, string> = {
+        facturaElectronica: 'facturaOrdenServicio',
+        comprobantePago: 'comprobanteOrdenServicio',
+        evidenciaPath: 'EvidenciaOrdenServicio',
+      };
+
+      const folder = folderMap[fieldToUpdate] || 'EvidenciaOrdenServicio';
+      const filePath = `${folder}/${fileName}`;
+
+      const fileId = await this.supabaseService.uploadFile(
+        filePath,
+        file.buffer,
+        file.mimetype,
+        'tenaxis-docs',
+      );
+
+      if (fileId) {
+        if (fieldToUpdate === 'facturaElectronica')
+          updateDto.facturaElectronica = fileId;
+        if (fieldToUpdate === 'comprobantePago')
+          updateDto.comprobantePago = fileId;
+        if (fieldToUpdate === 'evidenciaPath') updateDto.evidenciaPath = fileId;
+      }
+    }
+
+    // Clean up temporary field used for routing the file
+    if ('uploadField' in updateDto) {
+      delete updateDto.uploadField;
+    }
+
     return this.ordenesServicioService.update(
       tenantId,
       id,

@@ -57,6 +57,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { cn } from "@/components/ui/utils";
 import { toast } from "sonner";
+import Image from "next/image";
 import {
   confirmOrdenUpload,
   createSignedUploadUrl,
@@ -396,7 +397,7 @@ function ServiciosContent() {
 
   const fetchOptions = useCallback(async () => {
     try {
-      const empresaId = localStorage.getItem("current-enterprise-id") || undefined;
+      const empresaId = localStorage.getItem("current-enterprise-id") || "";
       const [estados, tecnicos, metodos, munis] = await Promise.all([
         getEstadoServicios(empresaId),
         empresaId ? getOperators(empresaId) : Promise.resolve([]),
@@ -417,15 +418,18 @@ function ServiciosContent() {
 
       setOptions(prev => ({
         ...prev,
-        estados: Array.isArray(estados) && estados.length > 0 ? estados : coreEstados,
-        tecnicos: (Array.isArray(tecnicos) ? tecnicos : []).map(t => ({
+        estados: Array.isArray(estados) && estados.length > 0 ? (estados as Array<{id: string, nombre: string}>) : coreEstados,
+        tecnicos: (Array.isArray(tecnicos) ? (tecnicos as Array<{ id: string, user?: { nombre?: string, apellido?: string } }>) : []).map(t => ({
           id: t.id,
           nombre: `${t.user?.nombre || ""} ${t.user?.apellido || ""}`.trim() || "Sin nombre"
         })),
-        metodosPago: Array.isArray(metodos) ? metodos : [],
+        metodosPago: (Array.isArray(metodos) ? (metodos as Array<{ id: string, nombre: string }>) : []).map(m => ({
+          id: m.id,
+          nombre: m.nombre
+        })),
         municipios: Array.from(new Set([
           ...prev.municipios,
-          ...(Array.isArray(munis) ? munis : []).map(m => m.name.toUpperCase())
+          ...(Array.isArray(munis) ? (munis as Array<{ name: string }>) : []).map(m => m.name.toUpperCase())
         ])).sort(),
       }));
     } catch (error) {
@@ -1710,7 +1714,12 @@ function ServiciosContent() {
                           </div>
                           <div className="aspect-video relative rounded-2xl border border-border bg-muted overflow-hidden flex items-center justify-center">
                             {geo.fotoLlegada ? (
-                              <img src={geo.fotoLlegada} alt="Foto Llegada" className="w-full h-full object-cover" />
+                              <Image 
+                                src={`https://axistestst.supabase.co/storage/v1/object/public/EvidenciaOrdenServicio/${geo.fotoLlegada}`} 
+                                alt="Foto Llegada" 
+                                fill
+                                className="object-cover" 
+                              />
                             ) : (
                               <div className="text-center space-y-2">
                                 <ImageIcon className="h-8 w-8 text-muted-foreground/30 mx-auto" />
@@ -1730,7 +1739,12 @@ function ServiciosContent() {
                           </div>
                           <div className="aspect-video relative rounded-2xl border border-border bg-muted overflow-hidden flex items-center justify-center">
                             {geo.fotoSalida ? (
-                              <img src={geo.fotoSalida} alt="Foto Salida" className="w-full h-full object-cover" />
+                              <Image 
+                                src={`https://axistestst.supabase.co/storage/v1/object/public/EvidenciaOrdenServicio/${geo.fotoSalida}`} 
+                                alt="Foto Salida" 
+                                fill
+                                className="object-cover" 
+                              />
                             ) : (
                               <div className="text-center space-y-2">
                                 <ImageIcon className="h-8 w-8 text-muted-foreground/30 mx-auto" />

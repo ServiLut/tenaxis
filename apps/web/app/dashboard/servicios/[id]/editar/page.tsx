@@ -167,7 +167,7 @@ function EditarServicioContent({ id }: { id: string }) {
     if (!empId) return;
     try {
       const ops = await getOperatorsAction(empId);
-      setOperadores(Array.isArray(ops) ? ops : ops?.data || []);
+      setOperadores(Array.isArray(ops) ? (ops as Operador[]) : []);
     } catch (e) {
       console.error("Error loading operators", e);
     }
@@ -177,7 +177,7 @@ function EditarServicioContent({ id }: { id: string }) {
     if (!empId) return;
     try {
       const svs = await getServiciosAction(empId);
-      setServiciosEmpresa(Array.isArray(svs) ? svs : svs?.data || []);
+      setServiciosEmpresa(Array.isArray(svs) ? (svs as Array<{id: string, nombre: string}>) : []);
     } catch (e) {
       console.error("Error loading services", e);
     }
@@ -186,18 +186,40 @@ function EditarServicioContent({ id }: { id: string }) {
   useEffect(() => {
     const loadData = async () => {
       try {
-        const [cls, orderData] = await Promise.all([
+        const [cls, rawOrderData] = await Promise.all([
           getClientesAction(),
           getOrdenServicioByIdAction(id),
         ]);
 
-        if (!orderData) {
+        if (!rawOrderData) {
           toast.error("No se encontró la orden de servicio");
           router.push("/dashboard/servicios");
           return;
         }
 
-        setClientes(Array.isArray(cls) ? cls : cls?.data || []);
+        interface OrderData {
+          clienteId: string;
+          empresaId: string;
+          tecnicoId?: string | null;
+          numeroOrden?: string;
+          servicio?: { nombre: string };
+          tipoVisita?: string;
+          nivelInfestacion?: string;
+          frecuenciaSugerida?: number | string;
+          urgencia?: string;
+          observacion?: string;
+          valorCotizado?: number;
+          desglosePago?: unknown[];
+          tipoFacturacion?: string;
+          estadoServicio?: string;
+          fechaVisita?: string;
+          horaInicio?: string;
+          direccionId?: string;
+        }
+
+        const orderData = rawOrderData as unknown as OrderData;
+
+        setClientes(Array.isArray(cls) ? (cls as Cliente[]) : []);
 
         // Populating form with order data
         setSelectedCliente(orderData.clienteId);
@@ -208,7 +230,7 @@ function EditarServicioContent({ id }: { id: string }) {
         setServicioEspecifico(orderData.servicio?.nombre || "");
         setTipoVisita(orderData.tipoVisita || "");
         setNivelInfestacion(orderData.nivelInfestacion || "");
-        setFrecuenciaRecomendada(orderData.frecuenciaSugerida || "");
+        setFrecuenciaRecomendada(orderData.frecuenciaSugerida ? Number(orderData.frecuenciaSugerida) : "");
         setUrgencia(orderData.urgencia || "");
         setObservacion(orderData.observacion || "");
         
@@ -246,7 +268,7 @@ function EditarServicioContent({ id }: { id: string }) {
         ]);
 
         // Load addresses for selected client
-        const client = (Array.isArray(cls) ? cls : cls?.data || []).find((c: Cliente) => c.id === orderData.clienteId);
+        const client = (Array.isArray(cls) ? (cls as Cliente[]) : []).find((c: Cliente) => c.id === orderData.clienteId);
         if (client) {
           setDireccionesCliente(client.direcciones || []);
           setSelectedDireccion(orderData.direccionId || "");

@@ -21,19 +21,16 @@ import {
   Save,
   Search,
   Users,
-  ChevronRight,
   TrendingUp,
-  Star,
   Mail,
   Phone,
-  Calendar,
   Car,
   MapPin,
   X,
 } from "lucide-react";
 import { TeamAlertsPanel } from "./components/team-alerts-panel";
 import { TeamKpiStrip } from "./components/team-kpi-strip";
-import { TeamMember, useTeamPerformance } from "./hooks/use-team-performance";
+import { TeamMember, useTeamPerformance, type TeamTab } from "./hooks/use-team-performance";
 import { formatBogotaDate, toBogotaYmd } from "@/utils/date-utils";
 
 const RANKING_ROLES = ["ADMIN", "SU_ADMIN", "COORDINADOR", "ASESOR"];
@@ -68,6 +65,7 @@ function TeamPageContent() {
     updateMemberProfile,
     savingProfile,
   } = useTeamPerformance(tenantId ?? null, searchSnapshot);
+  } = useTeamPerformance(tenantId ?? null, searchSnapshot);
 
   const [isEditing, setIsEditing] = useState(false);
   const [editForm, setEditForm] = useState<TeamMember | null>(null);
@@ -93,6 +91,14 @@ function TeamPageContent() {
       case "COORDINADOR": return "bg-amber-500";
       case "ASESOR": return "bg-[#01ADFB]";
       default: return "bg-emerald-500";
+    }
+  };
+
+  const handleTabChange = (tab: TeamTab) => {
+    setActiveTab(tab);
+    if (tab === "usuarios") {
+      setSelectedMemberId(null);
+      setIsEditing(false);
     }
   };
 
@@ -242,7 +248,7 @@ function TeamPageContent() {
             {/* Custom Tabs */}
             <div className="flex items-center gap-1.5 rounded-2xl bg-muted p-1.5 w-fit border border-border">
               <button
-                onClick={() => setActiveTab("ranking")}
+                onClick={() => handleTabChange("ranking")}
                 className={cn(
                   "flex items-center gap-2 rounded-xl px-6 py-3 text-[11px] font-black uppercase tracking-[0.15em] transition-all duration-300",
                   activeTab === "ranking"
@@ -254,7 +260,7 @@ function TeamPageContent() {
                 Ranking
               </button>
               <button
-                onClick={() => setActiveTab("usuarios")}
+                onClick={() => handleTabChange("usuarios")}
                 className={cn(
                   "flex items-center gap-2 rounded-xl px-6 py-3 text-[11px] font-black uppercase tracking-[0.15em] transition-all duration-300",
                   activeTab === "usuarios"

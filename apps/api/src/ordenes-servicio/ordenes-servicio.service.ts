@@ -36,7 +36,6 @@ import {
   MetodoPagoBase,
   NivelInfestacion,
   Prisma,
-  UrgenciaOrden,
 } from '../generated/client/client';
 
 type LocalDiaSemana =
@@ -578,7 +577,7 @@ export class OrdenesServicioService {
     }
 
     if (filters.tipoVisita) {
-      whereClause.tipoVisita = filters.tipoVisita as any;
+      whereClause.tipoVisita = filters.tipoVisita;
     }
 
     const searchToken = normalizeSearchToken(filters.search);
@@ -1498,9 +1497,7 @@ export class OrdenesServicioService {
     const sixMonthsAgo = new Date();
     sixMonthsAgo.setMonth(now.getMonth() - 6);
 
-    // Acceder a la relaciÃ³n ordenesServicio
-    const allOrders = (cliente as any).ordenesServicio as OrdenServicio[];
-    const liquidatedOrders = allOrders.filter(
+    const liquidatedOrders = cliente.ordenesServicio.filter(
       (o) => o.estadoServicio === (EstadoOrden.LIQUIDADO as EstadoOrden),
     );
 
@@ -1560,8 +1557,8 @@ export class OrdenesServicioService {
       }
     }
 
-    // Proxima Visita: La fecha mÃ¡s cercana en el futuro de una orden NO cancelada
-    const futureOrders = allOrders
+    // Proxima Visita: La fecha más cercana en el futuro de una orden NO cancelada
+    const futureOrders = cliente.ordenesServicio
       .filter((o) => o.fechaVisita && new Date(o.fechaVisita) >= now)
       .sort(
         (a, b) =>

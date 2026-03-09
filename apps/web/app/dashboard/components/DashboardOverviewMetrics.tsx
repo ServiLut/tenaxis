@@ -41,7 +41,7 @@ export const DashboardOverviewMetrics = React.memo(function DashboardOverviewMet
 }: DashboardOverviewMetricsProps) {
   const { data } = useDashboardOverview(enterpriseId);
 
-  const categories: Record<Category, { bg: string; iconBg: string; text: string; label: string; icon: any }> = {
+  const categories: Record<Category, { bg: string; iconBg: string; text: string; label: string; icon: React.ElementType }> = {
     alert: { bg: "bg-red-500/10", iconBg: "bg-red-500", text: "text-red-600", label: "Alerta", icon: Zap },
     performance: { bg: "bg-orange-500/10", iconBg: "bg-orange-500", text: "text-orange-600", label: "Métrica", icon: TrendingUp },
     pending: { bg: "bg-blue-500/10", iconBg: "bg-[#01ADFB]", text: "text-[#01ADFB]", label: "Pendiente", icon: Clock },
@@ -91,7 +91,6 @@ export const DashboardOverviewMetrics = React.memo(function DashboardOverviewMet
     "md:col-span-3 md:row-span-1",
   ];
 
-  // eslint-disable-next-line react/no-unstable-nested-components
   const MetricItem = ({
     item,
     className,

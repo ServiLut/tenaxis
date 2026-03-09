@@ -123,8 +123,8 @@ export class AuditInterceptor implements NestInterceptor {
       await this.prisma.auditoria.create({
         data: {
           tenantId: user.tenantId,
-          membershipId: user.membershipId || '',
-          empresaId: user.empresaId || '',
+          membershipId: user.membershipId || undefined,
+          empresaId: user.empresaId || undefined,
           accion: `${actionLabel}_${status}`,
           entidad: entidad,
           entidadId: String(entidadId),

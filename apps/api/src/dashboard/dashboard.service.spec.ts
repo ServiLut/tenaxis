@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import { DashboardService } from './dashboard.service';
 import { PrismaService } from '../prisma/prisma.service';
 

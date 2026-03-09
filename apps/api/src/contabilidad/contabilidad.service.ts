@@ -135,4 +135,257 @@ export class ContabilidadService {
       return consignacion;
     });
   }
+
+  async getAccountingBalance(tenantId: string, empresaId?: string) {
+    const now = new Date();
+    const startOfMonth = new Date(now.getFullYear(), now.getMonth(), 1);
+    const endOfMonth = new Date(
+      now.getFullYear(),
+      now.getMonth() + 1,
+      0,
+      23,
+      59,
+      59,
+    );
+
+    const startOfPrevMonth = new Date(now.getFullYear(), now.getMonth() - 1, 1);
+    const endOfPrevMonth = new Date(
+      now.getFullYear(),
+      now.getMonth(),
+      0,
+      23,
+      59,
+      59,
+    );
+
+    const commonWhere = {
+      tenantId,
+      ...(empresaId && { empresaId }),
+    };
+
+    const [
+      ingresosActual,
+      ingresosPrev,
+      egresosActual,
+      egresosPrev,
+      egresosPorCategoria,
+      totalNominas,
+    ] = await Promise.all([
+      this.prisma.ordenServicio.aggregate({
+        where: {
+          ...commonWhere,
+          fechaVisita: { gte: startOfMonth, lte: endOfMonth },
+          estadoPago: { in: ['PAGADO', 'CONCILIADO'] },
+        },
+        _sum: { valorPagado: true, valorCotizado: true },
+      }),
+      this.prisma.ordenServicio.aggregate({
+        where: {
+          ...commonWhere,
+          fechaVisita: { gte: startOfPrevMonth, lte: endOfPrevMonth },
+          estadoPago: { in: ['PAGADO', 'CONCILIADO'] },
+        },
+        _sum: { valorPagado: true, valorCotizado: true },
+      }),
+      this.prisma.egresos.aggregate({
+        where: {
+          ...commonWhere,
+          createdAt: { gte: startOfMonth, lte: endOfMonth },
+        },
+        _sum: { monto: true },
+      }),
+      this.prisma.egresos.aggregate({
+        where: {
+          ...commonWhere,
+          createdAt: { gte: startOfPrevMonth, lte: endOfPrevMonth },
+        },
+        _sum: { monto: true },
+      }),
+      this.prisma.egresos.groupBy({
+        by: ['categoria'],
+        where: {
+          ...commonWhere,
+          createdAt: { gte: startOfMonth, lte: endOfMonth },
+        },
+        _sum: { monto: true },
+      }),
+      this.prisma.nomina.aggregate({
+        where: {
+          ...commonWhere,
+          fechaGeneracion: { gte: startOfMonth, lte: endOfMonth },
+        },
+        _sum: { totalPagar: true },
+      }),
+    ]);
+
+    const totalIngresos = Number(
+      ingresosActual._sum.valorPagado || ingresosActual._sum.valorCotizado || 0,
+    );
+    const totalIngresosPrev = Number(
+      ingresosPrev._sum.valorPagado || ingresosPrev._sum.valorCotizado || 0,
+    );
+    const totalEgresosEfectivos = Number(egresosActual._sum.monto || 0);
+    const totalNominasMonto = Number(totalNominas._sum.totalPagar || 0);
+
+    const totalEgresos = totalEgresosEfectivos + totalNominasMonto;
+    const totalEgresosPrev = Number(egresosPrev._sum.monto || 0); // Note: Simple comparison for now
+
+    const ingresosChange =
+      totalIngresosPrev > 0
+        ? ((totalIngresos - totalIngresosPrev) / totalIngresosPrev) * 100
+        : 0;
+
+    const egresosChange =
+      totalEgresosPrev > 0
+        ? ((totalEgresos - totalEgresosPrev) / totalEgresosPrev) * 100
+        : 0;
+
+    // Build category breakdown
+    const categories: { label: string; value: number; color: string }[] = [];
+
+    if (totalNominasMonto > 0) {
+      categories.push({
+        label: 'Nómina',
+        value:
+          totalEgresos > 0
+            ? Math.round((totalNominasMonto / totalEgresos) * 100)
+            : 0,
+        color: 'bg-primary',
+      });
+    }
+
+    const colors = [
+      'bg-amber-500',
+      'bg-emerald-500',
+      'bg-blue-500',
+      'bg-purple-500',
+    ];
+    egresosPorCategoria.forEach((group, index) => {
+      const monto = Number(group._sum?.monto || 0);
+      if (monto > 0) {
+        categories.push({
+          label: group.categoria || 'General',
+          value:
+            totalEgresos > 0 ? Math.round((monto / totalEgresos) * 100) : 0,
+          color: colors[index % colors.length],
+        });
+      }
+    });
+
+    // Ensure it sums to something if empty
+    if (categories.length === 0) {
+      categories.push({ label: 'Sin Gastos', value: 0, color: 'bg-muted' });
+    }
+
+    return {
+      ingresos: {
+        total: totalIngresos,
+        change: Math.round(ingresosChange * 10) / 10,
+      },
+      egresos: {
+        total: totalEgresos,
+        change: Math.round(egresosChange * 10) / 10,
+      },
+      utilidad: {
+        total: totalIngresos - totalEgresos,
+        change: Math.round((ingresosChange - egresosChange) * 10) / 10,
+      },
+      categorias: categories,
+    };
+  }
+
+  async getEgresos(tenantId: string, empresaId?: string) {
+    return this.prisma.egresos.findMany({
+      where: {
+        tenantId,
+        ...(empresaId && { empresaId }),
+      },
+      orderBy: { createdAt: 'desc' },
+      include: {
+        membership: {
+          include: {
+            user: { select: { nombre: true, apellido: true } },
+          },
+        },
+      },
+    });
+  }
+
+  async getNominas(tenantId: string, empresaId?: string) {
+    return this.prisma.nomina.findMany({
+      where: {
+        tenantId,
+        ...(empresaId && { empresaId }),
+      },
+      orderBy: { fechaGeneracion: 'desc' },
+      include: {
+        membership: {
+          include: {
+            user: { select: { nombre: true, apellido: true } },
+          },
+        },
+      },
+    });
+  }
+
+  async getAnticipos(tenantId: string, empresaId?: string) {
+    return this.prisma.anticipos.findMany({
+      where: {
+        tenantId,
+        ...(empresaId && { empresaId }),
+      },
+      orderBy: { createdAt: 'desc' },
+      include: {
+        membership: {
+          include: {
+            user: { select: { nombre: true, apellido: true } },
+          },
+        },
+      },
+    });
+  }
+
+  async createEgreso(
+    tenantId: string,
+    data: {
+      titulo: string;
+      monto: number;
+      razon: string;
+      categoria: string;
+      membershipId?: string;
+      empresaId: string;
+    },
+  ) {
+    return this.prisma.egresos.create({
+      data: {
+        tenantId,
+        empresaId: data.empresaId,
+        titulo: data.titulo,
+        monto: data.monto,
+        razon: data.razon,
+        categoria: data.categoria || 'GENERAL',
+        membershipId: data.membershipId || null,
+      },
+    });
+  }
+
+  async createAnticipo(
+    tenantId: string,
+    data: {
+      membershipId: string;
+      monto: number;
+      razon: string;
+      empresaId: string;
+    },
+  ) {
+    return this.prisma.anticipos.create({
+      data: {
+        tenantId,
+        empresaId: data.empresaId,
+        membershipId: data.membershipId,
+        monto: data.monto,
+        razon: data.razon,
+      },
+    });
+  }
 }

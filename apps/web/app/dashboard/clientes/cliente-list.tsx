@@ -89,9 +89,9 @@ import {
 
 export interface Cliente {
   id: string;
-  nombre?: string;
-  apellido?: string;
-  razonSocial?: string;
+  nombre?: string | null;
+  apellido?: string | null;
+  razonSocial?: string | null;
   tipoCliente: "PERSONA" | "EMPRESA";
   segmentoNegocio?: string;
   segmento?: string | {
@@ -105,7 +105,7 @@ export interface Cliente {
     color?: string;
   };
   clasificacion?: "ORO" | "PLATA" | "BRONCE" | "RIESGO";
-  score: number;
+  score?: number;
   telefono: string;
   telefono2?: string;
   correo?: string;
@@ -195,7 +195,7 @@ interface Municipality {
   departmentId: string;
 }
 
-interface Sugerencia {
+export interface Sugerencia {
   id: string;
   clienteId: string;
   tipo: string;
@@ -207,6 +207,13 @@ interface Sugerencia {
   cliente?: Cliente;
 }
 
+export interface SugerenciaStats {
+  pendientesPorPrioridad: Record<string, number>;
+  tasaAceptacion: number;
+  tiempoPromedioEjecucionMin: number;
+  totalHoy: number;
+}
+
 interface ClienteListProps {
   initialClientes: Cliente[];
   segmentedData?: {
@@ -216,12 +223,7 @@ interface ClienteListProps {
     operacionEstable: { count: number; data: Cliente[] };
   } | null;
   initialSugerencias?: Sugerencia[];
-  sugerenciasStats?: {
-    pendientesPorPrioridad: Record<string, number>;
-    tasaAceptacion: number;
-    tiempoPromedioEjecucionMin: number;
-    totalHoy: number;
-  } | null;
+  sugerenciasStats?: SugerenciaStats | null;
   initialDepartments?: Department[];
   initialMunicipalities?: Municipality[];
 }
@@ -575,13 +577,13 @@ export function ClienteList({
     if (!mounted) return { municipios: [], segmentos: [], clasificaciones: [], riesgos: [], empresas: [], departamentos: [] };
     const departamentos = initialDepartments.length > 0
       ? initialDepartments.sort((a, b) => a.name.localeCompare(b.name))
-      : Array.from(new Set(clientes.flatMap(c => c.direcciones?.map(d => d.departmentId).filter(Boolean) || [])))
-          .map(id => ({ id, name: String(id), code: String(id) }));
+      : Array.from(new Set(clientes.flatMap((c: Cliente) => c.direcciones?.map((d) => d.departmentId).filter(Boolean) || [])))
+          .map(id => ({ id: String(id), name: String(id), code: String(id) }));
     const municipios = initialMunicipalities.length > 0
       ? initialMunicipalities
           .filter(m => filters.departamento === "all" || m.departmentId === filters.departamento)
           .sort((a, b) => a.name.localeCompare(b.name))
-      : Array.from(new Set(clientes.flatMap(c => c.direcciones?.map(d => d.municipio).filter((m): m is string => !!m) || [])))
+      : Array.from(new Set(clientes.flatMap((c: Cliente) => c.direcciones?.map((d) => d.municipio).filter((m: string | undefined): m is string => !!m) || [])))
           .sort();
     const segmentos = Array.from(new Set(clientes.map(getSegmentoNombre).filter((s): s is string => !!s))).sort();
     const clasificaciones = ["ORO", "PLATA", "BRONCE", "RIESGO"];
@@ -589,8 +591,8 @@ export function ClienteList({
     const empresas = Array.from(
       new Map(
         clientes
-          .filter(c => c.empresa)
-          .map(c => [c.empresa!.id, { id: c.empresa!.id, nombre: c.empresa!.nombre }])
+          .filter((c: Cliente) => c.empresa)
+          .map((c: Cliente) => [c.empresa!.id, { id: c.empresa!.id, nombre: c.empresa!.nombre }])
       ).values()
     ).sort((a, b) => a.nombre.localeCompare(b.nombre));
     return { municipios, segmentos, clasificaciones, riesgos, empresas, departamentos };
@@ -608,9 +610,9 @@ export function ClienteList({
         c.numeroDocumento?.toLowerCase().includes(searchLower)
       );
       const matchesEmpresas = filters.empresas.length === 0 || (c.empresa?.id && filters.empresas.includes(c.empresa.id));
-      const matchesDepartamento = filters.departamento === "all" || c.direcciones?.some(d => d.departmentId === filters.departamento);
-      const matchesMunicipio = filters.municipio === "all" || c.direcciones?.some(d => d.municipioId === filters.municipio || d.municipio === filters.municipio);
-      const matchesBarrio = !filters.barrio || c.direcciones?.some(d => d.barrio?.toLowerCase().includes(filters.barrio.toLowerCase()));
+      const matchesDepartamento = filters.departamento === "all" || c.direcciones?.some((d) => d.departmentId === filters.departamento);
+      const matchesMunicipio = filters.municipio === "all" || c.direcciones?.some((d) => d.municipioId === filters.municipio || d.municipio === filters.municipio);
+      const matchesBarrio = !filters.barrio || c.direcciones?.some((d) => d.barrio?.toLowerCase().includes(filters.barrio.toLowerCase()));
       const matchesClasificacion = filters.clasificacion === "all" || c.clasificacion === filters.clasificacion;
       const matchesSegmento = filters.segmento === "all" || getSegmentoNombre(c) === filters.segmento;
       const matchesRiesgo = filters.riesgo === "all" || getRiesgoNombre(c) === filters.riesgo;
@@ -875,7 +877,7 @@ export function ClienteList({
           requiereFotosEvidencia: globalConfig.requiereFotosEvidencia,
           duracionEstimada: globalConfig.duracionEstimada || 60,
           frecuenciaSugerida: globalConfig.frecuenciaSugerida || 30,
-          elementosPredefinidos: (globalConfig.elementosPredefinidos as ElementoPredefinido[]) || [],
+          elementosPredefinidos: (globalConfig.elementosPredefinidos as unknown as ElementoPredefinido[]) || [],
         });
       } else {
         setConfigForm({
@@ -899,7 +901,7 @@ export function ClienteList({
       if (!selectedClienteForHistory) return;
       setHistoryLoading(true);
       const history = await getOrdenesServicioByClienteAction(selectedClienteForHistory.id);
-      setServiceHistory(history);
+      setServiceHistory(history as unknown as OrdenServicio[]);
       setHistoryLoading(false);
     };
     loadHistory();
@@ -1538,7 +1540,7 @@ export function ClienteList({
                           <div className="flex flex-col items-center gap-1.5">
                             <div className={cn(
                               "inline-flex items-center gap-1.5 px-3 py-1 rounded-xl text-[9px] font-black uppercase tracking-widest shadow-sm border border-black/5",
-                              SCORE_COLORS[cliente.clasificacion || "BRONCE"]
+                              SCORE_COLORS[(cliente.clasificacion || "BRONCE") as keyof typeof SCORE_COLORS]
                             )}>
                               <Trophy className="h-2.5 w-2.5" />
                               {cliente.clasificacion || "BRONCE"}

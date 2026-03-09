@@ -8,7 +8,7 @@ import { StatCards } from "./StatCards";
 import { DashboardOverviewMetrics } from "./DashboardOverviewMetrics";
 import { RevenueChart } from "./RevenueChart";
 import { QuickActions } from "./QuickActions";
-import { RecentActivity } from "./RecentActivity";
+import { RecentActivity, type RecentService } from "./RecentActivity";
 import { OperationActionable } from "./OperationActionable";
 import { StatCardSkeleton, RevenueChartSkeleton, TableSkeleton, Skeleton, OverviewMetricsSkeleton, ActionableCardsSkeleton } from "./Skeletons";
 import { AlertCircle, RefreshCw, Eye } from "lucide-react";
@@ -123,7 +123,7 @@ export const DashboardContent = React.memo(function DashboardContent({ enterpris
         ) : (
           <RecentActivity 
             key={id}
-            recentServices={recentServices || []} 
+            recentServices={(recentServices as unknown as RecentService[]) || []} 
             loading={false} 
             refreshData={() => refreshAll()} 
             {...commonProps}

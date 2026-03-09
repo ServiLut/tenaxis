@@ -16,7 +16,6 @@ import {
   ArrowUpCircle, 
   Scale, 
   Plus, 
-  Filter,
   TrendingDown,
   TrendingUp,
   DollarSign,
@@ -29,9 +28,16 @@ import { cn } from "@/components/ui/utils";
 import { toast } from "sonner";
 import { 
   getRecaudoTecnicosAction, 
-  registrarConsignacionAction 
+  registrarConsignacionAction,
+  getAccountingBalanceAction,
+  getEgresosAction,
+  getNominasAction,
+  getAnticiposAction,
+  createEgresoAction,
+  createAnticipoAction,
+  getTenantMembershipsAction
 } from "../actions";
-import {
+import { 
   Table,
   TableBody,
   TableCell,
@@ -47,22 +53,20 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { Input, Label, DatePicker } from "@/components/ui";
-
-interface TechnicianRecaudo {
-  id: string;
-  nombre: string;
-  apellido: string;
-  saldoPendiente: number;
-  ordenesPendientesCount: number;
-  ultimaTransferencia: string | null;
-  diasSinTransferir: number;
-  ordenesIds: string[];
-}
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select-shadcn";
+import { 
+  type TechnicianRecaudo
+} from "@/lib/api/contabilidad-client";
 import { Badge } from "@/components/ui/badge";
 import { format } from "date-fns";
 import { es } from "date-fns/locale";
 import { CheckCircle, Loader2, FileUp, AlertCircle } from "lucide-react";
-import { uploadFile } from "@/lib/supabase-storage";
 import {
   formatBogotaDate,
   pickerDateToYmd,
@@ -113,11 +117,11 @@ export default function ContabilidadPage() {
       case "recaudo":
         return <section id="recaudo"><RecaudoView /></section>;
       case "nomina":
-        return <section id="nomina"><StandardTableView title="Gestión de Nómina" description="Administración de pagos y prestaciones de empleados." /></section>;
+        return <section id="nomina"><StandardTableView type="nomina" title="Gestión de Nómina" description="Administración de pagos y prestaciones de empleados." /></section>;
       case "anticipos":
-        return <section id="anticipos"><StandardTableView title="Control de Anticipos" description="Registro de adelantos entregados a personal técnico." /></section>;
+        return <section id="anticipos"><StandardTableView type="anticipos" title="Control de Anticipos" description="Registro de adelantos entregados a personal técnico." /></section>;
       case "egresos":
-        return <section id="egresos"><StandardTableView title="Egresos Generales" description="Control de gastos operativos, insumos y mantenimiento." /></section>;
+        return <section id="egresos"><StandardTableView type="egresos" title="Egresos Generales" description="Control de gastos operativos, insumos y mantenimiento." /></section>;
       case "balance":
         return <section id="balance"><BalanceView /></section>;
       default:
@@ -168,50 +172,171 @@ export default function ContabilidadPage() {
 
 import { exportToExcel, exportToPDF, exportToWord } from "@/lib/utils/export-helper";
 
-// ... (previous interfaces and Page logic)
-
 // --- sub-views ---
 
-function StandardTableView({ title, description }: { title: string, description: string }) {
+interface Movement {
+  id: string;
+  createdAt?: string;
+  fechaGeneracion?: string;
+  monto?: number;
+  totalPagar?: number;
+  titulo?: string;
+  razon?: string;
+  membership?: { user: { nombre: string; apellido: string } };
+  estado?: string;
+}
+
+interface Membership {
+  id: string;
+  role: string;
+  user: {
+    nombre: string;
+    apellido: string;
+  };
+}
+
+function StandardTableView({ title, description, type }: { title: string, description: string, type: 'egresos' | 'nomina' | 'anticipos' }) {
   const [showExportMenu, setShowExportMenu] = useState(false);
+  const [data, setData] = useState<unknown[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isSaving, setIsSaving] = useState(false);
+  const [members, setMembers] = useState<Membership[]>([]);
 
-  // Example mock data for export (since we don't have real data state here yet)
-  const mockData = [1, 2, 3, 4, 5].map(i => ({
-    fecha: "19/02/2026",
-    descripcion: `Ejemplo de transacción #${i}04`,
-    categoria: "Operativo",
-    monto: 1250000,
-    estado: "Completado"
-  }));
+  const [formData, setFormData] = useState({
+    titulo: "",
+    monto: "",
+    razon: "",
+    categoria: "GENERAL",
+    membershipId: "none",
+  });
 
-  const handleExport = async (format: 'pdf' | 'excel' | 'word') => {
-    const headers = ["Fecha", "Descripción", "Categoría", "Monto", "Estado"];
-    const data = mockData.map(d => [
-      d.fecha,
-      d.descripcion,
-      d.categoria,
-      `$ ${d.monto.toLocaleString()}`,
-      d.estado
-    ]);
+  const fetchData = React.useCallback(async () => {
+    setLoading(true);
+    try {
+      const empresaId = localStorage.getItem("current-enterprise-id") || undefined;
+      let result: unknown[] = [];
+      if (type === 'egresos') result = await getEgresosAction(empresaId);
+      else if (type === 'nomina') result = await getNominasAction(empresaId);
+      else if (type === 'anticipos') result = await getAnticiposAction(empresaId);
+      setData(result);
+    } catch (error) {
+      console.error(`Error loading ${type}:`, error);
+      toast.error(`Error al cargar ${title}`);
+    } finally {
+      setLoading(false);
+    }
+  }, [type, title]);
+
+  const fetchMembers = React.useCallback(async () => {
+    try {
+      const res = await getTenantMembershipsAction();
+      if (!res || res.length === 0) {
+        console.warn("No members found or error in getTenantMembershipsAction");
+      }
+      setMembers(res || []);
+    } catch (error) {
+      console.error("Error fetching members:", error);
+      toast.error("Error al cargar la lista de responsables");
+    }
+  }, []);
+
+  useEffect(() => {
+    fetchData();
+    if (type === 'egresos' || type === 'anticipos') fetchMembers();
+  }, [type, fetchData, fetchMembers]);
+
+  const handleCreateRecord = async () => {
+    if ((type === 'egresos' && !formData.titulo) || !formData.monto || (type === 'anticipos' && formData.membershipId === 'none')) {
+      toast.error("Complete los campos obligatorios");
+      return;
+    }
+
+    setIsSaving(true);
+    try {
+      const empresaId = localStorage.getItem("current-enterprise-id");
+      if (!empresaId) throw new Error("No enterprise selected");
+
+      if (type === 'egresos') {
+        const res = await createEgresoAction({
+          titulo: formData.titulo,
+          monto: Number(formData.monto),
+          razon: formData.razon,
+          categoria: formData.categoria,
+          membershipId: formData.membershipId === 'none' ? undefined : formData.membershipId,
+          empresaId,
+        });
+
+        if (res.success) {
+          toast.success("Egreso registrado exitosamente");
+          setIsModalOpen(false);
+          setFormData({ titulo: "", monto: "", razon: "", categoria: "GENERAL", membershipId: "none" });
+          fetchData();
+        } else {
+          toast.error(res.error || "Error al registrar");
+        }
+      } else if (type === 'anticipos') {
+        const res = await createAnticipoAction({
+          membershipId: formData.membershipId,
+          monto: Number(formData.monto),
+          razon: formData.razon || "Anticipo de personal",
+          empresaId,
+        });
+
+        if (res.success) {
+          toast.success("Anticipo registrado exitosamente");
+          setIsModalOpen(false);
+          setFormData({ titulo: "", monto: "", razon: "", categoria: "GENERAL", membershipId: "none" });
+          fetchData();
+        } else {
+          toast.error(res.error || "Error al registrar");
+        }
+      }
+    } catch (error) {
+      console.error("Save error:", error);
+      toast.error("Error al procesar el registro");
+    } finally {
+      setIsSaving(false);
+    }
+  };
+
+  const handleExport = async (formatType: 'pdf' | 'excel' | 'word') => {
+    const headers = ["Fecha", "Descripción", "Responsable", "Monto", "Estado"];
+    const exportData = data.map(d => {
+      const item = d as Movement;
+      const fecha = item.createdAt || item.fechaGeneracion || new Date();
+      const monto = item.monto || item.totalPagar || 0;
+      const desc = item.titulo || item.razon || `Registro #${item.id.slice(0, 8)}`;
+      const resp = item.membership?.user ? `${item.membership.user.nombre} ${item.membership.user.apellido}` : "N/A";
+      const est = item.estado || "Completado";
+
+      return [
+        format(new Date(fecha), "dd/MM/yyyy"),
+        desc,
+        resp,
+        `$ ${Number(monto).toLocaleString()}`,
+        est
+      ];
+    });
 
     const exportParams = {
       headers,
-      data,
+      data: exportData,
       filename: `contabilidad_${title.toLowerCase().replace(/\s+/g, '_')}_${new Date().getTime()}`,
       title: `REPORTE FINANCIERO: ${title.toUpperCase()}`
     };
 
-    toast.info(`Generando reporte de ${title} en formato ${format.toUpperCase()}...`);
+    toast.info(`Generando reporte de ${title} en formato ${formatType.toUpperCase()}...`);
     
     try {
-      if (format === 'excel') exportToExcel(exportParams);
-      else if (format === 'pdf') exportToPDF(exportParams);
-      else if (format === 'word') await exportToWord(exportParams);
+      if (formatType === 'excel') exportToExcel(exportParams);
+      else if (formatType === 'pdf') exportToPDF(exportParams);
+      else if (formatType === 'word') await exportToWord(exportParams);
 
-      toast.success(`${format.toUpperCase()} generado exitosamente`);
+      toast.success(`${formatType.toUpperCase()} generado exitosamente`);
     } catch (error) {
       console.error("Export error:", error);
-      toast.error(`Error al generar el reporte ${format.toUpperCase()}`);
+      toast.error(`Error al generar el reporte ${formatType.toUpperCase()}`);
     } finally {
       setShowExportMenu(false);
     }
@@ -225,7 +350,6 @@ function StandardTableView({ title, description }: { title: string, description:
           <p className="text-sm text-muted-foreground font-medium">{description}</p>
         </div>
         <div className="flex items-center gap-3">
-          {/* Botón de Exportación */}
           <div className="relative">
             <button 
               onClick={() => setShowExportMenu(!showExportMenu)}
@@ -265,10 +389,13 @@ function StandardTableView({ title, description }: { title: string, description:
             )}
           </div>
 
-          <Button variant="outline" className="h-11 rounded-xl gap-2 font-bold text-xs uppercase tracking-widest border-border bg-card">
-            <Filter className="h-4 w-4" /> Filtrar
+          <Button onClick={fetchData} variant="outline" className="h-11 rounded-xl gap-2 font-bold text-xs uppercase tracking-widest border-border bg-card">
+            <Loader2 className={cn("h-4 w-4", loading && "animate-spin")} /> Refrescar
           </Button>
-          <Button className="h-11 rounded-xl bg-[#01ADFB] text-white hover:bg-blue-700 gap-2 font-black text-xs uppercase tracking-widest px-6 shadow-xl shadow-[#01ADFB]/20 border-none">
+          <Button 
+            onClick={() => setIsModalOpen(true)}
+            className="h-11 rounded-xl bg-[#01ADFB] text-white hover:bg-blue-700 gap-2 font-black text-xs uppercase tracking-widest px-6 shadow-xl shadow-[#01ADFB]/20 border-none"
+          >
             <Plus className="h-4 w-4" /> Nuevo Registro
           </Button>
         </div>
@@ -282,37 +409,186 @@ function StandardTableView({ title, description }: { title: string, description:
                 <tr className="border-b border-border bg-muted/50">
                   <th className="px-8 py-5 text-[10px] font-black uppercase tracking-[0.2em] text-muted-foreground">Fecha</th>
                   <th className="px-8 py-5 text-[10px] font-black uppercase tracking-[0.2em] text-muted-foreground">Descripción</th>
-                  <th className="px-8 py-5 text-[10px] font-black uppercase tracking-[0.2em] text-muted-foreground">Categoría</th>
+                  <th className="px-8 py-5 text-[10px] font-black uppercase tracking-[0.2em] text-muted-foreground">Responsable</th>
                   <th className="px-8 py-5 text-[10px] font-black uppercase tracking-[0.2em] text-muted-foreground text-right">Monto</th>
                   <th className="px-8 py-5 text-[10px] font-black uppercase tracking-[0.2em] text-muted-foreground text-center">Estado</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-border">
-                {[1, 2, 3, 4, 5].map((i) => (
-                  <tr key={i} className="group hover:bg-muted/50 transition-colors">
-                    <td className="px-8 py-5 text-sm font-bold text-muted-foreground">19/02/2026</td>
-                    <td className="px-8 py-5 font-black text-foreground uppercase tracking-tighter">Ejemplo de transacción #{i}04</td>
-                    <td className="px-8 py-5">
-                      <span className="px-3 py-1 rounded-lg bg-muted text-[10px] font-black uppercase border border-border">Operativo</span>
-                    </td>
-                    <td className="px-8 py-5 text-right font-black text-foreground tabular-nums">
-                      $ 1,250,000
-                    </td>
-                    <td className="px-8 py-5">
-                      <div className="flex justify-center">
-                        <span className="px-3 py-1 rounded-full bg-emerald-500/10 text-emerald-600 text-[9px] font-black uppercase border border-emerald-500/20">Completado</span>
-                      </div>
+                {loading ? (
+                  [1, 2, 3, 4, 5].map((i) => (
+                    <tr key={i} className="animate-pulse">
+                      <td colSpan={5} className="px-8 py-5 h-16 bg-muted/20"></td>
+                    </tr>
+                  ))
+                ) : data.length === 0 ? (
+                  <tr>
+                    <td colSpan={5} className="px-8 py-20 text-center">
+                      <p className="text-muted-foreground font-bold uppercase tracking-widest text-xs">No hay registros encontrados.</p>
                     </td>
                   </tr>
-                ))}
+                ) : (
+                  data.map((d) => {
+                    const item = d as Movement;
+                    const fecha = item.createdAt || item.fechaGeneracion || new Date();
+                    const monto = item.monto || item.totalPagar || 0;
+                    const desc = item.titulo || item.razon || `ID: ${item.id.slice(0, 8)}`;
+                    const resp = item.membership?.user ? `${item.membership.user.nombre} ${item.membership.user.apellido}` : "N/A";
+                    const est = item.estado || "Completado";
+
+                    return (
+                      <tr key={item.id} className="group hover:bg-muted/50 transition-colors">
+                        <td className="px-8 py-5 text-sm font-bold text-muted-foreground">
+                          {format(new Date(fecha), "dd/MM/yyyy")}
+                        </td>
+                        <td className="px-8 py-5 font-black text-foreground uppercase tracking-tighter">
+                          {desc}
+                        </td>
+                        <td className="px-8 py-5">
+                          <span className="px-3 py-1 rounded-lg bg-muted text-[10px] font-black uppercase border border-border">
+                            {resp}
+                          </span>
+                        </td>
+                        <td className="px-8 py-5 text-right font-black text-foreground tabular-nums text-lg">
+                          $ {Number(monto).toLocaleString()}
+                        </td>
+                        <td className="px-8 py-5">
+                          <div className="flex justify-center">
+                            <span className={cn(
+                              "px-3 py-1 rounded-full text-[9px] font-black uppercase border",
+                              est === 'BORRADOR' || est === 'PENDIENTE' 
+                                ? "bg-amber-500/10 text-amber-600 border-amber-500/20"
+                                : "bg-emerald-500/10 text-emerald-600 border-emerald-500/20"
+                            )}>
+                              {est}
+                            </span>
+                          </div>
+                        </td>
+                      </tr>
+                    );
+                  })
+                )}
               </tbody>
             </table>
           </div>
         </CardContent>
       </Card>
+
+      <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}>
+        <DialogContent className="max-w-xl bg-card border-border">
+          <DialogHeader>
+            <DialogTitle className="text-xl font-black uppercase tracking-tight flex items-center gap-3 text-foreground">
+              <Plus className="h-6 w-6 text-blue-500" /> Nuevo Registro: {title}
+            </DialogTitle>
+            <DialogDescription className="font-medium text-muted-foreground">
+              Complete los detalles para registrar este movimiento contable.
+            </DialogDescription>
+          </DialogHeader>
+
+          <div className="space-y-6 mt-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+              {type === 'egresos' && (
+                <div className="space-y-2">
+                  <Label className="text-[10px] font-black uppercase tracking-widest text-muted-foreground">Título / Concepto <span className="text-red-500">*</span></Label>
+                  <Input 
+                    value={formData.titulo}
+                    onChange={(e) => setFormData({...formData, titulo: e.target.value})}
+                    placeholder="Ej: Pago de Arriendo"
+                    className="h-12 rounded-xl border-border bg-muted text-foreground font-bold"
+                  />
+                </div>
+              )}
+              <div className={cn("space-y-2", type === 'anticipos' && "sm:col-span-2")}>
+                <Label className="text-[10px] font-black uppercase tracking-widest text-muted-foreground">Monto ($) <span className="text-red-500">*</span></Label>
+                <Input 
+                  type="number"
+                  value={formData.monto}
+                  onChange={(e) => setFormData({...formData, monto: e.target.value})}
+                  placeholder="0.00"
+                  className="h-12 rounded-xl border-border bg-muted text-foreground font-bold"
+                />
+              </div>
+            </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+              {type === 'egresos' && (
+                <div className="space-y-2">
+                  <Label className="text-[10px] font-black uppercase tracking-widest text-muted-foreground">Categoría</Label>
+                  <Select 
+                    value={formData.categoria}
+                    onValueChange={(val) => setFormData({...formData, categoria: val})}
+                  >
+                    <SelectTrigger className="h-12 rounded-xl border-border bg-muted text-foreground font-bold">
+                      <SelectValue placeholder="Seleccionar categoría" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="GENERAL">General</SelectItem>
+                      <SelectItem value="INSUMOS">Insumos</SelectItem>
+                      <SelectItem value="MARKETING">Marketing</SelectItem>
+                      <SelectItem value="OPERATIVO">Operativo</SelectItem>
+                      <SelectItem value="SERVICIOS_PUBLICOS">Servicios Públicos</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+              )}
+              <div className={cn("space-y-2", type === 'anticipos' && "sm:col-span-2")}>
+                <Label className="text-[10px] font-black uppercase tracking-widest text-muted-foreground">Responsable <span className="text-red-500">*</span></Label>
+                <Select 
+                  value={formData.membershipId}
+                  onValueChange={(val) => setFormData({...formData, membershipId: val})}
+                >
+                  <SelectTrigger className="h-12 rounded-xl border-border bg-muted text-foreground font-bold">
+                    <SelectValue placeholder="Seleccionar responsable" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {type === 'egresos' && <SelectItem value="none">Ninguno</SelectItem>}
+                    {members.map((m) => (
+                      <SelectItem key={m.id} value={m.id}>
+                        {m.user.nombre} {m.user.apellido} ({m.role})
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+            </div>
+
+            <div className="space-y-2">
+              <Label className="text-[10px] font-black uppercase tracking-widest text-muted-foreground">
+                {type === 'egresos' ? "Descripción o Razón" : "Concepto del Anticipo"}
+              </Label>
+              <textarea 
+                value={formData.razon}
+                onChange={(e) => setFormData({...formData, razon: e.target.value})}
+                className="w-full min-h-[100px] p-4 rounded-2xl border border-border bg-muted text-sm font-medium text-foreground focus:ring-2 focus:ring-[#01ADFB] outline-none transition-all"
+                placeholder={type === 'egresos' ? "Detalles adicionales del gasto..." : "Ej: Viáticos para comisión en Cali"}
+              />
+            </div>
+
+            <div className="flex gap-3 pt-2">
+              <Button 
+                variant="outline" 
+                className="flex-1 h-12 rounded-xl font-bold uppercase tracking-widest text-[10px] border-border bg-background"
+                onClick={() => setIsModalOpen(false)}
+                disabled={isSaving}
+              >
+                Cancelar
+              </Button>
+              <Button 
+                className="flex-1 h-12 rounded-xl bg-[#01ADFB] hover:bg-blue-700 text-white font-bold uppercase tracking-widest text-[10px] shadow-lg shadow-[#01ADFB]/20"
+                onClick={handleCreateRecord}
+                disabled={isSaving || (type === 'egresos' && !formData.titulo) || !formData.monto || (type === 'anticipos' && formData.membershipId === 'none')}
+              >
+                {isSaving ? "Guardando..." : "Registrar Movimiento"}
+              </Button>
+            </div>
+          </div>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }
+
+
 
 function RecaudoView() {
   const [loading, setLoading] = useState(true);
@@ -366,20 +642,22 @@ function RecaudoView() {
     const toastId = toast.loading("Registrando consignación...");
 
     try {
-      const { fileId } = await uploadFile(comprobanteFile, 'comprobanteOrdenServicio');
       const empresaId = localStorage.getItem("current-enterprise-id");
       if (!empresaId) throw new Error("No enterprise selected");
 
-      const res = await registrarConsignacionAction({
-        tecnicoId: selectedTech.id,
-        empresaId,
-        valorConsignado: selectedTech.saldoPendiente,
-        referenciaBanco: formData.referenciaBanco,
-        comprobantePath: fileId,
-        ordenIds: selectedTech.ordenesIds,
-        fechaConsignacion: formData.fechaConsignacion,
-        observacion: formData.observacion,
-      });
+      const formPayload = new FormData();
+      formPayload.append("tecnicoId", selectedTech.id);
+      formPayload.append("empresaId", empresaId);
+      formPayload.append("valorConsignado", selectedTech.saldoPendiente.toString());
+      formPayload.append("referenciaBanco", formData.referenciaBanco);
+      formPayload.append("ordenIds", JSON.stringify(selectedTech.ordenesIds));
+      formPayload.append("fechaConsignacion", formData.fechaConsignacion);
+      if (formData.observacion) {
+        formPayload.append("observacion", formData.observacion);
+      }
+      formPayload.append("comprobanteFile", comprobanteFile);
+
+      const res = await registrarConsignacionAction(formPayload);
 
       if (res.success) {
         toast.success("Consignación registrada y conciliada exitosamente", { id: toastId });
@@ -608,6 +886,33 @@ function RecaudoView() {
 }
 
 function BalanceView() {
+  const [balance, setBalance] = useState<{
+    ingresos: { total: number; change: number };
+    egresos: { total: number; change: number };
+    utilidad: { total: number; change: number };
+    categorias: { label: string; value: number; color: string }[];
+  } | null>(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchBalance = async () => {
+      setLoading(true);
+      const empresaId = localStorage.getItem("current-enterprise-id") || undefined;
+      const data = await getAccountingBalanceAction(empresaId);
+      setBalance(data);
+      setLoading(false);
+    };
+    fetchBalance();
+  }, []);
+
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center h-64">
+        <Loader2 className="h-8 w-8 animate-spin text-primary" />
+      </div>
+    );
+  }
+
   return (
     <div className="space-y-8">
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -617,10 +922,17 @@ function BalanceView() {
               <div className="h-12 w-12 rounded-2xl bg-emerald-500/10 flex items-center justify-center text-emerald-600">
                 <TrendingUp className="h-6 w-6" />
               </div>
-              <span className="text-[10px] font-black text-emerald-600 bg-emerald-500/10 px-2 py-1 rounded-lg">+12.5%</span>
+              <span className={cn(
+                "text-[10px] font-black px-2 py-1 rounded-lg",
+                (balance?.ingresos.change || 0) >= 0 ? "text-emerald-600 bg-emerald-500/10" : "text-destructive bg-destructive/10"
+              )}>
+                {(balance?.ingresos.change || 0) >= 0 ? "+" : ""}{balance?.ingresos.change}%
+              </span>
             </div>
             <p className="text-[10px] font-black text-muted-foreground uppercase tracking-widest">Ingresos Totales</p>
-            <h3 className="text-3xl font-black tracking-tighter mt-1 text-foreground">$ 45,250,000</h3>
+            <h3 className="text-3xl font-black tracking-tighter mt-1 text-foreground">
+              $ {balance?.ingresos.total.toLocaleString() || "0"}
+            </h3>
           </CardContent>
         </Card>
 
@@ -630,10 +942,17 @@ function BalanceView() {
               <div className="h-12 w-12 rounded-2xl bg-destructive/10 flex items-center justify-center text-destructive">
                 <TrendingDown className="h-6 w-6" />
               </div>
-              <span className="text-[10px] font-black text-destructive bg-destructive/10 px-2 py-1 rounded-lg">-4.3%</span>
+              <span className={cn(
+                "text-[10px] font-black px-2 py-1 rounded-lg",
+                (balance?.egresos.change || 0) <= 0 ? "text-emerald-600 bg-emerald-500/10" : "text-destructive bg-destructive/10"
+              )}>
+                {(balance?.egresos.change || 0) >= 0 ? "+" : ""}{balance?.egresos.change}%
+              </span>
             </div>
             <p className="text-[10px] font-black text-muted-foreground uppercase tracking-widest">Egresos Totales</p>
-            <h3 className="text-3xl font-black tracking-tighter mt-1 text-foreground">$ 12,840,000</h3>
+            <h3 className="text-3xl font-black tracking-tighter mt-1 text-foreground">
+              $ {balance?.egresos.total.toLocaleString() || "0"}
+            </h3>
           </CardContent>
         </Card>
 
@@ -645,7 +964,9 @@ function BalanceView() {
               </div>
             </div>
             <p className="text-[10px] font-black opacity-60 uppercase tracking-widest">Utilidad Neta</p>
-            <h3 className="text-3xl font-black tracking-tighter mt-1">$ 32,410,000</h3>
+            <h3 className="text-3xl font-black tracking-tighter mt-1">
+              $ {balance?.utilidad.total.toLocaleString() || "0"}
+            </h3>
           </CardContent>
         </Card>
       </div>
@@ -668,12 +989,7 @@ function BalanceView() {
             <CardTitle className="text-xl font-black text-foreground">Gastos por Categoría</CardTitle>
           </CardHeader>
           <CardContent className="space-y-6">
-            {[
-              { label: "Nómina", value: 65, color: "bg-primary" },
-              { label: "Insumos", value: 20, color: "bg-amber-500" },
-              { label: "Marketing", value: 10, color: "bg-emerald-500" },
-              { label: "Otros", value: 5, color: "bg-muted-foreground" },
-            ].map((cat) => (
+            {(balance?.categorias || []).map((cat) => (
               <div key={cat.label} className="space-y-2">
                 <div className="flex justify-between items-end">
                   <span className="text-[10px] font-black uppercase tracking-widest text-muted-foreground">{cat.label}</span>

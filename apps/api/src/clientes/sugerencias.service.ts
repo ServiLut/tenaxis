@@ -4,7 +4,7 @@ import { ClientesService } from '../clientes/clientes.service';
 import {
   EstadoSugerencia,
   PrioridadSugerencia,
-  ClasificacionCliente,
+  Prisma,
 } from '../generated/client/client';
 import { startOfBogotaDayUtc } from '../common/utils/timezone.util';
 
@@ -89,7 +89,7 @@ export class SugerenciasService {
   }
 
   async updateEstado(id: string, tenantId: string, estado: EstadoSugerencia) {
-    const data: any = { estado };
+    const data: Prisma.SugerenciaSeguimientoUpdateInput = { estado };
     if (estado === EstadoSugerencia.EJECUTADA) {
       data.fechaEjecutada = new Date();
     }
@@ -122,7 +122,7 @@ export class SugerenciasService {
             tipo: 'PROGRAMAR_VISITA',
             prioridad: PrioridadSugerencia.CRITICA,
             titulo: 'Programar Visita Urgente',
-            descripcion: `El cliente ${client.nombre || client.razonSocial} tiene riesgo alto o visita vencida.`,
+            descripcion: `El cliente ${client.nombre || client.razonSocial || ''} tiene riesgo alto o visita vencida.`,
           });
         }
 
@@ -177,9 +177,10 @@ export class SugerenciasService {
             descripcion: `Faltan datos operativos críticos (sedes o protocolos).`,
           });
         }
-      } catch (err) {
+      } catch (err: unknown) {
+        const msg = err instanceof Error ? err.message : 'Unknown error';
         this.logger.error(
-          `Error procesando sugerencias para tenant ${tenant.id}: ${err.message}`,
+          `Error procesando sugerencias para tenant ${tenant.id}: ${msg}`,
         );
       }
     }

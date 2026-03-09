@@ -3,7 +3,9 @@ import { PrismaService } from '../prisma/prisma.service';
 import { CreateTipoInteresDto, UpdateTipoInteresDto } from './dto/interes.dto';
 import { CreateServicioDto, UpdateServicioDto } from './dto/servicio.dto';
 import { UpsertClienteConfigDto } from './dto/cliente-config.dto';
-import { NivelRiesgo, SegmentoCliente } from '../generated/client/enums';
+import { CreateSegmentoDto, UpdateSegmentoDto } from './dto/segmento.dto';
+import { CreateRiesgoDto, UpdateRiesgoDto } from './dto/riesgo.dto';
+import { NivelRiesgo, SegmentoCliente } from '../generated/client/client';
 
 const SEGMENTOS_CATALOG = [
   {
@@ -107,7 +109,7 @@ const RIESGOS_CATALOG = [
 export class ConfigClientesService {
   constructor(private prisma: PrismaService) {}
 
-  // --- ConfiguraciÃ³n Operativa de Clientes ---
+  // --- Configuracion Operativa de Clientes ---
   async findClienteConfig(
     tenantId: string,
     clienteId: string,
@@ -138,7 +140,7 @@ export class ConfigClientesService {
   async upsertClienteConfig(tenantId: string, dto: UpsertClienteConfigDto) {
     const { clienteId, empresaId, direccionId, ...configData } = dto;
 
-    // Buscamos si ya existe una configuraciÃ³n para este cliente/empresa/sede
+    // Buscamos si ya existe una configuración para este cliente/empresa/sede
     const existing = await this.prisma.clienteConfiguracionOperativa.findFirst({
       where: {
         tenantId,
@@ -167,15 +169,33 @@ export class ConfigClientesService {
   }
 
   // --- Segmentos ---
-  async findAllSegmentos(tenantId: string) {
+  findAllSegmentos(tenantId: string) {
     void tenantId;
     return SEGMENTOS_CATALOG;
   }
 
+  createSegmento(tenantId: string, dto: CreateSegmentoDto) {
+    void tenantId;
+    return { id: 'dummy', ...dto };
+  }
+
+  updateSegmento(id: string, dto: UpdateSegmentoDto) {
+    return { id, ...dto };
+  }
+
   // --- Riesgos ---
-  async findAllRiesgos(tenantId: string) {
+  findAllRiesgos(tenantId: string) {
     void tenantId;
     return RIESGOS_CATALOG;
+  }
+
+  createRiesgo(tenantId: string, dto: CreateRiesgoDto) {
+    void tenantId;
+    return { id: 'dummy', ...dto };
+  }
+
+  updateRiesgo(id: string, dto: UpdateRiesgoDto) {
+    return { id, ...dto };
   }
 
   // --- Tipos de Interés ---
@@ -242,6 +262,14 @@ export class ConfigClientesService {
   // --- Métodos de Pago ---
   async findAllMetodosPago(tenantId: string, empresaId: string) {
     return this.prisma.metodoPago.findMany({
+      where: { tenantId, empresaId, activo: true },
+      orderBy: { nombre: 'asc' },
+    });
+  }
+
+  // --- Estados de Servicio ---
+  async findAllEstadosServicio(tenantId: string, empresaId: string) {
+    return this.prisma.estadoServicio.findMany({
       where: { tenantId, empresaId, activo: true },
       orderBy: { nombre: 'asc' },
     });
