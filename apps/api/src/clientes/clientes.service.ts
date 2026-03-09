@@ -182,7 +182,7 @@ export class ClientesService {
           const diffDays =
             (now.getTime() - lastVisit.getTime()) / (1000 * 3600 * 24);
 
-          // Frecuencia sugerida: prefer client's own frequency, then segment's, then default 30
+          // Frecuencia sugerida: prefer client's own frequency, then default 30
           const frequency = client.frecuenciaServicio || 30;
 
           const isCommercialRisk =
@@ -196,31 +196,8 @@ export class ClientesService {
           }
         }
         return client;
-      }
-
-      const lastVisit = client.ultimaVisita
-        ? new Date(client.ultimaVisita)
-        : null;
-
-      if (lastVisit) {
-        const diffDays =
-          (now.getTime() - lastVisit.getTime()) / (1000 * 3600 * 24);
-
-        // Frecuencia sugerida: prefer client's own frequency, then default 30
-        const frequency = client.frecuenciaServicio || 30;
-
-        const isCommercialRisk =
-          diffDays > (frequency === 30 ? 45 : frequency * 1.5);
-
-        if (isCommercialRisk) {
-          return {
-            ...client,
-            clasificacion: ClasificacionCliente.RIESGO,
-          } as Cliente;
-        }
-      }
-      return client;
-    });
+      },
+    );
     return result;
   }
 

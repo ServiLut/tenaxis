@@ -65,7 +65,6 @@ function TeamPageContent() {
     updateMemberProfile,
     savingProfile,
   } = useTeamPerformance(tenantId ?? null, searchSnapshot);
-  } = useTeamPerformance(tenantId ?? null, searchSnapshot);
 
   const [isEditing, setIsEditing] = useState(false);
   const [editForm, setEditForm] = useState<TeamMember | null>(null);
