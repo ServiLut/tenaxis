@@ -760,6 +760,7 @@ function NuevoServicioContent() {
       tecnicoId: selectedOperador || undefined,
       direccionId: selectedDireccion || undefined,
       creadoPorId: membershipId || undefined,
+      servicioId: serviciosEmpresa.find((item) => item.nombre === servicioEspecifico)?.id,
       servicioEspecifico,
       urgencia: urgencia || undefined,
       observacion: observacion || undefined,
