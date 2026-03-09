@@ -63,6 +63,12 @@ import { format } from "date-fns";
 import { es } from "date-fns/locale";
 import { CheckCircle, Loader2, FileUp, AlertCircle } from "lucide-react";
 import { uploadFile } from "@/lib/supabase-storage";
+import {
+  formatBogotaDate,
+  pickerDateToYmd,
+  toBogotaYmd,
+  ymdToPickerDate,
+} from "@/utils/date-utils";
 
 type AccountingTab = "recaudo" | "nomina" | "anticipos" | "egresos" | "balance";
 
@@ -317,7 +323,7 @@ function RecaudoView() {
   const [comprobanteFile, setComprobanteFile] = useState<File | null>(null);
   const [formData, setFormData] = useState({
     referenciaBanco: "",
-    fechaConsignacion: new Date().toISOString().split('T')[0],
+    fechaConsignacion: toBogotaYmd(),
     observacion: "",
   });
 
@@ -344,7 +350,7 @@ function RecaudoView() {
     setComprobanteFile(null);
     setFormData({
       referenciaBanco: "",
-      fechaConsignacion: new Date().toISOString().split('T')[0],
+      fechaConsignacion: toBogotaYmd(),
       observacion: "",
     });
     setIsModalOpen(true);
@@ -462,7 +468,7 @@ function RecaudoView() {
                       </TableCell>
                       <TableCell className="px-8 py-6 text-xs font-bold text-muted-foreground">
                         {tech.ultimaTransferencia 
-                          ? format(new Date(tech.ultimaTransferencia), "d 'de' MMM, yyyy", { locale: es })
+                          ? formatBogotaDate(tech.ultimaTransferencia, "es-CO")
                           : "PRIMER RECAUDO"
                         }
                       </TableCell>
@@ -539,8 +545,8 @@ function RecaudoView() {
                 <div className="space-y-2">
                   <Label className="text-[10px] font-black uppercase tracking-widest text-muted-foreground">Fecha de Consignación <span className="text-red-500">*</span></Label>
                   <DatePicker 
-                    date={formData.fechaConsignacion ? new Date(formData.fechaConsignacion + "T00:00:00") : undefined}
-                    onChange={(d) => setFormData({...formData, fechaConsignacion: d ? d.toISOString().split("T")[0] : ""})}
+                    date={formData.fechaConsignacion ? ymdToPickerDate(formData.fechaConsignacion) : undefined}
+                    onChange={(d) => setFormData({...formData, fechaConsignacion: pickerDateToYmd(d)})}
                     className="h-12 border-border bg-muted"
                   />
                 </div>

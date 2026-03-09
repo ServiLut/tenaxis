@@ -4,8 +4,13 @@ import { ValidationPipe, Logger } from '@nestjs/common';
 import { TransformInterceptor } from './common/interceptors/transform.interceptor';
 import { Request, Response, NextFunction, json, urlencoded } from 'express';
 import { winstonConfig } from './common/logger/winston.config';
+import { getBogotaTimezone } from './common/utils/timezone.util';
 
 async function bootstrap() {
+  // Keep server runtime deterministic; business timezone conversions are explicit.
+  process.env.TZ = process.env.TZ || 'UTC';
+  process.env.APP_TIMEZONE = process.env.APP_TIMEZONE || getBogotaTimezone();
+
   const app = await NestFactory.create(AppModule, {
     logger: winstonConfig,
   });

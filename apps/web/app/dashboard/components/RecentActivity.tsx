@@ -14,6 +14,7 @@ import {
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import { cn } from "@/components/ui/utils";
+import { formatBogotaDate } from "@/utils/date-utils";
 import {
   Dialog,
   DialogContent,
@@ -165,7 +166,7 @@ export function RecentActivity({
                           {service.servicioEspecifico || service.servicio?.nombre || "Servicio General"}
                         </p>
                         <p className="text-[10px] font-medium text-muted-foreground">
-                          {service.fechaVisita ? new Date(service.fechaVisita).toLocaleDateString() : 'Pendiente'}
+                          {service.fechaVisita ? formatBogotaDate(service.fechaVisita) : 'Pendiente'}
                         </p>
                       </div>
                     </div>
@@ -297,7 +298,7 @@ export function RecentActivity({
                     <Label className="text-[10px] font-black uppercase tracking-widest text-muted-foreground">Fecha</Label>
                     <div className="mt-1 flex items-center gap-2">
                       <Clock className="h-4 w-4 text-muted-foreground" />
-                      <p className="text-sm font-bold text-foreground">{selectedServicio.fechaVisita ? new Date(selectedServicio.fechaVisita).toLocaleDateString() : 'Pendiente'}</p>
+                      <p className="text-sm font-bold text-foreground">{selectedServicio.fechaVisita ? formatBogotaDate(selectedServicio.fechaVisita) : 'Pendiente'}</p>
                     </div>
                   </div>
                   <div>

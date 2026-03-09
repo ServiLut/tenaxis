@@ -34,6 +34,7 @@ import {
 import { TeamAlertsPanel } from "./components/team-alerts-panel";
 import { TeamKpiStrip } from "./components/team-kpi-strip";
 import { TeamMember, useTeamPerformance } from "./hooks/use-team-performance";
+import { formatBogotaDate, toBogotaYmd } from "@/utils/date-utils";
 
 const RANKING_ROLES = ["ADMIN", "SU_ADMIN", "COORDINADOR", "ASESOR"];
 
@@ -66,7 +67,7 @@ function TeamPageContent() {
     loadingDetail,
     updateMemberProfile,
     savingProfile,
-  } = useTeamPerformance(tenantId, searchSnapshot);
+  } = useTeamPerformance(tenantId ?? null, searchSnapshot);
 
   const [isEditing, setIsEditing] = useState(false);
   const [editForm, setEditForm] = useState<TeamMember | null>(null);
@@ -166,7 +167,7 @@ function TeamPageContent() {
       u.totalRecaudo,
     ]);
 
-    const date = new Date().toISOString().slice(0, 10);
+    const date = toBogotaYmd();
     exportToExcel({
       headers,
       data: rows,
@@ -754,7 +755,7 @@ function TeamPageContent() {
                             {(selectedDetail?.orders || []).map((order) => (
                               <tr key={order.id}>
                                 <td className="px-3 py-2 text-xs font-bold">{order.orderNumber}</td>
-                                <td className="px-3 py-2 text-xs text-muted-foreground">{order.date ? new Date(order.date).toLocaleDateString("es-CO") : "N/A"}</td>
+                                <td className="px-3 py-2 text-xs text-muted-foreground">{order.date ? formatBogotaDate(order.date, "es-CO") : "N/A"}</td>
                                 <td className="px-3 py-2 text-xs">{order.client}</td>
                                 <td className="px-3 py-2 text-center"><span className={cn("rounded-lg px-2 py-1 text-[10px] font-black uppercase tracking-widest", order.status === "LIQUIDADO" ? "bg-emerald-500/10 text-emerald-600" : "bg-amber-500/10 text-amber-600")}>{order.status}</span></td>
                                 <td className="px-3 py-2 text-right text-xs font-black">${order.paidValue.toLocaleString("es-CO")}</td>

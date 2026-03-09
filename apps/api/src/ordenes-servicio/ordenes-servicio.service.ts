@@ -12,6 +12,11 @@ import {
   toLocalDayRange,
 } from './dto/query-ordenes-servicio.dto';
 import {
+  addBogotaDaysUtc,
+  parseFlexibleDateTimeToUtc,
+  startOfBogotaDayUtc,
+} from '../common/utils/timezone.util';
+import {
   ConfirmUploadedFilesDto,
   CreateSignedUploadUrlDto,
   OrdenUploadKind,
@@ -140,10 +145,22 @@ export class OrdenesServicioService {
       }
     }
 
+    const fechaVisitaDate = createDto.fechaVisita
+      ? parseFlexibleDateTimeToUtc(createDto.fechaVisita, {
+          dateOnlyAsBogotaStart: true,
+        })
+      : null;
+    if (createDto.fechaVisita && !fechaVisitaDate) {
+      throw new BadRequestException('fechaVisita inválida');
+    }
+
     // Calcular horaFin basado en horaInicio y duracionMinutos
     const horaInicioDate = createDto.horaInicio
-      ? new Date(createDto.horaInicio)
+      ? parseFlexibleDateTimeToUtc(createDto.horaInicio)
       : null;
+    if (createDto.horaInicio && !horaInicioDate) {
+      throw new BadRequestException('horaInicio inválida');
+    }
     let horaFinDate: Date | null = null;
     if (horaInicioDate && createDto.duracionMinutos) {
       horaFinDate = new Date(
@@ -224,9 +241,7 @@ export class OrdenesServicioService {
           ? (createDto.desglosePago as unknown as Prisma.InputJsonValue)
           : undefined,
         estadoPago,
-        fechaVisita: createDto.fechaVisita
-          ? new Date(createDto.fechaVisita)
-          : null,
+        fechaVisita: fechaVisitaDate,
         horaInicio: horaInicioDate,
         horaFin: horaFinDate,
       },
@@ -470,10 +485,8 @@ export class OrdenesServicioService {
     );
 
     // Preparar rango de fecha para conteo
-    const startOfDay = new Date(inicio);
-    startOfDay.setUTCHours(0, 0, 0, 0);
-    const endOfDay = new Date(startOfDay);
-    endOfDay.setUTCDate(endOfDay.getUTCDate() + 1);
+    const startOfDay = startOfBogotaDayUtc(inicio);
+    const endOfDay = addBogotaDaysUtc(startOfDay, 1);
 
     const conteos = await Promise.all(
       viables.map(async (id) => {
@@ -1223,6 +1236,15 @@ export class OrdenesServicioService {
       membershipId = membership?.id;
     }
 
+    const fechaPagoDate = updateDto.fechaPago
+      ? parseFlexibleDateTimeToUtc(updateDto.fechaPago, {
+          dateOnlyAsBogotaStart: true,
+        })
+      : undefined;
+    if (updateDto.fechaPago && !fechaPagoDate) {
+      throw new BadRequestException('fechaPago inválida');
+    }
+
     const data: Prisma.OrdenServicioUpdateInput = {
       tecnico: updateDto.tecnicoId
         ? { connect: { id: updateDto.tecnicoId } }
@@ -1255,9 +1277,7 @@ export class OrdenesServicioService {
         updateDto.estadoServicio === (EstadoOrden.LIQUIDADO as EstadoOrden)
           ? new Date()
           : undefined,
-      fechaPago: updateDto.fechaPago
-        ? new Date(updateDto.fechaPago)
-        : undefined,
+      fechaPago: fechaPagoDate,
       desglosePago: updateDto.desglosePago
         ? (updateDto.desglosePago as unknown as Prisma.InputJsonValue)
         : undefined,
@@ -1300,11 +1320,20 @@ export class OrdenesServicioService {
     }
 
     if (updateDto.fechaVisita) {
-      data.fechaVisita = new Date(updateDto.fechaVisita);
+      const fechaVisita = parseFlexibleDateTimeToUtc(updateDto.fechaVisita, {
+        dateOnlyAsBogotaStart: true,
+      });
+      if (!fechaVisita) {
+        throw new BadRequestException('fechaVisita inválida');
+      }
+      data.fechaVisita = fechaVisita;
     }
 
     if (updateDto.horaInicio) {
-      const horaInicio = new Date(updateDto.horaInicio);
+      const horaInicio = parseFlexibleDateTimeToUtc(updateDto.horaInicio);
+      if (!horaInicio) {
+        throw new BadRequestException('horaInicio inválida');
+      }
       data.horaInicio = horaInicio;
       if (updateDto.duracionMinutos) {
         data.horaFin = new Date(

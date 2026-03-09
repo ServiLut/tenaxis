@@ -10,7 +10,7 @@ import {
 } from "lucide-react";
 import { cn } from "@/components/ui/utils";
 import { DashboardLayout } from "@/components/dashboard";
-import { format } from "date-fns";
+import { formatBogotaDateTime, formatBogotaTime } from "@/utils/date-utils";
 
 // Hooks
 import { useMonitoringActivity } from "./hooks/use-monitoring-activity";
@@ -120,8 +120,8 @@ export default function MonitoreoPage() {
         Usuario: `${s.membership.user.nombre} ${s.membership.user.apellido}`,
         Username: s.membership.username,
         Rol: s.membership.role,
-        Inicio: format(new Date(s.fechaInicio), "yyyy-MM-dd HH:mm:ss"),
-        Fin: s.fechaFin ? format(new Date(s.fechaFin), "yyyy-MM-dd HH:mm:ss") : "Activo",
+        Inicio: formatBogotaDateTime(s.fechaInicio, "es-CO"),
+        Fin: s.fechaFin ? formatBogotaDateTime(s.fechaFin, "es-CO") : "Activo",
         Inactividad: `${s.tiempoInactivo} min`,
         IP: s.ip,
         Dispositivo: s.dispositivo
@@ -129,7 +129,7 @@ export default function MonitoreoPage() {
       exportToCSV(exportData, "monitoreo_actividad");
     } else {
       const exportData = audits.map(a => ({
-        Fecha: format(new Date(a.createdAt), "yyyy-MM-dd HH:mm:ss"),
+        Fecha: formatBogotaDateTime(a.createdAt, "es-CO"),
         Entidad: a.entidad,
         Accion: a.accion,
         Usuario: `${a.membership?.user?.nombre} ${a.membership?.user?.apellido}`,
@@ -249,7 +249,7 @@ export default function MonitoreoPage() {
               </div>
               <div className="text-right">
                 <span className="text-[9px] font-black uppercase bg-emerald-500/10 text-emerald-500 px-2 py-1 rounded-md border border-emerald-500/20">ACTIVO</span>
-                <p className="text-[9px] font-bold text-muted-foreground mt-1 uppercase">Entró {format(new Date(s.fechaInicio), "HH:mm")}</p>
+                <p className="text-[9px] font-bold text-muted-foreground mt-1 uppercase">Entró {formatBogotaTime(s.fechaInicio, "es-CO", { hour: "2-digit", minute: "2-digit" })}</p>
               </div>
             </div>
           ))}
@@ -298,7 +298,7 @@ export default function MonitoreoPage() {
               <div className="flex-1 min-w-0">
                 <div className="flex items-center justify-between mb-1">
                   <p className="text-xs font-black uppercase text-foreground truncate">{log.sesion.membership.user.nombre} {log.sesion.membership.user.apellido}</p>
-                  <span className="text-[9px] font-bold text-muted-foreground whitespace-nowrap">{format(new Date(log.createdAt), "HH:mm")}</span>
+                  <span className="text-[9px] font-bold text-muted-foreground whitespace-nowrap">{formatBogotaTime(log.createdAt, "es-CO", { hour: "2-digit", minute: "2-digit" })}</span>
                 </div>
                 <p className="text-[10px] font-medium text-muted-foreground leading-tight italic">&quot;{log.descripcion}&quot;</p>
               </div>

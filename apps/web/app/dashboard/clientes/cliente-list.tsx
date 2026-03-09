@@ -78,6 +78,14 @@ import {
   type DashboardPresetColorToken,
   updateDashboardPreset,
 } from "../presets-api";
+import {
+  formatBogotaDate,
+  formatBogotaTime,
+  pickerDateToYmd,
+  toBogotaYmd,
+  utcIsoToBogotaYmd,
+  ymdToPickerDate,
+} from "@/utils/date-utils";
 
 export interface Cliente {
   id: string;
@@ -393,11 +401,13 @@ export function ClienteList({
   const suggestions = useMemo(() => {
     if (!selectedClienteForSuggestions) return [];
     const client = selectedClienteForSuggestions;
-    const now = new Date();
+    const todayYmd = toBogotaYmd();
     const list = [];
 
     // 1. Programar visita (si próxima visita vencida o vacía con frecuencia definida)
-    const proximaVencida = !client.proximaVisita || new Date(client.proximaVisita) < now;
+    const proximaVencida =
+      !client.proximaVisita ||
+      utcIsoToBogotaYmd(client.proximaVisita) < todayYmd;
     const tieneFrecuencia = Number(client.frecuenciaSugerida || client.frecuenciaServicio || 0) > 0;
     
     if (proximaVencida && tieneFrecuencia) {
@@ -604,12 +614,13 @@ export function ClienteList({
       const matchesClasificacion = filters.clasificacion === "all" || c.clasificacion === filters.clasificacion;
       const matchesSegmento = filters.segmento === "all" || getSegmentoNombre(c) === filters.segmento;
       const matchesRiesgo = filters.riesgo === "all" || getRiesgoNombre(c) === filters.riesgo;
-      const clientDate = c.createdAt ? new Date(c.createdAt) : null;
-      const matchesFechaDesde = !filters.fechaDesde || (clientDate && clientDate >= new Date(filters.fechaDesde));
-      const matchesFechaHasta = !filters.fechaHasta || (clientDate && clientDate <= new Date(filters.fechaHasta + "T23:59:59"));
+      const createdYmd = c.createdAt ? utcIsoToBogotaYmd(c.createdAt) : null;
+      const matchesFechaDesde = !filters.fechaDesde || (createdYmd && createdYmd >= filters.fechaDesde);
+      const matchesFechaHasta = !filters.fechaHasta || (createdYmd && createdYmd <= filters.fechaHasta);
       
+      const todayYmd = toBogotaYmd();
       const matchesSinVisita = !onlySinVisita || (
-        !c.proximaVisita || new Date(c.proximaVisita) < new Date()
+        !c.proximaVisita || utcIsoToBogotaYmd(c.proximaVisita) < todayYmd
       );
 
       const matchesPendingPayments = !onlyWithPendingPayments || (
@@ -639,8 +650,8 @@ export function ClienteList({
           aVal = getRiesgoNombre(a);
           bVal = getRiesgoNombre(b);
         } else if (sortConfig.key === "proximaVisita") {
-          aVal = a.proximaVisita ? new Date(a.proximaVisita).getTime() : 0;
-          bVal = b.proximaVisita ? new Date(b.proximaVisita).getTime() : 0;
+          aVal = a.proximaVisita ? utcIsoToBogotaYmd(a.proximaVisita).replace(/-/g, "") : 0;
+          bVal = b.proximaVisita ? utcIsoToBogotaYmd(b.proximaVisita).replace(/-/g, "") : 0;
         }
 
         const nA = Number(aVal);
@@ -1399,15 +1410,15 @@ export function ClienteList({
                       <Label className="text-[10px] font-black uppercase tracking-widest text-muted-foreground">Rango de Fecha de Registro</Label>
                       <div className="flex items-center gap-3">
                         <DatePicker
-                          date={filters.fechaDesde ? new Date(filters.fechaDesde + "T00:00:00") : undefined}
-                          onChange={(d) => setFilters(prev => ({ ...prev, fechaDesde: d ? d.toISOString().split("T")[0] : "" }))}
+                          date={filters.fechaDesde ? ymdToPickerDate(filters.fechaDesde) : undefined}
+                          onChange={(d) => setFilters(prev => ({ ...prev, fechaDesde: pickerDateToYmd(d) }))}
                           className="flex-1 h-11 bg-background border-border transition-all hover:scale-[1.02] focus-within:scale-[1.02]"
                           placeholder="FECHA INICIAL"
                         />
                         <span className="text-muted-foreground font-bold text-xs">AL</span>
                         <DatePicker
-                          date={filters.fechaHasta ? new Date(filters.fechaHasta + "T00:00:00") : undefined}
-                          onChange={(d) => setFilters(prev => ({ ...prev, fechaHasta: d ? d.toISOString().split("T")[0] : "" }))}
+                          date={filters.fechaHasta ? ymdToPickerDate(filters.fechaHasta) : undefined}
+                          onChange={(d) => setFilters(prev => ({ ...prev, fechaHasta: pickerDateToYmd(d) }))}
                           className="flex-1 h-11 bg-background border-border transition-all hover:scale-[1.02] focus-within:scale-[1.02]"
                           placeholder="FECHA FINAL"
                         />
@@ -1568,7 +1579,7 @@ export function ClienteList({
                           <div className="flex flex-col items-center gap-1.5">
                             <div className="flex items-center gap-2 text-xs font-black text-foreground">
                               <Calendar className="h-3.5 w-3.5 text-[#01ADFB]" />
-                              {cliente.proximaVisita ? new Date(cliente.proximaVisita).toLocaleDateString() : "PENDIENTE"}
+                              {cliente.proximaVisita ? formatBogotaDate(cliente.proximaVisita) : "PENDIENTE"}
                             </div>
                             <span className="text-[9px] font-black text-muted-foreground uppercase tracking-widest">
                               {cliente.frecuenciaServicio ? `CADA ${cliente.frecuenciaServicio} DÍAS` : "PUNTUAL"}
@@ -1902,15 +1913,15 @@ export function ClienteList({
                     <div className="bg-muted p-6 rounded-3xl border border-border grid grid-cols-2 gap-y-6 gap-x-4">
                       <div className="space-y-1">
                         <p className="text-[9px] font-black text-muted-foreground uppercase">Creado El</p>
-                        <p className="text-xs font-black text-foreground">{selectedCliente.createdAt ? new Date(selectedCliente.createdAt).toLocaleDateString() : "N/A"}</p>
+                        <p className="text-xs font-black text-foreground">{selectedCliente.createdAt ? formatBogotaDate(selectedCliente.createdAt) : "N/A"}</p>
                       </div>
                       <div className="space-y-1">
                         <p className="text-[9px] font-black text-muted-foreground uppercase">Última Visita</p>
-                        <p className="text-xs font-black text-foreground">{selectedCliente.ultimaVisita ? new Date(selectedCliente.ultimaVisita).toLocaleDateString() : "Ninguna"}</p>
+                        <p className="text-xs font-black text-foreground">{selectedCliente.ultimaVisita ? formatBogotaDate(selectedCliente.ultimaVisita) : "Ninguna"}</p>
                       </div>
                       <div className="space-y-1">
                         <p className="text-[9px] font-black text-muted-foreground uppercase">Próxima Visita</p>
-                        <p className="text-xs font-black text-[#01ADFB]">{selectedCliente.proximaVisita ? new Date(selectedCliente.proximaVisita).toLocaleDateString() : "Pendiente"}</p>
+                        <p className="text-xs font-black text-[#01ADFB]">{selectedCliente.proximaVisita ? formatBogotaDate(selectedCliente.proximaVisita) : "Pendiente"}</p>
                       </div>
                       <div className="space-y-1">
                         <p className="text-[9px] font-black text-muted-foreground uppercase">Frecuencia (Días)</p>
@@ -2414,7 +2425,7 @@ export function ClienteList({
                               <div className="flex items-center gap-4 mt-2">
                                 <div className="flex items-center gap-1.5 text-[10px] font-medium text-muted-foreground uppercase">
                                   <Calendar className="h-3 w-3" />
-                                  {orden.fechaVisita ? new Date(orden.fechaVisita).toLocaleDateString() : 'Pendiente'}
+                                  {orden.fechaVisita ? formatBogotaDate(orden.fechaVisita) : 'Pendiente'}
                                 </div>
                                 <div className="flex items-center gap-1.5 text-[10px] font-medium text-muted-foreground uppercase">
                                   <MapPin className="h-3 w-3" />
@@ -2745,7 +2756,7 @@ export function ClienteList({
                           {sug.estado}
                         </span>
                         <span className="text-[9px] font-bold text-muted-foreground">
-                          {new Date(sug.creadoAt).toLocaleDateString()}
+                          {formatBogotaDate(sug.creadoAt)}
                         </span>
                       </div>
                       <p className="text-xs font-black uppercase tracking-wider text-foreground leading-tight mb-1">{sug.titulo}</p>
@@ -2768,7 +2779,7 @@ export function ClienteList({
                       {sug.prioridad}
                     </span>
                     <span className="text-[9px] font-bold text-muted-foreground">
-                      {new Date(sug.creadoAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                      {formatBogotaTime(sug.creadoAt)}
                     </span>
                   </div>
                   

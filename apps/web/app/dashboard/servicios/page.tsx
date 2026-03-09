@@ -82,6 +82,17 @@ import {
   type DashboardPresetColorToken,
   updateDashboardPreset,
 } from "../presets-api";
+import {
+  addDaysToYmd,
+  formatBogotaDate,
+  formatBogotaDateTime,
+  formatBogotaTime,
+  startOfBogotaWeekYmd,
+  utcIsoToBogotaYmd,
+  pickerDateToYmd,
+  toBogotaYmd,
+  ymdToPickerDate,
+} from "@/utils/date-utils";
 
 interface DesglosePago {
   metodo: string;
@@ -143,6 +154,7 @@ interface OrdenServicioRaw {
   estadoPago?: string;
   estadoServicio?: string;
   createdAt: string;
+  updatedAt?: string;
   direccionTexto?: string;
   barrio?: string;
   municipio?: string;
@@ -230,13 +242,6 @@ const CUSTOM_PRESET_COLORS: DashboardPresetColorToken[] = [
   "indigo",
   "pink",
 ];
-
-const toLocalYmd = (date: Date) => {
-  const y = date.getFullYear();
-  const m = `${date.getMonth() + 1}`.padStart(2, "0");
-  const d = `${date.getDate()}`.padStart(2, "0");
-  return `${y}-${m}-${d}`;
-};
 
 function ServiciosSkeleton({ showKPIs = true }: { showKPIs?: boolean }) {
   return (
@@ -338,7 +343,7 @@ function ServiciosContent() {
   }>({
     breakdown: [{ metodo: "PENDIENTE", monto: "" }],
     observacionFinal: "",
-    fechaPago: new Date().toISOString().split('T')[0],
+    fechaPago: toBogotaYmd(),
   });
   const [comprobanteFile, setComprobanteFile] = useState<File | null>(null);
 
@@ -453,8 +458,8 @@ function ServiciosContent() {
           cliente: clienteLabel,
           clienteFull: os.cliente,
           servicioEspecifico: os.servicio?.nombre || "Servicio General",
-          fecha: os.fechaVisita ? new Date(os.fechaVisita).toLocaleDateString() : "Sin fecha",
-          hora: os.horaInicio ? new Date(os.horaInicio).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : "Sin hora",
+          fecha: os.fechaVisita ? formatBogotaDate(os.fechaVisita) : "Sin fecha",
+          hora: os.horaInicio ? formatBogotaTime(os.horaInicio) : "Sin hora",
           tecnico: os.tecnico?.user ? `${os.tecnico.user.nombre} ${os.tecnico.user.apellido}` : "Sin asignar",
           tecnicoId: os.tecnicoId,
           estadoServicio: displayStatus,
@@ -607,7 +612,7 @@ function ServiciosContent() {
       setLiquidarData({
         breakdown: [{ metodo: "PENDIENTE", monto: "" }],
         observacionFinal: "",
-        fechaPago: new Date().toISOString().split('T')[0]
+        fechaPago: toBogotaYmd()
       });
       setComprobanteFile(null);
       fetchServicios();
@@ -790,11 +795,8 @@ function ServiciosContent() {
   const applyPreset = (preset: string) => {
     setActivePreset(preset);
 
-    const now = new Date();
-    const today = toLocalYmd(now);
-    const tomorrowDate = new Date(now);
-    tomorrowDate.setDate(now.getDate() + 1);
-    const tomorrow = toLocalYmd(tomorrowDate);
+    const today = toBogotaYmd();
+    const tomorrow = addDaysToYmd(today, 1);
     const baseFilters = {
       estado: "all",
       tecnico: "all",
@@ -819,16 +821,12 @@ function ServiciosContent() {
     }
 
     if (preset === "SEMANA") {
-      const start = new Date(now);
-      const day = start.getDay();
-      const diff = day === 0 ? -6 : 1 - day;
-      start.setDate(start.getDate() + diff);
-      const end = new Date(start);
-      end.setDate(start.getDate() + 6);
+      const start = startOfBogotaWeekYmd(today);
+      const end = addDaysToYmd(start, 6);
       setFilters({
         ...baseFilters,
-        fechaInicio: toLocalYmd(start),
-        fechaFin: toLocalYmd(end),
+        fechaInicio: start,
+        fechaFin: end,
       });
       return;
     }
@@ -900,23 +898,17 @@ function ServiciosContent() {
     const matchesTipo = filters.tipo === "all" || s.raw.tipoVisita?.toUpperCase() === filters.tipo;
 
     let matchesFecha = true;
-    if (filters.fechaInicio && s.raw.fechaVisita) {
-      const visitDate = new Date(s.raw.fechaVisita);
-      visitDate.setHours(0,0,0,0);
-      const start = new Date(filters.fechaInicio);
-      start.setHours(0,0,0,0);
-      matchesFecha = matchesFecha && visitDate >= start;
+    const visitYmd = s.raw.fechaVisita ? utcIsoToBogotaYmd(s.raw.fechaVisita) : null;
+    if (filters.fechaInicio && visitYmd) {
+      matchesFecha = matchesFecha && visitYmd >= filters.fechaInicio;
     }
-    if (filters.fechaFin && s.raw.fechaVisita) {
-      const visitDate = new Date(s.raw.fechaVisita);
-      visitDate.setHours(0,0,0,0);
-      const end = new Date(filters.fechaFin);
-      end.setHours(0,0,0,0);
-      matchesFecha = matchesFecha && visitDate <= end;
+    if (filters.fechaFin && visitYmd) {
+      matchesFecha = matchesFecha && visitYmd <= filters.fechaFin;
     }
+    const todayYmd = toBogotaYmd();
     const isVencido =
-      !!s.raw.fechaVisita &&
-      new Date(s.raw.fechaVisita) < new Date(new Date().setHours(0, 0, 0, 0)) &&
+      !!visitYmd &&
+      visitYmd < todayYmd &&
       !["LIQUIDADO", "CANCELADO", "SIN_CONCRETAR", "SIN CONCRETAR"].includes(s.estadoServicio);
     const presetPass =
       activePreset === "all" ||
@@ -965,7 +957,7 @@ function ServiciosContent() {
         numeroOrden: `#${os.numeroOrden || os.id.slice(0, 8).toUpperCase()}`,
         cliente: servicio.cliente,
         servicio: servicio.servicioEspecifico.toUpperCase(),
-        programacion: `${dateObj.toLocaleDateString()} a las ${dateObj.toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' })}`,
+        programacion: `${formatBogotaDate(dateObj)} a las ${formatBogotaTime(dateObj, "es-CO", { hour: "numeric", minute: "2-digit" })}`,
         tecnico: operatorName,
         estado: os.estadoServicio || "NUEVO",
         urgencia: os.urgencia || "BAJA",
@@ -1125,7 +1117,7 @@ function ServiciosContent() {
                           <div className="space-y-2"><Label className="text-[10px] font-black uppercase text-muted-foreground tracking-widest">Técnico</Label><Combobox value={filters.tecnico} onChange={(v) => setFilters(f => ({ ...f, tecnico: v }))} options={[{ value: "all", label: "TODOS LOS TECNICOS" }, ...filterOptions.tecnicos.map(t => ({ value: t.id, label: t.nombre.toUpperCase() }))]} /></div>
                           <div className="space-y-2"><Label className="text-[10px] font-black uppercase text-muted-foreground tracking-widest">Municipio</Label><Combobox value={filters.municipio} onChange={(v) => setFilters(f => ({ ...f, municipio: v }))} options={[{ value: "all", label: "TODOS LOS MUNICIPIOS" }, ...filterOptions.municipios.map(m => ({ value: m, label: m.toUpperCase() }))]} /></div>
                           <div className="space-y-2"><Label className="text-[10px] font-black uppercase text-muted-foreground tracking-widest">Estado</Label><Combobox value={filters.estado} onChange={(v) => setFilters(f => ({ ...f, estado: v }))} options={[{ value: "all", label: "TODOS LOS ESTADOS" }, ...filterOptions.estados.map(e => ({ value: e.id, label: e.nombre.toUpperCase() }))]} /></div>
-                          <div className="lg:col-span-2 space-y-2"><Label className="text-[10px] font-black uppercase text-muted-foreground tracking-widest">Rango de Fechas</Label><div className="flex gap-3"><DatePicker date={filters.fechaInicio ? new Date(filters.fechaInicio + "T00:00:00") : undefined} onChange={(d) => setFilters(f => ({ ...f, fechaInicio: d ? d.toISOString().split('T')[0] : "" }))} className="flex-1 h-10 bg-background border-border" placeholder="INICIO" /><DatePicker date={filters.fechaFin ? new Date(filters.fechaFin + "T00:00:00") : undefined} onChange={(d) => setFilters(f => ({ ...f, fechaFin: d ? d.toISOString().split('T')[0] : "" }))} className="flex-1 h-10 bg-background border-border" placeholder="FIN" /></div></div>
+                          <div className="lg:col-span-2 space-y-2"><Label className="text-[10px] font-black uppercase text-muted-foreground tracking-widest">Rango de Fechas</Label><div className="flex gap-3"><DatePicker date={filters.fechaInicio ? ymdToPickerDate(filters.fechaInicio) : undefined} onChange={(d) => setFilters(f => ({ ...f, fechaInicio: pickerDateToYmd(d) }))} className="flex-1 h-10 bg-background border-border" placeholder="INICIO" /><DatePicker date={filters.fechaFin ? ymdToPickerDate(filters.fechaFin) : undefined} onChange={(d) => setFilters(f => ({ ...f, fechaFin: pickerDateToYmd(d) }))} className="flex-1 h-10 bg-background border-border" placeholder="FIN" /></div></div>
                         </div>
                         <div className="mt-8 pt-6 border-t border-border flex justify-end"><Button onClick={() => setShowFilters(false)} className="h-10 px-8 rounded-xl text-[10px] font-black uppercase tracking-widest bg-foreground text-background shadow-lg hover:opacity-90">Finalizar y Cerrar</Button></div>
                       </div>
@@ -1175,7 +1167,7 @@ function ServiciosContent() {
                                     {s.estadoServicio === "LIQUIDADO" ? (
                                       <DropdownMenuItem onClick={() => { setSelectedServicio(s); }} className="flex items-center gap-3 py-2.5 text-[11px] font-bold cursor-pointer text-emerald-600 hover:bg-emerald-500/10"><CheckCircle2 className="h-4 w-4" /> VER LIQUIDACION</DropdownMenuItem>
                                     ) : (
-                                      <DropdownMenuItem onClick={() => { setSelectedServicio(s); setLiquidarData({ breakdown: [{ metodo: "EFECTIVO", monto: (s.raw.valorCotizado || "").toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".") }], observacionFinal: s.raw.observacionFinal || "", fechaPago: new Date().toISOString().split('T')[0] }); setIsLiquidarModalOpen(true); }} className="flex items-center gap-3 py-2.5 text-[11px] font-bold cursor-pointer text-emerald-600 hover:bg-emerald-500/10"><CreditCard className="h-4 w-4" /> LIQUIDAR SERVICIO</DropdownMenuItem>
+                                      <DropdownMenuItem onClick={() => { setSelectedServicio(s); setLiquidarData({ breakdown: [{ metodo: "EFECTIVO", monto: (s.raw.valorCotizado || "").toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".") }], observacionFinal: s.raw.observacionFinal || "", fechaPago: toBogotaYmd() }); setIsLiquidarModalOpen(true); }} className="flex items-center gap-3 py-2.5 text-[11px] font-bold cursor-pointer text-emerald-600 hover:bg-emerald-500/10"><CreditCard className="h-4 w-4" /> LIQUIDAR SERVICIO</DropdownMenuItem>
                                     )}
                                   </DropdownMenuContent></DropdownMenu>
                               </div></td>
@@ -1309,7 +1301,7 @@ function ServiciosContent() {
                   </div>
                   <div>
                     <span className="text-xs text-slate-500 block">Fecha Creación</span>
-                    <span className="font-medium text-sm">{new Date(selectedServicio.raw.createdAt).toLocaleDateString()}</span>
+                    <span className="font-medium text-sm">{formatBogotaDate(selectedServicio.raw.createdAt)}</span>
                   </div>
                   <div className="col-span-1 md:col-span-2">
                     <span className="text-xs text-slate-500 block">Creado Por</span>
@@ -1398,11 +1390,11 @@ function ServiciosContent() {
                   </div>
                   <div>
                     <span className="text-xs text-slate-500 block">Última Visita</span>
-                    <span className="font-medium text-sm">{selectedServicio.clienteFull.ultimaVisita ? new Date(selectedServicio.clienteFull.ultimaVisita).toLocaleDateString() : "N/A"}</span>
+                    <span className="font-medium text-sm">{selectedServicio.clienteFull.ultimaVisita ? formatBogotaDate(selectedServicio.clienteFull.ultimaVisita) : "N/A"}</span>
                   </div>
                   <div>
                     <span className="text-xs text-slate-500 block">Próxima Visita</span>
-                    <span className="font-medium text-sm text-[#01ADFB]">{selectedServicio.clienteFull.proximaVisita ? new Date(selectedServicio.clienteFull.proximaVisita).toLocaleDateString() : "N/A"}</span>
+                    <span className="font-medium text-sm text-[#01ADFB]">{selectedServicio.clienteFull.proximaVisita ? formatBogotaDate(selectedServicio.clienteFull.proximaVisita) : "N/A"}</span>
                   </div>
                   <div>
                     <span className="text-xs text-slate-500 block">Frecuencia Base</span>
@@ -1531,7 +1523,7 @@ function ServiciosContent() {
                   <div>
                     <span className="text-xs text-slate-500 block">Hora Fin Estimada</span>
                     <span className="font-medium">
-                      {selectedServicio.raw.horaFin ? new Date(selectedServicio.raw.horaFin).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : "--:--"}
+                      {selectedServicio.raw.horaFin ? formatBogotaTime(selectedServicio.raw.horaFin) : "--:--"}
                     </span>
                   </div>
                 </div>
@@ -1600,7 +1592,7 @@ function ServiciosContent() {
                   </div>
                   <div>
                     <span className="text-xs text-slate-500 block">Fecha Pago</span>
-                    <span className="font-medium text-sm">{selectedServicio.raw.fechaPago ? new Date(selectedServicio.raw.fechaPago).toLocaleDateString() : "N/A"}</span>
+                    <span className="font-medium text-sm">{selectedServicio.raw.fechaPago ? formatBogotaDate(selectedServicio.raw.fechaPago) : "N/A"}</span>
                   </div>
                   <div className="col-span-2">
                     <span className="text-xs text-slate-500 block">Entidad / Ref. Pago</span>
@@ -1621,13 +1613,13 @@ function ServiciosContent() {
                       {selectedServicio.raw.liquidadoPor?.user ? `${selectedServicio.raw.liquidadoPor.user.nombre} ${selectedServicio.raw.liquidadoPor.user.apellido}` : "PENDIENTE"}
                     </span>
                     {selectedServicio.raw.liquidadoAt && (
-                      <span className="text-[10px] text-slate-400 block mt-0.5">{new Date(selectedServicio.raw.liquidadoAt).toLocaleString()}</span>
+                      <span className="text-[10px] text-slate-400 block mt-0.5">{formatBogotaDateTime(selectedServicio.raw.liquidadoAt)}</span>
                     )}
                   </div>
                   <div className="p-3 bg-slate-50 rounded-lg border border-slate-100">
                     <span className="text-xs text-slate-500 block">Última Actualización</span>
                     <span className="font-medium text-sm uppercase">SISTEMA / USUARIO</span>
-                    <span className="text-[10px] text-slate-400 block mt-0.5">{new Date(selectedServicio.raw.updatedAt || selectedServicio.raw.createdAt).toLocaleString()}</span>
+                    <span className="text-[10px] text-slate-400 block mt-0.5">{formatBogotaDateTime(selectedServicio.raw.updatedAt || selectedServicio.raw.createdAt)}</span>
                   </div>
                 </div>
               </div>
@@ -1714,7 +1706,7 @@ function ServiciosContent() {
                               <div className="h-2 w-2 rounded-full bg-emerald-500" />
                               <p className="text-[10px] font-black text-muted-foreground uppercase">Llegada</p>
                             </div>
-                            <p className="text-xs font-bold text-foreground">{new Date(geo.llegada).toLocaleString()}</p>
+                            <p className="text-xs font-bold text-foreground">{formatBogotaDateTime(geo.llegada)}</p>
                           </div>
                           <div className="aspect-video relative rounded-2xl border border-border bg-muted overflow-hidden flex items-center justify-center">
                             {geo.fotoLlegada ? (
@@ -1734,7 +1726,7 @@ function ServiciosContent() {
                               <div className="h-2 w-2 rounded-full bg-red-500" />
                               <p className="text-[10px] font-black text-muted-foreground uppercase">Salida</p>
                             </div>
-                            <p className="text-xs font-bold text-foreground">{geo.salida ? new Date(geo.salida).toLocaleString() : "Pendiente"}</p>
+                            <p className="text-xs font-bold text-foreground">{geo.salida ? formatBogotaDateTime(geo.salida) : "Pendiente"}</p>
                           </div>
                           <div className="aspect-video relative rounded-2xl border border-border bg-muted overflow-hidden flex items-center justify-center">
                             {geo.fotoSalida ? (

@@ -3,6 +3,7 @@ import { jsPDF } from 'jspdf';
 import autoTable from 'jspdf-autotable';
 import { Document, Packer, Paragraph, Table, TableCell, TableRow, WidthType, AlignmentType, TextRun, BorderStyle } from 'docx';
 import { saveAs } from 'file-saver';
+import { formatBogotaDateTime } from '../../utils/date-utils';
 
 export interface ExportData {
   headers: string[];
@@ -23,7 +24,7 @@ export const exportToExcel = async ({ headers, data, filename, title }: ExportDa
   titleRow.height = 30;
 
   // Date Row
-  const dateRow = worksheet.addRow([`Fecha de generación: ${new Date().toLocaleString()}`]);
+  const dateRow = worksheet.addRow([`Fecha de generación: ${formatBogotaDateTime(new Date())}`]);
   dateRow.font = { name: 'Arial', size: 10, italic: true, color: { argb: 'FF71717A' } };
   worksheet.mergeCells(`A2:${String.fromCharCode(64 + headers.length)}2`);
   dateRow.alignment = { vertical: 'middle', horizontal: 'center' };
@@ -98,7 +99,7 @@ export const exportToPDF = ({ headers, data, filename, title }: ExportData) => {
   doc.text(title, 14, 30);
   
   doc.setFontSize(10);
-  doc.text(`Fecha de generación: ${new Date().toLocaleString()}`, 14, 36);
+  doc.text(`Fecha de generación: ${formatBogotaDateTime(new Date())}`, 14, 36);
   
   autoTable(doc, {
     head: [headers],
@@ -172,7 +173,7 @@ export const exportToWord = async ({ headers, data, filename, title }: ExportDat
           spacing: { after: 100 },
         }),
         new Paragraph({
-          children: [new TextRun({ text: `Fecha: ${new Date().toLocaleString()}`, italics: true, size: 20, color: "A1A1AA" })],
+          children: [new TextRun({ text: `Fecha: ${formatBogotaDateTime(new Date())}`, italics: true, size: 20, color: "A1A1AA" })],
           spacing: { after: 400 },
         }),
         table,

@@ -2,6 +2,7 @@
 
 import React from "react";
 import { cn } from "@/components/ui/utils";
+import { toBogotaYmd } from "@/utils/date-utils";
 
 // Utility to sanitize strings from potential XSS or unwanted characters
 export const sanitizeString = (str: string) => {
@@ -46,7 +47,7 @@ export const exportToCSV = (data: Record<string, string | number | null | undefi
   if (link.download !== undefined) {
     const url = URL.createObjectURL(blob);
     link.setAttribute("href", url);
-    link.setAttribute("download", `${filename}_${new Date().toISOString().split('T')[0]}.csv`);
+    link.setAttribute("download", `${filename}_${toBogotaYmd()}.csv`);
     link.style.visibility = "hidden";
     document.body.appendChild(link);
     link.click();

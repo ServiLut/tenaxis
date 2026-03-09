@@ -6,6 +6,7 @@ import {
   PrioridadSugerencia,
   ClasificacionCliente,
 } from '../generated/client/client';
+import { startOfBogotaDayUtc } from '../common/utils/timezone.util';
 
 @Injectable()
 export class SugerenciasService {
@@ -30,8 +31,7 @@ export class SugerenciasService {
   }
 
   async getQuickStats(tenantId: string, empresaId?: string) {
-    const today = new Date();
-    today.setHours(0, 0, 0, 0);
+    const today = startOfBogotaDayUtc(new Date());
 
     const sugerencias = await this.prisma.sugerenciaSeguimiento.findMany({
       where: {

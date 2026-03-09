@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { toast } from "sonner";
+import { toBogotaYmd } from "@/utils/date-utils";
 
 export type TeamTab = "ranking" | "usuarios";
 export type RankingScope = "operativo" | "todos";
@@ -144,8 +145,8 @@ const defaultDateRange = () => {
   const from = new Date();
   from.setDate(to.getDate() - 29);
   return {
-    from: from.toISOString().slice(0, 10),
-    to: to.toISOString().slice(0, 10),
+    from: toBogotaYmd(from),
+    to: toBogotaYmd(to),
   };
 };
 

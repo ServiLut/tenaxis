@@ -2,6 +2,7 @@
 
 import React, { useEffect, useState } from "react";
 import { DashboardLayout } from "@/components/dashboard";
+import { formatBogotaDate } from "@/utils/date-utils";
 import { Card, CardHeader, CardTitle, CardContent, Button } from "@/components/ui";
 import { Users, Check, X, Loader2, Clock } from "lucide-react";
 import { toast } from "sonner";
@@ -118,7 +119,7 @@ export default function SolicitudesPage() {
                     </div>
                     <div className="flex items-center gap-1.5 text-[10px] font-black uppercase tracking-widest text-muted-foreground">
                       <Clock className="h-3 w-3" />
-                      {new Date(request.createdAt).toLocaleDateString()}
+                      {formatBogotaDate(request.createdAt)}
                     </div>
                   </div>
                 </CardHeader>

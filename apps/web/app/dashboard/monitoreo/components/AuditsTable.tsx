@@ -2,11 +2,10 @@
 
 import React from "react";
 import { Search, Filter, Database, ShieldCheck, ShieldAlert, Eye, ChevronLeft, ChevronRight, History } from "lucide-react";
-import { format } from "date-fns";
-import { es } from "date-fns/locale";
 import { GlassCard } from "./utils";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/components/ui/utils";
+import { formatBogotaDateTime } from "@/utils/date-utils";
 
 import { Audit } from "../types";
 
@@ -80,7 +79,7 @@ export function AuditsTable({
                   const actionName = audit.accion.split('_')[0];
                   return (
                     <tr key={audit.id} className="hover:bg-accent/5 transition-colors group">
-                      <td className="px-6 py-5 text-muted-foreground font-medium text-xs">{format(new Date(audit.createdAt), "dd MMM, yyyy • HH:mm:ss", { locale: es })}</td>
+                      <td className="px-6 py-5 text-muted-foreground font-medium text-xs">{formatBogotaDateTime(audit.createdAt, "es-CO")}</td>
                       <td className="px-6 py-5">
                         <div className="space-y-0.5">
                           <p className="font-black text-foreground uppercase tracking-tight text-sm">{audit.membership?.user.nombre} {audit.membership?.user.apellido}</p>

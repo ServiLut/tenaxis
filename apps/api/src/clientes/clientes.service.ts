@@ -6,6 +6,7 @@ import {
 import { PrismaService } from '../prisma/prisma.service';
 import { CreateClienteDto } from './dto/create-cliente.dto';
 import { Cliente, ClasificacionCliente } from '../generated/client/client';
+import { startOfBogotaDayUtc } from '../common/utils/timezone.util';
 
 type ClienteWithRelations = Cliente & {
   direcciones?: any[];
@@ -36,7 +37,7 @@ export class ClientesService {
           : (tickets[mid - 1] + (tickets[mid] ?? 0)) / 2;
     }
 
-    const now = new Date();
+    const now = startOfBogotaDayUtc(new Date());
     const sixtyDaysAgo = new Date();
     sixtyDaysAgo.setDate(now.getDate() - 60);
 
@@ -221,7 +222,7 @@ export class ClientesService {
     }
 
     // Apply "Riesgo Comercial" logic in response (more than 45 days since last visit or 1.5x frequency)
-    const now = new Date();
+    const now = startOfBogotaDayUtc(new Date());
     const result: Cliente[] = clients.map(
       (client: ClienteWithRelations): Cliente => {
         // If already RIESGO from DB (e.g. Technical Risk), keep it

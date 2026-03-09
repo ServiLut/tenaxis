@@ -57,6 +57,14 @@ import {
 } from "lucide-react";
 import { DashboardLayout } from "@/components/dashboard";
 import { cn } from "@/components/ui/utils";
+import {
+  bogotaDateTimeToUtcIso,
+  bogotaDateToUtcIso,
+  formatBogotaDate,
+  formatBogotaTime,
+  pickerDateToYmd,
+  ymdToPickerDate,
+} from "@/utils/date-utils";
 
 const URGENCIAS = [
   { value: "BAJA", label: "Baja (SLA 48h)" },
@@ -543,8 +551,8 @@ function NuevoServicioContent() {
         monto: parseFloat(line.monto.replace(/\./g, "")) || 0
       })),
       estadoServicio: estadoServicio || undefined,
-      fechaVisita: fechaVisita ? new Date(fechaVisita).toISOString() : undefined,
-      horaInicio: (fechaVisita && horaInicio) ? new Date(`${fechaVisita}T${horaInicio}:00`).toISOString() : undefined,
+      fechaVisita: fechaVisita ? bogotaDateToUtcIso(fechaVisita) : undefined,
+      horaInicio: (fechaVisita && horaInicio) ? bogotaDateTimeToUtcIso(fechaVisita, horaInicio) : undefined,
       duracionMinutos: Number(duracionMinutos),
     };
 
@@ -565,9 +573,13 @@ function NuevoServicioContent() {
 
           if (operator?.telefono) {
             // Formatear fecha legible
-            const dateObj = new Date(`${fechaVisita}T${horaInicio}:00`);
-            const formattedDate = dateObj.toLocaleDateString('es-CO', { day: 'numeric', month: 'numeric', year: 'numeric' });
-            const formattedTime = dateObj.toLocaleTimeString('es-CO', { hour: 'numeric', minute: '2-digit', hour12: true });
+            const utcDateTime = bogotaDateTimeToUtcIso(fechaVisita, horaInicio);
+            const formattedDate = formatBogotaDate(utcDateTime);
+            const formattedTime = formatBogotaTime(utcDateTime, "es-CO", {
+              hour: "numeric",
+              minute: "2-digit",
+              hour12: true,
+            });
 
             // Formatear métodos de pago
             const metodosFormatted = breakdown
@@ -851,8 +863,8 @@ function NuevoServicioContent() {
                 <div className="space-y-2">
                   <Label className="text-xs font-bold text-zinc-500 uppercase tracking-wider">Fecha de Ejecución <span className="text-red-500">*</span></Label>
                   <DatePicker 
-                    date={fechaVisita ? new Date(fechaVisita + "T00:00:00") : undefined} 
-                    onChange={(d) => setFechaVisita(d ? d.toISOString().split("T")[0] : "")} 
+                    date={fechaVisita ? ymdToPickerDate(fechaVisita) : undefined} 
+                    onChange={(d) => setFechaVisita(pickerDateToYmd(d))} 
                     className="h-11 !border !border-zinc-200 focus-visible:ring-0 focus-visible:ring-offset-0 focus-visible:border-zinc-200 dark:border-zinc-800/50" 
                   />
                 </div>

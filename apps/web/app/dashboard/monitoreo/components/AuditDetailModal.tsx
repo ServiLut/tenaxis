@@ -3,11 +3,10 @@
 import React from "react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 import { FileJson, ShieldCheck, ShieldAlert } from "lucide-react";
-import { format } from "date-fns";
-import { es } from "date-fns/locale";
 import { ComparisonTable } from "./ComparisonTable";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/components/ui/utils";
+import { formatBogotaDateTime } from "@/utils/date-utils";
 
 import { Audit } from "../types";
 
@@ -55,7 +54,7 @@ export function AuditDetailModal({ isOpen, onOpenChange, audit }: AuditDetailMod
                 </div>
                 <div className="space-y-1">
                   <p className="text-muted-foreground text-[10px] font-black uppercase tracking-widest">Fecha y Hora</p>
-                  <p className="font-bold text-foreground text-sm">{format(new Date(audit.createdAt), "PPPPp", { locale: es })}</p>
+                  <p className="font-bold text-foreground text-sm">{formatBogotaDateTime(audit.createdAt, "es-CO")}</p>
                 </div>
                 <div className="space-y-1">
                   <p className="text-muted-foreground text-[10px] font-black uppercase tracking-widest">Ubicación IP</p>

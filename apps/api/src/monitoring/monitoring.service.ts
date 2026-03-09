@@ -2,6 +2,10 @@ import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 import { MonitoringScope } from './types';
 import { Prisma } from '../generated/client/client';
+import {
+  addBogotaDaysUtc,
+  startOfBogotaDayUtc,
+} from '../common/utils/timezone.util';
 
 type SessionWithUser = Prisma.SesionActividadGetPayload<{
   include: {
@@ -126,8 +130,7 @@ export class MonitoringService {
   }
 
   async getAlerts(scope: MonitoringScope) {
-    const today = new Date();
-    today.setHours(0, 0, 0, 0);
+    const today = startOfBogotaDayUtc(new Date());
 
     const commonWhere: Prisma.SesionActividadWhereInput = {
       tenantId: scope.tenantId,
@@ -192,8 +195,7 @@ export class MonitoringService {
   }
 
   async getOperationMetrics(scope: MonitoringScope) {
-    const today = new Date();
-    today.setHours(0, 0, 0, 0);
+    const today = startOfBogotaDayUtc(new Date());
 
     const where: Prisma.SesionActividadWhereInput = {
       tenantId: scope.tenantId,
@@ -285,12 +287,8 @@ export class MonitoringService {
   }
 
   async getExecutiveAuditMetrics(scope: MonitoringScope) {
-    const today = new Date();
-    today.setHours(0, 0, 0, 0);
-
-    const sevenDaysAgo = new Date();
-    sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7);
-    sevenDaysAgo.setHours(0, 0, 0, 0);
+    const today = startOfBogotaDayUtc(new Date());
+    const sevenDaysAgo = addBogotaDaysUtc(today, -7);
 
     const commonWhere: Prisma.AuditoriaWhereInput = {
       tenantId: scope.tenantId,
@@ -380,8 +378,7 @@ export class MonitoringService {
   }
 
   async findAllSessions(scope: MonitoringScope) {
-    const today = new Date();
-    today.setHours(0, 0, 0, 0);
+    const today = startOfBogotaDayUtc(new Date());
 
     const where: Prisma.SesionActividadWhereInput = {
       tenantId: scope.tenantId,
@@ -462,8 +459,7 @@ export class MonitoringService {
   }
 
   async getMemberLogs(scope: MonitoringScope, membershipId: string) {
-    const today = new Date();
-    today.setHours(0, 0, 0, 0);
+    const today = startOfBogotaDayUtc(new Date());
 
     const where: Prisma.LogEventoWhereInput = {
       tenantId: scope.tenantId,
@@ -506,8 +502,7 @@ export class MonitoringService {
   }
 
   async getGlobalStats(scope: MonitoringScope) {
-    const today = new Date();
-    today.setHours(0, 0, 0, 0);
+    const today = startOfBogotaDayUtc(new Date());
 
     const commonWhere: Prisma.SesionActividadWhereInput = {
       tenantId: scope.tenantId,

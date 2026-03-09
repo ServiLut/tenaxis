@@ -13,11 +13,12 @@ import {
   Hash,
   ArrowRightCircle
 } from "lucide-react";
-import { format, formatDistanceToNow, differenceInMinutes } from "date-fns";
+import { formatDistanceToNow, differenceInMinutes } from "date-fns";
 import { es } from "date-fns/locale";
 import { sanitizeString } from "./utils";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/components/ui/utils";
+import { formatBogotaDate, formatBogotaTime } from "@/utils/date-utils";
 
 import { Session, Log } from "../types";
 
@@ -75,7 +76,7 @@ export function LogsModal({
                 {session.fechaFin ? "Sesión Finalizada" : "Conexión Activa"}
               </span>
               <p className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest">
-                {format(new Date(session.fechaInicio), "PPP", { locale: es })}
+                {formatBogotaDate(session.fechaInicio, "es-CO")}
               </p>
             </div>
           )}
@@ -144,7 +145,7 @@ export function LogsModal({
                           {sanitizeString(log.tipo).replace(/_/g, ' ')}
                         </div>
                         <span className="text-[10px] font-bold text-muted-foreground/60 uppercase font-mono">
-                          {format(new Date(log.createdAt), "HH:mm:ss.SSS")}
+                          {formatBogotaTime(log.createdAt, "es-CO", { hour: "2-digit", minute: "2-digit", second: "2-digit" })}
                         </span>
                       </div>
                       

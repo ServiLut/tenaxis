@@ -1,6 +1,17 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 import { Prisma } from '../generated/client/client';
+import {
+  endOfBogotaDayUtc,
+  endOfBogotaMonthUtc,
+  endOfPreviousBogotaMonthUtc,
+  getBogotaWeekday,
+  startOfBogotaDayUtc,
+  startOfBogotaMonthUtc,
+  startOfBogotaWeekUtc,
+  startOfPreviousBogotaMonthUtc,
+  addBogotaDaysUtc,
+} from '../common/utils/timezone.util';
 
 @Injectable()
 export class DashboardService {
@@ -10,32 +21,14 @@ export class DashboardService {
     const now = new Date();
 
     // Dates for current period
-    const startOfMonth = new Date(now.getFullYear(), now.getMonth(), 1);
-    const endOfMonth = new Date(
-      now.getFullYear(),
-      now.getMonth() + 1,
-      0,
-      23,
-      59,
-      59,
-      999,
-    );
+    const startOfMonth = startOfBogotaMonthUtc(now);
+    const endOfMonth = endOfBogotaMonthUtc(now);
 
     // Dates for previous period (for comparisons)
-    const startOfPrevMonth = new Date(now.getFullYear(), now.getMonth() - 1, 1);
-    const endOfPrevMonth = new Date(
-      now.getFullYear(),
-      now.getMonth(),
-      0,
-      23,
-      59,
-      59,
-      999,
-    );
-    const startOfToday = new Date(now);
-    startOfToday.setHours(0, 0, 0, 0);
-    const endOfToday = new Date(now);
-    endOfToday.setHours(23, 59, 59, 999);
+    const startOfPrevMonth = startOfPreviousBogotaMonthUtc(now);
+    const endOfPrevMonth = endOfPreviousBogotaMonthUtc(now);
+    const startOfToday = startOfBogotaDayUtc(now);
+    const endOfToday = endOfBogotaDayUtc(now);
 
     const commonWhere: Prisma.OrdenServicioWhereInput = {
       tenantId,
@@ -136,7 +129,7 @@ export class DashboardService {
       this.prisma.ordenServicio.count({
         where: {
           ...commonWhere,
-          fechaVisita: { lt: new Date(new Date().setHours(0, 0, 0, 0)) },
+          fechaVisita: { lt: startOfToday },
           estadoServicio: {
             notIn: ['LIQUIDADO', 'TECNICO_FINALIZO', 'CANCELADO'],
           },
@@ -347,14 +340,8 @@ export class DashboardService {
     empresaId?: string,
   ): Promise<number[]> {
     const currNow = new Date();
-    const dayOfWeekNow = currNow.getDay();
-    const diffToMonday =
-      currNow.getDate() - (dayOfWeekNow === 0 ? 6 : dayOfWeekNow - 1);
-    const startOfWeek = new Date(new Date(currNow).setDate(diffToMonday));
-    startOfWeek.setHours(0, 0, 0, 0);
-
-    const endOfWeek = new Date(startOfWeek);
-    endOfWeek.setDate(startOfWeek.getDate() + 7);
+    const startOfWeek = startOfBogotaWeekUtc(currNow);
+    const endOfWeek = addBogotaDaysUtc(startOfWeek, 7);
 
     const ordenesSemana = await this.prisma.ordenServicio.findMany({
       where: {
@@ -369,7 +356,7 @@ export class DashboardService {
     const weeklyStats = [0, 0, 0, 0, 0, 0, 0];
     ordenesSemana.forEach((o) => {
       if (o.fechaVisita) {
-        const day = o.fechaVisita.getDay();
+        const day = getBogotaWeekday(o.fechaVisita);
         const index = day === 0 ? 6 : day - 1;
         const valor = Number(o.valorPagado) || Number(o.valorCotizado) || 0;
         weeklyStats[index] += valor;

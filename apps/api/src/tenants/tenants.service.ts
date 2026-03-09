@@ -22,6 +22,12 @@ import {
   TeamScope,
 } from './dto/team-performance-query.dto';
 import { TeamMemberDetailQueryDto } from './dto/team-member-detail-query.dto';
+import {
+  endOfBogotaDayUtc,
+  parseBogotaDateToUtcEnd,
+  parseBogotaDateToUtcStart,
+  startOfBogotaDayUtc,
+} from '../common/utils/timezone.util';
 
 const NEW_VISIT_TYPES = new Set<TipoVisita>([
   TipoVisita.DIAGNOSTICO,
@@ -409,11 +415,17 @@ export class TenantsService {
     startDate?: string,
     endDate?: string,
   ) {
-    const start = startDate ? new Date(startDate) : undefined;
-    const end = endDate ? new Date(endDate) : new Date();
-    if (!endDate) {
-      end.setHours(23, 59, 59, 999);
+    const parsedStart = startDate
+      ? parseBogotaDateToUtcStart(startDate)
+      : undefined;
+    const parsedEnd = endDate
+      ? parseBogotaDateToUtcEnd(endDate)
+      : endOfBogotaDayUtc(new Date());
+    if ((startDate && !parsedStart) || (endDate && !parsedEnd)) {
+      throw new BadRequestException('Rango de fechas inválido');
     }
+    const start = parsedStart;
+    const end = parsedEnd as Date;
 
     const whereServicios: Prisma.OrdenServicioWhereInput = {
       fechaVisita: {
@@ -1000,24 +1012,32 @@ export class TenantsService {
 
   private parseRange(from?: string, to?: string): DateRange {
     const now = new Date();
-    const end = to ? new Date(to) : now;
-    end.setHours(23, 59, 59, 999);
-
-    const start = from
-      ? new Date(from)
-      : new Date(end.getTime() - 29 * 24 * 60 * 60 * 1000);
-    start.setHours(0, 0, 0, 0);
-
-    if (Number.isNaN(start.getTime()) || Number.isNaN(end.getTime())) {
+    const end = to ? parseBogotaDateToUtcEnd(to) : endOfBogotaDayUtc(now);
+    if (!end) {
       throw new BadRequestException('Rango de fechas inválido');
     }
-    if (start > end) {
+
+    const start = from
+      ? parseBogotaDateToUtcStart(from)
+      : new Date(end.getTime() - 29 * 24 * 60 * 60 * 1000);
+    if (!start) {
+      throw new BadRequestException('Rango de fechas inválido');
+    }
+    const normalizedStart = from ? start : startOfBogotaDayUtc(start);
+
+    if (
+      Number.isNaN(normalizedStart.getTime()) ||
+      Number.isNaN(end.getTime())
+    ) {
+      throw new BadRequestException('Rango de fechas inválido');
+    }
+    if (normalizedStart > end) {
       throw new BadRequestException(
         'La fecha inicial no puede ser mayor a la fecha final',
       );
     }
 
-    return { from: start, to: end };
+    return { from: normalizedStart, to: end };
   }
 
   private getPreviousRange(range: DateRange): DateRange {

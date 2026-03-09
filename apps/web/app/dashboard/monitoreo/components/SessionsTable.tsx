@@ -2,10 +2,11 @@
 
 import React from "react";
 import { Activity, RefreshCcw, ExternalLink, Monitor, Globe } from "lucide-react";
-import { format, formatDistanceToNow } from "date-fns";
+import { formatDistanceToNow } from "date-fns";
 import { es } from "date-fns/locale";
 import { GlassCard } from "./utils";
 import { cn } from "@/components/ui/utils";
+import { formatBogotaTime } from "@/utils/date-utils";
 
 import { Session } from "../types";
 
@@ -77,10 +78,10 @@ export function SessionsTable({ sessions, isLoading, onOpenLogs }: SessionsTable
                     <td className="px-6 py-5">
                       <div className="space-y-1">
                         <p className="text-[11px] font-black text-foreground uppercase tracking-tight">
-                          In: {format(new Date(session.fechaInicio), "HH:mm")}
+                          In: {formatBogotaTime(session.fechaInicio, "es-CO")}
                         </p>
                         <p className="text-[10px] font-bold text-muted-foreground uppercase">
-                          Out: {session.fechaFin ? format(new Date(session.fechaFin), "HH:mm") : "--:--"}
+                          Out: {session.fechaFin ? formatBogotaTime(session.fechaFin, "es-CO") : "--:--"}
                         </p>
                       </div>
                     </td>

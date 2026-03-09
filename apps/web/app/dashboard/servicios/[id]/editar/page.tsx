@@ -31,6 +31,16 @@ import {
 } from "lucide-react";
 import { DashboardLayout } from "@/components/dashboard";
 import { cn } from "@/components/ui/utils";
+import {
+  bogotaDateTimeToUtcIso,
+  bogotaDateToUtcIso,
+  formatBogotaDate,
+  formatBogotaTime,
+  pickerDateToYmd,
+  utcIsoToBogotaHm,
+  utcIsoToBogotaYmd,
+  ymdToPickerDate,
+} from "@/utils/date-utils";
 
 const URGENCIAS = [
   { value: "BAJA", label: "Baja (SLA 48h)" },
@@ -223,10 +233,10 @@ function EditarServicioContent({ id }: { id: string }) {
         setEstadoServicio(orderData.estadoServicio || "NUEVO");
         
         if (orderData.fechaVisita) {
-          setFechaVisita(new Date(orderData.fechaVisita).toISOString().split('T')[0]);
+          setFechaVisita(utcIsoToBogotaYmd(orderData.fechaVisita));
         }
         if (orderData.horaInicio) {
-          setHoraInicio(new Date(orderData.horaInicio).toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' }));
+          setHoraInicio(utcIsoToBogotaHm(orderData.horaInicio));
         }
 
         // Load specific data for the enterprise
@@ -309,8 +319,8 @@ function EditarServicioContent({ id }: { id: string }) {
         monto: parseFloat(line.monto.replace(/\./g, "")) || 0
       })),
       estadoServicio: estadoServicio || undefined,
-      fechaVisita: fechaVisita ? new Date(fechaVisita).toISOString() : undefined,
-      horaInicio: (fechaVisita && horaInicio) ? new Date(`${fechaVisita}T${horaInicio}:00`).toISOString() : undefined,
+      fechaVisita: fechaVisita ? bogotaDateToUtcIso(fechaVisita) : undefined,
+      horaInicio: (fechaVisita && horaInicio) ? bogotaDateTimeToUtcIso(fechaVisita, horaInicio) : undefined,
       duracionMinutos: Number(duracionMinutos),
     };
 
@@ -338,9 +348,13 @@ function EditarServicioContent({ id }: { id: string }) {
           toast.info(`Notificando al operador ${operator.nombre}...`);
           
           // Formatear fecha legible
-          const dateObj = new Date(`${fechaVisita}T${horaInicio}:00`);
-          const formattedDate = dateObj.toLocaleDateString('es-CO', { day: 'numeric', month: 'numeric', year: 'numeric' });
-          const formattedTime = dateObj.toLocaleTimeString('es-CO', { hour: 'numeric', minute: '2-digit', hour12: true });
+          const utcDateTime = bogotaDateTimeToUtcIso(fechaVisita, horaInicio);
+          const formattedDate = formatBogotaDate(utcDateTime);
+          const formattedTime = formatBogotaTime(utcDateTime, "es-CO", {
+            hour: "numeric",
+            minute: "2-digit",
+            hour12: true,
+          });
 
           // Formatear métodos de pago
           const metodosFormatted = breakdown
@@ -583,8 +597,8 @@ function EditarServicioContent({ id }: { id: string }) {
                 <div className="space-y-2">
                   <Label className="text-xs font-bold text-zinc-500 uppercase tracking-wider">Fecha de Ejecución <span className="text-red-500">*</span></Label>
                   <DatePicker 
-                    date={fechaVisita ? new Date(fechaVisita + "T00:00:00") : undefined} 
-                    onChange={(d) => setFechaVisita(d ? d.toISOString().split("T")[0] : "")} 
+                    date={fechaVisita ? ymdToPickerDate(fechaVisita) : undefined} 
+                    onChange={(d) => setFechaVisita(pickerDateToYmd(d))} 
                     className="h-11 border-zinc-700" 
                   />
                 </div>
