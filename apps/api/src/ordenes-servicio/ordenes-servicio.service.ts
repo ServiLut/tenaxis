@@ -35,7 +35,6 @@ import {
 import sharp from 'sharp';
 import {
   OrdenServicio,
-  OrdenServicioSeguimiento,
   Geolocalizacion,
   EvidenciaServicio,
   ClasificacionCliente,
@@ -1968,7 +1967,8 @@ export class OrdenesServicioService {
     }
 
     const esContrato =
-      !!orden.tipoFacturacion && orden.tipoFacturacion !== TipoFacturacion.UNICO;
+      !!orden.tipoFacturacion &&
+      orden.tipoFacturacion !== TipoFacturacion.UNICO;
 
     if (esContrato) {
       return;

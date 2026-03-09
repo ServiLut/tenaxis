@@ -242,7 +242,7 @@ export class ConfigClientesService {
     this.validateServicioFollowUpConfig(dto);
     return this.prisma.servicio.update({
       where: { id },
-      data: dto as UpdateServicioDto,
+      data: dto,
     });
   }
 

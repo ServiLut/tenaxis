@@ -287,8 +287,3 @@ export type EvidenciaServicio = Prisma.EvidenciaServicioModel
  * 
  */
 export type SugerenciaSeguimiento = Prisma.SugerenciaSeguimientoModel
-/**
- * Model ordenes_servicio_seguimientos
- * 
- */
-export type ordenes_servicio_seguimientos = Prisma.ordenes_servicio_seguimientosModel

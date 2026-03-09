@@ -9,6 +9,7 @@ import {
   getServiciosAction,
   createServicioAction,
   updateServicioAction,
+  updateMembershipAction,
   getEnterprisesAction,
 } from "../actions";
 import { DashboardLayout } from "@/components/dashboard";
@@ -77,6 +78,8 @@ type Empresa = {
   nombre: string;
 };
 
+const BANCOS_PERFIL = ['Bancolombia', 'Nequi', 'Davivienda', 'PSE', 'Paypal'];
+const TIPOS_CUENTA = ['Ahorros', 'Corriente', 'Monedero (Nequi/Daviplata)', 'Otro'];
 const BANCOS_COLOMBIA = [
   "Bancolombia", "Banco de Bogotá", "Davivienda", "BBVA Colombia", "Banco de Occidente",
   "Banco Popular", "Scotiabank Colpatria", "Itaú", "Banco GNB Sudameris", "Banco Caja Social",

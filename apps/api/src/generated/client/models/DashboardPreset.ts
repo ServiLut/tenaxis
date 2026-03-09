@@ -218,8 +218,8 @@ export type DashboardPresetWhereInput = {
   filters?: Prisma.JsonFilter<"DashboardPreset">
   createdAt?: Prisma.DateTimeFilter<"DashboardPreset"> | Date | string
   updatedAt?: Prisma.DateTimeNullableFilter<"DashboardPreset"> | Date | string | null
-  createdByMembership?: Prisma.XOR<Prisma.TenantMembershipScalarRelationFilter, Prisma.TenantMembershipWhereInput>
   tenant?: Prisma.XOR<Prisma.TenantScalarRelationFilter, Prisma.TenantWhereInput>
+  createdByMembership?: Prisma.XOR<Prisma.TenantMembershipScalarRelationFilter, Prisma.TenantMembershipWhereInput>
 }
 
 export type DashboardPresetOrderByWithRelationInput = {
@@ -233,8 +233,8 @@ export type DashboardPresetOrderByWithRelationInput = {
   filters?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrderInput | Prisma.SortOrder
-  createdByMembership?: Prisma.TenantMembershipOrderByWithRelationInput
   tenant?: Prisma.TenantOrderByWithRelationInput
+  createdByMembership?: Prisma.TenantMembershipOrderByWithRelationInput
 }
 
 export type DashboardPresetWhereUniqueInput = Prisma.AtLeast<{
@@ -251,8 +251,8 @@ export type DashboardPresetWhereUniqueInput = Prisma.AtLeast<{
   filters?: Prisma.JsonFilter<"DashboardPreset">
   createdAt?: Prisma.DateTimeFilter<"DashboardPreset"> | Date | string
   updatedAt?: Prisma.DateTimeNullableFilter<"DashboardPreset"> | Date | string | null
-  createdByMembership?: Prisma.XOR<Prisma.TenantMembershipScalarRelationFilter, Prisma.TenantMembershipWhereInput>
   tenant?: Prisma.XOR<Prisma.TenantScalarRelationFilter, Prisma.TenantWhereInput>
+  createdByMembership?: Prisma.XOR<Prisma.TenantMembershipScalarRelationFilter, Prisma.TenantMembershipWhereInput>
 }, "id">
 
 export type DashboardPresetOrderByWithAggregationInput = {
@@ -296,8 +296,8 @@ export type DashboardPresetCreateInput = {
   filters: Prisma.JsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
   updatedAt?: Date | string | null
-  createdByMembership: Prisma.TenantMembershipCreateNestedOneWithoutDashboardPresetsInput
   tenant: Prisma.TenantCreateNestedOneWithoutDashboardPresetsInput
+  createdByMembership: Prisma.TenantMembershipCreateNestedOneWithoutDashboardPresetsInput
 }
 
 export type DashboardPresetUncheckedCreateInput = {
@@ -322,8 +322,8 @@ export type DashboardPresetUpdateInput = {
   filters?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  createdByMembership?: Prisma.TenantMembershipUpdateOneRequiredWithoutDashboardPresetsNestedInput
   tenant?: Prisma.TenantUpdateOneRequiredWithoutDashboardPresetsNestedInput
+  createdByMembership?: Prisma.TenantMembershipUpdateOneRequiredWithoutDashboardPresetsNestedInput
 }
 
 export type DashboardPresetUncheckedUpdateInput = {
@@ -736,8 +736,8 @@ export type DashboardPresetSelect<ExtArgs extends runtime.Types.Extensions.Inter
   filters?: boolean
   createdAt?: boolean
   updatedAt?: boolean
-  createdByMembership?: boolean | Prisma.TenantMembershipDefaultArgs<ExtArgs>
   tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
+  createdByMembership?: boolean | Prisma.TenantMembershipDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["dashboardPreset"]>
 
 export type DashboardPresetSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -751,8 +751,8 @@ export type DashboardPresetSelectCreateManyAndReturn<ExtArgs extends runtime.Typ
   filters?: boolean
   createdAt?: boolean
   updatedAt?: boolean
-  createdByMembership?: boolean | Prisma.TenantMembershipDefaultArgs<ExtArgs>
   tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
+  createdByMembership?: boolean | Prisma.TenantMembershipDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["dashboardPreset"]>
 
 export type DashboardPresetSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -766,8 +766,8 @@ export type DashboardPresetSelectUpdateManyAndReturn<ExtArgs extends runtime.Typ
   filters?: boolean
   createdAt?: boolean
   updatedAt?: boolean
-  createdByMembership?: boolean | Prisma.TenantMembershipDefaultArgs<ExtArgs>
   tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
+  createdByMembership?: boolean | Prisma.TenantMembershipDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["dashboardPreset"]>
 
 export type DashboardPresetSelectScalar = {
@@ -785,23 +785,23 @@ export type DashboardPresetSelectScalar = {
 
 export type DashboardPresetOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "tenantId" | "createdByMembershipId" | "module" | "name" | "colorToken" | "isShared" | "filters" | "createdAt" | "updatedAt", ExtArgs["result"]["dashboardPreset"]>
 export type DashboardPresetInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  createdByMembership?: boolean | Prisma.TenantMembershipDefaultArgs<ExtArgs>
   tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
+  createdByMembership?: boolean | Prisma.TenantMembershipDefaultArgs<ExtArgs>
 }
 export type DashboardPresetIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  createdByMembership?: boolean | Prisma.TenantMembershipDefaultArgs<ExtArgs>
   tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
+  createdByMembership?: boolean | Prisma.TenantMembershipDefaultArgs<ExtArgs>
 }
 export type DashboardPresetIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  createdByMembership?: boolean | Prisma.TenantMembershipDefaultArgs<ExtArgs>
   tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
+  createdByMembership?: boolean | Prisma.TenantMembershipDefaultArgs<ExtArgs>
 }
 
 export type $DashboardPresetPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "DashboardPreset"
   objects: {
-    createdByMembership: Prisma.$TenantMembershipPayload<ExtArgs>
     tenant: Prisma.$TenantPayload<ExtArgs>
+    createdByMembership: Prisma.$TenantMembershipPayload<ExtArgs>
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -1208,8 +1208,8 @@ readonly fields: DashboardPresetFieldRefs;
  */
 export interface Prisma__DashboardPresetClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
-  createdByMembership<T extends Prisma.TenantMembershipDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.TenantMembershipDefaultArgs<ExtArgs>>): Prisma.Prisma__TenantMembershipClient<runtime.Types.Result.GetResult<Prisma.$TenantMembershipPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   tenant<T extends Prisma.TenantDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.TenantDefaultArgs<ExtArgs>>): Prisma.Prisma__TenantClient<runtime.Types.Result.GetResult<Prisma.$TenantPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  createdByMembership<T extends Prisma.TenantMembershipDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.TenantMembershipDefaultArgs<ExtArgs>>): Prisma.Prisma__TenantMembershipClient<runtime.Types.Result.GetResult<Prisma.$TenantMembershipPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
