@@ -314,6 +314,7 @@ export type TenantMembershipWhereInput = {
   tenant?: Prisma.XOR<Prisma.TenantScalarRelationFilter, Prisma.TenantWhereInput>
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
   turnos?: Prisma.TurnoListRelationFilter
+  dashboardPresets?: Prisma.DashboardPresetListRelationFilter
 }
 
 export type TenantMembershipOrderByWithRelationInput = {
@@ -363,6 +364,7 @@ export type TenantMembershipOrderByWithRelationInput = {
   tenant?: Prisma.TenantOrderByWithRelationInput
   user?: Prisma.UserOrderByWithRelationInput
   turnos?: Prisma.TurnoOrderByRelationAggregateInput
+  dashboardPresets?: Prisma.DashboardPresetOrderByRelationAggregateInput
 }
 
 export type TenantMembershipWhereUniqueInput = Prisma.AtLeast<{
@@ -416,6 +418,7 @@ export type TenantMembershipWhereUniqueInput = Prisma.AtLeast<{
   tenant?: Prisma.XOR<Prisma.TenantScalarRelationFilter, Prisma.TenantWhereInput>
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
   turnos?: Prisma.TurnoListRelationFilter
+  dashboardPresets?: Prisma.DashboardPresetListRelationFilter
 }, "id" | "userId_tenantId">
 
 export type TenantMembershipOrderByWithAggregationInput = {
@@ -510,6 +513,7 @@ export type TenantMembershipCreateInput = {
   tenant: Prisma.TenantCreateNestedOneWithoutMembershipsInput
   user: Prisma.UserCreateNestedOneWithoutMembershipsInput
   turnos?: Prisma.TurnoCreateNestedManyWithoutMembershipInput
+  dashboardPresets?: Prisma.DashboardPresetCreateNestedManyWithoutCreatedByMembershipInput
 }
 
 export type TenantMembershipUncheckedCreateInput = {
@@ -556,6 +560,7 @@ export type TenantMembershipUncheckedCreateInput = {
   referidos?: Prisma.ReferidosUncheckedCreateNestedManyWithoutMembershipInput
   sesionesActividad?: Prisma.SesionActividadUncheckedCreateNestedManyWithoutMembershipInput
   turnos?: Prisma.TurnoUncheckedCreateNestedManyWithoutMembershipInput
+  dashboardPresets?: Prisma.DashboardPresetUncheckedCreateNestedManyWithoutCreatedByMembershipInput
 }
 
 export type TenantMembershipUpdateInput = {
@@ -602,6 +607,7 @@ export type TenantMembershipUpdateInput = {
   tenant?: Prisma.TenantUpdateOneRequiredWithoutMembershipsNestedInput
   user?: Prisma.UserUpdateOneRequiredWithoutMembershipsNestedInput
   turnos?: Prisma.TurnoUpdateManyWithoutMembershipNestedInput
+  dashboardPresets?: Prisma.DashboardPresetUpdateManyWithoutCreatedByMembershipNestedInput
 }
 
 export type TenantMembershipUncheckedUpdateInput = {
@@ -648,6 +654,7 @@ export type TenantMembershipUncheckedUpdateInput = {
   referidos?: Prisma.ReferidosUncheckedUpdateManyWithoutMembershipNestedInput
   sesionesActividad?: Prisma.SesionActividadUncheckedUpdateManyWithoutMembershipNestedInput
   turnos?: Prisma.TurnoUncheckedUpdateManyWithoutMembershipNestedInput
+  dashboardPresets?: Prisma.DashboardPresetUncheckedUpdateManyWithoutCreatedByMembershipNestedInput
 }
 
 export type TenantMembershipCreateManyInput = {
@@ -892,6 +899,20 @@ export type EnumMembershipStatusFieldUpdateOperationsInput = {
 
 export type NullableBoolFieldUpdateOperationsInput = {
   set?: boolean | null
+}
+
+export type TenantMembershipCreateNestedOneWithoutDashboardPresetsInput = {
+  create?: Prisma.XOR<Prisma.TenantMembershipCreateWithoutDashboardPresetsInput, Prisma.TenantMembershipUncheckedCreateWithoutDashboardPresetsInput>
+  connectOrCreate?: Prisma.TenantMembershipCreateOrConnectWithoutDashboardPresetsInput
+  connect?: Prisma.TenantMembershipWhereUniqueInput
+}
+
+export type TenantMembershipUpdateOneRequiredWithoutDashboardPresetsNestedInput = {
+  create?: Prisma.XOR<Prisma.TenantMembershipCreateWithoutDashboardPresetsInput, Prisma.TenantMembershipUncheckedCreateWithoutDashboardPresetsInput>
+  connectOrCreate?: Prisma.TenantMembershipCreateOrConnectWithoutDashboardPresetsInput
+  upsert?: Prisma.TenantMembershipUpsertWithoutDashboardPresetsInput
+  connect?: Prisma.TenantMembershipWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.TenantMembershipUpdateToOneWithWhereWithoutDashboardPresetsInput, Prisma.TenantMembershipUpdateWithoutDashboardPresetsInput>, Prisma.TenantMembershipUncheckedUpdateWithoutDashboardPresetsInput>
 }
 
 export type TenantMembershipCreateNestedOneWithoutEmpresaMembershipsInput = {
@@ -1349,6 +1370,7 @@ export type TenantMembershipCreateWithoutUserInput = {
   municipio?: Prisma.MunicipalityCreateNestedOneWithoutMembershipsInput
   tenant: Prisma.TenantCreateNestedOneWithoutMembershipsInput
   turnos?: Prisma.TurnoCreateNestedManyWithoutMembershipInput
+  dashboardPresets?: Prisma.DashboardPresetCreateNestedManyWithoutCreatedByMembershipInput
 }
 
 export type TenantMembershipUncheckedCreateWithoutUserInput = {
@@ -1394,6 +1416,7 @@ export type TenantMembershipUncheckedCreateWithoutUserInput = {
   referidos?: Prisma.ReferidosUncheckedCreateNestedManyWithoutMembershipInput
   sesionesActividad?: Prisma.SesionActividadUncheckedCreateNestedManyWithoutMembershipInput
   turnos?: Prisma.TurnoUncheckedCreateNestedManyWithoutMembershipInput
+  dashboardPresets?: Prisma.DashboardPresetUncheckedCreateNestedManyWithoutCreatedByMembershipInput
 }
 
 export type TenantMembershipCreateOrConnectWithoutUserInput = {
@@ -1489,6 +1512,7 @@ export type TenantMembershipCreateWithoutTenantInput = {
   municipio?: Prisma.MunicipalityCreateNestedOneWithoutMembershipsInput
   user: Prisma.UserCreateNestedOneWithoutMembershipsInput
   turnos?: Prisma.TurnoCreateNestedManyWithoutMembershipInput
+  dashboardPresets?: Prisma.DashboardPresetCreateNestedManyWithoutCreatedByMembershipInput
 }
 
 export type TenantMembershipUncheckedCreateWithoutTenantInput = {
@@ -1534,6 +1558,7 @@ export type TenantMembershipUncheckedCreateWithoutTenantInput = {
   referidos?: Prisma.ReferidosUncheckedCreateNestedManyWithoutMembershipInput
   sesionesActividad?: Prisma.SesionActividadUncheckedCreateNestedManyWithoutMembershipInput
   turnos?: Prisma.TurnoUncheckedCreateNestedManyWithoutMembershipInput
+  dashboardPresets?: Prisma.DashboardPresetUncheckedCreateNestedManyWithoutCreatedByMembershipInput
 }
 
 export type TenantMembershipCreateOrConnectWithoutTenantInput = {
@@ -1560,6 +1585,206 @@ export type TenantMembershipUpdateWithWhereUniqueWithoutTenantInput = {
 export type TenantMembershipUpdateManyWithWhereWithoutTenantInput = {
   where: Prisma.TenantMembershipScalarWhereInput
   data: Prisma.XOR<Prisma.TenantMembershipUpdateManyMutationInput, Prisma.TenantMembershipUncheckedUpdateManyWithoutTenantInput>
+}
+
+export type TenantMembershipCreateWithoutDashboardPresetsInput = {
+  id?: string
+  role: $Enums.Role
+  status?: $Enums.MembershipStatus
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  activo?: boolean
+  aprobado?: boolean
+  codigoReferido?: string | null
+  moto?: boolean | null
+  numberId?: string | null
+  placa?: string | null
+  pushToken?: string | null
+  username?: string | null
+  whatsappGroupId?: string | null
+  direccion?: string | null
+  anticipos?: Prisma.AnticiposCreateNestedManyWithoutMembershipInput
+  auditorias?: Prisma.AuditoriaCreateNestedManyWithoutMembershipInput
+  citasComoCreador?: Prisma.CitasPsicologosCreateNestedManyWithoutCreadoPorInput
+  citasComoPsicologo?: Prisma.CitasPsicologosCreateNestedManyWithoutPsicologoInput
+  clientesCreados?: Prisma.ClienteCreateNestedManyWithoutCreadoPorInput
+  configuracionPagos?: Prisma.ConfiguracionPagosCreateNestedManyWithoutMembershipInput
+  consignacionesCreadas?: Prisma.ConsignacionEfectivoCreateNestedManyWithoutCreadoPorInput
+  consignacionesTecnico?: Prisma.ConsignacionEfectivoCreateNestedManyWithoutTecnicoInput
+  cuentasCobro?: Prisma.CuentaCobroCreateNestedManyWithoutMembershipInput
+  cuentasPago?: Prisma.CuentasPagoCreateNestedManyWithoutMembershipInput
+  declaracionesEfectivo?: Prisma.DeclaracionEfectivoCreateNestedManyWithoutTecnicoInput
+  egresos?: Prisma.EgresosCreateNestedManyWithoutMembershipInput
+  empresaMemberships?: Prisma.EmpresaMembershipCreateNestedManyWithoutMembershipInput
+  geolocalizaciones?: Prisma.GeolocalizacionCreateNestedManyWithoutMembershipInput
+  nominas?: Prisma.NominaCreateNestedManyWithoutMembershipInput
+  serviciosCreados?: Prisma.OrdenServicioCreateNestedManyWithoutCreadoPorInput
+  serviciosLiquidados?: Prisma.OrdenServicioCreateNestedManyWithoutLiquidadoPorInput
+  serviciosAsignados?: Prisma.OrdenServicioCreateNestedManyWithoutTecnicoInput
+  paquetesAdquiridos?: Prisma.PaqueteAdquiridoCreateNestedManyWithoutMembershipInput
+  permisosAprobados?: Prisma.PermisoCreateNestedManyWithoutAdminInput
+  permisosSolicitados?: Prisma.PermisoCreateNestedManyWithoutMembershipInput
+  productosSolicitados?: Prisma.ProductoSolicitadoCreateNestedManyWithoutMembershipInput
+  referidos?: Prisma.ReferidosCreateNestedManyWithoutMembershipInput
+  sesionesActividad?: Prisma.SesionActividadCreateNestedManyWithoutMembershipInput
+  municipio?: Prisma.MunicipalityCreateNestedOneWithoutMembershipsInput
+  tenant: Prisma.TenantCreateNestedOneWithoutMembershipsInput
+  user: Prisma.UserCreateNestedOneWithoutMembershipsInput
+  turnos?: Prisma.TurnoCreateNestedManyWithoutMembershipInput
+}
+
+export type TenantMembershipUncheckedCreateWithoutDashboardPresetsInput = {
+  id?: string
+  userId: string
+  tenantId: string
+  role: $Enums.Role
+  status?: $Enums.MembershipStatus
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  activo?: boolean
+  aprobado?: boolean
+  codigoReferido?: string | null
+  moto?: boolean | null
+  numberId?: string | null
+  placa?: string | null
+  pushToken?: string | null
+  username?: string | null
+  whatsappGroupId?: string | null
+  direccion?: string | null
+  municipioId?: string | null
+  anticipos?: Prisma.AnticiposUncheckedCreateNestedManyWithoutMembershipInput
+  auditorias?: Prisma.AuditoriaUncheckedCreateNestedManyWithoutMembershipInput
+  citasComoCreador?: Prisma.CitasPsicologosUncheckedCreateNestedManyWithoutCreadoPorInput
+  citasComoPsicologo?: Prisma.CitasPsicologosUncheckedCreateNestedManyWithoutPsicologoInput
+  clientesCreados?: Prisma.ClienteUncheckedCreateNestedManyWithoutCreadoPorInput
+  configuracionPagos?: Prisma.ConfiguracionPagosUncheckedCreateNestedManyWithoutMembershipInput
+  consignacionesCreadas?: Prisma.ConsignacionEfectivoUncheckedCreateNestedManyWithoutCreadoPorInput
+  consignacionesTecnico?: Prisma.ConsignacionEfectivoUncheckedCreateNestedManyWithoutTecnicoInput
+  cuentasCobro?: Prisma.CuentaCobroUncheckedCreateNestedManyWithoutMembershipInput
+  cuentasPago?: Prisma.CuentasPagoUncheckedCreateNestedManyWithoutMembershipInput
+  declaracionesEfectivo?: Prisma.DeclaracionEfectivoUncheckedCreateNestedManyWithoutTecnicoInput
+  egresos?: Prisma.EgresosUncheckedCreateNestedManyWithoutMembershipInput
+  empresaMemberships?: Prisma.EmpresaMembershipUncheckedCreateNestedManyWithoutMembershipInput
+  geolocalizaciones?: Prisma.GeolocalizacionUncheckedCreateNestedManyWithoutMembershipInput
+  nominas?: Prisma.NominaUncheckedCreateNestedManyWithoutMembershipInput
+  serviciosCreados?: Prisma.OrdenServicioUncheckedCreateNestedManyWithoutCreadoPorInput
+  serviciosLiquidados?: Prisma.OrdenServicioUncheckedCreateNestedManyWithoutLiquidadoPorInput
+  serviciosAsignados?: Prisma.OrdenServicioUncheckedCreateNestedManyWithoutTecnicoInput
+  paquetesAdquiridos?: Prisma.PaqueteAdquiridoUncheckedCreateNestedManyWithoutMembershipInput
+  permisosAprobados?: Prisma.PermisoUncheckedCreateNestedManyWithoutAdminInput
+  permisosSolicitados?: Prisma.PermisoUncheckedCreateNestedManyWithoutMembershipInput
+  productosSolicitados?: Prisma.ProductoSolicitadoUncheckedCreateNestedManyWithoutMembershipInput
+  referidos?: Prisma.ReferidosUncheckedCreateNestedManyWithoutMembershipInput
+  sesionesActividad?: Prisma.SesionActividadUncheckedCreateNestedManyWithoutMembershipInput
+  turnos?: Prisma.TurnoUncheckedCreateNestedManyWithoutMembershipInput
+}
+
+export type TenantMembershipCreateOrConnectWithoutDashboardPresetsInput = {
+  where: Prisma.TenantMembershipWhereUniqueInput
+  create: Prisma.XOR<Prisma.TenantMembershipCreateWithoutDashboardPresetsInput, Prisma.TenantMembershipUncheckedCreateWithoutDashboardPresetsInput>
+}
+
+export type TenantMembershipUpsertWithoutDashboardPresetsInput = {
+  update: Prisma.XOR<Prisma.TenantMembershipUpdateWithoutDashboardPresetsInput, Prisma.TenantMembershipUncheckedUpdateWithoutDashboardPresetsInput>
+  create: Prisma.XOR<Prisma.TenantMembershipCreateWithoutDashboardPresetsInput, Prisma.TenantMembershipUncheckedCreateWithoutDashboardPresetsInput>
+  where?: Prisma.TenantMembershipWhereInput
+}
+
+export type TenantMembershipUpdateToOneWithWhereWithoutDashboardPresetsInput = {
+  where?: Prisma.TenantMembershipWhereInput
+  data: Prisma.XOR<Prisma.TenantMembershipUpdateWithoutDashboardPresetsInput, Prisma.TenantMembershipUncheckedUpdateWithoutDashboardPresetsInput>
+}
+
+export type TenantMembershipUpdateWithoutDashboardPresetsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  status?: Prisma.EnumMembershipStatusFieldUpdateOperationsInput | $Enums.MembershipStatus
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  aprobado?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  codigoReferido?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  moto?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  numberId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  placa?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pushToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  whatsappGroupId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  direccion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  anticipos?: Prisma.AnticiposUpdateManyWithoutMembershipNestedInput
+  auditorias?: Prisma.AuditoriaUpdateManyWithoutMembershipNestedInput
+  citasComoCreador?: Prisma.CitasPsicologosUpdateManyWithoutCreadoPorNestedInput
+  citasComoPsicologo?: Prisma.CitasPsicologosUpdateManyWithoutPsicologoNestedInput
+  clientesCreados?: Prisma.ClienteUpdateManyWithoutCreadoPorNestedInput
+  configuracionPagos?: Prisma.ConfiguracionPagosUpdateManyWithoutMembershipNestedInput
+  consignacionesCreadas?: Prisma.ConsignacionEfectivoUpdateManyWithoutCreadoPorNestedInput
+  consignacionesTecnico?: Prisma.ConsignacionEfectivoUpdateManyWithoutTecnicoNestedInput
+  cuentasCobro?: Prisma.CuentaCobroUpdateManyWithoutMembershipNestedInput
+  cuentasPago?: Prisma.CuentasPagoUpdateManyWithoutMembershipNestedInput
+  declaracionesEfectivo?: Prisma.DeclaracionEfectivoUpdateManyWithoutTecnicoNestedInput
+  egresos?: Prisma.EgresosUpdateManyWithoutMembershipNestedInput
+  empresaMemberships?: Prisma.EmpresaMembershipUpdateManyWithoutMembershipNestedInput
+  geolocalizaciones?: Prisma.GeolocalizacionUpdateManyWithoutMembershipNestedInput
+  nominas?: Prisma.NominaUpdateManyWithoutMembershipNestedInput
+  serviciosCreados?: Prisma.OrdenServicioUpdateManyWithoutCreadoPorNestedInput
+  serviciosLiquidados?: Prisma.OrdenServicioUpdateManyWithoutLiquidadoPorNestedInput
+  serviciosAsignados?: Prisma.OrdenServicioUpdateManyWithoutTecnicoNestedInput
+  paquetesAdquiridos?: Prisma.PaqueteAdquiridoUpdateManyWithoutMembershipNestedInput
+  permisosAprobados?: Prisma.PermisoUpdateManyWithoutAdminNestedInput
+  permisosSolicitados?: Prisma.PermisoUpdateManyWithoutMembershipNestedInput
+  productosSolicitados?: Prisma.ProductoSolicitadoUpdateManyWithoutMembershipNestedInput
+  referidos?: Prisma.ReferidosUpdateManyWithoutMembershipNestedInput
+  sesionesActividad?: Prisma.SesionActividadUpdateManyWithoutMembershipNestedInput
+  municipio?: Prisma.MunicipalityUpdateOneWithoutMembershipsNestedInput
+  tenant?: Prisma.TenantUpdateOneRequiredWithoutMembershipsNestedInput
+  user?: Prisma.UserUpdateOneRequiredWithoutMembershipsNestedInput
+  turnos?: Prisma.TurnoUpdateManyWithoutMembershipNestedInput
+}
+
+export type TenantMembershipUncheckedUpdateWithoutDashboardPresetsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  userId?: Prisma.StringFieldUpdateOperationsInput | string
+  tenantId?: Prisma.StringFieldUpdateOperationsInput | string
+  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  status?: Prisma.EnumMembershipStatusFieldUpdateOperationsInput | $Enums.MembershipStatus
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  aprobado?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  codigoReferido?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  moto?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  numberId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  placa?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pushToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  whatsappGroupId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  direccion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  municipioId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  anticipos?: Prisma.AnticiposUncheckedUpdateManyWithoutMembershipNestedInput
+  auditorias?: Prisma.AuditoriaUncheckedUpdateManyWithoutMembershipNestedInput
+  citasComoCreador?: Prisma.CitasPsicologosUncheckedUpdateManyWithoutCreadoPorNestedInput
+  citasComoPsicologo?: Prisma.CitasPsicologosUncheckedUpdateManyWithoutPsicologoNestedInput
+  clientesCreados?: Prisma.ClienteUncheckedUpdateManyWithoutCreadoPorNestedInput
+  configuracionPagos?: Prisma.ConfiguracionPagosUncheckedUpdateManyWithoutMembershipNestedInput
+  consignacionesCreadas?: Prisma.ConsignacionEfectivoUncheckedUpdateManyWithoutCreadoPorNestedInput
+  consignacionesTecnico?: Prisma.ConsignacionEfectivoUncheckedUpdateManyWithoutTecnicoNestedInput
+  cuentasCobro?: Prisma.CuentaCobroUncheckedUpdateManyWithoutMembershipNestedInput
+  cuentasPago?: Prisma.CuentasPagoUncheckedUpdateManyWithoutMembershipNestedInput
+  declaracionesEfectivo?: Prisma.DeclaracionEfectivoUncheckedUpdateManyWithoutTecnicoNestedInput
+  egresos?: Prisma.EgresosUncheckedUpdateManyWithoutMembershipNestedInput
+  empresaMemberships?: Prisma.EmpresaMembershipUncheckedUpdateManyWithoutMembershipNestedInput
+  geolocalizaciones?: Prisma.GeolocalizacionUncheckedUpdateManyWithoutMembershipNestedInput
+  nominas?: Prisma.NominaUncheckedUpdateManyWithoutMembershipNestedInput
+  serviciosCreados?: Prisma.OrdenServicioUncheckedUpdateManyWithoutCreadoPorNestedInput
+  serviciosLiquidados?: Prisma.OrdenServicioUncheckedUpdateManyWithoutLiquidadoPorNestedInput
+  serviciosAsignados?: Prisma.OrdenServicioUncheckedUpdateManyWithoutTecnicoNestedInput
+  paquetesAdquiridos?: Prisma.PaqueteAdquiridoUncheckedUpdateManyWithoutMembershipNestedInput
+  permisosAprobados?: Prisma.PermisoUncheckedUpdateManyWithoutAdminNestedInput
+  permisosSolicitados?: Prisma.PermisoUncheckedUpdateManyWithoutMembershipNestedInput
+  productosSolicitados?: Prisma.ProductoSolicitadoUncheckedUpdateManyWithoutMembershipNestedInput
+  referidos?: Prisma.ReferidosUncheckedUpdateManyWithoutMembershipNestedInput
+  sesionesActividad?: Prisma.SesionActividadUncheckedUpdateManyWithoutMembershipNestedInput
+  turnos?: Prisma.TurnoUncheckedUpdateManyWithoutMembershipNestedInput
 }
 
 export type TenantMembershipCreateWithoutEmpresaMembershipsInput = {
@@ -1605,6 +1830,7 @@ export type TenantMembershipCreateWithoutEmpresaMembershipsInput = {
   tenant: Prisma.TenantCreateNestedOneWithoutMembershipsInput
   user: Prisma.UserCreateNestedOneWithoutMembershipsInput
   turnos?: Prisma.TurnoCreateNestedManyWithoutMembershipInput
+  dashboardPresets?: Prisma.DashboardPresetCreateNestedManyWithoutCreatedByMembershipInput
 }
 
 export type TenantMembershipUncheckedCreateWithoutEmpresaMembershipsInput = {
@@ -1650,6 +1876,7 @@ export type TenantMembershipUncheckedCreateWithoutEmpresaMembershipsInput = {
   referidos?: Prisma.ReferidosUncheckedCreateNestedManyWithoutMembershipInput
   sesionesActividad?: Prisma.SesionActividadUncheckedCreateNestedManyWithoutMembershipInput
   turnos?: Prisma.TurnoUncheckedCreateNestedManyWithoutMembershipInput
+  dashboardPresets?: Prisma.DashboardPresetUncheckedCreateNestedManyWithoutCreatedByMembershipInput
 }
 
 export type TenantMembershipCreateOrConnectWithoutEmpresaMembershipsInput = {
@@ -1711,6 +1938,7 @@ export type TenantMembershipUpdateWithoutEmpresaMembershipsInput = {
   tenant?: Prisma.TenantUpdateOneRequiredWithoutMembershipsNestedInput
   user?: Prisma.UserUpdateOneRequiredWithoutMembershipsNestedInput
   turnos?: Prisma.TurnoUpdateManyWithoutMembershipNestedInput
+  dashboardPresets?: Prisma.DashboardPresetUpdateManyWithoutCreatedByMembershipNestedInput
 }
 
 export type TenantMembershipUncheckedUpdateWithoutEmpresaMembershipsInput = {
@@ -1756,6 +1984,7 @@ export type TenantMembershipUncheckedUpdateWithoutEmpresaMembershipsInput = {
   referidos?: Prisma.ReferidosUncheckedUpdateManyWithoutMembershipNestedInput
   sesionesActividad?: Prisma.SesionActividadUncheckedUpdateManyWithoutMembershipNestedInput
   turnos?: Prisma.TurnoUncheckedUpdateManyWithoutMembershipNestedInput
+  dashboardPresets?: Prisma.DashboardPresetUncheckedUpdateManyWithoutCreatedByMembershipNestedInput
 }
 
 export type TenantMembershipCreateWithoutMunicipioInput = {
@@ -1801,6 +2030,7 @@ export type TenantMembershipCreateWithoutMunicipioInput = {
   tenant: Prisma.TenantCreateNestedOneWithoutMembershipsInput
   user: Prisma.UserCreateNestedOneWithoutMembershipsInput
   turnos?: Prisma.TurnoCreateNestedManyWithoutMembershipInput
+  dashboardPresets?: Prisma.DashboardPresetCreateNestedManyWithoutCreatedByMembershipInput
 }
 
 export type TenantMembershipUncheckedCreateWithoutMunicipioInput = {
@@ -1846,6 +2076,7 @@ export type TenantMembershipUncheckedCreateWithoutMunicipioInput = {
   referidos?: Prisma.ReferidosUncheckedCreateNestedManyWithoutMembershipInput
   sesionesActividad?: Prisma.SesionActividadUncheckedCreateNestedManyWithoutMembershipInput
   turnos?: Prisma.TurnoUncheckedCreateNestedManyWithoutMembershipInput
+  dashboardPresets?: Prisma.DashboardPresetUncheckedCreateNestedManyWithoutCreatedByMembershipInput
 }
 
 export type TenantMembershipCreateOrConnectWithoutMunicipioInput = {
@@ -1917,6 +2148,7 @@ export type TenantMembershipCreateWithoutClientesCreadosInput = {
   tenant: Prisma.TenantCreateNestedOneWithoutMembershipsInput
   user: Prisma.UserCreateNestedOneWithoutMembershipsInput
   turnos?: Prisma.TurnoCreateNestedManyWithoutMembershipInput
+  dashboardPresets?: Prisma.DashboardPresetCreateNestedManyWithoutCreatedByMembershipInput
 }
 
 export type TenantMembershipUncheckedCreateWithoutClientesCreadosInput = {
@@ -1962,6 +2194,7 @@ export type TenantMembershipUncheckedCreateWithoutClientesCreadosInput = {
   referidos?: Prisma.ReferidosUncheckedCreateNestedManyWithoutMembershipInput
   sesionesActividad?: Prisma.SesionActividadUncheckedCreateNestedManyWithoutMembershipInput
   turnos?: Prisma.TurnoUncheckedCreateNestedManyWithoutMembershipInput
+  dashboardPresets?: Prisma.DashboardPresetUncheckedCreateNestedManyWithoutCreatedByMembershipInput
 }
 
 export type TenantMembershipCreateOrConnectWithoutClientesCreadosInput = {
@@ -2023,6 +2256,7 @@ export type TenantMembershipUpdateWithoutClientesCreadosInput = {
   tenant?: Prisma.TenantUpdateOneRequiredWithoutMembershipsNestedInput
   user?: Prisma.UserUpdateOneRequiredWithoutMembershipsNestedInput
   turnos?: Prisma.TurnoUpdateManyWithoutMembershipNestedInput
+  dashboardPresets?: Prisma.DashboardPresetUpdateManyWithoutCreatedByMembershipNestedInput
 }
 
 export type TenantMembershipUncheckedUpdateWithoutClientesCreadosInput = {
@@ -2068,6 +2302,7 @@ export type TenantMembershipUncheckedUpdateWithoutClientesCreadosInput = {
   referidos?: Prisma.ReferidosUncheckedUpdateManyWithoutMembershipNestedInput
   sesionesActividad?: Prisma.SesionActividadUncheckedUpdateManyWithoutMembershipNestedInput
   turnos?: Prisma.TurnoUncheckedUpdateManyWithoutMembershipNestedInput
+  dashboardPresets?: Prisma.DashboardPresetUncheckedUpdateManyWithoutCreatedByMembershipNestedInput
 }
 
 export type TenantMembershipCreateWithoutServiciosCreadosInput = {
@@ -2113,6 +2348,7 @@ export type TenantMembershipCreateWithoutServiciosCreadosInput = {
   tenant: Prisma.TenantCreateNestedOneWithoutMembershipsInput
   user: Prisma.UserCreateNestedOneWithoutMembershipsInput
   turnos?: Prisma.TurnoCreateNestedManyWithoutMembershipInput
+  dashboardPresets?: Prisma.DashboardPresetCreateNestedManyWithoutCreatedByMembershipInput
 }
 
 export type TenantMembershipUncheckedCreateWithoutServiciosCreadosInput = {
@@ -2158,6 +2394,7 @@ export type TenantMembershipUncheckedCreateWithoutServiciosCreadosInput = {
   referidos?: Prisma.ReferidosUncheckedCreateNestedManyWithoutMembershipInput
   sesionesActividad?: Prisma.SesionActividadUncheckedCreateNestedManyWithoutMembershipInput
   turnos?: Prisma.TurnoUncheckedCreateNestedManyWithoutMembershipInput
+  dashboardPresets?: Prisma.DashboardPresetUncheckedCreateNestedManyWithoutCreatedByMembershipInput
 }
 
 export type TenantMembershipCreateOrConnectWithoutServiciosCreadosInput = {
@@ -2208,6 +2445,7 @@ export type TenantMembershipCreateWithoutServiciosLiquidadosInput = {
   tenant: Prisma.TenantCreateNestedOneWithoutMembershipsInput
   user: Prisma.UserCreateNestedOneWithoutMembershipsInput
   turnos?: Prisma.TurnoCreateNestedManyWithoutMembershipInput
+  dashboardPresets?: Prisma.DashboardPresetCreateNestedManyWithoutCreatedByMembershipInput
 }
 
 export type TenantMembershipUncheckedCreateWithoutServiciosLiquidadosInput = {
@@ -2253,6 +2491,7 @@ export type TenantMembershipUncheckedCreateWithoutServiciosLiquidadosInput = {
   referidos?: Prisma.ReferidosUncheckedCreateNestedManyWithoutMembershipInput
   sesionesActividad?: Prisma.SesionActividadUncheckedCreateNestedManyWithoutMembershipInput
   turnos?: Prisma.TurnoUncheckedCreateNestedManyWithoutMembershipInput
+  dashboardPresets?: Prisma.DashboardPresetUncheckedCreateNestedManyWithoutCreatedByMembershipInput
 }
 
 export type TenantMembershipCreateOrConnectWithoutServiciosLiquidadosInput = {
@@ -2303,6 +2542,7 @@ export type TenantMembershipCreateWithoutServiciosAsignadosInput = {
   tenant: Prisma.TenantCreateNestedOneWithoutMembershipsInput
   user: Prisma.UserCreateNestedOneWithoutMembershipsInput
   turnos?: Prisma.TurnoCreateNestedManyWithoutMembershipInput
+  dashboardPresets?: Prisma.DashboardPresetCreateNestedManyWithoutCreatedByMembershipInput
 }
 
 export type TenantMembershipUncheckedCreateWithoutServiciosAsignadosInput = {
@@ -2348,6 +2588,7 @@ export type TenantMembershipUncheckedCreateWithoutServiciosAsignadosInput = {
   referidos?: Prisma.ReferidosUncheckedCreateNestedManyWithoutMembershipInput
   sesionesActividad?: Prisma.SesionActividadUncheckedCreateNestedManyWithoutMembershipInput
   turnos?: Prisma.TurnoUncheckedCreateNestedManyWithoutMembershipInput
+  dashboardPresets?: Prisma.DashboardPresetUncheckedCreateNestedManyWithoutCreatedByMembershipInput
 }
 
 export type TenantMembershipCreateOrConnectWithoutServiciosAsignadosInput = {
@@ -2409,6 +2650,7 @@ export type TenantMembershipUpdateWithoutServiciosCreadosInput = {
   tenant?: Prisma.TenantUpdateOneRequiredWithoutMembershipsNestedInput
   user?: Prisma.UserUpdateOneRequiredWithoutMembershipsNestedInput
   turnos?: Prisma.TurnoUpdateManyWithoutMembershipNestedInput
+  dashboardPresets?: Prisma.DashboardPresetUpdateManyWithoutCreatedByMembershipNestedInput
 }
 
 export type TenantMembershipUncheckedUpdateWithoutServiciosCreadosInput = {
@@ -2454,6 +2696,7 @@ export type TenantMembershipUncheckedUpdateWithoutServiciosCreadosInput = {
   referidos?: Prisma.ReferidosUncheckedUpdateManyWithoutMembershipNestedInput
   sesionesActividad?: Prisma.SesionActividadUncheckedUpdateManyWithoutMembershipNestedInput
   turnos?: Prisma.TurnoUncheckedUpdateManyWithoutMembershipNestedInput
+  dashboardPresets?: Prisma.DashboardPresetUncheckedUpdateManyWithoutCreatedByMembershipNestedInput
 }
 
 export type TenantMembershipUpsertWithoutServiciosLiquidadosInput = {
@@ -2510,6 +2753,7 @@ export type TenantMembershipUpdateWithoutServiciosLiquidadosInput = {
   tenant?: Prisma.TenantUpdateOneRequiredWithoutMembershipsNestedInput
   user?: Prisma.UserUpdateOneRequiredWithoutMembershipsNestedInput
   turnos?: Prisma.TurnoUpdateManyWithoutMembershipNestedInput
+  dashboardPresets?: Prisma.DashboardPresetUpdateManyWithoutCreatedByMembershipNestedInput
 }
 
 export type TenantMembershipUncheckedUpdateWithoutServiciosLiquidadosInput = {
@@ -2555,6 +2799,7 @@ export type TenantMembershipUncheckedUpdateWithoutServiciosLiquidadosInput = {
   referidos?: Prisma.ReferidosUncheckedUpdateManyWithoutMembershipNestedInput
   sesionesActividad?: Prisma.SesionActividadUncheckedUpdateManyWithoutMembershipNestedInput
   turnos?: Prisma.TurnoUncheckedUpdateManyWithoutMembershipNestedInput
+  dashboardPresets?: Prisma.DashboardPresetUncheckedUpdateManyWithoutCreatedByMembershipNestedInput
 }
 
 export type TenantMembershipUpsertWithoutServiciosAsignadosInput = {
@@ -2611,6 +2856,7 @@ export type TenantMembershipUpdateWithoutServiciosAsignadosInput = {
   tenant?: Prisma.TenantUpdateOneRequiredWithoutMembershipsNestedInput
   user?: Prisma.UserUpdateOneRequiredWithoutMembershipsNestedInput
   turnos?: Prisma.TurnoUpdateManyWithoutMembershipNestedInput
+  dashboardPresets?: Prisma.DashboardPresetUpdateManyWithoutCreatedByMembershipNestedInput
 }
 
 export type TenantMembershipUncheckedUpdateWithoutServiciosAsignadosInput = {
@@ -2656,6 +2902,7 @@ export type TenantMembershipUncheckedUpdateWithoutServiciosAsignadosInput = {
   referidos?: Prisma.ReferidosUncheckedUpdateManyWithoutMembershipNestedInput
   sesionesActividad?: Prisma.SesionActividadUncheckedUpdateManyWithoutMembershipNestedInput
   turnos?: Prisma.TurnoUncheckedUpdateManyWithoutMembershipNestedInput
+  dashboardPresets?: Prisma.DashboardPresetUncheckedUpdateManyWithoutCreatedByMembershipNestedInput
 }
 
 export type TenantMembershipCreateWithoutGeolocalizacionesInput = {
@@ -2701,6 +2948,7 @@ export type TenantMembershipCreateWithoutGeolocalizacionesInput = {
   tenant: Prisma.TenantCreateNestedOneWithoutMembershipsInput
   user: Prisma.UserCreateNestedOneWithoutMembershipsInput
   turnos?: Prisma.TurnoCreateNestedManyWithoutMembershipInput
+  dashboardPresets?: Prisma.DashboardPresetCreateNestedManyWithoutCreatedByMembershipInput
 }
 
 export type TenantMembershipUncheckedCreateWithoutGeolocalizacionesInput = {
@@ -2746,6 +2994,7 @@ export type TenantMembershipUncheckedCreateWithoutGeolocalizacionesInput = {
   referidos?: Prisma.ReferidosUncheckedCreateNestedManyWithoutMembershipInput
   sesionesActividad?: Prisma.SesionActividadUncheckedCreateNestedManyWithoutMembershipInput
   turnos?: Prisma.TurnoUncheckedCreateNestedManyWithoutMembershipInput
+  dashboardPresets?: Prisma.DashboardPresetUncheckedCreateNestedManyWithoutCreatedByMembershipInput
 }
 
 export type TenantMembershipCreateOrConnectWithoutGeolocalizacionesInput = {
@@ -2807,6 +3056,7 @@ export type TenantMembershipUpdateWithoutGeolocalizacionesInput = {
   tenant?: Prisma.TenantUpdateOneRequiredWithoutMembershipsNestedInput
   user?: Prisma.UserUpdateOneRequiredWithoutMembershipsNestedInput
   turnos?: Prisma.TurnoUpdateManyWithoutMembershipNestedInput
+  dashboardPresets?: Prisma.DashboardPresetUpdateManyWithoutCreatedByMembershipNestedInput
 }
 
 export type TenantMembershipUncheckedUpdateWithoutGeolocalizacionesInput = {
@@ -2852,6 +3102,7 @@ export type TenantMembershipUncheckedUpdateWithoutGeolocalizacionesInput = {
   referidos?: Prisma.ReferidosUncheckedUpdateManyWithoutMembershipNestedInput
   sesionesActividad?: Prisma.SesionActividadUncheckedUpdateManyWithoutMembershipNestedInput
   turnos?: Prisma.TurnoUncheckedUpdateManyWithoutMembershipNestedInput
+  dashboardPresets?: Prisma.DashboardPresetUncheckedUpdateManyWithoutCreatedByMembershipNestedInput
 }
 
 export type TenantMembershipCreateWithoutNominasInput = {
@@ -2897,6 +3148,7 @@ export type TenantMembershipCreateWithoutNominasInput = {
   tenant: Prisma.TenantCreateNestedOneWithoutMembershipsInput
   user: Prisma.UserCreateNestedOneWithoutMembershipsInput
   turnos?: Prisma.TurnoCreateNestedManyWithoutMembershipInput
+  dashboardPresets?: Prisma.DashboardPresetCreateNestedManyWithoutCreatedByMembershipInput
 }
 
 export type TenantMembershipUncheckedCreateWithoutNominasInput = {
@@ -2942,6 +3194,7 @@ export type TenantMembershipUncheckedCreateWithoutNominasInput = {
   referidos?: Prisma.ReferidosUncheckedCreateNestedManyWithoutMembershipInput
   sesionesActividad?: Prisma.SesionActividadUncheckedCreateNestedManyWithoutMembershipInput
   turnos?: Prisma.TurnoUncheckedCreateNestedManyWithoutMembershipInput
+  dashboardPresets?: Prisma.DashboardPresetUncheckedCreateNestedManyWithoutCreatedByMembershipInput
 }
 
 export type TenantMembershipCreateOrConnectWithoutNominasInput = {
@@ -3003,6 +3256,7 @@ export type TenantMembershipUpdateWithoutNominasInput = {
   tenant?: Prisma.TenantUpdateOneRequiredWithoutMembershipsNestedInput
   user?: Prisma.UserUpdateOneRequiredWithoutMembershipsNestedInput
   turnos?: Prisma.TurnoUpdateManyWithoutMembershipNestedInput
+  dashboardPresets?: Prisma.DashboardPresetUpdateManyWithoutCreatedByMembershipNestedInput
 }
 
 export type TenantMembershipUncheckedUpdateWithoutNominasInput = {
@@ -3048,6 +3302,7 @@ export type TenantMembershipUncheckedUpdateWithoutNominasInput = {
   referidos?: Prisma.ReferidosUncheckedUpdateManyWithoutMembershipNestedInput
   sesionesActividad?: Prisma.SesionActividadUncheckedUpdateManyWithoutMembershipNestedInput
   turnos?: Prisma.TurnoUncheckedUpdateManyWithoutMembershipNestedInput
+  dashboardPresets?: Prisma.DashboardPresetUncheckedUpdateManyWithoutCreatedByMembershipNestedInput
 }
 
 export type TenantMembershipCreateWithoutCitasComoCreadorInput = {
@@ -3093,6 +3348,7 @@ export type TenantMembershipCreateWithoutCitasComoCreadorInput = {
   tenant: Prisma.TenantCreateNestedOneWithoutMembershipsInput
   user: Prisma.UserCreateNestedOneWithoutMembershipsInput
   turnos?: Prisma.TurnoCreateNestedManyWithoutMembershipInput
+  dashboardPresets?: Prisma.DashboardPresetCreateNestedManyWithoutCreatedByMembershipInput
 }
 
 export type TenantMembershipUncheckedCreateWithoutCitasComoCreadorInput = {
@@ -3138,6 +3394,7 @@ export type TenantMembershipUncheckedCreateWithoutCitasComoCreadorInput = {
   referidos?: Prisma.ReferidosUncheckedCreateNestedManyWithoutMembershipInput
   sesionesActividad?: Prisma.SesionActividadUncheckedCreateNestedManyWithoutMembershipInput
   turnos?: Prisma.TurnoUncheckedCreateNestedManyWithoutMembershipInput
+  dashboardPresets?: Prisma.DashboardPresetUncheckedCreateNestedManyWithoutCreatedByMembershipInput
 }
 
 export type TenantMembershipCreateOrConnectWithoutCitasComoCreadorInput = {
@@ -3188,6 +3445,7 @@ export type TenantMembershipCreateWithoutCitasComoPsicologoInput = {
   tenant: Prisma.TenantCreateNestedOneWithoutMembershipsInput
   user: Prisma.UserCreateNestedOneWithoutMembershipsInput
   turnos?: Prisma.TurnoCreateNestedManyWithoutMembershipInput
+  dashboardPresets?: Prisma.DashboardPresetCreateNestedManyWithoutCreatedByMembershipInput
 }
 
 export type TenantMembershipUncheckedCreateWithoutCitasComoPsicologoInput = {
@@ -3233,6 +3491,7 @@ export type TenantMembershipUncheckedCreateWithoutCitasComoPsicologoInput = {
   referidos?: Prisma.ReferidosUncheckedCreateNestedManyWithoutMembershipInput
   sesionesActividad?: Prisma.SesionActividadUncheckedCreateNestedManyWithoutMembershipInput
   turnos?: Prisma.TurnoUncheckedCreateNestedManyWithoutMembershipInput
+  dashboardPresets?: Prisma.DashboardPresetUncheckedCreateNestedManyWithoutCreatedByMembershipInput
 }
 
 export type TenantMembershipCreateOrConnectWithoutCitasComoPsicologoInput = {
@@ -3294,6 +3553,7 @@ export type TenantMembershipUpdateWithoutCitasComoCreadorInput = {
   tenant?: Prisma.TenantUpdateOneRequiredWithoutMembershipsNestedInput
   user?: Prisma.UserUpdateOneRequiredWithoutMembershipsNestedInput
   turnos?: Prisma.TurnoUpdateManyWithoutMembershipNestedInput
+  dashboardPresets?: Prisma.DashboardPresetUpdateManyWithoutCreatedByMembershipNestedInput
 }
 
 export type TenantMembershipUncheckedUpdateWithoutCitasComoCreadorInput = {
@@ -3339,6 +3599,7 @@ export type TenantMembershipUncheckedUpdateWithoutCitasComoCreadorInput = {
   referidos?: Prisma.ReferidosUncheckedUpdateManyWithoutMembershipNestedInput
   sesionesActividad?: Prisma.SesionActividadUncheckedUpdateManyWithoutMembershipNestedInput
   turnos?: Prisma.TurnoUncheckedUpdateManyWithoutMembershipNestedInput
+  dashboardPresets?: Prisma.DashboardPresetUncheckedUpdateManyWithoutCreatedByMembershipNestedInput
 }
 
 export type TenantMembershipUpsertWithoutCitasComoPsicologoInput = {
@@ -3395,6 +3656,7 @@ export type TenantMembershipUpdateWithoutCitasComoPsicologoInput = {
   tenant?: Prisma.TenantUpdateOneRequiredWithoutMembershipsNestedInput
   user?: Prisma.UserUpdateOneRequiredWithoutMembershipsNestedInput
   turnos?: Prisma.TurnoUpdateManyWithoutMembershipNestedInput
+  dashboardPresets?: Prisma.DashboardPresetUpdateManyWithoutCreatedByMembershipNestedInput
 }
 
 export type TenantMembershipUncheckedUpdateWithoutCitasComoPsicologoInput = {
@@ -3440,6 +3702,7 @@ export type TenantMembershipUncheckedUpdateWithoutCitasComoPsicologoInput = {
   referidos?: Prisma.ReferidosUncheckedUpdateManyWithoutMembershipNestedInput
   sesionesActividad?: Prisma.SesionActividadUncheckedUpdateManyWithoutMembershipNestedInput
   turnos?: Prisma.TurnoUncheckedUpdateManyWithoutMembershipNestedInput
+  dashboardPresets?: Prisma.DashboardPresetUncheckedUpdateManyWithoutCreatedByMembershipNestedInput
 }
 
 export type TenantMembershipCreateWithoutPaquetesAdquiridosInput = {
@@ -3485,6 +3748,7 @@ export type TenantMembershipCreateWithoutPaquetesAdquiridosInput = {
   tenant: Prisma.TenantCreateNestedOneWithoutMembershipsInput
   user: Prisma.UserCreateNestedOneWithoutMembershipsInput
   turnos?: Prisma.TurnoCreateNestedManyWithoutMembershipInput
+  dashboardPresets?: Prisma.DashboardPresetCreateNestedManyWithoutCreatedByMembershipInput
 }
 
 export type TenantMembershipUncheckedCreateWithoutPaquetesAdquiridosInput = {
@@ -3530,6 +3794,7 @@ export type TenantMembershipUncheckedCreateWithoutPaquetesAdquiridosInput = {
   referidos?: Prisma.ReferidosUncheckedCreateNestedManyWithoutMembershipInput
   sesionesActividad?: Prisma.SesionActividadUncheckedCreateNestedManyWithoutMembershipInput
   turnos?: Prisma.TurnoUncheckedCreateNestedManyWithoutMembershipInput
+  dashboardPresets?: Prisma.DashboardPresetUncheckedCreateNestedManyWithoutCreatedByMembershipInput
 }
 
 export type TenantMembershipCreateOrConnectWithoutPaquetesAdquiridosInput = {
@@ -3591,6 +3856,7 @@ export type TenantMembershipUpdateWithoutPaquetesAdquiridosInput = {
   tenant?: Prisma.TenantUpdateOneRequiredWithoutMembershipsNestedInput
   user?: Prisma.UserUpdateOneRequiredWithoutMembershipsNestedInput
   turnos?: Prisma.TurnoUpdateManyWithoutMembershipNestedInput
+  dashboardPresets?: Prisma.DashboardPresetUpdateManyWithoutCreatedByMembershipNestedInput
 }
 
 export type TenantMembershipUncheckedUpdateWithoutPaquetesAdquiridosInput = {
@@ -3636,6 +3902,7 @@ export type TenantMembershipUncheckedUpdateWithoutPaquetesAdquiridosInput = {
   referidos?: Prisma.ReferidosUncheckedUpdateManyWithoutMembershipNestedInput
   sesionesActividad?: Prisma.SesionActividadUncheckedUpdateManyWithoutMembershipNestedInput
   turnos?: Prisma.TurnoUncheckedUpdateManyWithoutMembershipNestedInput
+  dashboardPresets?: Prisma.DashboardPresetUncheckedUpdateManyWithoutCreatedByMembershipNestedInput
 }
 
 export type TenantMembershipCreateWithoutTurnosInput = {
@@ -3681,6 +3948,7 @@ export type TenantMembershipCreateWithoutTurnosInput = {
   municipio?: Prisma.MunicipalityCreateNestedOneWithoutMembershipsInput
   tenant: Prisma.TenantCreateNestedOneWithoutMembershipsInput
   user: Prisma.UserCreateNestedOneWithoutMembershipsInput
+  dashboardPresets?: Prisma.DashboardPresetCreateNestedManyWithoutCreatedByMembershipInput
 }
 
 export type TenantMembershipUncheckedCreateWithoutTurnosInput = {
@@ -3726,6 +3994,7 @@ export type TenantMembershipUncheckedCreateWithoutTurnosInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUncheckedCreateNestedManyWithoutMembershipInput
   referidos?: Prisma.ReferidosUncheckedCreateNestedManyWithoutMembershipInput
   sesionesActividad?: Prisma.SesionActividadUncheckedCreateNestedManyWithoutMembershipInput
+  dashboardPresets?: Prisma.DashboardPresetUncheckedCreateNestedManyWithoutCreatedByMembershipInput
 }
 
 export type TenantMembershipCreateOrConnectWithoutTurnosInput = {
@@ -3787,6 +4056,7 @@ export type TenantMembershipUpdateWithoutTurnosInput = {
   municipio?: Prisma.MunicipalityUpdateOneWithoutMembershipsNestedInput
   tenant?: Prisma.TenantUpdateOneRequiredWithoutMembershipsNestedInput
   user?: Prisma.UserUpdateOneRequiredWithoutMembershipsNestedInput
+  dashboardPresets?: Prisma.DashboardPresetUpdateManyWithoutCreatedByMembershipNestedInput
 }
 
 export type TenantMembershipUncheckedUpdateWithoutTurnosInput = {
@@ -3832,6 +4102,7 @@ export type TenantMembershipUncheckedUpdateWithoutTurnosInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUncheckedUpdateManyWithoutMembershipNestedInput
   referidos?: Prisma.ReferidosUncheckedUpdateManyWithoutMembershipNestedInput
   sesionesActividad?: Prisma.SesionActividadUncheckedUpdateManyWithoutMembershipNestedInput
+  dashboardPresets?: Prisma.DashboardPresetUncheckedUpdateManyWithoutCreatedByMembershipNestedInput
 }
 
 export type TenantMembershipCreateWithoutCuentasCobroInput = {
@@ -3877,6 +4148,7 @@ export type TenantMembershipCreateWithoutCuentasCobroInput = {
   tenant: Prisma.TenantCreateNestedOneWithoutMembershipsInput
   user: Prisma.UserCreateNestedOneWithoutMembershipsInput
   turnos?: Prisma.TurnoCreateNestedManyWithoutMembershipInput
+  dashboardPresets?: Prisma.DashboardPresetCreateNestedManyWithoutCreatedByMembershipInput
 }
 
 export type TenantMembershipUncheckedCreateWithoutCuentasCobroInput = {
@@ -3922,6 +4194,7 @@ export type TenantMembershipUncheckedCreateWithoutCuentasCobroInput = {
   referidos?: Prisma.ReferidosUncheckedCreateNestedManyWithoutMembershipInput
   sesionesActividad?: Prisma.SesionActividadUncheckedCreateNestedManyWithoutMembershipInput
   turnos?: Prisma.TurnoUncheckedCreateNestedManyWithoutMembershipInput
+  dashboardPresets?: Prisma.DashboardPresetUncheckedCreateNestedManyWithoutCreatedByMembershipInput
 }
 
 export type TenantMembershipCreateOrConnectWithoutCuentasCobroInput = {
@@ -3983,6 +4256,7 @@ export type TenantMembershipUpdateWithoutCuentasCobroInput = {
   tenant?: Prisma.TenantUpdateOneRequiredWithoutMembershipsNestedInput
   user?: Prisma.UserUpdateOneRequiredWithoutMembershipsNestedInput
   turnos?: Prisma.TurnoUpdateManyWithoutMembershipNestedInput
+  dashboardPresets?: Prisma.DashboardPresetUpdateManyWithoutCreatedByMembershipNestedInput
 }
 
 export type TenantMembershipUncheckedUpdateWithoutCuentasCobroInput = {
@@ -4028,6 +4302,7 @@ export type TenantMembershipUncheckedUpdateWithoutCuentasCobroInput = {
   referidos?: Prisma.ReferidosUncheckedUpdateManyWithoutMembershipNestedInput
   sesionesActividad?: Prisma.SesionActividadUncheckedUpdateManyWithoutMembershipNestedInput
   turnos?: Prisma.TurnoUncheckedUpdateManyWithoutMembershipNestedInput
+  dashboardPresets?: Prisma.DashboardPresetUncheckedUpdateManyWithoutCreatedByMembershipNestedInput
 }
 
 export type TenantMembershipCreateWithoutDeclaracionesEfectivoInput = {
@@ -4073,6 +4348,7 @@ export type TenantMembershipCreateWithoutDeclaracionesEfectivoInput = {
   tenant: Prisma.TenantCreateNestedOneWithoutMembershipsInput
   user: Prisma.UserCreateNestedOneWithoutMembershipsInput
   turnos?: Prisma.TurnoCreateNestedManyWithoutMembershipInput
+  dashboardPresets?: Prisma.DashboardPresetCreateNestedManyWithoutCreatedByMembershipInput
 }
 
 export type TenantMembershipUncheckedCreateWithoutDeclaracionesEfectivoInput = {
@@ -4118,6 +4394,7 @@ export type TenantMembershipUncheckedCreateWithoutDeclaracionesEfectivoInput = {
   referidos?: Prisma.ReferidosUncheckedCreateNestedManyWithoutMembershipInput
   sesionesActividad?: Prisma.SesionActividadUncheckedCreateNestedManyWithoutMembershipInput
   turnos?: Prisma.TurnoUncheckedCreateNestedManyWithoutMembershipInput
+  dashboardPresets?: Prisma.DashboardPresetUncheckedCreateNestedManyWithoutCreatedByMembershipInput
 }
 
 export type TenantMembershipCreateOrConnectWithoutDeclaracionesEfectivoInput = {
@@ -4179,6 +4456,7 @@ export type TenantMembershipUpdateWithoutDeclaracionesEfectivoInput = {
   tenant?: Prisma.TenantUpdateOneRequiredWithoutMembershipsNestedInput
   user?: Prisma.UserUpdateOneRequiredWithoutMembershipsNestedInput
   turnos?: Prisma.TurnoUpdateManyWithoutMembershipNestedInput
+  dashboardPresets?: Prisma.DashboardPresetUpdateManyWithoutCreatedByMembershipNestedInput
 }
 
 export type TenantMembershipUncheckedUpdateWithoutDeclaracionesEfectivoInput = {
@@ -4224,6 +4502,7 @@ export type TenantMembershipUncheckedUpdateWithoutDeclaracionesEfectivoInput = {
   referidos?: Prisma.ReferidosUncheckedUpdateManyWithoutMembershipNestedInput
   sesionesActividad?: Prisma.SesionActividadUncheckedUpdateManyWithoutMembershipNestedInput
   turnos?: Prisma.TurnoUncheckedUpdateManyWithoutMembershipNestedInput
+  dashboardPresets?: Prisma.DashboardPresetUncheckedUpdateManyWithoutCreatedByMembershipNestedInput
 }
 
 export type TenantMembershipCreateWithoutConsignacionesCreadasInput = {
@@ -4269,6 +4548,7 @@ export type TenantMembershipCreateWithoutConsignacionesCreadasInput = {
   tenant: Prisma.TenantCreateNestedOneWithoutMembershipsInput
   user: Prisma.UserCreateNestedOneWithoutMembershipsInput
   turnos?: Prisma.TurnoCreateNestedManyWithoutMembershipInput
+  dashboardPresets?: Prisma.DashboardPresetCreateNestedManyWithoutCreatedByMembershipInput
 }
 
 export type TenantMembershipUncheckedCreateWithoutConsignacionesCreadasInput = {
@@ -4314,6 +4594,7 @@ export type TenantMembershipUncheckedCreateWithoutConsignacionesCreadasInput = {
   referidos?: Prisma.ReferidosUncheckedCreateNestedManyWithoutMembershipInput
   sesionesActividad?: Prisma.SesionActividadUncheckedCreateNestedManyWithoutMembershipInput
   turnos?: Prisma.TurnoUncheckedCreateNestedManyWithoutMembershipInput
+  dashboardPresets?: Prisma.DashboardPresetUncheckedCreateNestedManyWithoutCreatedByMembershipInput
 }
 
 export type TenantMembershipCreateOrConnectWithoutConsignacionesCreadasInput = {
@@ -4364,6 +4645,7 @@ export type TenantMembershipCreateWithoutConsignacionesTecnicoInput = {
   tenant: Prisma.TenantCreateNestedOneWithoutMembershipsInput
   user: Prisma.UserCreateNestedOneWithoutMembershipsInput
   turnos?: Prisma.TurnoCreateNestedManyWithoutMembershipInput
+  dashboardPresets?: Prisma.DashboardPresetCreateNestedManyWithoutCreatedByMembershipInput
 }
 
 export type TenantMembershipUncheckedCreateWithoutConsignacionesTecnicoInput = {
@@ -4409,6 +4691,7 @@ export type TenantMembershipUncheckedCreateWithoutConsignacionesTecnicoInput = {
   referidos?: Prisma.ReferidosUncheckedCreateNestedManyWithoutMembershipInput
   sesionesActividad?: Prisma.SesionActividadUncheckedCreateNestedManyWithoutMembershipInput
   turnos?: Prisma.TurnoUncheckedCreateNestedManyWithoutMembershipInput
+  dashboardPresets?: Prisma.DashboardPresetUncheckedCreateNestedManyWithoutCreatedByMembershipInput
 }
 
 export type TenantMembershipCreateOrConnectWithoutConsignacionesTecnicoInput = {
@@ -4470,6 +4753,7 @@ export type TenantMembershipUpdateWithoutConsignacionesCreadasInput = {
   tenant?: Prisma.TenantUpdateOneRequiredWithoutMembershipsNestedInput
   user?: Prisma.UserUpdateOneRequiredWithoutMembershipsNestedInput
   turnos?: Prisma.TurnoUpdateManyWithoutMembershipNestedInput
+  dashboardPresets?: Prisma.DashboardPresetUpdateManyWithoutCreatedByMembershipNestedInput
 }
 
 export type TenantMembershipUncheckedUpdateWithoutConsignacionesCreadasInput = {
@@ -4515,6 +4799,7 @@ export type TenantMembershipUncheckedUpdateWithoutConsignacionesCreadasInput = {
   referidos?: Prisma.ReferidosUncheckedUpdateManyWithoutMembershipNestedInput
   sesionesActividad?: Prisma.SesionActividadUncheckedUpdateManyWithoutMembershipNestedInput
   turnos?: Prisma.TurnoUncheckedUpdateManyWithoutMembershipNestedInput
+  dashboardPresets?: Prisma.DashboardPresetUncheckedUpdateManyWithoutCreatedByMembershipNestedInput
 }
 
 export type TenantMembershipUpsertWithoutConsignacionesTecnicoInput = {
@@ -4571,6 +4856,7 @@ export type TenantMembershipUpdateWithoutConsignacionesTecnicoInput = {
   tenant?: Prisma.TenantUpdateOneRequiredWithoutMembershipsNestedInput
   user?: Prisma.UserUpdateOneRequiredWithoutMembershipsNestedInput
   turnos?: Prisma.TurnoUpdateManyWithoutMembershipNestedInput
+  dashboardPresets?: Prisma.DashboardPresetUpdateManyWithoutCreatedByMembershipNestedInput
 }
 
 export type TenantMembershipUncheckedUpdateWithoutConsignacionesTecnicoInput = {
@@ -4616,6 +4902,7 @@ export type TenantMembershipUncheckedUpdateWithoutConsignacionesTecnicoInput = {
   referidos?: Prisma.ReferidosUncheckedUpdateManyWithoutMembershipNestedInput
   sesionesActividad?: Prisma.SesionActividadUncheckedUpdateManyWithoutMembershipNestedInput
   turnos?: Prisma.TurnoUncheckedUpdateManyWithoutMembershipNestedInput
+  dashboardPresets?: Prisma.DashboardPresetUncheckedUpdateManyWithoutCreatedByMembershipNestedInput
 }
 
 export type TenantMembershipCreateWithoutAnticiposInput = {
@@ -4661,6 +4948,7 @@ export type TenantMembershipCreateWithoutAnticiposInput = {
   tenant: Prisma.TenantCreateNestedOneWithoutMembershipsInput
   user: Prisma.UserCreateNestedOneWithoutMembershipsInput
   turnos?: Prisma.TurnoCreateNestedManyWithoutMembershipInput
+  dashboardPresets?: Prisma.DashboardPresetCreateNestedManyWithoutCreatedByMembershipInput
 }
 
 export type TenantMembershipUncheckedCreateWithoutAnticiposInput = {
@@ -4706,6 +4994,7 @@ export type TenantMembershipUncheckedCreateWithoutAnticiposInput = {
   referidos?: Prisma.ReferidosUncheckedCreateNestedManyWithoutMembershipInput
   sesionesActividad?: Prisma.SesionActividadUncheckedCreateNestedManyWithoutMembershipInput
   turnos?: Prisma.TurnoUncheckedCreateNestedManyWithoutMembershipInput
+  dashboardPresets?: Prisma.DashboardPresetUncheckedCreateNestedManyWithoutCreatedByMembershipInput
 }
 
 export type TenantMembershipCreateOrConnectWithoutAnticiposInput = {
@@ -4767,6 +5056,7 @@ export type TenantMembershipUpdateWithoutAnticiposInput = {
   tenant?: Prisma.TenantUpdateOneRequiredWithoutMembershipsNestedInput
   user?: Prisma.UserUpdateOneRequiredWithoutMembershipsNestedInput
   turnos?: Prisma.TurnoUpdateManyWithoutMembershipNestedInput
+  dashboardPresets?: Prisma.DashboardPresetUpdateManyWithoutCreatedByMembershipNestedInput
 }
 
 export type TenantMembershipUncheckedUpdateWithoutAnticiposInput = {
@@ -4812,6 +5102,7 @@ export type TenantMembershipUncheckedUpdateWithoutAnticiposInput = {
   referidos?: Prisma.ReferidosUncheckedUpdateManyWithoutMembershipNestedInput
   sesionesActividad?: Prisma.SesionActividadUncheckedUpdateManyWithoutMembershipNestedInput
   turnos?: Prisma.TurnoUncheckedUpdateManyWithoutMembershipNestedInput
+  dashboardPresets?: Prisma.DashboardPresetUncheckedUpdateManyWithoutCreatedByMembershipNestedInput
 }
 
 export type TenantMembershipCreateWithoutProductosSolicitadosInput = {
@@ -4857,6 +5148,7 @@ export type TenantMembershipCreateWithoutProductosSolicitadosInput = {
   tenant: Prisma.TenantCreateNestedOneWithoutMembershipsInput
   user: Prisma.UserCreateNestedOneWithoutMembershipsInput
   turnos?: Prisma.TurnoCreateNestedManyWithoutMembershipInput
+  dashboardPresets?: Prisma.DashboardPresetCreateNestedManyWithoutCreatedByMembershipInput
 }
 
 export type TenantMembershipUncheckedCreateWithoutProductosSolicitadosInput = {
@@ -4902,6 +5194,7 @@ export type TenantMembershipUncheckedCreateWithoutProductosSolicitadosInput = {
   referidos?: Prisma.ReferidosUncheckedCreateNestedManyWithoutMembershipInput
   sesionesActividad?: Prisma.SesionActividadUncheckedCreateNestedManyWithoutMembershipInput
   turnos?: Prisma.TurnoUncheckedCreateNestedManyWithoutMembershipInput
+  dashboardPresets?: Prisma.DashboardPresetUncheckedCreateNestedManyWithoutCreatedByMembershipInput
 }
 
 export type TenantMembershipCreateOrConnectWithoutProductosSolicitadosInput = {
@@ -4963,6 +5256,7 @@ export type TenantMembershipUpdateWithoutProductosSolicitadosInput = {
   tenant?: Prisma.TenantUpdateOneRequiredWithoutMembershipsNestedInput
   user?: Prisma.UserUpdateOneRequiredWithoutMembershipsNestedInput
   turnos?: Prisma.TurnoUpdateManyWithoutMembershipNestedInput
+  dashboardPresets?: Prisma.DashboardPresetUpdateManyWithoutCreatedByMembershipNestedInput
 }
 
 export type TenantMembershipUncheckedUpdateWithoutProductosSolicitadosInput = {
@@ -5008,6 +5302,7 @@ export type TenantMembershipUncheckedUpdateWithoutProductosSolicitadosInput = {
   referidos?: Prisma.ReferidosUncheckedUpdateManyWithoutMembershipNestedInput
   sesionesActividad?: Prisma.SesionActividadUncheckedUpdateManyWithoutMembershipNestedInput
   turnos?: Prisma.TurnoUncheckedUpdateManyWithoutMembershipNestedInput
+  dashboardPresets?: Prisma.DashboardPresetUncheckedUpdateManyWithoutCreatedByMembershipNestedInput
 }
 
 export type TenantMembershipCreateWithoutPermisosAprobadosInput = {
@@ -5053,6 +5348,7 @@ export type TenantMembershipCreateWithoutPermisosAprobadosInput = {
   tenant: Prisma.TenantCreateNestedOneWithoutMembershipsInput
   user: Prisma.UserCreateNestedOneWithoutMembershipsInput
   turnos?: Prisma.TurnoCreateNestedManyWithoutMembershipInput
+  dashboardPresets?: Prisma.DashboardPresetCreateNestedManyWithoutCreatedByMembershipInput
 }
 
 export type TenantMembershipUncheckedCreateWithoutPermisosAprobadosInput = {
@@ -5098,6 +5394,7 @@ export type TenantMembershipUncheckedCreateWithoutPermisosAprobadosInput = {
   referidos?: Prisma.ReferidosUncheckedCreateNestedManyWithoutMembershipInput
   sesionesActividad?: Prisma.SesionActividadUncheckedCreateNestedManyWithoutMembershipInput
   turnos?: Prisma.TurnoUncheckedCreateNestedManyWithoutMembershipInput
+  dashboardPresets?: Prisma.DashboardPresetUncheckedCreateNestedManyWithoutCreatedByMembershipInput
 }
 
 export type TenantMembershipCreateOrConnectWithoutPermisosAprobadosInput = {
@@ -5148,6 +5445,7 @@ export type TenantMembershipCreateWithoutPermisosSolicitadosInput = {
   tenant: Prisma.TenantCreateNestedOneWithoutMembershipsInput
   user: Prisma.UserCreateNestedOneWithoutMembershipsInput
   turnos?: Prisma.TurnoCreateNestedManyWithoutMembershipInput
+  dashboardPresets?: Prisma.DashboardPresetCreateNestedManyWithoutCreatedByMembershipInput
 }
 
 export type TenantMembershipUncheckedCreateWithoutPermisosSolicitadosInput = {
@@ -5193,6 +5491,7 @@ export type TenantMembershipUncheckedCreateWithoutPermisosSolicitadosInput = {
   referidos?: Prisma.ReferidosUncheckedCreateNestedManyWithoutMembershipInput
   sesionesActividad?: Prisma.SesionActividadUncheckedCreateNestedManyWithoutMembershipInput
   turnos?: Prisma.TurnoUncheckedCreateNestedManyWithoutMembershipInput
+  dashboardPresets?: Prisma.DashboardPresetUncheckedCreateNestedManyWithoutCreatedByMembershipInput
 }
 
 export type TenantMembershipCreateOrConnectWithoutPermisosSolicitadosInput = {
@@ -5254,6 +5553,7 @@ export type TenantMembershipUpdateWithoutPermisosAprobadosInput = {
   tenant?: Prisma.TenantUpdateOneRequiredWithoutMembershipsNestedInput
   user?: Prisma.UserUpdateOneRequiredWithoutMembershipsNestedInput
   turnos?: Prisma.TurnoUpdateManyWithoutMembershipNestedInput
+  dashboardPresets?: Prisma.DashboardPresetUpdateManyWithoutCreatedByMembershipNestedInput
 }
 
 export type TenantMembershipUncheckedUpdateWithoutPermisosAprobadosInput = {
@@ -5299,6 +5599,7 @@ export type TenantMembershipUncheckedUpdateWithoutPermisosAprobadosInput = {
   referidos?: Prisma.ReferidosUncheckedUpdateManyWithoutMembershipNestedInput
   sesionesActividad?: Prisma.SesionActividadUncheckedUpdateManyWithoutMembershipNestedInput
   turnos?: Prisma.TurnoUncheckedUpdateManyWithoutMembershipNestedInput
+  dashboardPresets?: Prisma.DashboardPresetUncheckedUpdateManyWithoutCreatedByMembershipNestedInput
 }
 
 export type TenantMembershipUpsertWithoutPermisosSolicitadosInput = {
@@ -5355,6 +5656,7 @@ export type TenantMembershipUpdateWithoutPermisosSolicitadosInput = {
   tenant?: Prisma.TenantUpdateOneRequiredWithoutMembershipsNestedInput
   user?: Prisma.UserUpdateOneRequiredWithoutMembershipsNestedInput
   turnos?: Prisma.TurnoUpdateManyWithoutMembershipNestedInput
+  dashboardPresets?: Prisma.DashboardPresetUpdateManyWithoutCreatedByMembershipNestedInput
 }
 
 export type TenantMembershipUncheckedUpdateWithoutPermisosSolicitadosInput = {
@@ -5400,6 +5702,7 @@ export type TenantMembershipUncheckedUpdateWithoutPermisosSolicitadosInput = {
   referidos?: Prisma.ReferidosUncheckedUpdateManyWithoutMembershipNestedInput
   sesionesActividad?: Prisma.SesionActividadUncheckedUpdateManyWithoutMembershipNestedInput
   turnos?: Prisma.TurnoUncheckedUpdateManyWithoutMembershipNestedInput
+  dashboardPresets?: Prisma.DashboardPresetUncheckedUpdateManyWithoutCreatedByMembershipNestedInput
 }
 
 export type TenantMembershipCreateWithoutConfiguracionPagosInput = {
@@ -5445,6 +5748,7 @@ export type TenantMembershipCreateWithoutConfiguracionPagosInput = {
   tenant: Prisma.TenantCreateNestedOneWithoutMembershipsInput
   user: Prisma.UserCreateNestedOneWithoutMembershipsInput
   turnos?: Prisma.TurnoCreateNestedManyWithoutMembershipInput
+  dashboardPresets?: Prisma.DashboardPresetCreateNestedManyWithoutCreatedByMembershipInput
 }
 
 export type TenantMembershipUncheckedCreateWithoutConfiguracionPagosInput = {
@@ -5490,6 +5794,7 @@ export type TenantMembershipUncheckedCreateWithoutConfiguracionPagosInput = {
   referidos?: Prisma.ReferidosUncheckedCreateNestedManyWithoutMembershipInput
   sesionesActividad?: Prisma.SesionActividadUncheckedCreateNestedManyWithoutMembershipInput
   turnos?: Prisma.TurnoUncheckedCreateNestedManyWithoutMembershipInput
+  dashboardPresets?: Prisma.DashboardPresetUncheckedCreateNestedManyWithoutCreatedByMembershipInput
 }
 
 export type TenantMembershipCreateOrConnectWithoutConfiguracionPagosInput = {
@@ -5551,6 +5856,7 @@ export type TenantMembershipUpdateWithoutConfiguracionPagosInput = {
   tenant?: Prisma.TenantUpdateOneRequiredWithoutMembershipsNestedInput
   user?: Prisma.UserUpdateOneRequiredWithoutMembershipsNestedInput
   turnos?: Prisma.TurnoUpdateManyWithoutMembershipNestedInput
+  dashboardPresets?: Prisma.DashboardPresetUpdateManyWithoutCreatedByMembershipNestedInput
 }
 
 export type TenantMembershipUncheckedUpdateWithoutConfiguracionPagosInput = {
@@ -5596,6 +5902,7 @@ export type TenantMembershipUncheckedUpdateWithoutConfiguracionPagosInput = {
   referidos?: Prisma.ReferidosUncheckedUpdateManyWithoutMembershipNestedInput
   sesionesActividad?: Prisma.SesionActividadUncheckedUpdateManyWithoutMembershipNestedInput
   turnos?: Prisma.TurnoUncheckedUpdateManyWithoutMembershipNestedInput
+  dashboardPresets?: Prisma.DashboardPresetUncheckedUpdateManyWithoutCreatedByMembershipNestedInput
 }
 
 export type TenantMembershipCreateWithoutCuentasPagoInput = {
@@ -5641,6 +5948,7 @@ export type TenantMembershipCreateWithoutCuentasPagoInput = {
   tenant: Prisma.TenantCreateNestedOneWithoutMembershipsInput
   user: Prisma.UserCreateNestedOneWithoutMembershipsInput
   turnos?: Prisma.TurnoCreateNestedManyWithoutMembershipInput
+  dashboardPresets?: Prisma.DashboardPresetCreateNestedManyWithoutCreatedByMembershipInput
 }
 
 export type TenantMembershipUncheckedCreateWithoutCuentasPagoInput = {
@@ -5686,6 +5994,7 @@ export type TenantMembershipUncheckedCreateWithoutCuentasPagoInput = {
   referidos?: Prisma.ReferidosUncheckedCreateNestedManyWithoutMembershipInput
   sesionesActividad?: Prisma.SesionActividadUncheckedCreateNestedManyWithoutMembershipInput
   turnos?: Prisma.TurnoUncheckedCreateNestedManyWithoutMembershipInput
+  dashboardPresets?: Prisma.DashboardPresetUncheckedCreateNestedManyWithoutCreatedByMembershipInput
 }
 
 export type TenantMembershipCreateOrConnectWithoutCuentasPagoInput = {
@@ -5747,6 +6056,7 @@ export type TenantMembershipUpdateWithoutCuentasPagoInput = {
   tenant?: Prisma.TenantUpdateOneRequiredWithoutMembershipsNestedInput
   user?: Prisma.UserUpdateOneRequiredWithoutMembershipsNestedInput
   turnos?: Prisma.TurnoUpdateManyWithoutMembershipNestedInput
+  dashboardPresets?: Prisma.DashboardPresetUpdateManyWithoutCreatedByMembershipNestedInput
 }
 
 export type TenantMembershipUncheckedUpdateWithoutCuentasPagoInput = {
@@ -5792,6 +6102,7 @@ export type TenantMembershipUncheckedUpdateWithoutCuentasPagoInput = {
   referidos?: Prisma.ReferidosUncheckedUpdateManyWithoutMembershipNestedInput
   sesionesActividad?: Prisma.SesionActividadUncheckedUpdateManyWithoutMembershipNestedInput
   turnos?: Prisma.TurnoUncheckedUpdateManyWithoutMembershipNestedInput
+  dashboardPresets?: Prisma.DashboardPresetUncheckedUpdateManyWithoutCreatedByMembershipNestedInput
 }
 
 export type TenantMembershipCreateWithoutEgresosInput = {
@@ -5837,6 +6148,7 @@ export type TenantMembershipCreateWithoutEgresosInput = {
   tenant: Prisma.TenantCreateNestedOneWithoutMembershipsInput
   user: Prisma.UserCreateNestedOneWithoutMembershipsInput
   turnos?: Prisma.TurnoCreateNestedManyWithoutMembershipInput
+  dashboardPresets?: Prisma.DashboardPresetCreateNestedManyWithoutCreatedByMembershipInput
 }
 
 export type TenantMembershipUncheckedCreateWithoutEgresosInput = {
@@ -5882,6 +6194,7 @@ export type TenantMembershipUncheckedCreateWithoutEgresosInput = {
   referidos?: Prisma.ReferidosUncheckedCreateNestedManyWithoutMembershipInput
   sesionesActividad?: Prisma.SesionActividadUncheckedCreateNestedManyWithoutMembershipInput
   turnos?: Prisma.TurnoUncheckedCreateNestedManyWithoutMembershipInput
+  dashboardPresets?: Prisma.DashboardPresetUncheckedCreateNestedManyWithoutCreatedByMembershipInput
 }
 
 export type TenantMembershipCreateOrConnectWithoutEgresosInput = {
@@ -5943,6 +6256,7 @@ export type TenantMembershipUpdateWithoutEgresosInput = {
   tenant?: Prisma.TenantUpdateOneRequiredWithoutMembershipsNestedInput
   user?: Prisma.UserUpdateOneRequiredWithoutMembershipsNestedInput
   turnos?: Prisma.TurnoUpdateManyWithoutMembershipNestedInput
+  dashboardPresets?: Prisma.DashboardPresetUpdateManyWithoutCreatedByMembershipNestedInput
 }
 
 export type TenantMembershipUncheckedUpdateWithoutEgresosInput = {
@@ -5988,6 +6302,7 @@ export type TenantMembershipUncheckedUpdateWithoutEgresosInput = {
   referidos?: Prisma.ReferidosUncheckedUpdateManyWithoutMembershipNestedInput
   sesionesActividad?: Prisma.SesionActividadUncheckedUpdateManyWithoutMembershipNestedInput
   turnos?: Prisma.TurnoUncheckedUpdateManyWithoutMembershipNestedInput
+  dashboardPresets?: Prisma.DashboardPresetUncheckedUpdateManyWithoutCreatedByMembershipNestedInput
 }
 
 export type TenantMembershipCreateWithoutReferidosInput = {
@@ -6033,6 +6348,7 @@ export type TenantMembershipCreateWithoutReferidosInput = {
   tenant: Prisma.TenantCreateNestedOneWithoutMembershipsInput
   user: Prisma.UserCreateNestedOneWithoutMembershipsInput
   turnos?: Prisma.TurnoCreateNestedManyWithoutMembershipInput
+  dashboardPresets?: Prisma.DashboardPresetCreateNestedManyWithoutCreatedByMembershipInput
 }
 
 export type TenantMembershipUncheckedCreateWithoutReferidosInput = {
@@ -6078,6 +6394,7 @@ export type TenantMembershipUncheckedCreateWithoutReferidosInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUncheckedCreateNestedManyWithoutMembershipInput
   sesionesActividad?: Prisma.SesionActividadUncheckedCreateNestedManyWithoutMembershipInput
   turnos?: Prisma.TurnoUncheckedCreateNestedManyWithoutMembershipInput
+  dashboardPresets?: Prisma.DashboardPresetUncheckedCreateNestedManyWithoutCreatedByMembershipInput
 }
 
 export type TenantMembershipCreateOrConnectWithoutReferidosInput = {
@@ -6139,6 +6456,7 @@ export type TenantMembershipUpdateWithoutReferidosInput = {
   tenant?: Prisma.TenantUpdateOneRequiredWithoutMembershipsNestedInput
   user?: Prisma.UserUpdateOneRequiredWithoutMembershipsNestedInput
   turnos?: Prisma.TurnoUpdateManyWithoutMembershipNestedInput
+  dashboardPresets?: Prisma.DashboardPresetUpdateManyWithoutCreatedByMembershipNestedInput
 }
 
 export type TenantMembershipUncheckedUpdateWithoutReferidosInput = {
@@ -6184,6 +6502,7 @@ export type TenantMembershipUncheckedUpdateWithoutReferidosInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUncheckedUpdateManyWithoutMembershipNestedInput
   sesionesActividad?: Prisma.SesionActividadUncheckedUpdateManyWithoutMembershipNestedInput
   turnos?: Prisma.TurnoUncheckedUpdateManyWithoutMembershipNestedInput
+  dashboardPresets?: Prisma.DashboardPresetUncheckedUpdateManyWithoutCreatedByMembershipNestedInput
 }
 
 export type TenantMembershipCreateWithoutAuditoriasInput = {
@@ -6229,6 +6548,7 @@ export type TenantMembershipCreateWithoutAuditoriasInput = {
   tenant: Prisma.TenantCreateNestedOneWithoutMembershipsInput
   user: Prisma.UserCreateNestedOneWithoutMembershipsInput
   turnos?: Prisma.TurnoCreateNestedManyWithoutMembershipInput
+  dashboardPresets?: Prisma.DashboardPresetCreateNestedManyWithoutCreatedByMembershipInput
 }
 
 export type TenantMembershipUncheckedCreateWithoutAuditoriasInput = {
@@ -6274,6 +6594,7 @@ export type TenantMembershipUncheckedCreateWithoutAuditoriasInput = {
   referidos?: Prisma.ReferidosUncheckedCreateNestedManyWithoutMembershipInput
   sesionesActividad?: Prisma.SesionActividadUncheckedCreateNestedManyWithoutMembershipInput
   turnos?: Prisma.TurnoUncheckedCreateNestedManyWithoutMembershipInput
+  dashboardPresets?: Prisma.DashboardPresetUncheckedCreateNestedManyWithoutCreatedByMembershipInput
 }
 
 export type TenantMembershipCreateOrConnectWithoutAuditoriasInput = {
@@ -6335,6 +6656,7 @@ export type TenantMembershipUpdateWithoutAuditoriasInput = {
   tenant?: Prisma.TenantUpdateOneRequiredWithoutMembershipsNestedInput
   user?: Prisma.UserUpdateOneRequiredWithoutMembershipsNestedInput
   turnos?: Prisma.TurnoUpdateManyWithoutMembershipNestedInput
+  dashboardPresets?: Prisma.DashboardPresetUpdateManyWithoutCreatedByMembershipNestedInput
 }
 
 export type TenantMembershipUncheckedUpdateWithoutAuditoriasInput = {
@@ -6380,6 +6702,7 @@ export type TenantMembershipUncheckedUpdateWithoutAuditoriasInput = {
   referidos?: Prisma.ReferidosUncheckedUpdateManyWithoutMembershipNestedInput
   sesionesActividad?: Prisma.SesionActividadUncheckedUpdateManyWithoutMembershipNestedInput
   turnos?: Prisma.TurnoUncheckedUpdateManyWithoutMembershipNestedInput
+  dashboardPresets?: Prisma.DashboardPresetUncheckedUpdateManyWithoutCreatedByMembershipNestedInput
 }
 
 export type TenantMembershipCreateWithoutSesionesActividadInput = {
@@ -6425,6 +6748,7 @@ export type TenantMembershipCreateWithoutSesionesActividadInput = {
   tenant: Prisma.TenantCreateNestedOneWithoutMembershipsInput
   user: Prisma.UserCreateNestedOneWithoutMembershipsInput
   turnos?: Prisma.TurnoCreateNestedManyWithoutMembershipInput
+  dashboardPresets?: Prisma.DashboardPresetCreateNestedManyWithoutCreatedByMembershipInput
 }
 
 export type TenantMembershipUncheckedCreateWithoutSesionesActividadInput = {
@@ -6470,6 +6794,7 @@ export type TenantMembershipUncheckedCreateWithoutSesionesActividadInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUncheckedCreateNestedManyWithoutMembershipInput
   referidos?: Prisma.ReferidosUncheckedCreateNestedManyWithoutMembershipInput
   turnos?: Prisma.TurnoUncheckedCreateNestedManyWithoutMembershipInput
+  dashboardPresets?: Prisma.DashboardPresetUncheckedCreateNestedManyWithoutCreatedByMembershipInput
 }
 
 export type TenantMembershipCreateOrConnectWithoutSesionesActividadInput = {
@@ -6531,6 +6856,7 @@ export type TenantMembershipUpdateWithoutSesionesActividadInput = {
   tenant?: Prisma.TenantUpdateOneRequiredWithoutMembershipsNestedInput
   user?: Prisma.UserUpdateOneRequiredWithoutMembershipsNestedInput
   turnos?: Prisma.TurnoUpdateManyWithoutMembershipNestedInput
+  dashboardPresets?: Prisma.DashboardPresetUpdateManyWithoutCreatedByMembershipNestedInput
 }
 
 export type TenantMembershipUncheckedUpdateWithoutSesionesActividadInput = {
@@ -6576,6 +6902,7 @@ export type TenantMembershipUncheckedUpdateWithoutSesionesActividadInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUncheckedUpdateManyWithoutMembershipNestedInput
   referidos?: Prisma.ReferidosUncheckedUpdateManyWithoutMembershipNestedInput
   turnos?: Prisma.TurnoUncheckedUpdateManyWithoutMembershipNestedInput
+  dashboardPresets?: Prisma.DashboardPresetUncheckedUpdateManyWithoutCreatedByMembershipNestedInput
 }
 
 export type TenantMembershipCreateManyUserInput = {
@@ -6641,6 +6968,7 @@ export type TenantMembershipUpdateWithoutUserInput = {
   municipio?: Prisma.MunicipalityUpdateOneWithoutMembershipsNestedInput
   tenant?: Prisma.TenantUpdateOneRequiredWithoutMembershipsNestedInput
   turnos?: Prisma.TurnoUpdateManyWithoutMembershipNestedInput
+  dashboardPresets?: Prisma.DashboardPresetUpdateManyWithoutCreatedByMembershipNestedInput
 }
 
 export type TenantMembershipUncheckedUpdateWithoutUserInput = {
@@ -6686,6 +7014,7 @@ export type TenantMembershipUncheckedUpdateWithoutUserInput = {
   referidos?: Prisma.ReferidosUncheckedUpdateManyWithoutMembershipNestedInput
   sesionesActividad?: Prisma.SesionActividadUncheckedUpdateManyWithoutMembershipNestedInput
   turnos?: Prisma.TurnoUncheckedUpdateManyWithoutMembershipNestedInput
+  dashboardPresets?: Prisma.DashboardPresetUncheckedUpdateManyWithoutCreatedByMembershipNestedInput
 }
 
 export type TenantMembershipUncheckedUpdateManyWithoutUserInput = {
@@ -6771,6 +7100,7 @@ export type TenantMembershipUpdateWithoutTenantInput = {
   municipio?: Prisma.MunicipalityUpdateOneWithoutMembershipsNestedInput
   user?: Prisma.UserUpdateOneRequiredWithoutMembershipsNestedInput
   turnos?: Prisma.TurnoUpdateManyWithoutMembershipNestedInput
+  dashboardPresets?: Prisma.DashboardPresetUpdateManyWithoutCreatedByMembershipNestedInput
 }
 
 export type TenantMembershipUncheckedUpdateWithoutTenantInput = {
@@ -6816,6 +7146,7 @@ export type TenantMembershipUncheckedUpdateWithoutTenantInput = {
   referidos?: Prisma.ReferidosUncheckedUpdateManyWithoutMembershipNestedInput
   sesionesActividad?: Prisma.SesionActividadUncheckedUpdateManyWithoutMembershipNestedInput
   turnos?: Prisma.TurnoUncheckedUpdateManyWithoutMembershipNestedInput
+  dashboardPresets?: Prisma.DashboardPresetUncheckedUpdateManyWithoutCreatedByMembershipNestedInput
 }
 
 export type TenantMembershipUncheckedUpdateManyWithoutTenantInput = {
@@ -6901,6 +7232,7 @@ export type TenantMembershipUpdateWithoutMunicipioInput = {
   tenant?: Prisma.TenantUpdateOneRequiredWithoutMembershipsNestedInput
   user?: Prisma.UserUpdateOneRequiredWithoutMembershipsNestedInput
   turnos?: Prisma.TurnoUpdateManyWithoutMembershipNestedInput
+  dashboardPresets?: Prisma.DashboardPresetUpdateManyWithoutCreatedByMembershipNestedInput
 }
 
 export type TenantMembershipUncheckedUpdateWithoutMunicipioInput = {
@@ -6946,6 +7278,7 @@ export type TenantMembershipUncheckedUpdateWithoutMunicipioInput = {
   referidos?: Prisma.ReferidosUncheckedUpdateManyWithoutMembershipNestedInput
   sesionesActividad?: Prisma.SesionActividadUncheckedUpdateManyWithoutMembershipNestedInput
   turnos?: Prisma.TurnoUncheckedUpdateManyWithoutMembershipNestedInput
+  dashboardPresets?: Prisma.DashboardPresetUncheckedUpdateManyWithoutCreatedByMembershipNestedInput
 }
 
 export type TenantMembershipUncheckedUpdateManyWithoutMunicipioInput = {
@@ -6999,6 +7332,7 @@ export type TenantMembershipCountOutputType = {
   referidos: number
   sesionesActividad: number
   turnos: number
+  dashboardPresets: number
 }
 
 export type TenantMembershipCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -7027,6 +7361,7 @@ export type TenantMembershipCountOutputTypeSelect<ExtArgs extends runtime.Types.
   referidos?: boolean | TenantMembershipCountOutputTypeCountReferidosArgs
   sesionesActividad?: boolean | TenantMembershipCountOutputTypeCountSesionesActividadArgs
   turnos?: boolean | TenantMembershipCountOutputTypeCountTurnosArgs
+  dashboardPresets?: boolean | TenantMembershipCountOutputTypeCountDashboardPresetsArgs
 }
 
 /**
@@ -7214,6 +7549,13 @@ export type TenantMembershipCountOutputTypeCountTurnosArgs<ExtArgs extends runti
   where?: Prisma.TurnoWhereInput
 }
 
+/**
+ * TenantMembershipCountOutputType without action
+ */
+export type TenantMembershipCountOutputTypeCountDashboardPresetsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.DashboardPresetWhereInput
+}
+
 
 export type TenantMembershipSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -7262,6 +7604,7 @@ export type TenantMembershipSelect<ExtArgs extends runtime.Types.Extensions.Inte
   tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   turnos?: boolean | Prisma.TenantMembership$turnosArgs<ExtArgs>
+  dashboardPresets?: boolean | Prisma.TenantMembership$dashboardPresetsArgs<ExtArgs>
   _count?: boolean | Prisma.TenantMembershipCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["tenantMembership"]>
 
@@ -7364,6 +7707,7 @@ export type TenantMembershipInclude<ExtArgs extends runtime.Types.Extensions.Int
   tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   turnos?: boolean | Prisma.TenantMembership$turnosArgs<ExtArgs>
+  dashboardPresets?: boolean | Prisma.TenantMembership$dashboardPresetsArgs<ExtArgs>
   _count?: boolean | Prisma.TenantMembershipCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type TenantMembershipIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -7408,6 +7752,7 @@ export type $TenantMembershipPayload<ExtArgs extends runtime.Types.Extensions.In
     tenant: Prisma.$TenantPayload<ExtArgs>
     user: Prisma.$UserPayload<ExtArgs>
     turnos: Prisma.$TurnoPayload<ExtArgs>[]
+    dashboardPresets: Prisma.$DashboardPresetPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -7850,6 +8195,7 @@ export interface Prisma__TenantMembershipClient<T, Null = never, ExtArgs extends
   tenant<T extends Prisma.TenantDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.TenantDefaultArgs<ExtArgs>>): Prisma.Prisma__TenantClient<runtime.Types.Result.GetResult<Prisma.$TenantPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   user<T extends Prisma.UserDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.UserDefaultArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   turnos<T extends Prisma.TenantMembership$turnosArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.TenantMembership$turnosArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$TurnoPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  dashboardPresets<T extends Prisma.TenantMembership$dashboardPresetsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.TenantMembership$dashboardPresetsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$DashboardPresetPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -8909,6 +9255,30 @@ export type TenantMembership$turnosArgs<ExtArgs extends runtime.Types.Extensions
   take?: number
   skip?: number
   distinct?: Prisma.TurnoScalarFieldEnum | Prisma.TurnoScalarFieldEnum[]
+}
+
+/**
+ * TenantMembership.dashboardPresets
+ */
+export type TenantMembership$dashboardPresetsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the DashboardPreset
+   */
+  select?: Prisma.DashboardPresetSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the DashboardPreset
+   */
+  omit?: Prisma.DashboardPresetOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.DashboardPresetInclude<ExtArgs> | null
+  where?: Prisma.DashboardPresetWhereInput
+  orderBy?: Prisma.DashboardPresetOrderByWithRelationInput | Prisma.DashboardPresetOrderByWithRelationInput[]
+  cursor?: Prisma.DashboardPresetWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.DashboardPresetScalarFieldEnum | Prisma.DashboardPresetScalarFieldEnum[]
 }
 
 /**

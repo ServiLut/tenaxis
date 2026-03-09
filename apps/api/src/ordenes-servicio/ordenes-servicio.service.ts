@@ -3,6 +3,23 @@ import { PrismaService } from '../prisma/prisma.service';
 import { SupabaseService } from '../supabase/supabase.service';
 import { CreateOrdenServicioDto } from './dto/create-orden-servicio.dto';
 import { JwtPayload } from '../auth/auth.service';
+import {
+  QueryOrdenesServicioDto,
+  ServiciosPreset,
+  applyPresetRange,
+  normalizeSearchToken,
+  toDayBoundsFromIso,
+  toLocalDayRange,
+} from './dto/query-ordenes-servicio.dto';
+import {
+  ConfirmUploadedFilesDto,
+  CreateSignedUploadUrlDto,
+  OrdenUploadKind,
+} from './dto/upload-orden-servicio.dto';
+import {
+  NotifyLiquidationDto,
+  NotifyOperatorDto,
+} from './dto/notify-webhook.dto';
 import sharp from 'sharp';
 import {
   OrdenServicio,
@@ -66,6 +83,18 @@ type SignableField =
   | 'facturaElectronica'
   | 'comprobantePago'
   | 'evidenciaPath';
+
+export interface ServiciosKpiPayload {
+  total: number;
+  programadosHoy: number;
+  enCurso: number;
+  vencidosSla: number;
+  cumplimientoSlaPct: number;
+  porcentajeLiquidacion: number;
+  recaudoHoy: number;
+  ticketPromedio: number;
+  sinEvidencia: number;
+}
 
 @Injectable()
 export class OrdenesServicioService {
@@ -468,51 +497,166 @@ export class OrdenesServicioService {
     return selected;
   }
 
-  async findAll(
+  private isUUID(id?: string): boolean {
+    if (!id) return false;
+    return /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(
+      id,
+    );
+  }
+
+  private buildWhereClause(
     tenantId: string,
-    empresaId?: string,
-    userRole?: string,
-    clienteId?: string,
-  ) {
-    // Treat string literals "undefined", "null", "all" or invalid UUIDs as undefined
-    const isUUID = (id: string) =>
-      /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(
-        id,
-      );
-    const cleanEmpresaId =
-      empresaId && isUUID(empresaId) ? empresaId : undefined;
-    const cleanClienteId =
-      clienteId && isUUID(clienteId) ? clienteId : undefined;
+    empresaId: string | undefined,
+    userRole: string | undefined,
+    filters?: QueryOrdenesServicioDto,
+  ): Prisma.OrdenServicioWhereInput | null {
+    const cleanEmpresaId = this.isUUID(empresaId) ? empresaId : undefined;
 
     let whereClause: Prisma.OrdenServicioWhereInput = {};
 
     if (userRole === 'SU_ADMIN') {
-      // SU_ADMIN ve todo sin filtros
       whereClause = {};
     } else if (userRole === 'ADMIN') {
-      // ADMIN ve todo su tenant
-      whereClause = {
-        tenantId,
-      };
-      // Si ademÃ¡s filtrÃ³ por empresa, se aplica
+      whereClause = { tenantId };
       if (cleanEmpresaId) {
         whereClause.empresaId = cleanEmpresaId;
       }
     } else if (cleanEmpresaId) {
-      // Otros roles requieren empresaId
       whereClause = {
         tenantId,
         empresaId: cleanEmpresaId,
       };
     } else {
-      // Si no es admin y no hay empresa, no ve nada (igual que en clientes)
+      return null;
+    }
+
+    if (!filters) return whereClause;
+
+    if (this.isUUID(filters.clienteId)) {
+      whereClause.clienteId = filters.clienteId;
+    }
+
+    if (this.isUUID(filters.tecnicoId)) {
+      whereClause.tecnicoId = filters.tecnicoId;
+    }
+
+    if (this.isUUID(filters.creadorId)) {
+      whereClause.creadoPorId = filters.creadorId;
+    }
+
+    if (this.isUUID(filters.metodoPagoId)) {
+      whereClause.metodoPagoId = filters.metodoPagoId;
+    }
+
+    if (filters.estado) {
+      whereClause.estadoServicio = filters.estado;
+    }
+
+    if (filters.urgencia) {
+      whereClause.urgencia = filters.urgencia;
+    }
+
+    if (filters.municipio) {
+      whereClause.municipio = {
+        equals: filters.municipio.trim(),
+        mode: 'insensitive',
+      };
+    }
+
+    if (filters.tipoVisita) {
+      whereClause.tipoVisita = filters.tipoVisita;
+    }
+
+    const searchToken = normalizeSearchToken(filters.search);
+    if (searchToken) {
+      whereClause.OR = [
+        { numeroOrden: { contains: searchToken, mode: 'insensitive' } },
+        { direccionTexto: { contains: searchToken, mode: 'insensitive' } },
+        { barrio: { contains: searchToken, mode: 'insensitive' } },
+        { cliente: { nombre: { contains: searchToken, mode: 'insensitive' } } },
+        {
+          cliente: {
+            apellido: { contains: searchToken, mode: 'insensitive' },
+          },
+        },
+        {
+          cliente: {
+            razonSocial: { contains: searchToken, mode: 'insensitive' },
+          },
+        },
+        {
+          servicio: { nombre: { contains: searchToken, mode: 'insensitive' } },
+        },
+      ];
+    }
+
+    const dateStart = toDayBoundsFromIso(filters.fechaInicio)?.start;
+    const dateEnd = toDayBoundsFromIso(filters.fechaFin)?.end;
+    const presetRange = applyPresetRange(filters.preset);
+
+    const gte =
+      dateStart ||
+      (presetRange && 'start' in presetRange ? presetRange.start : undefined);
+    const lte = dateEnd || (presetRange ? presetRange.end : undefined);
+
+    if (gte || lte) {
+      whereClause.fechaVisita = {
+        ...(gte ? { gte } : {}),
+        ...(lte ? { lte } : {}),
+      };
+    }
+
+    if (filters.preset === ServiciosPreset.SIN_TECNICO) {
+      whereClause.tecnicoId = null;
+    }
+
+    if (filters.preset === ServiciosPreset.PENDIENTES_LIQUIDAR) {
+      whereClause.estadoServicio = EstadoOrden.TECNICO_FINALIZO as EstadoOrden;
+    }
+
+    if (filters.preset === ServiciosPreset.VENCIDOS) {
+      const todayStart = toLocalDayRange(new Date()).start;
+      const fechaVisitaFilter =
+        whereClause.fechaVisita &&
+        typeof whereClause.fechaVisita === 'object' &&
+        !Array.isArray(whereClause.fechaVisita)
+          ? whereClause.fechaVisita
+          : {};
+      whereClause.fechaVisita = {
+        ...fechaVisitaFilter,
+        lt: todayStart,
+      };
+      whereClause.NOT = {
+        estadoServicio: {
+          in: [
+            EstadoOrden.LIQUIDADO,
+            EstadoOrden.CANCELADO,
+            EstadoOrden.SIN_CONCRETAR,
+          ],
+        },
+      };
+    }
+
+    return whereClause;
+  }
+
+  async findAll(
+    tenantId: string,
+    empresaId?: string,
+    userRole?: string,
+    filters?: QueryOrdenesServicioDto,
+  ) {
+    const whereClause = this.buildWhereClause(
+      tenantId,
+      empresaId,
+      userRole,
+      filters,
+    );
+
+    if (!whereClause) {
       return [];
     }
 
-    // Filtrar por cliente si se proporciona
-    if (cleanClienteId) {
-      whereClause.clienteId = cleanClienteId;
-    }
     const ordenes = await this.prisma.ordenServicio.findMany({
       where: whereClause,
       include: {
@@ -579,6 +723,140 @@ export class OrdenesServicioService {
         this.processSignedUrls(o as OrdenWithGeolocalizaciones),
       ),
     );
+  }
+
+  async getKpis(
+    tenantId: string,
+    empresaId?: string,
+    userRole?: string,
+    filters?: QueryOrdenesServicioDto,
+  ): Promise<ServiciosKpiPayload> {
+    const whereClause = this.buildWhereClause(
+      tenantId,
+      empresaId,
+      userRole,
+      filters,
+    );
+
+    if (!whereClause) {
+      return {
+        total: 0,
+        programadosHoy: 0,
+        enCurso: 0,
+        vencidosSla: 0,
+        cumplimientoSlaPct: 0,
+        porcentajeLiquidacion: 0,
+        recaudoHoy: 0,
+        ticketPromedio: 0,
+        sinEvidencia: 0,
+      };
+    }
+
+    const todayRange = toLocalDayRange(new Date());
+
+    const rows = await this.prisma.ordenServicio.findMany({
+      where: whereClause,
+      select: {
+        estadoServicio: true,
+        fechaVisita: true,
+        fechaPago: true,
+        valorPagado: true,
+        valorCotizado: true,
+        evidenciaPath: true,
+        _count: {
+          select: {
+            evidencias: true,
+            geolocalizaciones: true,
+          },
+        },
+      },
+    });
+
+    const total = rows.length;
+    let programadosHoy = 0;
+    let enCurso = 0;
+    let vencidosSla = 0;
+    let liquidado = 0;
+    let tecnicoFinalizado = 0;
+    let recaudoHoy = 0;
+    let sumLiquidado = 0;
+    let sinEvidencia = 0;
+
+    for (const row of rows) {
+      const estado = row.estadoServicio;
+      const visitDate = row.fechaVisita ? new Date(row.fechaVisita) : null;
+      const payDate = row.fechaPago ? new Date(row.fechaPago) : null;
+
+      if (
+        estado === (EstadoOrden.PROGRAMADO as EstadoOrden) &&
+        visitDate &&
+        visitDate >= todayRange.start &&
+        visitDate <= todayRange.end
+      ) {
+        programadosHoy += 1;
+      }
+
+      if (estado === (EstadoOrden.PROCESO as EstadoOrden)) {
+        enCurso += 1;
+      }
+
+      if (
+        visitDate &&
+        visitDate < todayRange.start &&
+        estado !== (EstadoOrden.LIQUIDADO as EstadoOrden) &&
+        estado !== (EstadoOrden.CANCELADO as EstadoOrden) &&
+        estado !== (EstadoOrden.SIN_CONCRETAR as EstadoOrden)
+      ) {
+        vencidosSla += 1;
+      }
+
+      if (estado === (EstadoOrden.LIQUIDADO as EstadoOrden)) {
+        liquidado += 1;
+        sumLiquidado += Number(row.valorCotizado || 0);
+      }
+
+      if (estado === (EstadoOrden.TECNICO_FINALIZO as EstadoOrden)) {
+        tecnicoFinalizado += 1;
+      }
+
+      if (payDate && payDate >= todayRange.start && payDate <= todayRange.end) {
+        recaudoHoy += Number(row.valorPagado || 0);
+      }
+
+      if (
+        !row.evidenciaPath &&
+        Number(row._count.evidencias || 0) === 0 &&
+        Number(row._count.geolocalizaciones || 0) === 0
+      ) {
+        sinEvidencia += 1;
+      }
+    }
+
+    const cumplimientoSlaPct =
+      total > 0
+        ? Number((((total - vencidosSla) / total) * 100).toFixed(2))
+        : 0;
+
+    const liquidationBase = liquidado + tecnicoFinalizado;
+    const porcentajeLiquidacion =
+      liquidationBase > 0
+        ? Number(((liquidado / liquidationBase) * 100).toFixed(2))
+        : 0;
+
+    const ticketPromedio =
+      liquidado > 0 ? Number((sumLiquidado / liquidado).toFixed(2)) : 0;
+
+    return {
+      total,
+      programadosHoy,
+      enCurso,
+      vencidosSla,
+      cumplimientoSlaPct,
+      porcentajeLiquidacion,
+      recaudoHoy,
+      ticketPromedio,
+      sinEvidencia,
+    };
   }
 
   async findOne(tenantId: string, id: string) {
@@ -695,6 +973,171 @@ export class OrdenesServicioService {
     }
 
     return uploadedEvidences;
+  }
+
+  private buildStoragePath(
+    tenantId: string,
+    ordenId: string,
+    kind: OrdenUploadKind,
+    fileName: string,
+  ) {
+    const safeName = fileName.replace(/[^a-zA-Z0-9._-]/g, '_');
+    const random = Math.random().toString(36).slice(2, 8);
+    const finalName = `${Date.now()}-${random}-${safeName}`;
+    return `${tenantId}/ordenes-servicio/${ordenId}/${kind}/${finalName}`;
+  }
+
+  async createSignedUploadUrl(
+    tenantId: string,
+    ordenId: string,
+    dto: CreateSignedUploadUrlDto,
+  ) {
+    const orden = await this.prisma.ordenServicio.findFirst({
+      where: { id: ordenId, tenantId },
+      select: { id: true },
+    });
+
+    if (!orden) {
+      throw new BadRequestException('La orden especificada no existe');
+    }
+
+    const path = this.buildStoragePath(
+      tenantId,
+      ordenId,
+      dto.kind,
+      dto.fileName,
+    );
+    const signed = await this.supabase.createSignedUploadUrl(path);
+
+    if (!signed) {
+      throw new BadRequestException(
+        'No fue posible generar URL firmada para la carga',
+      );
+    }
+
+    return signed;
+  }
+
+  async confirmUploadedFiles(
+    tenantId: string,
+    ordenId: string,
+    dto: ConfirmUploadedFilesDto,
+  ) {
+    const orden = await this.prisma.ordenServicio.findFirst({
+      where: { id: ordenId, tenantId },
+      select: { id: true },
+    });
+
+    if (!orden) {
+      throw new BadRequestException('La orden especificada no existe');
+    }
+
+    if (dto.kind === OrdenUploadKind.EVIDENCIAS) {
+      const evidencias = await this.prisma.$transaction(
+        dto.paths.map((path) =>
+          this.prisma.evidenciaServicio.create({
+            data: {
+              tenantId,
+              ordenServicioId: ordenId,
+              path,
+            },
+          }),
+        ),
+      );
+      return Promise.all(
+        evidencias.map(async (item) => {
+          const signedUrl = await this.supabase.getSignedUrl(item.path);
+          return {
+            ...item,
+            path: signedUrl || item.path,
+          };
+        }),
+      );
+    }
+
+    const field =
+      dto.kind === OrdenUploadKind.FACTURA_ELECTRONICA
+        ? 'facturaElectronica'
+        : 'comprobantePago';
+
+    const updated = await this.prisma.ordenServicio.update({
+      where: { id: ordenId },
+      data: {
+        [field]: dto.paths[0],
+      },
+    });
+
+    return this.processSignedUrls(updated as OrdenWithGeolocalizaciones);
+  }
+
+  async notifyLiquidationWebhook(dto: NotifyLiquidationDto) {
+    const webhookUrl = process.env.N8N_LIQUIDADO_WEBHOOK_URL;
+    if (!webhookUrl) {
+      this.logger.error('Webhook URL N8N_LIQUIDADO_WEBHOOK_URL not found');
+      return { success: false, error: 'Webhook configuration missing' };
+    }
+
+    try {
+      const response = await fetch(webhookUrl, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          ...dto,
+          timestamp: new Date().toISOString(),
+        }),
+      });
+
+      if (!response.ok) {
+        const errorText = await response.text();
+        this.logger.error(
+          `Liquidation webhook failed: ${response.status} ${errorText}`,
+        );
+        return { success: false, error: `Failed: ${response.status}` };
+      }
+
+      return { success: true };
+    } catch (error) {
+      const message = error instanceof Error ? error.message : 'Unknown error';
+      this.logger.error(`Error triggering liquidation webhook: ${message}`);
+      return { success: false, error: 'Error triggering webhook' };
+    }
+  }
+
+  async notifyOperatorWebhook(dto: NotifyOperatorDto) {
+    const webhookUrl = process.env.N8N_NOTIFICAR_SERVICIO;
+    if (!webhookUrl) {
+      this.logger.error('Webhook URL N8N_NOTIFICAR_SERVICIO not found');
+      return { success: false, error: 'Webhook configuration missing' };
+    }
+
+    try {
+      const response = await fetch(webhookUrl, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          ...dto,
+          timestamp: new Date().toISOString(),
+        }),
+      });
+
+      if (!response.ok) {
+        const errorText = await response.text();
+        this.logger.error(
+          `Operator webhook failed: ${response.status} ${errorText}`,
+        );
+        return { success: false, error: `Failed: ${response.status}` };
+      }
+
+      return { success: true };
+    } catch (error) {
+      const message = error instanceof Error ? error.message : 'Unknown error';
+      this.logger.error(`Error triggering operator webhook: ${message}`);
+      return { success: false, error: 'Error triggering webhook' };
+    }
   }
 
   private async processSignedUrls(

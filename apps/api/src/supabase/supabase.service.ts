@@ -114,4 +114,45 @@ export class SupabaseService {
       return null;
     }
   }
+
+  async createSignedUploadUrl(
+    path: string,
+    bucket: string = 'tenaxis-docs',
+    upsert = false,
+  ): Promise<{ signedUrl: string; token: string; path: string } | null> {
+    if (!this.supabase) {
+      this.logger.error('Supabase client not initialized');
+      return null;
+    }
+
+    try {
+      const { data, error } = await this.supabase.storage
+        .from(bucket)
+        .createSignedUploadUrl(path, { upsert });
+
+      if (error || !data?.signedUrl || !data?.token || !data?.path) {
+        const errorMessage =
+          typeof error === 'object' && error !== null && 'message' in error
+            ? String(error.message)
+            : 'Unknown error';
+        this.logger.error(
+          `Error creating signed upload URL for ${path}: ${errorMessage}`,
+        );
+        return null;
+      }
+
+      return {
+        signedUrl: data.signedUrl,
+        token: data.token,
+        path: data.path,
+      };
+    } catch (error) {
+      const errorMessage =
+        error instanceof Error ? error.message : 'Unknown error';
+      this.logger.error(
+        `Unexpected error creating signed upload URL: ${errorMessage}`,
+      );
+      return null;
+    }
+  }
 }

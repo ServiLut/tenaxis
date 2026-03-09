@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect, useCallback, useRef } from "react";
+import React, { useState, useEffect, useCallback, useRef, Suspense } from "react";
 import Link from "next/link";
 import { useSearchParams, usePathname, useRouter } from "next/navigation";
 import { DashboardLayout } from "@/components/dashboard";
@@ -37,7 +37,8 @@ import {
   Upload,
   Receipt,
   Image as ImageIcon,
-  ExternalLink
+  ExternalLink,
+  Trash2
 } from "lucide-react";
 import {
   Dialog,
@@ -57,18 +58,30 @@ import { cn } from "@/components/ui/utils";
 import { toast } from "sonner";
 import Image from "next/image";
 import {
-  getOrdenesServicioAction,
-  getEstadoServiciosAction,
-  getOperatorsAction,
-  updateOrdenServicioAction,
-  addOrdenServicioEvidenciasAction,
-  getMetodosPagoAction,
-  notifyLiquidationWebhookAction,
-  notifyServiceOperatorWebhookAction,
-  getMunicipalitiesAction,
+  confirmOrdenUpload,
+  createSignedUploadUrl,
+  getEstadoServicios,
+  getMetodosPago,
+  getMunicipalities,
+  getOperators,
+  getOrdenesServicio,
+  getServiciosKpis,
+  notifyLiquidationWebhook,
+  notifyServiceOperatorWebhook,
   type ClienteDTO,
-} from "../actions";
-import { Suspense } from "react";
+  type ServiciosKpis,
+  updateOrdenServicio,
+  uploadToSupabaseSignedUrl,
+} from "./api";
+import {
+  createDashboardPreset,
+  deleteDashboardPreset,
+  listDashboardPresets,
+  PRESET_COLOR_STYLES,
+  type DashboardPreset,
+  type DashboardPresetColorToken,
+  updateDashboardPreset,
+} from "../presets-api";
 
 interface DesglosePago {
   metodo: string;
@@ -76,16 +89,6 @@ interface DesglosePago {
   banco?: string;
   referencia?: string;
   observacion?: string;
-}
-
-interface Operator {
-  id: string;
-  nombre: string;
-  telefono?: string;
-  user?: {
-    nombre: string;
-    apellido: string;
-  }
 }
 
 interface Servicio {
@@ -204,6 +207,36 @@ const URGENCIA_STYLING: Record<string, string> = {
   "CRITICA": "bg-red-700 text-white shadow-sm",
 };
 
+const PRESET_OPTIONS = [
+  { key: "all", label: "TODOS" },
+  { key: "HOY", label: "HOY" },
+  { key: "MANANA", label: "MAÑANA" },
+  { key: "SEMANA", label: "SEMANA" },
+  { key: "VENCIDOS", label: "VENCIDOS" },
+  { key: "SIN_TECNICO", label: "SIN TÉCNICO" },
+  { key: "PENDIENTES_LIQUIDAR", label: "PEND. LIQUIDAR" },
+] as const;
+
+const CUSTOM_PRESET_COLORS: DashboardPresetColorToken[] = [
+  "slate",
+  "red",
+  "orange",
+  "amber",
+  "emerald",
+  "teal",
+  "sky",
+  "blue",
+  "indigo",
+  "pink",
+];
+
+const toLocalYmd = (date: Date) => {
+  const y = date.getFullYear();
+  const m = `${date.getMonth() + 1}`.padStart(2, "0");
+  const d = `${date.getDate()}`.padStart(2, "0");
+  return `${y}-${m}-${d}`;
+};
+
 function ServiciosSkeleton({ showKPIs = true }: { showKPIs?: boolean }) {
   return (
     <div className="flex-1 min-h-0 flex flex-col">
@@ -233,8 +266,10 @@ function ServiciosSkeleton({ showKPIs = true }: { showKPIs?: boolean }) {
           <tr className="border-b border-border bg-muted/50">
             <th className="px-8 py-6 text-[10px] font-black uppercase tracking-[0.2em] text-muted-foreground">ID Orden</th>
             <th className="px-8 py-6 text-[10px] font-black uppercase tracking-[0.2em] text-muted-foreground">Cliente / Servicio</th>
+            <th className="px-8 py-6 text-[10px] font-black uppercase tracking-[0.2em] text-muted-foreground">Dirección</th>
             <th className="px-8 py-6 text-[10px] font-black uppercase tracking-[0.2em] text-muted-foreground">Programación</th>
             <th className="px-8 py-6 text-[10px] font-black uppercase tracking-[0.2em] text-muted-foreground">Técnico</th>
+            <th className="px-8 py-6 text-[10px] font-black uppercase tracking-[0.2em] text-muted-foreground">Tipo</th>
             <th className="px-8 py-6 text-[10px] font-black uppercase tracking-[0.2em] text-muted-foreground">Estado</th>
             <th className="px-8 py-6 text-[10px] font-black uppercase tracking-[0.2em] text-muted-foreground text-right">Acciones</th>
           </tr>
@@ -244,8 +279,10 @@ function ServiciosSkeleton({ showKPIs = true }: { showKPIs?: boolean }) {
             <tr key={i} className="animate-pulse">
               <td className="px-8 py-6"><Skeleton className="h-8 w-24 rounded-lg" /></td>
               <td className="px-8 py-6"><div className="space-y-2"><Skeleton className="h-4 w-48" /><Skeleton className="h-3 w-32" /></div></td>
+              <td className="px-8 py-6"><Skeleton className="h-4 w-32" /></td>
               <td className="px-8 py-6"><div className="space-y-2"><Skeleton className="h-3 w-24" /><Skeleton className="h-3 w-20" /></div></td>
               <td className="px-8 py-6"><div className="flex items-center gap-3"><Skeleton className="h-8 w-8 rounded-lg" /><Skeleton className="h-4 w-32" /></div></td>
+              <td className="px-8 py-6"><Skeleton className="h-6 w-20" /></td>
               <td className="px-8 py-6"><Skeleton className="h-8 w-28 rounded-full" /></td>
               <td className="px-8 py-6 text-right"><div className="flex justify-end gap-2"><Skeleton className="h-10 w-10 rounded-xl" /><Skeleton className="h-10 w-10 rounded-xl" /></div></td>
             </tr>
@@ -271,6 +308,21 @@ function ServiciosContent() {
   const [showFilters, setShowFilters] = useState(false);
   const [isLiquidarModalOpen, setIsLiquidarModalOpen] = useState(false);
   const [showKPIs, setShowKPIs] = useState(true);
+  const [activePreset, setActivePreset] = useState(searchParams.get("preset") || "all");
+  const [kpis, setKpis] = useState<ServiciosKpis | null>(null);
+  const [kpisLoading, setKpisLoading] = useState(false);
+  const [customPresets, setCustomPresets] = useState<DashboardPreset[]>([]);
+  const [isPresetModalOpen, setIsPresetModalOpen] = useState(false);
+  const [editingPresetId, setEditingPresetId] = useState<string | null>(null);
+  const [presetForm, setPresetForm] = useState<{
+    name: string;
+    colorToken: DashboardPresetColorToken;
+    isShared: boolean;
+  }>({
+    name: "",
+    colorToken: "sky",
+    isShared: false,
+  });
 
   const [liquidarData, setLiquidarData] = useState<{
     breakdown: Array<{
@@ -340,10 +392,10 @@ function ServiciosContent() {
     try {
       const empresaId = localStorage.getItem("current-enterprise-id") || "";
       const [estados, tecnicos, metodos, munis] = await Promise.all([
-        getEstadoServiciosAction(empresaId || undefined),
-        empresaId ? getOperatorsAction(empresaId) : Promise.resolve([]),
-        getMetodosPagoAction(empresaId || undefined),
-        getMunicipalitiesAction(),
+        getEstadoServicios(empresaId),
+        empresaId ? getOperators(empresaId) : Promise.resolve([]),
+        getMetodosPago(empresaId),
+        getMunicipalities(),
       ]);
 
       const coreEstados = [
@@ -382,9 +434,10 @@ function ServiciosContent() {
     setLoading(true);
     try {
       const empresaId = localStorage.getItem("current-enterprise-id") || undefined;
-      const data = await getOrdenesServicioAction(empresaId);
+      const data = await getOrdenesServicio(empresaId);
+      const ordenesData = (Array.isArray(data) ? data : []) as unknown as OrdenServicioRaw[];
 
-      const mapped: Servicio[] = (Array.isArray(data) ? (data as OrdenServicioRaw[]) : []).map((os) => {
+      const mapped: Servicio[] = ordenesData.map((os: OrdenServicioRaw) => {
         const clienteLabel = os.cliente.tipoCliente === "EMPRESA"
           ? (os.cliente.razonSocial || "Empresa")
           : `${os.cliente.nombre || ""} ${os.cliente.apellido || ""}`.trim();
@@ -421,7 +474,7 @@ function ServiciosContent() {
       const techniciansMap = new Map<string, string>();
       const typesSet = new Set<string>();
 
-      (Array.isArray(data) ? (data as OrdenServicioRaw[]) : []).forEach((os) => {
+      ordenesData.forEach((os: OrdenServicioRaw) => {
         if (os.municipio) muniSet.add(os.municipio.trim().toUpperCase());
         if (os.creadoPor?.user) {
           const name = `${os.creadoPor.user.nombre} ${os.creadoPor.user.apellido}`.trim();
@@ -480,36 +533,28 @@ function ServiciosContent() {
     const toastId = toast.loading(`Subiendo ${label}...`);
 
     try {
-      if (uploadConfig.field === "evidenciaPath") {
-        const formData = new FormData();
-        Array.from(files).forEach((file) => {
-          formData.append("files", file);
-        });
+      const kind =
+        uploadConfig.field === "facturaElectronica"
+          ? "facturaElectronica"
+          : uploadConfig.field === "comprobantePago"
+            ? "comprobantePago"
+            : "evidencias";
 
-        const result = await addOrdenServicioEvidenciasAction(uploadConfig.id, formData);
-
-        if (result.success) {
-          toast.success(`${files.length} evidencia(s) subida(s) exitosamente`, { id: toastId });
-          fetchServicios();
-        } else {
-          toast.error(result.error || `Error al subir las evidencias`, { id: toastId });
-        }
-      } else {
-        const file = files[0]!;
-
-        const formData = new FormData();
-        formData.append("file", file);
-        formData.append("uploadField", uploadConfig.field);
-
-        const result = await updateOrdenServicioAction(uploadConfig.id, formData);
-
-        if (result.success) {
-          toast.success(`${label.charAt(0).toUpperCase() + label.slice(1)} subida exitosamente`, { id: toastId });
-          fetchServicios();
-        } else {
-          toast.error(result.error || `Error al actualizar la orden`, { id: toastId });
-        }
+      const uploadedPaths: string[] = [];
+      for (const file of Array.from(files)) {
+        const signed = await createSignedUploadUrl(uploadConfig.id, kind, file.name);
+        await uploadToSupabaseSignedUrl(signed.path, signed.token, file);
+        uploadedPaths.push(signed.path);
       }
+
+      await confirmOrdenUpload(uploadConfig.id, kind, uploadedPaths);
+      toast.success(
+        uploadConfig.field === "evidenciaPath"
+          ? `${uploadedPaths.length} evidencia(s) subida(s) exitosamente`
+          : `${label.charAt(0).toUpperCase() + label.slice(1)} subida exitosamente`,
+        { id: toastId },
+      );
+      fetchServicios();
     } catch (error) {
       console.error("Upload error:", error);
       toast.error(`Error al subir el archivo`, { id: toastId });
@@ -527,52 +572,47 @@ function ServiciosContent() {
     const toastId = toast.loading("Liquidando servicio...");
 
     try {
+      let comprobanteUrl = "";
+      if (comprobanteFile) {
+        const signed = await createSignedUploadUrl(
+          selectedServicio.raw.id,
+          "comprobantePago",
+          comprobanteFile.name,
+        );
+        await uploadToSupabaseSignedUrl(signed.path, signed.token, comprobanteFile);
+        await confirmOrdenUpload(selectedServicio.raw.id, "comprobantePago", [signed.path]);
+        comprobanteUrl = signed.path;
+      }
+
       const processedBreakdown = liquidarData.breakdown.map(line => ({
         ...line,
         monto: parseFloat(line.monto.replace(/\./g, "")) || 0
       }));
 
-      let result;
+      await updateOrdenServicio(selectedServicio.raw.id, {
+        desglosePago: processedBreakdown,
+        observacionFinal: liquidarData.observacionFinal,
+        fechaPago: liquidarData.fechaPago,
+        comprobantePago: comprobanteUrl || undefined,
+        estadoServicio: "LIQUIDADO"
+      });
+      toast.success("Servicio liquidado exitosamente", { id: toastId });
 
-      if (comprobanteFile) {
-        const formData = new FormData();
-        formData.append("file", comprobanteFile);
-        formData.append("uploadField", "comprobantePago");
-        formData.append("desglosePago", JSON.stringify(processedBreakdown));
-        formData.append("observacionFinal", liquidarData.observacionFinal || "");
-        formData.append("estadoServicio", "LIQUIDADO");
-        formData.append("fechaPago", new Date().toISOString());
+      notifyLiquidationWebhook({
+        telefono: selectedServicio.clienteFull.telefono || "",
+        cliente: selectedServicio.cliente,
+        fecha: selectedServicio.fecha,
+        servicio: selectedServicio.servicioEspecifico,
+      }).catch(err => console.error("Error notifying webhook:", err));
 
-        result = await updateOrdenServicioAction(selectedServicio.raw.id, formData);
-      } else {
-        result = await updateOrdenServicioAction(selectedServicio.raw.id, {
-          desglosePago: processedBreakdown,
-          observacionFinal: liquidarData.observacionFinal,
-          fechaPago: liquidarData.fechaPago,
-          estadoServicio: "LIQUIDADO"
-        });
-      }
-      if (result.success) {
-        toast.success("Servicio liquidado exitosamente", { id: toastId });
-
-        notifyLiquidationWebhookAction({
-          telefono: selectedServicio.clienteFull.telefono,
-          cliente: selectedServicio.cliente,
-          fecha: selectedServicio.fecha,
-          servicio: selectedServicio.servicioEspecifico,
-        }).catch(err => console.error("Error notifying webhook:", err));
-
-        setIsLiquidarModalOpen(false);
-        setLiquidarData({
-          breakdown: [{ metodo: "PENDIENTE", monto: "" }],
-          observacionFinal: "",
-          fechaPago: new Date().toISOString().split('T')[0]
-        });
-        setComprobanteFile(null);
-        fetchServicios();
-      } else {
-        toast.error(result.error || "Error al liquidar el servicio", { id: toastId });
-      }
+      setIsLiquidarModalOpen(false);
+      setLiquidarData({
+        breakdown: [{ metodo: "PENDIENTE", monto: "" }],
+        observacionFinal: "",
+        fechaPago: new Date().toISOString().split('T')[0]
+      });
+      setComprobanteFile(null);
+      fetchServicios();
     } catch (error) {
       console.error("Liquidation error:", error);
       toast.error("Error al procesar la liquidación", { id: toastId });
@@ -581,20 +621,156 @@ function ServiciosContent() {
     }
   };
 
-  useEffect(() => {
-    const currentParams = new URLSearchParams(window.location.search);
-    const currentSearch = currentParams.get("search") || "";
-
-    if (currentSearch !== search) {
-      const newParams = new URLSearchParams(currentParams.toString());
-      if (search) {
-        newParams.set("search", search);
-      } else {
-        newParams.delete("search");
-      }
-      router.replace(`${pathname}?${newParams.toString()}`, { scroll: false });
+  const fetchKpis = useCallback(async () => {
+    setKpisLoading(true);
+    try {
+      const empresaId = localStorage.getItem("current-enterprise-id") || undefined;
+      const data = await getServiciosKpis({
+        empresaId,
+        search,
+        estado: filters.estado,
+        tecnicoId: filters.tecnico,
+        urgencia: filters.urgencia,
+        creadorId: filters.creador,
+        municipio: filters.municipio,
+        metodoPagoId: filters.metodoPago,
+        tipoVisita: filters.tipo,
+        fechaInicio: filters.fechaInicio,
+        fechaFin: filters.fechaFin,
+        preset: activePreset,
+      });
+      setKpis(data);
+    } catch (error) {
+      console.error("Error loading KPI data", error);
+    } finally {
+      setKpisLoading(false);
     }
-  }, [search, pathname, router]);
+  }, [activePreset, filters, search]);
+
+  const fetchCustomPresets = useCallback(async () => {
+    try {
+      const data = await listDashboardPresets("SERVICIOS");
+      setCustomPresets(Array.isArray(data) ? data : []);
+    } catch (error) {
+      console.error("Error loading custom presets", error);
+    }
+  }, []);
+
+  const buildServiciosPresetSnapshot = () => ({
+    search,
+    filters,
+    activePreset,
+  });
+
+  const applyCustomPreset = (preset: DashboardPreset) => {
+    const payload = (preset.filters || {}) as {
+      search?: string;
+      filters?: typeof filters;
+      activePreset?: string;
+    };
+
+    setSearch(payload.search || "");
+    setFilters(payload.filters || {
+      estado: "all",
+      tecnico: "all",
+      urgencia: "all",
+      creador: "all",
+      municipio: "all",
+      metodoPago: "all",
+      empresa: "all",
+      tipo: "all",
+      fechaInicio: "",
+      fechaFin: "",
+    });
+    setActivePreset(payload.activePreset || "all");
+    setCurrentPage(1);
+  };
+
+  const openCreatePresetModal = () => {
+    setEditingPresetId(null);
+    setPresetForm({
+      name: "",
+      colorToken: "sky",
+      isShared: false,
+    });
+    setIsPresetModalOpen(true);
+  };
+
+  const openEditPresetModal = (preset: DashboardPreset) => {
+    setEditingPresetId(preset.id);
+    setPresetForm({
+      name: preset.name,
+      colorToken: preset.colorToken,
+      isShared: preset.isShared,
+    });
+    setIsPresetModalOpen(true);
+  };
+
+  const handleSavePreset = async () => {
+    if (!presetForm.name.trim()) {
+      toast.error("El preset necesita un nombre");
+      return;
+    }
+
+    try {
+      if (editingPresetId) {
+        await updateDashboardPreset(editingPresetId, {
+          name: presetForm.name.trim(),
+          colorToken: presetForm.colorToken,
+          isShared: presetForm.isShared,
+          filters: buildServiciosPresetSnapshot(),
+        });
+        toast.success("Preset actualizado");
+      } else {
+        await createDashboardPreset({
+          module: "SERVICIOS",
+          name: presetForm.name.trim(),
+          colorToken: presetForm.colorToken,
+          isShared: presetForm.isShared,
+          filters: buildServiciosPresetSnapshot(),
+        });
+        toast.success("Preset creado");
+      }
+      setIsPresetModalOpen(false);
+      fetchCustomPresets();
+    } catch (error) {
+      console.error("Error saving preset", error);
+      toast.error("No fue posible guardar el preset");
+    }
+  };
+
+  const handleDeletePreset = async (id: string) => {
+    try {
+      await deleteDashboardPreset(id);
+      setCustomPresets((prev) => prev.filter((p) => p.id !== id));
+      toast.success("Preset eliminado");
+    } catch (error) {
+      console.error("Error deleting preset", error);
+      toast.error("No fue posible eliminar el preset");
+    }
+  };
+
+  useEffect(() => {
+    const nextParams = new URLSearchParams();
+    if (search) nextParams.set("search", search);
+    if (activePreset !== "all") nextParams.set("preset", activePreset);
+    if (filters.estado !== "all") nextParams.set("estado", filters.estado);
+    if (filters.tecnico !== "all") nextParams.set("tecnico", filters.tecnico);
+    if (filters.urgencia !== "all") nextParams.set("urgencia", filters.urgencia);
+    if (filters.creador !== "all") nextParams.set("creador", filters.creador);
+    if (filters.municipio !== "all") nextParams.set("municipio", filters.municipio);
+    if (filters.metodoPago !== "all") nextParams.set("metodoPago", filters.metodoPago);
+    if (filters.empresa !== "all") nextParams.set("empresa", filters.empresa);
+    if (filters.tipo !== "all") nextParams.set("tipo", filters.tipo);
+    if (filters.fechaInicio) nextParams.set("fechaInicio", filters.fechaInicio);
+    if (filters.fechaFin) nextParams.set("fechaFin", filters.fechaFin);
+
+    const nextQuery = nextParams.toString();
+    const currentQuery = window.location.search.replace(/^\?/, "");
+    if (nextQuery !== currentQuery) {
+      router.replace(`${pathname}?${nextQuery}`, { scroll: false });
+    }
+  }, [activePreset, filters, pathname, router, search]);
 
   useEffect(() => {
     fetchServicios();
@@ -602,8 +778,112 @@ function ServiciosContent() {
   }, [fetchServicios, fetchOptions]);
 
   useEffect(() => {
+    fetchKpis();
+  }, [fetchKpis]);
+
+  useEffect(() => {
+    fetchCustomPresets();
+  }, [fetchCustomPresets]);
+
+  useEffect(() => {
     setCurrentPage(1);
-  }, [search]);
+  }, [activePreset, filters, search]);
+
+  const applyPreset = (preset: string) => {
+    setActivePreset(preset);
+
+    const now = new Date();
+    const today = toLocalYmd(now);
+    const tomorrowDate = new Date(now);
+    tomorrowDate.setDate(now.getDate() + 1);
+    const tomorrow = toLocalYmd(tomorrowDate);
+    const baseFilters = {
+      estado: "all",
+      tecnico: "all",
+      urgencia: "all",
+      creador: "all",
+      municipio: "all",
+      metodoPago: "all",
+      empresa: "all",
+      tipo: "all",
+      fechaInicio: "",
+      fechaFin: "",
+    };
+
+    if (preset === "HOY") {
+      setFilters({ ...baseFilters, fechaInicio: today, fechaFin: today });
+      return;
+    }
+
+    if (preset === "MANANA") {
+      setFilters({ ...baseFilters, fechaInicio: tomorrow, fechaFin: tomorrow });
+      return;
+    }
+
+    if (preset === "SEMANA") {
+      const start = new Date(now);
+      const day = start.getDay();
+      const diff = day === 0 ? -6 : 1 - day;
+      start.setDate(start.getDate() + diff);
+      const end = new Date(start);
+      end.setDate(start.getDate() + 6);
+      setFilters({
+        ...baseFilters,
+        fechaInicio: toLocalYmd(start),
+        fechaFin: toLocalYmd(end),
+      });
+      return;
+    }
+
+    if (preset === "SIN_TECNICO") {
+      setFilters(baseFilters);
+      return;
+    }
+
+    if (preset === "PENDIENTES_LIQUIDAR") {
+      setFilters({ ...baseFilters, estado: "TECNICO_FINALIZO" });
+      return;
+    }
+
+    if (preset === "VENCIDOS") {
+      setFilters({ ...baseFilters, fechaFin: today });
+      return;
+    }
+
+    setFilters(baseFilters);
+  };
+
+  const resetAllFilters = useCallback(() => {
+    setSearch("");
+    setActivePreset("all");
+    setFilters({
+      estado: "all",
+      tecnico: "all",
+      urgencia: "all",
+      creador: "all",
+      municipio: "all",
+      metodoPago: "all",
+      empresa: "all",
+      tipo: "all",
+      fechaInicio: "",
+      fechaFin: "",
+    });
+    setCurrentPage(1);
+    toast.info("Filtros restablecidos");
+  }, []);
+
+  const hasActiveFilters = search !== "" || 
+    activePreset !== "all" || 
+    filters.estado !== "all" || 
+    filters.tecnico !== "all" || 
+    filters.urgencia !== "all" || 
+    filters.creador !== "all" || 
+    filters.municipio !== "all" || 
+    filters.metodoPago !== "all" || 
+    filters.empresa !== "all" || 
+    filters.tipo !== "all" || 
+    filters.fechaInicio !== "" || 
+    filters.fechaFin !== "";
 
   const filteredServicios = servicios.filter((s: Servicio) => {
     const matchesSearch =
@@ -636,23 +916,23 @@ function ServiciosContent() {
       end.setHours(0,0,0,0);
       matchesFecha = matchesFecha && visitDate <= end;
     }
+    const isVencido =
+      !!s.raw.fechaVisita &&
+      new Date(s.raw.fechaVisita) < new Date(new Date().setHours(0, 0, 0, 0)) &&
+      !["LIQUIDADO", "CANCELADO", "SIN_CONCRETAR", "SIN CONCRETAR"].includes(s.estadoServicio);
+    const presetPass =
+      activePreset === "all" ||
+      (activePreset === "VENCIDOS" && isVencido) ||
+      (activePreset === "SIN_TECNICO" && !s.tecnicoId) ||
+      (activePreset === "PENDIENTES_LIQUIDAR" && s.raw.estadoServicio === "TECNICO_FINALIZO") ||
+      ["HOY", "MANANA", "SEMANA"].includes(activePreset);
 
-    return matchesSearch && matchesEstado && matchesTecnico && matchesUrgencia && matchesCreador && matchesMunicipio && matchesMetodoPago && matchesEmpresa && matchesTipo && matchesFecha;
+    return matchesSearch && matchesEstado && matchesTecnico && matchesUrgencia && matchesCreador && matchesMunicipio && matchesMetodoPago && matchesEmpresa && matchesTipo && matchesFecha && presetPass;
   });
 
   const totalPages = Math.ceil(filteredServicios.length / itemsPerPage);
   const startIndex = (currentPage - 1) * itemsPerPage;
   const paginatedServicios = filteredServicios.slice(startIndex, startIndex + itemsPerPage);
-
-  const stats = {
-    total: servicios.length,
-    programados: servicios.filter(s => s.estadoServicio === "PROGRAMADO").length,
-    enProceso: servicios.filter(s => s.estadoServicio === "PROCESO" || s.estadoServicio === "EN PROCESO").length,
-    liquidado: servicios.filter(s => s.estadoServicio === "LIQUIDADO").length,
-    tecnicoFinalizado: servicios.filter(s => s.estadoServicio === "TECNICO_FINALIZO" || s.estadoServicio === "TECNICO FINALIZO" || s.estadoServicio === "TECNICO FINALIZADO").length,
-    cancelados: servicios.filter(s => s.estadoServicio === "CANCELADO").length,
-    sinConcretar: servicios.filter(s => s.estadoServicio === "SIN_CONCRETAR" || s.estadoServicio === "SIN CONCRETAR").length,
-  };
 
   const handleCopy = (servicio: Servicio) => {
     const formattedValor = new Intl.NumberFormat('es-CO', { style: 'currency', currency: 'COP', maximumFractionDigits: 0 }).format(servicio.raw.valorCotizado || 0);
@@ -676,19 +956,19 @@ function ServiciosContent() {
     if (!tecnicoId) { toast.error("No hay un técnico asignado"); return; }
     const toastId = toast.loading(`Notificando al técnico...`);
     try {
-      const ops = await getOperatorsAction(servicio.raw.empresaId);
-      const operatorList = Array.isArray(ops) ? (ops as Operator[]) : [];
-      const operator = operatorList.find((o: Operator) => o.id === tecnicoId);
+      const ops = await getOperators(servicio.raw.empresaId);
+      const operator = (Array.isArray(ops) ? ops : []).find((o) => o.id === tecnicoId);
       if (!operator?.telefono) { toast.error("El técnico no tiene teléfono registrado", { id: toastId }); return; }
       const os = servicio.raw;
       const dateObj = os.fechaVisita && os.horaInicio ? new Date(os.horaInicio) : new Date();
-      const res = await notifyServiceOperatorWebhookAction({
+      const operatorName = operator.nombre || `${operator.user?.nombre || ""} ${operator.user?.apellido || ""}`.trim() || "TECNICO";
+      const res = await notifyServiceOperatorWebhook({
         telefonoOperador: operator.telefono,
         numeroOrden: `#${os.numeroOrden || os.id.slice(0, 8).toUpperCase()}`,
         cliente: servicio.cliente,
         servicio: servicio.servicioEspecifico.toUpperCase(),
         programacion: `${dateObj.toLocaleDateString()} a las ${dateObj.toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' })}`,
-        tecnico: operator.nombre,
+        tecnico: operatorName,
         estado: os.estadoServicio || "NUEVO",
         urgencia: os.urgencia || "BAJA",
         direccion: os.direccionTexto || "N/A",
@@ -744,18 +1024,18 @@ function ServiciosContent() {
                 {showKPIs && (
                   <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-7 gap-4 mb-6 shrink-0">
                     {[
-                      { label: "Total", val: stats.total, icon: FileText, color: "bg-primary" },
-                      { label: "Prog.", val: stats.programados, icon: Calendar, color: "bg-[#01ADFB]" },
-                      { label: "Proceso", val: stats.enProceso, icon: Activity, color: "bg-[#01ADFB]" },
-                      { label: "Liq.", val: stats.liquidado, icon: CheckCircle2, color: "bg-[#01ADFB]" },
-                      { label: "Fin.", val: stats.tecnicoFinalizado, icon: CheckCircle2, color: "bg-primary" },
-                      { label: "Can.", val: stats.cancelados, icon: XCircle, color: "bg-muted-foreground" },
-                      { label: "S.C.", val: stats.sinConcretar, icon: AlertCircle, color: "bg-muted-foreground" },
+                      { label: "Total", val: kpis?.total ?? 0, icon: FileText, color: "bg-primary", preset: "all" },
+                      { label: "Prog. Hoy", val: kpis?.programadosHoy ?? 0, icon: Calendar, color: "bg-[#01ADFB]", preset: "HOY" },
+                      { label: "En Curso", val: kpis?.enCurso ?? 0, icon: Activity, color: "bg-[#01ADFB]", preset: "all" },
+                      { label: "Vencidos", val: kpis?.vencidosSla ?? 0, icon: AlertCircle, color: "bg-muted-foreground", preset: "VENCIDOS" },
+                      { label: "% SLA", val: `${(kpis?.cumplimientoSlaPct ?? 0).toFixed(1)}%`, icon: CheckCircle2, color: "bg-primary", preset: "all" },
+                      { label: "Recaudo Hoy", val: new Intl.NumberFormat('es-CO', { style: 'currency', currency: 'COP', maximumFractionDigits: 0 }).format(kpis?.recaudoHoy ?? 0), icon: CreditCard, color: "bg-[#01ADFB]", preset: "HOY" },
+                      { label: "Sin Evid.", val: kpis?.sinEvidencia ?? 0, icon: XCircle, color: "bg-muted-foreground", preset: "all" },
                     ].map((item, i) => (
-                      <div key={i} className="bg-card p-5 rounded-2xl border border-border shadow-sm flex items-center gap-4">
+                      <button key={i} onClick={() => applyPreset(item.preset)} disabled={kpisLoading} className="bg-card p-5 rounded-2xl border border-border shadow-sm flex items-center gap-4 text-left hover:bg-muted/60 transition-colors disabled:opacity-60">
                         <div className={cn("h-10 w-10 rounded-xl flex items-center justify-center text-white", item.color)}><item.icon className="h-5 w-5" /></div>
                         <div><p className="text-[9px] font-black text-muted-foreground uppercase tracking-widest">{item.label}</p><p className="text-xl font-black text-foreground">{item.val}</p></div>
-                      </div>
+                      </button>
                     ))}
                   </div>
                 )}
@@ -770,8 +1050,69 @@ function ServiciosContent() {
                       <button onClick={() => setShowFilters(!showFilters)} className={cn("h-12 px-5 rounded-xl bg-card border border-border text-muted-foreground font-black text-[10px] uppercase tracking-widest flex items-center gap-2 transition-all", showFilters && "bg-primary text-primary-foreground")}>
                         <Filter className="h-4 w-4" /> Filtros
                       </button>
+                      {hasActiveFilters && (
+                        <button 
+                          onClick={resetAllFilters} 
+                          className="h-12 px-5 rounded-xl bg-destructive/10 text-destructive border border-destructive/20 font-black text-[10px] uppercase tracking-widest flex items-center gap-2 transition-all hover:bg-destructive hover:text-white"
+                        >
+                          <RotateCcw className="h-4 w-4" /> Borrar Filtros
+                        </button>
+                      )}
                     </div>
                     <Link href="/dashboard/servicios/nuevo"><div className="flex items-center h-12 px-8 rounded-xl bg-[#01ADFB] text-white gap-3 shadow-lg shadow-[#01ADFB]/20 transition-transform hover:scale-105 active:scale-95 cursor-pointer"><Plus className="h-5 w-5" /><span className="font-black uppercase tracking-widest text-[10px]">Nueva Orden</span></div></Link>
+                  </div>
+                  <div className="px-8 py-4 border-b border-border bg-card">
+                    <div className="flex flex-wrap gap-2 items-center">
+                      {PRESET_OPTIONS.map((preset) => (
+                        <button
+                          key={preset.key}
+                          onClick={() => applyPreset(preset.key)}
+                          className={cn(
+                            "h-8 px-3 rounded-lg border text-[10px] font-black uppercase tracking-wider transition-colors",
+                            activePreset === preset.key
+                              ? "bg-[#01ADFB] text-white border-[#01ADFB]"
+                              : "bg-background text-muted-foreground border-border hover:bg-muted",
+                          )}
+                        >
+                          {preset.label}
+                        </button>
+                      ))}
+                      {customPresets.map((preset) => (
+                        <div key={preset.id} className="inline-flex items-center gap-1">
+                          <button
+                            onClick={() => applyCustomPreset(preset)}
+                            className={cn(
+                              "h-8 px-3 rounded-lg border text-[10px] font-black uppercase tracking-wider transition-colors",
+                              PRESET_COLOR_STYLES[preset.colorToken] || "border-border bg-background text-foreground",
+                            )}
+                          >
+                            {preset.name}
+                          </button>
+                          <button
+                            onClick={() => openEditPresetModal(preset)}
+                            className="h-8 w-8 rounded-lg border border-border bg-background text-muted-foreground hover:text-foreground"
+                            title="Editar preset"
+                          >
+                            <Pencil className="h-3.5 w-3.5 mx-auto" />
+                          </button>
+                          <button
+                            onClick={() => handleDeletePreset(preset.id)}
+                            className="h-8 w-8 rounded-lg border border-border bg-background text-muted-foreground hover:text-destructive"
+                            title="Eliminar preset"
+                          >
+                            <Trash2 className="h-3.5 w-3.5 mx-auto" />
+                          </button>
+                        </div>
+                      ))}
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={openCreatePresetModal}
+                        className="h-8 rounded-lg text-[10px] font-black uppercase tracking-wider"
+                      >
+                        + Nuevo preset
+                      </Button>
+                    </div>
                   </div>
 
                   {showFilters && (
@@ -779,7 +1120,7 @@ function ServiciosContent() {
                       <div className="max-w-7xl mx-auto">
                         <div className="flex items-center justify-between mb-8">
                           <div><h3 className="text-sm font-black uppercase text-foreground flex items-center gap-3"><Filter className="h-5 w-5 text-[#01ADFB]" /> Panel de Filtros</h3><p className="text-[10px] font-medium text-muted-foreground mt-1 uppercase tracking-wider">Refine los resultados de búsqueda</p></div>
-                          <button onClick={() => setFilters({ estado: "all", tecnico: "all", urgencia: "all", creador: "all", municipio: "all", metodoPago: "all", empresa: "all", tipo: "all", fechaInicio: "", fechaFin: "" })} className="text-[10px] font-black uppercase text-muted-foreground hover:text-[#01ADFB] flex items-center gap-2 px-4 py-2 rounded-xl hover:bg-card border border-border"><RotateCcw className="h-3.5 w-3.5" /> Reiniciar</button>
+                          <button onClick={() => { setActivePreset("all"); setFilters({ estado: "all", tecnico: "all", urgencia: "all", creador: "all", municipio: "all", metodoPago: "all", empresa: "all", tipo: "all", fechaInicio: "", fechaFin: "" }); }} className="text-[10px] font-black uppercase text-muted-foreground hover:text-[#01ADFB] flex items-center gap-2 px-4 py-2 rounded-xl hover:bg-card border border-border"><RotateCcw className="h-3.5 w-3.5" /> Reiniciar</button>
                         </div>
                         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
                           <div className="space-y-2"><Label className="text-[10px] font-black uppercase text-muted-foreground tracking-widest">Creador</Label><Combobox value={filters.creador} onChange={(v) => setFilters(f => ({ ...f, creador: v }))} options={[{ value: "all", label: "TODOS LOS CREADORES" }, ...filterOptions.creadores.map(c => ({ value: c.id, label: c.nombre.toUpperCase() }))]} /></div>
@@ -802,8 +1143,10 @@ function ServiciosContent() {
                             <tr key={s.id} className="group hover:bg-muted/50 transition-colors">
                               <td className="px-8 py-6"><span className="font-mono text-xs font-black text-[#01ADFB] bg-[#01ADFB]/10 px-3 py-1.5 rounded-lg border border-[#01ADFB]/20">{s.id}</span></td>
                               <td className="px-8 py-6"><div className="space-y-1"><p className="font-black text-foreground tracking-tight uppercase">{s.cliente}</p><div className="flex items-center gap-2"><span className="text-[10px] font-bold text-muted-foreground uppercase">{s.servicioEspecifico}</span><span className={cn("px-2 py-0.5 rounded-md text-[8px] font-black uppercase", URGENCIA_STYLING[s.urgencia])}>{s.urgencia}</span></div></div></td>
+                              <td className="px-8 py-6"><p className="text-xs font-bold text-muted-foreground truncate max-w-[200px] uppercase" title={s.raw.direccionTexto}>{s.raw.direccionTexto || "N/A"}</p></td>
                               <td className="px-8 py-6"><div className="space-y-1.5"><div className="flex items-center gap-2 text-xs font-bold text-muted-foreground"><Calendar className="h-3.5 w-3.5" /> {s.fecha}</div><div className="flex items-center gap-2 text-xs font-bold text-muted-foreground"><Clock className="h-3.5 w-3.5" /> {s.hora}</div></div></td>
                               <td className="px-8 py-6"><div className="flex items-center gap-3"><div className="h-8 w-8 rounded-lg bg-muted flex items-center justify-center"><User className="h-4 w-4 text-muted-foreground" /></div><span className="text-sm font-bold text-foreground uppercase">{s.tecnico}</span></div></td>
+                              <td className="px-8 py-6"><span className="text-[10px] font-black text-muted-foreground uppercase bg-muted/50 px-2 py-1 rounded-md border border-border">{s.raw.tipoVisita || "N/A"}</span></td>
                               <td className="px-8 py-6"><span className={cn("inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-[10px] font-black uppercase border shadow-sm", ESTADO_STYLING[s.estadoServicio] || ESTADO_STYLING["DEFAULT"])}>{s.estadoServicio}</span></td>
                               <td className="px-8 py-6 text-right"><div className="flex justify-end gap-2">
                                 <DropdownMenu><DropdownMenuTrigger asChild><button className="h-10 w-10 rounded-xl bg-muted hover:bg-foreground hover:text-background text-muted-foreground transition-all flex items-center justify-center"><MoreHorizontal className="h-5 w-5" /></button></DropdownMenuTrigger>
@@ -844,6 +1187,85 @@ function ServiciosContent() {
           </div>
         </div>
       </div>
+
+      <Dialog open={isPresetModalOpen} onOpenChange={setIsPresetModalOpen}>
+        <DialogContent className="max-w-md bg-background border-border">
+          <DialogHeader>
+            <DialogTitle className="text-lg font-black uppercase text-foreground">
+              {editingPresetId ? "Editar Preset" : "Nuevo Preset"}
+            </DialogTitle>
+            <DialogDescription className="text-muted-foreground">
+              Guarda los filtros actuales con nombre, color y visibilidad.
+            </DialogDescription>
+          </DialogHeader>
+          <div className="space-y-4 mt-2">
+            <div className="space-y-2">
+              <Label className="text-[10px] font-black uppercase text-muted-foreground">Nombre</Label>
+              <Input
+                value={presetForm.name}
+                onChange={(e) => setPresetForm((prev) => ({ ...prev, name: e.target.value }))}
+                placeholder="Ej: Vencidos Zona Norte"
+                className="h-10"
+              />
+            </div>
+
+            <div className="space-y-2">
+              <Label className="text-[10px] font-black uppercase text-muted-foreground">Color</Label>
+              <div className="flex flex-wrap gap-2">
+                {CUSTOM_PRESET_COLORS.map((color) => (
+                  <button
+                    key={color}
+                    type="button"
+                    onClick={() => setPresetForm((prev) => ({ ...prev, colorToken: color }))}
+                    className={cn(
+                      "h-8 px-2 rounded-md border text-[9px] font-black uppercase",
+                      PRESET_COLOR_STYLES[color],
+                      presetForm.colorToken === color && "ring-2 ring-[#01ADFB]",
+                    )}
+                  >
+                    {color}
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            <div className="space-y-2">
+              <Label className="text-[10px] font-black uppercase text-muted-foreground">Visibilidad</Label>
+              <div className="grid grid-cols-2 gap-2">
+                <button
+                  type="button"
+                  onClick={() => setPresetForm((prev) => ({ ...prev, isShared: false }))}
+                  className={cn(
+                    "h-9 rounded-lg border text-[10px] font-black uppercase",
+                    !presetForm.isShared ? "bg-[#01ADFB] text-white border-[#01ADFB]" : "bg-background border-border text-muted-foreground",
+                  )}
+                >
+                  Privado
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setPresetForm((prev) => ({ ...prev, isShared: true }))}
+                  className={cn(
+                    "h-9 rounded-lg border text-[10px] font-black uppercase",
+                    presetForm.isShared ? "bg-[#01ADFB] text-white border-[#01ADFB]" : "bg-background border-border text-muted-foreground",
+                  )}
+                >
+                  Compartido
+                </button>
+              </div>
+            </div>
+
+            <div className="flex gap-2 pt-2">
+              <Button variant="outline" className="flex-1" onClick={() => setIsPresetModalOpen(false)}>
+                Cancelar
+              </Button>
+              <Button className="flex-1 bg-[#01ADFB] text-white" onClick={handleSavePreset}>
+                Guardar Preset
+              </Button>
+            </div>
+          </div>
+        </DialogContent>
+      </Dialog>
 
       <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}><DialogContent className="max-w-3xl max-h-[90vh] overflow-y-auto bg-background border-border">
         <DialogHeader><DialogTitle className="text-xl font-black uppercase text-foreground">Detalle de Orden</DialogTitle><DialogDescription className="text-muted-foreground">Información operativa completa.</DialogDescription></DialogHeader>

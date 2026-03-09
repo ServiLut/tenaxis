@@ -16,10 +16,22 @@ import {
 } from '@nestjs/common';
 import { Request } from 'express';
 import { FilesInterceptor, FileInterceptor } from '@nestjs/platform-express';
-import { OrdenesServicioService } from './ordenes-servicio.service';
+import {
+  OrdenesServicioService,
+  ServiciosKpiPayload,
+} from './ordenes-servicio.service';
 import { CreateOrdenServicioDto } from './dto/create-orden-servicio.dto';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { JwtPayload } from '../auth/auth.service';
+import { QueryOrdenesServicioDto } from './dto/query-ordenes-servicio.dto';
+import {
+  ConfirmUploadedFilesDto,
+  CreateSignedUploadUrlDto,
+} from './dto/upload-orden-servicio.dto';
+import {
+  NotifyLiquidationDto,
+  NotifyOperatorDto,
+} from './dto/notify-webhook.dto';
 import { SupabaseService } from '../supabase/supabase.service';
 
 interface RequestWithUser extends Request {
@@ -69,23 +81,78 @@ export class OrdenesServicioController {
   @Get()
   findAll(
     @Req() req: RequestWithUser,
-    @Query('empresaId') queryEmpresaId?: string,
-    @Query('clienteId') clienteId?: string,
+    @Query() query: QueryOrdenesServicioDto,
   ) {
     const tenantId = req.user.tenantId;
     if (!tenantId) {
       throw new UnauthorizedException('Tenant ID not found in token');
     }
 
-    const empresaId = queryEmpresaId || req.user.empresaId;
+    const empresaId = query.empresaId || req.user.empresaId;
     const role = req.user.role;
 
     return this.ordenesServicioService.findAll(
       tenantId,
       empresaId,
       role,
-      clienteId,
+      query,
     );
+  }
+
+  @Get('kpis')
+  getKpis(
+    @Req() req: RequestWithUser,
+    @Query() query: QueryOrdenesServicioDto,
+  ): Promise<ServiciosKpiPayload> {
+    const tenantId = req.user.tenantId;
+    if (!tenantId) {
+      throw new UnauthorizedException('Tenant ID not found in token');
+    }
+
+    const empresaId = query.empresaId || req.user.empresaId;
+    const role = req.user.role;
+    return this.ordenesServicioService.getKpis(
+      tenantId,
+      empresaId,
+      role,
+      query,
+    );
+  }
+
+  @Post(':id/uploads/signed-url')
+  createSignedUploadUrl(
+    @Req() req: RequestWithUser,
+    @Param('id') id: string,
+    @Body() dto: CreateSignedUploadUrlDto,
+  ) {
+    const tenantId = req.user.tenantId;
+    if (!tenantId) {
+      throw new UnauthorizedException('Tenant ID not found in token');
+    }
+    return this.ordenesServicioService.createSignedUploadUrl(tenantId, id, dto);
+  }
+
+  @Post(':id/uploads/confirm')
+  confirmUpload(
+    @Req() req: RequestWithUser,
+    @Param('id') id: string,
+    @Body() dto: ConfirmUploadedFilesDto,
+  ) {
+    const tenantId = req.user.tenantId;
+    if (!tenantId) {
+      throw new UnauthorizedException('Tenant ID not found in token');
+    }
+    return this.ordenesServicioService.confirmUploadedFiles(tenantId, id, dto);
+  }
+
+  @Post('notifications/liquidation')
+  notifyLiquidation(@Body() dto: NotifyLiquidationDto) {
+    return this.ordenesServicioService.notifyLiquidationWebhook(dto);
+  }
+
+  @Post('notifications/operator')
+  notifyOperator(@Body() dto: NotifyOperatorDto) {
+    return this.ordenesServicioService.notifyOperatorWebhook(dto);
   }
 
   @Get(':id')

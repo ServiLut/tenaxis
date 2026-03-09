@@ -260,6 +260,14 @@ export const EstadoOrden = {
 export type EstadoOrden = (typeof EstadoOrden)[keyof typeof EstadoOrden]
 
 
+export const DashboardPresetModule = {
+  SERVICIOS: 'SERVICIOS',
+  CLIENTES: 'CLIENTES'
+} as const
+
+export type DashboardPresetModule = (typeof DashboardPresetModule)[keyof typeof DashboardPresetModule]
+
+
 export const EstadoSugerencia = {
   PENDIENTE: 'PENDIENTE',
   ACEPTADA: 'ACEPTADA',

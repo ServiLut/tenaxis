@@ -49,6 +49,7 @@ import {
 import {
   Dialog,
   DialogContent,
+  DialogDescription,
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
@@ -68,6 +69,15 @@ import {
   ElementoPredefinido
 } from "../actions";
 import { Contact } from "lucide-react";
+import {
+  createDashboardPreset,
+  deleteDashboardPreset,
+  listDashboardPresets,
+  PRESET_COLOR_STYLES,
+  type DashboardPreset,
+  type DashboardPresetColorToken,
+  updateDashboardPreset,
+} from "../presets-api";
 
 export interface Cliente {
   id: string;
@@ -239,6 +249,19 @@ const ESTADO_STYLING: Record<string, string> = {
   "DEFAULT": "bg-muted text-muted-foreground border-border",
 };
 
+const CUSTOM_PRESET_COLORS: DashboardPresetColorToken[] = [
+  "slate",
+  "red",
+  "orange",
+  "amber",
+  "emerald",
+  "teal",
+  "sky",
+  "blue",
+  "indigo",
+  "pink",
+];
+
 interface OrdenServicio {
   id: string;
   numeroOrden?: string;
@@ -286,6 +309,7 @@ export function ClienteList({
 
   const [onlySinVisita, setOnlySinVisita] = useState(searchParams.get("sinVisita") === "true");
   const [onlyWithPendingPayments, setOnlyWithPendingPayments] = useState(searchParams.get("pendingPayments") === "true");
+  const [onlySinServicios, setOnlySinServicios] = useState(searchParams.get("sinServicios") === "true");
   const [filters, setFilters] = useState({
     empresas: searchParams.get("empresas")?.split(",").filter(Boolean) || [] as string[],
     departamento: searchParams.get("dept") || "all",
@@ -311,6 +335,7 @@ export function ClienteList({
     }
     if (onlySinVisita) params.set("sinVisita", "true");
     if (onlyWithPendingPayments) params.set("pendingPayments", "true");
+    if (onlySinServicios) params.set("sinServicios", "true");
     if (filters.empresas.length > 0) params.set("empresas", filters.empresas.join(","));
     if (filters.departamento !== "all") params.set("dept", filters.departamento);
     if (filters.municipio !== "all") params.set("muni", filters.municipio);
@@ -323,7 +348,7 @@ export function ClienteList({
 
     const query = params.toString();
     router.replace(`${pathname}${query ? `?${query}` : ""}`, { scroll: false });
-  }, [activeSegment, search, currentPage, sortConfig, filters, pathname, router, mounted, onlySinVisita, onlyWithPendingPayments]);
+  }, [activeSegment, search, currentPage, sortConfig, filters, pathname, router, mounted, onlySinVisita, onlyWithPendingPayments, onlySinServicios]);
 
   const [showSuggestionsQueue, setShowSuggestionsQueue] = useState(false);
   
@@ -471,6 +496,18 @@ export function ClienteList({
   const [userRole, setUserRole] = useState<string | null>(null);
   const [showKPIs, setShowKPIs] = useState(false);
   const [showFilters, setShowFilters] = useState(false);
+  const [customPresets, setCustomPresets] = useState<DashboardPreset[]>([]);
+  const [isPresetModalOpen, setIsPresetModalOpen] = useState(false);
+  const [editingPresetId, setEditingPresetId] = useState<string | null>(null);
+  const [presetForm, setPresetForm] = useState<{
+    name: string;
+    colorToken: DashboardPresetColorToken;
+    isShared: boolean;
+  }>({
+    name: "",
+    colorToken: "sky",
+    isShared: false,
+  });
   const pendingSugerencias = useMemo(
     () => sugerencias.filter((s) => s.estado === "PENDIENTE"),
     [sugerencias]
@@ -585,7 +622,11 @@ export function ClienteList({
         })
       );
 
-      return matchesSearch && matchesEmpresas && matchesDepartamento && matchesMunicipio && matchesBarrio && matchesClasificacion && matchesSegmento && matchesRiesgo && matchesFechaDesde && matchesFechaHasta && matchesSinVisita && matchesPendingPayments;
+      const matchesSinServicios = !onlySinServicios || (
+        !c.ordenesServicio || c.ordenesServicio.length === 0
+      );
+
+      return matchesSearch && matchesEmpresas && matchesDepartamento && matchesMunicipio && matchesBarrio && matchesClasificacion && matchesSegmento && matchesRiesgo && matchesFechaDesde && matchesFechaHasta && matchesSinVisita && matchesPendingPayments && matchesSinServicios;
     });
 
     if (sortConfig) {
@@ -620,7 +661,7 @@ export function ClienteList({
     }
 
     return result;
-  }, [clientes, search, filters, mounted, sortConfig, onlySinVisita, onlyWithPendingPayments]);
+  }, [clientes, search, filters, mounted, sortConfig, onlySinVisita, onlyWithPendingPayments, onlySinServicios]);
 
   const handleSort = (key: string) => {
     setSortConfig(prev => {
@@ -644,6 +685,8 @@ export function ClienteList({
     return !!value;
   }).length;
 
+  const hasActiveFilters = activeFiltersCount > 0 || search !== "" || activeSegment !== "all" || onlySinVisita || onlyWithPendingPayments || onlySinServicios;
+
   const resetFilters = () => {
     setFilters({
       empresas: [],
@@ -661,11 +704,132 @@ export function ClienteList({
     setActiveSegment("all");
     setOnlySinVisita(false);
     setOnlyWithPendingPayments(false);
+    setOnlySinServicios(false);
+  };
+
+  const buildClientesPresetSnapshot = () => ({
+    activeSegment,
+    search,
+    sortConfig,
+    onlySinVisita,
+    onlyWithPendingPayments,
+    onlySinServicios,
+    filters,
+  });
+
+  const applyCustomPreset = (preset: DashboardPreset) => {
+    const payload = (preset.filters || {}) as {
+      activeSegment?: string;
+      search?: string;
+      sortConfig?: { key: string; direction: "asc" | "desc" } | null;
+      onlySinVisita?: boolean;
+      onlyWithPendingPayments?: boolean;
+      onlySinServicios?: boolean;
+      filters?: typeof filters;
+    };
+
+    setActiveSegment(payload.activeSegment || "all");
+    setSearch(payload.search || "");
+    setSortConfig(payload.sortConfig || null);
+    setOnlySinVisita(Boolean(payload.onlySinVisita));
+    setOnlyWithPendingPayments(Boolean(payload.onlyWithPendingPayments));
+    setOnlySinServicios(Boolean(payload.onlySinServicios));
+    setFilters(
+      payload.filters || {
+        empresas: [],
+        departamento: "all",
+        municipio: "all",
+        barrio: "",
+        clasificacion: "all",
+        segmento: "all",
+        riesgo: "all",
+        fechaDesde: "",
+        fechaHasta: "",
+      },
+    );
+    setCurrentPage(1);
+  };
+
+  const openCreatePresetModal = () => {
+    setEditingPresetId(null);
+    setPresetForm({ name: "", colorToken: "sky", isShared: false });
+    setIsPresetModalOpen(true);
+  };
+
+  const openEditPresetModal = (preset: DashboardPreset) => {
+    setEditingPresetId(preset.id);
+    setPresetForm({
+      name: preset.name,
+      colorToken: preset.colorToken,
+      isShared: preset.isShared,
+    });
+    setIsPresetModalOpen(true);
+  };
+
+  const savePreset = async () => {
+    if (!presetForm.name.trim()) {
+      toast.error("El preset necesita un nombre");
+      return;
+    }
+    try {
+      if (editingPresetId) {
+        await updateDashboardPreset(editingPresetId, {
+          name: presetForm.name.trim(),
+          colorToken: presetForm.colorToken,
+          isShared: presetForm.isShared,
+          filters: buildClientesPresetSnapshot(),
+        });
+        toast.success("Preset actualizado");
+      } else {
+        await createDashboardPreset({
+          module: "CLIENTES",
+          name: presetForm.name.trim(),
+          colorToken: presetForm.colorToken,
+          isShared: presetForm.isShared,
+          filters: buildClientesPresetSnapshot(),
+        });
+        toast.success("Preset creado");
+      }
+      setIsPresetModalOpen(false);
+      const data = await listDashboardPresets("CLIENTES");
+      setCustomPresets(Array.isArray(data) ? data : []);
+    } catch (error) {
+      console.error("Error saving preset", error);
+      toast.error("No fue posible guardar el preset");
+    }
+  };
+
+  const removePreset = async (id: string) => {
+    try {
+      await deleteDashboardPreset(id);
+      setCustomPresets((prev) => prev.filter((p) => p.id !== id));
+      toast.success("Preset eliminado");
+    } catch (error) {
+      console.error("Error deleting preset", error);
+      toast.error("No fue posible eliminar el preset");
+    }
   };
 
   React.useEffect(() => {
     setCurrentPage(1);
   }, [search, filters, activeSegment]);
+
+  useEffect(() => {
+    let mountedPreset = true;
+    const run = async () => {
+      try {
+        const data = await listDashboardPresets("CLIENTES");
+        if (!mountedPreset) return;
+        setCustomPresets(Array.isArray(data) ? data : []);
+      } catch (error) {
+        console.error("Error loading clientes presets", error);
+      }
+    };
+    void run();
+    return () => {
+      mountedPreset = false;
+    };
+  }, []);
 
   useEffect(() => {
     const onKeyDown = (event: KeyboardEvent) => {
@@ -924,6 +1088,16 @@ export function ClienteList({
                   <Filter className="h-4 w-4" />
                   <span>{showFilters ? "Ocultar" : "Filtros"}</span>
                 </button>
+
+                {hasActiveFilters && (
+                  <button
+                    onClick={resetFilters}
+                    className="flex items-center h-12 px-6 rounded-xl font-bold text-[11px] uppercase tracking-wider transition-all gap-2 border bg-destructive/10 text-destructive border-destructive/20 hover:bg-destructive hover:text-white"
+                  >
+                    <RotateCcw className="h-4 w-4" />
+                    <span>Borrar Filtros</span>
+                  </button>
+                )}
               </div>
 
               <div className="flex items-center gap-3">
@@ -1007,6 +1181,16 @@ export function ClienteList({
                       setOnlyWithPendingPayments(newValue);
                     } 
                   },
+                  { 
+                    label: "Sin Servicios", 
+                    icon: Box, 
+                    color: onlySinServicios ? "border-amber-500 bg-amber-50 text-amber-700" : "hover:border-amber-500 hover:bg-amber-50", 
+                    action: () => { 
+                      const newValue = !onlySinServicios;
+                      resetFilters(); 
+                      setOnlySinServicios(newValue);
+                    } 
+                  },
                 ].map((preset, i) => (
                   <button
                     key={i}
@@ -1020,6 +1204,41 @@ export function ClienteList({
                     {preset.label}
                   </button>
                 ))}
+                {customPresets.map((preset) => (
+                  <div key={preset.id} className="inline-flex items-center gap-1">
+                    <button
+                      onClick={() => applyCustomPreset(preset)}
+                      className={cn(
+                        "flex items-center gap-2 px-3 py-1.5 rounded-lg border text-[10px] font-bold uppercase tracking-wider transition-all whitespace-nowrap",
+                        PRESET_COLOR_STYLES[preset.colorToken] || "border-border bg-background text-foreground",
+                      )}
+                    >
+                      {preset.name}
+                    </button>
+                    <button
+                      onClick={() => openEditPresetModal(preset)}
+                      className="h-7 w-7 rounded-md border border-border bg-background text-muted-foreground hover:text-foreground"
+                      title="Editar preset"
+                    >
+                      <Pencil className="h-3.5 w-3.5 mx-auto" />
+                    </button>
+                    <button
+                      onClick={() => removePreset(preset.id)}
+                      className="h-7 w-7 rounded-md border border-border bg-background text-muted-foreground hover:text-destructive"
+                      title="Eliminar preset"
+                    >
+                      <Trash2 className="h-3.5 w-3.5 mx-auto" />
+                    </button>
+                  </div>
+                ))}
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={openCreatePresetModal}
+                  className="h-8 rounded-lg text-[10px] font-black uppercase tracking-wider"
+                >
+                  + Nuevo preset
+                </Button>
               </div>
 
               {/* Integrated Filter Panel */}
@@ -1225,7 +1444,7 @@ export function ClienteList({
                           <ArrowUpDown className={cn("h-3 w-3", sortConfig?.key === "nombre" ? "text-[#01ADFB]" : "opacity-30")} />
                         </div>
                       </th>
-                      <th className="px-4 py-5 text-[10px] font-black uppercase tracking-[0.3em] text-muted-foreground">Documentación</th>
+                      <th className="px-4 py-5 text-[10px] font-black uppercase tracking-[0.3em] text-muted-foreground">Contacto</th>
                       <th 
                         className="px-4 py-5 text-[10px] font-black uppercase tracking-[0.3em] text-muted-foreground text-center cursor-pointer hover:text-foreground transition-colors"
                         onClick={() => handleSort("score")}
@@ -1274,7 +1493,10 @@ export function ClienteList({
                                 {cliente.tipoCliente === "EMPRESA" ? cliente.razonSocial : `${cliente.nombre} ${cliente.apellido}`}
                               </span>
                               <div className="flex items-center gap-2 mt-0.5">
-                                <span className="text-[9px] font-black text-muted-foreground uppercase tracking-[0.1em]">
+                                <span className="text-[9px] font-black text-muted-foreground uppercase tracking-[0.1em] border-r border-border pr-2">
+                                  {cliente.tipoCliente === "EMPRESA" ? "NIT" : (cliente.tipoDocumento || "CC")}: {cliente.tipoCliente === "EMPRESA" ? (cliente.nit || "S/N") : (cliente.numeroDocumento || "S/N")}
+                                </span>
+                                <span className="text-[9px] font-black text-[#01ADFB] uppercase tracking-[0.1em]">
                                   {cliente.tipoCliente === "EMPRESA" ? "Corporativo" : "Persona Natural"}
                                 </span>
                                 {/* Badges de Calidad de Dato */}
@@ -1289,13 +1511,17 @@ export function ClienteList({
                         </td>
 
                         <td className="px-4 py-6">
-                          <div className="flex flex-col">
-                            <span className="text-xs font-black text-foreground font-mono">
-                              {cliente.tipoCliente === "EMPRESA" ? (cliente.nit || "SIN NIT") : (cliente.numeroDocumento || "SIN DOC")}
-                            </span>
-                            <span className="text-[9px] font-black text-muted-foreground uppercase tracking-wider mt-0.5">
-                              {cliente.tipoCliente === "EMPRESA" ? "NIT" : (cliente.tipoDocumento || "CC")}
-                            </span>
+                          <div className="flex flex-col gap-1">
+                            <div className="flex items-center gap-2 text-xs font-black text-foreground">
+                              <Phone className="h-3.5 w-3.5 text-emerald-600" />
+                              {cliente.telefono}
+                            </div>
+                            {cliente.correo && (
+                              <div className="flex items-center gap-2 text-[10px] font-black text-muted-foreground truncate max-w-[120px]">
+                                <Mail className="h-3 w-3 text-muted-foreground" />
+                                {cliente.correo}
+                              </div>
+                            )}
                           </div>
                         </td>
 
@@ -1340,18 +1566,15 @@ export function ClienteList({
                           })()}
                         </td>
 
-                        <td className="px-4 py-6">
-                          <div className="flex flex-col gap-1">
+                        <td className="px-4 py-6 text-center">
+                          <div className="flex flex-col items-center gap-1.5">
                             <div className="flex items-center gap-2 text-xs font-black text-foreground">
-                              <Phone className="h-3.5 w-3.5 text-emerald-600" />
-                              {cliente.telefono}
+                              <Calendar className="h-3.5 w-3.5 text-[#01ADFB]" />
+                              {cliente.proximaVisita ? new Date(cliente.proximaVisita).toLocaleDateString() : "PENDIENTE"}
                             </div>
-                            {cliente.correo && (
-                              <div className="flex items-center gap-2 text-[10px] font-black text-muted-foreground truncate max-w-[120px]">
-                                <Mail className="h-3 w-3 text-muted-foreground" />
-                                {cliente.correo}
-                              </div>
-                            )}
+                            <span className="text-[9px] font-black text-muted-foreground uppercase tracking-widest">
+                              {cliente.frecuenciaServicio ? `CADA ${cliente.frecuenciaServicio} DÍAS` : "PUNTUAL"}
+                            </span>
                           </div>
                         </td>
 
@@ -2241,6 +2464,86 @@ export function ClienteList({
               </div>
             </div>
           )}
+        </DialogContent>
+      </Dialog>
+
+      <Dialog open={isPresetModalOpen} onOpenChange={setIsPresetModalOpen}>
+        <DialogContent className="max-w-md bg-background border-border">
+          <DialogHeader>
+            <DialogTitle className="text-lg font-black uppercase">
+              {editingPresetId ? "Editar Preset" : "Nuevo Preset"}
+            </DialogTitle>
+            <DialogDescription className="text-muted-foreground">
+              Guarda los filtros actuales de clientes con nombre, color y visibilidad.
+            </DialogDescription>
+          </DialogHeader>
+
+          <div className="space-y-4 mt-2">
+            <div className="space-y-2">
+              <Label className="text-[10px] font-black uppercase tracking-wider text-muted-foreground">Nombre</Label>
+              <Input
+                value={presetForm.name}
+                onChange={(e) => setPresetForm((prev) => ({ ...prev, name: e.target.value }))}
+                placeholder="Ej: Riesgo + pagos pendientes"
+                className="h-10"
+              />
+            </div>
+
+            <div className="space-y-2">
+              <Label className="text-[10px] font-black uppercase tracking-wider text-muted-foreground">Color</Label>
+              <div className="flex flex-wrap gap-2">
+                {CUSTOM_PRESET_COLORS.map((color) => (
+                  <button
+                    key={color}
+                    type="button"
+                    onClick={() => setPresetForm((prev) => ({ ...prev, colorToken: color }))}
+                    className={cn(
+                      "h-8 px-2 rounded-md border text-[9px] font-black uppercase",
+                      PRESET_COLOR_STYLES[color],
+                      presetForm.colorToken === color && "ring-2 ring-[#01ADFB]",
+                    )}
+                  >
+                    {color}
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            <div className="space-y-2">
+              <Label className="text-[10px] font-black uppercase tracking-wider text-muted-foreground">Visibilidad</Label>
+              <div className="grid grid-cols-2 gap-2">
+                <button
+                  type="button"
+                  onClick={() => setPresetForm((prev) => ({ ...prev, isShared: false }))}
+                  className={cn(
+                    "h-9 rounded-lg border text-[10px] font-black uppercase",
+                    !presetForm.isShared ? "bg-[#01ADFB] text-white border-[#01ADFB]" : "bg-background border-border text-muted-foreground",
+                  )}
+                >
+                  Privado
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setPresetForm((prev) => ({ ...prev, isShared: true }))}
+                  className={cn(
+                    "h-9 rounded-lg border text-[10px] font-black uppercase",
+                    presetForm.isShared ? "bg-[#01ADFB] text-white border-[#01ADFB]" : "bg-background border-border text-muted-foreground",
+                  )}
+                >
+                  Compartido
+                </button>
+              </div>
+            </div>
+
+            <div className="flex gap-2 pt-2">
+              <Button variant="outline" className="flex-1" onClick={() => setIsPresetModalOpen(false)}>
+                Cancelar
+              </Button>
+              <Button className="flex-1 bg-[#01ADFB] text-white" onClick={savePreset}>
+                Guardar Preset
+              </Button>
+            </div>
+          </div>
         </DialogContent>
       </Dialog>
 

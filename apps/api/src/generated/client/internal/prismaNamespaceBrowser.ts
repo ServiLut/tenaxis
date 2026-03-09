@@ -56,6 +56,7 @@ export const ModelName = {
   Plan: 'Plan',
   Subscription: 'Subscription',
   TenantMembership: 'TenantMembership',
+  DashboardPreset: 'DashboardPreset',
   Empresa: 'Empresa',
   EmpresaMembership: 'EmpresaMembership',
   OrganizationNode: 'OrganizationNode',
@@ -210,6 +211,22 @@ export const TenantMembershipScalarFieldEnum = {
 } as const
 
 export type TenantMembershipScalarFieldEnum = (typeof TenantMembershipScalarFieldEnum)[keyof typeof TenantMembershipScalarFieldEnum]
+
+
+export const DashboardPresetScalarFieldEnum = {
+  id: 'id',
+  tenantId: 'tenantId',
+  createdByMembershipId: 'createdByMembershipId',
+  module: 'module',
+  name: 'name',
+  colorToken: 'colorToken',
+  isShared: 'isShared',
+  filters: 'filters',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type DashboardPresetScalarFieldEnum = (typeof DashboardPresetScalarFieldEnum)[keyof typeof DashboardPresetScalarFieldEnum]
 
 
 export const EmpresaScalarFieldEnum = {
@@ -1042,6 +1059,13 @@ export const SortOrder = {
 } as const
 
 export type SortOrder = (typeof SortOrder)[keyof typeof SortOrder]
+
+
+export const JsonNullValueInput = {
+  JsonNull: JsonNull
+} as const
+
+export type JsonNullValueInput = (typeof JsonNullValueInput)[keyof typeof JsonNullValueInput]
 
 
 export const NullableJsonNullValueInput = {
