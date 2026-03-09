@@ -116,11 +116,21 @@ interface Servicio {
   urgencia: string;
   empresaId: string;
   raw: OrdenServicioRaw;
+  followUps: Servicio[];
+  isFollowUp?: boolean;
+}
+
+interface FollowUpRow extends Servicio {
+  parentId: string;
+  parentNumero: string;
+  parentCliente: string;
+  parentServicio: string;
 }
 
 interface OrdenServicioRaw {
   id: string;
   numeroOrden?: string;
+  ordenPadreId?: string | null;
   cliente: ClienteDTO;
   clienteId: string;
   empresaId: string;
@@ -196,6 +206,7 @@ interface OrdenServicioRaw {
       };
     };
   }[];
+  ordenesHijas?: OrdenServicioRaw[];
 }
 
 const ESTADO_STYLING: Record<string, string> = {
@@ -229,6 +240,11 @@ const PRESET_OPTIONS = [
   { key: "VENCIDOS", label: "VENCIDOS" },
   { key: "SIN_TECNICO", label: "SIN TÉCNICO" },
   { key: "PENDIENTES_LIQUIDAR", label: "PEND. LIQUIDAR" },
+] as const;
+
+const VIEW_MODE_OPTIONS = [
+  { key: "servicios", label: "Servicios" },
+  { key: "seguimientos", label: "Seguimientos" },
 ] as const;
 
 const CUSTOM_PRESET_COLORS: DashboardPresetColorToken[] = [
@@ -315,6 +331,8 @@ function ServiciosContent() {
   const [showFilters, setShowFilters] = useState(false);
   const [isLiquidarModalOpen, setIsLiquidarModalOpen] = useState(false);
   const [showKPIs, setShowKPIs] = useState(true);
+  const [expandedRows, setExpandedRows] = useState<Record<string, boolean>>({});
+  const [viewMode, setViewMode] = useState(searchParams.get("tab") || "servicios");
   const [activePreset, setActivePreset] = useState(searchParams.get("preset") || "all");
   const [kpis, setKpis] = useState<ServiciosKpis | null>(null);
   const [kpisLoading, setKpisLoading] = useState(false);
@@ -443,8 +461,7 @@ function ServiciosContent() {
       const empresaId = localStorage.getItem("current-enterprise-id") || undefined;
       const data = await getOrdenesServicio(empresaId);
       const ordenesData = (Array.isArray(data) ? data : []) as unknown as OrdenServicioRaw[];
-
-      const mapped: Servicio[] = ordenesData.map((os: OrdenServicioRaw) => {
+      const mapOrdenToServicio = (os: OrdenServicioRaw, isFollowUp = false): Servicio => {
         const clienteLabel = os.cliente.tipoCliente === "EMPRESA"
           ? (os.cliente.razonSocial || "Empresa")
           : `${os.cliente.nombre || ""} ${os.cliente.apellido || ""}`.trim();
@@ -470,8 +487,12 @@ function ServiciosContent() {
           urgencia: os.urgencia || "BAJA",
           empresaId: os.empresaId,
           raw: os,
+          followUps: (os.ordenesHijas || []).map((child) => mapOrdenToServicio(child, true)),
+          isFollowUp,
         };
-      });
+      };
+
+      const mapped: Servicio[] = ordenesData.map((os: OrdenServicioRaw) => mapOrdenToServicio(os));
 
       setServicios(mapped);
 
@@ -667,6 +688,7 @@ function ServiciosContent() {
     search,
     filters,
     activePreset,
+    viewMode,
   });
 
   const applyCustomPreset = (preset: DashboardPreset) => {
@@ -674,6 +696,7 @@ function ServiciosContent() {
       search?: string;
       filters?: typeof filters;
       activePreset?: string;
+      viewMode?: string;
     };
 
     setSearch(payload.search || "");
@@ -690,6 +713,7 @@ function ServiciosContent() {
       fechaFin: "",
     });
     setActivePreset(payload.activePreset || "all");
+    setViewMode(payload.viewMode || "servicios");
     setCurrentPage(1);
   };
 
@@ -760,6 +784,7 @@ function ServiciosContent() {
   useEffect(() => {
     const nextParams = new URLSearchParams();
     if (search) nextParams.set("search", search);
+    if (viewMode !== "servicios") nextParams.set("tab", viewMode);
     if (activePreset !== "all") nextParams.set("preset", activePreset);
     if (filters.estado !== "all") nextParams.set("estado", filters.estado);
     if (filters.tecnico !== "all") nextParams.set("tecnico", filters.tecnico);
@@ -777,7 +802,7 @@ function ServiciosContent() {
     if (nextQuery !== currentQuery) {
       router.replace(`${pathname}?${nextQuery}`, { scroll: false });
     }
-  }, [activePreset, filters, pathname, router, search]);
+  }, [activePreset, filters, pathname, router, search, viewMode]);
 
   useEffect(() => {
     fetchServicios();
@@ -885,6 +910,16 @@ function ServiciosContent() {
     filters.fechaInicio !== "" || 
     filters.fechaFin !== "";
 
+  const followUpRows: FollowUpRow[] = servicios.flatMap((parent) =>
+    parent.followUps.map((child) => ({
+      ...child,
+      parentId: parent.raw.id,
+      parentNumero: parent.id,
+      parentCliente: parent.cliente,
+      parentServicio: parent.servicioEspecifico,
+    })),
+  );
+
   const filteredServicios = servicios.filter((s: Servicio) => {
     const matchesSearch =
       s.cliente.toLowerCase().includes(search.toLowerCase()) ||
@@ -924,9 +959,58 @@ function ServiciosContent() {
     return matchesSearch && matchesEstado && matchesTecnico && matchesUrgencia && matchesCreador && matchesMunicipio && matchesMetodoPago && matchesEmpresa && matchesTipo && matchesFecha && presetPass;
   });
 
-  const totalPages = Math.ceil(filteredServicios.length / itemsPerPage);
+  const filteredFollowUps = followUpRows.filter((s) => {
+    const matchesSearch =
+      s.cliente.toLowerCase().includes(search.toLowerCase()) ||
+      s.servicioEspecifico.toLowerCase().includes(search.toLowerCase()) ||
+      s.id.toLowerCase().includes(search.toLowerCase()) ||
+      s.raw.id.toLowerCase().includes(search.toLowerCase()) ||
+      s.parentServicio.toLowerCase().includes(search.toLowerCase());
+
+    const matchesEstado = filters.estado === "all" || s.raw.estadoServicio === filters.estado;
+    const matchesTecnico = filters.tecnico === "all" || s.tecnicoId === filters.tecnico;
+    const matchesUrgencia = filters.urgencia === "all" || s.urgencia === filters.urgencia;
+    const matchesCreador = filters.creador === "all" || (filters.creador === "SISTEMA" ? !s.raw.creadoPor : s.raw.creadoPor?.id === filters.creador);
+    const matchesMunicipio = filters.municipio === "all" || s.raw.municipio?.toUpperCase() === filters.municipio;
+    const matchesMetodoPago = filters.metodoPago === "all" || s.raw.metodoPagoId === filters.metodoPago;
+    const matchesEmpresa = filters.empresa === "all" || s.raw.empresaId === filters.empresa;
+    const matchesTipo = filters.tipo === "all" || s.raw.tipoVisita?.toUpperCase() === filters.tipo;
+
+    let matchesFecha = true;
+    const visitYmd = s.raw.fechaVisita ? utcIsoToBogotaYmd(s.raw.fechaVisita) : null;
+    if (filters.fechaInicio && visitYmd) {
+      matchesFecha = matchesFecha && visitYmd >= filters.fechaInicio;
+    }
+    if (filters.fechaFin && visitYmd) {
+      matchesFecha = matchesFecha && visitYmd <= filters.fechaFin;
+    }
+    const todayYmd = toBogotaYmd();
+    const isVencido =
+      !!visitYmd &&
+      visitYmd < todayYmd &&
+      !["LIQUIDADO", "CANCELADO", "SIN_CONCRETAR", "SIN CONCRETAR"].includes(s.estadoServicio);
+    const presetPass =
+      activePreset === "all" ||
+      (activePreset === "VENCIDOS" && isVencido) ||
+      (activePreset === "SIN_TECNICO" && !s.tecnicoId) ||
+      (activePreset === "PENDIENTES_LIQUIDAR" && s.raw.estadoServicio === "TECNICO_FINALIZO") ||
+      ["HOY", "MANANA", "SEMANA"].includes(activePreset);
+
+    return matchesSearch && matchesEstado && matchesTecnico && matchesUrgencia && matchesCreador && matchesMunicipio && matchesMetodoPago && matchesEmpresa && matchesTipo && matchesFecha && presetPass;
+  });
+
+  const activeRows = viewMode === "seguimientos" ? filteredFollowUps : filteredServicios;
+  const totalPages = Math.ceil(activeRows.length / itemsPerPage);
   const startIndex = (currentPage - 1) * itemsPerPage;
   const paginatedServicios = filteredServicios.slice(startIndex, startIndex + itemsPerPage);
+  const paginatedFollowUps = filteredFollowUps.slice(startIndex, startIndex + itemsPerPage);
+
+  const toggleFollowUpsRow = (servicioId: string) => {
+    setExpandedRows((prev) => ({
+      ...prev,
+      [servicioId]: !prev[servicioId],
+    }));
+  };
 
   const handleCopy = (servicio: Servicio) => {
     const formattedValor = new Intl.NumberFormat('es-CO', { style: 'currency', currency: 'COP', maximumFractionDigits: 0 }).format(servicio.raw.valorCotizado || 0);
@@ -1036,22 +1120,43 @@ function ServiciosContent() {
 
                 <div className="flex-1 min-h-0 flex flex-col bg-card rounded-3xl border border-border shadow-sm overflow-hidden">
                   <div className="px-8 py-6 border-b border-border flex flex-col gap-6 sm:flex-row sm:items-center sm:justify-between bg-card shrink-0">
-                    <div className="flex flex-1 items-center gap-3 max-w-2xl">
-                      <div className="relative flex-1 group">
-                        <Search className="absolute left-4 top-1/2 h-5 w-5 -translate-y-1/2 text-muted-foreground group-focus-within:text-[#01ADFB] transition-colors" />
-                        <Input placeholder="Buscar servicios..." className="h-12 pl-12 rounded-xl border-none bg-muted focus:ring-2 focus:ring-[#01ADFB]/20 transition-all font-bold text-sm text-foreground" value={search} onChange={(e) => setSearch(e.target.value)} />
+                    <div className="flex flex-1 flex-col gap-4 max-w-3xl">
+                      <div className="flex flex-wrap gap-2">
+                        {VIEW_MODE_OPTIONS.map((option) => (
+                          <button
+                            key={option.key}
+                            onClick={() => {
+                              setViewMode(option.key);
+                              setCurrentPage(1);
+                            }}
+                            className={cn(
+                              "h-10 rounded-xl border px-4 text-[10px] font-black uppercase tracking-[0.18em] transition-colors",
+                              viewMode === option.key
+                                ? "border-[#01ADFB] bg-[#01ADFB] text-white"
+                                : "border-border bg-background text-muted-foreground hover:bg-muted",
+                            )}
+                          >
+                            {option.label}
+                          </button>
+                        ))}
                       </div>
-                      <button onClick={() => setShowFilters(!showFilters)} className={cn("h-12 px-5 rounded-xl bg-card border border-border text-muted-foreground font-black text-[10px] uppercase tracking-widest flex items-center gap-2 transition-all", showFilters && "bg-primary text-primary-foreground")}>
-                        <Filter className="h-4 w-4" /> Filtros
-                      </button>
-                      {hasActiveFilters && (
-                        <button 
-                          onClick={resetAllFilters} 
-                          className="h-12 px-5 rounded-xl bg-destructive/10 text-destructive border border-destructive/20 font-black text-[10px] uppercase tracking-widest flex items-center gap-2 transition-all hover:bg-destructive hover:text-white"
-                        >
-                          <RotateCcw className="h-4 w-4" /> Borrar Filtros
+                      <div className="flex flex-1 items-center gap-3 max-w-2xl">
+                        <div className="relative flex-1 group">
+                          <Search className="absolute left-4 top-1/2 h-5 w-5 -translate-y-1/2 text-muted-foreground group-focus-within:text-[#01ADFB] transition-colors" />
+                          <Input placeholder={viewMode === "seguimientos" ? "Buscar seguimientos..." : "Buscar servicios..."} className="h-12 pl-12 rounded-xl border-none bg-muted focus:ring-2 focus:ring-[#01ADFB]/20 transition-all font-bold text-sm text-foreground" value={search} onChange={(e) => setSearch(e.target.value)} />
+                        </div>
+                        <button onClick={() => setShowFilters(!showFilters)} className={cn("h-12 px-5 rounded-xl bg-card border border-border text-muted-foreground font-black text-[10px] uppercase tracking-widest flex items-center gap-2 transition-all", showFilters && "bg-primary text-primary-foreground")}>
+                          <Filter className="h-4 w-4" /> Filtros
                         </button>
-                      )}
+                        {hasActiveFilters && (
+                          <button 
+                            onClick={resetAllFilters} 
+                            className="h-12 px-5 rounded-xl bg-destructive/10 text-destructive border border-destructive/20 font-black text-[10px] uppercase tracking-widest flex items-center gap-2 transition-all hover:bg-destructive hover:text-white"
+                          >
+                            <RotateCcw className="h-4 w-4" /> Borrar Filtros
+                          </button>
+                        )}
+                      </div>
                     </div>
                     <Link href="/dashboard/servicios/nuevo"><div className="flex items-center h-12 px-8 rounded-xl bg-[#01ADFB] text-white gap-3 shadow-lg shadow-[#01ADFB]/20 transition-transform hover:scale-105 active:scale-95 cursor-pointer"><Plus className="h-5 w-5" /><span className="font-black uppercase tracking-widest text-[10px]">Nueva Orden</span></div></Link>
                   </div>
@@ -1130,6 +1235,64 @@ function ServiciosContent() {
 
                   <div className="flex-1 min-h-0 flex flex-col overflow-hidden">
                     <div className="flex-1 overflow-auto">
+                      {viewMode === "seguimientos" ? (
+                        <table className="w-full text-left border-collapse">
+                          <thead>
+                            <tr className="border-b border-border bg-muted/50 sticky top-0 z-10">
+                              <th className="px-8 py-6 text-[10px] font-black uppercase tracking-[0.2em] text-muted-foreground">Seguimiento</th>
+                              <th className="px-8 py-6 text-[10px] font-black uppercase tracking-[0.2em] text-muted-foreground">Servicio Madre</th>
+                              <th className="px-8 py-6 text-[10px] font-black uppercase tracking-[0.2em] text-muted-foreground">Programación</th>
+                              <th className="px-8 py-6 text-[10px] font-black uppercase tracking-[0.2em] text-muted-foreground">Técnico</th>
+                              <th className="px-8 py-6 text-[10px] font-black uppercase tracking-[0.2em] text-muted-foreground">Estado</th>
+                              <th className="px-8 py-6 text-[10px] font-black uppercase tracking-[0.2em] text-muted-foreground text-right">Acciones</th>
+                            </tr>
+                          </thead>
+                          <tbody className="divide-y divide-border">
+                            {paginatedFollowUps.map((s) => (
+                              <tr key={s.raw.id} className="group hover:bg-muted/50 transition-colors">
+                                <td className="px-8 py-6">
+                                  <div className="space-y-1">
+                                    <p className="font-black text-foreground tracking-tight uppercase">{s.cliente}</p>
+                                    <div className="flex items-center gap-2 flex-wrap">
+                                      <span className="text-[10px] font-bold text-muted-foreground uppercase">{s.servicioEspecifico}</span>
+                                      <span className={cn("px-2 py-0.5 rounded-md text-[8px] font-black uppercase", URGENCIA_STYLING[s.urgencia])}>{s.urgencia}</span>
+                                    </div>
+                                    <p className="text-[10px] font-black uppercase tracking-widest text-amber-700">#{s.id}</p>
+                                  </div>
+                                </td>
+                                <td className="px-8 py-6">
+                                  <div className="space-y-1">
+                                    <p className="text-xs font-black uppercase text-foreground">{s.parentCliente}</p>
+                                    <p className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">{s.parentServicio}</p>
+                                    <Link href={`/dashboard/servicios/${s.parentId}/editar?returnTo=/dashboard/servicios?tab=seguimientos`}>
+                                      <span className="text-[10px] font-black uppercase tracking-widest text-[#01ADFB]">Ver madre #{s.parentNumero}</span>
+                                    </Link>
+                                  </div>
+                                </td>
+                                <td className="px-8 py-6"><div className="space-y-1.5"><div className="flex items-center gap-2 text-xs font-bold text-muted-foreground"><Calendar className="h-3.5 w-3.5" /> {s.fecha}</div><div className="flex items-center gap-2 text-xs font-bold text-muted-foreground"><Clock className="h-3.5 w-3.5" /> {s.hora}</div></div></td>
+                                <td className="px-8 py-6"><div className="flex items-center gap-3"><div className="h-8 w-8 rounded-lg bg-muted flex items-center justify-center"><User className="h-4 w-4 text-muted-foreground" /></div><span className="text-sm font-bold text-foreground uppercase">{s.tecnico}</span></div></td>
+                                <td className="px-8 py-6"><span className={cn("inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-[10px] font-black uppercase border shadow-sm", ESTADO_STYLING[s.estadoServicio] || ESTADO_STYLING["DEFAULT"])}>{s.estadoServicio}</span></td>
+                                <td className="px-8 py-6 text-right">
+                                  <div className="flex justify-end gap-2">
+                                    <button
+                                      onClick={() => { setSelectedServicio(s); setIsModalOpen(true); }}
+                                      className="h-10 px-3 rounded-xl border border-border bg-background text-muted-foreground hover:text-foreground transition-all text-[10px] font-black uppercase tracking-widest"
+                                    >
+                                      Ver
+                                    </button>
+                                    <Link href={`/dashboard/servicios/${s.raw.id}/editar?returnTo=/dashboard/servicios?tab=seguimientos`}>
+                                      <div className="h-10 px-3 rounded-xl border border-border bg-background text-muted-foreground hover:text-foreground transition-all text-[10px] font-black uppercase tracking-widest flex items-center">
+                                        Editar
+                                      </div>
+                                    </Link>
+                                  </div>
+                                </td>
+                              </tr>
+                            ))}
+                          </tbody>
+                        </table>
+                      ) : null}
+                      {viewMode !== "seguimientos" ? (
                       <table className="w-full text-left border-collapse">
                         <thead>
                           <tr className="border-b border-border bg-muted/50 sticky top-0 z-10">
@@ -1145,44 +1308,111 @@ function ServiciosContent() {
                         </thead>
                         <tbody className="divide-y divide-border">
                           {paginatedServicios.map((s) => (
-                            <tr key={s.id} className="group hover:bg-muted/50 transition-colors">
-                              <td className="px-8 py-6"><span className="font-mono text-xs font-black text-[#01ADFB] bg-[#01ADFB]/10 px-3 py-1.5 rounded-lg border border-[#01ADFB]/20">{s.id}</span></td>
-                              <td className="px-8 py-6"><div className="space-y-1"><p className="font-black text-foreground tracking-tight uppercase">{s.cliente}</p><div className="flex items-center gap-2"><span className="text-[10px] font-bold text-muted-foreground uppercase">{s.servicioEspecifico}</span><span className={cn("px-2 py-0.5 rounded-md text-[8px] font-black uppercase", URGENCIA_STYLING[s.urgencia])}>{s.urgencia}</span></div></div></td>
-                              <td className="px-8 py-6"><p className="text-xs font-bold text-muted-foreground truncate max-w-[200px] uppercase" title={s.raw.direccionTexto}>{s.raw.direccionTexto || "N/A"}</p></td>
-                              <td className="px-8 py-6"><div className="space-y-1.5"><div className="flex items-center gap-2 text-xs font-bold text-muted-foreground"><Calendar className="h-3.5 w-3.5" /> {s.fecha}</div><div className="flex items-center gap-2 text-xs font-bold text-muted-foreground"><Clock className="h-3.5 w-3.5" /> {s.hora}</div></div></td>
-                              <td className="px-8 py-6"><div className="flex items-center gap-3"><div className="h-8 w-8 rounded-lg bg-muted flex items-center justify-center"><User className="h-4 w-4 text-muted-foreground" /></div><span className="text-sm font-bold text-foreground uppercase">{s.tecnico}</span></div></td>
-                              <td className="px-8 py-6"><span className="text-[10px] font-black text-muted-foreground uppercase bg-muted/50 px-2 py-1 rounded-md border border-border">{s.raw.tipoVisita || "N/A"}</span></td>
-                              <td className="px-8 py-6"><span className={cn("inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-[10px] font-black uppercase border shadow-sm", ESTADO_STYLING[s.estadoServicio] || ESTADO_STYLING["DEFAULT"])}>{s.estadoServicio}</span></td>
-                              <td className="px-8 py-6 text-right"><div className="flex justify-end gap-2">
-                                <DropdownMenu><DropdownMenuTrigger asChild><button className="h-10 w-10 rounded-xl bg-muted hover:bg-foreground hover:text-background text-muted-foreground transition-all flex items-center justify-center"><MoreHorizontal className="h-5 w-5" /></button></DropdownMenuTrigger>
-                                  <DropdownMenuContent align="end" className="w-64 p-2 rounded-xl bg-card border-border shadow-2xl">
-                                    <DropdownMenuItem onClick={() => { setSelectedServicio(s); setIsModalOpen(true); }} className="flex items-center gap-3 py-2.5 text-[11px] font-bold cursor-pointer text-foreground hover:bg-muted"><Eye className="h-4 w-4 text-[#01ADFB]" /> VER DETALLES</DropdownMenuItem>
-                                    <Link href={`/dashboard/servicios/${s.raw.id}/editar?returnTo=/dashboard/servicios`}><DropdownMenuItem className="flex items-center gap-3 py-2.5 text-[11px] font-bold cursor-pointer text-foreground hover:bg-muted"><Pencil className="h-4 w-4 text-amber-600" /> EDITAR ORDEN</DropdownMenuItem></Link>
-                                    <DropdownMenuItem onClick={() => handleCopy(s)} className="flex items-center gap-3 py-2.5 text-[11px] font-bold cursor-pointer text-foreground hover:bg-muted"><Copy className="h-4 w-4 text-purple-600" /> COPIAR INFO</DropdownMenuItem>
-                                    <DropdownMenuSeparator />
-                                    <DropdownMenuItem onClick={() => handleWhatsAppNotify(s)} className="flex items-center gap-3 py-2.5 text-[11px] font-bold cursor-pointer text-foreground hover:bg-muted"><Bell className="h-4 w-4 text-pink-500" /> RECORDATORIO WPP</DropdownMenuItem>
-                                    <DropdownMenuItem onClick={() => handleNotifyOperator(s)} className="flex items-center gap-3 py-2.5 text-[11px] font-bold cursor-pointer text-foreground hover:bg-muted"><Send className="h-4 w-4 text-[#01ADFB]" /> ENVIAR A TECNICO</DropdownMenuItem>
-                                    <DropdownMenuSeparator />
-                                    <DropdownMenuItem onClick={() => { setSelectedServicio(s); setIsVisitaModalOpen(true); }} className="flex items-center gap-3 py-2.5 text-[11px] font-bold cursor-pointer text-foreground hover:bg-muted"><MapPin className="h-4 w-4 text-emerald-500" /> EVIDENCIA DE VISITA</DropdownMenuItem>
-                                    <DropdownMenuItem onClick={() => triggerUpload(s.raw.id, "facturaElectronica")} className="flex items-center gap-3 py-2.5 text-[11px] font-bold cursor-pointer text-foreground hover:bg-muted"><Upload className="h-4 w-4 text-blue-500" /> SUBIR FACTURA</DropdownMenuItem>
-                                    <DropdownMenuItem onClick={() => triggerUpload(s.raw.id, "comprobantePago")} className="flex items-center gap-3 py-2.5 text-[11px] font-bold cursor-pointer text-foreground hover:bg-muted"><Receipt className="h-4 w-4 text-orange-500" /> SUBIR COMPROBANTE</DropdownMenuItem>
-                                    <DropdownMenuItem onClick={() => triggerUpload(s.raw.id, "evidenciaPath")} className="flex items-center gap-3 py-2.5 text-[11px] font-bold cursor-pointer text-foreground hover:bg-muted"><ImageIcon className="h-4 w-4 text-indigo-500" /> SUBIR EVIDENCIAS</DropdownMenuItem>
-                                    <DropdownMenuSeparator />
-                                    {s.estadoServicio === "LIQUIDADO" ? (
-                                      <DropdownMenuItem onClick={() => { setSelectedServicio(s); }} className="flex items-center gap-3 py-2.5 text-[11px] font-bold cursor-pointer text-emerald-600 hover:bg-emerald-500/10"><CheckCircle2 className="h-4 w-4" /> VER LIQUIDACION</DropdownMenuItem>
-                                    ) : (
-                                      <DropdownMenuItem onClick={() => { setSelectedServicio(s); setLiquidarData({ breakdown: [{ metodo: "EFECTIVO", monto: (s.raw.valorCotizado || "").toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".") }], observacionFinal: s.raw.observacionFinal || "", fechaPago: toBogotaYmd() }); setIsLiquidarModalOpen(true); }} className="flex items-center gap-3 py-2.5 text-[11px] font-bold cursor-pointer text-emerald-600 hover:bg-emerald-500/10"><CreditCard className="h-4 w-4" /> LIQUIDAR SERVICIO</DropdownMenuItem>
-                                    )}
-                                  </DropdownMenuContent></DropdownMenu>
-                              </div></td>
-                            </tr>
+                            <React.Fragment key={s.raw.id}>
+                              <tr className="group hover:bg-muted/50 transition-colors">
+                                <td className="px-8 py-6"><span className="font-mono text-xs font-black text-[#01ADFB] bg-[#01ADFB]/10 px-3 py-1.5 rounded-lg border border-[#01ADFB]/20">{s.id}</span></td>
+                                <td className="px-8 py-6"><div className="space-y-1"><p className="font-black text-foreground tracking-tight uppercase">{s.cliente}</p><div className="flex items-center gap-2 flex-wrap"><span className="text-[10px] font-bold text-muted-foreground uppercase">{s.servicioEspecifico}</span><span className={cn("px-2 py-0.5 rounded-md text-[8px] font-black uppercase", URGENCIA_STYLING[s.urgencia])}>{s.urgencia}</span>{s.followUps.length > 0 ? <span className="px-2 py-0.5 rounded-md text-[8px] font-black uppercase bg-amber-100 text-amber-700 border border-amber-200">{s.followUps.length} seguimientos</span> : null}</div></div></td>
+                                <td className="px-8 py-6"><p className="text-xs font-bold text-muted-foreground truncate max-w-[200px] uppercase" title={s.raw.direccionTexto}>{s.raw.direccionTexto || "N/A"}</p></td>
+                                <td className="px-8 py-6"><div className="space-y-1.5"><div className="flex items-center gap-2 text-xs font-bold text-muted-foreground"><Calendar className="h-3.5 w-3.5" /> {s.fecha}</div><div className="flex items-center gap-2 text-xs font-bold text-muted-foreground"><Clock className="h-3.5 w-3.5" /> {s.hora}</div></div></td>
+                                <td className="px-8 py-6"><div className="flex items-center gap-3"><div className="h-8 w-8 rounded-lg bg-muted flex items-center justify-center"><User className="h-4 w-4 text-muted-foreground" /></div><span className="text-sm font-bold text-foreground uppercase">{s.tecnico}</span></div></td>
+                                <td className="px-8 py-6"><span className="text-[10px] font-black text-muted-foreground uppercase bg-muted/50 px-2 py-1 rounded-md border border-border">{s.raw.tipoVisita || "N/A"}</span></td>
+                                <td className="px-8 py-6"><span className={cn("inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-[10px] font-black uppercase border shadow-sm", ESTADO_STYLING[s.estadoServicio] || ESTADO_STYLING["DEFAULT"])}>{s.estadoServicio}</span></td>
+                                <td className="px-8 py-6 text-right">
+                                  <div className="flex justify-end gap-2">
+                                    {s.followUps.length > 0 ? (
+                                      <button
+                                        onClick={() => toggleFollowUpsRow(s.raw.id)}
+                                        className="h-10 px-3 rounded-xl bg-amber-50 border border-amber-200 text-amber-700 hover:bg-amber-100 transition-all flex items-center gap-2"
+                                        title={expandedRows[s.raw.id] ? "Ocultar seguimientos" : "Ver seguimientos"}
+                                      >
+                                        <span className="text-[10px] font-black uppercase tracking-widest">Seg.</span>
+                                        <ChevronDown className={cn("h-4 w-4 transition-transform", expandedRows[s.raw.id] && "rotate-180")} />
+                                      </button>
+                                    ) : null}
+                                    <DropdownMenu><DropdownMenuTrigger asChild><button className="h-10 w-10 rounded-xl bg-muted hover:bg-foreground hover:text-background text-muted-foreground transition-all flex items-center justify-center"><MoreHorizontal className="h-5 w-5" /></button></DropdownMenuTrigger>
+                                      <DropdownMenuContent align="end" className="w-64 p-2 rounded-xl bg-card border-border shadow-2xl">
+                                        <DropdownMenuItem onClick={() => { setSelectedServicio(s); setIsModalOpen(true); }} className="flex items-center gap-3 py-2.5 text-[11px] font-bold cursor-pointer text-foreground hover:bg-muted"><Eye className="h-4 w-4 text-[#01ADFB]" /> VER DETALLES</DropdownMenuItem>
+                                        <Link href={`/dashboard/servicios/${s.raw.id}/editar?returnTo=/dashboard/servicios`}><DropdownMenuItem className="flex items-center gap-3 py-2.5 text-[11px] font-bold cursor-pointer text-foreground hover:bg-muted"><Pencil className="h-4 w-4 text-amber-600" /> EDITAR ORDEN</DropdownMenuItem></Link>
+                                        <DropdownMenuItem onClick={() => handleCopy(s)} className="flex items-center gap-3 py-2.5 text-[11px] font-bold cursor-pointer text-foreground hover:bg-muted"><Copy className="h-4 w-4 text-purple-600" /> COPIAR INFO</DropdownMenuItem>
+                                        <DropdownMenuSeparator />
+                                        <DropdownMenuItem onClick={() => handleWhatsAppNotify(s)} className="flex items-center gap-3 py-2.5 text-[11px] font-bold cursor-pointer text-foreground hover:bg-muted"><Bell className="h-4 w-4 text-pink-500" /> RECORDATORIO WPP</DropdownMenuItem>
+                                        <DropdownMenuItem onClick={() => handleNotifyOperator(s)} className="flex items-center gap-3 py-2.5 text-[11px] font-bold cursor-pointer text-foreground hover:bg-muted"><Send className="h-4 w-4 text-[#01ADFB]" /> ENVIAR A TECNICO</DropdownMenuItem>
+                                        <DropdownMenuSeparator />
+                                        <DropdownMenuItem onClick={() => { setSelectedServicio(s); setIsVisitaModalOpen(true); }} className="flex items-center gap-3 py-2.5 text-[11px] font-bold cursor-pointer text-foreground hover:bg-muted"><MapPin className="h-4 w-4 text-emerald-500" /> EVIDENCIA DE VISITA</DropdownMenuItem>
+                                        <DropdownMenuItem onClick={() => triggerUpload(s.raw.id, "facturaElectronica")} className="flex items-center gap-3 py-2.5 text-[11px] font-bold cursor-pointer text-foreground hover:bg-muted"><Upload className="h-4 w-4 text-blue-500" /> SUBIR FACTURA</DropdownMenuItem>
+                                        <DropdownMenuItem onClick={() => triggerUpload(s.raw.id, "comprobantePago")} className="flex items-center gap-3 py-2.5 text-[11px] font-bold cursor-pointer text-foreground hover:bg-muted"><Receipt className="h-4 w-4 text-orange-500" /> SUBIR COMPROBANTE</DropdownMenuItem>
+                                        <DropdownMenuItem onClick={() => triggerUpload(s.raw.id, "evidenciaPath")} className="flex items-center gap-3 py-2.5 text-[11px] font-bold cursor-pointer text-foreground hover:bg-muted"><ImageIcon className="h-4 w-4 text-indigo-500" /> SUBIR EVIDENCIAS</DropdownMenuItem>
+                                        <DropdownMenuSeparator />
+                                        {s.estadoServicio === "LIQUIDADO" ? (
+                                          <DropdownMenuItem onClick={() => { setSelectedServicio(s); }} className="flex items-center gap-3 py-2.5 text-[11px] font-bold cursor-pointer text-emerald-600 hover:bg-emerald-500/10"><CheckCircle2 className="h-4 w-4" /> VER LIQUIDACION</DropdownMenuItem>
+                                        ) : (
+                                          <DropdownMenuItem onClick={() => { setSelectedServicio(s); setLiquidarData({ breakdown: [{ metodo: "EFECTIVO", monto: (s.raw.valorCotizado || "").toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".") }], observacionFinal: s.raw.observacionFinal || "", fechaPago: toBogotaYmd() }); setIsLiquidarModalOpen(true); }} className="flex items-center gap-3 py-2.5 text-[11px] font-bold cursor-pointer text-emerald-600 hover:bg-emerald-500/10"><CreditCard className="h-4 w-4" /> LIQUIDAR SERVICIO</DropdownMenuItem>
+                                        )}
+                                      </DropdownMenuContent></DropdownMenu>
+                                  </div>
+                                </td>
+                              </tr>
+                              {expandedRows[s.raw.id] && s.followUps.length > 0 ? (
+                                <tr className="bg-amber-50/60">
+                                  <td colSpan={8} className="px-8 py-5">
+                                    <div className="rounded-2xl border border-amber-200 bg-white overflow-hidden">
+                                      <div className="px-5 py-4 border-b border-amber-100 flex items-center justify-between">
+                                        <div>
+                                          <p className="text-[10px] font-black uppercase tracking-[0.2em] text-amber-700">Seguimientos automáticos</p>
+                                          <p className="text-xs font-medium text-muted-foreground mt-1">Estos servicios se generaron automáticamente y cuelgan del servicio madre.</p>
+                                        </div>
+                                        <span className="text-[10px] font-black uppercase tracking-widest text-amber-700">{s.followUps.length} seguimiento(s)</span>
+                                      </div>
+                                      <div className="divide-y divide-amber-100">
+                                        {s.followUps.map((child) => (
+                                          <div key={child.raw.id} className="grid grid-cols-1 lg:grid-cols-[1.2fr_1fr_1fr_auto] gap-4 px-5 py-4">
+                                            <div>
+                                              <p className="font-black text-foreground uppercase">{child.servicioEspecifico}</p>
+                                              <p className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground mt-1">
+                                                {child.raw.tipoVisita || "SEGUIMIENTO"} • #{child.id}
+                                              </p>
+                                              <p className="text-xs text-muted-foreground mt-2">{child.raw.observacion || "Seguimiento automático"}</p>
+                                            </div>
+                                            <div>
+                                              <p className="text-[10px] font-black uppercase tracking-widest text-muted-foreground">Programación</p>
+                                              <p className="text-sm font-bold text-foreground mt-1">{child.fecha}</p>
+                                              <p className="text-xs text-muted-foreground">{child.hora}</p>
+                                            </div>
+                                            <div>
+                                              <p className="text-[10px] font-black uppercase tracking-widest text-muted-foreground">Estado</p>
+                                              <span className={cn("inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-[10px] font-black uppercase border shadow-sm mt-1", ESTADO_STYLING[child.estadoServicio] || ESTADO_STYLING["DEFAULT"])}>
+                                                {child.estadoServicio}
+                                              </span>
+                                            </div>
+                                            <div className="flex items-start justify-end gap-2">
+                                              <button
+                                                onClick={() => { setSelectedServicio(child); setIsModalOpen(true); }}
+                                                className="h-10 px-3 rounded-xl border border-border bg-background text-muted-foreground hover:text-foreground transition-all text-[10px] font-black uppercase tracking-widest"
+                                              >
+                                                Ver
+                                              </button>
+                                              <Link href={`/dashboard/servicios/${child.raw.id}/editar?returnTo=/dashboard/servicios`}>
+                                                <div className="h-10 px-3 rounded-xl border border-border bg-background text-muted-foreground hover:text-foreground transition-all text-[10px] font-black uppercase tracking-widest flex items-center">
+                                                  Editar
+                                                </div>
+                                              </Link>
+                                            </div>
+                                          </div>
+                                        ))}
+                                      </div>
+                                    </div>
+                                  </td>
+                                </tr>
+                              ) : null}
+                            </React.Fragment>
                           ))}
                         </tbody>
                       </table>
+                      ) : null}
                     </div>
-                    {!loading && filteredServicios.length === 0 && <div className="py-32 text-center flex-1 flex flex-col justify-center items-center"><AlertCircle className="h-12 w-12 text-muted/30 mb-4" /><h2 className="text-xl font-black text-foreground uppercase">Sin resultados</h2><p className="text-muted-foreground font-medium">No se encontraron órdenes para su búsqueda.</p></div>}
+                    {!loading && activeRows.length === 0 && <div className="py-32 text-center flex-1 flex flex-col justify-center items-center"><AlertCircle className="h-12 w-12 text-muted/30 mb-4" /><h2 className="text-xl font-black text-foreground uppercase">Sin resultados</h2><p className="text-muted-foreground font-medium">{viewMode === "seguimientos" ? "No se encontraron seguimientos para su búsqueda." : "No se encontraron órdenes para su búsqueda."}</p></div>}
                     <div className="px-8 py-4 border-t border-border bg-muted/30 flex items-center justify-between shrink-0">
-                      <span className="text-[10px] font-black uppercase text-muted-foreground">Mostrando <span className="text-foreground">{Math.min(startIndex + 1, filteredServicios.length)}-{Math.min(startIndex + itemsPerPage, filteredServicios.length)}</span> de <span className="text-foreground">{filteredServicios.length}</span></span>
+                      <span className="text-[10px] font-black uppercase text-muted-foreground">Mostrando <span className="text-foreground">{Math.min(startIndex + 1, activeRows.length)}-{Math.min(startIndex + itemsPerPage, activeRows.length)}</span> de <span className="text-foreground">{activeRows.length}</span></span>
                       <div className="flex gap-2"><Button variant="outline" size="sm" className="h-8 rounded-xl border-border bg-background" disabled={currentPage === 1} onClick={() => setCurrentPage(p => p - 1)}>Anterior</Button><Button variant="outline" size="sm" className="h-8 rounded-xl border-border bg-background" disabled={currentPage >= totalPages} onClick={() => setCurrentPage(p => p + 1)}>Siguiente</Button></div>
                     </div>
                   </div>

@@ -1,4 +1,12 @@
-import { IsString, IsNotEmpty, IsBoolean, IsOptional } from 'class-validator';
+import {
+  IsString,
+  IsNotEmpty,
+  IsBoolean,
+  IsOptional,
+  IsInt,
+  Max,
+  Min,
+} from 'class-validator';
 
 export class CreateServicioDto {
   @IsString()
@@ -12,6 +20,20 @@ export class CreateServicioDto {
   @IsBoolean()
   @IsOptional()
   activo?: boolean;
+
+  @IsBoolean()
+  @IsOptional()
+  requiereSeguimiento?: boolean;
+
+  @IsInt()
+  @Min(8)
+  @Max(15)
+  @IsOptional()
+  primerSeguimientoDias?: number;
+
+  @IsBoolean()
+  @IsOptional()
+  requiereSeguimientoTresMeses?: boolean;
 }
 
 export class UpdateServicioDto {
@@ -22,4 +44,18 @@ export class UpdateServicioDto {
   @IsBoolean()
   @IsOptional()
   activo?: boolean;
+
+  @IsBoolean()
+  @IsOptional()
+  requiereSeguimiento?: boolean;
+
+  @IsInt()
+  @Min(8)
+  @Max(15)
+  @IsOptional()
+  primerSeguimientoDias?: number;
+
+  @IsBoolean()
+  @IsOptional()
+  requiereSeguimientoTresMeses?: boolean;
 }

@@ -41,6 +41,8 @@ const OPERATIVE_ROLES = new Set<Role>([
   Role.OPERADOR,
 ]);
 
+const NIL_UUID = '00000000-0000-0000-0000-000000000000';
+
 interface DateRange {
   from: Date;
   to: Date;
@@ -629,7 +631,7 @@ export class TenantsService {
     const ordersWhere: Prisma.OrdenServicioWhereInput = {
       tenantId,
       creadoPorId: {
-        in: membershipIds.length > 0 ? membershipIds : ['__none__'],
+        in: membershipIds.length > 0 ? membershipIds : [NIL_UUID],
       },
       fechaVisita: {
         gte: range.from,
@@ -1123,7 +1125,7 @@ export class TenantsService {
       return [requestedId];
     }
 
-    return allowedIds.length > 0 ? allowedIds : ['__none__'];
+    return allowedIds.length > 0 ? allowedIds : [NIL_UUID];
   }
 
   private buildKpis(

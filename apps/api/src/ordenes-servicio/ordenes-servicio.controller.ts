@@ -21,6 +21,8 @@ import {
   ServiciosKpiPayload,
 } from './ordenes-servicio.service';
 import { CreateOrdenServicioDto } from './dto/create-orden-servicio.dto';
+import { CompleteFollowUpDto } from './dto/complete-follow-up.dto';
+import { CreateFollowUpOverrideDto } from './dto/create-follow-up-override.dto';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { JwtPayload } from '../auth/auth.service';
 import { QueryOrdenesServicioDto } from './dto/query-ordenes-servicio.dto';
@@ -57,11 +59,11 @@ export class OrdenesServicioController {
     }
 
     // Asignar creador si no viene en el DTO
-    if (!createDto.creadoPorId && req.user.membershipId) {
+    if (req.user.membershipId) {
       createDto.creadoPorId = req.user.membershipId;
     }
 
-    return this.ordenesServicioService.create(tenantId, createDto);
+    return this.ordenesServicioService.create(tenantId, createDto, req.user);
   }
 
   @Post(':id/evidencias')
@@ -116,6 +118,80 @@ export class OrdenesServicioController {
       empresaId,
       role,
       query,
+    );
+  }
+
+  @Get('follow-ups/my-status')
+  getMyFollowUpStatus(
+    @Req() req: RequestWithUser,
+    @Query('empresaId') empresaId?: string,
+  ) {
+    const tenantId = req.user.tenantId;
+    if (!tenantId) {
+      throw new UnauthorizedException('Tenant ID not found in token');
+    }
+
+    return this.ordenesServicioService.getMyFollowUpStatus(
+      tenantId,
+      req.user,
+      empresaId || req.user.empresaId,
+    );
+  }
+
+  @Get('follow-up-overrides')
+  getFollowUpOverrides(
+    @Req() req: RequestWithUser,
+    @Query('empresaId') empresaId?: string,
+    @Query('membershipId') membershipId?: string,
+  ) {
+    const tenantId = req.user.tenantId;
+    if (!tenantId) {
+      throw new UnauthorizedException('Tenant ID not found in token');
+    }
+
+    return this.ordenesServicioService.listFollowUpOverrides(
+      tenantId,
+      req.user,
+      empresaId || req.user.empresaId,
+      membershipId,
+    );
+  }
+
+  @Post('follow-up-overrides')
+  createFollowUpOverride(
+    @Req() req: RequestWithUser,
+    @Body() dto: CreateFollowUpOverrideDto,
+    @Query('empresaId') empresaId?: string,
+  ) {
+    const tenantId = req.user.tenantId;
+    if (!tenantId) {
+      throw new UnauthorizedException('Tenant ID not found in token');
+    }
+
+    return this.ordenesServicioService.createFollowUpOverride(
+      tenantId,
+      req.user,
+      empresaId || req.user.empresaId,
+      dto,
+    );
+  }
+
+  @Post('follow-ups/:id/complete')
+  completeFollowUp(
+    @Req() req: RequestWithUser,
+    @Param('id') id: string,
+    @Body() dto: CompleteFollowUpDto,
+  ) {
+    const tenantId = req.user.tenantId;
+    if (!tenantId) {
+      throw new UnauthorizedException('Tenant ID not found in token');
+    }
+
+    return this.ordenesServicioService.completeFollowUp(
+      tenantId,
+      id,
+      dto,
+      req.user,
     );
   }
 

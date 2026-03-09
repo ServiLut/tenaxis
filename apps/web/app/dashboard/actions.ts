@@ -48,6 +48,9 @@ export interface ServicioDTO {
   nombre: string;
   empresaId: string;
   activo?: boolean;
+  requiereSeguimiento?: boolean;
+  primerSeguimientoDias?: number;
+  requiereSeguimientoTresMeses?: boolean;
 }
 
 export interface DireccionDTO {
