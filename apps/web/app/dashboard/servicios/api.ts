@@ -40,6 +40,35 @@ export interface ServiciosKpis {
   sinEvidencia: number;
 }
 
+export interface FollowUpStatusItem {
+  id: string;
+  dueAt: string;
+  followUpType: string;
+  ordenServicioId: string;
+  cliente: string;
+  servicio: string;
+}
+
+export interface FollowUpStatusResponse {
+  blocked: boolean;
+  overdueCount: number;
+  overdueItems: FollowUpStatusItem[];
+  activeOverride: {
+    id: string;
+    startsAt: string;
+    endsAt: string;
+    reason?: string | null;
+  } | null;
+}
+
+export interface CompleteFollowUpPayload {
+  contactedAt: string;
+  channel: string;
+  outcome: string;
+  notes: string;
+  nextActionAt?: string;
+}
+
 export interface OperatorDTO {
   id: string;
   nombre?: string;
@@ -104,6 +133,38 @@ export async function getOrdenesServicio(empresaId?: string) {
   if (empresaId) params.set("empresaId", empresaId);
   const query = params.toString();
   return apiFetch<Record<string, unknown>[]>(`/ordenes-servicio${query ? `?${query}` : ""}`);
+}
+
+export async function createOrdenServicio(body: object) {
+  return apiFetch<Record<string, unknown>>("/ordenes-servicio", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(body),
+  });
+}
+
+export async function getMyFollowUpStatus(empresaId?: string) {
+  const params = new URLSearchParams();
+  if (empresaId) params.set("empresaId", empresaId);
+  const query = params.toString();
+  return apiFetch<FollowUpStatusResponse>(
+    `/ordenes-servicio/follow-ups/my-status${query ? `?${query}` : ""}`,
+  );
+}
+
+export async function completeFollowUp(
+  id: string,
+  body: CompleteFollowUpPayload,
+) {
+  return apiFetch<Record<string, unknown>>(`/ordenes-servicio/follow-ups/${id}/complete`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(body),
+  });
 }
 
 export async function getServiciosKpis(

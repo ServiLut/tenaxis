@@ -148,6 +148,11 @@ export type EstadoServicio = Prisma.EstadoServicioModel
  */
 export type OrdenServicio = Prisma.OrdenServicioModel
 /**
+ * Model OrdenServicioSeguimiento
+ * 
+ */
+export type OrdenServicioSeguimiento = Prisma.OrdenServicioSeguimientoModel
+/**
  * Model EntidadFinanciera
  * 
  */

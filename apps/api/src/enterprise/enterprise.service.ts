@@ -8,6 +8,7 @@ import {
 import { PrismaService } from '../prisma/prisma.service';
 import { CreateEnterpriseDto } from './dto/create-enterprise.dto';
 import { UpdateEnterpriseDto } from './dto/update-enterprise.dto';
+import { Role } from '../generated/client/client';
 
 @Injectable()
 export class EnterpriseService {
@@ -168,7 +169,7 @@ export class EnterpriseService {
       });
       maxEmpresas = tenant?.subscription?.plan?.maxEmpresas || 0;
 
-      if (role === 'ADMIN') {
+      if (role === Role.ADMIN || role === Role.COORDINADOR) {
         enterprises = await this.prisma.empresa.findMany({
           where: { tenantId, deletedAt: null },
         });

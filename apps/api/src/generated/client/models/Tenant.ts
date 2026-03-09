@@ -258,6 +258,7 @@ export type TenantWhereInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoListRelationFilter
   proveedores?: Prisma.ProveedoresListRelationFilter
   referidos?: Prisma.ReferidosListRelationFilter
+  seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoListRelationFilter
   servicios?: Prisma.ServicioListRelationFilter
   sesionesActividad?: Prisma.SesionActividadListRelationFilter
   subscription?: Prisma.XOR<Prisma.SubscriptionNullableScalarRelationFilter, Prisma.SubscriptionWhereInput> | null
@@ -319,6 +320,7 @@ export type TenantOrderByWithRelationInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoOrderByRelationAggregateInput
   proveedores?: Prisma.ProveedoresOrderByRelationAggregateInput
   referidos?: Prisma.ReferidosOrderByRelationAggregateInput
+  seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoOrderByRelationAggregateInput
   servicios?: Prisma.ServicioOrderByRelationAggregateInput
   sesionesActividad?: Prisma.SesionActividadOrderByRelationAggregateInput
   subscription?: Prisma.SubscriptionOrderByWithRelationInput
@@ -383,6 +385,7 @@ export type TenantWhereUniqueInput = Prisma.AtLeast<{
   productosSolicitados?: Prisma.ProductoSolicitadoListRelationFilter
   proveedores?: Prisma.ProveedoresListRelationFilter
   referidos?: Prisma.ReferidosListRelationFilter
+  seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoListRelationFilter
   servicios?: Prisma.ServicioListRelationFilter
   sesionesActividad?: Prisma.SesionActividadListRelationFilter
   subscription?: Prisma.XOR<Prisma.SubscriptionNullableScalarRelationFilter, Prisma.SubscriptionWhereInput> | null
@@ -476,6 +479,7 @@ export type TenantCreateInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoCreateNestedManyWithoutTenantInput
   proveedores?: Prisma.ProveedoresCreateNestedManyWithoutTenantInput
   referidos?: Prisma.ReferidosCreateNestedManyWithoutTenantInput
+  seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoCreateNestedManyWithoutTenantInput
   servicios?: Prisma.ServicioCreateNestedManyWithoutTenantInput
   sesionesActividad?: Prisma.SesionActividadCreateNestedManyWithoutTenantInput
   subscription?: Prisma.SubscriptionCreateNestedOneWithoutTenantInput
@@ -537,6 +541,7 @@ export type TenantUncheckedCreateInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUncheckedCreateNestedManyWithoutTenantInput
   proveedores?: Prisma.ProveedoresUncheckedCreateNestedManyWithoutTenantInput
   referidos?: Prisma.ReferidosUncheckedCreateNestedManyWithoutTenantInput
+  seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoUncheckedCreateNestedManyWithoutTenantInput
   servicios?: Prisma.ServicioUncheckedCreateNestedManyWithoutTenantInput
   sesionesActividad?: Prisma.SesionActividadUncheckedCreateNestedManyWithoutTenantInput
   subscription?: Prisma.SubscriptionUncheckedCreateNestedOneWithoutTenantInput
@@ -598,6 +603,7 @@ export type TenantUpdateInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUpdateManyWithoutTenantNestedInput
   proveedores?: Prisma.ProveedoresUpdateManyWithoutTenantNestedInput
   referidos?: Prisma.ReferidosUpdateManyWithoutTenantNestedInput
+  seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoUpdateManyWithoutTenantNestedInput
   servicios?: Prisma.ServicioUpdateManyWithoutTenantNestedInput
   sesionesActividad?: Prisma.SesionActividadUpdateManyWithoutTenantNestedInput
   subscription?: Prisma.SubscriptionUpdateOneWithoutTenantNestedInput
@@ -659,6 +665,7 @@ export type TenantUncheckedUpdateInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUncheckedUpdateManyWithoutTenantNestedInput
   proveedores?: Prisma.ProveedoresUncheckedUpdateManyWithoutTenantNestedInput
   referidos?: Prisma.ReferidosUncheckedUpdateManyWithoutTenantNestedInput
+  seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoUncheckedUpdateManyWithoutTenantNestedInput
   servicios?: Prisma.ServicioUncheckedUpdateManyWithoutTenantNestedInput
   sesionesActividad?: Prisma.SesionActividadUncheckedUpdateManyWithoutTenantNestedInput
   subscription?: Prisma.SubscriptionUncheckedUpdateOneWithoutTenantNestedInput
@@ -997,6 +1004,20 @@ export type TenantUpdateOneRequiredWithoutOrdenesServicioNestedInput = {
   upsert?: Prisma.TenantUpsertWithoutOrdenesServicioInput
   connect?: Prisma.TenantWhereUniqueInput
   update?: Prisma.XOR<Prisma.XOR<Prisma.TenantUpdateToOneWithWhereWithoutOrdenesServicioInput, Prisma.TenantUpdateWithoutOrdenesServicioInput>, Prisma.TenantUncheckedUpdateWithoutOrdenesServicioInput>
+}
+
+export type TenantCreateNestedOneWithoutSeguimientosOrdenServicioInput = {
+  create?: Prisma.XOR<Prisma.TenantCreateWithoutSeguimientosOrdenServicioInput, Prisma.TenantUncheckedCreateWithoutSeguimientosOrdenServicioInput>
+  connectOrCreate?: Prisma.TenantCreateOrConnectWithoutSeguimientosOrdenServicioInput
+  connect?: Prisma.TenantWhereUniqueInput
+}
+
+export type TenantUpdateOneRequiredWithoutSeguimientosOrdenServicioNestedInput = {
+  create?: Prisma.XOR<Prisma.TenantCreateWithoutSeguimientosOrdenServicioInput, Prisma.TenantUncheckedCreateWithoutSeguimientosOrdenServicioInput>
+  connectOrCreate?: Prisma.TenantCreateOrConnectWithoutSeguimientosOrdenServicioInput
+  upsert?: Prisma.TenantUpsertWithoutSeguimientosOrdenServicioInput
+  connect?: Prisma.TenantWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.TenantUpdateToOneWithWhereWithoutSeguimientosOrdenServicioInput, Prisma.TenantUpdateWithoutSeguimientosOrdenServicioInput>, Prisma.TenantUncheckedUpdateWithoutSeguimientosOrdenServicioInput>
 }
 
 export type TenantCreateNestedOneWithoutEntidadesFinancierasInput = {
@@ -1484,6 +1505,7 @@ export type TenantCreateWithoutSubscriptionInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoCreateNestedManyWithoutTenantInput
   proveedores?: Prisma.ProveedoresCreateNestedManyWithoutTenantInput
   referidos?: Prisma.ReferidosCreateNestedManyWithoutTenantInput
+  seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoCreateNestedManyWithoutTenantInput
   servicios?: Prisma.ServicioCreateNestedManyWithoutTenantInput
   sesionesActividad?: Prisma.SesionActividadCreateNestedManyWithoutTenantInput
   sugerencias?: Prisma.SugerenciaSeguimientoCreateNestedManyWithoutTenantInput
@@ -1544,6 +1566,7 @@ export type TenantUncheckedCreateWithoutSubscriptionInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUncheckedCreateNestedManyWithoutTenantInput
   proveedores?: Prisma.ProveedoresUncheckedCreateNestedManyWithoutTenantInput
   referidos?: Prisma.ReferidosUncheckedCreateNestedManyWithoutTenantInput
+  seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoUncheckedCreateNestedManyWithoutTenantInput
   servicios?: Prisma.ServicioUncheckedCreateNestedManyWithoutTenantInput
   sesionesActividad?: Prisma.SesionActividadUncheckedCreateNestedManyWithoutTenantInput
   sugerencias?: Prisma.SugerenciaSeguimientoUncheckedCreateNestedManyWithoutTenantInput
@@ -1620,6 +1643,7 @@ export type TenantUpdateWithoutSubscriptionInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUpdateManyWithoutTenantNestedInput
   proveedores?: Prisma.ProveedoresUpdateManyWithoutTenantNestedInput
   referidos?: Prisma.ReferidosUpdateManyWithoutTenantNestedInput
+  seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoUpdateManyWithoutTenantNestedInput
   servicios?: Prisma.ServicioUpdateManyWithoutTenantNestedInput
   sesionesActividad?: Prisma.SesionActividadUpdateManyWithoutTenantNestedInput
   sugerencias?: Prisma.SugerenciaSeguimientoUpdateManyWithoutTenantNestedInput
@@ -1680,6 +1704,7 @@ export type TenantUncheckedUpdateWithoutSubscriptionInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUncheckedUpdateManyWithoutTenantNestedInput
   proveedores?: Prisma.ProveedoresUncheckedUpdateManyWithoutTenantNestedInput
   referidos?: Prisma.ReferidosUncheckedUpdateManyWithoutTenantNestedInput
+  seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoUncheckedUpdateManyWithoutTenantNestedInput
   servicios?: Prisma.ServicioUncheckedUpdateManyWithoutTenantNestedInput
   sesionesActividad?: Prisma.SesionActividadUncheckedUpdateManyWithoutTenantNestedInput
   sugerencias?: Prisma.SugerenciaSeguimientoUncheckedUpdateManyWithoutTenantNestedInput
@@ -1740,6 +1765,7 @@ export type TenantCreateWithoutMembershipsInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoCreateNestedManyWithoutTenantInput
   proveedores?: Prisma.ProveedoresCreateNestedManyWithoutTenantInput
   referidos?: Prisma.ReferidosCreateNestedManyWithoutTenantInput
+  seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoCreateNestedManyWithoutTenantInput
   servicios?: Prisma.ServicioCreateNestedManyWithoutTenantInput
   sesionesActividad?: Prisma.SesionActividadCreateNestedManyWithoutTenantInput
   subscription?: Prisma.SubscriptionCreateNestedOneWithoutTenantInput
@@ -1800,6 +1826,7 @@ export type TenantUncheckedCreateWithoutMembershipsInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUncheckedCreateNestedManyWithoutTenantInput
   proveedores?: Prisma.ProveedoresUncheckedCreateNestedManyWithoutTenantInput
   referidos?: Prisma.ReferidosUncheckedCreateNestedManyWithoutTenantInput
+  seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoUncheckedCreateNestedManyWithoutTenantInput
   servicios?: Prisma.ServicioUncheckedCreateNestedManyWithoutTenantInput
   sesionesActividad?: Prisma.SesionActividadUncheckedCreateNestedManyWithoutTenantInput
   subscription?: Prisma.SubscriptionUncheckedCreateNestedOneWithoutTenantInput
@@ -1876,6 +1903,7 @@ export type TenantUpdateWithoutMembershipsInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUpdateManyWithoutTenantNestedInput
   proveedores?: Prisma.ProveedoresUpdateManyWithoutTenantNestedInput
   referidos?: Prisma.ReferidosUpdateManyWithoutTenantNestedInput
+  seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoUpdateManyWithoutTenantNestedInput
   servicios?: Prisma.ServicioUpdateManyWithoutTenantNestedInput
   sesionesActividad?: Prisma.SesionActividadUpdateManyWithoutTenantNestedInput
   subscription?: Prisma.SubscriptionUpdateOneWithoutTenantNestedInput
@@ -1936,6 +1964,7 @@ export type TenantUncheckedUpdateWithoutMembershipsInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUncheckedUpdateManyWithoutTenantNestedInput
   proveedores?: Prisma.ProveedoresUncheckedUpdateManyWithoutTenantNestedInput
   referidos?: Prisma.ReferidosUncheckedUpdateManyWithoutTenantNestedInput
+  seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoUncheckedUpdateManyWithoutTenantNestedInput
   servicios?: Prisma.ServicioUncheckedUpdateManyWithoutTenantNestedInput
   sesionesActividad?: Prisma.SesionActividadUncheckedUpdateManyWithoutTenantNestedInput
   subscription?: Prisma.SubscriptionUncheckedUpdateOneWithoutTenantNestedInput
@@ -1996,6 +2025,7 @@ export type TenantCreateWithoutDashboardPresetsInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoCreateNestedManyWithoutTenantInput
   proveedores?: Prisma.ProveedoresCreateNestedManyWithoutTenantInput
   referidos?: Prisma.ReferidosCreateNestedManyWithoutTenantInput
+  seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoCreateNestedManyWithoutTenantInput
   servicios?: Prisma.ServicioCreateNestedManyWithoutTenantInput
   sesionesActividad?: Prisma.SesionActividadCreateNestedManyWithoutTenantInput
   subscription?: Prisma.SubscriptionCreateNestedOneWithoutTenantInput
@@ -2056,6 +2086,7 @@ export type TenantUncheckedCreateWithoutDashboardPresetsInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUncheckedCreateNestedManyWithoutTenantInput
   proveedores?: Prisma.ProveedoresUncheckedCreateNestedManyWithoutTenantInput
   referidos?: Prisma.ReferidosUncheckedCreateNestedManyWithoutTenantInput
+  seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoUncheckedCreateNestedManyWithoutTenantInput
   servicios?: Prisma.ServicioUncheckedCreateNestedManyWithoutTenantInput
   sesionesActividad?: Prisma.SesionActividadUncheckedCreateNestedManyWithoutTenantInput
   subscription?: Prisma.SubscriptionUncheckedCreateNestedOneWithoutTenantInput
@@ -2132,6 +2163,7 @@ export type TenantUpdateWithoutDashboardPresetsInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUpdateManyWithoutTenantNestedInput
   proveedores?: Prisma.ProveedoresUpdateManyWithoutTenantNestedInput
   referidos?: Prisma.ReferidosUpdateManyWithoutTenantNestedInput
+  seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoUpdateManyWithoutTenantNestedInput
   servicios?: Prisma.ServicioUpdateManyWithoutTenantNestedInput
   sesionesActividad?: Prisma.SesionActividadUpdateManyWithoutTenantNestedInput
   subscription?: Prisma.SubscriptionUpdateOneWithoutTenantNestedInput
@@ -2192,6 +2224,7 @@ export type TenantUncheckedUpdateWithoutDashboardPresetsInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUncheckedUpdateManyWithoutTenantNestedInput
   proveedores?: Prisma.ProveedoresUncheckedUpdateManyWithoutTenantNestedInput
   referidos?: Prisma.ReferidosUncheckedUpdateManyWithoutTenantNestedInput
+  seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoUncheckedUpdateManyWithoutTenantNestedInput
   servicios?: Prisma.ServicioUncheckedUpdateManyWithoutTenantNestedInput
   sesionesActividad?: Prisma.SesionActividadUncheckedUpdateManyWithoutTenantNestedInput
   subscription?: Prisma.SubscriptionUncheckedUpdateOneWithoutTenantNestedInput
@@ -2251,6 +2284,7 @@ export type TenantCreateWithoutEmpresasInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoCreateNestedManyWithoutTenantInput
   proveedores?: Prisma.ProveedoresCreateNestedManyWithoutTenantInput
   referidos?: Prisma.ReferidosCreateNestedManyWithoutTenantInput
+  seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoCreateNestedManyWithoutTenantInput
   servicios?: Prisma.ServicioCreateNestedManyWithoutTenantInput
   sesionesActividad?: Prisma.SesionActividadCreateNestedManyWithoutTenantInput
   subscription?: Prisma.SubscriptionCreateNestedOneWithoutTenantInput
@@ -2311,6 +2345,7 @@ export type TenantUncheckedCreateWithoutEmpresasInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUncheckedCreateNestedManyWithoutTenantInput
   proveedores?: Prisma.ProveedoresUncheckedCreateNestedManyWithoutTenantInput
   referidos?: Prisma.ReferidosUncheckedCreateNestedManyWithoutTenantInput
+  seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoUncheckedCreateNestedManyWithoutTenantInput
   servicios?: Prisma.ServicioUncheckedCreateNestedManyWithoutTenantInput
   sesionesActividad?: Prisma.SesionActividadUncheckedCreateNestedManyWithoutTenantInput
   subscription?: Prisma.SubscriptionUncheckedCreateNestedOneWithoutTenantInput
@@ -2387,6 +2422,7 @@ export type TenantUpdateWithoutEmpresasInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUpdateManyWithoutTenantNestedInput
   proveedores?: Prisma.ProveedoresUpdateManyWithoutTenantNestedInput
   referidos?: Prisma.ReferidosUpdateManyWithoutTenantNestedInput
+  seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoUpdateManyWithoutTenantNestedInput
   servicios?: Prisma.ServicioUpdateManyWithoutTenantNestedInput
   sesionesActividad?: Prisma.SesionActividadUpdateManyWithoutTenantNestedInput
   subscription?: Prisma.SubscriptionUpdateOneWithoutTenantNestedInput
@@ -2447,6 +2483,7 @@ export type TenantUncheckedUpdateWithoutEmpresasInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUncheckedUpdateManyWithoutTenantNestedInput
   proveedores?: Prisma.ProveedoresUncheckedUpdateManyWithoutTenantNestedInput
   referidos?: Prisma.ReferidosUncheckedUpdateManyWithoutTenantNestedInput
+  seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoUncheckedUpdateManyWithoutTenantNestedInput
   servicios?: Prisma.ServicioUncheckedUpdateManyWithoutTenantNestedInput
   sesionesActividad?: Prisma.SesionActividadUncheckedUpdateManyWithoutTenantNestedInput
   subscription?: Prisma.SubscriptionUncheckedUpdateOneWithoutTenantNestedInput
@@ -2507,6 +2544,7 @@ export type TenantCreateWithoutEmpresaMembershipsInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoCreateNestedManyWithoutTenantInput
   proveedores?: Prisma.ProveedoresCreateNestedManyWithoutTenantInput
   referidos?: Prisma.ReferidosCreateNestedManyWithoutTenantInput
+  seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoCreateNestedManyWithoutTenantInput
   servicios?: Prisma.ServicioCreateNestedManyWithoutTenantInput
   sesionesActividad?: Prisma.SesionActividadCreateNestedManyWithoutTenantInput
   subscription?: Prisma.SubscriptionCreateNestedOneWithoutTenantInput
@@ -2567,6 +2605,7 @@ export type TenantUncheckedCreateWithoutEmpresaMembershipsInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUncheckedCreateNestedManyWithoutTenantInput
   proveedores?: Prisma.ProveedoresUncheckedCreateNestedManyWithoutTenantInput
   referidos?: Prisma.ReferidosUncheckedCreateNestedManyWithoutTenantInput
+  seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoUncheckedCreateNestedManyWithoutTenantInput
   servicios?: Prisma.ServicioUncheckedCreateNestedManyWithoutTenantInput
   sesionesActividad?: Prisma.SesionActividadUncheckedCreateNestedManyWithoutTenantInput
   subscription?: Prisma.SubscriptionUncheckedCreateNestedOneWithoutTenantInput
@@ -2643,6 +2682,7 @@ export type TenantUpdateWithoutEmpresaMembershipsInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUpdateManyWithoutTenantNestedInput
   proveedores?: Prisma.ProveedoresUpdateManyWithoutTenantNestedInput
   referidos?: Prisma.ReferidosUpdateManyWithoutTenantNestedInput
+  seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoUpdateManyWithoutTenantNestedInput
   servicios?: Prisma.ServicioUpdateManyWithoutTenantNestedInput
   sesionesActividad?: Prisma.SesionActividadUpdateManyWithoutTenantNestedInput
   subscription?: Prisma.SubscriptionUpdateOneWithoutTenantNestedInput
@@ -2703,6 +2743,7 @@ export type TenantUncheckedUpdateWithoutEmpresaMembershipsInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUncheckedUpdateManyWithoutTenantNestedInput
   proveedores?: Prisma.ProveedoresUncheckedUpdateManyWithoutTenantNestedInput
   referidos?: Prisma.ReferidosUncheckedUpdateManyWithoutTenantNestedInput
+  seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoUncheckedUpdateManyWithoutTenantNestedInput
   servicios?: Prisma.ServicioUncheckedUpdateManyWithoutTenantNestedInput
   sesionesActividad?: Prisma.SesionActividadUncheckedUpdateManyWithoutTenantNestedInput
   subscription?: Prisma.SubscriptionUncheckedUpdateOneWithoutTenantNestedInput
@@ -2763,6 +2804,7 @@ export type TenantCreateWithoutOrgNodesInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoCreateNestedManyWithoutTenantInput
   proveedores?: Prisma.ProveedoresCreateNestedManyWithoutTenantInput
   referidos?: Prisma.ReferidosCreateNestedManyWithoutTenantInput
+  seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoCreateNestedManyWithoutTenantInput
   servicios?: Prisma.ServicioCreateNestedManyWithoutTenantInput
   sesionesActividad?: Prisma.SesionActividadCreateNestedManyWithoutTenantInput
   subscription?: Prisma.SubscriptionCreateNestedOneWithoutTenantInput
@@ -2823,6 +2865,7 @@ export type TenantUncheckedCreateWithoutOrgNodesInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUncheckedCreateNestedManyWithoutTenantInput
   proveedores?: Prisma.ProveedoresUncheckedCreateNestedManyWithoutTenantInput
   referidos?: Prisma.ReferidosUncheckedCreateNestedManyWithoutTenantInput
+  seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoUncheckedCreateNestedManyWithoutTenantInput
   servicios?: Prisma.ServicioUncheckedCreateNestedManyWithoutTenantInput
   sesionesActividad?: Prisma.SesionActividadUncheckedCreateNestedManyWithoutTenantInput
   subscription?: Prisma.SubscriptionUncheckedCreateNestedOneWithoutTenantInput
@@ -2899,6 +2942,7 @@ export type TenantUpdateWithoutOrgNodesInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUpdateManyWithoutTenantNestedInput
   proveedores?: Prisma.ProveedoresUpdateManyWithoutTenantNestedInput
   referidos?: Prisma.ReferidosUpdateManyWithoutTenantNestedInput
+  seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoUpdateManyWithoutTenantNestedInput
   servicios?: Prisma.ServicioUpdateManyWithoutTenantNestedInput
   sesionesActividad?: Prisma.SesionActividadUpdateManyWithoutTenantNestedInput
   subscription?: Prisma.SubscriptionUpdateOneWithoutTenantNestedInput
@@ -2959,6 +3003,7 @@ export type TenantUncheckedUpdateWithoutOrgNodesInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUncheckedUpdateManyWithoutTenantNestedInput
   proveedores?: Prisma.ProveedoresUncheckedUpdateManyWithoutTenantNestedInput
   referidos?: Prisma.ReferidosUncheckedUpdateManyWithoutTenantNestedInput
+  seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoUncheckedUpdateManyWithoutTenantNestedInput
   servicios?: Prisma.ServicioUncheckedUpdateManyWithoutTenantNestedInput
   sesionesActividad?: Prisma.SesionActividadUncheckedUpdateManyWithoutTenantNestedInput
   subscription?: Prisma.SubscriptionUncheckedUpdateOneWithoutTenantNestedInput
@@ -3019,6 +3064,7 @@ export type TenantCreateWithoutCommissionsInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoCreateNestedManyWithoutTenantInput
   proveedores?: Prisma.ProveedoresCreateNestedManyWithoutTenantInput
   referidos?: Prisma.ReferidosCreateNestedManyWithoutTenantInput
+  seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoCreateNestedManyWithoutTenantInput
   servicios?: Prisma.ServicioCreateNestedManyWithoutTenantInput
   sesionesActividad?: Prisma.SesionActividadCreateNestedManyWithoutTenantInput
   subscription?: Prisma.SubscriptionCreateNestedOneWithoutTenantInput
@@ -3079,6 +3125,7 @@ export type TenantUncheckedCreateWithoutCommissionsInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUncheckedCreateNestedManyWithoutTenantInput
   proveedores?: Prisma.ProveedoresUncheckedCreateNestedManyWithoutTenantInput
   referidos?: Prisma.ReferidosUncheckedCreateNestedManyWithoutTenantInput
+  seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoUncheckedCreateNestedManyWithoutTenantInput
   servicios?: Prisma.ServicioUncheckedCreateNestedManyWithoutTenantInput
   sesionesActividad?: Prisma.SesionActividadUncheckedCreateNestedManyWithoutTenantInput
   subscription?: Prisma.SubscriptionUncheckedCreateNestedOneWithoutTenantInput
@@ -3155,6 +3202,7 @@ export type TenantUpdateWithoutCommissionsInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUpdateManyWithoutTenantNestedInput
   proveedores?: Prisma.ProveedoresUpdateManyWithoutTenantNestedInput
   referidos?: Prisma.ReferidosUpdateManyWithoutTenantNestedInput
+  seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoUpdateManyWithoutTenantNestedInput
   servicios?: Prisma.ServicioUpdateManyWithoutTenantNestedInput
   sesionesActividad?: Prisma.SesionActividadUpdateManyWithoutTenantNestedInput
   subscription?: Prisma.SubscriptionUpdateOneWithoutTenantNestedInput
@@ -3215,6 +3263,7 @@ export type TenantUncheckedUpdateWithoutCommissionsInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUncheckedUpdateManyWithoutTenantNestedInput
   proveedores?: Prisma.ProveedoresUncheckedUpdateManyWithoutTenantNestedInput
   referidos?: Prisma.ReferidosUncheckedUpdateManyWithoutTenantNestedInput
+  seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoUncheckedUpdateManyWithoutTenantNestedInput
   servicios?: Prisma.ServicioUncheckedUpdateManyWithoutTenantNestedInput
   sesionesActividad?: Prisma.SesionActividadUncheckedUpdateManyWithoutTenantNestedInput
   subscription?: Prisma.SubscriptionUncheckedUpdateOneWithoutTenantNestedInput
@@ -3276,6 +3325,7 @@ export type TenantCreateWithoutTiposInteresInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoCreateNestedManyWithoutTenantInput
   proveedores?: Prisma.ProveedoresCreateNestedManyWithoutTenantInput
   referidos?: Prisma.ReferidosCreateNestedManyWithoutTenantInput
+  seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoCreateNestedManyWithoutTenantInput
   servicios?: Prisma.ServicioCreateNestedManyWithoutTenantInput
   sesionesActividad?: Prisma.SesionActividadCreateNestedManyWithoutTenantInput
   subscription?: Prisma.SubscriptionCreateNestedOneWithoutTenantInput
@@ -3336,6 +3386,7 @@ export type TenantUncheckedCreateWithoutTiposInteresInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUncheckedCreateNestedManyWithoutTenantInput
   proveedores?: Prisma.ProveedoresUncheckedCreateNestedManyWithoutTenantInput
   referidos?: Prisma.ReferidosUncheckedCreateNestedManyWithoutTenantInput
+  seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoUncheckedCreateNestedManyWithoutTenantInput
   servicios?: Prisma.ServicioUncheckedCreateNestedManyWithoutTenantInput
   sesionesActividad?: Prisma.SesionActividadUncheckedCreateNestedManyWithoutTenantInput
   subscription?: Prisma.SubscriptionUncheckedCreateNestedOneWithoutTenantInput
@@ -3412,6 +3463,7 @@ export type TenantUpdateWithoutTiposInteresInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUpdateManyWithoutTenantNestedInput
   proveedores?: Prisma.ProveedoresUpdateManyWithoutTenantNestedInput
   referidos?: Prisma.ReferidosUpdateManyWithoutTenantNestedInput
+  seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoUpdateManyWithoutTenantNestedInput
   servicios?: Prisma.ServicioUpdateManyWithoutTenantNestedInput
   sesionesActividad?: Prisma.SesionActividadUpdateManyWithoutTenantNestedInput
   subscription?: Prisma.SubscriptionUpdateOneWithoutTenantNestedInput
@@ -3472,6 +3524,7 @@ export type TenantUncheckedUpdateWithoutTiposInteresInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUncheckedUpdateManyWithoutTenantNestedInput
   proveedores?: Prisma.ProveedoresUncheckedUpdateManyWithoutTenantNestedInput
   referidos?: Prisma.ReferidosUncheckedUpdateManyWithoutTenantNestedInput
+  seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoUncheckedUpdateManyWithoutTenantNestedInput
   servicios?: Prisma.ServicioUncheckedUpdateManyWithoutTenantNestedInput
   sesionesActividad?: Prisma.SesionActividadUncheckedUpdateManyWithoutTenantNestedInput
   subscription?: Prisma.SubscriptionUncheckedUpdateOneWithoutTenantNestedInput
@@ -3531,6 +3584,7 @@ export type TenantCreateWithoutClientesInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoCreateNestedManyWithoutTenantInput
   proveedores?: Prisma.ProveedoresCreateNestedManyWithoutTenantInput
   referidos?: Prisma.ReferidosCreateNestedManyWithoutTenantInput
+  seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoCreateNestedManyWithoutTenantInput
   servicios?: Prisma.ServicioCreateNestedManyWithoutTenantInput
   sesionesActividad?: Prisma.SesionActividadCreateNestedManyWithoutTenantInput
   subscription?: Prisma.SubscriptionCreateNestedOneWithoutTenantInput
@@ -3591,6 +3645,7 @@ export type TenantUncheckedCreateWithoutClientesInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUncheckedCreateNestedManyWithoutTenantInput
   proveedores?: Prisma.ProveedoresUncheckedCreateNestedManyWithoutTenantInput
   referidos?: Prisma.ReferidosUncheckedCreateNestedManyWithoutTenantInput
+  seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoUncheckedCreateNestedManyWithoutTenantInput
   servicios?: Prisma.ServicioUncheckedCreateNestedManyWithoutTenantInput
   sesionesActividad?: Prisma.SesionActividadUncheckedCreateNestedManyWithoutTenantInput
   subscription?: Prisma.SubscriptionUncheckedCreateNestedOneWithoutTenantInput
@@ -3667,6 +3722,7 @@ export type TenantUpdateWithoutClientesInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUpdateManyWithoutTenantNestedInput
   proveedores?: Prisma.ProveedoresUpdateManyWithoutTenantNestedInput
   referidos?: Prisma.ReferidosUpdateManyWithoutTenantNestedInput
+  seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoUpdateManyWithoutTenantNestedInput
   servicios?: Prisma.ServicioUpdateManyWithoutTenantNestedInput
   sesionesActividad?: Prisma.SesionActividadUpdateManyWithoutTenantNestedInput
   subscription?: Prisma.SubscriptionUpdateOneWithoutTenantNestedInput
@@ -3727,6 +3783,7 @@ export type TenantUncheckedUpdateWithoutClientesInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUncheckedUpdateManyWithoutTenantNestedInput
   proveedores?: Prisma.ProveedoresUncheckedUpdateManyWithoutTenantNestedInput
   referidos?: Prisma.ReferidosUncheckedUpdateManyWithoutTenantNestedInput
+  seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoUncheckedUpdateManyWithoutTenantNestedInput
   servicios?: Prisma.ServicioUncheckedUpdateManyWithoutTenantNestedInput
   sesionesActividad?: Prisma.SesionActividadUncheckedUpdateManyWithoutTenantNestedInput
   subscription?: Prisma.SubscriptionUncheckedUpdateOneWithoutTenantNestedInput
@@ -3788,6 +3845,7 @@ export type TenantCreateWithoutVehiculosInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoCreateNestedManyWithoutTenantInput
   proveedores?: Prisma.ProveedoresCreateNestedManyWithoutTenantInput
   referidos?: Prisma.ReferidosCreateNestedManyWithoutTenantInput
+  seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoCreateNestedManyWithoutTenantInput
   servicios?: Prisma.ServicioCreateNestedManyWithoutTenantInput
   sesionesActividad?: Prisma.SesionActividadCreateNestedManyWithoutTenantInput
   subscription?: Prisma.SubscriptionCreateNestedOneWithoutTenantInput
@@ -3848,6 +3906,7 @@ export type TenantUncheckedCreateWithoutVehiculosInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUncheckedCreateNestedManyWithoutTenantInput
   proveedores?: Prisma.ProveedoresUncheckedCreateNestedManyWithoutTenantInput
   referidos?: Prisma.ReferidosUncheckedCreateNestedManyWithoutTenantInput
+  seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoUncheckedCreateNestedManyWithoutTenantInput
   servicios?: Prisma.ServicioUncheckedCreateNestedManyWithoutTenantInput
   sesionesActividad?: Prisma.SesionActividadUncheckedCreateNestedManyWithoutTenantInput
   subscription?: Prisma.SubscriptionUncheckedCreateNestedOneWithoutTenantInput
@@ -3924,6 +3983,7 @@ export type TenantUpdateWithoutVehiculosInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUpdateManyWithoutTenantNestedInput
   proveedores?: Prisma.ProveedoresUpdateManyWithoutTenantNestedInput
   referidos?: Prisma.ReferidosUpdateManyWithoutTenantNestedInput
+  seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoUpdateManyWithoutTenantNestedInput
   servicios?: Prisma.ServicioUpdateManyWithoutTenantNestedInput
   sesionesActividad?: Prisma.SesionActividadUpdateManyWithoutTenantNestedInput
   subscription?: Prisma.SubscriptionUpdateOneWithoutTenantNestedInput
@@ -3984,6 +4044,7 @@ export type TenantUncheckedUpdateWithoutVehiculosInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUncheckedUpdateManyWithoutTenantNestedInput
   proveedores?: Prisma.ProveedoresUncheckedUpdateManyWithoutTenantNestedInput
   referidos?: Prisma.ReferidosUncheckedUpdateManyWithoutTenantNestedInput
+  seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoUncheckedUpdateManyWithoutTenantNestedInput
   servicios?: Prisma.ServicioUncheckedUpdateManyWithoutTenantNestedInput
   sesionesActividad?: Prisma.SesionActividadUncheckedUpdateManyWithoutTenantNestedInput
   subscription?: Prisma.SubscriptionUncheckedUpdateOneWithoutTenantNestedInput
@@ -4043,6 +4104,7 @@ export type TenantCreateWithoutDireccionesInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoCreateNestedManyWithoutTenantInput
   proveedores?: Prisma.ProveedoresCreateNestedManyWithoutTenantInput
   referidos?: Prisma.ReferidosCreateNestedManyWithoutTenantInput
+  seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoCreateNestedManyWithoutTenantInput
   servicios?: Prisma.ServicioCreateNestedManyWithoutTenantInput
   sesionesActividad?: Prisma.SesionActividadCreateNestedManyWithoutTenantInput
   subscription?: Prisma.SubscriptionCreateNestedOneWithoutTenantInput
@@ -4103,6 +4165,7 @@ export type TenantUncheckedCreateWithoutDireccionesInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUncheckedCreateNestedManyWithoutTenantInput
   proveedores?: Prisma.ProveedoresUncheckedCreateNestedManyWithoutTenantInput
   referidos?: Prisma.ReferidosUncheckedCreateNestedManyWithoutTenantInput
+  seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoUncheckedCreateNestedManyWithoutTenantInput
   servicios?: Prisma.ServicioUncheckedCreateNestedManyWithoutTenantInput
   sesionesActividad?: Prisma.SesionActividadUncheckedCreateNestedManyWithoutTenantInput
   subscription?: Prisma.SubscriptionUncheckedCreateNestedOneWithoutTenantInput
@@ -4179,6 +4242,7 @@ export type TenantUpdateWithoutDireccionesInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUpdateManyWithoutTenantNestedInput
   proveedores?: Prisma.ProveedoresUpdateManyWithoutTenantNestedInput
   referidos?: Prisma.ReferidosUpdateManyWithoutTenantNestedInput
+  seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoUpdateManyWithoutTenantNestedInput
   servicios?: Prisma.ServicioUpdateManyWithoutTenantNestedInput
   sesionesActividad?: Prisma.SesionActividadUpdateManyWithoutTenantNestedInput
   subscription?: Prisma.SubscriptionUpdateOneWithoutTenantNestedInput
@@ -4239,6 +4303,7 @@ export type TenantUncheckedUpdateWithoutDireccionesInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUncheckedUpdateManyWithoutTenantNestedInput
   proveedores?: Prisma.ProveedoresUncheckedUpdateManyWithoutTenantNestedInput
   referidos?: Prisma.ReferidosUncheckedUpdateManyWithoutTenantNestedInput
+  seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoUncheckedUpdateManyWithoutTenantNestedInput
   servicios?: Prisma.ServicioUncheckedUpdateManyWithoutTenantNestedInput
   sesionesActividad?: Prisma.SesionActividadUncheckedUpdateManyWithoutTenantNestedInput
   subscription?: Prisma.SubscriptionUncheckedUpdateOneWithoutTenantNestedInput
@@ -4300,6 +4365,7 @@ export type TenantCreateWithoutZonasInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoCreateNestedManyWithoutTenantInput
   proveedores?: Prisma.ProveedoresCreateNestedManyWithoutTenantInput
   referidos?: Prisma.ReferidosCreateNestedManyWithoutTenantInput
+  seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoCreateNestedManyWithoutTenantInput
   servicios?: Prisma.ServicioCreateNestedManyWithoutTenantInput
   sesionesActividad?: Prisma.SesionActividadCreateNestedManyWithoutTenantInput
   subscription?: Prisma.SubscriptionCreateNestedOneWithoutTenantInput
@@ -4360,6 +4426,7 @@ export type TenantUncheckedCreateWithoutZonasInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUncheckedCreateNestedManyWithoutTenantInput
   proveedores?: Prisma.ProveedoresUncheckedCreateNestedManyWithoutTenantInput
   referidos?: Prisma.ReferidosUncheckedCreateNestedManyWithoutTenantInput
+  seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoUncheckedCreateNestedManyWithoutTenantInput
   servicios?: Prisma.ServicioUncheckedCreateNestedManyWithoutTenantInput
   sesionesActividad?: Prisma.SesionActividadUncheckedCreateNestedManyWithoutTenantInput
   subscription?: Prisma.SubscriptionUncheckedCreateNestedOneWithoutTenantInput
@@ -4436,6 +4503,7 @@ export type TenantUpdateWithoutZonasInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUpdateManyWithoutTenantNestedInput
   proveedores?: Prisma.ProveedoresUpdateManyWithoutTenantNestedInput
   referidos?: Prisma.ReferidosUpdateManyWithoutTenantNestedInput
+  seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoUpdateManyWithoutTenantNestedInput
   servicios?: Prisma.ServicioUpdateManyWithoutTenantNestedInput
   sesionesActividad?: Prisma.SesionActividadUpdateManyWithoutTenantNestedInput
   subscription?: Prisma.SubscriptionUpdateOneWithoutTenantNestedInput
@@ -4496,6 +4564,7 @@ export type TenantUncheckedUpdateWithoutZonasInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUncheckedUpdateManyWithoutTenantNestedInput
   proveedores?: Prisma.ProveedoresUncheckedUpdateManyWithoutTenantNestedInput
   referidos?: Prisma.ReferidosUncheckedUpdateManyWithoutTenantNestedInput
+  seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoUncheckedUpdateManyWithoutTenantNestedInput
   servicios?: Prisma.ServicioUncheckedUpdateManyWithoutTenantNestedInput
   sesionesActividad?: Prisma.SesionActividadUncheckedUpdateManyWithoutTenantNestedInput
   subscription?: Prisma.SubscriptionUncheckedUpdateOneWithoutTenantNestedInput
@@ -4556,6 +4625,7 @@ export type TenantCreateWithoutServiciosInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoCreateNestedManyWithoutTenantInput
   proveedores?: Prisma.ProveedoresCreateNestedManyWithoutTenantInput
   referidos?: Prisma.ReferidosCreateNestedManyWithoutTenantInput
+  seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoCreateNestedManyWithoutTenantInput
   sesionesActividad?: Prisma.SesionActividadCreateNestedManyWithoutTenantInput
   subscription?: Prisma.SubscriptionCreateNestedOneWithoutTenantInput
   sugerencias?: Prisma.SugerenciaSeguimientoCreateNestedManyWithoutTenantInput
@@ -4616,6 +4686,7 @@ export type TenantUncheckedCreateWithoutServiciosInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUncheckedCreateNestedManyWithoutTenantInput
   proveedores?: Prisma.ProveedoresUncheckedCreateNestedManyWithoutTenantInput
   referidos?: Prisma.ReferidosUncheckedCreateNestedManyWithoutTenantInput
+  seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoUncheckedCreateNestedManyWithoutTenantInput
   sesionesActividad?: Prisma.SesionActividadUncheckedCreateNestedManyWithoutTenantInput
   subscription?: Prisma.SubscriptionUncheckedCreateNestedOneWithoutTenantInput
   sugerencias?: Prisma.SugerenciaSeguimientoUncheckedCreateNestedManyWithoutTenantInput
@@ -4692,6 +4763,7 @@ export type TenantUpdateWithoutServiciosInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUpdateManyWithoutTenantNestedInput
   proveedores?: Prisma.ProveedoresUpdateManyWithoutTenantNestedInput
   referidos?: Prisma.ReferidosUpdateManyWithoutTenantNestedInput
+  seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoUpdateManyWithoutTenantNestedInput
   sesionesActividad?: Prisma.SesionActividadUpdateManyWithoutTenantNestedInput
   subscription?: Prisma.SubscriptionUpdateOneWithoutTenantNestedInput
   sugerencias?: Prisma.SugerenciaSeguimientoUpdateManyWithoutTenantNestedInput
@@ -4752,6 +4824,7 @@ export type TenantUncheckedUpdateWithoutServiciosInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUncheckedUpdateManyWithoutTenantNestedInput
   proveedores?: Prisma.ProveedoresUncheckedUpdateManyWithoutTenantNestedInput
   referidos?: Prisma.ReferidosUncheckedUpdateManyWithoutTenantNestedInput
+  seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoUncheckedUpdateManyWithoutTenantNestedInput
   sesionesActividad?: Prisma.SesionActividadUncheckedUpdateManyWithoutTenantNestedInput
   subscription?: Prisma.SubscriptionUncheckedUpdateOneWithoutTenantNestedInput
   sugerencias?: Prisma.SugerenciaSeguimientoUncheckedUpdateManyWithoutTenantNestedInput
@@ -4812,6 +4885,7 @@ export type TenantCreateWithoutTiposServicioInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoCreateNestedManyWithoutTenantInput
   proveedores?: Prisma.ProveedoresCreateNestedManyWithoutTenantInput
   referidos?: Prisma.ReferidosCreateNestedManyWithoutTenantInput
+  seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoCreateNestedManyWithoutTenantInput
   servicios?: Prisma.ServicioCreateNestedManyWithoutTenantInput
   sesionesActividad?: Prisma.SesionActividadCreateNestedManyWithoutTenantInput
   subscription?: Prisma.SubscriptionCreateNestedOneWithoutTenantInput
@@ -4872,6 +4946,7 @@ export type TenantUncheckedCreateWithoutTiposServicioInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUncheckedCreateNestedManyWithoutTenantInput
   proveedores?: Prisma.ProveedoresUncheckedCreateNestedManyWithoutTenantInput
   referidos?: Prisma.ReferidosUncheckedCreateNestedManyWithoutTenantInput
+  seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoUncheckedCreateNestedManyWithoutTenantInput
   servicios?: Prisma.ServicioUncheckedCreateNestedManyWithoutTenantInput
   sesionesActividad?: Prisma.SesionActividadUncheckedCreateNestedManyWithoutTenantInput
   subscription?: Prisma.SubscriptionUncheckedCreateNestedOneWithoutTenantInput
@@ -4948,6 +5023,7 @@ export type TenantUpdateWithoutTiposServicioInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUpdateManyWithoutTenantNestedInput
   proveedores?: Prisma.ProveedoresUpdateManyWithoutTenantNestedInput
   referidos?: Prisma.ReferidosUpdateManyWithoutTenantNestedInput
+  seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoUpdateManyWithoutTenantNestedInput
   servicios?: Prisma.ServicioUpdateManyWithoutTenantNestedInput
   sesionesActividad?: Prisma.SesionActividadUpdateManyWithoutTenantNestedInput
   subscription?: Prisma.SubscriptionUpdateOneWithoutTenantNestedInput
@@ -5008,6 +5084,7 @@ export type TenantUncheckedUpdateWithoutTiposServicioInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUncheckedUpdateManyWithoutTenantNestedInput
   proveedores?: Prisma.ProveedoresUncheckedUpdateManyWithoutTenantNestedInput
   referidos?: Prisma.ReferidosUncheckedUpdateManyWithoutTenantNestedInput
+  seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoUncheckedUpdateManyWithoutTenantNestedInput
   servicios?: Prisma.ServicioUncheckedUpdateManyWithoutTenantNestedInput
   sesionesActividad?: Prisma.SesionActividadUncheckedUpdateManyWithoutTenantNestedInput
   subscription?: Prisma.SubscriptionUncheckedUpdateOneWithoutTenantNestedInput
@@ -5067,6 +5144,7 @@ export type TenantCreateWithoutMetodosPagoInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoCreateNestedManyWithoutTenantInput
   proveedores?: Prisma.ProveedoresCreateNestedManyWithoutTenantInput
   referidos?: Prisma.ReferidosCreateNestedManyWithoutTenantInput
+  seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoCreateNestedManyWithoutTenantInput
   servicios?: Prisma.ServicioCreateNestedManyWithoutTenantInput
   sesionesActividad?: Prisma.SesionActividadCreateNestedManyWithoutTenantInput
   subscription?: Prisma.SubscriptionCreateNestedOneWithoutTenantInput
@@ -5127,6 +5205,7 @@ export type TenantUncheckedCreateWithoutMetodosPagoInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUncheckedCreateNestedManyWithoutTenantInput
   proveedores?: Prisma.ProveedoresUncheckedCreateNestedManyWithoutTenantInput
   referidos?: Prisma.ReferidosUncheckedCreateNestedManyWithoutTenantInput
+  seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoUncheckedCreateNestedManyWithoutTenantInput
   servicios?: Prisma.ServicioUncheckedCreateNestedManyWithoutTenantInput
   sesionesActividad?: Prisma.SesionActividadUncheckedCreateNestedManyWithoutTenantInput
   subscription?: Prisma.SubscriptionUncheckedCreateNestedOneWithoutTenantInput
@@ -5203,6 +5282,7 @@ export type TenantUpdateWithoutMetodosPagoInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUpdateManyWithoutTenantNestedInput
   proveedores?: Prisma.ProveedoresUpdateManyWithoutTenantNestedInput
   referidos?: Prisma.ReferidosUpdateManyWithoutTenantNestedInput
+  seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoUpdateManyWithoutTenantNestedInput
   servicios?: Prisma.ServicioUpdateManyWithoutTenantNestedInput
   sesionesActividad?: Prisma.SesionActividadUpdateManyWithoutTenantNestedInput
   subscription?: Prisma.SubscriptionUpdateOneWithoutTenantNestedInput
@@ -5263,6 +5343,7 @@ export type TenantUncheckedUpdateWithoutMetodosPagoInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUncheckedUpdateManyWithoutTenantNestedInput
   proveedores?: Prisma.ProveedoresUncheckedUpdateManyWithoutTenantNestedInput
   referidos?: Prisma.ReferidosUncheckedUpdateManyWithoutTenantNestedInput
+  seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoUncheckedUpdateManyWithoutTenantNestedInput
   servicios?: Prisma.ServicioUncheckedUpdateManyWithoutTenantNestedInput
   sesionesActividad?: Prisma.SesionActividadUncheckedUpdateManyWithoutTenantNestedInput
   subscription?: Prisma.SubscriptionUncheckedUpdateOneWithoutTenantNestedInput
@@ -5323,6 +5404,7 @@ export type TenantCreateWithoutEstadosServicioInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoCreateNestedManyWithoutTenantInput
   proveedores?: Prisma.ProveedoresCreateNestedManyWithoutTenantInput
   referidos?: Prisma.ReferidosCreateNestedManyWithoutTenantInput
+  seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoCreateNestedManyWithoutTenantInput
   servicios?: Prisma.ServicioCreateNestedManyWithoutTenantInput
   sesionesActividad?: Prisma.SesionActividadCreateNestedManyWithoutTenantInput
   subscription?: Prisma.SubscriptionCreateNestedOneWithoutTenantInput
@@ -5383,6 +5465,7 @@ export type TenantUncheckedCreateWithoutEstadosServicioInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUncheckedCreateNestedManyWithoutTenantInput
   proveedores?: Prisma.ProveedoresUncheckedCreateNestedManyWithoutTenantInput
   referidos?: Prisma.ReferidosUncheckedCreateNestedManyWithoutTenantInput
+  seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoUncheckedCreateNestedManyWithoutTenantInput
   servicios?: Prisma.ServicioUncheckedCreateNestedManyWithoutTenantInput
   sesionesActividad?: Prisma.SesionActividadUncheckedCreateNestedManyWithoutTenantInput
   subscription?: Prisma.SubscriptionUncheckedCreateNestedOneWithoutTenantInput
@@ -5459,6 +5542,7 @@ export type TenantUpdateWithoutEstadosServicioInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUpdateManyWithoutTenantNestedInput
   proveedores?: Prisma.ProveedoresUpdateManyWithoutTenantNestedInput
   referidos?: Prisma.ReferidosUpdateManyWithoutTenantNestedInput
+  seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoUpdateManyWithoutTenantNestedInput
   servicios?: Prisma.ServicioUpdateManyWithoutTenantNestedInput
   sesionesActividad?: Prisma.SesionActividadUpdateManyWithoutTenantNestedInput
   subscription?: Prisma.SubscriptionUpdateOneWithoutTenantNestedInput
@@ -5519,6 +5603,7 @@ export type TenantUncheckedUpdateWithoutEstadosServicioInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUncheckedUpdateManyWithoutTenantNestedInput
   proveedores?: Prisma.ProveedoresUncheckedUpdateManyWithoutTenantNestedInput
   referidos?: Prisma.ReferidosUncheckedUpdateManyWithoutTenantNestedInput
+  seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoUncheckedUpdateManyWithoutTenantNestedInput
   servicios?: Prisma.ServicioUncheckedUpdateManyWithoutTenantNestedInput
   sesionesActividad?: Prisma.SesionActividadUncheckedUpdateManyWithoutTenantNestedInput
   subscription?: Prisma.SubscriptionUncheckedUpdateOneWithoutTenantNestedInput
@@ -5579,6 +5664,7 @@ export type TenantCreateWithoutOrdenesServicioInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoCreateNestedManyWithoutTenantInput
   proveedores?: Prisma.ProveedoresCreateNestedManyWithoutTenantInput
   referidos?: Prisma.ReferidosCreateNestedManyWithoutTenantInput
+  seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoCreateNestedManyWithoutTenantInput
   servicios?: Prisma.ServicioCreateNestedManyWithoutTenantInput
   sesionesActividad?: Prisma.SesionActividadCreateNestedManyWithoutTenantInput
   subscription?: Prisma.SubscriptionCreateNestedOneWithoutTenantInput
@@ -5639,6 +5725,7 @@ export type TenantUncheckedCreateWithoutOrdenesServicioInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUncheckedCreateNestedManyWithoutTenantInput
   proveedores?: Prisma.ProveedoresUncheckedCreateNestedManyWithoutTenantInput
   referidos?: Prisma.ReferidosUncheckedCreateNestedManyWithoutTenantInput
+  seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoUncheckedCreateNestedManyWithoutTenantInput
   servicios?: Prisma.ServicioUncheckedCreateNestedManyWithoutTenantInput
   sesionesActividad?: Prisma.SesionActividadUncheckedCreateNestedManyWithoutTenantInput
   subscription?: Prisma.SubscriptionUncheckedCreateNestedOneWithoutTenantInput
@@ -5715,6 +5802,7 @@ export type TenantUpdateWithoutOrdenesServicioInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUpdateManyWithoutTenantNestedInput
   proveedores?: Prisma.ProveedoresUpdateManyWithoutTenantNestedInput
   referidos?: Prisma.ReferidosUpdateManyWithoutTenantNestedInput
+  seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoUpdateManyWithoutTenantNestedInput
   servicios?: Prisma.ServicioUpdateManyWithoutTenantNestedInput
   sesionesActividad?: Prisma.SesionActividadUpdateManyWithoutTenantNestedInput
   subscription?: Prisma.SubscriptionUpdateOneWithoutTenantNestedInput
@@ -5766,6 +5854,267 @@ export type TenantUncheckedUpdateWithoutOrdenesServicioInput = {
   metodosPago?: Prisma.MetodoPagoUncheckedUpdateManyWithoutTenantNestedInput
   nominaDetalles?: Prisma.NominaDetalleUncheckedUpdateManyWithoutTenantNestedInput
   nominas?: Prisma.NominaUncheckedUpdateManyWithoutTenantNestedInput
+  orgNodes?: Prisma.OrganizationNodeUncheckedUpdateManyWithoutTenantNestedInput
+  paquetesAdquiridos?: Prisma.PaqueteAdquiridoUncheckedUpdateManyWithoutTenantNestedInput
+  resetTokens?: Prisma.PasswordResetTokenUncheckedUpdateManyWithoutTenantNestedInput
+  permisos?: Prisma.PermisoUncheckedUpdateManyWithoutTenantNestedInput
+  picoPlaca?: Prisma.PicoPlacaUncheckedUpdateManyWithoutTenantNestedInput
+  productos?: Prisma.ProductoUncheckedUpdateManyWithoutTenantNestedInput
+  productosSolicitados?: Prisma.ProductoSolicitadoUncheckedUpdateManyWithoutTenantNestedInput
+  proveedores?: Prisma.ProveedoresUncheckedUpdateManyWithoutTenantNestedInput
+  referidos?: Prisma.ReferidosUncheckedUpdateManyWithoutTenantNestedInput
+  seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoUncheckedUpdateManyWithoutTenantNestedInput
+  servicios?: Prisma.ServicioUncheckedUpdateManyWithoutTenantNestedInput
+  sesionesActividad?: Prisma.SesionActividadUncheckedUpdateManyWithoutTenantNestedInput
+  subscription?: Prisma.SubscriptionUncheckedUpdateOneWithoutTenantNestedInput
+  sugerencias?: Prisma.SugerenciaSeguimientoUncheckedUpdateManyWithoutTenantNestedInput
+  memberships?: Prisma.TenantMembershipUncheckedUpdateManyWithoutTenantNestedInput
+  terapiasPsicologos?: Prisma.TerapiasPsicologosUncheckedUpdateManyWithoutTenantNestedInput
+  tiposInteres?: Prisma.TipoInteresUncheckedUpdateManyWithoutTenantNestedInput
+  tiposServicio?: Prisma.TipoServicioUncheckedUpdateManyWithoutTenantNestedInput
+  turnos?: Prisma.TurnoUncheckedUpdateManyWithoutTenantNestedInput
+  vehiculos?: Prisma.VehiculoUncheckedUpdateManyWithoutTenantNestedInput
+  zonas?: Prisma.ZonaUncheckedUpdateManyWithoutTenantNestedInput
+  dashboardPresets?: Prisma.DashboardPresetUncheckedUpdateManyWithoutTenantNestedInput
+}
+
+export type TenantCreateWithoutSeguimientosOrdenServicioInput = {
+  id?: string
+  slug: string
+  isActive?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  correo?: string | null
+  nit?: string | null
+  nombre: string
+  numero?: string | null
+  pagina?: string | null
+  anticipos?: Prisma.AnticiposCreateNestedManyWithoutTenantInput
+  auditorias?: Prisma.AuditoriaCreateNestedManyWithoutTenantInput
+  authSessions?: Prisma.AuthSessionCreateNestedManyWithoutTenantInput
+  citasPsicologos?: Prisma.CitasPsicologosCreateNestedManyWithoutTenantInput
+  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaCreateNestedManyWithoutTenantInput
+  clientes?: Prisma.ClienteCreateNestedManyWithoutTenantInput
+  commissions?: Prisma.CommissionRecordCreateNestedManyWithoutTenantInput
+  configuracionPagos?: Prisma.ConfiguracionPagosCreateNestedManyWithoutTenantInput
+  consignacionOrdenes?: Prisma.ConsignacionOrdenCreateNestedManyWithoutTenantInput
+  consignaciones?: Prisma.ConsignacionEfectivoCreateNestedManyWithoutTenantInput
+  consultorios?: Prisma.ConsultorioCreateNestedManyWithoutTenantInput
+  cuentasCobro?: Prisma.CuentaCobroCreateNestedManyWithoutTenantInput
+  cuentasPago?: Prisma.CuentasPagoCreateNestedManyWithoutTenantInput
+  declaraciones?: Prisma.DeclaracionEfectivoCreateNestedManyWithoutTenantInput
+  direcciones?: Prisma.DireccionCreateNestedManyWithoutTenantInput
+  egresos?: Prisma.EgresosCreateNestedManyWithoutTenantInput
+  empresaMemberships?: Prisma.EmpresaMembershipCreateNestedManyWithoutTenantInput
+  empresas?: Prisma.EmpresaCreateNestedManyWithoutTenantInput
+  entidadesFinancieras?: Prisma.EntidadFinancieraCreateNestedManyWithoutTenantInput
+  estadosServicio?: Prisma.EstadoServicioCreateNestedManyWithoutTenantInput
+  evidenciasServicio?: Prisma.EvidenciaServicioCreateNestedManyWithoutTenantInput
+  geolocalizaciones?: Prisma.GeolocalizacionCreateNestedManyWithoutTenantInput
+  logsEvento?: Prisma.LogEventoCreateNestedManyWithoutTenantInput
+  metodosPago?: Prisma.MetodoPagoCreateNestedManyWithoutTenantInput
+  nominaDetalles?: Prisma.NominaDetalleCreateNestedManyWithoutTenantInput
+  nominas?: Prisma.NominaCreateNestedManyWithoutTenantInput
+  ordenesServicio?: Prisma.OrdenServicioCreateNestedManyWithoutTenantInput
+  orgNodes?: Prisma.OrganizationNodeCreateNestedManyWithoutTenantInput
+  paquetesAdquiridos?: Prisma.PaqueteAdquiridoCreateNestedManyWithoutTenantInput
+  resetTokens?: Prisma.PasswordResetTokenCreateNestedManyWithoutTenantInput
+  permisos?: Prisma.PermisoCreateNestedManyWithoutTenantInput
+  picoPlaca?: Prisma.PicoPlacaCreateNestedManyWithoutTenantInput
+  productos?: Prisma.ProductoCreateNestedManyWithoutTenantInput
+  productosSolicitados?: Prisma.ProductoSolicitadoCreateNestedManyWithoutTenantInput
+  proveedores?: Prisma.ProveedoresCreateNestedManyWithoutTenantInput
+  referidos?: Prisma.ReferidosCreateNestedManyWithoutTenantInput
+  servicios?: Prisma.ServicioCreateNestedManyWithoutTenantInput
+  sesionesActividad?: Prisma.SesionActividadCreateNestedManyWithoutTenantInput
+  subscription?: Prisma.SubscriptionCreateNestedOneWithoutTenantInput
+  sugerencias?: Prisma.SugerenciaSeguimientoCreateNestedManyWithoutTenantInput
+  memberships?: Prisma.TenantMembershipCreateNestedManyWithoutTenantInput
+  terapiasPsicologos?: Prisma.TerapiasPsicologosCreateNestedManyWithoutTenantInput
+  tiposInteres?: Prisma.TipoInteresCreateNestedManyWithoutTenantInput
+  tiposServicio?: Prisma.TipoServicioCreateNestedManyWithoutTenantInput
+  turnos?: Prisma.TurnoCreateNestedManyWithoutTenantInput
+  vehiculos?: Prisma.VehiculoCreateNestedManyWithoutTenantInput
+  zonas?: Prisma.ZonaCreateNestedManyWithoutTenantInput
+  dashboardPresets?: Prisma.DashboardPresetCreateNestedManyWithoutTenantInput
+}
+
+export type TenantUncheckedCreateWithoutSeguimientosOrdenServicioInput = {
+  id?: string
+  slug: string
+  isActive?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  correo?: string | null
+  nit?: string | null
+  nombre: string
+  numero?: string | null
+  pagina?: string | null
+  anticipos?: Prisma.AnticiposUncheckedCreateNestedManyWithoutTenantInput
+  auditorias?: Prisma.AuditoriaUncheckedCreateNestedManyWithoutTenantInput
+  authSessions?: Prisma.AuthSessionUncheckedCreateNestedManyWithoutTenantInput
+  citasPsicologos?: Prisma.CitasPsicologosUncheckedCreateNestedManyWithoutTenantInput
+  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaUncheckedCreateNestedManyWithoutTenantInput
+  clientes?: Prisma.ClienteUncheckedCreateNestedManyWithoutTenantInput
+  commissions?: Prisma.CommissionRecordUncheckedCreateNestedManyWithoutTenantInput
+  configuracionPagos?: Prisma.ConfiguracionPagosUncheckedCreateNestedManyWithoutTenantInput
+  consignacionOrdenes?: Prisma.ConsignacionOrdenUncheckedCreateNestedManyWithoutTenantInput
+  consignaciones?: Prisma.ConsignacionEfectivoUncheckedCreateNestedManyWithoutTenantInput
+  consultorios?: Prisma.ConsultorioUncheckedCreateNestedManyWithoutTenantInput
+  cuentasCobro?: Prisma.CuentaCobroUncheckedCreateNestedManyWithoutTenantInput
+  cuentasPago?: Prisma.CuentasPagoUncheckedCreateNestedManyWithoutTenantInput
+  declaraciones?: Prisma.DeclaracionEfectivoUncheckedCreateNestedManyWithoutTenantInput
+  direcciones?: Prisma.DireccionUncheckedCreateNestedManyWithoutTenantInput
+  egresos?: Prisma.EgresosUncheckedCreateNestedManyWithoutTenantInput
+  empresaMemberships?: Prisma.EmpresaMembershipUncheckedCreateNestedManyWithoutTenantInput
+  empresas?: Prisma.EmpresaUncheckedCreateNestedManyWithoutTenantInput
+  entidadesFinancieras?: Prisma.EntidadFinancieraUncheckedCreateNestedManyWithoutTenantInput
+  estadosServicio?: Prisma.EstadoServicioUncheckedCreateNestedManyWithoutTenantInput
+  evidenciasServicio?: Prisma.EvidenciaServicioUncheckedCreateNestedManyWithoutTenantInput
+  geolocalizaciones?: Prisma.GeolocalizacionUncheckedCreateNestedManyWithoutTenantInput
+  logsEvento?: Prisma.LogEventoUncheckedCreateNestedManyWithoutTenantInput
+  metodosPago?: Prisma.MetodoPagoUncheckedCreateNestedManyWithoutTenantInput
+  nominaDetalles?: Prisma.NominaDetalleUncheckedCreateNestedManyWithoutTenantInput
+  nominas?: Prisma.NominaUncheckedCreateNestedManyWithoutTenantInput
+  ordenesServicio?: Prisma.OrdenServicioUncheckedCreateNestedManyWithoutTenantInput
+  orgNodes?: Prisma.OrganizationNodeUncheckedCreateNestedManyWithoutTenantInput
+  paquetesAdquiridos?: Prisma.PaqueteAdquiridoUncheckedCreateNestedManyWithoutTenantInput
+  resetTokens?: Prisma.PasswordResetTokenUncheckedCreateNestedManyWithoutTenantInput
+  permisos?: Prisma.PermisoUncheckedCreateNestedManyWithoutTenantInput
+  picoPlaca?: Prisma.PicoPlacaUncheckedCreateNestedManyWithoutTenantInput
+  productos?: Prisma.ProductoUncheckedCreateNestedManyWithoutTenantInput
+  productosSolicitados?: Prisma.ProductoSolicitadoUncheckedCreateNestedManyWithoutTenantInput
+  proveedores?: Prisma.ProveedoresUncheckedCreateNestedManyWithoutTenantInput
+  referidos?: Prisma.ReferidosUncheckedCreateNestedManyWithoutTenantInput
+  servicios?: Prisma.ServicioUncheckedCreateNestedManyWithoutTenantInput
+  sesionesActividad?: Prisma.SesionActividadUncheckedCreateNestedManyWithoutTenantInput
+  subscription?: Prisma.SubscriptionUncheckedCreateNestedOneWithoutTenantInput
+  sugerencias?: Prisma.SugerenciaSeguimientoUncheckedCreateNestedManyWithoutTenantInput
+  memberships?: Prisma.TenantMembershipUncheckedCreateNestedManyWithoutTenantInput
+  terapiasPsicologos?: Prisma.TerapiasPsicologosUncheckedCreateNestedManyWithoutTenantInput
+  tiposInteres?: Prisma.TipoInteresUncheckedCreateNestedManyWithoutTenantInput
+  tiposServicio?: Prisma.TipoServicioUncheckedCreateNestedManyWithoutTenantInput
+  turnos?: Prisma.TurnoUncheckedCreateNestedManyWithoutTenantInput
+  vehiculos?: Prisma.VehiculoUncheckedCreateNestedManyWithoutTenantInput
+  zonas?: Prisma.ZonaUncheckedCreateNestedManyWithoutTenantInput
+  dashboardPresets?: Prisma.DashboardPresetUncheckedCreateNestedManyWithoutTenantInput
+}
+
+export type TenantCreateOrConnectWithoutSeguimientosOrdenServicioInput = {
+  where: Prisma.TenantWhereUniqueInput
+  create: Prisma.XOR<Prisma.TenantCreateWithoutSeguimientosOrdenServicioInput, Prisma.TenantUncheckedCreateWithoutSeguimientosOrdenServicioInput>
+}
+
+export type TenantUpsertWithoutSeguimientosOrdenServicioInput = {
+  update: Prisma.XOR<Prisma.TenantUpdateWithoutSeguimientosOrdenServicioInput, Prisma.TenantUncheckedUpdateWithoutSeguimientosOrdenServicioInput>
+  create: Prisma.XOR<Prisma.TenantCreateWithoutSeguimientosOrdenServicioInput, Prisma.TenantUncheckedCreateWithoutSeguimientosOrdenServicioInput>
+  where?: Prisma.TenantWhereInput
+}
+
+export type TenantUpdateToOneWithWhereWithoutSeguimientosOrdenServicioInput = {
+  where?: Prisma.TenantWhereInput
+  data: Prisma.XOR<Prisma.TenantUpdateWithoutSeguimientosOrdenServicioInput, Prisma.TenantUncheckedUpdateWithoutSeguimientosOrdenServicioInput>
+}
+
+export type TenantUpdateWithoutSeguimientosOrdenServicioInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  correo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  nit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  nombre?: Prisma.StringFieldUpdateOperationsInput | string
+  numero?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pagina?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  anticipos?: Prisma.AnticiposUpdateManyWithoutTenantNestedInput
+  auditorias?: Prisma.AuditoriaUpdateManyWithoutTenantNestedInput
+  authSessions?: Prisma.AuthSessionUpdateManyWithoutTenantNestedInput
+  citasPsicologos?: Prisma.CitasPsicologosUpdateManyWithoutTenantNestedInput
+  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaUpdateManyWithoutTenantNestedInput
+  clientes?: Prisma.ClienteUpdateManyWithoutTenantNestedInput
+  commissions?: Prisma.CommissionRecordUpdateManyWithoutTenantNestedInput
+  configuracionPagos?: Prisma.ConfiguracionPagosUpdateManyWithoutTenantNestedInput
+  consignacionOrdenes?: Prisma.ConsignacionOrdenUpdateManyWithoutTenantNestedInput
+  consignaciones?: Prisma.ConsignacionEfectivoUpdateManyWithoutTenantNestedInput
+  consultorios?: Prisma.ConsultorioUpdateManyWithoutTenantNestedInput
+  cuentasCobro?: Prisma.CuentaCobroUpdateManyWithoutTenantNestedInput
+  cuentasPago?: Prisma.CuentasPagoUpdateManyWithoutTenantNestedInput
+  declaraciones?: Prisma.DeclaracionEfectivoUpdateManyWithoutTenantNestedInput
+  direcciones?: Prisma.DireccionUpdateManyWithoutTenantNestedInput
+  egresos?: Prisma.EgresosUpdateManyWithoutTenantNestedInput
+  empresaMemberships?: Prisma.EmpresaMembershipUpdateManyWithoutTenantNestedInput
+  empresas?: Prisma.EmpresaUpdateManyWithoutTenantNestedInput
+  entidadesFinancieras?: Prisma.EntidadFinancieraUpdateManyWithoutTenantNestedInput
+  estadosServicio?: Prisma.EstadoServicioUpdateManyWithoutTenantNestedInput
+  evidenciasServicio?: Prisma.EvidenciaServicioUpdateManyWithoutTenantNestedInput
+  geolocalizaciones?: Prisma.GeolocalizacionUpdateManyWithoutTenantNestedInput
+  logsEvento?: Prisma.LogEventoUpdateManyWithoutTenantNestedInput
+  metodosPago?: Prisma.MetodoPagoUpdateManyWithoutTenantNestedInput
+  nominaDetalles?: Prisma.NominaDetalleUpdateManyWithoutTenantNestedInput
+  nominas?: Prisma.NominaUpdateManyWithoutTenantNestedInput
+  ordenesServicio?: Prisma.OrdenServicioUpdateManyWithoutTenantNestedInput
+  orgNodes?: Prisma.OrganizationNodeUpdateManyWithoutTenantNestedInput
+  paquetesAdquiridos?: Prisma.PaqueteAdquiridoUpdateManyWithoutTenantNestedInput
+  resetTokens?: Prisma.PasswordResetTokenUpdateManyWithoutTenantNestedInput
+  permisos?: Prisma.PermisoUpdateManyWithoutTenantNestedInput
+  picoPlaca?: Prisma.PicoPlacaUpdateManyWithoutTenantNestedInput
+  productos?: Prisma.ProductoUpdateManyWithoutTenantNestedInput
+  productosSolicitados?: Prisma.ProductoSolicitadoUpdateManyWithoutTenantNestedInput
+  proveedores?: Prisma.ProveedoresUpdateManyWithoutTenantNestedInput
+  referidos?: Prisma.ReferidosUpdateManyWithoutTenantNestedInput
+  servicios?: Prisma.ServicioUpdateManyWithoutTenantNestedInput
+  sesionesActividad?: Prisma.SesionActividadUpdateManyWithoutTenantNestedInput
+  subscription?: Prisma.SubscriptionUpdateOneWithoutTenantNestedInput
+  sugerencias?: Prisma.SugerenciaSeguimientoUpdateManyWithoutTenantNestedInput
+  memberships?: Prisma.TenantMembershipUpdateManyWithoutTenantNestedInput
+  terapiasPsicologos?: Prisma.TerapiasPsicologosUpdateManyWithoutTenantNestedInput
+  tiposInteres?: Prisma.TipoInteresUpdateManyWithoutTenantNestedInput
+  tiposServicio?: Prisma.TipoServicioUpdateManyWithoutTenantNestedInput
+  turnos?: Prisma.TurnoUpdateManyWithoutTenantNestedInput
+  vehiculos?: Prisma.VehiculoUpdateManyWithoutTenantNestedInput
+  zonas?: Prisma.ZonaUpdateManyWithoutTenantNestedInput
+  dashboardPresets?: Prisma.DashboardPresetUpdateManyWithoutTenantNestedInput
+}
+
+export type TenantUncheckedUpdateWithoutSeguimientosOrdenServicioInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  correo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  nit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  nombre?: Prisma.StringFieldUpdateOperationsInput | string
+  numero?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pagina?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  anticipos?: Prisma.AnticiposUncheckedUpdateManyWithoutTenantNestedInput
+  auditorias?: Prisma.AuditoriaUncheckedUpdateManyWithoutTenantNestedInput
+  authSessions?: Prisma.AuthSessionUncheckedUpdateManyWithoutTenantNestedInput
+  citasPsicologos?: Prisma.CitasPsicologosUncheckedUpdateManyWithoutTenantNestedInput
+  configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaUncheckedUpdateManyWithoutTenantNestedInput
+  clientes?: Prisma.ClienteUncheckedUpdateManyWithoutTenantNestedInput
+  commissions?: Prisma.CommissionRecordUncheckedUpdateManyWithoutTenantNestedInput
+  configuracionPagos?: Prisma.ConfiguracionPagosUncheckedUpdateManyWithoutTenantNestedInput
+  consignacionOrdenes?: Prisma.ConsignacionOrdenUncheckedUpdateManyWithoutTenantNestedInput
+  consignaciones?: Prisma.ConsignacionEfectivoUncheckedUpdateManyWithoutTenantNestedInput
+  consultorios?: Prisma.ConsultorioUncheckedUpdateManyWithoutTenantNestedInput
+  cuentasCobro?: Prisma.CuentaCobroUncheckedUpdateManyWithoutTenantNestedInput
+  cuentasPago?: Prisma.CuentasPagoUncheckedUpdateManyWithoutTenantNestedInput
+  declaraciones?: Prisma.DeclaracionEfectivoUncheckedUpdateManyWithoutTenantNestedInput
+  direcciones?: Prisma.DireccionUncheckedUpdateManyWithoutTenantNestedInput
+  egresos?: Prisma.EgresosUncheckedUpdateManyWithoutTenantNestedInput
+  empresaMemberships?: Prisma.EmpresaMembershipUncheckedUpdateManyWithoutTenantNestedInput
+  empresas?: Prisma.EmpresaUncheckedUpdateManyWithoutTenantNestedInput
+  entidadesFinancieras?: Prisma.EntidadFinancieraUncheckedUpdateManyWithoutTenantNestedInput
+  estadosServicio?: Prisma.EstadoServicioUncheckedUpdateManyWithoutTenantNestedInput
+  evidenciasServicio?: Prisma.EvidenciaServicioUncheckedUpdateManyWithoutTenantNestedInput
+  geolocalizaciones?: Prisma.GeolocalizacionUncheckedUpdateManyWithoutTenantNestedInput
+  logsEvento?: Prisma.LogEventoUncheckedUpdateManyWithoutTenantNestedInput
+  metodosPago?: Prisma.MetodoPagoUncheckedUpdateManyWithoutTenantNestedInput
+  nominaDetalles?: Prisma.NominaDetalleUncheckedUpdateManyWithoutTenantNestedInput
+  nominas?: Prisma.NominaUncheckedUpdateManyWithoutTenantNestedInput
+  ordenesServicio?: Prisma.OrdenServicioUncheckedUpdateManyWithoutTenantNestedInput
   orgNodes?: Prisma.OrganizationNodeUncheckedUpdateManyWithoutTenantNestedInput
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoUncheckedUpdateManyWithoutTenantNestedInput
   resetTokens?: Prisma.PasswordResetTokenUncheckedUpdateManyWithoutTenantNestedInput
@@ -5835,6 +6184,7 @@ export type TenantCreateWithoutEntidadesFinancierasInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoCreateNestedManyWithoutTenantInput
   proveedores?: Prisma.ProveedoresCreateNestedManyWithoutTenantInput
   referidos?: Prisma.ReferidosCreateNestedManyWithoutTenantInput
+  seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoCreateNestedManyWithoutTenantInput
   servicios?: Prisma.ServicioCreateNestedManyWithoutTenantInput
   sesionesActividad?: Prisma.SesionActividadCreateNestedManyWithoutTenantInput
   subscription?: Prisma.SubscriptionCreateNestedOneWithoutTenantInput
@@ -5895,6 +6245,7 @@ export type TenantUncheckedCreateWithoutEntidadesFinancierasInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUncheckedCreateNestedManyWithoutTenantInput
   proveedores?: Prisma.ProveedoresUncheckedCreateNestedManyWithoutTenantInput
   referidos?: Prisma.ReferidosUncheckedCreateNestedManyWithoutTenantInput
+  seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoUncheckedCreateNestedManyWithoutTenantInput
   servicios?: Prisma.ServicioUncheckedCreateNestedManyWithoutTenantInput
   sesionesActividad?: Prisma.SesionActividadUncheckedCreateNestedManyWithoutTenantInput
   subscription?: Prisma.SubscriptionUncheckedCreateNestedOneWithoutTenantInput
@@ -5971,6 +6322,7 @@ export type TenantUpdateWithoutEntidadesFinancierasInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUpdateManyWithoutTenantNestedInput
   proveedores?: Prisma.ProveedoresUpdateManyWithoutTenantNestedInput
   referidos?: Prisma.ReferidosUpdateManyWithoutTenantNestedInput
+  seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoUpdateManyWithoutTenantNestedInput
   servicios?: Prisma.ServicioUpdateManyWithoutTenantNestedInput
   sesionesActividad?: Prisma.SesionActividadUpdateManyWithoutTenantNestedInput
   subscription?: Prisma.SubscriptionUpdateOneWithoutTenantNestedInput
@@ -6031,6 +6383,7 @@ export type TenantUncheckedUpdateWithoutEntidadesFinancierasInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUncheckedUpdateManyWithoutTenantNestedInput
   proveedores?: Prisma.ProveedoresUncheckedUpdateManyWithoutTenantNestedInput
   referidos?: Prisma.ReferidosUncheckedUpdateManyWithoutTenantNestedInput
+  seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoUncheckedUpdateManyWithoutTenantNestedInput
   servicios?: Prisma.ServicioUncheckedUpdateManyWithoutTenantNestedInput
   sesionesActividad?: Prisma.SesionActividadUncheckedUpdateManyWithoutTenantNestedInput
   subscription?: Prisma.SubscriptionUncheckedUpdateOneWithoutTenantNestedInput
@@ -6091,6 +6444,7 @@ export type TenantCreateWithoutGeolocalizacionesInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoCreateNestedManyWithoutTenantInput
   proveedores?: Prisma.ProveedoresCreateNestedManyWithoutTenantInput
   referidos?: Prisma.ReferidosCreateNestedManyWithoutTenantInput
+  seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoCreateNestedManyWithoutTenantInput
   servicios?: Prisma.ServicioCreateNestedManyWithoutTenantInput
   sesionesActividad?: Prisma.SesionActividadCreateNestedManyWithoutTenantInput
   subscription?: Prisma.SubscriptionCreateNestedOneWithoutTenantInput
@@ -6151,6 +6505,7 @@ export type TenantUncheckedCreateWithoutGeolocalizacionesInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUncheckedCreateNestedManyWithoutTenantInput
   proveedores?: Prisma.ProveedoresUncheckedCreateNestedManyWithoutTenantInput
   referidos?: Prisma.ReferidosUncheckedCreateNestedManyWithoutTenantInput
+  seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoUncheckedCreateNestedManyWithoutTenantInput
   servicios?: Prisma.ServicioUncheckedCreateNestedManyWithoutTenantInput
   sesionesActividad?: Prisma.SesionActividadUncheckedCreateNestedManyWithoutTenantInput
   subscription?: Prisma.SubscriptionUncheckedCreateNestedOneWithoutTenantInput
@@ -6227,6 +6582,7 @@ export type TenantUpdateWithoutGeolocalizacionesInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUpdateManyWithoutTenantNestedInput
   proveedores?: Prisma.ProveedoresUpdateManyWithoutTenantNestedInput
   referidos?: Prisma.ReferidosUpdateManyWithoutTenantNestedInput
+  seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoUpdateManyWithoutTenantNestedInput
   servicios?: Prisma.ServicioUpdateManyWithoutTenantNestedInput
   sesionesActividad?: Prisma.SesionActividadUpdateManyWithoutTenantNestedInput
   subscription?: Prisma.SubscriptionUpdateOneWithoutTenantNestedInput
@@ -6287,6 +6643,7 @@ export type TenantUncheckedUpdateWithoutGeolocalizacionesInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUncheckedUpdateManyWithoutTenantNestedInput
   proveedores?: Prisma.ProveedoresUncheckedUpdateManyWithoutTenantNestedInput
   referidos?: Prisma.ReferidosUncheckedUpdateManyWithoutTenantNestedInput
+  seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoUncheckedUpdateManyWithoutTenantNestedInput
   servicios?: Prisma.ServicioUncheckedUpdateManyWithoutTenantNestedInput
   sesionesActividad?: Prisma.SesionActividadUncheckedUpdateManyWithoutTenantNestedInput
   subscription?: Prisma.SubscriptionUncheckedUpdateOneWithoutTenantNestedInput
@@ -6347,6 +6704,7 @@ export type TenantCreateWithoutNominasInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoCreateNestedManyWithoutTenantInput
   proveedores?: Prisma.ProveedoresCreateNestedManyWithoutTenantInput
   referidos?: Prisma.ReferidosCreateNestedManyWithoutTenantInput
+  seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoCreateNestedManyWithoutTenantInput
   servicios?: Prisma.ServicioCreateNestedManyWithoutTenantInput
   sesionesActividad?: Prisma.SesionActividadCreateNestedManyWithoutTenantInput
   subscription?: Prisma.SubscriptionCreateNestedOneWithoutTenantInput
@@ -6407,6 +6765,7 @@ export type TenantUncheckedCreateWithoutNominasInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUncheckedCreateNestedManyWithoutTenantInput
   proveedores?: Prisma.ProveedoresUncheckedCreateNestedManyWithoutTenantInput
   referidos?: Prisma.ReferidosUncheckedCreateNestedManyWithoutTenantInput
+  seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoUncheckedCreateNestedManyWithoutTenantInput
   servicios?: Prisma.ServicioUncheckedCreateNestedManyWithoutTenantInput
   sesionesActividad?: Prisma.SesionActividadUncheckedCreateNestedManyWithoutTenantInput
   subscription?: Prisma.SubscriptionUncheckedCreateNestedOneWithoutTenantInput
@@ -6483,6 +6842,7 @@ export type TenantUpdateWithoutNominasInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUpdateManyWithoutTenantNestedInput
   proveedores?: Prisma.ProveedoresUpdateManyWithoutTenantNestedInput
   referidos?: Prisma.ReferidosUpdateManyWithoutTenantNestedInput
+  seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoUpdateManyWithoutTenantNestedInput
   servicios?: Prisma.ServicioUpdateManyWithoutTenantNestedInput
   sesionesActividad?: Prisma.SesionActividadUpdateManyWithoutTenantNestedInput
   subscription?: Prisma.SubscriptionUpdateOneWithoutTenantNestedInput
@@ -6543,6 +6903,7 @@ export type TenantUncheckedUpdateWithoutNominasInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUncheckedUpdateManyWithoutTenantNestedInput
   proveedores?: Prisma.ProveedoresUncheckedUpdateManyWithoutTenantNestedInput
   referidos?: Prisma.ReferidosUncheckedUpdateManyWithoutTenantNestedInput
+  seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoUncheckedUpdateManyWithoutTenantNestedInput
   servicios?: Prisma.ServicioUncheckedUpdateManyWithoutTenantNestedInput
   sesionesActividad?: Prisma.SesionActividadUncheckedUpdateManyWithoutTenantNestedInput
   subscription?: Prisma.SubscriptionUncheckedUpdateOneWithoutTenantNestedInput
@@ -6603,6 +6964,7 @@ export type TenantCreateWithoutNominaDetallesInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoCreateNestedManyWithoutTenantInput
   proveedores?: Prisma.ProveedoresCreateNestedManyWithoutTenantInput
   referidos?: Prisma.ReferidosCreateNestedManyWithoutTenantInput
+  seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoCreateNestedManyWithoutTenantInput
   servicios?: Prisma.ServicioCreateNestedManyWithoutTenantInput
   sesionesActividad?: Prisma.SesionActividadCreateNestedManyWithoutTenantInput
   subscription?: Prisma.SubscriptionCreateNestedOneWithoutTenantInput
@@ -6663,6 +7025,7 @@ export type TenantUncheckedCreateWithoutNominaDetallesInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUncheckedCreateNestedManyWithoutTenantInput
   proveedores?: Prisma.ProveedoresUncheckedCreateNestedManyWithoutTenantInput
   referidos?: Prisma.ReferidosUncheckedCreateNestedManyWithoutTenantInput
+  seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoUncheckedCreateNestedManyWithoutTenantInput
   servicios?: Prisma.ServicioUncheckedCreateNestedManyWithoutTenantInput
   sesionesActividad?: Prisma.SesionActividadUncheckedCreateNestedManyWithoutTenantInput
   subscription?: Prisma.SubscriptionUncheckedCreateNestedOneWithoutTenantInput
@@ -6739,6 +7102,7 @@ export type TenantUpdateWithoutNominaDetallesInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUpdateManyWithoutTenantNestedInput
   proveedores?: Prisma.ProveedoresUpdateManyWithoutTenantNestedInput
   referidos?: Prisma.ReferidosUpdateManyWithoutTenantNestedInput
+  seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoUpdateManyWithoutTenantNestedInput
   servicios?: Prisma.ServicioUpdateManyWithoutTenantNestedInput
   sesionesActividad?: Prisma.SesionActividadUpdateManyWithoutTenantNestedInput
   subscription?: Prisma.SubscriptionUpdateOneWithoutTenantNestedInput
@@ -6799,6 +7163,7 @@ export type TenantUncheckedUpdateWithoutNominaDetallesInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUncheckedUpdateManyWithoutTenantNestedInput
   proveedores?: Prisma.ProveedoresUncheckedUpdateManyWithoutTenantNestedInput
   referidos?: Prisma.ReferidosUncheckedUpdateManyWithoutTenantNestedInput
+  seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoUncheckedUpdateManyWithoutTenantNestedInput
   servicios?: Prisma.ServicioUncheckedUpdateManyWithoutTenantNestedInput
   sesionesActividad?: Prisma.SesionActividadUncheckedUpdateManyWithoutTenantNestedInput
   subscription?: Prisma.SubscriptionUncheckedUpdateOneWithoutTenantNestedInput
@@ -6859,6 +7224,7 @@ export type TenantCreateWithoutCitasPsicologosInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoCreateNestedManyWithoutTenantInput
   proveedores?: Prisma.ProveedoresCreateNestedManyWithoutTenantInput
   referidos?: Prisma.ReferidosCreateNestedManyWithoutTenantInput
+  seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoCreateNestedManyWithoutTenantInput
   servicios?: Prisma.ServicioCreateNestedManyWithoutTenantInput
   sesionesActividad?: Prisma.SesionActividadCreateNestedManyWithoutTenantInput
   subscription?: Prisma.SubscriptionCreateNestedOneWithoutTenantInput
@@ -6919,6 +7285,7 @@ export type TenantUncheckedCreateWithoutCitasPsicologosInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUncheckedCreateNestedManyWithoutTenantInput
   proveedores?: Prisma.ProveedoresUncheckedCreateNestedManyWithoutTenantInput
   referidos?: Prisma.ReferidosUncheckedCreateNestedManyWithoutTenantInput
+  seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoUncheckedCreateNestedManyWithoutTenantInput
   servicios?: Prisma.ServicioUncheckedCreateNestedManyWithoutTenantInput
   sesionesActividad?: Prisma.SesionActividadUncheckedCreateNestedManyWithoutTenantInput
   subscription?: Prisma.SubscriptionUncheckedCreateNestedOneWithoutTenantInput
@@ -6995,6 +7362,7 @@ export type TenantUpdateWithoutCitasPsicologosInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUpdateManyWithoutTenantNestedInput
   proveedores?: Prisma.ProveedoresUpdateManyWithoutTenantNestedInput
   referidos?: Prisma.ReferidosUpdateManyWithoutTenantNestedInput
+  seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoUpdateManyWithoutTenantNestedInput
   servicios?: Prisma.ServicioUpdateManyWithoutTenantNestedInput
   sesionesActividad?: Prisma.SesionActividadUpdateManyWithoutTenantNestedInput
   subscription?: Prisma.SubscriptionUpdateOneWithoutTenantNestedInput
@@ -7055,6 +7423,7 @@ export type TenantUncheckedUpdateWithoutCitasPsicologosInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUncheckedUpdateManyWithoutTenantNestedInput
   proveedores?: Prisma.ProveedoresUncheckedUpdateManyWithoutTenantNestedInput
   referidos?: Prisma.ReferidosUncheckedUpdateManyWithoutTenantNestedInput
+  seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoUncheckedUpdateManyWithoutTenantNestedInput
   servicios?: Prisma.ServicioUncheckedUpdateManyWithoutTenantNestedInput
   sesionesActividad?: Prisma.SesionActividadUncheckedUpdateManyWithoutTenantNestedInput
   subscription?: Prisma.SubscriptionUncheckedUpdateOneWithoutTenantNestedInput
@@ -7115,6 +7484,7 @@ export type TenantCreateWithoutConsultoriosInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoCreateNestedManyWithoutTenantInput
   proveedores?: Prisma.ProveedoresCreateNestedManyWithoutTenantInput
   referidos?: Prisma.ReferidosCreateNestedManyWithoutTenantInput
+  seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoCreateNestedManyWithoutTenantInput
   servicios?: Prisma.ServicioCreateNestedManyWithoutTenantInput
   sesionesActividad?: Prisma.SesionActividadCreateNestedManyWithoutTenantInput
   subscription?: Prisma.SubscriptionCreateNestedOneWithoutTenantInput
@@ -7175,6 +7545,7 @@ export type TenantUncheckedCreateWithoutConsultoriosInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUncheckedCreateNestedManyWithoutTenantInput
   proveedores?: Prisma.ProveedoresUncheckedCreateNestedManyWithoutTenantInput
   referidos?: Prisma.ReferidosUncheckedCreateNestedManyWithoutTenantInput
+  seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoUncheckedCreateNestedManyWithoutTenantInput
   servicios?: Prisma.ServicioUncheckedCreateNestedManyWithoutTenantInput
   sesionesActividad?: Prisma.SesionActividadUncheckedCreateNestedManyWithoutTenantInput
   subscription?: Prisma.SubscriptionUncheckedCreateNestedOneWithoutTenantInput
@@ -7251,6 +7622,7 @@ export type TenantUpdateWithoutConsultoriosInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUpdateManyWithoutTenantNestedInput
   proveedores?: Prisma.ProveedoresUpdateManyWithoutTenantNestedInput
   referidos?: Prisma.ReferidosUpdateManyWithoutTenantNestedInput
+  seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoUpdateManyWithoutTenantNestedInput
   servicios?: Prisma.ServicioUpdateManyWithoutTenantNestedInput
   sesionesActividad?: Prisma.SesionActividadUpdateManyWithoutTenantNestedInput
   subscription?: Prisma.SubscriptionUpdateOneWithoutTenantNestedInput
@@ -7311,6 +7683,7 @@ export type TenantUncheckedUpdateWithoutConsultoriosInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUncheckedUpdateManyWithoutTenantNestedInput
   proveedores?: Prisma.ProveedoresUncheckedUpdateManyWithoutTenantNestedInput
   referidos?: Prisma.ReferidosUncheckedUpdateManyWithoutTenantNestedInput
+  seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoUncheckedUpdateManyWithoutTenantNestedInput
   servicios?: Prisma.ServicioUncheckedUpdateManyWithoutTenantNestedInput
   sesionesActividad?: Prisma.SesionActividadUncheckedUpdateManyWithoutTenantNestedInput
   subscription?: Prisma.SubscriptionUncheckedUpdateOneWithoutTenantNestedInput
@@ -7372,6 +7745,7 @@ export type TenantCreateWithoutTerapiasPsicologosInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoCreateNestedManyWithoutTenantInput
   proveedores?: Prisma.ProveedoresCreateNestedManyWithoutTenantInput
   referidos?: Prisma.ReferidosCreateNestedManyWithoutTenantInput
+  seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoCreateNestedManyWithoutTenantInput
   servicios?: Prisma.ServicioCreateNestedManyWithoutTenantInput
   sesionesActividad?: Prisma.SesionActividadCreateNestedManyWithoutTenantInput
   subscription?: Prisma.SubscriptionCreateNestedOneWithoutTenantInput
@@ -7432,6 +7806,7 @@ export type TenantUncheckedCreateWithoutTerapiasPsicologosInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUncheckedCreateNestedManyWithoutTenantInput
   proveedores?: Prisma.ProveedoresUncheckedCreateNestedManyWithoutTenantInput
   referidos?: Prisma.ReferidosUncheckedCreateNestedManyWithoutTenantInput
+  seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoUncheckedCreateNestedManyWithoutTenantInput
   servicios?: Prisma.ServicioUncheckedCreateNestedManyWithoutTenantInput
   sesionesActividad?: Prisma.SesionActividadUncheckedCreateNestedManyWithoutTenantInput
   subscription?: Prisma.SubscriptionUncheckedCreateNestedOneWithoutTenantInput
@@ -7508,6 +7883,7 @@ export type TenantUpdateWithoutTerapiasPsicologosInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUpdateManyWithoutTenantNestedInput
   proveedores?: Prisma.ProveedoresUpdateManyWithoutTenantNestedInput
   referidos?: Prisma.ReferidosUpdateManyWithoutTenantNestedInput
+  seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoUpdateManyWithoutTenantNestedInput
   servicios?: Prisma.ServicioUpdateManyWithoutTenantNestedInput
   sesionesActividad?: Prisma.SesionActividadUpdateManyWithoutTenantNestedInput
   subscription?: Prisma.SubscriptionUpdateOneWithoutTenantNestedInput
@@ -7568,6 +7944,7 @@ export type TenantUncheckedUpdateWithoutTerapiasPsicologosInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUncheckedUpdateManyWithoutTenantNestedInput
   proveedores?: Prisma.ProveedoresUncheckedUpdateManyWithoutTenantNestedInput
   referidos?: Prisma.ReferidosUncheckedUpdateManyWithoutTenantNestedInput
+  seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoUncheckedUpdateManyWithoutTenantNestedInput
   servicios?: Prisma.ServicioUncheckedUpdateManyWithoutTenantNestedInput
   sesionesActividad?: Prisma.SesionActividadUncheckedUpdateManyWithoutTenantNestedInput
   subscription?: Prisma.SubscriptionUncheckedUpdateOneWithoutTenantNestedInput
@@ -7627,6 +8004,7 @@ export type TenantCreateWithoutPaquetesAdquiridosInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoCreateNestedManyWithoutTenantInput
   proveedores?: Prisma.ProveedoresCreateNestedManyWithoutTenantInput
   referidos?: Prisma.ReferidosCreateNestedManyWithoutTenantInput
+  seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoCreateNestedManyWithoutTenantInput
   servicios?: Prisma.ServicioCreateNestedManyWithoutTenantInput
   sesionesActividad?: Prisma.SesionActividadCreateNestedManyWithoutTenantInput
   subscription?: Prisma.SubscriptionCreateNestedOneWithoutTenantInput
@@ -7687,6 +8065,7 @@ export type TenantUncheckedCreateWithoutPaquetesAdquiridosInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUncheckedCreateNestedManyWithoutTenantInput
   proveedores?: Prisma.ProveedoresUncheckedCreateNestedManyWithoutTenantInput
   referidos?: Prisma.ReferidosUncheckedCreateNestedManyWithoutTenantInput
+  seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoUncheckedCreateNestedManyWithoutTenantInput
   servicios?: Prisma.ServicioUncheckedCreateNestedManyWithoutTenantInput
   sesionesActividad?: Prisma.SesionActividadUncheckedCreateNestedManyWithoutTenantInput
   subscription?: Prisma.SubscriptionUncheckedCreateNestedOneWithoutTenantInput
@@ -7763,6 +8142,7 @@ export type TenantUpdateWithoutPaquetesAdquiridosInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUpdateManyWithoutTenantNestedInput
   proveedores?: Prisma.ProveedoresUpdateManyWithoutTenantNestedInput
   referidos?: Prisma.ReferidosUpdateManyWithoutTenantNestedInput
+  seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoUpdateManyWithoutTenantNestedInput
   servicios?: Prisma.ServicioUpdateManyWithoutTenantNestedInput
   sesionesActividad?: Prisma.SesionActividadUpdateManyWithoutTenantNestedInput
   subscription?: Prisma.SubscriptionUpdateOneWithoutTenantNestedInput
@@ -7823,6 +8203,7 @@ export type TenantUncheckedUpdateWithoutPaquetesAdquiridosInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUncheckedUpdateManyWithoutTenantNestedInput
   proveedores?: Prisma.ProveedoresUncheckedUpdateManyWithoutTenantNestedInput
   referidos?: Prisma.ReferidosUncheckedUpdateManyWithoutTenantNestedInput
+  seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoUncheckedUpdateManyWithoutTenantNestedInput
   servicios?: Prisma.ServicioUncheckedUpdateManyWithoutTenantNestedInput
   sesionesActividad?: Prisma.SesionActividadUncheckedUpdateManyWithoutTenantNestedInput
   subscription?: Prisma.SubscriptionUncheckedUpdateOneWithoutTenantNestedInput
@@ -7884,6 +8265,7 @@ export type TenantCreateWithoutTurnosInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoCreateNestedManyWithoutTenantInput
   proveedores?: Prisma.ProveedoresCreateNestedManyWithoutTenantInput
   referidos?: Prisma.ReferidosCreateNestedManyWithoutTenantInput
+  seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoCreateNestedManyWithoutTenantInput
   servicios?: Prisma.ServicioCreateNestedManyWithoutTenantInput
   sesionesActividad?: Prisma.SesionActividadCreateNestedManyWithoutTenantInput
   subscription?: Prisma.SubscriptionCreateNestedOneWithoutTenantInput
@@ -7944,6 +8326,7 @@ export type TenantUncheckedCreateWithoutTurnosInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUncheckedCreateNestedManyWithoutTenantInput
   proveedores?: Prisma.ProveedoresUncheckedCreateNestedManyWithoutTenantInput
   referidos?: Prisma.ReferidosUncheckedCreateNestedManyWithoutTenantInput
+  seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoUncheckedCreateNestedManyWithoutTenantInput
   servicios?: Prisma.ServicioUncheckedCreateNestedManyWithoutTenantInput
   sesionesActividad?: Prisma.SesionActividadUncheckedCreateNestedManyWithoutTenantInput
   subscription?: Prisma.SubscriptionUncheckedCreateNestedOneWithoutTenantInput
@@ -8020,6 +8403,7 @@ export type TenantUpdateWithoutTurnosInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUpdateManyWithoutTenantNestedInput
   proveedores?: Prisma.ProveedoresUpdateManyWithoutTenantNestedInput
   referidos?: Prisma.ReferidosUpdateManyWithoutTenantNestedInput
+  seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoUpdateManyWithoutTenantNestedInput
   servicios?: Prisma.ServicioUpdateManyWithoutTenantNestedInput
   sesionesActividad?: Prisma.SesionActividadUpdateManyWithoutTenantNestedInput
   subscription?: Prisma.SubscriptionUpdateOneWithoutTenantNestedInput
@@ -8080,6 +8464,7 @@ export type TenantUncheckedUpdateWithoutTurnosInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUncheckedUpdateManyWithoutTenantNestedInput
   proveedores?: Prisma.ProveedoresUncheckedUpdateManyWithoutTenantNestedInput
   referidos?: Prisma.ReferidosUncheckedUpdateManyWithoutTenantNestedInput
+  seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoUncheckedUpdateManyWithoutTenantNestedInput
   servicios?: Prisma.ServicioUncheckedUpdateManyWithoutTenantNestedInput
   sesionesActividad?: Prisma.SesionActividadUncheckedUpdateManyWithoutTenantNestedInput
   subscription?: Prisma.SubscriptionUncheckedUpdateOneWithoutTenantNestedInput
@@ -8139,6 +8524,7 @@ export type TenantCreateWithoutCuentasCobroInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoCreateNestedManyWithoutTenantInput
   proveedores?: Prisma.ProveedoresCreateNestedManyWithoutTenantInput
   referidos?: Prisma.ReferidosCreateNestedManyWithoutTenantInput
+  seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoCreateNestedManyWithoutTenantInput
   servicios?: Prisma.ServicioCreateNestedManyWithoutTenantInput
   sesionesActividad?: Prisma.SesionActividadCreateNestedManyWithoutTenantInput
   subscription?: Prisma.SubscriptionCreateNestedOneWithoutTenantInput
@@ -8199,6 +8585,7 @@ export type TenantUncheckedCreateWithoutCuentasCobroInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUncheckedCreateNestedManyWithoutTenantInput
   proveedores?: Prisma.ProveedoresUncheckedCreateNestedManyWithoutTenantInput
   referidos?: Prisma.ReferidosUncheckedCreateNestedManyWithoutTenantInput
+  seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoUncheckedCreateNestedManyWithoutTenantInput
   servicios?: Prisma.ServicioUncheckedCreateNestedManyWithoutTenantInput
   sesionesActividad?: Prisma.SesionActividadUncheckedCreateNestedManyWithoutTenantInput
   subscription?: Prisma.SubscriptionUncheckedCreateNestedOneWithoutTenantInput
@@ -8275,6 +8662,7 @@ export type TenantUpdateWithoutCuentasCobroInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUpdateManyWithoutTenantNestedInput
   proveedores?: Prisma.ProveedoresUpdateManyWithoutTenantNestedInput
   referidos?: Prisma.ReferidosUpdateManyWithoutTenantNestedInput
+  seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoUpdateManyWithoutTenantNestedInput
   servicios?: Prisma.ServicioUpdateManyWithoutTenantNestedInput
   sesionesActividad?: Prisma.SesionActividadUpdateManyWithoutTenantNestedInput
   subscription?: Prisma.SubscriptionUpdateOneWithoutTenantNestedInput
@@ -8335,6 +8723,7 @@ export type TenantUncheckedUpdateWithoutCuentasCobroInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUncheckedUpdateManyWithoutTenantNestedInput
   proveedores?: Prisma.ProveedoresUncheckedUpdateManyWithoutTenantNestedInput
   referidos?: Prisma.ReferidosUncheckedUpdateManyWithoutTenantNestedInput
+  seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoUncheckedUpdateManyWithoutTenantNestedInput
   servicios?: Prisma.ServicioUncheckedUpdateManyWithoutTenantNestedInput
   sesionesActividad?: Prisma.SesionActividadUncheckedUpdateManyWithoutTenantNestedInput
   subscription?: Prisma.SubscriptionUncheckedUpdateOneWithoutTenantNestedInput
@@ -8395,6 +8784,7 @@ export type TenantCreateWithoutDeclaracionesInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoCreateNestedManyWithoutTenantInput
   proveedores?: Prisma.ProveedoresCreateNestedManyWithoutTenantInput
   referidos?: Prisma.ReferidosCreateNestedManyWithoutTenantInput
+  seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoCreateNestedManyWithoutTenantInput
   servicios?: Prisma.ServicioCreateNestedManyWithoutTenantInput
   sesionesActividad?: Prisma.SesionActividadCreateNestedManyWithoutTenantInput
   subscription?: Prisma.SubscriptionCreateNestedOneWithoutTenantInput
@@ -8455,6 +8845,7 @@ export type TenantUncheckedCreateWithoutDeclaracionesInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUncheckedCreateNestedManyWithoutTenantInput
   proveedores?: Prisma.ProveedoresUncheckedCreateNestedManyWithoutTenantInput
   referidos?: Prisma.ReferidosUncheckedCreateNestedManyWithoutTenantInput
+  seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoUncheckedCreateNestedManyWithoutTenantInput
   servicios?: Prisma.ServicioUncheckedCreateNestedManyWithoutTenantInput
   sesionesActividad?: Prisma.SesionActividadUncheckedCreateNestedManyWithoutTenantInput
   subscription?: Prisma.SubscriptionUncheckedCreateNestedOneWithoutTenantInput
@@ -8531,6 +8922,7 @@ export type TenantUpdateWithoutDeclaracionesInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUpdateManyWithoutTenantNestedInput
   proveedores?: Prisma.ProveedoresUpdateManyWithoutTenantNestedInput
   referidos?: Prisma.ReferidosUpdateManyWithoutTenantNestedInput
+  seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoUpdateManyWithoutTenantNestedInput
   servicios?: Prisma.ServicioUpdateManyWithoutTenantNestedInput
   sesionesActividad?: Prisma.SesionActividadUpdateManyWithoutTenantNestedInput
   subscription?: Prisma.SubscriptionUpdateOneWithoutTenantNestedInput
@@ -8591,6 +8983,7 @@ export type TenantUncheckedUpdateWithoutDeclaracionesInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUncheckedUpdateManyWithoutTenantNestedInput
   proveedores?: Prisma.ProveedoresUncheckedUpdateManyWithoutTenantNestedInput
   referidos?: Prisma.ReferidosUncheckedUpdateManyWithoutTenantNestedInput
+  seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoUncheckedUpdateManyWithoutTenantNestedInput
   servicios?: Prisma.ServicioUncheckedUpdateManyWithoutTenantNestedInput
   sesionesActividad?: Prisma.SesionActividadUncheckedUpdateManyWithoutTenantNestedInput
   subscription?: Prisma.SubscriptionUncheckedUpdateOneWithoutTenantNestedInput
@@ -8651,6 +9044,7 @@ export type TenantCreateWithoutConsignacionesInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoCreateNestedManyWithoutTenantInput
   proveedores?: Prisma.ProveedoresCreateNestedManyWithoutTenantInput
   referidos?: Prisma.ReferidosCreateNestedManyWithoutTenantInput
+  seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoCreateNestedManyWithoutTenantInput
   servicios?: Prisma.ServicioCreateNestedManyWithoutTenantInput
   sesionesActividad?: Prisma.SesionActividadCreateNestedManyWithoutTenantInput
   subscription?: Prisma.SubscriptionCreateNestedOneWithoutTenantInput
@@ -8711,6 +9105,7 @@ export type TenantUncheckedCreateWithoutConsignacionesInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUncheckedCreateNestedManyWithoutTenantInput
   proveedores?: Prisma.ProveedoresUncheckedCreateNestedManyWithoutTenantInput
   referidos?: Prisma.ReferidosUncheckedCreateNestedManyWithoutTenantInput
+  seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoUncheckedCreateNestedManyWithoutTenantInput
   servicios?: Prisma.ServicioUncheckedCreateNestedManyWithoutTenantInput
   sesionesActividad?: Prisma.SesionActividadUncheckedCreateNestedManyWithoutTenantInput
   subscription?: Prisma.SubscriptionUncheckedCreateNestedOneWithoutTenantInput
@@ -8787,6 +9182,7 @@ export type TenantUpdateWithoutConsignacionesInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUpdateManyWithoutTenantNestedInput
   proveedores?: Prisma.ProveedoresUpdateManyWithoutTenantNestedInput
   referidos?: Prisma.ReferidosUpdateManyWithoutTenantNestedInput
+  seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoUpdateManyWithoutTenantNestedInput
   servicios?: Prisma.ServicioUpdateManyWithoutTenantNestedInput
   sesionesActividad?: Prisma.SesionActividadUpdateManyWithoutTenantNestedInput
   subscription?: Prisma.SubscriptionUpdateOneWithoutTenantNestedInput
@@ -8847,6 +9243,7 @@ export type TenantUncheckedUpdateWithoutConsignacionesInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUncheckedUpdateManyWithoutTenantNestedInput
   proveedores?: Prisma.ProveedoresUncheckedUpdateManyWithoutTenantNestedInput
   referidos?: Prisma.ReferidosUncheckedUpdateManyWithoutTenantNestedInput
+  seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoUncheckedUpdateManyWithoutTenantNestedInput
   servicios?: Prisma.ServicioUncheckedUpdateManyWithoutTenantNestedInput
   sesionesActividad?: Prisma.SesionActividadUncheckedUpdateManyWithoutTenantNestedInput
   subscription?: Prisma.SubscriptionUncheckedUpdateOneWithoutTenantNestedInput
@@ -8907,6 +9304,7 @@ export type TenantCreateWithoutConsignacionOrdenesInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoCreateNestedManyWithoutTenantInput
   proveedores?: Prisma.ProveedoresCreateNestedManyWithoutTenantInput
   referidos?: Prisma.ReferidosCreateNestedManyWithoutTenantInput
+  seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoCreateNestedManyWithoutTenantInput
   servicios?: Prisma.ServicioCreateNestedManyWithoutTenantInput
   sesionesActividad?: Prisma.SesionActividadCreateNestedManyWithoutTenantInput
   subscription?: Prisma.SubscriptionCreateNestedOneWithoutTenantInput
@@ -8967,6 +9365,7 @@ export type TenantUncheckedCreateWithoutConsignacionOrdenesInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUncheckedCreateNestedManyWithoutTenantInput
   proveedores?: Prisma.ProveedoresUncheckedCreateNestedManyWithoutTenantInput
   referidos?: Prisma.ReferidosUncheckedCreateNestedManyWithoutTenantInput
+  seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoUncheckedCreateNestedManyWithoutTenantInput
   servicios?: Prisma.ServicioUncheckedCreateNestedManyWithoutTenantInput
   sesionesActividad?: Prisma.SesionActividadUncheckedCreateNestedManyWithoutTenantInput
   subscription?: Prisma.SubscriptionUncheckedCreateNestedOneWithoutTenantInput
@@ -9043,6 +9442,7 @@ export type TenantUpdateWithoutConsignacionOrdenesInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUpdateManyWithoutTenantNestedInput
   proveedores?: Prisma.ProveedoresUpdateManyWithoutTenantNestedInput
   referidos?: Prisma.ReferidosUpdateManyWithoutTenantNestedInput
+  seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoUpdateManyWithoutTenantNestedInput
   servicios?: Prisma.ServicioUpdateManyWithoutTenantNestedInput
   sesionesActividad?: Prisma.SesionActividadUpdateManyWithoutTenantNestedInput
   subscription?: Prisma.SubscriptionUpdateOneWithoutTenantNestedInput
@@ -9103,6 +9503,7 @@ export type TenantUncheckedUpdateWithoutConsignacionOrdenesInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUncheckedUpdateManyWithoutTenantNestedInput
   proveedores?: Prisma.ProveedoresUncheckedUpdateManyWithoutTenantNestedInput
   referidos?: Prisma.ReferidosUncheckedUpdateManyWithoutTenantNestedInput
+  seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoUncheckedUpdateManyWithoutTenantNestedInput
   servicios?: Prisma.ServicioUncheckedUpdateManyWithoutTenantNestedInput
   sesionesActividad?: Prisma.SesionActividadUncheckedUpdateManyWithoutTenantNestedInput
   subscription?: Prisma.SubscriptionUncheckedUpdateOneWithoutTenantNestedInput
@@ -9163,6 +9564,7 @@ export type TenantCreateWithoutAnticiposInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoCreateNestedManyWithoutTenantInput
   proveedores?: Prisma.ProveedoresCreateNestedManyWithoutTenantInput
   referidos?: Prisma.ReferidosCreateNestedManyWithoutTenantInput
+  seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoCreateNestedManyWithoutTenantInput
   servicios?: Prisma.ServicioCreateNestedManyWithoutTenantInput
   sesionesActividad?: Prisma.SesionActividadCreateNestedManyWithoutTenantInput
   subscription?: Prisma.SubscriptionCreateNestedOneWithoutTenantInput
@@ -9223,6 +9625,7 @@ export type TenantUncheckedCreateWithoutAnticiposInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUncheckedCreateNestedManyWithoutTenantInput
   proveedores?: Prisma.ProveedoresUncheckedCreateNestedManyWithoutTenantInput
   referidos?: Prisma.ReferidosUncheckedCreateNestedManyWithoutTenantInput
+  seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoUncheckedCreateNestedManyWithoutTenantInput
   servicios?: Prisma.ServicioUncheckedCreateNestedManyWithoutTenantInput
   sesionesActividad?: Prisma.SesionActividadUncheckedCreateNestedManyWithoutTenantInput
   subscription?: Prisma.SubscriptionUncheckedCreateNestedOneWithoutTenantInput
@@ -9299,6 +9702,7 @@ export type TenantUpdateWithoutAnticiposInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUpdateManyWithoutTenantNestedInput
   proveedores?: Prisma.ProveedoresUpdateManyWithoutTenantNestedInput
   referidos?: Prisma.ReferidosUpdateManyWithoutTenantNestedInput
+  seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoUpdateManyWithoutTenantNestedInput
   servicios?: Prisma.ServicioUpdateManyWithoutTenantNestedInput
   sesionesActividad?: Prisma.SesionActividadUpdateManyWithoutTenantNestedInput
   subscription?: Prisma.SubscriptionUpdateOneWithoutTenantNestedInput
@@ -9359,6 +9763,7 @@ export type TenantUncheckedUpdateWithoutAnticiposInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUncheckedUpdateManyWithoutTenantNestedInput
   proveedores?: Prisma.ProveedoresUncheckedUpdateManyWithoutTenantNestedInput
   referidos?: Prisma.ReferidosUncheckedUpdateManyWithoutTenantNestedInput
+  seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoUncheckedUpdateManyWithoutTenantNestedInput
   servicios?: Prisma.ServicioUncheckedUpdateManyWithoutTenantNestedInput
   sesionesActividad?: Prisma.SesionActividadUncheckedUpdateManyWithoutTenantNestedInput
   subscription?: Prisma.SubscriptionUncheckedUpdateOneWithoutTenantNestedInput
@@ -9419,6 +9824,7 @@ export type TenantCreateWithoutProductosInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoCreateNestedManyWithoutTenantInput
   proveedores?: Prisma.ProveedoresCreateNestedManyWithoutTenantInput
   referidos?: Prisma.ReferidosCreateNestedManyWithoutTenantInput
+  seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoCreateNestedManyWithoutTenantInput
   servicios?: Prisma.ServicioCreateNestedManyWithoutTenantInput
   sesionesActividad?: Prisma.SesionActividadCreateNestedManyWithoutTenantInput
   subscription?: Prisma.SubscriptionCreateNestedOneWithoutTenantInput
@@ -9479,6 +9885,7 @@ export type TenantUncheckedCreateWithoutProductosInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUncheckedCreateNestedManyWithoutTenantInput
   proveedores?: Prisma.ProveedoresUncheckedCreateNestedManyWithoutTenantInput
   referidos?: Prisma.ReferidosUncheckedCreateNestedManyWithoutTenantInput
+  seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoUncheckedCreateNestedManyWithoutTenantInput
   servicios?: Prisma.ServicioUncheckedCreateNestedManyWithoutTenantInput
   sesionesActividad?: Prisma.SesionActividadUncheckedCreateNestedManyWithoutTenantInput
   subscription?: Prisma.SubscriptionUncheckedCreateNestedOneWithoutTenantInput
@@ -9555,6 +9962,7 @@ export type TenantUpdateWithoutProductosInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUpdateManyWithoutTenantNestedInput
   proveedores?: Prisma.ProveedoresUpdateManyWithoutTenantNestedInput
   referidos?: Prisma.ReferidosUpdateManyWithoutTenantNestedInput
+  seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoUpdateManyWithoutTenantNestedInput
   servicios?: Prisma.ServicioUpdateManyWithoutTenantNestedInput
   sesionesActividad?: Prisma.SesionActividadUpdateManyWithoutTenantNestedInput
   subscription?: Prisma.SubscriptionUpdateOneWithoutTenantNestedInput
@@ -9615,6 +10023,7 @@ export type TenantUncheckedUpdateWithoutProductosInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUncheckedUpdateManyWithoutTenantNestedInput
   proveedores?: Prisma.ProveedoresUncheckedUpdateManyWithoutTenantNestedInput
   referidos?: Prisma.ReferidosUncheckedUpdateManyWithoutTenantNestedInput
+  seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoUncheckedUpdateManyWithoutTenantNestedInput
   servicios?: Prisma.ServicioUncheckedUpdateManyWithoutTenantNestedInput
   sesionesActividad?: Prisma.SesionActividadUncheckedUpdateManyWithoutTenantNestedInput
   subscription?: Prisma.SubscriptionUncheckedUpdateOneWithoutTenantNestedInput
@@ -9675,6 +10084,7 @@ export type TenantCreateWithoutProductosSolicitadosInput = {
   productos?: Prisma.ProductoCreateNestedManyWithoutTenantInput
   proveedores?: Prisma.ProveedoresCreateNestedManyWithoutTenantInput
   referidos?: Prisma.ReferidosCreateNestedManyWithoutTenantInput
+  seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoCreateNestedManyWithoutTenantInput
   servicios?: Prisma.ServicioCreateNestedManyWithoutTenantInput
   sesionesActividad?: Prisma.SesionActividadCreateNestedManyWithoutTenantInput
   subscription?: Prisma.SubscriptionCreateNestedOneWithoutTenantInput
@@ -9735,6 +10145,7 @@ export type TenantUncheckedCreateWithoutProductosSolicitadosInput = {
   productos?: Prisma.ProductoUncheckedCreateNestedManyWithoutTenantInput
   proveedores?: Prisma.ProveedoresUncheckedCreateNestedManyWithoutTenantInput
   referidos?: Prisma.ReferidosUncheckedCreateNestedManyWithoutTenantInput
+  seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoUncheckedCreateNestedManyWithoutTenantInput
   servicios?: Prisma.ServicioUncheckedCreateNestedManyWithoutTenantInput
   sesionesActividad?: Prisma.SesionActividadUncheckedCreateNestedManyWithoutTenantInput
   subscription?: Prisma.SubscriptionUncheckedCreateNestedOneWithoutTenantInput
@@ -9811,6 +10222,7 @@ export type TenantUpdateWithoutProductosSolicitadosInput = {
   productos?: Prisma.ProductoUpdateManyWithoutTenantNestedInput
   proveedores?: Prisma.ProveedoresUpdateManyWithoutTenantNestedInput
   referidos?: Prisma.ReferidosUpdateManyWithoutTenantNestedInput
+  seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoUpdateManyWithoutTenantNestedInput
   servicios?: Prisma.ServicioUpdateManyWithoutTenantNestedInput
   sesionesActividad?: Prisma.SesionActividadUpdateManyWithoutTenantNestedInput
   subscription?: Prisma.SubscriptionUpdateOneWithoutTenantNestedInput
@@ -9871,6 +10283,7 @@ export type TenantUncheckedUpdateWithoutProductosSolicitadosInput = {
   productos?: Prisma.ProductoUncheckedUpdateManyWithoutTenantNestedInput
   proveedores?: Prisma.ProveedoresUncheckedUpdateManyWithoutTenantNestedInput
   referidos?: Prisma.ReferidosUncheckedUpdateManyWithoutTenantNestedInput
+  seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoUncheckedUpdateManyWithoutTenantNestedInput
   servicios?: Prisma.ServicioUncheckedUpdateManyWithoutTenantNestedInput
   sesionesActividad?: Prisma.SesionActividadUncheckedUpdateManyWithoutTenantNestedInput
   subscription?: Prisma.SubscriptionUncheckedUpdateOneWithoutTenantNestedInput
@@ -9931,6 +10344,7 @@ export type TenantCreateWithoutProveedoresInput = {
   productos?: Prisma.ProductoCreateNestedManyWithoutTenantInput
   productosSolicitados?: Prisma.ProductoSolicitadoCreateNestedManyWithoutTenantInput
   referidos?: Prisma.ReferidosCreateNestedManyWithoutTenantInput
+  seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoCreateNestedManyWithoutTenantInput
   servicios?: Prisma.ServicioCreateNestedManyWithoutTenantInput
   sesionesActividad?: Prisma.SesionActividadCreateNestedManyWithoutTenantInput
   subscription?: Prisma.SubscriptionCreateNestedOneWithoutTenantInput
@@ -9991,6 +10405,7 @@ export type TenantUncheckedCreateWithoutProveedoresInput = {
   productos?: Prisma.ProductoUncheckedCreateNestedManyWithoutTenantInput
   productosSolicitados?: Prisma.ProductoSolicitadoUncheckedCreateNestedManyWithoutTenantInput
   referidos?: Prisma.ReferidosUncheckedCreateNestedManyWithoutTenantInput
+  seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoUncheckedCreateNestedManyWithoutTenantInput
   servicios?: Prisma.ServicioUncheckedCreateNestedManyWithoutTenantInput
   sesionesActividad?: Prisma.SesionActividadUncheckedCreateNestedManyWithoutTenantInput
   subscription?: Prisma.SubscriptionUncheckedCreateNestedOneWithoutTenantInput
@@ -10067,6 +10482,7 @@ export type TenantUpdateWithoutProveedoresInput = {
   productos?: Prisma.ProductoUpdateManyWithoutTenantNestedInput
   productosSolicitados?: Prisma.ProductoSolicitadoUpdateManyWithoutTenantNestedInput
   referidos?: Prisma.ReferidosUpdateManyWithoutTenantNestedInput
+  seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoUpdateManyWithoutTenantNestedInput
   servicios?: Prisma.ServicioUpdateManyWithoutTenantNestedInput
   sesionesActividad?: Prisma.SesionActividadUpdateManyWithoutTenantNestedInput
   subscription?: Prisma.SubscriptionUpdateOneWithoutTenantNestedInput
@@ -10127,6 +10543,7 @@ export type TenantUncheckedUpdateWithoutProveedoresInput = {
   productos?: Prisma.ProductoUncheckedUpdateManyWithoutTenantNestedInput
   productosSolicitados?: Prisma.ProductoSolicitadoUncheckedUpdateManyWithoutTenantNestedInput
   referidos?: Prisma.ReferidosUncheckedUpdateManyWithoutTenantNestedInput
+  seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoUncheckedUpdateManyWithoutTenantNestedInput
   servicios?: Prisma.ServicioUncheckedUpdateManyWithoutTenantNestedInput
   sesionesActividad?: Prisma.SesionActividadUncheckedUpdateManyWithoutTenantNestedInput
   subscription?: Prisma.SubscriptionUncheckedUpdateOneWithoutTenantNestedInput
@@ -10187,6 +10604,7 @@ export type TenantCreateWithoutPermisosInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoCreateNestedManyWithoutTenantInput
   proveedores?: Prisma.ProveedoresCreateNestedManyWithoutTenantInput
   referidos?: Prisma.ReferidosCreateNestedManyWithoutTenantInput
+  seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoCreateNestedManyWithoutTenantInput
   servicios?: Prisma.ServicioCreateNestedManyWithoutTenantInput
   sesionesActividad?: Prisma.SesionActividadCreateNestedManyWithoutTenantInput
   subscription?: Prisma.SubscriptionCreateNestedOneWithoutTenantInput
@@ -10247,6 +10665,7 @@ export type TenantUncheckedCreateWithoutPermisosInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUncheckedCreateNestedManyWithoutTenantInput
   proveedores?: Prisma.ProveedoresUncheckedCreateNestedManyWithoutTenantInput
   referidos?: Prisma.ReferidosUncheckedCreateNestedManyWithoutTenantInput
+  seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoUncheckedCreateNestedManyWithoutTenantInput
   servicios?: Prisma.ServicioUncheckedCreateNestedManyWithoutTenantInput
   sesionesActividad?: Prisma.SesionActividadUncheckedCreateNestedManyWithoutTenantInput
   subscription?: Prisma.SubscriptionUncheckedCreateNestedOneWithoutTenantInput
@@ -10323,6 +10742,7 @@ export type TenantUpdateWithoutPermisosInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUpdateManyWithoutTenantNestedInput
   proveedores?: Prisma.ProveedoresUpdateManyWithoutTenantNestedInput
   referidos?: Prisma.ReferidosUpdateManyWithoutTenantNestedInput
+  seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoUpdateManyWithoutTenantNestedInput
   servicios?: Prisma.ServicioUpdateManyWithoutTenantNestedInput
   sesionesActividad?: Prisma.SesionActividadUpdateManyWithoutTenantNestedInput
   subscription?: Prisma.SubscriptionUpdateOneWithoutTenantNestedInput
@@ -10383,6 +10803,7 @@ export type TenantUncheckedUpdateWithoutPermisosInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUncheckedUpdateManyWithoutTenantNestedInput
   proveedores?: Prisma.ProveedoresUncheckedUpdateManyWithoutTenantNestedInput
   referidos?: Prisma.ReferidosUncheckedUpdateManyWithoutTenantNestedInput
+  seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoUncheckedUpdateManyWithoutTenantNestedInput
   servicios?: Prisma.ServicioUncheckedUpdateManyWithoutTenantNestedInput
   sesionesActividad?: Prisma.SesionActividadUncheckedUpdateManyWithoutTenantNestedInput
   subscription?: Prisma.SubscriptionUncheckedUpdateOneWithoutTenantNestedInput
@@ -10443,6 +10864,7 @@ export type TenantCreateWithoutConfiguracionPagosInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoCreateNestedManyWithoutTenantInput
   proveedores?: Prisma.ProveedoresCreateNestedManyWithoutTenantInput
   referidos?: Prisma.ReferidosCreateNestedManyWithoutTenantInput
+  seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoCreateNestedManyWithoutTenantInput
   servicios?: Prisma.ServicioCreateNestedManyWithoutTenantInput
   sesionesActividad?: Prisma.SesionActividadCreateNestedManyWithoutTenantInput
   subscription?: Prisma.SubscriptionCreateNestedOneWithoutTenantInput
@@ -10503,6 +10925,7 @@ export type TenantUncheckedCreateWithoutConfiguracionPagosInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUncheckedCreateNestedManyWithoutTenantInput
   proveedores?: Prisma.ProveedoresUncheckedCreateNestedManyWithoutTenantInput
   referidos?: Prisma.ReferidosUncheckedCreateNestedManyWithoutTenantInput
+  seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoUncheckedCreateNestedManyWithoutTenantInput
   servicios?: Prisma.ServicioUncheckedCreateNestedManyWithoutTenantInput
   sesionesActividad?: Prisma.SesionActividadUncheckedCreateNestedManyWithoutTenantInput
   subscription?: Prisma.SubscriptionUncheckedCreateNestedOneWithoutTenantInput
@@ -10579,6 +11002,7 @@ export type TenantUpdateWithoutConfiguracionPagosInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUpdateManyWithoutTenantNestedInput
   proveedores?: Prisma.ProveedoresUpdateManyWithoutTenantNestedInput
   referidos?: Prisma.ReferidosUpdateManyWithoutTenantNestedInput
+  seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoUpdateManyWithoutTenantNestedInput
   servicios?: Prisma.ServicioUpdateManyWithoutTenantNestedInput
   sesionesActividad?: Prisma.SesionActividadUpdateManyWithoutTenantNestedInput
   subscription?: Prisma.SubscriptionUpdateOneWithoutTenantNestedInput
@@ -10639,6 +11063,7 @@ export type TenantUncheckedUpdateWithoutConfiguracionPagosInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUncheckedUpdateManyWithoutTenantNestedInput
   proveedores?: Prisma.ProveedoresUncheckedUpdateManyWithoutTenantNestedInput
   referidos?: Prisma.ReferidosUncheckedUpdateManyWithoutTenantNestedInput
+  seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoUncheckedUpdateManyWithoutTenantNestedInput
   servicios?: Prisma.ServicioUncheckedUpdateManyWithoutTenantNestedInput
   sesionesActividad?: Prisma.SesionActividadUncheckedUpdateManyWithoutTenantNestedInput
   subscription?: Prisma.SubscriptionUncheckedUpdateOneWithoutTenantNestedInput
@@ -10699,6 +11124,7 @@ export type TenantCreateWithoutCuentasPagoInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoCreateNestedManyWithoutTenantInput
   proveedores?: Prisma.ProveedoresCreateNestedManyWithoutTenantInput
   referidos?: Prisma.ReferidosCreateNestedManyWithoutTenantInput
+  seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoCreateNestedManyWithoutTenantInput
   servicios?: Prisma.ServicioCreateNestedManyWithoutTenantInput
   sesionesActividad?: Prisma.SesionActividadCreateNestedManyWithoutTenantInput
   subscription?: Prisma.SubscriptionCreateNestedOneWithoutTenantInput
@@ -10759,6 +11185,7 @@ export type TenantUncheckedCreateWithoutCuentasPagoInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUncheckedCreateNestedManyWithoutTenantInput
   proveedores?: Prisma.ProveedoresUncheckedCreateNestedManyWithoutTenantInput
   referidos?: Prisma.ReferidosUncheckedCreateNestedManyWithoutTenantInput
+  seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoUncheckedCreateNestedManyWithoutTenantInput
   servicios?: Prisma.ServicioUncheckedCreateNestedManyWithoutTenantInput
   sesionesActividad?: Prisma.SesionActividadUncheckedCreateNestedManyWithoutTenantInput
   subscription?: Prisma.SubscriptionUncheckedCreateNestedOneWithoutTenantInput
@@ -10835,6 +11262,7 @@ export type TenantUpdateWithoutCuentasPagoInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUpdateManyWithoutTenantNestedInput
   proveedores?: Prisma.ProveedoresUpdateManyWithoutTenantNestedInput
   referidos?: Prisma.ReferidosUpdateManyWithoutTenantNestedInput
+  seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoUpdateManyWithoutTenantNestedInput
   servicios?: Prisma.ServicioUpdateManyWithoutTenantNestedInput
   sesionesActividad?: Prisma.SesionActividadUpdateManyWithoutTenantNestedInput
   subscription?: Prisma.SubscriptionUpdateOneWithoutTenantNestedInput
@@ -10895,6 +11323,7 @@ export type TenantUncheckedUpdateWithoutCuentasPagoInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUncheckedUpdateManyWithoutTenantNestedInput
   proveedores?: Prisma.ProveedoresUncheckedUpdateManyWithoutTenantNestedInput
   referidos?: Prisma.ReferidosUncheckedUpdateManyWithoutTenantNestedInput
+  seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoUncheckedUpdateManyWithoutTenantNestedInput
   servicios?: Prisma.ServicioUncheckedUpdateManyWithoutTenantNestedInput
   sesionesActividad?: Prisma.SesionActividadUncheckedUpdateManyWithoutTenantNestedInput
   subscription?: Prisma.SubscriptionUncheckedUpdateOneWithoutTenantNestedInput
@@ -10955,6 +11384,7 @@ export type TenantCreateWithoutEgresosInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoCreateNestedManyWithoutTenantInput
   proveedores?: Prisma.ProveedoresCreateNestedManyWithoutTenantInput
   referidos?: Prisma.ReferidosCreateNestedManyWithoutTenantInput
+  seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoCreateNestedManyWithoutTenantInput
   servicios?: Prisma.ServicioCreateNestedManyWithoutTenantInput
   sesionesActividad?: Prisma.SesionActividadCreateNestedManyWithoutTenantInput
   subscription?: Prisma.SubscriptionCreateNestedOneWithoutTenantInput
@@ -11015,6 +11445,7 @@ export type TenantUncheckedCreateWithoutEgresosInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUncheckedCreateNestedManyWithoutTenantInput
   proveedores?: Prisma.ProveedoresUncheckedCreateNestedManyWithoutTenantInput
   referidos?: Prisma.ReferidosUncheckedCreateNestedManyWithoutTenantInput
+  seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoUncheckedCreateNestedManyWithoutTenantInput
   servicios?: Prisma.ServicioUncheckedCreateNestedManyWithoutTenantInput
   sesionesActividad?: Prisma.SesionActividadUncheckedCreateNestedManyWithoutTenantInput
   subscription?: Prisma.SubscriptionUncheckedCreateNestedOneWithoutTenantInput
@@ -11091,6 +11522,7 @@ export type TenantUpdateWithoutEgresosInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUpdateManyWithoutTenantNestedInput
   proveedores?: Prisma.ProveedoresUpdateManyWithoutTenantNestedInput
   referidos?: Prisma.ReferidosUpdateManyWithoutTenantNestedInput
+  seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoUpdateManyWithoutTenantNestedInput
   servicios?: Prisma.ServicioUpdateManyWithoutTenantNestedInput
   sesionesActividad?: Prisma.SesionActividadUpdateManyWithoutTenantNestedInput
   subscription?: Prisma.SubscriptionUpdateOneWithoutTenantNestedInput
@@ -11151,6 +11583,7 @@ export type TenantUncheckedUpdateWithoutEgresosInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUncheckedUpdateManyWithoutTenantNestedInput
   proveedores?: Prisma.ProveedoresUncheckedUpdateManyWithoutTenantNestedInput
   referidos?: Prisma.ReferidosUncheckedUpdateManyWithoutTenantNestedInput
+  seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoUncheckedUpdateManyWithoutTenantNestedInput
   servicios?: Prisma.ServicioUncheckedUpdateManyWithoutTenantNestedInput
   sesionesActividad?: Prisma.SesionActividadUncheckedUpdateManyWithoutTenantNestedInput
   subscription?: Prisma.SubscriptionUncheckedUpdateOneWithoutTenantNestedInput
@@ -11211,6 +11644,7 @@ export type TenantCreateWithoutPicoPlacaInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoCreateNestedManyWithoutTenantInput
   proveedores?: Prisma.ProveedoresCreateNestedManyWithoutTenantInput
   referidos?: Prisma.ReferidosCreateNestedManyWithoutTenantInput
+  seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoCreateNestedManyWithoutTenantInput
   servicios?: Prisma.ServicioCreateNestedManyWithoutTenantInput
   sesionesActividad?: Prisma.SesionActividadCreateNestedManyWithoutTenantInput
   subscription?: Prisma.SubscriptionCreateNestedOneWithoutTenantInput
@@ -11271,6 +11705,7 @@ export type TenantUncheckedCreateWithoutPicoPlacaInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUncheckedCreateNestedManyWithoutTenantInput
   proveedores?: Prisma.ProveedoresUncheckedCreateNestedManyWithoutTenantInput
   referidos?: Prisma.ReferidosUncheckedCreateNestedManyWithoutTenantInput
+  seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoUncheckedCreateNestedManyWithoutTenantInput
   servicios?: Prisma.ServicioUncheckedCreateNestedManyWithoutTenantInput
   sesionesActividad?: Prisma.SesionActividadUncheckedCreateNestedManyWithoutTenantInput
   subscription?: Prisma.SubscriptionUncheckedCreateNestedOneWithoutTenantInput
@@ -11347,6 +11782,7 @@ export type TenantUpdateWithoutPicoPlacaInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUpdateManyWithoutTenantNestedInput
   proveedores?: Prisma.ProveedoresUpdateManyWithoutTenantNestedInput
   referidos?: Prisma.ReferidosUpdateManyWithoutTenantNestedInput
+  seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoUpdateManyWithoutTenantNestedInput
   servicios?: Prisma.ServicioUpdateManyWithoutTenantNestedInput
   sesionesActividad?: Prisma.SesionActividadUpdateManyWithoutTenantNestedInput
   subscription?: Prisma.SubscriptionUpdateOneWithoutTenantNestedInput
@@ -11407,6 +11843,7 @@ export type TenantUncheckedUpdateWithoutPicoPlacaInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUncheckedUpdateManyWithoutTenantNestedInput
   proveedores?: Prisma.ProveedoresUncheckedUpdateManyWithoutTenantNestedInput
   referidos?: Prisma.ReferidosUncheckedUpdateManyWithoutTenantNestedInput
+  seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoUncheckedUpdateManyWithoutTenantNestedInput
   servicios?: Prisma.ServicioUncheckedUpdateManyWithoutTenantNestedInput
   sesionesActividad?: Prisma.SesionActividadUncheckedUpdateManyWithoutTenantNestedInput
   subscription?: Prisma.SubscriptionUncheckedUpdateOneWithoutTenantNestedInput
@@ -11467,6 +11904,7 @@ export type TenantCreateWithoutReferidosInput = {
   productos?: Prisma.ProductoCreateNestedManyWithoutTenantInput
   productosSolicitados?: Prisma.ProductoSolicitadoCreateNestedManyWithoutTenantInput
   proveedores?: Prisma.ProveedoresCreateNestedManyWithoutTenantInput
+  seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoCreateNestedManyWithoutTenantInput
   servicios?: Prisma.ServicioCreateNestedManyWithoutTenantInput
   sesionesActividad?: Prisma.SesionActividadCreateNestedManyWithoutTenantInput
   subscription?: Prisma.SubscriptionCreateNestedOneWithoutTenantInput
@@ -11527,6 +11965,7 @@ export type TenantUncheckedCreateWithoutReferidosInput = {
   productos?: Prisma.ProductoUncheckedCreateNestedManyWithoutTenantInput
   productosSolicitados?: Prisma.ProductoSolicitadoUncheckedCreateNestedManyWithoutTenantInput
   proveedores?: Prisma.ProveedoresUncheckedCreateNestedManyWithoutTenantInput
+  seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoUncheckedCreateNestedManyWithoutTenantInput
   servicios?: Prisma.ServicioUncheckedCreateNestedManyWithoutTenantInput
   sesionesActividad?: Prisma.SesionActividadUncheckedCreateNestedManyWithoutTenantInput
   subscription?: Prisma.SubscriptionUncheckedCreateNestedOneWithoutTenantInput
@@ -11603,6 +12042,7 @@ export type TenantUpdateWithoutReferidosInput = {
   productos?: Prisma.ProductoUpdateManyWithoutTenantNestedInput
   productosSolicitados?: Prisma.ProductoSolicitadoUpdateManyWithoutTenantNestedInput
   proveedores?: Prisma.ProveedoresUpdateManyWithoutTenantNestedInput
+  seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoUpdateManyWithoutTenantNestedInput
   servicios?: Prisma.ServicioUpdateManyWithoutTenantNestedInput
   sesionesActividad?: Prisma.SesionActividadUpdateManyWithoutTenantNestedInput
   subscription?: Prisma.SubscriptionUpdateOneWithoutTenantNestedInput
@@ -11663,6 +12103,7 @@ export type TenantUncheckedUpdateWithoutReferidosInput = {
   productos?: Prisma.ProductoUncheckedUpdateManyWithoutTenantNestedInput
   productosSolicitados?: Prisma.ProductoSolicitadoUncheckedUpdateManyWithoutTenantNestedInput
   proveedores?: Prisma.ProveedoresUncheckedUpdateManyWithoutTenantNestedInput
+  seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoUncheckedUpdateManyWithoutTenantNestedInput
   servicios?: Prisma.ServicioUncheckedUpdateManyWithoutTenantNestedInput
   sesionesActividad?: Prisma.SesionActividadUncheckedUpdateManyWithoutTenantNestedInput
   subscription?: Prisma.SubscriptionUncheckedUpdateOneWithoutTenantNestedInput
@@ -11723,6 +12164,7 @@ export type TenantCreateWithoutAuditoriasInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoCreateNestedManyWithoutTenantInput
   proveedores?: Prisma.ProveedoresCreateNestedManyWithoutTenantInput
   referidos?: Prisma.ReferidosCreateNestedManyWithoutTenantInput
+  seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoCreateNestedManyWithoutTenantInput
   servicios?: Prisma.ServicioCreateNestedManyWithoutTenantInput
   sesionesActividad?: Prisma.SesionActividadCreateNestedManyWithoutTenantInput
   subscription?: Prisma.SubscriptionCreateNestedOneWithoutTenantInput
@@ -11783,6 +12225,7 @@ export type TenantUncheckedCreateWithoutAuditoriasInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUncheckedCreateNestedManyWithoutTenantInput
   proveedores?: Prisma.ProveedoresUncheckedCreateNestedManyWithoutTenantInput
   referidos?: Prisma.ReferidosUncheckedCreateNestedManyWithoutTenantInput
+  seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoUncheckedCreateNestedManyWithoutTenantInput
   servicios?: Prisma.ServicioUncheckedCreateNestedManyWithoutTenantInput
   sesionesActividad?: Prisma.SesionActividadUncheckedCreateNestedManyWithoutTenantInput
   subscription?: Prisma.SubscriptionUncheckedCreateNestedOneWithoutTenantInput
@@ -11859,6 +12302,7 @@ export type TenantUpdateWithoutAuditoriasInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUpdateManyWithoutTenantNestedInput
   proveedores?: Prisma.ProveedoresUpdateManyWithoutTenantNestedInput
   referidos?: Prisma.ReferidosUpdateManyWithoutTenantNestedInput
+  seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoUpdateManyWithoutTenantNestedInput
   servicios?: Prisma.ServicioUpdateManyWithoutTenantNestedInput
   sesionesActividad?: Prisma.SesionActividadUpdateManyWithoutTenantNestedInput
   subscription?: Prisma.SubscriptionUpdateOneWithoutTenantNestedInput
@@ -11919,6 +12363,7 @@ export type TenantUncheckedUpdateWithoutAuditoriasInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUncheckedUpdateManyWithoutTenantNestedInput
   proveedores?: Prisma.ProveedoresUncheckedUpdateManyWithoutTenantNestedInput
   referidos?: Prisma.ReferidosUncheckedUpdateManyWithoutTenantNestedInput
+  seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoUncheckedUpdateManyWithoutTenantNestedInput
   servicios?: Prisma.ServicioUncheckedUpdateManyWithoutTenantNestedInput
   sesionesActividad?: Prisma.SesionActividadUncheckedUpdateManyWithoutTenantNestedInput
   subscription?: Prisma.SubscriptionUncheckedUpdateOneWithoutTenantNestedInput
@@ -11980,6 +12425,7 @@ export type TenantCreateWithoutSesionesActividadInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoCreateNestedManyWithoutTenantInput
   proveedores?: Prisma.ProveedoresCreateNestedManyWithoutTenantInput
   referidos?: Prisma.ReferidosCreateNestedManyWithoutTenantInput
+  seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoCreateNestedManyWithoutTenantInput
   servicios?: Prisma.ServicioCreateNestedManyWithoutTenantInput
   subscription?: Prisma.SubscriptionCreateNestedOneWithoutTenantInput
   sugerencias?: Prisma.SugerenciaSeguimientoCreateNestedManyWithoutTenantInput
@@ -12040,6 +12486,7 @@ export type TenantUncheckedCreateWithoutSesionesActividadInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUncheckedCreateNestedManyWithoutTenantInput
   proveedores?: Prisma.ProveedoresUncheckedCreateNestedManyWithoutTenantInput
   referidos?: Prisma.ReferidosUncheckedCreateNestedManyWithoutTenantInput
+  seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoUncheckedCreateNestedManyWithoutTenantInput
   servicios?: Prisma.ServicioUncheckedCreateNestedManyWithoutTenantInput
   subscription?: Prisma.SubscriptionUncheckedCreateNestedOneWithoutTenantInput
   sugerencias?: Prisma.SugerenciaSeguimientoUncheckedCreateNestedManyWithoutTenantInput
@@ -12116,6 +12563,7 @@ export type TenantUpdateWithoutSesionesActividadInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUpdateManyWithoutTenantNestedInput
   proveedores?: Prisma.ProveedoresUpdateManyWithoutTenantNestedInput
   referidos?: Prisma.ReferidosUpdateManyWithoutTenantNestedInput
+  seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoUpdateManyWithoutTenantNestedInput
   servicios?: Prisma.ServicioUpdateManyWithoutTenantNestedInput
   subscription?: Prisma.SubscriptionUpdateOneWithoutTenantNestedInput
   sugerencias?: Prisma.SugerenciaSeguimientoUpdateManyWithoutTenantNestedInput
@@ -12176,6 +12624,7 @@ export type TenantUncheckedUpdateWithoutSesionesActividadInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUncheckedUpdateManyWithoutTenantNestedInput
   proveedores?: Prisma.ProveedoresUncheckedUpdateManyWithoutTenantNestedInput
   referidos?: Prisma.ReferidosUncheckedUpdateManyWithoutTenantNestedInput
+  seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoUncheckedUpdateManyWithoutTenantNestedInput
   servicios?: Prisma.ServicioUncheckedUpdateManyWithoutTenantNestedInput
   subscription?: Prisma.SubscriptionUncheckedUpdateOneWithoutTenantNestedInput
   sugerencias?: Prisma.SugerenciaSeguimientoUncheckedUpdateManyWithoutTenantNestedInput
@@ -12235,6 +12684,7 @@ export type TenantCreateWithoutLogsEventoInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoCreateNestedManyWithoutTenantInput
   proveedores?: Prisma.ProveedoresCreateNestedManyWithoutTenantInput
   referidos?: Prisma.ReferidosCreateNestedManyWithoutTenantInput
+  seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoCreateNestedManyWithoutTenantInput
   servicios?: Prisma.ServicioCreateNestedManyWithoutTenantInput
   sesionesActividad?: Prisma.SesionActividadCreateNestedManyWithoutTenantInput
   subscription?: Prisma.SubscriptionCreateNestedOneWithoutTenantInput
@@ -12295,6 +12745,7 @@ export type TenantUncheckedCreateWithoutLogsEventoInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUncheckedCreateNestedManyWithoutTenantInput
   proveedores?: Prisma.ProveedoresUncheckedCreateNestedManyWithoutTenantInput
   referidos?: Prisma.ReferidosUncheckedCreateNestedManyWithoutTenantInput
+  seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoUncheckedCreateNestedManyWithoutTenantInput
   servicios?: Prisma.ServicioUncheckedCreateNestedManyWithoutTenantInput
   sesionesActividad?: Prisma.SesionActividadUncheckedCreateNestedManyWithoutTenantInput
   subscription?: Prisma.SubscriptionUncheckedCreateNestedOneWithoutTenantInput
@@ -12371,6 +12822,7 @@ export type TenantUpdateWithoutLogsEventoInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUpdateManyWithoutTenantNestedInput
   proveedores?: Prisma.ProveedoresUpdateManyWithoutTenantNestedInput
   referidos?: Prisma.ReferidosUpdateManyWithoutTenantNestedInput
+  seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoUpdateManyWithoutTenantNestedInput
   servicios?: Prisma.ServicioUpdateManyWithoutTenantNestedInput
   sesionesActividad?: Prisma.SesionActividadUpdateManyWithoutTenantNestedInput
   subscription?: Prisma.SubscriptionUpdateOneWithoutTenantNestedInput
@@ -12431,6 +12883,7 @@ export type TenantUncheckedUpdateWithoutLogsEventoInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUncheckedUpdateManyWithoutTenantNestedInput
   proveedores?: Prisma.ProveedoresUncheckedUpdateManyWithoutTenantNestedInput
   referidos?: Prisma.ReferidosUncheckedUpdateManyWithoutTenantNestedInput
+  seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoUncheckedUpdateManyWithoutTenantNestedInput
   servicios?: Prisma.ServicioUncheckedUpdateManyWithoutTenantNestedInput
   sesionesActividad?: Prisma.SesionActividadUncheckedUpdateManyWithoutTenantNestedInput
   subscription?: Prisma.SubscriptionUncheckedUpdateOneWithoutTenantNestedInput
@@ -12491,6 +12944,7 @@ export type TenantCreateWithoutAuthSessionsInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoCreateNestedManyWithoutTenantInput
   proveedores?: Prisma.ProveedoresCreateNestedManyWithoutTenantInput
   referidos?: Prisma.ReferidosCreateNestedManyWithoutTenantInput
+  seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoCreateNestedManyWithoutTenantInput
   servicios?: Prisma.ServicioCreateNestedManyWithoutTenantInput
   sesionesActividad?: Prisma.SesionActividadCreateNestedManyWithoutTenantInput
   subscription?: Prisma.SubscriptionCreateNestedOneWithoutTenantInput
@@ -12551,6 +13005,7 @@ export type TenantUncheckedCreateWithoutAuthSessionsInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUncheckedCreateNestedManyWithoutTenantInput
   proveedores?: Prisma.ProveedoresUncheckedCreateNestedManyWithoutTenantInput
   referidos?: Prisma.ReferidosUncheckedCreateNestedManyWithoutTenantInput
+  seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoUncheckedCreateNestedManyWithoutTenantInput
   servicios?: Prisma.ServicioUncheckedCreateNestedManyWithoutTenantInput
   sesionesActividad?: Prisma.SesionActividadUncheckedCreateNestedManyWithoutTenantInput
   subscription?: Prisma.SubscriptionUncheckedCreateNestedOneWithoutTenantInput
@@ -12627,6 +13082,7 @@ export type TenantUpdateWithoutAuthSessionsInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUpdateManyWithoutTenantNestedInput
   proveedores?: Prisma.ProveedoresUpdateManyWithoutTenantNestedInput
   referidos?: Prisma.ReferidosUpdateManyWithoutTenantNestedInput
+  seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoUpdateManyWithoutTenantNestedInput
   servicios?: Prisma.ServicioUpdateManyWithoutTenantNestedInput
   sesionesActividad?: Prisma.SesionActividadUpdateManyWithoutTenantNestedInput
   subscription?: Prisma.SubscriptionUpdateOneWithoutTenantNestedInput
@@ -12687,6 +13143,7 @@ export type TenantUncheckedUpdateWithoutAuthSessionsInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUncheckedUpdateManyWithoutTenantNestedInput
   proveedores?: Prisma.ProveedoresUncheckedUpdateManyWithoutTenantNestedInput
   referidos?: Prisma.ReferidosUncheckedUpdateManyWithoutTenantNestedInput
+  seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoUncheckedUpdateManyWithoutTenantNestedInput
   servicios?: Prisma.ServicioUncheckedUpdateManyWithoutTenantNestedInput
   sesionesActividad?: Prisma.SesionActividadUncheckedUpdateManyWithoutTenantNestedInput
   subscription?: Prisma.SubscriptionUncheckedUpdateOneWithoutTenantNestedInput
@@ -12747,6 +13204,7 @@ export type TenantCreateWithoutResetTokensInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoCreateNestedManyWithoutTenantInput
   proveedores?: Prisma.ProveedoresCreateNestedManyWithoutTenantInput
   referidos?: Prisma.ReferidosCreateNestedManyWithoutTenantInput
+  seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoCreateNestedManyWithoutTenantInput
   servicios?: Prisma.ServicioCreateNestedManyWithoutTenantInput
   sesionesActividad?: Prisma.SesionActividadCreateNestedManyWithoutTenantInput
   subscription?: Prisma.SubscriptionCreateNestedOneWithoutTenantInput
@@ -12807,6 +13265,7 @@ export type TenantUncheckedCreateWithoutResetTokensInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUncheckedCreateNestedManyWithoutTenantInput
   proveedores?: Prisma.ProveedoresUncheckedCreateNestedManyWithoutTenantInput
   referidos?: Prisma.ReferidosUncheckedCreateNestedManyWithoutTenantInput
+  seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoUncheckedCreateNestedManyWithoutTenantInput
   servicios?: Prisma.ServicioUncheckedCreateNestedManyWithoutTenantInput
   sesionesActividad?: Prisma.SesionActividadUncheckedCreateNestedManyWithoutTenantInput
   subscription?: Prisma.SubscriptionUncheckedCreateNestedOneWithoutTenantInput
@@ -12883,6 +13342,7 @@ export type TenantUpdateWithoutResetTokensInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUpdateManyWithoutTenantNestedInput
   proveedores?: Prisma.ProveedoresUpdateManyWithoutTenantNestedInput
   referidos?: Prisma.ReferidosUpdateManyWithoutTenantNestedInput
+  seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoUpdateManyWithoutTenantNestedInput
   servicios?: Prisma.ServicioUpdateManyWithoutTenantNestedInput
   sesionesActividad?: Prisma.SesionActividadUpdateManyWithoutTenantNestedInput
   subscription?: Prisma.SubscriptionUpdateOneWithoutTenantNestedInput
@@ -12943,6 +13403,7 @@ export type TenantUncheckedUpdateWithoutResetTokensInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUncheckedUpdateManyWithoutTenantNestedInput
   proveedores?: Prisma.ProveedoresUncheckedUpdateManyWithoutTenantNestedInput
   referidos?: Prisma.ReferidosUncheckedUpdateManyWithoutTenantNestedInput
+  seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoUncheckedUpdateManyWithoutTenantNestedInput
   servicios?: Prisma.ServicioUncheckedUpdateManyWithoutTenantNestedInput
   sesionesActividad?: Prisma.SesionActividadUncheckedUpdateManyWithoutTenantNestedInput
   subscription?: Prisma.SubscriptionUncheckedUpdateOneWithoutTenantNestedInput
@@ -13003,6 +13464,7 @@ export type TenantCreateWithoutConfiguracionesOperativasInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoCreateNestedManyWithoutTenantInput
   proveedores?: Prisma.ProveedoresCreateNestedManyWithoutTenantInput
   referidos?: Prisma.ReferidosCreateNestedManyWithoutTenantInput
+  seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoCreateNestedManyWithoutTenantInput
   servicios?: Prisma.ServicioCreateNestedManyWithoutTenantInput
   sesionesActividad?: Prisma.SesionActividadCreateNestedManyWithoutTenantInput
   subscription?: Prisma.SubscriptionCreateNestedOneWithoutTenantInput
@@ -13063,6 +13525,7 @@ export type TenantUncheckedCreateWithoutConfiguracionesOperativasInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUncheckedCreateNestedManyWithoutTenantInput
   proveedores?: Prisma.ProveedoresUncheckedCreateNestedManyWithoutTenantInput
   referidos?: Prisma.ReferidosUncheckedCreateNestedManyWithoutTenantInput
+  seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoUncheckedCreateNestedManyWithoutTenantInput
   servicios?: Prisma.ServicioUncheckedCreateNestedManyWithoutTenantInput
   sesionesActividad?: Prisma.SesionActividadUncheckedCreateNestedManyWithoutTenantInput
   subscription?: Prisma.SubscriptionUncheckedCreateNestedOneWithoutTenantInput
@@ -13139,6 +13602,7 @@ export type TenantUpdateWithoutConfiguracionesOperativasInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUpdateManyWithoutTenantNestedInput
   proveedores?: Prisma.ProveedoresUpdateManyWithoutTenantNestedInput
   referidos?: Prisma.ReferidosUpdateManyWithoutTenantNestedInput
+  seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoUpdateManyWithoutTenantNestedInput
   servicios?: Prisma.ServicioUpdateManyWithoutTenantNestedInput
   sesionesActividad?: Prisma.SesionActividadUpdateManyWithoutTenantNestedInput
   subscription?: Prisma.SubscriptionUpdateOneWithoutTenantNestedInput
@@ -13199,6 +13663,7 @@ export type TenantUncheckedUpdateWithoutConfiguracionesOperativasInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUncheckedUpdateManyWithoutTenantNestedInput
   proveedores?: Prisma.ProveedoresUncheckedUpdateManyWithoutTenantNestedInput
   referidos?: Prisma.ReferidosUncheckedUpdateManyWithoutTenantNestedInput
+  seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoUncheckedUpdateManyWithoutTenantNestedInput
   servicios?: Prisma.ServicioUncheckedUpdateManyWithoutTenantNestedInput
   sesionesActividad?: Prisma.SesionActividadUncheckedUpdateManyWithoutTenantNestedInput
   subscription?: Prisma.SubscriptionUncheckedUpdateOneWithoutTenantNestedInput
@@ -13259,6 +13724,7 @@ export type TenantCreateWithoutEvidenciasServicioInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoCreateNestedManyWithoutTenantInput
   proveedores?: Prisma.ProveedoresCreateNestedManyWithoutTenantInput
   referidos?: Prisma.ReferidosCreateNestedManyWithoutTenantInput
+  seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoCreateNestedManyWithoutTenantInput
   servicios?: Prisma.ServicioCreateNestedManyWithoutTenantInput
   sesionesActividad?: Prisma.SesionActividadCreateNestedManyWithoutTenantInput
   subscription?: Prisma.SubscriptionCreateNestedOneWithoutTenantInput
@@ -13319,6 +13785,7 @@ export type TenantUncheckedCreateWithoutEvidenciasServicioInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUncheckedCreateNestedManyWithoutTenantInput
   proveedores?: Prisma.ProveedoresUncheckedCreateNestedManyWithoutTenantInput
   referidos?: Prisma.ReferidosUncheckedCreateNestedManyWithoutTenantInput
+  seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoUncheckedCreateNestedManyWithoutTenantInput
   servicios?: Prisma.ServicioUncheckedCreateNestedManyWithoutTenantInput
   sesionesActividad?: Prisma.SesionActividadUncheckedCreateNestedManyWithoutTenantInput
   subscription?: Prisma.SubscriptionUncheckedCreateNestedOneWithoutTenantInput
@@ -13395,6 +13862,7 @@ export type TenantUpdateWithoutEvidenciasServicioInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUpdateManyWithoutTenantNestedInput
   proveedores?: Prisma.ProveedoresUpdateManyWithoutTenantNestedInput
   referidos?: Prisma.ReferidosUpdateManyWithoutTenantNestedInput
+  seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoUpdateManyWithoutTenantNestedInput
   servicios?: Prisma.ServicioUpdateManyWithoutTenantNestedInput
   sesionesActividad?: Prisma.SesionActividadUpdateManyWithoutTenantNestedInput
   subscription?: Prisma.SubscriptionUpdateOneWithoutTenantNestedInput
@@ -13455,6 +13923,7 @@ export type TenantUncheckedUpdateWithoutEvidenciasServicioInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUncheckedUpdateManyWithoutTenantNestedInput
   proveedores?: Prisma.ProveedoresUncheckedUpdateManyWithoutTenantNestedInput
   referidos?: Prisma.ReferidosUncheckedUpdateManyWithoutTenantNestedInput
+  seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoUncheckedUpdateManyWithoutTenantNestedInput
   servicios?: Prisma.ServicioUncheckedUpdateManyWithoutTenantNestedInput
   sesionesActividad?: Prisma.SesionActividadUncheckedUpdateManyWithoutTenantNestedInput
   subscription?: Prisma.SubscriptionUncheckedUpdateOneWithoutTenantNestedInput
@@ -13516,6 +13985,7 @@ export type TenantCreateWithoutSugerenciasInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoCreateNestedManyWithoutTenantInput
   proveedores?: Prisma.ProveedoresCreateNestedManyWithoutTenantInput
   referidos?: Prisma.ReferidosCreateNestedManyWithoutTenantInput
+  seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoCreateNestedManyWithoutTenantInput
   servicios?: Prisma.ServicioCreateNestedManyWithoutTenantInput
   sesionesActividad?: Prisma.SesionActividadCreateNestedManyWithoutTenantInput
   subscription?: Prisma.SubscriptionCreateNestedOneWithoutTenantInput
@@ -13576,6 +14046,7 @@ export type TenantUncheckedCreateWithoutSugerenciasInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUncheckedCreateNestedManyWithoutTenantInput
   proveedores?: Prisma.ProveedoresUncheckedCreateNestedManyWithoutTenantInput
   referidos?: Prisma.ReferidosUncheckedCreateNestedManyWithoutTenantInput
+  seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoUncheckedCreateNestedManyWithoutTenantInput
   servicios?: Prisma.ServicioUncheckedCreateNestedManyWithoutTenantInput
   sesionesActividad?: Prisma.SesionActividadUncheckedCreateNestedManyWithoutTenantInput
   subscription?: Prisma.SubscriptionUncheckedCreateNestedOneWithoutTenantInput
@@ -13652,6 +14123,7 @@ export type TenantUpdateWithoutSugerenciasInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUpdateManyWithoutTenantNestedInput
   proveedores?: Prisma.ProveedoresUpdateManyWithoutTenantNestedInput
   referidos?: Prisma.ReferidosUpdateManyWithoutTenantNestedInput
+  seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoUpdateManyWithoutTenantNestedInput
   servicios?: Prisma.ServicioUpdateManyWithoutTenantNestedInput
   sesionesActividad?: Prisma.SesionActividadUpdateManyWithoutTenantNestedInput
   subscription?: Prisma.SubscriptionUpdateOneWithoutTenantNestedInput
@@ -13712,6 +14184,7 @@ export type TenantUncheckedUpdateWithoutSugerenciasInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUncheckedUpdateManyWithoutTenantNestedInput
   proveedores?: Prisma.ProveedoresUncheckedUpdateManyWithoutTenantNestedInput
   referidos?: Prisma.ReferidosUncheckedUpdateManyWithoutTenantNestedInput
+  seguimientosOrdenServicio?: Prisma.OrdenServicioSeguimientoUncheckedUpdateManyWithoutTenantNestedInput
   servicios?: Prisma.ServicioUncheckedUpdateManyWithoutTenantNestedInput
   sesionesActividad?: Prisma.SesionActividadUncheckedUpdateManyWithoutTenantNestedInput
   subscription?: Prisma.SubscriptionUncheckedUpdateOneWithoutTenantNestedInput
@@ -13767,6 +14240,7 @@ export type TenantCountOutputType = {
   productosSolicitados: number
   proveedores: number
   referidos: number
+  seguimientosOrdenServicio: number
   servicios: number
   sesionesActividad: number
   sugerencias: number
@@ -13817,6 +14291,7 @@ export type TenantCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions
   productosSolicitados?: boolean | TenantCountOutputTypeCountProductosSolicitadosArgs
   proveedores?: boolean | TenantCountOutputTypeCountProveedoresArgs
   referidos?: boolean | TenantCountOutputTypeCountReferidosArgs
+  seguimientosOrdenServicio?: boolean | TenantCountOutputTypeCountSeguimientosOrdenServicioArgs
   servicios?: boolean | TenantCountOutputTypeCountServiciosArgs
   sesionesActividad?: boolean | TenantCountOutputTypeCountSesionesActividadArgs
   sugerencias?: boolean | TenantCountOutputTypeCountSugerenciasArgs
@@ -14095,6 +14570,13 @@ export type TenantCountOutputTypeCountReferidosArgs<ExtArgs extends runtime.Type
 /**
  * TenantCountOutputType without action
  */
+export type TenantCountOutputTypeCountSeguimientosOrdenServicioArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.OrdenServicioSeguimientoWhereInput
+}
+
+/**
+ * TenantCountOutputType without action
+ */
 export type TenantCountOutputTypeCountServiciosArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   where?: Prisma.ServicioWhereInput
 }
@@ -14217,6 +14699,7 @@ export type TenantSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs =
   productosSolicitados?: boolean | Prisma.Tenant$productosSolicitadosArgs<ExtArgs>
   proveedores?: boolean | Prisma.Tenant$proveedoresArgs<ExtArgs>
   referidos?: boolean | Prisma.Tenant$referidosArgs<ExtArgs>
+  seguimientosOrdenServicio?: boolean | Prisma.Tenant$seguimientosOrdenServicioArgs<ExtArgs>
   servicios?: boolean | Prisma.Tenant$serviciosArgs<ExtArgs>
   sesionesActividad?: boolean | Prisma.Tenant$sesionesActividadArgs<ExtArgs>
   subscription?: boolean | Prisma.Tenant$subscriptionArgs<ExtArgs>
@@ -14309,6 +14792,7 @@ export type TenantInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs 
   productosSolicitados?: boolean | Prisma.Tenant$productosSolicitadosArgs<ExtArgs>
   proveedores?: boolean | Prisma.Tenant$proveedoresArgs<ExtArgs>
   referidos?: boolean | Prisma.Tenant$referidosArgs<ExtArgs>
+  seguimientosOrdenServicio?: boolean | Prisma.Tenant$seguimientosOrdenServicioArgs<ExtArgs>
   servicios?: boolean | Prisma.Tenant$serviciosArgs<ExtArgs>
   sesionesActividad?: boolean | Prisma.Tenant$sesionesActividadArgs<ExtArgs>
   subscription?: boolean | Prisma.Tenant$subscriptionArgs<ExtArgs>
@@ -14365,6 +14849,7 @@ export type $TenantPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs
     productosSolicitados: Prisma.$ProductoSolicitadoPayload<ExtArgs>[]
     proveedores: Prisma.$ProveedoresPayload<ExtArgs>[]
     referidos: Prisma.$ReferidosPayload<ExtArgs>[]
+    seguimientosOrdenServicio: Prisma.$OrdenServicioSeguimientoPayload<ExtArgs>[]
     servicios: Prisma.$ServicioPayload<ExtArgs>[]
     sesionesActividad: Prisma.$SesionActividadPayload<ExtArgs>[]
     subscription: Prisma.$SubscriptionPayload<ExtArgs> | null
@@ -14819,6 +15304,7 @@ export interface Prisma__TenantClient<T, Null = never, ExtArgs extends runtime.T
   productosSolicitados<T extends Prisma.Tenant$productosSolicitadosArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Tenant$productosSolicitadosArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ProductoSolicitadoPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   proveedores<T extends Prisma.Tenant$proveedoresArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Tenant$proveedoresArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ProveedoresPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   referidos<T extends Prisma.Tenant$referidosArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Tenant$referidosArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ReferidosPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  seguimientosOrdenServicio<T extends Prisma.Tenant$seguimientosOrdenServicioArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Tenant$seguimientosOrdenServicioArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$OrdenServicioSeguimientoPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   servicios<T extends Prisma.Tenant$serviciosArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Tenant$serviciosArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ServicioPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   sesionesActividad<T extends Prisma.Tenant$sesionesActividadArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Tenant$sesionesActividadArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$SesionActividadPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   subscription<T extends Prisma.Tenant$subscriptionArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Tenant$subscriptionArgs<ExtArgs>>): Prisma.Prisma__SubscriptionClient<runtime.Types.Result.GetResult<Prisma.$SubscriptionPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
@@ -16119,6 +16605,30 @@ export type Tenant$referidosArgs<ExtArgs extends runtime.Types.Extensions.Intern
   take?: number
   skip?: number
   distinct?: Prisma.ReferidosScalarFieldEnum | Prisma.ReferidosScalarFieldEnum[]
+}
+
+/**
+ * Tenant.seguimientosOrdenServicio
+ */
+export type Tenant$seguimientosOrdenServicioArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the OrdenServicioSeguimiento
+   */
+  select?: Prisma.OrdenServicioSeguimientoSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the OrdenServicioSeguimiento
+   */
+  omit?: Prisma.OrdenServicioSeguimientoOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.OrdenServicioSeguimientoInclude<ExtArgs> | null
+  where?: Prisma.OrdenServicioSeguimientoWhereInput
+  orderBy?: Prisma.OrdenServicioSeguimientoOrderByWithRelationInput | Prisma.OrdenServicioSeguimientoOrderByWithRelationInput[]
+  cursor?: Prisma.OrdenServicioSeguimientoWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.OrdenServicioSeguimientoScalarFieldEnum | Prisma.OrdenServicioSeguimientoScalarFieldEnum[]
 }
 
 /**

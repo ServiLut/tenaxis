@@ -163,6 +163,45 @@ function EditarServicioContent({ id }: { id: string }) {
   const [tipoFacturacion, setTipoFacturacion] = useState("");
   const [estadoServicio, setEstadoServicio] = useState("");
 
+  // --- URL PERSISTENCE LOGIC ---
+  const syncToUrl = useCallback(() => {
+    const params = new URLSearchParams();
+    if (selectedCliente) params.set("cliente", selectedCliente);
+    if (selectedDireccion) params.set("direccion", selectedDireccion);
+    if (selectedOperador) params.set("operador", selectedOperador);
+    if (servicioEspecifico) params.set("servicio", servicioEspecifico);
+    if (tipoVisita) params.set("tipoVisita", tipoVisita);
+    if (nivelInfestacion) params.set("nivel", nivelInfestacion);
+    if (urgencia) params.set("urgencia", urgencia);
+    if (fechaVisita) params.set("fecha", fechaVisita);
+    if (horaInicio) params.set("hora", horaInicio);
+    if (duracionMinutos) params.set("duracion", duracionMinutos);
+    if (valorCotizado) params.set("valor", valorCotizado);
+    if (tipoFacturacion) params.set("facturacion", tipoFacturacion);
+    if (estadoServicio) params.set("estado", estadoServicio);
+    if (observacion) params.set("obs", observacion);
+    if (frecuenciaRecomendada) params.set("frecuencia", frecuenciaRecomendada.toString());
+    
+    // Serializar breakdown
+    if (breakdown.length > 0 && (breakdown.length > 1 || breakdown[0].monto !== "")) {
+      params.set("breakdown", JSON.stringify(breakdown));
+    }
+
+    const queryString = params.toString();
+    const newUrl = `${window.location.pathname}${queryString ? `?${queryString}` : ""}`;
+    window.history.replaceState(null, "", newUrl);
+  }, [
+    selectedCliente, selectedDireccion, selectedOperador, servicioEspecifico,
+    tipoVisita, nivelInfestacion, urgencia, fechaVisita, horaInicio,
+    duracionMinutos, valorCotizado, tipoFacturacion, estadoServicio,
+    observacion, frecuenciaRecomendada, breakdown
+  ]);
+
+  useEffect(() => {
+    syncToUrl();
+  }, [syncToUrl]);
+  // --- END URL PERSISTENCE LOGIC ---
+
   const fetchOperadores = useCallback(async (empId: string) => {
     if (!empId) return;
     try {
@@ -214,6 +253,7 @@ function EditarServicioContent({ id }: { id: string }) {
           estadoServicio?: string;
           fechaVisita?: string;
           horaInicio?: string;
+          duracionMinutos?: number;
           direccionId?: string;
         }
 
@@ -221,25 +261,39 @@ function EditarServicioContent({ id }: { id: string }) {
 
         setClientes(Array.isArray(cls) ? (cls as Cliente[]) : []);
 
-        // Populating form with order data
-        setSelectedCliente(orderData.clienteId);
+        // --- URL OVERRIDE LOGIC ---
+        const urlParams = new URLSearchParams(window.location.search);
+        
+        const getVal = (param: string, dbVal: any) => urlParams.get(param) ?? dbVal;
+
+        setSelectedCliente(getVal("cliente", orderData.clienteId));
         setSelectedEmpresa(orderData.empresaId);
-        setSelectedOperador(orderData.tecnicoId || "");
+        setSelectedOperador(getVal("operador", orderData.tecnicoId || ""));
         setInitialOperadorId(orderData.tecnicoId || "");
         setNumeroOrden(orderData.numeroOrden || id.slice(0, 8).toUpperCase());
-        setServicioEspecifico(orderData.servicio?.nombre || "");
-        setTipoVisita(orderData.tipoVisita || "");
-        setNivelInfestacion(orderData.nivelInfestacion || "");
-        setFrecuenciaRecomendada(orderData.frecuenciaSugerida ? Number(orderData.frecuenciaSugerida) : "");
-        setUrgencia(orderData.urgencia || "");
-        setObservacion(orderData.observacion || "");
+        setServicioEspecifico(getVal("servicio", orderData.servicio?.nombre || ""));
+        setTipoVisita(getVal("tipoVisita", orderData.tipoVisita || ""));
+        setNivelInfestacion(getVal("nivel", orderData.nivelInfestacion || ""));
         
-        const numericCotizado = orderData.valorCotizado?.toString() || "";
-        const formattedCotizado = numericCotizado.replace(/\D/g, "").replace(/\B(?=(\d{3})+(?!\d))/g, ".");
-        setValorCotizado(formattedCotizado);
+        const urlFrecuencia = urlParams.get("frecuencia");
+        setFrecuenciaRecomendada(urlFrecuencia ? Number(urlFrecuencia) : (orderData.frecuenciaSugerida ? Number(orderData.frecuenciaSugerida) : ""));
+        
+        setUrgencia(getVal("urgencia", orderData.urgencia || ""));
+        setObservacion(getVal("obs", orderData.observacion || ""));
+        
+        const dbValorCotizado = orderData.valorCotizado?.toString() || "";
+        const formattedDbValor = dbValorCotizado.replace(/\D/g, "").replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+        setValorCotizado(getVal("valor", formattedDbValor));
 
-        // Cargar desglose de pago si existe
-        if (orderData.desglosePago && Array.isArray(orderData.desglosePago) && orderData.desglosePago.length > 0) {
+        // Cargar desglose de pago
+        const urlBreakdown = urlParams.get("breakdown");
+        if (urlBreakdown) {
+          try {
+            setBreakdown(JSON.parse(urlBreakdown));
+          } catch (e) {
+            console.error("Error parsing breakdown from URL", e);
+          }
+        } else if (orderData.desglosePago && Array.isArray(orderData.desglosePago) && orderData.desglosePago.length > 0) {
           setBreakdown((orderData.desglosePago as unknown as BreakdownLine[]).map(l => ({
             metodo: l.metodo,
             banco: l.banco,
@@ -247,19 +301,26 @@ function EditarServicioContent({ id }: { id: string }) {
             monto: l.monto.toString().replace(/\D/g, "").replace(/\B(?=(\d{3})+(?!\d))/g, ".")
           })));
         } else {
-          // Fallback para órdenes sin desglose
-          setBreakdown([{ metodo: "EFECTIVO", monto: formattedCotizado }]);
+          setBreakdown([{ metodo: "EFECTIVO", monto: formattedDbValor }]);
         }
 
-        setTipoFacturacion(orderData.tipoFacturacion || "");
-        setEstadoServicio(orderData.estadoServicio || "NUEVO");
+        setTipoFacturacion(getVal("facturacion", orderData.tipoFacturacion || ""));
+        setEstadoServicio(getVal("estado", orderData.estadoServicio || "NUEVO"));
         
-        if (orderData.fechaVisita) {
+        if (urlParams.get("fecha")) {
+          setFechaVisita(urlParams.get("fecha")!);
+        } else if (orderData.fechaVisita) {
           setFechaVisita(utcIsoToBogotaYmd(orderData.fechaVisita));
         }
-        if (orderData.horaInicio) {
+
+        if (urlParams.get("hora")) {
+          setHoraInicio(urlParams.get("hora")!);
+        } else if (orderData.horaInicio) {
           setHoraInicio(utcIsoToBogotaHm(orderData.horaInicio));
         }
+
+        const urlDuracion = urlParams.get("duracion");
+        setDuracionMinutos(urlDuracion || orderData.duracionMinutos?.toString() || "60");
 
         // Load specific data for the enterprise
         await Promise.all([
@@ -268,10 +329,11 @@ function EditarServicioContent({ id }: { id: string }) {
         ]);
 
         // Load addresses for selected client
-        const client = (Array.isArray(cls) ? (cls as Cliente[]) : []).find((c: Cliente) => c.id === orderData.clienteId);
+        const currentClientId = getVal("cliente", orderData.clienteId);
+        const client = (Array.isArray(cls) ? (cls as Cliente[]) : []).find((c: Cliente) => c.id === currentClientId);
         if (client) {
           setDireccionesCliente(client.direcciones || []);
-          setSelectedDireccion(orderData.direccionId || "");
+          setSelectedDireccion(getVal("direccion", orderData.direccionId || ""));
         }
 
       } catch (e) {
@@ -437,12 +499,12 @@ function EditarServicioContent({ id }: { id: string }) {
 
   return (
     <div className="max-w-5xl mx-auto w-full h-[calc(100vh-12rem)] flex flex-col min-h-0">
-      <div className="flex-1 flex flex-col bg-white dark:bg-zinc-950 rounded-2xl shadow-sm border border-zinc-700 dark:border-zinc-800 overflow-hidden min-h-0">
+      <div className="flex-1 flex flex-col bg-white dark:bg-zinc-950 rounded-2xl shadow-sm border border-zinc-100 dark:border-zinc-800/50 overflow-hidden min-h-0">
 
         {/* Header Fijo */}
-        <div className="flex-none bg-white dark:bg-zinc-950 border-b border-zinc-700 dark:border-zinc-800 px-8 py-6 flex items-center justify-between">
+        <div className="flex-none bg-white dark:bg-zinc-950 border-b border-zinc-100 dark:border-zinc-800/50 px-8 py-6 flex items-center justify-between">
           <div className="flex items-center gap-5">
-            <Button variant="ghost" size="icon" onClick={() => router.back()} className="h-10 w-10 rounded-full border border-zinc-700 dark:border-zinc-800 hover:bg-zinc-50">
+            <Button variant="ghost" size="icon" onClick={() => router.back()} className="h-10 w-10 rounded-full border border-zinc-100 dark:border-zinc-800/50 hover:bg-zinc-50">
               <ArrowLeft className="h-4 w-4" />
             </Button>
             <div>
@@ -461,8 +523,8 @@ function EditarServicioContent({ id }: { id: string }) {
 
             {/* SECCIÓN 1: IDENTIFICACIÓN DEL CLIENTE */}
             <section className="space-y-8">
-              <div className="flex items-center gap-3 border-b border-zinc-700 dark:border-zinc-800 pb-3">
-                <div className="p-2 rounded-lg bg-zinc-50 dark:bg-zinc-900 border border-zinc-700 dark:border-zinc-800 text-zinc-400">
+              <div className="flex items-center gap-3 border-b border-zinc-100 dark:border-zinc-800/50 pb-3">
+                <div className="p-2 rounded-lg bg-zinc-50 dark:bg-zinc-900 border border-zinc-100 dark:border-zinc-800/50 text-zinc-400">
                   <User className="h-5 w-5" />
                 </div>
                 <h2 className="text-lg font-bold text-zinc-900 dark:text-zinc-50">Identificación del Cliente</h2>
@@ -506,8 +568,8 @@ function EditarServicioContent({ id }: { id: string }) {
 
             {/* SECCIÓN 2: ESPECIFICACIONES TÉCNICAS */}
             <section className="space-y-8">
-              <div className="flex items-center gap-3 border-b border-zinc-700 dark:border-zinc-800 pb-3">
-                <div className="p-2 rounded-lg bg-zinc-50 dark:bg-zinc-900 border border-zinc-700 dark:border-zinc-800 text-zinc-400">
+              <div className="flex items-center gap-3 border-b border-zinc-100 dark:border-zinc-800/50 pb-3">
+                <div className="p-2 rounded-lg bg-zinc-50 dark:bg-zinc-900 border border-zinc-100 dark:border-zinc-800/50 text-zinc-400">
                   <Briefcase className="h-5 w-5" />
                 </div>
                 <h2 className="text-lg font-bold text-zinc-900 dark:text-zinc-50">Especificaciones Técnicas</h2>
@@ -576,7 +638,7 @@ function EditarServicioContent({ id }: { id: string }) {
                     value={frecuenciaRecomendada}
                     onChange={(e) => setFrecuenciaRecomendada(e.target.value ? Number(e.target.value) : "")}
                     placeholder="Días"
-                    className="h-11 border-zinc-700"
+                    className="h-11 !border !border-zinc-200 focus-visible:ring-0 focus-visible:ring-offset-0 focus-visible:border-zinc-200 dark:border-zinc-800/50"
                   />
                 </div>
 
@@ -599,7 +661,7 @@ function EditarServicioContent({ id }: { id: string }) {
                   <textarea
                     value={observacion}
                     onChange={(e) => setObservacion(e.target.value)}
-                    className="w-full bg-white dark:bg-zinc-950 border border-zinc-700 dark:border-zinc-800 rounded-xl p-4 text-sm font-medium resize-none min-h-[100px] focus:ring-[var(--color-azul-1)] focus:border-[var(--color-azul-1)] outline-none"
+                    className="w-full bg-white dark:bg-zinc-950 border border-zinc-300 dark:border-zinc-800/50 rounded-xl p-4 text-sm font-medium resize-none min-h-[100px] focus:ring-0 focus:border-zinc-300 outline-none"
                     placeholder="Detalles adicionales, requerimientos específicos o notas importantes..."
                   ></textarea>
                 </div>
@@ -608,8 +670,8 @@ function EditarServicioContent({ id }: { id: string }) {
 
             {/* SECCIÓN 3: AGENDA OPERATIVA */}
             <section className="space-y-8">
-              <div className="flex items-center gap-3 border-b border-zinc-700 dark:border-zinc-800 pb-3">
-                <div className="p-2 rounded-lg bg-zinc-50 dark:bg-zinc-900 border border-zinc-700 dark:border-zinc-800 text-zinc-400">
+              <div className="flex items-center gap-3 border-b border-zinc-100 dark:border-zinc-800/50 pb-3">
+                <div className="p-2 rounded-lg bg-zinc-50 dark:bg-zinc-900 border border-zinc-100 dark:border-zinc-800/50 text-zinc-400">
                   <Calendar className="h-5 w-5" />
                 </div>
                 <h2 className="text-lg font-bold text-zinc-900 dark:text-zinc-50">Agenda Operativa</h2>
@@ -621,7 +683,7 @@ function EditarServicioContent({ id }: { id: string }) {
                   <DatePicker 
                     date={fechaVisita ? ymdToPickerDate(fechaVisita) : undefined} 
                     onChange={(d) => setFechaVisita(pickerDateToYmd(d))} 
-                    className="h-11 border-zinc-700" 
+                    className="h-11 !border !border-zinc-200 focus-visible:ring-0 focus-visible:ring-offset-0 focus-visible:border-zinc-200 dark:border-zinc-800/50" 
                   />
                 </div>
 
@@ -630,7 +692,7 @@ function EditarServicioContent({ id }: { id: string }) {
                   <TimePicker 
                     value={horaInicio} 
                     onChange={setHoraInicio} 
-                    className="h-11 border-zinc-700" 
+                    className="h-11 !border !border-zinc-200 focus-visible:ring-0 focus-visible:ring-offset-0 focus-visible:border-zinc-200 dark:border-zinc-800/50" 
                   />
                 </div>
 
@@ -667,20 +729,18 @@ function EditarServicioContent({ id }: { id: string }) {
 
             {/* SECCIÓN 4: CONDICIONES DE PAGO */}
             <section className="space-y-8">
-              <div className="flex items-center gap-3 border-b border-zinc-700 dark:border-zinc-800 pb-3">
-                <div className="p-2 rounded-lg bg-zinc-50 dark:bg-zinc-900 border border-zinc-700 dark:border-zinc-800 text-zinc-400">
+              <div className="flex items-center gap-3 border-b border-zinc-100 dark:border-zinc-800/50 pb-3">
+                <div className="p-2 rounded-lg bg-zinc-50 dark:bg-zinc-900 border border-zinc-100 dark:border-zinc-800/50 text-zinc-400">
                   <CreditCard className="h-5 w-5" />
                 </div>
                 <div className="flex-1 flex items-center justify-between">
                   <h2 className="text-lg font-bold text-zinc-900 dark:text-zinc-50">Condiciones de Pago</h2>
                   <Button 
                     type="button" 
-                    variant="outline" 
-                    size="sm" 
-                    className="h-8 rounded-lg text-[10px] font-black uppercase tracking-widest gap-2"
+                    className="h-9 px-4 rounded-xl bg-azul-1 text-white hover:bg-blue-700 transition-all text-[10px] font-black uppercase tracking-widest gap-2 shadow-lg shadow-azul-1/20 border-none"
                     onClick={() => setBreakdown([...breakdown, { metodo: "EFECTIVO", monto: "" }])}
                   >
-                    <Plus className="h-3 w-3" /> Añadir Método
+                    <Plus className="h-3.5 w-3.5" /> Añadir Método
                   </Button>
                 </div>
               </div>
@@ -707,7 +767,7 @@ function EditarServicioContent({ id }: { id: string }) {
                         }} 
                         placeholder="0" 
                         required 
-                        className="h-11 border-zinc-700 pl-8 font-bold" 
+                        className="h-11 !border !border-zinc-200 focus-visible:ring-0 focus-visible:ring-offset-0 focus-visible:border-zinc-200 dark:border-zinc-800/50 pl-8 font-bold" 
                       />
                     </div>
                   </div>
@@ -731,7 +791,7 @@ function EditarServicioContent({ id }: { id: string }) {
                   <Label className="text-[10px] font-black uppercase tracking-[0.2em] text-zinc-400 block px-1">Desglose de Cobro</Label>
                   <div className="grid grid-cols-1 gap-4">
                     {breakdown.map((line, index) => (
-                      <div key={index} className="p-5 bg-zinc-50/50 dark:bg-zinc-900/30 rounded-2xl border border-zinc-700 dark:border-zinc-800 space-y-4 relative group">
+                      <div key={index} className="p-5 bg-zinc-50/50 dark:bg-zinc-900/30 rounded-2xl border border-zinc-100 dark:border-zinc-800/50 space-y-4 relative group">
                         {breakdown.length > 1 && (
                           <button 
                             type="button"
@@ -771,7 +831,7 @@ function EditarServicioContent({ id }: { id: string }) {
                                 setBreakdown(newBreakdown);
                               }}
                               placeholder="0"
-                              className="h-10 rounded-xl bg-white dark:bg-zinc-950 border-zinc-700 font-bold"
+                              className="h-10 rounded-xl bg-white dark:bg-zinc-950 !border !border-zinc-200 focus-visible:ring-0 focus-visible:ring-offset-0 focus-visible:border-zinc-200 dark:border-zinc-800/50 font-bold"
                             />
                           </div>
                         </div>
@@ -788,7 +848,7 @@ function EditarServicioContent({ id }: { id: string }) {
                                   setBreakdown(newBreakdown);
                                 }}
                                 placeholder="Ej: Bancolombia, Nequi..."
-                                className="h-10 rounded-xl bg-white dark:bg-zinc-950 border-zinc-700 font-medium"
+                                className="h-10 rounded-xl bg-white dark:bg-zinc-950 !border !border-zinc-200 focus-visible:ring-0 focus-visible:ring-offset-0 focus-visible:border-zinc-200 dark:border-zinc-800/50 font-medium"
                               />
                             </div>
                             <div className="space-y-2">
@@ -801,7 +861,7 @@ function EditarServicioContent({ id }: { id: string }) {
                                   setBreakdown(newBreakdown);
                                 }}
                                 placeholder="Nº comprobante"
-                                className="h-10 rounded-xl bg-white dark:bg-zinc-950 border-zinc-700 font-medium"
+                                className="h-10 rounded-xl bg-white dark:bg-zinc-950 !border !border-zinc-200 focus-visible:ring-0 focus-visible:ring-offset-0 focus-visible:border-zinc-200 dark:border-zinc-800/50 font-medium"
                               />
                             </div>
                           </div>
@@ -830,7 +890,7 @@ function EditarServicioContent({ id }: { id: string }) {
         </div>
 
         {/* Footer Fijo */}
-        <div className="flex-none bg-zinc-50 dark:bg-zinc-900/50 border-t border-zinc-700 dark:border-zinc-800 px-10 py-5 flex items-center justify-between">
+        <div className="flex-none bg-zinc-50 dark:bg-zinc-900/50 border-t border-zinc-100 dark:border-zinc-800/50 px-10 py-5 flex items-center justify-between">
           <div className="hidden lg:flex items-center gap-3 text-zinc-400">
             <GanttChart className="h-5 w-5 text-[var(--color-claro-azul-4)]" />
             <p className="text-[11px] font-medium max-w-xs leading-relaxed">Actualizando los parámetros operativos de la orden técnica.</p>

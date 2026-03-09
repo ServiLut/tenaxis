@@ -73,6 +73,7 @@ export const ModelName = {
   MetodoPago: 'MetodoPago',
   EstadoServicio: 'EstadoServicio',
   OrdenServicio: 'OrdenServicio',
+  OrdenServicioSeguimiento: 'OrdenServicioSeguimiento',
   EntidadFinanciera: 'EntidadFinanciera',
   Geolocalizacion: 'Geolocalizacion',
   Nomina: 'Nomina',
@@ -444,6 +445,9 @@ export const ServicioScalarFieldEnum = {
   nombre: 'nombre',
   activo: 'activo',
   deleteAt: 'deleteAt',
+  requiereSeguimiento: 'requiereSeguimiento',
+  primerSeguimientoDias: 'primerSeguimientoDias',
+  requiereSeguimientoTresMeses: 'requiereSeguimientoTresMeses',
   createdAt: 'createdAt'
 } as const
 
@@ -542,6 +546,28 @@ export const OrdenServicioScalarFieldEnum = {
 } as const
 
 export type OrdenServicioScalarFieldEnum = (typeof OrdenServicioScalarFieldEnum)[keyof typeof OrdenServicioScalarFieldEnum]
+
+
+export const OrdenServicioSeguimientoScalarFieldEnum = {
+  id: 'id',
+  tenantId: 'tenantId',
+  empresaId: 'empresaId',
+  ordenServicioId: 'ordenServicioId',
+  createdByMembershipId: 'createdByMembershipId',
+  completedByMembershipId: 'completedByMembershipId',
+  followUpType: 'followUpType',
+  status: 'status',
+  dueAt: 'dueAt',
+  contactedAt: 'contactedAt',
+  channel: 'channel',
+  outcome: 'outcome',
+  notes: 'notes',
+  completedAt: 'completedAt',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type OrdenServicioSeguimientoScalarFieldEnum = (typeof OrdenServicioSeguimientoScalarFieldEnum)[keyof typeof OrdenServicioSeguimientoScalarFieldEnum]
 
 
 export const EntidadFinancieraScalarFieldEnum = {

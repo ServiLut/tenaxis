@@ -20,8 +20,18 @@ export type ServicioModel = runtime.Types.Result.DefaultSelection<Prisma.$Servic
 
 export type AggregateServicio = {
   _count: ServicioCountAggregateOutputType | null
+  _avg: ServicioAvgAggregateOutputType | null
+  _sum: ServicioSumAggregateOutputType | null
   _min: ServicioMinAggregateOutputType | null
   _max: ServicioMaxAggregateOutputType | null
+}
+
+export type ServicioAvgAggregateOutputType = {
+  primerSeguimientoDias: number | null
+}
+
+export type ServicioSumAggregateOutputType = {
+  primerSeguimientoDias: number | null
 }
 
 export type ServicioMinAggregateOutputType = {
@@ -31,6 +41,9 @@ export type ServicioMinAggregateOutputType = {
   nombre: string | null
   activo: boolean | null
   deleteAt: Date | null
+  requiereSeguimiento: boolean | null
+  primerSeguimientoDias: number | null
+  requiereSeguimientoTresMeses: boolean | null
   createdAt: Date | null
 }
 
@@ -41,6 +54,9 @@ export type ServicioMaxAggregateOutputType = {
   nombre: string | null
   activo: boolean | null
   deleteAt: Date | null
+  requiereSeguimiento: boolean | null
+  primerSeguimientoDias: number | null
+  requiereSeguimientoTresMeses: boolean | null
   createdAt: Date | null
 }
 
@@ -51,10 +67,21 @@ export type ServicioCountAggregateOutputType = {
   nombre: number
   activo: number
   deleteAt: number
+  requiereSeguimiento: number
+  primerSeguimientoDias: number
+  requiereSeguimientoTresMeses: number
   createdAt: number
   _all: number
 }
 
+
+export type ServicioAvgAggregateInputType = {
+  primerSeguimientoDias?: true
+}
+
+export type ServicioSumAggregateInputType = {
+  primerSeguimientoDias?: true
+}
 
 export type ServicioMinAggregateInputType = {
   id?: true
@@ -63,6 +90,9 @@ export type ServicioMinAggregateInputType = {
   nombre?: true
   activo?: true
   deleteAt?: true
+  requiereSeguimiento?: true
+  primerSeguimientoDias?: true
+  requiereSeguimientoTresMeses?: true
   createdAt?: true
 }
 
@@ -73,6 +103,9 @@ export type ServicioMaxAggregateInputType = {
   nombre?: true
   activo?: true
   deleteAt?: true
+  requiereSeguimiento?: true
+  primerSeguimientoDias?: true
+  requiereSeguimientoTresMeses?: true
   createdAt?: true
 }
 
@@ -83,6 +116,9 @@ export type ServicioCountAggregateInputType = {
   nombre?: true
   activo?: true
   deleteAt?: true
+  requiereSeguimiento?: true
+  primerSeguimientoDias?: true
+  requiereSeguimientoTresMeses?: true
   createdAt?: true
   _all?: true
 }
@@ -125,6 +161,18 @@ export type ServicioAggregateArgs<ExtArgs extends runtime.Types.Extensions.Inter
   /**
    * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
    * 
+   * Select which fields to average
+  **/
+  _avg?: ServicioAvgAggregateInputType
+  /**
+   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+   * 
+   * Select which fields to sum
+  **/
+  _sum?: ServicioSumAggregateInputType
+  /**
+   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+   * 
    * Select which fields to find the minimum value
   **/
   _min?: ServicioMinAggregateInputType
@@ -155,6 +203,8 @@ export type ServicioGroupByArgs<ExtArgs extends runtime.Types.Extensions.Interna
   take?: number
   skip?: number
   _count?: ServicioCountAggregateInputType | true
+  _avg?: ServicioAvgAggregateInputType
+  _sum?: ServicioSumAggregateInputType
   _min?: ServicioMinAggregateInputType
   _max?: ServicioMaxAggregateInputType
 }
@@ -166,8 +216,13 @@ export type ServicioGroupByOutputType = {
   nombre: string
   activo: boolean
   deleteAt: Date | null
+  requiereSeguimiento: boolean
+  primerSeguimientoDias: number | null
+  requiereSeguimientoTresMeses: boolean
   createdAt: Date
   _count: ServicioCountAggregateOutputType | null
+  _avg: ServicioAvgAggregateOutputType | null
+  _sum: ServicioSumAggregateOutputType | null
   _min: ServicioMinAggregateOutputType | null
   _max: ServicioMaxAggregateOutputType | null
 }
@@ -197,6 +252,9 @@ export type ServicioWhereInput = {
   nombre?: Prisma.StringFilter<"Servicio"> | string
   activo?: Prisma.BoolFilter<"Servicio"> | boolean
   deleteAt?: Prisma.DateTimeNullableFilter<"Servicio"> | Date | string | null
+  requiereSeguimiento?: Prisma.BoolFilter<"Servicio"> | boolean
+  primerSeguimientoDias?: Prisma.IntNullableFilter<"Servicio"> | number | null
+  requiereSeguimientoTresMeses?: Prisma.BoolFilter<"Servicio"> | boolean
   createdAt?: Prisma.DateTimeFilter<"Servicio"> | Date | string
   citasComoServicio?: Prisma.CitasPsicologosListRelationFilter
   citasComoTipoServicio?: Prisma.CitasPsicologosListRelationFilter
@@ -212,6 +270,9 @@ export type ServicioOrderByWithRelationInput = {
   nombre?: Prisma.SortOrder
   activo?: Prisma.SortOrder
   deleteAt?: Prisma.SortOrderInput | Prisma.SortOrder
+  requiereSeguimiento?: Prisma.SortOrder
+  primerSeguimientoDias?: Prisma.SortOrderInput | Prisma.SortOrder
+  requiereSeguimientoTresMeses?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   citasComoServicio?: Prisma.CitasPsicologosOrderByRelationAggregateInput
   citasComoTipoServicio?: Prisma.CitasPsicologosOrderByRelationAggregateInput
@@ -230,6 +291,9 @@ export type ServicioWhereUniqueInput = Prisma.AtLeast<{
   nombre?: Prisma.StringFilter<"Servicio"> | string
   activo?: Prisma.BoolFilter<"Servicio"> | boolean
   deleteAt?: Prisma.DateTimeNullableFilter<"Servicio"> | Date | string | null
+  requiereSeguimiento?: Prisma.BoolFilter<"Servicio"> | boolean
+  primerSeguimientoDias?: Prisma.IntNullableFilter<"Servicio"> | number | null
+  requiereSeguimientoTresMeses?: Prisma.BoolFilter<"Servicio"> | boolean
   createdAt?: Prisma.DateTimeFilter<"Servicio"> | Date | string
   citasComoServicio?: Prisma.CitasPsicologosListRelationFilter
   citasComoTipoServicio?: Prisma.CitasPsicologosListRelationFilter
@@ -245,10 +309,15 @@ export type ServicioOrderByWithAggregationInput = {
   nombre?: Prisma.SortOrder
   activo?: Prisma.SortOrder
   deleteAt?: Prisma.SortOrderInput | Prisma.SortOrder
+  requiereSeguimiento?: Prisma.SortOrder
+  primerSeguimientoDias?: Prisma.SortOrderInput | Prisma.SortOrder
+  requiereSeguimientoTresMeses?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   _count?: Prisma.ServicioCountOrderByAggregateInput
+  _avg?: Prisma.ServicioAvgOrderByAggregateInput
   _max?: Prisma.ServicioMaxOrderByAggregateInput
   _min?: Prisma.ServicioMinOrderByAggregateInput
+  _sum?: Prisma.ServicioSumOrderByAggregateInput
 }
 
 export type ServicioScalarWhereWithAggregatesInput = {
@@ -261,6 +330,9 @@ export type ServicioScalarWhereWithAggregatesInput = {
   nombre?: Prisma.StringWithAggregatesFilter<"Servicio"> | string
   activo?: Prisma.BoolWithAggregatesFilter<"Servicio"> | boolean
   deleteAt?: Prisma.DateTimeNullableWithAggregatesFilter<"Servicio"> | Date | string | null
+  requiereSeguimiento?: Prisma.BoolWithAggregatesFilter<"Servicio"> | boolean
+  primerSeguimientoDias?: Prisma.IntNullableWithAggregatesFilter<"Servicio"> | number | null
+  requiereSeguimientoTresMeses?: Prisma.BoolWithAggregatesFilter<"Servicio"> | boolean
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Servicio"> | Date | string
 }
 
@@ -269,6 +341,9 @@ export type ServicioCreateInput = {
   nombre: string
   activo?: boolean
   deleteAt?: Date | string | null
+  requiereSeguimiento?: boolean
+  primerSeguimientoDias?: number | null
+  requiereSeguimientoTresMeses?: boolean
   createdAt?: Date | string
   citasComoServicio?: Prisma.CitasPsicologosCreateNestedManyWithoutServicioInput
   citasComoTipoServicio?: Prisma.CitasPsicologosCreateNestedManyWithoutTipoServicioRelInput
@@ -284,6 +359,9 @@ export type ServicioUncheckedCreateInput = {
   nombre: string
   activo?: boolean
   deleteAt?: Date | string | null
+  requiereSeguimiento?: boolean
+  primerSeguimientoDias?: number | null
+  requiereSeguimientoTresMeses?: boolean
   createdAt?: Date | string
   citasComoServicio?: Prisma.CitasPsicologosUncheckedCreateNestedManyWithoutServicioInput
   citasComoTipoServicio?: Prisma.CitasPsicologosUncheckedCreateNestedManyWithoutTipoServicioRelInput
@@ -295,6 +373,9 @@ export type ServicioUpdateInput = {
   nombre?: Prisma.StringFieldUpdateOperationsInput | string
   activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
   deleteAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  requiereSeguimiento?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  primerSeguimientoDias?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  requiereSeguimientoTresMeses?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   citasComoServicio?: Prisma.CitasPsicologosUpdateManyWithoutServicioNestedInput
   citasComoTipoServicio?: Prisma.CitasPsicologosUpdateManyWithoutTipoServicioRelNestedInput
@@ -310,6 +391,9 @@ export type ServicioUncheckedUpdateInput = {
   nombre?: Prisma.StringFieldUpdateOperationsInput | string
   activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
   deleteAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  requiereSeguimiento?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  primerSeguimientoDias?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  requiereSeguimientoTresMeses?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   citasComoServicio?: Prisma.CitasPsicologosUncheckedUpdateManyWithoutServicioNestedInput
   citasComoTipoServicio?: Prisma.CitasPsicologosUncheckedUpdateManyWithoutTipoServicioRelNestedInput
@@ -323,6 +407,9 @@ export type ServicioCreateManyInput = {
   nombre: string
   activo?: boolean
   deleteAt?: Date | string | null
+  requiereSeguimiento?: boolean
+  primerSeguimientoDias?: number | null
+  requiereSeguimientoTresMeses?: boolean
   createdAt?: Date | string
 }
 
@@ -331,6 +418,9 @@ export type ServicioUpdateManyMutationInput = {
   nombre?: Prisma.StringFieldUpdateOperationsInput | string
   activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
   deleteAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  requiereSeguimiento?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  primerSeguimientoDias?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  requiereSeguimientoTresMeses?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -341,6 +431,9 @@ export type ServicioUncheckedUpdateManyInput = {
   nombre?: Prisma.StringFieldUpdateOperationsInput | string
   activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
   deleteAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  requiereSeguimiento?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  primerSeguimientoDias?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  requiereSeguimientoTresMeses?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -361,7 +454,14 @@ export type ServicioCountOrderByAggregateInput = {
   nombre?: Prisma.SortOrder
   activo?: Prisma.SortOrder
   deleteAt?: Prisma.SortOrder
+  requiereSeguimiento?: Prisma.SortOrder
+  primerSeguimientoDias?: Prisma.SortOrder
+  requiereSeguimientoTresMeses?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
+}
+
+export type ServicioAvgOrderByAggregateInput = {
+  primerSeguimientoDias?: Prisma.SortOrder
 }
 
 export type ServicioMaxOrderByAggregateInput = {
@@ -371,6 +471,9 @@ export type ServicioMaxOrderByAggregateInput = {
   nombre?: Prisma.SortOrder
   activo?: Prisma.SortOrder
   deleteAt?: Prisma.SortOrder
+  requiereSeguimiento?: Prisma.SortOrder
+  primerSeguimientoDias?: Prisma.SortOrder
+  requiereSeguimientoTresMeses?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
 }
 
@@ -381,7 +484,14 @@ export type ServicioMinOrderByAggregateInput = {
   nombre?: Prisma.SortOrder
   activo?: Prisma.SortOrder
   deleteAt?: Prisma.SortOrder
+  requiereSeguimiento?: Prisma.SortOrder
+  primerSeguimientoDias?: Prisma.SortOrder
+  requiereSeguimientoTresMeses?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
+}
+
+export type ServicioSumOrderByAggregateInput = {
+  primerSeguimientoDias?: Prisma.SortOrder
 }
 
 export type ServicioScalarRelationFilter = {
@@ -529,6 +639,9 @@ export type ServicioCreateWithoutTenantInput = {
   nombre: string
   activo?: boolean
   deleteAt?: Date | string | null
+  requiereSeguimiento?: boolean
+  primerSeguimientoDias?: number | null
+  requiereSeguimientoTresMeses?: boolean
   createdAt?: Date | string
   citasComoServicio?: Prisma.CitasPsicologosCreateNestedManyWithoutServicioInput
   citasComoTipoServicio?: Prisma.CitasPsicologosCreateNestedManyWithoutTipoServicioRelInput
@@ -542,6 +655,9 @@ export type ServicioUncheckedCreateWithoutTenantInput = {
   nombre: string
   activo?: boolean
   deleteAt?: Date | string | null
+  requiereSeguimiento?: boolean
+  primerSeguimientoDias?: number | null
+  requiereSeguimientoTresMeses?: boolean
   createdAt?: Date | string
   citasComoServicio?: Prisma.CitasPsicologosUncheckedCreateNestedManyWithoutServicioInput
   citasComoTipoServicio?: Prisma.CitasPsicologosUncheckedCreateNestedManyWithoutTipoServicioRelInput
@@ -584,6 +700,9 @@ export type ServicioScalarWhereInput = {
   nombre?: Prisma.StringFilter<"Servicio"> | string
   activo?: Prisma.BoolFilter<"Servicio"> | boolean
   deleteAt?: Prisma.DateTimeNullableFilter<"Servicio"> | Date | string | null
+  requiereSeguimiento?: Prisma.BoolFilter<"Servicio"> | boolean
+  primerSeguimientoDias?: Prisma.IntNullableFilter<"Servicio"> | number | null
+  requiereSeguimientoTresMeses?: Prisma.BoolFilter<"Servicio"> | boolean
   createdAt?: Prisma.DateTimeFilter<"Servicio"> | Date | string
 }
 
@@ -592,6 +711,9 @@ export type ServicioCreateWithoutEmpresaInput = {
   nombre: string
   activo?: boolean
   deleteAt?: Date | string | null
+  requiereSeguimiento?: boolean
+  primerSeguimientoDias?: number | null
+  requiereSeguimientoTresMeses?: boolean
   createdAt?: Date | string
   citasComoServicio?: Prisma.CitasPsicologosCreateNestedManyWithoutServicioInput
   citasComoTipoServicio?: Prisma.CitasPsicologosCreateNestedManyWithoutTipoServicioRelInput
@@ -605,6 +727,9 @@ export type ServicioUncheckedCreateWithoutEmpresaInput = {
   nombre: string
   activo?: boolean
   deleteAt?: Date | string | null
+  requiereSeguimiento?: boolean
+  primerSeguimientoDias?: number | null
+  requiereSeguimientoTresMeses?: boolean
   createdAt?: Date | string
   citasComoServicio?: Prisma.CitasPsicologosUncheckedCreateNestedManyWithoutServicioInput
   citasComoTipoServicio?: Prisma.CitasPsicologosUncheckedCreateNestedManyWithoutTipoServicioRelInput
@@ -642,6 +767,9 @@ export type ServicioCreateWithoutOrdenesInput = {
   nombre: string
   activo?: boolean
   deleteAt?: Date | string | null
+  requiereSeguimiento?: boolean
+  primerSeguimientoDias?: number | null
+  requiereSeguimientoTresMeses?: boolean
   createdAt?: Date | string
   citasComoServicio?: Prisma.CitasPsicologosCreateNestedManyWithoutServicioInput
   citasComoTipoServicio?: Prisma.CitasPsicologosCreateNestedManyWithoutTipoServicioRelInput
@@ -656,6 +784,9 @@ export type ServicioUncheckedCreateWithoutOrdenesInput = {
   nombre: string
   activo?: boolean
   deleteAt?: Date | string | null
+  requiereSeguimiento?: boolean
+  primerSeguimientoDias?: number | null
+  requiereSeguimientoTresMeses?: boolean
   createdAt?: Date | string
   citasComoServicio?: Prisma.CitasPsicologosUncheckedCreateNestedManyWithoutServicioInput
   citasComoTipoServicio?: Prisma.CitasPsicologosUncheckedCreateNestedManyWithoutTipoServicioRelInput
@@ -682,6 +813,9 @@ export type ServicioUpdateWithoutOrdenesInput = {
   nombre?: Prisma.StringFieldUpdateOperationsInput | string
   activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
   deleteAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  requiereSeguimiento?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  primerSeguimientoDias?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  requiereSeguimientoTresMeses?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   citasComoServicio?: Prisma.CitasPsicologosUpdateManyWithoutServicioNestedInput
   citasComoTipoServicio?: Prisma.CitasPsicologosUpdateManyWithoutTipoServicioRelNestedInput
@@ -696,6 +830,9 @@ export type ServicioUncheckedUpdateWithoutOrdenesInput = {
   nombre?: Prisma.StringFieldUpdateOperationsInput | string
   activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
   deleteAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  requiereSeguimiento?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  primerSeguimientoDias?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  requiereSeguimientoTresMeses?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   citasComoServicio?: Prisma.CitasPsicologosUncheckedUpdateManyWithoutServicioNestedInput
   citasComoTipoServicio?: Prisma.CitasPsicologosUncheckedUpdateManyWithoutTipoServicioRelNestedInput
@@ -706,6 +843,9 @@ export type ServicioCreateWithoutCitasComoServicioInput = {
   nombre: string
   activo?: boolean
   deleteAt?: Date | string | null
+  requiereSeguimiento?: boolean
+  primerSeguimientoDias?: number | null
+  requiereSeguimientoTresMeses?: boolean
   createdAt?: Date | string
   citasComoTipoServicio?: Prisma.CitasPsicologosCreateNestedManyWithoutTipoServicioRelInput
   ordenes?: Prisma.OrdenServicioCreateNestedManyWithoutServicioInput
@@ -720,6 +860,9 @@ export type ServicioUncheckedCreateWithoutCitasComoServicioInput = {
   nombre: string
   activo?: boolean
   deleteAt?: Date | string | null
+  requiereSeguimiento?: boolean
+  primerSeguimientoDias?: number | null
+  requiereSeguimientoTresMeses?: boolean
   createdAt?: Date | string
   citasComoTipoServicio?: Prisma.CitasPsicologosUncheckedCreateNestedManyWithoutTipoServicioRelInput
   ordenes?: Prisma.OrdenServicioUncheckedCreateNestedManyWithoutServicioInput
@@ -735,6 +878,9 @@ export type ServicioCreateWithoutCitasComoTipoServicioInput = {
   nombre: string
   activo?: boolean
   deleteAt?: Date | string | null
+  requiereSeguimiento?: boolean
+  primerSeguimientoDias?: number | null
+  requiereSeguimientoTresMeses?: boolean
   createdAt?: Date | string
   citasComoServicio?: Prisma.CitasPsicologosCreateNestedManyWithoutServicioInput
   ordenes?: Prisma.OrdenServicioCreateNestedManyWithoutServicioInput
@@ -749,6 +895,9 @@ export type ServicioUncheckedCreateWithoutCitasComoTipoServicioInput = {
   nombre: string
   activo?: boolean
   deleteAt?: Date | string | null
+  requiereSeguimiento?: boolean
+  primerSeguimientoDias?: number | null
+  requiereSeguimientoTresMeses?: boolean
   createdAt?: Date | string
   citasComoServicio?: Prisma.CitasPsicologosUncheckedCreateNestedManyWithoutServicioInput
   ordenes?: Prisma.OrdenServicioUncheckedCreateNestedManyWithoutServicioInput
@@ -775,6 +924,9 @@ export type ServicioUpdateWithoutCitasComoServicioInput = {
   nombre?: Prisma.StringFieldUpdateOperationsInput | string
   activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
   deleteAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  requiereSeguimiento?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  primerSeguimientoDias?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  requiereSeguimientoTresMeses?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   citasComoTipoServicio?: Prisma.CitasPsicologosUpdateManyWithoutTipoServicioRelNestedInput
   ordenes?: Prisma.OrdenServicioUpdateManyWithoutServicioNestedInput
@@ -789,6 +941,9 @@ export type ServicioUncheckedUpdateWithoutCitasComoServicioInput = {
   nombre?: Prisma.StringFieldUpdateOperationsInput | string
   activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
   deleteAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  requiereSeguimiento?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  primerSeguimientoDias?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  requiereSeguimientoTresMeses?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   citasComoTipoServicio?: Prisma.CitasPsicologosUncheckedUpdateManyWithoutTipoServicioRelNestedInput
   ordenes?: Prisma.OrdenServicioUncheckedUpdateManyWithoutServicioNestedInput
@@ -810,6 +965,9 @@ export type ServicioUpdateWithoutCitasComoTipoServicioInput = {
   nombre?: Prisma.StringFieldUpdateOperationsInput | string
   activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
   deleteAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  requiereSeguimiento?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  primerSeguimientoDias?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  requiereSeguimientoTresMeses?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   citasComoServicio?: Prisma.CitasPsicologosUpdateManyWithoutServicioNestedInput
   ordenes?: Prisma.OrdenServicioUpdateManyWithoutServicioNestedInput
@@ -824,6 +982,9 @@ export type ServicioUncheckedUpdateWithoutCitasComoTipoServicioInput = {
   nombre?: Prisma.StringFieldUpdateOperationsInput | string
   activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
   deleteAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  requiereSeguimiento?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  primerSeguimientoDias?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  requiereSeguimientoTresMeses?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   citasComoServicio?: Prisma.CitasPsicologosUncheckedUpdateManyWithoutServicioNestedInput
   ordenes?: Prisma.OrdenServicioUncheckedUpdateManyWithoutServicioNestedInput
@@ -835,6 +996,9 @@ export type ServicioCreateManyTenantInput = {
   nombre: string
   activo?: boolean
   deleteAt?: Date | string | null
+  requiereSeguimiento?: boolean
+  primerSeguimientoDias?: number | null
+  requiereSeguimientoTresMeses?: boolean
   createdAt?: Date | string
 }
 
@@ -843,6 +1007,9 @@ export type ServicioUpdateWithoutTenantInput = {
   nombre?: Prisma.StringFieldUpdateOperationsInput | string
   activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
   deleteAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  requiereSeguimiento?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  primerSeguimientoDias?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  requiereSeguimientoTresMeses?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   citasComoServicio?: Prisma.CitasPsicologosUpdateManyWithoutServicioNestedInput
   citasComoTipoServicio?: Prisma.CitasPsicologosUpdateManyWithoutTipoServicioRelNestedInput
@@ -856,6 +1023,9 @@ export type ServicioUncheckedUpdateWithoutTenantInput = {
   nombre?: Prisma.StringFieldUpdateOperationsInput | string
   activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
   deleteAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  requiereSeguimiento?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  primerSeguimientoDias?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  requiereSeguimientoTresMeses?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   citasComoServicio?: Prisma.CitasPsicologosUncheckedUpdateManyWithoutServicioNestedInput
   citasComoTipoServicio?: Prisma.CitasPsicologosUncheckedUpdateManyWithoutTipoServicioRelNestedInput
@@ -868,6 +1038,9 @@ export type ServicioUncheckedUpdateManyWithoutTenantInput = {
   nombre?: Prisma.StringFieldUpdateOperationsInput | string
   activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
   deleteAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  requiereSeguimiento?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  primerSeguimientoDias?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  requiereSeguimientoTresMeses?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -877,6 +1050,9 @@ export type ServicioCreateManyEmpresaInput = {
   nombre: string
   activo?: boolean
   deleteAt?: Date | string | null
+  requiereSeguimiento?: boolean
+  primerSeguimientoDias?: number | null
+  requiereSeguimientoTresMeses?: boolean
   createdAt?: Date | string
 }
 
@@ -885,6 +1061,9 @@ export type ServicioUpdateWithoutEmpresaInput = {
   nombre?: Prisma.StringFieldUpdateOperationsInput | string
   activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
   deleteAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  requiereSeguimiento?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  primerSeguimientoDias?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  requiereSeguimientoTresMeses?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   citasComoServicio?: Prisma.CitasPsicologosUpdateManyWithoutServicioNestedInput
   citasComoTipoServicio?: Prisma.CitasPsicologosUpdateManyWithoutTipoServicioRelNestedInput
@@ -898,6 +1077,9 @@ export type ServicioUncheckedUpdateWithoutEmpresaInput = {
   nombre?: Prisma.StringFieldUpdateOperationsInput | string
   activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
   deleteAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  requiereSeguimiento?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  primerSeguimientoDias?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  requiereSeguimientoTresMeses?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   citasComoServicio?: Prisma.CitasPsicologosUncheckedUpdateManyWithoutServicioNestedInput
   citasComoTipoServicio?: Prisma.CitasPsicologosUncheckedUpdateManyWithoutTipoServicioRelNestedInput
@@ -910,6 +1092,9 @@ export type ServicioUncheckedUpdateManyWithoutEmpresaInput = {
   nombre?: Prisma.StringFieldUpdateOperationsInput | string
   activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
   deleteAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  requiereSeguimiento?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  primerSeguimientoDias?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  requiereSeguimientoTresMeses?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -969,6 +1154,9 @@ export type ServicioSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs
   nombre?: boolean
   activo?: boolean
   deleteAt?: boolean
+  requiereSeguimiento?: boolean
+  primerSeguimientoDias?: boolean
+  requiereSeguimientoTresMeses?: boolean
   createdAt?: boolean
   citasComoServicio?: boolean | Prisma.Servicio$citasComoServicioArgs<ExtArgs>
   citasComoTipoServicio?: boolean | Prisma.Servicio$citasComoTipoServicioArgs<ExtArgs>
@@ -985,6 +1173,9 @@ export type ServicioSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Exte
   nombre?: boolean
   activo?: boolean
   deleteAt?: boolean
+  requiereSeguimiento?: boolean
+  primerSeguimientoDias?: boolean
+  requiereSeguimientoTresMeses?: boolean
   createdAt?: boolean
   empresa?: boolean | Prisma.EmpresaDefaultArgs<ExtArgs>
   tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
@@ -997,6 +1188,9 @@ export type ServicioSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Exte
   nombre?: boolean
   activo?: boolean
   deleteAt?: boolean
+  requiereSeguimiento?: boolean
+  primerSeguimientoDias?: boolean
+  requiereSeguimientoTresMeses?: boolean
   createdAt?: boolean
   empresa?: boolean | Prisma.EmpresaDefaultArgs<ExtArgs>
   tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
@@ -1009,10 +1203,13 @@ export type ServicioSelectScalar = {
   nombre?: boolean
   activo?: boolean
   deleteAt?: boolean
+  requiereSeguimiento?: boolean
+  primerSeguimientoDias?: boolean
+  requiereSeguimientoTresMeses?: boolean
   createdAt?: boolean
 }
 
-export type ServicioOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "tenantId" | "empresaId" | "nombre" | "activo" | "deleteAt" | "createdAt", ExtArgs["result"]["servicio"]>
+export type ServicioOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "tenantId" | "empresaId" | "nombre" | "activo" | "deleteAt" | "requiereSeguimiento" | "primerSeguimientoDias" | "requiereSeguimientoTresMeses" | "createdAt", ExtArgs["result"]["servicio"]>
 export type ServicioInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   citasComoServicio?: boolean | Prisma.Servicio$citasComoServicioArgs<ExtArgs>
   citasComoTipoServicio?: boolean | Prisma.Servicio$citasComoTipoServicioArgs<ExtArgs>
@@ -1046,6 +1243,9 @@ export type $ServicioPayload<ExtArgs extends runtime.Types.Extensions.InternalAr
     nombre: string
     activo: boolean
     deleteAt: Date | null
+    requiereSeguimiento: boolean
+    primerSeguimientoDias: number | null
+    requiereSeguimientoTresMeses: boolean
     createdAt: Date
   }, ExtArgs["result"]["servicio"]>
   composites: {}
@@ -1481,6 +1681,9 @@ export interface ServicioFieldRefs {
   readonly nombre: Prisma.FieldRef<"Servicio", 'String'>
   readonly activo: Prisma.FieldRef<"Servicio", 'Boolean'>
   readonly deleteAt: Prisma.FieldRef<"Servicio", 'DateTime'>
+  readonly requiereSeguimiento: Prisma.FieldRef<"Servicio", 'Boolean'>
+  readonly primerSeguimientoDias: Prisma.FieldRef<"Servicio", 'Int'>
+  readonly requiereSeguimientoTresMeses: Prisma.FieldRef<"Servicio", 'Boolean'>
   readonly createdAt: Prisma.FieldRef<"Servicio", 'DateTime'>
 }
     

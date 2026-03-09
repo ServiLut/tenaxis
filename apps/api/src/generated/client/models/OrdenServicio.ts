@@ -609,6 +609,7 @@ export type OrdenServicioWhereInput = {
   evidencias?: Prisma.EvidenciaServicioListRelationFilter
   geolocalizaciones?: Prisma.GeolocalizacionListRelationFilter
   nominaDetalles?: Prisma.NominaDetalleListRelationFilter
+  seguimientos?: Prisma.OrdenServicioSeguimientoListRelationFilter
   cliente?: Prisma.XOR<Prisma.ClienteScalarRelationFilter, Prisma.ClienteWhereInput>
   creadoPor?: Prisma.XOR<Prisma.TenantMembershipNullableScalarRelationFilter, Prisma.TenantMembershipWhereInput> | null
   direccion?: Prisma.XOR<Prisma.DireccionNullableScalarRelationFilter, Prisma.DireccionWhereInput> | null
@@ -683,6 +684,7 @@ export type OrdenServicioOrderByWithRelationInput = {
   evidencias?: Prisma.EvidenciaServicioOrderByRelationAggregateInput
   geolocalizaciones?: Prisma.GeolocalizacionOrderByRelationAggregateInput
   nominaDetalles?: Prisma.NominaDetalleOrderByRelationAggregateInput
+  seguimientos?: Prisma.OrdenServicioSeguimientoOrderByRelationAggregateInput
   cliente?: Prisma.ClienteOrderByWithRelationInput
   creadoPor?: Prisma.TenantMembershipOrderByWithRelationInput
   direccion?: Prisma.DireccionOrderByWithRelationInput
@@ -760,6 +762,7 @@ export type OrdenServicioWhereUniqueInput = Prisma.AtLeast<{
   evidencias?: Prisma.EvidenciaServicioListRelationFilter
   geolocalizaciones?: Prisma.GeolocalizacionListRelationFilter
   nominaDetalles?: Prisma.NominaDetalleListRelationFilter
+  seguimientos?: Prisma.OrdenServicioSeguimientoListRelationFilter
   cliente?: Prisma.XOR<Prisma.ClienteScalarRelationFilter, Prisma.ClienteWhereInput>
   creadoPor?: Prisma.XOR<Prisma.TenantMembershipNullableScalarRelationFilter, Prisma.TenantMembershipWhereInput> | null
   direccion?: Prisma.XOR<Prisma.DireccionNullableScalarRelationFilter, Prisma.DireccionWhereInput> | null
@@ -939,6 +942,7 @@ export type OrdenServicioCreateInput = {
   evidencias?: Prisma.EvidenciaServicioCreateNestedManyWithoutOrdenServicioInput
   geolocalizaciones?: Prisma.GeolocalizacionCreateNestedManyWithoutOrdenInput
   nominaDetalles?: Prisma.NominaDetalleCreateNestedManyWithoutOrdenInput
+  seguimientos?: Prisma.OrdenServicioSeguimientoCreateNestedManyWithoutOrdenServicioInput
   cliente: Prisma.ClienteCreateNestedOneWithoutOrdenesServicioInput
   creadoPor?: Prisma.TenantMembershipCreateNestedOneWithoutServiciosCreadosInput
   direccion?: Prisma.DireccionCreateNestedOneWithoutOrdenesServicioInput
@@ -1013,6 +1017,7 @@ export type OrdenServicioUncheckedCreateInput = {
   evidencias?: Prisma.EvidenciaServicioUncheckedCreateNestedManyWithoutOrdenServicioInput
   geolocalizaciones?: Prisma.GeolocalizacionUncheckedCreateNestedManyWithoutOrdenInput
   nominaDetalles?: Prisma.NominaDetalleUncheckedCreateNestedManyWithoutOrdenInput
+  seguimientos?: Prisma.OrdenServicioSeguimientoUncheckedCreateNestedManyWithoutOrdenServicioInput
   ordenesHijas?: Prisma.OrdenServicioUncheckedCreateNestedManyWithoutOrdenPadreInput
 }
 
@@ -1061,6 +1066,7 @@ export type OrdenServicioUpdateInput = {
   evidencias?: Prisma.EvidenciaServicioUpdateManyWithoutOrdenServicioNestedInput
   geolocalizaciones?: Prisma.GeolocalizacionUpdateManyWithoutOrdenNestedInput
   nominaDetalles?: Prisma.NominaDetalleUpdateManyWithoutOrdenNestedInput
+  seguimientos?: Prisma.OrdenServicioSeguimientoUpdateManyWithoutOrdenServicioNestedInput
   cliente?: Prisma.ClienteUpdateOneRequiredWithoutOrdenesServicioNestedInput
   creadoPor?: Prisma.TenantMembershipUpdateOneWithoutServiciosCreadosNestedInput
   direccion?: Prisma.DireccionUpdateOneWithoutOrdenesServicioNestedInput
@@ -1135,6 +1141,7 @@ export type OrdenServicioUncheckedUpdateInput = {
   evidencias?: Prisma.EvidenciaServicioUncheckedUpdateManyWithoutOrdenServicioNestedInput
   geolocalizaciones?: Prisma.GeolocalizacionUncheckedUpdateManyWithoutOrdenNestedInput
   nominaDetalles?: Prisma.NominaDetalleUncheckedUpdateManyWithoutOrdenNestedInput
+  seguimientos?: Prisma.OrdenServicioSeguimientoUncheckedUpdateManyWithoutOrdenServicioNestedInput
   ordenesHijas?: Prisma.OrdenServicioUncheckedUpdateManyWithoutOrdenPadreNestedInput
 }
 
@@ -2033,6 +2040,20 @@ export type OrdenServicioUncheckedUpdateManyWithoutOrdenPadreNestedInput = {
   deleteMany?: Prisma.OrdenServicioScalarWhereInput | Prisma.OrdenServicioScalarWhereInput[]
 }
 
+export type OrdenServicioCreateNestedOneWithoutSeguimientosInput = {
+  create?: Prisma.XOR<Prisma.OrdenServicioCreateWithoutSeguimientosInput, Prisma.OrdenServicioUncheckedCreateWithoutSeguimientosInput>
+  connectOrCreate?: Prisma.OrdenServicioCreateOrConnectWithoutSeguimientosInput
+  connect?: Prisma.OrdenServicioWhereUniqueInput
+}
+
+export type OrdenServicioUpdateOneRequiredWithoutSeguimientosNestedInput = {
+  create?: Prisma.XOR<Prisma.OrdenServicioCreateWithoutSeguimientosInput, Prisma.OrdenServicioUncheckedCreateWithoutSeguimientosInput>
+  connectOrCreate?: Prisma.OrdenServicioCreateOrConnectWithoutSeguimientosInput
+  upsert?: Prisma.OrdenServicioUpsertWithoutSeguimientosInput
+  connect?: Prisma.OrdenServicioWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.OrdenServicioUpdateToOneWithWhereWithoutSeguimientosInput, Prisma.OrdenServicioUpdateWithoutSeguimientosInput>, Prisma.OrdenServicioUncheckedUpdateWithoutSeguimientosInput>
+}
+
 export type OrdenServicioCreateNestedManyWithoutEntidadFinancieraInput = {
   create?: Prisma.XOR<Prisma.OrdenServicioCreateWithoutEntidadFinancieraInput, Prisma.OrdenServicioUncheckedCreateWithoutEntidadFinancieraInput> | Prisma.OrdenServicioCreateWithoutEntidadFinancieraInput[] | Prisma.OrdenServicioUncheckedCreateWithoutEntidadFinancieraInput[]
   connectOrCreate?: Prisma.OrdenServicioCreateOrConnectWithoutEntidadFinancieraInput | Prisma.OrdenServicioCreateOrConnectWithoutEntidadFinancieraInput[]
@@ -2192,6 +2213,7 @@ export type OrdenServicioCreateWithoutTenantInput = {
   evidencias?: Prisma.EvidenciaServicioCreateNestedManyWithoutOrdenServicioInput
   geolocalizaciones?: Prisma.GeolocalizacionCreateNestedManyWithoutOrdenInput
   nominaDetalles?: Prisma.NominaDetalleCreateNestedManyWithoutOrdenInput
+  seguimientos?: Prisma.OrdenServicioSeguimientoCreateNestedManyWithoutOrdenServicioInput
   cliente: Prisma.ClienteCreateNestedOneWithoutOrdenesServicioInput
   creadoPor?: Prisma.TenantMembershipCreateNestedOneWithoutServiciosCreadosInput
   direccion?: Prisma.DireccionCreateNestedOneWithoutOrdenesServicioInput
@@ -2264,6 +2286,7 @@ export type OrdenServicioUncheckedCreateWithoutTenantInput = {
   evidencias?: Prisma.EvidenciaServicioUncheckedCreateNestedManyWithoutOrdenServicioInput
   geolocalizaciones?: Prisma.GeolocalizacionUncheckedCreateNestedManyWithoutOrdenInput
   nominaDetalles?: Prisma.NominaDetalleUncheckedCreateNestedManyWithoutOrdenInput
+  seguimientos?: Prisma.OrdenServicioSeguimientoUncheckedCreateNestedManyWithoutOrdenServicioInput
   ordenesHijas?: Prisma.OrdenServicioUncheckedCreateNestedManyWithoutOrdenPadreInput
 }
 
@@ -2396,6 +2419,7 @@ export type OrdenServicioCreateWithoutCreadoPorInput = {
   evidencias?: Prisma.EvidenciaServicioCreateNestedManyWithoutOrdenServicioInput
   geolocalizaciones?: Prisma.GeolocalizacionCreateNestedManyWithoutOrdenInput
   nominaDetalles?: Prisma.NominaDetalleCreateNestedManyWithoutOrdenInput
+  seguimientos?: Prisma.OrdenServicioSeguimientoCreateNestedManyWithoutOrdenServicioInput
   cliente: Prisma.ClienteCreateNestedOneWithoutOrdenesServicioInput
   direccion?: Prisma.DireccionCreateNestedOneWithoutOrdenesServicioInput
   empresa: Prisma.EmpresaCreateNestedOneWithoutOrdenesServicioInput
@@ -2468,6 +2492,7 @@ export type OrdenServicioUncheckedCreateWithoutCreadoPorInput = {
   evidencias?: Prisma.EvidenciaServicioUncheckedCreateNestedManyWithoutOrdenServicioInput
   geolocalizaciones?: Prisma.GeolocalizacionUncheckedCreateNestedManyWithoutOrdenInput
   nominaDetalles?: Prisma.NominaDetalleUncheckedCreateNestedManyWithoutOrdenInput
+  seguimientos?: Prisma.OrdenServicioSeguimientoUncheckedCreateNestedManyWithoutOrdenServicioInput
   ordenesHijas?: Prisma.OrdenServicioUncheckedCreateNestedManyWithoutOrdenPadreInput
 }
 
@@ -2526,6 +2551,7 @@ export type OrdenServicioCreateWithoutLiquidadoPorInput = {
   evidencias?: Prisma.EvidenciaServicioCreateNestedManyWithoutOrdenServicioInput
   geolocalizaciones?: Prisma.GeolocalizacionCreateNestedManyWithoutOrdenInput
   nominaDetalles?: Prisma.NominaDetalleCreateNestedManyWithoutOrdenInput
+  seguimientos?: Prisma.OrdenServicioSeguimientoCreateNestedManyWithoutOrdenServicioInput
   cliente: Prisma.ClienteCreateNestedOneWithoutOrdenesServicioInput
   creadoPor?: Prisma.TenantMembershipCreateNestedOneWithoutServiciosCreadosInput
   direccion?: Prisma.DireccionCreateNestedOneWithoutOrdenesServicioInput
@@ -2598,6 +2624,7 @@ export type OrdenServicioUncheckedCreateWithoutLiquidadoPorInput = {
   evidencias?: Prisma.EvidenciaServicioUncheckedCreateNestedManyWithoutOrdenServicioInput
   geolocalizaciones?: Prisma.GeolocalizacionUncheckedCreateNestedManyWithoutOrdenInput
   nominaDetalles?: Prisma.NominaDetalleUncheckedCreateNestedManyWithoutOrdenInput
+  seguimientos?: Prisma.OrdenServicioSeguimientoUncheckedCreateNestedManyWithoutOrdenServicioInput
   ordenesHijas?: Prisma.OrdenServicioUncheckedCreateNestedManyWithoutOrdenPadreInput
 }
 
@@ -2656,6 +2683,7 @@ export type OrdenServicioCreateWithoutTecnicoInput = {
   evidencias?: Prisma.EvidenciaServicioCreateNestedManyWithoutOrdenServicioInput
   geolocalizaciones?: Prisma.GeolocalizacionCreateNestedManyWithoutOrdenInput
   nominaDetalles?: Prisma.NominaDetalleCreateNestedManyWithoutOrdenInput
+  seguimientos?: Prisma.OrdenServicioSeguimientoCreateNestedManyWithoutOrdenServicioInput
   cliente: Prisma.ClienteCreateNestedOneWithoutOrdenesServicioInput
   creadoPor?: Prisma.TenantMembershipCreateNestedOneWithoutServiciosCreadosInput
   direccion?: Prisma.DireccionCreateNestedOneWithoutOrdenesServicioInput
@@ -2728,6 +2756,7 @@ export type OrdenServicioUncheckedCreateWithoutTecnicoInput = {
   evidencias?: Prisma.EvidenciaServicioUncheckedCreateNestedManyWithoutOrdenServicioInput
   geolocalizaciones?: Prisma.GeolocalizacionUncheckedCreateNestedManyWithoutOrdenInput
   nominaDetalles?: Prisma.NominaDetalleUncheckedCreateNestedManyWithoutOrdenInput
+  seguimientos?: Prisma.OrdenServicioSeguimientoUncheckedCreateNestedManyWithoutOrdenServicioInput
   ordenesHijas?: Prisma.OrdenServicioUncheckedCreateNestedManyWithoutOrdenPadreInput
 }
 
@@ -2834,6 +2863,7 @@ export type OrdenServicioCreateWithoutEmpresaInput = {
   evidencias?: Prisma.EvidenciaServicioCreateNestedManyWithoutOrdenServicioInput
   geolocalizaciones?: Prisma.GeolocalizacionCreateNestedManyWithoutOrdenInput
   nominaDetalles?: Prisma.NominaDetalleCreateNestedManyWithoutOrdenInput
+  seguimientos?: Prisma.OrdenServicioSeguimientoCreateNestedManyWithoutOrdenServicioInput
   cliente: Prisma.ClienteCreateNestedOneWithoutOrdenesServicioInput
   creadoPor?: Prisma.TenantMembershipCreateNestedOneWithoutServiciosCreadosInput
   direccion?: Prisma.DireccionCreateNestedOneWithoutOrdenesServicioInput
@@ -2906,6 +2936,7 @@ export type OrdenServicioUncheckedCreateWithoutEmpresaInput = {
   evidencias?: Prisma.EvidenciaServicioUncheckedCreateNestedManyWithoutOrdenServicioInput
   geolocalizaciones?: Prisma.GeolocalizacionUncheckedCreateNestedManyWithoutOrdenInput
   nominaDetalles?: Prisma.NominaDetalleUncheckedCreateNestedManyWithoutOrdenInput
+  seguimientos?: Prisma.OrdenServicioSeguimientoUncheckedCreateNestedManyWithoutOrdenServicioInput
   ordenesHijas?: Prisma.OrdenServicioUncheckedCreateNestedManyWithoutOrdenPadreInput
 }
 
@@ -2980,6 +3011,7 @@ export type OrdenServicioCreateWithoutClienteInput = {
   evidencias?: Prisma.EvidenciaServicioCreateNestedManyWithoutOrdenServicioInput
   geolocalizaciones?: Prisma.GeolocalizacionCreateNestedManyWithoutOrdenInput
   nominaDetalles?: Prisma.NominaDetalleCreateNestedManyWithoutOrdenInput
+  seguimientos?: Prisma.OrdenServicioSeguimientoCreateNestedManyWithoutOrdenServicioInput
   creadoPor?: Prisma.TenantMembershipCreateNestedOneWithoutServiciosCreadosInput
   direccion?: Prisma.DireccionCreateNestedOneWithoutOrdenesServicioInput
   empresa: Prisma.EmpresaCreateNestedOneWithoutOrdenesServicioInput
@@ -3052,6 +3084,7 @@ export type OrdenServicioUncheckedCreateWithoutClienteInput = {
   evidencias?: Prisma.EvidenciaServicioUncheckedCreateNestedManyWithoutOrdenServicioInput
   geolocalizaciones?: Prisma.GeolocalizacionUncheckedCreateNestedManyWithoutOrdenInput
   nominaDetalles?: Prisma.NominaDetalleUncheckedCreateNestedManyWithoutOrdenInput
+  seguimientos?: Prisma.OrdenServicioSeguimientoUncheckedCreateNestedManyWithoutOrdenServicioInput
   ordenesHijas?: Prisma.OrdenServicioUncheckedCreateNestedManyWithoutOrdenPadreInput
 }
 
@@ -3126,6 +3159,7 @@ export type OrdenServicioCreateWithoutVehiculoInput = {
   evidencias?: Prisma.EvidenciaServicioCreateNestedManyWithoutOrdenServicioInput
   geolocalizaciones?: Prisma.GeolocalizacionCreateNestedManyWithoutOrdenInput
   nominaDetalles?: Prisma.NominaDetalleCreateNestedManyWithoutOrdenInput
+  seguimientos?: Prisma.OrdenServicioSeguimientoCreateNestedManyWithoutOrdenServicioInput
   cliente: Prisma.ClienteCreateNestedOneWithoutOrdenesServicioInput
   creadoPor?: Prisma.TenantMembershipCreateNestedOneWithoutServiciosCreadosInput
   direccion?: Prisma.DireccionCreateNestedOneWithoutOrdenesServicioInput
@@ -3198,6 +3232,7 @@ export type OrdenServicioUncheckedCreateWithoutVehiculoInput = {
   evidencias?: Prisma.EvidenciaServicioUncheckedCreateNestedManyWithoutOrdenServicioInput
   geolocalizaciones?: Prisma.GeolocalizacionUncheckedCreateNestedManyWithoutOrdenInput
   nominaDetalles?: Prisma.NominaDetalleUncheckedCreateNestedManyWithoutOrdenInput
+  seguimientos?: Prisma.OrdenServicioSeguimientoUncheckedCreateNestedManyWithoutOrdenServicioInput
   ordenesHijas?: Prisma.OrdenServicioUncheckedCreateNestedManyWithoutOrdenPadreInput
 }
 
@@ -3272,6 +3307,7 @@ export type OrdenServicioCreateWithoutDireccionInput = {
   evidencias?: Prisma.EvidenciaServicioCreateNestedManyWithoutOrdenServicioInput
   geolocalizaciones?: Prisma.GeolocalizacionCreateNestedManyWithoutOrdenInput
   nominaDetalles?: Prisma.NominaDetalleCreateNestedManyWithoutOrdenInput
+  seguimientos?: Prisma.OrdenServicioSeguimientoCreateNestedManyWithoutOrdenServicioInput
   cliente: Prisma.ClienteCreateNestedOneWithoutOrdenesServicioInput
   creadoPor?: Prisma.TenantMembershipCreateNestedOneWithoutServiciosCreadosInput
   empresa: Prisma.EmpresaCreateNestedOneWithoutOrdenesServicioInput
@@ -3344,6 +3380,7 @@ export type OrdenServicioUncheckedCreateWithoutDireccionInput = {
   evidencias?: Prisma.EvidenciaServicioUncheckedCreateNestedManyWithoutOrdenServicioInput
   geolocalizaciones?: Prisma.GeolocalizacionUncheckedCreateNestedManyWithoutOrdenInput
   nominaDetalles?: Prisma.NominaDetalleUncheckedCreateNestedManyWithoutOrdenInput
+  seguimientos?: Prisma.OrdenServicioSeguimientoUncheckedCreateNestedManyWithoutOrdenServicioInput
   ordenesHijas?: Prisma.OrdenServicioUncheckedCreateNestedManyWithoutOrdenPadreInput
 }
 
@@ -3418,6 +3455,7 @@ export type OrdenServicioCreateWithoutZonaInput = {
   evidencias?: Prisma.EvidenciaServicioCreateNestedManyWithoutOrdenServicioInput
   geolocalizaciones?: Prisma.GeolocalizacionCreateNestedManyWithoutOrdenInput
   nominaDetalles?: Prisma.NominaDetalleCreateNestedManyWithoutOrdenInput
+  seguimientos?: Prisma.OrdenServicioSeguimientoCreateNestedManyWithoutOrdenServicioInput
   cliente: Prisma.ClienteCreateNestedOneWithoutOrdenesServicioInput
   creadoPor?: Prisma.TenantMembershipCreateNestedOneWithoutServiciosCreadosInput
   direccion?: Prisma.DireccionCreateNestedOneWithoutOrdenesServicioInput
@@ -3490,6 +3528,7 @@ export type OrdenServicioUncheckedCreateWithoutZonaInput = {
   evidencias?: Prisma.EvidenciaServicioUncheckedCreateNestedManyWithoutOrdenServicioInput
   geolocalizaciones?: Prisma.GeolocalizacionUncheckedCreateNestedManyWithoutOrdenInput
   nominaDetalles?: Prisma.NominaDetalleUncheckedCreateNestedManyWithoutOrdenInput
+  seguimientos?: Prisma.OrdenServicioSeguimientoUncheckedCreateNestedManyWithoutOrdenServicioInput
   ordenesHijas?: Prisma.OrdenServicioUncheckedCreateNestedManyWithoutOrdenPadreInput
 }
 
@@ -3564,6 +3603,7 @@ export type OrdenServicioCreateWithoutServicioInput = {
   evidencias?: Prisma.EvidenciaServicioCreateNestedManyWithoutOrdenServicioInput
   geolocalizaciones?: Prisma.GeolocalizacionCreateNestedManyWithoutOrdenInput
   nominaDetalles?: Prisma.NominaDetalleCreateNestedManyWithoutOrdenInput
+  seguimientos?: Prisma.OrdenServicioSeguimientoCreateNestedManyWithoutOrdenServicioInput
   cliente: Prisma.ClienteCreateNestedOneWithoutOrdenesServicioInput
   creadoPor?: Prisma.TenantMembershipCreateNestedOneWithoutServiciosCreadosInput
   direccion?: Prisma.DireccionCreateNestedOneWithoutOrdenesServicioInput
@@ -3636,6 +3676,7 @@ export type OrdenServicioUncheckedCreateWithoutServicioInput = {
   evidencias?: Prisma.EvidenciaServicioUncheckedCreateNestedManyWithoutOrdenServicioInput
   geolocalizaciones?: Prisma.GeolocalizacionUncheckedCreateNestedManyWithoutOrdenInput
   nominaDetalles?: Prisma.NominaDetalleUncheckedCreateNestedManyWithoutOrdenInput
+  seguimientos?: Prisma.OrdenServicioSeguimientoUncheckedCreateNestedManyWithoutOrdenServicioInput
   ordenesHijas?: Prisma.OrdenServicioUncheckedCreateNestedManyWithoutOrdenPadreInput
 }
 
@@ -3710,6 +3751,7 @@ export type OrdenServicioCreateWithoutMetodoPagoInput = {
   evidencias?: Prisma.EvidenciaServicioCreateNestedManyWithoutOrdenServicioInput
   geolocalizaciones?: Prisma.GeolocalizacionCreateNestedManyWithoutOrdenInput
   nominaDetalles?: Prisma.NominaDetalleCreateNestedManyWithoutOrdenInput
+  seguimientos?: Prisma.OrdenServicioSeguimientoCreateNestedManyWithoutOrdenServicioInput
   cliente: Prisma.ClienteCreateNestedOneWithoutOrdenesServicioInput
   creadoPor?: Prisma.TenantMembershipCreateNestedOneWithoutServiciosCreadosInput
   direccion?: Prisma.DireccionCreateNestedOneWithoutOrdenesServicioInput
@@ -3782,6 +3824,7 @@ export type OrdenServicioUncheckedCreateWithoutMetodoPagoInput = {
   evidencias?: Prisma.EvidenciaServicioUncheckedCreateNestedManyWithoutOrdenServicioInput
   geolocalizaciones?: Prisma.GeolocalizacionUncheckedCreateNestedManyWithoutOrdenInput
   nominaDetalles?: Prisma.NominaDetalleUncheckedCreateNestedManyWithoutOrdenInput
+  seguimientos?: Prisma.OrdenServicioSeguimientoUncheckedCreateNestedManyWithoutOrdenServicioInput
   ordenesHijas?: Prisma.OrdenServicioUncheckedCreateNestedManyWithoutOrdenPadreInput
 }
 
@@ -3856,6 +3899,7 @@ export type OrdenServicioCreateWithoutOrdenesHijasInput = {
   evidencias?: Prisma.EvidenciaServicioCreateNestedManyWithoutOrdenServicioInput
   geolocalizaciones?: Prisma.GeolocalizacionCreateNestedManyWithoutOrdenInput
   nominaDetalles?: Prisma.NominaDetalleCreateNestedManyWithoutOrdenInput
+  seguimientos?: Prisma.OrdenServicioSeguimientoCreateNestedManyWithoutOrdenServicioInput
   cliente: Prisma.ClienteCreateNestedOneWithoutOrdenesServicioInput
   creadoPor?: Prisma.TenantMembershipCreateNestedOneWithoutServiciosCreadosInput
   direccion?: Prisma.DireccionCreateNestedOneWithoutOrdenesServicioInput
@@ -3929,6 +3973,7 @@ export type OrdenServicioUncheckedCreateWithoutOrdenesHijasInput = {
   evidencias?: Prisma.EvidenciaServicioUncheckedCreateNestedManyWithoutOrdenServicioInput
   geolocalizaciones?: Prisma.GeolocalizacionUncheckedCreateNestedManyWithoutOrdenInput
   nominaDetalles?: Prisma.NominaDetalleUncheckedCreateNestedManyWithoutOrdenInput
+  seguimientos?: Prisma.OrdenServicioSeguimientoUncheckedCreateNestedManyWithoutOrdenServicioInput
 }
 
 export type OrdenServicioCreateOrConnectWithoutOrdenesHijasInput = {
@@ -3981,6 +4026,7 @@ export type OrdenServicioCreateWithoutOrdenPadreInput = {
   evidencias?: Prisma.EvidenciaServicioCreateNestedManyWithoutOrdenServicioInput
   geolocalizaciones?: Prisma.GeolocalizacionCreateNestedManyWithoutOrdenInput
   nominaDetalles?: Prisma.NominaDetalleCreateNestedManyWithoutOrdenInput
+  seguimientos?: Prisma.OrdenServicioSeguimientoCreateNestedManyWithoutOrdenServicioInput
   cliente: Prisma.ClienteCreateNestedOneWithoutOrdenesServicioInput
   creadoPor?: Prisma.TenantMembershipCreateNestedOneWithoutServiciosCreadosInput
   direccion?: Prisma.DireccionCreateNestedOneWithoutOrdenesServicioInput
@@ -4053,6 +4099,7 @@ export type OrdenServicioUncheckedCreateWithoutOrdenPadreInput = {
   evidencias?: Prisma.EvidenciaServicioUncheckedCreateNestedManyWithoutOrdenServicioInput
   geolocalizaciones?: Prisma.GeolocalizacionUncheckedCreateNestedManyWithoutOrdenInput
   nominaDetalles?: Prisma.NominaDetalleUncheckedCreateNestedManyWithoutOrdenInput
+  seguimientos?: Prisma.OrdenServicioSeguimientoUncheckedCreateNestedManyWithoutOrdenServicioInput
   ordenesHijas?: Prisma.OrdenServicioUncheckedCreateNestedManyWithoutOrdenPadreInput
 }
 
@@ -4122,6 +4169,7 @@ export type OrdenServicioUpdateWithoutOrdenesHijasInput = {
   evidencias?: Prisma.EvidenciaServicioUpdateManyWithoutOrdenServicioNestedInput
   geolocalizaciones?: Prisma.GeolocalizacionUpdateManyWithoutOrdenNestedInput
   nominaDetalles?: Prisma.NominaDetalleUpdateManyWithoutOrdenNestedInput
+  seguimientos?: Prisma.OrdenServicioSeguimientoUpdateManyWithoutOrdenServicioNestedInput
   cliente?: Prisma.ClienteUpdateOneRequiredWithoutOrdenesServicioNestedInput
   creadoPor?: Prisma.TenantMembershipUpdateOneWithoutServiciosCreadosNestedInput
   direccion?: Prisma.DireccionUpdateOneWithoutOrdenesServicioNestedInput
@@ -4195,6 +4243,7 @@ export type OrdenServicioUncheckedUpdateWithoutOrdenesHijasInput = {
   evidencias?: Prisma.EvidenciaServicioUncheckedUpdateManyWithoutOrdenServicioNestedInput
   geolocalizaciones?: Prisma.GeolocalizacionUncheckedUpdateManyWithoutOrdenNestedInput
   nominaDetalles?: Prisma.NominaDetalleUncheckedUpdateManyWithoutOrdenNestedInput
+  seguimientos?: Prisma.OrdenServicioSeguimientoUncheckedUpdateManyWithoutOrdenServicioNestedInput
 }
 
 export type OrdenServicioUpsertWithWhereUniqueWithoutOrdenPadreInput = {
@@ -4211,6 +4260,266 @@ export type OrdenServicioUpdateWithWhereUniqueWithoutOrdenPadreInput = {
 export type OrdenServicioUpdateManyWithWhereWithoutOrdenPadreInput = {
   where: Prisma.OrdenServicioScalarWhereInput
   data: Prisma.XOR<Prisma.OrdenServicioUpdateManyMutationInput, Prisma.OrdenServicioUncheckedUpdateManyWithoutOrdenPadreInput>
+}
+
+export type OrdenServicioCreateWithoutSeguimientosInput = {
+  id?: string
+  direccionTexto: string
+  piso?: string | null
+  bloque?: string | null
+  unidad?: string | null
+  barrio?: string | null
+  municipio?: string | null
+  departamento?: string | null
+  linkMaps?: string | null
+  numeroOrden?: string | null
+  fechaVisita?: Date | string | null
+  horaInicio?: Date | string | null
+  horaFin?: Date | string | null
+  observacion?: string | null
+  observacionFinal?: string | null
+  condicionesHigiene?: string | null
+  condicionesLocal?: string | null
+  valorCotizado?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  valorPagado?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  valorRepuestos?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  valorRepuestosTecnico?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  facturaPath?: string | null
+  facturaElectronica?: string | null
+  comprobantePago?: string | null
+  evidenciaPath?: string | null
+  desglosePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  referenciaPago?: string | null
+  fechaPago?: Date | string | null
+  estadoPago?: $Enums.EstadoPagoOrden
+  seguimientoRevisado?: boolean | null
+  liquidadoAt?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  frecuenciaSugerida?: number | null
+  tipoFacturacion?: $Enums.TipoFacturacion | null
+  tipoVisita?: $Enums.TipoVisita | null
+  nivelInfestacion?: $Enums.NivelInfestacion | null
+  urgencia?: $Enums.UrgenciaOrden | null
+  estadoServicio?: $Enums.EstadoOrden
+  consignacionOrden?: Prisma.ConsignacionOrdenCreateNestedOneWithoutOrdenInput
+  declaracionEfectivo?: Prisma.DeclaracionEfectivoCreateNestedOneWithoutOrdenInput
+  evidencias?: Prisma.EvidenciaServicioCreateNestedManyWithoutOrdenServicioInput
+  geolocalizaciones?: Prisma.GeolocalizacionCreateNestedManyWithoutOrdenInput
+  nominaDetalles?: Prisma.NominaDetalleCreateNestedManyWithoutOrdenInput
+  cliente: Prisma.ClienteCreateNestedOneWithoutOrdenesServicioInput
+  creadoPor?: Prisma.TenantMembershipCreateNestedOneWithoutServiciosCreadosInput
+  direccion?: Prisma.DireccionCreateNestedOneWithoutOrdenesServicioInput
+  empresa: Prisma.EmpresaCreateNestedOneWithoutOrdenesServicioInput
+  entidadFinanciera?: Prisma.EntidadFinancieraCreateNestedOneWithoutOrdenesInput
+  liquidadoPor?: Prisma.TenantMembershipCreateNestedOneWithoutServiciosLiquidadosInput
+  metodoPago?: Prisma.MetodoPagoCreateNestedOneWithoutOrdenesInput
+  ordenPadre?: Prisma.OrdenServicioCreateNestedOneWithoutOrdenesHijasInput
+  ordenesHijas?: Prisma.OrdenServicioCreateNestedManyWithoutOrdenPadreInput
+  servicio: Prisma.ServicioCreateNestedOneWithoutOrdenesInput
+  tecnico?: Prisma.TenantMembershipCreateNestedOneWithoutServiciosAsignadosInput
+  tenant: Prisma.TenantCreateNestedOneWithoutOrdenesServicioInput
+  vehiculo?: Prisma.VehiculoCreateNestedOneWithoutOrdenesServicioInput
+  zona?: Prisma.ZonaCreateNestedOneWithoutOrdenesInput
+}
+
+export type OrdenServicioUncheckedCreateWithoutSeguimientosInput = {
+  id?: string
+  tenantId: string
+  empresaId: string
+  clienteId: string
+  servicioId: string
+  creadoPorId?: string | null
+  tecnicoId?: string | null
+  direccionId?: string | null
+  direccionTexto: string
+  piso?: string | null
+  bloque?: string | null
+  unidad?: string | null
+  barrio?: string | null
+  municipio?: string | null
+  departamento?: string | null
+  linkMaps?: string | null
+  zonaId?: string | null
+  vehiculoId?: string | null
+  metodoPagoId?: string | null
+  numeroOrden?: string | null
+  fechaVisita?: Date | string | null
+  horaInicio?: Date | string | null
+  horaFin?: Date | string | null
+  observacion?: string | null
+  observacionFinal?: string | null
+  condicionesHigiene?: string | null
+  condicionesLocal?: string | null
+  valorCotizado?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  valorPagado?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  valorRepuestos?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  valorRepuestosTecnico?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  facturaPath?: string | null
+  facturaElectronica?: string | null
+  comprobantePago?: string | null
+  evidenciaPath?: string | null
+  desglosePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  referenciaPago?: string | null
+  fechaPago?: Date | string | null
+  entidadFinancieraId?: string | null
+  estadoPago?: $Enums.EstadoPagoOrden
+  seguimientoRevisado?: boolean | null
+  liquidadoPorId?: string | null
+  liquidadoAt?: Date | string | null
+  ordenPadreId?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  frecuenciaSugerida?: number | null
+  tipoFacturacion?: $Enums.TipoFacturacion | null
+  tipoVisita?: $Enums.TipoVisita | null
+  nivelInfestacion?: $Enums.NivelInfestacion | null
+  urgencia?: $Enums.UrgenciaOrden | null
+  estadoServicio?: $Enums.EstadoOrden
+  consignacionOrden?: Prisma.ConsignacionOrdenUncheckedCreateNestedOneWithoutOrdenInput
+  declaracionEfectivo?: Prisma.DeclaracionEfectivoUncheckedCreateNestedOneWithoutOrdenInput
+  evidencias?: Prisma.EvidenciaServicioUncheckedCreateNestedManyWithoutOrdenServicioInput
+  geolocalizaciones?: Prisma.GeolocalizacionUncheckedCreateNestedManyWithoutOrdenInput
+  nominaDetalles?: Prisma.NominaDetalleUncheckedCreateNestedManyWithoutOrdenInput
+  ordenesHijas?: Prisma.OrdenServicioUncheckedCreateNestedManyWithoutOrdenPadreInput
+}
+
+export type OrdenServicioCreateOrConnectWithoutSeguimientosInput = {
+  where: Prisma.OrdenServicioWhereUniqueInput
+  create: Prisma.XOR<Prisma.OrdenServicioCreateWithoutSeguimientosInput, Prisma.OrdenServicioUncheckedCreateWithoutSeguimientosInput>
+}
+
+export type OrdenServicioUpsertWithoutSeguimientosInput = {
+  update: Prisma.XOR<Prisma.OrdenServicioUpdateWithoutSeguimientosInput, Prisma.OrdenServicioUncheckedUpdateWithoutSeguimientosInput>
+  create: Prisma.XOR<Prisma.OrdenServicioCreateWithoutSeguimientosInput, Prisma.OrdenServicioUncheckedCreateWithoutSeguimientosInput>
+  where?: Prisma.OrdenServicioWhereInput
+}
+
+export type OrdenServicioUpdateToOneWithWhereWithoutSeguimientosInput = {
+  where?: Prisma.OrdenServicioWhereInput
+  data: Prisma.XOR<Prisma.OrdenServicioUpdateWithoutSeguimientosInput, Prisma.OrdenServicioUncheckedUpdateWithoutSeguimientosInput>
+}
+
+export type OrdenServicioUpdateWithoutSeguimientosInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  direccionTexto?: Prisma.StringFieldUpdateOperationsInput | string
+  piso?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bloque?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  unidad?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  barrio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  municipio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  departamento?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  linkMaps?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  numeroOrden?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  fechaVisita?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  horaInicio?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  horaFin?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  observacion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  observacionFinal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  condicionesHigiene?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  condicionesLocal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  valorCotizado?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  valorPagado?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  valorRepuestos?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  valorRepuestosTecnico?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  facturaPath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  facturaElectronica?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  comprobantePago?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  evidenciaPath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  desglosePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  referenciaPago?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  fechaPago?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  estadoPago?: Prisma.EnumEstadoPagoOrdenFieldUpdateOperationsInput | $Enums.EstadoPagoOrden
+  seguimientoRevisado?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  liquidadoAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  frecuenciaSugerida?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  tipoFacturacion?: Prisma.NullableEnumTipoFacturacionFieldUpdateOperationsInput | $Enums.TipoFacturacion | null
+  tipoVisita?: Prisma.NullableEnumTipoVisitaFieldUpdateOperationsInput | $Enums.TipoVisita | null
+  nivelInfestacion?: Prisma.NullableEnumNivelInfestacionFieldUpdateOperationsInput | $Enums.NivelInfestacion | null
+  urgencia?: Prisma.NullableEnumUrgenciaOrdenFieldUpdateOperationsInput | $Enums.UrgenciaOrden | null
+  estadoServicio?: Prisma.EnumEstadoOrdenFieldUpdateOperationsInput | $Enums.EstadoOrden
+  consignacionOrden?: Prisma.ConsignacionOrdenUpdateOneWithoutOrdenNestedInput
+  declaracionEfectivo?: Prisma.DeclaracionEfectivoUpdateOneWithoutOrdenNestedInput
+  evidencias?: Prisma.EvidenciaServicioUpdateManyWithoutOrdenServicioNestedInput
+  geolocalizaciones?: Prisma.GeolocalizacionUpdateManyWithoutOrdenNestedInput
+  nominaDetalles?: Prisma.NominaDetalleUpdateManyWithoutOrdenNestedInput
+  cliente?: Prisma.ClienteUpdateOneRequiredWithoutOrdenesServicioNestedInput
+  creadoPor?: Prisma.TenantMembershipUpdateOneWithoutServiciosCreadosNestedInput
+  direccion?: Prisma.DireccionUpdateOneWithoutOrdenesServicioNestedInput
+  empresa?: Prisma.EmpresaUpdateOneRequiredWithoutOrdenesServicioNestedInput
+  entidadFinanciera?: Prisma.EntidadFinancieraUpdateOneWithoutOrdenesNestedInput
+  liquidadoPor?: Prisma.TenantMembershipUpdateOneWithoutServiciosLiquidadosNestedInput
+  metodoPago?: Prisma.MetodoPagoUpdateOneWithoutOrdenesNestedInput
+  ordenPadre?: Prisma.OrdenServicioUpdateOneWithoutOrdenesHijasNestedInput
+  ordenesHijas?: Prisma.OrdenServicioUpdateManyWithoutOrdenPadreNestedInput
+  servicio?: Prisma.ServicioUpdateOneRequiredWithoutOrdenesNestedInput
+  tecnico?: Prisma.TenantMembershipUpdateOneWithoutServiciosAsignadosNestedInput
+  tenant?: Prisma.TenantUpdateOneRequiredWithoutOrdenesServicioNestedInput
+  vehiculo?: Prisma.VehiculoUpdateOneWithoutOrdenesServicioNestedInput
+  zona?: Prisma.ZonaUpdateOneWithoutOrdenesNestedInput
+}
+
+export type OrdenServicioUncheckedUpdateWithoutSeguimientosInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenantId?: Prisma.StringFieldUpdateOperationsInput | string
+  empresaId?: Prisma.StringFieldUpdateOperationsInput | string
+  clienteId?: Prisma.StringFieldUpdateOperationsInput | string
+  servicioId?: Prisma.StringFieldUpdateOperationsInput | string
+  creadoPorId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tecnicoId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  direccionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  direccionTexto?: Prisma.StringFieldUpdateOperationsInput | string
+  piso?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bloque?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  unidad?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  barrio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  municipio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  departamento?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  linkMaps?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  zonaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  vehiculoId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  metodoPagoId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  numeroOrden?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  fechaVisita?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  horaInicio?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  horaFin?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  observacion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  observacionFinal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  condicionesHigiene?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  condicionesLocal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  valorCotizado?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  valorPagado?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  valorRepuestos?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  valorRepuestosTecnico?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  facturaPath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  facturaElectronica?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  comprobantePago?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  evidenciaPath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  desglosePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  referenciaPago?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  fechaPago?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  entidadFinancieraId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  estadoPago?: Prisma.EnumEstadoPagoOrdenFieldUpdateOperationsInput | $Enums.EstadoPagoOrden
+  seguimientoRevisado?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  liquidadoPorId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  liquidadoAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  ordenPadreId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  frecuenciaSugerida?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  tipoFacturacion?: Prisma.NullableEnumTipoFacturacionFieldUpdateOperationsInput | $Enums.TipoFacturacion | null
+  tipoVisita?: Prisma.NullableEnumTipoVisitaFieldUpdateOperationsInput | $Enums.TipoVisita | null
+  nivelInfestacion?: Prisma.NullableEnumNivelInfestacionFieldUpdateOperationsInput | $Enums.NivelInfestacion | null
+  urgencia?: Prisma.NullableEnumUrgenciaOrdenFieldUpdateOperationsInput | $Enums.UrgenciaOrden | null
+  estadoServicio?: Prisma.EnumEstadoOrdenFieldUpdateOperationsInput | $Enums.EstadoOrden
+  consignacionOrden?: Prisma.ConsignacionOrdenUncheckedUpdateOneWithoutOrdenNestedInput
+  declaracionEfectivo?: Prisma.DeclaracionEfectivoUncheckedUpdateOneWithoutOrdenNestedInput
+  evidencias?: Prisma.EvidenciaServicioUncheckedUpdateManyWithoutOrdenServicioNestedInput
+  geolocalizaciones?: Prisma.GeolocalizacionUncheckedUpdateManyWithoutOrdenNestedInput
+  nominaDetalles?: Prisma.NominaDetalleUncheckedUpdateManyWithoutOrdenNestedInput
+  ordenesHijas?: Prisma.OrdenServicioUncheckedUpdateManyWithoutOrdenPadreNestedInput
 }
 
 export type OrdenServicioCreateWithoutEntidadFinancieraInput = {
@@ -4258,6 +4567,7 @@ export type OrdenServicioCreateWithoutEntidadFinancieraInput = {
   evidencias?: Prisma.EvidenciaServicioCreateNestedManyWithoutOrdenServicioInput
   geolocalizaciones?: Prisma.GeolocalizacionCreateNestedManyWithoutOrdenInput
   nominaDetalles?: Prisma.NominaDetalleCreateNestedManyWithoutOrdenInput
+  seguimientos?: Prisma.OrdenServicioSeguimientoCreateNestedManyWithoutOrdenServicioInput
   cliente: Prisma.ClienteCreateNestedOneWithoutOrdenesServicioInput
   creadoPor?: Prisma.TenantMembershipCreateNestedOneWithoutServiciosCreadosInput
   direccion?: Prisma.DireccionCreateNestedOneWithoutOrdenesServicioInput
@@ -4330,6 +4640,7 @@ export type OrdenServicioUncheckedCreateWithoutEntidadFinancieraInput = {
   evidencias?: Prisma.EvidenciaServicioUncheckedCreateNestedManyWithoutOrdenServicioInput
   geolocalizaciones?: Prisma.GeolocalizacionUncheckedCreateNestedManyWithoutOrdenInput
   nominaDetalles?: Prisma.NominaDetalleUncheckedCreateNestedManyWithoutOrdenInput
+  seguimientos?: Prisma.OrdenServicioSeguimientoUncheckedCreateNestedManyWithoutOrdenServicioInput
   ordenesHijas?: Prisma.OrdenServicioUncheckedCreateNestedManyWithoutOrdenPadreInput
 }
 
@@ -4403,6 +4714,7 @@ export type OrdenServicioCreateWithoutGeolocalizacionesInput = {
   declaracionEfectivo?: Prisma.DeclaracionEfectivoCreateNestedOneWithoutOrdenInput
   evidencias?: Prisma.EvidenciaServicioCreateNestedManyWithoutOrdenServicioInput
   nominaDetalles?: Prisma.NominaDetalleCreateNestedManyWithoutOrdenInput
+  seguimientos?: Prisma.OrdenServicioSeguimientoCreateNestedManyWithoutOrdenServicioInput
   cliente: Prisma.ClienteCreateNestedOneWithoutOrdenesServicioInput
   creadoPor?: Prisma.TenantMembershipCreateNestedOneWithoutServiciosCreadosInput
   direccion?: Prisma.DireccionCreateNestedOneWithoutOrdenesServicioInput
@@ -4476,6 +4788,7 @@ export type OrdenServicioUncheckedCreateWithoutGeolocalizacionesInput = {
   declaracionEfectivo?: Prisma.DeclaracionEfectivoUncheckedCreateNestedOneWithoutOrdenInput
   evidencias?: Prisma.EvidenciaServicioUncheckedCreateNestedManyWithoutOrdenServicioInput
   nominaDetalles?: Prisma.NominaDetalleUncheckedCreateNestedManyWithoutOrdenInput
+  seguimientos?: Prisma.OrdenServicioSeguimientoUncheckedCreateNestedManyWithoutOrdenServicioInput
   ordenesHijas?: Prisma.OrdenServicioUncheckedCreateNestedManyWithoutOrdenPadreInput
 }
 
@@ -4539,6 +4852,7 @@ export type OrdenServicioUpdateWithoutGeolocalizacionesInput = {
   declaracionEfectivo?: Prisma.DeclaracionEfectivoUpdateOneWithoutOrdenNestedInput
   evidencias?: Prisma.EvidenciaServicioUpdateManyWithoutOrdenServicioNestedInput
   nominaDetalles?: Prisma.NominaDetalleUpdateManyWithoutOrdenNestedInput
+  seguimientos?: Prisma.OrdenServicioSeguimientoUpdateManyWithoutOrdenServicioNestedInput
   cliente?: Prisma.ClienteUpdateOneRequiredWithoutOrdenesServicioNestedInput
   creadoPor?: Prisma.TenantMembershipUpdateOneWithoutServiciosCreadosNestedInput
   direccion?: Prisma.DireccionUpdateOneWithoutOrdenesServicioNestedInput
@@ -4612,6 +4926,7 @@ export type OrdenServicioUncheckedUpdateWithoutGeolocalizacionesInput = {
   declaracionEfectivo?: Prisma.DeclaracionEfectivoUncheckedUpdateOneWithoutOrdenNestedInput
   evidencias?: Prisma.EvidenciaServicioUncheckedUpdateManyWithoutOrdenServicioNestedInput
   nominaDetalles?: Prisma.NominaDetalleUncheckedUpdateManyWithoutOrdenNestedInput
+  seguimientos?: Prisma.OrdenServicioSeguimientoUncheckedUpdateManyWithoutOrdenServicioNestedInput
   ordenesHijas?: Prisma.OrdenServicioUncheckedUpdateManyWithoutOrdenPadreNestedInput
 }
 
@@ -4659,6 +4974,7 @@ export type OrdenServicioCreateWithoutNominaDetallesInput = {
   declaracionEfectivo?: Prisma.DeclaracionEfectivoCreateNestedOneWithoutOrdenInput
   evidencias?: Prisma.EvidenciaServicioCreateNestedManyWithoutOrdenServicioInput
   geolocalizaciones?: Prisma.GeolocalizacionCreateNestedManyWithoutOrdenInput
+  seguimientos?: Prisma.OrdenServicioSeguimientoCreateNestedManyWithoutOrdenServicioInput
   cliente: Prisma.ClienteCreateNestedOneWithoutOrdenesServicioInput
   creadoPor?: Prisma.TenantMembershipCreateNestedOneWithoutServiciosCreadosInput
   direccion?: Prisma.DireccionCreateNestedOneWithoutOrdenesServicioInput
@@ -4732,6 +5048,7 @@ export type OrdenServicioUncheckedCreateWithoutNominaDetallesInput = {
   declaracionEfectivo?: Prisma.DeclaracionEfectivoUncheckedCreateNestedOneWithoutOrdenInput
   evidencias?: Prisma.EvidenciaServicioUncheckedCreateNestedManyWithoutOrdenServicioInput
   geolocalizaciones?: Prisma.GeolocalizacionUncheckedCreateNestedManyWithoutOrdenInput
+  seguimientos?: Prisma.OrdenServicioSeguimientoUncheckedCreateNestedManyWithoutOrdenServicioInput
   ordenesHijas?: Prisma.OrdenServicioUncheckedCreateNestedManyWithoutOrdenPadreInput
 }
 
@@ -4795,6 +5112,7 @@ export type OrdenServicioUpdateWithoutNominaDetallesInput = {
   declaracionEfectivo?: Prisma.DeclaracionEfectivoUpdateOneWithoutOrdenNestedInput
   evidencias?: Prisma.EvidenciaServicioUpdateManyWithoutOrdenServicioNestedInput
   geolocalizaciones?: Prisma.GeolocalizacionUpdateManyWithoutOrdenNestedInput
+  seguimientos?: Prisma.OrdenServicioSeguimientoUpdateManyWithoutOrdenServicioNestedInput
   cliente?: Prisma.ClienteUpdateOneRequiredWithoutOrdenesServicioNestedInput
   creadoPor?: Prisma.TenantMembershipUpdateOneWithoutServiciosCreadosNestedInput
   direccion?: Prisma.DireccionUpdateOneWithoutOrdenesServicioNestedInput
@@ -4868,6 +5186,7 @@ export type OrdenServicioUncheckedUpdateWithoutNominaDetallesInput = {
   declaracionEfectivo?: Prisma.DeclaracionEfectivoUncheckedUpdateOneWithoutOrdenNestedInput
   evidencias?: Prisma.EvidenciaServicioUncheckedUpdateManyWithoutOrdenServicioNestedInput
   geolocalizaciones?: Prisma.GeolocalizacionUncheckedUpdateManyWithoutOrdenNestedInput
+  seguimientos?: Prisma.OrdenServicioSeguimientoUncheckedUpdateManyWithoutOrdenServicioNestedInput
   ordenesHijas?: Prisma.OrdenServicioUncheckedUpdateManyWithoutOrdenPadreNestedInput
 }
 
@@ -4915,6 +5234,7 @@ export type OrdenServicioCreateWithoutDeclaracionEfectivoInput = {
   evidencias?: Prisma.EvidenciaServicioCreateNestedManyWithoutOrdenServicioInput
   geolocalizaciones?: Prisma.GeolocalizacionCreateNestedManyWithoutOrdenInput
   nominaDetalles?: Prisma.NominaDetalleCreateNestedManyWithoutOrdenInput
+  seguimientos?: Prisma.OrdenServicioSeguimientoCreateNestedManyWithoutOrdenServicioInput
   cliente: Prisma.ClienteCreateNestedOneWithoutOrdenesServicioInput
   creadoPor?: Prisma.TenantMembershipCreateNestedOneWithoutServiciosCreadosInput
   direccion?: Prisma.DireccionCreateNestedOneWithoutOrdenesServicioInput
@@ -4988,6 +5308,7 @@ export type OrdenServicioUncheckedCreateWithoutDeclaracionEfectivoInput = {
   evidencias?: Prisma.EvidenciaServicioUncheckedCreateNestedManyWithoutOrdenServicioInput
   geolocalizaciones?: Prisma.GeolocalizacionUncheckedCreateNestedManyWithoutOrdenInput
   nominaDetalles?: Prisma.NominaDetalleUncheckedCreateNestedManyWithoutOrdenInput
+  seguimientos?: Prisma.OrdenServicioSeguimientoUncheckedCreateNestedManyWithoutOrdenServicioInput
   ordenesHijas?: Prisma.OrdenServicioUncheckedCreateNestedManyWithoutOrdenPadreInput
 }
 
@@ -5051,6 +5372,7 @@ export type OrdenServicioUpdateWithoutDeclaracionEfectivoInput = {
   evidencias?: Prisma.EvidenciaServicioUpdateManyWithoutOrdenServicioNestedInput
   geolocalizaciones?: Prisma.GeolocalizacionUpdateManyWithoutOrdenNestedInput
   nominaDetalles?: Prisma.NominaDetalleUpdateManyWithoutOrdenNestedInput
+  seguimientos?: Prisma.OrdenServicioSeguimientoUpdateManyWithoutOrdenServicioNestedInput
   cliente?: Prisma.ClienteUpdateOneRequiredWithoutOrdenesServicioNestedInput
   creadoPor?: Prisma.TenantMembershipUpdateOneWithoutServiciosCreadosNestedInput
   direccion?: Prisma.DireccionUpdateOneWithoutOrdenesServicioNestedInput
@@ -5124,6 +5446,7 @@ export type OrdenServicioUncheckedUpdateWithoutDeclaracionEfectivoInput = {
   evidencias?: Prisma.EvidenciaServicioUncheckedUpdateManyWithoutOrdenServicioNestedInput
   geolocalizaciones?: Prisma.GeolocalizacionUncheckedUpdateManyWithoutOrdenNestedInput
   nominaDetalles?: Prisma.NominaDetalleUncheckedUpdateManyWithoutOrdenNestedInput
+  seguimientos?: Prisma.OrdenServicioSeguimientoUncheckedUpdateManyWithoutOrdenServicioNestedInput
   ordenesHijas?: Prisma.OrdenServicioUncheckedUpdateManyWithoutOrdenPadreNestedInput
 }
 
@@ -5171,6 +5494,7 @@ export type OrdenServicioCreateWithoutConsignacionOrdenInput = {
   evidencias?: Prisma.EvidenciaServicioCreateNestedManyWithoutOrdenServicioInput
   geolocalizaciones?: Prisma.GeolocalizacionCreateNestedManyWithoutOrdenInput
   nominaDetalles?: Prisma.NominaDetalleCreateNestedManyWithoutOrdenInput
+  seguimientos?: Prisma.OrdenServicioSeguimientoCreateNestedManyWithoutOrdenServicioInput
   cliente: Prisma.ClienteCreateNestedOneWithoutOrdenesServicioInput
   creadoPor?: Prisma.TenantMembershipCreateNestedOneWithoutServiciosCreadosInput
   direccion?: Prisma.DireccionCreateNestedOneWithoutOrdenesServicioInput
@@ -5244,6 +5568,7 @@ export type OrdenServicioUncheckedCreateWithoutConsignacionOrdenInput = {
   evidencias?: Prisma.EvidenciaServicioUncheckedCreateNestedManyWithoutOrdenServicioInput
   geolocalizaciones?: Prisma.GeolocalizacionUncheckedCreateNestedManyWithoutOrdenInput
   nominaDetalles?: Prisma.NominaDetalleUncheckedCreateNestedManyWithoutOrdenInput
+  seguimientos?: Prisma.OrdenServicioSeguimientoUncheckedCreateNestedManyWithoutOrdenServicioInput
   ordenesHijas?: Prisma.OrdenServicioUncheckedCreateNestedManyWithoutOrdenPadreInput
 }
 
@@ -5307,6 +5632,7 @@ export type OrdenServicioUpdateWithoutConsignacionOrdenInput = {
   evidencias?: Prisma.EvidenciaServicioUpdateManyWithoutOrdenServicioNestedInput
   geolocalizaciones?: Prisma.GeolocalizacionUpdateManyWithoutOrdenNestedInput
   nominaDetalles?: Prisma.NominaDetalleUpdateManyWithoutOrdenNestedInput
+  seguimientos?: Prisma.OrdenServicioSeguimientoUpdateManyWithoutOrdenServicioNestedInput
   cliente?: Prisma.ClienteUpdateOneRequiredWithoutOrdenesServicioNestedInput
   creadoPor?: Prisma.TenantMembershipUpdateOneWithoutServiciosCreadosNestedInput
   direccion?: Prisma.DireccionUpdateOneWithoutOrdenesServicioNestedInput
@@ -5380,6 +5706,7 @@ export type OrdenServicioUncheckedUpdateWithoutConsignacionOrdenInput = {
   evidencias?: Prisma.EvidenciaServicioUncheckedUpdateManyWithoutOrdenServicioNestedInput
   geolocalizaciones?: Prisma.GeolocalizacionUncheckedUpdateManyWithoutOrdenNestedInput
   nominaDetalles?: Prisma.NominaDetalleUncheckedUpdateManyWithoutOrdenNestedInput
+  seguimientos?: Prisma.OrdenServicioSeguimientoUncheckedUpdateManyWithoutOrdenServicioNestedInput
   ordenesHijas?: Prisma.OrdenServicioUncheckedUpdateManyWithoutOrdenPadreNestedInput
 }
 
@@ -5427,6 +5754,7 @@ export type OrdenServicioCreateWithoutEvidenciasInput = {
   declaracionEfectivo?: Prisma.DeclaracionEfectivoCreateNestedOneWithoutOrdenInput
   geolocalizaciones?: Prisma.GeolocalizacionCreateNestedManyWithoutOrdenInput
   nominaDetalles?: Prisma.NominaDetalleCreateNestedManyWithoutOrdenInput
+  seguimientos?: Prisma.OrdenServicioSeguimientoCreateNestedManyWithoutOrdenServicioInput
   cliente: Prisma.ClienteCreateNestedOneWithoutOrdenesServicioInput
   creadoPor?: Prisma.TenantMembershipCreateNestedOneWithoutServiciosCreadosInput
   direccion?: Prisma.DireccionCreateNestedOneWithoutOrdenesServicioInput
@@ -5500,6 +5828,7 @@ export type OrdenServicioUncheckedCreateWithoutEvidenciasInput = {
   declaracionEfectivo?: Prisma.DeclaracionEfectivoUncheckedCreateNestedOneWithoutOrdenInput
   geolocalizaciones?: Prisma.GeolocalizacionUncheckedCreateNestedManyWithoutOrdenInput
   nominaDetalles?: Prisma.NominaDetalleUncheckedCreateNestedManyWithoutOrdenInput
+  seguimientos?: Prisma.OrdenServicioSeguimientoUncheckedCreateNestedManyWithoutOrdenServicioInput
   ordenesHijas?: Prisma.OrdenServicioUncheckedCreateNestedManyWithoutOrdenPadreInput
 }
 
@@ -5563,6 +5892,7 @@ export type OrdenServicioUpdateWithoutEvidenciasInput = {
   declaracionEfectivo?: Prisma.DeclaracionEfectivoUpdateOneWithoutOrdenNestedInput
   geolocalizaciones?: Prisma.GeolocalizacionUpdateManyWithoutOrdenNestedInput
   nominaDetalles?: Prisma.NominaDetalleUpdateManyWithoutOrdenNestedInput
+  seguimientos?: Prisma.OrdenServicioSeguimientoUpdateManyWithoutOrdenServicioNestedInput
   cliente?: Prisma.ClienteUpdateOneRequiredWithoutOrdenesServicioNestedInput
   creadoPor?: Prisma.TenantMembershipUpdateOneWithoutServiciosCreadosNestedInput
   direccion?: Prisma.DireccionUpdateOneWithoutOrdenesServicioNestedInput
@@ -5636,6 +5966,7 @@ export type OrdenServicioUncheckedUpdateWithoutEvidenciasInput = {
   declaracionEfectivo?: Prisma.DeclaracionEfectivoUncheckedUpdateOneWithoutOrdenNestedInput
   geolocalizaciones?: Prisma.GeolocalizacionUncheckedUpdateManyWithoutOrdenNestedInput
   nominaDetalles?: Prisma.NominaDetalleUncheckedUpdateManyWithoutOrdenNestedInput
+  seguimientos?: Prisma.OrdenServicioSeguimientoUncheckedUpdateManyWithoutOrdenServicioNestedInput
   ordenesHijas?: Prisma.OrdenServicioUncheckedUpdateManyWithoutOrdenPadreNestedInput
 }
 
@@ -5738,6 +6069,7 @@ export type OrdenServicioUpdateWithoutTenantInput = {
   evidencias?: Prisma.EvidenciaServicioUpdateManyWithoutOrdenServicioNestedInput
   geolocalizaciones?: Prisma.GeolocalizacionUpdateManyWithoutOrdenNestedInput
   nominaDetalles?: Prisma.NominaDetalleUpdateManyWithoutOrdenNestedInput
+  seguimientos?: Prisma.OrdenServicioSeguimientoUpdateManyWithoutOrdenServicioNestedInput
   cliente?: Prisma.ClienteUpdateOneRequiredWithoutOrdenesServicioNestedInput
   creadoPor?: Prisma.TenantMembershipUpdateOneWithoutServiciosCreadosNestedInput
   direccion?: Prisma.DireccionUpdateOneWithoutOrdenesServicioNestedInput
@@ -5810,6 +6142,7 @@ export type OrdenServicioUncheckedUpdateWithoutTenantInput = {
   evidencias?: Prisma.EvidenciaServicioUncheckedUpdateManyWithoutOrdenServicioNestedInput
   geolocalizaciones?: Prisma.GeolocalizacionUncheckedUpdateManyWithoutOrdenNestedInput
   nominaDetalles?: Prisma.NominaDetalleUncheckedUpdateManyWithoutOrdenNestedInput
+  seguimientos?: Prisma.OrdenServicioSeguimientoUncheckedUpdateManyWithoutOrdenServicioNestedInput
   ordenesHijas?: Prisma.OrdenServicioUncheckedUpdateManyWithoutOrdenPadreNestedInput
 }
 
@@ -6074,6 +6407,7 @@ export type OrdenServicioUpdateWithoutCreadoPorInput = {
   evidencias?: Prisma.EvidenciaServicioUpdateManyWithoutOrdenServicioNestedInput
   geolocalizaciones?: Prisma.GeolocalizacionUpdateManyWithoutOrdenNestedInput
   nominaDetalles?: Prisma.NominaDetalleUpdateManyWithoutOrdenNestedInput
+  seguimientos?: Prisma.OrdenServicioSeguimientoUpdateManyWithoutOrdenServicioNestedInput
   cliente?: Prisma.ClienteUpdateOneRequiredWithoutOrdenesServicioNestedInput
   direccion?: Prisma.DireccionUpdateOneWithoutOrdenesServicioNestedInput
   empresa?: Prisma.EmpresaUpdateOneRequiredWithoutOrdenesServicioNestedInput
@@ -6146,6 +6480,7 @@ export type OrdenServicioUncheckedUpdateWithoutCreadoPorInput = {
   evidencias?: Prisma.EvidenciaServicioUncheckedUpdateManyWithoutOrdenServicioNestedInput
   geolocalizaciones?: Prisma.GeolocalizacionUncheckedUpdateManyWithoutOrdenNestedInput
   nominaDetalles?: Prisma.NominaDetalleUncheckedUpdateManyWithoutOrdenNestedInput
+  seguimientos?: Prisma.OrdenServicioSeguimientoUncheckedUpdateManyWithoutOrdenServicioNestedInput
   ordenesHijas?: Prisma.OrdenServicioUncheckedUpdateManyWithoutOrdenPadreNestedInput
 }
 
@@ -6248,6 +6583,7 @@ export type OrdenServicioUpdateWithoutLiquidadoPorInput = {
   evidencias?: Prisma.EvidenciaServicioUpdateManyWithoutOrdenServicioNestedInput
   geolocalizaciones?: Prisma.GeolocalizacionUpdateManyWithoutOrdenNestedInput
   nominaDetalles?: Prisma.NominaDetalleUpdateManyWithoutOrdenNestedInput
+  seguimientos?: Prisma.OrdenServicioSeguimientoUpdateManyWithoutOrdenServicioNestedInput
   cliente?: Prisma.ClienteUpdateOneRequiredWithoutOrdenesServicioNestedInput
   creadoPor?: Prisma.TenantMembershipUpdateOneWithoutServiciosCreadosNestedInput
   direccion?: Prisma.DireccionUpdateOneWithoutOrdenesServicioNestedInput
@@ -6320,6 +6656,7 @@ export type OrdenServicioUncheckedUpdateWithoutLiquidadoPorInput = {
   evidencias?: Prisma.EvidenciaServicioUncheckedUpdateManyWithoutOrdenServicioNestedInput
   geolocalizaciones?: Prisma.GeolocalizacionUncheckedUpdateManyWithoutOrdenNestedInput
   nominaDetalles?: Prisma.NominaDetalleUncheckedUpdateManyWithoutOrdenNestedInput
+  seguimientos?: Prisma.OrdenServicioSeguimientoUncheckedUpdateManyWithoutOrdenServicioNestedInput
   ordenesHijas?: Prisma.OrdenServicioUncheckedUpdateManyWithoutOrdenPadreNestedInput
 }
 
@@ -6422,6 +6759,7 @@ export type OrdenServicioUpdateWithoutTecnicoInput = {
   evidencias?: Prisma.EvidenciaServicioUpdateManyWithoutOrdenServicioNestedInput
   geolocalizaciones?: Prisma.GeolocalizacionUpdateManyWithoutOrdenNestedInput
   nominaDetalles?: Prisma.NominaDetalleUpdateManyWithoutOrdenNestedInput
+  seguimientos?: Prisma.OrdenServicioSeguimientoUpdateManyWithoutOrdenServicioNestedInput
   cliente?: Prisma.ClienteUpdateOneRequiredWithoutOrdenesServicioNestedInput
   creadoPor?: Prisma.TenantMembershipUpdateOneWithoutServiciosCreadosNestedInput
   direccion?: Prisma.DireccionUpdateOneWithoutOrdenesServicioNestedInput
@@ -6494,6 +6832,7 @@ export type OrdenServicioUncheckedUpdateWithoutTecnicoInput = {
   evidencias?: Prisma.EvidenciaServicioUncheckedUpdateManyWithoutOrdenServicioNestedInput
   geolocalizaciones?: Prisma.GeolocalizacionUncheckedUpdateManyWithoutOrdenNestedInput
   nominaDetalles?: Prisma.NominaDetalleUncheckedUpdateManyWithoutOrdenNestedInput
+  seguimientos?: Prisma.OrdenServicioSeguimientoUncheckedUpdateManyWithoutOrdenServicioNestedInput
   ordenesHijas?: Prisma.OrdenServicioUncheckedUpdateManyWithoutOrdenPadreNestedInput
 }
 
@@ -6650,6 +6989,7 @@ export type OrdenServicioUpdateWithoutEmpresaInput = {
   evidencias?: Prisma.EvidenciaServicioUpdateManyWithoutOrdenServicioNestedInput
   geolocalizaciones?: Prisma.GeolocalizacionUpdateManyWithoutOrdenNestedInput
   nominaDetalles?: Prisma.NominaDetalleUpdateManyWithoutOrdenNestedInput
+  seguimientos?: Prisma.OrdenServicioSeguimientoUpdateManyWithoutOrdenServicioNestedInput
   cliente?: Prisma.ClienteUpdateOneRequiredWithoutOrdenesServicioNestedInput
   creadoPor?: Prisma.TenantMembershipUpdateOneWithoutServiciosCreadosNestedInput
   direccion?: Prisma.DireccionUpdateOneWithoutOrdenesServicioNestedInput
@@ -6722,6 +7062,7 @@ export type OrdenServicioUncheckedUpdateWithoutEmpresaInput = {
   evidencias?: Prisma.EvidenciaServicioUncheckedUpdateManyWithoutOrdenServicioNestedInput
   geolocalizaciones?: Prisma.GeolocalizacionUncheckedUpdateManyWithoutOrdenNestedInput
   nominaDetalles?: Prisma.NominaDetalleUncheckedUpdateManyWithoutOrdenNestedInput
+  seguimientos?: Prisma.OrdenServicioSeguimientoUncheckedUpdateManyWithoutOrdenServicioNestedInput
   ordenesHijas?: Prisma.OrdenServicioUncheckedUpdateManyWithoutOrdenPadreNestedInput
 }
 
@@ -6878,6 +7219,7 @@ export type OrdenServicioUpdateWithoutClienteInput = {
   evidencias?: Prisma.EvidenciaServicioUpdateManyWithoutOrdenServicioNestedInput
   geolocalizaciones?: Prisma.GeolocalizacionUpdateManyWithoutOrdenNestedInput
   nominaDetalles?: Prisma.NominaDetalleUpdateManyWithoutOrdenNestedInput
+  seguimientos?: Prisma.OrdenServicioSeguimientoUpdateManyWithoutOrdenServicioNestedInput
   creadoPor?: Prisma.TenantMembershipUpdateOneWithoutServiciosCreadosNestedInput
   direccion?: Prisma.DireccionUpdateOneWithoutOrdenesServicioNestedInput
   empresa?: Prisma.EmpresaUpdateOneRequiredWithoutOrdenesServicioNestedInput
@@ -6950,6 +7292,7 @@ export type OrdenServicioUncheckedUpdateWithoutClienteInput = {
   evidencias?: Prisma.EvidenciaServicioUncheckedUpdateManyWithoutOrdenServicioNestedInput
   geolocalizaciones?: Prisma.GeolocalizacionUncheckedUpdateManyWithoutOrdenNestedInput
   nominaDetalles?: Prisma.NominaDetalleUncheckedUpdateManyWithoutOrdenNestedInput
+  seguimientos?: Prisma.OrdenServicioSeguimientoUncheckedUpdateManyWithoutOrdenServicioNestedInput
   ordenesHijas?: Prisma.OrdenServicioUncheckedUpdateManyWithoutOrdenPadreNestedInput
 }
 
@@ -7106,6 +7449,7 @@ export type OrdenServicioUpdateWithoutVehiculoInput = {
   evidencias?: Prisma.EvidenciaServicioUpdateManyWithoutOrdenServicioNestedInput
   geolocalizaciones?: Prisma.GeolocalizacionUpdateManyWithoutOrdenNestedInput
   nominaDetalles?: Prisma.NominaDetalleUpdateManyWithoutOrdenNestedInput
+  seguimientos?: Prisma.OrdenServicioSeguimientoUpdateManyWithoutOrdenServicioNestedInput
   cliente?: Prisma.ClienteUpdateOneRequiredWithoutOrdenesServicioNestedInput
   creadoPor?: Prisma.TenantMembershipUpdateOneWithoutServiciosCreadosNestedInput
   direccion?: Prisma.DireccionUpdateOneWithoutOrdenesServicioNestedInput
@@ -7178,6 +7522,7 @@ export type OrdenServicioUncheckedUpdateWithoutVehiculoInput = {
   evidencias?: Prisma.EvidenciaServicioUncheckedUpdateManyWithoutOrdenServicioNestedInput
   geolocalizaciones?: Prisma.GeolocalizacionUncheckedUpdateManyWithoutOrdenNestedInput
   nominaDetalles?: Prisma.NominaDetalleUncheckedUpdateManyWithoutOrdenNestedInput
+  seguimientos?: Prisma.OrdenServicioSeguimientoUncheckedUpdateManyWithoutOrdenServicioNestedInput
   ordenesHijas?: Prisma.OrdenServicioUncheckedUpdateManyWithoutOrdenPadreNestedInput
 }
 
@@ -7334,6 +7679,7 @@ export type OrdenServicioUpdateWithoutDireccionInput = {
   evidencias?: Prisma.EvidenciaServicioUpdateManyWithoutOrdenServicioNestedInput
   geolocalizaciones?: Prisma.GeolocalizacionUpdateManyWithoutOrdenNestedInput
   nominaDetalles?: Prisma.NominaDetalleUpdateManyWithoutOrdenNestedInput
+  seguimientos?: Prisma.OrdenServicioSeguimientoUpdateManyWithoutOrdenServicioNestedInput
   cliente?: Prisma.ClienteUpdateOneRequiredWithoutOrdenesServicioNestedInput
   creadoPor?: Prisma.TenantMembershipUpdateOneWithoutServiciosCreadosNestedInput
   empresa?: Prisma.EmpresaUpdateOneRequiredWithoutOrdenesServicioNestedInput
@@ -7406,6 +7752,7 @@ export type OrdenServicioUncheckedUpdateWithoutDireccionInput = {
   evidencias?: Prisma.EvidenciaServicioUncheckedUpdateManyWithoutOrdenServicioNestedInput
   geolocalizaciones?: Prisma.GeolocalizacionUncheckedUpdateManyWithoutOrdenNestedInput
   nominaDetalles?: Prisma.NominaDetalleUncheckedUpdateManyWithoutOrdenNestedInput
+  seguimientos?: Prisma.OrdenServicioSeguimientoUncheckedUpdateManyWithoutOrdenServicioNestedInput
   ordenesHijas?: Prisma.OrdenServicioUncheckedUpdateManyWithoutOrdenPadreNestedInput
 }
 
@@ -7562,6 +7909,7 @@ export type OrdenServicioUpdateWithoutZonaInput = {
   evidencias?: Prisma.EvidenciaServicioUpdateManyWithoutOrdenServicioNestedInput
   geolocalizaciones?: Prisma.GeolocalizacionUpdateManyWithoutOrdenNestedInput
   nominaDetalles?: Prisma.NominaDetalleUpdateManyWithoutOrdenNestedInput
+  seguimientos?: Prisma.OrdenServicioSeguimientoUpdateManyWithoutOrdenServicioNestedInput
   cliente?: Prisma.ClienteUpdateOneRequiredWithoutOrdenesServicioNestedInput
   creadoPor?: Prisma.TenantMembershipUpdateOneWithoutServiciosCreadosNestedInput
   direccion?: Prisma.DireccionUpdateOneWithoutOrdenesServicioNestedInput
@@ -7634,6 +7982,7 @@ export type OrdenServicioUncheckedUpdateWithoutZonaInput = {
   evidencias?: Prisma.EvidenciaServicioUncheckedUpdateManyWithoutOrdenServicioNestedInput
   geolocalizaciones?: Prisma.GeolocalizacionUncheckedUpdateManyWithoutOrdenNestedInput
   nominaDetalles?: Prisma.NominaDetalleUncheckedUpdateManyWithoutOrdenNestedInput
+  seguimientos?: Prisma.OrdenServicioSeguimientoUncheckedUpdateManyWithoutOrdenServicioNestedInput
   ordenesHijas?: Prisma.OrdenServicioUncheckedUpdateManyWithoutOrdenPadreNestedInput
 }
 
@@ -7790,6 +8139,7 @@ export type OrdenServicioUpdateWithoutServicioInput = {
   evidencias?: Prisma.EvidenciaServicioUpdateManyWithoutOrdenServicioNestedInput
   geolocalizaciones?: Prisma.GeolocalizacionUpdateManyWithoutOrdenNestedInput
   nominaDetalles?: Prisma.NominaDetalleUpdateManyWithoutOrdenNestedInput
+  seguimientos?: Prisma.OrdenServicioSeguimientoUpdateManyWithoutOrdenServicioNestedInput
   cliente?: Prisma.ClienteUpdateOneRequiredWithoutOrdenesServicioNestedInput
   creadoPor?: Prisma.TenantMembershipUpdateOneWithoutServiciosCreadosNestedInput
   direccion?: Prisma.DireccionUpdateOneWithoutOrdenesServicioNestedInput
@@ -7862,6 +8212,7 @@ export type OrdenServicioUncheckedUpdateWithoutServicioInput = {
   evidencias?: Prisma.EvidenciaServicioUncheckedUpdateManyWithoutOrdenServicioNestedInput
   geolocalizaciones?: Prisma.GeolocalizacionUncheckedUpdateManyWithoutOrdenNestedInput
   nominaDetalles?: Prisma.NominaDetalleUncheckedUpdateManyWithoutOrdenNestedInput
+  seguimientos?: Prisma.OrdenServicioSeguimientoUncheckedUpdateManyWithoutOrdenServicioNestedInput
   ordenesHijas?: Prisma.OrdenServicioUncheckedUpdateManyWithoutOrdenPadreNestedInput
 }
 
@@ -8018,6 +8369,7 @@ export type OrdenServicioUpdateWithoutMetodoPagoInput = {
   evidencias?: Prisma.EvidenciaServicioUpdateManyWithoutOrdenServicioNestedInput
   geolocalizaciones?: Prisma.GeolocalizacionUpdateManyWithoutOrdenNestedInput
   nominaDetalles?: Prisma.NominaDetalleUpdateManyWithoutOrdenNestedInput
+  seguimientos?: Prisma.OrdenServicioSeguimientoUpdateManyWithoutOrdenServicioNestedInput
   cliente?: Prisma.ClienteUpdateOneRequiredWithoutOrdenesServicioNestedInput
   creadoPor?: Prisma.TenantMembershipUpdateOneWithoutServiciosCreadosNestedInput
   direccion?: Prisma.DireccionUpdateOneWithoutOrdenesServicioNestedInput
@@ -8090,6 +8442,7 @@ export type OrdenServicioUncheckedUpdateWithoutMetodoPagoInput = {
   evidencias?: Prisma.EvidenciaServicioUncheckedUpdateManyWithoutOrdenServicioNestedInput
   geolocalizaciones?: Prisma.GeolocalizacionUncheckedUpdateManyWithoutOrdenNestedInput
   nominaDetalles?: Prisma.NominaDetalleUncheckedUpdateManyWithoutOrdenNestedInput
+  seguimientos?: Prisma.OrdenServicioSeguimientoUncheckedUpdateManyWithoutOrdenServicioNestedInput
   ordenesHijas?: Prisma.OrdenServicioUncheckedUpdateManyWithoutOrdenPadreNestedInput
 }
 
@@ -8246,6 +8599,7 @@ export type OrdenServicioUpdateWithoutOrdenPadreInput = {
   evidencias?: Prisma.EvidenciaServicioUpdateManyWithoutOrdenServicioNestedInput
   geolocalizaciones?: Prisma.GeolocalizacionUpdateManyWithoutOrdenNestedInput
   nominaDetalles?: Prisma.NominaDetalleUpdateManyWithoutOrdenNestedInput
+  seguimientos?: Prisma.OrdenServicioSeguimientoUpdateManyWithoutOrdenServicioNestedInput
   cliente?: Prisma.ClienteUpdateOneRequiredWithoutOrdenesServicioNestedInput
   creadoPor?: Prisma.TenantMembershipUpdateOneWithoutServiciosCreadosNestedInput
   direccion?: Prisma.DireccionUpdateOneWithoutOrdenesServicioNestedInput
@@ -8318,6 +8672,7 @@ export type OrdenServicioUncheckedUpdateWithoutOrdenPadreInput = {
   evidencias?: Prisma.EvidenciaServicioUncheckedUpdateManyWithoutOrdenServicioNestedInput
   geolocalizaciones?: Prisma.GeolocalizacionUncheckedUpdateManyWithoutOrdenNestedInput
   nominaDetalles?: Prisma.NominaDetalleUncheckedUpdateManyWithoutOrdenNestedInput
+  seguimientos?: Prisma.OrdenServicioSeguimientoUncheckedUpdateManyWithoutOrdenServicioNestedInput
   ordenesHijas?: Prisma.OrdenServicioUncheckedUpdateManyWithoutOrdenPadreNestedInput
 }
 
@@ -8474,6 +8829,7 @@ export type OrdenServicioUpdateWithoutEntidadFinancieraInput = {
   evidencias?: Prisma.EvidenciaServicioUpdateManyWithoutOrdenServicioNestedInput
   geolocalizaciones?: Prisma.GeolocalizacionUpdateManyWithoutOrdenNestedInput
   nominaDetalles?: Prisma.NominaDetalleUpdateManyWithoutOrdenNestedInput
+  seguimientos?: Prisma.OrdenServicioSeguimientoUpdateManyWithoutOrdenServicioNestedInput
   cliente?: Prisma.ClienteUpdateOneRequiredWithoutOrdenesServicioNestedInput
   creadoPor?: Prisma.TenantMembershipUpdateOneWithoutServiciosCreadosNestedInput
   direccion?: Prisma.DireccionUpdateOneWithoutOrdenesServicioNestedInput
@@ -8546,6 +8902,7 @@ export type OrdenServicioUncheckedUpdateWithoutEntidadFinancieraInput = {
   evidencias?: Prisma.EvidenciaServicioUncheckedUpdateManyWithoutOrdenServicioNestedInput
   geolocalizaciones?: Prisma.GeolocalizacionUncheckedUpdateManyWithoutOrdenNestedInput
   nominaDetalles?: Prisma.NominaDetalleUncheckedUpdateManyWithoutOrdenNestedInput
+  seguimientos?: Prisma.OrdenServicioSeguimientoUncheckedUpdateManyWithoutOrdenServicioNestedInput
   ordenesHijas?: Prisma.OrdenServicioUncheckedUpdateManyWithoutOrdenPadreNestedInput
 }
 
@@ -8612,6 +8969,7 @@ export type OrdenServicioCountOutputType = {
   evidencias: number
   geolocalizaciones: number
   nominaDetalles: number
+  seguimientos: number
   ordenesHijas: number
 }
 
@@ -8619,6 +8977,7 @@ export type OrdenServicioCountOutputTypeSelect<ExtArgs extends runtime.Types.Ext
   evidencias?: boolean | OrdenServicioCountOutputTypeCountEvidenciasArgs
   geolocalizaciones?: boolean | OrdenServicioCountOutputTypeCountGeolocalizacionesArgs
   nominaDetalles?: boolean | OrdenServicioCountOutputTypeCountNominaDetallesArgs
+  seguimientos?: boolean | OrdenServicioCountOutputTypeCountSeguimientosArgs
   ordenesHijas?: boolean | OrdenServicioCountOutputTypeCountOrdenesHijasArgs
 }
 
@@ -8651,6 +9010,13 @@ export type OrdenServicioCountOutputTypeCountGeolocalizacionesArgs<ExtArgs exten
  */
 export type OrdenServicioCountOutputTypeCountNominaDetallesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   where?: Prisma.NominaDetalleWhereInput
+}
+
+/**
+ * OrdenServicioCountOutputType without action
+ */
+export type OrdenServicioCountOutputTypeCountSeguimientosArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.OrdenServicioSeguimientoWhereInput
 }
 
 /**
@@ -8719,6 +9085,7 @@ export type OrdenServicioSelect<ExtArgs extends runtime.Types.Extensions.Interna
   evidencias?: boolean | Prisma.OrdenServicio$evidenciasArgs<ExtArgs>
   geolocalizaciones?: boolean | Prisma.OrdenServicio$geolocalizacionesArgs<ExtArgs>
   nominaDetalles?: boolean | Prisma.OrdenServicio$nominaDetallesArgs<ExtArgs>
+  seguimientos?: boolean | Prisma.OrdenServicio$seguimientosArgs<ExtArgs>
   cliente?: boolean | Prisma.ClienteDefaultArgs<ExtArgs>
   creadoPor?: boolean | Prisma.OrdenServicio$creadoPorArgs<ExtArgs>
   direccion?: boolean | Prisma.OrdenServicio$direccionArgs<ExtArgs>
@@ -8934,6 +9301,7 @@ export type OrdenServicioInclude<ExtArgs extends runtime.Types.Extensions.Intern
   evidencias?: boolean | Prisma.OrdenServicio$evidenciasArgs<ExtArgs>
   geolocalizaciones?: boolean | Prisma.OrdenServicio$geolocalizacionesArgs<ExtArgs>
   nominaDetalles?: boolean | Prisma.OrdenServicio$nominaDetallesArgs<ExtArgs>
+  seguimientos?: boolean | Prisma.OrdenServicio$seguimientosArgs<ExtArgs>
   cliente?: boolean | Prisma.ClienteDefaultArgs<ExtArgs>
   creadoPor?: boolean | Prisma.OrdenServicio$creadoPorArgs<ExtArgs>
   direccion?: boolean | Prisma.OrdenServicio$direccionArgs<ExtArgs>
@@ -8989,6 +9357,7 @@ export type $OrdenServicioPayload<ExtArgs extends runtime.Types.Extensions.Inter
     evidencias: Prisma.$EvidenciaServicioPayload<ExtArgs>[]
     geolocalizaciones: Prisma.$GeolocalizacionPayload<ExtArgs>[]
     nominaDetalles: Prisma.$NominaDetallePayload<ExtArgs>[]
+    seguimientos: Prisma.$OrdenServicioSeguimientoPayload<ExtArgs>[]
     cliente: Prisma.$ClientePayload<ExtArgs>
     creadoPor: Prisma.$TenantMembershipPayload<ExtArgs> | null
     direccion: Prisma.$DireccionPayload<ExtArgs> | null
@@ -9456,6 +9825,7 @@ export interface Prisma__OrdenServicioClient<T, Null = never, ExtArgs extends ru
   evidencias<T extends Prisma.OrdenServicio$evidenciasArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.OrdenServicio$evidenciasArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$EvidenciaServicioPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   geolocalizaciones<T extends Prisma.OrdenServicio$geolocalizacionesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.OrdenServicio$geolocalizacionesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$GeolocalizacionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   nominaDetalles<T extends Prisma.OrdenServicio$nominaDetallesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.OrdenServicio$nominaDetallesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$NominaDetallePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  seguimientos<T extends Prisma.OrdenServicio$seguimientosArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.OrdenServicio$seguimientosArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$OrdenServicioSeguimientoPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   cliente<T extends Prisma.ClienteDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.ClienteDefaultArgs<ExtArgs>>): Prisma.Prisma__ClienteClient<runtime.Types.Result.GetResult<Prisma.$ClientePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   creadoPor<T extends Prisma.OrdenServicio$creadoPorArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.OrdenServicio$creadoPorArgs<ExtArgs>>): Prisma.Prisma__TenantMembershipClient<runtime.Types.Result.GetResult<Prisma.$TenantMembershipPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   direccion<T extends Prisma.OrdenServicio$direccionArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.OrdenServicio$direccionArgs<ExtArgs>>): Prisma.Prisma__DireccionClient<runtime.Types.Result.GetResult<Prisma.$DireccionPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
@@ -10054,6 +10424,30 @@ export type OrdenServicio$nominaDetallesArgs<ExtArgs extends runtime.Types.Exten
   take?: number
   skip?: number
   distinct?: Prisma.NominaDetalleScalarFieldEnum | Prisma.NominaDetalleScalarFieldEnum[]
+}
+
+/**
+ * OrdenServicio.seguimientos
+ */
+export type OrdenServicio$seguimientosArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the OrdenServicioSeguimiento
+   */
+  select?: Prisma.OrdenServicioSeguimientoSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the OrdenServicioSeguimiento
+   */
+  omit?: Prisma.OrdenServicioSeguimientoOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.OrdenServicioSeguimientoInclude<ExtArgs> | null
+  where?: Prisma.OrdenServicioSeguimientoWhereInput
+  orderBy?: Prisma.OrdenServicioSeguimientoOrderByWithRelationInput | Prisma.OrdenServicioSeguimientoOrderByWithRelationInput[]
+  cursor?: Prisma.OrdenServicioSeguimientoWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.OrdenServicioSeguimientoScalarFieldEnum | Prisma.OrdenServicioSeguimientoScalarFieldEnum[]
 }
 
 /**

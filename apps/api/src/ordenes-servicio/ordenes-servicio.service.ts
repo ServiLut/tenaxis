@@ -1,7 +1,14 @@
-import { Injectable, BadRequestException, Logger } from '@nestjs/common';
+import {
+  Injectable,
+  BadRequestException,
+  ForbiddenException,
+  Logger,
+} from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 import { SupabaseService } from '../supabase/supabase.service';
 import { CreateOrdenServicioDto } from './dto/create-orden-servicio.dto';
+import { CompleteFollowUpDto } from './dto/complete-follow-up.dto';
+import { CreateFollowUpOverrideDto } from './dto/create-follow-up-override.dto';
 import { JwtPayload } from '../auth/auth.service';
 import {
   QueryOrdenesServicioDto,
@@ -28,14 +35,20 @@ import {
 import sharp from 'sharp';
 import {
   OrdenServicio,
+  OrdenServicioSeguimiento,
   Geolocalizacion,
   EvidenciaServicio,
   ClasificacionCliente,
+  EstadoPermiso,
   EstadoOrden,
   EstadoPagoOrden,
   MetodoPagoBase,
   NivelInfestacion,
   Prisma,
+  Role,
+  TipoFacturacion,
+  TipoPermiso,
+  UrgenciaOrden,
 } from '../generated/client/client';
 
 type LocalDiaSemana =
@@ -110,7 +123,11 @@ export class OrdenesServicioService {
     private supabase: SupabaseService,
   ) {}
 
-  async create(tenantId: string, createDto: CreateOrdenServicioDto) {
+  async create(
+    tenantId: string,
+    createDto: CreateOrdenServicioDto,
+    performingUser?: JwtPayload,
+  ) {
     this.logger.log(`CREATE: Starting order creation for tenant: ${tenantId}`);
     // 1. Validar que la empresa exista
     const empresa = await this.prisma.empresa.findUnique({
@@ -119,6 +136,16 @@ export class OrdenesServicioService {
     if (!empresa) {
       throw new BadRequestException('La empresa especificada no existe');
     }
+
+    if (performingUser?.membershipId) {
+      createDto.creadoPorId = performingUser.membershipId;
+    }
+
+    await this.assertCanAssignServices(
+      tenantId,
+      performingUser,
+      createDto.empresaId,
+    );
 
     // 2. Obtener dirección y texto
     let direccionId = createDto.direccionId;
@@ -255,6 +282,12 @@ export class OrdenesServicioService {
 
     // Recalcular estado del cliente (score, clasificación, ultima/proxima visita)
     await this.recalculateClientStatus(nuevaOrden.clienteId);
+    await this.createAutomaticFollowUps(
+      tenantId,
+      nuevaOrden,
+      servicio,
+      fechaVisitaDate,
+    );
 
     return this.processSignedUrls(nuevaOrden as OrdenWithGeolocalizaciones);
   }
@@ -543,6 +576,8 @@ export class OrdenesServicioService {
       return null;
     }
 
+    whereClause.ordenPadreId = null;
+
     if (!filters) return whereClause;
 
     if (this.isUUID(filters.clienteId)) {
@@ -726,6 +761,65 @@ export class OrdenesServicioService {
             },
           },
           orderBy: { llegada: 'desc' },
+        },
+        ordenesHijas: {
+          include: {
+            cliente: true,
+            tecnico: {
+              include: {
+                user: {
+                  select: {
+                    nombre: true,
+                    apellido: true,
+                  },
+                },
+              },
+            },
+            servicio: true,
+            creadoPor: {
+              include: {
+                user: {
+                  select: {
+                    nombre: true,
+                    apellido: true,
+                  },
+                },
+              },
+            },
+            metodoPago: true,
+            entidadFinanciera: true,
+            liquidadoPor: {
+              include: {
+                user: {
+                  select: {
+                    nombre: true,
+                    apellido: true,
+                  },
+                },
+              },
+            },
+            empresa: true,
+            zona: true,
+            direccion: true,
+            vehiculo: true,
+            evidencias: true,
+            geolocalizaciones: {
+              include: {
+                membership: {
+                  include: {
+                    user: {
+                      select: {
+                        nombre: true,
+                        apellido: true,
+                      },
+                    },
+                  },
+                },
+              },
+              orderBy: { llegada: 'desc' },
+            },
+          },
+          orderBy: { fechaVisita: 'asc' },
         },
       },
       orderBy: { createdAt: 'desc' },
@@ -1577,6 +1671,382 @@ export class OrdenesServicioService {
         proximaVisita: proximaVisita,
       },
     });
+  }
+
+  async getMyFollowUpStatus(
+    tenantId: string,
+    user: JwtPayload,
+    empresaId?: string,
+  ) {
+    if (!user.membershipId || this.isPrivilegedRole(user.role)) {
+      return {
+        blocked: false,
+        overdueCount: 0,
+        overdueItems: [],
+        activeOverride: null,
+      };
+    }
+
+    const now = new Date();
+    const overdueThreshold = startOfBogotaDayUtc(now);
+    const activeOverride = await this.getActiveFollowUpOverride(
+      tenantId,
+      user.membershipId,
+      empresaId,
+      now,
+    );
+    const overdueCount = await this.prisma.ordenServicioSeguimiento.count({
+      where: {
+        tenantId,
+        empresaId: empresaId || undefined,
+        createdByMembershipId: user.membershipId,
+        status: 'PENDIENTE',
+        completedAt: null,
+        dueAt: { lt: overdueThreshold },
+      },
+    });
+
+    const overdueItems = await this.prisma.ordenServicioSeguimiento.findMany({
+      where: {
+        tenantId,
+        empresaId: empresaId || undefined,
+        createdByMembershipId: user.membershipId,
+        status: 'PENDIENTE',
+        completedAt: null,
+        dueAt: { lt: overdueThreshold },
+      },
+      include: {
+        ordenServicio: {
+          include: {
+            cliente: true,
+            servicio: true,
+          },
+        },
+      },
+      orderBy: { dueAt: 'asc' },
+      take: 10,
+    });
+
+    return {
+      blocked: !activeOverride && overdueCount > 0,
+      overdueCount,
+      overdueItems: overdueItems.map((item) => ({
+        id: item.id,
+        dueAt: item.dueAt,
+        followUpType: item.followUpType,
+        ordenServicioId: item.ordenServicioId,
+        cliente:
+          item.ordenServicio.cliente.tipoCliente === 'EMPRESA'
+            ? item.ordenServicio.cliente.razonSocial
+            : `${item.ordenServicio.cliente.nombre || ''} ${item.ordenServicio.cliente.apellido || ''}`.trim(),
+        servicio: item.ordenServicio.servicio.nombre,
+      })),
+      activeOverride: activeOverride
+        ? {
+            id: activeOverride.id,
+            startsAt: activeOverride.fechaAprobacion,
+            endsAt: activeOverride.fechaExpiracion,
+            reason: activeOverride.motivo,
+          }
+        : null,
+    };
+  }
+
+  async completeFollowUp(
+    tenantId: string,
+    followUpId: string,
+    dto: CompleteFollowUpDto,
+    user: JwtPayload,
+  ) {
+    if (!user.membershipId) {
+      throw new ForbiddenException('No se pudo resolver la membresía actual');
+    }
+
+    const followUp = await this.prisma.ordenServicioSeguimiento.findFirst({
+      where: { id: followUpId, tenantId },
+    });
+
+    if (!followUp) {
+      throw new BadRequestException('Seguimiento no encontrado');
+    }
+
+    const canManage =
+      followUp.createdByMembershipId === user.membershipId ||
+      this.isPrivilegedRole(user.role) ||
+      user.role === Role.COORDINADOR;
+
+    if (!canManage) {
+      throw new ForbiddenException(
+        'No tienes permisos para completar este seguimiento',
+      );
+    }
+
+    const contactedAt = parseFlexibleDateTimeToUtc(dto.contactedAt);
+    if (!contactedAt) {
+      throw new BadRequestException('contactedAt inválido');
+    }
+
+    const updated = await this.prisma.ordenServicioSeguimiento.update({
+      where: { id: followUpId },
+      data: {
+        status: 'COMPLETADO',
+        contactedAt,
+        channel: dto.channel,
+        outcome: dto.outcome,
+        notes: dto.notes,
+        completedAt: new Date(),
+        completedByMembershipId: user.membershipId,
+      },
+    });
+
+    if (dto.nextActionAt) {
+      const nextActionAt = parseFlexibleDateTimeToUtc(dto.nextActionAt, {
+        dateOnlyAsBogotaStart: true,
+      });
+
+      if (nextActionAt) {
+        await this.prisma.ordenServicioSeguimiento.create({
+          data: {
+            tenantId,
+            empresaId: followUp.empresaId,
+            ordenServicioId: followUp.ordenServicioId,
+            createdByMembershipId: followUp.createdByMembershipId,
+            followUpType: 'ADICIONAL',
+            dueAt: nextActionAt,
+            status: 'PENDIENTE',
+          },
+        });
+      }
+    }
+
+    return updated;
+  }
+
+  async listFollowUpOverrides(
+    tenantId: string,
+    user: JwtPayload,
+    empresaId?: string,
+    membershipId?: string,
+  ) {
+    if (!user.membershipId) {
+      throw new ForbiddenException('No se pudo resolver la membresía actual');
+    }
+
+    const targetMembershipId = this.isPrivilegedRole(user.role)
+      ? membershipId
+      : user.membershipId;
+
+    return this.prisma.permiso.findMany({
+      where: {
+        tenantId,
+        empresaId: empresaId || undefined,
+        membershipId: targetMembershipId || undefined,
+        tipo: TipoPermiso.DESBLOQUEO_ASIGNACION_SERVICIOS,
+      },
+      orderBy: { fechaSolicitud: 'desc' },
+      take: 50,
+    });
+  }
+
+  async createFollowUpOverride(
+    tenantId: string,
+    user: JwtPayload,
+    empresaId: string | undefined,
+    dto: CreateFollowUpOverrideDto,
+  ) {
+    if (!user.membershipId) {
+      throw new ForbiddenException('No se pudo resolver la membresía actual');
+    }
+
+    if (!this.isPrivilegedRole(user.role)) {
+      throw new ForbiddenException(
+        'Solo ADMIN y SU_ADMIN pueden otorgar desbloqueos temporales',
+      );
+    }
+
+    if (!empresaId) {
+      throw new BadRequestException('empresaId es obligatorio');
+    }
+
+    const startsAt = parseFlexibleDateTimeToUtc(dto.startsAt);
+    const endsAt = parseFlexibleDateTimeToUtc(dto.endsAt);
+    if (!startsAt || !endsAt || endsAt <= startsAt) {
+      throw new BadRequestException(
+        'La ventana del desbloqueo temporal es inválida',
+      );
+    }
+
+    return this.prisma.permiso.create({
+      data: {
+        tenantId,
+        empresaId,
+        membershipId: dto.membershipId,
+        adminId: user.membershipId,
+        tipo: TipoPermiso.DESBLOQUEO_ASIGNACION_SERVICIOS,
+        motivo: dto.reason,
+        estado: EstadoPermiso.APROBADO,
+        fechaAprobacion: startsAt,
+        fechaExpiracion: endsAt,
+      },
+    });
+  }
+
+  private async assertCanAssignServices(
+    tenantId: string,
+    user: JwtPayload | undefined,
+    empresaId: string,
+  ) {
+    if (!user?.membershipId || this.isPrivilegedRole(user.role)) {
+      return;
+    }
+
+    const now = new Date();
+    const overdueThreshold = startOfBogotaDayUtc(now);
+    const activeOverride = await this.getActiveFollowUpOverride(
+      tenantId,
+      user.membershipId,
+      empresaId,
+      now,
+    );
+
+    if (activeOverride) {
+      return;
+    }
+
+    const overdueCount = await this.prisma.ordenServicioSeguimiento.count({
+      where: {
+        tenantId,
+        empresaId,
+        createdByMembershipId: user.membershipId,
+        status: 'PENDIENTE',
+        completedAt: null,
+        dueAt: { lt: overdueThreshold },
+      },
+    });
+
+    if (overdueCount > 0) {
+      throw new ForbiddenException(
+        'Tienes seguimientos vencidos pendientes. Completa las llamadas antes de asignar más servicios.',
+      );
+    }
+  }
+
+  private async createAutomaticFollowUps(
+    tenantId: string,
+    orden: {
+      id: string;
+      empresaId: string;
+      clienteId: string;
+      servicioId: string;
+      creadoPorId: string | null;
+      direccionId: string | null;
+      direccionTexto: string;
+      tipoFacturacion: TipoFacturacion | null;
+      nivelInfestacion: NivelInfestacion | null;
+      urgencia: UrgenciaOrden | null;
+    },
+    servicio: {
+      empresaId: string;
+      requiereSeguimiento: boolean;
+      primerSeguimientoDias: number | null;
+      requiereSeguimientoTresMeses: boolean;
+    },
+    fechaBase: Date | null,
+  ) {
+    if (!orden.creadoPorId || !servicio.requiereSeguimiento) {
+      return;
+    }
+
+    const esContrato =
+      !!orden.tipoFacturacion && orden.tipoFacturacion !== TipoFacturacion.UNICO;
+
+    if (esContrato) {
+      return;
+    }
+
+    const baseDate = startOfBogotaDayUtc(fechaBase || new Date());
+    const followUpBlueprints: Array<{
+      followUpType: string;
+      dueAt: Date;
+      observacion: string;
+    }> = [];
+
+    if (servicio.primerSeguimientoDias) {
+      followUpBlueprints.push({
+        followUpType: 'INICIAL',
+        dueAt: addBogotaDaysUtc(baseDate, servicio.primerSeguimientoDias),
+        observacion: `Seguimiento automático inicial programado a ${servicio.primerSeguimientoDias} días.`,
+      });
+    }
+
+    if (servicio.requiereSeguimientoTresMeses) {
+      const threeMonthsLater = new Date(baseDate);
+      threeMonthsLater.setUTCMonth(threeMonthsLater.getUTCMonth() + 3);
+
+      followUpBlueprints.push({
+        followUpType: 'TRES_MESES',
+        dueAt: threeMonthsLater,
+        observacion: 'Seguimiento automático programado a 3 meses.',
+      });
+    }
+
+    for (const blueprint of followUpBlueprints) {
+      const ordenSeguimiento = await this.prisma.ordenServicio.create({
+        data: {
+          tenantId,
+          empresaId: orden.empresaId,
+          clienteId: orden.clienteId,
+          servicioId: orden.servicioId,
+          creadoPorId: orden.creadoPorId,
+          direccionId: orden.direccionId,
+          direccionTexto: orden.direccionTexto,
+          estadoServicio: EstadoOrden.NUEVO,
+          observacion: blueprint.observacion,
+          nivelInfestacion: orden.nivelInfestacion || undefined,
+          urgencia: orden.urgencia || undefined,
+          tipoVisita: 'SEGUIMIENTO',
+          tipoFacturacion: TipoFacturacion.UNICO,
+          fechaVisita: blueprint.dueAt,
+          ordenPadreId: orden.id,
+        },
+      });
+
+      await this.prisma.ordenServicioSeguimiento.create({
+        data: {
+          tenantId,
+          empresaId: servicio.empresaId,
+          ordenServicioId: ordenSeguimiento.id,
+          createdByMembershipId: orden.creadoPorId,
+          followUpType: blueprint.followUpType,
+          dueAt: blueprint.dueAt,
+          status: 'PENDIENTE',
+        },
+      });
+    }
+  }
+
+  private async getActiveFollowUpOverride(
+    tenantId: string,
+    membershipId: string,
+    empresaId: string | undefined,
+    now: Date,
+  ) {
+    return this.prisma.permiso.findFirst({
+      where: {
+        tenantId,
+        empresaId: empresaId || undefined,
+        membershipId,
+        tipo: TipoPermiso.DESBLOQUEO_ASIGNACION_SERVICIOS,
+        estado: EstadoPermiso.APROBADO,
+        fechaAprobacion: { lte: now },
+        OR: [{ fechaExpiracion: null }, { fechaExpiracion: { gte: now } }],
+      },
+      orderBy: { fechaExpiracion: 'desc' },
+    });
+  }
+
+  private isPrivilegedRole(role?: Role) {
+    return role === Role.ADMIN || role === Role.SU_ADMIN;
   }
 
   async remove(tenantId: string, id: string) {

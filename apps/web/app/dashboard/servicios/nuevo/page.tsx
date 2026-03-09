@@ -2,6 +2,7 @@
 
 import { useState, useEffect, Suspense, useCallback } from "react";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 import { toast } from "sonner";
 import {
   getClientesAction,
@@ -9,15 +10,21 @@ import {
   getEnterprisesAction,
   getOperatorsAction,
   getServiciosAction,
-  createOrdenServicioAction,
   getClienteConfigsAction,
   ConfiguracionOperativa,
-  notifyServiceOperatorWebhookAction,
   getClienteByIdAction,
   updateClienteAction,
   getDepartmentsAction,
   getMunicipalitiesAction,
 } from "../../actions";
+import {
+  completeFollowUp,
+  createOrdenServicio,
+  getMyFollowUpStatus,
+  notifyServiceOperatorWebhook,
+  type FollowUpStatusItem,
+  type FollowUpStatusResponse,
+} from "../api";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -51,7 +58,9 @@ import {
   Plus,
   MapPin,
   Clock,
-  Contact2
+  Contact2,
+  AlertTriangle,
+  CheckCircle2,
 } from "lucide-react";
 import { DashboardLayout } from "@/components/dashboard";
 import { cn } from "@/components/ui/utils";
@@ -113,6 +122,21 @@ const ESTADOS_ORDEN = [
   { value: "TECNICO_FINALIZO", label: "Técnico Finalizó" },
   { value: "REPROGRAMADO", label: "Reprogramado" },
   { value: "SIN_CONCRETAR", label: "Sin Concretar" },
+];
+
+const FOLLOW_UP_CHANNEL_OPTIONS = [
+  { value: "LLAMADA", label: "Llamada" },
+  { value: "WHATSAPP", label: "WhatsApp" },
+  { value: "CORREO", label: "Correo" },
+  { value: "VISITA", label: "Visita" },
+];
+
+const FOLLOW_UP_OUTCOME_OPTIONS = [
+  { value: "CONTACTADO", label: "Contactado" },
+  { value: "NO_CONTESTA", label: "No contesta" },
+  { value: "REPROGRAMAR", label: "Reprogramar" },
+  { value: "CIERRE_EXITOSO", label: "Cierre exitoso" },
+  { value: "REQUIERE_ESCALACION", label: "Requiere escalación" },
 ];
 
 interface Direccion {
@@ -226,6 +250,57 @@ function NuevoServicioContent() {
   const [estadoServicio, setEstadoServicio] = useState("NUEVO");
 
   const [membershipId, setMembershipId] = useState<string | null>(null);
+  const [followUpStatus, setFollowUpStatus] = useState<FollowUpStatusResponse | null>(null);
+  const [checkingFollowUps, setCheckingFollowUps] = useState(false);
+  const [isFollowUpModalOpen, setIsFollowUpModalOpen] = useState(false);
+  const [selectedFollowUp, setSelectedFollowUp] = useState<FollowUpStatusItem | null>(null);
+  const [savingFollowUp, setSavingFollowUp] = useState(false);
+  const [followUpForm, setFollowUpForm] = useState({
+    contactedAt: "",
+    channel: "LLAMADA",
+    outcome: "CONTACTADO",
+    notes: "",
+    nextActionAt: "",
+  });
+
+  // --- URL PERSISTENCE LOGIC ---
+  const syncToUrl = useCallback(() => {
+    const params = new URLSearchParams();
+    if (selectedCliente) params.set("cliente", selectedCliente);
+    if (selectedDireccion) params.set("direccion", selectedDireccion);
+    if (selectedEmpresa) params.set("empresa", selectedEmpresa);
+    if (selectedOperador) params.set("operador", selectedOperador);
+    if (servicioEspecifico) params.set("servicio", servicioEspecifico);
+    if (tipoVisita) params.set("tipoVisita", tipoVisita);
+    if (nivelInfestacion) params.set("nivel", nivelInfestacion);
+    if (urgencia) params.set("urgencia", urgencia);
+    if (fechaVisita) params.set("fecha", fechaVisita);
+    if (horaInicio) params.set("hora", horaInicio);
+    if (duracionMinutos) params.set("duracion", duracionMinutos);
+    if (valorCotizado) params.set("valor", valorCotizado);
+    if (tipoFacturacion) params.set("facturacion", tipoFacturacion);
+    if (estadoServicio) params.set("estado", estadoServicio);
+    if (observacion) params.set("obs", observacion);
+    if (frecuenciaRecomendada) params.set("frecuencia", frecuenciaRecomendada.toString());
+    
+    if (breakdown.length > 0 && (breakdown.length > 1 || breakdown[0].monto !== "")) {
+      params.set("breakdown", JSON.stringify(breakdown));
+    }
+
+    const queryString = params.toString();
+    const newUrl = `${window.location.pathname}${queryString ? `?${queryString}` : ""}`;
+    window.history.replaceState(null, "", newUrl);
+  }, [
+    selectedCliente, selectedDireccion, selectedEmpresa, selectedOperador, 
+    servicioEspecifico, tipoVisita, nivelInfestacion, urgencia, fechaVisita, 
+    horaInicio, duracionMinutos, valorCotizado, tipoFacturacion, estadoServicio, 
+    observacion, frecuenciaRecomendada, breakdown
+  ]);
+
+  useEffect(() => {
+    syncToUrl();
+  }, [syncToUrl]);
+  // --- END URL PERSISTENCE LOGIC ---
 
   const applyConfigToForm = useCallback((configs: ConfiguracionOperativa[], dirId?: string) => {
     // 1. Try to find config for specific address
@@ -300,6 +375,25 @@ function NuevoServicioContent() {
     }
   }, []);
 
+  const refreshFollowUpStatus = useCallback(async (empresaId?: string) => {
+    if (!empresaId || !membershipId) {
+      setFollowUpStatus(null);
+      return null;
+    }
+
+    setCheckingFollowUps(true);
+    try {
+      const status = await getMyFollowUpStatus(empresaId);
+      setFollowUpStatus(status);
+      return status;
+    } catch (e) {
+      console.error("Error loading follow-up status", e);
+      return null;
+    } finally {
+      setCheckingFollowUps(false);
+    }
+  }, [membershipId]);
+
   useEffect(() => {
     const originalStyle = window.getComputedStyle(document.body).overflow;
     document.body.style.overflow = "hidden";
@@ -344,16 +438,22 @@ function NuevoServicioContent() {
 
         setEmpresas(loadedEmpresas);
 
-        // LÓGICA DE PRE-SELECCIÓN DE EMPRESA
-        let targetEmpresaId = "";
-
-        // 1. Priorizar la empresa seleccionada actualmente en el sistema
-        if (currentEmpresaId && loadedEmpresas.some(e => e.id === currentEmpresaId)) {
+        // --- URL OVERRIDE LOGIC ---
+        const urlParams = new URLSearchParams(window.location.search);
+        
+        // 1. Empresa Pre-selection
+        let targetEmpresaId = urlParams.get("empresa") || "";
+        
+        // If not in URL, try from cookie/localStorage
+        if (!targetEmpresaId && currentEmpresaId && loadedEmpresas.some(e => e.id === currentEmpresaId)) {
           targetEmpresaId = currentEmpresaId;
         }
-        // 2. Si no hay selección actual, pero solo hay una empresa disponible
-        else if (loadedEmpresas.length === 1) {
-          targetEmpresaId = loadedEmpresas[0].id;
+
+        // If still no target, or target not in list, pick the first one
+        if (!targetEmpresaId || !loadedEmpresas.some(e => e.id === targetEmpresaId)) {
+          if (loadedEmpresas.length > 0) {
+            targetEmpresaId = loadedEmpresas[0].id;
+          }
         }
 
         if (targetEmpresaId) {
@@ -361,7 +461,58 @@ function NuevoServicioContent() {
           fetchMetodosPago(targetEmpresaId);
           fetchOperadores(targetEmpresaId);
           fetchServicios(targetEmpresaId);
+          void refreshFollowUpStatus(targetEmpresaId);
         }
+
+        // 2. Cliente and dependent data
+        const urlClientId = urlParams.get("cliente");
+        if (urlClientId) {
+          setSelectedCliente(urlClientId);
+          
+          // Fetch configs
+          getClienteConfigsAction(urlClientId).then(configsResult => {
+            const configs = Array.isArray(configsResult) ? (configsResult as ConfiguracionOperativa[]) : [];
+            setClienteConfigs(configs);
+            
+            const urlDirId = urlParams.get("direccion");
+            const cliente = loadedClientes.find(c => c.id === urlClientId);
+            const dirs = cliente?.direcciones || [];
+            setDireccionesCliente(dirs);
+            
+            if (urlDirId) {
+              setSelectedDireccion(urlDirId);
+              applyConfigToForm(configs, urlDirId);
+            } else if (dirs.length > 0) {
+              setSelectedDireccion(dirs[0].id);
+              applyConfigToForm(configs, dirs[0].id);
+            }
+          });
+        }
+
+        // 3. Other fields
+        if (urlParams.get("operador")) setSelectedOperador(urlParams.get("operador")!);
+        if (urlParams.get("servicio")) setServicioEspecifico(urlParams.get("servicio")!);
+        if (urlParams.get("tipoVisita")) setTipoVisita(urlParams.get("tipoVisita")!);
+        if (urlParams.get("nivel")) setNivelInfestacion(urlParams.get("nivel")!);
+        if (urlParams.get("urgencia")) setUrgencia(urlParams.get("urgencia")!);
+        if (urlParams.get("obs")) setObservacion(urlParams.get("obs")!);
+        if (urlParams.get("fecha")) setFechaVisita(urlParams.get("fecha")!);
+        if (urlParams.get("hora")) setHoraInicio(urlParams.get("hora")!);
+        if (urlParams.get("duracion")) setDuracionMinutos(urlParams.get("duracion")!);
+        if (urlParams.get("valor")) setValorCotizado(urlParams.get("valor")!);
+        if (urlParams.get("facturacion")) setTipoFacturacion(urlParams.get("facturacion")!);
+        if (urlParams.get("estado")) setEstadoServicio(urlParams.get("estado")!);
+        if (urlParams.get("frecuencia")) setFrecuenciaRecomendada(Number(urlParams.get("frecuencia")));
+
+        const urlBreakdown = urlParams.get("breakdown");
+        if (urlBreakdown) {
+          try {
+            setBreakdown(JSON.parse(urlBreakdown));
+          } catch (e) {
+            console.error("Error parsing breakdown from URL", e);
+          }
+        }
+        // --- END URL OVERRIDE LOGIC ---
       } catch (e) {
         console.error("Error loading initial data", e);
         toast.error("Error al cargar datos básicos");
@@ -371,13 +522,14 @@ function NuevoServicioContent() {
     loadData();
 
     return () => { document.body.style.overflow = originalStyle; };
-  }, [fetchMetodosPago, fetchOperadores, fetchServicios]);
+  }, [fetchMetodosPago, fetchOperadores, fetchServicios, refreshFollowUpStatus]);
 
   const handleEmpresaChange = (val: string) => {
     setSelectedEmpresa(val);
     fetchMetodosPago(val);
     fetchOperadores(val);
     fetchServicios(val);
+    void refreshFollowUpStatus(val);
     setServicioEspecifico("");
   };
 
@@ -415,6 +567,78 @@ function NuevoServicioContent() {
   const handleDireccionChange = (dirId: string) => {
     setSelectedDireccion(dirId);
     applyConfigToForm(clienteConfigs, dirId);
+  };
+
+  const toUtcIsoFromDateTimeLocal = (value: string) => {
+    const [datePart, timePart] = value.split("T");
+    if (!datePart || !timePart) return "";
+    return bogotaDateTimeToUtcIso(datePart, timePart);
+  };
+
+  const openFollowUpModal = (item: FollowUpStatusItem) => {
+    const now = new Date();
+    const yyyy = now.getFullYear();
+    const mm = String(now.getMonth() + 1).padStart(2, "0");
+    const dd = String(now.getDate()).padStart(2, "0");
+    const hh = String(now.getHours()).padStart(2, "0");
+    const min = String(now.getMinutes()).padStart(2, "0");
+
+    setSelectedFollowUp(item);
+    setFollowUpForm({
+      contactedAt: `${yyyy}-${mm}-${dd}T${hh}:${min}`,
+      channel: "LLAMADA",
+      outcome: "CONTACTADO",
+      notes: "",
+      nextActionAt: "",
+    });
+    setIsFollowUpModalOpen(true);
+  };
+
+  const handleCompleteFollowUp = async () => {
+    if (!selectedFollowUp) return;
+    if (!followUpForm.contactedAt || !followUpForm.channel || !followUpForm.outcome || !followUpForm.notes.trim()) {
+      toast.error("Completa fecha, canal, resultado y notas del seguimiento");
+      return;
+    }
+
+    setSavingFollowUp(true);
+    try {
+      await completeFollowUp(selectedFollowUp.id, {
+        contactedAt: toUtcIsoFromDateTimeLocal(followUpForm.contactedAt),
+        channel: followUpForm.channel,
+        outcome: followUpForm.outcome,
+        notes: followUpForm.notes.trim(),
+        nextActionAt: followUpForm.nextActionAt
+          ? toUtcIsoFromDateTimeLocal(followUpForm.nextActionAt)
+          : undefined,
+      });
+
+      toast.success("Seguimiento registrado correctamente");
+
+      const updatedStatus = await refreshFollowUpStatus(selectedEmpresa);
+      if (!updatedStatus?.blocked) {
+        setIsFollowUpModalOpen(false);
+      } else if (updatedStatus.overdueItems.length > 0) {
+        const nextPending = updatedStatus.overdueItems.find(
+          (item) => item.id !== selectedFollowUp.id,
+        );
+        setSelectedFollowUp(nextPending || null);
+        if (nextPending) {
+          setFollowUpForm((current) => ({
+            ...current,
+            notes: "",
+            nextActionAt: "",
+          }));
+        }
+      }
+    } catch (error) {
+      console.error("Error completing follow-up", error);
+      toast.error(
+        error instanceof Error ? error.message : "No se pudo registrar el seguimiento",
+      );
+    } finally {
+      setSavingFollowUp(false);
+    }
   };
 
   const handleAddAddress = async () => {
@@ -554,12 +778,16 @@ function NuevoServicioContent() {
       duracionMinutos: Number(duracionMinutos),
     };
 
-    toast.promise(
-      createOrdenServicioAction(payload).then(async (res) => {
-        if (!res.success) throw new Error(res.error);
+    const latestFollowUpStatus = await refreshFollowUpStatus(selectedEmpresa);
+    if (latestFollowUpStatus?.blocked) {
+      toast.error("Tienes seguimientos vencidos pendientes. Completa las llamadas antes de asignar más servicios.");
+      setLoading(false);
+      return;
+    }
 
+    toast.promise(
+      createOrdenServicio(payload).then(async (orderData) => {
         // Webhook Notification after creation
-        const orderData = res.data as Record<string, unknown>;
         const targetTecnicoId = orderData.tecnicoId as string;
 
         if (targetTecnicoId) {
@@ -584,7 +812,7 @@ function NuevoServicioContent() {
               .map(b => `${b.metodo} ($ ${b.monto})`)
               .join(", ");
 
-            notifyServiceOperatorWebhookAction({
+            notifyServiceOperatorWebhook({
               telefonoOperador: operator.telefono,
               numeroOrden: `#${(orderData.numeroOrden as string) || (orderData.id as string).slice(0, 8).toUpperCase()}`,
               cliente: client ? (client.tipoCliente === "EMPRESA" ? (client.razonSocial || "") : `${client.nombre} ${client.apellido}`) : "Cliente desconocido",
@@ -601,7 +829,7 @@ function NuevoServicioContent() {
               valorCotizado: `$ ${valorCotizado}`,
               metodosPago: metodosFormatted,
               observaciones: observacion || "Sin observaciones",
-              idServicio: orderData.id
+              idServicio: String(orderData.id)
             }).then(webhookRes => {
               if (webhookRes.success) {
                 toast.success("Operador notificado correctamente");
@@ -617,7 +845,7 @@ function NuevoServicioContent() {
           }
         }
 
-        return res;
+        return orderData;
       }),
       {
         loading: 'Generando orden técnica y vinculando disponibilidad...',
@@ -633,7 +861,8 @@ function NuevoServicioContent() {
     );
   };
 
-  const isEmpresaLocked = userRole === "COORDINADOR" || userRole === "ASESOR";
+  const isEmpresaLocked = userRole === "ASESOR";
+  const isCreationBlocked = Boolean(followUpStatus?.blocked);
 
   return (
     <div className="max-w-5xl mx-auto w-full h-[calc(100vh-12rem)] flex flex-col min-h-0">
@@ -658,6 +887,96 @@ function NuevoServicioContent() {
         {/* Contenido Scrollable */}
         <div className="flex-1 overflow-y-auto p-10 custom-scrollbar scroll-smooth bg-white dark:bg-zinc-950">
           <form id="servicio-form" onSubmit={handleSubmit} className="space-y-12 max-w-4xl mx-auto pb-12">
+            {followUpStatus && (isCreationBlocked || followUpStatus.activeOverride) ? (
+              <section
+                className={cn(
+                  "rounded-2xl border px-5 py-4",
+                  isCreationBlocked
+                    ? "border-amber-200 bg-amber-50 text-amber-950"
+                    : "border-emerald-200 bg-emerald-50 text-emerald-950",
+                )}
+              >
+                <div className="flex items-start gap-3">
+                  <div
+                    className={cn(
+                      "mt-0.5 rounded-full p-2",
+                      isCreationBlocked ? "bg-amber-100" : "bg-emerald-100",
+                    )}
+                  >
+                    <AlertTriangle className="h-4 w-4" />
+                  </div>
+                  <div className="space-y-2">
+                    <div>
+                      <p className="text-sm font-black uppercase tracking-[0.08em]">
+                        {isCreationBlocked
+                          ? "Asignación bloqueada por seguimientos pendientes"
+                          : "Desbloqueo temporal activo"}
+                      </p>
+                      <p className="text-sm">
+                        {isCreationBlocked
+                          ? `Tienes ${followUpStatus.overdueCount} seguimiento(s) vencido(s) de servicios creados por ti.`
+                          : "Puedes seguir asignando servicios mientras esté vigente el permiso temporal."}
+                      </p>
+                    </div>
+
+                    {followUpStatus.activeOverride ? (
+                      <p className="text-xs font-semibold">
+                        Vigente hasta {formatBogotaDate(followUpStatus.activeOverride.endsAt)} {formatBogotaTime(followUpStatus.activeOverride.endsAt)}
+                        {followUpStatus.activeOverride.reason ? ` • ${followUpStatus.activeOverride.reason}` : ""}
+                      </p>
+                    ) : null}
+
+                    {followUpStatus.overdueItems.length > 0 ? (
+                      <div className="space-y-2">
+                        {followUpStatus.overdueItems.slice(0, 3).map((item) => (
+                          <div key={item.id} className="flex flex-col gap-2 rounded-xl border border-current/10 bg-white/50 px-3 py-2 sm:flex-row sm:items-center sm:justify-between">
+                            <div className="text-xs font-medium">
+                              {item.cliente} • {item.servicio} • {formatBogotaDate(item.dueAt)}
+                            </div>
+                            <Button
+                              type="button"
+                              variant="outline"
+                              onClick={() => openFollowUpModal(item)}
+                              className="h-9 rounded-xl border-current/20 bg-white/70 text-[10px] font-black uppercase tracking-[0.14em]"
+                            >
+                              Registrar seguimiento
+                            </Button>
+                          </div>
+                        ))}
+                      </div>
+                    ) : null}
+
+                    {isCreationBlocked ? (
+                      <div className="flex flex-wrap gap-3 pt-1">
+                        <Button
+                          type="button"
+                          onClick={() => {
+                            if (followUpStatus.overdueItems[0]) {
+                              openFollowUpModal(followUpStatus.overdueItems[0]);
+                            }
+                          }}
+                          className="h-10 rounded-xl bg-amber-600 px-4 text-[10px] font-black uppercase tracking-[0.16em] text-white hover:bg-amber-700"
+                        >
+                          Resolver bloqueo ahora
+                        </Button>
+                        <Link href="/dashboard/servicios?tab=seguimientos">
+                          <Button
+                            type="button"
+                            variant="outline"
+                            className="h-10 rounded-xl border-amber-300 bg-white/70 px-4 text-[10px] font-black uppercase tracking-[0.16em]"
+                          >
+                            Ver tab de seguimientos
+                          </Button>
+                        </Link>
+                        <p className="self-center text-xs font-medium">
+                          Registra la llamada y el resultado para volver a asignar servicios.
+                        </p>
+                      </div>
+                    ) : null}
+                  </div>
+                </div>
+              </section>
+            ) : null}
 
             {/* SECCIÓN 1: IDENTIFICACIÓN DEL CLIENTE */}
             <section className="space-y-8">
@@ -1091,11 +1410,13 @@ function NuevoServicioContent() {
             <Button
               type="submit"
               form="servicio-form"
-              disabled={loading}
+              disabled={loading || checkingFollowUps || isCreationBlocked}
               className="h-12 px-12 bg-azul-1 text-white hover:bg-blue-700 shadow-xl shadow-azul-1/20 transition-all gap-3 border-none rounded-xl"
             >
-              {loading ? <div className="h-5 w-5 border-2 border-current border-t-transparent rounded-full animate-spin" /> : <Save className="h-4 w-4" />}
-              <span className="font-bold text-xs tracking-[0.1em] uppercase text-white">Generar y Asignar</span>
+              {loading || checkingFollowUps ? <div className="h-5 w-5 border-2 border-current border-t-transparent rounded-full animate-spin" /> : <Save className="h-4 w-4" />}
+              <span className="font-bold text-xs tracking-[0.1em] uppercase text-white">
+                {isCreationBlocked ? "Seguimientos pendientes" : "Generar y Asignar"}
+              </span>
             </Button>
           </div>
         </div>
@@ -1262,6 +1583,165 @@ function NuevoServicioContent() {
                 {loadingAddress ? <div className="h-4 w-4 border-2 border-current border-t-transparent rounded-full animate-spin" /> : "Guardar Dirección"}
               </Button>
             </DialogFooter>
+          </DialogContent>
+        </Dialog>
+
+        <Dialog
+          open={isFollowUpModalOpen}
+          onOpenChange={(open) => {
+            if (!savingFollowUp) {
+              setIsFollowUpModalOpen(open);
+            }
+          }}
+        >
+          <DialogContent className="max-w-2xl border-zinc-200 bg-white">
+            <DialogHeader>
+              <DialogTitle className="flex items-center gap-2 text-xl font-black uppercase tracking-[0.08em] text-zinc-900">
+                <CheckCircle2 className="h-5 w-5 text-emerald-600" />
+                Validar seguimiento
+              </DialogTitle>
+            </DialogHeader>
+
+            {selectedFollowUp ? (
+              <div className="space-y-6">
+                <div className="rounded-2xl border border-amber-200 bg-amber-50 px-4 py-4">
+                  <p className="text-[10px] font-black uppercase tracking-[0.18em] text-amber-700">
+                    Seguimiento pendiente
+                  </p>
+                  <div className="mt-2 space-y-1">
+                    <p className="text-sm font-bold uppercase text-zinc-900">
+                      {selectedFollowUp.cliente}
+                    </p>
+                    <p className="text-sm text-zinc-700">{selectedFollowUp.servicio}</p>
+                    <p className="text-xs font-medium text-zinc-500">
+                      Vencido desde {formatBogotaDate(selectedFollowUp.dueAt)}
+                    </p>
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-1 gap-5 md:grid-cols-2">
+                  <div className="space-y-2">
+                    <Label className="text-[10px] font-black uppercase tracking-[0.18em] text-zinc-500">
+                      Fecha y hora de contacto
+                    </Label>
+                    <Input
+                      type="datetime-local"
+                      value={followUpForm.contactedAt}
+                      onChange={(e) =>
+                        setFollowUpForm((current) => ({
+                          ...current,
+                          contactedAt: e.target.value,
+                        }))
+                      }
+                      className="h-11 rounded-xl border-zinc-200 font-medium"
+                    />
+                  </div>
+
+                  <div className="space-y-2">
+                    <Label className="text-[10px] font-black uppercase tracking-[0.18em] text-zinc-500">
+                      Canal
+                    </Label>
+                    <Select
+                      value={followUpForm.channel}
+                      onValueChange={(value) =>
+                        setFollowUpForm((current) => ({ ...current, channel: value }))
+                      }
+                    >
+                      <SelectTrigger className="h-11 rounded-xl border-zinc-200">
+                        <SelectValue placeholder="Selecciona un canal" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {FOLLOW_UP_CHANNEL_OPTIONS.map((option) => (
+                          <SelectItem key={option.value} value={option.value}>
+                            {option.label}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  </div>
+
+                  <div className="space-y-2 md:col-span-2">
+                    <Label className="text-[10px] font-black uppercase tracking-[0.18em] text-zinc-500">
+                      Resultado
+                    </Label>
+                    <Select
+                      value={followUpForm.outcome}
+                      onValueChange={(value) =>
+                        setFollowUpForm((current) => ({ ...current, outcome: value }))
+                      }
+                    >
+                      <SelectTrigger className="h-11 rounded-xl border-zinc-200">
+                        <SelectValue placeholder="Selecciona un resultado" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {FOLLOW_UP_OUTCOME_OPTIONS.map((option) => (
+                          <SelectItem key={option.value} value={option.value}>
+                            {option.label}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  </div>
+
+                  <div className="space-y-2 md:col-span-2">
+                    <Label className="text-[10px] font-black uppercase tracking-[0.18em] text-zinc-500">
+                      Notas del seguimiento
+                    </Label>
+                    <textarea
+                      value={followUpForm.notes}
+                      onChange={(e) =>
+                        setFollowUpForm((current) => ({
+                          ...current,
+                          notes: e.target.value,
+                        }))
+                      }
+                      placeholder="Ej: Se llamó al cliente, confirmó satisfacción y no requiere nueva visita."
+                      className="min-h-[120px] w-full rounded-2xl border border-zinc-200 px-4 py-3 text-sm font-medium text-zinc-900 outline-none transition focus:border-azul-1"
+                    />
+                  </div>
+
+                  <div className="space-y-2 md:col-span-2">
+                    <Label className="text-[10px] font-black uppercase tracking-[0.18em] text-zinc-500">
+                      Próxima acción opcional
+                    </Label>
+                    <Input
+                      type="datetime-local"
+                      value={followUpForm.nextActionAt}
+                      onChange={(e) =>
+                        setFollowUpForm((current) => ({
+                          ...current,
+                          nextActionAt: e.target.value,
+                        }))
+                      }
+                      className="h-11 rounded-xl border-zinc-200 font-medium"
+                    />
+                    <p className="text-xs text-zinc-500">
+                      Si dejas una próxima acción, el sistema crea un seguimiento adicional.
+                    </p>
+                  </div>
+                </div>
+
+                <DialogFooter className="gap-3 border-t border-zinc-100 pt-4">
+                  <Button
+                    type="button"
+                    variant="outline"
+                    onClick={() => setIsFollowUpModalOpen(false)}
+                    disabled={savingFollowUp}
+                    className="h-11 rounded-xl border-zinc-200 px-5 text-[10px] font-black uppercase tracking-[0.16em]"
+                  >
+                    Cerrar
+                  </Button>
+                  <Button
+                    type="button"
+                    onClick={handleCompleteFollowUp}
+                    disabled={savingFollowUp}
+                    className="h-11 rounded-xl bg-emerald-600 px-5 text-[10px] font-black uppercase tracking-[0.16em] text-white hover:bg-emerald-700"
+                  >
+                    {savingFollowUp ? "Guardando..." : "Guardar seguimiento"}
+                  </Button>
+                </DialogFooter>
+              </div>
+            ) : null}
           </DialogContent>
         </Dialog>
       </div>

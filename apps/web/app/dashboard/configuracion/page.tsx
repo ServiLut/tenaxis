@@ -6,6 +6,10 @@ import {
   getTiposInteresAction,
   createTipoInteresAction,
   updateTipoInteresAction,
+  getServiciosAction,
+  createServicioAction,
+  updateServicioAction,
+  getEnterprisesAction,
 } from "../actions";
 import { DashboardLayout } from "@/components/dashboard";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter } from "@/components/ui/card";
@@ -22,12 +26,15 @@ import {
   X,
   Building,
   User,
-  CreditCard
+  CreditCard,
+  Briefcase,
+  ShieldCheck,
+  CalendarClock,
 } from "lucide-react";
 import { cn } from "@/components/ui/utils";
 import { ConfigEmpresas } from "@/components/dashboard/ConfigEmpresas";
 
-type TabType = "intereses" | "empresas" | "perfil";
+type TabType = "intereses" | "servicios" | "empresas" | "perfil";
 
 type TipoInteres = {
   id: string;
@@ -53,6 +60,21 @@ type UserProfile = {
   role?: string;
 };
 
+type ServicioConfig = {
+  id: string;
+  nombre: string;
+  empresaId: string;
+  activo?: boolean;
+  requiereSeguimiento?: boolean;
+  primerSeguimientoDias?: number | null;
+  requiereSeguimientoTresMeses?: boolean;
+};
+
+type Empresa = {
+  id: string;
+  nombre: string;
+};
+
 const BANCOS_COLOMBIA = [
   "Bancolombia", "Banco de Bogotá", "Davivienda", "BBVA Colombia", "Banco de Occidente",
   "Banco Popular", "Scotiabank Colpatria", "Itaú", "Banco GNB Sudameris", "Banco Caja Social",
@@ -67,9 +89,13 @@ export default function ConfiguracionPage() {
   const [activeTab, setActiveTab] = useState<TabType>("intereses");
   const [loading, setLoading] = useState(true);
   const [intereses, setIntereses] = useState<TipoInteres[]>([]);
+  const [servicios, setServicios] = useState<ServicioConfig[]>([]);
+  const [empresas, setEmpresas] = useState<Empresa[]>([]);
+  const [selectedEmpresaId, setSelectedEmpresaId] = useState("");
   const [user, setUser] = useState<UserProfile | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingItem, setEditingItem] = useState<TipoInteres | null>(null);
+  const [editingServicio, setEditingServicio] = useState<ServicioConfig | null>(null);
 
   useEffect(() => {
     const userData = localStorage.getItem("user");
@@ -78,7 +104,7 @@ export default function ConfiguracionPage() {
     }
     const handleHashChange = () => {
       const hash = window.location.hash.replace('#', '');
-      const validTabs: TabType[] = ["intereses", "empresas", "perfil"];
+      const validTabs: TabType[] = ["intereses", "servicios", "empresas", "perfil"];
       if (hash && validTabs.includes(hash as TabType)) {
         setActiveTab(hash as TabType);
       }
@@ -92,6 +118,11 @@ export default function ConfiguracionPage() {
     if (activeTab === 'intereses') {
       loadData().catch(() => {
         toast.error("Error al cargar la configuración");
+      });
+    }
+    if (activeTab === 'servicios') {
+      loadServiciosData().catch(() => {
+        toast.error("Error al cargar los servicios");
       });
     }
   }, [activeTab]);
@@ -113,8 +144,52 @@ export default function ConfiguracionPage() {
     }
   }
 
-  const handleOpenModal = (item: TipoInteres | null = null) => { setEditingItem(item); setIsModalOpen(true); };
-  const handleCloseModal = () => { setEditingItem(null); setIsModalOpen(false); };
+  async function loadServiciosData() {
+    setLoading(true);
+    try {
+      const empresasResult = await getEnterprisesAction();
+      const loadedEmpresas = (
+        Array.isArray(empresasResult)
+          ? empresasResult
+          : (empresasResult as { items?: Empresa[] })?.items || []
+      ) as Empresa[];
+
+      setEmpresas(loadedEmpresas);
+
+      const currentEmpresaId =
+        selectedEmpresaId ||
+        localStorage.getItem("current-enterprise-id") ||
+        loadedEmpresas[0]?.id ||
+        "";
+
+      setSelectedEmpresaId(currentEmpresaId);
+
+      const serviciosResult = await getServiciosAction(currentEmpresaId || undefined);
+      setServicios(Array.isArray(serviciosResult) ? (serviciosResult as ServicioConfig[]) : []);
+    } catch (_error) {
+      toast.error("Error al cargar servicios");
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  const handleOpenModal = (item: TipoInteres | null = null) => {
+    setEditingItem(item);
+    setEditingServicio(null);
+    setIsModalOpen(true);
+  };
+
+  const handleOpenServicioModal = (item: ServicioConfig | null = null) => {
+    setEditingServicio(item);
+    setEditingItem(null);
+    setIsModalOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setEditingItem(null);
+    setEditingServicio(null);
+    setIsModalOpen(false);
+  };
 
   const handleSaveProfile = () => {
     if (user) {
@@ -141,11 +216,46 @@ export default function ConfiguracionPage() {
         };
         if (editingItem) await updateTipoInteresAction(editingItem.id, data);
         else await createTipoInteresAction(data);
+      } else if (activeTab === "servicios") {
+        if (!selectedEmpresaId) {
+          throw new Error("Selecciona una empresa antes de guardar el servicio");
+        }
+
+        const requiereSeguimiento = entries.requiereSeguimiento === "on";
+        const requiereSeguimientoTresMeses =
+          entries.requiereSeguimientoTresMeses === "on";
+        const primerSeguimientoDiasRaw = entries.primerSeguimientoDias as string;
+
+        const commonData = {
+          nombre: entries.nombre as string,
+          activo: entries.activo === "on",
+          requiereSeguimiento,
+          primerSeguimientoDias:
+            requiereSeguimiento && primerSeguimientoDiasRaw
+              ? parseInt(primerSeguimientoDiasRaw, 10)
+              : undefined,
+          requiereSeguimientoTresMeses,
+        };
+
+        if (editingServicio) {
+          await updateServicioAction(editingServicio.id, commonData);
+        } else {
+          await createServicioAction({
+            ...commonData,
+            empresaId: selectedEmpresaId,
+          });
+        }
       }
       toast.success("Guardado exitosamente");
-      loadData().catch(() => {
-        toast.error("Error al recargar datos");
-      });
+      if (activeTab === "intereses") {
+        loadData().catch(() => {
+          toast.error("Error al recargar datos");
+        });
+      } else if (activeTab === "servicios") {
+        loadServiciosData().catch(() => {
+          toast.error("Error al recargar servicios");
+        });
+      }
       handleCloseModal();
     } catch (error: unknown) {
       const message = error instanceof Error ? error.message : "Error al guardar";
@@ -173,7 +283,7 @@ export default function ConfiguracionPage() {
 
             {/* Tabs */}
               <div className="flex gap-2 p-1 bg-muted rounded-2xl w-fit border border-border">
-              {(["intereses", "empresas", "perfil"] as const).map((tab) => (
+              {(["intereses", "servicios", "empresas", "perfil"] as const).map((tab) => (
                 <button 
                   key={tab}
                   onClick={() => handleTabChange(tab)}
@@ -183,6 +293,7 @@ export default function ConfiguracionPage() {
                   )}
                 >
                   {tab === "intereses" && <Zap className="h-3.5 w-3.5" />}
+                  {tab === "servicios" && <Briefcase className="h-3.5 w-3.5" />}
                   {tab === "empresas" && <Building className="h-3.5 w-3.5" />}
                   {tab === "perfil" && <User className="h-3.5 w-3.5" />}
                   {tab.charAt(0).toUpperCase() + tab.slice(1)}
@@ -229,6 +340,108 @@ export default function ConfiguracionPage() {
               </div>
             ) : activeTab === 'empresas' ? (
               <ConfigEmpresas />
+            ) : activeTab === 'servicios' ? (
+              <Card className="border-border shadow-2xl shadow-black/5 dark:shadow-none bg-card rounded-[2rem] overflow-hidden">
+                <CardHeader className="flex flex-col gap-4 p-8 border-b border-border bg-muted/30">
+                  <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+                    <div>
+                      <CardTitle className="text-xl font-black text-foreground">Servicios</CardTitle>
+                      <CardDescription className="font-bold text-[10px] uppercase text-muted-foreground mt-1.5">
+                        Configura cuáles servicios obligan seguimiento y en qué plazos
+                      </CardDescription>
+                    </div>
+                    <Button onClick={() => handleOpenServicioModal()} className="bg-[#01ADFB] hover:bg-blue-700 text-white font-black uppercase tracking-widest text-[10px] rounded-xl gap-2 h-11 px-6 shadow-lg shadow-[#01ADFB]/20">
+                      <Plus className="h-4 w-4" /> AGREGAR SERVICIO
+                    </Button>
+                  </div>
+
+                  <div className="max-w-sm space-y-2">
+                    <Label className="text-[10px] font-black uppercase text-muted-foreground">Empresa</Label>
+                    <Select
+                      value={selectedEmpresaId}
+                      onChange={(e: React.ChangeEvent<HTMLSelectElement>) => {
+                        const empresaId = e.target.value;
+                        setSelectedEmpresaId(empresaId);
+                        setLoading(true);
+                        getServiciosAction(empresaId)
+                          .then((result) => {
+                            setServicios(Array.isArray(result) ? (result as ServicioConfig[]) : []);
+                          })
+                          .catch(() => {
+                            toast.error("Error al cargar los servicios de la empresa");
+                          })
+                          .finally(() => setLoading(false));
+                      }}
+                      className="h-12 rounded-xl border-border bg-background text-foreground font-bold"
+                    >
+                      <option value="">Selecciona una empresa</option>
+                      {empresas.map((empresa) => (
+                        <option key={empresa.id} value={empresa.id}>
+                          {empresa.nombre}
+                        </option>
+                      ))}
+                    </Select>
+                  </div>
+                </CardHeader>
+                <CardContent className="p-8">
+                  {loading ? (
+                    <div className="flex h-60 items-center justify-center flex-col gap-4">
+                      <div className="h-10 w-10 border-4 border-[#01ADFB]/20 border-t-[#01ADFB] rounded-full animate-spin" />
+                      <span className="text-[10px] font-black uppercase text-muted-foreground">Cargando servicios...</span>
+                    </div>
+                  ) : (
+                    <div className="grid gap-4">
+                      {servicios.map((item) => (
+                        <div key={item.id} className="flex items-center justify-between gap-4 p-6 bg-muted/30 rounded-2xl border border-border hover:border-[#01ADFB]/30 transition-all group">
+                          <div className="flex gap-4 items-start">
+                            <div className="h-12 w-12 rounded-xl bg-background border border-border flex items-center justify-center shadow-sm group-hover:scale-110 transition-transform">
+                              <Briefcase className="h-6 w-6 text-[#01ADFB]" />
+                            </div>
+                            <div className="space-y-2">
+                              <div>
+                                <h4 className="font-black text-foreground">{item.nombre}</h4>
+                                <p className="text-xs text-muted-foreground font-medium mt-0.5">
+                                  {item.requiereSeguimiento
+                                    ? `Seguimiento inicial a ${item.primerSeguimientoDias ?? "-"} días`
+                                    : "Sin seguimiento obligatorio"}
+                                </p>
+                              </div>
+                              <div className="flex flex-wrap gap-2">
+                                <span className={cn(
+                                  "inline-flex items-center gap-1 rounded-full px-3 py-1 text-[10px] font-black uppercase tracking-widest",
+                                  item.requiereSeguimiento
+                                    ? "bg-amber-100 text-amber-700"
+                                    : "bg-zinc-200 text-zinc-600",
+                                )}>
+                                  <ShieldCheck className="h-3.5 w-3.5" />
+                                  {item.requiereSeguimiento ? "Con seguimiento" : "Sin seguimiento"}
+                                </span>
+                                {item.requiereSeguimientoTresMeses ? (
+                                  <span className="inline-flex items-center gap-1 rounded-full px-3 py-1 text-[10px] font-black uppercase tracking-widest bg-emerald-100 text-emerald-700">
+                                    <CalendarClock className="h-3.5 w-3.5" />
+                                    Seguimiento 3 meses
+                                  </span>
+                                ) : null}
+                              </div>
+                            </div>
+                          </div>
+                          <Button variant="ghost" size="icon" onClick={() => handleOpenServicioModal(item)} className="h-11 w-11 rounded-xl hover:bg-background border border-transparent hover:border-border transition-all">
+                            <Pencil className="h-4 w-4 text-muted-foreground" />
+                          </Button>
+                        </div>
+                      ))}
+                      {!servicios.length ? (
+                        <div className="rounded-2xl border border-dashed border-border p-8 text-center">
+                          <p className="text-sm font-black text-foreground">No hay servicios configurados para esta empresa</p>
+                          <p className="text-xs font-medium text-muted-foreground mt-2">
+                            Crea uno y define si debe obligar seguimiento telefónico.
+                          </p>
+                        </div>
+                      ) : null}
+                    </div>
+                  )}
+                </CardContent>
+              </Card>
             ) : (
               <Card className="border-border shadow-2xl shadow-black/5 dark:shadow-none bg-card rounded-[2rem] overflow-hidden">
                 <CardHeader className="flex flex-row items-center justify-between p-8 border-b border-border bg-muted/30">
@@ -268,16 +481,91 @@ export default function ConfiguracionPage() {
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm p-4">
           <Card className="w-full max-w-lg bg-card border-border shadow-2xl animate-in zoom-in duration-200">
             <CardHeader className="flex flex-row items-center justify-between pb-4 border-b border-border">
-              <div><CardTitle className="text-xl font-black text-foreground uppercase">{editingItem ? 'Editar' : 'Agregar'} Parámetro</CardTitle></div>
+              <div><CardTitle className="text-xl font-black text-foreground uppercase">{editingServicio ? "Editar Servicio" : editingItem ? 'Editar' : 'Agregar'} Parámetro</CardTitle></div>
               <Button variant="ghost" size="icon" onClick={handleCloseModal} className="h-10 w-10 rounded-full text-muted-foreground hover:text-foreground"><X className="h-5 w-5" /></Button>
             </CardHeader>
             <form onSubmit={handleSubmit}>
               <CardContent className="p-8 space-y-6">
-                <div className="space-y-2"><Label className="text-[10px] font-black uppercase text-muted-foreground">Nombre</Label><Input name="nombre" defaultValue={editingItem?.nombre} required className="h-12 rounded-xl border-border bg-background text-foreground font-bold" /></div>
+                <div className="space-y-2"><Label className="text-[10px] font-black uppercase text-muted-foreground">Nombre</Label><Input name="nombre" defaultValue={editingServicio?.nombre || editingItem?.nombre} required className="h-12 rounded-xl border-border bg-background text-foreground font-bold" /></div>
                 {activeTab === "intereses" && (
                   <div className="grid grid-cols-2 gap-4">
                     <div className="space-y-2"><Label className="text-[10px] font-black uppercase text-muted-foreground">Frecuencia (Días)</Label><Input type="number" name="frecuenciaSugerida" defaultValue={editingItem?.frecuenciaSugerida} className="h-12 rounded-xl border-border bg-background text-foreground font-bold" /></div>
                     <div className="space-y-2"><Label className="text-[10px] font-black uppercase text-muted-foreground">Riesgo</Label><Select name="riesgoSugerido" defaultValue={editingItem?.riesgoSugerido || 'BAJO'} className="h-12 rounded-xl border-border bg-background text-foreground font-bold"><option value="BAJO">BAJO</option><option value="MEDIO">MEDIO</option><option value="ALTO">ALTO</option><option value="CRITICO">CRÍTICO</option></Select></div>
+                  </div>
+                )}
+                {activeTab === "servicios" && (
+                  <div className="space-y-5">
+                    <div className="rounded-2xl border border-border bg-muted/30 p-5 space-y-4">
+                      <div className="flex items-start gap-3">
+                        <input
+                          id="requiereSeguimiento"
+                          name="requiereSeguimiento"
+                          type="checkbox"
+                          defaultChecked={editingServicio?.requiereSeguimiento ?? false}
+                          className="mt-1 h-4 w-4 rounded border-border"
+                        />
+                        <div className="space-y-1">
+                          <Label htmlFor="requiereSeguimiento" className="text-[11px] font-black uppercase text-foreground">
+                            Requiere seguimiento obligatorio
+                          </Label>
+                          <p className="text-xs text-muted-foreground font-medium">
+                            Si se activa, este servicio puede bloquear la creación de nuevas órdenes cuando el asesor no haga la llamada pendiente.
+                          </p>
+                        </div>
+                      </div>
+
+                      <div className="space-y-2">
+                        <Label className="text-[10px] font-black uppercase text-muted-foreground">Primer seguimiento (8 a 15 días)</Label>
+                        <Input
+                          type="number"
+                          min={8}
+                          max={15}
+                          name="primerSeguimientoDias"
+                          defaultValue={editingServicio?.primerSeguimientoDias ?? 8}
+                          className="h-12 rounded-xl border-border bg-background text-foreground font-bold"
+                        />
+                      </div>
+                    </div>
+
+                    <div className="rounded-2xl border border-border bg-muted/30 p-5">
+                      <div className="flex items-start gap-3">
+                        <input
+                          id="requiereSeguimientoTresMeses"
+                          name="requiereSeguimientoTresMeses"
+                          type="checkbox"
+                          defaultChecked={editingServicio?.requiereSeguimientoTresMeses ?? true}
+                          className="mt-1 h-4 w-4 rounded border-border"
+                        />
+                        <div className="space-y-1">
+                          <Label htmlFor="requiereSeguimientoTresMeses" className="text-[11px] font-black uppercase text-foreground">
+                            Agregar seguimiento de 3 meses
+                          </Label>
+                          <p className="text-xs text-muted-foreground font-medium">
+                            Úsalo para servicios sin contrato que también deben tener revisión posterior a largo plazo.
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="rounded-2xl border border-border bg-muted/30 p-5">
+                      <div className="flex items-start gap-3">
+                        <input
+                          id="activo"
+                          name="activo"
+                          type="checkbox"
+                          defaultChecked={editingServicio?.activo ?? true}
+                          className="mt-1 h-4 w-4 rounded border-border"
+                        />
+                        <div className="space-y-1">
+                          <Label htmlFor="activo" className="text-[11px] font-black uppercase text-foreground">
+                            Servicio activo
+                          </Label>
+                          <p className="text-xs text-muted-foreground font-medium">
+                            Si se desactiva, el servicio deja de aparecer como opción activa para nuevas configuraciones.
+                          </p>
+                        </div>
+                      </div>
+                    </div>
                   </div>
                 )}
               </CardContent>

@@ -74,6 +74,7 @@ model Tenant {
   productosSolicitados      ProductoSolicitado[]
   proveedores               Proveedores[]
   referidos                 Referidos[]
+  seguimientosOrdenServicio OrdenServicioSeguimiento[]
   servicios                 Servicio[]
   sesionesActividad         SesionActividad[]
   subscription              Subscription?
@@ -170,6 +171,8 @@ model TenantMembership {
   permisosSolicitados   Permiso[]              @relation("PermisosSolicitados")
   productosSolicitados  ProductoSolicitado[]
   referidos             Referidos[]
+  seguimientosCompletados OrdenServicioSeguimiento[] @relation("SeguimientosCompletados")
+  seguimientosCreados     OrdenServicioSeguimiento[] @relation("SeguimientosCreados")
   sesionesActividad     SesionActividad[]
   municipio             Municipality?          @relation(fields: [municipioId], references: [id])
   tenant                Tenant                 @relation(fields: [tenantId], references: [id], onDelete: Cascade)
@@ -246,6 +249,7 @@ model Empresa {
   productosSolicitados      ProductoSolicitado[]
   proveedores               Proveedores[]
   referidos                 Referidos[]
+  seguimientosOrdenServicio OrdenServicioSeguimiento[]
   servicios                 Servicio[]
   sesionesActividad         SesionActividad[]
   sugerencias               SugerenciaSeguimiento[]
@@ -529,6 +533,9 @@ model Servicio {
   nombre                String
   activo                Boolean           @default(true)
   deleteAt              DateTime?
+  requiereSeguimiento   Boolean           @default(false)
+  primerSeguimientoDias Int?
+  requiereSeguimientoTresMeses Boolean    @default(true)
   createdAt             DateTime          @default(now())
   citasComoServicio     CitasPsicologos[] @relation("CitasServicio")
   citasComoTipoServicio CitasPsicologos[] @relation("CitasTipoServicio")
@@ -646,6 +653,7 @@ model OrdenServicio {
   evidencias            EvidenciaServicio[]
   geolocalizaciones     Geolocalizacion[]
   nominaDetalles        NominaDetalle[]
+  seguimientos          OrdenServicioSeguimiento[]
   cliente               Cliente              @relation(fields: [clienteId], references: [id])
   creadoPor             TenantMembership?    @relation("ServiciosCreados", fields: [creadoPorId], references: [id])
   direccion             Direccion?           @relation(fields: [direccionId], references: [id])
@@ -671,6 +679,38 @@ model OrdenServicio {
   @@index([numeroOrden])
   @@index([fechaVisita])
   @@map("ordenes_servicio")
+}
+
+model OrdenServicioSeguimiento {
+  id                      String            @id @default(uuid()) @db.Uuid
+  tenantId                String            @db.Uuid
+  empresaId               String            @db.Uuid
+  ordenServicioId         String            @db.Uuid
+  createdByMembershipId   String            @db.Uuid
+  completedByMembershipId String?           @db.Uuid
+  followUpType            String
+  status                  String            @default("PENDIENTE")
+  dueAt                   DateTime
+  contactedAt             DateTime?
+  channel                 String?
+  outcome                 String?
+  notes                   String?
+  completedAt             DateTime?
+  createdAt               DateTime          @default(now())
+  updatedAt               DateTime          @updatedAt
+  completedByMembership   TenantMembership? @relation("SeguimientosCompletados", fields: [completedByMembershipId], references: [id])
+  createdByMembership     TenantMembership  @relation("SeguimientosCreados", fields: [createdByMembershipId], references: [id])
+  empresa                 Empresa           @relation(fields: [empresaId], references: [id])
+  ordenServicio           OrdenServicio     @relation(fields: [ordenServicioId], references: [id], onDelete: Cascade)
+  tenant                  Tenant            @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+
+  @@index([tenantId])
+  @@index([empresaId])
+  @@index([createdByMembershipId])
+  @@index([ordenServicioId])
+  @@index([status])
+  @@index([dueAt])
+  @@map("ordenes_servicio_seguimientos")
 }
 
 model EntidadFinanciera {
@@ -1453,6 +1493,7 @@ enum TipoPermiso {
   EDITAR_VALOR_COTIZADO
   EDITAR_TIPO_SERVICIO
   DESCARGAR_EXCEL
+  DESBLOQUEO_ASIGNACION_SERVICIOS
 }
 
 enum EstadoPermiso {

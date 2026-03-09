@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 import { CreateTipoInteresDto, UpdateTipoInteresDto } from './dto/interes.dto';
 import { CreateServicioDto, UpdateServicioDto } from './dto/servicio.dto';
@@ -232,15 +232,17 @@ export class ConfigClientesService {
   }
 
   async createServicio(tenantId: string, dto: CreateServicioDto) {
+    this.validateServicioFollowUpConfig(dto);
     return this.prisma.servicio.create({
-      data: { ...dto, tenantId },
+      data: { ...dto, tenantId } as CreateServicioDto & { tenantId: string },
     });
   }
 
   async updateServicio(id: string, dto: UpdateServicioDto) {
+    this.validateServicioFollowUpConfig(dto);
     return this.prisma.servicio.update({
       where: { id },
-      data: dto,
+      data: dto as UpdateServicioDto,
     });
   }
 
@@ -273,5 +275,15 @@ export class ConfigClientesService {
       where: { tenantId, empresaId, activo: true },
       orderBy: { nombre: 'asc' },
     });
+  }
+
+  private validateServicioFollowUpConfig(
+    dto: Partial<CreateServicioDto & UpdateServicioDto>,
+  ) {
+    if (dto.requiereSeguimiento && !dto.primerSeguimientoDias) {
+      throw new BadRequestException(
+        'primerSeguimientoDias es obligatorio cuando el servicio requiere seguimiento',
+      );
+    }
   }
 }
