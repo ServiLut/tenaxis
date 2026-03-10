@@ -772,6 +772,9 @@ export class OrdenesServicioService {
           },
           orderBy: { llegada: 'desc' },
         },
+        seguimientos: {
+          orderBy: { createdAt: 'desc' },
+        },
         ordenesHijas: {
           include: {
             cliente: true,
@@ -827,6 +830,9 @@ export class OrdenesServicioService {
                 },
               },
               orderBy: { llegada: 'desc' },
+            },
+            seguimientos: {
+              orderBy: { createdAt: 'desc' },
             },
           },
           orderBy: { fechaVisita: 'asc' },
@@ -1776,12 +1782,23 @@ export class OrdenesServicioService {
       where: { id: followUpId, tenantId },
     });
 
-    if (!followUp) {
+    const resolvedFollowUp =
+      followUp ||
+      (await this.prisma.ordenServicioSeguimiento.findFirst({
+        where: {
+          tenantId,
+          ordenServicioId: followUpId,
+          status: 'PENDIENTE',
+        },
+        orderBy: { dueAt: 'asc' },
+      }));
+
+    if (!resolvedFollowUp) {
       throw new BadRequestException('Seguimiento no encontrado');
     }
 
     const canManage =
-      followUp.createdByMembershipId === user.membershipId ||
+      resolvedFollowUp.createdByMembershipId === user.membershipId ||
       this.isPrivilegedRole(user.role) ||
       user.role === Role.COORDINADOR;
 
@@ -1797,9 +1814,9 @@ export class OrdenesServicioService {
     }
 
     const updated = await this.prisma.ordenServicioSeguimiento.update({
-      where: { id: followUpId },
+      where: { id: resolvedFollowUp.id },
       data: {
-        status: 'COMPLETADO',
+        status: dto.resolution,
         contactedAt,
         channel: dto.channel,
         outcome: dto.outcome,
@@ -1818,9 +1835,9 @@ export class OrdenesServicioService {
         await this.prisma.ordenServicioSeguimiento.create({
           data: {
             tenantId,
-            empresaId: followUp.empresaId,
-            ordenServicioId: followUp.ordenServicioId,
-            createdByMembershipId: followUp.createdByMembershipId,
+            empresaId: resolvedFollowUp.empresaId,
+            ordenServicioId: resolvedFollowUp.ordenServicioId,
+            createdByMembershipId: resolvedFollowUp.createdByMembershipId,
             followUpType: 'ADICIONAL',
             dueAt: nextActionAt,
             status: 'PENDIENTE',

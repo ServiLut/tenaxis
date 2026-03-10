@@ -59,6 +59,7 @@ import { cn } from "@/components/ui/utils";
 import { toast } from "sonner";
 import Image from "next/image";
 import {
+  completeFollowUp,
   confirmOrdenUpload,
   createSignedUploadUrl,
   getEstadoServicios,
@@ -85,6 +86,7 @@ import {
 } from "../presets-api";
 import {
   addDaysToYmd,
+  bogotaDateTimeToUtcIso,
   formatBogotaDate,
   formatBogotaDateTime,
   formatBogotaTime,
@@ -206,6 +208,17 @@ interface OrdenServicioRaw {
       };
     };
   }[];
+  seguimientos?: {
+    id: string;
+    status: string;
+    dueAt: string;
+    contactedAt?: string | null;
+    channel?: string | null;
+    outcome?: string | null;
+    notes?: string | null;
+    completedAt?: string | null;
+    followUpType: string;
+  }[];
   ordenesHijas?: OrdenServicioRaw[];
 }
 
@@ -237,6 +250,7 @@ const PRESET_OPTIONS = [
   { key: "HOY", label: "HOY" },
   { key: "MANANA", label: "MAÑANA" },
   { key: "SEMANA", label: "SEMANA" },
+  { key: "RECHAZADOS", label: "RECHAZADOS" },
   { key: "VENCIDOS", label: "VENCIDOS" },
   { key: "SIN_TECNICO", label: "SIN TÉCNICO" },
   { key: "PENDIENTES_LIQUIDAR", label: "PEND. LIQUIDAR" },
@@ -339,6 +353,9 @@ function ServiciosContent() {
   const [customPresets, setCustomPresets] = useState<DashboardPreset[]>([]);
   const [isPresetModalOpen, setIsPresetModalOpen] = useState(false);
   const [editingPresetId, setEditingPresetId] = useState<string | null>(null);
+  const [isFollowUpModalOpen, setIsFollowUpModalOpen] = useState(false);
+  const [selectedFollowUp, setSelectedFollowUp] = useState<FollowUpRow | null>(null);
+  const [savingFollowUp, setSavingFollowUp] = useState(false);
   const [presetForm, setPresetForm] = useState<{
     name: string;
     colorToken: DashboardPresetColorToken;
@@ -347,6 +364,14 @@ function ServiciosContent() {
     name: "",
     colorToken: "sky",
     isShared: false,
+  });
+  const [followUpForm, setFollowUpForm] = useState({
+    contactedAt: "",
+    channel: "LLAMADA",
+    outcome: "CONTACTADO",
+    resolution: "ACEPTADO" as "ACEPTADO" | "RECHAZADO",
+    notes: "",
+    nextActionAt: "",
   });
 
   const [liquidarData, setLiquidarData] = useState<{
@@ -911,16 +936,35 @@ function ServiciosContent() {
     filters.fechaFin !== "";
 
   const followUpRows: FollowUpRow[] = servicios.flatMap((parent) =>
-    parent.followUps.map((child) => ({
-      ...child,
-      parentId: parent.raw.id,
-      parentNumero: parent.id,
-      parentCliente: parent.cliente,
-      parentServicio: parent.servicioEspecifico,
-    })),
+    parent.followUps
+      .map((child) => ({
+        ...child,
+        parentId: parent.raw.id,
+        parentNumero: parent.id,
+        parentCliente: parent.cliente,
+        parentServicio: parent.servicioEspecifico,
+      }))
+      .filter((child) => child.raw.seguimientos?.[0]?.status !== "ACEPTADO"),
   );
 
-  const filteredServicios = servicios.filter((s: Servicio) => {
+  const acceptedFollowUpRows: FollowUpRow[] = servicios.flatMap((parent) =>
+    parent.followUps
+      .map((child) => ({
+        ...child,
+        parentId: parent.raw.id,
+        parentNumero: parent.id,
+        parentCliente: parent.cliente,
+        parentServicio: parent.servicioEspecifico,
+      }))
+      .filter((child) => child.raw.seguimientos?.[0]?.status === "ACEPTADO"),
+  );
+
+  const visibleServicios: Servicio[] = [
+    ...servicios,
+    ...acceptedFollowUpRows,
+  ];
+
+  const filteredServicios = visibleServicios.filter((s: Servicio) => {
     const matchesSearch =
       s.cliente.toLowerCase().includes(search.toLowerCase()) ||
       s.servicioEspecifico.toLowerCase().includes(search.toLowerCase()) ||
@@ -952,6 +996,7 @@ function ServiciosContent() {
     const presetPass =
       activePreset === "all" ||
       (activePreset === "VENCIDOS" && isVencido) ||
+      (activePreset === "RECHAZADOS" && s.raw.seguimientos?.[0]?.status === "RECHAZADO") ||
       (activePreset === "SIN_TECNICO" && !s.tecnicoId) ||
       (activePreset === "PENDIENTES_LIQUIDAR" && s.raw.estadoServicio === "TECNICO_FINALIZO") ||
       ["HOY", "MANANA", "SEMANA"].includes(activePreset);
@@ -991,6 +1036,7 @@ function ServiciosContent() {
       !["LIQUIDADO", "CANCELADO", "SIN_CONCRETAR", "SIN CONCRETAR"].includes(s.estadoServicio);
     const presetPass =
       activePreset === "all" ||
+      (activePreset === "RECHAZADOS" && s.raw.seguimientos?.[0]?.status === "RECHAZADO") ||
       (activePreset === "VENCIDOS" && isVencido) ||
       (activePreset === "SIN_TECNICO" && !s.tecnicoId) ||
       (activePreset === "PENDIENTES_LIQUIDAR" && s.raw.estadoServicio === "TECNICO_FINALIZO") ||
@@ -1004,6 +1050,76 @@ function ServiciosContent() {
   const startIndex = (currentPage - 1) * itemsPerPage;
   const paginatedServicios = filteredServicios.slice(startIndex, startIndex + itemsPerPage);
   const paginatedFollowUps = filteredFollowUps.slice(startIndex, startIndex + itemsPerPage);
+
+  const toUtcIsoFromDateTimeLocal = (value: string) => {
+    const [datePart, timePart] = value.split("T");
+    if (!datePart || !timePart) return "";
+    return bogotaDateTimeToUtcIso(datePart, timePart);
+  };
+
+  const openFollowUpModal = (followUp: FollowUpRow) => {
+    const now = new Date();
+    const yyyy = now.getFullYear();
+    const mm = String(now.getMonth() + 1).padStart(2, "0");
+    const dd = String(now.getDate()).padStart(2, "0");
+    const hh = String(now.getHours()).padStart(2, "0");
+    const min = String(now.getMinutes()).padStart(2, "0");
+    const latestRecord = followUp.raw.seguimientos?.[0];
+    const contactedAtLocal = latestRecord?.contactedAt
+      ? (() => {
+          const date = new Date(latestRecord.contactedAt);
+          const localYyyy = date.getFullYear();
+          const localMm = String(date.getMonth() + 1).padStart(2, "0");
+          const localDd = String(date.getDate()).padStart(2, "0");
+          const localHh = String(date.getHours()).padStart(2, "0");
+          const localMin = String(date.getMinutes()).padStart(2, "0");
+          return `${localYyyy}-${localMm}-${localDd}T${localHh}:${localMin}`;
+        })()
+      : `${yyyy}-${mm}-${dd}T${hh}:${min}`;
+
+    setSelectedFollowUp(followUp);
+    setFollowUpForm({
+      contactedAt: contactedAtLocal,
+      channel: latestRecord?.channel || "LLAMADA",
+      outcome: latestRecord?.outcome || "CONTACTADO",
+      resolution: latestRecord?.status === "RECHAZADO" ? "RECHAZADO" : "ACEPTADO",
+      notes: latestRecord?.notes || "",
+      nextActionAt: "",
+    });
+    setIsFollowUpModalOpen(true);
+  };
+
+  const handleCompleteFollowUp = async () => {
+    if (!selectedFollowUp) return;
+    if (!followUpForm.contactedAt || !followUpForm.channel || !followUpForm.outcome || !followUpForm.notes.trim()) {
+      toast.error("Completa fecha, canal, resultado y notas del seguimiento");
+      return;
+    }
+
+    setSavingFollowUp(true);
+    try {
+      await completeFollowUp(selectedFollowUp.raw.id, {
+        contactedAt: toUtcIsoFromDateTimeLocal(followUpForm.contactedAt),
+        channel: followUpForm.channel,
+        outcome: followUpForm.outcome,
+        resolution: followUpForm.resolution,
+        notes: followUpForm.notes.trim(),
+        nextActionAt: followUpForm.nextActionAt
+          ? toUtcIsoFromDateTimeLocal(followUpForm.nextActionAt)
+          : undefined,
+      });
+
+      await fetchServicios();
+      toast.success("Seguimiento registrado correctamente");
+      setIsFollowUpModalOpen(false);
+      setSelectedFollowUp(null);
+    } catch (error) {
+      console.error("Error completing follow-up", error);
+      toast.error(error instanceof Error ? error.message : "No se pudo registrar el seguimiento");
+    } finally {
+      setSavingFollowUp(false);
+    }
+  };
 
   const toggleFollowUpsRow = (servicioId: string) => {
     setExpandedRows((prev) => ({
@@ -1258,6 +1374,15 @@ function ServiciosContent() {
                                       <span className={cn("px-2 py-0.5 rounded-md text-[8px] font-black uppercase", URGENCIA_STYLING[s.urgencia])}>{s.urgencia}</span>
                                     </div>
                                     <p className="text-[10px] font-black uppercase tracking-widest text-amber-700">#{s.id}</p>
+                                    {s.raw.seguimientos?.[0]?.completedAt ? (
+                                      <p className="text-[10px] font-bold uppercase tracking-widest text-emerald-700">
+                                        Llamada registrada {formatBogotaDateTime(s.raw.seguimientos[0].completedAt)}
+                                      </p>
+                                    ) : (
+                                      <p className="text-[10px] font-bold uppercase tracking-widest text-amber-700">
+                                        Pendiente desde {formatBogotaDate(s.raw.seguimientos?.[0]?.dueAt || s.raw.fechaVisita || s.raw.createdAt)}
+                                      </p>
+                                    )}
                                   </div>
                                 </td>
                                 <td className="px-8 py-6">
@@ -1274,6 +1399,12 @@ function ServiciosContent() {
                                 <td className="px-8 py-6"><span className={cn("inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-[10px] font-black uppercase border shadow-sm", ESTADO_STYLING[s.estadoServicio] || ESTADO_STYLING["DEFAULT"])}>{s.estadoServicio}</span></td>
                                 <td className="px-8 py-6 text-right">
                                   <div className="flex justify-end gap-2">
+                                    <button
+                                      onClick={() => openFollowUpModal(s)}
+                                      className="h-10 px-3 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-700 hover:bg-emerald-100 transition-all text-[10px] font-black uppercase tracking-widest"
+                                    >
+                                      {s.raw.seguimientos?.[0]?.completedAt ? "Actualizar llamada" : "Registrar llamada"}
+                                    </button>
                                     <button
                                       onClick={() => { setSelectedServicio(s); setIsModalOpen(true); }}
                                       className="h-10 px-3 rounded-xl border border-border bg-background text-muted-foreground hover:text-foreground transition-all text-[10px] font-black uppercase tracking-widest"
@@ -1311,7 +1442,7 @@ function ServiciosContent() {
                             <React.Fragment key={s.raw.id}>
                               <tr className="group hover:bg-muted/50 transition-colors">
                                 <td className="px-8 py-6"><span className="font-mono text-xs font-black text-[#01ADFB] bg-[#01ADFB]/10 px-3 py-1.5 rounded-lg border border-[#01ADFB]/20">{s.id}</span></td>
-                                <td className="px-8 py-6"><div className="space-y-1"><p className="font-black text-foreground tracking-tight uppercase">{s.cliente}</p><div className="flex items-center gap-2 flex-wrap"><span className="text-[10px] font-bold text-muted-foreground uppercase">{s.servicioEspecifico}</span><span className={cn("px-2 py-0.5 rounded-md text-[8px] font-black uppercase", URGENCIA_STYLING[s.urgencia])}>{s.urgencia}</span>{s.followUps.length > 0 ? <span className="px-2 py-0.5 rounded-md text-[8px] font-black uppercase bg-amber-100 text-amber-700 border border-amber-200">{s.followUps.length} seguimientos</span> : null}</div></div></td>
+                                <td className="px-8 py-6"><div className="space-y-1"><p className="font-black text-foreground tracking-tight uppercase">{s.cliente}</p><div className="flex items-center gap-2 flex-wrap"><span className="text-[10px] font-bold text-muted-foreground uppercase">{s.servicioEspecifico}</span>{s.isFollowUp ? <span className="px-2 py-0.5 rounded-md text-[8px] font-black uppercase bg-emerald-100 text-emerald-700 border border-emerald-200">seguimiento aceptado</span> : null}<span className={cn("px-2 py-0.5 rounded-md text-[8px] font-black uppercase", URGENCIA_STYLING[s.urgencia])}>{s.urgencia}</span>{s.followUps.filter((child) => child.raw.seguimientos?.[0]?.status !== "ACEPTADO").length > 0 ? <span className="px-2 py-0.5 rounded-md text-[8px] font-black uppercase bg-amber-100 text-amber-700 border border-amber-200">{s.followUps.filter((child) => child.raw.seguimientos?.[0]?.status !== "ACEPTADO").length} seguimientos</span> : null}</div></div></td>
                                 <td className="px-8 py-6"><p className="text-xs font-bold text-muted-foreground truncate max-w-[200px] uppercase" title={s.raw.direccionTexto}>{s.raw.direccionTexto || "N/A"}</p></td>
                                 <td className="px-8 py-6"><div className="space-y-1.5"><div className="flex items-center gap-2 text-xs font-bold text-muted-foreground"><Calendar className="h-3.5 w-3.5" /> {s.fecha}</div><div className="flex items-center gap-2 text-xs font-bold text-muted-foreground"><Clock className="h-3.5 w-3.5" /> {s.hora}</div></div></td>
                                 <td className="px-8 py-6"><div className="flex items-center gap-3"><div className="h-8 w-8 rounded-lg bg-muted flex items-center justify-center"><User className="h-4 w-4 text-muted-foreground" /></div><span className="text-sm font-bold text-foreground uppercase">{s.tecnico}</span></div></td>
@@ -1319,7 +1450,7 @@ function ServiciosContent() {
                                 <td className="px-8 py-6"><span className={cn("inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-[10px] font-black uppercase border shadow-sm", ESTADO_STYLING[s.estadoServicio] || ESTADO_STYLING["DEFAULT"])}>{s.estadoServicio}</span></td>
                                 <td className="px-8 py-6 text-right">
                                   <div className="flex justify-end gap-2">
-                                    {s.followUps.length > 0 ? (
+                                    {s.followUps.filter((child) => child.raw.seguimientos?.[0]?.status !== "ACEPTADO").length > 0 ? (
                                       <button
                                         onClick={() => toggleFollowUpsRow(s.raw.id)}
                                         className="h-10 px-3 rounded-xl bg-amber-50 border border-amber-200 text-amber-700 hover:bg-amber-100 transition-all flex items-center gap-2"
@@ -1352,7 +1483,7 @@ function ServiciosContent() {
                                   </div>
                                 </td>
                               </tr>
-                              {expandedRows[s.raw.id] && s.followUps.length > 0 ? (
+                              {expandedRows[s.raw.id] && s.followUps.filter((child) => child.raw.seguimientos?.[0]?.status !== "ACEPTADO").length > 0 ? (
                                 <tr className="bg-amber-50/60">
                                   <td colSpan={8} className="px-8 py-5">
                                     <div className="rounded-2xl border border-amber-200 bg-white overflow-hidden">
@@ -1361,10 +1492,10 @@ function ServiciosContent() {
                                           <p className="text-[10px] font-black uppercase tracking-[0.2em] text-amber-700">Seguimientos automáticos</p>
                                           <p className="text-xs font-medium text-muted-foreground mt-1">Estos servicios se generaron automáticamente y cuelgan del servicio madre.</p>
                                         </div>
-                                        <span className="text-[10px] font-black uppercase tracking-widest text-amber-700">{s.followUps.length} seguimiento(s)</span>
+                                        <span className="text-[10px] font-black uppercase tracking-widest text-amber-700">{s.followUps.filter((child) => child.raw.seguimientos?.[0]?.status !== "ACEPTADO").length} seguimiento(s)</span>
                                       </div>
                                       <div className="divide-y divide-amber-100">
-                                        {s.followUps.map((child) => (
+                                        {s.followUps.filter((child) => child.raw.seguimientos?.[0]?.status !== "ACEPTADO").map((child) => (
                                           <div key={child.raw.id} className="grid grid-cols-1 lg:grid-cols-[1.2fr_1fr_1fr_auto] gap-4 px-5 py-4">
                                             <div>
                                               <p className="font-black text-foreground uppercase">{child.servicioEspecifico}</p>
@@ -1901,6 +2032,102 @@ function ServiciosContent() {
           </div>
         )}
       </DialogContent></Dialog>
+
+      <Dialog open={isFollowUpModalOpen} onOpenChange={(open) => { if (!savingFollowUp) setIsFollowUpModalOpen(open); }}>
+        <DialogContent className="max-w-2xl bg-background border-border">
+          <DialogHeader>
+            <DialogTitle className="text-xl font-black uppercase text-foreground">Registrar Llamada De Seguimiento</DialogTitle>
+            <DialogDescription className="text-muted-foreground">Guarda el resultado del seguimiento y libera el bloqueo si no quedan pendientes vencidos.</DialogDescription>
+          </DialogHeader>
+          {selectedFollowUp ? (
+            <div className="space-y-6">
+              <div className="rounded-2xl border border-emerald-200 bg-emerald-50 px-4 py-4">
+                <p className="text-[10px] font-black uppercase tracking-[0.18em] text-emerald-700">Seguimiento seleccionado</p>
+                <div className="mt-2 space-y-1">
+                  <p className="text-sm font-black uppercase text-foreground">{selectedFollowUp.cliente}</p>
+                  <p className="text-sm text-muted-foreground">{selectedFollowUp.servicioEspecifico}</p>
+                  <p className="text-xs font-medium text-muted-foreground">Programado para {selectedFollowUp.fecha} a las {selectedFollowUp.hora}</p>
+                </div>
+              </div>
+
+              <div className="grid grid-cols-1 gap-5 md:grid-cols-2">
+                <div className="space-y-2">
+                  <Label className="text-[10px] font-black uppercase tracking-[0.18em] text-muted-foreground">Fecha y hora de contacto</Label>
+                  <Input type="datetime-local" value={followUpForm.contactedAt} onChange={(e) => setFollowUpForm((current) => ({ ...current, contactedAt: e.target.value }))} className="h-11 rounded-xl border-border font-medium" />
+                </div>
+                <div className="space-y-2">
+                  <Label className="text-[10px] font-black uppercase tracking-[0.18em] text-muted-foreground">Canal</Label>
+                  <Combobox
+                    value={followUpForm.channel}
+                    onChange={(value) => setFollowUpForm((current) => ({ ...current, channel: value }))}
+                    options={[
+                      { value: "LLAMADA", label: "LLAMADA" },
+                      { value: "WHATSAPP", label: "WHATSAPP" },
+                      { value: "CORREO", label: "CORREO" },
+                      { value: "VISITA", label: "VISITA" },
+                    ]}
+                  />
+                </div>
+                <div className="space-y-2 md:col-span-2">
+                  <Label className="text-[10px] font-black uppercase tracking-[0.18em] text-muted-foreground">Resultado</Label>
+                  <Combobox
+                    value={followUpForm.outcome}
+                    onChange={(value) => setFollowUpForm((current) => ({ ...current, outcome: value }))}
+                    options={[
+                      { value: "CONTACTADO", label: "CONTACTADO" },
+                      { value: "NO_CONTESTA", label: "NO CONTESTA" },
+                      { value: "REPROGRAMAR", label: "REPROGRAMAR" },
+                      { value: "CIERRE_EXITOSO", label: "CIERRE EXITOSO" },
+                      { value: "REQUIERE_ESCALACION", label: "REQUIERE ESCALACION" },
+                    ]}
+                  />
+                </div>
+                <div className="space-y-2 md:col-span-2">
+                  <Label className="text-[10px] font-black uppercase tracking-[0.18em] text-muted-foreground">Decisión del cliente</Label>
+                  <div className="grid grid-cols-2 gap-3">
+                    <Button
+                      type="button"
+                      variant={followUpForm.resolution === "ACEPTADO" ? "default" : "outline"}
+                      onClick={() => setFollowUpForm((current) => ({ ...current, resolution: "ACEPTADO" }))}
+                      className="h-11 rounded-xl text-[10px] font-black uppercase tracking-[0.16em]"
+                    >
+                      Aceptado
+                    </Button>
+                    <Button
+                      type="button"
+                      variant={followUpForm.resolution === "RECHAZADO" ? "destructive" : "outline"}
+                      onClick={() => setFollowUpForm((current) => ({ ...current, resolution: "RECHAZADO" }))}
+                      className="h-11 rounded-xl text-[10px] font-black uppercase tracking-[0.16em]"
+                    >
+                      Rechazado
+                    </Button>
+                  </div>
+                </div>
+                <div className="space-y-2 md:col-span-2">
+                  <Label className="text-[10px] font-black uppercase tracking-[0.18em] text-muted-foreground">Notas</Label>
+                  <textarea
+                    value={followUpForm.notes}
+                    onChange={(e) => setFollowUpForm((current) => ({ ...current, notes: e.target.value }))}
+                    placeholder="Ej: Se llamó al cliente, confirmó satisfacción y no requiere nueva visita."
+                    className="min-h-[120px] w-full rounded-2xl border border-border bg-background px-4 py-3 text-sm font-medium text-foreground outline-none transition focus:border-[#01ADFB]"
+                  />
+                </div>
+                <div className="space-y-2 md:col-span-2">
+                  <Label className="text-[10px] font-black uppercase tracking-[0.18em] text-muted-foreground">Próxima acción opcional</Label>
+                  <Input type="datetime-local" value={followUpForm.nextActionAt} onChange={(e) => setFollowUpForm((current) => ({ ...current, nextActionAt: e.target.value }))} className="h-11 rounded-xl border-border font-medium" />
+                </div>
+              </div>
+
+              <div className="flex justify-end gap-3 border-t border-border pt-4">
+                <Button type="button" variant="outline" onClick={() => setIsFollowUpModalOpen(false)} disabled={savingFollowUp} className="h-11 rounded-xl text-[10px] font-black uppercase tracking-[0.16em]">Cancelar</Button>
+                <Button type="button" onClick={handleCompleteFollowUp} disabled={savingFollowUp} className="h-11 rounded-xl bg-emerald-600 text-[10px] font-black uppercase tracking-[0.16em] text-white hover:bg-emerald-700">
+                  {savingFollowUp ? "Guardando..." : "Guardar llamada"}
+                </Button>
+              </div>
+            </div>
+          ) : null}
+        </DialogContent>
+      </Dialog>
 
       <Dialog open={isVisitaModalOpen} onOpenChange={setIsVisitaModalOpen}>
         <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto bg-background border-border">

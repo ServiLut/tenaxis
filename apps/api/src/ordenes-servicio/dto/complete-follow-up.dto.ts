@@ -1,4 +1,4 @@
-import { IsDateString, IsNotEmpty, IsOptional, IsString } from 'class-validator';
+import { IsDateString, IsIn, IsNotEmpty, IsOptional, IsString } from 'class-validator';
 
 export class CompleteFollowUpDto {
   @IsDateString()
@@ -11,6 +11,10 @@ export class CompleteFollowUpDto {
   @IsString()
   @IsNotEmpty()
   outcome: string;
+
+  @IsString()
+  @IsIn(['ACEPTADO', 'RECHAZADO'])
+  resolution: 'ACEPTADO' | 'RECHAZADO';
 
   @IsString()
   @IsNotEmpty()

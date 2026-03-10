@@ -65,6 +65,7 @@ export interface CompleteFollowUpPayload {
   contactedAt: string;
   channel: string;
   outcome: string;
+  resolution: "ACEPTADO" | "RECHAZADO";
   notes: string;
   nextActionAt?: string;
 }

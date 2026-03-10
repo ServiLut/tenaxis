@@ -259,6 +259,7 @@ function NuevoServicioContent() {
     contactedAt: "",
     channel: "LLAMADA",
     outcome: "CONTACTADO",
+    resolution: "ACEPTADO" as "ACEPTADO" | "RECHAZADO",
     notes: "",
     nextActionAt: "",
   });
@@ -588,6 +589,7 @@ function NuevoServicioContent() {
       contactedAt: `${yyyy}-${mm}-${dd}T${hh}:${min}`,
       channel: "LLAMADA",
       outcome: "CONTACTADO",
+      resolution: "ACEPTADO",
       notes: "",
       nextActionAt: "",
     });
@@ -607,6 +609,7 @@ function NuevoServicioContent() {
         contactedAt: toUtcIsoFromDateTimeLocal(followUpForm.contactedAt),
         channel: followUpForm.channel,
         outcome: followUpForm.outcome,
+        resolution: followUpForm.resolution,
         notes: followUpForm.notes.trim(),
         nextActionAt: followUpForm.nextActionAt
           ? toUtcIsoFromDateTimeLocal(followUpForm.nextActionAt)
@@ -624,11 +627,12 @@ function NuevoServicioContent() {
         );
         setSelectedFollowUp(nextPending || null);
         if (nextPending) {
-          setFollowUpForm((current) => ({
-            ...current,
-            notes: "",
-            nextActionAt: "",
-          }));
+            setFollowUpForm((current) => ({
+              ...current,
+              notes: "",
+              resolution: "ACEPTADO",
+              nextActionAt: "",
+            }));
         }
       }
     } catch (error) {
@@ -1682,6 +1686,30 @@ function NuevoServicioContent() {
                         ))}
                       </SelectContent>
                     </Select>
+                  </div>
+
+                  <div className="space-y-2 md:col-span-2">
+                    <Label className="text-[10px] font-black uppercase tracking-[0.18em] text-zinc-500">
+                      Decisión del cliente
+                    </Label>
+                    <div className="grid grid-cols-2 gap-3">
+                      <Button
+                        type="button"
+                        variant={followUpForm.resolution === "ACEPTADO" ? "default" : "outline"}
+                        onClick={() => setFollowUpForm((current) => ({ ...current, resolution: "ACEPTADO" }))}
+                        className="h-11 rounded-xl text-[10px] font-black uppercase tracking-[0.16em]"
+                      >
+                        Aceptado
+                      </Button>
+                      <Button
+                        type="button"
+                        variant={followUpForm.resolution === "RECHAZADO" ? "destructive" : "outline"}
+                        onClick={() => setFollowUpForm((current) => ({ ...current, resolution: "RECHAZADO" }))}
+                        className="h-11 rounded-xl text-[10px] font-black uppercase tracking-[0.16em]"
+                      >
+                        Rechazado
+                      </Button>
+                    </div>
                   </div>
 
                   <div className="space-y-2 md:col-span-2">

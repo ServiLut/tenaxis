@@ -17,6 +17,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Select } from "@/components/ui/select";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 import { 
   Settings, 
   Zap, 
@@ -94,6 +95,7 @@ export default function ConfiguracionPage() {
   const [selectedEmpresaId, setSelectedEmpresaId] = useState("");
   const [user, setUser] = useState<UserProfile | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isServicioModalOpen, setIsServicioModalOpen] = useState(false);
   const [editingItem, setEditingItem] = useState<TipoInteres | null>(null);
   const [editingServicio, setEditingServicio] = useState<ServicioConfig | null>(null);
 
@@ -182,13 +184,14 @@ export default function ConfiguracionPage() {
   const handleOpenServicioModal = (item: ServicioConfig | null = null) => {
     setEditingServicio(item);
     setEditingItem(null);
-    setIsModalOpen(true);
+    setIsServicioModalOpen(true);
   };
 
   const handleCloseModal = () => {
     setEditingItem(null);
     setEditingServicio(null);
     setIsModalOpen(false);
+    setIsServicioModalOpen(false);
   };
 
   const handleSaveProfile = () => {
@@ -574,6 +577,122 @@ export default function ConfiguracionPage() {
           </Card>
         </div>
       )}
+
+      <Dialog open={isServicioModalOpen} onOpenChange={(open) => {
+        setIsServicioModalOpen(open);
+        if (!open) {
+          setEditingServicio(null);
+        }
+      }}>
+        <DialogContent className="max-w-2xl bg-card border-border">
+          <DialogHeader>
+            <DialogTitle className="text-xl font-black text-foreground uppercase">
+              {editingServicio ? "Editar Servicio" : "Agregar Servicio"}
+            </DialogTitle>
+            <DialogDescription className="font-bold text-[10px] uppercase tracking-[0.18em] text-muted-foreground">
+              Configura si este servicio requiere seguimiento y en qué plazos.
+            </DialogDescription>
+          </DialogHeader>
+
+          <form
+            onSubmit={handleSubmit}
+            className="space-y-6"
+          >
+            <div className="space-y-2">
+              <Label className="text-[10px] font-black uppercase text-muted-foreground">Nombre</Label>
+              <Input
+                name="nombre"
+                defaultValue={editingServicio?.nombre || ""}
+                required
+                className="h-12 rounded-xl border-border bg-background text-foreground font-bold"
+              />
+            </div>
+
+            <div className="space-y-5">
+              <div className="rounded-2xl border border-border bg-muted/30 p-5 space-y-4">
+                <div className="flex items-start gap-3">
+                  <input
+                    id="servicio-requiereSeguimiento"
+                    name="requiereSeguimiento"
+                    type="checkbox"
+                    defaultChecked={editingServicio?.requiereSeguimiento ?? false}
+                    className="mt-1 h-4 w-4 rounded border-border"
+                  />
+                  <div className="space-y-1">
+                    <Label htmlFor="servicio-requiereSeguimiento" className="text-[11px] font-black uppercase text-foreground">
+                      Requiere seguimiento obligatorio
+                    </Label>
+                    <p className="text-xs text-muted-foreground font-medium">
+                      Si se activa, este servicio obliga llamada posterior y puede bloquear nuevas asignaciones.
+                    </p>
+                  </div>
+                </div>
+
+                <div className="space-y-2">
+                  <Label className="text-[10px] font-black uppercase text-muted-foreground">Primer seguimiento (8 a 15 días)</Label>
+                  <Input
+                    type="number"
+                    min={8}
+                    max={15}
+                    name="primerSeguimientoDias"
+                    defaultValue={editingServicio?.primerSeguimientoDias ?? 8}
+                    className="h-12 rounded-xl border-border bg-background text-foreground font-bold"
+                  />
+                </div>
+              </div>
+
+              <div className="rounded-2xl border border-border bg-muted/30 p-5">
+                <div className="flex items-start gap-3">
+                  <input
+                    id="servicio-requiereSeguimientoTresMeses"
+                    name="requiereSeguimientoTresMeses"
+                    type="checkbox"
+                    defaultChecked={editingServicio?.requiereSeguimientoTresMeses ?? true}
+                    className="mt-1 h-4 w-4 rounded border-border"
+                  />
+                  <div className="space-y-1">
+                    <Label htmlFor="servicio-requiereSeguimientoTresMeses" className="text-[11px] font-black uppercase text-foreground">
+                      Agregar seguimiento de 3 meses
+                    </Label>
+                    <p className="text-xs text-muted-foreground font-medium">
+                      Úsalo para servicios sin contrato que también requieren revisión posterior.
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              <div className="rounded-2xl border border-border bg-muted/30 p-5">
+                <div className="flex items-start gap-3">
+                  <input
+                    id="servicio-activo"
+                    name="activo"
+                    type="checkbox"
+                    defaultChecked={editingServicio?.activo ?? true}
+                    className="mt-1 h-4 w-4 rounded border-border"
+                  />
+                  <div className="space-y-1">
+                    <Label htmlFor="servicio-activo" className="text-[11px] font-black uppercase text-foreground">
+                      Servicio activo
+                    </Label>
+                    <p className="text-xs text-muted-foreground font-medium">
+                      Si se desactiva, deja de aparecer para nuevas órdenes.
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div className="flex justify-end gap-3 pt-2">
+              <Button type="button" variant="ghost" onClick={handleCloseModal} className="font-bold text-xs uppercase text-muted-foreground">
+                Cancelar
+              </Button>
+              <Button type="submit" className="bg-[#01ADFB] hover:bg-blue-700 text-white font-black uppercase text-[10px] h-12 px-8 rounded-xl shadow-lg shadow-[#01ADFB]/20">
+                Guardar Cambios
+              </Button>
+            </div>
+          </form>
+        </DialogContent>
+      </Dialog>
     </DashboardLayout>
   );
 }
