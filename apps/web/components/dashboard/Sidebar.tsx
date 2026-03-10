@@ -58,6 +58,11 @@ const menuItems: { title: string; icon: LucideIcon; href: string; role?: string 
     href: "/dashboard/servicios",
   },
   {
+    title: "Cuenta de Cobro",
+    icon: CreditCard,
+    href: "/dashboard/cuenta-cobro",
+  },
+  {
     title: "Agenda",
     icon: Calendar,
     href: "/dashboard/agenda",
@@ -123,7 +128,16 @@ export function Sidebar({ isOpen, onClose }: SidebarProps) {
     document.cookie = "access_token=; path=/; expires=Thu, 01 Jan 1970 00:00:01 GMT;";
     document.cookie = "tenant-id=; path=/; expires=Thu, 01 Jan 1970 00:00:01 GMT;";
     document.cookie = "x-enterprise-id=; path=/; expires=Thu, 01 Jan 1970 00:00:01 GMT;";
-    localStorage.removeItem("user");
+    
+    // En lugar de borrar todo el objeto user, solo limpiamos los tokens/sesiones
+    // para preservar campos como banco, valorHora, etc. en el mismo navegador.
+    const userData = localStorage.getItem("user");
+    if (userData) {
+      const user = JSON.parse(userData);
+      delete user.sesionId;
+      localStorage.setItem("user", JSON.stringify(user));
+    }
+    
     localStorage.removeItem("current-enterprise-id");
     window.location.href = "/iniciar-sesion";
   };

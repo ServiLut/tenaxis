@@ -9,7 +9,7 @@ import {
   startOfBogotaDayUtc,
 } from '../src/common/utils/timezone.util';
 
-const prisma = new PrismaClient();
+const prisma = new PrismaClient({} as any);
 const shouldApply = process.argv.includes('--apply');
 
 type FollowUpBlueprint = {

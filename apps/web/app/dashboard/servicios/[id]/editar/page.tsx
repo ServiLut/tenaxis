@@ -264,7 +264,7 @@ function EditarServicioContent({ id }: { id: string }) {
         // --- URL OVERRIDE LOGIC ---
         const urlParams = new URLSearchParams(window.location.search);
         
-        const getVal = (param: string, dbVal: any) => urlParams.get(param) ?? dbVal;
+        const getVal = (param: string, dbVal: any /* eslint-disable-line @typescript-eslint/no-explicit-any */) => urlParams.get(param) ?? dbVal;
 
         setSelectedCliente(getVal("cliente", orderData.clienteId));
         setSelectedEmpresa(orderData.empresaId);

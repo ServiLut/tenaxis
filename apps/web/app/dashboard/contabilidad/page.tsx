@@ -65,7 +65,7 @@ import {
 } from "@/lib/api/contabilidad-client";
 import { Badge } from "@/components/ui/badge";
 import { format } from "date-fns";
-import { es } from "date-fns/locale";
+import { es as _es } from "date-fns/locale";
 import { CheckCircle, Loader2, FileUp, AlertCircle } from "lucide-react";
 import {
   formatBogotaDate,

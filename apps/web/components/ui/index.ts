@@ -10,3 +10,5 @@ export * from "./popover";
 export * from "./calendar";
 export * from "./date-picker";
 export * from "./time-picker";
+export * from "./textarea";
+export * from "./sonner";

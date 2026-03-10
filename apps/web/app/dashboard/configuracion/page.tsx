@@ -9,6 +9,7 @@ import {
   getServiciosAction,
   createServicioAction,
   updateServicioAction,
+  updateMembershipAction,
   getEnterprisesAction,
 } from "../actions";
 import { DashboardLayout } from "@/components/dashboard";
@@ -47,6 +48,8 @@ type TipoInteres = {
 };
 
 type UserProfile = {
+  id?: string;
+  membershipId?: string;
   nombre?: string;
   apellido?: string;
   tipoDocumento?: string;
@@ -76,6 +79,8 @@ type Empresa = {
   nombre: string;
 };
 
+const BANCOS_PERFIL = ['Bancolombia', 'Nequi', 'Davivienda', 'PSE', 'Paypal'];
+const TIPOS_CUENTA = ['Ahorros', 'Corriente', 'Monedero (Nequi/Daviplata)', 'Otro'];
 const BANCOS_COLOMBIA = [
   "Bancolombia", "Banco de Bogotá", "Davivienda", "BBVA Colombia", "Banco de Occidente",
   "Banco Popular", "Scotiabank Colpatria", "Itaú", "Banco GNB Sudameris", "Banco Caja Social",
@@ -102,7 +107,10 @@ export default function ConfiguracionPage() {
   useEffect(() => {
     const userData = localStorage.getItem("user");
     if (userData && userData !== "undefined") {
-      try { setUser(JSON.parse(userData)); } catch { /* ignore */ }
+      try { 
+        const parsed = JSON.parse(userData);
+        setUser(parsed);
+      } catch { /* ignore */ }
     }
     const handleHashChange = () => {
       const hash = window.location.hash.replace('#', '');
@@ -194,15 +202,40 @@ export default function ConfiguracionPage() {
     setIsServicioModalOpen(false);
   };
 
-  const handleSaveProfile = () => {
+  const handleSaveProfile = async () => {
     if (user) {
+      // Siempre guardamos localmente para los campos que el backend no soporta aún
+      // (banco, tipoCuenta, numeroCuenta, valorHora)
       localStorage.setItem("user", JSON.stringify(user));
-      toast.success("Perfil actualizado localmente");
+      
+      if (user.membershipId) {
+        try {
+          // Solo enviamos los campos básicos que el backend soporta actualmente
+          const res = await updateMembershipAction(user.membershipId, {
+            nombre: user.nombre,
+            apellido: user.apellido,
+            telefono: user.telefono,
+          });
+
+          if (res.success) {
+            toast.success("Perfil sincronizado con el servidor");
+          } else {
+            // Si el servidor falla (por campos no soportados), tenemos el guardado local
+            console.warn("Server sync failed, kept local changes", res.error);
+            toast.info("Cambios guardados localmente");
+          }
+        } catch (error) {
+          console.error("Connection error during sync", error);
+          toast.info("Cambios guardados localmente (sin conexión con el servidor)");
+        }
+      } else {
+        toast.success("Perfil actualizado localmente");
+      }
     }
   };
 
   const updateProfileField = (field: keyof UserProfile, value: string | number | undefined) => {
-    if (user) setUser({ ...user, [field]: value });
+    if (user) setUser(prev => prev ? { ...prev, [field]: value } : null);
   };
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -321,7 +354,8 @@ export default function ConfiguracionPage() {
                   <CardContent className="p-8 grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div className="space-y-2"><Label className="text-[10px] font-black uppercase text-muted-foreground">Nombre</Label><Input value={user?.nombre || ""} onChange={(e) => updateProfileField("nombre", e.target.value)} className="h-12 rounded-xl border-border bg-background text-foreground font-bold" /></div>
                     <div className="space-y-2"><Label className="text-[10px] font-black uppercase text-muted-foreground">Apellido</Label><Input value={user?.apellido || ""} onChange={(e) => updateProfileField("apellido", e.target.value)} className="h-12 rounded-xl border-border bg-background text-foreground font-bold" /></div>
-                    <div className="space-y-2"><Label className="text-[10px] font-black uppercase text-muted-foreground">Tipo Documento</Label><Select value={user?.tipoDocumento} onChange={(e: React.ChangeEvent<HTMLSelectElement>) => updateProfileField("tipoDocumento", e.target.value)} className="h-12 rounded-xl border-border bg-background text-foreground font-bold">{TIPOS_DOCUMENTO.map(t => <option key={t} value={t}>{t}</option>)}</Select></div>
+                    <div className="space-y-2"><Label className="text-[10px] font-black uppercase text-muted-foreground">Celular</Label><Input value={user?.telefono || ""} onChange={(e) => updateProfileField("telefono", e.target.value)} className="h-12 rounded-xl border-border bg-background text-foreground font-bold" /></div>
+                    <div className="space-y-2"><Label className="text-[10px] font-black uppercase text-muted-foreground">Tipo Documento</Label><Select value={user?.tipoDocumento || ""} onChange={(e: React.ChangeEvent<HTMLSelectElement>) => updateProfileField("tipoDocumento", e.target.value)} className="h-12 rounded-xl border-border bg-background text-foreground font-bold"><option value="" disabled>Seleccione...</option>{TIPOS_DOCUMENTO.map(t => <option key={t} value={t}>{t}</option>)}</Select></div>
                     <div className="space-y-2"><Label className="text-[10px] font-black uppercase text-muted-foreground">Documento</Label><Input value={user?.numeroDocumento || ""} onChange={(e) => updateProfileField("numeroDocumento", e.target.value)} className="h-12 rounded-xl border-border bg-background text-foreground font-bold" /></div>
                   </CardContent>
                 </Card>
@@ -334,7 +368,9 @@ export default function ConfiguracionPage() {
                     </div>
                   </CardHeader>
                   <CardContent className="p-8 grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <div className="space-y-2"><Label className="text-[10px] font-black uppercase text-muted-foreground">Banco</Label><Select value={user?.banco} onChange={(e: React.ChangeEvent<HTMLSelectElement>) => updateProfileField("banco", e.target.value)} className="h-12 rounded-xl border-border bg-background text-foreground font-bold">{BANCOS_COLOMBIA.map(b => <option key={b} value={b}>{b}</option>)}</Select></div>
+                    <div className="space-y-2"><Label className="text-[10px] font-black uppercase text-muted-foreground">Banco</Label><Select value={user?.banco || ""} onChange={(e: React.ChangeEvent<HTMLSelectElement>) => updateProfileField("banco", e.target.value)} className="h-12 rounded-xl border-border bg-background text-foreground font-bold"><option value="" disabled>Seleccione...</option>{BANCOS_PERFIL.map(b => <option key={b} value={b}>{b}</option>)}</Select></div>
+                    <div className="space-y-2"><Label className="text-[10px] font-black uppercase text-muted-foreground">Tipo de Cuenta</Label><Select value={user?.tipoCuenta || ""} onChange={(e: React.ChangeEvent<HTMLSelectElement>) => updateProfileField("tipoCuenta", e.target.value)} className="h-12 rounded-xl border-border bg-background text-foreground font-bold"><option value="" disabled>Seleccione...</option>{TIPOS_CUENTA.map(t => <option key={t} value={t}>{t}</option>)}</Select></div>
+                    <div className="space-y-2"><Label className="text-[10px] font-black uppercase text-muted-foreground">Número de Cuenta</Label><Input value={user?.numeroCuenta || ""} onChange={(e) => updateProfileField("numeroCuenta", e.target.value)} className="h-12 rounded-xl border-border bg-background text-foreground font-bold" /></div>
                     <div className="space-y-2"><Label className="text-[10px] font-black uppercase text-muted-foreground">Valor Hora</Label><Input type="number" value={user?.valorHora || 0} onChange={(e) => updateProfileField("valorHora", parseInt(e.target.value))} className="h-12 rounded-xl border-border bg-background text-emerald-600 font-bold" /></div>
                   </CardContent>
                 </Card>
