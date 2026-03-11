@@ -8,6 +8,7 @@ import { CreateClienteDto } from './dto/create-cliente.dto';
 import {
   Cliente,
   ClasificacionCliente,
+  EstadoContratoCliente,
   SegmentoCliente,
   NivelRiesgo,
   Prisma,
@@ -261,7 +262,16 @@ export class ClientesService {
     dto: CreateClienteDto,
     reqEmpresaId?: string,
   ): Promise<Cliente> {
-    const { direcciones, vehiculos, metrajeTotal, ...restDto } = dto;
+    const {
+      direcciones,
+      vehiculos,
+      metrajeTotal,
+      tipoInteresId,
+      empresaId: _empresaId,
+      ...restDto
+    } = dto as CreateClienteDto & { empresaId?: string };
+
+    void _empresaId;
 
     const membership = await this.prisma.tenantMembership.findUnique({
       where: { userId_tenantId: { userId, tenantId } },
@@ -322,6 +332,9 @@ export class ClientesService {
         ? new Prisma.Decimal(toDecimal(metrajeTotal, 2)!)
         : null,
       creadoPor: { connect: { id: membership.id } },
+      ...(tipoInteresId && {
+        tipoInteres: { connect: { id: tipoInteresId } },
+      }),
 
       direcciones: {
         create: direcciones?.map((d) => ({
@@ -371,6 +384,14 @@ export class ClientesService {
         },
         vehiculos: true,
         tipoInteres: true,
+        empresa: true,
+        contratosCliente: {
+          where: {
+            tenantId,
+            estado: EstadoContratoCliente.ACTIVO,
+          },
+          orderBy: { fechaInicio: 'desc' },
+        },
       },
     });
   }

@@ -62,6 +62,7 @@ export type OrdenServicioMinAggregateOutputType = {
   zonaId: string | null
   vehiculoId: string | null
   metodoPagoId: string | null
+  contratoClienteId: string | null
   numeroOrden: string | null
   fechaVisita: Date | null
   horaInicio: Date | null
@@ -116,6 +117,7 @@ export type OrdenServicioMaxAggregateOutputType = {
   zonaId: string | null
   vehiculoId: string | null
   metodoPagoId: string | null
+  contratoClienteId: string | null
   numeroOrden: string | null
   fechaVisita: Date | null
   horaInicio: Date | null
@@ -170,6 +172,7 @@ export type OrdenServicioCountAggregateOutputType = {
   zonaId: number
   vehiculoId: number
   metodoPagoId: number
+  contratoClienteId: number
   numeroOrden: number
   fechaVisita: number
   horaInicio: number
@@ -243,6 +246,7 @@ export type OrdenServicioMinAggregateInputType = {
   zonaId?: true
   vehiculoId?: true
   metodoPagoId?: true
+  contratoClienteId?: true
   numeroOrden?: true
   fechaVisita?: true
   horaInicio?: true
@@ -297,6 +301,7 @@ export type OrdenServicioMaxAggregateInputType = {
   zonaId?: true
   vehiculoId?: true
   metodoPagoId?: true
+  contratoClienteId?: true
   numeroOrden?: true
   fechaVisita?: true
   horaInicio?: true
@@ -351,6 +356,7 @@ export type OrdenServicioCountAggregateInputType = {
   zonaId?: true
   vehiculoId?: true
   metodoPagoId?: true
+  contratoClienteId?: true
   numeroOrden?: true
   fechaVisita?: true
   horaInicio?: true
@@ -493,6 +499,7 @@ export type OrdenServicioGroupByOutputType = {
   zonaId: string | null
   vehiculoId: string | null
   metodoPagoId: string | null
+  contratoClienteId: string | null
   numeroOrden: string | null
   fechaVisita: Date | null
   horaInicio: Date | null
@@ -571,6 +578,7 @@ export type OrdenServicioWhereInput = {
   zonaId?: Prisma.UuidNullableFilter<"OrdenServicio"> | string | null
   vehiculoId?: Prisma.UuidNullableFilter<"OrdenServicio"> | string | null
   metodoPagoId?: Prisma.UuidNullableFilter<"OrdenServicio"> | string | null
+  contratoClienteId?: Prisma.UuidNullableFilter<"OrdenServicio"> | string | null
   numeroOrden?: Prisma.StringNullableFilter<"OrdenServicio"> | string | null
   fechaVisita?: Prisma.DateTimeNullableFilter<"OrdenServicio"> | Date | string | null
   horaInicio?: Prisma.DateTimeNullableFilter<"OrdenServicio"> | Date | string | null
@@ -617,6 +625,7 @@ export type OrdenServicioWhereInput = {
   entidadFinanciera?: Prisma.XOR<Prisma.EntidadFinancieraNullableScalarRelationFilter, Prisma.EntidadFinancieraWhereInput> | null
   liquidadoPor?: Prisma.XOR<Prisma.TenantMembershipNullableScalarRelationFilter, Prisma.TenantMembershipWhereInput> | null
   metodoPago?: Prisma.XOR<Prisma.MetodoPagoNullableScalarRelationFilter, Prisma.MetodoPagoWhereInput> | null
+  contratoCliente?: Prisma.XOR<Prisma.ContratoClienteNullableScalarRelationFilter, Prisma.ContratoClienteWhereInput> | null
   ordenPadre?: Prisma.XOR<Prisma.OrdenServicioNullableScalarRelationFilter, Prisma.OrdenServicioWhereInput> | null
   ordenesHijas?: Prisma.OrdenServicioListRelationFilter
   servicio?: Prisma.XOR<Prisma.ServicioScalarRelationFilter, Prisma.ServicioWhereInput>
@@ -646,6 +655,7 @@ export type OrdenServicioOrderByWithRelationInput = {
   zonaId?: Prisma.SortOrderInput | Prisma.SortOrder
   vehiculoId?: Prisma.SortOrderInput | Prisma.SortOrder
   metodoPagoId?: Prisma.SortOrderInput | Prisma.SortOrder
+  contratoClienteId?: Prisma.SortOrderInput | Prisma.SortOrder
   numeroOrden?: Prisma.SortOrderInput | Prisma.SortOrder
   fechaVisita?: Prisma.SortOrderInput | Prisma.SortOrder
   horaInicio?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -692,6 +702,7 @@ export type OrdenServicioOrderByWithRelationInput = {
   entidadFinanciera?: Prisma.EntidadFinancieraOrderByWithRelationInput
   liquidadoPor?: Prisma.TenantMembershipOrderByWithRelationInput
   metodoPago?: Prisma.MetodoPagoOrderByWithRelationInput
+  contratoCliente?: Prisma.ContratoClienteOrderByWithRelationInput
   ordenPadre?: Prisma.OrdenServicioOrderByWithRelationInput
   ordenesHijas?: Prisma.OrdenServicioOrderByRelationAggregateInput
   servicio?: Prisma.ServicioOrderByWithRelationInput
@@ -724,6 +735,7 @@ export type OrdenServicioWhereUniqueInput = Prisma.AtLeast<{
   zonaId?: Prisma.UuidNullableFilter<"OrdenServicio"> | string | null
   vehiculoId?: Prisma.UuidNullableFilter<"OrdenServicio"> | string | null
   metodoPagoId?: Prisma.UuidNullableFilter<"OrdenServicio"> | string | null
+  contratoClienteId?: Prisma.UuidNullableFilter<"OrdenServicio"> | string | null
   numeroOrden?: Prisma.StringNullableFilter<"OrdenServicio"> | string | null
   fechaVisita?: Prisma.DateTimeNullableFilter<"OrdenServicio"> | Date | string | null
   horaInicio?: Prisma.DateTimeNullableFilter<"OrdenServicio"> | Date | string | null
@@ -770,6 +782,7 @@ export type OrdenServicioWhereUniqueInput = Prisma.AtLeast<{
   entidadFinanciera?: Prisma.XOR<Prisma.EntidadFinancieraNullableScalarRelationFilter, Prisma.EntidadFinancieraWhereInput> | null
   liquidadoPor?: Prisma.XOR<Prisma.TenantMembershipNullableScalarRelationFilter, Prisma.TenantMembershipWhereInput> | null
   metodoPago?: Prisma.XOR<Prisma.MetodoPagoNullableScalarRelationFilter, Prisma.MetodoPagoWhereInput> | null
+  contratoCliente?: Prisma.XOR<Prisma.ContratoClienteNullableScalarRelationFilter, Prisma.ContratoClienteWhereInput> | null
   ordenPadre?: Prisma.XOR<Prisma.OrdenServicioNullableScalarRelationFilter, Prisma.OrdenServicioWhereInput> | null
   ordenesHijas?: Prisma.OrdenServicioListRelationFilter
   servicio?: Prisma.XOR<Prisma.ServicioScalarRelationFilter, Prisma.ServicioWhereInput>
@@ -799,6 +812,7 @@ export type OrdenServicioOrderByWithAggregationInput = {
   zonaId?: Prisma.SortOrderInput | Prisma.SortOrder
   vehiculoId?: Prisma.SortOrderInput | Prisma.SortOrder
   metodoPagoId?: Prisma.SortOrderInput | Prisma.SortOrder
+  contratoClienteId?: Prisma.SortOrderInput | Prisma.SortOrder
   numeroOrden?: Prisma.SortOrderInput | Prisma.SortOrder
   fechaVisita?: Prisma.SortOrderInput | Prisma.SortOrder
   horaInicio?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -862,6 +876,7 @@ export type OrdenServicioScalarWhereWithAggregatesInput = {
   zonaId?: Prisma.UuidNullableWithAggregatesFilter<"OrdenServicio"> | string | null
   vehiculoId?: Prisma.UuidNullableWithAggregatesFilter<"OrdenServicio"> | string | null
   metodoPagoId?: Prisma.UuidNullableWithAggregatesFilter<"OrdenServicio"> | string | null
+  contratoClienteId?: Prisma.UuidNullableWithAggregatesFilter<"OrdenServicio"> | string | null
   numeroOrden?: Prisma.StringNullableWithAggregatesFilter<"OrdenServicio"> | string | null
   fechaVisita?: Prisma.DateTimeNullableWithAggregatesFilter<"OrdenServicio"> | Date | string | null
   horaInicio?: Prisma.DateTimeNullableWithAggregatesFilter<"OrdenServicio"> | Date | string | null
@@ -950,6 +965,7 @@ export type OrdenServicioCreateInput = {
   entidadFinanciera?: Prisma.EntidadFinancieraCreateNestedOneWithoutOrdenesInput
   liquidadoPor?: Prisma.TenantMembershipCreateNestedOneWithoutServiciosLiquidadosInput
   metodoPago?: Prisma.MetodoPagoCreateNestedOneWithoutOrdenesInput
+  contratoCliente?: Prisma.ContratoClienteCreateNestedOneWithoutOrdenesServicioInput
   ordenPadre?: Prisma.OrdenServicioCreateNestedOneWithoutOrdenesHijasInput
   ordenesHijas?: Prisma.OrdenServicioCreateNestedManyWithoutOrdenPadreInput
   servicio: Prisma.ServicioCreateNestedOneWithoutOrdenesInput
@@ -979,6 +995,7 @@ export type OrdenServicioUncheckedCreateInput = {
   zonaId?: string | null
   vehiculoId?: string | null
   metodoPagoId?: string | null
+  contratoClienteId?: string | null
   numeroOrden?: string | null
   fechaVisita?: Date | string | null
   horaInicio?: Date | string | null
@@ -1074,6 +1091,7 @@ export type OrdenServicioUpdateInput = {
   entidadFinanciera?: Prisma.EntidadFinancieraUpdateOneWithoutOrdenesNestedInput
   liquidadoPor?: Prisma.TenantMembershipUpdateOneWithoutServiciosLiquidadosNestedInput
   metodoPago?: Prisma.MetodoPagoUpdateOneWithoutOrdenesNestedInput
+  contratoCliente?: Prisma.ContratoClienteUpdateOneWithoutOrdenesServicioNestedInput
   ordenPadre?: Prisma.OrdenServicioUpdateOneWithoutOrdenesHijasNestedInput
   ordenesHijas?: Prisma.OrdenServicioUpdateManyWithoutOrdenPadreNestedInput
   servicio?: Prisma.ServicioUpdateOneRequiredWithoutOrdenesNestedInput
@@ -1103,6 +1121,7 @@ export type OrdenServicioUncheckedUpdateInput = {
   zonaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   vehiculoId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   metodoPagoId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contratoClienteId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   numeroOrden?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   fechaVisita?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   horaInicio?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -1165,6 +1184,7 @@ export type OrdenServicioCreateManyInput = {
   zonaId?: string | null
   vehiculoId?: string | null
   metodoPagoId?: string | null
+  contratoClienteId?: string | null
   numeroOrden?: string | null
   fechaVisita?: Date | string | null
   horaInicio?: Date | string | null
@@ -1262,6 +1282,7 @@ export type OrdenServicioUncheckedUpdateManyInput = {
   zonaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   vehiculoId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   metodoPagoId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contratoClienteId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   numeroOrden?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   fechaVisita?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   horaInicio?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -1332,6 +1353,7 @@ export type OrdenServicioCountOrderByAggregateInput = {
   zonaId?: Prisma.SortOrder
   vehiculoId?: Prisma.SortOrder
   metodoPagoId?: Prisma.SortOrder
+  contratoClienteId?: Prisma.SortOrder
   numeroOrden?: Prisma.SortOrder
   fechaVisita?: Prisma.SortOrder
   horaInicio?: Prisma.SortOrder
@@ -1395,6 +1417,7 @@ export type OrdenServicioMaxOrderByAggregateInput = {
   zonaId?: Prisma.SortOrder
   vehiculoId?: Prisma.SortOrder
   metodoPagoId?: Prisma.SortOrder
+  contratoClienteId?: Prisma.SortOrder
   numeroOrden?: Prisma.SortOrder
   fechaVisita?: Prisma.SortOrder
   horaInicio?: Prisma.SortOrder
@@ -1449,6 +1472,7 @@ export type OrdenServicioMinOrderByAggregateInput = {
   zonaId?: Prisma.SortOrder
   vehiculoId?: Prisma.SortOrder
   metodoPagoId?: Prisma.SortOrder
+  contratoClienteId?: Prisma.SortOrder
   numeroOrden?: Prisma.SortOrder
   fechaVisita?: Prisma.SortOrder
   horaInicio?: Prisma.SortOrder
@@ -1745,6 +1769,48 @@ export type OrdenServicioUncheckedUpdateManyWithoutClienteNestedInput = {
   connect?: Prisma.OrdenServicioWhereUniqueInput | Prisma.OrdenServicioWhereUniqueInput[]
   update?: Prisma.OrdenServicioUpdateWithWhereUniqueWithoutClienteInput | Prisma.OrdenServicioUpdateWithWhereUniqueWithoutClienteInput[]
   updateMany?: Prisma.OrdenServicioUpdateManyWithWhereWithoutClienteInput | Prisma.OrdenServicioUpdateManyWithWhereWithoutClienteInput[]
+  deleteMany?: Prisma.OrdenServicioScalarWhereInput | Prisma.OrdenServicioScalarWhereInput[]
+}
+
+export type OrdenServicioCreateNestedManyWithoutContratoClienteInput = {
+  create?: Prisma.XOR<Prisma.OrdenServicioCreateWithoutContratoClienteInput, Prisma.OrdenServicioUncheckedCreateWithoutContratoClienteInput> | Prisma.OrdenServicioCreateWithoutContratoClienteInput[] | Prisma.OrdenServicioUncheckedCreateWithoutContratoClienteInput[]
+  connectOrCreate?: Prisma.OrdenServicioCreateOrConnectWithoutContratoClienteInput | Prisma.OrdenServicioCreateOrConnectWithoutContratoClienteInput[]
+  createMany?: Prisma.OrdenServicioCreateManyContratoClienteInputEnvelope
+  connect?: Prisma.OrdenServicioWhereUniqueInput | Prisma.OrdenServicioWhereUniqueInput[]
+}
+
+export type OrdenServicioUncheckedCreateNestedManyWithoutContratoClienteInput = {
+  create?: Prisma.XOR<Prisma.OrdenServicioCreateWithoutContratoClienteInput, Prisma.OrdenServicioUncheckedCreateWithoutContratoClienteInput> | Prisma.OrdenServicioCreateWithoutContratoClienteInput[] | Prisma.OrdenServicioUncheckedCreateWithoutContratoClienteInput[]
+  connectOrCreate?: Prisma.OrdenServicioCreateOrConnectWithoutContratoClienteInput | Prisma.OrdenServicioCreateOrConnectWithoutContratoClienteInput[]
+  createMany?: Prisma.OrdenServicioCreateManyContratoClienteInputEnvelope
+  connect?: Prisma.OrdenServicioWhereUniqueInput | Prisma.OrdenServicioWhereUniqueInput[]
+}
+
+export type OrdenServicioUpdateManyWithoutContratoClienteNestedInput = {
+  create?: Prisma.XOR<Prisma.OrdenServicioCreateWithoutContratoClienteInput, Prisma.OrdenServicioUncheckedCreateWithoutContratoClienteInput> | Prisma.OrdenServicioCreateWithoutContratoClienteInput[] | Prisma.OrdenServicioUncheckedCreateWithoutContratoClienteInput[]
+  connectOrCreate?: Prisma.OrdenServicioCreateOrConnectWithoutContratoClienteInput | Prisma.OrdenServicioCreateOrConnectWithoutContratoClienteInput[]
+  upsert?: Prisma.OrdenServicioUpsertWithWhereUniqueWithoutContratoClienteInput | Prisma.OrdenServicioUpsertWithWhereUniqueWithoutContratoClienteInput[]
+  createMany?: Prisma.OrdenServicioCreateManyContratoClienteInputEnvelope
+  set?: Prisma.OrdenServicioWhereUniqueInput | Prisma.OrdenServicioWhereUniqueInput[]
+  disconnect?: Prisma.OrdenServicioWhereUniqueInput | Prisma.OrdenServicioWhereUniqueInput[]
+  delete?: Prisma.OrdenServicioWhereUniqueInput | Prisma.OrdenServicioWhereUniqueInput[]
+  connect?: Prisma.OrdenServicioWhereUniqueInput | Prisma.OrdenServicioWhereUniqueInput[]
+  update?: Prisma.OrdenServicioUpdateWithWhereUniqueWithoutContratoClienteInput | Prisma.OrdenServicioUpdateWithWhereUniqueWithoutContratoClienteInput[]
+  updateMany?: Prisma.OrdenServicioUpdateManyWithWhereWithoutContratoClienteInput | Prisma.OrdenServicioUpdateManyWithWhereWithoutContratoClienteInput[]
+  deleteMany?: Prisma.OrdenServicioScalarWhereInput | Prisma.OrdenServicioScalarWhereInput[]
+}
+
+export type OrdenServicioUncheckedUpdateManyWithoutContratoClienteNestedInput = {
+  create?: Prisma.XOR<Prisma.OrdenServicioCreateWithoutContratoClienteInput, Prisma.OrdenServicioUncheckedCreateWithoutContratoClienteInput> | Prisma.OrdenServicioCreateWithoutContratoClienteInput[] | Prisma.OrdenServicioUncheckedCreateWithoutContratoClienteInput[]
+  connectOrCreate?: Prisma.OrdenServicioCreateOrConnectWithoutContratoClienteInput | Prisma.OrdenServicioCreateOrConnectWithoutContratoClienteInput[]
+  upsert?: Prisma.OrdenServicioUpsertWithWhereUniqueWithoutContratoClienteInput | Prisma.OrdenServicioUpsertWithWhereUniqueWithoutContratoClienteInput[]
+  createMany?: Prisma.OrdenServicioCreateManyContratoClienteInputEnvelope
+  set?: Prisma.OrdenServicioWhereUniqueInput | Prisma.OrdenServicioWhereUniqueInput[]
+  disconnect?: Prisma.OrdenServicioWhereUniqueInput | Prisma.OrdenServicioWhereUniqueInput[]
+  delete?: Prisma.OrdenServicioWhereUniqueInput | Prisma.OrdenServicioWhereUniqueInput[]
+  connect?: Prisma.OrdenServicioWhereUniqueInput | Prisma.OrdenServicioWhereUniqueInput[]
+  update?: Prisma.OrdenServicioUpdateWithWhereUniqueWithoutContratoClienteInput | Prisma.OrdenServicioUpdateWithWhereUniqueWithoutContratoClienteInput[]
+  updateMany?: Prisma.OrdenServicioUpdateManyWithWhereWithoutContratoClienteInput | Prisma.OrdenServicioUpdateManyWithWhereWithoutContratoClienteInput[]
   deleteMany?: Prisma.OrdenServicioScalarWhereInput | Prisma.OrdenServicioScalarWhereInput[]
 }
 
@@ -2221,6 +2287,7 @@ export type OrdenServicioCreateWithoutTenantInput = {
   entidadFinanciera?: Prisma.EntidadFinancieraCreateNestedOneWithoutOrdenesInput
   liquidadoPor?: Prisma.TenantMembershipCreateNestedOneWithoutServiciosLiquidadosInput
   metodoPago?: Prisma.MetodoPagoCreateNestedOneWithoutOrdenesInput
+  contratoCliente?: Prisma.ContratoClienteCreateNestedOneWithoutOrdenesServicioInput
   ordenPadre?: Prisma.OrdenServicioCreateNestedOneWithoutOrdenesHijasInput
   ordenesHijas?: Prisma.OrdenServicioCreateNestedManyWithoutOrdenPadreInput
   servicio: Prisma.ServicioCreateNestedOneWithoutOrdenesInput
@@ -2248,6 +2315,7 @@ export type OrdenServicioUncheckedCreateWithoutTenantInput = {
   zonaId?: string | null
   vehiculoId?: string | null
   metodoPagoId?: string | null
+  contratoClienteId?: string | null
   numeroOrden?: string | null
   fechaVisita?: Date | string | null
   horaInicio?: Date | string | null
@@ -2339,6 +2407,7 @@ export type OrdenServicioScalarWhereInput = {
   zonaId?: Prisma.UuidNullableFilter<"OrdenServicio"> | string | null
   vehiculoId?: Prisma.UuidNullableFilter<"OrdenServicio"> | string | null
   metodoPagoId?: Prisma.UuidNullableFilter<"OrdenServicio"> | string | null
+  contratoClienteId?: Prisma.UuidNullableFilter<"OrdenServicio"> | string | null
   numeroOrden?: Prisma.StringNullableFilter<"OrdenServicio"> | string | null
   fechaVisita?: Prisma.DateTimeNullableFilter<"OrdenServicio"> | Date | string | null
   horaInicio?: Prisma.DateTimeNullableFilter<"OrdenServicio"> | Date | string | null
@@ -2426,6 +2495,7 @@ export type OrdenServicioCreateWithoutCreadoPorInput = {
   entidadFinanciera?: Prisma.EntidadFinancieraCreateNestedOneWithoutOrdenesInput
   liquidadoPor?: Prisma.TenantMembershipCreateNestedOneWithoutServiciosLiquidadosInput
   metodoPago?: Prisma.MetodoPagoCreateNestedOneWithoutOrdenesInput
+  contratoCliente?: Prisma.ContratoClienteCreateNestedOneWithoutOrdenesServicioInput
   ordenPadre?: Prisma.OrdenServicioCreateNestedOneWithoutOrdenesHijasInput
   ordenesHijas?: Prisma.OrdenServicioCreateNestedManyWithoutOrdenPadreInput
   servicio: Prisma.ServicioCreateNestedOneWithoutOrdenesInput
@@ -2454,6 +2524,7 @@ export type OrdenServicioUncheckedCreateWithoutCreadoPorInput = {
   zonaId?: string | null
   vehiculoId?: string | null
   metodoPagoId?: string | null
+  contratoClienteId?: string | null
   numeroOrden?: string | null
   fechaVisita?: Date | string | null
   horaInicio?: Date | string | null
@@ -2558,6 +2629,7 @@ export type OrdenServicioCreateWithoutLiquidadoPorInput = {
   empresa: Prisma.EmpresaCreateNestedOneWithoutOrdenesServicioInput
   entidadFinanciera?: Prisma.EntidadFinancieraCreateNestedOneWithoutOrdenesInput
   metodoPago?: Prisma.MetodoPagoCreateNestedOneWithoutOrdenesInput
+  contratoCliente?: Prisma.ContratoClienteCreateNestedOneWithoutOrdenesServicioInput
   ordenPadre?: Prisma.OrdenServicioCreateNestedOneWithoutOrdenesHijasInput
   ordenesHijas?: Prisma.OrdenServicioCreateNestedManyWithoutOrdenPadreInput
   servicio: Prisma.ServicioCreateNestedOneWithoutOrdenesInput
@@ -2587,6 +2659,7 @@ export type OrdenServicioUncheckedCreateWithoutLiquidadoPorInput = {
   zonaId?: string | null
   vehiculoId?: string | null
   metodoPagoId?: string | null
+  contratoClienteId?: string | null
   numeroOrden?: string | null
   fechaVisita?: Date | string | null
   horaInicio?: Date | string | null
@@ -2691,6 +2764,7 @@ export type OrdenServicioCreateWithoutTecnicoInput = {
   entidadFinanciera?: Prisma.EntidadFinancieraCreateNestedOneWithoutOrdenesInput
   liquidadoPor?: Prisma.TenantMembershipCreateNestedOneWithoutServiciosLiquidadosInput
   metodoPago?: Prisma.MetodoPagoCreateNestedOneWithoutOrdenesInput
+  contratoCliente?: Prisma.ContratoClienteCreateNestedOneWithoutOrdenesServicioInput
   ordenPadre?: Prisma.OrdenServicioCreateNestedOneWithoutOrdenesHijasInput
   ordenesHijas?: Prisma.OrdenServicioCreateNestedManyWithoutOrdenPadreInput
   servicio: Prisma.ServicioCreateNestedOneWithoutOrdenesInput
@@ -2718,6 +2792,7 @@ export type OrdenServicioUncheckedCreateWithoutTecnicoInput = {
   zonaId?: string | null
   vehiculoId?: string | null
   metodoPagoId?: string | null
+  contratoClienteId?: string | null
   numeroOrden?: string | null
   fechaVisita?: Date | string | null
   horaInicio?: Date | string | null
@@ -2870,6 +2945,7 @@ export type OrdenServicioCreateWithoutEmpresaInput = {
   entidadFinanciera?: Prisma.EntidadFinancieraCreateNestedOneWithoutOrdenesInput
   liquidadoPor?: Prisma.TenantMembershipCreateNestedOneWithoutServiciosLiquidadosInput
   metodoPago?: Prisma.MetodoPagoCreateNestedOneWithoutOrdenesInput
+  contratoCliente?: Prisma.ContratoClienteCreateNestedOneWithoutOrdenesServicioInput
   ordenPadre?: Prisma.OrdenServicioCreateNestedOneWithoutOrdenesHijasInput
   ordenesHijas?: Prisma.OrdenServicioCreateNestedManyWithoutOrdenPadreInput
   servicio: Prisma.ServicioCreateNestedOneWithoutOrdenesInput
@@ -2898,6 +2974,7 @@ export type OrdenServicioUncheckedCreateWithoutEmpresaInput = {
   zonaId?: string | null
   vehiculoId?: string | null
   metodoPagoId?: string | null
+  contratoClienteId?: string | null
   numeroOrden?: string | null
   fechaVisita?: Date | string | null
   horaInicio?: Date | string | null
@@ -3018,6 +3095,7 @@ export type OrdenServicioCreateWithoutClienteInput = {
   entidadFinanciera?: Prisma.EntidadFinancieraCreateNestedOneWithoutOrdenesInput
   liquidadoPor?: Prisma.TenantMembershipCreateNestedOneWithoutServiciosLiquidadosInput
   metodoPago?: Prisma.MetodoPagoCreateNestedOneWithoutOrdenesInput
+  contratoCliente?: Prisma.ContratoClienteCreateNestedOneWithoutOrdenesServicioInput
   ordenPadre?: Prisma.OrdenServicioCreateNestedOneWithoutOrdenesHijasInput
   ordenesHijas?: Prisma.OrdenServicioCreateNestedManyWithoutOrdenPadreInput
   servicio: Prisma.ServicioCreateNestedOneWithoutOrdenesInput
@@ -3046,6 +3124,7 @@ export type OrdenServicioUncheckedCreateWithoutClienteInput = {
   zonaId?: string | null
   vehiculoId?: string | null
   metodoPagoId?: string | null
+  contratoClienteId?: string | null
   numeroOrden?: string | null
   fechaVisita?: Date | string | null
   horaInicio?: Date | string | null
@@ -3114,7 +3193,7 @@ export type OrdenServicioUpdateManyWithWhereWithoutClienteInput = {
   data: Prisma.XOR<Prisma.OrdenServicioUpdateManyMutationInput, Prisma.OrdenServicioUncheckedUpdateManyWithoutClienteInput>
 }
 
-export type OrdenServicioCreateWithoutVehiculoInput = {
+export type OrdenServicioCreateWithoutContratoClienteInput = {
   id?: string
   direccionTexto: string
   piso?: string | null
@@ -3172,6 +3251,157 @@ export type OrdenServicioCreateWithoutVehiculoInput = {
   servicio: Prisma.ServicioCreateNestedOneWithoutOrdenesInput
   tecnico?: Prisma.TenantMembershipCreateNestedOneWithoutServiciosAsignadosInput
   tenant: Prisma.TenantCreateNestedOneWithoutOrdenesServicioInput
+  vehiculo?: Prisma.VehiculoCreateNestedOneWithoutOrdenesServicioInput
+  zona?: Prisma.ZonaCreateNestedOneWithoutOrdenesInput
+}
+
+export type OrdenServicioUncheckedCreateWithoutContratoClienteInput = {
+  id?: string
+  tenantId: string
+  empresaId: string
+  clienteId: string
+  servicioId: string
+  creadoPorId?: string | null
+  tecnicoId?: string | null
+  direccionId?: string | null
+  direccionTexto: string
+  piso?: string | null
+  bloque?: string | null
+  unidad?: string | null
+  barrio?: string | null
+  municipio?: string | null
+  departamento?: string | null
+  linkMaps?: string | null
+  zonaId?: string | null
+  vehiculoId?: string | null
+  metodoPagoId?: string | null
+  numeroOrden?: string | null
+  fechaVisita?: Date | string | null
+  horaInicio?: Date | string | null
+  horaFin?: Date | string | null
+  observacion?: string | null
+  observacionFinal?: string | null
+  condicionesHigiene?: string | null
+  condicionesLocal?: string | null
+  valorCotizado?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  valorPagado?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  valorRepuestos?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  valorRepuestosTecnico?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  facturaPath?: string | null
+  facturaElectronica?: string | null
+  comprobantePago?: string | null
+  evidenciaPath?: string | null
+  desglosePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  referenciaPago?: string | null
+  fechaPago?: Date | string | null
+  entidadFinancieraId?: string | null
+  estadoPago?: $Enums.EstadoPagoOrden
+  seguimientoRevisado?: boolean | null
+  liquidadoPorId?: string | null
+  liquidadoAt?: Date | string | null
+  ordenPadreId?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  frecuenciaSugerida?: number | null
+  tipoFacturacion?: $Enums.TipoFacturacion | null
+  tipoVisita?: $Enums.TipoVisita | null
+  nivelInfestacion?: $Enums.NivelInfestacion | null
+  urgencia?: $Enums.UrgenciaOrden | null
+  estadoServicio?: $Enums.EstadoOrden
+  consignacionOrden?: Prisma.ConsignacionOrdenUncheckedCreateNestedOneWithoutOrdenInput
+  declaracionEfectivo?: Prisma.DeclaracionEfectivoUncheckedCreateNestedOneWithoutOrdenInput
+  evidencias?: Prisma.EvidenciaServicioUncheckedCreateNestedManyWithoutOrdenServicioInput
+  geolocalizaciones?: Prisma.GeolocalizacionUncheckedCreateNestedManyWithoutOrdenInput
+  nominaDetalles?: Prisma.NominaDetalleUncheckedCreateNestedManyWithoutOrdenInput
+  seguimientos?: Prisma.OrdenServicioSeguimientoUncheckedCreateNestedManyWithoutOrdenServicioInput
+  ordenesHijas?: Prisma.OrdenServicioUncheckedCreateNestedManyWithoutOrdenPadreInput
+}
+
+export type OrdenServicioCreateOrConnectWithoutContratoClienteInput = {
+  where: Prisma.OrdenServicioWhereUniqueInput
+  create: Prisma.XOR<Prisma.OrdenServicioCreateWithoutContratoClienteInput, Prisma.OrdenServicioUncheckedCreateWithoutContratoClienteInput>
+}
+
+export type OrdenServicioCreateManyContratoClienteInputEnvelope = {
+  data: Prisma.OrdenServicioCreateManyContratoClienteInput | Prisma.OrdenServicioCreateManyContratoClienteInput[]
+  skipDuplicates?: boolean
+}
+
+export type OrdenServicioUpsertWithWhereUniqueWithoutContratoClienteInput = {
+  where: Prisma.OrdenServicioWhereUniqueInput
+  update: Prisma.XOR<Prisma.OrdenServicioUpdateWithoutContratoClienteInput, Prisma.OrdenServicioUncheckedUpdateWithoutContratoClienteInput>
+  create: Prisma.XOR<Prisma.OrdenServicioCreateWithoutContratoClienteInput, Prisma.OrdenServicioUncheckedCreateWithoutContratoClienteInput>
+}
+
+export type OrdenServicioUpdateWithWhereUniqueWithoutContratoClienteInput = {
+  where: Prisma.OrdenServicioWhereUniqueInput
+  data: Prisma.XOR<Prisma.OrdenServicioUpdateWithoutContratoClienteInput, Prisma.OrdenServicioUncheckedUpdateWithoutContratoClienteInput>
+}
+
+export type OrdenServicioUpdateManyWithWhereWithoutContratoClienteInput = {
+  where: Prisma.OrdenServicioScalarWhereInput
+  data: Prisma.XOR<Prisma.OrdenServicioUpdateManyMutationInput, Prisma.OrdenServicioUncheckedUpdateManyWithoutContratoClienteInput>
+}
+
+export type OrdenServicioCreateWithoutVehiculoInput = {
+  id?: string
+  direccionTexto: string
+  piso?: string | null
+  bloque?: string | null
+  unidad?: string | null
+  barrio?: string | null
+  municipio?: string | null
+  departamento?: string | null
+  linkMaps?: string | null
+  numeroOrden?: string | null
+  fechaVisita?: Date | string | null
+  horaInicio?: Date | string | null
+  horaFin?: Date | string | null
+  observacion?: string | null
+  observacionFinal?: string | null
+  condicionesHigiene?: string | null
+  condicionesLocal?: string | null
+  valorCotizado?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  valorPagado?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  valorRepuestos?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  valorRepuestosTecnico?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  facturaPath?: string | null
+  facturaElectronica?: string | null
+  comprobantePago?: string | null
+  evidenciaPath?: string | null
+  desglosePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  referenciaPago?: string | null
+  fechaPago?: Date | string | null
+  estadoPago?: $Enums.EstadoPagoOrden
+  seguimientoRevisado?: boolean | null
+  liquidadoAt?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  frecuenciaSugerida?: number | null
+  tipoFacturacion?: $Enums.TipoFacturacion | null
+  tipoVisita?: $Enums.TipoVisita | null
+  nivelInfestacion?: $Enums.NivelInfestacion | null
+  urgencia?: $Enums.UrgenciaOrden | null
+  estadoServicio?: $Enums.EstadoOrden
+  consignacionOrden?: Prisma.ConsignacionOrdenCreateNestedOneWithoutOrdenInput
+  declaracionEfectivo?: Prisma.DeclaracionEfectivoCreateNestedOneWithoutOrdenInput
+  evidencias?: Prisma.EvidenciaServicioCreateNestedManyWithoutOrdenServicioInput
+  geolocalizaciones?: Prisma.GeolocalizacionCreateNestedManyWithoutOrdenInput
+  nominaDetalles?: Prisma.NominaDetalleCreateNestedManyWithoutOrdenInput
+  seguimientos?: Prisma.OrdenServicioSeguimientoCreateNestedManyWithoutOrdenServicioInput
+  cliente: Prisma.ClienteCreateNestedOneWithoutOrdenesServicioInput
+  creadoPor?: Prisma.TenantMembershipCreateNestedOneWithoutServiciosCreadosInput
+  direccion?: Prisma.DireccionCreateNestedOneWithoutOrdenesServicioInput
+  empresa: Prisma.EmpresaCreateNestedOneWithoutOrdenesServicioInput
+  entidadFinanciera?: Prisma.EntidadFinancieraCreateNestedOneWithoutOrdenesInput
+  liquidadoPor?: Prisma.TenantMembershipCreateNestedOneWithoutServiciosLiquidadosInput
+  metodoPago?: Prisma.MetodoPagoCreateNestedOneWithoutOrdenesInput
+  contratoCliente?: Prisma.ContratoClienteCreateNestedOneWithoutOrdenesServicioInput
+  ordenPadre?: Prisma.OrdenServicioCreateNestedOneWithoutOrdenesHijasInput
+  ordenesHijas?: Prisma.OrdenServicioCreateNestedManyWithoutOrdenPadreInput
+  servicio: Prisma.ServicioCreateNestedOneWithoutOrdenesInput
+  tecnico?: Prisma.TenantMembershipCreateNestedOneWithoutServiciosAsignadosInput
+  tenant: Prisma.TenantCreateNestedOneWithoutOrdenesServicioInput
   zona?: Prisma.ZonaCreateNestedOneWithoutOrdenesInput
 }
 
@@ -3194,6 +3424,7 @@ export type OrdenServicioUncheckedCreateWithoutVehiculoInput = {
   linkMaps?: string | null
   zonaId?: string | null
   metodoPagoId?: string | null
+  contratoClienteId?: string | null
   numeroOrden?: string | null
   fechaVisita?: Date | string | null
   horaInicio?: Date | string | null
@@ -3314,6 +3545,7 @@ export type OrdenServicioCreateWithoutDireccionInput = {
   entidadFinanciera?: Prisma.EntidadFinancieraCreateNestedOneWithoutOrdenesInput
   liquidadoPor?: Prisma.TenantMembershipCreateNestedOneWithoutServiciosLiquidadosInput
   metodoPago?: Prisma.MetodoPagoCreateNestedOneWithoutOrdenesInput
+  contratoCliente?: Prisma.ContratoClienteCreateNestedOneWithoutOrdenesServicioInput
   ordenPadre?: Prisma.OrdenServicioCreateNestedOneWithoutOrdenesHijasInput
   ordenesHijas?: Prisma.OrdenServicioCreateNestedManyWithoutOrdenPadreInput
   servicio: Prisma.ServicioCreateNestedOneWithoutOrdenesInput
@@ -3342,6 +3574,7 @@ export type OrdenServicioUncheckedCreateWithoutDireccionInput = {
   zonaId?: string | null
   vehiculoId?: string | null
   metodoPagoId?: string | null
+  contratoClienteId?: string | null
   numeroOrden?: string | null
   fechaVisita?: Date | string | null
   horaInicio?: Date | string | null
@@ -3463,6 +3696,7 @@ export type OrdenServicioCreateWithoutZonaInput = {
   entidadFinanciera?: Prisma.EntidadFinancieraCreateNestedOneWithoutOrdenesInput
   liquidadoPor?: Prisma.TenantMembershipCreateNestedOneWithoutServiciosLiquidadosInput
   metodoPago?: Prisma.MetodoPagoCreateNestedOneWithoutOrdenesInput
+  contratoCliente?: Prisma.ContratoClienteCreateNestedOneWithoutOrdenesServicioInput
   ordenPadre?: Prisma.OrdenServicioCreateNestedOneWithoutOrdenesHijasInput
   ordenesHijas?: Prisma.OrdenServicioCreateNestedManyWithoutOrdenPadreInput
   servicio: Prisma.ServicioCreateNestedOneWithoutOrdenesInput
@@ -3490,6 +3724,7 @@ export type OrdenServicioUncheckedCreateWithoutZonaInput = {
   linkMaps?: string | null
   vehiculoId?: string | null
   metodoPagoId?: string | null
+  contratoClienteId?: string | null
   numeroOrden?: string | null
   fechaVisita?: Date | string | null
   horaInicio?: Date | string | null
@@ -3611,6 +3846,7 @@ export type OrdenServicioCreateWithoutServicioInput = {
   entidadFinanciera?: Prisma.EntidadFinancieraCreateNestedOneWithoutOrdenesInput
   liquidadoPor?: Prisma.TenantMembershipCreateNestedOneWithoutServiciosLiquidadosInput
   metodoPago?: Prisma.MetodoPagoCreateNestedOneWithoutOrdenesInput
+  contratoCliente?: Prisma.ContratoClienteCreateNestedOneWithoutOrdenesServicioInput
   ordenPadre?: Prisma.OrdenServicioCreateNestedOneWithoutOrdenesHijasInput
   ordenesHijas?: Prisma.OrdenServicioCreateNestedManyWithoutOrdenPadreInput
   tecnico?: Prisma.TenantMembershipCreateNestedOneWithoutServiciosAsignadosInput
@@ -3638,6 +3874,7 @@ export type OrdenServicioUncheckedCreateWithoutServicioInput = {
   zonaId?: string | null
   vehiculoId?: string | null
   metodoPagoId?: string | null
+  contratoClienteId?: string | null
   numeroOrden?: string | null
   fechaVisita?: Date | string | null
   horaInicio?: Date | string | null
@@ -3758,6 +3995,7 @@ export type OrdenServicioCreateWithoutMetodoPagoInput = {
   empresa: Prisma.EmpresaCreateNestedOneWithoutOrdenesServicioInput
   entidadFinanciera?: Prisma.EntidadFinancieraCreateNestedOneWithoutOrdenesInput
   liquidadoPor?: Prisma.TenantMembershipCreateNestedOneWithoutServiciosLiquidadosInput
+  contratoCliente?: Prisma.ContratoClienteCreateNestedOneWithoutOrdenesServicioInput
   ordenPadre?: Prisma.OrdenServicioCreateNestedOneWithoutOrdenesHijasInput
   ordenesHijas?: Prisma.OrdenServicioCreateNestedManyWithoutOrdenPadreInput
   servicio: Prisma.ServicioCreateNestedOneWithoutOrdenesInput
@@ -3786,6 +4024,7 @@ export type OrdenServicioUncheckedCreateWithoutMetodoPagoInput = {
   linkMaps?: string | null
   zonaId?: string | null
   vehiculoId?: string | null
+  contratoClienteId?: string | null
   numeroOrden?: string | null
   fechaVisita?: Date | string | null
   horaInicio?: Date | string | null
@@ -3907,6 +4146,7 @@ export type OrdenServicioCreateWithoutOrdenesHijasInput = {
   entidadFinanciera?: Prisma.EntidadFinancieraCreateNestedOneWithoutOrdenesInput
   liquidadoPor?: Prisma.TenantMembershipCreateNestedOneWithoutServiciosLiquidadosInput
   metodoPago?: Prisma.MetodoPagoCreateNestedOneWithoutOrdenesInput
+  contratoCliente?: Prisma.ContratoClienteCreateNestedOneWithoutOrdenesServicioInput
   ordenPadre?: Prisma.OrdenServicioCreateNestedOneWithoutOrdenesHijasInput
   servicio: Prisma.ServicioCreateNestedOneWithoutOrdenesInput
   tecnico?: Prisma.TenantMembershipCreateNestedOneWithoutServiciosAsignadosInput
@@ -3935,6 +4175,7 @@ export type OrdenServicioUncheckedCreateWithoutOrdenesHijasInput = {
   zonaId?: string | null
   vehiculoId?: string | null
   metodoPagoId?: string | null
+  contratoClienteId?: string | null
   numeroOrden?: string | null
   fechaVisita?: Date | string | null
   horaInicio?: Date | string | null
@@ -4034,6 +4275,7 @@ export type OrdenServicioCreateWithoutOrdenPadreInput = {
   entidadFinanciera?: Prisma.EntidadFinancieraCreateNestedOneWithoutOrdenesInput
   liquidadoPor?: Prisma.TenantMembershipCreateNestedOneWithoutServiciosLiquidadosInput
   metodoPago?: Prisma.MetodoPagoCreateNestedOneWithoutOrdenesInput
+  contratoCliente?: Prisma.ContratoClienteCreateNestedOneWithoutOrdenesServicioInput
   ordenesHijas?: Prisma.OrdenServicioCreateNestedManyWithoutOrdenPadreInput
   servicio: Prisma.ServicioCreateNestedOneWithoutOrdenesInput
   tecnico?: Prisma.TenantMembershipCreateNestedOneWithoutServiciosAsignadosInput
@@ -4062,6 +4304,7 @@ export type OrdenServicioUncheckedCreateWithoutOrdenPadreInput = {
   zonaId?: string | null
   vehiculoId?: string | null
   metodoPagoId?: string | null
+  contratoClienteId?: string | null
   numeroOrden?: string | null
   fechaVisita?: Date | string | null
   horaInicio?: Date | string | null
@@ -4177,6 +4420,7 @@ export type OrdenServicioUpdateWithoutOrdenesHijasInput = {
   entidadFinanciera?: Prisma.EntidadFinancieraUpdateOneWithoutOrdenesNestedInput
   liquidadoPor?: Prisma.TenantMembershipUpdateOneWithoutServiciosLiquidadosNestedInput
   metodoPago?: Prisma.MetodoPagoUpdateOneWithoutOrdenesNestedInput
+  contratoCliente?: Prisma.ContratoClienteUpdateOneWithoutOrdenesServicioNestedInput
   ordenPadre?: Prisma.OrdenServicioUpdateOneWithoutOrdenesHijasNestedInput
   servicio?: Prisma.ServicioUpdateOneRequiredWithoutOrdenesNestedInput
   tecnico?: Prisma.TenantMembershipUpdateOneWithoutServiciosAsignadosNestedInput
@@ -4205,6 +4449,7 @@ export type OrdenServicioUncheckedUpdateWithoutOrdenesHijasInput = {
   zonaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   vehiculoId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   metodoPagoId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contratoClienteId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   numeroOrden?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   fechaVisita?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   horaInicio?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -4314,6 +4559,7 @@ export type OrdenServicioCreateWithoutSeguimientosInput = {
   entidadFinanciera?: Prisma.EntidadFinancieraCreateNestedOneWithoutOrdenesInput
   liquidadoPor?: Prisma.TenantMembershipCreateNestedOneWithoutServiciosLiquidadosInput
   metodoPago?: Prisma.MetodoPagoCreateNestedOneWithoutOrdenesInput
+  contratoCliente?: Prisma.ContratoClienteCreateNestedOneWithoutOrdenesServicioInput
   ordenPadre?: Prisma.OrdenServicioCreateNestedOneWithoutOrdenesHijasInput
   ordenesHijas?: Prisma.OrdenServicioCreateNestedManyWithoutOrdenPadreInput
   servicio: Prisma.ServicioCreateNestedOneWithoutOrdenesInput
@@ -4343,6 +4589,7 @@ export type OrdenServicioUncheckedCreateWithoutSeguimientosInput = {
   zonaId?: string | null
   vehiculoId?: string | null
   metodoPagoId?: string | null
+  contratoClienteId?: string | null
   numeroOrden?: string | null
   fechaVisita?: Date | string | null
   horaInicio?: Date | string | null
@@ -4452,6 +4699,7 @@ export type OrdenServicioUpdateWithoutSeguimientosInput = {
   entidadFinanciera?: Prisma.EntidadFinancieraUpdateOneWithoutOrdenesNestedInput
   liquidadoPor?: Prisma.TenantMembershipUpdateOneWithoutServiciosLiquidadosNestedInput
   metodoPago?: Prisma.MetodoPagoUpdateOneWithoutOrdenesNestedInput
+  contratoCliente?: Prisma.ContratoClienteUpdateOneWithoutOrdenesServicioNestedInput
   ordenPadre?: Prisma.OrdenServicioUpdateOneWithoutOrdenesHijasNestedInput
   ordenesHijas?: Prisma.OrdenServicioUpdateManyWithoutOrdenPadreNestedInput
   servicio?: Prisma.ServicioUpdateOneRequiredWithoutOrdenesNestedInput
@@ -4481,6 +4729,7 @@ export type OrdenServicioUncheckedUpdateWithoutSeguimientosInput = {
   zonaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   vehiculoId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   metodoPagoId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contratoClienteId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   numeroOrden?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   fechaVisita?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   horaInicio?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -4574,6 +4823,7 @@ export type OrdenServicioCreateWithoutEntidadFinancieraInput = {
   empresa: Prisma.EmpresaCreateNestedOneWithoutOrdenesServicioInput
   liquidadoPor?: Prisma.TenantMembershipCreateNestedOneWithoutServiciosLiquidadosInput
   metodoPago?: Prisma.MetodoPagoCreateNestedOneWithoutOrdenesInput
+  contratoCliente?: Prisma.ContratoClienteCreateNestedOneWithoutOrdenesServicioInput
   ordenPadre?: Prisma.OrdenServicioCreateNestedOneWithoutOrdenesHijasInput
   ordenesHijas?: Prisma.OrdenServicioCreateNestedManyWithoutOrdenPadreInput
   servicio: Prisma.ServicioCreateNestedOneWithoutOrdenesInput
@@ -4603,6 +4853,7 @@ export type OrdenServicioUncheckedCreateWithoutEntidadFinancieraInput = {
   zonaId?: string | null
   vehiculoId?: string | null
   metodoPagoId?: string | null
+  contratoClienteId?: string | null
   numeroOrden?: string | null
   fechaVisita?: Date | string | null
   horaInicio?: Date | string | null
@@ -4722,6 +4973,7 @@ export type OrdenServicioCreateWithoutGeolocalizacionesInput = {
   entidadFinanciera?: Prisma.EntidadFinancieraCreateNestedOneWithoutOrdenesInput
   liquidadoPor?: Prisma.TenantMembershipCreateNestedOneWithoutServiciosLiquidadosInput
   metodoPago?: Prisma.MetodoPagoCreateNestedOneWithoutOrdenesInput
+  contratoCliente?: Prisma.ContratoClienteCreateNestedOneWithoutOrdenesServicioInput
   ordenPadre?: Prisma.OrdenServicioCreateNestedOneWithoutOrdenesHijasInput
   ordenesHijas?: Prisma.OrdenServicioCreateNestedManyWithoutOrdenPadreInput
   servicio: Prisma.ServicioCreateNestedOneWithoutOrdenesInput
@@ -4751,6 +5003,7 @@ export type OrdenServicioUncheckedCreateWithoutGeolocalizacionesInput = {
   zonaId?: string | null
   vehiculoId?: string | null
   metodoPagoId?: string | null
+  contratoClienteId?: string | null
   numeroOrden?: string | null
   fechaVisita?: Date | string | null
   horaInicio?: Date | string | null
@@ -4860,6 +5113,7 @@ export type OrdenServicioUpdateWithoutGeolocalizacionesInput = {
   entidadFinanciera?: Prisma.EntidadFinancieraUpdateOneWithoutOrdenesNestedInput
   liquidadoPor?: Prisma.TenantMembershipUpdateOneWithoutServiciosLiquidadosNestedInput
   metodoPago?: Prisma.MetodoPagoUpdateOneWithoutOrdenesNestedInput
+  contratoCliente?: Prisma.ContratoClienteUpdateOneWithoutOrdenesServicioNestedInput
   ordenPadre?: Prisma.OrdenServicioUpdateOneWithoutOrdenesHijasNestedInput
   ordenesHijas?: Prisma.OrdenServicioUpdateManyWithoutOrdenPadreNestedInput
   servicio?: Prisma.ServicioUpdateOneRequiredWithoutOrdenesNestedInput
@@ -4889,6 +5143,7 @@ export type OrdenServicioUncheckedUpdateWithoutGeolocalizacionesInput = {
   zonaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   vehiculoId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   metodoPagoId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contratoClienteId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   numeroOrden?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   fechaVisita?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   horaInicio?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -4982,6 +5237,7 @@ export type OrdenServicioCreateWithoutNominaDetallesInput = {
   entidadFinanciera?: Prisma.EntidadFinancieraCreateNestedOneWithoutOrdenesInput
   liquidadoPor?: Prisma.TenantMembershipCreateNestedOneWithoutServiciosLiquidadosInput
   metodoPago?: Prisma.MetodoPagoCreateNestedOneWithoutOrdenesInput
+  contratoCliente?: Prisma.ContratoClienteCreateNestedOneWithoutOrdenesServicioInput
   ordenPadre?: Prisma.OrdenServicioCreateNestedOneWithoutOrdenesHijasInput
   ordenesHijas?: Prisma.OrdenServicioCreateNestedManyWithoutOrdenPadreInput
   servicio: Prisma.ServicioCreateNestedOneWithoutOrdenesInput
@@ -5011,6 +5267,7 @@ export type OrdenServicioUncheckedCreateWithoutNominaDetallesInput = {
   zonaId?: string | null
   vehiculoId?: string | null
   metodoPagoId?: string | null
+  contratoClienteId?: string | null
   numeroOrden?: string | null
   fechaVisita?: Date | string | null
   horaInicio?: Date | string | null
@@ -5120,6 +5377,7 @@ export type OrdenServicioUpdateWithoutNominaDetallesInput = {
   entidadFinanciera?: Prisma.EntidadFinancieraUpdateOneWithoutOrdenesNestedInput
   liquidadoPor?: Prisma.TenantMembershipUpdateOneWithoutServiciosLiquidadosNestedInput
   metodoPago?: Prisma.MetodoPagoUpdateOneWithoutOrdenesNestedInput
+  contratoCliente?: Prisma.ContratoClienteUpdateOneWithoutOrdenesServicioNestedInput
   ordenPadre?: Prisma.OrdenServicioUpdateOneWithoutOrdenesHijasNestedInput
   ordenesHijas?: Prisma.OrdenServicioUpdateManyWithoutOrdenPadreNestedInput
   servicio?: Prisma.ServicioUpdateOneRequiredWithoutOrdenesNestedInput
@@ -5149,6 +5407,7 @@ export type OrdenServicioUncheckedUpdateWithoutNominaDetallesInput = {
   zonaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   vehiculoId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   metodoPagoId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contratoClienteId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   numeroOrden?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   fechaVisita?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   horaInicio?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -5242,6 +5501,7 @@ export type OrdenServicioCreateWithoutDeclaracionEfectivoInput = {
   entidadFinanciera?: Prisma.EntidadFinancieraCreateNestedOneWithoutOrdenesInput
   liquidadoPor?: Prisma.TenantMembershipCreateNestedOneWithoutServiciosLiquidadosInput
   metodoPago?: Prisma.MetodoPagoCreateNestedOneWithoutOrdenesInput
+  contratoCliente?: Prisma.ContratoClienteCreateNestedOneWithoutOrdenesServicioInput
   ordenPadre?: Prisma.OrdenServicioCreateNestedOneWithoutOrdenesHijasInput
   ordenesHijas?: Prisma.OrdenServicioCreateNestedManyWithoutOrdenPadreInput
   servicio: Prisma.ServicioCreateNestedOneWithoutOrdenesInput
@@ -5271,6 +5531,7 @@ export type OrdenServicioUncheckedCreateWithoutDeclaracionEfectivoInput = {
   zonaId?: string | null
   vehiculoId?: string | null
   metodoPagoId?: string | null
+  contratoClienteId?: string | null
   numeroOrden?: string | null
   fechaVisita?: Date | string | null
   horaInicio?: Date | string | null
@@ -5380,6 +5641,7 @@ export type OrdenServicioUpdateWithoutDeclaracionEfectivoInput = {
   entidadFinanciera?: Prisma.EntidadFinancieraUpdateOneWithoutOrdenesNestedInput
   liquidadoPor?: Prisma.TenantMembershipUpdateOneWithoutServiciosLiquidadosNestedInput
   metodoPago?: Prisma.MetodoPagoUpdateOneWithoutOrdenesNestedInput
+  contratoCliente?: Prisma.ContratoClienteUpdateOneWithoutOrdenesServicioNestedInput
   ordenPadre?: Prisma.OrdenServicioUpdateOneWithoutOrdenesHijasNestedInput
   ordenesHijas?: Prisma.OrdenServicioUpdateManyWithoutOrdenPadreNestedInput
   servicio?: Prisma.ServicioUpdateOneRequiredWithoutOrdenesNestedInput
@@ -5409,6 +5671,7 @@ export type OrdenServicioUncheckedUpdateWithoutDeclaracionEfectivoInput = {
   zonaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   vehiculoId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   metodoPagoId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contratoClienteId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   numeroOrden?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   fechaVisita?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   horaInicio?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -5502,6 +5765,7 @@ export type OrdenServicioCreateWithoutConsignacionOrdenInput = {
   entidadFinanciera?: Prisma.EntidadFinancieraCreateNestedOneWithoutOrdenesInput
   liquidadoPor?: Prisma.TenantMembershipCreateNestedOneWithoutServiciosLiquidadosInput
   metodoPago?: Prisma.MetodoPagoCreateNestedOneWithoutOrdenesInput
+  contratoCliente?: Prisma.ContratoClienteCreateNestedOneWithoutOrdenesServicioInput
   ordenPadre?: Prisma.OrdenServicioCreateNestedOneWithoutOrdenesHijasInput
   ordenesHijas?: Prisma.OrdenServicioCreateNestedManyWithoutOrdenPadreInput
   servicio: Prisma.ServicioCreateNestedOneWithoutOrdenesInput
@@ -5531,6 +5795,7 @@ export type OrdenServicioUncheckedCreateWithoutConsignacionOrdenInput = {
   zonaId?: string | null
   vehiculoId?: string | null
   metodoPagoId?: string | null
+  contratoClienteId?: string | null
   numeroOrden?: string | null
   fechaVisita?: Date | string | null
   horaInicio?: Date | string | null
@@ -5640,6 +5905,7 @@ export type OrdenServicioUpdateWithoutConsignacionOrdenInput = {
   entidadFinanciera?: Prisma.EntidadFinancieraUpdateOneWithoutOrdenesNestedInput
   liquidadoPor?: Prisma.TenantMembershipUpdateOneWithoutServiciosLiquidadosNestedInput
   metodoPago?: Prisma.MetodoPagoUpdateOneWithoutOrdenesNestedInput
+  contratoCliente?: Prisma.ContratoClienteUpdateOneWithoutOrdenesServicioNestedInput
   ordenPadre?: Prisma.OrdenServicioUpdateOneWithoutOrdenesHijasNestedInput
   ordenesHijas?: Prisma.OrdenServicioUpdateManyWithoutOrdenPadreNestedInput
   servicio?: Prisma.ServicioUpdateOneRequiredWithoutOrdenesNestedInput
@@ -5669,6 +5935,7 @@ export type OrdenServicioUncheckedUpdateWithoutConsignacionOrdenInput = {
   zonaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   vehiculoId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   metodoPagoId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contratoClienteId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   numeroOrden?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   fechaVisita?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   horaInicio?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -5762,6 +6029,7 @@ export type OrdenServicioCreateWithoutEvidenciasInput = {
   entidadFinanciera?: Prisma.EntidadFinancieraCreateNestedOneWithoutOrdenesInput
   liquidadoPor?: Prisma.TenantMembershipCreateNestedOneWithoutServiciosLiquidadosInput
   metodoPago?: Prisma.MetodoPagoCreateNestedOneWithoutOrdenesInput
+  contratoCliente?: Prisma.ContratoClienteCreateNestedOneWithoutOrdenesServicioInput
   ordenPadre?: Prisma.OrdenServicioCreateNestedOneWithoutOrdenesHijasInput
   ordenesHijas?: Prisma.OrdenServicioCreateNestedManyWithoutOrdenPadreInput
   servicio: Prisma.ServicioCreateNestedOneWithoutOrdenesInput
@@ -5791,6 +6059,7 @@ export type OrdenServicioUncheckedCreateWithoutEvidenciasInput = {
   zonaId?: string | null
   vehiculoId?: string | null
   metodoPagoId?: string | null
+  contratoClienteId?: string | null
   numeroOrden?: string | null
   fechaVisita?: Date | string | null
   horaInicio?: Date | string | null
@@ -5900,6 +6169,7 @@ export type OrdenServicioUpdateWithoutEvidenciasInput = {
   entidadFinanciera?: Prisma.EntidadFinancieraUpdateOneWithoutOrdenesNestedInput
   liquidadoPor?: Prisma.TenantMembershipUpdateOneWithoutServiciosLiquidadosNestedInput
   metodoPago?: Prisma.MetodoPagoUpdateOneWithoutOrdenesNestedInput
+  contratoCliente?: Prisma.ContratoClienteUpdateOneWithoutOrdenesServicioNestedInput
   ordenPadre?: Prisma.OrdenServicioUpdateOneWithoutOrdenesHijasNestedInput
   ordenesHijas?: Prisma.OrdenServicioUpdateManyWithoutOrdenPadreNestedInput
   servicio?: Prisma.ServicioUpdateOneRequiredWithoutOrdenesNestedInput
@@ -5929,6 +6199,7 @@ export type OrdenServicioUncheckedUpdateWithoutEvidenciasInput = {
   zonaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   vehiculoId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   metodoPagoId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contratoClienteId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   numeroOrden?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   fechaVisita?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   horaInicio?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -5989,6 +6260,7 @@ export type OrdenServicioCreateManyTenantInput = {
   zonaId?: string | null
   vehiculoId?: string | null
   metodoPagoId?: string | null
+  contratoClienteId?: string | null
   numeroOrden?: string | null
   fechaVisita?: Date | string | null
   horaInicio?: Date | string | null
@@ -6077,6 +6349,7 @@ export type OrdenServicioUpdateWithoutTenantInput = {
   entidadFinanciera?: Prisma.EntidadFinancieraUpdateOneWithoutOrdenesNestedInput
   liquidadoPor?: Prisma.TenantMembershipUpdateOneWithoutServiciosLiquidadosNestedInput
   metodoPago?: Prisma.MetodoPagoUpdateOneWithoutOrdenesNestedInput
+  contratoCliente?: Prisma.ContratoClienteUpdateOneWithoutOrdenesServicioNestedInput
   ordenPadre?: Prisma.OrdenServicioUpdateOneWithoutOrdenesHijasNestedInput
   ordenesHijas?: Prisma.OrdenServicioUpdateManyWithoutOrdenPadreNestedInput
   servicio?: Prisma.ServicioUpdateOneRequiredWithoutOrdenesNestedInput
@@ -6104,6 +6377,7 @@ export type OrdenServicioUncheckedUpdateWithoutTenantInput = {
   zonaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   vehiculoId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   metodoPagoId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contratoClienteId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   numeroOrden?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   fechaVisita?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   horaInicio?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -6165,6 +6439,7 @@ export type OrdenServicioUncheckedUpdateManyWithoutTenantInput = {
   zonaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   vehiculoId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   metodoPagoId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contratoClienteId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   numeroOrden?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   fechaVisita?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   horaInicio?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -6219,6 +6494,7 @@ export type OrdenServicioCreateManyCreadoPorInput = {
   zonaId?: string | null
   vehiculoId?: string | null
   metodoPagoId?: string | null
+  contratoClienteId?: string | null
   numeroOrden?: string | null
   fechaVisita?: Date | string | null
   horaInicio?: Date | string | null
@@ -6274,6 +6550,7 @@ export type OrdenServicioCreateManyLiquidadoPorInput = {
   zonaId?: string | null
   vehiculoId?: string | null
   metodoPagoId?: string | null
+  contratoClienteId?: string | null
   numeroOrden?: string | null
   fechaVisita?: Date | string | null
   horaInicio?: Date | string | null
@@ -6327,6 +6604,7 @@ export type OrdenServicioCreateManyTecnicoInput = {
   zonaId?: string | null
   vehiculoId?: string | null
   metodoPagoId?: string | null
+  contratoClienteId?: string | null
   numeroOrden?: string | null
   fechaVisita?: Date | string | null
   horaInicio?: Date | string | null
@@ -6414,6 +6692,7 @@ export type OrdenServicioUpdateWithoutCreadoPorInput = {
   entidadFinanciera?: Prisma.EntidadFinancieraUpdateOneWithoutOrdenesNestedInput
   liquidadoPor?: Prisma.TenantMembershipUpdateOneWithoutServiciosLiquidadosNestedInput
   metodoPago?: Prisma.MetodoPagoUpdateOneWithoutOrdenesNestedInput
+  contratoCliente?: Prisma.ContratoClienteUpdateOneWithoutOrdenesServicioNestedInput
   ordenPadre?: Prisma.OrdenServicioUpdateOneWithoutOrdenesHijasNestedInput
   ordenesHijas?: Prisma.OrdenServicioUpdateManyWithoutOrdenPadreNestedInput
   servicio?: Prisma.ServicioUpdateOneRequiredWithoutOrdenesNestedInput
@@ -6442,6 +6721,7 @@ export type OrdenServicioUncheckedUpdateWithoutCreadoPorInput = {
   zonaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   vehiculoId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   metodoPagoId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contratoClienteId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   numeroOrden?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   fechaVisita?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   horaInicio?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -6503,6 +6783,7 @@ export type OrdenServicioUncheckedUpdateManyWithoutCreadoPorInput = {
   zonaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   vehiculoId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   metodoPagoId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contratoClienteId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   numeroOrden?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   fechaVisita?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   horaInicio?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -6590,6 +6871,7 @@ export type OrdenServicioUpdateWithoutLiquidadoPorInput = {
   empresa?: Prisma.EmpresaUpdateOneRequiredWithoutOrdenesServicioNestedInput
   entidadFinanciera?: Prisma.EntidadFinancieraUpdateOneWithoutOrdenesNestedInput
   metodoPago?: Prisma.MetodoPagoUpdateOneWithoutOrdenesNestedInput
+  contratoCliente?: Prisma.ContratoClienteUpdateOneWithoutOrdenesServicioNestedInput
   ordenPadre?: Prisma.OrdenServicioUpdateOneWithoutOrdenesHijasNestedInput
   ordenesHijas?: Prisma.OrdenServicioUpdateManyWithoutOrdenPadreNestedInput
   servicio?: Prisma.ServicioUpdateOneRequiredWithoutOrdenesNestedInput
@@ -6619,6 +6901,7 @@ export type OrdenServicioUncheckedUpdateWithoutLiquidadoPorInput = {
   zonaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   vehiculoId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   metodoPagoId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contratoClienteId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   numeroOrden?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   fechaVisita?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   horaInicio?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -6680,6 +6963,7 @@ export type OrdenServicioUncheckedUpdateManyWithoutLiquidadoPorInput = {
   zonaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   vehiculoId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   metodoPagoId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contratoClienteId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   numeroOrden?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   fechaVisita?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   horaInicio?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -6767,6 +7051,7 @@ export type OrdenServicioUpdateWithoutTecnicoInput = {
   entidadFinanciera?: Prisma.EntidadFinancieraUpdateOneWithoutOrdenesNestedInput
   liquidadoPor?: Prisma.TenantMembershipUpdateOneWithoutServiciosLiquidadosNestedInput
   metodoPago?: Prisma.MetodoPagoUpdateOneWithoutOrdenesNestedInput
+  contratoCliente?: Prisma.ContratoClienteUpdateOneWithoutOrdenesServicioNestedInput
   ordenPadre?: Prisma.OrdenServicioUpdateOneWithoutOrdenesHijasNestedInput
   ordenesHijas?: Prisma.OrdenServicioUpdateManyWithoutOrdenPadreNestedInput
   servicio?: Prisma.ServicioUpdateOneRequiredWithoutOrdenesNestedInput
@@ -6794,6 +7079,7 @@ export type OrdenServicioUncheckedUpdateWithoutTecnicoInput = {
   zonaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   vehiculoId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   metodoPagoId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contratoClienteId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   numeroOrden?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   fechaVisita?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   horaInicio?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -6855,6 +7141,7 @@ export type OrdenServicioUncheckedUpdateManyWithoutTecnicoInput = {
   zonaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   vehiculoId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   metodoPagoId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contratoClienteId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   numeroOrden?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   fechaVisita?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   horaInicio?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -6909,6 +7196,7 @@ export type OrdenServicioCreateManyEmpresaInput = {
   zonaId?: string | null
   vehiculoId?: string | null
   metodoPagoId?: string | null
+  contratoClienteId?: string | null
   numeroOrden?: string | null
   fechaVisita?: Date | string | null
   horaInicio?: Date | string | null
@@ -6996,6 +7284,7 @@ export type OrdenServicioUpdateWithoutEmpresaInput = {
   entidadFinanciera?: Prisma.EntidadFinancieraUpdateOneWithoutOrdenesNestedInput
   liquidadoPor?: Prisma.TenantMembershipUpdateOneWithoutServiciosLiquidadosNestedInput
   metodoPago?: Prisma.MetodoPagoUpdateOneWithoutOrdenesNestedInput
+  contratoCliente?: Prisma.ContratoClienteUpdateOneWithoutOrdenesServicioNestedInput
   ordenPadre?: Prisma.OrdenServicioUpdateOneWithoutOrdenesHijasNestedInput
   ordenesHijas?: Prisma.OrdenServicioUpdateManyWithoutOrdenPadreNestedInput
   servicio?: Prisma.ServicioUpdateOneRequiredWithoutOrdenesNestedInput
@@ -7024,6 +7313,7 @@ export type OrdenServicioUncheckedUpdateWithoutEmpresaInput = {
   zonaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   vehiculoId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   metodoPagoId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contratoClienteId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   numeroOrden?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   fechaVisita?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   horaInicio?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -7085,6 +7375,7 @@ export type OrdenServicioUncheckedUpdateManyWithoutEmpresaInput = {
   zonaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   vehiculoId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   metodoPagoId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contratoClienteId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   numeroOrden?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   fechaVisita?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   horaInicio?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -7139,6 +7430,7 @@ export type OrdenServicioCreateManyClienteInput = {
   zonaId?: string | null
   vehiculoId?: string | null
   metodoPagoId?: string | null
+  contratoClienteId?: string | null
   numeroOrden?: string | null
   fechaVisita?: Date | string | null
   horaInicio?: Date | string | null
@@ -7226,6 +7518,7 @@ export type OrdenServicioUpdateWithoutClienteInput = {
   entidadFinanciera?: Prisma.EntidadFinancieraUpdateOneWithoutOrdenesNestedInput
   liquidadoPor?: Prisma.TenantMembershipUpdateOneWithoutServiciosLiquidadosNestedInput
   metodoPago?: Prisma.MetodoPagoUpdateOneWithoutOrdenesNestedInput
+  contratoCliente?: Prisma.ContratoClienteUpdateOneWithoutOrdenesServicioNestedInput
   ordenPadre?: Prisma.OrdenServicioUpdateOneWithoutOrdenesHijasNestedInput
   ordenesHijas?: Prisma.OrdenServicioUpdateManyWithoutOrdenPadreNestedInput
   servicio?: Prisma.ServicioUpdateOneRequiredWithoutOrdenesNestedInput
@@ -7239,6 +7532,241 @@ export type OrdenServicioUncheckedUpdateWithoutClienteInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   tenantId?: Prisma.StringFieldUpdateOperationsInput | string
   empresaId?: Prisma.StringFieldUpdateOperationsInput | string
+  servicioId?: Prisma.StringFieldUpdateOperationsInput | string
+  creadoPorId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tecnicoId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  direccionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  direccionTexto?: Prisma.StringFieldUpdateOperationsInput | string
+  piso?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bloque?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  unidad?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  barrio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  municipio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  departamento?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  linkMaps?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  zonaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  vehiculoId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  metodoPagoId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contratoClienteId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  numeroOrden?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  fechaVisita?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  horaInicio?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  horaFin?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  observacion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  observacionFinal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  condicionesHigiene?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  condicionesLocal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  valorCotizado?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  valorPagado?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  valorRepuestos?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  valorRepuestosTecnico?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  facturaPath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  facturaElectronica?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  comprobantePago?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  evidenciaPath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  desglosePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  referenciaPago?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  fechaPago?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  entidadFinancieraId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  estadoPago?: Prisma.EnumEstadoPagoOrdenFieldUpdateOperationsInput | $Enums.EstadoPagoOrden
+  seguimientoRevisado?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  liquidadoPorId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  liquidadoAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  ordenPadreId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  frecuenciaSugerida?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  tipoFacturacion?: Prisma.NullableEnumTipoFacturacionFieldUpdateOperationsInput | $Enums.TipoFacturacion | null
+  tipoVisita?: Prisma.NullableEnumTipoVisitaFieldUpdateOperationsInput | $Enums.TipoVisita | null
+  nivelInfestacion?: Prisma.NullableEnumNivelInfestacionFieldUpdateOperationsInput | $Enums.NivelInfestacion | null
+  urgencia?: Prisma.NullableEnumUrgenciaOrdenFieldUpdateOperationsInput | $Enums.UrgenciaOrden | null
+  estadoServicio?: Prisma.EnumEstadoOrdenFieldUpdateOperationsInput | $Enums.EstadoOrden
+  consignacionOrden?: Prisma.ConsignacionOrdenUncheckedUpdateOneWithoutOrdenNestedInput
+  declaracionEfectivo?: Prisma.DeclaracionEfectivoUncheckedUpdateOneWithoutOrdenNestedInput
+  evidencias?: Prisma.EvidenciaServicioUncheckedUpdateManyWithoutOrdenServicioNestedInput
+  geolocalizaciones?: Prisma.GeolocalizacionUncheckedUpdateManyWithoutOrdenNestedInput
+  nominaDetalles?: Prisma.NominaDetalleUncheckedUpdateManyWithoutOrdenNestedInput
+  seguimientos?: Prisma.OrdenServicioSeguimientoUncheckedUpdateManyWithoutOrdenServicioNestedInput
+  ordenesHijas?: Prisma.OrdenServicioUncheckedUpdateManyWithoutOrdenPadreNestedInput
+}
+
+export type OrdenServicioUncheckedUpdateManyWithoutClienteInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenantId?: Prisma.StringFieldUpdateOperationsInput | string
+  empresaId?: Prisma.StringFieldUpdateOperationsInput | string
+  servicioId?: Prisma.StringFieldUpdateOperationsInput | string
+  creadoPorId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tecnicoId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  direccionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  direccionTexto?: Prisma.StringFieldUpdateOperationsInput | string
+  piso?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bloque?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  unidad?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  barrio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  municipio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  departamento?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  linkMaps?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  zonaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  vehiculoId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  metodoPagoId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contratoClienteId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  numeroOrden?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  fechaVisita?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  horaInicio?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  horaFin?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  observacion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  observacionFinal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  condicionesHigiene?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  condicionesLocal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  valorCotizado?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  valorPagado?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  valorRepuestos?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  valorRepuestosTecnico?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  facturaPath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  facturaElectronica?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  comprobantePago?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  evidenciaPath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  desglosePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  referenciaPago?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  fechaPago?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  entidadFinancieraId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  estadoPago?: Prisma.EnumEstadoPagoOrdenFieldUpdateOperationsInput | $Enums.EstadoPagoOrden
+  seguimientoRevisado?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  liquidadoPorId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  liquidadoAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  ordenPadreId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  frecuenciaSugerida?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  tipoFacturacion?: Prisma.NullableEnumTipoFacturacionFieldUpdateOperationsInput | $Enums.TipoFacturacion | null
+  tipoVisita?: Prisma.NullableEnumTipoVisitaFieldUpdateOperationsInput | $Enums.TipoVisita | null
+  nivelInfestacion?: Prisma.NullableEnumNivelInfestacionFieldUpdateOperationsInput | $Enums.NivelInfestacion | null
+  urgencia?: Prisma.NullableEnumUrgenciaOrdenFieldUpdateOperationsInput | $Enums.UrgenciaOrden | null
+  estadoServicio?: Prisma.EnumEstadoOrdenFieldUpdateOperationsInput | $Enums.EstadoOrden
+}
+
+export type OrdenServicioCreateManyContratoClienteInput = {
+  id?: string
+  tenantId: string
+  empresaId: string
+  clienteId: string
+  servicioId: string
+  creadoPorId?: string | null
+  tecnicoId?: string | null
+  direccionId?: string | null
+  direccionTexto: string
+  piso?: string | null
+  bloque?: string | null
+  unidad?: string | null
+  barrio?: string | null
+  municipio?: string | null
+  departamento?: string | null
+  linkMaps?: string | null
+  zonaId?: string | null
+  vehiculoId?: string | null
+  metodoPagoId?: string | null
+  numeroOrden?: string | null
+  fechaVisita?: Date | string | null
+  horaInicio?: Date | string | null
+  horaFin?: Date | string | null
+  observacion?: string | null
+  observacionFinal?: string | null
+  condicionesHigiene?: string | null
+  condicionesLocal?: string | null
+  valorCotizado?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  valorPagado?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  valorRepuestos?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  valorRepuestosTecnico?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  facturaPath?: string | null
+  facturaElectronica?: string | null
+  comprobantePago?: string | null
+  evidenciaPath?: string | null
+  desglosePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  referenciaPago?: string | null
+  fechaPago?: Date | string | null
+  entidadFinancieraId?: string | null
+  estadoPago?: $Enums.EstadoPagoOrden
+  seguimientoRevisado?: boolean | null
+  liquidadoPorId?: string | null
+  liquidadoAt?: Date | string | null
+  ordenPadreId?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  frecuenciaSugerida?: number | null
+  tipoFacturacion?: $Enums.TipoFacturacion | null
+  tipoVisita?: $Enums.TipoVisita | null
+  nivelInfestacion?: $Enums.NivelInfestacion | null
+  urgencia?: $Enums.UrgenciaOrden | null
+  estadoServicio?: $Enums.EstadoOrden
+}
+
+export type OrdenServicioUpdateWithoutContratoClienteInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  direccionTexto?: Prisma.StringFieldUpdateOperationsInput | string
+  piso?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bloque?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  unidad?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  barrio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  municipio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  departamento?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  linkMaps?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  numeroOrden?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  fechaVisita?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  horaInicio?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  horaFin?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  observacion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  observacionFinal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  condicionesHigiene?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  condicionesLocal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  valorCotizado?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  valorPagado?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  valorRepuestos?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  valorRepuestosTecnico?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  facturaPath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  facturaElectronica?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  comprobantePago?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  evidenciaPath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  desglosePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  referenciaPago?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  fechaPago?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  estadoPago?: Prisma.EnumEstadoPagoOrdenFieldUpdateOperationsInput | $Enums.EstadoPagoOrden
+  seguimientoRevisado?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  liquidadoAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  frecuenciaSugerida?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  tipoFacturacion?: Prisma.NullableEnumTipoFacturacionFieldUpdateOperationsInput | $Enums.TipoFacturacion | null
+  tipoVisita?: Prisma.NullableEnumTipoVisitaFieldUpdateOperationsInput | $Enums.TipoVisita | null
+  nivelInfestacion?: Prisma.NullableEnumNivelInfestacionFieldUpdateOperationsInput | $Enums.NivelInfestacion | null
+  urgencia?: Prisma.NullableEnumUrgenciaOrdenFieldUpdateOperationsInput | $Enums.UrgenciaOrden | null
+  estadoServicio?: Prisma.EnumEstadoOrdenFieldUpdateOperationsInput | $Enums.EstadoOrden
+  consignacionOrden?: Prisma.ConsignacionOrdenUpdateOneWithoutOrdenNestedInput
+  declaracionEfectivo?: Prisma.DeclaracionEfectivoUpdateOneWithoutOrdenNestedInput
+  evidencias?: Prisma.EvidenciaServicioUpdateManyWithoutOrdenServicioNestedInput
+  geolocalizaciones?: Prisma.GeolocalizacionUpdateManyWithoutOrdenNestedInput
+  nominaDetalles?: Prisma.NominaDetalleUpdateManyWithoutOrdenNestedInput
+  seguimientos?: Prisma.OrdenServicioSeguimientoUpdateManyWithoutOrdenServicioNestedInput
+  cliente?: Prisma.ClienteUpdateOneRequiredWithoutOrdenesServicioNestedInput
+  creadoPor?: Prisma.TenantMembershipUpdateOneWithoutServiciosCreadosNestedInput
+  direccion?: Prisma.DireccionUpdateOneWithoutOrdenesServicioNestedInput
+  empresa?: Prisma.EmpresaUpdateOneRequiredWithoutOrdenesServicioNestedInput
+  entidadFinanciera?: Prisma.EntidadFinancieraUpdateOneWithoutOrdenesNestedInput
+  liquidadoPor?: Prisma.TenantMembershipUpdateOneWithoutServiciosLiquidadosNestedInput
+  metodoPago?: Prisma.MetodoPagoUpdateOneWithoutOrdenesNestedInput
+  ordenPadre?: Prisma.OrdenServicioUpdateOneWithoutOrdenesHijasNestedInput
+  ordenesHijas?: Prisma.OrdenServicioUpdateManyWithoutOrdenPadreNestedInput
+  servicio?: Prisma.ServicioUpdateOneRequiredWithoutOrdenesNestedInput
+  tecnico?: Prisma.TenantMembershipUpdateOneWithoutServiciosAsignadosNestedInput
+  tenant?: Prisma.TenantUpdateOneRequiredWithoutOrdenesServicioNestedInput
+  vehiculo?: Prisma.VehiculoUpdateOneWithoutOrdenesServicioNestedInput
+  zona?: Prisma.ZonaUpdateOneWithoutOrdenesNestedInput
+}
+
+export type OrdenServicioUncheckedUpdateWithoutContratoClienteInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenantId?: Prisma.StringFieldUpdateOperationsInput | string
+  empresaId?: Prisma.StringFieldUpdateOperationsInput | string
+  clienteId?: Prisma.StringFieldUpdateOperationsInput | string
   servicioId?: Prisma.StringFieldUpdateOperationsInput | string
   creadoPorId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tecnicoId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -7296,10 +7824,11 @@ export type OrdenServicioUncheckedUpdateWithoutClienteInput = {
   ordenesHijas?: Prisma.OrdenServicioUncheckedUpdateManyWithoutOrdenPadreNestedInput
 }
 
-export type OrdenServicioUncheckedUpdateManyWithoutClienteInput = {
+export type OrdenServicioUncheckedUpdateManyWithoutContratoClienteInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   tenantId?: Prisma.StringFieldUpdateOperationsInput | string
   empresaId?: Prisma.StringFieldUpdateOperationsInput | string
+  clienteId?: Prisma.StringFieldUpdateOperationsInput | string
   servicioId?: Prisma.StringFieldUpdateOperationsInput | string
   creadoPorId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tecnicoId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -7369,6 +7898,7 @@ export type OrdenServicioCreateManyVehiculoInput = {
   linkMaps?: string | null
   zonaId?: string | null
   metodoPagoId?: string | null
+  contratoClienteId?: string | null
   numeroOrden?: string | null
   fechaVisita?: Date | string | null
   horaInicio?: Date | string | null
@@ -7457,6 +7987,7 @@ export type OrdenServicioUpdateWithoutVehiculoInput = {
   entidadFinanciera?: Prisma.EntidadFinancieraUpdateOneWithoutOrdenesNestedInput
   liquidadoPor?: Prisma.TenantMembershipUpdateOneWithoutServiciosLiquidadosNestedInput
   metodoPago?: Prisma.MetodoPagoUpdateOneWithoutOrdenesNestedInput
+  contratoCliente?: Prisma.ContratoClienteUpdateOneWithoutOrdenesServicioNestedInput
   ordenPadre?: Prisma.OrdenServicioUpdateOneWithoutOrdenesHijasNestedInput
   ordenesHijas?: Prisma.OrdenServicioUpdateManyWithoutOrdenPadreNestedInput
   servicio?: Prisma.ServicioUpdateOneRequiredWithoutOrdenesNestedInput
@@ -7484,6 +8015,7 @@ export type OrdenServicioUncheckedUpdateWithoutVehiculoInput = {
   linkMaps?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   zonaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   metodoPagoId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contratoClienteId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   numeroOrden?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   fechaVisita?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   horaInicio?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -7545,6 +8077,7 @@ export type OrdenServicioUncheckedUpdateManyWithoutVehiculoInput = {
   linkMaps?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   zonaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   metodoPagoId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contratoClienteId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   numeroOrden?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   fechaVisita?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   horaInicio?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -7599,6 +8132,7 @@ export type OrdenServicioCreateManyDireccionInput = {
   zonaId?: string | null
   vehiculoId?: string | null
   metodoPagoId?: string | null
+  contratoClienteId?: string | null
   numeroOrden?: string | null
   fechaVisita?: Date | string | null
   horaInicio?: Date | string | null
@@ -7686,6 +8220,7 @@ export type OrdenServicioUpdateWithoutDireccionInput = {
   entidadFinanciera?: Prisma.EntidadFinancieraUpdateOneWithoutOrdenesNestedInput
   liquidadoPor?: Prisma.TenantMembershipUpdateOneWithoutServiciosLiquidadosNestedInput
   metodoPago?: Prisma.MetodoPagoUpdateOneWithoutOrdenesNestedInput
+  contratoCliente?: Prisma.ContratoClienteUpdateOneWithoutOrdenesServicioNestedInput
   ordenPadre?: Prisma.OrdenServicioUpdateOneWithoutOrdenesHijasNestedInput
   ordenesHijas?: Prisma.OrdenServicioUpdateManyWithoutOrdenPadreNestedInput
   servicio?: Prisma.ServicioUpdateOneRequiredWithoutOrdenesNestedInput
@@ -7714,6 +8249,7 @@ export type OrdenServicioUncheckedUpdateWithoutDireccionInput = {
   zonaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   vehiculoId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   metodoPagoId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contratoClienteId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   numeroOrden?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   fechaVisita?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   horaInicio?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -7775,6 +8311,7 @@ export type OrdenServicioUncheckedUpdateManyWithoutDireccionInput = {
   zonaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   vehiculoId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   metodoPagoId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contratoClienteId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   numeroOrden?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   fechaVisita?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   horaInicio?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -7829,6 +8366,7 @@ export type OrdenServicioCreateManyZonaInput = {
   linkMaps?: string | null
   vehiculoId?: string | null
   metodoPagoId?: string | null
+  contratoClienteId?: string | null
   numeroOrden?: string | null
   fechaVisita?: Date | string | null
   horaInicio?: Date | string | null
@@ -7917,6 +8455,7 @@ export type OrdenServicioUpdateWithoutZonaInput = {
   entidadFinanciera?: Prisma.EntidadFinancieraUpdateOneWithoutOrdenesNestedInput
   liquidadoPor?: Prisma.TenantMembershipUpdateOneWithoutServiciosLiquidadosNestedInput
   metodoPago?: Prisma.MetodoPagoUpdateOneWithoutOrdenesNestedInput
+  contratoCliente?: Prisma.ContratoClienteUpdateOneWithoutOrdenesServicioNestedInput
   ordenPadre?: Prisma.OrdenServicioUpdateOneWithoutOrdenesHijasNestedInput
   ordenesHijas?: Prisma.OrdenServicioUpdateManyWithoutOrdenPadreNestedInput
   servicio?: Prisma.ServicioUpdateOneRequiredWithoutOrdenesNestedInput
@@ -7944,6 +8483,7 @@ export type OrdenServicioUncheckedUpdateWithoutZonaInput = {
   linkMaps?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   vehiculoId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   metodoPagoId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contratoClienteId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   numeroOrden?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   fechaVisita?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   horaInicio?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -8005,6 +8545,7 @@ export type OrdenServicioUncheckedUpdateManyWithoutZonaInput = {
   linkMaps?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   vehiculoId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   metodoPagoId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contratoClienteId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   numeroOrden?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   fechaVisita?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   horaInicio?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -8059,6 +8600,7 @@ export type OrdenServicioCreateManyServicioInput = {
   zonaId?: string | null
   vehiculoId?: string | null
   metodoPagoId?: string | null
+  contratoClienteId?: string | null
   numeroOrden?: string | null
   fechaVisita?: Date | string | null
   horaInicio?: Date | string | null
@@ -8147,6 +8689,7 @@ export type OrdenServicioUpdateWithoutServicioInput = {
   entidadFinanciera?: Prisma.EntidadFinancieraUpdateOneWithoutOrdenesNestedInput
   liquidadoPor?: Prisma.TenantMembershipUpdateOneWithoutServiciosLiquidadosNestedInput
   metodoPago?: Prisma.MetodoPagoUpdateOneWithoutOrdenesNestedInput
+  contratoCliente?: Prisma.ContratoClienteUpdateOneWithoutOrdenesServicioNestedInput
   ordenPadre?: Prisma.OrdenServicioUpdateOneWithoutOrdenesHijasNestedInput
   ordenesHijas?: Prisma.OrdenServicioUpdateManyWithoutOrdenPadreNestedInput
   tecnico?: Prisma.TenantMembershipUpdateOneWithoutServiciosAsignadosNestedInput
@@ -8174,6 +8717,7 @@ export type OrdenServicioUncheckedUpdateWithoutServicioInput = {
   zonaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   vehiculoId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   metodoPagoId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contratoClienteId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   numeroOrden?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   fechaVisita?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   horaInicio?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -8235,6 +8779,7 @@ export type OrdenServicioUncheckedUpdateManyWithoutServicioInput = {
   zonaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   vehiculoId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   metodoPagoId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contratoClienteId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   numeroOrden?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   fechaVisita?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   horaInicio?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -8289,6 +8834,7 @@ export type OrdenServicioCreateManyMetodoPagoInput = {
   linkMaps?: string | null
   zonaId?: string | null
   vehiculoId?: string | null
+  contratoClienteId?: string | null
   numeroOrden?: string | null
   fechaVisita?: Date | string | null
   horaInicio?: Date | string | null
@@ -8376,6 +8922,7 @@ export type OrdenServicioUpdateWithoutMetodoPagoInput = {
   empresa?: Prisma.EmpresaUpdateOneRequiredWithoutOrdenesServicioNestedInput
   entidadFinanciera?: Prisma.EntidadFinancieraUpdateOneWithoutOrdenesNestedInput
   liquidadoPor?: Prisma.TenantMembershipUpdateOneWithoutServiciosLiquidadosNestedInput
+  contratoCliente?: Prisma.ContratoClienteUpdateOneWithoutOrdenesServicioNestedInput
   ordenPadre?: Prisma.OrdenServicioUpdateOneWithoutOrdenesHijasNestedInput
   ordenesHijas?: Prisma.OrdenServicioUpdateManyWithoutOrdenPadreNestedInput
   servicio?: Prisma.ServicioUpdateOneRequiredWithoutOrdenesNestedInput
@@ -8404,6 +8951,7 @@ export type OrdenServicioUncheckedUpdateWithoutMetodoPagoInput = {
   linkMaps?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   zonaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   vehiculoId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contratoClienteId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   numeroOrden?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   fechaVisita?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   horaInicio?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -8465,6 +9013,7 @@ export type OrdenServicioUncheckedUpdateManyWithoutMetodoPagoInput = {
   linkMaps?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   zonaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   vehiculoId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contratoClienteId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   numeroOrden?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   fechaVisita?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   horaInicio?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -8520,6 +9069,7 @@ export type OrdenServicioCreateManyOrdenPadreInput = {
   zonaId?: string | null
   vehiculoId?: string | null
   metodoPagoId?: string | null
+  contratoClienteId?: string | null
   numeroOrden?: string | null
   fechaVisita?: Date | string | null
   horaInicio?: Date | string | null
@@ -8607,6 +9157,7 @@ export type OrdenServicioUpdateWithoutOrdenPadreInput = {
   entidadFinanciera?: Prisma.EntidadFinancieraUpdateOneWithoutOrdenesNestedInput
   liquidadoPor?: Prisma.TenantMembershipUpdateOneWithoutServiciosLiquidadosNestedInput
   metodoPago?: Prisma.MetodoPagoUpdateOneWithoutOrdenesNestedInput
+  contratoCliente?: Prisma.ContratoClienteUpdateOneWithoutOrdenesServicioNestedInput
   ordenesHijas?: Prisma.OrdenServicioUpdateManyWithoutOrdenPadreNestedInput
   servicio?: Prisma.ServicioUpdateOneRequiredWithoutOrdenesNestedInput
   tecnico?: Prisma.TenantMembershipUpdateOneWithoutServiciosAsignadosNestedInput
@@ -8635,6 +9186,7 @@ export type OrdenServicioUncheckedUpdateWithoutOrdenPadreInput = {
   zonaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   vehiculoId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   metodoPagoId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contratoClienteId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   numeroOrden?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   fechaVisita?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   horaInicio?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -8696,6 +9248,7 @@ export type OrdenServicioUncheckedUpdateManyWithoutOrdenPadreInput = {
   zonaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   vehiculoId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   metodoPagoId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contratoClienteId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   numeroOrden?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   fechaVisita?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   horaInicio?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -8750,6 +9303,7 @@ export type OrdenServicioCreateManyEntidadFinancieraInput = {
   zonaId?: string | null
   vehiculoId?: string | null
   metodoPagoId?: string | null
+  contratoClienteId?: string | null
   numeroOrden?: string | null
   fechaVisita?: Date | string | null
   horaInicio?: Date | string | null
@@ -8836,6 +9390,7 @@ export type OrdenServicioUpdateWithoutEntidadFinancieraInput = {
   empresa?: Prisma.EmpresaUpdateOneRequiredWithoutOrdenesServicioNestedInput
   liquidadoPor?: Prisma.TenantMembershipUpdateOneWithoutServiciosLiquidadosNestedInput
   metodoPago?: Prisma.MetodoPagoUpdateOneWithoutOrdenesNestedInput
+  contratoCliente?: Prisma.ContratoClienteUpdateOneWithoutOrdenesServicioNestedInput
   ordenPadre?: Prisma.OrdenServicioUpdateOneWithoutOrdenesHijasNestedInput
   ordenesHijas?: Prisma.OrdenServicioUpdateManyWithoutOrdenPadreNestedInput
   servicio?: Prisma.ServicioUpdateOneRequiredWithoutOrdenesNestedInput
@@ -8865,6 +9420,7 @@ export type OrdenServicioUncheckedUpdateWithoutEntidadFinancieraInput = {
   zonaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   vehiculoId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   metodoPagoId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contratoClienteId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   numeroOrden?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   fechaVisita?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   horaInicio?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -8926,6 +9482,7 @@ export type OrdenServicioUncheckedUpdateManyWithoutEntidadFinancieraInput = {
   zonaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   vehiculoId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   metodoPagoId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contratoClienteId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   numeroOrden?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   fechaVisita?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   horaInicio?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -9047,6 +9604,7 @@ export type OrdenServicioSelect<ExtArgs extends runtime.Types.Extensions.Interna
   zonaId?: boolean
   vehiculoId?: boolean
   metodoPagoId?: boolean
+  contratoClienteId?: boolean
   numeroOrden?: boolean
   fechaVisita?: boolean
   horaInicio?: boolean
@@ -9093,6 +9651,7 @@ export type OrdenServicioSelect<ExtArgs extends runtime.Types.Extensions.Interna
   entidadFinanciera?: boolean | Prisma.OrdenServicio$entidadFinancieraArgs<ExtArgs>
   liquidadoPor?: boolean | Prisma.OrdenServicio$liquidadoPorArgs<ExtArgs>
   metodoPago?: boolean | Prisma.OrdenServicio$metodoPagoArgs<ExtArgs>
+  contratoCliente?: boolean | Prisma.OrdenServicio$contratoClienteArgs<ExtArgs>
   ordenPadre?: boolean | Prisma.OrdenServicio$ordenPadreArgs<ExtArgs>
   ordenesHijas?: boolean | Prisma.OrdenServicio$ordenesHijasArgs<ExtArgs>
   servicio?: boolean | Prisma.ServicioDefaultArgs<ExtArgs>
@@ -9123,6 +9682,7 @@ export type OrdenServicioSelectCreateManyAndReturn<ExtArgs extends runtime.Types
   zonaId?: boolean
   vehiculoId?: boolean
   metodoPagoId?: boolean
+  contratoClienteId?: boolean
   numeroOrden?: boolean
   fechaVisita?: boolean
   horaInicio?: boolean
@@ -9163,6 +9723,7 @@ export type OrdenServicioSelectCreateManyAndReturn<ExtArgs extends runtime.Types
   entidadFinanciera?: boolean | Prisma.OrdenServicio$entidadFinancieraArgs<ExtArgs>
   liquidadoPor?: boolean | Prisma.OrdenServicio$liquidadoPorArgs<ExtArgs>
   metodoPago?: boolean | Prisma.OrdenServicio$metodoPagoArgs<ExtArgs>
+  contratoCliente?: boolean | Prisma.OrdenServicio$contratoClienteArgs<ExtArgs>
   ordenPadre?: boolean | Prisma.OrdenServicio$ordenPadreArgs<ExtArgs>
   servicio?: boolean | Prisma.ServicioDefaultArgs<ExtArgs>
   tecnico?: boolean | Prisma.OrdenServicio$tecnicoArgs<ExtArgs>
@@ -9191,6 +9752,7 @@ export type OrdenServicioSelectUpdateManyAndReturn<ExtArgs extends runtime.Types
   zonaId?: boolean
   vehiculoId?: boolean
   metodoPagoId?: boolean
+  contratoClienteId?: boolean
   numeroOrden?: boolean
   fechaVisita?: boolean
   horaInicio?: boolean
@@ -9231,6 +9793,7 @@ export type OrdenServicioSelectUpdateManyAndReturn<ExtArgs extends runtime.Types
   entidadFinanciera?: boolean | Prisma.OrdenServicio$entidadFinancieraArgs<ExtArgs>
   liquidadoPor?: boolean | Prisma.OrdenServicio$liquidadoPorArgs<ExtArgs>
   metodoPago?: boolean | Prisma.OrdenServicio$metodoPagoArgs<ExtArgs>
+  contratoCliente?: boolean | Prisma.OrdenServicio$contratoClienteArgs<ExtArgs>
   ordenPadre?: boolean | Prisma.OrdenServicio$ordenPadreArgs<ExtArgs>
   servicio?: boolean | Prisma.ServicioDefaultArgs<ExtArgs>
   tecnico?: boolean | Prisma.OrdenServicio$tecnicoArgs<ExtArgs>
@@ -9259,6 +9822,7 @@ export type OrdenServicioSelectScalar = {
   zonaId?: boolean
   vehiculoId?: boolean
   metodoPagoId?: boolean
+  contratoClienteId?: boolean
   numeroOrden?: boolean
   fechaVisita?: boolean
   horaInicio?: boolean
@@ -9294,7 +9858,7 @@ export type OrdenServicioSelectScalar = {
   estadoServicio?: boolean
 }
 
-export type OrdenServicioOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "tenantId" | "empresaId" | "clienteId" | "servicioId" | "creadoPorId" | "tecnicoId" | "direccionId" | "direccionTexto" | "piso" | "bloque" | "unidad" | "barrio" | "municipio" | "departamento" | "linkMaps" | "zonaId" | "vehiculoId" | "metodoPagoId" | "numeroOrden" | "fechaVisita" | "horaInicio" | "horaFin" | "observacion" | "observacionFinal" | "condicionesHigiene" | "condicionesLocal" | "valorCotizado" | "valorPagado" | "valorRepuestos" | "valorRepuestosTecnico" | "facturaPath" | "facturaElectronica" | "comprobantePago" | "evidenciaPath" | "desglosePago" | "referenciaPago" | "fechaPago" | "entidadFinancieraId" | "estadoPago" | "seguimientoRevisado" | "liquidadoPorId" | "liquidadoAt" | "ordenPadreId" | "createdAt" | "updatedAt" | "frecuenciaSugerida" | "tipoFacturacion" | "tipoVisita" | "nivelInfestacion" | "urgencia" | "estadoServicio", ExtArgs["result"]["ordenServicio"]>
+export type OrdenServicioOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "tenantId" | "empresaId" | "clienteId" | "servicioId" | "creadoPorId" | "tecnicoId" | "direccionId" | "direccionTexto" | "piso" | "bloque" | "unidad" | "barrio" | "municipio" | "departamento" | "linkMaps" | "zonaId" | "vehiculoId" | "metodoPagoId" | "contratoClienteId" | "numeroOrden" | "fechaVisita" | "horaInicio" | "horaFin" | "observacion" | "observacionFinal" | "condicionesHigiene" | "condicionesLocal" | "valorCotizado" | "valorPagado" | "valorRepuestos" | "valorRepuestosTecnico" | "facturaPath" | "facturaElectronica" | "comprobantePago" | "evidenciaPath" | "desglosePago" | "referenciaPago" | "fechaPago" | "entidadFinancieraId" | "estadoPago" | "seguimientoRevisado" | "liquidadoPorId" | "liquidadoAt" | "ordenPadreId" | "createdAt" | "updatedAt" | "frecuenciaSugerida" | "tipoFacturacion" | "tipoVisita" | "nivelInfestacion" | "urgencia" | "estadoServicio", ExtArgs["result"]["ordenServicio"]>
 export type OrdenServicioInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   consignacionOrden?: boolean | Prisma.OrdenServicio$consignacionOrdenArgs<ExtArgs>
   declaracionEfectivo?: boolean | Prisma.OrdenServicio$declaracionEfectivoArgs<ExtArgs>
@@ -9309,6 +9873,7 @@ export type OrdenServicioInclude<ExtArgs extends runtime.Types.Extensions.Intern
   entidadFinanciera?: boolean | Prisma.OrdenServicio$entidadFinancieraArgs<ExtArgs>
   liquidadoPor?: boolean | Prisma.OrdenServicio$liquidadoPorArgs<ExtArgs>
   metodoPago?: boolean | Prisma.OrdenServicio$metodoPagoArgs<ExtArgs>
+  contratoCliente?: boolean | Prisma.OrdenServicio$contratoClienteArgs<ExtArgs>
   ordenPadre?: boolean | Prisma.OrdenServicio$ordenPadreArgs<ExtArgs>
   ordenesHijas?: boolean | Prisma.OrdenServicio$ordenesHijasArgs<ExtArgs>
   servicio?: boolean | Prisma.ServicioDefaultArgs<ExtArgs>
@@ -9326,6 +9891,7 @@ export type OrdenServicioIncludeCreateManyAndReturn<ExtArgs extends runtime.Type
   entidadFinanciera?: boolean | Prisma.OrdenServicio$entidadFinancieraArgs<ExtArgs>
   liquidadoPor?: boolean | Prisma.OrdenServicio$liquidadoPorArgs<ExtArgs>
   metodoPago?: boolean | Prisma.OrdenServicio$metodoPagoArgs<ExtArgs>
+  contratoCliente?: boolean | Prisma.OrdenServicio$contratoClienteArgs<ExtArgs>
   ordenPadre?: boolean | Prisma.OrdenServicio$ordenPadreArgs<ExtArgs>
   servicio?: boolean | Prisma.ServicioDefaultArgs<ExtArgs>
   tecnico?: boolean | Prisma.OrdenServicio$tecnicoArgs<ExtArgs>
@@ -9341,6 +9907,7 @@ export type OrdenServicioIncludeUpdateManyAndReturn<ExtArgs extends runtime.Type
   entidadFinanciera?: boolean | Prisma.OrdenServicio$entidadFinancieraArgs<ExtArgs>
   liquidadoPor?: boolean | Prisma.OrdenServicio$liquidadoPorArgs<ExtArgs>
   metodoPago?: boolean | Prisma.OrdenServicio$metodoPagoArgs<ExtArgs>
+  contratoCliente?: boolean | Prisma.OrdenServicio$contratoClienteArgs<ExtArgs>
   ordenPadre?: boolean | Prisma.OrdenServicio$ordenPadreArgs<ExtArgs>
   servicio?: boolean | Prisma.ServicioDefaultArgs<ExtArgs>
   tecnico?: boolean | Prisma.OrdenServicio$tecnicoArgs<ExtArgs>
@@ -9365,6 +9932,7 @@ export type $OrdenServicioPayload<ExtArgs extends runtime.Types.Extensions.Inter
     entidadFinanciera: Prisma.$EntidadFinancieraPayload<ExtArgs> | null
     liquidadoPor: Prisma.$TenantMembershipPayload<ExtArgs> | null
     metodoPago: Prisma.$MetodoPagoPayload<ExtArgs> | null
+    contratoCliente: Prisma.$ContratoClientePayload<ExtArgs> | null
     ordenPadre: Prisma.$OrdenServicioPayload<ExtArgs> | null
     ordenesHijas: Prisma.$OrdenServicioPayload<ExtArgs>[]
     servicio: Prisma.$ServicioPayload<ExtArgs>
@@ -9393,6 +9961,7 @@ export type $OrdenServicioPayload<ExtArgs extends runtime.Types.Extensions.Inter
     zonaId: string | null
     vehiculoId: string | null
     metodoPagoId: string | null
+    contratoClienteId: string | null
     numeroOrden: string | null
     fechaVisita: Date | null
     horaInicio: Date | null
@@ -9833,6 +10402,7 @@ export interface Prisma__OrdenServicioClient<T, Null = never, ExtArgs extends ru
   entidadFinanciera<T extends Prisma.OrdenServicio$entidadFinancieraArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.OrdenServicio$entidadFinancieraArgs<ExtArgs>>): Prisma.Prisma__EntidadFinancieraClient<runtime.Types.Result.GetResult<Prisma.$EntidadFinancieraPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   liquidadoPor<T extends Prisma.OrdenServicio$liquidadoPorArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.OrdenServicio$liquidadoPorArgs<ExtArgs>>): Prisma.Prisma__TenantMembershipClient<runtime.Types.Result.GetResult<Prisma.$TenantMembershipPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   metodoPago<T extends Prisma.OrdenServicio$metodoPagoArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.OrdenServicio$metodoPagoArgs<ExtArgs>>): Prisma.Prisma__MetodoPagoClient<runtime.Types.Result.GetResult<Prisma.$MetodoPagoPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  contratoCliente<T extends Prisma.OrdenServicio$contratoClienteArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.OrdenServicio$contratoClienteArgs<ExtArgs>>): Prisma.Prisma__ContratoClienteClient<runtime.Types.Result.GetResult<Prisma.$ContratoClientePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   ordenPadre<T extends Prisma.OrdenServicio$ordenPadreArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.OrdenServicio$ordenPadreArgs<ExtArgs>>): Prisma.Prisma__OrdenServicioClient<runtime.Types.Result.GetResult<Prisma.$OrdenServicioPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   ordenesHijas<T extends Prisma.OrdenServicio$ordenesHijasArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.OrdenServicio$ordenesHijasArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$OrdenServicioPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   servicio<T extends Prisma.ServicioDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.ServicioDefaultArgs<ExtArgs>>): Prisma.Prisma__ServicioClient<runtime.Types.Result.GetResult<Prisma.$ServicioPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
@@ -9888,6 +10458,7 @@ export interface OrdenServicioFieldRefs {
   readonly zonaId: Prisma.FieldRef<"OrdenServicio", 'String'>
   readonly vehiculoId: Prisma.FieldRef<"OrdenServicio", 'String'>
   readonly metodoPagoId: Prisma.FieldRef<"OrdenServicio", 'String'>
+  readonly contratoClienteId: Prisma.FieldRef<"OrdenServicio", 'String'>
   readonly numeroOrden: Prisma.FieldRef<"OrdenServicio", 'String'>
   readonly fechaVisita: Prisma.FieldRef<"OrdenServicio", 'DateTime'>
   readonly horaInicio: Prisma.FieldRef<"OrdenServicio", 'DateTime'>
@@ -10543,6 +11114,25 @@ export type OrdenServicio$metodoPagoArgs<ExtArgs extends runtime.Types.Extension
    */
   include?: Prisma.MetodoPagoInclude<ExtArgs> | null
   where?: Prisma.MetodoPagoWhereInput
+}
+
+/**
+ * OrdenServicio.contratoCliente
+ */
+export type OrdenServicio$contratoClienteArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the ContratoCliente
+   */
+  select?: Prisma.ContratoClienteSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the ContratoCliente
+   */
+  omit?: Prisma.ContratoClienteOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ContratoClienteInclude<ExtArgs> | null
+  where?: Prisma.ContratoClienteWhereInput
 }
 
 /**

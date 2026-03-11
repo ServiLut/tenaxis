@@ -44,6 +44,7 @@ model Tenant {
   citasPsicologos           CitasPsicologos[]
   configuracionesOperativas ClienteConfiguracionOperativa[]
   clientes                  Cliente[]
+  contratosCliente          ContratoCliente[]
   commissions               CommissionRecord[]
   configuracionPagos        ConfiguracionPagos[]
   consignacionOrdenes       ConsignacionOrden[]
@@ -130,55 +131,55 @@ model Subscription {
 }
 
 model TenantMembership {
-  id                    String                 @id @default(uuid()) @db.Uuid
-  userId                String                 @db.Uuid
-  tenantId              String                 @db.Uuid
-  role                  Role
-  status                MembershipStatus       @default(ACTIVE)
-  createdAt             DateTime               @default(now())
-  updatedAt             DateTime               @updatedAt
-  activo                Boolean                @default(true)
-  aprobado              Boolean                @default(false)
-  codigoReferido        String?
-  moto                  Boolean?
-  numberId              String?
-  placa                 String?
-  pushToken             String?
-  username              String?
-  whatsappGroupId       String?
-  direccion             String?
-  municipioId           String?                @db.Uuid
-  anticipos             Anticipos[]
-  auditorias            Auditoria[]
-  citasComoCreador      CitasPsicologos[]      @relation("CitasCreadoPor")
-  citasComoPsicologo    CitasPsicologos[]      @relation("CitasPsicologo")
-  clientesCreados       Cliente[]
-  configuracionPagos    ConfiguracionPagos[]
-  consignacionesCreadas ConsignacionEfectivo[] @relation("ConsignacionCreador")
-  consignacionesTecnico ConsignacionEfectivo[] @relation("ConsignacionTecnico")
-  cuentasCobro          CuentaCobro[]
-  cuentasPago           CuentasPago[]
-  declaracionesEfectivo DeclaracionEfectivo[]
-  egresos               Egresos[]
-  empresaMemberships    EmpresaMembership[]
-  geolocalizaciones     Geolocalizacion[]
-  nominas               Nomina[]
-  serviciosCreados      OrdenServicio[]        @relation("ServiciosCreados")
-  serviciosLiquidados   OrdenServicio[]        @relation("ServiciosLiquidados")
-  serviciosAsignados    OrdenServicio[]        @relation("ServiciosAsignados")
-  paquetesAdquiridos    PaqueteAdquirido[]
-  permisosAprobados     Permiso[]              @relation("PermisosAprobados")
-  permisosSolicitados   Permiso[]              @relation("PermisosSolicitados")
-  productosSolicitados  ProductoSolicitado[]
-  referidos             Referidos[]
+  id                      String                     @id @default(uuid()) @db.Uuid
+  userId                  String                     @db.Uuid
+  tenantId                String                     @db.Uuid
+  role                    Role
+  status                  MembershipStatus           @default(ACTIVE)
+  createdAt               DateTime                   @default(now())
+  updatedAt               DateTime                   @updatedAt
+  activo                  Boolean                    @default(true)
+  aprobado                Boolean                    @default(false)
+  codigoReferido          String?
+  moto                    Boolean?
+  numberId                String?
+  placa                   String?
+  pushToken               String?
+  username                String?
+  whatsappGroupId         String?
+  direccion               String?
+  municipioId             String?                    @db.Uuid
+  anticipos               Anticipos[]
+  auditorias              Auditoria[]
+  citasComoCreador        CitasPsicologos[]          @relation("CitasCreadoPor")
+  citasComoPsicologo      CitasPsicologos[]          @relation("CitasPsicologo")
+  clientesCreados         Cliente[]
+  configuracionPagos      ConfiguracionPagos[]
+  consignacionesCreadas   ConsignacionEfectivo[]     @relation("ConsignacionCreador")
+  consignacionesTecnico   ConsignacionEfectivo[]     @relation("ConsignacionTecnico")
+  cuentasCobro            CuentaCobro[]
+  cuentasPago             CuentasPago[]
+  declaracionesEfectivo   DeclaracionEfectivo[]
+  egresos                 Egresos[]
+  empresaMemberships      EmpresaMembership[]
+  geolocalizaciones       Geolocalizacion[]
+  nominas                 Nomina[]
+  serviciosCreados        OrdenServicio[]            @relation("ServiciosCreados")
+  serviciosLiquidados     OrdenServicio[]            @relation("ServiciosLiquidados")
+  serviciosAsignados      OrdenServicio[]            @relation("ServiciosAsignados")
+  paquetesAdquiridos      PaqueteAdquirido[]
+  permisosAprobados       Permiso[]                  @relation("PermisosAprobados")
+  permisosSolicitados     Permiso[]                  @relation("PermisosSolicitados")
+  productosSolicitados    ProductoSolicitado[]
+  referidos               Referidos[]
   seguimientosCompletados OrdenServicioSeguimiento[] @relation("SeguimientosCompletados")
   seguimientosCreados     OrdenServicioSeguimiento[] @relation("SeguimientosCreados")
-  sesionesActividad     SesionActividad[]
-  municipio             Municipality?          @relation(fields: [municipioId], references: [id])
-  tenant                Tenant                 @relation(fields: [tenantId], references: [id], onDelete: Cascade)
-  user                  User                   @relation(fields: [userId], references: [id], onDelete: Cascade)
-  turnos                Turno[]
-  dashboardPresets      DashboardPreset[]
+  sesionesActividad       SesionActividad[]
+  municipio               Municipality?              @relation(fields: [municipioId], references: [id])
+  tenant                  Tenant                     @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  user                    User                       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  turnos                  Turno[]
+  dashboardPresets        DashboardPreset[]
 
   @@unique([userId, tenantId])
   @@index([tenantId])
@@ -187,18 +188,18 @@ model TenantMembership {
 }
 
 model DashboardPreset {
-  id                    String            @id @default(uuid()) @db.Uuid
-  tenantId              String            @db.Uuid @map("tenant_id")
-  createdByMembershipId String            @db.Uuid @map("created_by_membership_id")
+  id                    String                @id @default(uuid()) @db.Uuid
+  tenantId              String                @map("tenant_id") @db.Uuid
+  createdByMembershipId String                @map("created_by_membership_id") @db.Uuid
   module                DashboardPresetModule
   name                  String
-  colorToken            String            @map("color_token")
-  isShared              Boolean           @default(false) @map("is_shared")
+  colorToken            String                @map("color_token")
+  isShared              Boolean               @default(false) @map("is_shared")
   filters               Json
-  createdAt             DateTime          @default(now()) @map("created_at")
-  updatedAt             DateTime?          @updatedAt @map("updated_at")
-  tenant                Tenant            @relation(fields: [tenantId], references: [id], onDelete: Cascade)
-  createdByMembership   TenantMembership  @relation(fields: [createdByMembershipId], references: [id], onDelete: Cascade)
+  createdAt             DateTime              @default(now()) @map("created_at")
+  updatedAt             DateTime?             @updatedAt @map("updated_at")
+  tenant                Tenant                @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  createdByMembership   TenantMembership      @relation(fields: [createdByMembershipId], references: [id], onDelete: Cascade)
 
   @@index([tenantId, module])
   @@index([createdByMembershipId, module])
@@ -220,6 +221,7 @@ model Empresa {
   citasPsicologos           CitasPsicologos[]
   configuracionesOperativas ClienteConfiguracionOperativa[]
   clientes                  Cliente[]
+  contratosCliente          ContratoCliente[]
   commissions               CommissionRecord[]
   configuracionPagos        ConfiguracionPagos[]
   consignacionOrdenes       ConsignacionOrden[]
@@ -417,6 +419,7 @@ model Cliente {
   nivelRiesgo               NivelRiesgo                     @default(MEDIO)
   citasPsicologos           CitasPsicologos[]
   configuracionesOperativas ClienteConfiguracionOperativa[]
+  contratosCliente          ContratoCliente[]
   creadoPor                 TenantMembership?               @relation(fields: [creadoPorId], references: [id], onDelete: NoAction, onUpdate: NoAction)
   empresa                   Empresa?                        @relation(fields: [empresaId], references: [id])
   tenant                    Tenant                          @relation(fields: [tenantId], references: [id], onDelete: Cascade)
@@ -435,6 +438,33 @@ model Cliente {
   @@index([segmento])
   @@index([nivelRiesgo])
   @@map("clientes")
+}
+
+model ContratoCliente {
+  id                     String                @id @default(uuid()) @db.Uuid
+  tenantId               String                @db.Uuid
+  clienteId              String                @db.Uuid
+  empresaId              String                @db.Uuid
+  estado                 EstadoContratoCliente @default(ACTIVO)
+  fechaInicio            DateTime
+  fechaFin               DateTime?
+  serviciosComprometidos Int?
+  frecuenciaServicio     Int?
+  tipoFacturacion        TipoFacturacion
+  observaciones          String?
+  createdAt              DateTime              @default(now())
+  updatedAt              DateTime              @updatedAt
+  cliente                Cliente               @relation(fields: [clienteId], references: [id], onDelete: Cascade)
+  empresa                Empresa               @relation(fields: [empresaId], references: [id], onDelete: Cascade)
+  tenant                 Tenant                @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  ordenesServicio        OrdenServicio[]
+
+  @@index([tenantId])
+  @@index([clienteId])
+  @@index([empresaId])
+  @@index([tenantId, empresaId])
+  @@index([tenantId, clienteId, empresaId, estado])
+  @@map("contratos_cliente")
 }
 
 model Vehiculo {
@@ -527,21 +557,21 @@ model Zona {
 }
 
 model Servicio {
-  id                    String            @id @default(uuid()) @db.Uuid
-  tenantId              String            @db.Uuid
-  empresaId             String            @db.Uuid
-  nombre                String
-  activo                Boolean           @default(true)
-  deleteAt              DateTime?
-  requiereSeguimiento   Boolean           @default(false)
-  primerSeguimientoDias Int?
-  requiereSeguimientoTresMeses Boolean    @default(true)
-  createdAt             DateTime          @default(now())
-  citasComoServicio     CitasPsicologos[] @relation("CitasServicio")
-  citasComoTipoServicio CitasPsicologos[] @relation("CitasTipoServicio")
-  ordenes               OrdenServicio[]
-  empresa               Empresa           @relation(fields: [empresaId], references: [id])
-  tenant                Tenant            @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  id                           String            @id @default(uuid()) @db.Uuid
+  tenantId                     String            @db.Uuid
+  empresaId                    String            @db.Uuid
+  nombre                       String
+  activo                       Boolean           @default(true)
+  deleteAt                     DateTime?
+  requiereSeguimiento          Boolean           @default(false)
+  primerSeguimientoDias        Int?
+  requiereSeguimientoTresMeses Boolean           @default(true)
+  createdAt                    DateTime          @default(now())
+  citasComoServicio            CitasPsicologos[] @relation("CitasServicio")
+  citasComoTipoServicio        CitasPsicologos[] @relation("CitasTipoServicio")
+  ordenes                      OrdenServicio[]
+  empresa                      Empresa           @relation(fields: [empresaId], references: [id])
+  tenant                       Tenant            @relation(fields: [tenantId], references: [id], onDelete: Cascade)
 
   @@index([tenantId])
   @@index([empresaId])
@@ -596,14 +626,14 @@ model EstadoServicio {
 }
 
 model OrdenServicio {
-  id                    String               @id @default(uuid()) @db.Uuid
-  tenantId              String               @db.Uuid
-  empresaId             String               @db.Uuid
-  clienteId             String               @db.Uuid
-  servicioId            String               @db.Uuid
-  creadoPorId           String?              @db.Uuid
-  tecnicoId             String?              @db.Uuid
-  direccionId           String?              @db.Uuid
+  id                    String                     @id @default(uuid()) @db.Uuid
+  tenantId              String                     @db.Uuid
+  empresaId             String                     @db.Uuid
+  clienteId             String                     @db.Uuid
+  servicioId            String                     @db.Uuid
+  creadoPorId           String?                    @db.Uuid
+  tecnicoId             String?                    @db.Uuid
+  direccionId           String?                    @db.Uuid
   direccionTexto        String
   piso                  String?
   bloque                String?
@@ -612,9 +642,10 @@ model OrdenServicio {
   municipio             String?
   departamento          String?
   linkMaps              String?
-  zonaId                String?              @db.Uuid
-  vehiculoId            String?              @db.Uuid
-  metodoPagoId          String?              @db.Uuid
+  zonaId                String?                    @db.Uuid
+  vehiculoId            String?                    @db.Uuid
+  metodoPagoId          String?                    @db.Uuid
+  contratoClienteId     String?                    @db.Uuid
   numeroOrden           String?
   fechaVisita           DateTime?
   horaInicio            DateTime?
@@ -623,10 +654,10 @@ model OrdenServicio {
   observacionFinal      String?
   condicionesHigiene    String?
   condicionesLocal      String?
-  valorCotizado         Decimal?             @db.Decimal(12, 2)
-  valorPagado           Decimal?             @db.Decimal(12, 2)
-  valorRepuestos        Decimal?             @default(0) @db.Decimal(12, 2)
-  valorRepuestosTecnico Decimal?             @default(0) @db.Decimal(12, 2)
+  valorCotizado         Decimal?                   @db.Decimal(12, 2)
+  valorPagado           Decimal?                   @db.Decimal(12, 2)
+  valorRepuestos        Decimal?                   @default(0) @db.Decimal(12, 2)
+  valorRepuestosTecnico Decimal?                   @default(0) @db.Decimal(12, 2)
   facturaPath           String?
   facturaElectronica    String?
   comprobantePago       String?
@@ -634,40 +665,41 @@ model OrdenServicio {
   desglosePago          Json?
   referenciaPago        String?
   fechaPago             DateTime?
-  entidadFinancieraId   String?              @db.Uuid
-  estadoPago            EstadoPagoOrden      @default(PENDIENTE)
-  seguimientoRevisado   Boolean?             @default(false)
-  liquidadoPorId        String?              @db.Uuid
+  entidadFinancieraId   String?                    @db.Uuid
+  estadoPago            EstadoPagoOrden            @default(PENDIENTE)
+  seguimientoRevisado   Boolean?                   @default(false)
+  liquidadoPorId        String?                    @db.Uuid
   liquidadoAt           DateTime?
-  ordenPadreId          String?              @db.Uuid
-  createdAt             DateTime             @default(now())
-  updatedAt             DateTime             @updatedAt
+  ordenPadreId          String?                    @db.Uuid
+  createdAt             DateTime                   @default(now())
+  updatedAt             DateTime                   @updatedAt
   frecuenciaSugerida    Int?
   tipoFacturacion       TipoFacturacion?
   tipoVisita            TipoVisita?
   nivelInfestacion      NivelInfestacion?
   urgencia              UrgenciaOrden?
-  estadoServicio        EstadoOrden          @default(NUEVO)
+  estadoServicio        EstadoOrden                @default(NUEVO)
   consignacionOrden     ConsignacionOrden?
   declaracionEfectivo   DeclaracionEfectivo?
   evidencias            EvidenciaServicio[]
   geolocalizaciones     Geolocalizacion[]
   nominaDetalles        NominaDetalle[]
   seguimientos          OrdenServicioSeguimiento[]
-  cliente               Cliente              @relation(fields: [clienteId], references: [id])
-  creadoPor             TenantMembership?    @relation("ServiciosCreados", fields: [creadoPorId], references: [id])
-  direccion             Direccion?           @relation(fields: [direccionId], references: [id])
-  empresa               Empresa              @relation(fields: [empresaId], references: [id])
-  entidadFinanciera     EntidadFinanciera?   @relation(fields: [entidadFinancieraId], references: [id])
-  liquidadoPor          TenantMembership?    @relation("ServiciosLiquidados", fields: [liquidadoPorId], references: [id])
-  metodoPago            MetodoPago?          @relation(fields: [metodoPagoId], references: [id])
-  ordenPadre            OrdenServicio?       @relation("OrdenRefuerzo", fields: [ordenPadreId], references: [id])
-  ordenesHijas          OrdenServicio[]      @relation("OrdenRefuerzo")
-  servicio              Servicio             @relation(fields: [servicioId], references: [id])
-  tecnico               TenantMembership?    @relation("ServiciosAsignados", fields: [tecnicoId], references: [id])
-  tenant                Tenant               @relation(fields: [tenantId], references: [id], onDelete: Cascade)
-  vehiculo              Vehiculo?            @relation(fields: [vehiculoId], references: [id])
-  zona                  Zona?                @relation(fields: [zonaId], references: [id])
+  cliente               Cliente                    @relation(fields: [clienteId], references: [id])
+  creadoPor             TenantMembership?          @relation("ServiciosCreados", fields: [creadoPorId], references: [id])
+  direccion             Direccion?                 @relation(fields: [direccionId], references: [id])
+  empresa               Empresa                    @relation(fields: [empresaId], references: [id])
+  entidadFinanciera     EntidadFinanciera?         @relation(fields: [entidadFinancieraId], references: [id])
+  liquidadoPor          TenantMembership?          @relation("ServiciosLiquidados", fields: [liquidadoPorId], references: [id])
+  metodoPago            MetodoPago?                @relation(fields: [metodoPagoId], references: [id])
+  contratoCliente       ContratoCliente?           @relation(fields: [contratoClienteId], references: [id])
+  ordenPadre            OrdenServicio?             @relation("OrdenRefuerzo", fields: [ordenPadreId], references: [id])
+  ordenesHijas          OrdenServicio[]            @relation("OrdenRefuerzo")
+  servicio              Servicio                   @relation(fields: [servicioId], references: [id])
+  tecnico               TenantMembership?          @relation("ServiciosAsignados", fields: [tecnicoId], references: [id])
+  tenant                Tenant                     @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  vehiculo              Vehiculo?                  @relation(fields: [vehiculoId], references: [id])
+  zona                  Zona?                      @relation(fields: [zonaId], references: [id])
 
   @@index([tenantId])
   @@index([empresaId])
@@ -675,6 +707,7 @@ model OrdenServicio {
   @@index([clienteId])
   @@index([tecnicoId])
   @@index([entidadFinancieraId])
+  @@index([contratoClienteId])
   @@index([estadoServicio])
   @@index([numeroOrden])
   @@index([fechaVisita])
@@ -1553,6 +1586,13 @@ enum TipoFacturacion {
   PLAN_TRIMESTRAL
   PLAN_SEMESTRAL
   PLAN_ANUAL
+}
+
+enum EstadoContratoCliente {
+  ACTIVO
+  PAUSADO
+  VENCIDO
+  CANCELADO
 }
 
 enum EstadoConsignacion {

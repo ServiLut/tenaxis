@@ -222,13 +222,24 @@ export class OrdenesServicioController {
   }
 
   @Post('notifications/liquidation')
-  notifyLiquidation(@Body() dto: NotifyLiquidationDto) {
-    return this.ordenesServicioService.notifyLiquidationWebhook(dto);
+  notifyLiquidation(
+    @Req() req: RequestWithUser,
+    @Body() dto: NotifyLiquidationDto,
+  ) {
+    const tenantId = req.user.tenantId;
+    if (!tenantId) {
+      throw new UnauthorizedException('Tenant ID not found in token');
+    }
+    return this.ordenesServicioService.notifyLiquidationWebhook(tenantId, dto);
   }
 
   @Post('notifications/operator')
-  notifyOperator(@Body() dto: NotifyOperatorDto) {
-    return this.ordenesServicioService.notifyOperatorWebhook(dto);
+  notifyOperator(@Req() req: RequestWithUser, @Body() dto: NotifyOperatorDto) {
+    const tenantId = req.user.tenantId;
+    if (!tenantId) {
+      throw new UnauthorizedException('Tenant ID not found in token');
+    }
+    return this.ordenesServicioService.notifyOperatorWebhook(tenantId, dto);
   }
 
   @Get(':id')

@@ -398,6 +398,7 @@ export const ModelName = {
   Department: 'Department',
   Municipality: 'Municipality',
   Cliente: 'Cliente',
+  ContratoCliente: 'ContratoCliente',
   Vehiculo: 'Vehiculo',
   Direccion: 'Direccion',
   Zona: 'Zona',
@@ -453,7 +454,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "user" | "tenant" | "plan" | "subscription" | "tenantMembership" | "dashboardPreset" | "empresa" | "empresaMembership" | "organizationNode" | "commissionRecord" | "tipoInteres" | "department" | "municipality" | "cliente" | "vehiculo" | "direccion" | "zona" | "servicio" | "tipoServicio" | "metodoPago" | "estadoServicio" | "ordenServicio" | "ordenServicioSeguimiento" | "entidadFinanciera" | "geolocalizacion" | "nomina" | "nominaDetalle" | "citasPsicologos" | "consultorio" | "terapiasPsicologos" | "paqueteAdquirido" | "turno" | "cuentaCobro" | "declaracionEfectivo" | "consignacionEfectivo" | "consignacionOrden" | "anticipos" | "producto" | "productoSolicitado" | "proveedores" | "permiso" | "configuracionPagos" | "cuentasPago" | "egresos" | "picoPlaca" | "referidos" | "auditoria" | "sesionActividad" | "logEvento" | "authSession" | "passwordResetToken" | "clienteConfiguracionOperativa" | "evidenciaServicio" | "sugerenciaSeguimiento"
+    modelProps: "user" | "tenant" | "plan" | "subscription" | "tenantMembership" | "dashboardPreset" | "empresa" | "empresaMembership" | "organizationNode" | "commissionRecord" | "tipoInteres" | "department" | "municipality" | "cliente" | "contratoCliente" | "vehiculo" | "direccion" | "zona" | "servicio" | "tipoServicio" | "metodoPago" | "estadoServicio" | "ordenServicio" | "ordenServicioSeguimiento" | "entidadFinanciera" | "geolocalizacion" | "nomina" | "nominaDetalle" | "citasPsicologos" | "consultorio" | "terapiasPsicologos" | "paqueteAdquirido" | "turno" | "cuentaCobro" | "declaracionEfectivo" | "consignacionEfectivo" | "consignacionOrden" | "anticipos" | "producto" | "productoSolicitado" | "proveedores" | "permiso" | "configuracionPagos" | "cuentasPago" | "egresos" | "picoPlaca" | "referidos" | "auditoria" | "sesionActividad" | "logEvento" | "authSession" | "passwordResetToken" | "clienteConfiguracionOperativa" | "evidenciaServicio" | "sugerenciaSeguimiento"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -1490,6 +1491,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         count: {
           args: Prisma.ClienteCountArgs<ExtArgs>
           result: runtime.Types.Utils.Optional<Prisma.ClienteCountAggregateOutputType> | number
+        }
+      }
+    }
+    ContratoCliente: {
+      payload: Prisma.$ContratoClientePayload<ExtArgs>
+      fields: Prisma.ContratoClienteFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.ContratoClienteFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ContratoClientePayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.ContratoClienteFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ContratoClientePayload>
+        }
+        findFirst: {
+          args: Prisma.ContratoClienteFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ContratoClientePayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.ContratoClienteFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ContratoClientePayload>
+        }
+        findMany: {
+          args: Prisma.ContratoClienteFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ContratoClientePayload>[]
+        }
+        create: {
+          args: Prisma.ContratoClienteCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ContratoClientePayload>
+        }
+        createMany: {
+          args: Prisma.ContratoClienteCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.ContratoClienteCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ContratoClientePayload>[]
+        }
+        delete: {
+          args: Prisma.ContratoClienteDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ContratoClientePayload>
+        }
+        update: {
+          args: Prisma.ContratoClienteUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ContratoClientePayload>
+        }
+        deleteMany: {
+          args: Prisma.ContratoClienteDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.ContratoClienteUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.ContratoClienteUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ContratoClientePayload>[]
+        }
+        upsert: {
+          args: Prisma.ContratoClienteUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ContratoClientePayload>
+        }
+        aggregate: {
+          args: Prisma.ContratoClienteAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateContratoCliente>
+        }
+        groupBy: {
+          args: Prisma.ContratoClienteGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.ContratoClienteGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.ContratoClienteCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.ContratoClienteCountAggregateOutputType> | number
         }
       }
     }
@@ -4740,6 +4815,25 @@ export const ClienteScalarFieldEnum = {
 export type ClienteScalarFieldEnum = (typeof ClienteScalarFieldEnum)[keyof typeof ClienteScalarFieldEnum]
 
 
+export const ContratoClienteScalarFieldEnum = {
+  id: 'id',
+  tenantId: 'tenantId',
+  clienteId: 'clienteId',
+  empresaId: 'empresaId',
+  estado: 'estado',
+  fechaInicio: 'fechaInicio',
+  fechaFin: 'fechaFin',
+  serviciosComprometidos: 'serviciosComprometidos',
+  frecuenciaServicio: 'frecuenciaServicio',
+  tipoFacturacion: 'tipoFacturacion',
+  observaciones: 'observaciones',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type ContratoClienteScalarFieldEnum = (typeof ContratoClienteScalarFieldEnum)[keyof typeof ContratoClienteScalarFieldEnum]
+
+
 export const VehiculoScalarFieldEnum = {
   id: 'id',
   tenantId: 'tenantId',
@@ -4879,6 +4973,7 @@ export const OrdenServicioScalarFieldEnum = {
   zonaId: 'zonaId',
   vehiculoId: 'vehiculoId',
   metodoPagoId: 'metodoPagoId',
+  contratoClienteId: 'contratoClienteId',
   numeroOrden: 'numeroOrden',
   fechaVisita: 'fechaVisita',
   horaInicio: 'horaInicio',
@@ -5706,6 +5801,34 @@ export type ListEnumNivelRiesgoFieldRefInput<$PrismaModel> = FieldRefInputType<$
 
 
 /**
+ * Reference to a field of type 'EstadoContratoCliente'
+ */
+export type EnumEstadoContratoClienteFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'EstadoContratoCliente'>
+    
+
+
+/**
+ * Reference to a field of type 'EstadoContratoCliente[]'
+ */
+export type ListEnumEstadoContratoClienteFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'EstadoContratoCliente[]'>
+    
+
+
+/**
+ * Reference to a field of type 'TipoFacturacion'
+ */
+export type EnumTipoFacturacionFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'TipoFacturacion'>
+    
+
+
+/**
+ * Reference to a field of type 'TipoFacturacion[]'
+ */
+export type ListEnumTipoFacturacionFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'TipoFacturacion[]'>
+    
+
+
+/**
  * Reference to a field of type 'Float'
  */
 export type FloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float'>
@@ -5730,20 +5853,6 @@ export type EnumEstadoPagoOrdenFieldRefInput<$PrismaModel> = FieldRefInputType<$
  * Reference to a field of type 'EstadoPagoOrden[]'
  */
 export type ListEnumEstadoPagoOrdenFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'EstadoPagoOrden[]'>
-    
-
-
-/**
- * Reference to a field of type 'TipoFacturacion'
- */
-export type EnumTipoFacturacionFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'TipoFacturacion'>
-    
-
-
-/**
- * Reference to a field of type 'TipoFacturacion[]'
- */
-export type ListEnumTipoFacturacionFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'TipoFacturacion[]'>
     
 
 
@@ -6065,6 +6174,7 @@ export type GlobalOmitConfig = {
   department?: Prisma.DepartmentOmit
   municipality?: Prisma.MunicipalityOmit
   cliente?: Prisma.ClienteOmit
+  contratoCliente?: Prisma.ContratoClienteOmit
   vehiculo?: Prisma.VehiculoOmit
   direccion?: Prisma.DireccionOmit
   zona?: Prisma.ZonaOmit

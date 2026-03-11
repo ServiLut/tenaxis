@@ -65,6 +65,7 @@ export const ModelName = {
   Department: 'Department',
   Municipality: 'Municipality',
   Cliente: 'Cliente',
+  ContratoCliente: 'ContratoCliente',
   Vehiculo: 'Vehiculo',
   Direccion: 'Direccion',
   Zona: 'Zona',
@@ -371,6 +372,25 @@ export const ClienteScalarFieldEnum = {
 export type ClienteScalarFieldEnum = (typeof ClienteScalarFieldEnum)[keyof typeof ClienteScalarFieldEnum]
 
 
+export const ContratoClienteScalarFieldEnum = {
+  id: 'id',
+  tenantId: 'tenantId',
+  clienteId: 'clienteId',
+  empresaId: 'empresaId',
+  estado: 'estado',
+  fechaInicio: 'fechaInicio',
+  fechaFin: 'fechaFin',
+  serviciosComprometidos: 'serviciosComprometidos',
+  frecuenciaServicio: 'frecuenciaServicio',
+  tipoFacturacion: 'tipoFacturacion',
+  observaciones: 'observaciones',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type ContratoClienteScalarFieldEnum = (typeof ContratoClienteScalarFieldEnum)[keyof typeof ContratoClienteScalarFieldEnum]
+
+
 export const VehiculoScalarFieldEnum = {
   id: 'id',
   tenantId: 'tenantId',
@@ -510,6 +530,7 @@ export const OrdenServicioScalarFieldEnum = {
   zonaId: 'zonaId',
   vehiculoId: 'vehiculoId',
   metodoPagoId: 'metodoPagoId',
+  contratoClienteId: 'contratoClienteId',
   numeroOrden: 'numeroOrden',
   fechaVisita: 'fechaVisita',
   horaInicio: 'horaInicio',

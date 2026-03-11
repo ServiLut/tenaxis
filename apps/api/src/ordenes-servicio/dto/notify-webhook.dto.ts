@@ -16,6 +16,10 @@ export class NotifyLiquidationDto {
   @IsString()
   @IsNotEmpty()
   servicio: string;
+
+  @IsString()
+  @IsNotEmpty()
+  idServicio: string;
 }
 
 export class NotifyOperatorDto {

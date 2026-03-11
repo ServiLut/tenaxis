@@ -108,6 +108,11 @@ export type Municipality = Prisma.MunicipalityModel
  */
 export type Cliente = Prisma.ClienteModel
 /**
+ * Model ContratoCliente
+ * 
+ */
+export type ContratoCliente = Prisma.ContratoClienteModel
+/**
  * Model Vehiculo
  * 
  */

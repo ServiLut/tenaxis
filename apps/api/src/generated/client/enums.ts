@@ -187,6 +187,16 @@ export const TipoFacturacion = {
 export type TipoFacturacion = (typeof TipoFacturacion)[keyof typeof TipoFacturacion]
 
 
+export const EstadoContratoCliente = {
+  ACTIVO: 'ACTIVO',
+  PAUSADO: 'PAUSADO',
+  VENCIDO: 'VENCIDO',
+  CANCELADO: 'CANCELADO'
+} as const
+
+export type EstadoContratoCliente = (typeof EstadoContratoCliente)[keyof typeof EstadoContratoCliente]
+
+
 export const EstadoConsignacion = {
   PENDIENTE: 'PENDIENTE',
   VALIDADA: 'VALIDADA',

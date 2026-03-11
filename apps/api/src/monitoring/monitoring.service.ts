@@ -323,20 +323,26 @@ export class MonitoringService {
       const accion = audit.accion.toUpperCase();
 
       // Count by action
-      if (accion.includes('CREATE') || accion.includes('CREAR')) {
+      if (
+        accion.includes('CREATE') ||
+        accion.includes('CREAR') ||
+        accion.includes('CREA')
+      ) {
         metrics.week.created++;
         if (isToday) metrics.today.created++;
       } else if (
         accion.includes('UPDATE') ||
         accion.includes('ACTUALIZAR') ||
-        accion.includes('EDIT')
+        accion.includes('EDIT') ||
+        accion.includes('ACTUA')
       ) {
         metrics.week.updated++;
         if (isToday) metrics.today.updated++;
       } else if (
         accion.includes('DELETE') ||
         accion.includes('ELIMINAR') ||
-        accion.includes('BORRAR')
+        accion.includes('BORRAR') ||
+        accion.includes('ELIMIN')
       ) {
         metrics.week.deleted++;
         if (isToday) metrics.today.deleted++;

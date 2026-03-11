@@ -6,6 +6,7 @@ import {
 } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 import { SupabaseService } from '../supabase/supabase.service';
+import { ContratosClienteService } from '../contratos-cliente/contratos-cliente.service';
 import { CreateOrdenServicioDto } from './dto/create-orden-servicio.dto';
 import { CompleteFollowUpDto } from './dto/complete-follow-up.dto';
 import { CreateFollowUpOverrideDto } from './dto/create-follow-up-override.dto';
@@ -120,6 +121,7 @@ export class OrdenesServicioService {
   constructor(
     private prisma: PrismaService,
     private supabase: SupabaseService,
+    private contratosClienteService: ContratosClienteService,
   ) {}
 
   async create(
@@ -252,6 +254,17 @@ export class OrdenesServicioService {
       valorPagado = totals.valorPagado;
     }
 
+    const contratoActivo =
+      await this.contratosClienteService.getActiveByCliente(
+        tenantId,
+        createDto.clienteId,
+        createDto.empresaId,
+      );
+    const tipoFacturacionResuelta =
+      contratoActivo?.tipoFacturacion ||
+      createDto.tipoFacturacion ||
+      TipoFacturacion.UNICO;
+
     const nuevaOrden = await this.prisma.ordenServicio.create({
       data: {
         tenantId,
@@ -268,7 +281,8 @@ export class OrdenesServicioService {
         urgencia: createDto.urgencia,
         tipoVisita: createDto.tipoVisita,
         frecuenciaSugerida: createDto.frecuenciaSugerida,
-        tipoFacturacion: createDto.tipoFacturacion,
+        tipoFacturacion: tipoFacturacionResuelta,
+        contratoClienteId: contratoActivo?.id,
         valorCotizado: createDto.valorCotizado,
         valorPagado,
         metodoPagoId: createDto.metodoPagoId,
@@ -1192,7 +1206,29 @@ export class OrdenesServicioService {
     return this.processSignedUrls(updated as OrdenWithGeolocalizaciones);
   }
 
-  async notifyLiquidationWebhook(dto: NotifyLiquidationDto) {
+  async notifyLiquidationWebhook(tenantId: string, dto: NotifyLiquidationDto) {
+    // Validate that the order exists and belongs to the tenant
+    const orden = await this.prisma.ordenServicio.findUnique({
+      where: { id: dto.idServicio, tenantId },
+      include: { cliente: true },
+    });
+
+    if (!orden) {
+      throw new ForbiddenException(
+        'Servicio no encontrado o no pertenece al tenant',
+      );
+    }
+
+    // Validate that the phone number matches the stored client data
+    if (orden.cliente.telefono !== dto.telefono) {
+      this.logger.warn(
+        `Security alert: Phone number mismatch in liquidation notification for service ${dto.idServicio}. Expected ${orden.cliente.telefono}, got ${dto.telefono}`,
+      );
+      throw new ForbiddenException(
+        'El teléfono no coincide con el cliente del servicio',
+      );
+    }
+
     const webhookUrl = process.env.N8N_LIQUIDADO_WEBHOOK_URL;
     if (!webhookUrl) {
       this.logger.error('Webhook URL N8N_LIQUIDADO_WEBHOOK_URL not found');
@@ -1227,7 +1263,32 @@ export class OrdenesServicioService {
     }
   }
 
-  async notifyOperatorWebhook(dto: NotifyOperatorDto) {
+  async notifyOperatorWebhook(tenantId: string, dto: NotifyOperatorDto) {
+    // Validate that the order exists and belongs to the tenant
+    const orden = await this.prisma.ordenServicio.findUnique({
+      where: { id: dto.idServicio, tenantId },
+      include: { tecnico: { include: { user: true } } },
+    });
+
+    if (!orden) {
+      throw new ForbiddenException(
+        'Servicio no encontrado o no pertenece al tenant',
+      );
+    }
+
+    // Validate that the phone number matches the stored technical data (if assigned)
+    if (
+      orden.tecnico?.user?.telefono &&
+      orden.tecnico.user.telefono !== dto.telefonoOperador
+    ) {
+      this.logger.warn(
+        `Security alert: Phone number mismatch in operator notification for service ${dto.idServicio}. Expected ${orden.tecnico.user.telefono}, got ${dto.telefonoOperador}`,
+      );
+      throw new ForbiddenException(
+        'El teléfono no coincide con el técnico asignado al servicio',
+      );
+    }
+
     const webhookUrl = process.env.N8N_NOTIFICAR_SERVICIO;
     if (!webhookUrl) {
       this.logger.error('Webhook URL N8N_NOTIFICAR_SERVICIO not found');
@@ -1353,6 +1414,18 @@ export class OrdenesServicioService {
       throw new BadRequestException('fechaPago inválida');
     }
 
+    const contratoActivo =
+      await this.contratosClienteService.getActiveByCliente(
+        tenantId,
+        orden.clienteId,
+        orden.empresaId,
+      );
+    const tipoFacturacionResuelta =
+      contratoActivo?.tipoFacturacion ||
+      updateDto.tipoFacturacion ||
+      orden.tipoFacturacion ||
+      TipoFacturacion.UNICO;
+
     const data: Prisma.OrdenServicioUpdateInput = {
       tecnico: updateDto.tecnicoId
         ? { connect: { id: updateDto.tecnicoId } }
@@ -1362,7 +1435,10 @@ export class OrdenesServicioService {
       urgencia: updateDto.urgencia ?? undefined,
       tipoVisita: updateDto.tipoVisita ?? undefined,
       frecuenciaSugerida: updateDto.frecuenciaSugerida ?? undefined,
-      tipoFacturacion: updateDto.tipoFacturacion ?? undefined,
+      tipoFacturacion: tipoFacturacionResuelta,
+      contratoCliente: contratoActivo
+        ? { connect: { id: contratoActivo.id } }
+        : { disconnect: true },
       valorCotizado: updateDto.valorCotizado ?? undefined,
       metodoPago: updateDto.metodoPagoId
         ? { connect: { id: updateDto.metodoPagoId } }

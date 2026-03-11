@@ -19,6 +19,7 @@ import { ContabilidadModule } from './contabilidad/contabilidad.module';
 import { MonitoringModule } from './monitoring/monitoring.module';
 import { DashboardModule } from './dashboard/dashboard.module';
 import { DashboardPresetsModule } from './dashboard-presets/dashboard-presets.module';
+import { ContratosClienteModule } from './contratos-cliente/contratos-cliente.module';
 
 @Module({
   imports: [
@@ -37,6 +38,7 @@ import { DashboardPresetsModule } from './dashboard-presets/dashboard-presets.mo
     MonitoringModule,
     DashboardModule,
     DashboardPresetsModule,
+    ContratosClienteModule,
   ],
   controllers: [AppController],
   providers: [

@@ -544,6 +544,40 @@ export type EnumNivelRiesgoWithAggregatesFilter<$PrismaModel = never> = {
   _max?: Prisma.NestedEnumNivelRiesgoFilter<$PrismaModel>
 }
 
+export type EnumEstadoContratoClienteFilter<$PrismaModel = never> = {
+  equals?: $Enums.EstadoContratoCliente | Prisma.EnumEstadoContratoClienteFieldRefInput<$PrismaModel>
+  in?: $Enums.EstadoContratoCliente[] | Prisma.ListEnumEstadoContratoClienteFieldRefInput<$PrismaModel>
+  notIn?: $Enums.EstadoContratoCliente[] | Prisma.ListEnumEstadoContratoClienteFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumEstadoContratoClienteFilter<$PrismaModel> | $Enums.EstadoContratoCliente
+}
+
+export type EnumTipoFacturacionFilter<$PrismaModel = never> = {
+  equals?: $Enums.TipoFacturacion | Prisma.EnumTipoFacturacionFieldRefInput<$PrismaModel>
+  in?: $Enums.TipoFacturacion[] | Prisma.ListEnumTipoFacturacionFieldRefInput<$PrismaModel>
+  notIn?: $Enums.TipoFacturacion[] | Prisma.ListEnumTipoFacturacionFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumTipoFacturacionFilter<$PrismaModel> | $Enums.TipoFacturacion
+}
+
+export type EnumEstadoContratoClienteWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.EstadoContratoCliente | Prisma.EnumEstadoContratoClienteFieldRefInput<$PrismaModel>
+  in?: $Enums.EstadoContratoCliente[] | Prisma.ListEnumEstadoContratoClienteFieldRefInput<$PrismaModel>
+  notIn?: $Enums.EstadoContratoCliente[] | Prisma.ListEnumEstadoContratoClienteFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumEstadoContratoClienteWithAggregatesFilter<$PrismaModel> | $Enums.EstadoContratoCliente
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumEstadoContratoClienteFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumEstadoContratoClienteFilter<$PrismaModel>
+}
+
+export type EnumTipoFacturacionWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.TipoFacturacion | Prisma.EnumTipoFacturacionFieldRefInput<$PrismaModel>
+  in?: $Enums.TipoFacturacion[] | Prisma.ListEnumTipoFacturacionFieldRefInput<$PrismaModel>
+  notIn?: $Enums.TipoFacturacion[] | Prisma.ListEnumTipoFacturacionFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumTipoFacturacionWithAggregatesFilter<$PrismaModel> | $Enums.TipoFacturacion
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumTipoFacturacionFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumTipoFacturacionFilter<$PrismaModel>
+}
+
 export type FloatNullableFilter<$PrismaModel = never> = {
   equals?: number | Prisma.FloatFieldRefInput<$PrismaModel> | null
   in?: number[] | Prisma.ListFloatFieldRefInput<$PrismaModel> | null
@@ -1438,6 +1472,40 @@ export type NestedEnumNivelRiesgoWithAggregatesFilter<$PrismaModel = never> = {
   _count?: Prisma.NestedIntFilter<$PrismaModel>
   _min?: Prisma.NestedEnumNivelRiesgoFilter<$PrismaModel>
   _max?: Prisma.NestedEnumNivelRiesgoFilter<$PrismaModel>
+}
+
+export type NestedEnumEstadoContratoClienteFilter<$PrismaModel = never> = {
+  equals?: $Enums.EstadoContratoCliente | Prisma.EnumEstadoContratoClienteFieldRefInput<$PrismaModel>
+  in?: $Enums.EstadoContratoCliente[] | Prisma.ListEnumEstadoContratoClienteFieldRefInput<$PrismaModel>
+  notIn?: $Enums.EstadoContratoCliente[] | Prisma.ListEnumEstadoContratoClienteFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumEstadoContratoClienteFilter<$PrismaModel> | $Enums.EstadoContratoCliente
+}
+
+export type NestedEnumTipoFacturacionFilter<$PrismaModel = never> = {
+  equals?: $Enums.TipoFacturacion | Prisma.EnumTipoFacturacionFieldRefInput<$PrismaModel>
+  in?: $Enums.TipoFacturacion[] | Prisma.ListEnumTipoFacturacionFieldRefInput<$PrismaModel>
+  notIn?: $Enums.TipoFacturacion[] | Prisma.ListEnumTipoFacturacionFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumTipoFacturacionFilter<$PrismaModel> | $Enums.TipoFacturacion
+}
+
+export type NestedEnumEstadoContratoClienteWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.EstadoContratoCliente | Prisma.EnumEstadoContratoClienteFieldRefInput<$PrismaModel>
+  in?: $Enums.EstadoContratoCliente[] | Prisma.ListEnumEstadoContratoClienteFieldRefInput<$PrismaModel>
+  notIn?: $Enums.EstadoContratoCliente[] | Prisma.ListEnumEstadoContratoClienteFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumEstadoContratoClienteWithAggregatesFilter<$PrismaModel> | $Enums.EstadoContratoCliente
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumEstadoContratoClienteFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumEstadoContratoClienteFilter<$PrismaModel>
+}
+
+export type NestedEnumTipoFacturacionWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.TipoFacturacion | Prisma.EnumTipoFacturacionFieldRefInput<$PrismaModel>
+  in?: $Enums.TipoFacturacion[] | Prisma.ListEnumTipoFacturacionFieldRefInput<$PrismaModel>
+  notIn?: $Enums.TipoFacturacion[] | Prisma.ListEnumTipoFacturacionFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumTipoFacturacionWithAggregatesFilter<$PrismaModel> | $Enums.TipoFacturacion
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumTipoFacturacionFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumTipoFacturacionFilter<$PrismaModel>
 }
 
 export type NestedFloatNullableWithAggregatesFilter<$PrismaModel = never> = {
