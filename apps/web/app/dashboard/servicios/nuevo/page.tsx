@@ -6,6 +6,7 @@ import Link from "next/link";
 import { toast } from "sonner";
 import {
   getClientesAction,
+  getContratoClienteActivoAction,
   getMetodosPagoAction,
   getEnterprisesAction,
   getOperatorsAction,
@@ -17,6 +18,7 @@ import {
   getDepartmentsAction,
   getMunicipalitiesAction,
 } from "../../actions";
+import { type ContratoCliente } from "@/lib/api/clientes-client";
 import {
   completeFollowUp,
   createOrdenServicio,
@@ -186,6 +188,19 @@ interface Servicio {
   nombre: string;
 }
 
+const formatContractDate = (value?: string | null) => {
+  if (!value) return "Sin fecha definida";
+  const date = new Date(value);
+  if (Number.isNaN(date.getTime())) {
+    return value;
+  }
+
+  return new Intl.DateTimeFormat("es-CO", {
+    dateStyle: "medium",
+    timeZone: "UTC",
+  }).format(date);
+};
+
 function NuevoServicioContent() {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
@@ -247,6 +262,8 @@ function NuevoServicioContent() {
     { metodo: "EFECTIVO", monto: "" }
   ]);
   const [tipoFacturacion, setTipoFacturacion] = useState("");
+  const [contratoActivo, setContratoActivo] = useState<ContratoCliente | null>(null);
+  const [loadingContrato, setLoadingContrato] = useState(false);
   const [estadoServicio, setEstadoServicio] = useState("NUEVO");
 
   const [membershipId, setMembershipId] = useState<string | null>(null);
@@ -302,6 +319,37 @@ function NuevoServicioContent() {
     syncToUrl();
   }, [syncToUrl]);
   // --- END URL PERSISTENCE LOGIC ---
+
+  const empresaSeleccionadaNombre =
+    empresas.find((empresa) => empresa.id === selectedEmpresa)?.nombre ||
+    selectedEmpresa;
+
+  const resumenContratoActivo = contratoActivo
+    ? [
+        {
+          label: "Empresa vinculada",
+          value: empresaSeleccionadaNombre || "Sin empresa",
+        },
+        {
+          label: "Vigencia",
+          value: contratoActivo.fechaFin
+            ? `${formatContractDate(contratoActivo.fechaInicio)} - ${formatContractDate(contratoActivo.fechaFin)}`
+            : `Desde ${formatContractDate(contratoActivo.fechaInicio)}`,
+        },
+        {
+          label: "Frecuencia operativa",
+          value: contratoActivo.frecuenciaServicio
+            ? `Cada ${contratoActivo.frecuenciaServicio} dias`
+            : "No definida",
+        },
+        {
+          label: "Servicios comprometidos",
+          value: contratoActivo.serviciosComprometidos
+            ? String(contratoActivo.serviciosComprometidos)
+            : "No definidos",
+        },
+      ]
+    : [];
 
   const applyConfigToForm = useCallback((configs: ConfiguracionOperativa[], dirId?: string) => {
     // 1. Try to find config for specific address
@@ -523,7 +571,7 @@ function NuevoServicioContent() {
     loadData();
 
     return () => { document.body.style.overflow = originalStyle; };
-  }, [fetchMetodosPago, fetchOperadores, fetchServicios, refreshFollowUpStatus]);
+  }, [fetchMetodosPago, fetchOperadores, fetchServicios, refreshFollowUpStatus, applyConfigToForm]);
 
   const handleEmpresaChange = (val: string) => {
     setSelectedEmpresa(val);
@@ -569,6 +617,36 @@ function NuevoServicioContent() {
     setSelectedDireccion(dirId);
     applyConfigToForm(clienteConfigs, dirId);
   };
+
+  useEffect(() => {
+    const loadContratoActivo = async () => {
+      if (!selectedCliente || !selectedEmpresa) {
+        setContratoActivo(null);
+        return;
+      }
+
+      setLoadingContrato(true);
+      try {
+        const contrato = await getContratoClienteActivoAction(
+          selectedCliente,
+          selectedEmpresa,
+        );
+        setContratoActivo(contrato as ContratoCliente | null);
+        if (contrato?.tipoFacturacion) {
+          setTipoFacturacion(contrato.tipoFacturacion);
+        } else {
+          setTipoFacturacion("UNICO");
+        }
+      } catch (error) {
+        console.error("Error loading active contract", error);
+        setContratoActivo(null);
+      } finally {
+        setLoadingContrato(false);
+      }
+    };
+
+    void loadContratoActivo();
+  }, [selectedCliente, selectedEmpresa]);
 
   const toUtcIsoFromDateTimeLocal = (value: string) => {
     const [datePart, timePart] = value.split("T");
@@ -1287,16 +1365,55 @@ function NuevoServicioContent() {
 
                   <div className="space-y-2">
                     <Label className="text-xs font-bold text-zinc-500 uppercase tracking-wider">Tipo de Facturación <span className="text-red-500">*</span></Label>
-                    <Combobox
-                      options={[
-                        { value: "", label: "Seleccionar facturación..." },
-                        ...TIPOS_FACTURACION.map(m => ({ value: m.value, label: m.label }))
-                      ]}
-                      value={tipoFacturacion}
-                      onChange={setTipoFacturacion}
-                      placeholder="Facturación..."
-                      hideSearch
-                    />
+                    {contratoActivo ? (
+                      <div className="rounded-2xl border border-emerald-200 bg-emerald-50 px-4 py-4 space-y-4">
+                        <p className="text-[10px] font-black uppercase tracking-[0.18em] text-emerald-700">
+                          Segun contrato activo
+                        </p>
+                        <p className="text-sm font-bold text-zinc-900">
+                          {TIPOS_FACTURACION.find((item) => item.value === tipoFacturacion)?.label || tipoFacturacion}
+                        </p>
+                        <div className="grid grid-cols-1 gap-3 md:grid-cols-2">
+                          {resumenContratoActivo.map((item) => (
+                            <div
+                              key={item.label}
+                              className="rounded-xl border border-emerald-100 bg-white/70 px-3 py-3"
+                            >
+                              <p className="text-[10px] font-black uppercase tracking-[0.16em] text-emerald-700">
+                                {item.label}
+                              </p>
+                              <p className="mt-1 text-sm font-semibold text-zinc-900">
+                                {item.value}
+                              </p>
+                            </div>
+                          ))}
+                        </div>
+                        {contratoActivo.observaciones ? (
+                          <div className="rounded-xl border border-emerald-100 bg-white/70 px-3 py-3">
+                            <p className="text-[10px] font-black uppercase tracking-[0.16em] text-emerald-700">
+                              Observaciones comerciales
+                            </p>
+                            <p className="mt-1 text-sm text-zinc-700">
+                              {contratoActivo.observaciones}
+                            </p>
+                          </div>
+                        ) : null}
+                        <p className="text-xs text-zinc-600">
+                          Los nuevos servicios heredan este esquema automaticamente desde el contrato del cliente.
+                        </p>
+                      </div>
+                    ) : (
+                      <Combobox
+                        options={[
+                          { value: "", label: "Seleccionar facturación..." },
+                          ...TIPOS_FACTURACION.map(m => ({ value: m.value, label: m.label }))
+                        ]}
+                        value={tipoFacturacion}
+                        onChange={setTipoFacturacion}
+                        placeholder={loadingContrato ? "Consultando contrato..." : "Facturación..."}
+                        hideSearch
+                      />
+                    )}
                   </div>
                 </div>
 

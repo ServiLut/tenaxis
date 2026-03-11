@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect, useCallback, useRef, Suspense } from "react";
+import React, { useState, useEffect, useCallback, useRef, Suspense, useMemo } from "react";
 import Link from "next/link";
 import { useSearchParams, usePathname, useRouter } from "next/navigation";
 import { DashboardLayout } from "@/components/dashboard";
@@ -26,7 +26,6 @@ import {
   EyeOff,
   Pencil,
   Copy,
-  Bell,
   Send,
   CreditCard,
   Activity,
@@ -39,7 +38,13 @@ import {
   Image as ImageIcon,
   ExternalLink,
   Trash2,
-  ChevronDown
+  ChevronDown,
+  ChevronRight,
+  UserX,
+  PlayCircle,
+  Truck,
+  AlertTriangle,
+  Zap
 } from "lucide-react";
 import {
   Dialog,
@@ -348,8 +353,49 @@ function ServiciosContent() {
   const [expandedRows, setExpandedRows] = useState<Record<string, boolean>>({});
   const [viewMode, setViewMode] = useState(searchParams.get("tab") || "servicios");
   const [activePreset, setActivePreset] = useState(searchParams.get("preset") || "all");
+  const [showOperationalQueue, setShowOperationalQueue] = useState(false);
+  const [expandedOperationalSections, setExpandedOperationalSections] = useState<Record<string, boolean>>({
+    SIN_ASIGNAR_HOY: true,
+    POR_INICIAR: true,
+    EN_EJECUCION: true,
+    PENDIENTES_CIERRE: true,
+    CON_INCIDENCIA: true,
+    ATRASADOS: true,
+  });
+  const [activeOperationalFilter, setActiveOperationalFilter] = useState<string | null>(null);
   const [kpis, setKpis] = useState<ServiciosKpis | null>(null);
   const [kpisLoading, setKpisLoading] = useState(false);
+
+  const operationalCounts = useMemo(() => {
+    const today = toBogotaYmd();
+    return {
+      sinAsignarHoy: servicios.filter(s => s.raw.fechaVisita && utcIsoToBogotaYmd(s.raw.fechaVisita) === today && !s.tecnicoId).length,
+      porIniciar: servicios.filter(s => s.raw.fechaVisita && utcIsoToBogotaYmd(s.raw.fechaVisita) === today && s.estadoServicio === "PROGRAMADO").length,
+      enEjecucion: servicios.filter(s => ["PROCESO", "EN PROCESO"].includes(s.estadoServicio)).length,
+      pendientesCierre: servicios.filter(s => ["TECNICO_FINALIZO", "TECNICO FINALIZO", "TECNICO FINALIZADO"].includes(s.estadoServicio)).length,
+      conIncidencia: servicios.filter(s => ["SIN_CONCRETAR", "SIN CONCRETAR"].includes(s.estadoServicio)).length,
+      atrasados: servicios.filter(s => {
+        const visitYmd = s.raw.fechaVisita ? utcIsoToBogotaYmd(s.raw.fechaVisita) : null;
+        return visitYmd && visitYmd < today && !["LIQUIDADO", "CANCELADO", "SIN_CONCRETAR", "SIN CONCRETAR"].includes(s.estadoServicio);
+      }).length,
+    };
+  }, [servicios]);
+
+  const toggleOperationalSection = (key: string) => {
+    setExpandedOperationalSections((prev) => ({
+      ...prev,
+      [key]: !prev[key],
+    }));
+  };
+
+  const applyOperationalFilter = (filter: string | null) => {
+    setActiveOperationalFilter(filter);
+    setViewMode("servicios");
+    if (filter) {
+      setActivePreset("all");
+    }
+    setCurrentPage(1);
+  };
   const [customPresets, setCustomPresets] = useState<DashboardPreset[]>([]);
   const [isPresetModalOpen, setIsPresetModalOpen] = useState(false);
   const [editingPresetId, setEditingPresetId] = useState<string | null>(null);
@@ -656,6 +702,7 @@ function ServiciosContent() {
         cliente: selectedServicio.cliente,
         fecha: selectedServicio.fecha,
         servicio: selectedServicio.servicioEspecifico,
+        idServicio: selectedServicio.id,
       }).catch(err => console.error("Error notifying webhook:", err));
 
       setIsLiquidarModalOpen(false);
@@ -807,6 +854,18 @@ function ServiciosContent() {
   };
 
   useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === "d") {
+        e.preventDefault();
+        setShowOperationalQueue((prev) => !prev);
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, []);
+
+  useEffect(() => {
     const nextParams = new URLSearchParams();
     if (search) nextParams.set("search", search);
     if (viewMode !== "servicios") nextParams.set("tab", viewMode);
@@ -828,6 +887,12 @@ function ServiciosContent() {
       router.replace(`${pathname}?${nextQuery}`, { scroll: false });
     }
   }, [activePreset, filters, pathname, router, search, viewMode]);
+
+  useEffect(() => {
+    if (activeOperationalFilter) {
+      // Logic handled in filteredServicios
+    }
+  }, [activeOperationalFilter]);
 
   useEffect(() => {
     fetchServicios();
@@ -906,6 +971,7 @@ function ServiciosContent() {
   const resetAllFilters = useCallback(() => {
     setSearch("");
     setActivePreset("all");
+    setActiveOperationalFilter(null);
     setFilters({
       estado: "all",
       tecnico: "all",
@@ -922,17 +988,18 @@ function ServiciosContent() {
     toast.info("Filtros restablecidos");
   }, []);
 
-  const hasActiveFilters = search !== "" || 
-    activePreset !== "all" || 
-    filters.estado !== "all" || 
-    filters.tecnico !== "all" || 
-    filters.urgencia !== "all" || 
-    filters.creador !== "all" || 
-    filters.municipio !== "all" || 
-    filters.metodoPago !== "all" || 
-    filters.empresa !== "all" || 
-    filters.tipo !== "all" || 
-    filters.fechaInicio !== "" || 
+  const hasActiveFilters = search !== "" ||
+    activePreset !== "all" ||
+    activeOperationalFilter !== null ||
+    filters.estado !== "all" ||
+    filters.tecnico !== "all" ||
+    filters.urgencia !== "all" ||
+    filters.creador !== "all" ||
+    filters.municipio !== "all" ||
+    filters.metodoPago !== "all" ||
+    filters.empresa !== "all" ||
+    filters.tipo !== "all" ||
+    filters.fechaInicio !== "" ||
     filters.fechaFin !== "";
 
   const followUpRows: FollowUpRow[] = servicios.flatMap((parent) =>
@@ -988,6 +1055,25 @@ function ServiciosContent() {
     if (filters.fechaFin && visitYmd) {
       matchesFecha = matchesFecha && visitYmd <= filters.fechaFin;
     }
+
+    let operationalPass = true;
+    if (activeOperationalFilter) {
+      const today = toBogotaYmd();
+      if (activeOperationalFilter === "SIN_ASIGNAR_HOY") {
+        operationalPass = visitYmd === today && !s.tecnicoId;
+      } else if (activeOperationalFilter === "POR_INICIAR") {
+        operationalPass = visitYmd === today && s.estadoServicio === "PROGRAMADO";
+      } else if (activeOperationalFilter === "EN_EJECUCION") {
+        operationalPass = ["PROCESO", "EN PROCESO"].includes(s.estadoServicio);
+      } else if (activeOperationalFilter === "PENDIENTES_CIERRE") {
+        operationalPass = ["TECNICO_FINALIZO", "TECNICO FINALIZO", "TECNICO FINALIZADO"].includes(s.estadoServicio);
+      } else if (activeOperationalFilter === "CON_INCIDENCIA") {
+        operationalPass = ["SIN_CONCRETAR", "SIN CONCRETAR"].includes(s.estadoServicio);
+      } else if (activeOperationalFilter === "ATRASADOS") {
+        operationalPass = !!visitYmd && visitYmd < today && !["LIQUIDADO", "CANCELADO", "SIN_CONCRETAR", "SIN CONCRETAR"].includes(s.estadoServicio);
+      }
+    }
+
     const todayYmd = toBogotaYmd();
     const isVencido =
       !!visitYmd &&
@@ -1001,7 +1087,7 @@ function ServiciosContent() {
       (activePreset === "PENDIENTES_LIQUIDAR" && s.raw.estadoServicio === "TECNICO_FINALIZO") ||
       ["HOY", "MANANA", "SEMANA"].includes(activePreset);
 
-    return matchesSearch && matchesEstado && matchesTecnico && matchesUrgencia && matchesCreador && matchesMunicipio && matchesMetodoPago && matchesEmpresa && matchesTipo && matchesFecha && presetPass;
+    return matchesSearch && matchesEstado && matchesTecnico && matchesUrgencia && matchesCreador && matchesMunicipio && matchesMetodoPago && matchesEmpresa && matchesTipo && matchesFecha && operationalPass && presetPass;
   });
 
   const filteredFollowUps = followUpRows.filter((s) => {
@@ -1029,6 +1115,25 @@ function ServiciosContent() {
     if (filters.fechaFin && visitYmd) {
       matchesFecha = matchesFecha && visitYmd <= filters.fechaFin;
     }
+
+    let operationalPass = true;
+    if (activeOperationalFilter) {
+      const today = toBogotaYmd();
+      if (activeOperationalFilter === "SIN_ASIGNAR_HOY") {
+        operationalPass = visitYmd === today && !s.tecnicoId;
+      } else if (activeOperationalFilter === "POR_INICIAR") {
+        operationalPass = visitYmd === today && s.estadoServicio === "PROGRAMADO";
+      } else if (activeOperationalFilter === "EN_EJECUCION") {
+        operationalPass = ["PROCESO", "EN PROCESO"].includes(s.estadoServicio);
+      } else if (activeOperationalFilter === "PENDIENTES_CIERRE") {
+        operationalPass = ["TECNICO_FINALIZO", "TECNICO FINALIZO", "TECNICO FINALIZADO"].includes(s.estadoServicio);
+      } else if (activeOperationalFilter === "CON_INCIDENCIA") {
+        operationalPass = ["SIN_CONCRETAR", "SIN CONCRETAR"].includes(s.estadoServicio);
+      } else if (activeOperationalFilter === "ATRASADOS") {
+        operationalPass = !!visitYmd && visitYmd < today && !["LIQUIDADO", "CANCELADO", "SIN_CONCRETAR", "SIN CONCRETAR"].includes(s.estadoServicio);
+      }
+    }
+
     const todayYmd = toBogotaYmd();
     const isVencido =
       !!visitYmd &&
@@ -1042,7 +1147,7 @@ function ServiciosContent() {
       (activePreset === "PENDIENTES_LIQUIDAR" && s.raw.estadoServicio === "TECNICO_FINALIZO") ||
       ["HOY", "MANANA", "SEMANA"].includes(activePreset);
 
-    return matchesSearch && matchesEstado && matchesTecnico && matchesUrgencia && matchesCreador && matchesMunicipio && matchesMetodoPago && matchesEmpresa && matchesTipo && matchesFecha && presetPass;
+    return matchesSearch && matchesEstado && matchesTecnico && matchesUrgencia && matchesCreador && matchesMunicipio && matchesMetodoPago && matchesEmpresa && matchesTipo && matchesFecha && operationalPass && presetPass;
   });
 
   const activeRows = viewMode === "seguimientos" ? filteredFollowUps : filteredServicios;
@@ -1135,16 +1240,6 @@ function ServiciosContent() {
     navigator.clipboard.writeText(text).then(() => toast.success("Información copiada")).catch(() => toast.error("Error al copiar"));
   };
 
-  const handleWhatsAppNotify = (servicio: Servicio) => {
-    const rawPhone = servicio.clienteFull.telefono || "";
-    const cleanPhone = rawPhone.replace(/\D/g, "");
-    if (!cleanPhone) { toast.error("El cliente no tiene un número de teléfono registrado"); return; }
-    const finalPhone = cleanPhone.length === 10 ? `57${cleanPhone}` : cleanPhone;
-    const empresaNombre = servicio.raw.empresa?.nombre || "CPM";
-    const message = `Hola *${servicio.cliente}*, le saludamos de *${empresaNombre}*. Le recordamos su servicio de *${servicio.servicioEspecifico}* programado para:\n\n📅 *Fecha:* ${servicio.fecha}\n⏰ *Hora:* ${servicio.hora}\n📍 *Dirección:* ${servicio.raw.direccionTexto || "No especificada"}\n👤 *Técnico:* ${servicio.tecnico}`;
-    window.open(`https://wa.me/${finalPhone}?text=${encodeURIComponent(message)}`, "_blank");
-  };
-
   const handleNotifyOperator = async (servicio: Servicio) => {
     const tecnicoId = servicio.raw.tecnicoId;
     if (!tecnicoId) { toast.error("No hay un técnico asignado"); return; }
@@ -1203,7 +1298,19 @@ function ServiciosContent() {
               <h1 className="text-2xl lg:text-3xl font-black tracking-tight text-foreground uppercase">Órdenes de <span className="text-[#01ADFB]">Servicio</span></h1>
               <p className="text-muted-foreground font-medium mt-1 text-[10px] uppercase tracking-widest">Control operativo y trazabilidad de servicios técnicos.</p>
             </div>
-            <div className="md:ml-auto">
+            <div className="md:ml-auto flex items-center gap-3">
+              <Button
+                onClick={() => setShowOperationalQueue(true)}
+                className="h-10 px-6 rounded-xl bg-amber-500 text-white text-[10px] font-black uppercase tracking-widest gap-2 shadow-lg shadow-amber-500/20 hover:bg-amber-600 transition-all"
+              >
+                <Zap className="h-4 w-4 fill-current" />
+                Cola Operativa
+                {operationalCounts.atrasados + operationalCounts.sinAsignarHoy + operationalCounts.conIncidencia > 0 && (
+                  <span className="ml-1 px-2 py-0.5 rounded-full bg-white text-amber-600 text-[9px] font-black animate-pulse">
+                    {operationalCounts.atrasados + operationalCounts.sinAsignarHoy + operationalCounts.conIncidencia}
+                  </span>
+                )}
+              </Button>
               <Button variant="outline" size="sm" onClick={() => setShowKPIs(!showKPIs)} className="h-10 px-4 rounded-xl border-border bg-card text-[10px] font-black uppercase tracking-widest gap-2">
                 {showKPIs ? <><EyeOff className="h-4 w-4" /> Ocultar KPI</> : <><Eye className="h-4 w-4" /> Ver KPI</>}
               </Button>
@@ -1265,8 +1372,8 @@ function ServiciosContent() {
                           <Filter className="h-4 w-4" /> Filtros
                         </button>
                         {hasActiveFilters && (
-                          <button 
-                            onClick={resetAllFilters} 
+                          <button
+                            onClick={resetAllFilters}
                             className="h-12 px-5 rounded-xl bg-destructive/10 text-destructive border border-destructive/20 font-black text-[10px] uppercase tracking-widest flex items-center gap-2 transition-all hover:bg-destructive hover:text-white"
                           >
                             <RotateCcw className="h-4 w-4" /> Borrar Filtros
@@ -1464,12 +1571,11 @@ function ServiciosContent() {
                                       <DropdownMenuContent align="end" className="w-64 p-2 rounded-xl bg-card border-border shadow-2xl">
                                         <DropdownMenuItem onClick={() => { setSelectedServicio(s); setIsModalOpen(true); }} className="flex items-center gap-3 py-2.5 text-[11px] font-bold cursor-pointer text-foreground hover:bg-muted"><Eye className="h-4 w-4 text-[#01ADFB]" /> VER DETALLES</DropdownMenuItem>
                                         <Link href={`/dashboard/servicios/${s.raw.id}/editar?returnTo=/dashboard/servicios`}><DropdownMenuItem className="flex items-center gap-3 py-2.5 text-[11px] font-bold cursor-pointer text-foreground hover:bg-muted"><Pencil className="h-4 w-4 text-amber-600" /> EDITAR ORDEN</DropdownMenuItem></Link>
+                                        <DropdownMenuSeparator />
                                         <DropdownMenuItem onClick={() => handleCopy(s)} className="flex items-center gap-3 py-2.5 text-[11px] font-bold cursor-pointer text-foreground hover:bg-muted"><Copy className="h-4 w-4 text-purple-600" /> COPIAR INFO</DropdownMenuItem>
-                                        <DropdownMenuSeparator />
-                                        <DropdownMenuItem onClick={() => handleWhatsAppNotify(s)} className="flex items-center gap-3 py-2.5 text-[11px] font-bold cursor-pointer text-foreground hover:bg-muted"><Bell className="h-4 w-4 text-pink-500" /> RECORDATORIO WPP</DropdownMenuItem>
                                         <DropdownMenuItem onClick={() => handleNotifyOperator(s)} className="flex items-center gap-3 py-2.5 text-[11px] font-bold cursor-pointer text-foreground hover:bg-muted"><Send className="h-4 w-4 text-[#01ADFB]" /> ENVIAR A TECNICO</DropdownMenuItem>
-                                        <DropdownMenuSeparator />
                                         <DropdownMenuItem onClick={() => { setSelectedServicio(s); setIsVisitaModalOpen(true); }} className="flex items-center gap-3 py-2.5 text-[11px] font-bold cursor-pointer text-foreground hover:bg-muted"><MapPin className="h-4 w-4 text-emerald-500" /> EVIDENCIA DE VISITA</DropdownMenuItem>
+                                        <DropdownMenuSeparator />
                                         <DropdownMenuItem onClick={() => triggerUpload(s.raw.id, "facturaElectronica")} className="flex items-center gap-3 py-2.5 text-[11px] font-bold cursor-pointer text-foreground hover:bg-muted"><Upload className="h-4 w-4 text-blue-500" /> SUBIR FACTURA</DropdownMenuItem>
                                         <DropdownMenuItem onClick={() => triggerUpload(s.raw.id, "comprobantePago")} className="flex items-center gap-3 py-2.5 text-[11px] font-bold cursor-pointer text-foreground hover:bg-muted"><Receipt className="h-4 w-4 text-orange-500" /> SUBIR COMPROBANTE</DropdownMenuItem>
                                         <DropdownMenuItem onClick={() => triggerUpload(s.raw.id, "evidenciaPath")} className="flex items-center gap-3 py-2.5 text-[11px] font-bold cursor-pointer text-foreground hover:bg-muted"><ImageIcon className="h-4 w-4 text-indigo-500" /> SUBIR EVIDENCIAS</DropdownMenuItem>
@@ -1640,7 +1746,7 @@ function ServiciosContent() {
             <DialogDescription className="text-muted-foreground text-sm">Expediente maestro con toda la información del cliente y el servicio</DialogDescription>
           </DialogHeader>
         </div>
-        
+
         <div className="flex-1 overflow-y-auto p-6 lg:p-8 custom-scrollbar">
           {selectedServicio && (
             <div className="space-y-8">
@@ -2171,11 +2277,11 @@ function ServiciosContent() {
                           </div>
                           <div className="aspect-video relative rounded-2xl border border-border bg-muted overflow-hidden flex items-center justify-center">
                             {geo.fotoLlegada ? (
-                              <Image 
-                                src={`https://axistestst.supabase.co/storage/v1/object/public/EvidenciaOrdenServicio/${geo.fotoLlegada}`} 
-                                alt="Foto Llegada" 
+                              <Image
+                                src={`https://axistestst.supabase.co/storage/v1/object/public/EvidenciaOrdenServicio/${geo.fotoLlegada}`}
+                                alt="Foto Llegada"
                                 fill
-                                className="object-cover" 
+                                className="object-cover"
                               />
                             ) : (
                               <div className="text-center space-y-2">
@@ -2196,11 +2302,11 @@ function ServiciosContent() {
                           </div>
                           <div className="aspect-video relative rounded-2xl border border-border bg-muted overflow-hidden flex items-center justify-center">
                             {geo.fotoSalida ? (
-                              <Image 
-                                src={`https://axistestst.supabase.co/storage/v1/object/public/EvidenciaOrdenServicio/${geo.fotoSalida}`} 
-                                alt="Foto Salida" 
+                              <Image
+                                src={`https://axistestst.supabase.co/storage/v1/object/public/EvidenciaOrdenServicio/${geo.fotoSalida}`}
+                                alt="Foto Salida"
                                 fill
-                                className="object-cover" 
+                                className="object-cover"
                               />
                             ) : (
                               <div className="text-center space-y-2">
@@ -2245,6 +2351,159 @@ function ServiciosContent() {
       </Dialog>
 
       <input type="file" ref={fileInputRef} onChange={handleFileChange} className="hidden" accept="application/pdf,image/*" disabled={isUploading} />
+
+      {/* PANEL LATERAL: COLA OPERATIVA */}
+      <div className={cn(
+        "fixed inset-y-0 right-0 w-[450px] bg-background border-l border-border shadow-2xl z-50 transform transition-transform duration-300 ease-in-out flex flex-col",
+        showOperationalQueue ? "translate-x-0" : "translate-x-full"
+      )}>
+        <div className="p-6 border-b border-border bg-muted/30 shrink-0">
+          <div className="flex items-center justify-between mb-2">
+            <div className="flex items-center gap-3">
+              <div className="h-10 w-10 rounded-xl bg-amber-500/10 flex items-center justify-center">
+                <Zap className="h-5 w-5 text-amber-600 fill-amber-500" />
+              </div>
+              <h2 className="text-xl font-black text-foreground uppercase tracking-tight">Cola Operativa Pendiente</h2>
+            </div>
+            <Button variant="ghost" size="icon" onClick={() => setShowOperationalQueue(false)} className="rounded-full hover:bg-muted">
+              <XCircle className="h-6 w-6 text-muted-foreground" />
+            </Button>
+          </div>
+          <p className="text-xs text-muted-foreground uppercase font-bold tracking-widest leading-relaxed">
+            Priorización de despacho y ejecución diaria de servicios técnicos.
+          </p>
+        </div>
+
+        <div className="flex-1 overflow-y-auto p-6 space-y-8 custom-scrollbar">
+          {/* SECCIONES DE LA COLA */}
+          {[
+            { 
+              title: "Sin asignar hoy", 
+              items: servicios.filter(s => s.raw.fechaVisita && utcIsoToBogotaYmd(s.raw.fechaVisita) === toBogotaYmd() && !s.tecnicoId),
+              color: "text-amber-600", bg: "bg-amber-50", border: "border-amber-100", icon: UserX, filterKey: "SIN_ASIGNAR_HOY"
+            },
+            { 
+              title: "Por iniciar", 
+              items: servicios.filter(s => s.raw.fechaVisita && utcIsoToBogotaYmd(s.raw.fechaVisita) === toBogotaYmd() && s.estadoServicio === "PROGRAMADO"),
+              color: "text-blue-600", bg: "bg-blue-50", border: "border-blue-100", icon: PlayCircle, filterKey: "POR_INICIAR"
+            },
+            { 
+              title: "En ejecución", 
+              items: servicios.filter(s => ["PROCESO", "EN PROCESO"].includes(s.estadoServicio)),
+              color: "text-indigo-600", bg: "bg-indigo-50", border: "border-indigo-100", icon: Truck, filterKey: "EN_EJECUCION"
+            },
+            { 
+              title: "Pendientes de cierre", 
+              items: servicios.filter(s => ["TECNICO_FINALIZO", "TECNICO FINALIZO", "TECNICO FINALIZADO"].includes(s.estadoServicio)),
+              color: "text-emerald-600", bg: "bg-emerald-50", border: "border-emerald-100", icon: CheckCircle2, filterKey: "PENDIENTES_CIERRE"
+            },
+            { 
+              title: "Con incidencia", 
+              items: servicios.filter(s => ["SIN_CONCRETAR", "SIN CONCRETAR"].includes(s.estadoServicio)),
+              color: "text-red-600", bg: "bg-red-50", border: "border-red-100", icon: AlertTriangle, filterKey: "CON_INCIDENCIA"
+            },
+            { 
+              title: "Atrasados", 
+              items: servicios.filter(s => {
+                const visitYmd = s.raw.fechaVisita ? utcIsoToBogotaYmd(s.raw.fechaVisita) : null;
+                return visitYmd && visitYmd < toBogotaYmd() && !["LIQUIDADO", "CANCELADO", "SIN_CONCRETAR", "SIN CONCRETAR"].includes(s.estadoServicio);
+              }),
+              color: "text-rose-600", bg: "bg-rose-50", border: "border-rose-100", icon: Clock, filterKey: "ATRASADOS"
+            },
+          ].map((section) => (
+            <div key={section.title} className="space-y-4">
+              <button 
+                onClick={() => toggleOperationalSection(section.filterKey)}
+                className="w-full flex items-center justify-between border-b border-border pb-2 group/header"
+              >
+                <div className="flex items-center gap-2">
+                  <section.icon className={cn("h-4 w-4", section.color)} />
+                  <h3 className="text-[10px] font-black uppercase tracking-[0.2em] text-foreground group-hover/header:text-amber-600 transition-colors">{section.title}</h3>
+                </div>
+                <div className="flex items-center gap-3">
+                  <span className={cn("px-2 py-0.5 rounded-full text-[9px] font-black", section.bg, section.color)}>
+                    {section.items.length}
+                  </span>
+                  <ChevronDown className={cn(
+                    "h-3.5 w-3.5 text-muted-foreground transition-transform duration-200",
+                    expandedOperationalSections[section.filterKey] ? "rotate-0" : "-rotate-90"
+                  )} />
+                </div>
+              </button>
+
+              {expandedOperationalSections[section.filterKey] && (
+                <div className="space-y-3 animate-in fade-in slide-in-from-top-1 duration-200">
+                  {section.items.length === 0 ? (
+                    <p className="text-[10px] text-muted-foreground italic px-2">No hay pendientes en esta categoría.</p>
+                  ) : (
+                    section.items.slice(0, 5).map((s) => (
+                      <div 
+                        key={s.raw.id} 
+                        className="group p-4 rounded-2xl bg-card border border-border hover:border-amber-500/50 transition-all cursor-pointer shadow-sm hover:shadow-md"
+                        onClick={() => {
+                          setSelectedServicio(s);
+                          setIsModalOpen(true);
+                        }}
+                      >
+                        <div className="flex items-start justify-between mb-2">
+                          <span className="text-[9px] font-black uppercase text-amber-600 bg-amber-50 px-2 py-0.5 rounded border border-amber-100">
+                            #{s.id}
+                          </span>
+                          <span className={cn("text-[8px] font-black uppercase px-2 py-0.5 rounded shadow-sm", URGENCIA_STYLING[s.urgencia])}>
+                            {s.urgencia}
+                          </span>
+                        </div>
+                        <p className="text-xs font-black text-foreground uppercase truncate mb-1">{s.cliente}</p>
+                        <p className="text-[10px] font-bold text-muted-foreground uppercase mb-3">{s.servicioEspecifico}</p>
+                        <div className="flex items-center justify-between">
+                          <div className="flex items-center gap-2 text-muted-foreground">
+                            <Calendar className="h-3 w-3" />
+                            <span className="text-[9px] font-bold">{s.fecha}</span>
+                          </div>
+                          <ChevronRight className="h-4 w-4 text-muted-foreground group-hover:text-amber-500 transition-colors" />
+                        </div>
+                      </div>
+                    ))
+                  )}
+                  {section.items.length > 5 && (
+                    <Button 
+                      variant="link" 
+                      className="w-full text-[9px] font-black uppercase text-[#01ADFB] h-auto p-0"
+                      onClick={() => {
+                        applyOperationalFilter(section.filterKey);
+                        setShowOperationalQueue(false);
+                      }}
+                    >
+                      Ver los {section.items.length} pendientes
+                    </Button>
+                  )}
+                </div>
+              )}
+            </div>
+          ))}
+        </div>
+
+        <div className="p-6 border-t border-border bg-muted/30 shrink-0">
+          <Button 
+            className="w-full h-12 rounded-xl bg-amber-500 hover:bg-amber-600 text-white font-black uppercase text-[10px] tracking-widest gap-2 shadow-lg shadow-amber-500/20"
+            onClick={() => {
+              resetAllFilters();
+              setViewMode("servicios");
+              setShowOperationalQueue(false);
+            }}
+          >
+            Ver todos los servicios
+          </Button>
+        </div>
+      </div>
+
+      {/* OVERLAY PARA CERRAR PANEL */}
+      {showOperationalQueue && (
+        <div 
+          className="fixed inset-0 bg-background/80 backdrop-blur-sm z-[45]"
+          onClick={() => setShowOperationalQueue(false)}
+        />
+      )}
     </DashboardLayout>
   );
 }

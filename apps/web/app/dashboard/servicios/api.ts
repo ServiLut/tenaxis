@@ -284,6 +284,7 @@ export async function notifyLiquidationWebhook(data: {
   cliente: string;
   fecha: string;
   servicio: string;
+  idServicio: string;
 }) {
   return apiFetch<{ success: boolean; error?: string }>(
     "/ordenes-servicio/notifications/liquidation",

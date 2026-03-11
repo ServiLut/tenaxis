@@ -94,9 +94,26 @@ export interface ClienteDTO {
   tipoDocumento?: string | null;
   actividadEconomica?: string | null;
   metrajeTotal?: number | null;
+  empresaId?: string;
   segmento?: "HOGAR" | "COMERCIO" | "INDUSTRIA" | "SALUD" | "EDUCACION" | "HORECA" | "OFICINA" | "OTRO" | null;
   nivelRiesgo?: "BAJO" | "MEDIO" | "ALTO" | "CRITICO" | null;
   direcciones?: DireccionDTO[];
+}
+
+export interface ContratoClienteDTO {
+  empresaId: string;
+  fechaInicio: string;
+  fechaFin?: string | null;
+  serviciosComprometidos?: number | null;
+  frecuenciaServicio?: number | null;
+  tipoFacturacion:
+    | "UNICO"
+    | "CONTRATO_MENSUAL"
+    | "PLAN_TRIMESTRAL"
+    | "PLAN_SEMESTRAL"
+    | "PLAN_ANUAL";
+  estado?: "ACTIVO" | "PAUSADO" | "VENCIDO" | "CANCELADO";
+  observaciones?: string | null;
 }
 
 // --- Auth Actions ---
@@ -348,6 +365,35 @@ export async function deleteClienteAction(id: string) {
     await clientesClient.delete(id);
     revalidatePath("/dashboard/clientes");
     return { success: true };
+  } catch (error) {
+    return { success: false, error: error instanceof Error ? error.message : "Error inesperado" };
+  }
+}
+
+export async function getContratoClienteActivoAction(clienteId: string, empresaId?: string) {
+  try {
+    return await clientesClient.getActiveContrato(clienteId, empresaId);
+  } catch (error) {
+    console.error("Error fetching active contract:", error);
+    return null;
+  }
+}
+
+export async function createContratoClienteAction(clienteId: string, payload: ContratoClienteDTO) {
+  try {
+    const result = await clientesClient.createContrato(clienteId, payload);
+    revalidatePath("/dashboard/clientes");
+    return { success: true, data: result };
+  } catch (error) {
+    return { success: false, error: error instanceof Error ? error.message : "Error inesperado" };
+  }
+}
+
+export async function updateContratoClienteAction(id: string, payload: Partial<ContratoClienteDTO>) {
+  try {
+    const result = await clientesClient.updateContrato(id, payload);
+    revalidatePath("/dashboard/clientes");
+    return { success: true, data: result };
   } catch (error) {
     return { success: false, error: error instanceof Error ? error.message : "Error inesperado" };
   }
@@ -833,47 +879,44 @@ export async function notifyLiquidationWebhookAction(data: {
   cliente: string;
   fecha: string;
   servicio: string;
+  idServicio: string;
 }) {
-  const webhookUrl = process.env.N8N_MENSAJES_CLIENTES;
-  if (!webhookUrl) return { success: false, error: "Webhook configuration missing" };
-
   try {
-    const url = new URL(webhookUrl);
-    const postData = JSON.stringify({ ...data, timestamp: new Date().toISOString() });
-    const options = {
-      hostname: url.hostname,
-      port: url.port || (url.protocol === "https:" ? 443 : 80),
-      path: url.pathname + (url.search || ""),
-      method: "POST",
-      headers: { "Content-Type": "application/json", "Host": url.hostname },
-      agent: new https.Agent({ rejectUnauthorized: false }),
+    const res = await apiFetch<{ success: boolean; error?: string }>(
+      "/ordenes-servicio/notifications/liquidation",
+      {
+        method: "POST",
+        body: JSON.stringify(data),
+      },
+    );
+    return res;
+  } catch (error) {
+    console.error("Error in notifyLiquidationWebhookAction:", error);
+    return {
+      success: false,
+      error: error instanceof Error ? error.message : "Error notifying webhook",
     };
-
-    return new Promise((resolve) => {
-      const req = https.request(options, (res) => {
-        res.on("end", () => resolve({ success: (res.statusCode ?? 0) >= 200 && (res.statusCode ?? 0) < 300 }));
-      });
-      req.on("error", () => resolve({ success: false, error: "Error triggering webhook" }));
-      req.write(postData);
-      req.end();
-    });
-  } catch {
-    return { success: false, error: "Error setting up webhook" };
   }
 }
 
-export async function notifyServiceOperatorWebhookAction(data: Record<string, unknown>) {
-  const webhookUrl = process.env.N8N_NOTIFICAR_SERVICIO;
-  if (!webhookUrl) return { success: false, error: "Webhook configuration missing" };
-
+export async function notifyServiceOperatorWebhookAction(data: {
+  idServicio: string;
+  [key: string]: unknown;
+}) {
   try {
-    const response = await fetch(webhookUrl, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ ...data, timestamp: new Date().toISOString() }),
-    });
-    return { success: response.ok };
-  } catch {
-    return { success: false, error: "Error triggering webhook" };
+    const res = await apiFetch<{ success: boolean; error?: string }>(
+      "/ordenes-servicio/notifications/operator",
+      {
+        method: "POST",
+        body: JSON.stringify(data),
+      },
+    );
+    return res;
+  } catch (error) {
+    console.error("Error in notifyServiceOperatorWebhookAction:", error);
+    return {
+      success: false,
+      error: error instanceof Error ? error.message : "Error notifying webhook",
+    };
   }
 }

@@ -61,6 +61,38 @@ export interface Cliente {
   tipoInteresId?: string | null;
 }
 
+export interface ContratoCliente {
+  id: string;
+  tenantId: string;
+  clienteId: string;
+  empresaId: string;
+  estado: "ACTIVO" | "PAUSADO" | "VENCIDO" | "CANCELADO";
+  fechaInicio: string;
+  fechaFin?: string | null;
+  serviciosComprometidos?: number | null;
+  frecuenciaServicio?: number | null;
+  tipoFacturacion:
+    | "UNICO"
+    | "CONTRATO_MENSUAL"
+    | "PLAN_TRIMESTRAL"
+    | "PLAN_SEMESTRAL"
+    | "PLAN_ANUAL";
+  observaciones?: string | null;
+  createdAt?: string;
+  updatedAt?: string;
+}
+
+export interface ContratoClientePayload {
+  empresaId: string;
+  fechaInicio: string;
+  fechaFin?: string | null;
+  serviciosComprometidos?: number | null;
+  frecuenciaServicio?: number | null;
+  tipoFacturacion: ContratoCliente["tipoFacturacion"];
+  estado?: ContratoCliente["estado"];
+  observaciones?: string | null;
+}
+
 export const clientesClient = {
   async getAll(): Promise<Cliente[]> {
     return apiFetch<Cliente[]>("/clientes/list", { cache: "no-store" });
@@ -94,6 +126,32 @@ export const clientesClient = {
   async delete(id: string) {
     return apiFetch(`/clientes/${id}`, {
       method: "DELETE",
+    });
+  },
+
+  async getActiveContrato(id: string, empresaId?: string) {
+    const params = new URLSearchParams();
+    if (empresaId) {
+      params.set("empresaId", empresaId);
+    }
+    const query = params.toString();
+    return apiFetch<ContratoCliente | null>(
+      `/clientes/${id}/contrato-activo${query ? `?${query}` : ""}`,
+      { cache: "no-store" },
+    );
+  },
+
+  async createContrato(id: string, data: ContratoClientePayload) {
+    return apiFetch<ContratoCliente>(`/clientes/${id}/contratos`, {
+      method: "POST",
+      body: JSON.stringify(data),
+    });
+  },
+
+  async updateContrato(id: string, data: Partial<ContratoClientePayload>) {
+    return apiFetch<ContratoCliente>(`/clientes/contratos/${id}`, {
+      method: "PATCH",
+      body: JSON.stringify(data),
     });
   }
 };

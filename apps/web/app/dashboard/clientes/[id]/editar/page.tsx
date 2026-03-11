@@ -6,14 +6,18 @@ import { toast } from "sonner";
 import {
   getClienteByIdAction,
   updateClienteAction,
+  getContratoClienteActivoAction,
+  createContratoClienteAction,
+  updateContratoClienteAction,
   getSegmentosAction,
   getRiesgosAction,
   getTiposInteresAction,
   getDepartmentsAction,
   getMunicipalitiesAction,
   type ClienteDTO,
+  type ContratoClienteDTO,
 } from "../../../actions";
-import { type Cliente } from "@/lib/api/clientes-client";
+import { type Cliente, type ContratoCliente } from "@/lib/api/clientes-client";
 import { type ConfigItem } from "@/lib/api/config-client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -48,6 +52,12 @@ import { DashboardLayout } from "@/components/dashboard";
 const ORIGENES_CLIENTE = ["Google Ads", "Referido", "Orgánico", "Recurrente", "Campaña", "WhatsApp directo"];
 const TIPOS_DOCUMENTO = ["Cédula de Ciudadanía", "Cédula de Extranjería", "Pasaporte", "Permiso Especial", "NIT"];
 const CLASIFICACIONES_PUNTO = ["Cocina", "Área almacenamiento", "Zona residuos", "Zona carga", "Zona comedor", "Oficina administrativa"];
+const TIPOS_FACTURACION_CONTRATO = [
+  { value: "CONTRATO_MENSUAL", label: "Cobro por servicio ejecutado" },
+  { value: "PLAN_TRIMESTRAL", label: "Cobro trimestral acumulado" },
+  { value: "PLAN_SEMESTRAL", label: "Cobro semestral" },
+  { value: "PLAN_ANUAL", label: "Cobro anual" },
+] as const;
 
 interface Direccion {
   id: number;
@@ -85,6 +95,16 @@ function EditarClienteContent() {
   useUserRole();
   const [loading, setLoading] = useState(false);
   const [loadingClient, setLoadingClient] = useState(true);
+  const [selectedEmpresaId, setSelectedEmpresaId] = useState("");
+  const [activeContract, setActiveContract] = useState<ContratoCliente | null>(null);
+  const [hasActiveContract, setHasActiveContract] = useState(false);
+  const [contractStartDate, setContractStartDate] = useState("");
+  const [contractEndDate, setContractEndDate] = useState("");
+  const [contractServicesCommitted, setContractServicesCommitted] = useState("");
+  const [contractServiceFrequency, setContractServiceFrequency] = useState("30");
+  const [contractBillingType, setContractBillingType] =
+    useState<ContratoClienteDTO["tipoFacturacion"]>("CONTRATO_MENSUAL");
+  const [contractNotes, setContractNotes] = useState("");
 
   // --- Datos Dinámicos ---
   const [departamentos, setDepartments] = useState<{id: string, name: string}[]>([]);
@@ -194,6 +214,7 @@ function EditarClienteContent() {
         setInteres(client.tipoInteresId || "");
         setRiesgoOverride(client.nivelRiesgo || null);
         setMetraje(client.metrajeTotal ? Number(client.metrajeTotal) : 0);
+        setSelectedEmpresaId(client.empresa?.id || "");
         
         if (client.direcciones && client.direcciones.length > 0) {
           setDirecciones(client.direcciones.map((d) => ({
@@ -225,6 +246,24 @@ function EditarClienteContent() {
           })));
         } else {
           addDireccion();
+        }
+
+        if (client.empresa?.id) {
+          const contrato = await getContratoClienteActivoAction(id, client.empresa.id);
+          if (contrato) {
+            setActiveContract(contrato);
+            setHasActiveContract(true);
+            setContractStartDate(contrato.fechaInicio?.slice(0, 10) || "");
+            setContractEndDate(contrato.fechaFin?.slice(0, 10) || "");
+            setContractServicesCommitted(
+              contrato.serviciosComprometidos ? String(contrato.serviciosComprometidos) : "",
+            );
+            setContractServiceFrequency(
+              contrato.frecuenciaServicio ? String(contrato.frecuenciaServicio) : "30",
+            );
+            setContractBillingType(contrato.tipoFacturacion);
+            setContractNotes(contrato.observaciones || "");
+          }
         }
 
         setLoadingClient(false);
@@ -338,6 +377,39 @@ function EditarClienteContent() {
         toast.error(response.error || "Error al actualizar cliente");
         return;
       }
+
+      if (selectedEmpresaId) {
+        if (hasActiveContract) {
+          const contractPayload: ContratoClienteDTO = {
+            empresaId: selectedEmpresaId,
+            fechaInicio: contractStartDate,
+            fechaFin: contractEndDate || null,
+            serviciosComprometidos: contractServicesCommitted ? Number(contractServicesCommitted) : null,
+            frecuenciaServicio: contractServiceFrequency ? Number(contractServiceFrequency) : null,
+            tipoFacturacion: contractBillingType,
+            observaciones: contractNotes || null,
+          };
+
+          const contractResponse = (activeContract && activeContract.id)
+            ? await updateContratoClienteAction(activeContract.id, contractPayload)
+            : await createContratoClienteAction(id, contractPayload);
+
+          if (!contractResponse.success) {
+            toast.error(contractResponse.error || "Se actualizó el cliente, pero falló el contrato comercial.");
+            return;
+          }
+        } else if (activeContract) {
+          const cancelResponse = await updateContratoClienteAction(activeContract.id, {
+            estado: "CANCELADO",
+          });
+
+          if (!cancelResponse.success) {
+            toast.error(cancelResponse.error || "No se pudo desactivar el contrato comercial.");
+            return;
+          }
+        }
+      }
+
       toast.success("Cliente actualizado con éxito");
       router.push("/dashboard/clientes");
     } catch (error: unknown) {
@@ -517,6 +589,82 @@ function EditarClienteContent() {
                 )}
               </div>
             </section>
+
+            {
+              <section className="space-y-8">
+                <div className="flex items-center gap-3 border-b border-border pb-3">
+                  <div className="p-2 rounded-lg bg-muted border border-border text-muted-foreground"><Clock className="h-5 w-5" /></div>
+                  <div>
+                    <h2 className="text-lg font-bold text-foreground">Condiciones Comerciales</h2>
+                    <p className="text-xs text-muted-foreground">Administra el contrato activo de este cliente y define cómo se facturarán los servicios.</p>
+                  </div>
+                </div>
+
+                <div className="rounded-2xl border border-border bg-card p-6 space-y-6">
+                  <div className="flex items-start justify-between gap-4 rounded-2xl border border-border bg-muted/40 px-4 py-4">
+                    <div className="space-y-1">
+                      <p className="text-sm font-bold text-foreground">Contrato comercial del cliente</p>
+                      <p className="text-xs text-muted-foreground">
+                        Si está activo, la orden de servicio heredará el tipo de facturación definido aquí.
+                      </p>
+                    </div>
+                    <Button
+                      type="button"
+                      variant={hasActiveContract ? "default" : "outline"}
+                      onClick={() => setHasActiveContract((current) => !current)}
+                      className="min-w-[140px] rounded-xl text-[10px] font-black uppercase tracking-[0.16em]"
+                    >
+                      {hasActiveContract ? "Contrato activo" : "Sin contrato"}
+                    </Button>
+                  </div>
+
+                  {hasActiveContract ? (
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                      <div className="space-y-2">
+                        <Label className="text-xs font-bold text-muted-foreground uppercase tracking-wider">Fecha inicio <span className="text-red-500">*</span></Label>
+                        <Input type="date" value={contractStartDate} onChange={(e) => setContractStartDate(e.target.value)} required={hasActiveContract} className="h-11 border-border bg-background text-foreground focus-visible:ring-0 focus-visible:ring-offset-0" />
+                      </div>
+                      <div className="space-y-2">
+                        <Label className="text-xs font-bold text-muted-foreground uppercase tracking-wider">Fecha fin</Label>
+                        <Input type="date" value={contractEndDate} onChange={(e) => setContractEndDate(e.target.value)} className="h-11 border-border bg-background text-foreground focus-visible:ring-0 focus-visible:ring-offset-0" />
+                      </div>
+                      <div className="space-y-2">
+                        <Label className="text-xs font-bold text-muted-foreground uppercase tracking-wider">Servicios comprometidos</Label>
+                        <Input type="number" min="1" value={contractServicesCommitted} onChange={(e) => setContractServicesCommitted(e.target.value)} className="h-11 border-border bg-background text-foreground focus-visible:ring-0 focus-visible:ring-offset-0" />
+                      </div>
+                      <div className="space-y-2">
+                        <Label className="text-xs font-bold text-muted-foreground uppercase tracking-wider">Frecuencia operativa (días)</Label>
+                        <Input type="number" min="1" value={contractServiceFrequency} onChange={(e) => setContractServiceFrequency(e.target.value)} className="h-11 border-border bg-background text-foreground focus-visible:ring-0 focus-visible:ring-offset-0" />
+                      </div>
+                      <div className="space-y-2 md:col-span-2">
+                        <Label className="text-xs font-bold text-muted-foreground uppercase tracking-wider">Tipo de facturación <span className="text-red-500">*</span></Label>
+                        <Select value={contractBillingType} onValueChange={(value) => setContractBillingType(value as ContratoClienteDTO["tipoFacturacion"])}>
+                          <SelectTrigger className="h-11 border-border bg-background text-foreground focus:ring-0">
+                            <SelectValue placeholder="Seleccionar facturación..." />
+                          </SelectTrigger>
+                          <SelectContent>
+                            {TIPOS_FACTURACION_CONTRATO.map((option) => (
+                              <SelectItem key={option.value} value={option.value}>
+                                {option.label}
+                              </SelectItem>
+                            ))}
+                          </SelectContent>
+                        </Select>
+                      </div>
+                      <div className="space-y-2 md:col-span-2">
+                        <Label className="text-xs font-bold text-muted-foreground uppercase tracking-wider">Observaciones comerciales</Label>
+                        <textarea
+                          value={contractNotes}
+                          onChange={(e) => setContractNotes(e.target.value)}
+                          placeholder="Ej: visita mensual con consolidado trimestral."
+                          className="min-h-[120px] w-full rounded-2xl border border-border bg-background px-4 py-3 text-sm text-foreground outline-none transition focus:border-azul-1"
+                        />
+                      </div>
+                    </div>
+                  ) : null}
+                </div>
+              </section>
+            }
 
             <section className="space-y-8">
               <div className="flex items-center justify-between border-b border-border pb-3">
