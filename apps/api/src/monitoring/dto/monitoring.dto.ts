@@ -44,4 +44,8 @@ export class MonitoringPaginationDto {
   @Max(100)
   @Type(() => Number)
   limit?: number;
+
+  @IsString()
+  @IsOptional()
+  date?: string;
 }

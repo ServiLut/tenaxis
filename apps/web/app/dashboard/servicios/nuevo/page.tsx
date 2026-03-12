@@ -573,6 +573,39 @@ function NuevoServicioContent() {
     return () => { document.body.style.overflow = originalStyle; };
   }, [fetchMetodosPago, fetchOperadores, fetchServicios, refreshFollowUpStatus, applyConfigToForm]);
 
+  const loadContratoActivo = useCallback(async (clientId: string, empresaId: string) => {
+    if (!clientId || !empresaId) {
+      setContratoActivo(null);
+      return;
+    }
+
+    setLoadingContrato(true);
+    try {
+      const contrato = await getContratoClienteActivoAction(
+        clientId,
+        empresaId,
+      );
+      
+      if (contrato) {
+        setContratoActivo(contrato as ContratoCliente);
+        if (contrato.tipoFacturacion) {
+          setTipoFacturacion(contrato.tipoFacturacion);
+        } else {
+          setTipoFacturacion("UNICO");
+        }
+      } else {
+        setContratoActivo(null);
+        setTipoFacturacion("UNICO");
+      }
+    } catch (error) {
+      console.error("Error loading active contract", error);
+      setContratoActivo(null);
+      setTipoFacturacion("UNICO");
+    } finally {
+      setLoadingContrato(false);
+    }
+  }, []);
+
   const handleEmpresaChange = (val: string) => {
     setSelectedEmpresa(val);
     fetchMetodosPago(val);
@@ -580,6 +613,10 @@ function NuevoServicioContent() {
     fetchServicios(val);
     void refreshFollowUpStatus(val);
     setServicioEspecifico("");
+    
+    if (selectedCliente) {
+      void loadContratoActivo(selectedCliente, val);
+    }
   };
 
   const handleClienteChange = async (clientId: string) => {
@@ -604,12 +641,17 @@ function NuevoServicioContent() {
       }
 
       applyConfigToForm(configs, dirId);
+      
+      if (selectedEmpresa) {
+        void loadContratoActivo(clientId, selectedEmpresa);
+      }
     } else {
       setDireccionesCliente([]);
       setSelectedDireccion("");
       setObservacion("");
       setDuracionMinutos("60");
       setFrecuenciaRecomendada("");
+      setContratoActivo(null);
     }
   };
 
@@ -619,34 +661,10 @@ function NuevoServicioContent() {
   };
 
   useEffect(() => {
-    const loadContratoActivo = async () => {
-      if (!selectedCliente || !selectedEmpresa) {
-        setContratoActivo(null);
-        return;
-      }
-
-      setLoadingContrato(true);
-      try {
-        const contrato = await getContratoClienteActivoAction(
-          selectedCliente,
-          selectedEmpresa,
-        );
-        setContratoActivo(contrato as ContratoCliente | null);
-        if (contrato?.tipoFacturacion) {
-          setTipoFacturacion(contrato.tipoFacturacion);
-        } else {
-          setTipoFacturacion("UNICO");
-        }
-      } catch (error) {
-        console.error("Error loading active contract", error);
-        setContratoActivo(null);
-      } finally {
-        setLoadingContrato(false);
-      }
-    };
-
-    void loadContratoActivo();
-  }, [selectedCliente, selectedEmpresa]);
+    if (selectedCliente && selectedEmpresa) {
+      void loadContratoActivo(selectedCliente, selectedEmpresa);
+    }
+  }, [selectedCliente, selectedEmpresa, loadContratoActivo]);
 
   const toUtcIsoFromDateTimeLocal = (value: string) => {
     const [datePart, timePart] = value.split("T");

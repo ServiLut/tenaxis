@@ -5,6 +5,7 @@ import { Prisma } from '../generated/client/client';
 import {
   addBogotaDaysUtc,
   startOfBogotaDayUtc,
+  parseBogotaDateToUtcStart,
 } from '../common/utils/timezone.util';
 
 type SessionWithUser = Prisma.SesionActividadGetPayload<{
@@ -32,6 +33,19 @@ interface GroupedSession extends SessionWithUser {
 @Injectable()
 export class MonitoringService {
   constructor(private prisma: PrismaService) {}
+
+  private getDateRange(dateStr?: string) {
+    if (dateStr) {
+      const start = parseBogotaDateToUtcStart(dateStr);
+      if (start) {
+        const end = addBogotaDaysUtc(start, 1);
+        return { start, end };
+      }
+    }
+    const start = startOfBogotaDayUtc(new Date());
+    const end = addBogotaDaysUtc(start, 1);
+    return { start, end };
+  }
 
   async startSession(
     tenantId: string,
@@ -129,12 +143,12 @@ export class MonitoringService {
     });
   }
 
-  async getAlerts(scope: MonitoringScope) {
-    const today = startOfBogotaDayUtc(new Date());
+  async getAlerts(scope: MonitoringScope, date?: string) {
+    const { start, end } = this.getDateRange(date);
 
     const commonWhere: Prisma.SesionActividadWhereInput = {
       tenantId: scope.tenantId,
-      fechaInicio: { gte: today },
+      fechaInicio: { gte: start, lt: end },
     };
 
     if (scope.empresaIds?.length) {
@@ -155,7 +169,7 @@ export class MonitoringService {
         where: {
           tenantId: scope.tenantId,
           tipo: 'SESSION_TIMEOUT',
-          createdAt: { gte: today },
+          createdAt: { gte: start, lt: end },
           ...(scope.empresaIds?.length
             ? { empresaId: { in: scope.empresaIds } }
             : {}),
@@ -183,7 +197,7 @@ export class MonitoringService {
       alerts.push({
         id: 'closures',
         type: 'danger',
-        title: `${unexpectedClosures} sesiones cerradas por inactividad hoy`,
+        title: `${unexpectedClosures} sesiones cerradas por inactividad ${date ? 'en la fecha' : 'hoy'}`,
         severity: 'baja',
       });
     }
@@ -194,12 +208,12 @@ export class MonitoringService {
     return alerts;
   }
 
-  async getOperationMetrics(scope: MonitoringScope) {
-    const today = startOfBogotaDayUtc(new Date());
+  async getOperationMetrics(scope: MonitoringScope, date?: string) {
+    const { start, end } = this.getDateRange(date);
 
     const where: Prisma.SesionActividadWhereInput = {
       tenantId: scope.tenantId,
-      fechaInicio: { gte: today },
+      fechaInicio: { gte: start, lt: end },
     };
 
     if (scope.empresaIds?.length) {
@@ -286,13 +300,13 @@ export class MonitoringService {
     };
   }
 
-  async getExecutiveAuditMetrics(scope: MonitoringScope) {
-    const today = startOfBogotaDayUtc(new Date());
-    const sevenDaysAgo = addBogotaDaysUtc(today, -7);
+  async getExecutiveAuditMetrics(scope: MonitoringScope, date?: string) {
+    const { start, end } = this.getDateRange(date);
+    const sevenDaysAgo = addBogotaDaysUtc(start, -7);
 
     const commonWhere: Prisma.AuditoriaWhereInput = {
       tenantId: scope.tenantId,
-      createdAt: { gte: sevenDaysAgo },
+      createdAt: { gte: sevenDaysAgo, lt: end },
     };
 
     if (scope.empresaIds?.length) {
@@ -319,7 +333,7 @@ export class MonitoringService {
     };
 
     audits.forEach((audit) => {
-      const isToday = audit.createdAt >= today;
+      const isToday = audit.createdAt >= start;
       const accion = audit.accion.toUpperCase();
 
       // Count by action
@@ -383,12 +397,12 @@ export class MonitoringService {
     };
   }
 
-  async findAllSessions(scope: MonitoringScope) {
-    const today = startOfBogotaDayUtc(new Date());
+  async findAllSessions(scope: MonitoringScope, date?: string) {
+    const { start, end } = this.getDateRange(date);
 
     const where: Prisma.SesionActividadWhereInput = {
       tenantId: scope.tenantId,
-      fechaInicio: { gte: today },
+      fechaInicio: { gte: start, lt: end },
     };
 
     if (scope.empresaIds?.length) {
@@ -464,14 +478,18 @@ export class MonitoringService {
     }));
   }
 
-  async getMemberLogs(scope: MonitoringScope, membershipId: string) {
-    const today = startOfBogotaDayUtc(new Date());
+  async getMemberLogs(
+    scope: MonitoringScope,
+    membershipId: string,
+    date?: string,
+  ) {
+    const { start, end } = this.getDateRange(date);
 
     const where: Prisma.LogEventoWhereInput = {
       tenantId: scope.tenantId,
       sesion: {
         membershipId,
-        fechaInicio: { gte: today },
+        fechaInicio: { gte: start, lt: end },
       },
     };
 
@@ -507,12 +525,12 @@ export class MonitoringService {
     });
   }
 
-  async getGlobalStats(scope: MonitoringScope) {
-    const today = startOfBogotaDayUtc(new Date());
+  async getGlobalStats(scope: MonitoringScope, date?: string) {
+    const { start, end } = this.getDateRange(date);
 
     const commonWhere: Prisma.SesionActividadWhereInput = {
       tenantId: scope.tenantId,
-      fechaInicio: { gte: today },
+      fechaInicio: { gte: start, lt: end },
     };
 
     if (scope.empresaIds?.length) {
@@ -529,7 +547,7 @@ export class MonitoringService {
 
     const eventsWhere: Prisma.LogEventoWhereInput = {
       tenantId: scope.tenantId,
-      createdAt: { gte: today },
+      createdAt: { gte: start, lt: end },
     };
 
     if (scope.empresaIds?.length) {
@@ -576,11 +594,14 @@ export class MonitoringService {
     scope: MonitoringScope,
     page: number = 1,
     limit: number = 20,
+    date?: string,
   ) {
     const skip = (page - 1) * limit;
+    const { start, end } = this.getDateRange(date);
 
     const where: Prisma.AuditoriaWhereInput = {
       tenantId: scope.tenantId,
+      createdAt: date ? { gte: start, lt: end } : undefined,
     };
 
     if (scope.empresaIds?.length) {
@@ -633,9 +654,11 @@ export class MonitoringService {
     };
   }
 
-  async findRecentLogs(scope: MonitoringScope) {
+  async findRecentLogs(scope: MonitoringScope, date?: string) {
+    const { start, end } = this.getDateRange(date);
     const where: Prisma.LogEventoWhereInput = {
       tenantId: scope.tenantId,
+      createdAt: date ? { gte: start, lt: end } : undefined,
     };
 
     if (scope.empresaIds?.length) {

@@ -1,29 +1,37 @@
 import { apiFetch } from "./base-client";
 
 export const monitoringClient = {
-  async getSessions(): Promise<unknown[]> {
-    return apiFetch<unknown[]>("/monitoring/sessions");
+  async getSessions(date?: string): Promise<unknown[]> {
+    const query = date ? `?date=${date}` : "";
+    return apiFetch<unknown[]>(`/monitoring/sessions${query}`);
   },
-  async getStats(): Promise<Record<string, unknown>> {
-    return apiFetch<Record<string, unknown>>("/monitoring/stats");
+  async getStats(date?: string): Promise<Record<string, unknown>> {
+    const query = date ? `?date=${date}` : "";
+    return apiFetch<Record<string, unknown>>(`/monitoring/stats${query}`);
   },
-  async getAlerts(): Promise<unknown[]> {
-    return apiFetch<unknown[]>("/monitoring/alerts");
+  async getAlerts(date?: string): Promise<unknown[]> {
+    const query = date ? `?date=${date}` : "";
+    return apiFetch<unknown[]>(`/monitoring/alerts${query}`);
   },
-  async getMetrics(): Promise<Record<string, unknown>> {
-    return apiFetch<Record<string, unknown>>("/monitoring/metrics");
+  async getMetrics(date?: string): Promise<Record<string, unknown>> {
+    const query = date ? `?date=${date}` : "";
+    return apiFetch<Record<string, unknown>>(`/monitoring/metrics${query}`);
   },
-  async getExecutiveAudit(): Promise<Record<string, unknown>> {
-    return apiFetch<Record<string, unknown>>("/monitoring/executive-audit");
+  async getExecutiveAudit(date?: string): Promise<Record<string, unknown>> {
+    const query = date ? `?date=${date}` : "";
+    return apiFetch<Record<string, unknown>>(`/monitoring/executive-audit${query}`);
   },
-  async getAudits(page: number = 1, limit: number = 10): Promise<Record<string, unknown>> {
-    return apiFetch<Record<string, unknown>>(`/monitoring/audits?page=${page}&limit=${limit}`);
+  async getAudits(page: number = 1, limit: number = 10, date?: string): Promise<Record<string, unknown>> {
+    const dateQuery = date ? `&date=${date}` : "";
+    return apiFetch<Record<string, unknown>>(`/monitoring/audits?page=${page}&limit=${limit}${dateQuery}`);
   },
-  async getRecentLogs(): Promise<unknown[]> {
-    return apiFetch<unknown[]>("/monitoring/recent-logs");
+  async getRecentLogs(date?: string): Promise<unknown[]> {
+    const query = date ? `?date=${date}` : "";
+    return apiFetch<unknown[]>(`/monitoring/recent-logs${query}`);
   },
-  async getLogsByMembership(membershipId: string): Promise<unknown[]> {
-    return apiFetch<unknown[]>(`/monitoring/logs/${membershipId}`);
+  async getLogsByMembership(membershipId: string, date?: string): Promise<unknown[]> {
+    const query = date ? `?date=${date}` : "";
+    return apiFetch<unknown[]>(`/monitoring/logs/${membershipId}${query}`);
   },
   async trackEvent(data: Record<string, unknown>) {
     return apiFetch("/monitoring/event", {

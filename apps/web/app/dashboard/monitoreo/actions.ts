@@ -12,9 +12,9 @@ import {
   Log
 } from "./types";
 
-export async function getMonitoringSessions(): Promise<ApiResponse<Session[]>> {
+export async function getMonitoringSessions(date?: string): Promise<ApiResponse<Session[]>> {
   try {
-    const data = await monitoringClient.getSessions() as Session[];
+    const data = await monitoringClient.getSessions(date) as Session[];
     return { data, message: "Success" };
   } catch (error: unknown) {
     const msg = error instanceof Error ? error.message : "Unknown error";
@@ -22,9 +22,9 @@ export async function getMonitoringSessions(): Promise<ApiResponse<Session[]>> {
   }
 }
 
-export async function getMonitoringStats(): Promise<ApiResponse<MonitoringStats>> {
+export async function getMonitoringStats(date?: string): Promise<ApiResponse<MonitoringStats>> {
   try {
-    const data = await monitoringClient.getStats() as unknown as MonitoringStats;
+    const data = await monitoringClient.getStats(date) as unknown as MonitoringStats;
     return { data, message: "Success" };
   } catch (error: unknown) {
     const msg = error instanceof Error ? error.message : "Unknown error";
@@ -32,9 +32,9 @@ export async function getMonitoringStats(): Promise<ApiResponse<MonitoringStats>
   }
 }
 
-export async function getMonitoringAlerts(): Promise<ApiResponse<MonitoringAlert[]>> {
+export async function getMonitoringAlerts(date?: string): Promise<ApiResponse<MonitoringAlert[]>> {
   try {
-    const data = await monitoringClient.getAlerts() as MonitoringAlert[];
+    const data = await monitoringClient.getAlerts(date) as MonitoringAlert[];
     return { data, message: "Success" };
   } catch (error: unknown) {
     const msg = error instanceof Error ? error.message : "Unknown error";
@@ -42,9 +42,9 @@ export async function getMonitoringAlerts(): Promise<ApiResponse<MonitoringAlert
   }
 }
 
-export async function getMonitoringMetrics(): Promise<ApiResponse<MonitoringMetrics>> {
+export async function getMonitoringMetrics(date?: string): Promise<ApiResponse<MonitoringMetrics>> {
   try {
-    const data = await monitoringClient.getMetrics() as unknown as MonitoringMetrics;
+    const data = await monitoringClient.getMetrics(date) as unknown as MonitoringMetrics;
     return { data, message: "Success" };
   } catch (error: unknown) {
     const msg = error instanceof Error ? error.message : "Unknown error";
@@ -52,9 +52,9 @@ export async function getMonitoringMetrics(): Promise<ApiResponse<MonitoringMetr
   }
 }
 
-export async function getExecutiveAuditMetrics(): Promise<ApiResponse<ExecutiveAuditMetrics>> {
+export async function getExecutiveAuditMetrics(date?: string): Promise<ApiResponse<ExecutiveAuditMetrics>> {
   try {
-    const data = await monitoringClient.getExecutiveAudit() as unknown as ExecutiveAuditMetrics;
+    const data = await monitoringClient.getExecutiveAudit(date) as unknown as ExecutiveAuditMetrics;
     return { data, message: "Success" };
   } catch (error: unknown) {
     const msg = error instanceof Error ? error.message : "Unknown error";
@@ -71,9 +71,9 @@ export async function getExecutiveAuditMetrics(): Promise<ApiResponse<ExecutiveA
   }
 }
 
-export async function getAudits(page: number = 1, limit: number = 20): Promise<ApiResponse<Audit[]>> {
+export async function getAudits(page: number = 1, limit: number = 20, date?: string): Promise<ApiResponse<Audit[]>> {
   try {
-    const result = await monitoringClient.getAudits(page, limit) as Record<string, unknown>;
+    const result = await monitoringClient.getAudits(page, limit, date) as Record<string, unknown>;
     return {
       data: (result.results || result.data || result) as Audit[],
       meta: (result.meta || { total: 0, page, limit }) as Record<string, unknown>,
@@ -85,9 +85,9 @@ export async function getAudits(page: number = 1, limit: number = 20): Promise<A
   }
 }
 
-export async function getRecentLogs(): Promise<ApiResponse<Log[]>> {
+export async function getRecentLogs(date?: string): Promise<ApiResponse<Log[]>> {
   try {
-    const data = await monitoringClient.getRecentLogs() as Log[];
+    const data = await monitoringClient.getRecentLogs(date) as Log[];
     return { data, message: "Success" };
   } catch (error: unknown) {
     const msg = error instanceof Error ? error.message : "Unknown error";
@@ -95,9 +95,9 @@ export async function getRecentLogs(): Promise<ApiResponse<Log[]>> {
   }
 }
 
-export async function getMemberLogs(membershipId: string): Promise<ApiResponse<Log[]>> {
+export async function getMemberLogs(membershipId: string, date?: string): Promise<ApiResponse<Log[]>> {
   try {
-    const data = await monitoringClient.getLogsByMembership(membershipId) as Log[];
+    const data = await monitoringClient.getLogsByMembership(membershipId, date) as Log[];
     return { data, message: "Success" };
   } catch (error: unknown) {
     const msg = error instanceof Error ? error.message : "Unknown error";

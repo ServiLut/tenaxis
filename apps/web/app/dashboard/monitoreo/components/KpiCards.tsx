@@ -12,11 +12,12 @@ interface KpiCardsProps {
   latency: number;
   activeTechniciansCount: number;
   onOpenKpi: (type: 'sessions' | 'events' | 'technicians') => void;
+  date?: string;
 }
 
 type KpiId = 'sessions' | 'events' | 'technicians' | 'latency';
 
-export function KpiCards({ stats, latency, activeTechniciansCount, onOpenKpi }: KpiCardsProps) {
+export function KpiCards({ stats, latency, activeTechniciansCount, onOpenKpi, date }: KpiCardsProps) {
   const kpis: { id: KpiId; title: string; value: string; icon: React.ElementType; trend: string; color: string; interactive: boolean }[] = [
     { 
       id: 'sessions',
@@ -29,7 +30,7 @@ export function KpiCards({ stats, latency, activeTechniciansCount, onOpenKpi }: 
     },
     { 
       id: 'events',
-      title: "Eventos hoy", 
+      title: date ? "Eventos del día" : "Eventos hoy", 
       value: stats.totalEvents.toLocaleString(), 
       icon: Zap, 
       trend: "+100%",

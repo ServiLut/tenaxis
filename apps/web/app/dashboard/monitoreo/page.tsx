@@ -10,7 +10,7 @@ import {
 } from "lucide-react";
 import { cn } from "@/components/ui/utils";
 import { DashboardLayout } from "@/components/dashboard";
-import { formatBogotaDateTime, formatBogotaTime } from "@/utils/date-utils";
+import { formatBogotaDateTime, formatBogotaTime, toBogotaYmd } from "@/utils/date-utils";
 
 // Hooks
 import { useMonitoringActivity } from "./hooks/use-monitoring-activity";
@@ -30,12 +30,17 @@ import { LogsModal } from "./components/LogsModal";
 import { AuditDetailModal } from "./components/AuditDetailModal";
 import { KPIModal } from "./components/KPIModal";
 import { exportToCSV } from "./components/utils";
+import { DatePicker } from "@/components/ui/date-picker";
+import { format } from "date-fns";
 
 import { Audit, Session } from "./types";
 
 export default function MonitoreoPage() {
   const [activeTab, setActiveTab] = useState<"actividad" | "auditoria">("actividad");
+  const [selectedDate, setSelectedDate] = useState<Date | undefined>(new Date());
   
+  const dateStr = selectedDate ? toBogotaYmd(selectedDate) : undefined;
+
   // Custom Hooks
   const {
     sessions,
@@ -57,7 +62,7 @@ export default function MonitoreoPage() {
     fetchExecutiveAudit,
     fetchUserLogs,
     fetchRecentLogs
-  } = useMonitoringActivity();
+  } = useMonitoringActivity(dateStr);
 
   const {
     audits,
@@ -70,7 +75,7 @@ export default function MonitoreoPage() {
     searchQuery,
     setSearchQuery,
     fetchAudits
-  } = useMonitoringAudits();
+  } = useMonitoringAudits(dateStr);
 
   // Modals State
   const [isLogsModalOpen, setIsLogsModalOpen] = useState(false);
@@ -164,32 +169,42 @@ export default function MonitoreoPage() {
 
         <MonitoringAlerts alerts={alerts} />
 
-        {/* Custom Tabs */}
-        <div className="flex items-center gap-1.5 rounded-2xl bg-muted p-1.5 w-fit border border-border">
-          <button
-            onClick={() => setActiveTab("actividad")}
-            className={cn(
-              "flex items-center gap-2 rounded-xl px-6 py-3 text-[11px] font-black uppercase tracking-[0.15em] transition-all duration-300",
-              activeTab === "actividad"
-                ? "bg-background text-accent shadow-md"
-                : "text-muted-foreground hover:text-foreground"
-            )}
-          >
-            <Activity className="h-4 w-4" />
-            Actividad
-          </button>
-          <button
-            onClick={() => setActiveTab("auditoria")}
-            className={cn(
-              "flex items-center gap-2 rounded-xl px-6 py-3 text-[11px] font-black uppercase tracking-[0.15em] transition-all duration-300",
-              activeTab === "auditoria"
-                ? "bg-background text-accent shadow-md"
-                : "text-muted-foreground hover:text-foreground"
-            )}
-          >
-            <History className="h-4 w-4" />
-            Auditoría
-          </button>
+        {/* Filters & Tabs */}
+        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6">
+          <div className="flex items-center gap-1.5 rounded-2xl bg-muted p-1.5 w-fit border border-border">
+            <button
+              onClick={() => setActiveTab("actividad")}
+              className={cn(
+                "flex items-center gap-2 rounded-xl px-6 py-3 text-[11px] font-black uppercase tracking-[0.15em] transition-all duration-300",
+                activeTab === "actividad"
+                  ? "bg-background text-accent shadow-md"
+                  : "text-muted-foreground hover:text-foreground"
+              )}
+            >
+              <Activity className="h-4 w-4" />
+              Actividad
+            </button>
+            <button
+              onClick={() => setActiveTab("auditoria")}
+              className={cn(
+                "flex items-center gap-2 rounded-xl px-6 py-3 text-[11px] font-black uppercase tracking-[0.15em] transition-all duration-300",
+                activeTab === "auditoria"
+                  ? "bg-background text-accent shadow-md"
+                  : "text-muted-foreground hover:text-foreground"
+              )}
+            >
+              <History className="h-4 w-4" />
+              Auditoría
+            </button>
+          </div>
+
+          <div className="w-full sm:w-64">
+            <DatePicker 
+              date={selectedDate} 
+              onChange={setSelectedDate} 
+              placeholder="Filtrar por fecha"
+            />
+          </div>
         </div>
 
         {/* Content Area */}
@@ -201,6 +216,7 @@ export default function MonitoreoPage() {
                 latency={latency} 
                 activeTechniciansCount={activeTechniciansList.length}
                 onOpenKpi={handleOpenKpiModal}
+                date={dateStr}
               />
 
               <OperationMetrics metrics={metrics} />
@@ -213,7 +229,7 @@ export default function MonitoreoPage() {
             </div>
           ) : (
             <div className="space-y-12">
-              <ExecutiveAudit metrics={executiveAudit} />
+              <ExecutiveAudit metrics={executiveAudit} date={dateStr} />
 
               <AuditsTable 
                 audits={audits}
@@ -283,7 +299,7 @@ export default function MonitoreoPage() {
       <KPIModal 
         isOpen={isKpiModalOpen && kpiModalType === 'events'} 
         onOpenChange={(open) => !open && setIsKpiModalOpen(false)}
-        title="Flujo de Actividad (Hoy)"
+        title={dateStr ? "Flujo de Actividad (Día)" : "Flujo de Actividad (Hoy)"}
         icon={Zap}
       >
         <div className="space-y-4">

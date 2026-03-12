@@ -35,28 +35,43 @@ export class MonitoringController {
   constructor(private readonly monitoringService: MonitoringService) {}
 
   @Get('sessions')
-  async findAllSessions(@GetScope() scope: MonitoringScope) {
-    return this.monitoringService.findAllSessions(scope);
+  async findAllSessions(
+    @GetScope() scope: MonitoringScope,
+    @Query() query: MonitoringPaginationDto,
+  ) {
+    return this.monitoringService.findAllSessions(scope, query.date);
   }
 
   @Get('stats')
-  async getStats(@GetScope() scope: MonitoringScope) {
-    return this.monitoringService.getGlobalStats(scope);
+  async getStats(
+    @GetScope() scope: MonitoringScope,
+    @Query() query: MonitoringPaginationDto,
+  ) {
+    return this.monitoringService.getGlobalStats(scope, query.date);
   }
 
   @Get('alerts')
-  async getAlerts(@GetScope() scope: MonitoringScope) {
-    return this.monitoringService.getAlerts(scope);
+  async getAlerts(
+    @GetScope() scope: MonitoringScope,
+    @Query() query: MonitoringPaginationDto,
+  ) {
+    return this.monitoringService.getAlerts(scope, query.date);
   }
 
   @Get('metrics')
-  async getMetrics(@GetScope() scope: MonitoringScope) {
-    return this.monitoringService.getOperationMetrics(scope);
+  async getMetrics(
+    @GetScope() scope: MonitoringScope,
+    @Query() query: MonitoringPaginationDto,
+  ) {
+    return this.monitoringService.getOperationMetrics(scope, query.date);
   }
 
   @Get('executive-audit')
-  async getExecutiveAudit(@GetScope() scope: MonitoringScope) {
-    return this.monitoringService.getExecutiveAuditMetrics(scope);
+  async getExecutiveAudit(
+    @GetScope() scope: MonitoringScope,
+    @Query() query: MonitoringPaginationDto,
+  ) {
+    return this.monitoringService.getExecutiveAuditMetrics(scope, query.date);
   }
 
   @Get('audits')
@@ -68,20 +83,29 @@ export class MonitoringController {
       scope,
       query.page || 1,
       query.limit || 20,
+      query.date,
     );
   }
 
   @Get('recent-logs')
-  async findRecentLogs(@GetScope() scope: MonitoringScope) {
-    return this.monitoringService.findRecentLogs(scope);
+  async findRecentLogs(
+    @GetScope() scope: MonitoringScope,
+    @Query() query: MonitoringPaginationDto,
+  ) {
+    return this.monitoringService.findRecentLogs(scope, query.date);
   }
 
   @Get('logs/:membershipId')
   async getMemberLogs(
     @GetScope() scope: MonitoringScope,
     @Param('membershipId') membershipId: string,
+    @Query() query: MonitoringPaginationDto,
   ) {
-    return this.monitoringService.getMemberLogs(scope, membershipId);
+    return this.monitoringService.getMemberLogs(
+      scope,
+      membershipId,
+      query.date,
+    );
   }
 
   @Post('event')

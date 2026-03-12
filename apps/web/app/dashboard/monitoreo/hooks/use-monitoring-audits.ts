@@ -6,13 +6,13 @@ import { getAudits } from "../actions";
 import { toast } from "sonner";
 import { Audit } from "../types";
 
-export function useMonitoringAudits() {
+export function useMonitoringAudits(date?: string) {
   const [currentPage, setCurrentPage] = useState(1);
   const [searchQuery, setSearchQuery] = useState("");
 
   const auditsQuery = useQuery({
-    queryKey: ["monitoring", "audits", currentPage],
-    queryFn: () => getAudits(currentPage, 20),
+    queryKey: ["monitoring", "audits", currentPage, date],
+    queryFn: () => getAudits(currentPage, 20, date),
     staleTime: 60000,
     retry: 2,
   });

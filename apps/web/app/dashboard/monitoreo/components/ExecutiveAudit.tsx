@@ -17,14 +17,15 @@ import { ExecutiveAuditMetrics } from "../types";
 
 interface ExecutiveAuditProps {
   metrics: ExecutiveAuditMetrics;
+  date?: string;
 }
 
-export function ExecutiveAudit({ metrics }: ExecutiveAuditProps) {
+export function ExecutiveAudit({ metrics, date }: ExecutiveAuditProps) {
   const summaryCards = [
     { label: "Creados", value: metrics.today.created, icon: PlusCircle, color: "text-emerald-500", bg: "bg-emerald-500/10", week: metrics.week.created },
     { label: "Editados", value: metrics.today.updated, icon: Edit3, color: "text-blue-500", bg: "bg-blue-500/10", week: metrics.week.updated },
     { label: "Eliminados", value: metrics.today.deleted, icon: Trash2, color: "text-red-500", bg: "bg-red-500/10", week: metrics.week.deleted },
-    { label: "Total Hoy", value: metrics.today.total, icon: BarChart3, color: "text-purple-500", bg: "bg-purple-500/10", week: metrics.week.total },
+    { label: date ? "Total Día" : "Total Hoy", value: metrics.today.total, icon: BarChart3, color: "text-purple-500", bg: "bg-purple-500/10", week: metrics.week.total },
   ];
 
   return (

@@ -14,18 +14,18 @@ import { toast } from "sonner";
 import { useEffect, useState, useMemo } from "react";
 import { Session, MonitoringStats, Log, MonitoringAlert, MonitoringMetrics, ExecutiveAuditMetrics } from "../types";
 
-export function useMonitoringActivity() {
+export function useMonitoringActivity(date?: string) {
   const [latency, setLatency] = useState(0);
   const [maxLatency, setMaxLatency] = useState(0);
 
   // Activity query (sessions + stats)
   const activityQuery = useQuery({
-    queryKey: ["monitoring", "activity"],
+    queryKey: ["monitoring", "activity", date],
     queryFn: async () => {
       const start = Date.now();
       const [sessionsRes, statsRes] = await Promise.all([
-        getMonitoringSessions(),
-        getMonitoringStats()
+        getMonitoringSessions(date),
+        getMonitoringStats(date)
       ]);
       const end = Date.now();
       const currentLatency = end - start;
@@ -44,48 +44,48 @@ export function useMonitoringActivity() {
         stats: statsRes.data 
       };
     },
-    refetchInterval: 30000,
+    refetchInterval: date ? false : 30000,
     staleTime: 10000,
     retry: 2,
   });
 
   // Alerts query
   const alertsQuery = useQuery({
-    queryKey: ["monitoring", "alerts"],
+    queryKey: ["monitoring", "alerts", date],
     queryFn: async () => {
-      const res = await getMonitoringAlerts();
+      const res = await getMonitoringAlerts(date);
       if (res.message && (!res.data || res.data.length === 0)) {
         // throw new Error(res.message); // Opcional: no bloquear todo por alertas
       }
       return res.data || [] as MonitoringAlert[];
     },
-    refetchInterval: 60000,
+    refetchInterval: date ? false : 60000,
   });
 
   // Metrics query
   const metricsQuery = useQuery({
-    queryKey: ["monitoring", "metrics"],
+    queryKey: ["monitoring", "metrics", date],
     queryFn: async () => {
-      const res = await getMonitoringMetrics();
+      const res = await getMonitoringMetrics(date);
       if (res.message && (!res.data || res.data.userCount === 0)) {
         // throw new Error(res.message);
       }
       return res.data;
     },
-    refetchInterval: 120000, // Cada 2 minutos
+    refetchInterval: date ? false : 120000, // Cada 2 minutos
   });
 
   // Executive Audit query
   const executiveAuditQuery = useQuery({
-    queryKey: ["monitoring", "executive-audit"],
+    queryKey: ["monitoring", "executive-audit", date],
     queryFn: async () => {
-      const res = await getExecutiveAuditMetrics();
+      const res = await getExecutiveAuditMetrics(date);
       if (res.message && (!res.data || res.data.successRate === 0)) {
         // throw new Error(res.message);
       }
       return res.data;
     },
-    refetchInterval: 300000, // Cada 5 minutos
+    refetchInterval: date ? false : 300000, // Cada 5 minutos
   });
 
   useEffect(() => {
@@ -97,8 +97,8 @@ export function useMonitoringActivity() {
   const [selectedMembershipId, setSelectedMembershipId] = useState<string | null>(null);
   
   const userLogsQuery = useQuery({
-    queryKey: ["monitoring", "logs", selectedMembershipId],
-    queryFn: () => getMemberLogs(selectedMembershipId!),
+    queryKey: ["monitoring", "logs", selectedMembershipId, date],
+    queryFn: () => getMemberLogs(selectedMembershipId!, date),
     enabled: !!selectedMembershipId,
     staleTime: 5000,
     retry: 1,
@@ -113,8 +113,8 @@ export function useMonitoringActivity() {
   const [recentLogsEnabled, setRecentLogsEnabled] = useState(false);
 
   const recentLogsQuery = useQuery({
-    queryKey: ["monitoring", "recent-logs"],
-    queryFn: getRecentLogs,
+    queryKey: ["monitoring", "recent-logs", date],
+    queryFn: () => getRecentLogs(date),
     enabled: recentLogsEnabled,
     staleTime: 30000,
     retry: 1,
