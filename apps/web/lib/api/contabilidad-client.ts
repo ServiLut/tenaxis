@@ -1,4 +1,5 @@
 import { apiFetch } from "./base-client";
+import { GenerateMonitoringPayrollResponse } from "@/app/dashboard/monitoreo/types";
 
 export interface TechnicianRecaudo {
   id: string;
@@ -33,6 +34,15 @@ export interface MovimientoFinanciero {
       apellido: string;
     };
   };
+}
+
+export interface GenerateMonitoringPayrollPayload {
+  empresaId: string;
+  fechaInicio: string;
+  fechaFin: string;
+  membershipIds?: string[];
+  includeAllEligible?: boolean;
+  observaciones?: string;
 }
 
 export const contabilidadClient = {
@@ -111,5 +121,17 @@ export const contabilidadClient = {
       method: "POST",
       body: formData,
     });
+  },
+
+  async generarNominaDesdeMonitoreo(
+    data: GenerateMonitoringPayrollPayload,
+  ): Promise<GenerateMonitoringPayrollResponse> {
+    return apiFetch<GenerateMonitoringPayrollResponse>(
+      "/finanzas/nominas/generar-desde-monitoreo",
+      {
+        method: "POST",
+        body: JSON.stringify(data),
+      },
+    );
   }
 };

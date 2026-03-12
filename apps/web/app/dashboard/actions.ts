@@ -370,6 +370,15 @@ export async function deleteClienteAction(id: string) {
   }
 }
 
+export async function getMyProfileAction() {
+  try {
+    return await authClient.getProfile();
+  } catch (error) {
+    console.error("Error fetching profile:", error);
+    return null;
+  }
+}
+
 export async function getContratoClienteActivoAction(clienteId: string, empresaId?: string) {
   try {
     return await clientesClient.getActiveContrato(clienteId, empresaId);

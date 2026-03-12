@@ -6,9 +6,17 @@ export interface UserProfile {
   role: string;
   nombre?: string;
   apellido?: string;
+  telefono?: string;
+  tipoDocumento?: string;
+  numeroDocumento?: string;
+  banco?: string;
+  tipoCuenta?: string;
+  numeroCuenta?: string;
+  valorHora?: number;
   isTenantAdmin?: boolean;
   membershipId?: string;
   tenantId?: string;
+  empresaId?: string;
   sesionId?: string;
 }
 

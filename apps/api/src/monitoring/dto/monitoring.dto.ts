@@ -3,6 +3,7 @@ import {
   IsOptional,
   IsNotEmpty,
   IsNumber,
+  Matches,
   Min,
   Max,
 } from 'class-validator';
@@ -47,5 +48,8 @@ export class MonitoringPaginationDto {
 
   @IsString()
   @IsOptional()
+  @Matches(/^\d{4}-\d{2}-\d{2}$/, {
+    message: 'date debe estar en formato YYYY-MM-DD',
+  })
   date?: string;
 }

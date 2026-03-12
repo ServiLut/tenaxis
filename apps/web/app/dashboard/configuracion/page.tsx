@@ -11,6 +11,7 @@ import {
   updateServicioAction,
   updateMembershipAction,
   getEnterprisesAction,
+  getMyProfileAction,
 } from "../actions";
 import { DashboardLayout } from "@/components/dashboard";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter } from "@/components/ui/card";
@@ -50,6 +51,7 @@ type TipoInteres = {
 type UserProfile = {
   id?: string;
   membershipId?: string;
+  empresaId?: string;
   nombre?: string;
   apellido?: string;
   tipoDocumento?: string;
@@ -79,7 +81,6 @@ type Empresa = {
   nombre: string;
 };
 
-const BANCOS_PERFIL = ['Bancolombia', 'Nequi', 'Davivienda', 'PSE', 'Paypal'];
 const TIPOS_CUENTA = ['Ahorros', 'Corriente', 'Monedero (Nequi/Daviplata)', 'Otro'];
 const BANCOS_COLOMBIA = [
   "Bancolombia", "Banco de Bogotá", "Davivienda", "BBVA Colombia", "Banco de Occidente",
@@ -105,13 +106,43 @@ export default function ConfiguracionPage() {
   const [editingServicio, setEditingServicio] = useState<ServicioConfig | null>(null);
 
   useEffect(() => {
-    const userData = localStorage.getItem("user");
-    if (userData && userData !== "undefined") {
-      try { 
-        const parsed = JSON.parse(userData);
-        setUser(parsed);
-      } catch { /* ignore */ }
-    }
+    const loadProfile = async () => {
+      const userData = localStorage.getItem("user");
+      let localUser: UserProfile | null = null;
+
+      if (userData && userData !== "undefined") {
+        try {
+          localUser = JSON.parse(userData) as UserProfile;
+        } catch {
+          localUser = null;
+        }
+      }
+
+      if (localUser) {
+        setUser(localUser);
+      }
+
+      try {
+        const profile = await getMyProfileAction();
+        if (profile) {
+          setUser((prev) => ({
+            ...prev,
+            ...profile,
+          }));
+          localStorage.setItem("user", JSON.stringify({
+            ...localUser,
+            ...profile,
+          }));
+        }
+      } catch {
+        // fallback silencioso al cache local
+      }
+    };
+
+    loadProfile().catch(() => {
+      // noop
+    });
+
     const handleHashChange = () => {
       const hash = window.location.hash.replace('#', '');
       const validTabs: TabType[] = ["intereses", "servicios", "empresas", "perfil"];
@@ -204,29 +235,39 @@ export default function ConfiguracionPage() {
 
   const handleSaveProfile = async () => {
     if (user) {
-      // Siempre guardamos localmente para los campos que el backend no soporta aún
-      // (banco, tipoCuenta, numeroCuenta, valorHora)
       localStorage.setItem("user", JSON.stringify(user));
       
       if (user.membershipId) {
         try {
-          // Solo enviamos los campos básicos que el backend soporta actualmente
+          const currentEnterpriseId = localStorage.getItem("current-enterprise-id") || user.empresaId;
           const res = await updateMembershipAction(user.membershipId, {
             nombre: user.nombre,
             apellido: user.apellido,
             telefono: user.telefono,
+            tipoDocumento: user.tipoDocumento,
+            numeroDocumento: user.numeroDocumento,
+            banco: user.banco,
+            tipoCuenta: user.tipoCuenta,
+            numeroCuenta: user.numeroCuenta,
+            valorHora: user.valorHora,
+            cuentaPagoEmpresaId: currentEnterpriseId,
           });
 
           if (res.success) {
+            const profile = await getMyProfileAction();
+            if (profile) {
+              const merged = { ...user, ...profile };
+              setUser(merged);
+              localStorage.setItem("user", JSON.stringify(merged));
+            }
             toast.success("Perfil sincronizado con el servidor");
           } else {
-            // Si el servidor falla (por campos no soportados), tenemos el guardado local
-            console.warn("Server sync failed, kept local changes", res.error);
-            toast.info("Cambios guardados localmente");
+            console.warn("Server sync failed", res.error);
+            toast.error(res.error || "No se pudieron guardar los cambios");
           }
         } catch (error) {
           console.error("Connection error during sync", error);
-          toast.info("Cambios guardados localmente (sin conexión con el servidor)");
+          toast.error("No se pudo sincronizar el perfil con el servidor");
         }
       } else {
         toast.success("Perfil actualizado localmente");
@@ -364,14 +405,59 @@ export default function ConfiguracionPage() {
                   <CardHeader className="p-8 border-b border-border bg-muted/30">
                     <div className="flex items-center gap-4">
                       <div className="h-12 w-12 rounded-2xl bg-emerald-500/10 flex items-center justify-center text-emerald-600"><CreditCard className="h-6 w-6" /></div>
-                      <div><CardTitle className="text-xl font-black text-foreground">Finanzas</CardTitle><CardDescription className="font-bold text-[10px] uppercase tracking-[0.2em] mt-1.5 text-muted-foreground">Datos para dispersión de pagos</CardDescription></div>
+                      <div>
+                        <CardTitle className="text-xl font-black text-foreground">Información Bancaria</CardTitle>
+                        <CardDescription className="font-bold text-[10px] uppercase tracking-[0.2em] mt-1.5 text-muted-foreground">
+                          Datos para la dispersión de pagos y honorarios
+                        </CardDescription>
+                      </div>
                     </div>
                   </CardHeader>
                   <CardContent className="p-8 grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <div className="space-y-2"><Label className="text-[10px] font-black uppercase text-muted-foreground">Banco</Label><Select value={user?.banco || ""} onChange={(e: React.ChangeEvent<HTMLSelectElement>) => updateProfileField("banco", e.target.value)} className="h-12 rounded-xl border-border bg-background text-foreground font-bold"><option value="" disabled>Seleccione...</option>{BANCOS_PERFIL.map(b => <option key={b} value={b}>{b}</option>)}</Select></div>
-                    <div className="space-y-2"><Label className="text-[10px] font-black uppercase text-muted-foreground">Tipo de Cuenta</Label><Select value={user?.tipoCuenta || ""} onChange={(e: React.ChangeEvent<HTMLSelectElement>) => updateProfileField("tipoCuenta", e.target.value)} className="h-12 rounded-xl border-border bg-background text-foreground font-bold"><option value="" disabled>Seleccione...</option>{TIPOS_CUENTA.map(t => <option key={t} value={t}>{t}</option>)}</Select></div>
-                    <div className="space-y-2"><Label className="text-[10px] font-black uppercase text-muted-foreground">Número de Cuenta</Label><Input value={user?.numeroCuenta || ""} onChange={(e) => updateProfileField("numeroCuenta", e.target.value)} className="h-12 rounded-xl border-border bg-background text-foreground font-bold" /></div>
-                    <div className="space-y-2"><Label className="text-[10px] font-black uppercase text-muted-foreground">Valor Hora</Label><Input type="number" value={user?.valorHora || 0} onChange={(e) => updateProfileField("valorHora", parseInt(e.target.value))} className="h-12 rounded-xl border-border bg-background text-emerald-600 font-bold" /></div>
+                    <div className="space-y-2">
+                      <Label className="text-[10px] font-black uppercase text-muted-foreground">Banco / Entidad</Label>
+                      <Select 
+                        value={user?.banco || ""} 
+                        onChange={(e: React.ChangeEvent<HTMLSelectElement>) => updateProfileField("banco", e.target.value)} 
+                        className="h-12 rounded-xl border-border bg-background text-foreground font-bold"
+                      >
+                        <option value="" disabled>Seleccione un banco...</option>
+                        {BANCOS_COLOMBIA.map(b => <option key={b} value={b}>{b}</option>)}
+                      </Select>
+                    </div>
+                    <div className="space-y-2">
+                      <Label className="text-[10px] font-black uppercase text-muted-foreground">Tipo de Cuenta</Label>
+                      <Select 
+                        value={user?.tipoCuenta || ""} 
+                        onChange={(e: React.ChangeEvent<HTMLSelectElement>) => updateProfileField("tipoCuenta", e.target.value)} 
+                        className="h-12 rounded-xl border-border bg-background text-foreground font-bold"
+                      >
+                        <option value="" disabled>Seleccione el tipo...</option>
+                        {TIPOS_CUENTA.map(t => <option key={t} value={t}>{t}</option>)}
+                      </Select>
+                    </div>
+                    <div className="space-y-2">
+                      <Label className="text-[10px] font-black uppercase text-muted-foreground">Número de Cuenta</Label>
+                      <Input 
+                        placeholder="Ej: 123456789"
+                        value={user?.numeroCuenta || ""} 
+                        onChange={(e) => updateProfileField("numeroCuenta", e.target.value)} 
+                        className="h-12 rounded-xl border-border bg-background text-foreground font-bold" 
+                      />
+                    </div>
+                    <div className="space-y-2">
+                      <Label className="text-[10px] font-black uppercase text-muted-foreground">Valor Hora de Servicio</Label>
+                      <div className="relative">
+                        <span className="absolute left-4 top-1/2 -translate-y-1/2 text-emerald-600 font-bold">$</span>
+                        <Input 
+                          type="number" 
+                          placeholder="0.00"
+                          value={user?.valorHora || 0} 
+                          onChange={(e) => updateProfileField("valorHora", parseFloat(e.target.value) || 0)} 
+                          className="h-12 pl-8 rounded-xl border-border bg-background text-emerald-600 font-bold" 
+                        />
+                      </div>
+                    </div>
                   </CardContent>
                 </Card>
 

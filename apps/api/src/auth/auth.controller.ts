@@ -43,7 +43,11 @@ export class AuthController {
     if (!token) {
       throw new UnauthorizedException();
     }
-    return this.authService.getProfile(token);
+    const enterpriseIdHeader = req.headers['x-enterprise-id'];
+    const enterpriseId = Array.isArray(enterpriseIdHeader)
+      ? enterpriseIdHeader[0]
+      : enterpriseIdHeader;
+    return this.authService.getProfile(token, enterpriseId);
   }
 
   @Patch('test-role')

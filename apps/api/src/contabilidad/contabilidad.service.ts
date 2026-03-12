@@ -1,10 +1,202 @@
-import { Injectable } from '@nestjs/common';
+import {
+  BadRequestException,
+  ConflictException,
+  Injectable,
+} from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 import { EstadoConsignacion } from '../generated/client/client';
+import { GenerateMonitoringPayrollDto } from './generate-monitoring-payroll.dto';
+import {
+  addBogotaDaysUtc,
+  parseBogotaDateToUtcEnd,
+  parseBogotaDateToUtcStart,
+} from '../common/utils/timezone.util';
 
 @Injectable()
 export class ContabilidadService {
   constructor(private prisma: PrismaService) {}
+
+  private normalizeDateRange(fechaInicio: string, fechaFin: string) {
+    const start =
+      parseBogotaDateToUtcStart(fechaInicio.slice(0, 10)) || new Date(fechaInicio);
+    const endInclusive =
+      parseBogotaDateToUtcEnd(fechaFin.slice(0, 10)) || new Date(fechaFin);
+    const parsedEndStart =
+      parseBogotaDateToUtcStart(fechaFin.slice(0, 10)) || new Date(fechaFin);
+    const endExclusive =
+      fechaFin.length <= 10
+        ? addBogotaDaysUtc(parsedEndStart, 1)
+        : new Date(endInclusive.getTime() + 1);
+
+    return { start, endInclusive, endExclusive };
+  }
+
+  private getSessionDurationMinutes(session: {
+    fechaInicio: Date;
+    fechaFin: Date | null;
+    duracionMin: number | null;
+    updatedAt?: Date;
+  }) {
+    if (
+      session.fechaFin &&
+      typeof session.duracionMin === 'number' &&
+      session.duracionMin >= 0
+    ) {
+      return session.duracionMin;
+    }
+
+    const endReference = session.fechaFin || session.updatedAt || new Date();
+
+    return Math.max(
+      0,
+      Math.round(
+        (endReference.getTime() - session.fechaInicio.getTime()) / 60000,
+      ),
+    );
+  }
+
+  private mapNominaDecimalFields<T extends {
+    totalValorPagado: unknown;
+    totalRepuestos: unknown;
+    totalIva: unknown;
+    baseComisionable: unknown;
+    porcentajeAplicado: unknown;
+    salarioFijo: unknown;
+    totalComisiones: unknown;
+    totalPagar: unknown;
+  }>(nomina: T) {
+    return {
+      ...nomina,
+      totalValorPagado: Number(nomina.totalValorPagado || 0),
+      totalRepuestos: Number(nomina.totalRepuestos || 0),
+      totalIva: Number(nomina.totalIva || 0),
+      baseComisionable: Number(nomina.baseComisionable || 0),
+      porcentajeAplicado:
+        nomina.porcentajeAplicado === null || nomina.porcentajeAplicado === undefined
+          ? null
+          : Number(nomina.porcentajeAplicado),
+      salarioFijo:
+        nomina.salarioFijo === null || nomina.salarioFijo === undefined
+          ? null
+          : Number(nomina.salarioFijo),
+      totalComisiones: Number(nomina.totalComisiones || 0),
+      totalPagar: Number(nomina.totalPagar || 0),
+    };
+  }
+
+  private async buildMonitoringPayrollItems(
+    tenantId: string,
+    empresaId: string,
+    start: Date,
+    endExclusive: Date,
+    membershipIds?: string[],
+  ) {
+    const sessions = await this.prisma.sesionActividad.findMany({
+      where: {
+        tenantId,
+        empresaId,
+        fechaInicio: { gte: start, lt: endExclusive },
+        ...(membershipIds?.length
+          ? { membershipId: { in: membershipIds } }
+          : {}),
+      },
+      include: {
+        membership: {
+          include: {
+            user: {
+              select: {
+                nombre: true,
+                apellido: true,
+              },
+            },
+            cuentasPago: {
+              where: {
+                tenantId,
+                empresaId,
+              },
+              orderBy: {
+                createdAt: 'desc',
+              },
+            },
+          },
+        },
+      },
+      orderBy: [{ membershipId: 'asc' }, { fechaInicio: 'asc' }],
+    });
+
+    const groups = new Map<
+      string,
+      {
+        membershipId: string;
+        empresaId: string;
+        role: string;
+        nombre: string;
+        apellido: string;
+        valorHora: number | null;
+        sesionesCerradas: number;
+        sesionesAbiertas: number;
+        minutosBrutos: number;
+        minutosInactivos: number;
+        minutosPagables: number;
+      }
+    >();
+
+    sessions.forEach((session) => {
+      const current = groups.get(session.membershipId) || {
+        membershipId: session.membershipId,
+        empresaId: session.empresaId,
+        role: session.membership.role,
+        nombre: session.membership.user.nombre,
+        apellido: session.membership.user.apellido,
+        valorHora:
+          session.membership.cuentasPago[0]?.valorHora !== null &&
+          session.membership.cuentasPago[0]?.valorHora !== undefined
+            ? Number(session.membership.cuentasPago[0].valorHora)
+            : null,
+        sesionesCerradas: 0,
+        sesionesAbiertas: 0,
+        minutosBrutos: 0,
+        minutosInactivos: 0,
+        minutosPagables: 0,
+      };
+
+      const duracionMin = this.getSessionDurationMinutes(session);
+      const minutosPagables = Math.max(0, duracionMin - session.tiempoInactivo);
+
+      if (session.fechaFin) {
+        current.sesionesCerradas += 1;
+      } else {
+        current.sesionesAbiertas += 1;
+      }
+
+      current.minutosBrutos += duracionMin;
+      current.minutosInactivos += session.tiempoInactivo;
+      current.minutosPagables += minutosPagables;
+
+      groups.set(session.membershipId, current);
+    });
+
+    return Array.from(groups.values()).map((item) => {
+      const horasPagables = Number((item.minutosPagables / 60).toFixed(2));
+      const pagoEstimado =
+        item.valorHora !== null
+          ? Number((horasPagables * item.valorHora).toFixed(2))
+          : 0;
+      const estado =
+        item.sesionesCerradas === 0
+          ? 'SIN_SESIONES_CERRADAS'
+          : item.valorHora === null
+            ? 'SIN_VALOR_HORA'
+            : 'OK';
+
+      return {
+        ...item,
+        horasPagables,
+        pagoEstimado,
+        estado,
+      };
+    });
+  }
 
   async getRecaudoTecnicos(tenantId: string, empresaId?: string) {
     // Buscar todos los técnicos (TenantMembership con rol OPERADOR)
@@ -312,7 +504,7 @@ export class ContabilidadService {
   }
 
   async getNominas(tenantId: string, empresaId?: string) {
-    return this.prisma.nomina.findMany({
+    const nominas = await this.prisma.nomina.findMany({
       where: {
         tenantId,
         ...(empresaId && { empresaId }),
@@ -326,6 +518,8 @@ export class ContabilidadService {
         },
       },
     });
+
+    return nominas.map((nomina) => this.mapNominaDecimalFields(nomina));
   }
 
   async getAnticipos(tenantId: string, empresaId?: string) {
@@ -387,5 +581,130 @@ export class ContabilidadService {
         razon: data.razon,
       },
     });
+  }
+
+  async generatePayrollFromMonitoring(
+    tenantId: string,
+    dto: GenerateMonitoringPayrollDto,
+  ) {
+    const { start, endInclusive, endExclusive } = this.normalizeDateRange(
+      dto.fechaInicio,
+      dto.fechaFin,
+    );
+    const requestedMembershipIds =
+      dto.includeAllEligible || !dto.membershipIds?.length
+        ? undefined
+        : dto.membershipIds;
+
+    const previewItems = await this.buildMonitoringPayrollItems(
+      tenantId,
+      dto.empresaId,
+      start,
+      endExclusive,
+      requestedMembershipIds,
+    );
+
+    const eligibleItems = previewItems.filter((item) => item.estado === 'OK');
+
+    if (eligibleItems.length === 0) {
+      throw new BadRequestException(
+        'No hay colaboradores elegibles para generar nómina desde monitoreo',
+      );
+    }
+
+    const targetItems = requestedMembershipIds?.length
+      ? eligibleItems.filter((item) =>
+          requestedMembershipIds.includes(item.membershipId),
+        )
+      : eligibleItems;
+
+    if (targetItems.length === 0) {
+      throw new BadRequestException(
+        'Los membershipIds enviados no tienen sesiones cerradas con valorHora configurado',
+      );
+    }
+
+    const existingPayrolls = await this.prisma.nomina.findMany({
+      where: {
+        tenantId,
+        empresaId: dto.empresaId,
+        membershipId: {
+          in: targetItems.map((item) => item.membershipId),
+        },
+        fechaInicio: start,
+        fechaFin: endInclusive,
+      },
+      select: {
+        id: true,
+        membershipId: true,
+      },
+    });
+
+    if (existingPayrolls.length > 0) {
+      throw new ConflictException({
+        message:
+          'Ya existen nóminas para algunos colaboradores en el rango seleccionado',
+        duplicates: existingPayrolls,
+      });
+    }
+
+    const observaciones = dto.observaciones?.trim()
+      ? dto.observaciones.trim()
+      : `Generada desde monitoreo para el rango ${dto.fechaInicio} - ${dto.fechaFin}`;
+
+    const createdPayrolls = await this.prisma.$transaction(async (tx) => {
+      const created: Array<
+        ReturnType<typeof this.mapNominaDecimalFields>
+      > = [];
+
+      for (const item of targetItems) {
+        const payroll = await tx.nomina.create({
+          data: {
+            tenantId,
+            empresaId: dto.empresaId,
+            membershipId: item.membershipId,
+            fechaInicio: start,
+            fechaFin: endInclusive,
+            totalServicios: item.sesionesCerradas,
+            totalValorPagado: item.pagoEstimado,
+            totalRepuestos: 0,
+            totalIva: 0,
+            baseComisionable: item.pagoEstimado,
+            porcentajeAplicado: null,
+            salarioFijo: null,
+            totalComisiones: 0,
+            totalPagar: item.pagoEstimado,
+            estado: 'BORRADOR',
+            observaciones,
+          },
+          include: {
+            membership: {
+              include: {
+                user: {
+                  select: { nombre: true, apellido: true },
+                },
+              },
+            },
+          },
+        });
+
+        created.push(this.mapNominaDecimalFields(payroll));
+      }
+
+      return created;
+    });
+
+    return {
+      success: true,
+      generated: createdPayrolls,
+      summary: {
+        total: createdPayrolls.length,
+        totalPagar: Number(
+          createdPayrolls
+            .reduce((acc, payroll) => acc + payroll.totalPagar, 0)
+            .toFixed(2),
+        ),
+      },
+    };
   }
 }

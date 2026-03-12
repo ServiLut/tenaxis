@@ -108,7 +108,7 @@ export class AuthService {
     };
   }
 
-  async getProfile(token: string) {
+  async getProfile(token: string, enterpriseId?: string) {
     try {
       const payload = await this.jwtService.verifyAsync<JwtPayload>(token);
       const allowedUuids = (process.env.ALLOWED_TENANT_ADMINS || '')
@@ -117,9 +117,66 @@ export class AuthService {
         .filter((id) => id.length > 0);
 
       const isTenantAdmin = allowedUuids.includes(payload.sub);
+      const user = await this.prisma.user.findUnique({
+        where: { id: payload.sub },
+        include: {
+          memberships: {
+            where: payload.membershipId
+              ? { id: payload.membershipId }
+              : { aprobado: true },
+            include: {
+              cuentasPago: {
+                where: payload.tenantId
+                  ? {
+                      tenantId: payload.tenantId,
+                      ...(enterpriseId ? { empresaId: enterpriseId } : {}),
+                    }
+                  : undefined,
+                orderBy: {
+                  createdAt: 'desc',
+                },
+              },
+              empresaMemberships: {
+                where: {
+                  activo: true,
+                  deletedAt: null,
+                },
+                select: {
+                  empresaId: true,
+                },
+              },
+            },
+          },
+        },
+      });
+
+      const membership = user?.memberships?.[0];
+      const cuentaPago =
+        membership?.cuentasPago?.[0] ||
+        (enterpriseId
+          ? undefined
+          : membership?.cuentasPago?.find((item) => item.valorHora !== null));
 
       return {
         ...payload,
+        id: user?.id || payload.sub,
+        email: user?.email || payload.email,
+        nombre: user?.nombre,
+        apellido: user?.apellido,
+        telefono: user?.telefono,
+        tipoDocumento: user?.tipoDocumento,
+        numeroDocumento: user?.numeroDocumento,
+        banco: cuentaPago?.banco || undefined,
+        tipoCuenta: cuentaPago?.tipoCuenta || undefined,
+        numeroCuenta: cuentaPago?.numeroCuenta || undefined,
+        valorHora:
+          cuentaPago?.valorHora !== null && cuentaPago?.valorHora !== undefined
+            ? Number(cuentaPago.valorHora)
+            : undefined,
+        empresaId:
+          enterpriseId ||
+          membership?.empresaMemberships?.[0]?.empresaId ||
+          payload.empresaId,
         isTenantAdmin,
       };
     } catch {

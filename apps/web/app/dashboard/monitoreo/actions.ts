@@ -1,5 +1,7 @@
 "use server";
 
+import { cookies } from "next/headers";
+import { contabilidadClient } from "@/lib/api/contabilidad-client";
 import { monitoringClient } from "@/lib/api/monitoreo-client";
 import { 
   ApiResponse, 
@@ -9,7 +11,9 @@ import {
   MonitoringMetrics, 
   ExecutiveAuditMetrics,
   Audit,
-  Log
+  Log,
+  MonitoringPayrollPreview,
+  GenerateMonitoringPayrollResponse,
 } from "./types";
 
 export async function getMonitoringSessions(date?: string): Promise<ApiResponse<Session[]>> {
@@ -92,6 +96,64 @@ export async function getRecentLogs(date?: string): Promise<ApiResponse<Log[]>> 
   } catch (error: unknown) {
     const msg = error instanceof Error ? error.message : "Unknown error";
     return { data: [], message: msg };
+  }
+}
+
+export async function getMonitoringPayrollPreview(date?: string): Promise<ApiResponse<MonitoringPayrollPreview>> {
+  try {
+    const data = await monitoringClient.getPayrollPreview(date) as unknown as MonitoringPayrollPreview;
+    return {
+      data,
+      message: "Success",
+    };
+  } catch (error: unknown) {
+    const msg = error instanceof Error ? error.message : "Unknown error";
+    return {
+      data: {
+        date: date || new Date().toISOString().slice(0, 10),
+        items: [],
+        summary: {
+          totalPersonas: 0,
+          elegibles: 0,
+          conIncidencias: 0,
+          horasPagables: 0,
+          totalEstimado: 0,
+        },
+      },
+      message: msg,
+    };
+  }
+}
+
+export async function generateMonitoringPayrollAction(date: string, membershipIds?: string[]) {
+  try {
+    const cookieStore = await cookies();
+    const empresaId = cookieStore.get("x-enterprise-id")?.value;
+
+    if (!empresaId) {
+      return {
+        success: false,
+        error: "No hay una empresa seleccionada para generar la nómina.",
+      };
+    }
+
+    const result = await contabilidadClient.generarNominaDesdeMonitoreo({
+      empresaId,
+      fechaInicio: date,
+      fechaFin: date,
+      membershipIds,
+      includeAllEligible: !membershipIds || membershipIds.length === 0,
+    }) as GenerateMonitoringPayrollResponse;
+
+    return {
+      success: true,
+      data: result,
+    };
+  } catch (error: unknown) {
+    return {
+      success: false,
+      error: error instanceof Error ? error.message : "Unknown error",
+    };
   }
 }
 

@@ -323,7 +323,9 @@ export class TenantsService {
         data.nombre ||
         data.apellido ||
         data.email ||
-        data.telefono !== undefined
+        data.telefono !== undefined ||
+        data.tipoDocumento !== undefined ||
+        data.numeroDocumento !== undefined
       ) {
         // Separar nombre y apellido si solo se envía nombre (en el frontend a veces se envía completo)
         let nombre = data.nombre;
@@ -342,6 +344,10 @@ export class TenantsService {
             apellido: apellido || undefined,
             email: data.email || undefined,
             telefono: data.telefono !== undefined ? data.telefono : undefined,
+            tipoDocumento:
+              data.tipoDocumento !== undefined ? data.tipoDocumento || null : undefined,
+            numeroDocumento:
+              data.numeroDocumento !== undefined ? data.numeroDocumento || null : undefined,
           },
         });
       }
@@ -362,6 +368,80 @@ export class TenantsService {
               empresaId,
               role: data.role || current.role, // Usar el nuevo rol o el actual
             })),
+          });
+        }
+      }
+
+      const shouldSyncPaymentAccount =
+        data.banco !== undefined ||
+        data.tipoCuenta !== undefined ||
+        data.numeroCuenta !== undefined ||
+        data.valorHora !== undefined;
+
+      if (shouldSyncPaymentAccount) {
+        let empresaId = data.cuentaPagoEmpresaId;
+
+        if (!empresaId) {
+          const primaryEmpresaMembership = await tx.empresaMembership.findFirst({
+            where: {
+              membershipId,
+              tenantId: current.tenantId,
+              activo: true,
+              deletedAt: null,
+            },
+            orderBy: {
+              createdAt: 'asc',
+            },
+            select: {
+              empresaId: true,
+            },
+          });
+
+          empresaId = primaryEmpresaMembership?.empresaId;
+        }
+
+        if (!empresaId) {
+          throw new BadRequestException(
+            'No se pudo resolver la empresa para guardar la cuenta de pago',
+          );
+        }
+
+        const existingCuentaPago = await tx.cuentasPago.findFirst({
+          where: {
+            tenantId: current.tenantId,
+            membershipId,
+            empresaId,
+          },
+          orderBy: {
+            createdAt: 'desc',
+          },
+        });
+
+        const cuentaPagoData = {
+          banco: data.banco || 'Sin definir',
+          tipoCuenta: data.tipoCuenta || 'Sin definir',
+          numeroCuenta: data.numeroCuenta || 'Sin definir',
+          valorHora:
+            data.valorHora !== undefined && data.valorHora !== null
+              ? data.valorHora
+              : null,
+        };
+
+        if (existingCuentaPago) {
+          await tx.cuentasPago.update({
+            where: {
+              id: existingCuentaPago.id,
+            },
+            data: cuentaPagoData,
+          });
+        } else {
+          await tx.cuentasPago.create({
+            data: {
+              tenantId: current.tenantId,
+              empresaId,
+              membershipId,
+              ...cuentaPagoData,
+            },
           });
         }
       }

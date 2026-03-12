@@ -92,3 +92,62 @@ export interface ExecutiveAuditMetrics {
   topUsers: { name: string; count: number }[];
   successRate: number;
 }
+
+export type MonitoringPayrollStatus =
+  | "OK"
+  | "SIN_VALOR_HORA"
+  | "SIN_SESIONES_CERRADAS";
+
+export interface MonitoringPayrollPreviewItem {
+  membershipId: string;
+  empresaId: string;
+  role: string;
+  nombre: string;
+  apellido: string;
+  valorHora: number | null;
+  sesionesCerradas: number;
+  sesionesAbiertas: number;
+  minutosBrutos: number;
+  minutosInactivos: number;
+  minutosPagables: number;
+  horasPagables: number;
+  pagoEstimado: number;
+  estado: MonitoringPayrollStatus;
+}
+
+export interface MonitoringPayrollPreviewSummary {
+  totalPersonas: number;
+  elegibles: number;
+  conIncidencias: number;
+  horasPagables: number;
+  totalEstimado: number;
+}
+
+export interface MonitoringPayrollPreview {
+  date: string;
+  items: MonitoringPayrollPreviewItem[];
+  summary: MonitoringPayrollPreviewSummary;
+}
+
+export interface GeneratedMonitoringPayroll {
+  id: string;
+  membershipId: string;
+  totalPagar: number;
+  estado: string;
+  fechaInicio: string;
+  fechaFin: string;
+  membership?: Membership;
+  colaborador?: string;
+}
+
+export interface GenerateMonitoringPayrollResponse {
+  success?: boolean;
+  generated?: GeneratedMonitoringPayroll[];
+  nominas?: GeneratedMonitoringPayroll[];
+  summary?: {
+    total: number;
+    totalPagar: number;
+  };
+  createdCount?: number;
+  totalPagar?: number;
+}

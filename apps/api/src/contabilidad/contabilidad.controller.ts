@@ -1,4 +1,5 @@
 import {
+  BadRequestException,
   Controller,
   Get,
   Post,
@@ -8,7 +9,9 @@ import {
   Query,
   UnauthorizedException,
   UseInterceptors,
+  UsePipes,
   UploadedFile,
+  ValidationPipe,
 } from '@nestjs/common';
 import { ContabilidadService } from './contabilidad.service';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
@@ -16,6 +19,7 @@ import { JwtPayload } from '../auth/auth.service';
 import { Request } from 'express';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { SupabaseService } from '../supabase/supabase.service';
+import { GenerateMonitoringPayrollDto } from './generate-monitoring-payroll.dto';
 
 interface RequestWithUser extends Request {
   user: JwtPayload;
@@ -23,6 +27,7 @@ interface RequestWithUser extends Request {
 
 @Controller('finanzas')
 @UseGuards(JwtAuthGuard)
+@UsePipes(new ValidationPipe({ transform: true, whitelist: true }))
 export class FinanzasController {
   constructor(
     private readonly contabilidadService: ContabilidadService,
@@ -85,6 +90,28 @@ export class FinanzasController {
     if (!tenantId) throw new UnauthorizedException('Tenant ID missing');
     const empresaId = queryEmpresaId || req.user.empresaId;
     return this.contabilidadService.getAnticipos(tenantId, empresaId);
+  }
+
+  @Post('nominas/generar-desde-monitoreo')
+  generateMonitoringPayroll(
+    @Req() req: RequestWithUser,
+    @Body() dto: GenerateMonitoringPayrollDto,
+  ) {
+    const tenantId = req.user.tenantId;
+    if (!tenantId) {
+      throw new UnauthorizedException('Tenant ID missing');
+    }
+
+    if (!dto.includeAllEligible && (!dto.membershipIds || dto.membershipIds.length === 0)) {
+      throw new BadRequestException(
+        'Debe enviar membershipIds o activar includeAllEligible',
+      );
+    }
+
+    return this.contabilidadService.generatePayrollFromMonitoring(
+      tenantId,
+      dto,
+    );
   }
 
   @Post('registrar-egreso')

@@ -3,6 +3,10 @@ import { PrismaService } from '../prisma/prisma.service';
 import { MonitoringScope } from './types';
 import { Prisma } from '../generated/client/client';
 import {
+  MonitoringPayrollPreviewItem,
+  MonitoringPayrollPreviewResponse,
+} from './payroll.types';
+import {
   addBogotaDaysUtc,
   startOfBogotaDayUtc,
   parseBogotaDateToUtcStart,
@@ -30,6 +34,22 @@ interface GroupedSession extends SessionWithUser {
   originalFin: Date | null;
 }
 
+type PayrollSession = Prisma.SesionActividadGetPayload<{
+  include: {
+    membership: {
+      include: {
+        user: {
+          select: {
+            nombre: true;
+            apellido: true;
+          };
+        };
+        cuentasPago: true;
+      };
+    };
+  };
+}>;
+
 @Injectable()
 export class MonitoringService {
   constructor(private prisma: PrismaService) {}
@@ -45,6 +65,162 @@ export class MonitoringService {
     const start = startOfBogotaDayUtc(new Date());
     const end = addBogotaDaysUtc(start, 1);
     return { start, end };
+  }
+
+  private buildSessionWhere(
+    scope: MonitoringScope,
+    start: Date,
+    end: Date,
+  ): Prisma.SesionActividadWhereInput {
+    const where: Prisma.SesionActividadWhereInput = {
+      tenantId: scope.tenantId,
+      fechaInicio: { gte: start, lt: end },
+    };
+
+    if (scope.empresaIds?.length) {
+      where.empresaId = { in: scope.empresaIds };
+    }
+
+    if (scope.zonaIds?.length) {
+      where.membership = {
+        empresaMemberships: {
+          some: { zonaId: { in: scope.zonaIds } },
+        },
+      };
+    }
+
+    return where;
+  }
+
+  private getSessionDurationMinutes(session: {
+    fechaInicio: Date;
+    fechaFin: Date | null;
+    duracionMin: number | null;
+    updatedAt?: Date;
+  }) {
+    if (
+      session.fechaFin &&
+      typeof session.duracionMin === 'number' &&
+      session.duracionMin >= 0
+    ) {
+      return session.duracionMin;
+    }
+
+    const endReference = session.fechaFin || session.updatedAt || new Date();
+
+    return Math.max(
+      0,
+      Math.round(
+        (endReference.getTime() - session.fechaInicio.getTime()) / 60000,
+      ),
+    );
+  }
+
+  private buildPayrollPreview(
+    sessions: PayrollSession[],
+    date: string,
+    tenantId: string,
+  ): MonitoringPayrollPreviewResponse {
+    const groups = new Map<string, MonitoringPayrollPreviewItem>();
+
+    sessions.forEach((session) => {
+      const key = `${session.membershipId}:${session.empresaId}`;
+      const cuentaPago =
+        session.membership.cuentasPago.find(
+          (cuenta) =>
+            cuenta.tenantId === tenantId && cuenta.empresaId === session.empresaId,
+        ) ||
+        session.membership.cuentasPago.find(
+          (cuenta) => cuenta.tenantId === tenantId && cuenta.valorHora !== null,
+        );
+      const valorHora =
+        cuentaPago?.valorHora !== null && cuentaPago?.valorHora !== undefined
+          ? Number(cuentaPago.valorHora)
+          : null;
+
+      const current = groups.get(key) || {
+        membershipId: session.membershipId,
+        empresaId: session.empresaId,
+        role: session.membership.role,
+        nombre: session.membership.user.nombre,
+        apellido: session.membership.user.apellido,
+        valorHora,
+        sesionesCerradas: 0,
+        sesionesAbiertas: 0,
+        minutosBrutos: 0,
+        minutosInactivos: 0,
+        minutosPagables: 0,
+        horasPagables: 0,
+        pagoEstimado: 0,
+        estado: 'SIN_SESIONES_CERRADAS' as const,
+      };
+
+      if (current.valorHora === null && valorHora !== null) {
+        current.valorHora = valorHora;
+      }
+
+      const duracionMin = this.getSessionDurationMinutes(session);
+      const minutosPagables = Math.max(0, duracionMin - session.tiempoInactivo);
+
+      if (session.fechaFin) {
+        current.sesionesCerradas += 1;
+      } else {
+        current.sesionesAbiertas += 1;
+      }
+
+      current.minutosBrutos += duracionMin;
+      current.minutosInactivos += session.tiempoInactivo;
+      current.minutosPagables += minutosPagables;
+
+      groups.set(key, current);
+    });
+
+    const items = Array.from(groups.values())
+      .map((item) => {
+        const horasPagables = Number((item.minutosPagables / 60).toFixed(2));
+        const pagoEstimado =
+          item.valorHora !== null
+            ? Number((horasPagables * item.valorHora).toFixed(2))
+            : 0;
+        const estado: MonitoringPayrollPreviewItem['estado'] =
+          item.sesionesCerradas === 0
+            ? 'SIN_SESIONES_CERRADAS'
+            : item.valorHora === null
+              ? 'SIN_VALOR_HORA'
+              : 'OK';
+
+        return {
+          ...item,
+          horasPagables,
+          pagoEstimado,
+          estado,
+        };
+      })
+      .sort((a, b) =>
+        `${a.nombre} ${a.apellido}`.localeCompare(`${b.nombre} ${b.apellido}`),
+      );
+
+    const elegibles = items.filter((item) => item.estado === 'OK');
+
+    return {
+      date,
+      items,
+      summary: {
+        totalPersonas: items.length,
+        elegibles: elegibles.length,
+        conIncidencias: items.length - elegibles.length,
+        horasPagables: Number(
+          elegibles
+            .reduce((acc, item) => acc + item.horasPagables, 0)
+            .toFixed(2),
+        ),
+        totalEstimado: Number(
+          elegibles
+            .reduce((acc, item) => acc + item.pagoEstimado, 0)
+            .toFixed(2),
+        ),
+      },
+    };
   }
 
   async startSession(
@@ -143,6 +319,46 @@ export class MonitoringService {
     });
   }
 
+  async getPayrollPreview(
+    scope: MonitoringScope,
+    date?: string,
+  ): Promise<MonitoringPayrollPreviewResponse> {
+    const { start, end } = this.getDateRange(date);
+    const sessions = await this.prisma.sesionActividad.findMany({
+      where: this.buildSessionWhere(scope, start, end),
+      include: {
+        membership: {
+          include: {
+            user: {
+              select: {
+                nombre: true,
+                apellido: true,
+              },
+            },
+            cuentasPago: {
+              where: {
+                tenantId: scope.tenantId,
+              },
+              orderBy: {
+                createdAt: 'desc',
+              },
+            },
+          },
+        },
+      },
+      orderBy: [
+        { membershipId: 'asc' },
+        { fechaInicio: 'asc' },
+      ],
+    });
+
+    return this.buildPayrollPreview(
+      sessions as PayrollSession[],
+      date || start.toISOString().slice(0, 10),
+      scope.tenantId,
+    );
+  }
+
   async getAlerts(scope: MonitoringScope, date?: string) {
     const { start, end } = this.getDateRange(date);
 
@@ -211,14 +427,7 @@ export class MonitoringService {
   async getOperationMetrics(scope: MonitoringScope, date?: string) {
     const { start, end } = this.getDateRange(date);
 
-    const where: Prisma.SesionActividadWhereInput = {
-      tenantId: scope.tenantId,
-      fechaInicio: { gte: start, lt: end },
-    };
-
-    if (scope.empresaIds?.length) {
-      where.empresaId = { in: scope.empresaIds };
-    }
+    const where = this.buildSessionWhere(scope, start, end);
 
     const sessions = await this.prisma.sesionActividad.findMany({
       where,
@@ -400,24 +609,7 @@ export class MonitoringService {
   async findAllSessions(scope: MonitoringScope, date?: string) {
     const { start, end } = this.getDateRange(date);
 
-    const where: Prisma.SesionActividadWhereInput = {
-      tenantId: scope.tenantId,
-      fechaInicio: { gte: start, lt: end },
-    };
-
-    if (scope.empresaIds?.length) {
-      where.empresaId = { in: scope.empresaIds };
-    }
-
-    if (scope.zonaIds?.length) {
-      where.membership = {
-        empresaMemberships: {
-          some: {
-            zonaId: { in: scope.zonaIds },
-          },
-        },
-      };
-    }
+    const where = this.buildSessionWhere(scope, start, end);
 
     const sessions = (await this.prisma.sesionActividad.findMany({
       where,
@@ -528,22 +720,7 @@ export class MonitoringService {
   async getGlobalStats(scope: MonitoringScope, date?: string) {
     const { start, end } = this.getDateRange(date);
 
-    const commonWhere: Prisma.SesionActividadWhereInput = {
-      tenantId: scope.tenantId,
-      fechaInicio: { gte: start, lt: end },
-    };
-
-    if (scope.empresaIds?.length) {
-      commonWhere.empresaId = { in: scope.empresaIds };
-    }
-
-    if (scope.zonaIds?.length) {
-      commonWhere.membership = {
-        empresaMemberships: {
-          some: { zonaId: { in: scope.zonaIds } },
-        },
-      };
-    }
+    const commonWhere = this.buildSessionWhere(scope, start, end);
 
     const eventsWhere: Prisma.LogEventoWhereInput = {
       tenantId: scope.tenantId,

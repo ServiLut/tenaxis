@@ -29,6 +29,10 @@ export const monitoringClient = {
     const query = date ? `?date=${date}` : "";
     return apiFetch<unknown[]>(`/monitoring/recent-logs${query}`);
   },
+  async getPayrollPreview(date?: string): Promise<Record<string, unknown>> {
+    const query = date ? `?date=${date}` : "";
+    return apiFetch<Record<string, unknown>>(`/monitoring/payroll-preview${query}`);
+  },
   async getLogsByMembership(membershipId: string, date?: string): Promise<unknown[]> {
     const query = date ? `?date=${date}` : "";
     return apiFetch<unknown[]>(`/monitoring/logs/${membershipId}${query}`);

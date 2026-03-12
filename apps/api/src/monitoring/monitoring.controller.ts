@@ -95,6 +95,14 @@ export class MonitoringController {
     return this.monitoringService.findRecentLogs(scope, query.date);
   }
 
+  @Get('payroll-preview')
+  async getPayrollPreview(
+    @GetScope() scope: MonitoringScope,
+    @Query() query: MonitoringPaginationDto,
+  ) {
+    return this.monitoringService.getPayrollPreview(scope, query.date);
+  }
+
   @Get('logs/:membershipId')
   async getMemberLogs(
     @GetScope() scope: MonitoringScope,
