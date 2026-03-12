@@ -1998,39 +1998,8 @@ export class OrdenesServicioService {
     user: JwtPayload | undefined,
     empresaId: string,
   ) {
-    if (!user?.membershipId || this.isPrivilegedRole(user.role)) {
-      return;
-    }
-
-    const now = new Date();
-    const overdueThreshold = startOfBogotaDayUtc(now);
-    const activeOverride = await this.getActiveFollowUpOverride(
-      tenantId,
-      user.membershipId,
-      empresaId,
-      now,
-    );
-
-    if (activeOverride) {
-      return;
-    }
-
-    const overdueCount = await this.prisma.ordenServicioSeguimiento.count({
-      where: {
-        tenantId,
-        empresaId,
-        createdByMembershipId: user.membershipId,
-        status: 'PENDIENTE',
-        completedAt: null,
-        dueAt: { lt: overdueThreshold },
-      },
-    });
-
-    if (overdueCount > 0) {
-      throw new ForbiddenException(
-        'Tienes seguimientos vencidos pendientes. Completa las llamadas antes de asignar más servicios.',
-      );
-    }
+    // Se ha removido el bloqueo por seguimientos pendientes por solicitud
+    return;
   }
 
   private async createAutomaticFollowUps(
