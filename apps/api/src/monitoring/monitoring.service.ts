@@ -57,8 +57,10 @@ export class MonitoringService {
   private getDateRange(dateStr?: string, startDate?: string, endDate?: string) {
     if (startDate && endDate) {
       const start = parseBogotaDateToUtcStart(startDate);
-      const end = addBogotaDaysUtc(parseBogotaDateToUtcStart(endDate), 1);
-      if (start && end) return { start, end };
+      const parsedEnd = parseBogotaDateToUtcStart(endDate);
+      if (start && parsedEnd) {
+        return { start, end: addBogotaDaysUtc(parsedEnd, 1) };
+      }
     }
 
     if (dateStr) {

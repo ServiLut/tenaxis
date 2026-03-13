@@ -24,6 +24,7 @@ import {
 import { TeamMemberDetailQueryDto } from './dto/team-member-detail-query.dto';
 import {
   endOfBogotaDayUtc,
+  nowUtc,
   parseBogotaDateToUtcEnd,
   parseBogotaDateToUtcStart,
   startOfBogotaDayUtc,
@@ -1090,7 +1091,7 @@ export class TenantsService {
           valorCotizado: true,
           tipoVisita: true,
           fechaVisita: true,
-          liquidatedAt: true,
+          liquidadoAt: true,
           estadoPago: true,
         },
       }),
@@ -1139,8 +1140,8 @@ export class TenantsService {
           recaudoRefuerzo += paid;
         }
 
-        if (order.liquidatedAt && order.fechaVisita) {
-          liquidationTimeMs += Math.max(0, order.liquidatedAt.getTime() - order.fechaVisita.getTime());
+        if (order.liquidadoAt && order.fechaVisita) {
+          liquidationTimeMs += Math.max(0, order.liquidadoAt.getTime() - order.fechaVisita.getTime());
         }
 
         if (order.estadoPago === 'PENDIENTE' && quoted > paid) {
