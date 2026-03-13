@@ -58,12 +58,28 @@ const NIVELES_INFESTACION = [
 ];
 
 const TIPOS_VISITA = [
-  { value: "DIAGNOSTICO", label: "Diagnóstico inicial" },
-  { value: "PREVENTIVO", label: "Servicio Preventivo" },
-  { value: "CORRECTIVO", label: "Servicio Correctivo" },
-  { value: "SEGUIMIENTO", label: "Seguimiento/Monitoreo" },
-  { value: "REINCIDENCIA", label: "Atención por Reincidencia (Garantía)" },
+  { value: "DIAGNOSTICO_INICIAL", label: "Diagnóstico Inicial" },
+  { value: "NUEVO", label: "Nuevo" },
+  { value: "CITA_VERIFICACION", label: "Cita de Verificación" },
+  { value: "SERVICIO_REFUERZO", label: "Servicio Refuerzo" },
+  { value: "REPROGRAMADO", label: "Reprogramado" },
+  { value: "NO_CONCRETADO", label: "No Concretado" },
+  { value: "GARANTIA", label: "Garantía" },
 ];
+
+const GARANTIA_VISIT_TYPE = "GARANTIA";
+
+const normalizeVisitTypeValue = (value?: string | null) => {
+  const normalized = value?.trim().toUpperCase();
+  if (!normalized) return "";
+
+  if (normalized === "DIAGNOSTICO") return "DIAGNOSTICO_INICIAL";
+  if (normalized === "SEGUIMIENTO") return "CITA_VERIFICACION";
+  if (normalized === "REINCIDENCIA") return "GARANTIA";
+  if (normalized === "PREVENTIVO" || normalized === "CORRECTIVO") return "SERVICIO_REFUERZO";
+
+  return normalized;
+};
 
 const METODOS_PAGO_BASE = [
   { value: "EFECTIVO", label: "Efectivo" },
@@ -162,6 +178,7 @@ function EditarServicioContent({ id }: { id: string }) {
   ]);
   const [tipoFacturacion, setTipoFacturacion] = useState("");
   const [estadoServicio, setEstadoServicio] = useState("");
+  const isGarantia = tipoVisita === GARANTIA_VISIT_TYPE;
 
   // --- URL PERSISTENCE LOGIC ---
   const syncToUrl = useCallback(() => {
@@ -201,6 +218,15 @@ function EditarServicioContent({ id }: { id: string }) {
     syncToUrl();
   }, [syncToUrl]);
   // --- END URL PERSISTENCE LOGIC ---
+
+  useEffect(() => {
+    if (!isGarantia) {
+      return;
+    }
+
+    setValorCotizado("0");
+    setBreakdown([{ metodo: "CORTESIA", monto: "0" }]);
+  }, [isGarantia]);
 
   const fetchOperadores = useCallback(async (empId: string) => {
     if (!empId) return;
@@ -272,7 +298,7 @@ function EditarServicioContent({ id }: { id: string }) {
         setInitialOperadorId(orderData.tecnicoId || "");
         setNumeroOrden(orderData.numeroOrden || id.slice(0, 8).toUpperCase());
         setServicioEspecifico(getVal("servicio", orderData.servicio?.nombre || ""));
-        setTipoVisita(getVal("tipoVisita", orderData.tipoVisita || ""));
+      setTipoVisita(normalizeVisitTypeValue(getVal("tipoVisita", orderData.tipoVisita || "")));
         setNivelInfestacion(getVal("nivel", orderData.nivelInfestacion || ""));
         
         const urlFrecuencia = urlParams.get("frecuencia");
@@ -615,6 +641,11 @@ function EditarServicioContent({ id }: { id: string }) {
                     placeholder="Visita..."
                     hideSearch
                   />
+                  {isGarantia ? (
+                    <p className="text-[10px] font-bold text-amber-700">
+                      La garantía se valida con el historial del cliente y se liquida en 0.
+                    </p>
+                  ) : null}
                 </div>
 
                 <div className="space-y-2">
@@ -739,6 +770,7 @@ function EditarServicioContent({ id }: { id: string }) {
                     type="button" 
                     className="h-9 px-4 rounded-xl bg-azul-1 text-white hover:bg-blue-700 transition-all text-[10px] font-black uppercase tracking-widest gap-2 shadow-lg shadow-azul-1/20 border-none"
                     onClick={() => setBreakdown([...breakdown, { metodo: "EFECTIVO", monto: "" }])}
+                    disabled={isGarantia}
                   >
                     <Plus className="h-3.5 w-3.5" /> Añadir Método
                   </Button>
@@ -767,9 +799,15 @@ function EditarServicioContent({ id }: { id: string }) {
                         }} 
                         placeholder="0" 
                         required 
+                        disabled={isGarantia}
                         className="h-11 !border !border-zinc-200 focus-visible:ring-0 focus-visible:ring-offset-0 focus-visible:border-zinc-200 dark:border-zinc-800/50 pl-8 font-bold" 
                       />
                     </div>
+                    {isGarantia ? (
+                      <p className="text-[10px] font-bold text-emerald-700">
+                        La garantía se conserva con tarifa 0 y sin cobro manual.
+                      </p>
+                    ) : null}
                   </div>
 
                   <div className="space-y-2">
@@ -808,6 +846,7 @@ function EditarServicioContent({ id }: { id: string }) {
                             <Combobox
                               options={METODOS_PAGO_BASE.map((m: { value: string; label: string }) => ({ value: m.value, label: m.label }))}
                               value={line.metodo}
+                              disabled={isGarantia}
                               onChange={(val) => {
                                 const newBreakdown = [...breakdown];
                                 newBreakdown[index] = { ...line, metodo: val };
@@ -823,6 +862,7 @@ function EditarServicioContent({ id }: { id: string }) {
                             <Input 
                               type="text"
                               value={line.monto}
+                              disabled={isGarantia}
                               onChange={(e) => {
                                 const val = e.target.value.replace(/\D/g, "");
                                 const formatted = val.replace(/\B(?=(\d{3})+(?!\d))/g, ".");
@@ -842,6 +882,7 @@ function EditarServicioContent({ id }: { id: string }) {
                               <Label className="text-[10px] font-bold text-zinc-500 uppercase">Banco / Entidad</Label>
                               <Input 
                                 value={line.banco || ""}
+                                disabled={isGarantia}
                                 onChange={(e) => {
                                   const newBreakdown = [...breakdown];
                                   newBreakdown[index] = { ...line, banco: e.target.value };
@@ -855,6 +896,7 @@ function EditarServicioContent({ id }: { id: string }) {
                               <Label className="text-[10px] font-bold text-zinc-500 uppercase">Referencia</Label>
                               <Input 
                                 value={line.referencia || ""}
+                                disabled={isGarantia}
                                 onChange={(e) => {
                                   const newBreakdown = [...breakdown];
                                   newBreakdown[index] = { ...line, referencia: e.target.value };

@@ -34,6 +34,94 @@ import { TeamMember, useTeamPerformance, type TeamTab } from "./hooks/use-team-p
 import { formatBogotaDate, toBogotaYmd } from "@/utils/date-utils";
 
 const RANKING_ROLES = ["ADMIN", "SU_ADMIN", "COORDINADOR", "ASESOR"];
+type PerformanceView = "comercial" | "coordinacion" | "gerencia";
+
+const PERFORMANCE_VIEWS: Array<{
+  id: PerformanceView;
+  label: string;
+  description: string;
+  roles: string[];
+  accentClass: string;
+}> = [
+  {
+    id: "comercial",
+    label: "Vista Comercial",
+    description: "Asesores con foco en conversión, ticket y recaudo.",
+    roles: ["ASESOR"],
+    accentClass: "text-[#01ADFB]",
+  },
+  {
+    id: "coordinacion",
+    label: "Vista Coordinación",
+    description: "Coordinadores con foco en control operativo y calidad.",
+    roles: ["COORDINADOR"],
+    accentClass: "text-amber-600",
+  },
+  {
+    id: "gerencia",
+    label: "Vista Gerencia",
+    description: "Administradores con foco en cartera, volumen y recaudo.",
+    roles: ["ADMIN", "SU_ADMIN"],
+    accentClass: "text-indigo-600",
+  },
+];
+
+const getPerformanceViewForRole = (role: string): PerformanceView => {
+  if (role === "ASESOR") return "comercial";
+  if (role === "COORDINADOR") return "coordinacion";
+  return "gerencia";
+};
+
+const sortMembersByView = (members: TeamMember[], view: PerformanceView) => {
+  const rows = [...members];
+
+  if (view === "comercial") {
+    return rows.sort((a, b) =>
+      (b.conversionRate ?? 0) - (a.conversionRate ?? 0)
+      || (b.avgTicket ?? 0) - (a.avgTicket ?? 0)
+      || b.totalRecaudo - a.totalRecaudo,
+    );
+  }
+
+  if (view === "coordinacion") {
+    return rows.sort((a, b) =>
+      (a.agedPending ?? 0) - (b.agedPending ?? 0)
+      || (a.reworkRate ?? 0) - (b.reworkRate ?? 0)
+      || b.efectividad - a.efectividad,
+    );
+  }
+
+  return rows.sort((a, b) =>
+    (a.overdueDebt ?? 0) - (b.overdueDebt ?? 0)
+    || b.totalRecaudo - a.totalRecaudo
+    || b.totalServicios - a.totalServicios,
+  );
+};
+
+const VIEW_EXPLANATIONS: Record<
+  PerformanceView,
+  {
+    ranking: string;
+    panel: string;
+    detail: string;
+  }
+> = {
+  comercial: {
+    ranking: "Ordena a los asesores priorizando conversion, ticket promedio y recaudo del periodo.",
+    panel: "Estas tarjetas resumen resultados comerciales individuales del asesor seleccionado.",
+    detail: "Aqui ves produccion, conversion y riesgo del asesor dentro del periodo filtrado.",
+  },
+  coordinacion: {
+    ranking: "Ordena a los coordinadores priorizando menos pendientes vencidos, menor retrabajo y mejor efectividad.",
+    panel: "Estas tarjetas resumen control operativo y calidad del coordinador seleccionado.",
+    detail: "Aqui ves seguimiento operativo, riesgo y salud de ejecucion del coordinador en el periodo.",
+  },
+  gerencia: {
+    ranking: "Ordena a administradores y superadministradores priorizando menor cartera pendiente, mayor recaudo y volumen de gestion.",
+    panel: "Estas tarjetas resumen salud financiera y cumplimiento general del perfil gerencial seleccionado.",
+    detail: "Aqui ves resultados consolidados y alertas de salud operativa para el perfil gerencial.",
+  },
+};
 
 function TeamPageContent() {
   const { tenantId } = useUserRole();
@@ -69,18 +157,34 @@ function TeamPageContent() {
   const [isEditing, setIsEditing] = useState(false);
   const [editForm, setEditForm] = useState<TeamMember | null>(null);
   const [showDetailsModal, setShowDetailsModal] = useState(false);
+  const [rankingView, setRankingView] = useState<PerformanceView>("comercial");
 
   const selectedUser = useMemo(
     () => members.find((member) => member.id === selectedMemberId) || null,
     [members, selectedMemberId],
   );
 
-  const rankingMembers = useMemo(
-    () => members.filter((member) => RANKING_ROLES.includes(member.role)),
-    [members],
-  );
+  const rankingMembers = useMemo(() => {
+    const selectedView = PERFORMANCE_VIEWS.find((view) => view.id === rankingView);
+    if (!selectedView) return [];
+    return sortMembersByView(
+      members.filter(
+        (member) =>
+          RANKING_ROLES.includes(member.role)
+          && selectedView.roles.includes(member.role),
+      ),
+      rankingView,
+    );
+  }, [members, rankingView]);
 
   const selectedDetail = selectedUser ? memberDetailById[selectedUser.id] : null;
+  const selectedUserView = selectedUser
+    ? getPerformanceViewForRole(selectedUser.role)
+    : rankingView;
+  const activeRankingView =
+    PERFORMANCE_VIEWS.find((view) => view.id === rankingView) ?? PERFORMANCE_VIEWS[0];
+  const selectedViewMeta =
+    PERFORMANCE_VIEWS.find((view) => view.id === selectedUserView) ?? PERFORMANCE_VIEWS[0];
 
   // Función para generar un color consistente basado en el rol
   const getUserColor = (role: string) => {
@@ -92,6 +196,164 @@ function TeamPageContent() {
       default: return "bg-emerald-500";
     }
   };
+
+  const getRankingColumns = (view: PerformanceView) => {
+    if (view === "comercial") {
+      return {
+        primaryLabel: "Conversión",
+        secondaryLabel: "Ticket Promedio",
+        tertiaryLabel: "Recaudo",
+      };
+    }
+
+    if (view === "coordinacion") {
+      return {
+        primaryLabel: "Pend. Vencidos",
+        secondaryLabel: "Re-trabajo",
+        tertiaryLabel: "Efectividad",
+      };
+    }
+
+    return {
+      primaryLabel: "Cartera",
+      secondaryLabel: "Servicios",
+      tertiaryLabel: "Recaudo",
+    };
+  };
+
+  const getRankingMetrics = (member: TeamMember, view: PerformanceView) => {
+    if (view === "comercial") {
+      return {
+        primary: `${member.conversionRate ?? 0}%`,
+        primaryClass: "text-[#01ADFB]",
+        secondary: `$${(member.avgTicket ?? 0).toLocaleString("es-CO")}`,
+        tertiary: `$${member.totalRecaudo.toLocaleString("es-CO")}`,
+      };
+    }
+
+    if (view === "coordinacion") {
+      return {
+        primary: `${member.agedPending ?? 0}`,
+        primaryClass: "text-amber-600",
+        secondary: `${member.reworkRate ?? 0}%`,
+        tertiary: `${member.efectividad}%`,
+      };
+    }
+
+    return {
+      primary: `$${(member.overdueDebt ?? 0).toLocaleString("es-CO")}`,
+      primaryClass: "text-indigo-600",
+      secondary: `${member.totalServicios}`,
+      tertiary: `$${member.totalRecaudo.toLocaleString("es-CO")}`,
+    };
+  };
+
+  const getSummaryCards = (member: TeamMember) => {
+    const view = getPerformanceViewForRole(member.role);
+
+    if (view === "comercial") {
+      return [
+        { label: "Servicios", value: member.totalServicios.toString(), valueClass: "text-foreground" },
+        { label: "Efectividad", value: `${member.efectividad}%`, valueClass: "text-[#01ADFB]" },
+        { label: "Ticket Promedio", value: `$${(member.avgTicket ?? 0).toLocaleString("es-CO")}`, valueClass: "text-emerald-600" },
+        { label: "Conversión", value: `${member.conversionRate ?? 0}%`, valueClass: "text-indigo-600" },
+      ];
+    }
+
+    if (view === "coordinacion") {
+      return [
+        { label: "Servicios", value: member.totalServicios.toString(), valueClass: "text-foreground" },
+        { label: "Efectividad", value: `${member.efectividad}%`, valueClass: "text-[#01ADFB]" },
+        { label: "Pend. Vencidos", value: `${member.agedPending ?? 0}`, valueClass: "text-amber-600" },
+        { label: "Re-trabajo", value: `${member.reworkRate ?? 0}%`, valueClass: "text-purple-600" },
+      ];
+    }
+
+    return [
+      { label: "Servicios", value: member.totalServicios.toString(), valueClass: "text-foreground" },
+      { label: "Recaudo", value: `$${member.totalRecaudo.toLocaleString("es-CO")}`, valueClass: "text-emerald-600" },
+      { label: "Cartera", value: `$${(member.overdueDebt ?? 0).toLocaleString("es-CO")}`, valueClass: "text-red-600" },
+      { label: "Efectividad", value: `${member.efectividad}%`, valueClass: "text-indigo-600" },
+    ];
+  };
+
+  const detailSections = selectedDetail ? (() => {
+    if (selectedUserView === "comercial") {
+      return [
+        {
+          title: "Producción Comercial",
+          description: "Mide captacion, conversion y monetizacion de los servicios creados por el asesor.",
+          cards: [
+            { label: "Clientes creados", value: selectedDetail.metrics.clientesCreados.toString(), valueClass: "text-foreground" },
+            { label: "Conversión", value: `${selectedDetail.metrics.conversionRate ?? 0}%`, valueClass: "text-indigo-600" },
+            { label: "Ticket Promedio", value: `$${(selectedDetail.metrics.avgTicket ?? 0).toLocaleString("es-CO")}`, valueClass: "text-emerald-600" },
+            { label: "Días Liquidación", value: `${selectedDetail.metrics.avgLiquidationDays ?? 0}d`, valueClass: "text-amber-600" },
+            { label: "Efectividad", value: `${selectedDetail.metrics.efectividad ?? 0}%`, valueClass: "text-[#01ADFB]" },
+          ],
+        },
+        {
+          title: "Riesgo Operativo",
+          description: "Resume fricciones que afectan el cierre, la cobranza y la calidad del servicio.",
+          cards: [
+            { label: "Cartera Pendiente", value: `$${(selectedDetail.metrics.overdueDebt ?? 0).toLocaleString("es-CO")}`, valueClass: "text-red-600" },
+            { label: "Cancelaciones", value: `${selectedDetail.metrics.cancellations ?? 0}`, valueClass: "text-zinc-600" },
+            { label: "Pendientes Vencidos", value: `${selectedDetail.metrics.agedPending ?? 0}`, valueClass: "text-orange-600" },
+            { label: "Tasa Re-trabajo", value: `${selectedDetail.metrics.reworkRate ?? 0}%`, valueClass: "text-purple-600" },
+          ],
+        },
+      ];
+    }
+
+    if (selectedUserView === "coordinacion") {
+      return [
+        {
+          title: "Control Operativo",
+          description: "Muestra capacidad de seguimiento, cumplimiento y calidad de ejecucion del coordinador.",
+          cards: [
+            { label: "Servicios liderados", value: selectedDetail.metrics.totalServicios.toString(), valueClass: "text-foreground" },
+            { label: "Liquidados", value: selectedDetail.metrics.serviciosLiquidados.toString(), valueClass: "text-emerald-600" },
+            { label: "Pend. Vencidos", value: `${selectedDetail.metrics.agedPending ?? 0}`, valueClass: "text-amber-600" },
+            { label: "Re-trabajo", value: `${selectedDetail.metrics.reworkRate ?? 0}%`, valueClass: "text-purple-600" },
+            { label: "Efectividad", value: `${selectedDetail.metrics.efectividad ?? 0}%`, valueClass: "text-[#01ADFB]" },
+          ],
+        },
+        {
+          title: "Riesgo y Seguimiento",
+          description: "Agrupa alertas de pendientes, cancelaciones, cartera y recaudo del periodo.",
+          cards: [
+            { label: "Pendientes", value: `${selectedDetail.metrics.pendientes ?? 0}`, valueClass: "text-orange-600" },
+            { label: "Cancelaciones", value: `${selectedDetail.metrics.cancellations ?? 0}`, valueClass: "text-zinc-600" },
+            { label: "Cartera Pendiente", value: `$${(selectedDetail.metrics.overdueDebt ?? 0).toLocaleString("es-CO")}`, valueClass: "text-red-600" },
+            { label: "Recaudo", value: `$${(selectedDetail.metrics.totalRecaudo ?? 0).toLocaleString("es-CO")}`, valueClass: "text-emerald-600" },
+          ],
+        },
+      ];
+    }
+
+    return [
+      {
+        title: "Resumen Gerencial",
+        description: "Consolida volumen, recaudo, cartera y efectividad para evaluar gestion general.",
+        cards: [
+          { label: "Servicios", value: selectedDetail.metrics.totalServicios.toString(), valueClass: "text-foreground" },
+          { label: "Liquidados", value: selectedDetail.metrics.serviciosLiquidados.toString(), valueClass: "text-emerald-600" },
+          { label: "Recaudo", value: `$${(selectedDetail.metrics.totalRecaudo ?? 0).toLocaleString("es-CO")}`, valueClass: "text-emerald-600" },
+          { label: "Cartera", value: `$${(selectedDetail.metrics.overdueDebt ?? 0).toLocaleString("es-CO")}`, valueClass: "text-red-600" },
+          { label: "Efectividad", value: `${selectedDetail.metrics.efectividad ?? 0}%`, valueClass: "text-indigo-600" },
+        ],
+      },
+      {
+        title: "Salud Operativa",
+        description: "Resume fricciones operativas que pueden impactar el cumplimiento del equipo.",
+        cards: [
+          { label: "Pendientes", value: `${selectedDetail.metrics.pendientes ?? 0}`, valueClass: "text-orange-600" },
+          { label: "Pend. Vencidos", value: `${selectedDetail.metrics.agedPending ?? 0}`, valueClass: "text-amber-600" },
+          { label: "Re-trabajo", value: `${selectedDetail.metrics.reworkRate ?? 0}%`, valueClass: "text-purple-600" },
+          { label: "Cancelaciones", value: `${selectedDetail.metrics.cancellations ?? 0}`, valueClass: "text-zinc-600" },
+        ],
+      },
+    ];
+  })() : [];
 
   const handleTabChange = (tab: TeamTab) => {
     setActiveTab(tab);
@@ -178,6 +440,33 @@ function TeamPageContent() {
       data: rows,
       filename: `equipo_trabajo_${date}`,
       title: "Reporte de Equipo de Trabajo",
+    });
+  };
+
+  const handleExportSelectedDetail = () => {
+    if (!selectedUser || !selectedDetail) return;
+
+    const headers = [
+      "Orden",
+      "Fecha",
+      "Cliente",
+      "Estado",
+      "Valor pagado",
+    ];
+    const rows = selectedDetail.orders.map((order) => [
+      order.orderNumber,
+      order.date ? formatBogotaDate(order.date, "es-CO") : "N/A",
+      order.client,
+      order.status,
+      order.paidValue,
+    ]);
+
+    const date = toBogotaYmd();
+    exportToExcel({
+      headers,
+      data: rows,
+      filename: `detalle_equipo_${selectedUser.name.toLowerCase().replace(/\s+/g, "_")}_${date}`,
+      title: `Detalle de ${selectedUser.name}`,
     });
   };
 
@@ -351,8 +640,8 @@ function TeamPageContent() {
             />
             <Combobox
               options={[
-                { value: "todos", label: "Todos los roles" },
-                { value: "operativo", label: "Solo operativo" },
+                { value: "todos", label: "Todo el equipo" },
+                { value: "operativo", label: "Solo operación" },
               ]}
               value={filters.scope}
               onChange={(value) =>
@@ -361,6 +650,7 @@ function TeamPageContent() {
                   scope: (value as "operativo" | "todos") || "todos",
                 }))
               }
+              placeholder="Cobertura"
               hideSearch
             />
           </div>
@@ -370,6 +660,65 @@ function TeamPageContent() {
         <div className="mt-8">
           {activeTab === "ranking" ? (
             <div className="overflow-hidden rounded-[2.5rem] border-2 border-border bg-card/30 backdrop-blur-sm shadow-xl">
+              <div className="border-b border-border bg-muted/20 px-6 py-5 sm:px-8">
+                <div className="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
+                  <div>
+                    <p className="text-[10px] font-black uppercase tracking-[0.2em] text-muted-foreground">
+                      Ranking por vista
+                    </p>
+                    <h3 className="mt-1 text-2xl font-black tracking-tight text-foreground">
+                      {activeRankingView.label}
+                    </h3>
+                    <p className="mt-1 text-sm text-muted-foreground">
+                      {activeRankingView.description}
+                    </p>
+                    <p className="mt-2 max-w-3xl text-xs text-muted-foreground">
+                      {VIEW_EXPLANATIONS[rankingView].ranking}
+                    </p>
+                  </div>
+                  <div className="flex flex-wrap gap-2">
+                    {PERFORMANCE_VIEWS.map((view) => (
+                      <button
+                        key={view.id}
+                        type="button"
+                        onClick={() => setRankingView(view.id)}
+                        className={cn(
+                          "rounded-2xl border px-4 py-2 text-[10px] font-black uppercase tracking-[0.18em] transition-all",
+                          rankingView === view.id
+                            ? "border-foreground bg-foreground text-background shadow-md"
+                            : "border-border bg-background/80 text-muted-foreground hover:text-foreground",
+                        )}
+                      >
+                        {view.label}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              </div>
+              <div className="grid gap-3 border-b border-border bg-background/50 px-6 py-4 text-[11px] text-muted-foreground sm:grid-cols-3 sm:px-8">
+                <p>
+                  <span className="font-black text-foreground">{getRankingColumns(rankingView).primaryLabel}:</span>{" "}
+                  {rankingView === "comercial"
+                    ? "porcentaje de clientes o servicios que convierten en resultado efectivo."
+                    : rankingView === "coordinacion"
+                      ? "cantidad de casos atrasados que aun requieren gestion."
+                      : "valor pendiente por cobrar dentro del periodo analizado."}
+                </p>
+                <p>
+                  <span className="font-black text-foreground">{getRankingColumns(rankingView).secondaryLabel}:</span>{" "}
+                  {rankingView === "comercial"
+                    ? "valor promedio recaudado por cada servicio liquidado."
+                    : rankingView === "coordinacion"
+                      ? "porcentaje de casos que debieron corregirse o rehacerse."
+                      : "numero total de servicios gestionados en el periodo."}
+                </p>
+                <p>
+                  <span className="font-black text-foreground">{getRankingColumns(rankingView).tertiaryLabel}:</span>{" "}
+                  {rankingView === "coordinacion"
+                    ? "porcentaje de servicios liquidados frente a los gestionados."
+                    : "valor total recaudado dentro del rango de fechas seleccionado."}
+                </p>
+              </div>
               <div className="overflow-x-auto">
                 <table className="w-full border-collapse text-left">
                   <thead>
@@ -377,8 +726,9 @@ function TeamPageContent() {
                       <th className="px-8 py-6 text-[10px] font-black uppercase tracking-[0.2em] text-muted-foreground">Pos</th>
                       <th className="px-8 py-6 text-[10px] font-black uppercase tracking-[0.2em] text-muted-foreground">Usuario</th>
                       <th className="px-8 py-6 text-[10px] font-black uppercase tracking-[0.2em] text-muted-foreground">Rol</th>
-                      <th className="px-8 py-6 text-[10px] font-black uppercase tracking-[0.2em] text-muted-foreground text-center">Efectividad</th>
-                      <th className="px-8 py-6 text-[10px] font-black uppercase tracking-[0.2em] text-muted-foreground text-right">Recaudo</th>
+                      <th className="px-8 py-6 text-[10px] font-black uppercase tracking-[0.2em] text-muted-foreground text-center">{getRankingColumns(rankingView).primaryLabel}</th>
+                      <th className="px-8 py-6 text-[10px] font-black uppercase tracking-[0.2em] text-muted-foreground text-center">{getRankingColumns(rankingView).secondaryLabel}</th>
+                      <th className="px-8 py-6 text-[10px] font-black uppercase tracking-[0.2em] text-muted-foreground text-right">{getRankingColumns(rankingView).tertiaryLabel}</th>
                       <th className="px-8 py-6 text-[10px] font-black uppercase tracking-[0.2em] text-muted-foreground text-right">Acciones</th>
                     </tr>
                   </thead>
@@ -404,22 +754,29 @@ function TeamPageContent() {
                             {index + 1}
                           </span>
                         </td>
-                        <td className="px-8 py-5 font-black uppercase text-sm tracking-tight">{member.name}</td>
+                        <td className="px-8 py-5">
+                          <div className="flex flex-col">
+                            <span className="font-black uppercase text-sm tracking-tight">{member.name}</span>
+                            <span className="text-[9px] text-muted-foreground font-bold">{member.email}</span>
+                          </div>
+                        </td>
                         <td className="px-8 py-5">
                           <span className="text-[10px] font-black uppercase tracking-widest bg-muted/50 px-2 py-1 rounded-md border border-border">
                             {member.role}
                           </span>
                         </td>
                         <td className="px-8 py-5 text-center">
-                          <div className="flex flex-col items-center">
-                            <span className="font-black text-lg text-accent">{member.efectividad}%</span>
-                            <div className="w-16 h-1 bg-muted rounded-full overflow-hidden mt-1">
-                              <div className="h-full bg-accent" style={{ width: `${member.efectividad}%` }} />
-                            </div>
-                          </div>
+                          <span className={cn("font-black text-lg tabular-nums", getRankingMetrics(member, rankingView).primaryClass)}>
+                            {getRankingMetrics(member, rankingView).primary}
+                          </span>
+                        </td>
+                        <td className="px-8 py-5 text-center">
+                          <span className="font-black text-sm text-foreground tabular-nums">
+                            {getRankingMetrics(member, rankingView).secondary}
+                          </span>
                         </td>
                         <td className="px-8 py-5 text-right font-black text-emerald-600 tabular-nums">
-                          ${member.totalRecaudo.toLocaleString("es-CO")}
+                          {getRankingMetrics(member, rankingView).tertiary}
                         </td>
                         <td className="px-8 py-5 text-right">
                           <button
@@ -434,6 +791,15 @@ function TeamPageContent() {
                         </td>
                       </tr>
                     ))}
+                    {rankingMembers.length === 0 ? (
+                      <tr>
+                        <td colSpan={7} className="px-8 py-16 text-center">
+                          <p className="text-sm font-black uppercase tracking-[0.2em] text-muted-foreground">
+                            No hay usuarios para esta vista con los filtros actuales
+                          </p>
+                        </td>
+                      </tr>
+                    ) : null}
                   </tbody>
                 </table>
               </div>
@@ -540,16 +906,37 @@ function TeamPageContent() {
                         <div className="space-y-6">
                           {/* Mini KPIs */}
                           <div className="grid grid-cols-2 gap-3 px-6">
-                            <div className="rounded-2xl bg-muted/50 p-3 border border-border/50">
-                              <p className="text-[9px] font-black uppercase tracking-widest text-muted-foreground mb-0.5">Servicios</p>
-                              <p className="text-lg font-black text-foreground tabular-nums">{selectedUser.totalServicios}</p>
-                            </div>
-                            <div className="rounded-2xl bg-muted/50 p-3 border border-border/50">
-                              <p className="text-[9px] font-black uppercase tracking-widest text-muted-foreground mb-0.5">Efectividad</p>
-                              <div className="flex items-center gap-1">
-                                <TrendingUp className="h-3 w-3 text-accent" />
-                                <p className="text-lg font-black text-foreground tabular-nums">{selectedUser.efectividad}%</p>
+                            {getSummaryCards(selectedUser).map((card) => (
+                              <div key={card.label} className="rounded-2xl bg-muted/50 p-3 border border-border/50">
+                                <p className="text-[9px] font-black uppercase tracking-widest text-muted-foreground mb-0.5">
+                                  {card.label}
+                                </p>
+                                <div className="flex items-center gap-1">
+                                  {card.label === "Efectividad" ? (
+                                    <TrendingUp className="h-3 w-3 text-accent" />
+                                  ) : null}
+                                  <p className={cn("text-sm font-black tabular-nums", card.valueClass)}>
+                                    {card.value}
+                                  </p>
+                                </div>
                               </div>
+                            ))}
+                          </div>
+
+                          <div className="px-6">
+                            <div className="rounded-2xl border border-border bg-background/80 px-4 py-3">
+                              <p className="text-[9px] font-black uppercase tracking-[0.18em] text-muted-foreground">
+                                Contexto de lectura
+                              </p>
+                              <p className={cn("mt-1 text-sm font-black uppercase tracking-wide", selectedViewMeta.accentClass)}>
+                                {selectedViewMeta.label}
+                              </p>
+                              <p className="mt-1 text-xs text-muted-foreground">
+                                {selectedViewMeta.description}
+                              </p>
+                              <p className="mt-2 text-xs text-muted-foreground">
+                                {VIEW_EXPLANATIONS[selectedUserView].panel}
+                              </p>
                             </div>
                           </div>
 
@@ -712,12 +1099,13 @@ function TeamPageContent() {
                     Detalle de Usuario
                   </h2>
                   <p className="text-xs font-black uppercase tracking-widest text-muted-foreground">
-                    Métricas de creación y recaudo
+                    {selectedViewMeta.label}
                   </p>
                 </div>
                 <button
-                  onClick={handleExport}
+                  onClick={handleExportSelectedDetail}
                   className="flex items-center gap-2 rounded-xl bg-emerald-500/10 px-4 py-2 text-xs font-black uppercase tracking-widest text-emerald-600"
+                  disabled={!selectedDetail}
                 >
                   <Download className="h-4 w-4" />
                   Exportar
@@ -725,14 +1113,47 @@ function TeamPageContent() {
               </div>
 
               <div className="space-y-6 p-8">
-                <div className="grid grid-cols-2 gap-3 md:grid-cols-3 lg:grid-cols-6">
-                  <Card className="border-border"><CardContent className="pt-4"><p className="text-[10px] font-black uppercase tracking-widest text-muted-foreground">Clientes creados</p><p className="text-2xl font-black">{selectedDetail?.metrics.clientesCreados ?? 0}</p></CardContent></Card>
-                  <Card className="border-border"><CardContent className="pt-4"><p className="text-[10px] font-black uppercase tracking-widest text-muted-foreground">Servicios creados</p><p className="text-2xl font-black">{selectedDetail?.metrics.totalServicios ?? 0}</p></CardContent></Card>
-                  <Card className="border-border"><CardContent className="pt-4"><p className="text-[10px] font-black uppercase tracking-widest text-muted-foreground">Liquidados</p><p className="text-2xl font-black">{selectedDetail?.metrics.serviciosLiquidados ?? 0}</p></CardContent></Card>
-                  <Card className="border-border"><CardContent className="pt-4"><p className="text-[10px] font-black uppercase tracking-widest text-muted-foreground">Recaudo nuevos</p><p className="text-xl font-black text-emerald-600">${(selectedDetail?.metrics.recaudoNuevos ?? 0).toLocaleString("es-CO")}</p></CardContent></Card>
-                  <Card className="border-border"><CardContent className="pt-4"><p className="text-[10px] font-black uppercase tracking-widest text-muted-foreground">Recaudo refuerzo</p><p className="text-xl font-black text-emerald-600">${(selectedDetail?.metrics.recaudoRefuerzo ?? 0).toLocaleString("es-CO")}</p></CardContent></Card>
-                  <Card className="border-border bg-[#01ADFB]/10"><CardContent className="pt-4"><p className="text-[10px] font-black uppercase tracking-widest text-muted-foreground">Efectividad</p><p className="text-2xl font-black text-[#01ADFB]">{selectedDetail?.metrics.efectividad ?? 0}%</p></CardContent></Card>
+                <div className="rounded-[2rem] border border-border bg-muted/20 px-5 py-4">
+                  <p className="text-[10px] font-black uppercase tracking-[0.2em] text-muted-foreground">
+                    Vista activa del detalle
+                  </p>
+                  <p className={cn("mt-1 text-sm font-black uppercase tracking-wide", selectedViewMeta.accentClass)}>
+                    {selectedViewMeta.label}
+                  </p>
+                  <p className="mt-1 text-sm text-muted-foreground">
+                    {selectedViewMeta.description}
+                  </p>
+                  <p className="mt-2 text-sm text-muted-foreground">
+                    {VIEW_EXPLANATIONS[selectedUserView].detail}
+                  </p>
                 </div>
+
+                {detailSections.map((section) => (
+                  <div key={section.title} className="space-y-3">
+                    <div>
+                      <p className="text-[10px] font-black uppercase tracking-[0.2em] text-muted-foreground">
+                        {section.title}
+                      </p>
+                      <p className="mt-1 text-sm text-muted-foreground">
+                        {section.description}
+                      </p>
+                    </div>
+                    <div className="grid grid-cols-2 gap-3 md:grid-cols-3 lg:grid-cols-5">
+                      {section.cards.map((card) => (
+                        <Card key={`${section.title}-${card.label}`} className="border-border bg-muted/30">
+                          <CardContent className="pt-4">
+                            <p className="text-[10px] font-black uppercase tracking-widest text-muted-foreground">
+                              {card.label}
+                            </p>
+                            <p className={cn("text-xl font-black tabular-nums", card.valueClass)}>
+                              {card.value}
+                            </p>
+                          </CardContent>
+                        </Card>
+                      ))}
+                    </div>
+                  </div>
+                ))}
 
                 <Card className="border-border">
                   <CardContent className="pt-6">

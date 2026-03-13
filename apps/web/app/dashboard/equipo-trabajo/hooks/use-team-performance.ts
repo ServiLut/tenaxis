@@ -43,6 +43,16 @@ export type TeamMember = {
   recaudoNuevos: number;
   recaudoRefuerzo: number;
   efectividad: number;
+  // Role-specific metrics
+  clientesCreados: number;
+  conversionRate: number;
+  avgTicket: number;
+  avgLiquidationDays: number;
+  overdueDebt: number;
+  cancellations: number;
+  reschedulings: number;
+  agedPending: number;
+  reworkRate: number;
 };
 
 export type TeamOrder = {
@@ -72,6 +82,14 @@ export type TeamMemberDetail = {
     recaudoNuevos: number;
     recaudoRefuerzo: number;
     efectividad: number;
+    conversionRate: number;
+    avgTicket: number;
+    avgLiquidationDays: number;
+    overdueDebt: number;
+    cancellations: number;
+    reschedulings: number;
+    agedPending: number;
+    reworkRate: number;
   };
   orders: TeamOrder[];
   pagination: {

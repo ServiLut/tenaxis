@@ -54,7 +54,15 @@ type PayrollSession = Prisma.SesionActividadGetPayload<{
 export class MonitoringService {
   constructor(private prisma: PrismaService) {}
 
-  private getDateRange(dateStr?: string) {
+  private getDateRange(dateStr?: string, startDate?: string, endDate?: string) {
+    if (startDate && endDate) {
+      const start = parseBogotaDateToUtcStart(startDate);
+      const parsedEnd = parseBogotaDateToUtcStart(endDate);
+      if (start && parsedEnd) {
+        return { start, end: addBogotaDaysUtc(parsedEnd, 1) };
+      }
+    }
+
     if (dateStr) {
       const start = parseBogotaDateToUtcStart(dateStr);
       if (start) {
@@ -322,8 +330,10 @@ export class MonitoringService {
   async getPayrollPreview(
     scope: MonitoringScope,
     date?: string,
+    startDate?: string,
+    endDate?: string,
   ): Promise<MonitoringPayrollPreviewResponse> {
-    const { start, end } = this.getDateRange(date);
+    const { start, end } = this.getDateRange(date, startDate, endDate);
     const sessions = await this.prisma.sesionActividad.findMany({
       where: this.buildSessionWhere(scope, start, end),
       include: {
@@ -354,13 +364,13 @@ export class MonitoringService {
 
     return this.buildPayrollPreview(
       sessions as PayrollSession[],
-      date || start.toISOString().slice(0, 10),
+      date || startDate || start.toISOString().slice(0, 10),
       scope.tenantId,
     );
   }
 
-  async getAlerts(scope: MonitoringScope, date?: string) {
-    const { start, end } = this.getDateRange(date);
+  async getAlerts(scope: MonitoringScope, date?: string, startDate?: string, endDate?: string) {
+    const { start, end } = this.getDateRange(date, startDate, endDate);
 
     const commonWhere: Prisma.SesionActividadWhereInput = {
       tenantId: scope.tenantId,
@@ -413,7 +423,7 @@ export class MonitoringService {
       alerts.push({
         id: 'closures',
         type: 'danger',
-        title: `${unexpectedClosures} sesiones cerradas por inactividad ${date ? 'en la fecha' : 'hoy'}`,
+        title: `${unexpectedClosures} sesiones cerradas por inactividad ${date || (startDate && endDate) ? 'en el rango' : 'hoy'}`,
         severity: 'baja',
       });
     }
@@ -424,8 +434,8 @@ export class MonitoringService {
     return alerts;
   }
 
-  async getOperationMetrics(scope: MonitoringScope, date?: string) {
-    const { start, end } = this.getDateRange(date);
+  async getOperationMetrics(scope: MonitoringScope, date?: string, startDate?: string, endDate?: string) {
+    const { start, end } = this.getDateRange(date, startDate, endDate);
 
     const where = this.buildSessionWhere(scope, start, end);
 
@@ -509,9 +519,9 @@ export class MonitoringService {
     };
   }
 
-  async getExecutiveAuditMetrics(scope: MonitoringScope, date?: string) {
-    const { start, end } = this.getDateRange(date);
-    const sevenDaysAgo = addBogotaDaysUtc(start, -7);
+  async getExecutiveAuditMetrics(scope: MonitoringScope, date?: string, startDate?: string, endDate?: string) {
+    const { start, end } = this.getDateRange(date, startDate, endDate);
+    const sevenDaysAgo = startDate ? start : addBogotaDaysUtc(start, -7);
 
     const commonWhere: Prisma.AuditoriaWhereInput = {
       tenantId: scope.tenantId,
@@ -606,8 +616,8 @@ export class MonitoringService {
     };
   }
 
-  async findAllSessions(scope: MonitoringScope, date?: string) {
-    const { start, end } = this.getDateRange(date);
+  async findAllSessions(scope: MonitoringScope, date?: string, startDate?: string, endDate?: string) {
+    const { start, end } = this.getDateRange(date, startDate, endDate);
 
     const where = this.buildSessionWhere(scope, start, end);
 
@@ -674,8 +684,10 @@ export class MonitoringService {
     scope: MonitoringScope,
     membershipId: string,
     date?: string,
+    startDate?: string,
+    endDate?: string,
   ) {
-    const { start, end } = this.getDateRange(date);
+    const { start, end } = this.getDateRange(date, startDate, endDate);
 
     const where: Prisma.LogEventoWhereInput = {
       tenantId: scope.tenantId,
@@ -717,8 +729,8 @@ export class MonitoringService {
     });
   }
 
-  async getGlobalStats(scope: MonitoringScope, date?: string) {
-    const { start, end } = this.getDateRange(date);
+  async getGlobalStats(scope: MonitoringScope, date?: string, startDate?: string, endDate?: string) {
+    const { start, end } = this.getDateRange(date, startDate, endDate);
 
     const commonWhere = this.buildSessionWhere(scope, start, end);
 
@@ -772,13 +784,15 @@ export class MonitoringService {
     page: number = 1,
     limit: number = 20,
     date?: string,
+    startDate?: string,
+    endDate?: string,
   ) {
     const skip = (page - 1) * limit;
-    const { start, end } = this.getDateRange(date);
+    const { start, end } = this.getDateRange(date, startDate, endDate);
 
     const where: Prisma.AuditoriaWhereInput = {
       tenantId: scope.tenantId,
-      createdAt: date ? { gte: start, lt: end } : undefined,
+      createdAt: (date || (startDate && endDate)) ? { gte: start, lt: end } : undefined,
     };
 
     if (scope.empresaIds?.length) {
@@ -831,11 +845,11 @@ export class MonitoringService {
     };
   }
 
-  async findRecentLogs(scope: MonitoringScope, date?: string) {
-    const { start, end } = this.getDateRange(date);
+  async findRecentLogs(scope: MonitoringScope, date?: string, startDate?: string, endDate?: string) {
+    const { start, end } = this.getDateRange(date, startDate, endDate);
     const where: Prisma.LogEventoWhereInput = {
       tenantId: scope.tenantId,
-      createdAt: date ? { gte: start, lt: end } : undefined,
+      createdAt: (date || (startDate && endDate)) ? { gte: start, lt: end } : undefined,
     };
 
     if (scope.empresaIds?.length) {

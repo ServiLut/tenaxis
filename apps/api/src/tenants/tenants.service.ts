@@ -24,15 +24,20 @@ import {
 import { TeamMemberDetailQueryDto } from './dto/team-member-detail-query.dto';
 import {
   endOfBogotaDayUtc,
+  nowUtc,
   parseBogotaDateToUtcEnd,
   parseBogotaDateToUtcStart,
   startOfBogotaDayUtc,
 } from '../common/utils/timezone.util';
 
 const NEW_VISIT_TYPES = new Set<TipoVisita>([
-  TipoVisita.DIAGNOSTICO,
-  TipoVisita.CORRECTIVO,
-  TipoVisita.PREVENTIVO,
+  'DIAGNOSTICO_INICIAL' as TipoVisita,
+  'NUEVO' as TipoVisita,
+]);
+
+const REWORK_VISIT_TYPES = new Set<TipoVisita>([
+  'GARANTIA' as TipoVisita,
+  'SERVICIO_REFUERZO' as TipoVisita,
 ]);
 
 const OPERATIVE_ROLES = new Set<Role>([
@@ -699,6 +704,15 @@ export class TenantsService {
               },
             },
           },
+          _count: {
+            select: {
+              clientesCreados: {
+                where: {
+                  createdAt: { gte: range.from, lte: range.to },
+                },
+              },
+            },
+          },
         },
         orderBy: [{ user: { nombre: 'asc' } }, { user: { apellido: 'asc' } }],
         skip: (page - 1) * pageSize,
@@ -733,10 +747,18 @@ export class TenantsService {
       this.prisma.ordenServicio.findMany({
         where: ordersWhere,
         select: {
+          id: true,
           creadoPorId: true,
+          tecnicoId: true,
           estadoServicio: true,
           valorPagado: true,
+          valorCotizado: true,
           tipoVisita: true,
+          fechaVisita: true,
+          liquidadoAt: true,
+          estadoPago: true,
+          empresaId: true,
+          zonaId: true,
         },
       }),
       this.prisma.ordenServicio.findMany({
@@ -757,6 +779,12 @@ export class TenantsService {
         recaudoNuevos: number;
         recaudoRefuerzo: number;
         pendientes: number;
+        cancellations: number;
+        reschedulings: number;
+        agedPending: number;
+        reworkCount: number;
+        overdueDebt: number;
+        liquidationTimeMs: number;
       }
     >();
 
@@ -768,8 +796,16 @@ export class TenantsService {
         recaudoNuevos: 0,
         recaudoRefuerzo: 0,
         pendientes: 0,
+        cancellations: 0,
+        reschedulings: 0,
+        agedPending: 0,
+        reworkCount: 0,
+        overdueDebt: 0,
+        liquidationTimeMs: 0,
       });
     }
+
+    const now = nowUtc();
 
     for (const order of orders) {
       if (!order.creadoPorId) {
@@ -784,6 +820,11 @@ export class TenantsService {
       current.totalServicios += 1;
       const isLiquidated = order.estadoServicio === EstadoOrden.LIQUIDADO;
       const paid = this.toNumber(order.valorPagado);
+      const quoted = this.toNumber(order.valorCotizado);
+
+      if (order.estadoServicio === EstadoOrden.CANCELADO) current.cancellations += 1;
+      if (order.estadoServicio === EstadoOrden.REPROGRAMADO) current.reschedulings += 1;
+      if (order.tipoVisita && REWORK_VISIT_TYPES.has(order.tipoVisita)) current.reworkCount += 1;
 
       if (isLiquidated) {
         current.serviciosLiquidados += 1;
@@ -793,8 +834,19 @@ export class TenantsService {
         } else {
           current.recaudoRefuerzo += paid;
         }
-      } else {
+
+        if (order.liquidadoAt && order.fechaVisita) {
+          current.liquidationTimeMs += Math.max(0, order.liquidadoAt.getTime() - order.fechaVisita.getTime());
+        }
+
+        if (order.estadoPago === 'PENDIENTE' && quoted > paid) {
+          current.overdueDebt += (quoted - paid);
+        }
+      } else if (order.estadoServicio !== EstadoOrden.CANCELADO) {
         current.pendientes += 1;
+        if (order.fechaVisita && order.fechaVisita < now) {
+          current.agedPending += 1;
+        }
       }
     }
 
@@ -804,6 +856,14 @@ export class TenantsService {
         stats.totalServicios > 0
           ? Math.round((stats.serviciosLiquidados / stats.totalServicios) * 100)
           : 0;
+
+      const avgTicket = stats.serviciosLiquidados > 0 ? Math.round(stats.totalRecaudo / stats.serviciosLiquidados) : 0;
+      const conversionRate = membership._count.clientesCreados > 0 
+        ? Math.round((stats.totalServicios / membership._count.clientesCreados) * 100) 
+        : 0;
+      const avgLiquidationDays = stats.serviciosLiquidados > 0 
+        ? Math.round(stats.liquidationTimeMs / stats.serviciosLiquidados / (1000 * 60 * 60 * 24) * 10) / 10 
+        : 0;
 
       return {
         id: membership.id,
@@ -834,6 +894,16 @@ export class TenantsService {
         recaudoNuevos: stats.recaudoNuevos,
         recaudoRefuerzo: stats.recaudoRefuerzo,
         efectividad,
+        // Role-specific metrics
+        clientesCreados: membership._count.clientesCreados,
+        conversionRate,
+        avgTicket,
+        avgLiquidationDays,
+        overdueDebt: stats.overdueDebt,
+        cancellations: stats.cancellations,
+        reschedulings: stats.reschedulings,
+        agedPending: stats.agedPending,
+        reworkRate: stats.totalServicios > 0 ? Math.round((stats.reworkCount / stats.totalServicios) * 100) : 0,
       };
     });
 
@@ -992,7 +1062,10 @@ export class TenantsService {
           fechaVisita: true,
           estadoServicio: true,
           valorPagado: true,
+          valorCotizado: true,
           tipoVisita: true,
+          liquidadoAt: true,
+          estadoPago: true,
           cliente: {
             select: {
               nombre: true,
@@ -1015,7 +1088,11 @@ export class TenantsService {
         select: {
           estadoServicio: true,
           valorPagado: true,
+          valorCotizado: true,
           tipoVisita: true,
+          fechaVisita: true,
+          liquidadoAt: true,
+          estadoPago: true,
         },
       }),
       this.prisma.cliente.count({
@@ -1036,20 +1113,52 @@ export class TenantsService {
     let totalRecaudo = 0;
     let recaudoNuevos = 0;
     let recaudoRefuerzo = 0;
+    let cancellations = 0;
+    let reschedulings = 0;
+    let agedPending = 0;
+    let reworkCount = 0;
+    let overdueDebt = 0;
+    let liquidationTimeMs = 0;
+
+    const now = nowUtc();
 
     for (const order of metricOrders) {
       totalServicios += 1;
+      const paid = this.toNumber(order.valorPagado);
+      const quoted = this.toNumber(order.valorCotizado);
+
+      if (order.estadoServicio === EstadoOrden.CANCELADO) cancellations += 1;
+      if (order.estadoServicio === EstadoOrden.REPROGRAMADO) reschedulings += 1;
+      if (order.tipoVisita && REWORK_VISIT_TYPES.has(order.tipoVisita)) reworkCount += 1;
+
       if (order.estadoServicio === EstadoOrden.LIQUIDADO) {
         serviciosLiquidados += 1;
-        const paid = this.toNumber(order.valorPagado);
         totalRecaudo += paid;
         if (order.tipoVisita && NEW_VISIT_TYPES.has(order.tipoVisita)) {
           recaudoNuevos += paid;
         } else {
           recaudoRefuerzo += paid;
         }
+
+        if (order.liquidadoAt && order.fechaVisita) {
+          liquidationTimeMs += Math.max(0, order.liquidadoAt.getTime() - order.fechaVisita.getTime());
+        }
+
+        if (order.estadoPago === 'PENDIENTE' && quoted > paid) {
+          overdueDebt += (quoted - paid);
+        }
+      } else if (order.estadoServicio !== EstadoOrden.CANCELADO) {
+        if (order.fechaVisita && order.fechaVisita < now) {
+          agedPending += 1;
+        }
       }
     }
+
+    const conversionRate = clientesCreados > 0 ? Math.round((totalServicios / clientesCreados) * 100) : 0;
+    const avgTicket = serviciosLiquidados > 0 ? Math.round(totalRecaudo / serviciosLiquidados) : 0;
+    const avgLiquidationDays = serviciosLiquidados > 0 
+      ? Math.round(liquidationTimeMs / serviciosLiquidados / (1000 * 60 * 60 * 24) * 10) / 10 
+      : 0;
 
     return {
       member: {
@@ -1071,6 +1180,14 @@ export class TenantsService {
           totalServicios > 0
             ? Math.round((serviciosLiquidados / totalServicios) * 100)
             : 0,
+        conversionRate,
+        avgTicket,
+        avgLiquidationDays,
+        overdueDebt,
+        cancellations,
+        reschedulings,
+        agedPending,
+        reworkRate: totalServicios > 0 ? Math.round((reworkCount / totalServicios) * 100) : 0,
       },
       orders: orders.map((order) => ({
         id: order.id,

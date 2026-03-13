@@ -261,6 +261,43 @@ const PRESET_OPTIONS = [
   { key: "PENDIENTES_LIQUIDAR", label: "PEND. LIQUIDAR" },
 ] as const;
 
+const VISIT_TYPE_NORMALIZATION: Record<string, string> = {
+  DIAGNOSTICO: "DIAGNOSTICO_INICIAL",
+  DIAGNOSTICO_INICIAL: "DIAGNOSTICO_INICIAL",
+  PREVENTIVO: "SERVICIO_REFUERZO",
+  CORRECTIVO: "SERVICIO_REFUERZO",
+  SERVICIO_REFUERZO: "SERVICIO_REFUERZO",
+  SEGUIMIENTO: "CITA_VERIFICACION",
+  CITA_VERIFICACION: "CITA_VERIFICACION",
+  REINCIDENCIA: "GARANTIA",
+  GARANTIA: "GARANTIA",
+  NO_CONCRETADO: "NO_CONCRETADO",
+  NUEVO: "NUEVO",
+  REPROGRAMADO: "REPROGRAMADO",
+};
+
+const VISIT_TYPE_LABELS: Record<string, string> = {
+  DIAGNOSTICO_INICIAL: "Diagnóstico Inicial",
+  SERVICIO_REFUERZO: "Servicio Refuerzo",
+  CITA_VERIFICACION: "Cita de Verificación",
+  GARANTIA: "Garantía",
+  NO_CONCRETADO: "No Concretado",
+  NUEVO: "Nuevo",
+  REPROGRAMADO: "Reprogramado",
+};
+
+const normalizeVisitType = (value?: string | null) => {
+  const normalized = value?.trim().toUpperCase();
+  if (!normalized) return null;
+  return VISIT_TYPE_NORMALIZATION[normalized] || normalized;
+};
+
+const formatVisitTypeLabel = (value?: string | null) => {
+  const normalized = normalizeVisitType(value);
+  if (!normalized) return "N/A";
+  return VISIT_TYPE_LABELS[normalized] || normalized;
+};
+
 const VIEW_MODE_OPTIONS = [
   { key: "servicios", label: "Servicios" },
   { key: "seguimientos", label: "Seguimientos" },
@@ -588,8 +625,9 @@ function ServiciosContent() {
         if (os.empresa) {
           companiesMap.set(os.empresa.id, os.empresa.nombre);
         }
-        if (os.tipoVisita) {
-          typesSet.add(os.tipoVisita.trim().toUpperCase());
+        const normalizedVisitType = normalizeVisitType(os.tipoVisita);
+        if (normalizedVisitType) {
+          typesSet.add(normalizedVisitType);
         }
       });
 
@@ -1045,7 +1083,7 @@ function ServiciosContent() {
     const matchesMunicipio = filters.municipio === "all" || s.raw.municipio?.toUpperCase() === filters.municipio;
     const matchesMetodoPago = filters.metodoPago === "all" || s.raw.metodoPagoId === filters.metodoPago;
     const matchesEmpresa = filters.empresa === "all" || s.raw.empresaId === filters.empresa;
-    const matchesTipo = filters.tipo === "all" || s.raw.tipoVisita?.toUpperCase() === filters.tipo;
+    const matchesTipo = filters.tipo === "all" || normalizeVisitType(s.raw.tipoVisita) === filters.tipo;
 
     let matchesFecha = true;
     const visitYmd = s.raw.fechaVisita ? utcIsoToBogotaYmd(s.raw.fechaVisita) : null;
@@ -1105,7 +1143,7 @@ function ServiciosContent() {
     const matchesMunicipio = filters.municipio === "all" || s.raw.municipio?.toUpperCase() === filters.municipio;
     const matchesMetodoPago = filters.metodoPago === "all" || s.raw.metodoPagoId === filters.metodoPago;
     const matchesEmpresa = filters.empresa === "all" || s.raw.empresaId === filters.empresa;
-    const matchesTipo = filters.tipo === "all" || s.raw.tipoVisita?.toUpperCase() === filters.tipo;
+    const matchesTipo = filters.tipo === "all" || normalizeVisitType(s.raw.tipoVisita) === filters.tipo;
 
     let matchesFecha = true;
     const visitYmd = s.raw.fechaVisita ? utcIsoToBogotaYmd(s.raw.fechaVisita) : null;
@@ -1553,7 +1591,7 @@ function ServiciosContent() {
                                 <td className="px-8 py-6"><p className="text-xs font-bold text-muted-foreground truncate max-w-[200px] uppercase" title={s.raw.direccionTexto}>{s.raw.direccionTexto || "N/A"}</p></td>
                                 <td className="px-8 py-6"><div className="space-y-1.5"><div className="flex items-center gap-2 text-xs font-bold text-muted-foreground"><Calendar className="h-3.5 w-3.5" /> {s.fecha}</div><div className="flex items-center gap-2 text-xs font-bold text-muted-foreground"><Clock className="h-3.5 w-3.5" /> {s.hora}</div></div></td>
                                 <td className="px-8 py-6"><div className="flex items-center gap-3"><div className="h-8 w-8 rounded-lg bg-muted flex items-center justify-center"><User className="h-4 w-4 text-muted-foreground" /></div><span className="text-sm font-bold text-foreground uppercase">{s.tecnico}</span></div></td>
-                                <td className="px-8 py-6"><span className="text-[10px] font-black text-muted-foreground uppercase bg-muted/50 px-2 py-1 rounded-md border border-border">{s.raw.tipoVisita || "N/A"}</span></td>
+                                <td className="px-8 py-6"><span className="text-[10px] font-black text-muted-foreground uppercase bg-muted/50 px-2 py-1 rounded-md border border-border">{formatVisitTypeLabel(s.raw.tipoVisita)}</span></td>
                                 <td className="px-8 py-6"><span className={cn("inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-[10px] font-black uppercase border shadow-sm", ESTADO_STYLING[s.estadoServicio] || ESTADO_STYLING["DEFAULT"])}>{s.estadoServicio}</span></td>
                                 <td className="px-8 py-6 text-right">
                                   <div className="flex justify-end gap-2">
@@ -1595,8 +1633,8 @@ function ServiciosContent() {
                                     <div className="rounded-2xl border border-amber-200 bg-white overflow-hidden">
                                       <div className="px-5 py-4 border-b border-amber-100 flex items-center justify-between">
                                         <div>
-                                          <p className="text-[10px] font-black uppercase tracking-[0.2em] text-amber-700">Seguimientos automáticos</p>
-                                          <p className="text-xs font-medium text-muted-foreground mt-1">Estos servicios se generaron automáticamente y cuelgan del servicio madre.</p>
+                                          <p className="text-[10px] font-black uppercase tracking-[0.2em] text-amber-700">Servicios automáticos</p>
+                                          <p className="text-xs font-medium text-muted-foreground mt-1">Estas visitas se generaron automáticamente y cuelgan del servicio madre.</p>
                                         </div>
                                         <span className="text-[10px] font-black uppercase tracking-widest text-amber-700">{s.followUps.filter((child) => child.raw.seguimientos?.[0]?.status !== "ACEPTADO").length} seguimiento(s)</span>
                                       </div>
@@ -1606,9 +1644,9 @@ function ServiciosContent() {
                                             <div>
                                               <p className="font-black text-foreground uppercase">{child.servicioEspecifico}</p>
                                               <p className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground mt-1">
-                                                {child.raw.tipoVisita || "SEGUIMIENTO"} • #{child.id}
+                                                {formatVisitTypeLabel(child.raw.tipoVisita)} • #{child.id}
                                               </p>
-                                              <p className="text-xs text-muted-foreground mt-2">{child.raw.observacion || "Seguimiento automático"}</p>
+                                              <p className="text-xs text-muted-foreground mt-2">{child.raw.observacion || "Servicio automático"}</p>
                                             </div>
                                             <div>
                                               <p className="text-[10px] font-black uppercase tracking-widest text-muted-foreground">Programación</p>
@@ -1958,7 +1996,7 @@ function ServiciosContent() {
                   </div>
                   <div>
                     <span className="text-xs text-slate-500 block">Tipo de Visita</span>
-                    <span className="font-medium uppercase">{selectedServicio.raw.tipoVisita || "N/A"}</span>
+                    <span className="font-medium uppercase">{formatVisitTypeLabel(selectedServicio.raw.tipoVisita)}</span>
                   </div>
                   <div>
                     <span className="text-xs text-slate-500 block">Servicio Específico</span>

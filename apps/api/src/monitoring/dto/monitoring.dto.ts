@@ -52,4 +52,18 @@ export class MonitoringPaginationDto {
     message: 'date debe estar en formato YYYY-MM-DD',
   })
   date?: string;
+
+  @IsString()
+  @IsOptional()
+  @Matches(/^\d{4}-\d{2}-\d{2}$/, {
+    message: 'startDate debe estar en formato YYYY-MM-DD',
+  })
+  startDate?: string;
+
+  @IsString()
+  @IsOptional()
+  @Matches(/^\d{4}-\d{2}-\d{2}$/, {
+    message: 'endDate debe estar en formato YYYY-MM-DD',
+  })
+  endDate?: string;
 }

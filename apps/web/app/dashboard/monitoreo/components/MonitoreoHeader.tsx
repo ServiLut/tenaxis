@@ -51,7 +51,7 @@ export function MonitoreoHeader({ isLoading, onRefresh, lastUpdated, onExport }:
         </button>
         <button 
           onClick={onRefresh}
-          className="group flex h-14 items-center gap-3 rounded-[1.25rem] bg-accent px-8 text-xs font-black uppercase tracking-[0.2em] text-white shadow-xl shadow-accent/20 transition-all hover:scale-105 active:scale-95 disabled:opacity-50"
+          className="group flex h-14 items-center gap-3 rounded-[1.25rem] bg-[#01ADFB] px-8 text-xs font-black uppercase tracking-[0.2em] text-white shadow-xl shadow-[#01ADFB]/20 transition-all hover:scale-105 active:scale-95 disabled:opacity-50"
           disabled={isLoading}
         >
           <RefreshCcw className={cn("h-4 w-4 transition-transform group-hover:rotate-180 duration-500", isLoading && "animate-spin")} />

@@ -16,9 +16,9 @@ import {
   GenerateMonitoringPayrollResponse,
 } from "./types";
 
-export async function getMonitoringSessions(date?: string): Promise<ApiResponse<Session[]>> {
+export async function getMonitoringSessions(date?: string, startDate?: string, endDate?: string): Promise<ApiResponse<Session[]>> {
   try {
-    const data = await monitoringClient.getSessions(date) as Session[];
+    const data = await monitoringClient.getSessions({ date, startDate, endDate }) as Session[];
     return { data, message: "Success" };
   } catch (error: unknown) {
     const msg = error instanceof Error ? error.message : "Unknown error";
@@ -26,9 +26,9 @@ export async function getMonitoringSessions(date?: string): Promise<ApiResponse<
   }
 }
 
-export async function getMonitoringStats(date?: string): Promise<ApiResponse<MonitoringStats>> {
+export async function getMonitoringStats(date?: string, startDate?: string, endDate?: string): Promise<ApiResponse<MonitoringStats>> {
   try {
-    const data = await monitoringClient.getStats(date) as unknown as MonitoringStats;
+    const data = await monitoringClient.getStats({ date, startDate, endDate }) as unknown as MonitoringStats;
     return { data, message: "Success" };
   } catch (error: unknown) {
     const msg = error instanceof Error ? error.message : "Unknown error";
@@ -36,9 +36,9 @@ export async function getMonitoringStats(date?: string): Promise<ApiResponse<Mon
   }
 }
 
-export async function getMonitoringAlerts(date?: string): Promise<ApiResponse<MonitoringAlert[]>> {
+export async function getMonitoringAlerts(date?: string, startDate?: string, endDate?: string): Promise<ApiResponse<MonitoringAlert[]>> {
   try {
-    const data = await monitoringClient.getAlerts(date) as MonitoringAlert[];
+    const data = await monitoringClient.getAlerts({ date, startDate, endDate }) as MonitoringAlert[];
     return { data, message: "Success" };
   } catch (error: unknown) {
     const msg = error instanceof Error ? error.message : "Unknown error";
@@ -46,9 +46,9 @@ export async function getMonitoringAlerts(date?: string): Promise<ApiResponse<Mo
   }
 }
 
-export async function getMonitoringMetrics(date?: string): Promise<ApiResponse<MonitoringMetrics>> {
+export async function getMonitoringMetrics(date?: string, startDate?: string, endDate?: string): Promise<ApiResponse<MonitoringMetrics>> {
   try {
-    const data = await monitoringClient.getMetrics(date) as unknown as MonitoringMetrics;
+    const data = await monitoringClient.getMetrics({ date, startDate, endDate }) as unknown as MonitoringMetrics;
     return { data, message: "Success" };
   } catch (error: unknown) {
     const msg = error instanceof Error ? error.message : "Unknown error";
@@ -56,9 +56,9 @@ export async function getMonitoringMetrics(date?: string): Promise<ApiResponse<M
   }
 }
 
-export async function getExecutiveAuditMetrics(date?: string): Promise<ApiResponse<ExecutiveAuditMetrics>> {
+export async function getExecutiveAuditMetrics(date?: string, startDate?: string, endDate?: string): Promise<ApiResponse<ExecutiveAuditMetrics>> {
   try {
-    const data = await monitoringClient.getExecutiveAudit(date) as unknown as ExecutiveAuditMetrics;
+    const data = await monitoringClient.getExecutiveAudit({ date, startDate, endDate }) as unknown as ExecutiveAuditMetrics;
     return { data, message: "Success" };
   } catch (error: unknown) {
     const msg = error instanceof Error ? error.message : "Unknown error";
@@ -75,9 +75,9 @@ export async function getExecutiveAuditMetrics(date?: string): Promise<ApiRespon
   }
 }
 
-export async function getAudits(page: number = 1, limit: number = 20, date?: string): Promise<ApiResponse<Audit[]>> {
+export async function getAudits(page: number = 1, limit: number = 20, date?: string, startDate?: string, endDate?: string): Promise<ApiResponse<Audit[]>> {
   try {
-    const result = await monitoringClient.getAudits(page, limit, date) as Record<string, unknown>;
+    const result = await monitoringClient.getAudits({ page, limit, date, startDate, endDate }) as Record<string, unknown>;
     return {
       data: (result.results || result.data || result) as Audit[],
       meta: (result.meta || { total: 0, page, limit }) as Record<string, unknown>,
@@ -89,9 +89,9 @@ export async function getAudits(page: number = 1, limit: number = 20, date?: str
   }
 }
 
-export async function getRecentLogs(date?: string): Promise<ApiResponse<Log[]>> {
+export async function getRecentLogs(date?: string, startDate?: string, endDate?: string): Promise<ApiResponse<Log[]>> {
   try {
-    const data = await monitoringClient.getRecentLogs(date) as Log[];
+    const data = await monitoringClient.getRecentLogs({ date, startDate, endDate }) as Log[];
     return { data, message: "Success" };
   } catch (error: unknown) {
     const msg = error instanceof Error ? error.message : "Unknown error";
@@ -99,9 +99,9 @@ export async function getRecentLogs(date?: string): Promise<ApiResponse<Log[]>> 
   }
 }
 
-export async function getMonitoringPayrollPreview(date?: string): Promise<ApiResponse<MonitoringPayrollPreview>> {
+export async function getMonitoringPayrollPreview(date?: string, startDate?: string, endDate?: string): Promise<ApiResponse<MonitoringPayrollPreview>> {
   try {
-    const data = await monitoringClient.getPayrollPreview(date) as unknown as MonitoringPayrollPreview;
+    const data = await monitoringClient.getPayrollPreview({ date, startDate, endDate }) as unknown as MonitoringPayrollPreview;
     return {
       data,
       message: "Success",
@@ -110,7 +110,7 @@ export async function getMonitoringPayrollPreview(date?: string): Promise<ApiRes
     const msg = error instanceof Error ? error.message : "Unknown error";
     return {
       data: {
-        date: date || new Date().toISOString().slice(0, 10),
+        date: date || startDate || new Date().toISOString().slice(0, 10),
         items: [],
         summary: {
           totalPersonas: 0,
