@@ -266,7 +266,7 @@ function NuevoServicioContent() {
   const [frecuenciaRecomendada, setFrecuenciaRecomendada] = useState<number | "">("");
 
   // Form Fields
-  const [servicioEspecifico, setServicioEspecifico] = useState("");
+  const [serviciosSeleccionados, setServiciosSeleccionados] = useState<string[]>([]);
   const [tipoVisita, setTipoVisita] = useState("");
   const [urgencia, setUrgencia] = useState("");
   const [observacion, setObservacion] = useState("");
@@ -305,7 +305,7 @@ function NuevoServicioContent() {
     if (selectedDireccion) params.set("direccion", selectedDireccion);
     if (selectedEmpresa) params.set("empresa", selectedEmpresa);
     if (selectedOperador) params.set("operador", selectedOperador);
-    if (servicioEspecifico) params.set("servicio", servicioEspecifico);
+    if (serviciosSeleccionados.length > 0) params.set("servicios", serviciosSeleccionados.join(','));
     if (tipoVisita) params.set("tipoVisita", tipoVisita);
     if (nivelInfestacion) params.set("nivel", nivelInfestacion);
     if (urgencia) params.set("urgencia", urgencia);
@@ -327,7 +327,7 @@ function NuevoServicioContent() {
     window.history.replaceState(null, "", newUrl);
   }, [
     selectedCliente, selectedDireccion, selectedEmpresa, selectedOperador, 
-    servicioEspecifico, tipoVisita, nivelInfestacion, urgencia, fechaVisita, 
+    serviciosSeleccionados, tipoVisita, nivelInfestacion, urgencia, fechaVisita, 
     horaInicio, duracionMinutos, valorCotizado, tipoFacturacion, estadoServicio, 
     observacion, frecuenciaRecomendada, breakdown
   ]);
@@ -566,7 +566,8 @@ function NuevoServicioContent() {
 
         // 3. Other fields
         if (urlParams.get("operador")) setSelectedOperador(urlParams.get("operador")!);
-        if (urlParams.get("servicio")) setServicioEspecifico(urlParams.get("servicio")!);
+        const urlServicios = urlParams.get("servicios") || urlParams.get("servicio");
+        if (urlServicios) setServiciosSeleccionados(urlServicios.split(','));
         if (urlParams.get("tipoVisita")) setTipoVisita(normalizeVisitTypeValue(urlParams.get("tipoVisita")));
         if (urlParams.get("nivel")) setNivelInfestacion(urlParams.get("nivel")!);
         if (urlParams.get("urgencia")) setUrgencia(urlParams.get("urgencia")!);
@@ -638,7 +639,7 @@ function NuevoServicioContent() {
     fetchOperadores(val);
     fetchServicios(val);
     void refreshFollowUpStatus(val);
-    setServicioEspecifico("");
+    setServiciosSeleccionados([]);
     
     if (selectedCliente) {
       void loadContratoActivo(selectedCliente, val);
@@ -874,7 +875,7 @@ function NuevoServicioContent() {
     e.preventDefault();
     setLoading(true);
 
-    if (!selectedCliente || !selectedEmpresa || !servicioEspecifico) {
+    if (!selectedCliente || !selectedEmpresa || serviciosSeleccionados.length === 0) {
       toast.error("Por favor complete los campos obligatorios");
       setLoading(false);
       return;
@@ -886,8 +887,8 @@ function NuevoServicioContent() {
       tecnicoId: selectedOperador || undefined,
       direccionId: selectedDireccion || undefined,
       creadoPorId: membershipId || undefined,
-      servicioId: serviciosEmpresa.find((item) => item.nombre === servicioEspecifico)?.id,
-      servicioEspecifico,
+      servicioId: serviciosEmpresa.find((item) => item.nombre === serviciosSeleccionados[0])?.id,
+      serviciosSeleccionados,
       urgencia: urgencia || undefined,
       observacion: observacion || undefined,
       nivelInfestacion: nivelInfestacion || undefined,
@@ -943,7 +944,7 @@ function NuevoServicioContent() {
               telefonoOperador: operator.telefono,
               numeroOrden: `#${(orderData.numeroOrden as string) || (orderData.id as string).slice(0, 8).toUpperCase()}`,
               cliente: client ? (client.tipoCliente === "EMPRESA" ? (client.razonSocial || "") : `${client.nombre} ${client.apellido}`) : "Cliente desconocido",
-              servicio: servicioEspecifico.toUpperCase(),
+              servicio: serviciosSeleccionados.join(', ').toUpperCase(),
               programacion: `${formattedDate} a las ${formattedTime}`,
               tecnico: operator.nombre,
               estado: estadoServicio,
@@ -1210,17 +1211,39 @@ function NuevoServicioContent() {
                 </div>
 
                 <div className="space-y-2">
-                  <Label className="text-xs font-bold text-zinc-500 uppercase tracking-wider">Servicio Específico <span className="text-red-500">*</span></Label>
+                  <Label className="text-xs font-bold text-zinc-500 uppercase tracking-wider">Servicio(s) Específico(s) <span className="text-red-500">*</span></Label>
                   <Combobox
                     options={[
-                      { value: "", label: selectedEmpresa ? "Seleccionar servicio..." : "Primero seleccione una empresa" },
-                      ...(Array.isArray(serviciosEmpresa) ? serviciosEmpresa : []).map(s => ({ value: s.nombre, label: s.nombre }))
+                      { value: "", label: selectedEmpresa ? "Seleccionar servicio para añadir..." : "Primero seleccione una empresa" },
+                      ...(Array.isArray(serviciosEmpresa) ? serviciosEmpresa : [])
+                        .filter(s => !serviciosSeleccionados.includes(s.nombre))
+                        .map(s => ({ value: s.nombre, label: s.nombre }))
                     ]}
-                    value={servicioEspecifico}
-                    onChange={setServicioEspecifico}
+                    value={""}
+                    onChange={(val) => {
+                      if (val && !serviciosSeleccionados.includes(val)) {
+                        setServiciosSeleccionados([...serviciosSeleccionados, val]);
+                      }
+                    }}
                     disabled={!selectedEmpresa}
                     placeholder="Buscar servicio..."
                   />
+                  {serviciosSeleccionados.length > 0 && (
+                    <div className="flex flex-wrap gap-2 mt-2">
+                      {serviciosSeleccionados.map((srv, idx) => (
+                        <div key={idx} className="flex items-center gap-1 bg-[var(--color-azul-1)]/10 text-[var(--color-azul-1)] px-2 py-1 rounded-md border border-[var(--color-azul-1)]/20 text-xs font-semibold">
+                          <span>{srv}</span>
+                          <button
+                            type="button"
+                            onClick={() => setServiciosSeleccionados(serviciosSeleccionados.filter(s => s !== srv))}
+                            className="text-[var(--color-azul-1)] hover:text-red-500 ml-1 focus:outline-none"
+                          >
+                            <Trash2 className="h-3 w-3" />
+                          </button>
+                        </div>
+                      ))}
+                    </div>
+                  )}
                   {!selectedEmpresa && (
                     <p className="text-[9px] font-bold text-amber-600 uppercase tracking-widest ml-1">⚠ Seleccione una empresa para cargar servicios</p>
                   )}

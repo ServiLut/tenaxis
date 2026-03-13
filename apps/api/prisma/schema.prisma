@@ -663,6 +663,7 @@ model OrdenServicio {
   comprobantePago       String?
   evidenciaPath         String?
   desglosePago          Json?
+  serviciosSeleccionados Json?
   referenciaPago        String?
   fechaPago             DateTime?
   entidadFinancieraId   String?                    @db.Uuid
