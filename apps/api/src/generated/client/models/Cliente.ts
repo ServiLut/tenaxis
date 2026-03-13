@@ -486,11 +486,11 @@ export type ClienteWhereInput = {
   nivelRiesgo?: Prisma.EnumNivelRiesgoFilter<"Cliente"> | $Enums.NivelRiesgo
   citasPsicologos?: Prisma.CitasPsicologosListRelationFilter
   configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaListRelationFilter
-  contratosCliente?: Prisma.ContratoClienteListRelationFilter
   creadoPor?: Prisma.XOR<Prisma.TenantMembershipNullableScalarRelationFilter, Prisma.TenantMembershipWhereInput> | null
   empresa?: Prisma.XOR<Prisma.EmpresaNullableScalarRelationFilter, Prisma.EmpresaWhereInput> | null
   tenant?: Prisma.XOR<Prisma.TenantScalarRelationFilter, Prisma.TenantWhereInput>
   tipoInteres?: Prisma.XOR<Prisma.TipoInteresNullableScalarRelationFilter, Prisma.TipoInteresWhereInput> | null
+  contratosCliente?: Prisma.ContratoClienteListRelationFilter
   direcciones?: Prisma.DireccionListRelationFilter
   ordenesServicio?: Prisma.OrdenServicioListRelationFilter
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoListRelationFilter
@@ -538,11 +538,11 @@ export type ClienteOrderByWithRelationInput = {
   nivelRiesgo?: Prisma.SortOrder
   citasPsicologos?: Prisma.CitasPsicologosOrderByRelationAggregateInput
   configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaOrderByRelationAggregateInput
-  contratosCliente?: Prisma.ContratoClienteOrderByRelationAggregateInput
   creadoPor?: Prisma.TenantMembershipOrderByWithRelationInput
   empresa?: Prisma.EmpresaOrderByWithRelationInput
   tenant?: Prisma.TenantOrderByWithRelationInput
   tipoInteres?: Prisma.TipoInteresOrderByWithRelationInput
+  contratosCliente?: Prisma.ContratoClienteOrderByRelationAggregateInput
   direcciones?: Prisma.DireccionOrderByRelationAggregateInput
   ordenesServicio?: Prisma.OrdenServicioOrderByRelationAggregateInput
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoOrderByRelationAggregateInput
@@ -593,11 +593,11 @@ export type ClienteWhereUniqueInput = Prisma.AtLeast<{
   nivelRiesgo?: Prisma.EnumNivelRiesgoFilter<"Cliente"> | $Enums.NivelRiesgo
   citasPsicologos?: Prisma.CitasPsicologosListRelationFilter
   configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaListRelationFilter
-  contratosCliente?: Prisma.ContratoClienteListRelationFilter
   creadoPor?: Prisma.XOR<Prisma.TenantMembershipNullableScalarRelationFilter, Prisma.TenantMembershipWhereInput> | null
   empresa?: Prisma.XOR<Prisma.EmpresaNullableScalarRelationFilter, Prisma.EmpresaWhereInput> | null
   tenant?: Prisma.XOR<Prisma.TenantScalarRelationFilter, Prisma.TenantWhereInput>
   tipoInteres?: Prisma.XOR<Prisma.TipoInteresNullableScalarRelationFilter, Prisma.TipoInteresWhereInput> | null
+  contratosCliente?: Prisma.ContratoClienteListRelationFilter
   direcciones?: Prisma.DireccionListRelationFilter
   ordenesServicio?: Prisma.OrdenServicioListRelationFilter
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoListRelationFilter
@@ -729,11 +729,11 @@ export type ClienteCreateInput = {
   nivelRiesgo?: $Enums.NivelRiesgo
   citasPsicologos?: Prisma.CitasPsicologosCreateNestedManyWithoutPacienteInput
   configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaCreateNestedManyWithoutClienteInput
-  contratosCliente?: Prisma.ContratoClienteCreateNestedManyWithoutClienteInput
   creadoPor?: Prisma.TenantMembershipCreateNestedOneWithoutClientesCreadosInput
   empresa?: Prisma.EmpresaCreateNestedOneWithoutClientesInput
   tenant: Prisma.TenantCreateNestedOneWithoutClientesInput
   tipoInteres?: Prisma.TipoInteresCreateNestedOneWithoutClientesInput
+  contratosCliente?: Prisma.ContratoClienteCreateNestedManyWithoutClienteInput
   direcciones?: Prisma.DireccionCreateNestedManyWithoutClienteInput
   ordenesServicio?: Prisma.OrdenServicioCreateNestedManyWithoutClienteInput
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoCreateNestedManyWithoutClienteInput
@@ -825,11 +825,11 @@ export type ClienteUpdateInput = {
   nivelRiesgo?: Prisma.EnumNivelRiesgoFieldUpdateOperationsInput | $Enums.NivelRiesgo
   citasPsicologos?: Prisma.CitasPsicologosUpdateManyWithoutPacienteNestedInput
   configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaUpdateManyWithoutClienteNestedInput
-  contratosCliente?: Prisma.ContratoClienteUpdateManyWithoutClienteNestedInput
   creadoPor?: Prisma.TenantMembershipUpdateOneWithoutClientesCreadosNestedInput
   empresa?: Prisma.EmpresaUpdateOneWithoutClientesNestedInput
   tenant?: Prisma.TenantUpdateOneRequiredWithoutClientesNestedInput
   tipoInteres?: Prisma.TipoInteresUpdateOneWithoutClientesNestedInput
+  contratosCliente?: Prisma.ContratoClienteUpdateManyWithoutClienteNestedInput
   direcciones?: Prisma.DireccionUpdateManyWithoutClienteNestedInput
   ordenesServicio?: Prisma.OrdenServicioUpdateManyWithoutClienteNestedInput
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoUpdateManyWithoutClienteNestedInput
@@ -1482,10 +1482,10 @@ export type ClienteCreateWithoutTenantInput = {
   nivelRiesgo?: $Enums.NivelRiesgo
   citasPsicologos?: Prisma.CitasPsicologosCreateNestedManyWithoutPacienteInput
   configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaCreateNestedManyWithoutClienteInput
-  contratosCliente?: Prisma.ContratoClienteCreateNestedManyWithoutClienteInput
   creadoPor?: Prisma.TenantMembershipCreateNestedOneWithoutClientesCreadosInput
   empresa?: Prisma.EmpresaCreateNestedOneWithoutClientesInput
   tipoInteres?: Prisma.TipoInteresCreateNestedOneWithoutClientesInput
+  contratosCliente?: Prisma.ContratoClienteCreateNestedManyWithoutClienteInput
   direcciones?: Prisma.DireccionCreateNestedManyWithoutClienteInput
   ordenesServicio?: Prisma.OrdenServicioCreateNestedManyWithoutClienteInput
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoCreateNestedManyWithoutClienteInput
@@ -1645,10 +1645,10 @@ export type ClienteCreateWithoutCreadoPorInput = {
   nivelRiesgo?: $Enums.NivelRiesgo
   citasPsicologos?: Prisma.CitasPsicologosCreateNestedManyWithoutPacienteInput
   configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaCreateNestedManyWithoutClienteInput
-  contratosCliente?: Prisma.ContratoClienteCreateNestedManyWithoutClienteInput
   empresa?: Prisma.EmpresaCreateNestedOneWithoutClientesInput
   tenant: Prisma.TenantCreateNestedOneWithoutClientesInput
   tipoInteres?: Prisma.TipoInteresCreateNestedOneWithoutClientesInput
+  contratosCliente?: Prisma.ContratoClienteCreateNestedManyWithoutClienteInput
   direcciones?: Prisma.DireccionCreateNestedManyWithoutClienteInput
   ordenesServicio?: Prisma.OrdenServicioCreateNestedManyWithoutClienteInput
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoCreateNestedManyWithoutClienteInput
@@ -1765,10 +1765,10 @@ export type ClienteCreateWithoutEmpresaInput = {
   nivelRiesgo?: $Enums.NivelRiesgo
   citasPsicologos?: Prisma.CitasPsicologosCreateNestedManyWithoutPacienteInput
   configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaCreateNestedManyWithoutClienteInput
-  contratosCliente?: Prisma.ContratoClienteCreateNestedManyWithoutClienteInput
   creadoPor?: Prisma.TenantMembershipCreateNestedOneWithoutClientesCreadosInput
   tenant: Prisma.TenantCreateNestedOneWithoutClientesInput
   tipoInteres?: Prisma.TipoInteresCreateNestedOneWithoutClientesInput
+  contratosCliente?: Prisma.ContratoClienteCreateNestedManyWithoutClienteInput
   direcciones?: Prisma.DireccionCreateNestedManyWithoutClienteInput
   ordenesServicio?: Prisma.OrdenServicioCreateNestedManyWithoutClienteInput
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoCreateNestedManyWithoutClienteInput
@@ -1885,10 +1885,10 @@ export type ClienteCreateWithoutTipoInteresInput = {
   nivelRiesgo?: $Enums.NivelRiesgo
   citasPsicologos?: Prisma.CitasPsicologosCreateNestedManyWithoutPacienteInput
   configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaCreateNestedManyWithoutClienteInput
-  contratosCliente?: Prisma.ContratoClienteCreateNestedManyWithoutClienteInput
   creadoPor?: Prisma.TenantMembershipCreateNestedOneWithoutClientesCreadosInput
   empresa?: Prisma.EmpresaCreateNestedOneWithoutClientesInput
   tenant: Prisma.TenantCreateNestedOneWithoutClientesInput
+  contratosCliente?: Prisma.ContratoClienteCreateNestedManyWithoutClienteInput
   direcciones?: Prisma.DireccionCreateNestedManyWithoutClienteInput
   ordenesServicio?: Prisma.OrdenServicioCreateNestedManyWithoutClienteInput
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoCreateNestedManyWithoutClienteInput
@@ -2209,11 +2209,11 @@ export type ClienteCreateWithoutVehiculosInput = {
   nivelRiesgo?: $Enums.NivelRiesgo
   citasPsicologos?: Prisma.CitasPsicologosCreateNestedManyWithoutPacienteInput
   configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaCreateNestedManyWithoutClienteInput
-  contratosCliente?: Prisma.ContratoClienteCreateNestedManyWithoutClienteInput
   creadoPor?: Prisma.TenantMembershipCreateNestedOneWithoutClientesCreadosInput
   empresa?: Prisma.EmpresaCreateNestedOneWithoutClientesInput
   tenant: Prisma.TenantCreateNestedOneWithoutClientesInput
   tipoInteres?: Prisma.TipoInteresCreateNestedOneWithoutClientesInput
+  contratosCliente?: Prisma.ContratoClienteCreateNestedManyWithoutClienteInput
   direcciones?: Prisma.DireccionCreateNestedManyWithoutClienteInput
   ordenesServicio?: Prisma.OrdenServicioCreateNestedManyWithoutClienteInput
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoCreateNestedManyWithoutClienteInput
@@ -2319,11 +2319,11 @@ export type ClienteUpdateWithoutVehiculosInput = {
   nivelRiesgo?: Prisma.EnumNivelRiesgoFieldUpdateOperationsInput | $Enums.NivelRiesgo
   citasPsicologos?: Prisma.CitasPsicologosUpdateManyWithoutPacienteNestedInput
   configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaUpdateManyWithoutClienteNestedInput
-  contratosCliente?: Prisma.ContratoClienteUpdateManyWithoutClienteNestedInput
   creadoPor?: Prisma.TenantMembershipUpdateOneWithoutClientesCreadosNestedInput
   empresa?: Prisma.EmpresaUpdateOneWithoutClientesNestedInput
   tenant?: Prisma.TenantUpdateOneRequiredWithoutClientesNestedInput
   tipoInteres?: Prisma.TipoInteresUpdateOneWithoutClientesNestedInput
+  contratosCliente?: Prisma.ContratoClienteUpdateManyWithoutClienteNestedInput
   direcciones?: Prisma.DireccionUpdateManyWithoutClienteNestedInput
   ordenesServicio?: Prisma.OrdenServicioUpdateManyWithoutClienteNestedInput
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoUpdateManyWithoutClienteNestedInput
@@ -2413,11 +2413,11 @@ export type ClienteCreateWithoutDireccionesInput = {
   nivelRiesgo?: $Enums.NivelRiesgo
   citasPsicologos?: Prisma.CitasPsicologosCreateNestedManyWithoutPacienteInput
   configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaCreateNestedManyWithoutClienteInput
-  contratosCliente?: Prisma.ContratoClienteCreateNestedManyWithoutClienteInput
   creadoPor?: Prisma.TenantMembershipCreateNestedOneWithoutClientesCreadosInput
   empresa?: Prisma.EmpresaCreateNestedOneWithoutClientesInput
   tenant: Prisma.TenantCreateNestedOneWithoutClientesInput
   tipoInteres?: Prisma.TipoInteresCreateNestedOneWithoutClientesInput
+  contratosCliente?: Prisma.ContratoClienteCreateNestedManyWithoutClienteInput
   ordenesServicio?: Prisma.OrdenServicioCreateNestedManyWithoutClienteInput
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoCreateNestedManyWithoutClienteInput
   sugerencias?: Prisma.SugerenciaSeguimientoCreateNestedManyWithoutClienteInput
@@ -2523,11 +2523,11 @@ export type ClienteUpdateWithoutDireccionesInput = {
   nivelRiesgo?: Prisma.EnumNivelRiesgoFieldUpdateOperationsInput | $Enums.NivelRiesgo
   citasPsicologos?: Prisma.CitasPsicologosUpdateManyWithoutPacienteNestedInput
   configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaUpdateManyWithoutClienteNestedInput
-  contratosCliente?: Prisma.ContratoClienteUpdateManyWithoutClienteNestedInput
   creadoPor?: Prisma.TenantMembershipUpdateOneWithoutClientesCreadosNestedInput
   empresa?: Prisma.EmpresaUpdateOneWithoutClientesNestedInput
   tenant?: Prisma.TenantUpdateOneRequiredWithoutClientesNestedInput
   tipoInteres?: Prisma.TipoInteresUpdateOneWithoutClientesNestedInput
+  contratosCliente?: Prisma.ContratoClienteUpdateManyWithoutClienteNestedInput
   ordenesServicio?: Prisma.OrdenServicioUpdateManyWithoutClienteNestedInput
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoUpdateManyWithoutClienteNestedInput
   sugerencias?: Prisma.SugerenciaSeguimientoUpdateManyWithoutClienteNestedInput
@@ -2617,11 +2617,11 @@ export type ClienteCreateWithoutOrdenesServicioInput = {
   nivelRiesgo?: $Enums.NivelRiesgo
   citasPsicologos?: Prisma.CitasPsicologosCreateNestedManyWithoutPacienteInput
   configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaCreateNestedManyWithoutClienteInput
-  contratosCliente?: Prisma.ContratoClienteCreateNestedManyWithoutClienteInput
   creadoPor?: Prisma.TenantMembershipCreateNestedOneWithoutClientesCreadosInput
   empresa?: Prisma.EmpresaCreateNestedOneWithoutClientesInput
   tenant: Prisma.TenantCreateNestedOneWithoutClientesInput
   tipoInteres?: Prisma.TipoInteresCreateNestedOneWithoutClientesInput
+  contratosCliente?: Prisma.ContratoClienteCreateNestedManyWithoutClienteInput
   direcciones?: Prisma.DireccionCreateNestedManyWithoutClienteInput
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoCreateNestedManyWithoutClienteInput
   sugerencias?: Prisma.SugerenciaSeguimientoCreateNestedManyWithoutClienteInput
@@ -2727,11 +2727,11 @@ export type ClienteUpdateWithoutOrdenesServicioInput = {
   nivelRiesgo?: Prisma.EnumNivelRiesgoFieldUpdateOperationsInput | $Enums.NivelRiesgo
   citasPsicologos?: Prisma.CitasPsicologosUpdateManyWithoutPacienteNestedInput
   configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaUpdateManyWithoutClienteNestedInput
-  contratosCliente?: Prisma.ContratoClienteUpdateManyWithoutClienteNestedInput
   creadoPor?: Prisma.TenantMembershipUpdateOneWithoutClientesCreadosNestedInput
   empresa?: Prisma.EmpresaUpdateOneWithoutClientesNestedInput
   tenant?: Prisma.TenantUpdateOneRequiredWithoutClientesNestedInput
   tipoInteres?: Prisma.TipoInteresUpdateOneWithoutClientesNestedInput
+  contratosCliente?: Prisma.ContratoClienteUpdateManyWithoutClienteNestedInput
   direcciones?: Prisma.DireccionUpdateManyWithoutClienteNestedInput
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoUpdateManyWithoutClienteNestedInput
   sugerencias?: Prisma.SugerenciaSeguimientoUpdateManyWithoutClienteNestedInput
@@ -2820,11 +2820,11 @@ export type ClienteCreateWithoutCitasPsicologosInput = {
   segmento?: $Enums.SegmentoCliente
   nivelRiesgo?: $Enums.NivelRiesgo
   configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaCreateNestedManyWithoutClienteInput
-  contratosCliente?: Prisma.ContratoClienteCreateNestedManyWithoutClienteInput
   creadoPor?: Prisma.TenantMembershipCreateNestedOneWithoutClientesCreadosInput
   empresa?: Prisma.EmpresaCreateNestedOneWithoutClientesInput
   tenant: Prisma.TenantCreateNestedOneWithoutClientesInput
   tipoInteres?: Prisma.TipoInteresCreateNestedOneWithoutClientesInput
+  contratosCliente?: Prisma.ContratoClienteCreateNestedManyWithoutClienteInput
   direcciones?: Prisma.DireccionCreateNestedManyWithoutClienteInput
   ordenesServicio?: Prisma.OrdenServicioCreateNestedManyWithoutClienteInput
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoCreateNestedManyWithoutClienteInput
@@ -2930,11 +2930,11 @@ export type ClienteUpdateWithoutCitasPsicologosInput = {
   segmento?: Prisma.EnumSegmentoClienteFieldUpdateOperationsInput | $Enums.SegmentoCliente
   nivelRiesgo?: Prisma.EnumNivelRiesgoFieldUpdateOperationsInput | $Enums.NivelRiesgo
   configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaUpdateManyWithoutClienteNestedInput
-  contratosCliente?: Prisma.ContratoClienteUpdateManyWithoutClienteNestedInput
   creadoPor?: Prisma.TenantMembershipUpdateOneWithoutClientesCreadosNestedInput
   empresa?: Prisma.EmpresaUpdateOneWithoutClientesNestedInput
   tenant?: Prisma.TenantUpdateOneRequiredWithoutClientesNestedInput
   tipoInteres?: Prisma.TipoInteresUpdateOneWithoutClientesNestedInput
+  contratosCliente?: Prisma.ContratoClienteUpdateManyWithoutClienteNestedInput
   direcciones?: Prisma.DireccionUpdateManyWithoutClienteNestedInput
   ordenesServicio?: Prisma.OrdenServicioUpdateManyWithoutClienteNestedInput
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoUpdateManyWithoutClienteNestedInput
@@ -3025,11 +3025,11 @@ export type ClienteCreateWithoutPaquetesAdquiridosInput = {
   nivelRiesgo?: $Enums.NivelRiesgo
   citasPsicologos?: Prisma.CitasPsicologosCreateNestedManyWithoutPacienteInput
   configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaCreateNestedManyWithoutClienteInput
-  contratosCliente?: Prisma.ContratoClienteCreateNestedManyWithoutClienteInput
   creadoPor?: Prisma.TenantMembershipCreateNestedOneWithoutClientesCreadosInput
   empresa?: Prisma.EmpresaCreateNestedOneWithoutClientesInput
   tenant: Prisma.TenantCreateNestedOneWithoutClientesInput
   tipoInteres?: Prisma.TipoInteresCreateNestedOneWithoutClientesInput
+  contratosCliente?: Prisma.ContratoClienteCreateNestedManyWithoutClienteInput
   direcciones?: Prisma.DireccionCreateNestedManyWithoutClienteInput
   ordenesServicio?: Prisma.OrdenServicioCreateNestedManyWithoutClienteInput
   sugerencias?: Prisma.SugerenciaSeguimientoCreateNestedManyWithoutClienteInput
@@ -3135,11 +3135,11 @@ export type ClienteUpdateWithoutPaquetesAdquiridosInput = {
   nivelRiesgo?: Prisma.EnumNivelRiesgoFieldUpdateOperationsInput | $Enums.NivelRiesgo
   citasPsicologos?: Prisma.CitasPsicologosUpdateManyWithoutPacienteNestedInput
   configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaUpdateManyWithoutClienteNestedInput
-  contratosCliente?: Prisma.ContratoClienteUpdateManyWithoutClienteNestedInput
   creadoPor?: Prisma.TenantMembershipUpdateOneWithoutClientesCreadosNestedInput
   empresa?: Prisma.EmpresaUpdateOneWithoutClientesNestedInput
   tenant?: Prisma.TenantUpdateOneRequiredWithoutClientesNestedInput
   tipoInteres?: Prisma.TipoInteresUpdateOneWithoutClientesNestedInput
+  contratosCliente?: Prisma.ContratoClienteUpdateManyWithoutClienteNestedInput
   direcciones?: Prisma.DireccionUpdateManyWithoutClienteNestedInput
   ordenesServicio?: Prisma.OrdenServicioUpdateManyWithoutClienteNestedInput
   sugerencias?: Prisma.SugerenciaSeguimientoUpdateManyWithoutClienteNestedInput
@@ -3228,11 +3228,11 @@ export type ClienteCreateWithoutConfiguracionesOperativasInput = {
   segmento?: $Enums.SegmentoCliente
   nivelRiesgo?: $Enums.NivelRiesgo
   citasPsicologos?: Prisma.CitasPsicologosCreateNestedManyWithoutPacienteInput
-  contratosCliente?: Prisma.ContratoClienteCreateNestedManyWithoutClienteInput
   creadoPor?: Prisma.TenantMembershipCreateNestedOneWithoutClientesCreadosInput
   empresa?: Prisma.EmpresaCreateNestedOneWithoutClientesInput
   tenant: Prisma.TenantCreateNestedOneWithoutClientesInput
   tipoInteres?: Prisma.TipoInteresCreateNestedOneWithoutClientesInput
+  contratosCliente?: Prisma.ContratoClienteCreateNestedManyWithoutClienteInput
   direcciones?: Prisma.DireccionCreateNestedManyWithoutClienteInput
   ordenesServicio?: Prisma.OrdenServicioCreateNestedManyWithoutClienteInput
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoCreateNestedManyWithoutClienteInput
@@ -3338,11 +3338,11 @@ export type ClienteUpdateWithoutConfiguracionesOperativasInput = {
   segmento?: Prisma.EnumSegmentoClienteFieldUpdateOperationsInput | $Enums.SegmentoCliente
   nivelRiesgo?: Prisma.EnumNivelRiesgoFieldUpdateOperationsInput | $Enums.NivelRiesgo
   citasPsicologos?: Prisma.CitasPsicologosUpdateManyWithoutPacienteNestedInput
-  contratosCliente?: Prisma.ContratoClienteUpdateManyWithoutClienteNestedInput
   creadoPor?: Prisma.TenantMembershipUpdateOneWithoutClientesCreadosNestedInput
   empresa?: Prisma.EmpresaUpdateOneWithoutClientesNestedInput
   tenant?: Prisma.TenantUpdateOneRequiredWithoutClientesNestedInput
   tipoInteres?: Prisma.TipoInteresUpdateOneWithoutClientesNestedInput
+  contratosCliente?: Prisma.ContratoClienteUpdateManyWithoutClienteNestedInput
   direcciones?: Prisma.DireccionUpdateManyWithoutClienteNestedInput
   ordenesServicio?: Prisma.OrdenServicioUpdateManyWithoutClienteNestedInput
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoUpdateManyWithoutClienteNestedInput
@@ -3433,11 +3433,11 @@ export type ClienteCreateWithoutSugerenciasInput = {
   nivelRiesgo?: $Enums.NivelRiesgo
   citasPsicologos?: Prisma.CitasPsicologosCreateNestedManyWithoutPacienteInput
   configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaCreateNestedManyWithoutClienteInput
-  contratosCliente?: Prisma.ContratoClienteCreateNestedManyWithoutClienteInput
   creadoPor?: Prisma.TenantMembershipCreateNestedOneWithoutClientesCreadosInput
   empresa?: Prisma.EmpresaCreateNestedOneWithoutClientesInput
   tenant: Prisma.TenantCreateNestedOneWithoutClientesInput
   tipoInteres?: Prisma.TipoInteresCreateNestedOneWithoutClientesInput
+  contratosCliente?: Prisma.ContratoClienteCreateNestedManyWithoutClienteInput
   direcciones?: Prisma.DireccionCreateNestedManyWithoutClienteInput
   ordenesServicio?: Prisma.OrdenServicioCreateNestedManyWithoutClienteInput
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoCreateNestedManyWithoutClienteInput
@@ -3543,11 +3543,11 @@ export type ClienteUpdateWithoutSugerenciasInput = {
   nivelRiesgo?: Prisma.EnumNivelRiesgoFieldUpdateOperationsInput | $Enums.NivelRiesgo
   citasPsicologos?: Prisma.CitasPsicologosUpdateManyWithoutPacienteNestedInput
   configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaUpdateManyWithoutClienteNestedInput
-  contratosCliente?: Prisma.ContratoClienteUpdateManyWithoutClienteNestedInput
   creadoPor?: Prisma.TenantMembershipUpdateOneWithoutClientesCreadosNestedInput
   empresa?: Prisma.EmpresaUpdateOneWithoutClientesNestedInput
   tenant?: Prisma.TenantUpdateOneRequiredWithoutClientesNestedInput
   tipoInteres?: Prisma.TipoInteresUpdateOneWithoutClientesNestedInput
+  contratosCliente?: Prisma.ContratoClienteUpdateManyWithoutClienteNestedInput
   direcciones?: Prisma.DireccionUpdateManyWithoutClienteNestedInput
   ordenesServicio?: Prisma.OrdenServicioUpdateManyWithoutClienteNestedInput
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoUpdateManyWithoutClienteNestedInput
@@ -3676,10 +3676,10 @@ export type ClienteUpdateWithoutTenantInput = {
   nivelRiesgo?: Prisma.EnumNivelRiesgoFieldUpdateOperationsInput | $Enums.NivelRiesgo
   citasPsicologos?: Prisma.CitasPsicologosUpdateManyWithoutPacienteNestedInput
   configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaUpdateManyWithoutClienteNestedInput
-  contratosCliente?: Prisma.ContratoClienteUpdateManyWithoutClienteNestedInput
   creadoPor?: Prisma.TenantMembershipUpdateOneWithoutClientesCreadosNestedInput
   empresa?: Prisma.EmpresaUpdateOneWithoutClientesNestedInput
   tipoInteres?: Prisma.TipoInteresUpdateOneWithoutClientesNestedInput
+  contratosCliente?: Prisma.ContratoClienteUpdateManyWithoutClienteNestedInput
   direcciones?: Prisma.DireccionUpdateManyWithoutClienteNestedInput
   ordenesServicio?: Prisma.OrdenServicioUpdateManyWithoutClienteNestedInput
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoUpdateManyWithoutClienteNestedInput
@@ -3848,10 +3848,10 @@ export type ClienteUpdateWithoutCreadoPorInput = {
   nivelRiesgo?: Prisma.EnumNivelRiesgoFieldUpdateOperationsInput | $Enums.NivelRiesgo
   citasPsicologos?: Prisma.CitasPsicologosUpdateManyWithoutPacienteNestedInput
   configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaUpdateManyWithoutClienteNestedInput
-  contratosCliente?: Prisma.ContratoClienteUpdateManyWithoutClienteNestedInput
   empresa?: Prisma.EmpresaUpdateOneWithoutClientesNestedInput
   tenant?: Prisma.TenantUpdateOneRequiredWithoutClientesNestedInput
   tipoInteres?: Prisma.TipoInteresUpdateOneWithoutClientesNestedInput
+  contratosCliente?: Prisma.ContratoClienteUpdateManyWithoutClienteNestedInput
   direcciones?: Prisma.DireccionUpdateManyWithoutClienteNestedInput
   ordenesServicio?: Prisma.OrdenServicioUpdateManyWithoutClienteNestedInput
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoUpdateManyWithoutClienteNestedInput
@@ -4020,10 +4020,10 @@ export type ClienteUpdateWithoutEmpresaInput = {
   nivelRiesgo?: Prisma.EnumNivelRiesgoFieldUpdateOperationsInput | $Enums.NivelRiesgo
   citasPsicologos?: Prisma.CitasPsicologosUpdateManyWithoutPacienteNestedInput
   configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaUpdateManyWithoutClienteNestedInput
-  contratosCliente?: Prisma.ContratoClienteUpdateManyWithoutClienteNestedInput
   creadoPor?: Prisma.TenantMembershipUpdateOneWithoutClientesCreadosNestedInput
   tenant?: Prisma.TenantUpdateOneRequiredWithoutClientesNestedInput
   tipoInteres?: Prisma.TipoInteresUpdateOneWithoutClientesNestedInput
+  contratosCliente?: Prisma.ContratoClienteUpdateManyWithoutClienteNestedInput
   direcciones?: Prisma.DireccionUpdateManyWithoutClienteNestedInput
   ordenesServicio?: Prisma.OrdenServicioUpdateManyWithoutClienteNestedInput
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoUpdateManyWithoutClienteNestedInput
@@ -4192,10 +4192,10 @@ export type ClienteUpdateWithoutTipoInteresInput = {
   nivelRiesgo?: Prisma.EnumNivelRiesgoFieldUpdateOperationsInput | $Enums.NivelRiesgo
   citasPsicologos?: Prisma.CitasPsicologosUpdateManyWithoutPacienteNestedInput
   configuracionesOperativas?: Prisma.ClienteConfiguracionOperativaUpdateManyWithoutClienteNestedInput
-  contratosCliente?: Prisma.ContratoClienteUpdateManyWithoutClienteNestedInput
   creadoPor?: Prisma.TenantMembershipUpdateOneWithoutClientesCreadosNestedInput
   empresa?: Prisma.EmpresaUpdateOneWithoutClientesNestedInput
   tenant?: Prisma.TenantUpdateOneRequiredWithoutClientesNestedInput
+  contratosCliente?: Prisma.ContratoClienteUpdateManyWithoutClienteNestedInput
   direcciones?: Prisma.DireccionUpdateManyWithoutClienteNestedInput
   ordenesServicio?: Prisma.OrdenServicioUpdateManyWithoutClienteNestedInput
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoUpdateManyWithoutClienteNestedInput
@@ -4423,11 +4423,11 @@ export type ClienteSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs 
   nivelRiesgo?: boolean
   citasPsicologos?: boolean | Prisma.Cliente$citasPsicologosArgs<ExtArgs>
   configuracionesOperativas?: boolean | Prisma.Cliente$configuracionesOperativasArgs<ExtArgs>
-  contratosCliente?: boolean | Prisma.Cliente$contratosClienteArgs<ExtArgs>
   creadoPor?: boolean | Prisma.Cliente$creadoPorArgs<ExtArgs>
   empresa?: boolean | Prisma.Cliente$empresaArgs<ExtArgs>
   tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
   tipoInteres?: boolean | Prisma.Cliente$tipoInteresArgs<ExtArgs>
+  contratosCliente?: boolean | Prisma.Cliente$contratosClienteArgs<ExtArgs>
   direcciones?: boolean | Prisma.Cliente$direccionesArgs<ExtArgs>
   ordenesServicio?: boolean | Prisma.Cliente$ordenesServicioArgs<ExtArgs>
   paquetesAdquiridos?: boolean | Prisma.Cliente$paquetesAdquiridosArgs<ExtArgs>
@@ -4568,11 +4568,11 @@ export type ClienteOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
 export type ClienteInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   citasPsicologos?: boolean | Prisma.Cliente$citasPsicologosArgs<ExtArgs>
   configuracionesOperativas?: boolean | Prisma.Cliente$configuracionesOperativasArgs<ExtArgs>
-  contratosCliente?: boolean | Prisma.Cliente$contratosClienteArgs<ExtArgs>
   creadoPor?: boolean | Prisma.Cliente$creadoPorArgs<ExtArgs>
   empresa?: boolean | Prisma.Cliente$empresaArgs<ExtArgs>
   tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
   tipoInteres?: boolean | Prisma.Cliente$tipoInteresArgs<ExtArgs>
+  contratosCliente?: boolean | Prisma.Cliente$contratosClienteArgs<ExtArgs>
   direcciones?: boolean | Prisma.Cliente$direccionesArgs<ExtArgs>
   ordenesServicio?: boolean | Prisma.Cliente$ordenesServicioArgs<ExtArgs>
   paquetesAdquiridos?: boolean | Prisma.Cliente$paquetesAdquiridosArgs<ExtArgs>
@@ -4598,11 +4598,11 @@ export type $ClientePayload<ExtArgs extends runtime.Types.Extensions.InternalArg
   objects: {
     citasPsicologos: Prisma.$CitasPsicologosPayload<ExtArgs>[]
     configuracionesOperativas: Prisma.$ClienteConfiguracionOperativaPayload<ExtArgs>[]
-    contratosCliente: Prisma.$ContratoClientePayload<ExtArgs>[]
     creadoPor: Prisma.$TenantMembershipPayload<ExtArgs> | null
     empresa: Prisma.$EmpresaPayload<ExtArgs> | null
     tenant: Prisma.$TenantPayload<ExtArgs>
     tipoInteres: Prisma.$TipoInteresPayload<ExtArgs> | null
+    contratosCliente: Prisma.$ContratoClientePayload<ExtArgs>[]
     direcciones: Prisma.$DireccionPayload<ExtArgs>[]
     ordenesServicio: Prisma.$OrdenServicioPayload<ExtArgs>[]
     paquetesAdquiridos: Prisma.$PaqueteAdquiridoPayload<ExtArgs>[]
@@ -5043,11 +5043,11 @@ export interface Prisma__ClienteClient<T, Null = never, ExtArgs extends runtime.
   readonly [Symbol.toStringTag]: "PrismaPromise"
   citasPsicologos<T extends Prisma.Cliente$citasPsicologosArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Cliente$citasPsicologosArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$CitasPsicologosPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   configuracionesOperativas<T extends Prisma.Cliente$configuracionesOperativasArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Cliente$configuracionesOperativasArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ClienteConfiguracionOperativaPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  contratosCliente<T extends Prisma.Cliente$contratosClienteArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Cliente$contratosClienteArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ContratoClientePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   creadoPor<T extends Prisma.Cliente$creadoPorArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Cliente$creadoPorArgs<ExtArgs>>): Prisma.Prisma__TenantMembershipClient<runtime.Types.Result.GetResult<Prisma.$TenantMembershipPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   empresa<T extends Prisma.Cliente$empresaArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Cliente$empresaArgs<ExtArgs>>): Prisma.Prisma__EmpresaClient<runtime.Types.Result.GetResult<Prisma.$EmpresaPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   tenant<T extends Prisma.TenantDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.TenantDefaultArgs<ExtArgs>>): Prisma.Prisma__TenantClient<runtime.Types.Result.GetResult<Prisma.$TenantPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   tipoInteres<T extends Prisma.Cliente$tipoInteresArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Cliente$tipoInteresArgs<ExtArgs>>): Prisma.Prisma__TipoInteresClient<runtime.Types.Result.GetResult<Prisma.$TipoInteresPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  contratosCliente<T extends Prisma.Cliente$contratosClienteArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Cliente$contratosClienteArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ContratoClientePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   direcciones<T extends Prisma.Cliente$direccionesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Cliente$direccionesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$DireccionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   ordenesServicio<T extends Prisma.Cliente$ordenesServicioArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Cliente$ordenesServicioArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$OrdenServicioPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   paquetesAdquiridos<T extends Prisma.Cliente$paquetesAdquiridosArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Cliente$paquetesAdquiridosArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$PaqueteAdquiridoPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
@@ -5563,30 +5563,6 @@ export type Cliente$configuracionesOperativasArgs<ExtArgs extends runtime.Types.
 }
 
 /**
- * Cliente.contratosCliente
- */
-export type Cliente$contratosClienteArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the ContratoCliente
-   */
-  select?: Prisma.ContratoClienteSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the ContratoCliente
-   */
-  omit?: Prisma.ContratoClienteOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.ContratoClienteInclude<ExtArgs> | null
-  where?: Prisma.ContratoClienteWhereInput
-  orderBy?: Prisma.ContratoClienteOrderByWithRelationInput | Prisma.ContratoClienteOrderByWithRelationInput[]
-  cursor?: Prisma.ContratoClienteWhereUniqueInput
-  take?: number
-  skip?: number
-  distinct?: Prisma.ContratoClienteScalarFieldEnum | Prisma.ContratoClienteScalarFieldEnum[]
-}
-
-/**
  * Cliente.creadoPor
  */
 export type Cliente$creadoPorArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -5641,6 +5617,30 @@ export type Cliente$tipoInteresArgs<ExtArgs extends runtime.Types.Extensions.Int
    */
   include?: Prisma.TipoInteresInclude<ExtArgs> | null
   where?: Prisma.TipoInteresWhereInput
+}
+
+/**
+ * Cliente.contratosCliente
+ */
+export type Cliente$contratosClienteArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the ContratoCliente
+   */
+  select?: Prisma.ContratoClienteSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the ContratoCliente
+   */
+  omit?: Prisma.ContratoClienteOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ContratoClienteInclude<ExtArgs> | null
+  where?: Prisma.ContratoClienteWhereInput
+  orderBy?: Prisma.ContratoClienteOrderByWithRelationInput | Prisma.ContratoClienteOrderByWithRelationInput[]
+  cursor?: Prisma.ContratoClienteWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.ContratoClienteScalarFieldEnum | Prisma.ContratoClienteScalarFieldEnum[]
 }
 
 /**

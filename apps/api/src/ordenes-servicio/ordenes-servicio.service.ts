@@ -1333,42 +1333,71 @@ export class OrdenesServicioService {
       'evidenciaPath',
     ];
 
+    const pathsToSign: string[] = [];
+
     for (const field of fieldsToSign) {
       const value = orden[field];
       if (value && typeof value === 'string' && !value.startsWith('http')) {
-        const signedUrl = await this.supabase.getSignedUrl(value);
-        if (signedUrl) {
-          orden[field] = signedUrl;
-        }
+        pathsToSign.push(value);
       }
     }
 
-    // Sign multiple evidences if they exist
     if (orden.evidencias) {
       for (const evidence of orden.evidencias) {
         if (evidence.path && !evidence.path.startsWith('http')) {
-          const signedUrl = await this.supabase.getSignedUrl(evidence.path);
-          if (signedUrl) {
-            evidence.path = signedUrl;
-          }
+          pathsToSign.push(evidence.path);
         }
       }
     }
 
-    // Also sign photos in geolocalizaciones
     if (orden.geolocalizaciones) {
       for (const geo of orden.geolocalizaciones) {
         if (geo.fotoLlegada && !geo.fotoLlegada.startsWith('http')) {
-          const signedUrl = await this.supabase.getSignedUrl(geo.fotoLlegada);
-          if (signedUrl) {
-            geo.fotoLlegada = signedUrl;
-          }
+          pathsToSign.push(geo.fotoLlegada);
         }
         if (geo.fotoSalida && !geo.fotoSalida.startsWith('http')) {
-          const signedUrl = await this.supabase.getSignedUrl(geo.fotoSalida);
-          if (signedUrl) {
-            geo.fotoSalida = signedUrl;
-          }
+          pathsToSign.push(geo.fotoSalida);
+        }
+      }
+    }
+
+    if (pathsToSign.length === 0) return orden;
+
+    const uniquePaths = [...new Set(pathsToSign)];
+    const signedUrls = await this.supabase.getSignedUrls(uniquePaths);
+    
+    const urlMap = new Map<string, string>();
+    uniquePaths.forEach((path, idx) => {
+      if (signedUrls[idx]) {
+        urlMap.set(path, signedUrls[idx]);
+      }
+    });
+
+    // Map main fields
+    for (const field of fieldsToSign) {
+      const value = orden[field];
+      if (value && typeof value === 'string' && urlMap.has(value)) {
+        orden[field] = urlMap.get(value)!;
+      }
+    }
+
+    // Map evidences
+    if (orden.evidencias) {
+      for (const evidence of orden.evidencias) {
+        if (evidence.path && urlMap.has(evidence.path)) {
+          evidence.path = urlMap.get(evidence.path)!;
+        }
+      }
+    }
+
+    // Map geolocalizaciones
+    if (orden.geolocalizaciones) {
+      for (const geo of orden.geolocalizaciones) {
+        if (geo.fotoLlegada && urlMap.has(geo.fotoLlegada)) {
+          geo.fotoLlegada = urlMap.get(geo.fotoLlegada)!;
+        }
+        if (geo.fotoSalida && urlMap.has(geo.fotoSalida)) {
+          geo.fotoSalida = urlMap.get(geo.fotoSalida)!;
         }
       }
     }

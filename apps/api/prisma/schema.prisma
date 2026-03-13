@@ -44,14 +44,15 @@ model Tenant {
   citasPsicologos           CitasPsicologos[]
   configuracionesOperativas ClienteConfiguracionOperativa[]
   clientes                  Cliente[]
-  contratosCliente          ContratoCliente[]
   commissions               CommissionRecord[]
   configuracionPagos        ConfiguracionPagos[]
   consignacionOrdenes       ConsignacionOrden[]
   consignaciones            ConsignacionEfectivo[]
   consultorios              Consultorio[]
+  contratosCliente          ContratoCliente[]
   cuentasCobro              CuentaCobro[]
   cuentasPago               CuentasPago[]
+  dashboardPresets          DashboardPreset[]
   declaraciones             DeclaracionEfectivo[]
   direcciones               Direccion[]
   egresos                   Egresos[]
@@ -66,6 +67,7 @@ model Tenant {
   nominaDetalles            NominaDetalle[]
   nominas                   Nomina[]
   ordenesServicio           OrdenServicio[]
+  seguimientosOrdenServicio OrdenServicioSeguimiento[]
   orgNodes                  OrganizationNode[]
   paquetesAdquiridos        PaqueteAdquirido[]
   resetTokens               PasswordResetToken[]
@@ -75,7 +77,6 @@ model Tenant {
   productosSolicitados      ProductoSolicitado[]
   proveedores               Proveedores[]
   referidos                 Referidos[]
-  seguimientosOrdenServicio OrdenServicioSeguimiento[]
   servicios                 Servicio[]
   sesionesActividad         SesionActividad[]
   subscription              Subscription?
@@ -87,7 +88,6 @@ model Tenant {
   turnos                    Turno[]
   vehiculos                 Vehiculo[]
   zonas                     Zona[]
-  dashboardPresets          DashboardPreset[]
 
   @@map("tenants")
 }
@@ -159,6 +159,7 @@ model TenantMembership {
   consignacionesTecnico   ConsignacionEfectivo[]     @relation("ConsignacionTecnico")
   cuentasCobro            CuentaCobro[]
   cuentasPago             CuentasPago[]
+  dashboardPresets        DashboardPreset[]
   declaracionesEfectivo   DeclaracionEfectivo[]
   egresos                 Egresos[]
   empresaMemberships      EmpresaMembership[]
@@ -167,19 +168,18 @@ model TenantMembership {
   serviciosCreados        OrdenServicio[]            @relation("ServiciosCreados")
   serviciosLiquidados     OrdenServicio[]            @relation("ServiciosLiquidados")
   serviciosAsignados      OrdenServicio[]            @relation("ServiciosAsignados")
+  seguimientosCompletados OrdenServicioSeguimiento[] @relation("SeguimientosCompletados")
+  seguimientosCreados     OrdenServicioSeguimiento[] @relation("SeguimientosCreados")
   paquetesAdquiridos      PaqueteAdquirido[]
   permisosAprobados       Permiso[]                  @relation("PermisosAprobados")
   permisosSolicitados     Permiso[]                  @relation("PermisosSolicitados")
   productosSolicitados    ProductoSolicitado[]
   referidos               Referidos[]
-  seguimientosCompletados OrdenServicioSeguimiento[] @relation("SeguimientosCompletados")
-  seguimientosCreados     OrdenServicioSeguimiento[] @relation("SeguimientosCreados")
   sesionesActividad       SesionActividad[]
   municipio               Municipality?              @relation(fields: [municipioId], references: [id])
   tenant                  Tenant                     @relation(fields: [tenantId], references: [id], onDelete: Cascade)
   user                    User                       @relation(fields: [userId], references: [id], onDelete: Cascade)
   turnos                  Turno[]
-  dashboardPresets        DashboardPreset[]
 
   @@unique([userId, tenantId])
   @@index([tenantId])
@@ -198,8 +198,8 @@ model DashboardPreset {
   filters               Json
   createdAt             DateTime              @default(now()) @map("created_at")
   updatedAt             DateTime?             @updatedAt @map("updated_at")
-  tenant                Tenant                @relation(fields: [tenantId], references: [id], onDelete: Cascade)
   createdByMembership   TenantMembership      @relation(fields: [createdByMembershipId], references: [id], onDelete: Cascade)
+  tenant                Tenant                @relation(fields: [tenantId], references: [id], onDelete: Cascade)
 
   @@index([tenantId, module])
   @@index([createdByMembershipId, module])
@@ -221,12 +221,12 @@ model Empresa {
   citasPsicologos           CitasPsicologos[]
   configuracionesOperativas ClienteConfiguracionOperativa[]
   clientes                  Cliente[]
-  contratosCliente          ContratoCliente[]
   commissions               CommissionRecord[]
   configuracionPagos        ConfiguracionPagos[]
   consignacionOrdenes       ConsignacionOrden[]
   consignaciones            ConsignacionEfectivo[]
   consultorios              Consultorio[]
+  contratosCliente          ContratoCliente[]
   cuentasCobro              CuentaCobro[]
   cuentasPago               CuentasPago[]
   declaraciones             DeclaracionEfectivo[]
@@ -242,6 +242,7 @@ model Empresa {
   nominaDetalles            NominaDetalle[]
   nominas                   Nomina[]
   ordenesServicio           OrdenServicio[]
+  seguimientosOrdenServicio OrdenServicioSeguimiento[]
   orgNodes                  OrganizationNode[]
   paquetesAdquiridos        PaqueteAdquirido[]
   resetTokens               PasswordResetToken[]
@@ -251,7 +252,6 @@ model Empresa {
   productosSolicitados      ProductoSolicitado[]
   proveedores               Proveedores[]
   referidos                 Referidos[]
-  seguimientosOrdenServicio OrdenServicioSeguimiento[]
   servicios                 Servicio[]
   sesionesActividad         SesionActividad[]
   sugerencias               SugerenciaSeguimiento[]
@@ -419,11 +419,11 @@ model Cliente {
   nivelRiesgo               NivelRiesgo                     @default(MEDIO)
   citasPsicologos           CitasPsicologos[]
   configuracionesOperativas ClienteConfiguracionOperativa[]
-  contratosCliente          ContratoCliente[]
   creadoPor                 TenantMembership?               @relation(fields: [creadoPorId], references: [id], onDelete: NoAction, onUpdate: NoAction)
   empresa                   Empresa?                        @relation(fields: [empresaId], references: [id])
   tenant                    Tenant                          @relation(fields: [tenantId], references: [id], onDelete: Cascade)
   tipoInteres               TipoInteres?                    @relation(fields: [tipoInteresId], references: [id])
+  contratosCliente          ContratoCliente[]
   direcciones               Direccion[]
   ordenesServicio           OrdenServicio[]
   paquetesAdquiridos        PaqueteAdquirido[]
@@ -563,10 +563,10 @@ model Servicio {
   nombre                       String
   activo                       Boolean           @default(true)
   deleteAt                     DateTime?
+  createdAt                    DateTime          @default(now())
   requiereSeguimiento          Boolean           @default(false)
   primerSeguimientoDias        Int?
   requiereSeguimientoTresMeses Boolean           @default(true)
-  createdAt                    DateTime          @default(now())
   citasComoServicio            CitasPsicologos[] @relation("CitasServicio")
   citasComoTipoServicio        CitasPsicologos[] @relation("CitasTipoServicio")
   ordenes                      OrdenServicio[]
@@ -645,7 +645,6 @@ model OrdenServicio {
   zonaId                String?                    @db.Uuid
   vehiculoId            String?                    @db.Uuid
   metodoPagoId          String?                    @db.Uuid
-  contratoClienteId     String?                    @db.Uuid
   numeroOrden           String?
   fechaVisita           DateTime?
   horaInicio            DateTime?
@@ -679,20 +678,20 @@ model OrdenServicio {
   nivelInfestacion      NivelInfestacion?
   urgencia              UrgenciaOrden?
   estadoServicio        EstadoOrden                @default(NUEVO)
+  contratoClienteId     String?                    @db.Uuid
   consignacionOrden     ConsignacionOrden?
   declaracionEfectivo   DeclaracionEfectivo?
   evidencias            EvidenciaServicio[]
   geolocalizaciones     Geolocalizacion[]
   nominaDetalles        NominaDetalle[]
-  seguimientos          OrdenServicioSeguimiento[]
   cliente               Cliente                    @relation(fields: [clienteId], references: [id])
+  contratoCliente       ContratoCliente?           @relation(fields: [contratoClienteId], references: [id])
   creadoPor             TenantMembership?          @relation("ServiciosCreados", fields: [creadoPorId], references: [id])
   direccion             Direccion?                 @relation(fields: [direccionId], references: [id])
   empresa               Empresa                    @relation(fields: [empresaId], references: [id])
   entidadFinanciera     EntidadFinanciera?         @relation(fields: [entidadFinancieraId], references: [id])
   liquidadoPor          TenantMembership?          @relation("ServiciosLiquidados", fields: [liquidadoPorId], references: [id])
   metodoPago            MetodoPago?                @relation(fields: [metodoPagoId], references: [id])
-  contratoCliente       ContratoCliente?           @relation(fields: [contratoClienteId], references: [id])
   ordenPadre            OrdenServicio?             @relation("OrdenRefuerzo", fields: [ordenPadreId], references: [id])
   ordenesHijas          OrdenServicio[]            @relation("OrdenRefuerzo")
   servicio              Servicio                   @relation(fields: [servicioId], references: [id])
@@ -700,6 +699,7 @@ model OrdenServicio {
   tenant                Tenant                     @relation(fields: [tenantId], references: [id], onDelete: Cascade)
   vehiculo              Vehiculo?                  @relation(fields: [vehiculoId], references: [id])
   zona                  Zona?                      @relation(fields: [zonaId], references: [id])
+  seguimientos          OrdenServicioSeguimiento[]
 
   @@index([tenantId])
   @@index([empresaId])
@@ -1578,6 +1578,13 @@ enum TipoVisita {
   CORRECTIVO
   SEGUIMIENTO
   REINCIDENCIA
+  CITA_VERIFICACION
+  NO_CONCRETADO
+  SERVICIO_REFUERZO
+  NUEVO
+  REPROGRAMADO
+  DIAGNOSTICO_INICIAL
+  GARANTIA
 }
 
 enum TipoFacturacion {

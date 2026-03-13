@@ -296,6 +296,7 @@ export type TenantMembershipWhereInput = {
   consignacionesTecnico?: Prisma.ConsignacionEfectivoListRelationFilter
   cuentasCobro?: Prisma.CuentaCobroListRelationFilter
   cuentasPago?: Prisma.CuentasPagoListRelationFilter
+  dashboardPresets?: Prisma.DashboardPresetListRelationFilter
   declaracionesEfectivo?: Prisma.DeclaracionEfectivoListRelationFilter
   egresos?: Prisma.EgresosListRelationFilter
   empresaMemberships?: Prisma.EmpresaMembershipListRelationFilter
@@ -304,19 +305,18 @@ export type TenantMembershipWhereInput = {
   serviciosCreados?: Prisma.OrdenServicioListRelationFilter
   serviciosLiquidados?: Prisma.OrdenServicioListRelationFilter
   serviciosAsignados?: Prisma.OrdenServicioListRelationFilter
+  seguimientosCompletados?: Prisma.OrdenServicioSeguimientoListRelationFilter
+  seguimientosCreados?: Prisma.OrdenServicioSeguimientoListRelationFilter
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoListRelationFilter
   permisosAprobados?: Prisma.PermisoListRelationFilter
   permisosSolicitados?: Prisma.PermisoListRelationFilter
   productosSolicitados?: Prisma.ProductoSolicitadoListRelationFilter
   referidos?: Prisma.ReferidosListRelationFilter
-  seguimientosCompletados?: Prisma.OrdenServicioSeguimientoListRelationFilter
-  seguimientosCreados?: Prisma.OrdenServicioSeguimientoListRelationFilter
   sesionesActividad?: Prisma.SesionActividadListRelationFilter
   municipio?: Prisma.XOR<Prisma.MunicipalityNullableScalarRelationFilter, Prisma.MunicipalityWhereInput> | null
   tenant?: Prisma.XOR<Prisma.TenantScalarRelationFilter, Prisma.TenantWhereInput>
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
   turnos?: Prisma.TurnoListRelationFilter
-  dashboardPresets?: Prisma.DashboardPresetListRelationFilter
 }
 
 export type TenantMembershipOrderByWithRelationInput = {
@@ -348,6 +348,7 @@ export type TenantMembershipOrderByWithRelationInput = {
   consignacionesTecnico?: Prisma.ConsignacionEfectivoOrderByRelationAggregateInput
   cuentasCobro?: Prisma.CuentaCobroOrderByRelationAggregateInput
   cuentasPago?: Prisma.CuentasPagoOrderByRelationAggregateInput
+  dashboardPresets?: Prisma.DashboardPresetOrderByRelationAggregateInput
   declaracionesEfectivo?: Prisma.DeclaracionEfectivoOrderByRelationAggregateInput
   egresos?: Prisma.EgresosOrderByRelationAggregateInput
   empresaMemberships?: Prisma.EmpresaMembershipOrderByRelationAggregateInput
@@ -356,19 +357,18 @@ export type TenantMembershipOrderByWithRelationInput = {
   serviciosCreados?: Prisma.OrdenServicioOrderByRelationAggregateInput
   serviciosLiquidados?: Prisma.OrdenServicioOrderByRelationAggregateInput
   serviciosAsignados?: Prisma.OrdenServicioOrderByRelationAggregateInput
+  seguimientosCompletados?: Prisma.OrdenServicioSeguimientoOrderByRelationAggregateInput
+  seguimientosCreados?: Prisma.OrdenServicioSeguimientoOrderByRelationAggregateInput
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoOrderByRelationAggregateInput
   permisosAprobados?: Prisma.PermisoOrderByRelationAggregateInput
   permisosSolicitados?: Prisma.PermisoOrderByRelationAggregateInput
   productosSolicitados?: Prisma.ProductoSolicitadoOrderByRelationAggregateInput
   referidos?: Prisma.ReferidosOrderByRelationAggregateInput
-  seguimientosCompletados?: Prisma.OrdenServicioSeguimientoOrderByRelationAggregateInput
-  seguimientosCreados?: Prisma.OrdenServicioSeguimientoOrderByRelationAggregateInput
   sesionesActividad?: Prisma.SesionActividadOrderByRelationAggregateInput
   municipio?: Prisma.MunicipalityOrderByWithRelationInput
   tenant?: Prisma.TenantOrderByWithRelationInput
   user?: Prisma.UserOrderByWithRelationInput
   turnos?: Prisma.TurnoOrderByRelationAggregateInput
-  dashboardPresets?: Prisma.DashboardPresetOrderByRelationAggregateInput
 }
 
 export type TenantMembershipWhereUniqueInput = Prisma.AtLeast<{
@@ -404,6 +404,7 @@ export type TenantMembershipWhereUniqueInput = Prisma.AtLeast<{
   consignacionesTecnico?: Prisma.ConsignacionEfectivoListRelationFilter
   cuentasCobro?: Prisma.CuentaCobroListRelationFilter
   cuentasPago?: Prisma.CuentasPagoListRelationFilter
+  dashboardPresets?: Prisma.DashboardPresetListRelationFilter
   declaracionesEfectivo?: Prisma.DeclaracionEfectivoListRelationFilter
   egresos?: Prisma.EgresosListRelationFilter
   empresaMemberships?: Prisma.EmpresaMembershipListRelationFilter
@@ -412,19 +413,18 @@ export type TenantMembershipWhereUniqueInput = Prisma.AtLeast<{
   serviciosCreados?: Prisma.OrdenServicioListRelationFilter
   serviciosLiquidados?: Prisma.OrdenServicioListRelationFilter
   serviciosAsignados?: Prisma.OrdenServicioListRelationFilter
+  seguimientosCompletados?: Prisma.OrdenServicioSeguimientoListRelationFilter
+  seguimientosCreados?: Prisma.OrdenServicioSeguimientoListRelationFilter
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoListRelationFilter
   permisosAprobados?: Prisma.PermisoListRelationFilter
   permisosSolicitados?: Prisma.PermisoListRelationFilter
   productosSolicitados?: Prisma.ProductoSolicitadoListRelationFilter
   referidos?: Prisma.ReferidosListRelationFilter
-  seguimientosCompletados?: Prisma.OrdenServicioSeguimientoListRelationFilter
-  seguimientosCreados?: Prisma.OrdenServicioSeguimientoListRelationFilter
   sesionesActividad?: Prisma.SesionActividadListRelationFilter
   municipio?: Prisma.XOR<Prisma.MunicipalityNullableScalarRelationFilter, Prisma.MunicipalityWhereInput> | null
   tenant?: Prisma.XOR<Prisma.TenantScalarRelationFilter, Prisma.TenantWhereInput>
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
   turnos?: Prisma.TurnoListRelationFilter
-  dashboardPresets?: Prisma.DashboardPresetListRelationFilter
 }, "id" | "userId_tenantId">
 
 export type TenantMembershipOrderByWithAggregationInput = {
@@ -501,6 +501,7 @@ export type TenantMembershipCreateInput = {
   consignacionesTecnico?: Prisma.ConsignacionEfectivoCreateNestedManyWithoutTecnicoInput
   cuentasCobro?: Prisma.CuentaCobroCreateNestedManyWithoutMembershipInput
   cuentasPago?: Prisma.CuentasPagoCreateNestedManyWithoutMembershipInput
+  dashboardPresets?: Prisma.DashboardPresetCreateNestedManyWithoutCreatedByMembershipInput
   declaracionesEfectivo?: Prisma.DeclaracionEfectivoCreateNestedManyWithoutTecnicoInput
   egresos?: Prisma.EgresosCreateNestedManyWithoutMembershipInput
   empresaMemberships?: Prisma.EmpresaMembershipCreateNestedManyWithoutMembershipInput
@@ -509,19 +510,18 @@ export type TenantMembershipCreateInput = {
   serviciosCreados?: Prisma.OrdenServicioCreateNestedManyWithoutCreadoPorInput
   serviciosLiquidados?: Prisma.OrdenServicioCreateNestedManyWithoutLiquidadoPorInput
   serviciosAsignados?: Prisma.OrdenServicioCreateNestedManyWithoutTecnicoInput
+  seguimientosCompletados?: Prisma.OrdenServicioSeguimientoCreateNestedManyWithoutCompletedByMembershipInput
+  seguimientosCreados?: Prisma.OrdenServicioSeguimientoCreateNestedManyWithoutCreatedByMembershipInput
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoCreateNestedManyWithoutMembershipInput
   permisosAprobados?: Prisma.PermisoCreateNestedManyWithoutAdminInput
   permisosSolicitados?: Prisma.PermisoCreateNestedManyWithoutMembershipInput
   productosSolicitados?: Prisma.ProductoSolicitadoCreateNestedManyWithoutMembershipInput
   referidos?: Prisma.ReferidosCreateNestedManyWithoutMembershipInput
-  seguimientosCompletados?: Prisma.OrdenServicioSeguimientoCreateNestedManyWithoutCompletedByMembershipInput
-  seguimientosCreados?: Prisma.OrdenServicioSeguimientoCreateNestedManyWithoutCreatedByMembershipInput
   sesionesActividad?: Prisma.SesionActividadCreateNestedManyWithoutMembershipInput
   municipio?: Prisma.MunicipalityCreateNestedOneWithoutMembershipsInput
   tenant: Prisma.TenantCreateNestedOneWithoutMembershipsInput
   user: Prisma.UserCreateNestedOneWithoutMembershipsInput
   turnos?: Prisma.TurnoCreateNestedManyWithoutMembershipInput
-  dashboardPresets?: Prisma.DashboardPresetCreateNestedManyWithoutCreatedByMembershipInput
 }
 
 export type TenantMembershipUncheckedCreateInput = {
@@ -553,6 +553,7 @@ export type TenantMembershipUncheckedCreateInput = {
   consignacionesTecnico?: Prisma.ConsignacionEfectivoUncheckedCreateNestedManyWithoutTecnicoInput
   cuentasCobro?: Prisma.CuentaCobroUncheckedCreateNestedManyWithoutMembershipInput
   cuentasPago?: Prisma.CuentasPagoUncheckedCreateNestedManyWithoutMembershipInput
+  dashboardPresets?: Prisma.DashboardPresetUncheckedCreateNestedManyWithoutCreatedByMembershipInput
   declaracionesEfectivo?: Prisma.DeclaracionEfectivoUncheckedCreateNestedManyWithoutTecnicoInput
   egresos?: Prisma.EgresosUncheckedCreateNestedManyWithoutMembershipInput
   empresaMemberships?: Prisma.EmpresaMembershipUncheckedCreateNestedManyWithoutMembershipInput
@@ -561,16 +562,15 @@ export type TenantMembershipUncheckedCreateInput = {
   serviciosCreados?: Prisma.OrdenServicioUncheckedCreateNestedManyWithoutCreadoPorInput
   serviciosLiquidados?: Prisma.OrdenServicioUncheckedCreateNestedManyWithoutLiquidadoPorInput
   serviciosAsignados?: Prisma.OrdenServicioUncheckedCreateNestedManyWithoutTecnicoInput
+  seguimientosCompletados?: Prisma.OrdenServicioSeguimientoUncheckedCreateNestedManyWithoutCompletedByMembershipInput
+  seguimientosCreados?: Prisma.OrdenServicioSeguimientoUncheckedCreateNestedManyWithoutCreatedByMembershipInput
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoUncheckedCreateNestedManyWithoutMembershipInput
   permisosAprobados?: Prisma.PermisoUncheckedCreateNestedManyWithoutAdminInput
   permisosSolicitados?: Prisma.PermisoUncheckedCreateNestedManyWithoutMembershipInput
   productosSolicitados?: Prisma.ProductoSolicitadoUncheckedCreateNestedManyWithoutMembershipInput
   referidos?: Prisma.ReferidosUncheckedCreateNestedManyWithoutMembershipInput
-  seguimientosCompletados?: Prisma.OrdenServicioSeguimientoUncheckedCreateNestedManyWithoutCompletedByMembershipInput
-  seguimientosCreados?: Prisma.OrdenServicioSeguimientoUncheckedCreateNestedManyWithoutCreatedByMembershipInput
   sesionesActividad?: Prisma.SesionActividadUncheckedCreateNestedManyWithoutMembershipInput
   turnos?: Prisma.TurnoUncheckedCreateNestedManyWithoutMembershipInput
-  dashboardPresets?: Prisma.DashboardPresetUncheckedCreateNestedManyWithoutCreatedByMembershipInput
 }
 
 export type TenantMembershipUpdateInput = {
@@ -599,6 +599,7 @@ export type TenantMembershipUpdateInput = {
   consignacionesTecnico?: Prisma.ConsignacionEfectivoUpdateManyWithoutTecnicoNestedInput
   cuentasCobro?: Prisma.CuentaCobroUpdateManyWithoutMembershipNestedInput
   cuentasPago?: Prisma.CuentasPagoUpdateManyWithoutMembershipNestedInput
+  dashboardPresets?: Prisma.DashboardPresetUpdateManyWithoutCreatedByMembershipNestedInput
   declaracionesEfectivo?: Prisma.DeclaracionEfectivoUpdateManyWithoutTecnicoNestedInput
   egresos?: Prisma.EgresosUpdateManyWithoutMembershipNestedInput
   empresaMemberships?: Prisma.EmpresaMembershipUpdateManyWithoutMembershipNestedInput
@@ -607,19 +608,18 @@ export type TenantMembershipUpdateInput = {
   serviciosCreados?: Prisma.OrdenServicioUpdateManyWithoutCreadoPorNestedInput
   serviciosLiquidados?: Prisma.OrdenServicioUpdateManyWithoutLiquidadoPorNestedInput
   serviciosAsignados?: Prisma.OrdenServicioUpdateManyWithoutTecnicoNestedInput
+  seguimientosCompletados?: Prisma.OrdenServicioSeguimientoUpdateManyWithoutCompletedByMembershipNestedInput
+  seguimientosCreados?: Prisma.OrdenServicioSeguimientoUpdateManyWithoutCreatedByMembershipNestedInput
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoUpdateManyWithoutMembershipNestedInput
   permisosAprobados?: Prisma.PermisoUpdateManyWithoutAdminNestedInput
   permisosSolicitados?: Prisma.PermisoUpdateManyWithoutMembershipNestedInput
   productosSolicitados?: Prisma.ProductoSolicitadoUpdateManyWithoutMembershipNestedInput
   referidos?: Prisma.ReferidosUpdateManyWithoutMembershipNestedInput
-  seguimientosCompletados?: Prisma.OrdenServicioSeguimientoUpdateManyWithoutCompletedByMembershipNestedInput
-  seguimientosCreados?: Prisma.OrdenServicioSeguimientoUpdateManyWithoutCreatedByMembershipNestedInput
   sesionesActividad?: Prisma.SesionActividadUpdateManyWithoutMembershipNestedInput
   municipio?: Prisma.MunicipalityUpdateOneWithoutMembershipsNestedInput
   tenant?: Prisma.TenantUpdateOneRequiredWithoutMembershipsNestedInput
   user?: Prisma.UserUpdateOneRequiredWithoutMembershipsNestedInput
   turnos?: Prisma.TurnoUpdateManyWithoutMembershipNestedInput
-  dashboardPresets?: Prisma.DashboardPresetUpdateManyWithoutCreatedByMembershipNestedInput
 }
 
 export type TenantMembershipUncheckedUpdateInput = {
@@ -651,6 +651,7 @@ export type TenantMembershipUncheckedUpdateInput = {
   consignacionesTecnico?: Prisma.ConsignacionEfectivoUncheckedUpdateManyWithoutTecnicoNestedInput
   cuentasCobro?: Prisma.CuentaCobroUncheckedUpdateManyWithoutMembershipNestedInput
   cuentasPago?: Prisma.CuentasPagoUncheckedUpdateManyWithoutMembershipNestedInput
+  dashboardPresets?: Prisma.DashboardPresetUncheckedUpdateManyWithoutCreatedByMembershipNestedInput
   declaracionesEfectivo?: Prisma.DeclaracionEfectivoUncheckedUpdateManyWithoutTecnicoNestedInput
   egresos?: Prisma.EgresosUncheckedUpdateManyWithoutMembershipNestedInput
   empresaMemberships?: Prisma.EmpresaMembershipUncheckedUpdateManyWithoutMembershipNestedInput
@@ -659,16 +660,15 @@ export type TenantMembershipUncheckedUpdateInput = {
   serviciosCreados?: Prisma.OrdenServicioUncheckedUpdateManyWithoutCreadoPorNestedInput
   serviciosLiquidados?: Prisma.OrdenServicioUncheckedUpdateManyWithoutLiquidadoPorNestedInput
   serviciosAsignados?: Prisma.OrdenServicioUncheckedUpdateManyWithoutTecnicoNestedInput
+  seguimientosCompletados?: Prisma.OrdenServicioSeguimientoUncheckedUpdateManyWithoutCompletedByMembershipNestedInput
+  seguimientosCreados?: Prisma.OrdenServicioSeguimientoUncheckedUpdateManyWithoutCreatedByMembershipNestedInput
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoUncheckedUpdateManyWithoutMembershipNestedInput
   permisosAprobados?: Prisma.PermisoUncheckedUpdateManyWithoutAdminNestedInput
   permisosSolicitados?: Prisma.PermisoUncheckedUpdateManyWithoutMembershipNestedInput
   productosSolicitados?: Prisma.ProductoSolicitadoUncheckedUpdateManyWithoutMembershipNestedInput
   referidos?: Prisma.ReferidosUncheckedUpdateManyWithoutMembershipNestedInput
-  seguimientosCompletados?: Prisma.OrdenServicioSeguimientoUncheckedUpdateManyWithoutCompletedByMembershipNestedInput
-  seguimientosCreados?: Prisma.OrdenServicioSeguimientoUncheckedUpdateManyWithoutCreatedByMembershipNestedInput
   sesionesActividad?: Prisma.SesionActividadUncheckedUpdateManyWithoutMembershipNestedInput
   turnos?: Prisma.TurnoUncheckedUpdateManyWithoutMembershipNestedInput
-  dashboardPresets?: Prisma.DashboardPresetUncheckedUpdateManyWithoutCreatedByMembershipNestedInput
 }
 
 export type TenantMembershipCreateManyInput = {
@@ -1397,6 +1397,7 @@ export type TenantMembershipCreateWithoutUserInput = {
   consignacionesTecnico?: Prisma.ConsignacionEfectivoCreateNestedManyWithoutTecnicoInput
   cuentasCobro?: Prisma.CuentaCobroCreateNestedManyWithoutMembershipInput
   cuentasPago?: Prisma.CuentasPagoCreateNestedManyWithoutMembershipInput
+  dashboardPresets?: Prisma.DashboardPresetCreateNestedManyWithoutCreatedByMembershipInput
   declaracionesEfectivo?: Prisma.DeclaracionEfectivoCreateNestedManyWithoutTecnicoInput
   egresos?: Prisma.EgresosCreateNestedManyWithoutMembershipInput
   empresaMemberships?: Prisma.EmpresaMembershipCreateNestedManyWithoutMembershipInput
@@ -1405,18 +1406,17 @@ export type TenantMembershipCreateWithoutUserInput = {
   serviciosCreados?: Prisma.OrdenServicioCreateNestedManyWithoutCreadoPorInput
   serviciosLiquidados?: Prisma.OrdenServicioCreateNestedManyWithoutLiquidadoPorInput
   serviciosAsignados?: Prisma.OrdenServicioCreateNestedManyWithoutTecnicoInput
+  seguimientosCompletados?: Prisma.OrdenServicioSeguimientoCreateNestedManyWithoutCompletedByMembershipInput
+  seguimientosCreados?: Prisma.OrdenServicioSeguimientoCreateNestedManyWithoutCreatedByMembershipInput
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoCreateNestedManyWithoutMembershipInput
   permisosAprobados?: Prisma.PermisoCreateNestedManyWithoutAdminInput
   permisosSolicitados?: Prisma.PermisoCreateNestedManyWithoutMembershipInput
   productosSolicitados?: Prisma.ProductoSolicitadoCreateNestedManyWithoutMembershipInput
   referidos?: Prisma.ReferidosCreateNestedManyWithoutMembershipInput
-  seguimientosCompletados?: Prisma.OrdenServicioSeguimientoCreateNestedManyWithoutCompletedByMembershipInput
-  seguimientosCreados?: Prisma.OrdenServicioSeguimientoCreateNestedManyWithoutCreatedByMembershipInput
   sesionesActividad?: Prisma.SesionActividadCreateNestedManyWithoutMembershipInput
   municipio?: Prisma.MunicipalityCreateNestedOneWithoutMembershipsInput
   tenant: Prisma.TenantCreateNestedOneWithoutMembershipsInput
   turnos?: Prisma.TurnoCreateNestedManyWithoutMembershipInput
-  dashboardPresets?: Prisma.DashboardPresetCreateNestedManyWithoutCreatedByMembershipInput
 }
 
 export type TenantMembershipUncheckedCreateWithoutUserInput = {
@@ -1447,6 +1447,7 @@ export type TenantMembershipUncheckedCreateWithoutUserInput = {
   consignacionesTecnico?: Prisma.ConsignacionEfectivoUncheckedCreateNestedManyWithoutTecnicoInput
   cuentasCobro?: Prisma.CuentaCobroUncheckedCreateNestedManyWithoutMembershipInput
   cuentasPago?: Prisma.CuentasPagoUncheckedCreateNestedManyWithoutMembershipInput
+  dashboardPresets?: Prisma.DashboardPresetUncheckedCreateNestedManyWithoutCreatedByMembershipInput
   declaracionesEfectivo?: Prisma.DeclaracionEfectivoUncheckedCreateNestedManyWithoutTecnicoInput
   egresos?: Prisma.EgresosUncheckedCreateNestedManyWithoutMembershipInput
   empresaMemberships?: Prisma.EmpresaMembershipUncheckedCreateNestedManyWithoutMembershipInput
@@ -1455,16 +1456,15 @@ export type TenantMembershipUncheckedCreateWithoutUserInput = {
   serviciosCreados?: Prisma.OrdenServicioUncheckedCreateNestedManyWithoutCreadoPorInput
   serviciosLiquidados?: Prisma.OrdenServicioUncheckedCreateNestedManyWithoutLiquidadoPorInput
   serviciosAsignados?: Prisma.OrdenServicioUncheckedCreateNestedManyWithoutTecnicoInput
+  seguimientosCompletados?: Prisma.OrdenServicioSeguimientoUncheckedCreateNestedManyWithoutCompletedByMembershipInput
+  seguimientosCreados?: Prisma.OrdenServicioSeguimientoUncheckedCreateNestedManyWithoutCreatedByMembershipInput
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoUncheckedCreateNestedManyWithoutMembershipInput
   permisosAprobados?: Prisma.PermisoUncheckedCreateNestedManyWithoutAdminInput
   permisosSolicitados?: Prisma.PermisoUncheckedCreateNestedManyWithoutMembershipInput
   productosSolicitados?: Prisma.ProductoSolicitadoUncheckedCreateNestedManyWithoutMembershipInput
   referidos?: Prisma.ReferidosUncheckedCreateNestedManyWithoutMembershipInput
-  seguimientosCompletados?: Prisma.OrdenServicioSeguimientoUncheckedCreateNestedManyWithoutCompletedByMembershipInput
-  seguimientosCreados?: Prisma.OrdenServicioSeguimientoUncheckedCreateNestedManyWithoutCreatedByMembershipInput
   sesionesActividad?: Prisma.SesionActividadUncheckedCreateNestedManyWithoutMembershipInput
   turnos?: Prisma.TurnoUncheckedCreateNestedManyWithoutMembershipInput
-  dashboardPresets?: Prisma.DashboardPresetUncheckedCreateNestedManyWithoutCreatedByMembershipInput
 }
 
 export type TenantMembershipCreateOrConnectWithoutUserInput = {
@@ -1543,6 +1543,7 @@ export type TenantMembershipCreateWithoutTenantInput = {
   consignacionesTecnico?: Prisma.ConsignacionEfectivoCreateNestedManyWithoutTecnicoInput
   cuentasCobro?: Prisma.CuentaCobroCreateNestedManyWithoutMembershipInput
   cuentasPago?: Prisma.CuentasPagoCreateNestedManyWithoutMembershipInput
+  dashboardPresets?: Prisma.DashboardPresetCreateNestedManyWithoutCreatedByMembershipInput
   declaracionesEfectivo?: Prisma.DeclaracionEfectivoCreateNestedManyWithoutTecnicoInput
   egresos?: Prisma.EgresosCreateNestedManyWithoutMembershipInput
   empresaMemberships?: Prisma.EmpresaMembershipCreateNestedManyWithoutMembershipInput
@@ -1551,18 +1552,17 @@ export type TenantMembershipCreateWithoutTenantInput = {
   serviciosCreados?: Prisma.OrdenServicioCreateNestedManyWithoutCreadoPorInput
   serviciosLiquidados?: Prisma.OrdenServicioCreateNestedManyWithoutLiquidadoPorInput
   serviciosAsignados?: Prisma.OrdenServicioCreateNestedManyWithoutTecnicoInput
+  seguimientosCompletados?: Prisma.OrdenServicioSeguimientoCreateNestedManyWithoutCompletedByMembershipInput
+  seguimientosCreados?: Prisma.OrdenServicioSeguimientoCreateNestedManyWithoutCreatedByMembershipInput
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoCreateNestedManyWithoutMembershipInput
   permisosAprobados?: Prisma.PermisoCreateNestedManyWithoutAdminInput
   permisosSolicitados?: Prisma.PermisoCreateNestedManyWithoutMembershipInput
   productosSolicitados?: Prisma.ProductoSolicitadoCreateNestedManyWithoutMembershipInput
   referidos?: Prisma.ReferidosCreateNestedManyWithoutMembershipInput
-  seguimientosCompletados?: Prisma.OrdenServicioSeguimientoCreateNestedManyWithoutCompletedByMembershipInput
-  seguimientosCreados?: Prisma.OrdenServicioSeguimientoCreateNestedManyWithoutCreatedByMembershipInput
   sesionesActividad?: Prisma.SesionActividadCreateNestedManyWithoutMembershipInput
   municipio?: Prisma.MunicipalityCreateNestedOneWithoutMembershipsInput
   user: Prisma.UserCreateNestedOneWithoutMembershipsInput
   turnos?: Prisma.TurnoCreateNestedManyWithoutMembershipInput
-  dashboardPresets?: Prisma.DashboardPresetCreateNestedManyWithoutCreatedByMembershipInput
 }
 
 export type TenantMembershipUncheckedCreateWithoutTenantInput = {
@@ -1593,6 +1593,7 @@ export type TenantMembershipUncheckedCreateWithoutTenantInput = {
   consignacionesTecnico?: Prisma.ConsignacionEfectivoUncheckedCreateNestedManyWithoutTecnicoInput
   cuentasCobro?: Prisma.CuentaCobroUncheckedCreateNestedManyWithoutMembershipInput
   cuentasPago?: Prisma.CuentasPagoUncheckedCreateNestedManyWithoutMembershipInput
+  dashboardPresets?: Prisma.DashboardPresetUncheckedCreateNestedManyWithoutCreatedByMembershipInput
   declaracionesEfectivo?: Prisma.DeclaracionEfectivoUncheckedCreateNestedManyWithoutTecnicoInput
   egresos?: Prisma.EgresosUncheckedCreateNestedManyWithoutMembershipInput
   empresaMemberships?: Prisma.EmpresaMembershipUncheckedCreateNestedManyWithoutMembershipInput
@@ -1601,16 +1602,15 @@ export type TenantMembershipUncheckedCreateWithoutTenantInput = {
   serviciosCreados?: Prisma.OrdenServicioUncheckedCreateNestedManyWithoutCreadoPorInput
   serviciosLiquidados?: Prisma.OrdenServicioUncheckedCreateNestedManyWithoutLiquidadoPorInput
   serviciosAsignados?: Prisma.OrdenServicioUncheckedCreateNestedManyWithoutTecnicoInput
+  seguimientosCompletados?: Prisma.OrdenServicioSeguimientoUncheckedCreateNestedManyWithoutCompletedByMembershipInput
+  seguimientosCreados?: Prisma.OrdenServicioSeguimientoUncheckedCreateNestedManyWithoutCreatedByMembershipInput
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoUncheckedCreateNestedManyWithoutMembershipInput
   permisosAprobados?: Prisma.PermisoUncheckedCreateNestedManyWithoutAdminInput
   permisosSolicitados?: Prisma.PermisoUncheckedCreateNestedManyWithoutMembershipInput
   productosSolicitados?: Prisma.ProductoSolicitadoUncheckedCreateNestedManyWithoutMembershipInput
   referidos?: Prisma.ReferidosUncheckedCreateNestedManyWithoutMembershipInput
-  seguimientosCompletados?: Prisma.OrdenServicioSeguimientoUncheckedCreateNestedManyWithoutCompletedByMembershipInput
-  seguimientosCreados?: Prisma.OrdenServicioSeguimientoUncheckedCreateNestedManyWithoutCreatedByMembershipInput
   sesionesActividad?: Prisma.SesionActividadUncheckedCreateNestedManyWithoutMembershipInput
   turnos?: Prisma.TurnoUncheckedCreateNestedManyWithoutMembershipInput
-  dashboardPresets?: Prisma.DashboardPresetUncheckedCreateNestedManyWithoutCreatedByMembershipInput
 }
 
 export type TenantMembershipCreateOrConnectWithoutTenantInput = {
@@ -1673,13 +1673,13 @@ export type TenantMembershipCreateWithoutDashboardPresetsInput = {
   serviciosCreados?: Prisma.OrdenServicioCreateNestedManyWithoutCreadoPorInput
   serviciosLiquidados?: Prisma.OrdenServicioCreateNestedManyWithoutLiquidadoPorInput
   serviciosAsignados?: Prisma.OrdenServicioCreateNestedManyWithoutTecnicoInput
+  seguimientosCompletados?: Prisma.OrdenServicioSeguimientoCreateNestedManyWithoutCompletedByMembershipInput
+  seguimientosCreados?: Prisma.OrdenServicioSeguimientoCreateNestedManyWithoutCreatedByMembershipInput
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoCreateNestedManyWithoutMembershipInput
   permisosAprobados?: Prisma.PermisoCreateNestedManyWithoutAdminInput
   permisosSolicitados?: Prisma.PermisoCreateNestedManyWithoutMembershipInput
   productosSolicitados?: Prisma.ProductoSolicitadoCreateNestedManyWithoutMembershipInput
   referidos?: Prisma.ReferidosCreateNestedManyWithoutMembershipInput
-  seguimientosCompletados?: Prisma.OrdenServicioSeguimientoCreateNestedManyWithoutCompletedByMembershipInput
-  seguimientosCreados?: Prisma.OrdenServicioSeguimientoCreateNestedManyWithoutCreatedByMembershipInput
   sesionesActividad?: Prisma.SesionActividadCreateNestedManyWithoutMembershipInput
   municipio?: Prisma.MunicipalityCreateNestedOneWithoutMembershipsInput
   tenant: Prisma.TenantCreateNestedOneWithoutMembershipsInput
@@ -1724,13 +1724,13 @@ export type TenantMembershipUncheckedCreateWithoutDashboardPresetsInput = {
   serviciosCreados?: Prisma.OrdenServicioUncheckedCreateNestedManyWithoutCreadoPorInput
   serviciosLiquidados?: Prisma.OrdenServicioUncheckedCreateNestedManyWithoutLiquidadoPorInput
   serviciosAsignados?: Prisma.OrdenServicioUncheckedCreateNestedManyWithoutTecnicoInput
+  seguimientosCompletados?: Prisma.OrdenServicioSeguimientoUncheckedCreateNestedManyWithoutCompletedByMembershipInput
+  seguimientosCreados?: Prisma.OrdenServicioSeguimientoUncheckedCreateNestedManyWithoutCreatedByMembershipInput
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoUncheckedCreateNestedManyWithoutMembershipInput
   permisosAprobados?: Prisma.PermisoUncheckedCreateNestedManyWithoutAdminInput
   permisosSolicitados?: Prisma.PermisoUncheckedCreateNestedManyWithoutMembershipInput
   productosSolicitados?: Prisma.ProductoSolicitadoUncheckedCreateNestedManyWithoutMembershipInput
   referidos?: Prisma.ReferidosUncheckedCreateNestedManyWithoutMembershipInput
-  seguimientosCompletados?: Prisma.OrdenServicioSeguimientoUncheckedCreateNestedManyWithoutCompletedByMembershipInput
-  seguimientosCreados?: Prisma.OrdenServicioSeguimientoUncheckedCreateNestedManyWithoutCreatedByMembershipInput
   sesionesActividad?: Prisma.SesionActividadUncheckedCreateNestedManyWithoutMembershipInput
   turnos?: Prisma.TurnoUncheckedCreateNestedManyWithoutMembershipInput
 }
@@ -1785,13 +1785,13 @@ export type TenantMembershipUpdateWithoutDashboardPresetsInput = {
   serviciosCreados?: Prisma.OrdenServicioUpdateManyWithoutCreadoPorNestedInput
   serviciosLiquidados?: Prisma.OrdenServicioUpdateManyWithoutLiquidadoPorNestedInput
   serviciosAsignados?: Prisma.OrdenServicioUpdateManyWithoutTecnicoNestedInput
+  seguimientosCompletados?: Prisma.OrdenServicioSeguimientoUpdateManyWithoutCompletedByMembershipNestedInput
+  seguimientosCreados?: Prisma.OrdenServicioSeguimientoUpdateManyWithoutCreatedByMembershipNestedInput
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoUpdateManyWithoutMembershipNestedInput
   permisosAprobados?: Prisma.PermisoUpdateManyWithoutAdminNestedInput
   permisosSolicitados?: Prisma.PermisoUpdateManyWithoutMembershipNestedInput
   productosSolicitados?: Prisma.ProductoSolicitadoUpdateManyWithoutMembershipNestedInput
   referidos?: Prisma.ReferidosUpdateManyWithoutMembershipNestedInput
-  seguimientosCompletados?: Prisma.OrdenServicioSeguimientoUpdateManyWithoutCompletedByMembershipNestedInput
-  seguimientosCreados?: Prisma.OrdenServicioSeguimientoUpdateManyWithoutCreatedByMembershipNestedInput
   sesionesActividad?: Prisma.SesionActividadUpdateManyWithoutMembershipNestedInput
   municipio?: Prisma.MunicipalityUpdateOneWithoutMembershipsNestedInput
   tenant?: Prisma.TenantUpdateOneRequiredWithoutMembershipsNestedInput
@@ -1836,13 +1836,13 @@ export type TenantMembershipUncheckedUpdateWithoutDashboardPresetsInput = {
   serviciosCreados?: Prisma.OrdenServicioUncheckedUpdateManyWithoutCreadoPorNestedInput
   serviciosLiquidados?: Prisma.OrdenServicioUncheckedUpdateManyWithoutLiquidadoPorNestedInput
   serviciosAsignados?: Prisma.OrdenServicioUncheckedUpdateManyWithoutTecnicoNestedInput
+  seguimientosCompletados?: Prisma.OrdenServicioSeguimientoUncheckedUpdateManyWithoutCompletedByMembershipNestedInput
+  seguimientosCreados?: Prisma.OrdenServicioSeguimientoUncheckedUpdateManyWithoutCreatedByMembershipNestedInput
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoUncheckedUpdateManyWithoutMembershipNestedInput
   permisosAprobados?: Prisma.PermisoUncheckedUpdateManyWithoutAdminNestedInput
   permisosSolicitados?: Prisma.PermisoUncheckedUpdateManyWithoutMembershipNestedInput
   productosSolicitados?: Prisma.ProductoSolicitadoUncheckedUpdateManyWithoutMembershipNestedInput
   referidos?: Prisma.ReferidosUncheckedUpdateManyWithoutMembershipNestedInput
-  seguimientosCompletados?: Prisma.OrdenServicioSeguimientoUncheckedUpdateManyWithoutCompletedByMembershipNestedInput
-  seguimientosCreados?: Prisma.OrdenServicioSeguimientoUncheckedUpdateManyWithoutCreatedByMembershipNestedInput
   sesionesActividad?: Prisma.SesionActividadUncheckedUpdateManyWithoutMembershipNestedInput
   turnos?: Prisma.TurnoUncheckedUpdateManyWithoutMembershipNestedInput
 }
@@ -1873,6 +1873,7 @@ export type TenantMembershipCreateWithoutEmpresaMembershipsInput = {
   consignacionesTecnico?: Prisma.ConsignacionEfectivoCreateNestedManyWithoutTecnicoInput
   cuentasCobro?: Prisma.CuentaCobroCreateNestedManyWithoutMembershipInput
   cuentasPago?: Prisma.CuentasPagoCreateNestedManyWithoutMembershipInput
+  dashboardPresets?: Prisma.DashboardPresetCreateNestedManyWithoutCreatedByMembershipInput
   declaracionesEfectivo?: Prisma.DeclaracionEfectivoCreateNestedManyWithoutTecnicoInput
   egresos?: Prisma.EgresosCreateNestedManyWithoutMembershipInput
   geolocalizaciones?: Prisma.GeolocalizacionCreateNestedManyWithoutMembershipInput
@@ -1880,19 +1881,18 @@ export type TenantMembershipCreateWithoutEmpresaMembershipsInput = {
   serviciosCreados?: Prisma.OrdenServicioCreateNestedManyWithoutCreadoPorInput
   serviciosLiquidados?: Prisma.OrdenServicioCreateNestedManyWithoutLiquidadoPorInput
   serviciosAsignados?: Prisma.OrdenServicioCreateNestedManyWithoutTecnicoInput
+  seguimientosCompletados?: Prisma.OrdenServicioSeguimientoCreateNestedManyWithoutCompletedByMembershipInput
+  seguimientosCreados?: Prisma.OrdenServicioSeguimientoCreateNestedManyWithoutCreatedByMembershipInput
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoCreateNestedManyWithoutMembershipInput
   permisosAprobados?: Prisma.PermisoCreateNestedManyWithoutAdminInput
   permisosSolicitados?: Prisma.PermisoCreateNestedManyWithoutMembershipInput
   productosSolicitados?: Prisma.ProductoSolicitadoCreateNestedManyWithoutMembershipInput
   referidos?: Prisma.ReferidosCreateNestedManyWithoutMembershipInput
-  seguimientosCompletados?: Prisma.OrdenServicioSeguimientoCreateNestedManyWithoutCompletedByMembershipInput
-  seguimientosCreados?: Prisma.OrdenServicioSeguimientoCreateNestedManyWithoutCreatedByMembershipInput
   sesionesActividad?: Prisma.SesionActividadCreateNestedManyWithoutMembershipInput
   municipio?: Prisma.MunicipalityCreateNestedOneWithoutMembershipsInput
   tenant: Prisma.TenantCreateNestedOneWithoutMembershipsInput
   user: Prisma.UserCreateNestedOneWithoutMembershipsInput
   turnos?: Prisma.TurnoCreateNestedManyWithoutMembershipInput
-  dashboardPresets?: Prisma.DashboardPresetCreateNestedManyWithoutCreatedByMembershipInput
 }
 
 export type TenantMembershipUncheckedCreateWithoutEmpresaMembershipsInput = {
@@ -1924,6 +1924,7 @@ export type TenantMembershipUncheckedCreateWithoutEmpresaMembershipsInput = {
   consignacionesTecnico?: Prisma.ConsignacionEfectivoUncheckedCreateNestedManyWithoutTecnicoInput
   cuentasCobro?: Prisma.CuentaCobroUncheckedCreateNestedManyWithoutMembershipInput
   cuentasPago?: Prisma.CuentasPagoUncheckedCreateNestedManyWithoutMembershipInput
+  dashboardPresets?: Prisma.DashboardPresetUncheckedCreateNestedManyWithoutCreatedByMembershipInput
   declaracionesEfectivo?: Prisma.DeclaracionEfectivoUncheckedCreateNestedManyWithoutTecnicoInput
   egresos?: Prisma.EgresosUncheckedCreateNestedManyWithoutMembershipInput
   geolocalizaciones?: Prisma.GeolocalizacionUncheckedCreateNestedManyWithoutMembershipInput
@@ -1931,16 +1932,15 @@ export type TenantMembershipUncheckedCreateWithoutEmpresaMembershipsInput = {
   serviciosCreados?: Prisma.OrdenServicioUncheckedCreateNestedManyWithoutCreadoPorInput
   serviciosLiquidados?: Prisma.OrdenServicioUncheckedCreateNestedManyWithoutLiquidadoPorInput
   serviciosAsignados?: Prisma.OrdenServicioUncheckedCreateNestedManyWithoutTecnicoInput
+  seguimientosCompletados?: Prisma.OrdenServicioSeguimientoUncheckedCreateNestedManyWithoutCompletedByMembershipInput
+  seguimientosCreados?: Prisma.OrdenServicioSeguimientoUncheckedCreateNestedManyWithoutCreatedByMembershipInput
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoUncheckedCreateNestedManyWithoutMembershipInput
   permisosAprobados?: Prisma.PermisoUncheckedCreateNestedManyWithoutAdminInput
   permisosSolicitados?: Prisma.PermisoUncheckedCreateNestedManyWithoutMembershipInput
   productosSolicitados?: Prisma.ProductoSolicitadoUncheckedCreateNestedManyWithoutMembershipInput
   referidos?: Prisma.ReferidosUncheckedCreateNestedManyWithoutMembershipInput
-  seguimientosCompletados?: Prisma.OrdenServicioSeguimientoUncheckedCreateNestedManyWithoutCompletedByMembershipInput
-  seguimientosCreados?: Prisma.OrdenServicioSeguimientoUncheckedCreateNestedManyWithoutCreatedByMembershipInput
   sesionesActividad?: Prisma.SesionActividadUncheckedCreateNestedManyWithoutMembershipInput
   turnos?: Prisma.TurnoUncheckedCreateNestedManyWithoutMembershipInput
-  dashboardPresets?: Prisma.DashboardPresetUncheckedCreateNestedManyWithoutCreatedByMembershipInput
 }
 
 export type TenantMembershipCreateOrConnectWithoutEmpresaMembershipsInput = {
@@ -1985,6 +1985,7 @@ export type TenantMembershipUpdateWithoutEmpresaMembershipsInput = {
   consignacionesTecnico?: Prisma.ConsignacionEfectivoUpdateManyWithoutTecnicoNestedInput
   cuentasCobro?: Prisma.CuentaCobroUpdateManyWithoutMembershipNestedInput
   cuentasPago?: Prisma.CuentasPagoUpdateManyWithoutMembershipNestedInput
+  dashboardPresets?: Prisma.DashboardPresetUpdateManyWithoutCreatedByMembershipNestedInput
   declaracionesEfectivo?: Prisma.DeclaracionEfectivoUpdateManyWithoutTecnicoNestedInput
   egresos?: Prisma.EgresosUpdateManyWithoutMembershipNestedInput
   geolocalizaciones?: Prisma.GeolocalizacionUpdateManyWithoutMembershipNestedInput
@@ -1992,19 +1993,18 @@ export type TenantMembershipUpdateWithoutEmpresaMembershipsInput = {
   serviciosCreados?: Prisma.OrdenServicioUpdateManyWithoutCreadoPorNestedInput
   serviciosLiquidados?: Prisma.OrdenServicioUpdateManyWithoutLiquidadoPorNestedInput
   serviciosAsignados?: Prisma.OrdenServicioUpdateManyWithoutTecnicoNestedInput
+  seguimientosCompletados?: Prisma.OrdenServicioSeguimientoUpdateManyWithoutCompletedByMembershipNestedInput
+  seguimientosCreados?: Prisma.OrdenServicioSeguimientoUpdateManyWithoutCreatedByMembershipNestedInput
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoUpdateManyWithoutMembershipNestedInput
   permisosAprobados?: Prisma.PermisoUpdateManyWithoutAdminNestedInput
   permisosSolicitados?: Prisma.PermisoUpdateManyWithoutMembershipNestedInput
   productosSolicitados?: Prisma.ProductoSolicitadoUpdateManyWithoutMembershipNestedInput
   referidos?: Prisma.ReferidosUpdateManyWithoutMembershipNestedInput
-  seguimientosCompletados?: Prisma.OrdenServicioSeguimientoUpdateManyWithoutCompletedByMembershipNestedInput
-  seguimientosCreados?: Prisma.OrdenServicioSeguimientoUpdateManyWithoutCreatedByMembershipNestedInput
   sesionesActividad?: Prisma.SesionActividadUpdateManyWithoutMembershipNestedInput
   municipio?: Prisma.MunicipalityUpdateOneWithoutMembershipsNestedInput
   tenant?: Prisma.TenantUpdateOneRequiredWithoutMembershipsNestedInput
   user?: Prisma.UserUpdateOneRequiredWithoutMembershipsNestedInput
   turnos?: Prisma.TurnoUpdateManyWithoutMembershipNestedInput
-  dashboardPresets?: Prisma.DashboardPresetUpdateManyWithoutCreatedByMembershipNestedInput
 }
 
 export type TenantMembershipUncheckedUpdateWithoutEmpresaMembershipsInput = {
@@ -2036,6 +2036,7 @@ export type TenantMembershipUncheckedUpdateWithoutEmpresaMembershipsInput = {
   consignacionesTecnico?: Prisma.ConsignacionEfectivoUncheckedUpdateManyWithoutTecnicoNestedInput
   cuentasCobro?: Prisma.CuentaCobroUncheckedUpdateManyWithoutMembershipNestedInput
   cuentasPago?: Prisma.CuentasPagoUncheckedUpdateManyWithoutMembershipNestedInput
+  dashboardPresets?: Prisma.DashboardPresetUncheckedUpdateManyWithoutCreatedByMembershipNestedInput
   declaracionesEfectivo?: Prisma.DeclaracionEfectivoUncheckedUpdateManyWithoutTecnicoNestedInput
   egresos?: Prisma.EgresosUncheckedUpdateManyWithoutMembershipNestedInput
   geolocalizaciones?: Prisma.GeolocalizacionUncheckedUpdateManyWithoutMembershipNestedInput
@@ -2043,16 +2044,15 @@ export type TenantMembershipUncheckedUpdateWithoutEmpresaMembershipsInput = {
   serviciosCreados?: Prisma.OrdenServicioUncheckedUpdateManyWithoutCreadoPorNestedInput
   serviciosLiquidados?: Prisma.OrdenServicioUncheckedUpdateManyWithoutLiquidadoPorNestedInput
   serviciosAsignados?: Prisma.OrdenServicioUncheckedUpdateManyWithoutTecnicoNestedInput
+  seguimientosCompletados?: Prisma.OrdenServicioSeguimientoUncheckedUpdateManyWithoutCompletedByMembershipNestedInput
+  seguimientosCreados?: Prisma.OrdenServicioSeguimientoUncheckedUpdateManyWithoutCreatedByMembershipNestedInput
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoUncheckedUpdateManyWithoutMembershipNestedInput
   permisosAprobados?: Prisma.PermisoUncheckedUpdateManyWithoutAdminNestedInput
   permisosSolicitados?: Prisma.PermisoUncheckedUpdateManyWithoutMembershipNestedInput
   productosSolicitados?: Prisma.ProductoSolicitadoUncheckedUpdateManyWithoutMembershipNestedInput
   referidos?: Prisma.ReferidosUncheckedUpdateManyWithoutMembershipNestedInput
-  seguimientosCompletados?: Prisma.OrdenServicioSeguimientoUncheckedUpdateManyWithoutCompletedByMembershipNestedInput
-  seguimientosCreados?: Prisma.OrdenServicioSeguimientoUncheckedUpdateManyWithoutCreatedByMembershipNestedInput
   sesionesActividad?: Prisma.SesionActividadUncheckedUpdateManyWithoutMembershipNestedInput
   turnos?: Prisma.TurnoUncheckedUpdateManyWithoutMembershipNestedInput
-  dashboardPresets?: Prisma.DashboardPresetUncheckedUpdateManyWithoutCreatedByMembershipNestedInput
 }
 
 export type TenantMembershipCreateWithoutMunicipioInput = {
@@ -2081,6 +2081,7 @@ export type TenantMembershipCreateWithoutMunicipioInput = {
   consignacionesTecnico?: Prisma.ConsignacionEfectivoCreateNestedManyWithoutTecnicoInput
   cuentasCobro?: Prisma.CuentaCobroCreateNestedManyWithoutMembershipInput
   cuentasPago?: Prisma.CuentasPagoCreateNestedManyWithoutMembershipInput
+  dashboardPresets?: Prisma.DashboardPresetCreateNestedManyWithoutCreatedByMembershipInput
   declaracionesEfectivo?: Prisma.DeclaracionEfectivoCreateNestedManyWithoutTecnicoInput
   egresos?: Prisma.EgresosCreateNestedManyWithoutMembershipInput
   empresaMemberships?: Prisma.EmpresaMembershipCreateNestedManyWithoutMembershipInput
@@ -2089,18 +2090,17 @@ export type TenantMembershipCreateWithoutMunicipioInput = {
   serviciosCreados?: Prisma.OrdenServicioCreateNestedManyWithoutCreadoPorInput
   serviciosLiquidados?: Prisma.OrdenServicioCreateNestedManyWithoutLiquidadoPorInput
   serviciosAsignados?: Prisma.OrdenServicioCreateNestedManyWithoutTecnicoInput
+  seguimientosCompletados?: Prisma.OrdenServicioSeguimientoCreateNestedManyWithoutCompletedByMembershipInput
+  seguimientosCreados?: Prisma.OrdenServicioSeguimientoCreateNestedManyWithoutCreatedByMembershipInput
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoCreateNestedManyWithoutMembershipInput
   permisosAprobados?: Prisma.PermisoCreateNestedManyWithoutAdminInput
   permisosSolicitados?: Prisma.PermisoCreateNestedManyWithoutMembershipInput
   productosSolicitados?: Prisma.ProductoSolicitadoCreateNestedManyWithoutMembershipInput
   referidos?: Prisma.ReferidosCreateNestedManyWithoutMembershipInput
-  seguimientosCompletados?: Prisma.OrdenServicioSeguimientoCreateNestedManyWithoutCompletedByMembershipInput
-  seguimientosCreados?: Prisma.OrdenServicioSeguimientoCreateNestedManyWithoutCreatedByMembershipInput
   sesionesActividad?: Prisma.SesionActividadCreateNestedManyWithoutMembershipInput
   tenant: Prisma.TenantCreateNestedOneWithoutMembershipsInput
   user: Prisma.UserCreateNestedOneWithoutMembershipsInput
   turnos?: Prisma.TurnoCreateNestedManyWithoutMembershipInput
-  dashboardPresets?: Prisma.DashboardPresetCreateNestedManyWithoutCreatedByMembershipInput
 }
 
 export type TenantMembershipUncheckedCreateWithoutMunicipioInput = {
@@ -2131,6 +2131,7 @@ export type TenantMembershipUncheckedCreateWithoutMunicipioInput = {
   consignacionesTecnico?: Prisma.ConsignacionEfectivoUncheckedCreateNestedManyWithoutTecnicoInput
   cuentasCobro?: Prisma.CuentaCobroUncheckedCreateNestedManyWithoutMembershipInput
   cuentasPago?: Prisma.CuentasPagoUncheckedCreateNestedManyWithoutMembershipInput
+  dashboardPresets?: Prisma.DashboardPresetUncheckedCreateNestedManyWithoutCreatedByMembershipInput
   declaracionesEfectivo?: Prisma.DeclaracionEfectivoUncheckedCreateNestedManyWithoutTecnicoInput
   egresos?: Prisma.EgresosUncheckedCreateNestedManyWithoutMembershipInput
   empresaMemberships?: Prisma.EmpresaMembershipUncheckedCreateNestedManyWithoutMembershipInput
@@ -2139,16 +2140,15 @@ export type TenantMembershipUncheckedCreateWithoutMunicipioInput = {
   serviciosCreados?: Prisma.OrdenServicioUncheckedCreateNestedManyWithoutCreadoPorInput
   serviciosLiquidados?: Prisma.OrdenServicioUncheckedCreateNestedManyWithoutLiquidadoPorInput
   serviciosAsignados?: Prisma.OrdenServicioUncheckedCreateNestedManyWithoutTecnicoInput
+  seguimientosCompletados?: Prisma.OrdenServicioSeguimientoUncheckedCreateNestedManyWithoutCompletedByMembershipInput
+  seguimientosCreados?: Prisma.OrdenServicioSeguimientoUncheckedCreateNestedManyWithoutCreatedByMembershipInput
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoUncheckedCreateNestedManyWithoutMembershipInput
   permisosAprobados?: Prisma.PermisoUncheckedCreateNestedManyWithoutAdminInput
   permisosSolicitados?: Prisma.PermisoUncheckedCreateNestedManyWithoutMembershipInput
   productosSolicitados?: Prisma.ProductoSolicitadoUncheckedCreateNestedManyWithoutMembershipInput
   referidos?: Prisma.ReferidosUncheckedCreateNestedManyWithoutMembershipInput
-  seguimientosCompletados?: Prisma.OrdenServicioSeguimientoUncheckedCreateNestedManyWithoutCompletedByMembershipInput
-  seguimientosCreados?: Prisma.OrdenServicioSeguimientoUncheckedCreateNestedManyWithoutCreatedByMembershipInput
   sesionesActividad?: Prisma.SesionActividadUncheckedCreateNestedManyWithoutMembershipInput
   turnos?: Prisma.TurnoUncheckedCreateNestedManyWithoutMembershipInput
-  dashboardPresets?: Prisma.DashboardPresetUncheckedCreateNestedManyWithoutCreatedByMembershipInput
 }
 
 export type TenantMembershipCreateOrConnectWithoutMunicipioInput = {
@@ -2202,6 +2202,7 @@ export type TenantMembershipCreateWithoutClientesCreadosInput = {
   consignacionesTecnico?: Prisma.ConsignacionEfectivoCreateNestedManyWithoutTecnicoInput
   cuentasCobro?: Prisma.CuentaCobroCreateNestedManyWithoutMembershipInput
   cuentasPago?: Prisma.CuentasPagoCreateNestedManyWithoutMembershipInput
+  dashboardPresets?: Prisma.DashboardPresetCreateNestedManyWithoutCreatedByMembershipInput
   declaracionesEfectivo?: Prisma.DeclaracionEfectivoCreateNestedManyWithoutTecnicoInput
   egresos?: Prisma.EgresosCreateNestedManyWithoutMembershipInput
   empresaMemberships?: Prisma.EmpresaMembershipCreateNestedManyWithoutMembershipInput
@@ -2210,19 +2211,18 @@ export type TenantMembershipCreateWithoutClientesCreadosInput = {
   serviciosCreados?: Prisma.OrdenServicioCreateNestedManyWithoutCreadoPorInput
   serviciosLiquidados?: Prisma.OrdenServicioCreateNestedManyWithoutLiquidadoPorInput
   serviciosAsignados?: Prisma.OrdenServicioCreateNestedManyWithoutTecnicoInput
+  seguimientosCompletados?: Prisma.OrdenServicioSeguimientoCreateNestedManyWithoutCompletedByMembershipInput
+  seguimientosCreados?: Prisma.OrdenServicioSeguimientoCreateNestedManyWithoutCreatedByMembershipInput
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoCreateNestedManyWithoutMembershipInput
   permisosAprobados?: Prisma.PermisoCreateNestedManyWithoutAdminInput
   permisosSolicitados?: Prisma.PermisoCreateNestedManyWithoutMembershipInput
   productosSolicitados?: Prisma.ProductoSolicitadoCreateNestedManyWithoutMembershipInput
   referidos?: Prisma.ReferidosCreateNestedManyWithoutMembershipInput
-  seguimientosCompletados?: Prisma.OrdenServicioSeguimientoCreateNestedManyWithoutCompletedByMembershipInput
-  seguimientosCreados?: Prisma.OrdenServicioSeguimientoCreateNestedManyWithoutCreatedByMembershipInput
   sesionesActividad?: Prisma.SesionActividadCreateNestedManyWithoutMembershipInput
   municipio?: Prisma.MunicipalityCreateNestedOneWithoutMembershipsInput
   tenant: Prisma.TenantCreateNestedOneWithoutMembershipsInput
   user: Prisma.UserCreateNestedOneWithoutMembershipsInput
   turnos?: Prisma.TurnoCreateNestedManyWithoutMembershipInput
-  dashboardPresets?: Prisma.DashboardPresetCreateNestedManyWithoutCreatedByMembershipInput
 }
 
 export type TenantMembershipUncheckedCreateWithoutClientesCreadosInput = {
@@ -2253,6 +2253,7 @@ export type TenantMembershipUncheckedCreateWithoutClientesCreadosInput = {
   consignacionesTecnico?: Prisma.ConsignacionEfectivoUncheckedCreateNestedManyWithoutTecnicoInput
   cuentasCobro?: Prisma.CuentaCobroUncheckedCreateNestedManyWithoutMembershipInput
   cuentasPago?: Prisma.CuentasPagoUncheckedCreateNestedManyWithoutMembershipInput
+  dashboardPresets?: Prisma.DashboardPresetUncheckedCreateNestedManyWithoutCreatedByMembershipInput
   declaracionesEfectivo?: Prisma.DeclaracionEfectivoUncheckedCreateNestedManyWithoutTecnicoInput
   egresos?: Prisma.EgresosUncheckedCreateNestedManyWithoutMembershipInput
   empresaMemberships?: Prisma.EmpresaMembershipUncheckedCreateNestedManyWithoutMembershipInput
@@ -2261,16 +2262,15 @@ export type TenantMembershipUncheckedCreateWithoutClientesCreadosInput = {
   serviciosCreados?: Prisma.OrdenServicioUncheckedCreateNestedManyWithoutCreadoPorInput
   serviciosLiquidados?: Prisma.OrdenServicioUncheckedCreateNestedManyWithoutLiquidadoPorInput
   serviciosAsignados?: Prisma.OrdenServicioUncheckedCreateNestedManyWithoutTecnicoInput
+  seguimientosCompletados?: Prisma.OrdenServicioSeguimientoUncheckedCreateNestedManyWithoutCompletedByMembershipInput
+  seguimientosCreados?: Prisma.OrdenServicioSeguimientoUncheckedCreateNestedManyWithoutCreatedByMembershipInput
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoUncheckedCreateNestedManyWithoutMembershipInput
   permisosAprobados?: Prisma.PermisoUncheckedCreateNestedManyWithoutAdminInput
   permisosSolicitados?: Prisma.PermisoUncheckedCreateNestedManyWithoutMembershipInput
   productosSolicitados?: Prisma.ProductoSolicitadoUncheckedCreateNestedManyWithoutMembershipInput
   referidos?: Prisma.ReferidosUncheckedCreateNestedManyWithoutMembershipInput
-  seguimientosCompletados?: Prisma.OrdenServicioSeguimientoUncheckedCreateNestedManyWithoutCompletedByMembershipInput
-  seguimientosCreados?: Prisma.OrdenServicioSeguimientoUncheckedCreateNestedManyWithoutCreatedByMembershipInput
   sesionesActividad?: Prisma.SesionActividadUncheckedCreateNestedManyWithoutMembershipInput
   turnos?: Prisma.TurnoUncheckedCreateNestedManyWithoutMembershipInput
-  dashboardPresets?: Prisma.DashboardPresetUncheckedCreateNestedManyWithoutCreatedByMembershipInput
 }
 
 export type TenantMembershipCreateOrConnectWithoutClientesCreadosInput = {
@@ -2314,6 +2314,7 @@ export type TenantMembershipUpdateWithoutClientesCreadosInput = {
   consignacionesTecnico?: Prisma.ConsignacionEfectivoUpdateManyWithoutTecnicoNestedInput
   cuentasCobro?: Prisma.CuentaCobroUpdateManyWithoutMembershipNestedInput
   cuentasPago?: Prisma.CuentasPagoUpdateManyWithoutMembershipNestedInput
+  dashboardPresets?: Prisma.DashboardPresetUpdateManyWithoutCreatedByMembershipNestedInput
   declaracionesEfectivo?: Prisma.DeclaracionEfectivoUpdateManyWithoutTecnicoNestedInput
   egresos?: Prisma.EgresosUpdateManyWithoutMembershipNestedInput
   empresaMemberships?: Prisma.EmpresaMembershipUpdateManyWithoutMembershipNestedInput
@@ -2322,19 +2323,18 @@ export type TenantMembershipUpdateWithoutClientesCreadosInput = {
   serviciosCreados?: Prisma.OrdenServicioUpdateManyWithoutCreadoPorNestedInput
   serviciosLiquidados?: Prisma.OrdenServicioUpdateManyWithoutLiquidadoPorNestedInput
   serviciosAsignados?: Prisma.OrdenServicioUpdateManyWithoutTecnicoNestedInput
+  seguimientosCompletados?: Prisma.OrdenServicioSeguimientoUpdateManyWithoutCompletedByMembershipNestedInput
+  seguimientosCreados?: Prisma.OrdenServicioSeguimientoUpdateManyWithoutCreatedByMembershipNestedInput
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoUpdateManyWithoutMembershipNestedInput
   permisosAprobados?: Prisma.PermisoUpdateManyWithoutAdminNestedInput
   permisosSolicitados?: Prisma.PermisoUpdateManyWithoutMembershipNestedInput
   productosSolicitados?: Prisma.ProductoSolicitadoUpdateManyWithoutMembershipNestedInput
   referidos?: Prisma.ReferidosUpdateManyWithoutMembershipNestedInput
-  seguimientosCompletados?: Prisma.OrdenServicioSeguimientoUpdateManyWithoutCompletedByMembershipNestedInput
-  seguimientosCreados?: Prisma.OrdenServicioSeguimientoUpdateManyWithoutCreatedByMembershipNestedInput
   sesionesActividad?: Prisma.SesionActividadUpdateManyWithoutMembershipNestedInput
   municipio?: Prisma.MunicipalityUpdateOneWithoutMembershipsNestedInput
   tenant?: Prisma.TenantUpdateOneRequiredWithoutMembershipsNestedInput
   user?: Prisma.UserUpdateOneRequiredWithoutMembershipsNestedInput
   turnos?: Prisma.TurnoUpdateManyWithoutMembershipNestedInput
-  dashboardPresets?: Prisma.DashboardPresetUpdateManyWithoutCreatedByMembershipNestedInput
 }
 
 export type TenantMembershipUncheckedUpdateWithoutClientesCreadosInput = {
@@ -2365,6 +2365,7 @@ export type TenantMembershipUncheckedUpdateWithoutClientesCreadosInput = {
   consignacionesTecnico?: Prisma.ConsignacionEfectivoUncheckedUpdateManyWithoutTecnicoNestedInput
   cuentasCobro?: Prisma.CuentaCobroUncheckedUpdateManyWithoutMembershipNestedInput
   cuentasPago?: Prisma.CuentasPagoUncheckedUpdateManyWithoutMembershipNestedInput
+  dashboardPresets?: Prisma.DashboardPresetUncheckedUpdateManyWithoutCreatedByMembershipNestedInput
   declaracionesEfectivo?: Prisma.DeclaracionEfectivoUncheckedUpdateManyWithoutTecnicoNestedInput
   egresos?: Prisma.EgresosUncheckedUpdateManyWithoutMembershipNestedInput
   empresaMemberships?: Prisma.EmpresaMembershipUncheckedUpdateManyWithoutMembershipNestedInput
@@ -2373,16 +2374,15 @@ export type TenantMembershipUncheckedUpdateWithoutClientesCreadosInput = {
   serviciosCreados?: Prisma.OrdenServicioUncheckedUpdateManyWithoutCreadoPorNestedInput
   serviciosLiquidados?: Prisma.OrdenServicioUncheckedUpdateManyWithoutLiquidadoPorNestedInput
   serviciosAsignados?: Prisma.OrdenServicioUncheckedUpdateManyWithoutTecnicoNestedInput
+  seguimientosCompletados?: Prisma.OrdenServicioSeguimientoUncheckedUpdateManyWithoutCompletedByMembershipNestedInput
+  seguimientosCreados?: Prisma.OrdenServicioSeguimientoUncheckedUpdateManyWithoutCreatedByMembershipNestedInput
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoUncheckedUpdateManyWithoutMembershipNestedInput
   permisosAprobados?: Prisma.PermisoUncheckedUpdateManyWithoutAdminNestedInput
   permisosSolicitados?: Prisma.PermisoUncheckedUpdateManyWithoutMembershipNestedInput
   productosSolicitados?: Prisma.ProductoSolicitadoUncheckedUpdateManyWithoutMembershipNestedInput
   referidos?: Prisma.ReferidosUncheckedUpdateManyWithoutMembershipNestedInput
-  seguimientosCompletados?: Prisma.OrdenServicioSeguimientoUncheckedUpdateManyWithoutCompletedByMembershipNestedInput
-  seguimientosCreados?: Prisma.OrdenServicioSeguimientoUncheckedUpdateManyWithoutCreatedByMembershipNestedInput
   sesionesActividad?: Prisma.SesionActividadUncheckedUpdateManyWithoutMembershipNestedInput
   turnos?: Prisma.TurnoUncheckedUpdateManyWithoutMembershipNestedInput
-  dashboardPresets?: Prisma.DashboardPresetUncheckedUpdateManyWithoutCreatedByMembershipNestedInput
 }
 
 export type TenantMembershipCreateWithoutServiciosCreadosInput = {
@@ -2411,6 +2411,7 @@ export type TenantMembershipCreateWithoutServiciosCreadosInput = {
   consignacionesTecnico?: Prisma.ConsignacionEfectivoCreateNestedManyWithoutTecnicoInput
   cuentasCobro?: Prisma.CuentaCobroCreateNestedManyWithoutMembershipInput
   cuentasPago?: Prisma.CuentasPagoCreateNestedManyWithoutMembershipInput
+  dashboardPresets?: Prisma.DashboardPresetCreateNestedManyWithoutCreatedByMembershipInput
   declaracionesEfectivo?: Prisma.DeclaracionEfectivoCreateNestedManyWithoutTecnicoInput
   egresos?: Prisma.EgresosCreateNestedManyWithoutMembershipInput
   empresaMemberships?: Prisma.EmpresaMembershipCreateNestedManyWithoutMembershipInput
@@ -2418,19 +2419,18 @@ export type TenantMembershipCreateWithoutServiciosCreadosInput = {
   nominas?: Prisma.NominaCreateNestedManyWithoutMembershipInput
   serviciosLiquidados?: Prisma.OrdenServicioCreateNestedManyWithoutLiquidadoPorInput
   serviciosAsignados?: Prisma.OrdenServicioCreateNestedManyWithoutTecnicoInput
+  seguimientosCompletados?: Prisma.OrdenServicioSeguimientoCreateNestedManyWithoutCompletedByMembershipInput
+  seguimientosCreados?: Prisma.OrdenServicioSeguimientoCreateNestedManyWithoutCreatedByMembershipInput
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoCreateNestedManyWithoutMembershipInput
   permisosAprobados?: Prisma.PermisoCreateNestedManyWithoutAdminInput
   permisosSolicitados?: Prisma.PermisoCreateNestedManyWithoutMembershipInput
   productosSolicitados?: Prisma.ProductoSolicitadoCreateNestedManyWithoutMembershipInput
   referidos?: Prisma.ReferidosCreateNestedManyWithoutMembershipInput
-  seguimientosCompletados?: Prisma.OrdenServicioSeguimientoCreateNestedManyWithoutCompletedByMembershipInput
-  seguimientosCreados?: Prisma.OrdenServicioSeguimientoCreateNestedManyWithoutCreatedByMembershipInput
   sesionesActividad?: Prisma.SesionActividadCreateNestedManyWithoutMembershipInput
   municipio?: Prisma.MunicipalityCreateNestedOneWithoutMembershipsInput
   tenant: Prisma.TenantCreateNestedOneWithoutMembershipsInput
   user: Prisma.UserCreateNestedOneWithoutMembershipsInput
   turnos?: Prisma.TurnoCreateNestedManyWithoutMembershipInput
-  dashboardPresets?: Prisma.DashboardPresetCreateNestedManyWithoutCreatedByMembershipInput
 }
 
 export type TenantMembershipUncheckedCreateWithoutServiciosCreadosInput = {
@@ -2462,6 +2462,7 @@ export type TenantMembershipUncheckedCreateWithoutServiciosCreadosInput = {
   consignacionesTecnico?: Prisma.ConsignacionEfectivoUncheckedCreateNestedManyWithoutTecnicoInput
   cuentasCobro?: Prisma.CuentaCobroUncheckedCreateNestedManyWithoutMembershipInput
   cuentasPago?: Prisma.CuentasPagoUncheckedCreateNestedManyWithoutMembershipInput
+  dashboardPresets?: Prisma.DashboardPresetUncheckedCreateNestedManyWithoutCreatedByMembershipInput
   declaracionesEfectivo?: Prisma.DeclaracionEfectivoUncheckedCreateNestedManyWithoutTecnicoInput
   egresos?: Prisma.EgresosUncheckedCreateNestedManyWithoutMembershipInput
   empresaMemberships?: Prisma.EmpresaMembershipUncheckedCreateNestedManyWithoutMembershipInput
@@ -2469,16 +2470,15 @@ export type TenantMembershipUncheckedCreateWithoutServiciosCreadosInput = {
   nominas?: Prisma.NominaUncheckedCreateNestedManyWithoutMembershipInput
   serviciosLiquidados?: Prisma.OrdenServicioUncheckedCreateNestedManyWithoutLiquidadoPorInput
   serviciosAsignados?: Prisma.OrdenServicioUncheckedCreateNestedManyWithoutTecnicoInput
+  seguimientosCompletados?: Prisma.OrdenServicioSeguimientoUncheckedCreateNestedManyWithoutCompletedByMembershipInput
+  seguimientosCreados?: Prisma.OrdenServicioSeguimientoUncheckedCreateNestedManyWithoutCreatedByMembershipInput
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoUncheckedCreateNestedManyWithoutMembershipInput
   permisosAprobados?: Prisma.PermisoUncheckedCreateNestedManyWithoutAdminInput
   permisosSolicitados?: Prisma.PermisoUncheckedCreateNestedManyWithoutMembershipInput
   productosSolicitados?: Prisma.ProductoSolicitadoUncheckedCreateNestedManyWithoutMembershipInput
   referidos?: Prisma.ReferidosUncheckedCreateNestedManyWithoutMembershipInput
-  seguimientosCompletados?: Prisma.OrdenServicioSeguimientoUncheckedCreateNestedManyWithoutCompletedByMembershipInput
-  seguimientosCreados?: Prisma.OrdenServicioSeguimientoUncheckedCreateNestedManyWithoutCreatedByMembershipInput
   sesionesActividad?: Prisma.SesionActividadUncheckedCreateNestedManyWithoutMembershipInput
   turnos?: Prisma.TurnoUncheckedCreateNestedManyWithoutMembershipInput
-  dashboardPresets?: Prisma.DashboardPresetUncheckedCreateNestedManyWithoutCreatedByMembershipInput
 }
 
 export type TenantMembershipCreateOrConnectWithoutServiciosCreadosInput = {
@@ -2512,6 +2512,7 @@ export type TenantMembershipCreateWithoutServiciosLiquidadosInput = {
   consignacionesTecnico?: Prisma.ConsignacionEfectivoCreateNestedManyWithoutTecnicoInput
   cuentasCobro?: Prisma.CuentaCobroCreateNestedManyWithoutMembershipInput
   cuentasPago?: Prisma.CuentasPagoCreateNestedManyWithoutMembershipInput
+  dashboardPresets?: Prisma.DashboardPresetCreateNestedManyWithoutCreatedByMembershipInput
   declaracionesEfectivo?: Prisma.DeclaracionEfectivoCreateNestedManyWithoutTecnicoInput
   egresos?: Prisma.EgresosCreateNestedManyWithoutMembershipInput
   empresaMemberships?: Prisma.EmpresaMembershipCreateNestedManyWithoutMembershipInput
@@ -2519,19 +2520,18 @@ export type TenantMembershipCreateWithoutServiciosLiquidadosInput = {
   nominas?: Prisma.NominaCreateNestedManyWithoutMembershipInput
   serviciosCreados?: Prisma.OrdenServicioCreateNestedManyWithoutCreadoPorInput
   serviciosAsignados?: Prisma.OrdenServicioCreateNestedManyWithoutTecnicoInput
+  seguimientosCompletados?: Prisma.OrdenServicioSeguimientoCreateNestedManyWithoutCompletedByMembershipInput
+  seguimientosCreados?: Prisma.OrdenServicioSeguimientoCreateNestedManyWithoutCreatedByMembershipInput
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoCreateNestedManyWithoutMembershipInput
   permisosAprobados?: Prisma.PermisoCreateNestedManyWithoutAdminInput
   permisosSolicitados?: Prisma.PermisoCreateNestedManyWithoutMembershipInput
   productosSolicitados?: Prisma.ProductoSolicitadoCreateNestedManyWithoutMembershipInput
   referidos?: Prisma.ReferidosCreateNestedManyWithoutMembershipInput
-  seguimientosCompletados?: Prisma.OrdenServicioSeguimientoCreateNestedManyWithoutCompletedByMembershipInput
-  seguimientosCreados?: Prisma.OrdenServicioSeguimientoCreateNestedManyWithoutCreatedByMembershipInput
   sesionesActividad?: Prisma.SesionActividadCreateNestedManyWithoutMembershipInput
   municipio?: Prisma.MunicipalityCreateNestedOneWithoutMembershipsInput
   tenant: Prisma.TenantCreateNestedOneWithoutMembershipsInput
   user: Prisma.UserCreateNestedOneWithoutMembershipsInput
   turnos?: Prisma.TurnoCreateNestedManyWithoutMembershipInput
-  dashboardPresets?: Prisma.DashboardPresetCreateNestedManyWithoutCreatedByMembershipInput
 }
 
 export type TenantMembershipUncheckedCreateWithoutServiciosLiquidadosInput = {
@@ -2563,6 +2563,7 @@ export type TenantMembershipUncheckedCreateWithoutServiciosLiquidadosInput = {
   consignacionesTecnico?: Prisma.ConsignacionEfectivoUncheckedCreateNestedManyWithoutTecnicoInput
   cuentasCobro?: Prisma.CuentaCobroUncheckedCreateNestedManyWithoutMembershipInput
   cuentasPago?: Prisma.CuentasPagoUncheckedCreateNestedManyWithoutMembershipInput
+  dashboardPresets?: Prisma.DashboardPresetUncheckedCreateNestedManyWithoutCreatedByMembershipInput
   declaracionesEfectivo?: Prisma.DeclaracionEfectivoUncheckedCreateNestedManyWithoutTecnicoInput
   egresos?: Prisma.EgresosUncheckedCreateNestedManyWithoutMembershipInput
   empresaMemberships?: Prisma.EmpresaMembershipUncheckedCreateNestedManyWithoutMembershipInput
@@ -2570,16 +2571,15 @@ export type TenantMembershipUncheckedCreateWithoutServiciosLiquidadosInput = {
   nominas?: Prisma.NominaUncheckedCreateNestedManyWithoutMembershipInput
   serviciosCreados?: Prisma.OrdenServicioUncheckedCreateNestedManyWithoutCreadoPorInput
   serviciosAsignados?: Prisma.OrdenServicioUncheckedCreateNestedManyWithoutTecnicoInput
+  seguimientosCompletados?: Prisma.OrdenServicioSeguimientoUncheckedCreateNestedManyWithoutCompletedByMembershipInput
+  seguimientosCreados?: Prisma.OrdenServicioSeguimientoUncheckedCreateNestedManyWithoutCreatedByMembershipInput
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoUncheckedCreateNestedManyWithoutMembershipInput
   permisosAprobados?: Prisma.PermisoUncheckedCreateNestedManyWithoutAdminInput
   permisosSolicitados?: Prisma.PermisoUncheckedCreateNestedManyWithoutMembershipInput
   productosSolicitados?: Prisma.ProductoSolicitadoUncheckedCreateNestedManyWithoutMembershipInput
   referidos?: Prisma.ReferidosUncheckedCreateNestedManyWithoutMembershipInput
-  seguimientosCompletados?: Prisma.OrdenServicioSeguimientoUncheckedCreateNestedManyWithoutCompletedByMembershipInput
-  seguimientosCreados?: Prisma.OrdenServicioSeguimientoUncheckedCreateNestedManyWithoutCreatedByMembershipInput
   sesionesActividad?: Prisma.SesionActividadUncheckedCreateNestedManyWithoutMembershipInput
   turnos?: Prisma.TurnoUncheckedCreateNestedManyWithoutMembershipInput
-  dashboardPresets?: Prisma.DashboardPresetUncheckedCreateNestedManyWithoutCreatedByMembershipInput
 }
 
 export type TenantMembershipCreateOrConnectWithoutServiciosLiquidadosInput = {
@@ -2613,6 +2613,7 @@ export type TenantMembershipCreateWithoutServiciosAsignadosInput = {
   consignacionesTecnico?: Prisma.ConsignacionEfectivoCreateNestedManyWithoutTecnicoInput
   cuentasCobro?: Prisma.CuentaCobroCreateNestedManyWithoutMembershipInput
   cuentasPago?: Prisma.CuentasPagoCreateNestedManyWithoutMembershipInput
+  dashboardPresets?: Prisma.DashboardPresetCreateNestedManyWithoutCreatedByMembershipInput
   declaracionesEfectivo?: Prisma.DeclaracionEfectivoCreateNestedManyWithoutTecnicoInput
   egresos?: Prisma.EgresosCreateNestedManyWithoutMembershipInput
   empresaMemberships?: Prisma.EmpresaMembershipCreateNestedManyWithoutMembershipInput
@@ -2620,19 +2621,18 @@ export type TenantMembershipCreateWithoutServiciosAsignadosInput = {
   nominas?: Prisma.NominaCreateNestedManyWithoutMembershipInput
   serviciosCreados?: Prisma.OrdenServicioCreateNestedManyWithoutCreadoPorInput
   serviciosLiquidados?: Prisma.OrdenServicioCreateNestedManyWithoutLiquidadoPorInput
+  seguimientosCompletados?: Prisma.OrdenServicioSeguimientoCreateNestedManyWithoutCompletedByMembershipInput
+  seguimientosCreados?: Prisma.OrdenServicioSeguimientoCreateNestedManyWithoutCreatedByMembershipInput
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoCreateNestedManyWithoutMembershipInput
   permisosAprobados?: Prisma.PermisoCreateNestedManyWithoutAdminInput
   permisosSolicitados?: Prisma.PermisoCreateNestedManyWithoutMembershipInput
   productosSolicitados?: Prisma.ProductoSolicitadoCreateNestedManyWithoutMembershipInput
   referidos?: Prisma.ReferidosCreateNestedManyWithoutMembershipInput
-  seguimientosCompletados?: Prisma.OrdenServicioSeguimientoCreateNestedManyWithoutCompletedByMembershipInput
-  seguimientosCreados?: Prisma.OrdenServicioSeguimientoCreateNestedManyWithoutCreatedByMembershipInput
   sesionesActividad?: Prisma.SesionActividadCreateNestedManyWithoutMembershipInput
   municipio?: Prisma.MunicipalityCreateNestedOneWithoutMembershipsInput
   tenant: Prisma.TenantCreateNestedOneWithoutMembershipsInput
   user: Prisma.UserCreateNestedOneWithoutMembershipsInput
   turnos?: Prisma.TurnoCreateNestedManyWithoutMembershipInput
-  dashboardPresets?: Prisma.DashboardPresetCreateNestedManyWithoutCreatedByMembershipInput
 }
 
 export type TenantMembershipUncheckedCreateWithoutServiciosAsignadosInput = {
@@ -2664,6 +2664,7 @@ export type TenantMembershipUncheckedCreateWithoutServiciosAsignadosInput = {
   consignacionesTecnico?: Prisma.ConsignacionEfectivoUncheckedCreateNestedManyWithoutTecnicoInput
   cuentasCobro?: Prisma.CuentaCobroUncheckedCreateNestedManyWithoutMembershipInput
   cuentasPago?: Prisma.CuentasPagoUncheckedCreateNestedManyWithoutMembershipInput
+  dashboardPresets?: Prisma.DashboardPresetUncheckedCreateNestedManyWithoutCreatedByMembershipInput
   declaracionesEfectivo?: Prisma.DeclaracionEfectivoUncheckedCreateNestedManyWithoutTecnicoInput
   egresos?: Prisma.EgresosUncheckedCreateNestedManyWithoutMembershipInput
   empresaMemberships?: Prisma.EmpresaMembershipUncheckedCreateNestedManyWithoutMembershipInput
@@ -2671,16 +2672,15 @@ export type TenantMembershipUncheckedCreateWithoutServiciosAsignadosInput = {
   nominas?: Prisma.NominaUncheckedCreateNestedManyWithoutMembershipInput
   serviciosCreados?: Prisma.OrdenServicioUncheckedCreateNestedManyWithoutCreadoPorInput
   serviciosLiquidados?: Prisma.OrdenServicioUncheckedCreateNestedManyWithoutLiquidadoPorInput
+  seguimientosCompletados?: Prisma.OrdenServicioSeguimientoUncheckedCreateNestedManyWithoutCompletedByMembershipInput
+  seguimientosCreados?: Prisma.OrdenServicioSeguimientoUncheckedCreateNestedManyWithoutCreatedByMembershipInput
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoUncheckedCreateNestedManyWithoutMembershipInput
   permisosAprobados?: Prisma.PermisoUncheckedCreateNestedManyWithoutAdminInput
   permisosSolicitados?: Prisma.PermisoUncheckedCreateNestedManyWithoutMembershipInput
   productosSolicitados?: Prisma.ProductoSolicitadoUncheckedCreateNestedManyWithoutMembershipInput
   referidos?: Prisma.ReferidosUncheckedCreateNestedManyWithoutMembershipInput
-  seguimientosCompletados?: Prisma.OrdenServicioSeguimientoUncheckedCreateNestedManyWithoutCompletedByMembershipInput
-  seguimientosCreados?: Prisma.OrdenServicioSeguimientoUncheckedCreateNestedManyWithoutCreatedByMembershipInput
   sesionesActividad?: Prisma.SesionActividadUncheckedCreateNestedManyWithoutMembershipInput
   turnos?: Prisma.TurnoUncheckedCreateNestedManyWithoutMembershipInput
-  dashboardPresets?: Prisma.DashboardPresetUncheckedCreateNestedManyWithoutCreatedByMembershipInput
 }
 
 export type TenantMembershipCreateOrConnectWithoutServiciosAsignadosInput = {
@@ -2725,6 +2725,7 @@ export type TenantMembershipUpdateWithoutServiciosCreadosInput = {
   consignacionesTecnico?: Prisma.ConsignacionEfectivoUpdateManyWithoutTecnicoNestedInput
   cuentasCobro?: Prisma.CuentaCobroUpdateManyWithoutMembershipNestedInput
   cuentasPago?: Prisma.CuentasPagoUpdateManyWithoutMembershipNestedInput
+  dashboardPresets?: Prisma.DashboardPresetUpdateManyWithoutCreatedByMembershipNestedInput
   declaracionesEfectivo?: Prisma.DeclaracionEfectivoUpdateManyWithoutTecnicoNestedInput
   egresos?: Prisma.EgresosUpdateManyWithoutMembershipNestedInput
   empresaMemberships?: Prisma.EmpresaMembershipUpdateManyWithoutMembershipNestedInput
@@ -2732,19 +2733,18 @@ export type TenantMembershipUpdateWithoutServiciosCreadosInput = {
   nominas?: Prisma.NominaUpdateManyWithoutMembershipNestedInput
   serviciosLiquidados?: Prisma.OrdenServicioUpdateManyWithoutLiquidadoPorNestedInput
   serviciosAsignados?: Prisma.OrdenServicioUpdateManyWithoutTecnicoNestedInput
+  seguimientosCompletados?: Prisma.OrdenServicioSeguimientoUpdateManyWithoutCompletedByMembershipNestedInput
+  seguimientosCreados?: Prisma.OrdenServicioSeguimientoUpdateManyWithoutCreatedByMembershipNestedInput
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoUpdateManyWithoutMembershipNestedInput
   permisosAprobados?: Prisma.PermisoUpdateManyWithoutAdminNestedInput
   permisosSolicitados?: Prisma.PermisoUpdateManyWithoutMembershipNestedInput
   productosSolicitados?: Prisma.ProductoSolicitadoUpdateManyWithoutMembershipNestedInput
   referidos?: Prisma.ReferidosUpdateManyWithoutMembershipNestedInput
-  seguimientosCompletados?: Prisma.OrdenServicioSeguimientoUpdateManyWithoutCompletedByMembershipNestedInput
-  seguimientosCreados?: Prisma.OrdenServicioSeguimientoUpdateManyWithoutCreatedByMembershipNestedInput
   sesionesActividad?: Prisma.SesionActividadUpdateManyWithoutMembershipNestedInput
   municipio?: Prisma.MunicipalityUpdateOneWithoutMembershipsNestedInput
   tenant?: Prisma.TenantUpdateOneRequiredWithoutMembershipsNestedInput
   user?: Prisma.UserUpdateOneRequiredWithoutMembershipsNestedInput
   turnos?: Prisma.TurnoUpdateManyWithoutMembershipNestedInput
-  dashboardPresets?: Prisma.DashboardPresetUpdateManyWithoutCreatedByMembershipNestedInput
 }
 
 export type TenantMembershipUncheckedUpdateWithoutServiciosCreadosInput = {
@@ -2776,6 +2776,7 @@ export type TenantMembershipUncheckedUpdateWithoutServiciosCreadosInput = {
   consignacionesTecnico?: Prisma.ConsignacionEfectivoUncheckedUpdateManyWithoutTecnicoNestedInput
   cuentasCobro?: Prisma.CuentaCobroUncheckedUpdateManyWithoutMembershipNestedInput
   cuentasPago?: Prisma.CuentasPagoUncheckedUpdateManyWithoutMembershipNestedInput
+  dashboardPresets?: Prisma.DashboardPresetUncheckedUpdateManyWithoutCreatedByMembershipNestedInput
   declaracionesEfectivo?: Prisma.DeclaracionEfectivoUncheckedUpdateManyWithoutTecnicoNestedInput
   egresos?: Prisma.EgresosUncheckedUpdateManyWithoutMembershipNestedInput
   empresaMemberships?: Prisma.EmpresaMembershipUncheckedUpdateManyWithoutMembershipNestedInput
@@ -2783,16 +2784,15 @@ export type TenantMembershipUncheckedUpdateWithoutServiciosCreadosInput = {
   nominas?: Prisma.NominaUncheckedUpdateManyWithoutMembershipNestedInput
   serviciosLiquidados?: Prisma.OrdenServicioUncheckedUpdateManyWithoutLiquidadoPorNestedInput
   serviciosAsignados?: Prisma.OrdenServicioUncheckedUpdateManyWithoutTecnicoNestedInput
+  seguimientosCompletados?: Prisma.OrdenServicioSeguimientoUncheckedUpdateManyWithoutCompletedByMembershipNestedInput
+  seguimientosCreados?: Prisma.OrdenServicioSeguimientoUncheckedUpdateManyWithoutCreatedByMembershipNestedInput
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoUncheckedUpdateManyWithoutMembershipNestedInput
   permisosAprobados?: Prisma.PermisoUncheckedUpdateManyWithoutAdminNestedInput
   permisosSolicitados?: Prisma.PermisoUncheckedUpdateManyWithoutMembershipNestedInput
   productosSolicitados?: Prisma.ProductoSolicitadoUncheckedUpdateManyWithoutMembershipNestedInput
   referidos?: Prisma.ReferidosUncheckedUpdateManyWithoutMembershipNestedInput
-  seguimientosCompletados?: Prisma.OrdenServicioSeguimientoUncheckedUpdateManyWithoutCompletedByMembershipNestedInput
-  seguimientosCreados?: Prisma.OrdenServicioSeguimientoUncheckedUpdateManyWithoutCreatedByMembershipNestedInput
   sesionesActividad?: Prisma.SesionActividadUncheckedUpdateManyWithoutMembershipNestedInput
   turnos?: Prisma.TurnoUncheckedUpdateManyWithoutMembershipNestedInput
-  dashboardPresets?: Prisma.DashboardPresetUncheckedUpdateManyWithoutCreatedByMembershipNestedInput
 }
 
 export type TenantMembershipUpsertWithoutServiciosLiquidadosInput = {
@@ -2832,6 +2832,7 @@ export type TenantMembershipUpdateWithoutServiciosLiquidadosInput = {
   consignacionesTecnico?: Prisma.ConsignacionEfectivoUpdateManyWithoutTecnicoNestedInput
   cuentasCobro?: Prisma.CuentaCobroUpdateManyWithoutMembershipNestedInput
   cuentasPago?: Prisma.CuentasPagoUpdateManyWithoutMembershipNestedInput
+  dashboardPresets?: Prisma.DashboardPresetUpdateManyWithoutCreatedByMembershipNestedInput
   declaracionesEfectivo?: Prisma.DeclaracionEfectivoUpdateManyWithoutTecnicoNestedInput
   egresos?: Prisma.EgresosUpdateManyWithoutMembershipNestedInput
   empresaMemberships?: Prisma.EmpresaMembershipUpdateManyWithoutMembershipNestedInput
@@ -2839,19 +2840,18 @@ export type TenantMembershipUpdateWithoutServiciosLiquidadosInput = {
   nominas?: Prisma.NominaUpdateManyWithoutMembershipNestedInput
   serviciosCreados?: Prisma.OrdenServicioUpdateManyWithoutCreadoPorNestedInput
   serviciosAsignados?: Prisma.OrdenServicioUpdateManyWithoutTecnicoNestedInput
+  seguimientosCompletados?: Prisma.OrdenServicioSeguimientoUpdateManyWithoutCompletedByMembershipNestedInput
+  seguimientosCreados?: Prisma.OrdenServicioSeguimientoUpdateManyWithoutCreatedByMembershipNestedInput
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoUpdateManyWithoutMembershipNestedInput
   permisosAprobados?: Prisma.PermisoUpdateManyWithoutAdminNestedInput
   permisosSolicitados?: Prisma.PermisoUpdateManyWithoutMembershipNestedInput
   productosSolicitados?: Prisma.ProductoSolicitadoUpdateManyWithoutMembershipNestedInput
   referidos?: Prisma.ReferidosUpdateManyWithoutMembershipNestedInput
-  seguimientosCompletados?: Prisma.OrdenServicioSeguimientoUpdateManyWithoutCompletedByMembershipNestedInput
-  seguimientosCreados?: Prisma.OrdenServicioSeguimientoUpdateManyWithoutCreatedByMembershipNestedInput
   sesionesActividad?: Prisma.SesionActividadUpdateManyWithoutMembershipNestedInput
   municipio?: Prisma.MunicipalityUpdateOneWithoutMembershipsNestedInput
   tenant?: Prisma.TenantUpdateOneRequiredWithoutMembershipsNestedInput
   user?: Prisma.UserUpdateOneRequiredWithoutMembershipsNestedInput
   turnos?: Prisma.TurnoUpdateManyWithoutMembershipNestedInput
-  dashboardPresets?: Prisma.DashboardPresetUpdateManyWithoutCreatedByMembershipNestedInput
 }
 
 export type TenantMembershipUncheckedUpdateWithoutServiciosLiquidadosInput = {
@@ -2883,6 +2883,7 @@ export type TenantMembershipUncheckedUpdateWithoutServiciosLiquidadosInput = {
   consignacionesTecnico?: Prisma.ConsignacionEfectivoUncheckedUpdateManyWithoutTecnicoNestedInput
   cuentasCobro?: Prisma.CuentaCobroUncheckedUpdateManyWithoutMembershipNestedInput
   cuentasPago?: Prisma.CuentasPagoUncheckedUpdateManyWithoutMembershipNestedInput
+  dashboardPresets?: Prisma.DashboardPresetUncheckedUpdateManyWithoutCreatedByMembershipNestedInput
   declaracionesEfectivo?: Prisma.DeclaracionEfectivoUncheckedUpdateManyWithoutTecnicoNestedInput
   egresos?: Prisma.EgresosUncheckedUpdateManyWithoutMembershipNestedInput
   empresaMemberships?: Prisma.EmpresaMembershipUncheckedUpdateManyWithoutMembershipNestedInput
@@ -2890,16 +2891,15 @@ export type TenantMembershipUncheckedUpdateWithoutServiciosLiquidadosInput = {
   nominas?: Prisma.NominaUncheckedUpdateManyWithoutMembershipNestedInput
   serviciosCreados?: Prisma.OrdenServicioUncheckedUpdateManyWithoutCreadoPorNestedInput
   serviciosAsignados?: Prisma.OrdenServicioUncheckedUpdateManyWithoutTecnicoNestedInput
+  seguimientosCompletados?: Prisma.OrdenServicioSeguimientoUncheckedUpdateManyWithoutCompletedByMembershipNestedInput
+  seguimientosCreados?: Prisma.OrdenServicioSeguimientoUncheckedUpdateManyWithoutCreatedByMembershipNestedInput
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoUncheckedUpdateManyWithoutMembershipNestedInput
   permisosAprobados?: Prisma.PermisoUncheckedUpdateManyWithoutAdminNestedInput
   permisosSolicitados?: Prisma.PermisoUncheckedUpdateManyWithoutMembershipNestedInput
   productosSolicitados?: Prisma.ProductoSolicitadoUncheckedUpdateManyWithoutMembershipNestedInput
   referidos?: Prisma.ReferidosUncheckedUpdateManyWithoutMembershipNestedInput
-  seguimientosCompletados?: Prisma.OrdenServicioSeguimientoUncheckedUpdateManyWithoutCompletedByMembershipNestedInput
-  seguimientosCreados?: Prisma.OrdenServicioSeguimientoUncheckedUpdateManyWithoutCreatedByMembershipNestedInput
   sesionesActividad?: Prisma.SesionActividadUncheckedUpdateManyWithoutMembershipNestedInput
   turnos?: Prisma.TurnoUncheckedUpdateManyWithoutMembershipNestedInput
-  dashboardPresets?: Prisma.DashboardPresetUncheckedUpdateManyWithoutCreatedByMembershipNestedInput
 }
 
 export type TenantMembershipUpsertWithoutServiciosAsignadosInput = {
@@ -2939,6 +2939,7 @@ export type TenantMembershipUpdateWithoutServiciosAsignadosInput = {
   consignacionesTecnico?: Prisma.ConsignacionEfectivoUpdateManyWithoutTecnicoNestedInput
   cuentasCobro?: Prisma.CuentaCobroUpdateManyWithoutMembershipNestedInput
   cuentasPago?: Prisma.CuentasPagoUpdateManyWithoutMembershipNestedInput
+  dashboardPresets?: Prisma.DashboardPresetUpdateManyWithoutCreatedByMembershipNestedInput
   declaracionesEfectivo?: Prisma.DeclaracionEfectivoUpdateManyWithoutTecnicoNestedInput
   egresos?: Prisma.EgresosUpdateManyWithoutMembershipNestedInput
   empresaMemberships?: Prisma.EmpresaMembershipUpdateManyWithoutMembershipNestedInput
@@ -2946,19 +2947,18 @@ export type TenantMembershipUpdateWithoutServiciosAsignadosInput = {
   nominas?: Prisma.NominaUpdateManyWithoutMembershipNestedInput
   serviciosCreados?: Prisma.OrdenServicioUpdateManyWithoutCreadoPorNestedInput
   serviciosLiquidados?: Prisma.OrdenServicioUpdateManyWithoutLiquidadoPorNestedInput
+  seguimientosCompletados?: Prisma.OrdenServicioSeguimientoUpdateManyWithoutCompletedByMembershipNestedInput
+  seguimientosCreados?: Prisma.OrdenServicioSeguimientoUpdateManyWithoutCreatedByMembershipNestedInput
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoUpdateManyWithoutMembershipNestedInput
   permisosAprobados?: Prisma.PermisoUpdateManyWithoutAdminNestedInput
   permisosSolicitados?: Prisma.PermisoUpdateManyWithoutMembershipNestedInput
   productosSolicitados?: Prisma.ProductoSolicitadoUpdateManyWithoutMembershipNestedInput
   referidos?: Prisma.ReferidosUpdateManyWithoutMembershipNestedInput
-  seguimientosCompletados?: Prisma.OrdenServicioSeguimientoUpdateManyWithoutCompletedByMembershipNestedInput
-  seguimientosCreados?: Prisma.OrdenServicioSeguimientoUpdateManyWithoutCreatedByMembershipNestedInput
   sesionesActividad?: Prisma.SesionActividadUpdateManyWithoutMembershipNestedInput
   municipio?: Prisma.MunicipalityUpdateOneWithoutMembershipsNestedInput
   tenant?: Prisma.TenantUpdateOneRequiredWithoutMembershipsNestedInput
   user?: Prisma.UserUpdateOneRequiredWithoutMembershipsNestedInput
   turnos?: Prisma.TurnoUpdateManyWithoutMembershipNestedInput
-  dashboardPresets?: Prisma.DashboardPresetUpdateManyWithoutCreatedByMembershipNestedInput
 }
 
 export type TenantMembershipUncheckedUpdateWithoutServiciosAsignadosInput = {
@@ -2990,6 +2990,7 @@ export type TenantMembershipUncheckedUpdateWithoutServiciosAsignadosInput = {
   consignacionesTecnico?: Prisma.ConsignacionEfectivoUncheckedUpdateManyWithoutTecnicoNestedInput
   cuentasCobro?: Prisma.CuentaCobroUncheckedUpdateManyWithoutMembershipNestedInput
   cuentasPago?: Prisma.CuentasPagoUncheckedUpdateManyWithoutMembershipNestedInput
+  dashboardPresets?: Prisma.DashboardPresetUncheckedUpdateManyWithoutCreatedByMembershipNestedInput
   declaracionesEfectivo?: Prisma.DeclaracionEfectivoUncheckedUpdateManyWithoutTecnicoNestedInput
   egresos?: Prisma.EgresosUncheckedUpdateManyWithoutMembershipNestedInput
   empresaMemberships?: Prisma.EmpresaMembershipUncheckedUpdateManyWithoutMembershipNestedInput
@@ -2997,16 +2998,15 @@ export type TenantMembershipUncheckedUpdateWithoutServiciosAsignadosInput = {
   nominas?: Prisma.NominaUncheckedUpdateManyWithoutMembershipNestedInput
   serviciosCreados?: Prisma.OrdenServicioUncheckedUpdateManyWithoutCreadoPorNestedInput
   serviciosLiquidados?: Prisma.OrdenServicioUncheckedUpdateManyWithoutLiquidadoPorNestedInput
+  seguimientosCompletados?: Prisma.OrdenServicioSeguimientoUncheckedUpdateManyWithoutCompletedByMembershipNestedInput
+  seguimientosCreados?: Prisma.OrdenServicioSeguimientoUncheckedUpdateManyWithoutCreatedByMembershipNestedInput
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoUncheckedUpdateManyWithoutMembershipNestedInput
   permisosAprobados?: Prisma.PermisoUncheckedUpdateManyWithoutAdminNestedInput
   permisosSolicitados?: Prisma.PermisoUncheckedUpdateManyWithoutMembershipNestedInput
   productosSolicitados?: Prisma.ProductoSolicitadoUncheckedUpdateManyWithoutMembershipNestedInput
   referidos?: Prisma.ReferidosUncheckedUpdateManyWithoutMembershipNestedInput
-  seguimientosCompletados?: Prisma.OrdenServicioSeguimientoUncheckedUpdateManyWithoutCompletedByMembershipNestedInput
-  seguimientosCreados?: Prisma.OrdenServicioSeguimientoUncheckedUpdateManyWithoutCreatedByMembershipNestedInput
   sesionesActividad?: Prisma.SesionActividadUncheckedUpdateManyWithoutMembershipNestedInput
   turnos?: Prisma.TurnoUncheckedUpdateManyWithoutMembershipNestedInput
-  dashboardPresets?: Prisma.DashboardPresetUncheckedUpdateManyWithoutCreatedByMembershipNestedInput
 }
 
 export type TenantMembershipCreateWithoutSeguimientosCompletadosInput = {
@@ -3035,6 +3035,7 @@ export type TenantMembershipCreateWithoutSeguimientosCompletadosInput = {
   consignacionesTecnico?: Prisma.ConsignacionEfectivoCreateNestedManyWithoutTecnicoInput
   cuentasCobro?: Prisma.CuentaCobroCreateNestedManyWithoutMembershipInput
   cuentasPago?: Prisma.CuentasPagoCreateNestedManyWithoutMembershipInput
+  dashboardPresets?: Prisma.DashboardPresetCreateNestedManyWithoutCreatedByMembershipInput
   declaracionesEfectivo?: Prisma.DeclaracionEfectivoCreateNestedManyWithoutTecnicoInput
   egresos?: Prisma.EgresosCreateNestedManyWithoutMembershipInput
   empresaMemberships?: Prisma.EmpresaMembershipCreateNestedManyWithoutMembershipInput
@@ -3043,18 +3044,17 @@ export type TenantMembershipCreateWithoutSeguimientosCompletadosInput = {
   serviciosCreados?: Prisma.OrdenServicioCreateNestedManyWithoutCreadoPorInput
   serviciosLiquidados?: Prisma.OrdenServicioCreateNestedManyWithoutLiquidadoPorInput
   serviciosAsignados?: Prisma.OrdenServicioCreateNestedManyWithoutTecnicoInput
+  seguimientosCreados?: Prisma.OrdenServicioSeguimientoCreateNestedManyWithoutCreatedByMembershipInput
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoCreateNestedManyWithoutMembershipInput
   permisosAprobados?: Prisma.PermisoCreateNestedManyWithoutAdminInput
   permisosSolicitados?: Prisma.PermisoCreateNestedManyWithoutMembershipInput
   productosSolicitados?: Prisma.ProductoSolicitadoCreateNestedManyWithoutMembershipInput
   referidos?: Prisma.ReferidosCreateNestedManyWithoutMembershipInput
-  seguimientosCreados?: Prisma.OrdenServicioSeguimientoCreateNestedManyWithoutCreatedByMembershipInput
   sesionesActividad?: Prisma.SesionActividadCreateNestedManyWithoutMembershipInput
   municipio?: Prisma.MunicipalityCreateNestedOneWithoutMembershipsInput
   tenant: Prisma.TenantCreateNestedOneWithoutMembershipsInput
   user: Prisma.UserCreateNestedOneWithoutMembershipsInput
   turnos?: Prisma.TurnoCreateNestedManyWithoutMembershipInput
-  dashboardPresets?: Prisma.DashboardPresetCreateNestedManyWithoutCreatedByMembershipInput
 }
 
 export type TenantMembershipUncheckedCreateWithoutSeguimientosCompletadosInput = {
@@ -3086,6 +3086,7 @@ export type TenantMembershipUncheckedCreateWithoutSeguimientosCompletadosInput =
   consignacionesTecnico?: Prisma.ConsignacionEfectivoUncheckedCreateNestedManyWithoutTecnicoInput
   cuentasCobro?: Prisma.CuentaCobroUncheckedCreateNestedManyWithoutMembershipInput
   cuentasPago?: Prisma.CuentasPagoUncheckedCreateNestedManyWithoutMembershipInput
+  dashboardPresets?: Prisma.DashboardPresetUncheckedCreateNestedManyWithoutCreatedByMembershipInput
   declaracionesEfectivo?: Prisma.DeclaracionEfectivoUncheckedCreateNestedManyWithoutTecnicoInput
   egresos?: Prisma.EgresosUncheckedCreateNestedManyWithoutMembershipInput
   empresaMemberships?: Prisma.EmpresaMembershipUncheckedCreateNestedManyWithoutMembershipInput
@@ -3094,15 +3095,14 @@ export type TenantMembershipUncheckedCreateWithoutSeguimientosCompletadosInput =
   serviciosCreados?: Prisma.OrdenServicioUncheckedCreateNestedManyWithoutCreadoPorInput
   serviciosLiquidados?: Prisma.OrdenServicioUncheckedCreateNestedManyWithoutLiquidadoPorInput
   serviciosAsignados?: Prisma.OrdenServicioUncheckedCreateNestedManyWithoutTecnicoInput
+  seguimientosCreados?: Prisma.OrdenServicioSeguimientoUncheckedCreateNestedManyWithoutCreatedByMembershipInput
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoUncheckedCreateNestedManyWithoutMembershipInput
   permisosAprobados?: Prisma.PermisoUncheckedCreateNestedManyWithoutAdminInput
   permisosSolicitados?: Prisma.PermisoUncheckedCreateNestedManyWithoutMembershipInput
   productosSolicitados?: Prisma.ProductoSolicitadoUncheckedCreateNestedManyWithoutMembershipInput
   referidos?: Prisma.ReferidosUncheckedCreateNestedManyWithoutMembershipInput
-  seguimientosCreados?: Prisma.OrdenServicioSeguimientoUncheckedCreateNestedManyWithoutCreatedByMembershipInput
   sesionesActividad?: Prisma.SesionActividadUncheckedCreateNestedManyWithoutMembershipInput
   turnos?: Prisma.TurnoUncheckedCreateNestedManyWithoutMembershipInput
-  dashboardPresets?: Prisma.DashboardPresetUncheckedCreateNestedManyWithoutCreatedByMembershipInput
 }
 
 export type TenantMembershipCreateOrConnectWithoutSeguimientosCompletadosInput = {
@@ -3136,6 +3136,7 @@ export type TenantMembershipCreateWithoutSeguimientosCreadosInput = {
   consignacionesTecnico?: Prisma.ConsignacionEfectivoCreateNestedManyWithoutTecnicoInput
   cuentasCobro?: Prisma.CuentaCobroCreateNestedManyWithoutMembershipInput
   cuentasPago?: Prisma.CuentasPagoCreateNestedManyWithoutMembershipInput
+  dashboardPresets?: Prisma.DashboardPresetCreateNestedManyWithoutCreatedByMembershipInput
   declaracionesEfectivo?: Prisma.DeclaracionEfectivoCreateNestedManyWithoutTecnicoInput
   egresos?: Prisma.EgresosCreateNestedManyWithoutMembershipInput
   empresaMemberships?: Prisma.EmpresaMembershipCreateNestedManyWithoutMembershipInput
@@ -3144,18 +3145,17 @@ export type TenantMembershipCreateWithoutSeguimientosCreadosInput = {
   serviciosCreados?: Prisma.OrdenServicioCreateNestedManyWithoutCreadoPorInput
   serviciosLiquidados?: Prisma.OrdenServicioCreateNestedManyWithoutLiquidadoPorInput
   serviciosAsignados?: Prisma.OrdenServicioCreateNestedManyWithoutTecnicoInput
+  seguimientosCompletados?: Prisma.OrdenServicioSeguimientoCreateNestedManyWithoutCompletedByMembershipInput
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoCreateNestedManyWithoutMembershipInput
   permisosAprobados?: Prisma.PermisoCreateNestedManyWithoutAdminInput
   permisosSolicitados?: Prisma.PermisoCreateNestedManyWithoutMembershipInput
   productosSolicitados?: Prisma.ProductoSolicitadoCreateNestedManyWithoutMembershipInput
   referidos?: Prisma.ReferidosCreateNestedManyWithoutMembershipInput
-  seguimientosCompletados?: Prisma.OrdenServicioSeguimientoCreateNestedManyWithoutCompletedByMembershipInput
   sesionesActividad?: Prisma.SesionActividadCreateNestedManyWithoutMembershipInput
   municipio?: Prisma.MunicipalityCreateNestedOneWithoutMembershipsInput
   tenant: Prisma.TenantCreateNestedOneWithoutMembershipsInput
   user: Prisma.UserCreateNestedOneWithoutMembershipsInput
   turnos?: Prisma.TurnoCreateNestedManyWithoutMembershipInput
-  dashboardPresets?: Prisma.DashboardPresetCreateNestedManyWithoutCreatedByMembershipInput
 }
 
 export type TenantMembershipUncheckedCreateWithoutSeguimientosCreadosInput = {
@@ -3187,6 +3187,7 @@ export type TenantMembershipUncheckedCreateWithoutSeguimientosCreadosInput = {
   consignacionesTecnico?: Prisma.ConsignacionEfectivoUncheckedCreateNestedManyWithoutTecnicoInput
   cuentasCobro?: Prisma.CuentaCobroUncheckedCreateNestedManyWithoutMembershipInput
   cuentasPago?: Prisma.CuentasPagoUncheckedCreateNestedManyWithoutMembershipInput
+  dashboardPresets?: Prisma.DashboardPresetUncheckedCreateNestedManyWithoutCreatedByMembershipInput
   declaracionesEfectivo?: Prisma.DeclaracionEfectivoUncheckedCreateNestedManyWithoutTecnicoInput
   egresos?: Prisma.EgresosUncheckedCreateNestedManyWithoutMembershipInput
   empresaMemberships?: Prisma.EmpresaMembershipUncheckedCreateNestedManyWithoutMembershipInput
@@ -3195,15 +3196,14 @@ export type TenantMembershipUncheckedCreateWithoutSeguimientosCreadosInput = {
   serviciosCreados?: Prisma.OrdenServicioUncheckedCreateNestedManyWithoutCreadoPorInput
   serviciosLiquidados?: Prisma.OrdenServicioUncheckedCreateNestedManyWithoutLiquidadoPorInput
   serviciosAsignados?: Prisma.OrdenServicioUncheckedCreateNestedManyWithoutTecnicoInput
+  seguimientosCompletados?: Prisma.OrdenServicioSeguimientoUncheckedCreateNestedManyWithoutCompletedByMembershipInput
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoUncheckedCreateNestedManyWithoutMembershipInput
   permisosAprobados?: Prisma.PermisoUncheckedCreateNestedManyWithoutAdminInput
   permisosSolicitados?: Prisma.PermisoUncheckedCreateNestedManyWithoutMembershipInput
   productosSolicitados?: Prisma.ProductoSolicitadoUncheckedCreateNestedManyWithoutMembershipInput
   referidos?: Prisma.ReferidosUncheckedCreateNestedManyWithoutMembershipInput
-  seguimientosCompletados?: Prisma.OrdenServicioSeguimientoUncheckedCreateNestedManyWithoutCompletedByMembershipInput
   sesionesActividad?: Prisma.SesionActividadUncheckedCreateNestedManyWithoutMembershipInput
   turnos?: Prisma.TurnoUncheckedCreateNestedManyWithoutMembershipInput
-  dashboardPresets?: Prisma.DashboardPresetUncheckedCreateNestedManyWithoutCreatedByMembershipInput
 }
 
 export type TenantMembershipCreateOrConnectWithoutSeguimientosCreadosInput = {
@@ -3248,6 +3248,7 @@ export type TenantMembershipUpdateWithoutSeguimientosCompletadosInput = {
   consignacionesTecnico?: Prisma.ConsignacionEfectivoUpdateManyWithoutTecnicoNestedInput
   cuentasCobro?: Prisma.CuentaCobroUpdateManyWithoutMembershipNestedInput
   cuentasPago?: Prisma.CuentasPagoUpdateManyWithoutMembershipNestedInput
+  dashboardPresets?: Prisma.DashboardPresetUpdateManyWithoutCreatedByMembershipNestedInput
   declaracionesEfectivo?: Prisma.DeclaracionEfectivoUpdateManyWithoutTecnicoNestedInput
   egresos?: Prisma.EgresosUpdateManyWithoutMembershipNestedInput
   empresaMemberships?: Prisma.EmpresaMembershipUpdateManyWithoutMembershipNestedInput
@@ -3256,18 +3257,17 @@ export type TenantMembershipUpdateWithoutSeguimientosCompletadosInput = {
   serviciosCreados?: Prisma.OrdenServicioUpdateManyWithoutCreadoPorNestedInput
   serviciosLiquidados?: Prisma.OrdenServicioUpdateManyWithoutLiquidadoPorNestedInput
   serviciosAsignados?: Prisma.OrdenServicioUpdateManyWithoutTecnicoNestedInput
+  seguimientosCreados?: Prisma.OrdenServicioSeguimientoUpdateManyWithoutCreatedByMembershipNestedInput
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoUpdateManyWithoutMembershipNestedInput
   permisosAprobados?: Prisma.PermisoUpdateManyWithoutAdminNestedInput
   permisosSolicitados?: Prisma.PermisoUpdateManyWithoutMembershipNestedInput
   productosSolicitados?: Prisma.ProductoSolicitadoUpdateManyWithoutMembershipNestedInput
   referidos?: Prisma.ReferidosUpdateManyWithoutMembershipNestedInput
-  seguimientosCreados?: Prisma.OrdenServicioSeguimientoUpdateManyWithoutCreatedByMembershipNestedInput
   sesionesActividad?: Prisma.SesionActividadUpdateManyWithoutMembershipNestedInput
   municipio?: Prisma.MunicipalityUpdateOneWithoutMembershipsNestedInput
   tenant?: Prisma.TenantUpdateOneRequiredWithoutMembershipsNestedInput
   user?: Prisma.UserUpdateOneRequiredWithoutMembershipsNestedInput
   turnos?: Prisma.TurnoUpdateManyWithoutMembershipNestedInput
-  dashboardPresets?: Prisma.DashboardPresetUpdateManyWithoutCreatedByMembershipNestedInput
 }
 
 export type TenantMembershipUncheckedUpdateWithoutSeguimientosCompletadosInput = {
@@ -3299,6 +3299,7 @@ export type TenantMembershipUncheckedUpdateWithoutSeguimientosCompletadosInput =
   consignacionesTecnico?: Prisma.ConsignacionEfectivoUncheckedUpdateManyWithoutTecnicoNestedInput
   cuentasCobro?: Prisma.CuentaCobroUncheckedUpdateManyWithoutMembershipNestedInput
   cuentasPago?: Prisma.CuentasPagoUncheckedUpdateManyWithoutMembershipNestedInput
+  dashboardPresets?: Prisma.DashboardPresetUncheckedUpdateManyWithoutCreatedByMembershipNestedInput
   declaracionesEfectivo?: Prisma.DeclaracionEfectivoUncheckedUpdateManyWithoutTecnicoNestedInput
   egresos?: Prisma.EgresosUncheckedUpdateManyWithoutMembershipNestedInput
   empresaMemberships?: Prisma.EmpresaMembershipUncheckedUpdateManyWithoutMembershipNestedInput
@@ -3307,15 +3308,14 @@ export type TenantMembershipUncheckedUpdateWithoutSeguimientosCompletadosInput =
   serviciosCreados?: Prisma.OrdenServicioUncheckedUpdateManyWithoutCreadoPorNestedInput
   serviciosLiquidados?: Prisma.OrdenServicioUncheckedUpdateManyWithoutLiquidadoPorNestedInput
   serviciosAsignados?: Prisma.OrdenServicioUncheckedUpdateManyWithoutTecnicoNestedInput
+  seguimientosCreados?: Prisma.OrdenServicioSeguimientoUncheckedUpdateManyWithoutCreatedByMembershipNestedInput
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoUncheckedUpdateManyWithoutMembershipNestedInput
   permisosAprobados?: Prisma.PermisoUncheckedUpdateManyWithoutAdminNestedInput
   permisosSolicitados?: Prisma.PermisoUncheckedUpdateManyWithoutMembershipNestedInput
   productosSolicitados?: Prisma.ProductoSolicitadoUncheckedUpdateManyWithoutMembershipNestedInput
   referidos?: Prisma.ReferidosUncheckedUpdateManyWithoutMembershipNestedInput
-  seguimientosCreados?: Prisma.OrdenServicioSeguimientoUncheckedUpdateManyWithoutCreatedByMembershipNestedInput
   sesionesActividad?: Prisma.SesionActividadUncheckedUpdateManyWithoutMembershipNestedInput
   turnos?: Prisma.TurnoUncheckedUpdateManyWithoutMembershipNestedInput
-  dashboardPresets?: Prisma.DashboardPresetUncheckedUpdateManyWithoutCreatedByMembershipNestedInput
 }
 
 export type TenantMembershipUpsertWithoutSeguimientosCreadosInput = {
@@ -3355,6 +3355,7 @@ export type TenantMembershipUpdateWithoutSeguimientosCreadosInput = {
   consignacionesTecnico?: Prisma.ConsignacionEfectivoUpdateManyWithoutTecnicoNestedInput
   cuentasCobro?: Prisma.CuentaCobroUpdateManyWithoutMembershipNestedInput
   cuentasPago?: Prisma.CuentasPagoUpdateManyWithoutMembershipNestedInput
+  dashboardPresets?: Prisma.DashboardPresetUpdateManyWithoutCreatedByMembershipNestedInput
   declaracionesEfectivo?: Prisma.DeclaracionEfectivoUpdateManyWithoutTecnicoNestedInput
   egresos?: Prisma.EgresosUpdateManyWithoutMembershipNestedInput
   empresaMemberships?: Prisma.EmpresaMembershipUpdateManyWithoutMembershipNestedInput
@@ -3363,18 +3364,17 @@ export type TenantMembershipUpdateWithoutSeguimientosCreadosInput = {
   serviciosCreados?: Prisma.OrdenServicioUpdateManyWithoutCreadoPorNestedInput
   serviciosLiquidados?: Prisma.OrdenServicioUpdateManyWithoutLiquidadoPorNestedInput
   serviciosAsignados?: Prisma.OrdenServicioUpdateManyWithoutTecnicoNestedInput
+  seguimientosCompletados?: Prisma.OrdenServicioSeguimientoUpdateManyWithoutCompletedByMembershipNestedInput
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoUpdateManyWithoutMembershipNestedInput
   permisosAprobados?: Prisma.PermisoUpdateManyWithoutAdminNestedInput
   permisosSolicitados?: Prisma.PermisoUpdateManyWithoutMembershipNestedInput
   productosSolicitados?: Prisma.ProductoSolicitadoUpdateManyWithoutMembershipNestedInput
   referidos?: Prisma.ReferidosUpdateManyWithoutMembershipNestedInput
-  seguimientosCompletados?: Prisma.OrdenServicioSeguimientoUpdateManyWithoutCompletedByMembershipNestedInput
   sesionesActividad?: Prisma.SesionActividadUpdateManyWithoutMembershipNestedInput
   municipio?: Prisma.MunicipalityUpdateOneWithoutMembershipsNestedInput
   tenant?: Prisma.TenantUpdateOneRequiredWithoutMembershipsNestedInput
   user?: Prisma.UserUpdateOneRequiredWithoutMembershipsNestedInput
   turnos?: Prisma.TurnoUpdateManyWithoutMembershipNestedInput
-  dashboardPresets?: Prisma.DashboardPresetUpdateManyWithoutCreatedByMembershipNestedInput
 }
 
 export type TenantMembershipUncheckedUpdateWithoutSeguimientosCreadosInput = {
@@ -3406,6 +3406,7 @@ export type TenantMembershipUncheckedUpdateWithoutSeguimientosCreadosInput = {
   consignacionesTecnico?: Prisma.ConsignacionEfectivoUncheckedUpdateManyWithoutTecnicoNestedInput
   cuentasCobro?: Prisma.CuentaCobroUncheckedUpdateManyWithoutMembershipNestedInput
   cuentasPago?: Prisma.CuentasPagoUncheckedUpdateManyWithoutMembershipNestedInput
+  dashboardPresets?: Prisma.DashboardPresetUncheckedUpdateManyWithoutCreatedByMembershipNestedInput
   declaracionesEfectivo?: Prisma.DeclaracionEfectivoUncheckedUpdateManyWithoutTecnicoNestedInput
   egresos?: Prisma.EgresosUncheckedUpdateManyWithoutMembershipNestedInput
   empresaMemberships?: Prisma.EmpresaMembershipUncheckedUpdateManyWithoutMembershipNestedInput
@@ -3414,15 +3415,14 @@ export type TenantMembershipUncheckedUpdateWithoutSeguimientosCreadosInput = {
   serviciosCreados?: Prisma.OrdenServicioUncheckedUpdateManyWithoutCreadoPorNestedInput
   serviciosLiquidados?: Prisma.OrdenServicioUncheckedUpdateManyWithoutLiquidadoPorNestedInput
   serviciosAsignados?: Prisma.OrdenServicioUncheckedUpdateManyWithoutTecnicoNestedInput
+  seguimientosCompletados?: Prisma.OrdenServicioSeguimientoUncheckedUpdateManyWithoutCompletedByMembershipNestedInput
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoUncheckedUpdateManyWithoutMembershipNestedInput
   permisosAprobados?: Prisma.PermisoUncheckedUpdateManyWithoutAdminNestedInput
   permisosSolicitados?: Prisma.PermisoUncheckedUpdateManyWithoutMembershipNestedInput
   productosSolicitados?: Prisma.ProductoSolicitadoUncheckedUpdateManyWithoutMembershipNestedInput
   referidos?: Prisma.ReferidosUncheckedUpdateManyWithoutMembershipNestedInput
-  seguimientosCompletados?: Prisma.OrdenServicioSeguimientoUncheckedUpdateManyWithoutCompletedByMembershipNestedInput
   sesionesActividad?: Prisma.SesionActividadUncheckedUpdateManyWithoutMembershipNestedInput
   turnos?: Prisma.TurnoUncheckedUpdateManyWithoutMembershipNestedInput
-  dashboardPresets?: Prisma.DashboardPresetUncheckedUpdateManyWithoutCreatedByMembershipNestedInput
 }
 
 export type TenantMembershipCreateWithoutGeolocalizacionesInput = {
@@ -3451,6 +3451,7 @@ export type TenantMembershipCreateWithoutGeolocalizacionesInput = {
   consignacionesTecnico?: Prisma.ConsignacionEfectivoCreateNestedManyWithoutTecnicoInput
   cuentasCobro?: Prisma.CuentaCobroCreateNestedManyWithoutMembershipInput
   cuentasPago?: Prisma.CuentasPagoCreateNestedManyWithoutMembershipInput
+  dashboardPresets?: Prisma.DashboardPresetCreateNestedManyWithoutCreatedByMembershipInput
   declaracionesEfectivo?: Prisma.DeclaracionEfectivoCreateNestedManyWithoutTecnicoInput
   egresos?: Prisma.EgresosCreateNestedManyWithoutMembershipInput
   empresaMemberships?: Prisma.EmpresaMembershipCreateNestedManyWithoutMembershipInput
@@ -3458,19 +3459,18 @@ export type TenantMembershipCreateWithoutGeolocalizacionesInput = {
   serviciosCreados?: Prisma.OrdenServicioCreateNestedManyWithoutCreadoPorInput
   serviciosLiquidados?: Prisma.OrdenServicioCreateNestedManyWithoutLiquidadoPorInput
   serviciosAsignados?: Prisma.OrdenServicioCreateNestedManyWithoutTecnicoInput
+  seguimientosCompletados?: Prisma.OrdenServicioSeguimientoCreateNestedManyWithoutCompletedByMembershipInput
+  seguimientosCreados?: Prisma.OrdenServicioSeguimientoCreateNestedManyWithoutCreatedByMembershipInput
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoCreateNestedManyWithoutMembershipInput
   permisosAprobados?: Prisma.PermisoCreateNestedManyWithoutAdminInput
   permisosSolicitados?: Prisma.PermisoCreateNestedManyWithoutMembershipInput
   productosSolicitados?: Prisma.ProductoSolicitadoCreateNestedManyWithoutMembershipInput
   referidos?: Prisma.ReferidosCreateNestedManyWithoutMembershipInput
-  seguimientosCompletados?: Prisma.OrdenServicioSeguimientoCreateNestedManyWithoutCompletedByMembershipInput
-  seguimientosCreados?: Prisma.OrdenServicioSeguimientoCreateNestedManyWithoutCreatedByMembershipInput
   sesionesActividad?: Prisma.SesionActividadCreateNestedManyWithoutMembershipInput
   municipio?: Prisma.MunicipalityCreateNestedOneWithoutMembershipsInput
   tenant: Prisma.TenantCreateNestedOneWithoutMembershipsInput
   user: Prisma.UserCreateNestedOneWithoutMembershipsInput
   turnos?: Prisma.TurnoCreateNestedManyWithoutMembershipInput
-  dashboardPresets?: Prisma.DashboardPresetCreateNestedManyWithoutCreatedByMembershipInput
 }
 
 export type TenantMembershipUncheckedCreateWithoutGeolocalizacionesInput = {
@@ -3502,6 +3502,7 @@ export type TenantMembershipUncheckedCreateWithoutGeolocalizacionesInput = {
   consignacionesTecnico?: Prisma.ConsignacionEfectivoUncheckedCreateNestedManyWithoutTecnicoInput
   cuentasCobro?: Prisma.CuentaCobroUncheckedCreateNestedManyWithoutMembershipInput
   cuentasPago?: Prisma.CuentasPagoUncheckedCreateNestedManyWithoutMembershipInput
+  dashboardPresets?: Prisma.DashboardPresetUncheckedCreateNestedManyWithoutCreatedByMembershipInput
   declaracionesEfectivo?: Prisma.DeclaracionEfectivoUncheckedCreateNestedManyWithoutTecnicoInput
   egresos?: Prisma.EgresosUncheckedCreateNestedManyWithoutMembershipInput
   empresaMemberships?: Prisma.EmpresaMembershipUncheckedCreateNestedManyWithoutMembershipInput
@@ -3509,16 +3510,15 @@ export type TenantMembershipUncheckedCreateWithoutGeolocalizacionesInput = {
   serviciosCreados?: Prisma.OrdenServicioUncheckedCreateNestedManyWithoutCreadoPorInput
   serviciosLiquidados?: Prisma.OrdenServicioUncheckedCreateNestedManyWithoutLiquidadoPorInput
   serviciosAsignados?: Prisma.OrdenServicioUncheckedCreateNestedManyWithoutTecnicoInput
+  seguimientosCompletados?: Prisma.OrdenServicioSeguimientoUncheckedCreateNestedManyWithoutCompletedByMembershipInput
+  seguimientosCreados?: Prisma.OrdenServicioSeguimientoUncheckedCreateNestedManyWithoutCreatedByMembershipInput
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoUncheckedCreateNestedManyWithoutMembershipInput
   permisosAprobados?: Prisma.PermisoUncheckedCreateNestedManyWithoutAdminInput
   permisosSolicitados?: Prisma.PermisoUncheckedCreateNestedManyWithoutMembershipInput
   productosSolicitados?: Prisma.ProductoSolicitadoUncheckedCreateNestedManyWithoutMembershipInput
   referidos?: Prisma.ReferidosUncheckedCreateNestedManyWithoutMembershipInput
-  seguimientosCompletados?: Prisma.OrdenServicioSeguimientoUncheckedCreateNestedManyWithoutCompletedByMembershipInput
-  seguimientosCreados?: Prisma.OrdenServicioSeguimientoUncheckedCreateNestedManyWithoutCreatedByMembershipInput
   sesionesActividad?: Prisma.SesionActividadUncheckedCreateNestedManyWithoutMembershipInput
   turnos?: Prisma.TurnoUncheckedCreateNestedManyWithoutMembershipInput
-  dashboardPresets?: Prisma.DashboardPresetUncheckedCreateNestedManyWithoutCreatedByMembershipInput
 }
 
 export type TenantMembershipCreateOrConnectWithoutGeolocalizacionesInput = {
@@ -3563,6 +3563,7 @@ export type TenantMembershipUpdateWithoutGeolocalizacionesInput = {
   consignacionesTecnico?: Prisma.ConsignacionEfectivoUpdateManyWithoutTecnicoNestedInput
   cuentasCobro?: Prisma.CuentaCobroUpdateManyWithoutMembershipNestedInput
   cuentasPago?: Prisma.CuentasPagoUpdateManyWithoutMembershipNestedInput
+  dashboardPresets?: Prisma.DashboardPresetUpdateManyWithoutCreatedByMembershipNestedInput
   declaracionesEfectivo?: Prisma.DeclaracionEfectivoUpdateManyWithoutTecnicoNestedInput
   egresos?: Prisma.EgresosUpdateManyWithoutMembershipNestedInput
   empresaMemberships?: Prisma.EmpresaMembershipUpdateManyWithoutMembershipNestedInput
@@ -3570,19 +3571,18 @@ export type TenantMembershipUpdateWithoutGeolocalizacionesInput = {
   serviciosCreados?: Prisma.OrdenServicioUpdateManyWithoutCreadoPorNestedInput
   serviciosLiquidados?: Prisma.OrdenServicioUpdateManyWithoutLiquidadoPorNestedInput
   serviciosAsignados?: Prisma.OrdenServicioUpdateManyWithoutTecnicoNestedInput
+  seguimientosCompletados?: Prisma.OrdenServicioSeguimientoUpdateManyWithoutCompletedByMembershipNestedInput
+  seguimientosCreados?: Prisma.OrdenServicioSeguimientoUpdateManyWithoutCreatedByMembershipNestedInput
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoUpdateManyWithoutMembershipNestedInput
   permisosAprobados?: Prisma.PermisoUpdateManyWithoutAdminNestedInput
   permisosSolicitados?: Prisma.PermisoUpdateManyWithoutMembershipNestedInput
   productosSolicitados?: Prisma.ProductoSolicitadoUpdateManyWithoutMembershipNestedInput
   referidos?: Prisma.ReferidosUpdateManyWithoutMembershipNestedInput
-  seguimientosCompletados?: Prisma.OrdenServicioSeguimientoUpdateManyWithoutCompletedByMembershipNestedInput
-  seguimientosCreados?: Prisma.OrdenServicioSeguimientoUpdateManyWithoutCreatedByMembershipNestedInput
   sesionesActividad?: Prisma.SesionActividadUpdateManyWithoutMembershipNestedInput
   municipio?: Prisma.MunicipalityUpdateOneWithoutMembershipsNestedInput
   tenant?: Prisma.TenantUpdateOneRequiredWithoutMembershipsNestedInput
   user?: Prisma.UserUpdateOneRequiredWithoutMembershipsNestedInput
   turnos?: Prisma.TurnoUpdateManyWithoutMembershipNestedInput
-  dashboardPresets?: Prisma.DashboardPresetUpdateManyWithoutCreatedByMembershipNestedInput
 }
 
 export type TenantMembershipUncheckedUpdateWithoutGeolocalizacionesInput = {
@@ -3614,6 +3614,7 @@ export type TenantMembershipUncheckedUpdateWithoutGeolocalizacionesInput = {
   consignacionesTecnico?: Prisma.ConsignacionEfectivoUncheckedUpdateManyWithoutTecnicoNestedInput
   cuentasCobro?: Prisma.CuentaCobroUncheckedUpdateManyWithoutMembershipNestedInput
   cuentasPago?: Prisma.CuentasPagoUncheckedUpdateManyWithoutMembershipNestedInput
+  dashboardPresets?: Prisma.DashboardPresetUncheckedUpdateManyWithoutCreatedByMembershipNestedInput
   declaracionesEfectivo?: Prisma.DeclaracionEfectivoUncheckedUpdateManyWithoutTecnicoNestedInput
   egresos?: Prisma.EgresosUncheckedUpdateManyWithoutMembershipNestedInput
   empresaMemberships?: Prisma.EmpresaMembershipUncheckedUpdateManyWithoutMembershipNestedInput
@@ -3621,16 +3622,15 @@ export type TenantMembershipUncheckedUpdateWithoutGeolocalizacionesInput = {
   serviciosCreados?: Prisma.OrdenServicioUncheckedUpdateManyWithoutCreadoPorNestedInput
   serviciosLiquidados?: Prisma.OrdenServicioUncheckedUpdateManyWithoutLiquidadoPorNestedInput
   serviciosAsignados?: Prisma.OrdenServicioUncheckedUpdateManyWithoutTecnicoNestedInput
+  seguimientosCompletados?: Prisma.OrdenServicioSeguimientoUncheckedUpdateManyWithoutCompletedByMembershipNestedInput
+  seguimientosCreados?: Prisma.OrdenServicioSeguimientoUncheckedUpdateManyWithoutCreatedByMembershipNestedInput
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoUncheckedUpdateManyWithoutMembershipNestedInput
   permisosAprobados?: Prisma.PermisoUncheckedUpdateManyWithoutAdminNestedInput
   permisosSolicitados?: Prisma.PermisoUncheckedUpdateManyWithoutMembershipNestedInput
   productosSolicitados?: Prisma.ProductoSolicitadoUncheckedUpdateManyWithoutMembershipNestedInput
   referidos?: Prisma.ReferidosUncheckedUpdateManyWithoutMembershipNestedInput
-  seguimientosCompletados?: Prisma.OrdenServicioSeguimientoUncheckedUpdateManyWithoutCompletedByMembershipNestedInput
-  seguimientosCreados?: Prisma.OrdenServicioSeguimientoUncheckedUpdateManyWithoutCreatedByMembershipNestedInput
   sesionesActividad?: Prisma.SesionActividadUncheckedUpdateManyWithoutMembershipNestedInput
   turnos?: Prisma.TurnoUncheckedUpdateManyWithoutMembershipNestedInput
-  dashboardPresets?: Prisma.DashboardPresetUncheckedUpdateManyWithoutCreatedByMembershipNestedInput
 }
 
 export type TenantMembershipCreateWithoutNominasInput = {
@@ -3659,6 +3659,7 @@ export type TenantMembershipCreateWithoutNominasInput = {
   consignacionesTecnico?: Prisma.ConsignacionEfectivoCreateNestedManyWithoutTecnicoInput
   cuentasCobro?: Prisma.CuentaCobroCreateNestedManyWithoutMembershipInput
   cuentasPago?: Prisma.CuentasPagoCreateNestedManyWithoutMembershipInput
+  dashboardPresets?: Prisma.DashboardPresetCreateNestedManyWithoutCreatedByMembershipInput
   declaracionesEfectivo?: Prisma.DeclaracionEfectivoCreateNestedManyWithoutTecnicoInput
   egresos?: Prisma.EgresosCreateNestedManyWithoutMembershipInput
   empresaMemberships?: Prisma.EmpresaMembershipCreateNestedManyWithoutMembershipInput
@@ -3666,19 +3667,18 @@ export type TenantMembershipCreateWithoutNominasInput = {
   serviciosCreados?: Prisma.OrdenServicioCreateNestedManyWithoutCreadoPorInput
   serviciosLiquidados?: Prisma.OrdenServicioCreateNestedManyWithoutLiquidadoPorInput
   serviciosAsignados?: Prisma.OrdenServicioCreateNestedManyWithoutTecnicoInput
+  seguimientosCompletados?: Prisma.OrdenServicioSeguimientoCreateNestedManyWithoutCompletedByMembershipInput
+  seguimientosCreados?: Prisma.OrdenServicioSeguimientoCreateNestedManyWithoutCreatedByMembershipInput
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoCreateNestedManyWithoutMembershipInput
   permisosAprobados?: Prisma.PermisoCreateNestedManyWithoutAdminInput
   permisosSolicitados?: Prisma.PermisoCreateNestedManyWithoutMembershipInput
   productosSolicitados?: Prisma.ProductoSolicitadoCreateNestedManyWithoutMembershipInput
   referidos?: Prisma.ReferidosCreateNestedManyWithoutMembershipInput
-  seguimientosCompletados?: Prisma.OrdenServicioSeguimientoCreateNestedManyWithoutCompletedByMembershipInput
-  seguimientosCreados?: Prisma.OrdenServicioSeguimientoCreateNestedManyWithoutCreatedByMembershipInput
   sesionesActividad?: Prisma.SesionActividadCreateNestedManyWithoutMembershipInput
   municipio?: Prisma.MunicipalityCreateNestedOneWithoutMembershipsInput
   tenant: Prisma.TenantCreateNestedOneWithoutMembershipsInput
   user: Prisma.UserCreateNestedOneWithoutMembershipsInput
   turnos?: Prisma.TurnoCreateNestedManyWithoutMembershipInput
-  dashboardPresets?: Prisma.DashboardPresetCreateNestedManyWithoutCreatedByMembershipInput
 }
 
 export type TenantMembershipUncheckedCreateWithoutNominasInput = {
@@ -3710,6 +3710,7 @@ export type TenantMembershipUncheckedCreateWithoutNominasInput = {
   consignacionesTecnico?: Prisma.ConsignacionEfectivoUncheckedCreateNestedManyWithoutTecnicoInput
   cuentasCobro?: Prisma.CuentaCobroUncheckedCreateNestedManyWithoutMembershipInput
   cuentasPago?: Prisma.CuentasPagoUncheckedCreateNestedManyWithoutMembershipInput
+  dashboardPresets?: Prisma.DashboardPresetUncheckedCreateNestedManyWithoutCreatedByMembershipInput
   declaracionesEfectivo?: Prisma.DeclaracionEfectivoUncheckedCreateNestedManyWithoutTecnicoInput
   egresos?: Prisma.EgresosUncheckedCreateNestedManyWithoutMembershipInput
   empresaMemberships?: Prisma.EmpresaMembershipUncheckedCreateNestedManyWithoutMembershipInput
@@ -3717,16 +3718,15 @@ export type TenantMembershipUncheckedCreateWithoutNominasInput = {
   serviciosCreados?: Prisma.OrdenServicioUncheckedCreateNestedManyWithoutCreadoPorInput
   serviciosLiquidados?: Prisma.OrdenServicioUncheckedCreateNestedManyWithoutLiquidadoPorInput
   serviciosAsignados?: Prisma.OrdenServicioUncheckedCreateNestedManyWithoutTecnicoInput
+  seguimientosCompletados?: Prisma.OrdenServicioSeguimientoUncheckedCreateNestedManyWithoutCompletedByMembershipInput
+  seguimientosCreados?: Prisma.OrdenServicioSeguimientoUncheckedCreateNestedManyWithoutCreatedByMembershipInput
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoUncheckedCreateNestedManyWithoutMembershipInput
   permisosAprobados?: Prisma.PermisoUncheckedCreateNestedManyWithoutAdminInput
   permisosSolicitados?: Prisma.PermisoUncheckedCreateNestedManyWithoutMembershipInput
   productosSolicitados?: Prisma.ProductoSolicitadoUncheckedCreateNestedManyWithoutMembershipInput
   referidos?: Prisma.ReferidosUncheckedCreateNestedManyWithoutMembershipInput
-  seguimientosCompletados?: Prisma.OrdenServicioSeguimientoUncheckedCreateNestedManyWithoutCompletedByMembershipInput
-  seguimientosCreados?: Prisma.OrdenServicioSeguimientoUncheckedCreateNestedManyWithoutCreatedByMembershipInput
   sesionesActividad?: Prisma.SesionActividadUncheckedCreateNestedManyWithoutMembershipInput
   turnos?: Prisma.TurnoUncheckedCreateNestedManyWithoutMembershipInput
-  dashboardPresets?: Prisma.DashboardPresetUncheckedCreateNestedManyWithoutCreatedByMembershipInput
 }
 
 export type TenantMembershipCreateOrConnectWithoutNominasInput = {
@@ -3771,6 +3771,7 @@ export type TenantMembershipUpdateWithoutNominasInput = {
   consignacionesTecnico?: Prisma.ConsignacionEfectivoUpdateManyWithoutTecnicoNestedInput
   cuentasCobro?: Prisma.CuentaCobroUpdateManyWithoutMembershipNestedInput
   cuentasPago?: Prisma.CuentasPagoUpdateManyWithoutMembershipNestedInput
+  dashboardPresets?: Prisma.DashboardPresetUpdateManyWithoutCreatedByMembershipNestedInput
   declaracionesEfectivo?: Prisma.DeclaracionEfectivoUpdateManyWithoutTecnicoNestedInput
   egresos?: Prisma.EgresosUpdateManyWithoutMembershipNestedInput
   empresaMemberships?: Prisma.EmpresaMembershipUpdateManyWithoutMembershipNestedInput
@@ -3778,19 +3779,18 @@ export type TenantMembershipUpdateWithoutNominasInput = {
   serviciosCreados?: Prisma.OrdenServicioUpdateManyWithoutCreadoPorNestedInput
   serviciosLiquidados?: Prisma.OrdenServicioUpdateManyWithoutLiquidadoPorNestedInput
   serviciosAsignados?: Prisma.OrdenServicioUpdateManyWithoutTecnicoNestedInput
+  seguimientosCompletados?: Prisma.OrdenServicioSeguimientoUpdateManyWithoutCompletedByMembershipNestedInput
+  seguimientosCreados?: Prisma.OrdenServicioSeguimientoUpdateManyWithoutCreatedByMembershipNestedInput
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoUpdateManyWithoutMembershipNestedInput
   permisosAprobados?: Prisma.PermisoUpdateManyWithoutAdminNestedInput
   permisosSolicitados?: Prisma.PermisoUpdateManyWithoutMembershipNestedInput
   productosSolicitados?: Prisma.ProductoSolicitadoUpdateManyWithoutMembershipNestedInput
   referidos?: Prisma.ReferidosUpdateManyWithoutMembershipNestedInput
-  seguimientosCompletados?: Prisma.OrdenServicioSeguimientoUpdateManyWithoutCompletedByMembershipNestedInput
-  seguimientosCreados?: Prisma.OrdenServicioSeguimientoUpdateManyWithoutCreatedByMembershipNestedInput
   sesionesActividad?: Prisma.SesionActividadUpdateManyWithoutMembershipNestedInput
   municipio?: Prisma.MunicipalityUpdateOneWithoutMembershipsNestedInput
   tenant?: Prisma.TenantUpdateOneRequiredWithoutMembershipsNestedInput
   user?: Prisma.UserUpdateOneRequiredWithoutMembershipsNestedInput
   turnos?: Prisma.TurnoUpdateManyWithoutMembershipNestedInput
-  dashboardPresets?: Prisma.DashboardPresetUpdateManyWithoutCreatedByMembershipNestedInput
 }
 
 export type TenantMembershipUncheckedUpdateWithoutNominasInput = {
@@ -3822,6 +3822,7 @@ export type TenantMembershipUncheckedUpdateWithoutNominasInput = {
   consignacionesTecnico?: Prisma.ConsignacionEfectivoUncheckedUpdateManyWithoutTecnicoNestedInput
   cuentasCobro?: Prisma.CuentaCobroUncheckedUpdateManyWithoutMembershipNestedInput
   cuentasPago?: Prisma.CuentasPagoUncheckedUpdateManyWithoutMembershipNestedInput
+  dashboardPresets?: Prisma.DashboardPresetUncheckedUpdateManyWithoutCreatedByMembershipNestedInput
   declaracionesEfectivo?: Prisma.DeclaracionEfectivoUncheckedUpdateManyWithoutTecnicoNestedInput
   egresos?: Prisma.EgresosUncheckedUpdateManyWithoutMembershipNestedInput
   empresaMemberships?: Prisma.EmpresaMembershipUncheckedUpdateManyWithoutMembershipNestedInput
@@ -3829,16 +3830,15 @@ export type TenantMembershipUncheckedUpdateWithoutNominasInput = {
   serviciosCreados?: Prisma.OrdenServicioUncheckedUpdateManyWithoutCreadoPorNestedInput
   serviciosLiquidados?: Prisma.OrdenServicioUncheckedUpdateManyWithoutLiquidadoPorNestedInput
   serviciosAsignados?: Prisma.OrdenServicioUncheckedUpdateManyWithoutTecnicoNestedInput
+  seguimientosCompletados?: Prisma.OrdenServicioSeguimientoUncheckedUpdateManyWithoutCompletedByMembershipNestedInput
+  seguimientosCreados?: Prisma.OrdenServicioSeguimientoUncheckedUpdateManyWithoutCreatedByMembershipNestedInput
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoUncheckedUpdateManyWithoutMembershipNestedInput
   permisosAprobados?: Prisma.PermisoUncheckedUpdateManyWithoutAdminNestedInput
   permisosSolicitados?: Prisma.PermisoUncheckedUpdateManyWithoutMembershipNestedInput
   productosSolicitados?: Prisma.ProductoSolicitadoUncheckedUpdateManyWithoutMembershipNestedInput
   referidos?: Prisma.ReferidosUncheckedUpdateManyWithoutMembershipNestedInput
-  seguimientosCompletados?: Prisma.OrdenServicioSeguimientoUncheckedUpdateManyWithoutCompletedByMembershipNestedInput
-  seguimientosCreados?: Prisma.OrdenServicioSeguimientoUncheckedUpdateManyWithoutCreatedByMembershipNestedInput
   sesionesActividad?: Prisma.SesionActividadUncheckedUpdateManyWithoutMembershipNestedInput
   turnos?: Prisma.TurnoUncheckedUpdateManyWithoutMembershipNestedInput
-  dashboardPresets?: Prisma.DashboardPresetUncheckedUpdateManyWithoutCreatedByMembershipNestedInput
 }
 
 export type TenantMembershipCreateWithoutCitasComoCreadorInput = {
@@ -3866,6 +3866,7 @@ export type TenantMembershipCreateWithoutCitasComoCreadorInput = {
   consignacionesTecnico?: Prisma.ConsignacionEfectivoCreateNestedManyWithoutTecnicoInput
   cuentasCobro?: Prisma.CuentaCobroCreateNestedManyWithoutMembershipInput
   cuentasPago?: Prisma.CuentasPagoCreateNestedManyWithoutMembershipInput
+  dashboardPresets?: Prisma.DashboardPresetCreateNestedManyWithoutCreatedByMembershipInput
   declaracionesEfectivo?: Prisma.DeclaracionEfectivoCreateNestedManyWithoutTecnicoInput
   egresos?: Prisma.EgresosCreateNestedManyWithoutMembershipInput
   empresaMemberships?: Prisma.EmpresaMembershipCreateNestedManyWithoutMembershipInput
@@ -3874,19 +3875,18 @@ export type TenantMembershipCreateWithoutCitasComoCreadorInput = {
   serviciosCreados?: Prisma.OrdenServicioCreateNestedManyWithoutCreadoPorInput
   serviciosLiquidados?: Prisma.OrdenServicioCreateNestedManyWithoutLiquidadoPorInput
   serviciosAsignados?: Prisma.OrdenServicioCreateNestedManyWithoutTecnicoInput
+  seguimientosCompletados?: Prisma.OrdenServicioSeguimientoCreateNestedManyWithoutCompletedByMembershipInput
+  seguimientosCreados?: Prisma.OrdenServicioSeguimientoCreateNestedManyWithoutCreatedByMembershipInput
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoCreateNestedManyWithoutMembershipInput
   permisosAprobados?: Prisma.PermisoCreateNestedManyWithoutAdminInput
   permisosSolicitados?: Prisma.PermisoCreateNestedManyWithoutMembershipInput
   productosSolicitados?: Prisma.ProductoSolicitadoCreateNestedManyWithoutMembershipInput
   referidos?: Prisma.ReferidosCreateNestedManyWithoutMembershipInput
-  seguimientosCompletados?: Prisma.OrdenServicioSeguimientoCreateNestedManyWithoutCompletedByMembershipInput
-  seguimientosCreados?: Prisma.OrdenServicioSeguimientoCreateNestedManyWithoutCreatedByMembershipInput
   sesionesActividad?: Prisma.SesionActividadCreateNestedManyWithoutMembershipInput
   municipio?: Prisma.MunicipalityCreateNestedOneWithoutMembershipsInput
   tenant: Prisma.TenantCreateNestedOneWithoutMembershipsInput
   user: Prisma.UserCreateNestedOneWithoutMembershipsInput
   turnos?: Prisma.TurnoCreateNestedManyWithoutMembershipInput
-  dashboardPresets?: Prisma.DashboardPresetCreateNestedManyWithoutCreatedByMembershipInput
 }
 
 export type TenantMembershipUncheckedCreateWithoutCitasComoCreadorInput = {
@@ -3917,6 +3917,7 @@ export type TenantMembershipUncheckedCreateWithoutCitasComoCreadorInput = {
   consignacionesTecnico?: Prisma.ConsignacionEfectivoUncheckedCreateNestedManyWithoutTecnicoInput
   cuentasCobro?: Prisma.CuentaCobroUncheckedCreateNestedManyWithoutMembershipInput
   cuentasPago?: Prisma.CuentasPagoUncheckedCreateNestedManyWithoutMembershipInput
+  dashboardPresets?: Prisma.DashboardPresetUncheckedCreateNestedManyWithoutCreatedByMembershipInput
   declaracionesEfectivo?: Prisma.DeclaracionEfectivoUncheckedCreateNestedManyWithoutTecnicoInput
   egresos?: Prisma.EgresosUncheckedCreateNestedManyWithoutMembershipInput
   empresaMemberships?: Prisma.EmpresaMembershipUncheckedCreateNestedManyWithoutMembershipInput
@@ -3925,16 +3926,15 @@ export type TenantMembershipUncheckedCreateWithoutCitasComoCreadorInput = {
   serviciosCreados?: Prisma.OrdenServicioUncheckedCreateNestedManyWithoutCreadoPorInput
   serviciosLiquidados?: Prisma.OrdenServicioUncheckedCreateNestedManyWithoutLiquidadoPorInput
   serviciosAsignados?: Prisma.OrdenServicioUncheckedCreateNestedManyWithoutTecnicoInput
+  seguimientosCompletados?: Prisma.OrdenServicioSeguimientoUncheckedCreateNestedManyWithoutCompletedByMembershipInput
+  seguimientosCreados?: Prisma.OrdenServicioSeguimientoUncheckedCreateNestedManyWithoutCreatedByMembershipInput
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoUncheckedCreateNestedManyWithoutMembershipInput
   permisosAprobados?: Prisma.PermisoUncheckedCreateNestedManyWithoutAdminInput
   permisosSolicitados?: Prisma.PermisoUncheckedCreateNestedManyWithoutMembershipInput
   productosSolicitados?: Prisma.ProductoSolicitadoUncheckedCreateNestedManyWithoutMembershipInput
   referidos?: Prisma.ReferidosUncheckedCreateNestedManyWithoutMembershipInput
-  seguimientosCompletados?: Prisma.OrdenServicioSeguimientoUncheckedCreateNestedManyWithoutCompletedByMembershipInput
-  seguimientosCreados?: Prisma.OrdenServicioSeguimientoUncheckedCreateNestedManyWithoutCreatedByMembershipInput
   sesionesActividad?: Prisma.SesionActividadUncheckedCreateNestedManyWithoutMembershipInput
   turnos?: Prisma.TurnoUncheckedCreateNestedManyWithoutMembershipInput
-  dashboardPresets?: Prisma.DashboardPresetUncheckedCreateNestedManyWithoutCreatedByMembershipInput
 }
 
 export type TenantMembershipCreateOrConnectWithoutCitasComoCreadorInput = {
@@ -3967,6 +3967,7 @@ export type TenantMembershipCreateWithoutCitasComoPsicologoInput = {
   consignacionesTecnico?: Prisma.ConsignacionEfectivoCreateNestedManyWithoutTecnicoInput
   cuentasCobro?: Prisma.CuentaCobroCreateNestedManyWithoutMembershipInput
   cuentasPago?: Prisma.CuentasPagoCreateNestedManyWithoutMembershipInput
+  dashboardPresets?: Prisma.DashboardPresetCreateNestedManyWithoutCreatedByMembershipInput
   declaracionesEfectivo?: Prisma.DeclaracionEfectivoCreateNestedManyWithoutTecnicoInput
   egresos?: Prisma.EgresosCreateNestedManyWithoutMembershipInput
   empresaMemberships?: Prisma.EmpresaMembershipCreateNestedManyWithoutMembershipInput
@@ -3975,19 +3976,18 @@ export type TenantMembershipCreateWithoutCitasComoPsicologoInput = {
   serviciosCreados?: Prisma.OrdenServicioCreateNestedManyWithoutCreadoPorInput
   serviciosLiquidados?: Prisma.OrdenServicioCreateNestedManyWithoutLiquidadoPorInput
   serviciosAsignados?: Prisma.OrdenServicioCreateNestedManyWithoutTecnicoInput
+  seguimientosCompletados?: Prisma.OrdenServicioSeguimientoCreateNestedManyWithoutCompletedByMembershipInput
+  seguimientosCreados?: Prisma.OrdenServicioSeguimientoCreateNestedManyWithoutCreatedByMembershipInput
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoCreateNestedManyWithoutMembershipInput
   permisosAprobados?: Prisma.PermisoCreateNestedManyWithoutAdminInput
   permisosSolicitados?: Prisma.PermisoCreateNestedManyWithoutMembershipInput
   productosSolicitados?: Prisma.ProductoSolicitadoCreateNestedManyWithoutMembershipInput
   referidos?: Prisma.ReferidosCreateNestedManyWithoutMembershipInput
-  seguimientosCompletados?: Prisma.OrdenServicioSeguimientoCreateNestedManyWithoutCompletedByMembershipInput
-  seguimientosCreados?: Prisma.OrdenServicioSeguimientoCreateNestedManyWithoutCreatedByMembershipInput
   sesionesActividad?: Prisma.SesionActividadCreateNestedManyWithoutMembershipInput
   municipio?: Prisma.MunicipalityCreateNestedOneWithoutMembershipsInput
   tenant: Prisma.TenantCreateNestedOneWithoutMembershipsInput
   user: Prisma.UserCreateNestedOneWithoutMembershipsInput
   turnos?: Prisma.TurnoCreateNestedManyWithoutMembershipInput
-  dashboardPresets?: Prisma.DashboardPresetCreateNestedManyWithoutCreatedByMembershipInput
 }
 
 export type TenantMembershipUncheckedCreateWithoutCitasComoPsicologoInput = {
@@ -4018,6 +4018,7 @@ export type TenantMembershipUncheckedCreateWithoutCitasComoPsicologoInput = {
   consignacionesTecnico?: Prisma.ConsignacionEfectivoUncheckedCreateNestedManyWithoutTecnicoInput
   cuentasCobro?: Prisma.CuentaCobroUncheckedCreateNestedManyWithoutMembershipInput
   cuentasPago?: Prisma.CuentasPagoUncheckedCreateNestedManyWithoutMembershipInput
+  dashboardPresets?: Prisma.DashboardPresetUncheckedCreateNestedManyWithoutCreatedByMembershipInput
   declaracionesEfectivo?: Prisma.DeclaracionEfectivoUncheckedCreateNestedManyWithoutTecnicoInput
   egresos?: Prisma.EgresosUncheckedCreateNestedManyWithoutMembershipInput
   empresaMemberships?: Prisma.EmpresaMembershipUncheckedCreateNestedManyWithoutMembershipInput
@@ -4026,16 +4027,15 @@ export type TenantMembershipUncheckedCreateWithoutCitasComoPsicologoInput = {
   serviciosCreados?: Prisma.OrdenServicioUncheckedCreateNestedManyWithoutCreadoPorInput
   serviciosLiquidados?: Prisma.OrdenServicioUncheckedCreateNestedManyWithoutLiquidadoPorInput
   serviciosAsignados?: Prisma.OrdenServicioUncheckedCreateNestedManyWithoutTecnicoInput
+  seguimientosCompletados?: Prisma.OrdenServicioSeguimientoUncheckedCreateNestedManyWithoutCompletedByMembershipInput
+  seguimientosCreados?: Prisma.OrdenServicioSeguimientoUncheckedCreateNestedManyWithoutCreatedByMembershipInput
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoUncheckedCreateNestedManyWithoutMembershipInput
   permisosAprobados?: Prisma.PermisoUncheckedCreateNestedManyWithoutAdminInput
   permisosSolicitados?: Prisma.PermisoUncheckedCreateNestedManyWithoutMembershipInput
   productosSolicitados?: Prisma.ProductoSolicitadoUncheckedCreateNestedManyWithoutMembershipInput
   referidos?: Prisma.ReferidosUncheckedCreateNestedManyWithoutMembershipInput
-  seguimientosCompletados?: Prisma.OrdenServicioSeguimientoUncheckedCreateNestedManyWithoutCompletedByMembershipInput
-  seguimientosCreados?: Prisma.OrdenServicioSeguimientoUncheckedCreateNestedManyWithoutCreatedByMembershipInput
   sesionesActividad?: Prisma.SesionActividadUncheckedCreateNestedManyWithoutMembershipInput
   turnos?: Prisma.TurnoUncheckedCreateNestedManyWithoutMembershipInput
-  dashboardPresets?: Prisma.DashboardPresetUncheckedCreateNestedManyWithoutCreatedByMembershipInput
 }
 
 export type TenantMembershipCreateOrConnectWithoutCitasComoPsicologoInput = {
@@ -4079,6 +4079,7 @@ export type TenantMembershipUpdateWithoutCitasComoCreadorInput = {
   consignacionesTecnico?: Prisma.ConsignacionEfectivoUpdateManyWithoutTecnicoNestedInput
   cuentasCobro?: Prisma.CuentaCobroUpdateManyWithoutMembershipNestedInput
   cuentasPago?: Prisma.CuentasPagoUpdateManyWithoutMembershipNestedInput
+  dashboardPresets?: Prisma.DashboardPresetUpdateManyWithoutCreatedByMembershipNestedInput
   declaracionesEfectivo?: Prisma.DeclaracionEfectivoUpdateManyWithoutTecnicoNestedInput
   egresos?: Prisma.EgresosUpdateManyWithoutMembershipNestedInput
   empresaMemberships?: Prisma.EmpresaMembershipUpdateManyWithoutMembershipNestedInput
@@ -4087,19 +4088,18 @@ export type TenantMembershipUpdateWithoutCitasComoCreadorInput = {
   serviciosCreados?: Prisma.OrdenServicioUpdateManyWithoutCreadoPorNestedInput
   serviciosLiquidados?: Prisma.OrdenServicioUpdateManyWithoutLiquidadoPorNestedInput
   serviciosAsignados?: Prisma.OrdenServicioUpdateManyWithoutTecnicoNestedInput
+  seguimientosCompletados?: Prisma.OrdenServicioSeguimientoUpdateManyWithoutCompletedByMembershipNestedInput
+  seguimientosCreados?: Prisma.OrdenServicioSeguimientoUpdateManyWithoutCreatedByMembershipNestedInput
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoUpdateManyWithoutMembershipNestedInput
   permisosAprobados?: Prisma.PermisoUpdateManyWithoutAdminNestedInput
   permisosSolicitados?: Prisma.PermisoUpdateManyWithoutMembershipNestedInput
   productosSolicitados?: Prisma.ProductoSolicitadoUpdateManyWithoutMembershipNestedInput
   referidos?: Prisma.ReferidosUpdateManyWithoutMembershipNestedInput
-  seguimientosCompletados?: Prisma.OrdenServicioSeguimientoUpdateManyWithoutCompletedByMembershipNestedInput
-  seguimientosCreados?: Prisma.OrdenServicioSeguimientoUpdateManyWithoutCreatedByMembershipNestedInput
   sesionesActividad?: Prisma.SesionActividadUpdateManyWithoutMembershipNestedInput
   municipio?: Prisma.MunicipalityUpdateOneWithoutMembershipsNestedInput
   tenant?: Prisma.TenantUpdateOneRequiredWithoutMembershipsNestedInput
   user?: Prisma.UserUpdateOneRequiredWithoutMembershipsNestedInput
   turnos?: Prisma.TurnoUpdateManyWithoutMembershipNestedInput
-  dashboardPresets?: Prisma.DashboardPresetUpdateManyWithoutCreatedByMembershipNestedInput
 }
 
 export type TenantMembershipUncheckedUpdateWithoutCitasComoCreadorInput = {
@@ -4130,6 +4130,7 @@ export type TenantMembershipUncheckedUpdateWithoutCitasComoCreadorInput = {
   consignacionesTecnico?: Prisma.ConsignacionEfectivoUncheckedUpdateManyWithoutTecnicoNestedInput
   cuentasCobro?: Prisma.CuentaCobroUncheckedUpdateManyWithoutMembershipNestedInput
   cuentasPago?: Prisma.CuentasPagoUncheckedUpdateManyWithoutMembershipNestedInput
+  dashboardPresets?: Prisma.DashboardPresetUncheckedUpdateManyWithoutCreatedByMembershipNestedInput
   declaracionesEfectivo?: Prisma.DeclaracionEfectivoUncheckedUpdateManyWithoutTecnicoNestedInput
   egresos?: Prisma.EgresosUncheckedUpdateManyWithoutMembershipNestedInput
   empresaMemberships?: Prisma.EmpresaMembershipUncheckedUpdateManyWithoutMembershipNestedInput
@@ -4138,16 +4139,15 @@ export type TenantMembershipUncheckedUpdateWithoutCitasComoCreadorInput = {
   serviciosCreados?: Prisma.OrdenServicioUncheckedUpdateManyWithoutCreadoPorNestedInput
   serviciosLiquidados?: Prisma.OrdenServicioUncheckedUpdateManyWithoutLiquidadoPorNestedInput
   serviciosAsignados?: Prisma.OrdenServicioUncheckedUpdateManyWithoutTecnicoNestedInput
+  seguimientosCompletados?: Prisma.OrdenServicioSeguimientoUncheckedUpdateManyWithoutCompletedByMembershipNestedInput
+  seguimientosCreados?: Prisma.OrdenServicioSeguimientoUncheckedUpdateManyWithoutCreatedByMembershipNestedInput
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoUncheckedUpdateManyWithoutMembershipNestedInput
   permisosAprobados?: Prisma.PermisoUncheckedUpdateManyWithoutAdminNestedInput
   permisosSolicitados?: Prisma.PermisoUncheckedUpdateManyWithoutMembershipNestedInput
   productosSolicitados?: Prisma.ProductoSolicitadoUncheckedUpdateManyWithoutMembershipNestedInput
   referidos?: Prisma.ReferidosUncheckedUpdateManyWithoutMembershipNestedInput
-  seguimientosCompletados?: Prisma.OrdenServicioSeguimientoUncheckedUpdateManyWithoutCompletedByMembershipNestedInput
-  seguimientosCreados?: Prisma.OrdenServicioSeguimientoUncheckedUpdateManyWithoutCreatedByMembershipNestedInput
   sesionesActividad?: Prisma.SesionActividadUncheckedUpdateManyWithoutMembershipNestedInput
   turnos?: Prisma.TurnoUncheckedUpdateManyWithoutMembershipNestedInput
-  dashboardPresets?: Prisma.DashboardPresetUncheckedUpdateManyWithoutCreatedByMembershipNestedInput
 }
 
 export type TenantMembershipUpsertWithoutCitasComoPsicologoInput = {
@@ -4186,6 +4186,7 @@ export type TenantMembershipUpdateWithoutCitasComoPsicologoInput = {
   consignacionesTecnico?: Prisma.ConsignacionEfectivoUpdateManyWithoutTecnicoNestedInput
   cuentasCobro?: Prisma.CuentaCobroUpdateManyWithoutMembershipNestedInput
   cuentasPago?: Prisma.CuentasPagoUpdateManyWithoutMembershipNestedInput
+  dashboardPresets?: Prisma.DashboardPresetUpdateManyWithoutCreatedByMembershipNestedInput
   declaracionesEfectivo?: Prisma.DeclaracionEfectivoUpdateManyWithoutTecnicoNestedInput
   egresos?: Prisma.EgresosUpdateManyWithoutMembershipNestedInput
   empresaMemberships?: Prisma.EmpresaMembershipUpdateManyWithoutMembershipNestedInput
@@ -4194,19 +4195,18 @@ export type TenantMembershipUpdateWithoutCitasComoPsicologoInput = {
   serviciosCreados?: Prisma.OrdenServicioUpdateManyWithoutCreadoPorNestedInput
   serviciosLiquidados?: Prisma.OrdenServicioUpdateManyWithoutLiquidadoPorNestedInput
   serviciosAsignados?: Prisma.OrdenServicioUpdateManyWithoutTecnicoNestedInput
+  seguimientosCompletados?: Prisma.OrdenServicioSeguimientoUpdateManyWithoutCompletedByMembershipNestedInput
+  seguimientosCreados?: Prisma.OrdenServicioSeguimientoUpdateManyWithoutCreatedByMembershipNestedInput
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoUpdateManyWithoutMembershipNestedInput
   permisosAprobados?: Prisma.PermisoUpdateManyWithoutAdminNestedInput
   permisosSolicitados?: Prisma.PermisoUpdateManyWithoutMembershipNestedInput
   productosSolicitados?: Prisma.ProductoSolicitadoUpdateManyWithoutMembershipNestedInput
   referidos?: Prisma.ReferidosUpdateManyWithoutMembershipNestedInput
-  seguimientosCompletados?: Prisma.OrdenServicioSeguimientoUpdateManyWithoutCompletedByMembershipNestedInput
-  seguimientosCreados?: Prisma.OrdenServicioSeguimientoUpdateManyWithoutCreatedByMembershipNestedInput
   sesionesActividad?: Prisma.SesionActividadUpdateManyWithoutMembershipNestedInput
   municipio?: Prisma.MunicipalityUpdateOneWithoutMembershipsNestedInput
   tenant?: Prisma.TenantUpdateOneRequiredWithoutMembershipsNestedInput
   user?: Prisma.UserUpdateOneRequiredWithoutMembershipsNestedInput
   turnos?: Prisma.TurnoUpdateManyWithoutMembershipNestedInput
-  dashboardPresets?: Prisma.DashboardPresetUpdateManyWithoutCreatedByMembershipNestedInput
 }
 
 export type TenantMembershipUncheckedUpdateWithoutCitasComoPsicologoInput = {
@@ -4237,6 +4237,7 @@ export type TenantMembershipUncheckedUpdateWithoutCitasComoPsicologoInput = {
   consignacionesTecnico?: Prisma.ConsignacionEfectivoUncheckedUpdateManyWithoutTecnicoNestedInput
   cuentasCobro?: Prisma.CuentaCobroUncheckedUpdateManyWithoutMembershipNestedInput
   cuentasPago?: Prisma.CuentasPagoUncheckedUpdateManyWithoutMembershipNestedInput
+  dashboardPresets?: Prisma.DashboardPresetUncheckedUpdateManyWithoutCreatedByMembershipNestedInput
   declaracionesEfectivo?: Prisma.DeclaracionEfectivoUncheckedUpdateManyWithoutTecnicoNestedInput
   egresos?: Prisma.EgresosUncheckedUpdateManyWithoutMembershipNestedInput
   empresaMemberships?: Prisma.EmpresaMembershipUncheckedUpdateManyWithoutMembershipNestedInput
@@ -4245,16 +4246,15 @@ export type TenantMembershipUncheckedUpdateWithoutCitasComoPsicologoInput = {
   serviciosCreados?: Prisma.OrdenServicioUncheckedUpdateManyWithoutCreadoPorNestedInput
   serviciosLiquidados?: Prisma.OrdenServicioUncheckedUpdateManyWithoutLiquidadoPorNestedInput
   serviciosAsignados?: Prisma.OrdenServicioUncheckedUpdateManyWithoutTecnicoNestedInput
+  seguimientosCompletados?: Prisma.OrdenServicioSeguimientoUncheckedUpdateManyWithoutCompletedByMembershipNestedInput
+  seguimientosCreados?: Prisma.OrdenServicioSeguimientoUncheckedUpdateManyWithoutCreatedByMembershipNestedInput
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoUncheckedUpdateManyWithoutMembershipNestedInput
   permisosAprobados?: Prisma.PermisoUncheckedUpdateManyWithoutAdminNestedInput
   permisosSolicitados?: Prisma.PermisoUncheckedUpdateManyWithoutMembershipNestedInput
   productosSolicitados?: Prisma.ProductoSolicitadoUncheckedUpdateManyWithoutMembershipNestedInput
   referidos?: Prisma.ReferidosUncheckedUpdateManyWithoutMembershipNestedInput
-  seguimientosCompletados?: Prisma.OrdenServicioSeguimientoUncheckedUpdateManyWithoutCompletedByMembershipNestedInput
-  seguimientosCreados?: Prisma.OrdenServicioSeguimientoUncheckedUpdateManyWithoutCreatedByMembershipNestedInput
   sesionesActividad?: Prisma.SesionActividadUncheckedUpdateManyWithoutMembershipNestedInput
   turnos?: Prisma.TurnoUncheckedUpdateManyWithoutMembershipNestedInput
-  dashboardPresets?: Prisma.DashboardPresetUncheckedUpdateManyWithoutCreatedByMembershipNestedInput
 }
 
 export type TenantMembershipCreateWithoutPaquetesAdquiridosInput = {
@@ -4283,6 +4283,7 @@ export type TenantMembershipCreateWithoutPaquetesAdquiridosInput = {
   consignacionesTecnico?: Prisma.ConsignacionEfectivoCreateNestedManyWithoutTecnicoInput
   cuentasCobro?: Prisma.CuentaCobroCreateNestedManyWithoutMembershipInput
   cuentasPago?: Prisma.CuentasPagoCreateNestedManyWithoutMembershipInput
+  dashboardPresets?: Prisma.DashboardPresetCreateNestedManyWithoutCreatedByMembershipInput
   declaracionesEfectivo?: Prisma.DeclaracionEfectivoCreateNestedManyWithoutTecnicoInput
   egresos?: Prisma.EgresosCreateNestedManyWithoutMembershipInput
   empresaMemberships?: Prisma.EmpresaMembershipCreateNestedManyWithoutMembershipInput
@@ -4291,18 +4292,17 @@ export type TenantMembershipCreateWithoutPaquetesAdquiridosInput = {
   serviciosCreados?: Prisma.OrdenServicioCreateNestedManyWithoutCreadoPorInput
   serviciosLiquidados?: Prisma.OrdenServicioCreateNestedManyWithoutLiquidadoPorInput
   serviciosAsignados?: Prisma.OrdenServicioCreateNestedManyWithoutTecnicoInput
+  seguimientosCompletados?: Prisma.OrdenServicioSeguimientoCreateNestedManyWithoutCompletedByMembershipInput
+  seguimientosCreados?: Prisma.OrdenServicioSeguimientoCreateNestedManyWithoutCreatedByMembershipInput
   permisosAprobados?: Prisma.PermisoCreateNestedManyWithoutAdminInput
   permisosSolicitados?: Prisma.PermisoCreateNestedManyWithoutMembershipInput
   productosSolicitados?: Prisma.ProductoSolicitadoCreateNestedManyWithoutMembershipInput
   referidos?: Prisma.ReferidosCreateNestedManyWithoutMembershipInput
-  seguimientosCompletados?: Prisma.OrdenServicioSeguimientoCreateNestedManyWithoutCompletedByMembershipInput
-  seguimientosCreados?: Prisma.OrdenServicioSeguimientoCreateNestedManyWithoutCreatedByMembershipInput
   sesionesActividad?: Prisma.SesionActividadCreateNestedManyWithoutMembershipInput
   municipio?: Prisma.MunicipalityCreateNestedOneWithoutMembershipsInput
   tenant: Prisma.TenantCreateNestedOneWithoutMembershipsInput
   user: Prisma.UserCreateNestedOneWithoutMembershipsInput
   turnos?: Prisma.TurnoCreateNestedManyWithoutMembershipInput
-  dashboardPresets?: Prisma.DashboardPresetCreateNestedManyWithoutCreatedByMembershipInput
 }
 
 export type TenantMembershipUncheckedCreateWithoutPaquetesAdquiridosInput = {
@@ -4334,6 +4334,7 @@ export type TenantMembershipUncheckedCreateWithoutPaquetesAdquiridosInput = {
   consignacionesTecnico?: Prisma.ConsignacionEfectivoUncheckedCreateNestedManyWithoutTecnicoInput
   cuentasCobro?: Prisma.CuentaCobroUncheckedCreateNestedManyWithoutMembershipInput
   cuentasPago?: Prisma.CuentasPagoUncheckedCreateNestedManyWithoutMembershipInput
+  dashboardPresets?: Prisma.DashboardPresetUncheckedCreateNestedManyWithoutCreatedByMembershipInput
   declaracionesEfectivo?: Prisma.DeclaracionEfectivoUncheckedCreateNestedManyWithoutTecnicoInput
   egresos?: Prisma.EgresosUncheckedCreateNestedManyWithoutMembershipInput
   empresaMemberships?: Prisma.EmpresaMembershipUncheckedCreateNestedManyWithoutMembershipInput
@@ -4342,15 +4343,14 @@ export type TenantMembershipUncheckedCreateWithoutPaquetesAdquiridosInput = {
   serviciosCreados?: Prisma.OrdenServicioUncheckedCreateNestedManyWithoutCreadoPorInput
   serviciosLiquidados?: Prisma.OrdenServicioUncheckedCreateNestedManyWithoutLiquidadoPorInput
   serviciosAsignados?: Prisma.OrdenServicioUncheckedCreateNestedManyWithoutTecnicoInput
+  seguimientosCompletados?: Prisma.OrdenServicioSeguimientoUncheckedCreateNestedManyWithoutCompletedByMembershipInput
+  seguimientosCreados?: Prisma.OrdenServicioSeguimientoUncheckedCreateNestedManyWithoutCreatedByMembershipInput
   permisosAprobados?: Prisma.PermisoUncheckedCreateNestedManyWithoutAdminInput
   permisosSolicitados?: Prisma.PermisoUncheckedCreateNestedManyWithoutMembershipInput
   productosSolicitados?: Prisma.ProductoSolicitadoUncheckedCreateNestedManyWithoutMembershipInput
   referidos?: Prisma.ReferidosUncheckedCreateNestedManyWithoutMembershipInput
-  seguimientosCompletados?: Prisma.OrdenServicioSeguimientoUncheckedCreateNestedManyWithoutCompletedByMembershipInput
-  seguimientosCreados?: Prisma.OrdenServicioSeguimientoUncheckedCreateNestedManyWithoutCreatedByMembershipInput
   sesionesActividad?: Prisma.SesionActividadUncheckedCreateNestedManyWithoutMembershipInput
   turnos?: Prisma.TurnoUncheckedCreateNestedManyWithoutMembershipInput
-  dashboardPresets?: Prisma.DashboardPresetUncheckedCreateNestedManyWithoutCreatedByMembershipInput
 }
 
 export type TenantMembershipCreateOrConnectWithoutPaquetesAdquiridosInput = {
@@ -4395,6 +4395,7 @@ export type TenantMembershipUpdateWithoutPaquetesAdquiridosInput = {
   consignacionesTecnico?: Prisma.ConsignacionEfectivoUpdateManyWithoutTecnicoNestedInput
   cuentasCobro?: Prisma.CuentaCobroUpdateManyWithoutMembershipNestedInput
   cuentasPago?: Prisma.CuentasPagoUpdateManyWithoutMembershipNestedInput
+  dashboardPresets?: Prisma.DashboardPresetUpdateManyWithoutCreatedByMembershipNestedInput
   declaracionesEfectivo?: Prisma.DeclaracionEfectivoUpdateManyWithoutTecnicoNestedInput
   egresos?: Prisma.EgresosUpdateManyWithoutMembershipNestedInput
   empresaMemberships?: Prisma.EmpresaMembershipUpdateManyWithoutMembershipNestedInput
@@ -4403,18 +4404,17 @@ export type TenantMembershipUpdateWithoutPaquetesAdquiridosInput = {
   serviciosCreados?: Prisma.OrdenServicioUpdateManyWithoutCreadoPorNestedInput
   serviciosLiquidados?: Prisma.OrdenServicioUpdateManyWithoutLiquidadoPorNestedInput
   serviciosAsignados?: Prisma.OrdenServicioUpdateManyWithoutTecnicoNestedInput
+  seguimientosCompletados?: Prisma.OrdenServicioSeguimientoUpdateManyWithoutCompletedByMembershipNestedInput
+  seguimientosCreados?: Prisma.OrdenServicioSeguimientoUpdateManyWithoutCreatedByMembershipNestedInput
   permisosAprobados?: Prisma.PermisoUpdateManyWithoutAdminNestedInput
   permisosSolicitados?: Prisma.PermisoUpdateManyWithoutMembershipNestedInput
   productosSolicitados?: Prisma.ProductoSolicitadoUpdateManyWithoutMembershipNestedInput
   referidos?: Prisma.ReferidosUpdateManyWithoutMembershipNestedInput
-  seguimientosCompletados?: Prisma.OrdenServicioSeguimientoUpdateManyWithoutCompletedByMembershipNestedInput
-  seguimientosCreados?: Prisma.OrdenServicioSeguimientoUpdateManyWithoutCreatedByMembershipNestedInput
   sesionesActividad?: Prisma.SesionActividadUpdateManyWithoutMembershipNestedInput
   municipio?: Prisma.MunicipalityUpdateOneWithoutMembershipsNestedInput
   tenant?: Prisma.TenantUpdateOneRequiredWithoutMembershipsNestedInput
   user?: Prisma.UserUpdateOneRequiredWithoutMembershipsNestedInput
   turnos?: Prisma.TurnoUpdateManyWithoutMembershipNestedInput
-  dashboardPresets?: Prisma.DashboardPresetUpdateManyWithoutCreatedByMembershipNestedInput
 }
 
 export type TenantMembershipUncheckedUpdateWithoutPaquetesAdquiridosInput = {
@@ -4446,6 +4446,7 @@ export type TenantMembershipUncheckedUpdateWithoutPaquetesAdquiridosInput = {
   consignacionesTecnico?: Prisma.ConsignacionEfectivoUncheckedUpdateManyWithoutTecnicoNestedInput
   cuentasCobro?: Prisma.CuentaCobroUncheckedUpdateManyWithoutMembershipNestedInput
   cuentasPago?: Prisma.CuentasPagoUncheckedUpdateManyWithoutMembershipNestedInput
+  dashboardPresets?: Prisma.DashboardPresetUncheckedUpdateManyWithoutCreatedByMembershipNestedInput
   declaracionesEfectivo?: Prisma.DeclaracionEfectivoUncheckedUpdateManyWithoutTecnicoNestedInput
   egresos?: Prisma.EgresosUncheckedUpdateManyWithoutMembershipNestedInput
   empresaMemberships?: Prisma.EmpresaMembershipUncheckedUpdateManyWithoutMembershipNestedInput
@@ -4454,15 +4455,14 @@ export type TenantMembershipUncheckedUpdateWithoutPaquetesAdquiridosInput = {
   serviciosCreados?: Prisma.OrdenServicioUncheckedUpdateManyWithoutCreadoPorNestedInput
   serviciosLiquidados?: Prisma.OrdenServicioUncheckedUpdateManyWithoutLiquidadoPorNestedInput
   serviciosAsignados?: Prisma.OrdenServicioUncheckedUpdateManyWithoutTecnicoNestedInput
+  seguimientosCompletados?: Prisma.OrdenServicioSeguimientoUncheckedUpdateManyWithoutCompletedByMembershipNestedInput
+  seguimientosCreados?: Prisma.OrdenServicioSeguimientoUncheckedUpdateManyWithoutCreatedByMembershipNestedInput
   permisosAprobados?: Prisma.PermisoUncheckedUpdateManyWithoutAdminNestedInput
   permisosSolicitados?: Prisma.PermisoUncheckedUpdateManyWithoutMembershipNestedInput
   productosSolicitados?: Prisma.ProductoSolicitadoUncheckedUpdateManyWithoutMembershipNestedInput
   referidos?: Prisma.ReferidosUncheckedUpdateManyWithoutMembershipNestedInput
-  seguimientosCompletados?: Prisma.OrdenServicioSeguimientoUncheckedUpdateManyWithoutCompletedByMembershipNestedInput
-  seguimientosCreados?: Prisma.OrdenServicioSeguimientoUncheckedUpdateManyWithoutCreatedByMembershipNestedInput
   sesionesActividad?: Prisma.SesionActividadUncheckedUpdateManyWithoutMembershipNestedInput
   turnos?: Prisma.TurnoUncheckedUpdateManyWithoutMembershipNestedInput
-  dashboardPresets?: Prisma.DashboardPresetUncheckedUpdateManyWithoutCreatedByMembershipNestedInput
 }
 
 export type TenantMembershipCreateWithoutTurnosInput = {
@@ -4491,6 +4491,7 @@ export type TenantMembershipCreateWithoutTurnosInput = {
   consignacionesTecnico?: Prisma.ConsignacionEfectivoCreateNestedManyWithoutTecnicoInput
   cuentasCobro?: Prisma.CuentaCobroCreateNestedManyWithoutMembershipInput
   cuentasPago?: Prisma.CuentasPagoCreateNestedManyWithoutMembershipInput
+  dashboardPresets?: Prisma.DashboardPresetCreateNestedManyWithoutCreatedByMembershipInput
   declaracionesEfectivo?: Prisma.DeclaracionEfectivoCreateNestedManyWithoutTecnicoInput
   egresos?: Prisma.EgresosCreateNestedManyWithoutMembershipInput
   empresaMemberships?: Prisma.EmpresaMembershipCreateNestedManyWithoutMembershipInput
@@ -4499,18 +4500,17 @@ export type TenantMembershipCreateWithoutTurnosInput = {
   serviciosCreados?: Prisma.OrdenServicioCreateNestedManyWithoutCreadoPorInput
   serviciosLiquidados?: Prisma.OrdenServicioCreateNestedManyWithoutLiquidadoPorInput
   serviciosAsignados?: Prisma.OrdenServicioCreateNestedManyWithoutTecnicoInput
+  seguimientosCompletados?: Prisma.OrdenServicioSeguimientoCreateNestedManyWithoutCompletedByMembershipInput
+  seguimientosCreados?: Prisma.OrdenServicioSeguimientoCreateNestedManyWithoutCreatedByMembershipInput
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoCreateNestedManyWithoutMembershipInput
   permisosAprobados?: Prisma.PermisoCreateNestedManyWithoutAdminInput
   permisosSolicitados?: Prisma.PermisoCreateNestedManyWithoutMembershipInput
   productosSolicitados?: Prisma.ProductoSolicitadoCreateNestedManyWithoutMembershipInput
   referidos?: Prisma.ReferidosCreateNestedManyWithoutMembershipInput
-  seguimientosCompletados?: Prisma.OrdenServicioSeguimientoCreateNestedManyWithoutCompletedByMembershipInput
-  seguimientosCreados?: Prisma.OrdenServicioSeguimientoCreateNestedManyWithoutCreatedByMembershipInput
   sesionesActividad?: Prisma.SesionActividadCreateNestedManyWithoutMembershipInput
   municipio?: Prisma.MunicipalityCreateNestedOneWithoutMembershipsInput
   tenant: Prisma.TenantCreateNestedOneWithoutMembershipsInput
   user: Prisma.UserCreateNestedOneWithoutMembershipsInput
-  dashboardPresets?: Prisma.DashboardPresetCreateNestedManyWithoutCreatedByMembershipInput
 }
 
 export type TenantMembershipUncheckedCreateWithoutTurnosInput = {
@@ -4542,6 +4542,7 @@ export type TenantMembershipUncheckedCreateWithoutTurnosInput = {
   consignacionesTecnico?: Prisma.ConsignacionEfectivoUncheckedCreateNestedManyWithoutTecnicoInput
   cuentasCobro?: Prisma.CuentaCobroUncheckedCreateNestedManyWithoutMembershipInput
   cuentasPago?: Prisma.CuentasPagoUncheckedCreateNestedManyWithoutMembershipInput
+  dashboardPresets?: Prisma.DashboardPresetUncheckedCreateNestedManyWithoutCreatedByMembershipInput
   declaracionesEfectivo?: Prisma.DeclaracionEfectivoUncheckedCreateNestedManyWithoutTecnicoInput
   egresos?: Prisma.EgresosUncheckedCreateNestedManyWithoutMembershipInput
   empresaMemberships?: Prisma.EmpresaMembershipUncheckedCreateNestedManyWithoutMembershipInput
@@ -4550,15 +4551,14 @@ export type TenantMembershipUncheckedCreateWithoutTurnosInput = {
   serviciosCreados?: Prisma.OrdenServicioUncheckedCreateNestedManyWithoutCreadoPorInput
   serviciosLiquidados?: Prisma.OrdenServicioUncheckedCreateNestedManyWithoutLiquidadoPorInput
   serviciosAsignados?: Prisma.OrdenServicioUncheckedCreateNestedManyWithoutTecnicoInput
+  seguimientosCompletados?: Prisma.OrdenServicioSeguimientoUncheckedCreateNestedManyWithoutCompletedByMembershipInput
+  seguimientosCreados?: Prisma.OrdenServicioSeguimientoUncheckedCreateNestedManyWithoutCreatedByMembershipInput
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoUncheckedCreateNestedManyWithoutMembershipInput
   permisosAprobados?: Prisma.PermisoUncheckedCreateNestedManyWithoutAdminInput
   permisosSolicitados?: Prisma.PermisoUncheckedCreateNestedManyWithoutMembershipInput
   productosSolicitados?: Prisma.ProductoSolicitadoUncheckedCreateNestedManyWithoutMembershipInput
   referidos?: Prisma.ReferidosUncheckedCreateNestedManyWithoutMembershipInput
-  seguimientosCompletados?: Prisma.OrdenServicioSeguimientoUncheckedCreateNestedManyWithoutCompletedByMembershipInput
-  seguimientosCreados?: Prisma.OrdenServicioSeguimientoUncheckedCreateNestedManyWithoutCreatedByMembershipInput
   sesionesActividad?: Prisma.SesionActividadUncheckedCreateNestedManyWithoutMembershipInput
-  dashboardPresets?: Prisma.DashboardPresetUncheckedCreateNestedManyWithoutCreatedByMembershipInput
 }
 
 export type TenantMembershipCreateOrConnectWithoutTurnosInput = {
@@ -4603,6 +4603,7 @@ export type TenantMembershipUpdateWithoutTurnosInput = {
   consignacionesTecnico?: Prisma.ConsignacionEfectivoUpdateManyWithoutTecnicoNestedInput
   cuentasCobro?: Prisma.CuentaCobroUpdateManyWithoutMembershipNestedInput
   cuentasPago?: Prisma.CuentasPagoUpdateManyWithoutMembershipNestedInput
+  dashboardPresets?: Prisma.DashboardPresetUpdateManyWithoutCreatedByMembershipNestedInput
   declaracionesEfectivo?: Prisma.DeclaracionEfectivoUpdateManyWithoutTecnicoNestedInput
   egresos?: Prisma.EgresosUpdateManyWithoutMembershipNestedInput
   empresaMemberships?: Prisma.EmpresaMembershipUpdateManyWithoutMembershipNestedInput
@@ -4611,18 +4612,17 @@ export type TenantMembershipUpdateWithoutTurnosInput = {
   serviciosCreados?: Prisma.OrdenServicioUpdateManyWithoutCreadoPorNestedInput
   serviciosLiquidados?: Prisma.OrdenServicioUpdateManyWithoutLiquidadoPorNestedInput
   serviciosAsignados?: Prisma.OrdenServicioUpdateManyWithoutTecnicoNestedInput
+  seguimientosCompletados?: Prisma.OrdenServicioSeguimientoUpdateManyWithoutCompletedByMembershipNestedInput
+  seguimientosCreados?: Prisma.OrdenServicioSeguimientoUpdateManyWithoutCreatedByMembershipNestedInput
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoUpdateManyWithoutMembershipNestedInput
   permisosAprobados?: Prisma.PermisoUpdateManyWithoutAdminNestedInput
   permisosSolicitados?: Prisma.PermisoUpdateManyWithoutMembershipNestedInput
   productosSolicitados?: Prisma.ProductoSolicitadoUpdateManyWithoutMembershipNestedInput
   referidos?: Prisma.ReferidosUpdateManyWithoutMembershipNestedInput
-  seguimientosCompletados?: Prisma.OrdenServicioSeguimientoUpdateManyWithoutCompletedByMembershipNestedInput
-  seguimientosCreados?: Prisma.OrdenServicioSeguimientoUpdateManyWithoutCreatedByMembershipNestedInput
   sesionesActividad?: Prisma.SesionActividadUpdateManyWithoutMembershipNestedInput
   municipio?: Prisma.MunicipalityUpdateOneWithoutMembershipsNestedInput
   tenant?: Prisma.TenantUpdateOneRequiredWithoutMembershipsNestedInput
   user?: Prisma.UserUpdateOneRequiredWithoutMembershipsNestedInput
-  dashboardPresets?: Prisma.DashboardPresetUpdateManyWithoutCreatedByMembershipNestedInput
 }
 
 export type TenantMembershipUncheckedUpdateWithoutTurnosInput = {
@@ -4654,6 +4654,7 @@ export type TenantMembershipUncheckedUpdateWithoutTurnosInput = {
   consignacionesTecnico?: Prisma.ConsignacionEfectivoUncheckedUpdateManyWithoutTecnicoNestedInput
   cuentasCobro?: Prisma.CuentaCobroUncheckedUpdateManyWithoutMembershipNestedInput
   cuentasPago?: Prisma.CuentasPagoUncheckedUpdateManyWithoutMembershipNestedInput
+  dashboardPresets?: Prisma.DashboardPresetUncheckedUpdateManyWithoutCreatedByMembershipNestedInput
   declaracionesEfectivo?: Prisma.DeclaracionEfectivoUncheckedUpdateManyWithoutTecnicoNestedInput
   egresos?: Prisma.EgresosUncheckedUpdateManyWithoutMembershipNestedInput
   empresaMemberships?: Prisma.EmpresaMembershipUncheckedUpdateManyWithoutMembershipNestedInput
@@ -4662,15 +4663,14 @@ export type TenantMembershipUncheckedUpdateWithoutTurnosInput = {
   serviciosCreados?: Prisma.OrdenServicioUncheckedUpdateManyWithoutCreadoPorNestedInput
   serviciosLiquidados?: Prisma.OrdenServicioUncheckedUpdateManyWithoutLiquidadoPorNestedInput
   serviciosAsignados?: Prisma.OrdenServicioUncheckedUpdateManyWithoutTecnicoNestedInput
+  seguimientosCompletados?: Prisma.OrdenServicioSeguimientoUncheckedUpdateManyWithoutCompletedByMembershipNestedInput
+  seguimientosCreados?: Prisma.OrdenServicioSeguimientoUncheckedUpdateManyWithoutCreatedByMembershipNestedInput
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoUncheckedUpdateManyWithoutMembershipNestedInput
   permisosAprobados?: Prisma.PermisoUncheckedUpdateManyWithoutAdminNestedInput
   permisosSolicitados?: Prisma.PermisoUncheckedUpdateManyWithoutMembershipNestedInput
   productosSolicitados?: Prisma.ProductoSolicitadoUncheckedUpdateManyWithoutMembershipNestedInput
   referidos?: Prisma.ReferidosUncheckedUpdateManyWithoutMembershipNestedInput
-  seguimientosCompletados?: Prisma.OrdenServicioSeguimientoUncheckedUpdateManyWithoutCompletedByMembershipNestedInput
-  seguimientosCreados?: Prisma.OrdenServicioSeguimientoUncheckedUpdateManyWithoutCreatedByMembershipNestedInput
   sesionesActividad?: Prisma.SesionActividadUncheckedUpdateManyWithoutMembershipNestedInput
-  dashboardPresets?: Prisma.DashboardPresetUncheckedUpdateManyWithoutCreatedByMembershipNestedInput
 }
 
 export type TenantMembershipCreateWithoutCuentasCobroInput = {
@@ -4698,6 +4698,7 @@ export type TenantMembershipCreateWithoutCuentasCobroInput = {
   consignacionesCreadas?: Prisma.ConsignacionEfectivoCreateNestedManyWithoutCreadoPorInput
   consignacionesTecnico?: Prisma.ConsignacionEfectivoCreateNestedManyWithoutTecnicoInput
   cuentasPago?: Prisma.CuentasPagoCreateNestedManyWithoutMembershipInput
+  dashboardPresets?: Prisma.DashboardPresetCreateNestedManyWithoutCreatedByMembershipInput
   declaracionesEfectivo?: Prisma.DeclaracionEfectivoCreateNestedManyWithoutTecnicoInput
   egresos?: Prisma.EgresosCreateNestedManyWithoutMembershipInput
   empresaMemberships?: Prisma.EmpresaMembershipCreateNestedManyWithoutMembershipInput
@@ -4706,19 +4707,18 @@ export type TenantMembershipCreateWithoutCuentasCobroInput = {
   serviciosCreados?: Prisma.OrdenServicioCreateNestedManyWithoutCreadoPorInput
   serviciosLiquidados?: Prisma.OrdenServicioCreateNestedManyWithoutLiquidadoPorInput
   serviciosAsignados?: Prisma.OrdenServicioCreateNestedManyWithoutTecnicoInput
+  seguimientosCompletados?: Prisma.OrdenServicioSeguimientoCreateNestedManyWithoutCompletedByMembershipInput
+  seguimientosCreados?: Prisma.OrdenServicioSeguimientoCreateNestedManyWithoutCreatedByMembershipInput
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoCreateNestedManyWithoutMembershipInput
   permisosAprobados?: Prisma.PermisoCreateNestedManyWithoutAdminInput
   permisosSolicitados?: Prisma.PermisoCreateNestedManyWithoutMembershipInput
   productosSolicitados?: Prisma.ProductoSolicitadoCreateNestedManyWithoutMembershipInput
   referidos?: Prisma.ReferidosCreateNestedManyWithoutMembershipInput
-  seguimientosCompletados?: Prisma.OrdenServicioSeguimientoCreateNestedManyWithoutCompletedByMembershipInput
-  seguimientosCreados?: Prisma.OrdenServicioSeguimientoCreateNestedManyWithoutCreatedByMembershipInput
   sesionesActividad?: Prisma.SesionActividadCreateNestedManyWithoutMembershipInput
   municipio?: Prisma.MunicipalityCreateNestedOneWithoutMembershipsInput
   tenant: Prisma.TenantCreateNestedOneWithoutMembershipsInput
   user: Prisma.UserCreateNestedOneWithoutMembershipsInput
   turnos?: Prisma.TurnoCreateNestedManyWithoutMembershipInput
-  dashboardPresets?: Prisma.DashboardPresetCreateNestedManyWithoutCreatedByMembershipInput
 }
 
 export type TenantMembershipUncheckedCreateWithoutCuentasCobroInput = {
@@ -4749,6 +4749,7 @@ export type TenantMembershipUncheckedCreateWithoutCuentasCobroInput = {
   consignacionesCreadas?: Prisma.ConsignacionEfectivoUncheckedCreateNestedManyWithoutCreadoPorInput
   consignacionesTecnico?: Prisma.ConsignacionEfectivoUncheckedCreateNestedManyWithoutTecnicoInput
   cuentasPago?: Prisma.CuentasPagoUncheckedCreateNestedManyWithoutMembershipInput
+  dashboardPresets?: Prisma.DashboardPresetUncheckedCreateNestedManyWithoutCreatedByMembershipInput
   declaracionesEfectivo?: Prisma.DeclaracionEfectivoUncheckedCreateNestedManyWithoutTecnicoInput
   egresos?: Prisma.EgresosUncheckedCreateNestedManyWithoutMembershipInput
   empresaMemberships?: Prisma.EmpresaMembershipUncheckedCreateNestedManyWithoutMembershipInput
@@ -4757,16 +4758,15 @@ export type TenantMembershipUncheckedCreateWithoutCuentasCobroInput = {
   serviciosCreados?: Prisma.OrdenServicioUncheckedCreateNestedManyWithoutCreadoPorInput
   serviciosLiquidados?: Prisma.OrdenServicioUncheckedCreateNestedManyWithoutLiquidadoPorInput
   serviciosAsignados?: Prisma.OrdenServicioUncheckedCreateNestedManyWithoutTecnicoInput
+  seguimientosCompletados?: Prisma.OrdenServicioSeguimientoUncheckedCreateNestedManyWithoutCompletedByMembershipInput
+  seguimientosCreados?: Prisma.OrdenServicioSeguimientoUncheckedCreateNestedManyWithoutCreatedByMembershipInput
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoUncheckedCreateNestedManyWithoutMembershipInput
   permisosAprobados?: Prisma.PermisoUncheckedCreateNestedManyWithoutAdminInput
   permisosSolicitados?: Prisma.PermisoUncheckedCreateNestedManyWithoutMembershipInput
   productosSolicitados?: Prisma.ProductoSolicitadoUncheckedCreateNestedManyWithoutMembershipInput
   referidos?: Prisma.ReferidosUncheckedCreateNestedManyWithoutMembershipInput
-  seguimientosCompletados?: Prisma.OrdenServicioSeguimientoUncheckedCreateNestedManyWithoutCompletedByMembershipInput
-  seguimientosCreados?: Prisma.OrdenServicioSeguimientoUncheckedCreateNestedManyWithoutCreatedByMembershipInput
   sesionesActividad?: Prisma.SesionActividadUncheckedCreateNestedManyWithoutMembershipInput
   turnos?: Prisma.TurnoUncheckedCreateNestedManyWithoutMembershipInput
-  dashboardPresets?: Prisma.DashboardPresetUncheckedCreateNestedManyWithoutCreatedByMembershipInput
 }
 
 export type TenantMembershipCreateOrConnectWithoutCuentasCobroInput = {
@@ -4810,6 +4810,7 @@ export type TenantMembershipUpdateWithoutCuentasCobroInput = {
   consignacionesCreadas?: Prisma.ConsignacionEfectivoUpdateManyWithoutCreadoPorNestedInput
   consignacionesTecnico?: Prisma.ConsignacionEfectivoUpdateManyWithoutTecnicoNestedInput
   cuentasPago?: Prisma.CuentasPagoUpdateManyWithoutMembershipNestedInput
+  dashboardPresets?: Prisma.DashboardPresetUpdateManyWithoutCreatedByMembershipNestedInput
   declaracionesEfectivo?: Prisma.DeclaracionEfectivoUpdateManyWithoutTecnicoNestedInput
   egresos?: Prisma.EgresosUpdateManyWithoutMembershipNestedInput
   empresaMemberships?: Prisma.EmpresaMembershipUpdateManyWithoutMembershipNestedInput
@@ -4818,19 +4819,18 @@ export type TenantMembershipUpdateWithoutCuentasCobroInput = {
   serviciosCreados?: Prisma.OrdenServicioUpdateManyWithoutCreadoPorNestedInput
   serviciosLiquidados?: Prisma.OrdenServicioUpdateManyWithoutLiquidadoPorNestedInput
   serviciosAsignados?: Prisma.OrdenServicioUpdateManyWithoutTecnicoNestedInput
+  seguimientosCompletados?: Prisma.OrdenServicioSeguimientoUpdateManyWithoutCompletedByMembershipNestedInput
+  seguimientosCreados?: Prisma.OrdenServicioSeguimientoUpdateManyWithoutCreatedByMembershipNestedInput
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoUpdateManyWithoutMembershipNestedInput
   permisosAprobados?: Prisma.PermisoUpdateManyWithoutAdminNestedInput
   permisosSolicitados?: Prisma.PermisoUpdateManyWithoutMembershipNestedInput
   productosSolicitados?: Prisma.ProductoSolicitadoUpdateManyWithoutMembershipNestedInput
   referidos?: Prisma.ReferidosUpdateManyWithoutMembershipNestedInput
-  seguimientosCompletados?: Prisma.OrdenServicioSeguimientoUpdateManyWithoutCompletedByMembershipNestedInput
-  seguimientosCreados?: Prisma.OrdenServicioSeguimientoUpdateManyWithoutCreatedByMembershipNestedInput
   sesionesActividad?: Prisma.SesionActividadUpdateManyWithoutMembershipNestedInput
   municipio?: Prisma.MunicipalityUpdateOneWithoutMembershipsNestedInput
   tenant?: Prisma.TenantUpdateOneRequiredWithoutMembershipsNestedInput
   user?: Prisma.UserUpdateOneRequiredWithoutMembershipsNestedInput
   turnos?: Prisma.TurnoUpdateManyWithoutMembershipNestedInput
-  dashboardPresets?: Prisma.DashboardPresetUpdateManyWithoutCreatedByMembershipNestedInput
 }
 
 export type TenantMembershipUncheckedUpdateWithoutCuentasCobroInput = {
@@ -4861,6 +4861,7 @@ export type TenantMembershipUncheckedUpdateWithoutCuentasCobroInput = {
   consignacionesCreadas?: Prisma.ConsignacionEfectivoUncheckedUpdateManyWithoutCreadoPorNestedInput
   consignacionesTecnico?: Prisma.ConsignacionEfectivoUncheckedUpdateManyWithoutTecnicoNestedInput
   cuentasPago?: Prisma.CuentasPagoUncheckedUpdateManyWithoutMembershipNestedInput
+  dashboardPresets?: Prisma.DashboardPresetUncheckedUpdateManyWithoutCreatedByMembershipNestedInput
   declaracionesEfectivo?: Prisma.DeclaracionEfectivoUncheckedUpdateManyWithoutTecnicoNestedInput
   egresos?: Prisma.EgresosUncheckedUpdateManyWithoutMembershipNestedInput
   empresaMemberships?: Prisma.EmpresaMembershipUncheckedUpdateManyWithoutMembershipNestedInput
@@ -4869,16 +4870,15 @@ export type TenantMembershipUncheckedUpdateWithoutCuentasCobroInput = {
   serviciosCreados?: Prisma.OrdenServicioUncheckedUpdateManyWithoutCreadoPorNestedInput
   serviciosLiquidados?: Prisma.OrdenServicioUncheckedUpdateManyWithoutLiquidadoPorNestedInput
   serviciosAsignados?: Prisma.OrdenServicioUncheckedUpdateManyWithoutTecnicoNestedInput
+  seguimientosCompletados?: Prisma.OrdenServicioSeguimientoUncheckedUpdateManyWithoutCompletedByMembershipNestedInput
+  seguimientosCreados?: Prisma.OrdenServicioSeguimientoUncheckedUpdateManyWithoutCreatedByMembershipNestedInput
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoUncheckedUpdateManyWithoutMembershipNestedInput
   permisosAprobados?: Prisma.PermisoUncheckedUpdateManyWithoutAdminNestedInput
   permisosSolicitados?: Prisma.PermisoUncheckedUpdateManyWithoutMembershipNestedInput
   productosSolicitados?: Prisma.ProductoSolicitadoUncheckedUpdateManyWithoutMembershipNestedInput
   referidos?: Prisma.ReferidosUncheckedUpdateManyWithoutMembershipNestedInput
-  seguimientosCompletados?: Prisma.OrdenServicioSeguimientoUncheckedUpdateManyWithoutCompletedByMembershipNestedInput
-  seguimientosCreados?: Prisma.OrdenServicioSeguimientoUncheckedUpdateManyWithoutCreatedByMembershipNestedInput
   sesionesActividad?: Prisma.SesionActividadUncheckedUpdateManyWithoutMembershipNestedInput
   turnos?: Prisma.TurnoUncheckedUpdateManyWithoutMembershipNestedInput
-  dashboardPresets?: Prisma.DashboardPresetUncheckedUpdateManyWithoutCreatedByMembershipNestedInput
 }
 
 export type TenantMembershipCreateWithoutDeclaracionesEfectivoInput = {
@@ -4907,6 +4907,7 @@ export type TenantMembershipCreateWithoutDeclaracionesEfectivoInput = {
   consignacionesTecnico?: Prisma.ConsignacionEfectivoCreateNestedManyWithoutTecnicoInput
   cuentasCobro?: Prisma.CuentaCobroCreateNestedManyWithoutMembershipInput
   cuentasPago?: Prisma.CuentasPagoCreateNestedManyWithoutMembershipInput
+  dashboardPresets?: Prisma.DashboardPresetCreateNestedManyWithoutCreatedByMembershipInput
   egresos?: Prisma.EgresosCreateNestedManyWithoutMembershipInput
   empresaMemberships?: Prisma.EmpresaMembershipCreateNestedManyWithoutMembershipInput
   geolocalizaciones?: Prisma.GeolocalizacionCreateNestedManyWithoutMembershipInput
@@ -4914,19 +4915,18 @@ export type TenantMembershipCreateWithoutDeclaracionesEfectivoInput = {
   serviciosCreados?: Prisma.OrdenServicioCreateNestedManyWithoutCreadoPorInput
   serviciosLiquidados?: Prisma.OrdenServicioCreateNestedManyWithoutLiquidadoPorInput
   serviciosAsignados?: Prisma.OrdenServicioCreateNestedManyWithoutTecnicoInput
+  seguimientosCompletados?: Prisma.OrdenServicioSeguimientoCreateNestedManyWithoutCompletedByMembershipInput
+  seguimientosCreados?: Prisma.OrdenServicioSeguimientoCreateNestedManyWithoutCreatedByMembershipInput
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoCreateNestedManyWithoutMembershipInput
   permisosAprobados?: Prisma.PermisoCreateNestedManyWithoutAdminInput
   permisosSolicitados?: Prisma.PermisoCreateNestedManyWithoutMembershipInput
   productosSolicitados?: Prisma.ProductoSolicitadoCreateNestedManyWithoutMembershipInput
   referidos?: Prisma.ReferidosCreateNestedManyWithoutMembershipInput
-  seguimientosCompletados?: Prisma.OrdenServicioSeguimientoCreateNestedManyWithoutCompletedByMembershipInput
-  seguimientosCreados?: Prisma.OrdenServicioSeguimientoCreateNestedManyWithoutCreatedByMembershipInput
   sesionesActividad?: Prisma.SesionActividadCreateNestedManyWithoutMembershipInput
   municipio?: Prisma.MunicipalityCreateNestedOneWithoutMembershipsInput
   tenant: Prisma.TenantCreateNestedOneWithoutMembershipsInput
   user: Prisma.UserCreateNestedOneWithoutMembershipsInput
   turnos?: Prisma.TurnoCreateNestedManyWithoutMembershipInput
-  dashboardPresets?: Prisma.DashboardPresetCreateNestedManyWithoutCreatedByMembershipInput
 }
 
 export type TenantMembershipUncheckedCreateWithoutDeclaracionesEfectivoInput = {
@@ -4958,6 +4958,7 @@ export type TenantMembershipUncheckedCreateWithoutDeclaracionesEfectivoInput = {
   consignacionesTecnico?: Prisma.ConsignacionEfectivoUncheckedCreateNestedManyWithoutTecnicoInput
   cuentasCobro?: Prisma.CuentaCobroUncheckedCreateNestedManyWithoutMembershipInput
   cuentasPago?: Prisma.CuentasPagoUncheckedCreateNestedManyWithoutMembershipInput
+  dashboardPresets?: Prisma.DashboardPresetUncheckedCreateNestedManyWithoutCreatedByMembershipInput
   egresos?: Prisma.EgresosUncheckedCreateNestedManyWithoutMembershipInput
   empresaMemberships?: Prisma.EmpresaMembershipUncheckedCreateNestedManyWithoutMembershipInput
   geolocalizaciones?: Prisma.GeolocalizacionUncheckedCreateNestedManyWithoutMembershipInput
@@ -4965,16 +4966,15 @@ export type TenantMembershipUncheckedCreateWithoutDeclaracionesEfectivoInput = {
   serviciosCreados?: Prisma.OrdenServicioUncheckedCreateNestedManyWithoutCreadoPorInput
   serviciosLiquidados?: Prisma.OrdenServicioUncheckedCreateNestedManyWithoutLiquidadoPorInput
   serviciosAsignados?: Prisma.OrdenServicioUncheckedCreateNestedManyWithoutTecnicoInput
+  seguimientosCompletados?: Prisma.OrdenServicioSeguimientoUncheckedCreateNestedManyWithoutCompletedByMembershipInput
+  seguimientosCreados?: Prisma.OrdenServicioSeguimientoUncheckedCreateNestedManyWithoutCreatedByMembershipInput
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoUncheckedCreateNestedManyWithoutMembershipInput
   permisosAprobados?: Prisma.PermisoUncheckedCreateNestedManyWithoutAdminInput
   permisosSolicitados?: Prisma.PermisoUncheckedCreateNestedManyWithoutMembershipInput
   productosSolicitados?: Prisma.ProductoSolicitadoUncheckedCreateNestedManyWithoutMembershipInput
   referidos?: Prisma.ReferidosUncheckedCreateNestedManyWithoutMembershipInput
-  seguimientosCompletados?: Prisma.OrdenServicioSeguimientoUncheckedCreateNestedManyWithoutCompletedByMembershipInput
-  seguimientosCreados?: Prisma.OrdenServicioSeguimientoUncheckedCreateNestedManyWithoutCreatedByMembershipInput
   sesionesActividad?: Prisma.SesionActividadUncheckedCreateNestedManyWithoutMembershipInput
   turnos?: Prisma.TurnoUncheckedCreateNestedManyWithoutMembershipInput
-  dashboardPresets?: Prisma.DashboardPresetUncheckedCreateNestedManyWithoutCreatedByMembershipInput
 }
 
 export type TenantMembershipCreateOrConnectWithoutDeclaracionesEfectivoInput = {
@@ -5019,6 +5019,7 @@ export type TenantMembershipUpdateWithoutDeclaracionesEfectivoInput = {
   consignacionesTecnico?: Prisma.ConsignacionEfectivoUpdateManyWithoutTecnicoNestedInput
   cuentasCobro?: Prisma.CuentaCobroUpdateManyWithoutMembershipNestedInput
   cuentasPago?: Prisma.CuentasPagoUpdateManyWithoutMembershipNestedInput
+  dashboardPresets?: Prisma.DashboardPresetUpdateManyWithoutCreatedByMembershipNestedInput
   egresos?: Prisma.EgresosUpdateManyWithoutMembershipNestedInput
   empresaMemberships?: Prisma.EmpresaMembershipUpdateManyWithoutMembershipNestedInput
   geolocalizaciones?: Prisma.GeolocalizacionUpdateManyWithoutMembershipNestedInput
@@ -5026,19 +5027,18 @@ export type TenantMembershipUpdateWithoutDeclaracionesEfectivoInput = {
   serviciosCreados?: Prisma.OrdenServicioUpdateManyWithoutCreadoPorNestedInput
   serviciosLiquidados?: Prisma.OrdenServicioUpdateManyWithoutLiquidadoPorNestedInput
   serviciosAsignados?: Prisma.OrdenServicioUpdateManyWithoutTecnicoNestedInput
+  seguimientosCompletados?: Prisma.OrdenServicioSeguimientoUpdateManyWithoutCompletedByMembershipNestedInput
+  seguimientosCreados?: Prisma.OrdenServicioSeguimientoUpdateManyWithoutCreatedByMembershipNestedInput
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoUpdateManyWithoutMembershipNestedInput
   permisosAprobados?: Prisma.PermisoUpdateManyWithoutAdminNestedInput
   permisosSolicitados?: Prisma.PermisoUpdateManyWithoutMembershipNestedInput
   productosSolicitados?: Prisma.ProductoSolicitadoUpdateManyWithoutMembershipNestedInput
   referidos?: Prisma.ReferidosUpdateManyWithoutMembershipNestedInput
-  seguimientosCompletados?: Prisma.OrdenServicioSeguimientoUpdateManyWithoutCompletedByMembershipNestedInput
-  seguimientosCreados?: Prisma.OrdenServicioSeguimientoUpdateManyWithoutCreatedByMembershipNestedInput
   sesionesActividad?: Prisma.SesionActividadUpdateManyWithoutMembershipNestedInput
   municipio?: Prisma.MunicipalityUpdateOneWithoutMembershipsNestedInput
   tenant?: Prisma.TenantUpdateOneRequiredWithoutMembershipsNestedInput
   user?: Prisma.UserUpdateOneRequiredWithoutMembershipsNestedInput
   turnos?: Prisma.TurnoUpdateManyWithoutMembershipNestedInput
-  dashboardPresets?: Prisma.DashboardPresetUpdateManyWithoutCreatedByMembershipNestedInput
 }
 
 export type TenantMembershipUncheckedUpdateWithoutDeclaracionesEfectivoInput = {
@@ -5070,6 +5070,7 @@ export type TenantMembershipUncheckedUpdateWithoutDeclaracionesEfectivoInput = {
   consignacionesTecnico?: Prisma.ConsignacionEfectivoUncheckedUpdateManyWithoutTecnicoNestedInput
   cuentasCobro?: Prisma.CuentaCobroUncheckedUpdateManyWithoutMembershipNestedInput
   cuentasPago?: Prisma.CuentasPagoUncheckedUpdateManyWithoutMembershipNestedInput
+  dashboardPresets?: Prisma.DashboardPresetUncheckedUpdateManyWithoutCreatedByMembershipNestedInput
   egresos?: Prisma.EgresosUncheckedUpdateManyWithoutMembershipNestedInput
   empresaMemberships?: Prisma.EmpresaMembershipUncheckedUpdateManyWithoutMembershipNestedInput
   geolocalizaciones?: Prisma.GeolocalizacionUncheckedUpdateManyWithoutMembershipNestedInput
@@ -5077,16 +5078,15 @@ export type TenantMembershipUncheckedUpdateWithoutDeclaracionesEfectivoInput = {
   serviciosCreados?: Prisma.OrdenServicioUncheckedUpdateManyWithoutCreadoPorNestedInput
   serviciosLiquidados?: Prisma.OrdenServicioUncheckedUpdateManyWithoutLiquidadoPorNestedInput
   serviciosAsignados?: Prisma.OrdenServicioUncheckedUpdateManyWithoutTecnicoNestedInput
+  seguimientosCompletados?: Prisma.OrdenServicioSeguimientoUncheckedUpdateManyWithoutCompletedByMembershipNestedInput
+  seguimientosCreados?: Prisma.OrdenServicioSeguimientoUncheckedUpdateManyWithoutCreatedByMembershipNestedInput
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoUncheckedUpdateManyWithoutMembershipNestedInput
   permisosAprobados?: Prisma.PermisoUncheckedUpdateManyWithoutAdminNestedInput
   permisosSolicitados?: Prisma.PermisoUncheckedUpdateManyWithoutMembershipNestedInput
   productosSolicitados?: Prisma.ProductoSolicitadoUncheckedUpdateManyWithoutMembershipNestedInput
   referidos?: Prisma.ReferidosUncheckedUpdateManyWithoutMembershipNestedInput
-  seguimientosCompletados?: Prisma.OrdenServicioSeguimientoUncheckedUpdateManyWithoutCompletedByMembershipNestedInput
-  seguimientosCreados?: Prisma.OrdenServicioSeguimientoUncheckedUpdateManyWithoutCreatedByMembershipNestedInput
   sesionesActividad?: Prisma.SesionActividadUncheckedUpdateManyWithoutMembershipNestedInput
   turnos?: Prisma.TurnoUncheckedUpdateManyWithoutMembershipNestedInput
-  dashboardPresets?: Prisma.DashboardPresetUncheckedUpdateManyWithoutCreatedByMembershipNestedInput
 }
 
 export type TenantMembershipCreateWithoutConsignacionesCreadasInput = {
@@ -5114,6 +5114,7 @@ export type TenantMembershipCreateWithoutConsignacionesCreadasInput = {
   consignacionesTecnico?: Prisma.ConsignacionEfectivoCreateNestedManyWithoutTecnicoInput
   cuentasCobro?: Prisma.CuentaCobroCreateNestedManyWithoutMembershipInput
   cuentasPago?: Prisma.CuentasPagoCreateNestedManyWithoutMembershipInput
+  dashboardPresets?: Prisma.DashboardPresetCreateNestedManyWithoutCreatedByMembershipInput
   declaracionesEfectivo?: Prisma.DeclaracionEfectivoCreateNestedManyWithoutTecnicoInput
   egresos?: Prisma.EgresosCreateNestedManyWithoutMembershipInput
   empresaMemberships?: Prisma.EmpresaMembershipCreateNestedManyWithoutMembershipInput
@@ -5122,19 +5123,18 @@ export type TenantMembershipCreateWithoutConsignacionesCreadasInput = {
   serviciosCreados?: Prisma.OrdenServicioCreateNestedManyWithoutCreadoPorInput
   serviciosLiquidados?: Prisma.OrdenServicioCreateNestedManyWithoutLiquidadoPorInput
   serviciosAsignados?: Prisma.OrdenServicioCreateNestedManyWithoutTecnicoInput
+  seguimientosCompletados?: Prisma.OrdenServicioSeguimientoCreateNestedManyWithoutCompletedByMembershipInput
+  seguimientosCreados?: Prisma.OrdenServicioSeguimientoCreateNestedManyWithoutCreatedByMembershipInput
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoCreateNestedManyWithoutMembershipInput
   permisosAprobados?: Prisma.PermisoCreateNestedManyWithoutAdminInput
   permisosSolicitados?: Prisma.PermisoCreateNestedManyWithoutMembershipInput
   productosSolicitados?: Prisma.ProductoSolicitadoCreateNestedManyWithoutMembershipInput
   referidos?: Prisma.ReferidosCreateNestedManyWithoutMembershipInput
-  seguimientosCompletados?: Prisma.OrdenServicioSeguimientoCreateNestedManyWithoutCompletedByMembershipInput
-  seguimientosCreados?: Prisma.OrdenServicioSeguimientoCreateNestedManyWithoutCreatedByMembershipInput
   sesionesActividad?: Prisma.SesionActividadCreateNestedManyWithoutMembershipInput
   municipio?: Prisma.MunicipalityCreateNestedOneWithoutMembershipsInput
   tenant: Prisma.TenantCreateNestedOneWithoutMembershipsInput
   user: Prisma.UserCreateNestedOneWithoutMembershipsInput
   turnos?: Prisma.TurnoCreateNestedManyWithoutMembershipInput
-  dashboardPresets?: Prisma.DashboardPresetCreateNestedManyWithoutCreatedByMembershipInput
 }
 
 export type TenantMembershipUncheckedCreateWithoutConsignacionesCreadasInput = {
@@ -5165,6 +5165,7 @@ export type TenantMembershipUncheckedCreateWithoutConsignacionesCreadasInput = {
   consignacionesTecnico?: Prisma.ConsignacionEfectivoUncheckedCreateNestedManyWithoutTecnicoInput
   cuentasCobro?: Prisma.CuentaCobroUncheckedCreateNestedManyWithoutMembershipInput
   cuentasPago?: Prisma.CuentasPagoUncheckedCreateNestedManyWithoutMembershipInput
+  dashboardPresets?: Prisma.DashboardPresetUncheckedCreateNestedManyWithoutCreatedByMembershipInput
   declaracionesEfectivo?: Prisma.DeclaracionEfectivoUncheckedCreateNestedManyWithoutTecnicoInput
   egresos?: Prisma.EgresosUncheckedCreateNestedManyWithoutMembershipInput
   empresaMemberships?: Prisma.EmpresaMembershipUncheckedCreateNestedManyWithoutMembershipInput
@@ -5173,16 +5174,15 @@ export type TenantMembershipUncheckedCreateWithoutConsignacionesCreadasInput = {
   serviciosCreados?: Prisma.OrdenServicioUncheckedCreateNestedManyWithoutCreadoPorInput
   serviciosLiquidados?: Prisma.OrdenServicioUncheckedCreateNestedManyWithoutLiquidadoPorInput
   serviciosAsignados?: Prisma.OrdenServicioUncheckedCreateNestedManyWithoutTecnicoInput
+  seguimientosCompletados?: Prisma.OrdenServicioSeguimientoUncheckedCreateNestedManyWithoutCompletedByMembershipInput
+  seguimientosCreados?: Prisma.OrdenServicioSeguimientoUncheckedCreateNestedManyWithoutCreatedByMembershipInput
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoUncheckedCreateNestedManyWithoutMembershipInput
   permisosAprobados?: Prisma.PermisoUncheckedCreateNestedManyWithoutAdminInput
   permisosSolicitados?: Prisma.PermisoUncheckedCreateNestedManyWithoutMembershipInput
   productosSolicitados?: Prisma.ProductoSolicitadoUncheckedCreateNestedManyWithoutMembershipInput
   referidos?: Prisma.ReferidosUncheckedCreateNestedManyWithoutMembershipInput
-  seguimientosCompletados?: Prisma.OrdenServicioSeguimientoUncheckedCreateNestedManyWithoutCompletedByMembershipInput
-  seguimientosCreados?: Prisma.OrdenServicioSeguimientoUncheckedCreateNestedManyWithoutCreatedByMembershipInput
   sesionesActividad?: Prisma.SesionActividadUncheckedCreateNestedManyWithoutMembershipInput
   turnos?: Prisma.TurnoUncheckedCreateNestedManyWithoutMembershipInput
-  dashboardPresets?: Prisma.DashboardPresetUncheckedCreateNestedManyWithoutCreatedByMembershipInput
 }
 
 export type TenantMembershipCreateOrConnectWithoutConsignacionesCreadasInput = {
@@ -5215,6 +5215,7 @@ export type TenantMembershipCreateWithoutConsignacionesTecnicoInput = {
   consignacionesCreadas?: Prisma.ConsignacionEfectivoCreateNestedManyWithoutCreadoPorInput
   cuentasCobro?: Prisma.CuentaCobroCreateNestedManyWithoutMembershipInput
   cuentasPago?: Prisma.CuentasPagoCreateNestedManyWithoutMembershipInput
+  dashboardPresets?: Prisma.DashboardPresetCreateNestedManyWithoutCreatedByMembershipInput
   declaracionesEfectivo?: Prisma.DeclaracionEfectivoCreateNestedManyWithoutTecnicoInput
   egresos?: Prisma.EgresosCreateNestedManyWithoutMembershipInput
   empresaMemberships?: Prisma.EmpresaMembershipCreateNestedManyWithoutMembershipInput
@@ -5223,19 +5224,18 @@ export type TenantMembershipCreateWithoutConsignacionesTecnicoInput = {
   serviciosCreados?: Prisma.OrdenServicioCreateNestedManyWithoutCreadoPorInput
   serviciosLiquidados?: Prisma.OrdenServicioCreateNestedManyWithoutLiquidadoPorInput
   serviciosAsignados?: Prisma.OrdenServicioCreateNestedManyWithoutTecnicoInput
+  seguimientosCompletados?: Prisma.OrdenServicioSeguimientoCreateNestedManyWithoutCompletedByMembershipInput
+  seguimientosCreados?: Prisma.OrdenServicioSeguimientoCreateNestedManyWithoutCreatedByMembershipInput
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoCreateNestedManyWithoutMembershipInput
   permisosAprobados?: Prisma.PermisoCreateNestedManyWithoutAdminInput
   permisosSolicitados?: Prisma.PermisoCreateNestedManyWithoutMembershipInput
   productosSolicitados?: Prisma.ProductoSolicitadoCreateNestedManyWithoutMembershipInput
   referidos?: Prisma.ReferidosCreateNestedManyWithoutMembershipInput
-  seguimientosCompletados?: Prisma.OrdenServicioSeguimientoCreateNestedManyWithoutCompletedByMembershipInput
-  seguimientosCreados?: Prisma.OrdenServicioSeguimientoCreateNestedManyWithoutCreatedByMembershipInput
   sesionesActividad?: Prisma.SesionActividadCreateNestedManyWithoutMembershipInput
   municipio?: Prisma.MunicipalityCreateNestedOneWithoutMembershipsInput
   tenant: Prisma.TenantCreateNestedOneWithoutMembershipsInput
   user: Prisma.UserCreateNestedOneWithoutMembershipsInput
   turnos?: Prisma.TurnoCreateNestedManyWithoutMembershipInput
-  dashboardPresets?: Prisma.DashboardPresetCreateNestedManyWithoutCreatedByMembershipInput
 }
 
 export type TenantMembershipUncheckedCreateWithoutConsignacionesTecnicoInput = {
@@ -5266,6 +5266,7 @@ export type TenantMembershipUncheckedCreateWithoutConsignacionesTecnicoInput = {
   consignacionesCreadas?: Prisma.ConsignacionEfectivoUncheckedCreateNestedManyWithoutCreadoPorInput
   cuentasCobro?: Prisma.CuentaCobroUncheckedCreateNestedManyWithoutMembershipInput
   cuentasPago?: Prisma.CuentasPagoUncheckedCreateNestedManyWithoutMembershipInput
+  dashboardPresets?: Prisma.DashboardPresetUncheckedCreateNestedManyWithoutCreatedByMembershipInput
   declaracionesEfectivo?: Prisma.DeclaracionEfectivoUncheckedCreateNestedManyWithoutTecnicoInput
   egresos?: Prisma.EgresosUncheckedCreateNestedManyWithoutMembershipInput
   empresaMemberships?: Prisma.EmpresaMembershipUncheckedCreateNestedManyWithoutMembershipInput
@@ -5274,16 +5275,15 @@ export type TenantMembershipUncheckedCreateWithoutConsignacionesTecnicoInput = {
   serviciosCreados?: Prisma.OrdenServicioUncheckedCreateNestedManyWithoutCreadoPorInput
   serviciosLiquidados?: Prisma.OrdenServicioUncheckedCreateNestedManyWithoutLiquidadoPorInput
   serviciosAsignados?: Prisma.OrdenServicioUncheckedCreateNestedManyWithoutTecnicoInput
+  seguimientosCompletados?: Prisma.OrdenServicioSeguimientoUncheckedCreateNestedManyWithoutCompletedByMembershipInput
+  seguimientosCreados?: Prisma.OrdenServicioSeguimientoUncheckedCreateNestedManyWithoutCreatedByMembershipInput
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoUncheckedCreateNestedManyWithoutMembershipInput
   permisosAprobados?: Prisma.PermisoUncheckedCreateNestedManyWithoutAdminInput
   permisosSolicitados?: Prisma.PermisoUncheckedCreateNestedManyWithoutMembershipInput
   productosSolicitados?: Prisma.ProductoSolicitadoUncheckedCreateNestedManyWithoutMembershipInput
   referidos?: Prisma.ReferidosUncheckedCreateNestedManyWithoutMembershipInput
-  seguimientosCompletados?: Prisma.OrdenServicioSeguimientoUncheckedCreateNestedManyWithoutCompletedByMembershipInput
-  seguimientosCreados?: Prisma.OrdenServicioSeguimientoUncheckedCreateNestedManyWithoutCreatedByMembershipInput
   sesionesActividad?: Prisma.SesionActividadUncheckedCreateNestedManyWithoutMembershipInput
   turnos?: Prisma.TurnoUncheckedCreateNestedManyWithoutMembershipInput
-  dashboardPresets?: Prisma.DashboardPresetUncheckedCreateNestedManyWithoutCreatedByMembershipInput
 }
 
 export type TenantMembershipCreateOrConnectWithoutConsignacionesTecnicoInput = {
@@ -5327,6 +5327,7 @@ export type TenantMembershipUpdateWithoutConsignacionesCreadasInput = {
   consignacionesTecnico?: Prisma.ConsignacionEfectivoUpdateManyWithoutTecnicoNestedInput
   cuentasCobro?: Prisma.CuentaCobroUpdateManyWithoutMembershipNestedInput
   cuentasPago?: Prisma.CuentasPagoUpdateManyWithoutMembershipNestedInput
+  dashboardPresets?: Prisma.DashboardPresetUpdateManyWithoutCreatedByMembershipNestedInput
   declaracionesEfectivo?: Prisma.DeclaracionEfectivoUpdateManyWithoutTecnicoNestedInput
   egresos?: Prisma.EgresosUpdateManyWithoutMembershipNestedInput
   empresaMemberships?: Prisma.EmpresaMembershipUpdateManyWithoutMembershipNestedInput
@@ -5335,19 +5336,18 @@ export type TenantMembershipUpdateWithoutConsignacionesCreadasInput = {
   serviciosCreados?: Prisma.OrdenServicioUpdateManyWithoutCreadoPorNestedInput
   serviciosLiquidados?: Prisma.OrdenServicioUpdateManyWithoutLiquidadoPorNestedInput
   serviciosAsignados?: Prisma.OrdenServicioUpdateManyWithoutTecnicoNestedInput
+  seguimientosCompletados?: Prisma.OrdenServicioSeguimientoUpdateManyWithoutCompletedByMembershipNestedInput
+  seguimientosCreados?: Prisma.OrdenServicioSeguimientoUpdateManyWithoutCreatedByMembershipNestedInput
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoUpdateManyWithoutMembershipNestedInput
   permisosAprobados?: Prisma.PermisoUpdateManyWithoutAdminNestedInput
   permisosSolicitados?: Prisma.PermisoUpdateManyWithoutMembershipNestedInput
   productosSolicitados?: Prisma.ProductoSolicitadoUpdateManyWithoutMembershipNestedInput
   referidos?: Prisma.ReferidosUpdateManyWithoutMembershipNestedInput
-  seguimientosCompletados?: Prisma.OrdenServicioSeguimientoUpdateManyWithoutCompletedByMembershipNestedInput
-  seguimientosCreados?: Prisma.OrdenServicioSeguimientoUpdateManyWithoutCreatedByMembershipNestedInput
   sesionesActividad?: Prisma.SesionActividadUpdateManyWithoutMembershipNestedInput
   municipio?: Prisma.MunicipalityUpdateOneWithoutMembershipsNestedInput
   tenant?: Prisma.TenantUpdateOneRequiredWithoutMembershipsNestedInput
   user?: Prisma.UserUpdateOneRequiredWithoutMembershipsNestedInput
   turnos?: Prisma.TurnoUpdateManyWithoutMembershipNestedInput
-  dashboardPresets?: Prisma.DashboardPresetUpdateManyWithoutCreatedByMembershipNestedInput
 }
 
 export type TenantMembershipUncheckedUpdateWithoutConsignacionesCreadasInput = {
@@ -5378,6 +5378,7 @@ export type TenantMembershipUncheckedUpdateWithoutConsignacionesCreadasInput = {
   consignacionesTecnico?: Prisma.ConsignacionEfectivoUncheckedUpdateManyWithoutTecnicoNestedInput
   cuentasCobro?: Prisma.CuentaCobroUncheckedUpdateManyWithoutMembershipNestedInput
   cuentasPago?: Prisma.CuentasPagoUncheckedUpdateManyWithoutMembershipNestedInput
+  dashboardPresets?: Prisma.DashboardPresetUncheckedUpdateManyWithoutCreatedByMembershipNestedInput
   declaracionesEfectivo?: Prisma.DeclaracionEfectivoUncheckedUpdateManyWithoutTecnicoNestedInput
   egresos?: Prisma.EgresosUncheckedUpdateManyWithoutMembershipNestedInput
   empresaMemberships?: Prisma.EmpresaMembershipUncheckedUpdateManyWithoutMembershipNestedInput
@@ -5386,16 +5387,15 @@ export type TenantMembershipUncheckedUpdateWithoutConsignacionesCreadasInput = {
   serviciosCreados?: Prisma.OrdenServicioUncheckedUpdateManyWithoutCreadoPorNestedInput
   serviciosLiquidados?: Prisma.OrdenServicioUncheckedUpdateManyWithoutLiquidadoPorNestedInput
   serviciosAsignados?: Prisma.OrdenServicioUncheckedUpdateManyWithoutTecnicoNestedInput
+  seguimientosCompletados?: Prisma.OrdenServicioSeguimientoUncheckedUpdateManyWithoutCompletedByMembershipNestedInput
+  seguimientosCreados?: Prisma.OrdenServicioSeguimientoUncheckedUpdateManyWithoutCreatedByMembershipNestedInput
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoUncheckedUpdateManyWithoutMembershipNestedInput
   permisosAprobados?: Prisma.PermisoUncheckedUpdateManyWithoutAdminNestedInput
   permisosSolicitados?: Prisma.PermisoUncheckedUpdateManyWithoutMembershipNestedInput
   productosSolicitados?: Prisma.ProductoSolicitadoUncheckedUpdateManyWithoutMembershipNestedInput
   referidos?: Prisma.ReferidosUncheckedUpdateManyWithoutMembershipNestedInput
-  seguimientosCompletados?: Prisma.OrdenServicioSeguimientoUncheckedUpdateManyWithoutCompletedByMembershipNestedInput
-  seguimientosCreados?: Prisma.OrdenServicioSeguimientoUncheckedUpdateManyWithoutCreatedByMembershipNestedInput
   sesionesActividad?: Prisma.SesionActividadUncheckedUpdateManyWithoutMembershipNestedInput
   turnos?: Prisma.TurnoUncheckedUpdateManyWithoutMembershipNestedInput
-  dashboardPresets?: Prisma.DashboardPresetUncheckedUpdateManyWithoutCreatedByMembershipNestedInput
 }
 
 export type TenantMembershipUpsertWithoutConsignacionesTecnicoInput = {
@@ -5434,6 +5434,7 @@ export type TenantMembershipUpdateWithoutConsignacionesTecnicoInput = {
   consignacionesCreadas?: Prisma.ConsignacionEfectivoUpdateManyWithoutCreadoPorNestedInput
   cuentasCobro?: Prisma.CuentaCobroUpdateManyWithoutMembershipNestedInput
   cuentasPago?: Prisma.CuentasPagoUpdateManyWithoutMembershipNestedInput
+  dashboardPresets?: Prisma.DashboardPresetUpdateManyWithoutCreatedByMembershipNestedInput
   declaracionesEfectivo?: Prisma.DeclaracionEfectivoUpdateManyWithoutTecnicoNestedInput
   egresos?: Prisma.EgresosUpdateManyWithoutMembershipNestedInput
   empresaMemberships?: Prisma.EmpresaMembershipUpdateManyWithoutMembershipNestedInput
@@ -5442,19 +5443,18 @@ export type TenantMembershipUpdateWithoutConsignacionesTecnicoInput = {
   serviciosCreados?: Prisma.OrdenServicioUpdateManyWithoutCreadoPorNestedInput
   serviciosLiquidados?: Prisma.OrdenServicioUpdateManyWithoutLiquidadoPorNestedInput
   serviciosAsignados?: Prisma.OrdenServicioUpdateManyWithoutTecnicoNestedInput
+  seguimientosCompletados?: Prisma.OrdenServicioSeguimientoUpdateManyWithoutCompletedByMembershipNestedInput
+  seguimientosCreados?: Prisma.OrdenServicioSeguimientoUpdateManyWithoutCreatedByMembershipNestedInput
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoUpdateManyWithoutMembershipNestedInput
   permisosAprobados?: Prisma.PermisoUpdateManyWithoutAdminNestedInput
   permisosSolicitados?: Prisma.PermisoUpdateManyWithoutMembershipNestedInput
   productosSolicitados?: Prisma.ProductoSolicitadoUpdateManyWithoutMembershipNestedInput
   referidos?: Prisma.ReferidosUpdateManyWithoutMembershipNestedInput
-  seguimientosCompletados?: Prisma.OrdenServicioSeguimientoUpdateManyWithoutCompletedByMembershipNestedInput
-  seguimientosCreados?: Prisma.OrdenServicioSeguimientoUpdateManyWithoutCreatedByMembershipNestedInput
   sesionesActividad?: Prisma.SesionActividadUpdateManyWithoutMembershipNestedInput
   municipio?: Prisma.MunicipalityUpdateOneWithoutMembershipsNestedInput
   tenant?: Prisma.TenantUpdateOneRequiredWithoutMembershipsNestedInput
   user?: Prisma.UserUpdateOneRequiredWithoutMembershipsNestedInput
   turnos?: Prisma.TurnoUpdateManyWithoutMembershipNestedInput
-  dashboardPresets?: Prisma.DashboardPresetUpdateManyWithoutCreatedByMembershipNestedInput
 }
 
 export type TenantMembershipUncheckedUpdateWithoutConsignacionesTecnicoInput = {
@@ -5485,6 +5485,7 @@ export type TenantMembershipUncheckedUpdateWithoutConsignacionesTecnicoInput = {
   consignacionesCreadas?: Prisma.ConsignacionEfectivoUncheckedUpdateManyWithoutCreadoPorNestedInput
   cuentasCobro?: Prisma.CuentaCobroUncheckedUpdateManyWithoutMembershipNestedInput
   cuentasPago?: Prisma.CuentasPagoUncheckedUpdateManyWithoutMembershipNestedInput
+  dashboardPresets?: Prisma.DashboardPresetUncheckedUpdateManyWithoutCreatedByMembershipNestedInput
   declaracionesEfectivo?: Prisma.DeclaracionEfectivoUncheckedUpdateManyWithoutTecnicoNestedInput
   egresos?: Prisma.EgresosUncheckedUpdateManyWithoutMembershipNestedInput
   empresaMemberships?: Prisma.EmpresaMembershipUncheckedUpdateManyWithoutMembershipNestedInput
@@ -5493,16 +5494,15 @@ export type TenantMembershipUncheckedUpdateWithoutConsignacionesTecnicoInput = {
   serviciosCreados?: Prisma.OrdenServicioUncheckedUpdateManyWithoutCreadoPorNestedInput
   serviciosLiquidados?: Prisma.OrdenServicioUncheckedUpdateManyWithoutLiquidadoPorNestedInput
   serviciosAsignados?: Prisma.OrdenServicioUncheckedUpdateManyWithoutTecnicoNestedInput
+  seguimientosCompletados?: Prisma.OrdenServicioSeguimientoUncheckedUpdateManyWithoutCompletedByMembershipNestedInput
+  seguimientosCreados?: Prisma.OrdenServicioSeguimientoUncheckedUpdateManyWithoutCreatedByMembershipNestedInput
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoUncheckedUpdateManyWithoutMembershipNestedInput
   permisosAprobados?: Prisma.PermisoUncheckedUpdateManyWithoutAdminNestedInput
   permisosSolicitados?: Prisma.PermisoUncheckedUpdateManyWithoutMembershipNestedInput
   productosSolicitados?: Prisma.ProductoSolicitadoUncheckedUpdateManyWithoutMembershipNestedInput
   referidos?: Prisma.ReferidosUncheckedUpdateManyWithoutMembershipNestedInput
-  seguimientosCompletados?: Prisma.OrdenServicioSeguimientoUncheckedUpdateManyWithoutCompletedByMembershipNestedInput
-  seguimientosCreados?: Prisma.OrdenServicioSeguimientoUncheckedUpdateManyWithoutCreatedByMembershipNestedInput
   sesionesActividad?: Prisma.SesionActividadUncheckedUpdateManyWithoutMembershipNestedInput
   turnos?: Prisma.TurnoUncheckedUpdateManyWithoutMembershipNestedInput
-  dashboardPresets?: Prisma.DashboardPresetUncheckedUpdateManyWithoutCreatedByMembershipNestedInput
 }
 
 export type TenantMembershipCreateWithoutAnticiposInput = {
@@ -5530,6 +5530,7 @@ export type TenantMembershipCreateWithoutAnticiposInput = {
   consignacionesTecnico?: Prisma.ConsignacionEfectivoCreateNestedManyWithoutTecnicoInput
   cuentasCobro?: Prisma.CuentaCobroCreateNestedManyWithoutMembershipInput
   cuentasPago?: Prisma.CuentasPagoCreateNestedManyWithoutMembershipInput
+  dashboardPresets?: Prisma.DashboardPresetCreateNestedManyWithoutCreatedByMembershipInput
   declaracionesEfectivo?: Prisma.DeclaracionEfectivoCreateNestedManyWithoutTecnicoInput
   egresos?: Prisma.EgresosCreateNestedManyWithoutMembershipInput
   empresaMemberships?: Prisma.EmpresaMembershipCreateNestedManyWithoutMembershipInput
@@ -5538,19 +5539,18 @@ export type TenantMembershipCreateWithoutAnticiposInput = {
   serviciosCreados?: Prisma.OrdenServicioCreateNestedManyWithoutCreadoPorInput
   serviciosLiquidados?: Prisma.OrdenServicioCreateNestedManyWithoutLiquidadoPorInput
   serviciosAsignados?: Prisma.OrdenServicioCreateNestedManyWithoutTecnicoInput
+  seguimientosCompletados?: Prisma.OrdenServicioSeguimientoCreateNestedManyWithoutCompletedByMembershipInput
+  seguimientosCreados?: Prisma.OrdenServicioSeguimientoCreateNestedManyWithoutCreatedByMembershipInput
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoCreateNestedManyWithoutMembershipInput
   permisosAprobados?: Prisma.PermisoCreateNestedManyWithoutAdminInput
   permisosSolicitados?: Prisma.PermisoCreateNestedManyWithoutMembershipInput
   productosSolicitados?: Prisma.ProductoSolicitadoCreateNestedManyWithoutMembershipInput
   referidos?: Prisma.ReferidosCreateNestedManyWithoutMembershipInput
-  seguimientosCompletados?: Prisma.OrdenServicioSeguimientoCreateNestedManyWithoutCompletedByMembershipInput
-  seguimientosCreados?: Prisma.OrdenServicioSeguimientoCreateNestedManyWithoutCreatedByMembershipInput
   sesionesActividad?: Prisma.SesionActividadCreateNestedManyWithoutMembershipInput
   municipio?: Prisma.MunicipalityCreateNestedOneWithoutMembershipsInput
   tenant: Prisma.TenantCreateNestedOneWithoutMembershipsInput
   user: Prisma.UserCreateNestedOneWithoutMembershipsInput
   turnos?: Prisma.TurnoCreateNestedManyWithoutMembershipInput
-  dashboardPresets?: Prisma.DashboardPresetCreateNestedManyWithoutCreatedByMembershipInput
 }
 
 export type TenantMembershipUncheckedCreateWithoutAnticiposInput = {
@@ -5581,6 +5581,7 @@ export type TenantMembershipUncheckedCreateWithoutAnticiposInput = {
   consignacionesTecnico?: Prisma.ConsignacionEfectivoUncheckedCreateNestedManyWithoutTecnicoInput
   cuentasCobro?: Prisma.CuentaCobroUncheckedCreateNestedManyWithoutMembershipInput
   cuentasPago?: Prisma.CuentasPagoUncheckedCreateNestedManyWithoutMembershipInput
+  dashboardPresets?: Prisma.DashboardPresetUncheckedCreateNestedManyWithoutCreatedByMembershipInput
   declaracionesEfectivo?: Prisma.DeclaracionEfectivoUncheckedCreateNestedManyWithoutTecnicoInput
   egresos?: Prisma.EgresosUncheckedCreateNestedManyWithoutMembershipInput
   empresaMemberships?: Prisma.EmpresaMembershipUncheckedCreateNestedManyWithoutMembershipInput
@@ -5589,16 +5590,15 @@ export type TenantMembershipUncheckedCreateWithoutAnticiposInput = {
   serviciosCreados?: Prisma.OrdenServicioUncheckedCreateNestedManyWithoutCreadoPorInput
   serviciosLiquidados?: Prisma.OrdenServicioUncheckedCreateNestedManyWithoutLiquidadoPorInput
   serviciosAsignados?: Prisma.OrdenServicioUncheckedCreateNestedManyWithoutTecnicoInput
+  seguimientosCompletados?: Prisma.OrdenServicioSeguimientoUncheckedCreateNestedManyWithoutCompletedByMembershipInput
+  seguimientosCreados?: Prisma.OrdenServicioSeguimientoUncheckedCreateNestedManyWithoutCreatedByMembershipInput
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoUncheckedCreateNestedManyWithoutMembershipInput
   permisosAprobados?: Prisma.PermisoUncheckedCreateNestedManyWithoutAdminInput
   permisosSolicitados?: Prisma.PermisoUncheckedCreateNestedManyWithoutMembershipInput
   productosSolicitados?: Prisma.ProductoSolicitadoUncheckedCreateNestedManyWithoutMembershipInput
   referidos?: Prisma.ReferidosUncheckedCreateNestedManyWithoutMembershipInput
-  seguimientosCompletados?: Prisma.OrdenServicioSeguimientoUncheckedCreateNestedManyWithoutCompletedByMembershipInput
-  seguimientosCreados?: Prisma.OrdenServicioSeguimientoUncheckedCreateNestedManyWithoutCreatedByMembershipInput
   sesionesActividad?: Prisma.SesionActividadUncheckedCreateNestedManyWithoutMembershipInput
   turnos?: Prisma.TurnoUncheckedCreateNestedManyWithoutMembershipInput
-  dashboardPresets?: Prisma.DashboardPresetUncheckedCreateNestedManyWithoutCreatedByMembershipInput
 }
 
 export type TenantMembershipCreateOrConnectWithoutAnticiposInput = {
@@ -5642,6 +5642,7 @@ export type TenantMembershipUpdateWithoutAnticiposInput = {
   consignacionesTecnico?: Prisma.ConsignacionEfectivoUpdateManyWithoutTecnicoNestedInput
   cuentasCobro?: Prisma.CuentaCobroUpdateManyWithoutMembershipNestedInput
   cuentasPago?: Prisma.CuentasPagoUpdateManyWithoutMembershipNestedInput
+  dashboardPresets?: Prisma.DashboardPresetUpdateManyWithoutCreatedByMembershipNestedInput
   declaracionesEfectivo?: Prisma.DeclaracionEfectivoUpdateManyWithoutTecnicoNestedInput
   egresos?: Prisma.EgresosUpdateManyWithoutMembershipNestedInput
   empresaMemberships?: Prisma.EmpresaMembershipUpdateManyWithoutMembershipNestedInput
@@ -5650,19 +5651,18 @@ export type TenantMembershipUpdateWithoutAnticiposInput = {
   serviciosCreados?: Prisma.OrdenServicioUpdateManyWithoutCreadoPorNestedInput
   serviciosLiquidados?: Prisma.OrdenServicioUpdateManyWithoutLiquidadoPorNestedInput
   serviciosAsignados?: Prisma.OrdenServicioUpdateManyWithoutTecnicoNestedInput
+  seguimientosCompletados?: Prisma.OrdenServicioSeguimientoUpdateManyWithoutCompletedByMembershipNestedInput
+  seguimientosCreados?: Prisma.OrdenServicioSeguimientoUpdateManyWithoutCreatedByMembershipNestedInput
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoUpdateManyWithoutMembershipNestedInput
   permisosAprobados?: Prisma.PermisoUpdateManyWithoutAdminNestedInput
   permisosSolicitados?: Prisma.PermisoUpdateManyWithoutMembershipNestedInput
   productosSolicitados?: Prisma.ProductoSolicitadoUpdateManyWithoutMembershipNestedInput
   referidos?: Prisma.ReferidosUpdateManyWithoutMembershipNestedInput
-  seguimientosCompletados?: Prisma.OrdenServicioSeguimientoUpdateManyWithoutCompletedByMembershipNestedInput
-  seguimientosCreados?: Prisma.OrdenServicioSeguimientoUpdateManyWithoutCreatedByMembershipNestedInput
   sesionesActividad?: Prisma.SesionActividadUpdateManyWithoutMembershipNestedInput
   municipio?: Prisma.MunicipalityUpdateOneWithoutMembershipsNestedInput
   tenant?: Prisma.TenantUpdateOneRequiredWithoutMembershipsNestedInput
   user?: Prisma.UserUpdateOneRequiredWithoutMembershipsNestedInput
   turnos?: Prisma.TurnoUpdateManyWithoutMembershipNestedInput
-  dashboardPresets?: Prisma.DashboardPresetUpdateManyWithoutCreatedByMembershipNestedInput
 }
 
 export type TenantMembershipUncheckedUpdateWithoutAnticiposInput = {
@@ -5693,6 +5693,7 @@ export type TenantMembershipUncheckedUpdateWithoutAnticiposInput = {
   consignacionesTecnico?: Prisma.ConsignacionEfectivoUncheckedUpdateManyWithoutTecnicoNestedInput
   cuentasCobro?: Prisma.CuentaCobroUncheckedUpdateManyWithoutMembershipNestedInput
   cuentasPago?: Prisma.CuentasPagoUncheckedUpdateManyWithoutMembershipNestedInput
+  dashboardPresets?: Prisma.DashboardPresetUncheckedUpdateManyWithoutCreatedByMembershipNestedInput
   declaracionesEfectivo?: Prisma.DeclaracionEfectivoUncheckedUpdateManyWithoutTecnicoNestedInput
   egresos?: Prisma.EgresosUncheckedUpdateManyWithoutMembershipNestedInput
   empresaMemberships?: Prisma.EmpresaMembershipUncheckedUpdateManyWithoutMembershipNestedInput
@@ -5701,16 +5702,15 @@ export type TenantMembershipUncheckedUpdateWithoutAnticiposInput = {
   serviciosCreados?: Prisma.OrdenServicioUncheckedUpdateManyWithoutCreadoPorNestedInput
   serviciosLiquidados?: Prisma.OrdenServicioUncheckedUpdateManyWithoutLiquidadoPorNestedInput
   serviciosAsignados?: Prisma.OrdenServicioUncheckedUpdateManyWithoutTecnicoNestedInput
+  seguimientosCompletados?: Prisma.OrdenServicioSeguimientoUncheckedUpdateManyWithoutCompletedByMembershipNestedInput
+  seguimientosCreados?: Prisma.OrdenServicioSeguimientoUncheckedUpdateManyWithoutCreatedByMembershipNestedInput
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoUncheckedUpdateManyWithoutMembershipNestedInput
   permisosAprobados?: Prisma.PermisoUncheckedUpdateManyWithoutAdminNestedInput
   permisosSolicitados?: Prisma.PermisoUncheckedUpdateManyWithoutMembershipNestedInput
   productosSolicitados?: Prisma.ProductoSolicitadoUncheckedUpdateManyWithoutMembershipNestedInput
   referidos?: Prisma.ReferidosUncheckedUpdateManyWithoutMembershipNestedInput
-  seguimientosCompletados?: Prisma.OrdenServicioSeguimientoUncheckedUpdateManyWithoutCompletedByMembershipNestedInput
-  seguimientosCreados?: Prisma.OrdenServicioSeguimientoUncheckedUpdateManyWithoutCreatedByMembershipNestedInput
   sesionesActividad?: Prisma.SesionActividadUncheckedUpdateManyWithoutMembershipNestedInput
   turnos?: Prisma.TurnoUncheckedUpdateManyWithoutMembershipNestedInput
-  dashboardPresets?: Prisma.DashboardPresetUncheckedUpdateManyWithoutCreatedByMembershipNestedInput
 }
 
 export type TenantMembershipCreateWithoutProductosSolicitadosInput = {
@@ -5739,6 +5739,7 @@ export type TenantMembershipCreateWithoutProductosSolicitadosInput = {
   consignacionesTecnico?: Prisma.ConsignacionEfectivoCreateNestedManyWithoutTecnicoInput
   cuentasCobro?: Prisma.CuentaCobroCreateNestedManyWithoutMembershipInput
   cuentasPago?: Prisma.CuentasPagoCreateNestedManyWithoutMembershipInput
+  dashboardPresets?: Prisma.DashboardPresetCreateNestedManyWithoutCreatedByMembershipInput
   declaracionesEfectivo?: Prisma.DeclaracionEfectivoCreateNestedManyWithoutTecnicoInput
   egresos?: Prisma.EgresosCreateNestedManyWithoutMembershipInput
   empresaMemberships?: Prisma.EmpresaMembershipCreateNestedManyWithoutMembershipInput
@@ -5747,18 +5748,17 @@ export type TenantMembershipCreateWithoutProductosSolicitadosInput = {
   serviciosCreados?: Prisma.OrdenServicioCreateNestedManyWithoutCreadoPorInput
   serviciosLiquidados?: Prisma.OrdenServicioCreateNestedManyWithoutLiquidadoPorInput
   serviciosAsignados?: Prisma.OrdenServicioCreateNestedManyWithoutTecnicoInput
+  seguimientosCompletados?: Prisma.OrdenServicioSeguimientoCreateNestedManyWithoutCompletedByMembershipInput
+  seguimientosCreados?: Prisma.OrdenServicioSeguimientoCreateNestedManyWithoutCreatedByMembershipInput
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoCreateNestedManyWithoutMembershipInput
   permisosAprobados?: Prisma.PermisoCreateNestedManyWithoutAdminInput
   permisosSolicitados?: Prisma.PermisoCreateNestedManyWithoutMembershipInput
   referidos?: Prisma.ReferidosCreateNestedManyWithoutMembershipInput
-  seguimientosCompletados?: Prisma.OrdenServicioSeguimientoCreateNestedManyWithoutCompletedByMembershipInput
-  seguimientosCreados?: Prisma.OrdenServicioSeguimientoCreateNestedManyWithoutCreatedByMembershipInput
   sesionesActividad?: Prisma.SesionActividadCreateNestedManyWithoutMembershipInput
   municipio?: Prisma.MunicipalityCreateNestedOneWithoutMembershipsInput
   tenant: Prisma.TenantCreateNestedOneWithoutMembershipsInput
   user: Prisma.UserCreateNestedOneWithoutMembershipsInput
   turnos?: Prisma.TurnoCreateNestedManyWithoutMembershipInput
-  dashboardPresets?: Prisma.DashboardPresetCreateNestedManyWithoutCreatedByMembershipInput
 }
 
 export type TenantMembershipUncheckedCreateWithoutProductosSolicitadosInput = {
@@ -5790,6 +5790,7 @@ export type TenantMembershipUncheckedCreateWithoutProductosSolicitadosInput = {
   consignacionesTecnico?: Prisma.ConsignacionEfectivoUncheckedCreateNestedManyWithoutTecnicoInput
   cuentasCobro?: Prisma.CuentaCobroUncheckedCreateNestedManyWithoutMembershipInput
   cuentasPago?: Prisma.CuentasPagoUncheckedCreateNestedManyWithoutMembershipInput
+  dashboardPresets?: Prisma.DashboardPresetUncheckedCreateNestedManyWithoutCreatedByMembershipInput
   declaracionesEfectivo?: Prisma.DeclaracionEfectivoUncheckedCreateNestedManyWithoutTecnicoInput
   egresos?: Prisma.EgresosUncheckedCreateNestedManyWithoutMembershipInput
   empresaMemberships?: Prisma.EmpresaMembershipUncheckedCreateNestedManyWithoutMembershipInput
@@ -5798,15 +5799,14 @@ export type TenantMembershipUncheckedCreateWithoutProductosSolicitadosInput = {
   serviciosCreados?: Prisma.OrdenServicioUncheckedCreateNestedManyWithoutCreadoPorInput
   serviciosLiquidados?: Prisma.OrdenServicioUncheckedCreateNestedManyWithoutLiquidadoPorInput
   serviciosAsignados?: Prisma.OrdenServicioUncheckedCreateNestedManyWithoutTecnicoInput
+  seguimientosCompletados?: Prisma.OrdenServicioSeguimientoUncheckedCreateNestedManyWithoutCompletedByMembershipInput
+  seguimientosCreados?: Prisma.OrdenServicioSeguimientoUncheckedCreateNestedManyWithoutCreatedByMembershipInput
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoUncheckedCreateNestedManyWithoutMembershipInput
   permisosAprobados?: Prisma.PermisoUncheckedCreateNestedManyWithoutAdminInput
   permisosSolicitados?: Prisma.PermisoUncheckedCreateNestedManyWithoutMembershipInput
   referidos?: Prisma.ReferidosUncheckedCreateNestedManyWithoutMembershipInput
-  seguimientosCompletados?: Prisma.OrdenServicioSeguimientoUncheckedCreateNestedManyWithoutCompletedByMembershipInput
-  seguimientosCreados?: Prisma.OrdenServicioSeguimientoUncheckedCreateNestedManyWithoutCreatedByMembershipInput
   sesionesActividad?: Prisma.SesionActividadUncheckedCreateNestedManyWithoutMembershipInput
   turnos?: Prisma.TurnoUncheckedCreateNestedManyWithoutMembershipInput
-  dashboardPresets?: Prisma.DashboardPresetUncheckedCreateNestedManyWithoutCreatedByMembershipInput
 }
 
 export type TenantMembershipCreateOrConnectWithoutProductosSolicitadosInput = {
@@ -5851,6 +5851,7 @@ export type TenantMembershipUpdateWithoutProductosSolicitadosInput = {
   consignacionesTecnico?: Prisma.ConsignacionEfectivoUpdateManyWithoutTecnicoNestedInput
   cuentasCobro?: Prisma.CuentaCobroUpdateManyWithoutMembershipNestedInput
   cuentasPago?: Prisma.CuentasPagoUpdateManyWithoutMembershipNestedInput
+  dashboardPresets?: Prisma.DashboardPresetUpdateManyWithoutCreatedByMembershipNestedInput
   declaracionesEfectivo?: Prisma.DeclaracionEfectivoUpdateManyWithoutTecnicoNestedInput
   egresos?: Prisma.EgresosUpdateManyWithoutMembershipNestedInput
   empresaMemberships?: Prisma.EmpresaMembershipUpdateManyWithoutMembershipNestedInput
@@ -5859,18 +5860,17 @@ export type TenantMembershipUpdateWithoutProductosSolicitadosInput = {
   serviciosCreados?: Prisma.OrdenServicioUpdateManyWithoutCreadoPorNestedInput
   serviciosLiquidados?: Prisma.OrdenServicioUpdateManyWithoutLiquidadoPorNestedInput
   serviciosAsignados?: Prisma.OrdenServicioUpdateManyWithoutTecnicoNestedInput
+  seguimientosCompletados?: Prisma.OrdenServicioSeguimientoUpdateManyWithoutCompletedByMembershipNestedInput
+  seguimientosCreados?: Prisma.OrdenServicioSeguimientoUpdateManyWithoutCreatedByMembershipNestedInput
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoUpdateManyWithoutMembershipNestedInput
   permisosAprobados?: Prisma.PermisoUpdateManyWithoutAdminNestedInput
   permisosSolicitados?: Prisma.PermisoUpdateManyWithoutMembershipNestedInput
   referidos?: Prisma.ReferidosUpdateManyWithoutMembershipNestedInput
-  seguimientosCompletados?: Prisma.OrdenServicioSeguimientoUpdateManyWithoutCompletedByMembershipNestedInput
-  seguimientosCreados?: Prisma.OrdenServicioSeguimientoUpdateManyWithoutCreatedByMembershipNestedInput
   sesionesActividad?: Prisma.SesionActividadUpdateManyWithoutMembershipNestedInput
   municipio?: Prisma.MunicipalityUpdateOneWithoutMembershipsNestedInput
   tenant?: Prisma.TenantUpdateOneRequiredWithoutMembershipsNestedInput
   user?: Prisma.UserUpdateOneRequiredWithoutMembershipsNestedInput
   turnos?: Prisma.TurnoUpdateManyWithoutMembershipNestedInput
-  dashboardPresets?: Prisma.DashboardPresetUpdateManyWithoutCreatedByMembershipNestedInput
 }
 
 export type TenantMembershipUncheckedUpdateWithoutProductosSolicitadosInput = {
@@ -5902,6 +5902,7 @@ export type TenantMembershipUncheckedUpdateWithoutProductosSolicitadosInput = {
   consignacionesTecnico?: Prisma.ConsignacionEfectivoUncheckedUpdateManyWithoutTecnicoNestedInput
   cuentasCobro?: Prisma.CuentaCobroUncheckedUpdateManyWithoutMembershipNestedInput
   cuentasPago?: Prisma.CuentasPagoUncheckedUpdateManyWithoutMembershipNestedInput
+  dashboardPresets?: Prisma.DashboardPresetUncheckedUpdateManyWithoutCreatedByMembershipNestedInput
   declaracionesEfectivo?: Prisma.DeclaracionEfectivoUncheckedUpdateManyWithoutTecnicoNestedInput
   egresos?: Prisma.EgresosUncheckedUpdateManyWithoutMembershipNestedInput
   empresaMemberships?: Prisma.EmpresaMembershipUncheckedUpdateManyWithoutMembershipNestedInput
@@ -5910,15 +5911,14 @@ export type TenantMembershipUncheckedUpdateWithoutProductosSolicitadosInput = {
   serviciosCreados?: Prisma.OrdenServicioUncheckedUpdateManyWithoutCreadoPorNestedInput
   serviciosLiquidados?: Prisma.OrdenServicioUncheckedUpdateManyWithoutLiquidadoPorNestedInput
   serviciosAsignados?: Prisma.OrdenServicioUncheckedUpdateManyWithoutTecnicoNestedInput
+  seguimientosCompletados?: Prisma.OrdenServicioSeguimientoUncheckedUpdateManyWithoutCompletedByMembershipNestedInput
+  seguimientosCreados?: Prisma.OrdenServicioSeguimientoUncheckedUpdateManyWithoutCreatedByMembershipNestedInput
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoUncheckedUpdateManyWithoutMembershipNestedInput
   permisosAprobados?: Prisma.PermisoUncheckedUpdateManyWithoutAdminNestedInput
   permisosSolicitados?: Prisma.PermisoUncheckedUpdateManyWithoutMembershipNestedInput
   referidos?: Prisma.ReferidosUncheckedUpdateManyWithoutMembershipNestedInput
-  seguimientosCompletados?: Prisma.OrdenServicioSeguimientoUncheckedUpdateManyWithoutCompletedByMembershipNestedInput
-  seguimientosCreados?: Prisma.OrdenServicioSeguimientoUncheckedUpdateManyWithoutCreatedByMembershipNestedInput
   sesionesActividad?: Prisma.SesionActividadUncheckedUpdateManyWithoutMembershipNestedInput
   turnos?: Prisma.TurnoUncheckedUpdateManyWithoutMembershipNestedInput
-  dashboardPresets?: Prisma.DashboardPresetUncheckedUpdateManyWithoutCreatedByMembershipNestedInput
 }
 
 export type TenantMembershipCreateWithoutPermisosAprobadosInput = {
@@ -5947,6 +5947,7 @@ export type TenantMembershipCreateWithoutPermisosAprobadosInput = {
   consignacionesTecnico?: Prisma.ConsignacionEfectivoCreateNestedManyWithoutTecnicoInput
   cuentasCobro?: Prisma.CuentaCobroCreateNestedManyWithoutMembershipInput
   cuentasPago?: Prisma.CuentasPagoCreateNestedManyWithoutMembershipInput
+  dashboardPresets?: Prisma.DashboardPresetCreateNestedManyWithoutCreatedByMembershipInput
   declaracionesEfectivo?: Prisma.DeclaracionEfectivoCreateNestedManyWithoutTecnicoInput
   egresos?: Prisma.EgresosCreateNestedManyWithoutMembershipInput
   empresaMemberships?: Prisma.EmpresaMembershipCreateNestedManyWithoutMembershipInput
@@ -5955,18 +5956,17 @@ export type TenantMembershipCreateWithoutPermisosAprobadosInput = {
   serviciosCreados?: Prisma.OrdenServicioCreateNestedManyWithoutCreadoPorInput
   serviciosLiquidados?: Prisma.OrdenServicioCreateNestedManyWithoutLiquidadoPorInput
   serviciosAsignados?: Prisma.OrdenServicioCreateNestedManyWithoutTecnicoInput
+  seguimientosCompletados?: Prisma.OrdenServicioSeguimientoCreateNestedManyWithoutCompletedByMembershipInput
+  seguimientosCreados?: Prisma.OrdenServicioSeguimientoCreateNestedManyWithoutCreatedByMembershipInput
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoCreateNestedManyWithoutMembershipInput
   permisosSolicitados?: Prisma.PermisoCreateNestedManyWithoutMembershipInput
   productosSolicitados?: Prisma.ProductoSolicitadoCreateNestedManyWithoutMembershipInput
   referidos?: Prisma.ReferidosCreateNestedManyWithoutMembershipInput
-  seguimientosCompletados?: Prisma.OrdenServicioSeguimientoCreateNestedManyWithoutCompletedByMembershipInput
-  seguimientosCreados?: Prisma.OrdenServicioSeguimientoCreateNestedManyWithoutCreatedByMembershipInput
   sesionesActividad?: Prisma.SesionActividadCreateNestedManyWithoutMembershipInput
   municipio?: Prisma.MunicipalityCreateNestedOneWithoutMembershipsInput
   tenant: Prisma.TenantCreateNestedOneWithoutMembershipsInput
   user: Prisma.UserCreateNestedOneWithoutMembershipsInput
   turnos?: Prisma.TurnoCreateNestedManyWithoutMembershipInput
-  dashboardPresets?: Prisma.DashboardPresetCreateNestedManyWithoutCreatedByMembershipInput
 }
 
 export type TenantMembershipUncheckedCreateWithoutPermisosAprobadosInput = {
@@ -5998,6 +5998,7 @@ export type TenantMembershipUncheckedCreateWithoutPermisosAprobadosInput = {
   consignacionesTecnico?: Prisma.ConsignacionEfectivoUncheckedCreateNestedManyWithoutTecnicoInput
   cuentasCobro?: Prisma.CuentaCobroUncheckedCreateNestedManyWithoutMembershipInput
   cuentasPago?: Prisma.CuentasPagoUncheckedCreateNestedManyWithoutMembershipInput
+  dashboardPresets?: Prisma.DashboardPresetUncheckedCreateNestedManyWithoutCreatedByMembershipInput
   declaracionesEfectivo?: Prisma.DeclaracionEfectivoUncheckedCreateNestedManyWithoutTecnicoInput
   egresos?: Prisma.EgresosUncheckedCreateNestedManyWithoutMembershipInput
   empresaMemberships?: Prisma.EmpresaMembershipUncheckedCreateNestedManyWithoutMembershipInput
@@ -6006,15 +6007,14 @@ export type TenantMembershipUncheckedCreateWithoutPermisosAprobadosInput = {
   serviciosCreados?: Prisma.OrdenServicioUncheckedCreateNestedManyWithoutCreadoPorInput
   serviciosLiquidados?: Prisma.OrdenServicioUncheckedCreateNestedManyWithoutLiquidadoPorInput
   serviciosAsignados?: Prisma.OrdenServicioUncheckedCreateNestedManyWithoutTecnicoInput
+  seguimientosCompletados?: Prisma.OrdenServicioSeguimientoUncheckedCreateNestedManyWithoutCompletedByMembershipInput
+  seguimientosCreados?: Prisma.OrdenServicioSeguimientoUncheckedCreateNestedManyWithoutCreatedByMembershipInput
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoUncheckedCreateNestedManyWithoutMembershipInput
   permisosSolicitados?: Prisma.PermisoUncheckedCreateNestedManyWithoutMembershipInput
   productosSolicitados?: Prisma.ProductoSolicitadoUncheckedCreateNestedManyWithoutMembershipInput
   referidos?: Prisma.ReferidosUncheckedCreateNestedManyWithoutMembershipInput
-  seguimientosCompletados?: Prisma.OrdenServicioSeguimientoUncheckedCreateNestedManyWithoutCompletedByMembershipInput
-  seguimientosCreados?: Prisma.OrdenServicioSeguimientoUncheckedCreateNestedManyWithoutCreatedByMembershipInput
   sesionesActividad?: Prisma.SesionActividadUncheckedCreateNestedManyWithoutMembershipInput
   turnos?: Prisma.TurnoUncheckedCreateNestedManyWithoutMembershipInput
-  dashboardPresets?: Prisma.DashboardPresetUncheckedCreateNestedManyWithoutCreatedByMembershipInput
 }
 
 export type TenantMembershipCreateOrConnectWithoutPermisosAprobadosInput = {
@@ -6048,6 +6048,7 @@ export type TenantMembershipCreateWithoutPermisosSolicitadosInput = {
   consignacionesTecnico?: Prisma.ConsignacionEfectivoCreateNestedManyWithoutTecnicoInput
   cuentasCobro?: Prisma.CuentaCobroCreateNestedManyWithoutMembershipInput
   cuentasPago?: Prisma.CuentasPagoCreateNestedManyWithoutMembershipInput
+  dashboardPresets?: Prisma.DashboardPresetCreateNestedManyWithoutCreatedByMembershipInput
   declaracionesEfectivo?: Prisma.DeclaracionEfectivoCreateNestedManyWithoutTecnicoInput
   egresos?: Prisma.EgresosCreateNestedManyWithoutMembershipInput
   empresaMemberships?: Prisma.EmpresaMembershipCreateNestedManyWithoutMembershipInput
@@ -6056,18 +6057,17 @@ export type TenantMembershipCreateWithoutPermisosSolicitadosInput = {
   serviciosCreados?: Prisma.OrdenServicioCreateNestedManyWithoutCreadoPorInput
   serviciosLiquidados?: Prisma.OrdenServicioCreateNestedManyWithoutLiquidadoPorInput
   serviciosAsignados?: Prisma.OrdenServicioCreateNestedManyWithoutTecnicoInput
+  seguimientosCompletados?: Prisma.OrdenServicioSeguimientoCreateNestedManyWithoutCompletedByMembershipInput
+  seguimientosCreados?: Prisma.OrdenServicioSeguimientoCreateNestedManyWithoutCreatedByMembershipInput
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoCreateNestedManyWithoutMembershipInput
   permisosAprobados?: Prisma.PermisoCreateNestedManyWithoutAdminInput
   productosSolicitados?: Prisma.ProductoSolicitadoCreateNestedManyWithoutMembershipInput
   referidos?: Prisma.ReferidosCreateNestedManyWithoutMembershipInput
-  seguimientosCompletados?: Prisma.OrdenServicioSeguimientoCreateNestedManyWithoutCompletedByMembershipInput
-  seguimientosCreados?: Prisma.OrdenServicioSeguimientoCreateNestedManyWithoutCreatedByMembershipInput
   sesionesActividad?: Prisma.SesionActividadCreateNestedManyWithoutMembershipInput
   municipio?: Prisma.MunicipalityCreateNestedOneWithoutMembershipsInput
   tenant: Prisma.TenantCreateNestedOneWithoutMembershipsInput
   user: Prisma.UserCreateNestedOneWithoutMembershipsInput
   turnos?: Prisma.TurnoCreateNestedManyWithoutMembershipInput
-  dashboardPresets?: Prisma.DashboardPresetCreateNestedManyWithoutCreatedByMembershipInput
 }
 
 export type TenantMembershipUncheckedCreateWithoutPermisosSolicitadosInput = {
@@ -6099,6 +6099,7 @@ export type TenantMembershipUncheckedCreateWithoutPermisosSolicitadosInput = {
   consignacionesTecnico?: Prisma.ConsignacionEfectivoUncheckedCreateNestedManyWithoutTecnicoInput
   cuentasCobro?: Prisma.CuentaCobroUncheckedCreateNestedManyWithoutMembershipInput
   cuentasPago?: Prisma.CuentasPagoUncheckedCreateNestedManyWithoutMembershipInput
+  dashboardPresets?: Prisma.DashboardPresetUncheckedCreateNestedManyWithoutCreatedByMembershipInput
   declaracionesEfectivo?: Prisma.DeclaracionEfectivoUncheckedCreateNestedManyWithoutTecnicoInput
   egresos?: Prisma.EgresosUncheckedCreateNestedManyWithoutMembershipInput
   empresaMemberships?: Prisma.EmpresaMembershipUncheckedCreateNestedManyWithoutMembershipInput
@@ -6107,15 +6108,14 @@ export type TenantMembershipUncheckedCreateWithoutPermisosSolicitadosInput = {
   serviciosCreados?: Prisma.OrdenServicioUncheckedCreateNestedManyWithoutCreadoPorInput
   serviciosLiquidados?: Prisma.OrdenServicioUncheckedCreateNestedManyWithoutLiquidadoPorInput
   serviciosAsignados?: Prisma.OrdenServicioUncheckedCreateNestedManyWithoutTecnicoInput
+  seguimientosCompletados?: Prisma.OrdenServicioSeguimientoUncheckedCreateNestedManyWithoutCompletedByMembershipInput
+  seguimientosCreados?: Prisma.OrdenServicioSeguimientoUncheckedCreateNestedManyWithoutCreatedByMembershipInput
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoUncheckedCreateNestedManyWithoutMembershipInput
   permisosAprobados?: Prisma.PermisoUncheckedCreateNestedManyWithoutAdminInput
   productosSolicitados?: Prisma.ProductoSolicitadoUncheckedCreateNestedManyWithoutMembershipInput
   referidos?: Prisma.ReferidosUncheckedCreateNestedManyWithoutMembershipInput
-  seguimientosCompletados?: Prisma.OrdenServicioSeguimientoUncheckedCreateNestedManyWithoutCompletedByMembershipInput
-  seguimientosCreados?: Prisma.OrdenServicioSeguimientoUncheckedCreateNestedManyWithoutCreatedByMembershipInput
   sesionesActividad?: Prisma.SesionActividadUncheckedCreateNestedManyWithoutMembershipInput
   turnos?: Prisma.TurnoUncheckedCreateNestedManyWithoutMembershipInput
-  dashboardPresets?: Prisma.DashboardPresetUncheckedCreateNestedManyWithoutCreatedByMembershipInput
 }
 
 export type TenantMembershipCreateOrConnectWithoutPermisosSolicitadosInput = {
@@ -6160,6 +6160,7 @@ export type TenantMembershipUpdateWithoutPermisosAprobadosInput = {
   consignacionesTecnico?: Prisma.ConsignacionEfectivoUpdateManyWithoutTecnicoNestedInput
   cuentasCobro?: Prisma.CuentaCobroUpdateManyWithoutMembershipNestedInput
   cuentasPago?: Prisma.CuentasPagoUpdateManyWithoutMembershipNestedInput
+  dashboardPresets?: Prisma.DashboardPresetUpdateManyWithoutCreatedByMembershipNestedInput
   declaracionesEfectivo?: Prisma.DeclaracionEfectivoUpdateManyWithoutTecnicoNestedInput
   egresos?: Prisma.EgresosUpdateManyWithoutMembershipNestedInput
   empresaMemberships?: Prisma.EmpresaMembershipUpdateManyWithoutMembershipNestedInput
@@ -6168,18 +6169,17 @@ export type TenantMembershipUpdateWithoutPermisosAprobadosInput = {
   serviciosCreados?: Prisma.OrdenServicioUpdateManyWithoutCreadoPorNestedInput
   serviciosLiquidados?: Prisma.OrdenServicioUpdateManyWithoutLiquidadoPorNestedInput
   serviciosAsignados?: Prisma.OrdenServicioUpdateManyWithoutTecnicoNestedInput
+  seguimientosCompletados?: Prisma.OrdenServicioSeguimientoUpdateManyWithoutCompletedByMembershipNestedInput
+  seguimientosCreados?: Prisma.OrdenServicioSeguimientoUpdateManyWithoutCreatedByMembershipNestedInput
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoUpdateManyWithoutMembershipNestedInput
   permisosSolicitados?: Prisma.PermisoUpdateManyWithoutMembershipNestedInput
   productosSolicitados?: Prisma.ProductoSolicitadoUpdateManyWithoutMembershipNestedInput
   referidos?: Prisma.ReferidosUpdateManyWithoutMembershipNestedInput
-  seguimientosCompletados?: Prisma.OrdenServicioSeguimientoUpdateManyWithoutCompletedByMembershipNestedInput
-  seguimientosCreados?: Prisma.OrdenServicioSeguimientoUpdateManyWithoutCreatedByMembershipNestedInput
   sesionesActividad?: Prisma.SesionActividadUpdateManyWithoutMembershipNestedInput
   municipio?: Prisma.MunicipalityUpdateOneWithoutMembershipsNestedInput
   tenant?: Prisma.TenantUpdateOneRequiredWithoutMembershipsNestedInput
   user?: Prisma.UserUpdateOneRequiredWithoutMembershipsNestedInput
   turnos?: Prisma.TurnoUpdateManyWithoutMembershipNestedInput
-  dashboardPresets?: Prisma.DashboardPresetUpdateManyWithoutCreatedByMembershipNestedInput
 }
 
 export type TenantMembershipUncheckedUpdateWithoutPermisosAprobadosInput = {
@@ -6211,6 +6211,7 @@ export type TenantMembershipUncheckedUpdateWithoutPermisosAprobadosInput = {
   consignacionesTecnico?: Prisma.ConsignacionEfectivoUncheckedUpdateManyWithoutTecnicoNestedInput
   cuentasCobro?: Prisma.CuentaCobroUncheckedUpdateManyWithoutMembershipNestedInput
   cuentasPago?: Prisma.CuentasPagoUncheckedUpdateManyWithoutMembershipNestedInput
+  dashboardPresets?: Prisma.DashboardPresetUncheckedUpdateManyWithoutCreatedByMembershipNestedInput
   declaracionesEfectivo?: Prisma.DeclaracionEfectivoUncheckedUpdateManyWithoutTecnicoNestedInput
   egresos?: Prisma.EgresosUncheckedUpdateManyWithoutMembershipNestedInput
   empresaMemberships?: Prisma.EmpresaMembershipUncheckedUpdateManyWithoutMembershipNestedInput
@@ -6219,15 +6220,14 @@ export type TenantMembershipUncheckedUpdateWithoutPermisosAprobadosInput = {
   serviciosCreados?: Prisma.OrdenServicioUncheckedUpdateManyWithoutCreadoPorNestedInput
   serviciosLiquidados?: Prisma.OrdenServicioUncheckedUpdateManyWithoutLiquidadoPorNestedInput
   serviciosAsignados?: Prisma.OrdenServicioUncheckedUpdateManyWithoutTecnicoNestedInput
+  seguimientosCompletados?: Prisma.OrdenServicioSeguimientoUncheckedUpdateManyWithoutCompletedByMembershipNestedInput
+  seguimientosCreados?: Prisma.OrdenServicioSeguimientoUncheckedUpdateManyWithoutCreatedByMembershipNestedInput
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoUncheckedUpdateManyWithoutMembershipNestedInput
   permisosSolicitados?: Prisma.PermisoUncheckedUpdateManyWithoutMembershipNestedInput
   productosSolicitados?: Prisma.ProductoSolicitadoUncheckedUpdateManyWithoutMembershipNestedInput
   referidos?: Prisma.ReferidosUncheckedUpdateManyWithoutMembershipNestedInput
-  seguimientosCompletados?: Prisma.OrdenServicioSeguimientoUncheckedUpdateManyWithoutCompletedByMembershipNestedInput
-  seguimientosCreados?: Prisma.OrdenServicioSeguimientoUncheckedUpdateManyWithoutCreatedByMembershipNestedInput
   sesionesActividad?: Prisma.SesionActividadUncheckedUpdateManyWithoutMembershipNestedInput
   turnos?: Prisma.TurnoUncheckedUpdateManyWithoutMembershipNestedInput
-  dashboardPresets?: Prisma.DashboardPresetUncheckedUpdateManyWithoutCreatedByMembershipNestedInput
 }
 
 export type TenantMembershipUpsertWithoutPermisosSolicitadosInput = {
@@ -6267,6 +6267,7 @@ export type TenantMembershipUpdateWithoutPermisosSolicitadosInput = {
   consignacionesTecnico?: Prisma.ConsignacionEfectivoUpdateManyWithoutTecnicoNestedInput
   cuentasCobro?: Prisma.CuentaCobroUpdateManyWithoutMembershipNestedInput
   cuentasPago?: Prisma.CuentasPagoUpdateManyWithoutMembershipNestedInput
+  dashboardPresets?: Prisma.DashboardPresetUpdateManyWithoutCreatedByMembershipNestedInput
   declaracionesEfectivo?: Prisma.DeclaracionEfectivoUpdateManyWithoutTecnicoNestedInput
   egresos?: Prisma.EgresosUpdateManyWithoutMembershipNestedInput
   empresaMemberships?: Prisma.EmpresaMembershipUpdateManyWithoutMembershipNestedInput
@@ -6275,18 +6276,17 @@ export type TenantMembershipUpdateWithoutPermisosSolicitadosInput = {
   serviciosCreados?: Prisma.OrdenServicioUpdateManyWithoutCreadoPorNestedInput
   serviciosLiquidados?: Prisma.OrdenServicioUpdateManyWithoutLiquidadoPorNestedInput
   serviciosAsignados?: Prisma.OrdenServicioUpdateManyWithoutTecnicoNestedInput
+  seguimientosCompletados?: Prisma.OrdenServicioSeguimientoUpdateManyWithoutCompletedByMembershipNestedInput
+  seguimientosCreados?: Prisma.OrdenServicioSeguimientoUpdateManyWithoutCreatedByMembershipNestedInput
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoUpdateManyWithoutMembershipNestedInput
   permisosAprobados?: Prisma.PermisoUpdateManyWithoutAdminNestedInput
   productosSolicitados?: Prisma.ProductoSolicitadoUpdateManyWithoutMembershipNestedInput
   referidos?: Prisma.ReferidosUpdateManyWithoutMembershipNestedInput
-  seguimientosCompletados?: Prisma.OrdenServicioSeguimientoUpdateManyWithoutCompletedByMembershipNestedInput
-  seguimientosCreados?: Prisma.OrdenServicioSeguimientoUpdateManyWithoutCreatedByMembershipNestedInput
   sesionesActividad?: Prisma.SesionActividadUpdateManyWithoutMembershipNestedInput
   municipio?: Prisma.MunicipalityUpdateOneWithoutMembershipsNestedInput
   tenant?: Prisma.TenantUpdateOneRequiredWithoutMembershipsNestedInput
   user?: Prisma.UserUpdateOneRequiredWithoutMembershipsNestedInput
   turnos?: Prisma.TurnoUpdateManyWithoutMembershipNestedInput
-  dashboardPresets?: Prisma.DashboardPresetUpdateManyWithoutCreatedByMembershipNestedInput
 }
 
 export type TenantMembershipUncheckedUpdateWithoutPermisosSolicitadosInput = {
@@ -6318,6 +6318,7 @@ export type TenantMembershipUncheckedUpdateWithoutPermisosSolicitadosInput = {
   consignacionesTecnico?: Prisma.ConsignacionEfectivoUncheckedUpdateManyWithoutTecnicoNestedInput
   cuentasCobro?: Prisma.CuentaCobroUncheckedUpdateManyWithoutMembershipNestedInput
   cuentasPago?: Prisma.CuentasPagoUncheckedUpdateManyWithoutMembershipNestedInput
+  dashboardPresets?: Prisma.DashboardPresetUncheckedUpdateManyWithoutCreatedByMembershipNestedInput
   declaracionesEfectivo?: Prisma.DeclaracionEfectivoUncheckedUpdateManyWithoutTecnicoNestedInput
   egresos?: Prisma.EgresosUncheckedUpdateManyWithoutMembershipNestedInput
   empresaMemberships?: Prisma.EmpresaMembershipUncheckedUpdateManyWithoutMembershipNestedInput
@@ -6326,15 +6327,14 @@ export type TenantMembershipUncheckedUpdateWithoutPermisosSolicitadosInput = {
   serviciosCreados?: Prisma.OrdenServicioUncheckedUpdateManyWithoutCreadoPorNestedInput
   serviciosLiquidados?: Prisma.OrdenServicioUncheckedUpdateManyWithoutLiquidadoPorNestedInput
   serviciosAsignados?: Prisma.OrdenServicioUncheckedUpdateManyWithoutTecnicoNestedInput
+  seguimientosCompletados?: Prisma.OrdenServicioSeguimientoUncheckedUpdateManyWithoutCompletedByMembershipNestedInput
+  seguimientosCreados?: Prisma.OrdenServicioSeguimientoUncheckedUpdateManyWithoutCreatedByMembershipNestedInput
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoUncheckedUpdateManyWithoutMembershipNestedInput
   permisosAprobados?: Prisma.PermisoUncheckedUpdateManyWithoutAdminNestedInput
   productosSolicitados?: Prisma.ProductoSolicitadoUncheckedUpdateManyWithoutMembershipNestedInput
   referidos?: Prisma.ReferidosUncheckedUpdateManyWithoutMembershipNestedInput
-  seguimientosCompletados?: Prisma.OrdenServicioSeguimientoUncheckedUpdateManyWithoutCompletedByMembershipNestedInput
-  seguimientosCreados?: Prisma.OrdenServicioSeguimientoUncheckedUpdateManyWithoutCreatedByMembershipNestedInput
   sesionesActividad?: Prisma.SesionActividadUncheckedUpdateManyWithoutMembershipNestedInput
   turnos?: Prisma.TurnoUncheckedUpdateManyWithoutMembershipNestedInput
-  dashboardPresets?: Prisma.DashboardPresetUncheckedUpdateManyWithoutCreatedByMembershipNestedInput
 }
 
 export type TenantMembershipCreateWithoutConfiguracionPagosInput = {
@@ -6362,6 +6362,7 @@ export type TenantMembershipCreateWithoutConfiguracionPagosInput = {
   consignacionesTecnico?: Prisma.ConsignacionEfectivoCreateNestedManyWithoutTecnicoInput
   cuentasCobro?: Prisma.CuentaCobroCreateNestedManyWithoutMembershipInput
   cuentasPago?: Prisma.CuentasPagoCreateNestedManyWithoutMembershipInput
+  dashboardPresets?: Prisma.DashboardPresetCreateNestedManyWithoutCreatedByMembershipInput
   declaracionesEfectivo?: Prisma.DeclaracionEfectivoCreateNestedManyWithoutTecnicoInput
   egresos?: Prisma.EgresosCreateNestedManyWithoutMembershipInput
   empresaMemberships?: Prisma.EmpresaMembershipCreateNestedManyWithoutMembershipInput
@@ -6370,19 +6371,18 @@ export type TenantMembershipCreateWithoutConfiguracionPagosInput = {
   serviciosCreados?: Prisma.OrdenServicioCreateNestedManyWithoutCreadoPorInput
   serviciosLiquidados?: Prisma.OrdenServicioCreateNestedManyWithoutLiquidadoPorInput
   serviciosAsignados?: Prisma.OrdenServicioCreateNestedManyWithoutTecnicoInput
+  seguimientosCompletados?: Prisma.OrdenServicioSeguimientoCreateNestedManyWithoutCompletedByMembershipInput
+  seguimientosCreados?: Prisma.OrdenServicioSeguimientoCreateNestedManyWithoutCreatedByMembershipInput
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoCreateNestedManyWithoutMembershipInput
   permisosAprobados?: Prisma.PermisoCreateNestedManyWithoutAdminInput
   permisosSolicitados?: Prisma.PermisoCreateNestedManyWithoutMembershipInput
   productosSolicitados?: Prisma.ProductoSolicitadoCreateNestedManyWithoutMembershipInput
   referidos?: Prisma.ReferidosCreateNestedManyWithoutMembershipInput
-  seguimientosCompletados?: Prisma.OrdenServicioSeguimientoCreateNestedManyWithoutCompletedByMembershipInput
-  seguimientosCreados?: Prisma.OrdenServicioSeguimientoCreateNestedManyWithoutCreatedByMembershipInput
   sesionesActividad?: Prisma.SesionActividadCreateNestedManyWithoutMembershipInput
   municipio?: Prisma.MunicipalityCreateNestedOneWithoutMembershipsInput
   tenant: Prisma.TenantCreateNestedOneWithoutMembershipsInput
   user: Prisma.UserCreateNestedOneWithoutMembershipsInput
   turnos?: Prisma.TurnoCreateNestedManyWithoutMembershipInput
-  dashboardPresets?: Prisma.DashboardPresetCreateNestedManyWithoutCreatedByMembershipInput
 }
 
 export type TenantMembershipUncheckedCreateWithoutConfiguracionPagosInput = {
@@ -6413,6 +6413,7 @@ export type TenantMembershipUncheckedCreateWithoutConfiguracionPagosInput = {
   consignacionesTecnico?: Prisma.ConsignacionEfectivoUncheckedCreateNestedManyWithoutTecnicoInput
   cuentasCobro?: Prisma.CuentaCobroUncheckedCreateNestedManyWithoutMembershipInput
   cuentasPago?: Prisma.CuentasPagoUncheckedCreateNestedManyWithoutMembershipInput
+  dashboardPresets?: Prisma.DashboardPresetUncheckedCreateNestedManyWithoutCreatedByMembershipInput
   declaracionesEfectivo?: Prisma.DeclaracionEfectivoUncheckedCreateNestedManyWithoutTecnicoInput
   egresos?: Prisma.EgresosUncheckedCreateNestedManyWithoutMembershipInput
   empresaMemberships?: Prisma.EmpresaMembershipUncheckedCreateNestedManyWithoutMembershipInput
@@ -6421,16 +6422,15 @@ export type TenantMembershipUncheckedCreateWithoutConfiguracionPagosInput = {
   serviciosCreados?: Prisma.OrdenServicioUncheckedCreateNestedManyWithoutCreadoPorInput
   serviciosLiquidados?: Prisma.OrdenServicioUncheckedCreateNestedManyWithoutLiquidadoPorInput
   serviciosAsignados?: Prisma.OrdenServicioUncheckedCreateNestedManyWithoutTecnicoInput
+  seguimientosCompletados?: Prisma.OrdenServicioSeguimientoUncheckedCreateNestedManyWithoutCompletedByMembershipInput
+  seguimientosCreados?: Prisma.OrdenServicioSeguimientoUncheckedCreateNestedManyWithoutCreatedByMembershipInput
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoUncheckedCreateNestedManyWithoutMembershipInput
   permisosAprobados?: Prisma.PermisoUncheckedCreateNestedManyWithoutAdminInput
   permisosSolicitados?: Prisma.PermisoUncheckedCreateNestedManyWithoutMembershipInput
   productosSolicitados?: Prisma.ProductoSolicitadoUncheckedCreateNestedManyWithoutMembershipInput
   referidos?: Prisma.ReferidosUncheckedCreateNestedManyWithoutMembershipInput
-  seguimientosCompletados?: Prisma.OrdenServicioSeguimientoUncheckedCreateNestedManyWithoutCompletedByMembershipInput
-  seguimientosCreados?: Prisma.OrdenServicioSeguimientoUncheckedCreateNestedManyWithoutCreatedByMembershipInput
   sesionesActividad?: Prisma.SesionActividadUncheckedCreateNestedManyWithoutMembershipInput
   turnos?: Prisma.TurnoUncheckedCreateNestedManyWithoutMembershipInput
-  dashboardPresets?: Prisma.DashboardPresetUncheckedCreateNestedManyWithoutCreatedByMembershipInput
 }
 
 export type TenantMembershipCreateOrConnectWithoutConfiguracionPagosInput = {
@@ -6474,6 +6474,7 @@ export type TenantMembershipUpdateWithoutConfiguracionPagosInput = {
   consignacionesTecnico?: Prisma.ConsignacionEfectivoUpdateManyWithoutTecnicoNestedInput
   cuentasCobro?: Prisma.CuentaCobroUpdateManyWithoutMembershipNestedInput
   cuentasPago?: Prisma.CuentasPagoUpdateManyWithoutMembershipNestedInput
+  dashboardPresets?: Prisma.DashboardPresetUpdateManyWithoutCreatedByMembershipNestedInput
   declaracionesEfectivo?: Prisma.DeclaracionEfectivoUpdateManyWithoutTecnicoNestedInput
   egresos?: Prisma.EgresosUpdateManyWithoutMembershipNestedInput
   empresaMemberships?: Prisma.EmpresaMembershipUpdateManyWithoutMembershipNestedInput
@@ -6482,19 +6483,18 @@ export type TenantMembershipUpdateWithoutConfiguracionPagosInput = {
   serviciosCreados?: Prisma.OrdenServicioUpdateManyWithoutCreadoPorNestedInput
   serviciosLiquidados?: Prisma.OrdenServicioUpdateManyWithoutLiquidadoPorNestedInput
   serviciosAsignados?: Prisma.OrdenServicioUpdateManyWithoutTecnicoNestedInput
+  seguimientosCompletados?: Prisma.OrdenServicioSeguimientoUpdateManyWithoutCompletedByMembershipNestedInput
+  seguimientosCreados?: Prisma.OrdenServicioSeguimientoUpdateManyWithoutCreatedByMembershipNestedInput
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoUpdateManyWithoutMembershipNestedInput
   permisosAprobados?: Prisma.PermisoUpdateManyWithoutAdminNestedInput
   permisosSolicitados?: Prisma.PermisoUpdateManyWithoutMembershipNestedInput
   productosSolicitados?: Prisma.ProductoSolicitadoUpdateManyWithoutMembershipNestedInput
   referidos?: Prisma.ReferidosUpdateManyWithoutMembershipNestedInput
-  seguimientosCompletados?: Prisma.OrdenServicioSeguimientoUpdateManyWithoutCompletedByMembershipNestedInput
-  seguimientosCreados?: Prisma.OrdenServicioSeguimientoUpdateManyWithoutCreatedByMembershipNestedInput
   sesionesActividad?: Prisma.SesionActividadUpdateManyWithoutMembershipNestedInput
   municipio?: Prisma.MunicipalityUpdateOneWithoutMembershipsNestedInput
   tenant?: Prisma.TenantUpdateOneRequiredWithoutMembershipsNestedInput
   user?: Prisma.UserUpdateOneRequiredWithoutMembershipsNestedInput
   turnos?: Prisma.TurnoUpdateManyWithoutMembershipNestedInput
-  dashboardPresets?: Prisma.DashboardPresetUpdateManyWithoutCreatedByMembershipNestedInput
 }
 
 export type TenantMembershipUncheckedUpdateWithoutConfiguracionPagosInput = {
@@ -6525,6 +6525,7 @@ export type TenantMembershipUncheckedUpdateWithoutConfiguracionPagosInput = {
   consignacionesTecnico?: Prisma.ConsignacionEfectivoUncheckedUpdateManyWithoutTecnicoNestedInput
   cuentasCobro?: Prisma.CuentaCobroUncheckedUpdateManyWithoutMembershipNestedInput
   cuentasPago?: Prisma.CuentasPagoUncheckedUpdateManyWithoutMembershipNestedInput
+  dashboardPresets?: Prisma.DashboardPresetUncheckedUpdateManyWithoutCreatedByMembershipNestedInput
   declaracionesEfectivo?: Prisma.DeclaracionEfectivoUncheckedUpdateManyWithoutTecnicoNestedInput
   egresos?: Prisma.EgresosUncheckedUpdateManyWithoutMembershipNestedInput
   empresaMemberships?: Prisma.EmpresaMembershipUncheckedUpdateManyWithoutMembershipNestedInput
@@ -6533,16 +6534,15 @@ export type TenantMembershipUncheckedUpdateWithoutConfiguracionPagosInput = {
   serviciosCreados?: Prisma.OrdenServicioUncheckedUpdateManyWithoutCreadoPorNestedInput
   serviciosLiquidados?: Prisma.OrdenServicioUncheckedUpdateManyWithoutLiquidadoPorNestedInput
   serviciosAsignados?: Prisma.OrdenServicioUncheckedUpdateManyWithoutTecnicoNestedInput
+  seguimientosCompletados?: Prisma.OrdenServicioSeguimientoUncheckedUpdateManyWithoutCompletedByMembershipNestedInput
+  seguimientosCreados?: Prisma.OrdenServicioSeguimientoUncheckedUpdateManyWithoutCreatedByMembershipNestedInput
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoUncheckedUpdateManyWithoutMembershipNestedInput
   permisosAprobados?: Prisma.PermisoUncheckedUpdateManyWithoutAdminNestedInput
   permisosSolicitados?: Prisma.PermisoUncheckedUpdateManyWithoutMembershipNestedInput
   productosSolicitados?: Prisma.ProductoSolicitadoUncheckedUpdateManyWithoutMembershipNestedInput
   referidos?: Prisma.ReferidosUncheckedUpdateManyWithoutMembershipNestedInput
-  seguimientosCompletados?: Prisma.OrdenServicioSeguimientoUncheckedUpdateManyWithoutCompletedByMembershipNestedInput
-  seguimientosCreados?: Prisma.OrdenServicioSeguimientoUncheckedUpdateManyWithoutCreatedByMembershipNestedInput
   sesionesActividad?: Prisma.SesionActividadUncheckedUpdateManyWithoutMembershipNestedInput
   turnos?: Prisma.TurnoUncheckedUpdateManyWithoutMembershipNestedInput
-  dashboardPresets?: Prisma.DashboardPresetUncheckedUpdateManyWithoutCreatedByMembershipNestedInput
 }
 
 export type TenantMembershipCreateWithoutCuentasPagoInput = {
@@ -6570,6 +6570,7 @@ export type TenantMembershipCreateWithoutCuentasPagoInput = {
   consignacionesCreadas?: Prisma.ConsignacionEfectivoCreateNestedManyWithoutCreadoPorInput
   consignacionesTecnico?: Prisma.ConsignacionEfectivoCreateNestedManyWithoutTecnicoInput
   cuentasCobro?: Prisma.CuentaCobroCreateNestedManyWithoutMembershipInput
+  dashboardPresets?: Prisma.DashboardPresetCreateNestedManyWithoutCreatedByMembershipInput
   declaracionesEfectivo?: Prisma.DeclaracionEfectivoCreateNestedManyWithoutTecnicoInput
   egresos?: Prisma.EgresosCreateNestedManyWithoutMembershipInput
   empresaMemberships?: Prisma.EmpresaMembershipCreateNestedManyWithoutMembershipInput
@@ -6578,19 +6579,18 @@ export type TenantMembershipCreateWithoutCuentasPagoInput = {
   serviciosCreados?: Prisma.OrdenServicioCreateNestedManyWithoutCreadoPorInput
   serviciosLiquidados?: Prisma.OrdenServicioCreateNestedManyWithoutLiquidadoPorInput
   serviciosAsignados?: Prisma.OrdenServicioCreateNestedManyWithoutTecnicoInput
+  seguimientosCompletados?: Prisma.OrdenServicioSeguimientoCreateNestedManyWithoutCompletedByMembershipInput
+  seguimientosCreados?: Prisma.OrdenServicioSeguimientoCreateNestedManyWithoutCreatedByMembershipInput
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoCreateNestedManyWithoutMembershipInput
   permisosAprobados?: Prisma.PermisoCreateNestedManyWithoutAdminInput
   permisosSolicitados?: Prisma.PermisoCreateNestedManyWithoutMembershipInput
   productosSolicitados?: Prisma.ProductoSolicitadoCreateNestedManyWithoutMembershipInput
   referidos?: Prisma.ReferidosCreateNestedManyWithoutMembershipInput
-  seguimientosCompletados?: Prisma.OrdenServicioSeguimientoCreateNestedManyWithoutCompletedByMembershipInput
-  seguimientosCreados?: Prisma.OrdenServicioSeguimientoCreateNestedManyWithoutCreatedByMembershipInput
   sesionesActividad?: Prisma.SesionActividadCreateNestedManyWithoutMembershipInput
   municipio?: Prisma.MunicipalityCreateNestedOneWithoutMembershipsInput
   tenant: Prisma.TenantCreateNestedOneWithoutMembershipsInput
   user: Prisma.UserCreateNestedOneWithoutMembershipsInput
   turnos?: Prisma.TurnoCreateNestedManyWithoutMembershipInput
-  dashboardPresets?: Prisma.DashboardPresetCreateNestedManyWithoutCreatedByMembershipInput
 }
 
 export type TenantMembershipUncheckedCreateWithoutCuentasPagoInput = {
@@ -6621,6 +6621,7 @@ export type TenantMembershipUncheckedCreateWithoutCuentasPagoInput = {
   consignacionesCreadas?: Prisma.ConsignacionEfectivoUncheckedCreateNestedManyWithoutCreadoPorInput
   consignacionesTecnico?: Prisma.ConsignacionEfectivoUncheckedCreateNestedManyWithoutTecnicoInput
   cuentasCobro?: Prisma.CuentaCobroUncheckedCreateNestedManyWithoutMembershipInput
+  dashboardPresets?: Prisma.DashboardPresetUncheckedCreateNestedManyWithoutCreatedByMembershipInput
   declaracionesEfectivo?: Prisma.DeclaracionEfectivoUncheckedCreateNestedManyWithoutTecnicoInput
   egresos?: Prisma.EgresosUncheckedCreateNestedManyWithoutMembershipInput
   empresaMemberships?: Prisma.EmpresaMembershipUncheckedCreateNestedManyWithoutMembershipInput
@@ -6629,16 +6630,15 @@ export type TenantMembershipUncheckedCreateWithoutCuentasPagoInput = {
   serviciosCreados?: Prisma.OrdenServicioUncheckedCreateNestedManyWithoutCreadoPorInput
   serviciosLiquidados?: Prisma.OrdenServicioUncheckedCreateNestedManyWithoutLiquidadoPorInput
   serviciosAsignados?: Prisma.OrdenServicioUncheckedCreateNestedManyWithoutTecnicoInput
+  seguimientosCompletados?: Prisma.OrdenServicioSeguimientoUncheckedCreateNestedManyWithoutCompletedByMembershipInput
+  seguimientosCreados?: Prisma.OrdenServicioSeguimientoUncheckedCreateNestedManyWithoutCreatedByMembershipInput
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoUncheckedCreateNestedManyWithoutMembershipInput
   permisosAprobados?: Prisma.PermisoUncheckedCreateNestedManyWithoutAdminInput
   permisosSolicitados?: Prisma.PermisoUncheckedCreateNestedManyWithoutMembershipInput
   productosSolicitados?: Prisma.ProductoSolicitadoUncheckedCreateNestedManyWithoutMembershipInput
   referidos?: Prisma.ReferidosUncheckedCreateNestedManyWithoutMembershipInput
-  seguimientosCompletados?: Prisma.OrdenServicioSeguimientoUncheckedCreateNestedManyWithoutCompletedByMembershipInput
-  seguimientosCreados?: Prisma.OrdenServicioSeguimientoUncheckedCreateNestedManyWithoutCreatedByMembershipInput
   sesionesActividad?: Prisma.SesionActividadUncheckedCreateNestedManyWithoutMembershipInput
   turnos?: Prisma.TurnoUncheckedCreateNestedManyWithoutMembershipInput
-  dashboardPresets?: Prisma.DashboardPresetUncheckedCreateNestedManyWithoutCreatedByMembershipInput
 }
 
 export type TenantMembershipCreateOrConnectWithoutCuentasPagoInput = {
@@ -6682,6 +6682,7 @@ export type TenantMembershipUpdateWithoutCuentasPagoInput = {
   consignacionesCreadas?: Prisma.ConsignacionEfectivoUpdateManyWithoutCreadoPorNestedInput
   consignacionesTecnico?: Prisma.ConsignacionEfectivoUpdateManyWithoutTecnicoNestedInput
   cuentasCobro?: Prisma.CuentaCobroUpdateManyWithoutMembershipNestedInput
+  dashboardPresets?: Prisma.DashboardPresetUpdateManyWithoutCreatedByMembershipNestedInput
   declaracionesEfectivo?: Prisma.DeclaracionEfectivoUpdateManyWithoutTecnicoNestedInput
   egresos?: Prisma.EgresosUpdateManyWithoutMembershipNestedInput
   empresaMemberships?: Prisma.EmpresaMembershipUpdateManyWithoutMembershipNestedInput
@@ -6690,19 +6691,18 @@ export type TenantMembershipUpdateWithoutCuentasPagoInput = {
   serviciosCreados?: Prisma.OrdenServicioUpdateManyWithoutCreadoPorNestedInput
   serviciosLiquidados?: Prisma.OrdenServicioUpdateManyWithoutLiquidadoPorNestedInput
   serviciosAsignados?: Prisma.OrdenServicioUpdateManyWithoutTecnicoNestedInput
+  seguimientosCompletados?: Prisma.OrdenServicioSeguimientoUpdateManyWithoutCompletedByMembershipNestedInput
+  seguimientosCreados?: Prisma.OrdenServicioSeguimientoUpdateManyWithoutCreatedByMembershipNestedInput
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoUpdateManyWithoutMembershipNestedInput
   permisosAprobados?: Prisma.PermisoUpdateManyWithoutAdminNestedInput
   permisosSolicitados?: Prisma.PermisoUpdateManyWithoutMembershipNestedInput
   productosSolicitados?: Prisma.ProductoSolicitadoUpdateManyWithoutMembershipNestedInput
   referidos?: Prisma.ReferidosUpdateManyWithoutMembershipNestedInput
-  seguimientosCompletados?: Prisma.OrdenServicioSeguimientoUpdateManyWithoutCompletedByMembershipNestedInput
-  seguimientosCreados?: Prisma.OrdenServicioSeguimientoUpdateManyWithoutCreatedByMembershipNestedInput
   sesionesActividad?: Prisma.SesionActividadUpdateManyWithoutMembershipNestedInput
   municipio?: Prisma.MunicipalityUpdateOneWithoutMembershipsNestedInput
   tenant?: Prisma.TenantUpdateOneRequiredWithoutMembershipsNestedInput
   user?: Prisma.UserUpdateOneRequiredWithoutMembershipsNestedInput
   turnos?: Prisma.TurnoUpdateManyWithoutMembershipNestedInput
-  dashboardPresets?: Prisma.DashboardPresetUpdateManyWithoutCreatedByMembershipNestedInput
 }
 
 export type TenantMembershipUncheckedUpdateWithoutCuentasPagoInput = {
@@ -6733,6 +6733,7 @@ export type TenantMembershipUncheckedUpdateWithoutCuentasPagoInput = {
   consignacionesCreadas?: Prisma.ConsignacionEfectivoUncheckedUpdateManyWithoutCreadoPorNestedInput
   consignacionesTecnico?: Prisma.ConsignacionEfectivoUncheckedUpdateManyWithoutTecnicoNestedInput
   cuentasCobro?: Prisma.CuentaCobroUncheckedUpdateManyWithoutMembershipNestedInput
+  dashboardPresets?: Prisma.DashboardPresetUncheckedUpdateManyWithoutCreatedByMembershipNestedInput
   declaracionesEfectivo?: Prisma.DeclaracionEfectivoUncheckedUpdateManyWithoutTecnicoNestedInput
   egresos?: Prisma.EgresosUncheckedUpdateManyWithoutMembershipNestedInput
   empresaMemberships?: Prisma.EmpresaMembershipUncheckedUpdateManyWithoutMembershipNestedInput
@@ -6741,16 +6742,15 @@ export type TenantMembershipUncheckedUpdateWithoutCuentasPagoInput = {
   serviciosCreados?: Prisma.OrdenServicioUncheckedUpdateManyWithoutCreadoPorNestedInput
   serviciosLiquidados?: Prisma.OrdenServicioUncheckedUpdateManyWithoutLiquidadoPorNestedInput
   serviciosAsignados?: Prisma.OrdenServicioUncheckedUpdateManyWithoutTecnicoNestedInput
+  seguimientosCompletados?: Prisma.OrdenServicioSeguimientoUncheckedUpdateManyWithoutCompletedByMembershipNestedInput
+  seguimientosCreados?: Prisma.OrdenServicioSeguimientoUncheckedUpdateManyWithoutCreatedByMembershipNestedInput
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoUncheckedUpdateManyWithoutMembershipNestedInput
   permisosAprobados?: Prisma.PermisoUncheckedUpdateManyWithoutAdminNestedInput
   permisosSolicitados?: Prisma.PermisoUncheckedUpdateManyWithoutMembershipNestedInput
   productosSolicitados?: Prisma.ProductoSolicitadoUncheckedUpdateManyWithoutMembershipNestedInput
   referidos?: Prisma.ReferidosUncheckedUpdateManyWithoutMembershipNestedInput
-  seguimientosCompletados?: Prisma.OrdenServicioSeguimientoUncheckedUpdateManyWithoutCompletedByMembershipNestedInput
-  seguimientosCreados?: Prisma.OrdenServicioSeguimientoUncheckedUpdateManyWithoutCreatedByMembershipNestedInput
   sesionesActividad?: Prisma.SesionActividadUncheckedUpdateManyWithoutMembershipNestedInput
   turnos?: Prisma.TurnoUncheckedUpdateManyWithoutMembershipNestedInput
-  dashboardPresets?: Prisma.DashboardPresetUncheckedUpdateManyWithoutCreatedByMembershipNestedInput
 }
 
 export type TenantMembershipCreateWithoutEgresosInput = {
@@ -6779,6 +6779,7 @@ export type TenantMembershipCreateWithoutEgresosInput = {
   consignacionesTecnico?: Prisma.ConsignacionEfectivoCreateNestedManyWithoutTecnicoInput
   cuentasCobro?: Prisma.CuentaCobroCreateNestedManyWithoutMembershipInput
   cuentasPago?: Prisma.CuentasPagoCreateNestedManyWithoutMembershipInput
+  dashboardPresets?: Prisma.DashboardPresetCreateNestedManyWithoutCreatedByMembershipInput
   declaracionesEfectivo?: Prisma.DeclaracionEfectivoCreateNestedManyWithoutTecnicoInput
   empresaMemberships?: Prisma.EmpresaMembershipCreateNestedManyWithoutMembershipInput
   geolocalizaciones?: Prisma.GeolocalizacionCreateNestedManyWithoutMembershipInput
@@ -6786,19 +6787,18 @@ export type TenantMembershipCreateWithoutEgresosInput = {
   serviciosCreados?: Prisma.OrdenServicioCreateNestedManyWithoutCreadoPorInput
   serviciosLiquidados?: Prisma.OrdenServicioCreateNestedManyWithoutLiquidadoPorInput
   serviciosAsignados?: Prisma.OrdenServicioCreateNestedManyWithoutTecnicoInput
+  seguimientosCompletados?: Prisma.OrdenServicioSeguimientoCreateNestedManyWithoutCompletedByMembershipInput
+  seguimientosCreados?: Prisma.OrdenServicioSeguimientoCreateNestedManyWithoutCreatedByMembershipInput
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoCreateNestedManyWithoutMembershipInput
   permisosAprobados?: Prisma.PermisoCreateNestedManyWithoutAdminInput
   permisosSolicitados?: Prisma.PermisoCreateNestedManyWithoutMembershipInput
   productosSolicitados?: Prisma.ProductoSolicitadoCreateNestedManyWithoutMembershipInput
   referidos?: Prisma.ReferidosCreateNestedManyWithoutMembershipInput
-  seguimientosCompletados?: Prisma.OrdenServicioSeguimientoCreateNestedManyWithoutCompletedByMembershipInput
-  seguimientosCreados?: Prisma.OrdenServicioSeguimientoCreateNestedManyWithoutCreatedByMembershipInput
   sesionesActividad?: Prisma.SesionActividadCreateNestedManyWithoutMembershipInput
   municipio?: Prisma.MunicipalityCreateNestedOneWithoutMembershipsInput
   tenant: Prisma.TenantCreateNestedOneWithoutMembershipsInput
   user: Prisma.UserCreateNestedOneWithoutMembershipsInput
   turnos?: Prisma.TurnoCreateNestedManyWithoutMembershipInput
-  dashboardPresets?: Prisma.DashboardPresetCreateNestedManyWithoutCreatedByMembershipInput
 }
 
 export type TenantMembershipUncheckedCreateWithoutEgresosInput = {
@@ -6830,6 +6830,7 @@ export type TenantMembershipUncheckedCreateWithoutEgresosInput = {
   consignacionesTecnico?: Prisma.ConsignacionEfectivoUncheckedCreateNestedManyWithoutTecnicoInput
   cuentasCobro?: Prisma.CuentaCobroUncheckedCreateNestedManyWithoutMembershipInput
   cuentasPago?: Prisma.CuentasPagoUncheckedCreateNestedManyWithoutMembershipInput
+  dashboardPresets?: Prisma.DashboardPresetUncheckedCreateNestedManyWithoutCreatedByMembershipInput
   declaracionesEfectivo?: Prisma.DeclaracionEfectivoUncheckedCreateNestedManyWithoutTecnicoInput
   empresaMemberships?: Prisma.EmpresaMembershipUncheckedCreateNestedManyWithoutMembershipInput
   geolocalizaciones?: Prisma.GeolocalizacionUncheckedCreateNestedManyWithoutMembershipInput
@@ -6837,16 +6838,15 @@ export type TenantMembershipUncheckedCreateWithoutEgresosInput = {
   serviciosCreados?: Prisma.OrdenServicioUncheckedCreateNestedManyWithoutCreadoPorInput
   serviciosLiquidados?: Prisma.OrdenServicioUncheckedCreateNestedManyWithoutLiquidadoPorInput
   serviciosAsignados?: Prisma.OrdenServicioUncheckedCreateNestedManyWithoutTecnicoInput
+  seguimientosCompletados?: Prisma.OrdenServicioSeguimientoUncheckedCreateNestedManyWithoutCompletedByMembershipInput
+  seguimientosCreados?: Prisma.OrdenServicioSeguimientoUncheckedCreateNestedManyWithoutCreatedByMembershipInput
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoUncheckedCreateNestedManyWithoutMembershipInput
   permisosAprobados?: Prisma.PermisoUncheckedCreateNestedManyWithoutAdminInput
   permisosSolicitados?: Prisma.PermisoUncheckedCreateNestedManyWithoutMembershipInput
   productosSolicitados?: Prisma.ProductoSolicitadoUncheckedCreateNestedManyWithoutMembershipInput
   referidos?: Prisma.ReferidosUncheckedCreateNestedManyWithoutMembershipInput
-  seguimientosCompletados?: Prisma.OrdenServicioSeguimientoUncheckedCreateNestedManyWithoutCompletedByMembershipInput
-  seguimientosCreados?: Prisma.OrdenServicioSeguimientoUncheckedCreateNestedManyWithoutCreatedByMembershipInput
   sesionesActividad?: Prisma.SesionActividadUncheckedCreateNestedManyWithoutMembershipInput
   turnos?: Prisma.TurnoUncheckedCreateNestedManyWithoutMembershipInput
-  dashboardPresets?: Prisma.DashboardPresetUncheckedCreateNestedManyWithoutCreatedByMembershipInput
 }
 
 export type TenantMembershipCreateOrConnectWithoutEgresosInput = {
@@ -6891,6 +6891,7 @@ export type TenantMembershipUpdateWithoutEgresosInput = {
   consignacionesTecnico?: Prisma.ConsignacionEfectivoUpdateManyWithoutTecnicoNestedInput
   cuentasCobro?: Prisma.CuentaCobroUpdateManyWithoutMembershipNestedInput
   cuentasPago?: Prisma.CuentasPagoUpdateManyWithoutMembershipNestedInput
+  dashboardPresets?: Prisma.DashboardPresetUpdateManyWithoutCreatedByMembershipNestedInput
   declaracionesEfectivo?: Prisma.DeclaracionEfectivoUpdateManyWithoutTecnicoNestedInput
   empresaMemberships?: Prisma.EmpresaMembershipUpdateManyWithoutMembershipNestedInput
   geolocalizaciones?: Prisma.GeolocalizacionUpdateManyWithoutMembershipNestedInput
@@ -6898,19 +6899,18 @@ export type TenantMembershipUpdateWithoutEgresosInput = {
   serviciosCreados?: Prisma.OrdenServicioUpdateManyWithoutCreadoPorNestedInput
   serviciosLiquidados?: Prisma.OrdenServicioUpdateManyWithoutLiquidadoPorNestedInput
   serviciosAsignados?: Prisma.OrdenServicioUpdateManyWithoutTecnicoNestedInput
+  seguimientosCompletados?: Prisma.OrdenServicioSeguimientoUpdateManyWithoutCompletedByMembershipNestedInput
+  seguimientosCreados?: Prisma.OrdenServicioSeguimientoUpdateManyWithoutCreatedByMembershipNestedInput
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoUpdateManyWithoutMembershipNestedInput
   permisosAprobados?: Prisma.PermisoUpdateManyWithoutAdminNestedInput
   permisosSolicitados?: Prisma.PermisoUpdateManyWithoutMembershipNestedInput
   productosSolicitados?: Prisma.ProductoSolicitadoUpdateManyWithoutMembershipNestedInput
   referidos?: Prisma.ReferidosUpdateManyWithoutMembershipNestedInput
-  seguimientosCompletados?: Prisma.OrdenServicioSeguimientoUpdateManyWithoutCompletedByMembershipNestedInput
-  seguimientosCreados?: Prisma.OrdenServicioSeguimientoUpdateManyWithoutCreatedByMembershipNestedInput
   sesionesActividad?: Prisma.SesionActividadUpdateManyWithoutMembershipNestedInput
   municipio?: Prisma.MunicipalityUpdateOneWithoutMembershipsNestedInput
   tenant?: Prisma.TenantUpdateOneRequiredWithoutMembershipsNestedInput
   user?: Prisma.UserUpdateOneRequiredWithoutMembershipsNestedInput
   turnos?: Prisma.TurnoUpdateManyWithoutMembershipNestedInput
-  dashboardPresets?: Prisma.DashboardPresetUpdateManyWithoutCreatedByMembershipNestedInput
 }
 
 export type TenantMembershipUncheckedUpdateWithoutEgresosInput = {
@@ -6942,6 +6942,7 @@ export type TenantMembershipUncheckedUpdateWithoutEgresosInput = {
   consignacionesTecnico?: Prisma.ConsignacionEfectivoUncheckedUpdateManyWithoutTecnicoNestedInput
   cuentasCobro?: Prisma.CuentaCobroUncheckedUpdateManyWithoutMembershipNestedInput
   cuentasPago?: Prisma.CuentasPagoUncheckedUpdateManyWithoutMembershipNestedInput
+  dashboardPresets?: Prisma.DashboardPresetUncheckedUpdateManyWithoutCreatedByMembershipNestedInput
   declaracionesEfectivo?: Prisma.DeclaracionEfectivoUncheckedUpdateManyWithoutTecnicoNestedInput
   empresaMemberships?: Prisma.EmpresaMembershipUncheckedUpdateManyWithoutMembershipNestedInput
   geolocalizaciones?: Prisma.GeolocalizacionUncheckedUpdateManyWithoutMembershipNestedInput
@@ -6949,16 +6950,15 @@ export type TenantMembershipUncheckedUpdateWithoutEgresosInput = {
   serviciosCreados?: Prisma.OrdenServicioUncheckedUpdateManyWithoutCreadoPorNestedInput
   serviciosLiquidados?: Prisma.OrdenServicioUncheckedUpdateManyWithoutLiquidadoPorNestedInput
   serviciosAsignados?: Prisma.OrdenServicioUncheckedUpdateManyWithoutTecnicoNestedInput
+  seguimientosCompletados?: Prisma.OrdenServicioSeguimientoUncheckedUpdateManyWithoutCompletedByMembershipNestedInput
+  seguimientosCreados?: Prisma.OrdenServicioSeguimientoUncheckedUpdateManyWithoutCreatedByMembershipNestedInput
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoUncheckedUpdateManyWithoutMembershipNestedInput
   permisosAprobados?: Prisma.PermisoUncheckedUpdateManyWithoutAdminNestedInput
   permisosSolicitados?: Prisma.PermisoUncheckedUpdateManyWithoutMembershipNestedInput
   productosSolicitados?: Prisma.ProductoSolicitadoUncheckedUpdateManyWithoutMembershipNestedInput
   referidos?: Prisma.ReferidosUncheckedUpdateManyWithoutMembershipNestedInput
-  seguimientosCompletados?: Prisma.OrdenServicioSeguimientoUncheckedUpdateManyWithoutCompletedByMembershipNestedInput
-  seguimientosCreados?: Prisma.OrdenServicioSeguimientoUncheckedUpdateManyWithoutCreatedByMembershipNestedInput
   sesionesActividad?: Prisma.SesionActividadUncheckedUpdateManyWithoutMembershipNestedInput
   turnos?: Prisma.TurnoUncheckedUpdateManyWithoutMembershipNestedInput
-  dashboardPresets?: Prisma.DashboardPresetUncheckedUpdateManyWithoutCreatedByMembershipNestedInput
 }
 
 export type TenantMembershipCreateWithoutReferidosInput = {
@@ -6987,6 +6987,7 @@ export type TenantMembershipCreateWithoutReferidosInput = {
   consignacionesTecnico?: Prisma.ConsignacionEfectivoCreateNestedManyWithoutTecnicoInput
   cuentasCobro?: Prisma.CuentaCobroCreateNestedManyWithoutMembershipInput
   cuentasPago?: Prisma.CuentasPagoCreateNestedManyWithoutMembershipInput
+  dashboardPresets?: Prisma.DashboardPresetCreateNestedManyWithoutCreatedByMembershipInput
   declaracionesEfectivo?: Prisma.DeclaracionEfectivoCreateNestedManyWithoutTecnicoInput
   egresos?: Prisma.EgresosCreateNestedManyWithoutMembershipInput
   empresaMemberships?: Prisma.EmpresaMembershipCreateNestedManyWithoutMembershipInput
@@ -6995,18 +6996,17 @@ export type TenantMembershipCreateWithoutReferidosInput = {
   serviciosCreados?: Prisma.OrdenServicioCreateNestedManyWithoutCreadoPorInput
   serviciosLiquidados?: Prisma.OrdenServicioCreateNestedManyWithoutLiquidadoPorInput
   serviciosAsignados?: Prisma.OrdenServicioCreateNestedManyWithoutTecnicoInput
+  seguimientosCompletados?: Prisma.OrdenServicioSeguimientoCreateNestedManyWithoutCompletedByMembershipInput
+  seguimientosCreados?: Prisma.OrdenServicioSeguimientoCreateNestedManyWithoutCreatedByMembershipInput
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoCreateNestedManyWithoutMembershipInput
   permisosAprobados?: Prisma.PermisoCreateNestedManyWithoutAdminInput
   permisosSolicitados?: Prisma.PermisoCreateNestedManyWithoutMembershipInput
   productosSolicitados?: Prisma.ProductoSolicitadoCreateNestedManyWithoutMembershipInput
-  seguimientosCompletados?: Prisma.OrdenServicioSeguimientoCreateNestedManyWithoutCompletedByMembershipInput
-  seguimientosCreados?: Prisma.OrdenServicioSeguimientoCreateNestedManyWithoutCreatedByMembershipInput
   sesionesActividad?: Prisma.SesionActividadCreateNestedManyWithoutMembershipInput
   municipio?: Prisma.MunicipalityCreateNestedOneWithoutMembershipsInput
   tenant: Prisma.TenantCreateNestedOneWithoutMembershipsInput
   user: Prisma.UserCreateNestedOneWithoutMembershipsInput
   turnos?: Prisma.TurnoCreateNestedManyWithoutMembershipInput
-  dashboardPresets?: Prisma.DashboardPresetCreateNestedManyWithoutCreatedByMembershipInput
 }
 
 export type TenantMembershipUncheckedCreateWithoutReferidosInput = {
@@ -7038,6 +7038,7 @@ export type TenantMembershipUncheckedCreateWithoutReferidosInput = {
   consignacionesTecnico?: Prisma.ConsignacionEfectivoUncheckedCreateNestedManyWithoutTecnicoInput
   cuentasCobro?: Prisma.CuentaCobroUncheckedCreateNestedManyWithoutMembershipInput
   cuentasPago?: Prisma.CuentasPagoUncheckedCreateNestedManyWithoutMembershipInput
+  dashboardPresets?: Prisma.DashboardPresetUncheckedCreateNestedManyWithoutCreatedByMembershipInput
   declaracionesEfectivo?: Prisma.DeclaracionEfectivoUncheckedCreateNestedManyWithoutTecnicoInput
   egresos?: Prisma.EgresosUncheckedCreateNestedManyWithoutMembershipInput
   empresaMemberships?: Prisma.EmpresaMembershipUncheckedCreateNestedManyWithoutMembershipInput
@@ -7046,15 +7047,14 @@ export type TenantMembershipUncheckedCreateWithoutReferidosInput = {
   serviciosCreados?: Prisma.OrdenServicioUncheckedCreateNestedManyWithoutCreadoPorInput
   serviciosLiquidados?: Prisma.OrdenServicioUncheckedCreateNestedManyWithoutLiquidadoPorInput
   serviciosAsignados?: Prisma.OrdenServicioUncheckedCreateNestedManyWithoutTecnicoInput
+  seguimientosCompletados?: Prisma.OrdenServicioSeguimientoUncheckedCreateNestedManyWithoutCompletedByMembershipInput
+  seguimientosCreados?: Prisma.OrdenServicioSeguimientoUncheckedCreateNestedManyWithoutCreatedByMembershipInput
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoUncheckedCreateNestedManyWithoutMembershipInput
   permisosAprobados?: Prisma.PermisoUncheckedCreateNestedManyWithoutAdminInput
   permisosSolicitados?: Prisma.PermisoUncheckedCreateNestedManyWithoutMembershipInput
   productosSolicitados?: Prisma.ProductoSolicitadoUncheckedCreateNestedManyWithoutMembershipInput
-  seguimientosCompletados?: Prisma.OrdenServicioSeguimientoUncheckedCreateNestedManyWithoutCompletedByMembershipInput
-  seguimientosCreados?: Prisma.OrdenServicioSeguimientoUncheckedCreateNestedManyWithoutCreatedByMembershipInput
   sesionesActividad?: Prisma.SesionActividadUncheckedCreateNestedManyWithoutMembershipInput
   turnos?: Prisma.TurnoUncheckedCreateNestedManyWithoutMembershipInput
-  dashboardPresets?: Prisma.DashboardPresetUncheckedCreateNestedManyWithoutCreatedByMembershipInput
 }
 
 export type TenantMembershipCreateOrConnectWithoutReferidosInput = {
@@ -7099,6 +7099,7 @@ export type TenantMembershipUpdateWithoutReferidosInput = {
   consignacionesTecnico?: Prisma.ConsignacionEfectivoUpdateManyWithoutTecnicoNestedInput
   cuentasCobro?: Prisma.CuentaCobroUpdateManyWithoutMembershipNestedInput
   cuentasPago?: Prisma.CuentasPagoUpdateManyWithoutMembershipNestedInput
+  dashboardPresets?: Prisma.DashboardPresetUpdateManyWithoutCreatedByMembershipNestedInput
   declaracionesEfectivo?: Prisma.DeclaracionEfectivoUpdateManyWithoutTecnicoNestedInput
   egresos?: Prisma.EgresosUpdateManyWithoutMembershipNestedInput
   empresaMemberships?: Prisma.EmpresaMembershipUpdateManyWithoutMembershipNestedInput
@@ -7107,18 +7108,17 @@ export type TenantMembershipUpdateWithoutReferidosInput = {
   serviciosCreados?: Prisma.OrdenServicioUpdateManyWithoutCreadoPorNestedInput
   serviciosLiquidados?: Prisma.OrdenServicioUpdateManyWithoutLiquidadoPorNestedInput
   serviciosAsignados?: Prisma.OrdenServicioUpdateManyWithoutTecnicoNestedInput
+  seguimientosCompletados?: Prisma.OrdenServicioSeguimientoUpdateManyWithoutCompletedByMembershipNestedInput
+  seguimientosCreados?: Prisma.OrdenServicioSeguimientoUpdateManyWithoutCreatedByMembershipNestedInput
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoUpdateManyWithoutMembershipNestedInput
   permisosAprobados?: Prisma.PermisoUpdateManyWithoutAdminNestedInput
   permisosSolicitados?: Prisma.PermisoUpdateManyWithoutMembershipNestedInput
   productosSolicitados?: Prisma.ProductoSolicitadoUpdateManyWithoutMembershipNestedInput
-  seguimientosCompletados?: Prisma.OrdenServicioSeguimientoUpdateManyWithoutCompletedByMembershipNestedInput
-  seguimientosCreados?: Prisma.OrdenServicioSeguimientoUpdateManyWithoutCreatedByMembershipNestedInput
   sesionesActividad?: Prisma.SesionActividadUpdateManyWithoutMembershipNestedInput
   municipio?: Prisma.MunicipalityUpdateOneWithoutMembershipsNestedInput
   tenant?: Prisma.TenantUpdateOneRequiredWithoutMembershipsNestedInput
   user?: Prisma.UserUpdateOneRequiredWithoutMembershipsNestedInput
   turnos?: Prisma.TurnoUpdateManyWithoutMembershipNestedInput
-  dashboardPresets?: Prisma.DashboardPresetUpdateManyWithoutCreatedByMembershipNestedInput
 }
 
 export type TenantMembershipUncheckedUpdateWithoutReferidosInput = {
@@ -7150,6 +7150,7 @@ export type TenantMembershipUncheckedUpdateWithoutReferidosInput = {
   consignacionesTecnico?: Prisma.ConsignacionEfectivoUncheckedUpdateManyWithoutTecnicoNestedInput
   cuentasCobro?: Prisma.CuentaCobroUncheckedUpdateManyWithoutMembershipNestedInput
   cuentasPago?: Prisma.CuentasPagoUncheckedUpdateManyWithoutMembershipNestedInput
+  dashboardPresets?: Prisma.DashboardPresetUncheckedUpdateManyWithoutCreatedByMembershipNestedInput
   declaracionesEfectivo?: Prisma.DeclaracionEfectivoUncheckedUpdateManyWithoutTecnicoNestedInput
   egresos?: Prisma.EgresosUncheckedUpdateManyWithoutMembershipNestedInput
   empresaMemberships?: Prisma.EmpresaMembershipUncheckedUpdateManyWithoutMembershipNestedInput
@@ -7158,15 +7159,14 @@ export type TenantMembershipUncheckedUpdateWithoutReferidosInput = {
   serviciosCreados?: Prisma.OrdenServicioUncheckedUpdateManyWithoutCreadoPorNestedInput
   serviciosLiquidados?: Prisma.OrdenServicioUncheckedUpdateManyWithoutLiquidadoPorNestedInput
   serviciosAsignados?: Prisma.OrdenServicioUncheckedUpdateManyWithoutTecnicoNestedInput
+  seguimientosCompletados?: Prisma.OrdenServicioSeguimientoUncheckedUpdateManyWithoutCompletedByMembershipNestedInput
+  seguimientosCreados?: Prisma.OrdenServicioSeguimientoUncheckedUpdateManyWithoutCreatedByMembershipNestedInput
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoUncheckedUpdateManyWithoutMembershipNestedInput
   permisosAprobados?: Prisma.PermisoUncheckedUpdateManyWithoutAdminNestedInput
   permisosSolicitados?: Prisma.PermisoUncheckedUpdateManyWithoutMembershipNestedInput
   productosSolicitados?: Prisma.ProductoSolicitadoUncheckedUpdateManyWithoutMembershipNestedInput
-  seguimientosCompletados?: Prisma.OrdenServicioSeguimientoUncheckedUpdateManyWithoutCompletedByMembershipNestedInput
-  seguimientosCreados?: Prisma.OrdenServicioSeguimientoUncheckedUpdateManyWithoutCreatedByMembershipNestedInput
   sesionesActividad?: Prisma.SesionActividadUncheckedUpdateManyWithoutMembershipNestedInput
   turnos?: Prisma.TurnoUncheckedUpdateManyWithoutMembershipNestedInput
-  dashboardPresets?: Prisma.DashboardPresetUncheckedUpdateManyWithoutCreatedByMembershipNestedInput
 }
 
 export type TenantMembershipCreateWithoutAuditoriasInput = {
@@ -7194,6 +7194,7 @@ export type TenantMembershipCreateWithoutAuditoriasInput = {
   consignacionesTecnico?: Prisma.ConsignacionEfectivoCreateNestedManyWithoutTecnicoInput
   cuentasCobro?: Prisma.CuentaCobroCreateNestedManyWithoutMembershipInput
   cuentasPago?: Prisma.CuentasPagoCreateNestedManyWithoutMembershipInput
+  dashboardPresets?: Prisma.DashboardPresetCreateNestedManyWithoutCreatedByMembershipInput
   declaracionesEfectivo?: Prisma.DeclaracionEfectivoCreateNestedManyWithoutTecnicoInput
   egresos?: Prisma.EgresosCreateNestedManyWithoutMembershipInput
   empresaMemberships?: Prisma.EmpresaMembershipCreateNestedManyWithoutMembershipInput
@@ -7202,19 +7203,18 @@ export type TenantMembershipCreateWithoutAuditoriasInput = {
   serviciosCreados?: Prisma.OrdenServicioCreateNestedManyWithoutCreadoPorInput
   serviciosLiquidados?: Prisma.OrdenServicioCreateNestedManyWithoutLiquidadoPorInput
   serviciosAsignados?: Prisma.OrdenServicioCreateNestedManyWithoutTecnicoInput
+  seguimientosCompletados?: Prisma.OrdenServicioSeguimientoCreateNestedManyWithoutCompletedByMembershipInput
+  seguimientosCreados?: Prisma.OrdenServicioSeguimientoCreateNestedManyWithoutCreatedByMembershipInput
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoCreateNestedManyWithoutMembershipInput
   permisosAprobados?: Prisma.PermisoCreateNestedManyWithoutAdminInput
   permisosSolicitados?: Prisma.PermisoCreateNestedManyWithoutMembershipInput
   productosSolicitados?: Prisma.ProductoSolicitadoCreateNestedManyWithoutMembershipInput
   referidos?: Prisma.ReferidosCreateNestedManyWithoutMembershipInput
-  seguimientosCompletados?: Prisma.OrdenServicioSeguimientoCreateNestedManyWithoutCompletedByMembershipInput
-  seguimientosCreados?: Prisma.OrdenServicioSeguimientoCreateNestedManyWithoutCreatedByMembershipInput
   sesionesActividad?: Prisma.SesionActividadCreateNestedManyWithoutMembershipInput
   municipio?: Prisma.MunicipalityCreateNestedOneWithoutMembershipsInput
   tenant: Prisma.TenantCreateNestedOneWithoutMembershipsInput
   user: Prisma.UserCreateNestedOneWithoutMembershipsInput
   turnos?: Prisma.TurnoCreateNestedManyWithoutMembershipInput
-  dashboardPresets?: Prisma.DashboardPresetCreateNestedManyWithoutCreatedByMembershipInput
 }
 
 export type TenantMembershipUncheckedCreateWithoutAuditoriasInput = {
@@ -7245,6 +7245,7 @@ export type TenantMembershipUncheckedCreateWithoutAuditoriasInput = {
   consignacionesTecnico?: Prisma.ConsignacionEfectivoUncheckedCreateNestedManyWithoutTecnicoInput
   cuentasCobro?: Prisma.CuentaCobroUncheckedCreateNestedManyWithoutMembershipInput
   cuentasPago?: Prisma.CuentasPagoUncheckedCreateNestedManyWithoutMembershipInput
+  dashboardPresets?: Prisma.DashboardPresetUncheckedCreateNestedManyWithoutCreatedByMembershipInput
   declaracionesEfectivo?: Prisma.DeclaracionEfectivoUncheckedCreateNestedManyWithoutTecnicoInput
   egresos?: Prisma.EgresosUncheckedCreateNestedManyWithoutMembershipInput
   empresaMemberships?: Prisma.EmpresaMembershipUncheckedCreateNestedManyWithoutMembershipInput
@@ -7253,16 +7254,15 @@ export type TenantMembershipUncheckedCreateWithoutAuditoriasInput = {
   serviciosCreados?: Prisma.OrdenServicioUncheckedCreateNestedManyWithoutCreadoPorInput
   serviciosLiquidados?: Prisma.OrdenServicioUncheckedCreateNestedManyWithoutLiquidadoPorInput
   serviciosAsignados?: Prisma.OrdenServicioUncheckedCreateNestedManyWithoutTecnicoInput
+  seguimientosCompletados?: Prisma.OrdenServicioSeguimientoUncheckedCreateNestedManyWithoutCompletedByMembershipInput
+  seguimientosCreados?: Prisma.OrdenServicioSeguimientoUncheckedCreateNestedManyWithoutCreatedByMembershipInput
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoUncheckedCreateNestedManyWithoutMembershipInput
   permisosAprobados?: Prisma.PermisoUncheckedCreateNestedManyWithoutAdminInput
   permisosSolicitados?: Prisma.PermisoUncheckedCreateNestedManyWithoutMembershipInput
   productosSolicitados?: Prisma.ProductoSolicitadoUncheckedCreateNestedManyWithoutMembershipInput
   referidos?: Prisma.ReferidosUncheckedCreateNestedManyWithoutMembershipInput
-  seguimientosCompletados?: Prisma.OrdenServicioSeguimientoUncheckedCreateNestedManyWithoutCompletedByMembershipInput
-  seguimientosCreados?: Prisma.OrdenServicioSeguimientoUncheckedCreateNestedManyWithoutCreatedByMembershipInput
   sesionesActividad?: Prisma.SesionActividadUncheckedCreateNestedManyWithoutMembershipInput
   turnos?: Prisma.TurnoUncheckedCreateNestedManyWithoutMembershipInput
-  dashboardPresets?: Prisma.DashboardPresetUncheckedCreateNestedManyWithoutCreatedByMembershipInput
 }
 
 export type TenantMembershipCreateOrConnectWithoutAuditoriasInput = {
@@ -7306,6 +7306,7 @@ export type TenantMembershipUpdateWithoutAuditoriasInput = {
   consignacionesTecnico?: Prisma.ConsignacionEfectivoUpdateManyWithoutTecnicoNestedInput
   cuentasCobro?: Prisma.CuentaCobroUpdateManyWithoutMembershipNestedInput
   cuentasPago?: Prisma.CuentasPagoUpdateManyWithoutMembershipNestedInput
+  dashboardPresets?: Prisma.DashboardPresetUpdateManyWithoutCreatedByMembershipNestedInput
   declaracionesEfectivo?: Prisma.DeclaracionEfectivoUpdateManyWithoutTecnicoNestedInput
   egresos?: Prisma.EgresosUpdateManyWithoutMembershipNestedInput
   empresaMemberships?: Prisma.EmpresaMembershipUpdateManyWithoutMembershipNestedInput
@@ -7314,19 +7315,18 @@ export type TenantMembershipUpdateWithoutAuditoriasInput = {
   serviciosCreados?: Prisma.OrdenServicioUpdateManyWithoutCreadoPorNestedInput
   serviciosLiquidados?: Prisma.OrdenServicioUpdateManyWithoutLiquidadoPorNestedInput
   serviciosAsignados?: Prisma.OrdenServicioUpdateManyWithoutTecnicoNestedInput
+  seguimientosCompletados?: Prisma.OrdenServicioSeguimientoUpdateManyWithoutCompletedByMembershipNestedInput
+  seguimientosCreados?: Prisma.OrdenServicioSeguimientoUpdateManyWithoutCreatedByMembershipNestedInput
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoUpdateManyWithoutMembershipNestedInput
   permisosAprobados?: Prisma.PermisoUpdateManyWithoutAdminNestedInput
   permisosSolicitados?: Prisma.PermisoUpdateManyWithoutMembershipNestedInput
   productosSolicitados?: Prisma.ProductoSolicitadoUpdateManyWithoutMembershipNestedInput
   referidos?: Prisma.ReferidosUpdateManyWithoutMembershipNestedInput
-  seguimientosCompletados?: Prisma.OrdenServicioSeguimientoUpdateManyWithoutCompletedByMembershipNestedInput
-  seguimientosCreados?: Prisma.OrdenServicioSeguimientoUpdateManyWithoutCreatedByMembershipNestedInput
   sesionesActividad?: Prisma.SesionActividadUpdateManyWithoutMembershipNestedInput
   municipio?: Prisma.MunicipalityUpdateOneWithoutMembershipsNestedInput
   tenant?: Prisma.TenantUpdateOneRequiredWithoutMembershipsNestedInput
   user?: Prisma.UserUpdateOneRequiredWithoutMembershipsNestedInput
   turnos?: Prisma.TurnoUpdateManyWithoutMembershipNestedInput
-  dashboardPresets?: Prisma.DashboardPresetUpdateManyWithoutCreatedByMembershipNestedInput
 }
 
 export type TenantMembershipUncheckedUpdateWithoutAuditoriasInput = {
@@ -7357,6 +7357,7 @@ export type TenantMembershipUncheckedUpdateWithoutAuditoriasInput = {
   consignacionesTecnico?: Prisma.ConsignacionEfectivoUncheckedUpdateManyWithoutTecnicoNestedInput
   cuentasCobro?: Prisma.CuentaCobroUncheckedUpdateManyWithoutMembershipNestedInput
   cuentasPago?: Prisma.CuentasPagoUncheckedUpdateManyWithoutMembershipNestedInput
+  dashboardPresets?: Prisma.DashboardPresetUncheckedUpdateManyWithoutCreatedByMembershipNestedInput
   declaracionesEfectivo?: Prisma.DeclaracionEfectivoUncheckedUpdateManyWithoutTecnicoNestedInput
   egresos?: Prisma.EgresosUncheckedUpdateManyWithoutMembershipNestedInput
   empresaMemberships?: Prisma.EmpresaMembershipUncheckedUpdateManyWithoutMembershipNestedInput
@@ -7365,16 +7366,15 @@ export type TenantMembershipUncheckedUpdateWithoutAuditoriasInput = {
   serviciosCreados?: Prisma.OrdenServicioUncheckedUpdateManyWithoutCreadoPorNestedInput
   serviciosLiquidados?: Prisma.OrdenServicioUncheckedUpdateManyWithoutLiquidadoPorNestedInput
   serviciosAsignados?: Prisma.OrdenServicioUncheckedUpdateManyWithoutTecnicoNestedInput
+  seguimientosCompletados?: Prisma.OrdenServicioSeguimientoUncheckedUpdateManyWithoutCompletedByMembershipNestedInput
+  seguimientosCreados?: Prisma.OrdenServicioSeguimientoUncheckedUpdateManyWithoutCreatedByMembershipNestedInput
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoUncheckedUpdateManyWithoutMembershipNestedInput
   permisosAprobados?: Prisma.PermisoUncheckedUpdateManyWithoutAdminNestedInput
   permisosSolicitados?: Prisma.PermisoUncheckedUpdateManyWithoutMembershipNestedInput
   productosSolicitados?: Prisma.ProductoSolicitadoUncheckedUpdateManyWithoutMembershipNestedInput
   referidos?: Prisma.ReferidosUncheckedUpdateManyWithoutMembershipNestedInput
-  seguimientosCompletados?: Prisma.OrdenServicioSeguimientoUncheckedUpdateManyWithoutCompletedByMembershipNestedInput
-  seguimientosCreados?: Prisma.OrdenServicioSeguimientoUncheckedUpdateManyWithoutCreatedByMembershipNestedInput
   sesionesActividad?: Prisma.SesionActividadUncheckedUpdateManyWithoutMembershipNestedInput
   turnos?: Prisma.TurnoUncheckedUpdateManyWithoutMembershipNestedInput
-  dashboardPresets?: Prisma.DashboardPresetUncheckedUpdateManyWithoutCreatedByMembershipNestedInput
 }
 
 export type TenantMembershipCreateWithoutSesionesActividadInput = {
@@ -7403,6 +7403,7 @@ export type TenantMembershipCreateWithoutSesionesActividadInput = {
   consignacionesTecnico?: Prisma.ConsignacionEfectivoCreateNestedManyWithoutTecnicoInput
   cuentasCobro?: Prisma.CuentaCobroCreateNestedManyWithoutMembershipInput
   cuentasPago?: Prisma.CuentasPagoCreateNestedManyWithoutMembershipInput
+  dashboardPresets?: Prisma.DashboardPresetCreateNestedManyWithoutCreatedByMembershipInput
   declaracionesEfectivo?: Prisma.DeclaracionEfectivoCreateNestedManyWithoutTecnicoInput
   egresos?: Prisma.EgresosCreateNestedManyWithoutMembershipInput
   empresaMemberships?: Prisma.EmpresaMembershipCreateNestedManyWithoutMembershipInput
@@ -7411,18 +7412,17 @@ export type TenantMembershipCreateWithoutSesionesActividadInput = {
   serviciosCreados?: Prisma.OrdenServicioCreateNestedManyWithoutCreadoPorInput
   serviciosLiquidados?: Prisma.OrdenServicioCreateNestedManyWithoutLiquidadoPorInput
   serviciosAsignados?: Prisma.OrdenServicioCreateNestedManyWithoutTecnicoInput
+  seguimientosCompletados?: Prisma.OrdenServicioSeguimientoCreateNestedManyWithoutCompletedByMembershipInput
+  seguimientosCreados?: Prisma.OrdenServicioSeguimientoCreateNestedManyWithoutCreatedByMembershipInput
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoCreateNestedManyWithoutMembershipInput
   permisosAprobados?: Prisma.PermisoCreateNestedManyWithoutAdminInput
   permisosSolicitados?: Prisma.PermisoCreateNestedManyWithoutMembershipInput
   productosSolicitados?: Prisma.ProductoSolicitadoCreateNestedManyWithoutMembershipInput
   referidos?: Prisma.ReferidosCreateNestedManyWithoutMembershipInput
-  seguimientosCompletados?: Prisma.OrdenServicioSeguimientoCreateNestedManyWithoutCompletedByMembershipInput
-  seguimientosCreados?: Prisma.OrdenServicioSeguimientoCreateNestedManyWithoutCreatedByMembershipInput
   municipio?: Prisma.MunicipalityCreateNestedOneWithoutMembershipsInput
   tenant: Prisma.TenantCreateNestedOneWithoutMembershipsInput
   user: Prisma.UserCreateNestedOneWithoutMembershipsInput
   turnos?: Prisma.TurnoCreateNestedManyWithoutMembershipInput
-  dashboardPresets?: Prisma.DashboardPresetCreateNestedManyWithoutCreatedByMembershipInput
 }
 
 export type TenantMembershipUncheckedCreateWithoutSesionesActividadInput = {
@@ -7454,6 +7454,7 @@ export type TenantMembershipUncheckedCreateWithoutSesionesActividadInput = {
   consignacionesTecnico?: Prisma.ConsignacionEfectivoUncheckedCreateNestedManyWithoutTecnicoInput
   cuentasCobro?: Prisma.CuentaCobroUncheckedCreateNestedManyWithoutMembershipInput
   cuentasPago?: Prisma.CuentasPagoUncheckedCreateNestedManyWithoutMembershipInput
+  dashboardPresets?: Prisma.DashboardPresetUncheckedCreateNestedManyWithoutCreatedByMembershipInput
   declaracionesEfectivo?: Prisma.DeclaracionEfectivoUncheckedCreateNestedManyWithoutTecnicoInput
   egresos?: Prisma.EgresosUncheckedCreateNestedManyWithoutMembershipInput
   empresaMemberships?: Prisma.EmpresaMembershipUncheckedCreateNestedManyWithoutMembershipInput
@@ -7462,15 +7463,14 @@ export type TenantMembershipUncheckedCreateWithoutSesionesActividadInput = {
   serviciosCreados?: Prisma.OrdenServicioUncheckedCreateNestedManyWithoutCreadoPorInput
   serviciosLiquidados?: Prisma.OrdenServicioUncheckedCreateNestedManyWithoutLiquidadoPorInput
   serviciosAsignados?: Prisma.OrdenServicioUncheckedCreateNestedManyWithoutTecnicoInput
+  seguimientosCompletados?: Prisma.OrdenServicioSeguimientoUncheckedCreateNestedManyWithoutCompletedByMembershipInput
+  seguimientosCreados?: Prisma.OrdenServicioSeguimientoUncheckedCreateNestedManyWithoutCreatedByMembershipInput
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoUncheckedCreateNestedManyWithoutMembershipInput
   permisosAprobados?: Prisma.PermisoUncheckedCreateNestedManyWithoutAdminInput
   permisosSolicitados?: Prisma.PermisoUncheckedCreateNestedManyWithoutMembershipInput
   productosSolicitados?: Prisma.ProductoSolicitadoUncheckedCreateNestedManyWithoutMembershipInput
   referidos?: Prisma.ReferidosUncheckedCreateNestedManyWithoutMembershipInput
-  seguimientosCompletados?: Prisma.OrdenServicioSeguimientoUncheckedCreateNestedManyWithoutCompletedByMembershipInput
-  seguimientosCreados?: Prisma.OrdenServicioSeguimientoUncheckedCreateNestedManyWithoutCreatedByMembershipInput
   turnos?: Prisma.TurnoUncheckedCreateNestedManyWithoutMembershipInput
-  dashboardPresets?: Prisma.DashboardPresetUncheckedCreateNestedManyWithoutCreatedByMembershipInput
 }
 
 export type TenantMembershipCreateOrConnectWithoutSesionesActividadInput = {
@@ -7515,6 +7515,7 @@ export type TenantMembershipUpdateWithoutSesionesActividadInput = {
   consignacionesTecnico?: Prisma.ConsignacionEfectivoUpdateManyWithoutTecnicoNestedInput
   cuentasCobro?: Prisma.CuentaCobroUpdateManyWithoutMembershipNestedInput
   cuentasPago?: Prisma.CuentasPagoUpdateManyWithoutMembershipNestedInput
+  dashboardPresets?: Prisma.DashboardPresetUpdateManyWithoutCreatedByMembershipNestedInput
   declaracionesEfectivo?: Prisma.DeclaracionEfectivoUpdateManyWithoutTecnicoNestedInput
   egresos?: Prisma.EgresosUpdateManyWithoutMembershipNestedInput
   empresaMemberships?: Prisma.EmpresaMembershipUpdateManyWithoutMembershipNestedInput
@@ -7523,18 +7524,17 @@ export type TenantMembershipUpdateWithoutSesionesActividadInput = {
   serviciosCreados?: Prisma.OrdenServicioUpdateManyWithoutCreadoPorNestedInput
   serviciosLiquidados?: Prisma.OrdenServicioUpdateManyWithoutLiquidadoPorNestedInput
   serviciosAsignados?: Prisma.OrdenServicioUpdateManyWithoutTecnicoNestedInput
+  seguimientosCompletados?: Prisma.OrdenServicioSeguimientoUpdateManyWithoutCompletedByMembershipNestedInput
+  seguimientosCreados?: Prisma.OrdenServicioSeguimientoUpdateManyWithoutCreatedByMembershipNestedInput
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoUpdateManyWithoutMembershipNestedInput
   permisosAprobados?: Prisma.PermisoUpdateManyWithoutAdminNestedInput
   permisosSolicitados?: Prisma.PermisoUpdateManyWithoutMembershipNestedInput
   productosSolicitados?: Prisma.ProductoSolicitadoUpdateManyWithoutMembershipNestedInput
   referidos?: Prisma.ReferidosUpdateManyWithoutMembershipNestedInput
-  seguimientosCompletados?: Prisma.OrdenServicioSeguimientoUpdateManyWithoutCompletedByMembershipNestedInput
-  seguimientosCreados?: Prisma.OrdenServicioSeguimientoUpdateManyWithoutCreatedByMembershipNestedInput
   municipio?: Prisma.MunicipalityUpdateOneWithoutMembershipsNestedInput
   tenant?: Prisma.TenantUpdateOneRequiredWithoutMembershipsNestedInput
   user?: Prisma.UserUpdateOneRequiredWithoutMembershipsNestedInput
   turnos?: Prisma.TurnoUpdateManyWithoutMembershipNestedInput
-  dashboardPresets?: Prisma.DashboardPresetUpdateManyWithoutCreatedByMembershipNestedInput
 }
 
 export type TenantMembershipUncheckedUpdateWithoutSesionesActividadInput = {
@@ -7566,6 +7566,7 @@ export type TenantMembershipUncheckedUpdateWithoutSesionesActividadInput = {
   consignacionesTecnico?: Prisma.ConsignacionEfectivoUncheckedUpdateManyWithoutTecnicoNestedInput
   cuentasCobro?: Prisma.CuentaCobroUncheckedUpdateManyWithoutMembershipNestedInput
   cuentasPago?: Prisma.CuentasPagoUncheckedUpdateManyWithoutMembershipNestedInput
+  dashboardPresets?: Prisma.DashboardPresetUncheckedUpdateManyWithoutCreatedByMembershipNestedInput
   declaracionesEfectivo?: Prisma.DeclaracionEfectivoUncheckedUpdateManyWithoutTecnicoNestedInput
   egresos?: Prisma.EgresosUncheckedUpdateManyWithoutMembershipNestedInput
   empresaMemberships?: Prisma.EmpresaMembershipUncheckedUpdateManyWithoutMembershipNestedInput
@@ -7574,15 +7575,14 @@ export type TenantMembershipUncheckedUpdateWithoutSesionesActividadInput = {
   serviciosCreados?: Prisma.OrdenServicioUncheckedUpdateManyWithoutCreadoPorNestedInput
   serviciosLiquidados?: Prisma.OrdenServicioUncheckedUpdateManyWithoutLiquidadoPorNestedInput
   serviciosAsignados?: Prisma.OrdenServicioUncheckedUpdateManyWithoutTecnicoNestedInput
+  seguimientosCompletados?: Prisma.OrdenServicioSeguimientoUncheckedUpdateManyWithoutCompletedByMembershipNestedInput
+  seguimientosCreados?: Prisma.OrdenServicioSeguimientoUncheckedUpdateManyWithoutCreatedByMembershipNestedInput
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoUncheckedUpdateManyWithoutMembershipNestedInput
   permisosAprobados?: Prisma.PermisoUncheckedUpdateManyWithoutAdminNestedInput
   permisosSolicitados?: Prisma.PermisoUncheckedUpdateManyWithoutMembershipNestedInput
   productosSolicitados?: Prisma.ProductoSolicitadoUncheckedUpdateManyWithoutMembershipNestedInput
   referidos?: Prisma.ReferidosUncheckedUpdateManyWithoutMembershipNestedInput
-  seguimientosCompletados?: Prisma.OrdenServicioSeguimientoUncheckedUpdateManyWithoutCompletedByMembershipNestedInput
-  seguimientosCreados?: Prisma.OrdenServicioSeguimientoUncheckedUpdateManyWithoutCreatedByMembershipNestedInput
   turnos?: Prisma.TurnoUncheckedUpdateManyWithoutMembershipNestedInput
-  dashboardPresets?: Prisma.DashboardPresetUncheckedUpdateManyWithoutCreatedByMembershipNestedInput
 }
 
 export type TenantMembershipCreateManyUserInput = {
@@ -7631,6 +7631,7 @@ export type TenantMembershipUpdateWithoutUserInput = {
   consignacionesTecnico?: Prisma.ConsignacionEfectivoUpdateManyWithoutTecnicoNestedInput
   cuentasCobro?: Prisma.CuentaCobroUpdateManyWithoutMembershipNestedInput
   cuentasPago?: Prisma.CuentasPagoUpdateManyWithoutMembershipNestedInput
+  dashboardPresets?: Prisma.DashboardPresetUpdateManyWithoutCreatedByMembershipNestedInput
   declaracionesEfectivo?: Prisma.DeclaracionEfectivoUpdateManyWithoutTecnicoNestedInput
   egresos?: Prisma.EgresosUpdateManyWithoutMembershipNestedInput
   empresaMemberships?: Prisma.EmpresaMembershipUpdateManyWithoutMembershipNestedInput
@@ -7639,18 +7640,17 @@ export type TenantMembershipUpdateWithoutUserInput = {
   serviciosCreados?: Prisma.OrdenServicioUpdateManyWithoutCreadoPorNestedInput
   serviciosLiquidados?: Prisma.OrdenServicioUpdateManyWithoutLiquidadoPorNestedInput
   serviciosAsignados?: Prisma.OrdenServicioUpdateManyWithoutTecnicoNestedInput
+  seguimientosCompletados?: Prisma.OrdenServicioSeguimientoUpdateManyWithoutCompletedByMembershipNestedInput
+  seguimientosCreados?: Prisma.OrdenServicioSeguimientoUpdateManyWithoutCreatedByMembershipNestedInput
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoUpdateManyWithoutMembershipNestedInput
   permisosAprobados?: Prisma.PermisoUpdateManyWithoutAdminNestedInput
   permisosSolicitados?: Prisma.PermisoUpdateManyWithoutMembershipNestedInput
   productosSolicitados?: Prisma.ProductoSolicitadoUpdateManyWithoutMembershipNestedInput
   referidos?: Prisma.ReferidosUpdateManyWithoutMembershipNestedInput
-  seguimientosCompletados?: Prisma.OrdenServicioSeguimientoUpdateManyWithoutCompletedByMembershipNestedInput
-  seguimientosCreados?: Prisma.OrdenServicioSeguimientoUpdateManyWithoutCreatedByMembershipNestedInput
   sesionesActividad?: Prisma.SesionActividadUpdateManyWithoutMembershipNestedInput
   municipio?: Prisma.MunicipalityUpdateOneWithoutMembershipsNestedInput
   tenant?: Prisma.TenantUpdateOneRequiredWithoutMembershipsNestedInput
   turnos?: Prisma.TurnoUpdateManyWithoutMembershipNestedInput
-  dashboardPresets?: Prisma.DashboardPresetUpdateManyWithoutCreatedByMembershipNestedInput
 }
 
 export type TenantMembershipUncheckedUpdateWithoutUserInput = {
@@ -7681,6 +7681,7 @@ export type TenantMembershipUncheckedUpdateWithoutUserInput = {
   consignacionesTecnico?: Prisma.ConsignacionEfectivoUncheckedUpdateManyWithoutTecnicoNestedInput
   cuentasCobro?: Prisma.CuentaCobroUncheckedUpdateManyWithoutMembershipNestedInput
   cuentasPago?: Prisma.CuentasPagoUncheckedUpdateManyWithoutMembershipNestedInput
+  dashboardPresets?: Prisma.DashboardPresetUncheckedUpdateManyWithoutCreatedByMembershipNestedInput
   declaracionesEfectivo?: Prisma.DeclaracionEfectivoUncheckedUpdateManyWithoutTecnicoNestedInput
   egresos?: Prisma.EgresosUncheckedUpdateManyWithoutMembershipNestedInput
   empresaMemberships?: Prisma.EmpresaMembershipUncheckedUpdateManyWithoutMembershipNestedInput
@@ -7689,16 +7690,15 @@ export type TenantMembershipUncheckedUpdateWithoutUserInput = {
   serviciosCreados?: Prisma.OrdenServicioUncheckedUpdateManyWithoutCreadoPorNestedInput
   serviciosLiquidados?: Prisma.OrdenServicioUncheckedUpdateManyWithoutLiquidadoPorNestedInput
   serviciosAsignados?: Prisma.OrdenServicioUncheckedUpdateManyWithoutTecnicoNestedInput
+  seguimientosCompletados?: Prisma.OrdenServicioSeguimientoUncheckedUpdateManyWithoutCompletedByMembershipNestedInput
+  seguimientosCreados?: Prisma.OrdenServicioSeguimientoUncheckedUpdateManyWithoutCreatedByMembershipNestedInput
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoUncheckedUpdateManyWithoutMembershipNestedInput
   permisosAprobados?: Prisma.PermisoUncheckedUpdateManyWithoutAdminNestedInput
   permisosSolicitados?: Prisma.PermisoUncheckedUpdateManyWithoutMembershipNestedInput
   productosSolicitados?: Prisma.ProductoSolicitadoUncheckedUpdateManyWithoutMembershipNestedInput
   referidos?: Prisma.ReferidosUncheckedUpdateManyWithoutMembershipNestedInput
-  seguimientosCompletados?: Prisma.OrdenServicioSeguimientoUncheckedUpdateManyWithoutCompletedByMembershipNestedInput
-  seguimientosCreados?: Prisma.OrdenServicioSeguimientoUncheckedUpdateManyWithoutCreatedByMembershipNestedInput
   sesionesActividad?: Prisma.SesionActividadUncheckedUpdateManyWithoutMembershipNestedInput
   turnos?: Prisma.TurnoUncheckedUpdateManyWithoutMembershipNestedInput
-  dashboardPresets?: Prisma.DashboardPresetUncheckedUpdateManyWithoutCreatedByMembershipNestedInput
 }
 
 export type TenantMembershipUncheckedUpdateManyWithoutUserInput = {
@@ -7767,6 +7767,7 @@ export type TenantMembershipUpdateWithoutTenantInput = {
   consignacionesTecnico?: Prisma.ConsignacionEfectivoUpdateManyWithoutTecnicoNestedInput
   cuentasCobro?: Prisma.CuentaCobroUpdateManyWithoutMembershipNestedInput
   cuentasPago?: Prisma.CuentasPagoUpdateManyWithoutMembershipNestedInput
+  dashboardPresets?: Prisma.DashboardPresetUpdateManyWithoutCreatedByMembershipNestedInput
   declaracionesEfectivo?: Prisma.DeclaracionEfectivoUpdateManyWithoutTecnicoNestedInput
   egresos?: Prisma.EgresosUpdateManyWithoutMembershipNestedInput
   empresaMemberships?: Prisma.EmpresaMembershipUpdateManyWithoutMembershipNestedInput
@@ -7775,18 +7776,17 @@ export type TenantMembershipUpdateWithoutTenantInput = {
   serviciosCreados?: Prisma.OrdenServicioUpdateManyWithoutCreadoPorNestedInput
   serviciosLiquidados?: Prisma.OrdenServicioUpdateManyWithoutLiquidadoPorNestedInput
   serviciosAsignados?: Prisma.OrdenServicioUpdateManyWithoutTecnicoNestedInput
+  seguimientosCompletados?: Prisma.OrdenServicioSeguimientoUpdateManyWithoutCompletedByMembershipNestedInput
+  seguimientosCreados?: Prisma.OrdenServicioSeguimientoUpdateManyWithoutCreatedByMembershipNestedInput
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoUpdateManyWithoutMembershipNestedInput
   permisosAprobados?: Prisma.PermisoUpdateManyWithoutAdminNestedInput
   permisosSolicitados?: Prisma.PermisoUpdateManyWithoutMembershipNestedInput
   productosSolicitados?: Prisma.ProductoSolicitadoUpdateManyWithoutMembershipNestedInput
   referidos?: Prisma.ReferidosUpdateManyWithoutMembershipNestedInput
-  seguimientosCompletados?: Prisma.OrdenServicioSeguimientoUpdateManyWithoutCompletedByMembershipNestedInput
-  seguimientosCreados?: Prisma.OrdenServicioSeguimientoUpdateManyWithoutCreatedByMembershipNestedInput
   sesionesActividad?: Prisma.SesionActividadUpdateManyWithoutMembershipNestedInput
   municipio?: Prisma.MunicipalityUpdateOneWithoutMembershipsNestedInput
   user?: Prisma.UserUpdateOneRequiredWithoutMembershipsNestedInput
   turnos?: Prisma.TurnoUpdateManyWithoutMembershipNestedInput
-  dashboardPresets?: Prisma.DashboardPresetUpdateManyWithoutCreatedByMembershipNestedInput
 }
 
 export type TenantMembershipUncheckedUpdateWithoutTenantInput = {
@@ -7817,6 +7817,7 @@ export type TenantMembershipUncheckedUpdateWithoutTenantInput = {
   consignacionesTecnico?: Prisma.ConsignacionEfectivoUncheckedUpdateManyWithoutTecnicoNestedInput
   cuentasCobro?: Prisma.CuentaCobroUncheckedUpdateManyWithoutMembershipNestedInput
   cuentasPago?: Prisma.CuentasPagoUncheckedUpdateManyWithoutMembershipNestedInput
+  dashboardPresets?: Prisma.DashboardPresetUncheckedUpdateManyWithoutCreatedByMembershipNestedInput
   declaracionesEfectivo?: Prisma.DeclaracionEfectivoUncheckedUpdateManyWithoutTecnicoNestedInput
   egresos?: Prisma.EgresosUncheckedUpdateManyWithoutMembershipNestedInput
   empresaMemberships?: Prisma.EmpresaMembershipUncheckedUpdateManyWithoutMembershipNestedInput
@@ -7825,16 +7826,15 @@ export type TenantMembershipUncheckedUpdateWithoutTenantInput = {
   serviciosCreados?: Prisma.OrdenServicioUncheckedUpdateManyWithoutCreadoPorNestedInput
   serviciosLiquidados?: Prisma.OrdenServicioUncheckedUpdateManyWithoutLiquidadoPorNestedInput
   serviciosAsignados?: Prisma.OrdenServicioUncheckedUpdateManyWithoutTecnicoNestedInput
+  seguimientosCompletados?: Prisma.OrdenServicioSeguimientoUncheckedUpdateManyWithoutCompletedByMembershipNestedInput
+  seguimientosCreados?: Prisma.OrdenServicioSeguimientoUncheckedUpdateManyWithoutCreatedByMembershipNestedInput
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoUncheckedUpdateManyWithoutMembershipNestedInput
   permisosAprobados?: Prisma.PermisoUncheckedUpdateManyWithoutAdminNestedInput
   permisosSolicitados?: Prisma.PermisoUncheckedUpdateManyWithoutMembershipNestedInput
   productosSolicitados?: Prisma.ProductoSolicitadoUncheckedUpdateManyWithoutMembershipNestedInput
   referidos?: Prisma.ReferidosUncheckedUpdateManyWithoutMembershipNestedInput
-  seguimientosCompletados?: Prisma.OrdenServicioSeguimientoUncheckedUpdateManyWithoutCompletedByMembershipNestedInput
-  seguimientosCreados?: Prisma.OrdenServicioSeguimientoUncheckedUpdateManyWithoutCreatedByMembershipNestedInput
   sesionesActividad?: Prisma.SesionActividadUncheckedUpdateManyWithoutMembershipNestedInput
   turnos?: Prisma.TurnoUncheckedUpdateManyWithoutMembershipNestedInput
-  dashboardPresets?: Prisma.DashboardPresetUncheckedUpdateManyWithoutCreatedByMembershipNestedInput
 }
 
 export type TenantMembershipUncheckedUpdateManyWithoutTenantInput = {
@@ -7903,6 +7903,7 @@ export type TenantMembershipUpdateWithoutMunicipioInput = {
   consignacionesTecnico?: Prisma.ConsignacionEfectivoUpdateManyWithoutTecnicoNestedInput
   cuentasCobro?: Prisma.CuentaCobroUpdateManyWithoutMembershipNestedInput
   cuentasPago?: Prisma.CuentasPagoUpdateManyWithoutMembershipNestedInput
+  dashboardPresets?: Prisma.DashboardPresetUpdateManyWithoutCreatedByMembershipNestedInput
   declaracionesEfectivo?: Prisma.DeclaracionEfectivoUpdateManyWithoutTecnicoNestedInput
   egresos?: Prisma.EgresosUpdateManyWithoutMembershipNestedInput
   empresaMemberships?: Prisma.EmpresaMembershipUpdateManyWithoutMembershipNestedInput
@@ -7911,18 +7912,17 @@ export type TenantMembershipUpdateWithoutMunicipioInput = {
   serviciosCreados?: Prisma.OrdenServicioUpdateManyWithoutCreadoPorNestedInput
   serviciosLiquidados?: Prisma.OrdenServicioUpdateManyWithoutLiquidadoPorNestedInput
   serviciosAsignados?: Prisma.OrdenServicioUpdateManyWithoutTecnicoNestedInput
+  seguimientosCompletados?: Prisma.OrdenServicioSeguimientoUpdateManyWithoutCompletedByMembershipNestedInput
+  seguimientosCreados?: Prisma.OrdenServicioSeguimientoUpdateManyWithoutCreatedByMembershipNestedInput
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoUpdateManyWithoutMembershipNestedInput
   permisosAprobados?: Prisma.PermisoUpdateManyWithoutAdminNestedInput
   permisosSolicitados?: Prisma.PermisoUpdateManyWithoutMembershipNestedInput
   productosSolicitados?: Prisma.ProductoSolicitadoUpdateManyWithoutMembershipNestedInput
   referidos?: Prisma.ReferidosUpdateManyWithoutMembershipNestedInput
-  seguimientosCompletados?: Prisma.OrdenServicioSeguimientoUpdateManyWithoutCompletedByMembershipNestedInput
-  seguimientosCreados?: Prisma.OrdenServicioSeguimientoUpdateManyWithoutCreatedByMembershipNestedInput
   sesionesActividad?: Prisma.SesionActividadUpdateManyWithoutMembershipNestedInput
   tenant?: Prisma.TenantUpdateOneRequiredWithoutMembershipsNestedInput
   user?: Prisma.UserUpdateOneRequiredWithoutMembershipsNestedInput
   turnos?: Prisma.TurnoUpdateManyWithoutMembershipNestedInput
-  dashboardPresets?: Prisma.DashboardPresetUpdateManyWithoutCreatedByMembershipNestedInput
 }
 
 export type TenantMembershipUncheckedUpdateWithoutMunicipioInput = {
@@ -7953,6 +7953,7 @@ export type TenantMembershipUncheckedUpdateWithoutMunicipioInput = {
   consignacionesTecnico?: Prisma.ConsignacionEfectivoUncheckedUpdateManyWithoutTecnicoNestedInput
   cuentasCobro?: Prisma.CuentaCobroUncheckedUpdateManyWithoutMembershipNestedInput
   cuentasPago?: Prisma.CuentasPagoUncheckedUpdateManyWithoutMembershipNestedInput
+  dashboardPresets?: Prisma.DashboardPresetUncheckedUpdateManyWithoutCreatedByMembershipNestedInput
   declaracionesEfectivo?: Prisma.DeclaracionEfectivoUncheckedUpdateManyWithoutTecnicoNestedInput
   egresos?: Prisma.EgresosUncheckedUpdateManyWithoutMembershipNestedInput
   empresaMemberships?: Prisma.EmpresaMembershipUncheckedUpdateManyWithoutMembershipNestedInput
@@ -7961,16 +7962,15 @@ export type TenantMembershipUncheckedUpdateWithoutMunicipioInput = {
   serviciosCreados?: Prisma.OrdenServicioUncheckedUpdateManyWithoutCreadoPorNestedInput
   serviciosLiquidados?: Prisma.OrdenServicioUncheckedUpdateManyWithoutLiquidadoPorNestedInput
   serviciosAsignados?: Prisma.OrdenServicioUncheckedUpdateManyWithoutTecnicoNestedInput
+  seguimientosCompletados?: Prisma.OrdenServicioSeguimientoUncheckedUpdateManyWithoutCompletedByMembershipNestedInput
+  seguimientosCreados?: Prisma.OrdenServicioSeguimientoUncheckedUpdateManyWithoutCreatedByMembershipNestedInput
   paquetesAdquiridos?: Prisma.PaqueteAdquiridoUncheckedUpdateManyWithoutMembershipNestedInput
   permisosAprobados?: Prisma.PermisoUncheckedUpdateManyWithoutAdminNestedInput
   permisosSolicitados?: Prisma.PermisoUncheckedUpdateManyWithoutMembershipNestedInput
   productosSolicitados?: Prisma.ProductoSolicitadoUncheckedUpdateManyWithoutMembershipNestedInput
   referidos?: Prisma.ReferidosUncheckedUpdateManyWithoutMembershipNestedInput
-  seguimientosCompletados?: Prisma.OrdenServicioSeguimientoUncheckedUpdateManyWithoutCompletedByMembershipNestedInput
-  seguimientosCreados?: Prisma.OrdenServicioSeguimientoUncheckedUpdateManyWithoutCreatedByMembershipNestedInput
   sesionesActividad?: Prisma.SesionActividadUncheckedUpdateManyWithoutMembershipNestedInput
   turnos?: Prisma.TurnoUncheckedUpdateManyWithoutMembershipNestedInput
-  dashboardPresets?: Prisma.DashboardPresetUncheckedUpdateManyWithoutCreatedByMembershipNestedInput
 }
 
 export type TenantMembershipUncheckedUpdateManyWithoutMunicipioInput = {
@@ -8009,6 +8009,7 @@ export type TenantMembershipCountOutputType = {
   consignacionesTecnico: number
   cuentasCobro: number
   cuentasPago: number
+  dashboardPresets: number
   declaracionesEfectivo: number
   egresos: number
   empresaMemberships: number
@@ -8017,16 +8018,15 @@ export type TenantMembershipCountOutputType = {
   serviciosCreados: number
   serviciosLiquidados: number
   serviciosAsignados: number
+  seguimientosCompletados: number
+  seguimientosCreados: number
   paquetesAdquiridos: number
   permisosAprobados: number
   permisosSolicitados: number
   productosSolicitados: number
   referidos: number
-  seguimientosCompletados: number
-  seguimientosCreados: number
   sesionesActividad: number
   turnos: number
-  dashboardPresets: number
 }
 
 export type TenantMembershipCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -8040,6 +8040,7 @@ export type TenantMembershipCountOutputTypeSelect<ExtArgs extends runtime.Types.
   consignacionesTecnico?: boolean | TenantMembershipCountOutputTypeCountConsignacionesTecnicoArgs
   cuentasCobro?: boolean | TenantMembershipCountOutputTypeCountCuentasCobroArgs
   cuentasPago?: boolean | TenantMembershipCountOutputTypeCountCuentasPagoArgs
+  dashboardPresets?: boolean | TenantMembershipCountOutputTypeCountDashboardPresetsArgs
   declaracionesEfectivo?: boolean | TenantMembershipCountOutputTypeCountDeclaracionesEfectivoArgs
   egresos?: boolean | TenantMembershipCountOutputTypeCountEgresosArgs
   empresaMemberships?: boolean | TenantMembershipCountOutputTypeCountEmpresaMembershipsArgs
@@ -8048,16 +8049,15 @@ export type TenantMembershipCountOutputTypeSelect<ExtArgs extends runtime.Types.
   serviciosCreados?: boolean | TenantMembershipCountOutputTypeCountServiciosCreadosArgs
   serviciosLiquidados?: boolean | TenantMembershipCountOutputTypeCountServiciosLiquidadosArgs
   serviciosAsignados?: boolean | TenantMembershipCountOutputTypeCountServiciosAsignadosArgs
+  seguimientosCompletados?: boolean | TenantMembershipCountOutputTypeCountSeguimientosCompletadosArgs
+  seguimientosCreados?: boolean | TenantMembershipCountOutputTypeCountSeguimientosCreadosArgs
   paquetesAdquiridos?: boolean | TenantMembershipCountOutputTypeCountPaquetesAdquiridosArgs
   permisosAprobados?: boolean | TenantMembershipCountOutputTypeCountPermisosAprobadosArgs
   permisosSolicitados?: boolean | TenantMembershipCountOutputTypeCountPermisosSolicitadosArgs
   productosSolicitados?: boolean | TenantMembershipCountOutputTypeCountProductosSolicitadosArgs
   referidos?: boolean | TenantMembershipCountOutputTypeCountReferidosArgs
-  seguimientosCompletados?: boolean | TenantMembershipCountOutputTypeCountSeguimientosCompletadosArgs
-  seguimientosCreados?: boolean | TenantMembershipCountOutputTypeCountSeguimientosCreadosArgs
   sesionesActividad?: boolean | TenantMembershipCountOutputTypeCountSesionesActividadArgs
   turnos?: boolean | TenantMembershipCountOutputTypeCountTurnosArgs
-  dashboardPresets?: boolean | TenantMembershipCountOutputTypeCountDashboardPresetsArgs
 }
 
 /**
@@ -8143,6 +8143,13 @@ export type TenantMembershipCountOutputTypeCountCuentasPagoArgs<ExtArgs extends 
 /**
  * TenantMembershipCountOutputType without action
  */
+export type TenantMembershipCountOutputTypeCountDashboardPresetsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.DashboardPresetWhereInput
+}
+
+/**
+ * TenantMembershipCountOutputType without action
+ */
 export type TenantMembershipCountOutputTypeCountDeclaracionesEfectivoArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   where?: Prisma.DeclaracionEfectivoWhereInput
 }
@@ -8199,6 +8206,20 @@ export type TenantMembershipCountOutputTypeCountServiciosAsignadosArgs<ExtArgs e
 /**
  * TenantMembershipCountOutputType without action
  */
+export type TenantMembershipCountOutputTypeCountSeguimientosCompletadosArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.OrdenServicioSeguimientoWhereInput
+}
+
+/**
+ * TenantMembershipCountOutputType without action
+ */
+export type TenantMembershipCountOutputTypeCountSeguimientosCreadosArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.OrdenServicioSeguimientoWhereInput
+}
+
+/**
+ * TenantMembershipCountOutputType without action
+ */
 export type TenantMembershipCountOutputTypeCountPaquetesAdquiridosArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   where?: Prisma.PaqueteAdquiridoWhereInput
 }
@@ -8234,20 +8255,6 @@ export type TenantMembershipCountOutputTypeCountReferidosArgs<ExtArgs extends ru
 /**
  * TenantMembershipCountOutputType without action
  */
-export type TenantMembershipCountOutputTypeCountSeguimientosCompletadosArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.OrdenServicioSeguimientoWhereInput
-}
-
-/**
- * TenantMembershipCountOutputType without action
- */
-export type TenantMembershipCountOutputTypeCountSeguimientosCreadosArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.OrdenServicioSeguimientoWhereInput
-}
-
-/**
- * TenantMembershipCountOutputType without action
- */
 export type TenantMembershipCountOutputTypeCountSesionesActividadArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   where?: Prisma.SesionActividadWhereInput
 }
@@ -8257,13 +8264,6 @@ export type TenantMembershipCountOutputTypeCountSesionesActividadArgs<ExtArgs ex
  */
 export type TenantMembershipCountOutputTypeCountTurnosArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   where?: Prisma.TurnoWhereInput
-}
-
-/**
- * TenantMembershipCountOutputType without action
- */
-export type TenantMembershipCountOutputTypeCountDashboardPresetsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.DashboardPresetWhereInput
 }
 
 
@@ -8296,6 +8296,7 @@ export type TenantMembershipSelect<ExtArgs extends runtime.Types.Extensions.Inte
   consignacionesTecnico?: boolean | Prisma.TenantMembership$consignacionesTecnicoArgs<ExtArgs>
   cuentasCobro?: boolean | Prisma.TenantMembership$cuentasCobroArgs<ExtArgs>
   cuentasPago?: boolean | Prisma.TenantMembership$cuentasPagoArgs<ExtArgs>
+  dashboardPresets?: boolean | Prisma.TenantMembership$dashboardPresetsArgs<ExtArgs>
   declaracionesEfectivo?: boolean | Prisma.TenantMembership$declaracionesEfectivoArgs<ExtArgs>
   egresos?: boolean | Prisma.TenantMembership$egresosArgs<ExtArgs>
   empresaMemberships?: boolean | Prisma.TenantMembership$empresaMembershipsArgs<ExtArgs>
@@ -8304,19 +8305,18 @@ export type TenantMembershipSelect<ExtArgs extends runtime.Types.Extensions.Inte
   serviciosCreados?: boolean | Prisma.TenantMembership$serviciosCreadosArgs<ExtArgs>
   serviciosLiquidados?: boolean | Prisma.TenantMembership$serviciosLiquidadosArgs<ExtArgs>
   serviciosAsignados?: boolean | Prisma.TenantMembership$serviciosAsignadosArgs<ExtArgs>
+  seguimientosCompletados?: boolean | Prisma.TenantMembership$seguimientosCompletadosArgs<ExtArgs>
+  seguimientosCreados?: boolean | Prisma.TenantMembership$seguimientosCreadosArgs<ExtArgs>
   paquetesAdquiridos?: boolean | Prisma.TenantMembership$paquetesAdquiridosArgs<ExtArgs>
   permisosAprobados?: boolean | Prisma.TenantMembership$permisosAprobadosArgs<ExtArgs>
   permisosSolicitados?: boolean | Prisma.TenantMembership$permisosSolicitadosArgs<ExtArgs>
   productosSolicitados?: boolean | Prisma.TenantMembership$productosSolicitadosArgs<ExtArgs>
   referidos?: boolean | Prisma.TenantMembership$referidosArgs<ExtArgs>
-  seguimientosCompletados?: boolean | Prisma.TenantMembership$seguimientosCompletadosArgs<ExtArgs>
-  seguimientosCreados?: boolean | Prisma.TenantMembership$seguimientosCreadosArgs<ExtArgs>
   sesionesActividad?: boolean | Prisma.TenantMembership$sesionesActividadArgs<ExtArgs>
   municipio?: boolean | Prisma.TenantMembership$municipioArgs<ExtArgs>
   tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   turnos?: boolean | Prisma.TenantMembership$turnosArgs<ExtArgs>
-  dashboardPresets?: boolean | Prisma.TenantMembership$dashboardPresetsArgs<ExtArgs>
   _count?: boolean | Prisma.TenantMembershipCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["tenantMembership"]>
 
@@ -8401,6 +8401,7 @@ export type TenantMembershipInclude<ExtArgs extends runtime.Types.Extensions.Int
   consignacionesTecnico?: boolean | Prisma.TenantMembership$consignacionesTecnicoArgs<ExtArgs>
   cuentasCobro?: boolean | Prisma.TenantMembership$cuentasCobroArgs<ExtArgs>
   cuentasPago?: boolean | Prisma.TenantMembership$cuentasPagoArgs<ExtArgs>
+  dashboardPresets?: boolean | Prisma.TenantMembership$dashboardPresetsArgs<ExtArgs>
   declaracionesEfectivo?: boolean | Prisma.TenantMembership$declaracionesEfectivoArgs<ExtArgs>
   egresos?: boolean | Prisma.TenantMembership$egresosArgs<ExtArgs>
   empresaMemberships?: boolean | Prisma.TenantMembership$empresaMembershipsArgs<ExtArgs>
@@ -8409,19 +8410,18 @@ export type TenantMembershipInclude<ExtArgs extends runtime.Types.Extensions.Int
   serviciosCreados?: boolean | Prisma.TenantMembership$serviciosCreadosArgs<ExtArgs>
   serviciosLiquidados?: boolean | Prisma.TenantMembership$serviciosLiquidadosArgs<ExtArgs>
   serviciosAsignados?: boolean | Prisma.TenantMembership$serviciosAsignadosArgs<ExtArgs>
+  seguimientosCompletados?: boolean | Prisma.TenantMembership$seguimientosCompletadosArgs<ExtArgs>
+  seguimientosCreados?: boolean | Prisma.TenantMembership$seguimientosCreadosArgs<ExtArgs>
   paquetesAdquiridos?: boolean | Prisma.TenantMembership$paquetesAdquiridosArgs<ExtArgs>
   permisosAprobados?: boolean | Prisma.TenantMembership$permisosAprobadosArgs<ExtArgs>
   permisosSolicitados?: boolean | Prisma.TenantMembership$permisosSolicitadosArgs<ExtArgs>
   productosSolicitados?: boolean | Prisma.TenantMembership$productosSolicitadosArgs<ExtArgs>
   referidos?: boolean | Prisma.TenantMembership$referidosArgs<ExtArgs>
-  seguimientosCompletados?: boolean | Prisma.TenantMembership$seguimientosCompletadosArgs<ExtArgs>
-  seguimientosCreados?: boolean | Prisma.TenantMembership$seguimientosCreadosArgs<ExtArgs>
   sesionesActividad?: boolean | Prisma.TenantMembership$sesionesActividadArgs<ExtArgs>
   municipio?: boolean | Prisma.TenantMembership$municipioArgs<ExtArgs>
   tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   turnos?: boolean | Prisma.TenantMembership$turnosArgs<ExtArgs>
-  dashboardPresets?: boolean | Prisma.TenantMembership$dashboardPresetsArgs<ExtArgs>
   _count?: boolean | Prisma.TenantMembershipCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type TenantMembershipIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -8448,6 +8448,7 @@ export type $TenantMembershipPayload<ExtArgs extends runtime.Types.Extensions.In
     consignacionesTecnico: Prisma.$ConsignacionEfectivoPayload<ExtArgs>[]
     cuentasCobro: Prisma.$CuentaCobroPayload<ExtArgs>[]
     cuentasPago: Prisma.$CuentasPagoPayload<ExtArgs>[]
+    dashboardPresets: Prisma.$DashboardPresetPayload<ExtArgs>[]
     declaracionesEfectivo: Prisma.$DeclaracionEfectivoPayload<ExtArgs>[]
     egresos: Prisma.$EgresosPayload<ExtArgs>[]
     empresaMemberships: Prisma.$EmpresaMembershipPayload<ExtArgs>[]
@@ -8456,19 +8457,18 @@ export type $TenantMembershipPayload<ExtArgs extends runtime.Types.Extensions.In
     serviciosCreados: Prisma.$OrdenServicioPayload<ExtArgs>[]
     serviciosLiquidados: Prisma.$OrdenServicioPayload<ExtArgs>[]
     serviciosAsignados: Prisma.$OrdenServicioPayload<ExtArgs>[]
+    seguimientosCompletados: Prisma.$OrdenServicioSeguimientoPayload<ExtArgs>[]
+    seguimientosCreados: Prisma.$OrdenServicioSeguimientoPayload<ExtArgs>[]
     paquetesAdquiridos: Prisma.$PaqueteAdquiridoPayload<ExtArgs>[]
     permisosAprobados: Prisma.$PermisoPayload<ExtArgs>[]
     permisosSolicitados: Prisma.$PermisoPayload<ExtArgs>[]
     productosSolicitados: Prisma.$ProductoSolicitadoPayload<ExtArgs>[]
     referidos: Prisma.$ReferidosPayload<ExtArgs>[]
-    seguimientosCompletados: Prisma.$OrdenServicioSeguimientoPayload<ExtArgs>[]
-    seguimientosCreados: Prisma.$OrdenServicioSeguimientoPayload<ExtArgs>[]
     sesionesActividad: Prisma.$SesionActividadPayload<ExtArgs>[]
     municipio: Prisma.$MunicipalityPayload<ExtArgs> | null
     tenant: Prisma.$TenantPayload<ExtArgs>
     user: Prisma.$UserPayload<ExtArgs>
     turnos: Prisma.$TurnoPayload<ExtArgs>[]
-    dashboardPresets: Prisma.$DashboardPresetPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -8893,6 +8893,7 @@ export interface Prisma__TenantMembershipClient<T, Null = never, ExtArgs extends
   consignacionesTecnico<T extends Prisma.TenantMembership$consignacionesTecnicoArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.TenantMembership$consignacionesTecnicoArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ConsignacionEfectivoPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   cuentasCobro<T extends Prisma.TenantMembership$cuentasCobroArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.TenantMembership$cuentasCobroArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$CuentaCobroPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   cuentasPago<T extends Prisma.TenantMembership$cuentasPagoArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.TenantMembership$cuentasPagoArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$CuentasPagoPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  dashboardPresets<T extends Prisma.TenantMembership$dashboardPresetsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.TenantMembership$dashboardPresetsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$DashboardPresetPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   declaracionesEfectivo<T extends Prisma.TenantMembership$declaracionesEfectivoArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.TenantMembership$declaracionesEfectivoArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$DeclaracionEfectivoPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   egresos<T extends Prisma.TenantMembership$egresosArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.TenantMembership$egresosArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$EgresosPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   empresaMemberships<T extends Prisma.TenantMembership$empresaMembershipsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.TenantMembership$empresaMembershipsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$EmpresaMembershipPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
@@ -8901,19 +8902,18 @@ export interface Prisma__TenantMembershipClient<T, Null = never, ExtArgs extends
   serviciosCreados<T extends Prisma.TenantMembership$serviciosCreadosArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.TenantMembership$serviciosCreadosArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$OrdenServicioPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   serviciosLiquidados<T extends Prisma.TenantMembership$serviciosLiquidadosArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.TenantMembership$serviciosLiquidadosArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$OrdenServicioPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   serviciosAsignados<T extends Prisma.TenantMembership$serviciosAsignadosArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.TenantMembership$serviciosAsignadosArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$OrdenServicioPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  seguimientosCompletados<T extends Prisma.TenantMembership$seguimientosCompletadosArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.TenantMembership$seguimientosCompletadosArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$OrdenServicioSeguimientoPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  seguimientosCreados<T extends Prisma.TenantMembership$seguimientosCreadosArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.TenantMembership$seguimientosCreadosArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$OrdenServicioSeguimientoPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   paquetesAdquiridos<T extends Prisma.TenantMembership$paquetesAdquiridosArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.TenantMembership$paquetesAdquiridosArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$PaqueteAdquiridoPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   permisosAprobados<T extends Prisma.TenantMembership$permisosAprobadosArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.TenantMembership$permisosAprobadosArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$PermisoPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   permisosSolicitados<T extends Prisma.TenantMembership$permisosSolicitadosArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.TenantMembership$permisosSolicitadosArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$PermisoPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   productosSolicitados<T extends Prisma.TenantMembership$productosSolicitadosArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.TenantMembership$productosSolicitadosArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ProductoSolicitadoPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   referidos<T extends Prisma.TenantMembership$referidosArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.TenantMembership$referidosArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ReferidosPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  seguimientosCompletados<T extends Prisma.TenantMembership$seguimientosCompletadosArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.TenantMembership$seguimientosCompletadosArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$OrdenServicioSeguimientoPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  seguimientosCreados<T extends Prisma.TenantMembership$seguimientosCreadosArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.TenantMembership$seguimientosCreadosArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$OrdenServicioSeguimientoPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   sesionesActividad<T extends Prisma.TenantMembership$sesionesActividadArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.TenantMembership$sesionesActividadArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$SesionActividadPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   municipio<T extends Prisma.TenantMembership$municipioArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.TenantMembership$municipioArgs<ExtArgs>>): Prisma.Prisma__MunicipalityClient<runtime.Types.Result.GetResult<Prisma.$MunicipalityPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   tenant<T extends Prisma.TenantDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.TenantDefaultArgs<ExtArgs>>): Prisma.Prisma__TenantClient<runtime.Types.Result.GetResult<Prisma.$TenantPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   user<T extends Prisma.UserDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.UserDefaultArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   turnos<T extends Prisma.TenantMembership$turnosArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.TenantMembership$turnosArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$TurnoPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  dashboardPresets<T extends Prisma.TenantMembership$dashboardPresetsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.TenantMembership$dashboardPresetsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$DashboardPresetPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -9597,6 +9597,30 @@ export type TenantMembership$cuentasPagoArgs<ExtArgs extends runtime.Types.Exten
 }
 
 /**
+ * TenantMembership.dashboardPresets
+ */
+export type TenantMembership$dashboardPresetsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the DashboardPreset
+   */
+  select?: Prisma.DashboardPresetSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the DashboardPreset
+   */
+  omit?: Prisma.DashboardPresetOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.DashboardPresetInclude<ExtArgs> | null
+  where?: Prisma.DashboardPresetWhereInput
+  orderBy?: Prisma.DashboardPresetOrderByWithRelationInput | Prisma.DashboardPresetOrderByWithRelationInput[]
+  cursor?: Prisma.DashboardPresetWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.DashboardPresetScalarFieldEnum | Prisma.DashboardPresetScalarFieldEnum[]
+}
+
+/**
  * TenantMembership.declaracionesEfectivo
  */
 export type TenantMembership$declaracionesEfectivoArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -9789,6 +9813,54 @@ export type TenantMembership$serviciosAsignadosArgs<ExtArgs extends runtime.Type
 }
 
 /**
+ * TenantMembership.seguimientosCompletados
+ */
+export type TenantMembership$seguimientosCompletadosArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the OrdenServicioSeguimiento
+   */
+  select?: Prisma.OrdenServicioSeguimientoSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the OrdenServicioSeguimiento
+   */
+  omit?: Prisma.OrdenServicioSeguimientoOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.OrdenServicioSeguimientoInclude<ExtArgs> | null
+  where?: Prisma.OrdenServicioSeguimientoWhereInput
+  orderBy?: Prisma.OrdenServicioSeguimientoOrderByWithRelationInput | Prisma.OrdenServicioSeguimientoOrderByWithRelationInput[]
+  cursor?: Prisma.OrdenServicioSeguimientoWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.OrdenServicioSeguimientoScalarFieldEnum | Prisma.OrdenServicioSeguimientoScalarFieldEnum[]
+}
+
+/**
+ * TenantMembership.seguimientosCreados
+ */
+export type TenantMembership$seguimientosCreadosArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the OrdenServicioSeguimiento
+   */
+  select?: Prisma.OrdenServicioSeguimientoSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the OrdenServicioSeguimiento
+   */
+  omit?: Prisma.OrdenServicioSeguimientoOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.OrdenServicioSeguimientoInclude<ExtArgs> | null
+  where?: Prisma.OrdenServicioSeguimientoWhereInput
+  orderBy?: Prisma.OrdenServicioSeguimientoOrderByWithRelationInput | Prisma.OrdenServicioSeguimientoOrderByWithRelationInput[]
+  cursor?: Prisma.OrdenServicioSeguimientoWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.OrdenServicioSeguimientoScalarFieldEnum | Prisma.OrdenServicioSeguimientoScalarFieldEnum[]
+}
+
+/**
  * TenantMembership.paquetesAdquiridos
  */
 export type TenantMembership$paquetesAdquiridosArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -9909,54 +9981,6 @@ export type TenantMembership$referidosArgs<ExtArgs extends runtime.Types.Extensi
 }
 
 /**
- * TenantMembership.seguimientosCompletados
- */
-export type TenantMembership$seguimientosCompletadosArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the OrdenServicioSeguimiento
-   */
-  select?: Prisma.OrdenServicioSeguimientoSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the OrdenServicioSeguimiento
-   */
-  omit?: Prisma.OrdenServicioSeguimientoOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.OrdenServicioSeguimientoInclude<ExtArgs> | null
-  where?: Prisma.OrdenServicioSeguimientoWhereInput
-  orderBy?: Prisma.OrdenServicioSeguimientoOrderByWithRelationInput | Prisma.OrdenServicioSeguimientoOrderByWithRelationInput[]
-  cursor?: Prisma.OrdenServicioSeguimientoWhereUniqueInput
-  take?: number
-  skip?: number
-  distinct?: Prisma.OrdenServicioSeguimientoScalarFieldEnum | Prisma.OrdenServicioSeguimientoScalarFieldEnum[]
-}
-
-/**
- * TenantMembership.seguimientosCreados
- */
-export type TenantMembership$seguimientosCreadosArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the OrdenServicioSeguimiento
-   */
-  select?: Prisma.OrdenServicioSeguimientoSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the OrdenServicioSeguimiento
-   */
-  omit?: Prisma.OrdenServicioSeguimientoOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.OrdenServicioSeguimientoInclude<ExtArgs> | null
-  where?: Prisma.OrdenServicioSeguimientoWhereInput
-  orderBy?: Prisma.OrdenServicioSeguimientoOrderByWithRelationInput | Prisma.OrdenServicioSeguimientoOrderByWithRelationInput[]
-  cursor?: Prisma.OrdenServicioSeguimientoWhereUniqueInput
-  take?: number
-  skip?: number
-  distinct?: Prisma.OrdenServicioSeguimientoScalarFieldEnum | Prisma.OrdenServicioSeguimientoScalarFieldEnum[]
-}
-
-/**
  * TenantMembership.sesionesActividad
  */
 export type TenantMembership$sesionesActividadArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -10021,30 +10045,6 @@ export type TenantMembership$turnosArgs<ExtArgs extends runtime.Types.Extensions
   take?: number
   skip?: number
   distinct?: Prisma.TurnoScalarFieldEnum | Prisma.TurnoScalarFieldEnum[]
-}
-
-/**
- * TenantMembership.dashboardPresets
- */
-export type TenantMembership$dashboardPresetsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the DashboardPreset
-   */
-  select?: Prisma.DashboardPresetSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the DashboardPreset
-   */
-  omit?: Prisma.DashboardPresetOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.DashboardPresetInclude<ExtArgs> | null
-  where?: Prisma.DashboardPresetWhereInput
-  orderBy?: Prisma.DashboardPresetOrderByWithRelationInput | Prisma.DashboardPresetOrderByWithRelationInput[]
-  cursor?: Prisma.DashboardPresetWhereUniqueInput
-  take?: number
-  skip?: number
-  distinct?: Prisma.DashboardPresetScalarFieldEnum | Prisma.DashboardPresetScalarFieldEnum[]
 }
 
 /**
