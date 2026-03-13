@@ -47,6 +47,7 @@ import {
   Prisma,
   Role,
   TipoFacturacion,
+  TipoVisita,
   TipoPermiso,
   UrgenciaOrden,
 } from '../generated/client/client';
@@ -240,30 +241,40 @@ export class OrdenesServicioService {
       `CREATE: Final tecnicoId for the order: ${tecnicoId ?? 'NULL'}`,
     );
 
-    let estadoPago =
-      (createDto.estadoPago as EstadoPagoOrden) || EstadoPagoOrden.PENDIENTE;
-    let valorPagado = createDto.valorPagado || 0;
-
-    // Calcular estado y valor si hay desglose
-    if (createDto.desglosePago && Array.isArray(createDto.desglosePago)) {
-      const totals = this.calculateBreakdownTotals(
-        createDto.desglosePago as unknown as DesglosePagoItem[],
-        Number(createDto.valorCotizado || 0),
-      );
-      estadoPago = totals.estadoPago;
-      valorPagado = totals.valorPagado;
-    }
-
     const contratoActivo =
       await this.contratosClienteService.getActiveByCliente(
         tenantId,
         createDto.clienteId,
         createDto.empresaId,
       );
-    const tipoFacturacionResuelta =
-      contratoActivo?.tipoFacturacion ||
-      createDto.tipoFacturacion ||
-      TipoFacturacion.UNICO;
+    const tipoVisitaResuelta = createDto.tipoVisita;
+    const esGarantia = this.isGarantiaVisitType(tipoVisitaResuelta);
+
+    if (esGarantia) {
+      await this.assertGuaranteeEligibility(tenantId, createDto.clienteId);
+    }
+
+    const tipoFacturacionResuelta = esGarantia
+      ? TipoFacturacion.UNICO
+      : contratoActivo?.tipoFacturacion ||
+        createDto.tipoFacturacion ||
+        TipoFacturacion.UNICO;
+    const valorCotizadoResuelto = esGarantia ? 0 : createDto.valorCotizado;
+    const desglosePagoResuelto = esGarantia ? [] : createDto.desglosePago;
+
+    let estadoPago =
+      (createDto.estadoPago as EstadoPagoOrden) || EstadoPagoOrden.PENDIENTE;
+    let valorPagado = esGarantia ? 0 : createDto.valorPagado || 0;
+
+    // Calcular estado y valor si hay desglose
+    if (desglosePagoResuelto && Array.isArray(desglosePagoResuelto)) {
+      const totals = this.calculateBreakdownTotals(
+        desglosePagoResuelto as unknown as DesglosePagoItem[],
+        Number(valorCotizadoResuelto || 0),
+      );
+      estadoPago = totals.estadoPago;
+      valorPagado = totals.valorPagado;
+    }
 
     const nuevaOrden = await this.prisma.ordenServicio.create({
       data: {
@@ -279,15 +290,15 @@ export class OrdenesServicioService {
         observacion: createDto.observacion,
         nivelInfestacion: createDto.nivelInfestacion,
         urgencia: createDto.urgencia,
-        tipoVisita: createDto.tipoVisita,
+        tipoVisita: tipoVisitaResuelta,
         frecuenciaSugerida: createDto.frecuenciaSugerida,
         tipoFacturacion: tipoFacturacionResuelta,
         contratoClienteId: contratoActivo?.id,
-        valorCotizado: createDto.valorCotizado,
+        valorCotizado: valorCotizadoResuelto,
         valorPagado,
         metodoPagoId: createDto.metodoPagoId,
-        desglosePago: createDto.desglosePago
-          ? (createDto.desglosePago as unknown as Prisma.InputJsonValue)
+        desglosePago: desglosePagoResuelto
+          ? (desglosePagoResuelto as unknown as Prisma.InputJsonValue)
           : undefined,
         estadoPago,
         fechaVisita: fechaVisitaDate,
@@ -310,6 +321,7 @@ export class OrdenesServicioService {
       nuevaOrden,
       servicio,
       fechaVisitaDate,
+      contratoActivo,
     );
 
     return this.processSignedUrls(nuevaOrden as OrdenWithGeolocalizaciones);
@@ -1420,11 +1432,20 @@ export class OrdenesServicioService {
         orden.clienteId,
         orden.empresaId,
       );
-    const tipoFacturacionResuelta =
-      contratoActivo?.tipoFacturacion ||
-      updateDto.tipoFacturacion ||
-      orden.tipoFacturacion ||
-      TipoFacturacion.UNICO;
+    const tipoVisitaResuelta =
+      updateDto.tipoVisita ?? (orden.tipoVisita as TipoVisita | null) ?? undefined;
+    const esGarantia = this.isGarantiaVisitType(tipoVisitaResuelta);
+
+    if (esGarantia) {
+      await this.assertGuaranteeEligibility(tenantId, orden.clienteId, orden.id);
+    }
+
+    const tipoFacturacionResuelta = esGarantia
+      ? TipoFacturacion.UNICO
+      : contratoActivo?.tipoFacturacion ||
+        updateDto.tipoFacturacion ||
+        orden.tipoFacturacion ||
+        TipoFacturacion.UNICO;
 
     const data: Prisma.OrdenServicioUpdateInput = {
       tecnico: updateDto.tecnicoId
@@ -1433,13 +1454,13 @@ export class OrdenesServicioService {
       observacion: updateDto.observacion ?? undefined,
       nivelInfestacion: updateDto.nivelInfestacion ?? undefined,
       urgencia: updateDto.urgencia ?? undefined,
-      tipoVisita: updateDto.tipoVisita ?? undefined,
+      tipoVisita: tipoVisitaResuelta ?? undefined,
       frecuenciaSugerida: updateDto.frecuenciaSugerida ?? undefined,
       tipoFacturacion: tipoFacturacionResuelta,
       contratoCliente: contratoActivo
         ? { connect: { id: contratoActivo.id } }
         : { disconnect: true },
-      valorCotizado: updateDto.valorCotizado ?? undefined,
+      valorCotizado: esGarantia ? 0 : updateDto.valorCotizado ?? undefined,
       metodoPago: updateDto.metodoPagoId
         ? { connect: { id: updateDto.metodoPagoId } }
         : undefined,
@@ -1449,7 +1470,7 @@ export class OrdenesServicioService {
       facturaElectronica: updateDto.facturaElectronica ?? undefined,
       comprobantePago: updateDto.comprobantePago ?? undefined,
       evidenciaPath: updateDto.evidenciaPath ?? undefined,
-      valorPagado: updateDto.valorPagado ?? undefined,
+      valorPagado: esGarantia ? 0 : updateDto.valorPagado ?? undefined,
       observacionFinal: updateDto.observacionFinal ?? undefined,
       referenciaPago: updateDto.referenciaPago ?? undefined,
       liquidadoPor:
@@ -1462,13 +1483,18 @@ export class OrdenesServicioService {
           ? new Date()
           : undefined,
       fechaPago: fechaPagoDate,
-      desglosePago: updateDto.desglosePago
-        ? (updateDto.desglosePago as unknown as Prisma.InputJsonValue)
+      desglosePago: esGarantia
+        ? ([] as unknown as Prisma.InputJsonValue)
+        : updateDto.desglosePago
+          ? (updateDto.desglosePago as unknown as Prisma.InputJsonValue)
         : undefined,
     };
 
     // Lógica automática basada en el desglose de pago
-    if (updateDto.desglosePago && Array.isArray(updateDto.desglosePago)) {
+    if (esGarantia && updateDto.estadoServicio === EstadoOrden.LIQUIDADO) {
+      data.estadoPago = EstadoPagoOrden.PAGADO;
+      data.valorPagado = 0;
+    } else if (updateDto.desglosePago && Array.isArray(updateDto.desglosePago)) {
       const valorCotizado = Number(
         updateDto.valorCotizado || orden.valorCotizado || 0,
       );
@@ -2023,20 +2049,58 @@ export class OrdenesServicioService {
       requiereSeguimientoTresMeses: boolean;
     },
     fechaBase: Date | null,
+    contratoActivo: {
+      id: string;
+      tipoFacturacion: TipoFacturacion;
+      frecuenciaServicio: number | null;
+      serviciosComprometidos: number | null;
+    } | null,
   ) {
-    if (!orden.creadoPorId || !servicio.requiereSeguimiento) {
-      return;
-    }
-
-    const esContrato =
-      !!orden.tipoFacturacion &&
-      orden.tipoFacturacion !== TipoFacturacion.UNICO;
-
-    if (esContrato) {
+    if (!orden.creadoPorId) {
       return;
     }
 
     const baseDate = startOfBogotaDayUtc(fechaBase || new Date());
+
+    if (contratoActivo) {
+      const frecuenciaContrato = contratoActivo.frecuenciaServicio;
+      const totalServicios = Math.max(contratoActivo.serviciosComprometidos || 1, 1);
+
+      if (!frecuenciaContrato || totalServicios <= 1) {
+        return;
+      }
+
+      for (let index = 1; index < totalServicios; index += 1) {
+        const dueAt = addBogotaDaysUtc(baseDate, frecuenciaContrato * index);
+
+        await this.prisma.ordenServicio.create({
+          data: {
+            tenantId,
+            empresaId: orden.empresaId,
+            clienteId: orden.clienteId,
+            servicioId: orden.servicioId,
+            creadoPorId: orden.creadoPorId,
+            direccionId: orden.direccionId,
+            direccionTexto: orden.direccionTexto,
+            estadoServicio: EstadoOrden.NUEVO,
+            observacion: `Servicio programado automáticamente según contrato activo. Visita ${index + 1} de ${totalServicios}.`,
+            nivelInfestacion: orden.nivelInfestacion || undefined,
+            urgencia: orden.urgencia || undefined,
+            tipoVisita: 'CITA_VERIFICACION' as TipoVisita,
+            tipoFacturacion: contratoActivo.tipoFacturacion,
+            contratoClienteId: contratoActivo.id,
+            fechaVisita: dueAt,
+            ordenPadreId: orden.id,
+          },
+        });
+      }
+      return;
+    }
+
+    if (!servicio.requiereSeguimiento) {
+      return;
+    }
+
     const followUpBlueprints: Array<{
       followUpType: string;
       dueAt: Date;
@@ -2076,7 +2140,7 @@ export class OrdenesServicioService {
           observacion: blueprint.observacion,
           nivelInfestacion: orden.nivelInfestacion || undefined,
           urgencia: orden.urgencia || undefined,
-          tipoVisita: 'SEGUIMIENTO',
+          tipoVisita: 'CITA_VERIFICACION' as TipoVisita,
           tipoFacturacion: TipoFacturacion.UNICO,
           fechaVisita: blueprint.dueAt,
           ordenPadreId: orden.id,
@@ -2094,6 +2158,43 @@ export class OrdenesServicioService {
           status: 'PENDIENTE',
         },
       });
+    }
+  }
+
+  private isGarantiaVisitType(tipoVisita?: TipoVisita | null) {
+    return tipoVisita === ('GARANTIA' as TipoVisita);
+  }
+
+  private async assertGuaranteeEligibility(
+    tenantId: string,
+    clienteId: string,
+    excludeOrderId?: string,
+  ) {
+    const whereBase = {
+      tenantId,
+      clienteId,
+      ...(excludeOrderId ? { id: { not: excludeOrderId } } : {}),
+    };
+
+    const [hasBaseService, hasChildService] = await Promise.all([
+      this.prisma.ordenServicio.count({
+        where: {
+          ...whereBase,
+          ordenPadreId: null,
+        },
+      }),
+      this.prisma.ordenServicio.count({
+        where: {
+          ...whereBase,
+          ordenPadreId: { not: null },
+        },
+      }),
+    ]);
+
+    if (!hasBaseService || !hasChildService) {
+      throw new BadRequestException(
+        'La garantía solo aplica para clientes con al menos un servicio previo y un refuerzo realizado.',
+      );
     }
   }
 

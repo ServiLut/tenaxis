@@ -48,7 +48,7 @@ export function Calendar({
   const weekDays = ["Lun", "Mar", "Mié", "Jue", "Vie", "Sáb", "Dom"];
 
   return (
-    <div className={cn("p-4 bg-white dark:bg-zinc-950 rounded-xl", className)}>
+    <div className={cn("p-3 sm:p-4 bg-white dark:bg-zinc-950 rounded-xl w-full max-w-sm mx-auto", className)}>
       <div className="flex items-center justify-between mb-4 px-1">
         <h2 className="text-sm font-bold text-zinc-900 dark:text-zinc-100 capitalize">
           {format(currentMonth, "MMMM yyyy", { locale: es })}
@@ -94,11 +94,11 @@ export function Calendar({
               disabled={isDisabled}
               onClick={() => onSelect?.(day)}
               className={cn(
-                "h-9 w-9 flex items-center justify-center rounded-lg text-xs font-bold transition-all",
+                "h-8 w-8 sm:h-9 sm:w-9 flex items-center justify-center rounded-lg text-xs font-bold transition-all",
                 isOutsideMonth && "text-zinc-300 dark:text-zinc-700",
                 !isOutsideMonth && !isSelected && "text-zinc-700 dark:text-zinc-300 hover:bg-zinc-100 dark:hover:bg-zinc-900",
-                isSelected && "bg-azul-1 text-white shadow-lg shadow-azul-1/20",
-                today && !isSelected && "text-azul-1 border border-azul-1/30",
+                isSelected && "bg-[#01ADFB] text-white shadow-lg shadow-[#01ADFB]/20",
+                today && !isSelected && "text-[#01ADFB] border border-[#01ADFB]/30",
                 isDisabled && "opacity-20 cursor-not-allowed hover:bg-transparent"
               )}
             >

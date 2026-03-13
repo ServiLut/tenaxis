@@ -51,7 +51,7 @@ export default function NuevoUsuarioPage() {
       });
 
       if (!res.success) {
-        throw new Error(res.error);
+        throw new Error(res.error || "Error al invitar al miembro");
       }
 
       // Volver a la lista de usuarios
@@ -180,7 +180,7 @@ export default function NuevoUsuarioPage() {
                   id="role"
                   name="role"
                   value={formData.role}
-                  onChange={handleChange}
+                  onChange={(e) => handleChange(e as React.ChangeEvent<HTMLInputElement | HTMLSelectElement>)}
                   className="h-12"
                   disabled={loading}
                   required

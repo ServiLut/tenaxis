@@ -28,8 +28,15 @@ import { AuditsTable } from "./components/AuditsTable";
 import { LogsModal } from "./components/LogsModal";
 import { AuditDetailModal } from "./components/AuditDetailModal";
 import { KPIModal } from "./components/KPIModal";
-import { exportToCSV } from "./components/utils";
+import { exportToCSV, exportToExcel } from "./components/utils";
 import { DatePicker } from "@/components/ui/date-picker";
+import { ExportRangeModal } from "./components/ExportRangeModal";
+import { toast } from "sonner";
+import { 
+  getMonitoringSessions, 
+  getAudits, 
+  getMonitoringPayrollPreview 
+} from "./actions";
 
 import { Audit, Session } from "./types";
 
@@ -39,6 +46,7 @@ export default function MonitoreoPage() {
   const [isLogsModalOpen, setIsLogsModalOpen] = useState(false);
   const [isAuditModalOpen, setIsAuditModalOpen] = useState(false);
   const [isKpiModalOpen, setIsKpiModalOpen] = useState(false);
+  const [isExportModalOpen, setIsExportModalOpen] = useState(false);
   const [kpiModalType, setKpiModalType] = useState<"sessions" | "events" | "technicians" | null>(null);
   const [selectedSession, setSelectedSession] = useState<Session | null>(null);
   const [selectedAudit, setSelectedAudit] = useState<Audit | null>(null);
@@ -98,8 +106,7 @@ export default function MonitoreoPage() {
     }
   };
 
-  const isCurrentTabRefreshing =
-    activeTab === "actividad" ? isActivityRefreshing : isAuditsRefreshing;
+  const isGlobalRefreshing = isActivityRefreshing || isAuditsRefreshing;
   const currentLastUpdated =
     activeTab === "actividad" ? activityLastUpdated : auditsLastUpdated;
 
@@ -124,42 +131,108 @@ export default function MonitoreoPage() {
     setIsAuditModalOpen(true);
   };
 
+  const handleExportRange = async (range: { from: Date; to: Date }) => {
+    if (!range.from || !range.to) return;
+
+    const startDate = toBogotaYmd(range.from);
+    const endDate = toBogotaYmd(range.to);
+
+    try {
+      // Fetch data for the entire range
+      const [sessionsRes, auditsRes, payrollRes] = await Promise.all([
+        getMonitoringSessions(undefined, startDate, endDate),
+        getAudits(1, 1000, undefined, startDate, endDate), // Limit set high for range export
+        getMonitoringPayrollPreview(undefined, startDate, endDate),
+      ]);
+
+      const sessionsData = (sessionsRes.data || []).map((s) => ({
+        Usuario: `${s.membership?.user?.nombre ?? ""} ${s.membership?.user?.apellido ?? ""}`.trim() || "Desconocido",
+        Username: s.membership?.username || "N/A",
+        Rol: s.membership?.role || "N/A",
+        Inicio: formatBogotaDateTime(s.fechaInicio, "es-CO"),
+        Fin: s.fechaFin ? formatBogotaDateTime(s.fechaFin, "es-CO") : "Activo",
+        Inactividad: `${s.tiempoInactivo || 0} min`,
+        IP: s.ip || "0.0.0.0",
+        Dispositivo: s.dispositivo || "Desconocido",
+      }));
+
+      const auditData = (auditsRes.data || []).map((a) => ({
+        Fecha: formatBogotaDateTime(a.createdAt, "es-CO"),
+        Entidad: a.entidad || "N/A",
+        Accion: a.accion || "N/A",
+        Usuario: `${a.membership?.user?.nombre ?? ""} ${a.membership?.user?.apellido ?? ""}`.trim() || "Desconocido",
+        Username: a.membership?.username || "N/A",
+        ID_Entidad: a.entidadId || "N/A",
+      }));
+
+      const payrollData = (payrollRes.data?.items || []).map((item) => ({
+        Usuario: `${item.nombre ?? ""} ${item.apellido ?? ""}`.trim(),
+        Rol: item.role || "N/A",
+        ValorHora: item.valorHora ?? "Sin configurar",
+        HorasPagables: item.horasPagables || 0,
+        MinutosInactivos: item.minutosInactivos || 0,
+        PagoEstimado: item.pagoEstimado || 0,
+        Estado: item.estado || "N/A",
+      }));
+
+      const sheets = [
+        { name: "Sesiones", data: sessionsData },
+        { name: "Auditoria", data: auditData },
+      ];
+
+      if (payrollData.length > 0) {
+        sheets.push({ name: "Pre-Nomina", data: payrollData });
+      }
+
+      await exportToExcel(sheets, `monitoreo_rango_${startDate}_a_${endDate}`);
+      toast.success("Reporte generado con éxito");
+    } catch (error) {
+      console.error("Export error:", error);
+      toast.error("Error al generar el reporte de rango");
+    }
+  };
+
   const handleExport = () => {
-    if (activeTab === "actividad") {
-      const exportData =
-        payrollPreview.items.length > 0
-          ? payrollPreview.items.map((item) => ({
-              Usuario: `${item.nombre} ${item.apellido}`,
-              Rol: item.role,
-              ValorHora: item.valorHora ?? "Sin configurar",
-              HorasPagables: item.horasPagables,
-              MinutosInactivos: item.minutosInactivos,
-              PagoEstimado: item.pagoEstimado,
-              Estado: item.estado,
-            }))
-          : sessions.map((s) => ({
-              Usuario: `${s.membership.user.nombre} ${s.membership.user.apellido}`,
-              Username: s.membership.username,
-              Rol: s.membership.role,
-              Inicio: formatBogotaDateTime(s.fechaInicio, "es-CO"),
-              Fin: s.fechaFin ? formatBogotaDateTime(s.fechaFin, "es-CO") : "Activo",
-              Inactividad: `${s.tiempoInactivo} min`,
-              IP: s.ip,
-              Dispositivo: s.dispositivo,
-            }));
-      exportToCSV(exportData, "monitoreo_actividad");
-      return;
+    const sessionsData = (sessions || []).map((s) => ({
+      Usuario: `${s.membership?.user?.nombre ?? ""} ${s.membership?.user?.apellido ?? ""}`.trim() || "Desconocido",
+      Username: s.membership?.username || "N/A",
+      Rol: s.membership?.role || "N/A",
+      Inicio: formatBogotaDateTime(s.fechaInicio, "es-CO"),
+      Fin: s.fechaFin ? formatBogotaDateTime(s.fechaFin, "es-CO") : "Activo",
+      Inactividad: `${s.tiempoInactivo || 0} min`,
+      IP: s.ip || "0.0.0.0",
+      Dispositivo: s.dispositivo || "Desconocido",
+    }));
+
+    const payrollData = (payrollPreview?.items || []).map((item) => ({
+      Usuario: `${item.nombre ?? ""} ${item.apellido ?? ""}`.trim(),
+      Rol: item.role || "N/A",
+      ValorHora: item.valorHora ?? "Sin configurar",
+      HorasPagables: item.horasPagables || 0,
+      MinutosInactivos: item.minutosInactivos || 0,
+      PagoEstimado: item.pagoEstimado || 0,
+      Estado: item.estado || "N/A",
+    }));
+
+    const auditData = (audits || []).map((a) => ({
+      Fecha: formatBogotaDateTime(a.createdAt, "es-CO"),
+      Entidad: a.entidad || "N/A",
+      Accion: a.accion || "N/A",
+      Usuario: `${a.membership?.user?.nombre ?? ""} ${a.membership?.user?.apellido ?? ""}`.trim() || "Desconocido",
+      Username: a.membership?.username || "N/A",
+      ID_Entidad: a.entidadId || "N/A",
+    }));
+
+    const sheets = [
+      { name: "Sesiones", data: sessionsData },
+      { name: "Auditoria", data: auditData },
+    ];
+
+    if (payrollData.length > 0) {
+      sheets.push({ name: "Pre-Nomina", data: payrollData });
     }
 
-    const exportData = audits.map((a) => ({
-      Fecha: formatBogotaDateTime(a.createdAt, "es-CO"),
-      Entidad: a.entidad,
-      Accion: a.accion,
-      Usuario: `${a.membership?.user?.nombre} ${a.membership?.user?.apellido}`,
-      Username: a.membership?.username,
-      ID_Entidad: a.entidadId,
-    }));
-    exportToCSV(exportData, "monitoreo_auditoria");
+    void exportToExcel(sheets, "monitoreo_completo");
   };
 
   const activeSessionsList = Array.isArray(sessions)
@@ -173,10 +246,10 @@ export default function MonitoreoPage() {
     <DashboardLayout>
       <div className="mx-auto max-w-7xl space-y-10">
         <MonitoreoHeader
-          isLoading={isCurrentTabRefreshing}
+          isLoading={isGlobalRefreshing}
           onRefresh={handleRefresh}
           lastUpdated={currentLastUpdated}
-          onExport={handleExport}
+          onExport={() => setIsExportModalOpen(true)}
         />
 
         <ScopeInfo />
@@ -405,6 +478,12 @@ export default function MonitoreoPage() {
         session={selectedSession}
         logs={userLogs}
         isLoading={isLogsLoading}
+      />
+
+      <ExportRangeModal
+        isOpen={isExportModalOpen}
+        onOpenChange={setIsExportModalOpen}
+        onExport={handleExportRange}
       />
 
       {selectedAudit && (

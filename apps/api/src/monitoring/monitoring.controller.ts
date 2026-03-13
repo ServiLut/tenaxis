@@ -39,7 +39,12 @@ export class MonitoringController {
     @GetScope() scope: MonitoringScope,
     @Query() query: MonitoringPaginationDto,
   ) {
-    return this.monitoringService.findAllSessions(scope, query.date);
+    return this.monitoringService.findAllSessions(
+      scope,
+      query.date,
+      query.startDate,
+      query.endDate,
+    );
   }
 
   @Get('stats')
@@ -47,7 +52,12 @@ export class MonitoringController {
     @GetScope() scope: MonitoringScope,
     @Query() query: MonitoringPaginationDto,
   ) {
-    return this.monitoringService.getGlobalStats(scope, query.date);
+    return this.monitoringService.getGlobalStats(
+      scope,
+      query.date,
+      query.startDate,
+      query.endDate,
+    );
   }
 
   @Get('alerts')
@@ -55,7 +65,12 @@ export class MonitoringController {
     @GetScope() scope: MonitoringScope,
     @Query() query: MonitoringPaginationDto,
   ) {
-    return this.monitoringService.getAlerts(scope, query.date);
+    return this.monitoringService.getAlerts(
+      scope,
+      query.date,
+      query.startDate,
+      query.endDate,
+    );
   }
 
   @Get('metrics')
@@ -63,7 +78,12 @@ export class MonitoringController {
     @GetScope() scope: MonitoringScope,
     @Query() query: MonitoringPaginationDto,
   ) {
-    return this.monitoringService.getOperationMetrics(scope, query.date);
+    return this.monitoringService.getOperationMetrics(
+      scope,
+      query.date,
+      query.startDate,
+      query.endDate,
+    );
   }
 
   @Get('executive-audit')
@@ -71,7 +91,12 @@ export class MonitoringController {
     @GetScope() scope: MonitoringScope,
     @Query() query: MonitoringPaginationDto,
   ) {
-    return this.monitoringService.getExecutiveAuditMetrics(scope, query.date);
+    return this.monitoringService.getExecutiveAuditMetrics(
+      scope,
+      query.date,
+      query.startDate,
+      query.endDate,
+    );
   }
 
   @Get('audits')
@@ -84,6 +109,8 @@ export class MonitoringController {
       query.page || 1,
       query.limit || 20,
       query.date,
+      query.startDate,
+      query.endDate,
     );
   }
 
@@ -92,7 +119,12 @@ export class MonitoringController {
     @GetScope() scope: MonitoringScope,
     @Query() query: MonitoringPaginationDto,
   ) {
-    return this.monitoringService.findRecentLogs(scope, query.date);
+    return this.monitoringService.findRecentLogs(
+      scope,
+      query.date,
+      query.startDate,
+      query.endDate,
+    );
   }
 
   @Get('payroll-preview')
@@ -100,7 +132,12 @@ export class MonitoringController {
     @GetScope() scope: MonitoringScope,
     @Query() query: MonitoringPaginationDto,
   ) {
-    return this.monitoringService.getPayrollPreview(scope, query.date);
+    return this.monitoringService.getPayrollPreview(
+      scope,
+      query.date,
+      query.startDate,
+      query.endDate,
+    );
   }
 
   @Get('logs/:membershipId')
@@ -113,6 +150,8 @@ export class MonitoringController {
       scope,
       membershipId,
       query.date,
+      query.startDate,
+      query.endDate,
     );
   }
 

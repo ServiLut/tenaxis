@@ -1,6 +1,7 @@
 "use client";
 
-import React from "react";
+import ExcelJS from 'exceljs';
+import { saveAs } from 'file-saver';
 import { cn } from "@/components/ui/utils";
 import { toBogotaYmd } from "@/utils/date-utils";
 
@@ -23,6 +24,64 @@ export const GlassCard = ({ children, className, onClick }: { children: React.Re
     {children}
   </div>
 );
+
+/**
+ * Utility to export data to Excel with multiple sheets
+ */
+export const exportToExcel = async (
+  sheets: { name: string; data: Record<string, string | number | null | undefined>[] }[],
+  filename: string
+) => {
+  const workbook = new ExcelJS.Workbook();
+
+  sheets.forEach(({ name, data }) => {
+    const worksheet = workbook.addWorksheet(name);
+    if (!data || data.length === 0) {
+      worksheet.addRow(["Sin datos disponibles"]);
+      return;
+    }
+    
+    const headers = Object.keys(data[0]!);
+    
+    // Header Row
+    const headerRow = worksheet.addRow(headers);
+    headerRow.eachCell((cell) => {
+      cell.fill = {
+        type: 'pattern',
+        pattern: 'solid',
+        fgColor: { argb: 'FF18181B' },
+      };
+      cell.font = {
+        bold: true,
+        color: { argb: 'FFFFFFFF' },
+        size: 11,
+      };
+      cell.alignment = { vertical: 'middle', horizontal: 'center' };
+    });
+
+    // Data Rows
+    data.forEach((item) => {
+      const rowData = headers.map(header => item[header]);
+      worksheet.addRow(rowData);
+    });
+
+    // Auto-fit columns
+    worksheet.columns.forEach((column, i) => {
+      let maxLength = headers[i]?.length || 10;
+      data.forEach(row => {
+        const val = row[headers[i]!];
+        if (val) {
+          maxLength = Math.max(maxLength, String(val).length);
+        }
+      });
+      column.width = maxLength < 12 ? 12 : maxLength + 2;
+    });
+  });
+
+  const buffer = await workbook.xlsx.writeBuffer();
+  const blob = new Blob([buffer], { type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" });
+  saveAs(blob, `${filename}_${toBogotaYmd()}.xlsx`);
+};
 
 /**
  * Utility to export data to CSV and trigger download
