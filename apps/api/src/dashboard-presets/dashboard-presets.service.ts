@@ -88,9 +88,9 @@ export class DashboardPresetsService {
         created_at AS "createdAt",
         updated_at AS "updatedAt"
       FROM dashboard_presets
-      WHERE tenant_id = ${tenantId}
-        AND module = ${module}
-        AND (is_shared = true OR created_by_membership_id = ${membershipId})
+      WHERE tenant_id = ${tenantId}::uuid
+        AND module = ${module}::"DashboardPresetModule"
+        AND (is_shared = true OR created_by_membership_id = ${membershipId}::uuid)
       ORDER BY is_shared DESC, updated_at DESC
     `);
 
@@ -102,9 +102,9 @@ export class DashboardPresetsService {
     const id = randomUUID();
     const [row] = await this.prisma.$queryRaw<DashboardPresetRow[]>(Prisma.sql`
       INSERT INTO dashboard_presets
-        (id, tenant_id, created_by_membership_id, module, name, color_token, is_shared, filters)
+        (id, tenant_id, created_by_membership_id, module, name, color_token, is_shared, filters, created_at, updated_at)
       VALUES
-        (${id}::uuid, ${tenantId}, ${membershipId}, ${dto.module}, ${dto.name}, ${dto.colorToken}, ${dto.isShared}, ${JSON.stringify(dto.filters)}::jsonb)
+        (${id}::uuid, ${tenantId}::uuid, ${membershipId}::uuid, ${dto.module}::"DashboardPresetModule", ${dto.name}, ${dto.colorToken}, ${dto.isShared}, ${JSON.stringify(dto.filters)}::jsonb, NOW(), NOW())
       RETURNING
         id,
         tenant_id AS "tenantId",
@@ -135,7 +135,7 @@ export class DashboardPresetsService {
         created_at AS "createdAt",
         updated_at AS "updatedAt"
       FROM dashboard_presets
-      WHERE id = ${id} AND tenant_id = ${tenantId}
+      WHERE id = ${id}::uuid AND tenant_id = ${tenantId}::uuid
       LIMIT 1
     `);
     if (!row) {
@@ -179,7 +179,7 @@ export class DashboardPresetsService {
         is_shared = ${nextIsShared},
         filters = ${JSON.stringify(nextFilters)}::jsonb,
         updated_at = NOW()
-      WHERE id = ${id}
+      WHERE id = ${id}::uuid
       RETURNING
         id,
         tenant_id AS "tenantId",
@@ -203,7 +203,7 @@ export class DashboardPresetsService {
 
     await this.prisma.$executeRaw(Prisma.sql`
       DELETE FROM dashboard_presets
-      WHERE id = ${id}
+      WHERE id = ${id}::uuid
     `);
 
     return { success: true };

@@ -1,6 +1,6 @@
 import { cookies } from "next/headers";
 
-export const getApiUrl = () => process.env.NESTJS_API_URL || "http://127.0.0.1:4000";
+export const getApiUrl = () => process.env.NESTJS_API_URL || "http://localhost:4000";
 
 export async function getAuthHeaders(isFormData = false) {
   const cookieStore = await cookies();
@@ -68,7 +68,11 @@ export async function apiFetch<T>(endpoint: string, options: RequestInit = {}): 
 
     return ((result as { data?: T } | null)?.data || result) as T;
   } catch (error) {
-    console.error(`[API Client] Fetch failed: ${url}`, error);
+    console.error(`[API Client] Fetch failed for ${url}:`, {
+      message: error instanceof Error ? error.message : String(error),
+      cause: error instanceof Error ? (error as any).cause : undefined,
+      stack: error instanceof Error ? error.stack : undefined,
+    });
     throw error;
   }
 }

@@ -4908,10 +4908,10 @@ export const ServicioScalarFieldEnum = {
   nombre: 'nombre',
   activo: 'activo',
   deleteAt: 'deleteAt',
+  createdAt: 'createdAt',
   requiereSeguimiento: 'requiereSeguimiento',
   primerSeguimientoDias: 'primerSeguimientoDias',
-  requiereSeguimientoTresMeses: 'requiereSeguimientoTresMeses',
-  createdAt: 'createdAt'
+  requiereSeguimientoTresMeses: 'requiereSeguimientoTresMeses'
 } as const
 
 export type ServicioScalarFieldEnum = (typeof ServicioScalarFieldEnum)[keyof typeof ServicioScalarFieldEnum]
@@ -4973,7 +4973,6 @@ export const OrdenServicioScalarFieldEnum = {
   zonaId: 'zonaId',
   vehiculoId: 'vehiculoId',
   metodoPagoId: 'metodoPagoId',
-  contratoClienteId: 'contratoClienteId',
   numeroOrden: 'numeroOrden',
   fechaVisita: 'fechaVisita',
   horaInicio: 'horaInicio',
@@ -5007,7 +5006,8 @@ export const OrdenServicioScalarFieldEnum = {
   tipoVisita: 'tipoVisita',
   nivelInfestacion: 'nivelInfestacion',
   urgencia: 'urgencia',
-  estadoServicio: 'estadoServicio'
+  estadoServicio: 'estadoServicio',
+  contratoClienteId: 'contratoClienteId'
 } as const
 
 export type OrdenServicioScalarFieldEnum = (typeof OrdenServicioScalarFieldEnum)[keyof typeof OrdenServicioScalarFieldEnum]

@@ -40,6 +40,46 @@ export class SupabaseService {
     return data.publicUrl;
   }
 
+  async getSignedUrls(
+    paths: string[],
+    bucket: string = 'tenaxis-docs',
+    expiresIn: number = 3600,
+  ) {
+    if (!this.supabase || !paths.length) {
+      return paths.map((p) => this.getPublicUrl(p, bucket));
+    }
+
+    try {
+      const { data, error } = await this.supabase.storage
+        .from(bucket)
+        .createSignedUrls(paths, expiresIn);
+
+      if (error || !data) {
+        const errorMessage =
+          typeof error === 'object' && error !== null && 'message' in error
+            ? String(error.message)
+            : 'Unknown error';
+        this.logger.error(
+          `Error creating bulk signed URLs: ${errorMessage}`,
+        );
+        return paths.map((p) => this.getPublicUrl(p, bucket));
+      }
+
+      // Map back to maintain original order and handle potentially missing results
+      return paths.map((p) => {
+        const item = data.find((d) => d.path === p);
+        return item?.signedUrl || this.getPublicUrl(p, bucket);
+      });
+    } catch (error) {
+      const errorMessage =
+        error instanceof Error ? error.message : 'Unknown error';
+      this.logger.error(
+        `Unexpected error creating bulk signed URLs: ${errorMessage}`,
+      );
+      return paths.map((p) => this.getPublicUrl(p, bucket));
+    }
+  }
+
   async getSignedUrl(
     path: string,
     bucket: string = 'tenaxis-docs',
