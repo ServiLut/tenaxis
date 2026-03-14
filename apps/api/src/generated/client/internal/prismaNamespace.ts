@@ -4990,7 +4990,6 @@ export const OrdenServicioScalarFieldEnum = {
   comprobantePago: 'comprobantePago',
   evidenciaPath: 'evidenciaPath',
   desglosePago: 'desglosePago',
-  serviciosSeleccionados: 'serviciosSeleccionados',
   referenciaPago: 'referenciaPago',
   fechaPago: 'fechaPago',
   entidadFinancieraId: 'entidadFinancieraId',
@@ -5007,7 +5006,8 @@ export const OrdenServicioScalarFieldEnum = {
   nivelInfestacion: 'nivelInfestacion',
   urgencia: 'urgencia',
   estadoServicio: 'estadoServicio',
-  contratoClienteId: 'contratoClienteId'
+  contratoClienteId: 'contratoClienteId',
+  serviciosSeleccionados: 'serviciosSeleccionados'
 } as const
 
 export type OrdenServicioScalarFieldEnum = (typeof OrdenServicioScalarFieldEnum)[keyof typeof OrdenServicioScalarFieldEnum]
