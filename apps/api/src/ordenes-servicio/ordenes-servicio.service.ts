@@ -196,34 +196,60 @@ export class OrdenesServicioService {
       );
     }
 
-    // 3.5 Obtener o crear el servicio específico
-    let servicio =
-      (createDto.servicioId
-        ? await this.prisma.servicio.findFirst({
-            where: {
-              id: createDto.servicioId,
-              tenantId,
-              empresaId: createDto.empresaId,
-            },
-          })
-        : null) ||
-      (await this.prisma.servicio.findFirst({
+    // 3.5 Obtener o crear el(los) servicio(s) específico(s)
+    const nombresServicios =
+      createDto.serviciosSeleccionados &&
+      createDto.serviciosSeleccionados.length > 0
+        ? createDto.serviciosSeleccionados
+        : createDto.servicioEspecifico
+          ? [createDto.servicioEspecifico]
+          : [];
+
+    if (nombresServicios.length === 0 && !createDto.servicioId) {
+      throw new BadRequestException('Debe especificar al menos un servicio');
+    }
+
+    let servicioPrincipal: any = null;
+
+    if (createDto.servicioId) {
+      servicioPrincipal = await this.prisma.servicio.findFirst({
+        where: {
+          id: createDto.servicioId,
+          tenantId,
+          empresaId: createDto.empresaId,
+        },
+      });
+    }
+
+    const serviciosProcesados: string[] = [];
+    for (const nombreServicio of nombresServicios) {
+      let svc = await this.prisma.servicio.findFirst({
         where: {
           tenantId,
           empresaId: createDto.empresaId,
-          nombre: createDto.servicioEspecifico,
-        },
-      }));
-
-    if (!servicio) {
-      servicio = await this.prisma.servicio.create({
-        data: {
-          tenantId,
-          empresaId: createDto.empresaId,
-          nombre: createDto.servicioEspecifico,
-          activo: true,
+          nombre: nombreServicio,
         },
       });
+
+      if (!svc) {
+        svc = await this.prisma.servicio.create({
+          data: {
+            tenantId,
+            empresaId: createDto.empresaId,
+            nombre: nombreServicio,
+            activo: true,
+          },
+        });
+      }
+      serviciosProcesados.push(svc.nombre); // Guardar los nombres para el JSONB
+      
+      if (!servicioPrincipal) {
+        servicioPrincipal = svc;
+      }
+    }
+
+    if (!servicioPrincipal) {
+      throw new BadRequestException('No se pudo determinar un servicio principal');
     }
 
     // 4. Crear la orden
@@ -281,7 +307,8 @@ export class OrdenesServicioService {
         tenantId,
         empresaId: createDto.empresaId,
         clienteId: createDto.clienteId,
-        servicioId: servicio.id,
+        servicioId: servicioPrincipal.id,
+        serviciosSeleccionados: serviciosProcesados as any,
         creadoPorId: createDto.creadoPorId,
         tecnicoId,
         direccionId,
@@ -319,7 +346,7 @@ export class OrdenesServicioService {
     await this.createAutomaticFollowUps(
       tenantId,
       nuevaOrden,
-      servicio,
+      servicioPrincipal,
       fechaVisitaDate,
       contratoActivo,
     );

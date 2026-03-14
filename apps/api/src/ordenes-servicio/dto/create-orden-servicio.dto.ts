@@ -6,6 +6,7 @@ import {
   IsDateString,
   IsEnum,
   IsUUID,
+  IsArray,
 } from 'class-validator';
 import {
   NivelInfestacion,
@@ -38,8 +39,13 @@ export class CreateOrdenServicioDto {
   direccionTexto?: string;
 
   @IsString()
-  @IsNotEmpty()
-  servicioEspecifico: string; // Will create or find the service by name
+  @IsOptional()
+  servicioEspecifico?: string; // Mantener como opcional por retrocompatibilidad
+
+  @IsArray()
+  @IsString({ each: true })
+  @IsOptional()
+  serviciosSeleccionados?: string[];
 
   @IsUUID()
   @IsOptional()
