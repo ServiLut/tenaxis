@@ -21,6 +21,7 @@ import {
   Contact,
   Package,
   Activity,
+  MessageSquare,
 } from "lucide-react";
 import { isTenantAdminAction } from "@/app/dashboard/actions";
 import { EmpresaSelector } from "./EmpresaSelector";
@@ -35,6 +36,11 @@ const menuItems: { title: string; icon: LucideIcon; href: string; role?: string 
     title: "Monitoreo",
     icon: Activity,
     href: "/dashboard/monitoreo",
+  },
+  {
+    title: "WhatsApp",
+    icon: MessageSquare,
+    href: "/dashboard/whatsapp",
   },
   {
     title: "Solicitudes",
