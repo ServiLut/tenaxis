@@ -13,22 +13,33 @@ const nextConfig: NextConfig = {
     const chatwootUrl = "http://tenaxis-chatwoot-255df7-76-13-101-140.traefik.me";
     
     return [
-      // 1. CHATWOOT REAL-TIME (WebSocket)
+      // --- CAPA AGRESIVA DE TIEMPO REAL (Prioridad Máxima) ---
       {
         source: '/cable',
         destination: `${chatwootUrl}/cable`,
       },
-      // 2. AUTH DE CHATWOOT
+      {
+        source: '/api/v1/accounts/:account_id/conversations/:conversation_id/typing_notifications',
+        destination: `${chatwootUrl}/api/v1/accounts/:account_id/conversations/:conversation_id/typing_notifications`,
+      },
+      {
+        source: '/api/v1/accounts/:account_id/conversations/:conversation_id/assignments',
+        destination: `${chatwootUrl}/api/v1/accounts/:account_id/conversations/:conversation_id/assignments`,
+      },
+
+      // --- AUTENTICACIÓN Y SESIÓN ---
       {
         source: '/auth/:path*',
         destination: `${chatwootUrl}/auth/:path*`,
       },
-      // 3. API DE CHATWOOT
+
+      // --- API GENERAL DE CHATWOOT ---
       {
         source: '/api/v1/:path*',
         destination: `${chatwootUrl}/api/v1/:path*`,
       },
-      // 4. ARCHIVOS Y MULTIMEDIA (Imágenes, documentos, audios)
+
+      // --- RECURSOS Y ARCHIVOS ---
       {
         source: '/rails/:path*',
         destination: `${chatwootUrl}/rails/:path*`,
@@ -37,7 +48,6 @@ const nextConfig: NextConfig = {
         source: '/storage/:path*',
         destination: `${chatwootUrl}/storage/:path*`,
       },
-      // 5. INTERFAZ Y RECURSOS
       {
         source: '/chatwoot-proxy/:path*',
         destination: `${chatwootUrl}/:path*`,
@@ -62,7 +72,8 @@ const nextConfig: NextConfig = {
         source: '/sw.js',
         destination: `${chatwootUrl}/sw.js`,
       },
-      // 6. API DE TENAXIS (Al final)
+
+      // --- API DE TENAXIS (Final de la cola) ---
       {
         source: '/api/:path*',
         destination: `${apiUrl}/:path*`,
