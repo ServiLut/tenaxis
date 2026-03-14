@@ -1,6 +1,12 @@
 import { cookies } from "next/headers";
 
-export const getApiUrl = () => process.env.NESTJS_API_URL || "http://localhost:4000";
+export const getApiUrl = () => {
+  if (process.env.NESTJS_API_URL) return process.env.NESTJS_API_URL;
+  // Si estamos en el servidor (Next.js Actions/SSR), usamos una ruta relativa
+  // que pasará por los rewrites de next.config.ts
+  if (typeof window === "undefined") return "/api";
+  return "/api";
+};
 
 export async function getAuthHeaders(isFormData = false) {
   const cookieStore = await cookies();
