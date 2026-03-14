@@ -37,6 +37,24 @@ export function DashboardLayout({
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, []);
 
+  useEffect(() => {
+    const setSidebarOffset = () => {
+      const sidebarOffset =
+        window.innerWidth >= 1024 && isSidebarOpen ? "288px" : "0px";
+      document.documentElement.style.setProperty(
+        "--dashboard-sidebar-offset",
+        sidebarOffset
+      );
+    };
+
+    setSidebarOffset();
+    window.addEventListener("resize", setSidebarOffset);
+
+    return () => {
+      window.removeEventListener("resize", setSidebarOffset);
+    };
+  }, [isSidebarOpen]);
+
   return (
     <div className="h-screen bg-[#F8FAFC] dark:bg-background">
       <Sidebar isOpen={isSidebarOpen} onClose={() => setIsSidebarOpen(false)} />

@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { PersistentChatwootPanel } from "@/components/dashboard/PersistentChatwootPanel";
 
 export const metadata: Metadata = {
   title: "Dashboard | Tenaxis",
@@ -6,5 +7,10 @@ export const metadata: Metadata = {
 };
 
 export default function Layout({ children }: { children: React.ReactNode }) {
-  return <>{children}</>;
+  return (
+    <>
+      {children}
+      <PersistentChatwootPanel />
+    </>
+  );
 }
