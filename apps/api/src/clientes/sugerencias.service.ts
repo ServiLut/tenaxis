@@ -5,8 +5,10 @@ import {
   EstadoSugerencia,
   PrioridadSugerencia,
   Prisma,
+  Role,
 } from '../generated/client/client';
 import { startOfBogotaDayUtc } from '../common/utils/timezone.util';
+import { JwtPayload } from '../auth/jwt-payload.interface';
 
 @Injectable()
 export class SugerenciasService {
@@ -111,7 +113,14 @@ export class SugerenciasService {
 
     for (const tenant of tenants) {
       try {
-        const segmented = await this.clientesService.getSegmented(tenant.id);
+        const systemUser: JwtPayload = {
+          sub: 'SYSTEM',
+          email: 'system@tenaxis.com',
+          role: Role.SU_ADMIN,
+          tenantId: tenant.id,
+          isGlobalSuAdmin: true,
+        };
+        const segmented = await this.clientesService.getSegmented(systemUser);
 
         // 1. Riesgo de Fuga -> Prioridad CRITICA
         for (const client of segmented.riesgoFuga.data) {

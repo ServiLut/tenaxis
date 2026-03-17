@@ -1,10 +1,14 @@
 import { cookies } from "next/headers";
 
 export const getApiUrl = () => {
-  if (process.env.NESTJS_API_URL) return process.env.NESTJS_API_URL;
-  // Si estamos en el servidor (Next.js Actions/SSR), usamos una ruta relativa
-  // que pasará por los rewrites de next.config.ts
-  if (typeof window === "undefined") return "/api";
+  // En el servidor (Next.js Actions/SSR), fetch() requiere una URL absoluta.
+  // Los rewrites de next.config.ts NO se aplican a las llamadas fetch internas del servidor.
+  if (typeof window === "undefined") {
+    return process.env.NESTJS_API_URL || "http://localhost:4000";
+  }
+  
+  // En el cliente, usamos la ruta relativa que pasa por el proxy de Next.js
+  // para evitar problemas de CORS y centralizar la configuración.
   return "/api";
 };
 
@@ -76,7 +80,7 @@ export async function apiFetch<T>(endpoint: string, options: RequestInit = {}): 
   } catch (error) {
     console.error(`[API Client] Fetch failed for ${url}:`, {
       message: error instanceof Error ? error.message : String(error),
-      cause: error instanceof Error ? (error as any).cause : undefined,
+      cause: error instanceof Error ? (error as { cause?: unknown }).cause : undefined,
       stack: error instanceof Error ? error.stack : undefined,
     });
     throw error;

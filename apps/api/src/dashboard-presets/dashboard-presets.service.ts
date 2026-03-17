@@ -6,7 +6,7 @@ import {
 } from '@nestjs/common';
 import { randomUUID } from 'crypto';
 import { Prisma } from '../generated/client/client';
-import { JwtPayload } from '../auth/auth.service';
+import { JwtPayload } from '../auth/jwt-payload.interface';
 import { PrismaService } from '../prisma/prisma.service';
 import {
   CreateDashboardPresetDto,

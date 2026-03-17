@@ -24,7 +24,7 @@ import { CreateOrdenServicioDto } from './dto/create-orden-servicio.dto';
 import { CompleteFollowUpDto } from './dto/complete-follow-up.dto';
 import { CreateFollowUpOverrideDto } from './dto/create-follow-up-override.dto';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
-import { JwtPayload } from '../auth/auth.service';
+import { JwtPayload } from '../auth/jwt-payload.interface';
 import { QueryOrdenesServicioDto } from './dto/query-ordenes-servicio.dto';
 import {
   ConfirmUploadedFilesDto,
@@ -49,7 +49,7 @@ export class OrdenesServicioController {
   ) {}
 
   @Post()
-  create(
+  async create(
     @Req() req: RequestWithUser,
     @Body() createDto: CreateOrdenServicioDto,
   ) {
@@ -63,7 +63,11 @@ export class OrdenesServicioController {
       createDto.creadoPorId = req.user.membershipId;
     }
 
-    return this.ordenesServicioService.create(tenantId, createDto, req.user);
+    return await this.ordenesServicioService.create(
+      tenantId,
+      createDto,
+      req.user,
+    );
   }
 
   @Post(':id/evidencias')
@@ -77,52 +81,37 @@ export class OrdenesServicioController {
     if (!tenantId) {
       throw new UnauthorizedException('Tenant ID not found in token');
     }
-    return this.ordenesServicioService.addEvidence(tenantId, id, files);
+    return await this.ordenesServicioService.addEvidence(tenantId, id, files);
   }
 
   @Get()
-  findAll(
+  async findAll(
     @Req() req: RequestWithUser,
     @Query() query: QueryOrdenesServicioDto,
   ) {
-    const tenantId = req.user.tenantId;
-    if (!tenantId) {
-      throw new UnauthorizedException('Tenant ID not found in token');
-    }
-
     const empresaId = query.empresaId || req.user.empresaId;
-    const role = req.user.role;
-
-    return this.ordenesServicioService.findAll(
-      tenantId,
+    return await this.ordenesServicioService.findAll(
+      req.user,
       empresaId,
-      role,
       query,
     );
   }
 
   @Get('kpis')
-  getKpis(
+  async getKpis(
     @Req() req: RequestWithUser,
     @Query() query: QueryOrdenesServicioDto,
   ): Promise<ServiciosKpiPayload> {
-    const tenantId = req.user.tenantId;
-    if (!tenantId) {
-      throw new UnauthorizedException('Tenant ID not found in token');
-    }
-
     const empresaId = query.empresaId || req.user.empresaId;
-    const role = req.user.role;
-    return this.ordenesServicioService.getKpis(
-      tenantId,
+    return await this.ordenesServicioService.getKpis(
+      req.user,
       empresaId,
-      role,
       query,
     );
   }
 
   @Get('follow-ups/my-status')
-  getMyFollowUpStatus(
+  async getMyFollowUpStatus(
     @Req() req: RequestWithUser,
     @Query('empresaId') empresaId?: string,
   ) {
@@ -131,7 +120,7 @@ export class OrdenesServicioController {
       throw new UnauthorizedException('Tenant ID not found in token');
     }
 
-    return this.ordenesServicioService.getMyFollowUpStatus(
+    return await this.ordenesServicioService.getMyFollowUpStatus(
       tenantId,
       req.user,
       empresaId || req.user.empresaId,
@@ -139,7 +128,7 @@ export class OrdenesServicioController {
   }
 
   @Get('follow-up-overrides')
-  getFollowUpOverrides(
+  async getFollowUpOverrides(
     @Req() req: RequestWithUser,
     @Query('empresaId') empresaId?: string,
     @Query('membershipId') membershipId?: string,
@@ -149,7 +138,7 @@ export class OrdenesServicioController {
       throw new UnauthorizedException('Tenant ID not found in token');
     }
 
-    return this.ordenesServicioService.listFollowUpOverrides(
+    return await this.ordenesServicioService.listFollowUpOverrides(
       tenantId,
       req.user,
       empresaId || req.user.empresaId,
@@ -158,7 +147,7 @@ export class OrdenesServicioController {
   }
 
   @Post('follow-up-overrides')
-  createFollowUpOverride(
+  async createFollowUpOverride(
     @Req() req: RequestWithUser,
     @Body() dto: CreateFollowUpOverrideDto,
     @Query('empresaId') empresaId?: string,
@@ -168,7 +157,7 @@ export class OrdenesServicioController {
       throw new UnauthorizedException('Tenant ID not found in token');
     }
 
-    return this.ordenesServicioService.createFollowUpOverride(
+    return await this.ordenesServicioService.createFollowUpOverride(
       tenantId,
       req.user,
       empresaId || req.user.empresaId,
@@ -177,7 +166,7 @@ export class OrdenesServicioController {
   }
 
   @Post('follow-ups/:id/complete')
-  completeFollowUp(
+  async completeFollowUp(
     @Req() req: RequestWithUser,
     @Param('id') id: string,
     @Body() dto: CompleteFollowUpDto,
@@ -187,7 +176,7 @@ export class OrdenesServicioController {
       throw new UnauthorizedException('Tenant ID not found in token');
     }
 
-    return this.ordenesServicioService.completeFollowUp(
+    return await this.ordenesServicioService.completeFollowUp(
       tenantId,
       id,
       dto,
@@ -196,7 +185,7 @@ export class OrdenesServicioController {
   }
 
   @Post(':id/uploads/signed-url')
-  createSignedUploadUrl(
+  async createSignedUploadUrl(
     @Req() req: RequestWithUser,
     @Param('id') id: string,
     @Body() dto: CreateSignedUploadUrlDto,
@@ -205,11 +194,15 @@ export class OrdenesServicioController {
     if (!tenantId) {
       throw new UnauthorizedException('Tenant ID not found in token');
     }
-    return this.ordenesServicioService.createSignedUploadUrl(tenantId, id, dto);
+    return await this.ordenesServicioService.createSignedUploadUrl(
+      tenantId,
+      id,
+      dto,
+    );
   }
 
   @Post(':id/uploads/confirm')
-  confirmUpload(
+  async confirmUpload(
     @Req() req: RequestWithUser,
     @Param('id') id: string,
     @Body() dto: ConfirmUploadedFilesDto,
@@ -218,11 +211,15 @@ export class OrdenesServicioController {
     if (!tenantId) {
       throw new UnauthorizedException('Tenant ID not found in token');
     }
-    return this.ordenesServicioService.confirmUploadedFiles(tenantId, id, dto);
+    return await this.ordenesServicioService.confirmUploadedFiles(
+      tenantId,
+      id,
+      dto,
+    );
   }
 
   @Post('notifications/liquidation')
-  notifyLiquidation(
+  async notifyLiquidation(
     @Req() req: RequestWithUser,
     @Body() dto: NotifyLiquidationDto,
   ) {
@@ -230,25 +227,30 @@ export class OrdenesServicioController {
     if (!tenantId) {
       throw new UnauthorizedException('Tenant ID not found in token');
     }
-    return this.ordenesServicioService.notifyLiquidationWebhook(tenantId, dto);
+    return await this.ordenesServicioService.notifyLiquidationWebhook(
+      tenantId,
+      dto,
+    );
   }
 
   @Post('notifications/operator')
-  notifyOperator(@Req() req: RequestWithUser, @Body() dto: NotifyOperatorDto) {
+  async notifyOperator(
+    @Req() req: RequestWithUser,
+    @Body() dto: NotifyOperatorDto,
+  ) {
     const tenantId = req.user.tenantId;
     if (!tenantId) {
       throw new UnauthorizedException('Tenant ID not found in token');
     }
-    return this.ordenesServicioService.notifyOperatorWebhook(tenantId, dto);
+    return await this.ordenesServicioService.notifyOperatorWebhook(
+      tenantId,
+      dto,
+    );
   }
 
   @Get(':id')
-  findOne(@Req() req: RequestWithUser, @Param('id') id: string) {
-    const tenantId = req.user.tenantId;
-    if (!tenantId) {
-      throw new UnauthorizedException('Tenant ID not found in token');
-    }
-    return this.ordenesServicioService.findOne(tenantId, id);
+  async findOne(@Req() req: RequestWithUser, @Param('id') id: string) {
+    return await this.ordenesServicioService.findOne(req.user, id);
   }
 
   @Patch(':id')
@@ -311,7 +313,7 @@ export class OrdenesServicioController {
       delete updateDto.uploadField;
     }
 
-    return this.ordenesServicioService.update(
+    return await this.ordenesServicioService.update(
       tenantId,
       id,
       updateDto,
@@ -320,11 +322,11 @@ export class OrdenesServicioController {
   }
 
   @Delete(':id')
-  remove(@Req() req: RequestWithUser, @Param('id') id: string) {
+  async remove(@Req() req: RequestWithUser, @Param('id') id: string) {
     const tenantId = req.user.tenantId;
     if (!tenantId) {
       throw new UnauthorizedException('Tenant ID not found in token');
     }
-    return this.ordenesServicioService.remove(tenantId, id);
+    return await this.ordenesServicioService.remove(tenantId, id);
   }
 }

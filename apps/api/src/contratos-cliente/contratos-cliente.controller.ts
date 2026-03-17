@@ -12,7 +12,7 @@ import {
 } from '@nestjs/common';
 import { Request as ExpressRequest } from 'express';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
-import { JwtPayload } from '../auth/auth.service';
+import { JwtPayload } from '../auth/jwt-payload.interface';
 import { ContratosClienteService } from './contratos-cliente.service';
 import { CreateContratoClienteDto } from './dto/create-contrato-cliente.dto';
 import { UpdateContratoClienteDto } from './dto/update-contrato-cliente.dto';

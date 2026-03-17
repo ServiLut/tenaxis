@@ -15,7 +15,7 @@ import {
 } from '@nestjs/common';
 import { ContabilidadService } from './contabilidad.service';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
-import { JwtPayload } from '../auth/auth.service';
+import { JwtPayload } from '../auth/jwt-payload.interface';
 import { Request } from 'express';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { SupabaseService } from '../supabase/supabase.service';
@@ -102,7 +102,10 @@ export class FinanzasController {
       throw new UnauthorizedException('Tenant ID missing');
     }
 
-    if (!dto.includeAllEligible && (!dto.membershipIds || dto.membershipIds.length === 0)) {
+    if (
+      !dto.includeAllEligible &&
+      (!dto.membershipIds || dto.membershipIds.length === 0)
+    ) {
       throw new BadRequestException(
         'Debe enviar membershipIds o activar includeAllEligible',
       );

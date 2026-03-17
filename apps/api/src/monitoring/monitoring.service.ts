@@ -136,7 +136,8 @@ export class MonitoringService {
       const cuentaPago =
         session.membership.cuentasPago.find(
           (cuenta) =>
-            cuenta.tenantId === tenantId && cuenta.empresaId === session.empresaId,
+            cuenta.tenantId === tenantId &&
+            cuenta.empresaId === session.empresaId,
         ) ||
         session.membership.cuentasPago.find(
           (cuenta) => cuenta.tenantId === tenantId && cuenta.valorHora !== null,
@@ -356,10 +357,7 @@ export class MonitoringService {
           },
         },
       },
-      orderBy: [
-        { membershipId: 'asc' },
-        { fechaInicio: 'asc' },
-      ],
+      orderBy: [{ membershipId: 'asc' }, { fechaInicio: 'asc' }],
     });
 
     return this.buildPayrollPreview(
@@ -369,7 +367,12 @@ export class MonitoringService {
     );
   }
 
-  async getAlerts(scope: MonitoringScope, date?: string, startDate?: string, endDate?: string) {
+  async getAlerts(
+    scope: MonitoringScope,
+    date?: string,
+    startDate?: string,
+    endDate?: string,
+  ) {
     const { start, end } = this.getDateRange(date, startDate, endDate);
 
     const commonWhere: Prisma.SesionActividadWhereInput = {
@@ -434,7 +437,12 @@ export class MonitoringService {
     return alerts;
   }
 
-  async getOperationMetrics(scope: MonitoringScope, date?: string, startDate?: string, endDate?: string) {
+  async getOperationMetrics(
+    scope: MonitoringScope,
+    date?: string,
+    startDate?: string,
+    endDate?: string,
+  ) {
     const { start, end } = this.getDateRange(date, startDate, endDate);
 
     const where = this.buildSessionWhere(scope, start, end);
@@ -519,7 +527,12 @@ export class MonitoringService {
     };
   }
 
-  async getExecutiveAuditMetrics(scope: MonitoringScope, date?: string, startDate?: string, endDate?: string) {
+  async getExecutiveAuditMetrics(
+    scope: MonitoringScope,
+    date?: string,
+    startDate?: string,
+    endDate?: string,
+  ) {
     const { start, end } = this.getDateRange(date, startDate, endDate);
     const sevenDaysAgo = startDate ? start : addBogotaDaysUtc(start, -7);
 
@@ -616,7 +629,12 @@ export class MonitoringService {
     };
   }
 
-  async findAllSessions(scope: MonitoringScope, date?: string, startDate?: string, endDate?: string) {
+  async findAllSessions(
+    scope: MonitoringScope,
+    date?: string,
+    startDate?: string,
+    endDate?: string,
+  ) {
     const { start, end } = this.getDateRange(date, startDate, endDate);
 
     const where = this.buildSessionWhere(scope, start, end);
@@ -729,7 +747,12 @@ export class MonitoringService {
     });
   }
 
-  async getGlobalStats(scope: MonitoringScope, date?: string, startDate?: string, endDate?: string) {
+  async getGlobalStats(
+    scope: MonitoringScope,
+    date?: string,
+    startDate?: string,
+    endDate?: string,
+  ) {
     const { start, end } = this.getDateRange(date, startDate, endDate);
 
     const commonWhere = this.buildSessionWhere(scope, start, end);
@@ -792,7 +815,8 @@ export class MonitoringService {
 
     const where: Prisma.AuditoriaWhereInput = {
       tenantId: scope.tenantId,
-      createdAt: (date || (startDate && endDate)) ? { gte: start, lt: end } : undefined,
+      createdAt:
+        date || (startDate && endDate) ? { gte: start, lt: end } : undefined,
     };
 
     if (scope.empresaIds?.length) {
@@ -845,11 +869,17 @@ export class MonitoringService {
     };
   }
 
-  async findRecentLogs(scope: MonitoringScope, date?: string, startDate?: string, endDate?: string) {
+  async findRecentLogs(
+    scope: MonitoringScope,
+    date?: string,
+    startDate?: string,
+    endDate?: string,
+  ) {
     const { start, end } = this.getDateRange(date, startDate, endDate);
     const where: Prisma.LogEventoWhereInput = {
       tenantId: scope.tenantId,
-      createdAt: (date || (startDate && endDate)) ? { gte: start, lt: end } : undefined,
+      createdAt:
+        date || (startDate && endDate) ? { gte: start, lt: end } : undefined,
     };
 
     if (scope.empresaIds?.length) {

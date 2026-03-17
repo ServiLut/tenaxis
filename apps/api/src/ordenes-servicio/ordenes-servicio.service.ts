@@ -10,7 +10,7 @@ import { ContratosClienteService } from '../contratos-cliente/contratos-cliente.
 import { CreateOrdenServicioDto } from './dto/create-orden-servicio.dto';
 import { CompleteFollowUpDto } from './dto/complete-follow-up.dto';
 import { CreateFollowUpOverrideDto } from './dto/create-follow-up-override.dto';
-import { JwtPayload } from '../auth/auth.service';
+import { JwtPayload } from '../auth/jwt-payload.interface';
 import {
   QueryOrdenesServicioDto,
   ServiciosPreset,
@@ -34,6 +34,7 @@ import {
   NotifyOperatorDto,
 } from './dto/notify-webhook.dto';
 import sharp from 'sharp';
+import { getPrismaAccessFilter } from '../common/utils/access-control.util';
 import {
   OrdenServicio,
   Geolocalizacion,
@@ -46,7 +47,6 @@ import {
   NivelInfestacion,
   Prisma,
   Role,
-  Servicio,
   TipoFacturacion,
   TipoVisita,
   TipoPermiso,
@@ -144,7 +144,7 @@ export class OrdenesServicioService {
       createDto.creadoPorId = performingUser.membershipId;
     }
 
-    this.assertCanAssignServices(tenantId, performingUser, createDto.empresaId);
+    this.assertCanAssignServices();
 
     // 2. Obtener dirección y texto
     let direccionId = createDto.direccionId;
@@ -218,14 +218,13 @@ export class OrdenesServicioService {
       throw new BadRequestException('Debe especificar al menos un servicio');
     }
 
-    let servicioPrincipal: Pick<
-      Servicio,
-      | 'id'
-      | 'empresaId'
-      | 'requiereSeguimiento'
-      | 'primerSeguimientoDias'
-      | 'requiereSeguimientoTresMeses'
-    > | null = null;
+    let servicioPrincipal: {
+      id: string;
+      empresaId: string;
+      requiereSeguimiento: boolean;
+      primerSeguimientoDias: number | null;
+      requiereSeguimientoTresMeses: boolean;
+    } | null = null;
 
     if (createDto.servicioId) {
       servicioPrincipal = await this.prisma.servicio.findFirst({
@@ -641,32 +640,16 @@ export class OrdenesServicioService {
   }
 
   private buildWhereClause(
-    tenantId: string,
-    empresaId: string | undefined,
-    userRole: string | undefined,
+    user: JwtPayload,
+    reqEmpresaId: string | undefined,
     filters?: QueryOrdenesServicioDto,
-  ): Prisma.OrdenServicioWhereInput | null {
-    const cleanEmpresaId = this.isUUID(empresaId) ? empresaId : undefined;
+  ): Prisma.OrdenServicioWhereInput {
+    const accessFilter = getPrismaAccessFilter(user, reqEmpresaId);
 
-    let whereClause: Prisma.OrdenServicioWhereInput = {};
-
-    if (userRole === 'SU_ADMIN') {
-      whereClause = {};
-    } else if (userRole === 'ADMIN') {
-      whereClause = { tenantId };
-      if (cleanEmpresaId) {
-        whereClause.empresaId = cleanEmpresaId;
-      }
-    } else if (cleanEmpresaId) {
-      whereClause = {
-        tenantId,
-        empresaId: cleanEmpresaId,
-      };
-    } else {
-      return null;
-    }
-
-    whereClause.ordenPadreId = null;
+    const whereClause: Prisma.OrdenServicioWhereInput = {
+      ...accessFilter,
+      ordenPadreId: null,
+    };
 
     if (!filters) return whereClause;
 
@@ -779,21 +762,11 @@ export class OrdenesServicioService {
   }
 
   async findAll(
-    tenantId: string,
+    user: JwtPayload,
     empresaId?: string,
-    userRole?: string,
     filters?: QueryOrdenesServicioDto,
   ) {
-    const whereClause = this.buildWhereClause(
-      tenantId,
-      empresaId,
-      userRole,
-      filters,
-    );
-
-    if (!whereClause) {
-      return [];
-    }
+    const whereClause = this.buildWhereClause(user, empresaId, filters);
 
     const ordenes = await this.prisma.ordenServicio.findMany({
       where: whereClause,
@@ -929,31 +902,11 @@ export class OrdenesServicioService {
   }
 
   async getKpis(
-    tenantId: string,
+    user: JwtPayload,
     empresaId?: string,
-    userRole?: string,
     filters?: QueryOrdenesServicioDto,
   ): Promise<ServiciosKpiPayload> {
-    const whereClause = this.buildWhereClause(
-      tenantId,
-      empresaId,
-      userRole,
-      filters,
-    );
-
-    if (!whereClause) {
-      return {
-        total: 0,
-        programadosHoy: 0,
-        enCurso: 0,
-        vencidosSla: 0,
-        cumplimientoSlaPct: 0,
-        porcentajeLiquidacion: 0,
-        recaudoHoy: 0,
-        ticketPromedio: 0,
-        sinEvidencia: 0,
-      };
-    }
+    const whereClause = this.buildWhereClause(user, empresaId, filters);
 
     const todayRange = toLocalDayRange(new Date());
 
@@ -1062,9 +1015,11 @@ export class OrdenesServicioService {
     };
   }
 
-  async findOne(tenantId: string, id: string) {
+  async findOne(user: JwtPayload, id: string) {
+    const accessFilter = getPrismaAccessFilter(user);
+
     const orden = await this.prisma.ordenServicio.findFirst({
-      where: { id, tenantId },
+      where: { id, ...accessFilter },
       include: {
         cliente: {
           include: {
@@ -1099,7 +1054,9 @@ export class OrdenesServicioService {
     });
 
     if (!orden) {
-      throw new BadRequestException('La orden especificada no existe');
+      throw new BadRequestException(
+        'La orden especificada no existe o no tienes acceso',
+      );
     }
 
     return this.processSignedUrls(orden as OrdenWithGeolocalizaciones);
@@ -2152,15 +2109,8 @@ export class OrdenesServicioService {
     });
   }
 
-  private assertCanAssignServices(
-    _tenantId: string,
-    _user: JwtPayload | undefined,
-    _empresaId: string,
-  ) {
+  private assertCanAssignServices() {
     // Se ha removido el bloqueo por seguimientos pendientes por solicitud
-    void _tenantId;
-    void _user;
-    void _empresaId;
     return;
   }
 

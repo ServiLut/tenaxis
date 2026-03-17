@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { toast } from "sonner";
 import {
   getTiposInteresAction,
@@ -155,25 +155,12 @@ export default function ConfiguracionPage() {
     return () => window.removeEventListener('hashchange', handleHashChange);
   }, []);
 
-  useEffect(() => {
-    if (activeTab === 'intereses') {
-      loadData().catch(() => {
-        toast.error("Error al cargar la configuración");
-      });
-    }
-    if (activeTab === 'servicios') {
-      loadServiciosData().catch(() => {
-        toast.error("Error al cargar los servicios");
-      });
-    }
-  }, [activeTab]);
-
   const handleTabChange = (tab: TabType) => {
     setActiveTab(tab);
     window.location.hash = tab;
   };
 
-  async function loadData() {
+  const loadData = useCallback(async () => {
     setLoading(true);
     try {
       const ints = await getTiposInteresAction();
@@ -183,9 +170,9 @@ export default function ConfiguracionPage() {
     } finally {
       setLoading(false);
     }
-  }
+  }, []);
 
-  async function loadServiciosData() {
+  const loadServiciosData = useCallback(async () => {
     setLoading(true);
     try {
       const empresasResult = await getEnterprisesAction();
@@ -212,7 +199,20 @@ export default function ConfiguracionPage() {
     } finally {
       setLoading(false);
     }
-  }
+  }, [selectedEmpresaId]);
+
+  useEffect(() => {
+    if (activeTab === 'intereses') {
+      loadData().catch(() => {
+        toast.error("Error al cargar la configuración");
+      });
+    }
+    if (activeTab === 'servicios') {
+      loadServiciosData().catch(() => {
+        toast.error("Error al cargar los servicios");
+      });
+    }
+  }, [activeTab, loadData, loadServiciosData]);
 
   const handleOpenModal = (item: TipoInteres | null = null) => {
     setEditingItem(item);

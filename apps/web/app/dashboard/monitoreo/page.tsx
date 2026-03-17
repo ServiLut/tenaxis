@@ -28,7 +28,7 @@ import { AuditsTable } from "./components/AuditsTable";
 import { LogsModal } from "./components/LogsModal";
 import { AuditDetailModal } from "./components/AuditDetailModal";
 import { KPIModal } from "./components/KPIModal";
-import { exportToCSV, exportToExcel } from "./components/utils";
+import { exportToExcel } from "./components/utils";
 import { DatePicker } from "@/components/ui/date-picker";
 import { ExportRangeModal } from "./components/ExportRangeModal";
 import { toast } from "sonner";
@@ -175,7 +175,7 @@ export default function MonitoreoPage() {
         Estado: item.estado || "N/A",
       }));
 
-      const sheets = [
+      const sheets: any[] = [
         { name: "Sesiones", data: sessionsData },
         { name: "Auditoria", data: auditData },
       ];
@@ -190,49 +190,6 @@ export default function MonitoreoPage() {
       console.error("Export error:", error);
       toast.error("Error al generar el reporte de rango");
     }
-  };
-
-  const handleExport = () => {
-    const sessionsData = (sessions || []).map((s) => ({
-      Usuario: `${s.membership?.user?.nombre ?? ""} ${s.membership?.user?.apellido ?? ""}`.trim() || "Desconocido",
-      Username: s.membership?.username || "N/A",
-      Rol: s.membership?.role || "N/A",
-      Inicio: formatBogotaDateTime(s.fechaInicio, "es-CO"),
-      Fin: s.fechaFin ? formatBogotaDateTime(s.fechaFin, "es-CO") : "Activo",
-      Inactividad: `${s.tiempoInactivo || 0} min`,
-      IP: s.ip || "0.0.0.0",
-      Dispositivo: s.dispositivo || "Desconocido",
-    }));
-
-    const payrollData = (payrollPreview?.items || []).map((item) => ({
-      Usuario: `${item.nombre ?? ""} ${item.apellido ?? ""}`.trim(),
-      Rol: item.role || "N/A",
-      ValorHora: item.valorHora ?? "Sin configurar",
-      HorasPagables: item.horasPagables || 0,
-      MinutosInactivos: item.minutosInactivos || 0,
-      PagoEstimado: item.pagoEstimado || 0,
-      Estado: item.estado || "N/A",
-    }));
-
-    const auditData = (audits || []).map((a) => ({
-      Fecha: formatBogotaDateTime(a.createdAt, "es-CO"),
-      Entidad: a.entidad || "N/A",
-      Accion: a.accion || "N/A",
-      Usuario: `${a.membership?.user?.nombre ?? ""} ${a.membership?.user?.apellido ?? ""}`.trim() || "Desconocido",
-      Username: a.membership?.username || "N/A",
-      ID_Entidad: a.entidadId || "N/A",
-    }));
-
-    const sheets = [
-      { name: "Sesiones", data: sessionsData },
-      { name: "Auditoria", data: auditData },
-    ];
-
-    if (payrollData.length > 0) {
-      sheets.push({ name: "Pre-Nomina", data: payrollData });
-    }
-
-    void exportToExcel(sheets, "monitoreo_completo");
   };
 
   const activeSessionsList = Array.isArray(sessions)

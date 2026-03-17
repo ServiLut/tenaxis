@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { DashboardLayout } from "@/components/dashboard";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -8,13 +8,13 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Select } from "@/components/ui/select";
 import { useUserRole } from "@/hooks/use-user-role";
-import { ArrowLeft, Save, Loader2, UserPlus } from "lucide-react";
+import { ArrowLeft, Save, Loader2, UserPlus, ShieldAlert } from "lucide-react";
 
 import { inviteMemberAction } from "../../actions";
 
 export default function NuevoUsuarioPage() {
   const router = useRouter();
-  const { tenantId } = useUserRole();
+  const { tenantId, checkPermission, isLoading: isLoadingRole } = useUserRole();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -25,6 +25,13 @@ export default function NuevoUsuarioPage() {
     telefono: "",
     role: "ASESOR", // Default role
   });
+
+  // Check Permissions
+  useEffect(() => {
+    if (!isLoadingRole && !checkPermission("TEAM_CREATE")) {
+      router.replace("/dashboard/equipo-trabajo");
+    }
+  }, [isLoadingRole, checkPermission, router]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
@@ -64,6 +71,34 @@ export default function NuevoUsuarioPage() {
       setLoading(false);
     }
   };
+
+  if (isLoadingRole) {
+    return (
+      <DashboardLayout>
+        <div className="flex h-[70vh] items-center justify-center">
+          <Loader2 className="h-10 w-10 animate-spin text-[#01ADFB]" />
+        </div>
+      </DashboardLayout>
+    );
+  }
+
+  if (!checkPermission("TEAM_CREATE")) {
+    return (
+      <DashboardLayout>
+        <div className="flex h-[70vh] flex-col items-center justify-center gap-4 text-center">
+          <ShieldAlert className="h-16 w-16 text-red-500" />
+          <h2 className="text-2xl font-black uppercase tracking-tight text-foreground">Acceso Denegado</h2>
+          <p className="text-sm text-muted-foreground">No tienes permisos para crear usuarios.</p>
+          <button
+            onClick={() => router.back()}
+            className="mt-4 flex items-center gap-2 rounded-xl bg-accent px-6 py-3 text-[10px] font-black uppercase tracking-widest text-white shadow-lg shadow-accent/20 transition-all hover:scale-105"
+          >
+            <ArrowLeft className="h-4 w-4" /> Volver
+          </button>
+        </div>
+      </DashboardLayout>
+    );
+  }
 
   return (
     <DashboardLayout>

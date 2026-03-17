@@ -12,13 +12,14 @@ import {
 } from '@nestjs/common';
 import { TenantsService } from './tenants.service';
 import { CreateTenantDto } from './dto/create-tenant.dto';
+import { InviteMemberDto } from './dto/invite-member.dto';
 import { JoinTenantDto } from './dto/join-tenant.dto';
 import { UpdateMembershipDto } from './dto/update-membership.dto';
 import { TeamPerformanceQueryDto } from './dto/team-performance-query.dto';
 import { TeamMemberDetailQueryDto } from './dto/team-member-detail-query.dto';
 import { SuAdminGuard } from '../auth/guards/su-admin.guard';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
-import { JwtPayload } from '../auth/auth.service';
+import { JwtPayload } from '../auth/jwt-payload.interface';
 import { Request as ExpressRequest } from 'express';
 
 interface RequestWithUser extends ExpressRequest {
@@ -32,13 +33,13 @@ export class TenantsController {
   @Post()
   @UseGuards(SuAdminGuard)
   async create(@Body() createTenantDto: CreateTenantDto) {
-    return this.tenantsService.create(createTenantDto);
+    return await this.tenantsService.create(createTenantDto);
   }
 
   @Get()
   @UseGuards(SuAdminGuard)
   async findAll() {
-    return this.tenantsService.findAll();
+    return await this.tenantsService.findAll();
   }
 
   @Get(':id')
@@ -57,7 +58,7 @@ export class TenantsController {
         'No tienes permiso para ver este conglomerado',
       );
     }
-    return this.tenantsService.findOne(id);
+    return await this.tenantsService.findOne(id);
   }
 
   @Post('join')
@@ -66,7 +67,7 @@ export class TenantsController {
     @Request() req: RequestWithUser,
     @Body() joinTenantDto: JoinTenantDto,
   ) {
-    return this.tenantsService.joinBySlug(req.user.sub, joinTenantDto);
+    return await this.tenantsService.joinBySlug(req.user.sub, joinTenantDto);
   }
 
   @Get(':tenantId/pending-memberships')
@@ -77,7 +78,7 @@ export class TenantsController {
     if (!req.user.tenantId) {
       throw new UnauthorizedException('No perteneces a ningún conglomerado');
     }
-    return this.tenantsService.getPendingMemberships(req.user.tenantId);
+    return await this.tenantsService.getPendingMemberships(req.user.tenantId);
   }
 
   @Get(':tenantId/memberships')
@@ -91,7 +92,7 @@ export class TenantsController {
       throw new UnauthorizedException('No perteneces a ningún conglomerado');
     }
     // TODO: Validar que sea ADMIN o SU_ADMIN del tenant
-    return this.tenantsService.findAllMemberships(
+    return await this.tenantsService.findAllMemberships(
       req.user.tenantId,
       startDate,
       endDate,
@@ -111,7 +112,11 @@ export class TenantsController {
       );
     }
 
-    return this.tenantsService.getTeamPerformance(tenantId, req.user, query);
+    return await this.tenantsService.getTeamPerformance(
+      tenantId,
+      req.user,
+      query,
+    );
   }
 
   @Get(':tenantId/team/members/:membershipId/detail')
@@ -128,7 +133,7 @@ export class TenantsController {
       );
     }
 
-    return this.tenantsService.getTeamMemberDetail(
+    return await this.tenantsService.getTeamMemberDetail(
       tenantId,
       membershipId,
       req.user,
@@ -136,16 +141,33 @@ export class TenantsController {
     );
   }
 
+  @Post(':tenantId/memberships')
+  @UseGuards(JwtAuthGuard)
+  async inviteMember(
+    @Request() req: RequestWithUser,
+    @Param('tenantId') tenantId: string,
+    @Body() dto: InviteMemberDto,
+  ) {
+    if (!req.user.tenantId || req.user.tenantId !== tenantId) {
+      throw new UnauthorizedException(
+        'No tienes permisos para invitar miembros a este conglomerado',
+      );
+    }
+
+    // TODO: Validar que el usuario que invita sea ADMIN o SU_ADMIN
+    return await this.tenantsService.inviteMember(tenantId, dto);
+  }
+
   @Post('memberships/:membershipId/approve')
   @UseGuards(JwtAuthGuard)
   async approveMembership(@Param('membershipId') membershipId: string) {
-    return this.tenantsService.approveMembership(membershipId);
+    return await this.tenantsService.approveMembership(membershipId);
   }
 
   @Post('memberships/:membershipId/reject')
   @UseGuards(JwtAuthGuard)
   async rejectMembership(@Param('membershipId') membershipId: string) {
-    return this.tenantsService.rejectMembership(membershipId);
+    return await this.tenantsService.rejectMembership(membershipId);
   }
 
   @Patch('memberships/:membershipId')
@@ -159,7 +181,7 @@ export class TenantsController {
       throw new UnauthorizedException('No perteneces a ningún conglomerado');
     }
 
-    return this.tenantsService.updateMembership(
+    return await this.tenantsService.updateMembership(
       membershipId,
       req.user.tenantId,
       data,

@@ -7,7 +7,7 @@ import {
 import { Observable } from 'rxjs';
 import { PrismaService } from '../../prisma/prisma.service';
 import { Request } from 'express';
-import { JwtPayload } from '../../auth/auth.service';
+import { JwtPayload } from '../../auth/jwt-payload.interface';
 import { Role } from '../../generated/client/client';
 
 interface RequestWithUser extends Request {
@@ -24,7 +24,7 @@ export class EnterpriseInterceptor implements NestInterceptor {
   ): Promise<Observable<unknown>> {
     const request = context.switchToHttp().getRequest<RequestWithUser>();
     const user = request.user;
-    const enterpriseId = request.headers['x-enterprise-id'] as
+    const headerEnterpriseId = request.headers['x-enterprise-id'] as
       | string
       | undefined;
     const testRole = request.headers['x-test-role'] as string | undefined;
@@ -34,46 +34,65 @@ export class EnterpriseInterceptor implements NestInterceptor {
       user.role = testRole as Role;
     }
 
-    if (user && enterpriseId && user.tenantId) {
-      const tenantId = user.tenantId;
-      const userId = user.sub;
+    if (!user) {
+      return next.handle();
+    }
 
-      // Validar que el usuario tenga acceso a esta empresa dentro de su tenant
-      const membership = await this.prisma.tenantMembership.findUnique({
-        where: {
-          userId_tenantId: {
-            userId,
-            tenantId,
-          },
-        },
-        include: {
-          empresaMemberships: {
-            where: {
-              empresaId: enterpriseId,
-              deletedAt: null,
-            },
-          },
-        },
-      });
-
-      // Si es SU_ADMIN o ADMIN del tenant, puede ver cualquier empresa de su tenant
-      // Si es otro rol, debe tener el membership específico
-      const isAdmin = user.role === 'SU_ADMIN' || user.role === 'ADMIN';
-      const hasMembership =
-        membership?.empresaMemberships &&
-        membership.empresaMemberships.length > 0;
-
-      if (isAdmin || hasMembership) {
-        // Inyectar la empresa validada en el objeto user
-        if (request.user) {
-          request.user.empresaId = enterpriseId;
-        }
-      } else {
-        // Si intenta acceder a una empresa sin permiso
-        console.warn(
-          `User ${userId} attempted unauthorized access to enterprise ${enterpriseId}`,
-        );
+    // Si es Global Super Admin, puede ver cualquier empresa
+    if (user.isGlobalSuAdmin) {
+      if (headerEnterpriseId) {
+        user.empresaId = headerEnterpriseId;
       }
+      return next.handle();
+    }
+
+    // Si es Tenant Admin o Tenant SU_ADMIN, puede ver cualquier empresa de su tenant
+    const isTenantAdmin =
+      user.role === Role.SU_ADMIN || user.role === Role.ADMIN;
+
+    if (isTenantAdmin) {
+      if (headerEnterpriseId) {
+        user.empresaId = headerEnterpriseId;
+      }
+      return next.handle();
+    }
+
+    // Para otros roles (COORDINADOR, ASESOR, OPERADOR), validar contra sus empresaIds
+    const allowedIds = user.empresaIds || [];
+
+    if (headerEnterpriseId) {
+      if (allowedIds.includes(headerEnterpriseId)) {
+        user.empresaId = headerEnterpriseId;
+      } else {
+        // Si el token es antiguo y no tiene empresaIds, o si cambió en DB,
+        // hacemos un fallback a la DB para mayor seguridad y UX
+        const membership = await this.prisma.empresaMembership.findFirst({
+          where: {
+            membershipId: user.membershipId,
+            empresaId: headerEnterpriseId,
+            activo: true,
+            deletedAt: null,
+          },
+        });
+
+        if (membership) {
+          user.empresaId = headerEnterpriseId;
+          // Actualizar el array local para el resto de la petición
+          if (!user.empresaIds) user.empresaIds = [];
+          if (!user.empresaIds.includes(headerEnterpriseId)) {
+            user.empresaIds.push(headerEnterpriseId);
+          }
+        } else {
+          console.warn(
+            `User ${user.sub} attempted unauthorized access to enterprise ${headerEnterpriseId}`,
+          );
+          // Opcionalmente podrías limpiar el empresaId si era inválido
+          user.empresaId = undefined;
+        }
+      }
+    } else if (allowedIds.length === 1) {
+      // Si solo tiene una empresa y no mandó header, se la asignamos por defecto
+      user.empresaId = allowedIds[0];
     }
 
     return next.handle();
