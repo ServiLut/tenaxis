@@ -87,6 +87,19 @@ interface Direccion {
   validadoPorSistema: boolean;
 }
 
+type ContratoClienteWithLegacyId = ContratoCliente & {
+  contratoId?: string;
+  contrato_id?: string;
+};
+
+type ClienteWithContratos = Cliente & {
+  contratosCliente?: ContratoClienteWithLegacyId[];
+};
+
+function resolveContratoId(contrato: ContratoClienteWithLegacyId | null | undefined) {
+  return contrato?.id ?? contrato?.contratoId ?? contrato?.contrato_id ?? null;
+}
+
 function EditarClienteContent() {
   const router = useRouter();
   const params = useParams();
@@ -191,7 +204,7 @@ function EditarClienteContent() {
     const loadClientData = async () => {
       if (!id) return;
       try {
-        const client = await getClienteByIdAction(id) as Cliente;
+        const client = await getClienteByIdAction(id) as ClienteWithContratos;
         if (!client) {
           toast.error("No se encontró el cliente");
           router.push("/dashboard/clientes");
@@ -250,19 +263,37 @@ function EditarClienteContent() {
 
         if (client.empresa?.id) {
           const contrato = await getContratoClienteActivoAction(id, client.empresa.id);
-          if (contrato) {
-            setActiveContract(contrato);
-            setHasActiveContract(true);
-            setContractStartDate(contrato.fechaInicio?.slice(0, 10) || "");
-            setContractEndDate(contrato.fechaFin?.slice(0, 10) || "");
-            setContractServicesCommitted(
-              contrato.serviciosComprometidos ? String(contrato.serviciosComprometidos) : "",
-            );
-            setContractServiceFrequency(
-              contrato.frecuenciaServicio ? String(contrato.frecuenciaServicio) : "30",
-            );
-            setContractBillingType(contrato.tipoFacturacion);
-            setContractNotes(contrato.observaciones || "");
+          const contratoActivo = contrato ?? client.contratosCliente?.[0] ?? null;
+          if (contratoActivo) {
+            const contractId = resolveContratoId(contratoActivo);
+            if (!contractId) {
+              console.error("Active contract loaded without id", contratoActivo);
+              toast.error("No se pudo identificar el contrato activo del cliente.");
+              setActiveContract(null);
+              setHasActiveContract(false);
+            } else {
+              const normalizedContract = {
+                ...contratoActivo,
+                id: contractId,
+              } as ContratoCliente;
+
+              setActiveContract(normalizedContract);
+              setHasActiveContract(true);
+              setContractStartDate(normalizedContract.fechaInicio?.slice(0, 10) || "");
+              setContractEndDate(normalizedContract.fechaFin?.slice(0, 10) || "");
+              setContractServicesCommitted(
+                normalizedContract.serviciosComprometidos
+                  ? String(normalizedContract.serviciosComprometidos)
+                  : "",
+              );
+              setContractServiceFrequency(
+                normalizedContract.frecuenciaServicio
+                  ? String(normalizedContract.frecuenciaServicio)
+                  : "30",
+              );
+              setContractBillingType(normalizedContract.tipoFacturacion);
+              setContractNotes(normalizedContract.observaciones || "");
+            }
           }
         }
 
@@ -379,6 +410,7 @@ function EditarClienteContent() {
       }
 
       if (selectedEmpresaId) {
+        const activeContractId = resolveContratoId(activeContract);
         if (hasActiveContract) {
           const contractPayload: ContratoClienteDTO = {
             empresaId: selectedEmpresaId,
@@ -390,8 +422,10 @@ function EditarClienteContent() {
             observaciones: contractNotes || null,
           };
 
-          const contractResponse = (activeContract && activeContract.id)
-            ? await updateContratoClienteAction(activeContract.id, contractPayload)
+          const contractResponse = activeContract
+            ? activeContractId
+              ? await updateContratoClienteAction(activeContractId, contractPayload)
+              : { success: false, error: "No se pudo identificar el contrato actual." }
             : await createContratoClienteAction(id, contractPayload);
 
           if (!contractResponse.success) {
@@ -399,7 +433,12 @@ function EditarClienteContent() {
             return;
           }
         } else if (activeContract) {
-          const cancelResponse = await updateContratoClienteAction(activeContract.id, {
+          if (!activeContractId) {
+            toast.error("No se pudo identificar el contrato a cancelar.");
+            return;
+          }
+
+          const cancelResponse = await updateContratoClienteAction(activeContractId, {
             estado: "CANCELADO",
           });
 

@@ -93,6 +93,53 @@ export interface ContratoClientePayload {
   observaciones?: string | null;
 }
 
+type ContratoClienteApiResponse = Partial<ContratoCliente> & {
+  contratoId?: string;
+  contrato_id?: string;
+  tenant_id?: string;
+  cliente_id?: string;
+  empresa_id?: string;
+  fecha_inicio?: string;
+  fecha_fin?: string | null;
+  servicios_comprometidos?: number | null;
+  frecuencia_servicio?: number | null;
+  tipo_facturacion?: ContratoCliente["tipoFacturacion"];
+  created_at?: string;
+  updated_at?: string;
+};
+
+function normalizeContratoCliente(
+  contrato: ContratoClienteApiResponse | null,
+): ContratoCliente | null {
+  if (!contrato) {
+    return null;
+  }
+
+  const contractId = contrato.id ?? contrato.contratoId ?? contrato.contrato_id;
+  if (!contractId) {
+    return null;
+  }
+
+  return {
+    id: contractId,
+    tenantId: contrato.tenantId ?? contrato.tenant_id ?? "",
+    clienteId: contrato.clienteId ?? contrato.cliente_id ?? "",
+    empresaId: contrato.empresaId ?? contrato.empresa_id ?? "",
+    estado: contrato.estado ?? "ACTIVO",
+    fechaInicio: contrato.fechaInicio ?? contrato.fecha_inicio ?? "",
+    fechaFin: contrato.fechaFin ?? contrato.fecha_fin ?? null,
+    serviciosComprometidos:
+      contrato.serviciosComprometidos ?? contrato.servicios_comprometidos ?? null,
+    frecuenciaServicio:
+      contrato.frecuenciaServicio ?? contrato.frecuencia_servicio ?? null,
+    tipoFacturacion:
+      contrato.tipoFacturacion ?? contrato.tipo_facturacion ?? "CONTRATO_MENSUAL",
+    observaciones: contrato.observaciones ?? null,
+    createdAt: contrato.createdAt ?? contrato.created_at,
+    updatedAt: contrato.updatedAt ?? contrato.updated_at,
+  };
+}
+
 export const clientesClient = {
   async getAll(): Promise<Cliente[]> {
     return apiFetch<Cliente[]>("/clientes/list", { cache: "no-store" });
@@ -135,23 +182,40 @@ export const clientesClient = {
       params.set("empresaId", empresaId);
     }
     const query = params.toString();
-    return apiFetch<ContratoCliente | null>(
+    const contrato = await apiFetch<ContratoClienteApiResponse | null>(
       `/clientes/${id}/contrato-activo${query ? `?${query}` : ""}`,
       { cache: "no-store" },
     );
+    return normalizeContratoCliente(contrato);
   },
 
   async createContrato(id: string, data: ContratoClientePayload) {
-    return apiFetch<ContratoCliente>(`/clientes/${id}/contratos`, {
-      method: "POST",
-      body: JSON.stringify(data),
-    });
+    const contrato = await apiFetch<ContratoClienteApiResponse>(
+      `/clientes/${id}/contratos`,
+      {
+        method: "POST",
+        body: JSON.stringify(data),
+      },
+    );
+    const normalizedContrato = normalizeContratoCliente(contrato);
+    if (!normalizedContrato) {
+      throw new Error("La API devolvio un contrato sin identificador.");
+    }
+    return normalizedContrato;
   },
 
   async updateContrato(id: string, data: Partial<ContratoClientePayload>) {
-    return apiFetch<ContratoCliente>(`/clientes/contratos/${id}`, {
-      method: "PATCH",
-      body: JSON.stringify(data),
-    });
+    const contrato = await apiFetch<ContratoClienteApiResponse>(
+      `/clientes/contratos/${id}`,
+      {
+        method: "PATCH",
+        body: JSON.stringify(data),
+      },
+    );
+    const normalizedContrato = normalizeContratoCliente(contrato);
+    if (!normalizedContrato) {
+      throw new Error("La API devolvio un contrato sin identificador.");
+    }
+    return normalizedContrato;
   }
 };
