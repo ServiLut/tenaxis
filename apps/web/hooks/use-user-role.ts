@@ -39,7 +39,9 @@ export function useUserRole() {
         }, 0);
       }
     } else {
-      setIsLoading(false);
+      setTimeout(() => {
+        setIsLoading(false);
+      }, 0);
     }
   }, []);
 

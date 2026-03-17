@@ -80,7 +80,7 @@ export async function apiFetch<T>(endpoint: string, options: RequestInit = {}): 
   } catch (error) {
     console.error(`[API Client] Fetch failed for ${url}:`, {
       message: error instanceof Error ? error.message : String(error),
-      cause: error instanceof Error ? (error as any).cause : undefined,
+      cause: error instanceof Error ? (error as { cause?: unknown }).cause : undefined,
       stack: error instanceof Error ? error.stack : undefined,
     });
     throw error;
