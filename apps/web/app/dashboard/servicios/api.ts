@@ -80,6 +80,76 @@ export interface OperatorDTO {
   };
 }
 
+export interface OrdenServicioPayload {
+  [key: string]: unknown;
+  clienteId: string;
+  empresaId: string;
+  tecnicoId?: string;
+  direccionId?: string;
+  creadoPorId?: string;
+  servicioId?: string;
+  servicioEspecifico?: string;
+  serviciosSeleccionados?: string[];
+  urgencia?: string;
+  nivelInfestacion?: string;
+  tipoVisita?: string;
+  frecuenciaSugerida?: number;
+  tipoFacturacion?: string;
+  valorCotizado?: number;
+  desglosePago?: Array<{
+    metodo: string;
+    monto: number;
+    banco?: string;
+    referencia?: string;
+  }>;
+  estadoServicio?: string;
+  fechaVisita?: string;
+  horaInicio?: string;
+  duracionMinutos?: number;
+  observacion?: string;
+  observacionFinal?: string;
+  diagnosticoTecnico?: string;
+  intervencionRealizada?: string;
+  hallazgosEstructurales?: string;
+  recomendacionesObligatorias?: string;
+  huboSellamiento?: boolean;
+  huboRecomendacionEstructural?: boolean;
+  horaInicioReal?: string;
+  horaFinReal?: string;
+}
+
+export interface OrdenServicioDetail extends Record<string, unknown> {
+  id: string;
+  numeroOrden?: string;
+  clienteId: string;
+  empresaId: string;
+  tecnicoId?: string | null;
+  direccionId?: string | null;
+  fechaVisita?: string | null;
+  horaInicio?: string | null;
+  horaInicioReal?: string | null;
+  horaFinReal?: string | null;
+  duracionRealMinutos?: number;
+  duracionMinutos?: number;
+  servicio?: { nombre?: string | null };
+  tipoVisita?: string | null;
+  nivelInfestacion?: string | null;
+  frecuenciaSugerida?: number | string | null;
+  urgencia?: string | null;
+  observacion?: string | null;
+  observacionFinal?: string | null;
+  diagnosticoTecnico?: string | null;
+  intervencionRealizada?: string | null;
+  hallazgosEstructurales?: string | null;
+  recomendacionesObligatorias?: string | null;
+  huboSellamiento?: boolean | null;
+  huboRecomendacionEstructural?: boolean | null;
+  valorCotizado?: number | null;
+  desglosePago?: unknown[];
+  tipoFacturacion?: string | null;
+  estadoServicio?: string | null;
+}
+
 type ApiOptions = RequestInit & {
   enterpriseId?: string;
 };
@@ -148,8 +218,12 @@ export async function getOrdenesServicio(empresaId?: string) {
   return apiFetch<Record<string, unknown>[]>(`/ordenes-servicio${query ? `?${query}` : ""}`);
 }
 
-export async function createOrdenServicio(body: object) {
-  return apiFetch<Record<string, unknown>>("/ordenes-servicio", {
+export async function getOrdenServicio(id: string) {
+  return apiFetch<OrdenServicioDetail>(`/ordenes-servicio/${id}`);
+}
+
+export async function createOrdenServicio(body: OrdenServicioPayload) {
+  return apiFetch<OrdenServicioDetail>("/ordenes-servicio", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -223,8 +297,8 @@ export async function getMunicipalities() {
   return apiFetch<Array<{ id: string; name: string }>>("/geo/municipalities");
 }
 
-export async function updateOrdenServicio(id: string, body: object) {
-  return apiFetch<Record<string, unknown>>(`/ordenes-servicio/${id}`, {
+export async function updateOrdenServicio(id: string, body: Partial<OrdenServicioPayload>) {
+  return apiFetch<OrdenServicioDetail>(`/ordenes-servicio/${id}`, {
     method: "PATCH",
     headers: {
       "Content-Type": "application/json",

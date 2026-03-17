@@ -46,6 +46,7 @@ import {
   NivelInfestacion,
   Prisma,
   Role,
+  Servicio,
   TipoFacturacion,
   TipoVisita,
   TipoPermiso,
@@ -143,11 +144,7 @@ export class OrdenesServicioService {
       createDto.creadoPorId = performingUser.membershipId;
     }
 
-    await this.assertCanAssignServices(
-      tenantId,
-      performingUser,
-      createDto.empresaId,
-    );
+    this.assertCanAssignServices(tenantId, performingUser, createDto.empresaId);
 
     // 2. Obtener dirección y texto
     let direccionId = createDto.direccionId;
@@ -189,6 +186,18 @@ export class OrdenesServicioService {
     if (createDto.horaInicio && !horaInicioDate) {
       throw new BadRequestException('horaInicio inválida');
     }
+    const horaInicioRealDate = createDto.horaInicioReal
+      ? parseFlexibleDateTimeToUtc(createDto.horaInicioReal)
+      : null;
+    if (createDto.horaInicioReal && !horaInicioRealDate) {
+      throw new BadRequestException('horaInicioReal inválida');
+    }
+    const horaFinRealDate = createDto.horaFinReal
+      ? parseFlexibleDateTimeToUtc(createDto.horaFinReal)
+      : null;
+    if (createDto.horaFinReal && !horaFinRealDate) {
+      throw new BadRequestException('horaFinReal inválida');
+    }
     let horaFinDate: Date | null = null;
     if (horaInicioDate && createDto.duracionMinutos) {
       horaFinDate = new Date(
@@ -209,7 +218,14 @@ export class OrdenesServicioService {
       throw new BadRequestException('Debe especificar al menos un servicio');
     }
 
-    let servicioPrincipal: any = null;
+    let servicioPrincipal: Pick<
+      Servicio,
+      | 'id'
+      | 'empresaId'
+      | 'requiereSeguimiento'
+      | 'primerSeguimientoDias'
+      | 'requiereSeguimientoTresMeses'
+    > | null = null;
 
     if (createDto.servicioId) {
       servicioPrincipal = await this.prisma.servicio.findFirst({
@@ -242,14 +258,16 @@ export class OrdenesServicioService {
         });
       }
       serviciosProcesados.push(svc.nombre); // Guardar los nombres para el JSONB
-      
+
       if (!servicioPrincipal) {
         servicioPrincipal = svc;
       }
     }
 
     if (!servicioPrincipal) {
-      throw new BadRequestException('No se pudo determinar un servicio principal');
+      throw new BadRequestException(
+        'No se pudo determinar un servicio principal',
+      );
     }
 
     // 4. Crear la orden
@@ -308,13 +326,21 @@ export class OrdenesServicioService {
         empresaId: createDto.empresaId,
         clienteId: createDto.clienteId,
         servicioId: servicioPrincipal.id,
-        serviciosSeleccionados: serviciosProcesados as any,
+        serviciosSeleccionados:
+          serviciosProcesados as unknown as Prisma.InputJsonValue,
         creadoPorId: createDto.creadoPorId,
         tecnicoId,
         direccionId,
         direccionTexto,
         estadoServicio: createDto.estadoServicio ?? 'NUEVO',
         observacion: createDto.observacion,
+        observacionFinal: createDto.observacionFinal,
+        diagnosticoTecnico: createDto.diagnosticoTecnico,
+        intervencionRealizada: createDto.intervencionRealizada,
+        hallazgosEstructurales: createDto.hallazgosEstructurales,
+        recomendacionesObligatorias: createDto.recomendacionesObligatorias,
+        huboSellamiento: createDto.huboSellamiento,
+        huboRecomendacionEstructural: createDto.huboRecomendacionEstructural,
         nivelInfestacion: createDto.nivelInfestacion,
         urgencia: createDto.urgencia,
         tipoVisita: tipoVisitaResuelta,
@@ -331,6 +357,8 @@ export class OrdenesServicioService {
         fechaVisita: fechaVisitaDate,
         horaInicio: horaInicioDate,
         horaFin: horaFinDate,
+        horaInicioReal: horaInicioRealDate,
+        horaFinReal: horaFinRealDate,
       },
       include: {
         cliente: true,
@@ -1400,11 +1428,11 @@ export class OrdenesServicioService {
       }
     }
 
-    if (pathsToSign.length === 0) return orden;
+    if (pathsToSign.length === 0) return this.addDerivedServiceFields(orden);
 
     const uniquePaths = [...new Set(pathsToSign)];
     const signedUrls = await this.supabase.getSignedUrls(uniquePaths);
-    
+
     const urlMap = new Map<string, string>();
     uniquePaths.forEach((path, idx) => {
       if (signedUrls[idx]) {
@@ -1441,7 +1469,23 @@ export class OrdenesServicioService {
       }
     }
 
-    return orden;
+    return this.addDerivedServiceFields(orden);
+  }
+
+  private addDerivedServiceFields<
+    T extends { horaInicioReal?: Date | null; horaFinReal?: Date | null },
+  >(orden: T): T & { duracionRealMinutos?: number } {
+    if (!orden.horaInicioReal || !orden.horaFinReal) {
+      return orden;
+    }
+
+    const diffMs = orden.horaFinReal.getTime() - orden.horaInicioReal.getTime();
+    const duracionRealMinutos = Math.max(0, Math.round(diffMs / 60000));
+
+    return {
+      ...orden,
+      duracionRealMinutos,
+    };
   }
 
   async update(
@@ -1489,11 +1533,15 @@ export class OrdenesServicioService {
         orden.empresaId,
       );
     const tipoVisitaResuelta =
-      updateDto.tipoVisita ?? (orden.tipoVisita as TipoVisita | null) ?? undefined;
+      updateDto.tipoVisita ?? orden.tipoVisita ?? undefined;
     const esGarantia = this.isGarantiaVisitType(tipoVisitaResuelta);
 
     if (esGarantia) {
-      await this.assertGuaranteeEligibility(tenantId, orden.clienteId, orden.id);
+      await this.assertGuaranteeEligibility(
+        tenantId,
+        orden.clienteId,
+        orden.id,
+      );
     }
 
     const tipoFacturacionResuelta = esGarantia
@@ -1508,6 +1556,14 @@ export class OrdenesServicioService {
         ? { connect: { id: updateDto.tecnicoId } }
         : undefined,
       observacion: updateDto.observacion ?? undefined,
+      diagnosticoTecnico: updateDto.diagnosticoTecnico ?? undefined,
+      intervencionRealizada: updateDto.intervencionRealizada ?? undefined,
+      hallazgosEstructurales: updateDto.hallazgosEstructurales ?? undefined,
+      recomendacionesObligatorias:
+        updateDto.recomendacionesObligatorias ?? undefined,
+      huboSellamiento: updateDto.huboSellamiento ?? undefined,
+      huboRecomendacionEstructural:
+        updateDto.huboRecomendacionEstructural ?? undefined,
       nivelInfestacion: updateDto.nivelInfestacion ?? undefined,
       urgencia: updateDto.urgencia ?? undefined,
       tipoVisita: tipoVisitaResuelta ?? undefined,
@@ -1516,7 +1572,7 @@ export class OrdenesServicioService {
       contratoCliente: contratoActivo
         ? { connect: { id: contratoActivo.id } }
         : { disconnect: true },
-      valorCotizado: esGarantia ? 0 : updateDto.valorCotizado ?? undefined,
+      valorCotizado: esGarantia ? 0 : (updateDto.valorCotizado ?? undefined),
       metodoPago: updateDto.metodoPagoId
         ? { connect: { id: updateDto.metodoPagoId } }
         : undefined,
@@ -1526,7 +1582,7 @@ export class OrdenesServicioService {
       facturaElectronica: updateDto.facturaElectronica ?? undefined,
       comprobantePago: updateDto.comprobantePago ?? undefined,
       evidenciaPath: updateDto.evidenciaPath ?? undefined,
-      valorPagado: esGarantia ? 0 : updateDto.valorPagado ?? undefined,
+      valorPagado: esGarantia ? 0 : (updateDto.valorPagado ?? undefined),
       observacionFinal: updateDto.observacionFinal ?? undefined,
       referenciaPago: updateDto.referenciaPago ?? undefined,
       liquidadoPor:
@@ -1543,14 +1599,17 @@ export class OrdenesServicioService {
         ? ([] as unknown as Prisma.InputJsonValue)
         : updateDto.desglosePago
           ? (updateDto.desglosePago as unknown as Prisma.InputJsonValue)
-        : undefined,
+          : undefined,
     };
 
     // Lógica automática basada en el desglose de pago
     if (esGarantia && updateDto.estadoServicio === EstadoOrden.LIQUIDADO) {
       data.estadoPago = EstadoPagoOrden.PAGADO;
       data.valorPagado = 0;
-    } else if (updateDto.desglosePago && Array.isArray(updateDto.desglosePago)) {
+    } else if (
+      updateDto.desglosePago &&
+      Array.isArray(updateDto.desglosePago)
+    ) {
       const valorCotizado = Number(
         updateDto.valorCotizado || orden.valorCotizado || 0,
       );
@@ -1606,6 +1665,24 @@ export class OrdenesServicioService {
           horaInicio.getTime() + updateDto.duracionMinutos * 60000,
         );
       }
+    }
+
+    if (updateDto.horaInicioReal) {
+      const horaInicioReal = parseFlexibleDateTimeToUtc(
+        updateDto.horaInicioReal,
+      );
+      if (!horaInicioReal) {
+        throw new BadRequestException('horaInicioReal inválida');
+      }
+      data.horaInicioReal = horaInicioReal;
+    }
+
+    if (updateDto.horaFinReal) {
+      const horaFinReal = parseFlexibleDateTimeToUtc(updateDto.horaFinReal);
+      if (!horaFinReal) {
+        throw new BadRequestException('horaFinReal inválida');
+      }
+      data.horaFinReal = horaFinReal;
     }
 
     if (updateDto.servicioEspecifico) {
@@ -2075,12 +2152,15 @@ export class OrdenesServicioService {
     });
   }
 
-  private async assertCanAssignServices(
-    tenantId: string,
-    user: JwtPayload | undefined,
-    empresaId: string,
+  private assertCanAssignServices(
+    _tenantId: string,
+    _user: JwtPayload | undefined,
+    _empresaId: string,
   ) {
     // Se ha removido el bloqueo por seguimientos pendientes por solicitud
+    void _tenantId;
+    void _user;
+    void _empresaId;
     return;
   }
 
@@ -2120,7 +2200,10 @@ export class OrdenesServicioService {
 
     if (contratoActivo) {
       const frecuenciaContrato = contratoActivo.frecuenciaServicio;
-      const totalServicios = Math.max(contratoActivo.serviciosComprometidos || 1, 1);
+      const totalServicios = Math.max(
+        contratoActivo.serviciosComprometidos || 1,
+        1,
+      );
 
       if (!frecuenciaContrato || totalServicios <= 1) {
         return;

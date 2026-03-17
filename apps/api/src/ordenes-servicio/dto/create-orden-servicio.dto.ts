@@ -7,6 +7,7 @@ import {
   IsEnum,
   IsUUID,
   IsArray,
+  IsBoolean,
 } from 'class-validator';
 import {
   NivelInfestacion,
@@ -54,6 +55,30 @@ export class CreateOrdenServicioDto {
   @IsString()
   @IsOptional()
   observacion?: string;
+
+  @IsString()
+  @IsOptional()
+  diagnosticoTecnico?: string;
+
+  @IsString()
+  @IsOptional()
+  intervencionRealizada?: string;
+
+  @IsString()
+  @IsOptional()
+  hallazgosEstructurales?: string;
+
+  @IsString()
+  @IsOptional()
+  recomendacionesObligatorias?: string;
+
+  @IsBoolean()
+  @IsOptional()
+  huboSellamiento?: boolean;
+
+  @IsBoolean()
+  @IsOptional()
+  huboRecomendacionEstructural?: boolean;
 
   @IsEnum(NivelInfestacion)
   @IsOptional()
@@ -110,6 +135,14 @@ export class CreateOrdenServicioDto {
   @IsDateString()
   @IsOptional()
   horaInicio?: string;
+
+  @IsDateString()
+  @IsOptional()
+  horaInicioReal?: string;
+
+  @IsDateString()
+  @IsOptional()
+  horaFinReal?: string;
 
   @IsNumber()
   @IsOptional()
