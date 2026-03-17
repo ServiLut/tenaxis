@@ -47,7 +47,6 @@ import {
   NivelInfestacion,
   Prisma,
   Role,
-  Servicio,
   TipoFacturacion,
   TipoVisita,
   TipoPermiso,
