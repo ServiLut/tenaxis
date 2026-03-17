@@ -68,7 +68,7 @@ async function main() {
       servicio: true,
       ordenesHijas: {
         where: {
-          tipoVisita: TipoVisita.SEGUIMIENTO,
+          tipoVisita: TipoVisita.CITA_VERIFICACION,
         },
         include: {
           seguimientos: true,
@@ -135,7 +135,7 @@ async function main() {
             observacion: blueprint.observacion,
             nivelInfestacion: order.nivelInfestacion || undefined,
             urgencia: order.urgencia || undefined,
-            tipoVisita: TipoVisita.SEGUIMIENTO,
+            tipoVisita: TipoVisita.CITA_VERIFICACION,
             tipoFacturacion: TipoFacturacion.UNICO,
             fechaVisita: blueprint.dueAt,
             ordenPadreId: order.id,

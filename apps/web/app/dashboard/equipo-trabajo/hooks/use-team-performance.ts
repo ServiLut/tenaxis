@@ -344,6 +344,7 @@ export function useTeamPerformance(
         municipioId?: string;
         role?: string;
         empresaIds?: string[];
+        activo?: boolean;
       },
     ) => {
       if (!tenantId) return false;

@@ -15,7 +15,7 @@ import { CreateTipoInteresDto, UpdateTipoInteresDto } from './dto/interes.dto';
 import { CreateServicioDto, UpdateServicioDto } from './dto/servicio.dto';
 import { UpsertClienteConfigDto } from './dto/cliente-config.dto';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
-import { JwtPayload } from '../auth/auth.service';
+import { JwtPayload } from '../auth/jwt-payload.interface';
 import { Request as ExpressRequest } from 'express';
 
 interface RequestWithUser extends ExpressRequest {

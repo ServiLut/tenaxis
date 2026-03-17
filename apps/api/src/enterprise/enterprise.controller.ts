@@ -7,14 +7,13 @@ import {
   Patch,
   Post,
   Request,
-  UnauthorizedException,
   UseGuards,
 } from '@nestjs/common';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { CreateEnterpriseDto } from './dto/create-enterprise.dto';
 import { UpdateEnterpriseDto } from './dto/update-enterprise.dto';
 import { EnterpriseService } from './enterprise.service';
-import { JwtPayload } from '../auth/auth.service';
+import { JwtPayload } from '../auth/jwt-payload.interface';
 
 @UseGuards(JwtAuthGuard)
 @Controller('enterprise')
@@ -26,34 +25,17 @@ export class EnterpriseController {
     @Body() createEnterpriseDto: CreateEnterpriseDto,
     @Request() req: { user: JwtPayload },
   ) {
-    if (!req.user.tenantId) {
-      throw new UnauthorizedException('Usuario no tiene un tenant asignado');
-    }
-    return this.enterpriseService.create(
-      createEnterpriseDto,
-      req.user.sub,
-      req.user.tenantId,
-    );
+    return this.enterpriseService.create(createEnterpriseDto, req.user);
   }
 
   @Get()
   findAll(@Request() req: { user: JwtPayload }) {
-    if (!req.user.tenantId && req.user.role !== 'SU_ADMIN') {
-      throw new UnauthorizedException('Usuario no tiene un tenant asignado');
-    }
-    return this.enterpriseService.findAll(
-      req.user.sub,
-      req.user.tenantId || '',
-      req.user.role,
-    );
+    return this.enterpriseService.findAll(req.user);
   }
 
   @Get(':id/operators')
   findOperators(@Param('id') id: string, @Request() req: { user: JwtPayload }) {
-    if (!req.user.tenantId) {
-      throw new UnauthorizedException('Usuario no tiene un tenant asignado');
-    }
-    return this.enterpriseService.findOperators(req.user.tenantId, id);
+    return this.enterpriseService.findOperators(req.user, id);
   }
 
   @Patch(':id')
@@ -62,22 +44,11 @@ export class EnterpriseController {
     @Body() updateEnterpriseDto: UpdateEnterpriseDto,
     @Request() req: { user: JwtPayload },
   ) {
-    if (!req.user.tenantId) {
-      throw new UnauthorizedException('Usuario no tiene un tenant asignado');
-    }
-    return this.enterpriseService.update(
-      id,
-      updateEnterpriseDto,
-      req.user.sub,
-      req.user.tenantId,
-    );
+    return this.enterpriseService.update(id, updateEnterpriseDto, req.user);
   }
 
   @Delete(':id')
   remove(@Param('id') id: string, @Request() req: { user: JwtPayload }) {
-    if (!req.user.tenantId) {
-      throw new UnauthorizedException('Usuario no tiene un tenant asignado');
-    }
-    return this.enterpriseService.remove(id, req.user.sub, req.user.tenantId);
+    return this.enterpriseService.remove(id, req.user);
   }
 }

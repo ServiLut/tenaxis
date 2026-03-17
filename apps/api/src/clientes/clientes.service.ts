@@ -14,6 +14,8 @@ import {
   Prisma,
 } from '../generated/client/client';
 import { startOfBogotaDayUtc } from '../common/utils/timezone.util';
+import { JwtPayload } from '../auth/jwt-payload.interface';
+import { getPrismaAccessFilter } from '../common/utils/access-control.util';
 
 type ClienteWithRelations = Cliente & {
   direcciones?: any[];
@@ -30,6 +32,7 @@ export class ClientesService {
   constructor(private prisma: PrismaService) {}
 
   private buildSegmentedFromClients(clients: ClienteWithRelations[]) {
+    // ... rest of private method unchanged ...
     const tickets = clients
       .map((c) => Number(c.ticketPromedio))
       .filter((t) => !isNaN(t) && t > 0)
@@ -111,27 +114,29 @@ export class ClientesService {
     };
   }
 
-  async findAll(
-    tenantId: string,
-    empresaId?: string,
-    userRole?: string,
-  ): Promise<Cliente[]> {
+  async findAll(user: JwtPayload, reqEmpresaId?: string): Promise<Cliente[]> {
+    const accessFilter = getPrismaAccessFilter(user, reqEmpresaId);
+
     const include: Prisma.ClienteInclude = {
       direcciones: {
         include: { municipioRel: true },
       },
       vehiculos: true,
       tipoInteres: true,
-      tenant: userRole === 'SU_ADMIN',
+      tenant: user.isGlobalSuAdmin,
       empresa: true,
       configuracionesOperativas: {
         where: {
-          ...(empresaId && { empresaId }),
+          ...(accessFilter.empresaId && {
+            empresaId: accessFilter.empresaId as string,
+          }),
         },
       },
       ordenesServicio: {
         where: {
-          ...(empresaId && { empresaId }),
+          ...(accessFilter.empresaId && {
+            empresaId: accessFilter.empresaId as string,
+          }),
           estadoPago: { not: 'PAGADO' },
         },
         select: {
@@ -144,27 +149,14 @@ export class ClientesService {
       },
     };
 
-    let clients: Cliente[] = [];
-
-    if (userRole === 'SU_ADMIN') {
-      clients = await this.prisma.cliente.findMany({
-        where: {
-          deletedAt: null,
-        },
-        orderBy: { createdAt: 'desc' },
-        include,
-      });
-    } else {
-      clients = await this.prisma.cliente.findMany({
-        where: {
-          tenantId,
-          deletedAt: null,
-          ...(empresaId && { empresaId }),
-        },
-        orderBy: { createdAt: 'desc' },
-        include,
-      });
-    }
+    const clients = await this.prisma.cliente.findMany({
+      where: {
+        ...accessFilter,
+        deletedAt: null,
+      },
+      orderBy: { createdAt: 'desc' },
+      include,
+    });
 
     // Apply "Riesgo Comercial" logic in response (more than 45 days since last visit or 1.5x frequency)
     const now = startOfBogotaDayUtc(new Date());
@@ -202,11 +194,12 @@ export class ClientesService {
     return result;
   }
 
-  async getSegmented(tenantId: string, empresaId?: string) {
+  async getSegmented(user: JwtPayload, reqEmpresaId?: string) {
+    const accessFilter = getPrismaAccessFilter(user, reqEmpresaId);
+
     const clients = await this.prisma.cliente.findMany({
       where: {
-        tenantId,
-        ...(empresaId && { empresaId }),
+        ...accessFilter,
         deletedAt: null,
       },
       include: {
@@ -217,12 +210,16 @@ export class ClientesService {
         tipoInteres: true,
         configuracionesOperativas: {
           where: {
-            ...(empresaId && { empresaId }),
+            ...(accessFilter.empresaId && {
+              empresaId: accessFilter.empresaId as string,
+            }),
           },
         },
         ordenesServicio: {
           where: {
-            ...(empresaId && { empresaId }),
+            ...(accessFilter.empresaId && {
+              empresaId: accessFilter.empresaId as string,
+            }),
             estadoPago: { not: 'PAGADO' },
           },
           select: {
@@ -240,12 +237,8 @@ export class ClientesService {
     return this.buildSegmentedFromClients(clients as ClienteWithRelations[]);
   }
 
-  async getDashboardData(
-    tenantId: string,
-    empresaId?: string,
-    userRole?: string,
-  ) {
-    const clientes = await this.findAll(tenantId, empresaId, userRole);
+  async getDashboardData(user: JwtPayload, reqEmpresaId?: string) {
+    const clientes = await this.findAll(user, reqEmpresaId);
     const segmentacion = this.buildSegmentedFromClients(
       clientes as ClienteWithRelations[],
     );
@@ -257,8 +250,7 @@ export class ClientesService {
   }
 
   async create(
-    tenantId: string,
-    userId: string,
+    user: JwtPayload,
     dto: CreateClienteDto,
     reqEmpresaId?: string,
   ): Promise<Cliente> {
@@ -273,18 +265,17 @@ export class ClientesService {
 
     void _empresaId;
 
-    const membership = await this.prisma.tenantMembership.findUnique({
-      where: { userId_tenantId: { userId, tenantId } },
-      include: { empresaMemberships: true },
-    });
+    const accessFilter = getPrismaAccessFilter(user, reqEmpresaId);
 
-    if (!membership) {
-      throw new UnauthorizedException(
-        'No eres miembro de este tenant. No puedes crear clientes.',
-      );
+    // Resolve the actual empresaId for creation.
+    // If multiple are allowed, we use the first one or the requested one.
+    let empresaId: string | undefined;
+    const accessEmpresaId = accessFilter.empresaId;
+    if (typeof accessEmpresaId === 'string') {
+      empresaId = accessEmpresaId;
+    } else if (accessEmpresaId && 'in' in accessEmpresaId) {
+      empresaId = accessEmpresaId.in[0];
     }
-    const empresaId =
-      reqEmpresaId || membership?.empresaMemberships[0]?.empresaId;
 
     const toDecimal = (val: unknown, decimals: number = 2) => {
       if (val === null || val === undefined || val === '') return null;
@@ -309,7 +300,7 @@ export class ClientesService {
     if (orConditions.length > 0) {
       const existingClient = await this.prisma.cliente.findFirst({
         where: {
-          tenantId,
+          tenantId: user.tenantId,
           OR: orConditions,
           deletedAt: null,
         },
@@ -324,14 +315,16 @@ export class ClientesService {
 
     const data = {
       ...restDto,
-      tenant: { connect: { id: tenantId } },
+      tenant: { connect: { id: user.tenantId } },
       ...(empresaId && { empresa: { connect: { id: empresaId } } }),
       segmento: restDto.segmento || SegmentoCliente.OTRO,
       nivelRiesgo: restDto.nivelRiesgo || NivelRiesgo.MEDIO,
       metrajeTotal: toDecimal(metrajeTotal, 2)
         ? new Prisma.Decimal(toDecimal(metrajeTotal, 2)!)
         : null,
-      creadoPor: { connect: { id: membership.id } },
+      creadoPor: user.membershipId
+        ? { connect: { id: user.membershipId } }
+        : undefined,
       ...(tipoInteresId && {
         tipoInteres: { connect: { id: tipoInteresId } },
       }),
@@ -339,7 +332,7 @@ export class ClientesService {
       direcciones: {
         create: direcciones?.map((d) => ({
           ...d,
-          tenantId,
+          tenantId: user.tenantId,
           ...(empresaId && { empresaId }),
           latitud: d.latitud ? Number(d.latitud) : null,
           longitud: d.longitud ? Number(d.longitud) : null,
@@ -350,7 +343,7 @@ export class ClientesService {
       vehiculos: {
         create: vehiculos?.map((v) => ({
           ...v,
-          tenantId,
+          tenantId: user.tenantId,
           ...(empresaId && { empresaId }),
         })),
       },
@@ -375,9 +368,11 @@ export class ClientesService {
     }
   }
 
-  async findOne(id: string, tenantId: string): Promise<Cliente | null> {
+  async findOne(id: string, user: JwtPayload): Promise<Cliente | null> {
+    const accessFilter = getPrismaAccessFilter(user);
+
     return this.prisma.cliente.findFirst({
-      where: { id, tenantId, deletedAt: null },
+      where: { id, ...accessFilter, deletedAt: null },
       include: {
         direcciones: {
           include: { municipioRel: true },
@@ -387,7 +382,7 @@ export class ClientesService {
         empresa: true,
         contratosCliente: {
           where: {
-            tenantId,
+            ...accessFilter,
             estado: EstadoContratoCliente.ACTIVO,
           },
           orderBy: { fechaInicio: 'desc' },
@@ -398,11 +393,21 @@ export class ClientesService {
 
   async update(
     id: string,
-    tenantId: string,
-    userId: string,
+    user: JwtPayload,
     dto: Partial<CreateClienteDto>,
   ): Promise<Cliente> {
-    void userId;
+    const accessFilter = getPrismaAccessFilter(user);
+
+    // Verify access first
+    const existing = await this.prisma.cliente.findFirst({
+      where: { id, ...accessFilter },
+    });
+    if (!existing) {
+      throw new UnauthorizedException(
+        'No tienes permisos para editar este cliente',
+      );
+    }
+
     const { direcciones, vehiculos, metrajeTotal, ...restDto } = dto;
 
     const toDecimal = (val: unknown, decimals: number = 2) => {
@@ -428,7 +433,7 @@ export class ClientesService {
         ? {
             create: direcciones.map((d) => ({
               ...d,
-              tenantId,
+              tenantId: user.tenantId,
               latitud: d.latitud ? Number(d.latitud) : null,
               longitud: d.longitud ? Number(d.longitud) : null,
               precisionGPS: toDecimal(d.precisionGPS, 2),
@@ -440,7 +445,7 @@ export class ClientesService {
         ? {
             create: vehiculos.map((v) => ({
               ...v,
-              tenantId,
+              tenantId: user.tenantId,
             })),
           }
         : undefined,
@@ -457,9 +462,21 @@ export class ClientesService {
     })) as Cliente;
   }
 
-  async remove(id: string, tenantId: string): Promise<Cliente> {
+  async remove(id: string, user: JwtPayload): Promise<Cliente> {
+    const accessFilter = getPrismaAccessFilter(user);
+
+    // Verify access
+    const existing = await this.prisma.cliente.findFirst({
+      where: { id, ...accessFilter },
+    });
+    if (!existing) {
+      throw new UnauthorizedException(
+        'No tienes permisos para eliminar este cliente',
+      );
+    }
+
     return this.prisma.cliente.update({
-      where: { id, tenantId },
+      where: { id },
       data: { deletedAt: new Date() },
     });
   }

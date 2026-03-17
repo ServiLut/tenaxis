@@ -124,7 +124,7 @@ const VIEW_EXPLANATIONS: Record<
 };
 
 function TeamPageContent() {
-  const { tenantId } = useUserRole();
+  const { tenantId, checkPermission, isLoading: isLoadingRole } = useUserRole();
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
@@ -132,6 +132,13 @@ function TeamPageContent() {
     () => new URLSearchParams(searchParams.toString()),
     [searchParams],
   );
+
+  // Redirigir o bloquear si no tiene permisos
+  useEffect(() => {
+    if (!isLoadingRole && !checkPermission("TEAM_VIEW")) {
+      router.replace("/dashboard");
+    }
+  }, [isLoadingRole, checkPermission, router]);
 
   const {
     activeTab,
@@ -470,7 +477,7 @@ function TeamPageContent() {
     });
   };
 
-  if (loading && !data) {
+  if ((loading && !data) || isLoadingRole) {
     return (
       <DashboardLayout>
         <div className="flex h-[70vh] items-center justify-center">
@@ -478,6 +485,11 @@ function TeamPageContent() {
         </div>
       </DashboardLayout>
     );
+  }
+
+  // Si después de cargar el rol, no tiene permiso para ver el equipo, no renderizamos el contenido
+  if (!checkPermission("TEAM_VIEW")) {
+    return null; // O un layout de fallback. El useEffect ya se encargará de redirigir.
   }
 
   return (
@@ -502,13 +514,15 @@ function TeamPageContent() {
           </div>
           
           <div className="flex items-center gap-4">
-            <button 
-              onClick={handleExport}
-              className="group flex h-14 items-center gap-3 rounded-[1.25rem] bg-card px-8 text-xs font-black uppercase tracking-[0.2em] text-muted-foreground shadow-sm border-2 border-border transition-all hover:bg-accent/5 hover:text-accent hover:border-accent/20 active:scale-95"
-            >
-              <Download className="h-4 w-4 transition-transform group-hover:-translate-y-0.5" />
-              Exportar
-            </button>
+            {checkPermission("TEAM_EXPORT") && (
+              <button 
+                onClick={handleExport}
+                className="group flex h-14 items-center gap-3 rounded-[1.25rem] bg-card px-8 text-xs font-black uppercase tracking-[0.2em] text-muted-foreground shadow-sm border-2 border-border transition-all hover:bg-accent/5 hover:text-accent hover:border-accent/20 active:scale-95"
+              >
+                <Download className="h-4 w-4 transition-transform group-hover:-translate-y-0.5" />
+                Exportar
+              </button>
+            )}
             <button 
               onClick={refresh}
               className="group flex h-14 items-center gap-3 rounded-[1.25rem] bg-accent px-8 text-xs font-black uppercase tracking-[0.2em] text-white shadow-xl shadow-accent/20 transition-all hover:scale-105 active:scale-95 disabled:opacity-50"
@@ -577,13 +591,15 @@ function TeamPageContent() {
                   }
                 />
               </div>
-              <Link
-                href="/dashboard/equipo-trabajo/nuevo"
-                className="flex h-12 items-center gap-2 rounded-2xl bg-accent px-6 text-[10px] font-black uppercase tracking-widest text-white shadow-lg shadow-accent/20 transition-all hover:scale-105 active:scale-95"
-              >
-                <Plus className="h-4 w-4" />
-                Nuevo Usuario
-              </Link>
+              {checkPermission("TEAM_CREATE") && (
+                <Link
+                  href="/dashboard/equipo-trabajo/nuevo"
+                  className="flex h-12 items-center gap-2 rounded-2xl bg-accent px-6 text-[10px] font-black uppercase tracking-widest text-white shadow-lg shadow-accent/20 transition-all hover:scale-105 active:scale-95"
+                >
+                  <Plus className="h-4 w-4" />
+                  Nuevo Usuario
+                </Link>
+              )}
             </div>
           </div>
 
@@ -972,22 +988,47 @@ function TeamPageContent() {
                           </div>
 
                           {/* Acciones */}
-                          <div className="pt-4 flex gap-2 px-6">
-                            <button 
-                              onClick={() => {
-                                setEditForm(selectedUser);
-                                setIsEditing(true);
-                              }} 
-                              className="flex-1 h-12 rounded-2xl bg-accent text-[10px] font-black uppercase tracking-[0.15em] text-white shadow-lg shadow-accent/20 transition-all hover:scale-[1.02] active:scale-95"
-                            >
-                              Editar Perfil
-                            </button>
-                            <button 
-                              onClick={() => setSelectedMemberId("")} 
-                              className="flex h-12 w-12 items-center justify-center rounded-2xl border-2 border-border text-muted-foreground transition-all hover:bg-muted hover:text-foreground active:scale-95"
-                            >
-                              <X className="h-5 w-5" />
-                            </button>
+                          <div className="pt-4 flex flex-col gap-2 px-6">
+                            <div className="flex gap-2">
+                              {checkPermission("TEAM_EDIT") && (
+                                <button 
+                                  onClick={() => {
+                                    setEditForm(selectedUser);
+                                    setIsEditing(true);
+                                  }} 
+                                  className="flex-1 h-12 rounded-2xl bg-accent text-[10px] font-black uppercase tracking-[0.15em] text-white shadow-lg shadow-accent/20 transition-all hover:scale-[1.02] active:scale-95"
+                                >
+                                  Editar Perfil
+                                </button>
+                              )}
+                              <button 
+                                onClick={() => setSelectedMemberId("")} 
+                                className="flex h-12 w-12 items-center justify-center rounded-2xl border-2 border-border text-muted-foreground transition-all hover:bg-muted hover:text-foreground active:scale-95"
+                              >
+                                <X className="h-5 w-5" />
+                              </button>
+                            </div>
+
+                            {checkPermission("TEAM_DELETE") && (
+                              <button
+                                onClick={async () => {
+                                  if (confirm(`¿Estás seguro de que deseas eliminar a ${selectedUser.name} del equipo?`)) {
+                                    const ok = await updateMemberProfile(selectedUser.id, {
+                                      nombre: selectedUser.name,
+                                      email: selectedUser.email,
+                                      activo: false,
+                                    });
+                                    if (ok) {
+                                      toast.success("Usuario inactivado correctamente");
+                                      setSelectedMemberId(null);
+                                    }
+                                  }
+                                }}
+                                className="h-12 w-full rounded-2xl border-2 border-red-500/20 text-red-500 text-[10px] font-black uppercase tracking-[0.15em] hover:bg-red-500 hover:text-white transition-all active:scale-95"
+                              >
+                                Suspender Integrante
+                              </button>
+                            )}
                           </div>
                         </div>
                       ) : (
@@ -1102,14 +1143,16 @@ function TeamPageContent() {
                     {selectedViewMeta.label}
                   </p>
                 </div>
-                <button
-                  onClick={handleExportSelectedDetail}
-                  className="flex items-center gap-2 rounded-xl bg-emerald-500/10 px-4 py-2 text-xs font-black uppercase tracking-widest text-emerald-600"
-                  disabled={!selectedDetail}
-                >
-                  <Download className="h-4 w-4" />
-                  Exportar
-                </button>
+                {checkPermission("TEAM_EXPORT") && (
+                  <button
+                    onClick={handleExportSelectedDetail}
+                    className="flex items-center gap-2 rounded-xl bg-emerald-500/10 px-4 py-2 text-xs font-black uppercase tracking-widest text-emerald-600"
+                    disabled={!selectedDetail}
+                  >
+                    <Download className="h-4 w-4" />
+                    Exportar
+                  </button>
+                )}
               </div>
 
               <div className="space-y-6 p-8">

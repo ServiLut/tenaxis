@@ -12,7 +12,7 @@ import {
 import { ClientesService } from './clientes.service';
 import { CreateClienteDto } from './dto/create-cliente.dto';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
-import { JwtPayload } from '../auth/auth.service';
+import { JwtPayload } from '../auth/jwt-payload.interface';
 import { Request as ExpressRequest } from 'express';
 
 interface RequestWithUser extends ExpressRequest {
@@ -26,31 +26,25 @@ export class ClientesController {
 
   @Get('list')
   async findAll(@Request() req: RequestWithUser) {
-    const tenantId = req.user.tenantId || '';
     const empresaId = req.user.empresaId;
-    const role = req.user.role;
-    return this.clientesService.findAll(tenantId, empresaId, role);
+    return this.clientesService.findAll(req.user, empresaId);
   }
 
   @Get('segmentacion')
   async getSegmented(@Request() req: RequestWithUser) {
-    const tenantId = req.user.tenantId || '';
     const empresaId = req.user.empresaId;
-    return this.clientesService.getSegmented(tenantId, empresaId);
+    return this.clientesService.getSegmented(req.user, empresaId);
   }
 
   @Get('dashboard-data')
   async getDashboardData(@Request() req: RequestWithUser) {
-    const tenantId = req.user.tenantId || '';
     const empresaId = req.user.empresaId;
-    const role = req.user.role;
-    return this.clientesService.getDashboardData(tenantId, empresaId, role);
+    return this.clientesService.getDashboardData(req.user, empresaId);
   }
 
   @Get(':id')
   async findOne(@Request() req: RequestWithUser, @Param('id') id: string) {
-    const tenantId = req.user.tenantId || '';
-    return this.clientesService.findOne(id, tenantId);
+    return this.clientesService.findOne(id, req.user);
   }
 
   @Post('create')
@@ -58,11 +52,9 @@ export class ClientesController {
     @Request() req: RequestWithUser,
     @Body() dto: CreateClienteDto & { empresaId?: string },
   ) {
-    const tenantId = req.user.tenantId || '';
-    const userId = req.user.sub;
     // allow the frontend to specify the target empresaId, fallback to the request context
     const empresaId = dto.empresaId || req.user.empresaId;
-    return this.clientesService.create(tenantId, userId, dto, empresaId);
+    return this.clientesService.create(req.user, dto, empresaId);
   }
 
   @Patch(':id')
@@ -71,14 +63,11 @@ export class ClientesController {
     @Param('id') id: string,
     @Body() dto: Partial<CreateClienteDto>,
   ) {
-    const tenantId = req.user.tenantId || '';
-    const userId = req.user.sub;
-    return this.clientesService.update(id, tenantId, userId, dto);
+    return this.clientesService.update(id, req.user, dto);
   }
 
   @Delete(':id')
   async remove(@Request() req: RequestWithUser, @Param('id') id: string) {
-    const tenantId = req.user.tenantId || '';
-    return this.clientesService.remove(id, tenantId);
+    return this.clientesService.remove(id, req.user);
   }
 }

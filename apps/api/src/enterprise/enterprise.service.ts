@@ -9,43 +9,44 @@ import { PrismaService } from '../prisma/prisma.service';
 import { CreateEnterpriseDto } from './dto/create-enterprise.dto';
 import { UpdateEnterpriseDto } from './dto/update-enterprise.dto';
 import { Role } from '../generated/client/client';
+import { JwtPayload } from '../auth/jwt-payload.interface';
+import { getPrismaAccessFilter } from '../common/utils/access-control.util';
 
 @Injectable()
 export class EnterpriseService {
   constructor(private readonly prisma: PrismaService) {}
 
-  async create(
-    createEnterpriseDto: CreateEnterpriseDto,
-    userId: string,
-    tenantId: string,
-  ) {
-    if (!tenantId) {
-      throw new BadRequestException('x-tenant-id header is required.');
+  async create(createEnterpriseDto: CreateEnterpriseDto, user: JwtPayload) {
+    const { sub: userId, tenantId, role, isGlobalSuAdmin } = user;
+
+    if (!tenantId && !isGlobalSuAdmin) {
+      throw new BadRequestException('Tenant ID is required.');
     }
 
-    const membership = await this.prisma.tenantMembership.findUnique({
-      where: {
-        userId_tenantId: {
-          userId: userId,
-          tenantId: tenantId,
-        },
-      },
-    });
-
-    if (!membership || membership.status !== 'ACTIVE') {
-      throw new ForbiddenException(
-        'User is not an active member of this tenant.',
-      );
+    const effectiveTenantId = tenantId || createEnterpriseDto.tenantId;
+    if (!effectiveTenantId) {
+      throw new BadRequestException('Target Tenant ID is required.');
     }
 
-    const { id: membershipId, role } = membership;
+    // Check permissions
+    if (!isGlobalSuAdmin) {
+      const membership = await this.prisma.tenantMembership.findUnique({
+        where: { userId_tenantId: { userId, tenantId: effectiveTenantId } },
+      });
 
-    if (role !== 'SU_ADMIN' && role !== 'ADMIN') {
-      throw new ForbiddenException('Only admins can create new enterprises.');
+      if (!membership || membership.status !== 'ACTIVE') {
+        throw new ForbiddenException(
+          'User is not an active member of this tenant.',
+        );
+      }
+
+      if (role !== Role.SU_ADMIN && role !== Role.ADMIN) {
+        throw new ForbiddenException('Only admins can create new enterprises.');
+      }
     }
 
     const tenant = await this.prisma.tenant.findUnique({
-      where: { id: tenantId },
+      where: { id: effectiveTenantId },
       include: {
         subscription: {
           include: {
@@ -56,7 +57,6 @@ export class EnterpriseService {
     });
 
     if (!tenant) {
-      // This check is somewhat redundant if a membership exists, but good for safety.
       throw new ForbiddenException('Tenant not found.');
     }
 
@@ -75,7 +75,7 @@ export class EnterpriseService {
     const maxEmpresas = tenant.subscription.plan.maxEmpresas;
     const currentEmpresas = await this.prisma.empresa.count({
       where: {
-        tenantId,
+        tenantId: effectiveTenantId,
         deletedAt: null,
       },
     });
@@ -92,22 +92,25 @@ export class EnterpriseService {
           nombre: createEnterpriseDto.nombre,
           activo: createEnterpriseDto.activo ?? true,
           tenant: {
-            connect: { id: tenantId },
+            connect: { id: effectiveTenantId },
           },
         },
       });
 
-      await tx.empresaMembership.create({
-        data: {
-          tenant: { connect: { id: tenantId } },
-          empresa: { connect: { id: empresa.id } },
-          membership: { connect: { id: membershipId } },
-          role: 'SU_ADMIN',
-          activo: true,
-        },
-      });
+      // Si no es Global SU_ADMIN, vincular automáticamente al creador
+      if (user.membershipId) {
+        await tx.empresaMembership.create({
+          data: {
+            tenant: { connect: { id: effectiveTenantId } },
+            empresa: { connect: { id: empresa.id } },
+            membership: { connect: { id: user.membershipId } },
+            role: Role.ADMIN,
+            activo: true,
+          },
+        });
+      }
 
-      // Seed estados de servicio base
+      // Seed base data...
       const defaultStatuses = [
         'PROGRAMADO',
         'EN PROCESO',
@@ -117,18 +120,17 @@ export class EnterpriseService {
       await tx.estadoServicio.createMany({
         data: defaultStatuses.map((nombre) => ({
           nombre,
-          tenantId,
+          tenantId: effectiveTenantId,
           empresaId: empresa.id,
           activo: true,
         })),
       });
 
-      // Seed métodos de pago base
       const defaultPayments = ['EFECTIVO', 'TRANSFERENCIA', 'QR', 'TARJETA'];
       await tx.metodoPago.createMany({
         data: defaultPayments.map((nombre) => ({
           nombre,
-          tenantId,
+          tenantId: effectiveTenantId,
           empresaId: empresa.id,
           activo: true,
         })),
@@ -138,50 +140,27 @@ export class EnterpriseService {
     });
   }
 
-  async findAll(userId: string, tenantId: string, role?: string) {
-    let enterprises: Awaited<ReturnType<typeof this.prisma.empresa.findMany>> =
-      [];
+  async findAll(user: JwtPayload) {
+    const accessFilter = getPrismaAccessFilter(user);
+
     let maxEmpresas = 0;
-
-    if (role === 'SU_ADMIN') {
-      enterprises = await this.prisma.empresa.findMany({
-        where: { deletedAt: null },
-        include: { tenant: true },
-      });
-    } else {
-      if (!tenantId) {
-        throw new BadRequestException('Tenant ID is required for this role.');
-      }
-
-      const membership = await this.prisma.tenantMembership.findUnique({
-        where: { userId_tenantId: { userId, tenantId } },
-      });
-
-      if (!membership || membership.status !== 'ACTIVE') {
-        throw new ForbiddenException(
-          'User is not an active member of this tenant.',
-        );
-      }
-
+    if (user.tenantId) {
       const tenant = await this.prisma.tenant.findUnique({
-        where: { id: tenantId },
+        where: { id: user.tenantId },
         include: { subscription: { include: { plan: true } } },
       });
       maxEmpresas = tenant?.subscription?.plan?.maxEmpresas || 0;
-
-      if (role === Role.ADMIN || role === Role.COORDINADOR) {
-        enterprises = await this.prisma.empresa.findMany({
-          where: { tenantId, deletedAt: null },
-        });
-      } else {
-        // COORDINADOR, ASESOR, etc.
-        const memberships = await this.prisma.empresaMembership.findMany({
-          where: { membershipId: membership.id, deletedAt: null },
-          include: { empresa: true },
-        });
-        enterprises = memberships.map((m) => m.empresa);
-      }
     }
+
+    const enterprises = await this.prisma.empresa.findMany({
+      where: {
+        ...accessFilter,
+        deletedAt: null,
+      },
+      include: {
+        tenant: user.isGlobalSuAdmin,
+      },
+    });
 
     return {
       items: enterprises,
@@ -190,15 +169,17 @@ export class EnterpriseService {
     };
   }
 
-  async findOperators(tenantId: string, empresaId: string) {
+  async findOperators(user: JwtPayload, empresaId: string) {
+    const accessFilter = getPrismaAccessFilter(user, empresaId);
+
     const operators = await this.prisma.empresaMembership.findMany({
       where: {
-        tenantId,
+        ...accessFilter,
         empresaId,
         activo: true,
         deletedAt: null,
         membership: {
-          role: 'OPERADOR',
+          role: Role.OPERADOR,
           activo: true,
         },
       },
@@ -220,7 +201,7 @@ export class EnterpriseService {
     });
 
     return operators.map((om) => ({
-      id: om.membership.id, // El ID de la membresía es el que se usa como tecnicoId
+      id: om.membership.id,
       nombre: `${om.membership.user.nombre} ${om.membership.user.apellido}`,
       email: om.membership.user.email,
       telefono: om.membership.user.telefono,
@@ -230,98 +211,64 @@ export class EnterpriseService {
   async update(
     enterpriseId: string,
     updateEnterpriseDto: UpdateEnterpriseDto,
-    userId: string,
-    tenantId: string,
+    user: JwtPayload,
   ) {
-    if (!tenantId) {
-      throw new BadRequestException('x-tenant-id header is required.');
-    }
+    const accessFilter = getPrismaAccessFilter(user, enterpriseId);
 
-    const membership = await this.prisma.tenantMembership.findUnique({
-      where: {
-        userId_tenantId: {
-          userId: userId,
-          tenantId: tenantId,
-        },
-      },
-    });
-
-    if (!membership || membership.status !== 'ACTIVE') {
-      throw new ForbiddenException(
-        'User is not an active member of this tenant.',
-      );
-    }
-
-    if (membership.role !== 'SU_ADMIN') {
-      throw new ForbiddenException('Only admins can update enterprises.');
+    // Solo ADMIN o SU_ADMIN del tenant o Global SU_ADMIN pueden editar
+    if (
+      !user.isGlobalSuAdmin &&
+      user.role !== Role.SU_ADMIN &&
+      user.role !== Role.ADMIN
+    ) {
+      throw new ForbiddenException('No tienes permisos para editar empresas.');
     }
 
     const enterprise = await this.prisma.empresa.findFirst({
       where: {
         id: enterpriseId,
-        tenantId: tenantId,
+        ...accessFilter,
         deletedAt: null,
       },
     });
 
     if (!enterprise) {
-      throw new NotFoundException(
-        'Enterprise not found or does not belong to this tenant.',
-      );
+      throw new NotFoundException('Empresa no encontrada o sin acceso.');
     }
 
     return this.prisma.empresa.update({
-      where: {
-        id: enterpriseId,
-      },
-      data: {
-        ...updateEnterpriseDto,
-      },
+      where: { id: enterpriseId },
+      data: { ...updateEnterpriseDto },
     });
   }
 
-  async remove(enterpriseId: string, userId: string, tenantId: string) {
-    if (!tenantId) {
-      throw new BadRequestException('x-tenant-id header is required.');
-    }
+  async remove(enterpriseId: string, user: JwtPayload) {
+    const accessFilter = getPrismaAccessFilter(user, enterpriseId);
 
-    const membership = await this.prisma.tenantMembership.findUnique({
-      where: {
-        userId_tenantId: {
-          userId: userId,
-          tenantId: tenantId,
-        },
-      },
-    });
-
-    if (!membership || membership.status !== 'ACTIVE') {
+    if (
+      !user.isGlobalSuAdmin &&
+      user.role !== Role.SU_ADMIN &&
+      user.role !== Role.ADMIN
+    ) {
       throw new ForbiddenException(
-        'User is not an active member of this tenant.',
+        'No tienes permisos para eliminar empresas.',
       );
-    }
-
-    if (membership.role !== 'SU_ADMIN') {
-      throw new ForbiddenException('Only admins can delete enterprises.');
     }
 
     const enterprise = await this.prisma.empresa.findFirst({
       where: {
         id: enterpriseId,
-        tenantId: tenantId,
+        ...accessFilter,
         deletedAt: null,
       },
     });
 
     if (!enterprise) {
-      throw new NotFoundException(
-        'Enterprise not found or does not belong to this tenant.',
-      );
+      throw new NotFoundException('Empresa no encontrada o sin acceso.');
     }
 
     return this.prisma.empresa.update({
-      where: {
-        id: enterpriseId,
-      },
+      where: { id: enterpriseId },
       data: {
         deletedAt: new Date(),
         activo: false,

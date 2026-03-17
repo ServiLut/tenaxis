@@ -7,7 +7,7 @@ import {
 import { Observable, throwError, from } from 'rxjs';
 import { catchError, mergeMap } from 'rxjs/operators';
 import { PrismaService } from '../../prisma/prisma.service';
-import { JwtPayload } from '../../auth/auth.service';
+import { JwtPayload } from '../../auth/jwt-payload.interface';
 import { Request } from 'express';
 import { Prisma } from '../../generated/client/client';
 

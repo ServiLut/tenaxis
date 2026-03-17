@@ -8,7 +8,7 @@ import { PrismaService } from '../../prisma/prisma.service';
 import { Role } from '../../generated/client/client';
 import { MonitoringScope } from '../types';
 import { Request } from 'express';
-import { JwtPayload } from '../../auth/auth.service';
+import { JwtPayload } from '../../auth/jwt-payload.interface';
 
 interface RequestWithMonitoring extends Request {
   user: JwtPayload;

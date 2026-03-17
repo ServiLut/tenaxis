@@ -1,3 +1,4 @@
+import { InviteMemberDto } from './dto/invite-member.dto';
 import {
   BadRequestException,
   Injectable,
@@ -9,7 +10,8 @@ import { PrismaService } from '../prisma/prisma.service';
 import { CreateTenantDto } from './dto/create-tenant.dto';
 import { JoinTenantDto } from './dto/join-tenant.dto';
 import { UpdateMembershipDto } from './dto/update-membership.dto';
-import { JwtPayload } from '../auth/auth.service';
+import { JwtPayload } from '../auth/jwt-payload.interface';
+import { getPrismaAccessFilter } from '../common/utils/access-control.util';
 import {
   EstadoOrden,
   Prisma,
@@ -350,9 +352,13 @@ export class TenantsService {
             email: data.email || undefined,
             telefono: data.telefono !== undefined ? data.telefono : undefined,
             tipoDocumento:
-              data.tipoDocumento !== undefined ? data.tipoDocumento || null : undefined,
+              data.tipoDocumento !== undefined
+                ? data.tipoDocumento || null
+                : undefined,
             numeroDocumento:
-              data.numeroDocumento !== undefined ? data.numeroDocumento || null : undefined,
+              data.numeroDocumento !== undefined
+                ? data.numeroDocumento || null
+                : undefined,
           },
         });
       }
@@ -387,20 +393,22 @@ export class TenantsService {
         let empresaId = data.cuentaPagoEmpresaId;
 
         if (!empresaId) {
-          const primaryEmpresaMembership = await tx.empresaMembership.findFirst({
-            where: {
-              membershipId,
-              tenantId: current.tenantId,
-              activo: true,
-              deletedAt: null,
+          const primaryEmpresaMembership = await tx.empresaMembership.findFirst(
+            {
+              where: {
+                membershipId,
+                tenantId: current.tenantId,
+                activo: true,
+                deletedAt: null,
+              },
+              orderBy: {
+                createdAt: 'asc',
+              },
+              select: {
+                empresaId: true,
+              },
             },
-            orderBy: {
-              createdAt: 'asc',
-            },
-            select: {
-              empresaId: true,
-            },
-          });
+          );
 
           empresaId = primaryEmpresaMembership?.empresaId;
         }
@@ -609,7 +617,7 @@ export class TenantsService {
     const pageSize = query.pageSize || 50;
     const scope = query.scope || TeamScope.OPERATIVO;
 
-    const access = await this.resolveAccessScope(tenantId, user);
+    const access = this.resolveAccessScope(tenantId, user);
     const empresaIds = this.resolveFilterIds(
       query.empresaId,
       access.allowedEmpresaIds,
@@ -822,9 +830,12 @@ export class TenantsService {
       const paid = this.toNumber(order.valorPagado);
       const quoted = this.toNumber(order.valorCotizado);
 
-      if (order.estadoServicio === EstadoOrden.CANCELADO) current.cancellations += 1;
-      if (order.estadoServicio === EstadoOrden.REPROGRAMADO) current.reschedulings += 1;
-      if (order.tipoVisita && REWORK_VISIT_TYPES.has(order.tipoVisita)) current.reworkCount += 1;
+      if (order.estadoServicio === EstadoOrden.CANCELADO)
+        current.cancellations += 1;
+      if (order.estadoServicio === EstadoOrden.REPROGRAMADO)
+        current.reschedulings += 1;
+      if (order.tipoVisita && REWORK_VISIT_TYPES.has(order.tipoVisita))
+        current.reworkCount += 1;
 
       if (isLiquidated) {
         current.serviciosLiquidados += 1;
@@ -836,11 +847,14 @@ export class TenantsService {
         }
 
         if (order.liquidadoAt && order.fechaVisita) {
-          current.liquidationTimeMs += Math.max(0, order.liquidadoAt.getTime() - order.fechaVisita.getTime());
+          current.liquidationTimeMs += Math.max(
+            0,
+            order.liquidadoAt.getTime() - order.fechaVisita.getTime(),
+          );
         }
 
         if (order.estadoPago === 'PENDIENTE' && quoted > paid) {
-          current.overdueDebt += (quoted - paid);
+          current.overdueDebt += quoted - paid;
         }
       } else if (order.estadoServicio !== EstadoOrden.CANCELADO) {
         current.pendientes += 1;
@@ -857,13 +871,25 @@ export class TenantsService {
           ? Math.round((stats.serviciosLiquidados / stats.totalServicios) * 100)
           : 0;
 
-      const avgTicket = stats.serviciosLiquidados > 0 ? Math.round(stats.totalRecaudo / stats.serviciosLiquidados) : 0;
-      const conversionRate = membership._count.clientesCreados > 0 
-        ? Math.round((stats.totalServicios / membership._count.clientesCreados) * 100) 
-        : 0;
-      const avgLiquidationDays = stats.serviciosLiquidados > 0 
-        ? Math.round(stats.liquidationTimeMs / stats.serviciosLiquidados / (1000 * 60 * 60 * 24) * 10) / 10 
-        : 0;
+      const avgTicket =
+        stats.serviciosLiquidados > 0
+          ? Math.round(stats.totalRecaudo / stats.serviciosLiquidados)
+          : 0;
+      const conversionRate =
+        membership._count.clientesCreados > 0
+          ? Math.round(
+              (stats.totalServicios / membership._count.clientesCreados) * 100,
+            )
+          : 0;
+      const avgLiquidationDays =
+        stats.serviciosLiquidados > 0
+          ? Math.round(
+              (stats.liquidationTimeMs /
+                stats.serviciosLiquidados /
+                (1000 * 60 * 60 * 24)) *
+                10,
+            ) / 10
+          : 0;
 
       return {
         id: membership.id,
@@ -903,7 +929,10 @@ export class TenantsService {
         cancellations: stats.cancellations,
         reschedulings: stats.reschedulings,
         agedPending: stats.agedPending,
-        reworkRate: stats.totalServicios > 0 ? Math.round((stats.reworkCount / stats.totalServicios) * 100) : 0,
+        reworkRate:
+          stats.totalServicios > 0
+            ? Math.round((stats.reworkCount / stats.totalServicios) * 100)
+            : 0,
       };
     });
 
@@ -984,7 +1013,7 @@ export class TenantsService {
     const page = query.page || 1;
     const pageSize = query.pageSize || 15;
 
-    const access = await this.resolveAccessScope(tenantId, user);
+    const access = this.resolveAccessScope(tenantId, user);
     const empresaIds = this.resolveFilterIds(
       query.empresaId,
       access.allowedEmpresaIds,
@@ -1129,7 +1158,8 @@ export class TenantsService {
 
       if (order.estadoServicio === EstadoOrden.CANCELADO) cancellations += 1;
       if (order.estadoServicio === EstadoOrden.REPROGRAMADO) reschedulings += 1;
-      if (order.tipoVisita && REWORK_VISIT_TYPES.has(order.tipoVisita)) reworkCount += 1;
+      if (order.tipoVisita && REWORK_VISIT_TYPES.has(order.tipoVisita))
+        reworkCount += 1;
 
       if (order.estadoServicio === EstadoOrden.LIQUIDADO) {
         serviciosLiquidados += 1;
@@ -1141,11 +1171,14 @@ export class TenantsService {
         }
 
         if (order.liquidadoAt && order.fechaVisita) {
-          liquidationTimeMs += Math.max(0, order.liquidadoAt.getTime() - order.fechaVisita.getTime());
+          liquidationTimeMs += Math.max(
+            0,
+            order.liquidadoAt.getTime() - order.fechaVisita.getTime(),
+          );
         }
 
         if (order.estadoPago === 'PENDIENTE' && quoted > paid) {
-          overdueDebt += (quoted - paid);
+          overdueDebt += quoted - paid;
         }
       } else if (order.estadoServicio !== EstadoOrden.CANCELADO) {
         if (order.fechaVisita && order.fechaVisita < now) {
@@ -1154,11 +1187,21 @@ export class TenantsService {
       }
     }
 
-    const conversionRate = clientesCreados > 0 ? Math.round((totalServicios / clientesCreados) * 100) : 0;
-    const avgTicket = serviciosLiquidados > 0 ? Math.round(totalRecaudo / serviciosLiquidados) : 0;
-    const avgLiquidationDays = serviciosLiquidados > 0 
-      ? Math.round(liquidationTimeMs / serviciosLiquidados / (1000 * 60 * 60 * 24) * 10) / 10 
-      : 0;
+    const conversionRate =
+      clientesCreados > 0
+        ? Math.round((totalServicios / clientesCreados) * 100)
+        : 0;
+    const avgTicket =
+      serviciosLiquidados > 0
+        ? Math.round(totalRecaudo / serviciosLiquidados)
+        : 0;
+    const avgLiquidationDays =
+      serviciosLiquidados > 0
+        ? Math.round(
+            (liquidationTimeMs / serviciosLiquidados / (1000 * 60 * 60 * 24)) *
+              10,
+          ) / 10
+        : 0;
 
     return {
       member: {
@@ -1187,7 +1230,10 @@ export class TenantsService {
         cancellations,
         reschedulings,
         agedPending,
-        reworkRate: totalServicios > 0 ? Math.round((reworkCount / totalServicios) * 100) : 0,
+        reworkRate:
+          totalServicios > 0
+            ? Math.round((reworkCount / totalServicios) * 100)
+            : 0,
       },
       orders: orders.map((order) => ({
         id: order.id,
@@ -1246,61 +1292,26 @@ export class TenantsService {
     return { from: prevFrom, to: prevTo };
   }
 
-  private async resolveAccessScope(tenantId: string, user: JwtPayload) {
-    if (user.role === Role.SU_ADMIN || user.role === Role.ADMIN) {
-      return {
-        onlyOwnMembershipId: null,
-        allowedEmpresaIds: null as string[] | null,
-        allowedZonaIds: null as string[] | null,
-      };
+  private resolveAccessScope(tenantId: string, user: JwtPayload) {
+    const accessFilter = getPrismaAccessFilter(user);
+
+    // Si el usuario no tiene acceso a este tenant específico (y no es Global SU_ADMIN)
+    if (!user.isGlobalSuAdmin && user.tenantId !== tenantId) {
+      throw new UnauthorizedException('No tienes acceso a este conglomerado');
     }
 
-    if (!user.membershipId) {
-      throw new UnauthorizedException(
-        'No se pudo resolver la membresía del usuario',
-      );
+    let allowedEmpresaIds: string[] | null = null;
+    if (typeof accessFilter.empresaId === 'string') {
+      allowedEmpresaIds = [accessFilter.empresaId];
+    } else if (accessFilter.empresaId && 'in' in accessFilter.empresaId) {
+      allowedEmpresaIds = accessFilter.empresaId.in;
     }
-
-    const selfMembership = await this.prisma.tenantMembership.findFirst({
-      where: {
-        id: user.membershipId,
-        tenantId,
-        aprobado: true,
-        activo: true,
-      },
-      include: {
-        empresaMemberships: {
-          where: { activo: true, deletedAt: null },
-          select: {
-            empresaId: true,
-            zonaId: true,
-          },
-        },
-      },
-    });
-
-    if (!selfMembership) {
-      throw new UnauthorizedException(
-        'Membresía no válida para este conglomerado',
-      );
-    }
-
-    const allowedEmpresaIds = [
-      ...new Set(selfMembership.empresaMemberships.map((em) => em.empresaId)),
-    ];
-    const allowedZonaIds = [
-      ...new Set(
-        selfMembership.empresaMemberships
-          .map((em) => em.zonaId)
-          .filter((id): id is string => !!id),
-      ),
-    ];
 
     return {
       onlyOwnMembershipId:
-        user.role === Role.OPERADOR ? selfMembership.id : null,
+        user.role === Role.OPERADOR ? user.membershipId : null,
       allowedEmpresaIds,
-      allowedZonaIds,
+      allowedZonaIds: null as string[] | null, // Se puede expandir luego si se requiere filtrar por zona en el JWT
     };
   }
 
@@ -1323,6 +1334,62 @@ export class TenantsService {
     }
 
     return allowedIds.length > 0 ? allowedIds : [NIL_UUID];
+  }
+
+  async inviteMember(tenantId: string, dto: InviteMemberDto) {
+    const { email, role, nombre, apellido, telefono } = dto;
+
+    // 1. Buscar o crear el usuario
+    let user = await this.prisma.user.findUnique({ where: { email } });
+
+    if (!user) {
+      const defaultPassword = await bcrypt.hash('Tenaxis2026*', 10);
+      user = await this.prisma.user.create({
+        data: {
+          email,
+          password: defaultPassword,
+          nombre,
+          apellido: apellido || '',
+          telefono: telefono || null,
+        },
+      });
+    }
+
+    // 2. Verificar si ya tiene membresía en este tenant
+    const existingMembership = await this.prisma.tenantMembership.findUnique({
+      where: {
+        userId_tenantId: {
+          userId: user.id,
+          tenantId,
+        },
+      },
+    });
+
+    if (existingMembership) {
+      throw new ConflictException(
+        'El usuario ya pertenece a este conglomerado',
+      );
+    }
+
+    // 3. Crear la membresía
+    return this.prisma.tenantMembership.create({
+      data: {
+        userId: user.id,
+        tenantId,
+        role,
+        activo: true,
+        aprobado: true, // Auto-aprobado por el ADMIN
+      },
+      include: {
+        user: {
+          select: {
+            nombre: true,
+            apellido: true,
+            email: true,
+          },
+        },
+      },
+    });
   }
 
   private buildKpis(

@@ -13,16 +13,7 @@ import * as bcrypt from 'bcrypt';
 import { Role } from '../generated/client/client';
 import { JwtService } from '@nestjs/jwt';
 import { MonitoringService } from '../monitoring/monitoring.service';
-
-export interface JwtPayload {
-  sub: string;
-  email: string;
-  role: Role;
-  tenantId?: string;
-  empresaId?: string;
-  membershipId?: string;
-  sesionId?: string;
-}
+import { JwtPayload } from './jwt-payload.interface';
 
 @Injectable()
 export class AuthService {
@@ -33,6 +24,15 @@ export class AuthService {
     private monitoringService: MonitoringService,
   ) {}
 
+  private isGlobalSuAdmin(userId: string): boolean {
+    const allowedUuids = (process.env.ALLOWED_TENANT_ADMINS || '')
+      .split(',')
+      .map((id) => id.trim())
+      .filter((id) => id.length > 0);
+
+    return allowedUuids.includes(userId);
+  }
+
   async login(dto: LoginDto, ip?: string, dispositivo?: string) {
     const { email, password } = dto;
 
@@ -42,6 +42,10 @@ export class AuthService {
         memberships: {
           include: {
             tenant: true,
+            empresaMemberships: {
+              where: { activo: true, deletedAt: null },
+              select: { empresaId: true },
+            },
           },
         },
       },
@@ -50,6 +54,8 @@ export class AuthService {
     if (!user || !(await bcrypt.compare(password, user.password))) {
       throw new UnauthorizedException('Credenciales inválidas');
     }
+
+    const isGlobalSuAdmin = this.isGlobalSuAdmin(user.id);
 
     // Priorizar membresías activas
     const approvedMembership = user.memberships.find(
@@ -81,13 +87,22 @@ export class AuthService {
       }
     }
 
+    const role =
+      approvedMembership?.role ||
+      (isGlobalSuAdmin ? Role.SU_ADMIN : Role.OPERADOR);
+    const empresaIds =
+      approvedMembership?.empresaMemberships.map((m) => m.empresaId) || [];
+
     const payload: JwtPayload = {
       sub: user.id,
       email: user.email,
-      role: approvedMembership?.role || Role.OPERADOR,
+      role,
       tenantId: approvedMembership?.tenantId,
       membershipId: approvedMembership?.id,
+      empresaId: empresaIds.length === 1 ? empresaIds[0] : undefined,
+      empresaIds,
       sesionId,
+      isGlobalSuAdmin,
     };
 
     const accessToken = await this.jwtService.signAsync(payload);
@@ -99,10 +114,11 @@ export class AuthService {
         email: user.email,
         nombre: user.nombre,
         apellido: user.apellido,
-        role: approvedMembership?.role,
+        role,
         tenantId: approvedMembership?.tenantId,
         membershipId: approvedMembership?.id,
         sesionId,
+        isGlobalSuAdmin,
         hasPendingRequest: !!pendingMembership && !approvedMembership,
       },
     };
@@ -111,12 +127,8 @@ export class AuthService {
   async getProfile(token: string, enterpriseId?: string) {
     try {
       const payload = await this.jwtService.verifyAsync<JwtPayload>(token);
-      const allowedUuids = (process.env.ALLOWED_TENANT_ADMINS || '')
-        .split(',')
-        .map((id) => id.trim())
-        .filter((id) => id.length > 0);
+      const isGlobalSuAdmin = this.isGlobalSuAdmin(payload.sub);
 
-      const isTenantAdmin = allowedUuids.includes(payload.sub);
       const user = await this.prisma.user.findUnique({
         where: { id: payload.sub },
         include: {
@@ -151,6 +163,8 @@ export class AuthService {
       });
 
       const membership = user?.memberships?.[0];
+      const empresaIds =
+        membership?.empresaMemberships.map((m) => m.empresaId) || [];
       const cuentaPago =
         membership?.cuentasPago?.[0] ||
         (enterpriseId
@@ -175,9 +189,11 @@ export class AuthService {
             : undefined,
         empresaId:
           enterpriseId ||
-          membership?.empresaMemberships?.[0]?.empresaId ||
-          payload.empresaId,
-        isTenantAdmin,
+          payload.empresaId ||
+          (empresaIds.length === 1 ? empresaIds[0] : undefined),
+        empresaIds:
+          empresaIds.length > 0 ? empresaIds : payload.empresaIds || [],
+        isGlobalSuAdmin,
       };
     } catch {
       throw new UnauthorizedException();

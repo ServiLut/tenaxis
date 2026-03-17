@@ -8,4 +8,8 @@ export class CreateEnterpriseDto {
   @IsBoolean()
   @IsOptional()
   activo?: boolean;
+
+  @IsString()
+  @IsOptional()
+  tenantId?: string;
 }

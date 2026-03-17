@@ -59,9 +59,7 @@ export class SupabaseService {
           typeof error === 'object' && error !== null && 'message' in error
             ? String(error.message)
             : 'Unknown error';
-        this.logger.error(
-          `Error creating bulk signed URLs: ${errorMessage}`,
-        );
+        this.logger.error(`Error creating bulk signed URLs: ${errorMessage}`);
         return paths.map((p) => this.getPublicUrl(p, bucket));
       }
 

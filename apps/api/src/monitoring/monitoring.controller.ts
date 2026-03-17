@@ -21,7 +21,7 @@ import {
   HeartbeatDto,
   MonitoringPaginationDto,
 } from './dto/monitoring.dto';
-import { JwtPayload } from '../auth/auth.service';
+import { JwtPayload } from '../auth/jwt-payload.interface';
 import { Request as ExpressRequest } from 'express';
 
 interface RequestWithUser extends ExpressRequest {

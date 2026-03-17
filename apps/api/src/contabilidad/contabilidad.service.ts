@@ -18,7 +18,8 @@ export class ContabilidadService {
 
   private normalizeDateRange(fechaInicio: string, fechaFin: string) {
     const start =
-      parseBogotaDateToUtcStart(fechaInicio.slice(0, 10)) || new Date(fechaInicio);
+      parseBogotaDateToUtcStart(fechaInicio.slice(0, 10)) ||
+      new Date(fechaInicio);
     const endInclusive =
       parseBogotaDateToUtcEnd(fechaFin.slice(0, 10)) || new Date(fechaFin);
     const parsedEndStart =
@@ -55,16 +56,18 @@ export class ContabilidadService {
     );
   }
 
-  private mapNominaDecimalFields<T extends {
-    totalValorPagado: unknown;
-    totalRepuestos: unknown;
-    totalIva: unknown;
-    baseComisionable: unknown;
-    porcentajeAplicado: unknown;
-    salarioFijo: unknown;
-    totalComisiones: unknown;
-    totalPagar: unknown;
-  }>(nomina: T) {
+  private mapNominaDecimalFields<
+    T extends {
+      totalValorPagado: unknown;
+      totalRepuestos: unknown;
+      totalIva: unknown;
+      baseComisionable: unknown;
+      porcentajeAplicado: unknown;
+      salarioFijo: unknown;
+      totalComisiones: unknown;
+      totalPagar: unknown;
+    },
+  >(nomina: T) {
     return {
       ...nomina,
       totalValorPagado: Number(nomina.totalValorPagado || 0),
@@ -72,7 +75,8 @@ export class ContabilidadService {
       totalIva: Number(nomina.totalIva || 0),
       baseComisionable: Number(nomina.baseComisionable || 0),
       porcentajeAplicado:
-        nomina.porcentajeAplicado === null || nomina.porcentajeAplicado === undefined
+        nomina.porcentajeAplicado === null ||
+        nomina.porcentajeAplicado === undefined
           ? null
           : Number(nomina.porcentajeAplicado),
       salarioFijo:
@@ -653,9 +657,7 @@ export class ContabilidadService {
       : `Generada desde monitoreo para el rango ${dto.fechaInicio} - ${dto.fechaFin}`;
 
     const createdPayrolls = await this.prisma.$transaction(async (tx) => {
-      const created: Array<
-        ReturnType<typeof this.mapNominaDecimalFields>
-      > = [];
+      const created: Array<ReturnType<typeof this.mapNominaDecimalFields>> = [];
 
       for (const item of targetItems) {
         const payroll = await tx.nomina.create({

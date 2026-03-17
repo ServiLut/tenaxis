@@ -10,7 +10,7 @@ import { ContratosClienteService } from '../contratos-cliente/contratos-cliente.
 import { CreateOrdenServicioDto } from './dto/create-orden-servicio.dto';
 import { CompleteFollowUpDto } from './dto/complete-follow-up.dto';
 import { CreateFollowUpOverrideDto } from './dto/create-follow-up-override.dto';
-import { JwtPayload } from '../auth/auth.service';
+import { JwtPayload } from '../auth/jwt-payload.interface';
 import {
   QueryOrdenesServicioDto,
   ServiciosPreset,
@@ -34,6 +34,7 @@ import {
   NotifyOperatorDto,
 } from './dto/notify-webhook.dto';
 import sharp from 'sharp';
+import { getPrismaAccessFilter } from '../common/utils/access-control.util';
 import {
   OrdenServicio,
   Geolocalizacion,
@@ -143,11 +144,7 @@ export class OrdenesServicioService {
       createDto.creadoPorId = performingUser.membershipId;
     }
 
-    await this.assertCanAssignServices(
-      tenantId,
-      performingUser,
-      createDto.empresaId,
-    );
+    this.assertCanAssignServices();
 
     // 2. Obtener dirección y texto
     let direccionId = createDto.direccionId;
@@ -209,7 +206,13 @@ export class OrdenesServicioService {
       throw new BadRequestException('Debe especificar al menos un servicio');
     }
 
-    let servicioPrincipal: any = null;
+    let servicioPrincipal: {
+      id: string;
+      empresaId: string;
+      requiereSeguimiento: boolean;
+      primerSeguimientoDias: number | null;
+      requiereSeguimientoTresMeses: boolean;
+    } | null = null;
 
     if (createDto.servicioId) {
       servicioPrincipal = await this.prisma.servicio.findFirst({
@@ -242,14 +245,16 @@ export class OrdenesServicioService {
         });
       }
       serviciosProcesados.push(svc.nombre); // Guardar los nombres para el JSONB
-      
+
       if (!servicioPrincipal) {
         servicioPrincipal = svc;
       }
     }
 
     if (!servicioPrincipal) {
-      throw new BadRequestException('No se pudo determinar un servicio principal');
+      throw new BadRequestException(
+        'No se pudo determinar un servicio principal',
+      );
     }
 
     // 4. Crear la orden
@@ -308,7 +313,8 @@ export class OrdenesServicioService {
         empresaId: createDto.empresaId,
         clienteId: createDto.clienteId,
         servicioId: servicioPrincipal.id,
-        serviciosSeleccionados: serviciosProcesados as any,
+        serviciosSeleccionados:
+          serviciosProcesados as unknown as Prisma.InputJsonValue,
         creadoPorId: createDto.creadoPorId,
         tecnicoId,
         direccionId,
@@ -613,32 +619,16 @@ export class OrdenesServicioService {
   }
 
   private buildWhereClause(
-    tenantId: string,
-    empresaId: string | undefined,
-    userRole: string | undefined,
+    user: JwtPayload,
+    reqEmpresaId: string | undefined,
     filters?: QueryOrdenesServicioDto,
-  ): Prisma.OrdenServicioWhereInput | null {
-    const cleanEmpresaId = this.isUUID(empresaId) ? empresaId : undefined;
+  ): Prisma.OrdenServicioWhereInput {
+    const accessFilter = getPrismaAccessFilter(user, reqEmpresaId);
 
-    let whereClause: Prisma.OrdenServicioWhereInput = {};
-
-    if (userRole === 'SU_ADMIN') {
-      whereClause = {};
-    } else if (userRole === 'ADMIN') {
-      whereClause = { tenantId };
-      if (cleanEmpresaId) {
-        whereClause.empresaId = cleanEmpresaId;
-      }
-    } else if (cleanEmpresaId) {
-      whereClause = {
-        tenantId,
-        empresaId: cleanEmpresaId,
-      };
-    } else {
-      return null;
-    }
-
-    whereClause.ordenPadreId = null;
+    const whereClause: Prisma.OrdenServicioWhereInput = {
+      ...accessFilter,
+      ordenPadreId: null,
+    };
 
     if (!filters) return whereClause;
 
@@ -751,21 +741,11 @@ export class OrdenesServicioService {
   }
 
   async findAll(
-    tenantId: string,
+    user: JwtPayload,
     empresaId?: string,
-    userRole?: string,
     filters?: QueryOrdenesServicioDto,
   ) {
-    const whereClause = this.buildWhereClause(
-      tenantId,
-      empresaId,
-      userRole,
-      filters,
-    );
-
-    if (!whereClause) {
-      return [];
-    }
+    const whereClause = this.buildWhereClause(user, empresaId, filters);
 
     const ordenes = await this.prisma.ordenServicio.findMany({
       where: whereClause,
@@ -901,31 +881,11 @@ export class OrdenesServicioService {
   }
 
   async getKpis(
-    tenantId: string,
+    user: JwtPayload,
     empresaId?: string,
-    userRole?: string,
     filters?: QueryOrdenesServicioDto,
   ): Promise<ServiciosKpiPayload> {
-    const whereClause = this.buildWhereClause(
-      tenantId,
-      empresaId,
-      userRole,
-      filters,
-    );
-
-    if (!whereClause) {
-      return {
-        total: 0,
-        programadosHoy: 0,
-        enCurso: 0,
-        vencidosSla: 0,
-        cumplimientoSlaPct: 0,
-        porcentajeLiquidacion: 0,
-        recaudoHoy: 0,
-        ticketPromedio: 0,
-        sinEvidencia: 0,
-      };
-    }
+    const whereClause = this.buildWhereClause(user, empresaId, filters);
 
     const todayRange = toLocalDayRange(new Date());
 
@@ -1034,9 +994,11 @@ export class OrdenesServicioService {
     };
   }
 
-  async findOne(tenantId: string, id: string) {
+  async findOne(user: JwtPayload, id: string) {
+    const accessFilter = getPrismaAccessFilter(user);
+
     const orden = await this.prisma.ordenServicio.findFirst({
-      where: { id, tenantId },
+      where: { id, ...accessFilter },
       include: {
         cliente: {
           include: {
@@ -1071,7 +1033,9 @@ export class OrdenesServicioService {
     });
 
     if (!orden) {
-      throw new BadRequestException('La orden especificada no existe');
+      throw new BadRequestException(
+        'La orden especificada no existe o no tienes acceso',
+      );
     }
 
     return this.processSignedUrls(orden as OrdenWithGeolocalizaciones);
@@ -1404,7 +1368,7 @@ export class OrdenesServicioService {
 
     const uniquePaths = [...new Set(pathsToSign)];
     const signedUrls = await this.supabase.getSignedUrls(uniquePaths);
-    
+
     const urlMap = new Map<string, string>();
     uniquePaths.forEach((path, idx) => {
       if (signedUrls[idx]) {
@@ -1489,11 +1453,15 @@ export class OrdenesServicioService {
         orden.empresaId,
       );
     const tipoVisitaResuelta =
-      updateDto.tipoVisita ?? (orden.tipoVisita as TipoVisita | null) ?? undefined;
+      updateDto.tipoVisita ?? orden.tipoVisita ?? undefined;
     const esGarantia = this.isGarantiaVisitType(tipoVisitaResuelta);
 
     if (esGarantia) {
-      await this.assertGuaranteeEligibility(tenantId, orden.clienteId, orden.id);
+      await this.assertGuaranteeEligibility(
+        tenantId,
+        orden.clienteId,
+        orden.id,
+      );
     }
 
     const tipoFacturacionResuelta = esGarantia
@@ -1516,7 +1484,7 @@ export class OrdenesServicioService {
       contratoCliente: contratoActivo
         ? { connect: { id: contratoActivo.id } }
         : { disconnect: true },
-      valorCotizado: esGarantia ? 0 : updateDto.valorCotizado ?? undefined,
+      valorCotizado: esGarantia ? 0 : (updateDto.valorCotizado ?? undefined),
       metodoPago: updateDto.metodoPagoId
         ? { connect: { id: updateDto.metodoPagoId } }
         : undefined,
@@ -1526,7 +1494,7 @@ export class OrdenesServicioService {
       facturaElectronica: updateDto.facturaElectronica ?? undefined,
       comprobantePago: updateDto.comprobantePago ?? undefined,
       evidenciaPath: updateDto.evidenciaPath ?? undefined,
-      valorPagado: esGarantia ? 0 : updateDto.valorPagado ?? undefined,
+      valorPagado: esGarantia ? 0 : (updateDto.valorPagado ?? undefined),
       observacionFinal: updateDto.observacionFinal ?? undefined,
       referenciaPago: updateDto.referenciaPago ?? undefined,
       liquidadoPor:
@@ -1543,14 +1511,17 @@ export class OrdenesServicioService {
         ? ([] as unknown as Prisma.InputJsonValue)
         : updateDto.desglosePago
           ? (updateDto.desglosePago as unknown as Prisma.InputJsonValue)
-        : undefined,
+          : undefined,
     };
 
     // Lógica automática basada en el desglose de pago
     if (esGarantia && updateDto.estadoServicio === EstadoOrden.LIQUIDADO) {
       data.estadoPago = EstadoPagoOrden.PAGADO;
       data.valorPagado = 0;
-    } else if (updateDto.desglosePago && Array.isArray(updateDto.desglosePago)) {
+    } else if (
+      updateDto.desglosePago &&
+      Array.isArray(updateDto.desglosePago)
+    ) {
       const valorCotizado = Number(
         updateDto.valorCotizado || orden.valorCotizado || 0,
       );
@@ -2075,11 +2046,7 @@ export class OrdenesServicioService {
     });
   }
 
-  private async assertCanAssignServices(
-    tenantId: string,
-    user: JwtPayload | undefined,
-    empresaId: string,
-  ) {
+  private assertCanAssignServices() {
     // Se ha removido el bloqueo por seguimientos pendientes por solicitud
     return;
   }
@@ -2120,7 +2087,10 @@ export class OrdenesServicioService {
 
     if (contratoActivo) {
       const frecuenciaContrato = contratoActivo.frecuenciaServicio;
-      const totalServicios = Math.max(contratoActivo.serviciosComprometidos || 1, 1);
+      const totalServicios = Math.max(
+        contratoActivo.serviciosComprometidos || 1,
+        1,
+      );
 
       if (!frecuenciaContrato || totalServicios <= 1) {
         return;
