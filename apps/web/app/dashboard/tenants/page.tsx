@@ -4,6 +4,8 @@ import { isTenantAdminAction, getTenantsAction, getPlansAction } from "../action
 import { redirect } from "next/navigation";
 import { TenantList, type Tenant, type Plan } from "./tenant-list";
 
+export const dynamic = "force-dynamic";
+
 export default async function TenantsPage() {
   const isAdmin = await isTenantAdminAction();
 

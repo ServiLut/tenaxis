@@ -628,9 +628,12 @@ export class TenantsService {
       access.allowedZonaIds,
       'zona',
     );
+    const tenantWhere = access.targetTenantId
+      ? { tenantId: access.targetTenantId }
+      : {};
 
     const membershipWhere: Prisma.TenantMembershipWhereInput = {
-      tenantId,
+      ...tenantWhere,
       aprobado: true,
       activo: true,
       ...(scope === TeamScope.OPERATIVO
@@ -731,7 +734,7 @@ export class TenantsService {
 
     const membershipIds = memberships.map((m) => m.id);
     const ordersWhere: Prisma.OrdenServicioWhereInput = {
-      tenantId,
+      ...tenantWhere,
       creadoPorId: {
         in: membershipIds.length > 0 ? membershipIds : [NIL_UUID],
       },
@@ -1024,6 +1027,9 @@ export class TenantsService {
       access.allowedZonaIds,
       'zona',
     );
+    const tenantWhere = access.targetTenantId
+      ? { tenantId: access.targetTenantId }
+      : {};
 
     if (
       access.onlyOwnMembershipId &&
@@ -1037,7 +1043,7 @@ export class TenantsService {
     const membership = await this.prisma.tenantMembership.findFirst({
       where: {
         id: membershipId,
-        tenantId,
+        ...tenantWhere,
         aprobado: true,
         activo: true,
         ...(empresaIds || zonaIds
@@ -1068,7 +1074,7 @@ export class TenantsService {
     }
 
     const ordersWhere: Prisma.OrdenServicioWhereInput = {
-      tenantId,
+      ...tenantWhere,
       creadoPorId: membershipId,
       fechaVisita: {
         gte: range.from,
@@ -1126,7 +1132,7 @@ export class TenantsService {
       }),
       this.prisma.cliente.count({
         where: {
-          tenantId,
+          ...tenantWhere,
           creadoPorId: membershipId,
           createdAt: {
             gte: range.from,
@@ -1294,9 +1300,10 @@ export class TenantsService {
 
   private resolveAccessScope(tenantId: string, user: JwtPayload) {
     const accessFilter = getPrismaAccessFilter(user);
+    const isGlobalScope = tenantId === 'global' && user.isGlobalSuAdmin;
 
     // Si el usuario no tiene acceso a este tenant específico (y no es Global SU_ADMIN)
-    if (!user.isGlobalSuAdmin && user.tenantId !== tenantId) {
+    if (!isGlobalScope && !user.isGlobalSuAdmin && user.tenantId !== tenantId) {
       throw new UnauthorizedException('No tienes acceso a este conglomerado');
     }
 
@@ -1308,6 +1315,7 @@ export class TenantsService {
     }
 
     return {
+      targetTenantId: isGlobalScope ? null : tenantId,
       onlyOwnMembershipId:
         user.role === Role.OPERADOR ? user.membershipId : null,
       allowedEmpresaIds,

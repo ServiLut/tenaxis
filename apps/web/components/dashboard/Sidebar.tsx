@@ -23,7 +23,8 @@ import {
   Activity,
   MessageSquare,
 } from "lucide-react";
-import { isTenantAdminAction } from "@/app/dashboard/actions";
+import { getMyProfileAction } from "@/app/dashboard/actions";
+import { canAccessTenantsView, getScopedRole, type ScopedRole } from "@/lib/access-scope";
 import { EmpresaSelector } from "./EmpresaSelector";
 
 const menuItems: { title: string; icon: LucideIcon; href: string; role?: string }[] = [
@@ -111,23 +112,43 @@ interface SidebarProps {
 
 export function Sidebar({ isOpen, onClose }: SidebarProps) {
   const pathname = usePathname();
-  const [isAdmin, setIsAdmin] = useState(false);
-  const [userRole, setUserRole] = useState<string | null>(null);
+  const [canViewTenants, setCanViewTenants] = useState(false);
+  const [userRole, setUserRole] = useState<ScopedRole | null>(null);
 
   useEffect(() => {
-    isTenantAdminAction().then(setIsAdmin);
-    
-    const userData = localStorage.getItem("user");
-    if (userData && userData !== "undefined") {
+    let isMounted = true;
+
+    async function loadScope() {
+      try {
+        const profile = await getMyProfileAction();
+        if (!isMounted || !profile) return;
+
+        setCanViewTenants(canAccessTenantsView(profile));
+        setUserRole(getScopedRole(profile.role));
+        return;
+      } catch {
+        // Fallback to localStorage if the profile request fails.
+      }
+
+      const userData = localStorage.getItem("user");
+      if (!isMounted || !userData || userData === "undefined") {
+        return;
+      }
+
       try {
         const user = JSON.parse(userData);
-        setTimeout(() => {
-          setUserRole(user.role);
-        }, 0);
+        setCanViewTenants(canAccessTenantsView(user));
+        setUserRole(getScopedRole(user.role));
       } catch {
-        // ignore
+        // ignore malformed cached user data
       }
     }
+
+    loadScope();
+
+    return () => {
+      isMounted = false;
+    };
   }, []);
 
   const handleLogout = () => {
@@ -149,7 +170,9 @@ export function Sidebar({ isOpen, onClose }: SidebarProps) {
   };
 
   const visibleMenuItems = menuItems.filter(item => !item.role || item.role === userRole);
-  const visibleSecondaryItems = secondaryItems.filter(item => !item.isAdmin || isAdmin);
+  const visibleSecondaryItems = secondaryItems.filter(
+    (item) => !item.isAdmin || canViewTenants,
+  );
 
   return (
     <>

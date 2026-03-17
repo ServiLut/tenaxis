@@ -8,16 +8,11 @@ import {
 } from '@nestjs/common';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { DashboardService } from './dashboard.service';
-import { Role } from '../generated/client/client';
+import { JwtPayload } from '../auth/jwt-payload.interface';
+import { resolveScopedEmpresaId } from '../common/utils/access-control.util';
 
 interface RequestWithUser extends Request {
-  user: {
-    sub: string;
-    email: string;
-    tenantId: string;
-    role: Role;
-    empresaId?: string;
-  };
+  user: JwtPayload;
 }
 
 @Controller('dashboard')
@@ -34,8 +29,7 @@ export class DashboardController {
       throw new UnauthorizedException('No perteneces a ningún conglomerado');
     }
 
-    // Use empresaId from query if provided, otherwise from interceptor/user context
-    const targetEmpresaId = empresaId || req.user.empresaId;
+    const targetEmpresaId = resolveScopedEmpresaId(req.user, empresaId);
 
     return this.dashboardService.getStats(req.user.tenantId, targetEmpresaId);
   }

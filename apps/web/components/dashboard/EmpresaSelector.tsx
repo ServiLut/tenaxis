@@ -2,7 +2,12 @@
 
 import React, { useEffect, useState } from "react";
 import { Building2, ChevronsUpDown, Check } from "lucide-react";
-import { getEnterprisesAction } from "@/app/dashboard/actions";
+import { getEnterprisesAction, getMyProfileAction } from "@/app/dashboard/actions";
+import {
+  isEmpresaSelectionLocked,
+  resolveAvailableEmpresaIds,
+  type ScopeAwareUser,
+} from "@/lib/access-scope";
 import { cn } from "@/components/ui/utils";
 import {
   DropdownMenu,
@@ -19,12 +24,16 @@ interface Empresa {
 export function EmpresaSelector() {
   const [empresas, setEmpresas] = useState<Empresa[]>([]);
   const [currentEmpresaId, setCurrentEmpresaId] = useState<string>("");
+  const [isReadOnly, setIsReadOnly] = useState(false);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     async function loadEmpresas() {
       try {
-        const result = await getEnterprisesAction();
+        const [result, profile] = await Promise.all([
+          getEnterprisesAction(),
+          getMyProfileAction(),
+        ]);
         let items: Empresa[] = [];
         
         if (result && typeof result === 'object' && 'items' in result) {
@@ -32,18 +41,25 @@ export function EmpresaSelector() {
         } else {
           items = Array.isArray(result) ? (result as Empresa[]) : [];
         }
-        
-        setEmpresas(items);
+
+        const allowedEmpresaIds = resolveAvailableEmpresaIds(profile as ScopeAwareUser | null);
+        const scopedItems =
+          allowedEmpresaIds.length > 0
+            ? items.filter((empresa) => allowedEmpresaIds.includes(empresa.id))
+            : items;
+
+        setEmpresas(scopedItems);
+        setIsReadOnly(isEmpresaSelectionLocked(profile));
 
         const cookieId = document.cookie
           .split("; ")
           .find((row) => row.startsWith("x-enterprise-id="))
           ?.split("=")[1];
 
-        if (cookieId && items.find((e: Empresa) => e.id === cookieId)) {
+        if (cookieId && scopedItems.find((e: Empresa) => e.id === cookieId)) {
           setCurrentEmpresaId(cookieId);
-        } else if (items.length > 0) {
-          const firstId = items[0].id;
+        } else if (scopedItems.length > 0) {
+          const firstId = scopedItems[0].id;
           setCurrentEmpresaId(firstId);
           updateEnterpriseCookie(firstId);
         }
@@ -80,7 +96,31 @@ export function EmpresaSelector() {
 
   if (empresas.length === 0) return null;
 
-  const currentEmpresa = empresas.find(e => e.id === currentEmpresaId) || empresas[0];
+  const currentEmpresa = empresas.find((empresa) => empresa.id === currentEmpresaId) || empresas[0];
+
+  if (isReadOnly) {
+    return (
+      <div className="">
+        <div className="group relative pt-2">
+          <div className="absolute -top-1 left-4 z-20 bg-[#021359] px-2 dark:bg-sidebar">
+            <p className="text-[10px] font-black uppercase tracking-[0.15em] text-[#01ADFB]">
+              Empresa Asignada
+            </p>
+          </div>
+          <div
+            className={cn(
+              "relative flex h-14 w-full items-center rounded-2xl border border-white/10 bg-white/5 pl-11 pr-4 text-left text-sm font-bold text-[#F8FAFC]",
+              "shadow-sm"
+            )}
+            aria-label="Empresa asignada"
+          >
+            <Building2 className="absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-[#01ADFB]" />
+            <span className="truncate">{currentEmpresa?.nombre}</span>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="">

@@ -20,6 +20,7 @@ import { Request } from 'express';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { SupabaseService } from '../supabase/supabase.service';
 import { GenerateMonitoringPayrollDto } from './generate-monitoring-payroll.dto';
+import { resolveScopedEmpresaId } from '../common/utils/access-control.util';
 
 interface RequestWithUser extends Request {
   user: JwtPayload;
@@ -44,7 +45,7 @@ export class FinanzasController {
       throw new UnauthorizedException('Tenant ID not found in token');
     }
 
-    const empresaId = queryEmpresaId || req.user.empresaId;
+    const empresaId = resolveScopedEmpresaId(req.user, queryEmpresaId);
     return this.contabilidadService.getRecaudoTecnicos(tenantId, empresaId);
   }
 
@@ -55,7 +56,7 @@ export class FinanzasController {
   ) {
     const tenantId = req.user.tenantId;
     if (!tenantId) throw new UnauthorizedException('Tenant ID missing');
-    const empresaId = queryEmpresaId || req.user.empresaId;
+    const empresaId = resolveScopedEmpresaId(req.user, queryEmpresaId);
     return this.contabilidadService.getAccountingBalance(tenantId, empresaId);
   }
 
@@ -66,7 +67,7 @@ export class FinanzasController {
   ) {
     const tenantId = req.user.tenantId;
     if (!tenantId) throw new UnauthorizedException('Tenant ID missing');
-    const empresaId = queryEmpresaId || req.user.empresaId;
+    const empresaId = resolveScopedEmpresaId(req.user, queryEmpresaId);
     return this.contabilidadService.getEgresos(tenantId, empresaId);
   }
 
@@ -77,7 +78,7 @@ export class FinanzasController {
   ) {
     const tenantId = req.user.tenantId;
     if (!tenantId) throw new UnauthorizedException('Tenant ID missing');
-    const empresaId = queryEmpresaId || req.user.empresaId;
+    const empresaId = resolveScopedEmpresaId(req.user, queryEmpresaId);
     return this.contabilidadService.getNominas(tenantId, empresaId);
   }
 
@@ -88,7 +89,7 @@ export class FinanzasController {
   ) {
     const tenantId = req.user.tenantId;
     if (!tenantId) throw new UnauthorizedException('Tenant ID missing');
-    const empresaId = queryEmpresaId || req.user.empresaId;
+    const empresaId = resolveScopedEmpresaId(req.user, queryEmpresaId);
     return this.contabilidadService.getAnticipos(tenantId, empresaId);
   }
 
@@ -135,7 +136,10 @@ export class FinanzasController {
       throw new UnauthorizedException('Tenant ID not found in token');
     }
 
-    return this.contabilidadService.createEgreso(tenantId, data);
+    return this.contabilidadService.createEgreso(tenantId, {
+      ...data,
+      empresaId: resolveScopedEmpresaId(req.user, data.empresaId),
+    });
   }
 
   @Post('registrar-anticipo')
@@ -154,7 +158,10 @@ export class FinanzasController {
       throw new UnauthorizedException('Tenant ID not found in token');
     }
 
-    return this.contabilidadService.createAnticipo(tenantId, data);
+    return this.contabilidadService.createAnticipo(tenantId, {
+      ...data,
+      empresaId: resolveScopedEmpresaId(req.user, data.empresaId),
+    });
   }
 
   @Post('registrar-consignacion')
@@ -200,7 +207,7 @@ export class FinanzasController {
       membershipId,
       {
         tecnicoId: data.tecnicoId,
-        empresaId: data.empresaId,
+        empresaId: resolveScopedEmpresaId(req.user, data.empresaId),
         valorConsignado: Number(data.valorConsignado),
         referenciaBanco: data.referenciaBanco,
         comprobantePath: fileId,

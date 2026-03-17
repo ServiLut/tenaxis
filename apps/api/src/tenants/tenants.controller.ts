@@ -106,7 +106,9 @@ export class TenantsController {
     @Param('tenantId') tenantId: string,
     @Query() query: TeamPerformanceQueryDto,
   ) {
-    if (!req.user.tenantId || req.user.tenantId !== tenantId) {
+    const isGlobalScope = tenantId === 'global' && req.user.isGlobalSuAdmin;
+
+    if (!isGlobalScope && (!req.user.tenantId || req.user.tenantId !== tenantId)) {
       throw new UnauthorizedException(
         'No tienes permisos para acceder a este conglomerado',
       );
@@ -127,7 +129,9 @@ export class TenantsController {
     @Param('membershipId') membershipId: string,
     @Query() query: TeamMemberDetailQueryDto,
   ) {
-    if (!req.user.tenantId || req.user.tenantId !== tenantId) {
+    const isGlobalScope = tenantId === 'global' && req.user.isGlobalSuAdmin;
+
+    if (!isGlobalScope && (!req.user.tenantId || req.user.tenantId !== tenantId)) {
       throw new UnauthorizedException(
         'No tienes permisos para acceder a este conglomerado',
       );

@@ -125,7 +125,7 @@ const VIEW_EXPLANATIONS: Record<
 };
 
 function TeamPageContent() {
-  const { tenantId, checkPermission, isLoading: isLoadingRole } = useUserRole();
+  const { tenantId, isGlobalSuAdmin, checkPermission, isLoading: isLoadingRole } = useUserRole();
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
@@ -160,7 +160,10 @@ function TeamPageContent() {
     loadingDetail,
     updateMemberProfile,
     savingProfile,
-  } = useTeamPerformance(tenantId ?? null, searchSnapshot);
+  } = useTeamPerformance(
+    isGlobalSuAdmin ? "global" : (tenantId ?? null),
+    searchSnapshot,
+  );
 
   const [isEditing, setIsEditing] = useState(false);
   const [editForm, setEditForm] = useState<TeamMember | null>(null);

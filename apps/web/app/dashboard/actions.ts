@@ -9,6 +9,7 @@ import { configClient } from "@/lib/api/config-client";
 import { enterpriseClient } from "@/lib/api/enterprise-client";
 import { serviciosClient } from "@/lib/api/servicios-client";
 import { authClient } from "@/lib/api/auth-client";
+import { canAccessTenantsView } from "@/lib/access-scope";
 import { apiFetch, } from "@/lib/api/base-client";
 import { DashboardStatsSchema, type DashboardStatsType } from "./schemas/dashboard.schema";
 
@@ -118,8 +119,8 @@ export interface ContratoClienteDTO {
 // --- Auth Actions ---
 export async function isTenantAdminAction() {
   try {
-    const data = await authClient.getProfile();
-    return !!data.isTenantAdmin;
+    const profile = await authClient.getProfile();
+    return canAccessTenantsView(profile);
   } catch (error) {
     console.error("Error checking tenant admin status:", error);
     return false;

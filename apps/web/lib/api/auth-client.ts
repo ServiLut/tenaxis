@@ -14,9 +14,11 @@ export interface UserProfile {
   numeroCuenta?: string;
   valorHora?: number;
   isTenantAdmin?: boolean;
+  isGlobalSuAdmin?: boolean;
   membershipId?: string;
   tenantId?: string;
   empresaId?: string;
+  empresaIds?: string[];
   sesionId?: string;
 }
 
