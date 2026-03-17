@@ -175,9 +175,9 @@ export async function trackEventAction(tipo: string, descripcion?: string, ruta?
   }
 }
 
-export async function heartbeatAction() {
+export async function heartbeatAction(inactiveMinutes: number = 0) {
   try {
-    return await monitoringClient.sendHeartbeat();
+    return await monitoringClient.sendHeartbeat(inactiveMinutes);
   } catch (_error) {
     return null;
   }

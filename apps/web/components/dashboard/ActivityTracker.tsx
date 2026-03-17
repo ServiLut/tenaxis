@@ -26,9 +26,9 @@ export function ActivityTracker() {
     }
   }, [pathname]);
 
-  const sendHeartbeat = useCallback(async (_inactiveMinutes: number = 0) => {
+  const sendHeartbeat = useCallback(async (inactiveMinutes: number = 0) => {
     try {
-      await heartbeatAction();
+      await heartbeatAction(inactiveMinutes);
     } catch (_e) {
       // Ignorar
     }
@@ -54,6 +54,11 @@ export function ActivityTracker() {
     // No trackear en la página de login
     if (pathname === "/iniciar-sesion") return;
 
+    // Registrar cambio de página
+    sendEvent("PAGE_VIEW", `Usuario entró a ${pathname}`);
+
+    const isWhatsappRoute = pathname?.startsWith("/dashboard/whatsapp");
+
     // 1. Rastrear cambios de foco
     const handleVisibilityChange = () => {
       if (document.visibilityState === "hidden") {
@@ -68,11 +73,29 @@ export function ActivityTracker() {
       lastActivityRef.current = Date.now();
     };
 
+    // Especial para iframes (WhatsApp)
+    const handleBlur = () => {
+      // Si el usuario hace clic en un iframe, el window pierde el foco
+      // pero el activeElement será el iframe.
+      setTimeout(() => {
+        if (document.activeElement instanceof HTMLIFrameElement) {
+          updateActivity();
+        }
+      }, 100);
+    };
+
     // 3. Intervalo de Heartbeat e Inactividad
     const heartbeatTimer = setInterval(() => {
       const now = Date.now();
       const timeSinceLastActivity = now - lastActivityRef.current;
       
+      // Si estamos en WhatsApp y el iframe tiene el foco, actualizamos actividad
+      if (isWhatsappRoute && document.activeElement instanceof HTMLIFrameElement) {
+        updateActivity();
+        sendHeartbeat(0);
+        return;
+      }
+
       if (timeSinceLastActivity >= INACTIVITY_THRESHOLD) {
         sendHeartbeat(1);
         if (timeSinceLastActivity < INACTIVITY_THRESHOLD + HEARTBEAT_INTERVAL) {
@@ -86,6 +109,13 @@ export function ActivityTracker() {
     // 4. Intervalo de Cierre de Sesión (Chequeo más frecuente)
     const logoutCheckTimer = setInterval(() => {
       const now = Date.now();
+      
+      // Si estamos en WhatsApp y el iframe tiene el foco, no cerramos sesión
+      if (isWhatsappRoute && document.activeElement instanceof HTMLIFrameElement) {
+        updateActivity();
+        return;
+      }
+
       if (now - lastActivityRef.current >= AUTO_LOGOUT_TIME) {
         handleLogout();
       }
@@ -96,6 +126,7 @@ export function ActivityTracker() {
     document.addEventListener("keydown", updateActivity);
     document.addEventListener("click", updateActivity);
     document.addEventListener("scroll", updateActivity);
+    window.addEventListener("blur", handleBlur);
 
     return () => {
       clearInterval(heartbeatTimer);
@@ -105,6 +136,7 @@ export function ActivityTracker() {
       document.removeEventListener("keydown", updateActivity);
       document.removeEventListener("click", updateActivity);
       document.removeEventListener("scroll", updateActivity);
+      window.removeEventListener("blur", handleBlur);
     };
   }, [pathname, sendEvent, sendHeartbeat, handleLogout]);
 

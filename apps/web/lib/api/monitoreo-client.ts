@@ -53,9 +53,10 @@ export const monitoringClient = {
       body: JSON.stringify(data),
     });
   },
-  async sendHeartbeat() {
+  async sendHeartbeat(inactiveMinutes: number = 0) {
     return apiFetch("/monitoring/heartbeat", {
       method: "POST",
+      body: JSON.stringify({ inactiveMinutes }),
     });
   }
 };
