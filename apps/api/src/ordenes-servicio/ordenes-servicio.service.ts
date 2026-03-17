@@ -47,6 +47,7 @@ import {
   NivelInfestacion,
   Prisma,
   Role,
+  Servicio,
   TipoFacturacion,
   TipoVisita,
   TipoPermiso,
@@ -186,6 +187,18 @@ export class OrdenesServicioService {
     if (createDto.horaInicio && !horaInicioDate) {
       throw new BadRequestException('horaInicio inválida');
     }
+    const horaInicioRealDate = createDto.horaInicioReal
+      ? parseFlexibleDateTimeToUtc(createDto.horaInicioReal)
+      : null;
+    if (createDto.horaInicioReal && !horaInicioRealDate) {
+      throw new BadRequestException('horaInicioReal inválida');
+    }
+    const horaFinRealDate = createDto.horaFinReal
+      ? parseFlexibleDateTimeToUtc(createDto.horaFinReal)
+      : null;
+    if (createDto.horaFinReal && !horaFinRealDate) {
+      throw new BadRequestException('horaFinReal inválida');
+    }
     let horaFinDate: Date | null = null;
     if (horaInicioDate && createDto.duracionMinutos) {
       horaFinDate = new Date(
@@ -321,6 +334,13 @@ export class OrdenesServicioService {
         direccionTexto,
         estadoServicio: createDto.estadoServicio ?? 'NUEVO',
         observacion: createDto.observacion,
+        observacionFinal: createDto.observacionFinal,
+        diagnosticoTecnico: createDto.diagnosticoTecnico,
+        intervencionRealizada: createDto.intervencionRealizada,
+        hallazgosEstructurales: createDto.hallazgosEstructurales,
+        recomendacionesObligatorias: createDto.recomendacionesObligatorias,
+        huboSellamiento: createDto.huboSellamiento,
+        huboRecomendacionEstructural: createDto.huboRecomendacionEstructural,
         nivelInfestacion: createDto.nivelInfestacion,
         urgencia: createDto.urgencia,
         tipoVisita: tipoVisitaResuelta,
@@ -337,6 +357,8 @@ export class OrdenesServicioService {
         fechaVisita: fechaVisitaDate,
         horaInicio: horaInicioDate,
         horaFin: horaFinDate,
+        horaInicioReal: horaInicioRealDate,
+        horaFinReal: horaFinRealDate,
       },
       include: {
         cliente: true,
@@ -1364,7 +1386,7 @@ export class OrdenesServicioService {
       }
     }
 
-    if (pathsToSign.length === 0) return orden;
+    if (pathsToSign.length === 0) return this.addDerivedServiceFields(orden);
 
     const uniquePaths = [...new Set(pathsToSign)];
     const signedUrls = await this.supabase.getSignedUrls(uniquePaths);
@@ -1405,7 +1427,23 @@ export class OrdenesServicioService {
       }
     }
 
-    return orden;
+    return this.addDerivedServiceFields(orden);
+  }
+
+  private addDerivedServiceFields<
+    T extends { horaInicioReal?: Date | null; horaFinReal?: Date | null },
+  >(orden: T): T & { duracionRealMinutos?: number } {
+    if (!orden.horaInicioReal || !orden.horaFinReal) {
+      return orden;
+    }
+
+    const diffMs = orden.horaFinReal.getTime() - orden.horaInicioReal.getTime();
+    const duracionRealMinutos = Math.max(0, Math.round(diffMs / 60000));
+
+    return {
+      ...orden,
+      duracionRealMinutos,
+    };
   }
 
   async update(
@@ -1476,6 +1514,14 @@ export class OrdenesServicioService {
         ? { connect: { id: updateDto.tecnicoId } }
         : undefined,
       observacion: updateDto.observacion ?? undefined,
+      diagnosticoTecnico: updateDto.diagnosticoTecnico ?? undefined,
+      intervencionRealizada: updateDto.intervencionRealizada ?? undefined,
+      hallazgosEstructurales: updateDto.hallazgosEstructurales ?? undefined,
+      recomendacionesObligatorias:
+        updateDto.recomendacionesObligatorias ?? undefined,
+      huboSellamiento: updateDto.huboSellamiento ?? undefined,
+      huboRecomendacionEstructural:
+        updateDto.huboRecomendacionEstructural ?? undefined,
       nivelInfestacion: updateDto.nivelInfestacion ?? undefined,
       urgencia: updateDto.urgencia ?? undefined,
       tipoVisita: tipoVisitaResuelta ?? undefined,
@@ -1577,6 +1623,24 @@ export class OrdenesServicioService {
           horaInicio.getTime() + updateDto.duracionMinutos * 60000,
         );
       }
+    }
+
+    if (updateDto.horaInicioReal) {
+      const horaInicioReal = parseFlexibleDateTimeToUtc(
+        updateDto.horaInicioReal,
+      );
+      if (!horaInicioReal) {
+        throw new BadRequestException('horaInicioReal inválida');
+      }
+      data.horaInicioReal = horaInicioReal;
+    }
+
+    if (updateDto.horaFinReal) {
+      const horaFinReal = parseFlexibleDateTimeToUtc(updateDto.horaFinReal);
+      if (!horaFinReal) {
+        throw new BadRequestException('horaFinReal inválida');
+      }
+      data.horaFinReal = horaFinReal;
     }
 
     if (updateDto.servicioEspecifico) {

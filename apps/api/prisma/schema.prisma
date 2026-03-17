@@ -651,6 +651,14 @@ model OrdenServicio {
   horaFin                DateTime?
   observacion            String?
   observacionFinal       String?
+  diagnosticoTecnico     String?
+  intervencionRealizada  String?
+  hallazgosEstructurales String?
+  recomendacionesObligatorias String?
+  huboSellamiento        Boolean?
+  huboRecomendacionEstructural Boolean?
+  horaInicioReal         DateTime?
+  horaFinReal            DateTime?
   condicionesHigiene     String?
   condicionesLocal       String?
   valorCotizado          Decimal?                   @db.Decimal(12, 2)

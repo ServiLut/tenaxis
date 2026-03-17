@@ -68,6 +68,14 @@ export type OrdenServicioMinAggregateOutputType = {
   horaFin: Date | null
   observacion: string | null
   observacionFinal: string | null
+  diagnosticoTecnico: string | null
+  intervencionRealizada: string | null
+  hallazgosEstructurales: string | null
+  recomendacionesObligatorias: string | null
+  huboSellamiento: boolean | null
+  huboRecomendacionEstructural: boolean | null
+  horaInicioReal: Date | null
+  horaFinReal: Date | null
   condicionesHigiene: string | null
   condicionesLocal: string | null
   valorCotizado: runtime.Decimal | null
@@ -123,6 +131,14 @@ export type OrdenServicioMaxAggregateOutputType = {
   horaFin: Date | null
   observacion: string | null
   observacionFinal: string | null
+  diagnosticoTecnico: string | null
+  intervencionRealizada: string | null
+  hallazgosEstructurales: string | null
+  recomendacionesObligatorias: string | null
+  huboSellamiento: boolean | null
+  huboRecomendacionEstructural: boolean | null
+  horaInicioReal: Date | null
+  horaFinReal: Date | null
   condicionesHigiene: string | null
   condicionesLocal: string | null
   valorCotizado: runtime.Decimal | null
@@ -178,6 +194,14 @@ export type OrdenServicioCountAggregateOutputType = {
   horaFin: number
   observacion: number
   observacionFinal: number
+  diagnosticoTecnico: number
+  intervencionRealizada: number
+  hallazgosEstructurales: number
+  recomendacionesObligatorias: number
+  huboSellamiento: number
+  huboRecomendacionEstructural: number
+  horaInicioReal: number
+  horaFinReal: number
   condicionesHigiene: number
   condicionesLocal: number
   valorCotizado: number
@@ -253,6 +277,14 @@ export type OrdenServicioMinAggregateInputType = {
   horaFin?: true
   observacion?: true
   observacionFinal?: true
+  diagnosticoTecnico?: true
+  intervencionRealizada?: true
+  hallazgosEstructurales?: true
+  recomendacionesObligatorias?: true
+  huboSellamiento?: true
+  huboRecomendacionEstructural?: true
+  horaInicioReal?: true
+  horaFinReal?: true
   condicionesHigiene?: true
   condicionesLocal?: true
   valorCotizado?: true
@@ -308,6 +340,14 @@ export type OrdenServicioMaxAggregateInputType = {
   horaFin?: true
   observacion?: true
   observacionFinal?: true
+  diagnosticoTecnico?: true
+  intervencionRealizada?: true
+  hallazgosEstructurales?: true
+  recomendacionesObligatorias?: true
+  huboSellamiento?: true
+  huboRecomendacionEstructural?: true
+  horaInicioReal?: true
+  horaFinReal?: true
   condicionesHigiene?: true
   condicionesLocal?: true
   valorCotizado?: true
@@ -363,6 +403,14 @@ export type OrdenServicioCountAggregateInputType = {
   horaFin?: true
   observacion?: true
   observacionFinal?: true
+  diagnosticoTecnico?: true
+  intervencionRealizada?: true
+  hallazgosEstructurales?: true
+  recomendacionesObligatorias?: true
+  huboSellamiento?: true
+  huboRecomendacionEstructural?: true
+  horaInicioReal?: true
+  horaFinReal?: true
   condicionesHigiene?: true
   condicionesLocal?: true
   valorCotizado?: true
@@ -507,6 +555,14 @@ export type OrdenServicioGroupByOutputType = {
   horaFin: Date | null
   observacion: string | null
   observacionFinal: string | null
+  diagnosticoTecnico: string | null
+  intervencionRealizada: string | null
+  hallazgosEstructurales: string | null
+  recomendacionesObligatorias: string | null
+  huboSellamiento: boolean | null
+  huboRecomendacionEstructural: boolean | null
+  horaInicioReal: Date | null
+  horaFinReal: Date | null
   condicionesHigiene: string | null
   condicionesLocal: string | null
   valorCotizado: runtime.Decimal | null
@@ -587,6 +643,14 @@ export type OrdenServicioWhereInput = {
   horaFin?: Prisma.DateTimeNullableFilter<"OrdenServicio"> | Date | string | null
   observacion?: Prisma.StringNullableFilter<"OrdenServicio"> | string | null
   observacionFinal?: Prisma.StringNullableFilter<"OrdenServicio"> | string | null
+  diagnosticoTecnico?: Prisma.StringNullableFilter<"OrdenServicio"> | string | null
+  intervencionRealizada?: Prisma.StringNullableFilter<"OrdenServicio"> | string | null
+  hallazgosEstructurales?: Prisma.StringNullableFilter<"OrdenServicio"> | string | null
+  recomendacionesObligatorias?: Prisma.StringNullableFilter<"OrdenServicio"> | string | null
+  huboSellamiento?: Prisma.BoolNullableFilter<"OrdenServicio"> | boolean | null
+  huboRecomendacionEstructural?: Prisma.BoolNullableFilter<"OrdenServicio"> | boolean | null
+  horaInicioReal?: Prisma.DateTimeNullableFilter<"OrdenServicio"> | Date | string | null
+  horaFinReal?: Prisma.DateTimeNullableFilter<"OrdenServicio"> | Date | string | null
   condicionesHigiene?: Prisma.StringNullableFilter<"OrdenServicio"> | string | null
   condicionesLocal?: Prisma.StringNullableFilter<"OrdenServicio"> | string | null
   valorCotizado?: Prisma.DecimalNullableFilter<"OrdenServicio"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -665,6 +729,14 @@ export type OrdenServicioOrderByWithRelationInput = {
   horaFin?: Prisma.SortOrderInput | Prisma.SortOrder
   observacion?: Prisma.SortOrderInput | Prisma.SortOrder
   observacionFinal?: Prisma.SortOrderInput | Prisma.SortOrder
+  diagnosticoTecnico?: Prisma.SortOrderInput | Prisma.SortOrder
+  intervencionRealizada?: Prisma.SortOrderInput | Prisma.SortOrder
+  hallazgosEstructurales?: Prisma.SortOrderInput | Prisma.SortOrder
+  recomendacionesObligatorias?: Prisma.SortOrderInput | Prisma.SortOrder
+  huboSellamiento?: Prisma.SortOrderInput | Prisma.SortOrder
+  huboRecomendacionEstructural?: Prisma.SortOrderInput | Prisma.SortOrder
+  horaInicioReal?: Prisma.SortOrderInput | Prisma.SortOrder
+  horaFinReal?: Prisma.SortOrderInput | Prisma.SortOrder
   condicionesHigiene?: Prisma.SortOrderInput | Prisma.SortOrder
   condicionesLocal?: Prisma.SortOrderInput | Prisma.SortOrder
   valorCotizado?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -746,6 +818,14 @@ export type OrdenServicioWhereUniqueInput = Prisma.AtLeast<{
   horaFin?: Prisma.DateTimeNullableFilter<"OrdenServicio"> | Date | string | null
   observacion?: Prisma.StringNullableFilter<"OrdenServicio"> | string | null
   observacionFinal?: Prisma.StringNullableFilter<"OrdenServicio"> | string | null
+  diagnosticoTecnico?: Prisma.StringNullableFilter<"OrdenServicio"> | string | null
+  intervencionRealizada?: Prisma.StringNullableFilter<"OrdenServicio"> | string | null
+  hallazgosEstructurales?: Prisma.StringNullableFilter<"OrdenServicio"> | string | null
+  recomendacionesObligatorias?: Prisma.StringNullableFilter<"OrdenServicio"> | string | null
+  huboSellamiento?: Prisma.BoolNullableFilter<"OrdenServicio"> | boolean | null
+  huboRecomendacionEstructural?: Prisma.BoolNullableFilter<"OrdenServicio"> | boolean | null
+  horaInicioReal?: Prisma.DateTimeNullableFilter<"OrdenServicio"> | Date | string | null
+  horaFinReal?: Prisma.DateTimeNullableFilter<"OrdenServicio"> | Date | string | null
   condicionesHigiene?: Prisma.StringNullableFilter<"OrdenServicio"> | string | null
   condicionesLocal?: Prisma.StringNullableFilter<"OrdenServicio"> | string | null
   valorCotizado?: Prisma.DecimalNullableFilter<"OrdenServicio"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -824,6 +904,14 @@ export type OrdenServicioOrderByWithAggregationInput = {
   horaFin?: Prisma.SortOrderInput | Prisma.SortOrder
   observacion?: Prisma.SortOrderInput | Prisma.SortOrder
   observacionFinal?: Prisma.SortOrderInput | Prisma.SortOrder
+  diagnosticoTecnico?: Prisma.SortOrderInput | Prisma.SortOrder
+  intervencionRealizada?: Prisma.SortOrderInput | Prisma.SortOrder
+  hallazgosEstructurales?: Prisma.SortOrderInput | Prisma.SortOrder
+  recomendacionesObligatorias?: Prisma.SortOrderInput | Prisma.SortOrder
+  huboSellamiento?: Prisma.SortOrderInput | Prisma.SortOrder
+  huboRecomendacionEstructural?: Prisma.SortOrderInput | Prisma.SortOrder
+  horaInicioReal?: Prisma.SortOrderInput | Prisma.SortOrder
+  horaFinReal?: Prisma.SortOrderInput | Prisma.SortOrder
   condicionesHigiene?: Prisma.SortOrderInput | Prisma.SortOrder
   condicionesLocal?: Prisma.SortOrderInput | Prisma.SortOrder
   valorCotizado?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -889,6 +977,14 @@ export type OrdenServicioScalarWhereWithAggregatesInput = {
   horaFin?: Prisma.DateTimeNullableWithAggregatesFilter<"OrdenServicio"> | Date | string | null
   observacion?: Prisma.StringNullableWithAggregatesFilter<"OrdenServicio"> | string | null
   observacionFinal?: Prisma.StringNullableWithAggregatesFilter<"OrdenServicio"> | string | null
+  diagnosticoTecnico?: Prisma.StringNullableWithAggregatesFilter<"OrdenServicio"> | string | null
+  intervencionRealizada?: Prisma.StringNullableWithAggregatesFilter<"OrdenServicio"> | string | null
+  hallazgosEstructurales?: Prisma.StringNullableWithAggregatesFilter<"OrdenServicio"> | string | null
+  recomendacionesObligatorias?: Prisma.StringNullableWithAggregatesFilter<"OrdenServicio"> | string | null
+  huboSellamiento?: Prisma.BoolNullableWithAggregatesFilter<"OrdenServicio"> | boolean | null
+  huboRecomendacionEstructural?: Prisma.BoolNullableWithAggregatesFilter<"OrdenServicio"> | boolean | null
+  horaInicioReal?: Prisma.DateTimeNullableWithAggregatesFilter<"OrdenServicio"> | Date | string | null
+  horaFinReal?: Prisma.DateTimeNullableWithAggregatesFilter<"OrdenServicio"> | Date | string | null
   condicionesHigiene?: Prisma.StringNullableWithAggregatesFilter<"OrdenServicio"> | string | null
   condicionesLocal?: Prisma.StringNullableWithAggregatesFilter<"OrdenServicio"> | string | null
   valorCotizado?: Prisma.DecimalNullableWithAggregatesFilter<"OrdenServicio"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -936,6 +1032,14 @@ export type OrdenServicioCreateInput = {
   horaFin?: Date | string | null
   observacion?: string | null
   observacionFinal?: string | null
+  diagnosticoTecnico?: string | null
+  intervencionRealizada?: string | null
+  hallazgosEstructurales?: string | null
+  recomendacionesObligatorias?: string | null
+  huboSellamiento?: boolean | null
+  huboRecomendacionEstructural?: boolean | null
+  horaInicioReal?: Date | string | null
+  horaFinReal?: Date | string | null
   condicionesHigiene?: string | null
   condicionesLocal?: string | null
   valorCotizado?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -1010,6 +1114,14 @@ export type OrdenServicioUncheckedCreateInput = {
   horaFin?: Date | string | null
   observacion?: string | null
   observacionFinal?: string | null
+  diagnosticoTecnico?: string | null
+  intervencionRealizada?: string | null
+  hallazgosEstructurales?: string | null
+  recomendacionesObligatorias?: string | null
+  huboSellamiento?: boolean | null
+  huboRecomendacionEstructural?: boolean | null
+  horaInicioReal?: Date | string | null
+  horaFinReal?: Date | string | null
   condicionesHigiene?: string | null
   condicionesLocal?: string | null
   valorCotizado?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -1064,6 +1176,14 @@ export type OrdenServicioUpdateInput = {
   horaFin?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   observacion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   observacionFinal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  diagnosticoTecnico?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  intervencionRealizada?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  hallazgosEstructurales?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  recomendacionesObligatorias?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  huboSellamiento?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  huboRecomendacionEstructural?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  horaInicioReal?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  horaFinReal?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   condicionesHigiene?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   condicionesLocal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   valorCotizado?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -1138,6 +1258,14 @@ export type OrdenServicioUncheckedUpdateInput = {
   horaFin?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   observacion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   observacionFinal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  diagnosticoTecnico?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  intervencionRealizada?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  hallazgosEstructurales?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  recomendacionesObligatorias?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  huboSellamiento?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  huboRecomendacionEstructural?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  horaInicioReal?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  horaFinReal?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   condicionesHigiene?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   condicionesLocal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   valorCotizado?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -1202,6 +1330,14 @@ export type OrdenServicioCreateManyInput = {
   horaFin?: Date | string | null
   observacion?: string | null
   observacionFinal?: string | null
+  diagnosticoTecnico?: string | null
+  intervencionRealizada?: string | null
+  hallazgosEstructurales?: string | null
+  recomendacionesObligatorias?: string | null
+  huboSellamiento?: boolean | null
+  huboRecomendacionEstructural?: boolean | null
+  horaInicioReal?: Date | string | null
+  horaFinReal?: Date | string | null
   condicionesHigiene?: string | null
   condicionesLocal?: string | null
   valorCotizado?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -1249,6 +1385,14 @@ export type OrdenServicioUpdateManyMutationInput = {
   horaFin?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   observacion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   observacionFinal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  diagnosticoTecnico?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  intervencionRealizada?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  hallazgosEstructurales?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  recomendacionesObligatorias?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  huboSellamiento?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  huboRecomendacionEstructural?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  horaInicioReal?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  horaFinReal?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   condicionesHigiene?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   condicionesLocal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   valorCotizado?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -1302,6 +1446,14 @@ export type OrdenServicioUncheckedUpdateManyInput = {
   horaFin?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   observacion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   observacionFinal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  diagnosticoTecnico?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  intervencionRealizada?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  hallazgosEstructurales?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  recomendacionesObligatorias?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  huboSellamiento?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  huboRecomendacionEstructural?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  horaInicioReal?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  horaFinReal?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   condicionesHigiene?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   condicionesLocal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   valorCotizado?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -1374,6 +1526,14 @@ export type OrdenServicioCountOrderByAggregateInput = {
   horaFin?: Prisma.SortOrder
   observacion?: Prisma.SortOrder
   observacionFinal?: Prisma.SortOrder
+  diagnosticoTecnico?: Prisma.SortOrder
+  intervencionRealizada?: Prisma.SortOrder
+  hallazgosEstructurales?: Prisma.SortOrder
+  recomendacionesObligatorias?: Prisma.SortOrder
+  huboSellamiento?: Prisma.SortOrder
+  huboRecomendacionEstructural?: Prisma.SortOrder
+  horaInicioReal?: Prisma.SortOrder
+  horaFinReal?: Prisma.SortOrder
   condicionesHigiene?: Prisma.SortOrder
   condicionesLocal?: Prisma.SortOrder
   valorCotizado?: Prisma.SortOrder
@@ -1439,6 +1599,14 @@ export type OrdenServicioMaxOrderByAggregateInput = {
   horaFin?: Prisma.SortOrder
   observacion?: Prisma.SortOrder
   observacionFinal?: Prisma.SortOrder
+  diagnosticoTecnico?: Prisma.SortOrder
+  intervencionRealizada?: Prisma.SortOrder
+  hallazgosEstructurales?: Prisma.SortOrder
+  recomendacionesObligatorias?: Prisma.SortOrder
+  huboSellamiento?: Prisma.SortOrder
+  huboRecomendacionEstructural?: Prisma.SortOrder
+  horaInicioReal?: Prisma.SortOrder
+  horaFinReal?: Prisma.SortOrder
   condicionesHigiene?: Prisma.SortOrder
   condicionesLocal?: Prisma.SortOrder
   valorCotizado?: Prisma.SortOrder
@@ -1494,6 +1662,14 @@ export type OrdenServicioMinOrderByAggregateInput = {
   horaFin?: Prisma.SortOrder
   observacion?: Prisma.SortOrder
   observacionFinal?: Prisma.SortOrder
+  diagnosticoTecnico?: Prisma.SortOrder
+  intervencionRealizada?: Prisma.SortOrder
+  hallazgosEstructurales?: Prisma.SortOrder
+  recomendacionesObligatorias?: Prisma.SortOrder
+  huboSellamiento?: Prisma.SortOrder
+  huboRecomendacionEstructural?: Prisma.SortOrder
+  horaInicioReal?: Prisma.SortOrder
+  horaFinReal?: Prisma.SortOrder
   condicionesHigiene?: Prisma.SortOrder
   condicionesLocal?: Prisma.SortOrder
   valorCotizado?: Prisma.SortOrder
@@ -2266,6 +2442,14 @@ export type OrdenServicioCreateWithoutTenantInput = {
   horaFin?: Date | string | null
   observacion?: string | null
   observacionFinal?: string | null
+  diagnosticoTecnico?: string | null
+  intervencionRealizada?: string | null
+  hallazgosEstructurales?: string | null
+  recomendacionesObligatorias?: string | null
+  huboSellamiento?: boolean | null
+  huboRecomendacionEstructural?: boolean | null
+  horaInicioReal?: Date | string | null
+  horaFinReal?: Date | string | null
   condicionesHigiene?: string | null
   condicionesLocal?: string | null
   valorCotizado?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -2338,6 +2522,14 @@ export type OrdenServicioUncheckedCreateWithoutTenantInput = {
   horaFin?: Date | string | null
   observacion?: string | null
   observacionFinal?: string | null
+  diagnosticoTecnico?: string | null
+  intervencionRealizada?: string | null
+  hallazgosEstructurales?: string | null
+  recomendacionesObligatorias?: string | null
+  huboSellamiento?: boolean | null
+  huboRecomendacionEstructural?: boolean | null
+  horaInicioReal?: Date | string | null
+  horaFinReal?: Date | string | null
   condicionesHigiene?: string | null
   condicionesLocal?: string | null
   valorCotizado?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -2431,6 +2623,14 @@ export type OrdenServicioScalarWhereInput = {
   horaFin?: Prisma.DateTimeNullableFilter<"OrdenServicio"> | Date | string | null
   observacion?: Prisma.StringNullableFilter<"OrdenServicio"> | string | null
   observacionFinal?: Prisma.StringNullableFilter<"OrdenServicio"> | string | null
+  diagnosticoTecnico?: Prisma.StringNullableFilter<"OrdenServicio"> | string | null
+  intervencionRealizada?: Prisma.StringNullableFilter<"OrdenServicio"> | string | null
+  hallazgosEstructurales?: Prisma.StringNullableFilter<"OrdenServicio"> | string | null
+  recomendacionesObligatorias?: Prisma.StringNullableFilter<"OrdenServicio"> | string | null
+  huboSellamiento?: Prisma.BoolNullableFilter<"OrdenServicio"> | boolean | null
+  huboRecomendacionEstructural?: Prisma.BoolNullableFilter<"OrdenServicio"> | boolean | null
+  horaInicioReal?: Prisma.DateTimeNullableFilter<"OrdenServicio"> | Date | string | null
+  horaFinReal?: Prisma.DateTimeNullableFilter<"OrdenServicio"> | Date | string | null
   condicionesHigiene?: Prisma.StringNullableFilter<"OrdenServicio"> | string | null
   condicionesLocal?: Prisma.StringNullableFilter<"OrdenServicio"> | string | null
   valorCotizado?: Prisma.DecimalNullableFilter<"OrdenServicio"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -2478,6 +2678,14 @@ export type OrdenServicioCreateWithoutCreadoPorInput = {
   horaFin?: Date | string | null
   observacion?: string | null
   observacionFinal?: string | null
+  diagnosticoTecnico?: string | null
+  intervencionRealizada?: string | null
+  hallazgosEstructurales?: string | null
+  recomendacionesObligatorias?: string | null
+  huboSellamiento?: boolean | null
+  huboRecomendacionEstructural?: boolean | null
+  horaInicioReal?: Date | string | null
+  horaFinReal?: Date | string | null
   condicionesHigiene?: string | null
   condicionesLocal?: string | null
   valorCotizado?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -2550,6 +2758,14 @@ export type OrdenServicioUncheckedCreateWithoutCreadoPorInput = {
   horaFin?: Date | string | null
   observacion?: string | null
   observacionFinal?: string | null
+  diagnosticoTecnico?: string | null
+  intervencionRealizada?: string | null
+  hallazgosEstructurales?: string | null
+  recomendacionesObligatorias?: string | null
+  huboSellamiento?: boolean | null
+  huboRecomendacionEstructural?: boolean | null
+  horaInicioReal?: Date | string | null
+  horaFinReal?: Date | string | null
   condicionesHigiene?: string | null
   condicionesLocal?: string | null
   valorCotizado?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -2614,6 +2830,14 @@ export type OrdenServicioCreateWithoutLiquidadoPorInput = {
   horaFin?: Date | string | null
   observacion?: string | null
   observacionFinal?: string | null
+  diagnosticoTecnico?: string | null
+  intervencionRealizada?: string | null
+  hallazgosEstructurales?: string | null
+  recomendacionesObligatorias?: string | null
+  huboSellamiento?: boolean | null
+  huboRecomendacionEstructural?: boolean | null
+  horaInicioReal?: Date | string | null
+  horaFinReal?: Date | string | null
   condicionesHigiene?: string | null
   condicionesLocal?: string | null
   valorCotizado?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -2687,6 +2911,14 @@ export type OrdenServicioUncheckedCreateWithoutLiquidadoPorInput = {
   horaFin?: Date | string | null
   observacion?: string | null
   observacionFinal?: string | null
+  diagnosticoTecnico?: string | null
+  intervencionRealizada?: string | null
+  hallazgosEstructurales?: string | null
+  recomendacionesObligatorias?: string | null
+  huboSellamiento?: boolean | null
+  huboRecomendacionEstructural?: boolean | null
+  horaInicioReal?: Date | string | null
+  horaFinReal?: Date | string | null
   condicionesHigiene?: string | null
   condicionesLocal?: string | null
   valorCotizado?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -2750,6 +2982,14 @@ export type OrdenServicioCreateWithoutTecnicoInput = {
   horaFin?: Date | string | null
   observacion?: string | null
   observacionFinal?: string | null
+  diagnosticoTecnico?: string | null
+  intervencionRealizada?: string | null
+  hallazgosEstructurales?: string | null
+  recomendacionesObligatorias?: string | null
+  huboSellamiento?: boolean | null
+  huboRecomendacionEstructural?: boolean | null
+  horaInicioReal?: Date | string | null
+  horaFinReal?: Date | string | null
   condicionesHigiene?: string | null
   condicionesLocal?: string | null
   valorCotizado?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -2822,6 +3062,14 @@ export type OrdenServicioUncheckedCreateWithoutTecnicoInput = {
   horaFin?: Date | string | null
   observacion?: string | null
   observacionFinal?: string | null
+  diagnosticoTecnico?: string | null
+  intervencionRealizada?: string | null
+  hallazgosEstructurales?: string | null
+  recomendacionesObligatorias?: string | null
+  huboSellamiento?: boolean | null
+  huboRecomendacionEstructural?: boolean | null
+  horaInicioReal?: Date | string | null
+  horaFinReal?: Date | string | null
   condicionesHigiene?: string | null
   condicionesLocal?: string | null
   valorCotizado?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -2934,6 +3182,14 @@ export type OrdenServicioCreateWithoutEmpresaInput = {
   horaFin?: Date | string | null
   observacion?: string | null
   observacionFinal?: string | null
+  diagnosticoTecnico?: string | null
+  intervencionRealizada?: string | null
+  hallazgosEstructurales?: string | null
+  recomendacionesObligatorias?: string | null
+  huboSellamiento?: boolean | null
+  huboRecomendacionEstructural?: boolean | null
+  horaInicioReal?: Date | string | null
+  horaFinReal?: Date | string | null
   condicionesHigiene?: string | null
   condicionesLocal?: string | null
   valorCotizado?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -3006,6 +3262,14 @@ export type OrdenServicioUncheckedCreateWithoutEmpresaInput = {
   horaFin?: Date | string | null
   observacion?: string | null
   observacionFinal?: string | null
+  diagnosticoTecnico?: string | null
+  intervencionRealizada?: string | null
+  hallazgosEstructurales?: string | null
+  recomendacionesObligatorias?: string | null
+  huboSellamiento?: boolean | null
+  huboRecomendacionEstructural?: boolean | null
+  horaInicioReal?: Date | string | null
+  horaFinReal?: Date | string | null
   condicionesHigiene?: string | null
   condicionesLocal?: string | null
   valorCotizado?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -3086,6 +3350,14 @@ export type OrdenServicioCreateWithoutClienteInput = {
   horaFin?: Date | string | null
   observacion?: string | null
   observacionFinal?: string | null
+  diagnosticoTecnico?: string | null
+  intervencionRealizada?: string | null
+  hallazgosEstructurales?: string | null
+  recomendacionesObligatorias?: string | null
+  huboSellamiento?: boolean | null
+  huboRecomendacionEstructural?: boolean | null
+  horaInicioReal?: Date | string | null
+  horaFinReal?: Date | string | null
   condicionesHigiene?: string | null
   condicionesLocal?: string | null
   valorCotizado?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -3158,6 +3430,14 @@ export type OrdenServicioUncheckedCreateWithoutClienteInput = {
   horaFin?: Date | string | null
   observacion?: string | null
   observacionFinal?: string | null
+  diagnosticoTecnico?: string | null
+  intervencionRealizada?: string | null
+  hallazgosEstructurales?: string | null
+  recomendacionesObligatorias?: string | null
+  huboSellamiento?: boolean | null
+  huboRecomendacionEstructural?: boolean | null
+  horaInicioReal?: Date | string | null
+  horaFinReal?: Date | string | null
   condicionesHigiene?: string | null
   condicionesLocal?: string | null
   valorCotizado?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -3238,6 +3518,14 @@ export type OrdenServicioCreateWithoutContratoClienteInput = {
   horaFin?: Date | string | null
   observacion?: string | null
   observacionFinal?: string | null
+  diagnosticoTecnico?: string | null
+  intervencionRealizada?: string | null
+  hallazgosEstructurales?: string | null
+  recomendacionesObligatorias?: string | null
+  huboSellamiento?: boolean | null
+  huboRecomendacionEstructural?: boolean | null
+  horaInicioReal?: Date | string | null
+  horaFinReal?: Date | string | null
   condicionesHigiene?: string | null
   condicionesLocal?: string | null
   valorCotizado?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -3311,6 +3599,14 @@ export type OrdenServicioUncheckedCreateWithoutContratoClienteInput = {
   horaFin?: Date | string | null
   observacion?: string | null
   observacionFinal?: string | null
+  diagnosticoTecnico?: string | null
+  intervencionRealizada?: string | null
+  hallazgosEstructurales?: string | null
+  recomendacionesObligatorias?: string | null
+  huboSellamiento?: boolean | null
+  huboRecomendacionEstructural?: boolean | null
+  horaInicioReal?: Date | string | null
+  horaFinReal?: Date | string | null
   condicionesHigiene?: string | null
   condicionesLocal?: string | null
   valorCotizado?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -3390,6 +3686,14 @@ export type OrdenServicioCreateWithoutVehiculoInput = {
   horaFin?: Date | string | null
   observacion?: string | null
   observacionFinal?: string | null
+  diagnosticoTecnico?: string | null
+  intervencionRealizada?: string | null
+  hallazgosEstructurales?: string | null
+  recomendacionesObligatorias?: string | null
+  huboSellamiento?: boolean | null
+  huboRecomendacionEstructural?: boolean | null
+  horaInicioReal?: Date | string | null
+  horaFinReal?: Date | string | null
   condicionesHigiene?: string | null
   condicionesLocal?: string | null
   valorCotizado?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -3462,6 +3766,14 @@ export type OrdenServicioUncheckedCreateWithoutVehiculoInput = {
   horaFin?: Date | string | null
   observacion?: string | null
   observacionFinal?: string | null
+  diagnosticoTecnico?: string | null
+  intervencionRealizada?: string | null
+  hallazgosEstructurales?: string | null
+  recomendacionesObligatorias?: string | null
+  huboSellamiento?: boolean | null
+  huboRecomendacionEstructural?: boolean | null
+  horaInicioReal?: Date | string | null
+  horaFinReal?: Date | string | null
   condicionesHigiene?: string | null
   condicionesLocal?: string | null
   valorCotizado?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -3542,6 +3854,14 @@ export type OrdenServicioCreateWithoutDireccionInput = {
   horaFin?: Date | string | null
   observacion?: string | null
   observacionFinal?: string | null
+  diagnosticoTecnico?: string | null
+  intervencionRealizada?: string | null
+  hallazgosEstructurales?: string | null
+  recomendacionesObligatorias?: string | null
+  huboSellamiento?: boolean | null
+  huboRecomendacionEstructural?: boolean | null
+  horaInicioReal?: Date | string | null
+  horaFinReal?: Date | string | null
   condicionesHigiene?: string | null
   condicionesLocal?: string | null
   valorCotizado?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -3614,6 +3934,14 @@ export type OrdenServicioUncheckedCreateWithoutDireccionInput = {
   horaFin?: Date | string | null
   observacion?: string | null
   observacionFinal?: string | null
+  diagnosticoTecnico?: string | null
+  intervencionRealizada?: string | null
+  hallazgosEstructurales?: string | null
+  recomendacionesObligatorias?: string | null
+  huboSellamiento?: boolean | null
+  huboRecomendacionEstructural?: boolean | null
+  horaInicioReal?: Date | string | null
+  horaFinReal?: Date | string | null
   condicionesHigiene?: string | null
   condicionesLocal?: string | null
   valorCotizado?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -3694,6 +4022,14 @@ export type OrdenServicioCreateWithoutZonaInput = {
   horaFin?: Date | string | null
   observacion?: string | null
   observacionFinal?: string | null
+  diagnosticoTecnico?: string | null
+  intervencionRealizada?: string | null
+  hallazgosEstructurales?: string | null
+  recomendacionesObligatorias?: string | null
+  huboSellamiento?: boolean | null
+  huboRecomendacionEstructural?: boolean | null
+  horaInicioReal?: Date | string | null
+  horaFinReal?: Date | string | null
   condicionesHigiene?: string | null
   condicionesLocal?: string | null
   valorCotizado?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -3766,6 +4102,14 @@ export type OrdenServicioUncheckedCreateWithoutZonaInput = {
   horaFin?: Date | string | null
   observacion?: string | null
   observacionFinal?: string | null
+  diagnosticoTecnico?: string | null
+  intervencionRealizada?: string | null
+  hallazgosEstructurales?: string | null
+  recomendacionesObligatorias?: string | null
+  huboSellamiento?: boolean | null
+  huboRecomendacionEstructural?: boolean | null
+  horaInicioReal?: Date | string | null
+  horaFinReal?: Date | string | null
   condicionesHigiene?: string | null
   condicionesLocal?: string | null
   valorCotizado?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -3846,6 +4190,14 @@ export type OrdenServicioCreateWithoutServicioInput = {
   horaFin?: Date | string | null
   observacion?: string | null
   observacionFinal?: string | null
+  diagnosticoTecnico?: string | null
+  intervencionRealizada?: string | null
+  hallazgosEstructurales?: string | null
+  recomendacionesObligatorias?: string | null
+  huboSellamiento?: boolean | null
+  huboRecomendacionEstructural?: boolean | null
+  horaInicioReal?: Date | string | null
+  horaFinReal?: Date | string | null
   condicionesHigiene?: string | null
   condicionesLocal?: string | null
   valorCotizado?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -3918,6 +4270,14 @@ export type OrdenServicioUncheckedCreateWithoutServicioInput = {
   horaFin?: Date | string | null
   observacion?: string | null
   observacionFinal?: string | null
+  diagnosticoTecnico?: string | null
+  intervencionRealizada?: string | null
+  hallazgosEstructurales?: string | null
+  recomendacionesObligatorias?: string | null
+  huboSellamiento?: boolean | null
+  huboRecomendacionEstructural?: boolean | null
+  horaInicioReal?: Date | string | null
+  horaFinReal?: Date | string | null
   condicionesHigiene?: string | null
   condicionesLocal?: string | null
   valorCotizado?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -3998,6 +4358,14 @@ export type OrdenServicioCreateWithoutMetodoPagoInput = {
   horaFin?: Date | string | null
   observacion?: string | null
   observacionFinal?: string | null
+  diagnosticoTecnico?: string | null
+  intervencionRealizada?: string | null
+  hallazgosEstructurales?: string | null
+  recomendacionesObligatorias?: string | null
+  huboSellamiento?: boolean | null
+  huboRecomendacionEstructural?: boolean | null
+  horaInicioReal?: Date | string | null
+  horaFinReal?: Date | string | null
   condicionesHigiene?: string | null
   condicionesLocal?: string | null
   valorCotizado?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -4070,6 +4438,14 @@ export type OrdenServicioUncheckedCreateWithoutMetodoPagoInput = {
   horaFin?: Date | string | null
   observacion?: string | null
   observacionFinal?: string | null
+  diagnosticoTecnico?: string | null
+  intervencionRealizada?: string | null
+  hallazgosEstructurales?: string | null
+  recomendacionesObligatorias?: string | null
+  huboSellamiento?: boolean | null
+  huboRecomendacionEstructural?: boolean | null
+  horaInicioReal?: Date | string | null
+  horaFinReal?: Date | string | null
   condicionesHigiene?: string | null
   condicionesLocal?: string | null
   valorCotizado?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -4150,6 +4526,14 @@ export type OrdenServicioCreateWithoutOrdenesHijasInput = {
   horaFin?: Date | string | null
   observacion?: string | null
   observacionFinal?: string | null
+  diagnosticoTecnico?: string | null
+  intervencionRealizada?: string | null
+  hallazgosEstructurales?: string | null
+  recomendacionesObligatorias?: string | null
+  huboSellamiento?: boolean | null
+  huboRecomendacionEstructural?: boolean | null
+  horaInicioReal?: Date | string | null
+  horaFinReal?: Date | string | null
   condicionesHigiene?: string | null
   condicionesLocal?: string | null
   valorCotizado?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -4223,6 +4607,14 @@ export type OrdenServicioUncheckedCreateWithoutOrdenesHijasInput = {
   horaFin?: Date | string | null
   observacion?: string | null
   observacionFinal?: string | null
+  diagnosticoTecnico?: string | null
+  intervencionRealizada?: string | null
+  hallazgosEstructurales?: string | null
+  recomendacionesObligatorias?: string | null
+  huboSellamiento?: boolean | null
+  huboRecomendacionEstructural?: boolean | null
+  horaInicioReal?: Date | string | null
+  horaFinReal?: Date | string | null
   condicionesHigiene?: string | null
   condicionesLocal?: string | null
   valorCotizado?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -4281,6 +4673,14 @@ export type OrdenServicioCreateWithoutOrdenPadreInput = {
   horaFin?: Date | string | null
   observacion?: string | null
   observacionFinal?: string | null
+  diagnosticoTecnico?: string | null
+  intervencionRealizada?: string | null
+  hallazgosEstructurales?: string | null
+  recomendacionesObligatorias?: string | null
+  huboSellamiento?: boolean | null
+  huboRecomendacionEstructural?: boolean | null
+  horaInicioReal?: Date | string | null
+  horaFinReal?: Date | string | null
   condicionesHigiene?: string | null
   condicionesLocal?: string | null
   valorCotizado?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -4354,6 +4754,14 @@ export type OrdenServicioUncheckedCreateWithoutOrdenPadreInput = {
   horaFin?: Date | string | null
   observacion?: string | null
   observacionFinal?: string | null
+  diagnosticoTecnico?: string | null
+  intervencionRealizada?: string | null
+  hallazgosEstructurales?: string | null
+  recomendacionesObligatorias?: string | null
+  huboSellamiento?: boolean | null
+  huboRecomendacionEstructural?: boolean | null
+  horaInicioReal?: Date | string | null
+  horaFinReal?: Date | string | null
   condicionesHigiene?: string | null
   condicionesLocal?: string | null
   valorCotizado?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -4428,6 +4836,14 @@ export type OrdenServicioUpdateWithoutOrdenesHijasInput = {
   horaFin?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   observacion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   observacionFinal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  diagnosticoTecnico?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  intervencionRealizada?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  hallazgosEstructurales?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  recomendacionesObligatorias?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  huboSellamiento?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  huboRecomendacionEstructural?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  horaInicioReal?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  horaFinReal?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   condicionesHigiene?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   condicionesLocal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   valorCotizado?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -4501,6 +4917,14 @@ export type OrdenServicioUncheckedUpdateWithoutOrdenesHijasInput = {
   horaFin?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   observacion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   observacionFinal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  diagnosticoTecnico?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  intervencionRealizada?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  hallazgosEstructurales?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  recomendacionesObligatorias?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  huboSellamiento?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  huboRecomendacionEstructural?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  horaInicioReal?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  horaFinReal?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   condicionesHigiene?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   condicionesLocal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   valorCotizado?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -4570,6 +4994,14 @@ export type OrdenServicioCreateWithoutSeguimientosInput = {
   horaFin?: Date | string | null
   observacion?: string | null
   observacionFinal?: string | null
+  diagnosticoTecnico?: string | null
+  intervencionRealizada?: string | null
+  hallazgosEstructurales?: string | null
+  recomendacionesObligatorias?: string | null
+  huboSellamiento?: boolean | null
+  huboRecomendacionEstructural?: boolean | null
+  horaInicioReal?: Date | string | null
+  horaFinReal?: Date | string | null
   condicionesHigiene?: string | null
   condicionesLocal?: string | null
   valorCotizado?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -4643,6 +5075,14 @@ export type OrdenServicioUncheckedCreateWithoutSeguimientosInput = {
   horaFin?: Date | string | null
   observacion?: string | null
   observacionFinal?: string | null
+  diagnosticoTecnico?: string | null
+  intervencionRealizada?: string | null
+  hallazgosEstructurales?: string | null
+  recomendacionesObligatorias?: string | null
+  huboSellamiento?: boolean | null
+  huboRecomendacionEstructural?: boolean | null
+  horaInicioReal?: Date | string | null
+  horaFinReal?: Date | string | null
   condicionesHigiene?: string | null
   condicionesLocal?: string | null
   valorCotizado?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -4712,6 +5152,14 @@ export type OrdenServicioUpdateWithoutSeguimientosInput = {
   horaFin?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   observacion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   observacionFinal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  diagnosticoTecnico?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  intervencionRealizada?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  hallazgosEstructurales?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  recomendacionesObligatorias?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  huboSellamiento?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  huboRecomendacionEstructural?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  horaInicioReal?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  horaFinReal?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   condicionesHigiene?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   condicionesLocal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   valorCotizado?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -4785,6 +5233,14 @@ export type OrdenServicioUncheckedUpdateWithoutSeguimientosInput = {
   horaFin?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   observacion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   observacionFinal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  diagnosticoTecnico?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  intervencionRealizada?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  hallazgosEstructurales?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  recomendacionesObligatorias?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  huboSellamiento?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  huboRecomendacionEstructural?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  horaInicioReal?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  horaFinReal?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   condicionesHigiene?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   condicionesLocal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   valorCotizado?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -4838,6 +5294,14 @@ export type OrdenServicioCreateWithoutEntidadFinancieraInput = {
   horaFin?: Date | string | null
   observacion?: string | null
   observacionFinal?: string | null
+  diagnosticoTecnico?: string | null
+  intervencionRealizada?: string | null
+  hallazgosEstructurales?: string | null
+  recomendacionesObligatorias?: string | null
+  huboSellamiento?: boolean | null
+  huboRecomendacionEstructural?: boolean | null
+  horaInicioReal?: Date | string | null
+  horaFinReal?: Date | string | null
   condicionesHigiene?: string | null
   condicionesLocal?: string | null
   valorCotizado?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -4911,6 +5375,14 @@ export type OrdenServicioUncheckedCreateWithoutEntidadFinancieraInput = {
   horaFin?: Date | string | null
   observacion?: string | null
   observacionFinal?: string | null
+  diagnosticoTecnico?: string | null
+  intervencionRealizada?: string | null
+  hallazgosEstructurales?: string | null
+  recomendacionesObligatorias?: string | null
+  huboSellamiento?: boolean | null
+  huboRecomendacionEstructural?: boolean | null
+  horaInicioReal?: Date | string | null
+  horaFinReal?: Date | string | null
   condicionesHigiene?: string | null
   condicionesLocal?: string | null
   valorCotizado?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -4990,6 +5462,14 @@ export type OrdenServicioCreateWithoutGeolocalizacionesInput = {
   horaFin?: Date | string | null
   observacion?: string | null
   observacionFinal?: string | null
+  diagnosticoTecnico?: string | null
+  intervencionRealizada?: string | null
+  hallazgosEstructurales?: string | null
+  recomendacionesObligatorias?: string | null
+  huboSellamiento?: boolean | null
+  huboRecomendacionEstructural?: boolean | null
+  horaInicioReal?: Date | string | null
+  horaFinReal?: Date | string | null
   condicionesHigiene?: string | null
   condicionesLocal?: string | null
   valorCotizado?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -5063,6 +5543,14 @@ export type OrdenServicioUncheckedCreateWithoutGeolocalizacionesInput = {
   horaFin?: Date | string | null
   observacion?: string | null
   observacionFinal?: string | null
+  diagnosticoTecnico?: string | null
+  intervencionRealizada?: string | null
+  hallazgosEstructurales?: string | null
+  recomendacionesObligatorias?: string | null
+  huboSellamiento?: boolean | null
+  huboRecomendacionEstructural?: boolean | null
+  horaInicioReal?: Date | string | null
+  horaFinReal?: Date | string | null
   condicionesHigiene?: string | null
   condicionesLocal?: string | null
   valorCotizado?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -5132,6 +5620,14 @@ export type OrdenServicioUpdateWithoutGeolocalizacionesInput = {
   horaFin?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   observacion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   observacionFinal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  diagnosticoTecnico?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  intervencionRealizada?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  hallazgosEstructurales?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  recomendacionesObligatorias?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  huboSellamiento?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  huboRecomendacionEstructural?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  horaInicioReal?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  horaFinReal?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   condicionesHigiene?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   condicionesLocal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   valorCotizado?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -5205,6 +5701,14 @@ export type OrdenServicioUncheckedUpdateWithoutGeolocalizacionesInput = {
   horaFin?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   observacion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   observacionFinal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  diagnosticoTecnico?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  intervencionRealizada?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  hallazgosEstructurales?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  recomendacionesObligatorias?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  huboSellamiento?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  huboRecomendacionEstructural?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  horaInicioReal?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  horaFinReal?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   condicionesHigiene?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   condicionesLocal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   valorCotizado?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -5258,6 +5762,14 @@ export type OrdenServicioCreateWithoutNominaDetallesInput = {
   horaFin?: Date | string | null
   observacion?: string | null
   observacionFinal?: string | null
+  diagnosticoTecnico?: string | null
+  intervencionRealizada?: string | null
+  hallazgosEstructurales?: string | null
+  recomendacionesObligatorias?: string | null
+  huboSellamiento?: boolean | null
+  huboRecomendacionEstructural?: boolean | null
+  horaInicioReal?: Date | string | null
+  horaFinReal?: Date | string | null
   condicionesHigiene?: string | null
   condicionesLocal?: string | null
   valorCotizado?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -5331,6 +5843,14 @@ export type OrdenServicioUncheckedCreateWithoutNominaDetallesInput = {
   horaFin?: Date | string | null
   observacion?: string | null
   observacionFinal?: string | null
+  diagnosticoTecnico?: string | null
+  intervencionRealizada?: string | null
+  hallazgosEstructurales?: string | null
+  recomendacionesObligatorias?: string | null
+  huboSellamiento?: boolean | null
+  huboRecomendacionEstructural?: boolean | null
+  horaInicioReal?: Date | string | null
+  horaFinReal?: Date | string | null
   condicionesHigiene?: string | null
   condicionesLocal?: string | null
   valorCotizado?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -5400,6 +5920,14 @@ export type OrdenServicioUpdateWithoutNominaDetallesInput = {
   horaFin?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   observacion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   observacionFinal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  diagnosticoTecnico?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  intervencionRealizada?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  hallazgosEstructurales?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  recomendacionesObligatorias?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  huboSellamiento?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  huboRecomendacionEstructural?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  horaInicioReal?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  horaFinReal?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   condicionesHigiene?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   condicionesLocal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   valorCotizado?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -5473,6 +6001,14 @@ export type OrdenServicioUncheckedUpdateWithoutNominaDetallesInput = {
   horaFin?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   observacion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   observacionFinal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  diagnosticoTecnico?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  intervencionRealizada?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  hallazgosEstructurales?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  recomendacionesObligatorias?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  huboSellamiento?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  huboRecomendacionEstructural?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  horaInicioReal?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  horaFinReal?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   condicionesHigiene?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   condicionesLocal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   valorCotizado?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -5526,6 +6062,14 @@ export type OrdenServicioCreateWithoutDeclaracionEfectivoInput = {
   horaFin?: Date | string | null
   observacion?: string | null
   observacionFinal?: string | null
+  diagnosticoTecnico?: string | null
+  intervencionRealizada?: string | null
+  hallazgosEstructurales?: string | null
+  recomendacionesObligatorias?: string | null
+  huboSellamiento?: boolean | null
+  huboRecomendacionEstructural?: boolean | null
+  horaInicioReal?: Date | string | null
+  horaFinReal?: Date | string | null
   condicionesHigiene?: string | null
   condicionesLocal?: string | null
   valorCotizado?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -5599,6 +6143,14 @@ export type OrdenServicioUncheckedCreateWithoutDeclaracionEfectivoInput = {
   horaFin?: Date | string | null
   observacion?: string | null
   observacionFinal?: string | null
+  diagnosticoTecnico?: string | null
+  intervencionRealizada?: string | null
+  hallazgosEstructurales?: string | null
+  recomendacionesObligatorias?: string | null
+  huboSellamiento?: boolean | null
+  huboRecomendacionEstructural?: boolean | null
+  horaInicioReal?: Date | string | null
+  horaFinReal?: Date | string | null
   condicionesHigiene?: string | null
   condicionesLocal?: string | null
   valorCotizado?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -5668,6 +6220,14 @@ export type OrdenServicioUpdateWithoutDeclaracionEfectivoInput = {
   horaFin?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   observacion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   observacionFinal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  diagnosticoTecnico?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  intervencionRealizada?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  hallazgosEstructurales?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  recomendacionesObligatorias?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  huboSellamiento?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  huboRecomendacionEstructural?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  horaInicioReal?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  horaFinReal?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   condicionesHigiene?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   condicionesLocal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   valorCotizado?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -5741,6 +6301,14 @@ export type OrdenServicioUncheckedUpdateWithoutDeclaracionEfectivoInput = {
   horaFin?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   observacion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   observacionFinal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  diagnosticoTecnico?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  intervencionRealizada?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  hallazgosEstructurales?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  recomendacionesObligatorias?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  huboSellamiento?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  huboRecomendacionEstructural?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  horaInicioReal?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  horaFinReal?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   condicionesHigiene?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   condicionesLocal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   valorCotizado?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -5794,6 +6362,14 @@ export type OrdenServicioCreateWithoutConsignacionOrdenInput = {
   horaFin?: Date | string | null
   observacion?: string | null
   observacionFinal?: string | null
+  diagnosticoTecnico?: string | null
+  intervencionRealizada?: string | null
+  hallazgosEstructurales?: string | null
+  recomendacionesObligatorias?: string | null
+  huboSellamiento?: boolean | null
+  huboRecomendacionEstructural?: boolean | null
+  horaInicioReal?: Date | string | null
+  horaFinReal?: Date | string | null
   condicionesHigiene?: string | null
   condicionesLocal?: string | null
   valorCotizado?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -5867,6 +6443,14 @@ export type OrdenServicioUncheckedCreateWithoutConsignacionOrdenInput = {
   horaFin?: Date | string | null
   observacion?: string | null
   observacionFinal?: string | null
+  diagnosticoTecnico?: string | null
+  intervencionRealizada?: string | null
+  hallazgosEstructurales?: string | null
+  recomendacionesObligatorias?: string | null
+  huboSellamiento?: boolean | null
+  huboRecomendacionEstructural?: boolean | null
+  horaInicioReal?: Date | string | null
+  horaFinReal?: Date | string | null
   condicionesHigiene?: string | null
   condicionesLocal?: string | null
   valorCotizado?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -5936,6 +6520,14 @@ export type OrdenServicioUpdateWithoutConsignacionOrdenInput = {
   horaFin?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   observacion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   observacionFinal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  diagnosticoTecnico?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  intervencionRealizada?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  hallazgosEstructurales?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  recomendacionesObligatorias?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  huboSellamiento?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  huboRecomendacionEstructural?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  horaInicioReal?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  horaFinReal?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   condicionesHigiene?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   condicionesLocal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   valorCotizado?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -6009,6 +6601,14 @@ export type OrdenServicioUncheckedUpdateWithoutConsignacionOrdenInput = {
   horaFin?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   observacion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   observacionFinal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  diagnosticoTecnico?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  intervencionRealizada?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  hallazgosEstructurales?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  recomendacionesObligatorias?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  huboSellamiento?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  huboRecomendacionEstructural?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  horaInicioReal?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  horaFinReal?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   condicionesHigiene?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   condicionesLocal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   valorCotizado?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -6062,6 +6662,14 @@ export type OrdenServicioCreateWithoutEvidenciasInput = {
   horaFin?: Date | string | null
   observacion?: string | null
   observacionFinal?: string | null
+  diagnosticoTecnico?: string | null
+  intervencionRealizada?: string | null
+  hallazgosEstructurales?: string | null
+  recomendacionesObligatorias?: string | null
+  huboSellamiento?: boolean | null
+  huboRecomendacionEstructural?: boolean | null
+  horaInicioReal?: Date | string | null
+  horaFinReal?: Date | string | null
   condicionesHigiene?: string | null
   condicionesLocal?: string | null
   valorCotizado?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -6135,6 +6743,14 @@ export type OrdenServicioUncheckedCreateWithoutEvidenciasInput = {
   horaFin?: Date | string | null
   observacion?: string | null
   observacionFinal?: string | null
+  diagnosticoTecnico?: string | null
+  intervencionRealizada?: string | null
+  hallazgosEstructurales?: string | null
+  recomendacionesObligatorias?: string | null
+  huboSellamiento?: boolean | null
+  huboRecomendacionEstructural?: boolean | null
+  horaInicioReal?: Date | string | null
+  horaFinReal?: Date | string | null
   condicionesHigiene?: string | null
   condicionesLocal?: string | null
   valorCotizado?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -6204,6 +6820,14 @@ export type OrdenServicioUpdateWithoutEvidenciasInput = {
   horaFin?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   observacion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   observacionFinal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  diagnosticoTecnico?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  intervencionRealizada?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  hallazgosEstructurales?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  recomendacionesObligatorias?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  huboSellamiento?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  huboRecomendacionEstructural?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  horaInicioReal?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  horaFinReal?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   condicionesHigiene?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   condicionesLocal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   valorCotizado?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -6277,6 +6901,14 @@ export type OrdenServicioUncheckedUpdateWithoutEvidenciasInput = {
   horaFin?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   observacion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   observacionFinal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  diagnosticoTecnico?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  intervencionRealizada?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  hallazgosEstructurales?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  recomendacionesObligatorias?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  huboSellamiento?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  huboRecomendacionEstructural?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  horaInicioReal?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  horaFinReal?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   condicionesHigiene?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   condicionesLocal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   valorCotizado?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -6339,6 +6971,14 @@ export type OrdenServicioCreateManyTenantInput = {
   horaFin?: Date | string | null
   observacion?: string | null
   observacionFinal?: string | null
+  diagnosticoTecnico?: string | null
+  intervencionRealizada?: string | null
+  hallazgosEstructurales?: string | null
+  recomendacionesObligatorias?: string | null
+  huboSellamiento?: boolean | null
+  huboRecomendacionEstructural?: boolean | null
+  horaInicioReal?: Date | string | null
+  horaFinReal?: Date | string | null
   condicionesHigiene?: string | null
   condicionesLocal?: string | null
   valorCotizado?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -6386,6 +7026,14 @@ export type OrdenServicioUpdateWithoutTenantInput = {
   horaFin?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   observacion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   observacionFinal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  diagnosticoTecnico?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  intervencionRealizada?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  hallazgosEstructurales?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  recomendacionesObligatorias?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  huboSellamiento?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  huboRecomendacionEstructural?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  horaInicioReal?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  horaFinReal?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   condicionesHigiene?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   condicionesLocal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   valorCotizado?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -6458,6 +7106,14 @@ export type OrdenServicioUncheckedUpdateWithoutTenantInput = {
   horaFin?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   observacion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   observacionFinal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  diagnosticoTecnico?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  intervencionRealizada?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  hallazgosEstructurales?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  recomendacionesObligatorias?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  huboSellamiento?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  huboRecomendacionEstructural?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  horaInicioReal?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  horaFinReal?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   condicionesHigiene?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   condicionesLocal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   valorCotizado?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -6521,6 +7177,14 @@ export type OrdenServicioUncheckedUpdateManyWithoutTenantInput = {
   horaFin?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   observacion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   observacionFinal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  diagnosticoTecnico?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  intervencionRealizada?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  hallazgosEstructurales?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  recomendacionesObligatorias?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  huboSellamiento?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  huboRecomendacionEstructural?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  horaInicioReal?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  horaFinReal?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   condicionesHigiene?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   condicionesLocal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   valorCotizado?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -6577,6 +7241,14 @@ export type OrdenServicioCreateManyCreadoPorInput = {
   horaFin?: Date | string | null
   observacion?: string | null
   observacionFinal?: string | null
+  diagnosticoTecnico?: string | null
+  intervencionRealizada?: string | null
+  hallazgosEstructurales?: string | null
+  recomendacionesObligatorias?: string | null
+  huboSellamiento?: boolean | null
+  huboRecomendacionEstructural?: boolean | null
+  horaInicioReal?: Date | string | null
+  horaFinReal?: Date | string | null
   condicionesHigiene?: string | null
   condicionesLocal?: string | null
   valorCotizado?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -6634,6 +7306,14 @@ export type OrdenServicioCreateManyLiquidadoPorInput = {
   horaFin?: Date | string | null
   observacion?: string | null
   observacionFinal?: string | null
+  diagnosticoTecnico?: string | null
+  intervencionRealizada?: string | null
+  hallazgosEstructurales?: string | null
+  recomendacionesObligatorias?: string | null
+  huboSellamiento?: boolean | null
+  huboRecomendacionEstructural?: boolean | null
+  horaInicioReal?: Date | string | null
+  horaFinReal?: Date | string | null
   condicionesHigiene?: string | null
   condicionesLocal?: string | null
   valorCotizado?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -6689,6 +7369,14 @@ export type OrdenServicioCreateManyTecnicoInput = {
   horaFin?: Date | string | null
   observacion?: string | null
   observacionFinal?: string | null
+  diagnosticoTecnico?: string | null
+  intervencionRealizada?: string | null
+  hallazgosEstructurales?: string | null
+  recomendacionesObligatorias?: string | null
+  huboSellamiento?: boolean | null
+  huboRecomendacionEstructural?: boolean | null
+  horaInicioReal?: Date | string | null
+  horaFinReal?: Date | string | null
   condicionesHigiene?: string | null
   condicionesLocal?: string | null
   valorCotizado?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -6736,6 +7424,14 @@ export type OrdenServicioUpdateWithoutCreadoPorInput = {
   horaFin?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   observacion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   observacionFinal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  diagnosticoTecnico?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  intervencionRealizada?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  hallazgosEstructurales?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  recomendacionesObligatorias?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  huboSellamiento?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  huboRecomendacionEstructural?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  horaInicioReal?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  horaFinReal?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   condicionesHigiene?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   condicionesLocal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   valorCotizado?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -6808,6 +7504,14 @@ export type OrdenServicioUncheckedUpdateWithoutCreadoPorInput = {
   horaFin?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   observacion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   observacionFinal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  diagnosticoTecnico?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  intervencionRealizada?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  hallazgosEstructurales?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  recomendacionesObligatorias?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  huboSellamiento?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  huboRecomendacionEstructural?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  horaInicioReal?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  horaFinReal?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   condicionesHigiene?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   condicionesLocal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   valorCotizado?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -6871,6 +7575,14 @@ export type OrdenServicioUncheckedUpdateManyWithoutCreadoPorInput = {
   horaFin?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   observacion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   observacionFinal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  diagnosticoTecnico?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  intervencionRealizada?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  hallazgosEstructurales?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  recomendacionesObligatorias?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  huboSellamiento?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  huboRecomendacionEstructural?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  horaInicioReal?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  horaFinReal?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   condicionesHigiene?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   condicionesLocal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   valorCotizado?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -6918,6 +7630,14 @@ export type OrdenServicioUpdateWithoutLiquidadoPorInput = {
   horaFin?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   observacion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   observacionFinal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  diagnosticoTecnico?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  intervencionRealizada?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  hallazgosEstructurales?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  recomendacionesObligatorias?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  huboSellamiento?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  huboRecomendacionEstructural?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  horaInicioReal?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  horaFinReal?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   condicionesHigiene?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   condicionesLocal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   valorCotizado?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -6991,6 +7711,14 @@ export type OrdenServicioUncheckedUpdateWithoutLiquidadoPorInput = {
   horaFin?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   observacion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   observacionFinal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  diagnosticoTecnico?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  intervencionRealizada?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  hallazgosEstructurales?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  recomendacionesObligatorias?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  huboSellamiento?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  huboRecomendacionEstructural?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  horaInicioReal?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  horaFinReal?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   condicionesHigiene?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   condicionesLocal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   valorCotizado?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -7054,6 +7782,14 @@ export type OrdenServicioUncheckedUpdateManyWithoutLiquidadoPorInput = {
   horaFin?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   observacion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   observacionFinal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  diagnosticoTecnico?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  intervencionRealizada?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  hallazgosEstructurales?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  recomendacionesObligatorias?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  huboSellamiento?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  huboRecomendacionEstructural?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  horaInicioReal?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  horaFinReal?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   condicionesHigiene?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   condicionesLocal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   valorCotizado?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -7100,6 +7836,14 @@ export type OrdenServicioUpdateWithoutTecnicoInput = {
   horaFin?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   observacion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   observacionFinal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  diagnosticoTecnico?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  intervencionRealizada?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  hallazgosEstructurales?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  recomendacionesObligatorias?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  huboSellamiento?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  huboRecomendacionEstructural?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  horaInicioReal?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  horaFinReal?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   condicionesHigiene?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   condicionesLocal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   valorCotizado?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -7172,6 +7916,14 @@ export type OrdenServicioUncheckedUpdateWithoutTecnicoInput = {
   horaFin?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   observacion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   observacionFinal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  diagnosticoTecnico?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  intervencionRealizada?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  hallazgosEstructurales?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  recomendacionesObligatorias?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  huboSellamiento?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  huboRecomendacionEstructural?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  horaInicioReal?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  horaFinReal?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   condicionesHigiene?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   condicionesLocal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   valorCotizado?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -7235,6 +7987,14 @@ export type OrdenServicioUncheckedUpdateManyWithoutTecnicoInput = {
   horaFin?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   observacion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   observacionFinal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  diagnosticoTecnico?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  intervencionRealizada?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  hallazgosEstructurales?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  recomendacionesObligatorias?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  huboSellamiento?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  huboRecomendacionEstructural?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  horaInicioReal?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  horaFinReal?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   condicionesHigiene?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   condicionesLocal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   valorCotizado?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -7291,6 +8051,14 @@ export type OrdenServicioCreateManyEmpresaInput = {
   horaFin?: Date | string | null
   observacion?: string | null
   observacionFinal?: string | null
+  diagnosticoTecnico?: string | null
+  intervencionRealizada?: string | null
+  hallazgosEstructurales?: string | null
+  recomendacionesObligatorias?: string | null
+  huboSellamiento?: boolean | null
+  huboRecomendacionEstructural?: boolean | null
+  horaInicioReal?: Date | string | null
+  horaFinReal?: Date | string | null
   condicionesHigiene?: string | null
   condicionesLocal?: string | null
   valorCotizado?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -7338,6 +8106,14 @@ export type OrdenServicioUpdateWithoutEmpresaInput = {
   horaFin?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   observacion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   observacionFinal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  diagnosticoTecnico?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  intervencionRealizada?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  hallazgosEstructurales?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  recomendacionesObligatorias?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  huboSellamiento?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  huboRecomendacionEstructural?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  horaInicioReal?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  horaFinReal?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   condicionesHigiene?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   condicionesLocal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   valorCotizado?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -7410,6 +8186,14 @@ export type OrdenServicioUncheckedUpdateWithoutEmpresaInput = {
   horaFin?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   observacion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   observacionFinal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  diagnosticoTecnico?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  intervencionRealizada?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  hallazgosEstructurales?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  recomendacionesObligatorias?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  huboSellamiento?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  huboRecomendacionEstructural?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  horaInicioReal?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  horaFinReal?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   condicionesHigiene?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   condicionesLocal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   valorCotizado?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -7473,6 +8257,14 @@ export type OrdenServicioUncheckedUpdateManyWithoutEmpresaInput = {
   horaFin?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   observacion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   observacionFinal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  diagnosticoTecnico?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  intervencionRealizada?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  hallazgosEstructurales?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  recomendacionesObligatorias?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  huboSellamiento?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  huboRecomendacionEstructural?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  horaInicioReal?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  horaFinReal?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   condicionesHigiene?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   condicionesLocal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   valorCotizado?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -7529,6 +8321,14 @@ export type OrdenServicioCreateManyClienteInput = {
   horaFin?: Date | string | null
   observacion?: string | null
   observacionFinal?: string | null
+  diagnosticoTecnico?: string | null
+  intervencionRealizada?: string | null
+  hallazgosEstructurales?: string | null
+  recomendacionesObligatorias?: string | null
+  huboSellamiento?: boolean | null
+  huboRecomendacionEstructural?: boolean | null
+  horaInicioReal?: Date | string | null
+  horaFinReal?: Date | string | null
   condicionesHigiene?: string | null
   condicionesLocal?: string | null
   valorCotizado?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -7576,6 +8376,14 @@ export type OrdenServicioUpdateWithoutClienteInput = {
   horaFin?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   observacion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   observacionFinal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  diagnosticoTecnico?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  intervencionRealizada?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  hallazgosEstructurales?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  recomendacionesObligatorias?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  huboSellamiento?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  huboRecomendacionEstructural?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  horaInicioReal?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  horaFinReal?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   condicionesHigiene?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   condicionesLocal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   valorCotizado?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -7648,6 +8456,14 @@ export type OrdenServicioUncheckedUpdateWithoutClienteInput = {
   horaFin?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   observacion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   observacionFinal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  diagnosticoTecnico?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  intervencionRealizada?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  hallazgosEstructurales?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  recomendacionesObligatorias?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  huboSellamiento?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  huboRecomendacionEstructural?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  horaInicioReal?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  horaFinReal?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   condicionesHigiene?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   condicionesLocal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   valorCotizado?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -7711,6 +8527,14 @@ export type OrdenServicioUncheckedUpdateManyWithoutClienteInput = {
   horaFin?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   observacion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   observacionFinal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  diagnosticoTecnico?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  intervencionRealizada?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  hallazgosEstructurales?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  recomendacionesObligatorias?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  huboSellamiento?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  huboRecomendacionEstructural?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  horaInicioReal?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  horaFinReal?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   condicionesHigiene?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   condicionesLocal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   valorCotizado?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -7768,6 +8592,14 @@ export type OrdenServicioCreateManyContratoClienteInput = {
   horaFin?: Date | string | null
   observacion?: string | null
   observacionFinal?: string | null
+  diagnosticoTecnico?: string | null
+  intervencionRealizada?: string | null
+  hallazgosEstructurales?: string | null
+  recomendacionesObligatorias?: string | null
+  huboSellamiento?: boolean | null
+  huboRecomendacionEstructural?: boolean | null
+  horaInicioReal?: Date | string | null
+  horaFinReal?: Date | string | null
   condicionesHigiene?: string | null
   condicionesLocal?: string | null
   valorCotizado?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -7814,6 +8646,14 @@ export type OrdenServicioUpdateWithoutContratoClienteInput = {
   horaFin?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   observacion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   observacionFinal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  diagnosticoTecnico?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  intervencionRealizada?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  hallazgosEstructurales?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  recomendacionesObligatorias?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  huboSellamiento?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  huboRecomendacionEstructural?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  horaInicioReal?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  horaFinReal?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   condicionesHigiene?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   condicionesLocal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   valorCotizado?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -7887,6 +8727,14 @@ export type OrdenServicioUncheckedUpdateWithoutContratoClienteInput = {
   horaFin?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   observacion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   observacionFinal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  diagnosticoTecnico?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  intervencionRealizada?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  hallazgosEstructurales?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  recomendacionesObligatorias?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  huboSellamiento?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  huboRecomendacionEstructural?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  horaInicioReal?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  horaFinReal?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   condicionesHigiene?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   condicionesLocal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   valorCotizado?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -7950,6 +8798,14 @@ export type OrdenServicioUncheckedUpdateManyWithoutContratoClienteInput = {
   horaFin?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   observacion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   observacionFinal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  diagnosticoTecnico?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  intervencionRealizada?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  hallazgosEstructurales?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  recomendacionesObligatorias?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  huboSellamiento?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  huboRecomendacionEstructural?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  horaInicioReal?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  horaFinReal?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   condicionesHigiene?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   condicionesLocal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   valorCotizado?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -8005,6 +8861,14 @@ export type OrdenServicioCreateManyVehiculoInput = {
   horaFin?: Date | string | null
   observacion?: string | null
   observacionFinal?: string | null
+  diagnosticoTecnico?: string | null
+  intervencionRealizada?: string | null
+  hallazgosEstructurales?: string | null
+  recomendacionesObligatorias?: string | null
+  huboSellamiento?: boolean | null
+  huboRecomendacionEstructural?: boolean | null
+  horaInicioReal?: Date | string | null
+  horaFinReal?: Date | string | null
   condicionesHigiene?: string | null
   condicionesLocal?: string | null
   valorCotizado?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -8052,6 +8916,14 @@ export type OrdenServicioUpdateWithoutVehiculoInput = {
   horaFin?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   observacion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   observacionFinal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  diagnosticoTecnico?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  intervencionRealizada?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  hallazgosEstructurales?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  recomendacionesObligatorias?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  huboSellamiento?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  huboRecomendacionEstructural?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  horaInicioReal?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  horaFinReal?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   condicionesHigiene?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   condicionesLocal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   valorCotizado?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -8124,6 +8996,14 @@ export type OrdenServicioUncheckedUpdateWithoutVehiculoInput = {
   horaFin?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   observacion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   observacionFinal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  diagnosticoTecnico?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  intervencionRealizada?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  hallazgosEstructurales?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  recomendacionesObligatorias?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  huboSellamiento?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  huboRecomendacionEstructural?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  horaInicioReal?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  horaFinReal?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   condicionesHigiene?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   condicionesLocal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   valorCotizado?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -8187,6 +9067,14 @@ export type OrdenServicioUncheckedUpdateManyWithoutVehiculoInput = {
   horaFin?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   observacion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   observacionFinal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  diagnosticoTecnico?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  intervencionRealizada?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  hallazgosEstructurales?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  recomendacionesObligatorias?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  huboSellamiento?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  huboRecomendacionEstructural?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  horaInicioReal?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  horaFinReal?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   condicionesHigiene?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   condicionesLocal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   valorCotizado?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -8243,6 +9131,14 @@ export type OrdenServicioCreateManyDireccionInput = {
   horaFin?: Date | string | null
   observacion?: string | null
   observacionFinal?: string | null
+  diagnosticoTecnico?: string | null
+  intervencionRealizada?: string | null
+  hallazgosEstructurales?: string | null
+  recomendacionesObligatorias?: string | null
+  huboSellamiento?: boolean | null
+  huboRecomendacionEstructural?: boolean | null
+  horaInicioReal?: Date | string | null
+  horaFinReal?: Date | string | null
   condicionesHigiene?: string | null
   condicionesLocal?: string | null
   valorCotizado?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -8290,6 +9186,14 @@ export type OrdenServicioUpdateWithoutDireccionInput = {
   horaFin?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   observacion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   observacionFinal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  diagnosticoTecnico?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  intervencionRealizada?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  hallazgosEstructurales?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  recomendacionesObligatorias?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  huboSellamiento?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  huboRecomendacionEstructural?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  horaInicioReal?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  horaFinReal?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   condicionesHigiene?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   condicionesLocal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   valorCotizado?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -8362,6 +9266,14 @@ export type OrdenServicioUncheckedUpdateWithoutDireccionInput = {
   horaFin?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   observacion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   observacionFinal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  diagnosticoTecnico?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  intervencionRealizada?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  hallazgosEstructurales?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  recomendacionesObligatorias?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  huboSellamiento?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  huboRecomendacionEstructural?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  horaInicioReal?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  horaFinReal?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   condicionesHigiene?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   condicionesLocal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   valorCotizado?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -8425,6 +9337,14 @@ export type OrdenServicioUncheckedUpdateManyWithoutDireccionInput = {
   horaFin?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   observacion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   observacionFinal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  diagnosticoTecnico?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  intervencionRealizada?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  hallazgosEstructurales?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  recomendacionesObligatorias?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  huboSellamiento?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  huboRecomendacionEstructural?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  horaInicioReal?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  horaFinReal?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   condicionesHigiene?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   condicionesLocal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   valorCotizado?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -8481,6 +9401,14 @@ export type OrdenServicioCreateManyZonaInput = {
   horaFin?: Date | string | null
   observacion?: string | null
   observacionFinal?: string | null
+  diagnosticoTecnico?: string | null
+  intervencionRealizada?: string | null
+  hallazgosEstructurales?: string | null
+  recomendacionesObligatorias?: string | null
+  huboSellamiento?: boolean | null
+  huboRecomendacionEstructural?: boolean | null
+  horaInicioReal?: Date | string | null
+  horaFinReal?: Date | string | null
   condicionesHigiene?: string | null
   condicionesLocal?: string | null
   valorCotizado?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -8528,6 +9456,14 @@ export type OrdenServicioUpdateWithoutZonaInput = {
   horaFin?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   observacion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   observacionFinal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  diagnosticoTecnico?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  intervencionRealizada?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  hallazgosEstructurales?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  recomendacionesObligatorias?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  huboSellamiento?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  huboRecomendacionEstructural?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  horaInicioReal?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  horaFinReal?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   condicionesHigiene?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   condicionesLocal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   valorCotizado?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -8600,6 +9536,14 @@ export type OrdenServicioUncheckedUpdateWithoutZonaInput = {
   horaFin?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   observacion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   observacionFinal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  diagnosticoTecnico?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  intervencionRealizada?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  hallazgosEstructurales?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  recomendacionesObligatorias?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  huboSellamiento?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  huboRecomendacionEstructural?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  horaInicioReal?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  horaFinReal?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   condicionesHigiene?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   condicionesLocal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   valorCotizado?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -8663,6 +9607,14 @@ export type OrdenServicioUncheckedUpdateManyWithoutZonaInput = {
   horaFin?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   observacion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   observacionFinal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  diagnosticoTecnico?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  intervencionRealizada?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  hallazgosEstructurales?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  recomendacionesObligatorias?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  huboSellamiento?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  huboRecomendacionEstructural?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  horaInicioReal?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  horaFinReal?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   condicionesHigiene?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   condicionesLocal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   valorCotizado?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -8719,6 +9671,14 @@ export type OrdenServicioCreateManyServicioInput = {
   horaFin?: Date | string | null
   observacion?: string | null
   observacionFinal?: string | null
+  diagnosticoTecnico?: string | null
+  intervencionRealizada?: string | null
+  hallazgosEstructurales?: string | null
+  recomendacionesObligatorias?: string | null
+  huboSellamiento?: boolean | null
+  huboRecomendacionEstructural?: boolean | null
+  horaInicioReal?: Date | string | null
+  horaFinReal?: Date | string | null
   condicionesHigiene?: string | null
   condicionesLocal?: string | null
   valorCotizado?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -8766,6 +9726,14 @@ export type OrdenServicioUpdateWithoutServicioInput = {
   horaFin?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   observacion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   observacionFinal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  diagnosticoTecnico?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  intervencionRealizada?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  hallazgosEstructurales?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  recomendacionesObligatorias?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  huboSellamiento?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  huboRecomendacionEstructural?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  horaInicioReal?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  horaFinReal?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   condicionesHigiene?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   condicionesLocal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   valorCotizado?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -8838,6 +9806,14 @@ export type OrdenServicioUncheckedUpdateWithoutServicioInput = {
   horaFin?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   observacion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   observacionFinal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  diagnosticoTecnico?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  intervencionRealizada?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  hallazgosEstructurales?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  recomendacionesObligatorias?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  huboSellamiento?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  huboRecomendacionEstructural?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  horaInicioReal?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  horaFinReal?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   condicionesHigiene?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   condicionesLocal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   valorCotizado?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -8901,6 +9877,14 @@ export type OrdenServicioUncheckedUpdateManyWithoutServicioInput = {
   horaFin?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   observacion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   observacionFinal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  diagnosticoTecnico?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  intervencionRealizada?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  hallazgosEstructurales?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  recomendacionesObligatorias?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  huboSellamiento?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  huboRecomendacionEstructural?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  horaInicioReal?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  horaFinReal?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   condicionesHigiene?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   condicionesLocal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   valorCotizado?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -8957,6 +9941,14 @@ export type OrdenServicioCreateManyMetodoPagoInput = {
   horaFin?: Date | string | null
   observacion?: string | null
   observacionFinal?: string | null
+  diagnosticoTecnico?: string | null
+  intervencionRealizada?: string | null
+  hallazgosEstructurales?: string | null
+  recomendacionesObligatorias?: string | null
+  huboSellamiento?: boolean | null
+  huboRecomendacionEstructural?: boolean | null
+  horaInicioReal?: Date | string | null
+  horaFinReal?: Date | string | null
   condicionesHigiene?: string | null
   condicionesLocal?: string | null
   valorCotizado?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -9004,6 +9996,14 @@ export type OrdenServicioUpdateWithoutMetodoPagoInput = {
   horaFin?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   observacion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   observacionFinal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  diagnosticoTecnico?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  intervencionRealizada?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  hallazgosEstructurales?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  recomendacionesObligatorias?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  huboSellamiento?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  huboRecomendacionEstructural?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  horaInicioReal?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  horaFinReal?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   condicionesHigiene?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   condicionesLocal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   valorCotizado?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -9076,6 +10076,14 @@ export type OrdenServicioUncheckedUpdateWithoutMetodoPagoInput = {
   horaFin?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   observacion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   observacionFinal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  diagnosticoTecnico?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  intervencionRealizada?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  hallazgosEstructurales?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  recomendacionesObligatorias?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  huboSellamiento?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  huboRecomendacionEstructural?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  horaInicioReal?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  horaFinReal?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   condicionesHigiene?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   condicionesLocal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   valorCotizado?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -9139,6 +10147,14 @@ export type OrdenServicioUncheckedUpdateManyWithoutMetodoPagoInput = {
   horaFin?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   observacion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   observacionFinal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  diagnosticoTecnico?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  intervencionRealizada?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  hallazgosEstructurales?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  recomendacionesObligatorias?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  huboSellamiento?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  huboRecomendacionEstructural?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  horaInicioReal?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  horaFinReal?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   condicionesHigiene?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   condicionesLocal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   valorCotizado?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -9196,6 +10212,14 @@ export type OrdenServicioCreateManyOrdenPadreInput = {
   horaFin?: Date | string | null
   observacion?: string | null
   observacionFinal?: string | null
+  diagnosticoTecnico?: string | null
+  intervencionRealizada?: string | null
+  hallazgosEstructurales?: string | null
+  recomendacionesObligatorias?: string | null
+  huboSellamiento?: boolean | null
+  huboRecomendacionEstructural?: boolean | null
+  horaInicioReal?: Date | string | null
+  horaFinReal?: Date | string | null
   condicionesHigiene?: string | null
   condicionesLocal?: string | null
   valorCotizado?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -9242,6 +10266,14 @@ export type OrdenServicioUpdateWithoutOrdenPadreInput = {
   horaFin?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   observacion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   observacionFinal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  diagnosticoTecnico?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  intervencionRealizada?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  hallazgosEstructurales?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  recomendacionesObligatorias?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  huboSellamiento?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  huboRecomendacionEstructural?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  horaInicioReal?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  horaFinReal?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   condicionesHigiene?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   condicionesLocal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   valorCotizado?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -9315,6 +10347,14 @@ export type OrdenServicioUncheckedUpdateWithoutOrdenPadreInput = {
   horaFin?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   observacion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   observacionFinal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  diagnosticoTecnico?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  intervencionRealizada?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  hallazgosEstructurales?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  recomendacionesObligatorias?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  huboSellamiento?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  huboRecomendacionEstructural?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  horaInicioReal?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  horaFinReal?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   condicionesHigiene?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   condicionesLocal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   valorCotizado?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -9378,6 +10418,14 @@ export type OrdenServicioUncheckedUpdateManyWithoutOrdenPadreInput = {
   horaFin?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   observacion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   observacionFinal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  diagnosticoTecnico?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  intervencionRealizada?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  hallazgosEstructurales?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  recomendacionesObligatorias?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  huboSellamiento?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  huboRecomendacionEstructural?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  horaInicioReal?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  horaFinReal?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   condicionesHigiene?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   condicionesLocal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   valorCotizado?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -9434,6 +10482,14 @@ export type OrdenServicioCreateManyEntidadFinancieraInput = {
   horaFin?: Date | string | null
   observacion?: string | null
   observacionFinal?: string | null
+  diagnosticoTecnico?: string | null
+  intervencionRealizada?: string | null
+  hallazgosEstructurales?: string | null
+  recomendacionesObligatorias?: string | null
+  huboSellamiento?: boolean | null
+  huboRecomendacionEstructural?: boolean | null
+  horaInicioReal?: Date | string | null
+  horaFinReal?: Date | string | null
   condicionesHigiene?: string | null
   condicionesLocal?: string | null
   valorCotizado?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -9480,6 +10536,14 @@ export type OrdenServicioUpdateWithoutEntidadFinancieraInput = {
   horaFin?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   observacion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   observacionFinal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  diagnosticoTecnico?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  intervencionRealizada?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  hallazgosEstructurales?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  recomendacionesObligatorias?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  huboSellamiento?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  huboRecomendacionEstructural?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  horaInicioReal?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  horaFinReal?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   condicionesHigiene?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   condicionesLocal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   valorCotizado?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -9553,6 +10617,14 @@ export type OrdenServicioUncheckedUpdateWithoutEntidadFinancieraInput = {
   horaFin?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   observacion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   observacionFinal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  diagnosticoTecnico?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  intervencionRealizada?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  hallazgosEstructurales?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  recomendacionesObligatorias?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  huboSellamiento?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  huboRecomendacionEstructural?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  horaInicioReal?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  horaFinReal?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   condicionesHigiene?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   condicionesLocal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   valorCotizado?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -9616,6 +10688,14 @@ export type OrdenServicioUncheckedUpdateManyWithoutEntidadFinancieraInput = {
   horaFin?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   observacion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   observacionFinal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  diagnosticoTecnico?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  intervencionRealizada?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  hallazgosEstructurales?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  recomendacionesObligatorias?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  huboSellamiento?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  huboRecomendacionEstructural?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  horaInicioReal?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  horaFinReal?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   condicionesHigiene?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   condicionesLocal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   valorCotizado?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -9739,6 +10819,14 @@ export type OrdenServicioSelect<ExtArgs extends runtime.Types.Extensions.Interna
   horaFin?: boolean
   observacion?: boolean
   observacionFinal?: boolean
+  diagnosticoTecnico?: boolean
+  intervencionRealizada?: boolean
+  hallazgosEstructurales?: boolean
+  recomendacionesObligatorias?: boolean
+  huboSellamiento?: boolean
+  huboRecomendacionEstructural?: boolean
+  horaInicioReal?: boolean
+  horaFinReal?: boolean
   condicionesHigiene?: boolean
   condicionesLocal?: boolean
   valorCotizado?: boolean
@@ -9818,6 +10906,14 @@ export type OrdenServicioSelectCreateManyAndReturn<ExtArgs extends runtime.Types
   horaFin?: boolean
   observacion?: boolean
   observacionFinal?: boolean
+  diagnosticoTecnico?: boolean
+  intervencionRealizada?: boolean
+  hallazgosEstructurales?: boolean
+  recomendacionesObligatorias?: boolean
+  huboSellamiento?: boolean
+  huboRecomendacionEstructural?: boolean
+  horaInicioReal?: boolean
+  horaFinReal?: boolean
   condicionesHigiene?: boolean
   condicionesLocal?: boolean
   valorCotizado?: boolean
@@ -9889,6 +10985,14 @@ export type OrdenServicioSelectUpdateManyAndReturn<ExtArgs extends runtime.Types
   horaFin?: boolean
   observacion?: boolean
   observacionFinal?: boolean
+  diagnosticoTecnico?: boolean
+  intervencionRealizada?: boolean
+  hallazgosEstructurales?: boolean
+  recomendacionesObligatorias?: boolean
+  huboSellamiento?: boolean
+  huboRecomendacionEstructural?: boolean
+  horaInicioReal?: boolean
+  horaFinReal?: boolean
   condicionesHigiene?: boolean
   condicionesLocal?: boolean
   valorCotizado?: boolean
@@ -9960,6 +11064,14 @@ export type OrdenServicioSelectScalar = {
   horaFin?: boolean
   observacion?: boolean
   observacionFinal?: boolean
+  diagnosticoTecnico?: boolean
+  intervencionRealizada?: boolean
+  hallazgosEstructurales?: boolean
+  recomendacionesObligatorias?: boolean
+  huboSellamiento?: boolean
+  huboRecomendacionEstructural?: boolean
+  horaInicioReal?: boolean
+  horaFinReal?: boolean
   condicionesHigiene?: boolean
   condicionesLocal?: boolean
   valorCotizado?: boolean
@@ -9991,7 +11103,7 @@ export type OrdenServicioSelectScalar = {
   serviciosSeleccionados?: boolean
 }
 
-export type OrdenServicioOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "tenantId" | "empresaId" | "clienteId" | "servicioId" | "creadoPorId" | "tecnicoId" | "direccionId" | "direccionTexto" | "piso" | "bloque" | "unidad" | "barrio" | "municipio" | "departamento" | "linkMaps" | "zonaId" | "vehiculoId" | "metodoPagoId" | "numeroOrden" | "fechaVisita" | "horaInicio" | "horaFin" | "observacion" | "observacionFinal" | "condicionesHigiene" | "condicionesLocal" | "valorCotizado" | "valorPagado" | "valorRepuestos" | "valorRepuestosTecnico" | "facturaPath" | "facturaElectronica" | "comprobantePago" | "evidenciaPath" | "desglosePago" | "referenciaPago" | "fechaPago" | "entidadFinancieraId" | "estadoPago" | "seguimientoRevisado" | "liquidadoPorId" | "liquidadoAt" | "ordenPadreId" | "createdAt" | "updatedAt" | "frecuenciaSugerida" | "tipoFacturacion" | "tipoVisita" | "nivelInfestacion" | "urgencia" | "estadoServicio" | "contratoClienteId" | "serviciosSeleccionados", ExtArgs["result"]["ordenServicio"]>
+export type OrdenServicioOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "tenantId" | "empresaId" | "clienteId" | "servicioId" | "creadoPorId" | "tecnicoId" | "direccionId" | "direccionTexto" | "piso" | "bloque" | "unidad" | "barrio" | "municipio" | "departamento" | "linkMaps" | "zonaId" | "vehiculoId" | "metodoPagoId" | "numeroOrden" | "fechaVisita" | "horaInicio" | "horaFin" | "observacion" | "observacionFinal" | "diagnosticoTecnico" | "intervencionRealizada" | "hallazgosEstructurales" | "recomendacionesObligatorias" | "huboSellamiento" | "huboRecomendacionEstructural" | "horaInicioReal" | "horaFinReal" | "condicionesHigiene" | "condicionesLocal" | "valorCotizado" | "valorPagado" | "valorRepuestos" | "valorRepuestosTecnico" | "facturaPath" | "facturaElectronica" | "comprobantePago" | "evidenciaPath" | "desglosePago" | "referenciaPago" | "fechaPago" | "entidadFinancieraId" | "estadoPago" | "seguimientoRevisado" | "liquidadoPorId" | "liquidadoAt" | "ordenPadreId" | "createdAt" | "updatedAt" | "frecuenciaSugerida" | "tipoFacturacion" | "tipoVisita" | "nivelInfestacion" | "urgencia" | "estadoServicio" | "contratoClienteId" | "serviciosSeleccionados", ExtArgs["result"]["ordenServicio"]>
 export type OrdenServicioInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   consignacionOrden?: boolean | Prisma.OrdenServicio$consignacionOrdenArgs<ExtArgs>
   declaracionEfectivo?: boolean | Prisma.OrdenServicio$declaracionEfectivoArgs<ExtArgs>
@@ -10100,6 +11212,14 @@ export type $OrdenServicioPayload<ExtArgs extends runtime.Types.Extensions.Inter
     horaFin: Date | null
     observacion: string | null
     observacionFinal: string | null
+    diagnosticoTecnico: string | null
+    intervencionRealizada: string | null
+    hallazgosEstructurales: string | null
+    recomendacionesObligatorias: string | null
+    huboSellamiento: boolean | null
+    huboRecomendacionEstructural: boolean | null
+    horaInicioReal: Date | null
+    horaFinReal: Date | null
     condicionesHigiene: string | null
     condicionesLocal: string | null
     valorCotizado: runtime.Decimal | null
@@ -10598,6 +11718,14 @@ export interface OrdenServicioFieldRefs {
   readonly horaFin: Prisma.FieldRef<"OrdenServicio", 'DateTime'>
   readonly observacion: Prisma.FieldRef<"OrdenServicio", 'String'>
   readonly observacionFinal: Prisma.FieldRef<"OrdenServicio", 'String'>
+  readonly diagnosticoTecnico: Prisma.FieldRef<"OrdenServicio", 'String'>
+  readonly intervencionRealizada: Prisma.FieldRef<"OrdenServicio", 'String'>
+  readonly hallazgosEstructurales: Prisma.FieldRef<"OrdenServicio", 'String'>
+  readonly recomendacionesObligatorias: Prisma.FieldRef<"OrdenServicio", 'String'>
+  readonly huboSellamiento: Prisma.FieldRef<"OrdenServicio", 'Boolean'>
+  readonly huboRecomendacionEstructural: Prisma.FieldRef<"OrdenServicio", 'Boolean'>
+  readonly horaInicioReal: Prisma.FieldRef<"OrdenServicio", 'DateTime'>
+  readonly horaFinReal: Prisma.FieldRef<"OrdenServicio", 'DateTime'>
   readonly condicionesHigiene: Prisma.FieldRef<"OrdenServicio", 'String'>
   readonly condicionesLocal: Prisma.FieldRef<"OrdenServicio", 'String'>
   readonly valorCotizado: Prisma.FieldRef<"OrdenServicio", 'Decimal'>

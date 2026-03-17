@@ -269,9 +269,18 @@ function NuevoServicioContent() {
   const [serviciosSeleccionados, setServiciosSeleccionados] = useState<string[]>([]);
   const [tipoVisita, setTipoVisita] = useState("");
   const [urgencia, setUrgencia] = useState("");
-  const [observacion, setObservacion] = useState("");
+  const [diagnosticoTecnico, setDiagnosticoTecnico] = useState("");
+  const [intervencionRealizada, setIntervencionRealizada] = useState("");
+  const [hallazgosEstructurales, setHallazgosEstructurales] = useState("");
+  const [recomendacionesObligatorias, setRecomendacionesObligatorias] =
+    useState("");
+  const [huboSellamiento, setHuboSellamiento] = useState("");
+  const [huboRecomendacionEstructural, setHuboRecomendacionEstructural] =
+    useState("");
   const [fechaVisita, setFechaVisita] = useState("");
   const [horaInicio, setHoraInicio] = useState("");
+  const [horaInicioReal, setHoraInicioReal] = useState("");
+  const [horaFinReal, setHoraFinReal] = useState("");
   const [duracionMinutos, setDuracionMinutos] = useState("60");
   const [valorCotizado, setValorCotizado] = useState("");
   const [breakdown, setBreakdown] = useState<Array<{ metodo: string; monto: string; banco?: string; referencia?: string }>>([
@@ -315,7 +324,18 @@ function NuevoServicioContent() {
     if (valorCotizado) params.set("valor", valorCotizado);
     if (tipoFacturacion) params.set("facturacion", tipoFacturacion);
     if (estadoServicio) params.set("estado", estadoServicio);
-    if (observacion) params.set("obs", observacion);
+    if (diagnosticoTecnico) params.set("diag", diagnosticoTecnico);
+    if (intervencionRealizada) params.set("interv", intervencionRealizada);
+    if (hallazgosEstructurales) params.set("hallazgos", hallazgosEstructurales);
+    if (recomendacionesObligatorias) {
+      params.set("recomendaciones", recomendacionesObligatorias);
+    }
+    if (huboSellamiento) params.set("sellamiento", huboSellamiento);
+    if (huboRecomendacionEstructural) {
+      params.set("recomendacionEstructural", huboRecomendacionEstructural);
+    }
+    if (horaInicioReal) params.set("horaInicioReal", horaInicioReal);
+    if (horaFinReal) params.set("horaFinReal", horaFinReal);
     if (frecuenciaRecomendada) params.set("frecuencia", frecuenciaRecomendada.toString());
     
     if (breakdown.length > 0 && (breakdown.length > 1 || breakdown[0].monto !== "")) {
@@ -329,7 +349,16 @@ function NuevoServicioContent() {
     selectedCliente, selectedDireccion, selectedEmpresa, selectedOperador, 
     serviciosSeleccionados, tipoVisita, nivelInfestacion, urgencia, fechaVisita, 
     horaInicio, duracionMinutos, valorCotizado, tipoFacturacion, estadoServicio, 
-    observacion, frecuenciaRecomendada, breakdown
+    diagnosticoTecnico,
+    intervencionRealizada,
+    hallazgosEstructurales,
+    recomendacionesObligatorias,
+    huboSellamiento,
+    huboRecomendacionEstructural,
+    horaInicioReal,
+    horaFinReal,
+    frecuenciaRecomendada,
+    breakdown
   ]);
 
   useEffect(() => {
@@ -392,7 +421,7 @@ function NuevoServicioContent() {
       if (targetConfig.observacionesFijas) notes.push(`OBSERVACIONES FIJAS: ${targetConfig.observacionesFijas}`);
       
       if (notes.length > 0) {
-        setObservacion(notes.join('\n\n'));
+        setRecomendacionesObligatorias(notes.join('\n\n'));
       }
     }
   }, []);
@@ -571,9 +600,32 @@ function NuevoServicioContent() {
         if (urlParams.get("tipoVisita")) setTipoVisita(normalizeVisitTypeValue(urlParams.get("tipoVisita")));
         if (urlParams.get("nivel")) setNivelInfestacion(urlParams.get("nivel")!);
         if (urlParams.get("urgencia")) setUrgencia(urlParams.get("urgencia")!);
-        if (urlParams.get("obs")) setObservacion(urlParams.get("obs")!);
+        if (urlParams.get("diag")) setDiagnosticoTecnico(urlParams.get("diag")!);
+        if (urlParams.get("interv")) {
+          setIntervencionRealizada(urlParams.get("interv")!);
+        }
+        if (urlParams.get("hallazgos")) {
+          setHallazgosEstructurales(urlParams.get("hallazgos")!);
+        }
+        if (urlParams.get("recomendaciones")) {
+          setRecomendacionesObligatorias(urlParams.get("recomendaciones")!);
+        }
+        if (urlParams.get("sellamiento")) {
+          setHuboSellamiento(urlParams.get("sellamiento")!);
+        }
+        if (urlParams.get("recomendacionEstructural")) {
+          setHuboRecomendacionEstructural(
+            urlParams.get("recomendacionEstructural")!,
+          );
+        }
         if (urlParams.get("fecha")) setFechaVisita(urlParams.get("fecha")!);
         if (urlParams.get("hora")) setHoraInicio(urlParams.get("hora")!);
+        if (urlParams.get("horaInicioReal")) {
+          setHoraInicioReal(urlParams.get("horaInicioReal")!);
+        }
+        if (urlParams.get("horaFinReal")) {
+          setHoraFinReal(urlParams.get("horaFinReal")!);
+        }
         if (urlParams.get("duracion")) setDuracionMinutos(urlParams.get("duracion")!);
         if (urlParams.get("valor")) setValorCotizado(urlParams.get("valor")!);
         if (urlParams.get("facturacion")) setTipoFacturacion(urlParams.get("facturacion")!);
@@ -675,7 +727,7 @@ function NuevoServicioContent() {
     } else {
       setDireccionesCliente([]);
       setSelectedDireccion("");
-      setObservacion("");
+      setRecomendacionesObligatorias("");
       setDuracionMinutos("60");
       setFrecuenciaRecomendada("");
       setContratoActivo(null);
@@ -875,7 +927,15 @@ function NuevoServicioContent() {
     e.preventDefault();
     setLoading(true);
 
-    if (!selectedCliente || !selectedEmpresa || serviciosSeleccionados.length === 0) {
+    if (
+      !selectedCliente ||
+      !selectedEmpresa ||
+      serviciosSeleccionados.length === 0 ||
+      !diagnosticoTecnico.trim() ||
+      !intervencionRealizada.trim() ||
+      !huboSellamiento ||
+      !huboRecomendacionEstructural
+    ) {
       toast.error("Por favor complete los campos obligatorios");
       setLoading(false);
       return;
@@ -890,7 +950,14 @@ function NuevoServicioContent() {
       servicioId: serviciosEmpresa.find((item) => item.nombre === serviciosSeleccionados[0])?.id,
       serviciosSeleccionados,
       urgencia: urgencia || undefined,
-      observacion: observacion || undefined,
+      diagnosticoTecnico: diagnosticoTecnico.trim() || undefined,
+      intervencionRealizada: intervencionRealizada.trim() || undefined,
+      hallazgosEstructurales: hallazgosEstructurales.trim() || undefined,
+      recomendacionesObligatorias:
+        recomendacionesObligatorias.trim() || undefined,
+      huboSellamiento: huboSellamiento === "true",
+      huboRecomendacionEstructural:
+        huboRecomendacionEstructural === "true",
       nivelInfestacion: nivelInfestacion || undefined,
       tipoVisita: tipoVisita || undefined,
       frecuenciaSugerida: frecuenciaRecomendada ? Number(frecuenciaRecomendada) : undefined,
@@ -903,6 +970,10 @@ function NuevoServicioContent() {
       estadoServicio: estadoServicio || undefined,
       fechaVisita: fechaVisita ? bogotaDateToUtcIso(fechaVisita) : undefined,
       horaInicio: (fechaVisita && horaInicio) ? bogotaDateTimeToUtcIso(fechaVisita, horaInicio) : undefined,
+      horaInicioReal: horaInicioReal
+        ? new Date(horaInicioReal).toISOString()
+        : undefined,
+      horaFinReal: horaFinReal ? new Date(horaFinReal).toISOString() : undefined,
       duracionMinutos: Number(duracionMinutos),
     };
 
@@ -956,7 +1027,7 @@ function NuevoServicioContent() {
               detalles: "Sin detalles adicionales",
               valorCotizado: `$ ${valorCotizado}`,
               metodosPago: metodosFormatted,
-              observaciones: observacion || "Sin observaciones",
+              observaciones: diagnosticoTecnico || "Sin diagnóstico técnico",
               idServicio: String(orderData.id)
             }).then(webhookRes => {
               if (webhookRes.success) {
@@ -1310,13 +1381,87 @@ function NuevoServicioContent() {
                   />
                 </div>
 
+                <div className="space-y-2">
+                  <Label className="text-xs font-bold text-zinc-500 uppercase tracking-wider">
+                    Hubo Sellamiento <span className="text-red-500">*</span>
+                  </Label>
+                  <Combobox
+                    options={[
+                      { value: "", label: "Seleccionar..." },
+                      { value: "true", label: "Sí" },
+                      { value: "false", label: "No" },
+                    ]}
+                    value={huboSellamiento}
+                    onChange={setHuboSellamiento}
+                    placeholder="Sellamiento..."
+                    hideSearch
+                  />
+                </div>
+
+                <div className="space-y-2">
+                  <Label className="text-xs font-bold text-zinc-500 uppercase tracking-wider">
+                    Hubo Recomendación Estructural <span className="text-red-500">*</span>
+                  </Label>
+                  <Combobox
+                    options={[
+                      { value: "", label: "Seleccionar..." },
+                      { value: "true", label: "Sí" },
+                      { value: "false", label: "No" },
+                    ]}
+                    value={huboRecomendacionEstructural}
+                    onChange={setHuboRecomendacionEstructural}
+                    placeholder="Recomendación..."
+                    hideSearch
+                  />
+                </div>
+
                 <div className="space-y-2 md:col-span-2">
-                  <Label className="text-xs font-bold text-zinc-500 uppercase tracking-wider">Observaciones</Label>
+                  <Label className="text-xs font-bold text-zinc-500 uppercase tracking-wider">
+                    Diagnóstico Técnico <span className="text-red-500">*</span>
+                  </Label>
                   <textarea
-                    value={observacion}
-                    onChange={(e) => setObservacion(e.target.value)}
+                    value={diagnosticoTecnico}
+                    onChange={(e) => setDiagnosticoTecnico(e.target.value)}
                     className="w-full bg-white dark:bg-zinc-950 border border-zinc-300 dark:border-zinc-800/50 rounded-xl p-4 text-sm font-medium resize-none min-h-[100px] focus:ring-0 focus:border-zinc-300 outline-none"
-                    placeholder="Detalles adicionales, requerimientos específicos o notas importantes..."
+                    placeholder="Describe la causa del problema, evaluación técnica y contexto encontrado..."
+                    required
+                  ></textarea>
+                </div>
+
+                <div className="space-y-2 md:col-span-2">
+                  <Label className="text-xs font-bold text-zinc-500 uppercase tracking-wider">
+                    Intervención Realizada <span className="text-red-500">*</span>
+                  </Label>
+                  <textarea
+                    value={intervencionRealizada}
+                    onChange={(e) => setIntervencionRealizada(e.target.value)}
+                    className="w-full bg-white dark:bg-zinc-950 border border-zinc-300 dark:border-zinc-800/50 rounded-xl p-4 text-sm font-medium resize-none min-h-[100px] focus:ring-0 focus:border-zinc-300 outline-none"
+                    placeholder="Detalla el trabajo ejecutado por el técnico..."
+                    required
+                  ></textarea>
+                </div>
+
+                <div className="space-y-2 md:col-span-2">
+                  <Label className="text-xs font-bold text-zinc-500 uppercase tracking-wider">
+                    Hallazgos Estructurales
+                  </Label>
+                  <textarea
+                    value={hallazgosEstructurales}
+                    onChange={(e) => setHallazgosEstructurales(e.target.value)}
+                    className="w-full bg-white dark:bg-zinc-950 border border-zinc-300 dark:border-zinc-800/50 rounded-xl p-4 text-sm font-medium resize-none min-h-[100px] focus:ring-0 focus:border-zinc-300 outline-none"
+                    placeholder="Registra grietas, accesos, filtraciones u otros hallazgos físicos..."
+                  ></textarea>
+                </div>
+
+                <div className="space-y-2 md:col-span-2">
+                  <Label className="text-xs font-bold text-zinc-500 uppercase tracking-wider">
+                    Recomendaciones Obligatorias
+                  </Label>
+                  <textarea
+                    value={recomendacionesObligatorias}
+                    onChange={(e) => setRecomendacionesObligatorias(e.target.value)}
+                    className="w-full bg-white dark:bg-zinc-950 border border-zinc-300 dark:border-zinc-800/50 rounded-xl p-4 text-sm font-medium resize-none min-h-[100px] focus:ring-0 focus:border-zinc-300 outline-none"
+                    placeholder="Indica correcciones o acciones que el cliente debe ejecutar..."
                   ></textarea>
                 </div>
               </div>
@@ -1347,6 +1492,30 @@ function NuevoServicioContent() {
                     value={horaInicio} 
                     onChange={setHoraInicio} 
                     className="h-11 !border !border-zinc-200 focus-visible:ring-0 focus-visible:ring-offset-0 focus-visible:border-zinc-200 dark:border-zinc-800/50" 
+                  />
+                </div>
+
+                <div className="space-y-2">
+                  <Label className="text-xs font-bold text-zinc-500 uppercase tracking-wider">
+                    Hora Inicio Real
+                  </Label>
+                  <Input
+                    type="datetime-local"
+                    value={horaInicioReal}
+                    onChange={(e) => setHoraInicioReal(e.target.value)}
+                    className="h-11 !border !border-zinc-200 focus-visible:ring-0 focus-visible:ring-offset-0 focus-visible:border-zinc-200 dark:border-zinc-800/50"
+                  />
+                </div>
+
+                <div className="space-y-2">
+                  <Label className="text-xs font-bold text-zinc-500 uppercase tracking-wider">
+                    Hora Fin Real
+                  </Label>
+                  <Input
+                    type="datetime-local"
+                    value={horaFinReal}
+                    onChange={(e) => setHoraFinReal(e.target.value)}
+                    className="h-11 !border !border-zinc-200 focus-visible:ring-0 focus-visible:ring-offset-0 focus-visible:border-zinc-200 dark:border-zinc-800/50"
                   />
                 </div>
 
