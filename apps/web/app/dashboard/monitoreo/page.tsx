@@ -175,7 +175,7 @@ export default function MonitoreoPage() {
         Estado: item.estado || "N/A",
       }));
 
-      const sheets = [
+      const sheets: any[] = [
         { name: "Sesiones", data: sessionsData },
         { name: "Auditoria", data: auditData },
       ];

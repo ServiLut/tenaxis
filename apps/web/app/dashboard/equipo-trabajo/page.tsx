@@ -28,6 +28,7 @@ import {
   MapPin,
   X,
 } from "lucide-react";
+import { toast } from "sonner";
 import { TeamAlertsPanel } from "./components/team-alerts-panel";
 import { TeamKpiStrip } from "./components/team-kpi-strip";
 import { TeamMember, useTeamPerformance, type TeamTab } from "./hooks/use-team-performance";

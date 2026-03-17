@@ -159,7 +159,7 @@ export async function generateMonitoringPayrollAction(date: string, membershipId
 
 export async function getMemberLogs(membershipId: string, date?: string): Promise<ApiResponse<Log[]>> {
   try {
-    const data = await monitoringClient.getLogsByMembership(membershipId, date) as Log[];
+    const data = await monitoringClient.getLogsByMembership(membershipId, { date }) as Log[];
     return { data, message: "Success" };
   } catch (error: unknown) {
     const msg = error instanceof Error ? error.message : "Unknown error";
