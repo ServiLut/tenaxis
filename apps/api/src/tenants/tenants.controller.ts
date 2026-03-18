@@ -108,7 +108,10 @@ export class TenantsController {
   ) {
     const isGlobalScope = tenantId === 'global' && req.user.isGlobalSuAdmin;
 
-    if (!isGlobalScope && (!req.user.tenantId || req.user.tenantId !== tenantId)) {
+    if (
+      !isGlobalScope &&
+      (!req.user.tenantId || req.user.tenantId !== tenantId)
+    ) {
       throw new UnauthorizedException(
         'No tienes permisos para acceder a este conglomerado',
       );
@@ -131,7 +134,10 @@ export class TenantsController {
   ) {
     const isGlobalScope = tenantId === 'global' && req.user.isGlobalSuAdmin;
 
-    if (!isGlobalScope && (!req.user.tenantId || req.user.tenantId !== tenantId)) {
+    if (
+      !isGlobalScope &&
+      (!req.user.tenantId || req.user.tenantId !== tenantId)
+    ) {
       throw new UnauthorizedException(
         'No tienes permisos para acceder a este conglomerado',
       );

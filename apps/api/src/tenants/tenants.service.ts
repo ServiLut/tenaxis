@@ -628,16 +628,13 @@ export class TenantsService {
       access.allowedZonaIds,
       'zona',
     );
-    
+
     // Si tenantId es 'global' y el usuario es global SU_ADMIN, targetTenantId será nulo (acceso a todo)
     // De lo contrario, usamos el tenantId solicitado obligatoriamente
-    const targetTenantId = (tenantId === 'global' && user.isGlobalSuAdmin) 
-      ? null 
-      : tenantId;
+    const targetTenantId =
+      tenantId === 'global' && user.isGlobalSuAdmin ? null : tenantId;
 
-    const tenantWhere = targetTenantId
-      ? { tenantId: targetTenantId }
-      : {};
+    const tenantWhere = targetTenantId ? { tenantId: targetTenantId } : {};
 
     const membershipWhere: Prisma.TenantMembershipWhereInput = {
       ...tenantWhere,

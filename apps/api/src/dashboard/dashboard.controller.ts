@@ -30,7 +30,9 @@ export class DashboardController {
     }
 
     const targetEmpresaId = resolveScopedEmpresaId(req.user, empresaId);
-    const targetTenantId = req.user.isGlobalSuAdmin ? undefined : req.user.tenantId;
+    const targetTenantId = req.user.isGlobalSuAdmin
+      ? undefined
+      : req.user.tenantId;
 
     return this.dashboardService.getStats(targetTenantId, targetEmpresaId);
   }
