@@ -101,6 +101,7 @@ import {
   toBogotaYmd,
   ymdToPickerDate,
 } from "@/utils/date-utils";
+import { isEmpresaSelectionLocked, type ScopeAwareUser } from "@/lib/access-scope";
 
 interface DesglosePago {
   metodo: string;
@@ -521,9 +522,26 @@ function ServiciosContent() {
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 10;
 
+  const getScopedEnterpriseId = useCallback(() => {
+    if (typeof window === "undefined") return undefined;
+
+    const storedEnterpriseId = localStorage.getItem("current-enterprise-id") || undefined;
+    const userData = localStorage.getItem("user");
+    if (!userData || userData === "undefined") {
+      return storedEnterpriseId;
+    }
+
+    try {
+      const user = JSON.parse(userData) as ScopeAwareUser;
+      return isEmpresaSelectionLocked(user) ? storedEnterpriseId : undefined;
+    } catch {
+      return storedEnterpriseId;
+    }
+  }, []);
+
   const fetchOptions = useCallback(async () => {
     try {
-      const empresaId = localStorage.getItem("current-enterprise-id") || "";
+      const empresaId = getScopedEnterpriseId() || "";
       const [estados, tecnicos, metodos, munis] = await Promise.all([
         getEstadoServicios(empresaId),
         empresaId ? getOperators(empresaId) : Promise.resolve([]),
@@ -561,12 +579,12 @@ function ServiciosContent() {
     } catch (error) {
       console.error("Error fetching filter options", error);
     }
-  }, []);
+  }, [getScopedEnterpriseId]);
 
   const fetchServicios = useCallback(async () => {
     setLoading(true);
     try {
-      const empresaId = localStorage.getItem("current-enterprise-id") || undefined;
+      const empresaId = getScopedEnterpriseId();
       const data = await getOrdenesServicio(empresaId);
       const ordenesData = (Array.isArray(data) ? data : []) as unknown as OrdenServicioRaw[];
       const mapOrdenToServicio = (os: OrdenServicioRaw, isFollowUp = false): Servicio => {
@@ -654,7 +672,7 @@ function ServiciosContent() {
     } finally {
       setLoading(false);
     }
-  }, []);
+  }, [getScopedEnterpriseId]);
 
   const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files;
@@ -762,7 +780,7 @@ function ServiciosContent() {
   const fetchKpis = useCallback(async () => {
     setKpisLoading(true);
     try {
-      const empresaId = localStorage.getItem("current-enterprise-id") || undefined;
+      const empresaId = getScopedEnterpriseId();
       const data = await getServiciosKpis({
         empresaId,
         search,
@@ -783,7 +801,7 @@ function ServiciosContent() {
     } finally {
       setKpisLoading(false);
     }
-  }, [activePreset, filters, search]);
+  }, [activePreset, filters, getScopedEnterpriseId, search]);
 
   const fetchCustomPresets = useCallback(async () => {
     try {

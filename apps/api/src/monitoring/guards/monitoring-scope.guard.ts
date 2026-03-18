@@ -5,10 +5,10 @@ import {
   UnauthorizedException,
 } from '@nestjs/common';
 import { PrismaService } from '../../prisma/prisma.service';
-import { Role } from '../../generated/client/client';
 import { MonitoringScope } from '../types';
 import { Request } from 'express';
 import { JwtPayload } from '../../auth/jwt-payload.interface';
+import { resolveAccessScopeMode } from '../../common/utils/access-control.util';
 
 interface RequestWithMonitoring extends Request {
   user: JwtPayload;
@@ -27,28 +27,31 @@ export class MonitoringScopeGuard implements CanActivate {
       throw new UnauthorizedException('Usuario no autenticado');
     }
 
-    const { tenantId, role, membershipId } = user;
+    const { membershipId } = user;
+    const accessScope = resolveAccessScopeMode(user);
+    const scope: MonitoringScope = {
+      role: user.role,
+      membershipId,
+      ...(accessScope.tenantId ? { tenantId: accessScope.tenantId } : {}),
+      ...(accessScope.isGlobalSuAdmin ? { isGlobalSuAdmin: true } : {}),
+    };
 
-    if (!tenantId) {
+    if (accessScope.isGlobalSuAdmin) {
+      request.monitoringScope = scope;
+      return true;
+    }
+
+    if (!accessScope.tenantId) {
       throw new UnauthorizedException(
         'No se encontró información del conglomerado (tenant)',
       );
     }
 
-    const scope: MonitoringScope = {
-      tenantId,
-      role,
-      membershipId,
-    };
-
-    // Resolviendo alcance basado en el rol
-    if (role === Role.SU_ADMIN || role === Role.ADMIN) {
-      // Tienen acceso a todo el tenant
+    if (accessScope.hasTenantWideAccess) {
       request.monitoringScope = scope;
       return true;
     }
 
-    // Para roles restringidos, buscar sus vinculaciones a empresas
     if (!membershipId) {
       throw new UnauthorizedException('Membresía no válida para este rol');
     }
@@ -58,6 +61,9 @@ export class MonitoringScopeGuard implements CanActivate {
         membershipId,
         activo: true,
         deletedAt: null,
+        empresa: {
+          tenantId: accessScope.tenantId,
+        },
       },
       select: {
         empresaId: true,

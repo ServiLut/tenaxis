@@ -17,7 +17,7 @@ import {
 export class DashboardService {
   constructor(private prisma: PrismaService) {}
 
-  async getStats(tenantId: string, empresaId?: string) {
+  async getStats(tenantId?: string, empresaId?: string) {
     const now = new Date();
 
     // Dates for current period
@@ -31,7 +31,7 @@ export class DashboardService {
     const endOfToday = endOfBogotaDayUtc(now);
 
     const commonWhere: Prisma.OrdenServicioWhereInput = {
-      tenantId,
+      ...(tenantId ? { tenantId } : {}),
       ...(empresaId && { empresaId }),
     };
 
@@ -336,7 +336,7 @@ export class DashboardService {
   }
 
   private async getWeeklyIncome(
-    tenantId: string,
+    tenantId?: string,
     empresaId?: string,
   ): Promise<number[]> {
     const currNow = new Date();
@@ -345,7 +345,7 @@ export class DashboardService {
 
     const ordenesSemana = await this.prisma.ordenServicio.findMany({
       where: {
-        tenantId,
+        ...(tenantId ? { tenantId } : {}),
         ...(empresaId && { empresaId }),
         fechaVisita: { gte: startOfWeek, lt: endOfWeek },
         estadoPago: { in: ['PAGADO', 'CONCILIADO'] },

@@ -1,8 +1,10 @@
 "use server";
 
 import { cookies } from "next/headers";
+import { authClient } from "@/lib/api/auth-client";
 import { contabilidadClient } from "@/lib/api/contabilidad-client";
 import { monitoringClient } from "@/lib/api/monitoreo-client";
+import { resolveAccessScope } from "@/lib/access-scope";
 import { 
   ApiResponse, 
   Session, 
@@ -127,13 +129,20 @@ export async function getMonitoringPayrollPreview(date?: string, startDate?: str
 
 export async function generateMonitoringPayrollAction(date: string, membershipIds?: string[]) {
   try {
+    const profile = await authClient.getProfile();
+    const accessScope = resolveAccessScope(profile);
     const cookieStore = await cookies();
-    const empresaId = cookieStore.get("x-enterprise-id")?.value;
+    const cookieEmpresaId = cookieStore.get("x-enterprise-id")?.value;
+    const empresaId =
+      cookieEmpresaId ||
+      accessScope.empresaId ||
+      accessScope.empresaIds[0] ||
+      null;
 
     if (!empresaId) {
       return {
         success: false,
-        error: "No hay una empresa seleccionada para generar la nómina.",
+        error: "No hay una empresa disponible para generar la nómina.",
       };
     }
 

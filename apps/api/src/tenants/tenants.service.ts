@@ -628,8 +628,15 @@ export class TenantsService {
       access.allowedZonaIds,
       'zona',
     );
-    const tenantWhere = access.targetTenantId
-      ? { tenantId: access.targetTenantId }
+    
+    // Si tenantId es 'global' y el usuario es global SU_ADMIN, targetTenantId será nulo (acceso a todo)
+    // De lo contrario, usamos el tenantId solicitado obligatoriamente
+    const targetTenantId = (tenantId === 'global' && user.isGlobalSuAdmin) 
+      ? null 
+      : tenantId;
+
+    const tenantWhere = targetTenantId
+      ? { tenantId: targetTenantId }
       : {};
 
     const membershipWhere: Prisma.TenantMembershipWhereInput = {
@@ -675,64 +682,60 @@ export class TenantsService {
         : {}),
     };
 
-    const [memberships, totalMembers] = await Promise.all([
-      this.prisma.tenantMembership.findMany({
-        where: membershipWhere,
-        include: {
-          user: {
-            select: {
-              id: true,
-              nombre: true,
-              apellido: true,
-              email: true,
-              telefono: true,
-            },
+    // Fetch all matching memberships to group them by person
+    const allMemberships = await this.prisma.tenantMembership.findMany({
+      where: membershipWhere,
+      include: {
+        user: {
+          select: {
+            id: true,
+            nombre: true,
+            apellido: true,
+            email: true,
+            telefono: true,
           },
-          municipio: {
-            select: {
-              id: true,
-              name: true,
-            },
+        },
+        municipio: {
+          select: {
+            id: true,
+            name: true,
           },
-          empresaMemberships: {
-            where: {
-              ...(empresaIds ? { empresaId: { in: empresaIds } } : {}),
-              ...(zonaIds ? { zonaId: { in: zonaIds } } : {}),
-            },
-            select: {
-              empresaId: true,
-              zonaId: true,
-              empresa: {
-                select: {
-                  nombre: true,
-                },
-              },
-              zona: {
-                select: {
-                  id: true,
-                  nombre: true,
-                },
+        },
+        empresaMemberships: {
+          where: {
+            ...(empresaIds ? { empresaId: { in: empresaIds } } : {}),
+            ...(zonaIds ? { zonaId: { in: zonaIds } } : {}),
+          },
+          select: {
+            empresaId: true,
+            zonaId: true,
+            empresa: {
+              select: {
+                nombre: true,
               },
             },
-          },
-          _count: {
-            select: {
-              clientesCreados: {
-                where: {
-                  createdAt: { gte: range.from, lte: range.to },
-                },
+            zona: {
+              select: {
+                id: true,
+                nombre: true,
               },
             },
           },
         },
-        orderBy: [{ user: { nombre: 'asc' } }, { user: { apellido: 'asc' } }],
-        skip: (page - 1) * pageSize,
-        take: pageSize,
-      }),
-      this.prisma.tenantMembership.count({ where: membershipWhere }),
-    ]);
+        _count: {
+          select: {
+            clientesCreados: {
+              where: {
+                createdAt: { gte: range.from, lte: range.to },
+              },
+            },
+          },
+        },
+      },
+      orderBy: [{ user: { nombre: 'asc' } }, { user: { apellido: 'asc' } }],
+    });
 
-    const membershipIds = memberships.map((m) => m.id);
+    const membershipIds = allMemberships.map((m) => m.id);
     const ordersWhere: Prisma.OrdenServicioWhereInput = {
       ...tenantWhere,
       creadoPorId: {
@@ -799,7 +802,7 @@ export class TenantsService {
       }
     >();
 
-    for (const membership of memberships) {
+    for (const membership of allMemberships) {
       statsByMembership.set(membership.id, {
         totalServicios: 0,
         serviciosLiquidados: 0,
@@ -867,85 +870,179 @@ export class TenantsService {
       }
     }
 
-    const members = memberships.map((membership) => {
-      const stats = statsByMembership.get(membership.id)!;
-      const efectividad =
-        stats.totalServicios > 0
-          ? Math.round((stats.serviciosLiquidados / stats.totalServicios) * 100)
-          : 0;
+    // Group memberships by person (User ID)
+    const personGroups = new Map<string, typeof allMemberships>();
+    for (const m of allMemberships) {
+      const key = m.user.id;
+      if (!personGroups.has(key)) {
+        personGroups.set(key, []);
+      }
+      personGroups.get(key)!.push(m);
+    }
 
-      const avgTicket =
-        stats.serviciosLiquidados > 0
-          ? Math.round(stats.totalRecaudo / stats.serviciosLiquidados)
-          : 0;
-      const conversionRate =
-        membership._count.clientesCreados > 0
-          ? Math.round(
-              (stats.totalServicios / membership._count.clientesCreados) * 100,
-            )
-          : 0;
-      const avgLiquidationDays =
-        stats.serviciosLiquidados > 0
-          ? Math.round(
-              (stats.liquidationTimeMs /
-                stats.serviciosLiquidados /
-                (1000 * 60 * 60 * 24)) *
-                10,
-            ) / 10
-          : 0;
+    const consolidatedMembers = Array.from(personGroups.values()).map(
+      (memberships) => {
+        // Aggregate stats
+        const aggregatedStats = memberships.reduce(
+          (acc, m) => {
+            const stats = statsByMembership.get(m.id)!;
+            acc.totalServicios += stats.totalServicios;
+            acc.serviciosLiquidados += stats.serviciosLiquidados;
+            acc.totalRecaudo += stats.totalRecaudo;
+            acc.recaudoNuevos += stats.recaudoNuevos;
+            acc.recaudoRefuerzo += stats.recaudoRefuerzo;
+            acc.pendientes += stats.pendientes;
+            acc.cancellations += stats.cancellations;
+            acc.reschedulings += stats.reschedulings;
+            acc.agedPending += stats.agedPending;
+            acc.reworkCount += stats.reworkCount;
+            acc.overdueDebt += stats.overdueDebt;
+            acc.liquidationTimeMs += stats.liquidationTimeMs;
+            acc.clientesCreados += m._count.clientesCreados;
+            return acc;
+          },
+          {
+            totalServicios: 0,
+            serviciosLiquidados: 0,
+            totalRecaudo: 0,
+            recaudoNuevos: 0,
+            recaudoRefuerzo: 0,
+            pendientes: 0,
+            cancellations: 0,
+            reschedulings: 0,
+            agedPending: 0,
+            reworkCount: 0,
+            overdueDebt: 0,
+            liquidationTimeMs: 0,
+            clientesCreados: 0,
+          },
+        );
 
-      return {
-        id: membership.id,
-        name: `${membership.user.nombre} ${membership.user.apellido}`.trim(),
-        email: membership.user.email,
-        phone: membership.user.telefono || 'Sin teléfono',
-        role: membership.role,
-        joinDate: membership.createdAt,
-        placa: membership.placa,
-        moto: membership.moto,
-        direccion: membership.direccion,
-        municipioId: membership.municipioId,
-        municipioNombre: membership.municipio?.name || null,
-        empresaIds: membership.empresaMemberships.map((em) => em.empresaId),
-        empresaNombres: membership.empresaMemberships.map(
-          (em) => em.empresa.nombre,
-        ),
-        zonaIds: membership.empresaMemberships
-          .map((em) => em.zona?.id)
-          .filter((id): id is string => !!id),
-        zonaNombres: membership.empresaMemberships
-          .map((em) => em.zona?.nombre)
-          .filter((name): name is string => !!name),
-        totalServicios: stats.totalServicios,
-        serviciosLiquidados: stats.serviciosLiquidados,
-        pendientes: stats.pendientes,
-        totalRecaudo: stats.totalRecaudo,
-        recaudoNuevos: stats.recaudoNuevos,
-        recaudoRefuerzo: stats.recaudoRefuerzo,
-        efectividad,
-        // Role-specific metrics
-        clientesCreados: membership._count.clientesCreados,
-        conversionRate,
-        avgTicket,
-        avgLiquidationDays,
-        overdueDebt: stats.overdueDebt,
-        cancellations: stats.cancellations,
-        reschedulings: stats.reschedulings,
-        agedPending: stats.agedPending,
-        reworkRate:
-          stats.totalServicios > 0
-            ? Math.round((stats.reworkCount / stats.totalServicios) * 100)
-            : 0,
-      };
-    });
+        // Find primary membership (most totalServicios)
+        const primary = memberships.reduce((prev, curr) => {
+          const prevStats = statsByMembership.get(prev.id)!;
+          const currStats = statsByMembership.get(curr.id)!;
+          return currStats.totalServicios > prevStats.totalServicios
+            ? curr
+            : prev;
+        });
 
-    members.sort((a, b) => b.totalRecaudo - a.totalRecaudo);
+        const efectividad =
+          aggregatedStats.totalServicios > 0
+            ? Math.round(
+                (aggregatedStats.serviciosLiquidados /
+                  aggregatedStats.totalServicios) *
+                  100,
+              )
+            : 0;
 
-    const kpis = this.buildKpis(members);
+        const avgTicket =
+          aggregatedStats.serviciosLiquidados > 0
+            ? Math.round(
+                aggregatedStats.totalRecaudo /
+                  aggregatedStats.serviciosLiquidados,
+              )
+            : 0;
+
+        const conversionRate =
+          aggregatedStats.clientesCreados > 0
+            ? Math.round(
+                (aggregatedStats.totalServicios /
+                  aggregatedStats.clientesCreados) *
+                  100,
+              )
+            : 0;
+
+        const avgLiquidationDays =
+          aggregatedStats.serviciosLiquidados > 0
+            ? Math.round(
+                (aggregatedStats.liquidationTimeMs /
+                  aggregatedStats.serviciosLiquidados /
+                  (1000 * 60 * 60 * 24)) *
+                  10,
+              ) / 10
+            : 0;
+
+        // Unique empresas and zonas across all memberships of the person
+        const empresaIds = [
+          ...new Set(
+            memberships.flatMap((m) =>
+              m.empresaMemberships.map((em) => em.empresaId),
+            ),
+          ),
+        ];
+        const empresaNombres = [
+          ...new Set(
+            memberships.flatMap((m) =>
+              m.empresaMemberships.map((em) => em.empresa.nombre),
+            ),
+          ),
+        ];
+        const zonaIds = [
+          ...new Set(
+            memberships
+              .flatMap((m) => m.empresaMemberships.map((em) => em.zona?.id))
+              .filter((id): id is string => !!id),
+          ),
+        ];
+        const zonaNombres = [
+          ...new Set(
+            memberships
+              .flatMap((m) => m.empresaMemberships.map((em) => em.zona?.nombre))
+              .filter((name): name is string => !!name),
+          ),
+        ];
+
+        return {
+          id: primary.id,
+          name: `${primary.user.nombre} ${primary.user.apellido}`.trim(),
+          email: primary.user.email,
+          phone: primary.user.telefono || 'Sin teléfono',
+          role: primary.role,
+          joinDate: primary.createdAt,
+          placa: primary.placa,
+          moto: primary.moto,
+          direccion: primary.direccion,
+          municipioId: primary.municipioId,
+          municipioNombre: primary.municipio?.name || null,
+          empresaIds,
+          empresaNombres,
+          zonaIds,
+          zonaNombres,
+          totalServicios: aggregatedStats.totalServicios,
+          serviciosLiquidados: aggregatedStats.serviciosLiquidados,
+          pendientes: aggregatedStats.pendientes,
+          totalRecaudo: aggregatedStats.totalRecaudo,
+          recaudoNuevos: aggregatedStats.recaudoNuevos,
+          recaudoRefuerzo: aggregatedStats.recaudoRefuerzo,
+          efectividad,
+          clientesCreados: aggregatedStats.clientesCreados,
+          conversionRate,
+          avgTicket,
+          avgLiquidationDays,
+          overdueDebt: aggregatedStats.overdueDebt,
+          cancellations: aggregatedStats.cancellations,
+          reschedulings: aggregatedStats.reschedulings,
+          agedPending: aggregatedStats.agedPending,
+          reworkRate:
+            aggregatedStats.totalServicios > 0
+              ? Math.round(
+                  (aggregatedStats.reworkCount /
+                    aggregatedStats.totalServicios) *
+                    100,
+                )
+              : 0,
+        };
+      },
+    );
+
+    consolidatedMembers.sort((a, b) => b.totalRecaudo - a.totalRecaudo);
+
+    const kpis = this.buildKpis(consolidatedMembers);
     const previousKpis = this.buildKpisFromOrders(previousOrders);
 
     const alerts = {
-      noActivity: members
+      noActivity: consolidatedMembers
         .filter((member) => member.totalServicios === 0)
         .slice(0, 8)
         .map((member) => ({
@@ -953,7 +1050,7 @@ export class TenantsService {
           name: member.name,
           role: member.role,
         })),
-      lowEffectiveness: members
+      lowEffectiveness: consolidatedMembers
         .filter(
           (member) => member.totalServicios >= 3 && member.efectividad < 60,
         )
@@ -963,7 +1060,7 @@ export class TenantsService {
           name: member.name,
           efectividad: member.efectividad,
         })),
-      pendingLiquidation: members
+      pendingLiquidation: consolidatedMembers
         .filter((member) => member.pendientes >= 5)
         .slice(0, 8)
         .map((member) => ({
@@ -972,6 +1069,11 @@ export class TenantsService {
           pendientes: member.pendientes,
         })),
     };
+
+    const paginatedMembers = consolidatedMembers.slice(
+      (page - 1) * pageSize,
+      page * pageSize,
+    );
 
     return {
       range: {
@@ -999,10 +1101,13 @@ export class TenantsService {
       pagination: {
         page,
         pageSize,
-        total: totalMembers,
-        totalPages: Math.max(1, Math.ceil(totalMembers / pageSize)),
+        total: consolidatedMembers.length,
+        totalPages: Math.max(
+          1,
+          Math.ceil(consolidatedMembers.length / pageSize),
+        ),
       },
-      members,
+      members: paginatedMembers,
     };
   }
 

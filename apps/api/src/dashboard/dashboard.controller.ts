@@ -25,12 +25,13 @@ export class DashboardController {
     @Request() req: RequestWithUser,
     @Query('empresaId') empresaId?: string,
   ) {
-    if (!req.user.tenantId) {
+    if (!req.user.tenantId && !req.user.isGlobalSuAdmin) {
       throw new UnauthorizedException('No perteneces a ningún conglomerado');
     }
 
     const targetEmpresaId = resolveScopedEmpresaId(req.user, empresaId);
+    const targetTenantId = req.user.isGlobalSuAdmin ? undefined : req.user.tenantId;
 
-    return this.dashboardService.getStats(req.user.tenantId, targetEmpresaId);
+    return this.dashboardService.getStats(targetTenantId, targetEmpresaId);
   }
 }

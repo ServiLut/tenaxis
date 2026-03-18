@@ -7,18 +7,86 @@ export interface PrismaAccessFilter {
   empresaId?: string | { in: string[] };
 }
 
+export type AccessScopeLevel = 'global' | 'tenant' | 'empresa';
+
 const BLOCKED_EMPRESA_ID = '00000000-0000-0000-0000-000000000000';
 
-export function hasTenantWideAccess(user: JwtPayload): boolean {
-  if (user.isGlobalSuAdmin) {
-    return true;
-  }
+export interface AccessScopeMode {
+  isGlobalSuAdmin: boolean;
+  hasTenantWideAccess: boolean;
+  tenantId?: string;
+}
 
-  return (
+export interface ResolvedAccessScope {
+  level: AccessScopeLevel;
+  role: Role;
+  tenantId?: string;
+  empresaId?: string;
+  empresaIds: string[];
+  isGlobalSuAdmin: boolean;
+  hasTenantWideAccess: boolean;
+}
+
+export function resolveAccessScopeMode(user: JwtPayload): AccessScopeMode {
+  const isGlobalSuAdmin = !!user.isGlobalSuAdmin;
+  const hasTenantWideAccess =
+    isGlobalSuAdmin ||
     user.role === Role.SU_ADMIN ||
     user.role === Role.ADMIN ||
-    user.role === Role.COORDINADOR
-  );
+    user.role === Role.COORDINADOR;
+
+  return {
+    isGlobalSuAdmin,
+    hasTenantWideAccess,
+    ...(user.tenantId ? { tenantId: user.tenantId } : {}),
+  };
+}
+
+export function hasTenantWideAccess(user: JwtPayload): boolean {
+  return resolveAccessScopeMode(user).hasTenantWideAccess;
+}
+
+export function resolveAccessScope(
+  user: JwtPayload,
+  requestedEmpresaId?: string,
+): ResolvedAccessScope {
+  const scope = resolveAccessScopeMode(user);
+
+  if (scope.isGlobalSuAdmin) {
+    return {
+      level: 'global',
+      role: user.role,
+      ...(requestedEmpresaId ? { empresaId: requestedEmpresaId } : {}),
+      empresaIds: requestedEmpresaId ? [requestedEmpresaId] : [],
+      isGlobalSuAdmin: true,
+      hasTenantWideAccess: true,
+    };
+  }
+
+  if (scope.hasTenantWideAccess) {
+    return {
+      level: 'tenant',
+      role: user.role,
+      tenantId: scope.tenantId,
+      ...(requestedEmpresaId ? { empresaId: requestedEmpresaId } : {}),
+      empresaIds: requestedEmpresaId ? [requestedEmpresaId] : [],
+      isGlobalSuAdmin: false,
+      hasTenantWideAccess: true,
+    };
+  }
+
+  const empresaId = resolveScopedEmpresaId(user, requestedEmpresaId);
+  const empresaIds = user.empresaIds || (empresaId ? [empresaId] : []);
+
+  return {
+    level: 'empresa',
+    role: user.role,
+    tenantId: user.tenantId,
+    ...(empresaId ? { empresaId } : {}),
+    empresaIds,
+    isGlobalSuAdmin: false,
+    hasTenantWideAccess: false,
+  };
 }
 
 export function resolveScopedEmpresaId(
@@ -33,11 +101,13 @@ export function resolveScopedEmpresaId(
   user: JwtPayload,
   requestedEmpresaId?: string,
 ): string | undefined {
-  if (user.isGlobalSuAdmin) {
+  const scope = resolveAccessScopeMode(user);
+
+  if (scope.isGlobalSuAdmin) {
     return requestedEmpresaId;
   }
 
-  if (hasTenantWideAccess(user)) {
+  if (scope.hasTenantWideAccess) {
     return requestedEmpresaId;
   }
 
@@ -71,17 +141,19 @@ export function getPrismaAccessFilter(
   user: JwtPayload,
   requestedEmpresaId?: string,
 ): PrismaAccessFilter {
+  const scope = resolveAccessScopeMode(user);
+
   // 1. SU_ADMIN (Global)
-  if (user.isGlobalSuAdmin) {
+  if (scope.isGlobalSuAdmin) {
     return {
       ...(requestedEmpresaId ? { empresaId: requestedEmpresaId } : {}),
     };
   }
 
   // 2. ADMIN / SU_ADMIN / COORDINADOR (del Tenant)
-  if (hasTenantWideAccess(user)) {
+  if (scope.hasTenantWideAccess) {
     return {
-      tenantId: user.tenantId,
+      tenantId: scope.tenantId,
       ...(requestedEmpresaId ? { empresaId: requestedEmpresaId } : {}),
       // No filtramos empresaId por defecto -> Ve todas las del tenant
     };

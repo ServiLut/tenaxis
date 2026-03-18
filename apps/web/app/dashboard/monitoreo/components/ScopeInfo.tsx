@@ -4,10 +4,14 @@ import React, { useEffect, useState } from "react";
 import { Shield, Building2, MapPin, UserCircle } from "lucide-react";
 import { cn } from "@/components/ui/utils";
 import { getEnterprisesAction, getTenantDetailAction } from "@/app/dashboard/actions";
+import { useAccessScope } from "@/hooks/use-access-scope";
 
 interface UserData {
-  tenantId: string;
+  tenantId?: string;
   role: string;
+  empresaId?: string;
+  empresaIds?: string[];
+  isGlobalSuAdmin?: boolean;
 }
 
 interface Tenant {
@@ -21,6 +25,7 @@ interface Enterprise {
 }
 
 export function ScopeInfo() {
+  const { scope, isLoading: scopeLoading } = useAccessScope();
   const [user, setUser] = useState<UserData | null>(null);
   const [enterpriseName, setEnterpriseName] = useState<string>("...");
   const [tenantName, setTenantName] = useState<string>("...");
@@ -28,18 +33,24 @@ export function ScopeInfo() {
 
   useEffect(() => {
     const loadData = async () => {
-      const userData = localStorage.getItem("user");
-      if (!userData) {
-        setLoading(false);
+      if (scopeLoading) {
         return;
       }
 
       try {
+        const userData = localStorage.getItem("user");
+        if (!userData) {
+          setLoading(false);
+          return;
+        }
+
         const parsedUser = JSON.parse(userData) as UserData;
         setUser(parsedUser);
 
         const [tenantRes, enterprisesRes] = await Promise.all([
-          parsedUser.tenantId ? getTenantDetailAction(parsedUser.tenantId) : null,
+          scope.canSeeAllTenants || !scope.tenantId
+            ? null
+            : getTenantDetailAction(scope.tenantId),
           getEnterprisesAction()
         ]);
 
@@ -47,19 +58,29 @@ export function ScopeInfo() {
         const enterprises = (enterprisesRes as { data?: Enterprise[] }).data || (enterprisesRes as Enterprise[]);
 
         // Set tenant name
-        if (tenant) {
+        if (scope.canSeeAllTenants) {
+          setTenantName("Todos los tenants");
+        } else if (tenant) {
           setTenantName(tenant.nombre || "Tenaxis");
         }
 
-        // Find enterprise name
         const enterpriseId = localStorage.getItem("current-enterprise-id");
-        if (enterpriseId) {
+        if (scope.canSeeAllTenants) {
+          setEnterpriseName("Todas las empresas");
+        } else if (!scope.isEmpresaLocked) {
+          setEnterpriseName("Todas las empresas del tenant");
+        } else if (enterpriseId) {
           const currentEnterprise = Array.isArray(enterprises)
             ? enterprises.find((e: Enterprise) => e.id === enterpriseId)
             : null;
-          setEnterpriseName(currentEnterprise?.nombre || "Todas");
+          setEnterpriseName(currentEnterprise?.nombre || "Empresa asignada");
+        } else if (parsedUser.empresaId) {
+          const assignedEnterprise = Array.isArray(enterprises)
+            ? enterprises.find((e: Enterprise) => e.id === parsedUser.empresaId)
+            : null;
+          setEnterpriseName(assignedEnterprise?.nombre || "Empresa asignada");
         } else {
-          setEnterpriseName("Todas");
+          setEnterpriseName("Empresa asignada");
         }
       } catch (e) {
         console.error("Error loading scope info", e);
@@ -69,7 +90,7 @@ export function ScopeInfo() {
     };
 
     loadData();
-  }, []);
+  }, [scope.canSeeAllTenants, scope.tenantId, scopeLoading]);
 
   if (!user && !loading) return null;
 

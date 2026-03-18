@@ -35,6 +35,7 @@ import {
   NotifyOperatorDto,
 } from './dto/notify-webhook.dto';
 import { SupabaseService } from '../supabase/supabase.service';
+import { resolveScopedEmpresaId } from '../common/utils/access-control.util';
 
 interface RequestWithUser extends Request {
   user: JwtPayload;
@@ -89,7 +90,7 @@ export class OrdenesServicioController {
     @Req() req: RequestWithUser,
     @Query() query: QueryOrdenesServicioDto,
   ) {
-    const empresaId = query.empresaId || req.user.empresaId;
+    const empresaId = resolveScopedEmpresaId(req.user, query.empresaId);
     return await this.ordenesServicioService.findAll(
       req.user,
       empresaId,
@@ -102,7 +103,7 @@ export class OrdenesServicioController {
     @Req() req: RequestWithUser,
     @Query() query: QueryOrdenesServicioDto,
   ): Promise<ServiciosKpiPayload> {
-    const empresaId = query.empresaId || req.user.empresaId;
+    const empresaId = resolveScopedEmpresaId(req.user, query.empresaId);
     return await this.ordenesServicioService.getKpis(
       req.user,
       empresaId,

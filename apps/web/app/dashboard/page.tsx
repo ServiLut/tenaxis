@@ -2,6 +2,7 @@
 
 import React, { useEffect, useState } from "react";
 import { DashboardLayout, JoinOrganization } from "@/components/dashboard";
+import { isEmpresaSelectionLocked, type ScopeAwareUser } from "@/lib/access-scope";
 import { DashboardProviders } from "./components/DashboardProviders";
 import { DashboardContent } from "./components/DashboardContent";
 
@@ -12,7 +13,7 @@ const COOKIE_MAX_AGE_SECONDS = 60 * 60 * 24;
 const COOKIE_PATH = "/";
 const COOKIE_SAME_SITE = "Lax";
 
-type StoredUser = {
+type StoredUser = ScopeAwareUser & {
   tenantId?: string;
 };
 
@@ -49,7 +50,10 @@ export default function DashboardPage() {
           if (!hasTenantCookie) {
             setCookie(TENANT_COOKIE_KEY, user.tenantId);
           }
-          currentEnterpriseId = getCookieValue(ENTERPRISE_COOKIE_KEY);
+          const selectedEnterpriseId = getCookieValue(ENTERPRISE_COOKIE_KEY);
+          currentEnterpriseId = isEmpresaSelectionLocked(user)
+            ? selectedEnterpriseId
+            : undefined;
         }
       } catch (_e) {
         tenantExists = false;

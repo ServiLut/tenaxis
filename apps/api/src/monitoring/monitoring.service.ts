@@ -54,6 +54,10 @@ type PayrollSession = Prisma.SesionActividadGetPayload<{
 export class MonitoringService {
   constructor(private prisma: PrismaService) {}
 
+  private buildTenantWhere(scope: MonitoringScope) {
+    return scope.tenantId ? { tenantId: scope.tenantId } : {};
+  }
+
   private getDateRange(dateStr?: string, startDate?: string, endDate?: string) {
     if (startDate && endDate) {
       const start = parseBogotaDateToUtcStart(startDate);
@@ -81,7 +85,7 @@ export class MonitoringService {
     end: Date,
   ): Prisma.SesionActividadWhereInput {
     const where: Prisma.SesionActividadWhereInput = {
-      tenantId: scope.tenantId,
+      ...this.buildTenantWhere(scope),
       fechaInicio: { gte: start, lt: end },
     };
 
@@ -127,20 +131,20 @@ export class MonitoringService {
   private buildPayrollPreview(
     sessions: PayrollSession[],
     date: string,
-    tenantId: string,
   ): MonitoringPayrollPreviewResponse {
     const groups = new Map<string, MonitoringPayrollPreviewItem>();
 
     sessions.forEach((session) => {
-      const key = `${session.membershipId}:${session.empresaId}`;
+      const key = `${session.tenantId}:${session.membershipId}:${session.empresaId}`;
       const cuentaPago =
         session.membership.cuentasPago.find(
           (cuenta) =>
-            cuenta.tenantId === tenantId &&
+            cuenta.tenantId === session.tenantId &&
             cuenta.empresaId === session.empresaId,
         ) ||
         session.membership.cuentasPago.find(
-          (cuenta) => cuenta.tenantId === tenantId && cuenta.valorHora !== null,
+          (cuenta) =>
+            cuenta.tenantId === session.tenantId && cuenta.valorHora !== null,
         );
       const valorHora =
         cuentaPago?.valorHora !== null && cuentaPago?.valorHora !== undefined
@@ -347,9 +351,13 @@ export class MonitoringService {
               },
             },
             cuentasPago: {
-              where: {
-                tenantId: scope.tenantId,
-              },
+              ...(scope.tenantId
+                ? {
+                    where: {
+                      tenantId: scope.tenantId,
+                    },
+                  }
+                : {}),
               orderBy: {
                 createdAt: 'desc',
               },
@@ -363,7 +371,6 @@ export class MonitoringService {
     return this.buildPayrollPreview(
       sessions as PayrollSession[],
       date || startDate || start.toISOString().slice(0, 10),
-      scope.tenantId,
     );
   }
 
@@ -376,7 +383,7 @@ export class MonitoringService {
     const { start, end } = this.getDateRange(date, startDate, endDate);
 
     const commonWhere: Prisma.SesionActividadWhereInput = {
-      tenantId: scope.tenantId,
+      ...this.buildTenantWhere(scope),
       fechaInicio: { gte: start, lt: end },
     };
 
@@ -396,7 +403,7 @@ export class MonitoringService {
       // 2. Sesiones cerradas inesperadamente (timeouts registrados hoy)
       this.prisma.logEvento.count({
         where: {
-          tenantId: scope.tenantId,
+          ...this.buildTenantWhere(scope),
           tipo: 'SESSION_TIMEOUT',
           createdAt: { gte: start, lt: end },
           ...(scope.empresaIds?.length
@@ -537,7 +544,7 @@ export class MonitoringService {
     const sevenDaysAgo = startDate ? start : addBogotaDaysUtc(start, -7);
 
     const commonWhere: Prisma.AuditoriaWhereInput = {
-      tenantId: scope.tenantId,
+      ...this.buildTenantWhere(scope),
       createdAt: { gte: sevenDaysAgo, lt: end },
     };
 
@@ -708,7 +715,7 @@ export class MonitoringService {
     const { start, end } = this.getDateRange(date, startDate, endDate);
 
     const where: Prisma.LogEventoWhereInput = {
-      tenantId: scope.tenantId,
+      ...this.buildTenantWhere(scope),
       sesion: {
         membershipId,
         fechaInicio: { gte: start, lt: end },
@@ -758,7 +765,7 @@ export class MonitoringService {
     const commonWhere = this.buildSessionWhere(scope, start, end);
 
     const eventsWhere: Prisma.LogEventoWhereInput = {
-      tenantId: scope.tenantId,
+      ...this.buildTenantWhere(scope),
       createdAt: { gte: start, lt: end },
     };
 
@@ -814,7 +821,7 @@ export class MonitoringService {
     const { start, end } = this.getDateRange(date, startDate, endDate);
 
     const where: Prisma.AuditoriaWhereInput = {
-      tenantId: scope.tenantId,
+      ...this.buildTenantWhere(scope),
       createdAt:
         date || (startDate && endDate) ? { gte: start, lt: end } : undefined,
     };
@@ -877,7 +884,7 @@ export class MonitoringService {
   ) {
     const { start, end } = this.getDateRange(date, startDate, endDate);
     const where: Prisma.LogEventoWhereInput = {
-      tenantId: scope.tenantId,
+      ...this.buildTenantWhere(scope),
       createdAt:
         date || (startDate && endDate) ? { gte: start, lt: end } : undefined,
     };

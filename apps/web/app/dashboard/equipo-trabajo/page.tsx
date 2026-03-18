@@ -125,7 +125,7 @@ const VIEW_EXPLANATIONS: Record<
 };
 
 function TeamPageContent() {
-  const { tenantId, isGlobalSuAdmin, checkPermission, isLoading: isLoadingRole } = useUserRole();
+  const { tenantId, isGlobalSuAdmin, role, checkPermission, isLoading: isLoadingRole } = useUserRole();
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
@@ -161,7 +161,7 @@ function TeamPageContent() {
     updateMemberProfile,
     savingProfile,
   } = useTeamPerformance(
-    isGlobalSuAdmin ? "global" : (tenantId ?? null),
+    role === "SU_ADMIN" ? "global" : (tenantId ?? null),
     searchSnapshot,
   );
 
