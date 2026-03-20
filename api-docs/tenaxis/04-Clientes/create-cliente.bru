@@ -17,27 +17,52 @@ auth:bearer {
 body:json {
   {
     "tipoCliente": "PERSONA",
-    "nombre": "OwO",
+    "nombre": "Juan",
     "apellido": "Perez",
-    "telefono": "1234567890",
+    "telefono": "3001234567",
+    "telefono2": "3015558899",
     "correo": "juan.perez@example.com",
+    "origenCliente": "REFERIDO",
+    "tipoInteresId": "{{tipoInteresId}}",
+    "actividadEconomica": "Restaurante",
+    "metrajeTotal": 120,
+    "segmento": "PYME",
+    "subsegmento": "ALIMENTOS",
+    "nivelRiesgo": "MEDIO",
+    "aceptaMarketing": true,
+    "empresaId": "{{enterpriseId}}",
     "direcciones": [
       {
+        "nombreSede": "Principal",
         "direccion": "Calle Falsa 123",
-        "municipio": "Medellín",
-        "municipioId": "a2561362-ce4b-4fce-9503-f613fe372047",
-        "latitud": "4.7110",
-        "longitud": "-74.0721"
+        "barrio": "Centro",
+        "municipio": "Medellin",
+        "municipioId": "{{municipioId}}",
+        "tipoUbicacion": "SEDE",
+        "clasificacionPunto": "URBANO",
+        "horarioInicio": "08:00",
+        "horarioFin": "18:00",
+        "restricciones": "Anunciar llegada en porteria",
+        "latitud": "6.2442",
+        "longitud": "-75.5812",
+        "precisionGPS": "20",
+        "validadoPorSistema": true,
+        "linkMaps": "https://maps.google.com/?q=6.2442,-75.5812",
+        "nombreContacto": "Juan Perez",
+        "telefonoContacto": "3001234567",
+        "cargoContacto": "Administrador",
+        "activa": true,
+        "bloqueada": false
       }
     ],
     "vehiculos": [
       {
         "placa": "ABC123",
         "marca": "Toyota",
-        "modelo": "Corolla"
+        "modelo": "Corolla",
+        "color": "Blanco",
+        "tipo": "Sedan"
       }
-    ],
-    "segmentoId": "e7184713-5ae2-498f-b80d-2ca648554436",
-    "riesgoId": "c61edeec-f158-4211-885c-a9ee2e263833"
+    ]
   }
 }

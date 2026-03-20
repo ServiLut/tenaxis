@@ -86,6 +86,12 @@ import {
   utcIsoToBogotaYmd,
   ymdToPickerDate,
 } from "@/utils/date-utils";
+import { getBrowserCookie } from "@/lib/api/browser-client";
+import {
+  getBrowserAccessScope,
+  getBrowserScopedEnterpriseId,
+} from "@/lib/browser-access-scope";
+import type { AccessScope } from "@/lib/access-scope";
 
 export interface Cliente {
   id: string;
@@ -503,7 +509,7 @@ export function ClienteList({
     ubicacion: "",
   });
 
-  const [userRole, setUserRole] = useState<string | null>(null);
+  const [accessScope, setAccessScope] = useState<AccessScope | null>(null);
   const [showKPIs, setShowKPIs] = useState(false);
   const [showFilters, setShowFilters] = useState(false);
   const [customPresets, setCustomPresets] = useState<DashboardPreset[]>([]);
@@ -564,14 +570,53 @@ export function ClienteList({
 
   React.useEffect(() => {
     setMounted(true);
-    const userData = localStorage.getItem("user");
-    if (userData && userData !== "undefined") {
-      try {
-        const user = JSON.parse(userData);
-        setUserRole(user.role);
-      } catch (_e) { /* ignore */ }
-    }
+    setAccessScope(getBrowserAccessScope());
   }, []);
+
+  useEffect(() => {
+    if (!accessScope) {
+      return;
+    }
+
+    const scopedEnterpriseId = getBrowserScopedEnterpriseId(accessScope);
+    if (accessScope.isEmpresaLocked) {
+      if (!scopedEnterpriseId) {
+        return;
+      }
+
+      setTimeout(() => {
+        setFilters((prev) => {
+          if (
+            prev.empresas.length === 1 &&
+            prev.empresas[0] === scopedEnterpriseId
+          ) {
+            return prev;
+          }
+
+          return {
+            ...prev,
+            empresas: [scopedEnterpriseId],
+          };
+        });
+        setEmpresaSearch("");
+      }, 0);
+      return;
+    }
+
+    setTimeout(() => {
+      setFilters((prev) => {
+        if (prev.empresas.length === 0) {
+          return prev;
+        }
+
+        return {
+          ...prev,
+          empresas: [],
+        };
+      });
+      setEmpresaSearch("");
+    }, 0);
+  }, [accessScope]);
 
   const filterOptions = useMemo(() => {
     if (!mounted) return { municipios: [], segmentos: [], clasificaciones: [], riesgos: [], empresas: [], departamentos: [] };
@@ -956,8 +1001,8 @@ export function ClienteList({
 
   const handleSaveConfig = async () => {
     if (!selectedClienteForConfig) return;
-    const cookieStore = document.cookie;
-    const empresaId = cookieStore.split("; ").find(row => row.startsWith("x-enterprise-id="))?.split("=")[1];
+    const empresaId =
+      getBrowserScopedEnterpriseId(accessScope) ?? getBrowserCookie("x-enterprise-id");
     if (!empresaId) {
       toast.error("No se encontró la empresa activa");
       return;
@@ -1274,8 +1319,8 @@ export function ClienteList({
                   </div>
 
                   <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-x-8 gap-y-8">
-                    {/* Empresa (Solo Admins) */}
-                    {(userRole === "SU_ADMIN" || userRole === "ADMIN") && filterOptions.empresas.length > 0 && (
+                    {/* Empresa visible según alcance */}
+                    {!accessScope?.isEmpresaLocked && filterOptions.empresas.length > 0 && (
                       <div className="space-y-2">
                         <Label className="text-[10px] font-black uppercase tracking-widest text-muted-foreground">Empresa Responsable</Label>
                         <Input

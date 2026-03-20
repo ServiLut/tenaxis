@@ -9,7 +9,7 @@ import { configClient } from "@/lib/api/config-client";
 import { enterpriseClient } from "@/lib/api/enterprise-client";
 import { serviciosClient } from "@/lib/api/servicios-client";
 import { authClient } from "@/lib/api/auth-client";
-import { canAccessTenantsView } from "@/lib/access-scope";
+import { canAccessTenantsView, resolveAccessScope } from "@/lib/access-scope";
 import { apiFetch, } from "@/lib/api/base-client";
 import { DashboardStatsSchema, type DashboardStatsType } from "./schemas/dashboard.schema";
 
@@ -129,11 +129,19 @@ export async function isTenantAdminAction() {
 
 export async function updateTestRoleAction(role: string) {
   try {
-    const result = await authClient.updateTestRole(role);
+    // Intentar actualizar en base de datos (opcional para SU_ADMINs globales)
+    try {
+      await authClient.updateTestRole(role);
+    } catch (e) {
+      console.warn("No se pudo actualizar el rol en la DB, se usará solo cookie:", e);
+    }
+
+    // SIEMPRE establecer la cookie para que el override funcione en los interceptores/guards
     const cookieStore = await cookies();
     const expires = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000);
     cookieStore.set("x-test-role", role, { path: "/", expires, sameSite: "lax" });
-    return { success: true, data: result };
+    
+    return { success: true };
   } catch (error) {
     return { success: false, error: error instanceof Error ? error.message : "Error inesperado" };
   }
@@ -278,8 +286,12 @@ export async function getClienteByIdAction(id: string) {
 
 export async function getClientesDashboardAction<T = unknown>(): Promise<ClientesDashboardDataResponse<T>> {
   try {
-    const data = await     apiFetch<any /* eslint-disable-line @typescript-eslint/no-explicit-any */>("/clientes/dashboard-data", {
+    const profile = await authClient.getProfile();
+    const scope = resolveAccessScope(profile);
+
+    const data = await apiFetch<any /* eslint-disable-line @typescript-eslint/no-explicit-any */>("/clientes/dashboard-data", {
       cache: "no-store",
+      includeEnterpriseId: scope.isEmpresaLocked,
     });
 
     return {
@@ -927,5 +939,28 @@ export async function notifyServiceOperatorWebhookAction(data: {
       success: false,
       error: error instanceof Error ? error.message : "Error notifying webhook",
     };
+  }
+}
+
+// --- Insumos / Productos Actions ---
+export async function getProductosStockAction() {
+  try {
+    return await apiFetch<unknown[]>("/productos/stock", {
+      cache: "no-store",
+    });
+  } catch (error) {
+    console.error("Error fetching stock:", error);
+    return [];
+  }
+}
+
+export async function getProductosSolicitudesAction() {
+  try {
+    return await apiFetch<unknown[]>("/productos/solicitudes", {
+      cache: "no-store",
+    });
+  } catch (error) {
+    console.error("Error fetching solicitudes:", error);
+    return [];
   }
 }

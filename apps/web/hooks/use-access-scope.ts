@@ -3,9 +3,8 @@
 import { useEffect, useState } from "react";
 import {
   AccessScope,
-  ScopeAwareUser,
-  resolveAccessScope,
 } from "@/lib/access-scope";
+import { getBrowserAccessScope } from "@/lib/browser-access-scope";
 
 const EMPTY_SCOPE: AccessScope = {
   role: null,
@@ -23,22 +22,18 @@ export function useAccessScope() {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    const raw = localStorage.getItem("user");
-
-    if (!raw) {
-      setScope(EMPTY_SCOPE);
-      setIsLoading(false);
+    if (typeof window === "undefined") {
+      setTimeout(() => {
+        setScope(EMPTY_SCOPE);
+        setIsLoading(false);
+      }, 0);
       return;
     }
 
-    try {
-      const parsed = JSON.parse(raw) as ScopeAwareUser;
-      setScope(resolveAccessScope(parsed));
-    } catch {
-      setScope(EMPTY_SCOPE);
-    } finally {
+    setTimeout(() => {
+      setScope(getBrowserAccessScope());
       setIsLoading(false);
-    }
+    }, 0);
   }, []);
 
   return { scope, isLoading };

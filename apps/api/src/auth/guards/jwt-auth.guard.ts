@@ -7,6 +7,7 @@ import {
 import { JwtService } from '@nestjs/jwt';
 import { Request } from 'express';
 import { JwtPayload } from '../jwt-payload.interface';
+import { applyDevRoleOverride } from '../../common/utils/dev-role-override.util';
 
 interface RequestWithUser extends Request {
   user?: JwtPayload;
@@ -39,6 +40,8 @@ export class JwtAuthGuard implements CanActivate {
 
     try {
       const payload = await this.jwtService.verifyAsync<JwtPayload>(token);
+      applyDevRoleOverride(payload, request.headers['x-test-role']);
+
       request.user = payload;
       return true;
     } catch {

@@ -1,6 +1,7 @@
 "use client";
 
 import { createClient } from "@/utils/supabase/client";
+import { getBrowserAuthHeaders } from "@/lib/api/browser-client";
 
 export interface ClienteDTO {
   id?: string;
@@ -156,23 +157,8 @@ type ApiOptions = RequestInit & {
 
 type UploadKind = "facturaElectronica" | "comprobantePago" | "evidencias";
 
-const getCookie = (name: string) => {
-  if (typeof document === "undefined") return undefined;
-  const value = `; ${document.cookie}`;
-  const parts = value.split(`; ${name}=`);
-  if (parts.length === 2) return parts.pop()?.split(";").shift();
-  return undefined;
-};
-
 const getDefaultHeaders = (enterpriseId?: string) => {
-  const token = getCookie("access_token");
-  const cookieEnterprise = getCookie("x-enterprise-id");
-  const effectiveEnterpriseId = enterpriseId || cookieEnterprise;
-
-  const headers: Record<string, string> = {};
-  if (token) headers.Authorization = `Bearer ${token}`;
-  if (effectiveEnterpriseId) headers["x-enterprise-id"] = effectiveEnterpriseId;
-  return headers;
+  return getBrowserAuthHeaders({ enterpriseId });
 };
 
 const unwrapData = async <T>(res: Response): Promise<T> => {

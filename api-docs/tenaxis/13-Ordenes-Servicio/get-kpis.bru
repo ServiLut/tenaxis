@@ -1,0 +1,20 @@
+meta {
+  name: Get Kpis
+  type: http
+  seq: 4
+}
+
+get {
+  url: {{local}}/ordenes-servicio/kpis
+  body: none
+  auth: bearer
+}
+
+params:query {
+  empresaId: {{enterpriseId}}
+  preset: SEMANA
+}
+
+auth:bearer {
+  token: {{token}}
+}

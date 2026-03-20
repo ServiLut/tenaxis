@@ -47,7 +47,11 @@ export class AuthController {
     const enterpriseId = Array.isArray(enterpriseIdHeader)
       ? enterpriseIdHeader[0]
       : enterpriseIdHeader;
-    return this.authService.getProfile(token, enterpriseId);
+    const testRoleHeader = req.headers['x-test-role'];
+    const testRole = Array.isArray(testRoleHeader)
+      ? testRoleHeader[0]
+      : testRoleHeader;
+    return this.authService.getProfile(token, enterpriseId, testRole);
   }
 
   @Patch('test-role')

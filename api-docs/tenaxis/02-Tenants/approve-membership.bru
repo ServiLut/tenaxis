@@ -1,17 +1,13 @@
 meta {
   name: Approve Membership
   type: http
-  seq: 5
+  seq: 10
 }
 
 post {
-  url: {{local}}/tenants/memberships/:membershipId/approve
+  url: {{local}}/tenants/memberships/{{membershipId}}/approve
   body: none
   auth: bearer
-}
-
-params:path {
-  membershipId: 
 }
 
 auth:bearer {

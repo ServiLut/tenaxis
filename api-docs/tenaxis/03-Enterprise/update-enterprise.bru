@@ -1,7 +1,7 @@
 meta {
   name: Update Enterprise
   type: http
-  seq: 2
+  seq: 4
 }
 
 patch {
@@ -10,16 +10,13 @@ patch {
   auth: bearer
 }
 
-headers {
-  x-tenant-id: 0d003940-5049-4ebe-86f8-d62605e26a93
-}
-
 auth:bearer {
   token: {{token}}
 }
 
 body:json {
   {
-    "nombre": "nombre actualizado"
+    "nombre": "Control de Plagas Centro",
+    "activo": true
   }
 }

@@ -32,7 +32,9 @@ export class MonitoringScopeGuard implements CanActivate {
     const scope: MonitoringScope = {
       role: user.role,
       membershipId,
-      ...(accessScope.tenantId ? { tenantId: accessScope.tenantId } : {}),
+      ...(!accessScope.isGlobalSuAdmin && accessScope.tenantId
+        ? { tenantId: accessScope.tenantId }
+        : {}),
       ...(accessScope.isGlobalSuAdmin ? { isGlobalSuAdmin: true } : {}),
     };
 

@@ -14,6 +14,7 @@ import { Role } from '../generated/client/client';
 import { JwtService } from '@nestjs/jwt';
 import { MonitoringService } from '../monitoring/monitoring.service';
 import { JwtPayload } from './jwt-payload.interface';
+import { resolveEffectiveRoleState } from '../common/utils/dev-role-override.util';
 
 @Injectable()
 export class AuthService {
@@ -124,10 +125,16 @@ export class AuthService {
     };
   }
 
-  async getProfile(token: string, enterpriseId?: string) {
+  async getProfile(token: string, enterpriseId?: string, testRole?: string) {
     try {
       const payload = await this.jwtService.verifyAsync<JwtPayload>(token);
-      const isGlobalSuAdmin = this.isGlobalSuAdmin(payload.sub);
+      const devRoleState = resolveEffectiveRoleState(
+        {
+          role: payload.role,
+          isGlobalSuAdmin: this.isGlobalSuAdmin(payload.sub),
+        },
+        testRole,
+      );
 
       const user = await this.prisma.user.findUnique({
         where: { id: payload.sub },
@@ -173,6 +180,7 @@ export class AuthService {
 
       return {
         ...payload,
+        role: devRoleState.role,
         id: user?.id || payload.sub,
         email: user?.email || payload.email,
         nombre: user?.nombre,
@@ -193,7 +201,7 @@ export class AuthService {
           (empresaIds.length === 1 ? empresaIds[0] : undefined),
         empresaIds:
           empresaIds.length > 0 ? empresaIds : payload.empresaIds || [],
-        isGlobalSuAdmin,
+        isGlobalSuAdmin: devRoleState.isGlobalSuAdmin,
       };
     } catch {
       throw new UnauthorizedException();
@@ -215,10 +223,20 @@ export class AuthService {
     });
 
     if (!user || user.memberships.length === 0) {
+      if (this.isGlobalSuAdmin(userId)) {
+        return { success: true, role };
+      }
       throw new ConflictException('No active membership found');
     }
 
     const membership = user.memberships[0];
+
+    if (!membership) {
+      if (this.isGlobalSuAdmin(userId)) {
+        return { success: true, role };
+      }
+      throw new ConflictException('No active membership found');
+    }
 
     await this.prisma.tenantMembership.update({
       where: { id: membership.id },

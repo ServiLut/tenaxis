@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { toast } from "sonner";
 import { toBogotaYmd } from "@/utils/date-utils";
+import { getBrowserAuthHeaders } from "@/lib/api/browser-client";
 
 export type TeamTab = "ranking" | "usuarios";
 export type RankingScope = "operativo" | "todos";
@@ -145,14 +146,6 @@ type Municipality = {
   name: string;
 };
 
-const getCookie = (name: string) => {
-  if (typeof document === "undefined") return undefined;
-  const value = `; ${document.cookie}`;
-  const parts = value.split(`; ${name}=`);
-  if (parts.length === 2) return parts.pop()?.split(";").shift();
-  return undefined;
-};
-
 const unwrapData = async <T>(res: Response): Promise<T> => {
   const contentType = res.headers.get("content-type");
   let data: unknown;
@@ -172,8 +165,7 @@ const unwrapData = async <T>(res: Response): Promise<T> => {
 
 const defaultDateRange = () => {
   const to = new Date();
-  const from = new Date();
-  from.setDate(to.getDate() - 29);
+  const from = new Date(to.getFullYear(), to.getMonth(), 1);
   return {
     from: toBogotaYmd(from),
     to: toBogotaYmd(to),
@@ -219,9 +211,8 @@ export function useTeamPerformance(
   }, [filters.search]);
 
   const fetchMunicipalities = useCallback(async () => {
-    const token = getCookie("access_token");
     const res = await fetch("/api/geo/municipalities", {
-      headers: token ? { Authorization: `Bearer ${token}` } : {},
+      headers: getBrowserAuthHeaders(),
     });
 
     if (!res.ok) {
@@ -233,7 +224,6 @@ export function useTeamPerformance(
 
   const fetchPerformance = useCallback(async () => {
     if (!tenantId) return;
-    const token = getCookie("access_token");
     const params = new URLSearchParams();
     params.set("from", filters.from);
     params.set("to", filters.to);
@@ -249,7 +239,7 @@ export function useTeamPerformance(
     const res = await fetch(
       `/api/tenants/${tenantId}/team/performance?${params.toString()}`,
       {
-        headers: token ? { Authorization: `Bearer ${token}` } : {},
+        headers: getBrowserAuthHeaders(),
       },
     );
     if (!res.ok) {
@@ -294,7 +284,6 @@ export function useTeamPerformance(
 
       try {
         setLoadingDetail(true);
-        const token = getCookie("access_token");
         const params = new URLSearchParams({
           from: filters.from,
           to: filters.to,
@@ -307,7 +296,7 @@ export function useTeamPerformance(
         const res = await fetch(
           `/api/tenants/${tenantId}/team/members/${membershipId}/detail?${params.toString()}`,
           {
-            headers: token ? { Authorization: `Bearer ${token}` } : {},
+            headers: getBrowserAuthHeaders(),
           },
         );
 
@@ -351,12 +340,11 @@ export function useTeamPerformance(
 
       try {
         setSavingProfile(true);
-        const token = getCookie("access_token");
         const res = await fetch(`/api/tenants/memberships/${membershipId}`, {
           method: "PATCH",
           headers: {
             "Content-Type": "application/json",
-            ...(token ? { Authorization: `Bearer ${token}` } : {}),
+            ...getBrowserAuthHeaders(),
           },
           body: JSON.stringify(payload),
         });

@@ -175,13 +175,17 @@ export default function MonitoreoPage() {
         Estado: item.estado || "N/A",
       }));
 
-      const sheets: any[] = [
-        { name: "Sesiones", data: sessionsData },
-        { name: "Auditoria", data: auditData },
+      type ExcelRow = Record<string, string | number | null | undefined>;
+      const sheets: { name: string; data: ExcelRow[] }[] = [
+        { name: "Sesiones", data: sessionsData as unknown as ExcelRow[] },
+        { name: "Auditoria", data: auditData as unknown as ExcelRow[] },
       ];
 
       if (payrollData.length > 0) {
-        sheets.push({ name: "Pre-Nomina", data: payrollData });
+        sheets.push({ 
+          name: "Pre-Nomina", 
+          data: payrollData as unknown as ExcelRow[] 
+        });
       }
 
       await exportToExcel(sheets, `monitoreo_rango_${startDate}_a_${endDate}`);

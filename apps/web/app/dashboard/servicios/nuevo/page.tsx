@@ -66,6 +66,7 @@ import {
 } from "lucide-react";
 import { DashboardLayout } from "@/components/dashboard";
 import { cn } from "@/components/ui/utils";
+import { getBrowserCookie } from "@/lib/api/browser-client";
 import {
   bogotaDateTimeToUtcIso,
   bogotaDateToUtcIso,
@@ -505,8 +506,9 @@ function NuevoServicioContent() {
     const loadData = async () => {
       const userData = localStorage.getItem("user");
       // Obtener empresa seleccionada actualmente en el selector de la barra lateral
-      const currentEmpresaId = localStorage.getItem("current-enterprise-id") ||
-                              document.cookie.split("; ").find(row => row.startsWith("x-enterprise-id="))?.split("=")[1];
+      const currentEmpresaId =
+        localStorage.getItem("current-enterprise-id") ||
+        getBrowserCookie("x-enterprise-id");
 
       let uRole = null;
 

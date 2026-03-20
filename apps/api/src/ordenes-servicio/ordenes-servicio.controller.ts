@@ -1,4 +1,5 @@
 import {
+  BadRequestException,
   Controller,
   Post,
   Get,
@@ -121,10 +122,16 @@ export class OrdenesServicioController {
       throw new UnauthorizedException('Tenant ID not found in token');
     }
 
+    const resolvedEmpresaId = resolveScopedEmpresaId(req.user, empresaId);
+
+    if (!resolvedEmpresaId) {
+      throw new BadRequestException('Debes indicar una empresa');
+    }
+
     return await this.ordenesServicioService.getMyFollowUpStatus(
       tenantId,
       req.user,
-      empresaId || req.user.empresaId,
+      resolvedEmpresaId,
     );
   }
 
@@ -139,10 +146,16 @@ export class OrdenesServicioController {
       throw new UnauthorizedException('Tenant ID not found in token');
     }
 
+    const resolvedEmpresaId = resolveScopedEmpresaId(req.user, empresaId);
+
+    if (!resolvedEmpresaId) {
+      throw new BadRequestException('Debes indicar una empresa');
+    }
+
     return await this.ordenesServicioService.listFollowUpOverrides(
       tenantId,
       req.user,
-      empresaId || req.user.empresaId,
+      resolvedEmpresaId,
       membershipId,
     );
   }
@@ -158,10 +171,16 @@ export class OrdenesServicioController {
       throw new UnauthorizedException('Tenant ID not found in token');
     }
 
+    const resolvedEmpresaId = resolveScopedEmpresaId(req.user, empresaId);
+
+    if (!resolvedEmpresaId) {
+      throw new BadRequestException('Debes indicar una empresa');
+    }
+
     return await this.ordenesServicioService.createFollowUpOverride(
       tenantId,
       req.user,
-      empresaId || req.user.empresaId,
+      resolvedEmpresaId,
       dto,
     );
   }

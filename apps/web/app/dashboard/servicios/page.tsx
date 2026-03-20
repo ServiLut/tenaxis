@@ -101,7 +101,7 @@ import {
   toBogotaYmd,
   ymdToPickerDate,
 } from "@/utils/date-utils";
-import { isEmpresaSelectionLocked, type ScopeAwareUser } from "@/lib/access-scope";
+import { getBrowserScopedEnterpriseId } from "@/lib/browser-access-scope";
 
 interface DesglosePago {
   metodo: string;
@@ -524,19 +524,7 @@ function ServiciosContent() {
 
   const getScopedEnterpriseId = useCallback(() => {
     if (typeof window === "undefined") return undefined;
-
-    const storedEnterpriseId = localStorage.getItem("current-enterprise-id") || undefined;
-    const userData = localStorage.getItem("user");
-    if (!userData || userData === "undefined") {
-      return storedEnterpriseId;
-    }
-
-    try {
-      const user = JSON.parse(userData) as ScopeAwareUser;
-      return isEmpresaSelectionLocked(user) ? storedEnterpriseId : undefined;
-    } catch {
-      return storedEnterpriseId;
-    }
+    return getBrowserScopedEnterpriseId();
   }, []);
 
   const fetchOptions = useCallback(async () => {

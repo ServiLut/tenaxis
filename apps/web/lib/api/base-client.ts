@@ -12,11 +12,15 @@ export const getApiUrl = () => {
   return "/api";
 };
 
-export async function getAuthHeaders(isFormData = false) {
+export async function getAuthHeaders(
+  isFormData = false,
+  options: { includeEnterpriseId?: boolean } = {},
+) {
   const cookieStore = await cookies();
   const token = cookieStore.get("access_token")?.value;
   const enterpriseId = cookieStore.get("x-enterprise-id")?.value;
   const testRole = cookieStore.get("x-test-role")?.value;
+  const { includeEnterpriseId = true } = options;
 
   const headers: Record<string, string> = {};
 
@@ -28,7 +32,7 @@ export async function getAuthHeaders(isFormData = false) {
     headers["Authorization"] = `Bearer ${token}`;
   }
 
-  if (enterpriseId) {
+  if (includeEnterpriseId && enterpriseId) {
     headers["x-enterprise-id"] = enterpriseId;
   }
 
@@ -39,11 +43,14 @@ export async function getAuthHeaders(isFormData = false) {
   return headers;
 }
 
-export async function apiFetch<T>(endpoint: string, options: RequestInit = {}): Promise<T> {
+export async function apiFetch<T>(
+  endpoint: string,
+  options: RequestInit & { includeEnterpriseId?: boolean } = {},
+): Promise<T> {
   const apiUrl = getApiUrl();
   const isFormData = options.body instanceof FormData;
   const headers = {
-    ...(await getAuthHeaders(isFormData)),
+    ...(await getAuthHeaders(isFormData, { includeEnterpriseId: options.includeEnterpriseId })),
     ...(options.headers as Record<string, string>),
   };
 
@@ -53,6 +60,7 @@ export async function apiFetch<T>(endpoint: string, options: RequestInit = {}): 
   try {
     const response = await fetch(url, {
       ...options,
+      cache: "no-store",
       headers,
     });
 

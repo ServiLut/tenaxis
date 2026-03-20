@@ -48,6 +48,7 @@ import {
 } from "lucide-react";
 import { useUserRole } from "@/hooks/use-user-role";
 import { DashboardLayout } from "@/components/dashboard";
+import { getBrowserCookie } from "@/lib/api/browser-client";
 
 // --- Constantes Estratégicas ---
 const ORIGENES_CLIENTE = ["Google Ads", "Referido", "Orgánico", "Recurrente", "Campaña", "WhatsApp directo"];
@@ -139,10 +140,7 @@ function NuevoClienteContent() {
         const items = (empresasData as { items?: { id: string, nombre: string }[] })?.items || [];
         setEmpresasUser(items);
         
-        const cookieId = document.cookie
-          .split("; ")
-          .find((row) => row.startsWith("x-enterprise-id="))
-          ?.split("=")[1];
+        const cookieId = getBrowserCookie("x-enterprise-id");
           
         if (cookieId && items.find((e: {id: string}) => e.id === cookieId)) {
           setSelectedEmpresaId(cookieId);

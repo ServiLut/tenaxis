@@ -8,6 +8,7 @@ import {
   resolveAvailableEmpresaIds,
   type ScopeAwareUser,
 } from "@/lib/access-scope";
+import { getBrowserCookie, setBrowserCookie } from "@/lib/api/browser-client";
 import { cn } from "@/components/ui/utils";
 import {
   DropdownMenu,
@@ -51,10 +52,7 @@ export function EmpresaSelector() {
         setEmpresas(scopedItems);
         setIsReadOnly(isEmpresaSelectionLocked(profile));
 
-        const cookieId = document.cookie
-          .split("; ")
-          .find((row) => row.startsWith("x-enterprise-id="))
-          ?.split("=")[1];
+        const cookieId = getBrowserCookie("x-enterprise-id");
 
         if (cookieId && scopedItems.find((e: Empresa) => e.id === cookieId)) {
           setCurrentEmpresaId(cookieId);
@@ -74,8 +72,9 @@ export function EmpresaSelector() {
   }, []);
 
   const updateEnterpriseCookie = (id: string) => {
-    const expires = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toUTCString();
-    document.cookie = `x-enterprise-id=${id}; path=/; expires=${expires}; SameSite=Lax`;
+    setBrowserCookie("x-enterprise-id", id, {
+      expiresAt: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
+    });
     localStorage.setItem("current-enterprise-id", id);
   };
 
