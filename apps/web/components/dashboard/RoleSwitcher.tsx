@@ -9,15 +9,14 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { getBrowserCookie } from "@/lib/api/browser-client";
+import { getBrowserCookie, setBrowserCookie } from "@/lib/api/browser-client";
+import { authClient } from "@/lib/api/auth-client";
 import {
   buildEffectiveScopeAwareUser,
   parseStoredScopeAwareUser,
 } from "@/lib/access-scope";
 
 const ROLES = ["SU_ADMIN", "ADMIN", "COORDINADOR", "ASESOR", "OPERADOR"];
-
-import { updateTestRoleAction } from "@/app/dashboard/actions";
 
 export function RoleSwitcher() {
   const isDev = process.env.NODE_ENV !== 'production';
@@ -76,12 +75,11 @@ export function RoleSwitcher() {
       }
 
       try {
-        const res = await updateTestRoleAction(role);
-        if (res.success) {
-          window.location.reload();
-        } else {
-          console.error("Error updating role:", res.error);
-        }
+        await authClient.updateTestRole(role);
+        setBrowserCookie("x-test-role", role, {
+          expiresAt: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
+        });
+        window.location.reload();
       } catch (error) {
         console.error("Error updating role:", error);
       }

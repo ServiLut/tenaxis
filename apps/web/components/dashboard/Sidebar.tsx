@@ -23,9 +23,9 @@ import {
   Activity,
   MessageSquare,
 } from "lucide-react";
-import { getMyProfileAction } from "@/app/dashboard/actions";
-import { logoutAction } from "@/app/(auth)/actions";
 import { canAccessTenantsView, getScopedRole, type ScopedRole } from "@/lib/access-scope";
+import { deleteBrowserCookie } from "@/lib/api/browser-client";
+import { authClient } from "@/lib/api/auth-client";
 import { EmpresaSelector } from "./EmpresaSelector";
 
 const menuItems: { title: string; icon: LucideIcon; href: string; role?: string }[] = [
@@ -121,7 +121,7 @@ export function Sidebar({ isOpen, onClose }: SidebarProps) {
 
     async function loadScope() {
       try {
-        const profile = await getMyProfileAction();
+        const profile = await authClient.getProfile();
         if (!isMounted || !profile) return;
 
         setCanViewTenants(canAccessTenantsView(profile));
@@ -154,14 +154,15 @@ export function Sidebar({ isOpen, onClose }: SidebarProps) {
 
   const handleLogout = async () => {
     try {
-      await logoutAction();
+      await authClient.logout();
     } catch (error) {
       console.error("Error calling logout API:", error);
     }
 
-    document.cookie = "access_token=; path=/; expires=Thu, 01 Jan 1970 00:00:01 GMT;";
-    document.cookie = "tenant-id=; path=/; expires=Thu, 01 Jan 1970 00:00:01 GMT;";
-    document.cookie = "x-enterprise-id=; path=/; expires=Thu, 01 Jan 1970 00:00:01 GMT;";
+    deleteBrowserCookie("access_token");
+    deleteBrowserCookie("tenant-id");
+    deleteBrowserCookie("x-enterprise-id");
+    deleteBrowserCookie("x-test-role");
     
     // En lugar de borrar todo el objeto user, solo limpiamos los tokens/sesiones
     // para preservar campos como banco, valorHora, etc. en el mismo navegador.

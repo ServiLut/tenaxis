@@ -2,13 +2,14 @@
 
 import React, { useEffect, useState } from "react";
 import { Building2, ChevronsUpDown, Check } from "lucide-react";
-import { getEnterprisesAction, getMyProfileAction } from "@/app/dashboard/actions";
 import {
   isEmpresaSelectionLocked,
   resolveAvailableEmpresaIds,
   type ScopeAwareUser,
 } from "@/lib/access-scope";
+import { authClient } from "@/lib/api/auth-client";
 import { getBrowserCookie, setBrowserCookie } from "@/lib/api/browser-client";
+import { enterpriseClient } from "@/lib/api/enterprise-client";
 import { cn } from "@/components/ui/utils";
 import {
   DropdownMenu,
@@ -32,8 +33,8 @@ export function EmpresaSelector() {
     async function loadEmpresas() {
       try {
         const [result, profile] = await Promise.all([
-          getEnterprisesAction(),
-          getMyProfileAction(),
+          enterpriseClient.getAll(),
+          authClient.getProfile(),
         ]);
         let items: Empresa[] = [];
         
