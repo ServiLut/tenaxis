@@ -19,15 +19,14 @@ RUN corepack enable && corepack prepare pnpm@latest --activate
 COPY --from=base /app/out/json/ .
 COPY --from=base /app/out/pnpm-lock.yaml ./pnpm-lock.yaml
 
-# Instalamos permitiendo scripts para compilar módulos nativos
-RUN pnpm install --frozen-lockfile
+# Instalamos ignorando scripts inicialmente para evitar que postinstall (prisma generate) falle
+RUN pnpm install --frozen-lockfile --ignore-scripts
 
 # Copiamos el código fuente completo
 COPY --from=base /app/out/full/ .
 
-# Generar Prisma Client
-# Usamos pnpm exec en el contexto del paquete api para localizar correctamente el binario
-RUN pnpm --filter=api exec prisma generate
+# Ahora instalamos nuevamente sin ignore-scripts para que postinstall y los módulos nativos se compilen correctamente
+RUN pnpm install --frozen-lockfile
 
 # Construir la API
 RUN pnpm run build --filter=api
