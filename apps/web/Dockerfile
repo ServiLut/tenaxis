@@ -16,8 +16,8 @@ RUN corepack enable && corepack prepare pnpm@latest --activate
 COPY --from=base /app/out/json/ .
 COPY --from=base /app/out/pnpm-lock.yaml ./pnpm-lock.yaml
 
-# Instalamos CON ignore-scripts por consistencia y velocidad
-RUN pnpm install --frozen-lockfile --ignore-scripts
+# Instalamos permitiendo scripts para que sharp y otros módulos nativos se configuren correctamente
+RUN pnpm install --frozen-lockfile
 
 # Copiamos código
 COPY --from=base /app/out/full/ .

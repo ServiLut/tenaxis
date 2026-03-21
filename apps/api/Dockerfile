@@ -9,8 +9,8 @@ RUN turbo prune --scope=api --docker
 FROM node:22-alpine AS build
 WORKDIR /app
 
-# Instalar dependencias necesarias para Prisma en Alpine
-RUN apk add --no-cache openssl libc6-compat
+# Instalar dependencias necesarias para Prisma y módulos nativos (bcrypt/sharp) en Alpine
+RUN apk add --no-cache openssl libc6-compat python3 make g++
 
 # Enable corepack for pnpm
 RUN corepack enable && corepack prepare pnpm@latest --activate
@@ -19,8 +19,8 @@ RUN corepack enable && corepack prepare pnpm@latest --activate
 COPY --from=base /app/out/json/ .
 COPY --from=base /app/out/pnpm-lock.yaml ./pnpm-lock.yaml
 
-# INSTALAMOS CON --ignore-scripts
-RUN pnpm install --frozen-lockfile --ignore-scripts
+# Instalamos permitiendo scripts para compilar módulos nativos
+RUN pnpm install --frozen-lockfile
 
 # Copiamos el código fuente completo
 COPY --from=base /app/out/full/ .
@@ -39,8 +39,8 @@ WORKDIR /app
 ENV NODE_ENV=production
 ENV PORT=4000
 
-# Instalamos OpenSSL
-RUN apk add --no-cache openssl
+# Instalamos dependencias de runtime (OpenSSL para Prisma, libc6-compat para módulos nativos)
+RUN apk add --no-cache openssl libc6-compat
 
 # Copiamos dependencias y build
 COPY --from=build /app/node_modules ./node_modules
