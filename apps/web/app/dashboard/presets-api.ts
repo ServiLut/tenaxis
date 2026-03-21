@@ -1,6 +1,6 @@
 "use client";
 
-import { getBrowserAuthHeaders } from "@/lib/api/browser-client";
+import { buildBrowserApiUrl, getBrowserAuthHeaders } from "@/lib/api/browser-client";
 
 export type DashboardPresetModule = "SERVICIOS" | "CLIENTES";
 export type DashboardPresetColorToken =
@@ -50,7 +50,7 @@ const unwrapData = async <T>(res: Response): Promise<T> => {
 
 export async function listDashboardPresets(module: DashboardPresetModule) {
   const params = new URLSearchParams({ module });
-  const res = await fetch(`/api/dashboard-presets?${params.toString()}`, {
+  const res = await fetch(buildBrowserApiUrl(`/dashboard-presets?${params.toString()}`), {
     headers: getBrowserAuthHeaders(),
   });
   return unwrapData<DashboardPreset[]>(res);
@@ -63,7 +63,7 @@ export async function createDashboardPreset(input: {
   isShared: boolean;
   filters: Record<string, unknown>;
 }) {
-  const res = await fetch("/api/dashboard-presets", {
+  const res = await fetch(buildBrowserApiUrl("/dashboard-presets"), {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -83,7 +83,7 @@ export async function updateDashboardPreset(
     filters: Record<string, unknown>;
   }>,
 ) {
-  const res = await fetch(`/api/dashboard-presets/${id}`, {
+  const res = await fetch(buildBrowserApiUrl(`/dashboard-presets/${id}`), {
     method: "PATCH",
     headers: {
       "Content-Type": "application/json",
@@ -95,7 +95,7 @@ export async function updateDashboardPreset(
 }
 
 export async function deleteDashboardPreset(id: string) {
-  const res = await fetch(`/api/dashboard-presets/${id}`, {
+  const res = await fetch(buildBrowserApiUrl(`/dashboard-presets/${id}`), {
     method: "DELETE",
     headers: getBrowserAuthHeaders(),
   });

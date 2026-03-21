@@ -1,15 +1,4 @@
-
-export const getApiUrl = () => {
-  // En el servidor (Next.js Actions/SSR), fetch() requiere una URL absoluta.
-  // Los rewrites de next.config.ts NO se aplican a las llamadas fetch internas del servidor.
-  if (typeof window === "undefined") {
-    return process.env.NESTJS_API_URL || "http://localhost:4000";
-  }
-  
-  // En el cliente, usamos la ruta relativa que pasa por el proxy de Next.js
-  // para evitar problemas de CORS y centralizar la configuración.
-  return "/api";
-};
+import { buildApiUrl } from "@/lib/api/url";
 
 export async function getAuthHeaders(
   isFormData = false,
@@ -70,14 +59,13 @@ export async function apiFetch<T>(
   endpoint: string,
   options: RequestInit & { includeEnterpriseId?: boolean } = {},
 ): Promise<T> {
-  const apiUrl = getApiUrl();
   const isFormData = options.body instanceof FormData;
   const headers = {
     ...(await getAuthHeaders(isFormData, { includeEnterpriseId: options.includeEnterpriseId })),
     ...(options.headers as Record<string, string>),
   };
 
-  const url = `${apiUrl}${endpoint}`;
+  const url = buildApiUrl(endpoint);
   console.log(`[API Client] Fetching: ${options.method || 'GET'} ${url}`);
 
   try {

@@ -3,7 +3,7 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { toast } from "sonner";
 import { toBogotaYmd } from "@/utils/date-utils";
-import { getBrowserAuthHeaders } from "@/lib/api/browser-client";
+import { buildBrowserApiUrl, getBrowserAuthHeaders } from "@/lib/api/browser-client";
 
 export type TeamTab = "ranking" | "usuarios";
 export type RankingScope = "operativo" | "todos";
@@ -211,7 +211,7 @@ export function useTeamPerformance(
   }, [filters.search]);
 
   const fetchMunicipalities = useCallback(async () => {
-    const res = await fetch("/api/geo/municipalities", {
+    const res = await fetch(buildBrowserApiUrl("/geo/municipalities"), {
       headers: getBrowserAuthHeaders(),
     });
 
@@ -237,7 +237,7 @@ export function useTeamPerformance(
     if (filters.zonaId) params.set("zonaId", filters.zonaId);
 
     const res = await fetch(
-      `/api/tenants/${tenantId}/team/performance?${params.toString()}`,
+      buildBrowserApiUrl(`/tenants/${tenantId}/team/performance?${params.toString()}`),
       {
         headers: getBrowserAuthHeaders(),
       },
@@ -294,7 +294,9 @@ export function useTeamPerformance(
         if (filters.zonaId) params.set("zonaId", filters.zonaId);
 
         const res = await fetch(
-          `/api/tenants/${tenantId}/team/members/${membershipId}/detail?${params.toString()}`,
+          buildBrowserApiUrl(
+            `/tenants/${tenantId}/team/members/${membershipId}/detail?${params.toString()}`,
+          ),
           {
             headers: getBrowserAuthHeaders(),
           },
@@ -340,7 +342,7 @@ export function useTeamPerformance(
 
       try {
         setSavingProfile(true);
-        const res = await fetch(`/api/tenants/memberships/${membershipId}`, {
+        const res = await fetch(buildBrowserApiUrl(`/tenants/memberships/${membershipId}`), {
           method: "PATCH",
           headers: {
             "Content-Type": "application/json",

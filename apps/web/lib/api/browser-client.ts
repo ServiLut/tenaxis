@@ -1,5 +1,7 @@
 "use client";
 
+import { buildApiUrl, getClientApiUrl } from "@/lib/api/url";
+
 export const getBrowserCookie = (name: string) => {
   if (typeof document === "undefined") return undefined;
   const value = `; ${document.cookie}`;
@@ -62,3 +64,7 @@ export const getBrowserAuthHeaders = (options?: {
 
   return headers;
 };
+
+export const getBrowserApiUrl = getClientApiUrl;
+
+export const buildBrowserApiUrl = (path: string) => buildApiUrl(path);

@@ -1,7 +1,7 @@
 "use client";
 
+import { buildBrowserApiUrl, getBrowserAuthHeaders } from "@/lib/api/browser-client";
 import { createClient } from "@/utils/supabase/client";
-import { getBrowserAuthHeaders } from "@/lib/api/browser-client";
 
 export interface ClienteDTO {
   id?: string;
@@ -186,7 +186,7 @@ async function apiFetch<T>(path: string, options: ApiOptions = {}) {
   const { enterpriseId, headers, ...rest } = options;
   const defaultHeaders = getDefaultHeaders(enterpriseId);
 
-  const res = await fetch(`/api${path}`, {
+  const res = await fetch(buildBrowserApiUrl(path), {
     ...rest,
     headers: {
       ...defaultHeaders,

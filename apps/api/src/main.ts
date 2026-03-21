@@ -45,10 +45,17 @@ async function bootstrap() {
     }),
   );
   app.useGlobalInterceptors(new TransformInterceptor());
+  const allowedCorsHeaders = [
+    'Content-Type',
+    'Accept',
+    'Authorization',
+    'x-enterprise-id',
+    'x-test-role',
+  ];
   app.enableCors({
     origin: '*',
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
-    allowedHeaders: 'Content-Type, Accept, Authorization',
+    allowedHeaders: allowedCorsHeaders.join(', '),
   });
   const port = process.env.PORT ?? 4000;
   await app.listen(port, '0.0.0.0');
