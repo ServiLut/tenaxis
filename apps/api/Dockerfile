@@ -19,17 +19,19 @@ RUN corepack enable && corepack prepare pnpm@latest --activate
 COPY --from=base /app/out/json/ .
 COPY --from=base /app/out/pnpm-lock.yaml ./pnpm-lock.yaml
 
-# Instalamos todo (incluyendo devDeps para el build)
-RUN pnpm install --frozen-lockfile
+# Instalamos ignorando scripts inicialmente para evitar que postinstall (prisma generate) falle sin el schema
+RUN pnpm install --frozen-lockfile --ignore-scripts
 
-# Copiamos el código fuente
+# Copiamos el código fuente completo
 COPY --from=base /app/out/full/ .
+
+# Ahora instalamos todo correctamente (incluyendo scripts y módulos nativos)
+RUN pnpm install --frozen-lockfile
 
 # Generar Prisma Client y construir
 RUN pnpm run build --filter=api
 
 # Usamos pnpm deploy para extraer la API y sus dependencias de producción a una carpeta aislada
-# Esto resuelve los problemas de symlinks en monorepos
 RUN pnpm deploy --filter=api --prod /app/isolated
 
 # 3. Runner
@@ -45,7 +47,7 @@ RUN apk add --no-cache openssl libc6-compat
 # Copiamos la carpeta aislada generada por pnpm deploy
 COPY --from=build /app/isolated ./
 
-# Copiamos los archivos compilados de la API (pnpm deploy no los incluye porque están en dist)
+# Copiamos los archivos compilados de la API
 COPY --from=build /app/apps/api/dist ./dist
 # Copiamos prisma porque se usa en runtime
 COPY --from=build /app/apps/api/prisma ./prisma
