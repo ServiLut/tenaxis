@@ -1,4 +1,3 @@
-import { cookies } from "next/headers";
 
 export const getApiUrl = () => {
   // En el servidor (Next.js Actions/SSR), fetch() requiere una URL absoluta.
@@ -16,12 +15,36 @@ export async function getAuthHeaders(
   isFormData = false,
   options: { includeEnterpriseId?: boolean } = {},
 ) {
-  const cookieStore = await cookies();
-  const token = cookieStore.get("access_token")?.value;
-  const enterpriseId = cookieStore.get("x-enterprise-id")?.value;
-  const testRole = cookieStore.get("x-test-role")?.value;
-  const { includeEnterpriseId = true } = options;
+  let token: string | undefined;
+  let enterpriseId: string | undefined;
+  let testRole: string | undefined;
 
+  // Detectar si estamos en el servidor o en el cliente
+  if (typeof window === "undefined") {
+    // Servidor: Usamos cookies() de next/headers
+    try {
+      const { cookies } = await import("next/headers");
+      const cookieStore = await cookies();
+      token = cookieStore.get("access_token")?.value;
+      enterpriseId = cookieStore.get("x-enterprise-id")?.value;
+      testRole = cookieStore.get("x-test-role")?.value;
+    } catch (e) {
+      console.warn("[API Client] Error accessing cookies on server:", e);
+    }
+  } else {
+    // Cliente: Usamos document.cookie
+    const getCookie = (name: string) => {
+      const value = `; ${document.cookie}`;
+      const parts = value.split(`; ${name}=`);
+      if (parts.length === 2) return parts.pop()?.split(";").shift();
+      return undefined;
+    };
+    token = getCookie("access_token");
+    enterpriseId = getCookie("x-enterprise-id");
+    testRole = getCookie("x-test-role");
+  }
+
+  const { includeEnterpriseId = true } = options;
   const headers: Record<string, string> = {};
 
   if (!isFormData) {

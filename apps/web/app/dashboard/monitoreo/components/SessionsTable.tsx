@@ -14,17 +14,25 @@ interface SessionsTableProps {
   sessions: Session[];
   isLoading: boolean;
   onOpenLogs: (session: Session) => void;
+  title?: string;
+  description?: string;
 }
 
-export function SessionsTable({ sessions, isLoading, onOpenLogs }: SessionsTableProps) {
+export function SessionsTable({
+  sessions,
+  isLoading,
+  onOpenLogs,
+  title = "Estado de Usuarios del Dia",
+  description = "Monitoreo detallado de actividad, sesiones y trazabilidad técnica.",
+}: SessionsTableProps) {
   return (
     <GlassCard className="w-full overflow-hidden border-2 border-border/50">
       <div className="pb-8 pt-2 border-b border-border mb-6 px-4">
         <div className="flex items-center gap-3 mb-1">
           <Activity className="h-5 w-5 text-accent" />
-          <h3 className="text-xl font-black uppercase tracking-tight text-foreground">Estado de Usuarios en Tiempo Real</h3>
+          <h3 className="text-xl font-black uppercase tracking-tight text-foreground">{title}</h3>
         </div>
-        <p className="text-sm font-medium text-muted-foreground">Monitoreo detallado de actividad, sesiones y trazabilidad técnica.</p>
+        <p className="text-sm font-medium text-muted-foreground">{description}</p>
       </div>
       
       <div className="overflow-x-auto">

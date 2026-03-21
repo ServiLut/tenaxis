@@ -1,6 +1,8 @@
 "use client";
 
 import React, { useState } from "react";
+import { format } from "date-fns";
+import { es } from "date-fns/locale";
 import {
   Activity,
   History,
@@ -13,6 +15,7 @@ import { DashboardLayout } from "@/components/dashboard";
 import { formatBogotaDateTime, formatBogotaTime, toBogotaYmd } from "@/utils/date-utils";
 
 import { useMonitoringActivity } from "./hooks/use-monitoring-activity";
+import { useMonitoringActivityTrend } from "./hooks/use-monitoring-activity-trend";
 import { useMonitoringAudits } from "./hooks/use-monitoring-audits";
 
 import { MonitoreoHeader } from "./components/MonitoreoHeader";
@@ -25,6 +28,7 @@ import { PayrollPreviewPanel } from "./components/PayrollPreviewPanel";
 import { ExecutiveAudit } from "./components/ExecutiveAudit";
 import { SessionsTable } from "./components/SessionsTable";
 import { AuditsTable } from "./components/AuditsTable";
+import { ActivityTrendPanel } from "./components/ActivityTrendPanel";
 import { LogsModal } from "./components/LogsModal";
 import { AuditDetailModal } from "./components/AuditDetailModal";
 import { KPIModal } from "./components/KPIModal";
@@ -42,6 +46,7 @@ import { Audit, Session } from "./types";
 
 export default function MonitoreoPage() {
   const [activeTab, setActiveTab] = useState<"actividad" | "auditoria">("actividad");
+  const [activityTrendMode, setActivityTrendMode] = useState<"dias" | "semanas" | "meses">("dias");
   const [selectedDate, setSelectedDate] = useState<Date | undefined>(new Date());
   const [isLogsModalOpen, setIsLogsModalOpen] = useState(false);
   const [isAuditModalOpen, setIsAuditModalOpen] = useState(false);
@@ -80,6 +85,12 @@ export default function MonitoreoPage() {
     fetchRecentLogs,
     generatePayroll,
   } = useMonitoringActivity(dateStr);
+  const {
+    points: trendPoints,
+    isLoading: isTrendLoading,
+    isRefreshing: isTrendRefreshing,
+    refetch: refetchTrend,
+  } = useMonitoringActivityTrend(selectedDate, activityTrendMode);
 
   const {
     audits,
@@ -100,6 +111,7 @@ export default function MonitoreoPage() {
       fetchAlerts();
       fetchMetrics();
       fetchPayrollPreview();
+      refetchTrend();
     } else {
       fetchAudits();
       fetchExecutiveAudit();
@@ -202,6 +214,9 @@ export default function MonitoreoPage() {
   const activeTechniciansList = Array.isArray(sessions)
     ? sessions.filter((s) => !s.fechaFin && s.membership?.role === "OPERADOR")
     : [];
+  const selectedDateLabel = selectedDate
+    ? format(selectedDate, "d 'de' MMMM", { locale: es })
+    : "hoy";
 
   return (
     <DashboardLayout>
@@ -263,12 +278,33 @@ export default function MonitoreoPage() {
         <div className="mt-4 space-y-8">
           {activeTab === "actividad" ? (
             <div className="space-y-12">
+              <ActivityTrendPanel
+                mode={activityTrendMode}
+                onModeChange={setActivityTrendMode}
+                points={trendPoints}
+                isLoading={isTrendLoading}
+                isRefreshing={isTrendRefreshing}
+              />
+
+              <div className="rounded-[2rem] border border-border bg-card/70 px-6 py-5">
+                <p className="text-[10px] font-black uppercase tracking-[0.22em] text-[#01ADFB]">
+                  Detalle del Dia Seleccionado
+                </p>
+                <p className="mt-2 text-sm font-medium text-muted-foreground">
+                  Debajo conservas el corte operativo puntual del{" "}
+                  <span className="font-black text-foreground">{selectedDateLabel}</span>{" "}
+                  para auditar sesiones, revisar productividad y calcular pre-nomina
+                  sin perder la lectura de tendencia de arriba.
+                </p>
+              </div>
+
               <KpiCards
                 stats={stats}
                 latency={latency}
                 activeTechniciansCount={activeTechniciansList.length}
                 onOpenKpi={handleOpenKpiModal}
                 date={dateStr}
+                contextLabel="del dia seleccionado"
               />
 
               <PayrollPreviewPanel
@@ -277,14 +313,21 @@ export default function MonitoreoPage() {
                 isRefreshing={isPayrollRefreshing}
                 isGenerating={isGeneratingPayroll}
                 onGenerate={() => void generatePayroll()}
+                periodLabel="del dia seleccionado"
+                canGenerate
               />
 
-              <OperationMetrics metrics={metrics} />
+              <OperationMetrics
+                metrics={metrics}
+                contextLabel="del dia seleccionado"
+              />
 
               <SessionsTable
                 sessions={sessions}
                 isLoading={isActivityLoading}
                 onOpenLogs={handleOpenLogs}
+                title="Detalle Operativo del Dia"
+                description="Sesiones, trazabilidad y estado actual del equipo en la fecha seleccionada."
               />
             </div>
           ) : (

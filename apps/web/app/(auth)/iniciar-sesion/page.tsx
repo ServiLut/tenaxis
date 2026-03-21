@@ -35,6 +35,11 @@ export default function LoginPage() {
 
       const data = res.data;
       
+      if (data?.access_token) {
+        const secureFlag = window.location.protocol === "https:" ? "; Secure" : "";
+        document.cookie = `access_token=${data.access_token}; path=/; max-age=604800; SameSite=Lax${secureFlag}`;
+      }
+      
       if (data?.user?.sesionId) {
         document.cookie = `sesion_id=${data.user.sesionId}; path=/; max-age=86400; SameSite=Lax`;
       }

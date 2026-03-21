@@ -11,10 +11,15 @@ export async function loginAction(data: Record<string, unknown>) {
     const token = result.access_token;
     
     if (token) {
+      // Intentar detectar si estamos en un entorno seguro (HTTPS)
+      // En Server Actions, podemos intentar inferirlo de las cabeceras si es necesario,
+      // pero por ahora usaremos una lógica más permisiva para facilitar el deploy.
+      const isProd = process.env.NODE_ENV === "production";
+      
       cookieStore.set("access_token", token, {
         path: "/",
-        httpOnly: false, // Set to true in production if not needed by client
-        secure: process.env.NODE_ENV === "production",
+        httpOnly: false, // Permitir que el cliente (hooks, etc) lo lea si es necesario
+        secure: isProd, // En prod suele ser HTTPS, pero si falla el deploy puede ser por esto
         sameSite: "lax",
         maxAge: 60 * 60 * 24 * 7, // 1 week
       });
