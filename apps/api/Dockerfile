@@ -9,27 +9,28 @@ RUN turbo prune --scope=api --docker
 FROM node:22-alpine AS build
 WORKDIR /app
 
-# Instalar dependencias necesarias para Prisma y módulos nativos (bcrypt/sharp) en Alpine
+# Instalar dependencias necesarias para módulos nativos en Alpine
 RUN apk add --no-cache openssl libc6-compat python3 make g++
 
-# Enable corepack for pnpm
+# Enable corepack para pnpm
 RUN corepack enable && corepack prepare pnpm@latest --activate
 
-# Copiamos solo lo necesario para instalar dependencias
+# Copiamos lo necesario para instalar
 COPY --from=base /app/out/json/ .
 COPY --from=base /app/out/pnpm-lock.yaml ./pnpm-lock.yaml
 
-# Instalamos ignorando scripts inicialmente para evitar que postinstall (prisma generate) falle
-RUN pnpm install --frozen-lockfile --ignore-scripts
-
-# Copiamos el código fuente completo
-COPY --from=base /app/out/full/ .
-
-# Ahora instalamos nuevamente sin ignore-scripts para que postinstall y los módulos nativos se compilen correctamente
+# Instalamos todo (incluyendo devDeps para el build)
 RUN pnpm install --frozen-lockfile
 
-# Construir la API
+# Copiamos el código fuente
+COPY --from=base /app/out/full/ .
+
+# Generar Prisma Client y construir
 RUN pnpm run build --filter=api
+
+# Usamos pnpm deploy para extraer la API y sus dependencias de producción a una carpeta aislada
+# Esto resuelve los problemas de symlinks en monorepos
+RUN pnpm deploy --filter=api --prod /app/isolated
 
 # 3. Runner
 FROM node:22-alpine AS runner
@@ -38,24 +39,16 @@ WORKDIR /app
 ENV NODE_ENV=production
 ENV PORT=4000
 
-# Instalamos dependencias de runtime y pnpm
+# Dependencias de runtime
 RUN apk add --no-cache openssl libc6-compat
-RUN npm install -g pnpm
 
-# Copiamos solo lo necesario para instalar dependencias de producción
-COPY --from=base /app/out/json/ .
-COPY --from=base /app/out/pnpm-lock.yaml ./pnpm-lock.yaml
+# Copiamos la carpeta aislada generada por pnpm deploy
+COPY --from=build /app/isolated ./
 
-# Instalamos solo dependencias de producción
-RUN pnpm install --prod --frozen-lockfile
-
-# Copiamos el build y los archivos necesarios
-COPY --from=build /app/apps/api/dist ./apps/api/dist
-COPY --from=build /app/apps/api/package.json ./apps/api/package.json
-COPY --from=build /app/apps/api/prisma ./apps/api/prisma
-
-# Cambiamos al directorio de la app
-WORKDIR /app/apps/api
+# Copiamos los archivos compilados de la API (pnpm deploy no los incluye porque están en dist)
+COPY --from=build /app/apps/api/dist ./dist
+# Copiamos prisma porque se usa en runtime
+COPY --from=build /app/apps/api/prisma ./prisma
 
 EXPOSE 4000
 
