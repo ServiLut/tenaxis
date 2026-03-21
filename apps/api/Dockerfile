@@ -38,17 +38,23 @@ WORKDIR /app
 ENV NODE_ENV=production
 ENV PORT=4000
 
-# Instalamos dependencias de runtime (OpenSSL para Prisma, libc6-compat para módulos nativos)
+# Instalamos dependencias de runtime y pnpm
 RUN apk add --no-cache openssl libc6-compat
+RUN npm install -g pnpm
 
-# Copiamos dependencias y build
-COPY --from=build /app/node_modules ./node_modules
+# Copiamos solo lo necesario para instalar dependencias de producción
+COPY --from=base /app/out/json/ .
+COPY --from=base /app/out/pnpm-lock.yaml ./pnpm-lock.yaml
+
+# Instalamos solo dependencias de producción
+RUN pnpm install --prod --frozen-lockfile
+
+# Copiamos el build y los archivos necesarios
 COPY --from=build /app/apps/api/dist ./apps/api/dist
 COPY --from=build /app/apps/api/package.json ./apps/api/package.json
-COPY --from=build /app/apps/api/node_modules ./apps/api/node_modules
 COPY --from=build /app/apps/api/prisma ./apps/api/prisma
-COPY --from=build /app/apps/api/prisma.config.ts ./apps/api/prisma.config.ts
 
+# Cambiamos al directorio de la app
 WORKDIR /app/apps/api
 
 EXPOSE 4000
