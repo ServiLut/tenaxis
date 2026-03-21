@@ -2,9 +2,9 @@
 
 import { useState, useMemo, useEffect } from "react";
 import { useQuery } from "@tanstack/react-query";
-import { getAudits } from "../actions";
 import { toast } from "sonner";
 import { Audit } from "../types";
+import { monitoringClient } from "@/lib/api/monitoreo-client";
 
 export function useMonitoringAudits(date?: string) {
   const [currentPage, setCurrentPage] = useState(1);
@@ -12,7 +12,18 @@ export function useMonitoringAudits(date?: string) {
 
   const auditsQuery = useQuery({
     queryKey: ["monitoring", "audits", currentPage, date],
-    queryFn: () => getAudits(currentPage, 20, date),
+    queryFn: async () => {
+      const result = await monitoringClient.getAudits({
+        page: currentPage,
+        limit: 20,
+        date,
+      }) as { results?: Audit[]; data?: Audit[]; meta?: Record<string, unknown> };
+
+      return {
+        data: (result.results || result.data || []) as Audit[],
+        meta: result.meta || { total: 0, page: currentPage, limit: 20, totalPages: 1 },
+      };
+    },
     staleTime: 60000,
     retry: 2,
   });

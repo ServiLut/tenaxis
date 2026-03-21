@@ -14,7 +14,7 @@ import {
 } from "date-fns";
 import { es } from "date-fns/locale";
 
-import { getMonitoringStats } from "../actions";
+import { monitoringClient } from "@/lib/api/monitoreo-client";
 import { toBogotaYmd, ymdToPickerDate } from "@/utils/date-utils";
 
 export type ActivityTrendMode = "dias" | "semanas" | "meses";
@@ -105,10 +105,16 @@ export function useMonitoringActivityTrend(
       anchorYmd,
     ],
     queryFn: async () => {
-      const points = await Promise.all(
-        buckets.map(async (bucket) => {
-          const response = await getMonitoringStats(undefined, bucket.from, bucket.to);
-          const stats = response.data;
+        const points = await Promise.all(
+          buckets.map(async (bucket) => {
+          const stats = await monitoringClient.getStats({
+            startDate: bucket.from,
+            endDate: bucket.to,
+          }) as {
+            totalEvents?: number;
+            activeSessions?: number;
+            totalInactivity?: number;
+          };
 
           return {
             ...bucket,

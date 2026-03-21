@@ -59,16 +59,11 @@ import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/components/ui/utils";
 import { toast } from "sonner";
-import {
-  deleteClienteAction,
-  getClienteConfigsAction,
-  upsertClienteConfigAction,
-  getOrdenesServicioByClienteAction,
-  updateSugerenciaEstadoAction,
-  ConfiguracionOperativa,
-  ElementoPredefinido
-} from "../actions";
 import { Contact } from "lucide-react";
+import { apiFetch } from "@/lib/api/base-client";
+import { clientesClient } from "@/lib/api/clientes-client";
+import { configClient } from "@/lib/api/config-client";
+import { serviciosClient } from "@/lib/api/servicios-client";
 import {
   createDashboardPreset,
   deleteDashboardPreset,
@@ -199,6 +194,28 @@ interface Municipality {
   name: string;
   code: string;
   departmentId: string;
+}
+
+interface ElementoPredefinido {
+  nombre: string;
+  tipo: string;
+  ubicacion?: string;
+}
+
+interface ConfiguracionOperativa {
+  id: string;
+  direccionId?: string | null;
+  direccion?: {
+    id: string;
+    direccion: string;
+  } | null;
+  protocoloServicio?: string | null;
+  observacionesFijas?: string | null;
+  requiereFirmaDigital: boolean;
+  requiereFotosEvidencia: boolean;
+  duracionEstimada?: number | null;
+  frecuenciaSugerida?: number | null;
+  elementosPredefinidos?: ElementoPredefinido[] | null;
 }
 
 export interface Sugerencia {
@@ -397,11 +414,15 @@ export function ClienteList({
     cliente.riesgo?.nombre || cliente.nivelRiesgo || "";
 
   const handleUpdateSugerencia = async (id: string, nuevoEstado: string) => {
-    const res = await updateSugerenciaEstadoAction(id, nuevoEstado);
-    if (res.success) {
+    try {
+      await apiFetch(`/sugerencias-clientes/${id}/estado`, {
+        method: "PATCH",
+        body: JSON.stringify({ estado: nuevoEstado }),
+      });
       setSugerencias(prev => prev.map(s => s.id === id ? { ...s, estado: nuevoEstado } : s));
       toast.success(`Sugerencia ${nuevoEstado.toLowerCase()} correctamente`);
-    } else {
+    } catch (error) {
+      console.error("Error updating suggestion status:", error);
       toast.error("Error al actualizar la sugerencia");
     }
   };
@@ -558,12 +579,9 @@ export function ClienteList({
     if (!clienteToDelete) return;
     const id = clienteToDelete.id;
     setClienteToDelete(null);
-    toast.promise(deleteClienteAction(id), {
+    toast.promise(clientesClient.delete(id), {
       loading: "Eliminando cliente...",
-      success: (res) => {
-        if (res.success) return "Cliente eliminado correctamente";
-        throw new Error(res.error);
-      },
+      success: () => "Cliente eliminado correctamente",
       error: (err) => err.message || "Error al eliminar el cliente",
     });
   };
@@ -911,7 +929,7 @@ export function ClienteList({
     const loadConfigs = async () => {
       if (!selectedClienteForConfig) return;
       setConfigLoading(true);
-      const configs = await getClienteConfigsAction(selectedClienteForConfig.id) as ConfiguracionOperativa[];
+      const configs = await configClient.getClienteOperativa(selectedClienteForConfig.id) as ConfiguracionOperativa[];
       setActiveConfigs(configs);
       const globalConfig = configs.find(c => !c.direccionId);
       if (globalConfig) {
@@ -945,7 +963,7 @@ export function ClienteList({
     const loadHistory = async () => {
       if (!selectedClienteForHistory) return;
       setHistoryLoading(true);
-      const history = await getOrdenesServicioByClienteAction(selectedClienteForHistory.id);
+      const history = await serviciosClient.getAll(undefined, selectedClienteForHistory.id);
       setServiceHistory(history as unknown as OrdenServicio[]);
       setHistoryLoading(false);
     };
@@ -1016,14 +1034,11 @@ export function ClienteList({
       direccionId,
       ...configForm,
     };
-    toast.promise(upsertClienteConfigAction(payload), {
+    toast.promise(configClient.upsertOperativa(payload), {
       loading: "Guardando configuración...",
-      success: (res) => {
-        if (res.success) {
-          setSelectedClienteForConfig(null);
-          return "Configuración guardada exitosamente";
-        }
-        throw new Error(res.error);
+      success: () => {
+        setSelectedClienteForConfig(null);
+        return "Configuración guardada exitosamente";
       },
       error: (err) => err.message || "Error al guardar la configuración",
     });

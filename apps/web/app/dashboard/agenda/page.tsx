@@ -13,10 +13,8 @@ import {
   RotateCcw
 } from "lucide-react";
 import { cn } from "@/components/ui/utils";
-import { 
-  getOperatorsAction, 
-  getOrdenesServicioAction
-} from "../actions";
+import { enterpriseClient } from "@/lib/api/enterprise-client";
+import { serviciosClient } from "@/lib/api/servicios-client";
 import {
   addDaysToYmd,
   startOfBogotaWeekYmd,
@@ -68,13 +66,17 @@ function AgendaContent() {
         setLoading(true);
         const preferredEmpresaId = localStorage.getItem("current-enterprise-id");
         const scopedEmpresaId = resolveScopedEmpresaId(scope, preferredEmpresaId);
-        const ords = await getOrdenesServicioAction(scopedEmpresaId);
+        const cleanEmpresaId =
+          scopedEmpresaId === "all" || scopedEmpresaId === "undefined"
+            ? undefined
+            : scopedEmpresaId;
+        const ords = await serviciosClient.getAll(cleanEmpresaId);
         const parsedOrdenes = Array.isArray(ords) ? (ords as OrdenServicio[]) : [];
 
         setOrdenes(parsedOrdenes);
 
-        if (scopedEmpresaId) {
-          const ops = await getOperatorsAction(scopedEmpresaId);
+        if (cleanEmpresaId) {
+          const ops = await enterpriseClient.getOperators(cleanEmpresaId);
           setOperadores(Array.isArray(ops) ? (ops as Operador[]) : []);
           return;
         }

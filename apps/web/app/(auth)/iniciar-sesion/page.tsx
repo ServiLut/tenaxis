@@ -5,8 +5,7 @@ import Link from "next/link";
 import { Button, Input, Label } from "@/components/ui";
 import { LogIn, Mail, Lock, Sparkles, Loader2 } from "lucide-react";
 import { ModeToggle } from "@/components/dashboard/ModeToggle";
-
-import { loginAction } from "../actions";
+import { authClient } from "@/lib/api/auth-client";
 
 export default function LoginPage() {
   const [formData, setFormData] = useState({
@@ -27,13 +26,7 @@ export default function LoginPage() {
     setError(null);
 
     try {
-      const res = await loginAction(formData);
-
-      if (!res.success) {
-        throw new Error(res.error);
-      }
-
-      const data = res.data;
+      const data = await authClient.login(formData);
       
       if (data?.access_token) {
         const secureFlag = window.location.protocol === "https:" ? "; Secure" : "";

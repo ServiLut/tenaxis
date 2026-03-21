@@ -19,12 +19,8 @@ import {
 } from "lucide-react";
 import { format } from "date-fns";
 import { es } from "date-fns/locale";
-import { 
-  createProductoAction, 
-  createSolicitudAction,
-  updateSolicitudStatusAction 
-} from "../actions";
 import { toast } from "sonner";
+import { apiFetch } from "@/lib/api/base-client";
 import {
   Dialog,
   DialogContent,
@@ -141,21 +137,20 @@ export function InsumosClient({ initialStock, initialSolicitudes, proveedores, m
         stockMinimo: parseInt(stockForm.stockMinimo) || 0,
         proveedorId: stockForm.proveedorId || undefined,
       };
-      const result = await createProductoAction(payload);
-      if (result.success) {
-        toast.success("Producto registrado exitosamente");
-        setIsStockModalOpen(false);
-        setStockForm({
-          nombre: "",
-          categoria: "",
-          unidadMedida: "",
-          stockActual: "",
-          stockMinimo: "",
-          proveedorId: "",
-        });
-      } else {
-        toast.error(result.error || "Error al registrar el producto");
-      }
+      await apiFetch("/productos/create", {
+        method: "POST",
+        body: JSON.stringify(payload),
+      });
+      toast.success("Producto registrado exitosamente");
+      setIsStockModalOpen(false);
+      setStockForm({
+        nombre: "",
+        categoria: "",
+        unidadMedida: "",
+        stockActual: "",
+        stockMinimo: "",
+        proveedorId: "",
+      });
     } catch (error) {
       toast.error("Error inesperado al registrar el producto");
     } finally {
@@ -171,19 +166,18 @@ export function InsumosClient({ initialStock, initialSolicitudes, proveedores, m
         ...solicitudForm,
         membershipId: solicitudForm.membershipId || undefined,
       };
-      const result = await createSolicitudAction(payload);
-      if (result.success) {
-        toast.success("Solicitud registrada exitosamente");
-        setIsSolicitudModalOpen(false);
-        setSolicitudForm({
-          productoId: "",
-          cantidad: "",
-          unidadMedida: "",
-          membershipId: "",
-        });
-      } else {
-        toast.error(result.error || "Error al registrar la solicitud");
-      }
+      await apiFetch("/productos/solicitudes", {
+        method: "POST",
+        body: JSON.stringify(payload),
+      });
+      toast.success("Solicitud registrada exitosamente");
+      setIsSolicitudModalOpen(false);
+      setSolicitudForm({
+        productoId: "",
+        cantidad: "",
+        unidadMedida: "",
+        membershipId: "",
+      });
     } catch (error) {
       toast.error("Error inesperado al registrar la solicitud");
     } finally {
@@ -194,12 +188,11 @@ export function InsumosClient({ initialStock, initialSolicitudes, proveedores, m
   const handleUpdateStatus = async (id: string, nuevoEstado: "ACEPTADA" | "RECHAZADA") => {
     setProcessingId(id);
     try {
-      const result = await updateSolicitudStatusAction(id, nuevoEstado);
-      if (result.success) {
-        toast.success(`Solicitud ${nuevoEstado === "ACEPTADA" ? "aprobada" : "rechazada"} con éxito`);
-      } else {
-        toast.error(result.error || "Error al actualizar la solicitud");
-      }
+      await apiFetch(`/productos/solicitudes/${id}/status`, {
+        method: "PATCH",
+        body: JSON.stringify({ estado: nuevoEstado }),
+      });
+      toast.success(`Solicitud ${nuevoEstado === "ACEPTADA" ? "aprobada" : "rechazada"} con éxito`);
     } catch (error) {
       toast.error("Error inesperado al actualizar la solicitud");
     } finally {

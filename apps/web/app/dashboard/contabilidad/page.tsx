@@ -26,17 +26,9 @@ import {
 } from "lucide-react";
 import { cn } from "@/components/ui/utils";
 import { toast } from "sonner";
-import { 
-  getRecaudoTecnicosAction, 
-  registrarConsignacionAction,
-  getAccountingBalanceAction,
-  getEgresosAction,
-  getNominasAction,
-  getAnticiposAction,
-  createEgresoAction,
-  createAnticipoAction,
-  getTenantMembershipsAction
-} from "../actions";
+import { authClient } from "@/lib/api/auth-client";
+import { contabilidadClient } from "@/lib/api/contabilidad-client";
+import { tenantsClient } from "@/lib/api/tenants-client";
 import { 
   Table,
   TableBody,
@@ -233,9 +225,9 @@ function StandardTableView({ title, description, type }: { title: string, descri
     try {
       const empresaId = localStorage.getItem("current-enterprise-id") || undefined;
       let result: unknown[] = [];
-      if (type === 'egresos') result = await getEgresosAction(empresaId);
-      else if (type === 'nomina') result = await getNominasAction(empresaId);
-      else if (type === 'anticipos') result = await getAnticiposAction(empresaId);
+      if (type === 'egresos') result = await contabilidadClient.getEgresos(empresaId);
+      else if (type === 'nomina') result = await contabilidadClient.getNominas(empresaId);
+      else if (type === 'anticipos') result = await contabilidadClient.getAnticipos(empresaId);
       setData(result);
     } catch (error) {
       console.error(`Error loading ${type}:`, error);
@@ -247,9 +239,16 @@ function StandardTableView({ title, description, type }: { title: string, descri
 
   const fetchMembers = React.useCallback(async () => {
     try {
-      const res = await getTenantMembershipsAction();
+      const storedUser = JSON.parse(localStorage.getItem("user") || "{}") as { tenantId?: string };
+      const profile = await authClient.getProfile();
+      const tenantId = profile?.tenantId || storedUser.tenantId;
+      if (!tenantId) {
+        setMembers([]);
+        return;
+      }
+      const res = await tenantsClient.getMemberships(tenantId);
       if (!res || res.length === 0) {
-        console.warn("No members found or error in getTenantMembershipsAction");
+        console.warn("No members found or error in tenantsClient.getMemberships");
       }
       setMembers(res || []);
     } catch (error) {
@@ -275,7 +274,7 @@ function StandardTableView({ title, description, type }: { title: string, descri
       if (!empresaId) throw new Error("No enterprise selected");
 
       if (type === 'egresos') {
-        const res = await createEgresoAction({
+        await contabilidadClient.crearEgreso({
           titulo: formData.titulo,
           monto: Number(formData.monto),
           razon: formData.razon,
@@ -283,31 +282,21 @@ function StandardTableView({ title, description, type }: { title: string, descri
           membershipId: formData.membershipId === 'none' ? undefined : formData.membershipId,
           empresaId,
         });
-
-        if (res.success) {
-          toast.success("Egreso registrado exitosamente");
-          setIsModalOpen(false);
-          setFormData({ titulo: "", monto: "", razon: "", categoria: "GENERAL", membershipId: "none" });
-          fetchData();
-        } else {
-          toast.error(res.error || "Error al registrar");
-        }
+        toast.success("Egreso registrado exitosamente");
+        setIsModalOpen(false);
+        setFormData({ titulo: "", monto: "", razon: "", categoria: "GENERAL", membershipId: "none" });
+        fetchData();
       } else if (type === 'anticipos') {
-        const res = await createAnticipoAction({
+        await contabilidadClient.crearAnticipo({
           membershipId: formData.membershipId,
           monto: Number(formData.monto),
           razon: formData.razon || "Anticipo de personal",
           empresaId,
         });
-
-        if (res.success) {
-          toast.success("Anticipo registrado exitosamente");
-          setIsModalOpen(false);
-          setFormData({ titulo: "", monto: "", razon: "", categoria: "GENERAL", membershipId: "none" });
-          fetchData();
-        } else {
-          toast.error(res.error || "Error al registrar");
-        }
+        toast.success("Anticipo registrado exitosamente");
+        setIsModalOpen(false);
+        setFormData({ titulo: "", monto: "", razon: "", categoria: "GENERAL", membershipId: "none" });
+        fetchData();
       }
     } catch (error) {
       console.error("Save error:", error);
@@ -646,7 +635,7 @@ function RecaudoView() {
     setLoading(true);
     try {
       const empresaId = localStorage.getItem("current-enterprise-id") || undefined;
-      const data = await getRecaudoTecnicosAction(empresaId);
+      const data = await contabilidadClient.getRecaudoTecnicos(empresaId);
       setTechnicians(data);
     } catch (error) {
       console.error("Error loading recaudo data:", error);
@@ -696,15 +685,10 @@ function RecaudoView() {
       }
       formPayload.append("comprobanteFile", comprobanteFile);
 
-      const res = await registrarConsignacionAction(formPayload);
-
-      if (res.success) {
-        toast.success("Consignación registrada y conciliada exitosamente", { id: toastId });
-        setIsModalOpen(false);
-        fetchData();
-      } else {
-        toast.error(res.error || "Error al registrar", { id: toastId });
-      }
+      await contabilidadClient.registrarConsignacion(formPayload);
+      toast.success("Consignación registrada y conciliada exitosamente", { id: toastId });
+      setIsModalOpen(false);
+      fetchData();
     } catch (error) {
       console.error("Consignation error:", error);
       toast.error("Error al procesar el registro", { id: toastId });
@@ -937,7 +921,7 @@ function BalanceView() {
     const fetchBalance = async () => {
       setLoading(true);
       const empresaId = localStorage.getItem("current-enterprise-id") || undefined;
-      const data = await getAccountingBalanceAction(empresaId);
+      const data = await contabilidadClient.getBalance(empresaId);
       setBalance(data);
       setLoading(false);
     };
