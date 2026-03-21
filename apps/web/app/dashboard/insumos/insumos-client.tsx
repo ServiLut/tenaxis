@@ -9,9 +9,39 @@ import {
   AlertCircle,
   TrendingDown,
   Download,
+  Plus,
+  Loader2,
+  Check,
+  X,
+  FileSpreadsheet,
+  FileText,
+  FileIcon,
 } from "lucide-react";
 import { format } from "date-fns";
 import { es } from "date-fns/locale";
+import { 
+  createProductoAction, 
+  createSolicitudAction,
+  updateSolicitudStatusAction 
+} from "../actions";
+import { toast } from "sonner";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogFooter,
+} from "@/components/ui/dialog";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Select } from "@/components/ui/select";
+import { 
+  exportMultiToExcel, 
+  exportMultiToPDF, 
+  exportMultiToWord, 
+  type ExportDataset 
+} from "@/lib/utils/export-helper";
 
 const GlassCard = ({ children, className }: { children: React.ReactNode; className?: string }) => (
   <div className={cn(
@@ -25,12 +55,38 @@ const GlassCard = ({ children, className }: { children: React.ReactNode; classNa
 type InsumosClientProps = {
   initialStock: any[];
   initialSolicitudes: any[];
+  proveedores: any[];
+  memberships: any[];
 };
 
-export function InsumosClient({ initialStock, initialSolicitudes }: InsumosClientProps) {
+export function InsumosClient({ initialStock, initialSolicitudes, proveedores, memberships }: InsumosClientProps) {
   const [activeTab, setActiveTab] = useState<"solicitudes" | "stock">("solicitudes");
   const [solSearch, setSolSearch] = useState("");
   const [stockSearch, setStockSearch] = useState("");
+
+  // Modal states
+  const [isStockModalOpen, setIsStockModalOpen] = useState(false);
+  const [isSolicitudModalOpen, setIsSolicitudModalOpen] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [processingId, setProcessingId] = useState<string | null>(null);
+  const [showExportMenu, setShowExportMenu] = useState(false);
+
+  // Form states
+  const [stockForm, setStockForm] = useState({
+    nombre: "",
+    categoria: "",
+    unidadMedida: "",
+    stockActual: "",
+    stockMinimo: "",
+    proveedorId: "",
+  });
+
+  const [solicitudForm, setSolicitudForm] = useState({
+    productoId: "",
+    cantidad: "",
+    unidadMedida: "",
+    membershipId: "",
+  });
 
   const formattedSolicitudes = initialSolicitudes.map(sol => ({
     id: sol.id,
@@ -41,6 +97,7 @@ export function InsumosClient({ initialStock, initialSolicitudes }: InsumosClien
     unidad: sol.unidadMedida || sol.producto?.unidadMedida || "",
     estado: sol.estado === "ACEPTADA" ? "Aprobado" : sol.estado === "RECHAZADA" ? "Rechazado" : "Pendiente",
     categoria: sol.producto?.categoria || "General",
+    rawEstado: sol.estado,
   }));
 
   const formattedStock = initialStock.map(item => {
@@ -74,8 +131,122 @@ export function InsumosClient({ initialStock, initialSolicitudes }: InsumosClien
   const outOfStockCount = formattedStock.filter(s => s.estado === "Agotado").length;
   const lowStockCount = formattedStock.filter(s => s.estado === "Bajo" || s.estado === "Crítico").length;
 
+  const handleCreateStock = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+    try {
+      const payload = {
+        ...stockForm,
+        stockActual: parseInt(stockForm.stockActual) || 0,
+        stockMinimo: parseInt(stockForm.stockMinimo) || 0,
+        proveedorId: stockForm.proveedorId || undefined,
+      };
+      const result = await createProductoAction(payload);
+      if (result.success) {
+        toast.success("Producto registrado exitosamente");
+        setIsStockModalOpen(false);
+        setStockForm({
+          nombre: "",
+          categoria: "",
+          unidadMedida: "",
+          stockActual: "",
+          stockMinimo: "",
+          proveedorId: "",
+        });
+      } else {
+        toast.error(result.error || "Error al registrar el producto");
+      }
+    } catch (error) {
+      toast.error("Error inesperado al registrar el producto");
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  const handleCreateSolicitud = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+    try {
+      const payload = {
+        ...solicitudForm,
+        membershipId: solicitudForm.membershipId || undefined,
+      };
+      const result = await createSolicitudAction(payload);
+      if (result.success) {
+        toast.success("Solicitud registrada exitosamente");
+        setIsSolicitudModalOpen(false);
+        setSolicitudForm({
+          productoId: "",
+          cantidad: "",
+          unidadMedida: "",
+          membershipId: "",
+        });
+      } else {
+        toast.error(result.error || "Error al registrar la solicitud");
+      }
+    } catch (error) {
+      toast.error("Error inesperado al registrar la solicitud");
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  const handleUpdateStatus = async (id: string, nuevoEstado: "ACEPTADA" | "RECHAZADA") => {
+    setProcessingId(id);
+    try {
+      const result = await updateSolicitudStatusAction(id, nuevoEstado);
+      if (result.success) {
+        toast.success(`Solicitud ${nuevoEstado === "ACEPTADA" ? "aprobada" : "rechazada"} con éxito`);
+      } else {
+        toast.error(result.error || "Error al actualizar la solicitud");
+      }
+    } catch (error) {
+      toast.error("Error inesperado al actualizar la solicitud");
+    } finally {
+      setProcessingId(null);
+    }
+  };
+
+  const handleExport = async (formatType: 'excel' | 'pdf' | 'word') => {
+    const stockDatasets: ExportDataset = {
+      title: "Inventario de Stock / Almacén",
+      sheetName: "Stock",
+      headers: ["PRODUCTO", "CATEGORÍA", "STOCK ACTUAL", "UNIDAD", "ESTADO"],
+      data: formattedStock.map(s => [s.producto, s.categoria, s.stockActual, s.unidad, s.estado])
+    };
+
+    const solicitudesDatasets: ExportDataset = {
+      title: "Historial de Solicitudes de Insumos",
+      sheetName: "Solicitudes",
+      headers: ["FECHA", "TÉCNICO", "PRODUCTO", "CANTIDAD", "ESTADO"],
+      data: formattedSolicitudes.map(s => [s.fecha, s.tecnico, s.producto, `${s.cantidad} ${s.unidad}`, s.estado])
+    };
+
+    const exportOptions = {
+      datasets: [stockDatasets, solicitudesDatasets],
+      filename: `reporte_insumos_${new Date().getTime()}`,
+      mainTitle: "REPORTE DE GESTIÓN DE INSUMOS"
+    };
+
+    toast.info(`Generando reporte en formato ${formatType.toUpperCase()}...`);
+
+    try {
+      if (formatType === 'excel') await exportMultiToExcel(exportOptions);
+      else if (formatType === 'pdf') exportMultiToPDF(exportOptions);
+      else if (formatType === 'word') await exportMultiToWord(exportOptions);
+
+      toast.success(`${formatType.toUpperCase()} generado exitosamente`);
+    } catch (error) {
+      console.error("Export error:", error);
+      toast.error(`Error al generar el reporte ${formatType.toUpperCase()}`);
+    } finally {
+      setShowExportMenu(false);
+    }
+  };
+
   return (
     <div className="mx-auto max-w-7xl space-y-10">
+      {/* Header */}
       <div className="flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between">
         <div className="space-y-1">
           <h1 className="text-4xl font-black tracking-tighter text-foreground lg:text-5xl">
@@ -85,12 +256,65 @@ export function InsumosClient({ initialStock, initialSolicitudes }: InsumosClien
             Controla las solicitudes de materiales y el inventario en tiempo real.
           </p>
         </div>
-        <button className="flex h-12 items-center gap-2 rounded-2xl bg-[#01ADFB] px-6 text-sm font-black uppercase tracking-widest text-white shadow-lg shadow-[#01ADFB]/20 transition-transform hover:scale-105 active:scale-95">
-          <Download className="h-4 w-4" />
-          Descargar Inventario
-        </button>
+        <div className="flex flex-wrap gap-3 items-center">
+          <div className="relative">
+            <Button 
+              variant="outline" 
+              className="h-12 rounded-2xl border-border bg-card font-black uppercase tracking-widest transition-transform hover:scale-105 active:scale-95"
+              onClick={() => setShowExportMenu(!showExportMenu)}
+            >
+              <Download className="mr-2 h-4 w-4" />
+              Exportar
+            </Button>
+
+            {showExportMenu && (
+              <div className="absolute right-0 mt-2 w-56 bg-card border border-border rounded-xl shadow-[0_20px_50px_rgba(0,0,0,0.15)] z-50 overflow-hidden py-2 animate-in fade-in slide-in-from-top-2 duration-200">
+                <div className="px-4 py-2 mb-1 border-b border-border">
+                  <p className="text-[9px] font-black text-muted-foreground uppercase tracking-widest">Formatos Disponibles</p>
+                </div>
+                <button 
+                  onClick={() => handleExport('excel')}
+                  className="w-full flex items-center gap-3 px-4 py-3 text-[11px] font-bold text-foreground hover:bg-muted transition-colors text-left"
+                >
+                  <FileSpreadsheet className="h-4 w-4 text-emerald-500" />
+                  MICROSOFT EXCEL (.XLSX)
+                </button>
+                <button 
+                  onClick={() => handleExport('pdf')}
+                  className="w-full flex items-center gap-3 px-4 py-3 text-[11px] font-bold text-foreground hover:bg-muted transition-colors text-left"
+                >
+                  <FileText className="h-4 w-4 text-red-500" />
+                  DOCUMENTO PDF (.PDF)
+                </button>
+                <button 
+                  onClick={() => handleExport('word')}
+                  className="w-full flex items-center gap-3 px-4 py-3 text-[11px] font-bold text-foreground hover:bg-muted transition-colors text-left"
+                >
+                  <FileIcon className="h-4 w-4 text-blue-500" />
+                  MICROSOFT WORD (.DOCX)
+                </button>
+              </div>
+            )}
+          </div>
+
+          <Button 
+            className="h-12 rounded-2xl bg-[#01ADFB] px-6 text-sm font-black uppercase tracking-widest text-white shadow-lg shadow-[#01ADFB]/20 transition-transform hover:scale-105 active:scale-95 hover:bg-[#01ADFB]/90"
+            onClick={() => setIsStockModalOpen(true)}
+          >
+            <Plus className="mr-2 h-4 w-4" />
+            Registrar Stock
+          </Button>
+          <Button 
+            className="h-12 rounded-2xl bg-primary px-6 text-sm font-black uppercase tracking-widest text-primary-foreground shadow-lg transition-transform hover:scale-105 active:scale-95"
+            onClick={() => setIsSolicitudModalOpen(true)}
+          >
+            <Plus className="mr-2 h-4 w-4" />
+            Nueva Solicitud
+          </Button>
+        </div>
       </div>
 
+      {/* Custom Tabs */}
       <div className="flex items-center gap-1.5 rounded-2xl bg-muted p-1.5 w-fit border border-border">
         <button
           onClick={() => setActiveTab("solicitudes")}
@@ -118,6 +342,7 @@ export function InsumosClient({ initialStock, initialSolicitudes }: InsumosClien
         </button>
       </div>
 
+      {/* Content */}
       <div className="mt-8 space-y-8">
         {activeTab === "solicitudes" ? (
           <div className="space-y-6">
@@ -143,7 +368,7 @@ export function InsumosClient({ initialStock, initialSolicitudes }: InsumosClien
                       <th className="px-6 py-5 text-[10px] font-black uppercase tracking-widest text-muted-foreground">Técnico</th>
                       <th className="px-6 py-5 text-[10px] font-black uppercase tracking-widest text-muted-foreground">Producto</th>
                       <th className="px-6 py-5 text-[10px] font-black uppercase tracking-widest text-muted-foreground text-center">Cantidad</th>
-                      <th className="px-6 py-5 text-right text-[10px] font-black uppercase tracking-widest text-muted-foreground">Estado</th>
+                      <th className="px-6 py-5 text-right text-[10px] font-black uppercase tracking-widest text-muted-foreground">Acciones / Estado</th>
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-border">
@@ -168,14 +393,37 @@ export function InsumosClient({ initialStock, initialSolicitudes }: InsumosClien
                         <td className="px-6 py-5 font-bold text-primary dark:text-[#01ADFB] text-sm uppercase">{sol.producto}</td>
                         <td className="px-6 py-5 font-black text-foreground text-sm text-center tabular-nums">{sol.cantidad} {sol.unidad}</td>
                         <td className="px-6 py-5 text-right">
-                          <span className={cn(
-                            "inline-flex items-center rounded-lg px-3 py-1.5 text-[9px] font-black uppercase tracking-widest border shadow-sm",
-                            sol.estado === "Aprobado" && "bg-emerald-500/10 text-emerald-600 border-emerald-500/20",
-                            sol.estado === "Pendiente" && "bg-amber-500/10 text-amber-600 border-amber-500/20",
-                            sol.estado === "Rechazado" && "bg-destructive/10 text-destructive border-destructive/20"
-                          )}>
-                            {sol.estado}
-                          </span>
+                          {sol.rawEstado === "PENDIENTE" ? (
+                            <div className="flex items-center justify-end gap-2">
+                              <Button
+                                size="icon"
+                                variant="outline"
+                                disabled={!!processingId}
+                                className="h-8 w-8 rounded-lg border-emerald-500/20 bg-emerald-500/10 text-emerald-600 hover:bg-emerald-500 hover:text-white transition-all"
+                                onClick={() => handleUpdateStatus(sol.id, "ACEPTADA")}
+                              >
+                                {processingId === sol.id ? <Loader2 className="h-4 w-4 animate-spin" /> : <Check className="h-4 w-4" />}
+                              </Button>
+                              <Button
+                                size="icon"
+                                variant="outline"
+                                disabled={!!processingId}
+                                className="h-8 w-8 rounded-lg border-destructive/20 bg-destructive/10 text-destructive hover:bg-destructive hover:text-white transition-all"
+                                onClick={() => handleUpdateStatus(sol.id, "RECHAZADA")}
+                              >
+                                {processingId === sol.id ? <Loader2 className="h-4 w-4 animate-spin" /> : <X className="h-4 w-4" />}
+                              </Button>
+                            </div>
+                          ) : (
+                            <span className={cn(
+                              "inline-flex items-center rounded-lg px-3 py-1.5 text-[9px] font-black uppercase tracking-widest border shadow-sm",
+                              sol.estado === "Aprobado" && "bg-emerald-500/10 text-emerald-600 border-emerald-500/20",
+                              sol.estado === "Pendiente" && "bg-amber-500/10 text-amber-600 border-amber-500/20",
+                              sol.estado === "Rechazado" && "bg-destructive/10 text-destructive border-destructive/20"
+                            )}>
+                              {sol.estado}
+                            </span>
+                          )}
                         </td>
                       </tr>
                     ))}
@@ -290,6 +538,177 @@ export function InsumosClient({ initialStock, initialSolicitudes }: InsumosClien
           </div>
         )}
       </div>
+
+      {/* Registrar Stock Modal */}
+      <Dialog open={isStockModalOpen} onOpenChange={setIsStockModalOpen}>
+        <DialogContent className="max-w-md bg-background border-border">
+          <DialogHeader>
+            <DialogTitle className="text-xl font-black uppercase tracking-tight">
+              Registrar <span className="text-[#01ADFB]">Nuevo Producto</span>
+            </DialogTitle>
+          </DialogHeader>
+          <form onSubmit={handleCreateStock} className="space-y-6 pt-4">
+            <div className="space-y-4">
+              <div className="space-y-2">
+                <Label htmlFor="nombre" className="text-[10px] font-black uppercase tracking-widest text-muted-foreground">Nombre del Producto</Label>
+                <Input 
+                  id="nombre" 
+                  value={stockForm.nombre} 
+                  onChange={(e) => setStockForm({...stockForm, nombre: e.target.value})}
+                  required
+                  placeholder="Ej: Refrigerante R410A"
+                  className="rounded-xl border-border bg-muted/50 font-bold"
+                />
+              </div>
+              <div className="grid grid-cols-2 gap-4">
+                <div className="space-y-2">
+                  <Label htmlFor="categoria" className="text-[10px] font-black uppercase tracking-widest text-muted-foreground">Categoría</Label>
+                  <Input 
+                    id="categoria" 
+                    value={stockForm.categoria} 
+                    onChange={(e) => setStockForm({...stockForm, categoria: e.target.value})}
+                    placeholder="Ej: Consumibles"
+                    className="rounded-xl border-border bg-muted/50 font-bold"
+                  />
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="unidadMedida" className="text-[10px] font-black uppercase tracking-widest text-muted-foreground">Unidad</Label>
+                  <Input 
+                    id="unidadMedida" 
+                    value={stockForm.unidadMedida} 
+                    onChange={(e) => setStockForm({...stockForm, unidadMedida: e.target.value})}
+                    placeholder="Ej: kg, m, unid"
+                    className="rounded-xl border-border bg-muted/50 font-bold"
+                  />
+                </div>
+              </div>
+              <div className="grid grid-cols-2 gap-4">
+                <div className="space-y-2">
+                  <Label htmlFor="stockActual" className="text-[10px] font-black uppercase tracking-widest text-muted-foreground">Stock Inicial</Label>
+                  <Input 
+                    id="stockActual" 
+                    type="number"
+                    value={stockForm.stockActual} 
+                    onChange={(e) => setStockForm({...stockForm, stockActual: e.target.value})}
+                    placeholder="0"
+                    className="rounded-xl border-border bg-muted/50 font-bold"
+                  />
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="stockMinimo" className="text-[10px] font-black uppercase tracking-widest text-muted-foreground">Stock Mínimo</Label>
+                  <Input 
+                    id="stockMinimo" 
+                    type="number"
+                    value={stockForm.stockMinimo} 
+                    onChange={(e) => setStockForm({...stockForm, stockMinimo: e.target.value})}
+                    placeholder="Ej: 5"
+                    className="rounded-xl border-border bg-muted/50 font-bold"
+                  />
+                </div>
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="proveedor" className="text-[10px] font-black uppercase tracking-widest text-muted-foreground">Proveedor (Opcional)</Label>
+                <Select 
+                  id="proveedor"
+                  value={stockForm.proveedorId} 
+                  onChange={(e) => setStockForm({...stockForm, proveedorId: e.target.value})}
+                  className="rounded-xl border-border bg-muted/50 font-bold"
+                >
+                  <option value="">Sin proveedor</option>
+                  {proveedores.map((p) => (
+                    <option key={p.id} value={p.id}>{p.nombre}</option>
+                  ))}
+                </Select>
+              </div>
+            </div>
+            <DialogFooter className="pt-4">
+              <Button 
+                type="submit" 
+                disabled={isSubmitting}
+                className="w-full h-12 rounded-2xl bg-[#01ADFB] font-black uppercase tracking-widest text-white shadow-lg shadow-[#01ADFB]/20 hover:bg-[#01ADFB]/90"
+              >
+                {isSubmitting ? <Loader2 className="h-4 w-4 animate-spin" /> : "Registrar Producto"}
+              </Button>
+            </DialogFooter>
+          </form>
+        </DialogContent>
+      </Dialog>
+
+      {/* Nueva Solicitud Modal */}
+      <Dialog open={isSolicitudModalOpen} onOpenChange={setIsSolicitudModalOpen}>
+        <DialogContent className="max-w-md bg-background border-border">
+          <DialogHeader>
+            <DialogTitle className="text-xl font-black uppercase tracking-tight">
+              Nueva <span className="text-primary">Solicitud de Insumos</span>
+            </DialogTitle>
+          </DialogHeader>
+          <form onSubmit={handleCreateSolicitud} className="space-y-6 pt-4">
+            <div className="space-y-4">
+              <div className="space-y-2">
+                <Label htmlFor="producto" className="text-[10px] font-black uppercase tracking-widest text-muted-foreground">Producto</Label>
+                <Select 
+                  id="producto"
+                  value={solicitudForm.productoId} 
+                  onChange={(e) => setSolicitudForm({...solicitudForm, productoId: e.target.value})}
+                  required
+                  className="rounded-xl border-border bg-muted/50 font-bold"
+                >
+                  <option value="">Seleccionar producto</option>
+                  {initialStock.map((p) => (
+                    <option key={p.id} value={p.id}>{p.nombre} ({p.stockActual} {p.unidadMedida})</option>
+                  ))}
+                </Select>
+              </div>
+              <div className="grid grid-cols-2 gap-4">
+                <div className="space-y-2">
+                  <Label htmlFor="cantidad" className="text-[10px] font-black uppercase tracking-widest text-muted-foreground">Cantidad</Label>
+                  <Input 
+                    id="cantidad" 
+                    value={solicitudForm.cantidad} 
+                    onChange={(e) => setSolicitudForm({...solicitudForm, cantidad: e.target.value})}
+                    required
+                    placeholder="Ej: 5"
+                    className="rounded-xl border-border bg-muted/50 font-bold"
+                  />
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="solUnidad" className="text-[10px] font-black uppercase tracking-widest text-muted-foreground">Unidad (Opcional)</Label>
+                  <Input 
+                    id="solUnidad" 
+                    value={solicitudForm.unidadMedida} 
+                    onChange={(e) => setSolicitudForm({...solicitudForm, unidadMedida: e.target.value})}
+                    placeholder="Ej: kg"
+                    className="rounded-xl border-border bg-muted/50 font-bold"
+                  />
+                </div>
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="tecnico" className="text-[10px] font-black uppercase tracking-widest text-muted-foreground">Solicitado para (Técnico)</Label>
+                <Select 
+                  id="tecnico"
+                  value={solicitudForm.membershipId} 
+                  onChange={(e) => setSolicitudForm({...solicitudForm, membershipId: e.target.value})}
+                  className="rounded-xl border-border bg-muted/50 font-bold"
+                >
+                  <option value="">Solicitante (Yo)</option>
+                  {memberships.map((m) => (
+                    <option key={m.id} value={m.id}>{m.user.nombre} {m.user.apellido} ({m.role})</option>
+                  ))}
+                </Select>
+              </div>
+            </div>
+            <DialogFooter className="pt-4">
+              <Button 
+                type="submit" 
+                disabled={isSubmitting || !solicitudForm.productoId}
+                className="w-full h-12 rounded-2xl bg-primary font-black uppercase tracking-widest text-primary-foreground shadow-lg hover:bg-primary/90"
+              >
+                {isSubmitting ? <Loader2 className="h-4 w-4 animate-spin" /> : "Enviar Solicitud"}
+              </Button>
+            </DialogFooter>
+          </form>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }

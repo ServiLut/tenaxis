@@ -673,6 +673,8 @@ export class MonitoringService {
     })) as SessionWithUser[];
 
     const userGroups = new Map<string, GroupedSession>();
+    const STALE_THRESHOLD_MS = 10 * 60 * 1000; // 10 minutes
+    const now = Date.now();
 
     sessions.forEach((s) => {
       const userId = s.membershipId;
@@ -688,12 +690,20 @@ export class MonitoringService {
         if (s.fechaInicio < currentGroup.originalInicio) {
           currentGroup.originalInicio = s.fechaInicio;
         }
-        if (
-          s.fechaFin === null ||
-          (currentGroup.originalFin !== null &&
-            s.fechaFin > currentGroup.originalFin)
-        ) {
-          currentGroup.originalFin = s.fechaFin;
+        
+        // Lógica para determinar el fin de la conexión consolidada:
+        // 1. Si el grupo ya está marcado como activo (originalFin === null), lo dejamos así.
+        // 2. Si el grupo está marcado como cerrado, pero esta sesión antigua está abierta:
+        //    Solo lo volvemos a marcar como activo si la sesión antigua NO es "stale" (inactiva por mucho tiempo).
+        if (currentGroup.originalFin !== null) {
+          if (s.fechaFin === null) {
+            const isStale = (now - s.updatedAt.getTime()) > STALE_THRESHOLD_MS;
+            if (!isStale) {
+              currentGroup.originalFin = null;
+            }
+          } else if (s.fechaFin > currentGroup.originalFin) {
+            currentGroup.originalFin = s.fechaFin;
+          }
         }
       }
     });
@@ -783,6 +793,8 @@ export class MonitoringService {
       };
     }
 
+    const activeThreshold = new Date(Date.now() - 5 * 60 * 1000);
+
     const [totalEvents, activeSessionsGroup, totalInactivity] =
       await Promise.all([
         this.prisma.logEvento.count({
@@ -793,6 +805,7 @@ export class MonitoringService {
           where: {
             ...commonWhere,
             fechaFin: null,
+            updatedAt: { gte: activeThreshold },
           },
         }),
         this.prisma.sesionActividad.aggregate({

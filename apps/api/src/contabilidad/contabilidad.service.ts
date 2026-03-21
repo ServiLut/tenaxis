@@ -10,6 +10,10 @@ import {
   addBogotaDaysUtc,
   parseBogotaDateToUtcEnd,
   parseBogotaDateToUtcStart,
+  startOfBogotaMonthUtc,
+  endOfBogotaMonthUtc,
+  startOfPreviousBogotaMonthUtc,
+  endOfPreviousBogotaMonthUtc,
 } from '../common/utils/timezone.util';
 
 @Injectable()
@@ -334,25 +338,12 @@ export class ContabilidadService {
 
   async getAccountingBalance(tenantId: string, empresaId?: string) {
     const now = new Date();
-    const startOfMonth = new Date(now.getFullYear(), now.getMonth(), 1);
-    const endOfMonth = new Date(
-      now.getFullYear(),
-      now.getMonth() + 1,
-      0,
-      23,
-      59,
-      59,
-    );
 
-    const startOfPrevMonth = new Date(now.getFullYear(), now.getMonth() - 1, 1);
-    const endOfPrevMonth = new Date(
-      now.getFullYear(),
-      now.getMonth(),
-      0,
-      23,
-      59,
-      59,
-    );
+    const startOfMonth = startOfBogotaMonthUtc(now);
+    const endOfMonth = endOfBogotaMonthUtc(now);
+
+    const startOfPrevMonth = startOfPreviousBogotaMonthUtc(now);
+    const endOfPrevMonth = endOfPreviousBogotaMonthUtc(now);
 
     const commonWhere = {
       tenantId,
@@ -367,21 +358,31 @@ export class ContabilidadService {
       egresosPorCategoria,
       totalNominas,
     ] = await Promise.all([
+      // 1. Ingresos Mes Actual (Matched with DashboardService)
       this.prisma.ordenServicio.aggregate({
         where: {
           ...commonWhere,
+          estadoServicio: 'LIQUIDADO',
           fechaVisita: { gte: startOfMonth, lte: endOfMonth },
-          estadoPago: { in: ['PAGADO', 'CONCILIADO'] },
+          OR: [
+            { estadoPago: { in: ['PAGADO', 'CONCILIADO'] } },
+            { valorPagado: { gt: 0 } },
+          ],
         },
-        _sum: { valorPagado: true, valorCotizado: true },
+        _sum: { valorPagado: true },
       }),
+      // 2. Ingresos Mes Anterior (Matched with DashboardService)
       this.prisma.ordenServicio.aggregate({
         where: {
           ...commonWhere,
+          estadoServicio: 'LIQUIDADO',
           fechaVisita: { gte: startOfPrevMonth, lte: endOfPrevMonth },
-          estadoPago: { in: ['PAGADO', 'CONCILIADO'] },
+          OR: [
+            { estadoPago: { in: ['PAGADO', 'CONCILIADO'] } },
+            { valorPagado: { gt: 0 } },
+          ],
         },
-        _sum: { valorPagado: true, valorCotizado: true },
+        _sum: { valorPagado: true },
       }),
       this.prisma.egresos.aggregate({
         where: {
@@ -414,12 +415,8 @@ export class ContabilidadService {
       }),
     ]);
 
-    const totalIngresos = Number(
-      ingresosActual._sum.valorPagado || ingresosActual._sum.valorCotizado || 0,
-    );
-    const totalIngresosPrev = Number(
-      ingresosPrev._sum.valorPagado || ingresosPrev._sum.valorCotizado || 0,
-    );
+    const totalIngresos = Number(ingresosActual._sum.valorPagado || 0);
+    const totalIngresosPrev = Number(ingresosPrev._sum.valorPagado || 0);
     const totalEgresosEfectivos = Number(egresosActual._sum.monto || 0);
     const totalNominasMonto = Number(totalNominas._sum.totalPagar || 0);
 

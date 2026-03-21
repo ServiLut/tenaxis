@@ -29,6 +29,8 @@ import { cn } from "@/components/ui/utils";
 import { createClient } from "@/utils/supabase/client";
 import { type ShiftType, type PeriodType, type UserProfileType } from "../schemas/user.schema";
 import { differenceInMinutes, parse, format } from "date-fns";
+import { es } from "date-fns/locale";
+import { ymdToPickerDate, getZonedDate } from "@/utils/date-utils";
 import { exportToPDF } from "@/lib/utils/export-helper";
 
 const STORAGE_KEY = "user-shifts";
@@ -268,7 +270,7 @@ export default function CuentaCobroPage() {
     
     // Formatear datos de la tabla
     const data = period.shifts.map(s => [
-      format(new Date(s.fecha), 'dd/MM/yyyy'),
+      format(ymdToPickerDate(s.fecha)!, 'dd/MM/yyyy', { locale: es }),
       s.horaEntrada,
       s.horaSalida,
       `${s.descansoMinutos} min`,
@@ -290,7 +292,7 @@ export default function CuentaCobroPage() {
     const metadata = [
       `Documento: ${period.userSnapshot.tipoDocumento} ${period.userSnapshot.numeroDocumento}`,
       `Información Bancaria: ${period.userSnapshot.banco} - ${period.userSnapshot.tipoCuenta}: ${period.userSnapshot.numeroCuenta}`,
-      `Periodo: ${format(new Date(period.fechaInicio), 'dd/MM/yyyy')} al ${format(new Date(period.fechaFin), 'dd/MM/yyyy')}`,
+      `Periodo: ${format(ymdToPickerDate(period.fechaInicio)!, 'dd/MM/yyyy', { locale: es })} al ${format(ymdToPickerDate(period.fechaFin)!, 'dd/MM/yyyy', { locale: es })}`,
       `Total Liquidado: $${period.valorTotal.toLocaleString()}`
     ].join('\n');
 
@@ -386,7 +388,7 @@ export default function CuentaCobroPage() {
                       shifts.map((s) => (
                         <tr key={s.id} className="hover:bg-muted/20 transition-colors">
                           <td className="p-6">
-                            <p className="font-black text-foreground">{format(new Date(s.fecha), 'EEE dd MMM')}</p>
+                            <p className="font-black text-foreground">{format(ymdToPickerDate(s.fecha)!, 'EEE dd MMM', { locale: es })}</p>
                             <p className="text-[10px] font-bold text-muted-foreground uppercase">{s.horaEntrada} - {s.horaSalida} ({s.totalHoras.toFixed(1)}h)</p>
                           </td>
                           <td className="p-6">
@@ -427,8 +429,8 @@ export default function CuentaCobroPage() {
                       periods.map((p) => (
                         <tr key={p.id} className="hover:bg-muted/20 transition-colors">
                           <td className="p-6">
-                            <p className="font-black text-foreground">{format(new Date(p.fechaInicio), 'dd MMM')} - {format(new Date(p.fechaFin), 'dd MMM')}</p>
-                            <p className="text-[10px] font-bold text-[#01ADFB] uppercase">Cerrado: {format(new Date(p.fechaCierre), 'dd/MM/yyyy')}</p>
+                            <p className="font-black text-foreground">{format(ymdToPickerDate(p.fechaInicio)!, 'dd MMM', { locale: es })} - {format(ymdToPickerDate(p.fechaFin)!, 'dd MMM', { locale: es })}</p>
+                            <p className="text-[10px] font-bold text-[#01ADFB] uppercase">Cerrado: {format(getZonedDate(p.fechaCierre), 'dd/MM/yyyy', { locale: es })}</p>
                           </td>
                           <td className="p-6 font-bold text-sm">{p.numDias} días / {p.horasTotales.toFixed(1)}h</td>
                           <td className="p-6 text-right font-black text-emerald-600 text-lg">${p.valorTotal.toLocaleString()}</td>
@@ -511,7 +513,7 @@ export default function CuentaCobroPage() {
         <div className="fixed inset-0 z-[60] flex items-center justify-center bg-black/60 backdrop-blur-md p-4 animate-in fade-in duration-300">
           <Card className="w-full max-w-4xl bg-card border-border shadow-2xl rounded-[2.5rem] overflow-hidden">
             <CardHeader className="p-8 border-b border-border flex flex-row items-center justify-between bg-muted/20">
-              <div className="flex items-center gap-4"><div className="h-12 w-12 rounded-2xl bg-emerald-500/10 flex items-center justify-center text-emerald-600"><History className="h-6 w-6" /></div><div><CardTitle className="text-xl font-black text-foreground uppercase">Liquidación</CardTitle><CardDescription className="text-[10px] font-black uppercase text-muted-foreground">{format(new Date(selectedPeriod.fechaInicio), 'dd/MM/yyyy')} - {format(new Date(selectedPeriod.fechaFin), 'dd/MM/yyyy')}</CardDescription></div></div>
+              <div className="flex items-center gap-4"><div className="h-12 w-12 rounded-2xl bg-emerald-500/10 flex items-center justify-center text-emerald-600"><History className="h-6 w-6" /></div><div><CardTitle className="text-xl font-black text-foreground uppercase">Liquidación</CardTitle><CardDescription className="text-[10px] font-black uppercase text-muted-foreground">{format(ymdToPickerDate(selectedPeriod.fechaInicio)!, 'dd/MM/yyyy', { locale: es })} - {format(ymdToPickerDate(selectedPeriod.fechaFin)!, 'dd/MM/yyyy', { locale: es })}</CardDescription></div></div>
               <Button variant="ghost" size="icon" onClick={() => setIsDetailModalOpen(false)} className="h-12 w-12 rounded-full border border-border"><X className="h-6 w-6" /></Button>
             </CardHeader>
             <CardContent className="p-0 max-h-[60vh] overflow-y-auto">
@@ -525,7 +527,7 @@ export default function CuentaCobroPage() {
                 <tbody className="divide-y divide-border">
                   {selectedPeriod.shifts.map((s) => (
                     <tr key={s.id} className="hover:bg-muted/10 transition-colors">
-                      <td className="p-4 pl-8 text-sm font-bold">{format(new Date(s.fecha), 'dd/MM/yyyy')}</td>
+                      <td className="p-4 pl-8 text-sm font-bold">{format(ymdToPickerDate(s.fecha)!, 'dd/MM/yyyy', { locale: es })}</td>
                       <td className="p-4 text-sm font-medium">{s.horaEntrada}-{s.horaSalida} ({s.totalHoras.toFixed(1)}h)</td>
                       <td className="p-4">
                         <div className="flex gap-2">

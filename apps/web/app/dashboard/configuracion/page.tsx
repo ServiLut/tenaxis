@@ -19,6 +19,13 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Select } from "@/components/ui/select";
+import {
+  Select as SelectShadcn,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select-shadcn";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 import { 
   Settings, 
@@ -450,10 +457,14 @@ export default function ConfiguracionPage() {
                       <div className="relative">
                         <span className="absolute left-4 top-1/2 -translate-y-1/2 text-emerald-600 font-bold">$</span>
                         <Input 
-                          type="number" 
-                          placeholder="0.00"
-                          value={user?.valorHora || 0} 
-                          onChange={(e) => updateProfileField("valorHora", parseFloat(e.target.value) || 0)} 
+                          type="text" 
+                          placeholder="0"
+                          value={user?.valorHora ? user.valorHora.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".") : ""} 
+                          onFocus={(e) => e.target.select()}
+                          onChange={(e) => {
+                            const val = e.target.value.replace(/\D/g, "");
+                            updateProfileField("valorHora", val ? parseInt(val, 10) : 0);
+                          }} 
                           className="h-12 pl-8 rounded-xl border-border bg-background text-emerald-600 font-bold" 
                         />
                       </div>
@@ -481,11 +492,10 @@ export default function ConfiguracionPage() {
                   </div>
 
                   <div className="max-w-sm space-y-2">
-                    <Label className="text-[10px] font-black uppercase text-muted-foreground">Empresa</Label>
-                    <Select
+                    <Label className="text-[10px] font-black uppercase text-muted-foreground">FILTRAR POR EMPRESA</Label>
+                    <SelectShadcn
                       value={selectedEmpresaId}
-                      onChange={(e: React.ChangeEvent<HTMLSelectElement>) => {
-                        const empresaId = e.target.value;
+                      onValueChange={(empresaId) => {
                         setSelectedEmpresaId(empresaId);
                         setLoading(true);
                         getServiciosAction(empresaId)
@@ -497,15 +507,18 @@ export default function ConfiguracionPage() {
                           })
                           .finally(() => setLoading(false));
                       }}
-                      className="h-12 rounded-xl border-border bg-background text-foreground font-bold"
                     >
-                      <option value="">Selecciona una empresa</option>
-                      {empresas.map((empresa) => (
-                        <option key={empresa.id} value={empresa.id}>
-                          {empresa.nombre}
-                        </option>
-                      ))}
-                    </Select>
+                      <SelectTrigger className="h-12 rounded-xl border-border bg-background text-foreground font-bold">
+                        <SelectValue placeholder="Selecciona una empresa" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {empresas.map((empresa) => (
+                          <SelectItem key={empresa.id} value={empresa.id}>
+                            {empresa.nombre}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </SelectShadcn>
                   </div>
                 </CardHeader>
                 <CardContent className="p-8">

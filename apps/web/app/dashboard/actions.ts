@@ -140,7 +140,7 @@ export async function updateTestRoleAction(role: string) {
     const cookieStore = await cookies();
     const expires = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000);
     cookieStore.set("x-test-role", role, { path: "/", expires, sameSite: "lax" });
-    
+
     return { success: true };
   } catch (error) {
     return { success: false, error: error instanceof Error ? error.message : "Error inesperado" };
@@ -343,7 +343,7 @@ export async function updateSugerenciaEstadoAction(id: string, estado: string) {
       method: "PATCH",
       body: JSON.stringify({ estado }),
     });
-    
+
     revalidatePath("/dashboard/clientes");
     return { success: true };
   } catch (error) {
@@ -962,5 +962,58 @@ export async function getProductosSolicitudesAction() {
   } catch (error) {
     console.error("Error fetching solicitudes:", error);
     return [];
+  }
+}
+
+export async function getProveedoresAction() {
+  try {
+    return await apiFetch<unknown[]>("/productos/proveedores", {
+      cache: "no-store",
+    });
+  } catch (error) {
+    console.error("Error fetching proveedores:", error);
+    return [];
+  }
+}
+
+export async function createProductoAction(data: any) {
+  try {
+    const res = await apiFetch("/productos/create", {
+      method: "POST",
+      body: JSON.stringify(data),
+    });
+    revalidatePath("/dashboard/insumos");
+    return { success: true, data: res };
+  } catch (error) {
+    console.error("Error creating producto:", error);
+    return { success: false, error: error instanceof Error ? error.message : "Error creating producto" };
+  }
+}
+
+export async function createSolicitudAction(data: any) {
+  try {
+    const res = await apiFetch("/productos/solicitudes", {
+      method: "POST",
+      body: JSON.stringify(data),
+    });
+    revalidatePath("/dashboard/insumos");
+    return { success: true, data: res };
+  } catch (error) {
+    console.error("Error creating solicitud:", error);
+    return { success: false, error: error instanceof Error ? error.message : "Error creating solicitud" };
+  }
+}
+
+export async function updateSolicitudStatusAction(id: string, estado: string) {
+  try {
+    const res = await apiFetch(`/productos/solicitudes/${id}/status`, {
+      method: "PATCH",
+      body: JSON.stringify({ estado }),
+    });
+    revalidatePath("/dashboard/insumos");
+    return { success: true, data: res };
+  } catch (error) {
+    console.error("Error updating solicitud status:", error);
+    return { success: false, error: error instanceof Error ? error.message : "Error updating status" };
   }
 }

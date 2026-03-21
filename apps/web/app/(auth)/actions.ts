@@ -48,6 +48,11 @@ export async function forgotPasswordAction(email: string) {
 }
 
 export async function logoutAction() {
+  try {
+    await authClient.logout();
+  } catch (error) {
+    console.error("Error calling logout API:", error);
+  }
   const cookieStore = await cookies();
   cookieStore.delete("access_token");
   cookieStore.delete("x-enterprise-id");

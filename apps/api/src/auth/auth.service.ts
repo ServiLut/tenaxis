@@ -125,6 +125,23 @@ export class AuthService {
     };
   }
 
+  async logout(sesionId?: string) {
+    if (sesionId) {
+      try {
+        await this.monitoringService.recordEvent(
+          sesionId,
+          'LOGOUT',
+          'El usuario cerró su sesión manualmente',
+          '/logout',
+        );
+        await this.monitoringService.endSession(sesionId);
+      } catch (error) {
+        console.error('Error closing session during logout:', error);
+      }
+    }
+    return { success: true };
+  }
+
   async getProfile(token: string, enterpriseId?: string, testRole?: string) {
     try {
       const payload = await this.jwtService.verifyAsync<JwtPayload>(token);

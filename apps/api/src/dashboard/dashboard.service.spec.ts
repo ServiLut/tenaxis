@@ -32,7 +32,7 @@ describe('DashboardService', () => {
       .mockResolvedValueOnce({ _sum: { valorPagado: 500, valorCotizado: 0 } })
       .mockResolvedValueOnce({ _sum: { valorCotizado: 300 } })
       .mockResolvedValueOnce({ _sum: { valorPagado: 200, valorCotizado: 0 } })
-      .mockResolvedValueOnce({ _sum: { valorPagado: 0, valorCotizado: 5000 } });
+      .mockResolvedValueOnce({ _sum: { valorPagado: 5000, valorCotizado: 0 } });
 
     prismaMock.ordenServicio.count
       .mockResolvedValueOnce(10) // ordenesActivas

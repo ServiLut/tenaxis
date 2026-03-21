@@ -24,6 +24,7 @@ import {
   MessageSquare,
 } from "lucide-react";
 import { getMyProfileAction } from "@/app/dashboard/actions";
+import { logoutAction } from "@/app/(auth)/actions";
 import { canAccessTenantsView, getScopedRole, type ScopedRole } from "@/lib/access-scope";
 import { EmpresaSelector } from "./EmpresaSelector";
 
@@ -151,7 +152,13 @@ export function Sidebar({ isOpen, onClose }: SidebarProps) {
     };
   }, []);
 
-  const handleLogout = () => {
+  const handleLogout = async () => {
+    try {
+      await logoutAction();
+    } catch (error) {
+      console.error("Error calling logout API:", error);
+    }
+
     document.cookie = "access_token=; path=/; expires=Thu, 01 Jan 1970 00:00:01 GMT;";
     document.cookie = "tenant-id=; path=/; expires=Thu, 01 Jan 1970 00:00:01 GMT;";
     document.cookie = "x-enterprise-id=; path=/; expires=Thu, 01 Jan 1970 00:00:01 GMT;";

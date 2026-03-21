@@ -60,5 +60,11 @@ export const authClient = {
       method: "PATCH",
       body: JSON.stringify({ role })
     });
+  },
+
+  async logout() {
+    return apiFetch("/auth/logout", {
+      method: "POST"
+    });
   }
 };

@@ -30,6 +30,7 @@ import {
   parseBogotaDateToUtcEnd,
   parseBogotaDateToUtcStart,
   startOfBogotaDayUtc,
+  startOfBogotaMonthUtc,
 } from '../common/utils/timezone.util';
 
 const NEW_VISIT_TYPES = new Set<TipoVisita>([
@@ -833,8 +834,8 @@ export class TenantsService {
       const paid = this.toNumber(order.valorPagado);
       const quoted = this.toNumber(order.valorCotizado);
 
-      // Recaudo: Sumamos cualquier valor pagado registrado (incluye pagos parciales)
-      if (paid > 0) {
+      // Recaudo: Sumamos solo si el servicio está LIQUIDADO
+      if (paid > 0 && isLiquidated) {
         current.totalRecaudo += paid;
         if (order.tipoVisita && NEW_VISIT_TYPES.has(order.tipoVisita)) {
           current.recaudoNuevos += paid;
@@ -1562,10 +1563,12 @@ export class TenantsService {
     for (const order of orders) {
       totalServicios += 1;
       const paid = this.toNumber(order.valorPagado);
-      if (paid > 0) {
+      const isLiquidated = order.estadoServicio === EstadoOrden.LIQUIDADO;
+
+      if (paid > 0 && isLiquidated) {
         totalRecaudo += paid;
       }
-      if (order.estadoServicio === EstadoOrden.LIQUIDADO) {
+      if (isLiquidated) {
         serviciosLiquidados += 1;
       }
     }

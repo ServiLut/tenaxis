@@ -66,6 +66,7 @@ export class DashboardService {
       this.prisma.ordenServicio.aggregate({
         where: {
           ...commonWhere,
+          estadoServicio: 'LIQUIDADO',
           fechaVisita: { gte: startOfMonth, lte: endOfMonth },
           OR: [
             { estadoPago: { in: ['PAGADO', 'CONCILIADO'] } },
@@ -78,6 +79,7 @@ export class DashboardService {
       this.prisma.ordenServicio.aggregate({
         where: {
           ...commonWhere,
+          estadoServicio: 'LIQUIDADO',
           fechaVisita: { gte: startOfPrevMonth, lte: endOfPrevMonth },
           OR: [
             { estadoPago: { in: ['PAGADO', 'CONCILIADO'] } },
@@ -178,6 +180,7 @@ export class DashboardService {
       this.prisma.ordenServicio.aggregate({
         where: {
           ...commonWhere,
+          estadoServicio: 'LIQUIDADO',
           fechaVisita: { gte: startOfToday, lte: endOfToday },
           estadoPago: { in: ['PAGADO', 'CONCILIADO'] },
         },
@@ -237,6 +240,7 @@ export class DashboardService {
       this.prisma.ordenServicio.aggregate({
         where: {
           ...commonWhere,
+          estadoServicio: 'LIQUIDADO',
           estadoPago: { in: ['PAGADO', 'CONCILIADO'] },
         },
         _sum: { valorPagado: true, valorCotizado: true },
@@ -341,6 +345,7 @@ export class DashboardService {
       where: {
         ...(tenantId ? { tenantId } : {}),
         ...(empresaId && { empresaId }),
+        estadoServicio: 'LIQUIDADO',
         fechaVisita: { gte: startOfWeek, lt: endOfWeek },
         estadoPago: { in: ['PAGADO', 'CONCILIADO'] },
       },

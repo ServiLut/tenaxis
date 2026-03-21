@@ -184,6 +184,7 @@ interface Movement {
   razon?: string;
   membership?: { user: { nombre: string; apellido: string } };
   estado?: string;
+  categoria?: string;
 }
 
 interface Membership {
@@ -202,6 +203,22 @@ function StandardTableView({ title, description, type }: { title: string, descri
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
   const [members, setMembers] = useState<Membership[]>([]);
+
+  const getCategoryColor = (cat: string) => {
+    const category = (cat || "GENERAL").toUpperCase();
+    switch (category) {
+      case "INSUMOS":
+        return "bg-amber-500/10 text-amber-600 border-amber-500/20";
+      case "MARKETING":
+        return "bg-blue-500/10 text-blue-600 border-blue-500/20";
+      case "OPERATIVO":
+        return "bg-emerald-500/10 text-emerald-600 border-emerald-500/20";
+      case "SERVICIOS_PUBLICOS":
+        return "bg-purple-500/10 text-purple-600 border-purple-500/20";
+      default:
+        return "bg-zinc-500/10 text-zinc-600 border-zinc-500/20";
+    }
+  };
 
   const [formData, setFormData] = useState({
     titulo: "",
@@ -301,7 +318,15 @@ function StandardTableView({ title, description, type }: { title: string, descri
   };
 
   const handleExport = async (formatType: 'pdf' | 'excel' | 'word') => {
-    const headers = ["Fecha", "Descripción", "Responsable", "Monto", "Estado"];
+    const headers = [
+      "Fecha", 
+      "Descripción", 
+      ...(type === 'egresos' ? ["Categoría"] : []),
+      "Responsable", 
+      "Monto", 
+      "Estado"
+    ];
+
     const exportData = data.map(d => {
       const item = d as Movement;
       const fecha = item.createdAt || item.fechaGeneracion || new Date();
@@ -313,6 +338,7 @@ function StandardTableView({ title, description, type }: { title: string, descri
       return [
         format(new Date(fecha), "dd/MM/yyyy"),
         desc,
+        ...(type === 'egresos' ? [item.categoria || "GENERAL"] : []),
         resp,
         `$ ${Number(monto).toLocaleString()}`,
         est
@@ -409,6 +435,9 @@ function StandardTableView({ title, description, type }: { title: string, descri
                 <tr className="border-b border-border bg-muted/50">
                   <th className="px-8 py-5 text-[10px] font-black uppercase tracking-[0.2em] text-muted-foreground">Fecha</th>
                   <th className="px-8 py-5 text-[10px] font-black uppercase tracking-[0.2em] text-muted-foreground">Descripción</th>
+                  {type === 'egresos' && (
+                    <th className="px-8 py-5 text-[10px] font-black uppercase tracking-[0.2em] text-muted-foreground">Categoría</th>
+                  )}
                   <th className="px-8 py-5 text-[10px] font-black uppercase tracking-[0.2em] text-muted-foreground">Responsable</th>
                   <th className="px-8 py-5 text-[10px] font-black uppercase tracking-[0.2em] text-muted-foreground text-right">Monto</th>
                   <th className="px-8 py-5 text-[10px] font-black uppercase tracking-[0.2em] text-muted-foreground text-center">Estado</th>
@@ -418,12 +447,12 @@ function StandardTableView({ title, description, type }: { title: string, descri
                 {loading ? (
                   [1, 2, 3, 4, 5].map((i) => (
                     <tr key={i} className="animate-pulse">
-                      <td colSpan={5} className="px-8 py-5 h-16 bg-muted/20"></td>
+                      <td colSpan={type === 'egresos' ? 6 : 5} className="px-8 py-5 h-16 bg-muted/20"></td>
                     </tr>
                   ))
                 ) : data.length === 0 ? (
                   <tr>
-                    <td colSpan={5} className="px-8 py-20 text-center">
+                    <td colSpan={type === 'egresos' ? 6 : 5} className="px-8 py-20 text-center">
                       <p className="text-muted-foreground font-bold uppercase tracking-widest text-xs">No hay registros encontrados.</p>
                     </td>
                   </tr>
@@ -444,6 +473,16 @@ function StandardTableView({ title, description, type }: { title: string, descri
                         <td className="px-8 py-5 font-black text-foreground uppercase tracking-tighter">
                           {desc}
                         </td>
+                        {type === 'egresos' && (
+                          <td className="px-8 py-5">
+                            <span className={cn(
+                              "px-3 py-1 rounded-lg text-[9px] font-black uppercase border",
+                              getCategoryColor(item.categoria || "GENERAL")
+                            )}>
+                              {item.categoria || "GENERAL"}
+                            </span>
+                          </td>
+                        )}
                         <td className="px-8 py-5">
                           <span className="px-3 py-1 rounded-lg bg-muted text-[10px] font-black uppercase border border-border">
                             {resp}
