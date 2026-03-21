@@ -735,6 +735,14 @@ export class OrdenesServicioService {
       whereClause.estadoServicio = EstadoOrden.TECNICO_FINALIZO as EstadoOrden;
     }
 
+    if (filters.preset === ServiciosPreset.RECHAZADOS) {
+      whereClause.seguimientos = {
+        some: {
+          status: 'RECHAZADO',
+        },
+      };
+    }
+
     if (filters.preset === ServiciosPreset.VENCIDOS) {
       const todayStart = toLocalDayRange(new Date()).start;
       const fechaVisitaFilter =
