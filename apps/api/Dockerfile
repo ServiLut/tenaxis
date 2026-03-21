@@ -32,7 +32,7 @@ RUN pnpm install --frozen-lockfile
 RUN pnpm run build --filter=api
 
 # Usamos pnpm deploy para extraer la API y sus dependencias de producción a una carpeta aislada
-RUN pnpm deploy --filter=api --prod /app/isolated
+RUN pnpm deploy --filter=api --prod /app/isolated --legacy
 
 # 3. Runner
 FROM node:22-alpine AS runner
