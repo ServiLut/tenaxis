@@ -20,6 +20,18 @@ export const configClient = {
   async getIntereses(): Promise<ConfigItem[]> {
     return apiFetch<ConfigItem[]>("/config-clientes/intereses");
   },
+  async createInteres(data: Record<string, unknown>) {
+    return apiFetch("/config-clientes/intereses", {
+      method: "POST",
+      body: JSON.stringify(data),
+    });
+  },
+  async updateInteres(id: string, data: Record<string, unknown>) {
+    return apiFetch(`/config-clientes/intereses/${id}`, {
+      method: "PATCH",
+      body: JSON.stringify(data),
+    });
+  },
   async getTiposServicio(empresaId: string): Promise<ConfigItem[]> {
     return apiFetch<ConfigItem[]>(`/config-clientes/tipos-servicio?empresaId=${empresaId}`);
   },

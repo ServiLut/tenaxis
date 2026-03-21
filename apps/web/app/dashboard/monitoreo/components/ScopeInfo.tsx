@@ -3,9 +3,10 @@
 import React, { useEffect, useState } from "react";
 import { Shield, Building2, MapPin, UserCircle } from "lucide-react";
 import { cn } from "@/components/ui/utils";
-import { getEnterprisesAction, getTenantDetailAction } from "@/app/dashboard/actions";
 import { useAccessScope } from "@/hooks/use-access-scope";
 import { getBrowserScopedEnterpriseId } from "@/lib/browser-access-scope";
+import { enterpriseClient } from "@/lib/api/enterprise-client";
+import { tenantsClient } from "@/lib/api/tenants-client";
 
 interface Tenant {
   id: string;
@@ -33,8 +34,8 @@ export function ScopeInfo() {
         const [tenantRes, enterprisesRes] = await Promise.all([
           scope.canSeeAllTenants || !scope.tenantId
             ? null
-            : getTenantDetailAction(scope.tenantId),
-          getEnterprisesAction(),
+            : tenantsClient.getById(scope.tenantId),
+          enterpriseClient.getAll(),
         ]);
 
         const tenant = (tenantRes as { data?: Tenant })?.data || (tenantRes as Tenant);

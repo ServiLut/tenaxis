@@ -4,17 +4,11 @@ import { useState, useEffect, Suspense, useMemo } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { toast } from "sonner";
 import {
-  createClienteAction,
-  createContratoClienteAction,
-  getSegmentosAction,
-  getRiesgosAction,
-  getTiposInteresAction,
-  getDepartmentsAction,
-  getMunicipalitiesAction,
-  type ClienteDTO,
-  type ContratoClienteDTO,
-} from "../../actions";
+  clientesClient,
+  type ContratoClientePayload as ContratoClienteDTO,
+} from "@/lib/api/clientes-client";
 import { type ConfigItem } from "@/lib/api/config-client";
+import { configClient } from "@/lib/api/config-client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -49,6 +43,10 @@ import {
 import { useUserRole } from "@/hooks/use-user-role";
 import { DashboardLayout } from "@/components/dashboard";
 import { getBrowserCookie } from "@/lib/api/browser-client";
+import { enterpriseClient } from "@/lib/api/enterprise-client";
+import { geoClient } from "@/lib/api/geo-client";
+
+type ClienteDTO = Record<string, unknown>;
 
 // --- Constantes Estratégicas ---
 const ORIGENES_CLIENTE = ["Google Ads", "Referido", "Orgánico", "Recurrente", "Campaña", "WhatsApp directo"];
@@ -119,14 +117,13 @@ function NuevoClienteContent() {
   useEffect(() => {
     const loadInitialData = async () => {
       try {
-        const { getEnterprisesAction } = await import("@/app/dashboard/actions");
         const [deps, muns, segs, ries, ints, empresasData] = await Promise.all([
-          getDepartmentsAction(),
-          getMunicipalitiesAction(),
-          getSegmentosAction(),
-          getRiesgosAction(),
-          getTiposInteresAction(),
-          getEnterprisesAction()
+          geoClient.getDepartments(),
+          geoClient.getMunicipalities(),
+          configClient.getSegmentos(),
+          configClient.getRiesgos(),
+          configClient.getIntereses(),
+          enterpriseClient.getAll(),
         ]);
         setDepartments(deps);
         setMunicipalities(muns);
@@ -292,22 +289,8 @@ function NuevoClienteContent() {
     const finalPayload = { ...payload, empresaId: selectedEmpresaId || undefined } as unknown as ClienteDTO;
 
     try {
-      const response = await createClienteAction(finalPayload);
-      if (!response.success) {
-        let errorMsg = Array.isArray(response.error) ? response.error[0] : response.error;
-        if (typeof errorMsg === 'string' && (errorMsg.includes('unique') || errorMsg.includes('already exists'))) {
-          if (errorMsg.toLowerCase().includes('telefono')) {
-            errorMsg = "El número de teléfono ya está en uso por otro cliente.";
-          } else if (errorMsg.toLowerCase().includes('documento')) {
-            errorMsg = "El número de documento ya está en uso por otro cliente.";
-          } else {
-            errorMsg = "Los datos ingresados (teléfono o documento) ya están vinculados a otro cliente.";
-          }
-        }
-        toast.error(errorMsg ? String(errorMsg) : "Error al crear cliente");
-        return;
-      }
-      const createdClientId = (response.data as { id?: string } | undefined)?.id;
+      const createdClient = await clientesClient.create(finalPayload);
+      const createdClientId = (createdClient as { id?: string } | undefined)?.id;
       if (
         hasActiveContract &&
         createdClientId &&
@@ -323,18 +306,10 @@ function NuevoClienteContent() {
           observaciones: contractNotes || null,
         };
 
-        const contractResponse = await createContratoClienteAction(
+        await clientesClient.createContrato(
           createdClientId,
           contractPayload,
         );
-
-        if (!contractResponse.success) {
-          toast.error(
-            contractResponse.error || "El cliente se creó, pero no se pudo guardar el contrato comercial.",
-          );
-          router.push("/dashboard/clientes");
-          return;
-        }
       }
       toast.success("Cliente registrado con éxito");
       router.push("/dashboard/clientes");

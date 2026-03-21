@@ -5,20 +5,9 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { toast } from "sonner";
 import {
-  getClientesAction,
-  getContratoClienteActivoAction,
-  getMetodosPagoAction,
-  getEnterprisesAction,
-  getOperatorsAction,
-  getServiciosAction,
-  getClienteConfigsAction,
-  ConfiguracionOperativa,
-  getClienteByIdAction,
-  updateClienteAction,
-  getDepartmentsAction,
-  getMunicipalitiesAction,
-} from "../../actions";
-import { type ContratoCliente } from "@/lib/api/clientes-client";
+  clientesClient,
+  type ContratoCliente,
+} from "@/lib/api/clientes-client";
 import {
   completeFollowUp,
   createOrdenServicio,
@@ -67,6 +56,9 @@ import {
 import { DashboardLayout } from "@/components/dashboard";
 import { cn } from "@/components/ui/utils";
 import { getBrowserCookie } from "@/lib/api/browser-client";
+import { configClient } from "@/lib/api/config-client";
+import { enterpriseClient } from "@/lib/api/enterprise-client";
+import { geoClient } from "@/lib/api/geo-client";
 import {
   bogotaDateTimeToUtcIso,
   bogotaDateToUtcIso,
@@ -157,6 +149,21 @@ const FOLLOW_UP_OUTCOME_OPTIONS = [
   { value: "CIERRE_EXITOSO", label: "Cierre exitoso" },
   { value: "REQUIERE_ESCALACION", label: "Requiere escalación" },
 ];
+
+interface ConfiguracionOperativa {
+  id: string;
+  direccionId?: string | null;
+  direccion?: {
+    id: string;
+    direccion: string;
+  } | null;
+  protocoloServicio?: string | null;
+  observacionesFijas?: string | null;
+  requiereFirmaDigital: boolean;
+  requiereFotosEvidencia: boolean;
+  duracionEstimada?: number | null;
+  frecuenciaSugerida?: number | null;
+}
 
 interface Direccion {
   id: string;
@@ -451,7 +458,7 @@ function NuevoServicioContent() {
   const fetchMetodosPago = useCallback(async (empId: string) => {
     if (!empId) return;
     try {
-      await getMetodosPagoAction(empId);
+      await configClient.getMetodosPago(empId);
       // setMetodosPago(...) removed as it was unused
     } catch (e) {
       console.error("Error loading payment methods", e);
@@ -462,7 +469,7 @@ function NuevoServicioContent() {
   const fetchOperadores = useCallback(async (empId: string) => {
     if (!empId) return;
     try {
-      const ops = await getOperatorsAction(empId);
+      const ops = await enterpriseClient.getOperators(empId);
       setOperadores(Array.isArray(ops) ? (ops as Operador[]) : []);
     } catch (e) {
       console.error("Error loading operators", e);
@@ -473,7 +480,7 @@ function NuevoServicioContent() {
   const fetchServicios = useCallback(async (empId: string) => {
     if (!empId) return;
     try {
-      const svs = await getServiciosAction(empId);
+      const svs = await configClient.getServicios(empId);
       setServiciosEmpresa(Array.isArray(svs) ? (svs as Servicio[]) : []);
     } catch (e) {
       console.error("Error loading services", e);
@@ -523,10 +530,10 @@ function NuevoServicioContent() {
 
       try {
         const [cls, emps, deps, muns] = await Promise.all([
-          getClientesAction(),
-          getEnterprisesAction(),
-          getDepartmentsAction(),
-          getMunicipalitiesAction(),
+          clientesClient.getAll(),
+          enterpriseClient.getAll(),
+          geoClient.getDepartments(),
+          geoClient.getMunicipalities(),
         ]);
 
         // Clientes usually returns an array or { data: [] }
@@ -576,7 +583,7 @@ function NuevoServicioContent() {
           setSelectedCliente(urlClientId);
           
           // Fetch configs
-          getClienteConfigsAction(urlClientId).then(configsResult => {
+          configClient.getClienteOperativa(urlClientId).then(configsResult => {
             const configs = Array.isArray(configsResult) ? (configsResult as ConfiguracionOperativa[]) : [];
             setClienteConfigs(configs);
             
@@ -662,7 +669,7 @@ function NuevoServicioContent() {
 
     setLoadingContrato(true);
     try {
-      const contrato = await getContratoClienteActivoAction(
+      const contrato = await clientesClient.getActiveContrato(
         clientId,
         empresaId,
       );
@@ -705,7 +712,7 @@ function NuevoServicioContent() {
     setClienteConfigs([]);
     
     if (clientId) {
-      const configsResult = await getClienteConfigsAction(clientId);
+      const configsResult = await configClient.getClienteOperativa(clientId);
       const configs = Array.isArray(configsResult) ? (configsResult as ConfiguracionOperativa[]) : [];
       setClienteConfigs(configs);
 
@@ -831,7 +838,7 @@ function NuevoServicioContent() {
 
     setLoadingAddress(true);
     try {
-      const client = await getClienteByIdAction(selectedCliente) as Cliente | null;
+      const client = await clientesClient.getById(selectedCliente) as Cliente | null;
       if (!client) throw new Error("Cliente no encontrado");
 
       // CLEANUP: We must remove relations and system-managed fields that Prisma rejects in a 'create' nested block
@@ -873,50 +880,46 @@ function NuevoServicioContent() {
 
       console.log("[AddressModal] Sending updated addresses:", updatedDirs);
 
-      const res = await updateClienteAction(selectedCliente, {
+      await clientesClient.update(selectedCliente, {
         direcciones: updatedDirs as unknown as Direccion[]
       });
 
-      if (res.success) {
-        toast.success("Dirección añadida correctamente");
-        setIsAddressModalOpen(false);
-        // Refresh client data
-        const updatedClient = await getClienteByIdAction(selectedCliente) as Cliente | null;
-        if (updatedClient) {
-          const dirs = updatedClient.direcciones || [];
-          setDireccionesCliente(dirs);
-          if (dirs.length > 0) {
-            const latestDir = dirs[dirs.length - 1];
-            setSelectedDireccion(latestDir.id);
-            applyConfigToForm(clienteConfigs, latestDir.id);
-          }
-          
-          // Update clients list in state to keep it consistent
-          setClientes(prev => prev.map(c => c.id === selectedCliente ? updatedClient : c));
+      toast.success("Dirección añadida correctamente");
+      setIsAddressModalOpen(false);
+      // Refresh client data
+      const updatedClient = await clientesClient.getById(selectedCliente) as Cliente | null;
+      if (updatedClient) {
+        const dirs = updatedClient.direcciones || [];
+        setDireccionesCliente(dirs);
+        if (dirs.length > 0) {
+          const latestDir = dirs[dirs.length - 1];
+          setSelectedDireccion(latestDir.id);
+          applyConfigToForm(clienteConfigs, latestDir.id);
         }
-        // Reset form
-        setNewDir({
-          direccion: "",
-          nombreSede: "",
-          barrio: "",
-          departmentId: "",
-          municipioId: "",
-          linkMaps: "",
-          piso: "",
-          bloque: "",
-          unidad: "",
-          tipoUbicacion: "RESIDENCIAL",
-          clasificacionPunto: "Cocina",
-          horarioInicio: "08:00",
-          horarioFin: "18:00",
-          restriccionesAcceso: "",
-          nombreContacto: "",
-          telefonoContacto: "",
-          cargoContacto: ""
-        });
-      } else {
-        toast.error(res.error || "Error al añadir dirección");
+        
+        // Update clients list in state to keep it consistent
+        setClientes(prev => prev.map(c => c.id === selectedCliente ? updatedClient : c));
       }
+      // Reset form
+      setNewDir({
+        direccion: "",
+        nombreSede: "",
+        barrio: "",
+        departmentId: "",
+        municipioId: "",
+        linkMaps: "",
+        piso: "",
+        bloque: "",
+        unidad: "",
+        tipoUbicacion: "RESIDENCIAL",
+        clasificacionPunto: "Cocina",
+        horarioInicio: "08:00",
+        horarioFin: "18:00",
+        restriccionesAcceso: "",
+        nombreContacto: "",
+        telefonoContacto: "",
+        cargoContacto: ""
+      });
     } catch (e) {
       console.error(e);
       toast.error("Error inesperado al añadir dirección");
