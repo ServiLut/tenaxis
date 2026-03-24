@@ -690,14 +690,14 @@ export class MonitoringService {
         if (s.fechaInicio < currentGroup.originalInicio) {
           currentGroup.originalInicio = s.fechaInicio;
         }
-        
+
         // Lógica para determinar el fin de la conexión consolidada:
         // 1. Si el grupo ya está marcado como activo (originalFin === null), lo dejamos así.
         // 2. Si el grupo está marcado como cerrado, pero esta sesión antigua está abierta:
         //    Solo lo volvemos a marcar como activo si la sesión antigua NO es "stale" (inactiva por mucho tiempo).
         if (currentGroup.originalFin !== null) {
           if (s.fechaFin === null) {
-            const isStale = (now - s.updatedAt.getTime()) > STALE_THRESHOLD_MS;
+            const isStale = now - s.updatedAt.getTime() > STALE_THRESHOLD_MS;
             if (!isStale) {
               currentGroup.originalFin = null;
             }

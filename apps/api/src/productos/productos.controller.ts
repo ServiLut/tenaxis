@@ -1,4 +1,13 @@
-import { Body, Controller, Get, Param, Patch, Post, Request, UseGuards } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Param,
+  Patch,
+  Post,
+  Request,
+  UseGuards,
+} from '@nestjs/common';
 import { ProductosService } from './productos.service';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { JwtPayload } from '../auth/jwt-payload.interface';
@@ -32,12 +41,18 @@ export class ProductosController {
   }
 
   @Post('create')
-  async createProducto(@Request() req: RequestWithUser, @Body() dto: CreateProductoDto) {
+  async createProducto(
+    @Request() req: RequestWithUser,
+    @Body() dto: CreateProductoDto,
+  ) {
     return this.productosService.createProducto(req.user, dto);
   }
 
   @Post('solicitudes')
-  async createSolicitud(@Request() req: RequestWithUser, @Body() dto: CreateSolicitudDto) {
+  async createSolicitud(
+    @Request() req: RequestWithUser,
+    @Body() dto: CreateSolicitudDto,
+  ) {
     return this.productosService.createSolicitud(req.user, dto);
   }
 

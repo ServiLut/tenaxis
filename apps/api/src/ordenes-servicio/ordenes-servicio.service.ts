@@ -369,6 +369,7 @@ export class OrdenesServicioService {
       servicioPrincipal,
       fechaVisitaDate,
       contratoActivo,
+      { allowWithoutContract: false },
     );
 
     return this.processSignedUrls(nuevaOrden as OrdenWithGeolocalizaciones);
@@ -1492,7 +1493,10 @@ export class OrdenesServicioService {
     }
 
     // Intentar resolver el membershipId si no viene en el token (retrocompatibilidad)
-    const membershipId = await this.resolveMembershipId(tenantId, performingUser);
+    const membershipId = await this.resolveMembershipId(
+      tenantId,
+      performingUser,
+    );
 
     const fechaPagoDate = updateDto.fechaPago
       ? parseFlexibleDateTimeToUtc(updateDto.fechaPago, {
@@ -1696,6 +1700,26 @@ export class OrdenesServicioService {
       },
     });
 
+    const acabaDeLiquidarse =
+      updateDto.estadoServicio === (EstadoOrden.LIQUIDADO as EstadoOrden) &&
+      orden.estadoServicio !== (EstadoOrden.LIQUIDADO as EstadoOrden);
+
+    if (
+      acabaDeLiquidarse &&
+      !contratoActivo &&
+      !orden.ordenPadreId &&
+      updatedOrden.servicio
+    ) {
+      await this.createAutomaticFollowUps(
+        tenantId,
+        updatedOrden,
+        updatedOrden.servicio,
+        updatedOrden.fechaVisita,
+        null,
+        { allowWithoutContract: true },
+      );
+    }
+
     // Nueva lógica: Si la orden terminó o se liquidó y tiene efectivo, crear Declaración de Efectivo
     if (
       (updatedOrden.estadoServicio === (EstadoOrden.LIQUIDADO as EstadoOrden) ||
@@ -1717,6 +1741,17 @@ export class OrdenesServicioService {
         });
 
         if (!existingDecl) {
+          // Extraer un path válido del JSON de comprobantePago
+          let pathSoporte = 'POR_CONSIGNAR';
+          const cp = updatedOrden.comprobantePago;
+          if (cp) {
+            if (Array.isArray(cp) && cp.length > 0) {
+              pathSoporte = (cp[0] as any).path || 'POR_CONSIGNAR';
+            } else if (typeof cp === 'string') {
+              pathSoporte = cp;
+            }
+          }
+
           await this.prisma.declaracionEfectivo.create({
             data: {
               tenantId: updatedOrden.tenantId,
@@ -1724,7 +1759,7 @@ export class OrdenesServicioService {
               ordenId: updatedOrden.id,
               tecnicoId: updatedOrden.tecnicoId,
               valorDeclarado: cashAmount,
-              evidenciaPath: updatedOrden.comprobantePago || 'POR_CONSIGNAR',
+              evidenciaPath: pathSoporte,
               observacion: `Recaudo automático por liquidación de orden #${updatedOrden.id}`,
               consignado: false,
             },
@@ -2186,6 +2221,9 @@ export class OrdenesServicioService {
       frecuenciaServicio: number | null;
       serviciosComprometidos: number | null;
     } | null,
+    options?: {
+      allowWithoutContract?: boolean;
+    },
   ) {
     if (!orden.creadoPorId) {
       return;
@@ -2231,7 +2269,18 @@ export class OrdenesServicioService {
       return;
     }
 
-    if (!servicio.requiereSeguimiento) {
+    if (!options?.allowWithoutContract || !servicio.requiereSeguimiento) {
+      return;
+    }
+
+    const existingFollowUpOrders = await this.prisma.ordenServicio.count({
+      where: {
+        tenantId,
+        ordenPadreId: orden.id,
+      },
+    });
+
+    if (existingFollowUpOrders > 0) {
       return;
     }
 
@@ -2421,7 +2470,10 @@ export class OrdenesServicioService {
       );
     }
 
-    const deletedById = await this.resolveMembershipId(tenantId, performingUser);
+    const deletedById = await this.resolveMembershipId(
+      tenantId,
+      performingUser,
+    );
 
     return this.prisma.ordenServicio.update({
       where: { id },

@@ -84,7 +84,6 @@ export type OrdenServicioMinAggregateOutputType = {
   valorRepuestosTecnico: runtime.Decimal | null
   facturaPath: string | null
   facturaElectronica: string | null
-  comprobantePago: string | null
   evidenciaPath: string | null
   referenciaPago: string | null
   fechaPago: Date | null
@@ -150,7 +149,6 @@ export type OrdenServicioMaxAggregateOutputType = {
   valorRepuestosTecnico: runtime.Decimal | null
   facturaPath: string | null
   facturaElectronica: string | null
-  comprobantePago: string | null
   evidenciaPath: string | null
   referenciaPago: string | null
   fechaPago: Date | null
@@ -302,7 +300,6 @@ export type OrdenServicioMinAggregateInputType = {
   valorRepuestosTecnico?: true
   facturaPath?: true
   facturaElectronica?: true
-  comprobantePago?: true
   evidenciaPath?: true
   referenciaPago?: true
   fechaPago?: true
@@ -368,7 +365,6 @@ export type OrdenServicioMaxAggregateInputType = {
   valorRepuestosTecnico?: true
   facturaPath?: true
   facturaElectronica?: true
-  comprobantePago?: true
   evidenciaPath?: true
   referenciaPago?: true
   fechaPago?: true
@@ -589,7 +585,7 @@ export type OrdenServicioGroupByOutputType = {
   valorRepuestosTecnico: runtime.Decimal | null
   facturaPath: string | null
   facturaElectronica: string | null
-  comprobantePago: string | null
+  comprobantePago: runtime.JsonValue | null
   evidenciaPath: string | null
   desglosePago: runtime.JsonValue | null
   referenciaPago: string | null
@@ -680,7 +676,7 @@ export type OrdenServicioWhereInput = {
   valorRepuestosTecnico?: Prisma.DecimalNullableFilter<"OrdenServicio"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   facturaPath?: Prisma.StringNullableFilter<"OrdenServicio"> | string | null
   facturaElectronica?: Prisma.StringNullableFilter<"OrdenServicio"> | string | null
-  comprobantePago?: Prisma.StringNullableFilter<"OrdenServicio"> | string | null
+  comprobantePago?: Prisma.JsonNullableFilter<"OrdenServicio">
   evidenciaPath?: Prisma.StringNullableFilter<"OrdenServicio"> | string | null
   desglosePago?: Prisma.JsonNullableFilter<"OrdenServicio">
   referenciaPago?: Prisma.StringNullableFilter<"OrdenServicio"> | string | null
@@ -863,7 +859,7 @@ export type OrdenServicioWhereUniqueInput = Prisma.AtLeast<{
   valorRepuestosTecnico?: Prisma.DecimalNullableFilter<"OrdenServicio"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   facturaPath?: Prisma.StringNullableFilter<"OrdenServicio"> | string | null
   facturaElectronica?: Prisma.StringNullableFilter<"OrdenServicio"> | string | null
-  comprobantePago?: Prisma.StringNullableFilter<"OrdenServicio"> | string | null
+  comprobantePago?: Prisma.JsonNullableFilter<"OrdenServicio">
   evidenciaPath?: Prisma.StringNullableFilter<"OrdenServicio"> | string | null
   desglosePago?: Prisma.JsonNullableFilter<"OrdenServicio">
   referenciaPago?: Prisma.StringNullableFilter<"OrdenServicio"> | string | null
@@ -1029,7 +1025,7 @@ export type OrdenServicioScalarWhereWithAggregatesInput = {
   valorRepuestosTecnico?: Prisma.DecimalNullableWithAggregatesFilter<"OrdenServicio"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   facturaPath?: Prisma.StringNullableWithAggregatesFilter<"OrdenServicio"> | string | null
   facturaElectronica?: Prisma.StringNullableWithAggregatesFilter<"OrdenServicio"> | string | null
-  comprobantePago?: Prisma.StringNullableWithAggregatesFilter<"OrdenServicio"> | string | null
+  comprobantePago?: Prisma.JsonNullableWithAggregatesFilter<"OrdenServicio">
   evidenciaPath?: Prisma.StringNullableWithAggregatesFilter<"OrdenServicio"> | string | null
   desglosePago?: Prisma.JsonNullableWithAggregatesFilter<"OrdenServicio">
   referenciaPago?: Prisma.StringNullableWithAggregatesFilter<"OrdenServicio"> | string | null
@@ -1087,7 +1083,7 @@ export type OrdenServicioCreateInput = {
   valorRepuestosTecnico?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   facturaPath?: string | null
   facturaElectronica?: string | null
-  comprobantePago?: string | null
+  comprobantePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   evidenciaPath?: string | null
   desglosePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   referenciaPago?: string | null
@@ -1172,7 +1168,7 @@ export type OrdenServicioUncheckedCreateInput = {
   valorRepuestosTecnico?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   facturaPath?: string | null
   facturaElectronica?: string | null
-  comprobantePago?: string | null
+  comprobantePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   evidenciaPath?: string | null
   desglosePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   referenciaPago?: string | null
@@ -1237,7 +1233,7 @@ export type OrdenServicioUpdateInput = {
   valorRepuestosTecnico?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   facturaPath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   facturaElectronica?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  comprobantePago?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  comprobantePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   evidenciaPath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   desglosePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   referenciaPago?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1322,7 +1318,7 @@ export type OrdenServicioUncheckedUpdateInput = {
   valorRepuestosTecnico?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   facturaPath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   facturaElectronica?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  comprobantePago?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  comprobantePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   evidenciaPath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   desglosePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   referenciaPago?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1397,7 +1393,7 @@ export type OrdenServicioCreateManyInput = {
   valorRepuestosTecnico?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   facturaPath?: string | null
   facturaElectronica?: string | null
-  comprobantePago?: string | null
+  comprobantePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   evidenciaPath?: string | null
   desglosePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   referenciaPago?: string | null
@@ -1455,7 +1451,7 @@ export type OrdenServicioUpdateManyMutationInput = {
   valorRepuestosTecnico?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   facturaPath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   facturaElectronica?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  comprobantePago?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  comprobantePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   evidenciaPath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   desglosePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   referenciaPago?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1518,7 +1514,7 @@ export type OrdenServicioUncheckedUpdateManyInput = {
   valorRepuestosTecnico?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   facturaPath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   facturaElectronica?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  comprobantePago?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  comprobantePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   evidenciaPath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   desglosePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   referenciaPago?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1677,7 +1673,6 @@ export type OrdenServicioMaxOrderByAggregateInput = {
   valorRepuestosTecnico?: Prisma.SortOrder
   facturaPath?: Prisma.SortOrder
   facturaElectronica?: Prisma.SortOrder
-  comprobantePago?: Prisma.SortOrder
   evidenciaPath?: Prisma.SortOrder
   referenciaPago?: Prisma.SortOrder
   fechaPago?: Prisma.SortOrder
@@ -1743,7 +1738,6 @@ export type OrdenServicioMinOrderByAggregateInput = {
   valorRepuestosTecnico?: Prisma.SortOrder
   facturaPath?: Prisma.SortOrder
   facturaElectronica?: Prisma.SortOrder
-  comprobantePago?: Prisma.SortOrder
   evidenciaPath?: Prisma.SortOrder
   referenciaPago?: Prisma.SortOrder
   fechaPago?: Prisma.SortOrder
@@ -2568,7 +2562,7 @@ export type OrdenServicioCreateWithoutTenantInput = {
   valorRepuestosTecnico?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   facturaPath?: string | null
   facturaElectronica?: string | null
-  comprobantePago?: string | null
+  comprobantePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   evidenciaPath?: string | null
   desglosePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   referenciaPago?: string | null
@@ -2651,7 +2645,7 @@ export type OrdenServicioUncheckedCreateWithoutTenantInput = {
   valorRepuestosTecnico?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   facturaPath?: string | null
   facturaElectronica?: string | null
-  comprobantePago?: string | null
+  comprobantePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   evidenciaPath?: string | null
   desglosePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   referenciaPago?: string | null
@@ -2755,7 +2749,7 @@ export type OrdenServicioScalarWhereInput = {
   valorRepuestosTecnico?: Prisma.DecimalNullableFilter<"OrdenServicio"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   facturaPath?: Prisma.StringNullableFilter<"OrdenServicio"> | string | null
   facturaElectronica?: Prisma.StringNullableFilter<"OrdenServicio"> | string | null
-  comprobantePago?: Prisma.StringNullableFilter<"OrdenServicio"> | string | null
+  comprobantePago?: Prisma.JsonNullableFilter<"OrdenServicio">
   evidenciaPath?: Prisma.StringNullableFilter<"OrdenServicio"> | string | null
   desglosePago?: Prisma.JsonNullableFilter<"OrdenServicio">
   referenciaPago?: Prisma.StringNullableFilter<"OrdenServicio"> | string | null
@@ -2813,7 +2807,7 @@ export type OrdenServicioCreateWithoutCreadoPorInput = {
   valorRepuestosTecnico?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   facturaPath?: string | null
   facturaElectronica?: string | null
-  comprobantePago?: string | null
+  comprobantePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   evidenciaPath?: string | null
   desglosePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   referenciaPago?: string | null
@@ -2896,7 +2890,7 @@ export type OrdenServicioUncheckedCreateWithoutCreadoPorInput = {
   valorRepuestosTecnico?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   facturaPath?: string | null
   facturaElectronica?: string | null
-  comprobantePago?: string | null
+  comprobantePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   evidenciaPath?: string | null
   desglosePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   referenciaPago?: string | null
@@ -2971,7 +2965,7 @@ export type OrdenServicioCreateWithoutDeletedByInput = {
   valorRepuestosTecnico?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   facturaPath?: string | null
   facturaElectronica?: string | null
-  comprobantePago?: string | null
+  comprobantePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   evidenciaPath?: string | null
   desglosePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   referenciaPago?: string | null
@@ -3055,7 +3049,7 @@ export type OrdenServicioUncheckedCreateWithoutDeletedByInput = {
   valorRepuestosTecnico?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   facturaPath?: string | null
   facturaElectronica?: string | null
-  comprobantePago?: string | null
+  comprobantePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   evidenciaPath?: string | null
   desglosePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   referenciaPago?: string | null
@@ -3129,7 +3123,7 @@ export type OrdenServicioCreateWithoutLiquidadoPorInput = {
   valorRepuestosTecnico?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   facturaPath?: string | null
   facturaElectronica?: string | null
-  comprobantePago?: string | null
+  comprobantePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   evidenciaPath?: string | null
   desglosePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   referenciaPago?: string | null
@@ -3213,7 +3207,7 @@ export type OrdenServicioUncheckedCreateWithoutLiquidadoPorInput = {
   valorRepuestosTecnico?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   facturaPath?: string | null
   facturaElectronica?: string | null
-  comprobantePago?: string | null
+  comprobantePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   evidenciaPath?: string | null
   desglosePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   referenciaPago?: string | null
@@ -3287,7 +3281,7 @@ export type OrdenServicioCreateWithoutTecnicoInput = {
   valorRepuestosTecnico?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   facturaPath?: string | null
   facturaElectronica?: string | null
-  comprobantePago?: string | null
+  comprobantePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   evidenciaPath?: string | null
   desglosePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   referenciaPago?: string | null
@@ -3370,7 +3364,7 @@ export type OrdenServicioUncheckedCreateWithoutTecnicoInput = {
   valorRepuestosTecnico?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   facturaPath?: string | null
   facturaElectronica?: string | null
-  comprobantePago?: string | null
+  comprobantePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   evidenciaPath?: string | null
   desglosePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   referenciaPago?: string | null
@@ -3509,7 +3503,7 @@ export type OrdenServicioCreateWithoutEmpresaInput = {
   valorRepuestosTecnico?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   facturaPath?: string | null
   facturaElectronica?: string | null
-  comprobantePago?: string | null
+  comprobantePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   evidenciaPath?: string | null
   desglosePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   referenciaPago?: string | null
@@ -3592,7 +3586,7 @@ export type OrdenServicioUncheckedCreateWithoutEmpresaInput = {
   valorRepuestosTecnico?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   facturaPath?: string | null
   facturaElectronica?: string | null
-  comprobantePago?: string | null
+  comprobantePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   evidenciaPath?: string | null
   desglosePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   referenciaPago?: string | null
@@ -3683,7 +3677,7 @@ export type OrdenServicioCreateWithoutClienteInput = {
   valorRepuestosTecnico?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   facturaPath?: string | null
   facturaElectronica?: string | null
-  comprobantePago?: string | null
+  comprobantePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   evidenciaPath?: string | null
   desglosePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   referenciaPago?: string | null
@@ -3766,7 +3760,7 @@ export type OrdenServicioUncheckedCreateWithoutClienteInput = {
   valorRepuestosTecnico?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   facturaPath?: string | null
   facturaElectronica?: string | null
-  comprobantePago?: string | null
+  comprobantePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   evidenciaPath?: string | null
   desglosePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   referenciaPago?: string | null
@@ -3857,7 +3851,7 @@ export type OrdenServicioCreateWithoutContratoClienteInput = {
   valorRepuestosTecnico?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   facturaPath?: string | null
   facturaElectronica?: string | null
-  comprobantePago?: string | null
+  comprobantePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   evidenciaPath?: string | null
   desglosePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   referenciaPago?: string | null
@@ -3941,7 +3935,7 @@ export type OrdenServicioUncheckedCreateWithoutContratoClienteInput = {
   valorRepuestosTecnico?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   facturaPath?: string | null
   facturaElectronica?: string | null
-  comprobantePago?: string | null
+  comprobantePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   evidenciaPath?: string | null
   desglosePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   referenciaPago?: string | null
@@ -4031,7 +4025,7 @@ export type OrdenServicioCreateWithoutVehiculoInput = {
   valorRepuestosTecnico?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   facturaPath?: string | null
   facturaElectronica?: string | null
-  comprobantePago?: string | null
+  comprobantePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   evidenciaPath?: string | null
   desglosePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   referenciaPago?: string | null
@@ -4114,7 +4108,7 @@ export type OrdenServicioUncheckedCreateWithoutVehiculoInput = {
   valorRepuestosTecnico?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   facturaPath?: string | null
   facturaElectronica?: string | null
-  comprobantePago?: string | null
+  comprobantePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   evidenciaPath?: string | null
   desglosePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   referenciaPago?: string | null
@@ -4205,7 +4199,7 @@ export type OrdenServicioCreateWithoutDireccionInput = {
   valorRepuestosTecnico?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   facturaPath?: string | null
   facturaElectronica?: string | null
-  comprobantePago?: string | null
+  comprobantePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   evidenciaPath?: string | null
   desglosePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   referenciaPago?: string | null
@@ -4288,7 +4282,7 @@ export type OrdenServicioUncheckedCreateWithoutDireccionInput = {
   valorRepuestosTecnico?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   facturaPath?: string | null
   facturaElectronica?: string | null
-  comprobantePago?: string | null
+  comprobantePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   evidenciaPath?: string | null
   desglosePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   referenciaPago?: string | null
@@ -4379,7 +4373,7 @@ export type OrdenServicioCreateWithoutZonaInput = {
   valorRepuestosTecnico?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   facturaPath?: string | null
   facturaElectronica?: string | null
-  comprobantePago?: string | null
+  comprobantePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   evidenciaPath?: string | null
   desglosePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   referenciaPago?: string | null
@@ -4462,7 +4456,7 @@ export type OrdenServicioUncheckedCreateWithoutZonaInput = {
   valorRepuestosTecnico?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   facturaPath?: string | null
   facturaElectronica?: string | null
-  comprobantePago?: string | null
+  comprobantePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   evidenciaPath?: string | null
   desglosePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   referenciaPago?: string | null
@@ -4553,7 +4547,7 @@ export type OrdenServicioCreateWithoutServicioInput = {
   valorRepuestosTecnico?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   facturaPath?: string | null
   facturaElectronica?: string | null
-  comprobantePago?: string | null
+  comprobantePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   evidenciaPath?: string | null
   desglosePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   referenciaPago?: string | null
@@ -4636,7 +4630,7 @@ export type OrdenServicioUncheckedCreateWithoutServicioInput = {
   valorRepuestosTecnico?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   facturaPath?: string | null
   facturaElectronica?: string | null
-  comprobantePago?: string | null
+  comprobantePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   evidenciaPath?: string | null
   desglosePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   referenciaPago?: string | null
@@ -4727,7 +4721,7 @@ export type OrdenServicioCreateWithoutMetodoPagoInput = {
   valorRepuestosTecnico?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   facturaPath?: string | null
   facturaElectronica?: string | null
-  comprobantePago?: string | null
+  comprobantePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   evidenciaPath?: string | null
   desglosePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   referenciaPago?: string | null
@@ -4810,7 +4804,7 @@ export type OrdenServicioUncheckedCreateWithoutMetodoPagoInput = {
   valorRepuestosTecnico?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   facturaPath?: string | null
   facturaElectronica?: string | null
-  comprobantePago?: string | null
+  comprobantePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   evidenciaPath?: string | null
   desglosePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   referenciaPago?: string | null
@@ -4901,7 +4895,7 @@ export type OrdenServicioCreateWithoutOrdenesHijasInput = {
   valorRepuestosTecnico?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   facturaPath?: string | null
   facturaElectronica?: string | null
-  comprobantePago?: string | null
+  comprobantePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   evidenciaPath?: string | null
   desglosePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   referenciaPago?: string | null
@@ -4985,7 +4979,7 @@ export type OrdenServicioUncheckedCreateWithoutOrdenesHijasInput = {
   valorRepuestosTecnico?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   facturaPath?: string | null
   facturaElectronica?: string | null
-  comprobantePago?: string | null
+  comprobantePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   evidenciaPath?: string | null
   desglosePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   referenciaPago?: string | null
@@ -5054,7 +5048,7 @@ export type OrdenServicioCreateWithoutOrdenPadreInput = {
   valorRepuestosTecnico?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   facturaPath?: string | null
   facturaElectronica?: string | null
-  comprobantePago?: string | null
+  comprobantePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   evidenciaPath?: string | null
   desglosePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   referenciaPago?: string | null
@@ -5138,7 +5132,7 @@ export type OrdenServicioUncheckedCreateWithoutOrdenPadreInput = {
   valorRepuestosTecnico?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   facturaPath?: string | null
   facturaElectronica?: string | null
-  comprobantePago?: string | null
+  comprobantePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   evidenciaPath?: string | null
   desglosePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   referenciaPago?: string | null
@@ -5223,7 +5217,7 @@ export type OrdenServicioUpdateWithoutOrdenesHijasInput = {
   valorRepuestosTecnico?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   facturaPath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   facturaElectronica?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  comprobantePago?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  comprobantePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   evidenciaPath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   desglosePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   referenciaPago?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -5307,7 +5301,7 @@ export type OrdenServicioUncheckedUpdateWithoutOrdenesHijasInput = {
   valorRepuestosTecnico?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   facturaPath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   facturaElectronica?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  comprobantePago?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  comprobantePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   evidenciaPath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   desglosePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   referenciaPago?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -5387,7 +5381,7 @@ export type OrdenServicioCreateWithoutSeguimientosInput = {
   valorRepuestosTecnico?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   facturaPath?: string | null
   facturaElectronica?: string | null
-  comprobantePago?: string | null
+  comprobantePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   evidenciaPath?: string | null
   desglosePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   referenciaPago?: string | null
@@ -5471,7 +5465,7 @@ export type OrdenServicioUncheckedCreateWithoutSeguimientosInput = {
   valorRepuestosTecnico?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   facturaPath?: string | null
   facturaElectronica?: string | null
-  comprobantePago?: string | null
+  comprobantePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   evidenciaPath?: string | null
   desglosePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   referenciaPago?: string | null
@@ -5551,7 +5545,7 @@ export type OrdenServicioUpdateWithoutSeguimientosInput = {
   valorRepuestosTecnico?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   facturaPath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   facturaElectronica?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  comprobantePago?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  comprobantePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   evidenciaPath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   desglosePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   referenciaPago?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -5635,7 +5629,7 @@ export type OrdenServicioUncheckedUpdateWithoutSeguimientosInput = {
   valorRepuestosTecnico?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   facturaPath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   facturaElectronica?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  comprobantePago?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  comprobantePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   evidenciaPath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   desglosePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   referenciaPago?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -5699,7 +5693,7 @@ export type OrdenServicioCreateWithoutEntidadFinancieraInput = {
   valorRepuestosTecnico?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   facturaPath?: string | null
   facturaElectronica?: string | null
-  comprobantePago?: string | null
+  comprobantePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   evidenciaPath?: string | null
   desglosePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   referenciaPago?: string | null
@@ -5783,7 +5777,7 @@ export type OrdenServicioUncheckedCreateWithoutEntidadFinancieraInput = {
   valorRepuestosTecnico?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   facturaPath?: string | null
   facturaElectronica?: string | null
-  comprobantePago?: string | null
+  comprobantePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   evidenciaPath?: string | null
   desglosePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   referenciaPago?: string | null
@@ -5873,7 +5867,7 @@ export type OrdenServicioCreateWithoutGeolocalizacionesInput = {
   valorRepuestosTecnico?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   facturaPath?: string | null
   facturaElectronica?: string | null
-  comprobantePago?: string | null
+  comprobantePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   evidenciaPath?: string | null
   desglosePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   referenciaPago?: string | null
@@ -5957,7 +5951,7 @@ export type OrdenServicioUncheckedCreateWithoutGeolocalizacionesInput = {
   valorRepuestosTecnico?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   facturaPath?: string | null
   facturaElectronica?: string | null
-  comprobantePago?: string | null
+  comprobantePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   evidenciaPath?: string | null
   desglosePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   referenciaPago?: string | null
@@ -6037,7 +6031,7 @@ export type OrdenServicioUpdateWithoutGeolocalizacionesInput = {
   valorRepuestosTecnico?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   facturaPath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   facturaElectronica?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  comprobantePago?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  comprobantePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   evidenciaPath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   desglosePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   referenciaPago?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -6121,7 +6115,7 @@ export type OrdenServicioUncheckedUpdateWithoutGeolocalizacionesInput = {
   valorRepuestosTecnico?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   facturaPath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   facturaElectronica?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  comprobantePago?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  comprobantePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   evidenciaPath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   desglosePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   referenciaPago?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -6185,7 +6179,7 @@ export type OrdenServicioCreateWithoutNominaDetallesInput = {
   valorRepuestosTecnico?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   facturaPath?: string | null
   facturaElectronica?: string | null
-  comprobantePago?: string | null
+  comprobantePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   evidenciaPath?: string | null
   desglosePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   referenciaPago?: string | null
@@ -6269,7 +6263,7 @@ export type OrdenServicioUncheckedCreateWithoutNominaDetallesInput = {
   valorRepuestosTecnico?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   facturaPath?: string | null
   facturaElectronica?: string | null
-  comprobantePago?: string | null
+  comprobantePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   evidenciaPath?: string | null
   desglosePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   referenciaPago?: string | null
@@ -6349,7 +6343,7 @@ export type OrdenServicioUpdateWithoutNominaDetallesInput = {
   valorRepuestosTecnico?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   facturaPath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   facturaElectronica?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  comprobantePago?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  comprobantePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   evidenciaPath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   desglosePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   referenciaPago?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -6433,7 +6427,7 @@ export type OrdenServicioUncheckedUpdateWithoutNominaDetallesInput = {
   valorRepuestosTecnico?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   facturaPath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   facturaElectronica?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  comprobantePago?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  comprobantePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   evidenciaPath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   desglosePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   referenciaPago?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -6497,7 +6491,7 @@ export type OrdenServicioCreateWithoutDeclaracionEfectivoInput = {
   valorRepuestosTecnico?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   facturaPath?: string | null
   facturaElectronica?: string | null
-  comprobantePago?: string | null
+  comprobantePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   evidenciaPath?: string | null
   desglosePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   referenciaPago?: string | null
@@ -6581,7 +6575,7 @@ export type OrdenServicioUncheckedCreateWithoutDeclaracionEfectivoInput = {
   valorRepuestosTecnico?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   facturaPath?: string | null
   facturaElectronica?: string | null
-  comprobantePago?: string | null
+  comprobantePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   evidenciaPath?: string | null
   desglosePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   referenciaPago?: string | null
@@ -6661,7 +6655,7 @@ export type OrdenServicioUpdateWithoutDeclaracionEfectivoInput = {
   valorRepuestosTecnico?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   facturaPath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   facturaElectronica?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  comprobantePago?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  comprobantePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   evidenciaPath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   desglosePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   referenciaPago?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -6745,7 +6739,7 @@ export type OrdenServicioUncheckedUpdateWithoutDeclaracionEfectivoInput = {
   valorRepuestosTecnico?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   facturaPath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   facturaElectronica?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  comprobantePago?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  comprobantePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   evidenciaPath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   desglosePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   referenciaPago?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -6809,7 +6803,7 @@ export type OrdenServicioCreateWithoutConsignacionOrdenInput = {
   valorRepuestosTecnico?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   facturaPath?: string | null
   facturaElectronica?: string | null
-  comprobantePago?: string | null
+  comprobantePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   evidenciaPath?: string | null
   desglosePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   referenciaPago?: string | null
@@ -6893,7 +6887,7 @@ export type OrdenServicioUncheckedCreateWithoutConsignacionOrdenInput = {
   valorRepuestosTecnico?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   facturaPath?: string | null
   facturaElectronica?: string | null
-  comprobantePago?: string | null
+  comprobantePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   evidenciaPath?: string | null
   desglosePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   referenciaPago?: string | null
@@ -6973,7 +6967,7 @@ export type OrdenServicioUpdateWithoutConsignacionOrdenInput = {
   valorRepuestosTecnico?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   facturaPath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   facturaElectronica?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  comprobantePago?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  comprobantePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   evidenciaPath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   desglosePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   referenciaPago?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -7057,7 +7051,7 @@ export type OrdenServicioUncheckedUpdateWithoutConsignacionOrdenInput = {
   valorRepuestosTecnico?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   facturaPath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   facturaElectronica?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  comprobantePago?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  comprobantePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   evidenciaPath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   desglosePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   referenciaPago?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -7121,7 +7115,7 @@ export type OrdenServicioCreateWithoutEvidenciasInput = {
   valorRepuestosTecnico?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   facturaPath?: string | null
   facturaElectronica?: string | null
-  comprobantePago?: string | null
+  comprobantePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   evidenciaPath?: string | null
   desglosePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   referenciaPago?: string | null
@@ -7205,7 +7199,7 @@ export type OrdenServicioUncheckedCreateWithoutEvidenciasInput = {
   valorRepuestosTecnico?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   facturaPath?: string | null
   facturaElectronica?: string | null
-  comprobantePago?: string | null
+  comprobantePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   evidenciaPath?: string | null
   desglosePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   referenciaPago?: string | null
@@ -7285,7 +7279,7 @@ export type OrdenServicioUpdateWithoutEvidenciasInput = {
   valorRepuestosTecnico?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   facturaPath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   facturaElectronica?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  comprobantePago?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  comprobantePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   evidenciaPath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   desglosePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   referenciaPago?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -7369,7 +7363,7 @@ export type OrdenServicioUncheckedUpdateWithoutEvidenciasInput = {
   valorRepuestosTecnico?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   facturaPath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   facturaElectronica?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  comprobantePago?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  comprobantePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   evidenciaPath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   desglosePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   referenciaPago?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -7442,7 +7436,7 @@ export type OrdenServicioCreateManyTenantInput = {
   valorRepuestosTecnico?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   facturaPath?: string | null
   facturaElectronica?: string | null
-  comprobantePago?: string | null
+  comprobantePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   evidenciaPath?: string | null
   desglosePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   referenciaPago?: string | null
@@ -7500,7 +7494,7 @@ export type OrdenServicioUpdateWithoutTenantInput = {
   valorRepuestosTecnico?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   facturaPath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   facturaElectronica?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  comprobantePago?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  comprobantePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   evidenciaPath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   desglosePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   referenciaPago?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -7583,7 +7577,7 @@ export type OrdenServicioUncheckedUpdateWithoutTenantInput = {
   valorRepuestosTecnico?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   facturaPath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   facturaElectronica?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  comprobantePago?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  comprobantePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   evidenciaPath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   desglosePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   referenciaPago?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -7657,7 +7651,7 @@ export type OrdenServicioUncheckedUpdateManyWithoutTenantInput = {
   valorRepuestosTecnico?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   facturaPath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   facturaElectronica?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  comprobantePago?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  comprobantePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   evidenciaPath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   desglosePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   referenciaPago?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -7724,7 +7718,7 @@ export type OrdenServicioCreateManyCreadoPorInput = {
   valorRepuestosTecnico?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   facturaPath?: string | null
   facturaElectronica?: string | null
-  comprobantePago?: string | null
+  comprobantePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   evidenciaPath?: string | null
   desglosePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   referenciaPago?: string | null
@@ -7792,7 +7786,7 @@ export type OrdenServicioCreateManyDeletedByInput = {
   valorRepuestosTecnico?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   facturaPath?: string | null
   facturaElectronica?: string | null
-  comprobantePago?: string | null
+  comprobantePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   evidenciaPath?: string | null
   desglosePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   referenciaPago?: string | null
@@ -7859,7 +7853,7 @@ export type OrdenServicioCreateManyLiquidadoPorInput = {
   valorRepuestosTecnico?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   facturaPath?: string | null
   facturaElectronica?: string | null
-  comprobantePago?: string | null
+  comprobantePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   evidenciaPath?: string | null
   desglosePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   referenciaPago?: string | null
@@ -7925,7 +7919,7 @@ export type OrdenServicioCreateManyTecnicoInput = {
   valorRepuestosTecnico?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   facturaPath?: string | null
   facturaElectronica?: string | null
-  comprobantePago?: string | null
+  comprobantePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   evidenciaPath?: string | null
   desglosePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   referenciaPago?: string | null
@@ -7983,7 +7977,7 @@ export type OrdenServicioUpdateWithoutCreadoPorInput = {
   valorRepuestosTecnico?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   facturaPath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   facturaElectronica?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  comprobantePago?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  comprobantePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   evidenciaPath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   desglosePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   referenciaPago?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -8066,7 +8060,7 @@ export type OrdenServicioUncheckedUpdateWithoutCreadoPorInput = {
   valorRepuestosTecnico?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   facturaPath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   facturaElectronica?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  comprobantePago?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  comprobantePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   evidenciaPath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   desglosePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   referenciaPago?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -8140,7 +8134,7 @@ export type OrdenServicioUncheckedUpdateManyWithoutCreadoPorInput = {
   valorRepuestosTecnico?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   facturaPath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   facturaElectronica?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  comprobantePago?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  comprobantePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   evidenciaPath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   desglosePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   referenciaPago?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -8198,7 +8192,7 @@ export type OrdenServicioUpdateWithoutDeletedByInput = {
   valorRepuestosTecnico?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   facturaPath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   facturaElectronica?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  comprobantePago?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  comprobantePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   evidenciaPath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   desglosePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   referenciaPago?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -8282,7 +8276,7 @@ export type OrdenServicioUncheckedUpdateWithoutDeletedByInput = {
   valorRepuestosTecnico?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   facturaPath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   facturaElectronica?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  comprobantePago?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  comprobantePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   evidenciaPath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   desglosePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   referenciaPago?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -8356,7 +8350,7 @@ export type OrdenServicioUncheckedUpdateManyWithoutDeletedByInput = {
   valorRepuestosTecnico?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   facturaPath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   facturaElectronica?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  comprobantePago?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  comprobantePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   evidenciaPath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   desglosePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   referenciaPago?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -8413,7 +8407,7 @@ export type OrdenServicioUpdateWithoutLiquidadoPorInput = {
   valorRepuestosTecnico?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   facturaPath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   facturaElectronica?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  comprobantePago?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  comprobantePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   evidenciaPath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   desglosePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   referenciaPago?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -8497,7 +8491,7 @@ export type OrdenServicioUncheckedUpdateWithoutLiquidadoPorInput = {
   valorRepuestosTecnico?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   facturaPath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   facturaElectronica?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  comprobantePago?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  comprobantePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   evidenciaPath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   desglosePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   referenciaPago?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -8571,7 +8565,7 @@ export type OrdenServicioUncheckedUpdateManyWithoutLiquidadoPorInput = {
   valorRepuestosTecnico?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   facturaPath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   facturaElectronica?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  comprobantePago?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  comprobantePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   evidenciaPath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   desglosePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   referenciaPago?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -8628,7 +8622,7 @@ export type OrdenServicioUpdateWithoutTecnicoInput = {
   valorRepuestosTecnico?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   facturaPath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   facturaElectronica?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  comprobantePago?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  comprobantePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   evidenciaPath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   desglosePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   referenciaPago?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -8711,7 +8705,7 @@ export type OrdenServicioUncheckedUpdateWithoutTecnicoInput = {
   valorRepuestosTecnico?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   facturaPath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   facturaElectronica?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  comprobantePago?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  comprobantePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   evidenciaPath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   desglosePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   referenciaPago?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -8785,7 +8779,7 @@ export type OrdenServicioUncheckedUpdateManyWithoutTecnicoInput = {
   valorRepuestosTecnico?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   facturaPath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   facturaElectronica?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  comprobantePago?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  comprobantePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   evidenciaPath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   desglosePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   referenciaPago?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -8852,7 +8846,7 @@ export type OrdenServicioCreateManyEmpresaInput = {
   valorRepuestosTecnico?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   facturaPath?: string | null
   facturaElectronica?: string | null
-  comprobantePago?: string | null
+  comprobantePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   evidenciaPath?: string | null
   desglosePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   referenciaPago?: string | null
@@ -8910,7 +8904,7 @@ export type OrdenServicioUpdateWithoutEmpresaInput = {
   valorRepuestosTecnico?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   facturaPath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   facturaElectronica?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  comprobantePago?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  comprobantePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   evidenciaPath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   desglosePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   referenciaPago?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -8993,7 +8987,7 @@ export type OrdenServicioUncheckedUpdateWithoutEmpresaInput = {
   valorRepuestosTecnico?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   facturaPath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   facturaElectronica?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  comprobantePago?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  comprobantePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   evidenciaPath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   desglosePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   referenciaPago?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -9067,7 +9061,7 @@ export type OrdenServicioUncheckedUpdateManyWithoutEmpresaInput = {
   valorRepuestosTecnico?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   facturaPath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   facturaElectronica?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  comprobantePago?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  comprobantePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   evidenciaPath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   desglosePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   referenciaPago?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -9134,7 +9128,7 @@ export type OrdenServicioCreateManyClienteInput = {
   valorRepuestosTecnico?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   facturaPath?: string | null
   facturaElectronica?: string | null
-  comprobantePago?: string | null
+  comprobantePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   evidenciaPath?: string | null
   desglosePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   referenciaPago?: string | null
@@ -9192,7 +9186,7 @@ export type OrdenServicioUpdateWithoutClienteInput = {
   valorRepuestosTecnico?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   facturaPath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   facturaElectronica?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  comprobantePago?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  comprobantePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   evidenciaPath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   desglosePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   referenciaPago?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -9275,7 +9269,7 @@ export type OrdenServicioUncheckedUpdateWithoutClienteInput = {
   valorRepuestosTecnico?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   facturaPath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   facturaElectronica?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  comprobantePago?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  comprobantePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   evidenciaPath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   desglosePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   referenciaPago?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -9349,7 +9343,7 @@ export type OrdenServicioUncheckedUpdateManyWithoutClienteInput = {
   valorRepuestosTecnico?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   facturaPath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   facturaElectronica?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  comprobantePago?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  comprobantePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   evidenciaPath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   desglosePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   referenciaPago?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -9417,7 +9411,7 @@ export type OrdenServicioCreateManyContratoClienteInput = {
   valorRepuestosTecnico?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   facturaPath?: string | null
   facturaElectronica?: string | null
-  comprobantePago?: string | null
+  comprobantePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   evidenciaPath?: string | null
   desglosePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   referenciaPago?: string | null
@@ -9474,7 +9468,7 @@ export type OrdenServicioUpdateWithoutContratoClienteInput = {
   valorRepuestosTecnico?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   facturaPath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   facturaElectronica?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  comprobantePago?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  comprobantePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   evidenciaPath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   desglosePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   referenciaPago?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -9558,7 +9552,7 @@ export type OrdenServicioUncheckedUpdateWithoutContratoClienteInput = {
   valorRepuestosTecnico?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   facturaPath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   facturaElectronica?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  comprobantePago?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  comprobantePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   evidenciaPath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   desglosePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   referenciaPago?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -9632,7 +9626,7 @@ export type OrdenServicioUncheckedUpdateManyWithoutContratoClienteInput = {
   valorRepuestosTecnico?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   facturaPath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   facturaElectronica?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  comprobantePago?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  comprobantePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   evidenciaPath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   desglosePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   referenciaPago?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -9698,7 +9692,7 @@ export type OrdenServicioCreateManyVehiculoInput = {
   valorRepuestosTecnico?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   facturaPath?: string | null
   facturaElectronica?: string | null
-  comprobantePago?: string | null
+  comprobantePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   evidenciaPath?: string | null
   desglosePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   referenciaPago?: string | null
@@ -9756,7 +9750,7 @@ export type OrdenServicioUpdateWithoutVehiculoInput = {
   valorRepuestosTecnico?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   facturaPath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   facturaElectronica?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  comprobantePago?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  comprobantePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   evidenciaPath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   desglosePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   referenciaPago?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -9839,7 +9833,7 @@ export type OrdenServicioUncheckedUpdateWithoutVehiculoInput = {
   valorRepuestosTecnico?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   facturaPath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   facturaElectronica?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  comprobantePago?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  comprobantePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   evidenciaPath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   desglosePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   referenciaPago?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -9913,7 +9907,7 @@ export type OrdenServicioUncheckedUpdateManyWithoutVehiculoInput = {
   valorRepuestosTecnico?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   facturaPath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   facturaElectronica?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  comprobantePago?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  comprobantePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   evidenciaPath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   desglosePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   referenciaPago?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -9980,7 +9974,7 @@ export type OrdenServicioCreateManyDireccionInput = {
   valorRepuestosTecnico?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   facturaPath?: string | null
   facturaElectronica?: string | null
-  comprobantePago?: string | null
+  comprobantePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   evidenciaPath?: string | null
   desglosePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   referenciaPago?: string | null
@@ -10038,7 +10032,7 @@ export type OrdenServicioUpdateWithoutDireccionInput = {
   valorRepuestosTecnico?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   facturaPath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   facturaElectronica?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  comprobantePago?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  comprobantePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   evidenciaPath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   desglosePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   referenciaPago?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -10121,7 +10115,7 @@ export type OrdenServicioUncheckedUpdateWithoutDireccionInput = {
   valorRepuestosTecnico?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   facturaPath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   facturaElectronica?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  comprobantePago?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  comprobantePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   evidenciaPath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   desglosePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   referenciaPago?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -10195,7 +10189,7 @@ export type OrdenServicioUncheckedUpdateManyWithoutDireccionInput = {
   valorRepuestosTecnico?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   facturaPath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   facturaElectronica?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  comprobantePago?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  comprobantePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   evidenciaPath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   desglosePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   referenciaPago?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -10262,7 +10256,7 @@ export type OrdenServicioCreateManyZonaInput = {
   valorRepuestosTecnico?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   facturaPath?: string | null
   facturaElectronica?: string | null
-  comprobantePago?: string | null
+  comprobantePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   evidenciaPath?: string | null
   desglosePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   referenciaPago?: string | null
@@ -10320,7 +10314,7 @@ export type OrdenServicioUpdateWithoutZonaInput = {
   valorRepuestosTecnico?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   facturaPath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   facturaElectronica?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  comprobantePago?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  comprobantePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   evidenciaPath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   desglosePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   referenciaPago?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -10403,7 +10397,7 @@ export type OrdenServicioUncheckedUpdateWithoutZonaInput = {
   valorRepuestosTecnico?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   facturaPath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   facturaElectronica?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  comprobantePago?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  comprobantePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   evidenciaPath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   desglosePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   referenciaPago?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -10477,7 +10471,7 @@ export type OrdenServicioUncheckedUpdateManyWithoutZonaInput = {
   valorRepuestosTecnico?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   facturaPath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   facturaElectronica?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  comprobantePago?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  comprobantePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   evidenciaPath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   desglosePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   referenciaPago?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -10544,7 +10538,7 @@ export type OrdenServicioCreateManyServicioInput = {
   valorRepuestosTecnico?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   facturaPath?: string | null
   facturaElectronica?: string | null
-  comprobantePago?: string | null
+  comprobantePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   evidenciaPath?: string | null
   desglosePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   referenciaPago?: string | null
@@ -10602,7 +10596,7 @@ export type OrdenServicioUpdateWithoutServicioInput = {
   valorRepuestosTecnico?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   facturaPath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   facturaElectronica?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  comprobantePago?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  comprobantePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   evidenciaPath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   desglosePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   referenciaPago?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -10685,7 +10679,7 @@ export type OrdenServicioUncheckedUpdateWithoutServicioInput = {
   valorRepuestosTecnico?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   facturaPath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   facturaElectronica?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  comprobantePago?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  comprobantePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   evidenciaPath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   desglosePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   referenciaPago?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -10759,7 +10753,7 @@ export type OrdenServicioUncheckedUpdateManyWithoutServicioInput = {
   valorRepuestosTecnico?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   facturaPath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   facturaElectronica?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  comprobantePago?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  comprobantePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   evidenciaPath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   desglosePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   referenciaPago?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -10826,7 +10820,7 @@ export type OrdenServicioCreateManyMetodoPagoInput = {
   valorRepuestosTecnico?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   facturaPath?: string | null
   facturaElectronica?: string | null
-  comprobantePago?: string | null
+  comprobantePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   evidenciaPath?: string | null
   desglosePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   referenciaPago?: string | null
@@ -10884,7 +10878,7 @@ export type OrdenServicioUpdateWithoutMetodoPagoInput = {
   valorRepuestosTecnico?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   facturaPath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   facturaElectronica?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  comprobantePago?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  comprobantePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   evidenciaPath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   desglosePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   referenciaPago?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -10967,7 +10961,7 @@ export type OrdenServicioUncheckedUpdateWithoutMetodoPagoInput = {
   valorRepuestosTecnico?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   facturaPath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   facturaElectronica?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  comprobantePago?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  comprobantePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   evidenciaPath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   desglosePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   referenciaPago?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -11041,7 +11035,7 @@ export type OrdenServicioUncheckedUpdateManyWithoutMetodoPagoInput = {
   valorRepuestosTecnico?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   facturaPath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   facturaElectronica?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  comprobantePago?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  comprobantePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   evidenciaPath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   desglosePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   referenciaPago?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -11109,7 +11103,7 @@ export type OrdenServicioCreateManyOrdenPadreInput = {
   valorRepuestosTecnico?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   facturaPath?: string | null
   facturaElectronica?: string | null
-  comprobantePago?: string | null
+  comprobantePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   evidenciaPath?: string | null
   desglosePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   referenciaPago?: string | null
@@ -11166,7 +11160,7 @@ export type OrdenServicioUpdateWithoutOrdenPadreInput = {
   valorRepuestosTecnico?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   facturaPath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   facturaElectronica?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  comprobantePago?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  comprobantePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   evidenciaPath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   desglosePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   referenciaPago?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -11250,7 +11244,7 @@ export type OrdenServicioUncheckedUpdateWithoutOrdenPadreInput = {
   valorRepuestosTecnico?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   facturaPath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   facturaElectronica?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  comprobantePago?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  comprobantePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   evidenciaPath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   desglosePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   referenciaPago?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -11324,7 +11318,7 @@ export type OrdenServicioUncheckedUpdateManyWithoutOrdenPadreInput = {
   valorRepuestosTecnico?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   facturaPath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   facturaElectronica?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  comprobantePago?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  comprobantePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   evidenciaPath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   desglosePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   referenciaPago?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -11391,7 +11385,7 @@ export type OrdenServicioCreateManyEntidadFinancieraInput = {
   valorRepuestosTecnico?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   facturaPath?: string | null
   facturaElectronica?: string | null
-  comprobantePago?: string | null
+  comprobantePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   evidenciaPath?: string | null
   desglosePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   referenciaPago?: string | null
@@ -11448,7 +11442,7 @@ export type OrdenServicioUpdateWithoutEntidadFinancieraInput = {
   valorRepuestosTecnico?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   facturaPath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   facturaElectronica?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  comprobantePago?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  comprobantePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   evidenciaPath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   desglosePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   referenciaPago?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -11532,7 +11526,7 @@ export type OrdenServicioUncheckedUpdateWithoutEntidadFinancieraInput = {
   valorRepuestosTecnico?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   facturaPath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   facturaElectronica?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  comprobantePago?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  comprobantePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   evidenciaPath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   desglosePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   referenciaPago?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -11606,7 +11600,7 @@ export type OrdenServicioUncheckedUpdateManyWithoutEntidadFinancieraInput = {
   valorRepuestosTecnico?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   facturaPath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   facturaElectronica?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  comprobantePago?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  comprobantePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   evidenciaPath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   desglosePago?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   referenciaPago?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -12152,7 +12146,7 @@ export type $OrdenServicioPayload<ExtArgs extends runtime.Types.Extensions.Inter
     valorRepuestosTecnico: runtime.Decimal | null
     facturaPath: string | null
     facturaElectronica: string | null
-    comprobantePago: string | null
+    comprobantePago: runtime.JsonValue | null
     evidenciaPath: string | null
     desglosePago: runtime.JsonValue | null
     referenciaPago: string | null
@@ -12662,7 +12656,7 @@ export interface OrdenServicioFieldRefs {
   readonly valorRepuestosTecnico: Prisma.FieldRef<"OrdenServicio", 'Decimal'>
   readonly facturaPath: Prisma.FieldRef<"OrdenServicio", 'String'>
   readonly facturaElectronica: Prisma.FieldRef<"OrdenServicio", 'String'>
-  readonly comprobantePago: Prisma.FieldRef<"OrdenServicio", 'String'>
+  readonly comprobantePago: Prisma.FieldRef<"OrdenServicio", 'Json'>
   readonly evidenciaPath: Prisma.FieldRef<"OrdenServicio", 'String'>
   readonly desglosePago: Prisma.FieldRef<"OrdenServicio", 'Json'>
   readonly referenciaPago: Prisma.FieldRef<"OrdenServicio", 'String'>

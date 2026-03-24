@@ -55,6 +55,11 @@ import {
 import { 
   type TechnicianRecaudo
 } from "@/lib/api/contabilidad-client";
+import { 
+  createSignedUploadUrl, 
+  uploadToSupabaseSignedUrl, 
+  confirmOrdenUpload 
+} from "../servicios/api";
 import { Badge } from "@/components/ui/badge";
 import { format } from "date-fns";
 import { es as _es } from "date-fns/locale";
@@ -687,25 +692,33 @@ function RecaudoView() {
     }
 
     setIsSaving(true);
-    const toastId = toast.loading("Registrando consignación...");
+    const toastId = toast.loading("Subiendo soporte y procesando conciliación...");
 
     try {
       const empresaId = localStorage.getItem("current-enterprise-id");
       if (!empresaId) throw new Error("No enterprise selected");
 
-      const formPayload = new FormData();
-      formPayload.append("tecnicoId", selectedTech.id);
-      formPayload.append("empresaId", empresaId);
-      formPayload.append("valorConsignado", totalSeleccionado.toString());
-      formPayload.append("referenciaBanco", formData.referenciaBanco);
-      formPayload.append("ordenIds", JSON.stringify(selectedOrdenIds));
-      formPayload.append("fechaConsignacion", formData.fechaConsignacion);
-      if (formData.observacion) {
-        formPayload.append("observacion", formData.observacion);
-      }
-      formPayload.append("comprobanteFile", comprobanteFile);
+      // 1. Subir el comprobante a Supabase (tenaxis-docs / comprobanteOrdenServicio)
+      // Usamos la primera orden de la lista como referencia para el ID si el helper pide uno
+      const referenceOrdenId = selectedOrdenIds[0];
+      const signed = await createSignedUploadUrl(referenceOrdenId, "comprobantePago", comprobanteFile.name);
+      await uploadToSupabaseSignedUrl(signed.path, signed.token, comprobanteFile);
+      
+      // Confirmamos la subida (opcional, pero buena práctica si el backend lo requiere)
+      await confirmOrdenUpload(referenceOrdenId, "comprobantePago", [signed.path]);
 
-      await contabilidadClient.registrarConsignacion(formPayload);
+      // 2. Registrar la consignación en el backend mandando la RUTA del archivo
+      await contabilidadClient.registrarConsignacion({
+        tecnicoId: selectedTech.id,
+        empresaId: empresaId,
+        valorConsignado: totalSeleccionado,
+        referenciaBanco: formData.referenciaBanco,
+        ordenIds: selectedOrdenIds,
+        fechaConsignacion: formData.fechaConsignacion,
+        observacion: formData.observacion || undefined,
+        comprobantePath: signed.path, // Mandamos la ruta relativa
+      });
+
       toast.success("Consignación registrada y conciliada exitosamente", { id: toastId });
       setIsModalOpen(false);
       fetchData();

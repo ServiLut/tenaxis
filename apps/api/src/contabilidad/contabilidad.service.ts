@@ -4,7 +4,12 @@ import {
   Injectable,
 } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
-import { EstadoConsignacion } from '../generated/client/client';
+import { 
+  EstadoConsignacion, 
+  EstadoOrden, 
+  EstadoPagoOrden,
+  MetodoPagoBase
+} from '../generated/client/client';
 import { GenerateMonitoringPayrollDto } from './generate-monitoring-payroll.dto';
 import {
   addBogotaDaysUtc,
@@ -15,6 +20,11 @@ import {
   startOfPreviousBogotaMonthUtc,
   endOfPreviousBogotaMonthUtc,
 } from '../common/utils/timezone.util';
+
+interface DesglosePagoItem {
+  metodo: MetodoPagoBase;
+  monto: number;
+}
 
 @Injectable()
 export class ContabilidadService {
@@ -207,7 +217,57 @@ export class ContabilidadService {
   }
 
   async getRecaudoTecnicos(tenantId: string, empresaId?: string) {
-    // Buscar todos los técnicos (TenantMembership con rol OPERADOR)
+    // 1. Buscar órdenes en efectivo que ya pasaron su fecha y NO han sido declaradas (deuda implícita)
+    // Esto asegura que si un técnico no cierra la orden, administración igual vea la deuda.
+    const today = new Date();
+    today.setHours(23, 59, 59, 999); // Hasta el final de hoy
+
+    const ordenesNoDeclaradas = await this.prisma.ordenServicio.findMany({
+      where: {
+        tenantId,
+        empresaId: empresaId || undefined,
+        tecnicoId: { not: null },
+        fechaVisita: { lte: today },
+        estadoPago: { in: ['PENDIENTE', 'PARCIAL'] },
+        // No deben tener declaración asociada todavía
+        declaracionEfectivo: null,
+      },
+      select: {
+        id: true,
+        tecnicoId: true,
+        fechaVisita: true,
+        desglosePago: true,
+      },
+    });
+
+    // Procesar montos de órdenes no declaradas
+    const deudasImplicitasPorTecnico = new Map<
+      string,
+      Array<{ ordenId: string; valor: number; fecha: Date | null }>
+    >();
+
+    ordenesNoDeclaradas.forEach((orden) => {
+      if (!orden.desglosePago || !Array.isArray(orden.desglosePago)) return;
+
+      const breakdown = orden.desglosePago as any[];
+      const cashAmount = breakdown
+        .filter(
+          (l) => l.metodo === 'EFECTIVO' || l.metodo === 'EFECTIVO_AVANCE',
+        )
+        .reduce((sum, l) => sum + Number(l.monto || 0), 0);
+
+      if (cashAmount > 0 && orden.tecnicoId) {
+        const current = deudasImplicitasPorTecnico.get(orden.tecnicoId) || [];
+        current.push({
+          ordenId: orden.id,
+          valor: cashAmount,
+          fecha: orden.fechaVisita,
+        });
+        deudasImplicitasPorTecnico.set(orden.tecnicoId, current);
+      }
+    });
+
+    // 2. Buscar todos los técnicos (TenantMembership con rol OPERADOR)
     const tecnicos = await this.prisma.tenantMembership.findMany({
       where: {
         tenantId,
@@ -254,15 +314,39 @@ export class ContabilidadService {
     });
 
     return tecnicos.map((t) => {
-      const saldoPendiente = t.declaracionesEfectivo.reduce(
-        (sum, d) => sum + Number(d.valorDeclarado),
+      // Unificar declaraciones explícitas con deudas implícitas
+      const implicitas = deudasImplicitasPorTecnico.get(t.id) || [];
+
+      const todasLasDeclaraciones = [
+        ...t.declaracionesEfectivo.map((d) => ({
+          ordenId: d.ordenId,
+          valorDeclarado: Number(d.valorDeclarado),
+          fechaDeclaracion: d.fechaDeclaracion,
+          tipo: 'DECLARADO',
+        })),
+        ...implicitas.map((i) => ({
+          ordenId: i.ordenId,
+          valorDeclarado: i.valor,
+          fechaDeclaracion: i.fecha,
+          tipo: 'IMPLICITO', // Indica que es un recaudo detectado por fecha, no por declaración
+        })),
+      ];
+
+      const saldoPendiente = todasLasDeclaraciones.reduce(
+        (sum, d) => sum + d.valorDeclarado,
         0,
       );
 
       // Calcular días de atraso basados en la declaración más vieja pendiente
       let diasSinTransferir = 0;
-      if (t.declaracionesEfectivo.length > 0) {
-        const fechas = t.declaracionesEfectivo.map(d => new Date(d.fechaDeclaracion).getTime());
+      const declaracionesConFecha = todasLasDeclaraciones.filter(
+        (d) => d.fechaDeclaracion,
+      );
+
+      if (declaracionesConFecha.length > 0) {
+        const fechas = declaracionesConFecha.map((d) =>
+          new Date(d.fechaDeclaracion!).getTime(),
+        );
         const fechaMasVieja = Math.min(...fechas);
         diasSinTransferir = Math.floor(
           (new Date().getTime() - fechaMasVieja) / (1000 * 3600 * 24),
@@ -274,14 +358,11 @@ export class ContabilidadService {
         nombre: t.user.nombre,
         apellido: t.user.apellido,
         saldoPendiente,
-        ordenesPendientesCount: t.declaracionesEfectivo.length,
-        ordenesIds: t.declaracionesEfectivo.map((d) => d.ordenId),
-        declaraciones: t.declaracionesEfectivo.map((d) => ({
-          ordenId: d.ordenId,
-          valorDeclarado: Number(d.valorDeclarado),
-          fechaDeclaracion: d.fechaDeclaracion,
-        })),
-        ultimaTransferencia: t.consignacionesTecnico[0]?.fechaConsignacion || null,
+        ordenesPendientesCount: todasLasDeclaraciones.length,
+        ordenesIds: todasLasDeclaraciones.map((d) => d.ordenId),
+        declaraciones: todasLasDeclaraciones,
+        ultimaTransferencia:
+          t.consignacionesTecnico[0]?.fechaConsignacion || null,
         diasSinTransferir,
       };
     });
@@ -329,16 +410,94 @@ export class ContabilidadService {
           },
         });
 
-        // Marcar declaración como consignada
-        await tx.declaracionEfectivo.update({
+        // Marcar declaración como consignada (o crearla si no existía por ser deuda implícita)
+        const existingDecl = await tx.declaracionEfectivo.findUnique({
           where: { ordenId: ordenId },
-          data: { consignado: true },
         });
 
-        // Actualizar estado de la orden a CONSIGNADO (Etapa financiera intermedia)
+        if (existingDecl) {
+          await tx.declaracionEfectivo.update({
+            where: { ordenId: ordenId },
+            data: { consignado: true },
+          });
+        } else {
+          // Obtener la orden para sacar el monto correcto si es implícita
+          const orden = await tx.ordenServicio.findUnique({
+            where: { id: ordenId },
+            select: {
+              tenantId: true,
+              empresaId: true,
+              tecnicoId: true,
+              desglosePago: true,
+            },
+          });
+
+          if (orden && orden.tecnicoId) {
+            const breakdown = (orden.desglosePago || []) as any[];
+            const cashAmount = breakdown
+              .filter(
+                (l) =>
+                  l.metodo === 'EFECTIVO' || l.metodo === 'EFECTIVO_AVANCE',
+              )
+              .reduce((sum, l) => sum + Number(l.monto || 0), 0);
+
+            await tx.declaracionEfectivo.create({
+              data: {
+                tenantId: orden.tenantId,
+                empresaId: orden.empresaId,
+                ordenId: ordenId,
+                tecnicoId: orden.tecnicoId,
+                valorDeclarado: cashAmount,
+                evidenciaPath: 'CONCILIADO_SIN_DECLARACION_PREVIA',
+                observacion: `Conciliación directa desde administración (no declarada por técnico)`,
+                consignado: true,
+              },
+            });
+          }
+        }
+
+        // --- GESTIÓN DE COMPROBANTES JSON ---
+        const ordenData = await tx.ordenServicio.findUnique({
+          where: { id: ordenId },
+          select: { comprobantePago: true },
+        });
+
+        let soportes: any[] = [];
+        if (ordenData?.comprobantePago) {
+          if (Array.isArray(ordenData.comprobantePago)) {
+            soportes = ordenData.comprobantePago as any[];
+          } else if (typeof ordenData.comprobantePago === 'string') {
+            // Migración al vuelo de string a array
+            soportes = [
+              {
+                tipo: 'TRANSFERENCIA_CLIENTE_LEGACY',
+                path: ordenData.comprobantePago,
+                fecha: new Date(),
+              },
+            ];
+          }
+        }
+
+        // Agregar el nuevo comprobante de consignación técnica
+        if (data.comprobantePath) {
+          soportes.push({
+            tipo: 'CONSIGNACION_TECNICO',
+            path: data.comprobantePath,
+            fecha: new Date(),
+            referencia: data.referenciaBanco,
+          });
+        }
+
+        // Actualizar estado de la orden a CONCILIADO y LIQUIDADO (Cierre total financiero y operativo)
         await tx.ordenServicio.update({
           where: { id: ordenId },
-          data: { estadoPago: 'CONSIGNADO' },
+          data: {
+            estadoPago: EstadoPagoOrden.CONCILIADO,
+            estadoServicio: EstadoOrden.LIQUIDADO,
+            liquidadoAt: new Date(),
+            liquidadoPorId: creadoPorId,
+            comprobantePago: soportes, // Guardamos el array actualizado
+          },
         });
       }
 

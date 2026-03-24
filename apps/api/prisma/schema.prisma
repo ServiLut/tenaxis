@@ -668,7 +668,7 @@ model OrdenServicio {
   valorRepuestosTecnico  Decimal?                   @default(0) @db.Decimal(12, 2)
   facturaPath            String?
   facturaElectronica     String?
-  comprobantePago        String?
+  comprobantePago        Json?
   evidenciaPath          String?
   desglosePago           Json?
   referenciaPago         String?

@@ -1,4 +1,8 @@
-import { ForbiddenException, Injectable, NotFoundException } from '@nestjs/common';
+import {
+  ForbiddenException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 import { JwtPayload } from '../auth/jwt-payload.interface';
 import { CreateProductoDto } from './dto/create-producto.dto';
@@ -112,7 +116,11 @@ export class ProductosService {
     });
   }
 
-  async updateSolicitudStatus(id: string, user: JwtPayload, dto: UpdateSolicitudStatusDto) {
+  async updateSolicitudStatus(
+    id: string,
+    user: JwtPayload,
+    dto: UpdateSolicitudStatusDto,
+  ) {
     if (!user.tenantId || !user.empresaId) {
       throw new ForbiddenException('Tenant and Empresa context required');
     }
@@ -133,8 +141,13 @@ export class ProductosService {
     }
 
     // Si se aprueba, intentamos descontar del stock
-    if (dto.estado === EstadoSolicitudProductos.ACEPTADA && solicitud.estado !== EstadoSolicitudProductos.ACEPTADA) {
-      const cantidadNumerica = parseFloat(solicitud.cantidad.replace(/[^0-9.]/g, ''));
+    if (
+      dto.estado === EstadoSolicitudProductos.ACEPTADA &&
+      solicitud.estado !== EstadoSolicitudProductos.ACEPTADA
+    ) {
+      const cantidadNumerica = parseFloat(
+        solicitud.cantidad.replace(/[^0-9.]/g, ''),
+      );
       if (!isNaN(cantidadNumerica)) {
         await this.prisma.producto.update({
           where: { id: solicitud.productoId },
