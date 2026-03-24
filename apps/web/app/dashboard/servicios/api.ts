@@ -293,6 +293,16 @@ export async function updateOrdenServicio(id: string, body: Partial<OrdenServici
   });
 }
 
+export async function deleteOrdenServicio(id: string, reason: string) {
+  return apiFetch<Record<string, unknown>>(`/ordenes-servicio/${id}`, {
+    method: "DELETE",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ reason }),
+  });
+}
+
 export async function createSignedUploadUrl(
   id: string,
   kind: UploadKind,

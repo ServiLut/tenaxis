@@ -67,6 +67,7 @@ import {
   completeFollowUp,
   confirmOrdenUpload,
   createSignedUploadUrl,
+  deleteOrdenServicio,
   getEstadoServicios,
   getMetodosPago,
   getMunicipalities,
@@ -251,6 +252,19 @@ const URGENCIA_STYLING: Record<string, string> = {
   "CRITICA": "bg-red-700 text-white shadow-sm",
 };
 
+const ESTADO_PAGO_STYLING: Record<string, string> = {
+  "PENDIENTE": "bg-amber-500/10 text-amber-600 border-amber-500/20",
+  "EFECTIVO_DECLARADO": "bg-blue-500/10 text-blue-600 border-blue-500/20",
+  "CONSIGNADO": "bg-indigo-500/10 text-indigo-600 border-indigo-500/20",
+  "CONCILIADO": "bg-emerald-500/10 text-emerald-600 border-emerald-500/20",
+  "ANTICIPO": "bg-sky-500/10 text-sky-600 border-sky-500/20",
+  "PAGADO": "bg-emerald-500/10 text-emerald-600 border-emerald-500/20",
+  "CREDITO": "bg-purple-500/10 text-purple-600 border-purple-500/20",
+  "PARCIAL": "bg-orange-500/10 text-orange-600 border-orange-500/20",
+  "CORTESIA": "bg-slate-500/10 text-slate-600 border-slate-500/20",
+  "DEFAULT": "bg-muted text-muted-foreground border-border",
+};
+
 const PRESET_OPTIONS = [
   { key: "all", label: "TODOS" },
   { key: "HOY", label: "HOY" },
@@ -349,8 +363,8 @@ function ServiciosSkeleton({ showKPIs = true }: { showKPIs?: boolean }) {
             <th className="px-8 py-6 text-[10px] font-black uppercase tracking-[0.2em] text-muted-foreground">Dirección</th>
             <th className="px-8 py-6 text-[10px] font-black uppercase tracking-[0.2em] text-muted-foreground">Programación</th>
             <th className="px-8 py-6 text-[10px] font-black uppercase tracking-[0.2em] text-muted-foreground">Técnico</th>
-            <th className="px-8 py-6 text-[10px] font-black uppercase tracking-[0.2em] text-muted-foreground">Tipo</th>
-            <th className="px-8 py-6 text-[10px] font-black uppercase tracking-[0.2em] text-muted-foreground">Estado</th>
+            <th className="px-8 py-6 text-[10px] font-black uppercase tracking-[0.2em] text-muted-foreground">Estado Ops</th>
+            <th className="px-8 py-6 text-[10px] font-black uppercase tracking-[0.2em] text-muted-foreground">Estado Pago</th>
             <th className="px-8 py-6 text-[10px] font-black uppercase tracking-[0.2em] text-muted-foreground text-right">Acciones</th>
           </tr>
         </thead>
@@ -362,7 +376,7 @@ function ServiciosSkeleton({ showKPIs = true }: { showKPIs?: boolean }) {
               <td className="px-8 py-6"><Skeleton className="h-4 w-32" /></td>
               <td className="px-8 py-6"><div className="space-y-2"><Skeleton className="h-3 w-24" /><Skeleton className="h-3 w-20" /></div></td>
               <td className="px-8 py-6"><div className="flex items-center gap-3"><Skeleton className="h-8 w-8 rounded-lg" /><Skeleton className="h-4 w-32" /></div></td>
-              <td className="px-8 py-6"><Skeleton className="h-6 w-20" /></td>
+              <td className="px-8 py-6"><Skeleton className="h-8 w-28 rounded-full" /></td>
               <td className="px-8 py-6"><Skeleton className="h-8 w-28 rounded-full" /></td>
               <td className="px-8 py-6 text-right"><div className="flex justify-end gap-2"><Skeleton className="h-10 w-10 rounded-xl" /><Skeleton className="h-10 w-10 rounded-xl" /></div></td>
             </tr>
@@ -387,6 +401,7 @@ function ServiciosContent() {
   const [isVisitaModalOpen, setIsVisitaModalOpen] = useState(false);
   const [showFilters, setShowFilters] = useState(false);
   const [isLiquidarModalOpen, setIsLiquidarModalOpen] = useState(false);
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [showKPIs, setShowKPIs] = useState(true);
   const [expandedRows, setExpandedRows] = useState<Record<string, boolean>>({});
   const [viewMode, setViewMode] = useState(searchParams.get("tab") || "servicios");
@@ -477,7 +492,10 @@ function ServiciosContent() {
 
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [isUploading, setIsUploading] = useState(false);
+  const [isDeletingServicio, setIsDeletingServicio] = useState(false);
   const [uploadConfig, setUploadConfig] = useState<{ id: string; field: "facturaElectronica" | "comprobantePago" | "evidenciaPath" } | null>(null);
+  const [deleteTarget, setDeleteTarget] = useState<Servicio | null>(null);
+  const [deleteReason, setDeleteReason] = useState("");
 
   const triggerUpload = (id: string, field: "facturaElectronica" | "comprobantePago" | "evidenciaPath") => {
     if (fileInputRef.current) {
@@ -1319,6 +1337,53 @@ function ServiciosContent() {
     } catch (_error) { toast.error("Error al procesar notificación", { id: toastId }); }
   };
 
+  const openDeleteModal = (servicio: Servicio) => {
+    setDeleteTarget(servicio);
+    setDeleteReason("");
+    setIsDeleteModalOpen(true);
+  };
+
+  const closeDeleteModal = (force = false) => {
+    if (isDeletingServicio && !force) return;
+    setIsDeleteModalOpen(false);
+    setDeleteTarget(null);
+    setDeleteReason("");
+  };
+
+  const handleDeleteServicio = async () => {
+    if (!deleteTarget) return;
+
+    const reason = deleteReason.trim();
+    if (!reason) {
+      toast.error("La observación de borrado es obligatoria");
+      return;
+    }
+
+    setIsDeletingServicio(true);
+    const toastId = toast.loading("Eliminando servicio...");
+
+    try {
+      await deleteOrdenServicio(deleteTarget.raw.id, reason);
+      toast.success("Servicio eliminado correctamente", { id: toastId });
+
+      if (selectedServicio?.raw.id === deleteTarget.raw.id) {
+        setSelectedServicio(null);
+        setIsModalOpen(false);
+      }
+
+      closeDeleteModal(true);
+      await Promise.all([fetchServicios(), fetchKpis()]);
+    } catch (error) {
+      console.error("Error deleting service", error);
+      toast.error(
+        error instanceof Error ? error.message : "No fue posible eliminar el servicio",
+        { id: toastId },
+      );
+    } finally {
+      setIsDeletingServicio(false);
+    }
+  };
+
   const isSixSeven = search === "67";
 
   return (
@@ -1577,29 +1642,63 @@ function ServiciosContent() {
                       {viewMode !== "seguimientos" ? (
                       <table className="w-full text-left border-collapse">
                         <thead>
-                          <tr className="border-b border-border bg-muted/50 sticky top-0 z-10">
-                            <th className="px-8 py-6 text-[10px] font-black uppercase tracking-[0.2em] text-muted-foreground">ID Orden</th>
-                            <th className="px-8 py-6 text-[10px] font-black uppercase tracking-[0.2em] text-muted-foreground">Cliente / Servicio</th>
-                            <th className="px-8 py-6 text-[10px] font-black uppercase tracking-[0.2em] text-muted-foreground">Dirección</th>
-                            <th className="px-8 py-6 text-[10px] font-black uppercase tracking-[0.2em] text-muted-foreground">Programación</th>
-                            <th className="px-8 py-6 text-[10px] font-black uppercase tracking-[0.2em] text-muted-foreground">Técnico</th>
-                            <th className="px-8 py-6 text-[10px] font-black uppercase tracking-[0.2em] text-muted-foreground">Tipo</th>
-                            <th className="px-8 py-6 text-[10px] font-black uppercase tracking-[0.2em] text-muted-foreground">Estado</th>
-                            <th className="px-8 py-6 text-[10px] font-black uppercase tracking-[0.2em] text-muted-foreground text-right">Acciones</th>
-                          </tr>
-                        </thead>
-                        <tbody className="divide-y divide-border">
-                          {paginatedServicios.map((s) => (
-                            <React.Fragment key={s.raw.id}>
-                              <tr className="group hover:bg-muted/50 transition-colors">
-                                <td className="px-8 py-6"><span className="font-mono text-xs font-black text-[#01ADFB] bg-[#01ADFB]/10 px-3 py-1.5 rounded-lg border border-[#01ADFB]/20">{s.id}</span></td>
-                                <td className="px-8 py-6"><div className="space-y-1"><p className="font-black text-foreground tracking-tight uppercase">{s.cliente}</p><div className="flex items-center gap-2 flex-wrap"><span className="text-[10px] font-bold text-muted-foreground uppercase">{s.servicioEspecifico}</span>{s.isFollowUp ? <span className="px-2 py-0.5 rounded-md text-[8px] font-black uppercase bg-emerald-100 text-emerald-700 border border-emerald-200">seguimiento aceptado</span> : null}<span className={cn("px-2 py-0.5 rounded-md text-[8px] font-black uppercase", URGENCIA_STYLING[s.urgencia])}>{s.urgencia}</span>{s.followUps.filter((child) => child.raw.seguimientos?.[0]?.status !== "ACEPTADO").length > 0 ? <span className="px-2 py-0.5 rounded-md text-[8px] font-black uppercase bg-amber-100 text-amber-700 border border-amber-200">{s.followUps.filter((child) => child.raw.seguimientos?.[0]?.status !== "ACEPTADO").length} seguimientos</span> : null}</div></div></td>
-                                <td className="px-8 py-6"><p className="text-xs font-bold text-muted-foreground truncate max-w-[200px] uppercase" title={s.raw.direccionTexto}>{s.raw.direccionTexto || "N/A"}</p></td>
-                                <td className="px-8 py-6"><div className="space-y-1.5"><div className="flex items-center gap-2 text-xs font-bold text-muted-foreground"><Calendar className="h-3.5 w-3.5" /> {s.fecha}</div><div className="flex items-center gap-2 text-xs font-bold text-muted-foreground"><Clock className="h-3.5 w-3.5" /> {s.hora}</div></div></td>
-                                <td className="px-8 py-6"><div className="flex items-center gap-3"><div className="h-8 w-8 rounded-lg bg-muted flex items-center justify-center"><User className="h-4 w-4 text-muted-foreground" /></div><span className="text-sm font-bold text-foreground uppercase">{s.tecnico}</span></div></td>
-                                <td className="px-8 py-6"><span className="text-[10px] font-black text-muted-foreground uppercase bg-muted/50 px-2 py-1 rounded-md border border-border">{formatVisitTypeLabel(s.raw.tipoVisita)}</span></td>
-                                <td className="px-8 py-6"><span className={cn("inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-[10px] font-black uppercase border shadow-sm", ESTADO_STYLING[s.estadoServicio] || ESTADO_STYLING["DEFAULT"])}>{s.estadoServicio}</span></td>
-                                <td className="px-8 py-6 text-right">
+          <tr className="border-b border-border bg-muted/50 sticky top-0 z-10">
+            <th className="px-8 py-6 text-[10px] font-black uppercase tracking-[0.2em] text-muted-foreground">ID Orden</th>
+            <th className="px-8 py-6 text-[10px] font-black uppercase tracking-[0.2em] text-muted-foreground">Cliente / Servicio</th>
+            <th className="px-8 py-6 text-[10px] font-black uppercase tracking-[0.2em] text-muted-foreground">Programación</th>
+            <th className="px-8 py-6 text-[10px] font-black uppercase tracking-[0.2em] text-muted-foreground">Técnico</th>
+            <th className="px-8 py-6 text-[10px] font-black uppercase tracking-[0.2em] text-muted-foreground text-center">Tipo Visita</th>
+            <th className="px-8 py-6 text-[10px] font-black uppercase tracking-[0.2em] text-muted-foreground text-center">Estado Ops</th>
+            <th className="px-8 py-6 text-[10px] font-black uppercase tracking-[0.2em] text-muted-foreground text-center">Estado Pago</th>
+            <th className="px-8 py-6 text-[10px] font-black uppercase tracking-[0.2em] text-muted-foreground text-right">Acciones</th>
+          </tr>
+        </thead>
+        <tbody className="divide-y divide-border">
+          {paginatedServicios.map((s) => (
+            <React.Fragment key={s.raw.id}>
+              <tr className="group hover:bg-muted/50 transition-colors">
+                <td className="px-8 py-6"><span className="font-mono text-xs font-black text-[#01ADFB] bg-[#01ADFB]/10 px-3 py-1.5 rounded-lg border border-[#01ADFB]/20">{s.id}</span></td>
+                <td className="px-8 py-6">
+                  <div className="space-y-1">
+                    <p className="font-black text-foreground tracking-tight uppercase">{s.cliente}</p>
+                    <div className="flex items-center gap-2 flex-wrap">
+                      <span className="text-[10px] font-bold text-muted-foreground uppercase">{s.servicioEspecifico}</span>
+                      {s.isFollowUp ? <span className="px-2 py-0.5 rounded-md text-[8px] font-black uppercase bg-emerald-100 text-emerald-700 border border-emerald-200">seguimiento aceptado</span> : null}
+                      <span className={cn("px-2 py-0.5 rounded-md text-[8px] font-black uppercase", URGENCIA_STYLING[s.urgencia])}>{s.urgencia}</span>
+                    </div>
+                  </div>
+                </td>
+                <td className="px-8 py-6"><div className="space-y-1.5"><div className="flex items-center gap-2 text-xs font-bold text-muted-foreground"><Calendar className="h-3.5 w-3.5" /> {s.fecha}</div><div className="flex items-center gap-2 text-xs font-bold text-muted-foreground"><Clock className="h-3.5 w-3.5" /> {s.hora}</div></div></td>
+                <td className="px-8 py-6"><div className="flex items-center gap-3"><div className="h-8 w-8 rounded-lg bg-muted flex items-center justify-center"><User className="h-4 w-4 text-muted-foreground" /></div><span className="text-sm font-bold text-foreground uppercase">{s.tecnico}</span></div></td>
+
+                {/* 1. TIPO DE VISITA */}
+                <td className="px-8 py-6 text-center">
+                  <span className="text-[10px] font-black text-muted-foreground uppercase bg-muted/50 px-3 py-1 rounded-md border border-border">
+                    {formatVisitTypeLabel(s.raw.tipoVisita)}
+                  </span>
+                </td>
+
+                {/* 2. ESTADO OPERATIVO */}
+                <td className="px-8 py-6 text-center">
+                  <span className={cn(
+                    "inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-[10px] font-black uppercase border shadow-sm",
+                    ESTADO_STYLING[s.estadoServicio] || ESTADO_STYLING["DEFAULT"]
+                  )}>
+                    {s.estadoServicio}
+                  </span>
+                </td>
+
+                {/* 3. ESTADO DE PAGO */}
+                <td className="px-8 py-6 text-center">
+                  <span className={cn(
+                    "inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-[10px] font-black uppercase border shadow-sm",
+                    ESTADO_PAGO_STYLING[s.raw.estadoPago || "PENDIENTE"] || ESTADO_PAGO_STYLING["DEFAULT"]
+                  )}>
+                    {s.raw.estadoPago || "PENDIENTE"}
+                  </span>
+                </td>
+
+                <td className="px-8 py-6 text-right">
                                   <div className="flex justify-end gap-2">
                                     {s.followUps.filter((child) => child.raw.seguimientos?.[0]?.status !== "ACEPTADO").length > 0 ? (
                                       <button
@@ -1623,6 +1722,8 @@ function ServiciosContent() {
                                         <DropdownMenuItem onClick={() => triggerUpload(s.raw.id, "facturaElectronica")} className="flex items-center gap-3 py-2.5 text-[11px] font-bold cursor-pointer text-foreground hover:bg-muted"><Upload className="h-4 w-4 text-blue-500" /> SUBIR FACTURA</DropdownMenuItem>
                                         <DropdownMenuItem onClick={() => triggerUpload(s.raw.id, "comprobantePago")} className="flex items-center gap-3 py-2.5 text-[11px] font-bold cursor-pointer text-foreground hover:bg-muted"><Receipt className="h-4 w-4 text-orange-500" /> SUBIR COMPROBANTE</DropdownMenuItem>
                                         <DropdownMenuItem onClick={() => triggerUpload(s.raw.id, "evidenciaPath")} className="flex items-center gap-3 py-2.5 text-[11px] font-bold cursor-pointer text-foreground hover:bg-muted"><ImageIcon className="h-4 w-4 text-indigo-500" /> SUBIR EVIDENCIAS</DropdownMenuItem>
+                                        <DropdownMenuSeparator />
+                                        <DropdownMenuItem onClick={() => openDeleteModal(s)} className="flex items-center gap-3 py-2.5 text-[11px] font-bold cursor-pointer text-destructive hover:bg-destructive/10"><Trash2 className="h-4 w-4" /> ELIMINAR SERVICIO</DropdownMenuItem>
                                         <DropdownMenuSeparator />
                                         {s.estadoServicio === "LIQUIDADO" ? (
                                           <DropdownMenuItem onClick={() => { setSelectedServicio(s); }} className="flex items-center gap-3 py-2.5 text-[11px] font-bold cursor-pointer text-emerald-600 hover:bg-emerald-500/10"><CheckCircle2 className="h-4 w-4" /> VER LIQUIDACION</DropdownMenuItem>
@@ -2160,11 +2261,72 @@ function ServiciosContent() {
                 <DropdownMenuItem onClick={() => router.push(`/dashboard/clientes/${selectedServicio.raw.clienteId}/editar`)} className="flex items-center gap-3 py-2.5 text-[11px] font-bold cursor-pointer text-foreground hover:bg-muted">
                   <User className="h-4 w-4 text-emerald-600" /> EDITAR PERFIL CLIENTE
                 </DropdownMenuItem>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem onClick={() => openDeleteModal(selectedServicio)} className="flex items-center gap-3 py-2.5 text-[11px] font-bold cursor-pointer text-destructive hover:bg-destructive/10">
+                  <Trash2 className="h-4 w-4" /> ELIMINAR SERVICIO
+                </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
           </div>
         )}
       </DialogContent></Dialog>
+
+      <Dialog open={isDeleteModalOpen} onOpenChange={(open) => { if (!open) closeDeleteModal(); }}>
+        <DialogContent className="max-w-xl bg-background border-border">
+          <DialogHeader>
+            <DialogTitle className="text-xl font-black uppercase text-foreground flex items-center gap-2">
+              <AlertTriangle className="h-5 w-5 text-destructive" /> Eliminar Servicio
+            </DialogTitle>
+            <DialogDescription className="text-muted-foreground">
+              Esta acción oculta la orden del flujo operativo normal, pero conserva su historial para auditoría.
+            </DialogDescription>
+          </DialogHeader>
+
+          {deleteTarget ? (
+            <div className="space-y-5">
+              <div className="rounded-2xl border border-destructive/20 bg-destructive/5 p-4 space-y-1.5">
+                <p className="text-[10px] font-black uppercase tracking-[0.18em] text-destructive">Servicio a eliminar</p>
+                <p className="text-sm font-bold text-foreground">#{deleteTarget.id} · {deleteTarget.cliente}</p>
+                <p className="text-xs font-medium text-muted-foreground">{deleteTarget.servicioEspecifico} · {deleteTarget.fecha} · {deleteTarget.hora}</p>
+              </div>
+
+              <div className="space-y-2">
+                <Label className="text-[10px] font-black uppercase tracking-[0.18em] text-muted-foreground">
+                  Observación obligatoria
+                </Label>
+                <textarea
+                  value={deleteReason}
+                  onChange={(e) => setDeleteReason(e.target.value)}
+                  placeholder="Ej: Orden duplicada, creada por error, reprogramada en una nueva orden..."
+                  className="min-h-[140px] w-full rounded-2xl border border-border bg-background px-4 py-3 text-sm font-medium text-foreground outline-none transition focus:border-destructive"
+                  disabled={isDeletingServicio}
+                />
+                <p className="text-xs text-muted-foreground">
+                  Se bloqueará el borrado si la orden ya tiene impacto financiero, nómina o servicios hijos activos.
+                </p>
+              </div>
+
+              <div className="flex gap-3">
+                <Button
+                  variant="outline"
+                  onClick={closeDeleteModal}
+                  className="flex-1 h-12 rounded-xl border-border bg-card text-[10px] font-black uppercase"
+                  disabled={isDeletingServicio}
+                >
+                  Cancelar
+                </Button>
+                <Button
+                  onClick={handleDeleteServicio}
+                  className="flex-1 h-12 rounded-xl bg-destructive hover:bg-destructive/90 text-white font-black uppercase text-[10px]"
+                  disabled={isDeletingServicio}
+                >
+                  {isDeletingServicio ? "Eliminando..." : "Confirmar Eliminación"}
+                </Button>
+              </div>
+            </div>
+          ) : null}
+        </DialogContent>
+      </Dialog>
 
       <Dialog open={isLiquidarModalOpen} onOpenChange={setIsLiquidarModalOpen}><DialogContent className="max-w-2xl bg-background border-border">
         <DialogHeader><DialogTitle className="text-xl font-black uppercase text-foreground">Liquidar Servicio</DialogTitle><DialogDescription className="text-muted-foreground">Cierre financiero de la orden.</DialogDescription></DialogHeader>

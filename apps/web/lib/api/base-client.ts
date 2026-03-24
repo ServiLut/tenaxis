@@ -92,6 +92,25 @@ export async function apiFetch<T>(
 
     if (!response.ok) {
       console.error(`[API Client] Error response:`, result);
+      
+      // Manejar token expirado (401)
+      if (response.status === 401 && typeof window !== "undefined") {
+        console.warn("[API Client] Session expired (401). Redirecting to login...");
+        
+        // Limpiar cookies en el cliente
+        document.cookie = "access_token=; path=/; expires=Thu, 01 Jan 1970 00:00:01 GMT; SameSite=Lax";
+        document.cookie = "x-enterprise-id=; path=/; expires=Thu, 01 Jan 1970 00:00:01 GMT; SameSite=Lax";
+        document.cookie = "x-test-role=; path=/; expires=Thu, 01 Jan 1970 00:00:01 GMT; SameSite=Lax";
+        document.cookie = "sesion_id=; path=/; expires=Thu, 01 Jan 1970 00:00:01 GMT; SameSite=Lax";
+        
+        // Evitar bucles de redirección si ya estamos en la página de login
+        if (!window.location.pathname.includes('/auth/iniciar-sesion')) {
+          window.location.href = '/auth/iniciar-sesion?expired=true';
+          // Retornar una promesa que nunca se resuelve para detener la ejecución actual
+          return new Promise(() => {});
+        }
+      }
+
       throw new Error((result as { message?: string })?.message || `API Error: ${response.status}`);
     }
 

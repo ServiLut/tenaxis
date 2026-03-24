@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo, useCallback } from "react";
 import { DashboardLayout } from "@/components/dashboard";
 import { 
   Card, 
@@ -622,6 +622,7 @@ function RecaudoView() {
   const [loading, setLoading] = useState(true);
   const [technicians, setTechnicians] = useState<TechnicianRecaudo[]>([]);
   const [selectedTech, setSelectedTech] = useState<TechnicianRecaudo | null>(null);
+  const [selectedOrdenIds, setSelectedOrdenIds] = useState<string[]>([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
   const [comprobanteFile, setComprobanteFile] = useState<File | null>(null);
@@ -651,6 +652,7 @@ function RecaudoView() {
 
   const handleOpenModal = (tech: TechnicianRecaudo) => {
     setSelectedTech(tech);
+    setSelectedOrdenIds(tech.ordenesIds); // Por defecto seleccionamos todas
     setComprobanteFile(null);
     setFormData({
       referenciaBanco: "",
@@ -660,9 +662,27 @@ function RecaudoView() {
     setIsModalOpen(true);
   };
 
+  const toggleOrdenSelection = (id: string) => {
+    setSelectedOrdenIds(prev => 
+      prev.includes(id) ? prev.filter(i => i !== id) : [...prev, id]
+    );
+  };
+
+  const totalSeleccionado = useMemo(() => {
+    if (!selectedTech) return 0;
+    return selectedTech.declaraciones
+      .filter(d => selectedOrdenIds.includes(d.ordenId))
+      .reduce((sum, d) => sum + d.valorDeclarado, 0);
+  }, [selectedTech, selectedOrdenIds]);
+
   const handleRegisterConsignacion = async () => {
     if (!selectedTech || !formData.referenciaBanco || !comprobanteFile) {
       toast.error("Por favor complete los campos obligatorios");
+      return;
+    }
+
+    if (selectedOrdenIds.length === 0) {
+      toast.error("Debe seleccionar al menos una orden para conciliar");
       return;
     }
 
@@ -676,9 +696,9 @@ function RecaudoView() {
       const formPayload = new FormData();
       formPayload.append("tecnicoId", selectedTech.id);
       formPayload.append("empresaId", empresaId);
-      formPayload.append("valorConsignado", selectedTech.saldoPendiente.toString());
+      formPayload.append("valorConsignado", totalSeleccionado.toString());
       formPayload.append("referenciaBanco", formData.referenciaBanco);
-      formPayload.append("ordenIds", JSON.stringify(selectedTech.ordenesIds));
+      formPayload.append("ordenIds", JSON.stringify(selectedOrdenIds));
       formPayload.append("fechaConsignacion", formData.fechaConsignacion);
       if (formData.observacion) {
         formPayload.append("observacion", formData.observacion);
@@ -795,7 +815,7 @@ function RecaudoView() {
                           onClick={() => handleOpenModal(tech)}
                           disabled={tech.saldoPendiente <= 0}
                         >
-                          Registrar Consignación
+                          Gestionar Conciliación
                         </Button>
                       </TableCell>
                     </TableRow>
@@ -808,13 +828,13 @@ function RecaudoView() {
       </Card>
 
       <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}>
-        <DialogContent className="max-w-xl bg-card border-border">
+        <DialogContent className="max-w-2xl bg-card border-border max-h-[90vh] overflow-y-auto custom-scrollbar">
           <DialogHeader>
             <DialogTitle className="text-xl font-black uppercase tracking-tight flex items-center gap-3 text-foreground">
               <Coins className="h-6 w-6 text-emerald-500" /> Conciliación de Efectivo
             </DialogTitle>
             <DialogDescription className="font-medium text-muted-foreground">
-              Legalice el dinero físico reportado por el técnico.
+              Seleccione las órdenes y legalice el dinero físico reportado.
             </DialogDescription>
           </DialogHeader>
 
@@ -826,10 +846,44 @@ function RecaudoView() {
                   <p className="text-lg font-black text-foreground uppercase">{selectedTech.nombre} {selectedTech.apellido}</p>
                 </div>
                 <div className="text-right">
-                  <p className="text-[10px] font-black text-emerald-600 dark:text-emerald-400 uppercase tracking-widest mb-1">Monto a Conciliar</p>
+                  <p className="text-[10px] font-black text-emerald-600 dark:text-emerald-400 uppercase tracking-widest mb-1">Monto Seleccionado</p>
                   <p className="text-2xl font-black text-emerald-600 dark:text-emerald-400">
-                    $ {selectedTech.saldoPendiente.toLocaleString()}
+                    $ {totalSeleccionado.toLocaleString()}
                   </p>
+                  <p className="text-[9px] font-bold text-muted-foreground uppercase mt-1">
+                    {selectedOrdenIds.length} de {selectedTech.ordenesPendientesCount} órdenes
+                  </p>
+                </div>
+              </div>
+
+              {/* Listado de Órdenes Seleccionables */}
+              <div className="space-y-3">
+                <Label className="text-[10px] font-black uppercase tracking-widest text-muted-foreground">Órdenes Pendientes de Conciliación</Label>
+                <div className="border border-border rounded-2xl overflow-hidden divide-y divide-border bg-muted/20 max-h-48 overflow-y-auto custom-scrollbar">
+                  {selectedTech.declaraciones.map((d) => (
+                    <div 
+                      key={d.ordenId} 
+                      className={cn(
+                        "flex items-center justify-between p-4 cursor-pointer transition-colors",
+                        selectedOrdenIds.includes(d.ordenId) ? "bg-emerald-500/5" : "hover:bg-muted/50"
+                      )}
+                      onClick={() => toggleOrdenSelection(d.ordenId)}
+                    >
+                      <div className="flex items-center gap-4">
+                        <div className={cn(
+                          "h-5 w-5 rounded border flex items-center justify-center transition-all",
+                          selectedOrdenIds.includes(d.ordenId) ? "bg-[#01ADFB] border-[#01ADFB] text-white" : "border-muted-foreground/30 bg-background"
+                        )}>
+                          {selectedOrdenIds.includes(d.ordenId) && <CheckCircle className="h-4 w-4" />}
+                        </div>
+                        <div>
+                          <p className="text-xs font-black text-foreground">ORDEN #{d.ordenId.substring(0, 8).toUpperCase()}</p>
+                          <p className="text-[10px] font-bold text-muted-foreground uppercase">{formatBogotaDate(d.fechaDeclaracion)}</p>
+                        </div>
+                      </div>
+                      <p className="text-sm font-black text-foreground">$ {d.valorDeclarado.toLocaleString()}</p>
+                    </div>
+                  ))}
                 </div>
               </div>
 
@@ -848,7 +902,7 @@ function RecaudoView() {
                   <DatePicker 
                     date={formData.fechaConsignacion ? ymdToPickerDate(formData.fechaConsignacion) : undefined}
                     onChange={(d) => setFormData({...formData, fechaConsignacion: pickerDateToYmd(d)})}
-                    className="h-12 border-border bg-muted"
+                    className="h-12 border-border bg-muted w-full"
                   />
                 </div>
               </div>
@@ -895,7 +949,7 @@ function RecaudoView() {
                 <Button 
                   className="flex-1 h-12 rounded-xl bg-[#01ADFB] hover:bg-blue-700 text-white font-bold uppercase tracking-widest text-[10px] shadow-lg shadow-[#01ADFB]/20"
                   onClick={handleRegisterConsignacion}
-                  disabled={isSaving || !formData.referenciaBanco || !comprobanteFile}
+                  disabled={isSaving || !formData.referenciaBanco || !comprobanteFile || selectedOrdenIds.length === 0}
                 >
                   {isSaving ? "Procesando..." : "Confirmar Conciliación"}
                 </Button>

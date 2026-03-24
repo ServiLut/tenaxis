@@ -1,19 +1,36 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect, Suspense } from "react";
 import Link from "next/link";
+import { useSearchParams } from "next/navigation";
+import { toast } from "sonner";
 import { Button, Input, Label } from "@/components/ui";
-import { LogIn, Mail, Lock, Sparkles, Loader2 } from "lucide-react";
+import { LogIn, Mail, Lock, Sparkles, Loader2, AlertCircle } from "lucide-react";
 import { ModeToggle } from "@/components/dashboard/ModeToggle";
 import { authClient } from "@/lib/api/auth-client";
 
-export default function LoginPage() {
+function LoginForm() {
+  const searchParams = useSearchParams();
   const [formData, setFormData] = useState({
     email: "",
     password: "",
   });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    const expired = searchParams.get("expired");
+    if (expired === "true") {
+      toast.error("Tu sesión ha expirado", {
+        description: "Por seguridad, debes volver a iniciar sesión.",
+        duration: 5000,
+        position: "top-center",
+        icon: <AlertCircle className="h-4 w-4" />,
+      });
+      // Limpiar la URL para evitar que el toast vuelva a aparecer al recargar
+      window.history.replaceState({}, "", "/auth/iniciar-sesion");
+    }
+  }, [searchParams]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -225,5 +242,17 @@ export default function LoginPage() {
         </div>
       </div>
     </div>
+  );
+}
+
+export default function LoginPage() {
+  return (
+    <Suspense fallback={
+      <div className="flex min-h-screen items-center justify-center bg-[#F5F1EB] dark:bg-zinc-950">
+        <Loader2 className="h-12 w-12 animate-spin text-azul-1" />
+      </div>
+    }>
+      <LoginForm />
+    </Suspense>
   );
 }

@@ -10,6 +10,11 @@ export interface TechnicianRecaudo {
   ultimaTransferencia: string | null;
   diasSinTransferir: number;
   ordenesIds: string[];
+  declaraciones: Array<{
+    ordenId: string;
+    valorDeclarado: number;
+    fechaDeclaracion: string;
+  }>;
 }
 
 export interface AccountingBalance {

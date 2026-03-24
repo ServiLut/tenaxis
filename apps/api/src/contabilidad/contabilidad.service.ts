@@ -225,7 +225,7 @@ export class ContabilidadService {
             apellido: true,
           },
         },
-        // Obtener declaraciones de efectivo pendientes
+        // Obtener declaraciones de efectivo pendientes (no conciliadas aún)
         declaracionesEfectivo: {
           where: {
             consignado: false,
@@ -259,16 +259,15 @@ export class ContabilidadService {
         0,
       );
 
-      const ultimaTrans = t.consignacionesTecnico[0]?.fechaConsignacion;
-      const diasSinTransferir = ultimaTrans
-        ? Math.floor(
-            (new Date().getTime() - new Date(ultimaTrans).getTime()) /
-              (1000 * 3600 * 24),
-          )
-        : Math.floor(
-            (new Date().getTime() - new Date(t.createdAt).getTime()) /
-              (1000 * 3600 * 24),
-          );
+      // Calcular días de atraso basados en la declaración más vieja pendiente
+      let diasSinTransferir = 0;
+      if (t.declaracionesEfectivo.length > 0) {
+        const fechas = t.declaracionesEfectivo.map(d => new Date(d.fechaDeclaracion).getTime());
+        const fechaMasVieja = Math.min(...fechas);
+        diasSinTransferir = Math.floor(
+          (new Date().getTime() - fechaMasVieja) / (1000 * 3600 * 24),
+        );
+      }
 
       return {
         id: t.id,
@@ -277,7 +276,12 @@ export class ContabilidadService {
         saldoPendiente,
         ordenesPendientesCount: t.declaracionesEfectivo.length,
         ordenesIds: t.declaracionesEfectivo.map((d) => d.ordenId),
-        ultimaTransferencia: ultimaTrans || null,
+        declaraciones: t.declaracionesEfectivo.map((d) => ({
+          ordenId: d.ordenId,
+          valorDeclarado: Number(d.valorDeclarado),
+          fechaDeclaracion: d.fechaDeclaracion,
+        })),
+        ultimaTransferencia: t.consignacionesTecnico[0]?.fechaConsignacion || null,
         diasSinTransferir,
       };
     });
@@ -329,6 +333,12 @@ export class ContabilidadService {
         await tx.declaracionEfectivo.update({
           where: { ordenId: ordenId },
           data: { consignado: true },
+        });
+
+        // Actualizar estado de la orden a CONSIGNADO (Etapa financiera intermedia)
+        await tx.ordenServicio.update({
+          where: { id: ordenId },
+          data: { estadoPago: 'CONSIGNADO' },
         });
       }
 

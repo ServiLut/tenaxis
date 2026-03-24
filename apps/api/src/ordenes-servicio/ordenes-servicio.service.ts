@@ -10,6 +10,7 @@ import { ContratosClienteService } from '../contratos-cliente/contratos-cliente.
 import { CreateOrdenServicioDto } from './dto/create-orden-servicio.dto';
 import { CompleteFollowUpDto } from './dto/complete-follow-up.dto';
 import { CreateFollowUpOverrideDto } from './dto/create-follow-up-override.dto';
+import { RemoveOrdenServicioDto } from './dto/remove-orden-servicio.dto';
 import { JwtPayload } from '../auth/jwt-payload.interface';
 import {
   QueryOrdenesServicioDto,
@@ -305,19 +306,10 @@ export class OrdenesServicioService {
     const valorCotizadoResuelto = esGarantia ? 0 : createDto.valorCotizado;
     const desglosePagoResuelto = esGarantia ? [] : createDto.desglosePago;
 
-    let estadoPago =
-      (createDto.estadoPago as EstadoPagoOrden) || EstadoPagoOrden.PENDIENTE;
-    let valorPagado = esGarantia ? 0 : createDto.valorPagado || 0;
-
-    // Calcular estado y valor si hay desglose
-    if (desglosePagoResuelto && Array.isArray(desglosePagoResuelto)) {
-      const totals = this.calculateBreakdownTotals(
-        desglosePagoResuelto as unknown as DesglosePagoItem[],
-        Number(valorCotizadoResuelto || 0),
-      );
-      estadoPago = totals.estadoPago;
-      valorPagado = totals.valorPagado;
-    }
+    // Al crear una orden nueva, el estado siempre es PENDIENTE y el valor pagado es 0
+    // ya que el servicio no se ha prestado ni cobrado aún.
+    const estadoPago = EstadoPagoOrden.PENDIENTE;
+    const valorPagado = 0;
 
     const nuevaOrden = await this.prisma.ordenServicio.create({
       data: {
@@ -370,6 +362,7 @@ export class OrdenesServicioService {
 
     // Recalcular estado del cliente (score, clasificación, ultima/proxima visita)
     await this.recalculateClientStatus(nuevaOrden.clienteId);
+
     await this.createAutomaticFollowUps(
       tenantId,
       nuevaOrden,
@@ -574,6 +567,7 @@ export class OrdenesServicioService {
       );
       const traslapes = await this.prisma.ordenServicio.count({
         where: {
+          deletedAt: null,
           tecnicoId: c.membershipId,
           OR: [
             { horaInicio: { lte: inicio }, horaFin: { gt: inicio } },
@@ -613,6 +607,7 @@ export class OrdenesServicioService {
       viables.map(async (id) => {
         const count = await this.prisma.ordenServicio.count({
           where: {
+            deletedAt: null,
             tecnicoId: id,
             horaInicio: {
               gte: startOfDay,
@@ -648,6 +643,7 @@ export class OrdenesServicioService {
 
     const whereClause: Prisma.OrdenServicioWhereInput = {
       ...accessFilter,
+      deletedAt: null,
       ordenPadreId: null,
     };
 
@@ -837,6 +833,9 @@ export class OrdenesServicioService {
           orderBy: { createdAt: 'desc' },
         },
         ordenesHijas: {
+          where: {
+            deletedAt: null,
+          },
           include: {
             cliente: true,
             tecnico: {
@@ -1027,7 +1026,7 @@ export class OrdenesServicioService {
     const accessFilter = getPrismaAccessFilter(user);
 
     const orden = await this.prisma.ordenServicio.findFirst({
-      where: { id, ...accessFilter },
+      where: { id, ...accessFilter, deletedAt: null },
       include: {
         cliente: {
           include: {
@@ -1076,7 +1075,7 @@ export class OrdenesServicioService {
     files: Array<{ buffer: Buffer; mimetype: string; originalname: string }>,
   ) {
     const orden = await this.prisma.ordenServicio.findFirst({
-      where: { id, tenantId },
+      where: { id, tenantId, deletedAt: null },
     });
 
     if (!orden) {
@@ -1161,7 +1160,7 @@ export class OrdenesServicioService {
     dto: CreateSignedUploadUrlDto,
   ) {
     const orden = await this.prisma.ordenServicio.findFirst({
-      where: { id: ordenId, tenantId },
+      where: { id: ordenId, tenantId, deletedAt: null },
       select: { id: true },
     });
 
@@ -1192,7 +1191,7 @@ export class OrdenesServicioService {
     dto: ConfirmUploadedFilesDto,
   ) {
     const orden = await this.prisma.ordenServicio.findFirst({
-      where: { id: ordenId, tenantId },
+      where: { id: ordenId, tenantId, deletedAt: null },
       select: { id: true },
     });
 
@@ -1240,8 +1239,8 @@ export class OrdenesServicioService {
 
   async notifyLiquidationWebhook(tenantId: string, dto: NotifyLiquidationDto) {
     // Validate that the order exists and belongs to the tenant
-    const orden = await this.prisma.ordenServicio.findUnique({
-      where: { id: dto.idServicio, tenantId },
+    const orden = await this.prisma.ordenServicio.findFirst({
+      where: { id: dto.idServicio, tenantId, deletedAt: null },
       include: { cliente: true },
     });
 
@@ -1297,8 +1296,8 @@ export class OrdenesServicioService {
 
   async notifyOperatorWebhook(tenantId: string, dto: NotifyOperatorDto) {
     // Validate that the order exists and belongs to the tenant
-    const orden = await this.prisma.ordenServicio.findUnique({
-      where: { id: dto.idServicio, tenantId },
+    const orden = await this.prisma.ordenServicio.findFirst({
+      where: { id: dto.idServicio, tenantId, deletedAt: null },
       include: { tecnico: { include: { user: true } } },
     });
 
@@ -1453,6 +1452,30 @@ export class OrdenesServicioService {
     };
   }
 
+  private async resolveMembershipId(
+    tenantId: string,
+    performingUser?: JwtPayload,
+  ) {
+    if (performingUser?.membershipId) {
+      return performingUser.membershipId;
+    }
+
+    if (!performingUser?.sub) {
+      return undefined;
+    }
+
+    const membership = await this.prisma.tenantMembership.findUnique({
+      where: {
+        userId_tenantId: {
+          userId: performingUser.sub,
+          tenantId,
+        },
+      },
+    });
+
+    return membership?.id;
+  }
+
   async update(
     tenantId: string,
     id: string,
@@ -1461,7 +1484,7 @@ export class OrdenesServicioService {
   ) {
     // Validar que la orden pertenezca al tenant
     const orden = await this.prisma.ordenServicio.findFirst({
-      where: { id, tenantId },
+      where: { id, tenantId, deletedAt: null },
     });
 
     if (!orden) {
@@ -1469,18 +1492,7 @@ export class OrdenesServicioService {
     }
 
     // Intentar resolver el membershipId si no viene en el token (retrocompatibilidad)
-    let membershipId = performingUser?.membershipId;
-    if (!membershipId && performingUser?.sub && tenantId) {
-      const membership = await this.prisma.tenantMembership.findUnique({
-        where: {
-          userId_tenantId: {
-            userId: performingUser.sub,
-            tenantId: tenantId,
-          },
-        },
-      });
-      membershipId = membership?.id;
-    }
+    const membershipId = await this.resolveMembershipId(tenantId, performingUser);
 
     const fechaPagoDate = updateDto.fechaPago
       ? parseFlexibleDateTimeToUtc(updateDto.fechaPago, {
@@ -1684,19 +1696,21 @@ export class OrdenesServicioService {
       },
     });
 
-    // Nueva lógica: Si la orden se liquidó y tiene efectivo, crear Declaración de Efectivo
+    // Nueva lógica: Si la orden terminó o se liquidó y tiene efectivo, crear Declaración de Efectivo
     if (
-      updatedOrden.estadoServicio === (EstadoOrden.LIQUIDADO as EstadoOrden) &&
+      (updatedOrden.estadoServicio === (EstadoOrden.LIQUIDADO as EstadoOrden) ||
+        updatedOrden.estadoServicio ===
+          (EstadoOrden.TECNICO_FINALIZO as EstadoOrden)) &&
       updatedOrden.desglosePago &&
       Array.isArray(updatedOrden.desglosePago)
     ) {
       const breakdown =
         updatedOrden.desglosePago as unknown as DesglosePagoItem[];
-      const cashLine = breakdown.find(
-        (l) => l.metodo === MetodoPagoBase.EFECTIVO,
-      );
+      const cashAmount = breakdown
+        .filter((l) => l.metodo === MetodoPagoBase.EFECTIVO)
+        .reduce((sum, l) => sum + Number(l.monto || 0), 0);
 
-      if (cashLine && Number(cashLine.monto) > 0 && updatedOrden.tecnicoId) {
+      if (cashAmount > 0 && updatedOrden.tecnicoId) {
         // Verificar si ya existe una declaración para esta orden
         const existingDecl = await this.prisma.declaracionEfectivo.findUnique({
           where: { ordenId: updatedOrden.id },
@@ -1709,7 +1723,7 @@ export class OrdenesServicioService {
               empresaId: updatedOrden.empresaId,
               ordenId: updatedOrden.id,
               tecnicoId: updatedOrden.tecnicoId,
-              valorDeclarado: Number(cashLine.monto),
+              valorDeclarado: cashAmount,
               evidenciaPath: updatedOrden.comprobantePago || 'POR_CONSIGNAR',
               observacion: `Recaudo automático por liquidación de orden #${updatedOrden.id}`,
               consignado: false,
@@ -1735,14 +1749,16 @@ export class OrdenesServicioService {
     breakdown: DesglosePagoItem[],
     valorCotizado: number,
   ): { valorPagado: number; estadoPago: EstadoPagoOrden } {
-    // 1. Dinero real recibido (Lo que entra a caja/banco)
-    const valorPagado = breakdown
-      .filter(
-        (l) =>
-          l.metodo === MetodoPagoBase.EFECTIVO ||
-          l.metodo === MetodoPagoBase.TRANSFERENCIA,
-      )
+    // 1. Montos por tipo (Lo que entra a caja/banco)
+    const valorEfectivo = breakdown
+      .filter((l) => l.metodo === MetodoPagoBase.EFECTIVO)
       .reduce((sum, l) => sum + Number(l.monto || 0), 0);
+
+    const valorTransferencia = breakdown
+      .filter((l) => l.metodo === MetodoPagoBase.TRANSFERENCIA)
+      .reduce((sum, l) => sum + Number(l.monto || 0), 0);
+
+    const valorPagado = valorEfectivo + valorTransferencia;
 
     // 2. Valor cubierto por métodos no monetarios (Bonos, Cortesías)
     const valorDescuentos = breakdown
@@ -1769,12 +1785,17 @@ export class OrdenesServicioService {
 
     let estadoPago: EstadoPagoOrden = EstadoPagoOrden.PENDIENTE;
 
-    // Si todo está cubierto y no hay crédito, está PAGADO (o es CORTESIA total)
+    // Si todo está cubierto y no hay crédito
     if (totalCubierto >= valorCotizado && !hasCredito) {
-      estadoPago =
-        hasCortesia && valorPagado === 0
-          ? EstadoPagoOrden.CORTESIA
-          : EstadoPagoOrden.PAGADO;
+      if (hasCortesia && valorPagado === 0) {
+        estadoPago = EstadoPagoOrden.CORTESIA;
+      } else if (valorEfectivo > 0) {
+        // Si hay efectivo, el estado es EFECTIVO_DECLARADO hasta que el técnico lo consigne y el admin concilie
+        estadoPago = EstadoPagoOrden.EFECTIVO_DECLARADO;
+      } else {
+        // Si es 100% transferencia (o bonos/descuentos), pasa a PAGADO de una porque la plata ya está en el sistema
+        estadoPago = EstadoPagoOrden.PAGADO;
+      }
     }
     // Si hay algún movimiento pero no llega al total o hay crédito
     else if (totalCubierto > 0) {
@@ -1790,6 +1811,7 @@ export class OrdenesServicioService {
       include: {
         ordenesServicio: {
           where: {
+            deletedAt: null,
             estadoServicio: {
               not: EstadoOrden.CANCELADO as EstadoOrden,
             },
@@ -1994,6 +2016,21 @@ export class OrdenesServicioService {
 
     if (!resolvedFollowUp) {
       throw new BadRequestException('Seguimiento no encontrado');
+    }
+
+    const followUpOrder = await this.prisma.ordenServicio.findFirst({
+      where: {
+        id: resolvedFollowUp.ordenServicioId,
+        tenantId,
+        deletedAt: null,
+      },
+      select: { id: true },
+    });
+
+    if (!followUpOrder) {
+      throw new BadRequestException(
+        'No puedes gestionar seguimientos de una orden eliminada',
+      );
     }
 
     const canManage =
@@ -2270,6 +2307,7 @@ export class OrdenesServicioService {
     const whereBase = {
       tenantId,
       clienteId,
+      deletedAt: null,
       ...(excludeOrderId ? { id: { not: excludeOrderId } } : {}),
     };
 
@@ -2319,17 +2357,79 @@ export class OrdenesServicioService {
     return role === Role.ADMIN || role === Role.SU_ADMIN;
   }
 
-  async remove(tenantId: string, id: string) {
+  async remove(
+    tenantId: string,
+    id: string,
+    dto: RemoveOrdenServicioDto,
+    performingUser?: JwtPayload,
+  ) {
+    const reason = dto.reason?.trim();
+    if (!reason) {
+      throw new BadRequestException(
+        'Debes indicar una observación para eliminar la orden',
+      );
+    }
+
     const orden = await this.prisma.ordenServicio.findFirst({
-      where: { id, tenantId },
+      where: { id, tenantId, deletedAt: null },
+      include: {
+        declaracionEfectivo: {
+          select: { id: true },
+        },
+        consignacionOrden: {
+          select: { id: true },
+        },
+        nominaDetalles: {
+          select: { id: true },
+          take: 1,
+        },
+        ordenesHijas: {
+          where: { deletedAt: null },
+          select: { id: true },
+          take: 1,
+        },
+      },
     });
 
     if (!orden) {
-      throw new BadRequestException('La orden especificada no existe');
+      throw new BadRequestException(
+        'La orden especificada no existe o ya fue eliminada',
+      );
     }
 
-    return this.prisma.ordenServicio.delete({
+    if (orden.declaracionEfectivo) {
+      throw new BadRequestException(
+        'No puedes eliminar una orden con declaración de efectivo',
+      );
+    }
+
+    if (orden.consignacionOrden) {
+      throw new BadRequestException(
+        'No puedes eliminar una orden con consignación registrada',
+      );
+    }
+
+    if (orden.nominaDetalles.length > 0) {
+      throw new BadRequestException(
+        'No puedes eliminar una orden que ya impactó nómina',
+      );
+    }
+
+    if (orden.ordenesHijas.length > 0) {
+      throw new BadRequestException(
+        'No puedes eliminar una orden que tiene servicios hijos activos',
+      );
+    }
+
+    const deletedById = await this.resolveMembershipId(tenantId, performingUser);
+
+    return this.prisma.ordenServicio.update({
       where: { id },
+      data: {
+        deletedAt: new Date(),
+        deletedReason: reason,
+        deletedById: deletedById ?? null,
+      },
     });
   }
 }
