@@ -1,6 +1,7 @@
 import {
   Injectable,
   BadRequestException,
+  ConflictException,
   ForbiddenException,
   Logger,
 } from '@nestjs/common';
@@ -88,6 +89,9 @@ interface LocalPicoPlaca {
 interface DesglosePagoItem {
   metodo: MetodoPagoBase;
   monto: number;
+  banco?: string;
+  referencia?: string;
+  observacion?: string;
 }
 
 type CandidateWithMembership = LocalEmpresaMembership & {
@@ -104,6 +108,16 @@ type SignableField =
   | 'facturaElectronica'
   | 'comprobantePago'
   | 'evidenciaPath';
+
+type OrdenFinancialLockState = {
+  declaracionEfectivo?: { id: string } | null;
+  consignacionOrden?: { id: string } | null;
+  estadoPago?: EstadoPagoOrden | null;
+  estadoServicio?: EstadoOrden | null;
+  liquidadoAt?: Date | null;
+};
+
+type OrdenReadPayload = OrdenWithGeolocalizaciones & Partial<OrdenFinancialLockState>;
 
 export interface ServiciosKpiPayload {
   total: number;
@@ -814,6 +828,12 @@ export class OrdenesServicioService {
         zona: true,
         direccion: true,
         vehiculo: true,
+        declaracionEfectivo: {
+          select: { id: true },
+        },
+        consignacionOrden: {
+          select: { id: true },
+        },
         evidencias: true,
         geolocalizaciones: {
           include: {
@@ -1042,6 +1062,12 @@ export class OrdenesServicioService {
         liquidadoPor: {
           include: { user: true },
         },
+        declaracionEfectivo: {
+          select: { id: true },
+        },
+        consignacionOrden: {
+          select: { id: true },
+        },
         evidencias: true,
         geolocalizaciones: {
           include: {
@@ -1067,7 +1093,7 @@ export class OrdenesServicioService {
       );
     }
 
-    return this.processSignedUrls(orden as OrdenWithGeolocalizaciones);
+    return this.processSignedUrls(orden as OrdenReadPayload);
   }
 
   async addEvidence(
@@ -1240,8 +1266,19 @@ export class OrdenesServicioService {
 
   async notifyLiquidationWebhook(tenantId: string, dto: NotifyLiquidationDto) {
     // Validate that the order exists and belongs to the tenant
+    const where: Prisma.OrdenServicioWhereInput = {
+      tenantId,
+      deletedAt: null,
+    };
+
+    if (this.isUUID(dto.idServicio)) {
+      where.id = dto.idServicio;
+    } else {
+      where.numeroOrden = dto.idServicio;
+    }
+
     const orden = await this.prisma.ordenServicio.findFirst({
-      where: { id: dto.idServicio, tenantId, deletedAt: null },
+      where,
       include: { cliente: true },
     });
 
@@ -1297,8 +1334,19 @@ export class OrdenesServicioService {
 
   async notifyOperatorWebhook(tenantId: string, dto: NotifyOperatorDto) {
     // Validate that the order exists and belongs to the tenant
+    const where: Prisma.OrdenServicioWhereInput = {
+      tenantId,
+      deletedAt: null,
+    };
+
+    if (this.isUUID(dto.idServicio)) {
+      where.id = dto.idServicio;
+    } else {
+      where.numeroOrden = dto.idServicio;
+    }
+
     const orden = await this.prisma.ordenServicio.findFirst({
-      where: { id: dto.idServicio, tenantId, deletedAt: null },
+      where,
       include: { tecnico: { include: { user: true } } },
     });
 
@@ -1356,8 +1404,8 @@ export class OrdenesServicioService {
   }
 
   private async processSignedUrls(
-    orden: OrdenWithGeolocalizaciones,
-  ): Promise<OrdenWithGeolocalizaciones> {
+    orden: OrdenReadPayload,
+  ): Promise<OrdenReadPayload & { financialLock: boolean }> {
     const fieldsToSign: SignableField[] = [
       'facturaPath',
       'facturaElectronica',
@@ -1438,10 +1486,18 @@ export class OrdenesServicioService {
   }
 
   private addDerivedServiceFields<
-    T extends { horaInicioReal?: Date | null; horaFinReal?: Date | null },
-  >(orden: T): T & { duracionRealMinutos?: number } {
+    T extends {
+      horaInicioReal?: Date | null;
+      horaFinReal?: Date | null;
+    } & Partial<OrdenFinancialLockState>,
+  >(orden: T): T & { duracionRealMinutos?: number; financialLock: boolean } {
+    const financialLock = this.isFinanciallyLocked(orden);
+
     if (!orden.horaInicioReal || !orden.horaFinReal) {
-      return orden;
+      return {
+        ...orden,
+        financialLock,
+      };
     }
 
     const diffMs = orden.horaFinReal.getTime() - orden.horaInicioReal.getTime();
@@ -1450,6 +1506,7 @@ export class OrdenesServicioService {
     return {
       ...orden,
       duracionRealMinutos,
+      financialLock,
     };
   }
 
@@ -1477,19 +1534,111 @@ export class OrdenesServicioService {
     return membership?.id;
   }
 
+  private buildScopedOrdenWhere(
+    tenantId: string,
+    id: string,
+    performingUser?: JwtPayload,
+  ): Prisma.OrdenServicioWhereInput {
+    if (!performingUser) {
+      return { id, tenantId, deletedAt: null };
+    }
+
+    const accessFilter = getPrismaAccessFilter(performingUser);
+
+    return {
+      id,
+      tenantId: accessFilter.tenantId ?? tenantId,
+      ...(accessFilter.empresaId ? { empresaId: accessFilter.empresaId } : {}),
+      deletedAt: null,
+    };
+  }
+
+  private isFinanciallyLocked(orden: OrdenFinancialLockState): boolean {
+    if (orden.declaracionEfectivo || orden.consignacionOrden || orden.liquidadoAt) {
+      return true;
+    }
+
+    return (
+      orden.estadoServicio === EstadoOrden.LIQUIDADO ||
+      orden.estadoPago === EstadoPagoOrden.PAGADO ||
+      orden.estadoPago === EstadoPagoOrden.CONCILIADO ||
+      orden.estadoPago === EstadoPagoOrden.CORTESIA
+    );
+  }
+
+  private hasFinancialMutation(
+    orden: {
+      estadoServicio?: EstadoOrden | null;
+      estadoPago?: EstadoPagoOrden | null;
+    },
+    updateDto: Partial<CreateOrdenServicioDto>,
+  ): boolean {
+    if (
+      updateDto.valorCotizado !== undefined ||
+      updateDto.desglosePago !== undefined ||
+      updateDto.metodoPagoId !== undefined ||
+      updateDto.entidadFinancieraNombre !== undefined ||
+      updateDto.estadoPago !== undefined ||
+      updateDto.facturaPath !== undefined ||
+      updateDto.facturaElectronica !== undefined ||
+      updateDto.comprobantePago !== undefined ||
+      updateDto.valorPagado !== undefined ||
+      updateDto.referenciaPago !== undefined ||
+      updateDto.fechaPago !== undefined
+    ) {
+      return true;
+    }
+
+    return (
+      updateDto.estadoServicio !== undefined &&
+      updateDto.estadoServicio !== orden.estadoServicio
+    );
+  }
+
   async update(
     tenantId: string,
     id: string,
     updateDto: Partial<CreateOrdenServicioDto>,
     performingUser?: JwtPayload,
   ) {
-    // Validar que la orden pertenezca al tenant
+    const scopedWhere = this.buildScopedOrdenWhere(tenantId, id, performingUser);
     const orden = await this.prisma.ordenServicio.findFirst({
-      where: { id, tenantId, deletedAt: null },
+      where: scopedWhere,
+      include: {
+        declaracionEfectivo: {
+          select: { id: true, consignado: true },
+        },
+        consignacionOrden: {
+          select: { id: true },
+        },
+      },
     });
 
     if (!orden) {
-      throw new BadRequestException('La orden especificada no existe');
+      throw new BadRequestException(
+        'La orden especificada no existe o no está dentro de tu alcance operativo',
+      );
+    }
+
+    if (updateDto.estadoPago !== undefined) {
+      throw new BadRequestException(
+        'El estado de pago se calcula automáticamente; no se puede editar manualmente',
+      );
+    }
+
+    if (updateDto.valorPagado !== undefined) {
+      throw new BadRequestException(
+        'El valor pagado se calcula automáticamente; no se puede editar manualmente',
+      );
+    }
+
+    if (
+      this.isFinanciallyLocked(orden) &&
+      this.hasFinancialMutation(orden, updateDto)
+    ) {
+      throw new ConflictException(
+        'La orden ya tiene movimiento contable y sus datos financieros quedaron congelados; necesitas un flujo de ajuste aprobado',
+      );
     }
 
     // Intentar resolver el membershipId si no viene en el token (retrocompatibilidad)
@@ -1532,6 +1681,46 @@ export class OrdenesServicioService {
         orden.tipoFacturacion ||
         TipoFacturacion.UNICO;
 
+    const breakdownActualizado =
+      updateDto.desglosePago && Array.isArray(updateDto.desglosePago)
+        ? (updateDto.desglosePago as unknown as DesglosePagoItem[])
+        : null;
+    const serviceReachedSettlementPoint =
+      updateDto.estadoServicio === (EstadoOrden.LIQUIDADO as EstadoOrden) ||
+      updateDto.estadoServicio === (EstadoOrden.TECNICO_FINALIZO as EstadoOrden);
+    const explicitPaymentRegistration =
+      Boolean(fechaPagoDate) ||
+      updateDto.comprobantePago !== undefined ||
+      updateDto.referenciaPago !== undefined ||
+      serviceReachedSettlementPoint;
+    const transferAmount =
+      breakdownActualizado?.reduce((sum, line) => {
+        if (line.metodo !== MetodoPagoBase.TRANSFERENCIA) {
+          return sum;
+        }
+        return sum + Number(line.monto || 0);
+      }, 0) ?? 0;
+    const existingComprobantePago =
+      Array.isArray(orden.comprobantePago)
+        ? orden.comprobantePago.length > 0
+        : Boolean(orden.comprobantePago);
+    const transferReferenceProvided =
+      Boolean(updateDto.referenciaPago?.trim()) ||
+      Boolean(orden.referenciaPago?.trim()) ||
+      Boolean(
+        breakdownActualizado?.some(
+          (line) =>
+            line.metodo === MetodoPagoBase.TRANSFERENCIA &&
+            typeof line.referencia === 'string' &&
+            line.referencia.trim().length > 0,
+        ),
+      );
+    const transferEvidenceProvided =
+      transferAmount > 0 &&
+      (Boolean(updateDto.comprobantePago) || existingComprobantePago) &&
+      Boolean(fechaPagoDate || orden.fechaPago) &&
+      transferReferenceProvided;
+
     const data: Prisma.OrdenServicioUpdateInput = {
       tecnico: updateDto.tecnicoId
         ? { connect: { id: updateDto.tecnicoId } }
@@ -1557,13 +1746,11 @@ export class OrdenesServicioService {
       metodoPago: updateDto.metodoPagoId
         ? { connect: { id: updateDto.metodoPagoId } }
         : undefined,
-      estadoPago: updateDto.estadoPago ?? undefined,
       estadoServicio: updateDto.estadoServicio ?? undefined,
       facturaPath: updateDto.facturaPath ?? undefined,
       facturaElectronica: updateDto.facturaElectronica ?? undefined,
       comprobantePago: updateDto.comprobantePago ?? undefined,
       evidenciaPath: updateDto.evidenciaPath ?? undefined,
-      valorPagado: esGarantia ? 0 : (updateDto.valorPagado ?? undefined),
       observacionFinal: updateDto.observacionFinal ?? undefined,
       referenciaPago: updateDto.referenciaPago ?? undefined,
       liquidadoPor:
@@ -1587,19 +1774,29 @@ export class OrdenesServicioService {
     if (esGarantia && updateDto.estadoServicio === EstadoOrden.LIQUIDADO) {
       data.estadoPago = EstadoPagoOrden.PAGADO;
       data.valorPagado = 0;
-    } else if (
-      updateDto.desglosePago &&
-      Array.isArray(updateDto.desglosePago)
-    ) {
+    } else if (breakdownActualizado) {
+      if (explicitPaymentRegistration && transferAmount > 0 && !transferEvidenceProvided) {
+        throw new BadRequestException(
+          'Para registrar pagos por transferencia debés adjuntar comprobante, referencia y fecha de pago',
+        );
+      }
+
+      if (!explicitPaymentRegistration) {
+        data.estadoPago = undefined;
+        data.valorPagado = undefined;
+      } else {
       const valorCotizado = Number(
         updateDto.valorCotizado || orden.valorCotizado || 0,
       );
       const totals = this.calculateBreakdownTotals(
-        updateDto.desglosePago as unknown as DesglosePagoItem[],
+        breakdownActualizado,
         valorCotizado,
+        (updateDto.estadoServicio || orden.estadoServicio) as EstadoOrden,
+        transferEvidenceProvided ? transferAmount : 0,
       );
       data.valorPagado = totals.valorPagado;
       data.estadoPago = totals.estadoPago;
+      }
     }
 
     if (updateDto.entidadFinancieraNombre) {
@@ -1783,15 +1980,22 @@ export class OrdenesServicioService {
   private calculateBreakdownTotals(
     breakdown: DesglosePagoItem[],
     valorCotizado: number,
+    estadoServicio: EstadoOrden,
+    confirmedTransferAmount?: number,
   ): { valorPagado: number; estadoPago: EstadoPagoOrden } {
     // 1. Montos por tipo (Lo que entra a caja/banco)
     const valorEfectivo = breakdown
       .filter((l) => l.metodo === MetodoPagoBase.EFECTIVO)
       .reduce((sum, l) => sum + Number(l.monto || 0), 0);
 
-    const valorTransferencia = breakdown
+    const valorTransferenciaPlaneada = breakdown
       .filter((l) => l.metodo === MetodoPagoBase.TRANSFERENCIA)
       .reduce((sum, l) => sum + Number(l.monto || 0), 0);
+
+    const valorTransferencia = Math.min(
+      confirmedTransferAmount ?? 0,
+      valorTransferenciaPlaneada,
+    );
 
     const valorPagado = valorEfectivo + valorTransferencia;
 
@@ -1812,6 +2016,11 @@ export class OrdenesServicioService {
     // 4. Total cubierto (Suma de todo para ver si la orden está cerrada)
     const totalCubierto = valorPagado + valorDescuentos + valorCredito;
 
+    // Determinar si el efectivo ya es "dinero en mano" (Solo si el servicio finalizó)
+    const isServiceFinished =
+      estadoServicio === EstadoOrden.LIQUIDADO ||
+      estadoServicio === EstadoOrden.TECNICO_FINALIZO;
+
     // Determinar estado de pago
     const hasCredito = valorCredito > 0;
     const hasCortesia = breakdown.some(
@@ -1825,11 +2034,20 @@ export class OrdenesServicioService {
       if (hasCortesia && valorPagado === 0) {
         estadoPago = EstadoPagoOrden.CORTESIA;
       } else if (valorEfectivo > 0) {
-        // Si hay efectivo, el estado es EFECTIVO_DECLARADO hasta que el técnico lo consigne y el admin concilie
-        estadoPago = EstadoPagoOrden.EFECTIVO_DECLARADO;
+        // Solo pasamos a EFECTIVO_DECLARADO si el servicio ya terminó
+        if (isServiceFinished) {
+          estadoPago = EstadoPagoOrden.EFECTIVO_DECLARADO;
+        } else {
+          // Si no ha terminado, el componente de efectivo no cuenta como recaudado.
+          // El estado será PARCIAL si ya hubo transferencias reales, o PENDIENTE si solo hay efectivo planeado.
+          estadoPago = valorTransferencia > 0 ? EstadoPagoOrden.PARCIAL : EstadoPagoOrden.PENDIENTE;
+        }
       } else {
-        // Si es 100% transferencia (o bonos/descuentos), pasa a PAGADO de una porque la plata ya está en el sistema
-        estadoPago = EstadoPagoOrden.PAGADO;
+        // La transferencia solo cuenta como pago real cuando existe evidencia explícita.
+        estadoPago =
+          valorTransferencia > 0
+            ? EstadoPagoOrden.PAGADO
+            : EstadoPagoOrden.PENDIENTE;
       }
     }
     // Si hay algún movimiento pero no llega al total o hay crédito
@@ -2419,8 +2637,9 @@ export class OrdenesServicioService {
       );
     }
 
+    const scopedWhere = this.buildScopedOrdenWhere(tenantId, id, performingUser);
     const orden = await this.prisma.ordenServicio.findFirst({
-      where: { id, tenantId, deletedAt: null },
+      where: scopedWhere,
       include: {
         declaracionEfectivo: {
           select: { id: true },
@@ -2442,7 +2661,7 @@ export class OrdenesServicioService {
 
     if (!orden) {
       throw new BadRequestException(
-        'La orden especificada no existe o ya fue eliminada',
+        'La orden especificada no existe, ya fue eliminada o no está dentro de tu alcance operativo',
       );
     }
 

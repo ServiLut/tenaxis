@@ -315,7 +315,7 @@ function NuevoServicioContent() {
   });
   const isGarantia = tipoVisita === GARANTIA_VISIT_TYPE;
 
-  // --- URL PERSISTENCE LOGIC ---
+  // Persistimos solo contexto operativo no sensible para evitar exponer o rehidratar datos contables en la URL.
   const syncToUrl = useCallback(() => {
     const params = new URLSearchParams();
     if (selectedCliente) params.set("cliente", selectedCliente);
@@ -329,26 +329,8 @@ function NuevoServicioContent() {
     if (fechaVisita) params.set("fecha", fechaVisita);
     if (horaInicio) params.set("hora", horaInicio);
     if (duracionMinutos) params.set("duracion", duracionMinutos);
-    if (valorCotizado) params.set("valor", valorCotizado);
     if (tipoFacturacion) params.set("facturacion", tipoFacturacion);
-    if (estadoServicio) params.set("estado", estadoServicio);
-    if (diagnosticoTecnico) params.set("diag", diagnosticoTecnico);
-    if (intervencionRealizada) params.set("interv", intervencionRealizada);
-    if (hallazgosEstructurales) params.set("hallazgos", hallazgosEstructurales);
-    if (recomendacionesObligatorias) {
-      params.set("recomendaciones", recomendacionesObligatorias);
-    }
-    if (huboSellamiento) params.set("sellamiento", huboSellamiento);
-    if (huboRecomendacionEstructural) {
-      params.set("recomendacionEstructural", huboRecomendacionEstructural);
-    }
-    if (horaInicioReal) params.set("horaInicioReal", horaInicioReal);
-    if (horaFinReal) params.set("horaFinReal", horaFinReal);
     if (frecuenciaRecomendada) params.set("frecuencia", frecuenciaRecomendada.toString());
-    
-    if (breakdown.length > 0 && (breakdown.length > 1 || breakdown[0].monto !== "")) {
-      params.set("breakdown", JSON.stringify(breakdown));
-    }
 
     const queryString = params.toString();
     const newUrl = `${window.location.pathname}${queryString ? `?${queryString}` : ""}`;
@@ -356,17 +338,8 @@ function NuevoServicioContent() {
   }, [
     selectedCliente, selectedDireccion, selectedEmpresa, selectedOperador, 
     serviciosSeleccionados, tipoVisita, nivelInfestacion, urgencia, fechaVisita, 
-    horaInicio, duracionMinutos, valorCotizado, tipoFacturacion, estadoServicio, 
-    diagnosticoTecnico,
-    intervencionRealizada,
-    hallazgosEstructurales,
-    recomendacionesObligatorias,
-    huboSellamiento,
-    huboRecomendacionEstructural,
-    horaInicioReal,
-    horaFinReal,
+    horaInicio, duracionMinutos, tipoFacturacion,
     frecuenciaRecomendada,
-    breakdown
   ]);
 
   useEffect(() => {
@@ -609,47 +582,11 @@ function NuevoServicioContent() {
         if (urlParams.get("tipoVisita")) setTipoVisita(normalizeVisitTypeValue(urlParams.get("tipoVisita")));
         if (urlParams.get("nivel")) setNivelInfestacion(urlParams.get("nivel")!);
         if (urlParams.get("urgencia")) setUrgencia(urlParams.get("urgencia")!);
-        if (urlParams.get("diag")) setDiagnosticoTecnico(urlParams.get("diag")!);
-        if (urlParams.get("interv")) {
-          setIntervencionRealizada(urlParams.get("interv")!);
-        }
-        if (urlParams.get("hallazgos")) {
-          setHallazgosEstructurales(urlParams.get("hallazgos")!);
-        }
-        if (urlParams.get("recomendaciones")) {
-          setRecomendacionesObligatorias(urlParams.get("recomendaciones")!);
-        }
-        if (urlParams.get("sellamiento")) {
-          setHuboSellamiento(urlParams.get("sellamiento")!);
-        }
-        if (urlParams.get("recomendacionEstructural")) {
-          setHuboRecomendacionEstructural(
-            urlParams.get("recomendacionEstructural")!,
-          );
-        }
         if (urlParams.get("fecha")) setFechaVisita(urlParams.get("fecha")!);
         if (urlParams.get("hora")) setHoraInicio(urlParams.get("hora")!);
-        if (urlParams.get("horaInicioReal")) {
-          setHoraInicioReal(urlParams.get("horaInicioReal")!);
-        }
-        if (urlParams.get("horaFinReal")) {
-          setHoraFinReal(urlParams.get("horaFinReal")!);
-        }
         if (urlParams.get("duracion")) setDuracionMinutos(urlParams.get("duracion")!);
-        if (urlParams.get("valor")) setValorCotizado(urlParams.get("valor")!);
         if (urlParams.get("facturacion")) setTipoFacturacion(urlParams.get("facturacion")!);
-        if (urlParams.get("estado")) setEstadoServicio(urlParams.get("estado")!);
         if (urlParams.get("frecuencia")) setFrecuenciaRecomendada(Number(urlParams.get("frecuencia")));
-
-        const urlBreakdown = urlParams.get("breakdown");
-        if (urlBreakdown) {
-          try {
-            setBreakdown(JSON.parse(urlBreakdown));
-          } catch (e) {
-            console.error("Error parsing breakdown from URL", e);
-          }
-        }
-        // --- END URL OVERRIDE LOGIC ---
       } catch (e) {
         console.error("Error loading initial data", e);
         toast.error("Error al cargar datos básicos");
@@ -1570,7 +1507,7 @@ function NuevoServicioContent() {
                   <CreditCard className="h-5 w-5" />
                 </div>
                 <div className="flex-1 flex items-center justify-between">
-                  <h2 className="text-lg font-bold text-zinc-900 dark:text-zinc-50">Condiciones de Pago</h2>
+                  <h2 className="text-lg font-bold text-zinc-900 dark:text-zinc-50">Plan de Cobro</h2>
                   <Button 
                     type="button" 
                     className="h-9 px-4 rounded-xl bg-azul-1 text-white hover:bg-blue-700 transition-all text-[10px] font-black uppercase tracking-widest gap-2 shadow-lg shadow-azul-1/20 border-none"
@@ -1674,6 +1611,9 @@ function NuevoServicioContent() {
                     )}
                   </div>
                 </div>
+                <p className="text-[10px] font-bold text-zinc-500 dark:text-zinc-400">
+                  Esto define una condición comercial estimada. No confirma pago real; la transferencia se confirma luego con evidencia.
+                </p>
 
                 <div className="space-y-4">
                   <Label className="text-[10px] font-black uppercase tracking-[0.2em] text-zinc-400 block px-1">Desglose de Cobro</Label>

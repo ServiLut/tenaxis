@@ -149,6 +149,12 @@ interface SoportePago {
   fecha?: string;
 }
 
+function resolveSoportePagoUrl(bucket: string, path?: string | null) {
+  if (!path) return "";
+  if (/^(https?:)?\/\//i.test(path)) return path;
+  return getStorageUrl(bucket, path.replace(/^\/+/, ""));
+}
+
 interface OrdenServicioRaw {
   id: string;
   numeroOrden?: string;
@@ -206,6 +212,7 @@ interface OrdenServicioRaw {
   };
   facturaPath?: string | null;
   facturaElectronica?: string | null;
+  financialLock?: boolean;
   comprobantePago?: SoportePago[] | null;
   referenciaPago?: string | null;
   fechaPago?: string | null;
@@ -241,6 +248,111 @@ interface OrdenServicioRaw {
   }[];
   ordenesHijas?: OrdenServicioRaw[];
 }
+
+const CLOSED_FINANCIAL_STATES = new Set([
+  "EFECTIVO_DECLARADO",
+  "PAGADO",
+  "CONCILIADO",
+  "CORTESIA",
+]);
+
+const getFinancialLockMeta = (orden?: Partial<OrdenServicioRaw> | null) => {
+  if (!orden) {
+    return { locked: false, reason: "" };
+  }
+
+  if (orden.financialLock) {
+    return {
+      locked: true,
+      reason:
+        "Freeze financiero activo desde backend. Esta orden ya no admite recaudo ni liquidación manual desde el listado.",
+    };
+  }
+
+  if (orden.liquidadoAt || orden.estadoServicio === "LIQUIDADO") {
+    return {
+      locked: true,
+      reason:
+        "La orden ya fue liquidada. Cualquier ajuste financiero debe pasar por contabilidad.",
+    };
+  }
+
+  if (orden.estadoPago && CLOSED_FINANCIAL_STATES.has(orden.estadoPago)) {
+    return {
+      locked: true,
+      reason:
+        orden.estadoPago === "EFECTIVO_DECLARADO"
+          ? "La orden ya tiene recaudo declarado pendiente de conciliación. No se puede volver a registrar desde acá."
+          : "La orden ya tiene cierre o conciliación de pago. Los datos financieros quedaron congelados.",
+    };
+  }
+
+  return { locked: false, reason: "" };
+};
+
+const getSettlementFlowMeta = (orden?: Partial<OrdenServicioRaw> | null) => {
+  const financialLock = getFinancialLockMeta(orden);
+  const breakdown = orden?.desglosePago || [];
+  const hasCash = breakdown.length > 0
+    ? breakdown.some((b) => b.metodo.toUpperCase().includes("EFECTIVO") && Number(b.monto) > 0)
+    : orden?.metodoPago?.nombre?.toUpperCase().includes("EFECTIVO");
+  const hasTransfer = breakdown.length > 0
+    ? breakdown.some((b) => b.metodo.toUpperCase().includes("TRANSFERENCIA") && Number(b.monto) > 0)
+    : orden?.metodoPago?.nombre?.toUpperCase().includes("TRANSFERENCIA");
+
+  const now = new Date();
+  const visitDate = orden?.fechaVisita ? new Date(orden.fechaVisita) : null;
+  const visitTime = orden?.horaInicio ? new Date(orden.horaInicio) : null;
+  let isFuture = false;
+
+  if (visitDate) {
+    const scheduledDateTime = new Date(visitDate);
+    if (visitTime) {
+      scheduledDateTime.setHours(visitTime.getHours(), visitTime.getMinutes(), 0, 0);
+    }
+    isFuture = scheduledDateTime > now;
+  }
+
+  if (isFuture) {
+    return {
+      financialLock,
+      isFuture,
+      hasCash,
+      hasTransfer,
+      title: "Registrar anticipo",
+      description: "Registrá un pago anticipado sin cerrar la orden. El servicio sigue programado.",
+      submitLabel: "Registrar anticipo",
+      summaryLabel: "Monto anticipado",
+      accent: "sky" as const,
+    };
+  }
+
+  if (hasCash) {
+    return {
+      financialLock,
+      isFuture,
+      hasCash,
+      hasTransfer,
+      title: "Registrar recaudo",
+      description: "Registrá el efectivo declarado. Contabilidad recalcula y concilia después.",
+      submitLabel: "Registrar recaudo",
+      summaryLabel: "Monto declarado",
+      accent: "blue" as const,
+    };
+  }
+
+  return {
+    financialLock,
+    isFuture,
+    hasCash,
+    hasTransfer,
+    title: "Liquidar servicio",
+    description: "Cerrá la orden por medios no efectivos. El backend valida el cierre antes de confirmarlo.",
+    submitLabel: "Liquidar servicio",
+    summaryLabel: "Monto a liquidar",
+    accent: "emerald" as const,
+  };
+};
 
 const ESTADO_STYLING: Record<string, string> = {
   "NUEVO": "bg-muted text-muted-foreground border-border",
@@ -497,10 +609,12 @@ function ServiciosContent() {
     }>;
     observacionFinal: string;
     fechaPago: string;
+    referenciaPago: string;
   }>({
     breakdown: [{ metodo: "PENDIENTE", monto: "" }],
     observacionFinal: "",
     fechaPago: toBogotaYmd(),
+    referenciaPago: "",
   });
   const [comprobanteFile, setComprobanteFile] = useState<File | null>(null);
 
@@ -743,10 +857,53 @@ function ServiciosContent() {
   const handleLiquidar = async () => {
     if (!selectedServicio) return;
 
-    setIsUploading(true);
-    const toastId = toast.loading("Liquidando servicio...");
-
+    let toastId: string | number | undefined;
     try {
+      const processedBreakdown = liquidarData.breakdown.map(line => ({
+        ...line,
+        monto: parseFloat(line.monto.replace(/\./g, "")) || 0
+      }));
+
+      // Determinar si hay efectivo en el desglose
+      const hasCash = processedBreakdown.some(b => b.metodo === "EFECTIVO" && b.monto > 0);
+      const hasTransfer = processedBreakdown.some(
+        (b) => b.metodo === "TRANSFERENCIA" && b.monto > 0,
+      );
+      const hasExistingTransferProof = Array.isArray(selectedServicio.raw.comprobantePago)
+        ? selectedServicio.raw.comprobantePago.length > 0
+        : Boolean(selectedServicio.raw.comprobantePago);
+      const needsTransferProof = hasTransfer && !hasCash;
+
+      if (needsTransferProof && !liquidarData.fechaPago) {
+        toast.error("La fecha de pago es obligatoria para registrar transferencias.");
+        return;
+      }
+
+      if (needsTransferProof && !liquidarData.referenciaPago.trim()) {
+        toast.error("La referencia del pago es obligatoria para registrar transferencias.");
+        return;
+      }
+
+      if (needsTransferProof && !liquidarData.observacionFinal.trim()) {
+        toast.error("La observación de cierre es obligatoria para registrar transferencias.");
+        return;
+      }
+
+      if (needsTransferProof && !comprobanteFile && !hasExistingTransferProof) {
+        toast.error("Debés adjuntar el comprobante de la transferencia antes de liquidar.");
+        return;
+      }
+
+      if (hasTransfer && hasCash && !comprobanteFile && !hasExistingTransferProof) {
+        toast(
+          "El efectivo se registrará ahora y la transferencia quedará pendiente de soporte.",
+          { icon: "ℹ️" },
+        );
+      }
+
+      setIsUploading(true);
+      toastId = toast.loading("Liquidando servicio...");
+
       let comprobanteUrl = "";
       if (comprobanteFile) {
         const signed = await createSignedUploadUrl(
@@ -758,14 +915,6 @@ function ServiciosContent() {
         await confirmOrdenUpload(selectedServicio.raw.id, "comprobantePago", [signed.path]);
         comprobanteUrl = signed.path;
       }
-
-      const processedBreakdown = liquidarData.breakdown.map(line => ({
-        ...line,
-        monto: parseFloat(line.monto.replace(/\./g, "")) || 0
-      }));
-
-      // Determinar si hay efectivo en el desglose
-      const hasCash = processedBreakdown.some(b => b.metodo === "EFECTIVO" && b.monto > 0);
       
       // Validación Temporal para Anticipos
       const now = new Date();
@@ -789,16 +938,28 @@ function ServiciosContent() {
       }
 
       await updateOrdenServicio(selectedServicio.raw.id, {
-        desglosePago: processedBreakdown,
+        desglosePago: processedBreakdown.map((line) => ({
+          ...line,
+          referencia:
+            line.metodo === "TRANSFERENCIA"
+              ? liquidarData.referenciaPago.trim()
+              : line.referencia,
+        })),
         observacionFinal: liquidarData.observacionFinal,
         fechaPago: liquidarData.fechaPago,
         comprobantePago: comprobanteUrl || undefined,
+        referenciaPago: liquidarData.referenciaPago.trim() || undefined,
         estadoServicio: nuevoEstado
       });
       
       let successMsg = "Pago registrado correctamente.";
       if (isFuture) successMsg = "Anticipo registrado. El servicio sigue programado.";
+      else if (hasTransfer && hasCash && !comprobanteFile && !hasExistingTransferProof) {
+        successMsg = "Efectivo registrado. La transferencia quedó pendiente de soporte.";
+      }
+      else if (nuevoEstado === "LIQUIDADO" && hasTransfer) successMsg = "Transferencia confirmada con soporte. Servicio liquidado exitosamente.";
       else if (nuevoEstado === "LIQUIDADO") successMsg = "Servicio liquidado exitosamente.";
+      else if (hasTransfer) successMsg = "Transferencia confirmada. El recaudo en efectivo sigue pendiente.";
       else successMsg = "Recaudo registrado. Pendiente conciliación de efectivo.";
         
       toast.success(successMsg, { id: toastId });
@@ -809,7 +970,7 @@ function ServiciosContent() {
           cliente: selectedServicio.cliente,
           fecha: selectedServicio.fecha,
           servicio: selectedServicio.servicioEspecifico,
-          idServicio: selectedServicio.id,
+          idServicio: selectedServicio.raw.id,
         }).catch(err => console.error("Error notifying webhook:", err));
       }
 
@@ -817,13 +978,18 @@ function ServiciosContent() {
       setLiquidarData({
         breakdown: [{ metodo: "PENDIENTE", monto: "" }],
         observacionFinal: "",
-        fechaPago: toBogotaYmd()
+        fechaPago: toBogotaYmd(),
+        referenciaPago: ""
       });
       setComprobanteFile(null);
       fetchServicios();
     } catch (error) {
       console.error("Liquidation error:", error);
-      toast.error("Error al procesar la liquidación", { id: toastId });
+      const errorMessage =
+        error instanceof Error && error.message.trim()
+          ? error.message
+          : "Error al procesar la liquidación";
+      toast.error(errorMessage, toastId ? { id: toastId } : undefined);
     } finally {
       setIsUploading(false);
     }
@@ -1737,6 +1903,15 @@ function ServiciosContent() {
                 {/* 3. ESTADO DE PAGO */}
                 <td className="px-8 py-6 text-center">
                   <div className="flex flex-col items-center gap-1.5">
+                    {(() => {
+                      const financialLock = getFinancialLockMeta(s.raw);
+
+                      return financialLock.locked ? (
+                        <span className="inline-flex items-center gap-1 rounded-full border border-amber-500/30 bg-amber-500/10 px-3 py-1 text-[9px] font-black uppercase tracking-wider text-amber-700">
+                          <AlertTriangle className="h-3 w-3" /> Congelada
+                        </span>
+                      ) : null;
+                    })()}
                     <span className={cn(
                       "inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-[10px] font-black uppercase border shadow-sm",
                       ESTADO_PAGO_STYLING[s.raw.estadoPago || "PENDIENTE"] || ESTADO_PAGO_STYLING["DEFAULT"]
@@ -1767,7 +1942,7 @@ function ServiciosContent() {
                               </div>
                               <div className="pt-2 border-t border-border flex justify-between items-center">
                                 <span className="text-[9px] font-black uppercase text-muted-foreground">Total</span>
-                                <span className="text-sm font-black text-emerald-600">$ {(s.raw.valorPagado || s.raw.desglosePago.reduce((acc, curr) => acc + Number(currentValue.monto), 0)).toLocaleString()}</span>
+                                <span className="text-sm font-black text-emerald-600">$ {(s.raw.valorPagado || s.raw.desglosePago.reduce((acc, curr) => acc + Number(curr.monto), 0)).toLocaleString()}</span>
                               </div>
                             </div>
                           </PopoverContent>
@@ -1799,99 +1974,79 @@ function ServiciosContent() {
                                     ) : null}
                                     <DropdownMenu><DropdownMenuTrigger asChild><button className="h-10 w-10 rounded-xl bg-muted hover:bg-foreground hover:text-background text-muted-foreground transition-all flex items-center justify-center"><MoreHorizontal className="h-5 w-5" /></button></DropdownMenuTrigger>
                                       <DropdownMenuContent align="end" className="w-64 p-2 rounded-xl bg-card border-border shadow-2xl">
-                                        <DropdownMenuItem onClick={() => { setSelectedServicio(s); setIsModalOpen(true); }} className="flex items-center gap-3 py-2.5 text-[11px] font-bold cursor-pointer text-foreground hover:bg-muted"><Eye className="h-4 w-4 text-[#01ADFB]" /> VER DETALLES</DropdownMenuItem>
-                                        <Link href={`/dashboard/servicios/${s.raw.id}/editar?returnTo=/dashboard/servicios`}><DropdownMenuItem className="flex items-center gap-3 py-2.5 text-[11px] font-bold cursor-pointer text-foreground hover:bg-muted"><Pencil className="h-4 w-4 text-amber-600" /> EDITAR ORDEN</DropdownMenuItem></Link>
-                                        <DropdownMenuSeparator />
-                                        <DropdownMenuItem onClick={() => handleCopy(s)} className="flex items-center gap-3 py-2.5 text-[11px] font-bold cursor-pointer text-foreground hover:bg-muted"><Copy className="h-4 w-4 text-purple-600" /> COPIAR INFO</DropdownMenuItem>
-                                        <DropdownMenuItem onClick={() => handleNotifyOperator(s)} className="flex items-center gap-3 py-2.5 text-[11px] font-bold cursor-pointer text-foreground hover:bg-muted"><Send className="h-4 w-4 text-[#01ADFB]" /> ENVIAR A TECNICO</DropdownMenuItem>
-                                        <DropdownMenuItem onClick={() => { setSelectedServicio(s); setIsVisitaModalOpen(true); }} className="flex items-center gap-3 py-2.5 text-[11px] font-bold cursor-pointer text-foreground hover:bg-muted"><MapPin className="h-4 w-4 text-emerald-500" /> EVIDENCIA DE VISITA</DropdownMenuItem>
-                                        <DropdownMenuSeparator />
-                                        <DropdownMenuItem onClick={() => triggerUpload(s.raw.id, "facturaElectronica")} className="flex items-center gap-3 py-2.5 text-[11px] font-bold cursor-pointer text-foreground hover:bg-muted"><Upload className="h-4 w-4 text-blue-500" /> SUBIR FACTURA</DropdownMenuItem>
-                                        <DropdownMenuItem onClick={() => triggerUpload(s.raw.id, "comprobantePago")} className="flex items-center gap-3 py-2.5 text-[11px] font-bold cursor-pointer text-foreground hover:bg-muted"><Receipt className="h-4 w-4 text-orange-500" /> SUBIR COMPROBANTE</DropdownMenuItem>
-                                        <DropdownMenuItem onClick={() => triggerUpload(s.raw.id, "evidenciaPath")} className="flex items-center gap-3 py-2.5 text-[11px] font-bold cursor-pointer text-foreground hover:bg-muted"><ImageIcon className="h-4 w-4 text-indigo-500" /> SUBIR EVIDENCIAS</DropdownMenuItem>
-                                        <DropdownMenuSeparator />
-                                        <DropdownMenuItem onClick={() => openDeleteModal(s)} className="flex items-center gap-3 py-2.5 text-[11px] font-bold cursor-pointer text-destructive hover:bg-destructive/10"><Trash2 className="h-4 w-4" /> ELIMINAR SERVICIO</DropdownMenuItem>
-                                        <DropdownMenuSeparator />
-                                        {s.estadoServicio === "LIQUIDADO" ? (
-                                          <DropdownMenuItem onClick={() => { setSelectedServicio(s); setIsViewLiquidationModalOpen(true); }} className="flex items-center gap-3 py-2.5 text-[11px] font-bold cursor-pointer text-emerald-600 hover:bg-emerald-500/10"><CheckCircle2 className="h-4 w-4" /> VER LIQUIDACION</DropdownMenuItem>
-                                        ) : (
-                                          <>
-                                            {(() => {
-                                              // Validación Temporal: Identificar si es futuro para tratarlo como Anticipo
-                                              const now = new Date();
-                                              const visitDate = s.raw.fechaVisita ? new Date(s.raw.fechaVisita) : null;
-                                              const visitTime = s.raw.horaInicio ? new Date(s.raw.horaInicio) : null;
-                                              
-                                              if (!visitDate) return null;
+                                        {(() => {
+                                          const settlementMeta = getSettlementFlowMeta(s.raw);
+                                          const financialLock = settlementMeta.financialLock;
 
-                                              const scheduledDateTime = new Date(visitDate);
-                                              if (visitTime) {
-                                                scheduledDateTime.setHours(visitTime.getHours(), visitTime.getMinutes(), 0, 0);
-                                              }
-
-                                              const isFuture = scheduledDateTime > now;
-
-                                              const breakdown = s.raw.desglosePago || [];
-                                              const hasCash = breakdown.length > 0 
-                                                ? breakdown.some(b => b.metodo.toUpperCase().includes("EFECTIVO") && Number(b.monto) > 0)
-                                                : s.raw.metodoPago?.nombre?.toUpperCase().includes("EFECTIVO");
-                                              
-                                              const hasTransfer = breakdown.length > 0
-                                                ? breakdown.some(b => b.metodo.toUpperCase().includes("TRANSFERENCIA") && Number(b.monto) > 0)
-                                                : s.raw.metodoPago?.nombre?.toUpperCase().includes("TRANSFERENCIA");
-
-                                              // Caso 1: Solo Transferencia -> LIQUIDAR / ANTICIPO
-                                              if (hasTransfer && !hasCash) {
-                                                return (
-                                                  <DropdownMenuItem onClick={() => { 
-                                                    setSelectedServicio(s); 
-                                                    setLiquidarData({ 
-                                                      breakdown: [{ metodo: "TRANSFERENCIA", monto: (s.raw.valorCotizado || "").toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".") }], 
-                                                      observacionFinal: s.raw.observacionFinal || "", 
-                                                      fechaPago: toBogotaYmd() 
-                                                    }); 
-                                                    setIsLiquidarModalOpen(true); 
-                                                  }} className={cn(
+                                          return (
+                                            <>
+                                              <DropdownMenuItem onClick={() => { setSelectedServicio(s); setIsModalOpen(true); }} className="flex items-center gap-3 py-2.5 text-[11px] font-bold cursor-pointer text-foreground hover:bg-muted"><Eye className="h-4 w-4 text-[#01ADFB]" /> VER DETALLES</DropdownMenuItem>
+                                              <Link href={`/dashboard/servicios/${s.raw.id}/editar?returnTo=/dashboard/servicios`}><DropdownMenuItem className="flex items-center gap-3 py-2.5 text-[11px] font-bold cursor-pointer text-foreground hover:bg-muted"><Pencil className="h-4 w-4 text-amber-600" /> EDITAR ORDEN</DropdownMenuItem></Link>
+                                              <DropdownMenuSeparator />
+                                              <DropdownMenuItem onClick={() => handleCopy(s)} className="flex items-center gap-3 py-2.5 text-[11px] font-bold cursor-pointer text-foreground hover:bg-muted"><Copy className="h-4 w-4 text-purple-600" /> COPIAR INFO</DropdownMenuItem>
+                                              <DropdownMenuItem onClick={() => handleNotifyOperator(s)} className="flex items-center gap-3 py-2.5 text-[11px] font-bold cursor-pointer text-foreground hover:bg-muted"><Send className="h-4 w-4 text-[#01ADFB]" /> ENVIAR A TECNICO</DropdownMenuItem>
+                                              <DropdownMenuItem onClick={() => { setSelectedServicio(s); setIsVisitaModalOpen(true); }} className="flex items-center gap-3 py-2.5 text-[11px] font-bold cursor-pointer text-foreground hover:bg-muted"><MapPin className="h-4 w-4 text-emerald-500" /> EVIDENCIA DE VISITA</DropdownMenuItem>
+                                              <DropdownMenuSeparator />
+                                              <DropdownMenuItem onClick={() => triggerUpload(s.raw.id, "facturaElectronica")} className="flex items-center gap-3 py-2.5 text-[11px] font-bold cursor-pointer text-foreground hover:bg-muted"><Upload className="h-4 w-4 text-blue-500" /> SUBIR FACTURA</DropdownMenuItem>
+                                              <DropdownMenuItem
+                                                disabled={financialLock.locked}
+                                                onClick={() => triggerUpload(s.raw.id, "comprobantePago")}
+                                                className="flex items-center gap-3 py-2.5 text-[11px] font-bold cursor-pointer text-foreground hover:bg-muted disabled:pointer-events-none disabled:opacity-50"
+                                              >
+                                                <Receipt className="h-4 w-4 text-orange-500" /> SUBIR COMPROBANTE
+                                              </DropdownMenuItem>
+                                              <DropdownMenuItem onClick={() => triggerUpload(s.raw.id, "evidenciaPath")} className="flex items-center gap-3 py-2.5 text-[11px] font-bold cursor-pointer text-foreground hover:bg-muted"><ImageIcon className="h-4 w-4 text-indigo-500" /> SUBIR EVIDENCIAS</DropdownMenuItem>
+                                              <DropdownMenuSeparator />
+                                              <DropdownMenuItem onClick={() => openDeleteModal(s)} className="flex items-center gap-3 py-2.5 text-[11px] font-bold cursor-pointer text-destructive hover:bg-destructive/10"><Trash2 className="h-4 w-4" /> ELIMINAR SERVICIO</DropdownMenuItem>
+                                              <DropdownMenuSeparator />
+                                              {s.estadoServicio === "LIQUIDADO" ? (
+                                                <DropdownMenuItem onClick={() => { setSelectedServicio(s); setIsViewLiquidationModalOpen(true); }} className="flex items-center gap-3 py-2.5 text-[11px] font-bold cursor-pointer text-emerald-600 hover:bg-emerald-500/10"><CheckCircle2 className="h-4 w-4" /> VER LIQUIDACION</DropdownMenuItem>
+                                              ) : financialLock.locked ? (
+                                                <DropdownMenuItem disabled className="flex items-start gap-3 py-2.5 text-[11px] font-bold text-amber-700 opacity-100">
+                                                  <AlertTriangle className="mt-0.5 h-4 w-4" />
+                                                  <span className="leading-relaxed">
+                                                    <span className="block uppercase tracking-wider">Orden congelada</span>
+                                                    <span className="text-[10px] font-medium normal-case">{financialLock.reason}</span>
+                                                  </span>
+                                                </DropdownMenuItem>
+                                              ) : !s.raw.fechaVisita ? null : (
+                                                <DropdownMenuItem
+                                                  onClick={() => {
+                                                    setSelectedServicio(s);
+                                                    const currentBreakdown = s.raw.desglosePago && s.raw.desglosePago.length > 0
+                                                      ? s.raw.desglosePago.map(d => ({
+                                                          metodo: d.metodo,
+                                                          monto: d.monto.toString().replace(/\B(?=(\d{3})+(?!\d))/g, "."),
+                                                          banco: d.banco,
+                                                          referencia: d.referencia,
+                                                          observacion: d.observacion
+                                                        }))
+                                                      : [{
+                                                          metodo: s.raw.metodoPago?.nombre || (settlementMeta.hasCash ? "EFECTIVO" : "TRANSFERENCIA"),
+                                                          monto: (s.raw.valorCotizado || "").toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")
+                                                        }];
+                                          setLiquidarData({
+                                            breakdown: currentBreakdown,
+                                            observacionFinal: s.raw.observacionFinal || "",
+                                            fechaPago: toBogotaYmd(),
+                                            referenciaPago: s.raw.referenciaPago || ""
+                                          });
+                                          setIsLiquidarModalOpen(true);
+                                        }}
+                                                  className={cn(
                                                     "flex items-center gap-3 py-2.5 text-[11px] font-bold cursor-pointer",
-                                                    isFuture ? "text-sky-600 hover:bg-sky-500/10" : "text-emerald-600 hover:bg-emerald-500/10"
-                                                  )}>
-                                                    <CreditCard className="h-4 w-4" /> 
-                                                    {isFuture ? "REGISTRAR ANTICIPO (TRANSF.)" : "LIQUIDAR SERVICIO"}
-                                                  </DropdownMenuItem>
-                                                );
-                                              }
-
-                                              // Caso 2: Tiene Efectivo (Puro o Mixto) -> RECAUDO / ANTICIPO
-                                              if (hasCash) {
-                                                return (
-                                                  <DropdownMenuItem onClick={() => { 
-                                                    setSelectedServicio(s); 
-                                                    const total = s.raw.valorCotizado || 0;
-                                                    setLiquidarData({ 
-                                                      breakdown: hasTransfer 
-                                                        ? [
-                                                            { metodo: "TRANSFERENCIA", monto: "" },
-                                                            { metodo: "EFECTIVO", monto: "" }
-                                                          ]
-                                                        : [{ metodo: "EFECTIVO", monto: total.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".") }], 
-                                                      observacionFinal: s.raw.observacionFinal || "", 
-                                                      fechaPago: toBogotaYmd() 
-                                                    }); 
-                                                    setIsLiquidarModalOpen(true); 
-                                                  }} className={cn(
-                                                    "flex items-center gap-3 py-2.5 text-[11px] font-bold cursor-pointer",
-                                                    isFuture ? "text-sky-600 hover:bg-sky-500/10" : "text-blue-600 hover:bg-blue-500/10"
-                                                  )}>
-                                                    <Wallet className="h-4 w-4" /> 
-                                                    {isFuture ? "REGISTRAR ANTICIPO (EFECT.)" : "REGISTRAR RECAUDO"}
-                                                  </DropdownMenuItem>
-                                                );
-                                              }
-
-                                              return null;
-                                            })()}
-                                          </>
-                                        )}
+                                                    settlementMeta.accent === "sky" && "text-sky-600 hover:bg-sky-500/10",
+                                                    settlementMeta.accent === "blue" && "text-blue-600 hover:bg-blue-500/10",
+                                                    settlementMeta.accent === "emerald" && "text-emerald-600 hover:bg-emerald-500/10",
+                                                  )}
+                                                >
+                                                  {settlementMeta.isFuture ? <CreditCard className="h-4 w-4" /> : settlementMeta.hasCash ? <Wallet className="h-4 w-4" /> : <CheckCircle2 className="h-4 w-4" />}
+                                                  {settlementMeta.title.toUpperCase()}
+                                                </DropdownMenuItem>
+                                              )}
+                                            </>
+                                          );
+                                        })()}
                                       </DropdownMenuContent></DropdownMenu>
                                   </div>
                                 </td>
@@ -2471,7 +2626,7 @@ function ServiciosContent() {
               <div className="flex gap-3">
                 <Button
                   variant="outline"
-                  onClick={closeDeleteModal}
+                  onClick={() => closeDeleteModal()}
                   className="flex-1 h-12 rounded-xl border-border bg-card text-[10px] font-black uppercase"
                   disabled={isDeletingServicio}
                 >
@@ -2493,63 +2648,153 @@ function ServiciosContent() {
       <Dialog open={isLiquidarModalOpen} onOpenChange={setIsLiquidarModalOpen}><DialogContent className="max-w-2xl bg-background border-border">
         <DialogHeader>
           <DialogTitle className="text-xl font-black uppercase text-foreground">
-            {selectedServicio?.raw.metodoPago?.nombre?.toUpperCase() === "TRANSFERENCIA" ? "Liquidar Servicio" : "Registrar Recaudo"}
+            {selectedServicio ? getSettlementFlowMeta(selectedServicio.raw).title : "Registrar movimiento"}
           </DialogTitle>
           <DialogDescription className="text-muted-foreground">
-            {selectedServicio?.raw.metodoPago?.nombre?.toUpperCase() === "TRANSFERENCIA" 
-              ? "Cierre financiero de la orden por transferencia bancaria." 
-              : "Registro de ingresos parciales o totales del servicio."}
+            {selectedServicio
+              ? getSettlementFlowMeta(selectedServicio.raw).description
+              : "Registro operativo del movimiento financiero de la orden."}
           </DialogDescription>
         </DialogHeader>
         {selectedServicio && (
           <div className="space-y-6 mt-4">
+            {(() => {
+              const settlementMeta = getSettlementFlowMeta(selectedServicio.raw);
+              const hasStoredTransferEvidence = Array.isArray(selectedServicio.raw.comprobantePago) && selectedServicio.raw.comprobantePago.length > 0;
+
+              return (
+                <>
+                  {settlementMeta.financialLock.locked ? (
+                    <div className="rounded-2xl border border-amber-500/30 bg-amber-500/10 px-4 py-3 text-sm text-amber-900">
+                      <p className="text-[10px] font-black uppercase tracking-widest">Orden congelada</p>
+                      <p className="mt-1 font-medium">{settlementMeta.financialLock.reason}</p>
+                    </div>
+                  ) : null}
             <div className="p-6 bg-emerald-500/5 border border-emerald-500/20 rounded-2xl flex justify-between items-center">
-              <div><p className="text-[10px] font-black text-muted-foreground uppercase mb-1">Total a Recaudar</p><p className="text-2xl font-black text-emerald-600">{new Intl.NumberFormat('es-CO', { style: 'currency', currency: 'COP' }).format(selectedServicio.raw.valorCotizado || 0)}</p></div>
+              <div><p className="text-[10px] font-black text-muted-foreground uppercase mb-1">{settlementMeta.summaryLabel}</p><p className="text-2xl font-black text-emerald-600">{new Intl.NumberFormat('es-CO', { style: 'currency', currency: 'COP' }).format(selectedServicio.raw.valorCotizado || 0)}</p></div>
               <CheckCircle2 className="h-10 w-10 text-emerald-500/30" />
             </div>
 
-            <div className="space-y-4">
-              <Label className="text-[10px] font-black uppercase text-muted-foreground">Desglose de Pago</Label>
-              {liquidarData.breakdown.map((item, idx) => (
-                <div key={idx} className="grid grid-cols-2 gap-4 items-end bg-muted/30 p-4 rounded-xl border border-border">
-                  <div className="space-y-2">
-                    <Label className="text-[9px] font-black uppercase text-muted-foreground">Método</Label>
-                    <Input value={item.metodo} disabled className="h-10 bg-background font-bold text-xs" />
+              <div className="rounded-2xl border border-border bg-muted/20 px-4 py-3 text-xs font-medium text-muted-foreground">
+                {settlementMeta.isFuture
+                  ? "Este registro deja la orden programada. No representa cierre ni conciliación final."
+                  : settlementMeta.hasTransfer
+                    ? settlementMeta.hasCash
+                      ? hasStoredTransferEvidence
+                        ? "La parte de transferencia ya tiene soporte cargado. El efectivo sigue su ruta de recaudo."
+                        : "La parte de transferencia requiere comprobante, referencia y observación. El efectivo sigue su ruta de recaudo."
+                      : hasStoredTransferEvidence
+                        ? "La transferencia ya tiene soporte cargado. Podés cerrar la orden con esa evidencia."
+                        : "La transferencia requiere comprobante, referencia y observación antes de cerrar la orden."
+                    : "Este registro declara recaudo. Contabilidad recalcula y valida antes de conciliar."}
+              </div>
+
+              <div className="space-y-4">
+                <Label className="text-[10px] font-black uppercase text-muted-foreground">Desglose de Pago</Label>
+
+              <div className="space-y-3">
+                {liquidarData.breakdown.map((item, idx) => (
+                  <div key={idx} className="bg-muted/30 p-4 rounded-xl border border-border flex flex-col sm:flex-row gap-4 items-end">
+                    <div className="flex-1 space-y-2 w-full">
+                      <Label className="text-[9px] font-black uppercase text-muted-foreground">Método</Label>
+                      <select
+                        value={item.metodo}
+                        onChange={(e) => {
+                          const newBreakdown = [...liquidarData.breakdown];
+                          newBreakdown[idx].metodo = e.target.value;
+                          setLiquidarData({ ...liquidarData, breakdown: newBreakdown });
+                        }}
+                        className="h-10 w-full rounded-xl border border-border bg-background px-3 text-xs font-bold uppercase outline-none focus:ring-2 focus:ring-emerald-500/20"
+                      >
+                        {filterOptions.metodosPago.map((m) => (
+                          <option key={m.id} value={m.nombre}>
+                            {m.nombre.toUpperCase()}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
+                    <div className="flex-1 space-y-2 w-full">
+                      <Label className="text-[9px] font-black uppercase text-muted-foreground">Monto ($)</Label>
+                      <Input 
+                        placeholder="0" 
+                        value={item.monto} 
+                        onChange={(e) => {
+                          const val = e.target.value.replace(/\D/g, "").replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+                          const newBreakdown = [...liquidarData.breakdown];
+                          newBreakdown[idx].monto = val;
+                          setLiquidarData({ ...liquidarData, breakdown: newBreakdown });
+                        }}
+                        className="h-10 bg-background font-black text-sm"
+                      />
+                    </div>
+                    {liquidarData.breakdown.length > 1 && (
+                      <Button
+                        type="button"
+                        variant="outline"
+                        size="icon"
+                        onClick={() => {
+                          const newBreakdown = liquidarData.breakdown.filter((_, i) => i !== idx);
+                          setLiquidarData({ ...liquidarData, breakdown: newBreakdown });
+                        }}
+                        className="h-10 w-10 rounded-xl border-destructive/20 bg-destructive/5 text-destructive hover:bg-destructive hover:text-white transition-all shrink-0"
+                      >
+                        <Trash2 className="h-4 w-4" />
+                      </Button>
+                    )}
                   </div>
+                ))}
+              </div>
+
+              <Button
+                type="button"
+                variant="outline"
+                size="sm"
+                onClick={() => {
+                  setLiquidarData(prev => ({
+                    ...prev,
+                    breakdown: [...prev.breakdown, { metodo: filterOptions.metodosPago[0]?.nombre || "EFECTIVO", monto: "" }]
+                  }));
+                }}
+                className="h-10 w-full rounded-xl text-[10px] font-black uppercase tracking-widest gap-2 border-dashed border-2 hover:bg-emerald-50 hover:border-emerald-200 hover:text-emerald-700 transition-all"
+              >
+                <Plus className="h-4 w-4" /> Agregar Método de Pago
+              </Button>
+            </div>
+              <div className="space-y-4">
+                {liquidarData.breakdown.some((item) => item.metodo === "TRANSFERENCIA") ? (
+                  <div className="grid gap-4 md:grid-cols-2">
                   <div className="space-y-2">
-                    <Label className="text-[9px] font-black uppercase text-muted-foreground">Monto ($)</Label>
-                    <Input 
-                      placeholder="0" 
-                      value={item.monto} 
-                      onChange={(e) => {
-                        const val = e.target.value.replace(/\D/g, "").replace(/\B(?=(\d{3})+(?!\d))/g, ".");
-                        const newBreakdown = [...liquidarData.breakdown];
-                        newBreakdown[idx].monto = val;
-                        setLiquidarData({ ...liquidarData, breakdown: newBreakdown });
-                      }}
+                    <Label className="text-[10px] font-black uppercase text-muted-foreground">
+                      Referencia de pago
+                    </Label>
+                    <Input
+                      value={liquidarData.referenciaPago}
+                      onChange={(e) =>
+                        setLiquidarData({
+                          ...liquidarData,
+                          referenciaPago: e.target.value,
+                        })
+                      }
+                      placeholder="Ej. 94839274"
                       className="h-10 bg-background font-black text-sm"
                     />
                   </div>
-                  {item.metodo === "TRANSFERENCIA" && (
-                    <div className="col-span-2 mt-2">
-                      <Label className="text-[9px] font-black uppercase text-muted-foreground mb-2 block">Comprobante de Transferencia (Cliente)</Label>
-                      <div 
-                        onClick={() => document.getElementById('comprobante-liquidar-upload')?.click()}
-                        className="h-16 border-2 border-dashed border-border rounded-xl flex items-center justify-center cursor-pointer hover:bg-muted transition-colors gap-3"
-                      >
-                        <Upload className="h-4 w-4 text-muted-foreground" />
-                        <span className="text-[10px] font-black uppercase text-muted-foreground truncate px-4">
-                          {comprobanteFile ? comprobanteFile.name : "Subir comprobante del cliente"}
-                        </span>
-                      </div>
-                      <input id="comprobante-liquidar-upload" type="file" className="hidden" onChange={(e) => setComprobanteFile(e.target.files?.[0] || null)} accept="image/*,application/pdf" />
-                    </div>
-                  )}
+                  <div className="space-y-2">
+                    <Label className="text-[10px] font-black uppercase text-muted-foreground">
+                      Comprobante de transferencia
+                    </Label>
+                    <Input
+                      type="file"
+                      accept="application/pdf,image/*"
+                      onChange={(e) => setComprobanteFile(e.target.files?.[0] || null)}
+                      className="h-10 bg-background font-medium text-sm file:mr-3 file:rounded-lg file:border-0 file:bg-emerald-600 file:px-3 file:py-2 file:text-xs file:font-black file:text-white"
+                    />
+                    <p className="text-[10px] font-medium text-muted-foreground">
+                      Adjuntá la evidencia real de la transferencia para poder confirmar este pago.
+                    </p>
+                  </div>
                 </div>
-              ))}
-            </div>
-
-            <div className="space-y-4">
+              ) : null}
               <Label className="text-[10px] font-black uppercase text-muted-foreground">Observación de Cierre</Label>
               <textarea value={liquidarData.observacionFinal} onChange={(e) => setLiquidarData({ ...liquidarData, observacionFinal: e.target.value })} className="w-full min-h-[80px] p-4 rounded-2xl bg-muted border border-border text-sm font-medium text-foreground outline-none focus:ring-2 focus:ring-emerald-500/20" placeholder="Notas adicionales..." />
             </div>
@@ -2558,17 +2803,20 @@ function ServiciosContent() {
               <Button variant="outline" onClick={() => setIsLiquidarModalOpen(false)} className="flex-1 h-12 rounded-xl border-border bg-card text-[10px] font-black uppercase">Cancelar</Button>
               <Button 
                 onClick={handleLiquidar} 
-                disabled={isUploading}
+                disabled={isUploading || settlementMeta.financialLock.locked}
                 className={cn(
                   "flex-1 h-12 rounded-xl font-black uppercase text-[10px] shadow-lg",
-                  selectedServicio?.raw.metodoPago?.nombre?.toUpperCase() === "TRANSFERENCIA" 
-                    ? "bg-emerald-600 hover:bg-emerald-700 text-white shadow-emerald-600/20" 
-                    : "bg-blue-600 hover:bg-blue-700 text-white shadow-blue-600/20"
+                  settlementMeta.accent === "emerald" && "bg-emerald-600 hover:bg-emerald-700 text-white shadow-emerald-600/20",
+                  settlementMeta.accent === "blue" && "bg-blue-600 hover:bg-blue-700 text-white shadow-blue-600/20",
+                  settlementMeta.accent === "sky" && "bg-sky-600 hover:bg-sky-700 text-white shadow-sky-600/20",
                 )}
               >
-                {isUploading ? "Procesando..." : (selectedServicio?.raw.metodoPago?.nombre?.toUpperCase() === "TRANSFERENCIA" ? "Confirmar y Cerrar Orden" : "Registrar Recaudo Parcial")}
+                {isUploading ? "Procesando..." : settlementMeta.submitLabel}
               </Button>
             </div>
+                </>
+              );
+            })()}
           </div>
         )}
       </DialogContent></Dialog>
@@ -3036,7 +3284,7 @@ function ServiciosContent() {
                             className="w-full h-11 rounded-xl border-emerald-500/20 bg-emerald-500/5 text-emerald-600 hover:bg-emerald-500/10 font-black text-[9px] uppercase tracking-widest gap-2 justify-start px-4"
                             asChild
                           >
-                            <a href={getStorageUrl("tenaxis-docs", sop.path)} target="_blank" rel="noopener noreferrer">
+                            <a href={resolveSoportePagoUrl("tenaxis-docs", sop.path)} target="_blank" rel="noopener noreferrer">
                               <ExternalLink className="h-3.5 w-3.5" /> {sop.tipo.replace(/_/g, " ")}
                             </a>
                           </Button>
@@ -3050,7 +3298,7 @@ function ServiciosContent() {
                           className="w-full h-11 rounded-xl border-emerald-500/20 bg-emerald-500/5 text-emerald-600 hover:bg-emerald-500/10 font-black text-[9px] uppercase tracking-widest gap-2 justify-start px-4"
                           asChild
                         >
-                          <a href={getStorageUrl("EvidenciaOrdenServicio", soportes as unknown as string)} target="_blank" rel="noopener noreferrer">
+            <a href={resolveSoportePagoUrl("EvidenciaOrdenServicio", soportes as unknown as string)} target="_blank" rel="noopener noreferrer">
                             <ExternalLink className="h-3.5 w-3.5" /> SOPORTE PRINCIPAL (LEGACY)
                           </a>
                         </Button>

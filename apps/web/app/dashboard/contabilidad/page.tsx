@@ -657,7 +657,7 @@ function RecaudoView() {
 
   const handleOpenModal = (tech: TechnicianRecaudo) => {
     setSelectedTech(tech);
-    setSelectedOrdenIds(tech.ordenesIds); // Por defecto seleccionamos todas
+    setSelectedOrdenIds([]); // Selección explícita: nada queda marcado por defecto
     setComprobanteFile(null);
     setFormData({
       referenciaBanco: "",
@@ -678,6 +678,11 @@ function RecaudoView() {
     return selectedTech.declaraciones
       .filter(d => selectedOrdenIds.includes(d.ordenId))
       .reduce((sum, d) => sum + d.valorDeclarado, 0);
+  }, [selectedTech, selectedOrdenIds]);
+
+  const selectedDeclaraciones = useMemo(() => {
+    if (!selectedTech) return [];
+    return selectedTech.declaraciones.filter(d => selectedOrdenIds.includes(d.ordenId));
   }, [selectedTech, selectedOrdenIds]);
 
   const handleRegisterConsignacion = async () => {
@@ -708,10 +713,12 @@ function RecaudoView() {
       await confirmOrdenUpload(referenceOrdenId, "comprobantePago", [signed.path]);
 
       // 2. Registrar la consignación en el backend mandando la RUTA del archivo
+      const valorConsignadoLegacy = totalSeleccionado; // Legacy: el backend recalcula y valida el total real
+
       await contabilidadClient.registrarConsignacion({
         tecnicoId: selectedTech.id,
         empresaId: empresaId,
-        valorConsignado: totalSeleccionado,
+        valorConsignado: valorConsignadoLegacy,
         referenciaBanco: formData.referenciaBanco,
         ordenIds: selectedOrdenIds,
         fechaConsignacion: formData.fechaConsignacion,
@@ -724,7 +731,11 @@ function RecaudoView() {
       fetchData();
     } catch (error) {
       console.error("Consignation error:", error);
-      toast.error("Error al procesar el registro", { id: toastId });
+      const errorMessage =
+        error instanceof Error && error.message.trim()
+          ? error.message
+          : "Error al procesar el registro";
+      toast.error(errorMessage, { id: toastId });
     } finally {
       setIsSaving(false);
     }
@@ -842,14 +853,14 @@ function RecaudoView() {
 
       <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}>
         <DialogContent className="max-w-2xl bg-card border-border max-h-[90vh] overflow-y-auto custom-scrollbar">
-          <DialogHeader>
-            <DialogTitle className="text-xl font-black uppercase tracking-tight flex items-center gap-3 text-foreground">
-              <Coins className="h-6 w-6 text-emerald-500" /> Conciliación de Efectivo
-            </DialogTitle>
-            <DialogDescription className="font-medium text-muted-foreground">
-              Seleccione las órdenes y legalice el dinero físico reportado.
-            </DialogDescription>
-          </DialogHeader>
+        <DialogHeader>
+          <DialogTitle className="text-xl font-black uppercase tracking-tight flex items-center gap-3 text-foreground">
+            <Coins className="h-6 w-6 text-emerald-500" /> Conciliación de Efectivo
+          </DialogTitle>
+          <DialogDescription className="font-medium text-muted-foreground">
+            Seleccione las órdenes y legalice el dinero físico reportado. El total visible es preliminar: backend recalcula y valida antes de cerrar.
+          </DialogDescription>
+        </DialogHeader>
 
           {selectedTech && (
             <div className="space-y-6 mt-4">
@@ -867,6 +878,45 @@ function RecaudoView() {
                     {selectedOrdenIds.length} de {selectedTech.ordenesPendientesCount} órdenes
                   </p>
                 </div>
+              </div>
+
+              <div className={cn(
+                "rounded-2xl border px-4 py-3 text-xs font-medium",
+                selectedOrdenIds.length === 0
+                  ? "border-amber-500/20 bg-amber-500/10 text-amber-700 dark:text-amber-300"
+                  : "border-border bg-muted/20 text-muted-foreground"
+              )}>
+                {selectedOrdenIds.length === 0 ? (
+                  <p className="font-semibold">
+                    No hay órdenes seleccionadas todavía. Marcá manualmente las órdenes que realmente vas a conciliar antes de confirmar.
+                  </p>
+                ) : (
+                  <div className="space-y-2">
+                    <p>
+                      Selección actual: {selectedDeclaraciones.length} orden{selectedDeclaraciones.length === 1 ? "" : "es"}.
+                    </p>
+                    <div className="flex flex-wrap gap-2">
+                      {selectedDeclaraciones.slice(0, 4).map((d) => (
+                        <Badge
+                          key={d.ordenId}
+                          variant="outline"
+                          className="bg-background/80 text-foreground border-border font-black text-[10px]"
+                        >
+                          #{d.ordenId.substring(0, 8).toUpperCase()} · $ {d.valorDeclarado.toLocaleString()}
+                        </Badge>
+                      ))}
+                      {selectedDeclaraciones.length > 4 && (
+                        <Badge variant="outline" className="bg-background/80 text-muted-foreground border-border font-black text-[10px]">
+                          +{selectedDeclaraciones.length - 4} más
+                        </Badge>
+                      )}
+                    </div>
+                  </div>
+                )}
+              </div>
+
+              <div className="rounded-2xl border border-border bg-muted/20 px-4 py-3 text-xs font-medium text-muted-foreground">
+                El monto mostrado se calcula con la selección actual para ayudarte a revisar. El backend vuelve a calcularlo, valida las órdenes y puede rechazar la conciliación si encuentra diferencias, scope inválido o estados incompatibles.
               </div>
 
               {/* Listado de Órdenes Seleccionables */}

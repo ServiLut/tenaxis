@@ -20,6 +20,7 @@ import { Request } from 'express';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { SupabaseService } from '../supabase/supabase.service';
 import { GenerateMonitoringPayrollDto } from './generate-monitoring-payroll.dto';
+import { RegistrarConsignacionDto } from './registrar-consignacion.dto';
 import { resolveScopedEmpresaId } from '../common/utils/access-control.util';
 
 interface RequestWithUser extends Request {
@@ -168,16 +169,7 @@ export class FinanzasController {
   @UseInterceptors(FileInterceptor('comprobanteFile'))
   async register(
     @Req() req: RequestWithUser,
-    @Body()
-    data: {
-      tecnicoId: string;
-      empresaId: string;
-      valorConsignado: string;
-      referenciaBanco: string;
-      ordenIds: string; // Will come as JSON string
-      fechaConsignacion: string;
-      observacion?: string;
-    },
+    @Body() data: RegistrarConsignacionDto,
     @UploadedFile() comprobanteFile: Express.Multer.File,
   ) {
     const tenantId = req.user.tenantId;
@@ -208,7 +200,7 @@ export class FinanzasController {
       {
         tecnicoId: data.tecnicoId,
         empresaId: resolveScopedEmpresaId(req.user, data.empresaId),
-        valorConsignado: Number(data.valorConsignado),
+        valorConsignado: data.valorConsignado,
         referenciaBanco: data.referenciaBanco,
         comprobantePath: fileId,
         ordenIds: JSON.parse(data.ordenIds) as string[],
