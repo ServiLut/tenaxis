@@ -1,21 +1,157 @@
-import {
-  BadRequestException,
-  ConflictException,
-} from '@nestjs/common';
+import { BadRequestException, ConflictException } from '@nestjs/common';
+import type { ContratosClienteService } from '../contratos-cliente/contratos-cliente.service';
 import {
   EstadoPagoOrden,
   EstadoOrden,
   MetodoPagoBase,
+  Role,
 } from '../generated/client/client';
+import type { PrismaService } from '../prisma/prisma.service';
+import type { SupabaseService } from '../supabase/supabase.service';
 import { OrdenesServicioService } from './ordenes-servicio.service';
 
 describe('OrdenesServicioService - endurecimiento financiero', () => {
   let service: OrdenesServicioService;
-  let prismaMock: any;
-  let contratosMock: any;
-  let supabaseMock: any;
+  let prismaMock: PrismaMock;
+  let contratosMock: ContratosClienteMock;
+  let supabaseMock: SupabaseMock;
 
-  const baseOrden = {
+  type ServiceUser = Parameters<OrdenesServicioService['findAll']>[0];
+  type ServiceUpdateDto = Parameters<OrdenesServicioService['update']>[2];
+  type TestUpdateDto = ServiceUpdateDto & {
+    estadoPago?: EstadoPagoOrden;
+    valorCotizado?: number;
+    valorPagado?: number;
+  };
+
+  type ComprobantePagoRecord = {
+    path: string;
+    monto: number;
+    referenciaPago?: string | null;
+    fechaPago?: string | Date | null;
+  };
+
+  type DesglosePagoRecord = {
+    metodo: MetodoPagoBase;
+    monto: number;
+    banco?: string | null;
+    referencia?: string | null;
+    observacion?: string | null;
+  };
+
+  type OrdenServicioRecord = {
+    id: string;
+    valorCotizado: number;
+    valorPagado?: number | null;
+    estadoServicio: EstadoOrden;
+    estadoPago: EstadoPagoOrden;
+    tenantId: string;
+    empresaId: string;
+    clienteId: string;
+    tecnicoId: string;
+    liquidadoAt: Date | null;
+    liquidadoPor?: { disconnect: true } | null;
+    ordenPadreId: string | null;
+    tipoVisita: string | null;
+    tipoFacturacion: string | null;
+    declaracionEfectivo: { id: string; consignado?: boolean } | null;
+    consignacionOrden: { id: string } | null;
+    comprobantePago: string | ComprobantePagoRecord[];
+    desglosePago?: DesglosePagoRecord[];
+    observacion?: string | null;
+    horaInicioReal?: Date | string | null;
+    horaFinReal?: Date | string | null;
+    referenciaPago?: string | null;
+    fechaPago?: Date | string | null;
+  };
+
+  type OrdenServicioUpdateData = {
+    valorPagado?: number;
+    estadoPago?: EstadoPagoOrden;
+    estadoServicio?: EstadoOrden;
+    liquidadoAt?: Date | null;
+    liquidadoPor?: { disconnect: true } | null;
+    observacion?: string;
+    comprobantePago?: ComprobantePagoRecord[];
+    referenciaPago?: string;
+    fechaPago?: string | Date;
+  };
+
+  type FindArgs = {
+    where?: Record<string, unknown>;
+    include?: Record<string, unknown>;
+  };
+
+  type OrdenServicioUpdateArgs = {
+    data: OrdenServicioUpdateData;
+  };
+
+  type DeclaracionEfectivoCreateArgs = {
+    data: {
+      tenantId: string;
+      empresaId: string;
+      ordenId: string;
+      tecnicoId: string;
+      valorDeclarado: number;
+      consignado: boolean;
+    };
+  };
+
+  type MockFn<TArgs extends unknown[], TReturn> = jest.MockedFunction<
+    (...args: TArgs) => TReturn
+  >;
+
+  const mockFn = <TArgs extends unknown[], TReturn>() =>
+    jest.fn() as MockFn<TArgs, TReturn>;
+
+  type PrismaMock = {
+    ordenServicio: {
+      findFirst: MockFn<[FindArgs], Promise<OrdenServicioRecord | null>>;
+      findMany: MockFn<[FindArgs], Promise<OrdenServicioRecord[]>>;
+      update: MockFn<[OrdenServicioUpdateArgs], Promise<OrdenServicioRecord>>;
+      count: MockFn<[FindArgs?], Promise<number>>;
+      create: MockFn<[Record<string, unknown>], Promise<OrdenServicioRecord>>;
+    };
+    empresa: {
+      findUnique: MockFn<[FindArgs], Promise<unknown>>;
+    };
+    cliente: {
+      findUnique: MockFn<[FindArgs], Promise<unknown>>;
+    };
+    servicio: {
+      findFirst: MockFn<[FindArgs], Promise<unknown>>;
+    };
+    contratoCliente: {
+      findFirst: MockFn<[FindArgs], Promise<unknown>>;
+    };
+    entidadFinanciera: {
+      findFirst: MockFn<[FindArgs], Promise<unknown>>;
+    };
+    tenantMembership: {
+      findUnique: MockFn<[FindArgs], Promise<unknown>>;
+    };
+    declaracionEfectivo: {
+      findUnique: MockFn<
+        [FindArgs],
+        Promise<OrdenServicioRecord['declaracionEfectivo']>
+      >;
+      create: MockFn<[DeclaracionEfectivoCreateArgs], Promise<unknown>>;
+      update: MockFn<[Record<string, unknown>], Promise<unknown>>;
+    };
+    consignacionOrden: {
+      findFirst: MockFn<[FindArgs], Promise<unknown>>;
+    };
+  };
+
+  type SupabaseMock = {
+    getSignedUrls: MockFn<[unknown?], Promise<unknown[]>>;
+  };
+
+  type ContratosClienteMock = {
+    getActiveByCliente: MockFn<[string, string?], Promise<unknown>>;
+  };
+
+  const baseOrden: OrdenServicioRecord = {
     id: 'orden-1',
     valorCotizado: 100000,
     estadoServicio: EstadoOrden.NUEVO,
@@ -33,7 +169,9 @@ describe('OrdenesServicioService - endurecimiento financiero', () => {
     comprobantePago: [],
   };
 
-  const buildOrden = (overrides: Record<string, unknown> = {}) => ({
+  const buildOrden = (
+    overrides: Partial<OrdenServicioRecord> = {},
+  ): OrdenServicioRecord => ({
     ...baseOrden,
     ...overrides,
   });
@@ -43,9 +181,9 @@ describe('OrdenesServicioService - endurecimiento financiero', () => {
     updateDto = {},
     updatedOverrides = {},
   }: {
-    orderOverrides?: Record<string, unknown>;
-    updateDto?: Record<string, unknown>;
-    updatedOverrides?: Record<string, unknown>;
+    orderOverrides?: Partial<OrdenServicioRecord>;
+    updateDto?: TestUpdateDto;
+    updatedOverrides?: Partial<OrdenServicioRecord>;
   }) => {
     const currentOrder = buildOrden(orderOverrides);
     const nextOrder = buildOrden({
@@ -57,45 +195,60 @@ describe('OrdenesServicioService - endurecimiento financiero', () => {
     prismaMock.ordenServicio.findFirst.mockResolvedValue(currentOrder);
     prismaMock.ordenServicio.update.mockResolvedValue(nextOrder);
 
-    await service.update('tenant-1', 'orden-1', updateDto as any);
+    await service.update('tenant-1', 'orden-1', updateDto);
 
     return { currentOrder, nextOrder };
+  };
+
+  const adminUser: ServiceUser = {
+    sub: 'user-1',
+    email: 'admin@tenant.test',
+    tenantId: 'tenant-1',
+    role: Role.ADMIN,
   };
 
   beforeEach(() => {
     prismaMock = {
       ordenServicio: {
-        findFirst: jest.fn(),
-        findMany: jest.fn(),
-        update: jest.fn(),
-        count: jest.fn(),
-        create: jest.fn(),
+        findFirst: mockFn(),
+        findMany: mockFn(),
+        update: mockFn(),
+        count: mockFn(),
+        create: mockFn(),
       },
-      empresa: { findUnique: jest.fn() },
-      cliente: { findUnique: jest.fn() },
-      servicio: { findFirst: jest.fn() },
-      contratoCliente: { findFirst: jest.fn() },
-      entidadFinanciera: { findFirst: jest.fn() },
-      tenantMembership: { findUnique: jest.fn() },
+      empresa: { findUnique: mockFn() },
+      cliente: { findUnique: mockFn() },
+      servicio: { findFirst: mockFn() },
+      contratoCliente: { findFirst: mockFn() },
+      entidadFinanciera: { findFirst: mockFn() },
+      tenantMembership: { findUnique: mockFn() },
       declaracionEfectivo: {
-        findUnique: jest.fn().mockResolvedValue(null),
-        create: jest.fn(),
-        update: jest.fn(),
+        findUnique: mockFn(),
+        create: mockFn(),
+        update: mockFn(),
       },
       consignacionOrden: {
-        findFirst: jest.fn(),
+        findFirst: mockFn(),
       },
     };
 
     supabaseMock = {
-      getSignedUrls: jest.fn().mockResolvedValue([]),
+      getSignedUrls: mockFn(),
     };
 
     contratosMock = {
-      getActiveByCliente: jest.fn().mockResolvedValue(null),
+      getActiveByCliente: mockFn(),
     };
 
-    service = new OrdenesServicioService(prismaMock, supabaseMock, contratosMock);
+    prismaMock.declaracionEfectivo.findUnique.mockResolvedValue(null);
+    supabaseMock.getSignedUrls.mockResolvedValue([]);
+    contratosMock.getActiveByCliente.mockResolvedValue(null);
+
+    service = new OrdenesServicioService(
+      prismaMock as unknown as PrismaService,
+      supabaseMock as unknown as SupabaseService,
+      contratosMock as unknown as ContratosClienteService,
+    );
   });
 
   describe('cálculo de estado de pago', () => {
@@ -135,9 +288,7 @@ describe('OrdenesServicioService - endurecimiento financiero', () => {
     it('mantiene el breakdown como plan cuando solo hay efectivo y el servicio no llegó al recaudo', async () => {
       await arrangeUpdate({
         updateDto: {
-          desglosePago: [
-            { metodo: MetodoPagoBase.EFECTIVO, monto: 100000 },
-          ],
+          desglosePago: [{ metodo: MetodoPagoBase.EFECTIVO, monto: 100000 }],
           estadoServicio: EstadoOrden.NUEVO,
         },
       });
@@ -152,9 +303,7 @@ describe('OrdenesServicioService - endurecimiento financiero', () => {
     it('marca EFECTIVO_DECLARADO cuando solo hay efectivo y el servicio ya finalizó', async () => {
       await arrangeUpdate({
         updateDto: {
-          desglosePago: [
-            { metodo: MetodoPagoBase.EFECTIVO, monto: 100000 },
-          ],
+          desglosePago: [{ metodo: MetodoPagoBase.EFECTIVO, monto: 100000 }],
           estadoServicio: EstadoOrden.TECNICO_FINALIZO,
         },
         updatedOverrides: {
@@ -166,17 +315,20 @@ describe('OrdenesServicioService - endurecimiento financiero', () => {
       const updateCall = prismaMock.ordenServicio.update.mock.calls[0][0];
 
       expect(updateCall.data.valorPagado).toBe(100000);
-      expect(updateCall.data.estadoPago).toBe(EstadoPagoOrden.EFECTIVO_DECLARADO);
-      expect(prismaMock.declaracionEfectivo.create).toHaveBeenCalledWith(
+      expect(updateCall.data.estadoPago).toBe(
+        EstadoPagoOrden.EFECTIVO_DECLARADO,
+      );
+      const declaracionCreateCall =
+        prismaMock.declaracionEfectivo.create.mock.calls[0][0];
+
+      expect(declaracionCreateCall.data).toEqual(
         expect.objectContaining({
-          data: expect.objectContaining({
-            tenantId: 'tenant-1',
-            empresaId: 'emp-1',
-            ordenId: 'orden-1',
-            tecnicoId: 'tech-1',
-            valorDeclarado: 100000,
-            consignado: false,
-          }),
+          tenantId: 'tenant-1',
+          empresaId: 'emp-1',
+          ordenId: 'orden-1',
+          tecnicoId: 'tech-1',
+          valorDeclarado: 100000,
+          consignado: false,
         }),
       );
     });
@@ -208,7 +360,7 @@ describe('OrdenesServicioService - endurecimiento financiero', () => {
             { metodo: MetodoPagoBase.EFECTIVO, monto: 60000 },
           ],
           estadoServicio: EstadoOrden.TECNICO_FINALIZO,
-        } as any),
+        }),
       ).rejects.toBeInstanceOf(BadRequestException);
     });
 
@@ -237,7 +389,9 @@ describe('OrdenesServicioService - endurecimiento financiero', () => {
       const updateCall = prismaMock.ordenServicio.update.mock.calls[0][0];
 
       expect(updateCall.data.valorPagado).toBe(100000);
-      expect(updateCall.data.estadoPago).toBe(EstadoPagoOrden.EFECTIVO_DECLARADO);
+      expect(updateCall.data.estadoPago).toBe(
+        EstadoPagoOrden.EFECTIVO_DECLARADO,
+      );
       expect(prismaMock.declaracionEfectivo.create).toHaveBeenCalledTimes(1);
     });
 
@@ -334,7 +488,9 @@ describe('OrdenesServicioService - endurecimiento financiero', () => {
       });
 
       const updateCall = prismaMock.ordenServicio.update.mock.calls[0][0];
-      const comprobantes = updateCall.data.comprobantePago as Array<Record<string, unknown>>;
+      const comprobantes = updateCall.data.comprobantePago as Array<
+        Record<string, unknown>
+      >;
 
       expect(comprobantes).toHaveLength(2);
       expect(comprobantes[0]).toEqual(
@@ -441,7 +597,9 @@ describe('OrdenesServicioService - endurecimiento financiero', () => {
       const updateCall = prismaMock.ordenServicio.update.mock.calls[0][0];
 
       expect(updateCall.data.valorPagado).toBe(100000);
-      expect(updateCall.data.estadoPago).toBe(EstadoPagoOrden.EFECTIVO_DECLARADO);
+      expect(updateCall.data.estadoPago).toBe(
+        EstadoPagoOrden.EFECTIVO_DECLARADO,
+      );
       expect(prismaMock.declaracionEfectivo.create).toHaveBeenCalledTimes(1);
     });
 
@@ -449,9 +607,7 @@ describe('OrdenesServicioService - endurecimiento financiero', () => {
       await arrangeUpdate({
         updateDto: {
           valorCotizado: 100000,
-          desglosePago: [
-            { metodo: MetodoPagoBase.CORTESIA, monto: 100000 },
-          ],
+          desglosePago: [{ metodo: MetodoPagoBase.CORTESIA, monto: 100000 }],
           estadoServicio: EstadoOrden.LIQUIDADO,
         },
         updatedOverrides: {
@@ -469,9 +625,7 @@ describe('OrdenesServicioService - endurecimiento financiero', () => {
       await arrangeUpdate({
         updateDto: {
           valorCotizado: 100000,
-          desglosePago: [
-            { metodo: MetodoPagoBase.CREDITO, monto: 100000 },
-          ],
+          desglosePago: [{ metodo: MetodoPagoBase.CREDITO, monto: 100000 }],
           estadoServicio: EstadoOrden.TECNICO_FINALIZO,
         },
         updatedOverrides: {
@@ -493,7 +647,7 @@ describe('OrdenesServicioService - endurecimiento financiero', () => {
       await expect(
         service.update('tenant-1', 'orden-1', {
           estadoPago: EstadoPagoOrden.CONCILIADO,
-        } as any),
+        }),
       ).rejects.toBeInstanceOf(BadRequestException);
     });
 
@@ -503,7 +657,7 @@ describe('OrdenesServicioService - endurecimiento financiero', () => {
       await expect(
         service.update('tenant-1', 'orden-1', {
           valorPagado: 45000,
-        } as any),
+        }),
       ).rejects.toBeInstanceOf(BadRequestException);
     });
 
@@ -516,7 +670,7 @@ describe('OrdenesServicioService - endurecimiento financiero', () => {
       await expect(
         service.update('tenant-1', 'orden-1', {
           valorCotizado: 150000,
-        } as any),
+        }),
       ).rejects.toBeInstanceOf(ConflictException);
     });
 
@@ -529,7 +683,7 @@ describe('OrdenesServicioService - endurecimiento financiero', () => {
       await expect(
         service.update('tenant-1', 'orden-1', {
           valorCotizado: 150000,
-        } as any),
+        }),
       ).rejects.toBeInstanceOf(ConflictException);
     });
 
@@ -542,7 +696,7 @@ describe('OrdenesServicioService - endurecimiento financiero', () => {
       await expect(
         service.update('tenant-1', 'orden-1', {
           valorCotizado: 150000,
-        } as any),
+        }),
       ).rejects.toBeInstanceOf(ConflictException);
     });
   });
@@ -575,23 +729,13 @@ describe('OrdenesServicioService - endurecimiento financiero', () => {
         },
       ]);
 
-      const resultado = await service.findAll(
-        {
-          sub: 'user-1',
-          tenantId: 'tenant-1',
-          role: 'ADMIN',
-        } as any,
-        'emp-1',
-      );
+      const resultado = await service.findAll(adminUser, 'emp-1');
 
-      expect(prismaMock.ordenServicio.findMany).toHaveBeenCalledWith(
-        expect.objectContaining({
-          include: expect.objectContaining({
-            declaracionEfectivo: expect.any(Object),
-            consignacionOrden: expect.any(Object),
-          }),
-        }),
-      );
+      const findManyCall = prismaMock.ordenServicio.findMany.mock.calls[0][0];
+
+      expect(findManyCall.include).toBeDefined();
+      expect(findManyCall.include?.declaracionEfectivo).toBeDefined();
+      expect(findManyCall.include?.consignacionOrden).toBeDefined();
       expect(resultado[0].financialLock).toBe(true);
     });
 
@@ -605,23 +749,13 @@ describe('OrdenesServicioService - endurecimiento financiero', () => {
         horaFinReal: null,
       });
 
-      const resultado = await service.findOne(
-        {
-          sub: 'user-1',
-          tenantId: 'tenant-1',
-          role: 'ADMIN',
-        } as any,
-        'orden-1',
-      );
+      const resultado = await service.findOne(adminUser, 'orden-1');
 
-      expect(prismaMock.ordenServicio.findFirst).toHaveBeenCalledWith(
-        expect.objectContaining({
-          include: expect.objectContaining({
-            declaracionEfectivo: expect.any(Object),
-            consignacionOrden: expect.any(Object),
-          }),
-        }),
-      );
+      const findFirstCall = prismaMock.ordenServicio.findFirst.mock.calls[0][0];
+
+      expect(findFirstCall.include).toBeDefined();
+      expect(findFirstCall.include?.declaracionEfectivo).toBeDefined();
+      expect(findFirstCall.include?.consignacionOrden).toBeDefined();
       expect(resultado.financialLock).toBe(true);
     });
   });

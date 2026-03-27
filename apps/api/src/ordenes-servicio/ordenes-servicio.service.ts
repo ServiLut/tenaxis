@@ -127,7 +127,8 @@ type OrdenFinancialLockState = {
   liquidadoAt?: Date | null;
 };
 
-type OrdenReadPayload = OrdenWithGeolocalizaciones & Partial<OrdenFinancialLockState>;
+type OrdenReadPayload = OrdenWithGeolocalizaciones &
+  Partial<OrdenFinancialLockState>;
 
 export interface ServiciosKpiPayload {
   total: number;
@@ -1507,7 +1508,7 @@ export class OrdenesServicioService {
           }
 
           return item;
-        }) as typeof orden[typeof field];
+        }) as (typeof orden)[typeof field];
       }
     }
 
@@ -1604,7 +1605,11 @@ export class OrdenesServicioService {
   }
 
   private isFinanciallyLocked(orden: OrdenFinancialLockState): boolean {
-    if (orden.declaracionEfectivo || orden.consignacionOrden || orden.liquidadoAt) {
+    if (
+      orden.declaracionEfectivo ||
+      orden.consignacionOrden ||
+      orden.liquidadoAt
+    ) {
       return true;
     }
 
@@ -1647,7 +1652,7 @@ export class OrdenesServicioService {
   }
 
   private normalizeBreakdown(
-    value: Prisma.JsonValue | Prisma.InputJsonValue | unknown,
+    value: Prisma.JsonValue | Prisma.InputJsonValue | undefined,
   ): DesglosePagoItem[] | null {
     if (!Array.isArray(value)) {
       return null;
@@ -1710,7 +1715,9 @@ export class OrdenesServicioService {
     }
 
     const fallback = new Date(value);
-    return Number.isNaN(fallback.getTime()) ? undefined : fallback.toISOString();
+    return Number.isNaN(fallback.getTime())
+      ? undefined
+      : fallback.toISOString();
   }
 
   private sumTransferPlan(breakdown: DesglosePagoItem[]): number {
@@ -1759,7 +1766,7 @@ export class OrdenesServicioService {
   }
 
   private normalizeStoredTransferEvents(
-    comprobantePago: Prisma.JsonValue | unknown,
+    comprobantePago: Prisma.JsonValue,
     fallback: {
       monto: number;
       referenciaPago?: string | null;
@@ -1875,14 +1882,25 @@ export class OrdenesServicioService {
       observacion?: string;
     },
   ): TransferenciaRealRegistrada[] {
-    if (Array.isArray(updateDto.transferencias) && updateDto.transferencias.length > 0) {
+    if (
+      Array.isArray(updateDto.transferencias) &&
+      updateDto.transferencias.length > 0
+    ) {
       return updateDto.transferencias.map((transferencia, index) => {
         const path = this.toOptionalString(transferencia.comprobantePath);
-        const referenciaPago = this.toOptionalString(transferencia.referenciaPago);
+        const referenciaPago = this.toOptionalString(
+          transferencia.referenciaPago,
+        );
         const fechaPago = this.normalizePaymentDate(transferencia.fechaPago);
         const monto = Number(transferencia.monto || 0);
 
-        if (!path || !referenciaPago || !fechaPago || !Number.isFinite(monto) || monto <= 0) {
+        if (
+          !path ||
+          !referenciaPago ||
+          !fechaPago ||
+          !Number.isFinite(monto) ||
+          monto <= 0
+        ) {
           throw new BadRequestException(
             `La transferencia #${index + 1} debe incluir monto, comprobantePath, referenciaPago y fechaPago válidos`,
           );
@@ -1942,8 +1960,12 @@ export class OrdenesServicioService {
     estadoServicio?: EstadoOrden | null;
     existingConfirmedTransferAmount: number;
   }): number {
-    const { breakdown, valorCotizado, estadoServicio, existingConfirmedTransferAmount } =
-      params;
+    const {
+      breakdown,
+      valorCotizado,
+      estadoServicio,
+      existingConfirmedTransferAmount,
+    } = params;
     const coveredByCash = this.sumCashPlan(breakdown, estadoServicio);
     const coveredByNonMonetary = this.sumNonMonetaryCoverage(breakdown);
     const remaining = Math.max(
@@ -1968,7 +1990,11 @@ export class OrdenesServicioService {
     updateDto: Partial<CreateOrdenServicioDto>,
     performingUser?: JwtPayload,
   ) {
-    const scopedWhere = this.buildScopedOrdenWhere(tenantId, id, performingUser);
+    const scopedWhere = this.buildScopedOrdenWhere(
+      tenantId,
+      id,
+      performingUser,
+    );
     const orden = await this.prisma.ordenServicio.findFirst({
       where: scopedWhere,
       include: {
@@ -2048,7 +2074,9 @@ export class OrdenesServicioService {
         orden.tipoFacturacion ||
         TipoFacturacion.UNICO;
 
-    const breakdownActualizado = this.normalizeBreakdown(updateDto.desglosePago);
+    const breakdownActualizado = this.normalizeBreakdown(
+      updateDto.desglosePago,
+    );
     const breakdownVigente =
       breakdownActualizado ?? this.normalizeBreakdown(orden.desglosePago) ?? [];
     const valorCotizadoResuelto = Number(
@@ -2084,7 +2112,8 @@ export class OrdenesServicioService {
         : existingTransferEvents;
     const serviceReachedSettlementPoint =
       updateDto.estadoServicio === (EstadoOrden.LIQUIDADO as EstadoOrden) ||
-      updateDto.estadoServicio === (EstadoOrden.TECNICO_FINALIZO as EstadoOrden);
+      updateDto.estadoServicio ===
+        (EstadoOrden.TECNICO_FINALIZO as EstadoOrden);
     const explicitPaymentRegistration =
       incomingTransferEvents.length > 0 ||
       updateDto.comprobantePago !== undefined ||
@@ -2147,10 +2176,7 @@ export class OrdenesServicioService {
         requestedLiquidation && (membershipId || updateDto.liquidadoPorId)
           ? { connect: { id: membershipId || updateDto.liquidadoPorId } }
           : undefined,
-      liquidadoAt:
-        requestedLiquidation
-          ? new Date()
-          : undefined,
+      liquidadoAt: requestedLiquidation ? new Date() : undefined,
       fechaPago: latestTransferEvent
         ? new Date(latestTransferEvent.fechaPago)
         : fechaPagoDate,
@@ -2183,7 +2209,7 @@ export class OrdenesServicioService {
         const totals = this.calculateBreakdownTotals(
           breakdownVigente,
           valorCotizadoResuelto,
-          (updateDto.estadoServicio || orden.estadoServicio) as EstadoOrden,
+          updateDto.estadoServicio || orden.estadoServicio,
           confirmedTransferAmount,
         );
         data.valorPagado = totals.valorPagado;
@@ -2441,7 +2467,10 @@ export class OrdenesServicioService {
         } else {
           // Si no ha terminado, el componente de efectivo no cuenta como recaudado.
           // El estado será PARCIAL si ya hubo transferencias reales, o PENDIENTE si solo hay efectivo planeado.
-          estadoPago = valorTransferencia > 0 ? EstadoPagoOrden.PARCIAL : EstadoPagoOrden.PENDIENTE;
+          estadoPago =
+            valorTransferencia > 0
+              ? EstadoPagoOrden.PARCIAL
+              : EstadoPagoOrden.PENDIENTE;
         }
       } else {
         // La transferencia solo cuenta como pago real cuando existe evidencia explícita.
@@ -3038,7 +3067,11 @@ export class OrdenesServicioService {
       );
     }
 
-    const scopedWhere = this.buildScopedOrdenWhere(tenantId, id, performingUser);
+    const scopedWhere = this.buildScopedOrdenWhere(
+      tenantId,
+      id,
+      performingUser,
+    );
     const orden = await this.prisma.ordenServicio.findFirst({
       where: scopedWhere,
       include: {
