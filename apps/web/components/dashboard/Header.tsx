@@ -80,7 +80,7 @@ export function Header({ onMenuClick, isSidebarOpen }: { onMenuClick?: () => voi
         <div className="relative w-full group hidden sm:block">
           {/* SIX SEVEN MEME OVERLAY */}
           {jokeState === "six" && (
-            <div className="absolute left-12 -top-6 text-[#00FBFF] font-black italic animate-pulse tracking-tighter">
+            <div className="absolute left-12 -top-6 text-[#00FBFF] font-bold italic animate-pulse tracking-tighter">
               SIX... 🏀
             </div>
           )}
@@ -96,13 +96,13 @@ export function Header({ onMenuClick, isSidebarOpen }: { onMenuClick?: () => voi
               </div>
               <div className="relative group">
                 {/* Chromatic Aberration Layers */}
-                <div className="absolute inset-0 text-[#FF00FF] translate-x-1 translate-y-1 opacity-70 blur-[1px] text-5xl font-black italic italic tracking-tighter animate-[bass-boost_0.15s_ease-in-out_infinite_reverse]">
+                <div className="absolute inset-0 text-[#FF00FF] translate-x-1 translate-y-1 opacity-70 blur-[1px] text-5xl font-bold italic tracking-tighter animate-[bass-boost_0.15s_ease-in-out_infinite_reverse]">
                   SIX SEVEN!
                 </div>
-                <div className="absolute inset-0 text-[#00FFFF] -translate-x-1 -translate-y-1 opacity-70 blur-[1px] text-5xl font-black italic italic tracking-tighter animate-[bass-boost_0.15s_ease-in-out_infinite]">
+                <div className="absolute inset-0 text-[#00FFFF] -translate-x-1 -translate-y-1 opacity-70 blur-[1px] text-5xl font-bold italic tracking-tighter animate-[bass-boost_0.15s_ease-in-out_infinite]">
                   SIX SEVEN!
                 </div>
-                <div className="relative bg-black/90 text-white px-8 py-3 rounded-xl text-5xl font-black italic tracking-tighter border-y-4 border-[#00FBFF] shadow-[0_0_60px_rgba(0,251,255,0.6)] animate-[bass-boost_0.15s_ease-in-out_infinite]">
+                <div className="relative bg-black/90 text-white px-8 py-3 rounded-xl text-5xl font-bold italic tracking-tighter border-y-4 border-[#00FBFF] shadow-[0_0_60px_rgba(0,251,255,0.6)] animate-[bass-boost_0.15s_ease-in-out_infinite]">
                   SIX SEVEN! 🗣️
                 </div>
               </div>
@@ -150,7 +150,6 @@ export function Header({ onMenuClick, isSidebarOpen }: { onMenuClick?: () => voi
           50% { transform: translateY(-20px); }
         }
       `}</style>
-      {/* ... rest of the component (header contents unchanged) */}
 
       <div className="flex items-center gap-4 lg:gap-6 pl-4 lg:pl-6 ml-4">
         <div className="hidden md:block">
@@ -172,10 +171,10 @@ export function Header({ onMenuClick, isSidebarOpen }: { onMenuClick?: () => voi
             <User className="h-5 w-5" />
           </div>
           <div className="hidden text-left lg:block pr-2">
-            <p className="text-[13px] font-black text-foreground leading-tight">
+            <p className="text-[13px] font-bold text-foreground leading-tight">
               {userName || "Cargando..."}
             </p>
-            <p className="text-[10px] font-black uppercase tracking-[0.15em] text-[#01ADFB] mt-0.5">
+            <p className="text-[10px] font-semibold uppercase tracking-[0.15em] text-[#01ADFB] mt-0.5">
               {userRole}
             </p>
           </div>

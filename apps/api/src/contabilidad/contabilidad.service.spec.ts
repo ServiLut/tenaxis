@@ -407,6 +407,90 @@ describe('ContabilidadService - registrarConsignacion endurecido', () => {
     expect(soportes[1].path).toBe('new-path.jpg');
   });
 
+  it('cierra correctamente una orden mixta cuando la transferencia ya estaba validada y se concilia el efectivo restante', async () => {
+    const { service, prismaMock } = buildService();
+
+    prismaMock.ordenServicio.findMany.mockResolvedValue([
+      makeOrder({
+        id: 'orden-mixta-cierre',
+        valorCotizado: 100000,
+        valorPagado: 100000,
+        comprobantePago: [
+          {
+            tipo: 'TRANSFERENCIA',
+            path: 'ordenes/transferencia-validada.jpg',
+            fecha: new Date('2026-03-25T15:00:00.000Z'),
+          },
+        ],
+        desglosePago: [
+          { metodo: 'TRANSFERENCIA', monto: 40000, referencia: 'TRX-400' },
+          { metodo: 'EFECTIVO', monto: 60000 },
+        ],
+        declaracionEfectivo: {
+          valorDeclarado: 60000,
+          consignado: false,
+          tecnicoId: 'tech-1',
+        },
+      }),
+    ]);
+
+    await service.registrarConsignacion(tenantId, creatorId, {
+      ...baseData,
+      ordenIds: ['orden-mixta-cierre'],
+      valorConsignado: 60000,
+      comprobantePath: 'consignaciones/mixto-cierre.jpg',
+    });
+
+    expect(prismaMock.ordenServicio.update).toHaveBeenCalledWith(
+      expect.objectContaining({
+        where: { id: 'orden-mixta-cierre' },
+        data: expect.objectContaining({
+          estadoPago: EstadoPagoOrden.CONCILIADO,
+          estadoServicio: EstadoOrden.LIQUIDADO,
+        }),
+      }),
+    );
+  });
+
+  it('mantiene la orden mixta en PARCIAL cuando se concilia efectivo pero la transferencia sigue pendiente', async () => {
+    const { service, prismaMock } = buildService();
+
+    prismaMock.ordenServicio.findMany.mockResolvedValue([
+      makeOrder({
+        id: 'orden-mixta-parcial',
+        valorCotizado: 100000,
+        valorPagado: 60000,
+        comprobantePago: [],
+        desglosePago: [
+          { metodo: 'TRANSFERENCIA', monto: 40000, referencia: 'TRX-400' },
+          { metodo: 'EFECTIVO', monto: 60000 },
+        ],
+        declaracionEfectivo: {
+          valorDeclarado: 60000,
+          consignado: false,
+          tecnicoId: 'tech-1',
+        },
+      }),
+    ]);
+
+    await service.registrarConsignacion(tenantId, creatorId, {
+      ...baseData,
+      ordenIds: ['orden-mixta-parcial'],
+      valorConsignado: 60000,
+      comprobantePath: 'consignaciones/mixto-parcial.jpg',
+    });
+
+    expect(prismaMock.ordenServicio.update).toHaveBeenCalledWith(
+      expect.objectContaining({
+        where: { id: 'orden-mixta-parcial' },
+        data: expect.objectContaining({
+          estadoPago: EstadoPagoOrden.PARCIAL,
+          estadoServicio: undefined,
+        }),
+      }),
+    );
+  });
+
   it('expone saldo pendiente en recaudo para órdenes mixtas con efectivo pendiente', async () => {
     const { service, prismaMock } = buildService();
 

@@ -265,6 +265,184 @@ describe('OrdenesServicioService - endurecimiento financiero', () => {
 
       expect(updateCall.data.valorPagado).toBe(100000);
       expect(updateCall.data.estadoPago).toBe(EstadoPagoOrden.PAGADO);
+      expect(updateCall.data.estadoServicio).toBe(EstadoOrden.LIQUIDADO);
+      expect(updateCall.data.liquidadoAt).toBeInstanceOf(Date);
+    });
+
+    it('no marca LIQUIDADO una transferencia parcial aunque tenga evidencia', async () => {
+      await arrangeUpdate({
+        orderOverrides: { valorCotizado: 100000 },
+        updateDto: {
+          desglosePago: [
+            {
+              metodo: MetodoPagoBase.TRANSFERENCIA,
+              monto: 10000,
+              referencia: 'TRX-010',
+            },
+          ],
+          estadoServicio: EstadoOrden.LIQUIDADO,
+          comprobantePago: 'ordenes/comp-parcial.png',
+          fechaPago: '2026-03-25',
+          referenciaPago: 'TRX-010',
+        },
+        updatedOverrides: {
+          estadoServicio: EstadoOrden.TECNICO_FINALIZO,
+          estadoPago: EstadoPagoOrden.PARCIAL,
+          liquidadoAt: null,
+        },
+      });
+
+      const updateCall = prismaMock.ordenServicio.update.mock.calls[0][0];
+
+      expect(updateCall.data.valorPagado).toBe(10000);
+      expect(updateCall.data.estadoPago).toBe(EstadoPagoOrden.PARCIAL);
+      expect(updateCall.data.estadoServicio).toBe(EstadoOrden.TECNICO_FINALIZO);
+      expect(updateCall.data.liquidadoAt).toBeNull();
+      expect(updateCall.data.liquidadoPor).toEqual({ disconnect: true });
+    });
+
+    it('acumula anticipo y saldo por transferencia sin pisar el primer comprobante legacy', async () => {
+      await arrangeUpdate({
+        orderOverrides: {
+          valorCotizado: 100000,
+          valorPagado: 10000,
+          estadoPago: EstadoPagoOrden.PARCIAL,
+          estadoServicio: EstadoOrden.TECNICO_FINALIZO,
+          desglosePago: [
+            { metodo: MetodoPagoBase.TRANSFERENCIA, monto: 100000 },
+          ],
+          comprobantePago: 'ordenes/comp-1.png',
+          referenciaPago: 'TRX-001',
+          fechaPago: new Date('2026-03-25T05:00:00.000Z'),
+        },
+        updateDto: {
+          estadoServicio: EstadoOrden.LIQUIDADO,
+          transferencias: [
+            {
+              monto: 90000,
+              comprobantePath: 'ordenes/comp-2.png',
+              referenciaPago: 'TRX-002',
+              fechaPago: '2026-03-26',
+            },
+          ],
+        },
+        updatedOverrides: {
+          estadoServicio: EstadoOrden.LIQUIDADO,
+          estadoPago: EstadoPagoOrden.PAGADO,
+          valorPagado: 100000,
+        },
+      });
+
+      const updateCall = prismaMock.ordenServicio.update.mock.calls[0][0];
+      const comprobantes = updateCall.data.comprobantePago as Array<Record<string, unknown>>;
+
+      expect(comprobantes).toHaveLength(2);
+      expect(comprobantes[0]).toEqual(
+        expect.objectContaining({
+          path: 'ordenes/comp-1.png',
+          monto: 10000,
+          referenciaPago: 'TRX-001',
+        }),
+      );
+      expect(comprobantes[1]).toEqual(
+        expect.objectContaining({
+          path: 'ordenes/comp-2.png',
+          monto: 90000,
+          referenciaPago: 'TRX-002',
+        }),
+      );
+      expect(updateCall.data.valorPagado).toBe(100000);
+      expect(updateCall.data.estadoPago).toBe(EstadoPagoOrden.PAGADO);
+      expect(updateCall.data.estadoServicio).toBe(EstadoOrden.LIQUIDADO);
+    });
+
+    it('mantiene la orden abierta cuando varias transferencias todavía no cubren el total', async () => {
+      await arrangeUpdate({
+        orderOverrides: {
+          valorCotizado: 100000,
+          valorPagado: 10000,
+          estadoPago: EstadoPagoOrden.PARCIAL,
+          estadoServicio: EstadoOrden.TECNICO_FINALIZO,
+          desglosePago: [
+            { metodo: MetodoPagoBase.TRANSFERENCIA, monto: 100000 },
+          ],
+          comprobantePago: [
+            {
+              path: 'ordenes/comp-1.png',
+              monto: 10000,
+              referenciaPago: 'TRX-001',
+              fechaPago: '2026-03-25T05:00:00.000Z',
+            },
+          ],
+          referenciaPago: 'TRX-001',
+          fechaPago: new Date('2026-03-25T05:00:00.000Z'),
+        },
+        updateDto: {
+          estadoServicio: EstadoOrden.LIQUIDADO,
+          transferencias: [
+            {
+              monto: 20000,
+              comprobantePath: 'ordenes/comp-2.png',
+              referenciaPago: 'TRX-002',
+              fechaPago: '2026-03-26',
+            },
+          ],
+        },
+        updatedOverrides: {
+          estadoServicio: EstadoOrden.TECNICO_FINALIZO,
+          estadoPago: EstadoPagoOrden.PARCIAL,
+          valorPagado: 30000,
+          liquidadoAt: null,
+        },
+      });
+
+      const updateCall = prismaMock.ordenServicio.update.mock.calls[0][0];
+
+      expect(updateCall.data.valorPagado).toBe(30000);
+      expect(updateCall.data.estadoPago).toBe(EstadoPagoOrden.PARCIAL);
+      expect(updateCall.data.estadoServicio).toBe(EstadoOrden.TECNICO_FINALIZO);
+      expect(updateCall.data.liquidadoAt).toBeNull();
+      expect(updateCall.data.liquidadoPor).toEqual({ disconnect: true });
+    });
+
+    it('mantiene mixtos funcionales cuando la transferencia ya estaba registrada y el efectivo se declara al finalizar', async () => {
+      await arrangeUpdate({
+        orderOverrides: {
+          valorCotizado: 100000,
+          valorPagado: 40000,
+          estadoPago: EstadoPagoOrden.PARCIAL,
+          estadoServicio: EstadoOrden.PROCESO,
+          desglosePago: [
+            { metodo: MetodoPagoBase.TRANSFERENCIA, monto: 40000 },
+            { metodo: MetodoPagoBase.EFECTIVO, monto: 60000 },
+          ],
+          comprobantePago: [
+            {
+              path: 'ordenes/comp-1.png',
+              monto: 40000,
+              referenciaPago: 'TRX-001',
+              fechaPago: '2026-03-25T05:00:00.000Z',
+            },
+          ],
+          referenciaPago: 'TRX-001',
+          fechaPago: new Date('2026-03-25T05:00:00.000Z'),
+        },
+        updateDto: {
+          estadoServicio: EstadoOrden.TECNICO_FINALIZO,
+        },
+        updatedOverrides: {
+          estadoServicio: EstadoOrden.TECNICO_FINALIZO,
+          estadoPago: EstadoPagoOrden.EFECTIVO_DECLARADO,
+          valorPagado: 100000,
+          tecnicoId: 'tech-1',
+        },
+      });
+
+      const updateCall = prismaMock.ordenServicio.update.mock.calls[0][0];
+
+      expect(updateCall.data.valorPagado).toBe(100000);
+      expect(updateCall.data.estadoPago).toBe(EstadoPagoOrden.EFECTIVO_DECLARADO);
+      expect(prismaMock.declaracionEfectivo.create).toHaveBeenCalledTimes(1);
     });
 
     it('mantiene cortesía como cierre válido cuando se confirma explícitamente', async () => {

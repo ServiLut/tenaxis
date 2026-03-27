@@ -50,6 +50,17 @@ export interface GenerateMonitoringPayrollPayload {
   observaciones?: string;
 }
 
+export interface RegistrarConsignacionPayload {
+  tecnicoId: string;
+  empresaId: string;
+  valorConsignado?: number;
+  referenciaBanco: string;
+  ordenIds: string[];
+  fechaConsignacion: string;
+  observacion?: string;
+  comprobantePath: string;
+}
+
 export const contabilidadClient = {
   async getRecaudoTecnicos(empresaId?: string): Promise<TechnicianRecaudo[]> {
     const url = empresaId
@@ -121,10 +132,17 @@ export const contabilidadClient = {
     });
   },
 
-  async registrarConsignacion(formData: FormData) {
+  async registrarConsignacion(data: RegistrarConsignacionPayload | FormData) {
+    if (data instanceof FormData) {
+      return apiFetch("/finanzas/registrar-consignacion", {
+        method: "POST",
+        body: data,
+      });
+    }
+
     return apiFetch("/finanzas/registrar-consignacion", {
       method: "POST",
-      body: formData,
+      body: JSON.stringify(data),
     });
   },
 

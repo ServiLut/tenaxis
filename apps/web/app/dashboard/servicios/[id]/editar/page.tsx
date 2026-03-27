@@ -32,6 +32,7 @@ import {
   Plus,
   Save
 } from "lucide-react";
+import { useUserRole } from "@/hooks/use-user-role";
 import { DashboardLayout } from "@/components/dashboard";
 import { cn } from "@/components/ui/utils";
 import {
@@ -209,6 +210,7 @@ function EditarServicioContent({ id }: { id: string }) {
   const router = useRouter();
   const searchParams = useSearchParams();
   const returnTo = searchParams.get("returnTo");
+  const { checkPermission, isLoading: isLoadingRole } = useUserRole();
   
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
@@ -223,6 +225,12 @@ function EditarServicioContent({ id }: { id: string }) {
   const [selectedOperador, setSelectedOperador] = useState("");
   const [initialOperadorId, setInitialOperadorId] = useState("");
   const [numeroOrden, setNumeroOrden] = useState("");
+
+  useEffect(() => {
+    if (!isLoadingRole && !checkPermission("SERVICE_EDIT")) {
+      router.replace("/dashboard/servicios");
+    }
+  }, [isLoadingRole, checkPermission, router]);
   const [direccionesCliente, setDireccionesCliente] = useState<Direccion[]>([]);
 
   // Custom logic states
@@ -600,6 +608,18 @@ function EditarServicioContent({ id }: { id: string }) {
       setSaving(false);
     }
   };
+
+  if (isLoadingRole) {
+    return (
+      <div className="flex h-[60vh] items-center justify-center text-sm font-bold uppercase tracking-widest text-muted-foreground">
+        Validando permisos...
+      </div>
+    );
+  }
+
+  if (!checkPermission("SERVICE_EDIT")) {
+    return null;
+  }
 
   if (loading) {
     return (

@@ -8,17 +8,13 @@ import {
   UseGuards,
   Query,
   UnauthorizedException,
-  UseInterceptors,
   UsePipes,
-  UploadedFile,
   ValidationPipe,
 } from '@nestjs/common';
 import { ContabilidadService } from './contabilidad.service';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { JwtPayload } from '../auth/jwt-payload.interface';
 import { Request } from 'express';
-import { FileInterceptor } from '@nestjs/platform-express';
-import { SupabaseService } from '../supabase/supabase.service';
 import { GenerateMonitoringPayrollDto } from './generate-monitoring-payroll.dto';
 import { RegistrarConsignacionDto } from './registrar-consignacion.dto';
 import { resolveScopedEmpresaId } from '../common/utils/access-control.util';
@@ -31,10 +27,7 @@ interface RequestWithUser extends Request {
 @UseGuards(JwtAuthGuard)
 @UsePipes(new ValidationPipe({ transform: true, whitelist: true }))
 export class FinanzasController {
-  constructor(
-    private readonly contabilidadService: ContabilidadService,
-    private readonly supabaseService: SupabaseService,
-  ) {}
+  constructor(private readonly contabilidadService: ContabilidadService) {}
 
   @Get('recaudo-tecnicos')
   findAll(
@@ -166,32 +159,15 @@ export class FinanzasController {
   }
 
   @Post('registrar-consignacion')
-  @UseInterceptors(FileInterceptor('comprobanteFile'))
   async register(
     @Req() req: RequestWithUser,
     @Body() data: RegistrarConsignacionDto,
-    @UploadedFile() comprobanteFile: Express.Multer.File,
   ) {
     const tenantId = req.user.tenantId;
     const membershipId = req.user.membershipId;
 
     if (!tenantId || !membershipId) {
       throw new UnauthorizedException('Auth data missing');
-    }
-
-    let fileId = '';
-    if (comprobanteFile) {
-      const fileExt = comprobanteFile.originalname.split('.').pop();
-      const fileName = `${Math.random().toString(36).substring(2)}-${Date.now()}.${fileExt}`;
-      const filePath = `comprobanteOrdenServicio/${fileName}`;
-
-      fileId =
-        (await this.supabaseService.uploadFile(
-          filePath,
-          comprobanteFile.buffer,
-          comprobanteFile.mimetype,
-          'tenaxis-docs',
-        )) || '';
     }
 
     return this.contabilidadService.registrarConsignacion(
@@ -202,8 +178,8 @@ export class FinanzasController {
         empresaId: resolveScopedEmpresaId(req.user, data.empresaId),
         valorConsignado: data.valorConsignado,
         referenciaBanco: data.referenciaBanco,
-        comprobantePath: fileId,
-        ordenIds: JSON.parse(data.ordenIds) as string[],
+        comprobantePath: data.comprobantePath,
+        ordenIds: data.ordenIds,
         fechaConsignacion: data.fechaConsignacion,
         observacion: data.observacion,
       },

@@ -8,7 +8,10 @@ import {
   IsUUID,
   IsArray,
   IsBoolean,
+  Min,
+  ValidateNested,
 } from 'class-validator';
+import { Type } from 'class-transformer';
 import {
   NivelInfestacion,
   TipoVisita,
@@ -180,6 +183,38 @@ export class CreateOrdenServicioDto {
   @IsOptional()
   fechaPago?: string;
 
+  @IsArray()
+  @ValidateNested({ each: true })
+  @Type(() => TransferenciaRealDto)
+  @IsOptional()
+  transferencias?: TransferenciaRealDto[];
+
   @IsOptional()
   desglosePago?: any[]; // Validaremos la estructura en el servicio para mayor flexibilidad con JSON
+}
+
+export class TransferenciaRealDto {
+  @IsNumber()
+  @Min(0.01)
+  monto: number;
+
+  @IsString()
+  @IsNotEmpty()
+  comprobantePath: string;
+
+  @IsString()
+  @IsNotEmpty()
+  referenciaPago: string;
+
+  @IsDateString()
+  @IsNotEmpty()
+  fechaPago: string;
+
+  @IsString()
+  @IsOptional()
+  banco?: string;
+
+  @IsString()
+  @IsOptional()
+  observacion?: string;
 }

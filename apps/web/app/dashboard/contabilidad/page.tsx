@@ -53,7 +53,8 @@ import {
   SelectValue,
 } from "@/components/ui/select-shadcn";
 import { 
-  type TechnicianRecaudo
+  type TechnicianRecaudo,
+  type RegistrarConsignacionPayload
 } from "@/lib/api/contabilidad-client";
 import { 
   createSignedUploadUrl, 
@@ -715,7 +716,7 @@ function RecaudoView() {
       // 2. Registrar la consignación en el backend mandando la RUTA del archivo
       const valorConsignadoLegacy = totalSeleccionado; // Legacy: el backend recalcula y valida el total real
 
-      await contabilidadClient.registrarConsignacion({
+      const consignacionPayload: RegistrarConsignacionPayload = {
         tecnicoId: selectedTech.id,
         empresaId: empresaId,
         valorConsignado: valorConsignadoLegacy,
@@ -724,17 +725,30 @@ function RecaudoView() {
         fechaConsignacion: formData.fechaConsignacion,
         observacion: formData.observacion || undefined,
         comprobantePath: signed.path, // Mandamos la ruta relativa
-      });
+      };
+
+      await contabilidadClient.registrarConsignacion(consignacionPayload);
 
       toast.success("Consignación registrada y conciliada exitosamente", { id: toastId });
       setIsModalOpen(false);
       fetchData();
     } catch (error) {
       console.error("Consignation error:", error);
-      const errorMessage =
-        error instanceof Error && error.message.trim()
-          ? error.message
-          : "Error al procesar el registro";
+      const errorMessage = (() => {
+        if (error instanceof Error && error.message.trim()) {
+          return error.message;
+        }
+
+        if (typeof error === "string" && error.trim()) {
+          return error;
+        }
+
+        try {
+          return JSON.stringify(error);
+        } catch {
+          return "Error al procesar el registro";
+        }
+      })();
       toast.error(errorMessage, { id: toastId });
     } finally {
       setIsSaving(false);

@@ -53,6 +53,7 @@ import {
   AlertTriangle,
   CheckCircle2,
 } from "lucide-react";
+import { useUserRole } from "@/hooks/use-user-role";
 import { DashboardLayout } from "@/components/dashboard";
 import { cn } from "@/components/ui/utils";
 import { getBrowserCookie } from "@/lib/api/browser-client";
@@ -227,6 +228,7 @@ const formatContractDate = (value?: string | null) => {
 
 function NuevoServicioContent() {
   const router = useRouter();
+  const { checkPermission, isLoading: isLoadingRole } = useUserRole();
   const [loading, setLoading] = useState(false);
   const [clientes, setClientes] = useState<Cliente[]>([]);
   const [operadores, setOperadores] = useState<Operador[]>([]);
@@ -314,6 +316,12 @@ function NuevoServicioContent() {
     nextActionAt: "",
   });
   const isGarantia = tipoVisita === GARANTIA_VISIT_TYPE;
+
+  useEffect(() => {
+    if (!isLoadingRole && !checkPermission("SERVICE_CREATE")) {
+      router.replace("/dashboard/servicios");
+    }
+  }, [isLoadingRole, checkPermission, router]);
 
   // Persistimos solo contexto operativo no sensible para evitar exponer o rehidratar datos contables en la URL.
   const syncToUrl = useCallback(() => {
@@ -1004,6 +1012,18 @@ function NuevoServicioContent() {
 
   const isEmpresaLocked = userRole === "ASESOR";
   const isCreationBlocked = Boolean(followUpStatus?.blocked);
+
+  if (isLoadingRole) {
+    return (
+      <div className="flex h-[60vh] items-center justify-center text-sm font-bold uppercase tracking-widest text-muted-foreground">
+        Validando permisos...
+      </div>
+    );
+  }
+
+  if (!checkPermission("SERVICE_CREATE")) {
+    return null;
+  }
 
   return (
     <div className="max-w-5xl mx-auto w-full h-[calc(100vh-12rem)] flex flex-col min-h-0">

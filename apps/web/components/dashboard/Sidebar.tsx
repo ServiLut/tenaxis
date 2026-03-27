@@ -205,7 +205,7 @@ export function Sidebar({ isOpen, onClose }: SidebarProps) {
                 <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-[#01ADFB] text-white shadow-lg transition-transform group-hover:scale-105">
                   <Sparkles className="h-7 w-7" />
                 </div>
-                <span className="text-2xl font-black tracking-tighter text-[#F8FAFC]">
+                <span className="text-2xl font-bold tracking-tighter text-[#F8FAFC]">
                   Tenaxis
                 </span>
               </Link>
@@ -228,7 +228,7 @@ export function Sidebar({ isOpen, onClose }: SidebarProps) {
           {/* Navigation - Flexible area with scroll */}
           <nav className="mt-10 flex-1 space-y-8 overflow-y-auto custom-scrollbar pr-2 -mr-2">
             <div className="space-y-2">
-              <p className="px-4 text-[10px] font-black uppercase tracking-[0.2em] text-[#F8FAFC]/40">
+              <p className="px-4 text-[10px] font-semibold uppercase tracking-[0.2em] text-[#F8FAFC]/40">
                 Principal
               </p>
               <div className="space-y-1">
@@ -258,7 +258,7 @@ export function Sidebar({ isOpen, onClose }: SidebarProps) {
             </div>
 
             <div className="space-y-2">
-              <p className="px-4 text-[10px] font-black uppercase tracking-[0.2em] text-[#F8FAFC]/40">
+              <p className="px-4 text-[10px] font-semibold uppercase tracking-[0.2em] text-[#F8FAFC]/40">
                 Sistema
               </p>
               <div className="space-y-1">
@@ -295,7 +295,7 @@ export function Sidebar({ isOpen, onClose }: SidebarProps) {
                   <ShieldCheck className="h-6 w-6" />
                 </div>
                 <div className="overflow-hidden">
-                  <p className="truncate text-xs font-black uppercase tracking-wider text-[#F8FAFC]">
+                  <p className="truncate text-xs font-semibold uppercase tracking-wider text-[#F8FAFC]">
                     Plan Enterprise
                   </p>
                   <p className="text-[10px] font-bold text-[#F8FAFC]/40">

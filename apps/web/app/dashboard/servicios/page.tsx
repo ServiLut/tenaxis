@@ -66,6 +66,7 @@ import {
   DropdownMenuItem,
   DropdownMenuSeparator,
 } from "@/components/ui/dropdown-menu";
+import { useUserRole } from "@/hooks/use-user-role";
 import { cn, getStorageUrl } from "@/lib/utils";
 import { toast } from "sonner";
 import Image from "next/image";
@@ -143,10 +144,15 @@ interface FollowUpRow extends Servicio {
 }
 
 interface SoportePago {
-  tipo: string;
+  tipo?: string;
   path: string;
   monto?: number;
   fecha?: string;
+  fechaPago?: string;
+  referenciaPago?: string;
+  banco?: string;
+  observacion?: string;
+  metodo?: string;
 }
 
 function resolveSoportePagoUrl(bucket: string, path?: string | null) {
@@ -213,7 +219,7 @@ interface OrdenServicioRaw {
   facturaPath?: string | null;
   facturaElectronica?: string | null;
   financialLock?: boolean;
-  comprobantePago?: SoportePago[] | null;
+  comprobantePago?: SoportePago[] | string | null;
   referenciaPago?: string | null;
   fechaPago?: string | null;
   linkMaps?: string | null;
@@ -248,6 +254,110 @@ interface OrdenServicioRaw {
   }[];
   ordenesHijas?: OrdenServicioRaw[];
 }
+
+interface LiquidarTransferenciaForm {
+  id: string;
+  monto: string;
+  fechaPago: string;
+  referenciaPago: string;
+  banco: string;
+  observacion: string;
+  comprobanteFile: File | null;
+  existingPath?: string;
+  persisted?: boolean;
+}
+
+const parseCurrencyInput = (value?: string) =>
+  Number.parseFloat((value || "").replace(/\./g, "")) || 0;
+
+const formatCurrencyInput = (value?: number | string | null) => {
+  const normalized =
+    typeof value === "number"
+      ? value
+      : Number.parseFloat(String(value ?? "").replace(/[^\d.-]/g, ""));
+
+  if (!Number.isFinite(normalized) || normalized <= 0) {
+    return "";
+  }
+
+  return normalized.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+};
+
+const toPaymentInputDate = (value?: string | null) => {
+  if (!value) return toBogotaYmd();
+  if (/^\d{4}-\d{2}-\d{2}$/.test(value)) return value;
+
+  try {
+    return utcIsoToBogotaYmd(value);
+  } catch {
+    return value.slice(0, 10);
+  }
+};
+
+const createTransferenciaForm = (
+  partial?: Partial<LiquidarTransferenciaForm>,
+): LiquidarTransferenciaForm => ({
+  id:
+    partial?.id ||
+    `${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 8)}`,
+  monto: partial?.monto || "",
+  fechaPago: partial?.fechaPago || toBogotaYmd(),
+  referenciaPago: partial?.referenciaPago || "",
+  banco: partial?.banco || "",
+  observacion: partial?.observacion || "",
+  comprobanteFile: partial?.comprobanteFile || null,
+  existingPath: partial?.existingPath,
+  persisted: partial?.persisted ?? false,
+});
+
+const getStoredTransferencias = (
+  orden?: Partial<OrdenServicioRaw> | null,
+): LiquidarTransferenciaForm[] => {
+  if (!orden) return [];
+
+  const soportes = Array.isArray(orden.comprobantePago)
+    ? orden.comprobantePago
+    : [];
+
+  const transferencias = soportes
+    .filter((soporte) => soporte?.path)
+    .map((soporte, idx) =>
+      createTransferenciaForm({
+        id: `stored-${idx}-${soporte.path}`,
+        monto: formatCurrencyInput(soporte.monto),
+        fechaPago: toPaymentInputDate(soporte.fechaPago || soporte.fecha),
+        referenciaPago: soporte.referenciaPago || "",
+        banco: soporte.banco || "",
+        observacion: soporte.observacion || "",
+        existingPath: soporte.path,
+        persisted: true,
+      }),
+    );
+
+  if (transferencias.length > 0) {
+    return transferencias;
+  }
+
+  if (orden.referenciaPago || orden.fechaPago || orden.comprobantePago) {
+    const legacyPath =
+      typeof orden.comprobantePago === "string"
+        ? orden.comprobantePago
+        : undefined;
+
+    return [
+      createTransferenciaForm({
+        id: `legacy-${orden.id || "orden"}`,
+        monto: formatCurrencyInput(orden.valorPagado),
+        fechaPago: toPaymentInputDate(orden.fechaPago),
+        referenciaPago: orden.referenciaPago || "",
+        existingPath: legacyPath,
+        persisted: true,
+      }),
+    ];
+  }
+
+  return [];
+};
 
 const CLOSED_FINANCIAL_STATES = new Set([
   "EFECTIVO_DECLARADO",
@@ -483,14 +593,14 @@ function ServiciosSkeleton({ showKPIs = true }: { showKPIs?: boolean }) {
         <table className="w-full text-left border-collapse">
         <thead>
           <tr className="border-b border-border bg-muted/50">
-            <th className="px-8 py-6 text-[10px] font-black uppercase tracking-[0.2em] text-muted-foreground">ID Orden</th>
-            <th className="px-8 py-6 text-[10px] font-black uppercase tracking-[0.2em] text-muted-foreground">Cliente / Servicio</th>
-            <th className="px-8 py-6 text-[10px] font-black uppercase tracking-[0.2em] text-muted-foreground">Dirección</th>
-            <th className="px-8 py-6 text-[10px] font-black uppercase tracking-[0.2em] text-muted-foreground">Programación</th>
-            <th className="px-8 py-6 text-[10px] font-black uppercase tracking-[0.2em] text-muted-foreground">Técnico</th>
-            <th className="px-8 py-6 text-[10px] font-black uppercase tracking-[0.2em] text-muted-foreground">Estado Ops</th>
-            <th className="px-8 py-6 text-[10px] font-black uppercase tracking-[0.2em] text-muted-foreground">Estado Pago</th>
-            <th className="px-8 py-6 text-[10px] font-black uppercase tracking-[0.2em] text-muted-foreground text-right">Acciones</th>
+            <th className="px-8 py-6 text-[10px] font-semibold uppercase tracking-[0.2em] text-muted-foreground">ID Orden</th>
+            <th className="px-8 py-6 text-[10px] font-semibold uppercase tracking-[0.2em] text-muted-foreground">Cliente / Servicio</th>
+            <th className="px-8 py-6 text-[10px] font-semibold uppercase tracking-[0.2em] text-muted-foreground">Dirección</th>
+            <th className="px-8 py-6 text-[10px] font-semibold uppercase tracking-[0.2em] text-muted-foreground">Programación</th>
+            <th className="px-8 py-6 text-[10px] font-semibold uppercase tracking-[0.2em] text-muted-foreground">Técnico</th>
+            <th className="px-8 py-6 text-[10px] font-semibold uppercase tracking-[0.2em] text-muted-foreground">Estado Ops</th>
+            <th className="px-8 py-6 text-[10px] font-semibold uppercase tracking-[0.2em] text-muted-foreground">Estado Pago</th>
+            <th className="px-8 py-6 text-[10px] font-semibold uppercase tracking-[0.2em] text-muted-foreground text-right">Acciones</th>
           </tr>
         </thead>
         <tbody className="divide-y divide-border">
@@ -517,6 +627,17 @@ function ServiciosContent() {
   const searchParams = useSearchParams();
   const pathname = usePathname();
   const router = useRouter();
+  const { checkPermission, isLoading: isLoadingRole } = useUserRole();
+  const canViewServices = checkPermission("SERVICE_VIEW");
+  const canCreateServices = checkPermission("SERVICE_CREATE");
+  const canEditServices = checkPermission("SERVICE_EDIT");
+  const canManageServices = checkPermission("SERVICE_MANAGE");
+
+  useEffect(() => {
+    if (!isLoadingRole && !canViewServices) {
+      router.replace("/dashboard");
+    }
+  }, [canViewServices, isLoadingRole, router]);
 
   const [search, setSearch] = useState(searchParams.get("search") || "");
   const [servicios, setServicios] = useState<Servicio[]>([]);
@@ -608,15 +729,12 @@ function ServiciosContent() {
       observacion?: string;
     }>;
     observacionFinal: string;
-    fechaPago: string;
-    referenciaPago: string;
+    transferencias: LiquidarTransferenciaForm[];
   }>({
     breakdown: [{ metodo: "PENDIENTE", monto: "" }],
     observacionFinal: "",
-    fechaPago: toBogotaYmd(),
-    referenciaPago: "",
+    transferencias: [createTransferenciaForm()],
   });
-  const [comprobanteFile, setComprobanteFile] = useState<File | null>(null);
 
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [isUploading, setIsUploading] = useState(false);
@@ -861,7 +979,7 @@ function ServiciosContent() {
     try {
       const processedBreakdown = liquidarData.breakdown.map(line => ({
         ...line,
-        monto: parseFloat(line.monto.replace(/\./g, "")) || 0
+        monto: parseCurrencyInput(line.monto),
       }));
 
       // Determinar si hay efectivo en el desglose
@@ -869,32 +987,55 @@ function ServiciosContent() {
       const hasTransfer = processedBreakdown.some(
         (b) => b.metodo === "TRANSFERENCIA" && b.monto > 0,
       );
-      const hasExistingTransferProof = Array.isArray(selectedServicio.raw.comprobantePago)
-        ? selectedServicio.raw.comprobantePago.length > 0
-        : Boolean(selectedServicio.raw.comprobantePago);
+      const storedTransferencias = liquidarData.transferencias.filter((transferencia) => transferencia.persisted);
+      const draftTransferencias = liquidarData.transferencias.filter(
+        (transferencia) => !transferencia.persisted,
+      );
+      const activeDraftTransferencias = draftTransferencias.filter((transferencia) => {
+        const monto = parseCurrencyInput(transferencia.monto);
+
+        return (
+          monto > 0 ||
+          transferencia.referenciaPago.trim().length > 0 ||
+          transferencia.banco.trim().length > 0 ||
+          transferencia.observacion.trim().length > 0 ||
+          Boolean(transferencia.comprobanteFile)
+        );
+      });
+      const hasExistingTransferProof =
+        storedTransferencias.length > 0 ||
+        (Array.isArray(selectedServicio.raw.comprobantePago)
+          ? selectedServicio.raw.comprobantePago.length > 0
+          : Boolean(selectedServicio.raw.comprobantePago));
       const needsTransferProof = hasTransfer && !hasCash;
-
-      if (needsTransferProof && !liquidarData.fechaPago) {
-        toast.error("La fecha de pago es obligatoria para registrar transferencias.");
-        return;
-      }
-
-      if (needsTransferProof && !liquidarData.referenciaPago.trim()) {
-        toast.error("La referencia del pago es obligatoria para registrar transferencias.");
-        return;
-      }
 
       if (needsTransferProof && !liquidarData.observacionFinal.trim()) {
         toast.error("La observación de cierre es obligatoria para registrar transferencias.");
         return;
       }
 
-      if (needsTransferProof && !comprobanteFile && !hasExistingTransferProof) {
-        toast.error("Debés adjuntar el comprobante de la transferencia antes de liquidar.");
+      if (needsTransferProof && activeDraftTransferencias.length === 0 && !hasExistingTransferProof) {
+        toast.error("Debés registrar al menos una transferencia con comprobante para liquidar.");
         return;
       }
 
-      if (hasTransfer && hasCash && !comprobanteFile && !hasExistingTransferProof) {
+      const invalidTransferencia = activeDraftTransferencias.find((transferencia) => {
+        const monto = parseCurrencyInput(transferencia.monto);
+
+        return (
+          monto <= 0 ||
+          !transferencia.fechaPago ||
+          !transferencia.referenciaPago.trim() ||
+          !transferencia.comprobanteFile
+        );
+      });
+
+      if (invalidTransferencia) {
+        toast.error("Cada transferencia nueva debe tener monto, fecha, referencia y comprobante.");
+        return;
+      }
+
+      if (hasTransfer && hasCash && activeDraftTransferencias.length === 0 && !hasExistingTransferProof) {
         toast(
           "El efectivo se registrará ahora y la transferencia quedará pendiente de soporte.",
           { icon: "ℹ️" },
@@ -904,24 +1045,57 @@ function ServiciosContent() {
       setIsUploading(true);
       toastId = toast.loading("Liquidando servicio...");
 
-      let comprobanteUrl = "";
-      if (comprobanteFile) {
+      const uploadedTransferencias: Array<{
+        monto: number;
+        comprobantePath: string;
+        referenciaPago: string;
+        fechaPago: string;
+        banco?: string;
+        observacion?: string;
+      }> = [];
+
+      for (const transferencia of activeDraftTransferencias) {
         const signed = await createSignedUploadUrl(
           selectedServicio.raw.id,
           "comprobantePago",
-          comprobanteFile.name,
+          transferencia.comprobanteFile!.name,
         );
-        await uploadToSupabaseSignedUrl(signed.path, signed.token, comprobanteFile);
+        await uploadToSupabaseSignedUrl(
+          signed.path,
+          signed.token,
+          transferencia.comprobanteFile!,
+        );
         await confirmOrdenUpload(selectedServicio.raw.id, "comprobantePago", [signed.path]);
-        comprobanteUrl = signed.path;
+
+        uploadedTransferencias.push({
+          monto: parseCurrencyInput(transferencia.monto),
+          comprobantePath: signed.path,
+          referenciaPago: transferencia.referenciaPago.trim(),
+          fechaPago: transferencia.fechaPago,
+          banco: transferencia.banco.trim() || undefined,
+          observacion: transferencia.observacion.trim() || undefined,
+        });
       }
-      
+
+      const primaryTransferencia =
+        uploadedTransferencias[0] ||
+        (storedTransferencias[0]
+          ? {
+              monto: parseCurrencyInput(storedTransferencias[0].monto),
+              comprobantePath: storedTransferencias[0].existingPath || "",
+              referenciaPago: storedTransferencias[0].referenciaPago.trim(),
+              fechaPago: storedTransferencias[0].fechaPago,
+              banco: storedTransferencias[0].banco.trim() || undefined,
+              observacion: storedTransferencias[0].observacion.trim() || undefined,
+            }
+          : null);
+
       // Validación Temporal para Anticipos
       const now = new Date();
       const visitDate = selectedServicio.raw.fechaVisita ? new Date(selectedServicio.raw.fechaVisita) : null;
       const visitTime = selectedServicio.raw.horaInicio ? new Date(selectedServicio.raw.horaInicio) : null;
       let isFuture = false;
-      
+
       if (visitDate) {
         const scheduledDateTime = new Date(visitDate);
         if (visitTime) scheduledDateTime.setHours(visitTime.getHours(), visitTime.getMinutes(), 0, 0);
@@ -942,26 +1116,28 @@ function ServiciosContent() {
           ...line,
           referencia:
             line.metodo === "TRANSFERENCIA"
-              ? liquidarData.referenciaPago.trim()
+              ? primaryTransferencia?.referenciaPago || line.referencia
               : line.referencia,
         })),
         observacionFinal: liquidarData.observacionFinal,
-        fechaPago: liquidarData.fechaPago,
-        comprobantePago: comprobanteUrl || undefined,
-        referenciaPago: liquidarData.referenciaPago.trim() || undefined,
-        estadoServicio: nuevoEstado
+        fechaPago: primaryTransferencia?.fechaPago || undefined,
+        comprobantePago: primaryTransferencia?.comprobantePath || undefined,
+        referenciaPago: primaryTransferencia?.referenciaPago || undefined,
+        transferencias:
+          uploadedTransferencias.length > 0 ? uploadedTransferencias : undefined,
+        estadoServicio: nuevoEstado,
       });
-      
+
       let successMsg = "Pago registrado correctamente.";
       if (isFuture) successMsg = "Anticipo registrado. El servicio sigue programado.";
-      else if (hasTransfer && hasCash && !comprobanteFile && !hasExistingTransferProof) {
+      else if (hasTransfer && hasCash && uploadedTransferencias.length === 0 && !hasExistingTransferProof) {
         successMsg = "Efectivo registrado. La transferencia quedó pendiente de soporte.";
       }
       else if (nuevoEstado === "LIQUIDADO" && hasTransfer) successMsg = "Transferencia confirmada con soporte. Servicio liquidado exitosamente.";
       else if (nuevoEstado === "LIQUIDADO") successMsg = "Servicio liquidado exitosamente.";
       else if (hasTransfer) successMsg = "Transferencia confirmada. El recaudo en efectivo sigue pendiente.";
       else successMsg = "Recaudo registrado. Pendiente conciliación de efectivo.";
-        
+
       toast.success(successMsg, { id: toastId });
 
       if (nuevoEstado === "LIQUIDADO") {
@@ -978,10 +1154,8 @@ function ServiciosContent() {
       setLiquidarData({
         breakdown: [{ metodo: "PENDIENTE", monto: "" }],
         observacionFinal: "",
-        fechaPago: toBogotaYmd(),
-        referenciaPago: ""
+        transferencias: [createTransferenciaForm()],
       });
-      setComprobanteFile(null);
       fetchServicios();
     } catch (error) {
       console.error("Liquidation error:", error);
@@ -1598,6 +1772,18 @@ function ServiciosContent() {
 
   const isSixSeven = search === "67";
 
+  if (isLoadingRole) {
+    return (
+      <div className="flex h-[60vh] items-center justify-center text-sm font-bold uppercase tracking-widest text-muted-foreground">
+        Validando permisos...
+      </div>
+    );
+  }
+
+  if (!canViewServices) {
+    return null;
+  }
+
   return (
     <DashboardLayout overflowHidden>
       <style dangerouslySetInnerHTML={{ __html: `
@@ -1616,23 +1802,23 @@ function ServiciosContent() {
               <FileText className="h-5 w-5 text-[#01ADFB]" />
             </div>
             <div>
-              <h1 className="text-2xl lg:text-3xl font-black tracking-tight text-foreground uppercase">Órdenes de <span className="text-[#01ADFB]">Servicio</span></h1>
+              <h1 className="text-2xl lg:text-3xl font-bold tracking-tight text-foreground uppercase">Órdenes de <span className="text-[#01ADFB]">Servicio</span></h1>
               <p className="text-muted-foreground font-medium mt-1 text-[10px] uppercase tracking-widest">Control operativo y trazabilidad de servicios técnicos.</p>
             </div>
             <div className="md:ml-auto flex items-center gap-3">
               <Button
                 onClick={() => setShowOperationalQueue(true)}
-                className="h-10 px-6 rounded-xl bg-amber-500 text-white text-[10px] font-black uppercase tracking-widest gap-2 shadow-lg shadow-amber-500/20 hover:bg-amber-600 transition-all"
+                className="h-10 px-6 rounded-xl bg-amber-500 text-white text-[10px] font-semibold uppercase tracking-widest gap-2 shadow-lg shadow-amber-500/20 hover:bg-amber-600 transition-all"
               >
                 <Zap className="h-4 w-4 fill-current" />
                 Cola Operativa
                 {operationalCounts.atrasados + operationalCounts.sinAsignarHoy + operationalCounts.conIncidencia > 0 && (
-                  <span className="ml-1 px-2 py-0.5 rounded-full bg-white text-amber-600 text-[9px] font-black animate-pulse">
+                  <span className="ml-1 px-2 py-0.5 rounded-full bg-white text-amber-600 text-[9px] font-semibold animate-pulse">
                     {operationalCounts.atrasados + operationalCounts.sinAsignarHoy + operationalCounts.conIncidencia}
                   </span>
                 )}
               </Button>
-              <Button variant="outline" size="sm" onClick={() => setShowKPIs(!showKPIs)} className="h-10 px-4 rounded-xl border-border bg-card text-[10px] font-black uppercase tracking-widest gap-2">
+              <Button variant="outline" size="sm" onClick={() => setShowKPIs(!showKPIs)} className="h-10 px-4 rounded-xl border-border bg-card text-[10px] font-semibold uppercase tracking-widest gap-2">
                 {showKPIs ? <><EyeOff className="h-4 w-4" /> Ocultar KPI</> : <><Eye className="h-4 w-4" /> Ver KPI</>}
               </Button>
             </div>
@@ -1656,7 +1842,7 @@ function ServiciosContent() {
                     ].map((item, i) => (
                       <button key={i} onClick={() => applyPreset(item.preset)} disabled={kpisLoading} className="bg-card p-5 rounded-2xl border border-border shadow-sm flex items-center gap-4 text-left hover:bg-muted/60 transition-colors disabled:opacity-60">
                         <div className={cn("h-10 w-10 rounded-xl flex items-center justify-center text-white", item.color)}><item.icon className="h-5 w-5" /></div>
-                        <div><p className="text-[9px] font-black text-muted-foreground uppercase tracking-widest">{item.label}</p><p className="text-xl font-black text-foreground">{item.val}</p></div>
+                        <div><p className="text-[9px] font-semibold text-muted-foreground uppercase tracking-widest">{item.label}</p><p className="text-xl font-bold text-foreground">{item.val}</p></div>
                       </button>
                     ))}
                   </div>
@@ -1674,7 +1860,7 @@ function ServiciosContent() {
                               setCurrentPage(1);
                             }}
                             className={cn(
-                              "h-10 rounded-xl border px-4 text-[10px] font-black uppercase tracking-[0.18em] transition-colors",
+                              "h-10 rounded-xl border px-4 text-[10px] font-semibold uppercase tracking-[0.18em] transition-colors",
                               viewMode === option.key
                                 ? "border-[#01ADFB] bg-[#01ADFB] text-white"
                                 : "border-border bg-background text-muted-foreground hover:bg-muted",
@@ -1689,20 +1875,22 @@ function ServiciosContent() {
                           <Search className="absolute left-4 top-1/2 h-5 w-5 -translate-y-1/2 text-muted-foreground group-focus-within:text-[#01ADFB] transition-colors" />
                           <Input placeholder={viewMode === "seguimientos" ? "Buscar seguimientos..." : "Buscar servicios..."} className="h-12 pl-12 rounded-xl border-none bg-muted focus:ring-2 focus:ring-[#01ADFB]/20 transition-all font-bold text-sm text-foreground" value={search} onChange={(e) => setSearch(e.target.value)} />
                         </div>
-                        <button onClick={() => setShowFilters(!showFilters)} className={cn("h-12 px-5 rounded-xl bg-card border border-border text-muted-foreground font-black text-[10px] uppercase tracking-widest flex items-center gap-2 transition-all", showFilters && "bg-primary text-primary-foreground")}>
+                        <button onClick={() => setShowFilters(!showFilters)} className={cn("h-12 px-5 rounded-xl bg-card border border-border text-muted-foreground font-bold text-[10px] uppercase tracking-widest flex items-center gap-2 transition-all", showFilters && "bg-primary text-primary-foreground")}>
                           <Filter className="h-4 w-4" /> Filtros
                         </button>
                         {hasActiveFilters && (
                           <button
                             onClick={resetAllFilters}
-                            className="h-12 px-5 rounded-xl bg-destructive/10 text-destructive border border-destructive/20 font-black text-[10px] uppercase tracking-widest flex items-center gap-2 transition-all hover:bg-destructive hover:text-white"
+                            className="h-12 px-5 rounded-xl bg-destructive/10 text-destructive border border-destructive/20 font-bold text-[10px] uppercase tracking-widest flex items-center gap-2 transition-all hover:bg-destructive hover:text-white"
                           >
                             <RotateCcw className="h-4 w-4" /> Borrar Filtros
                           </button>
                         )}
                       </div>
                     </div>
-                    <Link href="/dashboard/servicios/nuevo"><div className="flex items-center h-12 px-8 rounded-xl bg-[#01ADFB] text-white gap-3 shadow-lg shadow-[#01ADFB]/20 transition-transform hover:scale-105 active:scale-95 cursor-pointer"><Plus className="h-5 w-5" /><span className="font-black uppercase tracking-widest text-[10px]">Nueva Orden</span></div></Link>
+                    {canCreateServices ? (
+                      <Link href="/dashboard/servicios/nuevo"><div className="flex items-center h-12 px-8 rounded-xl bg-[#01ADFB] text-white gap-3 shadow-lg shadow-[#01ADFB]/20 transition-transform hover:scale-105 active:scale-95 cursor-pointer"><Plus className="h-5 w-5" /><span className="font-bold uppercase tracking-widest text-[10px]">Nueva Orden</span></div></Link>
+                    ) : null}
                   </div>
                   <div className="px-8 py-4 border-b border-border bg-card">
                     <div className="flex flex-wrap gap-2 items-center">
@@ -1711,7 +1899,7 @@ function ServiciosContent() {
                           key={preset.key}
                           onClick={() => applyPreset(preset.key)}
                           className={cn(
-                            "h-8 px-3 rounded-lg border text-[10px] font-black uppercase tracking-wider transition-colors",
+                            "h-8 px-3 rounded-lg border text-[10px] font-semibold uppercase tracking-wider transition-colors",
                             activePreset === preset.key
                               ? "bg-[#01ADFB] text-white border-[#01ADFB]"
                               : "bg-background text-muted-foreground border-border hover:bg-muted",
@@ -1725,7 +1913,7 @@ function ServiciosContent() {
                           <button
                             onClick={() => applyCustomPreset(preset)}
                             className={cn(
-                              "h-8 px-3 rounded-lg border text-[10px] font-black uppercase tracking-wider transition-colors",
+                              "h-8 px-3 rounded-lg border text-[10px] font-semibold uppercase tracking-wider transition-colors",
                               PRESET_COLOR_STYLES[preset.colorToken] || "border-border bg-background text-foreground",
                             )}
                           >
@@ -1751,7 +1939,7 @@ function ServiciosContent() {
                         variant="outline"
                         size="sm"
                         onClick={openCreatePresetModal}
-                        className="h-8 rounded-lg text-[10px] font-black uppercase tracking-wider"
+                        className="h-8 rounded-lg text-[10px] font-semibold uppercase tracking-wider"
                       >
                         + Nuevo preset
                       </Button>
@@ -1762,17 +1950,17 @@ function ServiciosContent() {
                     <div className="px-8 py-8 border-b border-border bg-muted/50 max-h-[60vh] overflow-y-auto custom-scrollbar">
                       <div className="max-w-7xl mx-auto">
                         <div className="flex items-center justify-between mb-8">
-                          <div><h3 className="text-sm font-black uppercase text-foreground flex items-center gap-3"><Filter className="h-5 w-5 text-[#01ADFB]" /> Panel de Filtros</h3><p className="text-[10px] font-medium text-muted-foreground mt-1 uppercase tracking-wider">Refine los resultados de búsqueda</p></div>
-                          <button onClick={() => { setActivePreset("all"); setFilters({ estado: "all", tecnico: "all", urgencia: "all", creador: "all", municipio: "all", metodoPago: "all", empresa: "all", tipo: "all", fechaInicio: "", fechaFin: "" }); }} className="text-[10px] font-black uppercase text-muted-foreground hover:text-[#01ADFB] flex items-center gap-2 px-4 py-2 rounded-xl hover:bg-card border border-border"><RotateCcw className="h-3.5 w-3.5" /> Reiniciar</button>
+                          <div><h3 className="text-sm font-bold uppercase text-foreground flex items-center gap-3"><Filter className="h-5 w-5 text-[#01ADFB]" /> Panel de Filtros</h3><p className="text-[10px] font-medium text-muted-foreground mt-1 uppercase tracking-wider">Refine los resultados de búsqueda</p></div>
+                          <button onClick={() => { setActivePreset("all"); setFilters({ estado: "all", tecnico: "all", urgencia: "all", creador: "all", municipio: "all", metodoPago: "all", empresa: "all", tipo: "all", fechaInicio: "", fechaFin: "" }); }} className="text-[10px] font-semibold uppercase text-muted-foreground hover:text-[#01ADFB] flex items-center gap-2 px-4 py-2 rounded-xl hover:bg-card border border-border"><RotateCcw className="h-3.5 w-3.5" /> Reiniciar</button>
                         </div>
                         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-                          <div className="space-y-2"><Label className="text-[10px] font-black uppercase text-muted-foreground tracking-widest">Creador</Label><Combobox value={filters.creador} onChange={(v) => setFilters(f => ({ ...f, creador: v }))} options={[{ value: "all", label: "TODOS LOS CREADORES" }, ...filterOptions.creadores.map(c => ({ value: c.id, label: c.nombre.toUpperCase() }))]} /></div>
-                          <div className="space-y-2"><Label className="text-[10px] font-black uppercase text-muted-foreground tracking-widest">Técnico</Label><Combobox value={filters.tecnico} onChange={(v) => setFilters(f => ({ ...f, tecnico: v }))} options={[{ value: "all", label: "TODOS LOS TECNICOS" }, ...filterOptions.tecnicos.map(t => ({ value: t.id, label: t.nombre.toUpperCase() }))]} /></div>
-                          <div className="space-y-2"><Label className="text-[10px] font-black uppercase text-muted-foreground tracking-widest">Municipio</Label><Combobox value={filters.municipio} onChange={(v) => setFilters(f => ({ ...f, municipio: v }))} options={[{ value: "all", label: "TODOS LOS MUNICIPIOS" }, ...filterOptions.municipios.map(m => ({ value: m, label: m.toUpperCase() }))]} /></div>
-                          <div className="space-y-2"><Label className="text-[10px] font-black uppercase text-muted-foreground tracking-widest">Estado</Label><Combobox value={filters.estado} onChange={(v) => setFilters(f => ({ ...f, estado: v }))} options={[{ value: "all", label: "TODOS LOS ESTADOS" }, ...filterOptions.estados.map(e => ({ value: e.id, label: e.nombre.toUpperCase() }))]} /></div>
-                          <div className="lg:col-span-2 space-y-2"><Label className="text-[10px] font-black uppercase text-muted-foreground tracking-widest">Rango de Fechas</Label><div className="flex gap-3"><DatePicker date={filters.fechaInicio ? ymdToPickerDate(filters.fechaInicio) : undefined} onChange={(d) => setFilters(f => ({ ...f, fechaInicio: pickerDateToYmd(d) }))} className="flex-1 h-10 bg-background border-border" placeholder="INICIO" /><DatePicker date={filters.fechaFin ? ymdToPickerDate(filters.fechaFin) : undefined} onChange={(d) => setFilters(f => ({ ...f, fechaFin: pickerDateToYmd(d) }))} className="flex-1 h-10 bg-background border-border" placeholder="FIN" /></div></div>
+                          <div className="space-y-2"><Label className="text-[10px] font-semibold uppercase text-muted-foreground tracking-widest">Creador</Label><Combobox value={filters.creador} onChange={(v) => setFilters(f => ({ ...f, creador: v }))} options={[{ value: "all", label: "TODOS LOS CREADORES" }, ...filterOptions.creadores.map(c => ({ value: c.id, label: c.nombre.toUpperCase() }))]} /></div>
+                          <div className="space-y-2"><Label className="text-[10px] font-semibold uppercase text-muted-foreground tracking-widest">Técnico</Label><Combobox value={filters.tecnico} onChange={(v) => setFilters(f => ({ ...f, tecnico: v }))} options={[{ value: "all", label: "TODOS LOS TECNICOS" }, ...filterOptions.tecnicos.map(t => ({ value: t.id, label: t.nombre.toUpperCase() }))]} /></div>
+                          <div className="space-y-2"><Label className="text-[10px] font-semibold uppercase text-muted-foreground tracking-widest">Municipio</Label><Combobox value={filters.municipio} onChange={(v) => setFilters(f => ({ ...f, municipio: v }))} options={[{ value: "all", label: "TODOS LOS MUNICIPIOS" }, ...filterOptions.municipios.map(m => ({ value: m, label: m.toUpperCase() }))]} /></div>
+                          <div className="space-y-2"><Label className="text-[10px] font-semibold uppercase text-muted-foreground tracking-widest">Estado</Label><Combobox value={filters.estado} onChange={(v) => setFilters(f => ({ ...f, estado: v }))} options={[{ value: "all", label: "TODOS LOS ESTADOS" }, ...filterOptions.estados.map(e => ({ value: e.id, label: e.nombre.toUpperCase() }))]} /></div>
+                          <div className="lg:col-span-2 space-y-2"><Label className="text-[10px] font-semibold uppercase text-muted-foreground tracking-widest">Rango de Fechas</Label><div className="flex gap-3"><DatePicker date={filters.fechaInicio ? ymdToPickerDate(filters.fechaInicio) : undefined} onChange={(d) => setFilters(f => ({ ...f, fechaInicio: pickerDateToYmd(d) }))} className="flex-1 h-10 bg-background border-border" placeholder="INICIO" /><DatePicker date={filters.fechaFin ? ymdToPickerDate(filters.fechaFin) : undefined} onChange={(d) => setFilters(f => ({ ...f, fechaFin: pickerDateToYmd(d) }))} className="flex-1 h-10 bg-background border-border" placeholder="FIN" /></div></div>
                         </div>
-                        <div className="mt-8 pt-6 border-t border-border flex justify-end"><Button onClick={() => setShowFilters(false)} className="h-10 px-8 rounded-xl text-[10px] font-black uppercase tracking-widest bg-foreground text-background shadow-lg hover:opacity-90">Finalizar y Cerrar</Button></div>
+                        <div className="mt-8 pt-6 border-t border-border flex justify-end"><Button onClick={() => setShowFilters(false)} className="h-10 px-8 rounded-xl text-[10px] font-semibold uppercase tracking-widest bg-foreground text-background shadow-lg hover:opacity-90">Finalizar y Cerrar</Button></div>
                       </div>
                     </div>
                   )}
@@ -1783,12 +1971,12 @@ function ServiciosContent() {
                         <table className="w-full text-left border-collapse">
                           <thead>
                             <tr className="border-b border-border bg-muted/50 sticky top-0 z-10">
-                              <th className="px-8 py-6 text-[10px] font-black uppercase tracking-[0.2em] text-muted-foreground">Seguimiento</th>
-                              <th className="px-8 py-6 text-[10px] font-black uppercase tracking-[0.2em] text-muted-foreground">Servicio Madre</th>
-                              <th className="px-8 py-6 text-[10px] font-black uppercase tracking-[0.2em] text-muted-foreground">Programación</th>
-                              <th className="px-8 py-6 text-[10px] font-black uppercase tracking-[0.2em] text-muted-foreground">Técnico</th>
-                              <th className="px-8 py-6 text-[10px] font-black uppercase tracking-[0.2em] text-muted-foreground">Estado</th>
-                              <th className="px-8 py-6 text-[10px] font-black uppercase tracking-[0.2em] text-muted-foreground text-right">Acciones</th>
+                              <th className="px-8 py-6 text-[10px] font-semibold uppercase tracking-[0.2em] text-muted-foreground">Seguimiento</th>
+                              <th className="px-8 py-6 text-[10px] font-semibold uppercase tracking-[0.2em] text-muted-foreground">Servicio Madre</th>
+                              <th className="px-8 py-6 text-[10px] font-semibold uppercase tracking-[0.2em] text-muted-foreground">Programación</th>
+                              <th className="px-8 py-6 text-[10px] font-semibold uppercase tracking-[0.2em] text-muted-foreground">Técnico</th>
+                              <th className="px-8 py-6 text-[10px] font-semibold uppercase tracking-[0.2em] text-muted-foreground">Estado</th>
+                              <th className="px-8 py-6 text-[10px] font-semibold uppercase tracking-[0.2em] text-muted-foreground text-right">Acciones</th>
                             </tr>
                           </thead>
                           <tbody className="divide-y divide-border">
@@ -1796,12 +1984,12 @@ function ServiciosContent() {
                               <tr key={s.raw.id} className="group hover:bg-muted/50 transition-colors">
                                 <td className="px-8 py-6">
                                   <div className="space-y-1">
-                                    <p className="font-black text-foreground tracking-tight uppercase">{s.cliente}</p>
+                                    <p className="font-bold text-foreground tracking-tight uppercase">{s.cliente}</p>
                                     <div className="flex items-center gap-2 flex-wrap">
                                       <span className="text-[10px] font-bold text-muted-foreground uppercase">{s.servicioEspecifico}</span>
-                                      <span className={cn("px-2 py-0.5 rounded-md text-[8px] font-black uppercase", URGENCIA_STYLING[s.urgencia])}>{s.urgencia}</span>
+                                      <span className={cn("px-2 py-0.5 rounded-md text-[8px] font-semibold uppercase", URGENCIA_STYLING[s.urgencia])}>{s.urgencia}</span>
                                     </div>
-                                    <p className="text-[10px] font-black uppercase tracking-widest text-amber-700">#{s.id}</p>
+                                    <p className="text-[10px] font-semibold uppercase tracking-widest text-amber-700">#{s.id}</p>
                                     {s.raw.seguimientos?.[0]?.completedAt ? (
                                       <p className="text-[10px] font-bold uppercase tracking-widest text-emerald-700">
                                         Llamada registrada {formatBogotaDateTime(s.raw.seguimientos[0].completedAt)}
@@ -1815,32 +2003,32 @@ function ServiciosContent() {
                                 </td>
                                 <td className="px-8 py-6">
                                   <div className="space-y-1">
-                                    <p className="text-xs font-black uppercase text-foreground">{s.parentCliente}</p>
+                                    <p className="text-xs font-semibold uppercase text-foreground">{s.parentCliente}</p>
                                     <p className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">{s.parentServicio}</p>
                                     <Link href={`/dashboard/servicios/${s.parentId}/editar?returnTo=/dashboard/servicios?tab=seguimientos`}>
-                                      <span className="text-[10px] font-black uppercase tracking-widest text-[#01ADFB]">Ver madre #{s.parentNumero}</span>
+                                      <span className="text-[10px] font-semibold uppercase tracking-widest text-[#01ADFB]">Ver madre #{s.parentNumero}</span>
                                     </Link>
                                   </div>
                                 </td>
                                 <td className="px-8 py-6"><div className="space-y-1.5"><div className="flex items-center gap-2 text-xs font-bold text-muted-foreground"><Calendar className="h-3.5 w-3.5" /> {s.fecha}</div><div className="flex items-center gap-2 text-xs font-bold text-muted-foreground"><Clock className="h-3.5 w-3.5" /> {s.hora}</div></div></td>
                                 <td className="px-8 py-6"><div className="flex items-center gap-3"><div className="h-8 w-8 rounded-lg bg-muted flex items-center justify-center"><User className="h-4 w-4 text-muted-foreground" /></div><span className="text-sm font-bold text-foreground uppercase">{s.tecnico}</span></div></td>
-                                <td className="px-8 py-6"><span className={cn("inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-[10px] font-black uppercase border shadow-sm", ESTADO_STYLING[s.estadoServicio] || ESTADO_STYLING["DEFAULT"])}>{s.estadoServicio}</span></td>
+                                <td className="px-8 py-6"><span className={cn("inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-[10px] font-semibold uppercase border shadow-sm", ESTADO_STYLING[s.estadoServicio] || ESTADO_STYLING["DEFAULT"])}>{s.estadoServicio}</span></td>
                                 <td className="px-8 py-6 text-right">
                                   <div className="flex justify-end gap-2">
                                     <button
                                       onClick={() => openFollowUpModal(s)}
-                                      className="h-10 px-3 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-700 hover:bg-emerald-100 transition-all text-[10px] font-black uppercase tracking-widest"
+                                      className="h-10 px-3 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-700 hover:bg-emerald-100 transition-all text-[10px] font-semibold uppercase tracking-widest"
                                     >
                                       {s.raw.seguimientos?.[0]?.completedAt ? "Actualizar llamada" : "Registrar llamada"}
                                     </button>
                                     <button
                                       onClick={() => { setSelectedServicio(s); setIsModalOpen(true); }}
-                                      className="h-10 px-3 rounded-xl border border-border bg-background text-muted-foreground hover:text-foreground transition-all text-[10px] font-black uppercase tracking-widest"
+                                      className="h-10 px-3 rounded-xl border border-border bg-background text-muted-foreground hover:text-foreground transition-all text-[10px] font-semibold uppercase tracking-widest"
                                     >
                                       Ver
                                     </button>
                                     <Link href={`/dashboard/servicios/${s.raw.id}/editar?returnTo=/dashboard/servicios?tab=seguimientos`}>
-                                      <div className="h-10 px-3 rounded-xl border border-border bg-background text-muted-foreground hover:text-foreground transition-all text-[10px] font-black uppercase tracking-widest flex items-center">
+                                      <div className="h-10 px-3 rounded-xl border border-border bg-background text-muted-foreground hover:text-foreground transition-all text-[10px] font-semibold uppercase tracking-widest flex items-center">
                                         Editar
                                       </div>
                                     </Link>
@@ -1855,28 +2043,28 @@ function ServiciosContent() {
                       <table className="w-full text-left border-collapse">
                         <thead>
           <tr className="border-b border-border bg-muted/50 sticky top-0 z-10">
-            <th className="px-8 py-6 text-[10px] font-black uppercase tracking-[0.2em] text-muted-foreground">ID Orden</th>
-            <th className="px-8 py-6 text-[10px] font-black uppercase tracking-[0.2em] text-muted-foreground">Cliente / Servicio</th>
-            <th className="px-8 py-6 text-[10px] font-black uppercase tracking-[0.2em] text-muted-foreground">Programación</th>
-            <th className="px-8 py-6 text-[10px] font-black uppercase tracking-[0.2em] text-muted-foreground">Técnico</th>
-            <th className="px-8 py-6 text-[10px] font-black uppercase tracking-[0.2em] text-muted-foreground text-center">Tipo Visita</th>
-            <th className="px-8 py-6 text-[10px] font-black uppercase tracking-[0.2em] text-muted-foreground text-center">Estado Ops</th>
-            <th className="px-8 py-6 text-[10px] font-black uppercase tracking-[0.2em] text-muted-foreground text-center">Estado Pago</th>
-            <th className="px-8 py-6 text-[10px] font-black uppercase tracking-[0.2em] text-muted-foreground text-right">Acciones</th>
+            <th className="px-8 py-6 text-[10px] font-semibold uppercase tracking-[0.2em] text-muted-foreground">ID Orden</th>
+            <th className="px-8 py-6 text-[10px] font-semibold uppercase tracking-[0.2em] text-muted-foreground">Cliente / Servicio</th>
+            <th className="px-8 py-6 text-[10px] font-semibold uppercase tracking-[0.2em] text-muted-foreground">Programación</th>
+            <th className="px-8 py-6 text-[10px] font-semibold uppercase tracking-[0.2em] text-muted-foreground">Técnico</th>
+            <th className="px-8 py-6 text-[10px] font-semibold uppercase tracking-[0.2em] text-muted-foreground text-center">Tipo Visita</th>
+            <th className="px-8 py-6 text-[10px] font-semibold uppercase tracking-[0.2em] text-muted-foreground text-center">Estado Ops</th>
+            <th className="px-8 py-6 text-[10px] font-semibold uppercase tracking-[0.2em] text-muted-foreground text-center">Estado Pago</th>
+            <th className="px-8 py-6 text-[10px] font-semibold uppercase tracking-[0.2em] text-muted-foreground text-right">Acciones</th>
           </tr>
         </thead>
         <tbody className="divide-y divide-border">
           {paginatedServicios.map((s) => (
             <React.Fragment key={s.raw.id}>
               <tr className="group hover:bg-muted/50 transition-colors">
-                <td className="px-8 py-6"><span className="font-mono text-xs font-black text-[#01ADFB] bg-[#01ADFB]/10 px-3 py-1.5 rounded-lg border border-[#01ADFB]/20">{s.id}</span></td>
+                <td className="px-8 py-6"><span className="font-mono text-xs font-semibold text-[#01ADFB] bg-[#01ADFB]/10 px-3 py-1.5 rounded-lg border border-[#01ADFB]/20">{s.id}</span></td>
                 <td className="px-8 py-6">
                   <div className="space-y-1">
-                    <p className="font-black text-foreground tracking-tight uppercase">{s.cliente}</p>
+                    <p className="font-bold text-foreground tracking-tight uppercase">{s.cliente}</p>
                     <div className="flex items-center gap-2 flex-wrap">
                       <span className="text-[10px] font-bold text-muted-foreground uppercase">{s.servicioEspecifico}</span>
-                      {s.isFollowUp ? <span className="px-2 py-0.5 rounded-md text-[8px] font-black uppercase bg-emerald-100 text-emerald-700 border border-emerald-200">seguimiento aceptado</span> : null}
-                      <span className={cn("px-2 py-0.5 rounded-md text-[8px] font-black uppercase", URGENCIA_STYLING[s.urgencia])}>{s.urgencia}</span>
+                      {s.isFollowUp ? <span className="px-2 py-0.5 rounded-md text-[8px] font-semibold uppercase bg-emerald-100 text-emerald-700 border border-emerald-200">seguimiento aceptado</span> : null}
+                      <span className={cn("px-2 py-0.5 rounded-md text-[8px] font-semibold uppercase", URGENCIA_STYLING[s.urgencia])}>{s.urgencia}</span>
                     </div>
                   </div>
                 </td>
@@ -1885,7 +2073,7 @@ function ServiciosContent() {
 
                 {/* 1. TIPO DE VISITA */}
                 <td className="px-8 py-6 text-center">
-                  <span className="text-[10px] font-black text-muted-foreground uppercase bg-muted/50 px-3 py-1 rounded-md border border-border">
+                  <span className="text-[10px] font-semibold text-muted-foreground uppercase bg-muted/50 px-3 py-1 rounded-md border border-border">
                     {formatVisitTypeLabel(s.raw.tipoVisita)}
                   </span>
                 </td>
@@ -1893,7 +2081,7 @@ function ServiciosContent() {
                 {/* 2. ESTADO OPERATIVO */}
                 <td className="px-8 py-6 text-center">
                   <span className={cn(
-                    "inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-[10px] font-black uppercase border shadow-sm",
+                    "inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-[10px] font-semibold uppercase border shadow-sm",
                     ESTADO_STYLING[s.estadoServicio] || ESTADO_STYLING["DEFAULT"]
                   )}>
                     {s.estadoServicio}
@@ -1907,42 +2095,42 @@ function ServiciosContent() {
                       const financialLock = getFinancialLockMeta(s.raw);
 
                       return financialLock.locked ? (
-                        <span className="inline-flex items-center gap-1 rounded-full border border-amber-500/30 bg-amber-500/10 px-3 py-1 text-[9px] font-black uppercase tracking-wider text-amber-700">
+                        <span className="inline-flex items-center gap-1 rounded-full border border-amber-500/30 bg-amber-500/10 px-3 py-1 text-[9px] font-semibold uppercase tracking-wider text-amber-700">
                           <AlertTriangle className="h-3 w-3" /> Congelada
                         </span>
                       ) : null;
                     })()}
                     <span className={cn(
-                      "inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-[10px] font-black uppercase border shadow-sm",
+                      "inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-[10px] font-semibold uppercase border shadow-sm",
                       ESTADO_PAGO_STYLING[s.raw.estadoPago || "PENDIENTE"] || ESTADO_PAGO_STYLING["DEFAULT"]
                     )}>
                       {s.raw.estadoPago || "PENDIENTE"}
                     </span>
-                    
+
                     {/* Visualización del método de pago con Popover si es mixto */}
                     {s.raw.desglosePago && s.raw.desglosePago.length > 0 ? (
                       s.raw.desglosePago.length > 1 ? (
                         <Popover>
                           <PopoverTrigger asChild>
-                            <button className="text-[9px] font-black text-[#01ADFB] uppercase cursor-pointer flex items-center gap-1 hover:underline decoration-2 underline-offset-2 transition-all">
+                            <button className="text-[9px] font-semibold text-[#01ADFB] uppercase cursor-pointer flex items-center gap-1 hover:underline decoration-2 underline-offset-2 transition-all">
                               <div className="h-1.5 w-1.5 rounded-full bg-[#01ADFB] animate-pulse" />
                               Múltiples métodos
                             </button>
                           </PopoverTrigger>
                           <PopoverContent align="center" className="w-64 p-4 border-border shadow-2xl rounded-2xl">
                             <div className="space-y-3">
-                              <p className="text-[10px] font-black uppercase tracking-widest text-muted-foreground border-b border-border pb-2">Detalle de Pago Mixto</p>
+                              <p className="text-[10px] font-semibold uppercase tracking-widest text-muted-foreground border-b border-border pb-2">Detalle de Pago Mixto</p>
                               <div className="space-y-2">
                                 {s.raw.desglosePago.map((d, idx) => (
                                   <div key={idx} className="flex justify-between items-center bg-muted/30 p-2 rounded-lg border border-border">
-                                    <span className="text-[9px] font-black uppercase text-foreground">{d.metodo}</span>
-                                    <span className="text-xs font-black text-foreground">$ {Number(d.monto).toLocaleString()}</span>
+                                    <span className="text-[9px] font-semibold uppercase text-foreground">{d.metodo}</span>
+                                    <span className="text-xs font-semibold text-foreground">$ {Number(d.monto).toLocaleString()}</span>
                                   </div>
                                 ))}
                               </div>
                               <div className="pt-2 border-t border-border flex justify-between items-center">
-                                <span className="text-[9px] font-black uppercase text-muted-foreground">Total</span>
-                                <span className="text-sm font-black text-emerald-600">$ {(s.raw.valorPagado || s.raw.desglosePago.reduce((acc, curr) => acc + Number(curr.monto), 0)).toLocaleString()}</span>
+                                <span className="text-[9px] font-semibold uppercase text-muted-foreground">Total</span>
+                                <span className="text-sm font-bold text-emerald-600">$ {(s.raw.valorPagado || s.raw.desglosePago.reduce((acc, curr) => acc + Number(curr.monto), 0)).toLocaleString()}</span>
                               </div>
                             </div>
                           </PopoverContent>
@@ -1968,7 +2156,7 @@ function ServiciosContent() {
                                         className="h-10 px-3 rounded-xl bg-amber-50 border border-amber-200 text-amber-700 hover:bg-amber-100 transition-all flex items-center gap-2"
                                         title={expandedRows[s.raw.id] ? "Ocultar seguimientos" : "Ver seguimientos"}
                                       >
-                                        <span className="text-[10px] font-black uppercase tracking-widest">Seg.</span>
+                                        <span className="text-[10px] font-semibold uppercase tracking-widest">Seg.</span>
                                         <ChevronDown className={cn("h-4 w-4 transition-transform", expandedRows[s.raw.id] && "rotate-180")} />
                                       </button>
                                     ) : null}
@@ -1981,27 +2169,33 @@ function ServiciosContent() {
                                           return (
                                             <>
                                               <DropdownMenuItem onClick={() => { setSelectedServicio(s); setIsModalOpen(true); }} className="flex items-center gap-3 py-2.5 text-[11px] font-bold cursor-pointer text-foreground hover:bg-muted"><Eye className="h-4 w-4 text-[#01ADFB]" /> VER DETALLES</DropdownMenuItem>
-                                              <Link href={`/dashboard/servicios/${s.raw.id}/editar?returnTo=/dashboard/servicios`}><DropdownMenuItem className="flex items-center gap-3 py-2.5 text-[11px] font-bold cursor-pointer text-foreground hover:bg-muted"><Pencil className="h-4 w-4 text-amber-600" /> EDITAR ORDEN</DropdownMenuItem></Link>
-                                              <DropdownMenuSeparator />
+                                              {canEditServices ? (
+                                                <Link href={`/dashboard/servicios/${s.raw.id}/editar?returnTo=/dashboard/servicios`}><DropdownMenuItem className="flex items-center gap-3 py-2.5 text-[11px] font-bold cursor-pointer text-foreground hover:bg-muted"><Pencil className="h-4 w-4 text-amber-600" /> EDITAR ORDEN</DropdownMenuItem></Link>
+                                              ) : null}
+                                              {canEditServices || canManageServices ? <DropdownMenuSeparator /> : null}
                                               <DropdownMenuItem onClick={() => handleCopy(s)} className="flex items-center gap-3 py-2.5 text-[11px] font-bold cursor-pointer text-foreground hover:bg-muted"><Copy className="h-4 w-4 text-purple-600" /> COPIAR INFO</DropdownMenuItem>
-                                              <DropdownMenuItem onClick={() => handleNotifyOperator(s)} className="flex items-center gap-3 py-2.5 text-[11px] font-bold cursor-pointer text-foreground hover:bg-muted"><Send className="h-4 w-4 text-[#01ADFB]" /> ENVIAR A TECNICO</DropdownMenuItem>
-                                              <DropdownMenuItem onClick={() => { setSelectedServicio(s); setIsVisitaModalOpen(true); }} className="flex items-center gap-3 py-2.5 text-[11px] font-bold cursor-pointer text-foreground hover:bg-muted"><MapPin className="h-4 w-4 text-emerald-500" /> EVIDENCIA DE VISITA</DropdownMenuItem>
-                                              <DropdownMenuSeparator />
-                                              <DropdownMenuItem onClick={() => triggerUpload(s.raw.id, "facturaElectronica")} className="flex items-center gap-3 py-2.5 text-[11px] font-bold cursor-pointer text-foreground hover:bg-muted"><Upload className="h-4 w-4 text-blue-500" /> SUBIR FACTURA</DropdownMenuItem>
-                                              <DropdownMenuItem
-                                                disabled={financialLock.locked}
-                                                onClick={() => triggerUpload(s.raw.id, "comprobantePago")}
-                                                className="flex items-center gap-3 py-2.5 text-[11px] font-bold cursor-pointer text-foreground hover:bg-muted disabled:pointer-events-none disabled:opacity-50"
-                                              >
-                                                <Receipt className="h-4 w-4 text-orange-500" /> SUBIR COMPROBANTE
-                                              </DropdownMenuItem>
-                                              <DropdownMenuItem onClick={() => triggerUpload(s.raw.id, "evidenciaPath")} className="flex items-center gap-3 py-2.5 text-[11px] font-bold cursor-pointer text-foreground hover:bg-muted"><ImageIcon className="h-4 w-4 text-indigo-500" /> SUBIR EVIDENCIAS</DropdownMenuItem>
-                                              <DropdownMenuSeparator />
-                                              <DropdownMenuItem onClick={() => openDeleteModal(s)} className="flex items-center gap-3 py-2.5 text-[11px] font-bold cursor-pointer text-destructive hover:bg-destructive/10"><Trash2 className="h-4 w-4" /> ELIMINAR SERVICIO</DropdownMenuItem>
-                                              <DropdownMenuSeparator />
-                                              {s.estadoServicio === "LIQUIDADO" ? (
+                                              {canManageServices ? (
+                                                <>
+                                                  <DropdownMenuItem onClick={() => handleNotifyOperator(s)} className="flex items-center gap-3 py-2.5 text-[11px] font-bold cursor-pointer text-foreground hover:bg-muted"><Send className="h-4 w-4 text-[#01ADFB]" /> ENVIAR A TECNICO</DropdownMenuItem>
+                                                  <DropdownMenuItem onClick={() => { setSelectedServicio(s); setIsVisitaModalOpen(true); }} className="flex items-center gap-3 py-2.5 text-[11px] font-bold cursor-pointer text-foreground hover:bg-muted"><MapPin className="h-4 w-4 text-emerald-500" /> EVIDENCIA DE VISITA</DropdownMenuItem>
+                                                  <DropdownMenuSeparator />
+                                                  <DropdownMenuItem onClick={() => triggerUpload(s.raw.id, "facturaElectronica")} className="flex items-center gap-3 py-2.5 text-[11px] font-bold cursor-pointer text-foreground hover:bg-muted"><Upload className="h-4 w-4 text-blue-500" /> SUBIR FACTURA</DropdownMenuItem>
+                                                  <DropdownMenuItem
+                                                    disabled={financialLock.locked}
+                                                    onClick={() => triggerUpload(s.raw.id, "comprobantePago")}
+                                                    className="flex items-center gap-3 py-2.5 text-[11px] font-bold cursor-pointer text-foreground hover:bg-muted disabled:pointer-events-none disabled:opacity-50"
+                                                  >
+                                                    <Receipt className="h-4 w-4 text-orange-500" /> SUBIR COMPROBANTE
+                                                  </DropdownMenuItem>
+                                                  <DropdownMenuItem onClick={() => triggerUpload(s.raw.id, "evidenciaPath")} className="flex items-center gap-3 py-2.5 text-[11px] font-bold cursor-pointer text-foreground hover:bg-muted"><ImageIcon className="h-4 w-4 text-indigo-500" /> SUBIR EVIDENCIAS</DropdownMenuItem>
+                                                  <DropdownMenuSeparator />
+                                                  <DropdownMenuItem onClick={() => openDeleteModal(s)} className="flex items-center gap-3 py-2.5 text-[11px] font-bold cursor-pointer text-destructive hover:bg-destructive/10"><Trash2 className="h-4 w-4" /> ELIMINAR SERVICIO</DropdownMenuItem>
+                                                  <DropdownMenuSeparator />
+                                                </>
+                                              ) : null}
+                                              {canManageServices && s.estadoServicio === "LIQUIDADO" ? (
                                                 <DropdownMenuItem onClick={() => { setSelectedServicio(s); setIsViewLiquidationModalOpen(true); }} className="flex items-center gap-3 py-2.5 text-[11px] font-bold cursor-pointer text-emerald-600 hover:bg-emerald-500/10"><CheckCircle2 className="h-4 w-4" /> VER LIQUIDACION</DropdownMenuItem>
-                                              ) : financialLock.locked ? (
+                                              ) : canManageServices && financialLock.locked ? (
                                                 <DropdownMenuItem disabled className="flex items-start gap-3 py-2.5 text-[11px] font-bold text-amber-700 opacity-100">
                                                   <AlertTriangle className="mt-0.5 h-4 w-4" />
                                                   <span className="leading-relaxed">
@@ -2028,8 +2222,12 @@ function ServiciosContent() {
                                           setLiquidarData({
                                             breakdown: currentBreakdown,
                                             observacionFinal: s.raw.observacionFinal || "",
-                                            fechaPago: toBogotaYmd(),
-                                            referenciaPago: s.raw.referenciaPago || ""
+                                            transferencias: settlementMeta.hasTransfer
+                                              ? [
+                                                  ...getStoredTransferencias(s.raw),
+                                                  createTransferenciaForm(),
+                                                ]
+                                              : [],
                                           });
                                           setIsLiquidarModalOpen(true);
                                         }}
@@ -2057,44 +2255,46 @@ function ServiciosContent() {
                                     <div className="rounded-2xl border border-amber-200 bg-white overflow-hidden">
                                       <div className="px-5 py-4 border-b border-amber-100 flex items-center justify-between">
                                         <div>
-                                          <p className="text-[10px] font-black uppercase tracking-[0.2em] text-amber-700">Servicios automáticos</p>
+                                          <p className="text-[10px] font-semibold uppercase tracking-[0.2em] text-amber-700">Servicios automáticos</p>
                                           <p className="text-xs font-medium text-muted-foreground mt-1">Estas visitas se generaron automáticamente y cuelgan del servicio madre.</p>
                                         </div>
-                                        <span className="text-[10px] font-black uppercase tracking-widest text-amber-700">{s.followUps.filter((child) => child.raw.seguimientos?.[0]?.status !== "ACEPTADO").length} seguimiento(s)</span>
+                                        <span className="text-[10px] font-semibold uppercase tracking-widest text-amber-700">{s.followUps.filter((child) => child.raw.seguimientos?.[0]?.status !== "ACEPTADO").length} seguimiento(s)</span>
                                       </div>
                                       <div className="divide-y divide-amber-100">
                                         {s.followUps.filter((child) => child.raw.seguimientos?.[0]?.status !== "ACEPTADO").map((child) => (
                                           <div key={child.raw.id} className="grid grid-cols-1 lg:grid-cols-[1.2fr_1fr_1fr_auto] gap-4 px-5 py-4">
                                             <div>
-                                              <p className="font-black text-foreground uppercase">{child.servicioEspecifico}</p>
+                                              <p className="font-bold text-foreground uppercase">{child.servicioEspecifico}</p>
                                               <p className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground mt-1">
                                                 {formatVisitTypeLabel(child.raw.tipoVisita)} • #{child.id}
                                               </p>
                                               <p className="text-xs text-muted-foreground mt-2">{child.raw.observacion || "Servicio automático"}</p>
                                             </div>
                                             <div>
-                                              <p className="text-[10px] font-black uppercase tracking-widest text-muted-foreground">Programación</p>
+                                              <p className="text-[10px] font-semibold uppercase tracking-widest text-muted-foreground">Programación</p>
                                               <p className="text-sm font-bold text-foreground mt-1">{child.fecha}</p>
                                               <p className="text-xs text-muted-foreground">{child.hora}</p>
                                             </div>
                                             <div>
-                                              <p className="text-[10px] font-black uppercase tracking-widest text-muted-foreground">Estado</p>
-                                              <span className={cn("inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-[10px] font-black uppercase border shadow-sm mt-1", ESTADO_STYLING[child.estadoServicio] || ESTADO_STYLING["DEFAULT"])}>
+                                              <p className="text-[10px] font-semibold uppercase tracking-widest text-muted-foreground">Estado</p>
+                                              <span className={cn("inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-[10px] font-semibold uppercase border shadow-sm mt-1", ESTADO_STYLING[child.estadoServicio] || ESTADO_STYLING["DEFAULT"])}>
                                                 {child.estadoServicio}
                                               </span>
                                             </div>
                                             <div className="flex items-start justify-end gap-2">
                                               <button
                                                 onClick={() => { setSelectedServicio(child); setIsModalOpen(true); }}
-                                                className="h-10 px-3 rounded-xl border border-border bg-background text-muted-foreground hover:text-foreground transition-all text-[10px] font-black uppercase tracking-widest"
+                                                className="h-10 px-3 rounded-xl border border-border bg-background text-muted-foreground hover:text-foreground transition-all text-[10px] font-semibold uppercase tracking-widest"
                                               >
                                                 Ver
                                               </button>
-                                              <Link href={`/dashboard/servicios/${child.raw.id}/editar?returnTo=/dashboard/servicios`}>
-                                                <div className="h-10 px-3 rounded-xl border border-border bg-background text-muted-foreground hover:text-foreground transition-all text-[10px] font-black uppercase tracking-widest flex items-center">
-                                                  Editar
-                                                </div>
-                                              </Link>
+                                              {canEditServices ? (
+                                                <Link href={`/dashboard/servicios/${child.raw.id}/editar?returnTo=/dashboard/servicios`}>
+                                                  <div className="h-10 px-3 rounded-xl border border-border bg-background text-muted-foreground hover:text-foreground transition-all text-[10px] font-semibold uppercase tracking-widest flex items-center">
+                                                    Editar
+                                                  </div>
+                                                </Link>
+                                              ) : null}
                                             </div>
                                           </div>
                                         ))}
@@ -2109,9 +2309,9 @@ function ServiciosContent() {
                       </table>
                       ) : null}
                     </div>
-                    {!loading && activeRows.length === 0 && <div className="py-32 text-center flex-1 flex flex-col justify-center items-center"><AlertCircle className="h-12 w-12 text-muted/30 mb-4" /><h2 className="text-xl font-black text-foreground uppercase">Sin resultados</h2><p className="text-muted-foreground font-medium">{viewMode === "seguimientos" ? "No se encontraron seguimientos para su búsqueda." : "No se encontraron órdenes para su búsqueda."}</p></div>}
+                    {!loading && activeRows.length === 0 && <div className="py-32 text-center flex-1 flex flex-col justify-center items-center"><AlertCircle className="h-12 w-12 text-muted/30 mb-4" /><h2 className="text-xl font-bold text-foreground uppercase">Sin resultados</h2><p className="text-muted-foreground font-medium">{viewMode === "seguimientos" ? "No se encontraron seguimientos para su búsqueda." : "No se encontraron órdenes para su búsqueda."}</p></div>}
                     <div className="px-8 py-4 border-t border-border bg-muted/30 flex items-center justify-between shrink-0">
-                      <span className="text-[10px] font-black uppercase text-muted-foreground">Mostrando <span className="text-foreground">{Math.min(startIndex + 1, activeRows.length)}-{Math.min(startIndex + itemsPerPage, activeRows.length)}</span> de <span className="text-foreground">{activeRows.length}</span></span>
+                      <span className="text-[10px] font-semibold uppercase text-muted-foreground">Mostrando <span className="text-foreground">{Math.min(startIndex + 1, activeRows.length)}-{Math.min(startIndex + itemsPerPage, activeRows.length)}</span> de <span className="text-foreground">{activeRows.length}</span></span>
                       <div className="flex gap-2"><Button variant="outline" size="sm" className="h-8 rounded-xl border-border bg-background" disabled={currentPage === 1} onClick={() => setCurrentPage(p => p - 1)}>Anterior</Button><Button variant="outline" size="sm" className="h-8 rounded-xl border-border bg-background" disabled={currentPage >= totalPages} onClick={() => setCurrentPage(p => p + 1)}>Siguiente</Button></div>
                     </div>
                   </div>
@@ -2125,7 +2325,7 @@ function ServiciosContent() {
       <Dialog open={isPresetModalOpen} onOpenChange={setIsPresetModalOpen}>
         <DialogContent className="max-w-md bg-background border-border">
           <DialogHeader>
-            <DialogTitle className="text-lg font-black uppercase text-foreground">
+            <DialogTitle className="text-lg font-bold uppercase text-foreground">
               {editingPresetId ? "Editar Preset" : "Nuevo Preset"}
             </DialogTitle>
             <DialogDescription className="text-muted-foreground">
@@ -2134,7 +2334,7 @@ function ServiciosContent() {
           </DialogHeader>
           <div className="space-y-4 mt-2">
             <div className="space-y-2">
-              <Label className="text-[10px] font-black uppercase text-muted-foreground">Nombre</Label>
+              <Label className="text-[10px] font-semibold uppercase text-muted-foreground">Nombre</Label>
               <Input
                 value={presetForm.name}
                 onChange={(e) => setPresetForm((prev) => ({ ...prev, name: e.target.value }))}
@@ -2144,7 +2344,7 @@ function ServiciosContent() {
             </div>
 
             <div className="space-y-2">
-              <Label className="text-[10px] font-black uppercase text-muted-foreground">Color</Label>
+              <Label className="text-[10px] font-semibold uppercase text-muted-foreground">Color</Label>
               <div className="flex flex-wrap gap-2">
                 {CUSTOM_PRESET_COLORS.map((color) => (
                   <button
@@ -2152,7 +2352,7 @@ function ServiciosContent() {
                     type="button"
                     onClick={() => setPresetForm((prev) => ({ ...prev, colorToken: color }))}
                     className={cn(
-                      "h-8 px-2 rounded-md border text-[9px] font-black uppercase",
+                      "h-8 px-2 rounded-md border text-[9px] font-semibold uppercase",
                       PRESET_COLOR_STYLES[color],
                       presetForm.colorToken === color && "ring-2 ring-[#01ADFB]",
                     )}
@@ -2164,13 +2364,13 @@ function ServiciosContent() {
             </div>
 
             <div className="space-y-2">
-              <Label className="text-[10px] font-black uppercase text-muted-foreground">Visibilidad</Label>
+              <Label className="text-[10px] font-semibold uppercase text-muted-foreground">Visibilidad</Label>
               <div className="grid grid-cols-2 gap-2">
                 <button
                   type="button"
                   onClick={() => setPresetForm((prev) => ({ ...prev, isShared: false }))}
                   className={cn(
-                    "h-9 rounded-lg border text-[10px] font-black uppercase",
+                    "h-9 rounded-lg border text-[10px] font-semibold uppercase",
                     !presetForm.isShared ? "bg-[#01ADFB] text-white border-[#01ADFB]" : "bg-background border-border text-muted-foreground",
                   )}
                 >
@@ -2180,7 +2380,7 @@ function ServiciosContent() {
                   type="button"
                   onClick={() => setPresetForm((prev) => ({ ...prev, isShared: true }))}
                   className={cn(
-                    "h-9 rounded-lg border text-[10px] font-black uppercase",
+                    "h-9 rounded-lg border text-[10px] font-semibold uppercase",
                     presetForm.isShared ? "bg-[#01ADFB] text-white border-[#01ADFB]" : "bg-background border-border text-muted-foreground",
                   )}
                 >
@@ -2244,7 +2444,7 @@ function ServiciosContent() {
                   </div>
                   <div>
                     <span className="text-xs text-slate-500 block">Prioridad</span>
-                    <span className={cn("inline-block px-2 py-0.5 rounded text-[10px] font-black uppercase mt-1", URGENCIA_STYLING[selectedServicio.urgencia])}>
+                    <span className={cn("inline-block px-2 py-0.5 rounded text-[10px] font-semibold uppercase mt-1", URGENCIA_STYLING[selectedServicio.urgencia])}>
                       {selectedServicio.urgencia}
                     </span>
                   </div>
@@ -2343,7 +2543,7 @@ function ServiciosContent() {
                   <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
                     <div>
                       <span className="text-xs text-slate-500 block">Placa</span>
-                      <span className="font-black text-[#01ADFB] uppercase">{selectedServicio.raw.vehiculo.placa}</span>
+                      <span className="font-bold text-[#01ADFB] uppercase">{selectedServicio.raw.vehiculo.placa}</span>
                     </div>
                     <div>
                       <span className="text-xs text-slate-500 block">Marca</span>
@@ -2565,25 +2765,30 @@ function ServiciosContent() {
             <Button variant="outline" onClick={() => setIsModalOpen(false)} className="flex-1 h-11 rounded-xl font-bold uppercase text-[11px] border-slate-200">
               Cerrar Expediente
             </Button>
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <Button className="flex-1 h-11 rounded-xl bg-[#01ADFB] hover:bg-[#01ADFB]/90 text-white font-bold uppercase text-[11px] shadow-lg shadow-[#01ADFB]/20 gap-2">
-                  Editar Información <ChevronDown className="h-4 w-4" />
-                </Button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent align="end" className="w-64 p-2 rounded-xl bg-card border-border shadow-2xl">
-                <DropdownMenuItem onClick={() => router.push(`/dashboard/servicios/${selectedServicio.raw.id}/editar`)} className="flex items-center gap-3 py-2.5 text-[11px] font-bold cursor-pointer text-foreground hover:bg-muted">
-                  <FileText className="h-4 w-4 text-[#01ADFB]" /> EDITAR ORDEN (SERVICIO)
-                </DropdownMenuItem>
-                <DropdownMenuItem onClick={() => router.push(`/dashboard/clientes/${selectedServicio.raw.clienteId}/editar`)} className="flex items-center gap-3 py-2.5 text-[11px] font-bold cursor-pointer text-foreground hover:bg-muted">
-                  <User className="h-4 w-4 text-emerald-600" /> EDITAR PERFIL CLIENTE
-                </DropdownMenuItem>
-                <DropdownMenuSeparator />
-                <DropdownMenuItem onClick={() => openDeleteModal(selectedServicio)} className="flex items-center gap-3 py-2.5 text-[11px] font-bold cursor-pointer text-destructive hover:bg-destructive/10">
-                  <Trash2 className="h-4 w-4" /> ELIMINAR SERVICIO
-                </DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
+               {canEditServices || canManageServices ? (
+                 <DropdownMenu>
+                   <DropdownMenuTrigger asChild>
+                     <Button className="flex-1 h-11 rounded-xl bg-[#01ADFB] hover:bg-[#01ADFB]/90 text-white font-bold uppercase text-[11px] shadow-lg shadow-[#01ADFB]/20 gap-2">
+                       Editar Información <ChevronDown className="h-4 w-4" />
+                     </Button>
+                   </DropdownMenuTrigger>
+                   <DropdownMenuContent align="end" className="w-64 p-2 rounded-xl bg-card border-border shadow-2xl">
+                     {canEditServices ? (
+                       <DropdownMenuItem onClick={() => router.push(`/dashboard/servicios/${selectedServicio.raw.id}/editar`)} className="flex items-center gap-3 py-2.5 text-[11px] font-bold cursor-pointer text-foreground hover:bg-muted">
+                         <FileText className="h-4 w-4 text-[#01ADFB]" /> EDITAR ORDEN (SERVICIO)
+                       </DropdownMenuItem>
+                     ) : null}
+                     {canManageServices ? (
+                       <>
+                         {canEditServices ? <DropdownMenuSeparator /> : null}
+                         <DropdownMenuItem onClick={() => openDeleteModal(selectedServicio)} className="flex items-center gap-3 py-2.5 text-[11px] font-bold cursor-pointer text-destructive hover:bg-destructive/10">
+                           <Trash2 className="h-4 w-4" /> ELIMINAR SERVICIO
+                         </DropdownMenuItem>
+                       </>
+                     ) : null}
+                   </DropdownMenuContent>
+                 </DropdownMenu>
+               ) : null}
           </div>
         )}
       </DialogContent></Dialog>
@@ -2591,7 +2796,7 @@ function ServiciosContent() {
       <Dialog open={isDeleteModalOpen} onOpenChange={(open) => { if (!open) closeDeleteModal(); }}>
         <DialogContent className="max-w-xl bg-background border-border">
           <DialogHeader>
-            <DialogTitle className="text-xl font-black uppercase text-foreground flex items-center gap-2">
+            <DialogTitle className="text-xl font-bold uppercase text-foreground flex items-center gap-2">
               <AlertTriangle className="h-5 w-5 text-destructive" /> Eliminar Servicio
             </DialogTitle>
             <DialogDescription className="text-muted-foreground">
@@ -2602,13 +2807,13 @@ function ServiciosContent() {
           {deleteTarget ? (
             <div className="space-y-5">
               <div className="rounded-2xl border border-destructive/20 bg-destructive/5 p-4 space-y-1.5">
-                <p className="text-[10px] font-black uppercase tracking-[0.18em] text-destructive">Servicio a eliminar</p>
+                <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-destructive">Servicio a eliminar</p>
                 <p className="text-sm font-bold text-foreground">#{deleteTarget.id} · {deleteTarget.cliente}</p>
                 <p className="text-xs font-medium text-muted-foreground">{deleteTarget.servicioEspecifico} · {deleteTarget.fecha} · {deleteTarget.hora}</p>
               </div>
 
               <div className="space-y-2">
-                <Label className="text-[10px] font-black uppercase tracking-[0.18em] text-muted-foreground">
+                <Label className="text-[10px] font-semibold uppercase tracking-[0.18em] text-muted-foreground">
                   Observación obligatoria
                 </Label>
                 <textarea
@@ -2627,14 +2832,14 @@ function ServiciosContent() {
                 <Button
                   variant="outline"
                   onClick={() => closeDeleteModal()}
-                  className="flex-1 h-12 rounded-xl border-border bg-card text-[10px] font-black uppercase"
+                  className="flex-1 h-12 rounded-xl border-border bg-card text-[10px] font-semibold uppercase"
                   disabled={isDeletingServicio}
                 >
                   Cancelar
                 </Button>
                 <Button
                   onClick={handleDeleteServicio}
-                  className="flex-1 h-12 rounded-xl bg-destructive hover:bg-destructive/90 text-white font-black uppercase text-[10px]"
+                  className="flex-1 h-12 rounded-xl bg-destructive hover:bg-destructive/90 text-white font-bold uppercase text-[10px]"
                   disabled={isDeletingServicio}
                 >
                   {isDeletingServicio ? "Eliminando..." : "Confirmar Eliminación"}
@@ -2645,194 +2850,389 @@ function ServiciosContent() {
         </DialogContent>
       </Dialog>
 
-      <Dialog open={isLiquidarModalOpen} onOpenChange={setIsLiquidarModalOpen}><DialogContent className="max-w-2xl bg-background border-border">
-        <DialogHeader>
-          <DialogTitle className="text-xl font-black uppercase text-foreground">
-            {selectedServicio ? getSettlementFlowMeta(selectedServicio.raw).title : "Registrar movimiento"}
-          </DialogTitle>
-          <DialogDescription className="text-muted-foreground">
-            {selectedServicio
-              ? getSettlementFlowMeta(selectedServicio.raw).description
-              : "Registro operativo del movimiento financiero de la orden."}
-          </DialogDescription>
-        </DialogHeader>
-        {selectedServicio && (
-          <div className="space-y-6 mt-4">
-            {(() => {
-              const settlementMeta = getSettlementFlowMeta(selectedServicio.raw);
-              const hasStoredTransferEvidence = Array.isArray(selectedServicio.raw.comprobantePago) && selectedServicio.raw.comprobantePago.length > 0;
-
-              return (
-                <>
-                  {settlementMeta.financialLock.locked ? (
-                    <div className="rounded-2xl border border-amber-500/30 bg-amber-500/10 px-4 py-3 text-sm text-amber-900">
-                      <p className="text-[10px] font-black uppercase tracking-widest">Orden congelada</p>
-                      <p className="mt-1 font-medium">{settlementMeta.financialLock.reason}</p>
-                    </div>
-                  ) : null}
-            <div className="p-6 bg-emerald-500/5 border border-emerald-500/20 rounded-2xl flex justify-between items-center">
-              <div><p className="text-[10px] font-black text-muted-foreground uppercase mb-1">{settlementMeta.summaryLabel}</p><p className="text-2xl font-black text-emerald-600">{new Intl.NumberFormat('es-CO', { style: 'currency', currency: 'COP' }).format(selectedServicio.raw.valorCotizado || 0)}</p></div>
-              <CheckCircle2 className="h-10 w-10 text-emerald-500/30" />
-            </div>
-
-              <div className="rounded-2xl border border-border bg-muted/20 px-4 py-3 text-xs font-medium text-muted-foreground">
-                {settlementMeta.isFuture
-                  ? "Este registro deja la orden programada. No representa cierre ni conciliación final."
-                  : settlementMeta.hasTransfer
-                    ? settlementMeta.hasCash
-                      ? hasStoredTransferEvidence
-                        ? "La parte de transferencia ya tiene soporte cargado. El efectivo sigue su ruta de recaudo."
-                        : "La parte de transferencia requiere comprobante, referencia y observación. El efectivo sigue su ruta de recaudo."
-                      : hasStoredTransferEvidence
-                        ? "La transferencia ya tiene soporte cargado. Podés cerrar la orden con esa evidencia."
-                        : "La transferencia requiere comprobante, referencia y observación antes de cerrar la orden."
-                    : "Este registro declara recaudo. Contabilidad recalcula y valida antes de conciliar."}
-              </div>
-
-              <div className="space-y-4">
-                <Label className="text-[10px] font-black uppercase text-muted-foreground">Desglose de Pago</Label>
-
-              <div className="space-y-3">
-                {liquidarData.breakdown.map((item, idx) => (
-                  <div key={idx} className="bg-muted/30 p-4 rounded-xl border border-border flex flex-col sm:flex-row gap-4 items-end">
-                    <div className="flex-1 space-y-2 w-full">
-                      <Label className="text-[9px] font-black uppercase text-muted-foreground">Método</Label>
-                      <select
-                        value={item.metodo}
-                        onChange={(e) => {
-                          const newBreakdown = [...liquidarData.breakdown];
-                          newBreakdown[idx].metodo = e.target.value;
-                          setLiquidarData({ ...liquidarData, breakdown: newBreakdown });
-                        }}
-                        className="h-10 w-full rounded-xl border border-border bg-background px-3 text-xs font-bold uppercase outline-none focus:ring-2 focus:ring-emerald-500/20"
-                      >
-                        {filterOptions.metodosPago.map((m) => (
-                          <option key={m.id} value={m.nombre}>
-                            {m.nombre.toUpperCase()}
-                          </option>
-                        ))}
-                      </select>
-                    </div>
-                    <div className="flex-1 space-y-2 w-full">
-                      <Label className="text-[9px] font-black uppercase text-muted-foreground">Monto ($)</Label>
-                      <Input 
-                        placeholder="0" 
-                        value={item.monto} 
-                        onChange={(e) => {
-                          const val = e.target.value.replace(/\D/g, "").replace(/\B(?=(\d{3})+(?!\d))/g, ".");
-                          const newBreakdown = [...liquidarData.breakdown];
-                          newBreakdown[idx].monto = val;
-                          setLiquidarData({ ...liquidarData, breakdown: newBreakdown });
-                        }}
-                        className="h-10 bg-background font-black text-sm"
-                      />
-                    </div>
-                    {liquidarData.breakdown.length > 1 && (
-                      <Button
-                        type="button"
-                        variant="outline"
-                        size="icon"
-                        onClick={() => {
-                          const newBreakdown = liquidarData.breakdown.filter((_, i) => i !== idx);
-                          setLiquidarData({ ...liquidarData, breakdown: newBreakdown });
-                        }}
-                        className="h-10 w-10 rounded-xl border-destructive/20 bg-destructive/5 text-destructive hover:bg-destructive hover:text-white transition-all shrink-0"
-                      >
-                        <Trash2 className="h-4 w-4" />
-                      </Button>
-                    )}
-                  </div>
-                ))}
-              </div>
-
-              <Button
-                type="button"
-                variant="outline"
-                size="sm"
-                onClick={() => {
-                  setLiquidarData(prev => ({
-                    ...prev,
-                    breakdown: [...prev.breakdown, { metodo: filterOptions.metodosPago[0]?.nombre || "EFECTIVO", monto: "" }]
-                  }));
-                }}
-                className="h-10 w-full rounded-xl text-[10px] font-black uppercase tracking-widest gap-2 border-dashed border-2 hover:bg-emerald-50 hover:border-emerald-200 hover:text-emerald-700 transition-all"
-              >
-                <Plus className="h-4 w-4" /> Agregar Método de Pago
-              </Button>
-            </div>
-              <div className="space-y-4">
-                {liquidarData.breakdown.some((item) => item.metodo === "TRANSFERENCIA") ? (
-                  <div className="grid gap-4 md:grid-cols-2">
-                  <div className="space-y-2">
-                    <Label className="text-[10px] font-black uppercase text-muted-foreground">
-                      Referencia de pago
-                    </Label>
-                    <Input
-                      value={liquidarData.referenciaPago}
-                      onChange={(e) =>
-                        setLiquidarData({
-                          ...liquidarData,
-                          referenciaPago: e.target.value,
-                        })
-                      }
-                      placeholder="Ej. 94839274"
-                      className="h-10 bg-background font-black text-sm"
-                    />
-                  </div>
-                  <div className="space-y-2">
-                    <Label className="text-[10px] font-black uppercase text-muted-foreground">
-                      Comprobante de transferencia
-                    </Label>
-                    <Input
-                      type="file"
-                      accept="application/pdf,image/*"
-                      onChange={(e) => setComprobanteFile(e.target.files?.[0] || null)}
-                      className="h-10 bg-background font-medium text-sm file:mr-3 file:rounded-lg file:border-0 file:bg-emerald-600 file:px-3 file:py-2 file:text-xs file:font-black file:text-white"
-                    />
-                    <p className="text-[10px] font-medium text-muted-foreground">
-                      Adjuntá la evidencia real de la transferencia para poder confirmar este pago.
-                    </p>
-                  </div>
-                </div>
-              ) : null}
-              <Label className="text-[10px] font-black uppercase text-muted-foreground">Observación de Cierre</Label>
-              <textarea value={liquidarData.observacionFinal} onChange={(e) => setLiquidarData({ ...liquidarData, observacionFinal: e.target.value })} className="w-full min-h-[80px] p-4 rounded-2xl bg-muted border border-border text-sm font-medium text-foreground outline-none focus:ring-2 focus:ring-emerald-500/20" placeholder="Notas adicionales..." />
-            </div>
-
-            <div className="flex gap-3">
-              <Button variant="outline" onClick={() => setIsLiquidarModalOpen(false)} className="flex-1 h-12 rounded-xl border-border bg-card text-[10px] font-black uppercase">Cancelar</Button>
-              <Button 
-                onClick={handleLiquidar} 
-                disabled={isUploading || settlementMeta.financialLock.locked}
-                className={cn(
-                  "flex-1 h-12 rounded-xl font-black uppercase text-[10px] shadow-lg",
-                  settlementMeta.accent === "emerald" && "bg-emerald-600 hover:bg-emerald-700 text-white shadow-emerald-600/20",
-                  settlementMeta.accent === "blue" && "bg-blue-600 hover:bg-blue-700 text-white shadow-blue-600/20",
-                  settlementMeta.accent === "sky" && "bg-sky-600 hover:bg-sky-700 text-white shadow-sky-600/20",
-                )}
-              >
-                {isUploading ? "Procesando..." : settlementMeta.submitLabel}
-              </Button>
-            </div>
-                </>
-              );
-            })()}
+      <Dialog open={canManageServices && isLiquidarModalOpen} onOpenChange={setIsLiquidarModalOpen}>
+        <DialogContent className="flex max-h-[92vh] w-[min(96vw,72rem)] max-w-5xl flex-col overflow-hidden border-border bg-background p-0">
+          <div className="shrink-0 border-b border-border px-4 pb-4 pt-6 md:px-6">
+            <DialogHeader className="space-y-2">
+              <DialogTitle className="text-xl font-bold uppercase text-foreground md:text-2xl">
+                {selectedServicio ? getSettlementFlowMeta(selectedServicio.raw).title : "Registrar movimiento"}
+              </DialogTitle>
+              <DialogDescription className="max-w-3xl text-sm text-muted-foreground md:text-base">
+                {selectedServicio
+                  ? getSettlementFlowMeta(selectedServicio.raw).description
+                  : "Registro operativo del movimiento financiero de la orden."}
+              </DialogDescription>
+            </DialogHeader>
           </div>
-        )}
-      </DialogContent></Dialog>
+
+          {selectedServicio
+            ? (() => {
+                const settlementMeta = getSettlementFlowMeta(selectedServicio.raw);
+                const hasStoredTransferEvidence = Array.isArray(selectedServicio.raw.comprobantePago)
+                  ? selectedServicio.raw.comprobantePago.length > 0
+                  : Boolean(selectedServicio.raw.comprobantePago);
+
+                return (
+                  <>
+                    <div className="min-h-0 flex-1 overflow-y-auto custom-scrollbar px-4 py-4 md:px-6 md:py-5">
+                      <div className="space-y-5">
+                        {settlementMeta.financialLock.locked ? (
+                          <div className="rounded-2xl border border-amber-500/30 bg-amber-500/10 px-4 py-3 text-sm text-amber-900">
+                            <p className="text-[10px] font-semibold uppercase tracking-widest">Orden congelada</p>
+                            <p className="mt-1 font-medium">{settlementMeta.financialLock.reason}</p>
+                          </div>
+                        ) : null}
+
+                        <div className="grid gap-4 lg:grid-cols-[minmax(0,1.12fr)_minmax(0,0.88fr)]">
+                          <div className="rounded-2xl border border-emerald-500/20 bg-emerald-500/5 p-4 md:p-5">
+                            <p className="text-[10px] font-semibold uppercase tracking-widest text-muted-foreground">{settlementMeta.summaryLabel}</p>
+                            <div className="mt-2 flex items-end justify-between gap-4">
+                              <p className="text-3xl font-bold leading-none text-emerald-600 md:text-[2.5rem]">
+                                {new Intl.NumberFormat('es-CO', { style: 'currency', currency: 'COP' }).format(selectedServicio.raw.valorCotizado || 0)}
+                              </p>
+                              <CheckCircle2 className="h-9 w-9 shrink-0 text-emerald-500/30 md:h-10 md:w-10" />
+                            </div>
+                          </div>
+
+                          <div className="rounded-2xl border border-border bg-muted/20 px-4 py-3 text-xs font-medium leading-relaxed text-muted-foreground">
+                            {settlementMeta.isFuture
+                              ? "Este registro deja la orden programada. No representa cierre ni conciliación final."
+                              : settlementMeta.hasTransfer
+                                ? settlementMeta.hasCash
+                                  ? hasStoredTransferEvidence
+                                    ? "La parte de transferencia ya tiene soporte cargado. El efectivo sigue su ruta de recaudo."
+                                    : "La parte de transferencia requiere comprobante, referencia y observación. El efectivo sigue su ruta de recaudo."
+                                  : hasStoredTransferEvidence
+                                    ? "La transferencia ya tiene soporte cargado. Podés cerrar la orden con esa evidencia."
+                                    : "La transferencia requiere comprobante, referencia y observación antes de cerrar la orden."
+                                : "Este registro declara recaudo. Contabilidad recalcula y valida antes de conciliar."}
+                          </div>
+                        </div>
+
+                        <div className="space-y-3">
+                          <Label className="text-[10px] font-semibold uppercase tracking-widest text-muted-foreground">Desglose de Pago</Label>
+                          <div className="space-y-3">
+                            {liquidarData.breakdown.map((item, idx) => (
+                              <div key={idx} className="rounded-2xl border border-border bg-muted/30 p-3 md:p-4">
+                                <div className="grid gap-3 md:grid-cols-[1fr_1fr_auto] md:items-end">
+                                  <div className="space-y-2 min-w-0">
+                                    <Label className="text-[9px] font-semibold uppercase text-muted-foreground">Método</Label>
+                                    <select
+                                      value={item.metodo}
+                                      onChange={(e) => {
+                                        const newBreakdown = [...liquidarData.breakdown];
+                                        newBreakdown[idx].metodo = e.target.value;
+                                        setLiquidarData({ ...liquidarData, breakdown: newBreakdown });
+                                      }}
+                                      className="h-10 w-full rounded-xl border border-border bg-background px-3 text-xs font-bold uppercase outline-none focus:ring-2 focus:ring-emerald-500/20"
+                                    >
+                                      {filterOptions.metodosPago.map((m) => (
+                                        <option key={m.id} value={m.nombre}>
+                                          {m.nombre.toUpperCase()}
+                                        </option>
+                                      ))}
+                                    </select>
+                                  </div>
+
+                                  <div className="space-y-2 min-w-0">
+                                    <Label className="text-[9px] font-semibold uppercase text-muted-foreground">Monto ($)</Label>
+                                    <Input
+                                      placeholder="0"
+                                      value={item.monto}
+                                      onChange={(e) => {
+                                        const val = e.target.value.replace(/\D/g, "").replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+                                        const newBreakdown = [...liquidarData.breakdown];
+                                        newBreakdown[idx].monto = val;
+                                        setLiquidarData({ ...liquidarData, breakdown: newBreakdown });
+                                      }}
+                                      className="h-10 bg-background font-bold text-sm"
+                                    />
+                                  </div>
+
+                                  {liquidarData.breakdown.length > 1 && (
+                                    <Button
+                                      type="button"
+                                      variant="outline"
+                                      size="icon"
+                                      onClick={() => {
+                                        const newBreakdown = liquidarData.breakdown.filter((_, i) => i !== idx);
+                                        setLiquidarData({ ...liquidarData, breakdown: newBreakdown });
+                                      }}
+                                      className="h-10 w-full rounded-xl border-destructive/20 bg-destructive/5 text-destructive hover:bg-destructive hover:text-white transition-all md:w-10 shrink-0"
+                                    >
+                                      <Trash2 className="h-4 w-4" />
+                                    </Button>
+                                  )}
+                                </div>
+                              </div>
+                            ))}
+                          </div>
+
+                          <Button
+                            type="button"
+                            variant="outline"
+                            size="sm"
+                            onClick={() => {
+                              setLiquidarData(prev => ({
+                                ...prev,
+                                breakdown: [...prev.breakdown, { metodo: filterOptions.metodosPago[0]?.nombre || "EFECTIVO", monto: "" }]
+                              }));
+                            }}
+                            className="h-10 w-full rounded-xl border-2 border-dashed text-[10px] font-semibold uppercase tracking-widest gap-2 transition-all hover:border-emerald-200 hover:bg-emerald-50 hover:text-emerald-700"
+                          >
+                            <Plus className="h-4 w-4" /> Agregar Método de Pago
+                          </Button>
+                        </div>
+
+                        <div className="space-y-4">
+                          {liquidarData.breakdown.some((item) => item.metodo === "TRANSFERENCIA") ? (
+                            <div className="space-y-4">
+                              <div className="flex flex-col gap-3 rounded-2xl border border-border bg-muted/10 p-4 lg:flex-row lg:items-center lg:justify-between">
+                                <div className="min-w-0">
+                                  <Label className="text-[10px] font-semibold uppercase tracking-widest text-muted-foreground">
+                                    Transferencias
+                                  </Label>
+                                  <p className="mt-1 max-w-2xl text-[10px] font-medium leading-relaxed text-muted-foreground">
+                                    Podés ver las ya registradas y cargar una segunda o tercera transferencia con su banco y comprobante.
+                                  </p>
+                                </div>
+                                <Button
+                                  type="button"
+                                  variant="outline"
+                                  size="sm"
+                                  onClick={() =>
+                                    setLiquidarData((prev) => ({
+                                      ...prev,
+                                      transferencias: [...prev.transferencias, createTransferenciaForm()],
+                                    }))
+                                  }
+                                  className="h-9 rounded-xl border-dashed px-3 text-[10px] font-semibold uppercase tracking-widest lg:shrink-0"
+                                >
+                                  <Plus className="mr-2 h-4 w-4" />
+                                  Agregar transferencia
+                                </Button>
+                              </div>
+
+                              <div className="space-y-3">
+                                {liquidarData.transferencias.map((transferencia, idx) => (
+                                  <div key={transferencia.id} className="rounded-2xl border border-border bg-muted/20 p-3 md:p-4">
+                                    <div className="mb-3 flex flex-col gap-2 sm:flex-row sm:items-start sm:justify-between">
+                                      <div className="min-w-0">
+                                        <p className="text-[10px] font-semibold uppercase tracking-widest text-foreground">
+                                          Transferencia #{idx + 1}
+                                        </p>
+                                        <p className="text-[10px] font-medium text-muted-foreground">
+                                          {transferencia.persisted ? "Ya registrada" : "Nueva transferencia a registrar"}
+                                        </p>
+                                      </div>
+                                      <div className="flex items-center gap-2">
+                                        {transferencia.persisted ? (
+                                          <span className="rounded-full border border-emerald-500/20 bg-emerald-500/10 px-3 py-1 text-[9px] font-semibold uppercase tracking-widest text-emerald-700">
+                                            Guardada
+                                          </span>
+                                        ) : liquidarData.transferencias.filter((item) => !item.persisted).length > 1 ? (
+                                          <Button
+                                            type="button"
+                                            variant="outline"
+                                            size="icon"
+                                            onClick={() =>
+                                              setLiquidarData((prev) => ({
+                                                ...prev,
+                                                transferencias: prev.transferencias.filter((item) => item.id !== transferencia.id),
+                                              }))
+                                            }
+                                            className="h-9 w-9 rounded-xl border-destructive/20 bg-destructive/5 text-destructive hover:bg-destructive hover:text-white"
+                                          >
+                                            <Trash2 className="h-4 w-4" />
+                                          </Button>
+                                        ) : null}
+                                      </div>
+                                    </div>
+
+                                    <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
+                                      <div className="space-y-2 min-w-0">
+                                        <Label className="text-[10px] font-semibold uppercase text-muted-foreground">Monto</Label>
+                                        <Input
+                                          value={transferencia.monto}
+                                          disabled={transferencia.persisted}
+                                          onChange={(e) =>
+                                            setLiquidarData((prev) => ({
+                                              ...prev,
+                                              transferencias: prev.transferencias.map((item) =>
+                                                item.id === transferencia.id
+                                                  ? {
+                                                      ...item,
+                                                      monto: e.target.value
+                                                        .replace(/\D/g, "")
+                                                        .replace(/\B(?=(\d{3})+(?!\d))/g, "."),
+                                                    }
+                                                  : item,
+                                              ),
+                                            }))
+                                          }
+                                          placeholder="Ej. 50.000"
+                                          className="h-10 bg-background font-bold text-sm"
+                                        />
+                                      </div>
+
+                                      <div className="space-y-2 min-w-0">
+                                        <Label className="text-[10px] font-semibold uppercase text-muted-foreground">Fecha de pago</Label>
+                                        <Input
+                                          type="date"
+                                          value={transferencia.fechaPago}
+                                          disabled={transferencia.persisted}
+                                          onChange={(e) =>
+                                            setLiquidarData((prev) => ({
+                                              ...prev,
+                                              transferencias: prev.transferencias.map((item) =>
+                                                item.id === transferencia.id ? { ...item, fechaPago: e.target.value } : item,
+                                              ),
+                                            }))
+                                          }
+                                          className="h-10 bg-background text-sm font-medium"
+                                        />
+                                      </div>
+
+                                      <div className="space-y-2 min-w-0">
+                                        <Label className="text-[10px] font-semibold uppercase text-muted-foreground">Referencia</Label>
+                                        <Input
+                                          value={transferencia.referenciaPago}
+                                          disabled={transferencia.persisted}
+                                          onChange={(e) =>
+                                            setLiquidarData((prev) => ({
+                                              ...prev,
+                                              transferencias: prev.transferencias.map((item) =>
+                                                item.id === transferencia.id ? { ...item, referenciaPago: e.target.value } : item,
+                                              ),
+                                            }))
+                                          }
+                                          placeholder="Ej. 94839274"
+                                          className="h-10 bg-background font-bold text-sm"
+                                        />
+                                      </div>
+
+                                      <div className="space-y-2 min-w-0">
+                                        <Label className="text-[10px] font-semibold uppercase text-muted-foreground">Banco</Label>
+                                        <Input
+                                          value={transferencia.banco}
+                                          disabled={transferencia.persisted}
+                                          onChange={(e) =>
+                                            setLiquidarData((prev) => ({
+                                              ...prev,
+                                              transferencias: prev.transferencias.map((item) =>
+                                                item.id === transferencia.id ? { ...item, banco: e.target.value } : item,
+                                              ),
+                                            }))
+                                          }
+                                          placeholder="Ej. Bancolombia"
+                                          className="h-10 bg-background text-sm font-medium"
+                                        />
+                                      </div>
+
+                                      <div className="space-y-2 sm:col-span-2 xl:col-span-2 min-w-0">
+                                        <Label className="text-[10px] font-semibold uppercase text-muted-foreground">Comprobante</Label>
+                                        {transferencia.persisted && transferencia.existingPath ? (
+                                          <a
+                                            href={resolveSoportePagoUrl("tenaxis-docs", transferencia.existingPath)}
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                            className="flex h-10 items-center gap-2 rounded-xl border border-emerald-500/20 bg-emerald-500/5 px-3 text-[10px] font-semibold uppercase tracking-widest text-emerald-700"
+                                          >
+                                            <ExternalLink className="h-3.5 w-3.5" />
+                                            Ver comprobante cargado
+                                          </a>
+                                        ) : (
+                                          <Input
+                                            type="file"
+                                            accept="application/pdf,image/*"
+                                            onChange={(e) =>
+                                              setLiquidarData((prev) => ({
+                                                ...prev,
+                                                transferencias: prev.transferencias.map((item) =>
+                                                  item.id === transferencia.id
+                                                    ? { ...item, comprobanteFile: e.target.files?.[0] || null }
+                                                    : item,
+                                                ),
+                                              }))
+                                            }
+                                            className="h-10 bg-background font-medium text-sm file:mr-3 file:rounded-lg file:border-0 file:bg-emerald-600 file:px-3 file:py-2 file:text-xs file:font-bold file:text-white"
+                                          />
+                                        )}
+                                      </div>
+                                    </div>
+
+                                    <div className="mt-3 space-y-2">
+                                      <Label className="text-[10px] font-semibold uppercase text-muted-foreground">Observación de transferencia</Label>
+                                      <textarea
+                                        value={transferencia.observacion}
+                                        disabled={transferencia.persisted}
+                                        onChange={(e) =>
+                                          setLiquidarData((prev) => ({
+                                            ...prev,
+                                            transferencias: prev.transferencias.map((item) =>
+                                              item.id === transferencia.id ? { ...item, observacion: e.target.value } : item,
+                                            ),
+                                          }))
+                                        }
+                                        className="min-h-[72px] w-full rounded-2xl border border-border bg-background p-3 text-sm font-medium text-foreground outline-none focus:ring-2 focus:ring-emerald-500/20 disabled:cursor-not-allowed disabled:opacity-70"
+                                        placeholder="Notas de esta transferencia..."
+                                      />
+                                    </div>
+                                  </div>
+                                ))}
+                              </div>
+                            </div>
+                          ) : null}
+
+                          <div className="space-y-2">
+                            <Label className="text-[10px] font-semibold uppercase text-muted-foreground">Observación de Cierre</Label>
+                            <textarea
+                              value={liquidarData.observacionFinal}
+                              onChange={(e) => setLiquidarData({ ...liquidarData, observacionFinal: e.target.value })}
+                              className="w-full min-h-[96px] rounded-2xl border border-border bg-muted p-4 text-sm font-medium text-foreground outline-none focus:ring-2 focus:ring-emerald-500/20"
+                              placeholder="Notas adicionales..."
+                            />
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="shrink-0 border-t border-border bg-background px-4 py-4 md:px-6">
+                      <div className="flex gap-3">
+                        <Button variant="outline" onClick={() => setIsLiquidarModalOpen(false)} className="flex-1 h-12 rounded-xl border-border bg-card text-[10px] font-semibold uppercase">Cancelar</Button>
+                        <Button
+                          onClick={handleLiquidar}
+                          disabled={isUploading || settlementMeta.financialLock.locked}
+                          className={cn(
+                            "flex-1 h-12 rounded-xl font-bold uppercase text-[10px] shadow-lg",
+                            settlementMeta.accent === "emerald" && "bg-emerald-600 hover:bg-emerald-700 text-white shadow-emerald-600/20",
+                            settlementMeta.accent === "blue" && "bg-blue-600 hover:bg-blue-700 text-white shadow-blue-600/20",
+                            settlementMeta.accent === "sky" && "bg-sky-600 hover:bg-sky-700 text-white shadow-sky-600/20",
+                          )}
+                        >
+                          {isUploading ? "Procesando..." : settlementMeta.submitLabel}
+                        </Button>
+                      </div>
+                    </div>
+                  </>
+                );
+              })()
+            : null}
+        </DialogContent>
+      </Dialog>
 
       <Dialog open={isFollowUpModalOpen} onOpenChange={(open) => { if (!savingFollowUp) setIsFollowUpModalOpen(open); }}>
         <DialogContent className="max-w-2xl bg-background border-border">
           <DialogHeader>
-            <DialogTitle className="text-xl font-black uppercase text-foreground">Registrar Llamada De Seguimiento</DialogTitle>
+            <DialogTitle className="text-xl font-bold uppercase text-foreground">Registrar Llamada De Seguimiento</DialogTitle>
             <DialogDescription className="text-muted-foreground">Guarda el resultado del seguimiento y libera el bloqueo si no quedan pendientes vencidos.</DialogDescription>
           </DialogHeader>
           {selectedFollowUp ? (
             <div className="space-y-6">
               <div className="rounded-2xl border border-emerald-200 bg-emerald-50 px-4 py-4">
-                <p className="text-[10px] font-black uppercase tracking-[0.18em] text-emerald-700">Seguimiento seleccionado</p>
+                <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-emerald-700">Seguimiento seleccionado</p>
                 <div className="mt-2 space-y-1">
-                  <p className="text-sm font-black uppercase text-foreground">{selectedFollowUp.cliente}</p>
+                  <p className="text-sm font-bold uppercase text-foreground">{selectedFollowUp.cliente}</p>
                   <p className="text-sm text-muted-foreground">{selectedFollowUp.servicioEspecifico}</p>
                   <p className="text-xs font-medium text-muted-foreground">Programado para {selectedFollowUp.fecha} a las {selectedFollowUp.hora}</p>
                 </div>
@@ -2840,11 +3240,11 @@ function ServiciosContent() {
 
               <div className="grid grid-cols-1 gap-5 md:grid-cols-2">
                 <div className="space-y-2">
-                  <Label className="text-[10px] font-black uppercase tracking-[0.18em] text-muted-foreground">Fecha y hora de contacto</Label>
+                  <Label className="text-[10px] font-semibold uppercase tracking-[0.18em] text-muted-foreground">Fecha y hora de contacto</Label>
                   <Input type="datetime-local" value={followUpForm.contactedAt} onChange={(e) => setFollowUpForm((current) => ({ ...current, contactedAt: e.target.value }))} className="h-11 rounded-xl border-border font-medium" />
                 </div>
                 <div className="space-y-2">
-                  <Label className="text-[10px] font-black uppercase tracking-[0.18em] text-muted-foreground">Canal</Label>
+                  <Label className="text-[10px] font-semibold uppercase tracking-[0.18em] text-muted-foreground">Canal</Label>
                   <Combobox
                     value={followUpForm.channel}
                     onChange={(value) => setFollowUpForm((current) => ({ ...current, channel: value }))}
@@ -2857,7 +3257,7 @@ function ServiciosContent() {
                   />
                 </div>
                 <div className="space-y-2 md:col-span-2">
-                  <Label className="text-[10px] font-black uppercase tracking-[0.18em] text-muted-foreground">Resultado</Label>
+                  <Label className="text-[10px] font-semibold uppercase tracking-[0.18em] text-muted-foreground">Resultado</Label>
                   <Combobox
                     value={followUpForm.outcome}
                     onChange={(value) => setFollowUpForm((current) => ({ ...current, outcome: value }))}
@@ -2871,13 +3271,13 @@ function ServiciosContent() {
                   />
                 </div>
                 <div className="space-y-2 md:col-span-2">
-                  <Label className="text-[10px] font-black uppercase tracking-[0.18em] text-muted-foreground">Decisión del cliente</Label>
+                  <Label className="text-[10px] font-semibold uppercase tracking-[0.18em] text-muted-foreground">Decisión del cliente</Label>
                   <div className="grid grid-cols-2 gap-3">
                     <Button
                       type="button"
                       variant={followUpForm.resolution === "ACEPTADO" ? "default" : "outline"}
                       onClick={() => setFollowUpForm((current) => ({ ...current, resolution: "ACEPTADO" }))}
-                      className="h-11 rounded-xl text-[10px] font-black uppercase tracking-[0.16em]"
+                      className="h-11 rounded-xl text-[10px] font-semibold uppercase tracking-[0.16em]"
                     >
                       Aceptado
                     </Button>
@@ -2885,14 +3285,14 @@ function ServiciosContent() {
                       type="button"
                       variant={followUpForm.resolution === "RECHAZADO" ? "destructive" : "outline"}
                       onClick={() => setFollowUpForm((current) => ({ ...current, resolution: "RECHAZADO" }))}
-                      className="h-11 rounded-xl text-[10px] font-black uppercase tracking-[0.16em]"
+                      className="h-11 rounded-xl text-[10px] font-semibold uppercase tracking-[0.16em]"
                     >
                       Rechazado
                     </Button>
                   </div>
                 </div>
                 <div className="space-y-2 md:col-span-2">
-                  <Label className="text-[10px] font-black uppercase tracking-[0.18em] text-muted-foreground">Notas</Label>
+                  <Label className="text-[10px] font-semibold uppercase tracking-[0.18em] text-muted-foreground">Notas</Label>
                   <textarea
                     value={followUpForm.notes}
                     onChange={(e) => setFollowUpForm((current) => ({ ...current, notes: e.target.value }))}
@@ -2901,14 +3301,14 @@ function ServiciosContent() {
                   />
                 </div>
                 <div className="space-y-2 md:col-span-2">
-                  <Label className="text-[10px] font-black uppercase tracking-[0.18em] text-muted-foreground">Próxima acción opcional</Label>
+                  <Label className="text-[10px] font-semibold uppercase tracking-[0.18em] text-muted-foreground">Próxima acción opcional</Label>
                   <Input type="datetime-local" value={followUpForm.nextActionAt} onChange={(e) => setFollowUpForm((current) => ({ ...current, nextActionAt: e.target.value }))} className="h-11 rounded-xl border-border font-medium" />
                 </div>
               </div>
 
               <div className="flex justify-end gap-3 border-t border-border pt-4">
-                <Button type="button" variant="outline" onClick={() => setIsFollowUpModalOpen(false)} disabled={savingFollowUp} className="h-11 rounded-xl text-[10px] font-black uppercase tracking-[0.16em]">Cancelar</Button>
-                <Button type="button" onClick={handleCompleteFollowUp} disabled={savingFollowUp} className="h-11 rounded-xl bg-emerald-600 text-[10px] font-black uppercase tracking-[0.16em] text-white hover:bg-emerald-700">
+                <Button type="button" variant="outline" onClick={() => setIsFollowUpModalOpen(false)} disabled={savingFollowUp} className="h-11 rounded-xl text-[10px] font-semibold uppercase tracking-[0.16em]">Cancelar</Button>
+                <Button type="button" onClick={handleCompleteFollowUp} disabled={savingFollowUp} className="h-11 rounded-xl bg-emerald-600 text-[10px] font-semibold uppercase tracking-[0.16em] text-white hover:bg-emerald-700">
                   {savingFollowUp ? "Guardando..." : "Guardar llamada"}
                 </Button>
               </div>
@@ -2920,7 +3320,7 @@ function ServiciosContent() {
       <Dialog open={isVisitaModalOpen} onOpenChange={setIsVisitaModalOpen}>
         <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto bg-background border-border">
           <DialogHeader>
-            <DialogTitle className="text-xl font-black uppercase text-foreground">Evidencia de Visita</DialogTitle>
+            <DialogTitle className="text-xl font-bold uppercase text-foreground">Evidencia de Visita</DialogTitle>
             <DialogDescription className="text-muted-foreground">Trazabilidad geográfica y fotográfica del servicio.</DialogDescription>
           </DialogHeader>
           {selectedServicio && (
@@ -2935,12 +3335,12 @@ function ServiciosContent() {
                             <MapPin className="h-5 w-5 text-emerald-600" />
                           </div>
                           <div>
-                            <p className="text-xs font-black text-foreground uppercase">Visita #{idx + 1}</p>
+                            <p className="text-xs font-semibold text-foreground uppercase">Visita #{idx + 1}</p>
                             <p className="text-[10px] font-bold text-muted-foreground uppercase">{geo.membership.user.nombre} {geo.membership.user.apellido}</p>
                           </div>
                         </div>
                         {geo.linkMaps && (
-                          <Button variant="outline" size="sm" asChild className="h-9 px-4 rounded-xl border-border bg-card text-[10px] font-black uppercase gap-2">
+                          <Button variant="outline" size="sm" asChild className="h-9 px-4 rounded-xl border-border bg-card text-[10px] font-semibold uppercase gap-2">
                             <a href={geo.linkMaps} target="_blank" rel="noopener noreferrer">
                               <ExternalLink className="h-3.5 w-3.5" /> Ver en Maps
                             </a>
@@ -2953,7 +3353,7 @@ function ServiciosContent() {
                           <div className="flex items-center justify-between">
                             <div className="flex items-center gap-2">
                               <div className="h-2 w-2 rounded-full bg-emerald-500" />
-                              <p className="text-[10px] font-black text-muted-foreground uppercase">Llegada</p>
+                              <p className="text-[10px] font-semibold text-muted-foreground uppercase">Llegada</p>
                             </div>
                             <p className="text-xs font-bold text-foreground">{formatBogotaDateTime(geo.llegada)}</p>
                           </div>
@@ -2978,7 +3378,7 @@ function ServiciosContent() {
                           <div className="flex items-center justify-between">
                             <div className="flex items-center gap-2">
                               <div className="h-2 w-2 rounded-full bg-red-500" />
-                              <p className="text-[10px] font-black text-muted-foreground uppercase">Salida</p>
+                              <p className="text-[10px] font-semibold text-muted-foreground uppercase">Salida</p>
                             </div>
                             <p className="text-xs font-bold text-foreground">{geo.salida ? formatBogotaDateTime(geo.salida) : "Pendiente"}</p>
                           </div>
@@ -3002,11 +3402,11 @@ function ServiciosContent() {
 
                       <div className="pt-4 border-t border-border grid grid-cols-2 gap-4">
                         <div className="space-y-1">
-                          <p className="text-[9px] font-black text-muted-foreground uppercase">Coordenadas</p>
+                          <p className="text-[9px] font-semibold text-muted-foreground uppercase">Coordenadas</p>
                           <p className="font-mono text-xs font-bold text-foreground">{geo.latitud?.toFixed(6) || "N/A"}, {geo.longitud?.toFixed(6) || "N/A"}</p>
                         </div>
                         <div className="space-y-1 text-right">
-                          <p className="text-[9px] font-black text-muted-foreground uppercase">Duración</p>
+                          <p className="text-[9px] font-semibold text-muted-foreground uppercase">Duración</p>
                           <p className="text-xs font-bold text-foreground">
                             {geo.salida ? (
                               `${Math.floor((new Date(geo.salida).getTime() - new Date(geo.llegada).getTime()) / (1000 * 60))} minutos`
@@ -3020,12 +3420,12 @@ function ServiciosContent() {
               ) : (
                 <div className="py-20 text-center bg-muted/20 rounded-3xl border border-dashed border-border flex flex-col items-center justify-center">
                   <MapPin className="h-12 w-12 text-muted/30 mb-4" />
-                  <h3 className="text-sm font-black text-foreground uppercase">Sin registros de geolocalización</h3>
+                  <h3 className="text-sm font-bold text-foreground uppercase">Sin registros de geolocalización</h3>
                   <p className="text-[10px] font-medium text-muted-foreground uppercase mt-1">El técnico no ha marcado su llegada a este servicio.</p>
                 </div>
               )}
               <div className="flex justify-end pt-4">
-                <Button variant="outline" onClick={() => setIsVisitaModalOpen(false)} className="h-12 px-8 rounded-xl font-black uppercase text-[10px] border-border bg-card">Cerrar Evidencias</Button>
+                <Button variant="outline" onClick={() => setIsVisitaModalOpen(false)} className="h-12 px-8 rounded-xl font-bold uppercase text-[10px] border-border bg-card">Cerrar Evidencias</Button>
               </div>
             </div>
           )}
@@ -3045,7 +3445,7 @@ function ServiciosContent() {
               <div className="h-10 w-10 rounded-xl bg-amber-500/10 flex items-center justify-center">
                 <Zap className="h-5 w-5 text-amber-600 fill-amber-500" />
               </div>
-              <h2 className="text-xl font-black text-foreground uppercase tracking-tight">Cola Operativa Pendiente</h2>
+              <h2 className="text-xl font-bold text-foreground uppercase tracking-tight">Cola Operativa Pendiente</h2>
             </div>
             <Button variant="ghost" size="icon" onClick={() => setShowOperationalQueue(false)} className="rounded-full hover:bg-muted">
               <XCircle className="h-6 w-6 text-muted-foreground" />
@@ -3059,33 +3459,33 @@ function ServiciosContent() {
         <div className="flex-1 overflow-y-auto p-6 space-y-8 custom-scrollbar">
           {/* SECCIONES DE LA COLA */}
           {[
-            { 
-              title: "Sin asignar hoy", 
+            {
+              title: "Sin asignar hoy",
               items: servicios.filter(s => s.raw.fechaVisita && utcIsoToBogotaYmd(s.raw.fechaVisita) === toBogotaYmd() && !s.tecnicoId),
               color: "text-amber-600", bg: "bg-amber-50", border: "border-amber-100", icon: UserX, filterKey: "SIN_ASIGNAR_HOY"
             },
-            { 
-              title: "Por iniciar", 
+            {
+              title: "Por iniciar",
               items: servicios.filter(s => s.raw.fechaVisita && utcIsoToBogotaYmd(s.raw.fechaVisita) === toBogotaYmd() && s.estadoServicio === "PROGRAMADO"),
               color: "text-blue-600", bg: "bg-blue-50", border: "border-blue-100", icon: PlayCircle, filterKey: "POR_INICIAR"
             },
-            { 
-              title: "En ejecución", 
+            {
+              title: "En ejecución",
               items: servicios.filter(s => ["PROCESO", "EN PROCESO"].includes(s.estadoServicio)),
               color: "text-indigo-600", bg: "bg-indigo-50", border: "border-indigo-100", icon: Truck, filterKey: "EN_EJECUCION"
             },
-            { 
-              title: "Pendientes de cierre", 
+            {
+              title: "Pendientes de cierre",
               items: servicios.filter(s => ["TECNICO_FINALIZO", "TECNICO FINALIZO", "TECNICO FINALIZADO"].includes(s.estadoServicio)),
               color: "text-emerald-600", bg: "bg-emerald-50", border: "border-emerald-100", icon: CheckCircle2, filterKey: "PENDIENTES_CIERRE"
             },
-            { 
-              title: "Con incidencia", 
+            {
+              title: "Con incidencia",
               items: servicios.filter(s => ["SIN_CONCRETAR", "SIN CONCRETAR"].includes(s.estadoServicio)),
               color: "text-red-600", bg: "bg-red-50", border: "border-red-100", icon: AlertTriangle, filterKey: "CON_INCIDENCIA"
             },
-            { 
-              title: "Atrasados", 
+            {
+              title: "Atrasados",
               items: servicios.filter(s => {
                 const visitYmd = s.raw.fechaVisita ? utcIsoToBogotaYmd(s.raw.fechaVisita) : null;
                 return visitYmd && visitYmd < toBogotaYmd() && !["LIQUIDADO", "CANCELADO", "SIN_CONCRETAR", "SIN CONCRETAR"].includes(s.estadoServicio);
@@ -3094,16 +3494,16 @@ function ServiciosContent() {
             },
           ].map((section) => (
             <div key={section.title} className="space-y-4">
-              <button 
+              <button
                 onClick={() => toggleOperationalSection(section.filterKey)}
                 className="w-full flex items-center justify-between border-b border-border pb-2 group/header"
               >
                 <div className="flex items-center gap-2">
                   <section.icon className={cn("h-4 w-4", section.color)} />
-                  <h3 className="text-[10px] font-black uppercase tracking-[0.2em] text-foreground group-hover/header:text-amber-600 transition-colors">{section.title}</h3>
+                  <h3 className="text-[10px] font-semibold uppercase tracking-[0.2em] text-foreground group-hover/header:text-amber-600 transition-colors">{section.title}</h3>
                 </div>
                 <div className="flex items-center gap-3">
-                  <span className={cn("px-2 py-0.5 rounded-full text-[9px] font-black", section.bg, section.color)}>
+                  <span className={cn("px-2 py-0.5 rounded-full text-[9px] font-semibold", section.bg, section.color)}>
                     {section.items.length}
                   </span>
                   <ChevronDown className={cn(
@@ -3119,8 +3519,8 @@ function ServiciosContent() {
                     <p className="text-[10px] text-muted-foreground italic px-2">No hay pendientes en esta categoría.</p>
                   ) : (
                     section.items.slice(0, 5).map((s) => (
-                      <div 
-                        key={s.raw.id} 
+                      <div
+                        key={s.raw.id}
                         className="group p-4 rounded-2xl bg-card border border-border hover:border-amber-500/50 transition-all cursor-pointer shadow-sm hover:shadow-md"
                         onClick={() => {
                           setSelectedServicio(s);
@@ -3128,14 +3528,14 @@ function ServiciosContent() {
                         }}
                       >
                         <div className="flex items-start justify-between mb-2">
-                          <span className="text-[9px] font-black uppercase text-amber-600 bg-amber-50 px-2 py-0.5 rounded border border-amber-100">
+                          <span className="text-[9px] font-semibold uppercase text-amber-600 bg-amber-50 px-2 py-0.5 rounded border border-amber-100">
                             #{s.id}
                           </span>
-                          <span className={cn("text-[8px] font-black uppercase px-2 py-0.5 rounded shadow-sm", URGENCIA_STYLING[s.urgencia])}>
+                          <span className={cn("text-[8px] font-semibold uppercase px-2 py-0.5 rounded shadow-sm", URGENCIA_STYLING[s.urgencia])}>
                             {s.urgencia}
                           </span>
                         </div>
-                        <p className="text-xs font-black text-foreground uppercase truncate mb-1">{s.cliente}</p>
+                        <p className="text-xs font-semibold text-foreground uppercase truncate mb-1">{s.cliente}</p>
                         <p className="text-[10px] font-bold text-muted-foreground uppercase mb-3">{s.servicioEspecifico}</p>
                         <div className="flex items-center justify-between">
                           <div className="flex items-center gap-2 text-muted-foreground">
@@ -3148,9 +3548,9 @@ function ServiciosContent() {
                     ))
                   )}
                   {section.items.length > 5 && (
-                    <Button 
-                      variant="link" 
-                      className="w-full text-[9px] font-black uppercase text-[#01ADFB] h-auto p-0"
+                    <Button
+                      variant="link"
+                      className="w-full text-[9px] font-semibold uppercase text-[#01ADFB] h-auto p-0"
                       onClick={() => {
                         applyOperationalFilter(section.filterKey);
                         setShowOperationalQueue(false);
@@ -3166,8 +3566,8 @@ function ServiciosContent() {
         </div>
 
         <div className="p-6 border-t border-border bg-muted/30 shrink-0">
-          <Button 
-            className="w-full h-12 rounded-xl bg-amber-500 hover:bg-amber-600 text-white font-black uppercase text-[10px] tracking-widest gap-2 shadow-lg shadow-amber-500/20"
+          <Button
+            className="w-full h-12 rounded-xl bg-amber-500 hover:bg-amber-600 text-white font-bold uppercase text-[10px] tracking-widest gap-2 shadow-lg shadow-amber-500/20"
             onClick={() => {
               resetAllFilters();
               setViewMode("servicios");
@@ -3182,7 +3582,7 @@ function ServiciosContent() {
       <Dialog open={isViewLiquidationModalOpen} onOpenChange={setIsViewLiquidationModalOpen}>
         <DialogContent className="max-w-2xl bg-background border-border max-h-[90vh] overflow-y-auto custom-scrollbar">
           <DialogHeader>
-            <DialogTitle className="text-xl font-black uppercase text-foreground flex items-center gap-3">
+            <DialogTitle className="text-xl font-bold uppercase text-foreground flex items-center gap-3">
               <Receipt className="h-6 w-6 text-emerald-500" /> Detalle de Liquidación
             </DialogTitle>
             <DialogDescription className="text-muted-foreground">
@@ -3195,11 +3595,11 @@ function ServiciosContent() {
               {/* Encabezado rápido */}
               <div className="p-4 rounded-2xl bg-muted/30 border border-border flex items-center justify-between">
                 <div>
-                  <p className="text-[10px] font-black text-muted-foreground uppercase tracking-widest">Orden</p>
-                  <p className="font-black text-foreground">#{selectedServicio.id}</p>
+                  <p className="text-[10px] font-semibold text-muted-foreground uppercase tracking-widest">Orden</p>
+                  <p className="font-bold text-foreground">#{selectedServicio.id}</p>
                 </div>
                 <div className="text-right">
-                  <p className="text-[10px] font-black text-muted-foreground uppercase tracking-widest">Cliente</p>
+                  <p className="text-[10px] font-semibold text-muted-foreground uppercase tracking-widest">Cliente</p>
                   <p className="font-bold text-foreground uppercase truncate max-w-[200px]">{selectedServicio.cliente}</p>
                 </div>
               </div>
@@ -3207,14 +3607,14 @@ function ServiciosContent() {
               {/* Montos destacados */}
               <div className="grid grid-cols-2 gap-4">
                 <div className="p-6 bg-emerald-500/5 border border-emerald-500/20 rounded-2xl">
-                  <p className="text-[10px] font-black text-emerald-600 uppercase mb-1">Total Pagado</p>
-                  <p className="text-2xl font-black text-emerald-600">
+                  <p className="text-[10px] font-semibold text-emerald-600 uppercase mb-1">Total Pagado</p>
+                  <p className="text-2xl font-bold text-emerald-600">
                     {new Intl.NumberFormat('es-CO', { style: 'currency', currency: 'COP', maximumFractionDigits: 0 }).format(selectedServicio.raw.valorPagado || 0)}
                   </p>
                 </div>
                 <div className="p-6 bg-muted/30 border border-border rounded-2xl">
-                  <p className="text-[10px] font-black text-muted-foreground uppercase mb-1">Valor Cotizado</p>
-                  <p className="text-2xl font-black text-foreground opacity-60">
+                  <p className="text-[10px] font-semibold text-muted-foreground uppercase mb-1">Valor Cotizado</p>
+                  <p className="text-2xl font-bold text-foreground opacity-60">
                     {new Intl.NumberFormat('es-CO', { style: 'currency', currency: 'COP', maximumFractionDigits: 0 }).format(selectedServicio.raw.valorCotizado || 0)}
                   </p>
                 </div>
@@ -3222,7 +3622,7 @@ function ServiciosContent() {
 
               {/* Desglose de Pago */}
               <div className="space-y-3">
-                <Label className="text-[10px] font-black uppercase tracking-widest text-muted-foreground">Desglose de Métodos de Pago</Label>
+                <Label className="text-[10px] font-semibold uppercase tracking-widest text-muted-foreground">Desglose de Métodos de Pago</Label>
                 <div className="border border-border rounded-2xl overflow-hidden divide-y divide-border">
                   {selectedServicio.raw.desglosePago && selectedServicio.raw.desglosePago.length > 0 ? (
                     selectedServicio.raw.desglosePago.map((p, i) => (
@@ -3232,11 +3632,11 @@ function ServiciosContent() {
                             {p.metodo.includes("EFECTIVO") ? <Wallet className="h-4 w-4" /> : <CreditCard className="h-4 w-4" />}
                           </div>
                           <div>
-                            <p className="text-xs font-black text-foreground uppercase">{p.metodo}</p>
+                            <p className="text-xs font-semibold text-foreground uppercase">{p.metodo}</p>
                             {p.referencia && <p className="text-[9px] font-bold text-muted-foreground uppercase">REF: {p.referencia}</p>}
                           </div>
                         </div>
-                        <p className="text-sm font-black text-foreground">{new Intl.NumberFormat('es-CO', { style: 'currency', currency: 'COP', maximumFractionDigits: 0 }).format(p.monto)}</p>
+                        <p className="text-sm font-bold text-foreground">{new Intl.NumberFormat('es-CO', { style: 'currency', currency: 'COP', maximumFractionDigits: 0 }).format(p.monto)}</p>
                       </div>
                     ))
                   ) : (
@@ -3250,7 +3650,7 @@ function ServiciosContent() {
               {/* Auditoría y Soporte */}
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div className="space-y-2">
-                  <Label className="text-[10px] font-black uppercase tracking-widest text-muted-foreground">Liquidado Por</Label>
+                  <Label className="text-[10px] font-semibold uppercase tracking-widest text-muted-foreground">Liquidado Por</Label>
                   <div className="p-4 rounded-xl bg-muted/30 border border-border">
                     <p className="text-sm font-bold text-foreground uppercase">
                       {selectedServicio.raw.liquidadoPor?.user ? `${selectedServicio.raw.liquidadoPor.user.nombre} ${selectedServicio.raw.liquidadoPor.user.apellido}` : "SISTEMA"}
@@ -3261,15 +3661,15 @@ function ServiciosContent() {
                   </div>
                 </div>
                 <div className="space-y-2">
-                  <Label className="text-[10px] font-black uppercase tracking-widest text-muted-foreground">Soportes de Pago</Label>
+                  <Label className="text-[10px] font-semibold uppercase tracking-widest text-muted-foreground">Soportes de Pago</Label>
                   <div className="flex flex-col gap-2">
                     {(() => {
                       const soportes = selectedServicio.raw.comprobantePago;
-                      
+
                       // Caso 1: No hay soportes
                       if (!soportes || (Array.isArray(soportes) && soportes.length === 0)) {
                         return (
-                          <div className="h-[52px] flex items-center justify-center rounded-xl border border-dashed border-border bg-muted/10 text-[9px] font-black text-muted-foreground uppercase">
+                          <div className="h-[52px] flex items-center justify-center rounded-xl border border-dashed border-border bg-muted/10 text-[9px] font-semibold text-muted-foreground uppercase">
                             Sin comprobantes adjuntos
                           </div>
                         );
@@ -3277,25 +3677,32 @@ function ServiciosContent() {
 
                       // Caso 2: Es un array (Nuevo formato)
                       if (Array.isArray(soportes)) {
-                        return soportes.map((sop, idx) => (
-                          <Button 
-                            key={idx}
-                            variant="outline" 
-                            className="w-full h-11 rounded-xl border-emerald-500/20 bg-emerald-500/5 text-emerald-600 hover:bg-emerald-500/10 font-black text-[9px] uppercase tracking-widest gap-2 justify-start px-4"
+                        return soportes.map((sop, idx) => {
+                          const tipoSoporte =
+                            typeof sop?.tipo === "string" && sop.tipo.trim().length > 0
+                              ? sop.tipo.replace(/_/g, " ")
+                              : `COMPROBANTE ${idx + 1}`;
+
+                          return (
+                          <Button
+                            key={sop?.path ?? tipoSoporte ?? idx}
+                            variant="outline"
+                            className="w-full h-11 rounded-xl border-emerald-500/20 bg-emerald-500/5 text-emerald-600 hover:bg-emerald-500/10 font-bold text-[9px] uppercase tracking-widest gap-2 justify-start px-4"
                             asChild
                           >
                             <a href={resolveSoportePagoUrl("tenaxis-docs", sop.path)} target="_blank" rel="noopener noreferrer">
-                              <ExternalLink className="h-3.5 w-3.5" /> {sop.tipo.replace(/_/g, " ")}
+                              <ExternalLink className="h-3.5 w-3.5" /> {tipoSoporte}
                             </a>
                           </Button>
-                        ));
+                          );
+                        });
                       }
 
                       // Caso 3: Es un string (Legado)
                       return (
-                        <Button 
-                          variant="outline" 
-                          className="w-full h-11 rounded-xl border-emerald-500/20 bg-emerald-500/5 text-emerald-600 hover:bg-emerald-500/10 font-black text-[9px] uppercase tracking-widest gap-2 justify-start px-4"
+                        <Button
+                          variant="outline"
+                          className="w-full h-11 rounded-xl border-emerald-500/20 bg-emerald-500/5 text-emerald-600 hover:bg-emerald-500/10 font-bold text-[9px] uppercase tracking-widest gap-2 justify-start px-4"
                           asChild
                         >
             <a href={resolveSoportePagoUrl("EvidenciaOrdenServicio", soportes as unknown as string)} target="_blank" rel="noopener noreferrer">
@@ -3310,7 +3717,7 @@ function ServiciosContent() {
 
               {/* Observación Final */}
               <div className="space-y-2">
-                <Label className="text-[10px] font-black uppercase tracking-widest text-muted-foreground">Observaciones de Cierre</Label>
+                <Label className="text-[10px] font-semibold uppercase tracking-widest text-muted-foreground">Observaciones de Cierre</Label>
                 <div className="p-4 rounded-2xl bg-muted/30 border border-border min-h-[80px]">
                   <p className="text-sm font-medium text-foreground italic">
                     {selectedServicio.raw.observacionFinal || "Sin observaciones adicionales."}
@@ -3319,8 +3726,8 @@ function ServiciosContent() {
               </div>
 
               <div className="flex gap-3 pt-2">
-                <Button 
-                  className="flex-1 h-12 rounded-xl bg-foreground text-background font-black uppercase text-[10px] tracking-widest"
+                <Button
+                  className="flex-1 h-12 rounded-xl bg-foreground text-background font-bold uppercase text-[10px] tracking-widest"
                   onClick={() => setIsViewLiquidationModalOpen(false)}
                 >
                   Cerrar Visualización
@@ -3333,7 +3740,7 @@ function ServiciosContent() {
 
       {/* OVERLAY PARA CERRAR PANEL */}
       {showOperationalQueue && (
-        <div 
+        <div
           className="fixed inset-0 bg-background/80 backdrop-blur-sm z-[45]"
           onClick={() => setShowOperationalQueue(false)}
         />

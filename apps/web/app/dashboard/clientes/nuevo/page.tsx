@@ -93,7 +93,14 @@ function NuevoClienteContent() {
   const _fixClientId = searchParams.get("fixClientId");
   const _migrateClientId = searchParams.get("migrateClientId");
 
-  useUserRole();
+  const { checkPermission, isLoading: isLoadingRole } = useUserRole();
+
+  useEffect(() => {
+    if (!isLoadingRole && !checkPermission("CLIENT_CREATE")) {
+      router.replace("/dashboard/clientes");
+    }
+  }, [isLoadingRole, checkPermission, router]);
+
   const [loading, setLoading] = useState(false);
   const [empresasUser, setEmpresasUser] = useState<{id: string, nombre: string}[]>([]);
   const [selectedEmpresaId, setSelectedEmpresaId] = useState<string>("");
@@ -367,6 +374,18 @@ function NuevoClienteContent() {
       .filter(m => m.departmentId === deptId)
       .map(m => ({ value: m.id, label: m.name }));
   };
+
+  if (isLoadingRole) {
+    return (
+      <div className="flex h-[60vh] items-center justify-center text-sm font-bold uppercase tracking-widest text-muted-foreground">
+        Validando permisos...
+      </div>
+    );
+  }
+
+  if (!checkPermission("CLIENT_CREATE")) {
+    return null;
+  }
 
   return (
     <div className="max-w-5xl mx-auto w-full h-[calc(100vh-12rem)] flex flex-col min-h-0">

@@ -1,5 +1,13 @@
 import { Transform } from 'class-transformer';
-import { IsDateString, IsNumber, IsOptional, IsString, IsUUID } from 'class-validator';
+import {
+  ArrayNotEmpty,
+  IsArray,
+  IsDateString,
+  IsNumber,
+  IsOptional,
+  IsString,
+  IsUUID,
+} from 'class-validator';
 
 export class RegistrarConsignacionDto {
   @IsUUID()
@@ -14,8 +22,7 @@ export class RegistrarConsignacionDto {
       return undefined;
     }
 
-    const parsed = Number(value);
-    return Number.isNaN(parsed) ? value : parsed;
+    return Number(value);
   })
   @IsNumber()
   valorConsignado?: number;
@@ -24,7 +31,12 @@ export class RegistrarConsignacionDto {
   referenciaBanco: string;
 
   @IsString()
-  ordenIds: string;
+  comprobantePath: string;
+
+  @IsArray()
+  @ArrayNotEmpty()
+  @IsUUID('4', { each: true })
+  ordenIds: string[];
 
   @IsDateString()
   fechaConsignacion: string;

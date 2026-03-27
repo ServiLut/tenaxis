@@ -94,6 +94,16 @@ interface DesglosePagoItem {
   observacion?: string;
 }
 
+interface TransferenciaRealRegistrada {
+  metodo: MetodoPagoBase;
+  monto: number;
+  path: string;
+  referenciaPago: string;
+  fechaPago: string;
+  banco?: string;
+  observacion?: string;
+}
+
 type CandidateWithMembership = LocalEmpresaMembership & {
   membership: LocalTenantMembership;
 };
@@ -1419,6 +1429,24 @@ export class OrdenesServicioService {
       const value = orden[field];
       if (value && typeof value === 'string' && !value.startsWith('http')) {
         pathsToSign.push(value);
+        continue;
+      }
+
+      if (field === 'comprobantePago' && Array.isArray(value)) {
+        for (const item of value) {
+          if (typeof item === 'string' && !item.startsWith('http')) {
+            pathsToSign.push(item);
+            continue;
+          }
+
+          if (
+            this.isRecord(item) &&
+            typeof item.path === 'string' &&
+            !item.path.startsWith('http')
+          ) {
+            pathsToSign.push(item.path);
+          }
+        }
       }
     }
 
@@ -1458,6 +1486,28 @@ export class OrdenesServicioService {
       const value = orden[field];
       if (value && typeof value === 'string' && urlMap.has(value)) {
         orden[field] = urlMap.get(value)!;
+        continue;
+      }
+
+      if (field === 'comprobantePago' && Array.isArray(value)) {
+        orden[field] = value.map((item) => {
+          if (typeof item === 'string' && urlMap.has(item)) {
+            return urlMap.get(item)!;
+          }
+
+          if (
+            this.isRecord(item) &&
+            typeof item.path === 'string' &&
+            urlMap.has(item.path)
+          ) {
+            return {
+              ...item,
+              path: urlMap.get(item.path)!,
+            };
+          }
+
+          return item;
+        }) as typeof orden[typeof field];
       }
     }
 
@@ -1576,6 +1626,7 @@ export class OrdenesServicioService {
     if (
       updateDto.valorCotizado !== undefined ||
       updateDto.desglosePago !== undefined ||
+      updateDto.transferencias !== undefined ||
       updateDto.metodoPagoId !== undefined ||
       updateDto.entidadFinancieraNombre !== undefined ||
       updateDto.estadoPago !== undefined ||
@@ -1593,6 +1644,322 @@ export class OrdenesServicioService {
       updateDto.estadoServicio !== undefined &&
       updateDto.estadoServicio !== orden.estadoServicio
     );
+  }
+
+  private normalizeBreakdown(
+    value: Prisma.JsonValue | Prisma.InputJsonValue | unknown,
+  ): DesglosePagoItem[] | null {
+    if (!Array.isArray(value)) {
+      return null;
+    }
+
+    const normalized: DesglosePagoItem[] = [];
+
+    for (const item of value) {
+      if (!this.isRecord(item)) {
+        continue;
+      }
+
+      const metodo = this.toOptionalString(item.metodo);
+      if (!metodo) {
+        continue;
+      }
+
+      const monto = Number(item.monto || 0);
+      if (!Number.isFinite(monto)) {
+        continue;
+      }
+
+      normalized.push({
+        metodo: metodo as MetodoPagoBase,
+        monto,
+        banco: this.toOptionalString(item.banco),
+        referencia: this.toOptionalString(item.referencia),
+        observacion: this.toOptionalString(item.observacion),
+      });
+    }
+
+    return normalized;
+  }
+
+  private isRecord(value: unknown): value is Record<string, unknown> {
+    return typeof value === 'object' && value !== null && !Array.isArray(value);
+  }
+
+  private toOptionalString(value: unknown): string | undefined {
+    return typeof value === 'string' && value.trim().length > 0
+      ? value.trim()
+      : undefined;
+  }
+
+  private normalizePaymentDate(value: unknown): string | undefined {
+    if (value instanceof Date && !Number.isNaN(value.getTime())) {
+      return value.toISOString();
+    }
+
+    if (typeof value !== 'string' || value.trim().length === 0) {
+      return undefined;
+    }
+
+    const parsed = parseFlexibleDateTimeToUtc(value, {
+      dateOnlyAsBogotaStart: true,
+    });
+
+    if (parsed) {
+      return parsed.toISOString();
+    }
+
+    const fallback = new Date(value);
+    return Number.isNaN(fallback.getTime()) ? undefined : fallback.toISOString();
+  }
+
+  private sumTransferPlan(breakdown: DesglosePagoItem[]): number {
+    return breakdown
+      .filter((line) => line.metodo === MetodoPagoBase.TRANSFERENCIA)
+      .reduce((sum, line) => sum + Number(line.monto || 0), 0);
+  }
+
+  private sumCashPlan(
+    breakdown: DesglosePagoItem[],
+    estadoServicio?: EstadoOrden | null,
+  ): number {
+    if (
+      estadoServicio !== EstadoOrden.LIQUIDADO &&
+      estadoServicio !== EstadoOrden.TECNICO_FINALIZO
+    ) {
+      return 0;
+    }
+
+    return breakdown
+      .filter((line) => line.metodo === MetodoPagoBase.EFECTIVO)
+      .reduce((sum, line) => sum + Number(line.monto || 0), 0);
+  }
+
+  private sumNonMonetaryCoverage(breakdown: DesglosePagoItem[]): number {
+    return breakdown
+      .filter(
+        (line) =>
+          line.metodo === MetodoPagoBase.BONO ||
+          line.metodo === MetodoPagoBase.CORTESIA ||
+          line.metodo === MetodoPagoBase.CREDITO,
+      )
+      .reduce((sum, line) => sum + Number(line.monto || 0), 0);
+  }
+
+  private inferLegacyTransferAmount(
+    orden: {
+      valorPagado?: number | Prisma.Decimal | null;
+      estadoServicio?: EstadoOrden | null;
+    },
+    breakdown: DesglosePagoItem[],
+  ): number {
+    const valorPagado = Number(orden.valorPagado || 0);
+    const cashCounted = this.sumCashPlan(breakdown, orden.estadoServicio);
+    return Math.max(0, valorPagado - cashCounted);
+  }
+
+  private normalizeStoredTransferEvents(
+    comprobantePago: Prisma.JsonValue | unknown,
+    fallback: {
+      monto: number;
+      referenciaPago?: string | null;
+      fechaPago?: string | Date | null;
+      banco?: string | null;
+      observacion?: string | null;
+    },
+  ): TransferenciaRealRegistrada[] {
+    const fallbackReferencia = this.toOptionalString(fallback.referenciaPago);
+    const fallbackFechaPago = this.normalizePaymentDate(fallback.fechaPago);
+    const fallbackBanco = this.toOptionalString(fallback.banco);
+    const fallbackObservacion = this.toOptionalString(fallback.observacion);
+
+    const buildEvent = (
+      path: unknown,
+      payload: {
+        monto?: unknown;
+        referenciaPago?: unknown;
+        fechaPago?: unknown;
+        banco?: unknown;
+        observacion?: unknown;
+      },
+      totalItems: number,
+    ): TransferenciaRealRegistrada | null => {
+      const normalizedPath = this.toOptionalString(path);
+      if (!normalizedPath) {
+        return null;
+      }
+
+      const montoRaw = Number(payload.monto ?? 0);
+      const monto =
+        Number.isFinite(montoRaw) && montoRaw > 0
+          ? montoRaw
+          : totalItems === 1
+            ? fallback.monto
+            : 0;
+      const referenciaPago =
+        this.toOptionalString(payload.referenciaPago) ??
+        (totalItems === 1 ? fallbackReferencia : undefined);
+      const fechaPago =
+        this.normalizePaymentDate(payload.fechaPago) ??
+        (totalItems === 1 ? fallbackFechaPago : undefined);
+
+      if (monto <= 0 || !referenciaPago || !fechaPago) {
+        return null;
+      }
+
+      return {
+        metodo: MetodoPagoBase.TRANSFERENCIA,
+        monto,
+        path: normalizedPath,
+        referenciaPago,
+        fechaPago,
+        banco:
+          this.toOptionalString(payload.banco) ??
+          (totalItems === 1 ? fallbackBanco : undefined),
+        observacion:
+          this.toOptionalString(payload.observacion) ??
+          (totalItems === 1 ? fallbackObservacion : undefined),
+      };
+    };
+
+    if (Array.isArray(comprobantePago)) {
+      return comprobantePago
+        .map((item) => {
+          if (typeof item === 'string') {
+            return buildEvent(item, {}, comprobantePago.length);
+          }
+
+          if (!this.isRecord(item)) {
+            return null;
+          }
+
+          return buildEvent(
+            item.path ?? item.comprobantePath ?? item.url,
+            {
+              monto: item.monto,
+              referenciaPago: item.referenciaPago ?? item.referencia,
+              fechaPago: item.fechaPago,
+              banco: item.banco,
+              observacion: item.observacion,
+            },
+            comprobantePago.length,
+          );
+        })
+        .filter((item): item is TransferenciaRealRegistrada => item !== null);
+    }
+
+    if (typeof comprobantePago === 'string') {
+      const legacy = buildEvent(
+        comprobantePago,
+        {
+          monto: fallback.monto,
+          referenciaPago: fallbackReferencia,
+          fechaPago: fallbackFechaPago,
+          banco: fallbackBanco,
+          observacion: fallbackObservacion,
+        },
+        1,
+      );
+
+      return legacy ? [legacy] : [];
+    }
+
+    return [];
+  }
+
+  private buildIncomingTransferEvents(
+    updateDto: Partial<CreateOrdenServicioDto>,
+    fallback: {
+      montoSugerido: number;
+      banco?: string;
+      observacion?: string;
+    },
+  ): TransferenciaRealRegistrada[] {
+    if (Array.isArray(updateDto.transferencias) && updateDto.transferencias.length > 0) {
+      return updateDto.transferencias.map((transferencia, index) => {
+        const path = this.toOptionalString(transferencia.comprobantePath);
+        const referenciaPago = this.toOptionalString(transferencia.referenciaPago);
+        const fechaPago = this.normalizePaymentDate(transferencia.fechaPago);
+        const monto = Number(transferencia.monto || 0);
+
+        if (!path || !referenciaPago || !fechaPago || !Number.isFinite(monto) || monto <= 0) {
+          throw new BadRequestException(
+            `La transferencia #${index + 1} debe incluir monto, comprobantePath, referenciaPago y fechaPago válidos`,
+          );
+        }
+
+        return {
+          metodo: MetodoPagoBase.TRANSFERENCIA,
+          monto,
+          path,
+          referenciaPago,
+          fechaPago,
+          banco:
+            this.toOptionalString(transferencia.banco) ??
+            this.toOptionalString(fallback.banco),
+          observacion:
+            this.toOptionalString(transferencia.observacion) ??
+            this.toOptionalString(fallback.observacion),
+        } satisfies TransferenciaRealRegistrada;
+      });
+    }
+
+    const touchedLegacyFields =
+      updateDto.comprobantePago !== undefined ||
+      updateDto.referenciaPago !== undefined ||
+      updateDto.fechaPago !== undefined;
+
+    if (!touchedLegacyFields) {
+      return [];
+    }
+
+    const path = this.toOptionalString(updateDto.comprobantePago);
+    const referenciaPago = this.toOptionalString(updateDto.referenciaPago);
+    const fechaPago = this.normalizePaymentDate(updateDto.fechaPago);
+
+    if (!path || !referenciaPago || !fechaPago || fallback.montoSugerido <= 0) {
+      throw new BadRequestException(
+        'Para registrar pagos por transferencia debés adjuntar comprobante, referencia y fecha de pago',
+      );
+    }
+
+    return [
+      {
+        metodo: MetodoPagoBase.TRANSFERENCIA,
+        monto: fallback.montoSugerido,
+        path,
+        referenciaPago,
+        fechaPago,
+        banco: this.toOptionalString(fallback.banco),
+        observacion: this.toOptionalString(fallback.observacion),
+      },
+    ];
+  }
+
+  private calculateLegacyTransferAmountSuggestion(params: {
+    breakdown: DesglosePagoItem[];
+    valorCotizado: number;
+    estadoServicio?: EstadoOrden | null;
+    existingConfirmedTransferAmount: number;
+  }): number {
+    const { breakdown, valorCotizado, estadoServicio, existingConfirmedTransferAmount } =
+      params;
+    const coveredByCash = this.sumCashPlan(breakdown, estadoServicio);
+    const coveredByNonMonetary = this.sumNonMonetaryCoverage(breakdown);
+    const remaining = Math.max(
+      0,
+      valorCotizado -
+        coveredByCash -
+        coveredByNonMonetary -
+        existingConfirmedTransferAmount,
+    );
+    const transferPlan = this.sumTransferPlan(breakdown);
+
+    if (transferPlan <= 0) {
+      return remaining;
+    }
+
+    return Math.min(transferPlan, remaining || transferPlan);
   }
 
   async update(
@@ -1681,45 +2048,62 @@ export class OrdenesServicioService {
         orden.tipoFacturacion ||
         TipoFacturacion.UNICO;
 
-    const breakdownActualizado =
-      updateDto.desglosePago && Array.isArray(updateDto.desglosePago)
-        ? (updateDto.desglosePago as unknown as DesglosePagoItem[])
-        : null;
+    const breakdownActualizado = this.normalizeBreakdown(updateDto.desglosePago);
+    const breakdownVigente =
+      breakdownActualizado ?? this.normalizeBreakdown(orden.desglosePago) ?? [];
+    const valorCotizadoResuelto = Number(
+      updateDto.valorCotizado ?? orden.valorCotizado ?? 0,
+    );
+    const existingTransferEvents = this.normalizeStoredTransferEvents(
+      orden.comprobantePago,
+      {
+        monto: this.inferLegacyTransferAmount(orden, breakdownVigente),
+        referenciaPago: orden.referenciaPago,
+        fechaPago: orden.fechaPago,
+      },
+    );
+    const existingConfirmedTransferAmount = existingTransferEvents.reduce(
+      (sum, event) => sum + event.monto,
+      0,
+    );
+    const legacyTransferAmountSuggestion =
+      this.calculateLegacyTransferAmountSuggestion({
+        breakdown: breakdownVigente,
+        valorCotizado: valorCotizadoResuelto,
+        estadoServicio: updateDto.estadoServicio ?? orden.estadoServicio,
+        existingConfirmedTransferAmount,
+      });
+    const incomingTransferEvents = this.buildIncomingTransferEvents(updateDto, {
+      montoSugerido: legacyTransferAmountSuggestion,
+      banco: updateDto.entidadFinancieraNombre,
+      observacion: updateDto.observacionFinal,
+    });
+    const mergedTransferEvents =
+      incomingTransferEvents.length > 0
+        ? [...existingTransferEvents, ...incomingTransferEvents]
+        : existingTransferEvents;
     const serviceReachedSettlementPoint =
       updateDto.estadoServicio === (EstadoOrden.LIQUIDADO as EstadoOrden) ||
       updateDto.estadoServicio === (EstadoOrden.TECNICO_FINALIZO as EstadoOrden);
     const explicitPaymentRegistration =
-      Boolean(fechaPagoDate) ||
+      incomingTransferEvents.length > 0 ||
       updateDto.comprobantePago !== undefined ||
       updateDto.referenciaPago !== undefined ||
+      updateDto.transferencias !== undefined ||
       serviceReachedSettlementPoint;
-    const transferAmount =
-      breakdownActualizado?.reduce((sum, line) => {
-        if (line.metodo !== MetodoPagoBase.TRANSFERENCIA) {
-          return sum;
-        }
-        return sum + Number(line.monto || 0);
-      }, 0) ?? 0;
-    const existingComprobantePago =
-      Array.isArray(orden.comprobantePago)
-        ? orden.comprobantePago.length > 0
-        : Boolean(orden.comprobantePago);
-    const transferReferenceProvided =
-      Boolean(updateDto.referenciaPago?.trim()) ||
-      Boolean(orden.referenciaPago?.trim()) ||
-      Boolean(
-        breakdownActualizado?.some(
-          (line) =>
-            line.metodo === MetodoPagoBase.TRANSFERENCIA &&
-            typeof line.referencia === 'string' &&
-            line.referencia.trim().length > 0,
-        ),
-      );
-    const transferEvidenceProvided =
-      transferAmount > 0 &&
-      (Boolean(updateDto.comprobantePago) || existingComprobantePago) &&
-      Boolean(fechaPagoDate || orden.fechaPago) &&
-      transferReferenceProvided;
+    const transferAmount = this.sumTransferPlan(breakdownVigente);
+    const confirmedTransferAmount = mergedTransferEvents.reduce(
+      (sum, event) => sum + event.monto,
+      0,
+    );
+    const hasConfirmedTransferEvidence = mergedTransferEvents.length > 0;
+    const latestTransferEvent =
+      mergedTransferEvents.length > 0
+        ? mergedTransferEvents[mergedTransferEvents.length - 1]
+        : null;
+
+    const requestedLiquidation =
+      updateDto.estadoServicio === (EstadoOrden.LIQUIDADO as EstadoOrden);
 
     const data: Prisma.OrdenServicioUpdateInput = {
       tecnico: updateDto.tecnicoId
@@ -1749,20 +2133,27 @@ export class OrdenesServicioService {
       estadoServicio: updateDto.estadoServicio ?? undefined,
       facturaPath: updateDto.facturaPath ?? undefined,
       facturaElectronica: updateDto.facturaElectronica ?? undefined,
-      comprobantePago: updateDto.comprobantePago ?? undefined,
+      comprobantePago:
+        incomingTransferEvents.length > 0
+          ? (mergedTransferEvents as unknown as Prisma.InputJsonValue)
+          : undefined,
       evidenciaPath: updateDto.evidenciaPath ?? undefined,
       observacionFinal: updateDto.observacionFinal ?? undefined,
-      referenciaPago: updateDto.referenciaPago ?? undefined,
+      referenciaPago:
+        latestTransferEvent?.referenciaPago ??
+        updateDto.referenciaPago ??
+        undefined,
       liquidadoPor:
-        updateDto.estadoServicio === (EstadoOrden.LIQUIDADO as EstadoOrden) &&
-        (membershipId || updateDto.liquidadoPorId)
+        requestedLiquidation && (membershipId || updateDto.liquidadoPorId)
           ? { connect: { id: membershipId || updateDto.liquidadoPorId } }
           : undefined,
       liquidadoAt:
-        updateDto.estadoServicio === (EstadoOrden.LIQUIDADO as EstadoOrden)
+        requestedLiquidation
           ? new Date()
           : undefined,
-      fechaPago: fechaPagoDate,
+      fechaPago: latestTransferEvent
+        ? new Date(latestTransferEvent.fechaPago)
+        : fechaPagoDate,
       desglosePago: esGarantia
         ? ([] as unknown as Prisma.InputJsonValue)
         : updateDto.desglosePago
@@ -1774,8 +2165,12 @@ export class OrdenesServicioService {
     if (esGarantia && updateDto.estadoServicio === EstadoOrden.LIQUIDADO) {
       data.estadoPago = EstadoPagoOrden.PAGADO;
       data.valorPagado = 0;
-    } else if (breakdownActualizado) {
-      if (explicitPaymentRegistration && transferAmount > 0 && !transferEvidenceProvided) {
+    } else if (breakdownActualizado || breakdownVigente.length > 0) {
+      if (
+        explicitPaymentRegistration &&
+        transferAmount > 0 &&
+        !hasConfirmedTransferEvidence
+      ) {
         throw new BadRequestException(
           'Para registrar pagos por transferencia debés adjuntar comprobante, referencia y fecha de pago',
         );
@@ -1785,18 +2180,25 @@ export class OrdenesServicioService {
         data.estadoPago = undefined;
         data.valorPagado = undefined;
       } else {
-      const valorCotizado = Number(
-        updateDto.valorCotizado || orden.valorCotizado || 0,
-      );
-      const totals = this.calculateBreakdownTotals(
-        breakdownActualizado,
-        valorCotizado,
-        (updateDto.estadoServicio || orden.estadoServicio) as EstadoOrden,
-        transferEvidenceProvided ? transferAmount : 0,
-      );
-      data.valorPagado = totals.valorPagado;
-      data.estadoPago = totals.estadoPago;
+        const totals = this.calculateBreakdownTotals(
+          breakdownVigente,
+          valorCotizadoResuelto,
+          (updateDto.estadoServicio || orden.estadoServicio) as EstadoOrden,
+          confirmedTransferAmount,
+        );
+        data.valorPagado = totals.valorPagado;
+        data.estadoPago = totals.estadoPago;
       }
+    }
+
+    if (
+      requestedLiquidation &&
+      (data.estadoPago === EstadoPagoOrden.PARCIAL ||
+        data.estadoPago === EstadoPagoOrden.PENDIENTE)
+    ) {
+      data.estadoServicio = EstadoOrden.TECNICO_FINALIZO;
+      data.liquidadoAt = null;
+      data.liquidadoPor = { disconnect: true };
     }
 
     if (updateDto.entidadFinancieraNombre) {
@@ -1943,7 +2345,13 @@ export class OrdenesServicioService {
           const cp = updatedOrden.comprobantePago;
           if (cp) {
             if (Array.isArray(cp) && cp.length > 0) {
-              pathSoporte = (cp[0] as any).path || 'POR_CONSIGNAR';
+              const firstSupport = cp[0];
+              if (typeof firstSupport === 'string') {
+                pathSoporte = firstSupport;
+              } else if (this.isRecord(firstSupport)) {
+                pathSoporte =
+                  this.toOptionalString(firstSupport.path) || 'POR_CONSIGNAR';
+              }
             } else if (typeof cp === 'string') {
               pathSoporte = cp;
             }
@@ -1988,14 +2396,7 @@ export class OrdenesServicioService {
       .filter((l) => l.metodo === MetodoPagoBase.EFECTIVO)
       .reduce((sum, l) => sum + Number(l.monto || 0), 0);
 
-    const valorTransferenciaPlaneada = breakdown
-      .filter((l) => l.metodo === MetodoPagoBase.TRANSFERENCIA)
-      .reduce((sum, l) => sum + Number(l.monto || 0), 0);
-
-    const valorTransferencia = Math.min(
-      confirmedTransferAmount ?? 0,
-      valorTransferenciaPlaneada,
-    );
+    const valorTransferencia = Math.max(0, confirmedTransferAmount ?? 0);
 
     const valorPagado = valorEfectivo + valorTransferencia;
 

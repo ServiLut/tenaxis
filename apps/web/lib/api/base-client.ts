@@ -116,11 +116,25 @@ export async function apiFetch<T>(
 
     return ((result as { data?: T } | null)?.data || result) as T;
   } catch (error) {
-    console.error(`[API Client] Fetch failed for ${url}:`, {
+    const normalizedError = {
+      name:
+        error && typeof error === "object" && "name" in error
+          ? String((error as { name?: unknown }).name ?? "Error")
+          : error instanceof Error
+            ? error.name
+            : "Error",
       message: error instanceof Error ? error.message : String(error),
       cause: error instanceof Error ? (error as { cause?: unknown }).cause : undefined,
       stack: error instanceof Error ? error.stack : undefined,
-    });
+      raw:
+        error instanceof Error
+          ? undefined
+          : typeof error === "object"
+            ? JSON.stringify(error, Object.getOwnPropertyNames(error), 2)
+            : String(error),
+    };
+
+    console.error(`[API Client] Fetch failed for ${url}: ${normalizedError.message}`, normalizedError);
     throw error;
   }
 }

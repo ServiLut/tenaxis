@@ -82,6 +82,7 @@ import {
   ymdToPickerDate,
 } from "@/utils/date-utils";
 import { getBrowserCookie } from "@/lib/api/browser-client";
+import { useUserRole } from "@/hooks/use-user-role";
 import {
   getBrowserAccessScope,
   getBrowserScopedEnterpriseId,
@@ -325,6 +326,7 @@ export function ClienteList({
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
+  const { checkPermission, isLoading: isLoadingRole } = useUserRole();
 
   const [mounted, setMounted] = useState(false);
   
@@ -380,6 +382,12 @@ export function ClienteList({
     const query = params.toString();
     router.replace(`${pathname}${query ? `?${query}` : ""}`, { scroll: false });
   }, [activeSegment, search, currentPage, sortConfig, filters, pathname, router, mounted, onlySinVisita, onlyWithPendingPayments, onlySinServicios]);
+
+  useEffect(() => {
+    if (!isLoadingRole && !checkPermission("CLIENT_VIEW")) {
+      router.replace("/dashboard");
+    }
+  }, [isLoadingRole, checkPermission, router]);
 
   const [showSuggestionsQueue, setShowSuggestionsQueue] = useState(false);
   
@@ -448,6 +456,10 @@ export function ClienteList({
         color: "text-blue-600 bg-blue-50",
         actionLabel: "Ir a Programación",
         action: () => {
+          if (!checkPermission("SERVICE_CREATE")) {
+            toast.error("No tienes permisos para crear servicios.");
+            return;
+          }
           router.push(`/dashboard/servicios/nuevo?clienteId=${client.id}`);
           setSelectedClienteForSuggestions(null);
         }
@@ -1044,7 +1056,7 @@ export function ClienteList({
     });
   };
 
-  if (!mounted) {
+  if (!mounted || isLoadingRole) {
     return (
       <div className="flex flex-col h-full bg-background rounded-xl border border-border shadow-xl items-center justify-center">
         <div className="animate-pulse text-sm font-black text-muted-foreground uppercase tracking-widest">
@@ -1052,6 +1064,10 @@ export function ClienteList({
         </div>
       </div>
     );
+  }
+
+  if (!checkPermission("CLIENT_VIEW")) {
+    return null;
   }
 
   return (
@@ -1172,12 +1188,14 @@ export function ClienteList({
               </div>
 
               <div className="flex items-center gap-3">
-                <Link href="/dashboard/clientes/nuevo">
-                  <div className="flex items-center h-12 px-8 rounded-xl bg-[#01ADFB] text-white gap-3 shadow-lg shadow-[#01ADFB]/20 transition-transform hover:scale-105 active:scale-95 cursor-pointer">
-                    <Plus className="h-5 w-5" />
-                    <span className="font-black uppercase tracking-widest text-[10px]">Nuevo Cliente</span>
-                  </div>
-                </Link>
+                {checkPermission("CLIENT_CREATE") && (
+                  <Link href="/dashboard/clientes/nuevo">
+                    <div className="flex items-center h-12 px-8 rounded-xl bg-[#01ADFB] text-white gap-3 shadow-lg shadow-[#01ADFB]/20 transition-transform hover:scale-105 active:scale-95 cursor-pointer">
+                      <Plus className="h-5 w-5" />
+                      <span className="font-black uppercase tracking-widest text-[10px]">Nuevo Cliente</span>
+                    </div>
+                  </Link>
+                )}
               </div>
               </div>
 
@@ -1695,18 +1713,22 @@ export function ClienteList({
                               >
                                 <Settings className="h-4 w-4 text-muted-foreground" /> Configuración
                               </DropdownMenuItem>
-                              <Link href={`/dashboard/clientes/${cliente.id}/editar`}>
-                                <DropdownMenuItem className="flex items-center gap-3 py-3 text-[11px] font-black uppercase tracking-widest cursor-pointer text-foreground hover:bg-muted">
-                                  <Pencil className="h-4 w-4 text-amber-600" /> Editar Perfil
-                                </DropdownMenuItem>
-                              </Link>
+                              {checkPermission("CLIENT_EDIT") && (
+                                <Link href={`/dashboard/clientes/${cliente.id}/editar`}>
+                                  <DropdownMenuItem className="flex items-center gap-3 py-3 text-[11px] font-black uppercase tracking-widest cursor-pointer text-foreground hover:bg-muted">
+                                    <Pencil className="h-4 w-4 text-amber-600" /> Editar Perfil
+                                  </DropdownMenuItem>
+                                </Link>
+                              )}
                               <DropdownMenuSeparator className="bg-border" />
-                              <DropdownMenuItem
-                                onClick={() => handleDelete(cliente)}
-                                className="flex items-center gap-3 py-3 text-[11px] font-black uppercase tracking-widest text-destructive hover:bg-destructive/10 cursor-pointer"
-                              >
-                                <Trash2 className="h-4 w-4" /> Eliminar Cartera
-                              </DropdownMenuItem>
+                              {checkPermission("CLIENT_DELETE") && (
+                                <DropdownMenuItem
+                                  onClick={() => handleDelete(cliente)}
+                                  className="flex items-center gap-3 py-3 text-[11px] font-black uppercase tracking-widest text-destructive hover:bg-destructive/10 cursor-pointer"
+                                >
+                                  <Trash2 className="h-4 w-4" /> Eliminar Cartera
+                                </DropdownMenuItem>
+                              )}
                             </DropdownMenuContent>
                           </DropdownMenu>
                         </td>
@@ -2104,15 +2126,17 @@ export function ClienteList({
 
               {/* Footer con Acciones */}
               <div className="shrink-0 p-8 bg-background border-t border-border flex gap-4">
-                <button
-                  onClick={() => router.push(`/dashboard/clientes/${selectedCliente.id}/editar`)}
-                  className="flex-1 h-14 rounded-2xl bg-[#01ADFB] text-xs font-black uppercase tracking-[0.2em] text-white transition-all hover:bg-blue-700 active:scale-[0.98] shadow-xl shadow-[#01ADFB]/25"
-                >
-                  Editar Perfil Estratégico
-                </button>
+                {checkPermission("CLIENT_EDIT") && (
+                  <button
+                    onClick={() => router.push(`/dashboard/clientes/${selectedCliente.id}/editar`)}
+                    className="flex-1 h-14 rounded-2xl bg-[#01ADFB] text-xs font-black uppercase tracking-[0.2em] text-white transition-all hover:bg-blue-700 active:scale-[0.98] shadow-xl shadow-[#01ADFB]/25"
+                  >
+                    Editar Perfil Estratégico
+                  </button>
+                )}
                 <button
                   onClick={() => setSelectedCliente(null)}
-                  className="px-10 h-14 rounded-2xl border-2 border-border text-xs font-black uppercase tracking-[0.2em] text-muted-foreground hover:bg-muted hover:text-foreground transition-all bg-background"
+                  className="h-14 rounded-2xl border-2 border-border bg-background px-10 text-xs font-black uppercase tracking-[0.2em] text-muted-foreground transition-all hover:bg-muted hover:text-foreground"
                 >
                   Cerrar
                 </button>
