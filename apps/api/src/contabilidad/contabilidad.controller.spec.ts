@@ -1,13 +1,32 @@
 import { FinanzasController } from './contabilidad.controller';
 import { RegistrarConsignacionDto } from './registrar-consignacion.dto';
+import type { ContabilidadService } from './contabilidad.service';
+
+type ContabilidadServiceMock = Pick<
+  ContabilidadService,
+  'registrarConsignacion'
+> & {
+  registrarConsignacion: jest.MockedFunction<
+    ContabilidadService['registrarConsignacion']
+  >;
+};
 
 describe('FinanzasController - registrar consignación JSON', () => {
   it('reenvía ordenIds como array real y comprobantePath al service', async () => {
-    const contabilidadService = {
-      registrarConsignacion: jest.fn().mockResolvedValue({ id: 'cons-1' }),
+    const contabilidadService: ContabilidadServiceMock = {
+      registrarConsignacion: jest
+        .fn<
+          ReturnType<ContabilidadService['registrarConsignacion']>,
+          Parameters<ContabilidadService['registrarConsignacion']>
+        >()
+        .mockResolvedValue({ id: 'cons-1' } as Awaited<
+          ReturnType<ContabilidadService['registrarConsignacion']>
+        >),
     };
 
-    const controller = new FinanzasController(contabilidadService as any);
+    const controller = new FinanzasController(
+      contabilidadService as unknown as ContabilidadService,
+    );
 
     const req = {
       user: {
@@ -15,7 +34,7 @@ describe('FinanzasController - registrar consignación JSON', () => {
         membershipId: 'membership-1',
         role: 'ADMIN',
       },
-    } as any;
+    } as unknown as Parameters<FinanzasController['register']>[0];
 
     const dto: RegistrarConsignacionDto = {
       tecnicoId: '01906f58-8c7d-75a4-a685-3c3da2c46801',

@@ -4,11 +4,11 @@ import {
   Injectable,
 } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
-import { 
-  EstadoConsignacion, 
-  EstadoOrden, 
+import {
+  EstadoConsignacion,
+  EstadoOrden,
   EstadoPagoOrden,
-  MetodoPagoBase
+  MetodoPagoBase,
 } from '../generated/client/client';
 import { GenerateMonitoringPayrollDto } from './generate-monitoring-payroll.dto';
 import {
@@ -292,8 +292,8 @@ export class ContabilidadService {
       }
     });
 
-    const declaracionesPendientes = await this.prisma.declaracionEfectivo.findMany(
-      {
+    const declaracionesPendientes =
+      await this.prisma.declaracionEfectivo.findMany({
         where: {
           tenantId,
           empresaId: empresaId || undefined,
@@ -305,12 +305,15 @@ export class ContabilidadService {
           fechaDeclaracion: true,
           ordenId: true,
         },
-      },
-    );
+      });
 
     const declaracionesPendientesPorTecnico = new Map<
       string,
-      Array<{ ordenId: string; valorDeclarado: number; fechaDeclaracion: Date | null }>
+      Array<{
+        ordenId: string;
+        valorDeclarado: number;
+        fechaDeclaracion: Date | null;
+      }>
     >();
 
     declaracionesPendientes.forEach((declaracion) => {
@@ -518,7 +521,10 @@ export class ContabilidadService {
           );
         }
 
-        if (declaracion?.tecnicoId && declaracion.tecnicoId !== data.tecnicoId) {
+        if (
+          declaracion?.tecnicoId &&
+          declaracion.tecnicoId !== data.tecnicoId
+        ) {
           throw new ConflictException(
             `La orden ${orden.id} no pertenece al técnico seleccionado`,
           );
@@ -643,9 +649,10 @@ export class ContabilidadService {
         // Decidir el nuevo estado de pago
         // Si ya se cubrió el total, pasamos a CONCILIADO
         // Si falta dinero, lo dejamos en PARCIAL (aunque se haya consignado el efectivo)
-        const nuevoEstadoPago = totalPagadoActualmente >= totalCotizado
-          ? EstadoPagoOrden.CONCILIADO
-          : EstadoPagoOrden.PARCIAL;
+        const nuevoEstadoPago =
+          totalPagadoActualmente >= totalCotizado
+            ? EstadoPagoOrden.CONCILIADO
+            : EstadoPagoOrden.PARCIAL;
 
         // Actualizar estado de la orden
         await tx.ordenServicio.update({

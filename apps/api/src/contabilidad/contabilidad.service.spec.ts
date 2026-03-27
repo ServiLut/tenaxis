@@ -1,56 +1,163 @@
 import { BadRequestException, ConflictException } from '@nestjs/common';
 import { EstadoOrden, EstadoPagoOrden } from '../generated/client/client';
-import { PrismaService } from '../prisma/prisma.service';
+import type { PrismaService } from '../prisma/prisma.service';
 import { ContabilidadService } from './contabilidad.service';
+
+type MockComprobantePago = {
+  tipo: string;
+  path: string;
+  fecha?: Date;
+};
 
 type MockOrder = {
   id: string;
-  tenantId: string;
-  empresaId: string;
-  tecnicoId: string;
-  valorCotizado: number;
-  valorPagado: number;
-  comprobantePago: string | Array<{ tipo: string; path: string; fecha?: Date }>;
-  desglosePago: Array<{ metodo: string; monto: number; banco?: string; referencia?: string }>;
-  declaracionEfectivo:
-    | null
-    | {
-        valorDeclarado: number;
-        consignado: boolean;
-        tecnicoId: string;
-      };
-  consignacionOrden: { id: string } | null;
+  tenantId?: string;
+  empresaId?: string;
+  tecnicoId?: string;
+  valorCotizado?: number;
+  valorPagado?: number;
+  comprobantePago?: string | MockComprobantePago[];
+  desglosePago: Array<{
+    metodo: string;
+    monto: number;
+    banco?: string;
+    referencia?: string;
+  }>;
+  declaracionEfectivo?: null | {
+    valorDeclarado: number;
+    consignado: boolean;
+    tecnicoId: string;
+  };
+  consignacionOrden?: { id: string } | null;
+  fechaVisita?: Date;
+};
+
+type TenantMembershipFindManyArgs = {
+  where: {
+    tenantId: string;
+    activo: boolean;
+    id: { in: string[] };
+    role?: string;
+  };
+};
+
+type OrdenServicioUpdateArgs = {
+  where: { id: string };
+  data: {
+    estadoPago?: EstadoPagoOrden;
+    estadoServicio?: EstadoOrden | undefined;
+    comprobantePago?: MockComprobantePago[];
+    [key: string]: unknown;
+  };
+};
+
+type MembershipFindManyResult = Array<{
+  id: string;
+  user: { nombre: string; apellido: string };
+  consignacionesTecnico: unknown[];
+}>;
+
+type AsyncMock<Fn extends (...args: unknown[]) => Promise<unknown>> =
+  jest.MockedFunction<Fn>;
+
+const makeResolvedMock = <Args extends unknown[], Result>(
+  result: Result,
+): AsyncMock<(...args: Args) => Promise<Result>> =>
+  jest.fn((...args: Args) => {
+    void args;
+    return Promise.resolve(result);
+  }) as AsyncMock<(...args: Args) => Promise<Result>>;
+
+type TxMock = {
+  consignacionEfectivo: {
+    create: AsyncMock<
+      (args: Record<string, unknown>) => Promise<{ id: string }>
+    >;
+  };
+  consignacionOrden: {
+    create: AsyncMock<
+      (args: Record<string, unknown>) => Promise<{ id: string }>
+    >;
+  };
+  declaracionEfectivo: {
+    findUnique: AsyncMock<(args: Record<string, unknown>) => Promise<unknown>>;
+    findMany: AsyncMock<(args: Record<string, unknown>) => Promise<unknown[]>>;
+    update: AsyncMock<(args: Record<string, unknown>) => Promise<unknown>>;
+    create: AsyncMock<(args: Record<string, unknown>) => Promise<unknown>>;
+  };
+  tenantMembership: {
+    findMany: AsyncMock<
+      (args: TenantMembershipFindManyArgs) => Promise<MembershipFindManyResult>
+    >;
+  };
+  ordenServicio: {
+    findMany: AsyncMock<
+      (args: Record<string, unknown>) => Promise<MockOrder[]>
+    >;
+    findUnique: AsyncMock<(args: Record<string, unknown>) => Promise<unknown>>;
+    update: AsyncMock<(args: OrdenServicioUpdateArgs) => Promise<unknown>>;
+  };
+};
+
+type PrismaServiceMock = TxMock & {
+  $transaction: AsyncMock<
+    (cb: (tx: TxMock) => Promise<unknown>) => Promise<unknown>
+  >;
 };
 
 describe('ContabilidadService - registrarConsignacion endurecido', () => {
   function buildService() {
-    const prismaMock = {
-      $transaction: jest.fn(async (cb: (tx: any) => Promise<unknown>) => cb(prismaMock)),
+    const txMock: TxMock = {
       consignacionEfectivo: {
-        create: jest.fn().mockResolvedValue({ id: 'cons-1' }),
+        create: makeResolvedMock<[Record<string, unknown>], { id: string }>({
+          id: 'cons-1',
+        }),
       },
       consignacionOrden: {
-        create: jest.fn().mockResolvedValue({ id: 'co-1' }),
+        create: makeResolvedMock<[Record<string, unknown>], { id: string }>({
+          id: 'co-1',
+        }),
       },
       declaracionEfectivo: {
-        findUnique: jest.fn(),
-        findMany: jest.fn().mockResolvedValue([]),
-        update: jest.fn().mockResolvedValue({}),
-        create: jest.fn().mockResolvedValue({}),
+        findUnique: makeResolvedMock<[Record<string, unknown>], null>(null),
+        findMany: makeResolvedMock<[Record<string, unknown>], unknown[]>([]),
+        update: makeResolvedMock<
+          [Record<string, unknown>],
+          Record<string, never>
+        >({}),
+        create: makeResolvedMock<
+          [Record<string, unknown>],
+          Record<string, never>
+        >({}),
       },
       tenantMembership: {
-        findMany: jest.fn().mockResolvedValue([]),
+        findMany: makeResolvedMock<
+          [TenantMembershipFindManyArgs],
+          MembershipFindManyResult
+        >([]),
       },
       ordenServicio: {
-        findMany: jest.fn(),
-        findUnique: jest.fn(),
-        update: jest.fn().mockResolvedValue({}),
+        findMany: makeResolvedMock<[Record<string, unknown>], MockOrder[]>([]),
+        findUnique: makeResolvedMock<[Record<string, unknown>], null>(null),
+        update: makeResolvedMock<
+          [OrdenServicioUpdateArgs],
+          Record<string, never>
+        >({}),
       },
-    } as unknown as PrismaService;
+    };
+
+    const prismaMock: PrismaServiceMock = {
+      $transaction: jest.fn((cb: (tx: TxMock) => Promise<unknown>) =>
+        cb(txMock),
+      ) as AsyncMock<
+        (cb: (tx: TxMock) => Promise<unknown>) => Promise<unknown>
+      >,
+      ...txMock,
+    };
 
     return {
-      service: new ContabilidadService(prismaMock),
-      prismaMock: prismaMock as any,
+      service: new ContabilidadService(prismaMock as unknown as PrismaService),
+      prismaMock,
     };
   }
 
@@ -117,13 +224,11 @@ describe('ContabilidadService - registrarConsignacion endurecido', () => {
       valorConsignado: 65000,
     });
 
-    expect(prismaMock.consignacionEfectivo.create).toHaveBeenCalledWith(
-      expect.objectContaining({
-        data: expect.objectContaining({
-          valorConsignado: 70000,
-        }),
-      }),
-    );
+    expect(prismaMock.consignacionEfectivo.create).toHaveBeenCalledWith({
+      data: {
+        valorConsignado: 70000,
+      },
+    });
   });
 
   it('recalcula la consignación aunque el request no envíe valorConsignado', async () => {
@@ -143,20 +248,21 @@ describe('ContabilidadService - registrarConsignacion endurecido', () => {
       }),
     ]);
 
-    const { valorConsignado: _legacyValue, ...requestWithoutValue } = baseData;
+    const requestWithoutValue = (({ valorConsignado, ...rest }) => {
+      void valorConsignado;
+      return rest;
+    })(baseData);
 
     await service.registrarConsignacion(tenantId, creatorId, {
       ...requestWithoutValue,
       ordenIds: ['orden-sin-valor-legado'],
     });
 
-    expect(prismaMock.consignacionEfectivo.create).toHaveBeenCalledWith(
-      expect.objectContaining({
-        data: expect.objectContaining({
-          valorConsignado: 80000,
-        }),
-      }),
-    );
+    expect(prismaMock.consignacionEfectivo.create).toHaveBeenCalledWith({
+      data: {
+        valorConsignado: 80000,
+      },
+    });
   });
 
   it('procesa múltiples órdenes con montos distintos y liquida solo las que ya cubren el total', async () => {
@@ -193,35 +299,29 @@ describe('ContabilidadService - registrarConsignacion endurecido', () => {
       ordenIds: ['orden-total', 'orden-parcial'],
     });
 
-    expect(prismaMock.consignacionEfectivo.create).toHaveBeenCalledWith(
-      expect.objectContaining({
-        data: expect.objectContaining({
-          valorConsignado: 90000,
-        }),
-      }),
-    );
+    expect(prismaMock.consignacionEfectivo.create).toHaveBeenCalledWith({
+      data: {
+        valorConsignado: 90000,
+      },
+    });
 
     expect(prismaMock.ordenServicio.update).toHaveBeenCalledTimes(2);
 
-    expect(prismaMock.ordenServicio.update).toHaveBeenCalledWith(
-      expect.objectContaining({
-        where: { id: 'orden-total' },
-        data: expect.objectContaining({
-          estadoPago: EstadoPagoOrden.CONCILIADO,
-          estadoServicio: EstadoOrden.LIQUIDADO,
-        }),
-      }),
-    );
+    expect(prismaMock.ordenServicio.update).toHaveBeenCalledWith({
+      where: { id: 'orden-total' },
+      data: {
+        estadoPago: EstadoPagoOrden.CONCILIADO,
+        estadoServicio: EstadoOrden.LIQUIDADO,
+      },
+    });
 
-    expect(prismaMock.ordenServicio.update).toHaveBeenCalledWith(
-      expect.objectContaining({
-        where: { id: 'orden-parcial' },
-        data: expect.objectContaining({
-          estadoPago: EstadoPagoOrden.PARCIAL,
-          estadoServicio: undefined,
-        }),
-      }),
-    );
+    expect(prismaMock.ordenServicio.update).toHaveBeenCalledWith({
+      where: { id: 'orden-parcial' },
+      data: {
+        estadoPago: EstadoPagoOrden.PARCIAL,
+        estadoServicio: undefined,
+      },
+    });
   });
 
   it('deduplica órdenes repetidas en el input y no duplica la conciliación', async () => {
@@ -247,13 +347,11 @@ describe('ContabilidadService - registrarConsignacion endurecido', () => {
       ordenIds: ['orden-dup', 'orden-dup'],
     });
 
-    expect(prismaMock.ordenServicio.findMany).toHaveBeenCalledWith(
-      expect.objectContaining({
-        where: expect.objectContaining({
-          id: { in: ['orden-dup'] },
-        }),
-      }),
-    );
+    expect(prismaMock.ordenServicio.findMany).toHaveBeenCalledWith({
+      where: {
+        id: { in: ['orden-dup'] },
+      },
+    });
 
     expect(prismaMock.consignacionOrden.create).toHaveBeenCalledTimes(1);
     expect(prismaMock.ordenServicio.update).toHaveBeenCalledTimes(1);
@@ -364,13 +462,11 @@ describe('ContabilidadService - registrarConsignacion endurecido', () => {
       valorConsignado: 70000,
     });
 
-    expect(prismaMock.consignacionEfectivo.create).toHaveBeenCalledWith(
-      expect.objectContaining({
-        data: expect.objectContaining({
-          valorConsignado: 70000,
-        }),
-      }),
-    );
+    expect(prismaMock.consignacionEfectivo.create).toHaveBeenCalledWith({
+      data: {
+        valorConsignado: 70000,
+      },
+    });
   });
 
   it('migra soportes de string a array y anexa el nuevo comprobante', async () => {
@@ -400,6 +496,11 @@ describe('ContabilidadService - registrarConsignacion endurecido', () => {
 
     const updateCall = prismaMock.ordenServicio.update.mock.calls[0][0];
     const soportes = updateCall.data.comprobantePago;
+
+    expect(soportes).toBeDefined();
+    if (!soportes) {
+      throw new Error('Expected comprobantePago array');
+    }
 
     expect(Array.isArray(soportes)).toBe(true);
     expect(soportes).toHaveLength(2);
@@ -441,15 +542,13 @@ describe('ContabilidadService - registrarConsignacion endurecido', () => {
       comprobantePath: 'consignaciones/mixto-cierre.jpg',
     });
 
-    expect(prismaMock.ordenServicio.update).toHaveBeenCalledWith(
-      expect.objectContaining({
-        where: { id: 'orden-mixta-cierre' },
-        data: expect.objectContaining({
-          estadoPago: EstadoPagoOrden.CONCILIADO,
-          estadoServicio: EstadoOrden.LIQUIDADO,
-        }),
-      }),
-    );
+    expect(prismaMock.ordenServicio.update).toHaveBeenCalledWith({
+      where: { id: 'orden-mixta-cierre' },
+      data: {
+        estadoPago: EstadoPagoOrden.CONCILIADO,
+        estadoServicio: EstadoOrden.LIQUIDADO,
+      },
+    });
   });
 
   it('mantiene la orden mixta en PARCIAL cuando se concilia efectivo pero la transferencia sigue pendiente', async () => {
@@ -480,15 +579,13 @@ describe('ContabilidadService - registrarConsignacion endurecido', () => {
       comprobantePath: 'consignaciones/mixto-parcial.jpg',
     });
 
-    expect(prismaMock.ordenServicio.update).toHaveBeenCalledWith(
-      expect.objectContaining({
-        where: { id: 'orden-mixta-parcial' },
-        data: expect.objectContaining({
-          estadoPago: EstadoPagoOrden.PARCIAL,
-          estadoServicio: undefined,
-        }),
-      }),
-    );
+    expect(prismaMock.ordenServicio.update).toHaveBeenCalledWith({
+      where: { id: 'orden-mixta-parcial' },
+      data: {
+        estadoPago: EstadoPagoOrden.PARCIAL,
+        estadoServicio: undefined,
+      },
+    });
   });
 
   it('expone saldo pendiente en recaudo para órdenes mixtas con efectivo pendiente', async () => {
@@ -516,7 +613,8 @@ describe('ContabilidadService - registrarConsignacion endurecido', () => {
 
     const recaudo = await service.getRecaudoTecnicos(tenantId, 'emp-1');
 
-    const membershipQuery = prismaMock.tenantMembership.findMany.mock.calls[0][0];
+    const membershipQuery =
+      prismaMock.tenantMembership.findMany.mock.calls[0][0];
     expect(membershipQuery.where).toMatchObject({
       tenantId,
       activo: true,
@@ -524,20 +622,18 @@ describe('ContabilidadService - registrarConsignacion endurecido', () => {
     });
     expect(membershipQuery.where).not.toHaveProperty('role');
     expect(recaudo).toHaveLength(1);
-    expect(recaudo[0]).toEqual(
-      expect.objectContaining({
-        id: 'tech-mixto',
-        saldoPendiente: 30000,
-        ordenesPendientesCount: 1,
-        ordenesIds: ['orden-mixta'],
-      }),
-    );
-    expect(recaudo[0].declaraciones).toEqual([
-      expect.objectContaining({
-        ordenId: 'orden-mixta',
-        valorDeclarado: 30000,
-        tipo: 'IMPLICITO',
-      }),
-    ]);
+    expect(recaudo[0]).toMatchObject({
+      id: 'tech-mixto',
+      saldoPendiente: 30000,
+      ordenesPendientesCount: 1,
+      ordenesIds: ['orden-mixta'],
+      declaraciones: [
+        {
+          ordenId: 'orden-mixta',
+          valorDeclarado: 30000,
+          tipo: 'IMPLICITO',
+        },
+      ],
+    });
   });
 });

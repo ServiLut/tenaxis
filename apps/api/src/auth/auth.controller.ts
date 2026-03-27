@@ -13,6 +13,11 @@ import { RegisterDto } from './dto/register.dto';
 import { LoginDto } from './dto/login.dto';
 import type { Request } from 'express';
 import { JwtAuthGuard } from './guards/jwt-auth.guard';
+import { JwtPayload } from './jwt-payload.interface';
+
+interface RequestWithUser extends Request {
+  user?: JwtPayload;
+}
 
 @Controller('auth')
 export class AuthController {
@@ -32,7 +37,7 @@ export class AuthController {
 
   @Post('logout')
   @UseGuards(JwtAuthGuard)
-  async logout(@Req() req: any) {
+  async logout(@Req() req: RequestWithUser) {
     return this.authService.logout(req.user?.sesionId);
   }
 

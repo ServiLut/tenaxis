@@ -1,10 +1,16 @@
-import { INestApplication } from '@nestjs/common';
+import { ExecutionContext, INestApplication } from '@nestjs/common';
 import { Test, TestingModule } from '@nestjs/testing';
+import type { Request } from 'express';
 import request from 'supertest';
 import { App } from 'supertest/types';
 import { FinanzasController } from '../src/contabilidad/contabilidad.controller';
 import { ContabilidadService } from '../src/contabilidad/contabilidad.service';
 import { JwtAuthGuard } from '../src/auth/guards/jwt-auth.guard';
+import { JwtPayload } from '../src/auth/jwt-payload.interface';
+
+interface RequestWithUser extends Request {
+  user: JwtPayload;
+}
 
 describe('FinanzasController /finanzas/registrar-consignacion (integration)', () => {
   let app: INestApplication<App>;
@@ -35,12 +41,14 @@ describe('FinanzasController /finanzas/registrar-consignacion (integration)', ()
     })
       .overrideGuard(JwtAuthGuard)
       .useValue({
-        canActivate: (context: any) => {
-          const req = context.switchToHttp().getRequest();
+        canActivate: (context: ExecutionContext) => {
+          const req = context.switchToHttp().getRequest<RequestWithUser>();
           req.user = {
             tenantId: 'tenant-1',
             membershipId: 'membership-1',
             role: 'ADMIN',
+            email: 'admin@tenaxis.test',
+            sub: 'user-1',
           };
           return true;
         },
@@ -107,7 +115,8 @@ describe('FinanzasController /finanzas/registrar-consignacion (integration)', ()
       .send(payload)
       .expect(400);
 
-    expect(response.body.message).toContain('comprobantePath must be a string');
+    const responseBody = response.body as { message: string | string[] };
+    expect(responseBody.message).toContain('comprobantePath must be a string');
     expect(registrarConsignacion).not.toHaveBeenCalled();
   });
 
