@@ -34,7 +34,7 @@ export const exportToExcel = async ({ headers, data, filename, title }: ExportDa
   });
 };
 
-export const exportMultiToExcel = async ({ datasets, filename, mainTitle }: MultiExportOptions) => {
+export const exportMultiToExcel = async ({ datasets, filename, mainTitle: _mainTitle }: MultiExportOptions) => {
   const workbook = new ExcelJS.Workbook();
 
   for (const dataset of datasets) {
@@ -120,7 +120,7 @@ export const exportToPDF = ({ headers, data, filename, title }: ExportData) => {
   });
 };
 
-export const exportMultiToPDF = ({ datasets, filename, mainTitle }: MultiExportOptions) => {
+export const exportMultiToPDF = ({ datasets, filename, mainTitle: _mainTitle }: MultiExportOptions) => {
   const doc = new jsPDF({ orientation: 'landscape' });
   const brandColor: [number, number, number] = [1, 173, 251]; // #01ADFB
   const darkZinc: [number, number, number] = [24, 24, 27];
@@ -216,7 +216,7 @@ export const exportToWord = async ({ headers, data, filename, title }: ExportDat
   });
 };
 
-export const exportMultiToWord = async ({ datasets, filename, mainTitle }: MultiExportOptions) => {
+export const exportMultiToWord = async ({ datasets, filename, mainTitle: _mainTitle }: MultiExportOptions) => {
   const sections = datasets.map(dataset => {
     const { headers, data, title } = dataset;
     return {
@@ -275,7 +275,7 @@ export const exportMultiToWord = async ({ datasets, filename, mainTitle }: Multi
   });
 
   const doc = new Document({
-    sections: sections as any /* eslint-disable-line @typescript-eslint/no-explicit-any */
+    sections: sections as ConstructorParameters<typeof Document>[0]["sections"]
   });
 
   const blob = await Packer.toBlob(doc);

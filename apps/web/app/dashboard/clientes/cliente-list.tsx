@@ -519,7 +519,7 @@ export function ClienteList({
     }
 
     return list;
-  }, [selectedClienteForSuggestions, segmentedData, router]);
+  }, [selectedClienteForSuggestions, segmentedData, router, checkPermission]);
   const [historyLoading, setHistoryLoading] = useState(false);
   const [serviceHistory, setServiceHistory] = useState<OrdenServicio[]>([]);
   const [configLoading, setConfigLoading] = useState(false);

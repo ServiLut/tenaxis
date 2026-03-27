@@ -49,10 +49,52 @@ const GlassCard = ({ children, className }: { children: React.ReactNode; classNa
 );
 
 type InsumosClientProps = {
-  initialStock: any[];
-  initialSolicitudes: any[];
-  proveedores: any[];
-  memberships: any[];
+  initialStock: StockItem[];
+  initialSolicitudes: SolicitudItem[];
+  proveedores: ProveedorItem[];
+  memberships: MembershipItem[];
+};
+
+type StockItem = {
+  id: string;
+  nombre: string;
+  categoria?: string | null;
+  unidadMedida?: string | null;
+  stockActual?: number | null;
+  stockMinimo?: number | null;
+};
+
+type SolicitudItem = {
+  id: string;
+  createdAt?: string | Date | null;
+  cantidad: number | string;
+  unidadMedida?: string | null;
+  estado?: string;
+  membership?: {
+    user?: {
+      nombre?: string | null;
+      apellido?: string | null;
+    } | null;
+  } | null;
+  producto?: {
+    nombre?: string | null;
+    categoria?: string | null;
+    unidadMedida?: string | null;
+  } | null;
+};
+
+type ProveedorItem = {
+  id: string;
+  nombre: string;
+};
+
+type MembershipItem = {
+  id: string;
+  role?: string | null;
+  user: {
+    nombre: string;
+    apellido: string;
+  };
 };
 
 export function InsumosClient({ initialStock, initialSolicitudes, proveedores, memberships }: InsumosClientProps) {
@@ -151,7 +193,7 @@ export function InsumosClient({ initialStock, initialSolicitudes, proveedores, m
         stockMinimo: "",
         proveedorId: "",
       });
-    } catch (error) {
+    } catch (_error) {
       toast.error("Error inesperado al registrar el producto");
     } finally {
       setIsSubmitting(false);
@@ -178,7 +220,7 @@ export function InsumosClient({ initialStock, initialSolicitudes, proveedores, m
         unidadMedida: "",
         membershipId: "",
       });
-    } catch (error) {
+    } catch (_error) {
       toast.error("Error inesperado al registrar la solicitud");
     } finally {
       setIsSubmitting(false);
@@ -193,7 +235,7 @@ export function InsumosClient({ initialStock, initialSolicitudes, proveedores, m
         body: JSON.stringify({ estado: nuevoEstado }),
       });
       toast.success(`Solicitud ${nuevoEstado === "ACEPTADA" ? "aprobada" : "rechazada"} con éxito`);
-    } catch (error) {
+    } catch (_error) {
       toast.error("Error inesperado al actualizar la solicitud");
     } finally {
       setProcessingId(null);

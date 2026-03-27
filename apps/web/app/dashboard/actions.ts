@@ -116,6 +116,22 @@ export interface ContratoClienteDTO {
   observaciones?: string | null;
 }
 
+export interface ProductoCreateDTO {
+  nombre: string;
+  categoria: string;
+  unidadMedida: string;
+  stockActual: number | string;
+  stockMinimo: number | string;
+  proveedorId?: string | null;
+}
+
+export interface SolicitudCreateDTO {
+  productoId: string;
+  cantidad: number | string;
+  unidadMedida: string;
+  membershipId?: string | null;
+}
+
 // --- Auth Actions ---
 export async function isTenantAdminAction() {
   try {
@@ -289,7 +305,7 @@ export async function getClientesDashboardAction<T = unknown>(): Promise<Cliente
     const profile = await authClient.getProfile();
     const scope = resolveAccessScope(profile);
 
-    const data = await apiFetch<any /* eslint-disable-line @typescript-eslint/no-explicit-any */>("/clientes/dashboard-data", {
+    const data = await apiFetch<ClientesDashboardDataResponse<T>>("/clientes/dashboard-data", {
       cache: "no-store",
       includeEnterpriseId: scope.isEmpresaLocked,
     });
@@ -943,9 +959,42 @@ export async function notifyServiceOperatorWebhookAction(data: {
 }
 
 // --- Insumos / Productos Actions ---
-export async function getProductosStockAction() {
+type ProductoStockItem = {
+  id: string;
+  nombre: string;
+  categoria?: string | null;
+  unidadMedida?: string | null;
+  stockActual?: number | null;
+  stockMinimo?: number | null;
+};
+
+type ProductoSolicitudItem = {
+  id: string;
+  createdAt?: string | Date | null;
+  cantidad: number | string;
+  unidadMedida?: string | null;
+  estado?: string;
+  membership?: {
+    user?: {
+      nombre?: string | null;
+      apellido?: string | null;
+    } | null;
+  } | null;
+  producto?: {
+    nombre?: string | null;
+    categoria?: string | null;
+    unidadMedida?: string | null;
+  } | null;
+};
+
+type ProveedorItem = {
+  id: string;
+  nombre: string;
+};
+
+export async function getProductosStockAction(): Promise<ProductoStockItem[]> {
   try {
-    return await apiFetch<unknown[]>("/productos/stock", {
+    return await apiFetch<ProductoStockItem[]>("/productos/stock", {
       cache: "no-store",
     });
   } catch (error) {
@@ -954,9 +1003,9 @@ export async function getProductosStockAction() {
   }
 }
 
-export async function getProductosSolicitudesAction() {
+export async function getProductosSolicitudesAction(): Promise<ProductoSolicitudItem[]> {
   try {
-    return await apiFetch<unknown[]>("/productos/solicitudes", {
+    return await apiFetch<ProductoSolicitudItem[]>("/productos/solicitudes", {
       cache: "no-store",
     });
   } catch (error) {
@@ -965,9 +1014,9 @@ export async function getProductosSolicitudesAction() {
   }
 }
 
-export async function getProveedoresAction() {
+export async function getProveedoresAction(): Promise<ProveedorItem[]> {
   try {
-    return await apiFetch<unknown[]>("/productos/proveedores", {
+    return await apiFetch<ProveedorItem[]>("/productos/proveedores", {
       cache: "no-store",
     });
   } catch (error) {
@@ -976,7 +1025,7 @@ export async function getProveedoresAction() {
   }
 }
 
-export async function createProductoAction(data: any) {
+export async function createProductoAction(data: ProductoCreateDTO) {
   try {
     const res = await apiFetch("/productos/create", {
       method: "POST",
@@ -990,7 +1039,7 @@ export async function createProductoAction(data: any) {
   }
 }
 
-export async function createSolicitudAction(data: any) {
+export async function createSolicitudAction(data: SolicitudCreateDTO) {
   try {
     const res = await apiFetch("/productos/solicitudes", {
       method: "POST",

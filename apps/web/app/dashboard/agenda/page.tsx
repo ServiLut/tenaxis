@@ -100,8 +100,8 @@ function AgendaContent() {
         );
 
         setOperadores(derivedOperadores);
-      } catch (e) {
-        console.error("Error loading initial data", e);
+      } catch (_e) {
+        console.error("Error loading initial data", _e);
       } finally {
         setLoading(false);
       }
@@ -230,7 +230,7 @@ function AgendaContent() {
                           const ordDay = utcIsoToBogotaYmd(ord.horaInicio);
                           const ordHour = utcIsoToBogotaHm(ord.horaInicio).split(':')[0] + ":00";
                           return ordDay === d && ordHour === h;
-                        } catch (e) {
+                        } catch {
                           return false;
                         }
                       });

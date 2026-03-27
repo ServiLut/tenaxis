@@ -4,7 +4,6 @@ import { useState, useEffect, useCallback } from "react";
 import { toast } from "sonner";
 import {
   authClient,
-  type UserProfile as ApiUserProfile,
 } from "@/lib/api/auth-client";
 import { configClient } from "@/lib/api/config-client";
 import { enterpriseClient } from "@/lib/api/enterprise-client";
