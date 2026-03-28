@@ -2,16 +2,57 @@
 
 import { usePathname } from "next/navigation";
 import { RefreshCcw, Users, MessageSquare } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState, useSyncExternalStore } from "react";
 
 const CHATWOOT_DASHBOARD_PATH = "/chatwoot-proxy/app/accounts/1/dashboard";
 const WHATSAPP_ROUTE = "/dashboard/whatsapp";
 
+const chatwootPanelActivationStore = (() => {
+  let hasActivated = false;
+  const listeners = new Set<() => void>();
+
+  return {
+    subscribe(listener: () => void) {
+      listeners.add(listener);
+      return () => listeners.delete(listener);
+    },
+    getSnapshot() {
+      return hasActivated;
+    },
+    activate() {
+      if (hasActivated) {
+        return;
+      }
+
+      hasActivated = true;
+      listeners.forEach((listener) => listener());
+    },
+  };
+})();
+
 export function PersistentChatwootPanel() {
   const pathname = usePathname();
   const [frameKey, setFrameKey] = useState(0);
+  const hasActivatedPanel = useSyncExternalStore(
+    chatwootPanelActivationStore.subscribe,
+    chatwootPanelActivationStore.getSnapshot,
+    chatwootPanelActivationStore.getSnapshot,
+  );
 
   const isWhatsAppRoute = pathname?.startsWith(WHATSAPP_ROUTE) ?? false;
+  const shouldMountPanel = hasActivatedPanel || isWhatsAppRoute;
+
+  useEffect(() => {
+    if (!isWhatsAppRoute) {
+      return;
+    }
+
+    chatwootPanelActivationStore.activate();
+  }, [isWhatsAppRoute]);
+
+  if (!shouldMountPanel) {
+    return null;
+  }
 
   return (
     <div
