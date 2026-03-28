@@ -4,9 +4,9 @@ import React, { useState, useEffect } from "react";
 import { Button, Input, Label, Card, CardHeader, CardTitle, CardContent, Select } from "@/components/ui";
 import { Building2, Plus, Users, Mail, Loader2, X, ShieldCheck, CreditCard, UserPlus, Eye, Pencil } from "lucide-react";
 import { cn } from "@/components/ui/utils";
-import { createTenantAction, getTenantDetailAction } from "../actions";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
+import { tenantsClient } from "@/lib/api/tenants-client";
 
 export interface TenantDetail extends Tenant {
   memberships: Array<{
@@ -79,7 +79,7 @@ export function TenantList({ initialTenants, availablePlans }: TenantListProps) 
   const handleViewTenant = async (tenantId: string) => {
     setLoadingDetail(true);
     try {
-      const detail = await getTenantDetailAction(tenantId);
+      const detail = await tenantsClient.getById(tenantId);
       setSelectedTenantDetail(detail as unknown as TenantDetail);
 
       setIsViewModalOpen(true);
@@ -107,7 +107,7 @@ export function TenantList({ initialTenants, availablePlans }: TenantListProps) 
     e.preventDefault();
     setLoading(true);
     try {
-      const newTenant = await createTenantAction(formData);
+      const newTenant = await tenantsClient.createTenant(formData);
       setTenants([newTenant as unknown as Tenant, ...tenants]);
       setIsModalOpen(false);
       setSlugTouched(false);

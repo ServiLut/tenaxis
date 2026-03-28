@@ -24,7 +24,7 @@ import {
 } from "@/components/ui/dialog";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
-import { deleteOrdenServicioAction } from "../actions";
+import { serviciosClient } from "@/lib/api/servicios-client";
 import { WidgetConfigurator } from "./WidgetConfigurator";
 
 const GlassCard = ({ children, className }: { children: React.ReactNode; className?: string }) => (
@@ -88,15 +88,10 @@ export function RecentActivity({
     const toastId = toast.loading("Eliminando orden de servicio...");
 
     try {
-      const result = await deleteOrdenServicioAction(selectedServicio.id);
-
-      if (result.success) {
-        toast.success("Orden eliminada correctamente", { id: toastId });
-        setIsDeleteModalOpen(false);
-        refreshData();
-      } else {
-        toast.error(result.error || "Error al eliminar la orden", { id: toastId });
-      }
+      await serviciosClient.delete(selectedServicio.id);
+      toast.success("Orden eliminada correctamente", { id: toastId });
+      setIsDeleteModalOpen(false);
+      refreshData();
     } catch (error) {
       console.error("Delete error:", error);
       toast.error("Ocurrió un error inesperado al eliminar", { id: toastId });

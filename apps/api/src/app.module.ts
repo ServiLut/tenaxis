@@ -20,6 +20,7 @@ import { MonitoringModule } from './monitoring/monitoring.module';
 import { DashboardModule } from './dashboard/dashboard.module';
 import { DashboardPresetsModule } from './dashboard-presets/dashboard-presets.module';
 import { ContratosClienteModule } from './contratos-cliente/contratos-cliente.module';
+import { ProductosModule } from './productos/productos.module';
 
 @Module({
   imports: [
@@ -39,6 +40,7 @@ import { ContratosClienteModule } from './contratos-cliente/contratos-cliente.mo
     DashboardModule,
     DashboardPresetsModule,
     ContratosClienteModule,
+    ProductosModule,
   ],
   controllers: [AppController],
   providers: [

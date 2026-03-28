@@ -42,6 +42,22 @@ export function resolveAccessScopeMode(user: JwtPayload): AccessScopeMode {
   };
 }
 
+export function assertTenantAccess(
+  user: JwtPayload,
+  requestedTenantId: string,
+  message = 'No tienes permisos para acceder a este conglomerado',
+): void {
+  const scope = resolveAccessScopeMode(user);
+
+  if (scope.isGlobalSuAdmin) {
+    return;
+  }
+
+  if (!scope.tenantId || scope.tenantId !== requestedTenantId) {
+    throw new UnauthorizedException(message);
+  }
+}
+
 export function hasTenantWideAccess(user: JwtPayload): boolean {
   return resolveAccessScopeMode(user).hasTenantWideAccess;
 }
@@ -152,6 +168,12 @@ export function getPrismaAccessFilter(
 
   // 2. ADMIN / SU_ADMIN / COORDINADOR (del Tenant)
   if (scope.hasTenantWideAccess) {
+    if (!scope.tenantId) {
+      return {
+        tenantId: BLOCKED_EMPRESA_ID, // Bloqueo total si no hay tenantId en una vista de tenant
+      };
+    }
+
     return {
       tenantId: scope.tenantId,
       ...(requestedEmpresaId ? { empresaId: requestedEmpresaId } : {}),

@@ -50,13 +50,21 @@ export const authClient = {
   },
 
   async getProfile(): Promise<UserProfile> {
-    return apiFetch<UserProfile>("/auth/profile");
+    return apiFetch<UserProfile>("/auth/profile", {
+      includeEnterpriseId: false,
+    });
   },
 
   async updateTestRole(role: string) {
     return apiFetch("/auth/test-role", {
       method: "PATCH",
       body: JSON.stringify({ role })
+    });
+  },
+
+  async logout() {
+    return apiFetch("/auth/logout", {
+      method: "POST"
     });
   }
 };

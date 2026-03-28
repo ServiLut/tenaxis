@@ -1,0 +1,15 @@
+meta {
+  name: Delete Orden Servicio
+  type: http
+  seq: 15
+}
+
+delete {
+  url: {{local}}/ordenes-servicio/{{ordenId}}
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}

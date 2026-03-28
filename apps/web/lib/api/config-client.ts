@@ -20,6 +20,18 @@ export const configClient = {
   async getIntereses(): Promise<ConfigItem[]> {
     return apiFetch<ConfigItem[]>("/config-clientes/intereses");
   },
+  async createInteres(data: Record<string, unknown>) {
+    return apiFetch("/config-clientes/intereses", {
+      method: "POST",
+      body: JSON.stringify(data),
+    });
+  },
+  async updateInteres(id: string, data: Record<string, unknown>) {
+    return apiFetch(`/config-clientes/intereses/${id}`, {
+      method: "PATCH",
+      body: JSON.stringify(data),
+    });
+  },
   async getTiposServicio(empresaId: string): Promise<ConfigItem[]> {
     return apiFetch<ConfigItem[]>(`/config-clientes/tipos-servicio?empresaId=${empresaId}`);
   },
@@ -32,6 +44,23 @@ export const configClient = {
   async getServicios(empresaId?: string): Promise<ConfigItem[]> {
     const url = empresaId ? `/config-clientes/servicios?empresaId=${empresaId}` : "/config-clientes/servicios";
     return apiFetch<ConfigItem[]>(url);
+  },
+  async createServicio(data: Record<string, unknown>) {
+    return apiFetch("/config-clientes/servicios", {
+      method: "POST",
+      body: JSON.stringify(data),
+    });
+  },
+  async updateServicio(id: string, data: Record<string, unknown>) {
+    return apiFetch(`/config-clientes/servicios/${id}`, {
+      method: "PATCH",
+      body: JSON.stringify(data),
+    });
+  },
+  async deleteServicio(id: string) {
+    return apiFetch(`/config-clientes/servicios/${id}`, {
+      method: "DELETE",
+    });
   },
   async getClienteOperativa(clienteId: string): Promise<unknown[]> {
     return apiFetch<unknown[]>(`/config-clientes/operativa/${clienteId}`);

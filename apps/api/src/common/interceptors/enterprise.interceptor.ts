@@ -9,6 +9,7 @@ import { PrismaService } from '../../prisma/prisma.service';
 import { Request } from 'express';
 import { JwtPayload } from '../../auth/jwt-payload.interface';
 import { Role } from '../../generated/client/client';
+import { applyDevRoleOverride } from '../utils/dev-role-override.util';
 
 interface RequestWithUser extends Request {
   user?: JwtPayload;
@@ -27,11 +28,11 @@ export class EnterpriseInterceptor implements NestInterceptor {
     const headerEnterpriseId = request.headers['x-enterprise-id'] as
       | string
       | undefined;
-    const testRole = request.headers['x-test-role'] as string | undefined;
+    const testRole = request.headers['x-test-role'];
 
     // Modo desarrollo: Permitir sobreescribir el rol para pruebas
-    if (user && testRole && process.env.NODE_ENV !== 'production') {
-      user.role = testRole as Role;
+    if (user) {
+      applyDevRoleOverride(user, testRole);
     }
 
     if (!user) {
@@ -48,7 +49,9 @@ export class EnterpriseInterceptor implements NestInterceptor {
 
     // Si es Tenant Admin o Tenant SU_ADMIN, puede ver cualquier empresa de su tenant
     const isTenantAdmin =
-      user.role === Role.SU_ADMIN || user.role === Role.ADMIN;
+      user.role === Role.SU_ADMIN ||
+      user.role === Role.ADMIN ||
+      user.role === Role.COORDINADOR;
 
     if (isTenantAdmin) {
       if (headerEnterpriseId) {

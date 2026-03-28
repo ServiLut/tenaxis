@@ -105,7 +105,14 @@ function EditarClienteContent() {
   const params = useParams();
   const id = params.id as string;
 
-  useUserRole();
+  const { checkPermission, isLoading: isLoadingRole } = useUserRole();
+
+  useEffect(() => {
+    if (!isLoadingRole && !checkPermission("CLIENT_EDIT")) {
+      router.replace("/dashboard/clientes");
+    }
+  }, [isLoadingRole, checkPermission, router]);
+
   const [loading, setLoading] = useState(false);
   const [loadingClient, setLoadingClient] = useState(true);
   const [selectedEmpresaId, setSelectedEmpresaId] = useState("");
@@ -479,6 +486,18 @@ function EditarClienteContent() {
         Recuperando expediente del cliente...
       </div>
     );
+  }
+
+  if (isLoadingRole) {
+    return (
+      <div className="flex h-[60vh] items-center justify-center text-sm font-bold uppercase tracking-widest text-muted-foreground">
+        Validando permisos...
+      </div>
+    );
+  }
+
+  if (!checkPermission("CLIENT_EDIT")) {
+    return null;
   }
 
   return (

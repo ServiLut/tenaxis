@@ -13,15 +13,17 @@ import {
   RotateCcw
 } from "lucide-react";
 import { cn } from "@/components/ui/utils";
-import { 
-  getOperatorsAction, 
-  getOrdenesServicioAction
-} from "../actions";
+import { enterpriseClient } from "@/lib/api/enterprise-client";
+import { serviciosClient } from "@/lib/api/servicios-client";
 import {
   addDaysToYmd,
   startOfBogotaWeekYmd,
   toBogotaYmd,
+  utcIsoToBogotaHm,
+  utcIsoToBogotaYmd,
 } from "@/utils/date-utils";
+import { useAccessScope } from "@/hooks/use-access-scope";
+import { resolveScopedEmpresaId } from "@/lib/access-scope";
 
 type ViewType = "SEMANA" | "DIA";
 
@@ -46,32 +48,66 @@ interface OrdenServicio {
 }
 
 function AgendaContent() {
+  const { scope, isLoading: isLoadingScope } = useAccessScope();
   const [view, setView] = useState<ViewType>("SEMANA");
   const [currentDate, setCurrentDate] = useState<string>(() => toBogotaYmd());
   const [operadores, setOperadores] = useState<Operador[]>([]);
-  const [, setOrdenes] = useState<OrdenServicio[]>([]);
+  const [ordenes, setOrdenes] = useState<OrdenServicio[]>([]);
   const [selectedTecnico, setSelectedTecnico] = useState("TODOS");
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    if (isLoadingScope) {
+      return;
+    }
+
     const loadData = async () => {
       try {
         setLoading(true);
-        const empresaId = localStorage.getItem("current-enterprise-id");
-        const [ops, ords] = await Promise.all([
-          empresaId ? getOperatorsAction(empresaId) : Promise.resolve([]),
-          empresaId ? getOrdenesServicioAction(empresaId) : Promise.resolve([]),
-        ]);
-        setOperadores(Array.isArray(ops) ? (ops as Operador[]) : []);
-        setOrdenes(Array.isArray(ords) ? (ords as OrdenServicio[]) : []);
-      } catch (e) {
-        console.error("Error loading initial data", e);
+        const preferredEmpresaId = localStorage.getItem("current-enterprise-id");
+        const scopedEmpresaId = resolveScopedEmpresaId(scope, preferredEmpresaId);
+        const cleanEmpresaId =
+          scopedEmpresaId === "all" || scopedEmpresaId === "undefined"
+            ? undefined
+            : scopedEmpresaId;
+        const ords = await serviciosClient.getAll(cleanEmpresaId);
+        const parsedOrdenes = Array.isArray(ords) ? (ords as OrdenServicio[]) : [];
+
+        setOrdenes(parsedOrdenes);
+
+        if (cleanEmpresaId) {
+          const ops = await enterpriseClient.getOperators(cleanEmpresaId);
+          setOperadores(Array.isArray(ops) ? (ops as Operador[]) : []);
+          return;
+        }
+
+        const derivedOperadores = Array.from(
+          new Map(
+            parsedOrdenes
+              .filter((orden) => orden.tecnicoId)
+              .map((orden) => [
+                orden.tecnicoId,
+                {
+                  id: orden.tecnicoId,
+                  nombre:
+                    orden.tecnico?.user
+                      ? `${orden.tecnico.user.nombre} ${orden.tecnico.user.apellido}`
+                      : orden.tecnicoId,
+                  user: orden.tecnico?.user,
+                } satisfies Operador,
+              ]),
+          ).values(),
+        );
+
+        setOperadores(derivedOperadores);
+      } catch (_e) {
+        console.error("Error loading initial data", _e);
       } finally {
         setLoading(false);
       }
     };
     loadData();
-  }, []);
+  }, [isLoadingScope, scope]);
 
   const parseYmd = (dateYmd: string) => {
     const [year, month, day] = dateYmd.split("-").map(Number);
@@ -85,8 +121,15 @@ function AgendaContent() {
 
   const daysToShow = view === "SEMANA" ? getDaysInWeek(currentDate) : [currentDate];
   const hours = Array.from({ length: 24 }, (_, i) => `${i.toString().padStart(2, '0')}:00`);
+  const ordenesFiltradas = ordenes.filter((orden) => {
+    if (selectedTecnico === "TODOS") {
+      return true;
+    }
 
-  if (loading) {
+    return orden.tecnicoId === selectedTecnico;
+  });
+
+  if (loading || isLoadingScope) {
     return (
       <div className="flex h-[60vh] items-center justify-center">
         <Loader2 className="h-12 w-12 animate-spin text-[#01ADFB]" />
@@ -181,11 +224,39 @@ function AgendaContent() {
                     <div className="p-4 text-[10px] font-black text-muted-foreground text-right pr-6 border-r border-border/50 bg-muted/20">
                       {h}
                     </div>
-                    {daysToShow.map((d, dIdx) => (
-                      <div key={dIdx} className="border-r border-border/50 p-2 last:border-r-0 hover:bg-muted/30 transition-colors">
-                        {/* Placeholder for services mapping */}
-                      </div>
-                    ))}
+                    {daysToShow.map((d, dIdx) => {
+                      const ordenesEnCelda = ordenesFiltradas.filter(ord => {
+                        try {
+                          const ordDay = utcIsoToBogotaYmd(ord.horaInicio);
+                          const ordHour = utcIsoToBogotaHm(ord.horaInicio).split(':')[0] + ":00";
+                          return ordDay === d && ordHour === h;
+                        } catch {
+                          return false;
+                        }
+                      });
+
+                      return (
+                        <div key={dIdx} className="border-r border-border/50 p-2 last:border-r-0 hover:bg-muted/30 transition-colors min-h-[100px]">
+                          {ordenesEnCelda.map(ord => (
+                            <div 
+                              key={ord.id} 
+                              className="bg-[#01ADFB]/10 border-l-4 border-[#01ADFB] p-2 rounded mb-1 text-[10px] font-bold group cursor-pointer hover:bg-[#01ADFB]/20 transition-all"
+                              onClick={() => window.location.href = `/dashboard/servicios/${ord.id}/editar`}
+                            >
+                              <div className="text-foreground truncate">
+                                {ord.cliente?.razonSocial || `${ord.cliente?.nombre} ${ord.cliente?.apellido}`}
+                              </div>
+                              <div className="text-[#01ADFB] truncate uppercase tracking-tighter mt-0.5">
+                                {ord.servicio?.nombre}
+                              </div>
+                              <div className="text-muted-foreground/70 truncate text-[8px] font-medium mt-1">
+                                {ord.direccionTexto}
+                              </div>
+                            </div>
+                          ))}
+                        </div>
+                      );
+                    })}
                   </div>
                 ))}
               </div>

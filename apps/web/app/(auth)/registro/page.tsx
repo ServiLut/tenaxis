@@ -17,8 +17,7 @@ import {
   Zap,
 } from "lucide-react";
 import { ModeToggle } from "@/components/dashboard/ModeToggle";
-
-import { registerAction } from "../actions";
+import { authClient } from "@/lib/api/auth-client";
 
 export default function RegisterPage() {
   const [formData, setFormData] = useState({
@@ -79,12 +78,7 @@ export default function RegisterPage() {
     setError(null);
 
     try {
-      const res = await registerAction(formData);
-
-      if (!res.success) {
-        throw new Error(res.error);
-      }
-
+      await authClient.register(formData);
       setSuccess(true);
     } catch (err: unknown) {
       if (err instanceof Error) {

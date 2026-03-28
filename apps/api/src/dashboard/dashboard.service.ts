@@ -66,19 +66,27 @@ export class DashboardService {
       this.prisma.ordenServicio.aggregate({
         where: {
           ...commonWhere,
+          estadoServicio: 'LIQUIDADO',
           fechaVisita: { gte: startOfMonth, lte: endOfMonth },
-          estadoPago: { in: ['PAGADO', 'CONCILIADO'] },
+          OR: [
+            { estadoPago: { in: ['PAGADO', 'CONCILIADO'] } },
+            { valorPagado: { gt: 0 } },
+          ],
         },
-        _sum: { valorPagado: true, valorCotizado: true },
+        _sum: { valorPagado: true },
       }),
       // 2. Ingresos Mes Anterior
       this.prisma.ordenServicio.aggregate({
         where: {
           ...commonWhere,
+          estadoServicio: 'LIQUIDADO',
           fechaVisita: { gte: startOfPrevMonth, lte: endOfPrevMonth },
-          estadoPago: { in: ['PAGADO', 'CONCILIADO'] },
+          OR: [
+            { estadoPago: { in: ['PAGADO', 'CONCILIADO'] } },
+            { valorPagado: { gt: 0 } },
+          ],
         },
-        _sum: { valorPagado: true, valorCotizado: true },
+        _sum: { valorPagado: true },
       }),
       // 3. Ordenes Activas Actual (Created this month)
       this.prisma.ordenServicio.count({
@@ -172,6 +180,7 @@ export class DashboardService {
       this.prisma.ordenServicio.aggregate({
         where: {
           ...commonWhere,
+          estadoServicio: 'LIQUIDADO',
           fechaVisita: { gte: startOfToday, lte: endOfToday },
           estadoPago: { in: ['PAGADO', 'CONCILIADO'] },
         },
@@ -231,6 +240,7 @@ export class DashboardService {
       this.prisma.ordenServicio.aggregate({
         where: {
           ...commonWhere,
+          estadoServicio: 'LIQUIDADO',
           estadoPago: { in: ['PAGADO', 'CONCILIADO'] },
         },
         _sum: { valorPagado: true, valorCotizado: true },
@@ -252,14 +262,8 @@ export class DashboardService {
       }),
     ]);
 
-    const valActual = Number(
-      ingresosActual._sum?.valorPagado ||
-        ingresosActual._sum?.valorCotizado ||
-        0,
-    );
-    const valPrev = Number(
-      ingresosPrev._sum?.valorPagado || ingresosPrev._sum?.valorCotizado || 0,
-    );
+    const valActual = Number(ingresosActual._sum?.valorPagado || 0);
+    const valPrev = Number(ingresosPrev._sum?.valorPagado || 0);
     const changeIngresos =
       valPrev > 0 ? ((valActual - valPrev) / valPrev) * 100 : 0;
     const changeOrdenes =
@@ -268,14 +272,8 @@ export class DashboardService {
         : 0;
 
     const sla = totalMes > 0 ? Math.round((aTiempoMes / totalMes) * 100) : 100;
-    const ingresosHoyValue = Number(
-      ingresosHoy._sum?.valorPagado || ingresosHoy._sum?.valorCotizado || 0,
-    );
-    const ingresosTotalesValue = Number(
-      ingresosTotales._sum?.valorPagado ||
-        ingresosTotales._sum?.valorCotizado ||
-        0,
-    );
+    const ingresosHoyValue = Number(ingresosHoy._sum?.valorPagado || 0);
+    const ingresosTotalesValue = Number(ingresosTotales._sum?.valorPagado || 0);
     const tasaCancelacionHoy =
       serviciosAgendadosHoy > 0
         ? (canceladosHoy / serviciosAgendadosHoy) * 100
@@ -347,6 +345,7 @@ export class DashboardService {
       where: {
         ...(tenantId ? { tenantId } : {}),
         ...(empresaId && { empresaId }),
+        estadoServicio: 'LIQUIDADO',
         fechaVisita: { gte: startOfWeek, lt: endOfWeek },
         estadoPago: { in: ['PAGADO', 'CONCILIADO'] },
       },

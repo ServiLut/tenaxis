@@ -59,16 +59,11 @@ import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/components/ui/utils";
 import { toast } from "sonner";
-import {
-  deleteClienteAction,
-  getClienteConfigsAction,
-  upsertClienteConfigAction,
-  getOrdenesServicioByClienteAction,
-  updateSugerenciaEstadoAction,
-  ConfiguracionOperativa,
-  ElementoPredefinido
-} from "../actions";
 import { Contact } from "lucide-react";
+import { apiFetch } from "@/lib/api/base-client";
+import { clientesClient } from "@/lib/api/clientes-client";
+import { configClient } from "@/lib/api/config-client";
+import { serviciosClient } from "@/lib/api/servicios-client";
 import {
   createDashboardPreset,
   deleteDashboardPreset,
@@ -86,6 +81,13 @@ import {
   utcIsoToBogotaYmd,
   ymdToPickerDate,
 } from "@/utils/date-utils";
+import { getBrowserCookie } from "@/lib/api/browser-client";
+import { useUserRole } from "@/hooks/use-user-role";
+import {
+  getBrowserAccessScope,
+  getBrowserScopedEnterpriseId,
+} from "@/lib/browser-access-scope";
+import type { AccessScope } from "@/lib/access-scope";
 
 export interface Cliente {
   id: string;
@@ -195,6 +197,28 @@ interface Municipality {
   departmentId: string;
 }
 
+interface ElementoPredefinido {
+  nombre: string;
+  tipo: string;
+  ubicacion?: string;
+}
+
+interface ConfiguracionOperativa {
+  id: string;
+  direccionId?: string | null;
+  direccion?: {
+    id: string;
+    direccion: string;
+  } | null;
+  protocoloServicio?: string | null;
+  observacionesFijas?: string | null;
+  requiereFirmaDigital: boolean;
+  requiereFotosEvidencia: boolean;
+  duracionEstimada?: number | null;
+  frecuenciaSugerida?: number | null;
+  elementosPredefinidos?: ElementoPredefinido[] | null;
+}
+
 export interface Sugerencia {
   id: string;
   clienteId: string;
@@ -302,6 +326,7 @@ export function ClienteList({
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
+  const { checkPermission, isLoading: isLoadingRole } = useUserRole();
 
   const [mounted, setMounted] = useState(false);
   
@@ -358,6 +383,12 @@ export function ClienteList({
     router.replace(`${pathname}${query ? `?${query}` : ""}`, { scroll: false });
   }, [activeSegment, search, currentPage, sortConfig, filters, pathname, router, mounted, onlySinVisita, onlyWithPendingPayments, onlySinServicios]);
 
+  useEffect(() => {
+    if (!isLoadingRole && !checkPermission("CLIENT_VIEW")) {
+      router.replace("/dashboard");
+    }
+  }, [isLoadingRole, checkPermission, router]);
+
   const [showSuggestionsQueue, setShowSuggestionsQueue] = useState(false);
   
   const [sugerencias, setSugerencias] = useState<Sugerencia[]>(initialSugerencias);
@@ -391,11 +422,15 @@ export function ClienteList({
     cliente.riesgo?.nombre || cliente.nivelRiesgo || "";
 
   const handleUpdateSugerencia = async (id: string, nuevoEstado: string) => {
-    const res = await updateSugerenciaEstadoAction(id, nuevoEstado);
-    if (res.success) {
+    try {
+      await apiFetch(`/sugerencias-clientes/${id}/estado`, {
+        method: "PATCH",
+        body: JSON.stringify({ estado: nuevoEstado }),
+      });
       setSugerencias(prev => prev.map(s => s.id === id ? { ...s, estado: nuevoEstado } : s));
       toast.success(`Sugerencia ${nuevoEstado.toLowerCase()} correctamente`);
-    } else {
+    } catch (error) {
+      console.error("Error updating suggestion status:", error);
       toast.error("Error al actualizar la sugerencia");
     }
   };
@@ -421,6 +456,10 @@ export function ClienteList({
         color: "text-blue-600 bg-blue-50",
         actionLabel: "Ir a Programación",
         action: () => {
+          if (!checkPermission("SERVICE_CREATE")) {
+            toast.error("No tienes permisos para crear servicios.");
+            return;
+          }
           router.push(`/dashboard/servicios/nuevo?clienteId=${client.id}`);
           setSelectedClienteForSuggestions(null);
         }
@@ -480,7 +519,7 @@ export function ClienteList({
     }
 
     return list;
-  }, [selectedClienteForSuggestions, segmentedData, router]);
+  }, [selectedClienteForSuggestions, segmentedData, router, checkPermission]);
   const [historyLoading, setHistoryLoading] = useState(false);
   const [serviceHistory, setServiceHistory] = useState<OrdenServicio[]>([]);
   const [configLoading, setConfigLoading] = useState(false);
@@ -503,7 +542,7 @@ export function ClienteList({
     ubicacion: "",
   });
 
-  const [userRole, setUserRole] = useState<string | null>(null);
+  const [accessScope, setAccessScope] = useState<AccessScope | null>(null);
   const [showKPIs, setShowKPIs] = useState(false);
   const [showFilters, setShowFilters] = useState(false);
   const [customPresets, setCustomPresets] = useState<DashboardPreset[]>([]);
@@ -552,26 +591,62 @@ export function ClienteList({
     if (!clienteToDelete) return;
     const id = clienteToDelete.id;
     setClienteToDelete(null);
-    toast.promise(deleteClienteAction(id), {
+    toast.promise(clientesClient.delete(id), {
       loading: "Eliminando cliente...",
-      success: (res) => {
-        if (res.success) return "Cliente eliminado correctamente";
-        throw new Error(res.error);
-      },
+      success: () => "Cliente eliminado correctamente",
       error: (err) => err.message || "Error al eliminar el cliente",
     });
   };
 
   React.useEffect(() => {
     setMounted(true);
-    const userData = localStorage.getItem("user");
-    if (userData && userData !== "undefined") {
-      try {
-        const user = JSON.parse(userData);
-        setUserRole(user.role);
-      } catch (_e) { /* ignore */ }
-    }
+    setAccessScope(getBrowserAccessScope());
   }, []);
+
+  useEffect(() => {
+    if (!accessScope) {
+      return;
+    }
+
+    const scopedEnterpriseId = getBrowserScopedEnterpriseId(accessScope);
+    if (accessScope.isEmpresaLocked) {
+      if (!scopedEnterpriseId) {
+        return;
+      }
+
+      setTimeout(() => {
+        setFilters((prev) => {
+          if (
+            prev.empresas.length === 1 &&
+            prev.empresas[0] === scopedEnterpriseId
+          ) {
+            return prev;
+          }
+
+          return {
+            ...prev,
+            empresas: [scopedEnterpriseId],
+          };
+        });
+        setEmpresaSearch("");
+      }, 0);
+      return;
+    }
+
+    setTimeout(() => {
+      setFilters((prev) => {
+        if (prev.empresas.length === 0) {
+          return prev;
+        }
+
+        return {
+          ...prev,
+          empresas: [],
+        };
+      });
+      setEmpresaSearch("");
+    }, 0);
+  }, [accessScope]);
 
   const filterOptions = useMemo(() => {
     if (!mounted) return { municipios: [], segmentos: [], clasificaciones: [], riesgos: [], empresas: [], departamentos: [] };
@@ -866,7 +941,7 @@ export function ClienteList({
     const loadConfigs = async () => {
       if (!selectedClienteForConfig) return;
       setConfigLoading(true);
-      const configs = await getClienteConfigsAction(selectedClienteForConfig.id) as ConfiguracionOperativa[];
+      const configs = await configClient.getClienteOperativa(selectedClienteForConfig.id) as ConfiguracionOperativa[];
       setActiveConfigs(configs);
       const globalConfig = configs.find(c => !c.direccionId);
       if (globalConfig) {
@@ -900,7 +975,7 @@ export function ClienteList({
     const loadHistory = async () => {
       if (!selectedClienteForHistory) return;
       setHistoryLoading(true);
-      const history = await getOrdenesServicioByClienteAction(selectedClienteForHistory.id);
+      const history = await serviciosClient.getAll(undefined, selectedClienteForHistory.id);
       setServiceHistory(history as unknown as OrdenServicio[]);
       setHistoryLoading(false);
     };
@@ -956,8 +1031,8 @@ export function ClienteList({
 
   const handleSaveConfig = async () => {
     if (!selectedClienteForConfig) return;
-    const cookieStore = document.cookie;
-    const empresaId = cookieStore.split("; ").find(row => row.startsWith("x-enterprise-id="))?.split("=")[1];
+    const empresaId =
+      getBrowserScopedEnterpriseId(accessScope) ?? getBrowserCookie("x-enterprise-id");
     if (!empresaId) {
       toast.error("No se encontró la empresa activa");
       return;
@@ -971,20 +1046,17 @@ export function ClienteList({
       direccionId,
       ...configForm,
     };
-    toast.promise(upsertClienteConfigAction(payload), {
+    toast.promise(configClient.upsertOperativa(payload), {
       loading: "Guardando configuración...",
-      success: (res) => {
-        if (res.success) {
-          setSelectedClienteForConfig(null);
-          return "Configuración guardada exitosamente";
-        }
-        throw new Error(res.error);
+      success: () => {
+        setSelectedClienteForConfig(null);
+        return "Configuración guardada exitosamente";
       },
       error: (err) => err.message || "Error al guardar la configuración",
     });
   };
 
-  if (!mounted) {
+  if (!mounted || isLoadingRole) {
     return (
       <div className="flex flex-col h-full bg-background rounded-xl border border-border shadow-xl items-center justify-center">
         <div className="animate-pulse text-sm font-black text-muted-foreground uppercase tracking-widest">
@@ -992,6 +1064,10 @@ export function ClienteList({
         </div>
       </div>
     );
+  }
+
+  if (!checkPermission("CLIENT_VIEW")) {
+    return null;
   }
 
   return (
@@ -1112,12 +1188,14 @@ export function ClienteList({
               </div>
 
               <div className="flex items-center gap-3">
-                <Link href="/dashboard/clientes/nuevo">
-                  <div className="flex items-center h-12 px-8 rounded-xl bg-[#01ADFB] text-white gap-3 shadow-lg shadow-[#01ADFB]/20 transition-transform hover:scale-105 active:scale-95 cursor-pointer">
-                    <Plus className="h-5 w-5" />
-                    <span className="font-black uppercase tracking-widest text-[10px]">Nuevo Cliente</span>
-                  </div>
-                </Link>
+                {checkPermission("CLIENT_CREATE") && (
+                  <Link href="/dashboard/clientes/nuevo">
+                    <div className="flex items-center h-12 px-8 rounded-xl bg-[#01ADFB] text-white gap-3 shadow-lg shadow-[#01ADFB]/20 transition-transform hover:scale-105 active:scale-95 cursor-pointer">
+                      <Plus className="h-5 w-5" />
+                      <span className="font-black uppercase tracking-widest text-[10px]">Nuevo Cliente</span>
+                    </div>
+                  </Link>
+                )}
               </div>
               </div>
 
@@ -1274,8 +1352,8 @@ export function ClienteList({
                   </div>
 
                   <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-x-8 gap-y-8">
-                    {/* Empresa (Solo Admins) */}
-                    {(userRole === "SU_ADMIN" || userRole === "ADMIN") && filterOptions.empresas.length > 0 && (
+                    {/* Empresa visible según alcance */}
+                    {!accessScope?.isEmpresaLocked && filterOptions.empresas.length > 0 && (
                       <div className="space-y-2">
                         <Label className="text-[10px] font-black uppercase tracking-widest text-muted-foreground">Empresa Responsable</Label>
                         <Input
@@ -1635,18 +1713,22 @@ export function ClienteList({
                               >
                                 <Settings className="h-4 w-4 text-muted-foreground" /> Configuración
                               </DropdownMenuItem>
-                              <Link href={`/dashboard/clientes/${cliente.id}/editar`}>
-                                <DropdownMenuItem className="flex items-center gap-3 py-3 text-[11px] font-black uppercase tracking-widest cursor-pointer text-foreground hover:bg-muted">
-                                  <Pencil className="h-4 w-4 text-amber-600" /> Editar Perfil
-                                </DropdownMenuItem>
-                              </Link>
+                              {checkPermission("CLIENT_EDIT") && (
+                                <Link href={`/dashboard/clientes/${cliente.id}/editar`}>
+                                  <DropdownMenuItem className="flex items-center gap-3 py-3 text-[11px] font-black uppercase tracking-widest cursor-pointer text-foreground hover:bg-muted">
+                                    <Pencil className="h-4 w-4 text-amber-600" /> Editar Perfil
+                                  </DropdownMenuItem>
+                                </Link>
+                              )}
                               <DropdownMenuSeparator className="bg-border" />
-                              <DropdownMenuItem
-                                onClick={() => handleDelete(cliente)}
-                                className="flex items-center gap-3 py-3 text-[11px] font-black uppercase tracking-widest text-destructive hover:bg-destructive/10 cursor-pointer"
-                              >
-                                <Trash2 className="h-4 w-4" /> Eliminar Cartera
-                              </DropdownMenuItem>
+                              {checkPermission("CLIENT_DELETE") && (
+                                <DropdownMenuItem
+                                  onClick={() => handleDelete(cliente)}
+                                  className="flex items-center gap-3 py-3 text-[11px] font-black uppercase tracking-widest text-destructive hover:bg-destructive/10 cursor-pointer"
+                                >
+                                  <Trash2 className="h-4 w-4" /> Eliminar Cartera
+                                </DropdownMenuItem>
+                              )}
                             </DropdownMenuContent>
                           </DropdownMenu>
                         </td>
@@ -2044,15 +2126,17 @@ export function ClienteList({
 
               {/* Footer con Acciones */}
               <div className="shrink-0 p-8 bg-background border-t border-border flex gap-4">
-                <button
-                  onClick={() => router.push(`/dashboard/clientes/${selectedCliente.id}/editar`)}
-                  className="flex-1 h-14 rounded-2xl bg-[#01ADFB] text-xs font-black uppercase tracking-[0.2em] text-white transition-all hover:bg-blue-700 active:scale-[0.98] shadow-xl shadow-[#01ADFB]/25"
-                >
-                  Editar Perfil Estratégico
-                </button>
+                {checkPermission("CLIENT_EDIT") && (
+                  <button
+                    onClick={() => router.push(`/dashboard/clientes/${selectedCliente.id}/editar`)}
+                    className="flex-1 h-14 rounded-2xl bg-[#01ADFB] text-xs font-black uppercase tracking-[0.2em] text-white transition-all hover:bg-blue-700 active:scale-[0.98] shadow-xl shadow-[#01ADFB]/25"
+                  >
+                    Editar Perfil Estratégico
+                  </button>
+                )}
                 <button
                   onClick={() => setSelectedCliente(null)}
-                  className="px-10 h-14 rounded-2xl border-2 border-border text-xs font-black uppercase tracking-[0.2em] text-muted-foreground hover:bg-muted hover:text-foreground transition-all bg-background"
+                  className="h-14 rounded-2xl border-2 border-border bg-background px-10 text-xs font-black uppercase tracking-[0.2em] text-muted-foreground transition-all hover:bg-muted hover:text-foreground"
                 >
                   Cerrar
                 </button>

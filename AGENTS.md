@@ -16,6 +16,14 @@ Cualquier tecnología fuera de esta lista requiere aprobación explícita del hu
 - **Almacenamiento (Archivos):** Supabase Storage (SOLO Storage. PROHIBIDO usar Supabase Auth o Supabase Database).
 - **Background Jobs:** Redis + BullMQ (Gestionado en NestJS).
 
+## 🌐 Regla Operativa de URLs entre Frontend y Backend
+- `NEXT_PUBLIC_API_URL` se usa exclusivamente para requests que salen desde el navegador. En producción debe ser una URL pública `https://...`.
+- `NESTJS_API_URL` se usa exclusivamente para requests server-side desde Next.js hacia NestJS dentro de la red interna de contenedores. En producción normalmente debe apuntar al nombre del servicio Docker, por ejemplo `http://api:4000`.
+- No decidir por tipo de pantalla ("ver" o "editar"), sino por entorno de ejecución:
+  - `useEffect`, handlers de UI, hooks cliente, archivos con `"use client"` => `NEXT_PUBLIC_API_URL`
+  - SSR, Server Components, `page.tsx` server-side, `route.ts`, utilidades server-only => `NESTJS_API_URL`
+- Si aparece `Mixed Content` o `Failed to fetch` con hostnames internos en consola del navegador, revisar primero esta regla.
+
 ---
 
 ## 🚨 REGLAS DE ARQUITECTURA CRÍTICAS (¡NUNCA ROMPER!)

@@ -9,28 +9,30 @@ RUN turbo prune --scope=api --docker
 FROM node:22-alpine AS build
 WORKDIR /app
 
-# Instalar dependencias necesarias para Prisma en Alpine
-RUN apk add --no-cache openssl libc6-compat
+# Instalar dependencias necesarias para módulos nativos en Alpine
+RUN apk add --no-cache openssl libc6-compat python3 make g++
 
-# Enable corepack for pnpm
+# Enable corepack para pnpm
 RUN corepack enable && corepack prepare pnpm@latest --activate
 
-# Copiamos solo lo necesario para instalar dependencias
+# Copiamos lo necesario para instalar
 COPY --from=base /app/out/json/ .
 COPY --from=base /app/out/pnpm-lock.yaml ./pnpm-lock.yaml
 
-# INSTALAMOS CON --ignore-scripts
+# Instalamos ignorando scripts inicialmente para evitar que postinstall (prisma generate) falle sin el schema
 RUN pnpm install --frozen-lockfile --ignore-scripts
 
 # Copiamos el código fuente completo
 COPY --from=base /app/out/full/ .
 
-# Generar Prisma Client
-# Usamos pnpm exec en el contexto del paquete api para localizar correctamente el binario
-RUN pnpm --filter=api exec prisma generate
+# Ahora instalamos todo correctamente (incluyendo scripts y módulos nativos)
+RUN pnpm install --frozen-lockfile
 
-# Construir la API
+# Generar Prisma Client y construir
 RUN pnpm run build --filter=api
+
+# Usamos pnpm deploy para extraer la API y sus dependencias de producción a una carpeta aislada
+RUN pnpm deploy --filter=api --prod /app/isolated --legacy
 
 # 3. Runner
 FROM node:22-alpine AS runner
@@ -39,18 +41,16 @@ WORKDIR /app
 ENV NODE_ENV=production
 ENV PORT=4000
 
-# Instalamos OpenSSL
-RUN apk add --no-cache openssl
+# Dependencias de runtime
+RUN apk add --no-cache openssl libc6-compat
 
-# Copiamos dependencias y build
-COPY --from=build /app/node_modules ./node_modules
-COPY --from=build /app/apps/api/dist ./apps/api/dist
-COPY --from=build /app/apps/api/package.json ./apps/api/package.json
-COPY --from=build /app/apps/api/node_modules ./apps/api/node_modules
-COPY --from=build /app/apps/api/prisma ./apps/api/prisma
-COPY --from=build /app/apps/api/prisma.config.ts ./apps/api/prisma.config.ts
+# Copiamos la carpeta aislada generada por pnpm deploy
+COPY --from=build /app/isolated ./
 
-WORKDIR /app/apps/api
+# Copiamos los archivos compilados de la API
+COPY --from=build /app/apps/api/dist ./dist
+# Copiamos prisma porque se usa en runtime
+COPY --from=build /app/apps/api/prisma ./prisma
 
 EXPOSE 4000
 

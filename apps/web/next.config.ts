@@ -10,8 +10,8 @@ const nextConfig: NextConfig = {
   },
   async rewrites() {
     const apiUrl = process.env.NESTJS_API_URL || 'http://localhost:4000';
-    const chatwootUrl = "http://tenaxis-chatwoot-255df7-76-13-101-140.traefik.me";
-    
+    const chatwootUrl = "https://chatwoot.servilutioncrm.cloud";
+
     return [
       // --- CAPA AGRESIVA DE TIEMPO REAL (Prioridad Máxima) ---
       {

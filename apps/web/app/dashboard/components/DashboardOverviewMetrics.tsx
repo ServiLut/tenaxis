@@ -110,17 +110,17 @@ export const DashboardOverviewMetrics = React.memo(function DashboardOverviewMet
           <div className={cn("flex h-12 w-12 items-center justify-center rounded-full text-white shadow-lg transition-transform duration-500 group-hover:rotate-12", cat.iconBg)}>
             <item.icon className="h-6 w-6" />
           </div>
-          <span className={cn("flex items-center gap-1 rounded-full px-3 py-1 text-[10px] font-black uppercase tracking-widest bg-white/20", cat.text)}>
+          <span className={cn("flex items-center gap-1 rounded-full px-3 py-1 text-[10px] font-semibold uppercase tracking-widest bg-white/20", cat.text)}>
             <cat.icon className="h-3 w-3" /> {cat.label}
           </span>
         </div>
         
         <div className="mt-6 min-w-0">
-          <p className="mb-2 break-words pr-6 text-[10px] font-black uppercase leading-tight tracking-[0.2em] text-muted-foreground/60">
+          <p className="mb-2 break-words pr-6 text-[10px] font-semibold uppercase leading-tight tracking-[0.2em] text-muted-foreground/60">
             {item.label}
           </p>
           <h4 className={cn(
-            "break-words font-black leading-tight tracking-tight text-foreground",
+            "break-words font-bold leading-tight tracking-tight text-foreground",
             item.big ? "text-3xl md:text-4xl" : "text-2xl md:text-3xl"
           )}>
             {formatValue(item.value, item.kind)}
@@ -138,7 +138,7 @@ export const DashboardOverviewMetrics = React.memo(function DashboardOverviewMet
     <section className="relative space-y-12">
       <div className="space-y-8">
         <div className="flex items-center justify-between px-2">
-          <h3 className="text-2xl font-black uppercase tracking-[0.2em] text-foreground border-l-8 border-[#01ADFB] pl-4">
+          <h3 className="text-2xl font-bold uppercase tracking-[0.2em] text-foreground border-l-8 border-[#01ADFB] pl-4">
             Resumen <span className="text-[#01ADFB]">Diario</span>
           </h3>
           <span className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest bg-muted/50 px-4 py-2 rounded-full">En Vivo</span>
@@ -151,7 +151,7 @@ export const DashboardOverviewMetrics = React.memo(function DashboardOverviewMet
       </div>
 
       <div className="space-y-8">
-        <h3 className="text-2xl font-black uppercase tracking-[0.2em] text-foreground border-l-8 border-[#01ADFB] pl-4">
+        <h3 className="text-2xl font-bold uppercase tracking-[0.2em] text-foreground border-l-8 border-[#01ADFB] pl-4">
           Métricas <span className="text-[#01ADFB]">Globales</span>
         </h3>
         <div className="grid grid-cols-1 gap-5 md:grid-cols-6 md:auto-rows-[170px]">

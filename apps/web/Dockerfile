@@ -16,17 +16,19 @@ RUN corepack enable && corepack prepare pnpm@latest --activate
 COPY --from=base /app/out/json/ .
 COPY --from=base /app/out/pnpm-lock.yaml ./pnpm-lock.yaml
 
-# Instalamos CON ignore-scripts por consistencia y velocidad
-RUN pnpm install --frozen-lockfile --ignore-scripts
+# Instalamos permitiendo scripts para que sharp y otros módulos nativos se configuren correctamente
+RUN pnpm install --frozen-lockfile
 
 # Copiamos código
 COPY --from=base /app/out/full/ .
 
 # Args de entorno
 ARG NEXT_PUBLIC_API_URL
+ARG NESTJS_API_URL
 ARG NEXT_PUBLIC_SUPABASE_URL
 ARG NEXT_PUBLIC_SUPABASE_ANON_KEY
 ENV NEXT_PUBLIC_API_URL=$NEXT_PUBLIC_API_URL
+ENV NESTJS_API_URL=$NESTJS_API_URL
 ENV NEXT_PUBLIC_SUPABASE_URL=$NEXT_PUBLIC_SUPABASE_URL
 ENV NEXT_PUBLIC_SUPABASE_ANON_KEY=$NEXT_PUBLIC_SUPABASE_ANON_KEY
 
@@ -43,9 +45,11 @@ ENV HOSTNAME="0.0.0.0"
 
 # Args de entorno para runtime
 ARG NEXT_PUBLIC_API_URL
+ARG NESTJS_API_URL
 ARG NEXT_PUBLIC_SUPABASE_URL
 ARG NEXT_PUBLIC_SUPABASE_ANON_KEY
 ENV NEXT_PUBLIC_API_URL=$NEXT_PUBLIC_API_URL
+ENV NESTJS_API_URL=$NESTJS_API_URL
 ENV NEXT_PUBLIC_SUPABASE_URL=$NEXT_PUBLIC_SUPABASE_URL
 ENV NEXT_PUBLIC_SUPABASE_ANON_KEY=$NEXT_PUBLIC_SUPABASE_ANON_KEY
 

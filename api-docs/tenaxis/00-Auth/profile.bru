@@ -10,6 +10,11 @@ get {
   auth: bearer
 }
 
+headers {
+  x-enterprise-id: {{enterpriseId}}
+  x-test-role: ADMIN
+}
+
 auth:bearer {
   token: {{token}}
 }

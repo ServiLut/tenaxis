@@ -4,8 +4,7 @@ import React, { useState } from "react";
 import { Button, Input, Label, Card, CardHeader, CardTitle, CardContent } from "@/components/ui";
 import { Building2, ArrowRight, Loader2, Sparkles, Clock } from "lucide-react";
 import { toast } from "sonner";
-
-import { joinTenantAction } from "@/app/dashboard/actions";
+import { tenantsClient } from "@/lib/api/tenants-client";
 
 export function JoinOrganization() {
   const [slug, setSlug] = useState("");
@@ -29,11 +28,7 @@ export function JoinOrganization() {
     setLoading(true);
 
     try {
-      const res = await joinTenantAction(slug);
-
-      if (!res.success) {
-        throw new Error(res.error);
-      }
+      await tenantsClient.join(slug);
 
       toast.success("Solicitud enviada exitosamente. Espera a que un administrador te apruebe.");
       setSlug("");

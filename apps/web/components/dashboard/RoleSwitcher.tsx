@@ -9,10 +9,14 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { getBrowserCookie, setBrowserCookie } from "@/lib/api/browser-client";
+import { authClient } from "@/lib/api/auth-client";
+import {
+  buildEffectiveScopeAwareUser,
+  parseStoredScopeAwareUser,
+} from "@/lib/access-scope";
 
 const ROLES = ["SU_ADMIN", "ADMIN", "COORDINADOR", "ASESOR", "OPERADOR"];
-
-import { updateTestRoleAction } from "@/app/dashboard/actions";
 
 export function RoleSwitcher() {
   const isDev = process.env.NODE_ENV !== 'production';
@@ -28,10 +32,7 @@ export function RoleSwitcher() {
 
       let roleFound = false;
 
-      const cookieRole = document.cookie
-        .split("; ")
-        .find((row) => row.startsWith("x-test-role="))
-        ?.split("=")[1];
+      const cookieRole = getBrowserCookie("x-test-role");
 
       if (cookieRole) {
         setCurrentRole(cookieRole);
@@ -39,14 +40,11 @@ export function RoleSwitcher() {
       }
 
       if (!roleFound) {
-        const userData = localStorage.getItem("user");
-        if (userData && userData !== "undefined") {
-          try {
-            const user = JSON.parse(userData);
-            if (user.role) {
-              setCurrentRole(user.role);
-            }
-          } catch (_e) { /* ignore */ }
+        const storedUser = parseStoredScopeAwareUser(localStorage.getItem("user"));
+        const effectiveUser = buildEffectiveScopeAwareUser(storedUser, cookieRole);
+
+        if (effectiveUser?.role) {
+          setCurrentRole(effectiveUser.role);
         }
       }
     }, 0);
@@ -64,19 +62,24 @@ export function RoleSwitcher() {
       const userData = localStorage.getItem("user");
       if (userData) {
         try {
-          const user = JSON.parse(userData);
-          user.role = role;
-          localStorage.setItem("user", JSON.stringify(user));
+          const user = parseStoredScopeAwareUser(userData);
+          const nextUser = buildEffectiveScopeAwareUser(
+            user,
+            role,
+          );
+
+          if (nextUser) {
+            localStorage.setItem("user", JSON.stringify(nextUser));
+          }
         } catch (_e) { /* ignore */ }
       }
 
       try {
-        const res = await updateTestRoleAction(role);
-        if (res.success) {
-          window.location.reload();
-        } else {
-          console.error("Error updating role:", res.error);
-        }
+        await authClient.updateTestRole(role);
+        setBrowserCookie("x-test-role", role, {
+          expiresAt: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
+        });
+        window.location.reload();
       } catch (error) {
         console.error("Error updating role:", error);
       }

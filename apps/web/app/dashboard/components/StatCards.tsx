@@ -50,7 +50,7 @@ const CircularProgress = ({ progress, color, size = 60 }: { progress: number; co
           className="transition-all duration-1000 ease-out"
         />
       </svg>
-      <span className="absolute text-[10px] font-black text-foreground">{progress}%</span>
+      <span className="absolute text-[10px] font-semibold text-foreground">{progress}%</span>
     </div>
   );
 };
@@ -116,7 +116,7 @@ export const StatCards = React.memo(function StatCards({ enterpriseId, isConfigu
 
   return (
     <section className="relative space-y-6">
-      <h3 className="text-xl font-black uppercase tracking-widest text-foreground pl-2 border-l-4 border-[#01ADFB]">
+      <h3 className="text-xl font-bold uppercase tracking-widest text-foreground pl-2 border-l-4 border-[#01ADFB]">
         Indicadores <span className="text-[#01ADFB]">Críticos</span>
       </h3>
       <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-4">
@@ -140,10 +140,10 @@ export const StatCards = React.memo(function StatCards({ enterpriseId, isConfigu
             </div>
 
             <div className="mt-6 space-y-1">
-              <p className="text-xs font-black uppercase tracking-[0.2em] text-muted-foreground">
+              <p className="text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground">
                 {stat.title}
               </p>
-              <h3 className="text-3xl font-black tracking-tighter text-foreground">
+              <h3 className="text-3xl font-bold tracking-tighter text-foreground">
                 {loading ? "..." : stat.value}
               </h3>
               <p className="text-[11px] leading-tight text-muted-foreground/90">
@@ -153,7 +153,7 @@ export const StatCards = React.memo(function StatCards({ enterpriseId, isConfigu
 
             <div className="mt-4 flex items-center gap-2 border-t border-border pt-4">
               <div className={cn(
-                "flex items-center gap-1 rounded-lg px-2 py-1 text-[10px] font-black",
+                "flex items-center gap-1 rounded-lg px-2 py-1 text-[10px] font-semibold",
                 stat.trend === "up" ? "bg-emerald-500/10 text-emerald-600" : 
                 stat.trend === "down" ? "bg-destructive/10 text-destructive" : 
                 "bg-muted text-muted-foreground"

@@ -3,22 +3,24 @@
 import { useState, useEffect, useCallback } from "react";
 import { toast } from "sonner";
 import {
-  getTiposInteresAction,
-  createTipoInteresAction,
-  updateTipoInteresAction,
-  getServiciosAction,
-  createServicioAction,
-  updateServicioAction,
-  updateMembershipAction,
-  getEnterprisesAction,
-  getMyProfileAction,
-} from "../actions";
+  authClient,
+} from "@/lib/api/auth-client";
+import { configClient } from "@/lib/api/config-client";
+import { enterpriseClient } from "@/lib/api/enterprise-client";
+import { tenantsClient } from "@/lib/api/tenants-client";
 import { DashboardLayout } from "@/components/dashboard";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Select } from "@/components/ui/select";
+import {
+  Select as SelectShadcn,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select-shadcn";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 import { 
   Settings, 
@@ -49,8 +51,8 @@ type TipoInteres = {
 };
 
 type UserProfile = {
-  id?: string;
   membershipId?: string;
+  id?: string;
   empresaId?: string;
   nombre?: string;
   apellido?: string;
@@ -123,7 +125,7 @@ export default function ConfiguracionPage() {
       }
 
       try {
-        const profile = await getMyProfileAction();
+        const profile = await authClient.getProfile();
         if (profile) {
           setUser((prev) => ({
             ...prev,
@@ -163,7 +165,7 @@ export default function ConfiguracionPage() {
   const loadData = useCallback(async () => {
     setLoading(true);
     try {
-      const ints = await getTiposInteresAction();
+      const ints = await configClient.getIntereses();
       setIntereses(ints as unknown as TipoInteres[]);
     } catch (_error) {
       toast.error("Error al cargar la configuración");
@@ -175,7 +177,7 @@ export default function ConfiguracionPage() {
   const loadServiciosData = useCallback(async () => {
     setLoading(true);
     try {
-      const empresasResult = await getEnterprisesAction();
+      const empresasResult = await enterpriseClient.getAll();
       const loadedEmpresas = (
         Array.isArray(empresasResult)
           ? empresasResult
@@ -192,7 +194,7 @@ export default function ConfiguracionPage() {
 
       setSelectedEmpresaId(currentEmpresaId);
 
-      const serviciosResult = await getServiciosAction(currentEmpresaId || undefined);
+      const serviciosResult = await configClient.getServicios(currentEmpresaId || undefined);
       setServicios(Array.isArray(serviciosResult) ? (serviciosResult as ServicioConfig[]) : []);
     } catch (_error) {
       toast.error("Error al cargar servicios");
@@ -240,7 +242,7 @@ export default function ConfiguracionPage() {
       if (user.membershipId) {
         try {
           const currentEnterpriseId = localStorage.getItem("current-enterprise-id") || user.empresaId;
-          const res = await updateMembershipAction(user.membershipId, {
+          await tenantsClient.updateMembership(user.membershipId, {
             nombre: user.nombre,
             apellido: user.apellido,
             telefono: user.telefono,
@@ -253,18 +255,13 @@ export default function ConfiguracionPage() {
             cuentaPagoEmpresaId: currentEnterpriseId,
           });
 
-          if (res.success) {
-            const profile = await getMyProfileAction();
-            if (profile) {
-              const merged = { ...user, ...profile };
-              setUser(merged);
-              localStorage.setItem("user", JSON.stringify(merged));
-            }
-            toast.success("Perfil sincronizado con el servidor");
-          } else {
-            console.warn("Server sync failed", res.error);
-            toast.error(res.error || "No se pudieron guardar los cambios");
+          const profile = await authClient.getProfile();
+          if (profile) {
+            const merged = { ...user, ...profile };
+            setUser(merged);
+            localStorage.setItem("user", JSON.stringify(merged));
           }
+          toast.success("Perfil sincronizado con el servidor");
         } catch (error) {
           console.error("Connection error during sync", error);
           toast.error("No se pudo sincronizar el perfil con el servidor");
@@ -291,8 +288,8 @@ export default function ConfiguracionPage() {
           frecuenciaSugerida: parseInt(entries.frecuenciaSugerida as string) || 30,
           riesgoSugerido: entries.riesgoSugerido as string || "BAJO",
         };
-        if (editingItem) await updateTipoInteresAction(editingItem.id, data);
-        else await createTipoInteresAction(data);
+        if (editingItem) await configClient.updateInteres(editingItem.id, data);
+        else await configClient.createInteres(data);
       } else if (activeTab === "servicios") {
         if (!selectedEmpresaId) {
           throw new Error("Selecciona una empresa antes de guardar el servicio");
@@ -315,9 +312,9 @@ export default function ConfiguracionPage() {
         };
 
         if (editingServicio) {
-          await updateServicioAction(editingServicio.id, commonData);
+          await configClient.updateServicio(editingServicio.id, commonData);
         } else {
-          await createServicioAction({
+          await configClient.createServicio({
             ...commonData,
             empresaId: selectedEmpresaId,
           });
@@ -450,10 +447,14 @@ export default function ConfiguracionPage() {
                       <div className="relative">
                         <span className="absolute left-4 top-1/2 -translate-y-1/2 text-emerald-600 font-bold">$</span>
                         <Input 
-                          type="number" 
-                          placeholder="0.00"
-                          value={user?.valorHora || 0} 
-                          onChange={(e) => updateProfileField("valorHora", parseFloat(e.target.value) || 0)} 
+                          type="text" 
+                          placeholder="0"
+                          value={user?.valorHora ? user.valorHora.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".") : ""} 
+                          onFocus={(e) => e.target.select()}
+                          onChange={(e) => {
+                            const val = e.target.value.replace(/\D/g, "");
+                            updateProfileField("valorHora", val ? parseInt(val, 10) : 0);
+                          }} 
                           className="h-12 pl-8 rounded-xl border-border bg-background text-emerald-600 font-bold" 
                         />
                       </div>
@@ -481,14 +482,13 @@ export default function ConfiguracionPage() {
                   </div>
 
                   <div className="max-w-sm space-y-2">
-                    <Label className="text-[10px] font-black uppercase text-muted-foreground">Empresa</Label>
-                    <Select
+                    <Label className="text-[10px] font-black uppercase text-muted-foreground">FILTRAR POR EMPRESA</Label>
+                    <SelectShadcn
                       value={selectedEmpresaId}
-                      onChange={(e: React.ChangeEvent<HTMLSelectElement>) => {
-                        const empresaId = e.target.value;
+                      onValueChange={(empresaId) => {
                         setSelectedEmpresaId(empresaId);
                         setLoading(true);
-                        getServiciosAction(empresaId)
+                        configClient.getServicios(empresaId)
                           .then((result) => {
                             setServicios(Array.isArray(result) ? (result as ServicioConfig[]) : []);
                           })
@@ -497,15 +497,18 @@ export default function ConfiguracionPage() {
                           })
                           .finally(() => setLoading(false));
                       }}
-                      className="h-12 rounded-xl border-border bg-background text-foreground font-bold"
                     >
-                      <option value="">Selecciona una empresa</option>
-                      {empresas.map((empresa) => (
-                        <option key={empresa.id} value={empresa.id}>
-                          {empresa.nombre}
-                        </option>
-                      ))}
-                    </Select>
+                      <SelectTrigger className="h-12 rounded-xl border-border bg-background text-foreground font-bold">
+                        <SelectValue placeholder="Selecciona una empresa" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {empresas.map((empresa) => (
+                          <SelectItem key={empresa.id} value={empresa.id}>
+                            {empresa.nombre}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </SelectShadcn>
                   </div>
                 </CardHeader>
                 <CardContent className="p-8">

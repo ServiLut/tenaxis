@@ -5,20 +5,9 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { toast } from "sonner";
 import {
-  getClientesAction,
-  getContratoClienteActivoAction,
-  getMetodosPagoAction,
-  getEnterprisesAction,
-  getOperatorsAction,
-  getServiciosAction,
-  getClienteConfigsAction,
-  ConfiguracionOperativa,
-  getClienteByIdAction,
-  updateClienteAction,
-  getDepartmentsAction,
-  getMunicipalitiesAction,
-} from "../../actions";
-import { type ContratoCliente } from "@/lib/api/clientes-client";
+  clientesClient,
+  type ContratoCliente,
+} from "@/lib/api/clientes-client";
 import {
   completeFollowUp,
   createOrdenServicio,
@@ -64,8 +53,13 @@ import {
   AlertTriangle,
   CheckCircle2,
 } from "lucide-react";
+import { useUserRole } from "@/hooks/use-user-role";
 import { DashboardLayout } from "@/components/dashboard";
 import { cn } from "@/components/ui/utils";
+import { getBrowserCookie } from "@/lib/api/browser-client";
+import { configClient } from "@/lib/api/config-client";
+import { enterpriseClient } from "@/lib/api/enterprise-client";
+import { geoClient } from "@/lib/api/geo-client";
 import {
   bogotaDateTimeToUtcIso,
   bogotaDateToUtcIso,
@@ -157,6 +151,21 @@ const FOLLOW_UP_OUTCOME_OPTIONS = [
   { value: "REQUIERE_ESCALACION", label: "Requiere escalación" },
 ];
 
+interface ConfiguracionOperativa {
+  id: string;
+  direccionId?: string | null;
+  direccion?: {
+    id: string;
+    direccion: string;
+  } | null;
+  protocoloServicio?: string | null;
+  observacionesFijas?: string | null;
+  requiereFirmaDigital: boolean;
+  requiereFotosEvidencia: boolean;
+  duracionEstimada?: number | null;
+  frecuenciaSugerida?: number | null;
+}
+
 interface Direccion {
   id: string;
   direccion: string;
@@ -219,6 +228,7 @@ const formatContractDate = (value?: string | null) => {
 
 function NuevoServicioContent() {
   const router = useRouter();
+  const { checkPermission, isLoading: isLoadingRole } = useUserRole();
   const [loading, setLoading] = useState(false);
   const [clientes, setClientes] = useState<Cliente[]>([]);
   const [operadores, setOperadores] = useState<Operador[]>([]);
@@ -307,7 +317,13 @@ function NuevoServicioContent() {
   });
   const isGarantia = tipoVisita === GARANTIA_VISIT_TYPE;
 
-  // --- URL PERSISTENCE LOGIC ---
+  useEffect(() => {
+    if (!isLoadingRole && !checkPermission("SERVICE_CREATE")) {
+      router.replace("/dashboard/servicios");
+    }
+  }, [isLoadingRole, checkPermission, router]);
+
+  // Persistimos solo contexto operativo no sensible para evitar exponer o rehidratar datos contables en la URL.
   const syncToUrl = useCallback(() => {
     const params = new URLSearchParams();
     if (selectedCliente) params.set("cliente", selectedCliente);
@@ -321,26 +337,8 @@ function NuevoServicioContent() {
     if (fechaVisita) params.set("fecha", fechaVisita);
     if (horaInicio) params.set("hora", horaInicio);
     if (duracionMinutos) params.set("duracion", duracionMinutos);
-    if (valorCotizado) params.set("valor", valorCotizado);
     if (tipoFacturacion) params.set("facturacion", tipoFacturacion);
-    if (estadoServicio) params.set("estado", estadoServicio);
-    if (diagnosticoTecnico) params.set("diag", diagnosticoTecnico);
-    if (intervencionRealizada) params.set("interv", intervencionRealizada);
-    if (hallazgosEstructurales) params.set("hallazgos", hallazgosEstructurales);
-    if (recomendacionesObligatorias) {
-      params.set("recomendaciones", recomendacionesObligatorias);
-    }
-    if (huboSellamiento) params.set("sellamiento", huboSellamiento);
-    if (huboRecomendacionEstructural) {
-      params.set("recomendacionEstructural", huboRecomendacionEstructural);
-    }
-    if (horaInicioReal) params.set("horaInicioReal", horaInicioReal);
-    if (horaFinReal) params.set("horaFinReal", horaFinReal);
     if (frecuenciaRecomendada) params.set("frecuencia", frecuenciaRecomendada.toString());
-    
-    if (breakdown.length > 0 && (breakdown.length > 1 || breakdown[0].monto !== "")) {
-      params.set("breakdown", JSON.stringify(breakdown));
-    }
 
     const queryString = params.toString();
     const newUrl = `${window.location.pathname}${queryString ? `?${queryString}` : ""}`;
@@ -348,17 +346,8 @@ function NuevoServicioContent() {
   }, [
     selectedCliente, selectedDireccion, selectedEmpresa, selectedOperador, 
     serviciosSeleccionados, tipoVisita, nivelInfestacion, urgencia, fechaVisita, 
-    horaInicio, duracionMinutos, valorCotizado, tipoFacturacion, estadoServicio, 
-    diagnosticoTecnico,
-    intervencionRealizada,
-    hallazgosEstructurales,
-    recomendacionesObligatorias,
-    huboSellamiento,
-    huboRecomendacionEstructural,
-    horaInicioReal,
-    horaFinReal,
+    horaInicio, duracionMinutos, tipoFacturacion,
     frecuenciaRecomendada,
-    breakdown
   ]);
 
   useEffect(() => {
@@ -450,7 +439,7 @@ function NuevoServicioContent() {
   const fetchMetodosPago = useCallback(async (empId: string) => {
     if (!empId) return;
     try {
-      await getMetodosPagoAction(empId);
+      await configClient.getMetodosPago(empId);
       // setMetodosPago(...) removed as it was unused
     } catch (e) {
       console.error("Error loading payment methods", e);
@@ -461,7 +450,7 @@ function NuevoServicioContent() {
   const fetchOperadores = useCallback(async (empId: string) => {
     if (!empId) return;
     try {
-      const ops = await getOperatorsAction(empId);
+      const ops = await enterpriseClient.getOperators(empId);
       setOperadores(Array.isArray(ops) ? (ops as Operador[]) : []);
     } catch (e) {
       console.error("Error loading operators", e);
@@ -472,7 +461,7 @@ function NuevoServicioContent() {
   const fetchServicios = useCallback(async (empId: string) => {
     if (!empId) return;
     try {
-      const svs = await getServiciosAction(empId);
+      const svs = await configClient.getServicios(empId);
       setServiciosEmpresa(Array.isArray(svs) ? (svs as Servicio[]) : []);
     } catch (e) {
       console.error("Error loading services", e);
@@ -505,8 +494,9 @@ function NuevoServicioContent() {
     const loadData = async () => {
       const userData = localStorage.getItem("user");
       // Obtener empresa seleccionada actualmente en el selector de la barra lateral
-      const currentEmpresaId = localStorage.getItem("current-enterprise-id") ||
-                              document.cookie.split("; ").find(row => row.startsWith("x-enterprise-id="))?.split("=")[1];
+      const currentEmpresaId =
+        localStorage.getItem("current-enterprise-id") ||
+        getBrowserCookie("x-enterprise-id");
 
       let uRole = null;
 
@@ -521,10 +511,10 @@ function NuevoServicioContent() {
 
       try {
         const [cls, emps, deps, muns] = await Promise.all([
-          getClientesAction(),
-          getEnterprisesAction(),
-          getDepartmentsAction(),
-          getMunicipalitiesAction(),
+          clientesClient.getAll(),
+          enterpriseClient.getAll(),
+          geoClient.getDepartments(),
+          geoClient.getMunicipalities(),
         ]);
 
         // Clientes usually returns an array or { data: [] }
@@ -574,7 +564,7 @@ function NuevoServicioContent() {
           setSelectedCliente(urlClientId);
           
           // Fetch configs
-          getClienteConfigsAction(urlClientId).then(configsResult => {
+          configClient.getClienteOperativa(urlClientId).then(configsResult => {
             const configs = Array.isArray(configsResult) ? (configsResult as ConfiguracionOperativa[]) : [];
             setClienteConfigs(configs);
             
@@ -600,47 +590,11 @@ function NuevoServicioContent() {
         if (urlParams.get("tipoVisita")) setTipoVisita(normalizeVisitTypeValue(urlParams.get("tipoVisita")));
         if (urlParams.get("nivel")) setNivelInfestacion(urlParams.get("nivel")!);
         if (urlParams.get("urgencia")) setUrgencia(urlParams.get("urgencia")!);
-        if (urlParams.get("diag")) setDiagnosticoTecnico(urlParams.get("diag")!);
-        if (urlParams.get("interv")) {
-          setIntervencionRealizada(urlParams.get("interv")!);
-        }
-        if (urlParams.get("hallazgos")) {
-          setHallazgosEstructurales(urlParams.get("hallazgos")!);
-        }
-        if (urlParams.get("recomendaciones")) {
-          setRecomendacionesObligatorias(urlParams.get("recomendaciones")!);
-        }
-        if (urlParams.get("sellamiento")) {
-          setHuboSellamiento(urlParams.get("sellamiento")!);
-        }
-        if (urlParams.get("recomendacionEstructural")) {
-          setHuboRecomendacionEstructural(
-            urlParams.get("recomendacionEstructural")!,
-          );
-        }
         if (urlParams.get("fecha")) setFechaVisita(urlParams.get("fecha")!);
         if (urlParams.get("hora")) setHoraInicio(urlParams.get("hora")!);
-        if (urlParams.get("horaInicioReal")) {
-          setHoraInicioReal(urlParams.get("horaInicioReal")!);
-        }
-        if (urlParams.get("horaFinReal")) {
-          setHoraFinReal(urlParams.get("horaFinReal")!);
-        }
         if (urlParams.get("duracion")) setDuracionMinutos(urlParams.get("duracion")!);
-        if (urlParams.get("valor")) setValorCotizado(urlParams.get("valor")!);
         if (urlParams.get("facturacion")) setTipoFacturacion(urlParams.get("facturacion")!);
-        if (urlParams.get("estado")) setEstadoServicio(urlParams.get("estado")!);
         if (urlParams.get("frecuencia")) setFrecuenciaRecomendada(Number(urlParams.get("frecuencia")));
-
-        const urlBreakdown = urlParams.get("breakdown");
-        if (urlBreakdown) {
-          try {
-            setBreakdown(JSON.parse(urlBreakdown));
-          } catch (e) {
-            console.error("Error parsing breakdown from URL", e);
-          }
-        }
-        // --- END URL OVERRIDE LOGIC ---
       } catch (e) {
         console.error("Error loading initial data", e);
         toast.error("Error al cargar datos básicos");
@@ -660,7 +614,7 @@ function NuevoServicioContent() {
 
     setLoadingContrato(true);
     try {
-      const contrato = await getContratoClienteActivoAction(
+      const contrato = await clientesClient.getActiveContrato(
         clientId,
         empresaId,
       );
@@ -703,7 +657,7 @@ function NuevoServicioContent() {
     setClienteConfigs([]);
     
     if (clientId) {
-      const configsResult = await getClienteConfigsAction(clientId);
+      const configsResult = await configClient.getClienteOperativa(clientId);
       const configs = Array.isArray(configsResult) ? (configsResult as ConfiguracionOperativa[]) : [];
       setClienteConfigs(configs);
 
@@ -829,7 +783,7 @@ function NuevoServicioContent() {
 
     setLoadingAddress(true);
     try {
-      const client = await getClienteByIdAction(selectedCliente) as Cliente | null;
+      const client = await clientesClient.getById(selectedCliente) as Cliente | null;
       if (!client) throw new Error("Cliente no encontrado");
 
       // CLEANUP: We must remove relations and system-managed fields that Prisma rejects in a 'create' nested block
@@ -871,50 +825,46 @@ function NuevoServicioContent() {
 
       console.log("[AddressModal] Sending updated addresses:", updatedDirs);
 
-      const res = await updateClienteAction(selectedCliente, {
+      await clientesClient.update(selectedCliente, {
         direcciones: updatedDirs as unknown as Direccion[]
       });
 
-      if (res.success) {
-        toast.success("Dirección añadida correctamente");
-        setIsAddressModalOpen(false);
-        // Refresh client data
-        const updatedClient = await getClienteByIdAction(selectedCliente) as Cliente | null;
-        if (updatedClient) {
-          const dirs = updatedClient.direcciones || [];
-          setDireccionesCliente(dirs);
-          if (dirs.length > 0) {
-            const latestDir = dirs[dirs.length - 1];
-            setSelectedDireccion(latestDir.id);
-            applyConfigToForm(clienteConfigs, latestDir.id);
-          }
-          
-          // Update clients list in state to keep it consistent
-          setClientes(prev => prev.map(c => c.id === selectedCliente ? updatedClient : c));
+      toast.success("Dirección añadida correctamente");
+      setIsAddressModalOpen(false);
+      // Refresh client data
+      const updatedClient = await clientesClient.getById(selectedCliente) as Cliente | null;
+      if (updatedClient) {
+        const dirs = updatedClient.direcciones || [];
+        setDireccionesCliente(dirs);
+        if (dirs.length > 0) {
+          const latestDir = dirs[dirs.length - 1];
+          setSelectedDireccion(latestDir.id);
+          applyConfigToForm(clienteConfigs, latestDir.id);
         }
-        // Reset form
-        setNewDir({
-          direccion: "",
-          nombreSede: "",
-          barrio: "",
-          departmentId: "",
-          municipioId: "",
-          linkMaps: "",
-          piso: "",
-          bloque: "",
-          unidad: "",
-          tipoUbicacion: "RESIDENCIAL",
-          clasificacionPunto: "Cocina",
-          horarioInicio: "08:00",
-          horarioFin: "18:00",
-          restriccionesAcceso: "",
-          nombreContacto: "",
-          telefonoContacto: "",
-          cargoContacto: ""
-        });
-      } else {
-        toast.error(res.error || "Error al añadir dirección");
+        
+        // Update clients list in state to keep it consistent
+        setClientes(prev => prev.map(c => c.id === selectedCliente ? updatedClient : c));
       }
+      // Reset form
+      setNewDir({
+        direccion: "",
+        nombreSede: "",
+        barrio: "",
+        departmentId: "",
+        municipioId: "",
+        linkMaps: "",
+        piso: "",
+        bloque: "",
+        unidad: "",
+        tipoUbicacion: "RESIDENCIAL",
+        clasificacionPunto: "Cocina",
+        horarioInicio: "08:00",
+        horarioFin: "18:00",
+        restriccionesAcceso: "",
+        nombreContacto: "",
+        telefonoContacto: "",
+        cargoContacto: ""
+      });
     } catch (e) {
       console.error(e);
       toast.error("Error inesperado al añadir dirección");
@@ -1062,6 +1012,18 @@ function NuevoServicioContent() {
 
   const isEmpresaLocked = userRole === "ASESOR";
   const isCreationBlocked = Boolean(followUpStatus?.blocked);
+
+  if (isLoadingRole) {
+    return (
+      <div className="flex h-[60vh] items-center justify-center text-sm font-bold uppercase tracking-widest text-muted-foreground">
+        Validando permisos...
+      </div>
+    );
+  }
+
+  if (!checkPermission("SERVICE_CREATE")) {
+    return null;
+  }
 
   return (
     <div className="max-w-5xl mx-auto w-full h-[calc(100vh-12rem)] flex flex-col min-h-0">
@@ -1565,7 +1527,7 @@ function NuevoServicioContent() {
                   <CreditCard className="h-5 w-5" />
                 </div>
                 <div className="flex-1 flex items-center justify-between">
-                  <h2 className="text-lg font-bold text-zinc-900 dark:text-zinc-50">Condiciones de Pago</h2>
+                  <h2 className="text-lg font-bold text-zinc-900 dark:text-zinc-50">Plan de Cobro</h2>
                   <Button 
                     type="button" 
                     className="h-9 px-4 rounded-xl bg-azul-1 text-white hover:bg-blue-700 transition-all text-[10px] font-black uppercase tracking-widest gap-2 shadow-lg shadow-azul-1/20 border-none"
@@ -1669,6 +1631,9 @@ function NuevoServicioContent() {
                     )}
                   </div>
                 </div>
+                <p className="text-[10px] font-bold text-zinc-500 dark:text-zinc-400">
+                  Esto define una condición comercial estimada. No confirma pago real; la transferencia se confirma luego con evidencia.
+                </p>
 
                 <div className="space-y-4">
                   <Label className="text-[10px] font-black uppercase tracking-[0.2em] text-zinc-400 block px-1">Desglose de Cobro</Label>

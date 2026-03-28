@@ -166,6 +166,7 @@ model TenantMembership {
   geolocalizaciones       Geolocalizacion[]
   nominas                 Nomina[]
   serviciosCreados        OrdenServicio[]            @relation("ServiciosCreados")
+  serviciosEliminados     OrdenServicio[]            @relation("ServiciosEliminados")
   serviciosLiquidados     OrdenServicio[]            @relation("ServiciosLiquidados")
   serviciosAsignados      OrdenServicio[]            @relation("ServiciosAsignados")
   seguimientosCompletados OrdenServicioSeguimiento[] @relation("SeguimientosCompletados")
@@ -667,7 +668,7 @@ model OrdenServicio {
   valorRepuestosTecnico  Decimal?                   @default(0) @db.Decimal(12, 2)
   facturaPath            String?
   facturaElectronica     String?
-  comprobantePago        String?
+  comprobantePago        Json?
   evidenciaPath          String?
   desglosePago           Json?
   referenciaPago         String?
@@ -677,6 +678,9 @@ model OrdenServicio {
   seguimientoRevisado    Boolean?                   @default(false)
   liquidadoPorId         String?                    @db.Uuid
   liquidadoAt            DateTime?
+  deletedById            String?                    @db.Uuid
+  deletedAt              DateTime?
+  deletedReason          String?
   ordenPadreId           String?                    @db.Uuid
   createdAt              DateTime                   @default(now())
   updatedAt              DateTime                   @updatedAt
@@ -696,6 +700,7 @@ model OrdenServicio {
   cliente                Cliente                    @relation(fields: [clienteId], references: [id])
   contratoCliente        ContratoCliente?           @relation(fields: [contratoClienteId], references: [id])
   creadoPor              TenantMembership?          @relation("ServiciosCreados", fields: [creadoPorId], references: [id])
+  deletedBy              TenantMembership?          @relation("ServiciosEliminados", fields: [deletedById], references: [id])
   direccion              Direccion?                 @relation(fields: [direccionId], references: [id])
   empresa                Empresa                    @relation(fields: [empresaId], references: [id])
   entidadFinanciera      EntidadFinanciera?         @relation(fields: [entidadFinancieraId], references: [id])
@@ -718,6 +723,7 @@ model OrdenServicio {
   @@index([entidadFinancieraId])
   @@index([contratoClienteId])
   @@index([estadoServicio])
+  @@index([deletedAt])
   @@index([numeroOrden])
   @@index([fechaVisita])
   @@map("ordenes_servicio")

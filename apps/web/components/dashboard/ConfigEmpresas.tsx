@@ -2,22 +2,14 @@
 
 import { useState, useEffect } from "react";
 import { toast } from "sonner";
-import {
-    createEnterpriseAction,
-    getEnterprisesAction,
-    updateEnterpriseAction,
-    deleteEnterpriseAction,
-    getServiciosAction,
-    createServicioAction,
-    updateServicioAction,
-    deleteServicioAction,
-  } from "@/app/dashboard/actions";
-  import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter } from "@/components/ui/card";
-  import { Button } from "@/components/ui/button";
-  import { Input } from "@/components/ui/input";
-  import { Label } from "@/components/ui/label";
-  import { Plus, Pencil, Save, X, Building, AlertTriangle, Trash2, Power, Loader2, Zap, ArrowLeft, Settings2 } from "lucide-react";
-  import { cn } from "@/components/ui/utils";
+import { configClient } from "@/lib/api/config-client";
+import { enterpriseClient } from "@/lib/api/enterprise-client";
+import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Plus, Pencil, Save, X, Building, AlertTriangle, Trash2, Power, Loader2, Zap, ArrowLeft, Settings2 } from "lucide-react";
+import { cn } from "@/components/ui/utils";
   
   type Enterprise = {
     id: string;
@@ -61,7 +53,7 @@ import {
     async function loadData() {
       setLoading(true);
       try {
-        const result = await getEnterprisesAction();
+        const result = await enterpriseClient.getAll();
         // Si el backend devuelve el nuevo formato con items
         if (result && typeof result === 'object' && 'items' in result) {
           const enterpriseResult = result as unknown as { items: Enterprise[], maxEmpresas: number };
@@ -81,7 +73,7 @@ import {
     async function loadServicios(empresaId: string) {
       setLoading(true);
       try {
-        const data = await getServiciosAction(empresaId);
+        const data = await configClient.getServicios(empresaId);
         setServicios(data as unknown as Servicio[]);
       } catch (error) {
         console.error("Error loading services:", error);
@@ -118,7 +110,7 @@ import {
     const handleToggleStatus = async (item: Enterprise) => {
       setActionLoading(item.id);
       try {
-        await updateEnterpriseAction(item.id, { activo: !item.activo });
+        await enterpriseClient.update(item.id, { activo: !item.activo });
         toast.success(`Empresa ${!item.activo ? 'activada' : 'desactivada'}`);
         loadData();
       } catch (error) {
@@ -131,7 +123,7 @@ import {
     const handleToggleServiceStatus = async (item: Servicio) => {
       setActionLoading(item.id);
       try {
-        await updateServicioAction(item.id, { activo: !item.activo });
+        await configClient.updateServicio(item.id, { activo: !item.activo });
         toast.success(`Servicio ${!item.activo ? 'activado' : 'desactivado'}`);
         if (selectedEnterprise) loadServicios(selectedEnterprise.id);
       } catch (error) {
@@ -146,7 +138,7 @@ import {
       
       setActionLoading(item.id);
       try {
-        await deleteEnterpriseAction(item.id);
+        await enterpriseClient.delete(item.id);
         toast.success("Empresa eliminada");
         loadData();
       } catch (error) {
@@ -161,7 +153,7 @@ import {
       
       setActionLoading(item.id);
       try {
-        await deleteServicioAction(item.id);
+        await configClient.deleteServicio(item.id);
         toast.success("Servicio eliminado");
         if (selectedEnterprise) loadServicios(selectedEnterprise.id);
       } catch (error) {
@@ -180,10 +172,10 @@ import {
   
       try {
         if (editingItem) {
-          await updateEnterpriseAction(editingItem.id, data);
+          await enterpriseClient.update(editingItem.id, data);
           toast.success("Empresa actualizada");
         } else {
-          await createEnterpriseAction(data);
+          await enterpriseClient.create(data);
           toast.success("Empresa creada");
         }
         loadData();
@@ -206,10 +198,10 @@ import {
   
       try {
         if (editingService) {
-          await updateServicioAction(editingService.id, { nombre: data.nombre });
+          await configClient.updateServicio(editingService.id, { nombre: data.nombre });
           toast.success("Servicio actualizado");
         } else {
-          await createServicioAction(data);
+          await configClient.createServicio(data);
           toast.success("Servicio creado");
         }
         loadServicios(selectedEnterprise.id);

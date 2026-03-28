@@ -21,6 +21,7 @@ import { SuAdminGuard } from '../auth/guards/su-admin.guard';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { JwtPayload } from '../auth/jwt-payload.interface';
 import { Request as ExpressRequest } from 'express';
+import { assertTenantAccess } from '../common/utils/access-control.util';
 
 interface RequestWithUser extends ExpressRequest {
   user: JwtPayload;
@@ -45,19 +46,11 @@ export class TenantsController {
   @Get(':id')
   @UseGuards(JwtAuthGuard)
   async findOne(@Request() req: RequestWithUser, @Param('id') id: string) {
-    // Si no es SU_ADMIN, solo puede ver su propio tenant
-    const allowedUuids = (process.env.ALLOWED_TENANT_ADMINS || '')
-      .split(',')
-      .map((id) => id.trim())
-      .filter((id) => id.length > 0);
-
-    const isSuAdmin = allowedUuids.includes(req.user.sub);
-
-    if (!isSuAdmin && req.user.tenantId !== id) {
-      throw new UnauthorizedException(
-        'No tienes permiso para ver este conglomerado',
-      );
-    }
+    assertTenantAccess(
+      req.user,
+      id,
+      'No tienes permiso para ver este conglomerado',
+    );
     return await this.tenantsService.findOne(id);
   }
 
@@ -72,28 +65,25 @@ export class TenantsController {
 
   @Get(':tenantId/pending-memberships')
   @UseGuards(JwtAuthGuard)
-  async getPendingMemberships(@Request() req: RequestWithUser) {
-    // Para simplificar, asumimos que el usuario solo puede ver los de su tenant actual
-    // En una implementación final, validaríamos que sea SU_ADMIN de ese tenant
-    if (!req.user.tenantId) {
-      throw new UnauthorizedException('No perteneces a ningún conglomerado');
-    }
-    return await this.tenantsService.getPendingMemberships(req.user.tenantId);
+  async getPendingMemberships(
+    @Request() req: RequestWithUser,
+    @Param('tenantId') tenantId: string,
+  ) {
+    assertTenantAccess(req.user, tenantId, 'No perteneces a ese conglomerado');
+    return await this.tenantsService.getPendingMemberships(tenantId);
   }
 
   @Get(':tenantId/memberships')
   @UseGuards(JwtAuthGuard)
   async findAllMemberships(
     @Request() req: RequestWithUser,
+    @Param('tenantId') tenantId: string,
     @Query('startDate') startDate?: string,
     @Query('endDate') endDate?: string,
   ) {
-    if (!req.user.tenantId) {
-      throw new UnauthorizedException('No perteneces a ningún conglomerado');
-    }
-    // TODO: Validar que sea ADMIN o SU_ADMIN del tenant
+    assertTenantAccess(req.user, tenantId, 'No perteneces a ese conglomerado');
     return await this.tenantsService.findAllMemberships(
-      req.user.tenantId,
+      tenantId,
       startDate,
       endDate,
     );
@@ -106,16 +96,7 @@ export class TenantsController {
     @Param('tenantId') tenantId: string,
     @Query() query: TeamPerformanceQueryDto,
   ) {
-    const isGlobalScope = tenantId === 'global' && req.user.isGlobalSuAdmin;
-
-    if (
-      !isGlobalScope &&
-      (!req.user.tenantId || req.user.tenantId !== tenantId)
-    ) {
-      throw new UnauthorizedException(
-        'No tienes permisos para acceder a este conglomerado',
-      );
-    }
+    assertTenantAccess(req.user, tenantId);
 
     return await this.tenantsService.getTeamPerformance(
       tenantId,
@@ -132,16 +113,7 @@ export class TenantsController {
     @Param('membershipId') membershipId: string,
     @Query() query: TeamMemberDetailQueryDto,
   ) {
-    const isGlobalScope = tenantId === 'global' && req.user.isGlobalSuAdmin;
-
-    if (
-      !isGlobalScope &&
-      (!req.user.tenantId || req.user.tenantId !== tenantId)
-    ) {
-      throw new UnauthorizedException(
-        'No tienes permisos para acceder a este conglomerado',
-      );
-    }
+    assertTenantAccess(req.user, tenantId);
 
     return await this.tenantsService.getTeamMemberDetail(
       tenantId,
@@ -158,11 +130,11 @@ export class TenantsController {
     @Param('tenantId') tenantId: string,
     @Body() dto: InviteMemberDto,
   ) {
-    if (!req.user.tenantId || req.user.tenantId !== tenantId) {
-      throw new UnauthorizedException(
-        'No tienes permisos para invitar miembros a este conglomerado',
-      );
-    }
+    assertTenantAccess(
+      req.user,
+      tenantId,
+      'No tienes permisos para invitar miembros a este conglomerado',
+    );
 
     // TODO: Validar que el usuario que invita sea ADMIN o SU_ADMIN
     return await this.tenantsService.inviteMember(tenantId, dto);
@@ -187,13 +159,13 @@ export class TenantsController {
     @Param('membershipId') membershipId: string,
     @Body() data: UpdateMembershipDto,
   ) {
-    if (!req.user.tenantId) {
+    if (!req.user.tenantId && !req.user.isGlobalSuAdmin) {
       throw new UnauthorizedException('No perteneces a ningún conglomerado');
     }
 
     return await this.tenantsService.updateMembership(
       membershipId,
-      req.user.tenantId,
+      req.user.tenantId!,
       data,
     );
   }

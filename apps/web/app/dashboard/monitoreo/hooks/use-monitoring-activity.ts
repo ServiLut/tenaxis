@@ -1,19 +1,11 @@
 "use client";
 
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { 
-  getMonitoringSessions, 
-  getMonitoringStats, 
-  getMemberLogs, 
-  getRecentLogs, 
-  getMonitoringAlerts,
-  getMonitoringMetrics,
-  getExecutiveAuditMetrics,
-  getMonitoringPayrollPreview,
-  generateMonitoringPayrollAction,
-} from "../actions";
 import { toast } from "sonner";
 import { useEffect, useState, useMemo } from "react";
+import { contabilidadClient } from "@/lib/api/contabilidad-client";
+import { getBrowserCookie } from "@/lib/api/browser-client";
+import { monitoringClient } from "@/lib/api/monitoreo-client";
 import {
   Session,
   MonitoringStats,
@@ -35,24 +27,17 @@ export function useMonitoringActivity(date?: string) {
     queryFn: async () => {
       const start = Date.now();
       const [sessionsRes, statsRes] = await Promise.all([
-        getMonitoringSessions(date),
-        getMonitoringStats(date)
+        monitoringClient.getSessions({ date }),
+        monitoringClient.getStats({ date }),
       ]);
       const end = Date.now();
       const currentLatency = end - start;
       setLatency(currentLatency);
       setMaxLatency(prev => Math.max(prev, currentLatency));
-      
-      if (sessionsRes.message && (!sessionsRes.data || sessionsRes.data.length === 0)) {
-        throw new Error(sessionsRes.message);
-      }
-      if (statsRes.message && (!statsRes.data || statsRes.data.totalEvents === 0)) {
-        throw new Error(statsRes.message);
-      }
 
       return { 
-        sessions: sessionsRes.data, 
-        stats: statsRes.data 
+        sessions: sessionsRes as Session[], 
+        stats: statsRes as unknown as MonitoringStats
       };
     },
     refetchInterval: date ? false : 30000,
@@ -64,11 +49,8 @@ export function useMonitoringActivity(date?: string) {
   const alertsQuery = useQuery({
     queryKey: ["monitoring", "alerts", date],
     queryFn: async () => {
-      const res = await getMonitoringAlerts(date);
-      if (res.message && (!res.data || res.data.length === 0)) {
-        // throw new Error(res.message); // Opcional: no bloquear todo por alertas
-      }
-      return res.data || [] as MonitoringAlert[];
+      const res = await monitoringClient.getAlerts({ date });
+      return res as MonitoringAlert[];
     },
     refetchInterval: date ? false : 60000,
   });
@@ -77,11 +59,7 @@ export function useMonitoringActivity(date?: string) {
   const metricsQuery = useQuery({
     queryKey: ["monitoring", "metrics", date],
     queryFn: async () => {
-      const res = await getMonitoringMetrics(date);
-      if (res.message && (!res.data || res.data.userCount === 0)) {
-        // throw new Error(res.message);
-      }
-      return res.data;
+      return await monitoringClient.getMetrics({ date }) as unknown as MonitoringMetrics;
     },
     refetchInterval: date ? false : 120000, // Cada 2 minutos
   });
@@ -90,11 +68,7 @@ export function useMonitoringActivity(date?: string) {
   const executiveAuditQuery = useQuery({
     queryKey: ["monitoring", "executive-audit", date],
     queryFn: async () => {
-      const res = await getExecutiveAuditMetrics(date);
-      if (res.message && (!res.data || res.data.successRate === 0)) {
-        // throw new Error(res.message);
-      }
-      return res.data;
+      return await monitoringClient.getExecutiveAudit({ date }) as unknown as ExecutiveAuditMetrics;
     },
     refetchInterval: date ? false : 300000, // Cada 5 minutos
   });
@@ -102,8 +76,7 @@ export function useMonitoringActivity(date?: string) {
   const payrollPreviewQuery = useQuery({
     queryKey: ["monitoring", "payroll-preview", date],
     queryFn: async () => {
-      const res = await getMonitoringPayrollPreview(date);
-      return res.data;
+      return await monitoringClient.getPayrollPreview({ date }) as unknown as MonitoringPayrollPreview;
     },
     refetchInterval: date ? false : 120000,
     staleTime: 30000,
@@ -126,7 +99,9 @@ export function useMonitoringActivity(date?: string) {
   
   const userLogsQuery = useQuery({
     queryKey: ["monitoring", "logs", selectedMembershipId, date],
-    queryFn: () => getMemberLogs(selectedMembershipId!, date),
+    queryFn: async () => ({
+      data: await monitoringClient.getLogsByMembership(selectedMembershipId!, { date }) as Log[],
+    }),
     enabled: !!selectedMembershipId,
     staleTime: 5000,
     retry: 1,
@@ -142,7 +117,9 @@ export function useMonitoringActivity(date?: string) {
 
   const recentLogsQuery = useQuery({
     queryKey: ["monitoring", "recent-logs", date],
-    queryFn: () => getRecentLogs(date),
+    queryFn: async () => ({
+      data: await monitoringClient.getRecentLogs({ date }) as Log[],
+    }),
     enabled: recentLogsEnabled,
     staleTime: 30000,
     retry: 1,
@@ -157,16 +134,18 @@ export function useMonitoringActivity(date?: string) {
   const payrollGenerationMutation = useMutation({
     mutationFn: async (membershipIds?: string[]) => {
       const payrollDate = date || new Date().toISOString().slice(0, 10);
-      const result = await generateMonitoringPayrollAction(
-        payrollDate,
-        membershipIds,
-      );
-
-      if (!result.success) {
-        throw new Error(result.error || "No fue posible generar la nómina");
+      const empresaId = getBrowserCookie("x-enterprise-id");
+      if (!empresaId) {
+        throw new Error("No hay una empresa activa para generar la nómina");
       }
 
-      return result.data;
+      return await contabilidadClient.generarNominaDesdeMonitoreo({
+        empresaId,
+        fechaInicio: payrollDate,
+        fechaFin: payrollDate,
+        membershipIds,
+        includeAllEligible: !membershipIds || membershipIds.length === 0,
+      });
     },
     onSuccess: (data) => {
       const totalCreated =

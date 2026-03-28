@@ -3,16 +3,10 @@
 import React, { useEffect, useState } from "react";
 import { Shield, Building2, MapPin, UserCircle } from "lucide-react";
 import { cn } from "@/components/ui/utils";
-import { getEnterprisesAction, getTenantDetailAction } from "@/app/dashboard/actions";
 import { useAccessScope } from "@/hooks/use-access-scope";
-
-interface UserData {
-  tenantId?: string;
-  role: string;
-  empresaId?: string;
-  empresaIds?: string[];
-  isGlobalSuAdmin?: boolean;
-}
+import { getBrowserScopedEnterpriseId } from "@/lib/browser-access-scope";
+import { enterpriseClient } from "@/lib/api/enterprise-client";
+import { tenantsClient } from "@/lib/api/tenants-client";
 
 interface Tenant {
   id: string;
@@ -26,7 +20,6 @@ interface Enterprise {
 
 export function ScopeInfo() {
   const { scope, isLoading: scopeLoading } = useAccessScope();
-  const [user, setUser] = useState<UserData | null>(null);
   const [enterpriseName, setEnterpriseName] = useState<string>("...");
   const [tenantName, setTenantName] = useState<string>("...");
   const [loading, setLoading] = useState(true);
@@ -38,20 +31,11 @@ export function ScopeInfo() {
       }
 
       try {
-        const userData = localStorage.getItem("user");
-        if (!userData) {
-          setLoading(false);
-          return;
-        }
-
-        const parsedUser = JSON.parse(userData) as UserData;
-        setUser(parsedUser);
-
         const [tenantRes, enterprisesRes] = await Promise.all([
           scope.canSeeAllTenants || !scope.tenantId
             ? null
-            : getTenantDetailAction(scope.tenantId),
-          getEnterprisesAction()
+            : tenantsClient.getById(scope.tenantId),
+          enterpriseClient.getAll(),
         ]);
 
         const tenant = (tenantRes as { data?: Tenant })?.data || (tenantRes as Tenant);
@@ -64,7 +48,7 @@ export function ScopeInfo() {
           setTenantName(tenant.nombre || "Tenaxis");
         }
 
-        const enterpriseId = localStorage.getItem("current-enterprise-id");
+        const enterpriseId = getBrowserScopedEnterpriseId(scope);
         if (scope.canSeeAllTenants) {
           setEnterpriseName("Todas las empresas");
         } else if (!scope.isEmpresaLocked) {
@@ -74,11 +58,6 @@ export function ScopeInfo() {
             ? enterprises.find((e: Enterprise) => e.id === enterpriseId)
             : null;
           setEnterpriseName(currentEnterprise?.nombre || "Empresa asignada");
-        } else if (parsedUser.empresaId) {
-          const assignedEnterprise = Array.isArray(enterprises)
-            ? enterprises.find((e: Enterprise) => e.id === parsedUser.empresaId)
-            : null;
-          setEnterpriseName(assignedEnterprise?.nombre || "Empresa asignada");
         } else {
           setEnterpriseName("Empresa asignada");
         }
@@ -90,9 +69,7 @@ export function ScopeInfo() {
     };
 
     loadData();
-  }, [scope.canSeeAllTenants, scope.tenantId, scopeLoading]);
-
-  if (!user && !loading) return null;
+  }, [scope, scopeLoading]);
 
   const cards = [
     {
@@ -121,7 +98,7 @@ export function ScopeInfo() {
     },
     {
       label: "Rol Actual",
-      value: user?.role || "OPERADOR",
+      value: scope.role || "OPERADOR",
       icon: UserCircle,
       color: "text-emerald-500",
       bg: "bg-emerald-500/10",

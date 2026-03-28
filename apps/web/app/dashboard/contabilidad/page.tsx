@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import { DashboardLayout } from "@/components/dashboard";
 import { 
   Card, 
@@ -26,17 +26,9 @@ import {
 } from "lucide-react";
 import { cn } from "@/components/ui/utils";
 import { toast } from "sonner";
-import { 
-  getRecaudoTecnicosAction, 
-  registrarConsignacionAction,
-  getAccountingBalanceAction,
-  getEgresosAction,
-  getNominasAction,
-  getAnticiposAction,
-  createEgresoAction,
-  createAnticipoAction,
-  getTenantMembershipsAction
-} from "../actions";
+import { authClient } from "@/lib/api/auth-client";
+import { contabilidadClient } from "@/lib/api/contabilidad-client";
+import { tenantsClient } from "@/lib/api/tenants-client";
 import { 
   Table,
   TableBody,
@@ -61,8 +53,14 @@ import {
   SelectValue,
 } from "@/components/ui/select-shadcn";
 import { 
-  type TechnicianRecaudo
+  type TechnicianRecaudo,
+  type RegistrarConsignacionPayload
 } from "@/lib/api/contabilidad-client";
+import { 
+  createSignedUploadUrl, 
+  uploadToSupabaseSignedUrl, 
+  confirmOrdenUpload 
+} from "../servicios/api";
 import { Badge } from "@/components/ui/badge";
 import { format } from "date-fns";
 import { es as _es } from "date-fns/locale";
@@ -184,6 +182,7 @@ interface Movement {
   razon?: string;
   membership?: { user: { nombre: string; apellido: string } };
   estado?: string;
+  categoria?: string;
 }
 
 interface Membership {
@@ -203,6 +202,22 @@ function StandardTableView({ title, description, type }: { title: string, descri
   const [isSaving, setIsSaving] = useState(false);
   const [members, setMembers] = useState<Membership[]>([]);
 
+  const getCategoryColor = (cat: string) => {
+    const category = (cat || "GENERAL").toUpperCase();
+    switch (category) {
+      case "INSUMOS":
+        return "bg-amber-500/10 text-amber-600 border-amber-500/20";
+      case "MARKETING":
+        return "bg-blue-500/10 text-blue-600 border-blue-500/20";
+      case "OPERATIVO":
+        return "bg-emerald-500/10 text-emerald-600 border-emerald-500/20";
+      case "SERVICIOS_PUBLICOS":
+        return "bg-purple-500/10 text-purple-600 border-purple-500/20";
+      default:
+        return "bg-zinc-500/10 text-zinc-600 border-zinc-500/20";
+    }
+  };
+
   const [formData, setFormData] = useState({
     titulo: "",
     monto: "",
@@ -216,9 +231,9 @@ function StandardTableView({ title, description, type }: { title: string, descri
     try {
       const empresaId = localStorage.getItem("current-enterprise-id") || undefined;
       let result: unknown[] = [];
-      if (type === 'egresos') result = await getEgresosAction(empresaId);
-      else if (type === 'nomina') result = await getNominasAction(empresaId);
-      else if (type === 'anticipos') result = await getAnticiposAction(empresaId);
+      if (type === 'egresos') result = await contabilidadClient.getEgresos(empresaId);
+      else if (type === 'nomina') result = await contabilidadClient.getNominas(empresaId);
+      else if (type === 'anticipos') result = await contabilidadClient.getAnticipos(empresaId);
       setData(result);
     } catch (error) {
       console.error(`Error loading ${type}:`, error);
@@ -230,9 +245,16 @@ function StandardTableView({ title, description, type }: { title: string, descri
 
   const fetchMembers = React.useCallback(async () => {
     try {
-      const res = await getTenantMembershipsAction();
+      const storedUser = JSON.parse(localStorage.getItem("user") || "{}") as { tenantId?: string };
+      const profile = await authClient.getProfile();
+      const tenantId = profile?.tenantId || storedUser.tenantId;
+      if (!tenantId) {
+        setMembers([]);
+        return;
+      }
+      const res = await tenantsClient.getMemberships(tenantId);
       if (!res || res.length === 0) {
-        console.warn("No members found or error in getTenantMembershipsAction");
+        console.warn("No members found or error in tenantsClient.getMemberships");
       }
       setMembers(res || []);
     } catch (error) {
@@ -258,7 +280,7 @@ function StandardTableView({ title, description, type }: { title: string, descri
       if (!empresaId) throw new Error("No enterprise selected");
 
       if (type === 'egresos') {
-        const res = await createEgresoAction({
+        await contabilidadClient.crearEgreso({
           titulo: formData.titulo,
           monto: Number(formData.monto),
           razon: formData.razon,
@@ -266,31 +288,21 @@ function StandardTableView({ title, description, type }: { title: string, descri
           membershipId: formData.membershipId === 'none' ? undefined : formData.membershipId,
           empresaId,
         });
-
-        if (res.success) {
-          toast.success("Egreso registrado exitosamente");
-          setIsModalOpen(false);
-          setFormData({ titulo: "", monto: "", razon: "", categoria: "GENERAL", membershipId: "none" });
-          fetchData();
-        } else {
-          toast.error(res.error || "Error al registrar");
-        }
+        toast.success("Egreso registrado exitosamente");
+        setIsModalOpen(false);
+        setFormData({ titulo: "", monto: "", razon: "", categoria: "GENERAL", membershipId: "none" });
+        fetchData();
       } else if (type === 'anticipos') {
-        const res = await createAnticipoAction({
+        await contabilidadClient.crearAnticipo({
           membershipId: formData.membershipId,
           monto: Number(formData.monto),
           razon: formData.razon || "Anticipo de personal",
           empresaId,
         });
-
-        if (res.success) {
-          toast.success("Anticipo registrado exitosamente");
-          setIsModalOpen(false);
-          setFormData({ titulo: "", monto: "", razon: "", categoria: "GENERAL", membershipId: "none" });
-          fetchData();
-        } else {
-          toast.error(res.error || "Error al registrar");
-        }
+        toast.success("Anticipo registrado exitosamente");
+        setIsModalOpen(false);
+        setFormData({ titulo: "", monto: "", razon: "", categoria: "GENERAL", membershipId: "none" });
+        fetchData();
       }
     } catch (error) {
       console.error("Save error:", error);
@@ -301,7 +313,15 @@ function StandardTableView({ title, description, type }: { title: string, descri
   };
 
   const handleExport = async (formatType: 'pdf' | 'excel' | 'word') => {
-    const headers = ["Fecha", "Descripción", "Responsable", "Monto", "Estado"];
+    const headers = [
+      "Fecha", 
+      "Descripción", 
+      ...(type === 'egresos' ? ["Categoría"] : []),
+      "Responsable", 
+      "Monto", 
+      "Estado"
+    ];
+
     const exportData = data.map(d => {
       const item = d as Movement;
       const fecha = item.createdAt || item.fechaGeneracion || new Date();
@@ -313,6 +333,7 @@ function StandardTableView({ title, description, type }: { title: string, descri
       return [
         format(new Date(fecha), "dd/MM/yyyy"),
         desc,
+        ...(type === 'egresos' ? [item.categoria || "GENERAL"] : []),
         resp,
         `$ ${Number(monto).toLocaleString()}`,
         est
@@ -409,6 +430,9 @@ function StandardTableView({ title, description, type }: { title: string, descri
                 <tr className="border-b border-border bg-muted/50">
                   <th className="px-8 py-5 text-[10px] font-black uppercase tracking-[0.2em] text-muted-foreground">Fecha</th>
                   <th className="px-8 py-5 text-[10px] font-black uppercase tracking-[0.2em] text-muted-foreground">Descripción</th>
+                  {type === 'egresos' && (
+                    <th className="px-8 py-5 text-[10px] font-black uppercase tracking-[0.2em] text-muted-foreground">Categoría</th>
+                  )}
                   <th className="px-8 py-5 text-[10px] font-black uppercase tracking-[0.2em] text-muted-foreground">Responsable</th>
                   <th className="px-8 py-5 text-[10px] font-black uppercase tracking-[0.2em] text-muted-foreground text-right">Monto</th>
                   <th className="px-8 py-5 text-[10px] font-black uppercase tracking-[0.2em] text-muted-foreground text-center">Estado</th>
@@ -418,12 +442,12 @@ function StandardTableView({ title, description, type }: { title: string, descri
                 {loading ? (
                   [1, 2, 3, 4, 5].map((i) => (
                     <tr key={i} className="animate-pulse">
-                      <td colSpan={5} className="px-8 py-5 h-16 bg-muted/20"></td>
+                      <td colSpan={type === 'egresos' ? 6 : 5} className="px-8 py-5 h-16 bg-muted/20"></td>
                     </tr>
                   ))
                 ) : data.length === 0 ? (
                   <tr>
-                    <td colSpan={5} className="px-8 py-20 text-center">
+                    <td colSpan={type === 'egresos' ? 6 : 5} className="px-8 py-20 text-center">
                       <p className="text-muted-foreground font-bold uppercase tracking-widest text-xs">No hay registros encontrados.</p>
                     </td>
                   </tr>
@@ -444,6 +468,16 @@ function StandardTableView({ title, description, type }: { title: string, descri
                         <td className="px-8 py-5 font-black text-foreground uppercase tracking-tighter">
                           {desc}
                         </td>
+                        {type === 'egresos' && (
+                          <td className="px-8 py-5">
+                            <span className={cn(
+                              "px-3 py-1 rounded-lg text-[9px] font-black uppercase border",
+                              getCategoryColor(item.categoria || "GENERAL")
+                            )}>
+                              {item.categoria || "GENERAL"}
+                            </span>
+                          </td>
+                        )}
                         <td className="px-8 py-5">
                           <span className="px-3 py-1 rounded-lg bg-muted text-[10px] font-black uppercase border border-border">
                             {resp}
@@ -594,6 +628,7 @@ function RecaudoView() {
   const [loading, setLoading] = useState(true);
   const [technicians, setTechnicians] = useState<TechnicianRecaudo[]>([]);
   const [selectedTech, setSelectedTech] = useState<TechnicianRecaudo | null>(null);
+  const [selectedOrdenIds, setSelectedOrdenIds] = useState<string[]>([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
   const [comprobanteFile, setComprobanteFile] = useState<File | null>(null);
@@ -607,7 +642,7 @@ function RecaudoView() {
     setLoading(true);
     try {
       const empresaId = localStorage.getItem("current-enterprise-id") || undefined;
-      const data = await getRecaudoTecnicosAction(empresaId);
+      const data = await contabilidadClient.getRecaudoTecnicos(empresaId);
       setTechnicians(data);
     } catch (error) {
       console.error("Error loading recaudo data:", error);
@@ -623,6 +658,7 @@ function RecaudoView() {
 
   const handleOpenModal = (tech: TechnicianRecaudo) => {
     setSelectedTech(tech);
+    setSelectedOrdenIds([]); // Selección explícita: nada queda marcado por defecto
     setComprobanteFile(null);
     setFormData({
       referenciaBanco: "",
@@ -632,43 +668,88 @@ function RecaudoView() {
     setIsModalOpen(true);
   };
 
+  const toggleOrdenSelection = (id: string) => {
+    setSelectedOrdenIds(prev => 
+      prev.includes(id) ? prev.filter(i => i !== id) : [...prev, id]
+    );
+  };
+
+  const totalSeleccionado = useMemo(() => {
+    if (!selectedTech) return 0;
+    return selectedTech.declaraciones
+      .filter(d => selectedOrdenIds.includes(d.ordenId))
+      .reduce((sum, d) => sum + d.valorDeclarado, 0);
+  }, [selectedTech, selectedOrdenIds]);
+
+  const selectedDeclaraciones = useMemo(() => {
+    if (!selectedTech) return [];
+    return selectedTech.declaraciones.filter(d => selectedOrdenIds.includes(d.ordenId));
+  }, [selectedTech, selectedOrdenIds]);
+
   const handleRegisterConsignacion = async () => {
     if (!selectedTech || !formData.referenciaBanco || !comprobanteFile) {
       toast.error("Por favor complete los campos obligatorios");
       return;
     }
 
+    if (selectedOrdenIds.length === 0) {
+      toast.error("Debe seleccionar al menos una orden para conciliar");
+      return;
+    }
+
     setIsSaving(true);
-    const toastId = toast.loading("Registrando consignación...");
+    const toastId = toast.loading("Subiendo soporte y procesando conciliación...");
 
     try {
       const empresaId = localStorage.getItem("current-enterprise-id");
       if (!empresaId) throw new Error("No enterprise selected");
 
-      const formPayload = new FormData();
-      formPayload.append("tecnicoId", selectedTech.id);
-      formPayload.append("empresaId", empresaId);
-      formPayload.append("valorConsignado", selectedTech.saldoPendiente.toString());
-      formPayload.append("referenciaBanco", formData.referenciaBanco);
-      formPayload.append("ordenIds", JSON.stringify(selectedTech.ordenesIds));
-      formPayload.append("fechaConsignacion", formData.fechaConsignacion);
-      if (formData.observacion) {
-        formPayload.append("observacion", formData.observacion);
-      }
-      formPayload.append("comprobanteFile", comprobanteFile);
+      // 1. Subir el comprobante a Supabase (tenaxis-docs / comprobanteOrdenServicio)
+      // Usamos la primera orden de la lista como referencia para el ID si el helper pide uno
+      const referenceOrdenId = selectedOrdenIds[0];
+      const signed = await createSignedUploadUrl(referenceOrdenId, "comprobantePago", comprobanteFile.name);
+      await uploadToSupabaseSignedUrl(signed.path, signed.token, comprobanteFile);
+      
+      // Confirmamos la subida (opcional, pero buena práctica si el backend lo requiere)
+      await confirmOrdenUpload(referenceOrdenId, "comprobantePago", [signed.path]);
 
-      const res = await registrarConsignacionAction(formPayload);
+      // 2. Registrar la consignación en el backend mandando la RUTA del archivo
+      const valorConsignadoLegacy = totalSeleccionado; // Legacy: el backend recalcula y valida el total real
 
-      if (res.success) {
-        toast.success("Consignación registrada y conciliada exitosamente", { id: toastId });
-        setIsModalOpen(false);
-        fetchData();
-      } else {
-        toast.error(res.error || "Error al registrar", { id: toastId });
-      }
+      const consignacionPayload: RegistrarConsignacionPayload = {
+        tecnicoId: selectedTech.id,
+        empresaId: empresaId,
+        valorConsignado: valorConsignadoLegacy,
+        referenciaBanco: formData.referenciaBanco,
+        ordenIds: selectedOrdenIds,
+        fechaConsignacion: formData.fechaConsignacion,
+        observacion: formData.observacion || undefined,
+        comprobantePath: signed.path, // Mandamos la ruta relativa
+      };
+
+      await contabilidadClient.registrarConsignacion(consignacionPayload);
+
+      toast.success("Consignación registrada y conciliada exitosamente", { id: toastId });
+      setIsModalOpen(false);
+      fetchData();
     } catch (error) {
       console.error("Consignation error:", error);
-      toast.error("Error al procesar el registro", { id: toastId });
+      const errorMessage = (() => {
+        if (error instanceof Error && error.message.trim()) {
+          return error.message;
+        }
+
+        if (typeof error === "string" && error.trim()) {
+          return error;
+        }
+
+        try {
+          return JSON.stringify(error);
+        } catch {
+          return "Error al procesar el registro";
+        }
+      })();
+      toast.error(errorMessage, { id: toastId });
     } finally {
       setIsSaving(false);
     }
@@ -772,7 +853,7 @@ function RecaudoView() {
                           onClick={() => handleOpenModal(tech)}
                           disabled={tech.saldoPendiente <= 0}
                         >
-                          Registrar Consignación
+                          Gestionar Conciliación
                         </Button>
                       </TableCell>
                     </TableRow>
@@ -785,15 +866,15 @@ function RecaudoView() {
       </Card>
 
       <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}>
-        <DialogContent className="max-w-xl bg-card border-border">
-          <DialogHeader>
-            <DialogTitle className="text-xl font-black uppercase tracking-tight flex items-center gap-3 text-foreground">
-              <Coins className="h-6 w-6 text-emerald-500" /> Conciliación de Efectivo
-            </DialogTitle>
-            <DialogDescription className="font-medium text-muted-foreground">
-              Legalice el dinero físico reportado por el técnico.
-            </DialogDescription>
-          </DialogHeader>
+        <DialogContent className="max-w-2xl bg-card border-border max-h-[90vh] overflow-y-auto custom-scrollbar">
+        <DialogHeader>
+          <DialogTitle className="text-xl font-black uppercase tracking-tight flex items-center gap-3 text-foreground">
+            <Coins className="h-6 w-6 text-emerald-500" /> Conciliación de Efectivo
+          </DialogTitle>
+          <DialogDescription className="font-medium text-muted-foreground">
+            Seleccione las órdenes y legalice el dinero físico reportado. El total visible es preliminar: backend recalcula y valida antes de cerrar.
+          </DialogDescription>
+        </DialogHeader>
 
           {selectedTech && (
             <div className="space-y-6 mt-4">
@@ -803,10 +884,83 @@ function RecaudoView() {
                   <p className="text-lg font-black text-foreground uppercase">{selectedTech.nombre} {selectedTech.apellido}</p>
                 </div>
                 <div className="text-right">
-                  <p className="text-[10px] font-black text-emerald-600 dark:text-emerald-400 uppercase tracking-widest mb-1">Monto a Conciliar</p>
+                  <p className="text-[10px] font-black text-emerald-600 dark:text-emerald-400 uppercase tracking-widest mb-1">Monto Seleccionado</p>
                   <p className="text-2xl font-black text-emerald-600 dark:text-emerald-400">
-                    $ {selectedTech.saldoPendiente.toLocaleString()}
+                    $ {totalSeleccionado.toLocaleString()}
                   </p>
+                  <p className="text-[9px] font-bold text-muted-foreground uppercase mt-1">
+                    {selectedOrdenIds.length} de {selectedTech.ordenesPendientesCount} órdenes
+                  </p>
+                </div>
+              </div>
+
+              <div className={cn(
+                "rounded-2xl border px-4 py-3 text-xs font-medium",
+                selectedOrdenIds.length === 0
+                  ? "border-amber-500/20 bg-amber-500/10 text-amber-700 dark:text-amber-300"
+                  : "border-border bg-muted/20 text-muted-foreground"
+              )}>
+                {selectedOrdenIds.length === 0 ? (
+                  <p className="font-semibold">
+                    No hay órdenes seleccionadas todavía. Marcá manualmente las órdenes que realmente vas a conciliar antes de confirmar.
+                  </p>
+                ) : (
+                  <div className="space-y-2">
+                    <p>
+                      Selección actual: {selectedDeclaraciones.length} orden{selectedDeclaraciones.length === 1 ? "" : "es"}.
+                    </p>
+                    <div className="flex flex-wrap gap-2">
+                      {selectedDeclaraciones.slice(0, 4).map((d) => (
+                        <Badge
+                          key={d.ordenId}
+                          variant="outline"
+                          className="bg-background/80 text-foreground border-border font-black text-[10px]"
+                        >
+                          #{d.ordenId.substring(0, 8).toUpperCase()} · $ {d.valorDeclarado.toLocaleString()}
+                        </Badge>
+                      ))}
+                      {selectedDeclaraciones.length > 4 && (
+                        <Badge variant="outline" className="bg-background/80 text-muted-foreground border-border font-black text-[10px]">
+                          +{selectedDeclaraciones.length - 4} más
+                        </Badge>
+                      )}
+                    </div>
+                  </div>
+                )}
+              </div>
+
+              <div className="rounded-2xl border border-border bg-muted/20 px-4 py-3 text-xs font-medium text-muted-foreground">
+                El monto mostrado se calcula con la selección actual para ayudarte a revisar. El backend vuelve a calcularlo, valida las órdenes y puede rechazar la conciliación si encuentra diferencias, scope inválido o estados incompatibles.
+              </div>
+
+              {/* Listado de Órdenes Seleccionables */}
+              <div className="space-y-3">
+                <Label className="text-[10px] font-black uppercase tracking-widest text-muted-foreground">Órdenes Pendientes de Conciliación</Label>
+                <div className="border border-border rounded-2xl overflow-hidden divide-y divide-border bg-muted/20 max-h-48 overflow-y-auto custom-scrollbar">
+                  {selectedTech.declaraciones.map((d) => (
+                    <div 
+                      key={d.ordenId} 
+                      className={cn(
+                        "flex items-center justify-between p-4 cursor-pointer transition-colors",
+                        selectedOrdenIds.includes(d.ordenId) ? "bg-emerald-500/5" : "hover:bg-muted/50"
+                      )}
+                      onClick={() => toggleOrdenSelection(d.ordenId)}
+                    >
+                      <div className="flex items-center gap-4">
+                        <div className={cn(
+                          "h-5 w-5 rounded border flex items-center justify-center transition-all",
+                          selectedOrdenIds.includes(d.ordenId) ? "bg-[#01ADFB] border-[#01ADFB] text-white" : "border-muted-foreground/30 bg-background"
+                        )}>
+                          {selectedOrdenIds.includes(d.ordenId) && <CheckCircle className="h-4 w-4" />}
+                        </div>
+                        <div>
+                          <p className="text-xs font-black text-foreground">ORDEN #{d.ordenId.substring(0, 8).toUpperCase()}</p>
+                          <p className="text-[10px] font-bold text-muted-foreground uppercase">{formatBogotaDate(d.fechaDeclaracion)}</p>
+                        </div>
+                      </div>
+                      <p className="text-sm font-black text-foreground">$ {d.valorDeclarado.toLocaleString()}</p>
+                    </div>
+                  ))}
                 </div>
               </div>
 
@@ -825,7 +979,7 @@ function RecaudoView() {
                   <DatePicker 
                     date={formData.fechaConsignacion ? ymdToPickerDate(formData.fechaConsignacion) : undefined}
                     onChange={(d) => setFormData({...formData, fechaConsignacion: pickerDateToYmd(d)})}
-                    className="h-12 border-border bg-muted"
+                    className="h-12 border-border bg-muted w-full"
                   />
                 </div>
               </div>
@@ -872,7 +1026,7 @@ function RecaudoView() {
                 <Button 
                   className="flex-1 h-12 rounded-xl bg-[#01ADFB] hover:bg-blue-700 text-white font-bold uppercase tracking-widest text-[10px] shadow-lg shadow-[#01ADFB]/20"
                   onClick={handleRegisterConsignacion}
-                  disabled={isSaving || !formData.referenciaBanco || !comprobanteFile}
+                  disabled={isSaving || !formData.referenciaBanco || !comprobanteFile || selectedOrdenIds.length === 0}
                 >
                   {isSaving ? "Procesando..." : "Confirmar Conciliación"}
                 </Button>
@@ -898,7 +1052,7 @@ function BalanceView() {
     const fetchBalance = async () => {
       setLoading(true);
       const empresaId = localStorage.getItem("current-enterprise-id") || undefined;
-      const data = await getAccountingBalanceAction(empresaId);
+      const data = await contabilidadClient.getBalance(empresaId);
       setBalance(data);
       setLoading(false);
     };

@@ -9,8 +9,7 @@ import { Label } from "@/components/ui/label";
 import { Select } from "@/components/ui/select";
 import { useUserRole } from "@/hooks/use-user-role";
 import { ArrowLeft, Save, Loader2, UserPlus, ShieldAlert } from "lucide-react";
-
-import { inviteMemberAction } from "../../actions";
+import { tenantsClient } from "@/lib/api/tenants-client";
 
 export default function NuevoUsuarioPage() {
   const router = useRouter();
@@ -49,17 +48,13 @@ export default function NuevoUsuarioPage() {
       setLoading(true);
       setError(null);
 
-      const res = await inviteMemberAction(tenantId, {
+      await tenantsClient.inviteMember(tenantId, {
         email: formData.email,
         role: formData.role,
         nombre: formData.nombre,
         apellido: formData.apellido,
         telefono: formData.telefono,
       });
-
-      if (!res.success) {
-        throw new Error(res.error || "Error al invitar al miembro");
-      }
 
       // Volver a la lista de usuarios
       router.push("/dashboard/equipo-trabajo");

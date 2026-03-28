@@ -2,29 +2,15 @@
 
 import React, { useEffect, useState } from "react";
 import { DashboardLayout, JoinOrganization } from "@/components/dashboard";
-import { isEmpresaSelectionLocked, type ScopeAwareUser } from "@/lib/access-scope";
+import { type AccessScope } from "@/lib/access-scope";
+import { getBrowserAccessScope, getBrowserScopedEnterpriseId } from "@/lib/browser-access-scope";
 import { DashboardProviders } from "./components/DashboardProviders";
 import { DashboardContent } from "./components/DashboardContent";
 
-const USER_STORAGE_KEY = "user";
 const TENANT_COOKIE_KEY = "tenant-id";
-const ENTERPRISE_COOKIE_KEY = "x-enterprise-id";
 const COOKIE_MAX_AGE_SECONDS = 60 * 60 * 24;
 const COOKIE_PATH = "/";
 const COOKIE_SAME_SITE = "Lax";
-
-type StoredUser = ScopeAwareUser & {
-  tenantId?: string;
-};
-
-function getCookieValue(cookieName: string): string | undefined {
-  const cookieEntries = document.cookie.split("; ");
-  const value = cookieEntries
-    .find((row) => row.startsWith(`${cookieName}=`))
-    ?.split("=")[1];
-
-  return value ? decodeURIComponent(value) : undefined;
-}
 
 function setCookie(cookieName: string, value: string) {
   const secureFlag = window.location.protocol === "https:" ? "; Secure" : "";
@@ -36,29 +22,18 @@ export default function DashboardPage() {
   const [enterpriseId, setEnterpriseId] = useState<string | undefined>();
 
   useEffect(() => {
-    const userData = localStorage.getItem(USER_STORAGE_KEY);
-    let tenantExists = false;
-    let currentEnterpriseId: string | undefined;
+    const scope: AccessScope = getBrowserAccessScope();
+    const tenantExists = !!scope.tenantId;
 
-    if (userData && userData !== "undefined") {
-      try {
-        const user = JSON.parse(userData) as StoredUser;
-        tenantExists = !!user.tenantId;
-
-        if (user.tenantId) {
-          const hasTenantCookie = !!getCookieValue(TENANT_COOKIE_KEY);
-          if (!hasTenantCookie) {
-            setCookie(TENANT_COOKIE_KEY, user.tenantId);
-          }
-          const selectedEnterpriseId = getCookieValue(ENTERPRISE_COOKIE_KEY);
-          currentEnterpriseId = isEmpresaSelectionLocked(user)
-            ? selectedEnterpriseId
-            : undefined;
-        }
-      } catch (_e) {
-        tenantExists = false;
+    if (scope.tenantId) {
+      const cookieEntries = document.cookie.split("; ");
+      const hasTenantCookie = cookieEntries.some((row) => row.startsWith(`${TENANT_COOKIE_KEY}=`));
+      if (!hasTenantCookie) {
+        setCookie(TENANT_COOKIE_KEY, scope.tenantId);
       }
     }
+
+    const currentEnterpriseId = getBrowserScopedEnterpriseId(scope);
 
     // Defer state updates to the next tick to avoid cascading renders warning
     const timer = setTimeout(() => {

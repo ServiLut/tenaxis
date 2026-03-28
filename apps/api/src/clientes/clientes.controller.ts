@@ -26,20 +26,17 @@ export class ClientesController {
 
   @Get('list')
   async findAll(@Request() req: RequestWithUser) {
-    const empresaId = req.user.empresaId;
-    return this.clientesService.findAll(req.user, empresaId);
+    return this.clientesService.findAll(req.user);
   }
 
   @Get('segmentacion')
   async getSegmented(@Request() req: RequestWithUser) {
-    const empresaId = req.user.empresaId;
-    return this.clientesService.getSegmented(req.user, empresaId);
+    return this.clientesService.getSegmented(req.user);
   }
 
   @Get('dashboard-data')
   async getDashboardData(@Request() req: RequestWithUser) {
-    const empresaId = req.user.empresaId;
-    return this.clientesService.getDashboardData(req.user, empresaId);
+    return this.clientesService.getDashboardData(req.user);
   }
 
   @Get(':id')

@@ -1,17 +1,13 @@
 meta {
   name: Reject Membership
   type: http
-  seq: 6
+  seq: 11
 }
 
 post {
-  url: {{local}}/tenants/memberships/:membershipId/reject
+  url: {{local}}/tenants/memberships/{{membershipId}}/reject
   body: none
   auth: bearer
-}
-
-params:path {
-  membershipId: 
 }
 
 auth:bearer {

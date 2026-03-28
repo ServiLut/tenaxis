@@ -7,14 +7,18 @@ import { MonitoringMetrics } from "../types";
 
 interface OperationMetricsProps {
   metrics: MonitoringMetrics;
+  contextLabel?: string;
 }
 
-export function OperationMetrics({ metrics }: OperationMetricsProps) {
+export function OperationMetrics({
+  metrics,
+  contextLabel = "del dia seleccionado",
+}: OperationMetricsProps) {
   const cards = [
     {
       title: "Tiempo Activo Promedio",
       value: `${metrics.avgActiveTimeMin} min`,
-      sub: "Por usuario hoy",
+      sub: `Por usuario ${contextLabel}`,
       icon: Clock,
       color: "text-emerald-500",
       bg: "bg-emerald-500/10"
@@ -22,7 +26,7 @@ export function OperationMetrics({ metrics }: OperationMetricsProps) {
     {
       title: "Inactividad Total",
       value: `${metrics.totalInactivityMin} min`,
-      sub: "Acumulado hoy",
+      sub: `Acumulado ${contextLabel}`,
       icon: TrendingUp,
       color: "text-amber-500",
       bg: "bg-amber-500/10"
@@ -38,7 +42,7 @@ export function OperationMetrics({ metrics }: OperationMetricsProps) {
     {
       title: "Base de Usuarios",
       value: metrics.userCount.toString(),
-      sub: "Con actividad hoy",
+      sub: `Con actividad ${contextLabel}`,
       icon: Users,
       color: "text-blue-500",
       bg: "bg-blue-500/10"
@@ -81,7 +85,9 @@ export function OperationMetrics({ metrics }: OperationMetricsProps) {
             <div className="flex items-center justify-between mb-8">
               <div>
                 <h3 className="text-lg font-black uppercase tracking-tighter text-white">Ranking de Inactividad</h3>
-                <p className="text-[10px] font-bold text-zinc-500 uppercase tracking-widest">Top 5 usuarios con mayor tiempo inactivo hoy</p>
+                <p className="text-[10px] font-bold text-zinc-500 uppercase tracking-widest">
+                  Top 5 usuarios con mayor tiempo inactivo {contextLabel}
+                </p>
               </div>
               <div className="h-10 w-10 rounded-full border-2 border-amber-500/20 flex items-center justify-center">
                 <AlertCircle className="h-5 w-5 text-amber-500" />
@@ -107,7 +113,9 @@ export function OperationMetrics({ metrics }: OperationMetricsProps) {
                 </div>
               )) : (
                 <div className="col-span-5 py-8 text-center">
-                  <p className="text-xs font-bold text-zinc-600 uppercase tracking-widest italic">No hay datos de inactividad registrados hoy</p>
+                  <p className="text-xs font-bold text-zinc-600 uppercase tracking-widest italic">
+                    No hay datos de inactividad registrados para este corte
+                  </p>
                 </div>
               )}
             </div>

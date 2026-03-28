@@ -1,4 +1,5 @@
 import {
+  BadRequestException,
   Controller,
   Post,
   Get,
@@ -23,6 +24,7 @@ import {
 import { CreateOrdenServicioDto } from './dto/create-orden-servicio.dto';
 import { CompleteFollowUpDto } from './dto/complete-follow-up.dto';
 import { CreateFollowUpOverrideDto } from './dto/create-follow-up-override.dto';
+import { RemoveOrdenServicioDto } from './dto/remove-orden-servicio.dto';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { JwtPayload } from '../auth/jwt-payload.interface';
 import { QueryOrdenesServicioDto } from './dto/query-ordenes-servicio.dto';
@@ -121,10 +123,16 @@ export class OrdenesServicioController {
       throw new UnauthorizedException('Tenant ID not found in token');
     }
 
+    const resolvedEmpresaId = resolveScopedEmpresaId(req.user, empresaId);
+
+    if (!resolvedEmpresaId) {
+      throw new BadRequestException('Debes indicar una empresa');
+    }
+
     return await this.ordenesServicioService.getMyFollowUpStatus(
       tenantId,
       req.user,
-      empresaId || req.user.empresaId,
+      resolvedEmpresaId,
     );
   }
 
@@ -139,10 +147,16 @@ export class OrdenesServicioController {
       throw new UnauthorizedException('Tenant ID not found in token');
     }
 
+    const resolvedEmpresaId = resolveScopedEmpresaId(req.user, empresaId);
+
+    if (!resolvedEmpresaId) {
+      throw new BadRequestException('Debes indicar una empresa');
+    }
+
     return await this.ordenesServicioService.listFollowUpOverrides(
       tenantId,
       req.user,
-      empresaId || req.user.empresaId,
+      resolvedEmpresaId,
       membershipId,
     );
   }
@@ -158,10 +172,16 @@ export class OrdenesServicioController {
       throw new UnauthorizedException('Tenant ID not found in token');
     }
 
+    const resolvedEmpresaId = resolveScopedEmpresaId(req.user, empresaId);
+
+    if (!resolvedEmpresaId) {
+      throw new BadRequestException('Debes indicar una empresa');
+    }
+
     return await this.ordenesServicioService.createFollowUpOverride(
       tenantId,
       req.user,
-      empresaId || req.user.empresaId,
+      resolvedEmpresaId,
       dto,
     );
   }
@@ -323,11 +343,20 @@ export class OrdenesServicioController {
   }
 
   @Delete(':id')
-  async remove(@Req() req: RequestWithUser, @Param('id') id: string) {
+  async remove(
+    @Req() req: RequestWithUser,
+    @Param('id') id: string,
+    @Body() removeDto: RemoveOrdenServicioDto,
+  ) {
     const tenantId = req.user.tenantId;
     if (!tenantId) {
       throw new UnauthorizedException('Tenant ID not found in token');
     }
-    return await this.ordenesServicioService.remove(tenantId, id);
+    return await this.ordenesServicioService.remove(
+      tenantId,
+      id,
+      removeDto,
+      req.user,
+    );
   }
 }

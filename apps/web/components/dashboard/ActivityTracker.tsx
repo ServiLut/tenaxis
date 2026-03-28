@@ -3,14 +3,14 @@
 import { useCallback, useEffect, useRef } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import { toast } from "sonner";
+import { deleteBrowserCookie } from "@/lib/api/browser-client";
+import { authClient } from "@/lib/api/auth-client";
+import { monitoringClient } from "@/lib/api/monitoreo-client";
 
 // Configuración de tiempos - Movido fuera para ser constante
 const INACTIVITY_THRESHOLD = 2 * 60 * 1000; // 2 min para empezar a marcar inactividad en DB
 const AUTO_LOGOUT_TIME = 4 * 60 * 1000;     // 4 min para cierre de sesión automático
 const HEARTBEAT_INTERVAL = 60 * 1000;       // 1 min para latidos
-
-import { trackEventAction, heartbeatAction } from "@/app/dashboard/monitoreo/actions";
-import { logoutAction } from "@/app/(auth)/actions";
 
 export function ActivityTracker() {
   const pathname = usePathname();
@@ -20,7 +20,7 @@ export function ActivityTracker() {
   
   const sendEvent = useCallback(async (tipo: string, descripcion?: string) => {
     try {
-      await trackEventAction(tipo, descripcion, pathname);
+      await monitoringClient.trackEvent({ tipo, descripcion, ruta: pathname });
     } catch (_e) {
       // Fallo silencioso
     }
@@ -28,7 +28,7 @@ export function ActivityTracker() {
 
   const sendHeartbeat = useCallback(async (inactiveMinutes: number = 0) => {
     try {
-      await heartbeatAction(inactiveMinutes);
+      await monitoringClient.sendHeartbeat(inactiveMinutes);
     } catch (_e) {
       // Ignorar
     }
@@ -36,8 +36,16 @@ export function ActivityTracker() {
 
   const handleLogout = useCallback(async () => {
     await sendEvent("SESSION_TIMEOUT", "Cierre de sesión automático por 4 minutos de inactividad");
-    
-    await logoutAction();
+
+    try {
+      await authClient.logout();
+    } catch (_error) {
+      // Ignorar errores de logout remoto y limpiar sesion local igual.
+    }
+
+    deleteBrowserCookie("access_token");
+    deleteBrowserCookie("x-enterprise-id");
+    deleteBrowserCookie("x-test-role");
     
     toast.error("Sesión Expirada", {
       description: "Se ha cerrado tu sesión automáticamente tras 4 minutos de inactividad por seguridad.",

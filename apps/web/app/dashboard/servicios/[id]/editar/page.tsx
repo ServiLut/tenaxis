@@ -32,6 +32,7 @@ import {
   Plus,
   Save
 } from "lucide-react";
+import { useUserRole } from "@/hooks/use-user-role";
 import { DashboardLayout } from "@/components/dashboard";
 import { cn } from "@/components/ui/utils";
 import {
@@ -157,10 +158,59 @@ interface BreakdownLine {
   referencia?: string;
 }
 
+type FinancialLockSnapshot = {
+  financialLock?: boolean | null;
+  estadoPago?: string | null;
+  estadoServicio?: string | null;
+  liquidadoAt?: string | null;
+};
+
+const CLOSED_FINANCIAL_STATES = new Set([
+  "EFECTIVO_DECLARADO",
+  "PAGADO",
+  "CONCILIADO",
+  "CORTESIA",
+]);
+
+const getFinancialLockState = (orden?: FinancialLockSnapshot | null) => {
+  if (!orden) {
+    return { locked: false, reason: "" };
+  }
+
+  if (orden.financialLock) {
+    return {
+      locked: true,
+      reason:
+        "La orden ya tiene un hito contable registrado. Los datos financieros quedaron congelados.",
+    };
+  }
+
+  if (orden.liquidadoAt || orden.estadoServicio === "LIQUIDADO") {
+    return {
+      locked: true,
+      reason:
+        "La orden ya fue liquidada. Cualquier ajuste financiero debe tramitarse por el flujo contable.",
+    };
+  }
+
+  if (orden.estadoPago && CLOSED_FINANCIAL_STATES.has(orden.estadoPago)) {
+    return {
+      locked: true,
+      reason:
+        orden.estadoPago === "EFECTIVO_DECLARADO"
+          ? "La orden ya tiene recaudo declarado. Contabilidad debe conciliar antes de cualquier ajuste."
+          : "La orden ya tiene cierre o conciliación de pago. Los datos financieros quedaron congelados.",
+    };
+  }
+
+  return { locked: false, reason: "" };
+};
+
 function EditarServicioContent({ id }: { id: string }) {
   const router = useRouter();
   const searchParams = useSearchParams();
   const returnTo = searchParams.get("returnTo");
+  const { checkPermission, isLoading: isLoadingRole } = useUserRole();
   
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
@@ -175,6 +225,12 @@ function EditarServicioContent({ id }: { id: string }) {
   const [selectedOperador, setSelectedOperador] = useState("");
   const [initialOperadorId, setInitialOperadorId] = useState("");
   const [numeroOrden, setNumeroOrden] = useState("");
+
+  useEffect(() => {
+    if (!isLoadingRole && !checkPermission("SERVICE_EDIT")) {
+      router.replace("/dashboard/servicios");
+    }
+  }, [isLoadingRole, checkPermission, router]);
   const [direccionesCliente, setDireccionesCliente] = useState<Direccion[]>([]);
 
   // Custom logic states
@@ -205,10 +261,13 @@ function EditarServicioContent({ id }: { id: string }) {
   const [tipoFacturacion, setTipoFacturacion] = useState("");
   const [estadoServicio, setEstadoServicio] = useState("");
   const isGarantia = tipoVisita === GARANTIA_VISIT_TYPE;
+  const [isFinancialLockActive, setIsFinancialLockActive] = useState(false);
+  const [financialLockReason, setFinancialLockReason] = useState("");
 
-  // --- URL PERSISTENCE LOGIC ---
+  // Persistimos solo contexto operativo no sensible; evitamos exponer datos contables en la URL.
   const syncToUrl = useCallback(() => {
     const params = new URLSearchParams();
+    if (returnTo) params.set("returnTo", returnTo);
     if (selectedCliente) params.set("cliente", selectedCliente);
     if (selectedDireccion) params.set("direccion", selectedDireccion);
     if (selectedOperador) params.set("operador", selectedOperador);
@@ -219,45 +278,16 @@ function EditarServicioContent({ id }: { id: string }) {
     if (fechaVisita) params.set("fecha", fechaVisita);
     if (horaInicio) params.set("hora", horaInicio);
     if (duracionMinutos) params.set("duracion", duracionMinutos);
-    if (valorCotizado) params.set("valor", valorCotizado);
     if (tipoFacturacion) params.set("facturacion", tipoFacturacion);
-    if (estadoServicio) params.set("estado", estadoServicio);
-    if (diagnosticoTecnico) params.set("diag", diagnosticoTecnico);
-    if (intervencionRealizada) params.set("interv", intervencionRealizada);
-    if (hallazgosEstructurales) params.set("hallazgos", hallazgosEstructurales);
-    if (recomendacionesObligatorias) {
-      params.set("recomendaciones", recomendacionesObligatorias);
-    }
-    if (huboSellamiento) params.set("sellamiento", huboSellamiento);
-    if (huboRecomendacionEstructural) {
-      params.set("recomendacionEstructural", huboRecomendacionEstructural);
-    }
-    if (horaInicioReal) params.set("horaInicioReal", horaInicioReal);
-    if (horaFinReal) params.set("horaFinReal", horaFinReal);
     if (frecuenciaRecomendada) params.set("frecuencia", frecuenciaRecomendada.toString());
-    
-    // Serializar breakdown
-    if (breakdown.length > 0 && (breakdown.length > 1 || breakdown[0].monto !== "")) {
-      params.set("breakdown", JSON.stringify(breakdown));
-    }
 
     const queryString = params.toString();
     const newUrl = `${window.location.pathname}${queryString ? `?${queryString}` : ""}`;
     window.history.replaceState(null, "", newUrl);
   }, [
-    selectedCliente, selectedDireccion, selectedOperador, servicioEspecifico,
+    returnTo, selectedCliente, selectedDireccion, selectedOperador, servicioEspecifico,
     tipoVisita, nivelInfestacion, urgencia, fechaVisita, horaInicio,
-    duracionMinutos, valorCotizado, tipoFacturacion, estadoServicio,
-    diagnosticoTecnico,
-    intervencionRealizada,
-    hallazgosEstructurales,
-    recomendacionesObligatorias,
-    huboSellamiento,
-    huboRecomendacionEstructural,
-    horaInicioReal,
-    horaFinReal,
-    frecuenciaRecomendada,
-    breakdown
+    duracionMinutos, tipoFacturacion, frecuenciaRecomendada,
   ]);
 
   useEffect(() => {
@@ -308,9 +338,12 @@ function EditarServicioContent({ id }: { id: string }) {
           return;
         }
 
-        const orderData = rawOrderData as OrdenServicioDetail;
+        const orderData = rawOrderData as OrdenServicioDetail & FinancialLockSnapshot;
+        const financialLock = getFinancialLockState(orderData);
 
         setClientes(Array.isArray(cls) ? (cls as Cliente[]) : []);
+        setIsFinancialLockActive(financialLock.locked);
+        setFinancialLockReason(financialLock.reason);
 
         // --- URL OVERRIDE LOGIC ---
         const urlParams = new URLSearchParams(window.location.search);
@@ -330,66 +363,31 @@ function EditarServicioContent({ id }: { id: string }) {
         setFrecuenciaRecomendada(urlFrecuencia ? Number(urlFrecuencia) : (orderData.frecuenciaSugerida ? Number(orderData.frecuenciaSugerida) : ""));
         
         setUrgencia(getVal("urgencia", orderData.urgencia || ""));
-        setDiagnosticoTecnico(
-          getVal("diag", orderData.diagnosticoTecnico || orderData.observacion || ""),
-        );
+        setDiagnosticoTecnico(orderData.diagnosticoTecnico || orderData.observacion || "");
         setIntervencionRealizada(
-          getVal(
-            "interv",
-            orderData.intervencionRealizada || orderData.observacionFinal || "",
-          ),
+          orderData.intervencionRealizada || orderData.observacionFinal || "",
         );
-        setHallazgosEstructurales(
-          getVal("hallazgos", orderData.hallazgosEstructurales || ""),
-        );
-        setRecomendacionesObligatorias(
-          getVal(
-            "recomendaciones",
-            orderData.recomendacionesObligatorias || "",
-          ),
-        );
+        setHallazgosEstructurales(orderData.hallazgosEstructurales || "");
+        setRecomendacionesObligatorias(orderData.recomendacionesObligatorias || "");
         setHuboSellamiento(
-          getVal(
-            "sellamiento",
-            typeof orderData.huboSellamiento === "boolean"
-              ? String(orderData.huboSellamiento)
-              : "",
-          ),
+          typeof orderData.huboSellamiento === "boolean"
+            ? String(orderData.huboSellamiento)
+            : "",
         );
         setHuboRecomendacionEstructural(
-          getVal(
-            "recomendacionEstructural",
-            typeof orderData.huboRecomendacionEstructural === "boolean"
-              ? String(orderData.huboRecomendacionEstructural)
-              : "",
-          ),
+          typeof orderData.huboRecomendacionEstructural === "boolean"
+            ? String(orderData.huboRecomendacionEstructural)
+            : "",
         );
-        setHoraInicioReal(
-          getVal(
-            "horaInicioReal",
-            utcIsoToLocalDateTimeInput(orderData.horaInicioReal),
-          ),
-        );
-        setHoraFinReal(
-          getVal(
-            "horaFinReal",
-            utcIsoToLocalDateTimeInput(orderData.horaFinReal),
-          ),
-        );
+        setHoraInicioReal(utcIsoToLocalDateTimeInput(orderData.horaInicioReal));
+        setHoraFinReal(utcIsoToLocalDateTimeInput(orderData.horaFinReal));
         
         const dbValorCotizado = orderData.valorCotizado?.toString() || "";
         const formattedDbValor = dbValorCotizado.replace(/\D/g, "").replace(/\B(?=(\d{3})+(?!\d))/g, ".");
-        setValorCotizado(getVal("valor", formattedDbValor));
+        setValorCotizado(formattedDbValor);
 
         // Cargar desglose de pago
-        const urlBreakdown = urlParams.get("breakdown");
-        if (urlBreakdown) {
-          try {
-            setBreakdown(JSON.parse(urlBreakdown));
-          } catch (e) {
-            console.error("Error parsing breakdown from URL", e);
-          }
-        } else if (orderData.desglosePago && Array.isArray(orderData.desglosePago) && orderData.desglosePago.length > 0) {
+        if (orderData.desglosePago && Array.isArray(orderData.desglosePago) && orderData.desglosePago.length > 0) {
           setBreakdown((orderData.desglosePago as unknown as BreakdownLine[]).map(l => ({
             metodo: l.metodo,
             banco: l.banco,
@@ -401,7 +399,7 @@ function EditarServicioContent({ id }: { id: string }) {
         }
 
         setTipoFacturacion(getVal("facturacion", orderData.tipoFacturacion || ""));
-        setEstadoServicio(getVal("estado", orderData.estadoServicio || "NUEVO"));
+        setEstadoServicio(orderData.estadoServicio || "NUEVO");
         
         if (urlParams.get("fecha")) {
           setFechaVisita(urlParams.get("fecha")!);
@@ -511,12 +509,18 @@ function EditarServicioContent({ id }: { id: string }) {
       tipoVisita: tipoVisita || undefined,
       frecuenciaSugerida: frecuenciaRecomendada ? Number(frecuenciaRecomendada) : undefined,
       tipoFacturacion: tipoFacturacion || undefined,
-      valorCotizado: valorCotizado ? Number(valorCotizado.replace(/\./g, "")) : undefined,
-      desglosePago: breakdown.map(line => ({
-        ...line,
-        monto: parseFloat(line.monto.replace(/\./g, "")) || 0
-      })),
-      estadoServicio: estadoServicio || undefined,
+      valorCotizado: isFinancialLockActive
+        ? undefined
+        : valorCotizado
+          ? Number(valorCotizado.replace(/\./g, ""))
+          : undefined,
+      desglosePago: isFinancialLockActive
+        ? undefined
+        : breakdown.map(line => ({
+            ...line,
+            monto: parseFloat(line.monto.replace(/\./g, "")) || 0
+          })),
+      estadoServicio: isFinancialLockActive ? undefined : estadoServicio || undefined,
       fechaVisita: fechaVisita ? bogotaDateToUtcIso(fechaVisita) : undefined,
       horaInicio: (fechaVisita && horaInicio) ? bogotaDateTimeToUtcIso(fechaVisita, horaInicio) : undefined,
       horaInicioReal: horaInicioReal
@@ -604,6 +608,18 @@ function EditarServicioContent({ id }: { id: string }) {
       setSaving(false);
     }
   };
+
+  if (isLoadingRole) {
+    return (
+      <div className="flex h-[60vh] items-center justify-center text-sm font-bold uppercase tracking-widest text-muted-foreground">
+        Validando permisos...
+      </div>
+    );
+  }
+
+  if (!checkPermission("SERVICE_EDIT")) {
+    return null;
+  }
 
   if (loading) {
     return (
@@ -704,7 +720,13 @@ function EditarServicioContent({ id }: { id: string }) {
                     onChange={setEstadoServicio}
                     placeholder="Estado..."
                     hideSearch
+                    disabled={isFinancialLockActive}
                   />
+                  {isFinancialLockActive ? (
+                    <p className="text-[10px] font-bold text-amber-700">
+                      El estado operativo quedó bloqueado aquí porque ya impacta el cierre financiero.
+                    </p>
+                  ) : null}
                 </div>
 
                 <div className="space-y-2">
@@ -949,17 +971,26 @@ function EditarServicioContent({ id }: { id: string }) {
 
             {/* SECCIÓN 4: CONDICIONES DE PAGO */}
             <section className="space-y-8">
+              {isFinancialLockActive ? (
+                <div className="rounded-2xl border border-amber-300/60 bg-amber-50 px-4 py-3 text-sm text-amber-900">
+                  <p className="text-[10px] font-black uppercase tracking-widest">Orden congelada contablemente</p>
+                  <p className="mt-1 font-medium leading-relaxed">
+                    {financialLockReason}
+                  </p>
+                </div>
+              ) : null}
+
               <div className="flex items-center gap-3 border-b border-zinc-100 dark:border-zinc-800/50 pb-3">
                 <div className="p-2 rounded-lg bg-zinc-50 dark:bg-zinc-900 border border-zinc-100 dark:border-zinc-800/50 text-zinc-400">
                   <CreditCard className="h-5 w-5" />
                 </div>
                 <div className="flex-1 flex items-center justify-between">
-                  <h2 className="text-lg font-bold text-zinc-900 dark:text-zinc-50">Condiciones de Pago</h2>
+                  <h2 className="text-lg font-bold text-zinc-900 dark:text-zinc-50">Plan de Cobro</h2>
                   <Button 
                     type="button" 
                     className="h-9 px-4 rounded-xl bg-azul-1 text-white hover:bg-blue-700 transition-all text-[10px] font-black uppercase tracking-widest gap-2 shadow-lg shadow-azul-1/20 border-none"
                     onClick={() => setBreakdown([...breakdown, { metodo: "EFECTIVO", monto: "" }])}
-                    disabled={isGarantia}
+                    disabled={isGarantia || isFinancialLockActive}
                   >
                     <Plus className="h-3.5 w-3.5" /> Añadir Método
                   </Button>
@@ -988,13 +1019,17 @@ function EditarServicioContent({ id }: { id: string }) {
                         }} 
                         placeholder="0" 
                         required 
-                        disabled={isGarantia}
+                        disabled={isGarantia || isFinancialLockActive}
                         className="h-11 !border !border-zinc-200 focus-visible:ring-0 focus-visible:ring-offset-0 focus-visible:border-zinc-200 dark:border-zinc-800/50 pl-8 font-bold" 
                       />
                     </div>
                     {isGarantia ? (
                       <p className="text-[10px] font-bold text-emerald-700">
                         La garantía se conserva con tarifa 0 y sin cobro manual.
+                      </p>
+                    ) : isFinancialLockActive ? (
+                      <p className="text-[10px] font-bold text-amber-700">
+                        La tarifa quedó congelada por recaudo, conciliación o liquidación previa.
                       </p>
                     ) : null}
                   </div>
@@ -1013,6 +1048,9 @@ function EditarServicioContent({ id }: { id: string }) {
                     />
                   </div>
                 </div>
+                <p className="text-[10px] font-bold text-zinc-500 dark:text-zinc-400">
+                  Esto refleja la condición de cobro, no un pago confirmado. La transferencia se valida luego con evidencia.
+                </p>
 
                 <div className="space-y-4">
                   <Label className="text-[10px] font-black uppercase tracking-[0.2em] text-zinc-400 block px-1">Desglose de Cobro</Label>
@@ -1022,8 +1060,9 @@ function EditarServicioContent({ id }: { id: string }) {
                         {breakdown.length > 1 && (
                           <button 
                             type="button"
+                            disabled={isFinancialLockActive}
                             onClick={() => setBreakdown(breakdown.filter((_, i) => i !== index))}
-                            className="absolute top-4 right-4 text-zinc-300 hover:text-red-500 transition-colors"
+                            className="absolute top-4 right-4 text-zinc-300 hover:text-red-500 transition-colors disabled:cursor-not-allowed disabled:opacity-40"
                           >
                             <Trash2 className="h-4 w-4" />
                           </button>
@@ -1035,7 +1074,7 @@ function EditarServicioContent({ id }: { id: string }) {
                             <Combobox
                               options={METODOS_PAGO_BASE.map((m: { value: string; label: string }) => ({ value: m.value, label: m.label }))}
                               value={line.metodo}
-                              disabled={isGarantia}
+                              disabled={isGarantia || isFinancialLockActive}
                               onChange={(val) => {
                                 const newBreakdown = [...breakdown];
                                 newBreakdown[index] = { ...line, metodo: val };
@@ -1051,7 +1090,7 @@ function EditarServicioContent({ id }: { id: string }) {
                             <Input 
                               type="text"
                               value={line.monto}
-                              disabled={isGarantia}
+                              disabled={isGarantia || isFinancialLockActive}
                               onChange={(e) => {
                                 const val = e.target.value.replace(/\D/g, "");
                                 const formatted = val.replace(/\B(?=(\d{3})+(?!\d))/g, ".");
@@ -1071,7 +1110,7 @@ function EditarServicioContent({ id }: { id: string }) {
                               <Label className="text-[10px] font-bold text-zinc-500 uppercase">Banco / Entidad</Label>
                               <Input 
                                 value={line.banco || ""}
-                                disabled={isGarantia}
+                                disabled={isGarantia || isFinancialLockActive}
                                 onChange={(e) => {
                                   const newBreakdown = [...breakdown];
                                   newBreakdown[index] = { ...line, banco: e.target.value };
@@ -1085,7 +1124,7 @@ function EditarServicioContent({ id }: { id: string }) {
                               <Label className="text-[10px] font-bold text-zinc-500 uppercase">Referencia</Label>
                               <Input 
                                 value={line.referencia || ""}
-                                disabled={isGarantia}
+                                disabled={isGarantia || isFinancialLockActive}
                                 onChange={(e) => {
                                   const newBreakdown = [...breakdown];
                                   newBreakdown[index] = { ...line, referencia: e.target.value };
@@ -1124,7 +1163,11 @@ function EditarServicioContent({ id }: { id: string }) {
         <div className="flex-none bg-zinc-50 dark:bg-zinc-900/50 border-t border-zinc-100 dark:border-zinc-800/50 px-10 py-5 flex items-center justify-between">
           <div className="hidden lg:flex items-center gap-3 text-zinc-400">
             <GanttChart className="h-5 w-5 text-[var(--color-claro-azul-4)]" />
-            <p className="text-[11px] font-medium max-w-xs leading-relaxed">Actualizando los parámetros operativos de la orden técnica.</p>
+            <p className="text-[11px] font-medium max-w-xs leading-relaxed">
+              {isFinancialLockActive
+                ? "La orden ya está congelada contablemente; solo se guardarán ajustes operativos no financieros."
+                : "Actualizando los parámetros operativos de la orden técnica."}
+            </p>
           </div>
           <div className="flex items-center gap-4">
             <Button variant="ghost" onClick={() => router.back()} className="h-12 px-8 text-xs font-bold uppercase tracking-widest text-zinc-500 hover:bg-zinc-200">Descartar</Button>

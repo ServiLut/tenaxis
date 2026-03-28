@@ -1,5 +1,7 @@
 "use client";
 
+import { buildBrowserApiUrl, getBrowserAuthHeaders } from "@/lib/api/browser-client";
+
 export type DashboardPresetModule = "SERVICIOS" | "CLIENTES";
 export type DashboardPresetColorToken =
   | "slate"
@@ -25,14 +27,6 @@ export interface DashboardPreset {
   updatedAt: string;
 }
 
-const getCookie = (name: string) => {
-  if (typeof document === "undefined") return undefined;
-  const value = `; ${document.cookie}`;
-  const parts = value.split(`; ${name}=`);
-  if (parts.length === 2) return parts.pop()?.split(";").shift();
-  return undefined;
-};
-
 const unwrapData = async <T>(res: Response): Promise<T> => {
   const contentType = res.headers.get("content-type");
   let data: unknown;
@@ -54,19 +48,10 @@ const unwrapData = async <T>(res: Response): Promise<T> => {
   return ((data as Record<string, unknown>)?.data ?? data) as T;
 };
 
-const authHeaders = () => {
-  const token = getCookie("access_token");
-  const enterpriseId = getCookie("x-enterprise-id");
-  return {
-    ...(token ? { Authorization: `Bearer ${token}` } : {}),
-    ...(enterpriseId ? { "x-enterprise-id": enterpriseId } : {}),
-  };
-};
-
 export async function listDashboardPresets(module: DashboardPresetModule) {
   const params = new URLSearchParams({ module });
-  const res = await fetch(`/api/dashboard-presets?${params.toString()}`, {
-    headers: authHeaders(),
+  const res = await fetch(buildBrowserApiUrl(`/dashboard-presets?${params.toString()}`), {
+    headers: getBrowserAuthHeaders(),
   });
   return unwrapData<DashboardPreset[]>(res);
 }
@@ -78,11 +63,11 @@ export async function createDashboardPreset(input: {
   isShared: boolean;
   filters: Record<string, unknown>;
 }) {
-  const res = await fetch("/api/dashboard-presets", {
+  const res = await fetch(buildBrowserApiUrl("/dashboard-presets"), {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
-      ...authHeaders(),
+      ...getBrowserAuthHeaders(),
     },
     body: JSON.stringify(input),
   });
@@ -98,11 +83,11 @@ export async function updateDashboardPreset(
     filters: Record<string, unknown>;
   }>,
 ) {
-  const res = await fetch(`/api/dashboard-presets/${id}`, {
+  const res = await fetch(buildBrowserApiUrl(`/dashboard-presets/${id}`), {
     method: "PATCH",
     headers: {
       "Content-Type": "application/json",
-      ...authHeaders(),
+      ...getBrowserAuthHeaders(),
     },
     body: JSON.stringify(input),
   });
@@ -110,9 +95,9 @@ export async function updateDashboardPreset(
 }
 
 export async function deleteDashboardPreset(id: string) {
-  const res = await fetch(`/api/dashboard-presets/${id}`, {
+  const res = await fetch(buildBrowserApiUrl(`/dashboard-presets/${id}`), {
     method: "DELETE",
-    headers: authHeaders(),
+    headers: getBrowserAuthHeaders(),
   });
   return unwrapData<{ success: boolean }>(res);
 }

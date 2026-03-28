@@ -9,7 +9,7 @@ import { configClient } from "@/lib/api/config-client";
 import { enterpriseClient } from "@/lib/api/enterprise-client";
 import { serviciosClient } from "@/lib/api/servicios-client";
 import { authClient } from "@/lib/api/auth-client";
-import { canAccessTenantsView } from "@/lib/access-scope";
+import { canAccessTenantsView, resolveAccessScope } from "@/lib/access-scope";
 import { apiFetch, } from "@/lib/api/base-client";
 import { DashboardStatsSchema, type DashboardStatsType } from "./schemas/dashboard.schema";
 
@@ -116,6 +116,22 @@ export interface ContratoClienteDTO {
   observaciones?: string | null;
 }
 
+export interface ProductoCreateDTO {
+  nombre: string;
+  categoria: string;
+  unidadMedida: string;
+  stockActual: number | string;
+  stockMinimo: number | string;
+  proveedorId?: string | null;
+}
+
+export interface SolicitudCreateDTO {
+  productoId: string;
+  cantidad: number | string;
+  unidadMedida: string;
+  membershipId?: string | null;
+}
+
 // --- Auth Actions ---
 export async function isTenantAdminAction() {
   try {
@@ -129,11 +145,19 @@ export async function isTenantAdminAction() {
 
 export async function updateTestRoleAction(role: string) {
   try {
-    const result = await authClient.updateTestRole(role);
+    // Intentar actualizar en base de datos (opcional para SU_ADMINs globales)
+    try {
+      await authClient.updateTestRole(role);
+    } catch (e) {
+      console.warn("No se pudo actualizar el rol en la DB, se usará solo cookie:", e);
+    }
+
+    // SIEMPRE establecer la cookie para que el override funcione en los interceptores/guards
     const cookieStore = await cookies();
     const expires = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000);
     cookieStore.set("x-test-role", role, { path: "/", expires, sameSite: "lax" });
-    return { success: true, data: result };
+
+    return { success: true };
   } catch (error) {
     return { success: false, error: error instanceof Error ? error.message : "Error inesperado" };
   }
@@ -278,8 +302,12 @@ export async function getClienteByIdAction(id: string) {
 
 export async function getClientesDashboardAction<T = unknown>(): Promise<ClientesDashboardDataResponse<T>> {
   try {
-    const data = await     apiFetch<any /* eslint-disable-line @typescript-eslint/no-explicit-any */>("/clientes/dashboard-data", {
+    const profile = await authClient.getProfile();
+    const scope = resolveAccessScope(profile);
+
+    const data = await apiFetch<ClientesDashboardDataResponse<T>>("/clientes/dashboard-data", {
       cache: "no-store",
+      includeEnterpriseId: scope.isEmpresaLocked,
     });
 
     return {
@@ -331,7 +359,7 @@ export async function updateSugerenciaEstadoAction(id: string, estado: string) {
       method: "PATCH",
       body: JSON.stringify({ estado }),
     });
-    
+
     revalidatePath("/dashboard/clientes");
     return { success: true };
   } catch (error) {
@@ -927,5 +955,114 @@ export async function notifyServiceOperatorWebhookAction(data: {
       success: false,
       error: error instanceof Error ? error.message : "Error notifying webhook",
     };
+  }
+}
+
+// --- Insumos / Productos Actions ---
+type ProductoStockItem = {
+  id: string;
+  nombre: string;
+  categoria?: string | null;
+  unidadMedida?: string | null;
+  stockActual?: number | null;
+  stockMinimo?: number | null;
+};
+
+type ProductoSolicitudItem = {
+  id: string;
+  createdAt?: string | Date | null;
+  cantidad: number | string;
+  unidadMedida?: string | null;
+  estado?: string;
+  membership?: {
+    user?: {
+      nombre?: string | null;
+      apellido?: string | null;
+    } | null;
+  } | null;
+  producto?: {
+    nombre?: string | null;
+    categoria?: string | null;
+    unidadMedida?: string | null;
+  } | null;
+};
+
+type ProveedorItem = {
+  id: string;
+  nombre: string;
+};
+
+export async function getProductosStockAction(): Promise<ProductoStockItem[]> {
+  try {
+    return await apiFetch<ProductoStockItem[]>("/productos/stock", {
+      cache: "no-store",
+    });
+  } catch (error) {
+    console.error("Error fetching stock:", error);
+    return [];
+  }
+}
+
+export async function getProductosSolicitudesAction(): Promise<ProductoSolicitudItem[]> {
+  try {
+    return await apiFetch<ProductoSolicitudItem[]>("/productos/solicitudes", {
+      cache: "no-store",
+    });
+  } catch (error) {
+    console.error("Error fetching solicitudes:", error);
+    return [];
+  }
+}
+
+export async function getProveedoresAction(): Promise<ProveedorItem[]> {
+  try {
+    return await apiFetch<ProveedorItem[]>("/productos/proveedores", {
+      cache: "no-store",
+    });
+  } catch (error) {
+    console.error("Error fetching proveedores:", error);
+    return [];
+  }
+}
+
+export async function createProductoAction(data: ProductoCreateDTO) {
+  try {
+    const res = await apiFetch("/productos/create", {
+      method: "POST",
+      body: JSON.stringify(data),
+    });
+    revalidatePath("/dashboard/insumos");
+    return { success: true, data: res };
+  } catch (error) {
+    console.error("Error creating producto:", error);
+    return { success: false, error: error instanceof Error ? error.message : "Error creating producto" };
+  }
+}
+
+export async function createSolicitudAction(data: SolicitudCreateDTO) {
+  try {
+    const res = await apiFetch("/productos/solicitudes", {
+      method: "POST",
+      body: JSON.stringify(data),
+    });
+    revalidatePath("/dashboard/insumos");
+    return { success: true, data: res };
+  } catch (error) {
+    console.error("Error creating solicitud:", error);
+    return { success: false, error: error instanceof Error ? error.message : "Error creating solicitud" };
+  }
+}
+
+export async function updateSolicitudStatusAction(id: string, estado: string) {
+  try {
+    const res = await apiFetch(`/productos/solicitudes/${id}/status`, {
+      method: "PATCH",
+      body: JSON.stringify({ estado }),
+    });
+    revalidatePath("/dashboard/insumos");
+    return { success: true, data: res };
+  } catch (error) {
+    console.error("Error updating solicitud status:", error);
+    return { success: false, error: error instanceof Error ? error.message : "Error updating status" };
   }
 }

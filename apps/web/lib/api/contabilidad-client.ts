@@ -10,6 +10,11 @@ export interface TechnicianRecaudo {
   ultimaTransferencia: string | null;
   diasSinTransferir: number;
   ordenesIds: string[];
+  declaraciones: Array<{
+    ordenId: string;
+    valorDeclarado: number;
+    fechaDeclaracion: string;
+  }>;
 }
 
 export interface AccountingBalance {
@@ -43,6 +48,17 @@ export interface GenerateMonitoringPayrollPayload {
   membershipIds?: string[];
   includeAllEligible?: boolean;
   observaciones?: string;
+}
+
+export interface RegistrarConsignacionPayload {
+  tecnicoId: string;
+  empresaId: string;
+  valorConsignado?: number;
+  referenciaBanco: string;
+  ordenIds: string[];
+  fechaConsignacion: string;
+  observacion?: string;
+  comprobantePath: string;
 }
 
 export const contabilidadClient = {
@@ -116,10 +132,17 @@ export const contabilidadClient = {
     });
   },
 
-  async registrarConsignacion(formData: FormData) {
+  async registrarConsignacion(data: RegistrarConsignacionPayload | FormData) {
+    if (data instanceof FormData) {
+      return apiFetch("/finanzas/registrar-consignacion", {
+        method: "POST",
+        body: data,
+      });
+    }
+
     return apiFetch("/finanzas/registrar-consignacion", {
       method: "POST",
-      body: formData,
+      body: JSON.stringify(data),
     });
   },
 

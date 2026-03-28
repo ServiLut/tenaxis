@@ -12,6 +12,8 @@ interface PayrollPreviewPanelProps {
   isRefreshing?: boolean;
   isGenerating: boolean;
   onGenerate: () => void;
+  periodLabel?: string;
+  canGenerate?: boolean;
 }
 
 const currencyFormatter = new Intl.NumberFormat("es-CO", {
@@ -38,13 +40,15 @@ export function PayrollPreviewPanel({
   isRefreshing = false,
   isGenerating,
   onGenerate,
+  periodLabel = "del dia",
+  canGenerate = true,
 }: PayrollPreviewPanelProps) {
   return (
     <section className="space-y-6">
       <div className="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
         <div className="space-y-2">
           <p className="text-[10px] font-black uppercase tracking-[0.25em] text-[#01ADFB]">
-            Pre-Nomina del Dia
+            {`Pre-Nomina ${periodLabel}`}
           </p>
           <h2 className="text-2xl font-black tracking-tight text-foreground">
             Pago estimado por horas netas trabajadas
@@ -57,11 +61,13 @@ export function PayrollPreviewPanel({
 
         <button
           onClick={onGenerate}
-          disabled={isGenerating || isLoading || preview.summary.elegibles === 0}
+          disabled={
+            isGenerating || isLoading || preview.summary.elegibles === 0 || !canGenerate
+          }
           className="flex h-12 items-center justify-center gap-3 rounded-2xl bg-[#01ADFB] px-6 text-[11px] font-black uppercase tracking-[0.2em] text-white shadow-xl shadow-[#01ADFB]/20 transition-all hover:scale-[1.02] disabled:cursor-not-allowed disabled:opacity-50"
         >
           {isGenerating ? <Loader2 className="h-4 w-4 animate-spin" /> : <BadgeDollarSign className="h-4 w-4" />}
-          Generar Nomina
+          {canGenerate ? "Generar Nomina" : "Disponible solo en vista diaria"}
         </button>
       </div>
 

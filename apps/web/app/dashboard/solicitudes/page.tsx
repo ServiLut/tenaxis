@@ -6,6 +6,7 @@ import { formatBogotaDate } from "@/utils/date-utils";
 import { Card, CardHeader, CardTitle, CardContent, Button } from "@/components/ui";
 import { Users, Check, X, Loader2, Clock } from "lucide-react";
 import { toast } from "sonner";
+import { tenantsClient } from "@/lib/api/tenants-client";
 
 interface PendingMembership {
   id: string;
@@ -17,12 +18,6 @@ interface PendingMembership {
   };
   createdAt: string;
 }
-
-import { 
-  getPendingMembershipsAction, 
-  approveMembershipAction, 
-  rejectMembershipAction 
-} from "../actions";
 
 export default function SolicitudesPage() {
   const [requests, setRequests] = useState<PendingMembership[]>([]);
@@ -41,7 +36,7 @@ export default function SolicitudesPage() {
       const tenantId = parsedUser.tenantId;
       if (!tenantId) return;
       
-      const data = await getPendingMembershipsAction(tenantId);
+      const data = await tenantsClient.getPendingMemberships(tenantId);
       setRequests(data as unknown as PendingMembership[]);
 
     } catch (_error) {
@@ -54,13 +49,9 @@ export default function SolicitudesPage() {
   const handleApprove = async (id: string) => {
     setProcessingId(id);
     try {
-      const res = await approveMembershipAction(id);
-      if (res.success) {
-        toast.success("Usuario aprobado correctamente");
-        setRequests(requests.filter(r => r.id !== id));
-      } else {
-        throw new Error(res.error);
-      }
+      await tenantsClient.approveMembership(id);
+      toast.success("Usuario aprobado correctamente");
+      setRequests(requests.filter(r => r.id !== id));
     } catch (error: unknown) {
       const msg = error instanceof Error ? error.message : "Error al procesar aprobación";
       toast.error(msg);
@@ -72,13 +63,9 @@ export default function SolicitudesPage() {
   const handleReject = async (id: string) => {
     setProcessingId(id);
     try {
-      const res = await rejectMembershipAction(id);
-      if (res.success) {
-        toast.success("Solicitud rechazada");
-        setRequests(requests.filter(r => r.id !== id));
-      } else {
-        throw new Error(res.error);
-      }
+      await tenantsClient.rejectMembership(id);
+      toast.success("Solicitud rechazada");
+      setRequests(requests.filter(r => r.id !== id));
     } catch (error: unknown) {
       const msg = error instanceof Error ? error.message : "Error al procesar rechazo";
       toast.error(msg);

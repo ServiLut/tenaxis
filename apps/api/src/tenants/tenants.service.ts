@@ -30,6 +30,7 @@ import {
   parseBogotaDateToUtcEnd,
   parseBogotaDateToUtcStart,
   startOfBogotaDayUtc,
+  startOfBogotaMonthUtc,
 } from '../common/utils/timezone.util';
 
 const NEW_VISIT_TYPES = new Set<TipoVisita>([
@@ -833,6 +834,16 @@ export class TenantsService {
       const paid = this.toNumber(order.valorPagado);
       const quoted = this.toNumber(order.valorCotizado);
 
+      // Recaudo: Sumamos solo si el servicio está LIQUIDADO
+      if (paid > 0 && isLiquidated) {
+        current.totalRecaudo += paid;
+        if (order.tipoVisita && NEW_VISIT_TYPES.has(order.tipoVisita)) {
+          current.recaudoNuevos += paid;
+        } else {
+          current.recaudoRefuerzo += paid;
+        }
+      }
+
       if (order.estadoServicio === EstadoOrden.CANCELADO)
         current.cancellations += 1;
       if (order.estadoServicio === EstadoOrden.REPROGRAMADO)
@@ -842,12 +853,6 @@ export class TenantsService {
 
       if (isLiquidated) {
         current.serviciosLiquidados += 1;
-        current.totalRecaudo += paid;
-        if (order.tipoVisita && NEW_VISIT_TYPES.has(order.tipoVisita)) {
-          current.recaudoNuevos += paid;
-        } else {
-          current.recaudoRefuerzo += paid;
-        }
 
         if (order.liquidadoAt && order.fechaVisita) {
           current.liquidationTimeMs += Math.max(
@@ -1372,7 +1377,7 @@ export class TenantsService {
 
     const start = from
       ? parseBogotaDateToUtcStart(from)
-      : new Date(end.getTime() - 29 * 24 * 60 * 60 * 1000);
+      : startOfBogotaMonthUtc(end);
     if (!start) {
       throw new BadRequestException('Rango de fechas inválido');
     }
@@ -1557,9 +1562,14 @@ export class TenantsService {
 
     for (const order of orders) {
       totalServicios += 1;
-      if (order.estadoServicio === EstadoOrden.LIQUIDADO) {
+      const paid = this.toNumber(order.valorPagado);
+      const isLiquidated = order.estadoServicio === EstadoOrden.LIQUIDADO;
+
+      if (paid > 0 && isLiquidated) {
+        totalRecaudo += paid;
+      }
+      if (isLiquidated) {
         serviciosLiquidados += 1;
-        totalRecaudo += this.toNumber(order.valorPagado);
       }
     }
 

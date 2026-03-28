@@ -6,11 +6,18 @@ import {
   Patch,
   Req,
   UnauthorizedException,
+  UseGuards,
 } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { RegisterDto } from './dto/register.dto';
 import { LoginDto } from './dto/login.dto';
 import type { Request } from 'express';
+import { JwtAuthGuard } from './guards/jwt-auth.guard';
+import { JwtPayload } from './jwt-payload.interface';
+
+interface RequestWithUser extends Request {
+  user?: JwtPayload;
+}
 
 @Controller('auth')
 export class AuthController {
@@ -26,6 +33,12 @@ export class AuthController {
       Array.isArray(ip) ? ip[0] : ip,
       userAgent,
     );
+  }
+
+  @Post('logout')
+  @UseGuards(JwtAuthGuard)
+  async logout(@Req() req: RequestWithUser) {
+    return this.authService.logout(req.user?.sesionId);
   }
 
   @Post('register')
@@ -47,7 +60,11 @@ export class AuthController {
     const enterpriseId = Array.isArray(enterpriseIdHeader)
       ? enterpriseIdHeader[0]
       : enterpriseIdHeader;
-    return this.authService.getProfile(token, enterpriseId);
+    const testRoleHeader = req.headers['x-test-role'];
+    const testRole = Array.isArray(testRoleHeader)
+      ? testRoleHeader[0]
+      : testRoleHeader;
+    return this.authService.getProfile(token, enterpriseId, testRole);
   }
 
   @Patch('test-role')

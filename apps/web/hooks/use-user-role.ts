@@ -2,6 +2,8 @@
 
 import { useEffect, useState } from "react";
 import { UserRole, hasPermission, PermissionKey } from "@/lib/rbac";
+import { getScopedRole } from "@/lib/access-scope";
+import { getBrowserEffectiveScopeAwareUser } from "@/lib/browser-access-scope";
 
 export type UserData = {
   tenantId: string | null;
@@ -17,32 +19,32 @@ export function useUserRole() {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    const data = localStorage.getItem("user");
-    if (data) {
-      try {
-        const parsed = JSON.parse(data);
-        setTimeout(() => {
-          setUserData({
-            tenantId: parsed.tenantId || null,
-            role: parsed.role || null,
-            id: parsed.id || null,
-            nombre: parsed.nombre || null,
-            email: parsed.email || null,
-            isGlobalSuAdmin: !!parsed.isGlobalSuAdmin,
-          });
-          setIsLoading(false);
-        }, 0);
-      } catch {
-        setTimeout(() => {
-          setUserData(null);
-          setIsLoading(false);
-        }, 0);
-      }
-    } else {
+    if (typeof window === "undefined") {
       setTimeout(() => {
         setIsLoading(false);
       }, 0);
+      return;
     }
+
+    const effectiveUser = getBrowserEffectiveScopeAwareUser();
+
+    setTimeout(() => {
+      if (!effectiveUser) {
+        setUserData(null);
+        setIsLoading(false);
+        return;
+      }
+
+      setUserData({
+        tenantId: effectiveUser.tenantId || null,
+        role: getScopedRole(effectiveUser.role) as UserRole | null,
+        id: effectiveUser.id || null,
+        nombre: effectiveUser.nombre || null,
+        email: effectiveUser.email || null,
+        isGlobalSuAdmin: !!effectiveUser.isGlobalSuAdmin,
+      });
+      setIsLoading(false);
+    }, 0);
   }, []);
 
   const checkPermission = (action: PermissionKey) => {

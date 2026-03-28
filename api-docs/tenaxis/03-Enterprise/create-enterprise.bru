@@ -5,13 +5,9 @@ meta {
 }
 
 post {
-  url: {{local}}/enterprise
+  url: {{local}}/enterprise/create
   body: json
   auth: bearer
-}
-
-headers {
-  x-tenant-id: 0d003940-5049-4ebe-86f8-d62605e26a93
 }
 
 auth:bearer {
@@ -20,6 +16,7 @@ auth:bearer {
 
 body:json {
   {
-    "nombre": "contol de plagas"
+    "nombre": "Control de Plagas Norte",
+    "activo": true
   }
 }

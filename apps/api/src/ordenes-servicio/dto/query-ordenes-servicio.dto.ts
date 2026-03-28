@@ -31,6 +31,7 @@ export enum ServiciosPreset {
   VENCIDOS = 'VENCIDOS',
   SIN_TECNICO = 'SIN_TECNICO',
   PENDIENTES_LIQUIDAR = 'PENDIENTES_LIQUIDAR',
+  RECHAZADOS = 'RECHAZADOS',
 }
 
 export class QueryOrdenesServicioDto {
