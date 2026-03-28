@@ -1,7 +1,9 @@
 "use client";
 
-import { buildBrowserApiUrl, getBrowserAuthHeaders } from "@/lib/api/browser-client";
+import { apiFetch } from "@/lib/api/base-client";
 import { createClient } from "@/utils/supabase/client";
+
+export type UploadKind = "facturaElectronica" | "comprobantePago" | "evidencias";
 
 export interface ClienteDTO {
   id?: string;
@@ -149,52 +151,6 @@ export interface OrdenServicioDetail extends Record<string, unknown> {
   desglosePago?: unknown[];
   tipoFacturacion?: string | null;
   estadoServicio?: string | null;
-}
-
-type ApiOptions = RequestInit & {
-  enterpriseId?: string;
-};
-
-type UploadKind = "facturaElectronica" | "comprobantePago" | "evidencias";
-
-const getDefaultHeaders = (enterpriseId?: string) => {
-  return getBrowserAuthHeaders({ enterpriseId });
-};
-
-const unwrapData = async <T>(res: Response): Promise<T> => {
-  const contentType = res.headers.get("content-type");
-  let data: unknown;
-
-  if (contentType && contentType.includes("application/json")) {
-    data = await res.json();
-  } else {
-    const text = await res.text();
-    if (!res.ok) {
-      throw new Error(`API Error: ${res.status} - ${text || res.statusText}`);
-    }
-    data = text;
-  }
-
-  if (!res.ok) {
-    const message = ((data as Record<string, unknown>)?.message as string) || ((data as Record<string, unknown>)?.error as string) || "Error de API";
-    throw new Error(message);
-  }
-  return ((data as Record<string, unknown>)?.data ?? data) as T;
-};
-
-async function apiFetch<T>(path: string, options: ApiOptions = {}) {
-  const { enterpriseId, headers, ...rest } = options;
-  const defaultHeaders = getDefaultHeaders(enterpriseId);
-
-  const res = await fetch(buildBrowserApiUrl(path), {
-    ...rest,
-    headers: {
-      ...defaultHeaders,
-      ...(headers || {}),
-    },
-  });
-
-  return unwrapData<T>(res);
 }
 
 export async function getOrdenesServicio(empresaId?: string) {
@@ -397,4 +353,10 @@ export async function notifyServiceOperatorWebhook(data: {
       body: JSON.stringify(data),
     },
   );
+}
+
+export async function triggerReinforcementsJob() {
+  return apiFetch<{ procesadas: number }>("/ordenes-servicio/trigger-reinforcements-job", {
+    method: "POST",
+  });
 }

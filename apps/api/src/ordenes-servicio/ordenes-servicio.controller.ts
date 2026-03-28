@@ -269,6 +269,11 @@ export class OrdenesServicioController {
     );
   }
 
+  @Post('trigger-reinforcements-job')
+  async triggerReinforcementsJob() {
+    return await this.ordenesServicioService.processReinforcementsJob();
+  }
+
   @Get(':id')
   async findOne(@Req() req: RequestWithUser, @Param('id') id: string) {
     return await this.ordenesServicioService.findOne(req.user, id);
