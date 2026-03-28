@@ -5,16 +5,77 @@ import {
   NotFoundException,
   UnprocessableEntityException,
 } from '@nestjs/common';
+import { Prisma } from '../generated/client/client';
 import { PrismaService } from '../prisma/prisma.service';
 import { CreateEnterpriseDto } from './dto/create-enterprise.dto';
 import { UpdateEnterpriseDto } from './dto/update-enterprise.dto';
 import { Role } from '../generated/client/client';
 import { JwtPayload } from '../auth/jwt-payload.interface';
 import { getPrismaAccessFilter } from '../common/utils/access-control.util';
+import { resolveScopedEmpresaId } from '../common/utils/access-control.util';
 
 @Injectable()
 export class EnterpriseService {
   constructor(private readonly prisma: PrismaService) {}
+
+  private buildEnterpriseWhere(
+    user: JwtPayload,
+    requestedEmpresaId?: string,
+  ): Prisma.EmpresaWhereInput {
+    const accessFilter = getPrismaAccessFilter(user, requestedEmpresaId);
+    const where: Prisma.EmpresaWhereInput = {
+      deletedAt: null,
+    };
+
+    if (accessFilter.tenantId) {
+      where.tenantId = accessFilter.tenantId;
+    }
+
+    if (requestedEmpresaId) {
+      where.id = resolveScopedEmpresaId(user, requestedEmpresaId);
+    } else if (accessFilter.empresaId) {
+      where.id =
+        typeof accessFilter.empresaId === 'string'
+          ? accessFilter.empresaId
+          : { in: accessFilter.empresaId.in };
+    }
+
+    if (accessFilter.zonaIds?.length) {
+      where.zonas = {
+        some: {
+          id: { in: accessFilter.zonaIds },
+        },
+      };
+    }
+
+    return where;
+  }
+
+  private buildEnterpriseMembershipWhere(
+    user: JwtPayload,
+    empresaId: string,
+  ): Prisma.EmpresaMembershipWhereInput {
+    const accessFilter = getPrismaAccessFilter(user, empresaId);
+    const where: Prisma.EmpresaMembershipWhereInput = {
+      empresaId: resolveScopedEmpresaId(user, empresaId),
+      activo: true,
+      deletedAt: null,
+      membership: {
+        role: Role.OPERADOR,
+        activo: true,
+      },
+    };
+
+    if (accessFilter.tenantId) {
+      where.tenantId = accessFilter.tenantId;
+    }
+
+    if (accessFilter.zonaIds?.length) {
+      where.zonaId = { in: accessFilter.zonaIds };
+    }
+
+    return where;
+  }
 
   async create(createEnterpriseDto: CreateEnterpriseDto, user: JwtPayload) {
     const { sub: userId, tenantId, role, isGlobalSuAdmin } = user;
@@ -141,8 +202,6 @@ export class EnterpriseService {
   }
 
   async findAll(user: JwtPayload) {
-    const accessFilter = getPrismaAccessFilter(user);
-
     let maxEmpresas = 0;
     if (user.tenantId) {
       const tenant = await this.prisma.tenant.findUnique({
@@ -153,10 +212,7 @@ export class EnterpriseService {
     }
 
     const enterprises = await this.prisma.empresa.findMany({
-      where: {
-        ...accessFilter,
-        deletedAt: null,
-      },
+      where: this.buildEnterpriseWhere(user),
       include: {
         tenant: user.isGlobalSuAdmin,
       },
@@ -170,19 +226,8 @@ export class EnterpriseService {
   }
 
   async findOperators(user: JwtPayload, empresaId: string) {
-    const accessFilter = getPrismaAccessFilter(user, empresaId);
-
     const operators = await this.prisma.empresaMembership.findMany({
-      where: {
-        ...accessFilter,
-        empresaId,
-        activo: true,
-        deletedAt: null,
-        membership: {
-          role: Role.OPERADOR,
-          activo: true,
-        },
-      },
+      where: this.buildEnterpriseMembershipWhere(user, empresaId),
       include: {
         membership: {
           include: {
@@ -213,8 +258,6 @@ export class EnterpriseService {
     updateEnterpriseDto: UpdateEnterpriseDto,
     user: JwtPayload,
   ) {
-    const accessFilter = getPrismaAccessFilter(user, enterpriseId);
-
     // Solo ADMIN o SU_ADMIN del tenant o Global SU_ADMIN pueden editar
     if (
       !user.isGlobalSuAdmin &&
@@ -225,11 +268,7 @@ export class EnterpriseService {
     }
 
     const enterprise = await this.prisma.empresa.findFirst({
-      where: {
-        id: enterpriseId,
-        ...accessFilter,
-        deletedAt: null,
-      },
+      where: this.buildEnterpriseWhere(user, enterpriseId),
     });
 
     if (!enterprise) {
@@ -243,8 +282,6 @@ export class EnterpriseService {
   }
 
   async remove(enterpriseId: string, user: JwtPayload) {
-    const accessFilter = getPrismaAccessFilter(user, enterpriseId);
-
     if (
       !user.isGlobalSuAdmin &&
       user.role !== Role.SU_ADMIN &&
@@ -256,11 +293,7 @@ export class EnterpriseService {
     }
 
     const enterprise = await this.prisma.empresa.findFirst({
-      where: {
-        id: enterpriseId,
-        ...accessFilter,
-        deletedAt: null,
-      },
+      where: this.buildEnterpriseWhere(user, enterpriseId),
     });
 
     if (!enterprise) {

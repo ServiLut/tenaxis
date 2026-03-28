@@ -65,6 +65,11 @@ const IDS = {
   clienteSurA: '77777777-7777-4777-8777-777777777773',
   clienteSurB: '77777777-7777-4777-8777-777777777774',
   clienteOutsider: '77777777-7777-4777-8777-777777777775',
+  direccionNorteA: '99999999-9999-4999-8999-999999999991',
+  direccionNorteB: '99999999-9999-4999-8999-999999999992',
+  direccionSurA: '99999999-9999-4999-8999-999999999993',
+  direccionSurB: '99999999-9999-4999-8999-999999999994',
+  direccionOutsider: '99999999-9999-4999-8999-999999999995',
   ordenNorteA: '88888888-8888-4888-8888-888888888881',
   ordenNorteB: '88888888-8888-4888-8888-888888888882',
   ordenSurA: '88888888-8888-4888-8888-888888888883',
@@ -335,6 +340,32 @@ async function upsertCliente(
   });
 }
 
+async function upsertDireccion(
+  id: string,
+  data: {
+    tenantId: string;
+    empresaId: string;
+    clienteId: string;
+    direccion: string;
+    zonaId?: string;
+  },
+) {
+  return prisma.direccion.upsert({
+    where: { id },
+    update: {
+      ...data,
+      activa: true,
+      bloqueada: false,
+    },
+    create: {
+      id,
+      ...data,
+      activa: true,
+      bloqueada: false,
+    },
+  });
+}
+
 async function main() {
   const passwordHash = bcrypt.hashSync(DEFAULT_PASSWORD, 10);
 
@@ -546,6 +577,41 @@ async function main() {
     tipoCliente: TipoCliente.PERSONA,
   });
 
+  await upsertDireccion(IDS.direccionNorteA, {
+    tenantId: IDS.mainTenant,
+    empresaId: IDS.empresaNorte,
+    clienteId: IDS.clienteNorteA,
+    direccion: 'Calle Norte 123',
+    zonaId: IDS.zonaNorteUno,
+  });
+  await upsertDireccion(IDS.direccionNorteB, {
+    tenantId: IDS.mainTenant,
+    empresaId: IDS.empresaNorte,
+    clienteId: IDS.clienteNorteB,
+    direccion: 'Carrera Norte 456',
+    zonaId: IDS.zonaNorteDos,
+  });
+  await upsertDireccion(IDS.direccionSurA, {
+    tenantId: IDS.mainTenant,
+    empresaId: IDS.empresaSur,
+    clienteId: IDS.clienteSurA,
+    direccion: 'Avenida Sur 789',
+    zonaId: IDS.zonaSurUno,
+  });
+  await upsertDireccion(IDS.direccionSurB, {
+    tenantId: IDS.mainTenant,
+    empresaId: IDS.empresaSur,
+    clienteId: IDS.clienteSurB,
+    direccion: 'Boulevard Sur 321',
+    zonaId: IDS.zonaSurDos,
+  });
+  await upsertDireccion(IDS.direccionOutsider, {
+    tenantId: IDS.outsiderTenant,
+    empresaId: IDS.outsiderEmpresa,
+    clienteId: IDS.clienteOutsider,
+    direccion: 'Diagonal Outsider 999',
+  });
+
   const operadorNorte = membershipByKey.get('operador-norte');
   const operadorSur = membershipByKey.get('operador-sur');
   const outsiderAdmin = membershipByKey.get('outsider-admin');
@@ -563,6 +629,7 @@ async function main() {
       empresaId: IDS.empresaNorte,
       zonaId: IDS.zonaNorteUno,
       clienteId: IDS.clienteNorteA,
+      direccionId: IDS.direccionNorteA,
       servicioId: IDS.servicioNorte,
       tecnicoId: operadorNorte.id,
       metodoPagoId: IDS.metodoPagoNorte,
@@ -578,6 +645,7 @@ async function main() {
       empresaId: IDS.empresaNorte,
       zonaId: IDS.zonaNorteUno,
       clienteId: IDS.clienteNorteA,
+      direccionId: IDS.direccionNorteA,
       servicioId: IDS.servicioNorte,
       tecnicoId: operadorNorte.id,
       metodoPagoId: IDS.metodoPagoNorte,
@@ -596,6 +664,7 @@ async function main() {
       empresaId: IDS.empresaNorte,
       zonaId: IDS.zonaNorteDos,
       clienteId: IDS.clienteNorteB,
+      direccionId: IDS.direccionNorteB,
       servicioId: IDS.servicioNorte,
       tecnicoId: operadorNorte.id,
       metodoPagoId: IDS.metodoPagoNorte,
@@ -611,6 +680,7 @@ async function main() {
       empresaId: IDS.empresaNorte,
       zonaId: IDS.zonaNorteDos,
       clienteId: IDS.clienteNorteB,
+      direccionId: IDS.direccionNorteB,
       servicioId: IDS.servicioNorte,
       tecnicoId: operadorNorte.id,
       metodoPagoId: IDS.metodoPagoNorte,
@@ -629,6 +699,7 @@ async function main() {
       empresaId: IDS.empresaSur,
       zonaId: IDS.zonaSurUno,
       clienteId: IDS.clienteSurA,
+      direccionId: IDS.direccionSurA,
       servicioId: IDS.servicioSur,
       tecnicoId: operadorSur.id,
       metodoPagoId: IDS.metodoPagoSur,
@@ -644,6 +715,7 @@ async function main() {
       empresaId: IDS.empresaSur,
       zonaId: IDS.zonaSurUno,
       clienteId: IDS.clienteSurA,
+      direccionId: IDS.direccionSurA,
       servicioId: IDS.servicioSur,
       tecnicoId: operadorSur.id,
       metodoPagoId: IDS.metodoPagoSur,
@@ -662,6 +734,7 @@ async function main() {
       empresaId: IDS.empresaSur,
       zonaId: IDS.zonaSurDos,
       clienteId: IDS.clienteSurB,
+      direccionId: IDS.direccionSurB,
       servicioId: IDS.servicioSur,
       tecnicoId: operadorSur.id,
       metodoPagoId: IDS.metodoPagoSur,
@@ -677,6 +750,7 @@ async function main() {
       empresaId: IDS.empresaSur,
       zonaId: IDS.zonaSurDos,
       clienteId: IDS.clienteSurB,
+      direccionId: IDS.direccionSurB,
       servicioId: IDS.servicioSur,
       tecnicoId: operadorSur.id,
       metodoPagoId: IDS.metodoPagoSur,
@@ -694,6 +768,7 @@ async function main() {
       tenantId: IDS.outsiderTenant,
       empresaId: IDS.outsiderEmpresa,
       clienteId: IDS.clienteOutsider,
+      direccionId: IDS.direccionOutsider,
       servicioId: IDS.outsiderServicio,
       tecnicoId: outsiderAdmin.id,
       metodoPagoId: IDS.outsiderMetodoPago,
@@ -708,6 +783,7 @@ async function main() {
       tenantId: IDS.outsiderTenant,
       empresaId: IDS.outsiderEmpresa,
       clienteId: IDS.clienteOutsider,
+      direccionId: IDS.direccionOutsider,
       servicioId: IDS.outsiderServicio,
       tecnicoId: outsiderAdmin.id,
       metodoPagoId: IDS.outsiderMetodoPago,

@@ -45,7 +45,7 @@ export class AuthService {
             tenant: true,
             empresaMemberships: {
               where: { activo: true, deletedAt: null },
-              select: { empresaId: true },
+              select: { empresaId: true, zonaId: true },
             },
           },
         },
@@ -93,6 +93,13 @@ export class AuthService {
       (isGlobalSuAdmin ? Role.SU_ADMIN : Role.OPERADOR);
     const empresaIds =
       approvedMembership?.empresaMemberships.map((m) => m.empresaId) || [];
+    const zonaIds = Array.from(
+      new Set(
+        approvedMembership?.empresaMemberships
+          .map((m) => m.zonaId)
+          .filter((zonaId): zonaId is string => !!zonaId) || [],
+      ),
+    );
 
     const payload: JwtPayload = {
       sub: user.id,
@@ -102,6 +109,7 @@ export class AuthService {
       membershipId: approvedMembership?.id,
       empresaId: empresaIds.length === 1 ? empresaIds[0] : undefined,
       empresaIds,
+      zonaIds,
       sesionId,
       isGlobalSuAdmin,
     };
@@ -179,6 +187,7 @@ export class AuthService {
                 },
                 select: {
                   empresaId: true,
+                  zonaId: true,
                 },
               },
             },
@@ -189,6 +198,13 @@ export class AuthService {
       const membership = user?.memberships?.[0];
       const empresaIds =
         membership?.empresaMemberships.map((m) => m.empresaId) || [];
+      const zonaIds = Array.from(
+        new Set(
+          membership?.empresaMemberships
+            .map((m) => m.zonaId)
+            .filter((zonaId): zonaId is string => !!zonaId) || [],
+        ),
+      );
       const cuentaPago =
         membership?.cuentasPago?.[0] ||
         (enterpriseId
@@ -218,6 +234,7 @@ export class AuthService {
           (empresaIds.length === 1 ? empresaIds[0] : undefined),
         empresaIds:
           empresaIds.length > 0 ? empresaIds : payload.empresaIds || [],
+        zonaIds: zonaIds.length > 0 ? zonaIds : payload.zonaIds || [],
         isGlobalSuAdmin: devRoleState.isGlobalSuAdmin,
       };
     } catch {

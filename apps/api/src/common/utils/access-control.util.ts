@@ -5,6 +5,7 @@ import { JwtPayload } from '../../auth/jwt-payload.interface';
 export interface PrismaAccessFilter {
   tenantId?: string;
   empresaId?: string | { in: string[] };
+  zonaIds?: string[];
 }
 
 export type AccessScopeLevel = 'global' | 'tenant' | 'empresa';
@@ -23,17 +24,20 @@ export interface ResolvedAccessScope {
   tenantId?: string;
   empresaId?: string;
   empresaIds: string[];
+  zonaIds: string[];
   isGlobalSuAdmin: boolean;
   hasTenantWideAccess: boolean;
 }
 
 export function resolveAccessScopeMode(user: JwtPayload): AccessScopeMode {
   const isGlobalSuAdmin = !!user.isGlobalSuAdmin;
+  const hasEmpresaScope = (user.empresaIds || []).length > 0;
+  const hasZonaScope = (user.zonaIds || []).length > 0;
   const hasTenantWideAccess =
     isGlobalSuAdmin ||
     user.role === Role.SU_ADMIN ||
     user.role === Role.ADMIN ||
-    user.role === Role.COORDINADOR;
+    (user.role === Role.COORDINADOR && !hasEmpresaScope && !hasZonaScope);
 
   return {
     isGlobalSuAdmin,
@@ -74,6 +78,7 @@ export function resolveAccessScope(
       role: user.role,
       ...(requestedEmpresaId ? { empresaId: requestedEmpresaId } : {}),
       empresaIds: requestedEmpresaId ? [requestedEmpresaId] : [],
+      zonaIds: user.zonaIds || [],
       isGlobalSuAdmin: true,
       hasTenantWideAccess: true,
     };
@@ -86,6 +91,7 @@ export function resolveAccessScope(
       tenantId: scope.tenantId,
       ...(requestedEmpresaId ? { empresaId: requestedEmpresaId } : {}),
       empresaIds: requestedEmpresaId ? [requestedEmpresaId] : [],
+      zonaIds: user.zonaIds || [],
       isGlobalSuAdmin: false,
       hasTenantWideAccess: true,
     };
@@ -100,6 +106,7 @@ export function resolveAccessScope(
     tenantId: user.tenantId,
     ...(empresaId ? { empresaId } : {}),
     empresaIds,
+    zonaIds: user.zonaIds || [],
     isGlobalSuAdmin: false,
     hasTenantWideAccess: false,
   };
@@ -163,6 +170,7 @@ export function getPrismaAccessFilter(
   if (scope.isGlobalSuAdmin) {
     return {
       ...(requestedEmpresaId ? { empresaId: requestedEmpresaId } : {}),
+      zonaIds: user.zonaIds,
     };
   }
 
@@ -177,6 +185,7 @@ export function getPrismaAccessFilter(
     return {
       tenantId: scope.tenantId,
       ...(requestedEmpresaId ? { empresaId: requestedEmpresaId } : {}),
+      zonaIds: user.zonaIds,
       // No filtramos empresaId por defecto -> Ve todas las del tenant
     };
   }
@@ -196,6 +205,7 @@ export function getPrismaAccessFilter(
     return {
       tenantId: user.tenantId,
       empresaId: requestedEmpresaId,
+      zonaIds: user.zonaIds,
     };
   }
 
@@ -205,5 +215,6 @@ export function getPrismaAccessFilter(
     empresaId: {
       in: allowedIds.length > 0 ? allowedIds : [BLOCKED_EMPRESA_ID],
     },
+    zonaIds: user.zonaIds,
   };
 }
