@@ -2354,12 +2354,15 @@ export class OrdenesServicioService {
       },
     });
 
-    const acabaDeLiquidarse =
-      updateDto.estadoServicio === (EstadoOrden.LIQUIDADO as EstadoOrden) &&
-      orden.estadoServicio !== (EstadoOrden.LIQUIDADO as EstadoOrden);
+    const acabaDeTerminar =
+      (updateDto.estadoServicio === (EstadoOrden.LIQUIDADO as EstadoOrden) ||
+        updateDto.estadoServicio ===
+          (EstadoOrden.TECNICO_FINALIZO as EstadoOrden)) &&
+      orden.estadoServicio !== (EstadoOrden.LIQUIDADO as EstadoOrden) &&
+      orden.estadoServicio !== (EstadoOrden.TECNICO_FINALIZO as EstadoOrden);
 
     if (
-      acabaDeLiquidarse &&
+      acabaDeTerminar &&
       !contratoActivo &&
       !orden.ordenPadreId &&
       updatedOrden.servicio
@@ -2935,7 +2938,7 @@ export class OrdenesServicioService {
             observacion: `Servicio programado automáticamente según contrato activo. Visita ${index + 1} de ${totalServicios}.`,
             nivelInfestacion: orden.nivelInfestacion || undefined,
             urgencia: orden.urgencia || undefined,
-            tipoVisita: 'CITA_VERIFICACION' as TipoVisita,
+            tipoVisita: TipoVisita.NUEVO,
             tipoFacturacion: contratoActivo.tipoFacturacion,
             contratoClienteId: contratoActivo.id,
             fechaVisita: dueAt,
@@ -3000,25 +3003,85 @@ export class OrdenesServicioService {
           observacion: blueprint.observacion,
           nivelInfestacion: orden.nivelInfestacion || undefined,
           urgencia: orden.urgencia || undefined,
-          tipoVisita: 'CITA_VERIFICACION' as TipoVisita,
+          tipoVisita: TipoVisita.SERVICIO_REFUERZO,
           tipoFacturacion: TipoFacturacion.UNICO,
           fechaVisita: blueprint.dueAt,
           ordenPadreId: orden.id,
         },
       });
 
-      await this.prisma.ordenServicioSeguimiento.create({
-        data: {
-          tenantId,
-          empresaId: servicio.empresaId,
-          ordenServicioId: ordenSeguimiento.id,
-          createdByMembershipId: orden.creadoPorId,
-          followUpType: blueprint.followUpType,
-          dueAt: blueprint.dueAt,
-          status: 'PENDIENTE',
-        },
-      });
+      if (orden.creadoPorId) {
+        await this.prisma.ordenServicioSeguimiento.create({
+          data: {
+            tenantId,
+            empresaId: servicio.empresaId,
+            ordenServicioId: ordenSeguimiento.id,
+            createdByMembershipId: orden.creadoPorId,
+            followUpType: blueprint.followUpType,
+            dueAt: blueprint.dueAt,
+            status: 'PENDIENTE',
+          },
+        });
+      }
     }
+  }
+
+  // Job para procesar refuerzos pendientes (estilo Cron)
+  async processReinforcementsJob() {
+    this.logger.log('Iniciando job de procesamiento de refuerzos...');
+
+    const terminadasSinRefuerzo = await this.prisma.ordenServicio.findMany({
+      where: {
+        deletedAt: null,
+        ordenPadreId: null, // Solo órdenes principales
+        estadoServicio: {
+          in: [
+            EstadoOrden.LIQUIDADO as EstadoOrden,
+            EstadoOrden.TECNICO_FINALIZO as EstadoOrden,
+          ],
+        },
+        ordenesHijas: {
+          none: {
+            deletedAt: null,
+          },
+        },
+        servicio: {
+          requiereSeguimiento: true,
+        },
+      },
+      include: {
+        servicio: true,
+      },
+    });
+
+    this.logger.log(
+      `Encontradas ${terminadasSinRefuerzo.length} órdenes terminadas sin refuerzo.`,
+    );
+
+    let procesadas = 0;
+    for (const orden of terminadasSinRefuerzo) {
+      try {
+        if (orden.servicio) {
+          await this.createAutomaticFollowUps(
+            orden.tenantId,
+            orden,
+            orden.servicio,
+            orden.fechaVisita,
+            null,
+            { allowWithoutContract: true },
+          );
+          procesadas += 1;
+        }
+      } catch (err: unknown) {
+        const msg = err instanceof Error ? err.message : 'Unknown error';
+        this.logger.error(
+          `Error procesando refuerzo para orden ${orden.id}: ${msg}`,
+        );
+      }
+    }
+
+    this.logger.log(`Job finalizado. Órdenes procesadas: ${procesadas}`);
+    return { procesadas };
   }
 
   private isGarantiaVisitType(tipoVisita?: TipoVisita | null) {

@@ -83,6 +83,7 @@ import {
   getServiciosKpis,
   notifyLiquidationWebhook,
   notifyServiceOperatorWebhook,
+  triggerReinforcementsJob,
   type ClienteDTO,
   type ServiciosKpis,
   updateOrdenServicio,
@@ -163,6 +164,7 @@ function resolveSoportePagoUrl(bucket: string, path?: string | null) {
 
 interface OrdenServicioRaw {
   id: string;
+  hallazgosEstructurales?: string | null;
   numeroOrden?: string;
   ordenPadreId?: string | null;
   cliente: ClienteDTO;
@@ -180,6 +182,12 @@ interface OrdenServicioRaw {
   urgencia?: string;
   observacion?: string;
   observacionFinal?: string;
+  huboSellamiento?: boolean;
+  huboRecomendacionEstructural?: boolean;
+  diagnosticoTecnico?: string | null;
+  intervencionRealizada?: string | null;
+  recomendacionesObligatorias?: string | null;
+  recomendacionesSugeridas?: string | null;
   nivelInfestacion?: string;
   condicionesHigiene?: string;
   condicionesLocal?: string;
@@ -665,6 +673,22 @@ function ServiciosContent() {
   const [activeOperationalFilter, setActiveOperationalFilter] = useState<string | null>(null);
   const [kpis, setKpis] = useState<ServiciosKpis | null>(null);
   const [kpisLoading, setKpisLoading] = useState(false);
+  const [isProcessingJob, setIsProcessingJob] = useState(false);
+
+  const handleTriggerJob = async () => {
+    setIsProcessingJob(true);
+    const toastId = toast.loading("Ejecutando job de refuerzos...");
+    try {
+      const res = await triggerReinforcementsJob();
+      toast.success(`Job finalizado. Se agendaron ${res.procesadas} refuerzos pendientes.`, { id: toastId });
+      await fetchServicios();
+    } catch (error) {
+      console.error("Error triggering job:", error);
+      toast.error("Error al ejecutar el job de refuerzos", { id: toastId });
+    } finally {
+      setIsProcessingJob(false);
+    }
+  };
 
   const operationalCounts = useMemo(() => {
     const today = toBogotaYmd();
@@ -918,9 +942,11 @@ function ServiciosContent() {
         };
       });
 
+      return mapped;
     } catch (error) {
       console.error("Error loading services", error);
       toast.error("Error al cargar las órdenes de servicio");
+      return [];
     } finally {
       setLoading(false);
     }
@@ -961,7 +987,12 @@ function ServiciosContent() {
           : `${label.charAt(0).toUpperCase() + label.slice(1)} subida exitosamente`,
         { id: toastId },
       );
-      fetchServicios();
+      
+      const updatedList = await fetchServicios();
+      if (updatedList.length > 0 && selectedServicio) {
+        const refreshed = updatedList.find(s => s.raw.id === selectedServicio.raw.id);
+        if (refreshed) setSelectedServicio(refreshed);
+      }
     } catch (error) {
       console.error("Upload error:", error);
       toast.error(`Error al subir el archivo`, { id: toastId });
@@ -1156,7 +1187,12 @@ function ServiciosContent() {
         observacionFinal: "",
         transferencias: [createTransferenciaForm()],
       });
-      fetchServicios();
+      
+      const updatedList = await fetchServicios();
+      if (updatedList.length > 0 && selectedServicio) {
+        const refreshed = updatedList.find(s => s.raw.id === selectedServicio.raw.id);
+        if (refreshed) setSelectedServicio(refreshed);
+      }
     } catch (error) {
       console.error("Liquidation error:", error);
       const errorMessage =
@@ -1807,6 +1843,14 @@ function ServiciosContent() {
             </div>
             <div className="md:ml-auto flex items-center gap-3">
               <Button
+                onClick={handleTriggerJob}
+                disabled={isProcessingJob}
+                className="h-10 px-6 rounded-xl bg-[#01ADFB]/10 text-[#01ADFB] text-[10px] font-semibold uppercase tracking-widest gap-2 border border-[#01ADFB]/20 hover:bg-[#01ADFB]/20 transition-all"
+              >
+                <RotateCcw className={cn("h-4 w-4", isProcessingJob && "animate-spin")} />
+                Procesar Refuerzos
+              </Button>
+              <Button
                 onClick={() => setShowOperationalQueue(true)}
                 className="h-10 px-6 rounded-xl bg-amber-500 text-white text-[10px] font-semibold uppercase tracking-widest gap-2 shadow-lg shadow-amber-500/20 hover:bg-amber-600 transition-all"
               >
@@ -1981,7 +2025,11 @@ function ServiciosContent() {
                           </thead>
                           <tbody className="divide-y divide-border">
                             {paginatedFollowUps.map((s) => (
-                              <tr key={s.raw.id} className="group hover:bg-muted/50 transition-colors">
+                              <tr 
+                                key={s.raw.id} 
+                                className="group hover:bg-muted/50 transition-colors cursor-pointer"
+                                onClick={() => { setSelectedServicio(s); setIsModalOpen(true); }}
+                              >
                                 <td className="px-8 py-6">
                                   <div className="space-y-1">
                                     <p className="font-bold text-foreground tracking-tight uppercase">{s.cliente}</p>
@@ -2005,7 +2053,10 @@ function ServiciosContent() {
                                   <div className="space-y-1">
                                     <p className="text-xs font-semibold uppercase text-foreground">{s.parentCliente}</p>
                                     <p className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">{s.parentServicio}</p>
-                                    <Link href={`/dashboard/servicios/${s.parentId}/editar?returnTo=/dashboard/servicios?tab=seguimientos`}>
+                                    <Link 
+                                      href={`/dashboard/servicios/${s.parentId}/editar?returnTo=/dashboard/servicios?tab=seguimientos`}
+                                      onClick={(e) => e.stopPropagation()}
+                                    >
                                       <span className="text-[10px] font-semibold uppercase tracking-widest text-[#01ADFB]">Ver madre #{s.parentNumero}</span>
                                     </Link>
                                   </div>
@@ -2016,18 +2067,21 @@ function ServiciosContent() {
                                 <td className="px-8 py-6 text-right">
                                   <div className="flex justify-end gap-2">
                                     <button
-                                      onClick={() => openFollowUpModal(s)}
+                                      onClick={(e) => { e.stopPropagation(); openFollowUpModal(s); }}
                                       className="h-10 px-3 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-700 hover:bg-emerald-100 transition-all text-[10px] font-semibold uppercase tracking-widest"
                                     >
                                       {s.raw.seguimientos?.[0]?.completedAt ? "Actualizar llamada" : "Registrar llamada"}
                                     </button>
                                     <button
-                                      onClick={() => { setSelectedServicio(s); setIsModalOpen(true); }}
+                                      onClick={(e) => { e.stopPropagation(); setSelectedServicio(s); setIsModalOpen(true); }}
                                       className="h-10 px-3 rounded-xl border border-border bg-background text-muted-foreground hover:text-foreground transition-all text-[10px] font-semibold uppercase tracking-widest"
                                     >
                                       Ver
                                     </button>
-                                    <Link href={`/dashboard/servicios/${s.raw.id}/editar?returnTo=/dashboard/servicios?tab=seguimientos`}>
+                                    <Link 
+                                      href={`/dashboard/servicios/${s.raw.id}/editar?returnTo=/dashboard/servicios?tab=seguimientos`}
+                                      onClick={(e) => e.stopPropagation()}
+                                    >
                                       <div className="h-10 px-3 rounded-xl border border-border bg-background text-muted-foreground hover:text-foreground transition-all text-[10px] font-semibold uppercase tracking-widest flex items-center">
                                         Editar
                                       </div>
@@ -2056,7 +2110,10 @@ function ServiciosContent() {
         <tbody className="divide-y divide-border">
           {paginatedServicios.map((s) => (
             <React.Fragment key={s.raw.id}>
-              <tr className="group hover:bg-muted/50 transition-colors">
+              <tr 
+                className="group hover:bg-muted/50 transition-colors cursor-pointer"
+                onClick={() => { setSelectedServicio(s); setIsModalOpen(true); }}
+              >
                 <td className="px-8 py-6"><span className="font-mono text-xs font-semibold text-[#01ADFB] bg-[#01ADFB]/10 px-3 py-1.5 rounded-lg border border-[#01ADFB]/20">{s.id}</span></td>
                 <td className="px-8 py-6">
                   <div className="space-y-1">
@@ -2110,31 +2167,33 @@ function ServiciosContent() {
                     {/* Visualización del método de pago con Popover si es mixto */}
                     {s.raw.desglosePago && s.raw.desglosePago.length > 0 ? (
                       s.raw.desglosePago.length > 1 ? (
-                        <Popover>
-                          <PopoverTrigger asChild>
-                            <button className="text-[9px] font-semibold text-[#01ADFB] uppercase cursor-pointer flex items-center gap-1 hover:underline decoration-2 underline-offset-2 transition-all">
-                              <div className="h-1.5 w-1.5 rounded-full bg-[#01ADFB] animate-pulse" />
-                              Múltiples métodos
-                            </button>
-                          </PopoverTrigger>
-                          <PopoverContent align="center" className="w-64 p-4 border-border shadow-2xl rounded-2xl">
-                            <div className="space-y-3">
-                              <p className="text-[10px] font-semibold uppercase tracking-widest text-muted-foreground border-b border-border pb-2">Detalle de Pago Mixto</p>
-                              <div className="space-y-2">
-                                {s.raw.desglosePago.map((d, idx) => (
-                                  <div key={idx} className="flex justify-between items-center bg-muted/30 p-2 rounded-lg border border-border">
-                                    <span className="text-[9px] font-semibold uppercase text-foreground">{d.metodo}</span>
-                                    <span className="text-xs font-semibold text-foreground">$ {Number(d.monto).toLocaleString()}</span>
-                                  </div>
-                                ))}
+                        <div onClick={(e) => e.stopPropagation()}>
+                          <Popover>
+                            <PopoverTrigger asChild>
+                              <button className="text-[9px] font-semibold text-[#01ADFB] uppercase cursor-pointer flex items-center gap-1 hover:underline decoration-2 underline-offset-2 transition-all">
+                                <div className="h-1.5 w-1.5 rounded-full bg-[#01ADFB] animate-pulse" />
+                                Múltiples métodos
+                              </button>
+                            </PopoverTrigger>
+                            <PopoverContent align="center" className="w-64 p-4 border-border shadow-2xl rounded-2xl">
+                              <div className="space-y-3">
+                                <p className="text-[10px] font-semibold uppercase tracking-widest text-muted-foreground border-b border-border pb-2">Detalle de Pago Mixto</p>
+                                <div className="space-y-2">
+                                  {s.raw.desglosePago.map((d, idx) => (
+                                    <div key={idx} className="flex justify-between items-center bg-muted/30 p-2 rounded-lg border border-border">
+                                      <span className="text-[9px] font-semibold uppercase text-foreground">{d.metodo}</span>
+                                      <span className="text-xs font-semibold text-foreground">$ {Number(d.monto).toLocaleString()}</span>
+                                    </div>
+                                  ))}
+                                </div>
+                                <div className="pt-2 border-t border-border flex justify-between items-center">
+                                  <span className="text-[9px] font-semibold uppercase text-muted-foreground">Total</span>
+                                  <span className="text-sm font-bold text-emerald-600">$ {(s.raw.valorPagado || s.raw.desglosePago.reduce((acc, curr) => acc + Number(curr.monto), 0)).toLocaleString()}</span>
+                                </div>
                               </div>
-                              <div className="pt-2 border-t border-border flex justify-between items-center">
-                                <span className="text-[9px] font-semibold uppercase text-muted-foreground">Total</span>
-                                <span className="text-sm font-bold text-emerald-600">$ {(s.raw.valorPagado || s.raw.desglosePago.reduce((acc, curr) => acc + Number(curr.monto), 0)).toLocaleString()}</span>
-                              </div>
-                            </div>
-                          </PopoverContent>
-                        </Popover>
+                            </PopoverContent>
+                          </Popover>
+                        </div>
                       ) : (
                         <span className="text-[9px] font-bold text-muted-foreground uppercase">
                           {s.raw.desglosePago[0].metodo}
@@ -2149,106 +2208,150 @@ function ServiciosContent() {
                 </td>
 
                 <td className="px-8 py-6 text-right">
-                                  <div className="flex justify-end gap-2">
-                                    {s.followUps.filter((child) => child.raw.seguimientos?.[0]?.status !== "ACEPTADO").length > 0 ? (
-                                      <button
-                                        onClick={() => toggleFollowUpsRow(s.raw.id)}
-                                        className="h-10 px-3 rounded-xl bg-amber-50 border border-amber-200 text-amber-700 hover:bg-amber-100 transition-all flex items-center gap-2"
-                                        title={expandedRows[s.raw.id] ? "Ocultar seguimientos" : "Ver seguimientos"}
-                                      >
-                                        <span className="text-[10px] font-semibold uppercase tracking-widest">Seg.</span>
-                                        <ChevronDown className={cn("h-4 w-4 transition-transform", expandedRows[s.raw.id] && "rotate-180")} />
-                                      </button>
-                                    ) : null}
-                                    <DropdownMenu><DropdownMenuTrigger asChild><button className="h-10 w-10 rounded-xl bg-muted hover:bg-foreground hover:text-background text-muted-foreground transition-all flex items-center justify-center"><MoreHorizontal className="h-5 w-5" /></button></DropdownMenuTrigger>
-                                      <DropdownMenuContent align="end" className="w-64 p-2 rounded-xl bg-card border-border shadow-2xl">
-                                        {(() => {
-                                          const settlementMeta = getSettlementFlowMeta(s.raw);
-                                          const financialLock = settlementMeta.financialLock;
+                  <div className="flex justify-end gap-2">
+                    {s.followUps.filter((child) => child.raw.seguimientos?.[0]?.status !== "ACEPTADO").length > 0 ? (
+                      <button
+                        onClick={(e) => { e.stopPropagation(); toggleFollowUpsRow(s.raw.id); }}
+                        className="h-10 px-3 rounded-xl bg-amber-50 border border-amber-200 text-amber-700 hover:bg-amber-100 transition-all flex items-center gap-2"
+                        title={expandedRows[s.raw.id] ? "Ocultar seguimientos" : "Ver seguimientos"}
+                      >
+                        <span className="text-[10px] font-semibold uppercase tracking-widest">Seg.</span>
+                        <ChevronDown className={cn("h-4 w-4 transition-transform", expandedRows[s.raw.id] && "rotate-180")} />
+                      </button>
+                    ) : null}
+                    <div onClick={(e) => e.stopPropagation()}>
+                      <DropdownMenu>
+                        <DropdownMenuTrigger asChild>
+                          <button className="h-10 w-10 rounded-xl bg-muted hover:bg-foreground hover:text-background text-muted-foreground transition-all flex items-center justify-center">
+                            <MoreHorizontal className="h-5 w-5" />
+                          </button>
+                        </DropdownMenuTrigger>
+                        <DropdownMenuContent align="end" className="w-64 p-2 rounded-xl bg-card border-border shadow-2xl">
+                          <p className="text-[10px] font-black uppercase tracking-widest text-muted-foreground px-3 py-2 border-b border-border mb-2">Acciones de Servicio</p>
+                          <DropdownMenuItem 
+                            onClick={() => { setSelectedServicio(s); setIsModalOpen(true); }}
+                            className="flex items-center gap-3 py-2.5 text-[11px] font-bold cursor-pointer text-foreground"
+                          >
+                            <Eye className="h-4 w-4 text-[#01ADFB]" /> VER DETALLES
+                          </DropdownMenuItem>
 
-                                          return (
-                                            <>
-                                              <DropdownMenuItem onClick={() => { setSelectedServicio(s); setIsModalOpen(true); }} className="flex items-center gap-3 py-2.5 text-[11px] font-bold cursor-pointer text-foreground hover:bg-muted"><Eye className="h-4 w-4 text-[#01ADFB]" /> VER DETALLES</DropdownMenuItem>
-                                              {canEditServices ? (
-                                                <Link href={`/dashboard/servicios/${s.raw.id}/editar?returnTo=/dashboard/servicios`}><DropdownMenuItem className="flex items-center gap-3 py-2.5 text-[11px] font-bold cursor-pointer text-foreground hover:bg-muted"><Pencil className="h-4 w-4 text-amber-600" /> EDITAR ORDEN</DropdownMenuItem></Link>
-                                              ) : null}
-                                              {canEditServices || canManageServices ? <DropdownMenuSeparator /> : null}
-                                              <DropdownMenuItem onClick={() => handleCopy(s)} className="flex items-center gap-3 py-2.5 text-[11px] font-bold cursor-pointer text-foreground hover:bg-muted"><Copy className="h-4 w-4 text-purple-600" /> COPIAR INFO</DropdownMenuItem>
-                                              {canManageServices ? (
-                                                <>
-                                                  <DropdownMenuItem onClick={() => handleNotifyOperator(s)} className="flex items-center gap-3 py-2.5 text-[11px] font-bold cursor-pointer text-foreground hover:bg-muted"><Send className="h-4 w-4 text-[#01ADFB]" /> ENVIAR A TECNICO</DropdownMenuItem>
-                                                  <DropdownMenuItem onClick={() => { setSelectedServicio(s); setIsVisitaModalOpen(true); }} className="flex items-center gap-3 py-2.5 text-[11px] font-bold cursor-pointer text-foreground hover:bg-muted"><MapPin className="h-4 w-4 text-emerald-500" /> EVIDENCIA DE VISITA</DropdownMenuItem>
-                                                  <DropdownMenuSeparator />
-                                                  <DropdownMenuItem onClick={() => triggerUpload(s.raw.id, "facturaElectronica")} className="flex items-center gap-3 py-2.5 text-[11px] font-bold cursor-pointer text-foreground hover:bg-muted"><Upload className="h-4 w-4 text-blue-500" /> SUBIR FACTURA</DropdownMenuItem>
-                                                  <DropdownMenuItem
-                                                    disabled={financialLock.locked}
-                                                    onClick={() => triggerUpload(s.raw.id, "comprobantePago")}
-                                                    className="flex items-center gap-3 py-2.5 text-[11px] font-bold cursor-pointer text-foreground hover:bg-muted disabled:pointer-events-none disabled:opacity-50"
-                                                  >
-                                                    <Receipt className="h-4 w-4 text-orange-500" /> SUBIR COMPROBANTE
-                                                  </DropdownMenuItem>
-                                                  <DropdownMenuItem onClick={() => triggerUpload(s.raw.id, "evidenciaPath")} className="flex items-center gap-3 py-2.5 text-[11px] font-bold cursor-pointer text-foreground hover:bg-muted"><ImageIcon className="h-4 w-4 text-indigo-500" /> SUBIR EVIDENCIAS</DropdownMenuItem>
-                                                  <DropdownMenuSeparator />
-                                                  <DropdownMenuItem onClick={() => openDeleteModal(s)} className="flex items-center gap-3 py-2.5 text-[11px] font-bold cursor-pointer text-destructive hover:bg-destructive/10"><Trash2 className="h-4 w-4" /> ELIMINAR SERVICIO</DropdownMenuItem>
-                                                  <DropdownMenuSeparator />
-                                                </>
-                                              ) : null}
-                                              {canManageServices && s.estadoServicio === "LIQUIDADO" ? (
-                                                <DropdownMenuItem onClick={() => { setSelectedServicio(s); setIsViewLiquidationModalOpen(true); }} className="flex items-center gap-3 py-2.5 text-[11px] font-bold cursor-pointer text-emerald-600 hover:bg-emerald-500/10"><CheckCircle2 className="h-4 w-4" /> VER LIQUIDACION</DropdownMenuItem>
-                                              ) : canManageServices && financialLock.locked ? (
-                                                <DropdownMenuItem disabled className="flex items-start gap-3 py-2.5 text-[11px] font-bold text-amber-700 opacity-100">
-                                                  <AlertTriangle className="mt-0.5 h-4 w-4" />
-                                                  <span className="leading-relaxed">
-                                                    <span className="block uppercase tracking-wider">Orden congelada</span>
-                                                    <span className="text-[10px] font-medium normal-case">{financialLock.reason}</span>
-                                                  </span>
-                                                </DropdownMenuItem>
-                                              ) : !s.raw.fechaVisita ? null : (
-                                                <DropdownMenuItem
-                                                  onClick={() => {
-                                                    setSelectedServicio(s);
-                                                    const currentBreakdown = s.raw.desglosePago && s.raw.desglosePago.length > 0
-                                                      ? s.raw.desglosePago.map(d => ({
-                                                          metodo: d.metodo,
-                                                          monto: d.monto.toString().replace(/\B(?=(\d{3})+(?!\d))/g, "."),
-                                                          banco: d.banco,
-                                                          referencia: d.referencia,
-                                                          observacion: d.observacion
-                                                        }))
-                                                      : [{
-                                                          metodo: s.raw.metodoPago?.nombre || (settlementMeta.hasCash ? "EFECTIVO" : "TRANSFERENCIA"),
-                                                          monto: (s.raw.valorCotizado || "").toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")
-                                                        }];
-                                          setLiquidarData({
-                                            breakdown: currentBreakdown,
-                                            observacionFinal: s.raw.observacionFinal || "",
-                                            transferencias: settlementMeta.hasTransfer
-                                              ? [
-                                                  ...getStoredTransferencias(s.raw),
-                                                  createTransferenciaForm(),
-                                                ]
-                                              : [],
-                                          });
-                                          setIsLiquidarModalOpen(true);
-                                        }}
-                                                  className={cn(
-                                                    "flex items-center gap-3 py-2.5 text-[11px] font-bold cursor-pointer",
-                                                    settlementMeta.accent === "sky" && "text-sky-600 hover:bg-sky-500/10",
-                                                    settlementMeta.accent === "blue" && "text-blue-600 hover:bg-blue-500/10",
-                                                    settlementMeta.accent === "emerald" && "text-emerald-600 hover:bg-emerald-500/10",
-                                                  )}
-                                                >
-                                                  {settlementMeta.isFuture ? <CreditCard className="h-4 w-4" /> : settlementMeta.hasCash ? <Wallet className="h-4 w-4" /> : <CheckCircle2 className="h-4 w-4" />}
-                                                  {settlementMeta.title.toUpperCase()}
-                                                </DropdownMenuItem>
-                                              )}
-                                            </>
-                                          );
-                                        })()}
-                                      </DropdownMenuContent></DropdownMenu>
-                                  </div>
-                                </td>
-                              </tr>
+                          {canEditServices ? (
+                            <Link href={`/dashboard/servicios/${s.raw.id}/editar?returnTo=/dashboard/servicios`} onClick={(e) => e.stopPropagation()}>
+                              <DropdownMenuItem className="flex items-center gap-3 py-2.5 text-[11px] font-bold cursor-pointer text-foreground">
+                                <Pencil className="h-4 w-4 text-amber-600" /> EDITAR ORDEN
+                              </DropdownMenuItem>
+                            </Link>
+                          ) : null}
+
+                          <DropdownMenuItem 
+                            onClick={() => handleCopy(s)}
+                            className="flex items-center gap-3 py-2.5 text-[11px] font-bold cursor-pointer text-foreground"
+                          >
+                            <Copy className="h-4 w-4 text-purple-600" /> COPIAR INFO
+                          </DropdownMenuItem>
+
+                          {canManageServices ? (
+                            <>
+                              <DropdownMenuItem onClick={() => handleNotifyOperator(s)} className="flex items-center gap-3 py-2.5 text-[11px] font-bold cursor-pointer text-foreground hover:bg-muted">
+                                <Send className="h-4 w-4 text-[#01ADFB]" /> ENVIAR A TECNICO
+                              </DropdownMenuItem>
+                              <DropdownMenuItem onClick={() => { setSelectedServicio(s); setIsVisitaModalOpen(true); }} className="flex items-center gap-3 py-2.5 text-[11px] font-bold cursor-pointer text-foreground hover:bg-muted">
+                                <MapPin className="h-4 w-4 text-emerald-500" /> EVIDENCIA DE VISITA
+                              </DropdownMenuItem>
+                              <DropdownMenuSeparator />
+                              <DropdownMenuItem onClick={() => triggerUpload(s.raw.id, "facturaElectronica")} className="flex items-center gap-3 py-2.5 text-[11px] font-bold cursor-pointer text-foreground hover:bg-muted">
+                                <Upload className="h-4 w-4 text-blue-500" /> SUBIR FACTURA
+                              </DropdownMenuItem>
+                              <DropdownMenuItem
+                                disabled={getFinancialLockMeta(s.raw).locked}
+                                onClick={() => triggerUpload(s.raw.id, "comprobantePago")}
+                                className="flex items-center gap-3 py-2.5 text-[11px] font-bold cursor-pointer text-foreground hover:bg-muted disabled:pointer-events-none disabled:opacity-50"
+                              >
+                                <Receipt className="h-4 w-4 text-orange-500" /> SUBIR COMPROBANTE
+                              </DropdownMenuItem>
+                              <DropdownMenuItem onClick={() => triggerUpload(s.raw.id, "evidenciaPath")} className="flex items-center gap-3 py-2.5 text-[11px] font-bold cursor-pointer text-foreground hover:bg-muted">
+                                <ImageIcon className="h-4 w-4 text-indigo-500" /> SUBIR EVIDENCIAS
+                              </DropdownMenuItem>
+                              <DropdownMenuSeparator />
+                              <DropdownMenuItem onClick={() => openDeleteModal(s)} className="flex items-center gap-3 py-2.5 text-[11px] font-bold cursor-pointer text-destructive hover:bg-destructive/10">
+                                <Trash2 className="h-4 w-4" /> ELIMINAR SERVICIO
+                              </DropdownMenuItem>
+                              <DropdownMenuSeparator />
+                            </>
+                          ) : null}
+
+                          {(() => {
+                            const settlementMeta = getSettlementFlowMeta(s.raw);
+                            const financialLock = settlementMeta.financialLock;
+
+                            return (
+                              <>
+                                {s.raw.liquidadoAt || s.raw.estadoServicio === "LIQUIDADO" ? (
+                                  <DropdownMenuItem
+                                    onClick={() => {
+                                      setSelectedServicio(s);
+                                      setIsViewLiquidationModalOpen(true);
+                                    }}
+                                    className="flex items-center gap-3 py-2.5 text-[11px] font-bold cursor-pointer text-emerald-600 hover:bg-emerald-500/10"
+                                  >
+                                    <Receipt className="h-4 w-4" /> VER LIQUIDACIÓN
+                                  </DropdownMenuItem>
+                                ) : financialLock.locked ? (
+                                  <DropdownMenuItem disabled className="flex items-start gap-3 py-2.5 text-[11px] font-bold text-amber-700 opacity-100">
+                                    <AlertTriangle className="mt-0.5 h-4 w-4" />
+                                    <span className="leading-relaxed">
+                                      <span className="block uppercase tracking-wider">Orden congelada</span>
+                                      <span className="text-[10px] font-medium normal-case">{financialLock.reason}</span>
+                                    </span>
+                                  </DropdownMenuItem>
+                                ) : !s.raw.fechaVisita ? null : (
+                                  <DropdownMenuItem
+                                    onClick={() => {
+                                      setSelectedServicio(s);
+                                      const currentBreakdown = s.raw.desglosePago && s.raw.desglosePago.length > 0
+                                        ? s.raw.desglosePago.map(d => ({
+                                            metodo: d.metodo,
+                                            monto: d.monto.toString().replace(/\B(?=(\d{3})+(?!\d))/g, "."),
+                                            banco: d.banco,
+                                            referencia: d.referencia,
+                                            observacion: d.observacion
+                                          }))
+                                        : [{
+                                            metodo: s.raw.metodoPago?.nombre || (settlementMeta.hasCash ? "EFECTIVO" : "TRANSFERENCIA"),
+                                            monto: (s.raw.valorCotizado || "").toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")
+                                          }];
+                                      setLiquidarData({
+                                        breakdown: currentBreakdown,
+                                        observacionFinal: s.raw.observacionFinal || "",
+                                        transferencias: settlementMeta.hasTransfer
+                                          ? [
+                                              ...getStoredTransferencias(s.raw),
+                                              createTransferenciaForm(),
+                                            ]
+                                          : [],
+                                      });
+                                      setIsLiquidarModalOpen(true);
+                                    }}
+                                    className={cn(
+                                      "flex items-center gap-3 py-2.5 text-[11px] font-bold cursor-pointer",
+                                      settlementMeta.accent === "sky" && "text-sky-600 hover:bg-sky-500/10",
+                                      settlementMeta.accent === "blue" && "text-blue-600 hover:bg-blue-500/10",
+                                      settlementMeta.accent === "emerald" && "text-emerald-600 hover:bg-emerald-500/10",
+                                    )}
+                                  >
+                                    {settlementMeta.isFuture ? <CreditCard className="h-4 w-4" /> : settlementMeta.hasCash ? <Wallet className="h-4 w-4" /> : <CheckCircle2 className="h-4 w-4" />}
+                                    {settlementMeta.title.toUpperCase()}
+                                  </DropdownMenuItem>
+                                )}
+                              </>
+                            );
+                          })()}
+                        </DropdownMenuContent>
+                      </DropdownMenu>
+                    </div>
+                  </div>
+                </td>
+              </tr>
                               {expandedRows[s.raw.id] && s.followUps.filter((child) => child.raw.seguimientos?.[0]?.status !== "ACEPTADO").length > 0 ? (
                                 <tr className="bg-amber-50/60">
                                   <td colSpan={8} className="px-8 py-5">
@@ -2401,358 +2504,302 @@ function ServiciosContent() {
         </DialogContent>
       </Dialog>
 
-      <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}><DialogContent className="max-w-4xl h-[90vh] p-0 flex flex-col overflow-hidden bg-background border-border">
-        <div className="p-6 border-b shrink-0 bg-background relative">
+      <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}><DialogContent className="max-w-6xl h-[92vh] p-0 flex flex-col overflow-hidden bg-background border-border shadow-2xl animate-in zoom-in-95 duration-300">
+        <div className="p-8 border-b shrink-0 bg-muted/30 relative">
+          <div className="absolute right-12 top-8 flex items-center gap-3">
+             <div className={cn("px-4 py-1.5 rounded-full text-[10px] font-black uppercase tracking-widest border shadow-sm", ESTADO_STYLING[selectedServicio?.estadoServicio || ""] || ESTADO_STYLING["DEFAULT"])}>
+                {selectedServicio?.estadoServicio}
+             </div>
+             <div className={cn("px-4 py-1.5 rounded-full text-[10px] font-black uppercase tracking-widest shadow-sm", URGENCIA_STYLING[selectedServicio?.urgencia || ""])}>
+                Prioridad {selectedServicio?.urgencia}
+             </div>
+          </div>
           <DialogHeader>
-            <DialogTitle className="text-lg font-semibold leading-none tracking-tight text-foreground">Detalle Completo de Orden</DialogTitle>
-            <DialogDescription className="text-muted-foreground text-sm">Expediente maestro con toda la información del cliente y el servicio</DialogDescription>
+            <div className="flex items-center gap-4 mb-2">
+              <div className="h-12 w-12 rounded-2xl bg-[#01ADFB]/10 flex items-center justify-center text-[#01ADFB]">
+                <FileText className="h-6 w-6" />
+              </div>
+              <div>
+                <DialogTitle className="text-2xl font-black leading-none tracking-tight text-foreground uppercase">Expediente de Orden <span className="text-[#01ADFB]">#{selectedServicio?.id}</span></DialogTitle>
+                <DialogDescription className="text-muted-foreground font-bold text-[10px] uppercase tracking-[0.2em] mt-1.5">Trazabilidad total del servicio operativo y financiero</DialogDescription>
+              </div>
+            </div>
           </DialogHeader>
         </div>
 
-        <div className="flex-1 overflow-y-auto p-6 lg:p-8 custom-scrollbar">
+        <div className="flex-1 overflow-y-auto p-8 lg:p-12 custom-scrollbar bg-background">
           {selectedServicio && (
-            <div className="space-y-8">
-              {/* 1. INFORMACIÓN GENERAL */}
-              <div className="space-y-3">
-                <h3 className="text-xs font-bold text-slate-400 uppercase tracking-wider border-b pb-1">Información General</h3>
-                <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                  <div>
-                    <span className="text-xs text-slate-500 block">ID Servicio</span>
-                    <span className="font-mono text-sm font-medium text-[#01ADFB]">{selectedServicio.raw.id.substring(0, 8).toUpperCase()}</span>
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-12">
+              {/* COLUMNA IZQUIERDA: CLIENTE Y UBICACIÓN */}
+              <div className="lg:col-span-7 space-y-10">
+                <div className="space-y-6">
+                  <div className="flex items-center gap-3 border-b border-border pb-3">
+                    <User className="h-5 w-5 text-[#01ADFB]" />
+                    <h3 className="text-xs font-black text-foreground uppercase tracking-[0.2em]">Identificación del Cliente</h3>
                   </div>
-                  <div>
-                    <span className="text-xs text-slate-500 block">Número Orden</span>
-                    <span className="font-medium">{selectedServicio.id || "N/A"}</span>
-                  </div>
-                  <div>
-                    <span className="text-xs text-slate-500 block">Estado Actual</span>
-                    <div className="mt-0.5">
-                      <span className={cn("inline-flex items-center rounded-full border px-2.5 py-0.5 text-[10px] font-semibold transition-colors uppercase", ESTADO_STYLING[selectedServicio.estadoServicio] || ESTADO_STYLING["DEFAULT"])}>
-                        {selectedServicio.estadoServicio}
-                      </span>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <div className="space-y-1">
+                      <span className="text-[10px] font-black text-muted-foreground uppercase tracking-widest block">Nombre / Razón Social</span>
+                      <span className="font-bold text-lg text-foreground uppercase leading-tight">{selectedServicio.cliente}</span>
+                      <span className="text-[10px] font-black text-[#01ADFB] uppercase tracking-tighter block mt-1">{selectedServicio.clienteFull.tipoCliente}</span>
                     </div>
-                  </div>
-                  <div>
-                    <span className="text-xs text-slate-500 block">Fecha Creación</span>
-                    <span className="font-medium text-sm">{formatBogotaDate(selectedServicio.raw.createdAt)}</span>
-                  </div>
-                  <div className="col-span-1 md:col-span-2">
-                    <span className="text-xs text-slate-500 block">Creado Por</span>
-                    <span className="font-medium text-sm uppercase">
-                      {selectedServicio.raw.creadoPor?.user ? `${selectedServicio.raw.creadoPor.user.nombre} ${selectedServicio.raw.creadoPor.user.apellido}` : "SISTEMA"}
-                    </span>
-                  </div>
-                  <div>
-                    <span className="text-xs text-slate-500 block">Prioridad</span>
-                    <span className={cn("inline-block px-2 py-0.5 rounded text-[10px] font-semibold uppercase mt-1", URGENCIA_STYLING[selectedServicio.urgencia])}>
-                      {selectedServicio.urgencia}
-                    </span>
-                  </div>
-                </div>
-              </div>
-
-              {/* 2. CLIENTE Y CONTACTO */}
-              <div className="space-y-3">
-                <h3 className="text-xs font-bold text-slate-400 uppercase tracking-wider border-b pb-1">Cliente y Contacto</h3>
-                <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-                  <div className="col-span-1 md:col-span-2">
-                    <span className="text-xs text-slate-500 block">Nombre Completo / Razón Social</span>
-                    <span className="font-medium text-base uppercase">{selectedServicio.cliente}</span>
-                    <span className="text-[10px] text-[#01ADFB] font-bold block">{selectedServicio.clienteFull.tipoCliente}</span>
-                  </div>
-                  <div>
-                    <span className="text-xs text-slate-500 block">Representante Legal</span>
-                    <span className="font-medium uppercase text-sm">{selectedServicio.clienteFull.representanteLegal || "N/A"}</span>
-                  </div>
-                  <div>
-                    <span className="text-xs text-slate-500 block">Documento / NIT</span>
-                    <span className="font-medium uppercase">
-                      {selectedServicio.clienteFull.tipoDocumento || "CC/NIT"} {selectedServicio.clienteFull.numeroDocumento || selectedServicio.clienteFull.nit || "N/A"}
-                    </span>
-                  </div>
-                  <div>
-                    <span className="text-xs text-slate-500 block">Teléfono Principal</span>
-                    <span className="font-medium">{selectedServicio.clienteFull.telefono || "N/A"}</span>
-                  </div>
-                  <div>
-                    <span className="text-xs text-slate-500 block">Teléfono Secundario</span>
-                    <span className="font-medium">{selectedServicio.clienteFull.telefono2 || "N/A"}</span>
-                  </div>
-                  <div className="col-span-1 md:col-span-2">
-                    <span className="text-xs text-slate-500 block">Correo Electrónico</span>
-                    <span className="font-medium text-sm lowercase">{selectedServicio.clienteFull.correo || "N/A"}</span>
-                  </div>
-                  <div>
-                    <span className="text-xs text-slate-500 block">Score / Calificación</span>
-                    <span className="font-bold text-[#01ADFB]">{selectedServicio.clienteFull.score ?? 0} pts</span>
-                  </div>
-                </div>
-              </div>
-
-              {/* 3. SEGMENTACIÓN DEL CLIENTE */}
-              <div className="space-y-3">
-                <h3 className="text-xs font-bold text-slate-400 uppercase tracking-wider border-b pb-1">Perfil y Segmentación</h3>
-                <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                  <div>
-                    <span className="text-xs text-slate-500 block">Segmento</span>
-                    <span className="font-medium uppercase text-sm">{selectedServicio.clienteFull.segmento || "N/A"}</span>
-                  </div>
-                  <div>
-                    <span className="text-xs text-slate-500 block">Subsegmento</span>
-                    <span className="font-medium uppercase text-sm">{selectedServicio.clienteFull.subsegmento || "N/A"}</span>
-                  </div>
-                  <div>
-                    <span className="text-xs text-slate-500 block">Nivel de Riesgo</span>
-                    <span className="font-medium uppercase text-sm">{selectedServicio.clienteFull.nivelRiesgo || "N/A"}</span>
-                  </div>
-                  <div>
-                    <span className="text-xs text-slate-500 block">Clasificación</span>
-                    <span className="font-medium uppercase text-sm">{selectedServicio.clienteFull.clasificacion || "N/A"}</span>
-                  </div>
-                  <div className="col-span-2">
-                    <span className="text-xs text-slate-500 block">Actividad Económica</span>
-                    <span className="font-medium uppercase text-sm">{selectedServicio.clienteFull.actividadEconomica || "N/A"}</span>
-                  </div>
-                  <div>
-                    <span className="text-xs text-slate-500 block">Origen</span>
-                    <span className="font-medium uppercase text-sm">{selectedServicio.clienteFull.origenCliente || "N/A"}</span>
-                  </div>
-                  <div>
-                    <span className="text-xs text-slate-500 block">Ticket Promedio</span>
-                    <span className="font-medium uppercase text-sm">{selectedServicio.clienteFull.ticketPromedio ? new Intl.NumberFormat('es-CO', { style: 'currency', currency: 'COP', maximumFractionDigits: 0 }).format(selectedServicio.clienteFull.ticketPromedio) : "N/A"}</span>
-                  </div>
-                  <div>
-                    <span className="text-xs text-slate-500 block">Última Visita</span>
-                    <span className="font-medium text-sm">{selectedServicio.clienteFull.ultimaVisita ? formatBogotaDate(selectedServicio.clienteFull.ultimaVisita) : "N/A"}</span>
-                  </div>
-                  <div>
-                    <span className="text-xs text-slate-500 block">Próxima Visita</span>
-                    <span className="font-medium text-sm text-[#01ADFB]">{selectedServicio.clienteFull.proximaVisita ? formatBogotaDate(selectedServicio.clienteFull.proximaVisita) : "N/A"}</span>
-                  </div>
-                  <div>
-                    <span className="text-xs text-slate-500 block">Frecuencia Base</span>
-                    <span className="font-medium uppercase text-sm">{selectedServicio.clienteFull.frecuenciaServicio ? `${selectedServicio.clienteFull.frecuenciaServicio} días` : "N/A"}</span>
-                  </div>
-                </div>
-              </div>
-
-              {/* VEHÍCULO (SI APLICA) */}
-              {selectedServicio.raw.vehiculo && (
-                <div className="space-y-3">
-                  <h3 className="text-xs font-bold text-slate-400 uppercase tracking-wider border-b pb-1">Vehículo Asociado</h3>
-                  <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
-                    <div>
-                      <span className="text-xs text-slate-500 block">Placa</span>
-                      <span className="font-bold text-[#01ADFB] uppercase">{selectedServicio.raw.vehiculo.placa}</span>
+                    <div className="space-y-1">
+                      <span className="text-[10px] font-black text-muted-foreground uppercase tracking-widest block">Documento / NIT</span>
+                      <span className="font-bold text-foreground uppercase">{selectedServicio.clienteFull.tipoDocumento || "DOC"} {selectedServicio.clienteFull.numeroDocumento || selectedServicio.clienteFull.nit || "N/A"}</span>
                     </div>
-                    <div>
-                      <span className="text-xs text-slate-500 block">Marca</span>
-                      <span className="font-medium uppercase text-sm">{selectedServicio.raw.vehiculo.marca || "N/A"}</span>
+                    <div className="space-y-1">
+                      <span className="text-[10px] font-black text-muted-foreground uppercase tracking-widest block">Contacto Directo</span>
+                      <div className="flex items-center gap-3">
+                        <span className="font-bold text-foreground">{selectedServicio.clienteFull.telefono || "N/A"}</span>
+                        {selectedServicio.clienteFull.telefono && (
+                          <a 
+                            href={`https://wa.me/57${selectedServicio.clienteFull.telefono.replace(/\s+/g, '')}`} 
+                            target="_blank" 
+                            rel="noopener noreferrer"
+                            className="h-8 w-8 rounded-full bg-emerald-500/10 flex items-center justify-center text-emerald-600 hover:bg-emerald-500/20 transition-colors"
+                          >
+                            <svg className="h-4 w-4 fill-current" viewBox="0 0 24 24"><path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.539 2.016 2.126-.54c1.029.59 1.967.934 3.162.934 3.181 0 5.767-2.586 5.768-5.766 0-3.18-2.586-5.767-5.768-5.767zm3.349 8.232c-.185.439-.915.803-1.254.853-.254.038-.572.058-1.579-.355-1.21-.496-1.991-1.726-2.051-1.807-.06-.08-.482-.642-.482-1.226 0-.584.307-.87.417-.989.11-.119.239-.149.318-.149.079 0 .159 0 .229.005.071.005.166-.021.259.214.095.238.324.79.353.85.029.06.048.129.01.189-.039.06-.058.099-.117.169-.06.07-.127.156-.181.21-.059.059-.121.124-.052.229.069.106.307.508.658.822.452.402.833.528.95.587.117.059.185.048.254-.029.069-.079.301-.351.381-.469.079-.118.159-.099.269-.059.109.04.693.327.812.387.119.059.198.09.228.139.03.049.03.288-.155.727z"/></svg>
+                          </a>
+                        )}
+                      </div>
+                      {selectedServicio.clienteFull.telefono2 && <span className="text-xs text-muted-foreground block">{selectedServicio.clienteFull.telefono2}</span>}
                     </div>
-                    <div>
-                      <span className="text-xs text-slate-500 block">Modelo</span>
-                      <span className="font-medium uppercase text-sm">{selectedServicio.raw.vehiculo.modelo || "N/A"}</span>
-                    </div>
-                    <div>
-                      <span className="text-xs text-slate-500 block">Color</span>
-                      <span className="font-medium uppercase text-sm">{selectedServicio.raw.vehiculo.color || "N/A"}</span>
-                    </div>
-                    <div>
-                      <span className="text-xs text-slate-500 block">Tipo</span>
-                      <span className="font-medium uppercase text-sm">{selectedServicio.raw.vehiculo.tipo || "N/A"}</span>
+                    <div className="space-y-1">
+                      <span className="text-[10px] font-black text-muted-foreground uppercase tracking-widest block">Correo Electrónico</span>
+                      <span className="font-bold text-foreground text-sm lowercase">{selectedServicio.clienteFull.correo || "N/A"}</span>
                     </div>
                   </div>
                 </div>
-              )}
 
-              {/* 4. UBICACIÓN DEL SERVICIO */}
-              <div className="space-y-3">
-                <h3 className="text-xs font-bold text-slate-400 uppercase tracking-wider border-b pb-1">Ubicación del Servicio</h3>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <div className="md:col-span-2">
-                    <span className="text-xs text-slate-500 block">Dirección Principal</span>
-                    <span className="font-medium text-base flex items-center gap-2 uppercase">
-                      <MapPin className="h-4 w-4 text-blue-500" />
-                      {selectedServicio.raw.direccionTexto || "N/A"}
-                    </span>
-                  </div>
-                  <div>
-                    <span className="text-xs text-slate-500 block">Municipio / Depto</span>
-                    <span className="font-medium uppercase">
-                      {selectedServicio.raw.municipio || "N/A"} {selectedServicio.raw.departamento ? `/ ${selectedServicio.raw.departamento}` : ""}
-                    </span>
-                  </div>
-                  <div>
-                    <span className="text-xs text-slate-500 block">Zona / Sector</span>
-                    <span className="font-medium uppercase">{selectedServicio.raw.zona?.nombre || "N/A"}</span>
-                  </div>
-                  <div>
-                    <span className="text-xs text-slate-500 block">Barrio</span>
-                    <span className="font-medium uppercase">{selectedServicio.raw.barrio || "N/A"}</span>
-                  </div>
-                  <div>
-                    <span className="text-xs text-slate-500 block">Detalles Interior (B/P/U)</span>
-                    <span className="text-sm font-medium uppercase">
-                      {[
-                        selectedServicio.raw.bloque && `Bloque: ${selectedServicio.raw.bloque}`,
-                        selectedServicio.raw.piso && `Piso: ${selectedServicio.raw.piso}`,
-                        selectedServicio.raw.unidad && `Unidad: ${selectedServicio.raw.unidad}`
-                      ].filter(Boolean).join(" - ") || "N/A"}
-                    </span>
-                  </div>
-                  {selectedServicio.raw.linkMaps && (
-                    <div className="md:col-span-2">
-                      <a href={selectedServicio.raw.linkMaps} target="_blank" rel="noopener noreferrer" className="text-[10px] text-blue-600 font-bold hover:underline flex items-center gap-1 uppercase">
-                        <ExternalLink className="h-3 w-3" /> Ver en Google Maps
-                      </a>
+                {/* INFORMACIÓN DEL VEHÍCULO (SI APLICA) */}
+                {selectedServicio.raw.vehiculo && (
+                  <div className="space-y-6">
+                    <div className="flex items-center gap-3 border-b border-border pb-3">
+                      <Truck className="h-5 w-5 text-[#01ADFB]" />
+                      <h3 className="text-xs font-black text-foreground uppercase tracking-[0.2em]">Vehículo Asociado</h3>
                     </div>
-                  )}
-                </div>
-              </div>
+                    <div className="grid grid-cols-2 md:grid-cols-4 gap-6 p-6 bg-[#01ADFB]/5 rounded-[2rem] border border-[#01ADFB]/10">
+                      <div>
+                        <span className="text-[9px] font-black text-[#01ADFB] uppercase block">Placa</span>
+                        <span className="text-xl font-black text-foreground uppercase">{selectedServicio.raw.vehiculo.placa}</span>
+                      </div>
+                      <div>
+                        <span className="text-[9px] font-black text-muted-foreground uppercase block">Marca / Modelo</span>
+                        <span className="text-sm font-bold text-foreground uppercase leading-tight">{selectedServicio.raw.vehiculo.marca || "N/A"} {selectedServicio.raw.vehiculo.modelo}</span>
+                      </div>
+                      <div>
+                        <span className="text-[9px] font-black text-muted-foreground uppercase block">Color</span>
+                        <span className="text-sm font-bold text-foreground uppercase">{selectedServicio.raw.vehiculo.color || "N/A"}</span>
+                      </div>
+                      <div>
+                        <span className="text-[9px] font-black text-muted-foreground uppercase block">Tipo</span>
+                        <span className="text-sm font-bold text-foreground uppercase">{selectedServicio.raw.vehiculo.tipo || "N/A"}</span>
+                      </div>
+                    </div>
+                  </div>
+                )}
 
-              {/* 5. DETALLE DEL SERVICIO */}
-              <div className="space-y-3">
-                <h3 className="text-xs font-bold text-slate-400 uppercase tracking-wider border-b pb-1">Detalle del Servicio</h3>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <div>
-                    <span className="text-xs text-slate-500 block">Empresa Prestadora</span>
-                    <span className="font-medium uppercase">{selectedServicio.raw.empresa?.nombre || "N/A"}</span>
+                <div className="space-y-6">
+                  <div className="flex items-center gap-3 border-b border-border pb-3">
+                    <MapPin className="h-5 w-5 text-[#01ADFB]" />
+                    <h3 className="text-xs font-black text-foreground uppercase tracking-[0.2em]">Punto de Servicio</h3>
                   </div>
-                  <div>
-                    <span className="text-xs text-slate-500 block">Tipo de Visita</span>
-                    <span className="font-medium uppercase">{formatVisitTypeLabel(selectedServicio.raw.tipoVisita)}</span>
-                  </div>
-                  <div>
-                    <span className="text-xs text-slate-500 block">Servicio Específico</span>
-                    <span className="font-medium uppercase text-[#01ADFB]">{selectedServicio.servicioEspecifico}</span>
-                  </div>
-                  <div>
-                    <span className="text-xs text-slate-500 block">Técnico Asignado</span>
-                    <span className="font-medium uppercase">{selectedServicio.tecnico}</span>
-                  </div>
-                  <div>
-                    <span className="text-xs text-slate-500 block">Tipo Facturación</span>
-                    <span className="font-medium uppercase text-sm">{selectedServicio.raw.tipoFacturacion || "N/A"}</span>
-                  </div>
-                  <div>
-                    <span className="text-xs text-slate-500 block">Frecuencia Sugerida</span>
-                    <span className="font-medium uppercase text-sm">{selectedServicio.raw.frecuenciaSugerida ? `${selectedServicio.raw.frecuenciaSugerida} días` : "N/A"}</span>
-                  </div>
-                </div>
-              </div>
-
-              {/* 6. PROGRAMACIÓN */}
-              <div className="space-y-3">
-                <h3 className="text-xs font-bold text-slate-400 uppercase tracking-wider border-b pb-1">Programación y Tiempos</h3>
-                <div className="grid grid-cols-3 gap-4 bg-blue-50 p-4 rounded-lg border border-blue-100">
-                  <div>
-                    <span className="text-xs text-slate-500 block">Fecha Programada</span>
-                    <span className="font-medium">{selectedServicio.fecha}</span>
-                  </div>
-                  <div>
-                    <span className="text-xs text-slate-500 block">Hora Inicio</span>
-                    <span className="font-medium">{selectedServicio.hora}</span>
-                  </div>
-                  <div>
-                    <span className="text-xs text-slate-500 block">Hora Fin Estimada</span>
-                    <span className="font-medium">
-                      {selectedServicio.raw.horaFin ? formatBogotaTime(selectedServicio.raw.horaFin) : "--:--"}
-                    </span>
-                  </div>
-                </div>
-              </div>
-
-              {/* 7. ESTADO Y OBSERVACIONES */}
-              <div className="space-y-3">
-                <h3 className="text-xs font-bold text-slate-400 uppercase tracking-wider border-b pb-1">Estado Operativo y Observaciones</h3>
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                  <div>
-                    <span className="text-xs text-slate-500 block">Nivel Infestación</span>
-                    <span className="font-medium uppercase">{selectedServicio.raw.nivelInfestacion || "N/A"}</span>
-                  </div>
-                  <div>
-                    <span className="text-xs text-slate-500 block">Cond. Higiene</span>
-                    <span className="font-medium uppercase">{selectedServicio.raw.condicionesHigiene || "N/A"}</span>
-                  </div>
-                  <div>
-                    <span className="text-xs text-slate-500 block">Cond. Local</span>
-                    <span className="font-medium uppercase">{selectedServicio.raw.condicionesLocal || "N/A"}</span>
-                  </div>
-                  <div className="col-span-1 md:col-span-3">
-                    <span className="text-xs text-slate-500 block mb-1">Observaciones Iniciales (Registro)</span>
-                    <p className="text-sm bg-slate-50 p-3 rounded-md border border-slate-100 min-h-[60px] italic">
-                      {selectedServicio.raw.observacion || "Sin observaciones registradas."}
-                    </p>
-                  </div>
-                  <div className="col-span-1 md:col-span-3">
-                    <span className="text-xs text-slate-500 block mb-1">Observación Final (Cierre Técnico)</span>
-                    <p className="text-sm bg-slate-50 p-3 rounded-md border border-slate-100 min-h-[60px] italic">
-                      {selectedServicio.raw.observacionFinal || "Sin observación final registrada."}
-                    </p>
-                  </div>
-                </div>
-              </div>
-
-              {/* 8. INFORMACIÓN FINANCIERA */}
-              <div className="space-y-3">
-                <h3 className="text-xs font-bold text-slate-400 uppercase tracking-wider border-b pb-1">Información Financiera y Pago</h3>
-                <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                  <div>
-                    <span className="text-xs text-slate-500 block">Valor Cotizado</span>
-                    <span className="font-bold text-slate-900 text-base">
-                      {new Intl.NumberFormat('es-CO', { style: 'currency', currency: 'COP', maximumFractionDigits: 0 }).format(selectedServicio.raw.valorCotizado || 0)}
-                    </span>
-                  </div>
-                  <div>
-                    <span className="text-xs text-slate-500 block">Repuestos (C/T)</span>
-                    <span className="font-medium text-amber-600">
-                      {new Intl.NumberFormat('es-CO', { style: 'currency', currency: 'COP', maximumFractionDigits: 0 }).format((selectedServicio.raw.valorRepuestos || 0) + (selectedServicio.raw.valorRepuestosTecnico || 0))}
-                    </span>
-                  </div>
-                  <div>
-                    <span className="text-xs text-slate-500 block">Valor Recaudado</span>
-                    <span className="font-bold text-emerald-600 text-base">
-                      {new Intl.NumberFormat('es-CO', { style: 'currency', currency: 'COP', maximumFractionDigits: 0 }).format(selectedServicio.raw.valorPagado || 0)}
-                    </span>
-                  </div>
-                  <div>
-                    <span className="text-xs text-slate-500 block">Método de Pago</span>
-                    <span className="font-medium uppercase text-sm">{selectedServicio.raw.metodoPago?.nombre || "PENDIENTE"}</span>
-                  </div>
-                  <div>
-                    <span className="text-xs text-slate-500 block">Estado Pago</span>
-                    <span className="text-[10px] font-bold uppercase bg-slate-100 px-2 py-0.5 rounded border border-slate-200">{selectedServicio.raw.estadoPago || "PENDIENTE"}</span>
-                  </div>
-                  <div>
-                    <span className="text-xs text-slate-500 block">Fecha Pago</span>
-                    <span className="font-medium text-sm">{selectedServicio.raw.fechaPago ? formatBogotaDate(selectedServicio.raw.fechaPago) : "N/A"}</span>
-                  </div>
-                  <div className="col-span-2">
-                    <span className="text-xs text-slate-500 block">Entidad / Ref. Pago</span>
-                    <span className="font-medium text-sm uppercase">
-                      {selectedServicio.raw.entidadFinanciera?.nombre || "N/A"} {selectedServicio.raw.referenciaPago ? `- ${selectedServicio.raw.referenciaPago}` : ""}
-                    </span>
-                  </div>
-                </div>
-              </div>
-
-              {/* 9. TRAZABILIDAD Y CIERRE */}
-              <div className="space-y-3">
-                <h3 className="text-xs font-bold text-slate-400 uppercase tracking-wider border-b pb-1">Trazabilidad y Liquidación</h3>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <div className="p-3 bg-slate-50 rounded-lg border border-slate-100">
-                    <span className="text-xs text-slate-500 block">Liquidado Por</span>
-                    <span className="font-medium text-sm uppercase">
-                      {selectedServicio.raw.liquidadoPor?.user ? `${selectedServicio.raw.liquidadoPor.user.nombre} ${selectedServicio.raw.liquidadoPor.user.apellido}` : "PENDIENTE"}
-                    </span>
-                    {selectedServicio.raw.liquidadoAt && (
-                      <span className="text-[10px] text-slate-400 block mt-0.5">{formatBogotaDateTime(selectedServicio.raw.liquidadoAt)}</span>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <div className="md:col-span-2 p-4 bg-muted/30 rounded-2xl border border-border">
+                      <span className="text-[10px] font-black text-muted-foreground uppercase tracking-widest block mb-2">Dirección de Ejecución</span>
+                      <span className="font-bold text-base text-foreground uppercase leading-snug">{selectedServicio.raw.direccionTexto || "N/A"}</span>
+                      <div className="mt-3 flex flex-wrap gap-2">
+                        {selectedServicio.raw.municipio && <span className="px-2 py-1 rounded-md bg-background border border-border text-[9px] font-black uppercase text-muted-foreground">{selectedServicio.raw.municipio}</span>}
+                        {selectedServicio.raw.barrio && <span className="px-2 py-1 rounded-md bg-background border border-border text-[9px] font-black uppercase text-muted-foreground">Barrio: {selectedServicio.raw.barrio}</span>}
+                        {selectedServicio.raw.zona?.nombre && <span className="px-2 py-1 rounded-md bg-[#01ADFB]/10 border border-[#01ADFB]/20 text-[9px] font-black uppercase text-[#01ADFB]">Zona: {selectedServicio.raw.zona.nombre}</span>}
+                      </div>
+                    </div>
+                    {selectedServicio.raw.linkMaps && (
+                      <div className="md:col-span-2">
+                        <Button variant="outline" size="sm" asChild className="h-10 w-full rounded-xl border-[#01ADFB]/20 bg-[#01ADFB]/5 text-[#01ADFB] font-black text-[10px] uppercase tracking-widest gap-2">
+                          <a href={selectedServicio.raw.linkMaps} target="_blank" rel="noopener noreferrer">
+                            <ExternalLink className="h-4 w-4" /> Abrir en Google Maps
+                          </a>
+                        </Button>
+                      </div>
                     )}
                   </div>
-                  <div className="p-3 bg-slate-50 rounded-lg border border-slate-100">
-                    <span className="text-xs text-slate-500 block">Última Actualización</span>
-                    <span className="font-medium text-sm uppercase">SISTEMA / USUARIO</span>
-                    <span className="text-[10px] text-slate-400 block mt-0.5">{formatBogotaDateTime(selectedServicio.raw.updatedAt || selectedServicio.raw.createdAt)}</span>
+                </div>
+
+                <div className="space-y-6">
+                  <div className="flex items-center gap-3 border-b border-border pb-3">
+                    <Activity className="h-5 w-5 text-[#01ADFB]" />
+                    <h3 className="text-xs font-black text-foreground uppercase tracking-[0.2em]">Observaciones Técnicas y Hallazgos</h3>
+                  </div>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div className="p-5 bg-muted/20 rounded-2xl border border-border italic text-sm text-foreground">
+                      <span className="not-italic text-[9px] font-black uppercase text-muted-foreground tracking-widest block mb-2">Instrucciones de Apertura</span>
+                      {selectedServicio.raw.observacion || "Sin instrucciones registradas."}
+                    </div>
+                    <div className="p-5 bg-[#01ADFB]/5 rounded-2xl border border-[#01ADFB]/10 italic text-sm text-foreground">
+                      <span className="not-italic text-[9px] font-black uppercase text-[#01ADFB] tracking-widest block mb-2">Reporte de Cierre Técnico</span>
+                      {selectedServicio.raw.observacionFinal || "Pendiente de reporte final por el técnico."}
+                    </div>
+                    <div className="space-y-4">
+                       <div className="flex justify-between items-center px-2">
+                         <span className="text-[10px] font-black text-muted-foreground uppercase tracking-widest">Cond. Higiene</span>
+                         <span className="text-xs font-bold uppercase">{selectedServicio.raw.condicionesHigiene || "N/A"}</span>
+                       </div>
+                       <div className="flex justify-between items-center px-2">
+                         <span className="text-[10px] font-black text-muted-foreground uppercase tracking-widest">Cond. Local</span>
+                         <span className="text-xs font-bold uppercase">{selectedServicio.raw.condicionesLocal || "N/A"}</span>
+                       </div>
+                    </div>
+                    <div className="p-4 bg-amber-50/50 dark:bg-amber-900/10 rounded-2xl border border-amber-100 dark:border-amber-900/20">
+                       <span className="text-[9px] font-black uppercase text-amber-700 tracking-widest block mb-1">Hallazgos Estructurales</span>
+                       <p className="text-xs text-amber-900 dark:text-amber-200 font-medium">{selectedServicio.raw.hallazgosEstructurales || "No se registraron hallazgos físicos relevantes."}</p>
+                    </div>
+                  </div>
+                </div>
+
+                {/* GALERÍA DE EVIDENCIAS FOTOGRÁFICAS */}
+                <div className="space-y-6 pt-4">
+                  <div className="flex items-center justify-between border-b border-border pb-3">
+                    <div className="flex items-center gap-3">
+                      <ImageIcon className="h-5 w-5 text-pink-500" />
+                      <h3 className="text-xs font-black text-foreground uppercase tracking-[0.2em]">Evidencias del Trabajo</h3>
+                    </div>
+                    {canManageServices && (
+                      <Button 
+                        variant="ghost" 
+                        size="sm" 
+                        onClick={() => triggerUpload(selectedServicio.raw.id, "evidenciaPath")}
+                        className="h-8 text-[9px] font-black uppercase tracking-widest text-[#01ADFB] hover:bg-[#01ADFB]/10 rounded-lg"
+                      >
+                        + Añadir Fotos
+                      </Button>
+                    )}
+                  </div>
+                  
+                  <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
+                    {selectedServicio.raw.evidenciaPath && (
+                      <div className="group relative aspect-square rounded-2xl overflow-hidden border border-border bg-muted/30">
+                        <Image src={selectedServicio.raw.evidenciaPath} alt="Evidencia principal" fill className="object-cover transition-transform group-hover:scale-110" />
+                        <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 flex items-center justify-center transition-opacity">
+                          <Button variant="outline" size="sm" asChild className="h-8 text-[9px] font-black uppercase bg-white text-black border-white"><a href={selectedServicio.raw.evidenciaPath} target="_blank" rel="noopener noreferrer">Ver</a></Button>
+                        </div>
+                      </div>
+                    )}
+                    {(selectedServicio.raw.evidencias || []).map((ev, idx) => (
+                      <div key={idx} className="group relative aspect-square rounded-2xl overflow-hidden border border-border bg-muted/30">
+                        <Image src={ev.path} alt={`Evidencia ${idx + 1}`} fill className="object-cover transition-transform group-hover:scale-110" />
+                        <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 flex items-center justify-center transition-opacity">
+                          <Button variant="outline" size="sm" asChild className="h-8 text-[9px] font-black uppercase bg-white text-black border-white"><a href={ev.path} target="_blank" rel="noopener noreferrer">Ver</a></Button>
+                        </div>
+                      </div>
+                    ))}
+                    {!selectedServicio.raw.evidenciaPath && (!selectedServicio.raw.evidencias || selectedServicio.raw.evidencias.length === 0) && (
+                      <div className="col-span-full py-12 flex flex-col items-center justify-center border-2 border-dashed border-border rounded-3xl bg-muted/10">
+                        <ImageIcon className="h-10 w-10 text-muted-foreground/30 mb-3" />
+                        <p className="text-[10px] font-black text-muted-foreground uppercase tracking-widest">Sin evidencias fotográficas</p>
+                      </div>
+                    )}
+                  </div>
+                </div>
+              </div>
+
+              {/* COLUMNA DERECHA: FINANZAS Y TIEMPOS */}
+              <div className="lg:col-span-5 space-y-10">
+                <div className="p-8 bg-card border border-border shadow-2xl rounded-[2.5rem] space-y-8">
+                  {/* RESUMEN FINANCIERO */}
+                  <div className="space-y-6">
+                    <div className="flex items-center gap-3 border-b border-border pb-3">
+                      <Wallet className="h-5 w-5 text-emerald-600" />
+                      <h3 className="text-xs font-black text-foreground uppercase tracking-[0.2em]">Resumen Financiero</h3>
+                    </div>
+                    <div className="space-y-6">
+                      <div className="flex justify-between items-end">
+                        <span className="text-[10px] font-black text-muted-foreground uppercase tracking-widest">Valor Cotizado</span>
+                        <span className="text-2xl font-black text-foreground">
+                          {new Intl.NumberFormat('es-CO', { style: 'currency', currency: 'COP', maximumFractionDigits: 0 }).format(selectedServicio.raw.valorCotizado || 0)}
+                        </span>
+                      </div>
+                      <div className="flex justify-between items-end border-t border-dashed border-border pt-4">
+                        <span className="text-[10px] font-black text-emerald-600 uppercase tracking-widest">Valor Recaudado</span>
+                        <span className="text-3xl font-black text-emerald-600">
+                          {new Intl.NumberFormat('es-CO', { style: 'currency', currency: 'COP', maximumFractionDigits: 0 }).format(selectedServicio.raw.valorPagado || 0)}
+                        </span>
+                      </div>
+                      
+                      <div className="grid grid-cols-2 gap-4">
+                        <div className="p-3 bg-muted/30 rounded-xl border border-border">
+                          <span className="text-[9px] font-black text-muted-foreground uppercase block">Método</span>
+                          <span className="text-xs font-bold text-foreground uppercase">{selectedServicio.raw.metodoPago?.nombre || "PENDIENTE"}</span>
+                        </div>
+                        <div className="p-3 bg-muted/30 rounded-xl border border-border">
+                          <span className="text-[9px] font-black text-muted-foreground uppercase block">Estado Pago</span>
+                          <span className="text-xs font-bold text-[#01ADFB] uppercase">{selectedServicio.raw.estadoPago || "PENDIENTE"}</span>
+                        </div>
+                      </div>
+
+                      {/* DOCUMENTOS ADJUNTOS */}
+                      <div className="pt-4 grid grid-cols-1 gap-3">
+                        {selectedServicio.raw.facturaElectronica && (
+                          <Button variant="outline" asChild className="h-11 rounded-xl border-orange-200 bg-orange-50 text-orange-700 font-black text-[10px] uppercase tracking-widest gap-2">
+                            <a href={selectedServicio.raw.facturaElectronica} target="_blank" rel="noopener noreferrer"><FileText className="h-4 w-4" /> Ver Factura Electrónica</a>
+                          </Button>
+                        )}
+                        {Array.isArray(selectedServicio.raw.comprobantePago) ? (
+                          selectedServicio.raw.comprobantePago.map((soporte, i) => (
+                            <Button key={i} variant="outline" asChild className="h-11 rounded-xl border-blue-200 bg-blue-50 text-blue-700 font-black text-[10px] uppercase tracking-widest gap-2">
+                              <a href={resolveSoportePagoUrl("tenaxis-docs", soporte.path)} target="_blank" rel="noopener noreferrer"><Receipt className="h-4 w-4" /> Comprobante #{i+1}</a>
+                            </Button>
+                          ))
+                        ) : typeof selectedServicio.raw.comprobantePago === "string" ? (
+                          <Button variant="outline" asChild className="h-11 rounded-xl border-blue-200 bg-blue-50 text-blue-700 font-black text-[10px] uppercase tracking-widest gap-2">
+                            <a href={selectedServicio.raw.comprobantePago} target="_blank" rel="noopener noreferrer"><Receipt className="h-4 w-4" /> Ver Comprobante</a>
+                          </Button>
+                        ) : null}
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="space-y-6">
+                    <div className="flex items-center gap-3 border-b border-border pb-3">
+                      <Calendar className="h-5 w-5 text-[#01ADFB]" />
+                      <h3 className="text-xs font-black text-foreground uppercase tracking-[0.2em]">Cronograma</h3>
+                    </div>
+                    <div className="grid grid-cols-2 gap-6">
+                      <div className="space-y-1">
+                        <span className="text-[10px] font-black text-muted-foreground uppercase tracking-widest block">Programación</span>
+                        <span className="font-bold text-sm text-foreground">{selectedServicio.fecha}</span>
+                        <span className="text-xs text-muted-foreground block">{selectedServicio.hora}</span>
+                      </div>
+                      <div className="space-y-1">
+                        <span className="text-[10px] font-black text-muted-foreground uppercase tracking-widest block">Técnico Asignado</span>
+                        <span className="font-bold text-sm text-foreground uppercase leading-tight">{selectedServicio.tecnico}</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="space-y-6 pt-4">
+                    <div className="flex items-center gap-3 border-b border-border pb-3">
+                      <Zap className="h-5 w-5 text-amber-500" />
+                      <h3 className="text-xs font-black text-foreground uppercase tracking-[0.2em]">Detalle Técnico</h3>
+                    </div>
+                    <div className="grid grid-cols-2 gap-y-6 gap-x-4">
+                      <div>
+                        <span className="text-[10px] font-black text-muted-foreground uppercase block">Servicio</span>
+                        <span className="text-xs font-bold text-foreground uppercase">{selectedServicio.servicioEspecifico}</span>
+                      </div>
+                      <div>
+                        <span className="text-[10px] font-black text-muted-foreground uppercase block">Tipo Visita</span>
+                        <span className="text-xs font-bold text-foreground uppercase">{formatVisitTypeLabel(selectedServicio.raw.tipoVisita)}</span>
+                      </div>
+                      <div>
+                        <span className="text-[10px] font-black text-muted-foreground uppercase block">Nivel Infestación</span>
+                        <span className="text-xs font-bold text-foreground uppercase">{selectedServicio.raw.nivelInfestacion || "N/A"}</span>
+                      </div>
+                      <div>
+                        <span className="text-[10px] font-black text-muted-foreground uppercase block">Facturación</span>
+                        <span className="text-xs font-bold text-foreground uppercase">{selectedServicio.raw.tipoFacturacion || "N/A"}</span>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -2761,34 +2808,111 @@ function ServiciosContent() {
         </div>
 
         {selectedServicio && (
-          <div className="p-6 border-t shrink-0 bg-background flex gap-3 z-10 shadow-[0_-4px_10px_rgba(0,0,0,0.05)]">
-            <Button variant="outline" onClick={() => setIsModalOpen(false)} className="flex-1 h-11 rounded-xl font-bold uppercase text-[11px] border-slate-200">
-              Cerrar Expediente
+          <div className="p-8 border-t shrink-0 bg-muted/30 flex flex-wrap items-center gap-4 z-10 shadow-[0_-10px_20px_rgba(0,0,0,0.03)]">
+            <Button variant="outline" onClick={() => setIsModalOpen(false)} className="h-14 px-8 rounded-2xl font-black uppercase text-xs tracking-widest border-border bg-card shadow-sm hover:bg-muted transition-all">
+              Cerrar
             </Button>
-               {canEditServices || canManageServices ? (
-                 <DropdownMenu>
-                   <DropdownMenuTrigger asChild>
-                     <Button className="flex-1 h-11 rounded-xl bg-[#01ADFB] hover:bg-[#01ADFB]/90 text-white font-bold uppercase text-[11px] shadow-lg shadow-[#01ADFB]/20 gap-2">
-                       Editar Información <ChevronDown className="h-4 w-4" />
-                     </Button>
-                   </DropdownMenuTrigger>
-                   <DropdownMenuContent align="end" className="w-64 p-2 rounded-xl bg-card border-border shadow-2xl">
-                     {canEditServices ? (
-                       <DropdownMenuItem onClick={() => router.push(`/dashboard/servicios/${selectedServicio.raw.id}/editar`)} className="flex items-center gap-3 py-2.5 text-[11px] font-bold cursor-pointer text-foreground hover:bg-muted">
-                         <FileText className="h-4 w-4 text-[#01ADFB]" /> EDITAR ORDEN (SERVICIO)
-                       </DropdownMenuItem>
-                     ) : null}
-                     {canManageServices ? (
-                       <>
-                         {canEditServices ? <DropdownMenuSeparator /> : null}
-                         <DropdownMenuItem onClick={() => openDeleteModal(selectedServicio)} className="flex items-center gap-3 py-2.5 text-[11px] font-bold cursor-pointer text-destructive hover:bg-destructive/10">
-                           <Trash2 className="h-4 w-4" /> ELIMINAR SERVICIO
-                         </DropdownMenuItem>
-                       </>
-                     ) : null}
-                   </DropdownMenuContent>
-                 </DropdownMenu>
-               ) : null}
+
+            <div className="flex-1 flex gap-3">
+              {/* ACCIÓN PRINCIPAL SEGÚN ESTADO */}
+              {(() => {
+                const settlementMeta = getSettlementFlowMeta(selectedServicio.raw);
+                const financialLock = settlementMeta.financialLock;
+
+                if (selectedServicio.raw.liquidadoAt || selectedServicio.raw.estadoServicio === "LIQUIDADO") {
+                  return (
+                    <Button 
+                      onClick={() => setIsViewLiquidationModalOpen(true)}
+                      className="flex-1 h-14 rounded-2xl bg-emerald-600 hover:bg-emerald-700 text-white font-black uppercase text-xs tracking-widest shadow-xl shadow-emerald-600/20 gap-3"
+                    >
+                      <Receipt className="h-5 w-5" /> Ver Liquidación
+                    </Button>
+                  );
+                }
+
+                if (!selectedServicio.raw.fechaVisita) return null;
+
+                return (
+                  <Button
+                    disabled={financialLock.locked}
+                    onClick={() => {
+                      const s = selectedServicio;
+                      const currentBreakdown = s.raw.desglosePago && s.raw.desglosePago.length > 0
+                        ? s.raw.desglosePago.map(d => ({
+                            metodo: d.metodo,
+                            monto: d.monto.toString().replace(/\B(?=(\d{3})+(?!\d))/g, "."),
+                            banco: d.banco,
+                            referencia: d.referencia,
+                            observacion: d.observacion
+                          }))
+                        : [{
+                            metodo: s.raw.metodoPago?.nombre || (settlementMeta.hasCash ? "EFECTIVO" : "TRANSFERENCIA"),
+                            monto: (s.raw.valorCotizado || "").toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")
+                          }];
+                      setLiquidarData({
+                        breakdown: currentBreakdown,
+                        observacionFinal: s.raw.observacionFinal || "",
+                        transferencias: settlementMeta.hasTransfer
+                          ? [
+                              ...getStoredTransferencias(s.raw),
+                              createTransferenciaForm(),
+                            ]
+                          : [],
+                      });
+                      setIsLiquidarModalOpen(true);
+                    }}
+                    className={cn(
+                      "flex-1 h-14 rounded-2xl font-black uppercase text-xs tracking-widest shadow-xl gap-3",
+                      settlementMeta.accent === "sky" && "bg-sky-600 hover:bg-sky-700 text-white shadow-sky-600/20",
+                      settlementMeta.accent === "blue" && "bg-blue-600 hover:bg-blue-700 text-white shadow-blue-600/20",
+                      settlementMeta.accent === "emerald" && "bg-emerald-600 hover:bg-emerald-700 text-white shadow-emerald-600/20",
+                    )}
+                  >
+                    {settlementMeta.isFuture ? <CreditCard className="h-5 w-5" /> : settlementMeta.hasCash ? <Wallet className="h-5 w-5" /> : <CheckCircle2 className="h-5 w-5" />}
+                    {settlementMeta.title}
+                  </Button>
+                );
+              })()}
+
+              {/* ACCIÓN DE SEGUIMIENTO SI ES FOLLOW-UP */}
+              {selectedServicio.isFollowUp && (
+                <Button 
+                  onClick={() => openFollowUpModal(selectedServicio as unknown as FollowUpRow)}
+                  className="flex-1 h-14 rounded-2xl bg-amber-500 hover:bg-amber-600 text-white font-black uppercase text-xs tracking-widest shadow-xl shadow-amber-500/20 gap-3"
+                >
+                  <CheckCircle2 className="h-5 w-5" /> Registrar Llamada
+                </Button>
+              )}
+            </div>
+
+            {canEditServices || canManageServices ? (
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button variant="outline" className="h-14 w-14 rounded-2xl border-border bg-card shadow-sm hover:bg-muted p-0 flex items-center justify-center">
+                    <MoreHorizontal className="h-6 w-6" />
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end" className="w-72 p-3 rounded-2xl bg-card border-border shadow-2xl">
+                  <p className="text-[10px] font-black uppercase tracking-widest text-muted-foreground px-3 py-2 border-b border-border mb-2">Opciones Avanzadas</p>
+                  {canEditServices ? (
+                    <DropdownMenuItem onClick={() => router.push(`/dashboard/servicios/${selectedServicio.raw.id}/editar`)} className="flex items-center gap-3 py-3 text-xs font-bold cursor-pointer text-foreground rounded-xl hover:bg-muted">
+                      <Pencil className="h-4 w-4 text-amber-600" /> EDITAR ORDEN TÉCNICA
+                    </DropdownMenuItem>
+                  ) : null}
+                  {canManageServices ? (
+                    <>
+                      <DropdownMenuItem onClick={() => { setSelectedServicio(selectedServicio); setIsVisitaModalOpen(true); }} className="flex items-center gap-3 py-3 text-xs font-bold cursor-pointer text-foreground rounded-xl hover:bg-muted">
+                        <MapPin className="h-4 w-4 text-emerald-600" /> VER RUTA GEOGRÁFICA
+                      </DropdownMenuItem>
+                      <DropdownMenuSeparator className="my-2" />
+                      <DropdownMenuItem onClick={() => openDeleteModal(selectedServicio)} className="flex items-center gap-3 py-3 text-xs font-bold cursor-pointer text-destructive rounded-xl hover:bg-destructive/10">
+                        <Trash2 className="h-4 w-4" /> ANULAR REGISTRO
+                      </DropdownMenuItem>
+                    </>
+                  ) : null}
+                </DropdownMenuContent>
+              </DropdownMenu>
+            ) : null}
           </div>
         )}
       </DialogContent></Dialog>
@@ -3360,7 +3484,7 @@ function ServiciosContent() {
                           <div className="aspect-video relative rounded-2xl border border-border bg-muted overflow-hidden flex items-center justify-center">
                             {geo.fotoLlegada ? (
                               <Image
-                                src={`https://axistestst.supabase.co/storage/v1/object/public/EvidenciaOrdenServicio/${geo.fotoLlegada}`}
+                                src={getStorageUrl("EvidenciaOrdenServicio", geo.fotoLlegada)}
                                 alt="Foto Llegada"
                                 fill
                                 className="object-cover"
@@ -3385,7 +3509,7 @@ function ServiciosContent() {
                           <div className="aspect-video relative rounded-2xl border border-border bg-muted overflow-hidden flex items-center justify-center">
                             {geo.fotoSalida ? (
                               <Image
-                                src={`https://axistestst.supabase.co/storage/v1/object/public/EvidenciaOrdenServicio/${geo.fotoSalida}`}
+                                src={getStorageUrl("EvidenciaOrdenServicio", geo.fotoSalida)}
                                 alt="Foto Salida"
                                 fill
                                 className="object-cover"
@@ -3685,7 +3809,7 @@ function ServiciosContent() {
 
                           return (
                           <Button
-                            key={sop?.path ?? tipoSoporte ?? idx}
+                            key={`soporte-${idx}`}
                             variant="outline"
                             className="w-full h-11 rounded-xl border-emerald-500/20 bg-emerald-500/5 text-emerald-600 hover:bg-emerald-500/10 font-bold text-[9px] uppercase tracking-widest gap-2 justify-start px-4"
                             asChild
