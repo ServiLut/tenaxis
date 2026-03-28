@@ -7,6 +7,7 @@ export interface JwtPayload {
   tenantId?: string;
   empresaId?: string;
   empresaIds?: string[];
+  zonaIds?: string[];
   membershipId?: string;
   sesionId?: string;
   isGlobalSuAdmin?: boolean;

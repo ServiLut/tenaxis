@@ -59,10 +59,7 @@ function LoginForm() {
       }
       
       if (data?.user) {
-        const existingUser = JSON.parse(localStorage.getItem("user") || "{}");
-        // Mezclamos el usuario actual con el que viene del servidor para no perder campos locales (banco, valorHora, etc)
-        const mergedUser = { ...existingUser, ...data.user };
-        localStorage.setItem("user", JSON.stringify(mergedUser));
+        localStorage.setItem("user", JSON.stringify(data.user));
       }
 
       window.location.href = "/dashboard";

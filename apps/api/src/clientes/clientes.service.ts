@@ -15,7 +15,10 @@ import {
 } from '../generated/client/client';
 import { startOfBogotaDayUtc } from '../common/utils/timezone.util';
 import { JwtPayload } from '../auth/jwt-payload.interface';
-import { getPrismaAccessFilter } from '../common/utils/access-control.util';
+import {
+  getPrismaAccessFilter,
+  PrismaAccessFilter,
+} from '../common/utils/access-control.util';
 
 type ClienteWithRelations = Cliente & {
   direcciones?: any[];
@@ -30,6 +33,35 @@ type ClienteWithRelations = Cliente & {
 @Injectable()
 export class ClientesService {
   constructor(private prisma: PrismaService) {}
+
+  private buildEmpresaWhere(
+    empresaFilter?: PrismaAccessFilter['empresaId'],
+  ): PrismaAccessFilter['empresaId'] {
+    return empresaFilter;
+  }
+
+  private buildClienteWhere(
+    accessFilter: PrismaAccessFilter,
+    extraWhere: Prisma.ClienteWhereInput = {},
+  ): Prisma.ClienteWhereInput {
+    const where: Prisma.ClienteWhereInput = {
+      ...extraWhere,
+      ...(accessFilter.tenantId ? { tenantId: accessFilter.tenantId } : {}),
+      ...(accessFilter.empresaId ? { empresaId: accessFilter.empresaId } : {}),
+    };
+
+    if ((accessFilter.zonaIds || []).length > 0) {
+      where.direcciones = {
+        some: {
+          zonaId: {
+            in: accessFilter.zonaIds,
+          },
+        },
+      };
+    }
+
+    return where;
+  }
 
   private buildSegmentedFromClients(clients: ClienteWithRelations[]) {
     // ... rest of private method unchanged ...
@@ -116,6 +148,7 @@ export class ClientesService {
 
   async findAll(user: JwtPayload, reqEmpresaId?: string): Promise<Cliente[]> {
     const accessFilter = getPrismaAccessFilter(user, reqEmpresaId);
+    const empresaWhere = this.buildEmpresaWhere(accessFilter.empresaId);
 
     const include: Prisma.ClienteInclude = {
       direcciones: {
@@ -127,16 +160,19 @@ export class ClientesService {
       empresa: true,
       configuracionesOperativas: {
         where: {
-          ...(accessFilter.empresaId && {
-            empresaId: accessFilter.empresaId as string,
-          }),
+          ...(empresaWhere ? { empresaId: empresaWhere } : {}),
         },
       },
       ordenesServicio: {
         where: {
-          ...(accessFilter.empresaId && {
-            empresaId: accessFilter.empresaId as string,
-          }),
+          ...(empresaWhere ? { empresaId: empresaWhere } : {}),
+          ...((accessFilter.zonaIds || []).length > 0
+            ? {
+                zonaId: {
+                  in: accessFilter.zonaIds,
+                },
+              }
+            : {}),
           estadoPago: { not: 'PAGADO' },
         },
         select: {
@@ -150,10 +186,7 @@ export class ClientesService {
     };
 
     const clients = await this.prisma.cliente.findMany({
-      where: {
-        ...accessFilter,
-        deletedAt: null,
-      },
+      where: this.buildClienteWhere(accessFilter, { deletedAt: null }),
       orderBy: { createdAt: 'desc' },
       include,
     });
@@ -196,12 +229,10 @@ export class ClientesService {
 
   async getSegmented(user: JwtPayload, reqEmpresaId?: string) {
     const accessFilter = getPrismaAccessFilter(user, reqEmpresaId);
+    const empresaWhere = this.buildEmpresaWhere(accessFilter.empresaId);
 
     const clients = await this.prisma.cliente.findMany({
-      where: {
-        ...accessFilter,
-        deletedAt: null,
-      },
+      where: this.buildClienteWhere(accessFilter, { deletedAt: null }),
       include: {
         direcciones: {
           include: { municipioRel: true },
@@ -210,16 +241,19 @@ export class ClientesService {
         tipoInteres: true,
         configuracionesOperativas: {
           where: {
-            ...(accessFilter.empresaId && {
-              empresaId: accessFilter.empresaId as string,
-            }),
+            ...(empresaWhere ? { empresaId: empresaWhere } : {}),
           },
         },
         ordenesServicio: {
           where: {
-            ...(accessFilter.empresaId && {
-              empresaId: accessFilter.empresaId as string,
-            }),
+            ...(empresaWhere ? { empresaId: empresaWhere } : {}),
+            ...((accessFilter.zonaIds || []).length > 0
+              ? {
+                  zonaId: {
+                    in: accessFilter.zonaIds,
+                  },
+                }
+              : {}),
             estadoPago: { not: 'PAGADO' },
           },
           select: {
@@ -372,7 +406,7 @@ export class ClientesService {
     const accessFilter = getPrismaAccessFilter(user);
 
     return this.prisma.cliente.findFirst({
-      where: { id, ...accessFilter, deletedAt: null },
+      where: this.buildClienteWhere(accessFilter, { id, deletedAt: null }),
       include: {
         direcciones: {
           include: { municipioRel: true },
@@ -382,7 +416,12 @@ export class ClientesService {
         empresa: true,
         contratosCliente: {
           where: {
-            ...accessFilter,
+            ...(accessFilter.tenantId
+              ? { tenantId: accessFilter.tenantId }
+              : {}),
+            ...(accessFilter.empresaId
+              ? { empresaId: accessFilter.empresaId }
+              : {}),
             estado: EstadoContratoCliente.ACTIVO,
           },
           orderBy: { fechaInicio: 'desc' },
@@ -400,7 +439,7 @@ export class ClientesService {
 
     // Verify access first
     const existing = await this.prisma.cliente.findFirst({
-      where: { id, ...accessFilter },
+      where: this.buildClienteWhere(accessFilter, { id }),
     });
     if (!existing) {
       throw new UnauthorizedException(
@@ -467,7 +506,7 @@ export class ClientesService {
 
     // Verify access
     const existing = await this.prisma.cliente.findFirst({
-      where: { id, ...accessFilter },
+      where: this.buildClienteWhere(accessFilter, { id }),
     });
     if (!existing) {
       throw new UnauthorizedException(

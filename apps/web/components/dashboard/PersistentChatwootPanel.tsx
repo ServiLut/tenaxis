@@ -3,13 +3,18 @@
 import { usePathname } from "next/navigation";
 import { RefreshCcw, Users, MessageSquare } from "lucide-react";
 import { useEffect, useState, useSyncExternalStore } from "react";
+import { getBrowserEffectiveScopeAwareUser } from "@/lib/browser-access-scope";
 
 const CHATWOOT_DASHBOARD_PATH = "/chatwoot-proxy/app/accounts/1/dashboard";
 const WHATSAPP_ROUTE = "/dashboard/whatsapp";
 
 const chatwootPanelActivationStore = (() => {
-  let hasActivated = false;
+  let activatedForUserKey: string | null = null;
   const listeners = new Set<() => void>();
+
+  const emitChange = () => {
+    listeners.forEach((listener) => listener());
+  };
 
   return {
     subscribe(listener: () => void) {
@@ -17,38 +22,81 @@ const chatwootPanelActivationStore = (() => {
       return () => listeners.delete(listener);
     },
     getSnapshot() {
-      return hasActivated;
+      return activatedForUserKey;
     },
-    activate() {
-      if (hasActivated) {
+    activateFor(userKey: string) {
+      if (activatedForUserKey === userKey) {
         return;
       }
 
-      hasActivated = true;
-      listeners.forEach((listener) => listener());
+      activatedForUserKey = userKey;
+      emitChange();
+    },
+    reset() {
+      if (activatedForUserKey === null) {
+        return;
+      }
+
+      activatedForUserKey = null;
+      emitChange();
     },
   };
 })();
 
+function getCurrentChatwootUserKey(): string | null {
+  const currentUser = getBrowserEffectiveScopeAwareUser();
+
+  if (!currentUser) {
+    return null;
+  }
+
+  if (currentUser.id) {
+    return `${currentUser.tenantId ?? "tenant"}:${currentUser.id}`;
+  }
+
+  if (currentUser.email) {
+    return `${currentUser.tenantId ?? "tenant"}:${currentUser.email}`;
+  }
+
+  return null;
+}
+
 export function PersistentChatwootPanel() {
   const pathname = usePathname();
   const [frameKey, setFrameKey] = useState(0);
-  const hasActivatedPanel = useSyncExternalStore(
+  const currentUserKey = getCurrentChatwootUserKey();
+  const activatedForUserKey = useSyncExternalStore(
     chatwootPanelActivationStore.subscribe,
     chatwootPanelActivationStore.getSnapshot,
     chatwootPanelActivationStore.getSnapshot,
   );
 
   const isWhatsAppRoute = pathname?.startsWith(WHATSAPP_ROUTE) ?? false;
-  const shouldMountPanel = hasActivatedPanel || isWhatsAppRoute;
+  const shouldMountPanel =
+    isWhatsAppRoute ||
+    (!!currentUserKey && activatedForUserKey === currentUserKey);
 
   useEffect(() => {
-    if (!isWhatsAppRoute) {
+    if (!currentUserKey) {
+      chatwootPanelActivationStore.reset();
       return;
     }
 
-    chatwootPanelActivationStore.activate();
-  }, [isWhatsAppRoute]);
+    if (
+      activatedForUserKey !== null &&
+      activatedForUserKey !== currentUserKey
+    ) {
+      chatwootPanelActivationStore.reset();
+    }
+  }, [activatedForUserKey, currentUserKey]);
+
+  useEffect(() => {
+    if (!isWhatsAppRoute || !currentUserKey) {
+      return;
+    }
+
+    chatwootPanelActivationStore.activateFor(currentUserKey);
+  }, [currentUserKey, isWhatsAppRoute]);
 
   if (!shouldMountPanel) {
     return null;

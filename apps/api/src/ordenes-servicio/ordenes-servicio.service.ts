@@ -669,7 +669,15 @@ export class OrdenesServicioService {
     const accessFilter = getPrismaAccessFilter(user, reqEmpresaId);
 
     const whereClause: Prisma.OrdenServicioWhereInput = {
-      ...accessFilter,
+      ...(accessFilter.tenantId ? { tenantId: accessFilter.tenantId } : {}),
+      ...(accessFilter.empresaId ? { empresaId: accessFilter.empresaId } : {}),
+      ...((accessFilter.zonaIds || []).length > 0
+        ? {
+            zonaId: {
+              in: accessFilter.zonaIds,
+            },
+          }
+        : {}),
       deletedAt: null,
       ordenPadreId: null,
     };
@@ -1059,7 +1067,21 @@ export class OrdenesServicioService {
     const accessFilter = getPrismaAccessFilter(user);
 
     const orden = await this.prisma.ordenServicio.findFirst({
-      where: { id, ...accessFilter, deletedAt: null },
+      where: {
+        id,
+        ...(accessFilter.tenantId ? { tenantId: accessFilter.tenantId } : {}),
+        ...(accessFilter.empresaId
+          ? { empresaId: accessFilter.empresaId }
+          : {}),
+        ...((accessFilter.zonaIds || []).length > 0
+          ? {
+              zonaId: {
+                in: accessFilter.zonaIds,
+              },
+            }
+          : {}),
+        deletedAt: null,
+      },
       include: {
         cliente: {
           include: {
@@ -1601,6 +1623,13 @@ export class OrdenesServicioService {
       id,
       tenantId: accessFilter.tenantId ?? tenantId,
       ...(accessFilter.empresaId ? { empresaId: accessFilter.empresaId } : {}),
+      ...((accessFilter.zonaIds || []).length > 0
+        ? {
+            zonaId: {
+              in: accessFilter.zonaIds,
+            },
+          }
+        : {}),
       deletedAt: null,
     };
   }

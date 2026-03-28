@@ -32,6 +32,7 @@ export const authClient = {
     return apiFetch<LoginResponse>("/auth/login", {
       method: "POST",
       body: JSON.stringify(data),
+      skip401Redirect: true,
     });
   },
 
