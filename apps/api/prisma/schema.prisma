@@ -671,93 +671,93 @@ model EstadoServicio {
 }
 
 model OrdenServicio {
-  id                     String                     @id @default(uuid()) @db.Uuid
-  tenantId               String                     @db.Uuid
-  empresaId              String                     @db.Uuid
-  clienteId              String                     @db.Uuid
-  servicioId             String                     @db.Uuid
-  creadoPorId            String?                    @db.Uuid
-  tecnicoId              String?                    @db.Uuid
-  direccionId            String?                    @db.Uuid
-  direccionTexto         String
-  piso                   String?
-  bloque                 String?
-  unidad                 String?
-  barrio                 String?
-  municipio              String?
-  departamento           String?
-  linkMaps               String?
-  zonaId                 String?                    @db.Uuid
-  vehiculoId             String?                    @db.Uuid
-  metodoPagoId           String?                    @db.Uuid
-  numeroOrden            String?
-  fechaVisita            DateTime?
-  horaInicio             DateTime?
-  horaFin                DateTime?
-  observacion            String?
-  observacionFinal       String?
-  diagnosticoTecnico     String?
-  intervencionRealizada  String?
-  hallazgosEstructurales String?
-  recomendacionesObligatorias String?
-  huboSellamiento        Boolean?
+  id                           String                     @id @default(uuid()) @db.Uuid
+  tenantId                     String                     @db.Uuid
+  empresaId                    String                     @db.Uuid
+  clienteId                    String                     @db.Uuid
+  servicioId                   String                     @db.Uuid
+  creadoPorId                  String?                    @db.Uuid
+  tecnicoId                    String?                    @db.Uuid
+  direccionId                  String?                    @db.Uuid
+  direccionTexto               String
+  piso                         String?
+  bloque                       String?
+  unidad                       String?
+  barrio                       String?
+  municipio                    String?
+  departamento                 String?
+  linkMaps                     String?
+  zonaId                       String?                    @db.Uuid
+  vehiculoId                   String?                    @db.Uuid
+  metodoPagoId                 String?                    @db.Uuid
+  numeroOrden                  String?
+  fechaVisita                  DateTime?
+  horaInicio                   DateTime?
+  horaFin                      DateTime?
+  observacion                  String?
+  observacionFinal             String?
+  condicionesHigiene           String?
+  condicionesLocal             String?
+  valorCotizado                Decimal?                   @db.Decimal(12, 2)
+  valorPagado                  Decimal?                   @db.Decimal(12, 2)
+  valorRepuestos               Decimal?                   @default(0) @db.Decimal(12, 2)
+  valorRepuestosTecnico        Decimal?                   @default(0) @db.Decimal(12, 2)
+  facturaPath                  String?
+  facturaElectronica           String?
+  evidenciaPath                String?
+  desglosePago                 Json?
+  referenciaPago               String?
+  fechaPago                    DateTime?
+  entidadFinancieraId          String?                    @db.Uuid
+  estadoPago                   EstadoPagoOrden            @default(PENDIENTE)
+  seguimientoRevisado          Boolean?                   @default(false)
+  liquidadoPorId               String?                    @db.Uuid
+  liquidadoAt                  DateTime?
+  ordenPadreId                 String?                    @db.Uuid
+  createdAt                    DateTime                   @default(now())
+  updatedAt                    DateTime                   @updatedAt
+  frecuenciaSugerida           Int?
+  tipoFacturacion              TipoFacturacion?
+  tipoVisita                   TipoVisita?
+  nivelInfestacion             NivelInfestacion?
+  urgencia                     UrgenciaOrden?
+  estadoServicio               EstadoOrden                @default(NUEVO)
+  contratoClienteId            String?                    @db.Uuid
+  serviciosSeleccionados       Json?
+  diagnosticoTecnico           String?
+  hallazgosEstructurales       String?
+  horaFinReal                  DateTime?
+  horaInicioReal               DateTime?
   huboRecomendacionEstructural Boolean?
-  horaInicioReal         DateTime?
-  horaFinReal            DateTime?
-  condicionesHigiene     String?
-  condicionesLocal       String?
-  valorCotizado          Decimal?                   @db.Decimal(12, 2)
-  valorPagado            Decimal?                   @db.Decimal(12, 2)
-  valorRepuestos         Decimal?                   @default(0) @db.Decimal(12, 2)
-  valorRepuestosTecnico  Decimal?                   @default(0) @db.Decimal(12, 2)
-  facturaPath            String?
-  facturaElectronica     String?
-  comprobantePago        Json?
-  evidenciaPath          String?
-  desglosePago           Json?
-  referenciaPago         String?
-  fechaPago              DateTime?
-  entidadFinancieraId    String?                    @db.Uuid
-  estadoPago             EstadoPagoOrden            @default(PENDIENTE)
-  seguimientoRevisado    Boolean?                   @default(false)
-  liquidadoPorId         String?                    @db.Uuid
-  liquidadoAt            DateTime?
-  deletedById            String?                    @db.Uuid
-  deletedAt              DateTime?
-  deletedReason          String?
-  ordenPadreId           String?                    @db.Uuid
-  createdAt              DateTime                   @default(now())
-  updatedAt              DateTime                   @updatedAt
-  frecuenciaSugerida     Int?
-  tipoFacturacion        TipoFacturacion?
-  tipoVisita             TipoVisita?
-  nivelInfestacion       NivelInfestacion?
-  urgencia               UrgenciaOrden?
-  estadoServicio         EstadoOrden                @default(NUEVO)
-  contratoClienteId      String?                    @db.Uuid
-  serviciosSeleccionados Json?
-  consignacionOrden      ConsignacionOrden?
-  declaracionEfectivo    DeclaracionEfectivo?
-  evidencias             EvidenciaServicio[]
-  geolocalizaciones      Geolocalizacion[]
-  nominaDetalles         NominaDetalle[]
-  cliente                Cliente                    @relation(fields: [clienteId], references: [id])
-  contratoCliente        ContratoCliente?           @relation(fields: [contratoClienteId], references: [id])
-  creadoPor              TenantMembership?          @relation("ServiciosCreados", fields: [creadoPorId], references: [id])
-  deletedBy              TenantMembership?          @relation("ServiciosEliminados", fields: [deletedById], references: [id])
-  direccion              Direccion?                 @relation(fields: [direccionId], references: [id])
-  empresa                Empresa                    @relation(fields: [empresaId], references: [id])
-  entidadFinanciera      EntidadFinanciera?         @relation(fields: [entidadFinancieraId], references: [id])
-  liquidadoPor           TenantMembership?          @relation("ServiciosLiquidados", fields: [liquidadoPorId], references: [id])
-  metodoPago             MetodoPago?                @relation(fields: [metodoPagoId], references: [id])
-  ordenPadre             OrdenServicio?             @relation("OrdenRefuerzo", fields: [ordenPadreId], references: [id])
-  ordenesHijas           OrdenServicio[]            @relation("OrdenRefuerzo")
-  servicio               Servicio                   @relation(fields: [servicioId], references: [id])
-  tecnico                TenantMembership?          @relation("ServiciosAsignados", fields: [tecnicoId], references: [id])
-  tenant                 Tenant                     @relation(fields: [tenantId], references: [id], onDelete: Cascade)
-  vehiculo               Vehiculo?                  @relation(fields: [vehiculoId], references: [id])
-  zona                   Zona?                      @relation(fields: [zonaId], references: [id])
-  seguimientos           OrdenServicioSeguimiento[]
+  huboSellamiento              Boolean?
+  intervencionRealizada        String?
+  recomendacionesObligatorias  String?
+  deletedAt                    DateTime?
+  deletedById                  String?                    @db.Uuid
+  deletedReason                String?
+  comprobantePago              Json?
+  consignacionOrden            ConsignacionOrden?
+  declaracionEfectivo          DeclaracionEfectivo?
+  evidencias                   EvidenciaServicio[]
+  geolocalizaciones            Geolocalizacion[]
+  nominaDetalles               NominaDetalle[]
+  cliente                      Cliente                    @relation(fields: [clienteId], references: [id])
+  contratoCliente              ContratoCliente?           @relation(fields: [contratoClienteId], references: [id])
+  creadoPor                    TenantMembership?          @relation("ServiciosCreados", fields: [creadoPorId], references: [id])
+  deletedBy                    TenantMembership?          @relation("ServiciosEliminados", fields: [deletedById], references: [id])
+  direccion                    Direccion?                 @relation(fields: [direccionId], references: [id])
+  empresa                      Empresa                    @relation(fields: [empresaId], references: [id])
+  entidadFinanciera            EntidadFinanciera?         @relation(fields: [entidadFinancieraId], references: [id])
+  liquidadoPor                 TenantMembership?          @relation("ServiciosLiquidados", fields: [liquidadoPorId], references: [id])
+  metodoPago                   MetodoPago?                @relation(fields: [metodoPagoId], references: [id])
+  ordenPadre                   OrdenServicio?             @relation("OrdenRefuerzo", fields: [ordenPadreId], references: [id])
+  ordenesHijas                 OrdenServicio[]            @relation("OrdenRefuerzo")
+  servicio                     Servicio                   @relation(fields: [servicioId], references: [id])
+  tecnico                      TenantMembership?          @relation("ServiciosAsignados", fields: [tecnicoId], references: [id])
+  tenant                       Tenant                     @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  vehiculo                     Vehiculo?                  @relation(fields: [vehiculoId], references: [id])
+  zona                         Zona?                      @relation(fields: [zonaId], references: [id])
+  seguimientos                 OrdenServicioSeguimiento[]
 
   @@index([tenantId])
   @@index([empresaId])

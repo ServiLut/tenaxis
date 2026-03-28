@@ -1,4 +1,5 @@
 import { Injectable, Logger } from '@nestjs/common';
+import { Cron } from '@nestjs/schedule';
 import { PrismaService } from '../prisma/prisma.service';
 import { ClientesService } from '../clientes/clientes.service';
 import {
@@ -103,6 +104,7 @@ export class SugerenciasService {
   }
 
   // Job v1: Generación determinística diaria
+  @Cron('0 0 19 * * *', { timeZone: 'America/Bogota' })
   async generateDailySugerencias() {
     this.logger.log('Iniciando generación diaria de sugerencias...');
 

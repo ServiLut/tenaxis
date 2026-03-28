@@ -5,6 +5,7 @@ import {
   ForbiddenException,
   Logger,
 } from '@nestjs/common';
+import { Cron } from '@nestjs/schedule';
 import { PrismaService } from '../prisma/prisma.service';
 import { SupabaseService } from '../supabase/supabase.service';
 import { ContratosClienteService } from '../contratos-cliente/contratos-cliente.service';
@@ -3057,6 +3058,7 @@ export class OrdenesServicioService {
   }
 
   // Job para procesar refuerzos pendientes (estilo Cron)
+  @Cron('0 0 19 * * *', { timeZone: 'America/Bogota' })
   async processReinforcementsJob() {
     this.logger.log('Iniciando job de procesamiento de refuerzos...');
 
