@@ -57,7 +57,7 @@ export async function getAuthHeaders(
 
 export async function apiFetch<T>(
   endpoint: string,
-  options: RequestInit & { includeEnterpriseId?: boolean } = {},
+  options: RequestInit & { includeEnterpriseId?: boolean; skip401Redirect?: boolean } = {},
 ): Promise<T> {
   const isFormData = options.body instanceof FormData;
   const headers = {
@@ -94,7 +94,11 @@ export async function apiFetch<T>(
       console.error(`[API Client] Error response:`, result);
       
       // Manejar token expirado (401)
-      if (response.status === 401 && typeof window !== "undefined") {
+      if (
+        response.status === 401 &&
+        typeof window !== "undefined" &&
+        !options.skip401Redirect
+      ) {
         console.warn("[API Client] Session expired (401). Redirecting to login...");
         
         // Limpiar cookies en el cliente
@@ -104,8 +108,8 @@ export async function apiFetch<T>(
         document.cookie = "sesion_id=; path=/; expires=Thu, 01 Jan 1970 00:00:01 GMT; SameSite=Lax";
         
         // Evitar bucles de redirección si ya estamos en la página de login
-        if (!window.location.pathname.includes('/auth/iniciar-sesion')) {
-          window.location.href = '/auth/iniciar-sesion?expired=true';
+        if (!window.location.pathname.includes('/iniciar-sesion')) {
+          window.location.href = '/iniciar-sesion?expired=true';
           // Retornar una promesa que nunca se resuelve para detener la ejecución actual
           return new Promise(() => {});
         }

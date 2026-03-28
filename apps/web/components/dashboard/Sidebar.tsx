@@ -163,16 +163,8 @@ export function Sidebar({ isOpen, onClose }: SidebarProps) {
     deleteBrowserCookie("tenant-id");
     deleteBrowserCookie("x-enterprise-id");
     deleteBrowserCookie("x-test-role");
-    
-    // En lugar de borrar todo el objeto user, solo limpiamos los tokens/sesiones
-    // para preservar campos como banco, valorHora, etc. en el mismo navegador.
-    const userData = localStorage.getItem("user");
-    if (userData) {
-      const user = JSON.parse(userData);
-      delete user.sesionId;
-      localStorage.setItem("user", JSON.stringify(user));
-    }
-    
+
+    localStorage.removeItem("user");
     localStorage.removeItem("current-enterprise-id");
     window.location.href = "/iniciar-sesion";
   };
