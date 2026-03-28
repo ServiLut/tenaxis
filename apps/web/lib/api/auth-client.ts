@@ -4,6 +4,7 @@ export interface UserProfile {
   id: string;
   email: string;
   role: string;
+  permissions?: string[];
   nombre?: string;
   apellido?: string;
   telefono?: string;
@@ -59,13 +60,13 @@ export const authClient = {
   async updateTestRole(role: string) {
     return apiFetch("/auth/test-role", {
       method: "PATCH",
-      body: JSON.stringify({ role })
+      body: JSON.stringify({ role }),
     });
   },
 
   async logout() {
     return apiFetch("/auth/logout", {
-      method: "POST"
+      method: "POST",
     });
   }
 };

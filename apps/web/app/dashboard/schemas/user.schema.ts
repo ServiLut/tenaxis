@@ -14,6 +14,7 @@ export const UserProfileSchema = z.object({
   valorHora: z.number().optional(),
   email: z.string().email().optional(),
   role: z.string().optional(),
+  permissions: z.array(z.string()).optional(),
 });
 
 export type UserProfileType = z.infer<typeof UserProfileSchema>;

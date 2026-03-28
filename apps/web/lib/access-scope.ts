@@ -7,6 +7,7 @@ export type ScopedRole =
 
 export interface ScopeAwareUser {
   role?: string | null;
+  permissions?: string[] | null;
   isGlobalSuAdmin?: boolean | null;
   tenantId?: string | null;
   empresaId?: string | null;

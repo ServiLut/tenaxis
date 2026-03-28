@@ -198,6 +198,7 @@ export const TenantMembershipScalarFieldEnum = {
   userId: 'userId',
   tenantId: 'tenantId',
   role: 'role',
+  granularPermissions: 'granularPermissions',
   status: 'status',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',

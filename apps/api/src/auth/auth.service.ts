@@ -15,6 +15,7 @@ import { JwtService } from '@nestjs/jwt';
 import { MonitoringService } from '../monitoring/monitoring.service';
 import { JwtPayload } from './jwt-payload.interface';
 import { resolveEffectiveRoleState } from '../common/utils/dev-role-override.util';
+import { buildMembershipPermissionState } from './membership-permissions.util';
 
 @Injectable()
 export class AuthService {
@@ -138,11 +139,17 @@ export class AuthService {
       (isGlobalSuAdmin ? Role.SU_ADMIN : Role.OPERADOR);
     const { empresaIds, zonaIds, municipalityIds, departmentIds } =
       this.collectMembershipScopeIds(approvedMembership);
+    const permissionState = buildMembershipPermissionState(
+      role,
+      approvedMembership?.granularPermissions,
+    );
 
     const payload: JwtPayload = {
       sub: user.id,
       email: user.email,
       role,
+      permissions: permissionState.permissions,
+      granularPermissions: permissionState.granularPermissions,
       tenantId: approvedMembership?.tenantId,
       membershipId: approvedMembership?.id,
       empresaId: empresaIds.length === 1 ? empresaIds[0] : undefined,
@@ -164,6 +171,8 @@ export class AuthService {
         nombre: user.nombre,
         apellido: user.apellido,
         role,
+        permissions: permissionState.permissions,
+        granularPermissions: permissionState.granularPermissions,
         tenantId: approvedMembership?.tenantId,
         membershipId: approvedMembership?.id,
         empresaIds,
@@ -252,6 +261,10 @@ export class AuthService {
       const membership = user?.memberships?.[0];
       const { empresaIds, zonaIds, municipalityIds, departmentIds } =
         this.collectMembershipScopeIds(membership);
+      const permissionState = buildMembershipPermissionState(
+        devRoleState.role,
+        membership?.granularPermissions ?? payload.granularPermissions,
+      );
       const cuentaPago =
         membership?.cuentasPago?.[0] ||
         (enterpriseId
@@ -261,6 +274,8 @@ export class AuthService {
       return {
         ...payload,
         role: devRoleState.role,
+        permissions: permissionState.permissions,
+        granularPermissions: permissionState.granularPermissions,
         id: user?.id || payload.sub,
         email: user?.email || payload.email,
         nombre: user?.nombre,

@@ -8,6 +8,7 @@ import { getBrowserEffectiveScopeAwareUser } from "@/lib/browser-access-scope";
 export type UserData = {
   tenantId: string | null;
   role: UserRole | null;
+  permissions: string[];
   id: string | null;
   nombre: string | null;
   email: string | null;
@@ -38,6 +39,7 @@ export function useUserRole() {
       setUserData({
         tenantId: effectiveUser.tenantId || null,
         role: getScopedRole(effectiveUser.role) as UserRole | null,
+        permissions: effectiveUser.permissions || [],
         id: effectiveUser.id || null,
         nombre: effectiveUser.nombre || null,
         email: effectiveUser.email || null,
@@ -48,6 +50,10 @@ export function useUserRole() {
   }, []);
 
   const checkPermission = (action: PermissionKey) => {
+    if (userData?.permissions?.includes(action)) {
+      return true;
+    }
+
     return hasPermission(userData?.role, action);
   };
 

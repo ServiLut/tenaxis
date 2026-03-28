@@ -14,6 +14,7 @@ import { JwtPayload } from '../auth/jwt-payload.interface';
 import { getPrismaAccessFilter } from '../common/utils/access-control.util';
 import {
   EstadoOrden,
+  MembershipPermission,
   Prisma,
   Role,
   TipoVisita,
@@ -32,6 +33,12 @@ import {
   startOfBogotaDayUtc,
   startOfBogotaMonthUtc,
 } from '../common/utils/timezone.util';
+import {
+  buildMembershipPermissionState,
+  findUnsupportedGranularPermissions,
+  hasMembershipPermission,
+  resolveStoredGranularPermissions,
+} from '../auth/membership-permissions.util';
 
 const NEW_VISIT_TYPES = new Set<TipoVisita>([
   'DIAGNOSTICO_INICIAL' as TipoVisita,
@@ -57,6 +64,8 @@ interface DateRange {
 }
 
 type MembershipGeoScopeRelation = {
+  role: Role;
+  granularPermissions?: MembershipPermission[] | null;
   departmentScopes?: Array<{ departmentId: string }>;
   municipalityScopes?: Array<{ municipalityId: string }>;
 };
@@ -281,16 +290,48 @@ export class TenantsService {
     });
   }
 
-  async approveMembership(membershipId: string) {
-    return this.prisma.tenantMembership.update({
-      where: { id: membershipId },
-      data: { aprobado: true },
+  async approveMembership(membershipId: string, user: JwtPayload) {
+    return this.prisma.$transaction(async (tx) => {
+      const membership = await tx.tenantMembership.findUnique({
+        where: { id: membershipId },
+        select: {
+          id: true,
+          tenantId: true,
+        },
+      });
+
+      if (!membership) {
+        throw new NotFoundException('Membresía no encontrada');
+      }
+
+      await this.assertCanEditTeamMembership(tx, user, membership.tenantId);
+
+      return tx.tenantMembership.update({
+        where: { id: membershipId },
+        data: { aprobado: true },
+      });
     });
   }
 
-  async rejectMembership(membershipId: string) {
-    return this.prisma.tenantMembership.delete({
-      where: { id: membershipId },
+  async rejectMembership(membershipId: string, user: JwtPayload) {
+    return this.prisma.$transaction(async (tx) => {
+      const membership = await tx.tenantMembership.findUnique({
+        where: { id: membershipId },
+        select: {
+          id: true,
+          tenantId: true,
+        },
+      });
+
+      if (!membership) {
+        throw new NotFoundException('Membresía no encontrada');
+      }
+
+      await this.assertCanEditTeamMembership(tx, user, membership.tenantId);
+
+      return tx.tenantMembership.delete({
+        where: { id: membershipId },
+      });
     });
   }
 
@@ -322,6 +363,32 @@ export class TenantsService {
         }
       }
 
+      await this.assertCanEditTeamMembership(tx, user, current.tenantId);
+
+      const nextRole = data.role ?? current.role;
+      const shouldSyncGranularPermissions =
+        data.granularPermissions !== undefined || nextRole !== current.role;
+
+      if (data.granularPermissions !== undefined) {
+        const unsupportedPermissions = findUnsupportedGranularPermissions(
+          nextRole,
+          data.granularPermissions,
+        );
+
+        if (unsupportedPermissions.length > 0) {
+          throw new BadRequestException(
+            `Los permisos granulares ${unsupportedPermissions.join(', ')} solo pueden asignarse explícitamente a COORDINADOR. ADMIN y SU_ADMIN ya lo reciben por rol.`,
+          );
+        }
+      }
+
+      const normalizedGranularPermissions = shouldSyncGranularPermissions
+        ? resolveStoredGranularPermissions(
+            nextRole,
+            data.granularPermissions ?? current.granularPermissions,
+          )
+        : undefined;
+
       const requestedGeoScope = this.extractRequestedGeoScope(data);
       const normalizedGeoScope = requestedGeoScope
         ? await this.normalizeMembershipGeoScope(tx, requestedGeoScope)
@@ -342,6 +409,9 @@ export class TenantsService {
                 ? data.municipioId || null
                 : undefined,
           role: data.role,
+          granularPermissions: shouldSyncGranularPermissions
+            ? normalizedGranularPermissions
+            : undefined,
           activo: data.activo,
         },
       });
@@ -1836,8 +1906,15 @@ export class TenantsService {
   private decorateMembershipGeoScopes<T extends MembershipGeoScopeRelation>(
     membership: T,
   ) {
+    const permissionState = buildMembershipPermissionState(
+      membership.role,
+      membership.granularPermissions,
+    );
+
     return {
       ...membership,
+      granularPermissions: permissionState.granularPermissions,
+      effectivePermissions: permissionState.permissions,
       departmentIds: Array.from(
         new Set(
           (membership.departmentScopes || [])
@@ -1855,5 +1932,64 @@ export class TenantsService {
         ),
       ),
     };
+  }
+
+  private async assertCanEditTeamMembership(
+    tx: Prisma.TransactionClient,
+    user: JwtPayload,
+    tenantId: string,
+  ): Promise<void> {
+    if (user.isGlobalSuAdmin) {
+      return;
+    }
+
+    if (!user.tenantId || user.tenantId !== tenantId) {
+      throw new UnauthorizedException(
+        'No tienes permisos para modificar esta membresía',
+      );
+    }
+
+    if (!user.membershipId) {
+      throw new UnauthorizedException(
+        'No se pudo resolver tu membresía activa en este conglomerado',
+      );
+    }
+
+    const actorMembership = await tx.tenantMembership.findFirst({
+      where: {
+        id: user.membershipId,
+        tenantId,
+        userId: user.sub,
+        activo: true,
+        aprobado: true,
+      },
+      select: {
+        role: true,
+        granularPermissions: true,
+      },
+    });
+
+    if (!actorMembership) {
+      throw new UnauthorizedException(
+        'No se pudo resolver tu membresía activa en este conglomerado',
+      );
+    }
+
+    const actorRole =
+      process.env.NODE_ENV === 'production'
+        ? actorMembership.role
+        : user.role || actorMembership.role;
+
+    if (
+      !hasMembershipPermission(
+        actorRole,
+        actorMembership.granularPermissions,
+        MembershipPermission.TEAM_EDIT,
+      )
+    ) {
+      throw new UnauthorizedException(
+        'Necesitas TEAM_EDIT para modificar miembros del equipo',
+      );
+    }
   }
 }

@@ -8,7 +8,7 @@ import {
   IsNumber,
 } from 'class-validator';
 import { Type } from 'class-transformer';
-import { Role } from '../../generated/client/client';
+import { MembershipPermission, Role } from '../../generated/client/client';
 
 export class UpdateMembershipDto {
   @IsString()
@@ -40,6 +40,11 @@ export class UpdateMembershipDto {
   @IsEnum(Role)
   @IsOptional()
   role?: Role;
+
+  @IsArray()
+  @IsEnum(MembershipPermission, { each: true })
+  @IsOptional()
+  granularPermissions?: MembershipPermission[];
 
   @IsBoolean()
   @IsOptional()

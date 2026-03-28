@@ -137,6 +137,7 @@ model TenantMembership {
   userId                  String                     @db.Uuid
   tenantId                String                     @db.Uuid
   role                    Role
+  granularPermissions     MembershipPermission[]     @default([]) @map("granular_permissions")
   status                  MembershipStatus           @default(ACTIVE)
   createdAt               DateTime                   @default(now())
   updatedAt               DateTime                   @updatedAt
@@ -1536,6 +1537,10 @@ enum Role {
   COORDINADOR
   ASESOR
   OPERADOR
+}
+
+enum MembershipPermission {
+  TEAM_EDIT
 }
 
 enum MembershipStatus {

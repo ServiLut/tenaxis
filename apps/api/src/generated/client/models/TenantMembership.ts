@@ -71,6 +71,7 @@ export type TenantMembershipCountAggregateOutputType = {
   userId: number
   tenantId: number
   role: number
+  granularPermissions: number
   status: number
   createdAt: number
   updatedAt: number
@@ -136,6 +137,7 @@ export type TenantMembershipCountAggregateInputType = {
   userId?: true
   tenantId?: true
   role?: true
+  granularPermissions?: true
   status?: true
   createdAt?: true
   updatedAt?: true
@@ -230,6 +232,7 @@ export type TenantMembershipGroupByOutputType = {
   userId: string
   tenantId: string
   role: $Enums.Role
+  granularPermissions: $Enums.MembershipPermission[]
   status: $Enums.MembershipStatus
   createdAt: Date
   updatedAt: Date
@@ -272,6 +275,7 @@ export type TenantMembershipWhereInput = {
   userId?: Prisma.UuidFilter<"TenantMembership"> | string
   tenantId?: Prisma.UuidFilter<"TenantMembership"> | string
   role?: Prisma.EnumRoleFilter<"TenantMembership"> | $Enums.Role
+  granularPermissions?: Prisma.EnumMembershipPermissionNullableListFilter<"TenantMembership">
   status?: Prisma.EnumMembershipStatusFilter<"TenantMembership"> | $Enums.MembershipStatus
   createdAt?: Prisma.DateTimeFilter<"TenantMembership"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"TenantMembership"> | Date | string
@@ -327,6 +331,7 @@ export type TenantMembershipOrderByWithRelationInput = {
   userId?: Prisma.SortOrder
   tenantId?: Prisma.SortOrder
   role?: Prisma.SortOrder
+  granularPermissions?: Prisma.SortOrder
   status?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -386,6 +391,7 @@ export type TenantMembershipWhereUniqueInput = Prisma.AtLeast<{
   userId?: Prisma.UuidFilter<"TenantMembership"> | string
   tenantId?: Prisma.UuidFilter<"TenantMembership"> | string
   role?: Prisma.EnumRoleFilter<"TenantMembership"> | $Enums.Role
+  granularPermissions?: Prisma.EnumMembershipPermissionNullableListFilter<"TenantMembership">
   status?: Prisma.EnumMembershipStatusFilter<"TenantMembership"> | $Enums.MembershipStatus
   createdAt?: Prisma.DateTimeFilter<"TenantMembership"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"TenantMembership"> | Date | string
@@ -441,6 +447,7 @@ export type TenantMembershipOrderByWithAggregationInput = {
   userId?: Prisma.SortOrder
   tenantId?: Prisma.SortOrder
   role?: Prisma.SortOrder
+  granularPermissions?: Prisma.SortOrder
   status?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -468,6 +475,7 @@ export type TenantMembershipScalarWhereWithAggregatesInput = {
   userId?: Prisma.UuidWithAggregatesFilter<"TenantMembership"> | string
   tenantId?: Prisma.UuidWithAggregatesFilter<"TenantMembership"> | string
   role?: Prisma.EnumRoleWithAggregatesFilter<"TenantMembership"> | $Enums.Role
+  granularPermissions?: Prisma.EnumMembershipPermissionNullableListFilter<"TenantMembership">
   status?: Prisma.EnumMembershipStatusWithAggregatesFilter<"TenantMembership"> | $Enums.MembershipStatus
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"TenantMembership"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"TenantMembership"> | Date | string
@@ -487,6 +495,7 @@ export type TenantMembershipScalarWhereWithAggregatesInput = {
 export type TenantMembershipCreateInput = {
   id?: string
   role: $Enums.Role
+  granularPermissions?: Prisma.TenantMembershipCreategranularPermissionsInput | $Enums.MembershipPermission[]
   status?: $Enums.MembershipStatus
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -541,6 +550,7 @@ export type TenantMembershipUncheckedCreateInput = {
   userId: string
   tenantId: string
   role: $Enums.Role
+  granularPermissions?: Prisma.TenantMembershipCreategranularPermissionsInput | $Enums.MembershipPermission[]
   status?: $Enums.MembershipStatus
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -591,6 +601,7 @@ export type TenantMembershipUncheckedCreateInput = {
 export type TenantMembershipUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  granularPermissions?: Prisma.TenantMembershipUpdategranularPermissionsInput | $Enums.MembershipPermission[]
   status?: Prisma.EnumMembershipStatusFieldUpdateOperationsInput | $Enums.MembershipStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -645,6 +656,7 @@ export type TenantMembershipUncheckedUpdateInput = {
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   tenantId?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  granularPermissions?: Prisma.TenantMembershipUpdategranularPermissionsInput | $Enums.MembershipPermission[]
   status?: Prisma.EnumMembershipStatusFieldUpdateOperationsInput | $Enums.MembershipStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -697,6 +709,7 @@ export type TenantMembershipCreateManyInput = {
   userId: string
   tenantId: string
   role: $Enums.Role
+  granularPermissions?: Prisma.TenantMembershipCreategranularPermissionsInput | $Enums.MembershipPermission[]
   status?: $Enums.MembershipStatus
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -716,6 +729,7 @@ export type TenantMembershipCreateManyInput = {
 export type TenantMembershipUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  granularPermissions?: Prisma.TenantMembershipUpdategranularPermissionsInput | $Enums.MembershipPermission[]
   status?: Prisma.EnumMembershipStatusFieldUpdateOperationsInput | $Enums.MembershipStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -736,6 +750,7 @@ export type TenantMembershipUncheckedUpdateManyInput = {
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   tenantId?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  granularPermissions?: Prisma.TenantMembershipUpdategranularPermissionsInput | $Enums.MembershipPermission[]
   status?: Prisma.EnumMembershipStatusFieldUpdateOperationsInput | $Enums.MembershipStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -762,6 +777,14 @@ export type TenantMembershipOrderByRelationAggregateInput = {
   _count?: Prisma.SortOrder
 }
 
+export type EnumMembershipPermissionNullableListFilter<$PrismaModel = never> = {
+  equals?: $Enums.MembershipPermission[] | Prisma.ListEnumMembershipPermissionFieldRefInput<$PrismaModel> | null
+  has?: $Enums.MembershipPermission | Prisma.EnumMembershipPermissionFieldRefInput<$PrismaModel> | null
+  hasEvery?: $Enums.MembershipPermission[] | Prisma.ListEnumMembershipPermissionFieldRefInput<$PrismaModel>
+  hasSome?: $Enums.MembershipPermission[] | Prisma.ListEnumMembershipPermissionFieldRefInput<$PrismaModel>
+  isEmpty?: boolean
+}
+
 export type TenantMembershipUserIdTenantIdCompoundUniqueInput = {
   userId: string
   tenantId: string
@@ -772,6 +795,7 @@ export type TenantMembershipCountOrderByAggregateInput = {
   userId?: Prisma.SortOrder
   tenantId?: Prisma.SortOrder
   role?: Prisma.SortOrder
+  granularPermissions?: Prisma.SortOrder
   status?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -924,8 +948,17 @@ export type TenantMembershipUncheckedUpdateManyWithoutTenantNestedInput = {
   deleteMany?: Prisma.TenantMembershipScalarWhereInput | Prisma.TenantMembershipScalarWhereInput[]
 }
 
+export type TenantMembershipCreategranularPermissionsInput = {
+  set: $Enums.MembershipPermission[]
+}
+
 export type EnumRoleFieldUpdateOperationsInput = {
   set?: $Enums.Role
+}
+
+export type TenantMembershipUpdategranularPermissionsInput = {
+  set?: $Enums.MembershipPermission[]
+  push?: $Enums.MembershipPermission | $Enums.MembershipPermission[]
 }
 
 export type EnumMembershipStatusFieldUpdateOperationsInput = {
@@ -1439,6 +1472,7 @@ export type TenantMembershipUpdateOneRequiredWithoutSesionesActividadNestedInput
 export type TenantMembershipCreateWithoutUserInput = {
   id?: string
   role: $Enums.Role
+  granularPermissions?: Prisma.TenantMembershipCreategranularPermissionsInput | $Enums.MembershipPermission[]
   status?: $Enums.MembershipStatus
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -1491,6 +1525,7 @@ export type TenantMembershipUncheckedCreateWithoutUserInput = {
   id?: string
   tenantId: string
   role: $Enums.Role
+  granularPermissions?: Prisma.TenantMembershipCreategranularPermissionsInput | $Enums.MembershipPermission[]
   status?: $Enums.MembershipStatus
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -1572,6 +1607,7 @@ export type TenantMembershipScalarWhereInput = {
   userId?: Prisma.UuidFilter<"TenantMembership"> | string
   tenantId?: Prisma.UuidFilter<"TenantMembership"> | string
   role?: Prisma.EnumRoleFilter<"TenantMembership"> | $Enums.Role
+  granularPermissions?: Prisma.EnumMembershipPermissionNullableListFilter<"TenantMembership">
   status?: Prisma.EnumMembershipStatusFilter<"TenantMembership"> | $Enums.MembershipStatus
   createdAt?: Prisma.DateTimeFilter<"TenantMembership"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"TenantMembership"> | Date | string
@@ -1591,6 +1627,7 @@ export type TenantMembershipScalarWhereInput = {
 export type TenantMembershipCreateWithoutTenantInput = {
   id?: string
   role: $Enums.Role
+  granularPermissions?: Prisma.TenantMembershipCreategranularPermissionsInput | $Enums.MembershipPermission[]
   status?: $Enums.MembershipStatus
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -1643,6 +1680,7 @@ export type TenantMembershipUncheckedCreateWithoutTenantInput = {
   id?: string
   userId: string
   role: $Enums.Role
+  granularPermissions?: Prisma.TenantMembershipCreategranularPermissionsInput | $Enums.MembershipPermission[]
   status?: $Enums.MembershipStatus
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -1719,6 +1757,7 @@ export type TenantMembershipUpdateManyWithWhereWithoutTenantInput = {
 export type TenantMembershipCreateWithoutDashboardPresetsInput = {
   id?: string
   role: $Enums.Role
+  granularPermissions?: Prisma.TenantMembershipCreategranularPermissionsInput | $Enums.MembershipPermission[]
   status?: $Enums.MembershipStatus
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -1772,6 +1811,7 @@ export type TenantMembershipUncheckedCreateWithoutDashboardPresetsInput = {
   userId: string
   tenantId: string
   role: $Enums.Role
+  granularPermissions?: Prisma.TenantMembershipCreategranularPermissionsInput | $Enums.MembershipPermission[]
   status?: $Enums.MembershipStatus
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -1837,6 +1877,7 @@ export type TenantMembershipUpdateToOneWithWhereWithoutDashboardPresetsInput = {
 export type TenantMembershipUpdateWithoutDashboardPresetsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  granularPermissions?: Prisma.TenantMembershipUpdategranularPermissionsInput | $Enums.MembershipPermission[]
   status?: Prisma.EnumMembershipStatusFieldUpdateOperationsInput | $Enums.MembershipStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1890,6 +1931,7 @@ export type TenantMembershipUncheckedUpdateWithoutDashboardPresetsInput = {
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   tenantId?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  granularPermissions?: Prisma.TenantMembershipUpdategranularPermissionsInput | $Enums.MembershipPermission[]
   status?: Prisma.EnumMembershipStatusFieldUpdateOperationsInput | $Enums.MembershipStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1939,6 +1981,7 @@ export type TenantMembershipUncheckedUpdateWithoutDashboardPresetsInput = {
 export type TenantMembershipCreateWithoutEmpresaMembershipsInput = {
   id?: string
   role: $Enums.Role
+  granularPermissions?: Prisma.TenantMembershipCreategranularPermissionsInput | $Enums.MembershipPermission[]
   status?: $Enums.MembershipStatus
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -1992,6 +2035,7 @@ export type TenantMembershipUncheckedCreateWithoutEmpresaMembershipsInput = {
   userId: string
   tenantId: string
   role: $Enums.Role
+  granularPermissions?: Prisma.TenantMembershipCreategranularPermissionsInput | $Enums.MembershipPermission[]
   status?: $Enums.MembershipStatus
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -2057,6 +2101,7 @@ export type TenantMembershipUpdateToOneWithWhereWithoutEmpresaMembershipsInput =
 export type TenantMembershipUpdateWithoutEmpresaMembershipsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  granularPermissions?: Prisma.TenantMembershipUpdategranularPermissionsInput | $Enums.MembershipPermission[]
   status?: Prisma.EnumMembershipStatusFieldUpdateOperationsInput | $Enums.MembershipStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -2110,6 +2155,7 @@ export type TenantMembershipUncheckedUpdateWithoutEmpresaMembershipsInput = {
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   tenantId?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  granularPermissions?: Prisma.TenantMembershipUpdategranularPermissionsInput | $Enums.MembershipPermission[]
   status?: Prisma.EnumMembershipStatusFieldUpdateOperationsInput | $Enums.MembershipStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -2159,6 +2205,7 @@ export type TenantMembershipUncheckedUpdateWithoutEmpresaMembershipsInput = {
 export type TenantMembershipCreateWithoutMunicipioInput = {
   id?: string
   role: $Enums.Role
+  granularPermissions?: Prisma.TenantMembershipCreategranularPermissionsInput | $Enums.MembershipPermission[]
   status?: $Enums.MembershipStatus
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -2212,6 +2259,7 @@ export type TenantMembershipUncheckedCreateWithoutMunicipioInput = {
   userId: string
   tenantId: string
   role: $Enums.Role
+  granularPermissions?: Prisma.TenantMembershipCreategranularPermissionsInput | $Enums.MembershipPermission[]
   status?: $Enums.MembershipStatus
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -2287,6 +2335,7 @@ export type TenantMembershipUpdateManyWithWhereWithoutMunicipioInput = {
 export type TenantMembershipCreateWithoutDepartmentScopesInput = {
   id?: string
   role: $Enums.Role
+  granularPermissions?: Prisma.TenantMembershipCreategranularPermissionsInput | $Enums.MembershipPermission[]
   status?: $Enums.MembershipStatus
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -2340,6 +2389,7 @@ export type TenantMembershipUncheckedCreateWithoutDepartmentScopesInput = {
   userId: string
   tenantId: string
   role: $Enums.Role
+  granularPermissions?: Prisma.TenantMembershipCreategranularPermissionsInput | $Enums.MembershipPermission[]
   status?: $Enums.MembershipStatus
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -2405,6 +2455,7 @@ export type TenantMembershipUpdateToOneWithWhereWithoutDepartmentScopesInput = {
 export type TenantMembershipUpdateWithoutDepartmentScopesInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  granularPermissions?: Prisma.TenantMembershipUpdategranularPermissionsInput | $Enums.MembershipPermission[]
   status?: Prisma.EnumMembershipStatusFieldUpdateOperationsInput | $Enums.MembershipStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -2458,6 +2509,7 @@ export type TenantMembershipUncheckedUpdateWithoutDepartmentScopesInput = {
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   tenantId?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  granularPermissions?: Prisma.TenantMembershipUpdategranularPermissionsInput | $Enums.MembershipPermission[]
   status?: Prisma.EnumMembershipStatusFieldUpdateOperationsInput | $Enums.MembershipStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -2507,6 +2559,7 @@ export type TenantMembershipUncheckedUpdateWithoutDepartmentScopesInput = {
 export type TenantMembershipCreateWithoutMunicipalityScopesInput = {
   id?: string
   role: $Enums.Role
+  granularPermissions?: Prisma.TenantMembershipCreategranularPermissionsInput | $Enums.MembershipPermission[]
   status?: $Enums.MembershipStatus
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -2560,6 +2613,7 @@ export type TenantMembershipUncheckedCreateWithoutMunicipalityScopesInput = {
   userId: string
   tenantId: string
   role: $Enums.Role
+  granularPermissions?: Prisma.TenantMembershipCreategranularPermissionsInput | $Enums.MembershipPermission[]
   status?: $Enums.MembershipStatus
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -2625,6 +2679,7 @@ export type TenantMembershipUpdateToOneWithWhereWithoutMunicipalityScopesInput =
 export type TenantMembershipUpdateWithoutMunicipalityScopesInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  granularPermissions?: Prisma.TenantMembershipUpdategranularPermissionsInput | $Enums.MembershipPermission[]
   status?: Prisma.EnumMembershipStatusFieldUpdateOperationsInput | $Enums.MembershipStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -2678,6 +2733,7 @@ export type TenantMembershipUncheckedUpdateWithoutMunicipalityScopesInput = {
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   tenantId?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  granularPermissions?: Prisma.TenantMembershipUpdategranularPermissionsInput | $Enums.MembershipPermission[]
   status?: Prisma.EnumMembershipStatusFieldUpdateOperationsInput | $Enums.MembershipStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -2727,6 +2783,7 @@ export type TenantMembershipUncheckedUpdateWithoutMunicipalityScopesInput = {
 export type TenantMembershipCreateWithoutClientesCreadosInput = {
   id?: string
   role: $Enums.Role
+  granularPermissions?: Prisma.TenantMembershipCreategranularPermissionsInput | $Enums.MembershipPermission[]
   status?: $Enums.MembershipStatus
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -2780,6 +2837,7 @@ export type TenantMembershipUncheckedCreateWithoutClientesCreadosInput = {
   userId: string
   tenantId: string
   role: $Enums.Role
+  granularPermissions?: Prisma.TenantMembershipCreategranularPermissionsInput | $Enums.MembershipPermission[]
   status?: $Enums.MembershipStatus
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -2845,6 +2903,7 @@ export type TenantMembershipUpdateToOneWithWhereWithoutClientesCreadosInput = {
 export type TenantMembershipUpdateWithoutClientesCreadosInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  granularPermissions?: Prisma.TenantMembershipUpdategranularPermissionsInput | $Enums.MembershipPermission[]
   status?: Prisma.EnumMembershipStatusFieldUpdateOperationsInput | $Enums.MembershipStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -2898,6 +2957,7 @@ export type TenantMembershipUncheckedUpdateWithoutClientesCreadosInput = {
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   tenantId?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  granularPermissions?: Prisma.TenantMembershipUpdategranularPermissionsInput | $Enums.MembershipPermission[]
   status?: Prisma.EnumMembershipStatusFieldUpdateOperationsInput | $Enums.MembershipStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -2947,6 +3007,7 @@ export type TenantMembershipUncheckedUpdateWithoutClientesCreadosInput = {
 export type TenantMembershipCreateWithoutServiciosCreadosInput = {
   id?: string
   role: $Enums.Role
+  granularPermissions?: Prisma.TenantMembershipCreategranularPermissionsInput | $Enums.MembershipPermission[]
   status?: $Enums.MembershipStatus
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -3000,6 +3061,7 @@ export type TenantMembershipUncheckedCreateWithoutServiciosCreadosInput = {
   userId: string
   tenantId: string
   role: $Enums.Role
+  granularPermissions?: Prisma.TenantMembershipCreategranularPermissionsInput | $Enums.MembershipPermission[]
   status?: $Enums.MembershipStatus
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -3054,6 +3116,7 @@ export type TenantMembershipCreateOrConnectWithoutServiciosCreadosInput = {
 export type TenantMembershipCreateWithoutServiciosEliminadosInput = {
   id?: string
   role: $Enums.Role
+  granularPermissions?: Prisma.TenantMembershipCreategranularPermissionsInput | $Enums.MembershipPermission[]
   status?: $Enums.MembershipStatus
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -3107,6 +3170,7 @@ export type TenantMembershipUncheckedCreateWithoutServiciosEliminadosInput = {
   userId: string
   tenantId: string
   role: $Enums.Role
+  granularPermissions?: Prisma.TenantMembershipCreategranularPermissionsInput | $Enums.MembershipPermission[]
   status?: $Enums.MembershipStatus
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -3161,6 +3225,7 @@ export type TenantMembershipCreateOrConnectWithoutServiciosEliminadosInput = {
 export type TenantMembershipCreateWithoutServiciosLiquidadosInput = {
   id?: string
   role: $Enums.Role
+  granularPermissions?: Prisma.TenantMembershipCreategranularPermissionsInput | $Enums.MembershipPermission[]
   status?: $Enums.MembershipStatus
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -3214,6 +3279,7 @@ export type TenantMembershipUncheckedCreateWithoutServiciosLiquidadosInput = {
   userId: string
   tenantId: string
   role: $Enums.Role
+  granularPermissions?: Prisma.TenantMembershipCreategranularPermissionsInput | $Enums.MembershipPermission[]
   status?: $Enums.MembershipStatus
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -3268,6 +3334,7 @@ export type TenantMembershipCreateOrConnectWithoutServiciosLiquidadosInput = {
 export type TenantMembershipCreateWithoutServiciosAsignadosInput = {
   id?: string
   role: $Enums.Role
+  granularPermissions?: Prisma.TenantMembershipCreategranularPermissionsInput | $Enums.MembershipPermission[]
   status?: $Enums.MembershipStatus
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -3321,6 +3388,7 @@ export type TenantMembershipUncheckedCreateWithoutServiciosAsignadosInput = {
   userId: string
   tenantId: string
   role: $Enums.Role
+  granularPermissions?: Prisma.TenantMembershipCreategranularPermissionsInput | $Enums.MembershipPermission[]
   status?: $Enums.MembershipStatus
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -3386,6 +3454,7 @@ export type TenantMembershipUpdateToOneWithWhereWithoutServiciosCreadosInput = {
 export type TenantMembershipUpdateWithoutServiciosCreadosInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  granularPermissions?: Prisma.TenantMembershipUpdategranularPermissionsInput | $Enums.MembershipPermission[]
   status?: Prisma.EnumMembershipStatusFieldUpdateOperationsInput | $Enums.MembershipStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -3439,6 +3508,7 @@ export type TenantMembershipUncheckedUpdateWithoutServiciosCreadosInput = {
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   tenantId?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  granularPermissions?: Prisma.TenantMembershipUpdategranularPermissionsInput | $Enums.MembershipPermission[]
   status?: Prisma.EnumMembershipStatusFieldUpdateOperationsInput | $Enums.MembershipStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -3499,6 +3569,7 @@ export type TenantMembershipUpdateToOneWithWhereWithoutServiciosEliminadosInput 
 export type TenantMembershipUpdateWithoutServiciosEliminadosInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  granularPermissions?: Prisma.TenantMembershipUpdategranularPermissionsInput | $Enums.MembershipPermission[]
   status?: Prisma.EnumMembershipStatusFieldUpdateOperationsInput | $Enums.MembershipStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -3552,6 +3623,7 @@ export type TenantMembershipUncheckedUpdateWithoutServiciosEliminadosInput = {
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   tenantId?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  granularPermissions?: Prisma.TenantMembershipUpdategranularPermissionsInput | $Enums.MembershipPermission[]
   status?: Prisma.EnumMembershipStatusFieldUpdateOperationsInput | $Enums.MembershipStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -3612,6 +3684,7 @@ export type TenantMembershipUpdateToOneWithWhereWithoutServiciosLiquidadosInput 
 export type TenantMembershipUpdateWithoutServiciosLiquidadosInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  granularPermissions?: Prisma.TenantMembershipUpdategranularPermissionsInput | $Enums.MembershipPermission[]
   status?: Prisma.EnumMembershipStatusFieldUpdateOperationsInput | $Enums.MembershipStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -3665,6 +3738,7 @@ export type TenantMembershipUncheckedUpdateWithoutServiciosLiquidadosInput = {
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   tenantId?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  granularPermissions?: Prisma.TenantMembershipUpdategranularPermissionsInput | $Enums.MembershipPermission[]
   status?: Prisma.EnumMembershipStatusFieldUpdateOperationsInput | $Enums.MembershipStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -3725,6 +3799,7 @@ export type TenantMembershipUpdateToOneWithWhereWithoutServiciosAsignadosInput =
 export type TenantMembershipUpdateWithoutServiciosAsignadosInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  granularPermissions?: Prisma.TenantMembershipUpdategranularPermissionsInput | $Enums.MembershipPermission[]
   status?: Prisma.EnumMembershipStatusFieldUpdateOperationsInput | $Enums.MembershipStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -3778,6 +3853,7 @@ export type TenantMembershipUncheckedUpdateWithoutServiciosAsignadosInput = {
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   tenantId?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  granularPermissions?: Prisma.TenantMembershipUpdategranularPermissionsInput | $Enums.MembershipPermission[]
   status?: Prisma.EnumMembershipStatusFieldUpdateOperationsInput | $Enums.MembershipStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -3827,6 +3903,7 @@ export type TenantMembershipUncheckedUpdateWithoutServiciosAsignadosInput = {
 export type TenantMembershipCreateWithoutSeguimientosCompletadosInput = {
   id?: string
   role: $Enums.Role
+  granularPermissions?: Prisma.TenantMembershipCreategranularPermissionsInput | $Enums.MembershipPermission[]
   status?: $Enums.MembershipStatus
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -3880,6 +3957,7 @@ export type TenantMembershipUncheckedCreateWithoutSeguimientosCompletadosInput =
   userId: string
   tenantId: string
   role: $Enums.Role
+  granularPermissions?: Prisma.TenantMembershipCreategranularPermissionsInput | $Enums.MembershipPermission[]
   status?: $Enums.MembershipStatus
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -3934,6 +4012,7 @@ export type TenantMembershipCreateOrConnectWithoutSeguimientosCompletadosInput =
 export type TenantMembershipCreateWithoutSeguimientosCreadosInput = {
   id?: string
   role: $Enums.Role
+  granularPermissions?: Prisma.TenantMembershipCreategranularPermissionsInput | $Enums.MembershipPermission[]
   status?: $Enums.MembershipStatus
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -3987,6 +4066,7 @@ export type TenantMembershipUncheckedCreateWithoutSeguimientosCreadosInput = {
   userId: string
   tenantId: string
   role: $Enums.Role
+  granularPermissions?: Prisma.TenantMembershipCreategranularPermissionsInput | $Enums.MembershipPermission[]
   status?: $Enums.MembershipStatus
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -4052,6 +4132,7 @@ export type TenantMembershipUpdateToOneWithWhereWithoutSeguimientosCompletadosIn
 export type TenantMembershipUpdateWithoutSeguimientosCompletadosInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  granularPermissions?: Prisma.TenantMembershipUpdategranularPermissionsInput | $Enums.MembershipPermission[]
   status?: Prisma.EnumMembershipStatusFieldUpdateOperationsInput | $Enums.MembershipStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -4105,6 +4186,7 @@ export type TenantMembershipUncheckedUpdateWithoutSeguimientosCompletadosInput =
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   tenantId?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  granularPermissions?: Prisma.TenantMembershipUpdategranularPermissionsInput | $Enums.MembershipPermission[]
   status?: Prisma.EnumMembershipStatusFieldUpdateOperationsInput | $Enums.MembershipStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -4165,6 +4247,7 @@ export type TenantMembershipUpdateToOneWithWhereWithoutSeguimientosCreadosInput 
 export type TenantMembershipUpdateWithoutSeguimientosCreadosInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  granularPermissions?: Prisma.TenantMembershipUpdategranularPermissionsInput | $Enums.MembershipPermission[]
   status?: Prisma.EnumMembershipStatusFieldUpdateOperationsInput | $Enums.MembershipStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -4218,6 +4301,7 @@ export type TenantMembershipUncheckedUpdateWithoutSeguimientosCreadosInput = {
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   tenantId?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  granularPermissions?: Prisma.TenantMembershipUpdategranularPermissionsInput | $Enums.MembershipPermission[]
   status?: Prisma.EnumMembershipStatusFieldUpdateOperationsInput | $Enums.MembershipStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -4267,6 +4351,7 @@ export type TenantMembershipUncheckedUpdateWithoutSeguimientosCreadosInput = {
 export type TenantMembershipCreateWithoutGeolocalizacionesInput = {
   id?: string
   role: $Enums.Role
+  granularPermissions?: Prisma.TenantMembershipCreategranularPermissionsInput | $Enums.MembershipPermission[]
   status?: $Enums.MembershipStatus
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -4320,6 +4405,7 @@ export type TenantMembershipUncheckedCreateWithoutGeolocalizacionesInput = {
   userId: string
   tenantId: string
   role: $Enums.Role
+  granularPermissions?: Prisma.TenantMembershipCreategranularPermissionsInput | $Enums.MembershipPermission[]
   status?: $Enums.MembershipStatus
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -4385,6 +4471,7 @@ export type TenantMembershipUpdateToOneWithWhereWithoutGeolocalizacionesInput = 
 export type TenantMembershipUpdateWithoutGeolocalizacionesInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  granularPermissions?: Prisma.TenantMembershipUpdategranularPermissionsInput | $Enums.MembershipPermission[]
   status?: Prisma.EnumMembershipStatusFieldUpdateOperationsInput | $Enums.MembershipStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -4438,6 +4525,7 @@ export type TenantMembershipUncheckedUpdateWithoutGeolocalizacionesInput = {
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   tenantId?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  granularPermissions?: Prisma.TenantMembershipUpdategranularPermissionsInput | $Enums.MembershipPermission[]
   status?: Prisma.EnumMembershipStatusFieldUpdateOperationsInput | $Enums.MembershipStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -4487,6 +4575,7 @@ export type TenantMembershipUncheckedUpdateWithoutGeolocalizacionesInput = {
 export type TenantMembershipCreateWithoutNominasInput = {
   id?: string
   role: $Enums.Role
+  granularPermissions?: Prisma.TenantMembershipCreategranularPermissionsInput | $Enums.MembershipPermission[]
   status?: $Enums.MembershipStatus
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -4540,6 +4629,7 @@ export type TenantMembershipUncheckedCreateWithoutNominasInput = {
   userId: string
   tenantId: string
   role: $Enums.Role
+  granularPermissions?: Prisma.TenantMembershipCreategranularPermissionsInput | $Enums.MembershipPermission[]
   status?: $Enums.MembershipStatus
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -4605,6 +4695,7 @@ export type TenantMembershipUpdateToOneWithWhereWithoutNominasInput = {
 export type TenantMembershipUpdateWithoutNominasInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  granularPermissions?: Prisma.TenantMembershipUpdategranularPermissionsInput | $Enums.MembershipPermission[]
   status?: Prisma.EnumMembershipStatusFieldUpdateOperationsInput | $Enums.MembershipStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -4658,6 +4749,7 @@ export type TenantMembershipUncheckedUpdateWithoutNominasInput = {
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   tenantId?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  granularPermissions?: Prisma.TenantMembershipUpdategranularPermissionsInput | $Enums.MembershipPermission[]
   status?: Prisma.EnumMembershipStatusFieldUpdateOperationsInput | $Enums.MembershipStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -4707,6 +4799,7 @@ export type TenantMembershipUncheckedUpdateWithoutNominasInput = {
 export type TenantMembershipCreateWithoutCitasComoCreadorInput = {
   id?: string
   role: $Enums.Role
+  granularPermissions?: Prisma.TenantMembershipCreategranularPermissionsInput | $Enums.MembershipPermission[]
   status?: $Enums.MembershipStatus
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -4760,6 +4853,7 @@ export type TenantMembershipUncheckedCreateWithoutCitasComoCreadorInput = {
   userId: string
   tenantId: string
   role: $Enums.Role
+  granularPermissions?: Prisma.TenantMembershipCreategranularPermissionsInput | $Enums.MembershipPermission[]
   status?: $Enums.MembershipStatus
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -4814,6 +4908,7 @@ export type TenantMembershipCreateOrConnectWithoutCitasComoCreadorInput = {
 export type TenantMembershipCreateWithoutCitasComoPsicologoInput = {
   id?: string
   role: $Enums.Role
+  granularPermissions?: Prisma.TenantMembershipCreategranularPermissionsInput | $Enums.MembershipPermission[]
   status?: $Enums.MembershipStatus
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -4867,6 +4962,7 @@ export type TenantMembershipUncheckedCreateWithoutCitasComoPsicologoInput = {
   userId: string
   tenantId: string
   role: $Enums.Role
+  granularPermissions?: Prisma.TenantMembershipCreategranularPermissionsInput | $Enums.MembershipPermission[]
   status?: $Enums.MembershipStatus
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -4932,6 +5028,7 @@ export type TenantMembershipUpdateToOneWithWhereWithoutCitasComoCreadorInput = {
 export type TenantMembershipUpdateWithoutCitasComoCreadorInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  granularPermissions?: Prisma.TenantMembershipUpdategranularPermissionsInput | $Enums.MembershipPermission[]
   status?: Prisma.EnumMembershipStatusFieldUpdateOperationsInput | $Enums.MembershipStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -4985,6 +5082,7 @@ export type TenantMembershipUncheckedUpdateWithoutCitasComoCreadorInput = {
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   tenantId?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  granularPermissions?: Prisma.TenantMembershipUpdategranularPermissionsInput | $Enums.MembershipPermission[]
   status?: Prisma.EnumMembershipStatusFieldUpdateOperationsInput | $Enums.MembershipStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -5045,6 +5143,7 @@ export type TenantMembershipUpdateToOneWithWhereWithoutCitasComoPsicologoInput =
 export type TenantMembershipUpdateWithoutCitasComoPsicologoInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  granularPermissions?: Prisma.TenantMembershipUpdategranularPermissionsInput | $Enums.MembershipPermission[]
   status?: Prisma.EnumMembershipStatusFieldUpdateOperationsInput | $Enums.MembershipStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -5098,6 +5197,7 @@ export type TenantMembershipUncheckedUpdateWithoutCitasComoPsicologoInput = {
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   tenantId?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  granularPermissions?: Prisma.TenantMembershipUpdategranularPermissionsInput | $Enums.MembershipPermission[]
   status?: Prisma.EnumMembershipStatusFieldUpdateOperationsInput | $Enums.MembershipStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -5147,6 +5247,7 @@ export type TenantMembershipUncheckedUpdateWithoutCitasComoPsicologoInput = {
 export type TenantMembershipCreateWithoutPaquetesAdquiridosInput = {
   id?: string
   role: $Enums.Role
+  granularPermissions?: Prisma.TenantMembershipCreategranularPermissionsInput | $Enums.MembershipPermission[]
   status?: $Enums.MembershipStatus
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -5200,6 +5301,7 @@ export type TenantMembershipUncheckedCreateWithoutPaquetesAdquiridosInput = {
   userId: string
   tenantId: string
   role: $Enums.Role
+  granularPermissions?: Prisma.TenantMembershipCreategranularPermissionsInput | $Enums.MembershipPermission[]
   status?: $Enums.MembershipStatus
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -5265,6 +5367,7 @@ export type TenantMembershipUpdateToOneWithWhereWithoutPaquetesAdquiridosInput =
 export type TenantMembershipUpdateWithoutPaquetesAdquiridosInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  granularPermissions?: Prisma.TenantMembershipUpdategranularPermissionsInput | $Enums.MembershipPermission[]
   status?: Prisma.EnumMembershipStatusFieldUpdateOperationsInput | $Enums.MembershipStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -5318,6 +5421,7 @@ export type TenantMembershipUncheckedUpdateWithoutPaquetesAdquiridosInput = {
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   tenantId?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  granularPermissions?: Prisma.TenantMembershipUpdategranularPermissionsInput | $Enums.MembershipPermission[]
   status?: Prisma.EnumMembershipStatusFieldUpdateOperationsInput | $Enums.MembershipStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -5367,6 +5471,7 @@ export type TenantMembershipUncheckedUpdateWithoutPaquetesAdquiridosInput = {
 export type TenantMembershipCreateWithoutTurnosInput = {
   id?: string
   role: $Enums.Role
+  granularPermissions?: Prisma.TenantMembershipCreategranularPermissionsInput | $Enums.MembershipPermission[]
   status?: $Enums.MembershipStatus
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -5420,6 +5525,7 @@ export type TenantMembershipUncheckedCreateWithoutTurnosInput = {
   userId: string
   tenantId: string
   role: $Enums.Role
+  granularPermissions?: Prisma.TenantMembershipCreategranularPermissionsInput | $Enums.MembershipPermission[]
   status?: $Enums.MembershipStatus
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -5485,6 +5591,7 @@ export type TenantMembershipUpdateToOneWithWhereWithoutTurnosInput = {
 export type TenantMembershipUpdateWithoutTurnosInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  granularPermissions?: Prisma.TenantMembershipUpdategranularPermissionsInput | $Enums.MembershipPermission[]
   status?: Prisma.EnumMembershipStatusFieldUpdateOperationsInput | $Enums.MembershipStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -5538,6 +5645,7 @@ export type TenantMembershipUncheckedUpdateWithoutTurnosInput = {
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   tenantId?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  granularPermissions?: Prisma.TenantMembershipUpdategranularPermissionsInput | $Enums.MembershipPermission[]
   status?: Prisma.EnumMembershipStatusFieldUpdateOperationsInput | $Enums.MembershipStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -5587,6 +5695,7 @@ export type TenantMembershipUncheckedUpdateWithoutTurnosInput = {
 export type TenantMembershipCreateWithoutCuentasCobroInput = {
   id?: string
   role: $Enums.Role
+  granularPermissions?: Prisma.TenantMembershipCreategranularPermissionsInput | $Enums.MembershipPermission[]
   status?: $Enums.MembershipStatus
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -5640,6 +5749,7 @@ export type TenantMembershipUncheckedCreateWithoutCuentasCobroInput = {
   userId: string
   tenantId: string
   role: $Enums.Role
+  granularPermissions?: Prisma.TenantMembershipCreategranularPermissionsInput | $Enums.MembershipPermission[]
   status?: $Enums.MembershipStatus
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -5705,6 +5815,7 @@ export type TenantMembershipUpdateToOneWithWhereWithoutCuentasCobroInput = {
 export type TenantMembershipUpdateWithoutCuentasCobroInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  granularPermissions?: Prisma.TenantMembershipUpdategranularPermissionsInput | $Enums.MembershipPermission[]
   status?: Prisma.EnumMembershipStatusFieldUpdateOperationsInput | $Enums.MembershipStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -5758,6 +5869,7 @@ export type TenantMembershipUncheckedUpdateWithoutCuentasCobroInput = {
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   tenantId?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  granularPermissions?: Prisma.TenantMembershipUpdategranularPermissionsInput | $Enums.MembershipPermission[]
   status?: Prisma.EnumMembershipStatusFieldUpdateOperationsInput | $Enums.MembershipStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -5807,6 +5919,7 @@ export type TenantMembershipUncheckedUpdateWithoutCuentasCobroInput = {
 export type TenantMembershipCreateWithoutDeclaracionesEfectivoInput = {
   id?: string
   role: $Enums.Role
+  granularPermissions?: Prisma.TenantMembershipCreategranularPermissionsInput | $Enums.MembershipPermission[]
   status?: $Enums.MembershipStatus
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -5860,6 +5973,7 @@ export type TenantMembershipUncheckedCreateWithoutDeclaracionesEfectivoInput = {
   userId: string
   tenantId: string
   role: $Enums.Role
+  granularPermissions?: Prisma.TenantMembershipCreategranularPermissionsInput | $Enums.MembershipPermission[]
   status?: $Enums.MembershipStatus
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -5925,6 +6039,7 @@ export type TenantMembershipUpdateToOneWithWhereWithoutDeclaracionesEfectivoInpu
 export type TenantMembershipUpdateWithoutDeclaracionesEfectivoInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  granularPermissions?: Prisma.TenantMembershipUpdategranularPermissionsInput | $Enums.MembershipPermission[]
   status?: Prisma.EnumMembershipStatusFieldUpdateOperationsInput | $Enums.MembershipStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -5978,6 +6093,7 @@ export type TenantMembershipUncheckedUpdateWithoutDeclaracionesEfectivoInput = {
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   tenantId?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  granularPermissions?: Prisma.TenantMembershipUpdategranularPermissionsInput | $Enums.MembershipPermission[]
   status?: Prisma.EnumMembershipStatusFieldUpdateOperationsInput | $Enums.MembershipStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -6027,6 +6143,7 @@ export type TenantMembershipUncheckedUpdateWithoutDeclaracionesEfectivoInput = {
 export type TenantMembershipCreateWithoutConsignacionesCreadasInput = {
   id?: string
   role: $Enums.Role
+  granularPermissions?: Prisma.TenantMembershipCreategranularPermissionsInput | $Enums.MembershipPermission[]
   status?: $Enums.MembershipStatus
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -6080,6 +6197,7 @@ export type TenantMembershipUncheckedCreateWithoutConsignacionesCreadasInput = {
   userId: string
   tenantId: string
   role: $Enums.Role
+  granularPermissions?: Prisma.TenantMembershipCreategranularPermissionsInput | $Enums.MembershipPermission[]
   status?: $Enums.MembershipStatus
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -6134,6 +6252,7 @@ export type TenantMembershipCreateOrConnectWithoutConsignacionesCreadasInput = {
 export type TenantMembershipCreateWithoutConsignacionesTecnicoInput = {
   id?: string
   role: $Enums.Role
+  granularPermissions?: Prisma.TenantMembershipCreategranularPermissionsInput | $Enums.MembershipPermission[]
   status?: $Enums.MembershipStatus
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -6187,6 +6306,7 @@ export type TenantMembershipUncheckedCreateWithoutConsignacionesTecnicoInput = {
   userId: string
   tenantId: string
   role: $Enums.Role
+  granularPermissions?: Prisma.TenantMembershipCreategranularPermissionsInput | $Enums.MembershipPermission[]
   status?: $Enums.MembershipStatus
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -6252,6 +6372,7 @@ export type TenantMembershipUpdateToOneWithWhereWithoutConsignacionesCreadasInpu
 export type TenantMembershipUpdateWithoutConsignacionesCreadasInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  granularPermissions?: Prisma.TenantMembershipUpdategranularPermissionsInput | $Enums.MembershipPermission[]
   status?: Prisma.EnumMembershipStatusFieldUpdateOperationsInput | $Enums.MembershipStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -6305,6 +6426,7 @@ export type TenantMembershipUncheckedUpdateWithoutConsignacionesCreadasInput = {
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   tenantId?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  granularPermissions?: Prisma.TenantMembershipUpdategranularPermissionsInput | $Enums.MembershipPermission[]
   status?: Prisma.EnumMembershipStatusFieldUpdateOperationsInput | $Enums.MembershipStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -6365,6 +6487,7 @@ export type TenantMembershipUpdateToOneWithWhereWithoutConsignacionesTecnicoInpu
 export type TenantMembershipUpdateWithoutConsignacionesTecnicoInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  granularPermissions?: Prisma.TenantMembershipUpdategranularPermissionsInput | $Enums.MembershipPermission[]
   status?: Prisma.EnumMembershipStatusFieldUpdateOperationsInput | $Enums.MembershipStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -6418,6 +6541,7 @@ export type TenantMembershipUncheckedUpdateWithoutConsignacionesTecnicoInput = {
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   tenantId?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  granularPermissions?: Prisma.TenantMembershipUpdategranularPermissionsInput | $Enums.MembershipPermission[]
   status?: Prisma.EnumMembershipStatusFieldUpdateOperationsInput | $Enums.MembershipStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -6467,6 +6591,7 @@ export type TenantMembershipUncheckedUpdateWithoutConsignacionesTecnicoInput = {
 export type TenantMembershipCreateWithoutAnticiposInput = {
   id?: string
   role: $Enums.Role
+  granularPermissions?: Prisma.TenantMembershipCreategranularPermissionsInput | $Enums.MembershipPermission[]
   status?: $Enums.MembershipStatus
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -6520,6 +6645,7 @@ export type TenantMembershipUncheckedCreateWithoutAnticiposInput = {
   userId: string
   tenantId: string
   role: $Enums.Role
+  granularPermissions?: Prisma.TenantMembershipCreategranularPermissionsInput | $Enums.MembershipPermission[]
   status?: $Enums.MembershipStatus
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -6585,6 +6711,7 @@ export type TenantMembershipUpdateToOneWithWhereWithoutAnticiposInput = {
 export type TenantMembershipUpdateWithoutAnticiposInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  granularPermissions?: Prisma.TenantMembershipUpdategranularPermissionsInput | $Enums.MembershipPermission[]
   status?: Prisma.EnumMembershipStatusFieldUpdateOperationsInput | $Enums.MembershipStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -6638,6 +6765,7 @@ export type TenantMembershipUncheckedUpdateWithoutAnticiposInput = {
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   tenantId?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  granularPermissions?: Prisma.TenantMembershipUpdategranularPermissionsInput | $Enums.MembershipPermission[]
   status?: Prisma.EnumMembershipStatusFieldUpdateOperationsInput | $Enums.MembershipStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -6687,6 +6815,7 @@ export type TenantMembershipUncheckedUpdateWithoutAnticiposInput = {
 export type TenantMembershipCreateWithoutProductosSolicitadosInput = {
   id?: string
   role: $Enums.Role
+  granularPermissions?: Prisma.TenantMembershipCreategranularPermissionsInput | $Enums.MembershipPermission[]
   status?: $Enums.MembershipStatus
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -6740,6 +6869,7 @@ export type TenantMembershipUncheckedCreateWithoutProductosSolicitadosInput = {
   userId: string
   tenantId: string
   role: $Enums.Role
+  granularPermissions?: Prisma.TenantMembershipCreategranularPermissionsInput | $Enums.MembershipPermission[]
   status?: $Enums.MembershipStatus
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -6805,6 +6935,7 @@ export type TenantMembershipUpdateToOneWithWhereWithoutProductosSolicitadosInput
 export type TenantMembershipUpdateWithoutProductosSolicitadosInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  granularPermissions?: Prisma.TenantMembershipUpdategranularPermissionsInput | $Enums.MembershipPermission[]
   status?: Prisma.EnumMembershipStatusFieldUpdateOperationsInput | $Enums.MembershipStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -6858,6 +6989,7 @@ export type TenantMembershipUncheckedUpdateWithoutProductosSolicitadosInput = {
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   tenantId?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  granularPermissions?: Prisma.TenantMembershipUpdategranularPermissionsInput | $Enums.MembershipPermission[]
   status?: Prisma.EnumMembershipStatusFieldUpdateOperationsInput | $Enums.MembershipStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -6907,6 +7039,7 @@ export type TenantMembershipUncheckedUpdateWithoutProductosSolicitadosInput = {
 export type TenantMembershipCreateWithoutPermisosAprobadosInput = {
   id?: string
   role: $Enums.Role
+  granularPermissions?: Prisma.TenantMembershipCreategranularPermissionsInput | $Enums.MembershipPermission[]
   status?: $Enums.MembershipStatus
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -6960,6 +7093,7 @@ export type TenantMembershipUncheckedCreateWithoutPermisosAprobadosInput = {
   userId: string
   tenantId: string
   role: $Enums.Role
+  granularPermissions?: Prisma.TenantMembershipCreategranularPermissionsInput | $Enums.MembershipPermission[]
   status?: $Enums.MembershipStatus
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -7014,6 +7148,7 @@ export type TenantMembershipCreateOrConnectWithoutPermisosAprobadosInput = {
 export type TenantMembershipCreateWithoutPermisosSolicitadosInput = {
   id?: string
   role: $Enums.Role
+  granularPermissions?: Prisma.TenantMembershipCreategranularPermissionsInput | $Enums.MembershipPermission[]
   status?: $Enums.MembershipStatus
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -7067,6 +7202,7 @@ export type TenantMembershipUncheckedCreateWithoutPermisosSolicitadosInput = {
   userId: string
   tenantId: string
   role: $Enums.Role
+  granularPermissions?: Prisma.TenantMembershipCreategranularPermissionsInput | $Enums.MembershipPermission[]
   status?: $Enums.MembershipStatus
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -7132,6 +7268,7 @@ export type TenantMembershipUpdateToOneWithWhereWithoutPermisosAprobadosInput = 
 export type TenantMembershipUpdateWithoutPermisosAprobadosInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  granularPermissions?: Prisma.TenantMembershipUpdategranularPermissionsInput | $Enums.MembershipPermission[]
   status?: Prisma.EnumMembershipStatusFieldUpdateOperationsInput | $Enums.MembershipStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -7185,6 +7322,7 @@ export type TenantMembershipUncheckedUpdateWithoutPermisosAprobadosInput = {
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   tenantId?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  granularPermissions?: Prisma.TenantMembershipUpdategranularPermissionsInput | $Enums.MembershipPermission[]
   status?: Prisma.EnumMembershipStatusFieldUpdateOperationsInput | $Enums.MembershipStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -7245,6 +7383,7 @@ export type TenantMembershipUpdateToOneWithWhereWithoutPermisosSolicitadosInput 
 export type TenantMembershipUpdateWithoutPermisosSolicitadosInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  granularPermissions?: Prisma.TenantMembershipUpdategranularPermissionsInput | $Enums.MembershipPermission[]
   status?: Prisma.EnumMembershipStatusFieldUpdateOperationsInput | $Enums.MembershipStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -7298,6 +7437,7 @@ export type TenantMembershipUncheckedUpdateWithoutPermisosSolicitadosInput = {
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   tenantId?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  granularPermissions?: Prisma.TenantMembershipUpdategranularPermissionsInput | $Enums.MembershipPermission[]
   status?: Prisma.EnumMembershipStatusFieldUpdateOperationsInput | $Enums.MembershipStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -7347,6 +7487,7 @@ export type TenantMembershipUncheckedUpdateWithoutPermisosSolicitadosInput = {
 export type TenantMembershipCreateWithoutConfiguracionPagosInput = {
   id?: string
   role: $Enums.Role
+  granularPermissions?: Prisma.TenantMembershipCreategranularPermissionsInput | $Enums.MembershipPermission[]
   status?: $Enums.MembershipStatus
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -7400,6 +7541,7 @@ export type TenantMembershipUncheckedCreateWithoutConfiguracionPagosInput = {
   userId: string
   tenantId: string
   role: $Enums.Role
+  granularPermissions?: Prisma.TenantMembershipCreategranularPermissionsInput | $Enums.MembershipPermission[]
   status?: $Enums.MembershipStatus
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -7465,6 +7607,7 @@ export type TenantMembershipUpdateToOneWithWhereWithoutConfiguracionPagosInput =
 export type TenantMembershipUpdateWithoutConfiguracionPagosInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  granularPermissions?: Prisma.TenantMembershipUpdategranularPermissionsInput | $Enums.MembershipPermission[]
   status?: Prisma.EnumMembershipStatusFieldUpdateOperationsInput | $Enums.MembershipStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -7518,6 +7661,7 @@ export type TenantMembershipUncheckedUpdateWithoutConfiguracionPagosInput = {
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   tenantId?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  granularPermissions?: Prisma.TenantMembershipUpdategranularPermissionsInput | $Enums.MembershipPermission[]
   status?: Prisma.EnumMembershipStatusFieldUpdateOperationsInput | $Enums.MembershipStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -7567,6 +7711,7 @@ export type TenantMembershipUncheckedUpdateWithoutConfiguracionPagosInput = {
 export type TenantMembershipCreateWithoutCuentasPagoInput = {
   id?: string
   role: $Enums.Role
+  granularPermissions?: Prisma.TenantMembershipCreategranularPermissionsInput | $Enums.MembershipPermission[]
   status?: $Enums.MembershipStatus
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -7620,6 +7765,7 @@ export type TenantMembershipUncheckedCreateWithoutCuentasPagoInput = {
   userId: string
   tenantId: string
   role: $Enums.Role
+  granularPermissions?: Prisma.TenantMembershipCreategranularPermissionsInput | $Enums.MembershipPermission[]
   status?: $Enums.MembershipStatus
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -7685,6 +7831,7 @@ export type TenantMembershipUpdateToOneWithWhereWithoutCuentasPagoInput = {
 export type TenantMembershipUpdateWithoutCuentasPagoInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  granularPermissions?: Prisma.TenantMembershipUpdategranularPermissionsInput | $Enums.MembershipPermission[]
   status?: Prisma.EnumMembershipStatusFieldUpdateOperationsInput | $Enums.MembershipStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -7738,6 +7885,7 @@ export type TenantMembershipUncheckedUpdateWithoutCuentasPagoInput = {
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   tenantId?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  granularPermissions?: Prisma.TenantMembershipUpdategranularPermissionsInput | $Enums.MembershipPermission[]
   status?: Prisma.EnumMembershipStatusFieldUpdateOperationsInput | $Enums.MembershipStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -7787,6 +7935,7 @@ export type TenantMembershipUncheckedUpdateWithoutCuentasPagoInput = {
 export type TenantMembershipCreateWithoutEgresosInput = {
   id?: string
   role: $Enums.Role
+  granularPermissions?: Prisma.TenantMembershipCreategranularPermissionsInput | $Enums.MembershipPermission[]
   status?: $Enums.MembershipStatus
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -7840,6 +7989,7 @@ export type TenantMembershipUncheckedCreateWithoutEgresosInput = {
   userId: string
   tenantId: string
   role: $Enums.Role
+  granularPermissions?: Prisma.TenantMembershipCreategranularPermissionsInput | $Enums.MembershipPermission[]
   status?: $Enums.MembershipStatus
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -7905,6 +8055,7 @@ export type TenantMembershipUpdateToOneWithWhereWithoutEgresosInput = {
 export type TenantMembershipUpdateWithoutEgresosInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  granularPermissions?: Prisma.TenantMembershipUpdategranularPermissionsInput | $Enums.MembershipPermission[]
   status?: Prisma.EnumMembershipStatusFieldUpdateOperationsInput | $Enums.MembershipStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -7958,6 +8109,7 @@ export type TenantMembershipUncheckedUpdateWithoutEgresosInput = {
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   tenantId?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  granularPermissions?: Prisma.TenantMembershipUpdategranularPermissionsInput | $Enums.MembershipPermission[]
   status?: Prisma.EnumMembershipStatusFieldUpdateOperationsInput | $Enums.MembershipStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -8007,6 +8159,7 @@ export type TenantMembershipUncheckedUpdateWithoutEgresosInput = {
 export type TenantMembershipCreateWithoutReferidosInput = {
   id?: string
   role: $Enums.Role
+  granularPermissions?: Prisma.TenantMembershipCreategranularPermissionsInput | $Enums.MembershipPermission[]
   status?: $Enums.MembershipStatus
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -8060,6 +8213,7 @@ export type TenantMembershipUncheckedCreateWithoutReferidosInput = {
   userId: string
   tenantId: string
   role: $Enums.Role
+  granularPermissions?: Prisma.TenantMembershipCreategranularPermissionsInput | $Enums.MembershipPermission[]
   status?: $Enums.MembershipStatus
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -8125,6 +8279,7 @@ export type TenantMembershipUpdateToOneWithWhereWithoutReferidosInput = {
 export type TenantMembershipUpdateWithoutReferidosInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  granularPermissions?: Prisma.TenantMembershipUpdategranularPermissionsInput | $Enums.MembershipPermission[]
   status?: Prisma.EnumMembershipStatusFieldUpdateOperationsInput | $Enums.MembershipStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -8178,6 +8333,7 @@ export type TenantMembershipUncheckedUpdateWithoutReferidosInput = {
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   tenantId?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  granularPermissions?: Prisma.TenantMembershipUpdategranularPermissionsInput | $Enums.MembershipPermission[]
   status?: Prisma.EnumMembershipStatusFieldUpdateOperationsInput | $Enums.MembershipStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -8227,6 +8383,7 @@ export type TenantMembershipUncheckedUpdateWithoutReferidosInput = {
 export type TenantMembershipCreateWithoutAuditoriasInput = {
   id?: string
   role: $Enums.Role
+  granularPermissions?: Prisma.TenantMembershipCreategranularPermissionsInput | $Enums.MembershipPermission[]
   status?: $Enums.MembershipStatus
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -8280,6 +8437,7 @@ export type TenantMembershipUncheckedCreateWithoutAuditoriasInput = {
   userId: string
   tenantId: string
   role: $Enums.Role
+  granularPermissions?: Prisma.TenantMembershipCreategranularPermissionsInput | $Enums.MembershipPermission[]
   status?: $Enums.MembershipStatus
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -8345,6 +8503,7 @@ export type TenantMembershipUpdateToOneWithWhereWithoutAuditoriasInput = {
 export type TenantMembershipUpdateWithoutAuditoriasInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  granularPermissions?: Prisma.TenantMembershipUpdategranularPermissionsInput | $Enums.MembershipPermission[]
   status?: Prisma.EnumMembershipStatusFieldUpdateOperationsInput | $Enums.MembershipStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -8398,6 +8557,7 @@ export type TenantMembershipUncheckedUpdateWithoutAuditoriasInput = {
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   tenantId?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  granularPermissions?: Prisma.TenantMembershipUpdategranularPermissionsInput | $Enums.MembershipPermission[]
   status?: Prisma.EnumMembershipStatusFieldUpdateOperationsInput | $Enums.MembershipStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -8447,6 +8607,7 @@ export type TenantMembershipUncheckedUpdateWithoutAuditoriasInput = {
 export type TenantMembershipCreateWithoutSesionesActividadInput = {
   id?: string
   role: $Enums.Role
+  granularPermissions?: Prisma.TenantMembershipCreategranularPermissionsInput | $Enums.MembershipPermission[]
   status?: $Enums.MembershipStatus
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -8500,6 +8661,7 @@ export type TenantMembershipUncheckedCreateWithoutSesionesActividadInput = {
   userId: string
   tenantId: string
   role: $Enums.Role
+  granularPermissions?: Prisma.TenantMembershipCreategranularPermissionsInput | $Enums.MembershipPermission[]
   status?: $Enums.MembershipStatus
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -8565,6 +8727,7 @@ export type TenantMembershipUpdateToOneWithWhereWithoutSesionesActividadInput = 
 export type TenantMembershipUpdateWithoutSesionesActividadInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  granularPermissions?: Prisma.TenantMembershipUpdategranularPermissionsInput | $Enums.MembershipPermission[]
   status?: Prisma.EnumMembershipStatusFieldUpdateOperationsInput | $Enums.MembershipStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -8618,6 +8781,7 @@ export type TenantMembershipUncheckedUpdateWithoutSesionesActividadInput = {
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   tenantId?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  granularPermissions?: Prisma.TenantMembershipUpdategranularPermissionsInput | $Enums.MembershipPermission[]
   status?: Prisma.EnumMembershipStatusFieldUpdateOperationsInput | $Enums.MembershipStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -8668,6 +8832,7 @@ export type TenantMembershipCreateManyUserInput = {
   id?: string
   tenantId: string
   role: $Enums.Role
+  granularPermissions?: Prisma.TenantMembershipCreategranularPermissionsInput | $Enums.MembershipPermission[]
   status?: $Enums.MembershipStatus
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -8687,6 +8852,7 @@ export type TenantMembershipCreateManyUserInput = {
 export type TenantMembershipUpdateWithoutUserInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  granularPermissions?: Prisma.TenantMembershipUpdategranularPermissionsInput | $Enums.MembershipPermission[]
   status?: Prisma.EnumMembershipStatusFieldUpdateOperationsInput | $Enums.MembershipStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -8739,6 +8905,7 @@ export type TenantMembershipUncheckedUpdateWithoutUserInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   tenantId?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  granularPermissions?: Prisma.TenantMembershipUpdategranularPermissionsInput | $Enums.MembershipPermission[]
   status?: Prisma.EnumMembershipStatusFieldUpdateOperationsInput | $Enums.MembershipStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -8790,6 +8957,7 @@ export type TenantMembershipUncheckedUpdateManyWithoutUserInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   tenantId?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  granularPermissions?: Prisma.TenantMembershipUpdategranularPermissionsInput | $Enums.MembershipPermission[]
   status?: Prisma.EnumMembershipStatusFieldUpdateOperationsInput | $Enums.MembershipStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -8810,6 +8978,7 @@ export type TenantMembershipCreateManyTenantInput = {
   id?: string
   userId: string
   role: $Enums.Role
+  granularPermissions?: Prisma.TenantMembershipCreategranularPermissionsInput | $Enums.MembershipPermission[]
   status?: $Enums.MembershipStatus
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -8829,6 +8998,7 @@ export type TenantMembershipCreateManyTenantInput = {
 export type TenantMembershipUpdateWithoutTenantInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  granularPermissions?: Prisma.TenantMembershipUpdategranularPermissionsInput | $Enums.MembershipPermission[]
   status?: Prisma.EnumMembershipStatusFieldUpdateOperationsInput | $Enums.MembershipStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -8881,6 +9051,7 @@ export type TenantMembershipUncheckedUpdateWithoutTenantInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  granularPermissions?: Prisma.TenantMembershipUpdategranularPermissionsInput | $Enums.MembershipPermission[]
   status?: Prisma.EnumMembershipStatusFieldUpdateOperationsInput | $Enums.MembershipStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -8932,6 +9103,7 @@ export type TenantMembershipUncheckedUpdateManyWithoutTenantInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  granularPermissions?: Prisma.TenantMembershipUpdategranularPermissionsInput | $Enums.MembershipPermission[]
   status?: Prisma.EnumMembershipStatusFieldUpdateOperationsInput | $Enums.MembershipStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -8953,6 +9125,7 @@ export type TenantMembershipCreateManyMunicipioInput = {
   userId: string
   tenantId: string
   role: $Enums.Role
+  granularPermissions?: Prisma.TenantMembershipCreategranularPermissionsInput | $Enums.MembershipPermission[]
   status?: $Enums.MembershipStatus
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -8971,6 +9144,7 @@ export type TenantMembershipCreateManyMunicipioInput = {
 export type TenantMembershipUpdateWithoutMunicipioInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  granularPermissions?: Prisma.TenantMembershipUpdategranularPermissionsInput | $Enums.MembershipPermission[]
   status?: Prisma.EnumMembershipStatusFieldUpdateOperationsInput | $Enums.MembershipStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -9024,6 +9198,7 @@ export type TenantMembershipUncheckedUpdateWithoutMunicipioInput = {
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   tenantId?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  granularPermissions?: Prisma.TenantMembershipUpdategranularPermissionsInput | $Enums.MembershipPermission[]
   status?: Prisma.EnumMembershipStatusFieldUpdateOperationsInput | $Enums.MembershipStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -9075,6 +9250,7 @@ export type TenantMembershipUncheckedUpdateManyWithoutMunicipioInput = {
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   tenantId?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  granularPermissions?: Prisma.TenantMembershipUpdategranularPermissionsInput | $Enums.MembershipPermission[]
   status?: Prisma.EnumMembershipStatusFieldUpdateOperationsInput | $Enums.MembershipStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -9396,6 +9572,7 @@ export type TenantMembershipSelect<ExtArgs extends runtime.Types.Extensions.Inte
   userId?: boolean
   tenantId?: boolean
   role?: boolean
+  granularPermissions?: boolean
   status?: boolean
   createdAt?: boolean
   updatedAt?: boolean
@@ -9452,6 +9629,7 @@ export type TenantMembershipSelectCreateManyAndReturn<ExtArgs extends runtime.Ty
   userId?: boolean
   tenantId?: boolean
   role?: boolean
+  granularPermissions?: boolean
   status?: boolean
   createdAt?: boolean
   updatedAt?: boolean
@@ -9476,6 +9654,7 @@ export type TenantMembershipSelectUpdateManyAndReturn<ExtArgs extends runtime.Ty
   userId?: boolean
   tenantId?: boolean
   role?: boolean
+  granularPermissions?: boolean
   status?: boolean
   createdAt?: boolean
   updatedAt?: boolean
@@ -9500,6 +9679,7 @@ export type TenantMembershipSelectScalar = {
   userId?: boolean
   tenantId?: boolean
   role?: boolean
+  granularPermissions?: boolean
   status?: boolean
   createdAt?: boolean
   updatedAt?: boolean
@@ -9516,7 +9696,7 @@ export type TenantMembershipSelectScalar = {
   municipioId?: boolean
 }
 
-export type TenantMembershipOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "tenantId" | "role" | "status" | "createdAt" | "updatedAt" | "activo" | "aprobado" | "codigoReferido" | "moto" | "numberId" | "placa" | "pushToken" | "username" | "whatsappGroupId" | "direccion" | "municipioId", ExtArgs["result"]["tenantMembership"]>
+export type TenantMembershipOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "tenantId" | "role" | "granularPermissions" | "status" | "createdAt" | "updatedAt" | "activo" | "aprobado" | "codigoReferido" | "moto" | "numberId" | "placa" | "pushToken" | "username" | "whatsappGroupId" | "direccion" | "municipioId", ExtArgs["result"]["tenantMembership"]>
 export type TenantMembershipInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   anticipos?: boolean | Prisma.TenantMembership$anticiposArgs<ExtArgs>
   auditorias?: boolean | Prisma.TenantMembership$auditoriasArgs<ExtArgs>
@@ -9608,6 +9788,7 @@ export type $TenantMembershipPayload<ExtArgs extends runtime.Types.Extensions.In
     userId: string
     tenantId: string
     role: $Enums.Role
+    granularPermissions: $Enums.MembershipPermission[]
     status: $Enums.MembershipStatus
     createdAt: Date
     updatedAt: Date
@@ -10083,6 +10264,7 @@ export interface TenantMembershipFieldRefs {
   readonly userId: Prisma.FieldRef<"TenantMembership", 'String'>
   readonly tenantId: Prisma.FieldRef<"TenantMembership", 'String'>
   readonly role: Prisma.FieldRef<"TenantMembership", 'Role'>
+  readonly granularPermissions: Prisma.FieldRef<"TenantMembership", 'MembershipPermission[]'>
   readonly status: Prisma.FieldRef<"TenantMembership", 'MembershipStatus'>
   readonly createdAt: Prisma.FieldRef<"TenantMembership", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"TenantMembership", 'DateTime'>

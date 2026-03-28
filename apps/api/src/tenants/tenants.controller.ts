@@ -141,14 +141,20 @@ export class TenantsController {
 
   @Post('memberships/:membershipId/approve')
   @UseGuards(JwtAuthGuard)
-  async approveMembership(@Param('membershipId') membershipId: string) {
-    return await this.tenantsService.approveMembership(membershipId);
+  async approveMembership(
+    @Request() req: RequestWithUser,
+    @Param('membershipId') membershipId: string,
+  ) {
+    return await this.tenantsService.approveMembership(membershipId, req.user);
   }
 
   @Post('memberships/:membershipId/reject')
   @UseGuards(JwtAuthGuard)
-  async rejectMembership(@Param('membershipId') membershipId: string) {
-    return await this.tenantsService.rejectMembership(membershipId);
+  async rejectMembership(
+    @Request() req: RequestWithUser,
+    @Param('membershipId') membershipId: string,
+  ) {
+    return await this.tenantsService.rejectMembership(membershipId, req.user);
   }
 
   @Patch('memberships/:membershipId')

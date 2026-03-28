@@ -33,6 +33,13 @@ export const Role = {
 export type Role = (typeof Role)[keyof typeof Role]
 
 
+export const MembershipPermission = {
+  TEAM_EDIT: 'TEAM_EDIT'
+} as const
+
+export type MembershipPermission = (typeof MembershipPermission)[keyof typeof MembershipPermission]
+
+
 export const MembershipStatus = {
   ACTIVE: 'ACTIVE',
   INVITED: 'INVITED',
