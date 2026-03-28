@@ -103,6 +103,16 @@ export type Department = Prisma.DepartmentModel
  */
 export type Municipality = Prisma.MunicipalityModel
 /**
+ * Model TenantMembershipDepartmentScope
+ * 
+ */
+export type TenantMembershipDepartmentScope = Prisma.TenantMembershipDepartmentScopeModel
+/**
+ * Model TenantMembershipMunicipalityScope
+ * 
+ */
+export type TenantMembershipMunicipalityScope = Prisma.TenantMembershipMunicipalityScopeModel
+/**
  * Model Cliente
  * 
  */

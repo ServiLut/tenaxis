@@ -36,7 +36,10 @@ import {
   NotifyOperatorDto,
 } from './dto/notify-webhook.dto';
 import sharp from 'sharp';
-import { getPrismaAccessFilter } from '../common/utils/access-control.util';
+import {
+  PrismaAccessFilter,
+  getPrismaAccessFilter,
+} from '../common/utils/access-control.util';
 import {
   OrdenServicio,
   Geolocalizacion,
@@ -666,17 +669,12 @@ export class OrdenesServicioService {
     filters?: QueryOrdenesServicioDto,
   ): Prisma.OrdenServicioWhereInput {
     const accessFilter = getPrismaAccessFilter(user, reqEmpresaId);
+    const geoWhere = this.buildOrdenGeoWhere(accessFilter);
 
     const whereClause: Prisma.OrdenServicioWhereInput = {
       ...(accessFilter.tenantId ? { tenantId: accessFilter.tenantId } : {}),
       ...(accessFilter.empresaId ? { empresaId: accessFilter.empresaId } : {}),
-      ...((accessFilter.zonaIds || []).length > 0
-        ? {
-            zonaId: {
-              in: accessFilter.zonaIds,
-            },
-          }
-        : {}),
+      ...(geoWhere ?? {}),
       deletedAt: null,
       ordenPadreId: null,
     };
@@ -1064,6 +1062,7 @@ export class OrdenesServicioService {
 
   async findOne(user: JwtPayload, id: string) {
     const accessFilter = getPrismaAccessFilter(user);
+    const geoWhere = this.buildOrdenGeoWhere(accessFilter);
 
     const orden = await this.prisma.ordenServicio.findFirst({
       where: {
@@ -1072,13 +1071,7 @@ export class OrdenesServicioService {
         ...(accessFilter.empresaId
           ? { empresaId: accessFilter.empresaId }
           : {}),
-        ...((accessFilter.zonaIds || []).length > 0
-          ? {
-              zonaId: {
-                in: accessFilter.zonaIds,
-              },
-            }
-          : {}),
+        ...(geoWhere ?? {}),
         deletedAt: null,
       },
       include: {
@@ -1617,19 +1610,56 @@ export class OrdenesServicioService {
     }
 
     const accessFilter = getPrismaAccessFilter(performingUser);
+    const geoWhere = this.buildOrdenGeoWhere(accessFilter);
 
     return {
       id,
       tenantId: accessFilter.tenantId ?? tenantId,
       ...(accessFilter.empresaId ? { empresaId: accessFilter.empresaId } : {}),
-      ...((accessFilter.zonaIds || []).length > 0
-        ? {
-            zonaId: {
-              in: accessFilter.zonaIds,
-            },
-          }
-        : {}),
+      ...(geoWhere ?? {}),
       deletedAt: null,
+    };
+  }
+
+  private hasGeoScope(accessFilter: PrismaAccessFilter): boolean {
+    return (
+      (accessFilter.zonaIds || []).length > 0 ||
+      (accessFilter.municipalityIds || []).length > 0 ||
+      (accessFilter.departmentIds || []).length > 0
+    );
+  }
+
+  private buildOrdenGeoWhere(
+    accessFilter: PrismaAccessFilter,
+  ): Prisma.OrdenServicioWhereInput | undefined {
+    if (!this.hasGeoScope(accessFilter)) {
+      return undefined;
+    }
+
+    const direccionWhere: Prisma.DireccionWhereInput = {};
+
+    if ((accessFilter.zonaIds || []).length > 0) {
+      direccionWhere.zonaId = {
+        in: accessFilter.zonaIds,
+      };
+    }
+
+    if ((accessFilter.municipalityIds || []).length > 0) {
+      direccionWhere.municipioId = {
+        in: accessFilter.municipalityIds,
+      };
+    }
+
+    if ((accessFilter.departmentIds || []).length > 0) {
+      direccionWhere.departmentId = {
+        in: accessFilter.departmentIds,
+      };
+    }
+
+    return {
+      direccion: {
+        is: direccionWhere,
+      },
     };
   }
 

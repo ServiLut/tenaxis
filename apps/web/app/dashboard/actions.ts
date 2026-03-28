@@ -11,6 +11,7 @@ import { serviciosClient } from "@/lib/api/servicios-client";
 import { authClient } from "@/lib/api/auth-client";
 import { canAccessTenantsView, resolveAccessScope } from "@/lib/access-scope";
 import { apiFetch, } from "@/lib/api/base-client";
+import type { TenantMembershipInvitePayload, TenantMembershipUpdatePayload } from "@/lib/api/tenants-client";
 import { DashboardStatsSchema, type DashboardStatsType } from "./schemas/dashboard.schema";
 
 export type DashboardStats = DashboardStatsType;
@@ -229,7 +230,7 @@ export async function joinTenantAction(slug: string) {
   }
 }
 
-export async function updateMembershipAction(membershipId: string, data: Record<string, unknown>) {
+export async function updateMembershipAction(membershipId: string, data: TenantMembershipUpdatePayload) {
   try {
     const result = await tenantsClient.updateMembership(membershipId, data);
     revalidatePath("/dashboard/equipo-trabajo");
@@ -251,7 +252,7 @@ export async function getTenantMembershipsAction() {
   }
 }
 
-export async function inviteMemberAction(tenantId: string, data: Record<string, unknown>) {
+export async function inviteMemberAction(tenantId: string, data: TenantMembershipInvitePayload) {
   try {
     const result = await tenantsClient.inviteMember(tenantId, data);
     revalidatePath("/dashboard/equipo-trabajo");

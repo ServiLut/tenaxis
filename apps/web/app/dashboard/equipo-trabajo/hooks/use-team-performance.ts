@@ -4,6 +4,8 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 import { toast } from "sonner";
 import { toBogotaYmd } from "@/utils/date-utils";
 import { buildBrowserApiUrl, getBrowserAuthHeaders } from "@/lib/api/browser-client";
+import { geoClient, type Department, type Municipality } from "@/lib/api/geo-client";
+import { tenantsClient, type TenantMembershipUpdatePayload } from "@/lib/api/tenants-client";
 
 export type TeamTab = "ranking" | "usuarios";
 export type RankingScope = "operativo" | "todos";
@@ -33,6 +35,8 @@ export type TeamMember = {
   direccion?: string | null;
   municipioId?: string | null;
   municipioNombre?: string | null;
+  departmentIds?: string[];
+  municipalityIds?: string[];
   empresaIds: string[];
   empresaNombres: string[];
   zonaIds: string[];
@@ -73,6 +77,8 @@ export type TeamMemberDetail = {
     email: string;
     phone: string | null;
     role: string;
+    departmentIds?: string[];
+    municipalityIds?: string[];
   };
   metrics: {
     clientesCreados: number;
@@ -141,11 +147,6 @@ type TeamPerformanceResponse = {
   members: TeamMember[];
 };
 
-type Municipality = {
-  id: string;
-  name: string;
-};
-
 const unwrapData = async <T>(res: Response): Promise<T> => {
   const contentType = res.headers.get("content-type");
   let data: unknown;
@@ -195,6 +196,7 @@ export function useTeamPerformance(
   );
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [departments, setDepartments] = useState<Department[]>([]);
   const [municipalities, setMunicipalities] = useState<Municipality[]>([]);
   const [data, setData] = useState<TeamPerformanceResponse | null>(null);
   const [selectedMemberId, setSelectedMemberId] = useState<string | null>(null);
@@ -210,16 +212,21 @@ export function useTeamPerformance(
     return () => clearTimeout(timer);
   }, [filters.search]);
 
-  const fetchMunicipalities = useCallback(async () => {
-    const res = await fetch(buildBrowserApiUrl("/geo/municipalities"), {
-      headers: getBrowserAuthHeaders(),
-    });
+  const fetchGeoData = useCallback(async () => {
+    try {
+      const [departmentRows, municipalityRows] = await Promise.all([
+        geoClient.getDepartments(),
+        geoClient.getMunicipalities(),
+      ]);
 
-    if (!res.ok) {
-      throw new Error("No se pudieron cargar los municipios");
+      setDepartments(Array.isArray(departmentRows) ? departmentRows : []);
+      setMunicipalities(Array.isArray(municipalityRows) ? municipalityRows : []);
+    } catch (err) {
+      console.error("No se pudo cargar la configuración geográfica:", err);
+      toast.error("No se pudo cargar la configuración geográfica");
+      setDepartments([]);
+      setMunicipalities([]);
     }
-    const rows = await unwrapData<Municipality[]>(res);
-    setMunicipalities(Array.isArray(rows) ? rows : []);
   }, []);
 
   const fetchPerformance = useCallback(async () => {
@@ -265,13 +272,13 @@ export function useTeamPerformance(
     try {
       setLoading(true);
       setError(null);
-      await Promise.all([fetchPerformance(), fetchMunicipalities()]);
+      await Promise.all([fetchPerformance(), fetchGeoData()]);
     } catch (err) {
       setError(err instanceof Error ? err.message : "Error desconocido");
     } finally {
       setLoading(false);
     }
-  }, [fetchMunicipalities, fetchPerformance]);
+  }, [fetchGeoData, fetchPerformance]);
 
   useEffect(() => {
     refresh();
@@ -324,37 +331,13 @@ export function useTeamPerformance(
   const updateMemberProfile = useCallback(
     async (
       membershipId: string,
-      payload: {
-        nombre: string;
-        apellido?: string;
-        email: string;
-        telefono?: string;
-        placa?: string;
-        moto?: boolean;
-        direccion?: string;
-        municipioId?: string;
-        role?: string;
-        empresaIds?: string[];
-        activo?: boolean;
-      },
+      payload: TenantMembershipUpdatePayload,
     ) => {
       if (!tenantId) return false;
 
       try {
         setSavingProfile(true);
-        const res = await fetch(buildBrowserApiUrl(`/tenants/memberships/${membershipId}`), {
-          method: "PATCH",
-          headers: {
-            "Content-Type": "application/json",
-            ...getBrowserAuthHeaders(),
-          },
-          body: JSON.stringify(payload),
-        });
-
-        if (!res.ok) {
-          const body = await unwrapData<{ message?: string }>(res);
-          throw new Error(body?.message || "No se pudo actualizar el perfil");
-        }
+        await tenantsClient.updateMembership(membershipId, payload);
 
         toast.success("Perfil actualizado correctamente");
         await fetchPerformance();
@@ -392,6 +375,7 @@ export function useTeamPerformance(
     data,
     members,
     allRoles,
+    departments,
     municipalities,
     selectedMemberId,
     setSelectedMemberId,

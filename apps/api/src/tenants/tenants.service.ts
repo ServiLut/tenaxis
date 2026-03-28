@@ -56,6 +56,17 @@ interface DateRange {
   to: Date;
 }
 
+type MembershipGeoScopeRelation = {
+  departmentScopes?: Array<{ departmentId: string }>;
+  municipalityScopes?: Array<{ municipalityId: string }>;
+};
+
+type NormalizedMembershipGeoScope = {
+  departmentIds: string[];
+  municipalityIds: string[];
+  primaryMunicipioId: string | null;
+};
+
 @Injectable()
 export class TenantsService {
   constructor(private prisma: PrismaService) {}
@@ -285,15 +296,9 @@ export class TenantsService {
 
   async updateMembership(
     membershipId: string,
-    tenantId: string,
+    user: JwtPayload,
     data: UpdateMembershipDto,
   ) {
-    console.log(
-      'UPDATING MEMBERSHIP:',
-      membershipId,
-      JSON.stringify(data, null, 2),
-    );
-
     return this.prisma.$transaction(async (tx) => {
       // 1. Obtener la membresía actual para saber el tenantId
       const current = await tx.tenantMembership.findUnique({
@@ -303,14 +308,27 @@ export class TenantsService {
       if (!current) {
         throw new NotFoundException('Membresía no encontrada');
       }
-      if (current.tenantId !== tenantId) {
-        throw new UnauthorizedException(
-          'No tienes permisos para modificar esta membresía',
-        );
+
+      if (!user.isGlobalSuAdmin) {
+        if (!user.tenantId) {
+          throw new UnauthorizedException(
+            'No perteneces a ningún conglomerado',
+          );
+        }
+        if (current.tenantId !== user.tenantId) {
+          throw new UnauthorizedException(
+            'No tienes permisos para modificar esta membresía',
+          );
+        }
       }
 
+      const requestedGeoScope = this.extractRequestedGeoScope(data);
+      const normalizedGeoScope = requestedGeoScope
+        ? await this.normalizeMembershipGeoScope(tx, requestedGeoScope)
+        : null;
+
       // 2. Actualizar datos base de la membresía
-      const updated = await tx.tenantMembership.update({
+      await tx.tenantMembership.update({
         where: { id: membershipId },
         data: {
           placa: data.placa !== undefined ? data.placa || null : undefined,
@@ -318,9 +336,11 @@ export class TenantsService {
           direccion:
             data.direccion !== undefined ? data.direccion || null : undefined,
           municipioId:
-            data.municipioId !== undefined
-              ? data.municipioId || null
-              : undefined,
+            requestedGeoScope && requestedGeoScope.hasMunicipalityInput
+              ? normalizedGeoScope?.primaryMunicipioId
+              : data.municipioId !== undefined
+                ? data.municipioId || null
+                : undefined,
           role: data.role,
           activo: data.activo,
         },
@@ -380,6 +400,50 @@ export class TenantsService {
               empresaId,
               role: data.role || current.role, // Usar el nuevo rol o el actual
             })),
+          });
+        }
+      }
+
+      if (
+        requestedGeoScope &&
+        (requestedGeoScope.hasDepartmentInput ||
+          requestedGeoScope.hasMunicipalityInput)
+      ) {
+        await tx.tenantMembershipDepartmentScope.deleteMany({
+          where: {
+            tenantId: current.tenantId,
+            membershipId,
+          },
+        });
+
+        if (normalizedGeoScope?.departmentIds.length) {
+          await tx.tenantMembershipDepartmentScope.createMany({
+            data: normalizedGeoScope.departmentIds.map((departmentId) => ({
+              tenantId: current.tenantId,
+              membershipId,
+              departmentId,
+            })),
+            skipDuplicates: true,
+          });
+        }
+      }
+
+      if (requestedGeoScope && requestedGeoScope.hasMunicipalityInput) {
+        await tx.tenantMembershipMunicipalityScope.deleteMany({
+          where: {
+            tenantId: current.tenantId,
+            membershipId,
+          },
+        });
+
+        if (normalizedGeoScope?.municipalityIds.length) {
+          await tx.tenantMembershipMunicipalityScope.createMany({
+            data: normalizedGeoScope.municipalityIds.map((municipalityId) => ({
+              tenantId: current.tenantId,
+              membershipId,
+              municipalityId,
+            })),
+            skipDuplicates: true,
           });
         }
       }
@@ -460,7 +524,43 @@ export class TenantsService {
         }
       }
 
-      return updated;
+      const refreshed = await tx.tenantMembership.findUnique({
+        where: { id: membershipId },
+        include: {
+          user: {
+            select: {
+              id: true,
+              nombre: true,
+              apellido: true,
+              email: true,
+              telefono: true,
+            },
+          },
+          municipio: {
+            select: {
+              id: true,
+              name: true,
+              departmentId: true,
+            },
+          },
+          departmentScopes: {
+            select: {
+              departmentId: true,
+            },
+          },
+          municipalityScopes: {
+            select: {
+              municipalityId: true,
+            },
+          },
+        },
+      });
+
+      if (!refreshed) {
+        throw new NotFoundException('Membresía no encontrada');
+      }
+
+      return this.decorateMembershipGeoScopes(refreshed);
     });
   }
 
@@ -531,80 +631,96 @@ export class TenantsService {
       },
     };
 
-    return this.prisma.tenantMembership.findMany({
-      where: {
-        tenantId,
-        activo: true,
-      },
-      include: {
-        user: {
-          select: {
-            id: true,
-            nombre: true,
-            apellido: true,
-            email: true,
-            telefono: true,
-          },
+    return this.prisma.tenantMembership
+      .findMany({
+        where: {
+          tenantId,
+          activo: true,
         },
-        municipio: true,
-        empresaMemberships: {
-          select: {
-            empresaId: true,
-            empresa: {
-              select: {
-                nombre: true,
+        include: {
+          user: {
+            select: {
+              id: true,
+              nombre: true,
+              apellido: true,
+              email: true,
+              telefono: true,
+            },
+          },
+          municipio: true,
+          departmentScopes: {
+            select: {
+              departmentId: true,
+            },
+          },
+          municipalityScopes: {
+            select: {
+              municipalityId: true,
+            },
+          },
+          empresaMemberships: {
+            select: {
+              empresaId: true,
+              empresa: {
+                select: {
+                  nombre: true,
+                },
               },
             },
           },
-        },
-        serviciosCreados: {
-          where: whereServicios,
-          select: {
-            id: true,
-            numeroOrden: true,
-            fechaVisita: true,
-            valorPagado: true,
-            estadoServicio: true,
-            tipoVisita: true,
-            cliente: {
-              select: {
-                nombre: true,
-                apellido: true,
-                razonSocial: true,
+          serviciosCreados: {
+            where: whereServicios,
+            select: {
+              id: true,
+              numeroOrden: true,
+              fechaVisita: true,
+              valorPagado: true,
+              estadoServicio: true,
+              tipoVisita: true,
+              cliente: {
+                select: {
+                  nombre: true,
+                  apellido: true,
+                  razonSocial: true,
+                },
               },
             },
           },
-        },
-        serviciosAsignados: {
-          where: whereServicios,
-          select: {
-            id: true,
-            numeroOrden: true,
-            fechaVisita: true,
-            valorPagado: true,
-            estadoServicio: true,
-            tipoVisita: true,
-            cliente: {
-              select: {
-                nombre: true,
-                apellido: true,
-                razonSocial: true,
+          serviciosAsignados: {
+            where: whereServicios,
+            select: {
+              id: true,
+              numeroOrden: true,
+              fechaVisita: true,
+              valorPagado: true,
+              estadoServicio: true,
+              tipoVisita: true,
+              cliente: {
+                select: {
+                  nombre: true,
+                  apellido: true,
+                  razonSocial: true,
+                },
               },
             },
           },
-        },
-        _count: {
-          select: {
-            serviciosAsignados: true,
+          _count: {
+            select: {
+              serviciosAsignados: true,
+            },
           },
         },
-      },
-      orderBy: {
-        user: {
-          nombre: 'asc',
+        orderBy: {
+          user: {
+            nombre: 'asc',
+          },
         },
-      },
-    });
+      })
+      .then((memberships) =>
+        memberships.map((membership) =>
+          this.decorateMembershipGeoScopes(membership),
+        ),
+      );
   }
 
   async getTeamPerformance(
@@ -1595,5 +1711,149 @@ export class TenantsService {
       return 0;
     }
     return Number(value) || 0;
+  }
+
+  private extractRequestedGeoScope(data: UpdateMembershipDto) {
+    const municipalityIds =
+      data.municipalityIds !== undefined
+        ? data.municipalityIds
+        : data.municipioId !== undefined
+          ? data.municipioId
+            ? [data.municipioId]
+            : []
+          : undefined;
+
+    const hasDepartmentInput = data.departmentIds !== undefined;
+    const hasMunicipalityInput =
+      data.municipalityIds !== undefined || data.municipioId !== undefined;
+
+    if (!hasDepartmentInput && !hasMunicipalityInput) {
+      return null;
+    }
+
+    return {
+      departmentIds: data.departmentIds ?? [],
+      municipalityIds: municipalityIds ?? [],
+      hasDepartmentInput,
+      hasMunicipalityInput,
+    };
+  }
+
+  private async normalizeMembershipGeoScope(
+    tx: Prisma.TransactionClient,
+    requested: {
+      departmentIds: string[];
+      municipalityIds: string[];
+      hasDepartmentInput: boolean;
+      hasMunicipalityInput: boolean;
+    },
+  ): Promise<NormalizedMembershipGeoScope> {
+    const departmentIds = Array.from(new Set(requested.departmentIds));
+    const municipalityIds = Array.from(new Set(requested.municipalityIds));
+
+    const municipalityRows = municipalityIds.length
+      ? await tx.municipality.findMany({
+          where: {
+            id: {
+              in: municipalityIds,
+            },
+          },
+          select: {
+            id: true,
+            departmentId: true,
+          },
+        })
+      : [];
+
+    if (municipalityRows.length !== municipalityIds.length) {
+      const foundIds = new Set(municipalityRows.map((item) => item.id));
+      const missingMunicipalities = municipalityIds.filter(
+        (id) => !foundIds.has(id),
+      );
+
+      throw new BadRequestException(
+        `Hay municipios inválidos en el scope: ${missingMunicipalities.join(', ')}`,
+      );
+    }
+
+    if (requested.hasDepartmentInput && departmentIds.length > 0) {
+      const departmentRows = await tx.department.findMany({
+        where: {
+          id: {
+            in: departmentIds,
+          },
+        },
+        select: {
+          id: true,
+        },
+      });
+
+      if (departmentRows.length !== departmentIds.length) {
+        const foundIds = new Set(departmentRows.map((item) => item.id));
+        const missingDepartments = departmentIds.filter(
+          (id) => !foundIds.has(id),
+        );
+
+        throw new BadRequestException(
+          `Hay departamentos inválidos en el scope: ${missingDepartments.join(', ')}`,
+        );
+      }
+    }
+
+    const municipalityDepartmentIds = Array.from(
+      new Set(municipalityRows.map((item) => item.departmentId)),
+    );
+
+    let finalDepartmentIds = departmentIds;
+
+    if (!requested.hasDepartmentInput && municipalityDepartmentIds.length > 0) {
+      finalDepartmentIds = municipalityDepartmentIds;
+    }
+
+    if (requested.hasDepartmentInput && municipalityIds.length > 0) {
+      const allowedDepartmentIds = new Set(departmentIds);
+      const invalidMunicipalities = municipalityRows.filter(
+        (municipality) => !allowedDepartmentIds.has(municipality.departmentId),
+      );
+
+      if (invalidMunicipalities.length > 0) {
+        const invalidMunicipalityIds = invalidMunicipalities.map(
+          (municipality) => municipality.id,
+        );
+        throw new BadRequestException(
+          `Los municipios seleccionados no pertenecen a los departamentos indicados: ${invalidMunicipalityIds.join(', ')}`,
+        );
+      }
+    }
+
+    return {
+      departmentIds: finalDepartmentIds,
+      municipalityIds,
+      primaryMunicipioId: municipalityIds[0] ?? null,
+    };
+  }
+
+  private decorateMembershipGeoScopes<T extends MembershipGeoScopeRelation>(
+    membership: T,
+  ) {
+    return {
+      ...membership,
+      departmentIds: Array.from(
+        new Set(
+          (membership.departmentScopes || [])
+            .map((scope) => scope.departmentId)
+            .filter((departmentId): departmentId is string => !!departmentId),
+        ),
+      ),
+      municipalityIds: Array.from(
+        new Set(
+          (membership.municipalityScopes || [])
+            .map((scope) => scope.municipalityId)
+            .filter(
+              (municipalityId): municipalityId is string => !!municipalityId,
+            ),
+        ),
+      ),
+    };
   }
 }

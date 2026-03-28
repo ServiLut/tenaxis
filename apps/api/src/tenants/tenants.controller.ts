@@ -7,7 +7,6 @@ import {
   Get,
   Param,
   Patch,
-  UnauthorizedException,
   Query,
 } from '@nestjs/common';
 import { TenantsService } from './tenants.service';
@@ -159,13 +158,9 @@ export class TenantsController {
     @Param('membershipId') membershipId: string,
     @Body() data: UpdateMembershipDto,
   ) {
-    if (!req.user.tenantId && !req.user.isGlobalSuAdmin) {
-      throw new UnauthorizedException('No perteneces a ningún conglomerado');
-    }
-
     return await this.tenantsService.updateMembership(
       membershipId,
-      req.user.tenantId!,
+      req.user,
       data,
     );
   }

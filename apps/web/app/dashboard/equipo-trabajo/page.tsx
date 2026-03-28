@@ -4,16 +4,21 @@ import { Suspense, useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { DashboardLayout } from "@/components/dashboard";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Combobox } from "@/components/ui/combobox";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { cn } from "@/components/ui/utils";
 import { useUserRole } from "@/hooks/use-user-role";
 import { exportToExcel } from "@/lib/utils/export-helper";
 import {
   Award,
+  Check,
+  ChevronDown,
   Download,
   Eye,
   Loader2,
@@ -29,6 +34,7 @@ import {
   X,
 } from "lucide-react";
 import { toast } from "sonner";
+import { type Department, type Municipality } from "@/lib/api/geo-client";
 import { TeamAlertsPanel } from "./components/team-alerts-panel";
 import { TeamKpiStrip } from "./components/team-kpi-strip";
 import { TeamMember, useTeamPerformance, type TeamTab } from "./hooks/use-team-performance";
@@ -124,6 +130,246 @@ const VIEW_EXPLANATIONS: Record<
   },
 };
 
+type GeoScopeInput = {
+  departmentIds?: string[] | null;
+  municipalityIds?: string[] | null;
+  municipioId?: string | null;
+};
+
+type GeoScopeResolution = {
+  departmentIds: string[];
+  municipalityIds: string[];
+  departmentNames: string[];
+  municipalityNames: string[];
+  legacyMunicipioId: string | null;
+  hasExplicitScope: boolean;
+  summary: string;
+};
+
+type GeoOption = {
+  value: string;
+  label: string;
+  hint?: string;
+};
+
+const normalizeIdList = (ids?: string[] | null) =>
+  Array.from(new Set((ids ?? []).filter((id): id is string => Boolean(id))));
+
+const resolveGeoScope = (
+  source: GeoScopeInput | null | undefined,
+  departments: Department[],
+  municipalities: Municipality[],
+): GeoScopeResolution => {
+  const departmentIdMap = new Map(departments.map((department) => [department.id, department.name]));
+  const municipalityById = new Map(municipalities.map((municipality) => [municipality.id, municipality]));
+
+  const explicitDepartmentIds = normalizeIdList(source?.departmentIds);
+  const explicitMunicipalityIds = normalizeIdList(source?.municipalityIds);
+  const legacyMunicipioId = source?.municipioId || null;
+
+  const municipalityIds = explicitMunicipalityIds.length
+    ? explicitMunicipalityIds
+    : legacyMunicipioId
+      ? [legacyMunicipioId]
+      : [];
+
+  const municipalityDepartmentIds = municipalityIds
+    .map((municipalityId) => municipalityById.get(municipalityId)?.departmentId)
+    .filter((departmentId): departmentId is string => Boolean(departmentId));
+
+  const departmentIds = explicitDepartmentIds.length
+    ? explicitDepartmentIds
+    : Array.from(new Set(municipalityDepartmentIds));
+
+  const departmentNames = departmentIds
+    .map((departmentId) => departmentIdMap.get(departmentId))
+    .filter((departmentName): departmentName is string => Boolean(departmentName));
+
+  const municipalityNames = municipalityIds
+    .map((municipalityId) => municipalityById.get(municipalityId)?.name || (municipalityId === legacyMunicipioId ? "Municipio legacy" : null))
+    .filter((municipalityName): municipalityName is string => Boolean(municipalityName));
+
+  const hasExplicitScope = departmentIds.length > 0 || explicitMunicipalityIds.length > 0 || Boolean(legacyMunicipioId);
+
+  let summary = "Sin restricción geográfica explícita";
+  if (departmentIds.length && municipalityIds.length) {
+    summary = `Restringido por ${departmentIds.length} departamento${departmentIds.length === 1 ? "" : "s"} y ${municipalityIds.length} municipio${municipalityIds.length === 1 ? "" : "s"}`;
+  } else if (departmentIds.length) {
+    summary = `Restringido por ${departmentIds.length} departamento${departmentIds.length === 1 ? "" : "s"}`;
+  } else if (municipalityIds.length) {
+    summary = `Restringido por ${municipalityIds.length} municipio${municipalityIds.length === 1 ? "" : "s"}`;
+  }
+
+  return {
+    departmentIds,
+    municipalityIds,
+    departmentNames,
+    municipalityNames,
+    legacyMunicipioId,
+    hasExplicitScope,
+    summary,
+  };
+};
+
+interface GeoMultiSelectProps {
+  label: string;
+  placeholder: string;
+  options: GeoOption[];
+  value: string[];
+  onChange: (nextValue: string[]) => void;
+  disabled?: boolean;
+  emptyMessage?: string;
+  searchPlaceholder?: string;
+}
+
+function GeoMultiSelect({
+  label,
+  placeholder,
+  options,
+  value,
+  onChange,
+  disabled,
+  emptyMessage = "No hay opciones para mostrar.",
+  searchPlaceholder = "Buscar...",
+}: GeoMultiSelectProps) {
+  const [open, setOpen] = useState(false);
+  const [search, setSearch] = useState("");
+
+  const selectedCount = value.length;
+  const selectedOptions = useMemo(
+    () => options.filter((option) => value.includes(option.value)),
+    [options, value],
+  );
+
+  const filteredOptions = useMemo(() => {
+    if (!search.trim()) return options;
+    const term = search.toLowerCase().trim();
+    return options.filter((option) =>
+      option.label.toLowerCase().includes(term)
+      || (option.hint || "").toLowerCase().includes(term),
+    );
+  }, [options, search]);
+
+  const toggleValue = (optionValue: string) => {
+    if (value.includes(optionValue)) {
+      onChange(value.filter((currentValue) => currentValue !== optionValue));
+      return;
+    }
+
+    onChange([...value, optionValue]);
+  };
+
+  return (
+    <div className="space-y-2">
+      <Label className="text-[9px] font-black uppercase text-muted-foreground ml-1">{label}</Label>
+      <Popover open={open} onOpenChange={setOpen}>
+        <PopoverTrigger asChild>
+          <Button
+            type="button"
+            variant="outline"
+            disabled={disabled}
+            className={cn(
+              "flex h-11 w-full justify-between rounded-xl border-2 border-border bg-background px-4 text-left text-sm font-semibold text-foreground shadow-none hover:bg-muted/50",
+              !selectedCount && "text-muted-foreground",
+            )}
+          >
+            <span className="truncate">
+              {selectedCount
+                ? `${selectedCount} seleccionado${selectedCount === 1 ? "" : "s"}`
+                : placeholder}
+            </span>
+            <ChevronDown className="h-4 w-4 shrink-0 text-muted-foreground" />
+          </Button>
+        </PopoverTrigger>
+        <PopoverContent align="start" className="w-[min(28rem,calc(100vw-2rem))] rounded-2xl border-border p-3 shadow-2xl">
+          <div className="space-y-3">
+            <div className="flex items-center justify-between gap-2">
+              <p className="text-[10px] font-black uppercase tracking-[0.2em] text-muted-foreground">
+                {label}
+              </p>
+              {value.length > 0 ? (
+                <Button
+                  type="button"
+                  variant="ghost"
+                  size="sm"
+                  className="h-8 px-3 text-[10px]"
+                  onClick={() => onChange([])}
+                >
+                  Limpiar
+                </Button>
+              ) : null}
+            </div>
+
+            <div className="flex items-center gap-2 rounded-xl border border-border bg-background px-3">
+              <Search className="h-4 w-4 shrink-0 text-muted-foreground" />
+              <Input
+                value={search}
+                onChange={(event) => setSearch(event.target.value)}
+                placeholder={searchPlaceholder}
+                className="border-none bg-transparent px-0 text-sm shadow-none focus-visible:ring-0"
+              />
+            </div>
+
+            <div className="max-h-72 space-y-1 overflow-y-auto pr-1">
+              {filteredOptions.length > 0 ? (
+                filteredOptions.map((option) => {
+                  const selected = value.includes(option.value);
+
+                  return (
+                    <button
+                      key={option.value}
+                      type="button"
+                      onClick={() => toggleValue(option.value)}
+                      className={cn(
+                        "flex w-full items-start justify-between gap-3 rounded-xl border px-3 py-2 text-left transition-all hover:bg-muted/60",
+                        selected ? "border-[#01ADFB]/30 bg-[#01ADFB]/10 text-foreground" : "border-border bg-background",
+                      )}
+                    >
+                      <span className="min-w-0 flex-1">
+                        <span className="block truncate text-sm font-semibold">{option.label}</span>
+                        {option.hint ? (
+                          <span className="mt-0.5 block truncate text-[10px] text-muted-foreground">
+                            {option.hint}
+                          </span>
+                        ) : null}
+                      </span>
+                      {selected ? (
+                        <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-[#01ADFB] text-white">
+                          <Check className="h-3.5 w-3.5" />
+                        </span>
+                      ) : (
+                        <span className="h-6 w-6 shrink-0 rounded-full border border-border" />
+                      )}
+                    </button>
+                  );
+                })
+              ) : (
+                <div className="flex flex-col items-center justify-center gap-1 py-8 text-center">
+                  <p className="text-sm font-semibold text-muted-foreground">{emptyMessage}</p>
+                </div>
+              )}
+            </div>
+          </div>
+        </PopoverContent>
+      </Popover>
+      {selectedOptions.length > 0 ? (
+        <div className="flex flex-wrap gap-2">
+          {selectedOptions.slice(0, 4).map((option) => (
+            <Badge key={option.value} variant="outline" className="rounded-full border-border bg-muted/40 px-2.5 py-1 text-[10px] font-black uppercase tracking-[0.12em] text-foreground">
+              {option.label}
+            </Badge>
+          ))}
+          {selectedOptions.length > 4 ? (
+            <Badge variant="outline" className="rounded-full border-border bg-muted/40 px-2.5 py-1 text-[10px] font-black uppercase tracking-[0.12em] text-muted-foreground">
+              +{selectedOptions.length - 4}
+            </Badge>
+          ) : null}
+        </div>
+      ) : null}
+    </div>
+  );
+}
+
 function TeamPageContent() {
   const { tenantId, isGlobalSuAdmin, checkPermission, isLoading: isLoadingRole } = useUserRole();
   const router = useRouter();
@@ -152,6 +398,7 @@ function TeamPageContent() {
     data,
     members,
     allRoles,
+    departments,
     municipalities,
     selectedMemberId,
     setSelectedMemberId,
@@ -175,6 +422,34 @@ function TeamPageContent() {
     [members, selectedMemberId],
   );
 
+  const selectedDetail = selectedUser ? memberDetailById[selectedUser.id] : null;
+
+  const editGeoScope = useMemo(
+    () => resolveGeoScope(editForm, departments, municipalities),
+    [departments, editForm, municipalities],
+  );
+
+  const selectedGeoScope = selectedUser
+    ? resolveGeoScope(
+      {
+        departmentIds: selectedUser.departmentIds,
+        municipalityIds: selectedUser.municipalityIds,
+        municipioId: selectedUser.municipioId,
+      },
+      departments,
+      municipalities,
+    )
+    : selectedDetail?.member
+      ? resolveGeoScope(
+        {
+          departmentIds: selectedDetail.member.departmentIds,
+          municipalityIds: selectedDetail.member.municipalityIds,
+        },
+        departments,
+        municipalities,
+      )
+      : resolveGeoScope(null, departments, municipalities);
+
   const rankingMembers = useMemo(() => {
     const selectedView = PERFORMANCE_VIEWS.find((view) => view.id === rankingView);
     if (!selectedView) return [];
@@ -187,8 +462,6 @@ function TeamPageContent() {
       rankingView,
     );
   }, [members, rankingView]);
-
-  const selectedDetail = selectedUser ? memberDetailById[selectedUser.id] : null;
   const selectedUserView = selectedUser
     ? getPerformanceViewForRole(selectedUser.role)
     : rankingView;
@@ -394,11 +667,125 @@ function TeamPageContent() {
     }
   }, [fetchMemberDetail, selectedMemberId]);
 
+  const departmentScopeOptions = useMemo<GeoOption[]>(
+    () => departments.map((department) => ({ value: department.id, label: department.name, hint: department.code })),
+    [departments],
+  );
+
+  const municipalityScopeOptions = useMemo<GeoOption[]>(() => {
+    const scopedDepartmentIds = normalizeIdList(editForm?.departmentIds);
+    const visibleMunicipalities = scopedDepartmentIds.length > 0
+      ? municipalities.filter((municipality) => scopedDepartmentIds.includes(municipality.departmentId))
+      : municipalities;
+
+    return visibleMunicipalities.map((municipality) => {
+      const parentDepartment = departments.find((department) => department.id === municipality.departmentId);
+      return {
+        value: municipality.id,
+        label: municipality.name,
+        hint: parentDepartment ? parentDepartment.name : municipality.code,
+      };
+    });
+  }, [departments, editForm?.departmentIds, municipalities]);
+
+  const handleOpenEdit = () => {
+    if (!selectedUser) return;
+
+    const initialMunicipalityIds = normalizeIdList(
+      selectedDetail?.member.municipalityIds
+      ?? selectedUser.municipalityIds
+      ?? (selectedUser.municipioId ? [selectedUser.municipioId] : []),
+    );
+
+    const initialDepartmentIds = normalizeIdList(
+      selectedDetail?.member.departmentIds
+      ?? selectedUser.departmentIds
+      ?? initialMunicipalityIds
+        .map((municipalityId) => municipalities.find((municipality) => municipality.id === municipalityId)?.departmentId)
+        .filter((departmentId): departmentId is string => Boolean(departmentId)),
+    );
+
+    const nextDepartmentIds = initialDepartmentIds.length
+      ? initialDepartmentIds
+      : Array.from(
+        new Set(
+          initialMunicipalityIds
+            .map((municipalityId) => municipalities.find((municipality) => municipality.id === municipalityId)?.departmentId)
+            .filter((departmentId): departmentId is string => Boolean(departmentId)),
+        ),
+      );
+
+    setEditForm({
+      ...selectedUser,
+      departmentIds: nextDepartmentIds,
+      municipalityIds: initialMunicipalityIds,
+    });
+    setIsEditing(true);
+  };
+
+  const handleDepartmentScopeChange = (nextDepartmentIds: string[]) => {
+    setEditForm((prev) => {
+      if (!prev) return prev;
+
+      const allowedMunicipalityIds = new Set(
+        nextDepartmentIds.length > 0
+          ? municipalities
+            .filter((municipality) => nextDepartmentIds.includes(municipality.departmentId))
+            .map((municipality) => municipality.id)
+          : municipalities.map((municipality) => municipality.id),
+      );
+
+      const preservedMunicipalityIds = normalizeIdList(prev.municipalityIds).filter((municipalityId) => allowedMunicipalityIds.has(municipalityId));
+
+      return {
+        ...prev,
+        departmentIds: normalizeIdList(nextDepartmentIds),
+        municipalityIds: preservedMunicipalityIds,
+      };
+    });
+  };
+
+  const handleMunicipalityScopeChange = (nextMunicipalityIds: string[]) => {
+    setEditForm((prev) => {
+      if (!prev) return prev;
+
+      const normalizedMunicipalityIds = normalizeIdList(nextMunicipalityIds);
+      const inferredDepartmentIds = normalizedMunicipalityIds.length > 0
+        ? Array.from(
+          new Set(
+            normalizedMunicipalityIds
+              .map((municipalityId) => municipalities.find((municipality) => municipality.id === municipalityId)?.departmentId)
+              .filter((departmentId): departmentId is string => Boolean(departmentId)),
+          ),
+        )
+        : [];
+
+      return {
+        ...prev,
+        departmentIds: prev.departmentIds?.length ? normalizeIdList(prev.departmentIds) : inferredDepartmentIds,
+        municipalityIds: normalizedMunicipalityIds,
+      };
+    });
+  };
+
   const handleSave = async () => {
     if (!editForm) return;
     const parts = editForm.name.trim().split(" ");
     const nombre = parts[0] || "";
     const apellido = parts.slice(1).join(" ");
+    const explicitMunicipalityIds = normalizeIdList(editForm.municipalityIds);
+    const effectiveMunicipalityIds = explicitMunicipalityIds.length
+      ? explicitMunicipalityIds
+      : editForm.municipioId
+        ? [editForm.municipioId]
+        : [];
+    const effectiveDepartmentIds = normalizeIdList(
+      editForm.departmentIds?.length
+        ? editForm.departmentIds
+        : effectiveMunicipalityIds
+          .map((municipalityId) => municipalities.find((municipality) => municipality.id === municipalityId)?.departmentId)
+          .filter((departmentId): departmentId is string => Boolean(departmentId)),
+    );
 
     const ok = await updateMemberProfile(editForm.id, {
       nombre,
@@ -408,7 +795,9 @@ function TeamPageContent() {
       placa: editForm.placa || undefined,
       moto: editForm.moto ?? undefined,
       direccion: editForm.direccion || undefined,
-      municipioId: editForm.municipioId || undefined,
+      municipioId: editForm.municipioId || effectiveMunicipalityIds[0] || undefined,
+      departmentIds: effectiveDepartmentIds,
+      municipalityIds: effectiveMunicipalityIds,
       role: editForm.role,
       empresaIds: editForm.empresaIds,
     });
@@ -991,15 +1380,61 @@ function TeamPageContent() {
                             </div>
                           </div>
 
+                          <div className="px-6">
+                            <div className="rounded-2xl border border-border bg-muted/30 px-4 py-3">
+                              <p className="text-[9px] font-black uppercase tracking-[0.18em] text-muted-foreground">
+                                Alcance geográfico
+                              </p>
+                              <p className="mt-1 text-xs font-semibold text-foreground">
+                                {selectedGeoScope.summary}
+                              </p>
+                              <div className="mt-3 flex flex-wrap gap-2">
+                                {selectedGeoScope.departmentNames.length > 0 ? (
+                                  selectedGeoScope.departmentNames.map((departmentName) => (
+                                    <Badge
+                                      key={departmentName}
+                                      variant="outline"
+                                      className="rounded-full border-border bg-background px-2.5 py-1 text-[10px] font-black uppercase tracking-[0.12em] text-foreground"
+                                    >
+                                      {departmentName}
+                                    </Badge>
+                                  ))
+                                ) : (
+                                  <Badge
+                                    variant="outline"
+                                    className="rounded-full border-dashed border-border bg-background px-2.5 py-1 text-[10px] font-black uppercase tracking-[0.12em] text-muted-foreground"
+                                  >
+                                    Sin departamentos
+                                  </Badge>
+                                )}
+                                {selectedGeoScope.municipalityNames.length > 0 ? (
+                                  selectedGeoScope.municipalityNames.map((municipalityName) => (
+                                    <Badge
+                                      key={municipalityName}
+                                      variant="outline"
+                                      className="rounded-full border-border bg-[#01ADFB]/5 px-2.5 py-1 text-[10px] font-black uppercase tracking-[0.12em] text-[#01ADFB]"
+                                    >
+                                      {municipalityName}
+                                    </Badge>
+                                  ))
+                                ) : (
+                                  <Badge
+                                    variant="outline"
+                                    className="rounded-full border-dashed border-border bg-background px-2.5 py-1 text-[10px] font-black uppercase tracking-[0.12em] text-muted-foreground"
+                                  >
+                                    Sin municipios
+                                  </Badge>
+                                )}
+                              </div>
+                            </div>
+                          </div>
+
                           {/* Acciones */}
                           <div className="pt-4 flex flex-col gap-2 px-6">
                             <div className="flex gap-2">
                               {checkPermission("TEAM_EDIT") && (
-                                <button 
-                                  onClick={() => {
-                                    setEditForm(selectedUser);
-                                    setIsEditing(true);
-                                  }} 
+                                <button
+                                  onClick={handleOpenEdit}
                                   className="flex-1 h-12 rounded-2xl bg-accent text-[10px] font-black uppercase tracking-[0.15em] text-white shadow-lg shadow-accent/20 transition-all hover:scale-[1.02] active:scale-95"
                                 >
                                   Editar Perfil
@@ -1057,7 +1492,7 @@ function TeamPageContent() {
                               />
                             </div>
                             <div className="space-y-1.5">
-                              <Label className="text-[9px] font-black uppercase text-muted-foreground ml-1">Municipio</Label>
+                              <Label className="text-[9px] font-black uppercase text-muted-foreground ml-1">Municipio de ubicación</Label>
                               <Combobox 
                                 options={municipalities.map(m => ({ value: m.id, label: m.name }))} 
                                 value={editForm?.municipioId || ""} 
@@ -1089,13 +1524,95 @@ function TeamPageContent() {
                             </div>
                           </div>
 
-                          <div className="space-y-1.5">
-                            <Label className="text-[9px] font-black uppercase text-muted-foreground ml-1">Dirección</Label>
-                            <Input 
-                              value={editForm?.direccion || ""} 
-                              onChange={(e) => setEditForm(prev => prev ? { ...prev, direccion: e.target.value } : null)} 
-                              className="h-10 bg-background border-2 border-border rounded-xl font-medium" 
-                            />
+                            <div className="space-y-1.5">
+                              <Label className="text-[9px] font-black uppercase text-muted-foreground ml-1">Dirección</Label>
+                              <Input 
+                                value={editForm?.direccion || ""} 
+                                onChange={(e) => setEditForm(prev => prev ? { ...prev, direccion: e.target.value } : null)} 
+                                className="h-10 bg-background border-2 border-border rounded-xl font-medium" 
+                              />
+                            </div>
+
+                          <div className="space-y-3 rounded-2xl border border-border bg-muted/20 px-4 py-4">
+                            <div className="flex items-center justify-between gap-3">
+                              <div>
+                                <p className="text-[9px] font-black uppercase tracking-[0.2em] text-muted-foreground ml-1">
+                                  Alcance geográfico RBAC
+                                </p>
+                                <p className="mt-1 text-xs text-muted-foreground">
+                                  Elegí departamentos y municipios explícitos. Si seleccionás departamentos, la lista de municipios se ajusta a esos departamentos.
+                                </p>
+                              </div>
+                              <div className="rounded-full border border-border bg-background px-3 py-1 text-[10px] font-black uppercase tracking-[0.16em] text-[#01ADFB]">
+                                {editGeoScope.summary}
+                              </div>
+                            </div>
+
+                            <div className="grid grid-cols-1 gap-3">
+                              <GeoMultiSelect
+                                label="Departamentos"
+                                placeholder={departments.length > 0 ? "Seleccionar departamentos" : "Cargando departamentos..."}
+                                options={departmentScopeOptions}
+                                value={editGeoScope.departmentIds}
+                                onChange={handleDepartmentScopeChange}
+                                disabled={departments.length === 0}
+                                emptyMessage="No hay departamentos disponibles."
+                                searchPlaceholder="Buscar departamento..."
+                              />
+
+                              <GeoMultiSelect
+                                label="Municipios"
+                                placeholder={editGeoScope.departmentIds.length > 0 ? "Seleccionar municipios filtrados" : "Seleccionar municipios"}
+                                options={municipalityScopeOptions}
+                                value={editGeoScope.municipalityIds}
+                                onChange={handleMunicipalityScopeChange}
+                                disabled={municipalities.length === 0}
+                                emptyMessage={editGeoScope.departmentIds.length > 0
+                                  ? "No hay municipios para los departamentos elegidos."
+                                  : "No hay municipios disponibles."}
+                                searchPlaceholder="Buscar municipio..."
+                              />
+                            </div>
+
+                            <div className="flex flex-wrap gap-2">
+                              {editGeoScope.departmentNames.length > 0 ? (
+                                editGeoScope.departmentNames.map((departmentName) => (
+                                  <Badge
+                                    key={departmentName}
+                                    variant="outline"
+                                    className="rounded-full border-border bg-background px-2.5 py-1 text-[10px] font-black uppercase tracking-[0.12em] text-foreground"
+                                  >
+                                    {departmentName}
+                                  </Badge>
+                                ))
+                              ) : (
+                                <Badge
+                                  variant="outline"
+                                  className="rounded-full border-dashed border-border bg-background px-2.5 py-1 text-[10px] font-black uppercase tracking-[0.12em] text-muted-foreground"
+                                >
+                                  Sin departamentos seleccionados
+                                </Badge>
+                              )}
+
+                              {editGeoScope.municipalityNames.length > 0 ? (
+                                editGeoScope.municipalityNames.map((municipalityName) => (
+                                  <Badge
+                                    key={municipalityName}
+                                    variant="outline"
+                                    className="rounded-full border-border bg-[#01ADFB]/5 px-2.5 py-1 text-[10px] font-black uppercase tracking-[0.12em] text-[#01ADFB]"
+                                  >
+                                    {municipalityName}
+                                  </Badge>
+                                ))
+                              ) : (
+                                <Badge
+                                  variant="outline"
+                                  className="rounded-full border-dashed border-border bg-background px-2.5 py-1 text-[10px] font-black uppercase tracking-[0.12em] text-muted-foreground"
+                                >
+                                  Sin municipios seleccionados
+                                </Badge>
+                              )}
+                            </div>
                           </div>
 
                           <div className="grid grid-cols-2 gap-3 pt-4 border-t border-border/50">

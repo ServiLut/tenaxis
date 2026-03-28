@@ -397,6 +397,8 @@ export const ModelName = {
   TipoInteres: 'TipoInteres',
   Department: 'Department',
   Municipality: 'Municipality',
+  TenantMembershipDepartmentScope: 'TenantMembershipDepartmentScope',
+  TenantMembershipMunicipalityScope: 'TenantMembershipMunicipalityScope',
   Cliente: 'Cliente',
   ContratoCliente: 'ContratoCliente',
   Vehiculo: 'Vehiculo',
@@ -454,7 +456,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "user" | "tenant" | "plan" | "subscription" | "tenantMembership" | "dashboardPreset" | "empresa" | "empresaMembership" | "organizationNode" | "commissionRecord" | "tipoInteres" | "department" | "municipality" | "cliente" | "contratoCliente" | "vehiculo" | "direccion" | "zona" | "servicio" | "tipoServicio" | "metodoPago" | "estadoServicio" | "ordenServicio" | "ordenServicioSeguimiento" | "entidadFinanciera" | "geolocalizacion" | "nomina" | "nominaDetalle" | "citasPsicologos" | "consultorio" | "terapiasPsicologos" | "paqueteAdquirido" | "turno" | "cuentaCobro" | "declaracionEfectivo" | "consignacionEfectivo" | "consignacionOrden" | "anticipos" | "producto" | "productoSolicitado" | "proveedores" | "permiso" | "configuracionPagos" | "cuentasPago" | "egresos" | "picoPlaca" | "referidos" | "auditoria" | "sesionActividad" | "logEvento" | "authSession" | "passwordResetToken" | "clienteConfiguracionOperativa" | "evidenciaServicio" | "sugerenciaSeguimiento"
+    modelProps: "user" | "tenant" | "plan" | "subscription" | "tenantMembership" | "dashboardPreset" | "empresa" | "empresaMembership" | "organizationNode" | "commissionRecord" | "tipoInteres" | "department" | "municipality" | "tenantMembershipDepartmentScope" | "tenantMembershipMunicipalityScope" | "cliente" | "contratoCliente" | "vehiculo" | "direccion" | "zona" | "servicio" | "tipoServicio" | "metodoPago" | "estadoServicio" | "ordenServicio" | "ordenServicioSeguimiento" | "entidadFinanciera" | "geolocalizacion" | "nomina" | "nominaDetalle" | "citasPsicologos" | "consultorio" | "terapiasPsicologos" | "paqueteAdquirido" | "turno" | "cuentaCobro" | "declaracionEfectivo" | "consignacionEfectivo" | "consignacionOrden" | "anticipos" | "producto" | "productoSolicitado" | "proveedores" | "permiso" | "configuracionPagos" | "cuentasPago" | "egresos" | "picoPlaca" | "referidos" | "auditoria" | "sesionActividad" | "logEvento" | "authSession" | "passwordResetToken" | "clienteConfiguracionOperativa" | "evidenciaServicio" | "sugerenciaSeguimiento"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -1417,6 +1419,154 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         count: {
           args: Prisma.MunicipalityCountArgs<ExtArgs>
           result: runtime.Types.Utils.Optional<Prisma.MunicipalityCountAggregateOutputType> | number
+        }
+      }
+    }
+    TenantMembershipDepartmentScope: {
+      payload: Prisma.$TenantMembershipDepartmentScopePayload<ExtArgs>
+      fields: Prisma.TenantMembershipDepartmentScopeFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.TenantMembershipDepartmentScopeFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TenantMembershipDepartmentScopePayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.TenantMembershipDepartmentScopeFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TenantMembershipDepartmentScopePayload>
+        }
+        findFirst: {
+          args: Prisma.TenantMembershipDepartmentScopeFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TenantMembershipDepartmentScopePayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.TenantMembershipDepartmentScopeFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TenantMembershipDepartmentScopePayload>
+        }
+        findMany: {
+          args: Prisma.TenantMembershipDepartmentScopeFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TenantMembershipDepartmentScopePayload>[]
+        }
+        create: {
+          args: Prisma.TenantMembershipDepartmentScopeCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TenantMembershipDepartmentScopePayload>
+        }
+        createMany: {
+          args: Prisma.TenantMembershipDepartmentScopeCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.TenantMembershipDepartmentScopeCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TenantMembershipDepartmentScopePayload>[]
+        }
+        delete: {
+          args: Prisma.TenantMembershipDepartmentScopeDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TenantMembershipDepartmentScopePayload>
+        }
+        update: {
+          args: Prisma.TenantMembershipDepartmentScopeUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TenantMembershipDepartmentScopePayload>
+        }
+        deleteMany: {
+          args: Prisma.TenantMembershipDepartmentScopeDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.TenantMembershipDepartmentScopeUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.TenantMembershipDepartmentScopeUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TenantMembershipDepartmentScopePayload>[]
+        }
+        upsert: {
+          args: Prisma.TenantMembershipDepartmentScopeUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TenantMembershipDepartmentScopePayload>
+        }
+        aggregate: {
+          args: Prisma.TenantMembershipDepartmentScopeAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateTenantMembershipDepartmentScope>
+        }
+        groupBy: {
+          args: Prisma.TenantMembershipDepartmentScopeGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.TenantMembershipDepartmentScopeGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.TenantMembershipDepartmentScopeCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.TenantMembershipDepartmentScopeCountAggregateOutputType> | number
+        }
+      }
+    }
+    TenantMembershipMunicipalityScope: {
+      payload: Prisma.$TenantMembershipMunicipalityScopePayload<ExtArgs>
+      fields: Prisma.TenantMembershipMunicipalityScopeFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.TenantMembershipMunicipalityScopeFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TenantMembershipMunicipalityScopePayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.TenantMembershipMunicipalityScopeFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TenantMembershipMunicipalityScopePayload>
+        }
+        findFirst: {
+          args: Prisma.TenantMembershipMunicipalityScopeFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TenantMembershipMunicipalityScopePayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.TenantMembershipMunicipalityScopeFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TenantMembershipMunicipalityScopePayload>
+        }
+        findMany: {
+          args: Prisma.TenantMembershipMunicipalityScopeFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TenantMembershipMunicipalityScopePayload>[]
+        }
+        create: {
+          args: Prisma.TenantMembershipMunicipalityScopeCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TenantMembershipMunicipalityScopePayload>
+        }
+        createMany: {
+          args: Prisma.TenantMembershipMunicipalityScopeCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.TenantMembershipMunicipalityScopeCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TenantMembershipMunicipalityScopePayload>[]
+        }
+        delete: {
+          args: Prisma.TenantMembershipMunicipalityScopeDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TenantMembershipMunicipalityScopePayload>
+        }
+        update: {
+          args: Prisma.TenantMembershipMunicipalityScopeUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TenantMembershipMunicipalityScopePayload>
+        }
+        deleteMany: {
+          args: Prisma.TenantMembershipMunicipalityScopeDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.TenantMembershipMunicipalityScopeUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.TenantMembershipMunicipalityScopeUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TenantMembershipMunicipalityScopePayload>[]
+        }
+        upsert: {
+          args: Prisma.TenantMembershipMunicipalityScopeUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TenantMembershipMunicipalityScopePayload>
+        }
+        aggregate: {
+          args: Prisma.TenantMembershipMunicipalityScopeAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateTenantMembershipMunicipalityScope>
+        }
+        groupBy: {
+          args: Prisma.TenantMembershipMunicipalityScopeGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.TenantMembershipMunicipalityScopeGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.TenantMembershipMunicipalityScopeCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.TenantMembershipMunicipalityScopeCountAggregateOutputType> | number
         }
       }
     }
@@ -4772,6 +4922,30 @@ export const MunicipalityScalarFieldEnum = {
 export type MunicipalityScalarFieldEnum = (typeof MunicipalityScalarFieldEnum)[keyof typeof MunicipalityScalarFieldEnum]
 
 
+export const TenantMembershipDepartmentScopeScalarFieldEnum = {
+  id: 'id',
+  tenantId: 'tenantId',
+  membershipId: 'membershipId',
+  departmentId: 'departmentId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type TenantMembershipDepartmentScopeScalarFieldEnum = (typeof TenantMembershipDepartmentScopeScalarFieldEnum)[keyof typeof TenantMembershipDepartmentScopeScalarFieldEnum]
+
+
+export const TenantMembershipMunicipalityScopeScalarFieldEnum = {
+  id: 'id',
+  tenantId: 'tenantId',
+  membershipId: 'membershipId',
+  municipalityId: 'municipalityId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type TenantMembershipMunicipalityScopeScalarFieldEnum = (typeof TenantMembershipMunicipalityScopeScalarFieldEnum)[keyof typeof TenantMembershipMunicipalityScopeScalarFieldEnum]
+
+
 export const ClienteScalarFieldEnum = {
   id: 'id',
   tenantId: 'tenantId',
@@ -6185,6 +6359,8 @@ export type GlobalOmitConfig = {
   tipoInteres?: Prisma.TipoInteresOmit
   department?: Prisma.DepartmentOmit
   municipality?: Prisma.MunicipalityOmit
+  tenantMembershipDepartmentScope?: Prisma.TenantMembershipDepartmentScopeOmit
+  tenantMembershipMunicipalityScope?: Prisma.TenantMembershipMunicipalityScopeOmit
   cliente?: Prisma.ClienteOmit
   contratoCliente?: Prisma.ContratoClienteOmit
   vehiculo?: Prisma.VehiculoOmit

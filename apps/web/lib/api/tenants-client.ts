@@ -14,11 +14,46 @@ export interface TenantMembership {
   userId: string;
   tenantId: string;
   role: string;
+  departmentIds?: string[];
+  municipalityIds?: string[];
   user: {
     nombre: string;
     apellido: string;
     email: string;
   };
+}
+
+export interface TenantMembershipUpdatePayload {
+  nombre?: string;
+  apellido?: string;
+  tipoDocumento?: string;
+  numeroDocumento?: string;
+  email?: string;
+  telefono?: string;
+  banco?: string;
+  tipoCuenta?: string;
+  numeroCuenta?: string;
+  valorHora?: number;
+  placa?: string;
+  moto?: boolean;
+  direccion?: string;
+  municipioId?: string;
+  departmentIds?: string[];
+  municipalityIds?: string[];
+  role?: string;
+  empresaIds?: string[];
+  activo?: boolean;
+  cuentaPagoEmpresaId?: string;
+}
+
+export interface TenantMembershipInvitePayload {
+  email: string;
+  role: string;
+  nombre?: string;
+  apellido?: string;
+  telefono?: string;
+  departmentIds?: string[];
+  municipalityIds?: string[];
 }
 
 export const tenantsClient = {
@@ -34,7 +69,7 @@ export const tenantsClient = {
     return apiFetch<TenantMembership[]>(`/tenants/${tenantId}/memberships`, { cache: "no-store" });
   },
 
-  async updateMembership(id: string, data: Record<string, unknown>) {
+  async updateMembership(id: string, data: TenantMembershipUpdatePayload) {
     return apiFetch(`/tenants/memberships/${id}`, {
       method: "PATCH",
       body: JSON.stringify(data),
@@ -71,7 +106,7 @@ export const tenantsClient = {
     });
   },
 
-  async inviteMember(tenantId: string, data: Record<string, unknown>) {
+  async inviteMember(tenantId: string, data: TenantMembershipInvitePayload) {
     return apiFetch(`/tenants/${tenantId}/memberships`, {
       method: "POST",
       body: JSON.stringify(data),

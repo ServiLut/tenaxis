@@ -64,6 +64,8 @@ export const ModelName = {
   TipoInteres: 'TipoInteres',
   Department: 'Department',
   Municipality: 'Municipality',
+  TenantMembershipDepartmentScope: 'TenantMembershipDepartmentScope',
+  TenantMembershipMunicipalityScope: 'TenantMembershipMunicipalityScope',
   Cliente: 'Cliente',
   ContratoCliente: 'ContratoCliente',
   Vehiculo: 'Vehiculo',
@@ -327,6 +329,30 @@ export const MunicipalityScalarFieldEnum = {
 } as const
 
 export type MunicipalityScalarFieldEnum = (typeof MunicipalityScalarFieldEnum)[keyof typeof MunicipalityScalarFieldEnum]
+
+
+export const TenantMembershipDepartmentScopeScalarFieldEnum = {
+  id: 'id',
+  tenantId: 'tenantId',
+  membershipId: 'membershipId',
+  departmentId: 'departmentId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type TenantMembershipDepartmentScopeScalarFieldEnum = (typeof TenantMembershipDepartmentScopeScalarFieldEnum)[keyof typeof TenantMembershipDepartmentScopeScalarFieldEnum]
+
+
+export const TenantMembershipMunicipalityScopeScalarFieldEnum = {
+  id: 'id',
+  tenantId: 'tenantId',
+  membershipId: 'membershipId',
+  municipalityId: 'municipalityId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type TenantMembershipMunicipalityScopeScalarFieldEnum = (typeof TenantMembershipMunicipalityScopeScalarFieldEnum)[keyof typeof TenantMembershipMunicipalityScopeScalarFieldEnum]
 
 
 export const ClienteScalarFieldEnum = {

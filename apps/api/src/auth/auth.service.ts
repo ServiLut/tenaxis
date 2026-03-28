@@ -34,6 +34,45 @@ export class AuthService {
     return allowedUuids.includes(userId);
   }
 
+  private collectMembershipScopeIds(membership?: {
+    empresaMemberships?: Array<{ empresaId: string; zonaId: string | null }>;
+    municipalityScopes?: Array<{ municipalityId: string }>;
+    departmentScopes?: Array<{ departmentId: string }>;
+  }): {
+    empresaIds: string[];
+    zonaIds: string[];
+    municipalityIds: string[];
+    departmentIds: string[];
+  } {
+    const empresaIds =
+      membership?.empresaMemberships?.map((m) => m.empresaId) || [];
+    const zonaIds = Array.from(
+      new Set(
+        membership?.empresaMemberships
+          ?.map((m) => m.zonaId)
+          .filter((zonaId): zonaId is string => !!zonaId) || [],
+      ),
+    );
+    const municipalityIds = Array.from(
+      new Set(
+        membership?.municipalityScopes?.map((scope) => scope.municipalityId) ||
+          [],
+      ),
+    );
+    const departmentIds = Array.from(
+      new Set(
+        membership?.departmentScopes?.map((scope) => scope.departmentId) || [],
+      ),
+    );
+
+    return {
+      empresaIds,
+      zonaIds,
+      municipalityIds,
+      departmentIds,
+    };
+  }
+
   async login(dto: LoginDto, ip?: string, dispositivo?: string) {
     const { email, password } = dto;
 
@@ -46,6 +85,12 @@ export class AuthService {
             empresaMemberships: {
               where: { activo: true, deletedAt: null },
               select: { empresaId: true, zonaId: true },
+            },
+            municipalityScopes: {
+              select: { municipalityId: true },
+            },
+            departmentScopes: {
+              select: { departmentId: true },
             },
           },
         },
@@ -91,15 +136,8 @@ export class AuthService {
     const role =
       approvedMembership?.role ||
       (isGlobalSuAdmin ? Role.SU_ADMIN : Role.OPERADOR);
-    const empresaIds =
-      approvedMembership?.empresaMemberships.map((m) => m.empresaId) || [];
-    const zonaIds = Array.from(
-      new Set(
-        approvedMembership?.empresaMemberships
-          .map((m) => m.zonaId)
-          .filter((zonaId): zonaId is string => !!zonaId) || [],
-      ),
-    );
+    const { empresaIds, zonaIds, municipalityIds, departmentIds } =
+      this.collectMembershipScopeIds(approvedMembership);
 
     const payload: JwtPayload = {
       sub: user.id,
@@ -110,6 +148,8 @@ export class AuthService {
       empresaId: empresaIds.length === 1 ? empresaIds[0] : undefined,
       empresaIds,
       zonaIds,
+      municipalityIds,
+      departmentIds,
       sesionId,
       isGlobalSuAdmin,
     };
@@ -126,6 +166,10 @@ export class AuthService {
         role,
         tenantId: approvedMembership?.tenantId,
         membershipId: approvedMembership?.id,
+        empresaIds,
+        zonaIds,
+        municipalityIds,
+        departmentIds,
         sesionId,
         isGlobalSuAdmin,
         hasPendingRequest: !!pendingMembership && !approvedMembership,
@@ -190,21 +234,24 @@ export class AuthService {
                   zonaId: true,
                 },
               },
+              municipalityScopes: {
+                select: {
+                  municipalityId: true,
+                },
+              },
+              departmentScopes: {
+                select: {
+                  departmentId: true,
+                },
+              },
             },
           },
         },
       });
 
       const membership = user?.memberships?.[0];
-      const empresaIds =
-        membership?.empresaMemberships.map((m) => m.empresaId) || [];
-      const zonaIds = Array.from(
-        new Set(
-          membership?.empresaMemberships
-            .map((m) => m.zonaId)
-            .filter((zonaId): zonaId is string => !!zonaId) || [],
-        ),
-      );
+      const { empresaIds, zonaIds, municipalityIds, departmentIds } =
+        this.collectMembershipScopeIds(membership);
       const cuentaPago =
         membership?.cuentasPago?.[0] ||
         (enterpriseId
@@ -235,6 +282,14 @@ export class AuthService {
         empresaIds:
           empresaIds.length > 0 ? empresaIds : payload.empresaIds || [],
         zonaIds: zonaIds.length > 0 ? zonaIds : payload.zonaIds || [],
+        municipalityIds:
+          municipalityIds.length > 0
+            ? municipalityIds
+            : payload.municipalityIds || [],
+        departmentIds:
+          departmentIds.length > 0
+            ? departmentIds
+            : payload.departmentIds || [],
         isGlobalSuAdmin: devRoleState.isGlobalSuAdmin,
       };
     } catch {

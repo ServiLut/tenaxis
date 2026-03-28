@@ -34,6 +34,53 @@ type ClienteWithRelations = Cliente & {
 export class ClientesService {
   constructor(private prisma: PrismaService) {}
 
+  private hasGeoScope(accessFilter: PrismaAccessFilter): boolean {
+    return (
+      (accessFilter.zonaIds || []).length > 0 ||
+      (accessFilter.municipalityIds || []).length > 0 ||
+      (accessFilter.departmentIds || []).length > 0
+    );
+  }
+
+  private buildDireccionGeoWhere(
+    accessFilter: PrismaAccessFilter,
+  ): Prisma.DireccionWhereInput | undefined {
+    const where: Prisma.DireccionWhereInput = {};
+
+    if ((accessFilter.zonaIds || []).length > 0) {
+      where.zonaId = {
+        in: accessFilter.zonaIds,
+      };
+    }
+
+    if ((accessFilter.municipalityIds || []).length > 0) {
+      where.municipioId = {
+        in: accessFilter.municipalityIds,
+      };
+    }
+
+    if ((accessFilter.departmentIds || []).length > 0) {
+      where.departmentId = {
+        in: accessFilter.departmentIds,
+      };
+    }
+
+    return Object.keys(where).length > 0 ? where : undefined;
+  }
+
+  private buildClienteDireccionesInclude(accessFilter: PrismaAccessFilter) {
+    const direccionWhere = this.buildDireccionGeoWhere(accessFilter);
+
+    return direccionWhere
+      ? {
+          where: direccionWhere,
+          include: { municipioRel: true },
+        }
+      : {
+          include: { municipioRel: true },
+        };
+  }
+
   private buildEmpresaWhere(
     empresaFilter?: PrismaAccessFilter['empresaId'],
   ): PrismaAccessFilter['empresaId'] {
@@ -52,15 +99,113 @@ export class ClientesService {
 
     if ((accessFilter.zonaIds || []).length > 0) {
       where.direcciones = {
-        some: {
-          zonaId: {
-            in: accessFilter.zonaIds,
-          },
-        },
+        some: this.buildDireccionGeoWhere(accessFilter),
+      };
+    } else if ((accessFilter.municipalityIds || []).length > 0) {
+      where.direcciones = {
+        some: this.buildDireccionGeoWhere(accessFilter),
+      };
+    } else if ((accessFilter.departmentIds || []).length > 0) {
+      where.direcciones = {
+        some: this.buildDireccionGeoWhere(accessFilter),
       };
     }
 
     return where;
+  }
+
+  private async resolveMunicipalityDepartmentId(
+    municipioId: string,
+    cache: Map<string, string | null>,
+  ): Promise<string | null> {
+    if (cache.has(municipioId)) {
+      return cache.get(municipioId) ?? null;
+    }
+
+    const municipality = await this.prisma.municipality.findUnique({
+      where: { id: municipioId },
+      select: { departmentId: true },
+    });
+
+    const departmentId = municipality?.departmentId ?? null;
+    cache.set(municipioId, departmentId);
+    return departmentId;
+  }
+
+  private async assertClienteDireccionesWithinGeoScope(
+    accessFilter: PrismaAccessFilter,
+    direcciones?: CreateClienteDto['direcciones'],
+  ): Promise<void> {
+    if (!this.hasGeoScope(accessFilter)) {
+      return;
+    }
+
+    if (!direcciones || direcciones.length === 0) {
+      throw new UnauthorizedException(
+        'No tienes permisos para guardar clientes sin una dirección dentro de tu alcance geográfico.',
+      );
+    }
+
+    const municipalityDepartmentCache = new Map<string, string | null>();
+    const zonaIds = accessFilter.zonaIds ?? [];
+    const municipalityIds = accessFilter.municipalityIds ?? [];
+    const departmentIds = accessFilter.departmentIds ?? [];
+
+    for (const direccion of direcciones) {
+      const rawDireccion = direccion as {
+        zonaId?: unknown;
+        municipioId?: unknown;
+        departmentId?: unknown;
+      };
+      const zonaId =
+        typeof rawDireccion.zonaId === 'string'
+          ? rawDireccion.zonaId
+          : undefined;
+      const municipioId =
+        typeof rawDireccion.municipioId === 'string'
+          ? rawDireccion.municipioId
+          : undefined;
+      const departmentId =
+        typeof rawDireccion.departmentId === 'string'
+          ? rawDireccion.departmentId
+          : undefined;
+
+      if (zonaIds.length > 0) {
+        if (!zonaId || !zonaIds.includes(zonaId)) {
+          throw new UnauthorizedException(
+            'La dirección del cliente no está dentro de tu alcance geográfico.',
+          );
+        }
+      }
+
+      if (municipalityIds.length > 0) {
+        if (!municipioId || !municipalityIds.includes(municipioId)) {
+          throw new UnauthorizedException(
+            'La dirección del cliente no está dentro de tu alcance geográfico.',
+          );
+        }
+      }
+
+      if (departmentIds.length > 0) {
+        const resolvedDepartmentId =
+          departmentId ||
+          (municipioId
+            ? await this.resolveMunicipalityDepartmentId(
+                municipioId,
+                municipalityDepartmentCache,
+              )
+            : null);
+
+        if (
+          !resolvedDepartmentId ||
+          !departmentIds.includes(resolvedDepartmentId)
+        ) {
+          throw new UnauthorizedException(
+            'La dirección del cliente no está dentro de tu alcance geográfico.',
+          );
+        }
+      }
+    }
   }
 
   private buildSegmentedFromClients(clients: ClienteWithRelations[]) {
@@ -149,11 +294,12 @@ export class ClientesService {
   async findAll(user: JwtPayload, reqEmpresaId?: string): Promise<Cliente[]> {
     const accessFilter = getPrismaAccessFilter(user, reqEmpresaId);
     const empresaWhere = this.buildEmpresaWhere(accessFilter.empresaId);
+    const clienteDireccionesInclude =
+      this.buildClienteDireccionesInclude(accessFilter);
+    const direccionGeoWhere = this.buildDireccionGeoWhere(accessFilter);
 
     const include: Prisma.ClienteInclude = {
-      direcciones: {
-        include: { municipioRel: true },
-      },
+      direcciones: clienteDireccionesInclude,
       vehiculos: true,
       tipoInteres: true,
       tenant: user.isGlobalSuAdmin,
@@ -166,10 +312,10 @@ export class ClientesService {
       ordenesServicio: {
         where: {
           ...(empresaWhere ? { empresaId: empresaWhere } : {}),
-          ...((accessFilter.zonaIds || []).length > 0
+          ...(direccionGeoWhere
             ? {
-                zonaId: {
-                  in: accessFilter.zonaIds,
+                direccion: {
+                  is: direccionGeoWhere,
                 },
               }
             : {}),
@@ -230,13 +376,14 @@ export class ClientesService {
   async getSegmented(user: JwtPayload, reqEmpresaId?: string) {
     const accessFilter = getPrismaAccessFilter(user, reqEmpresaId);
     const empresaWhere = this.buildEmpresaWhere(accessFilter.empresaId);
+    const clienteDireccionesInclude =
+      this.buildClienteDireccionesInclude(accessFilter);
+    const direccionGeoWhere = this.buildDireccionGeoWhere(accessFilter);
 
     const clients = await this.prisma.cliente.findMany({
       where: this.buildClienteWhere(accessFilter, { deletedAt: null }),
       include: {
-        direcciones: {
-          include: { municipioRel: true },
-        },
+        direcciones: clienteDireccionesInclude,
         vehiculos: true,
         tipoInteres: true,
         configuracionesOperativas: {
@@ -247,10 +394,10 @@ export class ClientesService {
         ordenesServicio: {
           where: {
             ...(empresaWhere ? { empresaId: empresaWhere } : {}),
-            ...((accessFilter.zonaIds || []).length > 0
+            ...(direccionGeoWhere
               ? {
-                  zonaId: {
-                    in: accessFilter.zonaIds,
+                  direccion: {
+                    is: direccionGeoWhere,
                   },
                 }
               : {}),
@@ -300,6 +447,10 @@ export class ClientesService {
     void _empresaId;
 
     const accessFilter = getPrismaAccessFilter(user, reqEmpresaId);
+    await this.assertClienteDireccionesWithinGeoScope(
+      accessFilter,
+      direcciones,
+    );
 
     // Resolve the actual empresaId for creation.
     // If multiple are allowed, we use the first one or the requested one.
@@ -404,13 +555,13 @@ export class ClientesService {
 
   async findOne(id: string, user: JwtPayload): Promise<Cliente | null> {
     const accessFilter = getPrismaAccessFilter(user);
+    const clienteDireccionesInclude =
+      this.buildClienteDireccionesInclude(accessFilter);
 
     return this.prisma.cliente.findFirst({
       where: this.buildClienteWhere(accessFilter, { id, deletedAt: null }),
       include: {
-        direcciones: {
-          include: { municipioRel: true },
-        },
+        direcciones: clienteDireccionesInclude,
         vehiculos: true,
         tipoInteres: true,
         empresa: true,
@@ -448,6 +599,10 @@ export class ClientesService {
     }
 
     const { direcciones, vehiculos, metrajeTotal, ...restDto } = dto;
+    await this.assertClienteDireccionesWithinGeoScope(
+      accessFilter,
+      direcciones,
+    );
 
     const toDecimal = (val: unknown, decimals: number = 2) => {
       if (val === null || val === undefined || val === '') return null;

@@ -314,6 +314,8 @@ export type TenantMembershipWhereInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoListRelationFilter
   referidos?: Prisma.ReferidosListRelationFilter
   sesionesActividad?: Prisma.SesionActividadListRelationFilter
+  departmentScopes?: Prisma.TenantMembershipDepartmentScopeListRelationFilter
+  municipalityScopes?: Prisma.TenantMembershipMunicipalityScopeListRelationFilter
   municipio?: Prisma.XOR<Prisma.MunicipalityNullableScalarRelationFilter, Prisma.MunicipalityWhereInput> | null
   tenant?: Prisma.XOR<Prisma.TenantScalarRelationFilter, Prisma.TenantWhereInput>
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
@@ -367,6 +369,8 @@ export type TenantMembershipOrderByWithRelationInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoOrderByRelationAggregateInput
   referidos?: Prisma.ReferidosOrderByRelationAggregateInput
   sesionesActividad?: Prisma.SesionActividadOrderByRelationAggregateInput
+  departmentScopes?: Prisma.TenantMembershipDepartmentScopeOrderByRelationAggregateInput
+  municipalityScopes?: Prisma.TenantMembershipMunicipalityScopeOrderByRelationAggregateInput
   municipio?: Prisma.MunicipalityOrderByWithRelationInput
   tenant?: Prisma.TenantOrderByWithRelationInput
   user?: Prisma.UserOrderByWithRelationInput
@@ -424,6 +428,8 @@ export type TenantMembershipWhereUniqueInput = Prisma.AtLeast<{
   productosSolicitados?: Prisma.ProductoSolicitadoListRelationFilter
   referidos?: Prisma.ReferidosListRelationFilter
   sesionesActividad?: Prisma.SesionActividadListRelationFilter
+  departmentScopes?: Prisma.TenantMembershipDepartmentScopeListRelationFilter
+  municipalityScopes?: Prisma.TenantMembershipMunicipalityScopeListRelationFilter
   municipio?: Prisma.XOR<Prisma.MunicipalityNullableScalarRelationFilter, Prisma.MunicipalityWhereInput> | null
   tenant?: Prisma.XOR<Prisma.TenantScalarRelationFilter, Prisma.TenantWhereInput>
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
@@ -522,6 +528,8 @@ export type TenantMembershipCreateInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoCreateNestedManyWithoutMembershipInput
   referidos?: Prisma.ReferidosCreateNestedManyWithoutMembershipInput
   sesionesActividad?: Prisma.SesionActividadCreateNestedManyWithoutMembershipInput
+  departmentScopes?: Prisma.TenantMembershipDepartmentScopeCreateNestedManyWithoutMembershipInput
+  municipalityScopes?: Prisma.TenantMembershipMunicipalityScopeCreateNestedManyWithoutMembershipInput
   municipio?: Prisma.MunicipalityCreateNestedOneWithoutMembershipsInput
   tenant: Prisma.TenantCreateNestedOneWithoutMembershipsInput
   user: Prisma.UserCreateNestedOneWithoutMembershipsInput
@@ -575,6 +583,8 @@ export type TenantMembershipUncheckedCreateInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUncheckedCreateNestedManyWithoutMembershipInput
   referidos?: Prisma.ReferidosUncheckedCreateNestedManyWithoutMembershipInput
   sesionesActividad?: Prisma.SesionActividadUncheckedCreateNestedManyWithoutMembershipInput
+  departmentScopes?: Prisma.TenantMembershipDepartmentScopeUncheckedCreateNestedManyWithoutMembershipInput
+  municipalityScopes?: Prisma.TenantMembershipMunicipalityScopeUncheckedCreateNestedManyWithoutMembershipInput
   turnos?: Prisma.TurnoUncheckedCreateNestedManyWithoutMembershipInput
 }
 
@@ -622,6 +632,8 @@ export type TenantMembershipUpdateInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUpdateManyWithoutMembershipNestedInput
   referidos?: Prisma.ReferidosUpdateManyWithoutMembershipNestedInput
   sesionesActividad?: Prisma.SesionActividadUpdateManyWithoutMembershipNestedInput
+  departmentScopes?: Prisma.TenantMembershipDepartmentScopeUpdateManyWithoutMembershipNestedInput
+  municipalityScopes?: Prisma.TenantMembershipMunicipalityScopeUpdateManyWithoutMembershipNestedInput
   municipio?: Prisma.MunicipalityUpdateOneWithoutMembershipsNestedInput
   tenant?: Prisma.TenantUpdateOneRequiredWithoutMembershipsNestedInput
   user?: Prisma.UserUpdateOneRequiredWithoutMembershipsNestedInput
@@ -675,6 +687,8 @@ export type TenantMembershipUncheckedUpdateInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUncheckedUpdateManyWithoutMembershipNestedInput
   referidos?: Prisma.ReferidosUncheckedUpdateManyWithoutMembershipNestedInput
   sesionesActividad?: Prisma.SesionActividadUncheckedUpdateManyWithoutMembershipNestedInput
+  departmentScopes?: Prisma.TenantMembershipDepartmentScopeUncheckedUpdateManyWithoutMembershipNestedInput
+  municipalityScopes?: Prisma.TenantMembershipMunicipalityScopeUncheckedUpdateManyWithoutMembershipNestedInput
   turnos?: Prisma.TurnoUncheckedUpdateManyWithoutMembershipNestedInput
 }
 
@@ -990,6 +1004,34 @@ export type TenantMembershipUncheckedUpdateManyWithoutMunicipioNestedInput = {
   update?: Prisma.TenantMembershipUpdateWithWhereUniqueWithoutMunicipioInput | Prisma.TenantMembershipUpdateWithWhereUniqueWithoutMunicipioInput[]
   updateMany?: Prisma.TenantMembershipUpdateManyWithWhereWithoutMunicipioInput | Prisma.TenantMembershipUpdateManyWithWhereWithoutMunicipioInput[]
   deleteMany?: Prisma.TenantMembershipScalarWhereInput | Prisma.TenantMembershipScalarWhereInput[]
+}
+
+export type TenantMembershipCreateNestedOneWithoutDepartmentScopesInput = {
+  create?: Prisma.XOR<Prisma.TenantMembershipCreateWithoutDepartmentScopesInput, Prisma.TenantMembershipUncheckedCreateWithoutDepartmentScopesInput>
+  connectOrCreate?: Prisma.TenantMembershipCreateOrConnectWithoutDepartmentScopesInput
+  connect?: Prisma.TenantMembershipWhereUniqueInput
+}
+
+export type TenantMembershipUpdateOneRequiredWithoutDepartmentScopesNestedInput = {
+  create?: Prisma.XOR<Prisma.TenantMembershipCreateWithoutDepartmentScopesInput, Prisma.TenantMembershipUncheckedCreateWithoutDepartmentScopesInput>
+  connectOrCreate?: Prisma.TenantMembershipCreateOrConnectWithoutDepartmentScopesInput
+  upsert?: Prisma.TenantMembershipUpsertWithoutDepartmentScopesInput
+  connect?: Prisma.TenantMembershipWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.TenantMembershipUpdateToOneWithWhereWithoutDepartmentScopesInput, Prisma.TenantMembershipUpdateWithoutDepartmentScopesInput>, Prisma.TenantMembershipUncheckedUpdateWithoutDepartmentScopesInput>
+}
+
+export type TenantMembershipCreateNestedOneWithoutMunicipalityScopesInput = {
+  create?: Prisma.XOR<Prisma.TenantMembershipCreateWithoutMunicipalityScopesInput, Prisma.TenantMembershipUncheckedCreateWithoutMunicipalityScopesInput>
+  connectOrCreate?: Prisma.TenantMembershipCreateOrConnectWithoutMunicipalityScopesInput
+  connect?: Prisma.TenantMembershipWhereUniqueInput
+}
+
+export type TenantMembershipUpdateOneRequiredWithoutMunicipalityScopesNestedInput = {
+  create?: Prisma.XOR<Prisma.TenantMembershipCreateWithoutMunicipalityScopesInput, Prisma.TenantMembershipUncheckedCreateWithoutMunicipalityScopesInput>
+  connectOrCreate?: Prisma.TenantMembershipCreateOrConnectWithoutMunicipalityScopesInput
+  upsert?: Prisma.TenantMembershipUpsertWithoutMunicipalityScopesInput
+  connect?: Prisma.TenantMembershipWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.TenantMembershipUpdateToOneWithWhereWithoutMunicipalityScopesInput, Prisma.TenantMembershipUpdateWithoutMunicipalityScopesInput>, Prisma.TenantMembershipUncheckedUpdateWithoutMunicipalityScopesInput>
 }
 
 export type TenantMembershipCreateNestedOneWithoutClientesCreadosInput = {
@@ -1438,6 +1480,8 @@ export type TenantMembershipCreateWithoutUserInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoCreateNestedManyWithoutMembershipInput
   referidos?: Prisma.ReferidosCreateNestedManyWithoutMembershipInput
   sesionesActividad?: Prisma.SesionActividadCreateNestedManyWithoutMembershipInput
+  departmentScopes?: Prisma.TenantMembershipDepartmentScopeCreateNestedManyWithoutMembershipInput
+  municipalityScopes?: Prisma.TenantMembershipMunicipalityScopeCreateNestedManyWithoutMembershipInput
   municipio?: Prisma.MunicipalityCreateNestedOneWithoutMembershipsInput
   tenant: Prisma.TenantCreateNestedOneWithoutMembershipsInput
   turnos?: Prisma.TurnoCreateNestedManyWithoutMembershipInput
@@ -1489,6 +1533,8 @@ export type TenantMembershipUncheckedCreateWithoutUserInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUncheckedCreateNestedManyWithoutMembershipInput
   referidos?: Prisma.ReferidosUncheckedCreateNestedManyWithoutMembershipInput
   sesionesActividad?: Prisma.SesionActividadUncheckedCreateNestedManyWithoutMembershipInput
+  departmentScopes?: Prisma.TenantMembershipDepartmentScopeUncheckedCreateNestedManyWithoutMembershipInput
+  municipalityScopes?: Prisma.TenantMembershipMunicipalityScopeUncheckedCreateNestedManyWithoutMembershipInput
   turnos?: Prisma.TurnoUncheckedCreateNestedManyWithoutMembershipInput
 }
 
@@ -1586,6 +1632,8 @@ export type TenantMembershipCreateWithoutTenantInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoCreateNestedManyWithoutMembershipInput
   referidos?: Prisma.ReferidosCreateNestedManyWithoutMembershipInput
   sesionesActividad?: Prisma.SesionActividadCreateNestedManyWithoutMembershipInput
+  departmentScopes?: Prisma.TenantMembershipDepartmentScopeCreateNestedManyWithoutMembershipInput
+  municipalityScopes?: Prisma.TenantMembershipMunicipalityScopeCreateNestedManyWithoutMembershipInput
   municipio?: Prisma.MunicipalityCreateNestedOneWithoutMembershipsInput
   user: Prisma.UserCreateNestedOneWithoutMembershipsInput
   turnos?: Prisma.TurnoCreateNestedManyWithoutMembershipInput
@@ -1637,6 +1685,8 @@ export type TenantMembershipUncheckedCreateWithoutTenantInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUncheckedCreateNestedManyWithoutMembershipInput
   referidos?: Prisma.ReferidosUncheckedCreateNestedManyWithoutMembershipInput
   sesionesActividad?: Prisma.SesionActividadUncheckedCreateNestedManyWithoutMembershipInput
+  departmentScopes?: Prisma.TenantMembershipDepartmentScopeUncheckedCreateNestedManyWithoutMembershipInput
+  municipalityScopes?: Prisma.TenantMembershipMunicipalityScopeUncheckedCreateNestedManyWithoutMembershipInput
   turnos?: Prisma.TurnoUncheckedCreateNestedManyWithoutMembershipInput
 }
 
@@ -1709,6 +1759,8 @@ export type TenantMembershipCreateWithoutDashboardPresetsInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoCreateNestedManyWithoutMembershipInput
   referidos?: Prisma.ReferidosCreateNestedManyWithoutMembershipInput
   sesionesActividad?: Prisma.SesionActividadCreateNestedManyWithoutMembershipInput
+  departmentScopes?: Prisma.TenantMembershipDepartmentScopeCreateNestedManyWithoutMembershipInput
+  municipalityScopes?: Prisma.TenantMembershipMunicipalityScopeCreateNestedManyWithoutMembershipInput
   municipio?: Prisma.MunicipalityCreateNestedOneWithoutMembershipsInput
   tenant: Prisma.TenantCreateNestedOneWithoutMembershipsInput
   user: Prisma.UserCreateNestedOneWithoutMembershipsInput
@@ -1761,6 +1813,8 @@ export type TenantMembershipUncheckedCreateWithoutDashboardPresetsInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUncheckedCreateNestedManyWithoutMembershipInput
   referidos?: Prisma.ReferidosUncheckedCreateNestedManyWithoutMembershipInput
   sesionesActividad?: Prisma.SesionActividadUncheckedCreateNestedManyWithoutMembershipInput
+  departmentScopes?: Prisma.TenantMembershipDepartmentScopeUncheckedCreateNestedManyWithoutMembershipInput
+  municipalityScopes?: Prisma.TenantMembershipMunicipalityScopeUncheckedCreateNestedManyWithoutMembershipInput
   turnos?: Prisma.TurnoUncheckedCreateNestedManyWithoutMembershipInput
 }
 
@@ -1823,6 +1877,8 @@ export type TenantMembershipUpdateWithoutDashboardPresetsInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUpdateManyWithoutMembershipNestedInput
   referidos?: Prisma.ReferidosUpdateManyWithoutMembershipNestedInput
   sesionesActividad?: Prisma.SesionActividadUpdateManyWithoutMembershipNestedInput
+  departmentScopes?: Prisma.TenantMembershipDepartmentScopeUpdateManyWithoutMembershipNestedInput
+  municipalityScopes?: Prisma.TenantMembershipMunicipalityScopeUpdateManyWithoutMembershipNestedInput
   municipio?: Prisma.MunicipalityUpdateOneWithoutMembershipsNestedInput
   tenant?: Prisma.TenantUpdateOneRequiredWithoutMembershipsNestedInput
   user?: Prisma.UserUpdateOneRequiredWithoutMembershipsNestedInput
@@ -1875,6 +1931,8 @@ export type TenantMembershipUncheckedUpdateWithoutDashboardPresetsInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUncheckedUpdateManyWithoutMembershipNestedInput
   referidos?: Prisma.ReferidosUncheckedUpdateManyWithoutMembershipNestedInput
   sesionesActividad?: Prisma.SesionActividadUncheckedUpdateManyWithoutMembershipNestedInput
+  departmentScopes?: Prisma.TenantMembershipDepartmentScopeUncheckedUpdateManyWithoutMembershipNestedInput
+  municipalityScopes?: Prisma.TenantMembershipMunicipalityScopeUncheckedUpdateManyWithoutMembershipNestedInput
   turnos?: Prisma.TurnoUncheckedUpdateManyWithoutMembershipNestedInput
 }
 
@@ -1921,6 +1979,8 @@ export type TenantMembershipCreateWithoutEmpresaMembershipsInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoCreateNestedManyWithoutMembershipInput
   referidos?: Prisma.ReferidosCreateNestedManyWithoutMembershipInput
   sesionesActividad?: Prisma.SesionActividadCreateNestedManyWithoutMembershipInput
+  departmentScopes?: Prisma.TenantMembershipDepartmentScopeCreateNestedManyWithoutMembershipInput
+  municipalityScopes?: Prisma.TenantMembershipMunicipalityScopeCreateNestedManyWithoutMembershipInput
   municipio?: Prisma.MunicipalityCreateNestedOneWithoutMembershipsInput
   tenant: Prisma.TenantCreateNestedOneWithoutMembershipsInput
   user: Prisma.UserCreateNestedOneWithoutMembershipsInput
@@ -1973,6 +2033,8 @@ export type TenantMembershipUncheckedCreateWithoutEmpresaMembershipsInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUncheckedCreateNestedManyWithoutMembershipInput
   referidos?: Prisma.ReferidosUncheckedCreateNestedManyWithoutMembershipInput
   sesionesActividad?: Prisma.SesionActividadUncheckedCreateNestedManyWithoutMembershipInput
+  departmentScopes?: Prisma.TenantMembershipDepartmentScopeUncheckedCreateNestedManyWithoutMembershipInput
+  municipalityScopes?: Prisma.TenantMembershipMunicipalityScopeUncheckedCreateNestedManyWithoutMembershipInput
   turnos?: Prisma.TurnoUncheckedCreateNestedManyWithoutMembershipInput
 }
 
@@ -2035,6 +2097,8 @@ export type TenantMembershipUpdateWithoutEmpresaMembershipsInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUpdateManyWithoutMembershipNestedInput
   referidos?: Prisma.ReferidosUpdateManyWithoutMembershipNestedInput
   sesionesActividad?: Prisma.SesionActividadUpdateManyWithoutMembershipNestedInput
+  departmentScopes?: Prisma.TenantMembershipDepartmentScopeUpdateManyWithoutMembershipNestedInput
+  municipalityScopes?: Prisma.TenantMembershipMunicipalityScopeUpdateManyWithoutMembershipNestedInput
   municipio?: Prisma.MunicipalityUpdateOneWithoutMembershipsNestedInput
   tenant?: Prisma.TenantUpdateOneRequiredWithoutMembershipsNestedInput
   user?: Prisma.UserUpdateOneRequiredWithoutMembershipsNestedInput
@@ -2087,6 +2151,8 @@ export type TenantMembershipUncheckedUpdateWithoutEmpresaMembershipsInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUncheckedUpdateManyWithoutMembershipNestedInput
   referidos?: Prisma.ReferidosUncheckedUpdateManyWithoutMembershipNestedInput
   sesionesActividad?: Prisma.SesionActividadUncheckedUpdateManyWithoutMembershipNestedInput
+  departmentScopes?: Prisma.TenantMembershipDepartmentScopeUncheckedUpdateManyWithoutMembershipNestedInput
+  municipalityScopes?: Prisma.TenantMembershipMunicipalityScopeUncheckedUpdateManyWithoutMembershipNestedInput
   turnos?: Prisma.TurnoUncheckedUpdateManyWithoutMembershipNestedInput
 }
 
@@ -2134,6 +2200,8 @@ export type TenantMembershipCreateWithoutMunicipioInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoCreateNestedManyWithoutMembershipInput
   referidos?: Prisma.ReferidosCreateNestedManyWithoutMembershipInput
   sesionesActividad?: Prisma.SesionActividadCreateNestedManyWithoutMembershipInput
+  departmentScopes?: Prisma.TenantMembershipDepartmentScopeCreateNestedManyWithoutMembershipInput
+  municipalityScopes?: Prisma.TenantMembershipMunicipalityScopeCreateNestedManyWithoutMembershipInput
   tenant: Prisma.TenantCreateNestedOneWithoutMembershipsInput
   user: Prisma.UserCreateNestedOneWithoutMembershipsInput
   turnos?: Prisma.TurnoCreateNestedManyWithoutMembershipInput
@@ -2185,6 +2253,8 @@ export type TenantMembershipUncheckedCreateWithoutMunicipioInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUncheckedCreateNestedManyWithoutMembershipInput
   referidos?: Prisma.ReferidosUncheckedCreateNestedManyWithoutMembershipInput
   sesionesActividad?: Prisma.SesionActividadUncheckedCreateNestedManyWithoutMembershipInput
+  departmentScopes?: Prisma.TenantMembershipDepartmentScopeUncheckedCreateNestedManyWithoutMembershipInput
+  municipalityScopes?: Prisma.TenantMembershipMunicipalityScopeUncheckedCreateNestedManyWithoutMembershipInput
   turnos?: Prisma.TurnoUncheckedCreateNestedManyWithoutMembershipInput
 }
 
@@ -2212,6 +2282,446 @@ export type TenantMembershipUpdateWithWhereUniqueWithoutMunicipioInput = {
 export type TenantMembershipUpdateManyWithWhereWithoutMunicipioInput = {
   where: Prisma.TenantMembershipScalarWhereInput
   data: Prisma.XOR<Prisma.TenantMembershipUpdateManyMutationInput, Prisma.TenantMembershipUncheckedUpdateManyWithoutMunicipioInput>
+}
+
+export type TenantMembershipCreateWithoutDepartmentScopesInput = {
+  id?: string
+  role: $Enums.Role
+  status?: $Enums.MembershipStatus
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  activo?: boolean
+  aprobado?: boolean
+  codigoReferido?: string | null
+  moto?: boolean | null
+  numberId?: string | null
+  placa?: string | null
+  pushToken?: string | null
+  username?: string | null
+  whatsappGroupId?: string | null
+  direccion?: string | null
+  anticipos?: Prisma.AnticiposCreateNestedManyWithoutMembershipInput
+  auditorias?: Prisma.AuditoriaCreateNestedManyWithoutMembershipInput
+  citasComoCreador?: Prisma.CitasPsicologosCreateNestedManyWithoutCreadoPorInput
+  citasComoPsicologo?: Prisma.CitasPsicologosCreateNestedManyWithoutPsicologoInput
+  clientesCreados?: Prisma.ClienteCreateNestedManyWithoutCreadoPorInput
+  configuracionPagos?: Prisma.ConfiguracionPagosCreateNestedManyWithoutMembershipInput
+  consignacionesCreadas?: Prisma.ConsignacionEfectivoCreateNestedManyWithoutCreadoPorInput
+  consignacionesTecnico?: Prisma.ConsignacionEfectivoCreateNestedManyWithoutTecnicoInput
+  cuentasCobro?: Prisma.CuentaCobroCreateNestedManyWithoutMembershipInput
+  cuentasPago?: Prisma.CuentasPagoCreateNestedManyWithoutMembershipInput
+  dashboardPresets?: Prisma.DashboardPresetCreateNestedManyWithoutCreatedByMembershipInput
+  declaracionesEfectivo?: Prisma.DeclaracionEfectivoCreateNestedManyWithoutTecnicoInput
+  egresos?: Prisma.EgresosCreateNestedManyWithoutMembershipInput
+  empresaMemberships?: Prisma.EmpresaMembershipCreateNestedManyWithoutMembershipInput
+  geolocalizaciones?: Prisma.GeolocalizacionCreateNestedManyWithoutMembershipInput
+  nominas?: Prisma.NominaCreateNestedManyWithoutMembershipInput
+  serviciosCreados?: Prisma.OrdenServicioCreateNestedManyWithoutCreadoPorInput
+  serviciosEliminados?: Prisma.OrdenServicioCreateNestedManyWithoutDeletedByInput
+  serviciosLiquidados?: Prisma.OrdenServicioCreateNestedManyWithoutLiquidadoPorInput
+  serviciosAsignados?: Prisma.OrdenServicioCreateNestedManyWithoutTecnicoInput
+  seguimientosCompletados?: Prisma.OrdenServicioSeguimientoCreateNestedManyWithoutCompletedByMembershipInput
+  seguimientosCreados?: Prisma.OrdenServicioSeguimientoCreateNestedManyWithoutCreatedByMembershipInput
+  paquetesAdquiridos?: Prisma.PaqueteAdquiridoCreateNestedManyWithoutMembershipInput
+  permisosAprobados?: Prisma.PermisoCreateNestedManyWithoutAdminInput
+  permisosSolicitados?: Prisma.PermisoCreateNestedManyWithoutMembershipInput
+  productosSolicitados?: Prisma.ProductoSolicitadoCreateNestedManyWithoutMembershipInput
+  referidos?: Prisma.ReferidosCreateNestedManyWithoutMembershipInput
+  sesionesActividad?: Prisma.SesionActividadCreateNestedManyWithoutMembershipInput
+  municipalityScopes?: Prisma.TenantMembershipMunicipalityScopeCreateNestedManyWithoutMembershipInput
+  municipio?: Prisma.MunicipalityCreateNestedOneWithoutMembershipsInput
+  tenant: Prisma.TenantCreateNestedOneWithoutMembershipsInput
+  user: Prisma.UserCreateNestedOneWithoutMembershipsInput
+  turnos?: Prisma.TurnoCreateNestedManyWithoutMembershipInput
+}
+
+export type TenantMembershipUncheckedCreateWithoutDepartmentScopesInput = {
+  id?: string
+  userId: string
+  tenantId: string
+  role: $Enums.Role
+  status?: $Enums.MembershipStatus
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  activo?: boolean
+  aprobado?: boolean
+  codigoReferido?: string | null
+  moto?: boolean | null
+  numberId?: string | null
+  placa?: string | null
+  pushToken?: string | null
+  username?: string | null
+  whatsappGroupId?: string | null
+  direccion?: string | null
+  municipioId?: string | null
+  anticipos?: Prisma.AnticiposUncheckedCreateNestedManyWithoutMembershipInput
+  auditorias?: Prisma.AuditoriaUncheckedCreateNestedManyWithoutMembershipInput
+  citasComoCreador?: Prisma.CitasPsicologosUncheckedCreateNestedManyWithoutCreadoPorInput
+  citasComoPsicologo?: Prisma.CitasPsicologosUncheckedCreateNestedManyWithoutPsicologoInput
+  clientesCreados?: Prisma.ClienteUncheckedCreateNestedManyWithoutCreadoPorInput
+  configuracionPagos?: Prisma.ConfiguracionPagosUncheckedCreateNestedManyWithoutMembershipInput
+  consignacionesCreadas?: Prisma.ConsignacionEfectivoUncheckedCreateNestedManyWithoutCreadoPorInput
+  consignacionesTecnico?: Prisma.ConsignacionEfectivoUncheckedCreateNestedManyWithoutTecnicoInput
+  cuentasCobro?: Prisma.CuentaCobroUncheckedCreateNestedManyWithoutMembershipInput
+  cuentasPago?: Prisma.CuentasPagoUncheckedCreateNestedManyWithoutMembershipInput
+  dashboardPresets?: Prisma.DashboardPresetUncheckedCreateNestedManyWithoutCreatedByMembershipInput
+  declaracionesEfectivo?: Prisma.DeclaracionEfectivoUncheckedCreateNestedManyWithoutTecnicoInput
+  egresos?: Prisma.EgresosUncheckedCreateNestedManyWithoutMembershipInput
+  empresaMemberships?: Prisma.EmpresaMembershipUncheckedCreateNestedManyWithoutMembershipInput
+  geolocalizaciones?: Prisma.GeolocalizacionUncheckedCreateNestedManyWithoutMembershipInput
+  nominas?: Prisma.NominaUncheckedCreateNestedManyWithoutMembershipInput
+  serviciosCreados?: Prisma.OrdenServicioUncheckedCreateNestedManyWithoutCreadoPorInput
+  serviciosEliminados?: Prisma.OrdenServicioUncheckedCreateNestedManyWithoutDeletedByInput
+  serviciosLiquidados?: Prisma.OrdenServicioUncheckedCreateNestedManyWithoutLiquidadoPorInput
+  serviciosAsignados?: Prisma.OrdenServicioUncheckedCreateNestedManyWithoutTecnicoInput
+  seguimientosCompletados?: Prisma.OrdenServicioSeguimientoUncheckedCreateNestedManyWithoutCompletedByMembershipInput
+  seguimientosCreados?: Prisma.OrdenServicioSeguimientoUncheckedCreateNestedManyWithoutCreatedByMembershipInput
+  paquetesAdquiridos?: Prisma.PaqueteAdquiridoUncheckedCreateNestedManyWithoutMembershipInput
+  permisosAprobados?: Prisma.PermisoUncheckedCreateNestedManyWithoutAdminInput
+  permisosSolicitados?: Prisma.PermisoUncheckedCreateNestedManyWithoutMembershipInput
+  productosSolicitados?: Prisma.ProductoSolicitadoUncheckedCreateNestedManyWithoutMembershipInput
+  referidos?: Prisma.ReferidosUncheckedCreateNestedManyWithoutMembershipInput
+  sesionesActividad?: Prisma.SesionActividadUncheckedCreateNestedManyWithoutMembershipInput
+  municipalityScopes?: Prisma.TenantMembershipMunicipalityScopeUncheckedCreateNestedManyWithoutMembershipInput
+  turnos?: Prisma.TurnoUncheckedCreateNestedManyWithoutMembershipInput
+}
+
+export type TenantMembershipCreateOrConnectWithoutDepartmentScopesInput = {
+  where: Prisma.TenantMembershipWhereUniqueInput
+  create: Prisma.XOR<Prisma.TenantMembershipCreateWithoutDepartmentScopesInput, Prisma.TenantMembershipUncheckedCreateWithoutDepartmentScopesInput>
+}
+
+export type TenantMembershipUpsertWithoutDepartmentScopesInput = {
+  update: Prisma.XOR<Prisma.TenantMembershipUpdateWithoutDepartmentScopesInput, Prisma.TenantMembershipUncheckedUpdateWithoutDepartmentScopesInput>
+  create: Prisma.XOR<Prisma.TenantMembershipCreateWithoutDepartmentScopesInput, Prisma.TenantMembershipUncheckedCreateWithoutDepartmentScopesInput>
+  where?: Prisma.TenantMembershipWhereInput
+}
+
+export type TenantMembershipUpdateToOneWithWhereWithoutDepartmentScopesInput = {
+  where?: Prisma.TenantMembershipWhereInput
+  data: Prisma.XOR<Prisma.TenantMembershipUpdateWithoutDepartmentScopesInput, Prisma.TenantMembershipUncheckedUpdateWithoutDepartmentScopesInput>
+}
+
+export type TenantMembershipUpdateWithoutDepartmentScopesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  status?: Prisma.EnumMembershipStatusFieldUpdateOperationsInput | $Enums.MembershipStatus
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  aprobado?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  codigoReferido?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  moto?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  numberId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  placa?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pushToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  whatsappGroupId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  direccion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  anticipos?: Prisma.AnticiposUpdateManyWithoutMembershipNestedInput
+  auditorias?: Prisma.AuditoriaUpdateManyWithoutMembershipNestedInput
+  citasComoCreador?: Prisma.CitasPsicologosUpdateManyWithoutCreadoPorNestedInput
+  citasComoPsicologo?: Prisma.CitasPsicologosUpdateManyWithoutPsicologoNestedInput
+  clientesCreados?: Prisma.ClienteUpdateManyWithoutCreadoPorNestedInput
+  configuracionPagos?: Prisma.ConfiguracionPagosUpdateManyWithoutMembershipNestedInput
+  consignacionesCreadas?: Prisma.ConsignacionEfectivoUpdateManyWithoutCreadoPorNestedInput
+  consignacionesTecnico?: Prisma.ConsignacionEfectivoUpdateManyWithoutTecnicoNestedInput
+  cuentasCobro?: Prisma.CuentaCobroUpdateManyWithoutMembershipNestedInput
+  cuentasPago?: Prisma.CuentasPagoUpdateManyWithoutMembershipNestedInput
+  dashboardPresets?: Prisma.DashboardPresetUpdateManyWithoutCreatedByMembershipNestedInput
+  declaracionesEfectivo?: Prisma.DeclaracionEfectivoUpdateManyWithoutTecnicoNestedInput
+  egresos?: Prisma.EgresosUpdateManyWithoutMembershipNestedInput
+  empresaMemberships?: Prisma.EmpresaMembershipUpdateManyWithoutMembershipNestedInput
+  geolocalizaciones?: Prisma.GeolocalizacionUpdateManyWithoutMembershipNestedInput
+  nominas?: Prisma.NominaUpdateManyWithoutMembershipNestedInput
+  serviciosCreados?: Prisma.OrdenServicioUpdateManyWithoutCreadoPorNestedInput
+  serviciosEliminados?: Prisma.OrdenServicioUpdateManyWithoutDeletedByNestedInput
+  serviciosLiquidados?: Prisma.OrdenServicioUpdateManyWithoutLiquidadoPorNestedInput
+  serviciosAsignados?: Prisma.OrdenServicioUpdateManyWithoutTecnicoNestedInput
+  seguimientosCompletados?: Prisma.OrdenServicioSeguimientoUpdateManyWithoutCompletedByMembershipNestedInput
+  seguimientosCreados?: Prisma.OrdenServicioSeguimientoUpdateManyWithoutCreatedByMembershipNestedInput
+  paquetesAdquiridos?: Prisma.PaqueteAdquiridoUpdateManyWithoutMembershipNestedInput
+  permisosAprobados?: Prisma.PermisoUpdateManyWithoutAdminNestedInput
+  permisosSolicitados?: Prisma.PermisoUpdateManyWithoutMembershipNestedInput
+  productosSolicitados?: Prisma.ProductoSolicitadoUpdateManyWithoutMembershipNestedInput
+  referidos?: Prisma.ReferidosUpdateManyWithoutMembershipNestedInput
+  sesionesActividad?: Prisma.SesionActividadUpdateManyWithoutMembershipNestedInput
+  municipalityScopes?: Prisma.TenantMembershipMunicipalityScopeUpdateManyWithoutMembershipNestedInput
+  municipio?: Prisma.MunicipalityUpdateOneWithoutMembershipsNestedInput
+  tenant?: Prisma.TenantUpdateOneRequiredWithoutMembershipsNestedInput
+  user?: Prisma.UserUpdateOneRequiredWithoutMembershipsNestedInput
+  turnos?: Prisma.TurnoUpdateManyWithoutMembershipNestedInput
+}
+
+export type TenantMembershipUncheckedUpdateWithoutDepartmentScopesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  userId?: Prisma.StringFieldUpdateOperationsInput | string
+  tenantId?: Prisma.StringFieldUpdateOperationsInput | string
+  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  status?: Prisma.EnumMembershipStatusFieldUpdateOperationsInput | $Enums.MembershipStatus
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  aprobado?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  codigoReferido?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  moto?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  numberId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  placa?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pushToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  whatsappGroupId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  direccion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  municipioId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  anticipos?: Prisma.AnticiposUncheckedUpdateManyWithoutMembershipNestedInput
+  auditorias?: Prisma.AuditoriaUncheckedUpdateManyWithoutMembershipNestedInput
+  citasComoCreador?: Prisma.CitasPsicologosUncheckedUpdateManyWithoutCreadoPorNestedInput
+  citasComoPsicologo?: Prisma.CitasPsicologosUncheckedUpdateManyWithoutPsicologoNestedInput
+  clientesCreados?: Prisma.ClienteUncheckedUpdateManyWithoutCreadoPorNestedInput
+  configuracionPagos?: Prisma.ConfiguracionPagosUncheckedUpdateManyWithoutMembershipNestedInput
+  consignacionesCreadas?: Prisma.ConsignacionEfectivoUncheckedUpdateManyWithoutCreadoPorNestedInput
+  consignacionesTecnico?: Prisma.ConsignacionEfectivoUncheckedUpdateManyWithoutTecnicoNestedInput
+  cuentasCobro?: Prisma.CuentaCobroUncheckedUpdateManyWithoutMembershipNestedInput
+  cuentasPago?: Prisma.CuentasPagoUncheckedUpdateManyWithoutMembershipNestedInput
+  dashboardPresets?: Prisma.DashboardPresetUncheckedUpdateManyWithoutCreatedByMembershipNestedInput
+  declaracionesEfectivo?: Prisma.DeclaracionEfectivoUncheckedUpdateManyWithoutTecnicoNestedInput
+  egresos?: Prisma.EgresosUncheckedUpdateManyWithoutMembershipNestedInput
+  empresaMemberships?: Prisma.EmpresaMembershipUncheckedUpdateManyWithoutMembershipNestedInput
+  geolocalizaciones?: Prisma.GeolocalizacionUncheckedUpdateManyWithoutMembershipNestedInput
+  nominas?: Prisma.NominaUncheckedUpdateManyWithoutMembershipNestedInput
+  serviciosCreados?: Prisma.OrdenServicioUncheckedUpdateManyWithoutCreadoPorNestedInput
+  serviciosEliminados?: Prisma.OrdenServicioUncheckedUpdateManyWithoutDeletedByNestedInput
+  serviciosLiquidados?: Prisma.OrdenServicioUncheckedUpdateManyWithoutLiquidadoPorNestedInput
+  serviciosAsignados?: Prisma.OrdenServicioUncheckedUpdateManyWithoutTecnicoNestedInput
+  seguimientosCompletados?: Prisma.OrdenServicioSeguimientoUncheckedUpdateManyWithoutCompletedByMembershipNestedInput
+  seguimientosCreados?: Prisma.OrdenServicioSeguimientoUncheckedUpdateManyWithoutCreatedByMembershipNestedInput
+  paquetesAdquiridos?: Prisma.PaqueteAdquiridoUncheckedUpdateManyWithoutMembershipNestedInput
+  permisosAprobados?: Prisma.PermisoUncheckedUpdateManyWithoutAdminNestedInput
+  permisosSolicitados?: Prisma.PermisoUncheckedUpdateManyWithoutMembershipNestedInput
+  productosSolicitados?: Prisma.ProductoSolicitadoUncheckedUpdateManyWithoutMembershipNestedInput
+  referidos?: Prisma.ReferidosUncheckedUpdateManyWithoutMembershipNestedInput
+  sesionesActividad?: Prisma.SesionActividadUncheckedUpdateManyWithoutMembershipNestedInput
+  municipalityScopes?: Prisma.TenantMembershipMunicipalityScopeUncheckedUpdateManyWithoutMembershipNestedInput
+  turnos?: Prisma.TurnoUncheckedUpdateManyWithoutMembershipNestedInput
+}
+
+export type TenantMembershipCreateWithoutMunicipalityScopesInput = {
+  id?: string
+  role: $Enums.Role
+  status?: $Enums.MembershipStatus
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  activo?: boolean
+  aprobado?: boolean
+  codigoReferido?: string | null
+  moto?: boolean | null
+  numberId?: string | null
+  placa?: string | null
+  pushToken?: string | null
+  username?: string | null
+  whatsappGroupId?: string | null
+  direccion?: string | null
+  anticipos?: Prisma.AnticiposCreateNestedManyWithoutMembershipInput
+  auditorias?: Prisma.AuditoriaCreateNestedManyWithoutMembershipInput
+  citasComoCreador?: Prisma.CitasPsicologosCreateNestedManyWithoutCreadoPorInput
+  citasComoPsicologo?: Prisma.CitasPsicologosCreateNestedManyWithoutPsicologoInput
+  clientesCreados?: Prisma.ClienteCreateNestedManyWithoutCreadoPorInput
+  configuracionPagos?: Prisma.ConfiguracionPagosCreateNestedManyWithoutMembershipInput
+  consignacionesCreadas?: Prisma.ConsignacionEfectivoCreateNestedManyWithoutCreadoPorInput
+  consignacionesTecnico?: Prisma.ConsignacionEfectivoCreateNestedManyWithoutTecnicoInput
+  cuentasCobro?: Prisma.CuentaCobroCreateNestedManyWithoutMembershipInput
+  cuentasPago?: Prisma.CuentasPagoCreateNestedManyWithoutMembershipInput
+  dashboardPresets?: Prisma.DashboardPresetCreateNestedManyWithoutCreatedByMembershipInput
+  declaracionesEfectivo?: Prisma.DeclaracionEfectivoCreateNestedManyWithoutTecnicoInput
+  egresos?: Prisma.EgresosCreateNestedManyWithoutMembershipInput
+  empresaMemberships?: Prisma.EmpresaMembershipCreateNestedManyWithoutMembershipInput
+  geolocalizaciones?: Prisma.GeolocalizacionCreateNestedManyWithoutMembershipInput
+  nominas?: Prisma.NominaCreateNestedManyWithoutMembershipInput
+  serviciosCreados?: Prisma.OrdenServicioCreateNestedManyWithoutCreadoPorInput
+  serviciosEliminados?: Prisma.OrdenServicioCreateNestedManyWithoutDeletedByInput
+  serviciosLiquidados?: Prisma.OrdenServicioCreateNestedManyWithoutLiquidadoPorInput
+  serviciosAsignados?: Prisma.OrdenServicioCreateNestedManyWithoutTecnicoInput
+  seguimientosCompletados?: Prisma.OrdenServicioSeguimientoCreateNestedManyWithoutCompletedByMembershipInput
+  seguimientosCreados?: Prisma.OrdenServicioSeguimientoCreateNestedManyWithoutCreatedByMembershipInput
+  paquetesAdquiridos?: Prisma.PaqueteAdquiridoCreateNestedManyWithoutMembershipInput
+  permisosAprobados?: Prisma.PermisoCreateNestedManyWithoutAdminInput
+  permisosSolicitados?: Prisma.PermisoCreateNestedManyWithoutMembershipInput
+  productosSolicitados?: Prisma.ProductoSolicitadoCreateNestedManyWithoutMembershipInput
+  referidos?: Prisma.ReferidosCreateNestedManyWithoutMembershipInput
+  sesionesActividad?: Prisma.SesionActividadCreateNestedManyWithoutMembershipInput
+  departmentScopes?: Prisma.TenantMembershipDepartmentScopeCreateNestedManyWithoutMembershipInput
+  municipio?: Prisma.MunicipalityCreateNestedOneWithoutMembershipsInput
+  tenant: Prisma.TenantCreateNestedOneWithoutMembershipsInput
+  user: Prisma.UserCreateNestedOneWithoutMembershipsInput
+  turnos?: Prisma.TurnoCreateNestedManyWithoutMembershipInput
+}
+
+export type TenantMembershipUncheckedCreateWithoutMunicipalityScopesInput = {
+  id?: string
+  userId: string
+  tenantId: string
+  role: $Enums.Role
+  status?: $Enums.MembershipStatus
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  activo?: boolean
+  aprobado?: boolean
+  codigoReferido?: string | null
+  moto?: boolean | null
+  numberId?: string | null
+  placa?: string | null
+  pushToken?: string | null
+  username?: string | null
+  whatsappGroupId?: string | null
+  direccion?: string | null
+  municipioId?: string | null
+  anticipos?: Prisma.AnticiposUncheckedCreateNestedManyWithoutMembershipInput
+  auditorias?: Prisma.AuditoriaUncheckedCreateNestedManyWithoutMembershipInput
+  citasComoCreador?: Prisma.CitasPsicologosUncheckedCreateNestedManyWithoutCreadoPorInput
+  citasComoPsicologo?: Prisma.CitasPsicologosUncheckedCreateNestedManyWithoutPsicologoInput
+  clientesCreados?: Prisma.ClienteUncheckedCreateNestedManyWithoutCreadoPorInput
+  configuracionPagos?: Prisma.ConfiguracionPagosUncheckedCreateNestedManyWithoutMembershipInput
+  consignacionesCreadas?: Prisma.ConsignacionEfectivoUncheckedCreateNestedManyWithoutCreadoPorInput
+  consignacionesTecnico?: Prisma.ConsignacionEfectivoUncheckedCreateNestedManyWithoutTecnicoInput
+  cuentasCobro?: Prisma.CuentaCobroUncheckedCreateNestedManyWithoutMembershipInput
+  cuentasPago?: Prisma.CuentasPagoUncheckedCreateNestedManyWithoutMembershipInput
+  dashboardPresets?: Prisma.DashboardPresetUncheckedCreateNestedManyWithoutCreatedByMembershipInput
+  declaracionesEfectivo?: Prisma.DeclaracionEfectivoUncheckedCreateNestedManyWithoutTecnicoInput
+  egresos?: Prisma.EgresosUncheckedCreateNestedManyWithoutMembershipInput
+  empresaMemberships?: Prisma.EmpresaMembershipUncheckedCreateNestedManyWithoutMembershipInput
+  geolocalizaciones?: Prisma.GeolocalizacionUncheckedCreateNestedManyWithoutMembershipInput
+  nominas?: Prisma.NominaUncheckedCreateNestedManyWithoutMembershipInput
+  serviciosCreados?: Prisma.OrdenServicioUncheckedCreateNestedManyWithoutCreadoPorInput
+  serviciosEliminados?: Prisma.OrdenServicioUncheckedCreateNestedManyWithoutDeletedByInput
+  serviciosLiquidados?: Prisma.OrdenServicioUncheckedCreateNestedManyWithoutLiquidadoPorInput
+  serviciosAsignados?: Prisma.OrdenServicioUncheckedCreateNestedManyWithoutTecnicoInput
+  seguimientosCompletados?: Prisma.OrdenServicioSeguimientoUncheckedCreateNestedManyWithoutCompletedByMembershipInput
+  seguimientosCreados?: Prisma.OrdenServicioSeguimientoUncheckedCreateNestedManyWithoutCreatedByMembershipInput
+  paquetesAdquiridos?: Prisma.PaqueteAdquiridoUncheckedCreateNestedManyWithoutMembershipInput
+  permisosAprobados?: Prisma.PermisoUncheckedCreateNestedManyWithoutAdminInput
+  permisosSolicitados?: Prisma.PermisoUncheckedCreateNestedManyWithoutMembershipInput
+  productosSolicitados?: Prisma.ProductoSolicitadoUncheckedCreateNestedManyWithoutMembershipInput
+  referidos?: Prisma.ReferidosUncheckedCreateNestedManyWithoutMembershipInput
+  sesionesActividad?: Prisma.SesionActividadUncheckedCreateNestedManyWithoutMembershipInput
+  departmentScopes?: Prisma.TenantMembershipDepartmentScopeUncheckedCreateNestedManyWithoutMembershipInput
+  turnos?: Prisma.TurnoUncheckedCreateNestedManyWithoutMembershipInput
+}
+
+export type TenantMembershipCreateOrConnectWithoutMunicipalityScopesInput = {
+  where: Prisma.TenantMembershipWhereUniqueInput
+  create: Prisma.XOR<Prisma.TenantMembershipCreateWithoutMunicipalityScopesInput, Prisma.TenantMembershipUncheckedCreateWithoutMunicipalityScopesInput>
+}
+
+export type TenantMembershipUpsertWithoutMunicipalityScopesInput = {
+  update: Prisma.XOR<Prisma.TenantMembershipUpdateWithoutMunicipalityScopesInput, Prisma.TenantMembershipUncheckedUpdateWithoutMunicipalityScopesInput>
+  create: Prisma.XOR<Prisma.TenantMembershipCreateWithoutMunicipalityScopesInput, Prisma.TenantMembershipUncheckedCreateWithoutMunicipalityScopesInput>
+  where?: Prisma.TenantMembershipWhereInput
+}
+
+export type TenantMembershipUpdateToOneWithWhereWithoutMunicipalityScopesInput = {
+  where?: Prisma.TenantMembershipWhereInput
+  data: Prisma.XOR<Prisma.TenantMembershipUpdateWithoutMunicipalityScopesInput, Prisma.TenantMembershipUncheckedUpdateWithoutMunicipalityScopesInput>
+}
+
+export type TenantMembershipUpdateWithoutMunicipalityScopesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  status?: Prisma.EnumMembershipStatusFieldUpdateOperationsInput | $Enums.MembershipStatus
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  aprobado?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  codigoReferido?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  moto?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  numberId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  placa?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pushToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  whatsappGroupId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  direccion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  anticipos?: Prisma.AnticiposUpdateManyWithoutMembershipNestedInput
+  auditorias?: Prisma.AuditoriaUpdateManyWithoutMembershipNestedInput
+  citasComoCreador?: Prisma.CitasPsicologosUpdateManyWithoutCreadoPorNestedInput
+  citasComoPsicologo?: Prisma.CitasPsicologosUpdateManyWithoutPsicologoNestedInput
+  clientesCreados?: Prisma.ClienteUpdateManyWithoutCreadoPorNestedInput
+  configuracionPagos?: Prisma.ConfiguracionPagosUpdateManyWithoutMembershipNestedInput
+  consignacionesCreadas?: Prisma.ConsignacionEfectivoUpdateManyWithoutCreadoPorNestedInput
+  consignacionesTecnico?: Prisma.ConsignacionEfectivoUpdateManyWithoutTecnicoNestedInput
+  cuentasCobro?: Prisma.CuentaCobroUpdateManyWithoutMembershipNestedInput
+  cuentasPago?: Prisma.CuentasPagoUpdateManyWithoutMembershipNestedInput
+  dashboardPresets?: Prisma.DashboardPresetUpdateManyWithoutCreatedByMembershipNestedInput
+  declaracionesEfectivo?: Prisma.DeclaracionEfectivoUpdateManyWithoutTecnicoNestedInput
+  egresos?: Prisma.EgresosUpdateManyWithoutMembershipNestedInput
+  empresaMemberships?: Prisma.EmpresaMembershipUpdateManyWithoutMembershipNestedInput
+  geolocalizaciones?: Prisma.GeolocalizacionUpdateManyWithoutMembershipNestedInput
+  nominas?: Prisma.NominaUpdateManyWithoutMembershipNestedInput
+  serviciosCreados?: Prisma.OrdenServicioUpdateManyWithoutCreadoPorNestedInput
+  serviciosEliminados?: Prisma.OrdenServicioUpdateManyWithoutDeletedByNestedInput
+  serviciosLiquidados?: Prisma.OrdenServicioUpdateManyWithoutLiquidadoPorNestedInput
+  serviciosAsignados?: Prisma.OrdenServicioUpdateManyWithoutTecnicoNestedInput
+  seguimientosCompletados?: Prisma.OrdenServicioSeguimientoUpdateManyWithoutCompletedByMembershipNestedInput
+  seguimientosCreados?: Prisma.OrdenServicioSeguimientoUpdateManyWithoutCreatedByMembershipNestedInput
+  paquetesAdquiridos?: Prisma.PaqueteAdquiridoUpdateManyWithoutMembershipNestedInput
+  permisosAprobados?: Prisma.PermisoUpdateManyWithoutAdminNestedInput
+  permisosSolicitados?: Prisma.PermisoUpdateManyWithoutMembershipNestedInput
+  productosSolicitados?: Prisma.ProductoSolicitadoUpdateManyWithoutMembershipNestedInput
+  referidos?: Prisma.ReferidosUpdateManyWithoutMembershipNestedInput
+  sesionesActividad?: Prisma.SesionActividadUpdateManyWithoutMembershipNestedInput
+  departmentScopes?: Prisma.TenantMembershipDepartmentScopeUpdateManyWithoutMembershipNestedInput
+  municipio?: Prisma.MunicipalityUpdateOneWithoutMembershipsNestedInput
+  tenant?: Prisma.TenantUpdateOneRequiredWithoutMembershipsNestedInput
+  user?: Prisma.UserUpdateOneRequiredWithoutMembershipsNestedInput
+  turnos?: Prisma.TurnoUpdateManyWithoutMembershipNestedInput
+}
+
+export type TenantMembershipUncheckedUpdateWithoutMunicipalityScopesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  userId?: Prisma.StringFieldUpdateOperationsInput | string
+  tenantId?: Prisma.StringFieldUpdateOperationsInput | string
+  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  status?: Prisma.EnumMembershipStatusFieldUpdateOperationsInput | $Enums.MembershipStatus
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  aprobado?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  codigoReferido?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  moto?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  numberId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  placa?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pushToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  whatsappGroupId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  direccion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  municipioId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  anticipos?: Prisma.AnticiposUncheckedUpdateManyWithoutMembershipNestedInput
+  auditorias?: Prisma.AuditoriaUncheckedUpdateManyWithoutMembershipNestedInput
+  citasComoCreador?: Prisma.CitasPsicologosUncheckedUpdateManyWithoutCreadoPorNestedInput
+  citasComoPsicologo?: Prisma.CitasPsicologosUncheckedUpdateManyWithoutPsicologoNestedInput
+  clientesCreados?: Prisma.ClienteUncheckedUpdateManyWithoutCreadoPorNestedInput
+  configuracionPagos?: Prisma.ConfiguracionPagosUncheckedUpdateManyWithoutMembershipNestedInput
+  consignacionesCreadas?: Prisma.ConsignacionEfectivoUncheckedUpdateManyWithoutCreadoPorNestedInput
+  consignacionesTecnico?: Prisma.ConsignacionEfectivoUncheckedUpdateManyWithoutTecnicoNestedInput
+  cuentasCobro?: Prisma.CuentaCobroUncheckedUpdateManyWithoutMembershipNestedInput
+  cuentasPago?: Prisma.CuentasPagoUncheckedUpdateManyWithoutMembershipNestedInput
+  dashboardPresets?: Prisma.DashboardPresetUncheckedUpdateManyWithoutCreatedByMembershipNestedInput
+  declaracionesEfectivo?: Prisma.DeclaracionEfectivoUncheckedUpdateManyWithoutTecnicoNestedInput
+  egresos?: Prisma.EgresosUncheckedUpdateManyWithoutMembershipNestedInput
+  empresaMemberships?: Prisma.EmpresaMembershipUncheckedUpdateManyWithoutMembershipNestedInput
+  geolocalizaciones?: Prisma.GeolocalizacionUncheckedUpdateManyWithoutMembershipNestedInput
+  nominas?: Prisma.NominaUncheckedUpdateManyWithoutMembershipNestedInput
+  serviciosCreados?: Prisma.OrdenServicioUncheckedUpdateManyWithoutCreadoPorNestedInput
+  serviciosEliminados?: Prisma.OrdenServicioUncheckedUpdateManyWithoutDeletedByNestedInput
+  serviciosLiquidados?: Prisma.OrdenServicioUncheckedUpdateManyWithoutLiquidadoPorNestedInput
+  serviciosAsignados?: Prisma.OrdenServicioUncheckedUpdateManyWithoutTecnicoNestedInput
+  seguimientosCompletados?: Prisma.OrdenServicioSeguimientoUncheckedUpdateManyWithoutCompletedByMembershipNestedInput
+  seguimientosCreados?: Prisma.OrdenServicioSeguimientoUncheckedUpdateManyWithoutCreatedByMembershipNestedInput
+  paquetesAdquiridos?: Prisma.PaqueteAdquiridoUncheckedUpdateManyWithoutMembershipNestedInput
+  permisosAprobados?: Prisma.PermisoUncheckedUpdateManyWithoutAdminNestedInput
+  permisosSolicitados?: Prisma.PermisoUncheckedUpdateManyWithoutMembershipNestedInput
+  productosSolicitados?: Prisma.ProductoSolicitadoUncheckedUpdateManyWithoutMembershipNestedInput
+  referidos?: Prisma.ReferidosUncheckedUpdateManyWithoutMembershipNestedInput
+  sesionesActividad?: Prisma.SesionActividadUncheckedUpdateManyWithoutMembershipNestedInput
+  departmentScopes?: Prisma.TenantMembershipDepartmentScopeUncheckedUpdateManyWithoutMembershipNestedInput
+  turnos?: Prisma.TurnoUncheckedUpdateManyWithoutMembershipNestedInput
 }
 
 export type TenantMembershipCreateWithoutClientesCreadosInput = {
@@ -2257,6 +2767,8 @@ export type TenantMembershipCreateWithoutClientesCreadosInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoCreateNestedManyWithoutMembershipInput
   referidos?: Prisma.ReferidosCreateNestedManyWithoutMembershipInput
   sesionesActividad?: Prisma.SesionActividadCreateNestedManyWithoutMembershipInput
+  departmentScopes?: Prisma.TenantMembershipDepartmentScopeCreateNestedManyWithoutMembershipInput
+  municipalityScopes?: Prisma.TenantMembershipMunicipalityScopeCreateNestedManyWithoutMembershipInput
   municipio?: Prisma.MunicipalityCreateNestedOneWithoutMembershipsInput
   tenant: Prisma.TenantCreateNestedOneWithoutMembershipsInput
   user: Prisma.UserCreateNestedOneWithoutMembershipsInput
@@ -2309,6 +2821,8 @@ export type TenantMembershipUncheckedCreateWithoutClientesCreadosInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUncheckedCreateNestedManyWithoutMembershipInput
   referidos?: Prisma.ReferidosUncheckedCreateNestedManyWithoutMembershipInput
   sesionesActividad?: Prisma.SesionActividadUncheckedCreateNestedManyWithoutMembershipInput
+  departmentScopes?: Prisma.TenantMembershipDepartmentScopeUncheckedCreateNestedManyWithoutMembershipInput
+  municipalityScopes?: Prisma.TenantMembershipMunicipalityScopeUncheckedCreateNestedManyWithoutMembershipInput
   turnos?: Prisma.TurnoUncheckedCreateNestedManyWithoutMembershipInput
 }
 
@@ -2371,6 +2885,8 @@ export type TenantMembershipUpdateWithoutClientesCreadosInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUpdateManyWithoutMembershipNestedInput
   referidos?: Prisma.ReferidosUpdateManyWithoutMembershipNestedInput
   sesionesActividad?: Prisma.SesionActividadUpdateManyWithoutMembershipNestedInput
+  departmentScopes?: Prisma.TenantMembershipDepartmentScopeUpdateManyWithoutMembershipNestedInput
+  municipalityScopes?: Prisma.TenantMembershipMunicipalityScopeUpdateManyWithoutMembershipNestedInput
   municipio?: Prisma.MunicipalityUpdateOneWithoutMembershipsNestedInput
   tenant?: Prisma.TenantUpdateOneRequiredWithoutMembershipsNestedInput
   user?: Prisma.UserUpdateOneRequiredWithoutMembershipsNestedInput
@@ -2423,6 +2939,8 @@ export type TenantMembershipUncheckedUpdateWithoutClientesCreadosInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUncheckedUpdateManyWithoutMembershipNestedInput
   referidos?: Prisma.ReferidosUncheckedUpdateManyWithoutMembershipNestedInput
   sesionesActividad?: Prisma.SesionActividadUncheckedUpdateManyWithoutMembershipNestedInput
+  departmentScopes?: Prisma.TenantMembershipDepartmentScopeUncheckedUpdateManyWithoutMembershipNestedInput
+  municipalityScopes?: Prisma.TenantMembershipMunicipalityScopeUncheckedUpdateManyWithoutMembershipNestedInput
   turnos?: Prisma.TurnoUncheckedUpdateManyWithoutMembershipNestedInput
 }
 
@@ -2469,6 +2987,8 @@ export type TenantMembershipCreateWithoutServiciosCreadosInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoCreateNestedManyWithoutMembershipInput
   referidos?: Prisma.ReferidosCreateNestedManyWithoutMembershipInput
   sesionesActividad?: Prisma.SesionActividadCreateNestedManyWithoutMembershipInput
+  departmentScopes?: Prisma.TenantMembershipDepartmentScopeCreateNestedManyWithoutMembershipInput
+  municipalityScopes?: Prisma.TenantMembershipMunicipalityScopeCreateNestedManyWithoutMembershipInput
   municipio?: Prisma.MunicipalityCreateNestedOneWithoutMembershipsInput
   tenant: Prisma.TenantCreateNestedOneWithoutMembershipsInput
   user: Prisma.UserCreateNestedOneWithoutMembershipsInput
@@ -2521,6 +3041,8 @@ export type TenantMembershipUncheckedCreateWithoutServiciosCreadosInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUncheckedCreateNestedManyWithoutMembershipInput
   referidos?: Prisma.ReferidosUncheckedCreateNestedManyWithoutMembershipInput
   sesionesActividad?: Prisma.SesionActividadUncheckedCreateNestedManyWithoutMembershipInput
+  departmentScopes?: Prisma.TenantMembershipDepartmentScopeUncheckedCreateNestedManyWithoutMembershipInput
+  municipalityScopes?: Prisma.TenantMembershipMunicipalityScopeUncheckedCreateNestedManyWithoutMembershipInput
   turnos?: Prisma.TurnoUncheckedCreateNestedManyWithoutMembershipInput
 }
 
@@ -2572,6 +3094,8 @@ export type TenantMembershipCreateWithoutServiciosEliminadosInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoCreateNestedManyWithoutMembershipInput
   referidos?: Prisma.ReferidosCreateNestedManyWithoutMembershipInput
   sesionesActividad?: Prisma.SesionActividadCreateNestedManyWithoutMembershipInput
+  departmentScopes?: Prisma.TenantMembershipDepartmentScopeCreateNestedManyWithoutMembershipInput
+  municipalityScopes?: Prisma.TenantMembershipMunicipalityScopeCreateNestedManyWithoutMembershipInput
   municipio?: Prisma.MunicipalityCreateNestedOneWithoutMembershipsInput
   tenant: Prisma.TenantCreateNestedOneWithoutMembershipsInput
   user: Prisma.UserCreateNestedOneWithoutMembershipsInput
@@ -2624,6 +3148,8 @@ export type TenantMembershipUncheckedCreateWithoutServiciosEliminadosInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUncheckedCreateNestedManyWithoutMembershipInput
   referidos?: Prisma.ReferidosUncheckedCreateNestedManyWithoutMembershipInput
   sesionesActividad?: Prisma.SesionActividadUncheckedCreateNestedManyWithoutMembershipInput
+  departmentScopes?: Prisma.TenantMembershipDepartmentScopeUncheckedCreateNestedManyWithoutMembershipInput
+  municipalityScopes?: Prisma.TenantMembershipMunicipalityScopeUncheckedCreateNestedManyWithoutMembershipInput
   turnos?: Prisma.TurnoUncheckedCreateNestedManyWithoutMembershipInput
 }
 
@@ -2675,6 +3201,8 @@ export type TenantMembershipCreateWithoutServiciosLiquidadosInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoCreateNestedManyWithoutMembershipInput
   referidos?: Prisma.ReferidosCreateNestedManyWithoutMembershipInput
   sesionesActividad?: Prisma.SesionActividadCreateNestedManyWithoutMembershipInput
+  departmentScopes?: Prisma.TenantMembershipDepartmentScopeCreateNestedManyWithoutMembershipInput
+  municipalityScopes?: Prisma.TenantMembershipMunicipalityScopeCreateNestedManyWithoutMembershipInput
   municipio?: Prisma.MunicipalityCreateNestedOneWithoutMembershipsInput
   tenant: Prisma.TenantCreateNestedOneWithoutMembershipsInput
   user: Prisma.UserCreateNestedOneWithoutMembershipsInput
@@ -2727,6 +3255,8 @@ export type TenantMembershipUncheckedCreateWithoutServiciosLiquidadosInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUncheckedCreateNestedManyWithoutMembershipInput
   referidos?: Prisma.ReferidosUncheckedCreateNestedManyWithoutMembershipInput
   sesionesActividad?: Prisma.SesionActividadUncheckedCreateNestedManyWithoutMembershipInput
+  departmentScopes?: Prisma.TenantMembershipDepartmentScopeUncheckedCreateNestedManyWithoutMembershipInput
+  municipalityScopes?: Prisma.TenantMembershipMunicipalityScopeUncheckedCreateNestedManyWithoutMembershipInput
   turnos?: Prisma.TurnoUncheckedCreateNestedManyWithoutMembershipInput
 }
 
@@ -2778,6 +3308,8 @@ export type TenantMembershipCreateWithoutServiciosAsignadosInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoCreateNestedManyWithoutMembershipInput
   referidos?: Prisma.ReferidosCreateNestedManyWithoutMembershipInput
   sesionesActividad?: Prisma.SesionActividadCreateNestedManyWithoutMembershipInput
+  departmentScopes?: Prisma.TenantMembershipDepartmentScopeCreateNestedManyWithoutMembershipInput
+  municipalityScopes?: Prisma.TenantMembershipMunicipalityScopeCreateNestedManyWithoutMembershipInput
   municipio?: Prisma.MunicipalityCreateNestedOneWithoutMembershipsInput
   tenant: Prisma.TenantCreateNestedOneWithoutMembershipsInput
   user: Prisma.UserCreateNestedOneWithoutMembershipsInput
@@ -2830,6 +3362,8 @@ export type TenantMembershipUncheckedCreateWithoutServiciosAsignadosInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUncheckedCreateNestedManyWithoutMembershipInput
   referidos?: Prisma.ReferidosUncheckedCreateNestedManyWithoutMembershipInput
   sesionesActividad?: Prisma.SesionActividadUncheckedCreateNestedManyWithoutMembershipInput
+  departmentScopes?: Prisma.TenantMembershipDepartmentScopeUncheckedCreateNestedManyWithoutMembershipInput
+  municipalityScopes?: Prisma.TenantMembershipMunicipalityScopeUncheckedCreateNestedManyWithoutMembershipInput
   turnos?: Prisma.TurnoUncheckedCreateNestedManyWithoutMembershipInput
 }
 
@@ -2892,6 +3426,8 @@ export type TenantMembershipUpdateWithoutServiciosCreadosInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUpdateManyWithoutMembershipNestedInput
   referidos?: Prisma.ReferidosUpdateManyWithoutMembershipNestedInput
   sesionesActividad?: Prisma.SesionActividadUpdateManyWithoutMembershipNestedInput
+  departmentScopes?: Prisma.TenantMembershipDepartmentScopeUpdateManyWithoutMembershipNestedInput
+  municipalityScopes?: Prisma.TenantMembershipMunicipalityScopeUpdateManyWithoutMembershipNestedInput
   municipio?: Prisma.MunicipalityUpdateOneWithoutMembershipsNestedInput
   tenant?: Prisma.TenantUpdateOneRequiredWithoutMembershipsNestedInput
   user?: Prisma.UserUpdateOneRequiredWithoutMembershipsNestedInput
@@ -2944,6 +3480,8 @@ export type TenantMembershipUncheckedUpdateWithoutServiciosCreadosInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUncheckedUpdateManyWithoutMembershipNestedInput
   referidos?: Prisma.ReferidosUncheckedUpdateManyWithoutMembershipNestedInput
   sesionesActividad?: Prisma.SesionActividadUncheckedUpdateManyWithoutMembershipNestedInput
+  departmentScopes?: Prisma.TenantMembershipDepartmentScopeUncheckedUpdateManyWithoutMembershipNestedInput
+  municipalityScopes?: Prisma.TenantMembershipMunicipalityScopeUncheckedUpdateManyWithoutMembershipNestedInput
   turnos?: Prisma.TurnoUncheckedUpdateManyWithoutMembershipNestedInput
 }
 
@@ -3001,6 +3539,8 @@ export type TenantMembershipUpdateWithoutServiciosEliminadosInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUpdateManyWithoutMembershipNestedInput
   referidos?: Prisma.ReferidosUpdateManyWithoutMembershipNestedInput
   sesionesActividad?: Prisma.SesionActividadUpdateManyWithoutMembershipNestedInput
+  departmentScopes?: Prisma.TenantMembershipDepartmentScopeUpdateManyWithoutMembershipNestedInput
+  municipalityScopes?: Prisma.TenantMembershipMunicipalityScopeUpdateManyWithoutMembershipNestedInput
   municipio?: Prisma.MunicipalityUpdateOneWithoutMembershipsNestedInput
   tenant?: Prisma.TenantUpdateOneRequiredWithoutMembershipsNestedInput
   user?: Prisma.UserUpdateOneRequiredWithoutMembershipsNestedInput
@@ -3053,6 +3593,8 @@ export type TenantMembershipUncheckedUpdateWithoutServiciosEliminadosInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUncheckedUpdateManyWithoutMembershipNestedInput
   referidos?: Prisma.ReferidosUncheckedUpdateManyWithoutMembershipNestedInput
   sesionesActividad?: Prisma.SesionActividadUncheckedUpdateManyWithoutMembershipNestedInput
+  departmentScopes?: Prisma.TenantMembershipDepartmentScopeUncheckedUpdateManyWithoutMembershipNestedInput
+  municipalityScopes?: Prisma.TenantMembershipMunicipalityScopeUncheckedUpdateManyWithoutMembershipNestedInput
   turnos?: Prisma.TurnoUncheckedUpdateManyWithoutMembershipNestedInput
 }
 
@@ -3110,6 +3652,8 @@ export type TenantMembershipUpdateWithoutServiciosLiquidadosInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUpdateManyWithoutMembershipNestedInput
   referidos?: Prisma.ReferidosUpdateManyWithoutMembershipNestedInput
   sesionesActividad?: Prisma.SesionActividadUpdateManyWithoutMembershipNestedInput
+  departmentScopes?: Prisma.TenantMembershipDepartmentScopeUpdateManyWithoutMembershipNestedInput
+  municipalityScopes?: Prisma.TenantMembershipMunicipalityScopeUpdateManyWithoutMembershipNestedInput
   municipio?: Prisma.MunicipalityUpdateOneWithoutMembershipsNestedInput
   tenant?: Prisma.TenantUpdateOneRequiredWithoutMembershipsNestedInput
   user?: Prisma.UserUpdateOneRequiredWithoutMembershipsNestedInput
@@ -3162,6 +3706,8 @@ export type TenantMembershipUncheckedUpdateWithoutServiciosLiquidadosInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUncheckedUpdateManyWithoutMembershipNestedInput
   referidos?: Prisma.ReferidosUncheckedUpdateManyWithoutMembershipNestedInput
   sesionesActividad?: Prisma.SesionActividadUncheckedUpdateManyWithoutMembershipNestedInput
+  departmentScopes?: Prisma.TenantMembershipDepartmentScopeUncheckedUpdateManyWithoutMembershipNestedInput
+  municipalityScopes?: Prisma.TenantMembershipMunicipalityScopeUncheckedUpdateManyWithoutMembershipNestedInput
   turnos?: Prisma.TurnoUncheckedUpdateManyWithoutMembershipNestedInput
 }
 
@@ -3219,6 +3765,8 @@ export type TenantMembershipUpdateWithoutServiciosAsignadosInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUpdateManyWithoutMembershipNestedInput
   referidos?: Prisma.ReferidosUpdateManyWithoutMembershipNestedInput
   sesionesActividad?: Prisma.SesionActividadUpdateManyWithoutMembershipNestedInput
+  departmentScopes?: Prisma.TenantMembershipDepartmentScopeUpdateManyWithoutMembershipNestedInput
+  municipalityScopes?: Prisma.TenantMembershipMunicipalityScopeUpdateManyWithoutMembershipNestedInput
   municipio?: Prisma.MunicipalityUpdateOneWithoutMembershipsNestedInput
   tenant?: Prisma.TenantUpdateOneRequiredWithoutMembershipsNestedInput
   user?: Prisma.UserUpdateOneRequiredWithoutMembershipsNestedInput
@@ -3271,6 +3819,8 @@ export type TenantMembershipUncheckedUpdateWithoutServiciosAsignadosInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUncheckedUpdateManyWithoutMembershipNestedInput
   referidos?: Prisma.ReferidosUncheckedUpdateManyWithoutMembershipNestedInput
   sesionesActividad?: Prisma.SesionActividadUncheckedUpdateManyWithoutMembershipNestedInput
+  departmentScopes?: Prisma.TenantMembershipDepartmentScopeUncheckedUpdateManyWithoutMembershipNestedInput
+  municipalityScopes?: Prisma.TenantMembershipMunicipalityScopeUncheckedUpdateManyWithoutMembershipNestedInput
   turnos?: Prisma.TurnoUncheckedUpdateManyWithoutMembershipNestedInput
 }
 
@@ -3317,6 +3867,8 @@ export type TenantMembershipCreateWithoutSeguimientosCompletadosInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoCreateNestedManyWithoutMembershipInput
   referidos?: Prisma.ReferidosCreateNestedManyWithoutMembershipInput
   sesionesActividad?: Prisma.SesionActividadCreateNestedManyWithoutMembershipInput
+  departmentScopes?: Prisma.TenantMembershipDepartmentScopeCreateNestedManyWithoutMembershipInput
+  municipalityScopes?: Prisma.TenantMembershipMunicipalityScopeCreateNestedManyWithoutMembershipInput
   municipio?: Prisma.MunicipalityCreateNestedOneWithoutMembershipsInput
   tenant: Prisma.TenantCreateNestedOneWithoutMembershipsInput
   user: Prisma.UserCreateNestedOneWithoutMembershipsInput
@@ -3369,6 +3921,8 @@ export type TenantMembershipUncheckedCreateWithoutSeguimientosCompletadosInput =
   productosSolicitados?: Prisma.ProductoSolicitadoUncheckedCreateNestedManyWithoutMembershipInput
   referidos?: Prisma.ReferidosUncheckedCreateNestedManyWithoutMembershipInput
   sesionesActividad?: Prisma.SesionActividadUncheckedCreateNestedManyWithoutMembershipInput
+  departmentScopes?: Prisma.TenantMembershipDepartmentScopeUncheckedCreateNestedManyWithoutMembershipInput
+  municipalityScopes?: Prisma.TenantMembershipMunicipalityScopeUncheckedCreateNestedManyWithoutMembershipInput
   turnos?: Prisma.TurnoUncheckedCreateNestedManyWithoutMembershipInput
 }
 
@@ -3420,6 +3974,8 @@ export type TenantMembershipCreateWithoutSeguimientosCreadosInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoCreateNestedManyWithoutMembershipInput
   referidos?: Prisma.ReferidosCreateNestedManyWithoutMembershipInput
   sesionesActividad?: Prisma.SesionActividadCreateNestedManyWithoutMembershipInput
+  departmentScopes?: Prisma.TenantMembershipDepartmentScopeCreateNestedManyWithoutMembershipInput
+  municipalityScopes?: Prisma.TenantMembershipMunicipalityScopeCreateNestedManyWithoutMembershipInput
   municipio?: Prisma.MunicipalityCreateNestedOneWithoutMembershipsInput
   tenant: Prisma.TenantCreateNestedOneWithoutMembershipsInput
   user: Prisma.UserCreateNestedOneWithoutMembershipsInput
@@ -3472,6 +4028,8 @@ export type TenantMembershipUncheckedCreateWithoutSeguimientosCreadosInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUncheckedCreateNestedManyWithoutMembershipInput
   referidos?: Prisma.ReferidosUncheckedCreateNestedManyWithoutMembershipInput
   sesionesActividad?: Prisma.SesionActividadUncheckedCreateNestedManyWithoutMembershipInput
+  departmentScopes?: Prisma.TenantMembershipDepartmentScopeUncheckedCreateNestedManyWithoutMembershipInput
+  municipalityScopes?: Prisma.TenantMembershipMunicipalityScopeUncheckedCreateNestedManyWithoutMembershipInput
   turnos?: Prisma.TurnoUncheckedCreateNestedManyWithoutMembershipInput
 }
 
@@ -3534,6 +4092,8 @@ export type TenantMembershipUpdateWithoutSeguimientosCompletadosInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUpdateManyWithoutMembershipNestedInput
   referidos?: Prisma.ReferidosUpdateManyWithoutMembershipNestedInput
   sesionesActividad?: Prisma.SesionActividadUpdateManyWithoutMembershipNestedInput
+  departmentScopes?: Prisma.TenantMembershipDepartmentScopeUpdateManyWithoutMembershipNestedInput
+  municipalityScopes?: Prisma.TenantMembershipMunicipalityScopeUpdateManyWithoutMembershipNestedInput
   municipio?: Prisma.MunicipalityUpdateOneWithoutMembershipsNestedInput
   tenant?: Prisma.TenantUpdateOneRequiredWithoutMembershipsNestedInput
   user?: Prisma.UserUpdateOneRequiredWithoutMembershipsNestedInput
@@ -3586,6 +4146,8 @@ export type TenantMembershipUncheckedUpdateWithoutSeguimientosCompletadosInput =
   productosSolicitados?: Prisma.ProductoSolicitadoUncheckedUpdateManyWithoutMembershipNestedInput
   referidos?: Prisma.ReferidosUncheckedUpdateManyWithoutMembershipNestedInput
   sesionesActividad?: Prisma.SesionActividadUncheckedUpdateManyWithoutMembershipNestedInput
+  departmentScopes?: Prisma.TenantMembershipDepartmentScopeUncheckedUpdateManyWithoutMembershipNestedInput
+  municipalityScopes?: Prisma.TenantMembershipMunicipalityScopeUncheckedUpdateManyWithoutMembershipNestedInput
   turnos?: Prisma.TurnoUncheckedUpdateManyWithoutMembershipNestedInput
 }
 
@@ -3643,6 +4205,8 @@ export type TenantMembershipUpdateWithoutSeguimientosCreadosInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUpdateManyWithoutMembershipNestedInput
   referidos?: Prisma.ReferidosUpdateManyWithoutMembershipNestedInput
   sesionesActividad?: Prisma.SesionActividadUpdateManyWithoutMembershipNestedInput
+  departmentScopes?: Prisma.TenantMembershipDepartmentScopeUpdateManyWithoutMembershipNestedInput
+  municipalityScopes?: Prisma.TenantMembershipMunicipalityScopeUpdateManyWithoutMembershipNestedInput
   municipio?: Prisma.MunicipalityUpdateOneWithoutMembershipsNestedInput
   tenant?: Prisma.TenantUpdateOneRequiredWithoutMembershipsNestedInput
   user?: Prisma.UserUpdateOneRequiredWithoutMembershipsNestedInput
@@ -3695,6 +4259,8 @@ export type TenantMembershipUncheckedUpdateWithoutSeguimientosCreadosInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUncheckedUpdateManyWithoutMembershipNestedInput
   referidos?: Prisma.ReferidosUncheckedUpdateManyWithoutMembershipNestedInput
   sesionesActividad?: Prisma.SesionActividadUncheckedUpdateManyWithoutMembershipNestedInput
+  departmentScopes?: Prisma.TenantMembershipDepartmentScopeUncheckedUpdateManyWithoutMembershipNestedInput
+  municipalityScopes?: Prisma.TenantMembershipMunicipalityScopeUncheckedUpdateManyWithoutMembershipNestedInput
   turnos?: Prisma.TurnoUncheckedUpdateManyWithoutMembershipNestedInput
 }
 
@@ -3741,6 +4307,8 @@ export type TenantMembershipCreateWithoutGeolocalizacionesInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoCreateNestedManyWithoutMembershipInput
   referidos?: Prisma.ReferidosCreateNestedManyWithoutMembershipInput
   sesionesActividad?: Prisma.SesionActividadCreateNestedManyWithoutMembershipInput
+  departmentScopes?: Prisma.TenantMembershipDepartmentScopeCreateNestedManyWithoutMembershipInput
+  municipalityScopes?: Prisma.TenantMembershipMunicipalityScopeCreateNestedManyWithoutMembershipInput
   municipio?: Prisma.MunicipalityCreateNestedOneWithoutMembershipsInput
   tenant: Prisma.TenantCreateNestedOneWithoutMembershipsInput
   user: Prisma.UserCreateNestedOneWithoutMembershipsInput
@@ -3793,6 +4361,8 @@ export type TenantMembershipUncheckedCreateWithoutGeolocalizacionesInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUncheckedCreateNestedManyWithoutMembershipInput
   referidos?: Prisma.ReferidosUncheckedCreateNestedManyWithoutMembershipInput
   sesionesActividad?: Prisma.SesionActividadUncheckedCreateNestedManyWithoutMembershipInput
+  departmentScopes?: Prisma.TenantMembershipDepartmentScopeUncheckedCreateNestedManyWithoutMembershipInput
+  municipalityScopes?: Prisma.TenantMembershipMunicipalityScopeUncheckedCreateNestedManyWithoutMembershipInput
   turnos?: Prisma.TurnoUncheckedCreateNestedManyWithoutMembershipInput
 }
 
@@ -3855,6 +4425,8 @@ export type TenantMembershipUpdateWithoutGeolocalizacionesInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUpdateManyWithoutMembershipNestedInput
   referidos?: Prisma.ReferidosUpdateManyWithoutMembershipNestedInput
   sesionesActividad?: Prisma.SesionActividadUpdateManyWithoutMembershipNestedInput
+  departmentScopes?: Prisma.TenantMembershipDepartmentScopeUpdateManyWithoutMembershipNestedInput
+  municipalityScopes?: Prisma.TenantMembershipMunicipalityScopeUpdateManyWithoutMembershipNestedInput
   municipio?: Prisma.MunicipalityUpdateOneWithoutMembershipsNestedInput
   tenant?: Prisma.TenantUpdateOneRequiredWithoutMembershipsNestedInput
   user?: Prisma.UserUpdateOneRequiredWithoutMembershipsNestedInput
@@ -3907,6 +4479,8 @@ export type TenantMembershipUncheckedUpdateWithoutGeolocalizacionesInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUncheckedUpdateManyWithoutMembershipNestedInput
   referidos?: Prisma.ReferidosUncheckedUpdateManyWithoutMembershipNestedInput
   sesionesActividad?: Prisma.SesionActividadUncheckedUpdateManyWithoutMembershipNestedInput
+  departmentScopes?: Prisma.TenantMembershipDepartmentScopeUncheckedUpdateManyWithoutMembershipNestedInput
+  municipalityScopes?: Prisma.TenantMembershipMunicipalityScopeUncheckedUpdateManyWithoutMembershipNestedInput
   turnos?: Prisma.TurnoUncheckedUpdateManyWithoutMembershipNestedInput
 }
 
@@ -3953,6 +4527,8 @@ export type TenantMembershipCreateWithoutNominasInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoCreateNestedManyWithoutMembershipInput
   referidos?: Prisma.ReferidosCreateNestedManyWithoutMembershipInput
   sesionesActividad?: Prisma.SesionActividadCreateNestedManyWithoutMembershipInput
+  departmentScopes?: Prisma.TenantMembershipDepartmentScopeCreateNestedManyWithoutMembershipInput
+  municipalityScopes?: Prisma.TenantMembershipMunicipalityScopeCreateNestedManyWithoutMembershipInput
   municipio?: Prisma.MunicipalityCreateNestedOneWithoutMembershipsInput
   tenant: Prisma.TenantCreateNestedOneWithoutMembershipsInput
   user: Prisma.UserCreateNestedOneWithoutMembershipsInput
@@ -4005,6 +4581,8 @@ export type TenantMembershipUncheckedCreateWithoutNominasInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUncheckedCreateNestedManyWithoutMembershipInput
   referidos?: Prisma.ReferidosUncheckedCreateNestedManyWithoutMembershipInput
   sesionesActividad?: Prisma.SesionActividadUncheckedCreateNestedManyWithoutMembershipInput
+  departmentScopes?: Prisma.TenantMembershipDepartmentScopeUncheckedCreateNestedManyWithoutMembershipInput
+  municipalityScopes?: Prisma.TenantMembershipMunicipalityScopeUncheckedCreateNestedManyWithoutMembershipInput
   turnos?: Prisma.TurnoUncheckedCreateNestedManyWithoutMembershipInput
 }
 
@@ -4067,6 +4645,8 @@ export type TenantMembershipUpdateWithoutNominasInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUpdateManyWithoutMembershipNestedInput
   referidos?: Prisma.ReferidosUpdateManyWithoutMembershipNestedInput
   sesionesActividad?: Prisma.SesionActividadUpdateManyWithoutMembershipNestedInput
+  departmentScopes?: Prisma.TenantMembershipDepartmentScopeUpdateManyWithoutMembershipNestedInput
+  municipalityScopes?: Prisma.TenantMembershipMunicipalityScopeUpdateManyWithoutMembershipNestedInput
   municipio?: Prisma.MunicipalityUpdateOneWithoutMembershipsNestedInput
   tenant?: Prisma.TenantUpdateOneRequiredWithoutMembershipsNestedInput
   user?: Prisma.UserUpdateOneRequiredWithoutMembershipsNestedInput
@@ -4119,6 +4699,8 @@ export type TenantMembershipUncheckedUpdateWithoutNominasInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUncheckedUpdateManyWithoutMembershipNestedInput
   referidos?: Prisma.ReferidosUncheckedUpdateManyWithoutMembershipNestedInput
   sesionesActividad?: Prisma.SesionActividadUncheckedUpdateManyWithoutMembershipNestedInput
+  departmentScopes?: Prisma.TenantMembershipDepartmentScopeUncheckedUpdateManyWithoutMembershipNestedInput
+  municipalityScopes?: Prisma.TenantMembershipMunicipalityScopeUncheckedUpdateManyWithoutMembershipNestedInput
   turnos?: Prisma.TurnoUncheckedUpdateManyWithoutMembershipNestedInput
 }
 
@@ -4165,6 +4747,8 @@ export type TenantMembershipCreateWithoutCitasComoCreadorInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoCreateNestedManyWithoutMembershipInput
   referidos?: Prisma.ReferidosCreateNestedManyWithoutMembershipInput
   sesionesActividad?: Prisma.SesionActividadCreateNestedManyWithoutMembershipInput
+  departmentScopes?: Prisma.TenantMembershipDepartmentScopeCreateNestedManyWithoutMembershipInput
+  municipalityScopes?: Prisma.TenantMembershipMunicipalityScopeCreateNestedManyWithoutMembershipInput
   municipio?: Prisma.MunicipalityCreateNestedOneWithoutMembershipsInput
   tenant: Prisma.TenantCreateNestedOneWithoutMembershipsInput
   user: Prisma.UserCreateNestedOneWithoutMembershipsInput
@@ -4217,6 +4801,8 @@ export type TenantMembershipUncheckedCreateWithoutCitasComoCreadorInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUncheckedCreateNestedManyWithoutMembershipInput
   referidos?: Prisma.ReferidosUncheckedCreateNestedManyWithoutMembershipInput
   sesionesActividad?: Prisma.SesionActividadUncheckedCreateNestedManyWithoutMembershipInput
+  departmentScopes?: Prisma.TenantMembershipDepartmentScopeUncheckedCreateNestedManyWithoutMembershipInput
+  municipalityScopes?: Prisma.TenantMembershipMunicipalityScopeUncheckedCreateNestedManyWithoutMembershipInput
   turnos?: Prisma.TurnoUncheckedCreateNestedManyWithoutMembershipInput
 }
 
@@ -4268,6 +4854,8 @@ export type TenantMembershipCreateWithoutCitasComoPsicologoInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoCreateNestedManyWithoutMembershipInput
   referidos?: Prisma.ReferidosCreateNestedManyWithoutMembershipInput
   sesionesActividad?: Prisma.SesionActividadCreateNestedManyWithoutMembershipInput
+  departmentScopes?: Prisma.TenantMembershipDepartmentScopeCreateNestedManyWithoutMembershipInput
+  municipalityScopes?: Prisma.TenantMembershipMunicipalityScopeCreateNestedManyWithoutMembershipInput
   municipio?: Prisma.MunicipalityCreateNestedOneWithoutMembershipsInput
   tenant: Prisma.TenantCreateNestedOneWithoutMembershipsInput
   user: Prisma.UserCreateNestedOneWithoutMembershipsInput
@@ -4320,6 +4908,8 @@ export type TenantMembershipUncheckedCreateWithoutCitasComoPsicologoInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUncheckedCreateNestedManyWithoutMembershipInput
   referidos?: Prisma.ReferidosUncheckedCreateNestedManyWithoutMembershipInput
   sesionesActividad?: Prisma.SesionActividadUncheckedCreateNestedManyWithoutMembershipInput
+  departmentScopes?: Prisma.TenantMembershipDepartmentScopeUncheckedCreateNestedManyWithoutMembershipInput
+  municipalityScopes?: Prisma.TenantMembershipMunicipalityScopeUncheckedCreateNestedManyWithoutMembershipInput
   turnos?: Prisma.TurnoUncheckedCreateNestedManyWithoutMembershipInput
 }
 
@@ -4382,6 +4972,8 @@ export type TenantMembershipUpdateWithoutCitasComoCreadorInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUpdateManyWithoutMembershipNestedInput
   referidos?: Prisma.ReferidosUpdateManyWithoutMembershipNestedInput
   sesionesActividad?: Prisma.SesionActividadUpdateManyWithoutMembershipNestedInput
+  departmentScopes?: Prisma.TenantMembershipDepartmentScopeUpdateManyWithoutMembershipNestedInput
+  municipalityScopes?: Prisma.TenantMembershipMunicipalityScopeUpdateManyWithoutMembershipNestedInput
   municipio?: Prisma.MunicipalityUpdateOneWithoutMembershipsNestedInput
   tenant?: Prisma.TenantUpdateOneRequiredWithoutMembershipsNestedInput
   user?: Prisma.UserUpdateOneRequiredWithoutMembershipsNestedInput
@@ -4434,6 +5026,8 @@ export type TenantMembershipUncheckedUpdateWithoutCitasComoCreadorInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUncheckedUpdateManyWithoutMembershipNestedInput
   referidos?: Prisma.ReferidosUncheckedUpdateManyWithoutMembershipNestedInput
   sesionesActividad?: Prisma.SesionActividadUncheckedUpdateManyWithoutMembershipNestedInput
+  departmentScopes?: Prisma.TenantMembershipDepartmentScopeUncheckedUpdateManyWithoutMembershipNestedInput
+  municipalityScopes?: Prisma.TenantMembershipMunicipalityScopeUncheckedUpdateManyWithoutMembershipNestedInput
   turnos?: Prisma.TurnoUncheckedUpdateManyWithoutMembershipNestedInput
 }
 
@@ -4491,6 +5085,8 @@ export type TenantMembershipUpdateWithoutCitasComoPsicologoInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUpdateManyWithoutMembershipNestedInput
   referidos?: Prisma.ReferidosUpdateManyWithoutMembershipNestedInput
   sesionesActividad?: Prisma.SesionActividadUpdateManyWithoutMembershipNestedInput
+  departmentScopes?: Prisma.TenantMembershipDepartmentScopeUpdateManyWithoutMembershipNestedInput
+  municipalityScopes?: Prisma.TenantMembershipMunicipalityScopeUpdateManyWithoutMembershipNestedInput
   municipio?: Prisma.MunicipalityUpdateOneWithoutMembershipsNestedInput
   tenant?: Prisma.TenantUpdateOneRequiredWithoutMembershipsNestedInput
   user?: Prisma.UserUpdateOneRequiredWithoutMembershipsNestedInput
@@ -4543,6 +5139,8 @@ export type TenantMembershipUncheckedUpdateWithoutCitasComoPsicologoInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUncheckedUpdateManyWithoutMembershipNestedInput
   referidos?: Prisma.ReferidosUncheckedUpdateManyWithoutMembershipNestedInput
   sesionesActividad?: Prisma.SesionActividadUncheckedUpdateManyWithoutMembershipNestedInput
+  departmentScopes?: Prisma.TenantMembershipDepartmentScopeUncheckedUpdateManyWithoutMembershipNestedInput
+  municipalityScopes?: Prisma.TenantMembershipMunicipalityScopeUncheckedUpdateManyWithoutMembershipNestedInput
   turnos?: Prisma.TurnoUncheckedUpdateManyWithoutMembershipNestedInput
 }
 
@@ -4589,6 +5187,8 @@ export type TenantMembershipCreateWithoutPaquetesAdquiridosInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoCreateNestedManyWithoutMembershipInput
   referidos?: Prisma.ReferidosCreateNestedManyWithoutMembershipInput
   sesionesActividad?: Prisma.SesionActividadCreateNestedManyWithoutMembershipInput
+  departmentScopes?: Prisma.TenantMembershipDepartmentScopeCreateNestedManyWithoutMembershipInput
+  municipalityScopes?: Prisma.TenantMembershipMunicipalityScopeCreateNestedManyWithoutMembershipInput
   municipio?: Prisma.MunicipalityCreateNestedOneWithoutMembershipsInput
   tenant: Prisma.TenantCreateNestedOneWithoutMembershipsInput
   user: Prisma.UserCreateNestedOneWithoutMembershipsInput
@@ -4641,6 +5241,8 @@ export type TenantMembershipUncheckedCreateWithoutPaquetesAdquiridosInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUncheckedCreateNestedManyWithoutMembershipInput
   referidos?: Prisma.ReferidosUncheckedCreateNestedManyWithoutMembershipInput
   sesionesActividad?: Prisma.SesionActividadUncheckedCreateNestedManyWithoutMembershipInput
+  departmentScopes?: Prisma.TenantMembershipDepartmentScopeUncheckedCreateNestedManyWithoutMembershipInput
+  municipalityScopes?: Prisma.TenantMembershipMunicipalityScopeUncheckedCreateNestedManyWithoutMembershipInput
   turnos?: Prisma.TurnoUncheckedCreateNestedManyWithoutMembershipInput
 }
 
@@ -4703,6 +5305,8 @@ export type TenantMembershipUpdateWithoutPaquetesAdquiridosInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUpdateManyWithoutMembershipNestedInput
   referidos?: Prisma.ReferidosUpdateManyWithoutMembershipNestedInput
   sesionesActividad?: Prisma.SesionActividadUpdateManyWithoutMembershipNestedInput
+  departmentScopes?: Prisma.TenantMembershipDepartmentScopeUpdateManyWithoutMembershipNestedInput
+  municipalityScopes?: Prisma.TenantMembershipMunicipalityScopeUpdateManyWithoutMembershipNestedInput
   municipio?: Prisma.MunicipalityUpdateOneWithoutMembershipsNestedInput
   tenant?: Prisma.TenantUpdateOneRequiredWithoutMembershipsNestedInput
   user?: Prisma.UserUpdateOneRequiredWithoutMembershipsNestedInput
@@ -4755,6 +5359,8 @@ export type TenantMembershipUncheckedUpdateWithoutPaquetesAdquiridosInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUncheckedUpdateManyWithoutMembershipNestedInput
   referidos?: Prisma.ReferidosUncheckedUpdateManyWithoutMembershipNestedInput
   sesionesActividad?: Prisma.SesionActividadUncheckedUpdateManyWithoutMembershipNestedInput
+  departmentScopes?: Prisma.TenantMembershipDepartmentScopeUncheckedUpdateManyWithoutMembershipNestedInput
+  municipalityScopes?: Prisma.TenantMembershipMunicipalityScopeUncheckedUpdateManyWithoutMembershipNestedInput
   turnos?: Prisma.TurnoUncheckedUpdateManyWithoutMembershipNestedInput
 }
 
@@ -4802,6 +5408,8 @@ export type TenantMembershipCreateWithoutTurnosInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoCreateNestedManyWithoutMembershipInput
   referidos?: Prisma.ReferidosCreateNestedManyWithoutMembershipInput
   sesionesActividad?: Prisma.SesionActividadCreateNestedManyWithoutMembershipInput
+  departmentScopes?: Prisma.TenantMembershipDepartmentScopeCreateNestedManyWithoutMembershipInput
+  municipalityScopes?: Prisma.TenantMembershipMunicipalityScopeCreateNestedManyWithoutMembershipInput
   municipio?: Prisma.MunicipalityCreateNestedOneWithoutMembershipsInput
   tenant: Prisma.TenantCreateNestedOneWithoutMembershipsInput
   user: Prisma.UserCreateNestedOneWithoutMembershipsInput
@@ -4854,6 +5462,8 @@ export type TenantMembershipUncheckedCreateWithoutTurnosInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUncheckedCreateNestedManyWithoutMembershipInput
   referidos?: Prisma.ReferidosUncheckedCreateNestedManyWithoutMembershipInput
   sesionesActividad?: Prisma.SesionActividadUncheckedCreateNestedManyWithoutMembershipInput
+  departmentScopes?: Prisma.TenantMembershipDepartmentScopeUncheckedCreateNestedManyWithoutMembershipInput
+  municipalityScopes?: Prisma.TenantMembershipMunicipalityScopeUncheckedCreateNestedManyWithoutMembershipInput
 }
 
 export type TenantMembershipCreateOrConnectWithoutTurnosInput = {
@@ -4916,6 +5526,8 @@ export type TenantMembershipUpdateWithoutTurnosInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUpdateManyWithoutMembershipNestedInput
   referidos?: Prisma.ReferidosUpdateManyWithoutMembershipNestedInput
   sesionesActividad?: Prisma.SesionActividadUpdateManyWithoutMembershipNestedInput
+  departmentScopes?: Prisma.TenantMembershipDepartmentScopeUpdateManyWithoutMembershipNestedInput
+  municipalityScopes?: Prisma.TenantMembershipMunicipalityScopeUpdateManyWithoutMembershipNestedInput
   municipio?: Prisma.MunicipalityUpdateOneWithoutMembershipsNestedInput
   tenant?: Prisma.TenantUpdateOneRequiredWithoutMembershipsNestedInput
   user?: Prisma.UserUpdateOneRequiredWithoutMembershipsNestedInput
@@ -4968,6 +5580,8 @@ export type TenantMembershipUncheckedUpdateWithoutTurnosInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUncheckedUpdateManyWithoutMembershipNestedInput
   referidos?: Prisma.ReferidosUncheckedUpdateManyWithoutMembershipNestedInput
   sesionesActividad?: Prisma.SesionActividadUncheckedUpdateManyWithoutMembershipNestedInput
+  departmentScopes?: Prisma.TenantMembershipDepartmentScopeUncheckedUpdateManyWithoutMembershipNestedInput
+  municipalityScopes?: Prisma.TenantMembershipMunicipalityScopeUncheckedUpdateManyWithoutMembershipNestedInput
 }
 
 export type TenantMembershipCreateWithoutCuentasCobroInput = {
@@ -5013,6 +5627,8 @@ export type TenantMembershipCreateWithoutCuentasCobroInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoCreateNestedManyWithoutMembershipInput
   referidos?: Prisma.ReferidosCreateNestedManyWithoutMembershipInput
   sesionesActividad?: Prisma.SesionActividadCreateNestedManyWithoutMembershipInput
+  departmentScopes?: Prisma.TenantMembershipDepartmentScopeCreateNestedManyWithoutMembershipInput
+  municipalityScopes?: Prisma.TenantMembershipMunicipalityScopeCreateNestedManyWithoutMembershipInput
   municipio?: Prisma.MunicipalityCreateNestedOneWithoutMembershipsInput
   tenant: Prisma.TenantCreateNestedOneWithoutMembershipsInput
   user: Prisma.UserCreateNestedOneWithoutMembershipsInput
@@ -5065,6 +5681,8 @@ export type TenantMembershipUncheckedCreateWithoutCuentasCobroInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUncheckedCreateNestedManyWithoutMembershipInput
   referidos?: Prisma.ReferidosUncheckedCreateNestedManyWithoutMembershipInput
   sesionesActividad?: Prisma.SesionActividadUncheckedCreateNestedManyWithoutMembershipInput
+  departmentScopes?: Prisma.TenantMembershipDepartmentScopeUncheckedCreateNestedManyWithoutMembershipInput
+  municipalityScopes?: Prisma.TenantMembershipMunicipalityScopeUncheckedCreateNestedManyWithoutMembershipInput
   turnos?: Prisma.TurnoUncheckedCreateNestedManyWithoutMembershipInput
 }
 
@@ -5127,6 +5745,8 @@ export type TenantMembershipUpdateWithoutCuentasCobroInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUpdateManyWithoutMembershipNestedInput
   referidos?: Prisma.ReferidosUpdateManyWithoutMembershipNestedInput
   sesionesActividad?: Prisma.SesionActividadUpdateManyWithoutMembershipNestedInput
+  departmentScopes?: Prisma.TenantMembershipDepartmentScopeUpdateManyWithoutMembershipNestedInput
+  municipalityScopes?: Prisma.TenantMembershipMunicipalityScopeUpdateManyWithoutMembershipNestedInput
   municipio?: Prisma.MunicipalityUpdateOneWithoutMembershipsNestedInput
   tenant?: Prisma.TenantUpdateOneRequiredWithoutMembershipsNestedInput
   user?: Prisma.UserUpdateOneRequiredWithoutMembershipsNestedInput
@@ -5179,6 +5799,8 @@ export type TenantMembershipUncheckedUpdateWithoutCuentasCobroInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUncheckedUpdateManyWithoutMembershipNestedInput
   referidos?: Prisma.ReferidosUncheckedUpdateManyWithoutMembershipNestedInput
   sesionesActividad?: Prisma.SesionActividadUncheckedUpdateManyWithoutMembershipNestedInput
+  departmentScopes?: Prisma.TenantMembershipDepartmentScopeUncheckedUpdateManyWithoutMembershipNestedInput
+  municipalityScopes?: Prisma.TenantMembershipMunicipalityScopeUncheckedUpdateManyWithoutMembershipNestedInput
   turnos?: Prisma.TurnoUncheckedUpdateManyWithoutMembershipNestedInput
 }
 
@@ -5225,6 +5847,8 @@ export type TenantMembershipCreateWithoutDeclaracionesEfectivoInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoCreateNestedManyWithoutMembershipInput
   referidos?: Prisma.ReferidosCreateNestedManyWithoutMembershipInput
   sesionesActividad?: Prisma.SesionActividadCreateNestedManyWithoutMembershipInput
+  departmentScopes?: Prisma.TenantMembershipDepartmentScopeCreateNestedManyWithoutMembershipInput
+  municipalityScopes?: Prisma.TenantMembershipMunicipalityScopeCreateNestedManyWithoutMembershipInput
   municipio?: Prisma.MunicipalityCreateNestedOneWithoutMembershipsInput
   tenant: Prisma.TenantCreateNestedOneWithoutMembershipsInput
   user: Prisma.UserCreateNestedOneWithoutMembershipsInput
@@ -5277,6 +5901,8 @@ export type TenantMembershipUncheckedCreateWithoutDeclaracionesEfectivoInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUncheckedCreateNestedManyWithoutMembershipInput
   referidos?: Prisma.ReferidosUncheckedCreateNestedManyWithoutMembershipInput
   sesionesActividad?: Prisma.SesionActividadUncheckedCreateNestedManyWithoutMembershipInput
+  departmentScopes?: Prisma.TenantMembershipDepartmentScopeUncheckedCreateNestedManyWithoutMembershipInput
+  municipalityScopes?: Prisma.TenantMembershipMunicipalityScopeUncheckedCreateNestedManyWithoutMembershipInput
   turnos?: Prisma.TurnoUncheckedCreateNestedManyWithoutMembershipInput
 }
 
@@ -5339,6 +5965,8 @@ export type TenantMembershipUpdateWithoutDeclaracionesEfectivoInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUpdateManyWithoutMembershipNestedInput
   referidos?: Prisma.ReferidosUpdateManyWithoutMembershipNestedInput
   sesionesActividad?: Prisma.SesionActividadUpdateManyWithoutMembershipNestedInput
+  departmentScopes?: Prisma.TenantMembershipDepartmentScopeUpdateManyWithoutMembershipNestedInput
+  municipalityScopes?: Prisma.TenantMembershipMunicipalityScopeUpdateManyWithoutMembershipNestedInput
   municipio?: Prisma.MunicipalityUpdateOneWithoutMembershipsNestedInput
   tenant?: Prisma.TenantUpdateOneRequiredWithoutMembershipsNestedInput
   user?: Prisma.UserUpdateOneRequiredWithoutMembershipsNestedInput
@@ -5391,6 +6019,8 @@ export type TenantMembershipUncheckedUpdateWithoutDeclaracionesEfectivoInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUncheckedUpdateManyWithoutMembershipNestedInput
   referidos?: Prisma.ReferidosUncheckedUpdateManyWithoutMembershipNestedInput
   sesionesActividad?: Prisma.SesionActividadUncheckedUpdateManyWithoutMembershipNestedInput
+  departmentScopes?: Prisma.TenantMembershipDepartmentScopeUncheckedUpdateManyWithoutMembershipNestedInput
+  municipalityScopes?: Prisma.TenantMembershipMunicipalityScopeUncheckedUpdateManyWithoutMembershipNestedInput
   turnos?: Prisma.TurnoUncheckedUpdateManyWithoutMembershipNestedInput
 }
 
@@ -5437,6 +6067,8 @@ export type TenantMembershipCreateWithoutConsignacionesCreadasInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoCreateNestedManyWithoutMembershipInput
   referidos?: Prisma.ReferidosCreateNestedManyWithoutMembershipInput
   sesionesActividad?: Prisma.SesionActividadCreateNestedManyWithoutMembershipInput
+  departmentScopes?: Prisma.TenantMembershipDepartmentScopeCreateNestedManyWithoutMembershipInput
+  municipalityScopes?: Prisma.TenantMembershipMunicipalityScopeCreateNestedManyWithoutMembershipInput
   municipio?: Prisma.MunicipalityCreateNestedOneWithoutMembershipsInput
   tenant: Prisma.TenantCreateNestedOneWithoutMembershipsInput
   user: Prisma.UserCreateNestedOneWithoutMembershipsInput
@@ -5489,6 +6121,8 @@ export type TenantMembershipUncheckedCreateWithoutConsignacionesCreadasInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUncheckedCreateNestedManyWithoutMembershipInput
   referidos?: Prisma.ReferidosUncheckedCreateNestedManyWithoutMembershipInput
   sesionesActividad?: Prisma.SesionActividadUncheckedCreateNestedManyWithoutMembershipInput
+  departmentScopes?: Prisma.TenantMembershipDepartmentScopeUncheckedCreateNestedManyWithoutMembershipInput
+  municipalityScopes?: Prisma.TenantMembershipMunicipalityScopeUncheckedCreateNestedManyWithoutMembershipInput
   turnos?: Prisma.TurnoUncheckedCreateNestedManyWithoutMembershipInput
 }
 
@@ -5540,6 +6174,8 @@ export type TenantMembershipCreateWithoutConsignacionesTecnicoInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoCreateNestedManyWithoutMembershipInput
   referidos?: Prisma.ReferidosCreateNestedManyWithoutMembershipInput
   sesionesActividad?: Prisma.SesionActividadCreateNestedManyWithoutMembershipInput
+  departmentScopes?: Prisma.TenantMembershipDepartmentScopeCreateNestedManyWithoutMembershipInput
+  municipalityScopes?: Prisma.TenantMembershipMunicipalityScopeCreateNestedManyWithoutMembershipInput
   municipio?: Prisma.MunicipalityCreateNestedOneWithoutMembershipsInput
   tenant: Prisma.TenantCreateNestedOneWithoutMembershipsInput
   user: Prisma.UserCreateNestedOneWithoutMembershipsInput
@@ -5592,6 +6228,8 @@ export type TenantMembershipUncheckedCreateWithoutConsignacionesTecnicoInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUncheckedCreateNestedManyWithoutMembershipInput
   referidos?: Prisma.ReferidosUncheckedCreateNestedManyWithoutMembershipInput
   sesionesActividad?: Prisma.SesionActividadUncheckedCreateNestedManyWithoutMembershipInput
+  departmentScopes?: Prisma.TenantMembershipDepartmentScopeUncheckedCreateNestedManyWithoutMembershipInput
+  municipalityScopes?: Prisma.TenantMembershipMunicipalityScopeUncheckedCreateNestedManyWithoutMembershipInput
   turnos?: Prisma.TurnoUncheckedCreateNestedManyWithoutMembershipInput
 }
 
@@ -5654,6 +6292,8 @@ export type TenantMembershipUpdateWithoutConsignacionesCreadasInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUpdateManyWithoutMembershipNestedInput
   referidos?: Prisma.ReferidosUpdateManyWithoutMembershipNestedInput
   sesionesActividad?: Prisma.SesionActividadUpdateManyWithoutMembershipNestedInput
+  departmentScopes?: Prisma.TenantMembershipDepartmentScopeUpdateManyWithoutMembershipNestedInput
+  municipalityScopes?: Prisma.TenantMembershipMunicipalityScopeUpdateManyWithoutMembershipNestedInput
   municipio?: Prisma.MunicipalityUpdateOneWithoutMembershipsNestedInput
   tenant?: Prisma.TenantUpdateOneRequiredWithoutMembershipsNestedInput
   user?: Prisma.UserUpdateOneRequiredWithoutMembershipsNestedInput
@@ -5706,6 +6346,8 @@ export type TenantMembershipUncheckedUpdateWithoutConsignacionesCreadasInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUncheckedUpdateManyWithoutMembershipNestedInput
   referidos?: Prisma.ReferidosUncheckedUpdateManyWithoutMembershipNestedInput
   sesionesActividad?: Prisma.SesionActividadUncheckedUpdateManyWithoutMembershipNestedInput
+  departmentScopes?: Prisma.TenantMembershipDepartmentScopeUncheckedUpdateManyWithoutMembershipNestedInput
+  municipalityScopes?: Prisma.TenantMembershipMunicipalityScopeUncheckedUpdateManyWithoutMembershipNestedInput
   turnos?: Prisma.TurnoUncheckedUpdateManyWithoutMembershipNestedInput
 }
 
@@ -5763,6 +6405,8 @@ export type TenantMembershipUpdateWithoutConsignacionesTecnicoInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUpdateManyWithoutMembershipNestedInput
   referidos?: Prisma.ReferidosUpdateManyWithoutMembershipNestedInput
   sesionesActividad?: Prisma.SesionActividadUpdateManyWithoutMembershipNestedInput
+  departmentScopes?: Prisma.TenantMembershipDepartmentScopeUpdateManyWithoutMembershipNestedInput
+  municipalityScopes?: Prisma.TenantMembershipMunicipalityScopeUpdateManyWithoutMembershipNestedInput
   municipio?: Prisma.MunicipalityUpdateOneWithoutMembershipsNestedInput
   tenant?: Prisma.TenantUpdateOneRequiredWithoutMembershipsNestedInput
   user?: Prisma.UserUpdateOneRequiredWithoutMembershipsNestedInput
@@ -5815,6 +6459,8 @@ export type TenantMembershipUncheckedUpdateWithoutConsignacionesTecnicoInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUncheckedUpdateManyWithoutMembershipNestedInput
   referidos?: Prisma.ReferidosUncheckedUpdateManyWithoutMembershipNestedInput
   sesionesActividad?: Prisma.SesionActividadUncheckedUpdateManyWithoutMembershipNestedInput
+  departmentScopes?: Prisma.TenantMembershipDepartmentScopeUncheckedUpdateManyWithoutMembershipNestedInput
+  municipalityScopes?: Prisma.TenantMembershipMunicipalityScopeUncheckedUpdateManyWithoutMembershipNestedInput
   turnos?: Prisma.TurnoUncheckedUpdateManyWithoutMembershipNestedInput
 }
 
@@ -5861,6 +6507,8 @@ export type TenantMembershipCreateWithoutAnticiposInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoCreateNestedManyWithoutMembershipInput
   referidos?: Prisma.ReferidosCreateNestedManyWithoutMembershipInput
   sesionesActividad?: Prisma.SesionActividadCreateNestedManyWithoutMembershipInput
+  departmentScopes?: Prisma.TenantMembershipDepartmentScopeCreateNestedManyWithoutMembershipInput
+  municipalityScopes?: Prisma.TenantMembershipMunicipalityScopeCreateNestedManyWithoutMembershipInput
   municipio?: Prisma.MunicipalityCreateNestedOneWithoutMembershipsInput
   tenant: Prisma.TenantCreateNestedOneWithoutMembershipsInput
   user: Prisma.UserCreateNestedOneWithoutMembershipsInput
@@ -5913,6 +6561,8 @@ export type TenantMembershipUncheckedCreateWithoutAnticiposInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUncheckedCreateNestedManyWithoutMembershipInput
   referidos?: Prisma.ReferidosUncheckedCreateNestedManyWithoutMembershipInput
   sesionesActividad?: Prisma.SesionActividadUncheckedCreateNestedManyWithoutMembershipInput
+  departmentScopes?: Prisma.TenantMembershipDepartmentScopeUncheckedCreateNestedManyWithoutMembershipInput
+  municipalityScopes?: Prisma.TenantMembershipMunicipalityScopeUncheckedCreateNestedManyWithoutMembershipInput
   turnos?: Prisma.TurnoUncheckedCreateNestedManyWithoutMembershipInput
 }
 
@@ -5975,6 +6625,8 @@ export type TenantMembershipUpdateWithoutAnticiposInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUpdateManyWithoutMembershipNestedInput
   referidos?: Prisma.ReferidosUpdateManyWithoutMembershipNestedInput
   sesionesActividad?: Prisma.SesionActividadUpdateManyWithoutMembershipNestedInput
+  departmentScopes?: Prisma.TenantMembershipDepartmentScopeUpdateManyWithoutMembershipNestedInput
+  municipalityScopes?: Prisma.TenantMembershipMunicipalityScopeUpdateManyWithoutMembershipNestedInput
   municipio?: Prisma.MunicipalityUpdateOneWithoutMembershipsNestedInput
   tenant?: Prisma.TenantUpdateOneRequiredWithoutMembershipsNestedInput
   user?: Prisma.UserUpdateOneRequiredWithoutMembershipsNestedInput
@@ -6027,6 +6679,8 @@ export type TenantMembershipUncheckedUpdateWithoutAnticiposInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUncheckedUpdateManyWithoutMembershipNestedInput
   referidos?: Prisma.ReferidosUncheckedUpdateManyWithoutMembershipNestedInput
   sesionesActividad?: Prisma.SesionActividadUncheckedUpdateManyWithoutMembershipNestedInput
+  departmentScopes?: Prisma.TenantMembershipDepartmentScopeUncheckedUpdateManyWithoutMembershipNestedInput
+  municipalityScopes?: Prisma.TenantMembershipMunicipalityScopeUncheckedUpdateManyWithoutMembershipNestedInput
   turnos?: Prisma.TurnoUncheckedUpdateManyWithoutMembershipNestedInput
 }
 
@@ -6073,6 +6727,8 @@ export type TenantMembershipCreateWithoutProductosSolicitadosInput = {
   permisosSolicitados?: Prisma.PermisoCreateNestedManyWithoutMembershipInput
   referidos?: Prisma.ReferidosCreateNestedManyWithoutMembershipInput
   sesionesActividad?: Prisma.SesionActividadCreateNestedManyWithoutMembershipInput
+  departmentScopes?: Prisma.TenantMembershipDepartmentScopeCreateNestedManyWithoutMembershipInput
+  municipalityScopes?: Prisma.TenantMembershipMunicipalityScopeCreateNestedManyWithoutMembershipInput
   municipio?: Prisma.MunicipalityCreateNestedOneWithoutMembershipsInput
   tenant: Prisma.TenantCreateNestedOneWithoutMembershipsInput
   user: Prisma.UserCreateNestedOneWithoutMembershipsInput
@@ -6125,6 +6781,8 @@ export type TenantMembershipUncheckedCreateWithoutProductosSolicitadosInput = {
   permisosSolicitados?: Prisma.PermisoUncheckedCreateNestedManyWithoutMembershipInput
   referidos?: Prisma.ReferidosUncheckedCreateNestedManyWithoutMembershipInput
   sesionesActividad?: Prisma.SesionActividadUncheckedCreateNestedManyWithoutMembershipInput
+  departmentScopes?: Prisma.TenantMembershipDepartmentScopeUncheckedCreateNestedManyWithoutMembershipInput
+  municipalityScopes?: Prisma.TenantMembershipMunicipalityScopeUncheckedCreateNestedManyWithoutMembershipInput
   turnos?: Prisma.TurnoUncheckedCreateNestedManyWithoutMembershipInput
 }
 
@@ -6187,6 +6845,8 @@ export type TenantMembershipUpdateWithoutProductosSolicitadosInput = {
   permisosSolicitados?: Prisma.PermisoUpdateManyWithoutMembershipNestedInput
   referidos?: Prisma.ReferidosUpdateManyWithoutMembershipNestedInput
   sesionesActividad?: Prisma.SesionActividadUpdateManyWithoutMembershipNestedInput
+  departmentScopes?: Prisma.TenantMembershipDepartmentScopeUpdateManyWithoutMembershipNestedInput
+  municipalityScopes?: Prisma.TenantMembershipMunicipalityScopeUpdateManyWithoutMembershipNestedInput
   municipio?: Prisma.MunicipalityUpdateOneWithoutMembershipsNestedInput
   tenant?: Prisma.TenantUpdateOneRequiredWithoutMembershipsNestedInput
   user?: Prisma.UserUpdateOneRequiredWithoutMembershipsNestedInput
@@ -6239,6 +6899,8 @@ export type TenantMembershipUncheckedUpdateWithoutProductosSolicitadosInput = {
   permisosSolicitados?: Prisma.PermisoUncheckedUpdateManyWithoutMembershipNestedInput
   referidos?: Prisma.ReferidosUncheckedUpdateManyWithoutMembershipNestedInput
   sesionesActividad?: Prisma.SesionActividadUncheckedUpdateManyWithoutMembershipNestedInput
+  departmentScopes?: Prisma.TenantMembershipDepartmentScopeUncheckedUpdateManyWithoutMembershipNestedInput
+  municipalityScopes?: Prisma.TenantMembershipMunicipalityScopeUncheckedUpdateManyWithoutMembershipNestedInput
   turnos?: Prisma.TurnoUncheckedUpdateManyWithoutMembershipNestedInput
 }
 
@@ -6285,6 +6947,8 @@ export type TenantMembershipCreateWithoutPermisosAprobadosInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoCreateNestedManyWithoutMembershipInput
   referidos?: Prisma.ReferidosCreateNestedManyWithoutMembershipInput
   sesionesActividad?: Prisma.SesionActividadCreateNestedManyWithoutMembershipInput
+  departmentScopes?: Prisma.TenantMembershipDepartmentScopeCreateNestedManyWithoutMembershipInput
+  municipalityScopes?: Prisma.TenantMembershipMunicipalityScopeCreateNestedManyWithoutMembershipInput
   municipio?: Prisma.MunicipalityCreateNestedOneWithoutMembershipsInput
   tenant: Prisma.TenantCreateNestedOneWithoutMembershipsInput
   user: Prisma.UserCreateNestedOneWithoutMembershipsInput
@@ -6337,6 +7001,8 @@ export type TenantMembershipUncheckedCreateWithoutPermisosAprobadosInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUncheckedCreateNestedManyWithoutMembershipInput
   referidos?: Prisma.ReferidosUncheckedCreateNestedManyWithoutMembershipInput
   sesionesActividad?: Prisma.SesionActividadUncheckedCreateNestedManyWithoutMembershipInput
+  departmentScopes?: Prisma.TenantMembershipDepartmentScopeUncheckedCreateNestedManyWithoutMembershipInput
+  municipalityScopes?: Prisma.TenantMembershipMunicipalityScopeUncheckedCreateNestedManyWithoutMembershipInput
   turnos?: Prisma.TurnoUncheckedCreateNestedManyWithoutMembershipInput
 }
 
@@ -6388,6 +7054,8 @@ export type TenantMembershipCreateWithoutPermisosSolicitadosInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoCreateNestedManyWithoutMembershipInput
   referidos?: Prisma.ReferidosCreateNestedManyWithoutMembershipInput
   sesionesActividad?: Prisma.SesionActividadCreateNestedManyWithoutMembershipInput
+  departmentScopes?: Prisma.TenantMembershipDepartmentScopeCreateNestedManyWithoutMembershipInput
+  municipalityScopes?: Prisma.TenantMembershipMunicipalityScopeCreateNestedManyWithoutMembershipInput
   municipio?: Prisma.MunicipalityCreateNestedOneWithoutMembershipsInput
   tenant: Prisma.TenantCreateNestedOneWithoutMembershipsInput
   user: Prisma.UserCreateNestedOneWithoutMembershipsInput
@@ -6440,6 +7108,8 @@ export type TenantMembershipUncheckedCreateWithoutPermisosSolicitadosInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUncheckedCreateNestedManyWithoutMembershipInput
   referidos?: Prisma.ReferidosUncheckedCreateNestedManyWithoutMembershipInput
   sesionesActividad?: Prisma.SesionActividadUncheckedCreateNestedManyWithoutMembershipInput
+  departmentScopes?: Prisma.TenantMembershipDepartmentScopeUncheckedCreateNestedManyWithoutMembershipInput
+  municipalityScopes?: Prisma.TenantMembershipMunicipalityScopeUncheckedCreateNestedManyWithoutMembershipInput
   turnos?: Prisma.TurnoUncheckedCreateNestedManyWithoutMembershipInput
 }
 
@@ -6502,6 +7172,8 @@ export type TenantMembershipUpdateWithoutPermisosAprobadosInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUpdateManyWithoutMembershipNestedInput
   referidos?: Prisma.ReferidosUpdateManyWithoutMembershipNestedInput
   sesionesActividad?: Prisma.SesionActividadUpdateManyWithoutMembershipNestedInput
+  departmentScopes?: Prisma.TenantMembershipDepartmentScopeUpdateManyWithoutMembershipNestedInput
+  municipalityScopes?: Prisma.TenantMembershipMunicipalityScopeUpdateManyWithoutMembershipNestedInput
   municipio?: Prisma.MunicipalityUpdateOneWithoutMembershipsNestedInput
   tenant?: Prisma.TenantUpdateOneRequiredWithoutMembershipsNestedInput
   user?: Prisma.UserUpdateOneRequiredWithoutMembershipsNestedInput
@@ -6554,6 +7226,8 @@ export type TenantMembershipUncheckedUpdateWithoutPermisosAprobadosInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUncheckedUpdateManyWithoutMembershipNestedInput
   referidos?: Prisma.ReferidosUncheckedUpdateManyWithoutMembershipNestedInput
   sesionesActividad?: Prisma.SesionActividadUncheckedUpdateManyWithoutMembershipNestedInput
+  departmentScopes?: Prisma.TenantMembershipDepartmentScopeUncheckedUpdateManyWithoutMembershipNestedInput
+  municipalityScopes?: Prisma.TenantMembershipMunicipalityScopeUncheckedUpdateManyWithoutMembershipNestedInput
   turnos?: Prisma.TurnoUncheckedUpdateManyWithoutMembershipNestedInput
 }
 
@@ -6611,6 +7285,8 @@ export type TenantMembershipUpdateWithoutPermisosSolicitadosInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUpdateManyWithoutMembershipNestedInput
   referidos?: Prisma.ReferidosUpdateManyWithoutMembershipNestedInput
   sesionesActividad?: Prisma.SesionActividadUpdateManyWithoutMembershipNestedInput
+  departmentScopes?: Prisma.TenantMembershipDepartmentScopeUpdateManyWithoutMembershipNestedInput
+  municipalityScopes?: Prisma.TenantMembershipMunicipalityScopeUpdateManyWithoutMembershipNestedInput
   municipio?: Prisma.MunicipalityUpdateOneWithoutMembershipsNestedInput
   tenant?: Prisma.TenantUpdateOneRequiredWithoutMembershipsNestedInput
   user?: Prisma.UserUpdateOneRequiredWithoutMembershipsNestedInput
@@ -6663,6 +7339,8 @@ export type TenantMembershipUncheckedUpdateWithoutPermisosSolicitadosInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUncheckedUpdateManyWithoutMembershipNestedInput
   referidos?: Prisma.ReferidosUncheckedUpdateManyWithoutMembershipNestedInput
   sesionesActividad?: Prisma.SesionActividadUncheckedUpdateManyWithoutMembershipNestedInput
+  departmentScopes?: Prisma.TenantMembershipDepartmentScopeUncheckedUpdateManyWithoutMembershipNestedInput
+  municipalityScopes?: Prisma.TenantMembershipMunicipalityScopeUncheckedUpdateManyWithoutMembershipNestedInput
   turnos?: Prisma.TurnoUncheckedUpdateManyWithoutMembershipNestedInput
 }
 
@@ -6709,6 +7387,8 @@ export type TenantMembershipCreateWithoutConfiguracionPagosInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoCreateNestedManyWithoutMembershipInput
   referidos?: Prisma.ReferidosCreateNestedManyWithoutMembershipInput
   sesionesActividad?: Prisma.SesionActividadCreateNestedManyWithoutMembershipInput
+  departmentScopes?: Prisma.TenantMembershipDepartmentScopeCreateNestedManyWithoutMembershipInput
+  municipalityScopes?: Prisma.TenantMembershipMunicipalityScopeCreateNestedManyWithoutMembershipInput
   municipio?: Prisma.MunicipalityCreateNestedOneWithoutMembershipsInput
   tenant: Prisma.TenantCreateNestedOneWithoutMembershipsInput
   user: Prisma.UserCreateNestedOneWithoutMembershipsInput
@@ -6761,6 +7441,8 @@ export type TenantMembershipUncheckedCreateWithoutConfiguracionPagosInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUncheckedCreateNestedManyWithoutMembershipInput
   referidos?: Prisma.ReferidosUncheckedCreateNestedManyWithoutMembershipInput
   sesionesActividad?: Prisma.SesionActividadUncheckedCreateNestedManyWithoutMembershipInput
+  departmentScopes?: Prisma.TenantMembershipDepartmentScopeUncheckedCreateNestedManyWithoutMembershipInput
+  municipalityScopes?: Prisma.TenantMembershipMunicipalityScopeUncheckedCreateNestedManyWithoutMembershipInput
   turnos?: Prisma.TurnoUncheckedCreateNestedManyWithoutMembershipInput
 }
 
@@ -6823,6 +7505,8 @@ export type TenantMembershipUpdateWithoutConfiguracionPagosInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUpdateManyWithoutMembershipNestedInput
   referidos?: Prisma.ReferidosUpdateManyWithoutMembershipNestedInput
   sesionesActividad?: Prisma.SesionActividadUpdateManyWithoutMembershipNestedInput
+  departmentScopes?: Prisma.TenantMembershipDepartmentScopeUpdateManyWithoutMembershipNestedInput
+  municipalityScopes?: Prisma.TenantMembershipMunicipalityScopeUpdateManyWithoutMembershipNestedInput
   municipio?: Prisma.MunicipalityUpdateOneWithoutMembershipsNestedInput
   tenant?: Prisma.TenantUpdateOneRequiredWithoutMembershipsNestedInput
   user?: Prisma.UserUpdateOneRequiredWithoutMembershipsNestedInput
@@ -6875,6 +7559,8 @@ export type TenantMembershipUncheckedUpdateWithoutConfiguracionPagosInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUncheckedUpdateManyWithoutMembershipNestedInput
   referidos?: Prisma.ReferidosUncheckedUpdateManyWithoutMembershipNestedInput
   sesionesActividad?: Prisma.SesionActividadUncheckedUpdateManyWithoutMembershipNestedInput
+  departmentScopes?: Prisma.TenantMembershipDepartmentScopeUncheckedUpdateManyWithoutMembershipNestedInput
+  municipalityScopes?: Prisma.TenantMembershipMunicipalityScopeUncheckedUpdateManyWithoutMembershipNestedInput
   turnos?: Prisma.TurnoUncheckedUpdateManyWithoutMembershipNestedInput
 }
 
@@ -6921,6 +7607,8 @@ export type TenantMembershipCreateWithoutCuentasPagoInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoCreateNestedManyWithoutMembershipInput
   referidos?: Prisma.ReferidosCreateNestedManyWithoutMembershipInput
   sesionesActividad?: Prisma.SesionActividadCreateNestedManyWithoutMembershipInput
+  departmentScopes?: Prisma.TenantMembershipDepartmentScopeCreateNestedManyWithoutMembershipInput
+  municipalityScopes?: Prisma.TenantMembershipMunicipalityScopeCreateNestedManyWithoutMembershipInput
   municipio?: Prisma.MunicipalityCreateNestedOneWithoutMembershipsInput
   tenant: Prisma.TenantCreateNestedOneWithoutMembershipsInput
   user: Prisma.UserCreateNestedOneWithoutMembershipsInput
@@ -6973,6 +7661,8 @@ export type TenantMembershipUncheckedCreateWithoutCuentasPagoInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUncheckedCreateNestedManyWithoutMembershipInput
   referidos?: Prisma.ReferidosUncheckedCreateNestedManyWithoutMembershipInput
   sesionesActividad?: Prisma.SesionActividadUncheckedCreateNestedManyWithoutMembershipInput
+  departmentScopes?: Prisma.TenantMembershipDepartmentScopeUncheckedCreateNestedManyWithoutMembershipInput
+  municipalityScopes?: Prisma.TenantMembershipMunicipalityScopeUncheckedCreateNestedManyWithoutMembershipInput
   turnos?: Prisma.TurnoUncheckedCreateNestedManyWithoutMembershipInput
 }
 
@@ -7035,6 +7725,8 @@ export type TenantMembershipUpdateWithoutCuentasPagoInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUpdateManyWithoutMembershipNestedInput
   referidos?: Prisma.ReferidosUpdateManyWithoutMembershipNestedInput
   sesionesActividad?: Prisma.SesionActividadUpdateManyWithoutMembershipNestedInput
+  departmentScopes?: Prisma.TenantMembershipDepartmentScopeUpdateManyWithoutMembershipNestedInput
+  municipalityScopes?: Prisma.TenantMembershipMunicipalityScopeUpdateManyWithoutMembershipNestedInput
   municipio?: Prisma.MunicipalityUpdateOneWithoutMembershipsNestedInput
   tenant?: Prisma.TenantUpdateOneRequiredWithoutMembershipsNestedInput
   user?: Prisma.UserUpdateOneRequiredWithoutMembershipsNestedInput
@@ -7087,6 +7779,8 @@ export type TenantMembershipUncheckedUpdateWithoutCuentasPagoInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUncheckedUpdateManyWithoutMembershipNestedInput
   referidos?: Prisma.ReferidosUncheckedUpdateManyWithoutMembershipNestedInput
   sesionesActividad?: Prisma.SesionActividadUncheckedUpdateManyWithoutMembershipNestedInput
+  departmentScopes?: Prisma.TenantMembershipDepartmentScopeUncheckedUpdateManyWithoutMembershipNestedInput
+  municipalityScopes?: Prisma.TenantMembershipMunicipalityScopeUncheckedUpdateManyWithoutMembershipNestedInput
   turnos?: Prisma.TurnoUncheckedUpdateManyWithoutMembershipNestedInput
 }
 
@@ -7133,6 +7827,8 @@ export type TenantMembershipCreateWithoutEgresosInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoCreateNestedManyWithoutMembershipInput
   referidos?: Prisma.ReferidosCreateNestedManyWithoutMembershipInput
   sesionesActividad?: Prisma.SesionActividadCreateNestedManyWithoutMembershipInput
+  departmentScopes?: Prisma.TenantMembershipDepartmentScopeCreateNestedManyWithoutMembershipInput
+  municipalityScopes?: Prisma.TenantMembershipMunicipalityScopeCreateNestedManyWithoutMembershipInput
   municipio?: Prisma.MunicipalityCreateNestedOneWithoutMembershipsInput
   tenant: Prisma.TenantCreateNestedOneWithoutMembershipsInput
   user: Prisma.UserCreateNestedOneWithoutMembershipsInput
@@ -7185,6 +7881,8 @@ export type TenantMembershipUncheckedCreateWithoutEgresosInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUncheckedCreateNestedManyWithoutMembershipInput
   referidos?: Prisma.ReferidosUncheckedCreateNestedManyWithoutMembershipInput
   sesionesActividad?: Prisma.SesionActividadUncheckedCreateNestedManyWithoutMembershipInput
+  departmentScopes?: Prisma.TenantMembershipDepartmentScopeUncheckedCreateNestedManyWithoutMembershipInput
+  municipalityScopes?: Prisma.TenantMembershipMunicipalityScopeUncheckedCreateNestedManyWithoutMembershipInput
   turnos?: Prisma.TurnoUncheckedCreateNestedManyWithoutMembershipInput
 }
 
@@ -7247,6 +7945,8 @@ export type TenantMembershipUpdateWithoutEgresosInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUpdateManyWithoutMembershipNestedInput
   referidos?: Prisma.ReferidosUpdateManyWithoutMembershipNestedInput
   sesionesActividad?: Prisma.SesionActividadUpdateManyWithoutMembershipNestedInput
+  departmentScopes?: Prisma.TenantMembershipDepartmentScopeUpdateManyWithoutMembershipNestedInput
+  municipalityScopes?: Prisma.TenantMembershipMunicipalityScopeUpdateManyWithoutMembershipNestedInput
   municipio?: Prisma.MunicipalityUpdateOneWithoutMembershipsNestedInput
   tenant?: Prisma.TenantUpdateOneRequiredWithoutMembershipsNestedInput
   user?: Prisma.UserUpdateOneRequiredWithoutMembershipsNestedInput
@@ -7299,6 +7999,8 @@ export type TenantMembershipUncheckedUpdateWithoutEgresosInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUncheckedUpdateManyWithoutMembershipNestedInput
   referidos?: Prisma.ReferidosUncheckedUpdateManyWithoutMembershipNestedInput
   sesionesActividad?: Prisma.SesionActividadUncheckedUpdateManyWithoutMembershipNestedInput
+  departmentScopes?: Prisma.TenantMembershipDepartmentScopeUncheckedUpdateManyWithoutMembershipNestedInput
+  municipalityScopes?: Prisma.TenantMembershipMunicipalityScopeUncheckedUpdateManyWithoutMembershipNestedInput
   turnos?: Prisma.TurnoUncheckedUpdateManyWithoutMembershipNestedInput
 }
 
@@ -7345,6 +8047,8 @@ export type TenantMembershipCreateWithoutReferidosInput = {
   permisosSolicitados?: Prisma.PermisoCreateNestedManyWithoutMembershipInput
   productosSolicitados?: Prisma.ProductoSolicitadoCreateNestedManyWithoutMembershipInput
   sesionesActividad?: Prisma.SesionActividadCreateNestedManyWithoutMembershipInput
+  departmentScopes?: Prisma.TenantMembershipDepartmentScopeCreateNestedManyWithoutMembershipInput
+  municipalityScopes?: Prisma.TenantMembershipMunicipalityScopeCreateNestedManyWithoutMembershipInput
   municipio?: Prisma.MunicipalityCreateNestedOneWithoutMembershipsInput
   tenant: Prisma.TenantCreateNestedOneWithoutMembershipsInput
   user: Prisma.UserCreateNestedOneWithoutMembershipsInput
@@ -7397,6 +8101,8 @@ export type TenantMembershipUncheckedCreateWithoutReferidosInput = {
   permisosSolicitados?: Prisma.PermisoUncheckedCreateNestedManyWithoutMembershipInput
   productosSolicitados?: Prisma.ProductoSolicitadoUncheckedCreateNestedManyWithoutMembershipInput
   sesionesActividad?: Prisma.SesionActividadUncheckedCreateNestedManyWithoutMembershipInput
+  departmentScopes?: Prisma.TenantMembershipDepartmentScopeUncheckedCreateNestedManyWithoutMembershipInput
+  municipalityScopes?: Prisma.TenantMembershipMunicipalityScopeUncheckedCreateNestedManyWithoutMembershipInput
   turnos?: Prisma.TurnoUncheckedCreateNestedManyWithoutMembershipInput
 }
 
@@ -7459,6 +8165,8 @@ export type TenantMembershipUpdateWithoutReferidosInput = {
   permisosSolicitados?: Prisma.PermisoUpdateManyWithoutMembershipNestedInput
   productosSolicitados?: Prisma.ProductoSolicitadoUpdateManyWithoutMembershipNestedInput
   sesionesActividad?: Prisma.SesionActividadUpdateManyWithoutMembershipNestedInput
+  departmentScopes?: Prisma.TenantMembershipDepartmentScopeUpdateManyWithoutMembershipNestedInput
+  municipalityScopes?: Prisma.TenantMembershipMunicipalityScopeUpdateManyWithoutMembershipNestedInput
   municipio?: Prisma.MunicipalityUpdateOneWithoutMembershipsNestedInput
   tenant?: Prisma.TenantUpdateOneRequiredWithoutMembershipsNestedInput
   user?: Prisma.UserUpdateOneRequiredWithoutMembershipsNestedInput
@@ -7511,6 +8219,8 @@ export type TenantMembershipUncheckedUpdateWithoutReferidosInput = {
   permisosSolicitados?: Prisma.PermisoUncheckedUpdateManyWithoutMembershipNestedInput
   productosSolicitados?: Prisma.ProductoSolicitadoUncheckedUpdateManyWithoutMembershipNestedInput
   sesionesActividad?: Prisma.SesionActividadUncheckedUpdateManyWithoutMembershipNestedInput
+  departmentScopes?: Prisma.TenantMembershipDepartmentScopeUncheckedUpdateManyWithoutMembershipNestedInput
+  municipalityScopes?: Prisma.TenantMembershipMunicipalityScopeUncheckedUpdateManyWithoutMembershipNestedInput
   turnos?: Prisma.TurnoUncheckedUpdateManyWithoutMembershipNestedInput
 }
 
@@ -7557,6 +8267,8 @@ export type TenantMembershipCreateWithoutAuditoriasInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoCreateNestedManyWithoutMembershipInput
   referidos?: Prisma.ReferidosCreateNestedManyWithoutMembershipInput
   sesionesActividad?: Prisma.SesionActividadCreateNestedManyWithoutMembershipInput
+  departmentScopes?: Prisma.TenantMembershipDepartmentScopeCreateNestedManyWithoutMembershipInput
+  municipalityScopes?: Prisma.TenantMembershipMunicipalityScopeCreateNestedManyWithoutMembershipInput
   municipio?: Prisma.MunicipalityCreateNestedOneWithoutMembershipsInput
   tenant: Prisma.TenantCreateNestedOneWithoutMembershipsInput
   user: Prisma.UserCreateNestedOneWithoutMembershipsInput
@@ -7609,6 +8321,8 @@ export type TenantMembershipUncheckedCreateWithoutAuditoriasInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUncheckedCreateNestedManyWithoutMembershipInput
   referidos?: Prisma.ReferidosUncheckedCreateNestedManyWithoutMembershipInput
   sesionesActividad?: Prisma.SesionActividadUncheckedCreateNestedManyWithoutMembershipInput
+  departmentScopes?: Prisma.TenantMembershipDepartmentScopeUncheckedCreateNestedManyWithoutMembershipInput
+  municipalityScopes?: Prisma.TenantMembershipMunicipalityScopeUncheckedCreateNestedManyWithoutMembershipInput
   turnos?: Prisma.TurnoUncheckedCreateNestedManyWithoutMembershipInput
 }
 
@@ -7671,6 +8385,8 @@ export type TenantMembershipUpdateWithoutAuditoriasInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUpdateManyWithoutMembershipNestedInput
   referidos?: Prisma.ReferidosUpdateManyWithoutMembershipNestedInput
   sesionesActividad?: Prisma.SesionActividadUpdateManyWithoutMembershipNestedInput
+  departmentScopes?: Prisma.TenantMembershipDepartmentScopeUpdateManyWithoutMembershipNestedInput
+  municipalityScopes?: Prisma.TenantMembershipMunicipalityScopeUpdateManyWithoutMembershipNestedInput
   municipio?: Prisma.MunicipalityUpdateOneWithoutMembershipsNestedInput
   tenant?: Prisma.TenantUpdateOneRequiredWithoutMembershipsNestedInput
   user?: Prisma.UserUpdateOneRequiredWithoutMembershipsNestedInput
@@ -7723,6 +8439,8 @@ export type TenantMembershipUncheckedUpdateWithoutAuditoriasInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUncheckedUpdateManyWithoutMembershipNestedInput
   referidos?: Prisma.ReferidosUncheckedUpdateManyWithoutMembershipNestedInput
   sesionesActividad?: Prisma.SesionActividadUncheckedUpdateManyWithoutMembershipNestedInput
+  departmentScopes?: Prisma.TenantMembershipDepartmentScopeUncheckedUpdateManyWithoutMembershipNestedInput
+  municipalityScopes?: Prisma.TenantMembershipMunicipalityScopeUncheckedUpdateManyWithoutMembershipNestedInput
   turnos?: Prisma.TurnoUncheckedUpdateManyWithoutMembershipNestedInput
 }
 
@@ -7769,6 +8487,8 @@ export type TenantMembershipCreateWithoutSesionesActividadInput = {
   permisosSolicitados?: Prisma.PermisoCreateNestedManyWithoutMembershipInput
   productosSolicitados?: Prisma.ProductoSolicitadoCreateNestedManyWithoutMembershipInput
   referidos?: Prisma.ReferidosCreateNestedManyWithoutMembershipInput
+  departmentScopes?: Prisma.TenantMembershipDepartmentScopeCreateNestedManyWithoutMembershipInput
+  municipalityScopes?: Prisma.TenantMembershipMunicipalityScopeCreateNestedManyWithoutMembershipInput
   municipio?: Prisma.MunicipalityCreateNestedOneWithoutMembershipsInput
   tenant: Prisma.TenantCreateNestedOneWithoutMembershipsInput
   user: Prisma.UserCreateNestedOneWithoutMembershipsInput
@@ -7821,6 +8541,8 @@ export type TenantMembershipUncheckedCreateWithoutSesionesActividadInput = {
   permisosSolicitados?: Prisma.PermisoUncheckedCreateNestedManyWithoutMembershipInput
   productosSolicitados?: Prisma.ProductoSolicitadoUncheckedCreateNestedManyWithoutMembershipInput
   referidos?: Prisma.ReferidosUncheckedCreateNestedManyWithoutMembershipInput
+  departmentScopes?: Prisma.TenantMembershipDepartmentScopeUncheckedCreateNestedManyWithoutMembershipInput
+  municipalityScopes?: Prisma.TenantMembershipMunicipalityScopeUncheckedCreateNestedManyWithoutMembershipInput
   turnos?: Prisma.TurnoUncheckedCreateNestedManyWithoutMembershipInput
 }
 
@@ -7883,6 +8605,8 @@ export type TenantMembershipUpdateWithoutSesionesActividadInput = {
   permisosSolicitados?: Prisma.PermisoUpdateManyWithoutMembershipNestedInput
   productosSolicitados?: Prisma.ProductoSolicitadoUpdateManyWithoutMembershipNestedInput
   referidos?: Prisma.ReferidosUpdateManyWithoutMembershipNestedInput
+  departmentScopes?: Prisma.TenantMembershipDepartmentScopeUpdateManyWithoutMembershipNestedInput
+  municipalityScopes?: Prisma.TenantMembershipMunicipalityScopeUpdateManyWithoutMembershipNestedInput
   municipio?: Prisma.MunicipalityUpdateOneWithoutMembershipsNestedInput
   tenant?: Prisma.TenantUpdateOneRequiredWithoutMembershipsNestedInput
   user?: Prisma.UserUpdateOneRequiredWithoutMembershipsNestedInput
@@ -7935,6 +8659,8 @@ export type TenantMembershipUncheckedUpdateWithoutSesionesActividadInput = {
   permisosSolicitados?: Prisma.PermisoUncheckedUpdateManyWithoutMembershipNestedInput
   productosSolicitados?: Prisma.ProductoSolicitadoUncheckedUpdateManyWithoutMembershipNestedInput
   referidos?: Prisma.ReferidosUncheckedUpdateManyWithoutMembershipNestedInput
+  departmentScopes?: Prisma.TenantMembershipDepartmentScopeUncheckedUpdateManyWithoutMembershipNestedInput
+  municipalityScopes?: Prisma.TenantMembershipMunicipalityScopeUncheckedUpdateManyWithoutMembershipNestedInput
   turnos?: Prisma.TurnoUncheckedUpdateManyWithoutMembershipNestedInput
 }
 
@@ -8002,6 +8728,8 @@ export type TenantMembershipUpdateWithoutUserInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUpdateManyWithoutMembershipNestedInput
   referidos?: Prisma.ReferidosUpdateManyWithoutMembershipNestedInput
   sesionesActividad?: Prisma.SesionActividadUpdateManyWithoutMembershipNestedInput
+  departmentScopes?: Prisma.TenantMembershipDepartmentScopeUpdateManyWithoutMembershipNestedInput
+  municipalityScopes?: Prisma.TenantMembershipMunicipalityScopeUpdateManyWithoutMembershipNestedInput
   municipio?: Prisma.MunicipalityUpdateOneWithoutMembershipsNestedInput
   tenant?: Prisma.TenantUpdateOneRequiredWithoutMembershipsNestedInput
   turnos?: Prisma.TurnoUpdateManyWithoutMembershipNestedInput
@@ -8053,6 +8781,8 @@ export type TenantMembershipUncheckedUpdateWithoutUserInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUncheckedUpdateManyWithoutMembershipNestedInput
   referidos?: Prisma.ReferidosUncheckedUpdateManyWithoutMembershipNestedInput
   sesionesActividad?: Prisma.SesionActividadUncheckedUpdateManyWithoutMembershipNestedInput
+  departmentScopes?: Prisma.TenantMembershipDepartmentScopeUncheckedUpdateManyWithoutMembershipNestedInput
+  municipalityScopes?: Prisma.TenantMembershipMunicipalityScopeUncheckedUpdateManyWithoutMembershipNestedInput
   turnos?: Prisma.TurnoUncheckedUpdateManyWithoutMembershipNestedInput
 }
 
@@ -8140,6 +8870,8 @@ export type TenantMembershipUpdateWithoutTenantInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUpdateManyWithoutMembershipNestedInput
   referidos?: Prisma.ReferidosUpdateManyWithoutMembershipNestedInput
   sesionesActividad?: Prisma.SesionActividadUpdateManyWithoutMembershipNestedInput
+  departmentScopes?: Prisma.TenantMembershipDepartmentScopeUpdateManyWithoutMembershipNestedInput
+  municipalityScopes?: Prisma.TenantMembershipMunicipalityScopeUpdateManyWithoutMembershipNestedInput
   municipio?: Prisma.MunicipalityUpdateOneWithoutMembershipsNestedInput
   user?: Prisma.UserUpdateOneRequiredWithoutMembershipsNestedInput
   turnos?: Prisma.TurnoUpdateManyWithoutMembershipNestedInput
@@ -8191,6 +8923,8 @@ export type TenantMembershipUncheckedUpdateWithoutTenantInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUncheckedUpdateManyWithoutMembershipNestedInput
   referidos?: Prisma.ReferidosUncheckedUpdateManyWithoutMembershipNestedInput
   sesionesActividad?: Prisma.SesionActividadUncheckedUpdateManyWithoutMembershipNestedInput
+  departmentScopes?: Prisma.TenantMembershipDepartmentScopeUncheckedUpdateManyWithoutMembershipNestedInput
+  municipalityScopes?: Prisma.TenantMembershipMunicipalityScopeUncheckedUpdateManyWithoutMembershipNestedInput
   turnos?: Prisma.TurnoUncheckedUpdateManyWithoutMembershipNestedInput
 }
 
@@ -8278,6 +9012,8 @@ export type TenantMembershipUpdateWithoutMunicipioInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUpdateManyWithoutMembershipNestedInput
   referidos?: Prisma.ReferidosUpdateManyWithoutMembershipNestedInput
   sesionesActividad?: Prisma.SesionActividadUpdateManyWithoutMembershipNestedInput
+  departmentScopes?: Prisma.TenantMembershipDepartmentScopeUpdateManyWithoutMembershipNestedInput
+  municipalityScopes?: Prisma.TenantMembershipMunicipalityScopeUpdateManyWithoutMembershipNestedInput
   tenant?: Prisma.TenantUpdateOneRequiredWithoutMembershipsNestedInput
   user?: Prisma.UserUpdateOneRequiredWithoutMembershipsNestedInput
   turnos?: Prisma.TurnoUpdateManyWithoutMembershipNestedInput
@@ -8329,6 +9065,8 @@ export type TenantMembershipUncheckedUpdateWithoutMunicipioInput = {
   productosSolicitados?: Prisma.ProductoSolicitadoUncheckedUpdateManyWithoutMembershipNestedInput
   referidos?: Prisma.ReferidosUncheckedUpdateManyWithoutMembershipNestedInput
   sesionesActividad?: Prisma.SesionActividadUncheckedUpdateManyWithoutMembershipNestedInput
+  departmentScopes?: Prisma.TenantMembershipDepartmentScopeUncheckedUpdateManyWithoutMembershipNestedInput
+  municipalityScopes?: Prisma.TenantMembershipMunicipalityScopeUncheckedUpdateManyWithoutMembershipNestedInput
   turnos?: Prisma.TurnoUncheckedUpdateManyWithoutMembershipNestedInput
 }
 
@@ -8386,6 +9124,8 @@ export type TenantMembershipCountOutputType = {
   productosSolicitados: number
   referidos: number
   sesionesActividad: number
+  departmentScopes: number
+  municipalityScopes: number
   turnos: number
 }
 
@@ -8418,6 +9158,8 @@ export type TenantMembershipCountOutputTypeSelect<ExtArgs extends runtime.Types.
   productosSolicitados?: boolean | TenantMembershipCountOutputTypeCountProductosSolicitadosArgs
   referidos?: boolean | TenantMembershipCountOutputTypeCountReferidosArgs
   sesionesActividad?: boolean | TenantMembershipCountOutputTypeCountSesionesActividadArgs
+  departmentScopes?: boolean | TenantMembershipCountOutputTypeCountDepartmentScopesArgs
+  municipalityScopes?: boolean | TenantMembershipCountOutputTypeCountMunicipalityScopesArgs
   turnos?: boolean | TenantMembershipCountOutputTypeCountTurnosArgs
 }
 
@@ -8630,6 +9372,20 @@ export type TenantMembershipCountOutputTypeCountSesionesActividadArgs<ExtArgs ex
 /**
  * TenantMembershipCountOutputType without action
  */
+export type TenantMembershipCountOutputTypeCountDepartmentScopesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.TenantMembershipDepartmentScopeWhereInput
+}
+
+/**
+ * TenantMembershipCountOutputType without action
+ */
+export type TenantMembershipCountOutputTypeCountMunicipalityScopesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.TenantMembershipMunicipalityScopeWhereInput
+}
+
+/**
+ * TenantMembershipCountOutputType without action
+ */
 export type TenantMembershipCountOutputTypeCountTurnosArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   where?: Prisma.TurnoWhereInput
 }
@@ -8682,6 +9438,8 @@ export type TenantMembershipSelect<ExtArgs extends runtime.Types.Extensions.Inte
   productosSolicitados?: boolean | Prisma.TenantMembership$productosSolicitadosArgs<ExtArgs>
   referidos?: boolean | Prisma.TenantMembership$referidosArgs<ExtArgs>
   sesionesActividad?: boolean | Prisma.TenantMembership$sesionesActividadArgs<ExtArgs>
+  departmentScopes?: boolean | Prisma.TenantMembership$departmentScopesArgs<ExtArgs>
+  municipalityScopes?: boolean | Prisma.TenantMembership$municipalityScopesArgs<ExtArgs>
   municipio?: boolean | Prisma.TenantMembership$municipioArgs<ExtArgs>
   tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
@@ -8788,6 +9546,8 @@ export type TenantMembershipInclude<ExtArgs extends runtime.Types.Extensions.Int
   productosSolicitados?: boolean | Prisma.TenantMembership$productosSolicitadosArgs<ExtArgs>
   referidos?: boolean | Prisma.TenantMembership$referidosArgs<ExtArgs>
   sesionesActividad?: boolean | Prisma.TenantMembership$sesionesActividadArgs<ExtArgs>
+  departmentScopes?: boolean | Prisma.TenantMembership$departmentScopesArgs<ExtArgs>
+  municipalityScopes?: boolean | Prisma.TenantMembership$municipalityScopesArgs<ExtArgs>
   municipio?: boolean | Prisma.TenantMembership$municipioArgs<ExtArgs>
   tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
@@ -8836,6 +9596,8 @@ export type $TenantMembershipPayload<ExtArgs extends runtime.Types.Extensions.In
     productosSolicitados: Prisma.$ProductoSolicitadoPayload<ExtArgs>[]
     referidos: Prisma.$ReferidosPayload<ExtArgs>[]
     sesionesActividad: Prisma.$SesionActividadPayload<ExtArgs>[]
+    departmentScopes: Prisma.$TenantMembershipDepartmentScopePayload<ExtArgs>[]
+    municipalityScopes: Prisma.$TenantMembershipMunicipalityScopePayload<ExtArgs>[]
     municipio: Prisma.$MunicipalityPayload<ExtArgs> | null
     tenant: Prisma.$TenantPayload<ExtArgs>
     user: Prisma.$UserPayload<ExtArgs>
@@ -9282,6 +10044,8 @@ export interface Prisma__TenantMembershipClient<T, Null = never, ExtArgs extends
   productosSolicitados<T extends Prisma.TenantMembership$productosSolicitadosArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.TenantMembership$productosSolicitadosArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ProductoSolicitadoPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   referidos<T extends Prisma.TenantMembership$referidosArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.TenantMembership$referidosArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ReferidosPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   sesionesActividad<T extends Prisma.TenantMembership$sesionesActividadArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.TenantMembership$sesionesActividadArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$SesionActividadPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  departmentScopes<T extends Prisma.TenantMembership$departmentScopesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.TenantMembership$departmentScopesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$TenantMembershipDepartmentScopePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  municipalityScopes<T extends Prisma.TenantMembership$municipalityScopesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.TenantMembership$municipalityScopesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$TenantMembershipMunicipalityScopePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   municipio<T extends Prisma.TenantMembership$municipioArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.TenantMembership$municipioArgs<ExtArgs>>): Prisma.Prisma__MunicipalityClient<runtime.Types.Result.GetResult<Prisma.$MunicipalityPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   tenant<T extends Prisma.TenantDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.TenantDefaultArgs<ExtArgs>>): Prisma.Prisma__TenantClient<runtime.Types.Result.GetResult<Prisma.$TenantPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   user<T extends Prisma.UserDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.UserDefaultArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
@@ -10398,6 +11162,54 @@ export type TenantMembership$sesionesActividadArgs<ExtArgs extends runtime.Types
   take?: number
   skip?: number
   distinct?: Prisma.SesionActividadScalarFieldEnum | Prisma.SesionActividadScalarFieldEnum[]
+}
+
+/**
+ * TenantMembership.departmentScopes
+ */
+export type TenantMembership$departmentScopesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the TenantMembershipDepartmentScope
+   */
+  select?: Prisma.TenantMembershipDepartmentScopeSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the TenantMembershipDepartmentScope
+   */
+  omit?: Prisma.TenantMembershipDepartmentScopeOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.TenantMembershipDepartmentScopeInclude<ExtArgs> | null
+  where?: Prisma.TenantMembershipDepartmentScopeWhereInput
+  orderBy?: Prisma.TenantMembershipDepartmentScopeOrderByWithRelationInput | Prisma.TenantMembershipDepartmentScopeOrderByWithRelationInput[]
+  cursor?: Prisma.TenantMembershipDepartmentScopeWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.TenantMembershipDepartmentScopeScalarFieldEnum | Prisma.TenantMembershipDepartmentScopeScalarFieldEnum[]
+}
+
+/**
+ * TenantMembership.municipalityScopes
+ */
+export type TenantMembership$municipalityScopesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the TenantMembershipMunicipalityScope
+   */
+  select?: Prisma.TenantMembershipMunicipalityScopeSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the TenantMembershipMunicipalityScope
+   */
+  omit?: Prisma.TenantMembershipMunicipalityScopeOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.TenantMembershipMunicipalityScopeInclude<ExtArgs> | null
+  where?: Prisma.TenantMembershipMunicipalityScopeWhereInput
+  orderBy?: Prisma.TenantMembershipMunicipalityScopeOrderByWithRelationInput | Prisma.TenantMembershipMunicipalityScopeOrderByWithRelationInput[]
+  cursor?: Prisma.TenantMembershipMunicipalityScopeWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.TenantMembershipMunicipalityScopeScalarFieldEnum | Prisma.TenantMembershipMunicipalityScopeScalarFieldEnum[]
 }
 
 /**

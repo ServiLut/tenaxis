@@ -6,6 +6,8 @@ export interface PrismaAccessFilter {
   tenantId?: string;
   empresaId?: string | { in: string[] };
   zonaIds?: string[];
+  municipalityIds?: string[];
+  departmentIds?: string[];
 }
 
 export type AccessScopeLevel = 'global' | 'tenant' | 'empresa';
@@ -16,6 +18,8 @@ export interface AccessScopeMode {
   isGlobalSuAdmin: boolean;
   hasTenantWideAccess: boolean;
   tenantId?: string;
+  municipalityIds: string[];
+  departmentIds: string[];
 }
 
 export interface ResolvedAccessScope {
@@ -25,6 +29,8 @@ export interface ResolvedAccessScope {
   empresaId?: string;
   empresaIds: string[];
   zonaIds: string[];
+  municipalityIds: string[];
+  departmentIds: string[];
   isGlobalSuAdmin: boolean;
   hasTenantWideAccess: boolean;
 }
@@ -33,16 +39,24 @@ export function resolveAccessScopeMode(user: JwtPayload): AccessScopeMode {
   const isGlobalSuAdmin = !!user.isGlobalSuAdmin;
   const hasEmpresaScope = (user.empresaIds || []).length > 0;
   const hasZonaScope = (user.zonaIds || []).length > 0;
+  const hasMunicipalityScope = (user.municipalityIds || []).length > 0;
+  const hasDepartmentScope = (user.departmentIds || []).length > 0;
   const hasTenantWideAccess =
     isGlobalSuAdmin ||
     user.role === Role.SU_ADMIN ||
     user.role === Role.ADMIN ||
-    (user.role === Role.COORDINADOR && !hasEmpresaScope && !hasZonaScope);
+    (user.role === Role.COORDINADOR &&
+      !hasEmpresaScope &&
+      !hasZonaScope &&
+      !hasMunicipalityScope &&
+      !hasDepartmentScope);
 
   return {
     isGlobalSuAdmin,
     hasTenantWideAccess,
     ...(user.tenantId ? { tenantId: user.tenantId } : {}),
+    municipalityIds: user.municipalityIds || [],
+    departmentIds: user.departmentIds || [],
   };
 }
 
@@ -79,6 +93,8 @@ export function resolveAccessScope(
       ...(requestedEmpresaId ? { empresaId: requestedEmpresaId } : {}),
       empresaIds: requestedEmpresaId ? [requestedEmpresaId] : [],
       zonaIds: user.zonaIds || [],
+      municipalityIds: user.municipalityIds || [],
+      departmentIds: user.departmentIds || [],
       isGlobalSuAdmin: true,
       hasTenantWideAccess: true,
     };
@@ -92,6 +108,8 @@ export function resolveAccessScope(
       ...(requestedEmpresaId ? { empresaId: requestedEmpresaId } : {}),
       empresaIds: requestedEmpresaId ? [requestedEmpresaId] : [],
       zonaIds: user.zonaIds || [],
+      municipalityIds: user.municipalityIds || [],
+      departmentIds: user.departmentIds || [],
       isGlobalSuAdmin: false,
       hasTenantWideAccess: true,
     };
@@ -107,6 +125,8 @@ export function resolveAccessScope(
     ...(empresaId ? { empresaId } : {}),
     empresaIds,
     zonaIds: user.zonaIds || [],
+    municipalityIds: user.municipalityIds || [],
+    departmentIds: user.departmentIds || [],
     isGlobalSuAdmin: false,
     hasTenantWideAccess: false,
   };
@@ -171,6 +191,8 @@ export function getPrismaAccessFilter(
     return {
       ...(requestedEmpresaId ? { empresaId: requestedEmpresaId } : {}),
       zonaIds: user.zonaIds,
+      municipalityIds: user.municipalityIds,
+      departmentIds: user.departmentIds,
     };
   }
 
@@ -186,6 +208,8 @@ export function getPrismaAccessFilter(
       tenantId: scope.tenantId,
       ...(requestedEmpresaId ? { empresaId: requestedEmpresaId } : {}),
       zonaIds: user.zonaIds,
+      municipalityIds: user.municipalityIds,
+      departmentIds: user.departmentIds,
       // No filtramos empresaId por defecto -> Ve todas las del tenant
     };
   }
@@ -206,6 +230,8 @@ export function getPrismaAccessFilter(
       tenantId: user.tenantId,
       empresaId: requestedEmpresaId,
       zonaIds: user.zonaIds,
+      municipalityIds: user.municipalityIds,
+      departmentIds: user.departmentIds,
     };
   }
 
@@ -216,5 +242,7 @@ export function getPrismaAccessFilter(
       in: allowedIds.length > 0 ? allowedIds : [BLOCKED_EMPRESA_ID],
     },
     zonaIds: user.zonaIds,
+    municipalityIds: user.municipalityIds,
+    departmentIds: user.departmentIds,
   };
 }

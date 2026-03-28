@@ -8,6 +8,8 @@ export interface JwtPayload {
   empresaId?: string;
   empresaIds?: string[];
   zonaIds?: string[];
+  municipalityIds?: string[];
+  departmentIds?: string[];
   membershipId?: string;
   sesionId?: string;
   isGlobalSuAdmin?: boolean;

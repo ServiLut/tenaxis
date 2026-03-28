@@ -1,4 +1,5 @@
 import {
+  IsArray,
   IsString,
   IsOptional,
   IsBoolean,
@@ -25,6 +26,16 @@ export class UpdateMembershipDto {
   @IsUUID()
   @IsOptional()
   municipioId?: string;
+
+  @IsArray()
+  @IsUUID('all', { each: true })
+  @IsOptional()
+  departmentIds?: string[];
+
+  @IsArray()
+  @IsUUID('all', { each: true })
+  @IsOptional()
+  municipalityIds?: string[];
 
   @IsEnum(Role)
   @IsOptional()

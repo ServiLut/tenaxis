@@ -177,6 +177,7 @@ export type MunicipalityWhereInput = {
   direcciones?: Prisma.DireccionListRelationFilter
   department?: Prisma.XOR<Prisma.DepartmentScalarRelationFilter, Prisma.DepartmentWhereInput>
   memberships?: Prisma.TenantMembershipListRelationFilter
+  membershipScopes?: Prisma.TenantMembershipMunicipalityScopeListRelationFilter
 }
 
 export type MunicipalityOrderByWithRelationInput = {
@@ -187,6 +188,7 @@ export type MunicipalityOrderByWithRelationInput = {
   direcciones?: Prisma.DireccionOrderByRelationAggregateInput
   department?: Prisma.DepartmentOrderByWithRelationInput
   memberships?: Prisma.TenantMembershipOrderByRelationAggregateInput
+  membershipScopes?: Prisma.TenantMembershipMunicipalityScopeOrderByRelationAggregateInput
 }
 
 export type MunicipalityWhereUniqueInput = Prisma.AtLeast<{
@@ -200,6 +202,7 @@ export type MunicipalityWhereUniqueInput = Prisma.AtLeast<{
   direcciones?: Prisma.DireccionListRelationFilter
   department?: Prisma.XOR<Prisma.DepartmentScalarRelationFilter, Prisma.DepartmentWhereInput>
   memberships?: Prisma.TenantMembershipListRelationFilter
+  membershipScopes?: Prisma.TenantMembershipMunicipalityScopeListRelationFilter
 }, "id" | "code">
 
 export type MunicipalityOrderByWithAggregationInput = {
@@ -229,6 +232,7 @@ export type MunicipalityCreateInput = {
   direcciones?: Prisma.DireccionCreateNestedManyWithoutMunicipioRelInput
   department: Prisma.DepartmentCreateNestedOneWithoutMunicipalitiesInput
   memberships?: Prisma.TenantMembershipCreateNestedManyWithoutMunicipioInput
+  membershipScopes?: Prisma.TenantMembershipMunicipalityScopeCreateNestedManyWithoutMunicipalityInput
 }
 
 export type MunicipalityUncheckedCreateInput = {
@@ -238,6 +242,7 @@ export type MunicipalityUncheckedCreateInput = {
   departmentId: string
   direcciones?: Prisma.DireccionUncheckedCreateNestedManyWithoutMunicipioRelInput
   memberships?: Prisma.TenantMembershipUncheckedCreateNestedManyWithoutMunicipioInput
+  membershipScopes?: Prisma.TenantMembershipMunicipalityScopeUncheckedCreateNestedManyWithoutMunicipalityInput
 }
 
 export type MunicipalityUpdateInput = {
@@ -247,6 +252,7 @@ export type MunicipalityUpdateInput = {
   direcciones?: Prisma.DireccionUpdateManyWithoutMunicipioRelNestedInput
   department?: Prisma.DepartmentUpdateOneRequiredWithoutMunicipalitiesNestedInput
   memberships?: Prisma.TenantMembershipUpdateManyWithoutMunicipioNestedInput
+  membershipScopes?: Prisma.TenantMembershipMunicipalityScopeUpdateManyWithoutMunicipalityNestedInput
 }
 
 export type MunicipalityUncheckedUpdateInput = {
@@ -256,6 +262,7 @@ export type MunicipalityUncheckedUpdateInput = {
   departmentId?: Prisma.StringFieldUpdateOperationsInput | string
   direcciones?: Prisma.DireccionUncheckedUpdateManyWithoutMunicipioRelNestedInput
   memberships?: Prisma.TenantMembershipUncheckedUpdateManyWithoutMunicipioNestedInput
+  membershipScopes?: Prisma.TenantMembershipMunicipalityScopeUncheckedUpdateManyWithoutMunicipalityNestedInput
 }
 
 export type MunicipalityCreateManyInput = {
@@ -312,6 +319,11 @@ export type MunicipalityMinOrderByAggregateInput = {
   name?: Prisma.SortOrder
   code?: Prisma.SortOrder
   departmentId?: Prisma.SortOrder
+}
+
+export type MunicipalityScalarRelationFilter = {
+  is?: Prisma.MunicipalityWhereInput
+  isNot?: Prisma.MunicipalityWhereInput
 }
 
 export type MunicipalityCreateNestedOneWithoutMembershipsInput = {
@@ -372,6 +384,20 @@ export type MunicipalityUncheckedUpdateManyWithoutDepartmentNestedInput = {
   deleteMany?: Prisma.MunicipalityScalarWhereInput | Prisma.MunicipalityScalarWhereInput[]
 }
 
+export type MunicipalityCreateNestedOneWithoutMembershipScopesInput = {
+  create?: Prisma.XOR<Prisma.MunicipalityCreateWithoutMembershipScopesInput, Prisma.MunicipalityUncheckedCreateWithoutMembershipScopesInput>
+  connectOrCreate?: Prisma.MunicipalityCreateOrConnectWithoutMembershipScopesInput
+  connect?: Prisma.MunicipalityWhereUniqueInput
+}
+
+export type MunicipalityUpdateOneRequiredWithoutMembershipScopesNestedInput = {
+  create?: Prisma.XOR<Prisma.MunicipalityCreateWithoutMembershipScopesInput, Prisma.MunicipalityUncheckedCreateWithoutMembershipScopesInput>
+  connectOrCreate?: Prisma.MunicipalityCreateOrConnectWithoutMembershipScopesInput
+  upsert?: Prisma.MunicipalityUpsertWithoutMembershipScopesInput
+  connect?: Prisma.MunicipalityWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.MunicipalityUpdateToOneWithWhereWithoutMembershipScopesInput, Prisma.MunicipalityUpdateWithoutMembershipScopesInput>, Prisma.MunicipalityUncheckedUpdateWithoutMembershipScopesInput>
+}
+
 export type MunicipalityCreateNestedOneWithoutDireccionesInput = {
   create?: Prisma.XOR<Prisma.MunicipalityCreateWithoutDireccionesInput, Prisma.MunicipalityUncheckedCreateWithoutDireccionesInput>
   connectOrCreate?: Prisma.MunicipalityCreateOrConnectWithoutDireccionesInput
@@ -394,6 +420,7 @@ export type MunicipalityCreateWithoutMembershipsInput = {
   code: string
   direcciones?: Prisma.DireccionCreateNestedManyWithoutMunicipioRelInput
   department: Prisma.DepartmentCreateNestedOneWithoutMunicipalitiesInput
+  membershipScopes?: Prisma.TenantMembershipMunicipalityScopeCreateNestedManyWithoutMunicipalityInput
 }
 
 export type MunicipalityUncheckedCreateWithoutMembershipsInput = {
@@ -402,6 +429,7 @@ export type MunicipalityUncheckedCreateWithoutMembershipsInput = {
   code: string
   departmentId: string
   direcciones?: Prisma.DireccionUncheckedCreateNestedManyWithoutMunicipioRelInput
+  membershipScopes?: Prisma.TenantMembershipMunicipalityScopeUncheckedCreateNestedManyWithoutMunicipalityInput
 }
 
 export type MunicipalityCreateOrConnectWithoutMembershipsInput = {
@@ -426,6 +454,7 @@ export type MunicipalityUpdateWithoutMembershipsInput = {
   code?: Prisma.StringFieldUpdateOperationsInput | string
   direcciones?: Prisma.DireccionUpdateManyWithoutMunicipioRelNestedInput
   department?: Prisma.DepartmentUpdateOneRequiredWithoutMunicipalitiesNestedInput
+  membershipScopes?: Prisma.TenantMembershipMunicipalityScopeUpdateManyWithoutMunicipalityNestedInput
 }
 
 export type MunicipalityUncheckedUpdateWithoutMembershipsInput = {
@@ -434,6 +463,7 @@ export type MunicipalityUncheckedUpdateWithoutMembershipsInput = {
   code?: Prisma.StringFieldUpdateOperationsInput | string
   departmentId?: Prisma.StringFieldUpdateOperationsInput | string
   direcciones?: Prisma.DireccionUncheckedUpdateManyWithoutMunicipioRelNestedInput
+  membershipScopes?: Prisma.TenantMembershipMunicipalityScopeUncheckedUpdateManyWithoutMunicipalityNestedInput
 }
 
 export type MunicipalityCreateWithoutDepartmentInput = {
@@ -442,6 +472,7 @@ export type MunicipalityCreateWithoutDepartmentInput = {
   code: string
   direcciones?: Prisma.DireccionCreateNestedManyWithoutMunicipioRelInput
   memberships?: Prisma.TenantMembershipCreateNestedManyWithoutMunicipioInput
+  membershipScopes?: Prisma.TenantMembershipMunicipalityScopeCreateNestedManyWithoutMunicipalityInput
 }
 
 export type MunicipalityUncheckedCreateWithoutDepartmentInput = {
@@ -450,6 +481,7 @@ export type MunicipalityUncheckedCreateWithoutDepartmentInput = {
   code: string
   direcciones?: Prisma.DireccionUncheckedCreateNestedManyWithoutMunicipioRelInput
   memberships?: Prisma.TenantMembershipUncheckedCreateNestedManyWithoutMunicipioInput
+  membershipScopes?: Prisma.TenantMembershipMunicipalityScopeUncheckedCreateNestedManyWithoutMunicipalityInput
 }
 
 export type MunicipalityCreateOrConnectWithoutDepartmentInput = {
@@ -488,12 +520,65 @@ export type MunicipalityScalarWhereInput = {
   departmentId?: Prisma.UuidFilter<"Municipality"> | string
 }
 
+export type MunicipalityCreateWithoutMembershipScopesInput = {
+  id?: string
+  name: string
+  code: string
+  direcciones?: Prisma.DireccionCreateNestedManyWithoutMunicipioRelInput
+  department: Prisma.DepartmentCreateNestedOneWithoutMunicipalitiesInput
+  memberships?: Prisma.TenantMembershipCreateNestedManyWithoutMunicipioInput
+}
+
+export type MunicipalityUncheckedCreateWithoutMembershipScopesInput = {
+  id?: string
+  name: string
+  code: string
+  departmentId: string
+  direcciones?: Prisma.DireccionUncheckedCreateNestedManyWithoutMunicipioRelInput
+  memberships?: Prisma.TenantMembershipUncheckedCreateNestedManyWithoutMunicipioInput
+}
+
+export type MunicipalityCreateOrConnectWithoutMembershipScopesInput = {
+  where: Prisma.MunicipalityWhereUniqueInput
+  create: Prisma.XOR<Prisma.MunicipalityCreateWithoutMembershipScopesInput, Prisma.MunicipalityUncheckedCreateWithoutMembershipScopesInput>
+}
+
+export type MunicipalityUpsertWithoutMembershipScopesInput = {
+  update: Prisma.XOR<Prisma.MunicipalityUpdateWithoutMembershipScopesInput, Prisma.MunicipalityUncheckedUpdateWithoutMembershipScopesInput>
+  create: Prisma.XOR<Prisma.MunicipalityCreateWithoutMembershipScopesInput, Prisma.MunicipalityUncheckedCreateWithoutMembershipScopesInput>
+  where?: Prisma.MunicipalityWhereInput
+}
+
+export type MunicipalityUpdateToOneWithWhereWithoutMembershipScopesInput = {
+  where?: Prisma.MunicipalityWhereInput
+  data: Prisma.XOR<Prisma.MunicipalityUpdateWithoutMembershipScopesInput, Prisma.MunicipalityUncheckedUpdateWithoutMembershipScopesInput>
+}
+
+export type MunicipalityUpdateWithoutMembershipScopesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  code?: Prisma.StringFieldUpdateOperationsInput | string
+  direcciones?: Prisma.DireccionUpdateManyWithoutMunicipioRelNestedInput
+  department?: Prisma.DepartmentUpdateOneRequiredWithoutMunicipalitiesNestedInput
+  memberships?: Prisma.TenantMembershipUpdateManyWithoutMunicipioNestedInput
+}
+
+export type MunicipalityUncheckedUpdateWithoutMembershipScopesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  code?: Prisma.StringFieldUpdateOperationsInput | string
+  departmentId?: Prisma.StringFieldUpdateOperationsInput | string
+  direcciones?: Prisma.DireccionUncheckedUpdateManyWithoutMunicipioRelNestedInput
+  memberships?: Prisma.TenantMembershipUncheckedUpdateManyWithoutMunicipioNestedInput
+}
+
 export type MunicipalityCreateWithoutDireccionesInput = {
   id?: string
   name: string
   code: string
   department: Prisma.DepartmentCreateNestedOneWithoutMunicipalitiesInput
   memberships?: Prisma.TenantMembershipCreateNestedManyWithoutMunicipioInput
+  membershipScopes?: Prisma.TenantMembershipMunicipalityScopeCreateNestedManyWithoutMunicipalityInput
 }
 
 export type MunicipalityUncheckedCreateWithoutDireccionesInput = {
@@ -502,6 +587,7 @@ export type MunicipalityUncheckedCreateWithoutDireccionesInput = {
   code: string
   departmentId: string
   memberships?: Prisma.TenantMembershipUncheckedCreateNestedManyWithoutMunicipioInput
+  membershipScopes?: Prisma.TenantMembershipMunicipalityScopeUncheckedCreateNestedManyWithoutMunicipalityInput
 }
 
 export type MunicipalityCreateOrConnectWithoutDireccionesInput = {
@@ -526,6 +612,7 @@ export type MunicipalityUpdateWithoutDireccionesInput = {
   code?: Prisma.StringFieldUpdateOperationsInput | string
   department?: Prisma.DepartmentUpdateOneRequiredWithoutMunicipalitiesNestedInput
   memberships?: Prisma.TenantMembershipUpdateManyWithoutMunicipioNestedInput
+  membershipScopes?: Prisma.TenantMembershipMunicipalityScopeUpdateManyWithoutMunicipalityNestedInput
 }
 
 export type MunicipalityUncheckedUpdateWithoutDireccionesInput = {
@@ -534,6 +621,7 @@ export type MunicipalityUncheckedUpdateWithoutDireccionesInput = {
   code?: Prisma.StringFieldUpdateOperationsInput | string
   departmentId?: Prisma.StringFieldUpdateOperationsInput | string
   memberships?: Prisma.TenantMembershipUncheckedUpdateManyWithoutMunicipioNestedInput
+  membershipScopes?: Prisma.TenantMembershipMunicipalityScopeUncheckedUpdateManyWithoutMunicipalityNestedInput
 }
 
 export type MunicipalityCreateManyDepartmentInput = {
@@ -548,6 +636,7 @@ export type MunicipalityUpdateWithoutDepartmentInput = {
   code?: Prisma.StringFieldUpdateOperationsInput | string
   direcciones?: Prisma.DireccionUpdateManyWithoutMunicipioRelNestedInput
   memberships?: Prisma.TenantMembershipUpdateManyWithoutMunicipioNestedInput
+  membershipScopes?: Prisma.TenantMembershipMunicipalityScopeUpdateManyWithoutMunicipalityNestedInput
 }
 
 export type MunicipalityUncheckedUpdateWithoutDepartmentInput = {
@@ -556,6 +645,7 @@ export type MunicipalityUncheckedUpdateWithoutDepartmentInput = {
   code?: Prisma.StringFieldUpdateOperationsInput | string
   direcciones?: Prisma.DireccionUncheckedUpdateManyWithoutMunicipioRelNestedInput
   memberships?: Prisma.TenantMembershipUncheckedUpdateManyWithoutMunicipioNestedInput
+  membershipScopes?: Prisma.TenantMembershipMunicipalityScopeUncheckedUpdateManyWithoutMunicipalityNestedInput
 }
 
 export type MunicipalityUncheckedUpdateManyWithoutDepartmentInput = {
@@ -572,11 +662,13 @@ export type MunicipalityUncheckedUpdateManyWithoutDepartmentInput = {
 export type MunicipalityCountOutputType = {
   direcciones: number
   memberships: number
+  membershipScopes: number
 }
 
 export type MunicipalityCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   direcciones?: boolean | MunicipalityCountOutputTypeCountDireccionesArgs
   memberships?: boolean | MunicipalityCountOutputTypeCountMembershipsArgs
+  membershipScopes?: boolean | MunicipalityCountOutputTypeCountMembershipScopesArgs
 }
 
 /**
@@ -603,6 +695,13 @@ export type MunicipalityCountOutputTypeCountMembershipsArgs<ExtArgs extends runt
   where?: Prisma.TenantMembershipWhereInput
 }
 
+/**
+ * MunicipalityCountOutputType without action
+ */
+export type MunicipalityCountOutputTypeCountMembershipScopesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.TenantMembershipMunicipalityScopeWhereInput
+}
+
 
 export type MunicipalitySelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -612,6 +711,7 @@ export type MunicipalitySelect<ExtArgs extends runtime.Types.Extensions.Internal
   direcciones?: boolean | Prisma.Municipality$direccionesArgs<ExtArgs>
   department?: boolean | Prisma.DepartmentDefaultArgs<ExtArgs>
   memberships?: boolean | Prisma.Municipality$membershipsArgs<ExtArgs>
+  membershipScopes?: boolean | Prisma.Municipality$membershipScopesArgs<ExtArgs>
   _count?: boolean | Prisma.MunicipalityCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["municipality"]>
 
@@ -643,6 +743,7 @@ export type MunicipalityInclude<ExtArgs extends runtime.Types.Extensions.Interna
   direcciones?: boolean | Prisma.Municipality$direccionesArgs<ExtArgs>
   department?: boolean | Prisma.DepartmentDefaultArgs<ExtArgs>
   memberships?: boolean | Prisma.Municipality$membershipsArgs<ExtArgs>
+  membershipScopes?: boolean | Prisma.Municipality$membershipScopesArgs<ExtArgs>
   _count?: boolean | Prisma.MunicipalityCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type MunicipalityIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -658,6 +759,7 @@ export type $MunicipalityPayload<ExtArgs extends runtime.Types.Extensions.Intern
     direcciones: Prisma.$DireccionPayload<ExtArgs>[]
     department: Prisma.$DepartmentPayload<ExtArgs>
     memberships: Prisma.$TenantMembershipPayload<ExtArgs>[]
+    membershipScopes: Prisma.$TenantMembershipMunicipalityScopePayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -1061,6 +1163,7 @@ export interface Prisma__MunicipalityClient<T, Null = never, ExtArgs extends run
   direcciones<T extends Prisma.Municipality$direccionesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Municipality$direccionesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$DireccionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   department<T extends Prisma.DepartmentDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.DepartmentDefaultArgs<ExtArgs>>): Prisma.Prisma__DepartmentClient<runtime.Types.Result.GetResult<Prisma.$DepartmentPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   memberships<T extends Prisma.Municipality$membershipsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Municipality$membershipsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$TenantMembershipPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  membershipScopes<T extends Prisma.Municipality$membershipScopesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Municipality$membershipScopesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$TenantMembershipMunicipalityScopePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1535,6 +1638,30 @@ export type Municipality$membershipsArgs<ExtArgs extends runtime.Types.Extension
   take?: number
   skip?: number
   distinct?: Prisma.TenantMembershipScalarFieldEnum | Prisma.TenantMembershipScalarFieldEnum[]
+}
+
+/**
+ * Municipality.membershipScopes
+ */
+export type Municipality$membershipScopesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the TenantMembershipMunicipalityScope
+   */
+  select?: Prisma.TenantMembershipMunicipalityScopeSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the TenantMembershipMunicipalityScope
+   */
+  omit?: Prisma.TenantMembershipMunicipalityScopeOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.TenantMembershipMunicipalityScopeInclude<ExtArgs> | null
+  where?: Prisma.TenantMembershipMunicipalityScopeWhereInput
+  orderBy?: Prisma.TenantMembershipMunicipalityScopeOrderByWithRelationInput | Prisma.TenantMembershipMunicipalityScopeOrderByWithRelationInput[]
+  cursor?: Prisma.TenantMembershipMunicipalityScopeWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.TenantMembershipMunicipalityScopeScalarFieldEnum | Prisma.TenantMembershipMunicipalityScopeScalarFieldEnum[]
 }
 
 /**
