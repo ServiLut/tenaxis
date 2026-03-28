@@ -6,10 +6,16 @@ meta {
 
 delete {
   url: {{local}}/ordenes-servicio/{{ordenId}}
-  body: none
+  body: json
   auth: bearer
 }
 
 auth:bearer {
   token: {{token}}
+}
+
+body:json {
+  {
+    "reason": "Solicitud duplicada"
+  }
 }
