@@ -15,9 +15,11 @@ export interface Municipality {
 
 export const geoClient = {
   async getDepartments(): Promise<Department[]> {
-    return apiFetch<Department[]>("/geo/departments");
+    const res = await apiFetch<any>("/geo/departments");
+    return Array.isArray(res) ? res : (res?.data || []);
   },
   async getMunicipalities(): Promise<Municipality[]> {
-    return apiFetch<Municipality[]>("/geo/municipalities");
+    const res = await apiFetch<any>("/geo/municipalities");
+    return Array.isArray(res) ? res : (res?.data || []);
   }
 };

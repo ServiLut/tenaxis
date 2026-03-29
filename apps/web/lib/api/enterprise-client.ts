@@ -11,7 +11,11 @@ export interface Enterprise {
 
 export const enterpriseClient = {
   async getAll(): Promise<Enterprise[]> {
-    return apiFetch<Enterprise[]>("/enterprise");
+    const result = await apiFetch<any>("/enterprise");
+    if (result && typeof result === "object" && "items" in result && Array.isArray(result.items)) {
+      return result.items;
+    }
+    return Array.isArray(result) ? result : [];
   },
   async getOperators(empresaId: string): Promise<unknown[]> {
     return apiFetch<unknown[]>(`/enterprise/${empresaId}/operators`);

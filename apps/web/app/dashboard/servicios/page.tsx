@@ -88,6 +88,7 @@ import {
   type ServiciosKpis,
   updateOrdenServicio,
   uploadToSupabaseSignedUrl,
+  type OrdenServicioRaw,
 } from "./api";
 import {
   createDashboardPreset,
@@ -111,6 +112,8 @@ import {
   ymdToPickerDate,
 } from "@/utils/date-utils";
 import { getBrowserScopedEnterpriseId } from "@/lib/browser-access-scope";
+
+// Remove local interface OrdenServicioRaw as it is now imported
 
 interface DesglosePago {
   metodo: string;
@@ -162,106 +165,6 @@ function resolveSoportePagoUrl(bucket: string, path?: string | null) {
   return getStorageUrl(bucket, path.replace(/^\/+/, ""));
 }
 
-interface OrdenServicioRaw {
-  id: string;
-  hallazgosEstructurales?: string | null;
-  numeroOrden?: string;
-  ordenPadreId?: string | null;
-  cliente: ClienteDTO;
-  clienteId: string;
-  empresaId: string;
-  empresa?: { id: string; nombre: string };
-  servicio?: { id: string; nombre: string };
-  servicioId?: string;
-  tecnicoId?: string;
-  fechaVisita?: string;
-  horaInicio?: string;
-  horaFin?: string;
-  tecnico?: { id: string; user?: { nombre: string; apellido: string } };
-  creadoPor?: { id: string; user?: { nombre: string; apellido: string } };
-  urgencia?: string;
-  observacion?: string;
-  observacionFinal?: string;
-  huboSellamiento?: boolean;
-  huboRecomendacionEstructural?: boolean;
-  diagnosticoTecnico?: string | null;
-  intervencionRealizada?: string | null;
-  recomendacionesObligatorias?: string | null;
-  recomendacionesSugeridas?: string | null;
-  nivelInfestacion?: string;
-  condicionesHigiene?: string;
-  condicionesLocal?: string;
-  tipoVisita?: string;
-  frecuenciaSugerida?: number;
-  tipoFacturacion?: string;
-  valorCotizado?: number;
-  valorPagado?: number;
-  valorRepuestos?: number;
-  valorRepuestosTecnico?: number;
-  metodoPagoId?: string;
-  metodoPago?: { id: string; nombre: string };
-  entidadFinanciera?: { id: string; nombre: string };
-  liquidadoPor?: { user: { nombre: string; apellido: string } };
-  liquidadoAt?: string;
-  desglosePago?: DesglosePago[];
-  estadoPago?: string;
-  estadoServicio?: string;
-  createdAt: string;
-  updatedAt?: string;
-  direccionTexto?: string;
-  barrio?: string;
-  municipio?: string;
-  departamento?: string;
-  piso?: string;
-  bloque?: string;
-  unidad?: string;
-  zona?: { id: string; nombre: string };
-  vehiculoId?: string;
-  vehiculo?: {
-    placa: string;
-    marca?: string | null;
-    modelo?: string | null;
-    color?: string | null;
-    tipo?: string | null;
-  };
-  facturaPath?: string | null;
-  facturaElectronica?: string | null;
-  financialLock?: boolean;
-  comprobantePago?: SoportePago[] | string | null;
-  referenciaPago?: string | null;
-  fechaPago?: string | null;
-  linkMaps?: string | null;
-  evidenciaPath?: string | null;
-  evidencias?: { id: string; path: string }[];
-  geolocalizaciones?: {
-    id: string;
-    latitud: number | null;
-    longitud: number | null;
-    llegada: string;
-    salida: string | null;
-    fotoLlegada: string | null;
-    fotoSalida: string | null;
-    linkMaps: string | null;
-    membership: {
-      user: {
-        nombre: string;
-        apellido: string;
-      };
-    };
-  }[];
-  seguimientos?: {
-    id: string;
-    status: string;
-    dueAt: string;
-    contactedAt?: string | null;
-    channel?: string | null;
-    outcome?: string | null;
-    notes?: string | null;
-    completedAt?: string | null;
-    followUpType: string;
-  }[];
-  ordenesHijas?: OrdenServicioRaw[];
-}
 
 interface LiquidarTransferenciaForm {
   id: string;
@@ -808,6 +711,7 @@ function ServiciosContent() {
   });
 
   const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
   const itemsPerPage = 10;
 
   const getScopedEnterpriseId = useCallback(() => {
@@ -857,12 +761,34 @@ function ServiciosContent() {
     }
   }, [getScopedEnterpriseId]);
 
-  const fetchServicios = useCallback(async () => {
+  const fetchServicios = useCallback(async (resetPage = false) => {
     setLoading(true);
+    const pageToFetch = resetPage ? 1 : currentPage;
+    if (resetPage) setCurrentPage(1);
+
     try {
       const empresaId = getScopedEnterpriseId();
-      const data = await getOrdenesServicio(empresaId);
-      const ordenesData = (Array.isArray(data) ? data : []) as unknown as OrdenServicioRaw[];
+      const response = await getOrdenesServicio({
+        empresaId,
+        search,
+        page: pageToFetch,
+        limit: itemsPerPage,
+        estado: filters.estado,
+        tecnicoId: filters.tecnico,
+        urgencia: filters.urgencia,
+        creadorId: filters.creador,
+        municipio: filters.municipio,
+        metodoPagoId: filters.metodoPago,
+        tipoVisita: filters.tipo,
+        fechaInicio: filters.fechaInicio,
+        fechaFin: filters.fechaFin,
+        preset: activePreset,
+        ...(viewMode === "seguimientos" ? { preset: "SEGUIMIENTOS" } : {}),
+      });
+
+      const { data: ordenesData, meta } = response;
+      setTotalPages(meta.totalPages);
+
       const mapOrdenToServicio = (os: OrdenServicioRaw, isFollowUp = false): Servicio => {
         const clienteLabel = os.cliente.tipoCliente === "EMPRESA"
           ? (os.cliente.razonSocial || "Empresa")
@@ -895,53 +821,7 @@ function ServiciosContent() {
       };
 
       const mapped: Servicio[] = ordenesData.map((os: OrdenServicioRaw) => mapOrdenToServicio(os));
-
       setServicios(mapped);
-
-      const muniSet = new Set<string>();
-      const creatorsMap = new Map<string, string>();
-      const companiesMap = new Map<string, string>();
-      const techniciansMap = new Map<string, string>();
-      const typesSet = new Set<string>();
-
-      ordenesData.forEach((os: OrdenServicioRaw) => {
-        if (os.municipio) muniSet.add(os.municipio.trim().toUpperCase());
-        if (os.creadoPor?.user) {
-          const name = `${os.creadoPor.user.nombre} ${os.creadoPor.user.apellido}`.trim();
-          if (name) creatorsMap.set(os.creadoPor.id, name);
-        } else {
-          creatorsMap.set("SISTEMA", "SISTEMA");
-        }
-        if (os.tecnico?.user) {
-          const name = `${os.tecnico.user.nombre} ${os.tecnico.user.apellido}`.trim();
-          if (name && os.tecnicoId) techniciansMap.set(os.tecnicoId, name);
-        }
-        if (os.empresa) {
-          companiesMap.set(os.empresa.id, os.empresa.nombre);
-        }
-        const normalizedVisitType = normalizeVisitType(os.tipoVisita);
-        if (normalizedVisitType) {
-          typesSet.add(normalizedVisitType);
-        }
-      });
-
-      setOptions(prev => {
-        const mergedTechnicians = new Map();
-        prev.tecnicos.forEach(t => mergedTechnicians.set(t.id, t.nombre));
-        techniciansMap.forEach((nombre, id) => mergedTechnicians.set(id, nombre));
-
-        return {
-          ...prev,
-          municipios: Array.from(new Set([...prev.municipios, ...muniSet])).sort(),
-          creadores: Array.from(creatorsMap.entries()).map(([id, nombre]) => ({ id, nombre })),
-          tecnicos: Array.from(mergedTechnicians.entries())
-            .map(([id, nombre]) => ({ id, nombre }))
-            .sort((a, b) => a.nombre.localeCompare(b.nombre)),
-          empresas: Array.from(companiesMap.entries()).map(([id, nombre]) => ({ id, nombre })),
-          tiposVisita: Array.from(typesSet).sort(),
-        };
-      });
-
       return mapped;
     } catch (error) {
       console.error("Error loading services", error);
@@ -950,7 +830,7 @@ function ServiciosContent() {
     } finally {
       setLoading(false);
     }
-  }, [getScopedEnterpriseId]);
+  }, [getScopedEnterpriseId, search, currentPage, filters, activePreset, viewMode]);
 
   const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files;
@@ -1486,159 +1366,24 @@ function ServiciosContent() {
     filters.fechaInicio !== "" ||
     filters.fechaFin !== "";
 
-  const followUpRows: FollowUpRow[] = servicios.flatMap((parent) =>
-    parent.followUps
-      .map((child) => ({
-        ...child,
-        parentId: parent.raw.id,
-        parentNumero: parent.id,
-        parentCliente: parent.cliente,
-        parentServicio: parent.servicioEspecifico,
-      }))
-      .filter((child) => child.raw.seguimientos?.[0]?.status !== "ACEPTADO"),
-  );
+  const followUpRows: FollowUpRow[] = viewMode === "seguimientos" ? servicios.map((os) => ({
+    ...os,
+    parentId: os.raw.ordenPadreId || "",
+    parentNumero: os.raw.ordenPadreId?.substring(0, 8).toUpperCase() || "",
+    parentCliente: os.cliente,
+    parentServicio: os.servicioEspecifico,
+  })) : [];
 
-  const acceptedFollowUpRows: FollowUpRow[] = servicios.flatMap((parent) =>
-    parent.followUps
-      .map((child) => ({
-        ...child,
-        parentId: parent.raw.id,
-        parentNumero: parent.id,
-        parentCliente: parent.cliente,
-        parentServicio: parent.servicioEspecifico,
-      }))
-      .filter((child) => child.raw.seguimientos?.[0]?.status === "ACEPTADO"),
-  );
+  const visibleServicios: Servicio[] = servicios;
+  const activeRows = viewMode === "seguimientos" ? followUpRows : visibleServicios;
 
-  const visibleServicios: Servicio[] = [
-    ...servicios,
-    ...acceptedFollowUpRows,
-  ];
-
-  const filteredServicios = visibleServicios.filter((s: Servicio) => {
-    const matchesSearch =
-      s.cliente.toLowerCase().includes(search.toLowerCase()) ||
-      s.servicioEspecifico.toLowerCase().includes(search.toLowerCase()) ||
-      s.id.toLowerCase().includes(search.toLowerCase()) ||
-      s.raw.id.toLowerCase().includes(search.toLowerCase());
-
-    const matchesEstado = filters.estado === "all" || s.raw.estadoServicio === filters.estado;
-    const matchesTecnico = filters.tecnico === "all" || s.tecnicoId === filters.tecnico;
-    const matchesUrgencia = filters.urgencia === "all" || s.urgencia === filters.urgencia;
-    const matchesCreador = filters.creador === "all" || (filters.creador === "SISTEMA" ? !s.raw.creadoPor : s.raw.creadoPor?.id === filters.creador);
-    const matchesMunicipio = filters.municipio === "all" || s.raw.municipio?.toUpperCase() === filters.municipio;
-    const matchesMetodoPago = filters.metodoPago === "all" || s.raw.metodoPagoId === filters.metodoPago;
-    const matchesEmpresa = filters.empresa === "all" || s.raw.empresaId === filters.empresa;
-    const matchesTipo = filters.tipo === "all" || normalizeVisitType(s.raw.tipoVisita) === filters.tipo;
-
-    let matchesFecha = true;
-    const visitYmd = s.raw.fechaVisita ? utcIsoToBogotaYmd(s.raw.fechaVisita) : null;
-    if (filters.fechaInicio && visitYmd) {
-      matchesFecha = matchesFecha && visitYmd >= filters.fechaInicio;
-    }
-    if (filters.fechaFin && visitYmd) {
-      matchesFecha = matchesFecha && visitYmd <= filters.fechaFin;
-    }
-
-    let operationalPass = true;
-    if (activeOperationalFilter) {
-      const today = toBogotaYmd();
-      if (activeOperationalFilter === "SIN_ASIGNAR_HOY") {
-        operationalPass = visitYmd === today && !s.tecnicoId;
-      } else if (activeOperationalFilter === "POR_INICIAR") {
-        operationalPass = visitYmd === today && s.estadoServicio === "PROGRAMADO";
-      } else if (activeOperationalFilter === "EN_EJECUCION") {
-        operationalPass = ["PROCESO", "EN PROCESO"].includes(s.estadoServicio);
-      } else if (activeOperationalFilter === "PENDIENTES_CIERRE") {
-        operationalPass = ["TECNICO_FINALIZO", "TECNICO FINALIZO", "TECNICO FINALIZADO"].includes(s.estadoServicio);
-      } else if (activeOperationalFilter === "CON_INCIDENCIA") {
-        operationalPass = ["SIN_CONCRETAR", "SIN CONCRETAR"].includes(s.estadoServicio);
-      } else if (activeOperationalFilter === "ATRASADOS") {
-        operationalPass = !!visitYmd && visitYmd < today && !["LIQUIDADO", "CANCELADO", "SIN_CONCRETAR", "SIN CONCRETAR"].includes(s.estadoServicio);
-      }
-    }
-
-    const todayYmd = toBogotaYmd();
-    const isVencido =
-      !!visitYmd &&
-      visitYmd < todayYmd &&
-      !["LIQUIDADO", "CANCELADO", "SIN_CONCRETAR", "SIN CONCRETAR"].includes(s.estadoServicio);
-    const presetPass =
-      activePreset === "all" ||
-      (activePreset === "VENCIDOS" && isVencido) ||
-      (activePreset === "RECHAZADOS" && s.raw.seguimientos?.[0]?.status === "RECHAZADO") ||
-      (activePreset === "SIN_TECNICO" && !s.tecnicoId) ||
-      (activePreset === "PENDIENTES_LIQUIDAR" && s.raw.estadoServicio === "TECNICO_FINALIZO") ||
-      ["HOY", "MANANA", "SEMANA"].includes(activePreset);
-
-    return matchesSearch && matchesEstado && matchesTecnico && matchesUrgencia && matchesCreador && matchesMunicipio && matchesMetodoPago && matchesEmpresa && matchesTipo && matchesFecha && operationalPass && presetPass;
-  });
-
-  const filteredFollowUps = followUpRows.filter((s) => {
-    const matchesSearch =
-      s.cliente.toLowerCase().includes(search.toLowerCase()) ||
-      s.servicioEspecifico.toLowerCase().includes(search.toLowerCase()) ||
-      s.id.toLowerCase().includes(search.toLowerCase()) ||
-      s.raw.id.toLowerCase().includes(search.toLowerCase()) ||
-      s.parentServicio.toLowerCase().includes(search.toLowerCase());
-
-    const matchesEstado = filters.estado === "all" || s.raw.estadoServicio === filters.estado;
-    const matchesTecnico = filters.tecnico === "all" || s.tecnicoId === filters.tecnico;
-    const matchesUrgencia = filters.urgencia === "all" || s.urgencia === filters.urgencia;
-    const matchesCreador = filters.creador === "all" || (filters.creador === "SISTEMA" ? !s.raw.creadoPor : s.raw.creadoPor?.id === filters.creador);
-    const matchesMunicipio = filters.municipio === "all" || s.raw.municipio?.toUpperCase() === filters.municipio;
-    const matchesMetodoPago = filters.metodoPago === "all" || s.raw.metodoPagoId === filters.metodoPago;
-    const matchesEmpresa = filters.empresa === "all" || s.raw.empresaId === filters.empresa;
-    const matchesTipo = filters.tipo === "all" || normalizeVisitType(s.raw.tipoVisita) === filters.tipo;
-
-    let matchesFecha = true;
-    const visitYmd = s.raw.fechaVisita ? utcIsoToBogotaYmd(s.raw.fechaVisita) : null;
-    if (filters.fechaInicio && visitYmd) {
-      matchesFecha = matchesFecha && visitYmd >= filters.fechaInicio;
-    }
-    if (filters.fechaFin && visitYmd) {
-      matchesFecha = matchesFecha && visitYmd <= filters.fechaFin;
-    }
-
-    let operationalPass = true;
-    if (activeOperationalFilter) {
-      const today = toBogotaYmd();
-      if (activeOperationalFilter === "SIN_ASIGNAR_HOY") {
-        operationalPass = visitYmd === today && !s.tecnicoId;
-      } else if (activeOperationalFilter === "POR_INICIAR") {
-        operationalPass = visitYmd === today && s.estadoServicio === "PROGRAMADO";
-      } else if (activeOperationalFilter === "EN_EJECUCION") {
-        operationalPass = ["PROCESO", "EN PROCESO"].includes(s.estadoServicio);
-      } else if (activeOperationalFilter === "PENDIENTES_CIERRE") {
-        operationalPass = ["TECNICO_FINALIZO", "TECNICO FINALIZO", "TECNICO FINALIZADO"].includes(s.estadoServicio);
-      } else if (activeOperationalFilter === "CON_INCIDENCIA") {
-        operationalPass = ["SIN_CONCRETAR", "SIN CONCRETAR"].includes(s.estadoServicio);
-      } else if (activeOperationalFilter === "ATRASADOS") {
-        operationalPass = !!visitYmd && visitYmd < today && !["LIQUIDADO", "CANCELADO", "SIN_CONCRETAR", "SIN CONCRETAR"].includes(s.estadoServicio);
-      }
-    }
-
-    const todayYmd = toBogotaYmd();
-    const isVencido =
-      !!visitYmd &&
-      visitYmd < todayYmd &&
-      !["LIQUIDADO", "CANCELADO", "SIN_CONCRETAR", "SIN CONCRETAR"].includes(s.estadoServicio);
-    const presetPass =
-      activePreset === "all" ||
-      (activePreset === "RECHAZADOS" && s.raw.seguimientos?.[0]?.status === "RECHAZADO") ||
-      (activePreset === "VENCIDOS" && isVencido) ||
-      (activePreset === "SIN_TECNICO" && !s.tecnicoId) ||
-      (activePreset === "PENDIENTES_LIQUIDAR" && s.raw.estadoServicio === "TECNICO_FINALIZO") ||
-      ["HOY", "MANANA", "SEMANA"].includes(activePreset);
-
-    return matchesSearch && matchesEstado && matchesTecnico && matchesUrgencia && matchesCreador && matchesMunicipio && matchesMetodoPago && matchesEmpresa && matchesTipo && matchesFecha && operationalPass && presetPass;
-  });
-
-  const activeRows = viewMode === "seguimientos" ? filteredFollowUps : filteredServicios;
-  const totalPages = Math.ceil(activeRows.length / itemsPerPage);
+  // Since we use server-side pagination, we don't need to filter or slice locally for the main list
+  // The API already returned the correct page based on search and filters
+  const totalCount = kpis?.total || 0;
   const startIndex = (currentPage - 1) * itemsPerPage;
-  const paginatedServicios = filteredServicios.slice(startIndex, startIndex + itemsPerPage);
-  const paginatedFollowUps = filteredFollowUps.slice(startIndex, startIndex + itemsPerPage);
+  const paginatedServicios = visibleServicios;
+  const paginatedFollowUps = followUpRows;
+
 
   const toUtcIsoFromDateTimeLocal = (value: string) => {
     const [datePart, timePart] = value.split("T");
@@ -2414,7 +2159,7 @@ function ServiciosContent() {
                     </div>
                     {!loading && activeRows.length === 0 && <div className="py-32 text-center flex-1 flex flex-col justify-center items-center"><AlertCircle className="h-12 w-12 text-muted/30 mb-4" /><h2 className="text-xl font-bold text-foreground uppercase">Sin resultados</h2><p className="text-muted-foreground font-medium">{viewMode === "seguimientos" ? "No se encontraron seguimientos para su búsqueda." : "No se encontraron órdenes para su búsqueda."}</p></div>}
                     <div className="px-8 py-4 border-t border-border bg-muted/30 flex items-center justify-between shrink-0">
-                      <span className="text-[10px] font-semibold uppercase text-muted-foreground">Mostrando <span className="text-foreground">{Math.min(startIndex + 1, activeRows.length)}-{Math.min(startIndex + itemsPerPage, activeRows.length)}</span> de <span className="text-foreground">{activeRows.length}</span></span>
+                      <span className="text-[10px] font-semibold uppercase text-muted-foreground">Mostrando <span className="text-foreground">{Math.min(startIndex + 1, totalCount)}-{Math.min(startIndex + activeRows.length, totalCount)}</span> de <span className="text-foreground">{totalCount}</span></span>
                       <div className="flex gap-2"><Button variant="outline" size="sm" className="h-8 rounded-xl border-border bg-background" disabled={currentPage === 1} onClick={() => setCurrentPage(p => p - 1)}>Anterior</Button><Button variant="outline" size="sm" className="h-8 rounded-xl border-border bg-background" disabled={currentPage >= totalPages} onClick={() => setCurrentPage(p => p + 1)}>Siguiente</Button></div>
                     </div>
                   </div>

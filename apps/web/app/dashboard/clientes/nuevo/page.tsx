@@ -43,8 +43,9 @@ import {
 import { useUserRole } from "@/hooks/use-user-role";
 import { DashboardLayout } from "@/components/dashboard";
 import { getBrowserCookie } from "@/lib/api/browser-client";
-import { enterpriseClient } from "@/lib/api/enterprise-client";
+import { enterpriseClient, type Enterprise } from "@/lib/api/enterprise-client";
 import { geoClient } from "@/lib/api/geo-client";
+import { getBrowserScopedEnterpriseId } from "@/lib/browser-access-scope";
 
 type ClienteDTO = Record<string, unknown>;
 
@@ -141,13 +142,16 @@ function NuevoClienteContent() {
         if (ints.length > 0) setInteres(ints[0]?.id || "");
         
         // Cargar empresas del usuario
-        const items = (empresasData as { items?: { id: string, nombre: string }[] })?.items || [];
+        const items = Array.isArray(empresasData) ? (empresasData as Enterprise[]) : [];
         setEmpresasUser(items);
         
+        // Prioridad de preselección: Scope (Asesor/Coordinador) > Cookie > Primera disponible
+        const scopedId = getBrowserScopedEnterpriseId();
         const cookieId = getBrowserCookie("x-enterprise-id");
+        const effectiveId = scopedId || cookieId;
           
-        if (cookieId && items.find((e: {id: string}) => e.id === cookieId)) {
-          setSelectedEmpresaId(cookieId);
+        if (effectiveId && items.find((e: Enterprise) => e.id === effectiveId)) {
+          setSelectedEmpresaId(effectiveId);
         } else if (items.length > 0) {
           setSelectedEmpresaId(items[0].id);
         }

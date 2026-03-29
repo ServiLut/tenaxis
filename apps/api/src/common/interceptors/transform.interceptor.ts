@@ -10,6 +10,7 @@ import { map } from 'rxjs/operators';
 
 export interface ApiResponse<T> {
   data: T;
+  meta?: any;
   statusCode: number;
   message?: string;
 }
@@ -32,18 +33,22 @@ export class TransformInterceptor<T> implements NestInterceptor<
 
         // Extract message safely
         const message =
-          isObject && 'message' in data && typeof data.message === 'string'
+          isObject && "message" in data && typeof data.message === "string"
             ? data.message
-            : 'Success';
+            : "Success";
+
+        // Extract meta safely if it exists
+        const meta = isObject && "meta" in data ? (data as any).meta : undefined;
 
         // Extract data safely. If the returned object has a 'data' property, use it.
         const resultData =
-          isObject && 'data' in data ? (data.data as T) : (data as T);
+          isObject && "data" in data ? (data as any).data : (data as T);
 
         return {
           statusCode,
           message,
           data: resultData,
+          meta,
         };
       }),
     );

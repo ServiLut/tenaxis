@@ -118,6 +118,16 @@ export async function apiFetch<T>(
       throw new Error((result as { message?: string })?.message || `API Error: ${response.status}`);
     }
 
+    const isPaginated = 
+      result && 
+      typeof result === "object" && 
+      "data" in (result as object) && 
+      "meta" in (result as object);
+
+    if (isPaginated) {
+      return result as T;
+    }
+
     return ((result as { data?: T } | null)?.data || result) as T;
   } catch (error) {
     const normalizedError = {

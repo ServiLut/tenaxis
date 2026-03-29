@@ -153,11 +153,103 @@ export interface OrdenServicioDetail extends Record<string, unknown> {
   estadoServicio?: string | null;
 }
 
-export async function getOrdenesServicio(empresaId?: string) {
+export interface OrdenServicioRaw {
+  id: string;
+  hallazgosEstructurales?: string | null;
+  numeroOrden?: string;
+  ordenPadreId?: string | null;
+  cliente: ClienteDTO;
+  clienteId: string;
+  empresaId: string;
+  empresa?: { id: string; nombre: string };
+  servicio?: { id: string; nombre: string };
+  servicioId?: string;
+  tecnicoId?: string;
+  fechaVisita?: string;
+  horaInicio?: string;
+  horaFin?: string;
+  tecnico?: { id: string; user?: { nombre: string; apellido: string } };
+  creadoPor?: { id: string; user?: { nombre: string; apellido: string } };
+  urgencia?: string;
+  observacion?: string;
+  observacionFinal?: string;
+  huboSellamiento?: boolean;
+  huboRecomendacionEstructural?: boolean;
+  diagnosticoTecnico?: string | null;
+  intervencionRealizada?: string | null;
+  recomendacionesObligatorias?: string | null;
+  recomendacionesSugeridas?: string | null;
+  nivelInfestacion?: string;
+  condicionesHigiene?: string;
+  condicionesLocal?: string;
+  tipoVisita?: string;
+  frecuenciaSugerida?: number;
+  tipoFacturacion?: string;
+  valorCotizado?: number;
+  valorPagado?: number;
+  valorRepuestos?: number;
+  valorRepuestosTecnico?: number;
+  metodoPagoId?: string;
+  metodoPago?: { id: string; nombre: string };
+  entidadFinanciera?: { id: string; nombre: string };
+  liquidadoPor?: { user: { nombre: string; apellido: string } };
+  liquidadoAt?: string;
+  desglosePago?: any[];
+  estadoPago?: string;
+  estadoServicio?: string;
+  createdAt: string;
+  updatedAt?: string;
+  direccionTexto?: string;
+  barrio?: string;
+  municipio?: string;
+  departamento?: string;
+  piso?: string;
+  bloque?: string;
+  unidad?: string;
+  zona?: { id: string; nombre: string };
+  vehiculoId?: string;
+  vehiculo?: {
+    placa: string;
+    marca?: string | null;
+    modelo?: string | null;
+    color?: string | null;
+    tipo?: string | null;
+  };
+  facturaPath?: string | null;
+  facturaElectronica?: string | null;
+  financialLock?: boolean;
+  comprobantePago?: any[] | string | null;
+  referenciaPago?: string | null;
+  fechaPago?: string | null;
+  linkMaps?: string | null;
+  evidenciaPath?: string | null;
+  evidencias?: { id: string; path: string }[];
+  geolocalizaciones?: any[];
+  seguimientos?: any[];
+  ordenesHijas?: OrdenServicioRaw[];
+}
+
+export interface PaginatedResponse<T> {
+  data: T[];
+  meta: {
+    total: number;
+    page: number;
+    limit: number;
+    totalPages: number;
+  };
+}
+
+export async function getOrdenesServicio(query: Record<string, string | number | undefined>) {
   const params = new URLSearchParams();
-  if (empresaId) params.set("empresaId", empresaId);
-  const query = params.toString();
-  return apiFetch<Record<string, unknown>[]>(`/ordenes-servicio${query ? `?${query}` : ""}`);
+  for (const [key, value] of Object.entries(query)) {
+    if (value !== undefined && value !== null && value !== "all" && value !== "") {
+      params.set(key, String(value));
+    }
+  }
+  const queryString = params.toString();
+  return apiFetch<PaginatedResponse<OrdenServicioRaw>>(
+    `/ordenes-servicio${queryString ? `?${queryString}` : ""}`,
+  );
 }
 
 export async function getOrdenServicio(id: string) {

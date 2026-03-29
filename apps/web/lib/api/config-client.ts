@@ -12,13 +12,16 @@ export interface ConfigItem {
 
 export const configClient = {
   async getSegmentos(): Promise<ConfigItem[]> {
-    return apiFetch<ConfigItem[]>("/config-clientes/segmentos");
+    const res = await apiFetch<any>("/config-clientes/segmentos");
+    return Array.isArray(res) ? res : (res?.data || []);
   },
   async getRiesgos(): Promise<ConfigItem[]> {
-    return apiFetch<ConfigItem[]>("/config-clientes/riesgos");
+    const res = await apiFetch<any>("/config-clientes/riesgos");
+    return Array.isArray(res) ? res : (res?.data || []);
   },
   async getIntereses(): Promise<ConfigItem[]> {
-    return apiFetch<ConfigItem[]>("/config-clientes/intereses");
+    const res = await apiFetch<any>("/config-clientes/intereses");
+    return Array.isArray(res) ? res : (res?.data || []);
   },
   async createInteres(data: Record<string, unknown>) {
     return apiFetch("/config-clientes/intereses", {
@@ -33,17 +36,21 @@ export const configClient = {
     });
   },
   async getTiposServicio(empresaId: string): Promise<ConfigItem[]> {
-    return apiFetch<ConfigItem[]>(`/config-clientes/tipos-servicio?empresaId=${empresaId}`);
+    const res = await apiFetch<any>(`/config-clientes/tipos-servicio?empresaId=${empresaId}`);
+    return Array.isArray(res) ? res : (res?.data || []);
   },
   async getMetodosPago(empresaId: string): Promise<ConfigItem[]> {
-    return apiFetch<ConfigItem[]>(`/config-clientes/metodos-pago?empresaId=${empresaId}`);
+    const res = await apiFetch<any>(`/config-clientes/metodos-pago?empresaId=${empresaId}`);
+    return Array.isArray(res) ? res : (res?.data || []);
   },
   async getZonas(empresaId: string): Promise<ConfigItem[]> {
-    return apiFetch<ConfigItem[]>(`/config-clientes/zonas?empresaId=${empresaId}`);
+    const res = await apiFetch<any>(`/config-clientes/zonas?empresaId=${empresaId}`);
+    return Array.isArray(res) ? res : (res?.data || []);
   },
   async getServicios(empresaId?: string): Promise<ConfigItem[]> {
     const url = empresaId ? `/config-clientes/servicios?empresaId=${empresaId}` : "/config-clientes/servicios";
-    return apiFetch<ConfigItem[]>(url);
+    const res = await apiFetch<any>(url);
+    return Array.isArray(res) ? res : (res?.data || []);
   },
   async createServicio(data: Record<string, unknown>) {
     return apiFetch("/config-clientes/servicios", {
@@ -63,7 +70,8 @@ export const configClient = {
     });
   },
   async getClienteOperativa(clienteId: string): Promise<unknown[]> {
-    return apiFetch<unknown[]>(`/config-clientes/operativa/${clienteId}`);
+    const res = await apiFetch<any>(`/config-clientes/operativa/${clienteId}`);
+    return Array.isArray(res) ? res : (res?.data || []);
   },
   async upsertOperativa(payload: Record<string, unknown>) {
     return apiFetch("/config-clientes/operativa", {

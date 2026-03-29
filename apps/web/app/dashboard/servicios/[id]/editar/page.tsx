@@ -35,6 +35,9 @@ import {
 import { useUserRole } from "@/hooks/use-user-role";
 import { DashboardLayout } from "@/components/dashboard";
 import { cn } from "@/components/ui/utils";
+import { getBrowserCookie } from "@/lib/api/browser-client";
+import { enterpriseClient, type Enterprise } from "@/lib/api/enterprise-client";
+import { geoClient } from "@/lib/api/geo-client";
 import {
   bogotaDateTimeToUtcIso,
   bogotaDateToUtcIso,
@@ -216,7 +219,10 @@ function EditarServicioContent({ id }: { id: string }) {
   const [saving, setSaving] = useState(false);
   const [clientes, setClientes] = useState<Cliente[]>([]);
   const [operadores, setOperadores] = useState<Operador[]>([]);
+  const [empresas, setEmpresas] = useState<Enterprise[]>([]);
   const [serviciosEmpresa, setServiciosEmpresa] = useState<Array<{id: string, nombre: string}>>([]);
+  const [departamentos, setDepartments] = useState<{id: string, name: string}[]>([]);
+  const [municipios, setMunicipalities] = useState<{id: string, name: string, departmentId: string}[]>([]);
 
   // Form State
   const [selectedCliente, setSelectedCliente] = useState("");
@@ -327,9 +333,12 @@ function EditarServicioContent({ id }: { id: string }) {
   useEffect(() => {
     const loadData = async () => {
       try {
-        const [cls, rawOrderData] = await Promise.all([
+        const [cls, rawOrderData, emps, deps, muns] = await Promise.all([
           getClientesAction(),
           getOrdenServicio(id),
+          enterpriseClient.getAll(),
+          geoClient.getDepartments(),
+          geoClient.getMunicipalities(),
         ]);
 
         if (!rawOrderData) {
@@ -342,6 +351,9 @@ function EditarServicioContent({ id }: { id: string }) {
         const financialLock = getFinancialLockState(orderData);
 
         setClientes(Array.isArray(cls) ? (cls as Cliente[]) : []);
+        setEmpresas(Array.isArray(emps) ? (emps as Enterprise[]) : []);
+        setDepartments(deps);
+        setMunicipalities(muns);
         setIsFinancialLockActive(financialLock.locked);
         setFinancialLockReason(financialLock.reason);
 
@@ -392,7 +404,7 @@ function EditarServicioContent({ id }: { id: string }) {
             metodo: l.metodo,
             banco: l.banco,
             referencia: l.referencia,
-            monto: l.monto.toString().replace(/\D/g, "").replace(/\B(?=(\d{3})+(?!\d))/g, ".")
+            monto: (l.monto ?? 0).toString().replace(/\D/g, "").replace(/\B(?=(\d{3})+(?!\d))/g, ".")
           })));
         } else {
           setBreakdown([{ metodo: "EFECTIVO", monto: formattedDbValor }]);

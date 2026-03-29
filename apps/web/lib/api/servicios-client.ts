@@ -10,7 +10,14 @@ export const serviciosClient = {
     const queryString = params.toString();
     if (queryString) url += `?${queryString}`;
     
-    return apiFetch<unknown[]>(url, { cache: "no-store" });
+    const response = await apiFetch<any>(url, { cache: "no-store" });
+    
+    // Manejar respuestas paginadas (con data y meta) o el array directamente
+    if (response && typeof response === "object" && "data" in response && Array.isArray(response.data)) {
+      return response.data;
+    }
+    
+    return Array.isArray(response) ? response : [];
   },
 
   async getById(id: string): Promise<Record<string, unknown> | null> {

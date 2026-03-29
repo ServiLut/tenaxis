@@ -60,6 +60,7 @@ import { getBrowserCookie } from "@/lib/api/browser-client";
 import { configClient } from "@/lib/api/config-client";
 import { enterpriseClient } from "@/lib/api/enterprise-client";
 import { geoClient } from "@/lib/api/geo-client";
+import { getBrowserScopedEnterpriseId } from "@/lib/browser-access-scope";
 import {
   bogotaDateTimeToUtcIso,
   bogotaDateToUtcIso,
@@ -1176,7 +1177,7 @@ function NuevoServicioContent() {
                       { value: "", label: selectedCliente ? "Seleccionar sede disponible..." : "Primero seleccione un cliente" },
                       ...(Array.isArray(direccionesCliente) ? direccionesCliente : []).map(d => ({
                         value: d.id,
-                        label: `${d.direccion} - ${d.nombreSede || d.barrio}`
+                        label: `${d.direccion} - ${d.nombreSede || d.barrio}${d.municipio ? ` (${d.municipio})` : ""}`
                       }))
                     ]}
                     value={selectedDireccion}

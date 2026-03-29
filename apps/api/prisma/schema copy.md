@@ -28,68 +28,68 @@ model User {
 }
 
 model Tenant {
-  id                           String                              @id @default(uuid()) @db.Uuid
-  slug                         String                              @unique
-  isActive                     Boolean                             @default(true)
-  createdAt                    DateTime                            @default(now())
-  updatedAt                    DateTime                            @updatedAt
-  correo                       String?
-  nit                          String?
-  nombre                       String
-  numero                       String?
-  pagina                       String?
-  anticipos                    Anticipos[]
-  auditorias                   Auditoria[]
-  authSessions                 AuthSession[]
-  citasPsicologos              CitasPsicologos[]
-  configuracionesOperativas    ClienteConfiguracionOperativa[]
-  clientes                     Cliente[]
-  commissions                  CommissionRecord[]
-  configuracionPagos           ConfiguracionPagos[]
-  consignacionOrdenes          ConsignacionOrden[]
-  consignaciones               ConsignacionEfectivo[]
-  consultorios                 Consultorio[]
-  contratosCliente             ContratoCliente[]
-  cuentasCobro                 CuentaCobro[]
-  cuentasPago                  CuentasPago[]
-  dashboardPresets             DashboardPreset[]
-  declaraciones                DeclaracionEfectivo[]
-  direcciones                  Direccion[]
-  egresos                      Egresos[]
-  empresaMemberships           EmpresaMembership[]
-  empresas                     Empresa[]
-  entidadesFinancieras         EntidadFinanciera[]
-  estadosServicio              EstadoServicio[]
-  evidenciasServicio           EvidenciaServicio[]
-  geolocalizaciones            Geolocalizacion[]
-  logsEvento                   LogEvento[]
-  metodosPago                  MetodoPago[]
-  nominaDetalles               NominaDetalle[]
-  nominas                      Nomina[]
-  ordenesServicio              OrdenServicio[]
-  seguimientosOrdenServicio    OrdenServicioSeguimiento[]
-  orgNodes                     OrganizationNode[]
-  paquetesAdquiridos           PaqueteAdquirido[]
-  resetTokens                  PasswordResetToken[]
-  permisos                     Permiso[]
-  picoPlaca                    PicoPlaca[]
-  productos                    Producto[]
-  productosSolicitados         ProductoSolicitado[]
-  proveedores                  Proveedores[]
-  referidos                    Referidos[]
-  servicios                    Servicio[]
-  sesionesActividad            SesionActividad[]
-  subscription                 Subscription?
-  sugerencias                  SugerenciaSeguimiento[]
-  membershipDepartmentScopes   TenantMembershipDepartmentScope[]
+  id                        String                          @id @default(uuid()) @db.Uuid
+  slug                      String                          @unique
+  isActive                  Boolean                         @default(true)
+  createdAt                 DateTime                        @default(now())
+  updatedAt                 DateTime                        @updatedAt
+  correo                    String?
+  nit                       String?
+  nombre                    String
+  numero                    String?
+  pagina                    String?
+  anticipos                 Anticipos[]
+  auditorias                Auditoria[]
+  authSessions              AuthSession[]
+  citasPsicologos           CitasPsicologos[]
+  configuracionesOperativas ClienteConfiguracionOperativa[]
+  clientes                  Cliente[]
+  commissions               CommissionRecord[]
+  configuracionPagos        ConfiguracionPagos[]
+  consignacionOrdenes       ConsignacionOrden[]
+  consignaciones            ConsignacionEfectivo[]
+  consultorios              Consultorio[]
+  contratosCliente          ContratoCliente[]
+  cuentasCobro              CuentaCobro[]
+  cuentasPago               CuentasPago[]
+  dashboardPresets          DashboardPreset[]
+  declaraciones             DeclaracionEfectivo[]
+  direcciones               Direccion[]
+  egresos                   Egresos[]
+  empresaMemberships        EmpresaMembership[]
+  empresas                  Empresa[]
+  entidadesFinancieras      EntidadFinanciera[]
+  estadosServicio           EstadoServicio[]
+  evidenciasServicio        EvidenciaServicio[]
+  geolocalizaciones         Geolocalizacion[]
+  logsEvento                LogEvento[]
+  metodosPago               MetodoPago[]
+  nominaDetalles            NominaDetalle[]
+  nominas                   Nomina[]
+  ordenesServicio           OrdenServicio[]
+  seguimientosOrdenServicio OrdenServicioSeguimiento[]
+  orgNodes                  OrganizationNode[]
+  paquetesAdquiridos        PaqueteAdquirido[]
+  resetTokens               PasswordResetToken[]
+  permisos                  Permiso[]
+  picoPlaca                 PicoPlaca[]
+  productos                 Producto[]
+  productosSolicitados      ProductoSolicitado[]
+  proveedores               Proveedores[]
+  referidos                 Referidos[]
+  servicios                 Servicio[]
+  sesionesActividad         SesionActividad[]
+  subscription              Subscription?
+  sugerencias               SugerenciaSeguimiento[]
+  membershipDepartmentScopes  TenantMembershipDepartmentScope[]
   membershipMunicipalityScopes TenantMembershipMunicipalityScope[]
-  memberships                  TenantMembership[]
-  terapiasPsicologos           TerapiasPsicologos[]
-  tiposInteres                 TipoInteres[]
-  tiposServicio                TipoServicio[]
-  turnos                       Turno[]
-  vehiculos                    Vehiculo[]
-  zonas                        Zona[]
+  memberships               TenantMembership[]
+  terapiasPsicologos        TerapiasPsicologos[]
+  tiposInteres              TipoInteres[]
+  tiposServicio             TipoServicio[]
+  turnos                    Turno[]
+  vehiculos                 Vehiculo[]
+  zonas                     Zona[]
 
   @@map("tenants")
 }
@@ -133,16 +133,16 @@ model Subscription {
 }
 
 model TenantMembership {
-  id                      String                              @id @default(uuid()) @db.Uuid
-  userId                  String                              @db.Uuid
-  tenantId                String                              @db.Uuid
+  id                      String                     @id @default(uuid()) @db.Uuid
+  userId                  String                     @db.Uuid
+  tenantId                String                     @db.Uuid
   role                    Role
-  granularPermissions     MembershipPermission[]              @default([]) @map("granular_permissions")
-  status                  MembershipStatus                    @default(ACTIVE)
-  createdAt               DateTime                            @default(now())
-  updatedAt               DateTime                            @updatedAt
-  activo                  Boolean                             @default(true)
-  aprobado                Boolean                             @default(false)
+  granularPermissions     MembershipPermission[]     @default([]) @map("granular_permissions")
+  status                  MembershipStatus           @default(ACTIVE)
+  createdAt               DateTime                   @default(now())
+  updatedAt               DateTime                   @updatedAt
+  activo                  Boolean                    @default(true)
+  aprobado                Boolean                    @default(false)
   codigoReferido          String?
   moto                    Boolean?
   numberId                String?
@@ -151,15 +151,15 @@ model TenantMembership {
   username                String?
   whatsappGroupId         String?
   direccion               String?
-  municipioId             String?                             @db.Uuid
+  municipioId             String?                    @db.Uuid
   anticipos               Anticipos[]
   auditorias              Auditoria[]
-  citasComoCreador        CitasPsicologos[]                   @relation("CitasCreadoPor")
-  citasComoPsicologo      CitasPsicologos[]                   @relation("CitasPsicologo")
+  citasComoCreador        CitasPsicologos[]          @relation("CitasCreadoPor")
+  citasComoPsicologo      CitasPsicologos[]          @relation("CitasPsicologo")
   clientesCreados         Cliente[]
   configuracionPagos      ConfiguracionPagos[]
-  consignacionesCreadas   ConsignacionEfectivo[]              @relation("ConsignacionCreador")
-  consignacionesTecnico   ConsignacionEfectivo[]              @relation("ConsignacionTecnico")
+  consignacionesCreadas   ConsignacionEfectivo[]     @relation("ConsignacionCreador")
+  consignacionesTecnico   ConsignacionEfectivo[]     @relation("ConsignacionTecnico")
   cuentasCobro            CuentaCobro[]
   cuentasPago             CuentasPago[]
   dashboardPresets        DashboardPreset[]
@@ -168,23 +168,23 @@ model TenantMembership {
   empresaMemberships      EmpresaMembership[]
   geolocalizaciones       Geolocalizacion[]
   nominas                 Nomina[]
-  serviciosCreados        OrdenServicio[]                     @relation("ServiciosCreados")
-  serviciosEliminados     OrdenServicio[]                     @relation("ServiciosEliminados")
-  serviciosLiquidados     OrdenServicio[]                     @relation("ServiciosLiquidados")
-  serviciosAsignados      OrdenServicio[]                     @relation("ServiciosAsignados")
-  seguimientosCompletados OrdenServicioSeguimiento[]          @relation("SeguimientosCompletados")
-  seguimientosCreados     OrdenServicioSeguimiento[]          @relation("SeguimientosCreados")
+  serviciosCreados        OrdenServicio[]            @relation("ServiciosCreados")
+  serviciosEliminados     OrdenServicio[]            @relation("ServiciosEliminados")
+  serviciosLiquidados     OrdenServicio[]            @relation("ServiciosLiquidados")
+  serviciosAsignados      OrdenServicio[]            @relation("ServiciosAsignados")
+  seguimientosCompletados OrdenServicioSeguimiento[] @relation("SeguimientosCompletados")
+  seguimientosCreados     OrdenServicioSeguimiento[] @relation("SeguimientosCreados")
   paquetesAdquiridos      PaqueteAdquirido[]
-  permisosAprobados       Permiso[]                           @relation("PermisosAprobados")
-  permisosSolicitados     Permiso[]                           @relation("PermisosSolicitados")
+  permisosAprobados       Permiso[]                  @relation("PermisosAprobados")
+  permisosSolicitados     Permiso[]                  @relation("PermisosSolicitados")
   productosSolicitados    ProductoSolicitado[]
   referidos               Referidos[]
   sesionesActividad       SesionActividad[]
   departmentScopes        TenantMembershipDepartmentScope[]
   municipalityScopes      TenantMembershipMunicipalityScope[]
-  municipio               Municipality?                       @relation(fields: [municipioId], references: [id])
-  tenant                  Tenant                              @relation(fields: [tenantId], references: [id], onDelete: Cascade)
-  user                    User                                @relation(fields: [userId], references: [id], onDelete: Cascade)
+  municipio               Municipality?              @relation(fields: [municipioId], references: [id])
+  tenant                  Tenant                     @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  user                    User                       @relation(fields: [userId], references: [id], onDelete: Cascade)
   turnos                  Turno[]
 
   @@unique([userId, tenantId])
@@ -364,9 +364,9 @@ model TipoInteres {
 }
 
 model Department {
-  id               String                            @id @default(uuid()) @db.Uuid
+  id               String                         @id @default(uuid()) @db.Uuid
   name             String
-  code             String                            @unique
+  code             String                         @unique
   direcciones      Direccion[]
   municipalities   Municipality[]
   membershipScopes TenantMembershipDepartmentScope[]
@@ -375,14 +375,14 @@ model Department {
 }
 
 model Municipality {
-  id               String                              @id @default(uuid()) @db.Uuid
+  id               String                           @id @default(uuid()) @db.Uuid
   name             String
-  code             String                              @unique
-  departmentId     String                              @db.Uuid
+  code             String                           @unique
+  departmentId     String                           @db.Uuid
   direcciones      Direccion[]
-  department       Department                          @relation(fields: [departmentId], references: [id])
-  membershipScopes TenantMembershipMunicipalityScope[]
+  department       Department                       @relation(fields: [departmentId], references: [id])
   memberships      TenantMembership[]
+  membershipScopes TenantMembershipMunicipalityScope[]
 
   @@map("municipalities")
 }
@@ -1644,9 +1644,6 @@ enum TipoVisita {
   REPROGRAMADO
   DIAGNOSTICO_INICIAL
   GARANTIA
-  INSTALACION
-  MANTENIMIENTO
-  COTIZADO_POR_CONCRETAR
 }
 
 enum TipoFacturacion {

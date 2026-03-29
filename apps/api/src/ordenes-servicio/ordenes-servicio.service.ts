@@ -677,8 +677,19 @@ export class OrdenesServicioService {
       ...(accessFilter.empresaId ? { empresaId: accessFilter.empresaId } : {}),
       ...(geoWhere ?? {}),
       deletedAt: null,
-      ordenPadreId: null,
     };
+
+    // By default only show root orders unless specifically asking for follow-ups
+    if (filters?.preset === ServiciosPreset.SEGUIMIENTOS) {
+      whereClause.ordenPadreId = { not: null };
+      whereClause.seguimientos = {
+        some: {
+          status: { not: 'ACEPTADO' },
+        },
+      };
+    } else {
+      whereClause.ordenPadreId = null;
+    }
 
     if (!filters) return whereClause;
 
@@ -805,146 +816,165 @@ export class OrdenesServicioService {
   ) {
     const whereClause = this.buildWhereClause(user, empresaId, filters);
 
-    const ordenes = await this.prisma.ordenServicio.findMany({
-      where: whereClause,
-      include: {
-        cliente: true,
-        tecnico: {
-          include: {
-            user: {
-              select: {
-                nombre: true,
-                apellido: true,
-              },
-            },
-          },
-        },
-        servicio: true,
-        creadoPor: {
-          include: {
-            user: {
-              select: {
-                nombre: true,
-                apellido: true,
-              },
-            },
-          },
-        },
-        metodoPago: true,
-        entidadFinanciera: true,
-        liquidadoPor: {
-          include: {
-            user: {
-              select: {
-                nombre: true,
-                apellido: true,
-              },
-            },
-          },
-        },
-        empresa: true,
-        zona: true,
-        direccion: true,
-        vehiculo: true,
-        declaracionEfectivo: {
-          select: { id: true },
-        },
-        consignacionOrden: {
-          select: { id: true },
-        },
-        evidencias: true,
-        geolocalizaciones: {
-          include: {
-            membership: {
-              include: {
-                user: {
-                  select: {
-                    nombre: true,
-                    apellido: true,
-                  },
+    const page = filters?.page || 1;
+    const limit = filters?.limit || 50;
+    const skip = (page - 1) * limit;
+
+    const [total, ordenes] = await Promise.all([
+      this.prisma.ordenServicio.count({ where: whereClause }),
+      this.prisma.ordenServicio.findMany({
+        where: whereClause,
+        skip,
+        take: limit,
+        include: {
+          cliente: true,
+          tecnico: {
+            include: {
+              user: {
+                select: {
+                  nombre: true,
+                  apellido: true,
                 },
               },
             },
           },
-          orderBy: { llegada: 'desc' },
-        },
-        seguimientos: {
-          orderBy: { createdAt: 'desc' },
-        },
-        ordenesHijas: {
-          where: {
-            deletedAt: null,
+          servicio: true,
+          creadoPor: {
+            include: {
+              user: {
+                select: {
+                  nombre: true,
+                  apellido: true,
+                },
+              },
+            },
           },
-          include: {
-            cliente: true,
-            tecnico: {
-              include: {
-                user: {
-                  select: {
-                    nombre: true,
-                    apellido: true,
-                  },
+          metodoPago: true,
+          entidadFinanciera: true,
+          liquidadoPor: {
+            include: {
+              user: {
+                select: {
+                  nombre: true,
+                  apellido: true,
                 },
               },
             },
-            servicio: true,
-            creadoPor: {
-              include: {
-                user: {
-                  select: {
-                    nombre: true,
-                    apellido: true,
-                  },
-                },
-              },
-            },
-            metodoPago: true,
-            entidadFinanciera: true,
-            liquidadoPor: {
-              include: {
-                user: {
-                  select: {
-                    nombre: true,
-                    apellido: true,
-                  },
-                },
-              },
-            },
-            empresa: true,
-            zona: true,
-            direccion: true,
-            vehiculo: true,
-            evidencias: true,
-            geolocalizaciones: {
-              include: {
-                membership: {
-                  include: {
-                    user: {
-                      select: {
-                        nombre: true,
-                        apellido: true,
-                      },
+          },
+          empresa: true,
+          zona: true,
+          direccion: true,
+          vehiculo: true,
+          declaracionEfectivo: {
+            select: { id: true },
+          },
+          consignacionOrden: {
+            select: { id: true },
+          },
+          evidencias: true,
+          geolocalizaciones: {
+            include: {
+              membership: {
+                include: {
+                  user: {
+                    select: {
+                      nombre: true,
+                      apellido: true,
                     },
                   },
                 },
               },
-              orderBy: { llegada: 'desc' },
             },
-            seguimientos: {
-              orderBy: { createdAt: 'desc' },
-            },
+            orderBy: { llegada: 'desc' },
           },
-          orderBy: { fechaVisita: 'asc' },
+          seguimientos: {
+            orderBy: { createdAt: 'desc' },
+          },
+          ordenesHijas: {
+            where: {
+              deletedAt: null,
+            },
+            include: {
+              cliente: true,
+              tecnico: {
+                include: {
+                  user: {
+                    select: {
+                      nombre: true,
+                      apellido: true,
+                    },
+                  },
+                },
+              },
+              servicio: true,
+              creadoPor: {
+                include: {
+                  user: {
+                    select: {
+                      nombre: true,
+                      apellido: true,
+                    },
+                  },
+                },
+              },
+              metodoPago: true,
+              entidadFinanciera: true,
+              liquidadoPor: {
+                include: {
+                  user: {
+                    select: {
+                      nombre: true,
+                      apellido: true,
+                    },
+                  },
+                },
+              },
+              empresa: true,
+              zona: true,
+              direccion: true,
+              vehiculo: true,
+              evidencias: true,
+              geolocalizaciones: {
+                include: {
+                  membership: {
+                    include: {
+                      user: {
+                        select: {
+                          nombre: true,
+                          apellido: true,
+                        },
+                      },
+                    },
+                  },
+                },
+                orderBy: { llegada: 'desc' },
+              },
+              seguimientos: {
+                orderBy: { createdAt: 'desc' },
+              },
+            },
+            orderBy: { fechaVisita: 'asc' },
+          },
         },
-      },
-      orderBy: { createdAt: 'desc' },
-    });
+        orderBy: { createdAt: 'desc' },
+      }),
+    ]);
 
-    return Promise.all(
+    const data = await Promise.all(
       ordenes.map((o) =>
         this.processSignedUrls(o as OrdenWithGeolocalizaciones),
       ),
     );
+
+    return {
+      data,
+      meta: {
+        total,
+        page,
+        limit,
+        totalPages: Math.ceil(total / limit),
+      },
+    };
   }
 
   async getKpis(
