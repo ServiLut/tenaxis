@@ -13,13 +13,23 @@ export interface Municipality {
   departmentId: string;
 }
 
+type ApiListResponse<T> = T[] | { data?: T[] };
+
+const unwrapList = <T>(response: ApiListResponse<T>): T[] => {
+  if (Array.isArray(response)) {
+    return response;
+  }
+
+  return Array.isArray(response.data) ? response.data : [];
+};
+
 export const geoClient = {
   async getDepartments(): Promise<Department[]> {
-    const res = await apiFetch<any>("/geo/departments");
-    return Array.isArray(res) ? res : (res?.data || []);
+    const res = await apiFetch<ApiListResponse<Department>>("/geo/departments");
+    return unwrapList(res);
   },
   async getMunicipalities(): Promise<Municipality[]> {
-    const res = await apiFetch<any>("/geo/municipalities");
-    return Array.isArray(res) ? res : (res?.data || []);
+    const res = await apiFetch<ApiListResponse<Municipality>>("/geo/municipalities");
+    return unwrapList(res);
   }
 };

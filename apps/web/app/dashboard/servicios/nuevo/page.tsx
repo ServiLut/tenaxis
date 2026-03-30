@@ -60,7 +60,6 @@ import { getBrowserCookie } from "@/lib/api/browser-client";
 import { configClient } from "@/lib/api/config-client";
 import { enterpriseClient } from "@/lib/api/enterprise-client";
 import { geoClient } from "@/lib/api/geo-client";
-import { getBrowserScopedEnterpriseId } from "@/lib/browser-access-scope";
 import {
   bogotaDateTimeToUtcIso,
   bogotaDateToUtcIso,

@@ -736,7 +736,7 @@ describe('OrdenesServicioService - endurecimiento financiero', () => {
       expect(findManyCall.include).toBeDefined();
       expect(findManyCall.include?.declaracionEfectivo).toBeDefined();
       expect(findManyCall.include?.consignacionOrden).toBeDefined();
-      expect(resultado[0].financialLock).toBe(true);
+      expect(resultado.data[0]?.financialLock).toBe(true);
     });
 
     it('expone financialLock en findOne cuando la orden ya quedó congelada por consignación', async () => {

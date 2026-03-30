@@ -153,6 +153,49 @@ export interface OrdenServicioDetail extends Record<string, unknown> {
   estadoServicio?: string | null;
 }
 
+export interface DesglosePagoItem {
+  metodo: string;
+  monto: number;
+  banco?: string | null;
+  referencia?: string | null;
+  observacion?: string | null;
+}
+
+export interface ComprobantePagoItem {
+  path: string;
+  tipo?: string | null;
+  monto?: number;
+  referenciaPago?: string | null;
+  fechaPago?: string | null;
+  banco?: string | null;
+  observacion?: string | null;
+}
+
+export interface GeolocalizacionItem {
+  id: string;
+  llegada?: string | null;
+  salida?: string | null;
+  latitud?: number | string | null;
+  longitud?: number | string | null;
+  membership?: {
+    user?: {
+      nombre?: string | null;
+      apellido?: string | null;
+    } | null;
+  } | null;
+}
+
+export interface SeguimientoItem {
+  id: string;
+  status?: string;
+  dueAt?: string;
+  completedAt?: string | null;
+  followUpType?: string;
+  channel?: string | null;
+  outcome?: string | null;
+  notes?: string | null;
+}
+
 export interface OrdenServicioRaw {
   id: string;
   hallazgosEstructurales?: string | null;
@@ -194,7 +237,7 @@ export interface OrdenServicioRaw {
   entidadFinanciera?: { id: string; nombre: string };
   liquidadoPor?: { user: { nombre: string; apellido: string } };
   liquidadoAt?: string;
-  desglosePago?: any[];
+  desglosePago?: DesglosePagoItem[];
   estadoPago?: string;
   estadoServicio?: string;
   createdAt: string;
@@ -218,14 +261,14 @@ export interface OrdenServicioRaw {
   facturaPath?: string | null;
   facturaElectronica?: string | null;
   financialLock?: boolean;
-  comprobantePago?: any[] | string | null;
+  comprobantePago?: ComprobantePagoItem[] | string | null;
   referenciaPago?: string | null;
   fechaPago?: string | null;
   linkMaps?: string | null;
   evidenciaPath?: string | null;
   evidencias?: { id: string; path: string }[];
-  geolocalizaciones?: any[];
-  seguimientos?: any[];
+  geolocalizaciones?: GeolocalizacionItem[];
+  seguimientos?: SeguimientoItem[];
   ordenesHijas?: OrdenServicioRaw[];
 }
 
@@ -315,8 +358,24 @@ export async function getEstadoServicios(empresaId?: string) {
   }
 }
 
-export async function getOperators(empresaId: string) {
-  return apiFetch<OperatorDTO[]>(`/enterprise/${empresaId}/operators`);
+export async function getOperators(empresaId?: string) {
+  const url = empresaId ? `/enterprise/${empresaId}/operators` : '/enterprise/operators';
+  return apiFetch<OperatorDTO[]>(url);
+}
+
+export interface TenantMembershipDTO {
+  id: string;
+  role: string;
+  user: {
+    id: string;
+    nombre: string;
+    apellido: string;
+    email: string;
+  };
+}
+
+export async function getTenantMemberships(tenantId: string) {
+  return apiFetch<TenantMembershipDTO[]>(`/tenants/${tenantId}/memberships`);
 }
 
 export async function getMetodosPago(empresaId?: string) {

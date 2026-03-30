@@ -9,11 +9,21 @@ export interface Enterprise {
   email?: string;
 }
 
+type EnterpriseListResponse =
+  | Enterprise[]
+  | {
+      items?: Enterprise[];
+      data?: Enterprise[];
+    };
+
 export const enterpriseClient = {
   async getAll(): Promise<Enterprise[]> {
-    const result = await apiFetch<any>("/enterprise");
-    if (result && typeof result === "object" && "items" in result && Array.isArray(result.items)) {
+    const result = await apiFetch<EnterpriseListResponse>("/enterprise");
+    if (!Array.isArray(result) && Array.isArray(result.items)) {
       return result.items;
+    }
+    if (!Array.isArray(result) && Array.isArray(result.data)) {
+      return result.data;
     }
     return Array.isArray(result) ? result : [];
   },

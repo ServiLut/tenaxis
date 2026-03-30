@@ -10,10 +10,13 @@ import { map } from 'rxjs/operators';
 
 export interface ApiResponse<T> {
   data: T;
-  meta?: any;
+  meta?: Record<string, unknown>;
   statusCode: number;
   message?: string;
 }
+
+const isRecord = (value: unknown): value is Record<string, unknown> =>
+  value !== null && typeof value === 'object';
 
 @Injectable()
 export class TransformInterceptor<T> implements NestInterceptor<
@@ -29,20 +32,20 @@ export class TransformInterceptor<T> implements NestInterceptor<
 
     return next.handle().pipe(
       map((data: unknown): ApiResponse<T> => {
-        const isObject = data !== null && typeof data === 'object';
+        const isObject = isRecord(data);
 
         // Extract message safely
         const message =
-          isObject && "message" in data && typeof data.message === "string"
+          isObject && typeof data.message === 'string'
             ? data.message
-            : "Success";
+            : 'Success';
 
         // Extract meta safely if it exists
-        const meta = isObject && "meta" in data ? (data as any).meta : undefined;
+        const meta = isObject && isRecord(data.meta) ? data.meta : undefined;
 
         // Extract data safely. If the returned object has a 'data' property, use it.
         const resultData =
-          isObject && "data" in data ? (data as any).data : (data as T);
+          isObject && 'data' in data ? (data.data as T) : (data as T);
 
         return {
           statusCode,

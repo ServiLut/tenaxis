@@ -33,6 +33,11 @@ export class EnterpriseController {
     return this.enterpriseService.findAll(req.user);
   }
 
+  @Get('operators')
+  findAllOperators(@Request() req: { user: JwtPayload }) {
+    return this.enterpriseService.findOperators(req.user);
+  }
+
   @Get(':id/operators')
   findOperators(@Param('id') id: string, @Request() req: { user: JwtPayload }) {
     return this.enterpriseService.findOperators(req.user, id);

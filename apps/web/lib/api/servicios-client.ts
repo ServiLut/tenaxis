@@ -1,5 +1,17 @@
 import { apiFetch } from "./base-client";
 
+type PaginatedResponse<T> = {
+  data?: T[];
+  meta?: {
+    total: number;
+    page: number;
+    limit: number;
+    totalPages: number;
+  };
+};
+
+type ServiciosListResponse = unknown[] | PaginatedResponse<unknown>;
+
 export const serviciosClient = {
   async getAll(empresaId?: string, clienteId?: string): Promise<unknown[]> {
     let url = "/ordenes-servicio";
@@ -10,10 +22,10 @@ export const serviciosClient = {
     const queryString = params.toString();
     if (queryString) url += `?${queryString}`;
     
-    const response = await apiFetch<any>(url, { cache: "no-store" });
+    const response = await apiFetch<ServiciosListResponse>(url, { cache: "no-store" });
     
     // Manejar respuestas paginadas (con data y meta) o el array directamente
-    if (response && typeof response === "object" && "data" in response && Array.isArray(response.data)) {
+    if (!Array.isArray(response) && Array.isArray(response.data)) {
       return response.data;
     }
     

@@ -79,6 +79,7 @@ import {
   getMetodosPago,
   getMunicipalities,
   getOperators,
+  getTenantMemberships,
   getOrdenesServicio,
   getServiciosKpis,
   notifyLiquidationWebhook,
@@ -115,14 +116,6 @@ import { getBrowserScopedEnterpriseId } from "@/lib/browser-access-scope";
 
 // Remove local interface OrdenServicioRaw as it is now imported
 
-interface DesglosePago {
-  metodo: string;
-  monto: number;
-  banco?: string;
-  referencia?: string;
-  observacion?: string;
-}
-
 interface Servicio {
   id: string;
   cliente: string;
@@ -145,18 +138,6 @@ interface FollowUpRow extends Servicio {
   parentNumero: string;
   parentCliente: string;
   parentServicio: string;
-}
-
-interface SoportePago {
-  tipo?: string;
-  path: string;
-  monto?: number;
-  fecha?: string;
-  fechaPago?: string;
-  referenciaPago?: string;
-  banco?: string;
-  observacion?: string;
-  metodo?: string;
 }
 
 function resolveSoportePagoUrl(bucket: string, path?: string | null) {
@@ -538,7 +519,7 @@ function ServiciosContent() {
   const searchParams = useSearchParams();
   const pathname = usePathname();
   const router = useRouter();
-  const { checkPermission, isLoading: isLoadingRole } = useUserRole();
+  const { checkPermission, isLoading: isLoadingRole, tenantId } = useUserRole();
   const canViewServices = checkPermission("SERVICE_VIEW");
   const canCreateServices = checkPermission("SERVICE_CREATE");
   const canEditServices = checkPermission("SERVICE_EDIT");
@@ -716,17 +697,22 @@ function ServiciosContent() {
 
   const getScopedEnterpriseId = useCallback(() => {
     if (typeof window === "undefined") return undefined;
-    return getBrowserScopedEnterpriseId();
+    const lockedId = getBrowserScopedEnterpriseId();
+    if (lockedId) return lockedId;
+    return localStorage.getItem("current-enterprise-id") || undefined;
   }, []);
 
   const fetchOptions = useCallback(async () => {
     try {
-      const empresaId = getScopedEnterpriseId() || "";
-      const [estados, tecnicos, metodos, munis] = await Promise.all([
+      const empresaId = getScopedEnterpriseId();
+      const currentTenantId = tenantId;
+
+      const [estados, tecnicos, metodos, munis, memberships] = await Promise.all([
         getEstadoServicios(empresaId),
-        empresaId ? getOperators(empresaId) : Promise.resolve([]),
+        getOperators(empresaId),
         getMetodosPago(empresaId),
         getMunicipalities(),
+        currentTenantId ? getTenantMemberships(currentTenantId) : Promise.resolve([]),
       ]);
 
       const coreEstados = [
@@ -740,12 +726,21 @@ function ServiciosContent() {
         { id: "SIN_CONCRETAR", nombre: "SIN CONCRETAR" },
       ];
 
+      const ADMIN_ROLES = ["SU_ADMIN", "ADMIN", "COORDINADOR", "ASESOR"];
+      const administrativeMembers = (Array.isArray(memberships) ? memberships : [])
+        .filter(m => ADMIN_ROLES.includes(m.role))
+        .map(m => ({
+          id: m.user.id,
+          nombre: `${m.user.nombre || ""} ${m.user.apellido || ""}`.trim() || "Sin nombre"
+        }));
+
       setOptions(prev => ({
         ...prev,
         estados: Array.isArray(estados) && estados.length > 0 ? (estados as Array<{id: string, nombre: string}>) : coreEstados,
-        tecnicos: (Array.isArray(tecnicos) ? (tecnicos as Array<{ id: string, user?: { nombre?: string, apellido?: string } }>) : []).map(t => ({
+        creadores: administrativeMembers,
+        tecnicos: (Array.isArray(tecnicos) ? (tecnicos as Array<{ id: string, nombre?: string, user?: { nombre?: string, apellido?: string } }>) : []).map(t => ({
           id: t.id,
-          nombre: `${t.user?.nombre || ""} ${t.user?.apellido || ""}`.trim() || "Sin nombre"
+          nombre: t.nombre || `${t.user?.nombre || ""} ${t.user?.apellido || ""}`.trim() || "Sin nombre"
         })),
         metodosPago: (Array.isArray(metodos) ? (metodos as Array<{ id: string, nombre: string }>) : []).map(m => ({
           id: m.id,
@@ -759,7 +754,7 @@ function ServiciosContent() {
     } catch (error) {
       console.error("Error fetching filter options", error);
     }
-  }, [getScopedEnterpriseId]);
+  }, [getScopedEnterpriseId, tenantId]);
 
   const fetchServicios = useCallback(async (resetPage = false) => {
     setLoading(true);

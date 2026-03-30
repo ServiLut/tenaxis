@@ -53,11 +53,10 @@ export class EnterpriseService {
 
   private buildEnterpriseMembershipWhere(
     user: JwtPayload,
-    empresaId: string,
+    empresaId?: string,
   ): Prisma.EmpresaMembershipWhereInput {
     const accessFilter = getPrismaAccessFilter(user, empresaId);
     const where: Prisma.EmpresaMembershipWhereInput = {
-      empresaId: resolveScopedEmpresaId(user, empresaId),
       activo: true,
       deletedAt: null,
       membership: {
@@ -65,6 +64,15 @@ export class EnterpriseService {
         activo: true,
       },
     };
+
+    if (empresaId) {
+      where.empresaId = resolveScopedEmpresaId(user, empresaId);
+    } else if (accessFilter.empresaId) {
+      where.empresaId =
+        typeof accessFilter.empresaId === 'string'
+          ? accessFilter.empresaId
+          : { in: accessFilter.empresaId.in };
+    }
 
     if (accessFilter.tenantId) {
       where.tenantId = accessFilter.tenantId;
@@ -225,7 +233,7 @@ export class EnterpriseService {
     };
   }
 
-  async findOperators(user: JwtPayload, empresaId: string) {
+  async findOperators(user: JwtPayload, empresaId?: string) {
     const operators = await this.prisma.empresaMembership.findMany({
       where: this.buildEnterpriseMembershipWhere(user, empresaId),
       include: {

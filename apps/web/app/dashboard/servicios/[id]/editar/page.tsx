@@ -35,7 +35,6 @@ import {
 import { useUserRole } from "@/hooks/use-user-role";
 import { DashboardLayout } from "@/components/dashboard";
 import { cn } from "@/components/ui/utils";
-import { getBrowserCookie } from "@/lib/api/browser-client";
 import { enterpriseClient, type Enterprise } from "@/lib/api/enterprise-client";
 import { geoClient } from "@/lib/api/geo-client";
 import {
@@ -219,10 +218,10 @@ function EditarServicioContent({ id }: { id: string }) {
   const [saving, setSaving] = useState(false);
   const [clientes, setClientes] = useState<Cliente[]>([]);
   const [operadores, setOperadores] = useState<Operador[]>([]);
-  const [empresas, setEmpresas] = useState<Enterprise[]>([]);
+  const [, setEmpresas] = useState<Enterprise[]>([]);
   const [serviciosEmpresa, setServiciosEmpresa] = useState<Array<{id: string, nombre: string}>>([]);
-  const [departamentos, setDepartments] = useState<{id: string, name: string}[]>([]);
-  const [municipios, setMunicipalities] = useState<{id: string, name: string, departmentId: string}[]>([]);
+  const [, setDepartments] = useState<{id: string, name: string}[]>([]);
+  const [, setMunicipalities] = useState<{id: string, name: string, departmentId: string}[]>([]);
 
   // Form State
   const [selectedCliente, setSelectedCliente] = useState("");
