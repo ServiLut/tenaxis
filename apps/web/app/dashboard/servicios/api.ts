@@ -148,7 +148,7 @@ export interface OrdenServicioDetail extends Record<string, unknown> {
   huboSellamiento?: boolean | null;
   huboRecomendacionEstructural?: boolean | null;
   valorCotizado?: number | null;
-  desglosePago?: unknown[];
+  desglosePago?: DesglosePagoItem[];
   tipoFacturacion?: string | null;
   estadoServicio?: string | null;
 }
@@ -165,6 +165,7 @@ export interface ComprobantePagoItem {
   path: string;
   tipo?: string | null;
   monto?: number;
+  fecha?: string | null;
   referenciaPago?: string | null;
   fechaPago?: string | null;
   banco?: string | null;
@@ -177,6 +178,9 @@ export interface GeolocalizacionItem {
   salida?: string | null;
   latitud?: number | string | null;
   longitud?: number | string | null;
+  linkMaps?: string | null;
+  fotoLlegada?: string | null;
+  fotoSalida?: string | null;
   membership?: {
     user?: {
       nombre?: string | null;
@@ -189,6 +193,7 @@ export interface SeguimientoItem {
   id: string;
   status?: string;
   dueAt?: string;
+  contactedAt?: string | null;
   completedAt?: string | null;
   followUpType?: string;
   channel?: string | null;

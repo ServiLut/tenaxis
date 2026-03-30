@@ -86,6 +86,7 @@ import {
   notifyServiceOperatorWebhook,
   triggerReinforcementsJob,
   type ClienteDTO,
+  type GeolocalizacionItem,
   type ServiciosKpis,
   updateOrdenServicio,
   uploadToSupabaseSignedUrl,
@@ -184,6 +185,46 @@ const toPaymentInputDate = (value?: string | null) => {
   } catch {
     return value.slice(0, 10);
   }
+};
+
+const toOptionalString = (value?: string | null) => value ?? undefined;
+
+const formatGeoCoordinate = (value?: number | string | null) => {
+  const numericValue =
+    typeof value === "number"
+      ? value
+      : typeof value === "string"
+        ? Number.parseFloat(value)
+        : Number.NaN;
+
+  return Number.isFinite(numericValue) ? numericValue.toFixed(6) : "N/A";
+};
+
+const getGeoOperatorName = (geo: GeolocalizacionItem) => {
+  const fullName = [geo.membership?.user?.nombre, geo.membership?.user?.apellido]
+    .filter((value): value is string => Boolean(value && value.trim()))
+    .join(" ");
+
+  return fullName || "SIN OPERADOR";
+};
+
+const getGeoDurationLabel = (geo: GeolocalizacionItem) => {
+  if (!geo.llegada) {
+    return "Pendiente";
+  }
+
+  if (!geo.salida) {
+    return "En curso";
+  }
+
+  const start = new Date(geo.llegada);
+  const end = new Date(geo.salida);
+
+  if (Number.isNaN(start.getTime()) || Number.isNaN(end.getTime())) {
+    return "Duración no disponible";
+  }
+
+  return `${Math.max(0, Math.floor((end.getTime() - start.getTime()) / (1000 * 60)))} minutos`;
 };
 
 const createTransferenciaForm = (
@@ -2052,9 +2093,9 @@ function ServiciosContent() {
                                         ? s.raw.desglosePago.map(d => ({
                                             metodo: d.metodo,
                                             monto: d.monto.toString().replace(/\B(?=(\d{3})+(?!\d))/g, "."),
-                                            banco: d.banco,
-                                            referencia: d.referencia,
-                                            observacion: d.observacion
+                                            banco: toOptionalString(d.banco),
+                                            referencia: toOptionalString(d.referencia),
+                                            observacion: toOptionalString(d.observacion)
                                           }))
                                         : [{
                                             metodo: s.raw.metodoPago?.nombre || (settlementMeta.hasCash ? "EFECTIVO" : "TRANSFERENCIA"),
@@ -2581,9 +2622,9 @@ function ServiciosContent() {
                         ? s.raw.desglosePago.map(d => ({
                             metodo: d.metodo,
                             monto: d.monto.toString().replace(/\B(?=(\d{3})+(?!\d))/g, "."),
-                            banco: d.banco,
-                            referencia: d.referencia,
-                            observacion: d.observacion
+                            banco: toOptionalString(d.banco),
+                            referencia: toOptionalString(d.referencia),
+                            observacion: toOptionalString(d.observacion)
                           }))
                         : [{
                             metodo: s.raw.metodoPago?.nombre || (settlementMeta.hasCash ? "EFECTIVO" : "TRANSFERENCIA"),
@@ -3200,7 +3241,7 @@ function ServiciosContent() {
                           </div>
                           <div>
                             <p className="text-xs font-semibold text-foreground uppercase">Visita #{idx + 1}</p>
-                            <p className="text-[10px] font-bold text-muted-foreground uppercase">{geo.membership.user.nombre} {geo.membership.user.apellido}</p>
+                            <p className="text-[10px] font-bold text-muted-foreground uppercase">{getGeoOperatorName(geo)}</p>
                           </div>
                         </div>
                         {geo.linkMaps && (
@@ -3219,7 +3260,9 @@ function ServiciosContent() {
                               <div className="h-2 w-2 rounded-full bg-emerald-500" />
                               <p className="text-[10px] font-semibold text-muted-foreground uppercase">Llegada</p>
                             </div>
-                            <p className="text-xs font-bold text-foreground">{formatBogotaDateTime(geo.llegada)}</p>
+                            <p className="text-xs font-bold text-foreground">
+                              {geo.llegada ? formatBogotaDateTime(geo.llegada) : "Pendiente"}
+                            </p>
                           </div>
                           <div className="aspect-video relative rounded-2xl border border-border bg-muted overflow-hidden flex items-center justify-center">
                             {geo.fotoLlegada ? (
@@ -3267,15 +3310,13 @@ function ServiciosContent() {
                       <div className="pt-4 border-t border-border grid grid-cols-2 gap-4">
                         <div className="space-y-1">
                           <p className="text-[9px] font-semibold text-muted-foreground uppercase">Coordenadas</p>
-                          <p className="font-mono text-xs font-bold text-foreground">{geo.latitud?.toFixed(6) || "N/A"}, {geo.longitud?.toFixed(6) || "N/A"}</p>
+                          <p className="font-mono text-xs font-bold text-foreground">
+                            {formatGeoCoordinate(geo.latitud)}, {formatGeoCoordinate(geo.longitud)}
+                          </p>
                         </div>
                         <div className="space-y-1 text-right">
                           <p className="text-[9px] font-semibold text-muted-foreground uppercase">Duración</p>
-                          <p className="text-xs font-bold text-foreground">
-                            {geo.salida ? (
-                              `${Math.floor((new Date(geo.salida).getTime() - new Date(geo.llegada).getTime()) / (1000 * 60))} minutos`
-                            ) : "En curso"}
-                          </p>
+                          <p className="text-xs font-bold text-foreground">{getGeoDurationLabel(geo)}</p>
                         </div>
                       </div>
                     </div>
