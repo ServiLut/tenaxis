@@ -734,6 +734,7 @@ function ServiciosContent() {
 
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
+  const [totalCount, setTotalCount] = useState(0);
   const itemsPerPage = 10;
 
   const getScopedEnterpriseId = useCallback(() => {
@@ -824,6 +825,7 @@ function ServiciosContent() {
 
       const { data: ordenesData, meta } = response;
       setTotalPages(meta.totalPages);
+      setTotalCount(meta.total);
 
       const mapOrdenToServicio = (os: OrdenServicioRaw, isFollowUp = false): Servicio => {
         const clienteLabel = os.cliente.tipoCliente === "EMPRESA"
@@ -1137,7 +1139,7 @@ function ServiciosContent() {
         tipoVisita: filters.tipo,
         fechaInicio: filters.fechaInicio,
         fechaFin: filters.fechaFin,
-        preset: activePreset,
+        preset: viewMode === "seguimientos" ? "SEGUIMIENTOS" : activePreset,
       });
       setKpis(data);
     } catch (error) {
@@ -1145,7 +1147,7 @@ function ServiciosContent() {
     } finally {
       setKpisLoading(false);
     }
-  }, [activePreset, filters, getScopedEnterpriseId, search]);
+  }, [activePreset, filters, getScopedEnterpriseId, search, viewMode]);
 
   const fetchCustomPresets = useCallback(async () => {
     try {
@@ -1415,7 +1417,6 @@ function ServiciosContent() {
 
   // Since we use server-side pagination, we don't need to filter or slice locally for the main list
   // The API already returned the correct page based on search and filters
-  const totalCount = kpis?.total || 0;
   const startIndex = (currentPage - 1) * itemsPerPage;
   const paginatedServicios = visibleServicios;
   const paginatedFollowUps = followUpRows;
