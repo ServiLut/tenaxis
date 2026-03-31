@@ -1540,6 +1540,7 @@ enum Role {
 }
 
 enum MembershipPermission {
+  TEAM_CREATE
   TEAM_EDIT
 }
 

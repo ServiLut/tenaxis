@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import { useRouter } from "next/navigation";
 import { DashboardLayout } from "@/components/dashboard";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -13,9 +13,23 @@ import { tenantsClient } from "@/lib/api/tenants-client";
 
 export default function NuevoUsuarioPage() {
   const router = useRouter();
-  const { tenantId, checkPermission, isLoading: isLoadingRole } = useUserRole();
+  const { tenantId, role: currentRole, checkPermission, isLoading: isLoadingRole } = useUserRole();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const allowedRoleOptions = useMemo(
+    () => currentRole === "COORDINADOR"
+      ? [
+          { value: "ASESOR", label: "Asesor" },
+          { value: "OPERADOR", label: "Operador" },
+        ]
+      : [
+          { value: "ADMIN", label: "Administrador" },
+          { value: "COORDINADOR", label: "Coordinador" },
+          { value: "ASESOR", label: "Asesor" },
+          { value: "OPERADOR", label: "Operador" },
+        ],
+    [currentRole],
+  );
 
   const [formData, setFormData] = useState({
     email: "",
@@ -31,6 +45,12 @@ export default function NuevoUsuarioPage() {
       router.replace("/dashboard/equipo-trabajo");
     }
   }, [isLoadingRole, checkPermission, router]);
+
+  useEffect(() => {
+    if (!allowedRoleOptions.some((option) => option.value === formData.role)) {
+      setFormData((prev) => ({ ...prev, role: allowedRoleOptions[0]?.value || "ASESOR" }));
+    }
+  }, [allowedRoleOptions, formData.role]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
@@ -215,10 +235,11 @@ export default function NuevoUsuarioPage() {
                   disabled={loading}
                   required
                 >
-                  <option value="ADMIN">Administrador</option>
-                  <option value="COORDINADOR">Coordinador</option>
-                  <option value="ASESOR">Asesor</option>
-                  <option value="OPERADOR">Operador</option>
+                  {allowedRoleOptions.map((option) => (
+                    <option key={option.value} value={option.value}>
+                      {option.label}
+                    </option>
+                  ))}
                 </Select>
                 <p className="text-[10px] text-zinc-500 px-1">
                   El rol determina los permisos del usuario dentro de la plataforma.

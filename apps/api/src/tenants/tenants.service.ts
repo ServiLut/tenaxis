@@ -58,6 +58,14 @@ const OPERATIVE_ROLES = new Set<Role>([
 
 const NIL_UUID = '00000000-0000-0000-0000-000000000000';
 
+const MANAGEABLE_MEMBER_ROLES_BY_ACTOR: Record<Role, Role[]> = {
+  [Role.SU_ADMIN]: [Role.ADMIN, Role.COORDINADOR, Role.ASESOR, Role.OPERADOR],
+  [Role.ADMIN]: [Role.ADMIN, Role.COORDINADOR, Role.ASESOR, Role.OPERADOR],
+  [Role.COORDINADOR]: [Role.ASESOR, Role.OPERADOR],
+  [Role.ASESOR]: [],
+  [Role.OPERADOR]: [],
+};
+
 interface DateRange {
   from: Date;
   to: Date;
@@ -1637,15 +1645,24 @@ export class TenantsService {
     return allowedIds.length > 0 ? allowedIds : [NIL_UUID];
   }
 
-  async inviteMember(tenantId: string, dto: InviteMemberDto) {
+  async inviteMember(tenantId: string, dto: InviteMemberDto, user: JwtPayload) {
     const { email, role, nombre, apellido, telefono } = dto;
 
-    // 1. Buscar o crear el usuario
-    let user = await this.prisma.user.findUnique({ where: { email } });
+    await this.assertCanManageTeamMembership(
+      this.prisma,
+      user,
+      tenantId,
+      MembershipPermission.TEAM_CREATE,
+      'Necesitas TEAM_CREATE para crear miembros del equipo',
+    );
+    this.assertCanAssignRole(user, role);
 
-    if (!user) {
+    // 1. Buscar o crear el usuario
+    let targetUser = await this.prisma.user.findUnique({ where: { email } });
+
+    if (!targetUser) {
       const defaultPassword = await bcrypt.hash('Tenaxis2026*', 10);
-      user = await this.prisma.user.create({
+      targetUser = await this.prisma.user.create({
         data: {
           email,
           password: defaultPassword,
@@ -1660,7 +1677,7 @@ export class TenantsService {
     const existingMembership = await this.prisma.tenantMembership.findUnique({
       where: {
         userId_tenantId: {
-          userId: user.id,
+          userId: targetUser.id,
           tenantId,
         },
       },
@@ -1675,7 +1692,7 @@ export class TenantsService {
     // 3. Crear la membresía
     return this.prisma.tenantMembership.create({
       data: {
-        userId: user.id,
+        userId: targetUser.id,
         tenantId,
         role,
         activo: true,
@@ -1939,6 +1956,22 @@ export class TenantsService {
     user: JwtPayload,
     tenantId: string,
   ): Promise<void> {
+    await this.assertCanManageTeamMembership(
+      tx,
+      user,
+      tenantId,
+      MembershipPermission.TEAM_EDIT,
+      'Necesitas TEAM_EDIT para modificar miembros del equipo',
+    );
+  }
+
+  private async assertCanManageTeamMembership(
+    tx: Prisma.TransactionClient | PrismaService,
+    user: JwtPayload,
+    tenantId: string,
+    permission: MembershipPermission,
+    errorMessage: string,
+  ): Promise<void> {
     if (user.isGlobalSuAdmin) {
       return;
     }
@@ -1984,11 +2017,31 @@ export class TenantsService {
       !hasMembershipPermission(
         actorRole,
         actorMembership.granularPermissions,
-        MembershipPermission.TEAM_EDIT,
+        permission,
       )
     ) {
+      throw new UnauthorizedException(errorMessage);
+    }
+  }
+
+  private assertCanAssignRole(user: JwtPayload, targetRole: Role): void {
+    const actorRole = user.role;
+
+    if (!actorRole) {
       throw new UnauthorizedException(
-        'Necesitas TEAM_EDIT para modificar miembros del equipo',
+        'No se pudo resolver tu rol activo para asignar el nuevo usuario',
+      );
+    }
+
+    if (user.isGlobalSuAdmin && targetRole === Role.SU_ADMIN) {
+      return;
+    }
+
+    const allowedRoles = MANAGEABLE_MEMBER_ROLES_BY_ACTOR[actorRole] || [];
+
+    if (!allowedRoles.includes(targetRole)) {
+      throw new UnauthorizedException(
+        `El rol ${actorRole} no puede asignar el rol ${targetRole}`,
       );
     }
   }

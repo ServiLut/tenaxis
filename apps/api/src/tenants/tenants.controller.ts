@@ -135,8 +135,7 @@ export class TenantsController {
       'No tienes permisos para invitar miembros a este conglomerado',
     );
 
-    // TODO: Validar que el usuario que invita sea ADMIN o SU_ADMIN
-    return await this.tenantsService.inviteMember(tenantId, dto);
+    return await this.tenantsService.inviteMember(tenantId, dto, req.user);
   }
 
   @Post('memberships/:membershipId/approve')

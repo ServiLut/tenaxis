@@ -34,6 +34,7 @@ export type Role = (typeof Role)[keyof typeof Role]
 
 
 export const MembershipPermission = {
+  TEAM_CREATE: 'TEAM_CREATE',
   TEAM_EDIT: 'TEAM_EDIT'
 } as const
 

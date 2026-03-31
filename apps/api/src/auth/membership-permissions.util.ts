@@ -3,8 +3,18 @@ import { MembershipPermission, Role } from '../generated/client/client';
 const IMPLICIT_MEMBERSHIP_PERMISSIONS: Partial<
   Record<Role, MembershipPermission[]>
 > = {
-  [Role.SU_ADMIN]: [MembershipPermission.TEAM_EDIT],
-  [Role.ADMIN]: [MembershipPermission.TEAM_EDIT],
+  [Role.SU_ADMIN]: [
+    MembershipPermission.TEAM_CREATE,
+    MembershipPermission.TEAM_EDIT,
+  ],
+  [Role.ADMIN]: [
+    MembershipPermission.TEAM_CREATE,
+    MembershipPermission.TEAM_EDIT,
+  ],
+  [Role.COORDINADOR]: [
+    MembershipPermission.TEAM_CREATE,
+    MembershipPermission.TEAM_EDIT,
+  ],
 };
 
 export interface MembershipPermissionState {

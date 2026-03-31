@@ -371,7 +371,7 @@ function GeoMultiSelect({
 }
 
 function TeamPageContent() {
-  const { tenantId, isGlobalSuAdmin, checkPermission, isLoading: isLoadingRole } = useUserRole();
+  const { tenantId, role: currentRole, isGlobalSuAdmin, checkPermission, isLoading: isLoadingRole } = useUserRole();
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
@@ -688,8 +688,28 @@ function TeamPageContent() {
     });
   }, [departments, editForm?.departmentIds, municipalities]);
 
+  const editableRoles = useMemo(() => {
+    if (currentRole === "COORDINADOR") {
+      return allRoles.filter((role) => role === "ASESOR" || role === "OPERADOR");
+    }
+
+    return allRoles.filter((role) => role !== "SU_ADMIN");
+  }, [allRoles, currentRole]);
+
+  const canManageMemberRole = (role: string) => {
+    if (currentRole !== "COORDINADOR") {
+      return role !== "SU_ADMIN";
+    }
+
+    return role === "ASESOR" || role === "OPERADOR";
+  };
+
   const handleOpenEdit = () => {
     if (!selectedUser) return;
+    if (!canManageMemberRole(selectedUser.role)) {
+      toast.error("No puedes editar usuarios con ese rol desde tu perfil actual");
+      return;
+    }
 
     const initialMunicipalityIds = normalizeIdList(
       selectedDetail?.member.municipalityIds
@@ -987,7 +1007,7 @@ function TeamPageContent() {
               {checkPermission("TEAM_CREATE") && (
                 <Link
                   href="/dashboard/equipo-trabajo/nuevo"
-                  className="flex h-12 items-center gap-2 rounded-2xl bg-accent px-6 text-[10px] font-black uppercase tracking-widest text-white shadow-lg shadow-accent/20 transition-all hover:scale-105 active:scale-95"
+                  className="flex h-12 min-w-[180px] items-center justify-center gap-2 rounded-2xl border border-[#0195d9] bg-[#01ADFB] px-6 text-[10px] font-black uppercase tracking-widest text-white shadow-lg shadow-[#01ADFB]/30 transition-all hover:scale-105 hover:bg-[#0195d9] active:scale-95"
                 >
                   <Plus className="h-4 w-4" />
                   Nuevo Usuario
@@ -1432,10 +1452,10 @@ function TeamPageContent() {
                           {/* Acciones */}
                           <div className="pt-4 flex flex-col gap-2 px-6">
                             <div className="flex gap-2">
-                              {checkPermission("TEAM_EDIT") && (
+                              {checkPermission("TEAM_EDIT") && canManageMemberRole(selectedUser.role) && (
                                 <button
                                   onClick={handleOpenEdit}
-                                  className="flex-1 h-12 rounded-2xl bg-accent text-[10px] font-black uppercase tracking-[0.15em] text-white shadow-lg shadow-accent/20 transition-all hover:scale-[1.02] active:scale-95"
+                                  className="flex-1 h-12 rounded-2xl border border-[#0195d9] bg-[#01ADFB] text-[10px] font-black uppercase tracking-[0.15em] text-white shadow-lg shadow-[#01ADFB]/30 transition-all hover:scale-[1.02] hover:bg-[#0195d9] active:scale-95"
                                 >
                                   Editar Perfil
                                 </button>
@@ -1485,7 +1505,7 @@ function TeamPageContent() {
                             <div className="space-y-1.5">
                               <Label className="text-[9px] font-black uppercase text-muted-foreground ml-1">Rol</Label>
                               <Combobox 
-                                options={allRoles.map(role => ({ value: role, label: role }))} 
+                                options={editableRoles.map(role => ({ value: role, label: role }))} 
                                 value={editForm?.role || ""} 
                                 onChange={(role) => setEditForm(prev => prev ? { ...prev, role } : null)} 
                                 hideSearch 
