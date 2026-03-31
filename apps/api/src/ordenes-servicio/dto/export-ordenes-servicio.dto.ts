@@ -3,9 +3,9 @@ import {
   ArrayMaxSize,
   IsArray,
   IsBoolean,
-  IsDateString,
   IsEnum,
   IsOptional,
+  IsString,
   IsUUID,
 } from 'class-validator';
 import { ServiciosPreset } from './query-ordenes-servicio.dto';
@@ -23,11 +23,11 @@ export class ExportOrdenesServicioDto {
   includeAllEmpresas?: boolean;
 
   @IsOptional()
-  @IsDateString()
+  @IsString()
   fechaInicio?: string;
 
   @IsOptional()
-  @IsDateString()
+  @IsString()
   fechaFin?: string;
 
   @IsOptional()
