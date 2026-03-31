@@ -3,7 +3,6 @@ import { Plus_Jakarta_Sans } from "next/font/google";
 import { ThemeProvider } from "@/components/theme-provider";
 import { QueryProvider } from "@/components/query-provider";
 import { Toaster } from "@/components/ui/sonner";
-import { ActivityTracker } from "@/components/dashboard/ActivityTracker";
 import "./globals.css";
 
 const jakarta = Plus_Jakarta_Sans({
@@ -36,7 +35,6 @@ export default function RootLayout({
           <QueryProvider>
             {children}
             <Toaster position="top-right" />
-            <ActivityTracker />
           </QueryProvider>
         </ThemeProvider>
       </body>
